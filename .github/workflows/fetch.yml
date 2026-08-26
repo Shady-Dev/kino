@@ -18,13 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install curl-impersonate
-        run: |
-          curl -sL -o ci.tar.gz https://github.com/lwthiker/curl-impersonate/releases/download/v0.6.1/curl-impersonate-v0.6.1.x86_64-linux-gnu.tar.gz
-          mkdir -p "$HOME/ci" && tar -xzf ci.tar.gz -C "$HOME/ci"
-          echo "$HOME/ci" >> "$GITHUB_PATH"
-
       - name: Fetch schedule data
+        env:
+          TOKEN_WORKER_URL: ${{ vars.TOKEN_WORKER_URL }}
         run: python3 scripts/fetch_data.py
 
       - name: Commit updated data
