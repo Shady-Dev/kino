@@ -42,6 +42,10 @@ def http_get(url, headers, timeout=25):
     return raw
 
 def get_token():
+    tok = os.environ.get("FINNKINO_TOKEN", "").strip()
+    if tok:
+        print("[token] using FINNKINO_TOKEN variable")
+        return tok
     worker = os.environ.get("TOKEN_WORKER_URL", "").strip()
     if worker:
         data = json.loads(http_get(worker, {"Accept": "application/json", "User-Agent": "kino-fetch/1.0"}))
