@@ -159,11 +159,12 @@
 
   #overlay{position:fixed; inset:0; background:rgba(0,0,0,.55); opacity:0;
     pointer-events:none; transition:opacity .25s; z-index:90}
-  #sheet{position:fixed; left:0; right:0; bottom:0; max-height:86vh; overflow-y:auto;
+  #sheet{position:fixed; left:0; right:0; bottom:0; max-height:86vh; overflow:hidden;
+    display:flex; flex-direction:column;
     background:var(--bg); border-top:1px solid var(--line);
     border-radius:18px 18px 0 0; transform:translateY(102%);
     transition:transform .28s cubic-bezier(.3,.8,.3,1); z-index:100;
-    padding:18px 20px 32px; max-width:720px; margin:0 auto;}
+    padding:18px 0 0; max-width:720px; margin:0 auto;}
   body.sheet-open #overlay{opacity:1; pointer-events:auto}
   body.sheet-open #sheet{transform:none}
   @media (min-width:700px){
@@ -180,7 +181,12 @@
   .sheet-close{position:absolute; top:12px; right:14px; width:34px; height:34px;
     border-radius:50%; border:1px solid var(--line); background:var(--surface);
     color:var(--muted); font-size:1rem; cursor:pointer}
-  .sheet-head{display:flex; gap:16px; align-items:flex-start}
+  .sheet-head{display:flex; gap:16px; align-items:flex-start;
+    flex:0 0 auto; padding:0 20px 14px}
+  .sheet-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch; padding:0 20px 28px;
+    border-top:1px solid var(--line)}
+  .sheet-body > .syn:first-child{margin-top:14px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
@@ -665,8 +671,10 @@
           ${sample.genres ? `<div class="meta2">${sample.genres.replace(/\s+,\s*/g, ', ')}</div>` : ''}
           ${f.tr ? `<a class="trailer" href="${f.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
-      ${syn ? `<p class="syn">${syn}</p>` : ''}
-      <div class="sheet-days">${days}</div>`;
+      <div class="sheet-body">
+        ${syn ? `<p class="syn">${syn}</p>` : ''}
+        <div class="sheet-days">${days}</div>
+      </div>`;
     sheetEl.querySelector('.sheet-close').onclick = () => { location.hash = ''; };
     document.body.classList.add('sheet-open');
   }
