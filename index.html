@@ -81,16 +81,17 @@
 
   .days{
     max-width:1100px; margin:0 auto; padding:0 20px 16px;
-    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+    display:flex; gap:6px;
   }
-  .days::-webkit-scrollbar{display:none}
   .day{
-    flex:0 0 auto; border:1px solid var(--line); background:var(--surface);
-    border-radius:10px; padding:8px 14px; cursor:pointer; font:inherit;
+    flex:1 1 0; min-width:0; border:1px solid var(--line); background:var(--surface);
+    border-radius:10px; padding:7px 2px; cursor:pointer; font:inherit;
     color:var(--muted); text-align:center; transition:all .15s;
+    position:relative; overflow:hidden;
   }
-  .day b{display:block; color:var(--ink); font-weight:700; font-size:.95rem}
-  .day small{font-size:.7rem; text-transform:uppercase; letter-spacing:.08em}
+  .day b{display:block; color:var(--ink); font-weight:700; font-size:.85rem; white-space:nowrap}
+  .day small{font-size:.58rem; text-transform:uppercase; letter-spacing:.05em; white-space:nowrap}
+  .day input[type=date]{position:absolute; inset:0; opacity:0; width:100%; height:100%; border:0; padding:0}
   .day.active{background:var(--ink); border-color:var(--ink)}
   .day.active b{color:var(--bg)}
   .day.active small{color:var(--accent)}
@@ -256,18 +257,49 @@
 
   /* ---------- date chips ---------- */
   const fiDay = ['Su','Ma','Ti','Ke','To','Pe','La'];
+  const dstr = d => { const p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
   function buildDays(){
     daysEl.innerHTML = '';
     const savedIdx = Math.min(Math.max(prefs.get().dayIdx|0, 0), 6);
-    for(let i=0;i<7;i++){
+    const activate = el => { [...daysEl.children].forEach(c=>c.classList.remove('active')); el.classList.add('active'); };
+    for(let i=0;i<5;i++){
       const d = new Date(); d.setDate(d.getDate()+i);
       const b = document.createElement('button');
       b.className = 'day'; b.role = 'tab';
       b.innerHTML = `<small>${i===0?'Tänään':fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
-      b.onclick = () => { state.date = d; prefs.set({dayIdx:i}); [...daysEl.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); loadSchedule(); };
+      b.onclick = () => { state.date = d; prefs.set({dayIdx:i}); activate(b); loadSchedule(); };
       if(i===savedIdx){ b.classList.add('active'); state.date = d; }
       daysEl.appendChild(b);
     }
+    // calendar chip: native date picker, horizon = today..+6 (pipeline range)
+    const cal = document.createElement('button');
+    cal.className = 'day'; cal.role = 'tab';
+    const calLabel = () => `<small>Muu</small><b>📅</b>`;
+    cal.innerHTML = calLabel();
+    const inp = document.createElement('input');
+    inp.type = 'date';
+    const min = new Date(), max = new Date(); max.setDate(max.getDate()+6);
+    inp.min = dstr(min); inp.max = dstr(max);
+    inp.onchange = () => {
+      if(!inp.value) return;
+      const d = new Date(inp.value + 'T12:00:00');
+      state.date = d;
+      const idx = Math.round((d - new Date(new Date().toDateString())) / 864e5);
+      prefs.set({dayIdx: idx});
+      cal.innerHTML = `<small>${fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      cal.appendChild(inp);
+      activate(cal); loadSchedule();
+    };
+    cal.appendChild(inp);
+    cal.onclick = () => { try{ inp.showPicker(); }catch(e){ inp.click(); } };
+    if(savedIdx >= 5){
+      const d = new Date(); d.setDate(d.getDate()+savedIdx);
+      state.date = d;
+      cal.innerHTML = `<small>${fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      cal.appendChild(inp);
+      cal.classList.add('active');
+    }
+    daysEl.appendChild(cal);
   }
 
   function netErrorHtml(e){
