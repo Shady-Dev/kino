@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kino — Finnkino Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
+    --line:#E3E6EB; --accent:#B8860B; --accent-soft:#F4E9CE;
+    --chip-bg:#FFFFFF; --chip-hover:#16181D; --chip-hover-ink:#F6F7F9;
+    --shadow:0 1px 3px rgba(22,24,29,.06);
+    --past:#AEB4BE;
+  }
+  [data-theme="dark"]{
+    --bg:#0D0E12; --surface:#16181F; --ink:#EDEDEA; --muted:#8B93A1;
+    --line:#262A33; --accent:#E8B84B; --accent-soft:#2A2415;
+    --chip-bg:#1C1F28; --chip-hover:#E8B84B; --chip-hover-ink:#0D0E12;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+    --past:#4A4F5A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{
+    font-family:'Archivo',system-ui,sans-serif;
+    background:var(--bg); color:var(--ink);
+    transition:background .25s,color .25s;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+
+  /* ===== Header ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    transition:background .25s;
+  }
+  .bar{
+    max-width:1100px; margin:0 auto; padding:14px 20px;
+    display:flex; align-items:center; gap:16px;
+  }
+  .logo{
+    font-stretch:125%; font-weight:900; letter-spacing:.18em;
+    text-transform:uppercase; font-size:1.05rem; user-select:none;
+  }
+  .logo span{color:var(--accent)}
+  .bar .spacer{flex:1}
+  #themeToggle{
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    width:38px; height:38px; border-radius:50%; cursor:pointer;
+    font-size:1rem; line-height:1; display:grid; place-items:center;
+    transition:border-color .15s, transform .15s;
+  }
+  #themeToggle:hover{border-color:var(--accent); transform:rotate(15deg)}
+  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, select:focus-visible, input:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+
+  /* ===== Controls ===== */
+  .controls{
+    max-width:1100px; margin:0 auto; padding:16px 20px 12px;
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+  }
+  select, .search{
+    font:inherit; color:var(--ink); background:var(--surface);
+    border:1px solid var(--line); border-radius:10px;
+    padding:10px 14px; box-shadow:var(--shadow);
+  }
+  select{cursor:pointer; max-width:280px}
+  .search{flex:1; min-width:160px}
+  .search::placeholder{color:var(--muted)}
+
+  .days{
+    max-width:1100px; margin:0 auto; padding:0 20px 16px;
+    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+  }
+  .days::-webkit-scrollbar{display:none}
+  .day{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--surface);
+    border-radius:10px; padding:8px 14px; cursor:pointer; font:inherit;
+    color:var(--muted); text-align:center; transition:all .15s;
+  }
+  .day b{display:block; color:var(--ink); font-weight:700; font-size:.95rem}
+  .day small{font-size:.7rem; text-transform:uppercase; letter-spacing:.08em}
+  .day.active{background:var(--ink); border-color:var(--ink)}
+  .day.active b{color:var(--bg)}
+  .day.active small{color:var(--accent)}
+
+  /* ===== Movie list ===== */
+  main{max-width:1100px; margin:0 auto; padding:8px 20px 80px}
+  .status{padding:60px 0; text-align:center; color:var(--muted)}
+  .status .reel{
+    width:34px;height:34px;margin:0 auto 16px;border-radius:50%;
+    border:3px solid var(--line); border-top-color:var(--accent);
+    animation:spin 1s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .movie{
+    display:flex; gap:18px; padding:20px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .poster{
+    flex:0 0 92px; width:92px; height:132px; border-radius:8px;
+    object-fit:cover; background:var(--surface); box-shadow:var(--shadow);
+  }
+  .poster.blank{display:grid;place-items:center;color:var(--muted);font-size:1.6rem;border:1px solid var(--line)}
+  .info{flex:1; min-width:0}
+  .title{font-size:1.15rem; font-weight:800; line-height:1.25}
+  .meta{
+    margin-top:4px; color:var(--muted); font-size:.82rem;
+    display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center;
+  }
+  .rating{
+    display:inline-block; border:1px solid var(--line); border-radius:5px;
+    padding:1px 6px; font-weight:700; font-size:.72rem; color:var(--ink);
+  }
+
+  /* Ticket stubs — the signature */
+  .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+  .stub{
+    --r:7px;
+    display:inline-flex; align-items:center; text-decoration:none;
+    background:var(--chip-bg); border:1px solid var(--line);
+    border-radius:var(--r); box-shadow:var(--shadow);
+    font-variant-numeric:tabular-nums;
+    transition:background .15s,color .15s,border-color .15s,transform .1s;
+    position:relative; overflow:hidden;
+  }
+  .stub .time{padding:7px 10px 7px 12px; font-weight:800; font-size:.92rem}
+  .stub .aud{
+    padding:7px 12px 7px 10px; font-size:.72rem; color:var(--muted);
+    border-left:1px dashed var(--line); max-width:130px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  /* perforation notches */
+  .stub::before,.stub::after{
+    content:""; position:absolute; width:8px; height:8px; border-radius:50%;
+    background:var(--bg); border:1px solid var(--line); left:var(--notch);
+  }
+  .stub::before{top:-5px}.stub::after{bottom:-5px}
+  .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
+  .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
+  .stub.past{opacity:.45; pointer-events:none}
+  .stub.past .time{color:var(--past)}
+
+  .theatre-tag{color:var(--accent); font-weight:600}
+
+  footer{
+    max-width:1100px; margin:0 auto; padding:24px 20px; color:var(--muted);
+    font-size:.75rem; border-top:1px solid var(--line);
+  }
+
+  @media (max-width:560px){
+    .poster{flex-basis:72px; width:72px; height:104px}
+    .title{font-size:1.02rem}
+    .controls{padding-top:12px}
+    select{max-width:100%; width:100%}
+    .search{width:100%; flex:auto}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <div class="logo">Kino<span>.</span></div>
+    <div class="spacer"></div>
+    <button id="themeToggle" title="Switch theme" aria-label="Switch light/dark theme">◐</button>
+  </div>
+  <div class="controls">
+    <select id="areaSelect" aria-label="Choose theatre"></select>
+    <input class="search" id="search" type="search" placeholder="Filter by title…" aria-label="Filter movies by title">
+  </div>
+  <div class="days" id="days" role="tablist" aria-label="Choose date"></div>
+</header>
+
+<main id="main">
+  <div class="status"><div class="reel"></div>Loading theatres…</div>
+</main>
+
+<footer>Schedule data: Finnkino open XML API · Tap a showtime to open ticket purchase on finnkino.fi</footer>
+
+<script>
+(() => {
+  const API = 'https://www.finnkino.fi/xml';
+  const PROXIES = [
+    u => u,
+    u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u)
+  ];
+  const $ = s => document.querySelector(s);
+  const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
+
+  let state = { area:null, date:new Date(), shows:[], filter:'' , showsAllAreas:false };
+
+  /* ---------- theme ---------- */
+  const store = { get k(){ try{return localStorage.getItem('kino-theme')}catch(e){return null} },
+                  set k(v){ try{localStorage.setItem('kino-theme',v)}catch(e){} } };
+  const applyTheme = t => document.documentElement.setAttribute('data-theme', t);
+  applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  $('#themeToggle').onclick = () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next); store.k = next;
+  };
+
+  /* ---------- fetch helpers (direct first, CORS proxy fallback) ---------- */
+  async function fetchXML(url, expectTag){
+    let lastErr = new Error('Network error');
+    for(const wrap of PROXIES){
+      try {
+        const r = await fetch(wrap(url));
+        if(!r.ok) throw new Error('HTTP ' + r.status);
+        const text = await r.text();
+        const doc = new DOMParser().parseFromString(text, 'text/xml');
+        if(doc.querySelector('parsererror')) throw new Error('Invalid XML response');
+        if(expectTag && !doc.querySelector(expectTag)) throw new Error('Unexpected response');
+        return doc;
+      } catch(e){ lastErr = e; }
+    }
+    throw lastErr;
+  }
+  const txt = (node, tag) => { const n = node.querySelector(tag); return n ? n.textContent : ''; };
+
+  /* ---------- date chips ---------- */
+  const fiDay = ['Su','Ma','Ti','Ke','To','Pe','La'];
+  function buildDays(){
+    daysEl.innerHTML = '';
+    for(let i=0;i<7;i++){
+      const d = new Date(); d.setDate(d.getDate()+i);
+      const b = document.createElement('button');
+      b.className = 'day'; b.role = 'tab';
+      b.innerHTML = `<small>${i===0?'Tänään':fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      b.onclick = () => { state.date = d; [...daysEl.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); loadSchedule(); };
+      if(i===0) b.classList.add('active');
+      daysEl.appendChild(b);
+    }
+  }
+
+  function netErrorHtml(e){
+    if(location.protocol === 'content:'){
+      return `<div class="status"><b>Android is blocking network access.</b><br><br>
+        This file was opened from the Downloads app (content:// address), which sandboxes the page and blocks all data fetching.<br><br>
+        Open it via a file path instead — type this in Chrome's address bar:<br>
+        <code>file:///sdcard/Download/finnkino.html</code><br><br>
+        Or host the file (e.g. Netlify Drop, GitHub Pages) for a bookmarkable version.</div>`;
+    }
+    return `<div class="status">Couldn't reach the Finnkino API. Check your internet connection and reload the page.<br><small>${e.message||e}</small></div>`;
+  }
+  async function loadAreas(){
+    const xml = await fetchXML(API + '/TheatreAreas/', 'TheatreArea');
+    const areas = [...xml.querySelectorAll('TheatreArea')].map(a => ({ id:txt(a,'ID'), name:txt(a,'Name') }))
+                  .filter(a => a.id && a.id !== '1029');
+    if(!areas.length) throw new Error('Theatre list came back empty');
+    const opt = a => `<option value="${a.id}">${a.name}</option>`;
+    const regions = areas.filter(a => !a.name.includes(':'));
+    const theatres = areas.filter(a => a.name.includes(':'));
+    areaSel.innerHTML =
+      (regions.length ? `<optgroup label="Areas">${regions.map(opt).join('')}</optgroup>` : '') +
+      (theatres.length ? `<optgroup label="Theatres">${theatres.map(opt).join('')}</optgroup>` : '');
+    state.area = areas[0].id;
+    areaSel.value = state.area;
+    areaSel.addEventListener('change', () => { state.area = areaSel.value; loadSchedule(); });
+  }
+
+  /* ---------- schedule ---------- */
+  const pad = n => String(n).padStart(2,'0');
+  const apiDate = d => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
+
+  async function loadSchedule(){
+    main.innerHTML = '<div class="status"><div class="reel"></div>Loading schedule…</div>';
+    try {
+      const url = `${API}/Schedule/?area=${state.area}&dt=${apiDate(state.date)}&nrOfDays=1`;
+      const xml = await fetchXML(url, 'Schedule');
+      state.shows = [...xml.querySelectorAll('Show')].map(s => ({
+        eventId: txt(s,'EventID'),
+        title: txt(s,'Title'),
+        original: txt(s,'OriginalTitle'),
+        len: txt(s,'LengthInMinutes'),
+        rating: txt(s,'Rating'),
+        genres: txt(s,'Genres'),
+        method: txt(s,'PresentationMethodAndLanguage'),
+        theatre: txt(s,'Theatre'),
+        aud: txt(s,'TheatreAuditorium'),
+        start: new Date(txt(s,'dttmShowStart')),
+        url: txt(s,'ShowURL'),
+        img: txt(s,'EventSmallImagePortrait') || txt(s,'EventMediumImagePortrait')
+      }));
+      render();
+    } catch(e){
+      main.innerHTML = netErrorHtml(e);
+    }
+  }
+
+  /* ---------- render ---------- */
+  function render(){
+    const q = state.filter.trim().toLowerCase();
+    const now = new Date();
+    const byEvent = new Map();
+    for(const s of state.shows){
+      if(q && !s.title.toLowerCase().includes(q) && !s.original.toLowerCase().includes(q)) continue;
+      if(!byEvent.has(s.eventId)) byEvent.set(s.eventId, { ...s, times:[] });
+      byEvent.get(s.eventId).times.push(s);
+    }
+    const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
+
+    if(!movies.length){
+      main.innerHTML = `<div class="status">${q ? 'No movies match your filter.' : 'No shows for this day at the selected theatre. Try another date or theatre.'}</div>`;
+      return;
+    }
+
+    const multiTheatre = new Set(state.shows.map(s=>s.theatre)).size > 1;
+
+    main.innerHTML = movies.map(m => {
+      const poster = m.img
+        ? `<img class="poster" src="${m.img}" alt="" loading="lazy">`
+        : `<div class="poster blank">🎬</div>`;
+      const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
+        const hh = pad(t.start.getHours()), mm = pad(t.start.getMinutes());
+        const past = t.start < now;
+        const loc = multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud;
+        return `<a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
+                  <span class="time">${hh}:${mm}</span><span class="aud">${loc}</span>
+                </a>`;
+      }).join('');
+      const meta = [
+        m.rating ? `<span class="rating">${m.rating}</span>` : '',
+        m.len ? `${m.len} min` : '',
+        m.genres, m.method
+      ].filter(Boolean).join(' <span aria-hidden="true">·</span> ');
+      return `<article class="movie">
+                ${poster}
+                <div class="info">
+                  <h2 class="title">${m.title}</h2>
+                  <div class="meta">${meta}</div>
+                  <div class="stubs">${stubs}</div>
+                </div>
+              </article>`;
+    }).join('');
+  }
+
+  searchEl.oninput = () => { state.filter = searchEl.value; render(); };
+
+  /* ---------- init ---------- */
+  (async () => {
+    try {
+      buildDays();
+      await loadAreas();
+      await loadSchedule();
+    } catch(e){
+      main.innerHTML = netErrorHtml(e);
+    }
+  })();
+})();
+</script>
+</body>
+</html>
