@@ -218,9 +218,9 @@
   .chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
 
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
-  .trow .stub{flex:0 0 158px; min-width:0}
+  .trow .stub{flex:0 0 158px; width:158px; min-width:0}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
-  .trow .stub .aud{flex:1 1 auto; max-width:none; text-align:left}
+  .trow .stub .aud{flex:1 1 0; min-width:0; max-width:none; text-align:left}
   .tinfo{min-width:0; cursor:pointer}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .tinfo small{color:var(--muted); font-size:.75rem}
