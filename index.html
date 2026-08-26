@@ -316,7 +316,8 @@
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
-  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi', view:'movies', fLang:false, fKids:false };
+  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi', view:'movies',
+                fLang:false, fKids:false, dates:null, horizon:'' };
   let films = null;
   async function ensureFilms(){
     if(films !== null) return;
@@ -326,10 +327,16 @@
   const L = {
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
-         movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille' },
+         movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
+         nomatch:'Yksikään elokuva ei vastaa suodattimia.',
+         noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
+         notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
-         movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids' }
+         movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
+         nomatch:'No movies match your filters.',
+         noshows:'No shows for this day at the selected theatre.',
+         notpublished:'The schedule for this day has not been published yet.' }
   };
   const LN = {
     fi:{FI:'suom.', EN:'engl.', SE:'ruots.', JA:'jap.', FR:'ransk.'},
@@ -394,6 +401,7 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
+  let calInput = null;
   const dstr = d => { const p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
   function buildDays(){
     daysEl.innerHTML = '';
@@ -415,8 +423,11 @@
     cal.innerHTML = calLabel();
     const inp = document.createElement('input');
     inp.type = 'date';
-    const min = new Date(), max = new Date(); max.setDate(max.getDate()+6);
-    inp.min = dstr(min); inp.max = dstr(max);
+    const min = new Date(), max = new Date(); max.setDate(max.getDate()+13);
+    inp.min = dstr(min);
+    // Widened to +13; narrowed to the real horizon once area data has loaded.
+    inp.max = state.horizon || dstr(max);
+    calInput = inp;
     inp.onchange = () => {
       if(!inp.value) return;
       const d = new Date(inp.value + 'T12:00:00');
@@ -499,6 +510,10 @@
     try {
       if(state.mode === 'json'){
         if(!jsonCache[state.area]) jsonCache[state.area] = await fetchJSON(`data/area-${state.area}.json`);
+        const cache = jsonCache[state.area];
+        state.dates = Array.isArray(cache.dates) ? cache.dates : null;
+        state.horizon = cache.horizon || '';
+        if(calInput && state.horizon) calInput.max = state.horizon;
         const d = state.date;
         state.shows = jsonCache[state.area].shows
           .map(s => ({ ...s, start: new Date(s.start) }))
@@ -552,7 +567,7 @@
   function renderTimes(){
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
-    if(!rows.length){ main.innerHTML = '<div class="status">–</div>'; return; }
+    if(!rows.length){ main.innerHTML = `<div class="status">${emptyMsg()}</div>`; return; }
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
@@ -564,6 +579,14 @@
           <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
     }).join('');
+  }
+
+  // Filters beat everything; past the published horizon is not the same as a quiet day.
+  function emptyMsg(){
+    const t = L[state.lang];
+    if(state.filter || state.fLang || state.fKids) return t.nomatch;
+    if(state.dates && !state.dates.includes(dstr(state.date))) return t.notpublished;
+    return t.noshows;
   }
 
   function render(){
@@ -578,7 +601,7 @@
     const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
 
     if(!movies.length){
-      main.innerHTML = `<div class="status">${(state.filter||state.fLang||state.fKids) ? 'No movies match your filters.' : 'No shows for this day at the selected theatre. Try another date or theatre.'}</div>`;
+      main.innerHTML = `<div class="status">${emptyMsg()}</div>`;
       return;
     }
 
