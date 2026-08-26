@@ -1,0 +1,30 @@
+name: Fetch Finnkino data
+
+on:
+  schedule:
+    # ~4x per day (UTC): 05, 09, 13, 17 Finnish time in summer
+    - cron: '0 2,6,10,14 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/fetch.yml', 'scripts/fetch_data.py']
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch schedule data
+        run: python3 scripts/fetch_data.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "kino-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "Update schedule data"
+          git push
