@@ -259,6 +259,12 @@
     max-width:1100px; margin:0 auto; padding:24px 20px; color:var(--muted);
     font-size:.75rem; border-top:1px solid var(--line);
   }
+  #sources{
+    max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
+    font-size:.72rem; display:flex; flex-wrap:wrap; gap:4px 10px;
+  }
+  #sources .src{white-space:nowrap}
+  #sources .src.bad{color:var(--accent); font-weight:700}
 
   @media (max-width:560px){
     .poster{flex-basis:72px; width:72px; height:104px}
@@ -301,6 +307,7 @@
   <div class="status"><div class="reel"></div>Loading theatres…</div>
 </main>
 
+<div id="sources"></div>
 <footer>Schedule data: Finnkino open XML API · Tap a showtime to open ticket purchase on finnkino.fi</footer>
 
 <script>
@@ -328,7 +335,7 @@
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
-         tomorrow:'Huomenna',
+         tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
          nomore:'Ei enää näytöksiä tänään.',
          noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
@@ -336,7 +343,7 @@
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
-         tomorrow:'Tomorrow',
+         tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          nomatch:'No movies match your filters.',
          nomore:'No more shows today.',
          noshows:'No shows for this day at the selected theatre.',
@@ -405,7 +412,7 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
-  let calInput = null, calChip = null, dayBtns = {}, venueIndex = {};
+  let calInput = null, calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -463,6 +470,39 @@
       cal.classList.add('active');
     }
     daysEl.appendChild(cal);
+  }
+
+  // Each provider updates on its own schedule, so show every source's age. A scraper that
+  // silently stops is otherwise invisible unless you happen to pick one of its venues.
+  const STALE_H = 8;
+  function ageHours(iso){
+    const t = iso ? new Date(iso).getTime() : NaN;
+    return isNaN(t) ? null : (Date.now() - t) / 36e5;
+  }
+  function renderHealth(){
+    const el = document.querySelector('#sources');
+    if(!el) return;
+    const names = Object.keys(providerMeta);
+    if(!names.length){ el.textContent = ''; return; }
+    const parts = names.map(p => {
+      const m = providerMeta[p], h = ageHours(m.generated);
+      const nm = (SOURCE[p] || [p])[0];
+      if(h === null) return `<span class="src bad">${nm} ?</span>`;
+      const cls = h > STALE_H ? 'src bad' : 'src';
+      const mark = h > STALE_H ? '\u26a0 ' : '';
+      return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}</span>`;
+    });
+    el.innerHTML = `${L[state.lang].sources}: ${parts.join(' · ')}`;
+  }
+
+  // "12€" -> 12. Only Kinoset and Kino Akseli publish prices so far.
+  function priceLabel(rows){
+    const vals = rows.map(r => parseFloat(String(r.price || '').replace(',', '.')))
+      .filter(v => !isNaN(v) && v > 0);
+    if(!vals.length) return '';
+    const lo = Math.min(...vals), hi = Math.max(...vals);
+    const fmt = v => (Math.round(v * 100) % 100 === 0 ? String(Math.round(v)) : v.toFixed(2));
+    return lo === hi ? `${fmt(lo)}\u20ac` : `${L[state.lang].from} ${fmt(lo)}\u20ac`;
   }
 
   function netErrorHtml(e){
@@ -534,18 +574,22 @@
       const data = await fetchJSON('data/areas.json');
       const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
         .map(a => ({ ...a, provider:'finnkino' }));
+      providerMeta = { finnkino: { generated: data.generated, venues: areas.length } };
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
       const extra = [];
       for(const prov of ['biorex','kinoakseli','kinoset']){
         try {
           const j = await fetchJSON(`data/venues-${prov}.json`);
-          for(const v of (j.venues || [])) if(v.id && v.name) extra.push({ ...v, provider: prov });
+          const vs = (j.venues || []).filter(v => v.id && v.name);
+          for(const v of vs) extra.push({ ...v, provider: prov });
+          if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
         } catch(_) {}
       }
       state.mode = 'json';
       state.generated = data.generated;
       fillAreaSelect(areas.concat(extra));
+      renderHealth();
     } catch(_) {
       const xml = await fetchXML(API + '/TheatreAreas/', 'TheatreArea');
       const areas = [...xml.querySelectorAll('TheatreArea')].map(a => ({ id:txt(a,'ID'), name:txt(a,'Name') }))
@@ -618,6 +662,7 @@
         }));
       }
       render();
+      renderHealth();
       const staleEl = document.querySelector('#stale');
       if(state.generated){
         const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
@@ -715,10 +760,12 @@
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
         fmts
       ].filter(Boolean).join('');
+      const price = priceLabel(m.times);
       const meta2 = [
         m.genres ? `<span>${m.genres.replace(/\s+,\s*/g, ', ').trim()}</span>` : '',
         m.len ? `<span>${m.len} min</span>` : '',
-        m.lang ? `<span>${langTxt(m.lang)}</span>` : ''
+        m.lang ? `<span>${langTxt(m.lang)}</span>` : '',
+        price ? `<span>${price}</span>` : ''
       ].filter(Boolean).join('');
       return `<article class="movie" data-id="${m.eventId}">
                 ${poster}
@@ -748,10 +795,12 @@
     const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : f.s.fi)) || '';
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${x}</span>`).join('');
+    const sheetPrice = priceLabel(all);
     const meta1 = [
       sample.tmdb ? `<span class="tmdb">★ ${sample.tmdb}</span>` : '',
       sample.rating ? `<span class="rating">${sample.rating}</span>` : '',
       sample.len ? `<span class="fmt">${sample.len} ${L[lang].min}</span>` : '',
+      sheetPrice ? `<span class="fmt">${sheetPrice}</span>` : '',
       fmts
     ].filter(Boolean).join('');
     const byDay = new Map();
