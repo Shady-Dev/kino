@@ -1,66 +1,118 @@
 {
- "id": "HO00000456",
+ "id": "HO00000414",
  "title": {
-  "text": "Mutiny - Lavastettu syylliseksi",
+  "text": "Spider-Man: Brand New Day",
   "translations": [
    {
     "languageTag": "en",
-    "text": "Mutiny"
+    "text": "Spider-Man: Brand New Day"
    },
    {
     "languageTag": "en-US",
-    "text": "Mutiny"
+    "text": "Spider-Man: Brand New Day"
    }
   ]
  },
  "synopsis": {
-  "text": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta.\n\nJäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti.\nYksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa.",
-  "translations": []
+  "text": "Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista.\n\nTaistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut.",
+  "translations": [
+   {
+    "languageTag": "en",
+    "text": "After the record-breaking global success of Spider-Man: No Way Home, Spider-Man: Brand New Day marks an entirely new chapter for Peter Parker and Spider-Man. Four years have passed since the events of No Way Home, and Peter is now an adult living entirely alone, having voluntarily erased himself from the lives and memories of those he loves. Crime-fighting in a New York that no longer knows his name, he's devoted himself entirely to protecting his city — a full-time Spider-Man — but as the demands on him intensify, the pressure sparks a surprising physical evolution that threatens his existence, even as a strange new pattern of crimes gives rise to one of the most powerful threats he has ever faced."
+   }
+  ]
  },
  "shortSynopsis": {
-  "text": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan.",
+  "text": "Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun...",
   "translations": []
  },
- "censorRatingId": "0000000026",
+ "censorRatingId": "0000000018",
  "censorRatingNote": null,
- "releaseDate": "2026-08-21",
- "runtimeInMinutes": 95,
+ "releaseDate": "2026-07-29",
+ "runtimeInMinutes": 145,
  "trailers": [
   {
    "provider": "Moviexchange",
-   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/42b0caa7-0429-4dac-b6f6-67dc9eaabbc9/media/TrailerVideo"
+   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/da6609ef-5969-4e92-bd19-740a399c3e05/media/TrailerVideo"
   }
  ],
  "trailerUrl": null,
- "displayPriority": 50,
+ "displayPriority": 2,
  "castAndCrew": [
   {
-   "castAndCrewMemberId": "0000001629",
+   "castAndCrewMemberId": "0000000030",
    "roles": [
-    "Actor"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000002127",
-   "roles": [
-    "Actor",
     "Producer"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002668",
+   "castAndCrewMemberId": "0000001587",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000001589",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000001687",
    "roles": [
     "Actor"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002992",
+   "castAndCrewMemberId": "0000002240",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002741",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002742",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002743",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002744",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002745",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002746",
    "roles": [
     "Director"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002993",
+   "castAndCrewMemberId": "0000002747",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002748",
    "roles": [
     "Producer"
    ]
@@ -68,38 +120,59 @@
  ],
  "actors": [
   {
-   "castAndCrewMemberId": "0000001629"
+   "castAndCrewMemberId": "0000001687"
   },
   {
-   "castAndCrewMemberId": "0000002127"
+   "castAndCrewMemberId": "0000002240"
   },
   {
-   "castAndCrewMemberId": "0000002668"
+   "castAndCrewMemberId": "0000002741"
+  },
+  {
+   "castAndCrewMemberId": "0000002742"
+  },
+  {
+   "castAndCrewMemberId": "0000002743"
+  },
+  {
+   "castAndCrewMemberId": "0000002744"
+  },
+  {
+   "castAndCrewMemberId": "0000002745"
   }
  ],
  "directors": [
   {
-   "castAndCrewMemberId": "0000002992"
+   "castAndCrewMemberId": "0000002746"
   }
  ],
  "producers": [
   {
-   "castAndCrewMemberId": "0000002127"
+   "castAndCrewMemberId": "0000000030"
   },
   {
-   "castAndCrewMemberId": "0000002993"
+   "castAndCrewMemberId": "0000001587"
+  },
+  {
+   "castAndCrewMemberId": "0000001589"
+  },
+  {
+   "castAndCrewMemberId": "0000002747"
+  },
+  {
+   "castAndCrewMemberId": "0000002748"
   }
  ],
  "genreIds": [
   "0000000001",
-  "0000000015"
+  "0000000039"
  ],
  "externalIds": {
-  "moviexchangeReleaseId": "42b0caa7-0429-4dac-b6f6-67dc9eaabbc9",
+  "moviexchangeReleaseId": "da6609ef-5969-4e92-bd19-740a399c3e05",
   "corporateId": null
  },
- "hopk": "HO00000456",
- "hoCode": "A000000467",
+ "hopk": "HO00000414",
+ "hoCode": "A000000422",
  "eventId": null,
- "distributorName": "Oy Nordisk Film Ab"
+ "distributorName": "SF Film Finland Oy"
 }
