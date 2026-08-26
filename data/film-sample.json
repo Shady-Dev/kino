@@ -1,90 +1,66 @@
 {
- "id": "HO00000455",
+ "id": "HO00000456",
  "title": {
-  "text": "The End of Oak Street",
+  "text": "Mutiny - Lavastettu syylliseksi",
   "translations": [
    {
     "languageTag": "en",
-    "text": "The End of Oak Street"
+    "text": "Mutiny"
    },
    {
     "languageTag": "en-US",
-    "text": "The End of Oak Street"
+    "text": "Mutiny"
    }
   ]
  },
  "synopsis": {
-  "text": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä heidän liikkuessaan tuntemattomaksi muuttuneessa ympäristössä.",
+  "text": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta.\n\nJäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti.\nYksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa.",
   "translations": []
  },
  "shortSynopsis": {
-  "text": "Mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan.",
+  "text": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan.",
   "translations": []
  },
- "censorRatingId": "0000000047",
+ "censorRatingId": "0000000026",
  "censorRatingNote": null,
- "releaseDate": "2026-08-14",
- "runtimeInMinutes": 99,
+ "releaseDate": "2026-08-21",
+ "runtimeInMinutes": 95,
  "trailers": [
   {
    "provider": "Moviexchange",
-   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/fe3d83f5-4771-4c5c-a3a5-5bb3f8873ad3/media/TrailerVideo"
+   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/42b0caa7-0429-4dac-b6f6-67dc9eaabbc9/media/TrailerVideo"
   }
  ],
  "trailerUrl": null,
  "displayPriority": 50,
  "castAndCrew": [
   {
-   "castAndCrewMemberId": "0000000077",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000001791",
+   "castAndCrewMemberId": "0000001629",
    "roles": [
     "Actor"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002985",
+   "castAndCrewMemberId": "0000002127",
+   "roles": [
+    "Actor",
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002668",
    "roles": [
     "Actor"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002986",
+   "castAndCrewMemberId": "0000002992",
    "roles": [
-    "Actor"
+    "Director"
    ]
   },
   {
-   "castAndCrewMemberId": "0000002987",
-   "roles": [
-    "Actor"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000002988",
-   "roles": [
-    "Director",
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000002989",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000002990",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000002991",
+   "castAndCrewMemberId": "0000002993",
    "roles": [
     "Producer"
    ]
@@ -92,51 +68,38 @@
  ],
  "actors": [
   {
-   "castAndCrewMemberId": "0000001791"
+   "castAndCrewMemberId": "0000001629"
   },
   {
-   "castAndCrewMemberId": "0000002985"
+   "castAndCrewMemberId": "0000002127"
   },
   {
-   "castAndCrewMemberId": "0000002986"
-  },
-  {
-   "castAndCrewMemberId": "0000002987"
+   "castAndCrewMemberId": "0000002668"
   }
  ],
  "directors": [
   {
-   "castAndCrewMemberId": "0000002988"
+   "castAndCrewMemberId": "0000002992"
   }
  ],
  "producers": [
   {
-   "castAndCrewMemberId": "0000000077"
+   "castAndCrewMemberId": "0000002127"
   },
   {
-   "castAndCrewMemberId": "0000002988"
-  },
-  {
-   "castAndCrewMemberId": "0000002989"
-  },
-  {
-   "castAndCrewMemberId": "0000002990"
-  },
-  {
-   "castAndCrewMemberId": "0000002991"
+   "castAndCrewMemberId": "0000002993"
   }
  ],
  "genreIds": [
-  "0000000015",
-  "0000000038",
-  "0000000039"
+  "0000000001",
+  "0000000015"
  ],
  "externalIds": {
-  "moviexchangeReleaseId": "fe3d83f5-4771-4c5c-a3a5-5bb3f8873ad3",
+  "moviexchangeReleaseId": "42b0caa7-0429-4dac-b6f6-67dc9eaabbc9",
   "corporateId": null
  },
- "hopk": "HO00000455",
- "hoCode": "A000000466",
+ "hopk": "HO00000456",
+ "hoCode": "A000000467",
  "eventId": null,
- "distributorName": "Warner Bros. Finland Oy"
+ "distributorName": "Oy Nordisk Film Ab"
 }
