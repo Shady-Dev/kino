@@ -1,5 +1,5 @@
-[kinoset] Kino 1-2 FAILED: HTTP Error 403: Forbidden
-[kinoset] Kinema FAILED: HTTP Error 403: Forbidden
-[kinoset] Bio FAILED: HTTP Error 403: Forbidden
-[nexxo] 0 venues, 0 showtimes
-exit=1
+[kinoset] Kino 1-2 (Huittinen): 15 showtimes
+[kinoset] Kinema (Loimaa): 13 showtimes
+[kinoset] Bio (Sastamala): 13 showtimes
+[nexxo] 3 venues, 41 showtimes
+exit=0
