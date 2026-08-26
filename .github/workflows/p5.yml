@@ -14,7 +14,7 @@ jobs:
           for L in 1 2 3; do
             curl -sS --compressed -A "$UA" -H 'accept: application/json' \
               -w "loc$L: %{http_code} %{size_download}\n" -o "probe/nx-$L.json" \
-              "$API?action=exportdailyshows&locationid=$L&days=21&lang=fi&upcoming=1"
+              "$API?action=exportdailyshows&locationid=$L&days=21&lang=fi&upcoming=0"
           done
           head -c 600 probe/nx-2.json; echo
       - run: |
