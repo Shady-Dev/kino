@@ -132,8 +132,8 @@ def main() -> int:
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
             img = (f"https://film-cdn.moviexchange.com/api/cdn/release/{rid}/media/Poster?width=200"
                    if rid else "")
-            genres = ", ".join(n for gid in (film.get("genreIds") or [])
-                               if (n := genmap.get(str(gid), "")))
+            genres = ", ".join(filter(None, (genmap.get(str(gid), "")
+                               for gid in (film.get("genreIds") or []))))
             per_site[site_id].append({
                 "eventId": str(s.get("filmId", "")),
                 "title": t(film, "title", "text") or "?",
