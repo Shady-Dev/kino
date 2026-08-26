@@ -316,8 +316,8 @@
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
-  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi', view:'movies',
-                fLang:false, fKids:false, dates:null, horizon:'' };
+  let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
+                fLang:false, fKids:false, dates:null, horizon:'', advanced:false };
   let films = null;
   async function ensureFilms(){
     if(films !== null) return;
@@ -328,13 +328,17 @@
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
+         tomorrow:'Huomenna',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
+         nomore:'Ei enää näytöksiä tänään.',
          noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
          notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
+         tomorrow:'Tomorrow',
          nomatch:'No movies match your filters.',
+         nomore:'No more shows today.',
          noshows:'No shows for this day at the selected theatre.',
          notpublished:'The schedule for this day has not been published yet.' }
   };
@@ -401,19 +405,32 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
-  let calInput = null;
-  const dstr = d => { const p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
+  let calInput = null, calChip = null, dayBtns = {};
+  const FI_TZ = 'Europe/Helsinki';
+  const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
+  const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
+  const fiDate = d => fiDayFmt.format(d);            // Date -> 'YYYY-MM-DD' in Finland
+  const fiTime = d => fiTimeFmt.format(d);           // Date -> 'HH:MM'  in Finland
+  const fiToday = () => fiDate(new Date());
+  const addDays = (iso, n) => { const t = new Date(iso + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10); };
+  const dowOf = iso => new Date(iso + 'T12:00:00Z').getUTCDay();
+  const dmOf  = iso => { const [,m,d] = iso.split('-'); return `${+d}.${+m}.`; };
+  const diffDays = (a,b) => Math.round((new Date(b+'T12:00:00Z') - new Date(a+'T12:00:00Z')) / 864e5);
   function buildDays(){
     daysEl.innerHTML = '';
-    const savedIdx = Math.min(Math.max(prefs.get().dayIdx|0, 0), 6);
+    const base = fiToday();
+    const savedIdx = Math.min(Math.max(prefs.get().dayIdx|0, 0), 13);
     const activate = el => { [...daysEl.children].forEach(c=>c.classList.remove('active')); el.classList.add('active'); };
+    dayBtns = {};
     for(let i=0;i<5;i++){
-      const d = new Date(); d.setDate(d.getDate()+i);
+      const iso = addDays(base, i);
       const b = document.createElement('button');
       b.className = 'day'; b.role = 'tab';
-      b.innerHTML = `<small>${i===0?L[state.lang].today:fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
-      b.onclick = () => { state.date = d; prefs.set({dayIdx:i}); activate(b); loadSchedule(); };
-      if(i===savedIdx){ b.classList.add('active'); state.date = d; }
+      const lbl = i===0 ? L[state.lang].today : (i===1 ? L[state.lang].tomorrow : fiDay[dowOf(iso)]);
+      b.innerHTML = `<small>${lbl}</small><b>${dmOf(iso)}</b>`;
+      b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({dayIdx:i}); activate(b); loadSchedule(); };
+      dayBtns[iso] = b;
+      if(i===savedIdx){ b.classList.add('active'); state.dateStr = iso; }
       daysEl.appendChild(b);
     }
     // calendar chip: native date picker, horizon = today..+6 (pipeline range)
@@ -423,27 +440,25 @@
     cal.innerHTML = calLabel();
     const inp = document.createElement('input');
     inp.type = 'date';
-    const min = new Date(), max = new Date(); max.setDate(max.getDate()+13);
-    inp.min = dstr(min);
-    // Widened to +13; narrowed to the real horizon once area data has loaded.
-    inp.max = state.horizon || dstr(max);
+    inp.min = base;
+    // Widened to +13; narrowed to the venue's real horizon once area data loads.
+    inp.max = state.horizon || addDays(base, 13);
     calInput = inp;
+    calChip = cal;
     inp.onchange = () => {
       if(!inp.value) return;
-      const d = new Date(inp.value + 'T12:00:00');
-      state.date = d;
-      const idx = Math.round((d - new Date(new Date().toDateString())) / 864e5);
-      prefs.set({dayIdx: idx});
-      cal.innerHTML = `<small>${fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      state.dateStr = inp.value; state.advanced = true;
+      prefs.set({dayIdx: diffDays(base, inp.value)});
+      cal.innerHTML = `<small>${fiDay[dowOf(inp.value)]}</small><b>${dmOf(inp.value)}</b>`;
       cal.appendChild(inp);
       activate(cal); loadSchedule();
     };
     cal.appendChild(inp);
     cal.onclick = () => { try{ inp.showPicker(); }catch(e){ inp.click(); } };
     if(savedIdx >= 5){
-      const d = new Date(); d.setDate(d.getDate()+savedIdx);
-      state.date = d;
-      cal.innerHTML = `<small>${fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      const iso = addDays(base, savedIdx);
+      state.dateStr = iso;
+      cal.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
       cal.appendChild(inp);
       cal.classList.add('active');
     }
@@ -505,6 +520,22 @@
   const pad = n => String(n).padStart(2,'0');
   const apiDate = d => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
 
+  // Jump to a date and keep the chip row in sync, whether it is a chip or the picker.
+  function selectDay(iso){
+    state.dateStr = iso;
+    const base = fiToday();
+    prefs.set({ dayIdx: diffDays(base, iso) });
+    [...daysEl.children].forEach(c => c.classList.remove('active'));
+    if(dayBtns[iso]){
+      dayBtns[iso].classList.add('active');
+    } else if(calChip){
+      calChip.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
+      if(calInput) calChip.appendChild(calInput);
+      calChip.classList.add('active');
+    }
+    return loadSchedule();
+  }
+
   async function loadSchedule(){
     main.innerHTML = '<div class="status"><div class="reel"></div>Loading schedule…</div>';
     try {
@@ -514,12 +545,20 @@
         state.dates = Array.isArray(cache.dates) ? cache.dates : null;
         state.horizon = cache.horizon || '';
         if(calInput && state.horizon) calInput.max = state.horizon;
-        const d = state.date;
-        state.shows = jsonCache[state.area].shows
+        state.shows = cache.shows
           .map(s => ({ ...s, start: new Date(s.start) }))
-          .filter(s => s.start.getDate() === d.getDate() && s.start.getMonth() === d.getMonth());
+          .filter(s => fiDate(s.start) === state.dateStr);
+        // Late evening with nothing left today: move to the next day that has shows.
+        if(!state.advanced && state.dateStr === fiToday() && !state.shows.length){
+          const next = (state.dates || []).find(x => x > state.dateStr);
+          if(next){
+            state.advanced = true;
+            selectDay(next);
+            return;
+          }
+        }
       } else {
-        const url = `${API}/Schedule/?area=${state.area}&dt=${apiDate(state.date)}&nrOfDays=1`;
+        const url = `${API}/Schedule/?area=${state.area}&dt=${apiDate(new Date(state.dateStr + 'T12:00:00'))}&nrOfDays=1`;
         const xml = await fetchXML(url, 'Schedule');
         state.shows = [...xml.querySelectorAll('Show')].map(s => ({
           eventId: txt(s,'EventID'),
@@ -570,11 +609,11 @@
     if(!rows.length){ main.innerHTML = `<div class="status">${emptyMsg()}</div>`; return; }
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
-      const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
+      const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       return `<div class="trow">
         <a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · loppuunmyyty' : ''}</span></a>
+          <span class="time">${t}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · loppuunmyyty' : ''}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -585,7 +624,8 @@
   function emptyMsg(){
     const t = L[state.lang];
     if(state.filter || state.fLang || state.fKids) return t.nomatch;
-    if(state.dates && !state.dates.includes(dstr(state.date))) return t.notpublished;
+    if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
+    if(state.dateStr === fiToday()) return t.nomore;
     return t.noshows;
   }
 
@@ -616,12 +656,12 @@
         ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
-        const hh = pad(t.start.getHours()), mm = pad(t.start.getMinutes());
+        const clock = fiTime(t.start);
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const loc = (multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud) + (t.soldOut && !past ? ' · loppuunmyyty' : '');
         return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
-                  <span class="time">${hh}:${mm}</span><span class="aud">${loc}</span>
+                  <span class="time">${clock}</span><span class="aud">${loc}</span>
                 </a>`;
       }).join('');
       const fmts = (m.method || '').split(' · ').filter(Boolean)
@@ -673,17 +713,18 @@
     const byDay = new Map();
     const now = new Date();
     for(const s of all){
-      const k = `${fiDay[s.start.getDay()]} ${s.start.getDate()}.${s.start.getMonth()+1}.`;
+      const iso = fiDate(s.start);
+      const k = `${fiDay[dowOf(iso)]} ${dmOf(iso)}`;
       if(!byDay.has(k)) byDay.set(k, []);
       byDay.get(k).push(s);
     }
     const days = [...byDay.entries()].map(([k, arr]) => `<h3>${k}</h3><div class="stubs">` +
       arr.map(s => {
         const past = s.start < now;
-        const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
+        const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-                  <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>`;
+                  <span class="time">${clock}</span><span class="aud">${s.aud}</span></a>`;
       }).join('') + '</div>').join('');
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
     sheetEl.innerHTML = `
@@ -754,11 +795,12 @@
   syncTools();
 
   /* ---------- date rollover on resume ---------- */
-  let builtFor = new Date().toDateString();
+  let builtFor = fiToday();
   document.addEventListener('visibilitychange', () => {
     if(document.visibilityState !== 'visible') return;
-    if(new Date().toDateString() !== builtFor){
-      builtFor = new Date().toDateString();
+    if(fiToday() !== builtFor){
+      builtFor = fiToday();
+      state.advanced = false;
       jsonCache && Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
       buildDays();
       loadSchedule();
