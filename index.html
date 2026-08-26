@@ -76,6 +76,23 @@
     padding:10px 14px; box-shadow:var(--shadow);
   }
   select{cursor:pointer; max-width:280px}
+
+  /* themed dropdown on Chromium (progressive enhancement) */
+  select, ::picker(select){appearance:base-select}
+  ::picker(select){
+    background:var(--surface); color:var(--ink);
+    border:1px solid var(--line); border-radius:12px;
+    box-shadow:0 12px 40px rgba(0,0,0,.25);
+    padding:6px; margin-top:6px;
+  }
+  select option{
+    padding:9px 12px; border-radius:8px; font:inherit;
+    background:var(--surface); color:var(--ink); cursor:pointer;
+  }
+  select option:hover, select option:focus{background:var(--accent-soft)}
+  select option:checked{color:var(--accent); font-weight:700}
+  select option::checkmark{color:var(--accent)}
+  select optgroup{font:inherit; color:var(--muted); padding:6px 8px 2px}
   .search{flex:1; min-width:160px}
   .search::placeholder{color:var(--muted)}
 
