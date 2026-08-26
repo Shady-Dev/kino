@@ -237,20 +237,29 @@ def main() -> int:
             tmdb_cache = {}
         th = {"Authorization": f"Bearer {tmdb_token}", "accept": "application/json",
               "user-agent": "kino-fetch/1.0"}
-        looked = 0
+        looked = rechecked = 0
+        today = datetime.date.today().isoformat()
         for fid, meta in films_meta.items():
-            if isinstance(tmdb_cache.get(fid), dict) or not meta["q"]:
+            if not meta["q"]:
+                continue
+            cached = tmdb_cache.get(fid)
+            cached = cached if isinstance(cached, dict) else None
+            # Skip only if we already have a trailer, or we already re-checked today.
+            if cached and (cached.get("v") or cached.get("c") == today):
                 continue
             try:
-                q = urllib.parse.quote(meta["q"])
-                u = f"https://api.themoviedb.org/3/search/movie?query={q}"
-                res = json.loads(http_get(u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
-                results = res.get("results") or []
-                if not results and meta["y"]:
-                    res = json.loads(http_get(u, th))
+                mid = cached.get("i") if cached else None
+                va = (cached.get("r") or 0) if cached else 0
+                if not mid:
+                    q = urllib.parse.quote(meta["q"])
+                    u = f"https://api.themoviedb.org/3/search/movie?query={q}"
+                    res = json.loads(http_get(u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
                     results = res.get("results") or []
-                va = (results[0].get("vote_average") or 0) if results else 0
-                mid = results[0].get("id") if results else None
+                    if not results and meta["y"]:
+                        res = json.loads(http_get(u, th))
+                        results = res.get("results") or []
+                    va = (results[0].get("vote_average") or 0) if results else 0
+                    mid = results[0].get("id") if results else None
                 yt = ""
                 if mid:
                     try:
@@ -265,13 +274,17 @@ def main() -> int:
                                 break
                     except Exception as e:
                         print(f"[tmdb-videos] {meta['q']}: {e}")
-                tmdb_cache[fid] = {"r": round(va, 1) if va else 0, "v": yt}
-                looked += 1
+                tmdb_cache[fid] = {"r": round(va, 1) if va else 0, "v": yt,
+                                   "i": mid or "", "c": today}
+                if cached:
+                    rechecked += 1
+                else:
+                    looked += 1
                 time.sleep(0.25)
             except Exception as e:
                 print(f"[tmdb] {meta['q']}: {e}")
         cache_p.write_text(json.dumps(tmdb_cache))
-        print(f"[tmdb] {looked} new lookups, cache {len(tmdb_cache)}")
+        print(f"[tmdb] {looked} new lookups, {rechecked} re-checks, cache {len(tmdb_cache)}")
         def _rating(c):
             return (c.get("r") if isinstance(c, dict) else c) or 0
         for shows in per_site.values():
