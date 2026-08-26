@@ -494,7 +494,9 @@
   }
   // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city — the
   // optgroup label already carries the city. BioRex names are already chain-prefixed.
-  const CHAIN = { finnkino:'Finnkino', biorex:'BioRex' };
+  const CHAIN = { finnkino:'Finnkino', biorex:'BioRex', kinoakseli:'Kino Akseli' };
+  const SOURCE = { finnkino:['Finnkino','finnkino.fi'], biorex:['BioRex','biorex.fi'],
+                   kinoakseli:['Kino Akseli','kinoakseli.fi'] };
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -531,13 +533,14 @@
       const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
         .map(a => ({ ...a, provider:'finnkino' }));
       if(!areas.length) throw new Error('empty');
-      // Optional second provider: absent or broken file must not take the app down.
-      let extra = [];
-      try {
-        const bx = await fetchJSON('data/venues-biorex.json');
-        extra = (bx.venues || []).filter(v => v.id && v.name)
-          .map(v => ({ ...v, provider:'biorex' }));
-      } catch(_) {}
+      // Extra providers, each optional: a missing or broken file must not take the app down.
+      const extra = [];
+      for(const prov of ['biorex','kinoakseli']){
+        try {
+          const j = await fetchJSON(`data/venues-${prov}.json`);
+          for(const v of (j.venues || [])) if(v.id && v.name) extra.push({ ...v, provider: prov });
+        } catch(_) {}
+      }
       state.mode = 'json';
       state.generated = data.generated;
       fillAreaSelect(areas.concat(extra));
@@ -624,8 +627,7 @@
         }
         const t = new Date(state.generated);
         const v = venueIndex[state.area] || {};
-        const src = v.provider === 'biorex' ? 'BioRex' : 'Finnkino';
-        const host = v.provider === 'biorex' ? 'biorex.fi' : 'finnkino.fi';
+        const [src, host] = SOURCE[v.provider] || SOURCE.finnkino;
         document.querySelector('footer').textContent =
           `Schedule data: ${src} · updated ${t.toLocaleString('fi-FI',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · Tap a showtime to buy tickets on ${host}`;
       }
