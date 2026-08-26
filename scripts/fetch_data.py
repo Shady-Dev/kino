@@ -160,11 +160,18 @@ def main() -> int:
             site_id = str(s.get("siteId", ""))
             if site_id not in per_site:
                 continue
-            attr_names = " · ".join(
-                lbl for aid in (s.get("attributeIds") or [])
-                if (lbl := (t(att.get(str(aid), {}), "shortName", "text")
-                            or t(att.get(str(aid), {}), "name", "text")))
-                and ATTR_RE.match(lbl))
+            fmt_list, lang_list = [], []
+            for aid in (s.get("attributeIds") or []):
+                a = att.get(str(aid), {})
+                lbl = t(a, "shortName", "text") or t(a, "name", "text")
+                if not lbl:
+                    continue
+                if ATTR_RE.match(lbl):
+                    fmt_list.append(lbl)
+                elif re.search(r"puhe|dub|svensk", lbl, re.I):
+                    lang_list.append(lbl)
+            attr_names = " · ".join(fmt_list)
+            lang_attr = ", ".join(lang_list)
             rating_raw = t(rat.get(str(film.get("censorRatingId", "")), {}), "classification", "text")
             m = re.match(r"^\d+", rating_raw)
             rating = f"K-{m.group(0)}" if m else rating_raw
@@ -209,6 +216,7 @@ def main() -> int:
                         if s.get("id") else
                         (f"https://www.finnkino.fi/teatterit/{slug}/" if slug else "https://www.finnkino.fi/")),
                 "img": img,
+                "lang": lang_attr,
             })
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
