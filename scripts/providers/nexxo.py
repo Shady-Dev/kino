@@ -97,15 +97,26 @@ def parse(payload, site, venue):
     return shows
 
 
-def fetch_venue(site, venue, days=21):
-    req = urllib.request.Request(api_url(site, venue["locationid"], days),
-                                 headers={"user-agent": UA, "accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        payload = json.loads(r.read().decode("utf-8", "replace"))
-    return parse(payload, site, venue)
+def fetch_venue(site, venue, days=21, tries=3):
+    """Retry with backoff: the host answers 403 when hit too often in a short window."""
+    headers = {"user-agent": UA, "accept": "application/json",
+               "accept-language": "fi-FI,fi;q=0.9",
+               "referer": f"{site['base']}{site['programme']}?location={venue['locationid']}"}
+    last = None
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(api_url(site, venue["locationid"], days),
+                                         headers=headers)
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return parse(json.loads(r.read().decode("utf-8", "replace")), site, venue)
+        except Exception as e:
+            last = e
+            if attempt + 1 < tries:
+                time.sleep(6 * (attempt + 1))
+    raise last
 
 
-def fetch_site(site, sleep=0.5):
+def fetch_site(site, sleep=2.5):
     out = {}
     for v in site["venues"]:
         try:
