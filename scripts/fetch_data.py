@@ -77,6 +77,18 @@ def api(path, token):
         "referer": "https://www.finnkino.fi/",
     }))
 
+def loc(obj):
+    """Vista text object -> {'fi': ..., 'en': ...}"""
+    if not isinstance(obj, dict):
+        return {"fi": "", "en": ""}
+    fi = obj.get("text") or ""
+    en = ""
+    for tr in obj.get("translations") or []:
+        if str(tr.get("languageTag", "")).lower().startswith("en"):
+            en = tr.get("text") or ""
+            break
+    return {"fi": fi, "en": en}
+
 def t(obj, *keys):
     for k in keys:
         obj = obj.get(k, {}) if isinstance(obj, dict) else {}
@@ -127,6 +139,8 @@ def main() -> int:
     qs = "&".join(f"siteIds={s['id']}" for s in sites)
     per_site = {s["id"]: [] for s in sites}
     films_meta = {}
+    films_full = {}
+    raw_sample = None
     today = datetime.date.today()
     for d in range(7):
         date = (today + datetime.timedelta(days=d)).isoformat()
@@ -160,6 +174,20 @@ def main() -> int:
             if fid and fid not in films_meta:
                 films_meta[fid] = {"q": t(film, "originalTitle", "text") or t(film, "title", "text"),
                                    "y": (film.get("releaseDate") or "")[:4]}
+                if raw_sample is None:
+                    raw_sample = film
+                trs = film.get("trailers") or []
+                tr_uri = ""
+                if trs and isinstance(trs[0], dict):
+                    tr_uri = trs[0].get("uri") or trs[0].get("url") or ""
+                syn = film.get("synopsis") or film.get("shortSynopsis") or {}
+                films_full[fid] = {
+                    "t": loc(film.get("title")),
+                    "o": t(film, "originalTitle", "text"),
+                    "s": loc(syn),
+                    "tr": tr_uri,
+                    "y": films_meta[fid]["y"],
+                }
             runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
             img = download_poster(rid) if rid else ""
@@ -220,6 +248,13 @@ def main() -> int:
                 v = tmdb_cache.get(sh["eventId"]) or 0
                 if v:
                     sh["tmdb"] = v
+
+    (out / "films.json").write_text(
+        json.dumps({"generated": now, "films": films_full}, ensure_ascii=False), encoding="utf-8")
+    if raw_sample is not None:
+        (out / "film-sample.json").write_text(
+            json.dumps(raw_sample, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"[films] {len(films_full)} film entries")
 
     for sid, shows in per_site.items():
         (out / f"area-{sid}.json").write_text(
