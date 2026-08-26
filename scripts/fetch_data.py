@@ -108,6 +108,7 @@ def main() -> int:
             print(f"[schedule] {date} failed: {e}", file=sys.stderr); continue
         rd = data.get("relatedData", {})
         films = {str(f["id"]): f for f in rd.get("films", [])}
+        genmap = {str(g["id"]): t(g, "name", "text") for g in rd.get("genres", [])}
         scr = {str(s["id"]): s for s in rd.get("screens", [])}
         rat = {str(r["id"]): r for r in rd.get("censorRatings", [])}
         att = {str(a["id"]): a for a in rd.get("attributes", [])}
@@ -127,21 +128,26 @@ def main() -> int:
             rating = f"K-{m.group(0)}" if m else rating_raw
             site_name = next((x["name"] for x in sites if x["id"] == site_id), "")
             slug = THEATER_SLUGS.get(site_name, "")
-            runtime = film.get("runTime") or film.get("runtimeInMinutes") or ""
+            runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
+            rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
+            img = (f"https://film-cdn.moviexchange.com/api/cdn/release/{rid}/media/Poster?width=200"
+                   if rid else "")
+            genres = ", ".join(n for gid in (film.get("genreIds") or [])
+                               if (n := genmap.get(str(gid), "")))
             per_site[site_id].append({
                 "eventId": str(s.get("filmId", "")),
                 "title": t(film, "title", "text") or "?",
                 "original": t(film, "originalTitle", "text"),
                 "len": str(runtime) if runtime else "",
                 "rating": rating,
-                "genres": "",
+                "genres": genres,
                 "method": attr_names,
                 "theatre": site_name,
                 "aud": t(scr.get(str(s.get("screenId", "")), {}), "name", "text"),
                 "start": t(s.get("schedule", {}) if isinstance(s.get("schedule"), dict) else {}, "startsAt")
                          or (s.get("schedule", {}) or {}).get("startsAt", ""),
                 "url": f"https://www.finnkino.fi/teatterit/{slug}/" if slug else "https://www.finnkino.fi/",
-                "img": "",
+                "img": img,
             })
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
