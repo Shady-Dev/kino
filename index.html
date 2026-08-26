@@ -193,6 +193,23 @@
   .theatre-tag{color:var(--accent); font-weight:600}
   .tmdb{color:var(--accent); font-weight:700}
 
+  .tools{
+    max-width:1100px; margin:0 auto; padding:0 20px 14px;
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  }
+  .seg{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--surface)}
+  .seg button{border:0; background:transparent; padding:7px 14px; font:inherit; font-size:.78rem; font-weight:700; color:var(--muted); cursor:pointer}
+  .seg button.on{background:var(--ink); color:var(--bg)}
+  .chip{border:1px solid var(--line); background:var(--surface); border-radius:999px;
+    padding:7px 13px; font:inherit; font-size:.78rem; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s}
+  .chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+
+  .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
+  .trow .stub{flex:0 0 auto}
+  .tinfo{min-width:0; cursor:pointer}
+  .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .tinfo small{color:var(--muted); font-size:.75rem}
+
   #stale{
     display:none; max-width:1060px; margin:12px auto 0; padding:10px 14px;
     border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink);
@@ -228,6 +245,13 @@
     <input class="search" id="search" type="search" placeholder="Filter by title…" aria-label="Filter movies by title">
   </div>
   <div class="days" id="days" role="tablist" aria-label="Choose date"></div>
+  <div class="tools">
+    <div class="seg" role="tablist">
+      <button id="segMovies" class="on">Leffat</button><button id="segTimes">Ajat</button>
+    </div>
+    <button class="chip" id="chipLang">Suom. puhe</button>
+    <button class="chip" id="chipKids">Lapsille</button>
+  </div>
 </header>
 
 <div id="stale" role="status"></div>
@@ -254,7 +278,7 @@
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
-  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi' };
+  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi', view:'movies', fLang:false, fKids:false };
   let films = null;
   async function ensureFilms(){
     if(films !== null) return;
@@ -263,9 +287,11 @@
   }
   const L = {
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
-         filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min' },
+         filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
+         movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
-         filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min' }
+         filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
+         movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids' }
   };
   const disp = m => {
     if(state.lang === 'en' && films && films[m.eventId]){
@@ -463,19 +489,43 @@
   }
 
   /* ---------- render ---------- */
-  function render(){
+  function passFilters(s){
     const q = state.filter.trim().toLowerCase();
+    if(q && !s.title.toLowerCase().includes(q) && !(s.original||'').toLowerCase().includes(q)) return false;
+    if(state.fLang && !(s.lang && /puhe|dub/i.test(s.lang))) return false;
+    if(state.fKids && !(s.rating === 'S' || s.rating === 'K-7')) return false;
+    return true;
+  }
+
+  function renderTimes(){
+    const now = new Date();
+    const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
+    if(!rows.length){ main.innerHTML = '<div class="status">–</div>'; return; }
+    main.innerHTML = rows.map(s => {
+      const past = s.start < now;
+      const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
+      return `<div class="trow">
+        <a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
+          <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>
+        <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
+          <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method].filter(Boolean).join(' · ')}</small></div>
+      </div>`;
+    }).join('');
+  }
+
+  function render(){
+    if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
     const byEvent = new Map();
     for(const s of state.shows){
-      if(q && !s.title.toLowerCase().includes(q) && !s.original.toLowerCase().includes(q)) continue;
+      if(!passFilters(s)) continue;
       if(!byEvent.has(s.eventId)) byEvent.set(s.eventId, { ...s, times:[] });
       byEvent.get(s.eventId).times.push(s);
     }
     const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
 
     if(!movies.length){
-      main.innerHTML = `<div class="status">${q ? 'No movies match your filter.' : 'No shows for this day at the selected theatre. Try another date or theatre.'}</div>`;
+      main.innerHTML = `<div class="status">${(state.filter||state.fLang||state.fKids) ? 'No movies match your filters.' : 'No shows for this day at the selected theatre. Try another date or theatre.'}</div>`;
       return;
     }
 
@@ -579,8 +629,8 @@
   overlayEl.onclick = () => { location.hash = ''; };
   main.addEventListener('click', e => {
     if(e.target.closest('a.stub')) return;
-    const art = e.target.closest('article.movie');
-    if(art && state.mode === 'json') location.hash = 'm=' + art.dataset.id;
+    const el = e.target.closest('article.movie, .tinfo');
+    if(el && state.mode === 'json') location.hash = 'm=' + el.dataset.id;
   });
 
   /* ---------- language toggle ---------- */
@@ -590,6 +640,7 @@
     fiDay = L[state.lang].days;
     searchEl.placeholder = L[state.lang].filter;
     buildDays();
+    syncTools();
     render();
     if(document.body.classList.contains('sheet-open')) syncSheet();
   }
@@ -600,6 +651,26 @@
     await ensureFilms();
     applyLang();
   };
+
+  /* ---------- view + filter toggles ---------- */
+  const segM = document.querySelector('#segMovies'), segT = document.querySelector('#segTimes');
+  const chipLang = document.querySelector('#chipLang'), chipKids = document.querySelector('#chipKids');
+  function syncTools(){
+    segM.classList.toggle('on', state.view === 'movies');
+    segT.classList.toggle('on', state.view === 'times');
+    chipLang.classList.toggle('on', state.fLang);
+    chipKids.classList.toggle('on', state.fKids);
+    segM.textContent = L[state.lang].movies; segT.textContent = L[state.lang].times;
+    chipLang.textContent = L[state.lang].flang; chipKids.textContent = L[state.lang].fkids;
+  }
+  segM.onclick = () => { state.view = 'movies'; prefs.set({view:'movies'}); syncTools(); render(); };
+  segT.onclick = () => { state.view = 'times';  prefs.set({view:'times'});  syncTools(); render(); };
+  chipLang.onclick = () => { state.fLang = !state.fLang; prefs.set({fLang:state.fLang}); syncTools(); render(); };
+  chipKids.onclick = () => { state.fKids = !state.fKids; prefs.set({fKids:state.fKids}); syncTools(); render(); };
+  const pr = prefs.get();
+  state.view = pr.view === 'times' ? 'times' : 'movies';
+  state.fLang = !!pr.fLang; state.fKids = !!pr.fKids;
+  syncTools();
 
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
