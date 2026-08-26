@@ -1,4 +1,4 @@
-name: Fetch BioRex data
+name: Fetch cloud providers
 
 on:
   schedule:
@@ -25,15 +25,21 @@ jobs:
           set +e
           python3 scripts/providers/fetch_biorex.py > run-biorex.log 2>&1
           echo "exit=$?" >> run-biorex.log
-          tail -20 run-biorex.log
+          tail -3 run-biorex.log
+      - name: Fetch Nexxo Scope sites
+        run: |
+          set +e
+          python3 scripts/providers/fetch_nexxo.py > run-nexxo.log 2>&1
+          echo "exit=$?" >> run-nexxo.log
+          tail -6 run-nexxo.log
       - name: Commit data and log
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-biorex.log
-          git diff --cached --quiet || git commit -m "Update BioRex data"
+          git add data run-biorex.log run-nexxo.log
+          git diff --cached --quiet || git commit -m "Update cloud provider data"
           for i in 1 2 3; do
             git pull --rebase --autostash -q origin main && git push -q && break
             sleep 5
           done
-      - name: Fail if script failed
-        run: grep -q "exit=0" run-biorex.log
+      - name: Fail if a provider failed
+        run: grep -q "exit=0" run-biorex.log && grep -q "exit=0" run-nexxo.log
