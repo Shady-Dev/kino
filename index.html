@@ -494,9 +494,11 @@
   }
   // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city — the
   // optgroup label already carries the city. BioRex names are already chain-prefixed.
-  const CHAIN = { finnkino:'Finnkino', biorex:'BioRex', kinoakseli:'Kino Akseli' };
+  const CHAIN = { finnkino:'Finnkino', biorex:'BioRex', kinoakseli:'Kino Akseli',
+                  kinoset:'Kinoset' };
   const SOURCE = { finnkino:['Finnkino','finnkino.fi'], biorex:['BioRex','biorex.fi'],
-                   kinoakseli:['Kino Akseli','kinoakseli.fi'] };
+                   kinoakseli:['Kino Akseli','kinoakseli.fi'],
+                   kinoset:['Kinoset','kinoset.fi'] };
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -535,7 +537,7 @@
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
       const extra = [];
-      for(const prov of ['biorex','kinoakseli']){
+      for(const prov of ['biorex','kinoakseli','kinoset']){
         try {
           const j = await fetchJSON(`data/venues-${prov}.json`);
           for(const v of (j.venues || [])) if(v.id && v.name) extra.push({ ...v, provider: prov });
