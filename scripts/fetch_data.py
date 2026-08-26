@@ -12,7 +12,15 @@ HEADERS = {
     "Referer": "https://www.finnkino.fi/",
 }
 
+import subprocess, shutil
+CURL = shutil.which("curl_chrome116") or shutil.which("curl_chrome110")
+
 def get(url: str) -> bytes:
+    if CURL:
+        p = subprocess.run([CURL, "-sf", "--max-time", "30", url], capture_output=True)
+        if p.returncode == 0 and p.stdout.strip():
+            return p.stdout
+        raise RuntimeError(f"curl-impersonate exit {p.returncode} for {url}")
     req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.read()
