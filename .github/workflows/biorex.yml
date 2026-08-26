@@ -51,9 +51,15 @@ jobs:
           git config user.name kino-bot && git config user.email a@b.c
           git add data run-biorex.log run-nexxo.log run-etiketti.log run-enrich.log
           git diff --cached --quiet || git commit -m "Update cloud provider data"
+          pushed=0
           for i in 1 2 3; do
-            git pull --rebase --autostash -q origin main && git push -q && break
+            if git pull --rebase --autostash -q origin main && git push -q; then
+              pushed=1; break
+            fi
             sleep 5
           done
+          if [ "$pushed" != 1 ]; then
+            echo "::error::could not push after 3 attempts"; exit 1
+          fi
       - name: Fail if a provider failed
         run: grep -q "exit=0" run-biorex.log && grep -q "exit=0" run-nexxo.log && grep -q "exit=0" run-etiketti.log
