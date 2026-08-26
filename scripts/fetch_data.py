@@ -221,6 +221,7 @@ def main() -> int:
                         (f"https://www.finnkino.fi/teatterit/{slug}/" if slug else "https://www.finnkino.fi/")),
                 "img": img,
                 "lang": lang_attr,
+                "soldOut": bool(s.get("isSoldOut")),
             })
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
