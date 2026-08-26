@@ -336,6 +336,7 @@
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
+         soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
          nomore:'Ei enää näytöksiä tänään.',
          noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
@@ -344,6 +345,7 @@
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
+         soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
          nomore:'No more shows today.',
          noshows:'No shows for this day at the selected theatre.',
@@ -667,7 +669,11 @@
       if(state.generated){
         const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
         if(ageH > 8){
-          staleEl.textContent = '\u26a0 Schedule data is ' + Math.round(ageH) + ' h old \u2014 the refresh pipeline likely needs a new token.';
+          // Name the provider: four sources now, each on its own schedule.
+          const vv = venueIndex[state.area] || {};
+          const nm = (SOURCE[vv.provider] || SOURCE.finnkino)[0];
+          staleEl.textContent = `\u26a0 ${nm}: ${L[state.lang].staleOne} `
+            + `(${Math.round(ageH)} ${L[state.lang].hours})`;
           staleEl.style.display = 'block';
         } else {
           staleEl.style.display = 'none';
@@ -702,7 +708,7 @@
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       return `<div class="trow">
         <a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · loppuunmyyty' : ''}</span></a>
+          <span class="time">${t}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -748,7 +754,8 @@
         const clock = fiTime(t.start);
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
-        const loc = (multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud) + (t.soldOut && !past ? ' · loppuunmyyty' : '');
+        const loc = (multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud)
+          + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
         return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
                   <span class="time">${clock}</span><span class="aud">${loc}</span>
                 </a>`;
