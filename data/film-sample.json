@@ -1,122 +1,142 @@
 {
- "id": "HO00000525",
+ "id": "HO00000455",
  "title": {
-  "text": "GHOST: 2 Big To Rig",
-  "translations": []
+  "text": "The End of Oak Street",
+  "translations": [
+   {
+    "languageTag": "en",
+    "text": "The End of Oak Street"
+   },
+   {
+    "languageTag": "en-US",
+    "text": "The End of Oak Street"
+   }
+  ]
  },
  "synopsis": {
-  "text": "Captured live over the course of GHOST’s two sold-out shows in Mexico City last year, 2 BIG TO RIG is the definitive document of the band's unforgettable SKELETOUR WORLD TOUR. \n\nFeaturing the only pro-shot footage of Papa V Perpetua and his band of Nameless Ghouls from the phone-free SKELETOUR, 2 BIG TO RIG immerses the audience in the GHOST live ritual, including exclusive behind-the-scenes and backstage access. \n\n2 BIG TO RIG was created to share the SKELETOUR experience with the faithful in the territories where staging the show was not logistically feasible — and is a love letter to all those who have shared the GHOST ritual. \n\nShot on 16mm film, GHOST has never looked or sounded better, ripping through material from the band's six albums — including 2025’s global #1 SKELETÁ as well as non-LP favorites including “Mary On A Cross,” “Kiss the Go-Goat,” and “The Future is a Foreign Land.” Esitykseen ei voi käyttää sarjalippuja.\n",
+  "text": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä heidän liikkuessaan tuntemattomaksi muuttuneessa ympäristössä.",
   "translations": []
  },
  "shortSynopsis": {
-  "text": "Captured live over the course of GHOST’s two sold-out shows in Mexico City last year, 2 BIG TO RIG is the definitive document of the band's  SKELETOUR WORLD TOUR.",
+  "text": "Mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan.",
   "translations": []
  },
- "censorRatingId": "0000000002",
+ "censorRatingId": "0000000047",
  "censorRatingNote": null,
- "releaseDate": "2026-08-26",
- "runtimeInMinutes": 115,
- "trailers": [],
+ "releaseDate": "2026-08-14",
+ "runtimeInMinutes": 99,
+ "trailers": [
+  {
+   "provider": "Moviexchange",
+   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/fe3d83f5-4771-4c5c-a3a5-5bb3f8873ad3/media/TrailerVideo"
+  }
+ ],
  "trailerUrl": null,
  "displayPriority": 50,
  "castAndCrew": [
   {
-   "castAndCrewMemberId": "0000003287",
-   "roles": [
-    "Director"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000003294",
+   "castAndCrewMemberId": "0000000077",
    "roles": [
     "Producer"
    ]
   },
   {
-   "castAndCrewMemberId": "0000003288",
+   "castAndCrewMemberId": "0000001791",
    "roles": [
-    "Director"
+    "Actor"
    ]
   },
   {
-   "castAndCrewMemberId": "0000003293",
+   "castAndCrewMemberId": "0000002985",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002986",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002987",
+   "roles": [
+    "Actor"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002988",
+   "roles": [
+    "Director",
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000002989",
    "roles": [
     "Producer"
    ]
   },
   {
-   "castAndCrewMemberId": "0000003289",
+   "castAndCrewMemberId": "0000002990",
    "roles": [
     "Producer"
    ]
   },
   {
-   "castAndCrewMemberId": "0000003292",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000003290",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000003295",
-   "roles": [
-    "Producer"
-   ]
-  },
-  {
-   "castAndCrewMemberId": "0000003291",
+   "castAndCrewMemberId": "0000002991",
    "roles": [
     "Producer"
    ]
   }
  ],
- "actors": [],
- "directors": [
+ "actors": [
   {
-   "castAndCrewMemberId": "0000003287"
+   "castAndCrewMemberId": "0000001791"
   },
   {
-   "castAndCrewMemberId": "0000003288"
+   "castAndCrewMemberId": "0000002985"
+  },
+  {
+   "castAndCrewMemberId": "0000002986"
+  },
+  {
+   "castAndCrewMemberId": "0000002987"
+  }
+ ],
+ "directors": [
+  {
+   "castAndCrewMemberId": "0000002988"
   }
  ],
  "producers": [
   {
-   "castAndCrewMemberId": "0000003294"
+   "castAndCrewMemberId": "0000000077"
   },
   {
-   "castAndCrewMemberId": "0000003293"
+   "castAndCrewMemberId": "0000002988"
   },
   {
-   "castAndCrewMemberId": "0000003289"
+   "castAndCrewMemberId": "0000002989"
   },
   {
-   "castAndCrewMemberId": "0000003292"
+   "castAndCrewMemberId": "0000002990"
   },
   {
-   "castAndCrewMemberId": "0000003290"
-  },
-  {
-   "castAndCrewMemberId": "0000003295"
-  },
-  {
-   "castAndCrewMemberId": "0000003291"
+   "castAndCrewMemberId": "0000002991"
   }
  ],
  "genreIds": [
-  "0000000011",
-  "0000000026"
+  "0000000015",
+  "0000000038",
+  "0000000039"
  ],
  "externalIds": {
-  "moviexchangeReleaseId": "297358cb-218b-4be6-9c56-6516c8377598",
+  "moviexchangeReleaseId": "fe3d83f5-4771-4c5c-a3a5-5bb3f8873ad3",
   "corporateId": null
  },
- "hopk": "HO00000525",
- "hoCode": "A000000537",
+ "hopk": "HO00000455",
+ "hoCode": "A000000466",
  "eventId": null,
- "distributorName": "Trafalgar Releasing Ltd"
+ "distributorName": "Warner Bros. Finland Oy"
 }
