@@ -681,8 +681,14 @@
         const t = new Date(state.generated);
         const v = venueIndex[state.area] || {};
         const [src, host] = SOURCE[v.provider] || SOURCE.finnkino;
+        const stamp = t.toLocaleString('fi-FI',
+          {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+        // Kino Akseli sells at the door; Kinoset takes free reservations, not payment.
+        const act = v.provider === 'kinoakseli' ? `Tickets are sold at the door · ${host}`
+          : v.provider === 'kinoset' ? `Tap a showtime to reserve seats on ${host}`
+          : `Tap a showtime to buy tickets on ${host}`;
         document.querySelector('footer').textContent =
-          `Schedule data: ${src} · updated ${t.toLocaleString('fi-FI',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · Tap a showtime to buy tickets on ${host}`;
+          `Schedule data: ${src} · updated ${stamp} · ${act}`;
       }
     } catch(e){
       main.innerHTML = netErrorHtml(e);
@@ -833,7 +839,7 @@
         <div><div class="sheet-title">${title}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
           ${sample.genres ? `<div class="meta2">${sample.genres.replace(/\s+,\s*/g, ', ')}</div>` : ''}
-          ${f.tr ? `<a class="trailer" href="${f.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
+          ${(f.tr || sample.tr) ? `<a class="trailer" href="${f.tr || sample.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">
         ${syn ? `<p class="syn">${syn}</p>` : ''}
