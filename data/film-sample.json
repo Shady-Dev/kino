@@ -1,0 +1,73 @@
+{
+ "id": "HO00000498",
+ "title": {
+  "text": "Laula minulle Arja",
+  "translations": [
+   {
+    "languageTag": "en-US",
+    "text": "Laula minulle Arja"
+   },
+   {
+    "languageTag": "sv-SE",
+    "text": "Sjung för mig Arja"
+   }
+  ]
+ },
+ "synopsis": {
+  "text": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu.",
+  "translations": []
+ },
+ "shortSynopsis": {
+  "text": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt t",
+  "translations": []
+ },
+ "censorRatingId": "0000000001",
+ "censorRatingNote": null,
+ "releaseDate": "2026-08-14",
+ "runtimeInMinutes": 98,
+ "trailers": [
+  {
+   "provider": "Moviexchange",
+   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/080ec73b-753f-4e52-8af3-409d78c86404/media/TrailerVideo"
+  }
+ ],
+ "trailerUrl": null,
+ "displayPriority": 50,
+ "castAndCrew": [
+  {
+   "castAndCrewMemberId": "0000001225",
+   "roles": [
+    "Director"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003164",
+   "roles": [
+    "Actor"
+   ]
+  }
+ ],
+ "actors": [
+  {
+   "castAndCrewMemberId": "0000003164"
+  }
+ ],
+ "directors": [
+  {
+   "castAndCrewMemberId": "0000001225"
+  }
+ ],
+ "producers": [],
+ "genreIds": [
+  "0000000007",
+  "0000000021"
+ ],
+ "externalIds": {
+  "moviexchangeReleaseId": "080ec73b-753f-4e52-8af3-409d78c86404",
+  "corporateId": null
+ },
+ "hopk": "HO00000498",
+ "hoCode": "A000000510",
+ "eventId": null,
+ "distributorName": "Oy Nordisk Film Ab"
+}
