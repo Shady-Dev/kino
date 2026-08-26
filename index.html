@@ -722,6 +722,20 @@
   state.fLang = !!pr.fLang; state.fKids = !!pr.fKids;
   syncTools();
 
+  /* ---------- date rollover on resume ---------- */
+  let builtFor = new Date().toDateString();
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState !== 'visible') return;
+    if(new Date().toDateString() !== builtFor){
+      builtFor = new Date().toDateString();
+      jsonCache && Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
+      buildDays();
+      loadSchedule();
+    } else {
+      render(); // refresh past-time dimming after shorter naps
+    }
+  });
+
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
   /* ---------- init ---------- */
