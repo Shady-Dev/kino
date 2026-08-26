@@ -1,6 +1,7 @@
 """Fetch Finnkino schedule via digital-api (Vista OCAPI) and write JSON into data/."""
 import datetime, gzip, json, os, re, sys, time, pathlib
 import urllib.request
+import urllib.parse
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
@@ -125,6 +126,7 @@ def main() -> int:
 
     qs = "&".join(f"siteIds={s['id']}" for s in sites)
     per_site = {s["id"]: [] for s in sites}
+    films_meta = {}
     today = datetime.date.today()
     for d in range(7):
         date = (today + datetime.timedelta(days=d)).isoformat()
@@ -154,6 +156,10 @@ def main() -> int:
             rating = f"K-{m.group(0)}" if m else rating_raw
             site_name = next((x["name"] for x in sites if x["id"] == site_id), "")
             slug = THEATER_SLUGS.get(site_name, "")
+            fid = str(s.get("filmId", ""))
+            if fid and fid not in films_meta:
+                films_meta[fid] = {"q": t(film, "originalTitle", "text") or t(film, "title", "text"),
+                                   "y": (film.get("releaseDate") or "")[:4]}
             runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
             img = download_poster(rid) if rid else ""
@@ -177,6 +183,41 @@ def main() -> int:
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
         time.sleep(0.4)
+
+    tmdb_token = os.environ.get("TMDB_TOKEN", "").strip()
+    if tmdb_token:
+        cache_p = out / "tmdb.json"
+        try:
+            tmdb_cache = json.loads(cache_p.read_text())
+        except Exception:
+            tmdb_cache = {}
+        th = {"Authorization": f"Bearer {tmdb_token}", "accept": "application/json",
+              "user-agent": "kino-fetch/1.0"}
+        looked = 0
+        for fid, meta in films_meta.items():
+            if fid in tmdb_cache or not meta["q"]:
+                continue
+            try:
+                q = urllib.parse.quote(meta["q"])
+                u = f"https://api.themoviedb.org/3/search/movie?query={q}"
+                res = json.loads(http_get(u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
+                results = res.get("results") or []
+                if not results and meta["y"]:
+                    res = json.loads(http_get(u, th))
+                    results = res.get("results") or []
+                va = (results[0].get("vote_average") or 0) if results else 0
+                tmdb_cache[fid] = round(va, 1) if va else 0
+                looked += 1
+                time.sleep(0.25)
+            except Exception as e:
+                print(f"[tmdb] {meta['q']}: {e}")
+        cache_p.write_text(json.dumps(tmdb_cache))
+        print(f"[tmdb] {looked} new lookups, cache {len(tmdb_cache)}")
+        for shows in per_site.values():
+            for sh in shows:
+                v = tmdb_cache.get(sh["eventId"]) or 0
+                if v:
+                    sh["tmdb"] = v
 
     for sid, shows in per_site.items():
         (out / f"area-{sid}.json").write_text(
