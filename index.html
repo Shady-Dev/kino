@@ -405,7 +405,7 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
-  let calInput = null, calChip = null, dayBtns = {};
+  let calInput = null, calChip = null, dayBtns = {}, venueIndex = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -485,13 +485,27 @@
     return r.json();
   }
 
+  // Finnkino names carry the city as the last word ("Plevna Tampere"); BioRex ships city
+  // explicitly. Group by city, since people pick a place before they pick a chain.
+  function cityOf(a){
+    if(a.city) return a.city;
+    const w = (a.name || '').trim().split(/\s+/);
+    return w.length > 1 ? w[w.length-1] : (a.name || '');
+  }
   function fillAreaSelect(areas){
+    venueIndex = {};
+    for(const a of areas) venueIndex[a.id] = a;
+    const byCity = new Map();
+    for(const a of areas){
+      const c = cityOf(a);
+      if(!byCity.has(c)) byCity.set(c, []);
+      byCity.get(c).push(a);
+    }
+    const cities = [...byCity.keys()].sort((x,y)=>x.localeCompare(y,'fi'));
     const opt = a => `<option value="${a.id}">${a.name}</option>`;
-    const regions = areas.filter(a => !a.name.includes(':'));
-    const theatres = areas.filter(a => a.name.includes(':'));
-    areaSel.innerHTML = (regions.length && theatres.length)
-      ? `<optgroup label="Areas">${regions.map(opt).join('')}</optgroup><optgroup label="Theatres">${theatres.map(opt).join('')}</optgroup>`
-      : areas.map(opt).join('');
+    areaSel.innerHTML = cities.map(c =>
+      `<optgroup label="${c}">${byCity.get(c)
+        .sort((x,y)=>x.name.localeCompare(y.name,'fi')).map(opt).join('')}</optgroup>`).join('');
     const saved = prefs.get().area;
     state.area = (saved && areas.some(a => a.id === saved)) ? saved : areas[0].id;
     areaSel.value = state.area;
@@ -500,11 +514,19 @@
   async function loadAreas(){
     try {
       const data = await fetchJSON('data/areas.json');
-      const areas = (data.areas || []).filter(a => a.id && a.id !== '1029');
+      const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
+        .map(a => ({ ...a, provider:'finnkino' }));
       if(!areas.length) throw new Error('empty');
+      // Optional second provider: absent or broken file must not take the app down.
+      let extra = [];
+      try {
+        const bx = await fetchJSON('data/venues-biorex.json');
+        extra = (bx.venues || []).filter(v => v.id && v.name)
+          .map(v => ({ ...v, provider:'biorex' }));
+      } catch(_) {}
       state.mode = 'json';
       state.generated = data.generated;
-      fillAreaSelect(areas);
+      fillAreaSelect(areas.concat(extra));
     } catch(_) {
       const xml = await fetchXML(API + '/TheatreAreas/', 'TheatreArea');
       const areas = [...xml.querySelectorAll('TheatreArea')].map(a => ({ id:txt(a,'ID'), name:txt(a,'Name') }))
@@ -542,6 +564,7 @@
       if(state.mode === 'json'){
         if(!jsonCache[state.area]) jsonCache[state.area] = await fetchJSON(`data/area-${state.area}.json`);
         const cache = jsonCache[state.area];
+        if(cache.generated) state.generated = cache.generated;
         state.dates = Array.isArray(cache.dates) ? cache.dates : null;
         state.horizon = cache.horizon || '';
         if(calInput && state.horizon) calInput.max = state.horizon;
@@ -586,8 +609,11 @@
           staleEl.style.display = 'none';
         }
         const t = new Date(state.generated);
+        const v = venueIndex[state.area] || {};
+        const src = v.provider === 'biorex' ? 'BioRex' : 'Finnkino';
+        const host = v.provider === 'biorex' ? 'biorex.fi' : 'finnkino.fi';
         document.querySelector('footer').textContent =
-          `Schedule data: Finnkino · updated ${t.toLocaleString('fi-FI',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · Tap a showtime to buy tickets on finnkino.fi`;
+          `Schedule data: ${src} · updated ${t.toLocaleString('fi-FI',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})} · Tap a showtime to buy tickets on ${host}`;
       }
     } catch(e){
       main.innerHTML = netErrorHtml(e);
