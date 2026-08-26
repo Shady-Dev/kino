@@ -293,6 +293,20 @@
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids' }
   };
+  const LN = {
+    fi:{FI:'suom.', EN:'engl.', SE:'ruots.', JA:'jap.', FR:'ransk.'},
+    en:{FI:'Finnish', EN:'English', SE:'Swedish', JA:'Japanese', FR:'French'}
+  };
+  const LW = { fi:{A:'puhe', S:'tekstit'}, en:{A:'audio', S:'subs'} };
+  function langTxt(code){
+    if(!code) return '';
+    return code.split(/,\s*/).map(c => {
+      const m = c.match(/^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$/);
+      if(!m) return '';
+      const parts = m[1].split('-').map(x => (LN[state.lang][x] || x)).join('/');
+      return parts + ' ' + LW[state.lang][m[2]];
+    }).filter(Boolean).join(', ');
+  }
   const disp = m => {
     if(state.lang === 'en' && films && films[m.eventId]){
       const f = films[m.eventId];
@@ -492,7 +506,7 @@
   function passFilters(s){
     const q = state.filter.trim().toLowerCase();
     if(q && !s.title.toLowerCase().includes(q) && !(s.original||'').toLowerCase().includes(q)) return false;
-    if(state.fLang && !(s.lang && /puhe|dub/i.test(s.lang))) return false;
+    if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
     if(state.fKids && !(s.rating === 'S' || s.rating === 'K-7')) return false;
     return true;
   }
@@ -508,7 +522,7 @@
         <a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
           <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
-          <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method].filter(Boolean).join(' · ')}</small></div>
+          <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
     }).join('');
   }
@@ -556,7 +570,8 @@
       ].filter(Boolean).join('');
       const meta2 = [
         m.genres ? `<span>${m.genres.replace(/\s+,\s*/g, ', ').trim()}</span>` : '',
-        m.len ? `<span>${m.len} min</span>` : ''
+        m.len ? `<span>${m.len} min</span>` : '',
+        m.lang ? `<span>${langTxt(m.lang)}</span>` : ''
       ].filter(Boolean).join('');
       return `<article class="movie" data-id="${m.eventId}">
                 ${poster}
