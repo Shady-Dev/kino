@@ -273,9 +273,9 @@
     const opt = a => `<option value="${a.id}">${a.name}</option>`;
     const regions = areas.filter(a => !a.name.includes(':'));
     const theatres = areas.filter(a => a.name.includes(':'));
-    areaSel.innerHTML =
-      (regions.length ? `<optgroup label="Areas">${regions.map(opt).join('')}</optgroup>` : '') +
-      (theatres.length ? `<optgroup label="Theatres">${theatres.map(opt).join('')}</optgroup>` : '');
+    areaSel.innerHTML = (regions.length && theatres.length)
+      ? `<optgroup label="Areas">${regions.map(opt).join('')}</optgroup><optgroup label="Theatres">${theatres.map(opt).join('')}</optgroup>`
+      : areas.map(opt).join('');
     state.area = areas[0].id;
     areaSel.value = state.area;
   }
