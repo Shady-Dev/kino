@@ -305,8 +305,13 @@ def main() -> int:
     print(f"[films] {len(films_full)} film entries")
 
     for sid, shows in per_site.items():
+        # Dates actually present, so the UI can tell "no shows" apart from
+        # "schedule not published yet" instead of showing one message for both.
+        day_list = sorted({s["start"][:10] for s in shows if s.get("start")})
         (out / f"area-{sid}.json").write_text(
-            json.dumps({"generated": now, "shows": shows}, ensure_ascii=False), encoding="utf-8")
+            json.dumps({"generated": now, "dates": day_list,
+                        "horizon": day_list[-1] if day_list else "",
+                        "shows": shows}, ensure_ascii=False), encoding="utf-8")
     print("done")
     return 0
 
