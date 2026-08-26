@@ -540,7 +540,8 @@
                   kinoset:'Kinoset' };
   const SOURCE = { finnkino:['Finnkino','finnkino.fi'], biorex:['BioRex','biorex.fi'],
                    kinoakseli:['Kino Akseli','kinoakseli.fi'],
-                   kinoset:['Kinoset','kinoset.fi'] };
+                   kinoset:['Kinoset','kinoset.fi'],
+                   kotkanleffat:['Kotkan Leffat','kotkanleffat.fi'] };
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -580,7 +581,7 @@
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
       const extra = [];
-      for(const prov of ['biorex','kinoakseli','kinoset']){
+      for(const prov of ['biorex','kinoakseli','kinoset','kotkanleffat']){
         try {
           const j = await fetchJSON(`data/venues-${prov}.json`);
           const vs = (j.venues || []).filter(v => v.id && v.name);
