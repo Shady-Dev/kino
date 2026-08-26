@@ -1,0 +1,28 @@
+name: p4
+on: { workflow_dispatch: }
+permissions: { contents: write }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set +e
+          mkdir -p probe
+          UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          B='https://kinoset.fi/wp-content/plugins/nexxo-scope'
+          curl -sS --compressed -A "$UA" -o probe/showlist.js "$B/showlist.js?ver=25.652"
+          echo "--- actions referenced in showlist.js"
+          grep -oE "action=[a-zA-Z_]+" probe/showlist.js | sort -u
+          grep -oE "action['\"]? *: *['\"][a-zA-Z_]+" probe/showlist.js | sort -u
+          echo "--- api param names"
+          grep -oE "(location|theatre|theater|days|date|movieid|showid)[a-z]*['\"]? *[:=]" probe/showlist.js | sort -u | head -20
+          echo "--- try candidate actions"
+          for a in getshows shows showlist getshowlist listshows getmovies movies program; do
+            code=$(curl -sS -A "$UA" -o "probe/api-$a.json" -w '%{http_code}/%{size_download}' "$B/public_api.php?action=$a&location=2")
+            echo "$a -> $code"
+          done
+      - run: |
+          git config user.name kino-bot && git config user.email a@b.c
+          git add -A probe && git diff --cached --quiet || git commit -q -m "p4"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && break; sleep 5; done
