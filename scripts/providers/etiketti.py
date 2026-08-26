@@ -30,7 +30,8 @@ MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')
 H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S)
 ITEM_RE = re.compile(r'<div class="item [^"]*date-(\d{1,2})\.(\d{1,2})\.(\d{4})"(.*?)(?=<div class="item |</div>\s*</div>\s*</div>|\Z)', re.S)
 TIME_RE = re.compile(r"klo\s*(\d{1,2})[.:](\d{2})")
-PLACE_RE = re.compile(r"<p>\s*([^<|]+)\|([^<]+)<br", re.S)
+# Trio 123 screenings read "TRIO 123 | SALI 1"; Kinopalatsi has no room at all.
+PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
 PRICE_RE = re.compile(r"Lippu\s*([\d,\.]+)")
 SEATS_RE = re.compile(r"Vapaat paikat\s*(\d+)\s*/\s*(\d+)")
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
@@ -109,7 +110,7 @@ def parse_movie(page, site, movie_url):
             continue
         place = PLACE_RE.search(block)
         theatre = _txt(place.group(1)) if place else ""
-        room = _txt(place.group(2)) if place else ""
+        room = _txt(place.group(2)) if (place and place.group(2)) else ""
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)
         book = BOOK_RE.search(block)
