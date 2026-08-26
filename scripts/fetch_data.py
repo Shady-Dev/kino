@@ -177,7 +177,9 @@ def main() -> int:
                 "aud": t(scr.get(str(s.get("screenId", "")), {}), "name", "text"),
                 "start": t(s.get("schedule", {}) if isinstance(s.get("schedule"), dict) else {}, "startsAt")
                          or (s.get("schedule", {}) or {}).get("startsAt", ""),
-                "url": f"https://www.finnkino.fi/teatterit/{slug}/" if slug else "https://www.finnkino.fi/",
+                "url": (f"https://www.finnkino.fi/liput/valitse-paikat/?showtimeId={s.get('id')}"
+                        if s.get("id") else
+                        (f"https://www.finnkino.fi/teatterit/{slug}/" if slug else "https://www.finnkino.fi/")),
                 "img": img,
             })
             n += 1
