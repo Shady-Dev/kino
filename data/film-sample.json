@@ -1,73 +1,122 @@
 {
- "id": "HO00000498",
+ "id": "HO00000525",
  "title": {
-  "text": "Laula minulle Arja",
-  "translations": [
-   {
-    "languageTag": "en-US",
-    "text": "Laula minulle Arja"
-   },
-   {
-    "languageTag": "sv-SE",
-    "text": "Sjung för mig Arja"
-   }
-  ]
+  "text": "GHOST: 2 Big To Rig",
+  "translations": []
  },
  "synopsis": {
-  "text": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu.",
+  "text": "Captured live over the course of GHOST’s two sold-out shows in Mexico City last year, 2 BIG TO RIG is the definitive document of the band's unforgettable SKELETOUR WORLD TOUR. \n\nFeaturing the only pro-shot footage of Papa V Perpetua and his band of Nameless Ghouls from the phone-free SKELETOUR, 2 BIG TO RIG immerses the audience in the GHOST live ritual, including exclusive behind-the-scenes and backstage access. \n\n2 BIG TO RIG was created to share the SKELETOUR experience with the faithful in the territories where staging the show was not logistically feasible — and is a love letter to all those who have shared the GHOST ritual. \n\nShot on 16mm film, GHOST has never looked or sounded better, ripping through material from the band's six albums — including 2025’s global #1 SKELETÁ as well as non-LP favorites including “Mary On A Cross,” “Kiss the Go-Goat,” and “The Future is a Foreign Land.” Esitykseen ei voi käyttää sarjalippuja.\n",
   "translations": []
  },
  "shortSynopsis": {
-  "text": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt t",
+  "text": "Captured live over the course of GHOST’s two sold-out shows in Mexico City last year, 2 BIG TO RIG is the definitive document of the band's  SKELETOUR WORLD TOUR.",
   "translations": []
  },
- "censorRatingId": "0000000001",
+ "censorRatingId": "0000000002",
  "censorRatingNote": null,
- "releaseDate": "2026-08-14",
- "runtimeInMinutes": 98,
- "trailers": [
-  {
-   "provider": "Moviexchange",
-   "uri": "https://film-cdn.moviexchange.com/api/cdn/release/080ec73b-753f-4e52-8af3-409d78c86404/media/TrailerVideo"
-  }
- ],
+ "releaseDate": "2026-08-26",
+ "runtimeInMinutes": 115,
+ "trailers": [],
  "trailerUrl": null,
  "displayPriority": 50,
  "castAndCrew": [
   {
-   "castAndCrewMemberId": "0000001225",
+   "castAndCrewMemberId": "0000003287",
    "roles": [
     "Director"
    ]
   },
   {
-   "castAndCrewMemberId": "0000003164",
+   "castAndCrewMemberId": "0000003294",
    "roles": [
-    "Actor"
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003288",
+   "roles": [
+    "Director"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003293",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003289",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003292",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003290",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003295",
+   "roles": [
+    "Producer"
+   ]
+  },
+  {
+   "castAndCrewMemberId": "0000003291",
+   "roles": [
+    "Producer"
    ]
   }
  ],
- "actors": [
-  {
-   "castAndCrewMemberId": "0000003164"
-  }
- ],
+ "actors": [],
  "directors": [
   {
-   "castAndCrewMemberId": "0000001225"
+   "castAndCrewMemberId": "0000003287"
+  },
+  {
+   "castAndCrewMemberId": "0000003288"
   }
  ],
- "producers": [],
+ "producers": [
+  {
+   "castAndCrewMemberId": "0000003294"
+  },
+  {
+   "castAndCrewMemberId": "0000003293"
+  },
+  {
+   "castAndCrewMemberId": "0000003289"
+  },
+  {
+   "castAndCrewMemberId": "0000003292"
+  },
+  {
+   "castAndCrewMemberId": "0000003290"
+  },
+  {
+   "castAndCrewMemberId": "0000003295"
+  },
+  {
+   "castAndCrewMemberId": "0000003291"
+  }
+ ],
  "genreIds": [
-  "0000000007",
-  "0000000021"
+  "0000000011",
+  "0000000026"
  ],
  "externalIds": {
-  "moviexchangeReleaseId": "080ec73b-753f-4e52-8af3-409d78c86404",
+  "moviexchangeReleaseId": "297358cb-218b-4be6-9c56-6516c8377598",
   "corporateId": null
  },
- "hopk": "HO00000498",
- "hoCode": "A000000510",
+ "hopk": "HO00000525",
+ "hoCode": "A000000537",
  "eventId": null,
- "distributorName": "Oy Nordisk Film Ab"
+ "distributorName": "Trafalgar Releasing Ltd"
 }
