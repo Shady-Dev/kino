@@ -4,16 +4,12 @@ on:
   schedule:
     - cron: '30 2,6,10,14 * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/biorex.yml', 'scripts/providers/**']
-
 permissions:
   contents: write
 
 concurrency:
   group: kino-data
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   fetch:
