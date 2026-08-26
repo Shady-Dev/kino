@@ -238,7 +238,7 @@ def main() -> int:
               "user-agent": "kino-fetch/1.0"}
         looked = 0
         for fid, meta in films_meta.items():
-            if fid in tmdb_cache or not meta["q"]:
+            if isinstance(tmdb_cache.get(fid), dict) or not meta["q"]:
                 continue
             try:
                 q = urllib.parse.quote(meta["q"])
@@ -249,18 +249,39 @@ def main() -> int:
                     res = json.loads(http_get(u, th))
                     results = res.get("results") or []
                 va = (results[0].get("vote_average") or 0) if results else 0
-                tmdb_cache[fid] = round(va, 1) if va else 0
+                mid = results[0].get("id") if results else None
+                yt = ""
+                if mid:
+                    try:
+                        vids = json.loads(http_get(
+                            f"https://api.themoviedb.org/3/movie/{mid}/videos", th)).get("results") or []
+                        for pref in (lambda v: v.get("type") == "Trailer" and v.get("official"),
+                                     lambda v: v.get("type") == "Trailer",
+                                     lambda v: v.get("type") == "Teaser"):
+                            hit = next((v for v in vids if v.get("site") == "YouTube" and pref(v)), None)
+                            if hit:
+                                yt = hit.get("key") or ""
+                                break
+                    except Exception as e:
+                        print(f"[tmdb-videos] {meta['q']}: {e}")
+                tmdb_cache[fid] = {"r": round(va, 1) if va else 0, "v": yt}
                 looked += 1
                 time.sleep(0.25)
             except Exception as e:
                 print(f"[tmdb] {meta['q']}: {e}")
         cache_p.write_text(json.dumps(tmdb_cache))
         print(f"[tmdb] {looked} new lookups, cache {len(tmdb_cache)}")
+        def _rating(c):
+            return (c.get("r") if isinstance(c, dict) else c) or 0
         for shows in per_site.values():
             for sh in shows:
-                v = tmdb_cache.get(sh["eventId"]) or 0
+                v = _rating(tmdb_cache.get(sh["eventId"]))
                 if v:
                     sh["tmdb"] = v
+        for fid, entry in films_full.items():
+            c = tmdb_cache.get(fid)
+            if isinstance(c, dict) and c.get("v"):
+                entry["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
 
     (out / "films.json").write_text(
         json.dumps({"generated": now, "films": films_full}, ensure_ascii=False), encoding="utf-8")
