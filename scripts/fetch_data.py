@@ -1,4 +1,5 @@
 """Fetch Finnkino schedule via digital-api (Vista OCAPI) and write JSON into data/."""
+# trigger: 2026-08-26 populate TMDB youtube trailer keys into tmdb.json cache
 import datetime, gzip, json, os, re, sys, time, pathlib
 import urllib.request
 import urllib.parse
