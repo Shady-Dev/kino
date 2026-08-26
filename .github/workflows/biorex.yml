@@ -32,10 +32,18 @@ jobs:
           python3 scripts/providers/fetch_nexxo.py > run-nexxo.log 2>&1
           echo "exit=$?" >> run-nexxo.log
           tail -6 run-nexxo.log
+      - name: Enrich with TMDB
+        env:
+          TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
+        run: |
+          set +e
+          python3 scripts/providers/enrich_tmdb.py > run-enrich.log 2>&1
+          echo "exit=$?" >> run-enrich.log
+          tail -3 run-enrich.log
       - name: Commit data and log
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-biorex.log run-nexxo.log
+          git add data run-biorex.log run-nexxo.log run-enrich.log
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           for i in 1 2 3; do
             git pull --rebase --autostash -q origin main && git push -q && break
