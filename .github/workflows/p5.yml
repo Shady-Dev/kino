@@ -1,0 +1,23 @@
+name: p5
+on: { workflow_dispatch: }
+permissions: { contents: write }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set +e
+          mkdir -p probe
+          UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          API='https://kinoset.fi/wp-content/plugins/nexxo-scope/public_api.php'
+          for L in 1 2 3; do
+            curl -sS --compressed -A "$UA" -H 'accept: application/json' \
+              -w "loc$L: %{http_code} %{size_download}\n" -o "probe/nx-$L.json" \
+              "$API?action=exportdailyshows&locationid=$L&days=21&lang=fi&upcoming=1"
+          done
+          head -c 600 probe/nx-2.json; echo
+      - run: |
+          git config user.name kino-bot && git config user.email a@b.c
+          git add -A probe && git diff --cached --quiet || git commit -q -m "p5"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && break; sleep 5; done
