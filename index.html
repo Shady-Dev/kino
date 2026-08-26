@@ -149,6 +149,17 @@
     padding:18px 20px 32px; max-width:720px; margin:0 auto;}
   body.sheet-open #overlay{opacity:1; pointer-events:auto}
   body.sheet-open #sheet{transform:none}
+  @media (min-width:700px){
+    #sheet{
+      bottom:auto; top:50%; left:50%; right:auto;
+      width:min(680px, 92vw); max-height:82vh;
+      border:1px solid var(--line); border-radius:18px;
+      box-shadow:0 24px 80px rgba(0,0,0,.45);
+      transform:translate(-50%,-46%); opacity:0; pointer-events:none;
+      transition:transform .22s ease, opacity .22s ease;
+    }
+    body.sheet-open #sheet{transform:translate(-50%,-50%); opacity:1; pointer-events:auto}
+  }
   .sheet-close{position:absolute; top:12px; right:14px; width:34px; height:34px;
     border-radius:50%; border:1px solid var(--line); background:var(--surface);
     color:var(--muted); font-size:1rem; cursor:pointer}
