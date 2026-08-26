@@ -1,0 +1,23 @@
+name: p3
+on: { workflow_dispatch: }
+permissions: { contents: write }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          set +e
+          mkdir -p probe
+          UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          curl -sS --compressed -A "$UA" -w 'ks: %{http_code} %{size_download}\n' -o probe/ks.html 'https://kinoset.fi/ohjelmisto/?location=2'
+          echo "--- ajax/api/json mentions"
+          grep -oE '(admin-ajax[^"]*|/wp-json/[^"]*|https?://[a-z0-9.-]+/[^"]*\.(json|php)[^"]*)' probe/ks.html | sort -u | head -30
+          echo "--- inline var blocks"
+          grep -oE 'var [A-Za-z_]+ = \{[^}]{0,300}' probe/ks.html | head -20
+          echo "--- script srcs"
+          grep -oE 'src="[^"]+\.js[^"]*"' probe/ks.html | sort -u | head -25
+      - run: |
+          git config user.name kino-bot && git config user.email a@b.c
+          git add -A probe && git diff --cached --quiet || git commit -q -m "p3"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && break; sleep 5; done
