@@ -234,17 +234,24 @@
   }
   const txt = (node, tag) => { const n = node.querySelector(tag); return n ? n.textContent : ''; };
 
+  /* ---------- persisted prefs ---------- */
+  const prefs = {
+    get(){ try{ return JSON.parse(localStorage.getItem('kino-prefs')||'{}'); }catch(e){ return {}; } },
+    set(p){ try{ localStorage.setItem('kino-prefs', JSON.stringify(Object.assign(prefs.get(), p))); }catch(e){} }
+  };
+
   /* ---------- date chips ---------- */
   const fiDay = ['Su','Ma','Ti','Ke','To','Pe','La'];
   function buildDays(){
     daysEl.innerHTML = '';
+    const savedIdx = Math.min(Math.max(prefs.get().dayIdx|0, 0), 6);
     for(let i=0;i<7;i++){
       const d = new Date(); d.setDate(d.getDate()+i);
       const b = document.createElement('button');
       b.className = 'day'; b.role = 'tab';
       b.innerHTML = `<small>${i===0?'Tänään':fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
-      b.onclick = () => { state.date = d; [...daysEl.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); loadSchedule(); };
-      if(i===0) b.classList.add('active');
+      b.onclick = () => { state.date = d; prefs.set({dayIdx:i}); [...daysEl.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); loadSchedule(); };
+      if(i===savedIdx){ b.classList.add('active'); state.date = d; }
       daysEl.appendChild(b);
     }
   }
@@ -276,7 +283,8 @@
     areaSel.innerHTML = (regions.length && theatres.length)
       ? `<optgroup label="Areas">${regions.map(opt).join('')}</optgroup><optgroup label="Theatres">${theatres.map(opt).join('')}</optgroup>`
       : areas.map(opt).join('');
-    state.area = areas[0].id;
+    const saved = prefs.get().area;
+    state.area = (saved && areas.some(a => a.id === saved)) ? saved : areas[0].id;
     areaSel.value = state.area;
   }
 
@@ -296,7 +304,7 @@
       state.mode = 'xml';
       fillAreaSelect(areas);
     }
-    areaSel.addEventListener('change', () => { state.area = areaSel.value; loadSchedule(); });
+    areaSel.addEventListener('change', () => { state.area = areaSel.value; prefs.set({area: state.area}); loadSchedule(); });
   }
 
   /* ---------- schedule ---------- */
