@@ -150,6 +150,7 @@
   .stub.past .time{color:var(--past)}
 
   .theatre-tag{color:var(--accent); font-weight:600}
+  .tmdb{color:var(--accent); font-weight:700}
 
   #stale{
     display:none; max-width:1060px; margin:12px auto 0; padding:10px 14px;
@@ -401,6 +402,7 @@
                 </a>`;
       }).join('');
       const meta = [
+        m.tmdb ? `<span class="tmdb">★ ${m.tmdb}</span>` : '',
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
         m.len ? `${m.len} min` : '',
         m.genres, m.method
