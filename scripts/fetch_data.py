@@ -81,6 +81,32 @@ def t(obj, *keys):
         obj = obj.get(k, {}) if isinstance(obj, dict) else {}
     return obj if isinstance(obj, str) else ""
 
+POSTER_DIR = pathlib.Path("data/posters")
+_poster_cache = {}
+
+def download_poster(rid: str) -> str:
+    """Download poster once per release id; return relative path or ''. """
+    if rid in _poster_cache:
+        return _poster_cache[rid]
+    POSTER_DIR.mkdir(parents=True, exist_ok=True)
+    rel = f"data/posters/{rid}.jpg"
+    p = pathlib.Path(rel)
+    if not p.exists():
+        url = f"https://film-cdn.moviexchange.com/api/cdn/release/{rid}/media/Poster?width=200"
+        try:
+            raw = http_get(url, {"user-agent": UA, "referer": "https://www.finnkino.fi/",
+                                 "accept": "image/*"})
+            if len(raw) > 500:
+                p.write_bytes(raw)
+            else:
+                raise RuntimeError("too small")
+        except Exception as e:
+            print(f"[poster] {rid}: {e}")
+            _poster_cache[rid] = ""
+            return ""
+    _poster_cache[rid] = rel
+    return rel
+
 def main() -> int:
     out = pathlib.Path("data"); out.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
@@ -130,8 +156,7 @@ def main() -> int:
             slug = THEATER_SLUGS.get(site_name, "")
             runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""
-            img = (f"https://film-cdn.moviexchange.com/api/cdn/release/{rid}/media/Poster?width=200"
-                   if rid else "")
+            img = download_poster(rid) if rid else ""
             genres = ", ".join(filter(None, (genmap.get(str(gid), "")
                                for gid in (film.get("genreIds") or []))))
             per_site[site_id].append({
