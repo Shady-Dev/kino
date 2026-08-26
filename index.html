@@ -132,6 +132,36 @@
   }
   .fmt{color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase}
 
+  #langToggle{
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    height:38px; padding:0 13px; border-radius:19px; cursor:pointer;
+    font:inherit; font-weight:800; font-size:.78rem; letter-spacing:.08em;
+  }
+  #langToggle:hover{border-color:var(--accent)}
+  .movie{cursor:pointer}
+
+  #overlay{position:fixed; inset:0; background:rgba(0,0,0,.55); opacity:0;
+    pointer-events:none; transition:opacity .25s; z-index:90}
+  #sheet{position:fixed; left:0; right:0; bottom:0; max-height:86vh; overflow-y:auto;
+    background:var(--bg); border-top:1px solid var(--line);
+    border-radius:18px 18px 0 0; transform:translateY(102%);
+    transition:transform .28s cubic-bezier(.3,.8,.3,1); z-index:100;
+    padding:18px 20px 32px; max-width:720px; margin:0 auto;}
+  body.sheet-open #overlay{opacity:1; pointer-events:auto}
+  body.sheet-open #sheet{transform:none}
+  .sheet-close{position:absolute; top:12px; right:14px; width:34px; height:34px;
+    border-radius:50%; border:1px solid var(--line); background:var(--surface);
+    color:var(--muted); font-size:1rem; cursor:pointer}
+  .sheet-head{display:flex; gap:16px; align-items:flex-start}
+  .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
+  .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px}
+  .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
+  .trailer{display:inline-block; margin-top:12px; color:var(--accent); font-weight:700;
+    text-decoration:none; font-size:.88rem}
+  .sheet-days{margin-top:6px}
+  .sheet-days h3{margin:16px 0 8px; font-size:.75rem; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.08em; font-weight:700}
+
   /* Ticket stubs — the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
   .stub{
@@ -190,6 +220,7 @@
   <div class="bar">
     <div class="logo">Kino<span>.</span></div>
     <div class="spacer"></div>
+    <button id="langToggle" aria-label="Vaihda kieli">EN</button>
     <button id="themeToggle" title="Switch theme" aria-label="Switch light/dark theme">◐</button>
   </div>
   <div class="controls">
@@ -200,6 +231,9 @@
 </header>
 
 <div id="stale" role="status"></div>
+
+<div id="overlay"></div>
+<div id="sheet" role="dialog" aria-modal="true"></div>
 
 <main id="main">
   <div class="status"><div class="reel"></div>Loading theatres…</div>
@@ -220,7 +254,26 @@
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
-  let state = { area:null, date:new Date(), shows:[], filter:'' , showsAllAreas:false };
+  let state = { area:null, date:new Date(), shows:[], filter:'', lang:'fi' };
+  let films = null;
+  async function ensureFilms(){
+    if(films !== null) return;
+    try{ films = (await fetchJSON('data/films.json')).films || {}; }
+    catch(e){ films = {}; }
+  }
+  const L = {
+    fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
+         filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min' },
+    en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
+         filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min' }
+  };
+  const disp = m => {
+    if(state.lang === 'en' && films && films[m.eventId]){
+      const f = films[m.eventId];
+      return (f.t && f.t.en) || f.o || m.title;
+    }
+    return m.title;
+  };
 
   /* ---------- theme ---------- */
   const store = { get k(){ try{return localStorage.getItem('kino-theme')}catch(e){return null} },
@@ -262,7 +315,7 @@
   };
 
   /* ---------- date chips ---------- */
-  const fiDay = ['Su','Ma','Ti','Ke','To','Pe','La'];
+  let fiDay = L[state.lang].days;
   const dstr = d => { const p = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`; };
   function buildDays(){
     daysEl.innerHTML = '';
@@ -272,7 +325,7 @@
       const d = new Date(); d.setDate(d.getDate()+i);
       const b = document.createElement('button');
       b.className = 'day'; b.role = 'tab';
-      b.innerHTML = `<small>${i===0?'Tänään':fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
+      b.innerHTML = `<small>${i===0?L[state.lang].today:fiDay[d.getDay()]}</small><b>${d.getDate()}.${d.getMonth()+1}.</b>`;
       b.onclick = () => { state.date = d; prefs.set({dayIdx:i}); activate(b); loadSchedule(); };
       if(i===savedIdx){ b.classList.add('active'); state.date = d; }
       daysEl.appendChild(b);
@@ -280,7 +333,7 @@
     // calendar chip: native date picker, horizon = today..+6 (pipeline range)
     const cal = document.createElement('button');
     cal.className = 'day'; cal.role = 'tab';
-    const calLabel = () => `<small>Muu</small><b>📅</b>`;
+    const calLabel = () => `<small>${L[state.lang].other}</small><b>📅</b>`;
     cal.innerHTML = calLabel();
     const inp = document.createElement('input');
     inp.type = 'date';
@@ -429,8 +482,9 @@
     const multiTheatre = new Set(state.shows.map(s=>s.theatre)).size > 1;
 
     main.innerHTML = movies.map(m => {
+      const title = disp(m);
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
-      const initials = (m.title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+      const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
       const poster = m.img
         ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
@@ -454,10 +508,10 @@
         m.genres ? `<span>${m.genres.replace(/\s+,\s*/g, ', ').trim()}</span>` : '',
         m.len ? `<span>${m.len} min</span>` : ''
       ].filter(Boolean).join('');
-      return `<article class="movie">
+      return `<article class="movie" data-id="${m.eventId}">
                 ${poster}
                 <div class="info">
-                  <h2 class="title">${m.title}</h2>
+                  <h2 class="title">${title}</h2>
                   <div class="meta1">${meta1}</div>
                   ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
                   <div class="stubs">${stubs}</div>
@@ -468,6 +522,85 @@
 
   searchEl.oninput = () => { state.filter = searchEl.value; render(); };
 
+  /* ---------- movie sheet ---------- */
+  const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
+  async function showSheet(fid){
+    await ensureFilms();
+    const f = films[fid] || {};
+    const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
+      .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start)}))
+      .sort((a,b) => a.start - b.start);
+    const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
+    const lang = state.lang;
+    const title = (lang==='en' ? ((f.t&&f.t.en)||f.o) : (f.t&&f.t.fi)) || sample.title || '';
+    const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : f.s.fi)) || '';
+    const fmts = (sample.method || '').split(' · ').filter(Boolean)
+      .map(x => `<span class="fmt">${x}</span>`).join('');
+    const meta1 = [
+      sample.tmdb ? `<span class="tmdb">★ ${sample.tmdb}</span>` : '',
+      sample.rating ? `<span class="rating">${sample.rating}</span>` : '',
+      sample.len ? `<span class="fmt">${sample.len} ${L[lang].min}</span>` : '',
+      fmts
+    ].filter(Boolean).join('');
+    const byDay = new Map();
+    const now = new Date();
+    for(const s of all){
+      const k = `${fiDay[s.start.getDay()]} ${s.start.getDate()}.${s.start.getMonth()+1}.`;
+      if(!byDay.has(k)) byDay.set(k, []);
+      byDay.get(k).push(s);
+    }
+    const days = [...byDay.entries()].map(([k, arr]) => `<h3>${k}</h3><div class="stubs">` +
+      arr.map(s => {
+        const past = s.start < now;
+        const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
+        return `<a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
+                  <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>`;
+      }).join('') + '</div>').join('');
+    const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
+    sheetEl.innerHTML = `
+      <button class="sheet-close" aria-label="Sulje">✕</button>
+      <div class="sheet-head">${poster}
+        <div><div class="sheet-title">${title}</div>
+          <div class="meta1" style="margin-top:8px">${meta1}</div>
+          ${sample.genres ? `<div class="meta2">${sample.genres.replace(/\s+,\s*/g, ', ')}</div>` : ''}
+          ${f.tr ? `<a class="trailer" href="${f.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
+        </div></div>
+      ${syn ? `<p class="syn">${syn}</p>` : ''}
+      <div class="sheet-days">${days}</div>`;
+    sheetEl.querySelector('.sheet-close').onclick = () => { location.hash = ''; };
+    document.body.classList.add('sheet-open');
+  }
+  function hideSheet(){ document.body.classList.remove('sheet-open'); }
+  function syncSheet(){
+    const m = location.hash.match(/m=([\w-]+)/);
+    if(m) showSheet(m[1]); else hideSheet();
+  }
+  window.addEventListener('hashchange', syncSheet);
+  overlayEl.onclick = () => { location.hash = ''; };
+  main.addEventListener('click', e => {
+    if(e.target.closest('a.stub')) return;
+    const art = e.target.closest('article.movie');
+    if(art && state.mode === 'json') location.hash = 'm=' + art.dataset.id;
+  });
+
+  /* ---------- language toggle ---------- */
+  const langBtn = document.querySelector('#langToggle');
+  function applyLang(){
+    langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
+    fiDay = L[state.lang].days;
+    searchEl.placeholder = L[state.lang].filter;
+    buildDays();
+    render();
+    if(document.body.classList.contains('sheet-open')) syncSheet();
+  }
+  state.lang = prefs.get().lang === 'en' ? 'en' : 'fi';
+  langBtn.onclick = async () => {
+    state.lang = state.lang === 'fi' ? 'en' : 'fi';
+    prefs.set({lang: state.lang});
+    await ensureFilms();
+    applyLang();
+  };
+
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 
   /* ---------- init ---------- */
@@ -475,6 +608,11 @@
     try {
       buildDays();
       await loadAreas();
+      if(state.lang === 'en'){ await ensureFilms(); }
+      langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
+      fiDay = L[state.lang].days;
+      searchEl.placeholder = L[state.lang].filter;
+      buildDays();
       await loadSchedule();
     } catch(e){
       main.innerHTML = netErrorHtml(e);
