@@ -172,8 +172,8 @@ def main() -> int:
                     continue
                 if ATTR_RE.match(lbl):
                     fmt_list.append(lbl)
-                elif re.search(r"puhe|dub|svensk", lbl, re.I):
-                    lang_list.append(lbl)
+                elif re.match(r"^\.?[A-Z]{2}(?:-[A-Z]{2})?-(?:A|S)$", lbl):
+                    lang_list.append(lbl.lstrip("."))
             attr_names = " · ".join(fmt_list)
             lang_attr = ", ".join(lang_list)
             rating_raw = t(rat.get(str(film.get("censorRatingId", "")), {}), "classification", "text")
