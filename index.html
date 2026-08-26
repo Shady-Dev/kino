@@ -117,14 +117,20 @@
   .poster.blank{display:grid;place-items:center;font-weight:800;font-size:1.5rem;letter-spacing:.04em;border:1px solid var(--line)}
   .info{flex:1; min-width:0}
   .title{font-size:1.15rem; font-weight:800; line-height:1.25}
-  .meta{
-    margin-top:4px; color:var(--muted); font-size:.82rem;
-    display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center;
+  .meta1{
+    margin-top:7px; display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center;
+    font-size:.82rem;
   }
-  .rating{
+  .meta2{
+    margin-top:5px; color:var(--muted); font-size:.8rem;
+    display:flex; flex-wrap:wrap; gap:4px 14px;
+  }
+  .rating, .fmt{
     display:inline-block; border:1px solid var(--line); border-radius:5px;
-    padding:1px 6px; font-weight:700; font-size:.72rem; color:var(--ink);
+    padding:1px 7px; font-weight:700; font-size:.72rem; color:var(--ink);
+    background:var(--surface);
   }
+  .fmt{color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase}
 
   /* Ticket stubs — the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
@@ -437,17 +443,23 @@
                   <span class="time">${hh}:${mm}</span><span class="aud">${loc}</span>
                 </a>`;
       }).join('');
-      const meta = [
+      const fmts = (m.method || '').split(' · ').filter(Boolean)
+        .map(f => `<span class="fmt">${f}</span>`).join('');
+      const meta1 = [
         m.tmdb ? `<span class="tmdb">★ ${m.tmdb}</span>` : '',
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
-        m.len ? `${m.len} min` : '',
-        m.genres, m.method
-      ].filter(Boolean).join(' <span aria-hidden="true">·</span> ');
+        fmts
+      ].filter(Boolean).join('');
+      const meta2 = [
+        m.genres ? `<span>${m.genres.replace(/\s+,\s*/g, ', ').trim()}</span>` : '',
+        m.len ? `<span>${m.len} min</span>` : ''
+      ].filter(Boolean).join('');
       return `<article class="movie">
                 ${poster}
                 <div class="info">
                   <h2 class="title">${m.title}</h2>
-                  <div class="meta">${meta}</div>
+                  <div class="meta1">${meta1}</div>
+                  ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
                   <div class="stubs">${stubs}</div>
                 </div>
               </article>`;
