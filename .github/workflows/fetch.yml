@@ -2,7 +2,6 @@ name: Fetch Finnkino data
 
 on:
   schedule:
-    # ~4x per day (UTC): 05, 09, 13, 17 Finnish time in summer
     - cron: '0 2,6,10,14 * * *'
   workflow_dispatch:
   push:
@@ -17,12 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Fetch schedule data
         env:
+          FINNKINO_TOKEN: ${{ vars.FINNKINO_TOKEN }}
           TOKEN_WORKER_URL: ${{ vars.TOKEN_WORKER_URL }}
         run: python3 scripts/fetch_data.py
-
       - name: Commit updated data
         run: |
           git config user.name "kino-bot"
