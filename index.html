@@ -188,6 +188,8 @@
   .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
   .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
   .stub.past{opacity:.45; pointer-events:none}
+  .stub.sold{opacity:.55; pointer-events:none; filter:grayscale(1)}
+  .stub.sold .time{text-decoration:line-through}
   .stub.past .time{color:var(--past)}
 
   .theatre-tag{color:var(--accent); font-weight:600}
@@ -518,9 +520,10 @@
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
+      const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       return `<div class="trow">
-        <a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>
+        <a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
+          <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · loppuunmyyty' : ''}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -556,8 +559,9 @@
       const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
         const hh = pad(t.start.getHours()), mm = pad(t.start.getMinutes());
         const past = t.start < now;
-        const loc = multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud;
-        return `<a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
+        const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
+        const loc = (multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud) + (t.soldOut && !past ? ' · loppuunmyyty' : '');
+        return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
                   <span class="time">${hh}:${mm}</span><span class="aud">${loc}</span>
                 </a>`;
       }).join('');
@@ -618,7 +622,8 @@
       arr.map(s => {
         const past = s.start < now;
         const hh = pad(s.start.getHours()), mm = pad(s.start.getMinutes());
-        return `<a class="stub${past?' past':''}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
+        const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
+        return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
                   <span class="time">${hh}:${mm}</span><span class="aud">${s.aud}</span></a>`;
       }).join('') + '</div>').join('');
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
