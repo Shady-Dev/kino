@@ -149,6 +149,10 @@ def main() -> int:
         except Exception as e:
             print(f"[schedule] {date} failed: {e}", file=sys.stderr); continue
         rd = data.get("relatedData", {})
+        if d == 0:
+            (out / "attrs.json").write_text(json.dumps(
+                {str(a.get("id")): (t(a, "shortName", "text") or t(a, "name", "text"))
+                 for a in rd.get("attributes", [])}, ensure_ascii=False, indent=1), encoding="utf-8")
         films = {str(f["id"]): f for f in rd.get("films", [])}
         genmap = {str(g["id"]): t(g, "name", "text") for g in rd.get("genres", [])}
         scr = {str(s["id"]): s for s in rd.get("screens", [])}
