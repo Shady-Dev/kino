@@ -109,7 +109,7 @@
     flex:0 0 92px; width:92px; height:132px; border-radius:8px;
     object-fit:cover; background:var(--surface); box-shadow:var(--shadow);
   }
-  .poster.blank{display:grid;place-items:center;color:var(--muted);font-size:1.6rem;border:1px solid var(--line)}
+  .poster.blank{display:grid;place-items:center;font-weight:800;font-size:1.5rem;letter-spacing:.04em;border:1px solid var(--line)}
   .info{flex:1; min-width:0}
   .title{font-size:1.15rem; font-weight:800; line-height:1.25}
   .meta{
@@ -369,9 +369,14 @@
     const multiTheatre = new Set(state.shows.map(s=>s.theatre)).size > 1;
 
     main.innerHTML = movies.map(m => {
-      const poster = m.img
-        ? `<img class="poster" src="${m.img}" alt="" loading="lazy">`
-        : `<div class="poster blank">🎬</div>`;
+      let poster;
+      if(m.img){
+        poster = `<img class="poster" src="${m.img}" alt="" loading="lazy">`;
+      } else {
+        const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
+        const initials = (m.title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+        poster = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
+      }
       const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
         const hh = pad(t.start.getHours()), mm = pad(t.start.getMinutes());
         const past = t.start < now;
