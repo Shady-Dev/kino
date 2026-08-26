@@ -1,0 +1,39 @@
+name: Fetch BioRex data
+
+on:
+  schedule:
+    - cron: '30 2,6,10,14 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/biorex.yml', 'scripts/providers/**']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kino-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch BioRex schedule
+        run: |
+          set +e
+          python3 scripts/providers/fetch_biorex.py > run-biorex.log 2>&1
+          echo "exit=$?" >> run-biorex.log
+          tail -20 run-biorex.log
+      - name: Commit data and log
+        run: |
+          git config user.name kino-bot && git config user.email a@b.c
+          git add data run-biorex.log
+          git diff --cached --quiet || git commit -m "Update BioRex data"
+          for i in 1 2 3; do
+            git pull --rebase --autostash -q origin main && git push -q && break
+            sleep 5
+          done
+      - name: Fail if script failed
+        run: grep -q "exit=0" run-biorex.log
