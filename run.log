@@ -1,13 +1,13 @@
 [token] using FINNKINO_TOKEN variable
 [sites] 17 cinemas
-[schedule] 2026-08-26: 107 showtimes
+[schedule] 2026-08-26: 100 showtimes
 [schedule] 2026-08-27: 324 showtimes
 [schedule] 2026-08-28: 341 showtimes
 [schedule] 2026-08-29: 580 showtimes
 [schedule] 2026-08-30: 419 showtimes
 [schedule] 2026-08-31: 333 showtimes
 [schedule] 2026-09-01: 326 showtimes
-[tmdb] 53 new lookups, cache 53
+[tmdb] 0 new lookups, 12 re-checks, cache 53
 [films] 53 film entries
 done
 exit=0
