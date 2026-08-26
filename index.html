@@ -191,6 +191,7 @@
   const API = 'https://www.finnkino.fi/xml';
   const PROXIES = [
     ['direct',     u => u],
+    ['cloudflare', u => 'https://test.cors.workers.dev/?' + encodeURIComponent(u)],
     ['allorigins', u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)],
     ['codetabs',   u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u)]
   ];
