@@ -109,12 +109,12 @@ filter works across all of them.
    on the site rather than the module (`nexxo` serves Kinoset, `etiketti`
    serves Kotkan Leffat).
 2. Add an entry to `scripts/providers/registry.py`: id, label, host, accent,
-   `book` mode, the module name and `where` it can run (`cloud` or `mac`).
+   `book` mode, the module name and `where` it can run (`cloud` or `local`).
 
 That is all. The cloud workflow loops over `registry.py --cloud`, so it needs
 no edit, and the client reads `data/providers.json`, so `index.html` needs no
-edit either. A `mac` provider goes into `localfetch.sh` instead, because the
-site blocks datacenter IPs.
+edit either. A `local` provider is added to the local wrapper instead, because
+its site blocks datacenter IPs.
 
 Adding a **venue** to an existing provider is a one-line entry in that
 adapter's `SITES`/`VENUES`.
@@ -133,8 +133,8 @@ TMDB read token in the repository secrets.
 `cf-worker/worker.js` was an abandoned attempt to obtain the token from an edge
 network instead of a local machine. It is not deployed and not used.
 
-Note that `localfetch.sh` hard-resets its checkout to `origin/main` at the
-start of every run, so edits made inside that clone do not survive. The script
+Note that the local wrapper hard-resets its checkout to `origin/main` at the
+start of every run, so edits made inside that clone do not survive. The wrapper
 itself lives outside the clone.
 
 ## Data sources
