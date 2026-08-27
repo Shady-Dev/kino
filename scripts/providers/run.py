@@ -3,6 +3,7 @@
 
     python3 scripts/providers/run.py biorex nexxo etiketti ...
     python3 scripts/providers/run.py --where cloud      # module list from the registry
+    python3 scripts/providers/run.py --where local      # the two that need a local fetch
 
 Replaces the five near-identical fetch_*.py orchestrators. Every adapter module
 exposes exactly two things:
@@ -70,7 +71,7 @@ def main(argv) -> int:
     else:
         names = [a for a in argv if not a.startswith("-")]
     if not names:
-        print("usage: run.py <module>... | run.py --where cloud|mac", file=sys.stderr)
+        print("usage: run.py <module>... | run.py --where cloud|local", file=sys.stderr)
         return 2
 
     OUT.mkdir(exist_ok=True)
