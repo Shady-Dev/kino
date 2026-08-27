@@ -92,6 +92,7 @@ def parse(payload, site, venue):
             "price": price,
             "provider": site["provider"],
             "venue": venue["id"],
+            "_syn": (r.get("description") or "").strip(),
         })
     shows.sort(key=lambda s: s["start"])
     return shows
