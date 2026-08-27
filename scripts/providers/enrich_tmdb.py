@@ -29,10 +29,17 @@ def norm(t):
 # Event prefixes a cinema puts in front of the real title. Exact list, not a pattern:
 # "Dyyni: Osa kolme" must keep its head, so anything before a colon cannot be dropped
 # blindly. Extend as new arthouse strands appear.
+# Also read by orion.py, which splits a matching prefix off the title into `method`
+# so the film title stands alone. Add a strand here and both uses get it.
 EVENT_PREFIXES = (
     "kesäkino", "kesakino", "vauvakino", "barnsöndagar", "barnsondagar",
     "klassikko", "klassikkosarja", "elokuvakerho", "filmiklubi", "seniorikino",
     "perhekino", "lastenkino", "sunnuntaikino", "ennakkonäytös", "ennakko",
+    # Added 2026-08-27 from the first Orion run's no-match list. Festival and strand
+    # names, not film titles. "pitchblack playback" and "hopeacine" will still miss
+    # TMDB (a music playback night has no entry), but they belong in `method`.
+    "espoo ciné", "espoo cine", "pieni elokuvakerho", "pitchblack playback",
+    "hopeacine",
 )
 # Screening-format and re-release noise in brackets, including a bare year.
 PAREN_NOISE = re.compile(

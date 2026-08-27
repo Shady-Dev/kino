@@ -428,11 +428,18 @@ datacenter IPs and the adapter never touches it.
   festival-box-office case (`boxoffice.espoocine.fi`) is unexercised rather than
   confirmed. A row with no anchor at all falls back to the programme page.
 - Third-party events are real screenings here and stay in the data: festivals, HopeaCine,
-  Pieni elokuvakerho, Pitchblack Playback, music playback nights. Their prefixes are
-  **not** in `enrich_tmdb.EVENT_PREFIXES`, so 23 titles miss TMDB — 17 `Espoo Ciné:`,
-  3 `Pieni elokuvakerho:`, plus music events and shorts programmes that have no TMDB
-  entry at all. Wait for `run-enrich.log` to name them, then add only what a real prefix
-  buys; a music playback night will never match anything.
+  Pieni elokuvakerho, Pitchblack Playback, music playback nights. **The strand name is
+  split off the title into `method`** (added 2026-08-27, once the first run's no-match
+  list named the real prefixes): the client already renders `method` as a pill, and the
+  film title has to stand alone for two reasons beyond the TMDB search. The poster
+  fallback tile takes the first letter of the first two words, so with the prefix left in
+  every Espoo Ciné screening rendered the same "EC" tile; and a strand prefix splits one
+  film's showtimes across ids. The list lives in `enrich_tmdb.EVENT_PREFIXES` and is
+  shared with `clean()`, so one edit serves both, and Gilda's "Pieni elokuvakerho:"
+  titles came along free. Added: `espoo ciné`, `espoo cine`, `pieni elokuvakerho`,
+  `pitchblack playback`, `hopeacine`. Left alone: `Follow The Plants` (a shorts
+  programme) and `John Coltrane 'Highlights 1957-1964'` — no prefix helps a title with no
+  TMDB entry.
 - The bad first run left 13 glued-title keys in `data/tmdb-titles.json`. Pruned, on the
   rule that a cache key with no rating, trailer or id and no live showtime is dead.
 - `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and could enrich by slug.
@@ -532,8 +539,10 @@ Still open from this pass:
       "Vauvakino: La La Land", "KESÄKINO: Autofiktio", "BARNSÖNDAGAR: ..." all miss.
       `queries()` in enrich_tmdb.py should strip a trailing "(YYYY)" and known prefixes,
       the same way `mergeKey()` does in the client. Matters more as arthouse venues
-      are added: Riviera and Orion are in, and Orion's 23 misses are the live input to
-      `EVENT_PREFIXES` and `tmdb-aliases.json`.
+      are added: Riviera and Orion are in, and Orion's first run supplied the live
+      no-match list that `EVENT_PREFIXES` was extended from. Remaining misses are titles
+      with no TMDB entry at all (music playback nights, shorts programmes), which is a
+      `tmdb-aliases.json` job at best.
 
 ## Open — pipeline
 - [x] **TMDB cannot be searched by Finnish distributor title.** Probed 2026-08-27:
