@@ -40,7 +40,7 @@ Single screen, so `aud` stays blank. The table has no age limits, runtimes or se
 counts, and there is no per-film page in it, so those fields stay empty and the TMDB
 pass fills what it can.
 """
-import datetime, html as html_mod, re, sys, urllib.request
+import datetime, html as html_mod, re, sys, unicodedata, urllib.request
 from zoneinfo import ZoneInfo
 
 URL = "https://cinemaorion.fi/"
@@ -73,7 +73,6 @@ DATE_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'(\d{1,2})[:.](\d{2})')
 EUR_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s*(?:€|eur\b)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
-DEACCENT = str.maketrans("äöåÄÖÅéèêüÜçñ", "aoaAOAeeeuUcn")
 
 
 def _txt(s):
@@ -81,7 +80,10 @@ def _txt(s):
 
 
 def _slug(title):
-    s = _txt(title).lower().translate(DEACCENT)
+    """Fallback id for a row with no film page. NFKD rather than a hand-written accent
+    table: festival programmes bring accents no fixed table anticipates."""
+    s = unicodedata.normalize("NFKD", _txt(title).lower())
+    s = "".join(c for c in s if not unicodedata.combining(c))
     return re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9]+", "-", s)).strip("-")[:60] or "naytos"
 
 

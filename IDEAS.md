@@ -33,6 +33,7 @@
 - [x] Star carries a label (“Tallenna” / “Tallenna oma teatteri”) until a home venue is
       set, then collapses to the glyph
 - [x] **Riviera** added (2 venues, seats + runtime, 24-date horizon)
+- [x] **Cinema Orion** added (1 venue, Helsinki; ticket-type prices, own Finnish blurbs)
 - [x] TMDB **posters** for providers that publish none, written onto each show by the
       pipeline so the client needed no change
 - [x] Chain key in combined views doubles as a **quick filter**, and it is **additive**:
@@ -103,13 +104,14 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 | Kotkan Leffat (eTiketti) | 2 | none | Actions | prices, duration, **seats** |
 | Riviera | 2 | none | Actions | seats, duration, 24-date horizon |
 | Savon Kinot (Vista) | 6 | none | Actions | fullest feed: original title, ISO langs, posters, deep links |
+| Cinema Orion | 1 | none | Actions | ticket-type prices, own Finnish blurbs; no seats, runtimes or age limits |
 | Gilda (MyCloudCinema) | 2 | none | Actions | posters, own synopses, formats; no seats or deep links |
 | Kino Akseli | 1 | none | Local (blocks datacenter IPs) | prices, no booking links |
 
 Ratings and trailers come from the shared TMDB enrichment pass, so only Finnkino and
 Kotkan Leffat still differ in what the source itself provides (seat availability).
 
-45 venues / 31 cities across eight providers. Each provider writes `data/area-{venueId}.json` in one shape
+46 venues / 31 cities across nine providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now **nothing**: a registry entry generates
@@ -126,7 +128,7 @@ Conventions worth keeping:
 - Verify the response belongs to the venue you asked for (see the BioRex cookie note)
 
 ### Combined city view (done)
-- Dropdown gets `city:{name}` entries for cities with 2+ venues: Helsinki (6, two chains),
+- Dropdown gets `city:{name}` entries for cities with 2+ venues: Helsinki (11, five chains),
   Espoo (2), Tampere (2), Kotka (2).
 - `loadCity()` fetches each venue file in parallel and folds them into one payload;
   `dates`/`horizon` are the union, `generated` the **oldest** so the stale banner reflects
@@ -320,7 +322,6 @@ GET {base}/xml/Events/                          -> per-film synopsis, cast, cred
     `Synopsis`/`ShortSynopsis`/`Description` here, so treat a miss as "no synopsis" and let
     TMDB cover it. Worth finding the real tag for this version.
 
-### Probed, not yet added (2026-08-27)
 ### Gilda / MyCloudCinema (added 2026-08-27)
 `scripts/providers/gilda.py`. Two Helsinki venues: Gilda salit 1-3 and Bio Rex
 Lasipalatsi (the historic cinema, *not* the BioRex chain). Not the Riviera ajax: the
@@ -383,34 +384,60 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
   fact that this cinema is **not** part of the BioRex chain, which the app also carries.
 - Seat counts would need the closed seatplan endpoint, so `soldOut` is always false.
 
-- **Cinema Orion** (cinemaorion.fi) — 1 venue, Eerikinkatu 15, run by ELKE ry.
-  **Fully probed 2026-08-27. The source is one server-rendered table on the front page**,
-  and everything an adapter needs is in that single request:
+### Cinema Orion (added 2026-08-27)
+`scripts/providers/orion.py`. One venue, Eerikinkatu 15, Helsinki, run by ELKE ry.
+Single screen, so `aud` stays blank. One request to the front page and nothing else:
+11 `<table class="kinola-day">` blocks, one `<tr>` per screening. First live run: **31
+showtimes over 11 dates, 28 films, horizon +27 days**. Runs on Actions — a runner gets
+200 and ~122 kB from `https://cinemaorion.fi/`; only `tickets.cinemaorion.fi` blocks
+datacenter IPs and the adapter never touches it.
 
-  ```html
-  <h3><span>Torstai</span> 27.08.</h3>
-  <table class="kinola-day">
-    <tr class="elokuva-">
-      <td class='date'>Torstai 27.08.</td>
-      <td class='time'>15:00</td>
-      <td class='title'>Espoo Ciné: Four Minus Three</td>
-      <td class='price' title="Peruslippu, alennusryhmät: 13 €, Peruslippu: 13 €">13 €</td>
-      <td class='link'><a href='https://orion.kinola.ee/web/screening/{uuid}'>Liput</a></td>
-  ```
+```html
+<td class='date'> Torstai 27.08. </td>
+<td class='time'>17:15</td>
+<td class='title'> Espoo Ciné: The Good Daughter </td>
+<td class='price' title="Peruslippu, alennusryhmät: 13 €, Peruslippu: 13 €"> 13&nbsp;€ </td>
+<td class='link'> <a rel="external" title="..." href='https://orion.kinola.ee/web/screening/{uuid}'>Liput</a> </td>
+```
 
-  - The `price` cell's `title` attribute carries the **full ticket-type breakdown**, so
-    both a display price and the per-type prices come free. Values seen: "13 €",
-    "12.5 €", "8.5 €", "Vapaa pääsy".
-  - **Take the ticket URL from the markup, never build it.** Most point at
-    `orion.kinola.ee/web/screening/{uuid}`, but festival screenings link to the festival's
-    own box office instead (Espoo Ciné goes to `boxoffice.espoocine.fi`). A templated URL
-    would produce dead links for exactly the screenings that are hardest to find elsewhere.
-  - Orion's programme includes third-party events: festivals, HopeaCine senior screenings,
-    Orion Club nights. They are real screenings at that venue and belong in the data, but
-    they arrive with prefixes like `Espoo Ciné:`, which `enrich_tmdb.clean()` handles.
-  - `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and can enrich by slug.
-    Nothing else there is useful, and `acf` is empty.
-  - Single screen, so `aud` stays blank per the usual convention. No seat counts.
+- **The title cell has two shapes and the second one bites.** A festival row is bare
+  text as above; a row with a film page is
+  `<a href='/elokuvat/{slug}/' title ="Film"> Film <span class="descrption">blurb<span> </a>`.
+  Flattening that cell glues the screening blurb onto the title: the first live run
+  produced titles like "Autofiktio Ensi-iltaelokuva, klubialennus. Pedro Almodóvarin
+  melodraama…", which split one film into one "film" per blurb (31 shows, 30 ids) and
+  left TMDB nothing to match. So the title is read from the **anchor's `title`
+  attribute**, and `eventId` from the **`/elokuvat/{slug}/`** slug, which is what makes
+  repeat screenings of one film share an id. A fixture built from this file's own markup
+  could not catch this; only the live run did.
+- `descrption` is the site's spelling, and the span inside it is **never closed**, so it
+  is cut at whatever tag comes next rather than at a `</span>`. The blurb goes to `_syn`
+  (5 merged on the first good run). It mixes screening notes ("Ensi-iltaelokuva,
+  klubialennus.", guest names) into the synopsis; synmerge only fills an empty slot, so
+  that is accepted rather than split.
+- Attribute quoting is loose: `title ="Film"` has a space before the `=`, and the price
+  cell is `13&nbsp;€`. Attribute regexes allow `\s*=\s*`, and `\s` matches `&nbsp;`
+  once unescaped.
+- The `price` cell's `title` attribute carries the **full ticket-type breakdown**, so a
+  screening with cheaper types can show the floor: 2+ distinct amounts render
+  "alkaen {cheapest}€". First run: 13€ ×17, alkaen 10€ ×9, 10€ ×3, 8.5€ ×1,
+  "Vapaa pääsy" ×1.
+- **Take the ticket URL from the markup, never build it.** Still the rule, but note the
+  earlier claim was not reproduced live: on 2026-08-27 **all 31 rows pointed at
+  `orion.kinola.ee/web/screening/{uuid}`**, including every Espoo Ciné row, so the
+  festival-box-office case (`boxoffice.espoocine.fi`) is unexercised rather than
+  confirmed. A row with no anchor at all falls back to the programme page.
+- Third-party events are real screenings here and stay in the data: festivals, HopeaCine,
+  Pieni elokuvakerho, Pitchblack Playback, music playback nights. Their prefixes are
+  **not** in `enrich_tmdb.EVENT_PREFIXES`, so 23 titles miss TMDB — 17 `Espoo Ciné:`,
+  3 `Pieni elokuvakerho:`, plus music events and shorts programmes that have no TMDB
+  entry at all. Wait for `run-enrich.log` to name them, then add only what a real prefix
+  buys; a music playback night will never match anything.
+- The bad first run left 13 glued-title keys in `data/tmdb-titles.json`. Pruned, on the
+  rule that a cache key with no rating, trailer or id and no live showtime is dead.
+- `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and could enrich by slug.
+  Not needed: the front page already carries the slug and the blurb, and using it would
+  cost one request per film.
 
   Three assumptions that were **wrong** and cost a detour, recorded so nobody repeats them:
   - ELKE's **"Rajapinnat"** page is not an API page. It means *interfaces between old and
@@ -421,12 +448,15 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
     IPs and `orion.kinola.ee` exposes only a Filament/Livewire admin login, whose
     screening pages render seats and prices client-side. Nothing to adapt, and not
     somewhere to go poking.
+
+### Probed, not yet added (2026-08-27)
 - **Kino Engel** (kinoengel.fi) — Sofiankatu 4, Helsinki. Screens Engel 1 / Engel 2 plus
   an outdoor "KesäKino". Elementor; the front page renders a day-grouped list with title,
   "To 27.08. klo 17:30" and a link to /elokuva/{slug}/. No room or price in the list.
   Title prefixes to handle: `KESÄKINO:` (outdoor) and `BARNSÖNDAGAR:` (Swedish kids).
 
-Adding Orion and Engel would put Helsinki's combined view at 13 venues across 6 chains.
+Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
+make it 12 across 6.
 
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAreas/`.
@@ -502,7 +532,8 @@ Still open from this pass:
       "Vauvakino: La La Land", "KESÄKINO: Autofiktio", "BARNSÖNDAGAR: ..." all miss.
       `queries()` in enrich_tmdb.py should strip a trailing "(YYYY)" and known prefixes,
       the same way `mergeKey()` does in the client. Matters more as arthouse venues
-      (Riviera, Orion, Engel) are added.
+      are added: Riviera and Orion are in, and Orion's 23 misses are the live input to
+      `EVENT_PREFIXES` and `tmdb-aliases.json`.
 
 ## Open — pipeline
 - [x] **TMDB cannot be searched by Finnish distributor title.** Probed 2026-08-27:
