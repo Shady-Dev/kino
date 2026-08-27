@@ -280,6 +280,16 @@
     -webkit-overflow-scrolling:touch; padding:0 20px 28px;
     border-top:1px solid var(--line)}
   .sheet-body > .syn:first-child{margin-top:14px}
+  /* The chain key has to stay put while the day list scrolls: a long film has 40+ stubs
+     over several days, and the colour on a stub means nothing once the key has scrolled
+     away. Negative margins span the body's 20 px padding so the sticky strip reaches
+     both edges instead of leaving a gutter the stubs slide through. */
+  .sheet-body > .legend{
+    position:sticky; top:0; z-index:2;
+    margin:0 -20px; padding:10px 20px;
+    background:var(--bg); border-bottom:1px solid var(--line);
+  }
+  .sheet-body > .legend + .syn{margin-top:14px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}

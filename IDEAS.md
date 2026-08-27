@@ -356,6 +356,13 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+- **The sheet's chain key is sticky** (2026-08-27). A film with 40+ showtimes across a
+  week scrolls the key out of view, and after that the coloured rule on each stub means
+  nothing. `.sheet-body > .legend` is `position:sticky; top:0` with negative side margins,
+  because the body has 20 px padding and without them the strip leaves gutters the stubs
+  slide through behind it. Day headings are **not** sticky: the legend wraps to two lines
+  on narrow screens, so their offset would have to be measured at runtime rather than set
+  in CSS, and a guessed value overlaps at some widths.
 - **The times list needs the venue too** (2026-08-27). The film cards labelled the venue
   and tinted by chain in a combined view; `renderTimes()` did neither, so "Ajat" on Kaikki
   Helsinki showed "Sali 14" — a room in one of five cinemas, uncoloured, under a chain
