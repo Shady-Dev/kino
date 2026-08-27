@@ -147,6 +147,18 @@ def main() -> int:
         del cache[k]
     if stale:
         print(f"[enrich] dropped {len(stale)} entries matched by the old picker")
+    # Adding an alias has to be able to correct a film that already resolved wrongly.
+    # A complete entry is skipped outright, so an alias written for a weak match would
+    # never be consulted: "autot re release" kept pointing at Cars 3 with an alias for
+    # Cars sitting in the file. An alias plus a non-exact entry means the entry is the
+    # thing the alias exists to replace.
+    overridden = [k for k, v in cache.items()
+                  if aliases.get(k) and not (isinstance(v, dict) and v.get("x"))]
+    for k in overridden:
+        del cache[k]
+    if overridden:
+        print(f"[enrich] dropped {len(overridden)} weak entries that now have an alias: "
+              + " | ".join(sorted(overridden)))
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
              if not p.name.startswith(SKIP_PREFIXES)]

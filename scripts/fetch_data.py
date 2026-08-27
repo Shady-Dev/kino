@@ -319,6 +319,17 @@ def main() -> int:
         if stale:
             print(f"[tmdb] dropped {len(stale)} entries matched by the old picker")
         aliases = load_aliases()
+        # Same rule as enrich_tmdb: an alias exists to replace a bad match, so a
+        # non-exact entry whose title now has one is dropped and searched again.
+        # Keyed on the published Finnish title, which is how the alias file is keyed.
+        by_fid = {fid: (_tnorm(m.get("fi")), _tnorm(m["q"])) for fid, m in films_meta.items()}
+        overridden = [fid for fid, v in tmdb_cache.items()
+                      if not (isinstance(v, dict) and v.get("x"))
+                      and any(aliases.get(k) for k in by_fid.get(fid, ()))]
+        for fid in overridden:
+            del tmdb_cache[fid]
+        if overridden:
+            print(f"[tmdb] dropped {len(overridden)} weak entries that now have an alias")
         looked = rechecked = 0
         tmdb_weak, tmdb_thin = [], []
         today = datetime.date.today().isoformat()
