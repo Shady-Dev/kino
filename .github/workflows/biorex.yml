@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Build providers.json
+        run: python3 scripts/build_providers.py
       - name: Fetch BioRex schedule
         run: |
           set +e
