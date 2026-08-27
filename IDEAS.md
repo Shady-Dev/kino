@@ -370,6 +370,21 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+### Strand prefixes are split off centrally (2026-08-27)
+`scripts/providers/strands.py` owns the exact list and the split. `enrich_tmdb.clean()`
+imports the list for the TMDB search; `run.py` applies the split to every adapter's shows
+and `fetch_data.py` to Finnkino's, so a strand goes to `method` and the bare film title
+stays in `title`. Only `orion.py` did this before, which left Gilda selling
+"Seniorikino: Hetki Ennen Valoa" as a film of its own — fragmented from the plain title,
+unmatchable on TMDB, and sharing an initials tile with every other Seniorikino screening.
+
+- **Exact list, never a `^\w+:` pattern.** In one day's data the colon prefixes are
+  "Spider-Man:" ×443, "Ryhmä Hau:" ×272, "Insidious:" ×159 against "Seniorikino:" ×4 and
+  "Pieni elokuvakerho:" ×3. A pattern would behead every franchise in the schedule.
+- Real strands are rare (about 10 showtimes a day, Gilda and Riviera), so this is
+  structure rather than volume: a new adapter inherits it without knowing it exists, and
+  a new strand is one line that fixes the search, the merge and the tile at once.
+
 ### Genres come from TMDB ids (2026-08-27)
 Provider genre strings are unusable as data: four spellings for the family genre
 ("Perhe-elokuva", "Koko perheen", "Koko perheen elokuva", "Perhe"), trailing spaces from

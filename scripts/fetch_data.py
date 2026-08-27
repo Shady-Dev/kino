@@ -3,6 +3,9 @@ import datetime, gzip, json, os, re, sys, time, pathlib
 import urllib.request
 import urllib.parse
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
+import strands   # noqa: E402  shared strand list, see providers/strands.py
+
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -298,6 +301,9 @@ def main() -> int:
                 "lang": lang_attr,
                 "soldOut": bool(s.get("isSoldOut")),
             })
+            # Same rule every other provider gets in run.py: a strand prefix goes to
+            # `method` so the film does not fragment away from its plain-titled twin.
+            strands.apply(per_site[site_id][-1])
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
         time.sleep(0.4)

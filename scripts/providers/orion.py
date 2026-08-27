@@ -36,7 +36,7 @@ A known event prefix ("Espoo Ciné:", "Pieni elokuvakerho:") is split off the ti
 alone, which is what the poster fallback tile and the TMDB search both need: with the
 prefix left in, every Espoo Ciné screening rendered the same "EC" tile and none of the
 17 titles could be searched. The list is `enrich_tmdb.EVENT_PREFIXES`, shared so a new
-strand is added in one place, and it is matched exactly, never as a colon pattern, or
+strand is added in one place (`strands.py`), matched exactly, never as a colon pattern, or
 "Dyyni: Osa kolme" loses its head.
 
 The programme includes third-party events (festivals, HopeaCine, Orion Club), which are
@@ -51,7 +51,7 @@ pass fills what it can.
 import datetime, html as html_mod, re, sys, unicodedata, urllib.request
 from zoneinfo import ZoneInfo
 
-from enrich_tmdb import EVENT_PREFIXES
+from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
 FI = ZoneInfo("Europe/Helsinki")
@@ -112,17 +112,6 @@ def _price(cell_text, breakdown):
     return _txt(cell_text)          # "Vapaa pääsy" and anything else non-numeric
 
 
-def _prefix(title):
-    """"Espoo Ciné: Doggerland" -> ("Doggerland", "Espoo Ciné"). Exact matches only."""
-    low = title.lower()
-    for pre in EVENT_PREFIXES:
-        if low.startswith(pre + ":"):
-            rest = title[len(pre) + 1:].strip(" -–:")
-            if rest:
-                return rest, title[:len(pre)].strip()
-    return title, ""
-
-
 def _film(cell_html):
     """Title cell -> (title, blurb, slug). Two shapes, see the module docstring."""
     a = ANCHOR_RE.search(cell_html)
@@ -172,7 +161,7 @@ def parse(page, today=None):
         for row in ROW_RE.findall(m.group("table")):
             cells = _cells(row)
             title, blurb, slug = _film(cells.get("title", ("", ""))[1])
-            title, strand = _prefix(title)
+            title, strand = split_strand(title)
             tm = TIME_RE.search(_txt(cells.get("time", ("", ""))[1]))
             # The row's own date cell first; the day heading above the table is the
             # fallback in case that cell is ever dropped from the markup.

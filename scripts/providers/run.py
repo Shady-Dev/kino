@@ -30,6 +30,7 @@ import sys
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import registry            # noqa: E402
+import strands             # noqa: E402
 import synmerge            # noqa: E402
 
 OUT = pathlib.Path("data")
@@ -39,6 +40,12 @@ def run_site(mod, site, now):
     """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure."""
     label = site.get("provider") or mod.__name__
     per_venue = mod.fetch_site(site)
+    # A strand prefix belongs in `method`, not in the title: left there it fragments the
+    # film, blocks the TMDB match and gives every film in the strand the same fallback
+    # tile. Applied centrally so a new adapter gets it without knowing it exists.
+    split = sum(bool(strands.apply(s)) for shows in per_venue.values() for s in shows)
+    if split:
+        print(f"[{label}] strand prefix split off {split} showtimes")
     synmerge.merge(OUT, per_venue, label)
 
     live, total = [], 0
