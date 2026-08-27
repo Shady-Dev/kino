@@ -1,17 +1,33 @@
 [token] using FINNKINO_TOKEN variable
-[sites] 17 cinemas
-[schedule] 2026-08-27: 0 showtimes
-[schedule] 2026-08-28: 341 showtimes
-[schedule] 2026-08-29: 580 showtimes
-[schedule] 2026-08-30: 419 showtimes
-[schedule] 2026-08-31: 333 showtimes
-[schedule] 2026-09-01: 326 showtimes
-[schedule] 2026-09-02: 377 showtimes
-[tmdb] dropped 54 entries matched by the old picker
-[tmdb] weak match, no exact title (10): Autofiktio -> Bitter Christmas | Backrooms: Everything Must Go Edition -> Backrooms | Bamse ja meren salaisuus -> Bamse and the Secret of The Sea | In the Grey – Miljardikeikka -> In the Grey | Kuopus -> The Little Sister | Kätyrit & Monsterit -> Minions & Monsters | Mutiny - Lavastettu syylliseksi -> Mutiny | Operaatio Ave Maria -> Project Hail Mary | Paholainen pukeutuu Pradaan 2 -> The Devil Wears Prada 2 | Toxic -> Toxic: A Fairy Tale for Grown-ups
-[tmdb] rating held back, under 25 votes (5): Bamse ja meren salaisuus (6.4 / 8 votes) | Ella ja kaverit: Operaatio Saukko (6.3 / 3 votes) | GHOST: 2 Big To Rig (10.0 / 1 votes) | Spa Weekend (6.6 / 21 votes) | Toxic (2.2 / 4 votes)
-[tmdb] 52 new lookups, 0 re-checks, cache 52, 36 mergeable by id
-[films] 52 film entries
-[schedule] 17 venue files written, 0 kept as-is
-done
-exit=0
+Traceback (most recent call last):
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 433, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 186, in main
+    raw_sites = api("/sites", token)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 131, in api
+    return json.loads(http_get(DIGITAL_API + path, {
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 97, in http_get
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 401: Unauthorized
+exit=1
