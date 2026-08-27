@@ -96,6 +96,7 @@
   .stub.chain-kinoset{border-left:3px solid #2F7D5B}
   .stub.chain-kotkanleffat{border-left:3px solid #C0356B}
   .stub.chain-kinoakseli{border-left:3px solid #4A6FA5}
+  .stub.chain-riviera{border-left:3px solid #7A4FA3}
 
   /* themed dropdown on Chromium (progressive enhancement) */
   select, ::picker(select){appearance:base-select}
@@ -247,6 +248,7 @@
   .legend .lg.chain-kinoset{border-left-color:#2F7D5B}
   .legend .lg.chain-kotkanleffat{border-left-color:#C0356B}
   .legend .lg.chain-kinoakseli{border-left-color:#4A6FA5}
+  .legend .lg.chain-riviera{border-left-color:#7A4FA3}
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   @media (max-width:520px){
     .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
@@ -658,11 +660,12 @@
   // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city — the
   // optgroup label already carries the city. BioRex names are already chain-prefixed.
   const CHAIN = { finnkino:'Finnkino', biorex:'BioRex', kinoakseli:'Kino Akseli',
-                  kinoset:'Kinoset' };
+                  kinoset:'Kinoset', riviera:'Riviera' };
   const SOURCE = { finnkino:['Finnkino','finnkino.fi'], biorex:['BioRex','biorex.fi'],
                    kinoakseli:['Kino Akseli','kinoakseli.fi'],
                    kinoset:['Kinoset','kinoset.fi'],
-                   kotkanleffat:['Kotkan Leffat','kotkanleffat.fi'] };
+                   kotkanleffat:['Kotkan Leffat','kotkanleffat.fi'],
+                   riviera:['Riviera','rivieracinemas.fi'] };
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -714,7 +717,7 @@
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
       const extra = [];
-      for(const prov of ['biorex','kinoakseli','kinoset','kotkanleffat']){
+      for(const prov of ['biorex','kinoakseli','kinoset','kotkanleffat','riviera']){
         try {
           const j = await fetchJSON(`data/venues-${prov}.json`);
           const vs = (j.venues || []).filter(v => v.id && v.name);
