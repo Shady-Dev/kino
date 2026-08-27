@@ -158,6 +158,16 @@ Conventions worth keeping:
   rule is the only thing allowed to carry colour. Every glyph has a `title` and an
   `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
   day's shows actually carry the tag**, so it never explains something off screen.
+- **Glyphs need their own column.** Trailed after the label they landed wherever the text
+  happened to end — a different spot on every stub, and on a two-line label they dropped
+  onto a line of their own under "Plus". `.glyphs` is `margin-left:auto`, and in the grid
+  it is top-aligned, so a row of stubs has its glyphs level on one line no matter how long
+  each label runs.
+- **A stub label must not repeat the room name.** It was reading
+  "Tennispalatsi · LUXE 8 · 2D · LUXE": the auditorium already carries the format. A tag
+  the `aud` string contains is dropped, and plain `2D` is dropped outright — it is on
+  nearly every screening, so it carries no information; IMAX, 3D and iSense are the
+  exceptions a visitor is looking for and they survive.
 - The key sits **in the sources line at the foot of the page**, not under the chain
   legend. Above the list it read as a second key row competing with the chain one, and it
   is largely redundant anyway: the word it decodes is already on the card as a pill, in

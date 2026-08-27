@@ -230,7 +230,7 @@
      in a stub allowed to carry colour. Never a glyph alone — each one has a title and an
      aria-label with the Finnish word, and the legend spells both out. */
   .gl{
-    display:inline-grid; place-items:center; margin-left:5px; flex:0 0 auto;
+    display:inline-grid; place-items:center; flex:0 0 auto;
     width:15px; height:15px; border-radius:50%;
     border:1px solid currentColor; color:var(--ink);
     font-size:.55rem; font-weight:800; letter-spacing:0; line-height:1;
@@ -244,7 +244,7 @@
   @media (max-width:560px){
     .tagkey{margin-left:0; padding-left:0; border-left:0; margin-top:6px}
   }
-  .tagkey .gl{color:var(--muted); margin-left:0; margin-right:4px}
+  .tagkey .gl{color:var(--muted); margin-right:4px}
   .agelim{
     display:inline-block; margin-left:6px; border:1px solid var(--line);
     border-radius:4px; padding:0 4px; font-size:.66rem; font-weight:800;
@@ -330,9 +330,12 @@
   .stubs.grid .stub .time{padding:6px 10px 2px 12px}
   .stubs.grid .stub .aud{
     padding:0 10px 7px 12px; border-left:0; max-width:none;
-    display:block;
+    display:flex; align-items:flex-start;
   }
   .stubs.grid .stub .aud .loc{white-space:normal; overflow:visible; text-overflow:clip}
+  /* Top-aligned in the grid: the label may run to two lines, the glyph column stays
+     level with the first, so a row of stubs has its glyphs on one line. */
+  .stubs.grid .stub .glyphs{align-self:flex-start; padding-top:1px}
   /* the perforation reads wrong on a stacked stub */
   .stubs.grid .stub::before,.stubs.grid .stub::after{display:none}
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
@@ -369,8 +372,12 @@
   .stub .aud{
     padding:7px 12px 7px 10px; font-size:.72rem; color:var(--muted);
     border-left:1px dashed var(--line); max-width:130px;
-    display:flex; align-items:center; min-width:0;
+    display:flex; align-items:center; gap:6px; min-width:0;
   }
+  /* Glyphs sit in their own column, pushed right and never wrapping with the label:
+     trailing them after variable-length text put them in a different place on every
+     stub, and on a two-line label they dropped onto a line of their own. */
+  .stub .glyphs{margin-left:auto; flex:0 0 auto; display:flex; align-items:center; gap:3px}
   /* The room name truncates; the age chip never does. It is the one part of a stub a
      visitor cannot afford to have eaten by an ellipsis. */
   .stub .aud .loc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
@@ -1195,7 +1202,7 @@
       const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
       return `<div class="trow">
         <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${(s.method||'').split(' · ').map(glyphOf).join('')}${ageGlyph(s)}</span></a>
+          <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[venue, s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -1282,6 +1289,13 @@
   // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
   // each would need its own legend entry to say less than the word does.
   const GLYPH = { anniskelu: ['A', 'Anniskelu'] };
+  // A stub label was reading "Tennispalatsi · LUXE 8 · 2D · LUXE": the room name already
+  // carries the format, and 2D is on nearly every screening, so it says nothing. Drop a
+  // tag the auditorium name already contains, and drop 2D outright — the exceptions
+  // (IMAX, 3D, iSense) are what a visitor is actually looking for.
+  const stubTags = (tags, aud) => tags.filter(t =>
+    t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
+  const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
   const glyphOf = tag => {
     const g = GLYPH[(tag || '').toLowerCase()];
     return g ? `<span class="gl" title="${g[1]}" aria-label="${g[1]}">${g[0]}</span>` : '';
@@ -1388,7 +1402,7 @@
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const where = t.venueShort || t.theatre.split(',')[0];
-        const ownTags = tagsOf(t).filter(f => !common.includes(f));
+        const ownTags = stubTags(tagsOf(t).filter(f => !common.includes(f)), t.aud);
         const own = ownTags.filter(f => !glyphOf(f)).join(' · ');
         const glyphs = ownTags.map(glyphOf).join('') + ageGlyph(t);
         const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud), own]
@@ -1396,7 +1410,7 @@
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
         const tint = multiTheatre && t.provider ? ` chain-${t.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${[loc, ageOf(t)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphs}</span>
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow(glyphs)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${f}</span>`).join('');
@@ -1495,7 +1509,7 @@
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${(s.method||'').split(' · ').map(glyphOf).join('')}${ageGlyph(s)}</span></a>`;
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
