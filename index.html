@@ -173,7 +173,9 @@
     color:var(--muted);
   }
   .nextday{
-    display:inline-block; margin-top:14px; font:inherit; font-size:.85rem; font-weight:600;
+    /* Own line: inline-block left it stranded beside the message with a wide gap. */
+    display:block; width:fit-content; margin:14px auto 0;
+    font:inherit; font-size:.85rem; font-weight:600;
     cursor:pointer; color:var(--ink); background:var(--chip-bg);
     border:1px solid var(--line); border-radius:999px; padding:8px 16px;
   }
