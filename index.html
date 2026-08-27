@@ -303,6 +303,10 @@
   .legend .lg-btn:not(.on){opacity:.5}
   .legend .lg[class*="chain-"],
   .legend .lg-btn[class*="chain-"]{border-left-color:var(--chain, var(--line))}
+  .legend .lg-btn.lg-all{
+    border-left-width:1px; border-radius:999px; color:var(--ink); opacity:1;
+    background:var(--chip-bg);
+  }
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   @media (max-width:520px){
     .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
@@ -496,7 +500,7 @@
          notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.',
          onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
          showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
-         alreadyShown:'Menneet näytökset' },
+         alreadyShown:'Menneet näytökset', allChains:'Kaikki' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -511,7 +515,7 @@
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
          showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
-         alreadyShown:'Past screenings' }
+         alreadyShown:'Past screenings', allChains:'All' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -1070,18 +1074,23 @@
       return `<div class="legend ${extraClass || ''}">${chains
         .map(c => `<span class="lg chain-${c}">${(SOURCE[c] || [c])[0]}</span>`).join('')}</div>`;
     }
+    // "Kaikki" only appears while something is filtered: an always-on reset that never
+    // does anything is just noise in the row.
+    const reset = state.chains
+      ? `<button class="lg-btn lg-all" data-chain="*">${L[state.lang].allChains}</button>` : '';
     return `<div class="legend top" role="group" aria-label="Suodata ketjun mukaan">${chains
       .map(c => {
         const on = !state.chains || state.chains.has(c);
         return `<button class="lg-btn chain-${c}${on ? ' on' : ''}" data-chain="${c}"
                   aria-pressed="${on}">${(SOURCE[c] || [c])[0]}</button>`;
-      }).join('')}</div>`;
+      }).join('') + reset}</div>`;
   }
 
   // Additive filter: from the default (no selection, everything shown) the first click
   // isolates that chain rather than hiding it, then each further click adds one. Clicking
   // the last remaining chain off, or selecting them all, means "no filter" again.
   function toggleChain(c, all){
+    if(c === '*'){ state.chains = null; render(); return; }
     const set = state.chains ? new Set(state.chains) : new Set();
     set.has(c) ? set.delete(c) : set.add(c);
     state.chains = (set.size === 0 || set.size === all.length) ? null : set;
