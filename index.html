@@ -455,13 +455,15 @@
          notpublished:'The schedule for this day has not been published yet.' }
   };
   const LN = {
-    fi:{FI:'suom.', EN:'engl.', SE:'ruots.', JA:'jap.', FR:'ransk.'},
+    fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
     en:{FI:'Finnish', EN:'English', SE:'Swedish', JA:'Japanese', FR:'French'}
   };
-  const LW = { fi:{A:'puhe', S:'tekstit'}, en:{A:'audio', S:'subs'} };
-  // Group by role, so "EN-A, FI-S, SE-S" reads "engl. puhe, suom./ruots. tekstit"
-  // rather than repeating the role word once per language. The "/" matches how a
-  // single multi-language code (FI-SE-S) has always rendered.
+  // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
+  // language now stands on its own with no role word, so it has to read as a noun.
+  const LW = { fi:{S:'tekstit'}, en:{S:'subs'} };
+  // "EN-A, FI-S, SE-S" reads "englanti · tekstit suomi/ruotsi": audio bare, subtitles
+  // labelled, one entry per role rather than per language. The "/" matches how a single
+  // multi-language code (FI-SE-S) has always rendered.
   function langTxt(code){
     if(!code) return '';
     const by = { A: [], S: [] };
@@ -473,8 +475,10 @@
         if(!by[m[2]].includes(nm)) by[m[2]].push(nm);
       }
     }
-    return ['A','S'].filter(r => by[r].length)
-      .map(r => by[r].join('/') + ' ' + LW[state.lang][r]).join(', ');
+    const out = [];
+    if(by.A.length) out.push(by.A.join('/'));
+    if(by.S.length) out.push(LW[state.lang].S + ' ' + by.S.join('/'));
+    return out.join(' · ');
   }
   const disp = m => {
     if(state.lang === 'en' && films && films[m.eventId]){
@@ -880,6 +884,32 @@
       render();
       renderHealth();
       renderStatus();
+        const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
+        if(ageH > 8){
+          // Name the provider: four sources now, each on its own schedule.
+          const vv = venueIndex[state.area] || {};
+          const nm = (SOURCE[vv.provider] || SOURCE.finnkino)[0];
+          staleEl.textContent = `\u26a0 ${nm}: ${L[state.lang].staleOne} `
+            + `(${Math.round(ageH)} ${L[state.lang].hours})`;
+          staleEl.style.display = 'block';
+        } else {
+          staleEl.style.display = 'none';
+        }
+        const t = new Date(state.generated);
+        const combined = state.area.startsWith('city:');
+        const v = venueIndex[state.area] || {};
+        const [src, host] = combined
+          ? [L[state.lang].manySources, '']
+          : (SOURCE[v.provider] || SOURCE.finnkino);
+        const stamp = t.toLocaleString('fi-FI',
+          {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+        // book mode per provider: door = sold at the door, reserve = free seat
+        // reservation rather than payment. From the registry, not from an id test.
+        const bk = BOOK[v.provider] || 'buy';
+        const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
+          : bk === 'door' ? `Tickets are sold at the door · ${host}`
+          : bk === 'reserve' ? `Tap a showtime to reserve seats on ${host}`
+          : `Tap a showtime to buy tickets on ${host}`;
     } catch(e){
       main.innerHTML = netErrorHtml(e);
     }
