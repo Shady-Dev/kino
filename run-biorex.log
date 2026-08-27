@@ -1,3 +1,4 @@
+[biorex] BioRex Seinäjoki: no showtimes, keeping previous data
 [biorex] BioRex Tripla: 140 showtimes
 [biorex] BioRex Redi: 117 showtimes
 [biorex] BioRex Verkatehdas: 111 showtimes
@@ -7,7 +8,7 @@
 [biorex] BioRex Porvoo: 84 showtimes
 [biorex] BioRex Riihimäki: 34 showtimes
 [biorex] BioRex Rovaniemi: 96 showtimes
-[biorex] BioRex Seinäjoki: 117 showtimes
+[biorex] BioRex Seinäjoki FAILED: <urlopen error [Errno 101] Network is unreachable>
 [biorex] BioRex Tornio: 67 showtimes
 [biorex] BioRex Vaasa: 113 showtimes
 [biorex] film pages: 26/26
@@ -21,8 +22,7 @@
 [biorex] BioRex Porvoo: 84 showtimes, 12 dates
 [biorex] BioRex Riihimäki: 34 showtimes, 10 dates
 [biorex] BioRex Rovaniemi: 96 showtimes, 12 dates
-[biorex] BioRex Seinäjoki: 117 showtimes, 12 dates
 [biorex] BioRex Tornio: 67 showtimes, 11 dates
 [biorex] BioRex Vaasa: 113 showtimes, 13 dates
-[run] biorex: 12 venues, 1061 showtimes, 0 failures
+[run] biorex: 11 venues, 944 showtimes, 0 failures
 exit=0
