@@ -733,7 +733,7 @@
       (p.dates || []).forEach(d => dates.add(d));
       const v = venueIndex[ids[i]] || {};
       for(const s of (p.shows || [])){
-        shows.push({ ...s, eventId: mergeKey(s.title),
+        shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
                      venueShort: v.short || s.theatre, provider: s.provider || v.provider });
       }
     });
@@ -938,11 +938,14 @@
   const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
   async function showSheet(fid){
     await ensureFilms();
-    let f = films[fid] || {};
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start)}))
       .sort((a,b) => a.start - b.start);
     const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
+    // In a combined view eventId is the cross-chain merge key, so films.json (keyed by
+    // Finnkino's filmId) has to be looked up through the show's own id.
+    const native = all.map(s => s._eid).find(id => id && films[id]) || sample._eid;
+    let f = films[fid] || films[native] || {};
     if(!f.s && sample.title){
       const ex = await ensureExtraFilms();
       const hit = ex[normTitle(sample.title)];
