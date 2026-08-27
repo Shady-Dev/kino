@@ -64,7 +64,6 @@ event prefixes and format noise from the query and falls back to
     scripts/build_providers.py       registry -> data/providers.json
     scripts/providers/run.py         generic runner for every adapter
     scripts/providers/{name}.py      one adapter per provider or platform
-    scripts/providers/fetch_*.py     shims kept for the Mac; run.py does the work
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
     scripts/providers/tmdb-aliases.json  overrides for titles TMDB cannot be searched by
     scripts/providers/synmerge.py    shared synopsis merge helper
