@@ -919,6 +919,7 @@
     const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
       : bk === 'door' ? `Tickets are sold at the door · ${host}`
       : bk === 'reserve' ? `Tap a showtime to reserve seats on ${host}`
+      : bk === 'list' ? `Tap a showtime to open the programme on ${host}`
       : `Tap a showtime to buy tickets on ${host}`;
     document.querySelector('footer').textContent =
       `Schedule data: ${src} · updated ${stamp} · ${act}`;
