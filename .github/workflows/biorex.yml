@@ -18,30 +18,22 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build providers.json
         run: python3 scripts/build_providers.py
-      - name: Fetch BioRex schedule
+      # One step for every cloud provider: the module list comes from the registry, so
+      # adding a provider needs no edit here. Logs stay per module (run-{module}.log) and
+      # are committed on purpose: read those, not the Actions logs.
+      - name: Fetch cloud providers
         run: |
           set +e
-          python3 scripts/providers/fetch_biorex.py > run-biorex.log 2>&1
-          echo "exit=$?" >> run-biorex.log
-          tail -3 run-biorex.log
-      - name: Fetch Nexxo Scope sites
-        run: |
-          set +e
-          python3 scripts/providers/fetch_nexxo.py > run-nexxo.log 2>&1
-          echo "exit=$?" >> run-nexxo.log
-          tail -6 run-nexxo.log
-      - name: Fetch eTiketti sites
-        run: |
-          set +e
-          python3 scripts/providers/fetch_etiketti.py > run-etiketti.log 2>&1
-          echo "exit=$?" >> run-etiketti.log
-          tail -5 run-etiketti.log
-      - name: Fetch Riviera
-        run: |
-          set +e
-          python3 scripts/providers/fetch_riviera.py > run-riviera.log 2>&1
-          echo "exit=$?" >> run-riviera.log
-          tail -4 run-riviera.log
+          fail=0
+          for m in $(python3 scripts/providers/registry.py --cloud); do
+            python3 scripts/providers/run.py "$m" > "run-$m.log" 2>&1
+            code=$?
+            echo "exit=$code" >> "run-$m.log"
+            [ "$code" = 0 ] || fail=1
+            echo "--- $m (exit=$code)"
+            tail -6 "run-$m.log"
+          done
+          echo "$fail" > "$RUNNER_TEMP/provfail"
       - name: Enrich with TMDB
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
@@ -50,10 +42,10 @@ jobs:
           python3 scripts/providers/enrich_tmdb.py > run-enrich.log 2>&1
           echo "exit=$?" >> run-enrich.log
           tail -3 run-enrich.log
-      - name: Commit data and log
+      - name: Commit data and logs
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-biorex.log run-nexxo.log run-etiketti.log run-riviera.log run-enrich.log
+          git add data run-*.log
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do
@@ -65,5 +57,8 @@ jobs:
           if [ "$pushed" != 1 ]; then
             echo "::error::could not push after 3 attempts"; exit 1
           fi
+      # Data is committed first so a provider failure still publishes whatever worked.
       - name: Fail if a provider failed
-        run: grep -q "exit=0" run-biorex.log && grep -q "exit=0" run-nexxo.log && grep -q "exit=0" run-etiketti.log && grep -q "exit=0" run-riviera.log
+        run: |
+          grep -q "exit=0" run-enrich.log || { echo "::error::enrich failed"; exit 1; }
+          [ "$(cat "$RUNNER_TEMP/provfail")" = 0 ] || { echo "::error::a provider failed"; exit 1; }
