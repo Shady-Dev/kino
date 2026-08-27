@@ -3,6 +3,7 @@
 import datetime, json, pathlib, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import synmerge
 import nexxo
 
 
@@ -12,11 +13,13 @@ def main() -> int:
     total = ok = 0
     for site in nexxo.SITES:
         per_venue = nexxo.fetch_site(site)
+        synmerge.merge(out, per_venue, site["provider"])
         live = []
         for v in site["venues"]:
             shows = per_venue.get(v["id"])
             if shows is None:
                 continue        # failed venue keeps its previous file
+            synmerge.strip_helpers(shows)
             days = sorted({s["start"][:10] for s in shows})
             (out / f"area-{v['id']}.json").write_text(json.dumps(
                 {"generated": now, "dates": days, "horizon": days[-1] if days else "",
