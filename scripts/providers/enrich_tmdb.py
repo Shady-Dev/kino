@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add TMDB ratings and trailers to providers that publish neither.
+"""Add TMDB ratings, trailers and synopses to providers that publish none.
 
 Finnkino gets these via films.json/tmdb.json keyed by its own filmId. The other
 providers have no such id, so this pass keys a cache on the normalised title and
@@ -12,6 +12,7 @@ import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
 DATA = pathlib.Path("data")
 CACHE = DATA / "tmdb-titles.json"
+EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
 SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
 UA = "kino-enrich/1.0"
 
@@ -66,7 +67,8 @@ def main() -> int:
     looked = rechecked = 0
     for k, display in sorted(titles.items()):
         c = cache.get(k)
-        if isinstance(c, dict) and (c.get("v") or c.get("c") == today):
+        has_syn = isinstance(c, dict) and ("fi" in c or "en" in c)
+        if isinstance(c, dict) and has_syn and (c.get("v") or c.get("c") == today):
             continue
         try:
             mid = c.get("i") if isinstance(c, dict) else None
@@ -81,6 +83,22 @@ def main() -> int:
                         rating = hits[0].get("vote_average") or 0
                         break
                     time.sleep(0.2)
+            syn_fi = syn_en = ""
+            if mid:
+                # Finnish overview when TMDB has one, English as the fallback.
+                for langcode, slot in (("fi-FI", "fi"), ("en-US", "en")):
+                    try:
+                        d = get(f"https://api.themoviedb.org/3/movie/{mid}?language={langcode}", th)
+                        text = (d.get("overview") or "").strip()
+                        if slot == "fi":
+                            syn_fi = text
+                            if text:
+                                break
+                        else:
+                            syn_en = text
+                    except Exception:
+                        pass
+                    time.sleep(0.2)
             yt = ""
             if mid:
                 vids = (get(f"https://api.themoviedb.org/3/movie/{mid}/videos", th)
@@ -93,7 +111,8 @@ def main() -> int:
                         yt = hit.get("key") or ""
                         break
             cache[k] = {"r": round(rating, 1) if rating else 0, "v": yt,
-                        "i": mid or "", "c": today}
+                        "i": mid or "", "c": today,
+                        "fi": syn_fi, "en": syn_en}
             rechecked += 1 if isinstance(c, dict) else 0
             looked += 0 if isinstance(c, dict) else 1
             time.sleep(0.25)
@@ -101,6 +120,15 @@ def main() -> int:
             print(f"[enrich] {display}: {e}")
 
     CACHE.write_text(json.dumps(cache, ensure_ascii=False))
+
+    # Synopses live in their own file so area files stay small: one synopsis repeated
+    # across 158 showtimes would add roughly 80 kB per venue.
+    extra = {k: {"s": {"fi": c.get("fi", ""), "en": c.get("en", "")},
+                 "r": c.get("r", 0),
+                 "tr": ("https://www.youtube.com/watch?v=" + c["v"]) if c.get("v") else ""}
+             for k, c in cache.items()
+             if isinstance(c, dict) and (c.get("fi") or c.get("en") or c.get("v"))}
+    EXTRA.write_text(json.dumps({"generated": today, "films": extra}, ensure_ascii=False))
 
     touched = 0
     for p in files:
@@ -124,8 +152,9 @@ def main() -> int:
             touched += 1
 
     hit = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("r"))
+    syn = sum(1 for c in cache.values() if isinstance(c, dict) and (c.get("fi") or c.get("en")))
     print(f"[enrich] {len(titles)} titles, {looked} new, {rechecked} re-checks, "
-          f"{hit} with rating, {touched} files updated")
+          f"{hit} with rating, {syn} with synopsis, {touched} files updated")
     return 0
 
 
