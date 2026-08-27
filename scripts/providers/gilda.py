@@ -8,8 +8,8 @@ API needs no auth:
     -> {"fi": {"data": [ {film..., show_times:[...]} ], "resultCode": 0}}
 
 One request covers every film and showtime (35 films / 101 shows / 22 dates when probed).
-Everything write-side on that namespace (payment, lockSeat, setPurchase, transaction) is
-closed to anonymous callers and is deliberately untouched here.
+The namespace also holds write and administrative routes. They are closed to anonymous
+callers, are never called, and are not listed here.
 
 Venues split by **cinema_screen_id**, not by cinema: there is one cinema_id (15) whose
 screens 66/67/68 are Gilda 1-3 and screen 69 is the separate Bio Rex Lasipalatsi house.
