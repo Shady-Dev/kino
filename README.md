@@ -47,6 +47,11 @@ A final pass (`scripts/providers/enrich_tmdb.py`) fills in TMDB ratings,
 trailers, Finnish synopses and posters for anything a provider does not
 supply itself. It **merges** and never overwrites a cinema's own text.
 
+TMDB cannot be searched by Finnish distributor title, so that pass strips
+event prefixes and format noise from the query and falls back to
+`tmdb-aliases.json` for the rest. Titles that still find nothing are named in
+`run-enrich.log`.
+
 ## Files
 
     index.html                       the whole app
@@ -54,8 +59,14 @@ supply itself. It **merges** and never overwrites a cinema's own text.
     sw.js                            service worker (network-first)
     CNAME                            custom domain for GitHub Pages
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
-    scripts/providers/*.py           one adapter + one orchestrator per provider
+    scripts/providers/registry.py    single source of truth: id, label, host, accent,
+                                     book mode, adapter module, where it can run
+    scripts/build_providers.py       registry -> data/providers.json
+    scripts/providers/run.py         generic runner for every adapter
+    scripts/providers/{name}.py      one adapter per provider or platform
+    scripts/providers/fetch_*.py     shims kept for the Mac; run.py does the work
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
+    scripts/providers/tmdb-aliases.json  overrides for titles TMDB cannot be searched by
     scripts/providers/synmerge.py    shared synopsis merge helper
     .github/workflows/fetch.yml      Finnkino (cron + dispatch)
     .github/workflows/biorex.yml     all cloud providers + enrichment
@@ -68,6 +79,7 @@ supply itself. It **merges** and never overwrites a cinema's own text.
 Every provider writes the same thing, so the client has no per-provider code
 beyond a display name and an accent colour:
 
+    data/providers.json          [{id, label, host, accent, book}] for the client
     data/area-{venueId}.json     {generated, dates[], horizon, shows[]}
     data/venues-{provider}.json  {generated, provider, venues[{id,name,short,city}]}
     data/films-extra.json        title-keyed synopses, posters, trailers
@@ -81,18 +93,29 @@ filter works across all of them.
 
 ## Adding a provider
 
-1. Write `scripts/providers/{name}.py` exposing a fetch that returns
-   normalised showtimes keyed by venue id.
-2. Write `scripts/providers/fetch_{name}.py` to write the area files and
-   `venues-{name}.json`, merging synopses via `synmerge`.
-3. Add a step to `.github/workflows/biorex.yml` (or to `localfetch.sh` if the
-   site blocks datacenter IPs).
-4. Add the provider to the list in `loadAreas`, plus `CHAIN`, `SOURCE` and two
-   CSS rules in `index.html`.
+1. Write `scripts/providers/{name}.py` exposing two things:
 
-Adding a **venue** to a provider that already exists is a one-line entry in
-that adapter's `SITES`/`VENUES`. Step 4 is boilerplate that IDEAS.md has a
-plan to remove.
+       SITES             [{provider, label, venues:[{id, name, short, city}]}]
+       fetch_site(site)  -> {venue_id: [show, ...]}
+
+   One module can serve several providers, which is why the provider id lives
+   on the site rather than the module (`nexxo` serves Kinoset, `etiketti`
+   serves Kotkan Leffat).
+2. Add an entry to `scripts/providers/registry.py`: id, label, host, accent,
+   `book` mode, the module name and `where` it can run (`cloud` or `mac`).
+
+That is all. The cloud workflow loops over `registry.py --cloud`, so it needs
+no edit, and the client reads `data/providers.json`, so `index.html` needs no
+edit either. A `mac` provider goes into `localfetch.sh` instead, because the
+site blocks datacenter IPs.
+
+Adding a **venue** to an existing provider is a one-line entry in that
+adapter's `SITES`/`VENUES`.
+
+Run one by hand with:
+
+    python3 scripts/providers/run.py biorex
+    python3 scripts/providers/run.py --where cloud
 
 ## Token maintenance
 
