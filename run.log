@@ -7,12 +7,10 @@
 [schedule] 2026-09-01: 326 showtimes
 [schedule] 2026-09-02: 377 showtimes
 [schedule] 2026-09-03: 380 showtimes
-[tmdb] dropped 2 weak entries that now have an alias
-[tmdb] weak match, no exact title (4): Autot (uudelleenjulkaisu) -> The Boy Who Counted Cars | IL VOLO - Temppelilaakso -> USTICA Il Volo del Silenzio | Nalle Puhin elokuva (dub) -> Winnie the Pooh | Vaiana (liveaction) -> Moana
-[tmdb] rating held back, under 25 votes (7): Autot (uudelleenjulkaisu) (6.5 / 2 votes) | Bamse ja meren salaisuus (6.4 / 8 votes) | Ella ja kaverit: Operaatio Saukko (6.3 / 3 votes) | GHOST: 2 Big To Rig (10.0 / 1 votes) | IL VOLO - Temppelilaakso (10.0 / 1 votes) | Spa Weekend (6.6 / 21 votes) | Toxic (5.6 / 7 votes)
-[tmdb] 2 new lookups, 50 re-checks, cache 52, 37 mergeable by id
+[tmdb] dropped 1 weak entries that now have an alias
+[tmdb] 1 new lookups, 0 re-checks, cache 52, 38 mergeable by id
 [films] 52 film entries
-[attrs] dropped, neither format nor language (9): Annisk_K18 | Anniskelu | EventCine | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[attrs] dropped, neither format nor language (6): Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
