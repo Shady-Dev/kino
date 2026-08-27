@@ -158,6 +158,16 @@ Conventions worth keeping:
   rule is the only thing allowed to carry colour. Every glyph has a `title` and an
   `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
   day's shows actually carry the tag**, so it never explains something off screen.
+- **A stub names the cinema, not the district** (2026-08-27). Stubs used the bare venue
+  `short`, and half of those say nothing about which chain: "Punavuori" and "Kallio" are
+  Helsinki neighbourhoods, "Tripla" and "Redi" are shopping centres, "Kamppi" is both.
+  The chain colour was silently doing the identifying, which breaks the rule that colour
+  never carries meaning alone — and it collapsed completely once the tint was gated on
+  two chains being present, because a day served by one chain then had neither colour nor
+  legend nor chain name. Combined views now use the chain-prefixed label from `labelOf()`
+  ("Riviera Punavuori"), which already omits the prefix when the short starts with the
+  chain, so nothing becomes "Finnkino Finnkino Itis". Single-venue views are unchanged:
+  there you picked the cinema.
 - **The chain tint follows the same rule as the chain legend** (2026-08-27):
   `chainLegend()` has always returned nothing below two chains, but the tint had no such
   rule, so a future date served by a single chain — 19.9., Riviera only — rendered

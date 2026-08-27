@@ -1050,7 +1050,8 @@
       const v = venueIndex[ids[i]] || {};
       for(const s of (p.shows || [])){
         shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
-                     venueShort: v.short || s.theatre, provider: s.provider || v.provider });
+                     venueShort: v.short || s.theatre, venueLabel: v.label || v.short || s.theatre,
+                     provider: s.provider || v.provider });
       }
     });
     mergeIds(shows);
@@ -1201,7 +1202,7 @@
       const past = s.start < now;
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
-      const where = s.venueShort || (s.theatre || '').split(',')[0];
+      const where = venueName(s);
       const tint = tinted && s.provider ? ` chain-${s.provider}` : '';
       const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
       return `<div class="trow">
@@ -1345,6 +1346,16 @@
   // combined view you still want the cinema named even if every showtime is Riviera's.
   const tintOn = shows => new Set(shows.map(s => s.provider).filter(Boolean)).size > 1;
 
+  // In a combined view a stub must name the *cinema*, not the district. "Punavuori",
+  // "Kallio", "Tripla", "Redi" and "Kamppi" are all bare venue shorts, and on their own
+  // they say nothing about which chain — Punavuori is a neighbourhood of Helsinki, not a
+  // cinema. The chain colour used to fill that gap, which broke the app's own rule that
+  // colour never carries meaning alone, and fell apart entirely on a day served by one
+  // chain, where there is no legend and no tint. So the label carries the chain:
+  // "Riviera Punavuori". labelOf() already omits the prefix when the short starts with
+  // the chain name, so Finnkino venues do not become "Finnkino Finnkino Itis".
+  const venueName = s => s.venueLabel || s.venueShort || (s.theatre || '').split(',')[0];
+
   const labelVenues = shows =>
     (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
 
@@ -1429,7 +1440,7 @@
         const clock = fiTime(t.start);
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
-        const where = t.venueShort || t.theatre.split(',')[0];
+        const where = venueName(t);
         const ownTags = stubTags(tagsOf(t).filter(f => !common.includes(f)), t.aud);
         const own = ownTags.filter(f => !glyphOf(f)).join(' · ');
         const glyphs = ownTags.map(glyphOf).join('') + ageGlyph(t);
@@ -1535,7 +1546,7 @@
         const past = s.start < now;
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
-        const where = s.venueShort || (s.theatre || '').split(',')[0];
+        const where = venueName(s);
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = tintOn(all) && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
