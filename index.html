@@ -83,6 +83,13 @@
     padding:8px 12px; box-shadow:var(--shadow);
   }
   .fav[aria-pressed="true"]{color:var(--accent); border-color:var(--accent)}
+  /* Chain hint in combined views. The venue name carries the meaning; this only helps
+     scanning, so it is never the sole signal. */
+  .stub.chain-finnkino{border-left:3px solid #D85A30}
+  .stub.chain-biorex{border-left:3px solid #BA7517}
+  .stub.chain-kinoset{border-left:3px solid #2F7D5B}
+  .stub.chain-kotkanleffat{border-left:3px solid #C0356B}
+  .stub.chain-kinoakseli{border-left:3px solid #4A6FA5}
 
   /* themed dropdown on Chromium (progressive enhancement) */
   select, ::picker(select){appearance:base-select}
@@ -339,6 +346,13 @@
   let extraFilms = null;
   const normTitle = t => (t || '').toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  // Cross-provider identity for the combined city view: "Spider-Man: Brand New Day 2D",
+  // "Ryhmä Hau: Dinoelokuva (suomeksi)" and "Marsupilami, suomeksi" must all match their
+  // plain forms at another chain.
+  const mergeKey = t => normTitle((t || '')
+    .replace(/\((?:suomeksi|dubattu|dub|orig\.?)\)/gi, ' ')
+    .replace(/,?\s*\bsuomeksi\b/gi, ' ')
+    .replace(/\b(?:2d|3d|imax|4k)\b/gi, ' '));
   async function ensureExtraFilms(){
     if(extraFilms) return extraFilms;
     try {
@@ -359,6 +373,7 @@
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri — avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
+         allIn:'Kaikki', manySources:'usea lähde',
          soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
          nomore:'Ei enää näytöksiä tänään.',
@@ -369,6 +384,7 @@
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          favOn:'Home theatre — opens here next time', favOff:'Set as home theatre',
+         allIn:'All', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
          nomore:'No more shows today.',
@@ -439,6 +455,7 @@
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
   let calInput = null, calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
+  let allVenues = [], cityGroups = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -591,6 +608,7 @@
     return (chain && !short.startsWith(chain)) ? `${chain} ${short}` : short;
   }
   function fillAreaSelect(areas){
+    allVenues = areas.slice();
     venueIndex = {};
     for(const a of areas) venueIndex[a.id] = Object.assign({}, a, { short: shortOf(a), label: labelOf(a) });
     const byCity = new Map();
@@ -600,13 +618,21 @@
       byCity.get(c).push(a);
     }
     const cities = [...byCity.keys()].sort((x,y)=>x.localeCompare(y,'fi'));
+    cityGroups = {};
+    for(const c of cities) cityGroups[c] = byCity.get(c).map(a => a.id);
     const opt = a => `<option value="${a.id}">${labelOf(a)}</option>`;
-    areaSel.innerHTML = cities.map(c =>
-      `<optgroup label="${c}">${byCity.get(c)
-        .sort((x,y)=>labelOf(x).localeCompare(labelOf(y),'fi')).map(opt).join('')}</optgroup>`).join('');
+    // Cities with more than one screen get a combined entry at the top of their group.
+    areaSel.innerHTML = cities.map(c => {
+      const vs = byCity.get(c).sort((x,y)=>labelOf(x).localeCompare(labelOf(y),'fi'));
+      const all = vs.length > 1
+        ? `<option value="city:${c}">${L[state.lang].allIn} ${c} (${vs.length})</option>`
+        : '';
+      return `<optgroup label="${c}">${all}${vs.map(opt).join('')}</optgroup>`;
+    }).join('');
     // A starred venue opens every time; otherwise fall back to the last one browsed.
     const pr = prefs.get();
-    const known = id => id && areas.some(a => a.id === id);
+    const known = id => !!id && (areas.some(a => a.id === id) ||
+      (id.startsWith('city:') && (cityGroups[id.slice(5)] || []).length > 1));
     state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
     areaSel.value = state.area;
     syncFav();
@@ -667,11 +693,40 @@
     return loadSchedule();
   }
 
+  // Combined city view: fetch each venue in the city and fold them into one payload.
+  // eventId is rewritten to the merge key so grouping, the sheet and the URL hash all
+  // keep working unchanged.
+  async function loadCity(city){
+    const ids = cityGroups[city] || [];
+    const parts = await Promise.all(ids.map(async id => {
+      try { return await fetchJSON(`data/area-${id}.json`); }
+      catch(_) { return null; }
+    }));
+    const shows = [], dates = new Set();
+    let generated = '';
+    parts.forEach((p, i) => {
+      if(!p) return;
+      if(!generated || (p.generated && p.generated < generated)) generated = p.generated || '';
+      (p.dates || []).forEach(d => dates.add(d));
+      const v = venueIndex[ids[i]] || {};
+      for(const s of (p.shows || [])){
+        shows.push({ ...s, eventId: mergeKey(s.title),
+                     venueShort: v.short || s.theatre, provider: s.provider || v.provider });
+      }
+    });
+    const list = [...dates].sort();
+    return { generated, dates: list, horizon: list[list.length-1] || '', shows };
+  }
+
   async function loadSchedule(){
     main.innerHTML = '<div class="status"><div class="reel"></div>Loading schedule…</div>';
     try {
       if(state.mode === 'json'){
-        if(!jsonCache[state.area]) jsonCache[state.area] = await fetchJSON(`data/area-${state.area}.json`);
+        if(!jsonCache[state.area]){
+          jsonCache[state.area] = state.area.startsWith('city:')
+            ? await loadCity(state.area.slice(5))
+            : await fetchJSON(`data/area-${state.area}.json`);
+        }
         const cache = jsonCache[state.area];
         if(cache.generated) state.generated = cache.generated;
         state.dates = Array.isArray(cache.dates) ? cache.dates : null;
@@ -723,12 +778,16 @@
           staleEl.style.display = 'none';
         }
         const t = new Date(state.generated);
+        const combined = state.area.startsWith('city:');
         const v = venueIndex[state.area] || {};
-        const [src, host] = SOURCE[v.provider] || SOURCE.finnkino;
+        const [src, host] = combined
+          ? [L[state.lang].manySources, '']
+          : (SOURCE[v.provider] || SOURCE.finnkino);
         const stamp = t.toLocaleString('fi-FI',
           {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
         // Kino Akseli sells at the door; Kinoset takes free reservations, not payment.
-        const act = v.provider === 'kinoakseli' ? `Tickets are sold at the door · ${host}`
+        const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
+          : v.provider === 'kinoakseli' ? `Tickets are sold at the door · ${host}`
           : v.provider === 'kinoset' ? `Tap a showtime to reserve seats on ${host}`
           : `Tap a showtime to buy tickets on ${host}`;
         document.querySelector('footer').textContent =
@@ -791,6 +850,8 @@
     }
 
     const multiTheatre = new Set(state.shows.map(s=>s.theatre)).size > 1;
+    // Same title at two chains is one film: sort by the earliest showtime overall.
+    if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
     main.innerHTML = movies.map(m => {
       const title = disp(m);
@@ -804,9 +865,11 @@
         const clock = fiTime(t.start);
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
-        const loc = (multiTheatre ? `${t.theatre.split(',')[0]} · ${t.aud}` : t.aud)
+        const where = t.venueShort || t.theatre.split(',')[0];
+        const loc = (multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud)
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
-        return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
+        const tint = multiTheatre && t.provider ? ` chain-${t.provider}` : '';
+        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
                   <span class="time">${clock}</span><span class="aud">${loc}</span>
                 </a>`;
       }).join('');
