@@ -975,6 +975,15 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   rule proves wrong in practice. Watch the filter first.
 
 ## Open — app
+- [ ] **"K-18" quick filter**, the counterpart to "Lapsille". Must show only screenings
+      that are *certainly* 18+, which is **not** the same as anniskelu: plain `Anniskelu`
+      marks a licensed auditorium and sits on S- and K-7-rated films (460 Finnkino
+      showtimes carry it). The rule is `rating === 'K-18' || age === 'K-18'` — the film's
+      own classification, or a screening limit a cinema states outright (Finnkino's
+      `Annisk_K18`, BioRex rooms named "(K-18)"). Never inferred from the Anniskelu tag;
+      see the anniskelu entry under Synopses and enrichment for why that inference was
+      removed. Note the two are independent: an S-rated film in a K18 anniskelunäytös
+      qualifies, and a K-18 film in an ordinary room qualifies.
 - [ ] Genre / format filter chips (IMAX, LUXE, 2D/3D, genre)
 - [ ] Sort toggle: title ↔ first showtime; hide/dim past showtimes option
 - [ ] Tile/grid view mode (open questions: scan-by-poster vs time; showtimes on tile vs
