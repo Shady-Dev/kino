@@ -884,32 +884,6 @@
       render();
       renderHealth();
       renderStatus();
-        const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
-        if(ageH > 8){
-          // Name the provider: four sources now, each on its own schedule.
-          const vv = venueIndex[state.area] || {};
-          const nm = (SOURCE[vv.provider] || SOURCE.finnkino)[0];
-          staleEl.textContent = `\u26a0 ${nm}: ${L[state.lang].staleOne} `
-            + `(${Math.round(ageH)} ${L[state.lang].hours})`;
-          staleEl.style.display = 'block';
-        } else {
-          staleEl.style.display = 'none';
-        }
-        const t = new Date(state.generated);
-        const combined = state.area.startsWith('city:');
-        const v = venueIndex[state.area] || {};
-        const [src, host] = combined
-          ? [L[state.lang].manySources, '']
-          : (SOURCE[v.provider] || SOURCE.finnkino);
-        const stamp = t.toLocaleString('fi-FI',
-          {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
-        // book mode per provider: door = sold at the door, reserve = free seat
-        // reservation rather than payment. From the registry, not from an id test.
-        const bk = BOOK[v.provider] || 'buy';
-        const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
-          : bk === 'door' ? `Tickets are sold at the door · ${host}`
-          : bk === 'reserve' ? `Tap a showtime to reserve seats on ${host}`
-          : `Tap a showtime to buy tickets on ${host}`;
     } catch(e){
       main.innerHTML = netErrorHtml(e);
     }
