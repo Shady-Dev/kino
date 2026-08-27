@@ -43,7 +43,12 @@ SITES = [{
     "base": "https://www.gilda.fi",
     "api": "/wp-json/gilda-react-booking/v1",
     "listing": "/elokuvat/",
-    "posters": "https://web.atlanticfilm.mycloudcinema.com/media/posters/",
+    # MyCloudCinema poster path is {host}/media/posters/{movie_id}/{width}/{uuid}.
+    # Only width 1080 exists; 720 and 500 are 404. The same shape serves BioRex
+    # (web.biorex.mycloudcinema.com), which is how it was found after a bare
+    # /media/posters/{uuid} guess from the React bundle returned 404 for every film.
+    "posters": "https://web.atlanticfilm.mycloudcinema.com/media/posters",
+    "poster_width": 1080,
     "venues": [
         {"id": "gd-gilda", "screens": [66, 67, 68],
          "name": "Gilda Helsinki", "short": "Gilda", "city": "Helsinki"},
@@ -143,13 +148,16 @@ def parse(payload, site):
             by_screen[int(sid)] = v
     base = site["base"].rstrip("/")
     listing = base + site.get("listing", "/")
-    posters = site.get("posters", "")
+    posters = site.get("posters", "").rstrip("/")
+    width = site.get("poster_width", 1080)
 
     doc = (payload.get("fi") or {}).get("data") or []
     per_venue = {}
     for film in doc:
         poster = (film.get("movie_poster") or "").strip()
-        img = posters + poster if (posters and poster) else ""
+        mid = film.get("movie_id")
+        img = (f"{posters}/{mid}/{width}/{poster}"
+               if (posters and poster and mid) else "")
         # description is HTML with entities: strip tags, then unescape, or the
         # synopsis renders as "Almod&oacute;var" in the movie sheet
         syn = html_mod.unescape(TAGS_RE.sub(" ", film.get("description") or ""))
