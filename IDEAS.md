@@ -173,6 +173,14 @@ Conventions worth keeping:
   is largely redundant anyway: the word it decodes is already on the card as a pill, in
   the times view's meta line and in the sheet, so the glyph is explained next to itself in
   every view. The footer is where the app already keeps reference material.
+- **Finnkino states the rule outright** (finnkino.fi/leffaherkut/anniskelunaytokset/):
+  anniskelu screenings are K18, *except* screenings held in **anniskelualuesalit**, which
+  the age limit does not cover — and in those rooms alcohol is not served at S/7 family
+  films. That is precisely the two attributes: `Annisk_K18` is an anniskelunäytös and
+  carries K18; plain `Anniskelu` marks an anniskelualuesali, a permanently licensed room,
+  and carries no age limit. Our mapping matches, and the data agrees with the text: plain
+  `Anniskelu` appears on S- and K-7-rated films (the family screenings that room hosts
+  without service), `Annisk_K18` on films of any rating including S.
 - **`Anniskelu` does not mean 18+ — settled by the data, and the BioRex inference is
   gone** (2026-08-27). Finnkino's Anniskelu screenings by film rating: K-12 334 plain / 83
   K18, K-16 116 / 43, **S 8 plain / 5 K18**, K-7 2 / 1. Two conclusions. Plain `Anniskelu`
@@ -186,7 +194,10 @@ Conventions worth keeping:
   screenings including an S-rated documentary, telling people a screening was closed to
   them when it was not. Only an explicit `(K-nn)` in the room name sets `age` now. Bring
   the inference back only with a citation from BioRex saying their anniskelu screenings
-  are 18+.
+  are 18+. Note Finnkino's own model has it both ways depending on the room, so BioRex's
+  "Anniskelu · Plus" rooms are as likely to be permanent licensed areas (no age limit) as
+  restricted screenings — which is the reading their Seinäjoki rooms support, since those
+  are marked "(K-18)" separately and explicitly.
 - ~~**`Anniskelu` does not mean 18+.**~~ (superseded by the entry above) Finnkino's help centre is explicit: the mark means
   drinks bought at the bar may be taken into that screening, those auditoriums count as
   restaurant premises in law, and the separate **`K18 Anniskelunäytös`** is the one minors
