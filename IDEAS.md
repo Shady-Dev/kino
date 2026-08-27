@@ -334,6 +334,24 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+- **Merge on the union of both signals, never on one or the other** (2026-08-27). Keying
+  by `tmdbId` *when present* and by title otherwise **unmerged** a pair that had worked:
+  "Maailman rikkain nainen" resolved an id at Gilda and none at Finnkino, so one row was
+  keyed `tmdb:1309725` and its identically titled twin by title. `mergeIds()` now unions
+  the title key with the id key and takes the group root, so an id merges chains that
+  disagree on the title and the title merges chains where only one resolved an id.
+- **A merged card must fold metadata by first non-empty**, not from `times[0]`. The group
+  inherited the first showtime's fields, so a chain with no rating blanked the ★ even
+  though another chain had one — visible on "Autot (uudelleenjulkaisu)" the moment the
+  reissue rows merged. Applies to rating, runtime, genres, poster, trailer and language.
+- **`tmdb-aliases.json` is read by both passes** since 2026-08-27. It used to be
+  cloud-only, so a Finnkino film TMDB cannot find by title had no fix at all: the alias
+  for "Maailman rikkain nainen" corrected Gilda's row and left Finnkino's blank. An alias
+  id also triggers a single `/movie/{id}` call in `fetch_data.py`, which otherwise never
+  fetches the detail, so the rating and the vote floor still apply.
+- Aliases are keyed by the title **as each chain publishes it**, so one film can need
+  several keys: `autot re release` (BioRex) and `autot uudelleenjulkaisu` (Finnkino) both
+  map to the search string `Cars`, because "Autot" alone matched *Cars 3* by popularity.
 - The two TMDB passes are still separate (`fetch_data.py` keyed by Finnkino `filmId` and
   run locally, `enrich_tmdb.py` keyed by normalised title and run in the cloud). They now
   agree on the rules — exact-match preference, `TMDB_MIN_VOTES` = `MIN_VOTES` = 25, `n`

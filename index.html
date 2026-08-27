@@ -945,20 +945,31 @@
       (p.dates || []).forEach(d => dates.add(d));
       const v = venueIndex[ids[i]] || {};
       for(const s of (p.shows || [])){
-        // Identity across chains: the TMDB id when the pipeline resolved one from an
-        // exact title match, the normalised title otherwise. Chains publish the same
-        // film under different titles ("Mutiny" at BioRex, "Mutiny - Lavastettu
-        // syylliseksi" at Finnkino), which no amount of title cleaning reconciles, and
-        // eating everything after a dash would merge "Mission: Impossible - Dead
-        // Reckoning" into "Mission: Impossible". A film only some venues have an id
-        // for still splits, the same as it does today.
-        const key = s.tmdbId ? `tmdb:${s.tmdbId}` : mergeKey(s.title);
-        shows.push({ ...s, eventId: key, _eid: s.eventId,
+        shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
                      venueShort: v.short || s.theatre, provider: s.provider || v.provider });
       }
     });
+    mergeIds(shows);
     const list = [...dates].sort();
     return { generated, dates: list, horizon: list[list.length-1] || '', shows };
+  }
+
+  // Two signals say "same film" and neither is complete on its own, so treat both as
+  // links rather than picking one. The title key merges chains that agree on the title;
+  // the TMDB id merges chains that do not ("Mutiny" vs "Mutiny - Lavastettu
+  // syylliseksi"). Choosing the id when present *unmerged* pairs that used to work:
+  // "Maailman rikkain nainen" resolved an id at Gilda and none at Finnkino, so one row
+  // was keyed by id and its twin by title. Union them and take the group root.
+  function mergeIds(shows){
+    const parent = new Map();
+    const find = k => { while(parent.get(k) !== k) { parent.set(k, parent.get(parent.get(k))); k = parent.get(k); } return k; };
+    const add = k => { if(!parent.has(k)) parent.set(k, k); return k; };
+    const union = (a, b) => { a = find(add(a)); b = find(add(b)); if(a !== b) parent.set(b, a); };
+    for(const s of shows){
+      add(s.eventId);
+      if(s.tmdbId) union(s.eventId, `tmdb:${s.tmdbId}`);
+    }
+    for(const s of shows) s.eventId = find(s.eventId);
   }
 
   async function loadSchedule(){
@@ -1162,7 +1173,15 @@
     for(const s of state.shows){
       if(!passFilters(s)) continue;
       if(!byEvent.has(s.eventId)) byEvent.set(s.eventId, { ...s, times:[] });
-      byEvent.get(s.eventId).times.push(s);
+      const m = byEvent.get(s.eventId);
+      // A merged film takes its metadata from whichever showtime happened to be first,
+      // so a chain with no rating, runtime or poster could blank the card even though
+      // another chain had them: "Autot (uudelleenjulkaisu)" lost its ★ that way. Fill
+      // each empty slot from any showtime that has it.
+      for(const f of ['tmdb','tr','img','len','genres','rating','lang','original']){
+        if(!m[f] && s[f]) m[f] = s[f];
+      }
+      m.times.push(s);
     }
     const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
 

@@ -17,6 +17,20 @@ ATTR_RE = re.compile(r"^\dD$|^(IMAX|4DX|Dolby|ScreenX|D-BOX|LUXE|iSense|HFR|Lase
 # A rating below this many votes is noise, not a verdict. Keep in step with
 # enrich_tmdb.MIN_VOTES so the two passes cannot disagree about the same film.
 TMDB_MIN_VOTES = 25
+# The same hand-written escape hatch enrich_tmdb.py uses, keyed by the normalised
+# published title. Until now only the cloud pass could read it, so a Finnkino film TMDB
+# cannot be searched by title had no fix at all: "Maailman rikkain nainen" already had
+# an alias, which corrected Gilda's row and left Finnkino's blank.
+ALIAS_FILE = pathlib.Path(__file__).resolve().parent / "providers" / "tmdb-aliases.json"
+
+
+def load_aliases():
+    try:
+        return {k: v for k, v in json.loads(ALIAS_FILE.read_text()).items()
+                if not k.startswith("_")}
+    except Exception as e:
+        print(f"[tmdb] no aliases ({e})")
+        return {}
 
 
 def _tnorm(x):
@@ -245,6 +259,7 @@ def main() -> int:
             fid = str(s.get("filmId", ""))
             if fid and fid not in films_meta:
                 films_meta[fid] = {"q": t(film, "originalTitle", "text") or t(film, "title", "text"),
+                                   "fi": t(film, "title", "text"),
                                    "y": (film.get("releaseDate") or "")[:4]}
                 trs = film.get("trailers") or []
                 tr_uri = ""
@@ -303,6 +318,7 @@ def main() -> int:
             del tmdb_cache[k]
         if stale:
             print(f"[tmdb] dropped {len(stale)} entries matched by the old picker")
+        aliases = load_aliases()
         looked = rechecked = 0
         tmdb_weak, tmdb_thin = [], []
         today = datetime.date.today().isoformat()
@@ -320,13 +336,24 @@ def main() -> int:
                 va = (cached.get("r") or 0) if cached else 0
                 votes = (cached.get("n") or 0) if cached else 0
                 exact_id = bool(cached.get("x")) if cached else False
+                # An alias is either a bare TMDB id, which skips the search, or a
+                # replacement search string. Keyed on the Finnish title first, since
+                # that is what the cinema publishes and what the file is keyed by.
+                alias = aliases.get(_tnorm(meta.get("fi"))) or aliases.get(_tnorm(meta["q"]))
+                if not mid and alias and str(alias).isdigit():
+                    mid = int(alias)
+                    exact_id = True     # a hand-written id is as good as exact
+                    va = votes = 0      # rating comes from the detail call below
                 if not mid:
                     # Every candidate is tried until one matches the title exactly; the
                     # first hit of any kind is the fallback. Stopping at the first
                     # candidate that returns anything is what sent "Die Hard 2 - Die
                     # Harder" to Die Hard in the cloud pass.
                     fallback = None
-                    for cand in _queries(meta["q"]):
+                    cands = _queries(meta["q"])
+                    if alias and not str(alias).isdigit():
+                        cands.insert(0, str(alias))
+                    for cand in cands:
                         q = urllib.parse.quote(cand)
                         u = f"https://api.themoviedb.org/3/search/movie?query={q}"
                         res = json.loads(http_get(
@@ -353,6 +380,18 @@ def main() -> int:
                             votes = fallback.get("vote_count") or 0
                             exact_id = False
                             tmdb_weak.append(f"{meta['q']} -> {fallback.get('title')}")
+                # An id that did not come from a search carries no vote data with it
+                # (an alias id, or one restored from cache before "n" existed), and this
+                # pass otherwise never fetches the movie detail. One request, only in
+                # that case, keeps the rating and the vote floor working.
+                if mid and not votes:
+                    try:
+                        d = json.loads(http_get(
+                            f"https://api.themoviedb.org/3/movie/{mid}", th))
+                        va = d.get("vote_average") or 0
+                        votes = d.get("vote_count") or 0
+                    except Exception as e:
+                        print(f"[tmdb-detail] {meta['q']}: {e}")
                 yt = ""
                 if mid:
                     try:
