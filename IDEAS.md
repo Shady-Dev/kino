@@ -861,4 +861,13 @@ Still open from this pass:
   those are used here.
 - Booking, payment and administrative endpoints are never called, and this file does not
   inventory them.
+- **Never commit a raw probe dump** (learned the hard way 2026-08-27). A dump of a third
+  party's page carries whatever they ship to visitors: `probe/rv-films.html` contained
+  rivieracinemas.fi's Google Maps JS key, which tripped GitHub secret scanning on this
+  repo. That key is public by design — Maps JS keys are visible in every visitor's page
+  source and are protected by HTTP-referrer restriction rather than secrecy — so there was
+  nothing to rotate, and it was never ours to revoke. Mirroring someone else's credential
+  into a public repo under your own name is still bad hygiene, and an alert queue full of
+  other people's keys teaches you to ignore alerts. Probe, read the answer, write the
+  *finding* here, commit nothing raw. `.gitignore` now blocks `probe/` and `probe-*`.
 - If a cinema would rather not be included, the adapter comes out: one registry entry.
