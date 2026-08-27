@@ -384,18 +384,49 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
 - Seat counts would need the closed seatplan endpoint, so `soldOut` is always false.
 
 - **Cinema Orion** (cinemaorion.fi) — 1 venue, Eerikinkatu 15, run by ELKE ry.
-  Showtimes are server-rendered tables on the front page: date heading, time, title,
-  **price** ("12.5 €", "Vapaa pääsy"), and ticket links to `orion.kinola.ee/web/screening/
-  {uuid}` — so the ticketing platform is **Kinola** (kinola.ee), a possible platform
-  adapter covering other cinemas. ELKE also has a **"Rajapinnat"** page
-  (cinemaorion.fi/elavan-kuvan-keskus-elke-ry/rajapinnat/) — check it for an official
-  feed before writing a scraper.
+  **Fully probed 2026-08-27. The source is one server-rendered table on the front page**,
+  and everything an adapter needs is in that single request:
+
+  ```html
+  <h3><span>Torstai</span> 27.08.</h3>
+  <table class="kinola-day">
+    <tr class="elokuva-">
+      <td class='date'>Torstai 27.08.</td>
+      <td class='time'>15:00</td>
+      <td class='title'>Espoo Ciné: Four Minus Three</td>
+      <td class='price' title="Peruslippu, alennusryhmät: 13 €, Peruslippu: 13 €">13 €</td>
+      <td class='link'><a href='https://orion.kinola.ee/web/screening/{uuid}'>Liput</a></td>
+  ```
+
+  - The `price` cell's `title` attribute carries the **full ticket-type breakdown**, so
+    both a display price and the per-type prices come free. Values seen: "13 €",
+    "12.5 €", "8.5 €", "Vapaa pääsy".
+  - **Take the ticket URL from the markup, never build it.** Most point at
+    `orion.kinola.ee/web/screening/{uuid}`, but festival screenings link to the festival's
+    own box office instead (Espoo Ciné goes to `boxoffice.espoocine.fi`). A templated URL
+    would produce dead links for exactly the screenings that are hardest to find elsewhere.
+  - Orion's programme includes third-party events: festivals, HopeaCine senior screenings,
+    Orion Club nights. They are real screenings at that venue and belong in the data, but
+    they arrive with prefixes like `Espoo Ciné:`, which `enrich_tmdb.clean()` handles.
+  - `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and can enrich by slug.
+    Nothing else there is useful, and `acf` is empty.
+  - Single screen, so `aud` stays blank per the usual convention. No seat counts.
+
+  Three assumptions that were **wrong** and cost a detour, recorded so nobody repeats them:
+  - ELKE's **"Rajapinnat"** page is not an API page. It means *interfaces between old and
+    new media*: an arts programme about VR and interactive works.
+  - The **`naytokset`** post type exists and answers 200, but returns an **empty list**.
+    Registered route, no records. A route listing is not data.
+  - **Kinola is not a platform win.** `tickets.cinemaorion.fi` answers 403 to datacenter
+    IPs and `orion.kinola.ee` exposes only a Filament/Livewire admin login, whose
+    screening pages render seats and prices client-side. Nothing to adapt, and not
+    somewhere to go poking.
 - **Kino Engel** (kinoengel.fi) — Sofiankatu 4, Helsinki. Screens Engel 1 / Engel 2 plus
   an outdoor "KesäKino". Elementor; the front page renders a day-grouped list with title,
   "To 27.08. klo 17:30" and a link to /elokuva/{slug}/. No room or price in the list.
   Title prefixes to handle: `KESÄKINO:` (outdoor) and `BARNSÖNDAGAR:` (Swedish kids).
 
-Adding these three would put Helsinki's combined view at 13 venues across 6 chains.
+Adding Orion and Engel would put Helsinki's combined view at 13 venues across 6 chains.
 
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAreas/`.
