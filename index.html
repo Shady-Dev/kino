@@ -166,6 +166,12 @@
     color:var(--muted);
   }
   .pastlink:hover{color:var(--ink)}
+  .daydone{
+    max-width:1100px; margin:26px auto 4px; padding:0 0 8px;
+    border-bottom:1px solid var(--line);
+    font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--muted);
+  }
   .nextday{
     display:inline-block; margin-top:14px; font:inherit; font-size:.85rem; font-weight:600;
     cursor:pointer; color:var(--ink); background:var(--chip-bg);
@@ -487,7 +493,8 @@
          noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
          notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.',
          onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
-         showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset' },
+         showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
+         alreadyShown:'Näytökset jo alkaneet' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -501,7 +508,8 @@
          noshows:'No shows for this day at the selected theatre.',
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
-         showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings' }
+         showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
+         alreadyShown:'Screenings already started' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -1139,7 +1147,13 @@
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
     const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
-    main.innerHTML = listLegend + movies.map(m => {
+    // A film whose every screening has passed is not the same as one still to come. Rather
+    // than dimming it in place, where it reads as a broken card, group them at the end
+    // under one heading. Said once, not annotated on every card.
+    const spent = m => m.times.every(t => t.start < now);
+    const live = movies.filter(m => !spent(m));
+    const over = movies.filter(spent);
+    const card = m => {
       const title = disp(m);
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
       const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
@@ -1199,7 +1213,14 @@
                   <div class="${stubClass}">${stubs}</div>
                 </div>
               </article>`;
-    }).join('');
+    };
+    // Nothing left today: say so where the list would have been, and offer the next day.
+    const noneLeft = !live.length
+      ? `<div class="status">${L[state.lang].nomore}${nextDayLink()}</div>` : '';
+    const overHead = over.length
+      ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
+    main.innerHTML = listLegend + noneLeft + live.map(card).join('')
+      + overHead + over.map(card).join('');
   }
 
   searchEl.oninput = () => { state.filter = searchEl.value; render(); };
