@@ -62,21 +62,22 @@
 The 12 h JWT problem is gone: the token is fetched fresh at run time and used within
 seconds, so nothing has to survive expiry.
 
-- `~/kino-auth/localfetch.sh` on the Mac: get token → `scripts/fetch_data.py` →
+- The local wrapper: get token → `scripts/fetch_data.py` →
   `scripts/providers/run.py kinoakseli` → `git push` data/*.json + posters +
-  `run.log` + `run-kinoakseli.log`, then `dispatch_cloud.sh`
+  `run.log` + `run-kinoakseli.log`, then dispatch the cloud workflow
 - Both fetchers run inside a `set +e` window with `echo "exit=$?"` appended to their
   own log, and `set -e` resumes only afterwards. So a Kino Akseli failure **cannot**
   abort the push or take fresh Finnkino data with it. Same shape as the cloud workflow.
 - Line 10 is `git fetch -q origin main && git reset -q --hard origin/main`: the working
   tree is **discarded at the start of every run**, so any manual edit inside `repo/` is
-  destroyed at the next slot. `localfetch.sh` itself lives outside `repo/`, so it
-  survives. Test edits belong in a separate clone.
+  destroyed at the next slot, because the wrapper hard-resets the clone to `origin/main`
+  before every run. The wrapper lives outside the clone, so it survives. Test edits belong
+  in a separate clone.
 - The TTL guard runs *before* `cd repo`, so a bad Finnkino token aborts the whole script
   including Kino Akseli, which needs no token. Only worth changing if Kino Akseli is ever
   seen going stale for a reason unrelated to itself.
-- `get_token.sh` obtains the short-lived token from a real browser session on the local
-  machine and hands it to the fetcher, which uses it within seconds. A TTL guard refuses
+- The token is obtained from a real browser session on the local machine and handed to the
+  fetcher, which uses it within seconds. A TTL guard refuses
   to proceed on a token with too little life left.
 - Scheduled locally four times a day; Actions cron stays enabled as a fallback.
 - Finnkino's site is not reachable from a datacenter IP, which is why this half of the
@@ -447,8 +448,8 @@ four files plus five frontend edits, which is the thing to fix at six providers:
 - [x] **One generic runner**, `scripts/providers/run.py <module>... | --where cloud|mac`.
       Contract: every adapter exposes `SITES` (each site carries its own `provider` id,
       because one module can serve several) and `fetch_site(site) -> {venue_id: [shows]}`.
-      The five `fetch_*.py` orchestrators are gone; `localfetch.sh` calls
-      `run.py kinoakseli` directly (verified on the Mac 2026-08-27: 10 showtimes,
+      The five `fetch_*.py` orchestrators are gone; the local wrapper calls
+      `run.py kinoakseli` directly (verified locally 2026-08-27: 10 showtimes,
       3 dates, 0 failures).
 - [x] The cloud workflow **loops** over `registry.py --cloud`. Failure flag goes to
       `$RUNNER_TEMP`, never into a commit; `git add data run-*.log` replaced the explicit
@@ -497,7 +498,6 @@ Still open from this pass:
 - [x] Dropped `data/attrs.json` and `data/film-sample.json`: written every Finnkino run,
       read by nothing.
 - [ ] Retry/backoff for transient API errors
-- [ ] Truncate ~/kino-auth/fetch.log so it doesn't grow forever
 - [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
       since reusing the movie id skips the search call)
 - [ ] README workflow badge
@@ -518,18 +518,17 @@ Still open from this pass:
 - [ ] Staleness monitor (external ping on data/areas.json age)
 - [x] The cloud workflow fails loudly if any provider exits non-zero, and now also if the
       push does not land (the retry loop used to swallow that)
-- [x] The Mac drives everything: `localfetch.sh` (Finnkino + Kino Akseli via `run.py`) then
-      — **but verify it actually fires**: the dispatch line was broken by a path-expansion
-      bug for an unknown period (see the `${0:a:h}` note under gotchas) and failed silently
-      because it is the last line, after the push has already succeeded. Worth an explicit
-      check that a cloud run appears within a minute of each Mac run.
-      `dispatch_cloud.sh` triggers the cloud workflow. **GitHub cron did not fire for
-      either workflow across four scheduled slots**, which is a known GitHub weakness, not
-      a config error. Cron stays enabled as a bonus.
+- [x] The local half drives everything: it fetches Finnkino and Kino Akseli, pushes, then
+      dispatches the cloud workflow. **GitHub cron did not fire for either workflow across
+      four scheduled slots**, a known GitHub weakness rather than a config error; cron
+      stays enabled as a bonus.
+- [x] Verify the dispatch actually fires. It is the last step, after the push has already
+      succeeded, so when it broke the run still looked healthy and only the seven cloud
+      providers went stale. A cloud run should appear within a minute of each local run.
 - [x] A provider parsing **zero** showtimes is now caught in the cloud: `run.py` writes no
       file, logs the venue by name, and exits non-zero, which fails the workflow. Before
       this, an empty parse silently left old data ageing.
-- [ ] The Mac half still only records it. `run-kinoakseli.log` gets `exit=1` and the run
+- [ ] The local half still only records it. `run-kinoakseli.log` gets `exit=1` and the run
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
 
@@ -565,12 +564,12 @@ Still open from this pass:
 - Probing external endpoints Claude's sandbox cannot reach: push a throwaway workflow that
   curls and commits the raw response, dispatch it, read the committed output, then delete
   workflow + output. Runners have unrestricted egress. **Does not work for sites that block
-  datacenter IPs** (Finnkino, Kino Akseli) — those need a curl from the Mac.
+  datacenter IPs** (Finnkino, Kino Akseli) — those have to be fetched locally.
 - BeautifulSoup re-serialises attributes with single quotes; the raw HTML used double quotes
   with `&quot;`-escaped JSON. Never write regexes against bs4's rendering of a page.
 - `workflow_dispatch` runs the workflow file at the ref, but a run already queued from an
   earlier push uses the older file. Check `head_sha` when a change seems not to apply.
-- Two writers on one branch (Mac + Actions), so both push paths need the pull-rebase retry.
+- Two writers on one branch (local + Actions), so both push paths need the pull-rebase retry.
 - The cloud workflow is **cron + dispatch only** with `cancel-in-progress: true`. It used to
   trigger on pushes to `scripts/providers/**`, which meant an adapter commit spawned a run
   that raced a manual dispatch; both regenerate the same files, so the loser could not
@@ -592,29 +591,16 @@ Still open from this pass:
   commits. For a multi-file change in one commit, use the Git trees API: get
   `git/ref/heads/main` → its commit's `tree` → `POST git/trees` with `base_tree` and
   `{"path":…, "sha":null}` per deletion → `POST git/commits` → `PATCH git/refs/heads/main`.
-- Pushing through the API means the **Mac clone learns nothing until it pulls**. A clone
+- Pushing through the API means the **local clone learns nothing until it pulls**. A clone
   that looked weeks behind was only two hours behind: a day of API commits plus four
   rebrand commits arrived at once and the diff looked alarming. To identify the clone that
   actually publishes, read the author of the commits touching its data
   (`git log -3 -- data/areas.json` → `kino-local`), not the file listing.
-- `launchctl print gui/$(id -u)/<label>` printed nothing for a job that
-  `launchctl list` shows as loaded. Use `launchctl list | grep` to confirm a job exists.
-- `localfetch.sh` does `cd repo`, so anything appended must use an absolute path. **And
-  `"${0:a:h}/script.sh"` is not one**, which this note used to claim. `$0` is the relative
-  `./localfetch.sh`, and zsh's `:a` resolves a relative path against the *current*
-  directory: fine on line 3, wrong after `cd repo`, where it yields
-  `~/kino-auth/repo/dispatch_cloud.sh`. That silently broke the cloud dispatch, so for a
-  stretch the only cloud runs were manual dispatches plus the unreliable cron, while
-  Finnkino kept updating normally — the health line showed it, nothing flagged it.
-  Capture the directory once, before any `cd`, and use it thereafter:
-
-  ```sh
-  HERE="${0:a:h}"      # resolved while still in ~/kino-auth
-  cd "$HERE"
-  ...
-  "$HERE/dispatch_cloud.sh"
-  ```
-  Adapters carry a referer, three retries with backoff, and 2.5 s between venues.
+- The local wrapper's own shell mechanics (path expansion, scheduling, log rotation) are
+  in local private notes. One general lesson worth keeping here: a final step that runs
+  *after* the push can fail without making the run look failed, so anything that matters
+  needs its own check.
+- Adapters carry a referer, three retries with backoff, and a pause between venues.
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
