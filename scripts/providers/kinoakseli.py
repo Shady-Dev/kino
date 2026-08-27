@@ -17,6 +17,9 @@ UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
 VENUE = {"id": "ka-nummela", "provider": "kinoakseli", "providerId": "1",
          "name": "Kino Akseli", "short": "Kino Akseli", "city": "Nummela"}
 
+# Single screen, so one site with one venue. See run.py for the contract.
+SITES = [{"provider": "kinoakseli", "label": "Kino Akseli", "venues": [VENUE]}]
+
 HEAD_RE = re.compile(r'<h2[^>]*class="elementor-heading-title[^"]*"[^>]*>\s*'
                      r'<a href="(https://kinoakseli\.fi/elokuva-[^"]+)"[^>]*>(.*?)</a>', re.S)
 SHOWS_RE = re.compile(r'Näytösajat(.*?)</p>', re.S)
@@ -120,6 +123,11 @@ def fetch():
     if len(page) < 5000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")
     return parse(page)
+
+
+def fetch_site(site=SITES[0]):
+    """Runner contract: one page, one screen, keyed by the venue id."""
+    return {VENUE["id"]: fetch()}
 
 
 if __name__ == "__main__":
