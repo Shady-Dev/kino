@@ -980,15 +980,19 @@
   }
   function hideSheet(){ document.body.classList.remove('sheet-open'); }
   function syncSheet(){
-    const m = location.hash.match(/m=([\w-]+)/);
-    if(m) showSheet(m[1]); else hideSheet();
+    const m = location.hash.match(/m=(.+)$/);
+    if(m){
+      let id = m[1];
+      try { id = decodeURIComponent(id); } catch(_) {}
+      showSheet(id);
+    } else hideSheet();
   }
   window.addEventListener('hashchange', syncSheet);
   overlayEl.onclick = () => { location.hash = ''; };
   main.addEventListener('click', e => {
     if(e.target.closest('a.stub')) return;
     const el = e.target.closest('article.movie, .tinfo');
-    if(el && state.mode === 'json') location.hash = 'm=' + el.dataset.id;
+    if(el && state.mode === 'json') location.hash = 'm=' + encodeURIComponent(el.dataset.id);
   });
 
   /* ---------- language toggle ---------- */
