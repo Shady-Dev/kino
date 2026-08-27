@@ -27,6 +27,10 @@ VENUES = [
     {"id": "br-vaasa",       "providerId": "5",  "name": "BioRex Vaasa",       "short": "Vaasa",       "city": "Vaasa"},
 ]
 
+# One platform, one site: a single set of requests covers every venue, so the runner's
+# site list is just VENUES. See run.py for the contract.
+SITES = [{"provider": "biorex", "label": "BioRex", "venues": VENUES}]
+
 # Note: the wrapper class carries a trailing space -> 'showtime-item '
 ITEM_RE = re.compile(r'<div class="showtime-item\s*">(.*?)(?=<div class="showtime-item\s*">|\Z)', re.S)
 # Double-quoted with &quot;-escaped JSON inside.
@@ -215,3 +219,9 @@ def fetch_all(sleep=0.6, with_meta=True):
                 if m["syn"]:
                     s["_syn"] = m["syn"]
     return out
+
+
+def fetch_site(site=SITES[0], **kw):
+    """Runner contract. fetch_all covers every venue in one pass and already handles
+    per-venue failures, so `site` is accepted for symmetry and not used to subset."""
+    return fetch_all(**kw)
