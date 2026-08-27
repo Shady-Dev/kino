@@ -23,12 +23,57 @@ def norm(t):
     return re.sub(r"\s+", " ", t).strip()
 
 
+# Event prefixes a cinema puts in front of the real title. Exact list, not a pattern:
+# "Dyyni: Osa kolme" must keep its head, so anything before a colon cannot be dropped
+# blindly. Extend as new arthouse strands appear.
+EVENT_PREFIXES = (
+    "kesäkino", "kesakino", "vauvakino", "barnsöndagar", "barnsondagar",
+    "klassikko", "klassikkosarja", "elokuvakerho", "filmiklubi", "seniorikino",
+    "perhekino", "lastenkino", "sunnuntaikino", "ennakkonäytös", "ennakko",
+)
+# Screening-format and re-release noise in brackets, including a bare year.
+PAREN_NOISE = re.compile(
+    r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?|re-?release"
+    r"|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
+TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|dubattu)\b\s*$", re.I)
+
+
+def clean(title):
+    """Strip event prefixes and format noise before searching TMDB.
+
+    Only the *search string* is cleaned. norm() keys the cache and films-extra.json on
+    the title as the cinema published it, and normTitle() in index.html has to agree
+    with that key, so the key itself must never be touched here.
+    """
+    t = (title or "").strip()
+    low = t.lower()
+    for pre in EVENT_PREFIXES:
+        if low.startswith(pre + ":"):
+            t = t[len(pre) + 1:].strip()
+            break
+    t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", t))
+    return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
+
+
 def queries(title):
-    """Full title first, then the part before a dash/colon as a fallback."""
-    out = [title]
-    head = re.split(r"\s+[-–]\s+|:\s+", title, maxsplit=1)[0].strip()
-    if head and head.lower() != title.lower() and len(head) > 3:
-        out.append(head)
+    """Cleaned title, then its head before a dash/colon, then the raw title.
+
+    The raw title stays last so a wrong cleanup costs an extra request rather than a
+    missing film.
+    """
+    out = []
+
+    def add(x):
+        x = (x or "").strip()
+        if len(x) > 2 and x.lower() not in [o.lower() for o in out]:
+            out.append(x)
+
+    c = clean(title)
+    add(c)
+    head = re.split(r"\s+[-–]\s+|:\s+", c, maxsplit=1)[0].strip()
+    if len(head) > 3:
+        add(head)
+    add(title)
     return out
 
 
