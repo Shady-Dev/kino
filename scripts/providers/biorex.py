@@ -38,6 +38,10 @@ RATING_RE = re.compile(r'class="showtime-item__movie-rating">\s*\(?([^)<]*?)\)?\
 FORMAT_RE = re.compile(r'class="showtime-item__format">(.*?)</span>', re.S)
 SRCSET_RE = re.compile(r'data-srcset="([^"]+)"')
 MOVIEURL_RE = re.compile(r'class="showtime-item__movie-name"[^>]*href="([^"]+)"')
+# Film pages carry what the ajax response omits: Finnish synopsis, runtime, genres.
+SYN_RE = re.compile(r'class="movie-description__synopsis[^"]*">\s*(.*?)\s*</div>', re.S)
+KESTO_RE = re.compile(r'Kesto:</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?', re.I)
+GENRE_RE = re.compile(r'Genre:</span>\s*([^<]+)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 # Format spans mix event/venue tags (Plus, Anniskelu, Senioribio…) with language codes
 # (EN, FI&SV, ES). Language codes are the trailing all-caps tokens.
@@ -46,7 +50,7 @@ WS_RE = re.compile(r"\s+")
 
 
 def _text(s):
-    return WS_RE.sub(" ", TAGS_RE.sub(" ", s)).strip()
+    return WS_RE.sub(" ", html_mod.unescape(TAGS_RE.sub(" ", s or ""))).strip()
 
 
 def _split_formats(fmts):
@@ -121,8 +125,29 @@ def parse(posts_html, venue):
             "soldOut": False,   # BioRex exposes no seat availability in this response
             "provider": "biorex",
             "venue": venue["id"],
+            "movieUrl": movie.group(1) if movie else "",
         })
     return shows
+
+
+def film_meta(url):
+    """Fetch one film page -> {'syn','len','genres'}. Cheap: ~15 pages per run."""
+    req = urllib.request.Request(url, headers={"user-agent": UA,
+                                               "accept-language": "fi-FI,fi;q=0.9"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        page = r.read().decode("utf-8", "replace")
+    syn = SYN_RE.search(page)
+    k = KESTO_RE.search(page)
+    g = GENRE_RE.search(page)
+    minutes = ""
+    if k and (k.group(1) or k.group(2)):
+        minutes = str(int(k.group(1) or 0) * 60 + int(k.group(2) or 0))
+    return {
+        "syn": _text(syn.group(1)) if syn else "",
+        "len": minutes,
+        "genres": ", ".join(x.strip() for x in _text(g.group(1)).split(",") if x.strip())
+                  if g else "",
+    }
 
 
 def _opener():
@@ -156,7 +181,7 @@ def fetch_venue(venue):
     return shows
 
 
-def fetch_all(sleep=0.6):
+def fetch_all(sleep=0.6, with_meta=True):
     out = {}
     for v in VENUES:
         try:
@@ -165,4 +190,28 @@ def fetch_all(sleep=0.6):
         except Exception as e:
             print(f"[biorex] {v['name']} FAILED: {e}")
         time.sleep(sleep)
+
+    if with_meta:
+        # One page per distinct film, then fill runtime/genres on every showtime.
+        pages, meta = {}, {}
+        for shows in out.values():
+            for s in shows:
+                if s.get("movieUrl"):
+                    pages.setdefault(s["title"], s["movieUrl"])
+        for title, url in pages.items():
+            try:
+                meta[title] = film_meta(url)
+            except Exception as e:
+                print(f"[biorex] meta {title}: {e}")
+            time.sleep(0.4)
+        print(f"[biorex] film pages: {len(meta)}/{len(pages)}")
+        for shows in out.values():
+            for s in shows:
+                m = meta.get(s["title"])
+                if not m:
+                    continue
+                s["len"] = s["len"] or m["len"]
+                s["genres"] = s["genres"] or m["genres"]
+                if m["syn"]:
+                    s["_syn"] = m["syn"]
     return out
