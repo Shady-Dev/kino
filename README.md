@@ -39,9 +39,14 @@ Providers run in one of two places, because two of them block datacenter IPs:
 
 The Mac runs `~/kino-auth/localfetch.sh` on a [redacted] schedule four times a
 day: it fetches a fresh Finnkino token via [redacted] driving real Chrome,
-runs the Finnkino and Kino Akseli fetchers, pushes the data, then triggers
-the cloud workflow with `dispatch_cloud.sh`. GitHub's own cron is left
-enabled as a fallback but has proved unreliable.
+runs `scripts/fetch_data.py` and `scripts/providers/run.py kinoakseli`, pushes
+the data, then triggers the cloud workflow with `dispatch_cloud.sh`. GitHub's
+own cron is left enabled as a fallback but has proved unreliable.
+
+Each fetcher runs with its exit code captured to its own committed log rather
+than aborting the script, so one failing provider never blocks the others from
+publishing. Read those logs (`run.log`, `run-{module}.log`) rather than the
+Actions logs.
 
 A final pass (`scripts/providers/enrich_tmdb.py`) fills in TMDB ratings,
 trailers, Finnish synopses and posters for anything a provider does not
@@ -124,6 +129,10 @@ read token in the repository secrets.
 
 `cf-worker/worker.js` was an attempt to fetch the token from Cloudflare's
 network instead of a residential IP. It is not deployed and not used.
+
+Note that `localfetch.sh` hard-resets its checkout to `origin/main` at the
+start of every run, so edits made inside that clone do not survive. The script
+itself lives outside the clone.
 
 ## Data sources
 
