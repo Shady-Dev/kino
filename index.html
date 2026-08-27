@@ -76,6 +76,13 @@
     padding:10px 14px; box-shadow:var(--shadow);
   }
   select{cursor:pointer; max-width:280px}
+  .fav{
+    font:inherit; font-size:1.15rem; line-height:1; cursor:pointer;
+    color:var(--muted); background:var(--surface);
+    border:1px solid var(--line); border-radius:10px;
+    padding:8px 12px; box-shadow:var(--shadow);
+  }
+  .fav[aria-pressed="true"]{color:var(--accent); border-color:var(--accent)}
 
   /* themed dropdown on Chromium (progressive enhancement) */
   select, ::picker(select){appearance:base-select}
@@ -286,6 +293,7 @@
   </div>
   <div class="controls">
     <select id="areaSelect" aria-label="Choose theatre"></select>
+    <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
     <input class="search" id="search" type="search" placeholder="Filter by title…" aria-label="Filter movies by title">
   </div>
   <div class="days" id="days" role="tablist" aria-label="Choose date"></div>
@@ -350,6 +358,7 @@
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
+         favOn:'Oma teatteri — avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
          soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
          nomore:'Ei enää näytöksiä tänään.',
@@ -359,6 +368,7 @@
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
+         favOn:'Home theatre — opens here next time', favOff:'Set as home theatre',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
          nomore:'No more shows today.',
@@ -521,6 +531,19 @@
     return lo === hi ? `${fmt(lo)}\u20ac` : `${L[state.lang].from} ${fmt(lo)}\u20ac`;
   }
 
+  const favBtn = $('#favBtn');
+  function syncFav(){
+    const on = prefs.get().fav === state.area;
+    favBtn.textContent = on ? '\u2605' : '\u2606';
+    favBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    favBtn.title = on ? L[state.lang].favOn : L[state.lang].favOff;
+  }
+  favBtn.onclick = () => {
+    const on = prefs.get().fav === state.area;
+    prefs.set({ fav: on ? '' : state.area });
+    syncFav();
+  };
+
   function netErrorHtml(e){
     if(location.protocol === 'content:'){
       return `<div class="status"><b>Android is blocking network access.</b><br><br>
@@ -581,9 +604,12 @@
     areaSel.innerHTML = cities.map(c =>
       `<optgroup label="${c}">${byCity.get(c)
         .sort((x,y)=>labelOf(x).localeCompare(labelOf(y),'fi')).map(opt).join('')}</optgroup>`).join('');
-    const saved = prefs.get().area;
-    state.area = (saved && areas.some(a => a.id === saved)) ? saved : areas[0].id;
+    // A starred venue opens every time; otherwise fall back to the last one browsed.
+    const pr = prefs.get();
+    const known = id => id && areas.some(a => a.id === id);
+    state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
     areaSel.value = state.area;
+    syncFav();
   }
 
   async function loadAreas(){
@@ -615,7 +641,10 @@
       state.mode = 'xml';
       fillAreaSelect(areas);
     }
-    areaSel.addEventListener('change', () => { state.area = areaSel.value; prefs.set({area: state.area}); loadSchedule(); });
+    areaSel.addEventListener('change', () => {
+      state.area = areaSel.value; prefs.set({area: state.area});
+      syncFav(); loadSchedule();
+    });
   }
 
   /* ---------- schedule ---------- */
@@ -906,6 +935,7 @@
   const segM = document.querySelector('#segMovies'), segT = document.querySelector('#segTimes');
   const chipLang = document.querySelector('#chipLang'), chipKids = document.querySelector('#chipKids');
   function syncTools(){
+    syncFav();
     segM.classList.toggle('on', state.view === 'movies');
     segT.classList.toggle('on', state.view === 'times');
     chipLang.classList.toggle('on', state.fLang);
