@@ -126,7 +126,51 @@
   }
   .day b{display:block; color:var(--ink); font-weight:700; font-size:.85rem; white-space:nowrap}
   .day small{font-size:.74rem; font-weight:600; letter-spacing:.01em; white-space:nowrap}
-  .day input[type=date]{position:absolute; inset:0; opacity:0; width:100%; height:100%; border:0; padding:0}
+  /* Custom month picker: <input type=date> cannot dim individual days, and with
+     horizons out to three months most days have no screening at all. */
+  .cal-wrap{
+    position:fixed; inset:0; z-index:60; background:rgba(0,0,0,.55);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .cal{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.5); padding:14px; width:min(340px,100%);
+  }
+  .cal-head{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px}
+  .cal-head b{font-size:.95rem; text-transform:capitalize}
+  .cal-nav{
+    font:inherit; font-size:1.1rem; line-height:1; cursor:pointer; color:var(--ink);
+    background:var(--chip-bg); border:1px solid var(--line); border-radius:8px;
+    padding:4px 12px;
+  }
+  .cal-nav[disabled]{opacity:.3; cursor:default}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center}
+  .cal-dow{font-size:.68rem; font-weight:700; color:var(--muted); padding-bottom:4px}
+  .cal-day{
+    font:inherit; font-size:.85rem; padding:7px 0; border-radius:8px;
+    border:1px solid transparent; background:none; color:var(--muted);
+  }
+  .cal-day.has{
+    cursor:pointer; color:var(--ink); font-weight:700;
+    background:var(--chip-bg); border-color:var(--line);
+  }
+  .cal-day.off{opacity:.28}
+  .cal-day.pad{opacity:0}
+  .cal-day.sel{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+  .cal-note{display:block; margin-top:10px; font-size:.7rem; color:var(--muted); text-align:center}
+  /* Past showtimes are hidden; this reveals them for one film without costing
+     any space in the header. */
+  .stub.reveal{
+    cursor:pointer; background:none; border-style:dashed; color:var(--muted);
+    box-shadow:none;
+  }
+  .stub.reveal .time{font-weight:700}
+  .stub.reveal::before,.stub.reveal::after{display:none}
+  .nextday{
+    display:inline-block; margin-top:14px; font:inherit; font-size:.85rem; font-weight:600;
+    cursor:pointer; color:var(--ink); background:var(--chip-bg);
+    border:1px solid var(--line); border-radius:999px; padding:8px 16px;
+  }
   .day.active{background:var(--ink); border-color:var(--ink)}
   .day.active b{color:var(--bg)}
   .day.active small{color:var(--accent)}
@@ -400,7 +444,8 @@
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
                 fLang:false, fKids:false, dates:null, horizon:'', advanced:false,
-                chains:null };   // null = every chain; a Set = only those
+                chains:null,     // null = every chain; a Set = only those
+                revealed:new Set() };  // eventIds whose past showtimes are expanded
   let films = null;
   // films.json is Finnkino-only (keyed by its filmId). Other providers get synopses from
   // films-extra.json, keyed by normalised title — same normalisation as enrich_tmdb.py.
@@ -440,7 +485,9 @@
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
          nomore:'Ei enää näytöksiä tänään.',
          noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
-         notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.' },
+         notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.',
+         onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
+         showPast:'menneet', hidePast:'piilota', nextShows:'Seuraavat näytökset' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -452,7 +499,9 @@
          nomatch:'No movies match your filters.',
          nomore:'No more shows today.',
          noshows:'No shows for this day at the selected theatre.',
-         notpublished:'The schedule for this day has not been published yet.' }
+         notpublished:'The schedule for this day has not been published yet.',
+         onlyDays:'Only days with screenings can be picked.',
+         showPast:'earlier', hidePast:'hide', nextShows:'Next screenings' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -529,7 +578,7 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
-  let calInput = null, calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
+  let calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
   let allVenues = [], cityGroups = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
@@ -558,36 +607,84 @@
       if(i===savedIdx){ b.classList.add('active'); state.dateStr = iso; }
       daysEl.appendChild(b);
     }
-    // calendar chip: native date picker, horizon = today..+6 (pipeline range)
+    // Calendar chip: opens the custom month picker (see openCal).
     const cal = document.createElement('button');
     cal.className = 'day'; cal.role = 'tab';
-    const calLabel = () => `<small>${L[state.lang].other}</small><b>📅</b>`;
-    cal.innerHTML = calLabel();
-    const inp = document.createElement('input');
-    inp.type = 'date';
-    inp.min = base;
-    // Widened to +13; narrowed to the venue's real horizon once area data loads.
-    inp.max = state.horizon || addDays(base, 13);
-    calInput = inp;
+    cal.innerHTML = `<small>${L[state.lang].other}</small><b>📅</b>`;
     calChip = cal;
-    inp.onchange = () => {
-      if(!inp.value) return;
-      state.dateStr = inp.value; state.advanced = true;
-      prefs.set({dayIdx: diffDays(base, inp.value)});
-      cal.innerHTML = `<small>${fiDay[dowOf(inp.value)]}</small><b>${dmOf(inp.value)}</b>`;
-      cal.appendChild(inp);
-      activate(cal); loadSchedule();
-    };
-    cal.appendChild(inp);
-    cal.onclick = () => { try{ inp.showPicker(); }catch(e){ inp.click(); } };
+    cal.onclick = openCal;
     if(savedIdx >= 5){
       const iso = addDays(base, savedIdx);
       state.dateStr = iso;
       cal.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
-      cal.appendChild(inp);
       cal.classList.add('active');
     }
     daysEl.appendChild(cal);
+  }
+
+  /* ---------- month picker ---------- */
+  // `dates` per venue is sparse (Gilda publishes 20 dates across 14 weeks), and a native
+  // date input cannot disable individual days, so picking one was mostly a miss.
+  const ymOf = iso => iso.slice(0, 7);
+  const ymAdd = (ym, k) => {
+    const [y, m] = ym.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1 + k, 1)).toISOString().slice(0, 7);
+  };
+  let calMonth = null;
+  function closeCal(){
+    const w = document.querySelector('.cal-wrap');
+    if(w) w.remove();
+    document.removeEventListener('keydown', calKey);
+  }
+  function calKey(e){ if(e.key === 'Escape') closeCal(); }
+  function openCal(){
+    closeCal();
+    const base = fiToday();
+    const max = state.horizon || addDays(base, 13);
+    calMonth = ymOf(state.dateStr > base ? state.dateStr : base);
+    const wrap = document.createElement('div');
+    wrap.className = 'cal-wrap';
+    wrap.innerHTML = '<div class="cal" role="dialog" aria-modal="true"></div>';
+    wrap.addEventListener('click', e => { if(e.target === wrap) closeCal(); });
+    document.body.appendChild(wrap);
+    document.addEventListener('keydown', calKey);
+    drawCal(base, max);
+  }
+  function drawCal(base, max){
+    const el = document.querySelector('.cal');
+    if(!el) return;
+    // No dates loaded yet: allow the whole range rather than locking the user out.
+    const avail = (Array.isArray(state.dates) && state.dates.length) ? new Set(state.dates) : null;
+    const [y, m] = calMonth.split('-').map(Number);
+    const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;   // Monday first
+    const title = new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString(
+      state.lang === 'fi' ? 'fi-FI' : 'en-GB', { month:'long', year:'numeric', timeZone:'UTC' });
+    const dow = [1,2,3,4,5,6,0].map(i => `<span class="cal-dow">${fiDay[i]}</span>`).join('');
+    let cells = '';
+    for(let i = 0; i < lead; i++) cells += '<span class="cal-day pad"></span>';
+    for(let d = 1; d <= days; d++){
+      const iso = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const has = iso >= base && iso <= max && (!avail || avail.has(iso));
+      const cls = 'cal-day' + (has ? ' has' : ' off') + (iso === state.dateStr ? ' sel' : '');
+      cells += has ? `<button class="${cls}" data-day="${iso}">${d}</button>`
+                   : `<span class="${cls}">${d}</span>`;
+    }
+    const prevOk = ymAdd(calMonth, -1) >= ymOf(base);
+    const nextOk = ymAdd(calMonth, 1) <= ymOf(max);
+    el.innerHTML = `<div class="cal-head">
+        <button class="cal-nav" data-mon="-1"${prevOk ? '' : ' disabled'} aria-label="&larr;">&lsaquo;</button>
+        <b>${title}</b>
+        <button class="cal-nav" data-mon="1"${nextOk ? '' : ' disabled'} aria-label="&rarr;">&rsaquo;</button>
+      </div>
+      <div class="cal-grid">${dow}${cells}</div>
+      ${avail ? `<small class="cal-note">${L[state.lang].onlyDays}</small>` : ''}`;
+    el.onclick = e => {
+      const nav = e.target.closest('.cal-nav');
+      if(nav && !nav.disabled){ calMonth = ymAdd(calMonth, +nav.dataset.mon); drawCal(base, max); return; }
+      const day = e.target.closest('[data-day]');
+      if(day){ closeCal(); selectDay(day.dataset.day); }
+    };
   }
 
   // Each provider updates on its own schedule, so show every source's age. A scraper that
@@ -799,6 +896,7 @@
   // Jump to a date and keep the chip row in sync, whether it is a chip or the picker.
   function selectDay(iso){
     state.dateStr = iso;
+    state.revealed.clear();
     const base = fiToday();
     prefs.set({ dayIdx: diffDays(base, iso) });
     [...daysEl.children].forEach(c => c.classList.remove('active'));
@@ -806,7 +904,6 @@
       dayBtns[iso].classList.add('active');
     } else if(calChip){
       calChip.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
-      if(calInput) calChip.appendChild(calInput);
       calChip.classList.add('active');
     }
     return loadSchedule();
@@ -850,7 +947,6 @@
         if(cache.generated) state.generated = cache.generated;
         state.dates = Array.isArray(cache.dates) ? cache.dates : null;
         state.horizon = cache.horizon || '';
-        if(calInput && state.horizon) calInput.max = state.horizon;
         state.shows = cache.shows
           .map(s => ({ ...s, start: new Date(s.start) }))
           .filter(s => fiDate(s.start) === state.dateStr);
@@ -940,7 +1036,7 @@
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
     const timesLegend = new Set(state.shows.map(s=>s.theatre)).size > 1
       ? chainLegend(state.shows, 'top') : '';
-    if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}</div>`; return; }
+    if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
@@ -983,6 +1079,15 @@
     render();
   }
   main.addEventListener('click', e => {
+    const goto = e.target.closest('[data-goto]');
+    if(goto){ selectDay(goto.dataset.goto); return; }
+    const rev = e.target.closest('[data-reveal]');
+    if(rev){
+      const id = rev.dataset.reveal;
+      state.revealed.has(id) ? state.revealed.delete(id) : state.revealed.add(id);
+      render();
+      return;
+    }
     const b = e.target.closest('.lg-btn');
     if(!b) return;
     const all = [...new Set(state.shows.map(s => s.provider).filter(Boolean))].sort();
@@ -995,6 +1100,16 @@
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
     return t.noshows;
+  }
+  // Long horizons are sparse, so an empty day should point at the next real one instead
+  // of leaving the visitor to hunt through the picker.
+  function nextDayLink(){
+    if(state.filter || state.fLang || state.fKids) return '';
+    const today = fiToday();
+    const next = (state.dates || []).find(d => d > state.dateStr && d >= today);
+    if(!next) return '';
+    return `<button class="nextday" data-goto="${next}">${L[state.lang].nextShows}`
+      + ` &rarr; ${fiDay[dowOf(next)]} ${dmOf(next)}</button>`;
   }
 
   function render(){
@@ -1009,7 +1124,7 @@
     const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
 
     if(!movies.length){
-      main.innerHTML = `<div class="status">${emptyMsg()}</div>`;
+      main.innerHTML = `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
       return;
     }
 
@@ -1027,7 +1142,22 @@
         ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
-      const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
+      // Past times are hidden behind a compact stub rather than a global toggle: it costs
+      // no header space and only appears on the cards that have any. If *every* time has
+      // passed they stay visible, since an empty card would read as a bug.
+      const sorted = m.times.sort((a,b)=>a.start-b.start);
+      const ahead = sorted.filter(t => t.start >= now);
+      const gone = sorted.filter(t => t.start < now);
+      const open = state.revealed.has(m.eventId);
+      const shown = (!ahead.length || open) ? sorted : ahead;
+      const revealStub = (gone.length && ahead.length)
+        ? `<button class="stub reveal" data-reveal="${m.eventId}"
+                   aria-expanded="${open}" style="--notch:52px">
+             <span class="time">${open ? '&minus;' : '+' + gone.length}</span>
+             <span class="aud">${open ? L[state.lang].hidePast : L[state.lang].showPast}</span>
+           </button>`
+        : '';
+      const stubs = revealStub + shown.map(t => {
         const clock = fiTime(t.start);
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
