@@ -123,12 +123,28 @@ def main() -> int:
 
     # Synopses live in their own file so area files stay small: one synopsis repeated
     # across 158 showtimes would add roughly 80 kB per venue.
-    extra = {k: {"s": {"fi": c.get("fi", ""), "en": c.get("en", "")},
-                 "r": c.get("r", 0),
-                 "tr": ("https://www.youtube.com/watch?v=" + c["v"]) if c.get("v") else ""}
-             for k, c in cache.items()
-             if isinstance(c, dict) and (c.get("fi") or c.get("en") or c.get("v"))}
-    EXTRA.write_text(json.dumps({"generated": today, "films": extra}, ensure_ascii=False))
+    # Merge: providers write their own (better) Finnish synopses into this file before
+    # this pass runs, so never clobber an existing fi text.
+    try:
+        doc = json.loads(EXTRA.read_text())
+    except Exception:
+        doc = {}
+    films = doc.get("films") or {}
+    for k, c in cache.items():
+        if not isinstance(c, dict):
+            continue
+        if not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
+            continue
+        e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
+        e.setdefault("s", {"fi": "", "en": ""})
+        if not e["s"].get("fi"):
+            e["s"]["fi"] = c.get("fi", "")
+        if not e["s"].get("en"):
+            e["s"]["en"] = c.get("en", "")
+        e["r"] = e.get("r") or c.get("r", 0)
+        if not e.get("tr") and c.get("v"):
+            e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
+    EXTRA.write_text(json.dumps({"generated": today, "films": films}, ensure_ascii=False))
 
     touched = 0
     for p in files:
