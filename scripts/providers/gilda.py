@@ -110,11 +110,16 @@ def _start(show):
     return t.astimezone(FI).isoformat()
 
 
-def _aud(show):
-    """"Bio Rex Lasipalatsi (K-18)" -> "Bio Rex Lasipalatsi": the (K-18) is a door
-    policy for that venue, not this film's rating."""
-    name = (show.get("screen_name") or "").strip()
-    return re.sub(r"\s*\(K-?\d+\)\s*$", "", name)
+def _aud(show, venue):
+    """"Bio Rex Lasipalatsi (K-18)" -> "": the (K-18) is a door policy for that venue,
+    not this film's rating, and a single-screen house whose screen name repeats the venue
+    name must render blank or the stub reads "Bio Rex Lasipalatsi · Bio Rex Lasipalatsi".
+    "Gilda 3" is kept, since it distinguishes one of three screens."""
+    name = re.sub(r"\s*\(K-?\d+\)\s*$", "", (show.get("screen_name") or "").strip())
+    low = name.lower()
+    if low in (venue["short"].lower(), venue["name"].lower()):
+        return ""
+    return name
 
 
 def _method(show):
@@ -178,7 +183,7 @@ def parse(payload, site):
                 "genres": (film.get("genre") or "").strip(),
                 "method": _method(s),
                 "theatre": venue["name"],
-                "aud": _aud(s),
+                "aud": _aud(s, venue),
                 "start": start,
                 "url": listing,      # no public per-show booking URL found yet
                 "img": img,
