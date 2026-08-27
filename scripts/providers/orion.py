@@ -13,6 +13,24 @@ Two things the source dictates:
   * The price cell's `title` attribute carries the full ticket-type breakdown, so a
     screening with cheaper types reads "alkaen 8.5€" rather than the base price alone.
 
+The title cell has two shapes and both matter:
+
+    <td class='title'> Espoo Ciné: Four Minus Three </td>
+    <td class='title'><a href='/elokuvat/{slug}/' title ="Film"> Film
+      <span class="descrption">Finnish blurb<span> </a></td>
+
+The linked shape wraps the title together with a screening blurb, so the film title is
+read from the anchor's `title` attribute, not from the cell's text: flattening the cell
+glues the blurb onto the title, which splits one film into one "film" per blurb and
+leaves TMDB nothing to match. `descrption` is the site's spelling, and its inner
+`<span>` is never closed, so that span is cut at whatever tag comes next. The blurb
+goes to `_syn`; it mixes screening notes ("Ensi-iltaelokuva, klubialennus.") into the
+synopsis, but synmerge only ever fills an empty slot.
+
+`eventId` comes from the film page slug where there is one, so repeat screenings of the
+same film share an id. Festival rows have no film page and fall back to a slug of the
+title.
+
 The programme includes third-party events (festivals, HopeaCine, Orion Club), which are
 real screenings at this venue and belong in the data. They arrive with prefixes like
 "Espoo Ciné:"; that is enrich_tmdb.clean()'s problem, not this adapter's, and the title
@@ -43,8 +61,14 @@ BLOCK_RE = re.compile(r'<h3\b[^>]*>(?P<head>.*?)</h3>'
 ROW_RE = re.compile(r'<tr\b[^>]*>(.*?)</tr>', re.S | re.I)
 CELL_RE = re.compile(r'<td\b([^>]*)>(.*?)</td>', re.S | re.I)
 CLASS_RE = re.compile(r'class=["\']([^"\']*)["\']', re.I)
-TITLE_ATTR_RE = re.compile(r'title=["\']([^"\']*)["\']', re.I)
-HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.I)
+ANCHOR_RE = re.compile(r'<a\b([^>]*)>(.*?)</a>', re.S | re.I)
+TITLE_ATTR_RE = re.compile(r'title\s*=\s*["\']([^"\']*)["\']', re.I)
+HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
+SLUG_URL_RE = re.compile(r'/elokuv[au]t?/([^/?#"\']+)', re.I)
+# The site spells it "descrption", and the span inside it is never closed, so stop at
+# whatever tag comes next rather than at a </span> that may not exist.
+DESCR_RE = re.compile(r'<span[^>]*class=["\'][^"\']*descrption[^"\']*["\'][^>]*>'
+                      r'(.*?)(?:</span>|<span\b[^>]*>|</a>|$)', re.S | re.I)
 DATE_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'(\d{1,2})[:.](\d{2})')
 EUR_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s*(?:€|eur\b)', re.I)
@@ -74,6 +98,23 @@ def _price(cell_text, breakdown):
     if amounts:
         return f"{_num(amounts[0])}\u20ac"
     return _txt(cell_text)          # "Vapaa pääsy" and anything else non-numeric
+
+
+def _film(cell_html):
+    """Title cell -> (title, blurb, slug). Two shapes, see the module docstring."""
+    a = ANCHOR_RE.search(cell_html)
+    if not a:
+        return _txt(cell_html), "", ""
+    attrs, inner = a.group(1), a.group(2)
+    d = DESCR_RE.search(inner)
+    blurb = _txt(d.group(1)) if d else ""
+    ta = TITLE_ATTR_RE.search(attrs)
+    # The attribute is the film title on its own. Without it, cut the anchor text at
+    # the blurb span rather than flattening the whole cell.
+    title = html_mod.unescape(ta.group(1)).strip() if ta else _txt(inner.split("<span")[0])
+    href = HREF_RE.search(attrs)
+    sm = SLUG_URL_RE.search(href.group(1)) if href else None
+    return title, blurb, (sm.group(1) if sm else "")
 
 
 def _iso(day, month, hh, mm, today=None):
@@ -107,7 +148,7 @@ def parse(page, today=None):
             continue
         for row in ROW_RE.findall(m.group("table")):
             cells = _cells(row)
-            title = _txt(cells.get("title", ("", ""))[1])
+            title, blurb, slug = _film(cells.get("title", ("", ""))[1])
             tm = TIME_RE.search(_txt(cells.get("time", ("", ""))[1]))
             # The row's own date cell first; the day heading above the table is the
             # fallback in case that cell is ever dropped from the markup.
@@ -122,7 +163,7 @@ def parse(page, today=None):
             bd = TITLE_ATTR_RE.search(price_attrs)
             href = HREF_RE.search(cells.get("link", ("", ""))[1])
             shows.append({
-                "eventId": _slug(title),
+                "eventId": slug or _slug(title),
                 "title": title,
                 "original": "",
                 "len": "",
@@ -139,6 +180,7 @@ def parse(page, today=None):
                 "price": _price(_txt(price_html), html_mod.unescape(bd.group(1)) if bd else ""),
                 "provider": "orion",
                 "venue": VENUE["id"],
+                "_syn": blurb,
             })
     shows.sort(key=lambda s: s["start"])
     return shows
