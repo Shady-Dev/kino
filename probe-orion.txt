@@ -1,7 +1,0 @@
-items 100 | x-wp-total 636 pages 7
-og_image extensions: {'jpg': 77, 'tif': 1, 'png': 15, 'webp': 4, 'jpeg': 3}
-entries with no og_image: 0
---- follow-the-plants | content imgs: []
-    og: [('https://cinemaorion.fi/wp-content/uploads/2026/08/hammer_womenilove-07-300dpi.tif', 1600, 900)]
-    acf: []
-    first web-format upload in body: None

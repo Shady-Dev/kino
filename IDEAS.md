@@ -458,9 +458,21 @@ datacenter IPs and the adapter never touches it.
   TMDB entry.
 - The bad first run left 13 glued-title keys in `data/tmdb-titles.json`. Pruned, on the
   rule that a cache key with no rating, trailer or id and no live showtime is dead.
-- `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and could enrich by slug.
-  Not needed: the front page already carries the slug and the blurb, and using it would
-  cost one request per film.
+- `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and could enrich by slug:
+  636 films over 7 pages of 100. Not needed for text — the front page already carries the
+  slug and the blurb. **And it has no posters** (probed 2026-08-27): `featured_media` is
+  null on all 100 entries of page 1, `content.rendered` holds no `<img>`, `acf` is empty.
+  The only image is Yoast's `og_image`, which is the page's 16:9 header still rather than
+  a poster (page 1: 77 jpg, 15 png, 4 webp, 3 jpeg, 1 tif).
+- **Do not swap Orion's own images in for TMDB posters.** A 16:9 still cropped into a 2:3
+  tile is a downgrade on the rows that already match TMDB, and the 17 Espoo Ciné rows are
+  bare text with no `/elokuvat/` link, so they have no slug for this endpoint to key on.
+  Filling only the gaps would be safe but currently fixes nothing: the one gap that has a
+  slug is "Follow The Plants", whose header image is a **1600x900 TIFF** with no jpg
+  derivative, which Chrome will not render. That title keeps its initials tile, which is
+  correct — a shorts programme is not a film, same as the Coltrane and Jamiroquai
+  playback nights. Putting an image there would mean converting the file and hosting it
+  in `data/posters/`.
 
   Three assumptions that were **wrong** and cost a detour, recorded so nobody repeats them:
   - ELKE's **"Rajapinnat"** page is not an API page. It means *interfaces between old and
