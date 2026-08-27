@@ -11,7 +11,10 @@ Fields:
   label   chain name, used in the venue picker, the chain legend and the footer
   host    the cinema's own domain, credited in the footer
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md
-  book    buy | reserve | door -> footer call to action
+  book    buy | reserve | door | list -> footer call to action. "list" is for a
+          provider that publishes no per-show booking URL, so a showtime can only
+          open the programme page (Gilda: seat choice lives in React state, and the
+          bundle exposes no shareable showtime route)
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
@@ -31,7 +34,7 @@ PROVIDERS = [
     dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#7A4FA3",
          book="buy", module="riviera", where="cloud"),
     dict(id="gilda", label="Gilda", host="gilda.fi", accent="#A8433C",
-         book="buy", module="gilda", where="cloud"),
+         book="list", module="gilda", where="cloud"),
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#2A7B8C",
          book="buy", module="vista", where="cloud"),
     dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#4A6FA5",
