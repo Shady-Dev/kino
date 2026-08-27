@@ -91,12 +91,9 @@
   .fav .fav-cta{font-size:.78rem; font-weight:600; white-space:nowrap}
   /* Chain hint in combined views. The venue name carries the meaning; this only helps
      scanning, so it is never the sole signal. */
-  .stub.chain-finnkino{border-left:3px solid #D85A30}
-  .stub.chain-biorex{border-left:3px solid #BA7517}
-  .stub.chain-kinoset{border-left:3px solid #2F7D5B}
-  .stub.chain-kotkanleffat{border-left:3px solid #C0356B}
-  .stub.chain-kinoakseli{border-left:3px solid #4A6FA5}
-  .stub.chain-riviera{border-left:3px solid #7A4FA3}
+  /* --chain is set per chain by a <style> generated from data/providers.json.
+     Not --accent: that is already the theme colour. */
+  .stub[class*="chain-"]{border-left:3px solid var(--chain, var(--line))}
 
   /* themed dropdown on Chromium (progressive enhancement) */
   select, ::picker(select){appearance:base-select}
@@ -252,18 +249,8 @@
   }
   .legend .lg-btn.on{color:var(--ink); background:var(--chip-bg)}
   .legend .lg-btn:not(.on){opacity:.5}
-  .legend .lg.chain-finnkino{border-left-color:#D85A30}
-  .legend .lg.chain-biorex{border-left-color:#BA7517}
-  .legend .lg.chain-kinoset{border-left-color:#2F7D5B}
-  .legend .lg.chain-kotkanleffat{border-left-color:#C0356B}
-  .legend .lg.chain-kinoakseli{border-left-color:#4A6FA5}
-  .legend .lg.chain-riviera{border-left-color:#7A4FA3}
-  .legend .lg-btn.chain-finnkino{border-left-color:#D85A30}
-  .legend .lg-btn.chain-biorex{border-left-color:#BA7517}
-  .legend .lg-btn.chain-kinoset{border-left-color:#2F7D5B}
-  .legend .lg-btn.chain-kotkanleffat{border-left-color:#C0356B}
-  .legend .lg-btn.chain-kinoakseli{border-left-color:#4A6FA5}
-  .legend .lg-btn.chain-riviera{border-left-color:#7A4FA3}
+  .legend .lg[class*="chain-"],
+  .legend .lg-btn[class*="chain-"]{border-left-color:var(--chain, var(--line))}
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   @media (max-width:520px){
     .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
@@ -675,13 +662,39 @@
   }
   // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city — the
   // optgroup label already carries the city. BioRex names are already chain-prefixed.
-  const CHAIN = { finnkino:'Finnkino', biorex:'BioRex', kinoakseli:'Kino Akseli',
-                  kinoset:'Kinoset', riviera:'Riviera' };
-  const SOURCE = { finnkino:['Finnkino','finnkino.fi'], biorex:['BioRex','biorex.fi'],
-                   kinoakseli:['Kino Akseli','kinoakseli.fi'],
-                   kinoset:['Kinoset','kinoset.fi'],
-                   kotkanleffat:['Kotkan Leffat','kotkanleffat.fi'],
-                   riviera:['Riviera','rivieracinemas.fi'] };
+  // Every provider-specific string and colour comes from data/providers.json, which
+  // the pipeline generates from scripts/providers/registry.py. Adding a provider is a
+  // registry entry plus an adapter: no edit in this file. The fallback keeps the app
+  // usable when that file is missing (first deploy, or an old service worker).
+  const PROV_FALLBACK = [
+    { id:'finnkino',     label:'Finnkino',      host:'finnkino.fi',       accent:'#D85A30', book:'buy' },
+    { id:'biorex',       label:'BioRex',        host:'biorex.fi',         accent:'#BA7517', book:'buy' },
+    { id:'kinoset',      label:'Kinoset',       host:'kinoset.fi',        accent:'#2F7D5B', book:'reserve' },
+    { id:'kotkanleffat', label:'Kotkan Leffat', host:'kotkanleffat.fi',   accent:'#C0356B', book:'buy' },
+    { id:'riviera',      label:'Riviera',       host:'rivieracinemas.fi', accent:'#7A4FA3', book:'buy' },
+    { id:'kinoakseli',   label:'Kino Akseli',   host:'kinoakseli.fi',     accent:'#4A6FA5', book:'door' }
+  ];
+  let PROVIDERS = [];
+  const CHAIN = {}, SOURCE = {}, BOOK = {};
+  function applyProviders(list){
+    PROVIDERS = (Array.isArray(list) && list.length) ? list : PROV_FALLBACK;
+    for(const o of [CHAIN, SOURCE, BOOK]) for(const k of Object.keys(o)) delete o[k];
+    for(const p of PROVIDERS){
+      if(!p || !p.id) continue;
+      CHAIN[p.id] = p.label || p.id;
+      SOURCE[p.id] = [p.label || p.id, p.host || ''];
+      BOOK[p.id] = p.book || 'buy';
+    }
+    let el = document.getElementById('chainpal');
+    if(!el){ el = document.createElement('style'); el.id = 'chainpal'; document.head.appendChild(el); }
+    el.textContent = PROVIDERS.filter(p => p && p.id && p.accent)
+      .map(p => `.chain-${p.id}{--chain:${p.accent}}`).join('');
+  }
+  applyProviders(null);
+  async function loadProviders(){
+    try { applyProviders((await fetchJSON('data/providers.json')).providers); }
+    catch(_){ applyProviders(null); }   // fallback already applied; stay quiet
+  }
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -733,7 +746,8 @@
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
       const extra = [];
-      for(const prov of ['biorex','kinoakseli','kinoset','kotkanleffat','riviera']){
+      // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
+      for(const prov of PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino')){
         try {
           const j = await fetchJSON(`data/venues-${prov}.json`);
           const vs = (j.venues || []).filter(v => v.id && v.name);
@@ -872,10 +886,12 @@
           : (SOURCE[v.provider] || SOURCE.finnkino);
         const stamp = t.toLocaleString('fi-FI',
           {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
-        // Kino Akseli sells at the door; Kinoset takes free reservations, not payment.
+        // book mode per provider: door = sold at the door, reserve = free seat
+        // reservation rather than payment. From the registry, not from an id test.
+        const bk = BOOK[v.provider] || 'buy';
         const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
-          : v.provider === 'kinoakseli' ? `Tickets are sold at the door · ${host}`
-          : v.provider === 'kinoset' ? `Tap a showtime to reserve seats on ${host}`
+          : bk === 'door' ? `Tickets are sold at the door · ${host}`
+          : bk === 'reserve' ? `Tap a showtime to reserve seats on ${host}`
           : `Tap a showtime to buy tickets on ${host}`;
         document.querySelector('footer').textContent =
           `Schedule data: ${src} · updated ${stamp} · ${act}`;
@@ -1232,6 +1248,7 @@
   (async () => {
     try {
       buildDays();
+      await loadProviders();
       await loadAreas();
       if(state.lang === 'en'){ await ensureFilms(); }
       langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
