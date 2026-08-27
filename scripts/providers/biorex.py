@@ -42,20 +42,26 @@ RATING_RE = re.compile(r'class="showtime-item__movie-rating">\s*\(?([^)<]*?)\)?\
 FORMAT_RE = re.compile(r'class="showtime-item__format">(.*?)</span>', re.S)
 SRCSET_RE = re.compile(r'data-srcset="([^"]+)"')
 MOVIEURL_RE = re.compile(r'class="showtime-item__movie-name"[^>]*href="([^"]+)"')
-# An age limit that belongs to the *screening*, not to the film. A licensed bar
-# auditorium admits 18+ only, whatever the film is rated: BioRex sells K-12 films into
-# Anniskelu screenings, and at Seinäjoki says so itself in the room name ("2 REX (K-18)").
-# An explicit marker in the room name wins over the inference from the tag.
+# An age limit that belongs to the *screening*, not to the film, and it is only claimed
+# when BioRex says so: an explicit "(K-nn)" in the auditorium name, as at Seinäjoki's
+# "2 REX (K-18)".
+#
+# It used to be inferred from the Anniskelu tag as well, and that was wrong. Finnkino
+# publishes the two ideas as separate attributes and the data proves they differ: plain
+# `Anniskelu` sits on 460 of their screenings including S- and K-7-rated films, while
+# `Annisk_K18` — the one minors cannot attend — is a distinct marking that appears even
+# on S-rated films. So the word marks a licensed auditorium, not a restricted screening.
+# The inference put a K-18 badge on 99 BioRex screenings including an S-rated
+# documentary, telling people a screening was closed to them when it was not. If BioRex
+# ever states that their anniskelu screenings are 18+, bring it back with that citation.
 AGE_IN_AUD_RE = re.compile(r"\(\s*K-?\s*(\d{1,2})\s*\)")
 
 
 def _age(tags, aud):
-    """-> ('K-18', cleaned_aud). Blank when the screening adds no limit of its own."""
+    """-> ('K-18', cleaned_aud). Blank unless the room name states a limit."""
     m = AGE_IN_AUD_RE.search(aud or "")
     if m:
         return f"K-{m.group(1)}", re.sub(r"\s{2,}", " ", AGE_IN_AUD_RE.sub("", aud)).strip()
-    if any("anniskelu" in t.lower() for t in tags):
-        return "K-18", aud
     return "", aud
 
 

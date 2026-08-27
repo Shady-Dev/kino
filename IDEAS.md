@@ -173,7 +173,21 @@ Conventions worth keeping:
   is largely redundant anyway: the word it decodes is already on the card as a pill, in
   the times view's meta line and in the sheet, so the glyph is explained next to itself in
   every view. The footer is where the app already keeps reference material.
-- **`Anniskelu` does not mean 18+.** Finnkino's help centre is explicit: the mark means
+- **`Anniskelu` does not mean 18+ — settled by the data, and the BioRex inference is
+  gone** (2026-08-27). Finnkino's Anniskelu screenings by film rating: K-12 334 plain / 83
+  K18, K-16 116 / 43, **S 8 plain / 5 K18**, K-7 2 / 1. Two conclusions. Plain `Anniskelu`
+  covers S- and K-7-rated films, so it cannot mean minors are barred; and `Annisk_K18`
+  appears on S-rated films too, so the 18+ marking belongs to the **screening** and is
+  independent of the film's classification. Finnkino's help centre also says drinks are
+  not served at S/7 family screenings even in a licensed room, which together with those
+  8 S-rated plain tags suggests the word marks *the auditorium is licensed* rather than
+  *drinks at this screening*.
+  `biorex.py` therefore no longer infers `K-18` from the tag — it had put the badge on 99
+  screenings including an S-rated documentary, telling people a screening was closed to
+  them when it was not. Only an explicit `(K-nn)` in the room name sets `age` now. Bring
+  the inference back only with a citation from BioRex saying their anniskelu screenings
+  are 18+.
+- ~~**`Anniskelu` does not mean 18+.**~~ (superseded by the entry above) Finnkino's help centre is explicit: the mark means
   drinks bought at the bar may be taken into that screening, those auditoriums count as
   restaurant premises in law, and the separate **`K18 Anniskelunäytös`** is the one minors
   cannot attend — alcohol is not served at S/7 family screenings even in a licensed room.
