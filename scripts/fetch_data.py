@@ -481,6 +481,14 @@ def main() -> int:
             except Exception as e:
                 print(f"[tmdb] {meta['q']}: {e}")
         cache_p.write_text(json.dumps(tmdb_cache))
+        # A film that matched *nothing* was invisible here: the weak list only names the
+        # ones that found something wrong. "Ryhmä Hau: Dinoelokuva" sat with an empty id
+        # for a day because of it, showing no rating and no genres while the log looked
+        # clean. enrich_tmdb has always printed this; now so does the Finnkino pass.
+        missing = sorted(m["q"] for fid, m in films_meta.items()
+                         if m.get("q") and not (tmdb_cache.get(fid) or {}).get("i"))
+        if missing:
+            print(f"[tmdb] no TMDB match ({len(missing)}): " + " | ".join(missing))
         if tmdb_weak:
             print(f"[tmdb] weak match, no exact title ({len(tmdb_weak)}): "
                   + " | ".join(sorted(tmdb_weak)))

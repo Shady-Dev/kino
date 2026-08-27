@@ -318,6 +318,10 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   the popularity order, because a Finnish distributor title often matches nothing exactly
   and a weak match still beats no film. Fallbacks are named in `run-enrich.log` as
   **weak match**, which is the list to read when a poster looks wrong.
+- **Both passes must log the titles that match nothing, not just the weak ones.**
+  `fetch_data.py` printed weak matches and held-back ratings but never a no-match list, so
+  "Ryhmä Hau: Dinoelokuva" sat with an empty id for a day — no rating, no genres, a clean
+  log. A weak match is at least visible; a missing one was not. Both passes now print it.
 - **Search with `language=fi-FI`, or the exact-title test can never fire on a Finnish
   title** (2026-08-27). Without it TMDB answers in English, so `pick()` compared
   "Autofiktio" against "Bitter Christmas", "Kuopus" against "The Little Sister" and
