@@ -320,9 +320,26 @@
   @media (max-width:560px){
     .poster{flex-basis:72px; width:72px; height:104px}
     .title{font-size:1.02rem}
-    .controls{padding-top:12px}
-    select{max-width:100%; width:100%}
-    .search{width:100%; flex:auto}
+    /* Venue picker and its star share one row; search gets the next. Setting the select to
+       width:100% pushed the star onto a row of its own and wasted ~60px of height. */
+    .controls{padding:10px 14px 8px; gap:8px}
+    select{max-width:none; flex:1 1 auto; width:auto; min-width:0}
+    .fav{flex:0 0 auto; padding:8px 11px}
+    .search{flex:1 1 100%; width:100%; min-width:0}
+    /* Tighter vertical rhythm: the header used to fill most of a phone screen. */
+    .bar{padding:10px 14px; gap:10px}
+    .days{padding:0 14px 8px; gap:6px}
+    .tools{padding:0 14px 10px; gap:6px}
+    .day{padding:6px 1px}
+    .day b{font-size:.8rem}
+    .day small{font-size:.66rem; letter-spacing:0}
+    .seg button, .chip{padding:6px 11px; font-size:.74rem}
+    #sources{padding:14px 14px 0}
+    footer{padding:16px 14px}
+  }
+  @media (max-width:400px){
+    .day small{font-size:.6rem}
+    .day b{font-size:.76rem}
   }
 </style>
 </head>
