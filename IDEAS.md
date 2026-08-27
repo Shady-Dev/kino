@@ -354,12 +354,19 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   chains got an exact match, and the films that miss are exactly the Finnish distributor
   titles most likely to be spelled differently by different chains. So the `mergeKey()`
   strip list has to stay current; it is not superseded.
-- Finnkino's attribute list is filtered to formats and language codes and **everything
-  else is dropped silently**, which would lose a screening-level age limit if OCAPI
-  publishes one. `data/attrs.json` used to hold the inventory and was deleted as unread,
-  so a run now logs `[attrs] dropped, neither format nor language` once. Read that line
-  before deciding whether Finnkino needs the same `age` treatment as BioRex; it cannot be
-  probed from a runner, since OCAPI needs the token and a residential IP.
+- **Finnkino publishes the bar-screening attributes too**, and they were being dropped.
+  The `[attrs] dropped, neither format nor language` line added for exactly this purpose
+  answered it on the first local run: `Annisk_K18 | Anniskelu | EventCine | Maxim |
+  Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20`. `EVENT_ATTRS` now keeps the first
+  three; `Annisk_K18` states the 18+ rule outright and sets `age`, so Finnkino gets the
+  same screening-level limit as BioRex. The rest are marketing and region codes and stay
+  dropped — still logged, so the next new attribute cannot vanish silently either.
+- **The release-year filter defeats aliases and reissues.** `Autot (uudelleenjulkaisu)`
+  carries the *reissue* year, so searching the alias `Cars` with `primary_release_year=2026`
+  returned "The Boy Who Counted Cars". The unfiltered retry only fired when the filtered
+  search returned **nothing**, not when it returned the wrong thing. It now retries
+  whenever the year produced no exact match, and never applies a year to an alias search
+  string in the first place.
 - **`fetch_data.py` needs candidate queries too** (2026-08-27). Two failures found in one
   local run: OCAPI's `originalTitle` is **empty** for some releases, so `q` arrived as
   "Autot (uudelleenjulkaisu)" and matched nothing at all; and "Mutiny - Lavastettu

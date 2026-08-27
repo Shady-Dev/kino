@@ -20,6 +20,14 @@ ATTR_RE = re.compile(r"^\dD$|^(IMAX|4DX|Dolby|ScreenX|D-BOX|LUXE|iSense|HFR|Lase
 # A rating below this many votes is noise, not a verdict. Keep in step with
 # enrich_tmdb.MIN_VOTES so the two passes cannot disagree about the same film.
 TMDB_MIN_VOTES = 25
+# Event attributes worth keeping, and what they mean. The rest of what OCAPI ships here
+# is marketing and region codes (Maxim, Pkseutu, SEVERAL, TKU & R, Tampere, Varaus20),
+# which say nothing to a visitor. A licensed bar auditorium is 18+ whatever the film is
+# rated -- Finnkino spells that out in "Annisk_K18" -- so the limit belongs on the
+# screening, exactly as it does for BioRex. See the `age` convention in IDEAS.
+EVENT_ATTRS = {"anniskelu": ("Anniskelu", ""),
+               "annisk_k18": ("Anniskelu", "K-18"),
+               "eventcine": ("Event cinema", "")}
 # The same hand-written escape hatch enrich_tmdb.py uses, keyed by the normalised
 # published title. Until now only the cloud pass could read it, so a Finnkino film TMDB
 # cannot be searched by title had no fix at all: "Maailman rikkain nainen" already had
@@ -237,6 +245,7 @@ def main() -> int:
             if site_id not in per_site:
                 continue
             fmt_list, lang_list = [], []
+            show_age = ""      # a limit this screening adds on top of the film's rating
             for aid in (s.get("attributeIds") or []):
                 a = att.get(str(aid), {})
                 lbl = t(a, "shortName", "text") or t(a, "name", "text")
@@ -246,12 +255,16 @@ def main() -> int:
                     fmt_list.append(lbl)
                 elif re.match(r"^\.?[A-Z]{2}(?:-[A-Z]{2})?-(?:A|S)$", lbl):
                     lang_list.append(lbl.lstrip("."))
+                elif lbl.lower() in EVENT_ATTRS:
+                    tag, lim = EVENT_ATTRS[lbl.lower()]
+                    if tag not in fmt_list:
+                        fmt_list.append(tag)
+                    if lim:
+                        show_age = lim
                 else:
-                    # Anything not a format and not a language code is dropped. That is
-                    # fine for marketing labels, but a screening-level age limit (a
-                    # licensed bar auditorium is 18+ whatever the film is rated, which
-                    # BioRex publishes as "Anniskelu") would be lost silently. Collect
-                    # the names once so a run says what is actually on offer here.
+                    # Anything else is dropped: marketing and region codes. Logged once
+                    # per run so a new attribute cannot go missing silently the way
+                    # Anniskelu did.
                     unknown_attrs.add(lbl)
             attr_names = " · ".join(fmt_list)
             lang_attr = ", ".join(lang_list)
@@ -288,6 +301,7 @@ def main() -> int:
                 "original": t(film, "originalTitle", "text"),
                 "len": str(runtime) if runtime else "",
                 "rating": rating,
+                "age": show_age,
                 "genres": genres,
                 "method": attr_names,
                 "theatre": site_name,
@@ -375,14 +389,22 @@ def main() -> int:
                     for cand in cands:
                         q = urllib.parse.quote(cand)
                         u = f"https://api.themoviedb.org/3/search/movie?query={q}"
+                        year = meta["y"] and cand != str(alias or "")
                         res = json.loads(http_get(
-                            u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
+                            u + (f"&primary_release_year={meta['y']}" if year else ""), th))
                         results = res.get("results") or []
-                        # A reissue carries the reissue year, so the year filter has to
-                        # be droppable: Autot is a 2026 release of a 2006 film.
-                        if not results and meta["y"]:
-                            results = json.loads(http_get(u, th)).get("results") or []
                         hit, exact = _pick(results, cand)
+                        # A reissue carries the *reissue* year, so the filter hides the
+                        # film: "Autot (uudelleenjulkaisu)" is a 2026 release of a 2006
+                        # title, and searching the alias "Cars" with year=2026 returned
+                        # "The Boy Who Counted Cars". Retry unfiltered whenever the year
+                        # produced no exact match, not only when it produced nothing.
+                        if meta["y"] and year and not exact:
+                            alt = json.loads(http_get(u, th)).get("results") or []
+                            if alt:
+                                a_hit, a_exact = _pick(alt, cand)
+                                if a_exact or not hit:
+                                    hit, exact, results = a_hit, a_exact, alt
                         if hit and exact:
                             mid = hit.get("id")
                             va = hit.get("vote_average") or 0
