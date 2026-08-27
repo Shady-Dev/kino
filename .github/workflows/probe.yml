@@ -1,0 +1,49 @@
+name: probe (throwaway)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY' > probe-orion.txt
+          import json, urllib.request
+          UA = "kino-probe/1.0"
+          def get(u):
+              r = urllib.request.Request(u, headers={"user-agent": UA})
+              with urllib.request.urlopen(r, timeout=30) as f:
+                  return f.read().decode("utf-8", "replace"), dict(f.headers)
+          base = "https://cinemaorion.fi/wp-json/wp/v2/elokuvat"
+          body, hdr = get(base + "?per_page=100&_embed=wp:featuredmedia")
+          items = json.loads(body)
+          print("items", len(items), "| total header", hdr.get("X-WP-Total"), hdr.get("X-WP-TotalPages"))
+          print("top-level keys:", sorted(items[0].keys()))
+          for it in items:
+              if "follow" in (it.get("slug") or ""):
+                  print("=== follow-the-plants entry ===")
+                  print("slug", it.get("slug"), "| featured_media", it.get("featured_media"))
+                  emb = (it.get("_embedded") or {}).get("wp:featuredmedia") or []
+                  print("embedded media:", json.dumps(emb, ensure_ascii=False)[:900])
+                  y = it.get("yoast_head_json") or {}
+                  print("yoast og_image:", json.dumps(y.get("og_image"), ensure_ascii=False)[:300])
+                  break
+          have_fm = sum(1 for it in items if it.get("featured_media"))
+          print("entries with featured_media:", have_fm, "of", len(items))
+          emb0 = None
+          for it in items:
+              e = (it.get("_embedded") or {}).get("wp:featuredmedia") or []
+              if e and isinstance(e[0], dict) and e[0].get("source_url"):
+                  emb0 = (it["slug"], e[0].get("source_url"),
+                          sorted((e[0].get("media_details") or {}).get("sizes", {}).keys()))
+                  break
+          print("sample embedded:", json.dumps(emb0, ensure_ascii=False)[:500])
+          PY
+          head -c 300 probe-orion.txt
+          git config user.name kino-bot && git config user.email a@b.c
+          git add probe-orion.txt
+          git commit -m "probe: orion elokuvat media shape (throwaway)"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && exit 0; sleep 5; done
+          echo "::error::push failed"; exit 1
