@@ -9,53 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Read real naytokset and elokuvat records
+      - name: Fetch the programme page and one screening page
         run: |
-          python3 - <<'PY' > probe.json
-          import json, re, urllib.request, urllib.error
-          UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-                "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
-          B = "https://cinemaorion.fi/wp-json/wp/v2"
-
-          def get(path):
-              r = urllib.request.Request(B + path, headers={"user-agent": UA,
-                                                            "accept": "application/json"})
-              try:
-                  with urllib.request.urlopen(r, timeout=30) as resp:
-                      return resp.status, json.loads(resp.read().decode("utf-8", "replace")), dict(resp.headers)
-              except urllib.error.HTTPError as e:
-                  return e.code, None, {}
-              except Exception as e:
-                  return str(e), None, {}
-
-          out = {}
-          for base in ("naytokset", "elokuvat", "erikoisnaytokset", "tapahtumat"):
-              st, data, hdr = get(f"/{base}?per_page=3&orderby=date&order=desc")
-              rec = {"status": st, "total": hdr.get("X-WP-Total"), "pages": hdr.get("X-WP-TotalPages")}
-              if isinstance(data, list) and data:
-                  rec["keys"] = sorted(data[0].keys())
-                  # what is actually in a record, trimmed
-                  first = {}
-                  for k, v in data[0].items():
-                      if k in ("content", "excerpt", "guid", "_links", "yoast_head",
-                               "yoast_head_json", "class_list"):
-                          continue
-                      s = json.dumps(v, ensure_ascii=False)
-                      first[k] = s[:220]
-                  rec["first"] = first
-                  ren = (data[0].get("content") or {}).get("rendered") or ""
-                  rec["content_len"] = len(ren)
-                  rec["content_head"] = re.sub(r"\s+", " ", ren)[:400]
-                  rec["titles"] = [(d.get("title") or {}).get("rendered") for d in data]
-              out[base] = rec
-          print(json.dumps(out, ensure_ascii=False, indent=1))
-          PY
-          head -c 300 probe.json
+          UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+          curl -sL -A "$UA" https://cinemaorion.fi/ -o probe-orion-front.html
+          wc -c probe-orion-front.html
+          # first kinola screening link on the page, fetched verbatim
+          URL=$(grep -oE 'https://orion\.kinola\.ee/web/screening/[0-9a-f-]+' probe-orion-front.html | head -1)
+          echo "screening: $URL"
+          curl -sL -A "$UA" -w 'status %{http_code}\n' "$URL" -o probe-orion-show.html
+          wc -c probe-orion-show.html
+          echo "--- seats/prices present?"
+          grep -oiE 'vapaat paikat[^<]{0,40}|peruslippu[^<]{0,40}|€ ?[0-9]+[,.][0-9]+' probe-orion-show.html | head -8
       - name: Commit probe output
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add probe.json
-          git diff --cached --quiet || git commit -m "orion record shape"
+          git add probe-orion-front.html probe-orion-show.html
+          git diff --cached --quiet || git commit -m "orion fixtures"
           for i in 1 2 3; do
             git pull --rebase --autostash -q origin main && git push -q && exit 0
             sleep 5
