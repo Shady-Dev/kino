@@ -1,88 +1,73 @@
 {
- "https://tickets.cinemaorion.fi/fi/": {
-  "status": 403,
-  "len": 0
+ "namespaces": [
+  "oembed/1.0",
+  "simple-page-ordering/v1",
+  "yoast/v1",
+  "mc4wp/v1",
+  "cptui/v1",
+  "wp-rocket/v1",
+  "quadlayers/search-exclude",
+  "wp/v2",
+  "wp-site-health/v1",
+  "wp-block-editor/v1"
+ ],
+ "route_sample": [
+  "/wp/v2/elokuvalistat",
+  "/wp/v2/elokuvalistat/(?P<id>[\\d]+)",
+  "/wp/v2/elokuvat",
+  "/wp/v2/elokuvat/(?P<id>[\\d]+)",
+  "/wp/v2/elokuvat/(?P<id>[\\d]+)/autosaves",
+  "/wp/v2/elokuvat/(?P<parent>[\\d]+)/autosaves/(?P<id>[\\d]+)",
+  "/wp/v2/naytoskieli",
+  "/wp/v2/naytoskieli/(?P<id>[\\d]+)"
+ ],
+ "types": {
+  "post": "posts",
+  "page": "pages",
+  "attachment": "media",
+  "nav_menu_item": "menu-items",
+  "wp_block": "blocks",
+  "wp_template": "templates",
+  "wp_template_part": "template-parts",
+  "wp_global_styles": "global-styles",
+  "wp_navigation": "navigation",
+  "wp_font_family": "font-families",
+  "wp_font_face": "font-families/(?P<font_family_id>[\\d]+)/font-faces",
+  "elokuvat": "elokuvat",
+  "erikoisnaytokset": "erikoisnaytokset",
+  "tapahtumat": "tapahtumat",
+  "kampanjat": "kampanjat",
+  "naytokset": "naytokset",
+  "esitteet": "esitteet"
  },
- "https://tickets.cinemaorion.fi/": {
-  "status": 403,
-  "len": 0
- },
- "https://cinemaorion.fi/": {
+ "front": {
   "status": 200,
   "len": 121892,
-  "markers": {
-   "kinola": 42,
-   "wp-json": 5
-  },
-  "title": "Tervetuloa Helsingin uusimpaan vanhaan elokuvateatteriin - Cinema Orion",
-  "generator": "WP Rocket 3.22.0.2",
-  "scripts": [
-   "https://cinemaorion.fi/wp-content/cache/min/1/ajax/libs/jquery/3.3.1/jquery.min.js?ver=1787499438",
-   "https://cinemaorion.fi/wp-content/cache/min/1/wp-content/plugins/mailchimp-for-wp/assets/js/forms.js?ver=1787499438",
-   "https://cinemaorion.fi/wp-content/cache/min/1/wp-content/themes/orion/assets/js/custom_orion_navigation.js?ver=1787499438",
-   "https://cinemaorion.fi/wp-content/cache/min/1/wp-content/themes/orion/assets/js/custom_orion_overlay.js?ver=1787499438",
-   "https://cinemaorion.fi/wp-content/cache/min/1/wp-content/themes/orion/assets/js/skip-link-focus-fix.js?ver=1787499438",
-   "https://cinemaorion.fi/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js",
-   "https://cinemaorion.fi/wp-content/themes/orion/assets/js/micromodal.min.js?ver=6.8.8",
-   "https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496"
+  "kinola_links": [
+   "https://orion.kinola.ee/web/screening/0199563e-fa22-4545-8a76-9a8940d0eddf",
+   "https://orion.kinola.ee/web/screening/0267e154-b3d9-4f85-acfb-ec0186579cff",
+   "https://orion.kinola.ee/web/screening/05934819-8538-45bc-9c16-c27260f7377f",
+   "https://orion.kinola.ee/web/screening/0999e322-f464-4b72-b0ed-3cee185421e9",
+   "https://orion.kinola.ee/web/screening/0d124190-407f-4337-8197-e802692143bf",
+   "https://orion.kinola.ee/web/screening/0f1267f3-5bc7-4cb3-bcfa-7efef9f743d3"
   ],
-  "hosts": [
-   "airtable.com",
-   "api.w.org",
-   "cinemaorion.fi",
-   "fonts.googleapis.com",
-   "fonts.gstatic.com",
-   "gmpg.org",
-   "i.ytimg.com",
-   "orion.kinola.ee",
-   "schema.org",
-   "static.cloudflareinsights.com",
-   "twitter.com",
-   "wordpress.org",
-   "wp-rocket.me",
-   "www.europa-cinemas.org"
+  "classes": [],
+  "price_hits": [
+   "12.5 €",
+   "8.5 €",
+   "Vapaa pääsy"
   ],
-  "api_hits": []
- },
- "https://cinemaorion.fi/wp-json/": {
-  "status": 200,
-  "len": 308696,
-  "markers": {
-   "wp-json": 126
-  },
-  "title": "",
-  "generator": "",
-  "scripts": [],
-  "hosts": [],
-  "api_hits": []
- },
- "https://tickets.cinemaorion.fi/api/": {
-  "status": 403,
-  "len": 0
- },
- "https://orion.kinola.ee/": {
-  "status": 200,
-  "len": 18260,
-  "markers": {
-   "kinola": 18
-  },
-  "title": "Kirjaudu -  Kinola",
-  "generator": "",
-  "scripts": [
-   "/livewire/livewire.js?id=90730a3b0e7144480175",
-   "https://orion.kinola.ee/filament/assets/app.js?id=de109909e799e20eb15da26295309fa5",
-   "https://orion.kinola.ee/filament/assets/voyager.js",
-   "https://orion.kinola.ee/inc/js/core.3ab46aa3ab0a3f645f14.min.js",
-   "https://orion.kinola.ee/inc/js/global.cb2f042007963a3bc5ca.min.js",
-   "https://stats.kinola.ee/js/script.js"
-  ],
-  "hosts": [
-   "fonts.googleapis.com",
-   "fonts.gstatic.com",
-   "orion.kinola.ee",
-   "stats.kinola.ee",
-   "www.w3.org"
-  ],
-  "api_hits": []
+  "time_hits": [
+   "00",
+   "01",
+   "02",
+   "03",
+   "08",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15"
+  ]
  }
 }
