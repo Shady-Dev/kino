@@ -6,8 +6,8 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for **37 venues in 27 cities** across six providers: Finnkino,
-BioRex, Kinoset, Kotkan Leffat, Riviera and Kino Akseli. Pick a venue and a
+Showtimes for **43 venues in 31 cities** across seven providers: Finnkino,
+BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot and Kino Akseli. Pick a venue and a
 date, see films with posters, TMDB ratings, age limits, runtimes, genres,
 languages and, where the cinema publishes them, ticket prices and seat
 availability. Tapping a showtime opens that cinema's own booking page.
@@ -35,6 +35,7 @@ Providers run in one of two places, because two of them block datacenter IPs:
 | Kinoset | 3 | none | GitHub Actions |
 | Kotkan Leffat | 2 | none | GitHub Actions |
 | Riviera | 2 | none | GitHub Actions |
+| Savon Kinot | 6 | none | GitHub Actions |
 | Kino Akseli | 1 | none | Mac ([redacted] elsewhere) |
 
 The Mac runs `~/kino-auth/localfetch.sh` on a [redacted] schedule four times a
@@ -137,7 +138,7 @@ itself lives outside the clone.
 ## Data sources
 
 Schedule data belongs to the respective cinemas: Finnkino Oy, BioRex Cinemas,
-Kinoset, Kotkan Leffat, Riviera Cinemas and Kino Akseli. Ratings, trailers and
+Kinoset, Kotkan Leffat, Riviera Cinemas, Savon Kinot and Kino Akseli. Ratings, trailers and
 fallback synopses and posters by TMDB. Every showtime links to the cinema's own
 booking page, and the footer credits the source being displayed.
 
