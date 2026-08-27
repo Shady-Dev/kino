@@ -297,6 +297,11 @@ def main() -> int:
                     "s": loc(syn),
                     "tr": tr_uri,
                     "y": films_meta[fid]["y"],
+                    # Full premiere date, not just the year. Tickets for a premiere go on
+                    # sale days ahead, so a film can be bookable before it opens and the
+                    # date is the thing a visitor wants to see. Only Finnkino publishes
+                    # it; the other providers show no badge rather than a guessed one.
+                    "rd": (film.get("releaseDate") or "")[:10],
                 }
             runtime = film.get("runtimeInMinutes") or film.get("runTime") or ""
             rid = (film.get("externalIds") or {}).get("moviexchangeReleaseId") or ""

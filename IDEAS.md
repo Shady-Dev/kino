@@ -888,6 +888,26 @@ Still open from this pass:
 - [ ] README workflow badge
 - [ ] Credential hygiene and rotation: tracked in local private notes
 
+### Ensi-illat: a badge, not a section (2026-08-27)
+Finnkino has coming-soon pages, and the temptation is a "Tulossa" view. Rejected: every
+row in this app ends in a bookable link, and an upcoming film has nothing to tap. Those
+pages also carry placeholder metadata — "Kesto 0t 1min" on films months out — and **only
+Finnkino publishes a coming-soon feed at all**, so the app would know about premieres at
+one chain and be silently blind at eight.
+
+What is worth showing is the premiere date of a film that is *already selling tickets*:
+advance sales open days ahead, so a bookable showtime can sit in front of an opening
+night, and then the date changes a decision. `films.json` keeps the full `releaseDate` as
+`rd` (it was being truncated to a year), and the card shows an `Ensi-ilta 5.9.` chip while
+the date is still ahead. Once the film has opened the chip disappears, because by then it
+is noise. Finnkino-only by design; a guessed premiere is worse than none.
+
+- Finnkino also curates https://www.finnkino.fi/elokuvat/lasten-elokuvat/ , an editorial
+  list of children's films. That is a better authority for the kids filter than TMDB
+  genre ids, and it would work cross-chain by title. It is also another scrape to
+  maintain, on the local-only half of the pipeline, so it is worth it only if the genre
+  rule proves wrong in practice. Watch the filter first.
+
 ## Open — app
 - [ ] Genre / format filter chips (IMAX, LUXE, 2D/3D, genre)
 - [ ] Sort toggle: title ↔ first showtime; hide/dim past showtimes option

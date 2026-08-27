@@ -218,6 +218,7 @@
     background:var(--surface);
   }
   .fmt{color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase}
+  .fmt.prem{color:var(--ink); border-color:var(--accent)}
   /* A limit the *screening* imposes, not the film's classification: a licensed bar
      auditorium is 18+ even when the film is K-12. Deliberately not red and not KAVI's
      official symbol — that artwork means a legal age rating, which this is not, and a
@@ -583,7 +584,8 @@
          onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
          showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
-         keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä' },
+         keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
+         premiere:'Ensi-ilta' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -599,7 +601,8 @@
          onlyDays:'Only days with screenings can be picked.',
          showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
-         keyAnniskelu:'licensed bar', keyAge:'age limit for this screening' }
+         keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
+         premiere:'Premiere' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -1296,6 +1299,22 @@
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
+  // Premiere date, from films.json (Finnkino only — nobody else publishes one, and a
+  // guessed premiere is worse than none). Shown while it is still ahead, because that is
+  // when it changes a decision: tickets go on sale days before a film opens, so a
+  // bookable showtime can sit in front of an opening night. Once the film has opened the
+  // badge is noise and disappears.
+  const premiereOf = m => {
+    const f = filmEntry(m);
+    const rd = f && f.rd;
+    if(!rd || rd < fiToday()) return '';
+    const [y, mo, d] = rd.split('-');
+    return `${+d}.${+mo}.`;
+  };
+  const premiereChip = m => {
+    const d = premiereOf(m);
+    return d ? `<span class="fmt prem">${L[state.lang].premiere} ${d}</span>` : '';
+  };
   const glyphOf = tag => {
     const g = GLYPH[(tag || '').toLowerCase()];
     return g ? `<span class="gl" title="${g[1]}" aria-label="${g[1]}">${g[0]}</span>` : '';
@@ -1417,6 +1436,7 @@
       const meta1 = [
         m.tmdb ? `<span class="tmdb">★ ${m.tmdb}</span>` : '',
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
+        premiereChip(m),
         fmts
       ].filter(Boolean).join('');
       const price = priceLabel(m.times);
@@ -1484,6 +1504,7 @@
     const meta1 = [
       sample.tmdb ? `<span class="tmdb">★ ${sample.tmdb}</span>` : '',
       sample.rating ? `<span class="rating">${sample.rating}</span>` : '',
+      premiereChip({ ...sample, times: all }),
       sample.len ? `<span class="fmt">${sample.len} ${L[lang].min}</span>` : '',
       sheetPrice ? `<span class="fmt">${sheetPrice}</span>` : '',
       fmts
