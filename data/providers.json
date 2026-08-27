@@ -36,6 +36,13 @@
    "book": "buy"
   },
   {
+   "id": "savonkinot",
+   "label": "Savon Kinot",
+   "host": "savonkinot.fi",
+   "accent": "#2A7B8C",
+   "book": "buy"
+  },
+  {
    "id": "kinoakseli",
    "label": "Kino Akseli",
    "host": "kinoakseli.fi",
