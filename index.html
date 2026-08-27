@@ -398,6 +398,26 @@
 
   .theatre-tag{color:var(--accent); font-weight:600}
   .tmdb{color:var(--accent); font-weight:700}
+  /* Score ring. The arc length carries the score and the number inside repeats it, so
+     it survives greyscale and colourblind vision — which is why it is one hue rather
+     than TMDB's green/amber/red: this app already spends colour on chain identity, and
+     a second colour language competing with it would cost more than it explains.
+     Deliberately not a copy of TMDB's widget either; we use their data, not their
+     badge, and looking like their component would imply an endorsement we do not have. */
+  .ring{
+    --v:0; position:relative; flex:0 0 auto;
+    width:30px; height:30px; border-radius:50%;
+    background:conic-gradient(var(--accent) calc(var(--v) * 3.6deg), var(--line) 0);
+    display:grid; place-items:center;
+  }
+  .ring::before{
+    content:""; position:absolute; inset:3px; border-radius:50%; background:var(--bg);
+  }
+  .ring b{position:relative; font-size:.68rem; font-weight:800; color:var(--ink); line-height:1}
+  .ring.thin{opacity:.55}
+  .votes{color:var(--muted); font-size:.7rem; font-weight:600}
+  .sheet-head .ring{width:38px; height:38px}
+  .sheet-head .ring b{font-size:.82rem}
 
   .tools{
     max-width:1100px; margin:0 auto; padding:0 20px 14px;
@@ -585,7 +605,7 @@
          showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
-         premiere:'Ensi-ilta' },
+         premiere:'Ensi-ilta', votes:'ääntä' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -602,7 +622,7 @@
          showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
-         premiere:'Premiere' }
+         premiere:'Premiere', votes:'votes' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -1324,6 +1344,22 @@
     const [y, mo, d] = rd.split('-');
     return `${+d}.${+mo}.`;
   };
+  // Score as a ring: arc length for a glance, the number for the actual value, and the
+  // vote count beside it because 7.1 from 41 votes and 7.1 from 15 000 are not the same
+  // claim. `thin` dims a rating resting on a handful of votes rather than hiding it.
+  const VOTE_SOLID = 25;
+  const shortVotes = n => n >= 1000 ? `${(n / 1000).toFixed(n < 10000 ? 1 : 0)}k` : `${n}`;
+  const scoreRing = m => {
+    const v = m.tmdb;
+    if(!v) return '';
+    const n = m.votes || 0;
+    const thin = n && n < VOTE_SOLID ? ' thin' : '';
+    const lbl = n ? `${v} · ${n} ${L[state.lang].votes}` : `${v}`;
+    return `<span class="ring${thin}" style="--v:${Math.round(v * 10)}" title="${lbl}"`
+      + ` aria-label="${lbl}"><b>${v}</b></span>`
+      + (n ? `<span class="votes">${shortVotes(n)}</span>` : '');
+  };
+
   const premiereChip = m => {
     const d = premiereOf(m);
     return d ? `<span class="fmt prem">${L[state.lang].premiere} ${d}</span>` : '';
@@ -1382,7 +1418,7 @@
     // screenings — the genres used to change under the visitor. `lang` is deliberately
     // NOT in this list: it belongs to the screening, and showing "tekstit suomi/ruotsi"
     // from a screening the filter just removed would be wrong.
-    const FILM_FIELDS = ['tmdb','tr','img','len','genres','rating','original','gids'];
+    const FILM_FIELDS = ['tmdb','votes','tr','img','len','genres','rating','original','gids'];
     const filmFacts = new Map();
     for(const s of state.shows){
       let g = filmFacts.get(s.eventId);
@@ -1466,7 +1502,7 @@
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${f}</span>`).join('');
       const meta1 = [
-        m.tmdb ? `<span class="tmdb">★ ${m.tmdb}</span>` : '',
+        scoreRing(m),
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
         premiereChip(m),
         fmts
@@ -1534,7 +1570,7 @@
       .map(x => `<span class="fmt">${x}</span>`).join('');
     const sheetPrice = priceLabel(all);
     const meta1 = [
-      sample.tmdb ? `<span class="tmdb">★ ${sample.tmdb}</span>` : '',
+      scoreRing(sample),
       sample.rating ? `<span class="rating">${sample.rating}</span>` : '',
       premiereChip({ ...sample, times: all }),
       sample.len ? `<span class="fmt">${sample.len} ${L[lang].min}</span>` : '',

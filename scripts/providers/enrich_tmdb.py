@@ -334,6 +334,10 @@ def main() -> int:
                 continue
             if c.get("r") and s.get("tmdb") != c["r"]:
                 s["tmdb"] = c["r"]; changed = True
+            # The sample size travels with the score: 7.1 from 41 votes and 7.1 from
+            # 15 000 are not the same claim, and the client says which it is.
+            if c.get("r") and c.get("n") and s.get("votes") != c["n"]:
+                s["votes"] = c["n"]; changed = True
             if c.get("v"):
                 url = "https://www.youtube.com/watch?v=" + c["v"]
                 if s.get("tr") != url:

@@ -419,6 +419,27 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   is presentation rather than matching — the fix is one query parameter, not 29 aliases.
   **Verify before writing aliases**: a "weak match" line is a claim about the comparison,
   not about the film.
+### The score ring (2026-08-27)
+The score is a ring: arc length for the glance, the number inside for the value, and the
+**vote count beside it**, because 7.1 from 41 votes and 7.1 from 15 000 are not the same
+claim and a bare star cannot tell them apart. A rating under `VOTE_SOLID` = 25 votes is
+dimmed rather than hidden, so the reader discounts it instead of the app silently
+deciding for them.
+
+Two deliberate departures from TMDB's own widget:
+- **One hue, not green/amber/red.** This app already spends colour on chain identity; a
+  second colour language competing with it costs more than it explains, and a
+  red-vs-green score is the classic colourblind failure. The arc and the number both
+  carry the value, so it survives greyscale.
+- **Not a copy of their component.** We use TMDB's data, not their badge. Looking like
+  their widget would imply an endorsement we do not have.
+
+**IMDb was the better source and is not available.** `title.ratings.tsv.gz` is free, daily
+and non-commercial, but IMDb's own terms name "where/what/how to watch applications" as a
+commercial use case needing a licence — which is exactly what this is, ad-free or not.
+Trakt (free non-commercial API, user ratings with counts) and Leffatykki (Finnish user
+ratings) are the unexplored alternatives; both need a licence read first.
+
 - **A rating needs votes.** `vote_average` was written straight through, so a festival
   premiere with three votes showed a clean ★10 or ★5, which reads as a verdict. Ratings
   now come from the movie detail call (authoritative, and already fetched for the

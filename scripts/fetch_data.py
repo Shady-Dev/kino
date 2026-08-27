@@ -512,6 +512,8 @@ def main() -> int:
                 v = _rating(c)
                 if v:
                     sh["tmdb"] = v
+                    if isinstance(c, dict) and c.get("n"):
+                        sh["votes"] = c["n"]
                 # Cross-chain film identity for the combined city view. Exact matches
                 # only: a weak id would merge two different films into one row.
                 if isinstance(c, dict) and c.get("x") and c.get("i"):
