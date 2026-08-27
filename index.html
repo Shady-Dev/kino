@@ -87,6 +87,8 @@
     padding:8px 12px; box-shadow:var(--shadow);
   }
   .fav[aria-pressed="true"]{color:var(--accent); border-color:var(--accent)}
+  .fav.labelled{display:inline-flex; align-items:center; gap:6px; color:var(--ink)}
+  .fav .fav-cta{font-size:.78rem; font-weight:600; white-space:nowrap}
   /* Chain hint in combined views. The venue name carries the meaning; this only helps
      scanning, so it is never the sole signal. */
   .stub.chain-finnkino{border-left:3px solid #D85A30}
@@ -426,7 +428,8 @@
          filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
-         favOn:'Oma teatteri — avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
+         favOn:'Oma teatteri, avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
+         favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'Kaikki', manySources:'usea lähde',
          soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
@@ -437,7 +440,8 @@
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
-         favOn:'Home theatre — opens here next time', favOff:'Set as home theatre',
+         favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
+         favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'All', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
@@ -603,11 +607,20 @@
   }
 
   const favBtn = $('#favBtn');
+  // Nothing about a bare star says "this venue opens next time", so label it until the
+  // user has set one. Short label on phones, full sentence on desktop.
   function syncFav(){
+    const t = L[state.lang];
+    const anyFav = !!prefs.get().fav;
     const on = prefs.get().fav === state.area;
-    favBtn.textContent = on ? '\u2605' : '\u2606';
+    const label = window.matchMedia('(max-width:560px)').matches ? t.favCta : t.favCtaLong;
+    favBtn.innerHTML = on
+      ? '\u2605'
+      : (anyFav ? '\u2606' : `\u2606 <span class="fav-cta">${label}</span>`);
+    favBtn.classList.toggle('labelled', !on && !anyFav);
     favBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    favBtn.title = on ? L[state.lang].favOn : L[state.lang].favOff;
+    favBtn.title = on ? t.favOn : t.favOff;
+    favBtn.setAttribute('aria-label', on ? t.favOn : t.favOff);
   }
   favBtn.onclick = () => {
     const on = prefs.get().fav === state.area;
@@ -1103,6 +1116,7 @@
     } else hideSheet();
   }
   window.addEventListener('hashchange', syncSheet);
+  matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });
   overlayEl.onclick = closeSheet;
   main.addEventListener('click', e => {
     if(e.target.closest('a.stub')) return;
