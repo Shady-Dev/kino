@@ -54,8 +54,11 @@ SITES = [{
     "posters": "https://web.atlanticfilm.mycloudcinema.com/media/posters",
     "poster_width": 1080,
     "venues": [
+        # Kamppi (Narinkka 2) is how people locate it, and "Gilda Gilda" would be the
+        # label otherwise: the client prefixes the chain onto `short` unless it already
+        # starts with it.
         {"id": "gd-gilda", "screens": [66, 67, 68],
-         "name": "Gilda Helsinki", "short": "Gilda", "city": "Helsinki"},
+         "name": "Gilda Kamppi", "short": "Kamppi", "city": "Helsinki"},
         {"id": "gd-lasipalatsi", "screens": [69],
          "name": "Bio Rex Lasipalatsi", "short": "Bio Rex Lasipalatsi",
          "city": "Helsinki"},
