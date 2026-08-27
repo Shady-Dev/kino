@@ -40,6 +40,10 @@ DUR_RE = re.compile(r"Kesto:</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?", re.I)
 LANGV_RE = re.compile(r"Kieli:</span>\s*([^<]+)", re.I)
 SUBS_RE = re.compile(r"Tekstitys:</span>\s*([^<]+)", re.I)
 POSTER_RE = re.compile(r'<img class="poster-img" src="([^"]+)"')
+GENRES_RE = re.compile(r'<span class="movie-genre">([^<]+)</span>')
+DESC_RE = re.compile(r'class="description-container[^"]*"[^>]*>\s*<span>(.*?)</span>', re.S)
+# The description opens with an age-limit boilerplate line; drop it.
+AGE_BOILER_RE = re.compile(r"^Elokuva on [^.]*\.[^.]*\.\s*", re.S)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
@@ -101,6 +105,9 @@ def parse_movie(page, site, movie_url):
     poster = POSTER_RE.search(page)
     img = poster.group(1).split("?")[0] if poster else ""
     lang = _lang(page)
+    genres = ", ".join(dict.fromkeys(_txt(g) for g in GENRES_RE.findall(page) if _txt(g)))
+    d = DESC_RE.search(page)
+    syn = AGE_BOILER_RE.sub("", _txt(d.group(1))) if d else ""
 
     out = []
     for m in ITEM_RE.finditer(page):
@@ -123,7 +130,8 @@ def parse_movie(page, site, movie_url):
             "free": int(seats.group(1)) if seats else None,
             "url": site["base"] + (book.group(1) if book else movie_url),
         })
-    return out, {"title": title, "rating": rating, "len": minutes, "img": img, "lang": lang}
+    return out, {"title": title, "rating": rating, "len": minutes, "img": img,
+                 "lang": lang, "genres": genres, "syn": syn}
 
 
 def fetch_site(site, sleep=1.2):
@@ -152,7 +160,7 @@ def fetch_site(site, sleep=1.2):
                 "original": "",
                 "len": meta["len"],
                 "rating": meta["rating"],
-                "genres": "",
+                "genres": meta["genres"],
                 "method": "",
                 "theatre": venue["name"],
                 "aud": r["aud"],
@@ -164,6 +172,7 @@ def fetch_site(site, sleep=1.2):
                 "price": r["price"],
                 "provider": site["provider"],
                 "venue": venue["id"],
+                "_syn": meta["syn"],
             })
         time.sleep(sleep)
 
