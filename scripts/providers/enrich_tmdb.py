@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add TMDB ratings, trailers and synopses to providers that publish none.
+"""Add TMDB ratings, trailers, synopses and posters to providers that publish none.
 
 Finnkino gets these via films.json/tmdb.json keyed by its own filmId. The other
 providers have no such id, so this pass keys a cache on the normalised title and
@@ -67,8 +67,8 @@ def main() -> int:
     looked = rechecked = 0
     for k, display in sorted(titles.items()):
         c = cache.get(k)
-        has_syn = isinstance(c, dict) and ("fi" in c or "en" in c)
-        if isinstance(c, dict) and has_syn and (c.get("v") or c.get("c") == today):
+        complete = isinstance(c, dict) and ("fi" in c or "en" in c) and "p" in c
+        if isinstance(c, dict) and complete and (c.get("v") or c.get("c") == today):
             continue
         try:
             mid = c.get("i") if isinstance(c, dict) else None
@@ -81,8 +81,10 @@ def main() -> int:
                     if hits:
                         mid = hits[0].get("id")
                         rating = hits[0].get("vote_average") or 0
+                        poster = hits[0].get("poster_path") or ""
                         break
                     time.sleep(0.2)
+            poster = (c.get("p") or "") if isinstance(c, dict) else ""
             syn_fi = syn_en = ""
             if mid:
                 # Finnish overview when TMDB has one, English as the fallback.
@@ -90,6 +92,7 @@ def main() -> int:
                     try:
                         d = get(f"https://api.themoviedb.org/3/movie/{mid}?language={langcode}", th)
                         text = (d.get("overview") or "").strip()
+                        poster = poster or (d.get("poster_path") or "")
                         if slot == "fi":
                             syn_fi = text
                             if text:
@@ -112,7 +115,7 @@ def main() -> int:
                         break
             cache[k] = {"r": round(rating, 1) if rating else 0, "v": yt,
                         "i": mid or "", "c": today,
-                        "fi": syn_fi, "en": syn_en}
+                        "fi": syn_fi, "en": syn_en, "p": poster}
             rechecked += 1 if isinstance(c, dict) else 0
             looked += 0 if isinstance(c, dict) else 1
             time.sleep(0.25)
@@ -142,6 +145,9 @@ def main() -> int:
         if not e["s"].get("en"):
             e["s"]["en"] = c.get("en", "")
         e["r"] = e.get("r") or c.get("r", 0)
+        # w342 is plenty for a 72-110 px tile and keeps the payload small.
+        if not e.get("img") and c.get("p"):
+            e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
         if not e.get("tr") and c.get("v"):
             e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
     EXTRA.write_text(json.dumps({"generated": today, "films": films}, ensure_ascii=False))
@@ -163,14 +169,18 @@ def main() -> int:
                 url = "https://www.youtube.com/watch?v=" + c["v"]
                 if s.get("tr") != url:
                     s["tr"] = url; changed = True
+            if not s.get("img") and c.get("p"):
+                s["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]; changed = True
         if changed:
             p.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
             touched += 1
 
     hit = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("r"))
     syn = sum(1 for c in cache.values() if isinstance(c, dict) and (c.get("fi") or c.get("en")))
+    pics = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("p"))
     print(f"[enrich] {len(titles)} titles, {looked} new, {rechecked} re-checks, "
-          f"{hit} with rating, {syn} with synopsis, {touched} files updated")
+          f"{hit} with rating, {syn} with synopsis, {pics} with poster, "
+          f"{touched} files updated")
     return 0
 
 
