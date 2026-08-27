@@ -1,0 +1,4 @@
+{
+ "_comment": "TMDB cannot be searched by Finnish distributor title: it matches original, English and registered alternative titles only, and language=fi-FI does not widen the match (probed 2026-08-27). Key is enrich_tmdb.norm() of the title as the cinema publishes it. Value is either a TMDB movie id as a string, which skips the search entirely, or a replacement search string. run-enrich.log lists every title that found no id, which is what belongs here.",
+ "maailman rikkain nainen": "1309725"
+}
