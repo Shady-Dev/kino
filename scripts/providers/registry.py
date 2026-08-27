@@ -10,7 +10,13 @@ Fields:
   id      matches the `provider` field on every show and data/venues-{id}.json
   label   chain name, used in the venue picker, the chain legend and the footer
   host    the cinema's own domain, credited in the footer
-  accent  3 px left border in combined views. Never the sole signal, see IDEAS.md
+  accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
+          Chains that share a city have to be far apart in *both* normal and red-green
+          colourblind vision: BioRex is blue rather than its own gold because gold and
+          Finnkino's orange are the same colour to a deuteranope, and those two share
+          Helsinki, Espoo and Tampere. Measured worst same-city pair: ΔE 46.9 normal,
+          28.0 deutan (was 25.9 / 5.0). Check a new accent against the set, do not eyeball
+          it
   book    buy | reserve | door | list -> footer call to action. "list" is for a
           provider that publishes no per-show booking URL, so a showtime can only
           open the programme page (Gilda: seat choice lives in React state, and the
@@ -23,23 +29,23 @@ Fields:
 """
 
 PROVIDERS = [
-    dict(id="finnkino", label="Finnkino", host="finnkino.fi", accent="#D85A30",
+    dict(id="finnkino", label="Finnkino", host="finnkino.fi", accent="#E4551F",
          book="buy", module=None, where="local"),
-    dict(id="biorex", label="BioRex", host="biorex.fi", accent="#BA7517",
+    dict(id="biorex", label="BioRex", host="biorex.fi", accent="#1273D4",
          book="buy", module="biorex", where="cloud"),
-    dict(id="kinoset", label="Kinoset", host="kinoset.fi", accent="#2F7D5B",
+    dict(id="kinoset", label="Kinoset", host="kinoset.fi", accent="#0E9B63",
          book="reserve", module="nexxo", where="cloud"),
     dict(id="kotkanleffat", label="Kotkan Leffat", host="kotkanleffat.fi",
-         accent="#C0356B", book="buy", module="etiketti", where="cloud"),
-    dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#7A4FA3",
+         accent="#C42749", book="buy", module="etiketti", where="cloud"),
+    dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#7B3FD4",
          book="buy", module="riviera", where="cloud"),
-    dict(id="gilda", label="Gilda", host="gilda.fi", accent="#A8433C",
+    dict(id="gilda", label="Gilda", host="gilda.fi", accent="#D62D8F",
          book="buy", module="gilda", where="cloud"),
-    dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#2A7B8C",
+    dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#0C8FA8",
          book="buy", module="vista", where="cloud"),
-    dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#6C7A2E",
+    dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#4E7A16",
          book="buy", module="orion", where="cloud"),
-    dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#4A6FA5",
+    dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#B8801A",
          book="door", module="kinoakseli", where="local"),
 ]
 

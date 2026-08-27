@@ -137,6 +137,20 @@ Conventions worth keeping:
 - Event/venue tags (Anniskelu, Plus, SenioriKino, Perheleffa) go in `method`, rendered as
   pills on the card when shared by every showtime and on the stub when not
 - Blank `aud` when the room name just repeats the venue (single-screen sites)
+- **Chain accents are chosen against the set, not picked one at a time** (2026-08-27).
+  Every chain sharing a city has to be separable in normal *and* red-green colourblind
+  vision, because the 3 px rule is the only visual cue distinguishing a Finnkino stub
+  from a BioRex one. The old palette had three warm chains in Helsinki: Finnkino vs Gilda
+  measured ΔE 25.9, and Finnkino vs BioRex measured **5.0 under deuteranopia** — the same
+  colour, in Helsinki, Espoo and Tampere. So BioRex left its own gold for blue and Gilda
+  left brick red for magenta, and Kino Akseli took the vacated gold: it is a single-screen
+  house in Nummela and never appears in a combined city view, so it cannot clash there.
+  Worst same-city pair is now ΔE 46.9 normal, 28.0 deutan; global minimum 32.1. Kotka's
+  colourblind figure fell slightly (28.7 -> 24.8) because crimson sits near orange for a
+  deuteranope; pushing Kotkan Leffat to pink would fix that pair and collide with Gilda's
+  magenta everywhere else, and Kotka only ever shows two chains. Nine chains cannot all be
+  mutually distinct under colourblind vision while staying this side of neon, so the target
+  is per-city separation, not global. `scripts/providers/registry.py` carries the numbers.
 - A failed venue writes **no file**, keeping previous data rather than publishing empty
 - Verify the response belongs to the venue you asked for (see the BioRex cookie note)
 

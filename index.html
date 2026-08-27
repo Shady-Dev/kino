@@ -795,12 +795,15 @@
   // registry entry plus an adapter: no edit in this file. The fallback keeps the app
   // usable when that file is missing (first deploy, or an old service worker).
   const PROV_FALLBACK = [
-    { id:'finnkino',     label:'Finnkino',      host:'finnkino.fi',       accent:'#D85A30', book:'buy' },
-    { id:'biorex',       label:'BioRex',        host:'biorex.fi',         accent:'#BA7517', book:'buy' },
-    { id:'kinoset',      label:'Kinoset',       host:'kinoset.fi',        accent:'#2F7D5B', book:'reserve' },
-    { id:'kotkanleffat', label:'Kotkan Leffat', host:'kotkanleffat.fi',   accent:'#C0356B', book:'buy' },
-    { id:'riviera',      label:'Riviera',       host:'rivieracinemas.fi', accent:'#7A4FA3', book:'buy' },
-    { id:'kinoakseli',   label:'Kino Akseli',   host:'kinoakseli.fi',     accent:'#4A6FA5', book:'door' }
+    { id:'finnkino',     label:'Finnkino',      host:'finnkino.fi',       accent:'#E4551F', book:'buy' },
+    { id:'biorex',       label:'BioRex',        host:'biorex.fi',         accent:'#1273D4', book:'buy' },
+    { id:'kinoset',      label:'Kinoset',       host:'kinoset.fi',        accent:'#0E9B63', book:'reserve' },
+    { id:'kotkanleffat', label:'Kotkan Leffat', host:'kotkanleffat.fi',   accent:'#C42749', book:'buy' },
+    { id:'riviera',      label:'Riviera',       host:'rivieracinemas.fi', accent:'#7B3FD4', book:'buy' },
+    { id:'gilda',        label:'Gilda',         host:'gilda.fi',          accent:'#D62D8F', book:'buy' },
+    { id:'savonkinot',   label:'Savon Kinot',   host:'savonkinot.fi',     accent:'#0C8FA8', book:'buy' },
+    { id:'orion',        label:'Cinema Orion',  host:'cinemaorion.fi',    accent:'#4E7A16', book:'buy' },
+    { id:'kinoakseli',   label:'Kino Akseli',   host:'kinoakseli.fi',     accent:'#B8801A', book:'door' }
   ];
   let PROVIDERS = [];
   const CHAIN = {}, SOURCE = {}, BOOK = {};
