@@ -158,6 +158,11 @@ Conventions worth keeping:
   rule is the only thing allowed to carry colour. Every glyph has a `title` and an
   `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
   day's shows actually carry the tag**, so it never explains something off screen.
+- The key sits **in the sources line at the foot of the page**, not under the chain
+  legend. Above the list it read as a second key row competing with the chain one, and it
+  is largely redundant anyway: the word it decodes is already on the card as a pill, in
+  the times view's meta line and in the sheet, so the glyph is explained next to itself in
+  every view. The footer is where the app already keeps reference material.
 - **`Anniskelu` does not mean 18+.** Finnkino's help centre is explicit: the mark means
   drinks bought at the bar may be taken into that screening, those auditoriums count as
   restaurant premises in law, and the separate **`K18 Anniskelunäytös`** is the one minors

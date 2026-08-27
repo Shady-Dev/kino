@@ -238,8 +238,12 @@
   .gl.age{width:auto; min-width:15px; padding:0 3px; border-radius:8px}
   .stub .gl{color:var(--muted)}
   .stub:hover .gl{color:inherit}
-  .tagkey{display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    font-size:.7rem; color:var(--muted)}
+  .tagkey{display:inline-flex; flex-wrap:wrap; gap:10px; align-items:center;
+    font-size:.7rem; color:var(--muted); margin-left:10px;
+    padding-left:10px; border-left:1px solid var(--line)}
+  @media (max-width:560px){
+    .tagkey{margin-left:0; padding-left:0; border-left:0; margin-top:6px}
+  }
   .tagkey .gl{color:var(--muted); margin-left:0; margin-right:4px}
   .agelim{
     display:inline-block; margin-left:6px; border:1px solid var(--line);
@@ -808,7 +812,12 @@
       const mark = h > STALE_H ? '\u26a0 ' : '';
       return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}</span>`;
     });
-    el.innerHTML = `${L[state.lang].sources}: ${parts.join(' · ')}`;
+    // The key lives here rather than under the chain legend: it is reference material,
+    // not something to scan past on the way to a showtime, and the word it decodes is
+    // already on the card, in the times meta line and in the sheet. A second key row
+    // above the list read as clutter.
+    el.innerHTML = `${L[state.lang].sources}: ${parts.join(' · ')}`
+      + tagKey(state.shows || []);
   }
 
   // "12€" -> 12. Only Kinoset and Kino Akseli publish prices so far.
@@ -1168,8 +1177,7 @@
   function renderTimes(){
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
-    const timesLegend = (labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '')
-      + tagKey(state.shows);
+    const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
     // The film cards label the venue and tint by chain in a combined view; this list
     // never did, so "Sali 14" named a room in one of five cinemas, with no colour and no
@@ -1343,7 +1351,7 @@
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
-    const listLegend = (multiTheatre ? chainLegend(state.shows, 'top') : '') + tagKey(state.shows);
+    const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
     // A film whose every screening has passed is not the same as one still to come. Rather
     // than dimming it in place, where it reads as a broken card, group them at the end
     // under one heading. Said once, not annotated on every card.
@@ -1489,7 +1497,7 @@
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${(s.method||'').split(' · ').map(glyphOf).join('')}${ageGlyph(s)}</span></a>`;
       }).join('') + '</div>').join('');
-    const legend = (multi ? chainLegend(all) : '') + tagKey(all);
+    const legend = multi ? chainLegend(all) : '';
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
