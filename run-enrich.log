@@ -1,5 +1,4 @@
-[enrich] genre names written (19 genres)
-[enrich] no TMDB match (4): Artist in Focus: Mare's Nest | Follow The Plants | John Coltrane 'Highlights 1957-1964' | Pitchblack Playback: Jamiroquai 'Travelling Without Moving' (30th Anniversary)
-[enrich] rating held back, under 25 votes (13): A Fading Man (6.2 / 4 votes) | Bearcave (5.0 / 2 votes) | Four Minus Three (8.3 / 10 votes) | Iván & Hadoum (7.5 / 2 votes) | Pikku Kummitus Lapanen (6.5 / 1 votes) | Rose (7.8 / 20 votes) | Rose of Nevada (6.4 / 23 votes) | Spa Weekend (6.6 / 21 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes) | The Currents (4.9 / 7 votes) | The Good Daughter (5.2 / 6 votes) | Viva (5.3 / 3 votes) | Zejtune (10.0 / 1 votes)
-[enrich] 87 titles, 0 new, 87 re-checks, 58 with rating, 83 with synopsis, 83 with poster, 69 mergeable by id, 29 files updated
+[enrich] no TMDB match (4): Artist in Focus: Mare's Nest | Follow The Plants | Jamiroquai 'Travelling Without Moving' (30th Anniversary) | John Coltrane 'Highlights 1957-1964'
+[enrich] weak match, no exact title (2): Keltaiset Kirjeet -> Yellow Letters | Kummisetä osa II -> The Godfather Part II
+[enrich] 79 titles, 6 new, 0 re-checks, 63 with rating, 88 with synopsis, 88 with poster, 72 mergeable by id, 28 files updated
 exit=0
