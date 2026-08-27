@@ -30,20 +30,21 @@ Providers run in one of two places, because two of them block datacenter IPs:
 
 | Provider | Venues | Auth | Runs |
 |---|---|---|---|
-| Finnkino | 17 | 12 h JWT scraped at run time | Mac ([redacted]) |
+| Finnkino | 17 | short-lived token | Local (blocks datacenter IPs) |
 | BioRex | 12 | none | GitHub Actions |
 | Kinoset | 3 | none | GitHub Actions |
 | Kotkan Leffat | 2 | none | GitHub Actions |
 | Riviera | 2 | none | GitHub Actions |
 | Savon Kinot | 6 | none | GitHub Actions |
 | Gilda | 2 | none | GitHub Actions |
-| Kino Akseli | 1 | none | Mac ([redacted] elsewhere) |
+| Kino Akseli | 1 | none | Local (blocks datacenter IPs) |
 
-The Mac runs `~/kino-auth/localfetch.sh` on a [redacted] schedule four times a
-day: it fetches a fresh Finnkino token via [redacted] driving real Chrome,
+A local machine runs the two providers that block datacenter IPs, four times a
+day: it obtains a fresh short-lived Finnkino token from a real browser session,
 runs `scripts/fetch_data.py` and `scripts/providers/run.py kinoakseli`, pushes
-the data, then triggers the cloud workflow with `dispatch_cloud.sh`. GitHub's
-own cron is left enabled as a fallback but has proved unreliable.
+the data, then triggers the cloud workflow. GitHub's own cron is left enabled as
+a fallback but has proved unreliable. Machine setup and scheduling specifics are
+kept in local notes rather than here.
 
 Each fetcher runs with its exit code captured to its own committed log rather
 than aborting the script, so one failing provider never blocks the others from
@@ -125,12 +126,12 @@ Run one by hand with:
 
 ## Token maintenance
 
-None. The Finnkino JWT is fetched fresh at every run and used within seconds,
-so its 12-hour expiry no longer matters. `TMDB_SECRET_TOKEN` is a normal TMDB
-read token in the repository secrets.
+None. The Finnkino token is obtained fresh at every run and used within
+seconds, so its short expiry no longer matters. `TMDB_SECRET_TOKEN` is a normal
+TMDB read token in the repository secrets.
 
-`cf-worker/worker.js` was an attempt to fetch the token from Cloudflare's
-network instead of a residential IP. It is not deployed and not used.
+`cf-worker/worker.js` was an abandoned attempt to obtain the token from an edge
+network instead of a local machine. It is not deployed and not used.
 
 Note that `localfetch.sh` hard-resets its checkout to `origin/main` at the
 start of every run, so edits made inside that clone do not survive. The script
