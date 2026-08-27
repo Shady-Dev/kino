@@ -175,14 +175,13 @@ Conventions worth keeping:
   ("Riviera Punavuori"), which already omits the prefix when the short starts with the
   chain, so nothing becomes "Finnkino Finnkino Itis". Single-venue views are unchanged:
   there you picked the cinema.
-- **The chain tint follows the same rule as the chain legend** (2026-08-27):
-  `chainLegend()` has always returned nothing below two chains, but the tint had no such
-  rule, so a future date served by a single chain — 19.9., Riviera only — rendered
-  coloured stubs with no key to read them by. `tintOn(shows)` gates the tint on more than
-  one provider being present. Venue labelling keeps its own rule: in a combined view you
-  still want the cinema named even when every showtime belongs to one chain. With a chain
-  *filter* narrowed to one chain the legend stays (it is the filter control) while the
-  tint drops, which is the right way round.
+- **The tint stays on in every combined view, including single-chain days** (2026-08-27,
+  after a brief detour). It was gated on two chains being present, because colour with no
+  legend explained nothing on 19.9. — but that treated the symptom. The fault was the stub
+  label failing to name the chain, and once the label carries it ("Riviera Punavuori") the
+  colour is no longer load-bearing. Keeping it on then has value: a palette only becomes
+  learnable if it is always present, and the app looks better for it. The **legend** keeps
+  the two-chain rule, since a one-item chain filter filters nothing.
 - **Glyphs need their own column.** Trailed after the label they landed wherever the text
   happened to end — a different spot on every stub, and on a two-line label they dropped
   onto a line of their own under "Plus". `.glyphs` is `margin-left:auto`, and in the grid

@@ -1208,7 +1208,7 @@
     // "Kinopalat…" and lose both halves. The venue goes on the meta line instead, which
     // has the full row width, and the stub carries the chain tint.
     const multi = labelVenues(state.shows);
-    const tinted = tintOn(rows);
+    const tinted = multi;
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
@@ -1350,13 +1350,14 @@
     return `<div class="tagkey">${bits.join('')}</div>`;
   }
 
-  // The chain rule is a *distinguisher*, so it only earns its place when there is more
-  // than one chain on screen — chainLegend() has always used that rule, and the tint did
-  // not, so a future date served by a single chain showed coloured stubs with no key to
-  // read them by. Venue labelling is a separate question and keeps its own rule: in a
-  // combined view you still want the cinema named even if every showtime is Riviera's.
-  const tintOn = shows => new Set(shows.map(s => s.provider).filter(Boolean)).size > 1;
-
+  // The chain tint is on for every stub in a combined view, including a day served by a
+  // single chain. It was briefly gated on two chains being present, because colour with
+  // no legend explained nothing — but that was the wrong end of the problem: the stub
+  // label was the thing failing to name the chain, and it now does. With the meaning
+  // carried by words, colour is a scanning aid, and it only becomes one if it is always
+  // there to be learned. The legend keeps its own rule and stays hidden below two chains,
+  // where it would be a filter with nothing to filter.
+  //
   // In a combined view a stub must name the *cinema*, not the district. "Punavuori",
   // "Kallio", "Tripla", "Redi" and "Kamppi" are all bare venue shorts, and on their own
   // they say nothing about which chain — Punavuori is a neighbourhood of Helsinki, not a
@@ -1411,7 +1412,7 @@
     }
 
     const multiTheatre = labelVenues(state.shows);
-    const tintedList = tintOn(state.shows.filter(passFilters));
+    const tintedList = multiTheatre;
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
@@ -1559,7 +1560,7 @@
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = venueName(s);
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
-        const tint = tintOn(all) && s.provider ? ` chain-${s.provider}` : '';
+        const tint = multi && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
       }).join('') + '</div>').join('');
