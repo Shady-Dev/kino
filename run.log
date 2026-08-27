@@ -1,15 +1,15 @@
 [token] using FINNKINO_TOKEN variable
 Traceback (most recent call last):
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 444, in <module>
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 483, in <module>
     sys.exit(main())
              ^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 186, in main
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 200, in main
     raw_sites = api("/sites", token)
                 ^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 131, in api
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 145, in api
     return json.loads(http_get(DIGITAL_API + path, {
                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 97, in http_get
+  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 111, in http_get
     with urllib.request.urlopen(req, timeout=timeout) as r:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
