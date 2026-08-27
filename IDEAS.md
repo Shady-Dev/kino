@@ -445,7 +445,7 @@ four files plus five frontend edits, which is the thing to fix at six providers:
       **no `generated` field** on purpose: both push paths run the generator, so identical
       bytes mean no diff and no conflict. index.html keeps a hardcoded fallback list for a
       missing file or a stale service worker.
-- [x] **One generic runner**, `scripts/providers/run.py <module>... | --where cloud|mac`.
+- [x] **One generic runner**, `scripts/providers/run.py <module>... | --where cloud|local`.
       Contract: every adapter exposes `SITES` (each site carries its own `provider` id,
       because one module can serve several) and `fetch_site(site) -> {venue_id: [shows]}`.
       The five `fetch_*.py` orchestrators are gone; the local wrapper calls
