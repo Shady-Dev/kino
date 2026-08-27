@@ -1,0 +1,106 @@
+[fi-FI] 19 genres
+[en-US] 19 genres
+id  fi-FI                     en-US
+12   Seikkailu                 Adventure
+14   Fantasia                  Fantasy
+16   Animaatio                 Animation
+18   Draama                    Drama
+27   Kauhu                     Horror
+28   Toiminta                  Action
+35   Komedia                   Comedy
+36   Historia                  History
+37   Lännenelokuva             Western
+53   Trilleri                  Thriller
+80   Rikos                     Crime
+99   Dokumentti                Documentary
+878  Science fiction           Science Fiction
+9648 Mysteeri                  Mystery
+10402Musiikki                  Music
+10749Romanssi                  Romance
+10751Perhe                     Family
+10752Sota                      War
+10770TV Movie                  TV Movie
+
+identical in both languages: 1 of 19 -> LOCALIZED
+
+=== films the Lapsille filter admits today ===
+  Autot (re-release)                       S     tmdb=yes   kids=Y  ids=[16, 12, 35, 10751]
+      tmdb : Animaatio, Seikkailu, Komedia, Perhe
+      prov : Animaatio, Seikkailu, Komedia, Perhe-elokuva
+  Autot (uudelleenjulkaisu)                S     tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Animaatio, Komedia , Perhe-elokuva
+  Bamse ja meren salaisuus                 S     tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Animaatio, Perhe-elokuva , Seikkailu
+  Blue Heron                               K-7   tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Draama
+  Blue Lock                                K-7   tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Toiminta, Draama
+  Ella ja kaverit: Operaatio Saukko        S     tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Kotimainen , Perhe-elokuva
+  Father Mother Sister Brother             K-7   tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Draama, Komedia
+  GHOST: 2 Big To Rig                      K-7   tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Event cinema, Musiikki
+  Hetki ennen valoa                        K-7   tmdb=yes   kids=n  ids=[18]
+      tmdb : Draama
+      prov : Draama
+  Kaunarikuume                             S     tmdb=yes   kids=n  ids=[99]
+      tmdb : Dokumentti
+      prov : Dokumentti, Kotimainen
+  Kätyrit & Monsterit                      K-7   tmdb=yes   kids=Y  ids=[12, 16, 35, 10751, 14]
+      tmdb : Seikkailu, Animaatio, Komedia, Perhe, Fantasia
+      prov : Animaatio, Perhe-elokuva, Komedia, Seikkailu, Fantasia
+  Kätyrit & Monsterit (dub)                K-7   tmdb=yes   kids=Y  ids=[12, 16, 35, 10751, 14]
+      tmdb : Seikkailu, Animaatio, Komedia, Perhe, Fantasia
+      prov : Perhe-elokuva, Animaatio, Komedia
+  Kätyrit & Monsterit, suomeksi            K-7   tmdb=yes   kids=Y  ids=[12, 16, 35, 10751, 14]
+      tmdb : Seikkailu, Animaatio, Komedia, Perhe, Fantasia
+      prov : Animaatio, Komedia
+  Laula minulle Arja                       S     tmdb=yes   kids=n  ids=[99]
+      tmdb : Dokumentti
+      prov : Dokumentti, Kotimainen
+  Marsupilami                              K-7   tmdb=yes   kids=n  ids=[12, 35]
+      tmdb : Seikkailu, Komedia
+      prov : Komedia , Seikkailu
+  Marsupilami, suomeksi                    K-7   tmdb=yes   kids=n  ids=[12, 35]
+      tmdb : Seikkailu, Komedia
+      prov : Koko perheen, Seikkailu
+  Nalle Puhin elokuva (dub)                S     tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Animaatio, Perhe-elokuva , Seikkailu
+  Oasis: Don't Look Back in Anger          K-7   tmdb=yes   kids=n  ids=[99, 10402]
+      tmdb : Dokumentti, Musiikki
+      prov : Dokumentti, Musiikki
+  Paholainen pukeutuu Pradaan 2            K-7   tmdb=MISS  kids=n  ids=[]
+      tmdb : -
+      prov : Komedia
+  Pikku Kummitus Lapanen                   S     tmdb=yes   kids=Y  ids=[16, 10751]
+      tmdb : Animaatio, Perhe
+      prov : Koko perheen elokuva, Perhe
+  Päivien lumo                             S     tmdb=yes   kids=n  ids=[99, 10402]
+      tmdb : Dokumentti, Musiikki
+      prov : Dokumentti, Kotimainen
+  Ryhmä Hau: Dinoelokuva                   K-7   tmdb=yes   kids=Y  ids=[12, 16, 35, 10751, 878]
+      tmdb : Seikkailu, Animaatio, Komedia, Perhe, Science fiction
+      prov : Toiminta, Seikkailu, Animaatio, Komedia, Perhe-elokuva
+  Ryhmä Hau: Dinoelokuva (suomeksi)        K-7   tmdb=yes   kids=Y  ids=[12, 16, 35, 10751, 878]
+      tmdb : Seikkailu, Animaatio, Komedia, Perhe, Science fiction
+      prov : Animaatio, Komedia, Seikkailu
+  Soul – sielun syövereissä                K-7   tmdb=yes   kids=Y  ids=[16, 10751, 18, 10402, 14]
+      tmdb : Animaatio, Perhe, Draama, Musiikki, Fantasia
+      prov : Animaatio, Perhe-elokuva, Fantasia, Draama, Musiikki
+  Toy Story 5                              K-7   tmdb=yes   kids=Y  ids=[16, 10751, 35, 12]
+      tmdb : Animaatio, Perhe, Komedia, Seikkailu
+      prov : Animaatio, Perhe-elokuva, Komedia, Seikkailu
+  Vaiana (liveaction)                      K-7   tmdb=yes   kids=Y  ids=[10751, 14, 35, 12]
+      tmdb : Perhe, Fantasia, Komedia, Seikkailu
+      prov : Perhe-elokuva, Fantasia, Komedia, Seikkailu
+
+summary: {'kids': 10, 'no-tmdb': 9, 'not-kids': 7}
