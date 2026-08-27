@@ -1,0 +1,84 @@
+name: tmdb genre check (throwaway)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ask TMDB what genres it has
+        env:
+          TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
+        run: |
+          python3 - <<'PY' > tmdb-genre-check.txt
+          import json, os, time, urllib.request, glob, collections
+          th = {"Authorization": "Bearer " + os.environ["TMDB_TOKEN"],
+                "accept": "application/json", "user-agent": "kino-genrecheck/1.0"}
+          def get(u):
+              r = urllib.request.Request(u, headers=th)
+              with urllib.request.urlopen(r, timeout=25) as f:
+                  return json.loads(f.read().decode("utf-8", "replace"))
+
+          # Q1: are the Finnish genre names localized, or an English fallback?
+          maps = {}
+          for lang in ("fi-FI", "en-US"):
+              g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}")
+              maps[lang] = {x["id"]: x["name"] for x in g.get("genres", [])}
+              print(f"[{lang}] {len(maps[lang])} genres")
+          print("id  fi-FI                     en-US")
+          for gid in sorted(maps["en-US"]):
+              print(f"{gid:<5}{maps['fi-FI'].get(gid,'-'):<26}{maps['en-US'][gid]}")
+          same = [gid for gid in maps["en-US"]
+                  if maps["fi-FI"].get(gid) == maps["en-US"][gid]]
+          print(f"\nidentical in both languages: {len(same)} of {len(maps['en-US'])} -> "
+                + ("LOCALIZED" if len(same) < len(maps["en-US"]) / 2 else "NOT LOCALIZED"))
+
+          # provider genres + rating for the films the kids filter admits today
+          prov, rating = {}, {}
+          for f in glob.glob("data/area-*.json"):
+              try: d = json.load(open(f))
+              except Exception: continue
+              for s in d.get("shows", []):
+                  t = s.get("title") or ""
+                  g = (s.get("genres") or "").strip()
+                  if len(g) > len(prov.get(t, "")): prov[t] = g
+                  if s.get("rating") and not rating.get(t): rating[t] = s["rating"]
+          cache = json.load(open("data/tmdb-titles.json"))
+          import re
+          def norm(t):
+              t = re.sub(r"[^\w\s]", " ", (t or "").lower().strip(), flags=re.UNICODE)
+              return re.sub(r"\s+", " ", t).strip()
+
+          # Q2/Q3: TMDB genres vs the provider string, for every S / K-7 film
+          print("\n=== films the Lapsille filter admits today ===")
+          KIDS = {16, 10751}
+          verdict = collections.Counter()
+          for t in sorted(prov):
+              if rating.get(t) not in ("S", "K-7"): continue
+              c = cache.get(norm(t)) or {}
+              mid = c.get("i")
+              ids, names = [], ""
+              if mid:
+                  try:
+                      d = get(f"https://api.themoviedb.org/3/movie/{mid}?language=fi-FI")
+                      ids = [g["id"] for g in d.get("genres", [])]
+                      names = ", ".join(g["name"] for g in d.get("genres", []))
+                      time.sleep(0.2)
+                  except Exception as e:
+                      names = f"(error {e})"
+              kid = bool(KIDS & set(ids))
+              verdict["kids" if kid else ("no-tmdb" if not mid else "not-kids")] += 1
+              print(f"  {t[:38]:40} {rating.get(t,''):5} tmdb={'yes' if mid else 'MISS ':5} "
+                    f"kids={'Y' if kid else 'n'}  ids={ids}")
+              print(f"      tmdb : {names or '-'}")
+              print(f"      prov : {prov[t] or '-'}")
+          print("\nsummary:", dict(verdict))
+          PY
+          head -40 tmdb-genre-check.txt
+          git config user.name kino-bot && git config user.email a@b.c
+          git add -f tmdb-genre-check.txt
+          git commit -m "tmdb genre check (throwaway)"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && exit 0; sleep 5; done
+          echo "::error::push failed"; exit 1
