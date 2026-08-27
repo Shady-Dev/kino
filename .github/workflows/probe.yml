@@ -10,36 +10,34 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           python3 - <<'PY' > probe-orion.txt
-          import json, urllib.request
+          import json, re, urllib.request
           UA = "kino-probe/1.0"
           def get(u):
               r = urllib.request.Request(u, headers={"user-agent": UA})
               with urllib.request.urlopen(r, timeout=30) as f:
-                  return f.read().decode("utf-8", "replace"), dict(f.headers)
+                  return f.read().decode("utf-8", "replace"), {k.lower(): v for k, v in f.headers.items()}
           base = "https://cinemaorion.fi/wp-json/wp/v2/elokuvat"
-          body, hdr = get(base + "?per_page=100&_embed=wp:featuredmedia")
+          body, hdr = get(base + "?per_page=100")
           items = json.loads(body)
-          print("items", len(items), "| total header", hdr.get("X-WP-Total"), hdr.get("X-WP-TotalPages"))
-          print("top-level keys:", sorted(items[0].keys()))
+          print("items", len(items), "| x-wp-total", hdr.get("x-wp-total"), "pages", hdr.get("x-wp-totalpages"))
+          def ogs(it):
+              return ((it.get("yoast_head_json") or {}).get("og_image") or [])
+          exts = {}
           for it in items:
-              if "follow" in (it.get("slug") or ""):
-                  print("=== follow-the-plants entry ===")
-                  print("slug", it.get("slug"), "| featured_media", it.get("featured_media"))
-                  emb = (it.get("_embedded") or {}).get("wp:featuredmedia") or []
-                  print("embedded media:", json.dumps(emb, ensure_ascii=False)[:900])
-                  y = it.get("yoast_head_json") or {}
-                  print("yoast og_image:", json.dumps(y.get("og_image"), ensure_ascii=False)[:300])
-                  break
-          have_fm = sum(1 for it in items if it.get("featured_media"))
-          print("entries with featured_media:", have_fm, "of", len(items))
-          emb0 = None
+              for o in ogs(it):
+                  e = (o.get("url") or "").rsplit(".", 1)[-1].lower()
+                  exts[e] = exts.get(e, 0) + 1
+          print("og_image extensions:", exts)
+          print("entries with no og_image:", sum(1 for it in items if not ogs(it)))
           for it in items:
-              e = (it.get("_embedded") or {}).get("wp:featuredmedia") or []
-              if e and isinstance(e[0], dict) and e[0].get("source_url"):
-                  emb0 = (it["slug"], e[0].get("source_url"),
-                          sorted((e[0].get("media_details") or {}).get("sizes", {}).keys()))
-                  break
-          print("sample embedded:", json.dumps(emb0, ensure_ascii=False)[:500])
+              if it.get("slug") in ("follow-the-plants", "zejtune", "mother"):
+                  c = (it.get("content") or {}).get("rendered") or ""
+                  imgs = re.findall(r'<img[^>]+src=["\']([^"\']+)["\']', c)[:4]
+                  print("---", it["slug"], "| content imgs:", imgs)
+                  print("    og:", [ (o.get('url'), o.get('width'), o.get('height')) for o in ogs(it) ])
+                  print("    acf:", json.dumps(it.get("acf"), ensure_ascii=False)[:200])
+                  m = re.search(r'wp-content/uploads/[^"\']+\.(?:jpg|jpeg|png|webp)', c, re.I)
+                  print("    first web-format upload in body:", m.group(0) if m else None)
           PY
           head -c 300 probe-orion.txt
           git config user.name kino-bot && git config user.email a@b.c
