@@ -1014,9 +1014,18 @@
         ${syn ? `<p class="syn">${syn}</p>` : ''}
         <div class="sheet-days">${days}</div>
       </div>`;
-    sheetEl.querySelector('.sheet-close').onclick = () => { location.hash = ''; };
+    sheetEl.querySelector('.sheet-close').onclick = closeSheet;
     document.body.classList.add('sheet-open');
   }
+  // Setting location.hash = '' counts as navigating to the top of the document, which
+  // scrolled the list back up. Strip the fragment without navigating instead.
+  function closeSheet(){
+    const y = window.scrollY;
+    if(location.hash) history.replaceState(null, '', location.pathname + location.search);
+    hideSheet();
+    if(window.scrollY !== y) window.scrollTo(0, y);
+  }
+
   function hideSheet(){
     document.body.classList.remove('sheet-open');
     sheetEl.classList.remove('dragging');
@@ -1055,7 +1064,7 @@
       sheetEl.classList.remove('dragging');
       const v = dy / Math.max(1, performance.now() - t0);   // px per ms
       if(dy > 110 || v > 0.6){
-        location.hash = '';
+        closeSheet();
       } else {
         sheetEl.style.transform = '';
         if(overlayEl) overlayEl.style.opacity = '';
@@ -1073,7 +1082,7 @@
     } else hideSheet();
   }
   window.addEventListener('hashchange', syncSheet);
-  overlayEl.onclick = () => { location.hash = ''; };
+  overlayEl.onclick = closeSheet;
   main.addEventListener('click', e => {
     if(e.target.closest('a.stub')) return;
     const el = e.target.closest('article.movie, .tinfo');
