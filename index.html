@@ -972,9 +972,11 @@
       }).join('')}</div>`;
   }
 
-  // Toggling every chain off would leave an empty list, so treat that as "all".
+  // Additive filter: from the default (no selection, everything shown) the first click
+  // isolates that chain rather than hiding it, then each further click adds one. Clicking
+  // the last remaining chain off, or selecting them all, means "no filter" again.
   function toggleChain(c, all){
-    const set = new Set(state.chains || all);
+    const set = state.chains ? new Set(state.chains) : new Set();
     set.has(c) ? set.delete(c) : set.add(c);
     state.chains = (set.size === 0 || set.size === all.length) ? null : set;
     render();
