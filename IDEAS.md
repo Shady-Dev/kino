@@ -356,6 +356,23 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+- **English titles have to resolve through `_eid`** (2026-08-27). `disp()` looked up
+  `films.json` (keyed by Finnkino's `filmId`) with the show's `eventId`, which in a
+  combined city view is the cross-chain merge key, so English mode silently showed the
+  Finnish title for **every** film in every combined view. `showSheet()` already dug the
+  real id out of `_eid`; `disp()` now does the same through `filmEntry()`, which also
+  scans the group's showtimes so a merged row finds the Finnkino member. Falls back to the
+  show's `original` title, which a few providers publish (Savon Kinot) and which beats a
+  Finnish distributor title in English mode.
+- **Never translate `s.title` itself.** It is the key for `mergeKey()`, for `normTitle()`
+  -> `films-extra.json`, for the TMDB title cache and for `tmdb-aliases.json`. Rewriting
+  it would unmerge rows, orphan synopses and invalidate every alias key at once. English
+  titles are a render-time substitution and nothing else.
+- Still Finnish in English mode, by omission rather than design: **genres** are the
+  provider's own strings, stored verbatim, so `Toiminta, Jännitys` shows for every
+  provider including Finnkino. Fixing it means storing TMDB's genre list per language in
+  the enrichment cache and choosing at render time. Also the film list sorts on
+  `title.localeCompare`, so English mode keeps Finnish alphabetical order.
 - **Merge on the union of both signals, never on one or the other** (2026-08-27). Keying
   by `tmdbId` *when present* and by title otherwise **unmerged** a pair that had worked:
   "Maailman rikkain nainen" resolved an id at Gilda and none at Finnkino, so one row was

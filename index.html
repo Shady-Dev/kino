@@ -567,12 +567,26 @@
     if(by.S.length) out.push(LW[state.lang].S + ' ' + by.S.join('/'));
     return out.join(' · ');
   }
+  // films.json is keyed by Finnkino's filmId. In a combined city view eventId is the
+  // cross-chain merge key, so the id has to come from the show's own _eid — the same
+  // resolution showSheet() already does. Without it English mode fell back to the
+  // Finnish title for every film in every combined view.
+  const filmEntry = m => {
+    if(!films || !m) return null;
+    const ids = [m.eventId, m._eid, ...(m.times || []).map(t => t._eid)];
+    for(const id of ids) if(id && films[id]) return films[id];
+    return null;
+  };
+  // Never translate m.title itself: that string is the key for mergeKey(), normTitle()
+  // -> films-extra.json, the TMDB title cache and tmdb-aliases.json. This is display
+  // only.
   const disp = m => {
-    if(state.lang === 'en' && films && films[m.eventId]){
-      const f = films[m.eventId];
-      return (f.t && f.t.en) || f.o || m.title;
-    }
-    return m.title;
+    if(state.lang !== 'en') return m.title;
+    const f = filmEntry(m);
+    // Only Finnkino publishes an English title. Some others publish the original one,
+    // which beats a Finnish distributor title in English mode; most publish neither,
+    // so a Finnish title remains the honest fallback.
+    return (f && ((f.t && f.t.en) || f.o)) || m.original || m.title;
   };
 
   /* ---------- theme ---------- */
@@ -1323,7 +1337,8 @@
       if(hit) f = { ...f, s: hit.s, tr: f.tr || hit.tr };
     }
     const lang = state.lang;
-    const title = (lang==='en' ? ((f.t&&f.t.en)||f.o) : (f.t&&f.t.fi)) || sample.title || '';
+    const title = (lang==='en' ? ((f.t&&f.t.en)||f.o||sample.original)
+                               : (f.t&&f.t.fi)) || sample.title || '';
     // TMDB has a Finnish overview for only some films, so fall back either way rather
     // than showing nothing.
     const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : (f.s.fi || f.s.en))) || '';
