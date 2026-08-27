@@ -158,6 +158,13 @@ Conventions worth keeping:
   rule is the only thing allowed to carry colour. Every glyph has a `title` and an
   `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
   day's shows actually carry the tag**, so it never explains something off screen.
+- **The calendar chip must not keep a date it no longer owns** (2026-08-27). Pick 19.9.
+  from the picker, then tap a quick chip: the quick chip took the `.active` class but the
+  calendar chip kept reading "La 19.9.", so it looked like a shortcut back to that date
+  and instead reopened the picker. `resetCalChip()` restores the 📅 face whenever a quick
+  chip takes over, from its own handler and from `selectDay()` (which the next-day link
+  and the auto-advance also use). The chip shows a date only while that date is the one
+  being viewed.
 - **A stub names the cinema, not the district** (2026-08-27). Stubs used the bare venue
   `short`, and half of those say nothing about which chain: "Punavuori" and "Kallio" are
   Helsinki neighbourhoods, "Tripla" and "Redi" are shopping centres, "Kamppi" is both.

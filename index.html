@@ -717,7 +717,8 @@
       b.className = 'day'; b.role = 'tab';
       const lbl = i===0 ? L[state.lang].today : (i===1 ? L[state.lang].tomorrow : fiDay[dowOf(iso)]);
       b.innerHTML = `<small>${lbl}</small><b>${dmOf(iso)}</b>`;
-      b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({dayIdx:i}); activate(b); loadSchedule(); };
+      b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({dayIdx:i});
+                          resetCalChip(); activate(b); loadSchedule(); };
       dayBtns[iso] = b;
       if(i===savedIdx){ b.classList.add('active'); state.dateStr = iso; }
       daysEl.appendChild(b);
@@ -746,6 +747,15 @@
     return new Date(Date.UTC(y, m - 1 + k, 1)).toISOString().slice(0, 7);
   };
   let calMonth = null;
+  // The calendar chip shows the picked date while that date is the one being viewed, and
+  // goes back to the 📅 face as soon as a quick chip takes over. Leaving the date on it
+  // was a lie: the chip read "La 19.9." but tapping it opened the picker, because it is
+  // the picker button, not a shortcut back to that date.
+  function resetCalChip(){
+    if(!calChip) return;
+    calChip.innerHTML = `<small>${L[state.lang].other}</small><b>\u{1F4C5}</b>`;
+    calChip.classList.remove('active');
+  }
   function closeCal(){
     const w = document.querySelector('.cal-wrap');
     if(w) w.remove();
@@ -1024,6 +1034,7 @@
     prefs.set({ dayIdx: diffDays(base, iso) });
     [...daysEl.children].forEach(c => c.classList.remove('active'));
     if(dayBtns[iso]){
+      resetCalChip();
       dayBtns[iso].classList.add('active');
     } else if(calChip){
       calChip.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
