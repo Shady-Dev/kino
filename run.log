@@ -1,33 +1,18 @@
-[token] using FINNKINO_TOKEN variable
-Traceback (most recent call last):
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 504, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 200, in main
-    raw_sites = api("/sites", token)
-                ^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 145, in api
-    return json.loads(http_get(DIGITAL_API + path, {
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 111, in http_get
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
-    return opener.open(url, data, timeout)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
-    response = meth(req, response)
-               ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
-    response = self.parent.error(
-               ^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
-    return self._call_chain(*args)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
-    result = func(*args)
-             ^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
-    raise HTTPError(req.full_url, code, msg, hdrs, fp)
-urllib.error.HTTPError: HTTP Error 401: Unauthorized
-exit=1
+[token] using FINNKINO_TOKEN from the environment
+[sites] 17 cinemas
+[schedule] 2026-08-28: 341 showtimes
+[schedule] 2026-08-29: 580 showtimes
+[schedule] 2026-08-30: 419 showtimes
+[schedule] 2026-08-31: 333 showtimes
+[schedule] 2026-09-01: 326 showtimes
+[schedule] 2026-09-02: 377 showtimes
+[schedule] 2026-09-03: 380 showtimes
+[tmdb] dropped 2 weak entries that now have an alias
+[tmdb] weak match, no exact title (4): Autot (uudelleenjulkaisu) -> The Boy Who Counted Cars | IL VOLO - Temppelilaakso -> USTICA Il Volo del Silenzio | Nalle Puhin elokuva (dub) -> Winnie the Pooh | Vaiana (liveaction) -> Moana
+[tmdb] rating held back, under 25 votes (7): Autot (uudelleenjulkaisu) (6.5 / 2 votes) | Bamse ja meren salaisuus (6.4 / 8 votes) | Ella ja kaverit: Operaatio Saukko (6.3 / 3 votes) | GHOST: 2 Big To Rig (10.0 / 1 votes) | IL VOLO - Temppelilaakso (10.0 / 1 votes) | Spa Weekend (6.6 / 21 votes) | Toxic (5.6 / 7 votes)
+[tmdb] 2 new lookups, 50 re-checks, cache 52, 37 mergeable by id
+[films] 52 film entries
+[attrs] dropped, neither format nor language (9): Annisk_K18 | Anniskelu | EventCine | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[schedule] 17 venue files written, 0 kept as-is
+done
+exit=0
