@@ -43,6 +43,10 @@ SITES = [{
     "base": "https://www.gilda.fi",
     "api": "/wp-json/gilda-react-booking/v1",
     "listing": "/elokuvat/",
+    # Per-film pages live at /elokuva/{slug}/ as WordPress posts of type `movies`.
+    # The booking API carries no slug and no permalink, so the mapping comes from the
+    # WP REST list and is matched on the title.
+    "posts": "/wp-json/wp/v2/movies",
     # MyCloudCinema poster path is {host}/media/posters/{movie_id}/{width}/{uuid}.
     # Only width 1080 exists; 720 and 500 are 404. The same shape serves BioRex
     # (web.biorex.mycloudcinema.com), which is how it was found after a bare
@@ -69,6 +73,16 @@ FORMATS = {"version_70mm": "70mm", "version_35mm": "35mm", "version_16mm": "16mm
            "version_atmos": "Atmos", "version_luxe": "LUXE", "version_dbox": "D-BOX",
            "version_hfr": "HFR"}
 TAGS_RE = re.compile(r"<[^>]+>")
+ENTITIES = {"&#8211;": "-", "&#8217;": "'", "&#039;": "'", "&#8216;": "'",
+            "&amp;": "&", "&nbsp;": " "}
+
+
+def _key(title):
+    """Loose title key for matching a film to its WordPress post."""
+    t = TAGS_RE.sub(" ", title or "")
+    for k, v in ENTITIES.items():
+        t = t.replace(k, v)
+    return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", " ", t.lower())).strip()
 
 
 def _code(token):
@@ -145,7 +159,34 @@ def get(url, tries=3, timeout=45):
     raise last
 
 
-def parse(payload, site):
+def film_pages(site, tries=3):
+    """-> {title key: permalink} for every /elokuva/{slug}/ page.
+
+    Paginated at 100. A failure here is not fatal: showtimes fall back to the
+    programme listing, which is what every show used before this existed.
+    """
+    base = site["base"].rstrip("/") + site.get("posts", "")
+    out = {}
+    for page in range(1, 6):
+        url = f"{base}?per_page=100&page={page}&_fields=link,title"
+        try:
+            chunk = get(url, tries=tries)
+        except Exception as e:
+            if page == 1:
+                print(f"[{site['provider']}] film pages unavailable: {e}")
+            break
+        if not isinstance(chunk, list) or not chunk:
+            break
+        for post in chunk:
+            k = _key((post.get("title") or {}).get("rendered"))
+            if k and k not in out:
+                out[k] = post.get("link") or ""
+        if len(chunk) < 100:
+            break
+    return out
+
+
+def parse(payload, site, pages=None):
     """-> {venue_id: [show, ...]}"""
     by_screen = {}
     for v in site["venues"]:
@@ -156,6 +197,7 @@ def parse(payload, site):
     posters = site.get("posters", "").rstrip("/")
     width = site.get("poster_width", 1080)
 
+    pages = pages or {}
     doc = (payload.get("fi") or {}).get("data") or []
     per_venue = {}
     for film in doc:
@@ -174,6 +216,13 @@ def parse(payload, site):
             start = _start(s)
             if not venue or not start:
                 continue
+            # The film page, matched on its own title then the original title. That
+            # second rule is what resolves a Finnish release title to an
+            # English-slugged post ("Maailman rikkain nainen" ->
+            # /elokuva/the-richest-woman-in-the-world-2/). No fuzzy matching: a
+            # near-miss sends people to the wrong film, the fallback only costs a click.
+            page = (pages.get(_key(s.get("movie_name") or film.get("movie_name")))
+                    or pages.get(_key(s.get("original_title"))) or "")
             row = {
                 "eventId": str(film.get("movie_id") or s.get("movie_id") or ""),
                 "title": (s.get("movie_name") or film.get("movie_name") or "").strip(),
@@ -185,7 +234,7 @@ def parse(payload, site):
                 "theatre": venue["name"],
                 "aud": _aud(s, venue),
                 "start": start,
-                "url": listing,      # no public per-show booking URL found yet
+                "url": page or listing,
                 "img": img,
                 "lang": _lang(s),
                 "soldOut": False,    # seat counts need the closed seatplan endpoint
@@ -201,13 +250,21 @@ def parse(payload, site):
 
 def fetch_site(site):
     url = site["base"].rstrip("/") + site.get("api", "") + "/movies"
-    return parse(get(url), site)
+    payload = get(url)
+    pages = film_pages(site)
+    print(f"[{site['provider']}] film pages indexed: {len(pages)}")
+    return parse(payload, site, pages)
 
 
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
-        res = parse(json.load(open(sys.argv[1], encoding="utf-8")), SITES[0])
+        pages = {}
+        if len(sys.argv) > 2:      # offline: a saved wp/v2/movies dump
+            for post in json.load(open(sys.argv[2], encoding="utf-8")):
+                pages.setdefault(_key((post.get("title") or {}).get("rendered")),
+                                 post.get("link") or "")
+        res = parse(json.load(open(sys.argv[1], encoding="utf-8")), SITES[0], pages)
     else:
         res = fetch_site(SITES[0])
     for vid, shows in sorted(res.items()):
