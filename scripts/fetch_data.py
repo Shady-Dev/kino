@@ -339,7 +339,7 @@ def main() -> int:
             cached = tmdb_cache.get(fid)
             cached = cached if isinstance(cached, dict) else None
             # Skip only if we already have a trailer, or we already re-checked today.
-            if (cached and "n" in cached and "x" in cached
+            if (cached and "n" in cached and "x" in cached and "g" in cached
                     and (cached.get("v") or cached.get("c") == today)):
                 continue
             try:
@@ -347,6 +347,7 @@ def main() -> int:
                 va = (cached.get("r") or 0) if cached else 0
                 votes = (cached.get("n") or 0) if cached else 0
                 exact_id = bool(cached.get("x")) if cached else False
+                gids = (cached.get("g") or []) if cached else []
                 # An alias is either a bare TMDB id, which skips the search, or a
                 # replacement search string. Keyed on the Finnish title first, since
                 # that is what the cinema publishes and what the file is keyed by.
@@ -395,12 +396,19 @@ def main() -> int:
                 # (an alias id, or one restored from cache before "n" existed), and this
                 # pass otherwise never fetches the movie detail. One request, only in
                 # that case, keeps the rating and the vote floor working.
-                if mid and not votes:
+                # One detail call covers both gaps: vote data for an id that did not come
+                # from a search, and the genre ids, which this pass never had. Skipped
+                # once the cache carries both, so it costs one pass per film, not one
+                # per run. Genre names are localized client-side from
+                # data/tmdb-genres.json, written by the cloud pass.
+                if mid and (not votes or not gids):
                     try:
                         d = json.loads(http_get(
                             f"https://api.themoviedb.org/3/movie/{mid}", th))
-                        va = d.get("vote_average") or 0
-                        votes = d.get("vote_count") or 0
+                        va = d.get("vote_average") or va
+                        votes = d.get("vote_count") or votes
+                        if d.get("genres"):
+                            gids = [g["id"] for g in d["genres"] if g.get("id")]
                     except Exception as e:
                         print(f"[tmdb-detail] {meta['q']}: {e}")
                 yt = ""
@@ -423,7 +431,7 @@ def main() -> int:
                 if va and not shown:
                     tmdb_thin.append(f"{meta['q']} ({round(va, 1)} / {votes} votes)")
                 tmdb_cache[fid] = {"r": shown, "n": votes, "v": yt,
-                                   "x": bool(mid) and exact_id,
+                                   "x": bool(mid) and exact_id, "g": gids,
                                    "i": mid or "", "c": today}
                 if cached:
                     rechecked += 1
@@ -455,6 +463,8 @@ def main() -> int:
                 # only: a weak id would merge two different films into one row.
                 if isinstance(c, dict) and c.get("x") and c.get("i"):
                     sh["tmdbId"] = c["i"]
+                if isinstance(c, dict) and c.get("g"):
+                    sh["gids"] = c["g"]
         for fid, entry in films_full.items():
             c = tmdb_cache.get(fid)
             if isinstance(c, dict) and c.get("v"):

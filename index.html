@@ -514,6 +514,26 @@
     return extraFilms;
   }
 
+  // TMDB genre ids are language-neutral; data/tmdb-genres.json turns them into names.
+  // Provider genre strings stay as the fallback: four chains spell the family genre four
+  // ways ("Perhe-elokuva", "Koko perheen", "Koko perheen elokuva", "Perhe"), Cinema Orion
+  // publishes none at all, and in English mode every one of them is still Finnish.
+  let genreNames = null;
+  async function ensureGenres(){
+    if(genreNames) return genreNames;
+    try { genreNames = await fetchJSON('data/tmdb-genres.json'); }
+    catch(_) { genreNames = {}; }
+    return genreNames;
+  }
+  const genresOf = m => {
+    const map = genreNames && genreNames[state.lang];
+    if(map && Array.isArray(m.gids) && m.gids.length){
+      const out = m.gids.map(id => map[id]).filter(Boolean);
+      if(out.length) return out.join(', ');
+    }
+    return (m.genres || '').replace(/\s+,\s*/g, ', ').trim();
+  };
+
   async function ensureFilms(){
     if(films !== null) return;
     try{ films = (await fetchJSON('data/films.json')).films || {}; }
@@ -1110,7 +1130,18 @@
     const q = state.filter.trim().toLowerCase();
     if(q && !s.title.toLowerCase().includes(q) && !(s.original||'').toLowerCase().includes(q)) return false;
     if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
-    if(state.fKids && !(s.rating === 'S' || s.rating === 'K-7')) return false;
+    // Rating first, so the filter can never admit a restricted film — the cinema
+    // enforces the age limit at the door and this is only a browse aid. Genre ids then
+    // remove the merely-unrestricted: documentaries and dramas. Whitelisting Animation
+    // and Family alone was tried and rejected — TMDB tags Marsupilami as Adventure,
+    // Comedy, so a K-7 family comedy would have vanished from the filter. A film with no
+    // ids stays on rating alone.
+    if(state.fKids){
+      if(!(s.rating === 'S' || s.rating === 'K-7')) return false;
+      const g = Array.isArray(s.gids) ? s.gids : [];
+      if(g.length && !g.includes(16) && !g.includes(10751)
+         && (g.includes(99) || g.includes(18))) return false;
+    }
     if(state.chains && s.provider && !state.chains.has(s.provider)) return false;
     return true;
   }
@@ -1234,7 +1265,7 @@
     // screenings — the genres used to change under the visitor. `lang` is deliberately
     // NOT in this list: it belongs to the screening, and showing "tekstit suomi/ruotsi"
     // from a screening the filter just removed would be wrong.
-    const FILM_FIELDS = ['tmdb','tr','img','len','genres','rating','original'];
+    const FILM_FIELDS = ['tmdb','tr','img','len','genres','rating','original','gids'];
     const filmFacts = new Map();
     for(const s of state.shows){
       let g = filmFacts.get(s.eventId);
@@ -1328,7 +1359,7 @@
           + `</button>`
         : '';
       const meta2 = [
-        m.genres ? `<span>${m.genres.replace(/\s+,\s*/g, ', ').trim()}</span>` : '',
+        genresOf(m) ? `<span>${genresOf(m)}</span>` : '',
         m.len ? `<span>${m.len} min</span>` : '',
         m.lang ? `<span>${langTxt(m.lang)}</span>` : '',
         price ? `<span>${price}</span>` : '',
@@ -1419,7 +1450,7 @@
       <div class="sheet-head">${poster}
         <div><div class="sheet-title">${title}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
-          ${sample.genres ? `<div class="meta2">${sample.genres.replace(/\s+,\s*/g, ', ')}</div>` : ''}
+          ${genresOf(sample) ? `<div class="meta2">${genresOf(sample)}</div>` : ''}
           ${(f.tr || sample.tr) ? `<a class="trailer" href="${f.tr || sample.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">${legend}
@@ -1571,6 +1602,7 @@
     try {
       buildDays();
       await loadProviders();
+      await ensureGenres();
       await loadAreas();
       if(state.lang === 'en'){ await ensureFilms(); }
       langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';

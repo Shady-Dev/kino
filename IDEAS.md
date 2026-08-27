@@ -356,6 +356,28 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+### Genres come from TMDB ids (2026-08-27)
+Provider genre strings are unusable as data: four spellings for the family genre
+("Perhe-elokuva", "Koko perheen", "Koko perheen elokuva", "Perhe"), trailing spaces from
+Finnkino, Cinema Orion publishes none, and in English mode every one of them is still
+Finnish. Both TMDB passes now keep the **genre ids** already present in the `/movie/{id}`
+response they fetch for the synopsis — no extra requests in the cloud pass, one detail
+call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
+`data/tmdb-genres.json` holds the id -> name map for `fi` and `en`, two requests per run.
+
+- Probed before building: TMDB's Finnish genre names are real translations, **18 of 19**
+  differ from English. Ids plus one map per language therefore fix English-mode genres as
+  well as the kids filter.
+- **The kids filter cannot whitelist Animation and Family.** That was the plan until the
+  probe showed TMDB tags "Marsupilami" as Adventure, Comedy — a K-7 family comedy would
+  have disappeared from the filter. The rule is: rating gate first (so a restricted film
+  can never be admitted, and the cinema enforces the limit at the door anyway), then ids
+  `16`/`10751` mean kids, `99`/`18` without them mean not kids, and no ids means rating
+  alone. Errors therefore land on "boring for a child", never on "unsuitable".
+- Provider strings stay as the fallback, because the four TMDB misses and any provider
+  with thin metadata still need something to show.
+- Entries without `g` count as incomplete in both caches, so this cost one re-check pass.
+
 - **Film facts fold from every showtime; screening facts fold from the surviving ones**
   (2026-08-27). Toggling "Suom. puhe" changed a card's *genres*, because the fold took the
   first non-empty field across the **filtered** set and the chains disagree: Finnkino
