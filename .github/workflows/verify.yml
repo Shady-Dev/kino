@@ -1,0 +1,57 @@
+name: verify weak matches (throwaway)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
+        run: |
+          python3 - <<'PY' > weak-check.txt
+          import json, os, time, urllib.request
+          th = {"Authorization": "Bearer " + os.environ["TMDB_TOKEN"],
+                "accept": "application/json", "user-agent": "kino-verify/1.0"}
+          def get(u):
+              with urllib.request.urlopen(urllib.request.Request(u, headers=th), timeout=25) as f:
+                  return json.loads(f.read().decode("utf-8", "replace"))
+
+          rows = []
+          tt = json.load(open("data/tmdb-titles.json"))
+          for k, v in sorted(tt.items()):
+              if isinstance(v, dict) and v.get("i") and not v.get("x"):
+                  rows.append(("cloud", k, v["i"]))
+          fk = json.load(open("data/tmdb.json"))
+          films = json.load(open("data/films.json"))["films"]
+          for fid, v in fk.items():
+              if isinstance(v, dict) and v.get("i") and not v.get("x"):
+                  t = (films.get(fid, {}).get("t") or {}).get("fi") or fid
+                  rows.append(("finnkino", t, v["i"]))
+
+          print(f"{len(rows)} weak entries\n")
+          for src, title, mid in rows:
+              try:
+                  d = get(f"https://api.themoviedb.org/3/movie/{mid}")
+                  print(f"[{src}] {title}")
+                  print(f"    -> {mid}  {d.get('title')}  / orig {d.get('original_title')}"
+                        f"  ({(d.get('release_date') or '????')[:4]})"
+                        f"  {d.get('vote_count')} votes")
+                  # what else could it be? top 3 for the published title
+                  q = urllib.parse.quote(title)
+                  alt = get(f"https://api.themoviedb.org/3/search/movie?query={q}&language=fi-FI")
+                  cands = [(h["id"], h.get("title"), (h.get("release_date") or "????")[:4],
+                            h.get("vote_count")) for h in (alt.get("results") or [])[:3]]
+                  print(f"    fi-search: {cands}")
+                  time.sleep(0.25)
+              except Exception as e:
+                  print(f"[{src}] {title} -> {mid}: ERROR {e}")
+          PY
+          head -30 weak-check.txt
+          git config user.name kino-bot && git config user.email a@b.c
+          git add -f weak-check.txt
+          git commit -m "verify weak matches (throwaway)"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && exit 0; sleep 5; done
+          echo "::error::push failed"; exit 1
