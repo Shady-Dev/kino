@@ -10,15 +10,14 @@ jobs:
           set +e
           mkdir -p probe
           UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-          B='https://www.rivieracinemas.fi/app/themes/riviera/public/js'
-          curl -sS --compressed -A "$UA" -o probe/rv-app.js "$B/app.8dae36.js"
-          wc -c probe/rv-app.js
-          echo "--- action names / urls in bundle"
-          grep -oE "action[\"']?\s*[:=]\s*[\"'][a-zA-Z_]+[\"']" probe/rv-app.js | sort -u | head -20
-          grep -oE "(admin-ajax\.php|/wp-json/[a-zA-Z0-9/_-]+|https?://[a-z0-9.-]+/[a-zA-Z0-9/_.-]*(api|Event|Show)[a-zA-Z0-9/_.-]*)" probe/rv-app.js | sort -u | head -20
-          echo "--- filter_movies context"
-          grep -oE ".{160}filter_movies.{260}" probe/rv-app.js | head -3
+          A='https://www.rivieracinemas.fi/wp/wp-admin/admin-ajax.php'
+          for area in 1040 1024 1039; do
+            curl -sS --compressed -A "$UA" -H 'x-requested-with: XMLHttpRequest' \
+              -w "area$area: %{http_code} %{size_download}\n" -o "probe/rv-$area.json" \
+              -X POST "$A" --data "action=filter_movies&date=&movie=&area=$area&singlemovie=&initial=1"
+          done
+          head -c 500 probe/rv-1024.json; echo
       - run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add -A probe && git diff --cached --quiet || git commit -q -m "p8b"
+          git add -A probe && git diff --cached --quiet || git commit -q -m "p8c"
           for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && break; sleep 5; done
