@@ -42,6 +42,23 @@ RATING_RE = re.compile(r'class="showtime-item__movie-rating">\s*\(?([^)<]*?)\)?\
 FORMAT_RE = re.compile(r'class="showtime-item__format">(.*?)</span>', re.S)
 SRCSET_RE = re.compile(r'data-srcset="([^"]+)"')
 MOVIEURL_RE = re.compile(r'class="showtime-item__movie-name"[^>]*href="([^"]+)"')
+# An age limit that belongs to the *screening*, not to the film. A licensed bar
+# auditorium admits 18+ only, whatever the film is rated: BioRex sells K-12 films into
+# Anniskelu screenings, and at Seinäjoki says so itself in the room name ("2 REX (K-18)").
+# An explicit marker in the room name wins over the inference from the tag.
+AGE_IN_AUD_RE = re.compile(r"\(\s*K-?\s*(\d{1,2})\s*\)")
+
+
+def _age(tags, aud):
+    """-> ('K-18', cleaned_aud). Blank when the screening adds no limit of its own."""
+    m = AGE_IN_AUD_RE.search(aud or "")
+    if m:
+        return f"K-{m.group(1)}", re.sub(r"\s{2,}", " ", AGE_IN_AUD_RE.sub("", aud)).strip()
+    if any("anniskelu" in t.lower() for t in tags):
+        return "K-18", aud
+    return "", aud
+
+
 # Film pages carry what the ajax response omits: Finnish synopsis, runtime, genres.
 SYN_RE = re.compile(r'class="movie-description__synopsis[^"]*">\s*(.*?)\s*</div>', re.S)
 KESTO_RE = re.compile(r'Kesto:</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*m)?', re.I)
@@ -110,6 +127,7 @@ def parse(posts_html, venue):
         rating_raw = _text(RATING_RE.search(chunk).group(1)) if RATING_RE.search(chunk) else ""
         fmts = [f for f in (_text(x) for x in FORMAT_RE.findall(chunk)) if f]
         tags, audio, subs = _split_formats(fmts)
+        age, aud = _age(tags, aud)
         href = HREF_RE.search(chunk)
         movie = MOVIEURL_RE.search(chunk)
         shows.append({
@@ -118,6 +136,7 @@ def parse(posts_html, venue):
             "original": "",
             "len": "",
             "rating": rating_raw,
+            "age": age,
             "genres": "",
             "method": " · ".join(tags),
             "theatre": dl.get("showCinemaName") or venue["name"],

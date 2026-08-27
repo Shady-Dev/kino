@@ -196,6 +196,7 @@ def main() -> int:
 
     qs = "&".join(f"siteIds={s['id']}" for s in sites)
     per_site = {s["id"]: [] for s in sites}
+    unknown_attrs = set()
     films_meta = {}
     films_full = {}
     today = datetime.date.today()
@@ -227,6 +228,13 @@ def main() -> int:
                     fmt_list.append(lbl)
                 elif re.match(r"^\.?[A-Z]{2}(?:-[A-Z]{2})?-(?:A|S)$", lbl):
                     lang_list.append(lbl.lstrip("."))
+                else:
+                    # Anything not a format and not a language code is dropped. That is
+                    # fine for marketing labels, but a screening-level age limit (a
+                    # licensed bar auditorium is 18+ whatever the film is rated, which
+                    # BioRex publishes as "Anniskelu") would be lost silently. Collect
+                    # the names once so a run says what is actually on offer here.
+                    unknown_attrs.add(lbl)
             attr_names = " · ".join(fmt_list)
             lang_attr = ", ".join(lang_list)
             rating_raw = t(rat.get(str(film.get("censorRatingId", "")), {}), "classification", "text")
@@ -405,6 +413,9 @@ def main() -> int:
     (out / "films.json").write_text(
         json.dumps({"generated": now, "films": films_full}, ensure_ascii=False), encoding="utf-8")
     print(f"[films] {len(films_full)} film entries")
+    if unknown_attrs:
+        print(f"[attrs] dropped, neither format nor language ({len(unknown_attrs)}): "
+              + " | ".join(sorted(unknown_attrs)))
 
     written = kept = 0
     for sid, shows in per_site.items():

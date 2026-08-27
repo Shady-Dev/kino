@@ -1069,7 +1069,7 @@
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       return `<div class="trow">
         <a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span></a>
+          <span class="time">${t}</span><span class="aud">${[s.aud, ageOf(s)].filter(Boolean).join(' · ')}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -1147,6 +1147,11 @@
   // how many venues happen to have shows on the day being looked at: a combined city view
   // showing a single 14:00 with no venue and a blank auditorium (single-screen houses
   // render one) tells the visitor nothing at all.
+  // An age limit that belongs to the screening rather than the film: a licensed bar
+  // auditorium is 18+ even when the film is K-12. It has to sit on the showtime, since
+  // one film at one venue can have both kinds on the same day.
+  const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
+
   const labelVenues = shows =>
     (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
 
@@ -1186,6 +1191,14 @@
         ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
+      // method is per *showtime*, so a pill at film level claimed something about every
+      // screening: 47 film/day combinations mix an Anniskelu screening with normal ones
+      // at one venue, and the card used to inherit the first showtime's tags. Tags every
+      // showtime shares stay on the card; the rest move onto the stub they belong to,
+      // rather than vanishing — one IMAX screening among 2D ones must still say so.
+      const tagsOf = t => (t.method || '').split(' · ').filter(Boolean);
+      const tagSets = m.times.map(t => new Set(tagsOf(t)));
+      const common = [...(tagSets[0] || [])].filter(f => tagSets.every(set => set.has(f)));
       // Past times are hidden behind a compact stub rather than a global toggle: it costs
       // no header space and only appears on the cards that have any. If *every* time has
       // passed they stay visible, since an empty card would read as a bug.
@@ -1199,15 +1212,16 @@
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const where = t.venueShort || t.theatre.split(',')[0];
-        const loc = (multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud)
+        const own = tagsOf(t).filter(f => !common.includes(f)).join(' · ');
+        const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud),
+                     own, ageOf(t)].filter(Boolean).join(' · ')
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
         const tint = multiTheatre && t.provider ? ` chain-${t.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${loc}">
                   <span class="time">${clock}</span><span class="aud">${loc}</span>
                 </a>`;
       }).join('');
-      const fmts = (m.method || '').split(' · ').filter(Boolean)
-        .map(f => `<span class="fmt">${f}</span>`).join('');
+      const fmts = common.map(f => `<span class="fmt">${f}</span>`).join('');
       const meta1 = [
         m.tmdb ? `<span class="tmdb">★ ${m.tmdb}</span>` : '',
         m.rating ? `<span class="rating">${m.rating}</span>` : '',
@@ -1299,7 +1313,8 @@
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = s.venueShort || (s.theatre || '').split(',')[0];
-        const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
+        const loc = [multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud,
+                     ageOf(s)].filter(Boolean).join(' · ');
         const tint = multi && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${loc}">
                   <span class="time">${clock}</span><span class="aud">${loc}</span></a>`;

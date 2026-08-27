@@ -119,10 +119,23 @@ Adding a provider to the frontend is now **nothing**: a registry entry generates
 from it.
 
 Conventions worth keeping:
+- **An age limit can belong to the screening, not the film.** A licensed bar auditorium
+  admits 18+ whatever the film is rated: BioRex sells K-12 films into `Anniskelu`
+  screenings, and at Seinäjoki states it in the room name itself ("2 REX (K-18)"). So
+  `age` is a per-show field, separate from `rating`, set from an explicit `(K-nn)` in the
+  auditorium name first and inferred from the Anniskelu tag otherwise. The client renders
+  it on the **showtime stub**, which is the thing you tap to book, and suppresses it when
+  it merely repeats the film's rating.
+- **`method` is per-showtime and must not be rendered per-film.** 47 film/day
+  combinations at a single venue mix an Anniskelu screening with normal ones, and the film
+  card used to inherit the *first* showtime's tags, so "ANNISKELU" appeared above
+  showtimes that were not bar screenings (or vanished from ones that were). The card now
+  shows only tags every showtime shares; the rest move onto their own stub rather than
+  disappearing, so one IMAX screening among 2D ones still says so.
 - Normalise `lang` to Finnkino's tags (`FI-A`, `FI-S`) so the "Suom. puhe" filter works for
   every provider with no frontend change
-- Event/venue tags (Anniskelu, Plus, SenioriKino, Perheleffa) go in `method`, already
-  rendered as pills
+- Event/venue tags (Anniskelu, Plus, SenioriKino, Perheleffa) go in `method`, rendered as
+  pills on the card when shared by every showtime and on the stub when not
 - Blank `aud` when the room name just repeats the venue (single-screen sites)
 - A failed venue writes **no file**, keeping previous data rather than publishing empty
 - Verify the response belongs to the venue you asked for (see the BioRex cookie note)
@@ -305,6 +318,12 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   chains got an exact match, and the films that miss are exactly the Finnish distributor
   titles most likely to be spelled differently by different chains. So the `mergeKey()`
   strip list has to stay current; it is not superseded.
+- Finnkino's attribute list is filtered to formats and language codes and **everything
+  else is dropped silently**, which would lose a screening-level age limit if OCAPI
+  publishes one. `data/attrs.json` used to hold the inventory and was deleted as unread,
+  so a run now logs `[attrs] dropped, neither format nor language` once. Read that line
+  before deciding whether Finnkino needs the same `age` treatment as BioRex; it cannot be
+  probed from a runner, since OCAPI needs the token and a residential IP.
 - **`fetch_data.py` needs candidate queries too** (2026-08-27). Two failures found in one
   local run: OCAPI's `originalTitle` is **empty** for some releases, so `q` arrived as
   "Autot (uudelleenjulkaisu)" and matched nothing at all; and "Mutiny - Lavastettu
