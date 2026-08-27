@@ -825,7 +825,9 @@
     }
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o) : (f.t&&f.t.fi)) || sample.title || '';
-    const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : f.s.fi)) || '';
+    // TMDB has a Finnish overview for only some films, so fall back either way rather
+    // than showing nothing.
+    const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : (f.s.fi || f.s.en))) || '';
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${x}</span>`).join('');
     const sheetPrice = priceLabel(all);
