@@ -197,6 +197,16 @@
     color:var(--muted); font-size:1rem; cursor:pointer}
   .sheet-head{display:flex; gap:16px; align-items:flex-start;
     flex:0 0 auto; padding:0 20px 14px}
+  /* Drag-to-dismiss: only the bottom-sheet layout gets a grab handle. */
+  .grab{display:none}
+  @media (max-width:699px){
+    .grab{
+      display:block; width:38px; height:4px; border-radius:2px;
+      background:var(--line); margin:0 auto 10px; flex:0 0 auto;
+    }
+    .sheet-head{touch-action:none; cursor:grab}
+    #sheet.dragging{transition:none}
+  }
   .sheet-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch; padding:0 20px 28px;
     border-top:1px solid var(--line)}
@@ -992,6 +1002,7 @@
     const legend = multi ? chainLegend(all) : '';
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
     sheetEl.innerHTML = `
+      <div class="grab" aria-hidden="true"></div>
       <button class="sheet-close" aria-label="Sulje">✕</button>
       <div class="sheet-head">${poster}
         <div><div class="sheet-title">${title}</div>
@@ -1006,7 +1017,53 @@
     sheetEl.querySelector('.sheet-close').onclick = () => { location.hash = ''; };
     document.body.classList.add('sheet-open');
   }
-  function hideSheet(){ document.body.classList.remove('sheet-open'); }
+  function hideSheet(){
+    document.body.classList.remove('sheet-open');
+    sheetEl.classList.remove('dragging');
+    sheetEl.style.transform = '';
+    if(overlayEl) overlayEl.style.opacity = '';
+  }
+
+  // Drag the header down to dismiss: past ~110 px, or a quick flick, closes it.
+  // Bottom-sheet layout only; the desktop modal is centred and has no such gesture.
+  (function enableDragDismiss(){
+    let y0 = 0, dy = 0, t0 = 0, active = false;
+    const mobile = () => window.matchMedia('(max-width:699px)').matches;
+    const head = () => sheetEl.querySelector('.sheet-head') || sheetEl.querySelector('.grab');
+
+    sheetEl.addEventListener('pointerdown', e => {
+      if(!mobile()) return;
+      const h = head();
+      const onHandle = !!e.target.closest('.grab');
+      if(!onHandle && !(h && h.contains(e.target))) return;
+      if(e.target.closest('.sheet-close, a')) return;
+      active = true; y0 = e.clientY; dy = 0; t0 = performance.now();
+      sheetEl.classList.add('dragging');
+      sheetEl.setPointerCapture(e.pointerId);
+    });
+
+    sheetEl.addEventListener('pointermove', e => {
+      if(!active) return;
+      dy = Math.max(0, e.clientY - y0);
+      sheetEl.style.transform = `translateY(${dy}px)`;
+      if(overlayEl) overlayEl.style.opacity = String(Math.max(0, 1 - dy / 320));
+    });
+
+    const end = e => {
+      if(!active) return;
+      active = false;
+      sheetEl.classList.remove('dragging');
+      const v = dy / Math.max(1, performance.now() - t0);   // px per ms
+      if(dy > 110 || v > 0.6){
+        location.hash = '';
+      } else {
+        sheetEl.style.transform = '';
+        if(overlayEl) overlayEl.style.opacity = '';
+      }
+    };
+    sheetEl.addEventListener('pointerup', end);
+    sheetEl.addEventListener('pointercancel', end);
+  })();
   function syncSheet(){
     const m = location.hash.match(/m=(.+)$/);
     if(m){
