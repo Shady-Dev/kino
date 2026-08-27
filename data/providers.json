@@ -50,6 +50,13 @@
    "book": "buy"
   },
   {
+   "id": "orion",
+   "label": "Cinema Orion",
+   "host": "cinemaorion.fi",
+   "accent": "#6C7A2E",
+   "book": "buy"
+  },
+  {
    "id": "kinoakseli",
    "label": "Kino Akseli",
    "host": "kinoakseli.fi",
