@@ -3,5 +3,8 @@
  "maailman rikkain nainen": "1309725",
  "autot re release": "Cars",
  "autot uudelleenjulkaisu": "Cars",
- "_comment2": "Both spellings of one reissue need their own key: the key is the title as each chain publishes it, and BioRex says \"Autot (re-release)\" where Finnkino says \"Autot (uudelleenjulkaisu)\". \"Autot\" alone matched Cars 3 by popularity."
+ "_comment2": "Both spellings of one reissue need their own key: the key is the title as each chain publishes it, and BioRex says \"Autot (re-release)\" where Finnkino says \"Autot (uudelleenjulkaisu)\". \"Autot\" alone matched Cars 3 by popularity.",
+ "jonain päivänä": "1277884",
+ "kummisetä osa ii": "240",
+ "_comment3": "Two cases the fi-FI search cannot settle. \"Jonain päivänä\" now finds a different Finnish-titled 2023 film before Leave One Day, and \"Kummisetä osa II\" misses TMDB's \"Kummisetä II\" by the word osa. Ids verified against /movie/{id}, never typed from memory."
 }
