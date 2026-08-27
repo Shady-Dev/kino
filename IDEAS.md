@@ -356,6 +356,15 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+- **The times list needs the venue too** (2026-08-27). The film cards labelled the venue
+  and tinted by chain in a combined view; `renderTimes()` did neither, so "Ajat" on Kaikki
+  Helsinki showed "Sali 14" — a room in one of five cinemas, uncoloured, under a chain
+  legend it had no connection to. The stub is a fixed 158 px ticket whose label column is
+  about 75 px, so putting "Kinopalatsi · Sali 14" in it truncates to "Kinopalat…" and
+  loses both halves. So the venue goes on the **meta line**, which has the full row width,
+  as a `.theatre-tag` (a class that already existed and was unused), and the stub keeps the
+  room name and gains the chain tint. Single-venue views are unchanged: there the bare room
+  name is correct, because the cinema is the thing you picked.
 - **English titles have to resolve through `_eid`** (2026-08-27). `disp()` looked up
   `films.json` (keyed by Finnkino's `filmId`) with the show's `eventId`, which in a
   combined city view is the cross-chain merge key, so English mode silently showed the

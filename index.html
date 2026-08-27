@@ -1110,15 +1110,25 @@
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
+    // The film cards label the venue and tint by chain in a combined view; this list
+    // never did, so "Sali 14" named a room in one of five cinemas, with no colour and no
+    // cinema, under a legend it had no connection to. The stub is a fixed 158 px ticket
+    // and its label column is ~75 px, so "Kinopalatsi · Sali 14" would truncate to
+    // "Kinopalat…" and lose both halves. The venue goes on the meta line instead, which
+    // has the full row width, and the stub carries the chain tint.
+    const multi = labelVenues(state.shows);
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
+      const where = s.venueShort || (s.theatre || '').split(',')[0];
+      const tint = multi && s.provider ? ` chain-${s.provider}` : '';
+      const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
       return `<div class="trow">
-        <a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
+        <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
           <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${ageChip(s)}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
-          <small>${[s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
+          <small>${[venue, s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
     }).join('');
   }
