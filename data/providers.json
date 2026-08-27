@@ -36,6 +36,13 @@
    "book": "buy"
   },
   {
+   "id": "gilda",
+   "label": "Gilda",
+   "host": "gilda.fi",
+   "accent": "#A8433C",
+   "book": "buy"
+  },
+  {
    "id": "savonkinot",
    "label": "Savon Kinot",
    "host": "savonkinot.fi",
