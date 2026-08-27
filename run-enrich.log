@@ -1,3 +1,6 @@
+[enrich] dropped 16 entries matched by the old picker
 [enrich] no TMDB match (4): Artist in Focus: Mare's Nest | Follow The Plants | Jamiroquai 'Travelling Without Moving' (30th Anniversary) | John Coltrane 'Highlights 1957-1964'
-[enrich] 79 titles, 0 new, 0 re-checks, 63 with rating, 88 with synopsis, 88 with poster, 72 mergeable by id, 29 files updated
+[enrich] weak match, no exact title (5): Jonain Päivänä -> Jonain päivänä kaikki tämä on sinun | Kummisetä osa II -> Kummisetä II | Ryhmä Hau: Dinoelokuva (suomeksi) -> Ryhmä Hau: Mahtipennut | Ryhmä Hau: Dinoelokuva -> Ryhmä Hau: Mahtipennut | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) -> Classic Albums: Stevie Wonder - Songs In The Key of Life
+[enrich] rating held back, under 25 votes (3): Jonain Päivänä (6.1 / 13 votes) | Pikku Kummitus Lapanen (6.5 / 1 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes)
+[enrich] 79 titles, 13 new, 0 re-checks, 59 with rating, 85 with synopsis, 85 with poster, 80 mergeable by id, 28 files updated
 exit=0
