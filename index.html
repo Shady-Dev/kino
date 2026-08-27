@@ -326,6 +326,20 @@
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
                 fLang:false, fKids:false, dates:null, horizon:'', advanced:false };
   let films = null;
+  // films.json is Finnkino-only (keyed by its filmId). Other providers get synopses from
+  // films-extra.json, keyed by normalised title — same normalisation as enrich_tmdb.py.
+  let extraFilms = null;
+  const normTitle = t => (t || '').toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  async function ensureExtraFilms(){
+    if(extraFilms) return extraFilms;
+    try {
+      const j = await fetchJSON('data/films-extra.json');
+      extraFilms = j.films || {};
+    } catch(_) { extraFilms = {}; }
+    return extraFilms;
+  }
+
   async function ensureFilms(){
     if(films !== null) return;
     try{ films = (await fetchJSON('data/films.json')).films || {}; }
@@ -799,11 +813,16 @@
   const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
   async function showSheet(fid){
     await ensureFilms();
-    const f = films[fid] || {};
+    let f = films[fid] || {};
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start)}))
       .sort((a,b) => a.start - b.start);
     const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
+    if(!f.s && sample.title){
+      const ex = await ensureExtraFilms();
+      const hit = ex[normTitle(sample.title)];
+      if(hit) f = { ...f, s: hit.s, tr: f.tr || hit.tr };
+    }
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o) : (f.t&&f.t.fi)) || sample.title || '';
     const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : f.s.fi)) || '';
