@@ -125,7 +125,15 @@ Conventions worth keeping:
   `age` is a per-show field, separate from `rating`, set from an explicit `(K-nn)` in the
   auditorium name first and inferred from the Anniskelu tag otherwise. The client renders
   it on the **showtime stub**, which is the thing you tap to book, and suppresses it when
-  it merely repeats the film's rating.
+  it merely repeats the film's rating. Rendered as an outlined chip (`.agelim`), a sibling
+  of `.fmt` — **not red, and not KAVI's official symbol**. That artwork denotes a legal
+  age classification, which this is not: "Spa Weekend" is classified K-12 and the 18+
+  comes from the room, so borrowing the official styling would assert a rating that does
+  not exist. A red chip would also sit inside stubs whose left rule is already Finnkino
+  orange or Kotkan Leffat crimson, competing with the only job colour has here. Shape and
+  weight instead, which also survives greyscale and colourblind vision. The room name
+  truncates under the stub's 130 px ellipsis; the chip is `flex:0 0 auto` so it cannot be
+  the part that gets eaten.
 - **`method` is per-showtime and must not be rendered per-film.** 47 film/day
   combinations at a single venue mix an Anniskelu screening with normal ones, and the film
   card used to inherit the *first* showtime's tags, so "ANNISKELU" appeared above
