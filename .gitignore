@@ -1,0 +1,12 @@
+# Probe output never belongs in the repo. A dump of a third party's page carries
+# whatever they ship to visitors: rivieracinemas.fi's Maps JS key ended up in
+# probe/rv-films.html and tripped GitHub secret scanning (alert #1, commit 626b865).
+# Probe a target, read the answer, write the finding into IDEAS.md, commit nothing raw.
+probe/
+probe-*.txt
+probe-*.html
+
+# Local scratch
+__pycache__/
+*.pyc
+.DS_Store
