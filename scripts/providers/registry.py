@@ -30,6 +30,8 @@ PROVIDERS = [
          accent="#C0356B", book="buy", module="etiketti", where="cloud"),
     dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#7A4FA3",
          book="buy", module="riviera", where="cloud"),
+    dict(id="gilda", label="Gilda", host="gilda.fi", accent="#A8433C",
+         book="buy", module="gilda", where="cloud"),
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#2A7B8C",
          book="buy", module="vista", where="cloud"),
     dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#4A6FA5",
