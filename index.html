@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kino — elokuvat ja näytösajat</title>
+<title>Leffavuoro — elokuvat ja näytösajat</title>
 <meta name="theme-color" content="#0D0E12">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -49,8 +49,12 @@
     display:flex; align-items:center; gap:16px;
   }
   .logo{
-    font-stretch:125%; font-weight:900; letter-spacing:.18em;
+    font-stretch:125%; font-weight:900; letter-spacing:.16em;
     text-transform:uppercase; font-size:1.05rem; user-select:none;
+    white-space:nowrap;
+  }
+  @media (max-width:520px){
+    .logo{font-size:.82rem; letter-spacing:.08em}
   }
   .logo span{color:var(--accent)}
   .bar .spacer{flex:1}
@@ -326,7 +330,7 @@
 
 <header>
   <div class="bar">
-    <div class="logo">Kino<span>.</span></div>
+    <div class="logo">Leffavuoro<span>.</span></div>
     <div class="spacer"></div>
     <button id="langToggle" aria-label="Vaihda kieli">EN</button>
     <button id="themeToggle" title="Switch theme" aria-label="Switch light/dark theme">◐</button>
@@ -599,7 +603,7 @@
       return `<div class="status"><b>Android is blocking network access.</b><br><br>
         This file was opened from the Downloads app (content:// address), which sandboxes the page and blocks all data fetching.<br><br>
         Open it via a file path instead — type this in Chrome's address bar:<br>
-        <code>file:///sdcard/Download/kino.html</code><br><br>
+        <code>file:///sdcard/Download/leffavuoro.html</code><br><br>
         Or host the file (e.g. Netlify Drop, GitHub Pages) for a bookmarkable version.</div>`;
     }
     const log = attempts.length
