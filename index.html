@@ -243,12 +243,27 @@
   .stubs.grid .stub::before,.stubs.grid .stub::after{display:none}
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
   .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
+  .legend .lg-btn{
+    font:inherit; font-size:.74rem; font-weight:600; cursor:pointer;
+    color:var(--muted); background:var(--surface);
+    border:1px solid var(--line); border-left:3px solid var(--line);
+    border-radius:0 999px 999px 0; padding:5px 12px 5px 9px;
+    transition:color .15s, background .15s, opacity .15s;
+  }
+  .legend .lg-btn.on{color:var(--ink); background:var(--chip-bg)}
+  .legend .lg-btn:not(.on){opacity:.5}
   .legend .lg.chain-finnkino{border-left-color:#D85A30}
   .legend .lg.chain-biorex{border-left-color:#BA7517}
   .legend .lg.chain-kinoset{border-left-color:#2F7D5B}
   .legend .lg.chain-kotkanleffat{border-left-color:#C0356B}
   .legend .lg.chain-kinoakseli{border-left-color:#4A6FA5}
   .legend .lg.chain-riviera{border-left-color:#7A4FA3}
+  .legend .lg-btn.chain-finnkino{border-left-color:#D85A30}
+  .legend .lg-btn.chain-biorex{border-left-color:#BA7517}
+  .legend .lg-btn.chain-kinoset{border-left-color:#2F7D5B}
+  .legend .lg-btn.chain-kotkanleffat{border-left-color:#C0356B}
+  .legend .lg-btn.chain-kinoakseli{border-left-color:#4A6FA5}
+  .legend .lg-btn.chain-riviera{border-left-color:#7A4FA3}
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   @media (max-width:520px){
     .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
@@ -397,7 +412,8 @@
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
-                fLang:false, fKids:false, dates:null, horizon:'', advanced:false };
+                fLang:false, fKids:false, dates:null, horizon:'', advanced:false,
+                chains:null };   // null = every chain; a Set = only those
   let films = null;
   // films.json is Finnkino-only (keyed by its filmId). Other providers get synopses from
   // films-extra.json, keyed by normalised title — same normalisation as enrich_tmdb.py.
@@ -739,6 +755,7 @@
     }
     areaSel.addEventListener('change', () => {
       state.area = areaSel.value; prefs.set({area: state.area});
+      state.chains = null;
       syncFav(); loadSchedule();
     });
   }
@@ -874,13 +891,16 @@
     if(q && !s.title.toLowerCase().includes(q) && !(s.original||'').toLowerCase().includes(q)) return false;
     if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
     if(state.fKids && !(s.rating === 'S' || s.rating === 'K-7')) return false;
+    if(state.chains && s.provider && !state.chains.has(s.provider)) return false;
     return true;
   }
 
   function renderTimes(){
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
-    if(!rows.length){ main.innerHTML = `<div class="status">${emptyMsg()}</div>`; return; }
+    const timesLegend = new Set(state.shows.map(s=>s.theatre)).size > 1
+      ? chainLegend(state.shows, 'top') : '';
+    if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}</div>`; return; }
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
@@ -896,12 +916,36 @@
 
   // Filters beat everything; past the published horizon is not the same as a quiet day.
   // "Tripla" does not tell you it is BioRex, so a combined list needs a chain key.
+  // In the list the chain key doubles as a filter; in the sheet it stays a plain key.
   function chainLegend(shows, extraClass){
-    const chains = [...new Set(shows.map(s => s.provider).filter(Boolean))];
+    const chains = [...new Set(shows.map(s => s.provider).filter(Boolean))].sort();
     if(chains.length < 2) return '';
-    return `<div class="legend ${extraClass || ''}">${chains
-      .map(c => `<span class="lg chain-${c}">${(SOURCE[c] || [c])[0]}</span>`).join('')}</div>`;
+    const interactive = (extraClass || '').includes('top');
+    if(!interactive){
+      return `<div class="legend ${extraClass || ''}">${chains
+        .map(c => `<span class="lg chain-${c}">${(SOURCE[c] || [c])[0]}</span>`).join('')}</div>`;
+    }
+    return `<div class="legend top" role="group" aria-label="Suodata ketjun mukaan">${chains
+      .map(c => {
+        const on = !state.chains || state.chains.has(c);
+        return `<button class="lg-btn chain-${c}${on ? ' on' : ''}" data-chain="${c}"
+                  aria-pressed="${on}">${(SOURCE[c] || [c])[0]}</button>`;
+      }).join('')}</div>`;
   }
+
+  // Toggling every chain off would leave an empty list, so treat that as "all".
+  function toggleChain(c, all){
+    const set = new Set(state.chains || all);
+    set.has(c) ? set.delete(c) : set.add(c);
+    state.chains = (set.size === 0 || set.size === all.length) ? null : set;
+    render();
+  }
+  main.addEventListener('click', e => {
+    const b = e.target.closest('.lg-btn');
+    if(!b) return;
+    const all = [...new Set(state.shows.map(s => s.provider).filter(Boolean))].sort();
+    toggleChain(b.dataset.chain, all);
+  });
 
   function emptyMsg(){
     const t = L[state.lang];
