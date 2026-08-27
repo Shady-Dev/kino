@@ -212,6 +212,21 @@
 
   /* Ticket stubs — the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+  .stubs.grid{
+    display:grid; gap:8px;
+    grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
+  }
+  .stubs.grid .stub{flex-direction:column; align-items:stretch}
+  .stubs.grid .stub .time{padding:6px 10px 2px 12px}
+  .stubs.grid .stub .aud{
+    padding:0 10px 7px 12px; border-left:0; max-width:none;
+    white-space:normal; overflow:visible; text-overflow:clip;
+  }
+  /* the perforation reads wrong on a stacked stub */
+  .stubs.grid .stub::before,.stubs.grid .stub::after{display:none}
+  @media (max-width:520px){
+    .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
+  }
   .stub{
     --r:7px;
     display:inline-flex; align-items:center; text-decoration:none;
@@ -861,6 +876,7 @@
       const poster = m.img
         ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
+      const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
       const stubs = m.times.sort((a,b)=>a.start-b.start).map(t => {
         const clock = fiTime(t.start);
         const past = t.start < now;
@@ -893,7 +909,7 @@
                   <h2 class="title">${title}</h2>
                   <div class="meta1">${meta1}</div>
                   ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
-                  <div class="stubs">${stubs}</div>
+                  <div class="${stubClass}">${stubs}</div>
                 </div>
               </article>`;
     }).join('');
