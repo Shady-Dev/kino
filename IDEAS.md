@@ -80,16 +80,30 @@ seconds, so nothing has to survive expiry.
 - The token is obtained from a real browser session on the local machine and handed to the
   fetcher, which uses it within seconds. A TTL guard refuses
   to proceed on a token with too little life left.
-- Scheduled locally four times a day; Actions cron stays enabled as a fallback.
+- Scheduled locally four times a day. **There is no cloud fallback, deliberately.**
+  `.github/workflows/fetch.yml` was deleted on 2026-08-27: it could not succeed from a
+  runner, because `www.finnkino.fi` answers Cloudflare 403 to datacenter IPs, so no token
+  can be obtained there — and the stored `FINNKINO_SECRET` it fell back on was a JWT that
+  is stale within 12 hours. It had therefore failed on **every push for at least two
+  days**, which is worse than having no fallback: a workflow that is always red hides the
+  one that just broke. It cost a round trip today to tell an unrelated change apart from
+  that noise. If Finnkino data goes stale the app already says so — the per-provider health
+  line turns amber past 8 h and the stale banner fires — so the outage is visible in the
+  place a visitor actually looks.
 - Finnkino's site is not reachable from a datacenter IP, which is why this half of the
   pipeline runs at home rather than on a runner. See "Access and ethics".
+- `get_token()` reads `FINNKINO_TOKEN` from the environment first — that is how the local
+  wrapper injects the browser-fetched token, so **that path must not be removed**. The
+  direct-fetch fallback below it only works from an ordinary connection.
 
 **Machine setup, schedule, token retrieval and credentials live in local private notes,
 not here.** This file documents architecture and data contracts. It is not a runbook for
 getting at anyone's site.
 
 Superseded: an approach that pushed the token into repository secrets and rotated it.
-It worked, but rotating a secret is pointless once the token is obtained per run.
+It worked, but rotating a secret is pointless once the token is obtained per run. The
+leftover `FINNKINO_SECRET` is what kept the dead Actions workflow half-alive; delete it in
+repository settings (a fine-grained PAT cannot, secrets need their own permission).
 
 ## Multi-provider — current state
 
@@ -810,8 +824,10 @@ Still open from this pass:
   shape every provider writes, and a step-by-step for adding a provider.
 - `IDEAS.md` (this file) holds architecture decisions, per-provider API research and the
   backlog. Read it before touching the pipeline.
-- `cf-worker/worker.js` is a **dead end** kept for reference: it fetched the Finnkino
-  token from Cloudflare's network. Not deployed, not referenced. Safe to delete.
+- `cf-worker/worker.js` and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted
+  on 2026-08-27. The worker fetched the Finnkino token from Cloudflare's network, was
+  never deployed, and solved the problem the local run already solves. Two dead paths into
+  the fetcher are two paths that have to keep working for nothing.
 - Stray `run-*.log` files in the repo root are committed per run by design (read these,
   not the Actions logs). `run.log` is Finnkino, the rest are per provider.
 

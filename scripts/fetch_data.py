@@ -115,19 +115,20 @@ def http_get(url, headers, timeout=25):
     return raw
 
 def get_token():
+    """The local wrapper hands the token in through FINNKINO_TOKEN; it was taken from a
+    real browser session moments earlier and is used within seconds.
+
+    The direct fetch below only works from an ordinary connection: www.finnkino.fi
+    answers Cloudflare 403 to datacenter IPs, which is why this half of the pipeline
+    runs at home and has no cloud fallback. The Cloudflare Worker path that used to sit
+    between these two was removed on 2026-08-27 — never deployed, and it existed to
+    solve the same problem the local run already solves.
+    """
     tok = os.environ.get("FINNKINO_TOKEN", "").strip()
     if tok:
-        print("[token] using FINNKINO_TOKEN variable")
+        print("[token] using FINNKINO_TOKEN from the environment")
         return tok
-    worker = os.environ.get("TOKEN_WORKER_URL", "").strip()
-    if worker:
-        data = json.loads(http_get(worker, {"Accept": "application/json", "User-Agent": "kino-fetch/1.0"}))
-        tok = (data.get("token") or "").strip()
-        if tok:
-            print("[token] acquired via CF Worker")
-            return tok
-        raise RuntimeError(f"worker returned no token: {data}")
-    print("[token] TOKEN_WORKER_URL not set, trying direct fetch (local dev)")
+    print("[token] no FINNKINO_TOKEN, trying a direct fetch (needs a residential IP)")
     for i, u in enumerate(["https://www.finnkino.fi/",
                            "https://www.finnkino.fi/teatterit/finnkino-tennispalatsi/"], 1):
         try:
@@ -139,7 +140,7 @@ def get_token():
         except Exception as e:
             print(f"[token] {u}: {e}")
         time.sleep(1 + i)
-    raise RuntimeError("no token available — set TOKEN_WORKER_URL repository variable")
+    raise RuntimeError("no token: set FINNKINO_TOKEN, or run from an ordinary connection")
 
 def api(path, token):
     return json.loads(http_get(DIGITAL_API + path, {
