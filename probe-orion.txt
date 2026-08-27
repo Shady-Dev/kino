@@ -1,8 +1,7 @@
-items 100 | total header None None
-top-level keys: ['_links', 'acf', 'class_list', 'content', 'date', 'date_gmt', 'elokuvalistat', 'excerpt', 'genret', 'guid', 'id', 'link', 'modified', 'modified_gmt', 'naytoskieli', 'slug', 'status', 'template', 'title', 'type', 'yoast_head', 'yoast_head_json']
-=== follow-the-plants entry ===
-slug follow-the-plants | featured_media None
-embedded media: []
-yoast og_image: [{"width": 1600, "height": 900, "url": "https://cinemaorion.fi/wp-content/uploads/2026/08/hammer_womenilove-07-300dpi.tif", "type": "image/jpeg"}]
-entries with featured_media: 0 of 100
-sample embedded: null
+items 100 | x-wp-total 636 pages 7
+og_image extensions: {'jpg': 77, 'tif': 1, 'png': 15, 'webp': 4, 'jpeg': 3}
+entries with no og_image: 0
+--- follow-the-plants | content imgs: []
+    og: [('https://cinemaorion.fi/wp-content/uploads/2026/08/hammer_womenilove-07-300dpi.tif', 1600, 900)]
+    acf: []
+    first web-format upload in body: None
