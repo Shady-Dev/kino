@@ -1034,8 +1034,7 @@
   function renderTimes(){
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
-    const timesLegend = new Set(state.shows.map(s=>s.theatre)).size > 1
-      ? chainLegend(state.shows, 'top') : '';
+    const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
@@ -1112,6 +1111,13 @@
       + ` &rarr; ${fiDay[dowOf(next)]} ${dmOf(next)}</button>`;
   }
 
+  // Whether a showtime needs its venue spelled out. It must depend on the *view*, not on
+  // how many venues happen to have shows on the day being looked at: a combined city view
+  // showing a single 14:00 with no venue and a blank auditorium (single-screen houses
+  // render one) tells the visitor nothing at all.
+  const labelVenues = shows =>
+    (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
+
   function render(){
     if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
@@ -1128,7 +1134,7 @@
       return;
     }
 
-    const multiTheatre = new Set(state.shows.map(s=>s.theatre)).size > 1;
+    const multiTheatre = labelVenues(state.shows);
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
@@ -1240,7 +1246,7 @@
     }
     // Across venues, "Sali 7" alone says nothing about which cinema: label the venue and
     // tint by chain, exactly as the main list does.
-    const multi = new Set(all.map(s => s.theatre)).size > 1;
+    const multi = labelVenues(all);
     const days = [...byDay.entries()].map(([k, arr]) =>
       `<h3>${k}</h3><div class="${multi ? 'stubs grid' : 'stubs'}">` +
       arr.map(s => {
