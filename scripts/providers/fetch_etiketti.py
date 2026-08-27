@@ -3,6 +3,7 @@
 import datetime, json, pathlib, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import synmerge
 import etiketti
 
 
@@ -16,11 +17,13 @@ def main() -> int:
         except Exception as e:
             print(f"[{site['provider']}] FAILED: {e}", file=sys.stderr)
             continue
+        synmerge.merge(out, per_venue, site["provider"])
         live = []
         for v in site["venues"]:
             shows = per_venue.get(v["id"])
             if not shows:
                 continue          # no data: keep whatever is already committed
+            synmerge.strip_helpers(shows)
             days = sorted({s["start"][:10] for s in shows})
             (out / f"area-{v['id']}.json").write_text(json.dumps(
                 {"generated": now, "dates": days, "horizon": days[-1],
