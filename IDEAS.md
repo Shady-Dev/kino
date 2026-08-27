@@ -803,6 +803,27 @@ datacenter IPs and the adapter never touches it.
 Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
 make it 12 across 6.
 
+### The cinema-list lead: nytleffaan.fi (2026-08-27, not yet probed)
+`nytleffaan.fi/elokuvateatterit/` is a directory of every Finnish cinema, run by Suomen
+Filmikamari (the industry umbrella body), which is exactly the **list of domains** the
+Vista sweep has been blocked on — guessing 45 produced zero hits, and KAVI and SES render
+their lists client-side. Worth probing: if the page yields names with links, the sweep for
+`/xml/TheatreAreas/` becomes trivial and several chains could arrive at once.
+
+Also the competitive picture, since it comes up when deciding what to claim on the site:
+- **nytleffaan.fi** — industry-run, gets exhibitor data rather than scraping, claims every
+  cinema in Finland. It **excludes** special screenings: event cinema (theatre, opera,
+  sport) and **festival screenings**.
+- **elokuviin.com** — claims all cinemas large and small, and does include festivals.
+- **kinossa.fi** — same aggregation idea.
+
+So **"Suomen kattavin" is not a defensible claim**: 46 venues against roughly 180-200
+cinemas nationally, and two services already claim full coverage. What is true and
+checkable: nine chains merged into one city view, festival and strand screenings included
+where those services drop them, seat availability and prices where a cinema publishes
+them, no ads and no tracking. Say the count ("9 ketjua, 46 teatteria, 31 kaupunkia") and
+let it grow.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAreas/`.
 **Zero hits** beyond Savon Kinot itself. Also dead: account-level Azure blob enumeration
