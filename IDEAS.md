@@ -840,10 +840,14 @@ Still open from this pass:
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
 
-## Documentation state (2026-08-27, fifth pass)
+## Documentation state (2026-08-27, sixth pass)
 
-- `README.md` rewritten: Leffavuoro, seven providers, the two-location pipeline, the data
-  shape every provider writes, and a step-by-step for adding a provider.
+- `README.md` covers: Leffavuoro, **nine providers / 46 venues**, the two-location
+  pipeline with **no cloud fallback for Finnkino**, the data shape every provider writes
+  (including `age`, `gids` and `tmdbId`, and why the last two are exact-match only), the
+  three lists worth reading in `run-enrich.log`, and a step-by-step for adding a provider.
+  It went a full day stale during the Orion work — check it whenever the provider count,
+  the file list or the show shape changes.
 - `IDEAS.md` (this file) holds architecture decisions, per-provider API research and the
   backlog. Read it before touching the pipeline.
 - `cf-worker/worker.js` and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted

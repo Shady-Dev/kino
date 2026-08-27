@@ -6,8 +6,9 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for **45 venues in 31 cities** across eight providers: Finnkino,
-BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda and Kino Akseli. Pick a venue and a
+Showtimes for **46 venues in 31 cities** across nine providers: Finnkino,
+BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion and
+Kino Akseli. Pick a venue and a
 date, see films with posters, TMDB ratings, age limits, runtimes, genres,
 languages and, where the cinema publishes them, ticket prices and seat
 availability. Tapping a showtime opens that cinema's own booking page.
@@ -37,14 +38,18 @@ Providers run in one of two places, because two of them block datacenter IPs:
 | Riviera | 2 | none | GitHub Actions |
 | Savon Kinot | 6 | none | GitHub Actions |
 | Gilda | 2 | none | GitHub Actions |
+| Cinema Orion | 1 | none | GitHub Actions |
 | Kino Akseli | 1 | none | Local (blocks datacenter IPs) |
 
 A local machine runs the two providers that block datacenter IPs, four times a
 day: it obtains a fresh short-lived Finnkino token from a real browser session,
 runs `scripts/fetch_data.py` and `scripts/providers/run.py kinoakseli`, pushes
-the data, then triggers the cloud workflow. GitHub's own cron is left enabled as
-a fallback but has proved unreliable. Machine setup and scheduling specifics are
-kept in local notes rather than here.
+the data, then triggers the cloud workflow. There is **no cloud fallback** for
+Finnkino: a runner cannot obtain a token at all, because the site answers
+Cloudflare 403 to datacenter IPs, so the workflow that pretended to be one was
+removed. Staleness shows in the app instead — the per-provider health line turns
+amber past 8 h. Machine setup and scheduling specifics are kept in local notes
+rather than here.
 
 Each fetcher runs with its exit code captured to its own committed log rather
 than aborting the script, so one failing provider never blocks the others from
@@ -58,7 +63,13 @@ supply itself. It **merges** and never overwrites a cinema's own text.
 TMDB cannot be searched by Finnish distributor title, so that pass strips
 event prefixes and format noise from the query and falls back to
 `tmdb-aliases.json` for the rest. Titles that still find nothing are named in
-`run-enrich.log`.
+`run-enrich.log`, alongside two other lists worth reading: **weak match**, where
+no result matched the title exactly and the most popular one was taken, and
+**rating held back**, where a rating was hidden for having fewer than 25 votes.
+
+Genres come from TMDB **ids**, not from provider strings: the chains disagree
+(four spellings for the family genre) and their strings are Finnish even in
+English mode. `data/tmdb-genres.json` maps ids to names per language.
 
 ## Files
 
@@ -75,11 +86,10 @@ event prefixes and format noise from the query and falls back to
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
     scripts/providers/tmdb-aliases.json  overrides for titles TMDB cannot be searched by
     scripts/providers/synmerge.py    shared synopsis merge helper
-    .github/workflows/fetch.yml      Finnkino (cron + dispatch)
+    scripts/providers/strands.py     event strand prefixes, split off titles into method
     .github/workflows/biorex.yml     all cloud providers + enrichment
     data/                            generated JSON and posters (committed by CI)
     IDEAS.md                         architecture notes, provider research, backlog
-    cf-worker/                       dead end, kept for reference (see below)
 
 ## Data shape
 
@@ -90,10 +100,18 @@ beyond a display name and an accent colour:
     data/area-{venueId}.json     {generated, dates[], horizon, shows[]}
     data/venues-{provider}.json  {generated, provider, venues[{id,name,short,city}]}
     data/films-extra.json        title-keyed synopses, posters, trailers
+    data/tmdb-genres.json        {fi,en} genre id -> name, for rendering `gids`
     data/areas.json              Finnkino venue list (legacy shape, numeric ids)
 
 A showtime carries: `title, start (ISO, Europe/Helsinki), theatre, aud, url,
-img, len, rating, genres, lang, method, soldOut, price, provider, venue`.
+img, len, rating, age, genres, gids, lang, method, soldOut, price, provider,
+venue, tmdbId`.
+
+`rating` is the film's age classification; **`age` is a limit the screening adds
+on top of it** — a licensed bar auditorium is 18+ whatever the film is rated, so
+it is rendered on the showtime rather than on the film. `tmdbId` and `gids` are
+written only for exact TMDB matches, because a weak id would merge two different
+films in a combined city view.
 
 `lang` uses Finnkino's convention (`FI-A`, `FI-S`) for every provider, so one
 filter works across all of them.
