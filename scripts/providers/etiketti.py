@@ -75,7 +75,9 @@ def _lang(page):
         if "suomi" in v or "suom" in v:
             out.append("FI")
         if "ruotsi" in v or "ruots" in v:
-            out.append("SV")
+            # SE, not SV: the convention is Finnkino's tag set, and the client's LN map
+            # keys on SE. "SV-S" rendered as a bare "SV" instead of "ruotsi".
+            out.append("SE")
         if "englan" in v:
             out.append("EN")
         return out

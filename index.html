@@ -1227,17 +1227,33 @@
     if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
     const byEvent = new Map();
+    // Facts about the *film* are folded from every showtime it has, filtered or not, so
+    // they do not move when a filter changes which chain's screenings survive. Chains
+    // disagree: Finnkino calls "Laula minulle Arja" "Dokumentti, Kotimainen" and Gilda
+    // calls it "Dokumentti", so with "Suom. puhe" on — which drops Finnkino's subtitled
+    // screenings — the genres used to change under the visitor. `lang` is deliberately
+    // NOT in this list: it belongs to the screening, and showing "tekstit suomi/ruotsi"
+    // from a screening the filter just removed would be wrong.
+    const FILM_FIELDS = ['tmdb','tr','img','len','genres','rating','original'];
+    const filmFacts = new Map();
+    for(const s of state.shows){
+      let g = filmFacts.get(s.eventId);
+      if(!g) filmFacts.set(s.eventId, g = {});
+      for(const f of FILM_FIELDS){
+        // Longest wins for genres: "first non-empty" made the richer of two disagreeing
+        // strings a matter of which venue happened to load first.
+        if(f === 'genres'){
+          if((s[f] || '').trim().length > (g[f] || '').trim().length) g[f] = s[f];
+        } else if(!g[f] && s[f]) g[f] = s[f];
+      }
+    }
     for(const s of state.shows){
       if(!passFilters(s)) continue;
       if(!byEvent.has(s.eventId)) byEvent.set(s.eventId, { ...s, times:[] });
       const m = byEvent.get(s.eventId);
-      // A merged film takes its metadata from whichever showtime happened to be first,
-      // so a chain with no rating, runtime or poster could blank the card even though
-      // another chain had them: "Autot (uudelleenjulkaisu)" lost its ★ that way. Fill
-      // each empty slot from any showtime that has it.
-      for(const f of ['tmdb','tr','img','len','genres','rating','lang','original']){
-        if(!m[f] && s[f]) m[f] = s[f];
-      }
+      Object.assign(m, filmFacts.get(s.eventId) || {});
+      // Per-screening, so still folded from what survived the filter.
+      if(!m.lang && s.lang) m.lang = s.lang;
       m.times.push(s);
     }
     const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));

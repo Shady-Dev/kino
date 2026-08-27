@@ -356,6 +356,22 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
+- **Film facts fold from every showtime; screening facts fold from the surviving ones**
+  (2026-08-27). Toggling "Suom. puhe" changed a card's *genres*, because the fold took the
+  first non-empty field across the **filtered** set and the chains disagree: Finnkino
+  publishes "Dokumentti, Kotimainen " (trailing space and all) for "Laula minulle Arja",
+  Gilda "Dokumentti". With the filter on, Finnkino's subtitled screenings drop out and the
+  card re-folded from Gilda. `tmdb`, `tr`, `img`, `len`, `genres`, `rating` and `original`
+  now fold from the unfiltered set, and genres take the **longest** string rather than the
+  first, so the richer of two disagreeing values does not depend on venue load order.
+  `lang` deliberately stays on the filtered set: it belongs to the screening, and showing
+  "tekstit suomi/ruotsi" from a screening the filter just removed would be wrong.
+- Chains disagree about the same film's metadata more than you would expect. For one
+  documentary: Finnkino `Dokumentti, Kotimainen ` / `FI-S, SE-S` / rating S, Gilda
+  `Dokumentti` / `FI-A, SE-S`, Kotkan Leffat `Dokumentti` / **`SV-S`** and no rating at
+  all, Kino Akseli no language. The `SV` was a real bug — the convention is Finnkino's tag
+  set and the client's `LN` map keys on `SE`, so `SV-S` rendered as a bare "SV" instead of
+  "ruotsi". Fixed in `etiketti.py`.
 - **The sheet's chain key is sticky** (2026-08-27). A film with 40+ showtimes across a
   week scrolls the key out of view, and after that the coloured rule on each stub means
   nothing. `.sheet-body > .legend` is `position:sticky; top:0` with negative side margins,
