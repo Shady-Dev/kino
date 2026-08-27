@@ -7,7 +7,10 @@
 [schedule] 2026-09-01: 326 showtimes
 [schedule] 2026-09-02: 377 showtimes
 [schedule] 2026-09-03: 380 showtimes
-[tmdb] 0 new lookups, 0 re-checks, cache 52, 38 mergeable by id
+[tmdb] dropped 13 entries matched by the old picker
+[tmdb] weak match, no exact title (2): Backrooms: Everything Must Go Edition -> Backrooms | Nalle Puhin elokuva (dub) -> Nalle Puhin elokuva – uudet seikkailut Puolen hehtaarin metsässä
+[tmdb] rating held back, under 25 votes (1): Bamse ja meren salaisuus (6.4 / 8 votes)
+[tmdb] 13 new lookups, 0 re-checks, cache 52, 49 mergeable by id
 [films] 52 film entries
 [attrs] dropped, neither format nor language (6): Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
