@@ -8,5 +8,7 @@
  "kummisetä osa ii": "240",
  "_comment3": "Two cases the fi-FI search cannot settle. \"Jonain päivänä\" now finds a different Finnish-titled 2023 film before Leave One Day, and \"Kummisetä osa II\" misses TMDB's \"Kummisetä II\" by the word osa. Ids verified against /movie/{id}, never typed from memory.",
  "backrooms everything must go edition": "1083381",
- "nalle puhin elokuva dub": "51162"
+ "nalle puhin elokuva dub": "51162",
+ "ryhmä hau dinoelokuva": "1185806",
+ "ryhmä hau dinoelokuva suomeksi": "1185806"
 }
