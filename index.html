@@ -224,6 +224,14 @@
   }
   /* the perforation reads wrong on a stacked stub */
   .stubs.grid .stub::before,.stubs.grid .stub::after{display:none}
+  .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
+  .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
+  .legend .lg.chain-finnkino{border-left-color:#D85A30}
+  .legend .lg.chain-biorex{border-left-color:#BA7517}
+  .legend .lg.chain-kinoset{border-left-color:#2F7D5B}
+  .legend .lg.chain-kotkanleffat{border-left-color:#C0356B}
+  .legend .lg.chain-kinoakseli{border-left-color:#4A6FA5}
+  .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   @media (max-width:520px){
     .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
   }
@@ -840,6 +848,14 @@
   }
 
   // Filters beat everything; past the published horizon is not the same as a quiet day.
+  // "Tripla" does not tell you it is BioRex, so a combined list needs a chain key.
+  function chainLegend(shows, extraClass){
+    const chains = [...new Set(shows.map(s => s.provider).filter(Boolean))];
+    if(chains.length < 2) return '';
+    return `<div class="legend ${extraClass || ''}">${chains
+      .map(c => `<span class="lg chain-${c}">${(SOURCE[c] || [c])[0]}</span>`).join('')}</div>`;
+  }
+
   function emptyMsg(){
     const t = L[state.lang];
     if(state.filter || state.fLang || state.fKids) return t.nomatch;
@@ -868,7 +884,8 @@
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
-    main.innerHTML = movies.map(m => {
+    const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
+    main.innerHTML = listLegend + movies.map(m => {
       const title = disp(m);
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
       const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
@@ -954,14 +971,22 @@
       if(!byDay.has(k)) byDay.set(k, []);
       byDay.get(k).push(s);
     }
-    const days = [...byDay.entries()].map(([k, arr]) => `<h3>${k}</h3><div class="stubs">` +
+    // Across venues, "Sali 7" alone says nothing about which cinema: label the venue and
+    // tint by chain, exactly as the main list does.
+    const multi = new Set(all.map(s => s.theatre)).size > 1;
+    const days = [...byDay.entries()].map(([k, arr]) =>
+      `<h3>${k}</h3><div class="${multi ? 'stubs grid' : 'stubs'}">` +
       arr.map(s => {
         const past = s.start < now;
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
-        return `<a class="stub${cls}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-                  <span class="time">${clock}</span><span class="aud">${s.aud}</span></a>`;
+        const where = s.venueShort || (s.theatre || '').split(',')[0];
+        const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
+        const tint = multi && s.provider ? ` chain-${s.provider}` : '';
+        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${loc}">
+                  <span class="time">${clock}</span><span class="aud">${loc}</span></a>`;
       }).join('') + '</div>').join('');
+    const legend = multi ? chainLegend(all) : '';
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
     sheetEl.innerHTML = `
       <button class="sheet-close" aria-label="Sulje">✕</button>
@@ -971,7 +996,7 @@
           ${sample.genres ? `<div class="meta2">${sample.genres.replace(/\s+,\s*/g, ', ')}</div>` : ''}
           ${(f.tr || sample.tr) ? `<a class="trailer" href="${f.tr || sample.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
-      <div class="sheet-body">
+      <div class="sheet-body">${legend}
         ${syn ? `<p class="syn">${syn}</p>` : ''}
         <div class="sheet-days">${days}</div>
       </div>`;
