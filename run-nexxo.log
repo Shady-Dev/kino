@@ -1,9 +1,9 @@
 [kinoset] Kino 1-2 (Huittinen): 12 showtimes
-[kinoset] Kinema (Loimaa): 11 showtimes
-[kinoset] Bio (Sastamala): 11 showtimes
+[kinoset] Kinema (Loimaa): 9 showtimes
+[kinoset] Bio (Sastamala): 9 showtimes
 [kinoset] synopses merged: 0
 [kinoset] Kino 1-2: 12 showtimes, 3 dates
-[kinoset] Kinema: 11 showtimes, 6 dates
-[kinoset] Bio: 11 showtimes, 6 dates
-[run] nexxo: 3 venues, 34 showtimes, 0 failures
+[kinoset] Kinema: 9 showtimes, 5 dates
+[kinoset] Bio: 9 showtimes, 5 dates
+[run] nexxo: 3 venues, 30 showtimes, 0 failures
 exit=0

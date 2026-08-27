@@ -1,4 +1,3 @@
-[enrich] dropped 1 weak entries that now have an alias: autot re release
 [enrich] no TMDB match (4): Artist in Focus: Mare's Nest | Follow The Plants | John Coltrane 'Highlights 1957-1964' | Pitchblack Playback: Jamiroquai 'Travelling Without Moving' (30th Anniversary)
-[enrich] 87 titles, 1 new, 0 re-checks, 58 with rating, 83 with synopsis, 83 with poster, 69 mergeable by id, 28 files updated
+[enrich] 87 titles, 0 new, 0 re-checks, 58 with rating, 83 with synopsis, 83 with poster, 69 mergeable by id, 28 files updated
 exit=0
