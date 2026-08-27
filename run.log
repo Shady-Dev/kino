@@ -1,33 +1,14 @@
 [token] using FINNKINO_TOKEN variable
-Traceback (most recent call last):
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 320, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 128, in main
-    raw_sites = api("/sites", token)
-                ^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 73, in api
-    return json.loads(http_get(DIGITAL_API + path, {
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/kino/kino/scripts/fetch_data.py", line 39, in http_get
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
-    return opener.open(url, data, timeout)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
-    response = meth(req, response)
-               ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
-    response = self.parent.error(
-               ^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
-    return self._call_chain(*args)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
-    result = func(*args)
-             ^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
-    raise HTTPError(req.full_url, code, msg, hdrs, fp)
-urllib.error.HTTPError: HTTP Error 401: Unauthorized
-exit=1
+[sites] 17 cinemas
+[schedule] 2026-08-27: 2 showtimes
+[schedule] 2026-08-28: 341 showtimes
+[schedule] 2026-08-29: 580 showtimes
+[schedule] 2026-08-30: 419 showtimes
+[schedule] 2026-08-31: 333 showtimes
+[schedule] 2026-09-01: 326 showtimes
+[schedule] 2026-09-02: 377 showtimes
+[tmdb] 0 new lookups, 0 re-checks, cache 54
+[films] 52 film entries
+[schedule] 17 venue files written, 0 kept as-is
+done
+exit=0
