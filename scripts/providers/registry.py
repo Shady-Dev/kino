@@ -18,13 +18,13 @@ Fields:
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
-  where   mac | cloud. Finnkino and Kino Akseli return 403 / a captcha to datacenter
-          IPs, so they only run from a residential address (IDEAS.md)
+  where   local | cloud. Finnkino and Kino Akseli block datacenter IPs, so they can only
+          be fetched from an ordinary connection; everything else runs on Actions
 """
 
 PROVIDERS = [
     dict(id="finnkino", label="Finnkino", host="finnkino.fi", accent="#D85A30",
-         book="buy", module=None, where="mac"),
+         book="buy", module=None, where="local"),
     dict(id="biorex", label="BioRex", host="biorex.fi", accent="#BA7517",
          book="buy", module="biorex", where="cloud"),
     dict(id="kinoset", label="Kinoset", host="kinoset.fi", accent="#2F7D5B",
@@ -38,7 +38,7 @@ PROVIDERS = [
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#2A7B8C",
          book="buy", module="vista", where="cloud"),
     dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#4A6FA5",
-         book="door", module="kinoakseli", where="mac"),
+         book="door", module="kinoakseli", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     import sys
     if "--cloud" in sys.argv:
         print("\n".join(modules("cloud")))
-    elif "--mac" in sys.argv:
-        print("\n".join(modules("mac")))
+    elif "--local" in sys.argv:
+        print("\n".join(modules("local")))
     else:
         print("\n".join(f"{p['id']}\t{p['where']}\t{p['module'] or '-'}" for p in PROVIDERS))
