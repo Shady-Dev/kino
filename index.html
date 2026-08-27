@@ -1196,12 +1196,13 @@
     // "Kinopalat…" and lose both halves. The venue goes on the meta line instead, which
     // has the full row width, and the stub carries the chain tint.
     const multi = labelVenues(state.shows);
+    const tinted = tintOn(rows);
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       const where = s.venueShort || (s.theatre || '').split(',')[0];
-      const tint = multi && s.provider ? ` chain-${s.provider}` : '';
+      const tint = tinted && s.provider ? ` chain-${s.provider}` : '';
       const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
       return `<div class="trow">
         <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
@@ -1337,6 +1338,13 @@
     return `<div class="tagkey">${bits.join('')}</div>`;
   }
 
+  // The chain rule is a *distinguisher*, so it only earns its place when there is more
+  // than one chain on screen — chainLegend() has always used that rule, and the tint did
+  // not, so a future date served by a single chain showed coloured stubs with no key to
+  // read them by. Venue labelling is a separate question and keeps its own rule: in a
+  // combined view you still want the cinema named even if every showtime is Riviera's.
+  const tintOn = shows => new Set(shows.map(s => s.provider).filter(Boolean)).size > 1;
+
   const labelVenues = shows =>
     (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
 
@@ -1381,6 +1389,7 @@
     }
 
     const multiTheatre = labelVenues(state.shows);
+    const tintedList = tintOn(state.shows.filter(passFilters));
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
@@ -1427,7 +1436,7 @@
         const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud), own]
           .filter(Boolean).join(' · ')
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
-        const tint = multiTheatre && t.provider ? ` chain-${t.provider}` : '';
+        const tint = tintedList && t.provider ? ` chain-${t.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${[loc, ageOf(t)].filter(Boolean).join(' · ')}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow(glyphs)}</span>
                 </a>`;
@@ -1528,7 +1537,7 @@
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = s.venueShort || (s.theatre || '').split(',')[0];
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
-        const tint = multi && s.provider ? ` chain-${s.provider}` : '';
+        const tint = tintOn(all) && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
       }).join('') + '</div>').join('');

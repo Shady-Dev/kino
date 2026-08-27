@@ -158,6 +158,14 @@ Conventions worth keeping:
   rule is the only thing allowed to carry colour. Every glyph has a `title` and an
   `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
   day's shows actually carry the tag**, so it never explains something off screen.
+- **The chain tint follows the same rule as the chain legend** (2026-08-27):
+  `chainLegend()` has always returned nothing below two chains, but the tint had no such
+  rule, so a future date served by a single chain — 19.9., Riviera only — rendered
+  coloured stubs with no key to read them by. `tintOn(shows)` gates the tint on more than
+  one provider being present. Venue labelling keeps its own rule: in a combined view you
+  still want the cinema named even when every showtime belongs to one chain. With a chain
+  *filter* narrowed to one chain the legend stays (it is the filter control) while the
+  tint drops, which is the right way round.
 - **Glyphs need their own column.** Trailed after the label they landed wherever the text
   happened to end — a different spot on every stub, and on a two-line label they dropped
   onto a line of their own under "Plus". `.glyphs` is `margin-left:auto`, and in the grid
