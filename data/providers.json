@@ -1,0 +1,46 @@
+{
+ "providers": [
+  {
+   "id": "finnkino",
+   "label": "Finnkino",
+   "host": "finnkino.fi",
+   "accent": "#D85A30",
+   "book": "buy"
+  },
+  {
+   "id": "biorex",
+   "label": "BioRex",
+   "host": "biorex.fi",
+   "accent": "#BA7517",
+   "book": "buy"
+  },
+  {
+   "id": "kinoset",
+   "label": "Kinoset",
+   "host": "kinoset.fi",
+   "accent": "#2F7D5B",
+   "book": "reserve"
+  },
+  {
+   "id": "kotkanleffat",
+   "label": "Kotkan Leffat",
+   "host": "kotkanleffat.fi",
+   "accent": "#C0356B",
+   "book": "buy"
+  },
+  {
+   "id": "riviera",
+   "label": "Riviera",
+   "host": "rivieracinemas.fi",
+   "accent": "#7A4FA3",
+   "book": "buy"
+  },
+  {
+   "id": "kinoakseli",
+   "label": "Kino Akseli",
+   "host": "kinoakseli.fi",
+   "accent": "#4A6FA5",
+   "book": "door"
+  }
+ ]
+}
