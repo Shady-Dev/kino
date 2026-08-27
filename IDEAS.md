@@ -262,6 +262,22 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
 - BioRex fetches ~28 film pages per run (0.4 s apart) for synopsis, runtime and genres.
 - Kinoset's API `description` is mostly empty and it only tags genres on some shows, so
   those fall back to TMDB.
+- **Match on the title, not on TMDB's popularity order** (2026-08-27). `hits[0]` sent
+  Orion's "Mother" to the poster for "Mother Mary": TMDB search sorts by popularity, so
+  a short generic title lands on whatever is trending. `pick()` prefers a hit whose
+  `title` or `original_title` normalises exactly to the query and only then falls back to
+  the popularity order, because a Finnish distributor title often matches nothing exactly
+  and a weak match still beats no film. Fallbacks are named in `run-enrich.log` as
+  **weak match**, which is the list to read when a poster looks wrong.
+- **A rating needs votes.** `vote_average` was written straight through, so a festival
+  premiere with three votes showed a clean ★10 or ★5, which reads as a verdict. Ratings
+  now come from the movie detail call (authoritative, and already fetched for the
+  synopsis) and are stored only above `MIN_VOTES` = 25. The count lives in the cache as
+  `n`, so the threshold can be retuned without re-fetching, and held-back ratings are
+  listed in the log as **rating held back**.
+- The cache was rebuilt once when `pick()` landed: an id chosen by the old picker cannot
+  be re-judged, since nothing recorded which hit it came from. An entry with no `n` is
+  treated as incomplete, so any future gate change costs one re-check pass, not a wipe.
 
 ### Riviera (added 2026-08-27)
 WordPress admin-ajax, no auth, **one request covers both venues**:

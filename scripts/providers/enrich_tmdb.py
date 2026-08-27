@@ -65,6 +65,27 @@ def clean(title):
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 
 
+# A rating is only worth showing once enough people have voted. A festival premiere
+# with three votes gives a clean 10.0 or 5.0, which reads as a verdict and is noise.
+MIN_VOTES = 25
+
+
+def pick(hits, query):
+    """Choose a search hit. -> (hit, exact).
+
+    TMDB sorts by popularity, so hits[0] on a one-word title is whatever is trending:
+    "Mother" came back as "Mother Mary". Prefer a hit whose title or original title
+    matches the query exactly, and fall back to the popularity order only when nothing
+    does — a Finnish distributor title often matches nothing, and a weak match still
+    beats no film. The fallbacks are logged so they can be checked.
+    """
+    q = norm(query)
+    for h in hits:
+        if norm(h.get("title")) == q or norm(h.get("original_title")) == q:
+            return h, True
+    return hits[0], False
+
+
 def load_aliases():
     try:
         return {k: v for k, v in json.loads(ALIAS_FILE.read_text()).items()
@@ -131,14 +152,20 @@ def main() -> int:
                 titles.setdefault(k, s.get("title"))
 
     looked = rechecked = 0
+    weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
     for k, display in sorted(titles.items()):
         c = cache.get(k)
-        complete = isinstance(c, dict) and ("fi" in c or "en" in c) and "p" in c
+        # "n" (vote count) arrived with the MIN_VOTES gate: an entry without it carries
+        # an ungated rating, so treat it as incomplete and re-check once.
+        complete = (isinstance(c, dict) and ("fi" in c or "en" in c)
+                    and "p" in c and "n" in c)
         if isinstance(c, dict) and complete and (c.get("v") or c.get("c") == today):
             continue
         try:
             mid = c.get("i") if isinstance(c, dict) else None
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
+            votes = (c.get("n") or 0) if isinstance(c, dict) else 0
+            poster = (c.get("p") or "") if isinstance(c, dict) else ""
             alias = aliases.get(k)
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)          # id given outright, no search needed
@@ -148,12 +175,13 @@ def main() -> int:
                               + urllib.parse.quote(cand), th)
                     hits = res.get("results") or []
                     if hits:
-                        mid = hits[0].get("id")
-                        rating = hits[0].get("vote_average") or 0
-                        poster = hits[0].get("poster_path") or ""
+                        hit, exact = pick(hits, cand)
+                        mid = hit.get("id")
+                        poster = hit.get("poster_path") or poster
+                        if not exact:
+                            weak.append(f"{display or k} -> {hit.get('title')}")
                         break
                     time.sleep(0.2)
-            poster = (c.get("p") or "") if isinstance(c, dict) else ""
             syn_fi = syn_en = ""
             if mid:
                 # Finnish overview when TMDB has one, English as the fallback.
@@ -162,6 +190,9 @@ def main() -> int:
                         d = get(f"https://api.themoviedb.org/3/movie/{mid}?language={langcode}", th)
                         text = (d.get("overview") or "").strip()
                         poster = poster or (d.get("poster_path") or "")
+                        if "vote_count" in d:
+                            votes = d.get("vote_count") or 0
+                            rating = d.get("vote_average") or 0
                         if slot == "fi":
                             syn_fi = text
                             if text:
@@ -182,7 +213,10 @@ def main() -> int:
                     if hit:
                         yt = hit.get("key") or ""
                         break
-            cache[k] = {"r": round(rating, 1) if rating else 0, "v": yt,
+            shown = round(rating, 1) if rating and votes >= MIN_VOTES else 0
+            if rating and not shown:
+                thin.append(f"{display or k} ({round(rating, 1)} / {votes} votes)")
+            cache[k] = {"r": shown, "n": votes, "v": yt,
                         "i": mid or "", "c": today,
                         "fi": syn_fi, "en": syn_en, "p": poster}
             rechecked += 1 if isinstance(c, dict) else 0
@@ -249,6 +283,13 @@ def main() -> int:
                      if not (cache.get(k) or {}).get("i"))
     if missing:
         print(f"[enrich] no TMDB match ({len(missing)}): " + " | ".join(missing))
+    # A weak match is a wrong poster waiting to happen; a thin one is a rating hidden
+    # on purpose. Both are for reading, not for acting on automatically.
+    if weak:
+        print(f"[enrich] weak match, no exact title ({len(weak)}): " + " | ".join(sorted(weak)))
+    if thin:
+        print(f"[enrich] rating held back, under {MIN_VOTES} votes ({len(thin)}): "
+              + " | ".join(sorted(thin)))
 
     hit = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("r"))
     syn = sum(1 for c in cache.values() if isinstance(c, dict) and (c.get("fi") or c.get("en")))
