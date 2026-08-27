@@ -89,6 +89,14 @@ def _pick(results, query):
     TMDB search sorts by popularity, so results[0] on a short title is whatever is
     trending. Prefer a hit whose title or original title matches the query exactly and
     fall back to the popularity order only when nothing does.
+
+    Searched with `language=fi-FI` so `title` comes back as the **Finnish** title TMDB
+    has registered. Without it TMDB answers in English and the comparison fails on every
+    Finnish distributor title: "Autofiktio" vs "Bitter Christmas", "Kuopus" vs "The
+    Little Sister", "Kummisetä osa II" vs "The Godfather Part II". All three ids were
+    right all along and were being written off as weak matches, which cost them their
+    `tmdbId` and their genre ids. `language` localizes the response; it does not widen
+    which titles are searched, so this is presentation, not matching.
     """
     if not results:
         return None, False
@@ -333,8 +341,11 @@ def main() -> int:
               "user-agent": "kino-fetch/1.0"}
         # An entry with no "x" was matched before the exact-title rule existed and its
         # id cannot be re-judged after the fact, so drop it and search again. One-off.
+        # Same one-off re-judgement as the cloud pass: a weak match decided before the
+        # fi-FI search change was comparing a Finnish title against an English one.
         stale = [k for k, v in tmdb_cache.items()
-                 if not (isinstance(v, dict) and "x" in v)]
+                 if not (isinstance(v, dict) and "x" in v)
+                 or (isinstance(v, dict) and v.get("i") and not v.get("x"))]
         for k in stale:
             del tmdb_cache[k]
         if stale:
@@ -388,7 +399,7 @@ def main() -> int:
                         cands.insert(0, str(alias))
                     for cand in cands:
                         q = urllib.parse.quote(cand)
-                        u = f"https://api.themoviedb.org/3/search/movie?query={q}"
+                        u = f"https://api.themoviedb.org/3/search/movie?language=fi-FI&query={q}"
                         year = meta["y"] and cand != str(alias or "")
                         res = json.loads(http_get(
                             u + (f"&primary_release_year={meta['y']}" if year else ""), th))

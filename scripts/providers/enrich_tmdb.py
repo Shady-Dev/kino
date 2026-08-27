@@ -71,6 +71,14 @@ def pick(hits, query):
     matches the query exactly, and fall back to the popularity order only when nothing
     does — a Finnish distributor title often matches nothing, and a weak match still
     beats no film. The fallbacks are logged so they can be checked.
+
+    Searched with `language=fi-FI` so `title` comes back as the **Finnish** title TMDB
+    has registered. Without it TMDB answers in English and the comparison fails on every
+    Finnish distributor title: "Autofiktio" vs "Bitter Christmas", "Kuopus" vs "The
+    Little Sister", "Kummisetä osa II" vs "The Godfather Part II". All three ids were
+    right all along and were being written off as weak matches, which cost them their
+    `tmdbId` and their genre ids. `language` localizes the response; it does not widen
+    which titles are searched, so this is presentation, not matching.
     """
     q = norm(query)
     for h in hits:
@@ -132,7 +140,11 @@ def main() -> int:
     # An entry with no "x" was matched by the old loop, which stopped at the first
     # candidate that returned anything. Its id cannot be re-judged after the fact, so
     # drop it and let the fixed loop search again. One-off per shape change.
-    stale = [k for k, v in cache.items() if not (isinstance(v, dict) and "x" in v)]
+    # A weak entry judged before the fi-FI search change compared a Finnish title
+    # against an English one, so every one of them has to be re-judged once.
+    stale = [k for k, v in cache.items()
+             if not (isinstance(v, dict) and "x" in v)
+             or (isinstance(v, dict) and v.get("i") and not v.get("x"))]
     for k in stale:
         del cache[k]
     if stale:
@@ -209,7 +221,7 @@ def main() -> int:
                 # that match nothing exactly.
                 fallback = None
                 for cand in queries(display or k, alias):
-                    res = get("https://api.themoviedb.org/3/search/movie?query="
+                    res = get("https://api.themoviedb.org/3/search/movie?language=fi-FI&query="
                               + urllib.parse.quote(cand), th)
                     hits = res.get("results") or []
                     if hits:

@@ -318,6 +318,18 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   the popularity order, because a Finnish distributor title often matches nothing exactly
   and a weak match still beats no film. Fallbacks are named in `run-enrich.log` as
   **weak match**, which is the list to read when a poster looks wrong.
+- **Search with `language=fi-FI`, or the exact-title test can never fire on a Finnish
+  title** (2026-08-27). Without it TMDB answers in English, so `pick()` compared
+  "Autofiktio" against "Bitter Christmas", "Kuopus" against "The Little Sister" and
+  "Kummisetä osa II" against "The Godfather Part II" — and wrote all three off as weak
+  matches. The **ids were right the whole time**; TMDB has registered Finnish titles and
+  had matched them. The cost of the mistake was not a wrong film but a missing one:
+  a weak entry gets no `tmdbId` and no `gids`, so 29 films were excluded from cross-chain
+  merging and from genre-based filtering for no reason.
+  `language` localizes the response, it does not widen which titles are searched, so this
+  is presentation rather than matching — the fix is one query parameter, not 29 aliases.
+  **Verify before writing aliases**: a "weak match" line is a claim about the comparison,
+  not about the film.
 - **A rating needs votes.** `vote_average` was written straight through, so a festival
   premiere with three votes showed a clean ★10 or ★5, which reads as a verdict. Ratings
   now come from the movie detail call (authoritative, and already fetched for the
