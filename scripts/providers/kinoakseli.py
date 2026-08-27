@@ -1,6 +1,6 @@
 """Kino Akseli (Nummela, single screen) — Elementor page scrape. Stdlib only.
 
-kinoakseli.fi answers datacenter IPs with a [redacted], so this provider
+kinoakseli.fi challenges datacenter IPs, so this provider
 runs from the Mac alongside Finnkino, not in Actions.
 
 The page gives genres, age limit and ticket price, but no booking links (tickets are
