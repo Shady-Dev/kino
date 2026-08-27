@@ -294,6 +294,27 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   different films into one row, which is worse than two rows. Extending `mergeKey()` to
   drop everything after a dash was the obvious alternative and is wrong — it would merge
   "Mission: Impossible - Dead Reckoning" into "Mission: Impossible".
+- **Reissue markers belong in `mergeKey()`, not just in the search.** BioRex ships
+  "Autot (re-release)", Finnkino "Autot (uudelleenjulkaisu)" — the same reissue labelled
+  in two languages, so the combined view listed it twice. `mergeKey()` now strips
+  `(re-release)`, `(uudelleenjulkaisu)` and `(uusi kopio)` alongside `(suomeksi)`, and
+  `PAREN_NOISE` gained `uudelleenjulkaisu` so both passes strip the same vocabulary.
+  Reissue labels carry no sequel information, which is why they are safe to drop where a
+  subtitle after a dash is not.
+- **Name merging stays load-bearing.** Merging by `tmdbId` only helps films where *both*
+  chains got an exact match, and the films that miss are exactly the Finnish distributor
+  titles most likely to be spelled differently by different chains. So the `mergeKey()`
+  strip list has to stay current; it is not superseded.
+- **`fetch_data.py` needs candidate queries too** (2026-08-27). Two failures found in one
+  local run: OCAPI's `originalTitle` is **empty** for some releases, so `q` arrived as
+  "Autot (uudelleenjulkaisu)" and matched nothing at all; and "Mutiny - Lavastettu
+  syylliseksi" matched *Mutiny* only weakly, so no `tmdbId` was written and the row could
+  not merge with BioRex's "Mutiny" even though the pipeline had found the right film.
+  `_queries()` now yields the de-noised title, the raw title, then the head before a
+  **dash**. Never before a colon: that would search "Mission" for "Mission: Impossible -
+  Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
+  films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
+  worth watching, because its exact matches also write ids.
 - The two TMDB passes are still separate (`fetch_data.py` keyed by Finnkino `filmId` and
   run locally, `enrich_tmdb.py` keyed by normalised title and run in the cloud). They now
   agree on the rules — exact-match preference, `TMDB_MIN_VOTES` = `MIN_VOTES` = 25, `n`

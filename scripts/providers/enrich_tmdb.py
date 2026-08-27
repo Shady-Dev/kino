@@ -47,7 +47,7 @@ EVENT_PREFIXES = (
 # Screening-format and re-release noise in brackets, including a bare year.
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?|re-?release"
-    r"|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
+    r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
 TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|dubattu)\b\s*$", re.I)
 
 

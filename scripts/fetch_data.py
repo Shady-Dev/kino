@@ -25,6 +25,39 @@ def _tnorm(x):
     return re.sub(r"\s+", " ", x).strip()
 
 
+# Search noise in brackets, and a bare year. Same vocabulary as
+# enrich_tmdb.PAREN_NOISE: the two passes must not disagree about the same film.
+_Q_NOISE = re.compile(r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?"
+                      r"|re-?release|uudelleenjulkaisu|uusi\s+kopio|live\s?action"
+                      r"|liveaction|2d|3d|imax|4k)\s*\)", re.I)
+
+
+def _queries(q):
+    """Search candidates, best first. Mirrors enrich_tmdb.queries().
+
+    OCAPI's originalTitle is empty for some releases and the Finnish title is used
+    instead, so the query can arrive as "Autot (uudelleenjulkaisu)", which matches
+    nothing, or "Mutiny - Lavastettu syylliseksi", whose distributor subtitle stops the
+    exact-title rule from firing on a hit that is in fact the right film.
+    """
+    out = []
+
+    def add(x):
+        x = (x or "").strip(" -–:,")
+        if len(x) > 2 and x.lower() not in [o.lower() for o in out]:
+            out.append(x)
+
+    add(re.sub(r"\s{2,}", " ", _Q_NOISE.sub(" ", q or "")))
+    add(q)
+    # Dash only, never a colon. A Finnish distributor subtitle is appended with a dash
+    # ("Mutiny - Lavastettu syylliseksi"), while a colon usually carries the franchise:
+    # splitting "Mission: Impossible - Dead Reckoning" would search "Mission", and an
+    # exact hit on that now earns a tmdbId and would merge two different films.
+    head = re.split(r"\s+[-–]\s+", _Q_NOISE.sub(" ", q or ""), maxsplit=1)[0]
+    add(head)
+    return out
+
+
 def _pick(results, query):
     """Choose a search hit. -> (hit, exact).
 
@@ -280,22 +313,38 @@ def main() -> int:
                 votes = (cached.get("n") or 0) if cached else 0
                 exact_id = bool(cached.get("x")) if cached else False
                 if not mid:
-                    q = urllib.parse.quote(meta["q"])
-                    u = f"https://api.themoviedb.org/3/search/movie?query={q}"
-                    res = json.loads(http_get(u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
-                    results = res.get("results") or []
-                    if not results and meta["y"]:
-                        res = json.loads(http_get(u, th))
+                    # Every candidate is tried until one matches the title exactly; the
+                    # first hit of any kind is the fallback. Stopping at the first
+                    # candidate that returns anything is what sent "Die Hard 2 - Die
+                    # Harder" to Die Hard in the cloud pass.
+                    fallback = None
+                    for cand in _queries(meta["q"]):
+                        q = urllib.parse.quote(cand)
+                        u = f"https://api.themoviedb.org/3/search/movie?query={q}"
+                        res = json.loads(http_get(
+                            u + (f"&primary_release_year={meta['y']}" if meta["y"] else ""), th))
                         results = res.get("results") or []
-                    # Same rule as enrich_tmdb.pick(): prefer a hit whose title matches
-                    # the query exactly over TMDB's popularity order. The query here is
-                    # the original title plus the release year, so this usually lands.
-                    hit, exact_id = _pick(results, meta["q"])
-                    va = (hit.get("vote_average") or 0) if hit else 0
-                    votes = (hit.get("vote_count") or 0) if hit else 0
-                    mid = hit.get("id") if hit else None
-                    if hit and not exact_id:
-                        tmdb_weak.append(f"{meta['q']} -> {hit.get('title')}")
+                        # A reissue carries the reissue year, so the year filter has to
+                        # be droppable: Autot is a 2026 release of a 2006 film.
+                        if not results and meta["y"]:
+                            results = json.loads(http_get(u, th)).get("results") or []
+                        hit, exact = _pick(results, cand)
+                        if hit and exact:
+                            mid = hit.get("id")
+                            va = hit.get("vote_average") or 0
+                            votes = hit.get("vote_count") or 0
+                            exact_id = True
+                            break
+                        if hit and fallback is None:
+                            fallback = hit
+                        time.sleep(0.2)
+                    else:
+                        if fallback is not None:
+                            mid = fallback.get("id")
+                            va = fallback.get("vote_average") or 0
+                            votes = fallback.get("vote_count") or 0
+                            exact_id = False
+                            tmdb_weak.append(f"{meta['q']} -> {fallback.get('title')}")
                 yt = ""
                 if mid:
                     try:

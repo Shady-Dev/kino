@@ -467,8 +467,13 @@
   // Cross-provider identity for the combined city view: "Spider-Man: Brand New Day 2D",
   // "Ryhmä Hau: Dinoelokuva (suomeksi)" and "Marsupilami, suomeksi" must all match their
   // plain forms at another chain.
+  // Reissue markers are the same film labelled in two languages: BioRex ships
+  // "Autot (re-release)", Finnkino "Autot (uudelleenjulkaisu)". Safe to strip because
+  // they carry no sequel information, unlike a subtitle after a dash — dropping that
+  // would merge "Mission: Impossible - Dead Reckoning" into "Mission: Impossible".
   const mergeKey = t => normTitle((t || '')
     .replace(/\((?:suomeksi|dubattu|dub|orig\.?)\)/gi, ' ')
+    .replace(/\((?:re-?release|uudelleenjulkaisu|uusi\s+kopio)\)/gi, ' ')
     .replace(/,?\s*\bsuomeksi\b/gi, ' ')
     .replace(/\b(?:2d|3d|imax|4k)\b/gi, ' '));
   async function ensureExtraFilms(){
