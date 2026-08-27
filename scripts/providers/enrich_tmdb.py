@@ -15,6 +15,9 @@ CACHE = DATA / "tmdb-titles.json"
 EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
 SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
 UA = "kino-enrich/1.0"
+# Hand-maintained escape hatch for titles TMDB cannot be searched by. See the file's
+# own _comment. Lives next to the script, not in data/, because data/ is generated.
+ALIAS_FILE = pathlib.Path(__file__).resolve().parent / "tmdb-aliases.json"
 
 
 def norm(t):
@@ -55,11 +58,19 @@ def clean(title):
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 
 
-def queries(title):
+def load_aliases():
+    try:
+        return {k: v for k, v in json.loads(ALIAS_FILE.read_text()).items()
+                if not k.startswith("_")}
+    except Exception:
+        return {}
+
+
+def queries(title, alias=None):
     """Cleaned title, then its head before a dash/colon, then the raw title.
 
-    The raw title stays last so a wrong cleanup costs an extra request rather than a
-    missing film.
+    An alias that is not a bare TMDB id goes first. The raw title stays last so a
+    wrong cleanup costs an extra request rather than a missing film.
     """
     out = []
 
@@ -68,6 +79,8 @@ def queries(title):
         if len(x) > 2 and x.lower() not in [o.lower() for o in out]:
             out.append(x)
 
+    if alias and not str(alias).isdigit():
+        add(str(alias))
     c = clean(title)
     add(c)
     head = re.split(r"\s+[-–]\s+|:\s+", c, maxsplit=1)[0].strip()
@@ -90,6 +103,7 @@ def main() -> int:
         return 0
     th = {"Authorization": f"Bearer {token}", "accept": "application/json", "user-agent": UA}
     today = datetime.date.today().isoformat()
+    aliases = load_aliases()
     try:
         cache = json.loads(CACHE.read_text())
     except Exception:
@@ -118,8 +132,11 @@ def main() -> int:
         try:
             mid = c.get("i") if isinstance(c, dict) else None
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
+            alias = aliases.get(k)
+            if not mid and alias and str(alias).isdigit():
+                mid = int(alias)          # id given outright, no search needed
             if not mid:
-                for cand in queries(display or k):
+                for cand in queries(display or k, alias):
                     res = get("https://api.themoviedb.org/3/search/movie?query="
                               + urllib.parse.quote(cand), th)
                     hits = res.get("results") or []
@@ -219,6 +236,12 @@ def main() -> int:
         if changed:
             p.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
             touched += 1
+
+    # Name the titles that found nothing: these are the candidates for tmdb-aliases.json.
+    missing = sorted(display for k, display in titles.items()
+                     if not (cache.get(k) or {}).get("i"))
+    if missing:
+        print(f"[enrich] no TMDB match ({len(missing)}): " + " | ".join(missing))
 
     hit = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("r"))
     syn = sum(1 for c in cache.values() if isinstance(c, dict) and (c.get("fi") or c.get("en")))
