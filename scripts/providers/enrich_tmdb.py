@@ -40,6 +40,9 @@ EVENT_PREFIXES = (
     # TMDB (a music playback night has no entry), but they belong in `method`.
     "espoo ciné", "espoo cine", "pieni elokuvakerho", "pitchblack playback",
     "hopeacine",
+    # A format, not a strand, but it sits in the same position and breaks the search
+    # the same way: "70mm: The Odyssey" matched a Pinocchio short.
+    "70mm",
 )
 # Screening-format and re-release noise in brackets, including a bare year.
 PAREN_NOISE = re.compile(
@@ -136,6 +139,14 @@ def main() -> int:
         cache = json.loads(CACHE.read_text())
     except Exception:
         cache = {}
+    # An entry with no "x" was matched by the old loop, which stopped at the first
+    # candidate that returned anything. Its id cannot be re-judged after the fact, so
+    # drop it and let the fixed loop search again. One-off per shape change.
+    stale = [k for k, v in cache.items() if not (isinstance(v, dict) and "x" in v)]
+    for k in stale:
+        del cache[k]
+    if stale:
+        print(f"[enrich] dropped {len(stale)} entries matched by the old picker")
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
              if not p.name.startswith(SKIP_PREFIXES)]
@@ -158,30 +169,47 @@ def main() -> int:
         # "n" (vote count) arrived with the MIN_VOTES gate: an entry without it carries
         # an ungated rating, so treat it as incomplete and re-check once.
         complete = (isinstance(c, dict) and ("fi" in c or "en" in c)
-                    and "p" in c and "n" in c)
+                    and "p" in c and "n" in c and "x" in c)
         if isinstance(c, dict) and complete and (c.get("v") or c.get("c") == today):
             continue
         try:
             mid = c.get("i") if isinstance(c, dict) else None
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
             votes = (c.get("n") or 0) if isinstance(c, dict) else 0
+            exact_id = bool(c.get("x")) if isinstance(c, dict) else False
             poster = (c.get("p") or "") if isinstance(c, dict) else ""
             alias = aliases.get(k)
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)          # id given outright, no search needed
+                exact_id = True           # a hand-written id is as good as exact
             if not mid:
+                # Do not stop at the first candidate that returns anything: candidate 1
+                # ("Die Hard 2 - Die Harder") returns hits, so the loop used to break
+                # there and never try candidate 2 ("Die Hard 2"), which matches exactly.
+                # Keep going until a candidate matches exactly; remember the first hit
+                # of any kind as the fallback. Extra requests are spent only on titles
+                # that match nothing exactly.
+                fallback = None
                 for cand in queries(display or k, alias):
                     res = get("https://api.themoviedb.org/3/search/movie?query="
                               + urllib.parse.quote(cand), th)
                     hits = res.get("results") or []
                     if hits:
                         hit, exact = pick(hits, cand)
-                        mid = hit.get("id")
-                        poster = hit.get("poster_path") or poster
-                        if not exact:
-                            weak.append(f"{display or k} -> {hit.get('title')}")
-                        break
+                        if exact:
+                            mid = hit.get("id")
+                            poster = hit.get("poster_path") or poster
+                            exact_id = True
+                            break
+                        if fallback is None:
+                            fallback = hit
                     time.sleep(0.2)
+                else:
+                    if fallback is not None:
+                        mid = fallback.get("id")
+                        poster = fallback.get("poster_path") or poster
+                        exact_id = False
+                        weak.append(f"{display or k} -> {fallback.get('title')}")
             syn_fi = syn_en = ""
             if mid:
                 # Finnish overview when TMDB has one, English as the fallback.
@@ -216,7 +244,10 @@ def main() -> int:
             shown = round(rating, 1) if rating and votes >= MIN_VOTES else 0
             if rating and not shown:
                 thin.append(f"{display or k} ({round(rating, 1)} / {votes} votes)")
-            cache[k] = {"r": shown, "n": votes, "v": yt,
+            # "x" = the id came from an exact title match (or a hand-written alias id).
+            # Only those are safe to merge films on: a weak id would fold two different
+            # films into one row, which is worse than showing two rows.
+            cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
                         "i": mid or "", "c": today,
                         "fi": syn_fi, "en": syn_en, "p": poster}
             rechecked += 1 if isinstance(c, dict) else 0
@@ -274,6 +305,12 @@ def main() -> int:
                     s["tr"] = url; changed = True
             if not s.get("img") and c.get("p"):
                 s["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]; changed = True
+            # The film's identity across chains. Only an exact match is written: the
+            # combined city view merges on it, and a weak id would fold two different
+            # films into one row. Chains publish the same film under different titles
+            # ("Mutiny" vs "Mutiny - Lavastettu syylliseksi"), which no title key fixes.
+            if c.get("x") and c.get("i") and s.get("tmdbId") != c["i"]:
+                s["tmdbId"] = c["i"]; changed = True
         if changed:
             p.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
             touched += 1
@@ -291,11 +328,13 @@ def main() -> int:
         print(f"[enrich] rating held back, under {MIN_VOTES} votes ({len(thin)}): "
               + " | ".join(sorted(thin)))
 
+    ids = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("x") and c.get("i"))
     hit = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("r"))
     syn = sum(1 for c in cache.values() if isinstance(c, dict) and (c.get("fi") or c.get("en")))
     pics = sum(1 for c in cache.values() if isinstance(c, dict) and c.get("p"))
     print(f"[enrich] {len(titles)} titles, {looked} new, {rechecked} re-checks, "
           f"{hit} with rating, {syn} with synopsis, {pics} with poster, "
+          f"{ids} mergeable by id, "
           f"{touched} files updated")
     return 0
 

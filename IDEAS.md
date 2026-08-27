@@ -278,6 +278,28 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
 - The cache was rebuilt once when `pick()` landed: an id chosen by the old picker cannot
   be re-judged, since nothing recorded which hit it came from. An entry with no `n` is
   treated as incomplete, so any future gate change costs one re-check pass, not a wipe.
+- **The search loop must not stop at the first candidate that returns anything**
+  (2026-08-27). `queries()` yields the cleaned title, then its head before a dash or
+  colon, then the raw title. The loop broke on the first candidate with any hits, so
+  "Die Hard 2 - Die Harder" returned *Die Hard* on candidate 1 and candidate 2
+  ("Die Hard 2", which matches exactly) was never tried. `pick()` can only rank within
+  one candidate's results, so it could not save this. Now every candidate is tried until
+  one matches exactly, and the first hit of any kind is kept as the fallback. Extra
+  requests are spent only on titles that match nothing exactly.
+- **Film identity across chains is the TMDB id, not the title** (2026-08-27). BioRex
+  publishes "Mutiny", Finnkino "Mutiny - Lavastettu syylliseksi", so the combined city
+  view listed one film twice, with two ratings fetched hours apart by the two passes.
+  Both passes now write `tmdbId` onto each show and `mergeKey()` in the client prefers
+  it. **Only an exact match is written** (`x` in both caches): a weak id would fold two
+  different films into one row, which is worse than two rows. Extending `mergeKey()` to
+  drop everything after a dash was the obvious alternative and is wrong — it would merge
+  "Mission: Impossible - Dead Reckoning" into "Mission: Impossible".
+- The two TMDB passes are still separate (`fetch_data.py` keyed by Finnkino `filmId` and
+  run locally, `enrich_tmdb.py` keyed by normalised title and run in the cloud). They now
+  agree on the rules — exact-match preference, `TMDB_MIN_VOTES` = `MIN_VOTES` = 25, `n`
+  and `x` in both caches — but they still fetch at different times, so the same film can
+  briefly carry two `vote_average` values. Merging by id hides that, because the merged
+  row takes one show's rating. A single shared pass is the real fix and is not written.
 
 ### Riviera (added 2026-08-27)
 WordPress admin-ajax, no auth, **one request covers both venues**:

@@ -940,7 +940,15 @@
       (p.dates || []).forEach(d => dates.add(d));
       const v = venueIndex[ids[i]] || {};
       for(const s of (p.shows || [])){
-        shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
+        // Identity across chains: the TMDB id when the pipeline resolved one from an
+        // exact title match, the normalised title otherwise. Chains publish the same
+        // film under different titles ("Mutiny" at BioRex, "Mutiny - Lavastettu
+        // syylliseksi" at Finnkino), which no amount of title cleaning reconciles, and
+        // eating everything after a dash would merge "Mission: Impossible - Dead
+        // Reckoning" into "Mission: Impossible". A film only some venues have an id
+        // for still splits, the same as it does today.
+        const key = s.tmdbId ? `tmdb:${s.tmdbId}` : mergeKey(s.title);
+        shows.push({ ...s, eventId: key, _eid: s.eventId,
                      venueShort: v.short || s.theatre, provider: s.provider || v.provider });
       }
     });

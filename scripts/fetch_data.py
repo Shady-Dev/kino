@@ -14,6 +14,31 @@ PAGE_HEADERS = {
     "Accept-Encoding": "gzip",
 }
 ATTR_RE = re.compile(r"^\dD$|^(IMAX|4DX|Dolby|ScreenX|D-BOX|LUXE|iSense|HFR|Laser|PLF)", re.I)
+# A rating below this many votes is noise, not a verdict. Keep in step with
+# enrich_tmdb.MIN_VOTES so the two passes cannot disagree about the same film.
+TMDB_MIN_VOTES = 25
+
+
+def _tnorm(x):
+    """Title comparison key. Must behave like enrich_tmdb.norm()."""
+    x = re.sub(r"[^\w\s]", " ", (x or "").lower().strip(), flags=re.UNICODE)
+    return re.sub(r"\s+", " ", x).strip()
+
+
+def _pick(results, query):
+    """Choose a search hit. -> (hit, exact).
+
+    TMDB search sorts by popularity, so results[0] on a short title is whatever is
+    trending. Prefer a hit whose title or original title matches the query exactly and
+    fall back to the popularity order only when nothing does.
+    """
+    if not results:
+        return None, False
+    q = _tnorm(query)
+    for h in results:
+        if _tnorm(h.get("title")) == q or _tnorm(h.get("original_title")) == q:
+            return h, True
+    return results[0], False
 THEATER_SLUGS = {
     "Cine Atlas Tampere": "finnkino-cine-atlas",
     "Fantasia Jyväskylä": "finnkino-fantasia",
@@ -229,7 +254,16 @@ def main() -> int:
             tmdb_cache = {}
         th = {"Authorization": f"Bearer {tmdb_token}", "accept": "application/json",
               "user-agent": "kino-fetch/1.0"}
+        # An entry with no "x" was matched before the exact-title rule existed and its
+        # id cannot be re-judged after the fact, so drop it and search again. One-off.
+        stale = [k for k, v in tmdb_cache.items()
+                 if not (isinstance(v, dict) and "x" in v)]
+        for k in stale:
+            del tmdb_cache[k]
+        if stale:
+            print(f"[tmdb] dropped {len(stale)} entries matched by the old picker")
         looked = rechecked = 0
+        tmdb_weak, tmdb_thin = [], []
         today = datetime.date.today().isoformat()
         for fid, meta in films_meta.items():
             if not meta["q"]:
@@ -237,11 +271,14 @@ def main() -> int:
             cached = tmdb_cache.get(fid)
             cached = cached if isinstance(cached, dict) else None
             # Skip only if we already have a trailer, or we already re-checked today.
-            if cached and (cached.get("v") or cached.get("c") == today):
+            if (cached and "n" in cached and "x" in cached
+                    and (cached.get("v") or cached.get("c") == today)):
                 continue
             try:
                 mid = cached.get("i") if cached else None
                 va = (cached.get("r") or 0) if cached else 0
+                votes = (cached.get("n") or 0) if cached else 0
+                exact_id = bool(cached.get("x")) if cached else False
                 if not mid:
                     q = urllib.parse.quote(meta["q"])
                     u = f"https://api.themoviedb.org/3/search/movie?query={q}"
@@ -250,8 +287,15 @@ def main() -> int:
                     if not results and meta["y"]:
                         res = json.loads(http_get(u, th))
                         results = res.get("results") or []
-                    va = (results[0].get("vote_average") or 0) if results else 0
-                    mid = results[0].get("id") if results else None
+                    # Same rule as enrich_tmdb.pick(): prefer a hit whose title matches
+                    # the query exactly over TMDB's popularity order. The query here is
+                    # the original title plus the release year, so this usually lands.
+                    hit, exact_id = _pick(results, meta["q"])
+                    va = (hit.get("vote_average") or 0) if hit else 0
+                    votes = (hit.get("vote_count") or 0) if hit else 0
+                    mid = hit.get("id") if hit else None
+                    if hit and not exact_id:
+                        tmdb_weak.append(f"{meta['q']} -> {hit.get('title')}")
                 yt = ""
                 if mid:
                     try:
@@ -266,7 +310,13 @@ def main() -> int:
                                 break
                     except Exception as e:
                         print(f"[tmdb-videos] {meta['q']}: {e}")
-                tmdb_cache[fid] = {"r": round(va, 1) if va else 0, "v": yt,
+                # A rating needs votes: a premiere with three of them shows a clean
+                # 10.0, which reads as a verdict. Same floor as enrich_tmdb.
+                shown = round(va, 1) if va and votes >= TMDB_MIN_VOTES else 0
+                if va and not shown:
+                    tmdb_thin.append(f"{meta['q']} ({round(va, 1)} / {votes} votes)")
+                tmdb_cache[fid] = {"r": shown, "n": votes, "v": yt,
+                                   "x": bool(mid) and exact_id,
                                    "i": mid or "", "c": today}
                 if cached:
                     rechecked += 1
@@ -276,14 +326,28 @@ def main() -> int:
             except Exception as e:
                 print(f"[tmdb] {meta['q']}: {e}")
         cache_p.write_text(json.dumps(tmdb_cache))
-        print(f"[tmdb] {looked} new lookups, {rechecked} re-checks, cache {len(tmdb_cache)}")
+        if tmdb_weak:
+            print(f"[tmdb] weak match, no exact title ({len(tmdb_weak)}): "
+                  + " | ".join(sorted(tmdb_weak)))
+        if tmdb_thin:
+            print(f"[tmdb] rating held back, under {TMDB_MIN_VOTES} votes "
+                  f"({len(tmdb_thin)}): " + " | ".join(sorted(tmdb_thin)))
+        mergeable = sum(1 for c in tmdb_cache.values()
+                        if isinstance(c, dict) and c.get("x") and c.get("i"))
+        print(f"[tmdb] {looked} new lookups, {rechecked} re-checks, "
+              f"cache {len(tmdb_cache)}, {mergeable} mergeable by id")
         def _rating(c):
             return (c.get("r") if isinstance(c, dict) else c) or 0
         for shows in per_site.values():
             for sh in shows:
-                v = _rating(tmdb_cache.get(sh["eventId"]))
+                c = tmdb_cache.get(sh["eventId"])
+                v = _rating(c)
                 if v:
                     sh["tmdb"] = v
+                # Cross-chain film identity for the combined city view. Exact matches
+                # only: a weak id would merge two different films into one row.
+                if isinstance(c, dict) and c.get("x") and c.get("i"):
+                    sh["tmdbId"] = c["i"]
         for fid, entry in films_full.items():
             c = tmdb_cache.get(fid)
             if isinstance(c, dict) and c.get("v"):
