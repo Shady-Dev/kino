@@ -1,0 +1,33 @@
+name: probe (throwaway)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python3 - <<'PY' > probe-orion.txt
+          import re, urllib.request
+          UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+          req = urllib.request.Request("https://cinemaorion.fi/", headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"})
+          page = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+          print("bytes", len(page), "tables", page.count("kinola-day"))
+          rows = re.findall(r"<tr\b[^>]*>(.*?)</tr>", page, re.S)
+          print("rows", len(rows))
+          cells = re.findall(r"<td\b[^>]*class=['\"][^'\"]*title[^'\"]*['\"][^>]*>(.*?)</td>", page, re.S)
+          print("title cells", len(cells))
+          for c in cells[:5]:
+              print("---")
+              print(re.sub(r"\s+", " ", c)[:700])
+          print("=== one whole row ===")
+          print(re.sub(r"\s+", " ", rows[1])[:1200] if len(rows) > 1 else "n/a")
+          PY
+          head -c 400 probe-orion.txt
+          git config user.name kino-bot && git config user.email a@b.c
+          git add probe-orion.txt
+          git commit -m "probe: orion title cell structure (throwaway)"
+          for i in 1 2 3; do git pull --rebase --autostash -q origin main && git push -q && exit 0; sleep 5; done
+          echo "::error::push failed"; exit 1
