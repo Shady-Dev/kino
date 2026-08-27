@@ -12,6 +12,10 @@ import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
 DATA = pathlib.Path("data")
 CACHE = DATA / "tmdb-titles.json"
+# id -> localized name, one map per language. TMDB's Finnish names are real translations
+# (18 of 19 differ from English, probed 2026-08-27), so the client can render genres in
+# either language from ids alone -- which also fixes English mode showing Finnish genres.
+GENRES = DATA / "tmdb-genres.json"
 EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
 SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
 UA = "kino-enrich/1.0"
@@ -160,6 +164,21 @@ def main() -> int:
         print(f"[enrich] dropped {len(overridden)} weak entries that now have an alias: "
               + " | ".join(sorted(overridden)))
 
+    # Two requests per run, not per film. Written for the client to render genre names in
+    # either language; ids on a show mean nothing without it.
+    names = {}
+    for lang, slot in (("fi-FI", "fi"), ("en-US", "en")):
+        try:
+            g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}", th)
+            names[slot] = {str(x["id"]): x["name"] for x in (g.get("genres") or [])}
+        except Exception as e:
+            print(f"[enrich] genre list {lang}: {e}")
+    if names.get("fi") and names.get("en"):
+        body = json.dumps(names, ensure_ascii=False, indent=1) + "\n"
+        if not GENRES.exists() or GENRES.read_text(encoding="utf-8") != body:
+            GENRES.write_text(body, encoding="utf-8")
+            print(f"[enrich] genre names written ({len(names['fi'])} genres)")
+
     files = [p for p in sorted(DATA.glob("area-*.json"))
              if not p.name.startswith(SKIP_PREFIXES)]
     titles = {}
@@ -181,7 +200,7 @@ def main() -> int:
         # "n" (vote count) arrived with the MIN_VOTES gate: an entry without it carries
         # an ungated rating, so treat it as incomplete and re-check once.
         complete = (isinstance(c, dict) and ("fi" in c or "en" in c)
-                    and "p" in c and "n" in c and "x" in c)
+                    and "p" in c and "n" in c and "x" in c and "g" in c)
         if isinstance(c, dict) and complete and (c.get("v") or c.get("c") == today):
             continue
         try:
@@ -189,6 +208,7 @@ def main() -> int:
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
             votes = (c.get("n") or 0) if isinstance(c, dict) else 0
             exact_id = bool(c.get("x")) if isinstance(c, dict) else False
+            gids = (c.get("g") or []) if isinstance(c, dict) else []
             poster = (c.get("p") or "") if isinstance(c, dict) else ""
             alias = aliases.get(k)
             if not mid and alias and str(alias).isdigit():
@@ -233,6 +253,11 @@ def main() -> int:
                         if "vote_count" in d:
                             votes = d.get("vote_count") or 0
                             rating = d.get("vote_average") or 0
+                        # Genre ids cost nothing: they are in the response this pass
+                        # already fetches for the synopsis. Ids, not names, so one
+                        # id->name map per language covers every film.
+                        if d.get("genres"):
+                            gids = [g["id"] for g in d["genres"] if g.get("id")]
                         if slot == "fi":
                             syn_fi = text
                             if text:
@@ -260,7 +285,7 @@ def main() -> int:
             # Only those are safe to merge films on: a weak id would fold two different
             # films into one row, which is worse than showing two rows.
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
-                        "i": mid or "", "c": today,
+                        "g": gids, "i": mid or "", "c": today,
                         "fi": syn_fi, "en": syn_en, "p": poster}
             rechecked += 1 if isinstance(c, dict) else 0
             looked += 0 if isinstance(c, dict) else 1
@@ -323,6 +348,11 @@ def main() -> int:
             # ("Mutiny" vs "Mutiny - Lavastettu syylliseksi"), which no title key fixes.
             if c.get("x") and c.get("i") and s.get("tmdbId") != c["i"]:
                 s["tmdbId"] = c["i"]; changed = True
+            # Genres the client can localize, and the only reliable signal for the kids
+            # filter: provider genre strings disagree across chains and use four spellings
+            # for the family genre alone.
+            if c.get("g") and s.get("gids") != c["g"]:
+                s["gids"] = c["g"]; changed = True
         if changed:
             p.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
             touched += 1
