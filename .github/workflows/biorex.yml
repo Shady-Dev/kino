@@ -34,6 +34,12 @@ jobs:
           python3 scripts/providers/fetch_etiketti.py > run-etiketti.log 2>&1
           echo "exit=$?" >> run-etiketti.log
           tail -5 run-etiketti.log
+      - name: Fetch Riviera
+        run: |
+          set +e
+          python3 scripts/providers/fetch_riviera.py > run-riviera.log 2>&1
+          echo "exit=$?" >> run-riviera.log
+          tail -4 run-riviera.log
       - name: Enrich with TMDB
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
@@ -45,7 +51,7 @@ jobs:
       - name: Commit data and log
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-biorex.log run-nexxo.log run-etiketti.log run-enrich.log
+          git add data run-biorex.log run-nexxo.log run-etiketti.log run-riviera.log run-enrich.log
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do
@@ -58,4 +64,4 @@ jobs:
             echo "::error::could not push after 3 attempts"; exit 1
           fi
       - name: Fail if a provider failed
-        run: grep -q "exit=0" run-biorex.log && grep -q "exit=0" run-nexxo.log && grep -q "exit=0" run-etiketti.log
+        run: grep -q "exit=0" run-biorex.log && grep -q "exit=0" run-nexxo.log && grep -q "exit=0" run-etiketti.log && grep -q "exit=0" run-riviera.log
