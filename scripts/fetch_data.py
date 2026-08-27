@@ -1,5 +1,4 @@
 """Fetch Finnkino schedule via digital-api (Vista OCAPI) and write JSON into data/."""
-# trigger: 2026-08-26 populate TMDB youtube trailer keys into tmdb.json cache
 import datetime, gzip, json, os, re, sys, time, pathlib
 import urllib.request
 import urllib.parse
@@ -141,7 +140,6 @@ def main() -> int:
     per_site = {s["id"]: [] for s in sites}
     films_meta = {}
     films_full = {}
-    raw_sample = None
     today = datetime.date.today()
     for d in range(7):
         date = (today + datetime.timedelta(days=d)).isoformat()
@@ -150,10 +148,6 @@ def main() -> int:
         except Exception as e:
             print(f"[schedule] {date} failed: {e}", file=sys.stderr); continue
         rd = data.get("relatedData", {})
-        if d == 0:
-            (out / "attrs.json").write_text(json.dumps(
-                {str(a.get("id")): (t(a, "shortName", "text") or t(a, "name", "text"))
-                 for a in rd.get("attributes", [])}, ensure_ascii=False, indent=1), encoding="utf-8")
         films = {str(f["id"]): f for f in rd.get("films", [])}
         genmap = {str(g["id"]): t(g, "name", "text") for g in rd.get("genres", [])}
         scr = {str(s["id"]): s for s in rd.get("screens", [])}
@@ -186,8 +180,6 @@ def main() -> int:
             if fid and fid not in films_meta:
                 films_meta[fid] = {"q": t(film, "originalTitle", "text") or t(film, "title", "text"),
                                    "y": (film.get("releaseDate") or "")[:4]}
-                if raw_sample is None:
-                    raw_sample = film
                 trs = film.get("trailers") or []
                 tr_uri = ""
                 if trs and isinstance(trs[0], dict):
@@ -299,23 +291,30 @@ def main() -> int:
 
     (out / "films.json").write_text(
         json.dumps({"generated": now, "films": films_full}, ensure_ascii=False), encoding="utf-8")
-    if raw_sample is not None:
-        (out / "film-sample.json").write_text(
-            json.dumps(raw_sample, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[films] {len(films_full)} film entries")
 
+    written = kept = 0
     for sid, shows in per_site.items():
+        path = out / f"area-{sid}.json"
+        # A partial OCAPI response must not blank 17 venues, so an empty result keeps
+        # whatever is already committed (same rule as run.py for every other provider).
+        # A venue with no file yet still gets one: areas.json lists every site
+        # regardless of shows, so the picker would otherwise link to a 404.
+        if not shows and path.exists():
+            print(f"[schedule] {sid}: no shows, keeping previous file", file=sys.stderr)
+            kept += 1
+            continue
         # Dates actually present, so the UI can tell "no shows" apart from
         # "schedule not published yet" instead of showing one message for both.
         day_list = sorted({s["start"][:10] for s in shows if s.get("start")})
-        (out / f"area-{sid}.json").write_text(
+        path.write_text(
             json.dumps({"generated": now, "dates": day_list,
                         "horizon": day_list[-1] if day_list else "",
                         "shows": shows}, ensure_ascii=False), encoding="utf-8")
+        written += 1
+    print(f"[schedule] {written} venue files written, {kept} kept as-is")
     print("done")
     return 0
 
 if __name__ == "__main__":
     sys.exit(main())
-
-# trigger 1787708076
