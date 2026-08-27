@@ -148,6 +148,27 @@ Conventions worth keeping:
   weight instead, which also survives greyscale and colourblind vision. The room name
   truncates under the stub's 130 px ellipsis; the chip is `flex:0 0 auto` so it cannot be
   the part that gets eaten.
+- **Two glyphs, and only two** (2026-08-27). `Ⓐ` for anniskelu and `18+` for the
+  screening's age limit, on stubs only; the card keeps the words, because there is room
+  there. The case for a glyph is space, not decoration: a stub's label column is about
+  75 px and truncates, and "Anniskelu" eats a third of it. `LUXE`, `iSense`, `IMAX` and
+  `2D` stay words — they are brand names a visitor already reads, and an invented icon
+  for each would need a legend entry to say less than the word does. Strands stay words
+  for the same reason. Monochrome, drawn with `currentColor`: inside a stub the chain
+  rule is the only thing allowed to carry colour. Every glyph has a `title` and an
+  `aria-label` with the Finnish word, and `tagKey()` renders a legend **only when the
+  day's shows actually carry the tag**, so it never explains something off screen.
+- **`Anniskelu` does not mean 18+.** Finnkino's help centre is explicit: the mark means
+  drinks bought at the bar may be taken into that screening, those auditoriums count as
+  restaurant premises in law, and the separate **`K18 Anniskelunäytös`** is the one minors
+  cannot attend — alcohol is not served at S/7 family screenings even in a licensed room.
+  The data agrees: 608 of 2756 Finnkino showtimes carry `Anniskelu` (all 35 at one venue)
+  against 145 carrying `Annisk_K18`. So only `Annisk_K18` sets `age`. **This casts doubt
+  on the BioRex inference** that any Anniskelu tag means K-18, which currently puts a
+  K-18 badge on 99 screenings including an S-rated documentary. Their only hard evidence
+  is Seinäjoki's room named "2 REX (K-18)" — their own words, and that screening carried
+  no Anniskelu tag at all. Over-claiming tells someone a screening is closed to them when
+  it is not; verify with BioRex before keeping it.
 - **`method` is per-showtime and must not be rendered per-film.** 47 film/day
   combinations at a single venue mix an Anniskelu screening with normal ones, and the film
   card used to inherit the *first* showtime's tags, so "ANNISKELU" appeared above

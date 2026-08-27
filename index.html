@@ -224,6 +224,23 @@
      red chip inside a stub whose left rule is already Finnkino orange or Kotkan Leffat
      crimson would compete with the one thing colour does here. Separated by shape and
      weight instead, so it also survives greyscale and colourblind vision. */
+  /* Two glyphs, no more. A stub's label column is about 75 px and truncates, so
+     "Anniskelu" costs a third of it; the word survives on the card, where there is room.
+     Monochrome and drawn with currentColor on purpose: the chain rule is the only thing
+     in a stub allowed to carry colour. Never a glyph alone — each one has a title and an
+     aria-label with the Finnish word, and the legend spells both out. */
+  .gl{
+    display:inline-grid; place-items:center; margin-left:5px; flex:0 0 auto;
+    width:15px; height:15px; border-radius:50%;
+    border:1px solid currentColor; color:var(--ink);
+    font-size:.55rem; font-weight:800; letter-spacing:0; line-height:1;
+  }
+  .gl.age{width:auto; min-width:15px; padding:0 3px; border-radius:8px}
+  .stub .gl{color:var(--muted)}
+  .stub:hover .gl{color:inherit}
+  .tagkey{display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    font-size:.7rem; color:var(--muted)}
+  .tagkey .gl{color:var(--muted); margin-left:0; margin-right:4px}
   .agelim{
     display:inline-block; margin-left:6px; border:1px solid var(--line);
     border-radius:4px; padding:0 4px; font-size:.66rem; font-weight:800;
@@ -554,7 +571,8 @@
          notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.',
          onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
          showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
-         alreadyShown:'Menneet näytökset', allChains:'Kaikki' },
+         alreadyShown:'Menneet näytökset', allChains:'Kaikki',
+         keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
@@ -569,7 +587,8 @@
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
          showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
-         alreadyShown:'Past screenings', allChains:'All' }
+         alreadyShown:'Past screenings', allChains:'All',
+         keyAnniskelu:'licensed bar', keyAge:'age limit for this screening' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -1149,7 +1168,8 @@
   function renderTimes(){
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
-    const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
+    const timesLegend = (labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '')
+      + tagKey(state.shows);
     if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
     // The film cards label the venue and tint by chain in a combined view; this list
     // never did, so "Sali 14" named a room in one of five cinemas, with no colour and no
@@ -1167,7 +1187,7 @@
       const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
       return `<div class="trow">
         <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${ageChip(s)}</span></a>
+          <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${(s.method||'').split(' · ').map(glyphOf).join('')}${ageGlyph(s)}</span></a>
         <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
           <small>${[venue, s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
       </div>`;
@@ -1250,6 +1270,31 @@
   // one film at one venue can have both kinds on the same day.
   const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
   const ageChip = s => ageOf(s) ? `<span class="agelim">${ageOf(s)}</span>` : '';
+  // Glyphs for the two tags that repeat on every stub. Everything else stays a word:
+  // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
+  // each would need its own legend entry to say less than the word does.
+  const GLYPH = { anniskelu: ['A', 'Anniskelu'] };
+  const glyphOf = tag => {
+    const g = GLYPH[(tag || '').toLowerCase()];
+    return g ? `<span class="gl" title="${g[1]}" aria-label="${g[1]}">${g[0]}</span>` : '';
+  };
+  const ageGlyph = s => {
+    const a = ageOf(s);
+    if(!a) return '';
+    const n = a.replace(/[^0-9]/g, '') || a;
+    return `<span class="gl age" title="${a}" aria-label="${a}">${n}+</span>`;
+  };
+  // Only rendered when the day's shows actually carry these, so it never explains
+  // something that is not on screen.
+  function tagKey(shows){
+    const hasA = shows.some(s => /anniskelu/i.test(s.method || ''));
+    const hasAge = shows.some(s => ageOf(s));
+    if(!hasA && !hasAge) return '';
+    const bits = [];
+    if(hasA) bits.push(`<span><span class="gl">A</span>${L[state.lang].keyAnniskelu}</span>`);
+    if(hasAge) bits.push(`<span><span class="gl age">18+</span>${L[state.lang].keyAge}</span>`);
+    return `<div class="tagkey">${bits.join('')}</div>`;
+  }
 
   const labelVenues = shows =>
     (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
@@ -1298,7 +1343,7 @@
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
-    const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
+    const listLegend = (multiTheatre ? chainLegend(state.shows, 'top') : '') + tagKey(state.shows);
     // A film whose every screening has passed is not the same as one still to come. Rather
     // than dimming it in place, where it reads as a broken card, group them at the end
     // under one heading. Said once, not annotated on every card.
@@ -1335,13 +1380,15 @@
         const past = t.start < now;
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const where = t.venueShort || t.theatre.split(',')[0];
-        const own = tagsOf(t).filter(f => !common.includes(f)).join(' · ');
+        const ownTags = tagsOf(t).filter(f => !common.includes(f));
+        const own = ownTags.filter(f => !glyphOf(f)).join(' · ');
+        const glyphs = ownTags.map(glyphOf).join('') + ageGlyph(t);
         const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud), own]
           .filter(Boolean).join(' · ')
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
         const tint = multiTheatre && t.provider ? ` chain-${t.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${[loc, ageOf(t)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${ageChip(t)}</span>
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphs}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${f}</span>`).join('');
@@ -1440,9 +1487,9 @@
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${s.provider}` : '';
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${ageChip(s)}</span></a>`;
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${(s.method||'').split(' · ').map(glyphOf).join('')}${ageGlyph(s)}</span></a>`;
       }).join('') + '</div>').join('');
-    const legend = multi ? chainLegend(all) : '';
+    const legend = (multi ? chainLegend(all) : '') + tagKey(all);
     const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
