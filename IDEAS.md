@@ -913,8 +913,16 @@ four files plus five frontend edits, which is the thing to fix at six providers:
       `normTitle()`. 8 of 9 misses fixed.
 
 Still open from this pass:
-- [ ] A venue parsing **zero** showtimes now writes no file *and* fails the run. Watch for
-      a legitimately empty BioRex venue tripping it; that case used to write an empty file.
+- [x] `venues-{provider}.json` was rebuilt from live venues only, so a venue whose parse
+      broke silently vanished from the picker: its still-committed area file became
+      unreachable, and the health line stayed green because the venues file got a fresh
+      `generated`. Fixed 2026-08-28: the file now lists every venue of the site, and a
+      venue with no shows and no file gets an empty one — the same two rules
+      fetch_data.py already applied to Finnkino, for the reasons stated there. The file
+      is still only written when at least one venue produced shows, so a fully dead site
+      keeps its old `generated` and the health line can go stale honestly.
+- [ ] A whole site parsing **zero** showtimes fails the run (a single empty venue only
+      logs). Watch for a legitimately empty site tripping it.
 - [ ] **Repertory titles defeat the TMDB search**: "Trainspotting (1996)",
       "Vauvakino: La La Land", "KESÄKINO: Autofiktio", "BARNSÖNDAGAR: ..." all miss.
       `queries()` in enrich_tmdb.py should strip a trailing "(YYYY)" and known prefixes,

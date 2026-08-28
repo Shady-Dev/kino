@@ -16,10 +16,15 @@ exposes exactly two things:
 
 Written per site: data/area-{venueId}.json and data/venues-{provider}.json.
 
-A venue with no showtimes writes **no file**, so previously committed data stays up
-rather than the app going empty on a parse regression. That is also why an empty parse
-is logged loudly and counts as a failure: nothing else would notice, since the health
-line only sees a file's age, not whether it still has content.
+A venue with no showtimes keeps its previously committed area file, so the app does
+not go empty on a parse regression; a venue that never had a file gets an empty one,
+so the picker never links to a 404 (same two rules as fetch_data.py for Finnkino).
+venues-{provider}.json always lists **every** venue of the site: it is what the client
+builds its picker from, so dropping a failed venue would make its still-committed area
+file unreachable while the health line stays green — the silent failure this pipeline
+is designed against. An empty parse is still logged loudly and counts as a failure:
+nothing else would notice, since the health line only sees a file's age, not whether
+it still has content.
 """
 import datetime
 import importlib
@@ -48,28 +53,37 @@ def run_site(mod, site, now):
         print(f"[{label}] strand prefix split off {split} showtimes")
     synmerge.merge(OUT, per_venue, label)
 
-    live, total = [], 0
+    live = total = 0
     for v in site["venues"]:
-        shows = per_venue.get(v["id"])
-        if not shows:
+        shows = per_venue.get(v["id"]) or []
+        path = OUT / f"area-{v['id']}.json"
+        if not shows and path.exists():
             print(f"[{label}] {v['name']}: no showtimes, keeping previous data",
                   file=sys.stderr)
             continue
+        # No shows and no file yet (new venue whose first parse failed): write an
+        # empty file, or the picker below would link to a 404.
         shows.sort(key=lambda s: s["start"])
         synmerge.strip_helpers(shows)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})
-        (OUT / f"area-{v['id']}.json").write_text(json.dumps(
+        path.write_text(json.dumps(
             {"generated": now, "dates": days, "horizon": days[-1] if days else "",
              "shows": shows}, ensure_ascii=False), encoding="utf-8")
-        live.append({k: v[k] for k in ("id", "name", "short", "city")})
-        total += len(shows)
-        print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
+        if shows:
+            live += 1
+            total += len(shows)
+            print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
 
+    # Every venue, not just the fresh ones — see the module docstring. Written only
+    # when at least one venue produced shows, so a fully dead site does not stamp a
+    # fresh `generated` and green the health line on total failure.
     if live:
         (OUT / f"venues-{site['provider']}.json").write_text(json.dumps(
-            {"generated": now, "provider": site["provider"], "venues": live},
+            {"generated": now, "provider": site["provider"],
+             "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
+                        for v in site["venues"]]},
             ensure_ascii=False), encoding="utf-8")
-    return len(live), total
+    return live, total
 
 
 def main(argv) -> int:
