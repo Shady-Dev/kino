@@ -9,8 +9,10 @@ server-rendered and fetchable, so this parses the public pages:
 
 Adding another eTiketti cinema = an entry in SITES.
 """
-import datetime, html as html_mod, json, re, time, urllib.request
+import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -52,19 +54,11 @@ def _txt(x):
 
 
 def get(url, tries=3):
-    last = None
-    for n in range(tries):
-        try:
-            req = urllib.request.Request(url, headers={
-                "user-agent": UA, "accept-language": "fi-FI,fi;q=0.9",
-                "accept": "text/html,application/xhtml+xml"})
-            with urllib.request.urlopen(req, timeout=30) as r:
-                return r.read().decode("utf-8", "replace")
-        except Exception as e:
-            last = e
-            if n + 1 < tries:
-                time.sleep(5 * (n + 1))
-    raise last
+    """Server-rendered HTML. common.fetch supplies the retry: same tries=3 and the
+    same 5 s * n backoff and 30 s timeout this loop had, so behaviour is unchanged."""
+    return fetch(url, headers={
+        "user-agent": UA, "accept-language": "fi-FI,fi;q=0.9",
+        "accept": "text/html,application/xhtml+xml"}, tries=tries).decode("utf-8", "replace")
 
 
 def _lang(page):
