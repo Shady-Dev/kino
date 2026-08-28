@@ -278,7 +278,11 @@ def main() -> int:
             lang_attr = ", ".join(lang_list)
             rating_raw = t(rat.get(str(film.get("censorRatingId", "")), {}), "classification", "text")
             m = re.match(r"^\d+", rating_raw)
-            rating = f"K-{m.group(0)}" if m else rating_raw
+            # Only S and K-n are ratings. OCAPI also ships "Tulossa" and "-" here, and a
+            # raw pass-through rendered them in the age-limit chip and silently fell out
+            # of every rating === test (the kids filter, the planned K-18 filter). If
+            # "coming soon" is ever worth showing, it belongs next to the premiere chip.
+            rating = f"K-{m.group(0)}" if m else ("S" if rating_raw == "S" else "")
             site_name = next((x["name"] for x in sites if x["id"] == site_id), "")
             slug = THEATER_SLUGS.get(site_name, "")
             fid = str(s.get("filmId", ""))

@@ -953,6 +953,12 @@ Still open from this pass:
       — check whether it was ever sent / chase the reply.
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the two providers that block datacenter IPs.
+- [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
+      classification text passed through raw when it did not start with a digit, and the
+      live values include "Tulossa" and "-" (verified in committed data: 5 and 7
+      showtimes), which rendered inside the age-limit chip and silently failed every
+      `rating ===` comparison. Same bug class as the Vista "K-7 (4)" gotcha. Anything
+      else now blanks; "coming soon" is premiere-chip material, not a rating.
 - [ ] Finnkino prices via the ticket-types endpoint (Kinoset + Akseli already show prices)
 - [ ] Commit run.log only on failure (less commit noise)
 - [x] Finnkino no longer publishes an **empty** area file when a venue returns no shows: it
