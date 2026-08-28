@@ -1016,24 +1016,28 @@
     syncFav();
   }
 
-  async function loadAreas(){
+  async function loadAreas(areasPromise){
     try {
-      const data = await fetchJSON('data/areas.json');
+      const data = await (areasPromise || fetchJSON('data/areas.json'));
       const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
         .map(a => ({ ...a, provider:'finnkino' }));
       providerMeta = { finnkino: { generated: data.generated, venues: areas.length } };
       if(!areas.length) throw new Error('empty');
       // Extra providers, each optional: a missing or broken file must not take the app down.
+      // Fetched in parallel — awaiting eight files one at a time was most of the startup
+      // waterfall on mobile. Promise.all keeps array order, so the picker order is stable.
       const extra = [];
       // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
-      for(const prov of PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino')){
-        try {
-          const j = await fetchJSON(`data/venues-${prov}.json`);
-          const vs = (j.venues || []).filter(v => v.id && v.name);
-          for(const v of vs) extra.push({ ...v, provider: prov });
-          if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
-        } catch(_) {}
-      }
+      const provIds = PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino');
+      const provFiles = await Promise.all(provIds.map(
+        prov => fetchJSON(`data/venues-${prov}.json`).catch(() => null)));
+      provIds.forEach((prov, i) => {
+        const j = provFiles[i];
+        if(!j) return;
+        const vs = (j.venues || []).filter(v => v.id && v.name);
+        for(const v of vs) extra.push({ ...v, provider: prov });
+        if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
+      });
       state.mode = 'json';
       state.generated = data.generated;
       fillAreaSelect(areas.concat(extra));
@@ -1820,9 +1824,18 @@
   (async () => {
     try {
       buildDays();
+      // Genre names are cosmetic: genresOf falls back to provider strings until the map
+      // arrives, and ensureGenres invalidates every _hay on arrival, so this never
+      // belongs on the critical path.
+      ensureGenres();
+      // areas.json downloads while providers.json is applied. loadProviders must finish
+      // before loadAreas: the venues loop iterates PROVIDERS and fillAreaSelect labels
+      // venues from it, and the hardcoded fallback may lag the registry.
+      const areasP = fetchJSON('data/areas.json');
+      areasP.catch(() => {});   // handled inside loadAreas; this only silences the
+                                // transient unhandled-rejection the pre-start would log
       await loadProviders();
-      await ensureGenres();
-      await loadAreas();
+      await loadAreas(areasP);
       if(state.lang === 'en'){ await ensureFilms(); }
       langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
       fiDay = L[state.lang].days;

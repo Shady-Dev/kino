@@ -1011,6 +1011,16 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   rule proves wrong in practice. Watch the filter first.
 
 ## Open — app
+- [x] **Startup fetches are concurrent** (2026-08-28). First paint waited on ~12 serial
+      round trips: providers → genres → areas.json → eight venues files one at a time,
+      each a full RTT on mobile. Now the venues files load with Promise.all (array order
+      preserved, so picker order is stable), areas.json downloads while providers.json is
+      applied, and tmdb-genres.json is off the critical path entirely — genresOf falls
+      back to provider strings and ensureGenres invalidates every _hay when the map
+      lands, so a search typed early still re-indexes. The one ordering rule, kept and
+      commented in the boot sequence: loadProviders must finish before loadAreas, which
+      iterates PROVIDERS — racing it against the hardcoded fallback could drop a newly
+      registered provider's venues from the picker.
 - [ ] **"K-18" quick filter**, the counterpart to "Lapsille". Must show only screenings
       that are *certainly* 18+, which is **not** the same as anniskelu: plain `Anniskelu`
       marks a licensed auditorium and sits on S- and K-7-rated films (460 Finnkino
