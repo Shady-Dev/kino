@@ -1011,6 +1011,12 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   rule proves wrong in practice. Watch the filter first.
 
 ## Open — app
+- [x] **Footer, loading and error strings localized** (2026-08-28). renderStatus built
+      the line under every Finnish screen from English literals, and the two loading
+      states plus the load-failure message never went through `L`. Now they do; the
+      booking call to action uses `{host}` template strings per book mode. The static
+      markup's loading text is Finnish (the default), swapped from `L` at boot for EN
+      prefs. Finnish copy for the act strings is first-draft — polish welcome.
 - [x] **Provider strings escape at the innerHTML boundary** (2026-08-28). Every adapter
       does `TAGS_RE.sub` then `html.unescape`, so a source page's entities arrive in the
       JSON as live HTML metacharacters — a stored-XSS surface fed by nine third-party

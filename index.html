@@ -513,7 +513,7 @@
 <div id="sheet" role="dialog" aria-modal="true"></div>
 
 <main id="main">
-  <div class="status"><div class="reel"></div>Loading theatres…</div>
+  <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
 </main>
 
 <div id="sources"></div>
@@ -610,7 +610,15 @@
          showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
-         premiere:'Ensi-ilta', votes:'ääntä' },
+         premiere:'Ensi-ilta', votes:'ääntä',
+         loadingTheatres:'Ladataan teattereita…', loadingSchedule:'Ladataan näytöksiä…',
+         loadFail:'Aikataulua ei juuri nyt saatu ladattua.',
+         dataLabel:'Aikataulut', updated:'päivitetty',
+         actCombined:'Napauta näytöstä avataksesi teatterin oman sivun',
+         actDoor:'Liput myydään ovelta · {host}',
+         actReserve:'Napauta näytöstä varataksesi paikat — {host}',
+         actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
+         actBuy:'Napauta näytöstä ostaaksesi liput — {host}' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -628,7 +636,15 @@
          showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
-         premiere:'Premiere', votes:'votes' }
+         premiere:'Premiere', votes:'votes',
+         loadingTheatres:'Loading theatres…', loadingSchedule:'Loading schedule…',
+         loadFail:"Couldn't load the schedule right now.",
+         dataLabel:'Schedule data', updated:'updated',
+         actCombined:'Tap a showtime to open the cinema\u2019s own page',
+         actDoor:'Tickets are sold at the door · {host}',
+         actReserve:'Tap a showtime to reserve seats on {host}',
+         actList:'Tap a showtime to open the programme on {host}',
+         actBuy:'Tap a showtime to buy tickets on {host}' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
@@ -909,7 +925,7 @@
     const log = attempts.length
       ? `<br><br><small style="text-align:left;display:inline-block">${attempts.map(a=>'· '+a).join('<br>')}</small>`
       : `<br><small>${esc(e.message||e)}</small>`;
-    return `<div class="status">Couldn't load the schedule right now.${log}</div>`;
+    return `<div class="status">${L[state.lang].loadFail}${log}</div>`;
   }
   // Every provider string crosses an innerHTML boundary somewhere, and every adapter
   // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
@@ -1140,7 +1156,7 @@
   }
 
   async function loadSchedule(){
-    main.innerHTML = '<div class="status"><div class="reel"></div>Loading schedule…</div>';
+    main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
       if(state.mode === 'json'){
         if(!jsonCache[state.area]){
@@ -1220,13 +1236,14 @@
     // book mode per provider: door = sold at the door, reserve = free seat
     // reservation rather than payment. From the registry, not from an id test.
     const bk = BOOK[v.provider] || 'buy';
-    const act = combined ? 'Tap a showtime to open the cinema\u2019s own page'
-      : bk === 'door' ? `Tickets are sold at the door · ${host}`
-      : bk === 'reserve' ? `Tap a showtime to reserve seats on ${host}`
-      : bk === 'list' ? `Tap a showtime to open the programme on ${host}`
-      : `Tap a showtime to buy tickets on ${host}`;
+    const T = L[state.lang];
+    const act = (combined ? T.actCombined
+      : bk === 'door' ? T.actDoor
+      : bk === 'reserve' ? T.actReserve
+      : bk === 'list' ? T.actList
+      : T.actBuy).replace('{host}', host);
     document.querySelector('footer').textContent =
-      `Schedule data: ${src} · updated ${stamp} · ${act}`;
+      `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
   }
 
   /* ---------- render ---------- */
@@ -1841,6 +1858,10 @@
   /* ---------- init ---------- */
   (async () => {
     try {
+      // The static markup says this in Finnish, the default; EN prefs re-say it here
+      // before the first fetch resolves.
+      if(state.lang !== 'fi')
+        main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
       buildDays();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
       // arrives, and ensureGenres invalidates every _hay on arrival, so this never
