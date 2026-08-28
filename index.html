@@ -919,15 +919,27 @@
     return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
   };
   const jsonCache = {};
+  const FETCH_MS = 8000;
   async function fetchJSON(path){
     // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
     // schedule up to 10 min stale is immaterial and the stale banner covers the
     // pathological case. The buster made every fetch a unique URL, so the SW cached a
     // fresh copy of every file per app open (tens of MB on a phone, evicted only on a
     // CACHE bump) and the HTTP cache never served anything.
-    const r = await fetch(path);
-    if(!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
+    //
+    // fetch() has no timeout of its own, so a connection that opens and then stalls --
+    // the normal shape of a phone leaving coverage -- never settles and never rejects:
+    // the spinner spins until the app is closed, with no error and nothing to retry.
+    // Abort at FETCH_MS so the catch in the caller can draw netErrorHtml instead.
+    const ac = new AbortController();
+    const t = setTimeout(() => ac.abort(), FETCH_MS);
+    try {
+      const r = await fetch(path, { signal: ac.signal });
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } finally {
+      clearTimeout(t);
+    }
   }
 
   // Finnkino names carry the city as the last word ("Plevna Tampere"); BioRex ships city

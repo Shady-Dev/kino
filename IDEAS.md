@@ -994,6 +994,12 @@ Still open from this pass:
       itself imports. The five adapters with their own get() loops migrate to common
       opportunistically, one per change — nine working parsers do not get touched in
       one sweep.
+- [x] `fetchJSON` aborts after 8 s (2026-08-28): `fetch()` has no timeout, so a connection
+      that opens and then stalls — a phone walking out of coverage, not a refused one —
+      never settled and never rejected. The spinner ran forever with no error and nothing
+      to retry, which reads as a broken app rather than a broken network. AbortController
+      lets the existing `netErrorHtml` catch fire. 8 s because the files are small and a
+      slow 3G first byte is still well inside it.
 - [x] Atomic data writes (2026-08-28): every writer went through bare `write_text`, so a
       run killed mid-write left truncated JSON. Harmless on Actions (ephemeral runner),
       real on the Mac: localfetch.sh writes into the checked-out repo and the next run's
