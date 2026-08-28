@@ -852,7 +852,7 @@
     if(!names.length){ el.textContent = ''; return; }
     const parts = names.map(p => {
       const m = providerMeta[p], h = ageHours(m.generated);
-      const nm = (SOURCE[p] || [p])[0];
+      const nm = esc((SOURCE[p] || [p])[0]);
       if(h === null) return `<span class="src bad">${nm} ?</span>`;
       const cls = h > STALE_H ? 'src bad' : 'src';
       const mark = h > STALE_H ? '\u26a0 ' : '';
@@ -908,9 +908,25 @@
     }
     const log = attempts.length
       ? `<br><br><small style="text-align:left;display:inline-block">${attempts.map(a=>'· '+a).join('<br>')}</small>`
-      : `<br><small>${e.message||e}</small>`;
+      : `<br><small>${esc(e.message||e)}</small>`;
     return `<div class="status">Couldn't load the schedule right now.${log}</div>`;
   }
+  // Every provider string crosses an innerHTML boundary somewhere, and every adapter
+  // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
+  // metacharacters — a stored-XSS surface fed by nine third-party sites, and a rendering
+  // bug on harmless titles ("Movie &lt;3"). Escape at the sink, never in the adapters:
+  // the verbatim title is the key for normTitle(), films-extra.json and tmdb-aliases.
+  const esc = v => String(v ?? '').replace(/[&<>"']/g,
+    ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  // href/src values also come from provider JSON. esc() stops attribute breakout; this
+  // additionally rejects any scheme that is not http(s), so a hostile booking URL cannot
+  // be javascript: or data:. Scheme-less (repo-relative poster paths) stays allowed.
+  const safeUrl = u => {
+    u = String(u || '').trim();
+    if(!u) return '';
+    const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
+    return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
+  };
   const jsonCache = {};
   async function fetchJSON(path){
     // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
@@ -992,14 +1008,14 @@
     const cities = [...byCity.keys()].sort((x,y)=>x.localeCompare(y,'fi'));
     cityGroups = {};
     for(const c of cities) cityGroups[c] = byCity.get(c).map(a => a.id);
-    const opt = a => `<option value="${a.id}">${labelOf(a)}</option>`;
+    const opt = a => `<option value="${esc(a.id)}">${esc(labelOf(a))}</option>`;
     // Cities with more than one screen get a combined entry at the top of their group.
     areaSel.innerHTML = cities.map(c => {
       const vs = byCity.get(c).sort((x,y)=>labelOf(x).localeCompare(labelOf(y),'fi'));
       const all = vs.length > 1
-        ? `<option value="city:${c}">${L[state.lang].allIn} ${c} (${vs.length})</option>`
+        ? `<option value="city:${esc(c)}">${L[state.lang].allIn} ${esc(c)} (${vs.length})</option>`
         : '';
-      return `<optgroup label="${c}">${all}${vs.map(opt).join('')}</optgroup>`;
+      return `<optgroup label="${esc(c)}">${all}${vs.map(opt).join('')}</optgroup>`;
     }).join('');
   }
   function fillAreaSelect(areas){
@@ -1299,13 +1315,13 @@
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       const where = venueName(s);
-      const tint = tinted && s.provider ? ` chain-${s.provider}` : '';
-      const venue = multi && where ? `<span class="theatre-tag">${where}</span>` : '';
+      const tint = tinted && s.provider ? ` chain-${esc(s.provider)}` : '';
+      const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
       return `<div class="trow">
-        <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${s.aud}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>
-        <div class="tinfo" data-id="${s.eventId}"><b>${disp(s)}</b>
-          <small>${[venue, s.rating, s.len ? s.len+' '+L[state.lang].min : '', s.method, langTxt(s.lang)].filter(Boolean).join(' · ')}</small></div>
+        <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
+          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>
+        <div class="tinfo" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
+          <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></div>
       </div>`;
     }).join('');
   }
@@ -1319,7 +1335,7 @@
     const interactive = (extraClass || '').includes('top');
     if(!interactive){
       return `<div class="legend ${extraClass || ''}">${chains
-        .map(c => `<span class="lg chain-${c}">${(SOURCE[c] || [c])[0]}</span>`).join('')}</div>`;
+        .map(c => `<span class="lg chain-${esc(c)}">${esc((SOURCE[c] || [c])[0])}</span>`).join('')}</div>`;
     }
     // "Kaikki" only appears while something is filtered: an always-on reset that never
     // does anything is just noise in the row.
@@ -1328,8 +1344,8 @@
     return `<div class="legend top" role="group" aria-label="Suodata ketjun mukaan">${chains
       .map(c => {
         const on = !state.chains || state.chains.has(c);
-        return `<button class="lg-btn chain-${c}${on ? ' on' : ''}" data-chain="${c}"
-                  aria-pressed="${on}">${(SOURCE[c] || [c])[0]}</button>`;
+        return `<button class="lg-btn chain-${esc(c)}${on ? ' on' : ''}" data-chain="${esc(c)}"
+                  aria-pressed="${on}">${esc((SOURCE[c] || [c])[0])}</button>`;
       }).join('') + reset}</div>`;
   }
 
@@ -1385,7 +1401,7 @@
   // auditorium is 18+ even when the film is K-12. It has to sit on the showtime, since
   // one film at one venue can have both kinds on the same day.
   const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
-  const ageChip = s => ageOf(s) ? `<span class="agelim">${ageOf(s)}</span>` : '';
+  const ageChip = s => ageOf(s) ? `<span class="agelim">${esc(ageOf(s))}</span>` : '';
   // Glyphs for the two tags that repeat on every stub. Everything else stays a word:
   // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
   // each would need its own legend entry to say less than the word does.
@@ -1420,9 +1436,9 @@
     const n = m.votes || 0;
     const thin = n && n < VOTE_SOLID ? ' thin' : '';
     const lbl = n ? `${v} · ${n} ${L[state.lang].votes}` : `${v}`;
-    return `<span class="ring${thin}" style="--v:${Math.round(v * 10)}" title="${lbl}"`
-      + ` aria-label="${lbl}"><b>${v}</b></span>`
-      + (n ? `<span class="votes">${shortVotes(n)}</span>` : '');
+    return `<span class="ring${thin}" style="--v:${Math.round(v * 10)}" title="${esc(lbl)}"`
+      + ` aria-label="${esc(lbl)}"><b>${esc(v)}</b></span>`
+      + (n ? `<span class="votes">${esc(shortVotes(n))}</span>` : '');
   };
 
   const premiereChip = m => {
@@ -1437,7 +1453,7 @@
     const a = ageOf(s);
     if(!a) return '';
     const n = a.replace(/[^0-9]/g, '') || a;
-    return `<span class="gl age" title="${a}" aria-label="${a}">${n}+</span>`;
+    return `<span class="gl age" title="${esc(a)}" aria-label="${esc(a)}">${esc(n)}+</span>`;
   };
   // Only rendered when the day's shows actually carry these, so it never explains
   // something that is not on screen.
@@ -1529,8 +1545,9 @@
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
       const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
-      const poster = m.img
-        ? `<img class="poster" src="${m.img}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
+      const posterUrl = safeUrl(m.img);
+      const poster = posterUrl
+        ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
       // method is per *showtime*, so a pill at film level claimed something about every
@@ -1560,15 +1577,15 @@
         const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud), own]
           .filter(Boolean).join(' · ')
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
-        const tint = tintedList && t.provider ? ` chain-${t.provider}` : '';
-        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${t.url}" target="_blank" rel="noopener" title="Buy tickets — ${[loc, ageOf(t)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow(glyphs)}</span>
+        const tint = tintedList && t.provider ? ` chain-${esc(t.provider)}` : '';
+        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="Buy tickets — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span>
                 </a>`;
       }).join('');
-      const fmts = common.map(f => `<span class="fmt">${f}</span>`).join('');
+      const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
       const meta1 = [
         scoreRing(m),
-        m.rating ? `<span class="rating">${m.rating}</span>` : '',
+        m.rating ? `<span class="rating">${esc(m.rating)}</span>` : '',
         premiereChip(m),
         fmts
       ].filter(Boolean).join('');
@@ -1576,21 +1593,21 @@
       // The past-times toggle sits on the meta line, not in the stub grid: a ticket-shaped
       // cell that is not a ticket reads as a broken showtime.
       const pastToggle = (gone.length && ahead.length)
-        ? `<button class="pastlink" data-reveal="${m.eventId}" aria-expanded="${open}">`
+        ? `<button class="pastlink" data-reveal="${esc(m.eventId)}" aria-expanded="${open}">`
           + (open ? L[state.lang].hidePast : `+${gone.length} ${L[state.lang].showPast}`)
           + `</button>`
         : '';
       const meta2 = [
-        genresOf(m) ? `<span>${genresOf(m)}</span>` : '',
-        m.len ? `<span>${m.len} min</span>` : '',
-        m.lang ? `<span>${langTxt(m.lang)}</span>` : '',
+        genresOf(m) ? `<span>${esc(genresOf(m))}</span>` : '',
+        m.len ? `<span>${esc(m.len)} min</span>` : '',
+        m.lang ? `<span>${esc(langTxt(m.lang))}</span>` : '',
         price ? `<span>${price}</span>` : '',
         pastToggle
       ].filter(Boolean).join('');
-      return `<article class="movie" data-id="${m.eventId}">
+      return `<article class="movie" data-id="${esc(m.eventId)}">
                 ${poster}
                 <div class="info">
-                  <h2 class="title">${title}</h2>
+                  <h2 class="title">${esc(title)}</h2>
                   <div class="meta1">${meta1}</div>
                   ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
                   <div class="${stubClass}">${stubs}</div>
@@ -1632,13 +1649,13 @@
     // than showing nothing.
     const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : (f.s.fi || f.s.en))) || '';
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
-      .map(x => `<span class="fmt">${x}</span>`).join('');
+      .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
     const sheetPrice = priceLabel(all);
     const meta1 = [
       scoreRing(sample),
-      sample.rating ? `<span class="rating">${sample.rating}</span>` : '',
+      sample.rating ? `<span class="rating">${esc(sample.rating)}</span>` : '',
       premiereChip({ ...sample, times: all }),
-      sample.len ? `<span class="fmt">${sample.len} ${L[lang].min}</span>` : '',
+      sample.len ? `<span class="fmt">${esc(sample.len)} ${L[lang].min}</span>` : '',
       sheetPrice ? `<span class="fmt">${sheetPrice}</span>` : '',
       fmts
     ].filter(Boolean).join('');
@@ -1661,23 +1678,24 @@
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = venueName(s);
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
-        const tint = multi && s.provider ? ` chain-${s.provider}` : '';
-        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${s.url}" target="_blank" rel="noopener" title="${[loc, ageOf(s)].filter(Boolean).join(' · ')}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${loc}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
+        const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
+        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
-    const poster = sample.img ? `<img class="poster" src="${sample.img}" alt="">` : '';
+    const sheetPoster = safeUrl(sample.img);
+    const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
       <button class="sheet-close" aria-label="Sulje">✕</button>
       <div class="sheet-head">${poster}
-        <div><div class="sheet-title">${title}</div>
+        <div><div class="sheet-title">${esc(title)}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
-          ${genresOf(sample) ? `<div class="meta2">${genresOf(sample)}</div>` : ''}
-          ${(f.tr || sample.tr) ? `<a class="trailer" href="${f.tr || sample.tr}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
+          ${genresOf(sample) ? `<div class="meta2">${esc(genresOf(sample))}</div>` : ''}
+          ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">${legend}
-        ${syn ? `<p class="syn">${syn}</p>` : ''}
+        ${syn ? `<p class="syn">${esc(syn)}</p>` : ''}
         <div class="sheet-days">${days}</div>
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;

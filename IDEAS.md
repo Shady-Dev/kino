@@ -1011,6 +1011,19 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   rule proves wrong in practice. Watch the filter first.
 
 ## Open — app
+- [x] **Provider strings escape at the innerHTML boundary** (2026-08-28). Every adapter
+      does `TAGS_RE.sub` then `html.unescape`, so a source page's entities arrive in the
+      JSON as live HTML metacharacters — a stored-XSS surface fed by nine third-party
+      sites, and a rendering bug on harmless titles ("Movie &lt;3" ate the rest of its
+      line). One `esc()` (`&<>"'`) applied at every interpolation of provider data, plus
+      `safeUrl()` on every href/src from provider JSON (rejects non-http(s) schemes, so
+      a hostile booking URL cannot be `javascript:`; scheme-less stays allowed for
+      repo-relative poster paths). Adapters keep publishing verbatim text on purpose:
+      the raw title is the key for normTitle(), films-extra.json and tmdb-aliases.json,
+      so escaping at the source would silently re-key everything. Audited by grepping
+      every `${'{'}` inside HTML-producing template literals and classifying each
+      interpolation; the non-escaped remainder is internal (L strings, locale month
+      names, digits, ISO dates, pre-escaped glyph markup).
 - [x] **Startup fetches are concurrent** (2026-08-28). First paint waited on ~12 serial
       round trips: providers → genres → areas.json → eight venues files one at a time,
       each a full RTT on mobile. Now the venues files load with Promise.all (array order
