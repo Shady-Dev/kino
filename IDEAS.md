@@ -994,6 +994,11 @@ Still open from this pass:
       itself imports. The five adapters with their own get() loops migrate to common
       opportunistically, one per change — nine working parsers do not get touched in
       one sweep.
+- [x] Search input debounced 120 ms (2026-08-28): every keystroke rebuilt the whole list
+      through innerHTML — ~90 cards in a combined Helsinki view — and the intermediate
+      frames were discarded anyway. 120 ms is below the point where the list feels
+      detached from the typing. Keyed DOM reuse is the real fix and was rejected: at this
+      list size it buys nothing and costs a rewrite of the render path.
 - [x] `fetchJSON` aborts after 8 s (2026-08-28): `fetch()` has no timeout, so a connection
       that opens and then stalls — a phone walking out of coverage, not a refused one —
       never settled and never rejected. The spinner ran forever with no error and nothing

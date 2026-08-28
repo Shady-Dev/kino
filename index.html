@@ -1608,7 +1608,16 @@
       + overHead + over.map(card).join('');
   }
 
-  searchEl.oninput = () => { state.filter = searchEl.value; render(); };
+  // render() rebuilds the whole list through innerHTML, which is ~90 cards in a combined
+  // city view. Per keystroke that stutters on a mid-range phone, and the frames in
+  // between are thrown away anyway. 120 ms is under the point where the list feels
+  // detached from the typing and still collapses a fast burst into one render. Keyed DOM
+  // reuse would be the real fix and is not worth it at this list size.
+  let searchTimer = null;
+  searchEl.oninput = () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => { state.filter = searchEl.value; render(); }, 120);
+  };
 
   /* ---------- movie sheet ---------- */
   const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
