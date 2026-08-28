@@ -990,6 +990,15 @@ Still open from this pass:
       (sibling .tmp + os.replace, atomic on one filesystem on both platforms) used by
       run.py, synmerge, enrich_tmdb and fetch_data. *.tmp gitignored for the narrow
       window between write and replace.
+- [x] enrich_tmdb checkpoints its cache (2026-08-28): `tmdb-titles.json` and
+      `films-extra.json` are written every 25 titles, not only after the loop. Each
+      per-title body already catches its own exceptions, but anything raised outside one
+      — the two genre-list calls, the area-file write pass, a cancelled runner — skipped
+      the single end-of-run write and discarded every lookup of the run, ~300 TMDB
+      requests on a cold cache, to be spent again four hours later. Cheap because the
+      writes are atomic and the cache is idempotent: a partial write is simply a warmer
+      start. Every 25 rather than every title because films-extra.json is re-read and
+      rewritten whole on each flush.
 - [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
       since reusing the movie id skips the search call)
 - [ ] README workflow badge

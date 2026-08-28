@@ -131,6 +131,54 @@ def get(url, headers, timeout=25):
         return json.loads(r.read().decode("utf-8", "replace"))
 
 
+# Write the cache to disk every FLUSH_EVERY titles as well as at the end. The
+# per-title body catches its own exceptions, but anything raised outside it -- the
+# genre-list calls, the area-file write pass, a killed runner -- used to leave the
+# single end-of-run write unreached and threw away every lookup of the run: ~300
+# TMDB requests on a cold cache, spent again on the next one. The writes are atomic
+# and the cache is idempotent, so a partial one is just a warmer start next time.
+FLUSH_EVERY = 25
+
+
+def merge_extra(cache, today):
+    """Fold cached text/ratings/posters into films-extra.json.
+
+    Synopses live in their own file so area files stay small: one synopsis repeated
+    across 158 showtimes would add roughly 80 kB per venue. Providers write their own
+    (better) Finnish synopses into this file before this pass runs, so an existing fi
+    text is never clobbered. Re-reading the file per flush keeps that rule true even
+    if a provider wrote to it in between.
+    """
+    try:
+        doc = json.loads(EXTRA.read_text())
+    except Exception:
+        doc = {}
+    films = doc.get("films") or {}
+    for k, c in cache.items():
+        if not isinstance(c, dict):
+            continue
+        if not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
+            continue
+        e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
+        e.setdefault("s", {"fi": "", "en": ""})
+        if not e["s"].get("fi"):
+            e["s"]["fi"] = c.get("fi", "")
+        if not e["s"].get("en"):
+            e["s"]["en"] = c.get("en", "")
+        e["r"] = e.get("r") or c.get("r", 0)
+        # w342 is plenty for a 72-110 px tile and keeps the payload small.
+        if not e.get("img") and c.get("p"):
+            e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
+        if not e.get("tr") and c.get("v"):
+            e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
+    common.write_json(EXTRA, {"generated": today, "films": films})
+
+
+def flush(cache, today):
+    common.write_json(CACHE, cache)
+    merge_extra(cache, today)
+
+
 def main() -> int:
     token = os.environ.get("TMDB_TOKEN", "").strip()
     if not token:
@@ -197,7 +245,7 @@ def main() -> int:
             if k:
                 titles.setdefault(k, s.get("title"))
 
-    looked = rechecked = 0
+    looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
     for k, display in sorted(titles.items()):
         c = cache.get(k)
@@ -293,39 +341,15 @@ def main() -> int:
                         "fi": syn_fi, "en": syn_en, "p": poster}
             rechecked += 1 if isinstance(c, dict) else 0
             looked += 0 if isinstance(c, dict) else 1
+            pending += 1
+            if pending >= FLUSH_EVERY:
+                flush(cache, today)
+                pending = 0
             time.sleep(0.25)
         except Exception as e:
             print(f"[enrich] {display}: {e}")
 
-    common.write_json(CACHE, cache)
-
-    # Synopses live in their own file so area files stay small: one synopsis repeated
-    # across 158 showtimes would add roughly 80 kB per venue.
-    # Merge: providers write their own (better) Finnish synopses into this file before
-    # this pass runs, so never clobber an existing fi text.
-    try:
-        doc = json.loads(EXTRA.read_text())
-    except Exception:
-        doc = {}
-    films = doc.get("films") or {}
-    for k, c in cache.items():
-        if not isinstance(c, dict):
-            continue
-        if not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
-            continue
-        e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
-        e.setdefault("s", {"fi": "", "en": ""})
-        if not e["s"].get("fi"):
-            e["s"]["fi"] = c.get("fi", "")
-        if not e["s"].get("en"):
-            e["s"]["en"] = c.get("en", "")
-        e["r"] = e.get("r") or c.get("r", 0)
-        # w342 is plenty for a 72-110 px tile and keeps the payload small.
-        if not e.get("img") and c.get("p"):
-            e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
-        if not e.get("tr") and c.get("v"):
-            e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
-    common.write_json(EXTRA, {"generated": today, "films": films})
+    flush(cache, today)
 
     touched = 0
     for p in files:
