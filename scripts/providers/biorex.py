@@ -7,6 +7,8 @@ missing session yields wrong data rather than an error.
 import html as html_mod
 import http.cookiejar, json, re, time, urllib.parse, urllib.request
 
+from common import fetch
+
 BASE = "https://biorex.fi"
 AJAX = BASE + "/wp-admin/admin-ajax.php?lang=fi"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -161,10 +163,9 @@ def parse(posts_html, venue):
 
 def film_meta(url):
     """Fetch one film page -> {'syn','len','genres'}. Cheap: ~15 pages per run."""
-    req = urllib.request.Request(url, headers={"user-agent": UA,
-                                               "accept-language": "fi-FI,fi;q=0.9"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        page = r.read().decode("utf-8", "replace")
+    page = fetch(url, headers={"user-agent": UA,
+                               "accept-language": "fi-FI,fi;q=0.9"}
+                 ).decode("utf-8", "replace")
     syn = SYN_RE.search(page)
     k = KESTO_RE.search(page)
     g = GENRE_RE.search(page)
@@ -185,19 +186,15 @@ def _opener():
 
 
 def _post(op, url, data):
-    req = urllib.request.Request(
-        url, data=urllib.parse.urlencode(data).encode(),
-        headers={"user-agent": UA, "accept": "*/*",
-                 "content-type": "application/x-www-form-urlencoded",
-                 "referer": BASE + "/elokuvat/"})
-    with op.open(req, timeout=30) as r:
-        return r.read()
+    return fetch(url, data=urllib.parse.urlencode(data).encode(),
+                 headers={"user-agent": UA, "accept": "*/*",
+                          "content-type": "application/x-www-form-urlencoded",
+                          "referer": BASE + "/elokuvat/"}, opener=op)
 
 
 def fetch_venue(venue):
     op = _opener()
-    op.open(urllib.request.Request(BASE + "/elokuvat/", headers={"user-agent": UA}),
-            timeout=30).read()
+    fetch(BASE + "/elokuvat/", headers={"user-agent": UA}, opener=op)
     _post(op, BASE + "/teatterin-valinta/", {"location": venue["providerId"]})
     raw = _post(op, AJAX, {"action": "br_movies_handler", "genre": "-1", "date": "-1",
                            "format": "-1", "language": "-1", "activeType": "showtimes"})

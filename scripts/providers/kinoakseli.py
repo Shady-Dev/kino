@@ -6,8 +6,10 @@ runs from the Mac alongside Finnkino, not in Actions.
 The page gives genres, age limit and ticket price, but no booking links (tickets are
 sold at the door), no auditorium, and dates carry no year.
 """
-import datetime, html as html_mod, json, re, sys, urllib.request
+import datetime, html as html_mod, json, re, sys
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 URL = "https://kinoakseli.fi/"
 FI = ZoneInfo("Europe/Helsinki")
@@ -116,10 +118,9 @@ def parse(page, today=None):
     return shows
 
 
-def fetch():
-    req = urllib.request.Request(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        page = r.read().decode("utf-8", "replace")
+def fetch_page():
+    page = fetch(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
+                 ).decode("utf-8", "replace")
     if len(page) < 5000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")
     return parse(page)
@@ -127,12 +128,12 @@ def fetch():
 
 def fetch_site(site=SITES[0]):
     """Runner contract: one page, one screen, keyed by the venue id."""
-    return {VENUE["id"]: fetch()}
+    return {VENUE["id"]: fetch_page()}
 
 
 if __name__ == "__main__":
     src = sys.argv[1] if len(sys.argv) > 1 else ""
-    data = parse(open(src, encoding="utf-8", errors="replace").read()) if src else fetch()
+    data = parse(open(src, encoding="utf-8", errors="replace").read()) if src else fetch_page()
     print(f"{len(data)} showtimes, {len({s['eventId'] for s in data})} films")
     for s in data:
         print(f"  {s['start'][:16]}  {s['title'][:34]:36} {s['rating']:6} "

@@ -956,7 +956,16 @@ Still open from this pass:
       would otherwise link to a 404. New log line: `N venue files written, M kept as-is`.
 - [x] Dropped `data/attrs.json` and `data/film-sample.json`: written every Finnkino run,
       read by nothing.
-- [ ] Retry/backoff for transient API errors
+- [x] Retry/backoff for transient API errors (2026-08-28). One transient 502 counted as
+      total site failure for BioRex, Kino Akseli and Orion, and the next cron is four
+      hours away — a packet loss cost a provider a quarter of a day. Shared
+      `providers/common.py::fetch(url, headers, data, tries=3, backoff=5, opener)`,
+      the same loop shape etiketti/gilda/vista/nexxo/riviera already carried
+      individually. Named `common`, not `http`: run.py and fetch_data.py put providers/
+      first on sys.path, and a local http.py would shadow the stdlib package urllib
+      itself imports. The five adapters with their own get() loops migrate to common
+      opportunistically, one per change — nine working parsers do not get touched in
+      one sweep.
 - [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
       since reusing the movie id skips the search call)
 - [ ] README workflow badge
