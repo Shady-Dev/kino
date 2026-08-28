@@ -58,6 +58,13 @@
       showtimes when the device is in another timezone; 00:30 shows land on the right day
 - [x] Auto-advance to the next day with shows when today is over (chip labels Tänään/Huomenna)
 - [x] Date picker range widened to +13, clamped to each venue's real horizon
+- [x] The picked day is remembered as an **ISO date**, not as an offset from today
+      (2026-08-28). `dayIdx` had to be clamped to the chip range on every `buildDays()`,
+      which was harmless while every horizon was a fortnight out. With Gilda publishing
+      into December, picking a far date and then reloading or toggling the language put
+      the user on today+13 with an empty list and no hint why. Restore validates the date
+      against today..horizon and falls back to today; a stored `dayIdx` from before the
+      change is ignored, which is the same fallback.
 
 ## Token automation — how it works now
 The 12 h JWT problem is gone: the token is fetched fresh at run time and used within

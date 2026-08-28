@@ -715,11 +715,27 @@
   const addDays = (iso, n) => { const t = new Date(iso + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10); };
   const dowOf = iso => new Date(iso + 'T12:00:00Z').getUTCDay();
   const dmOf  = iso => { const [,m,d] = iso.split('-'); return `${+d}.${+m}.`; };
-  const diffDays = (a,b) => Math.round((new Date(b+'T12:00:00Z') - new Date(a+'T12:00:00Z')) / 864e5);
+  // The picked day is persisted as an ISO date, not as an offset from today. The offset
+  // had to be clamped to the chip range on every rebuild, so once horizons ran months out
+  // (Gilda into December) picking a far date and then reloading — or just toggling the
+  // language, which rebuilds the row — silently landed on today+13 with an empty list and
+  // nothing on screen to explain it. An old `dayIdx` pref is ignored, which falls back to
+  // today.
+  function savedDay(){
+    const d = prefs.get().day;
+    const base = fiToday();
+    if(typeof d !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(d) || d < base) return null;
+    // state.horizon is empty until the first area file lands. Unknown is not unlimited,
+    // but the saved date was inside somebody's horizon when it was picked, and a date past
+    // this venue's own horizon already has its own empty state ("ohjelmistoa ei ole vielä
+    // julkaistu"), which explains itself.
+    if(state.horizon && d > state.horizon) return null;
+    return d;
+  }
   function buildDays(){
     daysEl.innerHTML = '';
     const base = fiToday();
-    const savedIdx = Math.min(Math.max(prefs.get().dayIdx|0, 0), 13);
+    const saved = savedDay() || base;
     const activate = el => { [...daysEl.children].forEach(c=>c.classList.remove('active')); el.classList.add('active'); };
     dayBtns = {};
     for(let i=0;i<5;i++){
@@ -728,10 +744,10 @@
       b.className = 'day'; b.role = 'tab';
       const lbl = i===0 ? L[state.lang].today : (i===1 ? L[state.lang].tomorrow : fiDay[dowOf(iso)]);
       b.innerHTML = `<small>${lbl}</small><b>${dmOf(iso)}</b>`;
-      b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({dayIdx:i});
+      b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({day:iso});
                           resetCalChip(); activate(b); loadSchedule(); };
       dayBtns[iso] = b;
-      if(i===savedIdx){ b.classList.add('active'); state.dateStr = iso; }
+      if(iso === saved){ b.classList.add('active'); state.dateStr = iso; }
       daysEl.appendChild(b);
     }
     // Calendar chip: opens the custom month picker (see openCal).
@@ -740,10 +756,9 @@
     cal.innerHTML = `<small>${L[state.lang].other}</small><b>📅</b>`;
     calChip = cal;
     cal.onclick = openCal;
-    if(savedIdx >= 5){
-      const iso = addDays(base, savedIdx);
-      state.dateStr = iso;
-      cal.innerHTML = `<small>${fiDay[dowOf(iso)]}</small><b>${dmOf(iso)}</b>`;
+    if(!dayBtns[saved]){
+      state.dateStr = saved;
+      cal.innerHTML = `<small>${fiDay[dowOf(saved)]}</small><b>${dmOf(saved)}</b>`;
       cal.classList.add('active');
     }
     daysEl.appendChild(cal);
@@ -1048,8 +1063,7 @@
   function selectDay(iso){
     state.dateStr = iso;
     state.revealed.clear();
-    const base = fiToday();
-    prefs.set({ dayIdx: diffDays(base, iso) });
+    prefs.set({ day: iso });
     [...daysEl.children].forEach(c => c.classList.remove('active'));
     if(dayBtns[iso]){
       resetCalChip();
