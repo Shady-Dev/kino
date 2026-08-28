@@ -11,8 +11,10 @@ Parameterised by base URL: every field the endpoint needs lives on the site dict
 another cinema on the same WordPress theme (Gilda) is a SITES entry with no new parser.
 Confirm the ajax action matches before adding one.
 """
-import datetime, html as html_mod, json, re, time, urllib.parse, urllib.request
+import datetime, html as html_mod, json, re, urllib.parse
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -98,23 +100,13 @@ def fetch_site(site=SITE, tries=3):
     body = urllib.parse.urlencode({"action": "filter_movies", "date": "", "movie": "",
                                    "area": site.get("area", "1040"),
                                    "singlemovie": "", "initial": "1"}).encode()
-    last = None
-    for n in range(tries):
-        try:
-            req = urllib.request.Request(ajax, data=body, headers={
-                "user-agent": UA, "accept": "application/json, text/javascript, */*",
-                "content-type": "application/x-www-form-urlencoded",
-                "x-requested-with": "XMLHttpRequest",
-                "referer": listing})
-            with urllib.request.urlopen(req, timeout=30) as r:
-                payload = json.loads(r.read().decode("utf-8", "replace"))
-            break
-        except Exception as e:
-            last = e
-            if n + 1 < tries:
-                time.sleep(5 * (n + 1))
-    else:
-        raise last
+    # POST, so `data` is passed to common.fetch; same tries=3, 5 s * n backoff and 30 s
+    # timeout as the loop this replaces. The parse sits outside the retry now.
+    payload = json.loads(fetch(ajax, data=body, headers={
+        "user-agent": UA, "accept": "application/json, text/javascript, */*",
+        "content-type": "application/x-www-form-urlencoded",
+        "x-requested-with": "XMLHttpRequest",
+        "referer": listing}, tries=tries).decode("utf-8", "replace"))
 
     rows = parse((payload.get("data") or {}).get("movies") or "", listing)
     per_venue = {v["id"]: [] for v in site["venues"]}
