@@ -902,7 +902,12 @@ four files plus five frontend edits, which is the thing to fix at six providers:
 - [x] The cloud workflow **loops** over `registry.py --cloud`. Failure flag goes to
       `$RUNNER_TEMP`, never into a commit; `git add data run-*.log` replaced the explicit
       list (`run.log`, Finnkino's, does not match that glob). Data is committed *before*
-      the failure check, so one dead provider still publishes the rest.
+      the failure check, so one dead provider still publishes the rest. The enrich gate
+      also reads its exit code from `$RUNNER_TEMP` (2026-08-28): it used to
+      `grep -q "exit=0"` over run-enrich.log, a substring search on a file that also
+      carries arbitrary film titles and TMDB error text — the same class of silently
+      passing check that hid breakage for days once before. The `exit=` line stays in
+      the committed log for humans; the machine reads the temp file.
 - [x] `riviera.py` is **parameterised by base URL** (`base`, `ajax`, `listing`, `area` on
       the site dict). It did not end up buying Gilda, but it is the right shape anyway.
 - [x] **Repertory titles**: `clean()` in enrich_tmdb strips a trailing "(YYYY)", bracketed

@@ -40,7 +40,9 @@ jobs:
         run: |
           set +e
           python3 scripts/providers/enrich_tmdb.py > run-enrich.log 2>&1
-          echo "exit=$?" >> run-enrich.log
+          code=$?
+          echo "exit=$code" >> run-enrich.log
+          echo "$code" > "$RUNNER_TEMP/enrichfail"
           tail -3 run-enrich.log
       - name: Commit data and logs
         run: |
@@ -60,5 +62,5 @@ jobs:
       # Data is committed first so a provider failure still publishes whatever worked.
       - name: Fail if a provider failed
         run: |
-          grep -q "exit=0" run-enrich.log || { echo "::error::enrich failed"; exit 1; }
+          [ "$(cat "$RUNNER_TEMP/enrichfail")" = 0 ] || { echo "::error::enrich failed"; exit 1; }
           [ "$(cat "$RUNNER_TEMP/provfail")" = 0 ] || { echo "::error::a provider failed"; exit 1; }
