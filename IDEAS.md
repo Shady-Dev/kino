@@ -1008,7 +1008,7 @@ Still open from this pass:
       first on sys.path, and a local http.py would shadow the stdlib package urllib
       itself imports. The five adapters with their own get() loops migrate to common
       opportunistically, one per change — nine working parsers do not get touched in
-      one sweep. Migrating (2026-08-28 onwards, one adapter per commit): eTiketti, Vista, Gilda done.
+      one sweep. Migrating (2026-08-28 onwards, one adapter per commit): eTiketti, Vista, Gilda, Nexxo done.
       One deliberate narrowing as each lands: the local loops wrapped the *parse* in the
       retry too, `common.fetch` retries only the request. A 200 with a complete but
       non-JSON body is a shape change to look at, not a transient to sit out, and a body

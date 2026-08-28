@@ -7,8 +7,10 @@ Response: {"shows": {"YYYY-MM-DD": [ ... ]}}
 
 Adding another Nexxo cinema means adding an entry to SITES, not writing code.
 """
-import datetime, json, re, time, urllib.parse, urllib.request
+import datetime, json, re, time, urllib.parse
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -99,22 +101,18 @@ def parse(payload, site, venue):
 
 
 def fetch_venue(site, venue, days=21, tries=3):
-    """Retry with backoff: the host answers 403 when hit too often in a short window."""
+    """Retry with backoff: the host answers 403 when hit too often in a short window.
+
+    backoff=6 is kept rather than common's 5: this is the one adapter whose retry
+    exists to wait out a rate limit rather than a transient fault, so the longer
+    gap is the point. Only the request is retried now, not the parse.
+    """
     headers = {"user-agent": UA, "accept": "application/json",
                "accept-language": "fi-FI,fi;q=0.9",
                "referer": f"{site['base']}{site['programme']}?location={venue['locationid']}"}
-    last = None
-    for attempt in range(tries):
-        try:
-            req = urllib.request.Request(api_url(site, venue["locationid"], days),
-                                         headers=headers)
-            with urllib.request.urlopen(req, timeout=30) as r:
-                return parse(json.loads(r.read().decode("utf-8", "replace")), site, venue)
-        except Exception as e:
-            last = e
-            if attempt + 1 < tries:
-                time.sleep(6 * (attempt + 1))
-    raise last
+    body = fetch(api_url(site, venue["locationid"], days), headers=headers,
+                 tries=tries, backoff=6)
+    return parse(json.loads(body.decode("utf-8", "replace")), site, venue)
 
 
 def fetch_site(site, sleep=2.5):
