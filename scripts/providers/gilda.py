@@ -28,10 +28,10 @@ Notes from the fixture (2026-08-27):
 import html as html_mod
 import json
 import re
-import time
-import urllib.request
 from datetime import datetime
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -148,18 +148,14 @@ def _method(show):
 
 
 def get(url, tries=3, timeout=45):
-    last = None
-    for n in range(tries):
-        try:
-            req = urllib.request.Request(url, headers={
-                "user-agent": UA, "accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                return json.loads(r.read().decode("utf-8", "replace"))
-        except Exception as e:
-            last = e
-            if n + 1 < tries:
-                time.sleep(5 * (n + 1))
-    raise last
+    """MyCloudCinema REST, JSON. 45 s is passed through rather than left to common's
+    30 s default: /movies returns the whole programme in one response.
+
+    A malformed body still raises out of json.loads without a retry, same as before:
+    common.fetch retries the request, not the parse, and a site answering 200 with
+    non-JSON is a shape change to look at rather than a transient to sit out."""
+    return json.loads(fetch(url, headers={"user-agent": UA, "accept": "application/json"},
+                            tries=tries, timeout=timeout).decode("utf-8", "replace"))
 
 
 def film_pages(site, tries=3):
