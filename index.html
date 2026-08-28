@@ -526,6 +526,7 @@
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
                 fLang:false, fKids:false, dates:null, horizon:'', advanced:false,
+                genProvider:'',  // whose data `generated` came from, for the stale banner
                 chains:null,     // null = every chain; a Set = only those
                 revealed:new Set() };  // eventIds whose past showtimes are expanded
   let films = null;
@@ -1085,12 +1086,19 @@
       catch(_) { return null; }
     }));
     const shows = [], dates = new Set();
-    let generated = '';
+    let generated = '', oldest = '';
     parts.forEach((p, i) => {
       if(!p) return;
-      if(!generated || (p.generated && p.generated < generated)) generated = p.generated || '';
-      (p.dates || []).forEach(d => dates.add(d));
       const v = venueIndex[ids[i]] || {};
+      // `generated` is the oldest of the parts so the stale banner reflects the weakest
+      // link. Carry the provider it came from too: the banner used to look the name up
+      // from venueIndex[state.area], which has no entry for a `city:` key, so it fell
+      // through to Finnkino and blamed the chain that refreshes most often.
+      if(!generated || (p.generated && p.generated < generated)){
+        generated = p.generated || '';
+        oldest = v.provider || '';
+      }
+      (p.dates || []).forEach(d => dates.add(d));
       for(const s of (p.shows || [])){
         shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
                      venueShort: v.short || s.theatre, venueLabel: v.label || v.short || s.theatre,
@@ -1099,7 +1107,7 @@
     });
     mergeIds(shows);
     const list = [...dates].sort();
-    return { generated, dates: list, horizon: list[list.length-1] || '', shows };
+    return { generated, oldest, dates: list, horizon: list[list.length-1] || '', shows };
   }
 
   // Two signals say "same film" and neither is complete on its own, so treat both as
@@ -1130,6 +1138,7 @@
       }
       const cache = jsonCache[state.area];
       if(cache.generated) state.generated = cache.generated;
+      state.genProvider = cache.oldest || (venueIndex[state.area] || {}).provider || '';
       state.dates = Array.isArray(cache.dates) ? cache.dates : null;
       state.horizon = cache.horizon || '';
       state.shows = cache.shows
@@ -1162,9 +1171,10 @@
     if(!staleEl || !state.generated) return;
     const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
     if(ageH > STALE_H){
-      // Name the provider: every source runs on its own schedule.
-      const vv = venueIndex[state.area] || {};
-      const nm = (SOURCE[vv.provider] || SOURCE.finnkino)[0];
+      // Name the provider: every source runs on its own schedule. In a combined city
+      // view that is whichever part loadCity found oldest, not the venue key.
+      const prov = state.genProvider || (venueIndex[state.area] || {}).provider;
+      const nm = (SOURCE[prov] || SOURCE.finnkino)[0];
       staleEl.textContent = `\u26a0 ${nm}: ${L[state.lang].staleOne} `
         + `(${Math.round(ageH)} ${L[state.lang].hours})`;
       staleEl.style.display = 'block';

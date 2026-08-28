@@ -274,6 +274,11 @@ Conventions worth keeping:
 - `loadCity()` fetches each venue file in parallel and folds them into one payload;
   `dates`/`horizon` are the union, `generated` the **oldest** so the stale banner reflects
   the weakest link. A venue that fails to load is skipped, not fatal.
+- The payload also carries `oldest`, the provider `generated` came from. The banner used
+  to name the provider via `venueIndex[state.area]`, which has no entry for a `city:` key,
+  so every combined view fell through to the Finnkino fallback and blamed the chain that
+  refreshes most often for another chain's stale file. Naming the wrong source is worse
+  than naming none: it sends the reader to check something that is fine.
 - Identity: each show's `eventId` is rewritten to `mergeKey(title)`, which strips
   `2D/3D/IMAX/4K`, `(suomeksi)` and `, suomeksi` before normalising. So "Spider-Man: Brand
   New Day 2D" (Kotka) merges with the plain title (BioRex), while "Dyyni: Osa kolme" stays
