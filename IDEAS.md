@@ -1011,6 +1011,16 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   rule proves wrong in practice. Watch the filter first.
 
 ## Open — app
+- [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
+      the `state.mode='xml'` branches, the attempts log, the `content://` help text from
+      the pre-hosting single-file era). It fired only when same-origin `data/areas.json`
+      failed — the site broken or the visitor offline on first visit — and the proxies
+      fail in both of those too. It also almost certainly could not succeed when reached:
+      the proxies hit finnkino.fi from datacenter IPs, which answer Cloudflare 403. It
+      silently routed visitor traffic through three third parties, against the README's
+      privacy claims, and covered Finnkino only — a "fallback" that worked would have
+      shown 17 of 46 venues. Same reasoning as the deleted fetch.yml and cf-worker. A
+      failed areas.json now propagates to the boot's catch and the localized error text.
 - [x] **Footer, loading and error strings localized** (2026-08-28). renderStatus built
       the line under every Finnish screen from English literals, and the two loading
       states plus the load-failure message never went through `L`. Now they do; the

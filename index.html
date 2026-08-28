@@ -521,14 +521,6 @@
 
 <script>
 (() => {
-  const API = 'https://www.finnkino.fi/xml';
-  const PROXIES = [
-    ['direct',     u => u],
-    ['cloudflare', u => 'https://test.cors.workers.dev/?' + encodeURIComponent(u)],
-    ['allorigins', u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u)],
-    ['codetabs',   u => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u)]
-  ];
-  let attempts = [];
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
@@ -703,29 +695,6 @@
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next); store.k = next;
   };
-
-  /* ---------- fetch helpers (direct first, CORS proxy fallback) ---------- */
-  async function fetchXML(url, expectTag){
-    attempts = [];
-    for(const [name, wrap] of PROXIES){
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 8000);
-        const r = await fetch(wrap(url), { signal: ctrl.signal });
-        clearTimeout(timer);
-        if(!r.ok) throw new Error('HTTP ' + r.status);
-        const text = await r.text();
-        const doc = new DOMParser().parseFromString(text, 'text/xml');
-        if(doc.querySelector('parsererror')) throw new Error('invalid XML');
-        if(expectTag && !doc.querySelector(expectTag)) throw new Error('unexpected content');
-        return doc;
-      } catch(e){
-        attempts.push(`${name} — ${e.name === 'AbortError' ? 'timeout' : (e.message || e)}`);
-      }
-    }
-    throw new Error('all sources failed');
-  }
-  const txt = (node, tag) => { const n = node.querySelector(tag); return n ? n.textContent : ''; };
 
   /* ---------- persisted prefs ---------- */
   const prefs = {
@@ -915,17 +884,7 @@
   };
 
   function netErrorHtml(e){
-    if(location.protocol === 'content:'){
-      return `<div class="status"><b>Android is blocking network access.</b><br><br>
-        This file was opened from the Downloads app (content:// address), which sandboxes the page and blocks all data fetching.<br><br>
-        Open it via a file path instead — type this in Chrome's address bar:<br>
-        <code>file:///sdcard/Download/leffavuoro.html</code><br><br>
-        Or host the file (e.g. Netlify Drop, GitHub Pages) for a bookmarkable version.</div>`;
-    }
-    const log = attempts.length
-      ? `<br><br><small style="text-align:left;display:inline-block">${attempts.map(a=>'· '+a).join('<br>')}</small>`
-      : `<br><small>${esc(e.message||e)}</small>`;
-    return `<div class="status">${L[state.lang].loadFail}${log}</div>`;
+    return `<div class="status">${L[state.lang].loadFail}<br><small>${esc(e.message||e)}</small></div>`;
   }
   // Every provider string crosses an innerHTML boundary somewhere, and every adapter
   // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
@@ -1049,39 +1008,32 @@
   }
 
   async function loadAreas(areasPromise){
-    try {
-      const data = await (areasPromise || fetchJSON('data/areas.json'));
-      const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
-        .map(a => ({ ...a, provider:'finnkino' }));
-      providerMeta = { finnkino: { generated: data.generated, venues: areas.length } };
-      if(!areas.length) throw new Error('empty');
-      // Extra providers, each optional: a missing or broken file must not take the app down.
-      // Fetched in parallel — awaiting eight files one at a time was most of the startup
-      // waterfall on mobile. Promise.all keeps array order, so the picker order is stable.
-      const extra = [];
-      // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
-      const provIds = PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino');
-      const provFiles = await Promise.all(provIds.map(
-        prov => fetchJSON(`data/venues-${prov}.json`).catch(() => null)));
-      provIds.forEach((prov, i) => {
-        const j = provFiles[i];
-        if(!j) return;
-        const vs = (j.venues || []).filter(v => v.id && v.name);
-        for(const v of vs) extra.push({ ...v, provider: prov });
-        if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
-      });
-      state.mode = 'json';
-      state.generated = data.generated;
-      fillAreaSelect(areas.concat(extra));
-      renderHealth();
-    } catch(_) {
-      const xml = await fetchXML(API + '/TheatreAreas/', 'TheatreArea');
-      const areas = [...xml.querySelectorAll('TheatreArea')].map(a => ({ id:txt(a,'ID'), name:txt(a,'Name') }))
-                    .filter(a => a.id && a.id !== '1029');
-      if(!areas.length) throw new Error('Theatre list came back empty');
-      state.mode = 'xml';
-      fillAreaSelect(areas);
-    }
+    // No fallback path: if same-origin areas.json fails, the site itself is broken or
+    // the visitor is offline on first visit, and the boot's catch says so. The old
+    // XML/CORS-proxy chain could not have helped in either case — see IDEAS.
+    const data = await (areasPromise || fetchJSON('data/areas.json'));
+    const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
+      .map(a => ({ ...a, provider:'finnkino' }));
+    providerMeta = { finnkino: { generated: data.generated, venues: areas.length } };
+    if(!areas.length) throw new Error('Theatre list came back empty');
+    // Extra providers, each optional: a missing or broken file must not take the app down.
+    // Fetched in parallel — awaiting eight files one at a time was most of the startup
+    // waterfall on mobile. Promise.all keeps array order, so the picker order is stable.
+    const extra = [];
+    // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
+    const provIds = PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino');
+    const provFiles = await Promise.all(provIds.map(
+      prov => fetchJSON(`data/venues-${prov}.json`).catch(() => null)));
+    provIds.forEach((prov, i) => {
+      const j = provFiles[i];
+      if(!j) return;
+      const vs = (j.venues || []).filter(v => v.id && v.name);
+      for(const v of vs) extra.push({ ...v, provider: prov });
+      if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
+    });
+    state.generated = data.generated;
+    fillAreaSelect(areas.concat(extra));
+    renderHealth();
     areaSel.addEventListener('change', () => {
       state.area = areaSel.value; prefs.set({area: state.area});
       state.chains = null;
@@ -1091,7 +1043,6 @@
 
   /* ---------- schedule ---------- */
   const pad = n => String(n).padStart(2,'0');
-  const apiDate = d => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
 
   // Jump to a date and keep the chip row in sync, whether it is a chip or the picker.
   function selectDay(iso){
@@ -1158,45 +1109,26 @@
   async function loadSchedule(){
     main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
-      if(state.mode === 'json'){
-        if(!jsonCache[state.area]){
-          jsonCache[state.area] = state.area.startsWith('city:')
-            ? await loadCity(state.area.slice(5))
-            : await fetchJSON(`data/area-${state.area}.json`);
+      if(!jsonCache[state.area]){
+        jsonCache[state.area] = state.area.startsWith('city:')
+          ? await loadCity(state.area.slice(5))
+          : await fetchJSON(`data/area-${state.area}.json`);
+      }
+      const cache = jsonCache[state.area];
+      if(cache.generated) state.generated = cache.generated;
+      state.dates = Array.isArray(cache.dates) ? cache.dates : null;
+      state.horizon = cache.horizon || '';
+      state.shows = cache.shows
+        .map(s => ({ ...s, start: new Date(s.start) }))
+        .filter(s => fiDate(s.start) === state.dateStr);
+      // Late evening with nothing left today: move to the next day that has shows.
+      if(!state.advanced && state.dateStr === fiToday() && !state.shows.length){
+        const next = (state.dates || []).find(x => x > state.dateStr);
+        if(next){
+          state.advanced = true;
+          selectDay(next);
+          return;
         }
-        const cache = jsonCache[state.area];
-        if(cache.generated) state.generated = cache.generated;
-        state.dates = Array.isArray(cache.dates) ? cache.dates : null;
-        state.horizon = cache.horizon || '';
-        state.shows = cache.shows
-          .map(s => ({ ...s, start: new Date(s.start) }))
-          .filter(s => fiDate(s.start) === state.dateStr);
-        // Late evening with nothing left today: move to the next day that has shows.
-        if(!state.advanced && state.dateStr === fiToday() && !state.shows.length){
-          const next = (state.dates || []).find(x => x > state.dateStr);
-          if(next){
-            state.advanced = true;
-            selectDay(next);
-            return;
-          }
-        }
-      } else {
-        const url = `${API}/Schedule/?area=${state.area}&dt=${apiDate(new Date(state.dateStr + 'T12:00:00'))}&nrOfDays=1`;
-        const xml = await fetchXML(url, 'Schedule');
-        state.shows = [...xml.querySelectorAll('Show')].map(s => ({
-          eventId: txt(s,'EventID'),
-          title: txt(s,'Title'),
-          original: txt(s,'OriginalTitle'),
-          len: txt(s,'LengthInMinutes'),
-          rating: txt(s,'Rating'),
-          genres: txt(s,'Genres'),
-          method: txt(s,'PresentationMethodAndLanguage'),
-          theatre: txt(s,'Theatre'),
-          aud: txt(s,'TheatreAuditorium'),
-          start: new Date(txt(s,'dttmShowStart')),
-          url: txt(s,'ShowURL'),
-          img: txt(s,'EventSmallImagePortrait') || txt(s,'EventMediumImagePortrait')
-        }));
       }
       render();
       renderHealth();
@@ -1790,7 +1722,7 @@
     // `a.stub`, so the past-times toggle (a button) opened the sheet on every click.
     if(e.target.closest('a.stub, [data-reveal], [data-goto], .lg-btn')) return;
     const el = e.target.closest('article.movie, .tinfo');
-    if(el && state.mode === 'json') location.hash = 'm=' + encodeURIComponent(el.dataset.id);
+    if(el) location.hash = 'm=' + encodeURIComponent(el.dataset.id);
   });
 
   /* ---------- language toggle ---------- */
