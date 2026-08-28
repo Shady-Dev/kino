@@ -78,7 +78,9 @@ English mode. `data/tmdb-genres.json` maps ids to names per language.
     index.html                       the whole app
     manifest.webmanifest             PWA manifest
     robots.txt                       crawl rules; /data and run-*.log are not pages
-    sitemap.xml                      one entry, because the app is one URL
+    sitemap.xml                      generated; every venue and city page, both languages
+    scripts/build_pages.py           renders the indexable pages from the committed JSON
+    teatteri/, kaupunki/, en/        generated pages (committed by CI)
     sw.js                            service worker (network-first)
     CNAME                            custom domain for GitHub Pages
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
@@ -158,6 +160,30 @@ network instead of a local machine. It is not deployed and not used.
 Note that the local wrapper hard-resets its checkout to `origin/main` at the
 start of every run, so edits made inside that clone do not survive. The wrapper
 itself lives outside the clone.
+
+## Indexable pages
+
+The app is one JS-rendered URL, so on its own it is a single entry in a search index.
+`scripts/build_pages.py` renders static pages from the same committed JSON the app reads,
+at the end of every pipeline run:
+
+    /teatteri/{slug}/     one venue        /en/theatre/{slug}/
+    /kaupunki/{slug}/     a whole city     /en/city/{slug}/
+
+51 pages in each language: 46 venues, plus the five cities that have more than one venue
+(Espoo, Helsinki, Kotka, Savonlinna, Tampere). A city page for a one-venue city would be
+the venue page at a second URL, so single-venue cities are covered by putting the city in
+the venue page's title and JSON-LD address instead.
+
+Each page carries real HTML showtimes for the next few days, `hreflang` pairs, and
+`ScreeningEvent` / `MovieTheater` structured data for today and tomorrow. No
+`aggregateRating`: the ratings are TMDB's, and presenting another party's ratings as the
+page's own is against Google's guidelines, so the rating is shown as credited text and
+left out of the markup.
+
+These pages make no third-party requests at all: inline CSS, no webfont, and only
+same-origin posters. A page is rewritten only when its bytes change, which in practice is
+once a day when the date window shifts.
 
 ## Privacy
 

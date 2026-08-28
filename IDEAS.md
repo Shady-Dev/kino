@@ -1250,12 +1250,38 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 ## Crawlers and search
 
 - `<head>` carries a description, canonical, OpenGraph and Twitter tags; `robots.txt` and
-  `sitemap.xml` exist (2026-08-28). That is the whole of it on purpose. **The app is one
-  URL**, JS-rendered, with the hash used only for the film modal and cleared on close, so
-  there is nothing else to list. Structured data (`ScreeningEvent`, `MovieTheater`) was
-  considered and deferred: markup does not create pages, and per-venue URLs are the
-  prerequisite. If indexing ever matters, pre-render `venue/{id}.html` from the same
-  committed JSON, then add JSON-LD to those.
+  a generated `sitemap.xml` exist (2026-08-28).
+- **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred
+  them. Markup does not create pages and the app is one JS-rendered URL, so
+  `scripts/build_pages.py` renders 51 pages per language from the committed JSON at the end
+  of every run: 46 venues plus the five multi-venue cities. Same data, no second fetcher.
+- **City pages only where a city has more than one venue.** The original plan said "~31
+  cities"; that was wrong, taken from the README's city count rather than measured. Only
+  Espoo, Helsinki, Kotka, Savonlinna and Tampere have two or more venues, which is the same
+  rule the app's combined view uses. The other 27 would have been the venue page at a
+  second URL, and two URLs with identical content compete with each other. Single-venue
+  cities get the city into the venue page's title and JSON-LD address instead.
+- **Page weight had to be designed, not discovered.** The first render was 13.6 MB across
+  102 pages, with a 1.2 MB Helsinki page. Three cuts brought it to 4.0 MB raw / 388 kB
+  gzipped: a four-day window (two for cities), structured data for today and tomorrow only
+  with theatres as `@id` nodes instead of an address repeated per showtime, and a synopsis
+  printed once per film rather than once per day it screens.
+- **Nothing volatile in a page**, so `write_if_changed` actually holds: no build timestamp,
+  and no `availability` in the markup. Sold-out state flips several times a day and would
+  have rewritten every popular page on every run while still being stale in the index. A
+  second consecutive run writes zero files; in practice a page changes once a day when the
+  date window shifts.
+- **Finnish city names are never inflected by the generator.** Helsinki -> Helsingissä,
+  Tampere -> Tampereella: suffixing a case ending onto the nominative yields "Helsinkissä",
+  which is precisely how a reader spots a generated page. Every string uses the nominative
+  with a separator, which stays correct for whatever city a future provider brings.
+- Open: the pages are committed, so the repo grows by roughly the gzipped delta per day
+  (~390 kB worst case). Building them in the workflow and deploying via a Pages artifact
+  instead would remove that entirely, at the cost of switching Pages from branch to Actions
+  and a real risk of taking the site down while getting it wrong. Not attempted yet.
+- Open: a page links to `/`, and the app has no `?area=` deep link, so someone arriving
+  from search has to re-pick the venue. That is a small client change and the obvious next
+  step.
 - Deliberately **no venue or city count in the meta description**. README and IDEAS both
   carry it; a third copy in `index.html` would be a third thing to keep in step, and a
   stale number in a search result is worse than no number.

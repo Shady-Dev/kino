@@ -44,10 +44,21 @@ jobs:
           echo "exit=$code" >> run-enrich.log
           echo "$code" > "$RUNNER_TEMP/enrichfail"
           tail -3 run-enrich.log
+      # Pages last: they are rendered from the JSON the steps above just wrote, so this
+      # has to run after enrichment or the posters and ratings would be a run behind.
+      # Not gated on provider failure -- a stale venue still deserves a page.
+      - name: Build indexable pages
+        run: |
+          set +e
+          python3 scripts/build_pages.py > run-pages.log 2>&1
+          code=$?
+          echo "exit=$code" >> run-pages.log
+          echo "$code" > "$RUNNER_TEMP/pagesfail"
+          tail -3 run-pages.log
       - name: Commit data and logs
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-*.log
+          git add data run-*.log teatteri kaupunki en sitemap.xml
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do
@@ -64,3 +75,4 @@ jobs:
         run: |
           [ "$(cat "$RUNNER_TEMP/enrichfail")" = 0 ] || { echo "::error::enrich failed"; exit 1; }
           [ "$(cat "$RUNNER_TEMP/provfail")" = 0 ] || { echo "::error::a provider failed"; exit 1; }
+          [ "$(cat "$RUNNER_TEMP/pagesfail")" = 0 ] || { echo "::error::page build failed"; exit 1; }
