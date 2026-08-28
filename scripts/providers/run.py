@@ -34,6 +34,7 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
+import common              # noqa: E402
 import registry            # noqa: E402
 import strands             # noqa: E402
 import synmerge            # noqa: E402
@@ -66,9 +67,9 @@ def run_site(mod, site, now):
         shows.sort(key=lambda s: s["start"])
         synmerge.strip_helpers(shows)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})
-        path.write_text(json.dumps(
+        common.write_json(path,
             {"generated": now, "dates": days, "horizon": days[-1] if days else "",
-             "shows": shows}, ensure_ascii=False), encoding="utf-8")
+             "shows": shows})
         if shows:
             live += 1
             total += len(shows)
@@ -78,11 +79,10 @@ def run_site(mod, site, now):
     # when at least one venue produced shows, so a fully dead site does not stamp a
     # fresh `generated` and green the health line on total failure.
     if live:
-        (OUT / f"venues-{site['provider']}.json").write_text(json.dumps(
+        common.write_json(OUT / f"venues-{site['provider']}.json",
             {"generated": now, "provider": site["provider"],
              "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
-                        for v in site["venues"]]},
-            ensure_ascii=False), encoding="utf-8")
+                        for v in site["venues"]]})
     return live, total
 
 

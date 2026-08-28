@@ -9,6 +9,8 @@ the adapters without their own retry loop, and the next cron is four hours
 away. tries=3 with backoff*n sleeps means a worst case of 3*backoff seconds of
 extra wait per request, so a dead upstream cannot stall the workflow.
 """
+import json
+import os
 import time
 import urllib.request
 
@@ -37,3 +39,20 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             if n + 1 < tries:
                 time.sleep(backoff * (n + 1))
     raise last
+
+
+def write_text_atomic(path, text):
+    """Write via a sibling .tmp then os.replace, atomic on the same filesystem.
+
+    On Actions a torn write is harmless (ephemeral runner), but localfetch.sh
+    writes into the checked-out repo, so a run killed mid-write -- closed
+    laptop, cancel-in-progress -- would leave truncated JSON that the next
+    run's `git add data` commits. .tmp is gitignored for the same reason.
+    """
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def write_json(path, obj, **dumps_kw):
+    write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))

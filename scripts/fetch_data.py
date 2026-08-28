@@ -4,6 +4,7 @@ import urllib.request
 import urllib.parse
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
+import common    # noqa: E402  shared atomic writers, see providers/common.py
 import strands   # noqa: E402  shared strand list, see providers/strands.py
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
@@ -224,8 +225,7 @@ def main() -> int:
     if not sites:
         print("ERROR: no sites", file=sys.stderr); return 1
     sites.sort(key=lambda s: s["name"])
-    (out / "areas.json").write_text(json.dumps({"generated": now, "areas": sites},
-                                               ensure_ascii=False), encoding="utf-8")
+    common.write_json(out / "areas.json", {"generated": now, "areas": sites})
     print(f"[sites] {len(sites)} cinemas")
 
     qs = "&".join(f"siteIds={s['id']}" for s in sites)
@@ -485,7 +485,7 @@ def main() -> int:
                 time.sleep(0.25)
             except Exception as e:
                 print(f"[tmdb] {meta['q']}: {e}")
-        cache_p.write_text(json.dumps(tmdb_cache))
+        common.write_json(cache_p, tmdb_cache)
         # A film that matched *nothing* was invisible here: the weak list only names the
         # ones that found something wrong. "Ryhmä Hau: Dinoelokuva" sat with an empty id
         # for a day because of it, showing no rating and no genres while the log looked
@@ -525,8 +525,8 @@ def main() -> int:
             if isinstance(c, dict) and c.get("v"):
                 entry["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
 
-    (out / "films.json").write_text(
-        json.dumps({"generated": now, "films": films_full}, ensure_ascii=False), encoding="utf-8")
+    common.write_json(out / "films.json",
+                      {"generated": now, "films": films_full})
     print(f"[films] {len(films_full)} film entries")
     if unknown_attrs:
         print(f"[attrs] dropped, neither format nor language ({len(unknown_attrs)}): "
@@ -546,10 +546,10 @@ def main() -> int:
         # Dates actually present, so the UI can tell "no shows" apart from
         # "schedule not published yet" instead of showing one message for both.
         day_list = sorted({s["start"][:10] for s in shows if s.get("start")})
-        path.write_text(
-            json.dumps({"generated": now, "dates": day_list,
-                        "horizon": day_list[-1] if day_list else "",
-                        "shows": shows}, ensure_ascii=False), encoding="utf-8")
+        common.write_json(path,
+                          {"generated": now, "dates": day_list,
+                           "horizon": day_list[-1] if day_list else "",
+                           "shows": shows})
         written += 1
     print(f"[schedule] {written} venue files written, {kept} kept as-is")
     print("done")

@@ -10,3 +10,6 @@ probe-*.html
 __pycache__/
 *.pyc
 .DS_Store
+
+# Atomic-write staging files (common.write_json), in case a run dies between write and replace
+*.tmp

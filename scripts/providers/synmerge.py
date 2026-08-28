@@ -5,6 +5,8 @@ fills an empty slot — it never clobbers.
 """
 import json, pathlib, re
 
+import common
+
 
 def norm(t):
     """Must match enrich_tmdb.norm() and normTitle() in index.html."""
@@ -31,7 +33,7 @@ def merge(out: pathlib.Path, per_venue: dict, label: str) -> None:
                 e["s"]["fi"] = syn
                 added += 1
     doc["films"] = films
-    path.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
+    common.write_json(path, doc)
     print(f"[{label}] synopses merged: {added}")
 
 

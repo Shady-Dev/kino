@@ -10,6 +10,8 @@ no trailer are re-checked once a day, like the Finnkino path.
 """
 import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
+import common
+
 DATA = pathlib.Path("data")
 CACHE = DATA / "tmdb-titles.json"
 # id -> localized name, one map per language. TMDB's Finnish names are real translations
@@ -174,7 +176,7 @@ def main() -> int:
     if names.get("fi") and names.get("en"):
         body = json.dumps(names, ensure_ascii=False, indent=1) + "\n"
         if not GENRES.exists() or GENRES.read_text(encoding="utf-8") != body:
-            GENRES.write_text(body, encoding="utf-8")
+            common.write_text_atomic(GENRES, body)
             print(f"[enrich] genre names written ({len(names['fi'])} genres)")
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
@@ -291,7 +293,7 @@ def main() -> int:
         except Exception as e:
             print(f"[enrich] {display}: {e}")
 
-    CACHE.write_text(json.dumps(cache, ensure_ascii=False))
+    common.write_json(CACHE, cache)
 
     # Synopses live in their own file so area files stay small: one synopsis repeated
     # across 158 showtimes would add roughly 80 kB per venue.
@@ -319,7 +321,7 @@ def main() -> int:
             e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
         if not e.get("tr") and c.get("v"):
             e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
-    EXTRA.write_text(json.dumps({"generated": today, "films": films}, ensure_ascii=False))
+    common.write_json(EXTRA, {"generated": today, "films": films})
 
     touched = 0
     for p in files:
@@ -356,7 +358,7 @@ def main() -> int:
             if c.get("g") and s.get("gids") != c["g"]:
                 s["gids"] = c["g"]; changed = True
         if changed:
-            p.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
+            common.write_json(p, doc)
             touched += 1
 
     # Name the titles that found nothing: these are the candidates for tmdb-aliases.json.

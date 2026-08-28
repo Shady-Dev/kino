@@ -966,6 +966,14 @@ Still open from this pass:
       itself imports. The five adapters with their own get() loops migrate to common
       opportunistically, one per change — nine working parsers do not get touched in
       one sweep.
+- [x] Atomic data writes (2026-08-28): every writer went through bare `write_text`, so a
+      run killed mid-write left truncated JSON. Harmless on Actions (ephemeral runner),
+      real on the Mac: localfetch.sh writes into the checked-out repo and the next run's
+      `git add data` would commit the torn file — and cancel-in-progress means
+      mid-run kills actually happen. `common.write_json` / `write_text_atomic`
+      (sibling .tmp + os.replace, atomic on one filesystem on both platforms) used by
+      run.py, synmerge, enrich_tmdb and fetch_data. *.tmp gitignored for the narrow
+      window between write and replace.
 - [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
       since reusing the movie id skips the search call)
 - [ ] README workflow badge
