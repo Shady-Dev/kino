@@ -1,6 +1,6 @@
 // Bump on any UI release: the fetch handler is network-first, so a fresh page always
 // wins online, but the old copy stays as the offline fallback until its cache is dropped.
-const CACHE = 'leffavuoro-v29';
+const CACHE = 'leffavuoro-v30';
 
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {

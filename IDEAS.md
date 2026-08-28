@@ -984,6 +984,12 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       see the anniskelu entry under Synopses and enrichment for why that inference was
       removed. Note the two are independent: an S-rated film in a K18 anniskelunäytös
       qualifies, and a K-18 film in an ordinary room qualifies.
+- [x] Placeholder teaches by example — "Etsi esim. Dyyni tai komedia" / "Search e.g. Dune
+      or comedy" — because a description of the capability ("nimellä tai lajilla") is both
+      clumsy in Finnish and easier to skip than an example. The `aria-label` stays an
+      explicit description; only the visible text is the example. Pick a **franchise**
+      rather than a current release if it ever needs changing, so it does not age out with
+      one schedule.
 - [x] Search box matches **genres as well as titles**, in both languages at once, so
       "comedy" finds a film the Finnish UI calls Komedia. Matched through the same
       id -> name maps the cards render from, with the provider's genre string as fallback
