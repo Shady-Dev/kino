@@ -7,9 +7,7 @@
 [schedule] 2026-09-01: 326 showtimes
 [schedule] 2026-09-02: 377 showtimes
 [schedule] 2026-09-03: 380 showtimes
-[tmdb] dropped 2 entries matched by the old picker
-[tmdb] dropped 1 weak entries that now have an alias
-[tmdb] 3 new lookups, 0 re-checks, cache 52, 52 mergeable by id
+[tmdb] 0 new lookups, 0 re-checks, cache 52, 52 mergeable by id
 [films] 52 film entries
 [attrs] dropped, neither format nor language (6): Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
