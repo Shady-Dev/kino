@@ -390,6 +390,11 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
 - `films-extra.json` is keyed by normalised title. **Three implementations of that
   normalisation must agree**: `enrich_tmdb.norm()`, `synmerge.norm()` and `normTitle()` in
   index.html. A mismatch fails silently with no synopsis and no error.
+- The two Python ones strip `_` explicitly (`[^\w\s]|_`). `\w` counts the underscore as a
+  word character, `\p{L}\p{N}` in the client does not, so a title containing one would
+  have keyed two different ways and lost its synopsis with nothing in the log. No title
+  has used one yet — checked at the change, 90 keys in each cache, zero underscores — so
+  this is a latent divergence closed before it fires, not a bug fix.
 - Synopses live in that one file rather than on each show: a 300-char synopsis repeated
   across BioRex Tripla's 158 showtimes would add ~50 kB to a single venue file.
 - Provider helper fields `_syn` / `movieUrl` are stripped before area files are written.

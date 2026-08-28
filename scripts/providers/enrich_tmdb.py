@@ -27,8 +27,12 @@ ALIAS_FILE = pathlib.Path(__file__).resolve().parent / "tmdb-aliases.json"
 
 
 def norm(t):
-    """Cache key. Keep the whole title: 'Dyyni: Osa kolme' must not collide with 'Dyyni'."""
-    t = re.sub(r"[^\w\s]", " ", (t or "").lower().strip(), flags=re.UNICODE)
+    r"""Cache key. Keep the whole title: 'Dyyni: Osa kolme' must not collide with 'Dyyni'.
+
+    `_` is stripped explicitly: Python's \w includes it, the client's \p{L}\p{N} does
+    not, so leaving it in would key an underscored title differently here and there.
+    """
+    t = re.sub(r"[^\w\s]|_", " ", (t or "").lower().strip(), flags=re.UNICODE)
     return re.sub(r"\s+", " ", t).strip()
 
 

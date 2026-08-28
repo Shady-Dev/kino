@@ -9,8 +9,11 @@ import common
 
 
 def norm(t):
-    """Must match enrich_tmdb.norm() and normTitle() in index.html."""
-    t = re.sub(r"[^\w\s]", " ", (t or "").lower().strip(), flags=re.UNICODE)
+    r"""Must match enrich_tmdb.norm() and normTitle() in index.html.
+
+    `_` is stripped explicitly; \w keeps it, the client's \p{L}\p{N} does not.
+    """
+    t = re.sub(r"[^\w\s]|_", " ", (t or "").lower().strip(), flags=re.UNICODE)
     return re.sub(r"\s+", " ", t).strip()
 
 
