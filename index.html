@@ -495,7 +495,7 @@
   <div class="controls">
     <select id="areaSelect" aria-label="Choose theatre"></select>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
-    <input class="search" id="search" type="search" placeholder="Filter by title…" aria-label="Filter movies by title">
+    <input class="search" id="search" type="search" placeholder="Filter by title or genre…" aria-label="Filter movies by title or genre">
   </div>
   <div class="days" id="days" role="tablist" aria-label="Choose date"></div>
   <div class="tools">
@@ -572,6 +572,10 @@
     if(genreNames) return genreNames;
     try { genreNames = await fetchJSON('data/tmdb-genres.json'); }
     catch(_) { genreNames = {}; }
+    // The search haystack is memoised per show and includes genre names, so it has to be
+    // thrown away once the maps arrive — otherwise a search typed before the fetch
+    // finished would keep matching titles only.
+    for(const s of state.shows) delete s._hay;
     return genreNames;
   }
   const genresOf = m => {
@@ -590,7 +594,7 @@
   }
   const L = {
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
-         filter:'Suodata nimellä…', trailer:'▶ Katso traileri', min:'min',
+         filter:'Suodata nimellä tai lajilla…', trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri, avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
@@ -607,7 +611,7 @@
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
-         filter:'Filter by title…', trailer:'▶ Watch trailer', min:'min',
+         filter:'Filter by title or genre…', trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
@@ -1196,9 +1200,26 @@
   }
 
   /* ---------- render ---------- */
+  // What the search box matches: the title, the original title, and the genres — in
+  // *both* languages, so "comedy" finds a film the Finnish UI labels Komedia and vice
+  // versa. Genre ids are checked through the same id -> name maps the card renders from,
+  // with the provider's own genre string as the fallback for films TMDB never matched.
+  function haystack(s){
+    if(s._hay) return s._hay;
+    const parts = [s.title || '', s.original || '', s.genres || ''];
+    const ids = Array.isArray(s.gids) ? s.gids : [];
+    if(ids.length && genreNames){
+      for(const lang of ['fi', 'en']){
+        const map = genreNames[lang];
+        if(map) for(const id of ids) if(map[id]) parts.push(map[id]);
+      }
+    }
+    return (s._hay = parts.join(' ').toLowerCase());
+  }
+
   function passFilters(s){
     const q = state.filter.trim().toLowerCase();
-    if(q && !s.title.toLowerCase().includes(q) && !(s.original||'').toLowerCase().includes(q)) return false;
+    if(q && !haystack(s).includes(q)) return false;
     if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
     // Rating first, so the filter can never admit a restricted film — the cinema
     // enforces the age limit at the door and this is only a browse aid. Genre ids then

@@ -984,7 +984,14 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       see the anniskelu entry under Synopses and enrichment for why that inference was
       removed. Note the two are independent: an S-rated film in a K18 anniskelunäytös
       qualifies, and a K-18 film in an ordinary room qualifies.
-- [ ] Genre / format filter chips (IMAX, LUXE, 2D/3D, genre)
+- [x] Search box matches **genres as well as titles**, in both languages at once, so
+      "comedy" finds a film the Finnish UI calls Komedia. Matched through the same
+      id -> name maps the cards render from, with the provider's genre string as fallback
+      for films TMDB never matched. The per-show haystack is memoised and cleared when the
+      genre maps arrive, or a search typed during that fetch would match titles only.
+- [ ] Genre / format filter **chips** (IMAX, LUXE, 2D/3D, genre) — the typed search covers
+      genre now, so chips are about discovery rather than filtering: they show what is
+      *available* tonight without having to guess a word.
 - [ ] Sort toggle: title ↔ first showtime; hide/dim past showtimes option
 - [ ] Tile/grid view mode (open questions: scan-by-poster vs time; showtimes on tile vs
       behind tap; auto-width vs manual toggle)
