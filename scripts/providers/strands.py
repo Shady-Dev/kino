@@ -32,6 +32,13 @@ EVENT_PREFIXES = (
     # A format, not a strand, but it sits in the same position and breaks the search
     # the same way: "70mm: The Odyssey" matched a Pinocchio short.
     "70mm",
+    # A festival *section*, one level below the festival itself: Orion published
+    # "Espoo Ciné: Artist in Focus: Mare's Nest". Two prefixes on one title, and split()
+    # takes one per call, so the outer one came off in the adapter and this one stayed
+    # in the title and cost the film its TMDB match. It comes off in run.py's central
+    # pass, which is the second call. A provider that does not also split in its own
+    # adapter would still need two passes for a title shaped like this.
+    "artist in focus",
 )
 
 

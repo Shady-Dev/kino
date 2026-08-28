@@ -420,6 +420,21 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   the popularity order, because a Finnish distributor title often matches nothing exactly
   and a weak match still beats no film. Fallbacks are named in `run-enrich.log` as
   **weak match**, which is the list to read when a poster looks wrong.
+- **A title can carry two strand prefixes, and `split()` takes one per call.** Orion
+  published "Espoo Ciné: Artist in Focus: Mare's Nest": the festival, then its section.
+  The adapter's own `split_strand` took "Espoo Ciné" and stopped, so the section stayed
+  in the title, TMDB matched nothing and the film lost its poster, rating, trailer, genre
+  ids and merge-by-id — all four, not just the poster that made it noticeable.
+  `run.py` applies `strands.apply` centrally *after* the adapter, so a second known
+  prefix does come off, which is why adding "artist in focus" to `EVENT_PREFIXES` is the
+  whole fix here. A provider that does not also split in its own adapter gets one pass
+  only and would still need a loop. Not looping in `split()` on purpose: one call, one
+  prefix keeps the exact-list guarantee easy to reason about, and two-prefix titles are
+  so far a single showtime.
+- **A programme is not a film and will never match.** "Follow The Plants" (Orion, a
+  curated multi-artist assembly) and the Gilda playback nights sit in the no-match list
+  permanently and correctly. The list is for finding *missed* films; entries that belong
+  there are not a backlog.
 - **Both passes must log the titles that match nothing, not just the weak ones.**
   `fetch_data.py` printed weak matches and held-back ratings but never a no-match list, so
   "Ryhmä Hau: Dinoelokuva" sat with an empty id for a day — no rating, no genres, a clean
