@@ -984,6 +984,15 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       see the anniskelu entry under Synopses and enrichment for why that inference was
       removed. Note the two are independent: an S-rated film in a K18 anniskelunäytös
       qualifies, and a K-18 film in an ordinary room qualifies.
+- [x] **Punctuation and spacing do not count in search.** Both the query and the haystack
+      are reduced to letters and digits only, with diacritics folded, so "spiderman",
+      "spider man" and "spider-man" are one search and "katyrit" finds "Kätyrit". Nobody
+      types a hyphen in the right place. The spaced form is kept alongside the collapsed
+      one, so a two-word query still behaves normally.
+- [x] The placeholder example is **drawn from the day on screen** — the film with the most
+      showtimes, shortened at the colon, so "Spider-Man: Brand New Day" suggests
+      "Spider-Man". Costs nothing, never goes stale, and beats a hardcoded title that ages
+      out with one schedule. Falls back to a plain description when no film repeats.
 - [x] Placeholder teaches by example — "Etsi esim. Dyyni tai komedia" / "Search e.g. Dune
       or comedy" — because a description of the capability ("nimellä tai lajilla") is both
       clumsy in Finnish and easier to skip than an example. The `aria-label` stays an
