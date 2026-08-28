@@ -1247,6 +1247,28 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   *after* the push can fail without making the run look failed, so anything that matters
   needs its own check.
 - Adapters carry a referer, three retries with backoff, and a pause between venues.
+## Crawlers and search
+
+- `<head>` carries a description, canonical, OpenGraph and Twitter tags; `robots.txt` and
+  `sitemap.xml` exist (2026-08-28). That is the whole of it on purpose. **The app is one
+  URL**, JS-rendered, with the hash used only for the film modal and cleared on close, so
+  there is nothing else to list. Structured data (`ScreeningEvent`, `MovieTheater`) was
+  considered and deferred: markup does not create pages, and per-venue URLs are the
+  prerequisite. If indexing ever matters, pre-render `venue/{id}.html` from the same
+  committed JSON, then add JSON-LD to those.
+- Deliberately **no venue or city count in the meta description**. README and IDEAS both
+  carry it; a third copy in `index.html` would be a third thing to keep in step, and a
+  stale number in a search result is worse than no number.
+- `og:image` is `icon-512.png`, the only image on this origin. A 1200x630 card would
+  preview better in a chat app. Not done.
+- **Not doing: hidden text or markup that differs from what a visitor sees.** Cloaking is
+  spam by every search engine's definition, and the whole point of the metadata above is
+  that it is machine-readable rather than concealed. `<noscript>` has the same constraint,
+  which is part of why it is still absent.
+- Making thousands of showtime pages indexable would turn a personal app into a directory
+  competing with the cinemas' own listings for their own venue names. That is a decision
+  to take deliberately, not a side effect of adding markup. See "Access and ethics".
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

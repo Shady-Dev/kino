@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- One entry, because the app is one URL: the hash is only ever used for the film
+     modal and is cleared on close, so there are no per-venue or per-film pages to
+     list. No lastmod rather than a stamp that would go stale: the schedule data
+     changes four times a day, this page rarely. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://leffavuoro.fi/</loc>
+  </url>
+</urlset>

@@ -1,0 +1,10 @@
+# Leffavuoro. Everything worth reading is the one page; /data is the machine payload
+# it loads, and the run-*.log files are build output. Neither is a page, so crawling
+# them only spends budget.
+User-agent: *
+Allow: /
+Disallow: /data/
+Disallow: /run.log
+Disallow: /run-
+
+Sitemap: https://leffavuoro.fi/sitemap.xml

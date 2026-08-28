@@ -77,6 +77,8 @@ English mode. `data/tmdb-genres.json` maps ids to names per language.
 
     index.html                       the whole app
     manifest.webmanifest             PWA manifest
+    robots.txt                       crawl rules; /data and run-*.log are not pages
+    sitemap.xml                      one entry, because the app is one URL
     sw.js                            service worker (network-first)
     CNAME                            custom domain for GitHub Pages
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
