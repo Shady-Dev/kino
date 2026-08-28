@@ -1267,3 +1267,12 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   other people's keys teaches you to ignore alerts. Probe, read the answer, write the
   *finding* here, commit nothing raw. `.gitignore` now blocks `probe/` and `probe-*`.
 - If a cinema would rather not be included, the adapter comes out: one registry entry.
+- **What the visitor's browser gives away is our problem too**, and the README used to
+  claim "nothing leaves the device" and "no third-party requests". Neither was true: the
+  typeface comes from Google Fonts on every load, and 1523 of 4279 posters (36%, counted
+  2026-08-28) are hot-linked from the cinemas' own CDNs and `image.tmdb.org`, so those
+  hosts see a visitor's IP. `referrerpolicy="no-referrer"` on every `<img>` keeps the page
+  URL out of it, which is the one part that was already right. The README now states this
+  plainly instead. Closing it means self-hosting the font and the remaining posters, the
+  way MX posters are already mirrored into `data/posters/`; until that is done, an
+  accurate README beats a flattering one.

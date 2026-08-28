@@ -19,13 +19,15 @@ every showtime with its venue, and lets you filter by chain.
 
 Works as a PWA: add to home screen, opens fullscreen, serves the last loaded
 schedule when offline. Remembers your venue, starred home theatre, day,
-language and theme in `localStorage`. Nothing leaves the device.
+language and theme in `localStorage`. See [Privacy](#privacy) for what does and
+does not leave the device.
 
 ## How it works
 
-The page never calls a cinema at load time. A pipeline fetches everything
-ahead of time and commits static JSON, which GitHub Pages serves from the
-same origin. No CORS, no third-party requests, no API keys in the client.
+The page never calls a cinema's schedule API at load time. A pipeline fetches
+everything ahead of time and commits static JSON, which GitHub Pages serves from
+the same origin. No CORS, no API keys in the client. Poster images and the
+typeface are the exception and are covered under [Privacy](#privacy).
 
 Providers run in one of two places, because two of them block datacenter IPs:
 
@@ -154,6 +156,33 @@ network instead of a local machine. It is not deployed and not used.
 Note that the local wrapper hard-resets its checkout to `origin/main` at the
 start of every run, so edits made inside that clone do not survive. The wrapper
 itself lives outside the clone.
+
+## Privacy
+
+No accounts, no cookies, no analytics, no tracking scripts, no ads. Your venue,
+starred home theatre, day, language and theme live in `localStorage` and are
+never transmitted. Schedule data is static JSON from this origin, so browsing
+showtimes tells no cinema anything.
+
+Three things do reach other hosts, and it is worth being exact about them rather
+than claiming the page is self-contained:
+
+- **The typeface** loads from Google Fonts on every visit, so Google sees your IP
+  address.
+- **About a third of poster images** are hot-linked from where the cinema
+  publishes them (`mycloudcinema.com`, `cdn.etiketti.app`, `kinoset.fi`, an Azure
+  blob host) and from `image.tmdb.org`. Those hosts see your IP address and which
+  poster file was requested. Every `<img>` carries `referrerpolicy="no-referrer"`,
+  so no page URL is sent with it. The remaining two thirds come from
+  `data/posters/` on this origin.
+- **Tapping a showtime or a trailer** hands you off to the cinema's booking page
+  or to YouTube, which is the point of the link.
+
+GitHub Pages serves the site and therefore logs requests, the same as any host
+would.
+
+Self-hosting the font and the rest of the posters would close the first two.
+Neither is done yet.
 
 ## Data sources
 
