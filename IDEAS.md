@@ -1008,7 +1008,7 @@ Still open from this pass:
       first on sys.path, and a local http.py would shadow the stdlib package urllib
       itself imports. The five adapters with their own get() loops migrate to common
       opportunistically, one per change — nine working parsers do not get touched in
-      one sweep. Migrating (2026-08-28 onwards, one adapter per commit): eTiketti done.
+      one sweep. Migrating (2026-08-28 onwards, one adapter per commit): eTiketti, Vista done.
       Each keeps its module-level `get()` wrapper so call sites are untouched, and each
       migration must preserve the loop's own tries/backoff/timeout rather than silently
       adopting common's defaults.

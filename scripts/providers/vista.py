@@ -26,10 +26,11 @@ Notes from probing savonkinot.fi (2026-08-27):
 """
 import re
 import time
-import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+
+from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -134,18 +135,10 @@ def _https(url):
 
 
 def get(url, tries=3, timeout=40):
-    last = None
-    for n in range(tries):
-        try:
-            req = urllib.request.Request(url, headers={
-                "user-agent": UA, "accept": "application/xml, text/xml, */*"})
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                return r.read().decode("utf-8", "replace")
-        except Exception as e:
-            last = e
-            if n + 1 < tries:
-                time.sleep(5 * (n + 1))
-    raise last
+    """Vista's XML web services. The 40 s timeout is passed through rather than left to
+    common's 30 s default: a whole area's Schedule response is large and slow."""
+    return fetch(url, headers={"user-agent": UA, "accept": "application/xml, text/xml, */*"},
+                 tries=tries, timeout=timeout).decode("utf-8", "replace")
 
 
 def parse_schedule(xml_text, site, venues):
