@@ -913,7 +913,12 @@
   }
   const jsonCache = {};
   async function fetchJSON(path){
-    const r = await fetch(path + '?v=' + Date.now());
+    // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
+    // schedule up to 10 min stale is immaterial and the stale banner covers the
+    // pathological case. The buster made every fetch a unique URL, so the SW cached a
+    // fresh copy of every file per app open (tens of MB on a phone, evicted only on a
+    // CACHE bump) and the HTTP cache never served anything.
+    const r = await fetch(path);
     if(!r.ok) throw new Error('HTTP ' + r.status);
     return r.json();
   }
