@@ -34,9 +34,9 @@
       set, then collapses to the glyph
 - [x] **Riviera** added (2 venues, seats + runtime, 24-date horizon)
 - [x] **Cinema Orion** added (1 venue, Helsinki; ticket-type prices, own Finnish blurbs)
-- [x] TMDB **posters** for providers that publish none, written onto each show by the
+- [x] TMDB posters for providers that publish none, written onto each show by the
       pipeline so the client needed no change
-- [x] Chain key in combined views doubles as a **quick filter**, and it is **additive**:
+- [x] Chain key in combined views doubles as a quick filter, and it is additive:
       from the default (nothing selected, everything shown) the first click *isolates* that
       chain rather than hiding it, then each further click adds one. It used to seed the set
       with every chain, so the first click subtracted, which read backwards. Deselecting the
@@ -47,7 +47,7 @@
 - [x] Provider-aware footer wording from the registry's `book` field: buy tickets /
       reserve seats / sold at the door / open the programme (`list`, for a provider with no
       per-show page — currently unused)
-- [x] Language meta reads **"englanti · tekstit suomi/ruotsi"**: the audio language bare,
+- [x] Language meta reads "englanti · tekstit suomi/ruotsi": the audio language bare,
       subtitles labelled once and grouped, rather than repeating the role word per language
       ("engl. puhe, suom. tekstit, ruots. tekstit"). `LN` therefore holds full nominatives
       (suomi, englanti, ruotsi), not the old abbreviated forms. A Finnish dub is just
@@ -74,7 +74,7 @@ seconds, so nothing has to survive expiry.
   `scripts/providers/run.py kinoakseli` → `git push` data/*.json + posters +
   `run.log` + `run-kinoakseli.log`, then dispatch the cloud workflow
 - Both fetchers run inside a `set +e` window with `echo "exit=$?"` appended to their
-  own log, and `set -e` resumes only afterwards. So a Kino Akseli failure **cannot**
+  own log, and `set -e` resumes only afterwards. So a Kino Akseli failure cannot
   abort the push or take fresh Finnkino data with it. Same shape as the cloud workflow.
 - Line 10 is `git fetch -q origin main && git reset -q --hard origin/main`: the working
   tree is **discarded at the start of every run**, so any manual edit inside `repo/` is
@@ -87,7 +87,7 @@ seconds, so nothing has to survive expiry.
 - The token is obtained from a real browser session on the local machine and handed to the
   fetcher, which uses it within seconds. A TTL guard refuses
   to proceed on a token with too little life left.
-- Scheduled locally four times a day. **There is no cloud fallback, deliberately.**
+- Scheduled locally four times a day. There is no cloud fallback, deliberately.
   `.github/workflows/fetch.yml` was deleted on 2026-08-27: it could not succeed from a
   runner, because `www.finnkino.fi` answers Cloudflare 403 to datacenter IPs, so no token
   can be obtained there — and the stored `FINNKINO_SECRET` it fell back on was a JWT that
@@ -122,7 +122,7 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 | Finnkino | 17 | short-lived token | Local (blocks datacenter IPs) | full, seats |
 | BioRex | 12 | none | Actions | no runtime/genres/seats |
 | Kinoset (Nexxo) | 3 | none | Actions | prices, duration, genres |
-| Kotkan Leffat (eTiketti) | 2 | none | Actions | prices, duration, **seats** |
+| Kotkan Leffat (eTiketti) | 2 | none | Actions | prices, duration, seats |
 | Riviera | 2 | none | Actions | seats, duration, 24-date horizon |
 | Savon Kinot (Vista) | 6 | none | Actions | fullest feed: original title, ISO langs, posters, deep links |
 | Cinema Orion | 1 | none | Actions | ticket-type prices, own Finnish blurbs; no seats, runtimes or age limits |
@@ -136,7 +136,7 @@ Kotkan Leffat still differ in what the source itself provides (seat availability
 47 venues / 32 cities across ten providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
-Adding a provider to the frontend is now **nothing**: a registry entry generates
+Adding a provider to the frontend is now nothing: a registry entry generates
 `data/providers.json`, and the client derives every label, host, accent and footer verb
 from it.
 
@@ -146,7 +146,7 @@ Conventions worth keeping:
   screenings, and at Seinäjoki states it in the room name itself ("2 REX (K-18)"). So
   `age` is a per-show field, separate from `rating`, set from an explicit `(K-nn)` in the
   auditorium name first and inferred from the Anniskelu tag otherwise. The client renders
-  it on the **showtime stub**, which is the thing you tap to book, and suppresses it when
+  it on the showtime stub, which is the thing you tap to book, and suppresses it when
   it merely repeats the film's rating. Rendered as an outlined chip (`.agelim`), a sibling
   of `.fmt` — **not red, and not KAVI's official symbol**. That artwork denotes a legal
   age classification, which this is not: "Spa Weekend" is classified K-12 and the 18+
@@ -188,7 +188,7 @@ Conventions worth keeping:
   legend explained nothing on 19.9. — but that treated the symptom. The fault was the stub
   label failing to name the chain, and once the label carries it ("Riviera Punavuori") the
   colour is no longer load-bearing. Keeping it on then has value: a palette only becomes
-  learnable if it is always present, and the app looks better for it. The **legend** keeps
+  learnable if it is always present, and the app looks better for it. The legend keeps
   the two-chain rule, since a one-item chain filter filters nothing.
 - **Glyphs need their own column.** Trailed after the label they landed wherever the text
   happened to end — a different spot on every stub, and on a two-line label they dropped
@@ -217,7 +217,7 @@ Conventions worth keeping:
   gone** (2026-08-27). Finnkino's Anniskelu screenings by film rating: K-12 334 plain / 83
   K18, K-16 116 / 43, **S 8 plain / 5 K18**, K-7 2 / 1. Two conclusions. Plain `Anniskelu`
   covers S- and K-7-rated films, so it cannot mean minors are barred; and `Annisk_K18`
-  appears on S-rated films too, so the 18+ marking belongs to the **screening** and is
+  appears on S-rated films too, so the 18+ marking belongs to the screening and is
   independent of the film's classification. Finnkino's help centre also says drinks are
   not served at S/7 family screenings even in a licensed room, which together with those
   8 S-rated plain tags suggests the word marks *the auditorium is licensed* rather than
@@ -266,14 +266,14 @@ Conventions worth keeping:
   magenta everywhere else, and Kotka only ever shows two chains. Ten chains cannot all be
   mutually distinct under colourblind vision while staying this side of neon, so the target
   is per-city separation, not global. `scripts/providers/registry.py` carries the numbers.
-- A failed venue writes **no file**, keeping previous data rather than publishing empty
+- A failed venue writes no file, keeping previous data rather than publishing empty
 - Verify the response belongs to the venue you asked for (see the BioRex cookie note)
 
 ### Combined city view (done)
 - Dropdown gets `city:{name}` entries for cities with 2+ venues: Helsinki (11, five chains),
   Espoo (2), Tampere (2), Kotka (2).
 - `loadCity()` fetches each venue file in parallel and folds them into one payload;
-  `dates`/`horizon` are the union, `generated` the **oldest** so the stale banner reflects
+  `dates`/`horizon` are the union, `generated` the oldest so the stale banner reflects
   the weakest link. A venue that fails to load is skipped, not fatal.
 - The payload also carries `oldest`, the provider `generated` came from. The banner used
   to name the provider via `venueIndex[state.area]`, which has no entry for a `city:` key,
@@ -331,7 +331,7 @@ POST https://biorex.fi/wp-admin/admin-ajax.php?lang=fi
   rating/trailer/poster via `movieName`; runtime would need the film page
 - Venue ids: 13 Helsinki Tripla, 14 Helsinki Redi, 1 Hämeenlinna, 9 Hyvinkää, 7 Kajaani,
   4 Pietarsaari, 10 Porvoo, 8 Riihimäki, 2 Rovaniemi, 12 Seinäjoki, 3 Tornio, 5 Vaasa
-- Dates are **sparse** (e.g. 27–31.8, 1–3.9, then 5.9, 9.9, 11–13.9, 30.9) — special
+- Dates are sparse (e.g. 27–31.8, 1–3.9, then 5.9, 9.9, 11–13.9, 30.9) — special
   events, not a rolling window. Scrape `#dayselect` options rather than generating dates.
   `<input type="date">` cannot disable individual days, so dimming unavailable dates
   would need a custom picker — deferred until BioRex is actually in.
@@ -366,14 +366,14 @@ Single screen, Nummela, WordPress + Elementor, showtimes server-rendered in the 
 **Datacenter IPs are challenged, so this one runs locally.**
 - Parse: iterate `<h2 class="elementor-heading-title"><a href=".../elokuva-...">`, then the
   nearest following `Näytösajat` paragraph; genres/age/price sit in the paragraph *before*
-- `Pe 28.08. klo 19:00` has **no year** — infer by keeping the date within roughly
+- `Pe 28.08. klo 19:00` has no year — infer by keeping the date within roughly
   [today-45d, today+320d], otherwise January rolls over wrong
 - `(dub.)` = Finnish audio; films showing `Näytösajat –` have no showtimes, skip them
 - Gives price and genres; no runtime, auditorium or booking URL; ~3-day horizon
 
 ### eTiketti — a platform (probed 2026-08-26)
 Kotkan Leffat runs **eTiketti** (etiketti.app). The API host
-`{customer}.etiketti.app/api/yleiset/...` is **behind Cloudflare**, so the adapter reads
+`{customer}.etiketti.app/api/yleiset/...` is behind Cloudflare, so the adapter reads
 the cinema's own server-rendered pages instead. Another eTiketti cinema = a `SITES` entry
 in `scripts/providers/etiketti.py`.
 
@@ -383,7 +383,7 @@ in `scripts/providers/etiketti.py`.
 ```
 
 Per screening, inside `<div class="item ... date-D.M.YYYY">`:
-- `date-27.8.2026` class carries the **full date including year**; time from `klo HH.MM`
+- `date-27.8.2026` class carries the full date including year; time from `klo HH.MM`
 - `TRIO 123 | VIP-SALI` — but **Kinopalatsi screenings have no room and no `|`**, so the
   room must be optional in the regex (this silently dropped 17 showtimes first time)
 - `Lippu 18,00€` and `Vapaat paikat 13/22` -> price and real sold-out state
@@ -394,7 +394,7 @@ Roughly 1 listing + ~15 movie pages per run, paced 1.2 s apart.
 Kotka venues: Kinopalatsi (no rooms, ~236 seats), Trio 123 (SALI 1/2, VIP-SALI).
 
 ### Synopses and enrichment
-`scripts/providers/enrich_tmdb.py` runs **last** in the cloud workflow and **merges** into
+`scripts/providers/enrich_tmdb.py` runs last in the cloud workflow and merges into
 `data/films-extra.json` — it never overwrites text a provider already supplied.
 
 Priority: the cinema's own text (Finnkino `films.json`, or provider page text merged via
@@ -444,7 +444,7 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   title** (2026-08-27). Without it TMDB answers in English, so `pick()` compared
   "Autofiktio" against "Bitter Christmas", "Kuopus" against "The Little Sister" and
   "Kummisetä osa II" against "The Godfather Part II" — and wrote all three off as weak
-  matches. The **ids were right the whole time**; TMDB has registered Finnish titles and
+  matches. The ids were right the whole time; TMDB has registered Finnish titles and
   had matched them. The cost of the mistake was not a wrong film but a missing one:
   a weak entry gets no `tmdbId` and no `gids`, so 29 films were excluded from cross-chain
   merging and from genre-based filtering for no reason.
@@ -454,7 +454,7 @@ Priority: the cinema's own text (Finnkino `films.json`, or provider page text me
   not about the film.
 ### The score ring (2026-08-27)
 The score is a ring: arc length for the glance, the number inside for the value, and the
-**vote count beside it**, because 7.1 from 41 votes and 7.1 from 15 000 are not the same
+vote count beside it, because 7.1 from 41 votes and 7.1 from 15 000 are not the same
 claim and a bare star cannot tell them apart. A rating under `VOTE_SOLID` = 25 votes is
 dimmed rather than hidden, so the reader discounts it instead of the app silently
 deciding for them.
@@ -519,16 +519,16 @@ ratings) are the unexplored alternatives; both need a licence read first.
 - **The release-year filter defeats aliases and reissues.** `Autot (uudelleenjulkaisu)`
   carries the *reissue* year, so searching the alias `Cars` with `primary_release_year=2026`
   returned "The Boy Who Counted Cars". The unfiltered retry only fired when the filtered
-  search returned **nothing**, not when it returned the wrong thing. It now retries
+  search returned nothing, not when it returned the wrong thing. It now retries
   whenever the year produced no exact match, and never applies a year to an alias search
   string in the first place.
 - **`fetch_data.py` needs candidate queries too** (2026-08-27). Two failures found in one
-  local run: OCAPI's `originalTitle` is **empty** for some releases, so `q` arrived as
+  local run: OCAPI's `originalTitle` is empty for some releases, so `q` arrived as
   "Autot (uudelleenjulkaisu)" and matched nothing at all; and "Mutiny - Lavastettu
   syylliseksi" matched *Mutiny* only weakly, so no `tmdbId` was written and the row could
   not merge with BioRex's "Mutiny" even though the pipeline had found the right film.
   `_queries()` now yields the de-noised title, the raw title, then the head before a
-  **dash**. Never before a colon: that would search "Mission" for "Mission: Impossible -
+  dash. Never before a colon: that would search "Mission" for "Mission: Impossible -
   Dead Reckoning", and an exact hit there would earn a `tmdbId` and merge two different
   films. `enrich_tmdb.queries()` still splits on a colon as well — pre-existing, and now
   worth watching, because its exact matches also write ids.
@@ -551,7 +551,7 @@ unmatchable on TMDB, and sharing an initials tile with every other Seniorikino s
 Provider genre strings are unusable as data: four spellings for the family genre
 ("Perhe-elokuva", "Koko perheen", "Koko perheen elokuva", "Perhe"), trailing spaces from
 Finnkino, Cinema Orion publishes none, and in English mode every one of them is still
-Finnish. Both TMDB passes now keep the **genre ids** already present in the `/movie/{id}`
+Finnish. Both TMDB passes now keep the genre ids already present in the `/movie/{id}`
 response they fetch for the synopsis — no extra requests in the cloud pass, one detail
 call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
 `data/tmdb-genres.json` holds the id -> name map for `fi` and `en`, two requests per run.
@@ -571,11 +571,11 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
 
 - **Film facts fold from every showtime; screening facts fold from the surviving ones**
   (2026-08-27). Toggling "Suom. puhe" changed a card's *genres*, because the fold took the
-  first non-empty field across the **filtered** set and the chains disagree: Finnkino
+  first non-empty field across the filtered set and the chains disagree: Finnkino
   publishes "Dokumentti, Kotimainen " (trailing space and all) for "Laula minulle Arja",
   Gilda "Dokumentti". With the filter on, Finnkino's subtitled screenings drop out and the
   card re-folded from Gilda. `tmdb`, `tr`, `img`, `len`, `genres`, `rating` and `original`
-  now fold from the unfiltered set, and genres take the **longest** string rather than the
+  now fold from the unfiltered set, and genres take the longest string rather than the
   first, so the richer of two disagreeing values does not depend on venue load order.
   `lang` deliberately stays on the filtered set: it belongs to the screening, and showing
   "tekstit suomi/ruotsi" from a screening the filter just removed would be wrong.
@@ -589,7 +589,7 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
   week scrolls the key out of view, and after that the coloured rule on each stub means
   nothing. `.sheet-body > .legend` is `position:sticky; top:0` with negative side margins,
   because the body has 20 px padding and without them the strip leaves gutters the stubs
-  slide through behind it. Day headings are **not** sticky: the legend wraps to two lines
+  slide through behind it. Day headings are not sticky: the legend wraps to two lines
   on narrow screens, so their offset would have to be measured at runtime rather than set
   in CSS, and a guessed value overlaps at some widths.
 - **The times list needs the venue too** (2026-08-27). The film cards labelled the venue
@@ -597,14 +597,14 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
   Helsinki showed "Sali 14" — a room in one of five cinemas, uncoloured, under a chain
   legend it had no connection to. The stub is a fixed 158 px ticket whose label column is
   about 75 px, so putting "Kinopalatsi · Sali 14" in it truncates to "Kinopalat…" and
-  loses both halves. So the venue goes on the **meta line**, which has the full row width,
+  loses both halves. So the venue goes on the meta line, which has the full row width,
   as a `.theatre-tag` (a class that already existed and was unused), and the stub keeps the
   room name and gains the chain tint. Single-venue views are unchanged: there the bare room
   name is correct, because the cinema is the thing you picked.
 - **English titles have to resolve through `_eid`** (2026-08-27). `disp()` looked up
   `films.json` (keyed by Finnkino's `filmId`) with the show's `eventId`, which in a
   combined city view is the cross-chain merge key, so English mode silently showed the
-  Finnish title for **every** film in every combined view. `showSheet()` already dug the
+  Finnish title for every film in every combined view. `showSheet()` already dug the
   real id out of `_eid`; `disp()` now does the same through `filmEntry()`, which also
   scans the group's showtimes so a merged row finds the Finnkino member. Falls back to the
   show's `original` title, which a few providers publish (Savon Kinot) and which beats a
@@ -613,13 +613,13 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
   -> `films-extra.json`, for the TMDB title cache and for `tmdb-aliases.json`. Rewriting
   it would unmerge rows, orphan synopses and invalidate every alias key at once. English
   titles are a render-time substitution and nothing else.
-- Still Finnish in English mode, by omission rather than design: **genres** are the
+- Still Finnish in English mode, by omission rather than design: genres are the
   provider's own strings, stored verbatim, so `Toiminta, Jännitys` shows for every
   provider including Finnkino. Fixing it means storing TMDB's genre list per language in
   the enrichment cache and choosing at render time. Also the film list sorts on
   `title.localeCompare`, so English mode keeps Finnish alphabetical order.
 - **Merge on the union of both signals, never on one or the other** (2026-08-27). Keying
-  by `tmdbId` *when present* and by title otherwise **unmerged** a pair that had worked:
+  by `tmdbId` *when present* and by title otherwise unmerged a pair that had worked:
   "Maailman rikkain nainen" resolved an id at Gilda and none at Finnkino, so one row was
   keyed `tmdb:1309725` and its identically titled twin by title. `mergeIds()` now unions
   the title key with the id key and takes the group root, so an id merges chains that
@@ -633,7 +633,7 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
   for "Maailman rikkain nainen" corrected Gilda's row and left Finnkino's blank. An alias
   id also triggers a single `/movie/{id}` call in `fetch_data.py`, which otherwise never
   fetches the detail, so the rating and the vote floor still apply.
-- Aliases are keyed by the title **as each chain publishes it**, so one film can need
+- Aliases are keyed by the title as each chain publishes it, so one film can need
   several keys: `autot re release` (BioRex) and `autot uudelleenjulkaisu` (Finnkino) both
   map to the search string `Cars`, because "Autot" alone matched *Cars 3* by popularity.
 - The two TMDB passes are still separate (`fetch_data.py` keyed by Finnkino `filmId` and
@@ -644,17 +644,17 @@ call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
   row takes one show's rating. A single shared pass is the real fix and is not written.
 
 ### Riviera (added 2026-08-27)
-WordPress admin-ajax, no auth, **one request covers both venues**:
+WordPress admin-ajax, no auth, one request covers both venues:
 ```
 POST /wp/wp-admin/admin-ajax.php
      action=filter_movies&date=&movie=&area=1040&singlemovie=&initial=1
 -> {"success":true,"data":{"movies":"<ul class=movielist>…</ul>"}}
 ```
-- `area` (1040 all / 1024 Kallio / 1039 Punavuori) is **ignored** by their backend, so the
+- `area` (1040 all / 1024 Kallio / 1039 Punavuori) is ignored by their backend, so the
   adapter splits on the `location` field ("Kallio, Sali 1") instead.
 - Per `<li class="movielist__item single-show">`: `.date` ("To 27.8.2026"), `.time`,
   `.location`, `.movielist__item__title`, `Varatut paikat: 50/50`, `Kesto: 1 h 48 min`.
-- Sold out = all seats taken **or** the button carries `disabled`.
+- Sold out = all seats taken or the button carries `disabled`.
 - 24 dates out to +5 weeks, the longest horizon of any provider. Repertory titles
   (Amélie, Trainspotting, Twin Peaks) so the TMDB pass picks up a lot of new entries.
 - The bundle that revealed the endpoint: `/app/themes/riviera/public/js/app.*.js`.
@@ -674,7 +674,7 @@ GET {base}/xml/Events/                          -> per-film synopsis, cast, cred
 
 - **No auth, no Cloudflare, datacenter IPs fine**, unlike Finnkino's own OCAPI. Runs on
   Actions. The irony is that the chain we fight a JWT for is on the same platform.
-- `nrOfDays=31` is honoured, so **one request per area** covers the whole published window
+- `nrOfDays=31` is honoured, so one request per area covers the whole published window
   (8 days in practice). 6 requests per run including Events, paced 1.5 s.
 - **A one-day fetch is not enough**: Kitee had 0 shows today and 7 in the window. Anything
   that fetches per day would also have written no file and, under the current runner
@@ -694,7 +694,7 @@ GET {base}/xml/Events/                          -> per-film synopsis, cast, cred
   - Both local and UTC times are published. Parse `dttmShowStartUTC` and convert through
     `Europe/Helsinki`, so DST is the library's problem: verified +03:00 in August, +02:00
     in December.
-  - `SubtitleLanguage2` can carry a `Name` with an **empty** `ISOTwoLetterCode`, so fall
+  - `SubtitleLanguage2` can carry a `Name` with an empty `ISOTwoLetterCode`, so fall
     back to mapping the Finnish language name ("ruotsi" -> SE).
   - `TheatreAuditorium` is `"Joensuu, Tapio 4"`: strip the city, and blank it when it only
     repeats the venue name (single-screen houses).
@@ -722,12 +722,12 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
   are Gilda 1-3, screen 69 is Bio Rex Lasipalatsi.
 - Gotchas, all handled:
   - `rating_name` is bare ("12", "16", "S", "T", "EI MÄÄR."). Map to `K-12`/`S` and leave
-    unrated **blank** rather than guessing.
+    unrated blank rather than guessing.
   - `screen_name` for Lasipalatsi is "Bio Rex Lasipalatsi (K-18)" — a venue door policy,
     not a film rating. Strip it or every show there looks adults-only.
   - `subtitle_lang` arrives three ways in the same feed: Finnish words ("suomi, ruotsi"),
     codes ("FI", "SE"), and "-" for none. `audio_lang` is always a code.
-  - `description` is HTML **with entities**; strip tags then `html.unescape`, or the sheet
+  - `description` is HTML with entities; strip tags then `html.unescape`, or the sheet
     renders "Almod&oacute;var".
   - `show_time` is UTC with a +00:00 offset.
 - **Posters: the path needs the movie id and a width.**
@@ -761,7 +761,7 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
   not "Gilda", because the client prefixes the chain onto `short` and would otherwise
   render "Gilda Gilda". The sibling keeps `short: "Bio Rex Lasipalatsi"`, so it labels as
   "Gilda Bio Rex Lasipalatsi" — long, but shortening it to "Lasipalatsi" would blur the
-  fact that this cinema is **not** part of the BioRex chain, which the app also carries.
+  fact that this cinema is not part of the BioRex chain, which the app also carries.
 - Seat counts would need the closed seatplan endpoint, so `soldOut` is always false.
 
 ### Cinema Orion (added 2026-08-27)
@@ -790,7 +790,7 @@ datacenter IPs and the adapter never touches it.
   attribute**, and `eventId` from the **`/elokuvat/{slug}/`** slug, which is what makes
   repeat screenings of one film share an id. A fixture built from this file's own markup
   could not catch this; only the live run did.
-- `descrption` is the site's spelling, and the span inside it is **never closed**, so it
+- `descrption` is the site's spelling, and the span inside it is never closed, so it
   is cut at whatever tag comes next rather than at a `</span>`. The blurb goes to `_syn`
   (5 merged on the first good run). It mixes screening notes ("Ensi-iltaelokuva,
   klubialennus.", guest names) into the synopsis; synmerge only fills an empty slot, so
@@ -798,7 +798,7 @@ datacenter IPs and the adapter never touches it.
 - Attribute quoting is loose: `title ="Film"` has a space before the `=`, and the price
   cell is `13&nbsp;€`. Attribute regexes allow `\s*=\s*`, and `\s` matches `&nbsp;`
   once unescaped.
-- The `price` cell's `title` attribute carries the **full ticket-type breakdown**, so a
+- The `price` cell's `title` attribute carries the full ticket-type breakdown, so a
   screening with cheaper types can show the floor: 2+ distinct amounts render
   "alkaen {cheapest}€". First run: 13€ ×17, alkaen 10€ ×9, 10€ ×3, 8.5€ ×1,
   "Vapaa pääsy" ×1.
@@ -824,7 +824,7 @@ datacenter IPs and the adapter never touches it.
   rule that a cache key with no rating, trailer or id and no live showtime is dead.
 - `/wp-json/wp/v2/elokuvat` gives film pages (synopsis, slug) and could enrich by slug:
   636 films over 7 pages of 100. Not needed for text — the front page already carries the
-  slug and the blurb. **And it has no posters** (probed 2026-08-27): `featured_media` is
+  slug and the blurb. And it has no posters (probed 2026-08-27): `featured_media` is
   null on all 100 entries of page 1, `content.rendered` holds no `<img>`, `acf` is empty.
   The only image is Yoast's `og_image`, which is the page's 16:9 header still rather than
   a poster (page 1: 77 jpg, 15 png, 4 webp, 3 jpeg, 1 tif).
@@ -838,10 +838,10 @@ datacenter IPs and the adapter never touches it.
   playback nights. Putting an image there would mean converting the file and hosting it
   in `data/posters/`.
 
-  Three assumptions that were **wrong** and cost a detour, recorded so nobody repeats them:
-  - ELKE's **"Rajapinnat"** page is not an API page. It means *interfaces between old and
+  Three assumptions that were wrong and cost a detour, recorded so nobody repeats them:
+  - ELKE's "Rajapinnat" page is not an API page. It means *interfaces between old and
     new media*: an arts programme about VR and interactive works.
-  - The **`naytokset`** post type exists and answers 200, but returns an **empty list**.
+  - The **`naytokset`** post type exists and answers 200, but returns an empty list.
     Registered route, no records. A route listing is not data.
   - **Kinola is not a platform win.** `tickets.cinemaorion.fi` answers 403 to datacenter
     IPs and `orion.kinola.ee` exposes only a Filament/Livewire admin login, whose
@@ -849,7 +849,7 @@ datacenter IPs and the adapter never touches it.
     somewhere to go poking.
 
 ### Kino Engel (added 2026-08-29)
-`scripts/providers/engel.py`, one venue, **runs locally**. Accent `#B47ACC`.
+`scripts/providers/engel.py`, one venue, runs locally. Accent `#B47ACC`.
 - **The accent was measured, not picked.** Helsinki now has six chains on one list, so a
   new colour has to clear Finnkino, BioRex, Riviera, Gilda and Orion in normal *and*
   deuteranope vision. Grid search over hue/saturation/value, constrained to L* 38-60 so
@@ -857,12 +857,12 @@ datacenter IPs and the adapter never touches it.
   other city: `#B47ACC` gives worst same-city ΔE **36.9 normal, 37.3 deutan**, against
   the existing Helsinki worst pair of BioRex/Riviera at 34.5 deutan. So the sixth chain
   does not lower the city minimum, which was the thing to check.
-- Parses **rows, not day headings**. Each row carries its own "La 29.08." beside
+- Parses rows, not day headings. Each row carries its own "La 29.08." beside
   "klo 17:30", so the `<h2>` headings and the date `<select>` above them are redundant
   and their markup can change without breaking this.
 - No room, no price, no runtime and no rating in the listing, and the row's only link is
   the film page rather than a booking URL, so `book` is `buy` pointing there.
-- Dates carry **no year**, same as Kino Akseli, so the same [today-45d, today+320d]
+- Dates carry no year, same as Kino Akseli, so the same [today-45d, today+320d]
   window picks it.
 - **Deduplicates on (eventId, start, aud)**: a film can appear in a carousel and in the
   day list on the same page, and only one of those is a screening.
@@ -876,19 +876,19 @@ datacenter IPs and the adapter never touches it.
   through `mirror_posters.py` like every other remote poster.
 - **The programme is rendered twice, and the second copy has no times.** The timed
   listing gives "Pe 05.09." + "klo 21:30" + "Osta liput"; a second listing repeats the
-  same screenings with the weekday written out ("Perjantai 02.10.") and an **empty time
-  span**. 41 timed rows against 46 timeless ones on 2026-08-29.
+  same screenings with the weekday written out ("Perjantai 02.10.") and an empty time
+  span. 41 timed rows against 46 timeless ones on 2026-08-29.
 - **I misread those timeless rows as premieres, and the log caught it.** The first
   version counted every one of them as an upcoming film, which produced a list of 46
   including "Autofiktio 30.08." — a screening that carries a time in the other listing.
   44 of the 46 were duplicates. Only 11.09. and 02.10. appear nowhere with a time, and
   both are in the date `<select>`, so their times are presumably fetched when the reader
-  picks the date. The log now reports **only dates no timed row covers**, which is the
+  picks the date. The log now reports only dates no timed row covers, which is the
   number that would actually mean something: it is 2 today, and it going to 13 would say
   the timed listing had disappeared. A count that fires on healthy data teaches you to
   ignore it, which is the same failure as a workflow that is always red.
 
-**Johku is a platform lead.** The schedule widget's classes are `rs-johku-schedule` and
+Johku is a platform lead. The schedule widget's classes are `rs-johku-schedule` and
 `rsjohku-ohjelmisto`, and the images come from `johku.com/kinoengel/files/`. Johku is a
 Finnish commerce and ticketing service, so its cinema customers may all render the same
 widget, which would make each of them a `SITES` entry rather than a parser. Worth a
@@ -898,7 +898,7 @@ existing `nexxo-scope` and `etiketti.app` sweeps.
 First live run, 2026-08-29: **41 showtimes, 17 films, 11 dates, 6 KesäKino, 41 posters,
 0 failures**, and the cloud pass that followed mirrored 24 new posters and generated the
 two new pages (47 venues, 105 sitemap URLs). Two rows needed aliases: Engel publishes the
-Swedish-dubbed **"Minioner & monster"** and the Japanese **"Kokuho - kabukin mestari"**,
+Swedish-dubbed "Minioner & monster" and the Japanese "Kokuho - kabukin mestari",
 both of which TMDB matched *correctly but weakly*, so no `tmdbId` was written and neither
 could merge with the other chains. The ids were verified against the cache rather than
 assumed — Minioner shares 1315772, the trailer key and the genre ids with Kätyrit &
@@ -960,13 +960,13 @@ The path, and where each step ended:
    no 2026-09 date at all.
 5. Per-product detail: `products/{source_id}.json` -> 200 but `ownShow` empty;
    `products/{numeric id}.json` -> 404; `products/{canonical}.json` -> 403. And `ownShow`
-   appears **zero times** in `widget-module.js`, so that module never reads shows either.
+   appears zero times in `widget-module.js`, so that module never reads shows either.
    The `_kj_` markup belongs to a different code path: the WordPress plugin
    `rs-johku-wordpress`.
 6. That plugin's loader is
    `johku.com/embed/?shopId=kinoengel&productId={n}&identifier={hash}&...`, printed in the
    film page's own HTML, so a `productId` is free per film. It returns 2265 bytes of
-   JavaScript that only pushes `_kjProd` and hands off. It did reveal a **composite**
+   JavaScript that only pushes `_kjProd` and hands off. It did reveal a composite
    product id (`992_5e578e61...`) that none of the earlier attempts used —
    `products/992_5e578e61....json` -> **403**.
 
@@ -990,7 +990,7 @@ not inventoried here. Consequences to accept, not to work around: `price` and `a
 empty for Engel, there is no per-show booking URL so a showtime opens the film page, and
 11.09. and 02.10. stay missing because their times only exist behind the widget.
 
-Johku is still a **platform lead** for the listing widget itself: `rs-johku-wordpress`
+Johku is still a platform lead for the listing widget itself: `rs-johku-wordpress`
 renders the same `rs-johku-schedule` markup on any of its cinema customers, so another
 Johku cinema would be a `SITES` entry against the same parser.
 
@@ -1061,7 +1061,7 @@ make it 12 across 6.
 
 ### The cinema-list lead: nytleffaan.fi — probed 2026-08-29, and it delivered
 `nytleffaan.fi/elokuvateatterit/` is a directory of every Finnish cinema, run by Suomen
-Filmikamari (the industry umbrella body). It is the **list of domains** every sweep here
+Filmikamari (the industry umbrella body). It is the list of domains every sweep here
 had been blocked on. It yields **225 cinema entries across 152 distinct hosts**, each with
 a "TEATTERIN KOTISIVUT" link to the cinema's own site.
 
@@ -1075,7 +1075,7 @@ platform fingerprint, and `/xml/TheatreAreas/`. Then the fingerprint hits were v
 against the endpoint each adapter actually needs, because **a signature in someone's HTML
 proves they are a customer of a platform, not that the platform answers us**.
 
-**eTiketti is much bigger than Kotka.** 22 hosts carry `etiketti.app`; **16 serve the
+eTiketti is much bigger than Kotka. 22 hosts carry `etiketti.app`; **16 serve the
 `/elokuvat/ohjelmistossa` listing `etiketti.py` already parses**, verified by counting the
 `/elokuvat/{id}/` film links in the response: biorex.org 31 (Bio Rex Kokkola — *not* the
 BioRex chain), kinopirtti.fi 16, arthousecinemaniagara.fi 15, leffabuumi.fi 13,
@@ -1102,16 +1102,16 @@ server-side. Engel's finding applies in advance — the listing parses, the API 
 
 **MyCloudCinema:** mantsala.cine.fi, the backend BioRex and Gilda already sit on.
 
-Not measured and load-bearing before any of this lands: **venue counts** (a host can carry
+Not measured and load-bearing before any of this lands: venue counts (a host can carry
 several; ksek.fi, leffabuumi.fi, studio123.fi, kino123.fi and k-kino.fi each list 2-3 in
-the directory), overlap with venues already covered, and **accents**. Nine chains already
+the directory), overlap with venues already covered, and accents. Nine chains already
 sit near the limit of what stays separable under deuteranopia; twenty would not, and the
 per-city rule is what makes that survivable — measure before promising a chain a colour.
 
 Also the competitive picture, since it comes up when deciding what to claim on the site:
 - **nytleffaan.fi** — industry-run, gets exhibitor data rather than scraping, claims every
-  cinema in Finland. It **excludes** special screenings: event cinema (theatre, opera,
-  sport) and **festival screenings**.
+  cinema in Finland. It excludes special screenings: event cinema (theatre, opera,
+  sport) and festival screenings.
 - **elokuviin.com** — claims all cinemas large and small, and does include festivals.
 - **kinossa.fi** — same aggregation idea.
 
@@ -1129,7 +1129,7 @@ Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAre
 on the shared asset host (`mcswebsites...?comp=list` -> 404, though a *known* container
 lists fine), and searching for the platform vendor's client list.
 
-This said the blocker was a real list of Finnish cinema **domains**, and that getting it
+This said the blocker was a real list of Finnish cinema domains, and that getting it
 once would make the sweep trivial. **Both halves were wrong, settled 2026-08-29.** The
 list exists and is one rendered page away (see the nytleffaan.fi entry above), and having
 it did not produce a single Vista site.
@@ -1163,7 +1163,7 @@ to test, and it was tested last.
 
 ## Hosting
 
-- GitHub Pages, free. Custom domain **leffavuoro.fi** (Nordweb, 12 €/yr, renews 12 €/yr).
+- GitHub Pages, free. Custom domain leffavuoro.fi (Nordweb, 12 €/yr, renews 12 €/yr).
 - DNS at Nordweb: four apex A records `185.199.108-111.153`, `www` CNAME -> `leffavuoro.fi.`
 - `CNAME` file in the repo root holds the domain; Pages + Enforce HTTPS on.
 - `.fi` cannot be bought from Traficom directly — always through an approved registrar.
@@ -1174,7 +1174,7 @@ to test, and it was tested last.
 
 ## Refactor to do before adding more providers
 
-Adding a **venue** to an existing platform is already one line. Adding a **platform** costs
+Adding a venue to an existing platform is already one line. Adding a platform costs
 four files plus five frontend edits, which is the thing to fix at six providers:
 
 - [x] **`data/providers.json`**, generated by `scripts/build_providers.py` from
@@ -1189,7 +1189,7 @@ four files plus five frontend edits, which is the thing to fix at six providers:
       The five `fetch_*.py` orchestrators are gone; the local wrapper calls
       `run.py kinoakseli` directly (verified locally 2026-08-27: 10 showtimes,
       3 dates, 0 failures).
-- [x] The cloud workflow **loops** over `registry.py --cloud`. Failure flag goes to
+- [x] The cloud workflow loops over `registry.py --cloud`. Failure flag goes to
       `$RUNNER_TEMP`, never into a commit; `git add data run-*.log` replaced the explicit
       list (`run.log`, Finnkino's, does not match that glob). Data is committed *before*
       the failure check, so one dead provider still publishes the rest. The enrich gate
@@ -1198,12 +1198,12 @@ four files plus five frontend edits, which is the thing to fix at six providers:
       carries arbitrary film titles and TMDB error text — the same class of silently
       passing check that hid breakage for days once before. The `exit=` line stays in
       the committed log for humans; the machine reads the temp file.
-- [x] `riviera.py` is **parameterised by base URL** (`base`, `ajax`, `listing`, `area` on
+- [x] `riviera.py` is parameterised by base URL (`base`, `ajax`, `listing`, `area` on
       the site dict). It did not end up buying Gilda, but it is the right shape anyway.
 - [x] **Repertory titles**: `clean()` in enrich_tmdb strips a trailing "(YYYY)", bracketed
       format noise ("(dub)", "(re-release)", "(liveaction)", 2D/3D/IMAX/4K), a trailing
       ", suomeksi", and a known-list event prefix. Exact list, not a `^\w+:` pattern,
-      which would strip "Dyyni" from "Dyyni: Osa kolme". Only the **search string** is
+      which would strip "Dyyni" from "Dyyni: Osa kolme". Only the search string is
       cleaned; `norm()` still keys on the published title, staying in agreement with
       `normTitle()`. 8 of 9 misses fixed.
 
@@ -1216,7 +1216,7 @@ Still open from this pass:
       fetch_data.py already applied to Finnkino, for the reasons stated there. The file
       is still only written when at least one venue produced shows, so a fully dead site
       keeps its old `generated` and the health line can go stale honestly.
-- [ ] A whole site parsing **zero** showtimes fails the run (a single empty venue only
+- [ ] A whole site parsing zero showtimes fails the run (a single empty venue only
       logs). Watch for a legitimately empty site tripping it.
 - [ ] **Repertory titles defeat the TMDB search**: "Trainspotting (1996)",
       "Vauvakino: La La Land", "KESÄKINO: Autofiktio", "BARNSÖNDAGAR: ..." all miss.
@@ -1262,7 +1262,7 @@ Still open from this pass:
       else now blanks; "coming soon" is premiere-chip material, not a rating.
 - [ ] Finnkino prices via the ticket-types endpoint (Kinoset + Akseli already show prices)
 - [ ] Commit run.log only on failure (less commit noise)
-- [x] Finnkino no longer publishes an **empty** area file when a venue returns no shows: it
+- [x] Finnkino no longer publishes an empty area file when a venue returns no shows: it
       keeps the previously committed one, matching `run.py`. A file is still written when
       none exists, because `areas.json` lists every site regardless of shows and the picker
       would otherwise link to a 404. New log line: `N venue files written, M kept as-is`.
@@ -1397,7 +1397,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       iterates PROVIDERS — racing it against the hardcoded fallback could drop a newly
       registered provider's venues from the picker.
 - [ ] **"K-18" quick filter**, the counterpart to "Lapsille". Must show only screenings
-      that are *certainly* 18+, which is **not** the same as anniskelu: plain `Anniskelu`
+      that are *certainly* 18+, which is not the same as anniskelu: plain `Anniskelu`
       marks a licensed auditorium and sits on S- and K-7-rated films (460 Finnkino
       showtimes carry it). The rule is `rating === 'K-18' || age === 'K-18'` — the film's
       own classification, or a screening limit a cinema states outright (Finnkino's
@@ -1410,22 +1410,22 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       "spider man" and "spider-man" are one search and "katyrit" finds "Kätyrit". Nobody
       types a hyphen in the right place. The spaced form is kept alongside the collapsed
       one, so a two-word query still behaves normally.
-- [x] The placeholder example is **drawn from the day on screen** — the film with the most
+- [x] The placeholder example is drawn from the day on screen — the film with the most
       showtimes, shortened at the colon, so "Spider-Man: Brand New Day" suggests
       "Spider-Man". Costs nothing, never goes stale, and beats a hardcoded title that ages
       out with one schedule. Falls back to a plain description when no film repeats.
 - [x] Placeholder teaches by example — "Etsi esim. Dyyni tai komedia" / "Search e.g. Dune
       or comedy" — because a description of the capability ("nimellä tai lajilla") is both
       clumsy in Finnish and easier to skip than an example. The `aria-label` stays an
-      explicit description; only the visible text is the example. Pick a **franchise**
+      explicit description; only the visible text is the example. Pick a franchise
       rather than a current release if it ever needs changing, so it does not age out with
       one schedule.
-- [x] Search box matches **genres as well as titles**, in both languages at once, so
+- [x] Search box matches genres as well as titles, in both languages at once, so
       "comedy" finds a film the Finnish UI calls Komedia. Matched through the same
       id -> name maps the cards render from, with the provider's genre string as fallback
       for films TMDB never matched. The per-show haystack is memoised and cleared when the
       genre maps arrive, or a search typed during that fetch would match titles only.
-- [ ] Genre / format filter **chips** (IMAX, LUXE, 2D/3D, genre) — the typed search covers
+- [ ] Genre / format filter chips (IMAX, LUXE, 2D/3D, genre) — the typed search covers
       genre now, so chips are about discovery rather than filtering: they show what is
       *available* tonight without having to guess a word.
 - [ ] Sort toggle: title ↔ first showtime; hide/dim past showtimes option
@@ -1448,7 +1448,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 - [x] Verify the dispatch actually fires. It is the last step, after the push has already
       succeeded, so when it broke the run still looked healthy and only the seven cloud
       providers went stale. A cloud run should appear within a minute of each local run.
-- [x] A provider parsing **zero** showtimes is now caught in the cloud: `run.py` writes no
+- [x] A provider parsing zero showtimes is now caught in the cloud: `run.py` writes no
       file, logs the venue by name, and exits non-zero, which fails the workflow. Before
       this, an empty parse silently left old data ageing.
 - [ ] The local half still only records it. `run-kinoakseli.log` gets `exit=1` and the run
@@ -1458,7 +1458,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 ## Documentation state (2026-08-27, sixth pass)
 
 - `README.md` covers: Leffavuoro, **ten providers / 47 venues**, the two-location
-  pipeline with **no cloud fallback for Finnkino**, the data shape every provider writes
+  pipeline with no cloud fallback for Finnkino, the data shape every provider writes
   (including `age`, `gids` and `tmdbId`, and why the last two are exact-match only), the
   three lists worth reading in `run-enrich.log`, and a step-by-step for adding a provider.
   It went a full day stale during the Orion work — check it whenever the provider count,
@@ -1499,7 +1499,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 - `workflow_dispatch` runs the workflow file at the ref, but a run already queued from an
   earlier push uses the older file. Check `head_sha` when a change seems not to apply.
 - Two writers on one branch (local + Actions), so both push paths need the pull-rebase retry.
-- The cloud workflow is **cron + dispatch only** with `cancel-in-progress: true`. It used to
+- The cloud workflow is cron + dispatch only with `cancel-in-progress: true`. It used to
   trigger on pushes to `scripts/providers/**`, which meant an adapter commit spawned a run
   that raced a manual dispatch; both regenerate the same files, so the loser could not
   rebase and the run went red for no real reason.
@@ -1563,8 +1563,8 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   have rewritten every popular page on every run while still being stale in the index. A
   second consecutive run writes zero files; in practice a page changes once a day when the
   date window shifts.
-- **Finnish city names are never inflected by the generator.** Correct: Helsinki ->
-  Helsing**i**ssä, Tampere -> Tampereella. The stem changes under consonant gradation, and
+- **Finnish city names are never inflected by the generator. Correct: Helsinki ->
+  Helsingi**ssä, Tampere -> Tampereella. The stem changes under consonant gradation, and
   the two cities do not even take the same case. Glue the ending onto the nominative and
   you get Helsin**ki**ssä, which is wrong, and is how a reader spots a generated page. Every
   string uses the nominative with a separator, which stays correct for whatever city a
