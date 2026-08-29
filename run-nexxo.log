@@ -1,9 +1,10 @@
-[kinoset] Kino 1-2 (Huittinen): 12 showtimes
-[kinoset] Kinema (Loimaa): 8 showtimes
-[kinoset] Bio (Sastamala): 8 showtimes
+[kinoset] Kino 1-2 (Huittinen): 6 showtimes
+[kinoset] Kinema (Loimaa): 4 showtimes
+[kinoset] Bio (Sastamala): 4 showtimes
 [kinoset] synopses merged: 0
-[kinoset] Kino 1-2: 12 showtimes, 3 dates
-[kinoset] Kinema: 8 showtimes, 4 dates
-[kinoset] Bio: 8 showtimes, 4 dates
-[run] nexxo: 3 venues, 28 showtimes, 0 failures
+[kinoset] Kino 1-2: 6 showtimes, 2 dates
+[kinoset] Kinema: 4 showtimes, 3 dates
+[kinoset] Bio: 4 showtimes, 3 dates
+[run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
+[run] nexxo: 3 venues, 14 showtimes, 0 failures
 exit=0
