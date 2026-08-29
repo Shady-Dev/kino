@@ -3,7 +3,7 @@
 // Data JSON is the other way around -- served from cache at once, refreshed behind --
 // because a launch that waits on the network is the single largest cost on a slow
 // connection and the page can tell honestly how old its data is (IDEAS, 2026-08-29).
-const CACHE = 'leffavuoro-v59';
+const CACHE = 'leffavuoro-v60';
 
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
@@ -51,11 +51,19 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // r.ok before every put, on every branch. A failed response used to be cached like
+  // any other, and posters are cache-first: one 404 during a deploy race, or a poster
+  // pruned upstream, and that tile stayed broken for the life of the cache version --
+  // the request never reached the network again to find out it had been fixed. The
+  // caller still gets the real response, so nothing here hides an error; it just stops
+  // a transient becoming permanent. The data-JSON branch above already did this.
   if (url.pathname.includes('/data/posters/')) {
     e.respondWith(
       caches.match(e.request).then(hit => hit || fetch(e.request).then(r => {
-        const copy = r.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
+        if (r.ok) {
+          const copy = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+        }
         return r;
       }))
     );
@@ -64,8 +72,12 @@ self.addEventListener('fetch', e => {
 
   e.respondWith(
     fetch(e.request).then(r => {
-      const copy = r.clone();
-      caches.open(CACHE).then(c => c.put(e.request, copy));
+      // Caching a 500 here is worse than caching a broken poster: this branch holds
+      // index.html, and the cached copy is what the offline fallback serves.
+      if (r.ok) {
+        const copy = r.clone();
+        caches.open(CACHE).then(c => c.put(e.request, copy));
+      }
       return r;
     }).catch(() => caches.match(e.request, { ignoreSearch: true }))
   );

@@ -2220,6 +2220,30 @@ above the list reads `Näytetään 11/12 teatteria. Ei saatu ladattua: Kallio.`
   bug: a service worker cache sits in front of the HTTP cache, not instead of it, and
   clearing one is not clearing the other.
 
+### The service worker stopped caching failures (2026-08-30)
+Two of the three fetch branches called `cache.put` on whatever came back. The data-JSON
+branch already checked `r.ok`; the poster and generic branches did not.
+
+**The poster one is the damaging one, because that branch is cache-first.** A cached 404
+is not a stale entry that expires -- it is a tile that stays broken for the life of the
+cache version, since the request never reaches the network again to find out it was
+fixed. A deploy race or a poster pruned upstream was enough. The generic branch holds
+`index.html`, and its cached copy is what the offline fallback serves, so a cached 500
+would be served to a reader who is merely offline.
+
+**Tested against the real `sw.js`, not a copy of its logic.** The harness browser blocks
+service-worker registration outright -- `navigator.serviceWorker.register` fails with
+"an unknown error occurred when fetching the script" on any port, and
+`getRegistrations()` has been empty all along -- so `tests/sw_fetch_harness.js` loads the
+actual file into a `vm` context with stubbed `caches`/`fetch`, drives its registered
+fetch listener, and records which URLs the code chose to store. Stubbing is the right
+instrument here: the thing under test is a decision this file makes, not behaviour the
+Cache API contributes. `tests/test_sw_cache.py` runs it and skips when node is absent.
+
+Nine cases: 404 and 500 on each branch, 200 on each branch, plus cross-origin and
+non-GET, which must not be intercepted at all rather than merely not cached. Verified by
+restoring the unconditional `put` -- three tests go red.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
