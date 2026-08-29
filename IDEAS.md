@@ -2327,6 +2327,31 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
+### Poster URLs are checked against the origin, not just the scheme (2026-08-30)
+`safeUrl` answered two different questions with one rule. A ticket or trailer URL is
+*meant* to leave this origin, so http(s) and relative are all correct for it. A poster is
+not: an `<img>` is a request the browser makes on its own, and the README's claim that a
+page load makes no third-party requests rests on every poster being local. The same
+function was clearing `https://third-party/x.jpg` for both roles.
+
+`safeAssetUrl` is a path allowlist -- same origin *and* inside `data/posters/` -- rather
+than an origin check, and the reason is `mirror_posters.py`: when a download fails it
+logs and leaves the hot-linked URL in the data on purpose, so that a third party's uptime
+cannot stop the pipeline publishing showtimes. That makes the privacy invariant something
+the client has to hold on its own rather than something it inherits from the pipeline
+having behaved.
+
+Measured before writing the rule: **every poster reference in the committed data is
+`data/posters/`** -- 3059 on shows and 98 in `films-extra.json`, 2026-08-30 -- so the
+allowlist costs nothing today and catches the day one is not.
+
+Tested by injecting three hostile forms into a venue file and loading it:
+`https://third-party.example/...`, the protocol-relative `//third-party.example/...`, and
+a padded uppercase `  HTTPS://Third-Party.example/...`. All three fell back to the
+placeholder tile, and the page rendered **zero off-origin images** against 21 local ones.
+This was latent rather than live -- there is no remote poster in the data today -- which
+is exactly why it needed a test rather than an inspection.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

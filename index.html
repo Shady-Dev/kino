@@ -1144,11 +1144,30 @@
   // href/src values also come from provider JSON. esc() stops attribute breakout; this
   // additionally rejects any scheme that is not http(s), so a hostile booking URL cannot
   // be javascript: or data:. Scheme-less (repo-relative poster paths) stays allowed.
+  // Two different questions, and one answer was being used for both. A ticket or
+  // trailer URL is *meant* to leave this origin, so http(s) and relative are all fine.
+  // A poster is not: an <img> is a request the browser makes on its own, and the
+  // README's claim that a page load makes no third-party requests rests on every
+  // poster being local. safeUrl said yes to `https://third-party/x.jpg` in both roles.
   const safeUrl = u => {
     u = String(u || '').trim();
     if(!u) return '';
     const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
     return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
+  };
+  // Same-origin, and inside the mirror directory. Deliberately a path allowlist rather
+  // than an origin check: `mirror_posters.py` leaves a hot-linked URL in the data when a
+  // download fails, on purpose, so that a third party's uptime cannot stop the pipeline
+  // publishing showtimes. That makes the privacy invariant something the client has to
+  // hold on its own rather than something it inherits from the pipeline behaving. Every
+  // poster reference in the committed data is `data/posters/` today (3157 of them,
+  // counted 2026-08-30), so the rule costs nothing and catches the day one is not.
+  const ASSET_DIR = 'data/posters/';
+  const safeAssetUrl = u => {
+    u = String(u || '').trim();
+    if(!u) return '';
+    if(/^[a-z][a-z0-9+.\-]*:/i.test(u) || u.startsWith('//')) return '';
+    return u.replace(/^\.?\//, '').startsWith(ASSET_DIR) ? esc(u) : '';
   };
   const jsonCache = {};
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
@@ -1913,7 +1932,7 @@
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
       const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
-      const posterUrl = safeUrl(m.img);
+      const posterUrl = safeAssetUrl(m.img);
       const poster = posterUrl
         ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
@@ -2078,7 +2097,7 @@
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
-    const sheetPoster = safeUrl(sample.img);
+    const sheetPoster = safeAssetUrl(sample.img);
     const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
