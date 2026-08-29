@@ -8,24 +8,26 @@ library in the pipeline.
 ## Read IDEAS.md first
 
 It holds the architecture decisions, the per-provider API research, and a long list of
-approaches that were **tried and rejected, with the reasoning**. Several obvious
-improvements are in there as dead ends. Argue with a recorded decision rather than
-quietly reversing it, and update IDEAS.md in the same commit as the change it explains.
+approaches that were tried and rejected, with the reasoning. Several obvious improvements
+are in there as dead ends. If you disagree with a recorded decision, argue with it in the
+file instead of quietly reversing it, and update IDEAS.md in the same commit as the change
+it explains.
 
-Write **why**, not what. The diff already says what.
+Write down why a change was made. The diff already shows what changed.
 
 ## How to work
 
 - **One commit per item.** Do not batch unrelated changes.
-- **Stop and ask rather than guess.** If an endpoint is unreachable or a claim cannot be
-  checked against the data, say so plainly instead of inferring. A wrong fact stated
-  confidently costs more than a missing one.
-- **Measure counts against the data before writing them down.** Numbers taken from an
-  older document have been wrong three times: the city count, the poster count, the page
-  rewrite frequency. Count it, then write it.
+- **Ask instead of guessing.** If an endpoint is unreachable or a claim cannot be checked
+  against the data, say so plainly. A wrong fact stated confidently costs more than a
+  missing one.
+- **Measure counts against the data before writing them down.** Numbers carried over from
+  an older document have been wrong five times now: the city count, the poster count, the
+  page rewrite frequency, and then the venue and provider counts after Kino Engel landed.
+  Count it, then write it.
 - **Verify a claim before documenting it.** The README asserted "nothing leaves the
-  device" and "no third-party requests" while loading a webfont and 1500 hot-linked
-  posters. Factual accuracy in documentation is not negotiable.
+  device" and "no third-party requests" while the page loaded a webfont from Google and
+  hot-linked posters from seven other hosts. Documentation has to be factually accurate.
 
 ## Client changes (`index.html`, `sw.js`)
 
@@ -34,34 +36,35 @@ Write **why**, not what. The diff already says what.
 - A hard refresh verifies. No workflow dispatch is involved.
 - Anything the language toggle can reach must be redrawn by `applyLang()`.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
-  provider URL through `safeUrl()`. Adapters publish verbatim text on purpose, because
+  provider URL through `safeUrl()`. Adapters publish verbatim text deliberately, because
   the raw title is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
 - **No `localStorage` assumptions beyond the existing keys.** Renaming `kino-prefs` or
   `kino-theme` wipes every user's saved venue, theme and starred cinema.
 
 ## Pipeline changes (`scripts/**`)
 
-- After the commit, dispatch the cloud workflow, then read the **committed**
-  `run-*.log` to verify. Not the Actions logs.
+- After the commit, dispatch the cloud workflow, then verify against the **committed**
+  `run-*.log` files. The Actions logs are not the ones to read.
 - Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
-- A provider that parses zero showtimes fails the run on purpose. An empty parse that
-  silently left old data ageing is the failure this pipeline is built against.
+- A provider that parses zero showtimes fails the run deliberately. The failure this
+  guards against is an empty parse that silently leaves old data ageing.
 
 ## Adding a provider
 
 A registry entry plus an adapter. No `index.html` edit.
 
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
-  is generated from it and the client derives every label, host, accent and footer verb.
+  is generated from it, and the client derives every label, host, accent and footer verb.
 - An adapter exposes `SITES` and `fetch_site(site) -> {venue_id: [shows]}`.
-- **Platform before site.** Adding a cinema that runs Vista, MyCloudCinema, Nexxo or
-  eTiketti is a `SITES` entry, never a new parser. Check for an existing platform first.
-- Accents are **measured against the set**, not picked. A new chain has to be separable
-  from every chain sharing a city in normal *and* deuteranope vision. IDEAS carries the
+- **Platform before site.** A cinema running Vista, MyCloudCinema, Nexxo, eTiketti or
+  Johku is a `SITES` entry against an existing adapter. Check for a platform first, and
+  only write a parser if it is on none of them.
+- **Measure a new accent against the whole set.** A new chain has to be separable from
+  every chain sharing a city, in normal *and* deuteranope vision. IDEAS carries the
   numbers and the method.
-- Check field-presence assumptions in the client, not just in the parser. Every frontend
+- Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
 ## Hard rules
@@ -70,7 +73,7 @@ A registry entry plus an adapter. No `index.html` edit.
   two-commit-stale `index.html` minutes after a push and silently reverted a fix. Use the
   Contents API with `Accept: application/vnd.github.raw`, or a tarball of `main`.
 - **Never commit a raw probe dump.** A third party's page carries whatever they ship to
-  visitors; one such dump put someone else's API key in this repo and tripped secret
+  visitors, and one such dump put someone else's API key in this repo and tripped secret
   scanning. Probe, read the answer, write the *finding* in IDEAS, commit nothing raw.
   `.gitignore` blocks `probe/` and `probe-*`.
 - **Nothing machine-specific in this repo.** It is public. No paths, no hostnames, no
@@ -79,13 +82,13 @@ A registry entry plus an adapter. No `index.html` edit.
   notes outside the repo.
 - **Never inflect Finnish city names in generated text.** Helsinki -> Helsingissä,
   Tampere -> Tampereella. Suffixing a case ending onto the nominative produces
-  "Helsinkissä", which is exactly how a reader spots a generated page. Nominative with a
-  separator, always.
+  "Helsinkissä", which is how a reader spots a generated page immediately. Always use the
+  nominative with a separator.
 - **Keep anything volatile out of generated pages**, or `write_if_changed` stops working:
   no build timestamp, no sold-out state in markup.
 - **Do not read a site from a datacenter IP and conclude it is unreachable.** Several
-  providers challenge datacenter addresses and answer an ordinary connection fine, and
-  the block is often on one endpoint rather than the whole host.
+  providers challenge datacenter addresses and answer an ordinary connection fine, and the
+  block is often on a single endpoint while the rest of the host serves normally.
 
 ## Access and ethics
 
@@ -95,10 +98,10 @@ day regardless of traffic, and every showtime links back to the cinema's own pag
 Reading a site as an ordinary visitor is fine. Residential proxies, fingerprint spoofing,
 solving a captcha, and using credentials that were never issued to a visitor are not.
 Booking, payment and administrative endpoints are never called and are not inventoried.
-If a cinema would rather not be included, the adapter comes out: one registry entry.
+If a cinema would rather not be included, removing it is one registry entry.
 
 ## Testing
 
-A fixture has to exercise the **loop**, not just the body. A one-item fixture once passed
+A fixture has to exercise the loop, not only the body. A one-item fixture once passed
 while the pacing branch it never entered was missing an import, and `py_compile` does not
-resolve names. Two items minimum wherever there is pacing or an index.
+resolve names. Use two items minimum wherever there is pacing or an index.
