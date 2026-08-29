@@ -12,11 +12,15 @@ Fields:
   host    the cinema's own domain, credited in the footer
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
           Chains that share a city have to be far apart in *both* normal and red-green
-          colourblind vision: BioRex is blue rather than its own gold because gold and
-          Finnkino's orange are the same colour to a deuteranope, and those two share
-          Helsinki, Espoo and Tampere. Measured worst same-city pair: ΔE 46.9 normal,
-          28.0 deutan (was 25.9 / 5.0). Check a new accent against the set, do not eyeball
-          it
+          colourblind vision. Helsinki is the only city with more than one chain in it
+          (measured, 2026-08-30), so it is the only place this rule binds.
+          Run `python3 scripts/accent_check.py` before changing one: it prints every
+          same-city pair in CIEDE2000 under two deuteranope models, and
+          `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
+          a number that no longer has a script behind it -- the figures that used to
+          sit here were CIE76 mislabelled as ΔE, and were wrong by a factor of five.
+          Current worst same-city pair: 3.9 ΔE00 deutan (BioRex/Riviera), which is a
+          known unfixed fault, not a target
   book    buy | reserve | door | list -> footer call to action. "list" is for a
           provider that publishes no per-show booking URL, so a showtime can only
           open the programme page (Gilda: seat choice lives in React state, and the

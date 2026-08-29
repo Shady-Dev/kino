@@ -255,17 +255,16 @@ Conventions worth keeping:
 - **Chain accents are chosen against the set, not picked one at a time** (2026-08-27).
   Every chain sharing a city has to be separable in normal *and* red-green colourblind
   vision, because the 3 px rule is the only visual cue distinguishing a Finnkino stub
-  from a BioRex one. The old palette had three warm chains in Helsinki: Finnkino vs Gilda
-  measured ΔE 25.9, and Finnkino vs BioRex measured **5.0 under deuteranopia** — the same
-  colour, in Helsinki, Espoo and Tampere. So BioRex left its own gold for blue and Gilda
-  left brick red for magenta, and Kino Akseli took the vacated gold: it is a single-screen
-  house in Nummela and never appears in a combined city view, so it cannot clash there.
-  Worst same-city pair is now ΔE 46.9 normal, 28.0 deutan; global minimum 32.1. Kotka's
-  colourblind figure fell slightly (28.7 -> 24.8) because crimson sits near orange for a
-  deuteranope; pushing Kotkan Leffat to pink would fix that pair and collide with Gilda's
-  magenta everywhere else, and Kotka only ever shows two chains. Ten chains cannot all be
-  mutually distinct under colourblind vision while staying this side of neon, so the target
-  is per-city separation, not global. `scripts/providers/registry.py` carries the numbers.
+  from a BioRex one. The old palette had three warm chains in Helsinki, so BioRex left
+  its own gold for blue and Gilda left brick red for magenta, and Kino Akseli took the
+  vacated gold: it is a single-screen house in Nummela and never appears in a combined
+  city view, so it cannot clash there. Eleven chains cannot all be mutually distinct
+  under colourblind vision while staying this side of neon, so the target is per-city
+  separation, not global.
+  **Every number this bullet used to carry was wrong and has been removed**; see
+  "The accent numbers, re-derived" below. The reasoning above survives the correction,
+  which is why it is still here. Run `scripts/accent_check.py` for the current figures
+  rather than quoting any that are written down.
 - A failed venue writes no file, keeping previous data rather than publishing empty
 - Verify the response belongs to the venue you asked for (see the BioRex cookie note)
 
@@ -851,13 +850,16 @@ datacenter IPs and the adapter never touches it.
 
 ### Kino Engel (added 2026-08-29)
 `scripts/providers/engel.py`, one venue, runs locally. Accent `#B47ACC`.
-- **The accent was measured, not picked.** Helsinki now has six chains on one list, so a
-  new colour has to clear Finnkino, BioRex, Riviera, Gilda and Orion in normal *and*
-  deuteranope vision. Grid search over hue/saturation/value, constrained to L* 38-60 so
-  the 3 px rule stays legible on both themes and does not collide with a chain in any
-  other city: `#B47ACC` gives worst same-city ΔE **36.9 normal, 37.3 deutan**, against
-  the existing Helsinki worst pair of BioRex/Riviera at 34.5 deutan. So the sixth chain
-  does not lower the city minimum, which was the thing to check.
+- **The accent was measured, not picked** -- but with a broken metric, and the numbers
+  first recorded here (36.9 normal, 37.3 deutan, against a claimed BioRex/Riviera floor
+  of 34.5) do not survive re-derivation. Re-measured 2026-08-30 with
+  `scripts/accent_check.py`: `#B47ACC`'s worst same-city pair is **18.5 normal, 15.2
+  deutan** (against Gilda), and the real BioRex/Riviera floor is 3.9, not 34.5. The
+  conclusion the bullet drew still holds -- Engel does not lower the Helsinki minimum,
+  because at 15.2 it sits well above the 3.9 that was already there -- but it held by
+  luck rather than by the check that was run. The L* 38-60 constraint is the one part of
+  the original search that did not depend on the metric, and `accent_check.py --search`
+  keeps it.
 - Parses rows, not day headings. Each row carries its own "La 29.08." beside
   "klo 17:30", so the `<h2>` headings and the date `<select>` above them are redundant
   and their markup can change without breaking this.
@@ -1117,15 +1119,10 @@ the strength of the platform alone.
   unconstrained -- the same reasoning that let Kino Akseli take the vacated gold -- but
   it was measured anyway and is the best available worst-case against the other ten in
   both normal and deuteranope vision.
-- **The accent numbers in this file cannot be reproduced and need a method written down.**
-  An independent CIEDE2000 + Brettel deuteranope model, checked against the one recorded
-  pair whose hex is written here (Finnkino vs the old BioRex gold), gives 8.1 where this
-  file says 5.0. On today's palette it puts BioRex/Riviera in Helsinki at 4.0 deutan
-  where the Engel entry records 34.5 for that same pair. One of the two is wrong and it
-  matters, because 4.0 would mean two chains sharing Helsinki are indistinguishable to a
-  deuteranope, which is the exact fault the palette was rebuilt to fix. Nothing was
-  changed on the strength of an unvalidated model. What is missing is the script: record
-  the transform and the ΔE formula next to the numbers so the next check is comparable.
+- **The accent numbers were unreproducible; settled 2026-08-30.** The independent model
+  was right and this file was wrong. `scripts/accent_check.py` is the method that was
+  missing; see "The accent numbers, re-derived" below. Kokkola still has no other chain
+  in it, so this accent remains unconstrained either way.
 
 ### The cinema-list lead: nytleffaan.fi, probed 2026-08-29
 `nytleffaan.fi/elokuvateatterit/` is a directory of every Finnish cinema, run by Suomen
@@ -2048,6 +2045,76 @@ otherwise get a Finnish contact line under an English footer.
 
 Constant, so `write_if_changed` still converges: the first run rewrote 106 of 107 pages
 and the second wrote none. Same knock-on to expect as the poster mirroring, once.
+
+### The accent numbers, re-derived (2026-08-30)
+The open item said the recorded ΔE figures could not be reproduced and needed a method
+written next to them. They have been re-derived, and the answer is worse than a
+bookkeeping error: **the independent model was right, this file was wrong, and one
+same-city pair is effectively a single colour to a deuteranope right now.**
+
+`scripts/accent_check.py` is the method. Not a formula in prose, which can be misread,
+but a script that runs: it prints every same-city pair under CIEDE2000 in normal vision
+and under two independently derived deuteranope models, and `--selftest` checks its own
+CIEDE2000 against 15 pairs of Sharma, Wu & Dalal's published reference data before any
+of it is believed. What it computes, exactly: sRGB -> linear via the piecewise IEC
+61966-2-1 transfer function; deuteranope simulation applied to **linear** RGB by both
+Viénot–Brettel–Mollon (1999) and Machado–Oliveira–Fernandes (2009) at severity 1.0;
+linear -> XYZ (sRGB primaries, D65) -> CIELAB (D65, 2°); CIEDE2000 with kL=kC=kH=1.
+
+**The old metric was CIE76, called ΔE.** That is the diagnosis, and it is certain rather
+than inferred, because plain Euclidean distance in Lab reproduces three of the recorded
+normal-vision numbers to the decimal:
+
+| recorded as | pair | CIE76 | CIEDE2000 |
+|---|---|---|---|
+| 25.9 | old Finnkino / old Gilda | **25.9** | 15.3 |
+| 46.9 | BioRex / Riviera, normal | **46.9** | 23.3 |
+| 36.9 | Engel / BioRex, normal | **36.9** | 18.5 |
+
+CIE76 overstates differences badly for saturated colours, which is the entire reason
+CIEDE2000 exists. Every figure in this file was therefore optimistic in the same
+direction, which is why nothing looked wrong.
+
+**The deuteranope figures match nothing at all.** 34.5, 28.0, 37.3 and 5.0 were tested
+against Viénot and Machado, in linear and in gamma space, under CIE76 and CIEDE2000, and
+against Machado interpolated across the full severity range. The severity that would
+explain each number differs per number (0.32, 0.48, 0.00, 1.00), so it is not one
+consistent model with the wrong parameter either. Whatever produced them, it cannot be
+recovered, and no number from it should be quoted again.
+
+**Corrected, with the harsher of the two models:**
+
+| claim | recorded | measured |
+|---|---|---|
+| worst same-city pair, normal | 46.9 | 18.5 (Engel/Gilda) |
+| worst same-city pair, deutan | 28.0 | **3.9 (BioRex/Riviera)** |
+| BioRex/Riviera, deutan | 34.5 | 3.9 |
+| Engel `#B47ACC` worst same-city | 36.9 / 37.3 | 18.5 / 15.2 |
+| old Finnkino / old BioRex, deutan | 5.0 | 1.8 |
+| global minimum, any pair, deutan | 32.1 | 0.7 (Finnkino/Kino Akseli) |
+
+**Helsinki is the only city with more than one chain in it.** Measured against the data,
+not assumed: 1 of 33 cities. Espoo, Tampere, Kotka and Savonlinna have two venues each
+but one chain each, so the combined view there never puts two accents side by side. The
+whole per-city rule reduces to six chains in Helsinki. This also retires the old bullet's
+claim that "Kotka only ever shows two chains" and its 28.7 -> 24.8 figure: Kotka has one
+chain and has never had two.
+
+Two structural conclusions the correction does *not* overturn. Kino Akseli's gold sits
+0.7 ΔE00 from Finnkino's orange under deuteranopia -- indistinguishable -- and that is
+still fine, because Nummela has one chain and the two never appear together. And six
+chains in one city genuinely cannot all be far apart under deuteranopia, who sees
+something close to a two-dimensional colour space: the best achievable Helsinki floor is
+about 14, not the 28 that was recorded.
+
+**Open, and a decision rather than a bug fix: BioRex `#1273D4` and Riviera `#7B3FD4` are
+3.9 ΔE00 apart in Helsinki.** Blue and violet differ mostly in the red-green channel a
+deuteranope does not have. Moving either one to a muted teal-green (`accent_check.py
+--search` puts `#24664E` at the top for both) lifts the Helsinki floor from 3.9 to 14.4,
+where the binding pair becomes Finnkino/Cinema Orion -- orange against olive, both
+yellowish under deuteranopia, and about the ceiling for six chains. Not applied: an
+accent is a visible identity choice, and the previous repalette was made on numbers
+nobody could check. This one should be made deliberately, with the script in hand.
 
 ## Access and ethics
 
