@@ -885,8 +885,8 @@ datacenter IPs and the adapter never touches it.
   both are in the date `<select>`, so their times are presumably fetched when the reader
   picks the date. The log now reports only dates no timed row covers, which is the
   number that would actually mean something: it is 2 today, and it going to 13 would say
-  the timed listing had disappeared. A count that fires on healthy data teaches you to
-  ignore it, which is the same failure as a workflow that is always red.
+  the timed listing had disappeared. A count that fires on healthy data gets ignored, the
+  same way the always-red workflow did.
 
 Johku is a platform lead. The schedule widget's classes are `rs-johku-schedule` and
 `rsjohku-ohjelmisto`, and the images come from `johku.com/kinoengel/files/`. Johku is a
@@ -1634,8 +1634,8 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   hosts see a visitor's IP. `referrerpolicy="no-referrer"` on every `<img>` keeps the page
   URL out of it, which is the one part that was already right. The README now states this
   plainly instead. Closing it means self-hosting the font and the remaining posters, the
-  way MX posters are already mirrored into `data/posters/`; until that is done, an
-  accurate README beats a flattering one.
+  way MX posters are already mirrored into `data/posters/`. Until that is done, the
+  README states the problem instead of hiding it.
 
 ### Posters are mirrored (2026-08-29)
 `scripts/providers/mirror_posters.py` runs after enrichment and before `build_pages`,
@@ -1681,8 +1681,8 @@ README documents is now closed; the Google Fonts request is not.
   The moment posters moved there, every `<img>` and every JSON-LD `image` on the
   generated pages pointed at a path Googlebot may not fetch, and an unfetchable image is
   exactly what made `workPresented` invalid in the first place. `Allow: /data/posters/`
-  now overrides it, since the longer rule wins. Worth generalising: moving an asset onto
-  this origin is not finished until the crawler can still reach it.
+  now overrides it, since the longer rule wins. Moving an asset onto this origin is not
+  finished until the crawler can still reach it.
 
 ### The webfont is self-hosted (2026-08-29)
 `fonts/archivo-latin.woff2` (90 kB) and `fonts/archivo-latin-ext.woff2` (86 kB), with the
