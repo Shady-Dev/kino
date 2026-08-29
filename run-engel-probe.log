@@ -1,0 +1,21 @@
+== platform signatures
+  /xml/TheatreAreas/                                             202  191 bytes  <html><head><link rel="icon" href="data:;"><meta http-equiv="refresh" content="0
+  /wp-content/plugins/nexxo-scope/public_api.php?action=export   202  304 bytes  <html><head><link rel="icon" href="data:;"><meta http-equiv="refresh" content="0
+  /wp-json/gilda-react-booking/v1/cinemas                        202  214 bytes  <html><head><link rel="icon" href="data:;"><meta http-equiv="refresh" content="0
+  /wp-json/                                                      202  180 bytes  <html><head><link rel="icon" href="data:;"><meta http-equiv="refresh" content="0
+
+== /  status=202  170 bytes
+
+== /kesakino/  status=202  181 bytes
+
+== / structure
+   -- date/time-looking text
+   -- film links
+   -- headings
+
+== /kesakino/ structure
+   -- date/time-looking text
+   -- film links
+   -- headings
+
+== wp/v2/types  status=202
