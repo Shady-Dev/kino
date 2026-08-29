@@ -1049,7 +1049,28 @@
     const pr = prefs.get();
     const known = id => !!id && (areas.some(a => a.id === id) ||
       (id.startsWith('city:') && (cityGroups[id.slice(5)] || []).length > 1));
-    state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
+    // ?area= beats both. The pre-rendered pages under /teatteri/ and /kaupunki/ link here,
+    // and without this a reader arriving from a search for one cinema landed on whatever
+    // they browsed last and had to find it again in a 46-entry picker. Validated against
+    // the venue list like any stored value, so a stale or hand-edited link falls through
+    // to the normal restore rather than showing an empty view.
+    let deep = '';
+    try {
+      deep = new URLSearchParams(location.search).get('area') || '';
+    } catch(_){ deep = ''; }
+    if(known(deep)){
+      state.area = deep;
+      prefs.set({ area: deep });   // stick, so the next visit opens here too
+      // Drop the param once applied: leaving it in place would override the picker on
+      // every reload, which is wrong for an app people keep open.
+      try {
+        const u = new URL(location.href);
+        u.searchParams.delete('area');
+        history.replaceState(null, '', u.pathname + u.search + u.hash);
+      } catch(_){}
+    } else {
+      state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
+    }
     areaSel.value = state.area;
     syncFav();
   }

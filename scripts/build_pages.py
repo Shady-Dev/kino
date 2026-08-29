@@ -36,6 +36,7 @@ import json
 import re
 import sys
 import unicodedata
+import urllib.parse
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -383,7 +384,7 @@ def ld_json(days, today, city, extra):
 
 
 def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
-         extra, gmap, city, also, og_image):
+         extra, gmap, city, also, og_image, app_href):
     other = path_en if lang == "fi" else path_fi
     body, syn_seen = [], set()
     if not days:
@@ -427,7 +428,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 <body>
 <h1>{esc(h1)}</h1>
 <p>{esc(intro)}</p>
-<a class="app" href="/">{esc(t['app'])}</a>
+<a class="app" href="{esc(app_href)}">{esc(t['app'])}</a>
 {''.join(body)}
 {nav}
 <p style="margin-top:1.5rem"><a href="{esc(other)}">{'In English' if lang == 'fi' else 'Suomeksi'}</a></p>
@@ -512,7 +513,10 @@ def main() -> int:
                 also={"links": lk,
                       "heading": t["other_venues"],
                       "multi": False},
-                og_image=og)
+                og_image=og,
+                # Deep link, so a reader arriving from search opens on this venue instead
+                # of whatever the app last had selected.
+                app_href="/?area=" + urllib.parse.quote(v["id"]))
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
             write_if_changed(out, text, stats)
         urls += [p_fi, p_en]
@@ -544,7 +548,8 @@ def main() -> int:
                 also={"links": lk,
                       "heading": t["other_venues"],
                       "multi": True},
-                og_image=og)
+                og_image=og,
+                app_href="/?area=" + urllib.parse.quote("city:" + c))
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
             write_if_changed(out, text, stats)
         urls += [p_fi, p_en]

@@ -1306,9 +1306,14 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   (~390 kB worst case). Building them in the workflow and deploying via a Pages artifact
   instead would remove that entirely, at the cost of switching Pages from branch to Actions
   and a real risk of taking the site down while getting it wrong. Not attempted yet.
-- Open: a page links to `/`, and the app has no `?area=` deep link, so someone arriving
-  from search has to re-pick the venue. That is a small client change and the obvious next
-  step.
+- **`?area=` deep link** (2026-08-29). Every generated page links to `/?area={venueId}`, or
+  `/?area=city:{City}` for a combined page, so a reader arriving from a search for one
+  cinema opens on it instead of on whatever the app last had selected. The value goes
+  through the same `known()` check as a stored preference, so a stale or hand-edited link
+  falls through to the normal restore rather than showing an empty view. It is written to
+  prefs on arrival, then stripped from the URL with `replaceState`: leaving it would
+  override the picker on every reload, which is wrong for an app people keep open, and the
+  link still does its job the first time it is opened.
 - Deliberately **no venue or city count in the meta description**. README and IDEAS both
   carry it; a third copy in `index.html` would be a third thing to keep in step, and a
   stale number in a search result is worse than no number.
