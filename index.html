@@ -519,6 +519,7 @@
   }
   #sources .src{white-space:nowrap}
   #sources .src.bad{color:var(--accent); font-weight:700}
+  #sources .part{opacity:.75; cursor:help}
 
   @media (max-width:560px){
     .poster{flex-basis:72px; width:72px; height:104px}
@@ -678,7 +679,8 @@
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
-         contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt' },
+         contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt',
+         partialOf:'{n}/{m} teatteria ei päivittynyt' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -708,7 +710,8 @@
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
-         contact:'För biografer: kontakt och begäran om borttagning' },
+         contact:'För biografer: kontakt och begäran om borttagning',
+         partialOf:'{n}/{m} biografer uppdaterades inte' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -735,7 +738,8 @@
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
-         contact:'For cinemas: enquiries and removal requests' }
+         contact:'For cinemas: enquiries and removal requests',
+         partialOf:'{n}/{m} cinemas did not refresh' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -980,12 +984,18 @@
     const names = Object.keys(providerMeta);
     if(!names.length){ el.textContent = ''; return; }
     const parts = names.map(p => {
-      const m = providerMeta[p], h = ageHours(m.generated);
+      const m = providerMeta[p], h = ageHours(m.oldest || m.generated);
       const nm = esc((SOURCE[p] || [p])[0]);
       if(h === null) return `<span class="src bad">${nm} ?</span>`;
       const cls = h > STALE_H ? 'src bad' : 'src';
       const mark = h > STALE_H ? '\u26a0 ' : '';
-      return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}</span>`;
+      // Without this a chain whose age comes from one stale cinema reads as if the
+      // whole chain were down. The count says how much of it is actually behind.
+      const part = m.stale
+        ? ` <span class="part" title="${esc(L[state.lang].partialOf
+            .replace('{n}', m.stale).replace('{m}', m.venues))}">(${m.stale}/${m.venues})</span>`
+        : '';
+      return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}${part}</span>`;
     });
     // The key lives here rather than under the chain legend: it is reference material,
     // not something to scan past on the way to a showtime, and the word it decodes is
@@ -1250,7 +1260,13 @@
       if(!j) return;
       const vs = (j.venues || []).filter(v => v.id && v.name);
       for(const v of vs) extra.push({ ...v, provider: prov });
-      if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
+      // `oldest` is the weakest venue's timestamp; `generated` only says when the
+      // pipeline wrote this file, which is always now. Reading `generated` was how a
+      // chain with one week-old cinema reported itself as current. Falls back to
+      // `generated` so a file written before the field existed still renders.
+      if(vs.length) providerMeta[prov] = {
+        generated: j.generated, oldest: j.oldest || j.generated,
+        stale: Array.isArray(j.stale) ? j.stale.length : 0, venues: vs.length };
     });
     state.generated = data.generated;
     return areas.concat(extra);

@@ -1658,6 +1658,10 @@ one that was wrong.
 - [x] A provider parsing zero showtimes is now caught in the cloud: `run.py` writes no
       file, logs the venue by name, and exits non-zero, which fails the workflow. Before
       this, an empty parse silently left old data ageing.
+      **That was only ever true for a whole site.** One venue of twelve parsing to
+      nothing took the `keeping previous data` branch and was counted as neither live nor
+      failed, and the provider file then stamped a fresh timestamp over all twelve.
+      Fixed 2026-08-30; see "A provider is as fresh as its weakest venue" below.
 - [ ] The local half still only records it. `run-kinoakseli.log` gets `exit=1` and the run
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
@@ -2129,6 +2133,46 @@ olive, both yellowish under deuteranopia, and about the ceiling for six chains.
 - Teal now sits near Kinoset's green and Savon Kinot's teal in the abstract. That is
   allowed and deliberate: neither shares a city with Riviera, the chain accents only
   render in a combined city view, and Helsinki is the only city that has one.
+
+### A provider is as fresh as its weakest venue (2026-08-30)
+`run.py`'s module docstring said an empty parse "counts as a failure". It did, for a
+whole site. One venue of twelve parsing to nothing hit the `keeping previous data`
+branch, which incremented nothing and recorded nothing, and then `venues-{provider}.json`
+stamped `generated: now` across all twelve. `renderHealth` reads that stamp, so the app
+said BioRex was an hour old while one of its cinemas sat on week-old showtimes. The
+failure this pipeline was built to prevent, one level down from where it was being
+checked.
+
+`venues-{provider}.json` gains three fields, all additive so an older client ignores them:
+
+- `oldest` -- the minimum `generated` across the provider's venue files, read off disk
+  after the run rather than tracked alongside it, so it cannot drift from what was
+  actually written. This is what the health line ages on now. Same rule the combined city
+  view already applied to its parts.
+- `status` -- `ok` or `partial`.
+- `stale` -- the venue ids whose previous file was kept.
+
+`generated` keeps its old meaning, when the file was written. Redefining it would have
+been a silent schema change for anything already reading it.
+
+**Stale, not failed, and the distinction is forced rather than chosen.** At this layer a
+broken parser and a cinema with nothing on today both arrive as `[]`. They cannot be told
+apart, so failing the run on a venue-level empty would fire on every ordinary Monday
+closure. What the run must not do is hide it: `[run] partial:` names the venues in the
+committed log, and the published status carries them to the client. Only a site where
+*every* venue came back empty still fails, because nothing else would notice that.
+
+The client shows `⚠ Riviera 119h (1/2)` rather than just `⚠ Riviera 119h`. Ageing on the
+oldest venue is what makes the number honest, but on its own it reads as "this whole
+chain is down" when eleven of twelve cinemas are fine. The count says how much of it is
+actually behind, with the venue tally in the title attribute, translated in all three
+languages.
+
+Covered by `tests/test_run_partial.py`, with **three venues and the stale one in the
+middle**: two venues would let an implementation that reports "the last venue's state"
+pass, since with one good and one bad those are the same answer. Verified by breaking it
+-- reverting `oldest` to `now` turns two tests red, dropping the `stale` bookkeeping
+turns three red.
 
 ## Access and ethics
 

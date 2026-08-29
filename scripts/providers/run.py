@@ -22,9 +22,14 @@ so the picker never links to a 404 (same two rules as fetch_data.py for Finnkino
 venues-{provider}.json always lists **every** venue of the site: it is what the client
 builds its picker from, so dropping a failed venue would make its still-committed area
 file unreachable while the health line stays green — the silent failure this pipeline
-is designed against. An empty parse is still logged loudly and counts as a failure:
-nothing else would notice, since the health line only sees a file's age, not whether
-it still has content.
+is designed against.
+
+A venue that keeps its previous file is recorded as *stale*, not failed: at this layer
+an empty parse and a cinema with nothing on today both arrive as `[]`, so they cannot be
+told apart, and treating either as a failure would fail the run on an ordinary closure.
+The file therefore carries `status`, `stale` and `oldest`, and `oldest` is what the
+health line ages on — a provider is as fresh as its weakest venue. Only a site where
+*every* venue came back empty is a failure, since nothing else would notice that.
 """
 import datetime
 import importlib
@@ -42,6 +47,19 @@ import synmerge            # noqa: E402
 OUT = pathlib.Path("data")
 
 
+def generated_of(path):
+    """The `generated` already committed for a venue. -> str, or '' if unreadable.
+
+    A venue that keeps its previous file keeps that file's timestamp, so this is what
+    the provider is really as fresh as. Unreadable is treated as unknown rather than as
+    an error: a torn or hand-edited file must not stop the run publishing showtimes.
+    """
+    try:
+        return json.loads(path.read_text(encoding="utf-8")).get("generated") or ""
+    except Exception:
+        return ""
+
+
 def run_site(mod, site, now):
     """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure."""
     label = site.get("provider") or mod.__name__
@@ -55,12 +73,14 @@ def run_site(mod, site, now):
     synmerge.merge(OUT, per_venue, label)
 
     live = total = 0
+    stale = []            # venues whose previous file was kept, so their data is older
     for v in site["venues"]:
         shows = per_venue.get(v["id"]) or []
         path = OUT / f"area-{v['id']}.json"
         if not shows and path.exists():
-            print(f"[{label}] {v['name']}: no showtimes, keeping previous data",
-                  file=sys.stderr)
+            stale.append(v["id"])
+            print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
+                  f"from {generated_of(path) or 'an unknown time'}", file=sys.stderr)
             continue
         # No shows and no file yet (new venue whose first parse failed): write an
         # empty file, or the picker below would link to a 404.
@@ -78,12 +98,24 @@ def run_site(mod, site, now):
     # Every venue, not just the fresh ones — see the module docstring. Written only
     # when at least one venue produced shows, so a fully dead site does not stamp a
     # fresh `generated` and green the health line on total failure.
+    #
+    # `oldest` is the honest number and `generated` was not. `generated` says when this
+    # file was written, which is now; the health line was reading it and calling the
+    # whole provider fresh while one of its venues sat on week-old data. Taken from the
+    # files on disk rather than from `stale`, so it cannot drift from what was actually
+    # written. Same rule the combined city view already applies: a group is as fresh as
+    # its weakest member.
     if live:
+        stamps = [generated_of(OUT / f"area-{v['id']}.json") or now
+                  for v in site["venues"]
+                  if (OUT / f"area-{v['id']}.json").exists()]
         common.write_json(OUT / f"venues-{site['provider']}.json",
-            {"generated": now, "provider": site["provider"],
+            {"generated": now, "oldest": min(stamps) if stamps else now,
+             "status": "partial" if stale else "ok", "stale": stale,
+             "provider": site["provider"],
              "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
                         for v in site["venues"]]})
-    return live, total
+    return live, total, stale
 
 
 def main(argv) -> int:
@@ -98,6 +130,7 @@ def main(argv) -> int:
     OUT.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     venues = shows = failures = 0
+    partial = []          # (provider, [venue ids]) for every site that kept old data
 
     for name in names:
         try:
@@ -110,13 +143,15 @@ def main(argv) -> int:
         for site in sites:
             label = site.get("provider") or name
             try:
-                v, s = run_site(mod, site, now)
+                v, s, stale = run_site(mod, site, now)
             except Exception as e:
                 print(f"[{label}] FAILED: {e}", file=sys.stderr)
                 failures += 1
                 continue
             venues += v
             shows += s
+            if stale:
+                partial.append((label, stale))
             if not v:
                 failures += 1
 
@@ -140,8 +175,19 @@ def main(argv) -> int:
               f"{t['waited']:.0f}s waited, {t['refused']} not retried "
               f"(asked for longer than a run can wait)")
 
+    # Named, not counted. A venue that kept its previous data is not a failure the run
+    # can act on -- at this layer an empty parse and a cinema with nothing on today are
+    # the same signal, `[]`, so failing here would fire on every ordinary closure. What
+    # it must not do is disappear: the venue file is published with a `partial` status
+    # and the health line ages on the oldest venue, so the app stops claiming the
+    # provider is fresh, and this line puts the venue names in the committed log.
+    if partial:
+        for label, ids in partial:
+            print(f"[run] partial: {label} kept previous data for "
+                  f"{len(ids)} venue(s): {', '.join(ids)}")
+
     print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
-          f"{failures} failures")
+          f"{sum(len(i) for _, i in partial)} stale, {failures} failures")
     return 1 if failures or not venues else 0
 
 
