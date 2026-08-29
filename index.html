@@ -106,7 +106,9 @@
     transition:border-color .15s, transform .15s;
   }
   #themeToggle:hover{border-color:var(--accent); transform:rotate(15deg)}
-  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, select:focus-visible, input:focus-visible{
+  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, select:focus-visible,
+  input:focus-visible, .tlink:focus-visible, .tinfo:focus-visible, .sheet-close:focus-visible,
+  button:focus-visible{
     outline:2px solid var(--accent); outline-offset:2px;
   }
 
@@ -251,6 +253,9 @@
   .poster.blank{display:grid;place-items:center;font-weight:800;font-size:1.5rem;letter-spacing:.04em;border:1px solid var(--line)}
   .info{flex:1; min-width:0}
   .title{font-size:1.15rem; font-weight:800; line-height:1.25}
+  /* The trigger is a link because opening the sheet is hash navigation. It has to look
+     like the heading it is, so only the focus ring gives it away. */
+  .tlink{text-decoration:none; color:inherit; border-radius:3px}
   .meta1{
     margin-top:7px; display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center;
     font-size:.82rem;
@@ -493,7 +498,8 @@
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
   .trow .stub .aud{flex:1 1 0; min-width:0; max-width:none; text-align:left}
   .trow .stub .aud .loc{flex:0 1 auto}
-  .tinfo{min-width:0; cursor:pointer}
+  .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
+         border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .tinfo small{color:var(--muted); font-size:.75rem}
 
@@ -573,17 +579,17 @@
   <div class="bar">
     <div class="logo">Leffavuoro<span>.</span></div>
     <div class="spacer"></div>
-    <div id="langSeg" class="langseg" role="group" aria-label="Kieli / Language"></div>
-    <button id="themeToggle" title="Switch theme" aria-label="Switch light/dark theme">◐</button>
+    <div id="langSeg" class="langseg" role="group" aria-label="Kieli"></div>
+    <button id="themeToggle" type="button" title="Vaihda teemaa" aria-label="Vaihda vaalean ja tumman teeman välillä">◐</button>
   </div>
   <div class="controls">
-    <select id="areaSelect" aria-label="Choose theatre"></select>
+    <select id="areaSelect" aria-label="Valitse teatteri"></select>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
-    <input class="search" id="search" type="search" placeholder="Search e.g. Dune or comedy" aria-label="Filter movies by title or genre">
+    <input class="search" id="search" type="search" placeholder="Etsi esim. Dune tai komedia" aria-label="Suodata elokuvia nimen tai genren mukaan">
   </div>
-  <div class="days" id="days" role="tablist" aria-label="Choose date"></div>
+  <div class="days" id="days" role="group"></div>
   <div class="tools">
-    <div class="seg" role="tablist">
+    <div class="seg" id="viewSeg" role="group">
       <button id="segMovies" class="on">Leffat</button><button id="segTimes">Ajat</button>
     </div>
     <button class="chip" id="chipLang">Suom. puhe</button>
@@ -595,7 +601,7 @@
 <div id="partial" role="status"></div>
 
 <div id="overlay"></div>
-<div id="sheet" role="dialog" aria-modal="true"></div>
+<div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" inert aria-hidden="true"></div>
 
 <main id="main">
   <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
@@ -705,7 +711,12 @@
          partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
-         allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä' },
+         allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä',
+         aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
+         aSearch:'Suodata elokuvia nimen tai genren mukaan', aDays:'Valitse päivä',
+         aView:'Valitse näkymä', aLang:'Kieli', aClose:'Sulje',
+         aPrevMonth:'Edellinen kuukausi', aNextMonth:'Seuraava kuukausi',
+         aChains:'Suodata ketjun mukaan' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -739,7 +750,12 @@
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
          partialMissing:'Kunde inte laddas: {names}.',
-         allFresh:'Alla {m} källor är aktuella', behind:'Källor efter' },
+         allFresh:'Alla {m} källor är aktuella', behind:'Källor efter',
+         aTheme:'Växla mellan ljust och mörkt tema', aVenue:'Välj biograf',
+         aSearch:'Filtrera filmer efter titel eller genre', aDays:'Välj dag',
+         aView:'Välj vy', aLang:'Språk', aClose:'Stäng',
+         aPrevMonth:'Föregående månad', aNextMonth:'Nästa månad',
+         aChains:'Filtrera efter kedja' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -770,7 +786,12 @@
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
          partialMissing:'Could not load: {names}.',
-         allFresh:'All {m} sources up to date', behind:'Sources behind' }
+         allFresh:'All {m} sources up to date', behind:'Sources behind',
+         aTheme:'Switch between light and dark theme', aVenue:'Choose theatre',
+         aSearch:'Filter movies by title or genre', aDays:'Choose date',
+         aView:'Choose view', aLang:'Language', aClose:'Close',
+         aPrevMonth:'Previous month', aNextMonth:'Next month',
+         aChains:'Filter by chain' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -895,23 +916,35 @@
     daysEl.innerHTML = '';
     const base = fiToday();
     const saved = savedDay() || base;
-    const activate = el => { [...daysEl.children].forEach(c=>c.classList.remove('active')); el.classList.add('active'); };
+    // aria-current, not aria-selected: these are buttons that pick a day, not tabs with
+    // panels, and the file used to claim role="tab" while implementing none of the
+    // pattern -- no aria-selected, no aria-controls, no arrow keys. `date` is the exact
+    // token for "the one in this set that is current".
+    const activate = el => {
+      [...daysEl.children].forEach(c => { c.classList.remove('active'); c.removeAttribute('aria-current'); });
+      el.classList.add('active');
+      if(el !== calChip) el.setAttribute('aria-current', 'date');
+    };
     dayBtns = {};
     for(let i=0;i<5;i++){
       const iso = addDays(base, i);
       const b = document.createElement('button');
-      b.className = 'day'; b.role = 'tab';
+      b.className = 'day'; b.type = 'button';
       const lbl = i===0 ? L[state.lang].today : (i===1 ? L[state.lang].tomorrow : fiDay[dowOf(iso)]);
       b.innerHTML = `<small>${lbl}</small><b>${dmOf(iso)}</b>`;
       b.onclick = () => { state.dateStr = iso; state.advanced = true; prefs.set({day:iso});
                           resetCalChip(); activate(b); loadSchedule(); };
       dayBtns[iso] = b;
-      if(iso === saved){ b.classList.add('active'); state.dateStr = iso; }
+      if(iso === saved){ b.classList.add('active'); b.setAttribute('aria-current', 'date');
+                         state.dateStr = iso; }
       daysEl.appendChild(b);
     }
     // Calendar chip: opens the custom month picker (see openCal).
+    // Not a tab under any reading: it opens the month picker, which is a dialog.
     const cal = document.createElement('button');
-    cal.className = 'day'; cal.role = 'tab';
+    cal.className = 'day'; cal.type = 'button';
+    cal.setAttribute('aria-haspopup', 'dialog');
+    cal.setAttribute('aria-expanded', 'false');
     cal.innerHTML = `<small>${L[state.lang].other}</small><b>📅</b>`;
     calChip = cal;
     cal.onclick = openCal;
@@ -944,11 +977,13 @@
   function closeCal(){
     const w = document.querySelector('.cal-wrap');
     if(w) w.remove();
+    if(calChip) calChip.setAttribute('aria-expanded', 'false');
     document.removeEventListener('keydown', calKey);
   }
   function calKey(e){ if(e.key === 'Escape') closeCal(); }
   function openCal(){
     closeCal();
+    if(calChip) calChip.setAttribute('aria-expanded', 'true');
     const base = fiToday();
     const max = state.horizon || addDays(base, 13);
     calMonth = ymOf(state.dateStr > base ? state.dateStr : base);
@@ -983,9 +1018,9 @@
     const prevOk = ymAdd(calMonth, -1) >= ymOf(base);
     const nextOk = ymAdd(calMonth, 1) <= ymOf(max);
     el.innerHTML = `<div class="cal-head">
-        <button class="cal-nav" data-mon="-1"${prevOk ? '' : ' disabled'} aria-label="&larr;">&lsaquo;</button>
+        <button class="cal-nav" type="button" data-mon="-1"${prevOk ? '' : ' disabled'} aria-label="${esc(L[state.lang].aPrevMonth)}">&lsaquo;</button>
         <b>${title}</b>
-        <button class="cal-nav" data-mon="1"${nextOk ? '' : ' disabled'} aria-label="&rarr;">&rsaquo;</button>
+        <button class="cal-nav" type="button" data-mon="1"${nextOk ? '' : ' disabled'} aria-label="${esc(L[state.lang].aNextMonth)}">&rsaquo;</button>
       </div>
       <div class="cal-grid">${dow}${cells}</div>
       ${avail ? `<small class="cal-note">${L[state.lang].onlyDays}</small>` : ''}`;
@@ -1539,6 +1574,24 @@
   // Finnish version is also in the static markup, the way the footer's is, so a broken
   // script still leaves the address on the page. Both strings are ours, not a
   // provider's, so there is nothing to escape.
+  // Accessible names were a mix of hard-coded English ("Choose theatre") and hard-coded
+  // Finnish ("Sulje"), so a screen reader heard two languages at once and neither
+  // followed the toggle. Everything the toggle can reach has to be redrawn by
+  // applyLang(), and an aria-label is no different from a visible one.
+  function applyAriaLabels(){
+    const T = L[state.lang];
+    const set = (sel, txt) => { const el = document.querySelector(sel);
+                                if(el) el.setAttribute('aria-label', txt); };
+    set('#themeToggle', T.aTheme);
+    set('#areaSelect', T.aVenue);
+    set('#search', T.aSearch);
+    set('#days', T.aDays);
+    set('#viewSeg', T.aView);
+    set('#langSeg', T.aLang);
+    const themeBtn = document.querySelector('#themeToggle');
+    if(themeBtn) themeBtn.title = T.aTheme;
+  }
+
   function renderContact(){
     document.querySelector('#contact').innerHTML =
       `${L[state.lang].contact} · <a href="mailto:${CONTACT}">${CONTACT}</a>`;
@@ -1635,8 +1688,8 @@
       return `<div class="trow">
         <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
           <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>
-        <div class="tinfo" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
-          <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></div>
+        <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
+          <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
     }).join('');
   }
@@ -1656,7 +1709,7 @@
     // does anything is just noise in the row.
     const reset = state.chains
       ? `<button class="lg-btn lg-all" data-chain="*">${L[state.lang].allChains}</button>` : '';
-    return `<div class="legend top" role="group" aria-label="Suodata ketjun mukaan">${chains
+    return `<div class="legend top" role="group" aria-label="${esc(L[state.lang].aChains)}">${chains
       .map(c => {
         const on = !state.chains || state.chains.has(c);
         return `<button class="lg-btn chain-${esc(c)}${on ? ' on' : ''}" data-chain="${esc(c)}"
@@ -1922,7 +1975,7 @@
       return `<article class="movie" data-id="${esc(m.eventId)}">
                 ${poster}
                 <div class="info">
-                  <h2 class="title">${esc(title)}</h2>
+                  <h2 class="title"><a class="tlink" href="#m=${encodeURIComponent(m.eventId)}">${esc(title)}</a></h2>
                   <div class="meta1">${meta1}</div>
                   ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
                   <div class="${stubClass}">${stubs}</div>
@@ -1951,6 +2004,24 @@
 
   /* ---------- movie sheet ---------- */
   const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
+
+  // Modal lifecycle. The sheet was hidden with a CSS transform only, so it stayed in the
+  // focus order and in the accessibility tree the whole time, permanently announcing
+  // itself as an open dialog. `inert` is used rather than `hidden` because the sheet
+  // animates in and out and `display:none` would kill the transition; it removes the
+  // subtree from focus and from assistive tech in one attribute.
+  //
+  // Real modality means the *background* is inert while the sheet is open, which is what
+  // stops Tab walking behind it. These are the roots outside the dialog.
+  const BEHIND = () => [document.querySelector('header'), main,
+                        document.querySelector('footer'), document.querySelector('#tagkey'),
+                        document.querySelector('#stale'), document.querySelector('#partial')];
+  let lastTrigger = null;
+  function rememberTrigger(el){
+    lastTrigger = el && el.closest ? (el.closest('a.tlink, a.tinfo') || el) : el;
+  }
+  function setInert(el, on){ if(el) el.inert = on; }
+  function sheetKeydown(e){ if(e.key === 'Escape'){ e.preventDefault(); closeSheet(); } }
   async function showSheet(fid){
     await ensureFilms();
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
@@ -2011,9 +2082,9 @@
     const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
       <div class="grab" aria-hidden="true"></div>
-      <button class="sheet-close" aria-label="Sulje">✕</button>
+      <button class="sheet-close" type="button" aria-label="${esc(L[lang].aClose)}">✕</button>
       <div class="sheet-head">${poster}
-        <div><div class="sheet-title">${esc(title)}</div>
+        <div><div class="sheet-title" id="sheetTitle">${esc(title)}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
           ${genresOf(sample) ? `<div class="meta2">${esc(genresOf(sample))}</div>` : ''}
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
@@ -2024,6 +2095,13 @@
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
     document.body.classList.add('sheet-open');
+    // Order matters: un-inert before focusing, or the focus call is a no-op.
+    sheetEl.inert = false;
+    sheetEl.removeAttribute('aria-hidden');
+    BEHIND().forEach(el => setInert(el, true));
+    document.addEventListener('keydown', sheetKeydown);
+    const closeBtn = sheetEl.querySelector('.sheet-close');
+    if(closeBtn) closeBtn.focus();
   }
   // Setting location.hash = '' counts as navigating to the top of the document, which
   // scrolled the list back up. Strip the fragment without navigating instead.
@@ -2035,10 +2113,23 @@
   }
 
   function hideSheet(){
+    const wasOpen = document.body.classList.contains('sheet-open');
     document.body.classList.remove('sheet-open');
     sheetEl.classList.remove('dragging');
     sheetEl.style.transform = '';
     if(overlayEl) overlayEl.style.opacity = '';
+    document.removeEventListener('keydown', sheetKeydown);
+    BEHIND().forEach(el => setInert(el, false));
+    sheetEl.inert = true;
+    sheetEl.setAttribute('aria-hidden', 'true');
+    // Back to the control that opened it, but only if it is still on the page: the list
+    // is rebuilt through innerHTML on every render, and a stale node would swallow the
+    // focus silently. Only on a real close, so arriving on a hash-less URL does not
+    // yank focus somewhere unexpected.
+    if(wasOpen && lastTrigger && document.contains(lastTrigger)){
+      lastTrigger.focus();
+    }
+    lastTrigger = null;
   }
 
   // Drag the header down to dismiss: past ~110 px, or a quick flick, closes it.
@@ -2096,8 +2187,15 @@
     // Controls inside a card must not also open the movie sheet. This used to test only
     // `a.stub`, so the past-times toggle (a button) opened the sheet on every click.
     if(e.target.closest('a.stub, [data-reveal], [data-goto], .lg-btn')) return;
+    // The title and the times-view row are real links now, so let the browser navigate:
+    // handling them here as well would set the same hash twice and, more to the point,
+    // would mean the keyboard path and the mouse path ran different code.
+    if(e.target.closest('a.tlink, a.tinfo')){ rememberTrigger(e.target); return; }
     const el = e.target.closest('article.movie, .tinfo');
-    if(el) location.hash = 'm=' + encodeURIComponent(el.dataset.id);
+    if(el){
+      rememberTrigger(el.querySelector('a.tlink') || el);
+      location.hash = 'm=' + encodeURIComponent(el.dataset.id);
+    }
   });
 
   /* ---------- language ---------- */
@@ -2126,10 +2224,12 @@
     renderHealth();
     renderStatus();
     renderContact();
+    applyAriaLabels();
     if(document.body.classList.contains('sheet-open')) syncSheet();
   }
   state.lang = LANGS.includes(prefs.get().lang) ? prefs.get().lang : 'fi';
   renderContact();
+  applyAriaLabels();
   langSeg.onclick = async e => {
     const b = e.target.closest('button[data-lang]');
     if(!b || b.dataset.lang === state.lang) return;
@@ -2150,6 +2250,10 @@
     syncFav();
     segM.classList.toggle('on', state.view === 'movies');
     segT.classList.toggle('on', state.view === 'times');
+    segM.setAttribute('aria-pressed', String(state.view === 'movies'));
+    segT.setAttribute('aria-pressed', String(state.view === 'times'));
+    chipLang.setAttribute('aria-pressed', String(!!state.fLang));
+    chipKids.setAttribute('aria-pressed', String(!!state.fKids));
     chipLang.classList.toggle('on', state.fLang);
     chipKids.classList.toggle('on', state.fKids);
     segM.textContent = L[state.lang].movies; segT.textContent = L[state.lang].times;

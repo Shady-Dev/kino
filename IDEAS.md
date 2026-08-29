@@ -2289,6 +2289,44 @@ Worth knowing for any future layout work here: the harness browser reports
 is nonsense -- text wraps to one character per line and a three-line footer measures
 396 px. Set a viewport first, then measure.
 
+### The app is operable from a keyboard (2026-08-30)
+Four faults, fixed as one pass because they interlock -- the dialog's close button is
+both the first focus target and one of the mislabelled controls.
+
+**Movie details could not be opened without a mouse.** The trigger was a bare
+`<article class="movie">` with a delegated click handler: not focusable, no Enter, no
+role. The fix is a real `<a>` on the title, not a faked button, because opening the sheet
+*is* hash navigation -- `location.hash = 'm=...'` is what the click handler did. The
+element now matches what the action already was, so Enter works with no key handling of
+ours. The times view's `.tinfo` became an anchor the same way. The card-wide click stays
+as a mouse affordance and defers to the link, so the keyboard path and the mouse path run
+the same code rather than two.
+
+**The sheet claimed to be an open dialog at all times.** `role="dialog" aria-modal="true"`
+sat in the markup permanently and the sheet was hidden with a CSS transform, so it stayed
+in the focus order and in the accessibility tree while invisible. Now `inert` toggles on
+the sheet when closed, and on the *background* roots when open, which is what real
+modality means: measured with the sheet open, **zero focusable elements remain outside
+it**. `inert` rather than `hidden` because the sheet animates and `display:none` would
+kill the transition. Escape closes it, focus moves to the close button on open and back
+to the exact trigger on close -- guarded by `document.contains`, since the list is
+rebuilt through `innerHTML` on every render and a stale node would swallow the focus in
+silence.
+
+**`role="tablist"` with no tab pattern behind it.** The date chips carried `role="tab"`
+with no `aria-selected`, no `aria-controls` and no arrow keys, and the view segment was a
+tablist whose children had no role at all. Simplified rather than completed: these are
+buttons that pick a day and a view, not tabs with panels. Days take `aria-current="date"`,
+the segment and filter chips take `aria-pressed`, and the calendar chip -- which opens a
+dialog and was also marked a tab -- takes `aria-haspopup="dialog"` with `aria-expanded`
+tracking the picker.
+
+**Accessible names were in two languages at once and followed neither toggle.** Hard-coded
+English ("Choose theatre", "Filter movies by title or genre") next to hard-coded Finnish
+("Sulje", "Suodata ketjun mukaan"). `applyAriaLabels()` now runs from `applyLang()` like
+everything else the toggle reaches. An `aria-label` is a label; the rule that already
+covered the picker, the health line and the footer covers it too.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
