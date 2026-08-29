@@ -1,6 +1,6 @@
 [enrich] dropped 1 entries matched by the old picker
-[enrich] no TMDB match (3): Follow The Plants | Jamiroquai 'Travelling Without Moving' (30th Anniversary) | John Coltrane 'Highlights 1957-1964'
+[enrich] no TMDB match (19): Jamiroquai 'Travelling Without Moving' (30th Anniversary) | John Coltrane 'Highlights 1957-1964' | KINOJUHLAT Avioliiton ilveilyä | KINOJUHLAT B-Movie: Lust & Sound in West Berlin 1979-1989 | KINOJUHLAT Blue Heron | KINOJUHLAT Cabaret | KINOJUHLAT Dreams | KINOJUHLAT Hannah Arendt | KINOJUHLAT Isäni Toni Erdmann | KINOJUHLAT Keltaiset kirjeet | KINOJUHLAT Kerro kaikille | KINOJUHLAT Metropolis | KINOJUHLAT Pillion | KINOJUHLAT Sininen enkeli | KINOJUHLAT Take Me Home | KINOJUHLAT Teenage Sex and Death at Camp Miasma | KINOJUHLAT The Zone of Interest | KINOJUHLAT Vuono | KINOJUHLAT Western
 [enrich] weak match, no exact title (1): Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) -> Classic Albums: Stevie Wonder - Songs In The Key of Life
 [enrich] rating held back, under 25 votes (1): Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes)
-[enrich] 87 titles, 1 new, 0 re-checks, 68 with rating, 94 with synopsis, 94 with poster, 93 mergeable by id, 30 files updated
+[enrich] 99 titles, 19 new, 0 re-checks, 69 with rating, 95 with synopsis, 95 with poster, 94 mergeable by id, 31 files updated
 exit=0
