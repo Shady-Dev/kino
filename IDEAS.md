@@ -133,7 +133,7 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 Ratings and trailers come from the shared TMDB enrichment pass, so only Finnkino and
 Kotkan Leffat still differ in what the source itself provides (seat availability).
 
-47 venues / 32 cities across ten providers. Each provider writes `data/area-{venueId}.json` in one shape
+48 venues / 33 cities across eleven providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now nothing: a registry entry generates
@@ -1182,12 +1182,12 @@ Also the competitive picture, since it comes up when deciding what to claim on t
 - **elokuviin.com** — claims all cinemas large and small, and does include festivals.
 - **kinossa.fi** — same aggregation idea.
 
-So **"Suomen kattavin" is not a defensible claim**: 47 venues against the 225 entries
+So **"Suomen kattavin" is not a defensible claim**: 48 venues against the 225 entries
 nytleffaan.fi lists (fewer distinct cinemas than that — Kinotour alone accounts for 14
 touring venues), and two services already claim full coverage. What is true and
-checkable: ten chains merged into one city view, festival and strand screenings included
+checkable: eleven chains merged into one city view, festival and strand screenings included
 where those services drop them, seat availability and prices where a cinema publishes
-them, no ads and no tracking. Say the count ("10 ketjua, 47 teatteria, 32 kaupunkia") and
+them, no ads and no tracking. Say the count ("11 ketjua, 48 teatteria, 33 kaupunkia") and
 let it grow.
 
 ### Vista sweep — tried and failed (2026-08-27)
@@ -1214,7 +1214,7 @@ to test, and it was tested last.
 - **eTiketti and Nexxo first, by a wide margin.** Both are `SITES` entries against parsers
   that already exist and are already verified live against the endpoints those adapters
   call. See the nytleffaan.fi entry for the host lists and their show counts. Roughly 22
-  sites, against 47 venues today. Do the venue-count and accent work before the first one
+  sites, against 48 venues today. Do the venue-count and accent work before the first one
   lands, not after.
 - **Vista is not the lead and should stop being described as one.** Tampere's Niagara,
   named here as a candidate to test, is an eTiketti site. Cinamon and other non-Finnish
@@ -1320,7 +1320,7 @@ Still open from this pass:
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the three providers that block datacenter IPs
       (Finnkino, Kino Akseli, Kino Engel), and with the MovieXchange route closed above
-      there is no other way off the laptop at all. 19 of 47 venues ride on that machine.
+      there is no other way off the laptop at all. 19 of 48 venues ride on that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
@@ -1633,14 +1633,22 @@ genres in a Swedish interface -- worth an eye on the first run rather than an as
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
 
-## Documentation state (2026-08-27, sixth pass)
+## Documentation state (2026-08-30, seventh pass)
 
-- `README.md` covers: Leffavuoro, **ten providers / 47 venues**, the two-location
-  pipeline with no cloud fallback for Finnkino, the data shape every provider writes
-  (including `age`, `gids` and `tmdbId`, and why the last two are exact-match only), the
-  three lists worth reading in `run-enrich.log`, and a step-by-step for adding a provider.
+- `README.md` covers: Leffavuoro, **eleven providers / 48 venues / 33 cities**, the
+  two-location pipeline with no cloud fallback for Finnkino, the data shape every
+  provider writes (including `age`, `gids` and `tmdbId`, and why the last two are
+  exact-match only), the three lists worth reading in `run-enrich.log`, a step-by-step
+  for adding a provider, and the contact and opt-out address.
   It went a full day stale during the Orion work — check it whenever the provider count,
   the file list or the show shape changes.
+- **Bio Rex Kokkola made every count in both files stale and neither was updated with
+  it.** README said ten providers / 47 venues / 32 cities and 52 generated pages per
+  language; IDEAS said the same in six places. That is the seventh time a carried-over
+  count has been wrong here. The counts above were measured against `data/` and
+  `teatteri/` on 2026-08-30, not carried over: 11 registry entries, 48 venue directories,
+  33 distinct cities, 53 pages per language, 19 venues on the local half. Two 47s are
+  left alone on purpose, both inside dated sections recording what was true on the day.
 - `IDEAS.md` (this file) holds architecture decisions, per-provider API research and the
   backlog. Read it before touching the pipeline.
 - `cf-worker/worker.js` and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted
@@ -1765,17 +1773,17 @@ genres in a Swedish interface -- worth an eye on the first run rather than an as
   Test clean on a city page (371 valid, 0 invalid: 10 Local business, 10 Organisation, 351
   Films). Remaining warnings are all optional fields -- `priceRange`, `telephone` and
   `image` on MovieTheater, `director` and `dateCreated` on Movie. None are in the pipeline;
-  the first three would be manual data entry across 47 venues and `director` would need a
+  the first three would be manual data entry across 48 venues and `director` would need a
   per-film TMDB credits call. Deliberately not chased: optional fields do not gate
   eligibility, and the number that decides whether any of this worked is how many of the
-  103 URLs turn up in Search Console's Pages report.
+  107 URLs turn up in Search Console's Pages report.
 
 - `<head>` carries a description, canonical, OpenGraph and Twitter tags; `robots.txt` and
   a generated `sitemap.xml` exist (2026-08-28).
 - **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred
   them. Markup does not create pages and the app is one JS-rendered URL, so
-  `scripts/build_pages.py` renders 52 pages per language from the committed JSON at the end
-  of every run: 47 venues plus the five multi-venue cities. Same data, no second fetcher.
+  `scripts/build_pages.py` renders 53 pages per language from the committed JSON at the end
+  of every run: 48 venues plus the five multi-venue cities. Same data, no second fetcher.
 - **City pages only where a city has more than one venue.** The original plan said "~31
   cities"; that was wrong, taken from the README's city count rather than measured. Only
   Espoo, Helsinki, Kotka, Savonlinna and Tampere have two or more venues, which is the same

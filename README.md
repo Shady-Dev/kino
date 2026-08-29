@@ -6,12 +6,12 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 47 venues in 32 cities across ten providers: Finnkino, BioRex,
-Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel
-and Kino Akseli. Pick a venue and a date, see films with posters, TMDB ratings,
-age limits, runtimes, genres, languages, and ticket prices and seat availability
-where the cinema publishes them. Tapping a showtime opens that cinema's own
-booking page.
+Showtimes for 48 venues in 33 cities across eleven providers: Finnkino,
+BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino
+Engel, Bio Rex Kokkola and Kino Akseli. Pick a venue and a date, see films with
+posters, TMDB ratings, age limits, runtimes, genres, languages, and ticket
+prices and seat availability where the cinema publishes them. Tapping a
+showtime opens that cinema's own booking page.
 
 Cities with more than one venue also get a combined view ("Kaikki Helsinki"). It
 merges the same film across chains into one card, labels every showtime with its
@@ -178,7 +178,7 @@ JSON the app reads, at the end of every pipeline run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-52 pages in each language: 47 venues, plus the five cities that have more than
+53 pages in each language: 48 venues, plus the five cities that have more than
 one venue (Espoo, Helsinki, Kotka, Savonlinna, Tampere). A city page for a
 one-venue city would just be the venue page at a second URL, and the two would
 compete with each other. Single-venue cities get the city into the venue page's
@@ -236,9 +236,9 @@ would.
 
 Schedule data belongs to the respective cinemas: Finnkino Oy, BioRex Cinemas,
 Kinoset, Kotkan Leffat, Riviera Cinemas, Savon Kinot, Gilda, Cinema Orion, Kino
-Engel and Kino Akseli. Ratings, trailers and fallback synopses and posters come
-from TMDB. Every showtime links to the cinema's own booking page, and the footer
-credits the source being displayed.
+Engel, Bio Rex Kokkola and Kino Akseli. Ratings, trailers and fallback synopses
+and posters come from TMDB. Every showtime links to the cinema's own booking
+page, and the footer credits the source being displayed.
 
 Every provider is read through the same public interface its own site uses, four
 times a day regardless of traffic. Booking, payment and administrative
