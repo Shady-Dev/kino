@@ -44,8 +44,8 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
 def write_text_atomic(path, text):
     """Write via a sibling .tmp then os.replace, atomic on the same filesystem.
 
-    On Actions a torn write is harmless (ephemeral runner), but localfetch.sh
-    writes into the checked-out repo, so a run killed mid-write -- closed
+    On Actions a torn write is harmless (ephemeral runner), but the local
+    wrapper writes into a checked-out repo, so a run killed mid-write -- closed
     laptop, cancel-in-progress -- would leave truncated JSON that the next
     run's `git add data` commits. .tmp is gitignored for the same reason.
     """

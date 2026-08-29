@@ -1006,7 +1006,7 @@ Johku cinema would be a `SITES` entry against the same parser.
     datacenter address rather than the request shape; a browser on an ordinary connection
     is not challenged. Solving it is out of bounds under "Access and ethics", so Engel
     joins Finnkino and Kino Akseli on the local half: a `SITES` entry whose module the
-    local wrapper runs, and `localfetch.sh` has to call `run.py kinoakseli engel`.
+    local wrapper runs, and the wrapper's module list has to gain `engel`.
   - **The WordPress REST API is open, and Vista is out** (probed from a residential
     connection, 2026-08-29). `/wp-json/` answers 200 with 372 kB of route listing and
     `/wp-json/wp/v2/types` 200 with 12.5 kB; `/xml/TheatreAreas/` is a clean 404 rather
@@ -1249,7 +1249,7 @@ Still open from this pass:
       slow 3G first byte is still well inside it.
 - [x] Atomic data writes (2026-08-28): every writer went through bare `write_text`, so a
       run killed mid-write left truncated JSON. Harmless on Actions (ephemeral runner),
-      real on the Mac: localfetch.sh writes into the checked-out repo and the next run's
+      real locally: the wrapper writes into a checked-out repo and the next run's
       `git add data` would commit the torn file — and cancel-in-progress means
       mid-run kills actually happen. `common.write_json` / `write_text_atomic`
       (sibling .tmp + os.replace, atomic on one filesystem on both platforms) used by
