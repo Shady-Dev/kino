@@ -502,7 +502,12 @@
     border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink);
     border-radius:10px; font-size:.85rem;
   }
-  @media (max-width:1100px){ #stale{margin:12px 20px 0} }
+  #partial{
+    display:none; max-width:1060px; margin:12px auto 0; padding:10px 14px;
+    border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    border-radius:10px; font-size:.85rem;
+  }
+  @media (max-width:1100px){ #stale, #partial{margin:12px 20px 0} }
 
   footer{
     max-width:1100px; margin:0 auto; padding:24px 20px 8px; color:var(--muted);
@@ -574,6 +579,7 @@
 </header>
 
 <div id="stale" role="status"></div>
+<div id="partial" role="status"></div>
 
 <div id="overlay"></div>
 <div id="sheet" role="dialog" aria-modal="true"></div>
@@ -680,7 +686,9 @@
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt',
-         partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla' },
+         partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
+         partialCity:'Näytetään {n}/{m} teatteria.',
+         partialMissing:'Ei saatu ladattua: {names}.' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -711,7 +719,9 @@
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
          contact:'För biografer: kontakt och begäran om borttagning',
-         partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig' },
+         partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
+         partialCity:'Visar {n}/{m} biografer.',
+         partialMissing:'Kunde inte laddas: {names}.' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -739,7 +749,9 @@
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
          contact:'For cinemas: enquiries and removal requests',
-         partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable' }
+         partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
+         partialCity:'Showing {n} of {m} cinemas.',
+         partialMissing:'Could not load: {names}.' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -1329,9 +1341,18 @@
       catch(_) { return null; }
     }));
     const shows = [], dates = new Set();
+    // The expected ids stay the source of truth. A venue whose file fails was skipped
+    // silently, so a city could render a confident, complete-looking programme that was
+    // missing a whole cinema -- and the one place that would have shown it, the health
+    // line, is per provider, not per venue. Named here so the view can say so.
+    const missing = [];
     let generated = '', oldest = '';
     parts.forEach((p, i) => {
-      if(!p) return;
+      if(!p){
+        const mv = venueIndex[ids[i]] || {};
+        missing.push(mv.short || mv.name || ids[i]);
+        return;
+      }
       const v = venueIndex[ids[i]] || {};
       // `generated` is the oldest of the parts so the stale banner reflects the weakest
       // link. Carry the provider it came from too: the banner used to look the name up
@@ -1350,7 +1371,8 @@
     });
     mergeIds(shows);
     const list = [...dates].sort();
-    return { generated, oldest, dates: list, horizon: list[list.length-1] || '', shows };
+    return { generated, oldest, dates: list, horizon: list[list.length-1] || '', shows,
+             missing, expected: ids.length };
   }
 
   // Two signals say "same film" and neither is complete on its own, so treat both as
@@ -1385,6 +1407,8 @@
       state.genProvider = cache.oldest || (venueIndex[state.area] || {}).provider || '';
       state.dates = Array.isArray(cache.dates) ? cache.dates : null;
       state.horizon = cache.horizon || '';
+      state.missing = Array.isArray(cache.missing) ? cache.missing : [];
+      state.expected = cache.expected || 0;
       state.shows = cache.shows
         .map(s => ({ ...s, start: new Date(s.start) }))
         .filter(s => fiDate(s.start) === state.dateStr);
@@ -1411,6 +1435,22 @@
   // Stale banner and footer credit. Pulled out of loadSchedule so applyLang can
   // redraw them: they carry translated strings and used to stay stale until reload.
   function renderStatus(){
+    // Painted before the `generated` guard below: a city where every part failed has no
+    // timestamp at all, and that is precisely the case that must not render as an
+    // ordinary empty day.
+    const partEl = document.querySelector('#partial');
+    if(partEl){
+      const n = (state.missing || []).length;
+      if(n){
+        const T = L[state.lang];
+        partEl.textContent = T.partialCity
+          .replace('{n}', (state.expected || n) - n).replace('{m}', state.expected || n)
+          + ' ' + T.partialMissing.replace('{names}', state.missing.join(', '));
+        partEl.style.display = 'block';
+      } else {
+        partEl.style.display = 'none';
+      }
+    }
     const staleEl = document.querySelector('#stale');
     if(!staleEl || !state.generated) return;
     const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;

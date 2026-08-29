@@ -2194,6 +2194,32 @@ the start and a successful load overwrites it. A provider that never arrives rea
   the test would have been answered from the last good copy and proved nothing. Eleven
   rows instead of ten, Riviera named in all three languages.
 
+### A combined city says how many cinemas it is actually showing (2026-08-30)
+`loadCity` fetched each venue with `catch(_) => null` and then skipped the nulls. A city
+could therefore render a confident, complete-looking programme with a whole cinema
+missing, and nothing else would have caught it: the health line is per *provider*, and
+the provider whose venue failed to load may be perfectly fresh everywhere else.
+
+The expected id list stays the source of truth. `loadCity` returns `missing` (venue
+names, not ids, since the reader has to recognise them) and `expected`, and a notice
+above the list reads `Näytetään 11/12 teatteria. Ei saatu ladattua: Kallio.`
+
+- **Painted before the `generated` guard in `renderStatus`, not after.** A city where
+  *every* part fails has no timestamp at all, so the guard would have skipped exactly the
+  worst case. Tested by deleting both Kotka venue files: the notice reads `0/2` above the
+  list, where without it the page says "Ei enää näytöksiä tänään" -- a total load failure
+  rendering as an ordinary quiet evening.
+- Its own element rather than reusing `#stale`. They are different claims -- "this is
+  old" and "this is incomplete" -- and both can be true at once, so one box cannot say
+  both. Neutral border rather than the amber one, since a missing venue is not
+  necessarily a stale one.
+- **The first attempt at testing this proved nothing.** Deleting the file and reloading
+  still showed no notice, because the browser's own HTTP cache answered the request with
+  the copy it already had -- the service worker was unregistered, which is not the same
+  thing. Re-served on a fresh port so no cached entry applied. Same lesson as the SWR
+  bug: a service worker cache sits in front of the HTTP cache, not instead of it, and
+  clearing one is not clearing the other.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
