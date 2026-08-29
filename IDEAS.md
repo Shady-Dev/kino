@@ -2126,6 +2126,14 @@ olive, both yellowish under deuteranopia, and about the ceiling for six chains.
   tiebreak was normal vision, where nearly every reader is: `#0C6464` scores 16.5 deutan
   / 28.1 normal, against `#24664E` at 19.1 / 18.8. The higher deutan number is the worse
   colour here.
+- **`--city` took a list and used only the first entry** (found in review, fixed
+  2026-08-30). The flag advertised comma-separated cities and then `break`s out of the
+  loop after the first non-empty one, so a candidate could be cleared in Helsinki while
+  colliding with an existing chain in Tampere. A validation tool that can approve falsely
+  is worse than no tool, and this one had shipped its first verdict already. It now takes
+  a sequence of cities and measures against the existing chains in every one. A bare
+  string is wrapped rather than iterated, since iterating one would silently test the
+  candidate against the letters of the city name.
 - Only six hue families clear the ceiling at all, and every one of them sits at L* 38-39,
   the bottom of the legibility window. Separating from five existing chains under
   deuteranopia forces a dark colour; that is a real constraint on a seventh Helsinki

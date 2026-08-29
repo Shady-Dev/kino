@@ -46,6 +46,45 @@ class SharedCityTest(unittest.TestCase):
             self.assertNotEqual(a, b)
             self.assertLess(a, b, "pairs should be ordered so they cannot duplicate")
 
+    def test_a_candidate_is_measured_against_every_city_it_is_given(self):
+        """--city took a comma-separated list and then broke after the first entry, so a
+        candidate could be cleared in city A while colliding in city B. A validation tool
+        that can approve falsely is worse than no tool.
+
+        Two cities minimum, and the candidate has to appear in both, or the loop is
+        never exercised."""
+        base = {c for c, a, b in A.shared_city_pairs()}
+        pairs = A.shared_city_pairs(extra=("candidate", ["Helsinki", "Tampere"]))
+        cities = {c for c, a, b in pairs if "candidate" in (a, b)}
+        self.assertIn("Helsinki", cities)
+        self.assertIn("Tampere", cities,
+                      "second city dropped: the candidate loop stops after the first")
+        self.assertTrue(base.issubset({c for c, a, b in pairs}),
+                        "adding a candidate lost an existing city's pairs")
+
+    def test_a_bare_string_is_one_city_not_a_sequence_of_letters(self):
+        """`for c in "Helsinki"` yields 'H', 'e', 'l' ... which would quietly measure
+        the candidate against nothing at all."""
+        pairs = A.shared_city_pairs(extra=("candidate", "Helsinki"))
+        cities = {c for c, a, b in pairs if "candidate" in (a, b)}
+        self.assertEqual(cities, {"Helsinki"})
+
+    def test_a_candidate_in_a_one_chain_city_is_measured_against_that_one_chain(self):
+        """Kokkola has a single cinema today, so a candidate landing there makes exactly
+        one pair. Written after the first version of this test asserted zero pairs and
+        was wrong: one existing chain plus a candidate is a pair, which is the whole
+        point of asking."""
+        pairs = [p for p in A.shared_city_pairs(extra=("candidate", ["Kokkola"]))
+                 if p[0] == "Kokkola"]
+        self.assertEqual(len(pairs), 1)
+        self.assertIn("biorexkokkola", pairs[0])
+
+    def test_a_candidate_in_a_town_with_no_cinema_is_unconstrained(self):
+        """The same reasoning that lets Kino Akseli keep a gold 0.7 dE00 from Finnkino's
+        orange: Nummela has one chain, so the two never appear together."""
+        pairs = A.shared_city_pairs(extra=("candidate", ["Nowheresville"]))
+        self.assertEqual([p for p in pairs if p[0] == "Nowheresville"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

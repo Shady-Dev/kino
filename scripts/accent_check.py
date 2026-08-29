@@ -5,7 +5,7 @@ Run it:
 
     python3 scripts/accent_check.py            # same-city pairs, worst first
     python3 scripts/accent_check.py --all      # every pair
-    python3 scripts/accent_check.py --candidate '#B47ACC' --city Helsinki
+    python3 scripts/accent_check.py --candidate '#B47ACC' --city Helsinki,Tampere
     python3 scripts/accent_check.py --selftest # CIEDE2000 against Sharma's test data
 
 IDEAS says accents are "measured against the set, not picked". It recorded the results
@@ -205,11 +205,20 @@ def shared_city_pairs(extra=None):
 
     A combined city view is the only place two chains sit side by side, so this is the
     exact set of pairs the 3 px rule has to survive. `extra` adds a hypothetical
-    (id, city) so a candidate accent can be tested before it is committed.
+    (id, cities) so a candidate accent can be tested before it is committed.
+
+    `cities` is a sequence, not a string. A chain that lands in two cities has to clear
+    the existing accents in *both*, and taking only the first is how a tool like this
+    approves a colour that collides somewhere it was never asked about. A bare string is
+    accepted and wrapped rather than iterated, since iterating one would silently test
+    the letters of the city name.
     """
     by = cities_by_provider()
     if extra:
-        by.setdefault(extra[0], set()).add(extra[1])
+        pid, cities = extra
+        if isinstance(cities, str):
+            cities = [cities]
+        by.setdefault(pid, set()).update(cities)
     pairs = []
     for city in sorted({c for cs in by.values() for c in cs}):
         here = sorted(p for p, cs in by.items() if city in cs)
@@ -307,7 +316,8 @@ def main(argv):
     ap.add_argument("--candidate", metavar="HEX",
                     help="test a hypothetical accent before committing it")
     ap.add_argument("--city", metavar="CITY", default=None,
-                    help="city the candidate would appear in (repeatable via commas)")
+                    help="city or cities the candidate would appear in, comma separated;"
+                         " it is measured against the existing chains in every one")
     ap.add_argument("--search", metavar="PROVIDER_ID",
                     help="best replacement accent for one chain, against its own city")
     ap.add_argument("--selftest", action="store_true")
@@ -369,11 +379,9 @@ def main(argv):
         print(f"\nglobal minimum over all pairs: {worst:.1f} dE00 (worse of the two models)")
         return 0
 
-    for city in (args.city or "").split(","):
-        city = city.strip()
-        if city:
-            extra = ("candidate", city)
-            break
+    cities = [c.strip() for c in (args.city or "").split(",") if c.strip()]
+    if cities:
+        extra = ("candidate", cities)
 
     rows = []
     for city, a, b in shared_city_pairs(extra):
