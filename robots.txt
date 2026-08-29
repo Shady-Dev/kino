@@ -7,4 +7,11 @@ Disallow: /data/
 Disallow: /run.log
 Disallow: /run-
 
+# Posters are the exception. They moved under /data/ on 2026-08-29 when they stopped
+# being hot-linked, and the generated pages reference them from <img> and from the
+# JSON-LD "image" field. A crawler that cannot fetch that image cannot validate the
+# Movie item, so blanket-blocking /data/ would have cost rich-result eligibility on
+# every page. A longer Allow wins over a shorter Disallow.
+Allow: /data/posters/
+
 Sitemap: https://leffavuoro.fi/sitemap.xml

@@ -1405,6 +1405,13 @@ README documents is now closed; the Google Fonts request is not.
 - Open: nothing prunes a poster once its film stops screening, so the directory grows by
   roughly the number of new releases forever. At ~20 new films a week that is a few MB a
   year, which is worth a sweep eventually and not worth state now.
+- **Mirroring collided with `robots.txt`** (caught 2026-08-29, same day). `/data/` is
+  disallowed because it is the app's machine payload and crawling it only spends budget.
+  The moment posters moved there, every `<img>` and every JSON-LD `image` on the
+  generated pages pointed at a path Googlebot may not fetch, and an unfetchable image is
+  exactly what made `workPresented` invalid in the first place. `Allow: /data/posters/`
+  now overrides it, since the longer rule wins. Worth generalising: moving an asset onto
+  this origin is not finished until the crawler can still reach it.
 
 ### The webfont is self-hosted (2026-08-29)
 `fonts/archivo-latin.woff2` (90 kB) and `fonts/archivo-latin-ext.woff2` (86 kB), with the
