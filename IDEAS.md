@@ -1386,6 +1386,34 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       every `${'{'}` inside HTML-producing template literals and classifying each
       interpolation; the non-escaped remainder is internal (L strings, locale month
       names, digits, ISO dates, pre-escaped glyph markup).
+- [x] **The boot fetches speculatively from prefs** (2026-08-29). Concurrency fixed the
+      fetches within a wave; the waves themselves were still serial: providers.json, then
+      the nine venue lists (their names come from provider ids), then the schedule file
+      (its name needs the venue restore, which needs the lists). Every one of those URLs
+      is knowable before the first byte arrives -- venue-list names from the id list, the
+      schedule file from the same prefs the restore reads -- so the boot now starts all of
+      them immediately and `fetchJSON` consumes the in-flight promise when it reaches the
+      same URL. A wrong guess (venue changed on another device) is one wasted request.
+      City views store their venue ids in prefs as `cityIds`, because those are otherwise
+      only known after the venue lists arrive; the stored ids feed the prefetch only, and
+      the live `cityGroups` still decides what `loadCity` loads.
+      Measured on a local copy of the repo behind a 250 ms/request server (cold cache, no
+      SW, saved venue Kaikki Helsinki, five runs): the schedule fetch used to start at
+      1057-1077 ms and now starts at 273-277 ms; data-complete went 1574-1604 ms to
+      1307-1312 ms. The completion delta understates the win: the rig is HTTP/1.1 with
+      its six-connection cap, Pages is HTTP/2. Found while wiring it: `PROV_FALLBACK`
+      had lagged the registry by one provider (Engel), exactly the drift the boot
+      comment warned about -- a failed providers.json would have dropped his venues from
+      the picker.
+- [x] **Offscreen cards skip layout and paint** (2026-08-29). `content-visibility:auto`
+      on `.movie`, with `contain-intrinsic-size: auto 173px` matching the real card
+      height. render() still rebuilds the whole list through innerHTML -- the keyed-DOM
+      rejection above stands -- but the browser now lays out and paints only the ~5 of 45
+      cards in view. Ten rebuilds of a full Helsinki day on the same rig: median 51.4 ms
+      before, 11.0 ms after, on a fast laptop; the ratio is what a slow phone gets.
+      Posters also carry `decoding="async"` so image decode stays off the main thread
+      during a rebuild. Verified: bottom card reachable, height estimate matches, scroll
+      height stable, cold first visit unaffected.
 - [x] **Startup fetches are concurrent** (2026-08-28). First paint waited on ~12 serial
       round trips: providers → genres → areas.json → eight venues files one at a time,
       each a full RTT on mobile. Now the venues files load with Promise.all (array order
@@ -1530,6 +1558,10 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   *after* the push can fail without making the run look failed, so anything that matters
   needs its own check.
 - Adapters carry a referer, three retries with backoff, and a pause between venues.
+- The film-list sort (`title.localeCompare(b.title,'fi')` per comparison) measured
+  identical to a cached `Intl.Collator` -- about 0.01 ms per 45-title sort either way,
+  V8 caches the collator internally. Benchmarked 2026-08-29 before "fixing" it; not
+  worth touching, recorded so nobody re-tries.
 ## Crawlers and search
 
 - State as of 2026-08-29: pages generated and committed, sitemap submitted, Rich Results
