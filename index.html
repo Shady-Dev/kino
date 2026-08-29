@@ -87,10 +87,20 @@
   @media (max-width:520px){
     .logo{font-size:.82rem; letter-spacing:.08em}
   }
+  /* At 320 the wordmark, three language segments and the theme circle do not all fit at
+     the 520px sizes. Measured: 103px + 86px + 38px + gaps against 292px of usable row. */
+  @media (max-width:360px){
+    .bar{gap:8px}
+    .logo{font-size:.66rem; letter-spacing:.04em}
+    .langseg button{padding:0 7px; font-size:.7rem; letter-spacing:0}
+  }
   .logo span{color:var(--accent)}
   .bar .spacer{flex:1}
   #themeToggle{
     border:1px solid var(--line); background:var(--surface); color:var(--ink);
+    /* flex-shrink:0, or the language control squeezes this circle into an oval. It was
+       only ever safe because nothing else shared the row. */
+    flex:0 0 38px;
     width:38px; height:38px; border-radius:50%; cursor:pointer;
     font-size:1rem; line-height:1; display:grid; place-items:center;
     transition:border-color .15s, transform .15s;
@@ -291,12 +301,23 @@
   }
   .stub:hover .agelim{color:inherit; border-color:currentColor; background:transparent; opacity:.85}
 
-  #langToggle{
-    border:1px solid var(--line); background:var(--surface); color:var(--ink);
-    height:38px; padding:0 13px; border-radius:19px; cursor:pointer;
-    font:inherit; font-weight:800; font-size:.78rem; letter-spacing:.08em;
+  /* Three languages do not fit a toggle that shows the one you would switch *to*: with
+     two you can infer where you are, with three you cannot, and reaching the third is
+     two taps with nothing saying so. Same segmented pill as Leffat/Ajat, so it is a
+     pattern already on the page rather than a new one.
+     flex:0 0 auto is load-bearing. The pill clips its overflow, so under flex pressure
+     it does not push the row wide, it silently eats "EN". */
+  .langseg{
+    display:flex; flex:0 0 auto; overflow:hidden;
+    border:1px solid var(--line); border-radius:19px; background:var(--surface);
   }
-  #langToggle:hover{border-color:var(--accent)}
+  .langseg button{
+    border:0; background:transparent; color:var(--muted); cursor:pointer;
+    font:inherit; font-weight:800; font-size:.74rem; letter-spacing:.06em;
+    padding:0 10px; height:36px;
+  }
+  .langseg button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+  .langseg button:hover:not([aria-pressed="true"]){color:var(--ink)}
   .movie{cursor:pointer}
 
   #overlay{position:fixed; inset:0; background:rgba(0,0,0,.55); opacity:0;
@@ -505,6 +526,7 @@
     .search{flex:1 1 100%; width:100%; min-width:0}
     /* Tighter vertical rhythm: the header used to fill most of a phone screen. */
     .bar{padding:10px 14px; gap:10px}
+    .langseg button{padding:0 8px; font-size:.72rem; letter-spacing:.03em}
     .days{padding:0 14px 8px; gap:6px}
     .tools{padding:0 14px 10px; gap:6px}
     .day{padding:6px 1px}
@@ -526,7 +548,7 @@
   <div class="bar">
     <div class="logo">Leffavuoro<span>.</span></div>
     <div class="spacer"></div>
-    <button id="langToggle" aria-label="Vaihda kieli">EN</button>
+    <div id="langSeg" class="langseg" role="group" aria-label="Kieli / Language"></div>
     <button id="themeToggle" title="Switch theme" aria-label="Switch light/dark theme">◐</button>
   </div>
   <div class="controls">
@@ -649,6 +671,35 @@
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}' },
+    // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
+    // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
+    // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
+    sv:{ today:'I dag', other:'Annat', days:['Sö','Må','Ti','On','To','Fr','Lö'],
+         filter:'Sök film eller genre', searchEg:'Sök t.ex.', searchOr:'eller komedi',
+         trailer:'▶ Se trailern', min:'min',
+         movies:'Filmer', times:'Tider', flang:'Finskt tal', fkids:'För barn',
+         tomorrow:'I morgon', from:'från', sources:'Källor', hours:'h',
+         favOn:'Egen biograf, öppnas här nästa gång', favOff:'Välj som egen biograf',
+         favCta:'Spara', favCtaLong:'Spara egen biograf',
+         allIn:'Alla i', manySources:'flera källor',
+         soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
+         nomatch:'Ingen film matchar filtren.',
+         nomore:'Inga fler föreställningar i dag.',
+         noshows:'Inga föreställningar denna dag på vald biograf.',
+         notpublished:'Programmet för denna dag har inte publicerats ännu.',
+         onlyDays:'Endast dagar med föreställningar kan väljas.',
+         showPast:'tidigare', hidePast:'dölj tidigare', nextShows:'Nästa föreställningar',
+         alreadyShown:'Tidigare föreställningar', allChains:'Alla',
+         keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
+         premiere:'Premiär', votes:'röster',
+         loadingTheatres:'Laddar biografer…', loadingSchedule:'Laddar föreställningar…',
+         loadFail:'Tidtabellen kunde inte laddas just nu.',
+         dataLabel:'Tidtabeller', updated:'uppdaterad',
+         actCombined:'Tryck på en föreställning för att öppna biografens egen sida',
+         actDoor:'Biljetter säljs vid dörren · {host}',
+         actReserve:'Tryck på en föreställning för att boka platser — {host}',
+         actList:'Tryck på en föreställning för att öppna programmet — {host}',
+         actBuy:'Tryck på en föreställning för att köpa biljetter — {host}' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -682,6 +733,11 @@
         NL:'hollanti', PL:'puola', PT:'portugali', UK:'ukraina', AR:'arabia',
         JA:'japani', ZH:'kiina', KO:'korea', HI:'hindi', TR:'turkki', KA:'georgia',
         TA:'tamili'},
+    sv:{FI:'finska', EN:'engelska', SV:'svenska', ES:'spanska', DE:'tyska', FR:'franska',
+        IT:'italienska', RU:'ryska', ET:'estniska', DA:'danska', NO:'norska',
+        IS:'isländska', NL:'nederländska', PL:'polska', PT:'portugisiska',
+        UK:'ukrainska', AR:'arabiska', JA:'japanska', ZH:'kinesiska', KO:'koreanska',
+        HI:'hindi', TR:'turkiska', KA:'georgiska', TA:'tamil'},
     en:{FI:'Finnish', EN:'English', SV:'Swedish', ES:'Spanish', DE:'German', FR:'French',
         IT:'Italian', RU:'Russian', ET:'Estonian', DA:'Danish', NO:'Norwegian',
         IS:'Icelandic', NL:'Dutch', PL:'Polish', PT:'Portuguese', UK:'Ukrainian',
@@ -700,7 +756,7 @@
   // screened here before.
   // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
   // language now stands on its own with no role word, so it has to read as a noun.
-  const LW = { fi:{S:'tekstit'}, en:{S:'subs'} };
+  const LW = { fi:{S:'tekstit'}, sv:{S:'text'}, en:{S:'subs'} };
   // "EN-A, FI-S, SE-S" reads "englanti · tekstit suomi/ruotsi": audio bare, subtitles
   // labelled, one entry per role rather than per language. The "/" matches how a single
   // multi-language code (FI-SE-S) has always rendered.
@@ -734,6 +790,8 @@
   // -> films-extra.json, the TMDB title cache and tmdb-aliases.json. This is display
   // only.
   const disp = m => {
+    // Swedish lands here too, deliberately: no provider gives us a Swedish title yet, and
+    // the Finnish distributor title is the one on the ticket and on the cinema's page.
     if(state.lang !== 'en') return m.title;
     const f = filmEntry(m);
     // Only Finnkino publishes an English title. Some others publish the original one,
@@ -866,7 +924,7 @@
     const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
     const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;   // Monday first
     const title = new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString(
-      state.lang === 'fi' ? 'fi-FI' : 'en-GB', { month:'long', year:'numeric', timeZone:'UTC' });
+      { fi:'fi-FI', sv:'sv-FI', en:'en-GB' }[state.lang], { month:'long', year:'numeric', timeZone:'UTC' });
     const dow = [1,2,3,4,5,6,0].map(i => `<span class="cal-dow">${fiDay[i]}</span>`).join('');
     let cells = '';
     for(let i = 0; i < lead; i++) cells += '<span class="cal-day pad"></span>';
@@ -1017,6 +1075,28 @@
     }
   }
 
+  const LANGS = ['fi','sv','en'];
+  // Swedish names for the cities we cover. Display only: cityGroups is keyed by the
+  // Finnish name and so is the `city:` value in prefs and in the ?area= links the
+  // generated pages carry, so translating the key would break every deep link. Cities
+  // with no established Swedish name keep the Finnish one, which is also what
+  // Finland-Swedish usage does for monolingual municipalities.
+  const CITY_SV = {
+    Espoo:'Esbo', Helsinki:'Helsingfors', Hyvinkää:'Hyvinge', Hämeenlinna:'Tavastehus',
+    Iisalmi:'Idensalmi', Kajaani:'Kajana', Kokkola:'Karleby', Lahti:'Lahtis',
+    Lappeenranta:'Villmanstrand', Oulu:'Uleåborg', Pietarsaari:'Jakobstad',
+    Pori:'Björneborg', Porvoo:'Borgå', Raisio:'Reso', Savonlinna:'Nyslott',
+    Tampere:'Tammerfors', Tornio:'Torneå', Turku:'Åbo', Vaasa:'Vasa', Vantaa:'Vanda'
+  };
+  const cityLabel = c => (state.lang === 'sv' && CITY_SV[c]) || c;
+
+  // Sorting followed Finnish collation in every language, which was a recorded gap for
+  // English and would have been a worse one for Swedish. One collator per language,
+  // rebuilt on switch. Measured as free: Intl.Collator and localeCompare cost the same
+  // on a 45-title sort, V8 caches it either way.
+  const COLLATE = { fi:'fi', sv:'sv-FI', en:'en' };
+  let coll = new Intl.Collator(COLLATE.fi);
+
   // Finnkino names carry the city as the last word ("Plevna Tampere"); BioRex ships city
   // explicitly. Group by city, since people pick a place before they pick a chain.
   function cityOf(a){
@@ -1085,17 +1165,17 @@
       if(!byCity.has(c)) byCity.set(c, []);
       byCity.get(c).push(a);
     }
-    const cities = [...byCity.keys()].sort((x,y)=>x.localeCompare(y,'fi'));
+    const cities = [...byCity.keys()].sort((x,y)=>coll.compare(cityLabel(x), cityLabel(y)));
     cityGroups = {};
     for(const c of cities) cityGroups[c] = byCity.get(c).map(a => a.id);
     const opt = a => `<option value="${esc(a.id)}">${esc(labelOf(a))}</option>`;
     // Cities with more than one screen get a combined entry at the top of their group.
     areaSel.innerHTML = cities.map(c => {
-      const vs = byCity.get(c).sort((x,y)=>labelOf(x).localeCompare(labelOf(y),'fi'));
+      const vs = byCity.get(c).sort((x,y)=>coll.compare(labelOf(x), labelOf(y)));
       const all = vs.length > 1
-        ? `<option value="city:${esc(c)}">${L[state.lang].allIn} ${esc(c)} (${vs.length})</option>`
+        ? `<option value="city:${esc(c)}">${L[state.lang].allIn} ${esc(cityLabel(c))} (${vs.length})</option>`
         : '';
-      return `<optgroup label="${esc(c)}">${all}${vs.map(opt).join('')}</optgroup>`;
+      return `<optgroup label="${esc(cityLabel(c))}">${all}${vs.map(opt).join('')}</optgroup>`;
     }).join('');
   }
   function fillAreaSelect(areas){
@@ -1616,7 +1696,7 @@
       if(!m.lang && s.lang) m.lang = s.lang;
       m.times.push(s);
     }
-    const movies = [...byEvent.values()].sort((a,b)=>a.title.localeCompare(b.title,'fi'));
+    const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
 
     if(!movies.length){
       main.innerHTML = `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
@@ -1880,10 +1960,21 @@
     if(el) location.hash = 'm=' + encodeURIComponent(el.dataset.id);
   });
 
-  /* ---------- language toggle ---------- */
-  const langBtn = document.querySelector('#langToggle');
+  /* ---------- language ---------- */
+  const langSeg = document.querySelector('#langSeg');
+  // Rendered rather than written into the markup so the pressed state has exactly one
+  // source of truth, and so applyLang() cannot drift from what is on screen.
+  function drawLangSeg(){
+    langSeg.innerHTML = LANGS.map(code =>
+      `<button type="button" data-lang="${code}" aria-pressed="${code === state.lang}"`
+      + ` lang="${code}">${code.toUpperCase()}</button>`).join('');
+  }
   function applyLang(){
-    langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
+    drawLangSeg();
+    coll = new Intl.Collator(COLLATE[state.lang]);
+    // Screen readers and hyphenation both key off this, and it was never updated when
+    // the app had two languages either.
+    document.documentElement.lang = state.lang;
     fiDay = L[state.lang].days;
     searchEl.placeholder = searchHint();
     buildDays();
@@ -1896,11 +1987,17 @@
     renderStatus();
     if(document.body.classList.contains('sheet-open')) syncSheet();
   }
-  state.lang = prefs.get().lang === 'en' ? 'en' : 'fi';
-  langBtn.onclick = async () => {
-    state.lang = state.lang === 'fi' ? 'en' : 'fi';
+  state.lang = LANGS.includes(prefs.get().lang) ? prefs.get().lang : 'fi';
+  langSeg.onclick = async e => {
+    const b = e.target.closest('button[data-lang]');
+    if(!b || b.dataset.lang === state.lang) return;
+    state.lang = b.dataset.lang;
     prefs.set({lang: state.lang});
-    await ensureFilms();
+    // Only English needs films.json, for the English titles Finnkino publishes. Swedish
+    // falls back to the Finnish title on purpose: that is the name printed on the ticket
+    // and on the cinema's own page, so an English one would send a reader looking for a
+    // film under a name nothing local uses. See IDEAS.
+    if(state.lang === 'en') await ensureFilms();
     applyLang();
   };
 
@@ -2011,7 +2108,7 @@
       }
       // The static markup says this in Finnish, the default; EN prefs re-say it here
       // before the first fetch resolves.
-      if(state.lang !== 'fi')
+      if(state.lang !== 'fi')   // static markup is Finnish; restate it for sv/en
         main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
       buildDays();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
@@ -2027,7 +2124,9 @@
       await loadProviders();
       await loadAreas(areasP);
       if(state.lang === 'en'){ await ensureFilms(); }
-      langBtn.textContent = state.lang === 'fi' ? 'EN' : 'FI';
+      drawLangSeg();
+      coll = new Intl.Collator(COLLATE[state.lang]);
+      document.documentElement.lang = state.lang;
       fiDay = L[state.lang].days;
       searchEl.placeholder = searchHint();
       buildDays();

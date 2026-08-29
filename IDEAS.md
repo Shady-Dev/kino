@@ -1423,6 +1423,44 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   maintain, on the local-only half of the pipeline, so it is worth it only if the genre
   rule proves wrong in practice. Watch the filter first.
 
+### Swedish is the third UI language (2026-08-29)
+Segmented `FI | SV | EN` in the header, replacing the two-state toggle. A toggle that
+shows the language you would switch *to* works for two and breaks at three: you cannot
+see where you are, and the third is two taps with nothing saying so. The control is the
+same `.seg` pill already used for Leffat/Ajat, so it is a pattern the page already has.
+
+- **`flex:0 0 auto` on the pill is load-bearing.** It clips its own overflow, so under
+  flex pressure it does not widen the row -- it silently eats "EN". A prototype caught
+  this; nothing on screen said anything was wrong.
+- **`#themeToggle` needed `flex:0 0 38px`.** Fixed width with no shrink guard, so the
+  language control squeezed the circle into an oval. Latent since the header was written
+  and only reachable once something else shared the row.
+- At 320 px the wordmark, three segments and the theme circle do not fit at the 520 px
+  sizes. A `max-width:360px` block tightens all three. Measured: 103 + 86 + 38 px plus
+  gaps against 292 px of usable row, zero overflow.
+- **Swedish titles fall back to Finnish, not English.** No provider gives us a Swedish
+  title yet, and the Finnish distributor title is what is printed on the ticket and on
+  the cinema's own page, so an English one would send a Finland-Swedish reader looking
+  for a film under a name nothing local uses. English mode is different: there the
+  reader has opted out of local names.
+- **Cities get Swedish names, and only for display.** Helsinki -> Helsingfors, Turku ->
+  Åbo, Vaasa -> Vasa, Porvoo -> Borgå. `cityGroups` stays keyed by the Finnish name, and
+  so does the `city:` value in prefs and in the `?area=` links the generated pages carry,
+  so translating the key would break every deep link ever published. Cities with no
+  established Swedish name keep the Finnish one, which is what Finland-Swedish usage does
+  for monolingual municipalities anyway.
+- **Sorting is per language now.** Every list sorted on Finnish collation regardless of
+  UI language, recorded above as an English gap; one `Intl.Collator` rebuilt on switch
+  closes it for all three. Free, measured.
+- `<html lang>` follows the UI language. It never did, even with two.
+- **The Swedish strings are drafted, not translated.** They need a native Finland-Swedish
+  reader before anyone leans on them, and that is the one part of this that cannot be
+  checked by measurement.
+
+Still Finnish in Swedish mode: **genres**, because `data/tmdb-genres.json` carries `fi`
+and `en` only and `genresOf` falls through to the provider's own string. Same gap English
+already had; the fix is a third genre-map request in the enrichment pass.
+
 ## Open — app
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
       the `state.mode='xml'` branches, the attempts log, the `content://` help text from
