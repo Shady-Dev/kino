@@ -221,12 +221,137 @@ def parse(page, today=None):
     return out
 
 
+# ---------------------------------------------------------------- film pages
+#
+# The listing carries title, date, time and poster and nothing else. The film page at
+# /elokuva/{slug}/ carries the rating, runtime, genres, languages, original title and
+# the cinema's own Finnish synopsis, so one request per showing film fills in almost
+# everything the listing drops. 17 films on the first run, paced.
+#
+# What the film page does **not** have is the showtime table. The rows visible in a
+# browser (date with year, auditorium, per-screening price, a real booking link) are
+# injected by johku.com/widget.js and appear nowhere in the 81 kB of HTML. Its read
+# endpoints answer 403 without the key the widget is issued, and lifting that key is
+# out of bounds under "Access and ethics". So price, `aud` and a per-show booking URL
+# stay empty here, and the two timeless dates stay missing.
+
+DETAIL_RE = re.compile(r'<label>\s*([^<]+?)\s*</label>\s*'
+                       r'(?:<span>(.*?)</span>|<div class=["\']contentratings["\']>(.*?)</div>)',
+                       re.S | re.I)
+GENRE_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^>]*>.*?<h5[^>]*>(.*?)</h5>', re.S | re.I)
+SYN_RE = re.compile(r'class=["\']cmd-desription[^"\']*["\'][^>]*>.*?</h5>\s*<p>(.*?)</p>\s*</div>', re.S | re.I)
+RATING_CLASS_RE = re.compile(r'class=["\']rating\s+([^"\']+)["\']', re.I)
+KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
+
+# Finnish language names as this site writes them -> the tag set the client's LN map
+# keys on, which is Finnkino's. "SE" not "SV": etiketti.py already had to be fixed for
+# publishing SV-S, which rendered as a bare "SV" instead of "ruotsi".
+LANGS = {"suomi": "FI", "ruotsi": "SE", "englanti": "EN", "saksa": "DE", "ranska": "FR",
+         "espanja": "ES", "italia": "IT", "venäjä": "RU", "viro": "ET", "tanska": "DA",
+         "norja": "NO", "islanti": "IS", "japani": "JA", "kiina": "ZH", "korea": "KO"}
+
+
+def _langs(spoken, subs):
+    """"puhuttu kieli: englanti" + "Suomi-Ruotsi" -> "EN-A, FI-S, SE-S"."""
+    out = []
+    for name in re.split(r"[,/;-]| ja ", (spoken or "").split(":")[-1]):
+        code = LANGS.get(name.strip().lower())
+        if code and f"{code}-A" not in out:
+            out.append(f"{code}-A")
+    for name in re.split(r"[,/;-]| ja ", subs or ""):
+        code = LANGS.get(name.strip().lower())
+        if code and f"{code}-S" not in out:
+            out.append(f"{code}-S")
+    return ", ".join(out)
+
+
+def details(page):
+    """Film-page metadata. Returns {} for anything the page does not carry."""
+    d = {}
+    fields = {}
+    for m in DETAIL_RE.finditer(page):
+        label = _txt(m.group(1)).upper()
+        if m.group(3) is not None:
+            # IKÄRAJA. **The value is in the class, not in the text**: the markup is
+            # <span class="rating K-12"><span>Ikäraja ei vielä tiedossa</span></span>,
+            # so reading the text gives every film the same placeholder. The sibling
+            # spans (seksi, paihteet, vakivalta, kauhu) are KAVI content descriptors,
+            # which this app does not render, so only a K-nn or S token is kept.
+            for cls in RATING_CLASS_RE.findall(m.group(3)):
+                tok = cls.strip().split()[0]
+                if re.fullmatch(r"K-\d+|S", tok):
+                    d["rating"] = tok
+                    break
+        else:
+            fields[label] = _txt(m.group(2) or "")
+
+    if fields.get("ALKUPERÄINEN NIMI"):
+        d["original"] = fields["ALKUPERÄINEN NIMI"]
+    kesto = KESTO_RE.search(fields.get("KESTO", ""))
+    if kesto:
+        d["len"] = str(int(kesto.group(1) or 0) * 60 + int(kesto.group(2)))
+    lang = _langs(fields.get("LISÄTIEDOT", "") or fields.get("KIELI", ""),
+                  fields.get("TEKSTITYS", ""))
+    if lang:
+        d["lang"] = lang
+    g = GENRE_RE.search(page)
+    if g:
+        # Published in caps ("KOMEDIA,DRAAMA"). Only a fallback for films TMDB misses,
+        # since genres are rendered from `gids`, but a shouting fallback is still worse
+        # than a readable one.
+        names = [n.strip().capitalize() for n in _txt(g.group(1)).split(",") if n.strip()]
+        if names:
+            d["genres"] = ", ".join(names)
+    syn = SYN_RE.search(page)
+    if syn:
+        text = _txt(syn.group(1))
+        if len(text) > 40:
+            # `_syn` is stripped by run.py after synmerge folds it into
+            # films-extra.json; a synopsis repeated across every showtime would add
+            # tens of kB to the venue file.
+            d["_syn"] = text
+    return d
+
+
+def enrich(shows, get=None):
+    """One film page per distinct film, folded onto its showtimes."""
+    get = get or (lambda u: fetch(u, headers={"user-agent": UA,
+                                              "accept-language": "fi-FI,fi;q=0.9"},
+                                  tries=2, backoff=3, timeout=20
+                                  ).decode("utf-8", "replace"))
+    by_url = {}
+    for s in shows:
+        by_url.setdefault(s["url"], []).append(s)
+    ok = fail = 0
+    for n, (url, rows) in enumerate(sorted(by_url.items())):
+        if n:
+            time.sleep(0.5)
+        try:
+            d = details(get(url))
+        except Exception as e:
+            fail += 1
+            print(f"[engel] detail {url.rsplit('/', 2)[-2]}: {type(e).__name__}: {e}")
+            continue
+        if not d:
+            fail += 1
+            print(f"[engel] detail {url.rsplit('/', 2)[-2]}: nothing parsed")
+            continue
+        ok += 1
+        for s in rows:
+            for k, v in d.items():
+                if v and not s.get(k):
+                    s[k] = v
+    print(f"[engel] film pages: {ok} parsed, {fail} with nothing usable, "
+          f"{sum(1 for s in shows if s.get('rating'))}/{len(shows)} showtimes rated")
+    return shows
+
+
 def fetch_page():
     page = fetch(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
                  timeout=30).decode("utf-8", "replace")
     if len(page) < 20000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")
-    return parse(page)
+    return enrich(parse(page))
 
 
 def fetch_site(site=SITES[0]):

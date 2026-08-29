@@ -908,10 +908,37 @@ Engel writes no `rating` on any show. That is the listing, not the parser: no ag
 runtime or price appears anywhere on the front page. Age limits therefore come from
 nowhere for this venue, which is a real gap the film pages could close.
 
-Still to do here: the cinema's own Finnish synopsis and a full-size poster are one
-request away, `wp/v2/elokuva?slug[]=...&_embed=wp:featuredmedia` for the ~40 films
-actually showing rather than all 899. synmerge prefers a cinema's own text over TMDB, so
-this is worth more than it looks.
+### Engel's film pages, and the Johku wall (2026-08-29)
+`/elokuva/{slug}/` carries the rating, runtime, genres, spoken and subtitle languages,
+original title and the cinema's own Finnish synopsis, none of which is in the listing.
+`engel.enrich()` fetches one page per showing film, 17 on the first run, paced 0.5 s.
+
+- **The rating is in the class, not in the text.** The markup is
+  `<span class="rating K-12"><span>Ikäraja ei vielä tiedossa</span></span>`, so reading
+  the text gives every film the same placeholder. The sibling spans (`seksi`,
+  `paihteet`, and presumably `vakivalta`/`kauhu`) are KAVI content descriptors, which
+  this app does not render, so only a `K-nn` or `S` token is kept.
+- Labels repeat their wrapper class: `cmd-ohja` holds both OHJAAJA and IKÄRAJA,
+  `cmd-kieli` both KIELI and LISÄTIEDOT. Parse on the `<label>` text, never the class.
+- Languages come out as "puhuttu kieli: englanti" + "Suomi-Ruotsi" and map to
+  `EN-A, FI-S, SE-S`. **`SE`, not `SV`** — etiketti.py already had to be fixed for
+  publishing `SV-S`, which the client's `LN` map renders as a bare "SV".
+- Genres are published in caps ("KOMEDIA,DRAAMA") and are capitalised on the way in.
+  They are only the fallback for films TMDB misses, since the cards render from `gids`.
+
+**The showtime table is not in the HTML and the API is closed to us.** The rows a browser
+shows on a film page — date *with the year*, auditorium, per-screening price, a real
+booking link — are injected by `johku.com/widget.js`, and none of it appears in the
+81 kB the server sends. The widget's read endpoints under `johku.com/{shop}/` answer
+**403** without the `X-ApiKey` it is issued. Getting at that key is the line in "Access
+and ethics", so it was not attempted and the write side of that namespace is deliberately
+not inventoried here. Consequences to accept, not to work around: `price` and `aud` stay
+empty for Engel, there is no per-show booking URL so a showtime opens the film page, and
+11.09. and 02.10. stay missing because their times only exist behind the widget.
+
+Johku is still a **platform lead** for the listing widget itself: `rs-johku-wordpress`
+renders the same `rs-johku-schedule` markup on any of its cinema customers, so another
+Johku cinema would be a `SITES` entry against the same parser.
 
 ### Probed, not yet added (2026-08-27)
 - **Kino Engel** (kinoengel.fi) — Sofiankatu 4, Helsinki. Screens Engel 1 / Engel 2 plus
