@@ -1058,12 +1058,54 @@ Johku cinema would be a `SITES` entry against the same parser.
 Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
 make it 12 across 6.
 
-### The cinema-list lead: nytleffaan.fi (2026-08-27, not yet probed)
+### The cinema-list lead: nytleffaan.fi — probed 2026-08-29, and it delivered
 `nytleffaan.fi/elokuvateatterit/` is a directory of every Finnish cinema, run by Suomen
-Filmikamari (the industry umbrella body), which is exactly the **list of domains** the
-Vista sweep has been blocked on — guessing 45 produced zero hits, and KAVI and SES render
-their lists client-side. Worth probing: if the page yields names with links, the sweep for
-`/xml/TheatreAreas/` becomes trivial and several chains could arrive at once.
+Filmikamari (the industry umbrella body). It is the **list of domains** every sweep here
+had been blocked on. It yields **225 cinema entries across 152 distinct hosts**, each with
+a "TEATTERIN KOTISIVUT" link to the cinema's own site.
+
+The page needs a browser: the directory markup is there, but reading it meant rendering
+the page rather than fetching it, which is why this sat unprobed while the list was
+described as unavailable. **The list was never the hard part — reaching it was.**
+
+Swept 103 of the 152 from an ordinary connection (dropping chains already integrated,
+municipal event pages and the aggregators), two requests per host: the homepage for a
+platform fingerprint, and `/xml/TheatreAreas/`. Then the fingerprint hits were verified
+against the endpoint each adapter actually needs, because **a signature in someone's HTML
+proves they are a customer of a platform, not that the platform answers us**.
+
+**eTiketti is much bigger than Kotka.** 22 hosts carry `etiketti.app`; **16 serve the
+`/elokuvat/ohjelmistossa` listing `etiketti.py` already parses**, verified by counting the
+`/elokuvat/{id}/` film links in the response: biorex.org 31 (Bio Rex Kokkola — *not* the
+BioRex chain), kinopirtti.fi 16, arthousecinemaniagara.fi 15, leffabuumi.fi 13,
+studiot123.com 12, ihmekompleksi.fi 10, kino123.fi 9, jamsankinotar.fi 8, kinojuha.fi 8,
+studio123.fi 8, biogrand.fi 7, biovuoksi.fi 7, kinoiiris.com 7, kino.joutsa.fi 4,
+k-kino.fi 3, biograni.fi 2. Six more carry the signature and serve no film links
+(elokuvat-elo.info, kino-mania.info, kinokaustinen.fi, kinosampo.info, toijalan-kino.info)
+or 404 (elokuvateatteristar.fi).
+
+**Nexxo, likewise.** All 10 hosts carrying `nexxo-scope` answer `public_api.php` with valid
+JSON. Six have live shows: kinoaurora.fi 40, ksek.fi 40, kinohirvi.fi 33, kinomarilyn.fi
+28, kino-olympia.fi 9, jarvelankino.fi 8. **kinohirvi.fi serves two locationids (2 and 4)**,
+so a host is not a venue — discover the ids, never assume `1`.
+
+The other four (biojukola.fi, biosade.fi, biosalo.fi, biostara.fi) return valid JSON with
+**zero shows at every id 1-6**. That is the case the zero-showtime run failure is waiting
+for: a healthy site with an empty programme. Check one against its own page before adding
+it, and expect to need the "legitimately empty site" escape hatch that item describes.
+
+**Johku is confirmed as a platform, not one cinema.** `kuvatahti.johku.com` appears in the
+directory outright, and kinotapiola.fi, kulttuurimylly.com and virtasali.fi carry the
+widget. Unverified: nobody has checked whether they render `rs-johku-schedule`
+server-side. Engel's finding applies in advance — the listing parses, the API does not.
+
+**MyCloudCinema:** mantsala.cine.fi, the backend BioRex and Gilda already sit on.
+
+Not measured and load-bearing before any of this lands: **venue counts** (a host can carry
+several; ksek.fi, leffabuumi.fi, studio123.fi, kino123.fi and k-kino.fi each list 2-3 in
+the directory), overlap with venues already covered, and **accents**. Nine chains already
+sit near the limit of what stays separable under deuteranopia; twenty would not, and the
+per-city rule is what makes that survivable — measure before promising a chain a colour.
 
 Also the competitive picture, since it comes up when deciding what to claim on the site:
 - **nytleffaan.fi** — industry-run, gets exhibitor data rather than scraping, claims every
