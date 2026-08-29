@@ -873,16 +873,19 @@ datacenter IPs and the adapter never touches it.
   quoting is uniform.
 - **Posters are hosted on `johku.com`**, not on the cinema's own domain, so they go
   through `mirror_posters.py` like every other remote poster.
-- **A date in the `<select>` is not necessarily a screening.** The first live run parsed
-  11 dates against the 13 the picker offers, which looked like a parser bug and was not:
-  11.09. and 02.10. are **premiere cards**. They write the weekday out in full
-  ("Perjantai 02.10." rather than "Pe 02.10."), leave the time span empty, and say
-  "Lue lisää ››" where a real row says "Osta liput". A row with no time cannot go into a
-  time-ordered day list, and the Ensi-illat entry above already records why an upcoming
-  film with nothing to tap is not wanted here. So they are skipped — but **counted and
-  named in the log**, because if times ever disappeared site-wide the parse would
-  otherwise just shrink quietly, which is the failure mode this pipeline keeps
-  rediscovering.
+- **The programme is rendered twice, and the second copy has no times.** The timed
+  listing gives "Pe 05.09." + "klo 21:30" + "Osta liput"; a second listing repeats the
+  same screenings with the weekday written out ("Perjantai 02.10.") and an **empty time
+  span**. 41 timed rows against 46 timeless ones on 2026-08-29.
+- **I misread those timeless rows as premieres, and the log caught it.** The first
+  version counted every one of them as an upcoming film, which produced a list of 46
+  including "Autofiktio 30.08." — a screening that carries a time in the other listing.
+  44 of the 46 were duplicates. Only 11.09. and 02.10. appear nowhere with a time, and
+  both are in the date `<select>`, so their times are presumably fetched when the reader
+  picks the date. The log now reports **only dates no timed row covers**, which is the
+  number that would actually mean something: it is 2 today, and it going to 13 would say
+  the timed listing had disappeared. A count that fires on healthy data teaches you to
+  ignore it, which is the same failure as a workflow that is always red.
 
 **Johku is a platform lead.** The schedule widget's classes are `rs-johku-schedule` and
 `rsjohku-ohjelmisto`, and the images come from `johku.com/kinoengel/files/`. Johku is a

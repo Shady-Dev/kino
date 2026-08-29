@@ -151,18 +151,23 @@ def parse(page, today=None):
         d = DATE_RE.search(block)
         t = TIME_RE.search(block)
         if not (d and t):
-            # Two kinds of anchor have no time. A poster or "read more" link carries no
-            # date either. A **premiere card** carries a date written out in full
-            # ("Perjantai 02.10."), an empty time span and "Lue lisää" instead of "Osta
-            # liput"; DATE_RE only matches the two-letter form, so those fall here too.
-            # Both are correctly skipped: a row with no time cannot be placed in a
-            # time-ordered day list, and IDEAS records why an upcoming film with nothing
-            # to tap does not belong in this app. They are counted rather than dropped
-            # in silence, because if times ever disappeared site-wide the parse would
-            # otherwise just shrink and nobody would know which failure it was.
-            if COMING_RE.search(block):
-                cd = COMING_RE.search(block)
-                coming.append(f"{_title(block)[:40]} {cd.group(1)}.{cd.group(2)}.")
+            # The page renders the programme twice. The timed listing gives
+            # "Pe 05.09." + "klo 21:30" + "Osta liput" and is what this parser wants.
+            # A second listing repeats the same screenings with the weekday written out
+            # ("Perjantai 02.10.") and an **empty time span**, so those rows cannot be
+            # placed in a time-ordered day list and are skipped.
+            #
+            # Do not read the timeless rows as premieres: on the first live run 44 of
+            # the 46 were films that carry a time in the other listing. Only the dates
+            # that appear *nowhere* with a time are worth reporting, and on 2026-08-29
+            # that was 11.09. and 02.10. Those two are in the date picker, so their
+            # times are presumably fetched when the reader picks the date. Reported
+            # rather than chased, because a wrong count here would be worse than a
+            # missing one and nothing about it is verifiable from this page alone.
+            cd = COMING_RE.search(block)
+            if cd:
+                coming.append((f"{int(cd.group(2)):02d}-{int(cd.group(1)):02d}",
+                               _title(block)[:40]))
             continue
         start = _iso(int(d.group(1)), int(d.group(2)),
                      int(t.group(1)), int(t.group(2)), today)
@@ -204,10 +209,15 @@ def parse(page, today=None):
         seen.add(k)
         out.append(s)
     out.sort(key=lambda s: s["start"])
-    if coming:
-        uniq = sorted(set(coming))
-        print(f"[engel] {len(uniq)} premiere cards with no time, skipped: "
-              + " | ".join(uniq))
+    # Only the dates no timed row covers. Everything else is the second listing
+    # repeating a screening this parse already has.
+    have = {s["start"][5:10] for s in out}
+    orphan = sorted({(md, t) for md, t in coming if md not in have})
+    if orphan:
+        dates = sorted({md for md, _ in orphan})
+        print(f"[engel] {len(dates)} date(s) listed with no time anywhere, skipped: "
+              + ", ".join(dates) + " -- "
+              + " | ".join(t for _, t in orphan))
     return out
 
 
