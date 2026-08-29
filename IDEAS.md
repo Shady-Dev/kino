@@ -852,6 +852,32 @@ datacenter IPs and the adapter never touches it.
   an outdoor "KesäKino". Elementor; the front page renders a day-grouped list with title,
   "To 27.08. klo 17:30" and a link to /elokuva/{slug}/. No room or price in the list.
   Title prefixes to handle: `KESÄKINO:` (outdoor) and `BARNSÖNDAGAR:` (Swedish kids).
+  - **This one runs locally. It is not on any platform we already have, and a runner
+    cannot read it** (probed 2026-08-29). Every path answers **HTTP 202** with a 169-byte
+    meta-refresh shell and the headers `SG-Captcha: challenge`, `X-Robots-Tag: noindex`
+    and a redirect to `/.well-known/sgcaptcha/?r=%2F&y=ipr:{runner ip}`. That is
+    SiteGround's captcha protection firing on **IP reputation**, so the block is the
+    datacenter address rather than the request shape; a browser on an ordinary connection
+    is not challenged. Solving it is out of bounds under "Access and ethics", so Engel
+    joins Finnkino and Kino Akseli on the local half: a `SITES` entry whose module the
+    local wrapper runs, and `localfetch.sh` has to call `run.py kinoakseli engel`.
+  - Also checked and negative in the same probe: `/xml/TheatreAreas/` (Vista),
+    `nexxo-scope/public_api.php`, `gilda-react-booking` and `/wp-json/`. All 202, so
+    those are "unknown" rather than "absent" until something reads them from a
+    residential connection. Worth retrying from the Mac before writing a scraper, since
+    an Elementor site with a WordPress REST API might still hand over the programme as
+    JSON and save a parser.
+  - **KesäKino is an auditorium, not a strand.** `aud` carries the room verbatim because
+    that is what is printed on the ticket, and an outdoor screen is exactly the kind of
+    thing a reader needs on the showtime stub before turning up. So the adapter sets
+    `aud: "KesäKino"` and does not route it through `strands.py`, which would put it in
+    `method` next to Anniskelu and SenioriKino. `BARNSÖNDAGAR:` is a real strand and does
+    belong in `EVENT_PREFIXES`.
+  - **Not a separate venue**, for the same reason LUXE and VIP-SALI are not: a room is not
+    a cinema. The seasonal argument settles it independently. A KesäKino venue would sit
+    empty for nine months, `venues-{provider}.json` lists every venue whether or not it
+    has shows, and a site parsing zero showtimes fails the run. A permanently empty venue
+    in the picker is a standing false alarm.
 
 Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
 make it 12 across 6.
