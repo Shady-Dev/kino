@@ -1181,12 +1181,23 @@ Still open from this pass:
       or a replacement search string. `run-enrich.log` now names every title that found
       nothing, which is the input to that file. Wikidata (P4947 = TMDB id, matched on the
       Finnish label) is the automated version if this outgrows a hand list.
-- [ ] **MovieXchange API credentials** — the real fix. Server-side client_credentials,
-      programmatic refresh, no browser and no residential IP, so the whole pipeline
-      could move back to Actions. Request drafted at moviexchange.com/request-api-access/
-      — check whether it was ever sent / chase the reply.
+- [x] **MovieXchange API credentials — decided against, 2026-08-29.** Server-side
+      client_credentials with programmatic refresh needs no browser and no residential IP,
+      so it was the one route that could have moved the whole pipeline back to Actions.
+      Not being requested: it is an approach to a third party that costs work up front
+      with no promise of free access at the end of it. The drafted request at
+      moviexchange.com/request-api-access/ was never sent and is not going to be. Reopen
+      only if MovieXchange publishes open access terms — not by asking again.
+      Consequence to plan around rather than work around: **the split pipeline is the
+      final architecture, not a stopgap.** That promotes the item below from second-best
+      to the only remaining fix.
+      Unaffected: the MX *CDN* is a public read reached through Finnkino's own
+      `moviexchangeReleaseId` (`fetch_data.py`), so mirrored posters and the trailer
+      fallback never needed credentials and still do not.
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
-      Cloud VMs are not an option for the two providers that block datacenter IPs.
+      Cloud VMs are not an option for the three providers that block datacenter IPs
+      (Finnkino, Kino Akseli, Kino Engel), and with the MovieXchange route closed above
+      there is no other way off the laptop at all. 19 of 47 venues ride on that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
