@@ -1365,3 +1365,35 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   plainly instead. Closing it means self-hosting the font and the remaining posters, the
   way MX posters are already mirrored into `data/posters/`; until that is done, an
   accurate README beats a flattering one.
+
+### Posters are mirrored (2026-08-29)
+`scripts/providers/mirror_posters.py` runs after enrichment and before `build_pages`,
+downloads every hot-linked poster into `data/posters/` and rewrites the `img` reference
+on each show and in `films-extra.json`. Half of the third-party-request problem the
+README documents is now closed; the Google Fonts request is not.
+
+- **The count was wrong by an order of magnitude, in our favour.** "1523 of 4279 posters"
+  counted *references*, not files: one film's poster is repeated across every showtime it
+  has. Measured on 2026-08-29 the data holds **194 distinct remote URLs** (147 on shows,
+  the rest TMDB addresses reachable only through `films-extra.json`) against 3494
+  references. So this was a ~5 MB job and had been written down as a ~35 MB one. Same
+  lesson as the city count: measure against the data before writing a number.
+- **Everything is downscaled to 342 px wide.** The sources are not comparable: TMDB serves
+  w342 at ~25 kB, MyCloudCinema publishes only 1080, and Nexxo and Kino Akseli serve the
+  distributor's key art at 1984x2835. Mirroring verbatim would have put tens of megabytes
+  of image into a 4 MB repo to render a tile about 130 px wide on a phone. 342 is what
+  TMDB already serves and what the client renders from. Pillow is installed in the
+  workflow for this and for nothing else.
+- **Named by `sha1(url)[:16]`.** Seven hosts with no id namespace in common; the URL is
+  the only thing that identifies a poster across all of them. The existing MX mirror keys
+  on the release id and keeps its own naming.
+- **A failure is logged and left hot-linked.** `kinoakseli.fi` challenges datacenter IPs,
+  so its 6 posters fail on every cloud run by design and stay remote; mirroring them means
+  doing it in the local run, next to the MX mirror. `tries=2` keeps a permanent failure
+  cheap. Nothing here is allowed to fail the build: a third party's uptime must not be
+  able to stop the pipeline publishing showtimes.
+- Knock-on effect worth expecting once: `build_pages` renders same-origin posters only, so
+  the first run after this rewrites nearly every page as the `<img>` tags appear.
+- Open: nothing prunes a poster once its film stops screening, so the directory grows by
+  roughly the number of new releases forever. At ~20 new films a week that is a few MB a
+  year, which is worth a sweep eventually and not worth state now.
