@@ -19,8 +19,8 @@ Fields:
           `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
           a number that no longer has a script behind it -- the figures that used to
           sit here were CIE76 mislabelled as ΔE, and were wrong by a factor of five.
-          Current worst same-city pair: 3.9 ΔE00 deutan (BioRex/Riviera), which is a
-          known unfixed fault, not a target
+          Current worst same-city pair: 14.4 ΔE00 deutan (Finnkino/Cinema Orion),
+          which is about the ceiling for six chains in one city
   book    buy | reserve | door | list -> footer call to action. "list" is for a
           provider that publishes no per-show booking URL, so a showtime can only
           open the programme page (Gilda: seat choice lives in React state, and the
@@ -42,7 +42,12 @@ PROVIDERS = [
          book="reserve", module="nexxo", where="cloud"),
     dict(id="kotkanleffat", label="Kotkan Leffat", host="kotkanleffat.fi",
          accent="#C42749", book="buy", module="etiketti", where="cloud"),
-    dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#7B3FD4",
+    # Teal, not the violet it launched with. Violet and BioRex's blue differ almost
+    # entirely in the red-green channel a deuteranope does not have -- 3.9 dE00 apart,
+    # in the one city where the two appear side by side. Riviera moved rather than
+    # BioRex because both its venues are in Helsinki, so its accent only ever matters
+    # there, while BioRex's blue is unconstrained in eleven other towns.
+    dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#0C6464",
          book="buy", module="riviera", where="cloud"),
     dict(id="gilda", label="Gilda", host="gilda.fi", accent="#D62D8F",
          book="buy", module="gilda", where="cloud"),

@@ -2107,14 +2107,28 @@ chains in one city genuinely cannot all be far apart under deuteranopia, who see
 something close to a two-dimensional colour space: the best achievable Helsinki floor is
 about 14, not the 28 that was recorded.
 
-**Open, and a decision rather than a bug fix: BioRex `#1273D4` and Riviera `#7B3FD4` are
-3.9 ΔE00 apart in Helsinki.** Blue and violet differ mostly in the red-green channel a
-deuteranope does not have. Moving either one to a muted teal-green (`accent_check.py
---search` puts `#24664E` at the top for both) lifts the Helsinki floor from 3.9 to 14.4,
-where the binding pair becomes Finnkino/Cinema Orion -- orange against olive, both
-yellowish under deuteranopia, and about the ceiling for six chains. Not applied: an
-accent is a visible identity choice, and the previous repalette was made on numbers
-nobody could check. This one should be made deliberately, with the script in hand.
+**Fixed the same day: Riviera moved from `#7B3FD4` to `#0C6464`.** Blue and violet
+differ mostly in the red-green channel a deuteranope does not have, so BioRex and
+Riviera sat 3.9 ΔE00 apart in the one city where they appear side by side. The Helsinki
+floor is now **14.4**, and the binding pair is Finnkino/Cinema Orion -- orange against
+olive, both yellowish under deuteranopia, and about the ceiling for six chains.
+
+- **Riviera moved, not BioRex.** Both give the same 14.4, because the floor ends up set
+  by a different pair either way. Riviera's two venues are both in Helsinki, so its
+  accent only ever matters there; BioRex appears in twelve towns where its blue is
+  unconstrained. Change the colour where the problem is.
+- **The choice among candidates was not an optimisation.** Anything clearing 14.4 gives
+  the same floor, so maximising deutan separation past that point buys nothing. The
+  tiebreak was normal vision, where nearly every reader is: `#0C6464` scores 16.5 deutan
+  / 28.1 normal, against `#24664E` at 19.1 / 18.8. The higher deutan number is the worse
+  colour here.
+- Only six hue families clear the ceiling at all, and every one of them sits at L* 38-39,
+  the bottom of the legibility window. Separating from five existing chains under
+  deuteranopia forces a dark colour; that is a real constraint on a seventh Helsinki
+  chain, not a preference.
+- Teal now sits near Kinoset's green and Savon Kinot's teal in the abstract. That is
+  allowed and deliberate: neither shares a city with Riviera, the chain accents only
+  render in a combined city view, and Helsinki is the only city that has one.
 
 ## Access and ethics
 
