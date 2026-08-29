@@ -137,7 +137,8 @@ def _https(url):
 def get(url, tries=3, timeout=40):
     """Vista's XML web services. The 40 s timeout is passed through rather than left to
     common's 30 s default: a whole area's Schedule response is large and slow."""
-    return fetch(url, headers={"user-agent": UA, "accept": "application/xml, text/xml, */*"},
+    return fetch(url, cache=True,
+                 headers={"user-agent": UA, "accept": "application/xml, text/xml, */*"},
                  tries=tries, timeout=timeout).decode("utf-8", "replace")
 
 

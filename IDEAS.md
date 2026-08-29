@@ -1821,6 +1821,42 @@ genres in a Swedish interface -- worth an eye on the first run rather than an as
   competing with the cinemas' own listings for their own venue names. That is a decision
   to take deliberately, not a side effect of adding markup. See "Access and ethics".
 
+### Conditional GETs, and what the providers actually support (2026-08-30)
+`common.fetch(cache=True)` sends a stored `ETag` / `Last-Modified` back as
+`If-None-Match` / `If-Modified-Since`, and a 304 returns the stored body without the
+origin resending it. Verified live against Cinema Orion: second fetch was a real 304 and
+118 kB was not sent again.
+
+**Measured before building it, and the measurement is the point.** Across every endpoint
+this pipeline reads, **only Cinema Orion sends a validator at all**:
+
+| origin | ETag | Last-Modified | Cache-Control |
+|---|---|---|---|
+| cinemaorion.fi | no | **yes** | – |
+| kotkanleffat.fi (eTiketti) | no | no | `no-store, no-cache, must-revalidate` |
+| kinoset.fi (Nexxo) | no | no | `no-store, no-cache, must-revalidate, max-age=0` |
+| biorex.org, kinoengel.fi, gilda.fi, rivieracinemas.fi | no | no | – |
+| savonkinot.fi (Vista) | no | no | `private` |
+
+So this saves roughly **one request per run**, not the bulk of them. It is in anyway
+because it is the correct way to ask, it costs nothing where the origin offers nothing,
+and a provider that starts sending ETags is picked up with no further change. Do not
+expect it to show up as a bandwidth number.
+
+The half that does matter: **a response marked `no-store` or `no-cache` is never written
+to disk.** Two providers send it explicitly, and the pipeline had been ignoring it. A
+response with no validator is not stored either -- there would be nothing to revalidate
+it against, so the directory would only grow.
+
+- The cache lives in `.http-cache/`, gitignored, **never committed**. It holds verbatim
+  copies of third parties' pages, which is the same thing the `probe/` rule exists to
+  keep out of a public repo.
+- Actions runners are ephemeral, so the workflow restores it with `actions/cache`. Without
+  that the one origin that benefits is a cloud provider and the feature would be dormant.
+- Never enable on a POST. The response is not addressed by the URL alone, so BioRex's and
+  Riviera's ajax calls would collide in one slot; `fetch` forces `cache=False` when
+  `data` is given rather than trusting call sites.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

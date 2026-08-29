@@ -154,7 +154,8 @@ def get(url, tries=3, timeout=45):
     A malformed body still raises out of json.loads without a retry, same as before:
     common.fetch retries the request, not the parse, and a site answering 200 with
     non-JSON is a shape change to look at rather than a transient to sit out."""
-    return json.loads(fetch(url, headers={"user-agent": UA, "accept": "application/json"},
+    return json.loads(fetch(url, cache=True,
+                            headers={"user-agent": UA, "accept": "application/json"},
                             tries=tries, timeout=timeout).decode("utf-8", "replace"))
 
 

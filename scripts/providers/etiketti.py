@@ -66,7 +66,8 @@ def get(url, tries=3):
     same 5 s * n backoff and 30 s timeout this loop had, so behaviour is unchanged."""
     return fetch(url, headers={
         "user-agent": UA, "accept-language": "fi-FI,fi;q=0.9",
-        "accept": "text/html,application/xhtml+xml"}, tries=tries).decode("utf-8", "replace")
+        "accept": "text/html,application/xhtml+xml"}, tries=tries,
+        cache=True).decode("utf-8", "replace")
 
 
 def _lang(page):

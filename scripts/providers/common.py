@@ -9,31 +9,121 @@ the adapters without their own retry loop, and the next cron is four hours
 away. tries=3 with backoff*n sleeps means a worst case of 3*backoff seconds of
 extra wait per request, so a dead upstream cannot stall the workflow.
 """
+import hashlib
 import json
 import os
+import pathlib
 import time
+import urllib.error
 import urllib.request
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
 
+# Validator cache for conditional GETs. Deliberately outside the repo tree and
+# gitignored: it holds verbatim copies of third parties' pages, and committing those
+# is the rule that probe/ already exists to enforce -- one such dump put someone
+# else's API key in this repo. On Actions the directory is restored by actions/cache
+# between runs; locally it simply survives, since the wrapper's `git reset --hard`
+# does not touch untracked files.
+CACHE_DIR = pathlib.Path(os.environ.get("KINO_HTTP_CACHE")
+                         or pathlib.Path(__file__).resolve().parents[2] / ".http-cache")
+_stats = {"hit": 0, "miss": 0, "stored": 0, "nostore": 0}
 
-def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=None):
+
+def cache_stats():
+    """-> (304s, full bodies, entries written). Reset per run by the caller."""
+    return dict(_stats)
+
+
+def _slot(url):
+    return CACHE_DIR / (hashlib.sha256(url.encode()).hexdigest()[:32] + ".bin")
+
+
+def _read_slot(path):
+    try:
+        raw = path.read_bytes()
+        head, body = raw.split(b"\n\n", 1)
+        return json.loads(head.decode()), body
+    except Exception:
+        return None, None
+
+
+def _write_slot(path, meta, body):
+    try:
+        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(".tmp")
+        tmp.write_bytes(json.dumps(meta).encode() + b"\n\n" + body)
+        os.replace(tmp, path)
+        _stats["stored"] += 1
+    except Exception:
+        pass          # a cache that cannot be written must never fail a run
+
+
+def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=None,
+          cache=False):
     """GET (or POST when `data` is given) with retry. -> bytes.
 
     `opener` lets a cookie-session adapter (BioRex) retry a single request
     without redoing the whole session dance. Retries every exception the same
     way the per-adapter get() loops already do; an HTTP 4xx is rare enough
     here that distinguishing it is not worth the branch.
+
+    `cache=True` makes it a conditional GET: a stored ETag or Last-Modified goes back
+    as If-None-Match / If-Modified-Since, and a 304 returns the stored body without
+    the server sending it again. A response marked no-store or no-cache is never
+    written to disk, and one with no validator is not either -- there would be
+    nothing to revalidate it with.
+
+    Measured 2026-08-30, across every endpoint this pipeline reads: only Cinema
+    Orion sends a validator at all, so today this saves about one request per run
+    rather than the bulk of them. It is here because it is the correct way to ask,
+    it costs nothing when the origin offers nothing, and a provider that starts
+    sending ETags is picked up without another change.
+
+    Never enable it on a POST -- the response is not addressed by the URL alone,
+    so a slot would collide across different request bodies.
     """
+    if data is not None:
+        cache = False
+    slot = _slot(url) if cache else None
+    meta, cached_body = _read_slot(slot) if cache else (None, None)
+
+    hdrs = dict(headers or {"user-agent": UA})
+    if meta and cached_body is not None:
+        if meta.get("etag"):
+            hdrs["if-none-match"] = meta["etag"]
+        if meta.get("last_modified"):
+            hdrs["if-modified-since"] = meta["last_modified"]
+
     last = None
     for n in range(tries):
         try:
-            req = urllib.request.Request(url, data=data,
-                                         headers=headers or {"user-agent": UA})
+            req = urllib.request.Request(url, data=data, headers=hdrs)
             op = opener.open if opener is not None else urllib.request.urlopen
             with op(req, timeout=timeout) as r:
-                return r.read()
+                body = r.read()
+                if cache:
+                    _stats["miss"] += 1
+                    cc = (r.headers.get("Cache-Control") or "").lower()
+                    et = r.headers.get("ETag")
+                    lm = r.headers.get("Last-Modified")
+                    # Storing a body the origin marked no-store is the thing this whole
+                    # change exists to avoid. eTiketti and Nexxo both send it; measured
+                    # 2026-08-30. Without a validator there is nothing to revalidate
+                    # with either, so the slot would only ever grow.
+                    if ("no-store" in cc or "no-cache" in cc):
+                        _stats["nostore"] += 1
+                    elif et or lm:
+                        _write_slot(slot, {"etag": et, "last_modified": lm}, body)
+                return body
+        except urllib.error.HTTPError as e:
+            if e.code == 304 and cached_body is not None:
+                _stats["hit"] += 1
+                return cached_body
+            last = e
+            if n + 1 < tries:
+                time.sleep(backoff * (n + 1))
         except Exception as e:
             last = e
             if n + 1 < tries:

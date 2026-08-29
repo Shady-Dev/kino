@@ -13,3 +13,8 @@ __pycache__/
 
 # Atomic-write staging files (common.write_json), in case a run dies between write and replace
 *.tmp
+
+# Conditional-GET validator cache (common.fetch cache=True). Never committed: it holds
+# verbatim copies of third parties' pages, which is exactly what the probe/ rule above
+# exists to keep out of a public repo. Restored between Actions runs by actions/cache.
+.http-cache/

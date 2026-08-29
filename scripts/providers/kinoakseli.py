@@ -119,7 +119,8 @@ def parse(page, today=None):
 
 
 def fetch_page():
-    page = fetch(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
+    page = fetch(URL, cache=True,
+                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
                  ).decode("utf-8", "replace")
     if len(page) < 5000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")

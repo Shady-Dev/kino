@@ -16,6 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Conditional GETs only help if the validators survive between runs, and a runner
+      # is ephemeral. Restore-keys makes a stale cache better than none: an entry whose
+      # validator no longer matches just costs the 200 it would have cost anyway.
+      - name: Restore HTTP validator cache
+        uses: actions/cache@v4
+        with:
+          path: .http-cache
+          key: http-cache-${{ github.run_id }}
+          restore-keys: http-cache-
       - name: Build providers.json
         run: python3 scripts/build_providers.py
       # One step for every cloud provider: the module list comes from the registry, so

@@ -201,7 +201,8 @@ def parse(page, today=None):
 
 
 def fetch_page():
-    page = fetch(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
+    page = fetch(URL, cache=True,
+                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
                  ).decode("utf-8", "replace")
     if "kinola-day" not in page:
         raise RuntimeError("no kinola-day table on the page (markup changed?)")
