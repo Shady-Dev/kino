@@ -680,7 +680,7 @@
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt',
-         partialOf:'{n}/{m} teatteria ei päivittynyt' },
+         partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -711,7 +711,7 @@
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
          contact:'För biografer: kontakt och begäran om borttagning',
-         partialOf:'{n}/{m} biografer uppdaterades inte' },
+         partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -739,7 +739,7 @@
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
          contact:'For cinemas: enquiries and removal requests',
-         partialOf:'{n}/{m} cinemas did not refresh' }
+         partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -986,6 +986,9 @@
     const parts = names.map(p => {
       const m = providerMeta[p], h = ageHours(m.oldest || m.generated);
       const nm = esc((SOURCE[p] || [p])[0]);
+      // Its venue file did not load at all. Distinct from `?`, which means a file
+      // arrived carrying a timestamp that could not be read.
+      if(m.gone) return `<span class="src bad">\u26a0 ${nm} ${L[state.lang].unavailable}</span>`;
       if(h === null) return `<span class="src bad">${nm} ?</span>`;
       const cls = h > STALE_H ? 'src bad' : 'src';
       const mark = h > STALE_H ? '\u26a0 ' : '';
@@ -1245,7 +1248,15 @@
     const data = await (areasPromise || fetchJSON('data/areas.json'));
     const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
       .map(a => ({ ...a, provider:'finnkino' }));
-    providerMeta = { finnkino: { generated: data.generated, venues: areas.length } };
+    // Seeded from the expected provider list *before* any venue file is fetched, so a
+    // provider whose file never arrives stays on screen as unavailable instead of
+    // vanishing. It used to be built only from what loaded, which meant a chain that was
+    // completely down was indistinguishable from a chain that does not exist -- the one
+    // state the health line most needs to show, and the only one it could not.
+    providerMeta = {};
+    for(const pr of PROVIDERS) if(pr && pr.id) providerMeta[pr.id] = { venues: 0, gone: true };
+    providerMeta.finnkino = { generated: data.generated, oldest: data.generated,
+                              stale: 0, venues: areas.length };
     if(!areas.length) throw new Error('Theatre list came back empty');
     // Extra providers, each optional: a missing or broken file must not take the app down.
     // Fetched in parallel — awaiting eight files one at a time was most of the startup

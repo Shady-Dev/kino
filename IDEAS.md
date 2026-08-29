@@ -2174,6 +2174,26 @@ pass, since with one good and one bad those are the same answer. Verified by bre
 -- reverting `oldest` to `now` turns two tests red, dropping the `stale` bookkeeping
 turns three red.
 
+### A dead provider stays on the health line (2026-08-30)
+`providerMeta` was built only from what loaded: `fetchJSON(...).catch(() => null)` then
+`if(!j) return`. So a provider whose venue file failed entirely disappeared from the
+health line *and* from the picker, and the app looked exactly as it does when that chain
+was never configured. The one state the line most needs to show was the only one it could
+not: total failure rendered as absence.
+
+Now seeded from `PROVIDERS` before any fetch, so every expected provider has a row from
+the start and a successful load overwrites it. A provider that never arrives reads
+`⚠ Riviera ei saatavilla`.
+
+- Distinct from the existing `?`, which means a file *did* arrive carrying a timestamp
+  that could not be read. Two different faults, two different words.
+- No `loading` state. The boot already shows a spinner over the whole list, and a row
+  that says "loading" for 300 ms is noise rather than information.
+- Verified by removing `data/venues-riviera.json` and reloading with the service worker
+  unregistered and its caches cleared -- the SW serves data cache-first, so without that
+  the test would have been answered from the last good copy and proved nothing. Eleven
+  rows instead of ten, Riviera named in all three languages.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
