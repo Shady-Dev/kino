@@ -952,7 +952,26 @@
   const jsonCache = {};
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
+  // Boot-time speculation: every URL the boot will need is derivable before any
+  // response arrives, so those requests can start in parallel instead of in three
+  // serial waves (providers -> venue lists -> schedule). A prefetched promise is
+  // consumed once by the fetchJSON call that would have made the same request; a
+  // wrong guess (venue changed on another device, stale city ids) is one wasted
+  // request and the normal path fetches as before.
+  const prefetched = new Map();
+  function prefetch(path){
+    if(prefetched.has(path)) return;
+    const p = fetchJSON(path);
+    p.catch(() => {});            // not consumed is not an error
+    prefetched.set(path, p);
+  }
+
   async function fetchJSON(path){
+    if(prefetched.has(path)){
+      const p = prefetched.get(path);
+      prefetched.delete(path);
+      return p;
+    }
     // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
     // schedule up to 10 min stale is immaterial and the stale banner covers the
     // pathological case. The buster made every fetch a unique URL, so the SW cached a
@@ -1155,6 +1174,9 @@
   // keep working unchanged.
   async function loadCity(city){
     const ids = cityGroups[city] || [];
+    // Remembered so the next boot can prefetch these files before the venue lists
+    // arrive; validated against the live cityGroups then, like any stored value.
+    prefs.set({ cityIds: Object.assign({}, prefs.get().cityIds, { [city]: ids }) });
     const parts = await Promise.all(ids.map(async id => {
       try { return await fetchJSON(`data/area-${id}.json`); }
       catch(_) { return null; }
@@ -1920,6 +1942,21 @@
   /* ---------- init ---------- */
   (async () => {
     try {
+      // Start every knowable fetch now. The venue lists are needed on every boot and
+      // their names come from the provider ids; the schedule file comes from the same
+      // prefs the restore below will read (?area= beats them, same as in the restore).
+      {
+        const pr = prefs.get();
+        for(const p of PROV_FALLBACK) if(p.id !== 'finnkino') prefetch(`data/venues-${p.id}.json`);
+        let target = '';
+        try { target = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
+        target = target || pr.fav || pr.area || '';
+        if(target.startsWith('city:')){
+          for(const id of (pr.cityIds || {})[target.slice(5)] || []) prefetch(`data/area-${id}.json`);
+        } else if(target){
+          prefetch(`data/area-${target}.json`);
+        }
+      }
       // The static markup says this in Finnish, the default; EN prefs re-say it here
       // before the first fetch resolves.
       if(state.lang !== 'fi')
