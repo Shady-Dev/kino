@@ -1869,6 +1869,19 @@ because it is the correct way to ask, it costs nothing where the origin offers n
 and a provider that starts sending ETags is picked up with no further change. Do not
 expect it to show up as a bandwidth number.
 
+`run.py` prints the shape of every run, because otherwise all of the above is a claim:
+
+    [run] http: 1 revalidated (304), 85 full, 48 not stored (origin said no-store),
+          0 cache entries written
+
+Measured across the full cloud sweep on 2026-08-30: 86 conditional-eligible GETs, 48 of
+them from origins that send `no-store`, exactly one that revalidates. `full` is not waste
+-- most of these origins offer no validator, so there is nothing to revalidate against.
+The line is there so the next person can check the behaviour instead of believing this
+entry. Enabled on every plain GET in the pipeline rather than a chosen few, so the counts
+are the whole picture; the two ajax POSTs (BioRex, Riviera) are excluded by `fetch`
+itself, since a POST response is not addressed by its URL alone.
+
 The half that does matter: **a response marked `no-store` or `no-cache` is never written
 to disk.** Two providers send it explicitly, and the pipeline had been ignoring it. A
 response with no validator is not stored either -- there would be nothing to revalidate

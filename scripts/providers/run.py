@@ -120,6 +120,17 @@ def main(argv) -> int:
             if not v:
                 failures += 1
 
+    # Every request this run asked an upstream for, and how it was asked. Printed
+    # because the alternative is a claim: the pipeline says it revalidates where it can
+    # and never stores what an origin marks no-store, and this is the line that shows
+    # whether that is true on the day. `full` is not waste -- most origins here offer no
+    # validator at all, so there is nothing to revalidate with.
+    c = common.cache_stats()
+    if c["hit"] or c["miss"]:
+        print(f"[run] http: {c['hit']} revalidated (304), {c['miss']} full, "
+              f"{c['nostore']} not stored (origin said no-store), "
+              f"{c['stored']} cache entries written")
+
     print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
           f"{failures} failures")
     return 1 if failures or not venues else 0

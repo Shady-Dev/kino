@@ -315,7 +315,7 @@ def details(page):
 
 def enrich(shows, get=None):
     """One film page per distinct film, folded onto its showtimes."""
-    get = get or (lambda u: fetch(u, headers={"user-agent": UA,
+    get = get or (lambda u: fetch(u, cache=True, headers={"user-agent": UA,
                                               "accept-language": "fi-FI,fi;q=0.9"},
                                   tries=2, backoff=3, timeout=20
                                   ).decode("utf-8", "replace"))
@@ -347,7 +347,8 @@ def enrich(shows, get=None):
 
 
 def fetch_page():
-    page = fetch(URL, headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
+    page = fetch(URL, cache=True,
+                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
                  timeout=30).decode("utf-8", "replace")
     if len(page) < 20000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")

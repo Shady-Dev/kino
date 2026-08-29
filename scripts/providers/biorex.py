@@ -165,7 +165,7 @@ def parse(posts_html, venue):
 
 def film_meta(url):
     """Fetch one film page -> {'syn','len','genres'}. Cheap: ~15 pages per run."""
-    page = fetch(url, headers={"user-agent": UA,
+    page = fetch(url, cache=True, headers={"user-agent": UA,
                                "accept-language": "fi-FI,fi;q=0.9"}
                  ).decode("utf-8", "replace")
     syn = SYN_RE.search(page)

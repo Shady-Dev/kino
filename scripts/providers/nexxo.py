@@ -114,7 +114,7 @@ def fetch_venue(site, venue, days=21, tries=3):
     headers = {"user-agent": UA, "accept": "application/json",
                "accept-language": "fi-FI,fi;q=0.9",
                "referer": f"{site['base']}{site['programme']}?location={venue['locationid']}"}
-    body = fetch(api_url(site, venue["locationid"], days), headers=headers,
+    body = fetch(api_url(site, venue["locationid"], days), headers=headers, cache=True,
                  tries=tries, backoff=6)
     return parse(json.loads(body.decode("utf-8", "replace")), site, venue)
 
