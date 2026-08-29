@@ -57,6 +57,13 @@
    "book": "buy"
   },
   {
+   "id": "engel",
+   "label": "Kino Engel",
+   "host": "kinoengel.fi",
+   "accent": "#B47ACC",
+   "book": "buy"
+  },
+  {
    "id": "kinoakseli",
    "label": "Kino Akseli",
    "host": "kinoakseli.fi",

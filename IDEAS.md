@@ -847,6 +847,30 @@ datacenter IPs and the adapter never touches it.
     screening pages render seats and prices client-side. Nothing to adapt, and not
     somewhere to go poking.
 
+### Kino Engel (added 2026-08-29)
+`scripts/providers/engel.py`, one venue, **runs locally**. Accent `#B47ACC`.
+- **The accent was measured, not picked.** Helsinki now has six chains on one list, so a
+  new colour has to clear Finnkino, BioRex, Riviera, Gilda and Orion in normal *and*
+  deuteranope vision. Grid search over hue/saturation/value, constrained to L* 38-60 so
+  the 3 px rule stays legible on both themes and does not collide with a chain in any
+  other city: `#B47ACC` gives worst same-city ΔE **36.9 normal, 37.3 deutan**, against
+  the existing Helsinki worst pair of BioRex/Riviera at 34.5 deutan. So the sixth chain
+  does not lower the city minimum, which was the thing to check.
+- Parses **rows, not day headings**. Each row carries its own "La 29.08." beside
+  "klo 17:30", so the `<h2>` headings and the date `<select>` above them are redundant
+  and their markup can change without breaking this.
+- No room, no price, no runtime and no rating in the listing, and the row's only link is
+  the film page rather than a booking URL, so `book` is `buy` pointing there.
+- Dates carry **no year**, same as Kino Akseli, so the same [today-45d, today+320d]
+  window picks it.
+- **Deduplicates on (eventId, start, aud)**: a film can appear in a carousel and in the
+  day list on the same page, and only one of those is a screening.
+
+Still to do here: the cinema's own Finnish synopsis and a full-size poster are one
+request away, `wp/v2/elokuva?slug[]=...&_embed=wp:featuredmedia` for the ~40 films
+actually showing rather than all 899. synmerge prefers a cinema's own text over TMDB, so
+this is worth more than it looks.
+
 ### Probed, not yet added (2026-08-27)
 - **Kino Engel** (kinoengel.fi) — Sofiankatu 4, Helsinki. Screens Engel 1 / Engel 2 plus
   an outdoor "KesäKino". Elementor; the front page renders a day-grouped list with title,

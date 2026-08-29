@@ -39,6 +39,13 @@ EVENT_PREFIXES = (
     # pass, which is the second call. A provider that does not also split in its own
     # adapter would still need two passes for a title shaped like this.
     "artist in focus",
+    # Kino Engel, 2026-08-29. "barnsöndagar" was already here; "barnfestival" is a
+    # separate Swedish-language children's strand the first pass missed
+    # (barnfestival-nord, barnfestival-skurkarnas-skurk). Note "kesäkino" is in this
+    # list for enrich_tmdb.clean() only: engel.py takes it off the title itself and puts
+    # it in `aud`, because the Kesäkino is Engel's outdoor screen rather than a strand,
+    # so nothing is left here for the central pass to split.
+    "barnfestival",
 )
 
 
