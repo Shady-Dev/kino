@@ -873,6 +873,16 @@ datacenter IPs and the adapter never touches it.
   quoting is uniform.
 - **Posters are hosted on `johku.com`**, not on the cinema's own domain, so they go
   through `mirror_posters.py` like every other remote poster.
+- **A date in the `<select>` is not necessarily a screening.** The first live run parsed
+  11 dates against the 13 the picker offers, which looked like a parser bug and was not:
+  11.09. and 02.10. are **premiere cards**. They write the weekday out in full
+  ("Perjantai 02.10." rather than "Pe 02.10."), leave the time span empty, and say
+  "Lue lisää ››" where a real row says "Osta liput". A row with no time cannot go into a
+  time-ordered day list, and the Ensi-illat entry above already records why an upcoming
+  film with nothing to tap is not wanted here. So they are skipped — but **counted and
+  named in the log**, because if times ever disappeared site-wide the parse would
+  otherwise just shrink quietly, which is the failure mode this pipeline keeps
+  rediscovering.
 
 **Johku is a platform lead.** The schedule widget's classes are `rs-johku-schedule` and
 `rsjohku-ohjelmisto`, and the images come from `johku.com/kinoengel/files/`. Johku is a

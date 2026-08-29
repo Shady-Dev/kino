@@ -69,8 +69,13 @@ IMG_RE = re.compile(r'<img\b[^>]*>', re.I)
 SRCSET_RE = re.compile(r'srcset=["\']([^"\']+)["\']')
 SRC_RE = re.compile(r'\b(?:data-src|src)=["\']([^"\']+)["\']')
 TAGS_RE = re.compile(r"<[^>]+>")
-NOISE_RE = re.compile(r"Osta liput|Varaa|Liput|klo\s*\d{1,2}[:.]\d{2}"
-                      r"|(?:Ma|Ti|Ke|To|Pe|La|Su)\s*\d{1,2}\.\d{1,2}\.", re.I)
+# A premiere card writes the weekday out in full and leaves the time span empty.
+COMING_RE = re.compile(r'(?:Maanantai|Tiistai|Keskiviikko|Torstai|Perjantai|Lauantai|'
+                       r'Sunnuntai)\s*(\d{1,2})\.(\d{1,2})\.')
+NOISE_RE = re.compile(r"Osta liput|Lue lisää[\s›»>]*|Varaa|Liput"
+                      r"|klo\s*\d{1,2}[:.]\d{2}"
+                      r"|(?:Maanantai|Tiistai|Keskiviikko|Torstai|Perjantai|Lauantai"
+                      r"|Sunnuntai|Ma|Ti|Ke|To|Pe|La|Su)\s*\d{1,2}\.\d{1,2}\.", re.I)
 # Prefixes this adapter takes off the title itself. Kesäkino because it becomes `aud`;
 # the rest stay for strands.apply in run.py.
 SELF_PREFIX = ("kesäkino", "kesakino")
@@ -140,13 +145,24 @@ def _strip_outdoor(title):
 
 def parse(page, today=None):
     shows = []
+    coming = []
     for m in ANCHOR_RE.finditer(page):
         href, slug, block = m.group(1), m.group(2), m.group(3)
         d = DATE_RE.search(block)
         t = TIME_RE.search(block)
         if not (d and t):
-            # Posters and "read more" links point at the same film pages without
-            # carrying a screening. Only a row with both a date and a time is a show.
+            # Two kinds of anchor have no time. A poster or "read more" link carries no
+            # date either. A **premiere card** carries a date written out in full
+            # ("Perjantai 02.10."), an empty time span and "Lue lisää" instead of "Osta
+            # liput"; DATE_RE only matches the two-letter form, so those fall here too.
+            # Both are correctly skipped: a row with no time cannot be placed in a
+            # time-ordered day list, and IDEAS records why an upcoming film with nothing
+            # to tap does not belong in this app. They are counted rather than dropped
+            # in silence, because if times ever disappeared site-wide the parse would
+            # otherwise just shrink and nobody would know which failure it was.
+            if COMING_RE.search(block):
+                cd = COMING_RE.search(block)
+                coming.append(f"{_title(block)[:40]} {cd.group(1)}.{cd.group(2)}.")
             continue
         start = _iso(int(d.group(1)), int(d.group(2)),
                      int(t.group(1)), int(t.group(2)), today)
@@ -188,6 +204,10 @@ def parse(page, today=None):
         seen.add(k)
         out.append(s)
     out.sort(key=lambda s: s["start"])
+    if coming:
+        uniq = sorted(set(coming))
+        print(f"[engel] {len(uniq)} premiere cards with no time, skipped: "
+              + " | ".join(uniq))
     return out
 
 
