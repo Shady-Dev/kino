@@ -677,14 +677,27 @@
          actBuy:'Tap a showtime to buy tickets on {host}' }
   };
   const LN = {
-    fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', JA:'japani', FR:'ranska'},
-    en:{FI:'Finnish', EN:'English', SV:'Swedish', JA:'Japanese', FR:'French'}
+    fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
+        IT:'italia', RU:'venäjä', ET:'viro', DA:'tanska', NO:'norja', IS:'islanti',
+        NL:'hollanti', PL:'puola', PT:'portugali', UK:'ukraina', AR:'arabia',
+        JA:'japani', ZH:'kiina', KO:'korea', HI:'hindi', TR:'turkki', KA:'georgia',
+        TA:'tamili'},
+    en:{FI:'Finnish', EN:'English', SV:'Swedish', ES:'Spanish', DE:'German', FR:'French',
+        IT:'Italian', RU:'Russian', ET:'Estonian', DA:'Danish', NO:'Norwegian',
+        IS:'Icelandic', NL:'Dutch', PL:'Polish', PT:'Portuguese', UK:'Ukrainian',
+        AR:'Arabic', JA:'Japanese', ZH:'Chinese', KO:'Korean', HI:'Hindi',
+        TR:'Turkish', KA:'Georgian', TA:'Tamil'}
   };
-  // Swedish is SV, the ISO 639-1 language code. Not SE, which is Sweden the country and
-  // what this app stored until 2026-08-29 because Finnkino sends it. Every adapter
-  // normalises to SV now. A code with no entry here renders as itself, which is the
-  // failure that let 644 showtimes say "tekstit SV" unnoticed -- so if an unfamiliar
-  // code ever appears on screen, fix the adapter rather than adding a key here.
+  // Keys are ISO 639-1 language codes. Swedish is SV, not SE: SE is Sweden the country,
+  // and this app stored it until 2026-08-29 because Finnkino sends it.
+  // A code with no entry here renders as itself, and that is how a bare "SV" sat on 644
+  // showtimes unnoticed -- and then how "ES" sat on 133 more, found the same day while
+  // checking the first fix. Which way to fix it depends on the code:
+  //   a real language code missing from this map  -> add it here, the adapter is right
+  //   something that is not a language code at all -> fix the adapter (SE was this)
+  // The list covers every code in the data plus the ones the adapters' own name maps
+  // can emit, so a new one means a provider started publishing a language nobody has
+  // screened here before.
   // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
   // language now stands on its own with no role word, so it has to read as a noun.
   const LW = { fi:{S:'tekstit'}, en:{S:'subs'} };

@@ -1640,6 +1640,22 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   in local private notes. One general lesson worth keeping here: a final step that runs
   *after* the push can fail without making the run look failed, so anything that matters
   needs its own check.
+- **An unmapped language code renders as itself, and seven of them were doing it**
+  (2026-08-29). Found while verifying the SV migration on the live site: a card read
+  "ES · tekstit suomi/ruotsi". `LN` held five languages -- FI, EN, SV, JA, FR -- and the
+  data carries twelve. So 133 Spanish showtimes said "ES", plus DE, IT, HI, TR, KA and
+  TA on 19 more. Exactly the fault that hid the Swedish bug, found the same day by
+  looking at the thing I had just fixed.
+  The adapters were right here: ES, DE and the rest are correct ISO 639-1 codes. So the
+  fix is the map, not the parser, and the two cases need telling apart -- **a real
+  language code missing from `LN` is a client gap; a code that is not a language at all
+  (SE for Sweden) is an adapter bug.** The comment in `LN` now says which is which,
+  because the previous version said "fix the adapter" and would have sent the next
+  reader the wrong way.
+  `LN` now carries 24 codes: everything in the data plus everything the adapters' own
+  Finnish-name maps can emit (`engel.LANGS` alone knows fifteen). A code appearing that
+  is *not* in the map now means a provider has started publishing a language nobody has
+  screened here before, which is worth a look rather than a silent bare code.
 - **The Swedish tag is `SV`, and it used to be `SE`** (migrated 2026-08-29). SV is the
   ISO 639-1 code for the Swedish *language*; SE is the ISO 3166 code for *Sweden*. The
   app stored the second and meant the first, because the tag set was defined to match
