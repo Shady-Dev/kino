@@ -227,6 +227,12 @@
   .movie{
     display:flex; gap:18px; padding:20px 0;
     border-bottom:1px solid var(--line);
+    /* Offscreen cards skip layout and paint. render() rebuilds the whole list through
+       innerHTML (a decision recorded in IDEAS), so on a long day every card used to be
+       laid out on every keystroke and day tap; with ~5 of 45 cards visible this cuts
+       most of that. auto remembers the real height once a card has been on screen; the
+       173px estimate only sizes the scrollbar before then. */
+    content-visibility:auto; contain-intrinsic-size:auto 173px;
   }
   .poster{
     flex:0 0 92px; width:92px; height:132px; border-radius:8px;
@@ -1617,7 +1623,7 @@
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
       const posterUrl = safeUrl(m.img);
       const poster = posterUrl
-        ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
+        ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
       // method is per *showtime*, so a pill at film level claimed something about every
