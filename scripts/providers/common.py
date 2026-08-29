@@ -17,8 +17,14 @@ import time
 import urllib.error
 import urllib.request
 
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+# Identifies the reader. Every adapter used to send a Chrome string, which is an
+# automated pipeline claiming to be a person at a keyboard -- the one thing in here a
+# cinema had no way to check for itself. Probed against all eleven providers on
+# 2026-08-30 before changing it: every one answers this byte-for-byte identically to the
+# Chrome string, so honesty costs nothing. If a provider ever refuses it, say so in
+# IDEAS and keep the browser string for that one host deliberately, rather than quietly
+# re-disguising the whole pipeline.
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 # Validator cache for conditional GETs. Deliberately outside the repo tree and
 # gitignored: it holds verbatim copies of third parties' pages, and committing those

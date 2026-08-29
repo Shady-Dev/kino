@@ -44,8 +44,7 @@ from common import capped, fetch
 BASE = "https://kinoengel.fi"
 URL = BASE + "/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "engel-helsinki", "provider": "engel", "providerId": "1",
          "name": "Kino Engel", "short": "Kino Engel", "city": "Helsinki"}

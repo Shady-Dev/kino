@@ -11,8 +11,7 @@ from common import capped, fetch
 
 BASE = "https://biorex.fi"
 AJAX = BASE + "/wp-admin/admin-ajax.php?lang=fi"
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUES = [
     {"id": "br-tripla",      "providerId": "13", "name": "BioRex Tripla",      "short": "Tripla",      "city": "Helsinki"},

@@ -20,7 +20,7 @@ CACHE = DATA / "tmdb-titles.json"
 GENRES = DATA / "tmdb-genres.json"
 EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
 SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
-UA = "kino-enrich/1.0"
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # Hand-maintained escape hatch for titles TMDB cannot be searched by. See the file's
 # own _comment. Lives next to the script, not in data/, because data/ is generated.
 ALIAS_FILE = pathlib.Path(__file__).resolve().parent / "tmdb-aliases.json"

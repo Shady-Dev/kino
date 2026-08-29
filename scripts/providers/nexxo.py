@@ -14,8 +14,7 @@ from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "kinoset", "base": "https://kinoset.fi", "label": "Kinoset",

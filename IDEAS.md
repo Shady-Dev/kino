@@ -1847,6 +1847,33 @@ The first version used the trimming helper everywhere, which is the sort of thin
 reads fine and quietly ships a partial schedule. It was only visible because the cap was
 tested by tripping it on a real provider rather than reasoned about.
 
+### The pipeline identifies itself (2026-08-30)
+Every adapter sent `Mozilla/5.0 ... Chrome/126.0.0.0`. That is an automated reader
+claiming to be a person at a keyboard, and it was the one thing in here a cinema had no
+way to check for itself -- the ethics section above says we read a site the way an
+ordinary visitor does, and the User-Agent was quietly making that claim untestable.
+Now `Leffavuoro/1.0 (+https://leffavuoro.fi)`, everywhere, including `fetch_data.py` and
+the TMDB pass.
+
+**Probed before changing it, against all eleven providers.** Every one answers the honest
+string byte-for-byte identically to the Chrome string: BioRex, Kinoset, Kotka, Kokkola,
+Riviera, Savon Kinot, Gilda, Orion, Engel, Kino Akseli. Finnkino answers 403 to curl
+under either string, which is the fingerprinting already recorded above and not a
+UA decision.
+
+One page looked like it discriminated -- Engel's film page differed between the two
+agents at identical length. It differs between two requests with the *same* agent too: a
+cache-buster timestamp in a script URL. **A difference is not evidence of discrimination
+until the same request twice is ruled out.**
+
+So honesty cost nothing here, which is the useful finding: the browser string was never
+buying anything. If a provider ever refuses the honest one, record it here and keep the
+browser string **for that host, deliberately** -- do not quietly re-disguise the pipeline.
+
+The `+https://leffavuoro.fi` in it is the whole point: it is where a cinema that wants to
+know who is reading them, or wants out, is supposed to look. The site does not yet carry
+a contact route, which makes that half a promise. Worth closing.
+
 ### Conditional GETs, and what the providers actually support (2026-08-30)
 `common.fetch(cache=True)` sends a stored `ETag` / `Last-Modified` back as
 `If-None-Match` / `If-Modified-Since`, and a 304 returns the stored body without the

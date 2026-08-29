@@ -9,8 +9,7 @@ import strands   # noqa: E402  shared strand list, see providers/strands.py
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
-UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 PAGE_HEADERS = {
     "User-Agent": UA,
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -360,7 +359,7 @@ def main() -> int:
         except Exception:
             tmdb_cache = {}
         th = {"Authorization": f"Bearer {tmdb_token}", "accept": "application/json",
-              "user-agent": "kino-fetch/1.0"}
+              "user-agent": UA}
         # An entry with no "x" was matched before the exact-title rule existed and its
         # id cannot be re-judged after the fact, so drop it and search again. One-off.
         # Same one-off re-judgement as the cloud pass: a weak match decided before the

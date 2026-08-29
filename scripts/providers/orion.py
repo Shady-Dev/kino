@@ -56,8 +56,7 @@ from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "or-helsinki", "provider": "orion", "name": "Cinema Orion",
          "short": "Cinema Orion", "city": "Helsinki"}
