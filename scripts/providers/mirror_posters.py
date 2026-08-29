@@ -35,6 +35,7 @@ import json
 import pathlib
 import sys
 import time
+from urllib.parse import quote, urlsplit, urlunsplit
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import common  # noqa: E402
@@ -48,7 +49,23 @@ HEADERS = {"user-agent": common.UA, "accept": "image/*,*/*"}
 
 
 def key_for(url: str) -> str:
+    """Keyed on the URL exactly as the provider published it, never on the
+    percent-encoded form: the published string is what the reference in the JSON
+    says, so encoding it first would rename a poster the day the encoder changes."""
     return hashlib.sha1(url.encode("utf-8")).hexdigest()[:16]
+
+
+def request_url(url: str) -> str:
+    """Percent-encode the path and query for urllib.
+
+    Nexxo publishes filenames with spaces in them ("SPA WEEKEND_BLACK
+    BEAR_POSTER_70x100_FINLAND.jpg"), which urllib rejects outright as a control
+    character rather than encoding. A browser encodes on the way out, so the
+    address works everywhere except here.
+    """
+    p = urlsplit(url)
+    return urlunsplit((p.scheme, p.netloc, quote(p.path, safe="/%:@"),
+                       quote(p.query, safe="=&%"), ""))
 
 
 def collect(docs):
@@ -74,7 +91,7 @@ def area_docs():
 
 def download(url: str, dest: pathlib.Path) -> bool:
     from PIL import Image
-    raw = common.fetch(url, headers=HEADERS, tries=2, backoff=3, timeout=20)
+    raw = common.fetch(request_url(url), headers=HEADERS, tries=2, backoff=3, timeout=20)
     if len(raw) < MIN_BYTES:
         raise RuntimeError(f"{len(raw)} bytes")
     im = Image.open(io.BytesIO(raw))

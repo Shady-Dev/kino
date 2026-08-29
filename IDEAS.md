@@ -1387,11 +1387,19 @@ README documents is now closed; the Google Fonts request is not.
 - **Named by `sha1(url)[:16]`.** Seven hosts with no id namespace in common; the URL is
   the only thing that identifies a poster across all of them. The existing MX mirror keys
   on the release id and keeps its own naming.
-- **A failure is logged and left hot-linked.** `kinoakseli.fi` challenges datacenter IPs,
-  so its 6 posters fail on every cloud run by design and stay remote; mirroring them means
-  doing it in the local run, next to the MX mirror. `tries=2` keeps a permanent failure
-  cheap. Nothing here is allowed to fail the build: a third party's uptime must not be
-  able to stop the pipeline publishing showtimes.
+- **A failure is logged and left hot-linked.** `tries=2` keeps a permanent failure cheap.
+  Nothing here is allowed to fail the build: a third party's uptime must not be able to
+  stop the pipeline publishing showtimes.
+- **Kino Akseli's posters mirror fine from a runner**, which I predicted they would not.
+  The datacenter-IP challenge is on `kinoakseli.fi`'s pages, and its
+  `wp-content/uploads/` path served all six to Actions without complaint. Worth
+  remembering generally: "the site blocks datacenter IPs" is a claim about the endpoint
+  that was tested, not about the host.
+- **Nexxo publishes filenames containing spaces**, and urllib rejects those as control
+  characters instead of encoding them, so one poster failed the first live run. `fetch`
+  now goes through `request_url()`, which percent-encodes path and query. The cache key
+  stays the **published** URL, since that is what the reference in the JSON says; keying
+  on the encoded form would rename every poster the day the encoder changes.
 - Knock-on effect worth expecting once: `build_pages` renders same-origin posters only, so
   the first run after this rewrites nearly every page as the `<img>` tags appear.
 - Open: nothing prunes a poster once its film stops screening, so the directory grows by
