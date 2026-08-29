@@ -1059,6 +1059,45 @@ Johku cinema would be a `SITES` entry against the same parser.
 Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
 make it 12 across 6.
 
+### Swedish: who actually publishes it (probed 2026-08-29)
+Finland is bilingual and four cities we cover are Swedish-strong (Vaasa, Pietarsaari,
+Porvoo, Kokkola), 23 of 48 venues sit in officially bilingual municipalities, and 1920
+showtimes already carry Swedish subtitles. So a Swedish mode has an audience. What it
+does *not* have is much Swedish source text.
+
+- **BioRex publishes a real Swedish edition.** `admin-ajax.php?lang=sv` returns the same
+  22 films with genuine Swedish distributor titles, not machine translation: Autot ->
+  **Bilar**, Päivien lumo -> **Skimrande dagar**, Ryhmä Hau: Dinoelokuva -> **PAW Patrol:
+  Dinosaurie-filmen**. 6 of 22 differ; the rest are international titles identical in both
+  languages. 12 venues, and they include Vaasa, Pietarsaari and Porvoo, so the one chain
+  with Swedish is the one serving the Swedish-speaking towns.
+- **Finnkino has none.** Probed through a browser, since the site answers 403 to anything
+  that does not look like one. `hreflang` declares only `fi-fi` and `en`; `/sv/` redirects
+  to the Finnish front page and `/se/` is a clean 404; and the site's own configuration
+  API accepts exactly two cultures, `fi-FI` and `en` -- `sv` and `sv-FI` are 500, `sv-SE`
+  is 404. Whether the OCAPI back office holds Swedish translations that the website never
+  surfaces is unverified and needs a token to check, but a chain with a legal and
+  commercial reason to serve Swedish that publishes none on its own site almost certainly
+  has none to give. 17 venues fall back.
+- **eTiketti has none.** `/sv/` on kotkanleffat.fi and biorex.org both return an ~8.7 kB
+  page with zero film links -- a soft-404, not a Swedish edition. Status codes lie here
+  the same way they did in the Vista sweep; count the films, not the 200s.
+- Savon Kinot's `/sv` is a clean 404. Whether the Vista XML takes a language parameter is
+  unprobed.
+
+So a Swedish mode means: Swedish UI everywhere, Swedish titles at BioRex, and a fallback
+for the other 36 venues. **That fallback has to be Finnish, not English.** The Finnish
+distributor title is what is printed on the ticket and on the cinema's own booking page,
+so showing a Finland-Swede an English title invents a name that appears nowhere at the
+cinema they are standing in -- the same reason auditorium names are kept verbatim. English
+is the right fallback for the English UI, where the reader has opted out of local names.
+
+Worth splitting the work: the UI strings need no pipeline change at all and are most of
+the value, since what this audience needs first is to read "text finska/svenska" on a
+screening. Swedish titles cost BioRex a second fetch per venue (12 requests become 24)
+and a new per-show field, because `title` is the merge key and translating it would
+unmerge rows and orphan synopses.
+
 ### Bio Rex Kokkola, the first site off the sweep (added 2026-08-29)
 `biorex.org`, one venue, `etiketti.py`, **no parser change at all**. The first test of
 the sweep's central claim, and it held: the existing adapter ran against the site
