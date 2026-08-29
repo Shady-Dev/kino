@@ -1405,3 +1405,24 @@ README documents is now closed; the Google Fonts request is not.
 - Open: nothing prunes a poster once its film stops screening, so the directory grows by
   roughly the number of new releases forever. At ~20 new films a week that is a few MB a
   year, which is worth a sweep eventually and not worth state now.
+
+### The webfont is self-hosted (2026-08-29)
+`fonts/archivo-latin.woff2` (90 kB) and `fonts/archivo-latin-ext.woff2` (86 kB), with the
+`@font-face` rules inlined in `index.html`. Google Fonts saw every visitor's IP on every
+load and was the last third-party request on this origin. **The README's "no third-party
+requests" claim is now true**, which it has not been at any earlier point it was written.
+
+- The same two subsets Google serves a modern browser, with **their unicode-ranges kept
+  verbatim**, so latin-ext is still only fetched by a page that needs it. Dropping the
+  ranges and shipping one file would have made every visitor download 86 kB of accented
+  Latin they never render.
+- Only **latin** is preloaded. It covers Finnish and Swedish; preloading both would pull
+  the subset most visitors never use.
+- The subsets came from a throwaway workflow, since the sandbox cannot reach
+  fonts.gstatic.com and Google serves woff2 only to a browser user-agent. Workflow deleted
+  in the same commit that used its output, the same rule as any other probe.
+- Licence in `fonts/OFL.txt`, from **Omnibus-Type/Archivo**, the upstream author.
+  `googlefonts/archivo` has no OFL.txt at that path and the first attempt committed a
+  14-byte "404: Not Found" as a licence file. Check the size of anything fetched blind.
+- **A font is not a poster.** No pruning question here: two files, replaced only if the
+  family changes.
