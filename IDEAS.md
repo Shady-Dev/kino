@@ -1640,6 +1640,26 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   in local private notes. One general lesson worth keeping here: a final step that runs
   *after* the push can fail without making the run look failed, so anything that matters
   needs its own check.
+- **The Swedish tag is `SV`, and it used to be `SE`** (migrated 2026-08-29). SV is the
+  ISO 639-1 code for the Swedish *language*; SE is the ISO 3166 code for *Sweden*. The
+  app stored the second and meant the first, because the tag set was defined to match
+  Finnkino and Finnkino sends SE. Most providers were already correct and the adapters
+  were undoing it: `vista.py` and `gilda.py` each carried an explicit `sv -> SE` line
+  turning a right code into a wrong one. Nexxo and Finnkino are the two that genuinely
+  send SE, so they are corrected on the way in.
+  Done in three commits, in this order, because the order is the safe part: the client
+  learned to render **both** codes first, then the six adapters that publish Swedish,
+  then `fetch_data.py`. Committed data turns over provider by provider across several
+  runs, so there is never a moment when a refreshed file carries a code the client does
+  not know.
+  **The `SE` alias in `LN` is temporary and has to come out.** Left in place it stops
+  being a bridge and becomes the thing that hid this bug for months: an unknown code
+  rendering as itself, which is how 644 showtimes came to say "tekstit SV" with nobody
+  noticing. Remove it once no area file contains `SE-` -- check with a grep over
+  `data/area-*.json`, not by assuming the runs have happened.
+  Finnkino's half is compile-checked and unit-checked only. `fetch_data.py` cannot run
+  on a runner and could not be run here, so **the first local run is the real test**:
+  1660 `SE-S` and 41 `FI-SE-A` showtimes should become `SV-S` and `FI-SV-A`.
 - **BioRex published `SV`, not `SE`, and it had been rendering as a bare "SV" on a fifth
   of the schedule** (found 2026-08-29). `etiketti.py` was fixed for exactly this and
   `biorex.py` never was: BioRex's format spans read "FI&SV", `_lang_str` passed the codes

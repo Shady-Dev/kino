@@ -170,6 +170,19 @@ def api(path, token):
         "referer": "https://www.finnkino.fi/",
     }))
 
+def lang_tag(lbl):
+    """OCAPI language attribute -> this app's tag. '.FI-S' -> 'FI-S', '.FI-SE-A' ->
+    'FI-SV-A'.
+
+    Finnkino writes Swedish as SE, which is ISO 3166 for the country. Everything here
+    stores the ISO 639-1 language code, SV, and every other adapter now publishes that.
+    Only the language components are mapped: the trailing A or S is the role, and a
+    compound label carries two languages before it.
+    """
+    parts = lbl.lstrip(".").split("-")
+    return "-".join(["SV" if c == "SE" else c for c in parts[:-1]] + [parts[-1]])
+
+
 def loc(obj):
     """Vista text object -> {'fi': ..., 'en': ...}"""
     if not isinstance(obj, dict):
@@ -262,7 +275,7 @@ def main() -> int:
                 if ATTR_RE.match(lbl):
                     fmt_list.append(lbl)
                 elif re.match(r"^\.?[A-Z]{2}(?:-[A-Z]{2})?-(?:A|S)$", lbl):
-                    lang_list.append(lbl.lstrip("."))
+                    lang_list.append(lang_tag(lbl))
                 elif lbl.lower() in EVENT_ATTRS:
                     tag, lim = EVENT_ATTRS[lbl.lower()]
                     if tag not in fmt_list:
