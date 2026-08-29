@@ -1563,10 +1563,12 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   have rewritten every popular page on every run while still being stale in the index. A
   second consecutive run writes zero files; in practice a page changes once a day when the
   date window shifts.
-- **Finnish city names are never inflected by the generator.** Helsinki -> Helsingissä,
-  Tampere -> Tampereella: suffixing a case ending onto the nominative yields "Helsinkissä",
-  which is precisely how a reader spots a generated page. Every string uses the nominative
-  with a separator, which stays correct for whatever city a future provider brings.
+- **Finnish city names are never inflected by the generator.** Correct: Helsinki ->
+  Helsing**i**ssä, Tampere -> Tampereella. The stem changes under consonant gradation, and
+  the two cities do not even take the same case. Glue the ending onto the nominative and
+  you get Helsin**ki**ssä, which is wrong, and is how a reader spots a generated page. Every
+  string uses the nominative with a separator, which stays correct for whatever city a
+  future provider brings.
 - **Google validates a nested `Movie` against its own Movie rules** (Rich Results Test,
   2026-08-29). The first render nested `workPresented` without an `image` and every one of
   them came back "8 invalid items detected: Missing field 'image'". `director` and

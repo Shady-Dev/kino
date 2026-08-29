@@ -80,10 +80,11 @@ A registry entry plus an adapter. No `index.html` edit.
   schedules, no credentials, no token retrieval, no third-party endpoint inventories
   beyond the read endpoints an adapter actually uses. Operational detail lives in private
   notes outside the repo.
-- **Never inflect Finnish city names in generated text.** Helsinki -> Helsingissä,
-  Tampere -> Tampereella. Suffixing a case ending onto the nominative produces
-  "Helsinkissä", which is how a reader spots a generated page immediately. Always use the
-  nominative with a separator.
+- **Never inflect Finnish city names in generated text.** The correct forms are
+  Helsinki -> Helsing**i**ssä and Tampere -> Tampereella: the stem changes, and Finnish
+  cities do not all take the same case. Gluing a case ending onto the nominative instead
+  gives Helsin**ki**ssä, which is wrong and is how a reader spots a generated page
+  immediately. Always use the nominative with a separator.
 - **Keep anything volatile out of generated pages**, or `write_if_changed` stops working:
   no build timestamp, no sold-out state in markup.
 - **Do not read a site from a datacenter IP and conclude it is unreachable.** Several
