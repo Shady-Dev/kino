@@ -1491,11 +1491,18 @@ Applied to the response rather than hand-edited into `data/tmdb-genres.json`, wh
 next run would overwrite; the committed map was brought into line through the same
 constant and the same serialisation, so the next run produces a byte-identical body.
 
-**The check on the next cloud run is a non-event, not a log line.** The file is written
-only when the body changes, so a working override means `run-enrich.log` carries *no*
-`genre names written` line and `data/tmdb-genres.json` is untouched in that run's commit.
-A diff on that file, or the line reappearing, means `GENRE_FIX` did not apply -- the code
-path needs a TMDB token and cannot be exercised from an ordinary shell.
+**Exercised against live TMDB on 2026-08-30, not left to the next run.** Three genre-list
+requests with a real token: 19 genres per language, exactly one override firing in `fi`
+(`TV Movie` -> `TV-elokuva`) and one in `sv` (`Music` -> `Musik`), none in `en`, and the
+serialised body byte-identical to the committed `data/tmdb-genres.json`. Both ids are in
+TMDB's response, so the `if k in names[slot]` guard passes rather than silently skipping.
+
+**The check on the next cloud run is therefore a non-event, not a log line.** The file is
+written only when the body changes, so a working override means `run-enrich.log` carries
+*no* `genre names written` line and `data/tmdb-genres.json` is untouched in that run's
+commit. A diff on that file, or the line reappearing, means `GENRE_FIX` stopped applying
+-- most likely because TMDB translated one of the two upstream and the id no longer needs
+overriding, which is a reason to delete the entry rather than to debug it.
 
 The lesson is the same one the poster count taught: `fi+sv+en` in the log answers
 "did Swedish arrive", not "is Swedish right". Reading the 19 values is what found the
