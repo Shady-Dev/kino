@@ -103,6 +103,21 @@ If a cinema would rather not be included, removing it is one registry entry.
 
 ## Testing
 
+    python3 -m unittest discover -s tests
+
+Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
+under `scripts/`.
+
 A fixture has to exercise the loop, not only the body. A one-item fixture once passed
 while the pacing branch it never entered was missing an import, and `py_compile` does not
 resolve names. Use two items minimum wherever there is pacing or an index.
+
+**A test earns its place by failing.** Write it, break the code it covers, watch it go
+red, then restore. A test that has never failed is a test you have not checked. Every
+cap, fallback and error path in here has to be verified by tripping it, because one of
+them looked correct and silently published a half-empty schedule until it was actually
+triggered.
+
+Tests talk to a real local HTTP server rather than a mocked `urlopen` where the behaviour
+under test is partly urllib's -- which exception a 429 raises, what `e.headers` holds. A
+mock there encodes the assumption instead of checking it.

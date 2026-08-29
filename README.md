@@ -99,6 +99,8 @@ in English mode. `data/tmdb-genres.json` maps ids to names per language.
     scripts/providers/synmerge.py    shared synopsis merge helper
     scripts/providers/strands.py     event strand prefixes, split off titles into method
     scripts/providers/mirror_posters.py  mirrors hot-linked posters into data/posters/
+    scripts/accent_check.py          chain accent separation, normal + deuteranope
+    tests/                           python3 -m unittest discover -s tests
     .github/workflows/biorex.yml     all cloud providers + enrichment
     data/                            generated JSON and posters (committed by CI)
     fonts/                           self-hosted Archivo woff2 subsets + OFL licence
