@@ -510,21 +510,35 @@
   @media (max-width:1100px){ #stale, #partial{margin:12px 20px 0} }
 
   footer{
-    max-width:1100px; margin:0 auto; padding:24px 20px 8px; color:var(--muted);
+    max-width:1100px; margin:0 auto; padding:20px 20px 24px; color:var(--muted);
     font-size:.75rem; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:6px;
   }
-  #contact{
-    max-width:1100px; margin:0 auto; padding:0 20px 24px; color:var(--muted);
-    font-size:.75rem;
+  footer a{color:inherit}
+  /* The per-source ages are a diagnostic. On a normal day they are eleven rows saying
+     the same thing, so the summary carries the one bit that matters and the list sits
+     behind a disclosure. <details> rather than a scripted toggle: it is keyboard
+     operable and announced correctly without any code. */
+  #fresh summary{
+    cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:6px;
+    width:fit-content; border-radius:4px;
   }
-  #contact a{color:inherit}
+  #fresh summary::-webkit-details-marker{display:none}
+  #fresh summary::after{content:'\25be'; font-size:.85em; opacity:.7}
+  #fresh[open] summary::after{content:'\25b4'}
+  #fresh summary:hover{color:var(--ink)}
+  #fresh summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  #fresh summary.bad{color:var(--accent); font-weight:700}
   #sources{
-    max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
-    font-size:.72rem; display:flex; flex-wrap:wrap; gap:4px 10px;
+    padding:8px 0 2px; display:flex; flex-wrap:wrap; gap:4px 10px; font-size:.72rem;
   }
   #sources .src{white-space:nowrap}
   #sources .src.bad{color:var(--accent); font-weight:700}
   #sources .part{opacity:.75; cursor:help}
+  #tagkey{
+    max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
+    font-size:.72rem;
+  }
 
   @media (max-width:560px){
     .poster{flex-basis:72px; width:72px; height:104px}
@@ -544,9 +558,8 @@
     .day b{font-size:.8rem}
     .day small{font-size:.66rem; letter-spacing:0}
     .seg button, .chip{padding:6px 11px; font-size:.74rem}
-    #sources{padding:14px 14px 0}
-    footer{padding:16px 14px 6px}
-    #contact{padding:0 14px 16px}
+    #tagkey{padding:14px 14px 0}
+    footer{padding:14px 14px 18px}
   }
   @media (max-width:400px){
     .day small{font-size:.6rem}
@@ -588,9 +601,12 @@
   <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
 </main>
 
-<div id="sources"></div>
-<footer>Näytösajat suomalaisista elokuvateattereista</footer>
-<div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:tiles-39nomads@icloud.com">tiles-39nomads@icloud.com</a></div>
+<div id="tagkey"></div>
+<footer>
+  <details id="fresh"><summary id="freshSum"></summary><div id="sources"></div></details>
+  <div id="credit">Näytösajat suomalaisista elokuvateattereista</div>
+  <div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:tiles-39nomads@icloud.com">tiles-39nomads@icloud.com</a></div>
+</footer>
 
 <script>
 (() => {
@@ -688,7 +704,8 @@
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt',
          partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
-         partialMissing:'Ei saatu ladattua: {names}.' },
+         partialMissing:'Ei saatu ladattua: {names}.',
+         allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -721,7 +738,8 @@
          contact:'För biografer: kontakt och begäran om borttagning',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
-         partialMissing:'Kunde inte laddas: {names}.' },
+         partialMissing:'Kunde inte laddas: {names}.',
+         allFresh:'Alla {m} källor är aktuella', behind:'Källor efter' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -751,7 +769,8 @@
          contact:'For cinemas: enquiries and removal requests',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
-         partialMissing:'Could not load: {names}.' }
+         partialMissing:'Could not load: {names}.',
+         allFresh:'All {m} sources up to date', behind:'Sources behind' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -1016,8 +1035,33 @@
     // not something to scan past on the way to a showtime, and the word it decodes is
     // already on the card, in the times meta line and in the sheet. A second key row
     // above the list read as clutter.
-    el.innerHTML = `${L[state.lang].sources}: ${parts.join(' · ')}`
-      + tagKey(state.shows || []);
+    el.innerHTML = parts.join(' · ');
+
+    // The summary names the sources that are behind rather than counting them. A count
+    // makes you open the disclosure to learn anything; a name is the answer. Truncated
+    // past three, because at that point the shape of the problem is "most of them" and
+    // the list is one click away.
+    const behind = names.filter(p => {
+      const m = providerMeta[p];
+      if(m.gone) return true;
+      const h = ageHours(m.oldest || m.generated);
+      return h === null || h > STALE_H;
+    }).map(p => (SOURCE[p] || [p])[0]);
+    const sum = document.querySelector('#freshSum');
+    if(sum){
+      const T = L[state.lang];
+      if(behind.length){
+        const shown = behind.slice(0, 3).join(', ')
+          + (behind.length > 3 ? ` +${behind.length - 3}` : '');
+        sum.textContent = `\u26a0 ${T.behind}: ${esc(shown)}`;
+        sum.className = 'bad';
+      } else {
+        sum.textContent = T.allFresh.replace('{m}', names.length);
+        sum.className = '';
+      }
+    }
+    const tk = document.querySelector('#tagkey');
+    if(tk) tk.innerHTML = tagKey(state.shows || []);
   }
 
   // "12€" -> 12. Only Kinoset and Kino Akseli publish prices so far.
@@ -1482,8 +1526,12 @@
       : bk === 'reserve' ? T.actReserve
       : bk === 'list' ? T.actList
       : T.actBuy).replace('{host}', host);
-    document.querySelector('footer').textContent =
-      `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
+    // `footer` now wraps three lines, so this writes to the credit line rather than
+    // replacing the whole block. Host dropped from the label: `act` already ends in it
+    // for every book mode that names one, and printing "Finnkino ... finnkino.fi" twice
+    // was half of what made this line long.
+    const creditEl = document.querySelector('#credit');
+    if(creditEl) creditEl.textContent = `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
   }
 
   // Separate from the footer because renderStatus() returns early until schedule data

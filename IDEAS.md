@@ -2252,6 +2252,43 @@ Nine cases: 404 and 500 on each branch, 200 on each branch, plus cross-origin an
 non-GET, which must not be intercepted at all rather than merely not cached. Verified by
 restoring the unconditional `put` -- three tests go red.
 
+### The footer says the one thing, not eleven (2026-08-30)
+The bottom of the page carried three dense blocks: a per-source age for all eleven
+providers, a credit line naming the chain twice, and the contact line. The ages are a
+*diagnostic* -- on a normal day they are eleven items all saying the same thing, and the
+one bit a reader wants ("is anything wrong?") had to be recovered by scanning them.
+
+Now one `<footer>` with three short lines, the per-source list behind a `<details>`:
+
+- **The summary states the answer, and when something is wrong it names it**:
+  `⚠ Lähteitä jäljessä: Riviera, Gilda` rather than a count. A count makes you open the
+  disclosure to learn anything; a name is the thing you opened it for. Truncated past
+  three, since by then the shape is "most of them" and the list is one click away.
+- **Native `<details>`, not a scripted toggle.** Keyboard operable and announced
+  correctly with no code, which is the whole argument for it. Verified: the summary takes
+  focus, `tabIndex` 0, and toggles.
+- The glyph key moved out of the sources line and stays visible, because it explains
+  symbols that are on screen right now. Hiding an explanation behind a disclosure is the
+  one thing that would have been worse than the crowding.
+- The credit line dropped one of its two chain names. It read
+  `Aikataulut: Finnkino · ... · Napauta näytöstä ostaaksesi liput — finnkino.fi`, and the
+  book-mode phrase already ends in the host for every mode that names one.
+
+Measured rather than asserted: at 375 px the footer block is **110 px closed against
+166 px with the list open**, so the disclosure is worth about three rows of provider
+ages, roughly a third of the block. On desktop the old list already fit one row, so the
+saving there is small -- this is a mobile change.
+
+**Rejected: a separate sub-page for data freshness.** Generated pages must stay free of
+anything volatile or `write_if_changed` stops working and every page rewrites on every
+run, and provider ages change by the minute. That leaves a client-rendered route, which
+is a router, a URL and a second render path for something that fits on one line.
+
+Worth knowing for any future layout work here: the harness browser reports
+`innerWidth: 0` until `resize_window` is called, and every measurement taken before that
+is nonsense -- text wraps to one character per line and a three-line footer measures
+396 px. Set a viewport first, then measure.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
