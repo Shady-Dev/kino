@@ -1489,7 +1489,13 @@ Swedish ones. `GENRE_FIX` in `enrich_tmdb.py` renames those two after the respon
 arrives, and only for an id TMDB actually returned, so it can never invent a genre.
 Applied to the response rather than hand-edited into `data/tmdb-genres.json`, which the
 next run would overwrite; the committed map was brought into line through the same
-constant and the same serialisation, so the next run rewrites it byte-identically.
+constant and the same serialisation, so the next run produces a byte-identical body.
+
+**The check on the next cloud run is a non-event, not a log line.** The file is written
+only when the body changes, so a working override means `run-enrich.log` carries *no*
+`genre names written` line and `data/tmdb-genres.json` is untouched in that run's commit.
+A diff on that file, or the line reappearing, means `GENRE_FIX` did not apply -- the code
+path needs a TMDB token and cannot be exercised from an ordinary shell.
 
 The lesson is the same one the poster count taught: `fi+sv+en` in the log answers
 "did Swedish arrive", not "is Swedish right". Reading the 19 values is what found the
