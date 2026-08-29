@@ -1603,15 +1603,17 @@ one that was wrong.
       commented in the boot sequence: loadProviders must finish before loadAreas, which
       iterates PROVIDERS — racing it against the hardcoded fallback could drop a newly
       registered provider's venues from the picker.
-- [ ] **"K-18" quick filter**, the counterpart to "Lapsille". Must show only screenings
-      that are *certainly* 18+, which is not the same as anniskelu: plain `Anniskelu`
-      marks a licensed auditorium and sits on S- and K-7-rated films (460 Finnkino
-      showtimes carry it). The rule is `rating === 'K-18' || age === 'K-18'` — the film's
-      own classification, or a screening limit a cinema states outright (Finnkino's
-      `Annisk_K18`, BioRex rooms named "(K-18)"). Never inferred from the Anniskelu tag;
-      see the anniskelu entry under Synopses and enrichment for why that inference was
-      removed. Note the two are independent: an S-rated film in a K18 anniskelunäytös
-      qualifies, and a K-18 film in an ordinary room qualifies.
+- [x] **"K-18" quick filter: measured and dropped** (2026-08-30). The predicate was
+      right (`rating === 'K-18' || age === 'K-18'`, never inferred from the Anniskelu
+      tag) but the case for a permanent chip was not. Measured against the data: 120 of
+      3059 showtimes, **3.9%**, against 24.1% for Lapsille and 20.0% for Suom. puhe. Only
+      **14** come from the film's own rating; the other 106 are a screening limit, and
+      **114 of the 120 (95%) are anniskelu screenings**. So the chip would have been a
+      rare subset of anniskelu under a different name, answering a question nobody asks:
+      "Lapsille" answers *what can I take my child to*, and nothing answers *I require an
+      18+ certificate*. The intent behind it is a night out, and that has a better name.
+      Shipped "Anniskelu" instead; K-18 remains findable by typing once `method` and
+      `rating` are in the search haystack.
 - [x] **Punctuation and spacing do not count in search.** Both the query and the haystack
       are reduced to letters and digits only, with diacritics folded, so "spiderman",
       "spider man" and "spider-man" are one search and "katyrit" finds "Kätyrit". Nobody
@@ -2375,6 +2377,65 @@ with.
 Verified by parsing the file with PyYAML rather than by reading it -- a workflow that
 fails to parse takes the whole cloud half down, and the failure would look like a cron
 that simply did not fire.
+
+### The third quick filter is Anniskelu, and it excludes Lapsille (2026-08-30)
+Chips are for the two or three intents worth permanent horizontal space. Measured across
+3059 showtimes before choosing:
+
+| filter | showtimes | share | films |
+|---|---|---|---|
+| Lapsille *(existing)* | 737 | 24.1% | 36 |
+| Suom. puhe *(existing)* | 612 | 20.0% | 22 |
+| **Anniskelu** | 528 | 17.3% | 34 |
+| IMAX / LUXE / 4DX | 244 | 8.0% | 18 |
+| price shown | 133 | 4.3% | 54 |
+| K-18 | 120 | 3.9% | 24 |
+| 3D | 8 | 0.3% | 1 |
+| sold out | 6 | 0.2% | 6 |
+
+Anniskelu lands in the same band as both existing chips and names a proposition people
+actively choose. Everything from IMAX down is search material, not chip material.
+
+**The two exclude each other**, and once both read their own rule the overlap is
+**exactly 0** -- so the exclusion is a guard against a confusing empty state rather than
+the thing doing the work. Clicking either clears the other; on restore, Lapsille wins a
+stored pair, being the filter whose failure mode matters.
+
+Getting to 0 needed a fix on the Lapsille side too. Its gate read the *film's* rating and
+ignored `age`, the limit a cinema states for the screening, so an S-rated film in an
+Annisk_K18 screening satisfied it -- five showtimes today. All five happen to be caught
+by the genre rule that removes documentaries and dramas, so nothing leaked, **by luck
+rather than by the rule**. The gate's own comment promises errors land on "boring for a
+child" and never on "unsuitable"; it now checks `age` so that is actually true.
+
+**The filter reads the documented rule, and the rule was already in this file.**
+`fetch_data.py` maps *both* Finnkino attributes onto the one word `Anniskelu`:
+`annisk_k18` is an anniskelunäytös (drinks, 18+, sets `age`) and plain `anniskelu` is an
+anniskelualuesali, a permanently licensed room. The entry above, citing
+finnkino.fi/leffaherkut/anniskelunaytokset/, carries the other half: **in those rooms
+alcohol is not served at S/7 family films**. So the tag on a children's film marks the
+room, not a bar screening.
+
+Split by that rule, the 528 tagged showtimes are 114 `Annisk_K18`, 396 plain on
+non-family ratings, and **18 plain on S/K-7 films**. The filter drops that last group, and
+doing so is reading the recorded rule rather than inferring one -- the first version of
+this entry called it guessing, which was wrong. The error direction matters as well:
+promising a bar that will not be there is the same class of mistake as the BioRex
+K-18 inference that told people a screening was closed when it was not.
+
+11 of the 18 are BioRex, whose anniskelu semantics this file records as unsettled. The
+rule is applied to them anyway, because no service at a family screening follows from
+Finnish alcohol law rather than from one chain's policy, and because the safe direction
+is not to promise a bar. Revisit with a citation from BioRex either way.
+
+**Space, measured rather than estimated.** At 375 px the tools row has 347 px usable and
+had 269 px used, leaving 78 px. An "Anniskelu" chip measures 78 px, so with the 6 px gap
+it overflowed by exactly 6 and wrapped. Mobile chip padding went from `11px` to `9px`
+horizontally, which frees 8 px per chip; all four chips and the segment now sit on one
+37 px row in all three languages, with 14 / 52 / 31 px to spare in fi / sv / en.
+The Swedish and English labels are "Bar", not "Utskänkning" and "Licensed bar" -- both of
+those wrapped or left 3 px of margin. The glyph key keeps the fuller wording, so the
+term is still taught somewhere.
 
 ## Access and ethics
 

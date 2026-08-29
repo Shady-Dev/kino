@@ -563,7 +563,10 @@
     .day{padding:6px 1px}
     .day b{font-size:.8rem}
     .day small{font-size:.66rem; letter-spacing:0}
-    .seg button, .chip{padding:6px 11px; font-size:.74rem}
+    /* 2px each side. Measured: with 11px the Anniskelu chip overflowed the row by
+       exactly 6px and wrapped to a second line at 375px; at 9px the four chips and the
+       segment fit on one, 335px of 347px usable. */
+    .seg button, .chip{padding:6px 9px; font-size:.74rem}
     #tagkey{padding:14px 14px 0}
     footer{padding:14px 14px 18px}
   }
@@ -594,6 +597,7 @@
     </div>
     <button class="chip" id="chipLang">Suom. puhe</button>
     <button class="chip" id="chipKids">Lapsille</button>
+    <button class="chip" id="chipAnnis">Anniskelu</button>
   </div>
 </header>
 
@@ -620,7 +624,7 @@
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
-                fLang:false, fKids:false, dates:null, horizon:'', advanced:false,
+                fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
                 genProvider:'',  // whose data `generated` came from, for the stale banner
                 chains:null,     // null = every chain; a Set = only those
                 revealed:new Set() };  // eventIds whose past showtimes are expanded
@@ -685,6 +689,7 @@
          filter:'Etsi elokuvaa tai genreä', searchEg:'Etsi esim.', searchOr:'tai komedia',
          trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
+         fannis:'Anniskelu',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri, avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
@@ -724,6 +729,7 @@
          filter:'Sök film eller genre', searchEg:'Sök t.ex.', searchOr:'eller komedi',
          trailer:'▶ Se trailern', min:'min',
          movies:'Filmer', times:'Tider', flang:'Finskt tal', fkids:'För barn',
+         fannis:'Bar',
          tomorrow:'I morgon', from:'från', sources:'Källor', hours:'h',
          favOn:'Egen biograf, öppnas här nästa gång', favOff:'Välj som egen biograf',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
@@ -760,6 +766,7 @@
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
+         fannis:'Bar',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
          favCta:'Save', favCtaLong:'Save as home theatre',
@@ -1668,6 +1675,20 @@
     const q = state.filter.trim().toLowerCase();
     if(q && !haystack(s).includes(q) && !haystack(s).includes(searchKey(q))) return false;
     if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
+    // `Anniskelu` in `method` covers two different things, because fetch_data maps both
+    // of Finnkino's attributes onto that one word: `annisk_k18` is an anniskelunäytös
+    // (drinks, 18+, sets `age`), plain `anniskelu` is an anniskelualuesali, a room that
+    // is permanently licensed. Finnkino states the rest of the rule outright and IDEAS
+    // records it: in those rooms **alcohol is not served at S/7 family films**. So a
+    // children's film in a licensed room carries the tag and is not a bar screening --
+    // 18 showtimes across 6 films. Excluding them is reading the documented rule, not
+    // inferring one. The direction matters too: promising a bar that will not be there
+    // is the same class of error as the BioRex K-18 inference that told people a
+    // screening was closed when it was not.
+    if(state.fAnnis){
+      if(!/anniskelu/i.test(s.method || '')) return false;
+      if(s.age !== 'K-18' && (s.rating === 'S' || s.rating === 'K-7')) return false;
+    }
     // Rating first, so the filter can never admit a restricted film — the cinema
     // enforces the age limit at the door and this is only a browse aid. Genre ids then
     // remove the merely-unrestricted: documentaries and dramas. Whitelisting Animation
@@ -1676,6 +1697,13 @@
     // ids stays on rating alone.
     if(state.fKids){
       if(!(s.rating === 'S' || s.rating === 'K-7')) return false;
+      // The *screening's* own limit outranks the film's rating: an S-rated film in an
+      // Annisk_K18 screening is one minors cannot attend, and the gate above only reads
+      // the film. Five showtimes are in that state today and all five happen to be
+      // caught by the genre rule below, so nothing leaks right now -- by luck, not by
+      // this rule. The comment above promises errors land on "boring for a child" and
+      // never on "unsuitable"; without this line that promise is not kept.
+      if(s.age && s.age !== 'S' && s.age !== 'K-7') return false;
       const g = Array.isArray(s.gids) ? s.gids : [];
       if(g.length && !g.includes(16) && !g.includes(10751)
          && (g.includes(99) || g.includes(18))) return false;
@@ -1764,7 +1792,7 @@
 
   function emptyMsg(){
     const t = L[state.lang];
-    if(state.filter || state.fLang || state.fKids) return t.nomatch;
+    if(state.filter || state.fLang || state.fKids || state.fAnnis) return t.nomatch;
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
     return t.noshows;
@@ -1772,7 +1800,7 @@
   // Long horizons are sparse, so an empty day should point at the next real one instead
   // of leaving the visitor to hunt through the picker.
   function nextDayLink(){
-    if(state.filter || state.fLang || state.fKids) return '';
+    if(state.filter || state.fLang || state.fKids || state.fAnnis) return '';
     const today = fiToday();
     const next = (state.dates || []).find(d => d > state.dateStr && d >= today);
     if(!next) return '';
@@ -2265,6 +2293,7 @@
   /* ---------- view + filter toggles ---------- */
   const segM = document.querySelector('#segMovies'), segT = document.querySelector('#segTimes');
   const chipLang = document.querySelector('#chipLang'), chipKids = document.querySelector('#chipKids');
+  const chipAnnis = document.querySelector('#chipAnnis');
   function syncTools(){
     syncFav();
     segM.classList.toggle('on', state.view === 'movies');
@@ -2273,18 +2302,39 @@
     segT.setAttribute('aria-pressed', String(state.view === 'times'));
     chipLang.setAttribute('aria-pressed', String(!!state.fLang));
     chipKids.setAttribute('aria-pressed', String(!!state.fKids));
+    chipAnnis.setAttribute('aria-pressed', String(!!state.fAnnis));
     chipLang.classList.toggle('on', state.fLang);
     chipKids.classList.toggle('on', state.fKids);
+    chipAnnis.classList.toggle('on', state.fAnnis);
     segM.textContent = L[state.lang].movies; segT.textContent = L[state.lang].times;
     chipLang.textContent = L[state.lang].flang; chipKids.textContent = L[state.lang].fkids;
+    chipAnnis.textContent = L[state.lang].fannis;
   }
   segM.onclick = () => { state.view = 'movies'; prefs.set({view:'movies'}); syncTools(); render(); };
   segT.onclick = () => { state.view = 'times';  prefs.set({view:'times'});  syncTools(); render(); };
   chipLang.onclick = () => { state.fLang = !state.fLang; prefs.set({fLang:state.fLang}); syncTools(); render(); };
-  chipKids.onclick = () => { state.fKids = !state.fKids; prefs.set({fKids:state.fKids}); syncTools(); render(); };
+  // Lapsille and Anniskelu turn each other off. Not an arbitrary rule: the two overlap
+  // on 22 of 3059 showtimes, five of which state a K-18 limit on the screening itself,
+  // and of the six films in the overlap exactly one is a children's film. "A kids' film
+  // in a licensed auditorium" is a real thing but a rare one, and leaving both on mostly
+  // produces an empty list from two chips that each looked like they should have worked.
+  // Turning the other off says which one won, where an empty result would not.
+  chipKids.onclick = () => {
+    state.fKids = !state.fKids;
+    if(state.fKids) state.fAnnis = false;
+    prefs.set({fKids:state.fKids, fAnnis:state.fAnnis}); syncTools(); render();
+  };
+  chipAnnis.onclick = () => {
+    state.fAnnis = !state.fAnnis;
+    if(state.fAnnis) state.fKids = false;
+    prefs.set({fAnnis:state.fAnnis, fKids:state.fKids}); syncTools(); render();
+  };
   const pr = prefs.get();
   state.view = pr.view === 'times' ? 'times' : 'movies';
-  state.fLang = !!pr.fLang; state.fKids = !!pr.fKids;
+  state.fLang = !!pr.fLang; state.fKids = !!pr.fKids; state.fAnnis = !!pr.fAnnis;
+  // A stored pair from before the two became exclusive, or a hand-edited one. Kids wins:
+  // it is the filter whose failure mode matters.
+  if(state.fKids) state.fAnnis = false;
   syncTools();
 
   /* ---------- refresh on resume ---------- */
