@@ -1,6 +1,6 @@
-[enrich] dropped 3 entries matched by the old picker
+[enrich] dropped 1 entries matched by the old picker
 [enrich] no TMDB match (3): Follow The Plants | Jamiroquai 'Travelling Without Moving' (30th Anniversary) | John Coltrane 'Highlights 1957-1964'
 [enrich] weak match, no exact title (1): Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) -> Classic Albums: Stevie Wonder - Songs In The Key of Life
 [enrich] rating held back, under 25 votes (1): Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes)
-[enrich] 87 titles, 3 new, 0 re-checks, 68 with rating, 94 with synopsis, 94 with poster, 93 mergeable by id, 29 files updated
+[enrich] 87 titles, 1 new, 0 re-checks, 68 with rating, 94 with synopsis, 94 with poster, 93 mergeable by id, 30 files updated
 exit=0
