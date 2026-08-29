@@ -554,7 +554,8 @@ Finnkino, Cinema Orion publishes none, and in English mode every one of them is 
 Finnish. Both TMDB passes now keep the genre ids already present in the `/movie/{id}`
 response they fetch for the synopsis — no extra requests in the cloud pass, one detail
 call per film in `fetch_data.py`, cached after. Ids land on each show as `gids`;
-`data/tmdb-genres.json` holds the id -> name map for `fi` and `en`, two requests per run.
+`data/tmdb-genres.json` holds the id -> name map for `fi`, `sv` and `en`, three
+requests per run.
 
 - Probed before building: TMDB's Finnish genre names are real translations, **18 of 19**
   differ from English. Ids plus one map per language therefore fix English-mode genres as
@@ -1470,11 +1471,29 @@ three would have let one Swedish outage delete the Finnish and English maps too,
 a worse failure than the one it guards against, and the client already falls back
 gracefully.
 
-**Unverified from here**: the enrichment pass needs a TMDB token, so whether TMDB
-actually returns Swedish genre names for `sv-SE` is checked by the next cloud run. Look
-for `sv` in `data/tmdb-genres.json` and a `fi+sv+en` count in `run-enrich.log`. If TMDB
-ignores the language it returns English names under the `sv` key, which would put English
-genres in a Swedish interface -- worth an eye on the first run rather than an assumption.
+**Verified 2026-08-30**, on the run that followed: `run-enrich.log` says
+`genre names written (19 genres, en+fi+sv)` and the map carries a real `sv` slot. TMDB
+honours `sv-SE`; it does not fall back to English wholesale. **13 of 19 Swedish names
+differ from the English** (Äventyr, Animerat, Komedi, Kriminal, Dokumentär, Familj,
+Historisk, Skräck, Mystik, Romantik, TV-film, Krig, Västern).
+
+Of the six that match English, five are correct Swedish -- Action, Drama, Fantasy,
+Science Fiction and Thriller are the words Swedish uses. **One is a real gap in TMDB's
+own list: id 10402 comes back as "Music", where Swedish is "Musik".** Finnish has the
+same kind of hole in the other direction: id 10770 is "TV Movie" untranslated, where
+Swedish has "TV-film".
+
+That is worth fixing rather than tolerating, because 10402 is live: **107 showtimes
+across 9 films carry it today**, so a Swedish reader sees one English word in a row of
+Swedish ones. `GENRE_FIX` in `enrich_tmdb.py` renames those two after the response
+arrives, and only for an id TMDB actually returned, so it can never invent a genre.
+Applied to the response rather than hand-edited into `data/tmdb-genres.json`, which the
+next run would overwrite; the committed map was brought into line through the same
+constant and the same serialisation, so the next run rewrites it byte-identically.
+
+The lesson is the same one the poster count taught: `fi+sv+en` in the log answers
+"did Swedish arrive", not "is Swedish right". Reading the 19 values is what found the
+one that was wrong.
 
 ## Open — app
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,

@@ -20,6 +20,17 @@ CACHE = DATA / "tmdb-titles.json"
 GENRES = DATA / "tmdb-genres.json"
 EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
 SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
+
+# TMDB's genre lists are community-translated and two entries are not translated at all:
+# id 10402 comes back as "Music" under sv-SE and id 10770 as "TV Movie" under fi-FI.
+# Checked against the whole committed map on 2026-08-30 rather than assumed -- the five
+# other Swedish names identical to English (Action, Drama, Fantasy, Science Fiction,
+# Thriller) are correct Swedish and are left alone. 10402 is live: 107 showtimes across
+# 9 films carry it today, so a Swedish reader sees one English word among Swedish ones.
+# 10770 appears on nothing today and is fixed anyway, because the mechanism is the same
+# on the day it does. Applied to the response rather than hand-edited into
+# data/tmdb-genres.json, which the next run would overwrite.
+GENRE_FIX = {"sv": {"10402": "Musik"}, "fi": {"10770": "TV-elokuva"}}
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # Hand-maintained escape hatch for titles TMDB cannot be searched by. See the file's
 # own _comment. Lives next to the script, not in data/, because data/ is generated.
@@ -225,6 +236,9 @@ def main() -> int:
         try:
             g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}", th)
             names[slot] = {str(x["id"]): x["name"] for x in (g.get("genres") or [])}
+            # Only rename an id TMDB actually returned, so this can never invent a genre.
+            names[slot].update({k: v for k, v in GENRE_FIX.get(slot, {}).items()
+                                if k in names[slot]})
         except Exception as e:
             print(f"[enrich] genre list {lang}: {e}")
     # fi and en are the bar, as before. Swedish is written when it arrives and omitted
