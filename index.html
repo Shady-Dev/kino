@@ -1943,7 +1943,34 @@
     }
   });
 
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    // The SW hands back cached data JSON at once and refreshes it behind (see sw.js).
+    // When a refresh lands, swap the fresh bytes in without a spinner: re-read through
+    // the SW (instant -- it is the copy just cached), compare `generated`, and only a
+    // real change re-derives. The cooldown stops the loop this would otherwise be:
+    // the re-read triggers background refreshes of its own, which message again.
+    let swrLast = 0;
+    navigator.serviceWorker.addEventListener('message', async ev => {
+      const path = ((ev.data || {}).fresh || '');
+      const m = path.match(/\/data\/area-(.+)\.json$/);
+      if(!m || !jsonCache[state.area]) return;
+      const hit = state.area === m[1] ||
+        (state.area.startsWith('city:') && (cityGroups[state.area.slice(5)] || []).includes(m[1]));
+      if(!hit || Date.now() - swrLast < 60000) return;
+      swrLast = Date.now();
+      try {
+        const fresh = state.area.startsWith('city:')
+          ? await loadCity(state.area.slice(5))
+          : await fetchJSON(path.slice(1));
+        if(fresh.generated && fresh.generated !== jsonCache[state.area].generated){
+          jsonCache[state.area] = fresh;
+          lastLoad = Date.now();   // the refresh was a real network fetch, seconds ago
+          loadSchedule();          // warm cache: runs synchronously to render, no spinner
+        }
+      } catch(_){ /* next visit gets it */ }
+    });
+  }
 
   /* ---------- init ---------- */
   (async () => {

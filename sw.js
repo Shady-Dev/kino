@@ -1,6 +1,9 @@
-// Bump on any UI release: the fetch handler is network-first, so a fresh page always
+// Bump on any UI release: the page is network-first, so a fresh index.html always
 // wins online, but the old copy stays as the offline fallback until its cache is dropped.
-const CACHE = 'leffavuoro-v47';
+// Data JSON is the other way around -- served from cache at once, refreshed behind --
+// because a launch that waits on the network is the single largest cost on a slow
+// connection and the page can tell honestly how old its data is (IDEAS, 2026-08-29).
+const CACHE = 'leffavuoro-v48';
 
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
@@ -10,10 +13,37 @@ self.addEventListener('activate', e => e.waitUntil((async () => {
   await clients.claim();
 })()));
 
-// network-first, cache fallback; posters cache-first
+// page network-first with cache fallback; posters cache-first; data JSON cache-first
+// with background refresh
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
+
+  if (url.pathname.includes('/data/') && url.pathname.endsWith('.json')) {
+    e.respondWith((async () => {
+      const cached = await caches.match(e.request);
+      const refresh = fetch(e.request).then(async r => {
+        if (r.ok) {
+          const c = await caches.open(CACHE);
+          await c.put(e.request, r.clone());
+          // Tell the page fresher bytes landed, but only when it was handed the stale
+          // copy -- a first fetch already returned this response. The page compares
+          // `generated` and re-renders only on a real change.
+          if (cached) {
+            for (const cl of await self.clients.matchAll({ type: 'window' }))
+              cl.postMessage({ fresh: url.pathname });
+          }
+        }
+        return r;
+      });
+      if (cached) {
+        e.waitUntil(refresh.catch(() => {}));
+        return cached;
+      }
+      return refresh;
+    })());
+    return;
+  }
 
   if (url.pathname.includes('/data/posters/')) {
     e.respondWith(

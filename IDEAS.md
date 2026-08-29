@@ -1386,6 +1386,23 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
       every `${'{'}` inside HTML-producing template literals and classifying each
       interpolation; the non-escaped remainder is internal (L strings, locale month
       names, digits, ISO dates, pre-escaped glyph markup).
+- [x] **Data JSON is served stale and revalidated behind** (2026-08-29, sw.js v48).
+      Reverses the network-first rule for `data/*.json` only; the page itself stays
+      network-first so a fresh index.html still always wins online. The argument: on a
+      repeat visit the network wait is the whole launch cost -- measured at 250 ms RTT,
+      1.3 s from tap to schedule -- and the thing being waited for changes four times a
+      day. The honesty objection is already answered by the app itself: the stale banner
+      and the health line key on `generated` inside the JSON, so a cached payload
+      truthfully reports its own age, and a launch that fails offline now shows the last
+      schedule with an honest age instead of an error after the 8 s abort.
+      The SW posts `{fresh: path}` after a background refresh lands on a file it had
+      served stale. The page re-reads the active area through the SW (instant, it is the
+      copy just cached), compares `generated`, and re-derives only on a real change --
+      no spinner, loadSchedule with a warm jsonCache runs synchronously to render. A
+      60 s cooldown in the handler stops the loop this would otherwise be, since the
+      re-read triggers refreshes of its own. Worst case a visitor sees data as old as
+      their previous visit for the first ~2 s of a launch, bounded below by the 10 min
+      resume-refresh that already existed.
 - [x] **The boot fetches speculatively from prefs** (2026-08-29). Concurrency fixed the
       fetches within a wave; the waves themselves were still serial: providers.json, then
       the nine venue lists (their names come from provider ids), then the schedule file
