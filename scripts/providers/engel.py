@@ -36,6 +36,7 @@ import datetime
 import html as html_mod
 import re
 import sys
+import time
 from zoneinfo import ZoneInfo
 
 from common import fetch

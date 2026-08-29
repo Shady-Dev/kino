@@ -918,6 +918,12 @@ original title and the cinema's own Finnish synopsis, none of which is in the li
   the text gives every film the same placeholder. The sibling spans (`seksi`,
   `paihteet`, and presumably `vakivalta`/`kauhu`) are KAVI content descriptors, which
   this app does not render, so only a `K-nn` or `S` token is kept.
+- **A one-item fixture skipped the only line that mattered.** `enrich()` shipped without
+  `import time`, and both the compile check and the unit test passed: `py_compile` does
+  not resolve names, and the test had a single film, so `n` was never non-zero and
+  `time.sleep(0.5)` was never reached. It failed on the first real call. A fixture has to
+  exercise the loop, not just the body — two items, not one, whenever there is pacing or
+  an index in the code.
 - Labels repeat their wrapper class: `cmd-ohja` holds both OHJAAJA and IKÄRAJA,
   `cmd-kieli` both KIELI and LISÄTIEDOT. Parse on the `<label>` text, never the class.
 - Languages come out as "puhuttu kieli: englanti" + "Suomi-Ruotsi" and map to
