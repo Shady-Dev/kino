@@ -26,8 +26,9 @@ does not leave the device.
 
 The page never calls a cinema's schedule API at load time. A pipeline fetches
 everything ahead of time and commits static JSON, which GitHub Pages serves from
-the same origin. No CORS, no API keys in the client. Poster images and the
-typeface are the exception and are covered under [Privacy](#privacy).
+the same origin. No CORS, no API keys in the client. Posters and the typeface are
+served from this origin too, so a page load reaches no other host at all. See
+[Privacy](#privacy).
 
 Providers run in one of two places, because two of them block datacenter IPs:
 
@@ -94,7 +95,9 @@ English mode. `data/tmdb-genres.json` maps ids to names per language.
     scripts/providers/synmerge.py    shared synopsis merge helper
     scripts/providers/strands.py     event strand prefixes, split off titles into method
     .github/workflows/biorex.yml     all cloud providers + enrichment
+    scripts/providers/mirror_posters.py  mirrors hot-linked posters into data/posters/
     data/                            generated JSON and posters (committed by CI)
+    fonts/                           self-hosted Archivo woff2 subsets + OFL licence
     IDEAS.md                         architecture notes, provider research, backlog
 
 ## Data shape
@@ -181,12 +184,16 @@ Each page carries real HTML showtimes for the next few days, `hreflang` pairs, a
 page's own is against Google's guidelines, so the rating is shown as credited text and
 left out of the markup.
 
-These pages make no third-party requests at all: inline CSS, no webfont, and only
-same-origin posters. Structured data may still reference a cinema CDN poster, because a
-URL in markup is fetched by the crawler and never by the reader's browser.
+These pages make no third-party requests: inline CSS, system fonts, and only
+same-origin posters, in the markup as well as in the structured data. A poster that
+somehow failed to mirror is skipped from `<img>` and kept in the JSON-LD, because a URL
+in markup is read by the crawler and never fetched by the reader's browser.
 
-A page is rewritten only when its bytes change, which in practice is once a day when the
-date window shifts. Each one links into the app as `/?area={venueId}` (or
+A page is rewritten only when its bytes change. That is more often than the design
+intended: the pages hold no timestamp or sold-out state, but the underlying schedule does
+shift through the day as cinemas drop screenings that have started, so a typical run
+rewrites 16 to 100 of the 102 pages and costs 25 to 130 kB of packed history. Each one
+links into the app as `/?area={venueId}` (or
 `/?area=city:{City}`), so arriving from a search opens on that venue rather than on
 whatever was last browsed.
 
@@ -197,25 +204,23 @@ starred home theatre, day, language and theme live in `localStorage` and are
 never transmitted. Schedule data is static JSON from this origin, so browsing
 showtimes tells no cinema anything.
 
-Three things do reach other hosts, and it is worth being exact about them rather
-than claiming the page is self-contained:
+**A page load makes no third-party requests.** Measured 2026-08-29: all 196 distinct
+poster images the app can render, across 3477 references, come from `data/posters/` on
+this origin, and the typeface is served from `fonts/`. Every `<img>` also carries
+`referrerpolicy="no-referrer"`.
 
-- **The typeface** loads from Google Fonts on every visit, so Google sees your IP
-  address.
-- **About a third of poster images** are hot-linked from where the cinema
-  publishes them (`mycloudcinema.com`, `cdn.etiketti.app`, `kinoset.fi`, an Azure
-  blob host) and from `image.tmdb.org`. Those hosts see your IP address and which
-  poster file was requested. Every `<img>` carries `referrerpolicy="no-referrer"`,
-  so no page URL is sent with it. The remaining two thirds come from
-  `data/posters/` on this origin.
-- **Tapping a showtime or a trailer** hands you off to the cinema's booking page
-  or to YouTube, which is the point of the link.
+That claim was false until 2026-08-29 and this section said so. The typeface came from
+Google Fonts on every visit, and about a third of posters were hot-linked from the
+cinemas' own hosts (`mycloudcinema.com`, `cdn.etiketti.app`, `kinoset.fi`, an Azure blob
+host) and from `image.tmdb.org`. Both are now mirrored by the pipeline. The history is
+left here on purpose, because a privacy claim is worth only as much as the record of
+when it was wrong.
+
+One thing still leaves this origin, by design: **tapping a showtime or a trailer** hands
+you off to the cinema's booking page or to YouTube, which is the point of the link.
 
 GitHub Pages serves the site and therefore logs requests, the same as any host
 would.
-
-Self-hosting the font and the rest of the posters would close the first two.
-Neither is done yet.
 
 ## Data sources
 
