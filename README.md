@@ -6,9 +6,9 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for **46 venues in 32 cities** across nine providers: Finnkino,
-BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion and
-Kino Akseli. Pick a venue and a
+Showtimes for **47 venues in 32 cities** across ten providers: Finnkino,
+BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion,
+Kino Engel and Kino Akseli. Pick a venue and a
 date, see films with posters, TMDB ratings, age limits, runtimes, genres,
 languages and, where the cinema publishes them, ticket prices and seat
 availability. Tapping a showtime opens that cinema's own booking page.
@@ -30,7 +30,7 @@ the same origin. No CORS, no API keys in the client. Posters and the typeface ar
 served from this origin too, so a page load reaches no other host at all. See
 [Privacy](#privacy).
 
-Providers run in one of two places, because two of them block datacenter IPs:
+Providers run in one of two places, because three of them block datacenter IPs:
 
 | Provider | Venues | Auth | Runs |
 |---|---|---|---|
@@ -42,11 +42,12 @@ Providers run in one of two places, because two of them block datacenter IPs:
 | Savon Kinot | 6 | none | GitHub Actions |
 | Gilda | 2 | none | GitHub Actions |
 | Cinema Orion | 1 | none | GitHub Actions |
+| Kino Engel | 1 | none | Local (blocks datacenter IPs) |
 | Kino Akseli | 1 | none | Local (blocks datacenter IPs) |
 
-A local machine runs the two providers that block datacenter IPs, four times a
+A local machine runs the three providers that block datacenter IPs, four times a
 day: it obtains a fresh short-lived Finnkino token from a real browser session,
-runs `scripts/fetch_data.py` and `scripts/providers/run.py kinoakseli`, pushes
+runs `scripts/fetch_data.py` and `scripts/providers/run.py engel kinoakseli`, pushes
 the data, then triggers the cloud workflow. There is **no cloud fallback** for
 Finnkino: a runner cannot obtain a token at all, because the site answers
 Cloudflare 403 to datacenter IPs, so the workflow that pretended to be one was
@@ -173,7 +174,7 @@ at the end of every pipeline run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-51 pages in each language: 46 venues, plus the five cities that have more than one venue
+52 pages in each language: 47 venues, plus the five cities that have more than one venue
 (Espoo, Helsinki, Kotka, Savonlinna, Tampere). A city page for a one-venue city would be
 the venue page at a second URL, so single-venue cities are covered by putting the city in
 the venue page's title and JSON-LD address instead.
@@ -192,7 +193,7 @@ in markup is read by the crawler and never fetched by the reader's browser.
 A page is rewritten only when its bytes change. That is more often than the design
 intended: the pages hold no timestamp or sold-out state, but the underlying schedule does
 shift through the day as cinemas drop screenings that have started, so a typical run
-rewrites 16 to 100 of the 102 pages and costs 25 to 130 kB of packed history. Each one
+rewrites 16 to 100 of the 104 pages and costs 25 to 130 kB of packed history. Each one
 links into the app as `/?area={venueId}` (or
 `/?area=city:{City}`), so arriving from a search opens on that venue rather than on
 whatever was last browsed.
@@ -204,9 +205,9 @@ starred home theatre, day, language and theme live in `localStorage` and are
 never transmitted. Schedule data is static JSON from this origin, so browsing
 showtimes tells no cinema anything.
 
-**A page load makes no third-party requests.** Measured 2026-08-29: all 196 distinct
-poster images the app can render, across 3477 references, come from `data/posters/` on
-this origin, and the typeface is served from `fonts/`. Every `<img>` also carries
+**A page load makes no third-party requests.** Measured 2026-08-29: every poster reference in the
+committed data — 3274 that day, across 213 distinct images — comes from `data/posters/`
+on this origin, and the typeface is served from `fonts/`. Every `<img>` also carries
 `referrerpolicy="no-referrer"`.
 
 That claim was false until 2026-08-29 and this section said so. The typeface came from

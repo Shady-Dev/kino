@@ -127,12 +127,13 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 | Savon Kinot (Vista) | 6 | none | Actions | fullest feed: original title, ISO langs, posters, deep links |
 | Cinema Orion | 1 | none | Actions | ticket-type prices, own Finnish blurbs; no seats, runtimes or age limits |
 | Gilda (MyCloudCinema) | 2 | none | Actions | posters, own synopses, formats; no seats or deep links |
+| Kino Engel | 1 | none | Local (blocks datacenter IPs) | own synopses, rating, runtime, genres; no price, room or booking URL |
 | Kino Akseli | 1 | none | Local (blocks datacenter IPs) | prices, no booking links |
 
 Ratings and trailers come from the shared TMDB enrichment pass, so only Finnkino and
 Kotkan Leffat still differ in what the source itself provides (seat availability).
 
-46 venues / 31 cities across nine providers. Each provider writes `data/area-{venueId}.json` in one shape
+47 venues / 32 cities across ten providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now **nothing**: a registry entry generates
@@ -262,7 +263,7 @@ Conventions worth keeping:
   Worst same-city pair is now ΔE 46.9 normal, 28.0 deutan; global minimum 32.1. Kotka's
   colourblind figure fell slightly (28.7 -> 24.8) because crimson sits near orange for a
   deuteranope; pushing Kotkan Leffat to pink would fix that pair and collide with Gilda's
-  magenta everywhere else, and Kotka only ever shows two chains. Nine chains cannot all be
+  magenta everywhere else, and Kotka only ever shows two chains. Ten chains cannot all be
   mutually distinct under colourblind vision while staying this side of neon, so the target
   is per-city separation, not global. `scripts/providers/registry.py` carries the numbers.
 - A failed venue writes **no file**, keeping previous data rather than publishing empty
@@ -1114,11 +1115,12 @@ Also the competitive picture, since it comes up when deciding what to claim on t
 - **elokuviin.com** — claims all cinemas large and small, and does include festivals.
 - **kinossa.fi** — same aggregation idea.
 
-So **"Suomen kattavin" is not a defensible claim**: 46 venues against roughly 180-200
-cinemas nationally, and two services already claim full coverage. What is true and
-checkable: nine chains merged into one city view, festival and strand screenings included
+So **"Suomen kattavin" is not a defensible claim**: 47 venues against the 225 entries
+nytleffaan.fi lists (fewer distinct cinemas than that — Kinotour alone accounts for 14
+touring venues), and two services already claim full coverage. What is true and
+checkable: ten chains merged into one city view, festival and strand screenings included
 where those services drop them, seat availability and prices where a cinema publishes
-them, no ads and no tracking. Say the count ("9 ketjua, 46 teatteria, 31 kaupunkia") and
+them, no ads and no tracking. Say the count ("10 ketjua, 47 teatteria, 32 kaupunkia") and
 let it grow.
 
 ### Vista sweep — tried and failed (2026-08-27)
@@ -1455,7 +1457,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 
 ## Documentation state (2026-08-27, sixth pass)
 
-- `README.md` covers: Leffavuoro, **nine providers / 46 venues**, the two-location
+- `README.md` covers: Leffavuoro, **ten providers / 47 venues**, the two-location
   pipeline with **no cloud fallback for Finnkino**, the data shape every provider writes
   (including `age`, `gids` and `tmdbId`, and why the last two are exact-match only), the
   three lists worth reading in `run-enrich.log`, and a step-by-step for adding a provider.
@@ -1534,7 +1536,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   Test clean on a city page (371 valid, 0 invalid: 10 Local business, 10 Organisation, 351
   Films). Remaining warnings are all optional fields -- `priceRange`, `telephone` and
   `image` on MovieTheater, `director` and `dateCreated` on Movie. None are in the pipeline;
-  the first three would be manual data entry across 46 venues and `director` would need a
+  the first three would be manual data entry across 47 venues and `director` would need a
   per-film TMDB credits call. Deliberately not chased: optional fields do not gate
   eligibility, and the number that decides whether any of this worked is how many of the
   103 URLs turn up in Search Console's Pages report.
@@ -1543,8 +1545,8 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   a generated `sitemap.xml` exist (2026-08-28).
 - **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred
   them. Markup does not create pages and the app is one JS-rendered URL, so
-  `scripts/build_pages.py` renders 51 pages per language from the committed JSON at the end
-  of every run: 46 venues plus the five multi-venue cities. Same data, no second fetcher.
+  `scripts/build_pages.py` renders 52 pages per language from the committed JSON at the end
+  of every run: 47 venues plus the five multi-venue cities. Same data, no second fetcher.
 - **City pages only where a city has more than one venue.** The original plan said "~31
   cities"; that was wrong, taken from the README's city count rather than measured. Only
   Espoo, Helsinki, Kotka, Savonlinna and Tampere have two or more venues, which is the same
