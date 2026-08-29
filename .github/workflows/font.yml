@@ -1,0 +1,54 @@
+name: Fetch Archivo webfont (throwaway)
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+
+jobs:
+  font:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Archivo woff2
+        run: |
+          set -e
+          mkdir -p fonts
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'
+          URL='https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap'
+          curl -sSL -A "$UA" "$URL" -o fonts/google.css
+          echo "--- css as served"
+          cat fonts/google.css
+          python3 - <<'PY'
+          import re, pathlib, urllib.request
+          css = pathlib.Path("fonts/google.css").read_text()
+          blocks = re.findall(r"/\*\s*([\w-]+)\s*\*/\s*@font-face\s*\{(.*?)\}", css, re.S)
+          keep = {"latin", "latin-ext"}
+          out = []
+          for name, body in blocks:
+              if name not in keep:
+                  print("skip subset", name); continue
+              url = re.search(r"url\((https://[^)]+\.woff2)\)", body).group(1)
+              rng = re.search(r"unicode-range:\s*([^;]+);", body).group(1).strip()
+              fn = f"archivo-{name}.woff2"
+              urllib.request.urlretrieve(url, "fonts/" + fn)
+              size = pathlib.Path("fonts/" + fn).stat().st_size
+              print(f"{fn} {size} bytes from {url}")
+              out.append(f"""@font-face{{font-family:'Archivo';font-style:normal;
+          font-weight:100 900;font-stretch:62% 125%;font-display:swap;
+          src:url(fonts/{fn}) format('woff2');
+          unicode-range:{rng}}}""")
+          pathlib.Path("fonts/face.css").write_text("\n".join(out) + "\n")
+          print("--- face css")
+          print(pathlib.Path("fonts/face.css").read_text())
+          PY
+          curl -sSL -o fonts/OFL.txt https://raw.githubusercontent.com/googlefonts/archivo/main/OFL.txt
+          head -3 fonts/OFL.txt
+          rm fonts/google.css
+          ls -l fonts
+      - name: Commit
+        run: |
+          git config user.name kino-bot && git config user.email a@b.c
+          git add fonts
+          git diff --cached --quiet || git commit -m "Add Archivo woff2 subsets (throwaway workflow)"
+          git pull --rebase --autostash -q origin main && git push -q
