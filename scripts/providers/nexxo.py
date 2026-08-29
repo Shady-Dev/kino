@@ -37,8 +37,12 @@ def api_url(site, locationid, days):
 
 
 def _codes(v):
-    """'FI-SE' / 'FI/SE' -> ['FI','SE']; OV (original version) means unspecified."""
-    return [c for c in re.split(r"[^A-Za-z]+", (v or "").upper()) if c and c != "OV"]
+    """'FI-SE' / 'FI/SE' -> ['FI','SV']; OV (original version) means unspecified.
+
+    Nexxo writes Swedish as SE, the country code. This app uses the ISO 639-1 language
+    code SV, so it is corrected here rather than carried into the data."""
+    out = [c for c in re.split(r"[^A-Za-z]+", (v or "").upper()) if c and c != "OV"]
+    return ["SV" if c == "SE" else c for c in out]
 
 
 def _lang(row):

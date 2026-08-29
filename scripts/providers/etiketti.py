@@ -77,9 +77,9 @@ def _lang(page):
         if "suomi" in v or "suom" in v:
             out.append("FI")
         if "ruotsi" in v or "ruots" in v:
-            # SE, not SV: the convention is Finnkino's tag set, and the client's LN map
-            # keys on SE. "SV-S" rendered as a bare "SV" instead of "ruotsi".
-            out.append("SE")
+            # SV: the ISO 639-1 code for Swedish. SE is Sweden the country, which this
+            # app used to use because Finnkino does.
+            out.append("SV")
         if "englan" in v:
             out.append("EN")
         return out

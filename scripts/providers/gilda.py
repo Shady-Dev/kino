@@ -65,8 +65,8 @@ SITES = [{
     ],
 }]
 
-LANG = {"fi": "FI", "suomi": "FI", "en": "EN", "englanti": "EN", "sv": "SE",
-        "se": "SE", "ruotsi": "SE", "ja": "JA", "japani": "JA", "fr": "FR",
+LANG = {"fi": "FI", "suomi": "FI", "en": "EN", "englanti": "EN", "sv": "SV",
+        "se": "SV", "ruotsi": "SV", "ja": "JA", "japani": "JA", "fr": "FR",
         "ranska": "FR", "de": "DE", "saksa": "DE", "es": "ES", "espanja": "ES",
         "it": "IT", "italia": "IT", "ru": "RU", "venäjä": "RU", "da": "DA",
         "no": "NO", "et": "ET", "viro": "ET", "pl": "PL", "puola": "PL"}

@@ -92,18 +92,12 @@ def _split_formats(fmts):
     return fmts, audio, subs
 
 
-# BioRex writes Swedish as SV; the convention here is Finnkino's tag set, where it is
-# SE. Unmapped, the client's LN lookup falls through to the raw code and renders a bare
-# "SV" instead of "ruotsi" -- it did on 644 showtimes, a fifth of the schedule. Same bug
-# etiketti.py was fixed for; normalise at the source, so the client keeps one vocabulary.
-_CODE_FIX = {"SV": "SE"}
-
-
 def _lang_str(audio, subs):
-    """Finnkino-compatible tags so the existing 'Suom. puhe' filter keeps working."""
-    fix = lambda c: _CODE_FIX.get(c, c)
-    parts = [f"{fix(a)}-A" for a in audio.split("&") if a]
-    parts += [f"{fix(x)}-S" for x in subs.split("&") if x]
+    """Tags the client understands, so the existing 'Suom. puhe' filter keeps working.
+    BioRex publishes SV for Swedish, which is the ISO 639-1 code and what this app now
+    uses, so the codes pass through untouched."""
+    parts = [f"{a}-A" for a in audio.split("&") if a]
+    parts += [f"{x}-S" for x in subs.split("&") if x]
     return ", ".join(parts)
 
 

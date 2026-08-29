@@ -59,10 +59,10 @@ SITES = [{
 }]
 
 # Finnkino's tag set, so one language filter works across every provider.
-ISO = {"fi": "FI", "en": "EN", "sv": "SE", "se": "SE", "ja": "JA", "fr": "FR",
+ISO = {"fi": "FI", "en": "EN", "sv": "SV", "se": "SV", "ja": "JA", "fr": "FR",
        "de": "DE", "es": "ES", "it": "IT", "ru": "RU", "da": "DA", "no": "NO",
        "et": "ET", "pl": "PL"}
-NAMES = {"suomi": "FI", "englanti": "EN", "ruotsi": "SE", "japani": "JA",
+NAMES = {"suomi": "FI", "englanti": "EN", "ruotsi": "SV", "japani": "JA",
          "ranska": "FR", "saksa": "DE", "espanja": "ES", "italia": "IT",
          "venäjä": "RU", "tanska": "DA", "norja": "NO", "viro": "ET", "puola": "PL"}
 TAGS_RE = re.compile(r"<[^>]+>")

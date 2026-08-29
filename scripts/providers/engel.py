@@ -245,9 +245,8 @@ RATING_CLASS_RE = re.compile(r'class=["\']rating\s+([^"\']+)["\']', re.I)
 KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
 
 # Finnish language names as this site writes them -> the tag set the client's LN map
-# keys on, which is Finnkino's. "SE" not "SV": etiketti.py already had to be fixed for
-# publishing SV-S, which rendered as a bare "SV" instead of "ruotsi".
-LANGS = {"suomi": "FI", "ruotsi": "SE", "englanti": "EN", "saksa": "DE", "ranska": "FR",
+# keys on. Swedish is SV, the ISO 639-1 language code, not SE, which is Sweden.
+LANGS = {"suomi": "FI", "ruotsi": "SV", "englanti": "EN", "saksa": "DE", "ranska": "FR",
          "espanja": "ES", "italia": "IT", "venäjä": "RU", "viro": "ET", "tanska": "DA",
          "norja": "NO", "islanti": "IS", "japani": "JA", "kiina": "ZH", "korea": "KO"}
 
