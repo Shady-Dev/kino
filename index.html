@@ -937,6 +937,7 @@
     return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
   };
   const jsonCache = {};
+  let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
   async function fetchJSON(path){
     // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
@@ -1053,10 +1054,10 @@
     syncFav();
   }
 
-  async function loadAreas(areasPromise){
-    // No fallback path: if same-origin areas.json fails, the site itself is broken or
-    // the visitor is offline on first visit, and the boot's catch says so. The old
-    // XML/CORS-proxy chain could not have helped in either case — see IDEAS.
+  // Fetch the venue lists and rebuild providerMeta. Split out of loadAreas so a resume can
+  // refresh the ages without going near fillAreaSelect, which re-runs the prefs-based
+  // venue restore and would bounce the reader off the venue they were looking at.
+  async function fetchVenueLists(areasPromise){
     const data = await (areasPromise || fetchJSON('data/areas.json'));
     const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
       .map(a => ({ ...a, provider:'finnkino' }));
@@ -1078,7 +1079,15 @@
       if(vs.length) providerMeta[prov] = { generated: j.generated, venues: vs.length };
     });
     state.generated = data.generated;
-    fillAreaSelect(areas.concat(extra));
+    return areas.concat(extra);
+  }
+
+  async function loadAreas(areasPromise){
+    // No fallback path: if same-origin areas.json fails, the site itself is broken or
+    // the visitor is offline on first visit, and the boot's catch says so. The old
+    // XML/CORS-proxy chain could not have helped in either case — see IDEAS.
+    const all = await fetchVenueLists(areasPromise);
+    fillAreaSelect(all);
     renderHealth();
     areaSel.addEventListener('change', () => {
       state.area = areaSel.value; prefs.set({area: state.area});
@@ -1165,6 +1174,7 @@
         jsonCache[state.area] = state.area.startsWith('city:')
           ? await loadCity(state.area.slice(5))
           : await fetchJSON(`data/area-${state.area}.json`);
+        lastLoad = Date.now();   // only a real fetch counts; a cache hit proves nothing
       }
       const cache = jsonCache[state.area];
       if(cache.generated) state.generated = cache.generated;
@@ -1833,16 +1843,38 @@
   state.fLang = !!pr.fLang; state.fKids = !!pr.fKids;
   syncTools();
 
-  /* ---------- date rollover on resume ---------- */
+  /* ---------- refresh on resume ---------- */
+  // An installed PWA is resumed, not reloaded, so boot runs once and everything it
+  // fetched stays frozen. Only the date rollover used to force a refetch, which meant a
+  // phone opened in the evening showed the morning's schedule and a source line counting
+  // upward -- "Finnkino 6h" -- while a desktop tab, reloaded, read 0h off the same repo.
+  // The ages were honest: the app really was holding six-hour-old showtimes, sold-out
+  // flags and all.
+  //
+  // REFRESH_MS is 10 minutes because GitHub Pages serves data with max-age=600; refetching
+  // more eagerly than that would be answered from the HTTP cache anyway. providerMeta is
+  // refreshed through fetchVenueLists rather than loadAreas so the venue picker is left
+  // alone.
+  const REFRESH_MS = 10 * 60 * 1000;
   let builtFor = fiToday();
-  document.addEventListener('visibilitychange', () => {
-    if(document.visibilityState !== 'visible') return;
-    if(fiToday() !== builtFor){
+  async function refreshAll({ rollover }){
+    if(rollover){
       builtFor = fiToday();
       state.advanced = false;
-      jsonCache && Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
       buildDays();
-      loadSchedule();
+    }
+    Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
+    try {
+      await fetchVenueLists();       // ages and horizons, without touching the picker
+      renderHealth();
+    } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
+    await loadSchedule();
+  }
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState !== 'visible') return;
+    const rollover = fiToday() !== builtFor;
+    if(rollover || Date.now() - lastLoad > REFRESH_MS){
+      refreshAll({ rollover });
     } else {
       render(); // refresh past-time dimming after shorter naps
     }

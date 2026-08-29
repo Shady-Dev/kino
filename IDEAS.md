@@ -1020,6 +1020,20 @@ Still open from this pass:
       Each keeps its module-level `get()` wrapper so call sites are untouched, and each
       migration must preserve the loop's own tries/backoff/timeout rather than silently
       adopting common's defaults.
+- [x] **Refresh on resume, not only on date rollover** (2026-08-28). An installed PWA is
+      resumed rather than reloaded, so boot ran once and `providerMeta` stayed frozen while
+      `Date.now()` moved: the source line counted upward ("Finnkino 6h") on a phone while a
+      desktop tab reading the same repo said 0h. The numbers were honest — the app really
+      was holding six-hour-old showtimes and sold-out flags, because `loadSchedule` is
+      gated on `jsonCache` and the old `visibilitychange` handler only refetched when the
+      day changed. The service worker was never involved; it is network-first and was never
+      asked. Threshold is 10 minutes because Pages serves data with `max-age=600`, so a
+      keener refresh would be answered from the HTTP cache anyway. `fetchVenueLists` was
+      split out of `loadAreas` for this: refreshing through `loadAreas` would re-run
+      `fillAreaSelect` and bounce the reader off their selected venue.
+      Still open: a tab left visible all day never fires `visibilitychange` and so never
+      refreshes. A timer would cover it; not added, because the fix for the reported
+      symptom should not quietly grow a polling loop.
 - [x] Search input debounced 120 ms (2026-08-28): every keystroke rebuilt the whole list
       through innerHTML — ~90 cards in a combined Helsinki view — and the intermediate
       frames were discarded anyway. 120 ms is below the point where the list feels
