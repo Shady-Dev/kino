@@ -1626,8 +1626,7 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 - `location.hash = ''` counts as navigating to the top of the document and scrolled the
   list up when the sheet closed. Use `history.replaceState` to strip the fragment.
 - A helper defined as `def rep(a,b,t)` that raises before the file write, followed by a
-  push, commits the file **unchanged** — two no-op commits (`755a39f`, `eeaa4e5`) came from
-  exactly that. Write the file before pushing, and check the edit count.
+  push, commits the file **unchanged** — two no-op commits came from exactly that. Write the file before pushing, and check the edit count.
 - The Contents API commits **one path per call**, so deleting five files made five
   commits. For a multi-file change in one commit, use the Git trees API: get
   `git/ref/heads/main` → its commit's `tree` → `POST git/trees` with `base_tree` and
