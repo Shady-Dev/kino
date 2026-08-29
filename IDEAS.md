@@ -1602,6 +1602,15 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   in local private notes. One general lesson worth keeping here: a final step that runs
   *after* the push can fail without making the run look failed, so anything that matters
   needs its own check.
+- **BioRex published `SV`, not `SE`, and it had been rendering as a bare "SV" on a fifth
+  of the schedule** (found 2026-08-29). `etiketti.py` was fixed for exactly this and
+  `biorex.py` never was: BioRex's format spans read "FI&SV", `_lang_str` passed the codes
+  through verbatim, and the client's `LN` map keys on Finnkino's `SE`, so `langTxt` fell
+  through to the raw code. 644 showtimes said "tekstit SV" where they meant "tekstit
+  ruotsi". Normalised at the source, keeping one vocabulary in the data rather than
+  teaching the client a second spelling -- an alias in `LN` would have hidden the next
+  adapter that invents a code. Worth checking on every new adapter: the tag set is
+  Finnkino's, and a provider's own spelling is not evidence of anything.
 - Adapters carry a referer, three retries with backoff, and a pause between venues.
 - The film-list sort (`title.localeCompare(b.title,'fi')` per comparison) measured
   identical to a cached `Intl.Collator` -- about 0.01 ms per 45-title sort either way,
