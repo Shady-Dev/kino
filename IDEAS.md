@@ -861,12 +861,28 @@ datacenter IPs and the adapter never touches it.
     is not challenged. Solving it is out of bounds under "Access and ethics", so Engel
     joins Finnkino and Kino Akseli on the local half: a `SITES` entry whose module the
     local wrapper runs, and `localfetch.sh` has to call `run.py kinoakseli engel`.
-  - Also checked and negative in the same probe: `/xml/TheatreAreas/` (Vista),
-    `nexxo-scope/public_api.php`, `gilda-react-booking` and `/wp-json/`. All 202, so
-    those are "unknown" rather than "absent" until something reads them from a
-    residential connection. Worth retrying from the Mac before writing a scraper, since
-    an Elementor site with a WordPress REST API might still hand over the programme as
-    JSON and save a parser.
+  - **The WordPress REST API is open, and Vista is out** (probed from a residential
+    connection, 2026-08-29). `/wp-json/` answers 200 with 372 kB of route listing and
+    `/wp-json/wp/v2/types` 200 with 12.5 kB; `/xml/TheatreAreas/` is a clean 404 rather
+    than a challenge. So the earlier all-202 result really was the IP and nothing else,
+    and there may be no scraper to write here. Read the route list before parsing HTML.
+  - **The front page already carries the Kesäkino screenings**, so `/kesakino/` is a
+    landing page rather than a second source: `/elokuva/kesakino-keltaiset-kirjeet/` and
+    `/elokuva/kesakino-autofiktio/` both appear in the front page's film links. One fetch
+    covers the whole programme. `/kesakino/` is worth reading only if it turns out to
+    carry something the front page drops, and on 2026-08-29 it held 4 screenings, all at
+    21:30, against the front page's eleven published dates.
+  - **The prefix is in the slug as well as the title**, which is the part that bites.
+    `autofiktio` and `kesakino-autofiktio` are two slugs for one film, so an `eventId`
+    taken from the slug the way `orion.py` does it would split one film into two cards in
+    the same venue, each with its own poster lookup and its own TMDB miss. Identity has
+    to come from the cleaned title, and `KESÄKINO` has to come off before anything keys
+    on it.
+  - `/kesakino/` markup is its own widget set: `rsjohku-ohjelmisto`, `ohje-movie-poster`,
+    `ohje-movie-description`, `ohje-movie-schedule`, with times as `La 29.08.   klo
+    21:30` (note the run of spaces). The `rsjohku` prefix is worth a look on its own
+    terms: if it is a Finnish booking integration used by other cinemas, it is a platform
+    lead rather than one site's theme.
   - **KesäKino is an auditorium, not a strand.** `aud` carries the room verbatim because
     that is what is printed on the ticket, and an outdoor screen is exactly the kind of
     thing a reader needs on the showtime stub before turning up. So the adapter sets
