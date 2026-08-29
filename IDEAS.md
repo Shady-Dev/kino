@@ -1289,6 +1289,19 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   Tampere -> Tampereella: suffixing a case ending onto the nominative yields "Helsinkissä",
   which is precisely how a reader spots a generated page. Every string uses the nominative
   with a separator, which stays correct for whatever city a future provider brings.
+- **Google validates a nested `Movie` against its own Movie rules** (Rich Results Test,
+  2026-08-29). The first render nested `workPresented` without an `image` and every one of
+  them came back "8 invalid items detected: Missing field 'image'". `director` and
+  `dateCreated` are reported too but only as optional. `MovieTheater` passed as both Local
+  business and Organisation. Adding an absolute poster URL fixed it; a showtime with no
+  poster from any source (one in 3509) now drops `workPresented` and keeps just the event,
+  because an item that will always be rejected is worse than a smaller one.
+- **A poster URL in JSON-LD is not a privacy leak**, which is why the markup can use
+  cinema-CDN and image.tmdb.org addresses the page itself refuses to render as `<img>`.
+  The crawler fetches it; the reader's browser never does.
+- **Google reported no Event rich result** for `ScreeningEvent`, only Local business,
+  Organisation and Movie. The markup is valid schema.org either way and the plain HTML
+  showtimes are what carry the page; do not assume an event carousel is coming.
 - Open: the pages are committed, so the repo grows by roughly the gzipped delta per day
   (~390 kB worst case). Building them in the workflow and deploying via a Pages artifact
   instead would remove that entirely, at the cost of switching Pages from branch to Actions

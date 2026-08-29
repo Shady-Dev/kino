@@ -301,7 +301,23 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
             "</div></article>")
 
 
-def ld_json(days, today, city):
+def poster_url(s, extra):
+    """Absolute poster URL for markup, or None.
+
+    A URL in JSON-LD is read by the crawler, not fetched by the visitor's browser, so a
+    cinema CDN or image.tmdb.org address here does not leak a reader's IP the way an
+    <img> would. That is why markup can use posters the page itself refuses to render.
+    """
+    img = (s.get("img") or "").strip()
+    if img.startswith("data/posters/"):
+        return f"{SITE}/{img}"
+    if img.startswith("http"):
+        return img
+    fx = extra.get(norm(s.get("title") or "")) or {}
+    return fx.get("img") or None
+
+
+def ld_json(days, today, city, extra):
     """ScreeningEvent per showtime, for today and tomorrow only.
 
     Three deliberate economies, all of which came out of a 1.2 MB Helsinki page:
@@ -335,14 +351,23 @@ def ld_json(days, today, city):
                     "name": title,
                     "startDate": s.get("start"),
                     "location": {"@id": tid},
-                    "workPresented": {"@type": "Movie", "name": title},
                 }
-                dur = duration(s.get("len"))
-                if dur:
-                    ev["workPresented"]["duration"] = dur
-                if s.get("tmdbId"):
-                    ev["workPresented"]["sameAs"] = \
-                        f"https://www.themoviedb.org/movie/{s['tmdbId']}"
+                # Google validates a nested Movie against its own Movie requirements, and
+                # `image` is the one it treats as critical: without it the item is parsed,
+                # rejected and reported as invalid. A Movie with no poster is no use to it
+                # anyway, so the event keeps its name and drops the nested work rather
+                # than shipping something that will only ever fail. One showtime in 3509
+                # has no poster from any source.
+                poster = poster_url(s, extra)
+                if poster:
+                    work = {"@type": "Movie", "name": title, "image": poster}
+                    dur = duration(s.get("len"))
+                    if dur:
+                        work["duration"] = dur
+                    if s.get("tmdbId"):
+                        work["sameAs"] = \
+                            f"https://www.themoviedb.org/movie/{s['tmdbId']}"
+                    ev["workPresented"] = work
                 if s.get("url", "").startswith("http"):
                     ev["url"] = s["url"]
                     if s.get("price"):
@@ -397,7 +422,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 <meta property="og:locale" content="{t['locale']}">
 <link rel="icon" href="/icon-192.png">
 <style>{CSS}</style>
-<script type="application/ld+json">{ld_json(days, today, city)}</script>
+<script type="application/ld+json">{ld_json(days, today, city, extra)}</script>
 </head>
 <body>
 <h1>{esc(h1)}</h1>
