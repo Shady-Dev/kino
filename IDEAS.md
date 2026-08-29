@@ -1455,7 +1455,9 @@ same `.seg` pill already used for Leffat/Ajat, so it is a pattern the page alrea
 - `<html lang>` follows the UI language. It never did, even with two.
 - **The Swedish strings are drafted, not translated.** They need a native Finland-Swedish
   reader before anyone leans on them, and that is the one part of this that cannot be
-  checked by measurement.
+  checked by measurement. The contact line added on 2026-08-30 ("För biografer: kontakt
+  och begäran om borttagning") is in the same state, and it is the one string a cinema
+  is most likely to read, so it belongs at the front of that review.
 
 **Genres** were the last thing still Finnish in Swedish mode, because
 `data/tmdb-genres.json` carried `fi` and `en` only and `genresOf` falls through to the
@@ -1884,8 +1886,8 @@ buying anything. If a provider ever refuses the honest one, record it here and k
 browser string **for that host, deliberately** -- do not quietly re-disguise the pipeline.
 
 The `+https://leffavuoro.fi` in it is the whole point: it is where a cinema that wants to
-know who is reading them, or wants out, is supposed to look. The site does not yet carry
-a contact route, which makes that half a promise. Worth closing.
+know who is reading them, or wants out, is supposed to look. Closed on 2026-08-30 by the
+contact route below; until then the URL was half a promise.
 
 ### Conditional GETs, and what the providers actually support (2026-08-30)
 `common.fetch(cache=True)` sends a stored `ETag` / `Last-Modified` back as
@@ -1978,6 +1980,34 @@ Not covered by this: `enrich_tmdb.py` has its own bare `urlopen` with no retry a
 a TMDB 429 skips that title rather than hammering. TMDB is the one upstream here that
 reliably rate-limits, and routing it through `common.fetch` would get it this handling.
 A separate change, not this one.
+
+### The site answers the User-Agent (2026-08-30)
+`Leffavuoro/1.0 (+https://leffavuoro.fi)` points every provider at this site, and the
+site said nothing about who was reading them or how to ask to be left out. A URL that
+leads nowhere is worse than no URL: it looks like an offer of contact and is not one.
+IDEAS has claimed since the first multi-provider commit that removing a cinema is one
+registry entry, with no address anywhere that a cinema could use to ask for it.
+
+`tiles-39nomads@icloud.com`, in three places, because a cinema can land on any of them:
+
+- the app footer, on its own line under the source credit, translated in all three
+  languages and redrawn by `applyLang()` like everything else the toggle reaches;
+- every generated venue and city page, fi and en, in the footer;
+- a `## Contact` section in the README, which is what a GitHub visitor finds.
+
+**Plain text, not obfuscated.** Entity-encoding or a JavaScript-assembled address hides
+it from a scraper and from the cinema manager it exists for in the same move, and an
+address nobody can copy is not a contact route. The address is a dedicated alias rather
+than a personal mailbox, which is the right answer to that trade.
+
+`renderContact()` is separate from `renderStatus()` on purpose: `renderStatus` returns
+early until schedule data has loaded, and the one line a cinema comes here for must not
+depend on a fetch succeeding. It is called once at boot as well as from `applyLang()`,
+since `applyLang()` only runs on a toggle and a reader with a stored `lang` would
+otherwise get a Finnish contact line under an English footer.
+
+Constant, so `write_if_changed` still converges: the first run rewrote 106 of 107 pages
+and the second wrote none. Same knock-on to expect as the poster mirroring, once.
 
 ## Access and ethics
 

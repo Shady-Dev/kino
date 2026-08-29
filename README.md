@@ -243,6 +243,24 @@ credits the source being displayed.
 Every provider is read through the same public interface its own site uses, four
 times a day regardless of traffic. Booking, payment and administrative
 endpoints are never called. If a cinema would rather not be included, removing
-it is one registry entry.
+it is one registry entry; see Contact below.
 
 This is a personal, non-commercial project with no affiliation to any of them.
+
+## Contact
+
+**tiles-39nomads@icloud.com**
+
+The pipeline reads every provider under the User-Agent
+`Leffavuoro/1.0 (+https://leffavuoro.fi)`. That URL is there so a cinema can find
+out who is reading them, which only works if there is something to find. This is
+it.
+
+If you run one of the cinemas listed above and would rather not be included, say
+so at that address and the adapter comes out. It is one entry in
+`scripts/providers/registry.py`, the change is a few minutes, and no reason has
+to be given. The same address is on every page of the site, in the app footer
+and on the generated venue and city pages.
+
+Questions about how a schedule is read, a wrong showtime, or anything else are
+welcome at the same place.

@@ -505,9 +505,14 @@
   @media (max-width:1100px){ #stale{margin:12px 20px 0} }
 
   footer{
-    max-width:1100px; margin:0 auto; padding:24px 20px; color:var(--muted);
+    max-width:1100px; margin:0 auto; padding:24px 20px 8px; color:var(--muted);
     font-size:.75rem; border-top:1px solid var(--line);
   }
+  #contact{
+    max-width:1100px; margin:0 auto; padding:0 20px 24px; color:var(--muted);
+    font-size:.75rem;
+  }
+  #contact a{color:inherit}
   #sources{
     max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
     font-size:.72rem; display:flex; flex-wrap:wrap; gap:4px 10px;
@@ -534,7 +539,8 @@
     .day small{font-size:.66rem; letter-spacing:0}
     .seg button, .chip{padding:6px 11px; font-size:.74rem}
     #sources{padding:14px 14px 0}
-    footer{padding:16px 14px}
+    footer{padding:16px 14px 6px}
+    #contact{padding:0 14px 16px}
   }
   @media (max-width:400px){
     .day small{font-size:.6rem}
@@ -577,6 +583,7 @@
 
 <div id="sources"></div>
 <footer>Näytösajat suomalaisista elokuvateattereista</footer>
+<div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:tiles-39nomads@icloud.com">tiles-39nomads@icloud.com</a></div>
 
 <script>
 (() => {
@@ -670,7 +677,8 @@
          actDoor:'Liput myydään ovelta · {host}',
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
-         actBuy:'Napauta näytöstä ostaaksesi liput — {host}' },
+         actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
+         contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt' },
     // Finland-Swedish, drafted rather than translated by a native speaker -- flagged in
     // IDEAS as needing a read before anyone leans on it. Terms follow what Finnish
     // cinemas print in Swedish ("slutsald", "sal", "biljetter"), not Sweden-Swedish.
@@ -699,7 +707,8 @@
          actDoor:'Biljetter säljs vid dörren · {host}',
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
-         actBuy:'Tryck på en föreställning för att köpa biljetter — {host}' },
+         actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
+         contact:'För biografer: kontakt och begäran om borttagning' },
     en:{ today:'Today', other:'Other', days:['Su','Mo','Tu','We','Th','Fr','Sa'],
          filter:'Search title or genre', searchEg:'Search e.g.', searchOr:'or comedy',
          trailer:'▶ Watch trailer', min:'min',
@@ -725,7 +734,8 @@
          actDoor:'Tickets are sold at the door · {host}',
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
-         actBuy:'Tap a showtime to buy tickets on {host}' }
+         actBuy:'Tap a showtime to buy tickets on {host}',
+         contact:'For cinemas: enquiries and removal requests' }
   };
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
@@ -955,6 +965,11 @@
   // Each provider updates on its own schedule, so show every source's age. A scraper that
   // silently stops is otherwise invisible unless you happen to pick one of its venues.
   const STALE_H = 8;
+  // The route a cinema uses to ask a question or to be taken out. The pipeline's
+  // User-Agent points every provider at this site, so the site has to answer. Plain
+  // text on purpose: obfuscating it against scrapers also hides it from the reader it
+  // exists for, and a contact route nobody can copy is not one.
+  const CONTACT = 'tiles-39nomads@icloud.com';
   function ageHours(iso){
     const t = iso ? new Date(iso).getTime() : NaN;
     return isNaN(t) ? null : (Date.now() - t) / 36e5;
@@ -1402,6 +1417,16 @@
       : T.actBuy).replace('{host}', host);
     document.querySelector('footer').textContent =
       `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
+  }
+
+  // Separate from the footer because renderStatus() returns early until schedule data
+  // has loaded, and the one line a cinema comes here for must not depend on that. The
+  // Finnish version is also in the static markup, the way the footer's is, so a broken
+  // script still leaves the address on the page. Both strings are ours, not a
+  // provider's, so there is nothing to escape.
+  function renderContact(){
+    document.querySelector('#contact').innerHTML =
+      `${L[state.lang].contact} · <a href="mailto:${CONTACT}">${CONTACT}</a>`;
   }
 
   /* ---------- render ---------- */
@@ -1985,9 +2010,11 @@
     render();
     renderHealth();
     renderStatus();
+    renderContact();
     if(document.body.classList.contains('sheet-open')) syncSheet();
   }
   state.lang = LANGS.includes(prefs.get().lang) ? prefs.get().lang : 'fi';
+  renderContact();
   langSeg.onclick = async e => {
     const b = e.target.closest('button[data-lang]');
     if(!b || b.dataset.lang === state.lang) return;

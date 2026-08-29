@@ -51,6 +51,11 @@ ROOT = HERE.parent
 DATA = ROOT / "data"
 FI = ZoneInfo("Europe/Helsinki")
 SITE = "https://leffavuoro.fi"
+# The route a cinema uses to ask a question or to be taken out. The pipeline's
+# User-Agent points every provider at this site, so these pages have to answer too --
+# a search result is as likely a first landing as the app itself. Constant, so
+# write_if_changed keeps working.
+CONTACT = "tiles-39nomads@icloud.com"
 DAYS = 4          # today plus three: enough to answer "what is on", small enough to commit
 CITY_DAYS = 2     # a ten-venue city at seven days was a 1.2 MB page
 LD_DAYS = 2       # markup for today and tomorrow only, see ld_json()
@@ -86,6 +91,7 @@ L = {
         "sources": "Näytöstiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
                    "kuvaukset: TMDB. Henkilökohtainen harrastusprojekti, ei "
                    "sidoksissa teattereihin.",
+        "contact": "Elokuvateattereille: yhteydenotot ja poistopyynnöt",
     },
     "en": {
         "lang": "en", "locale": "en_GB",
@@ -108,6 +114,7 @@ L = {
         "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
+        "contact": "For cinemas: enquiries and removal requests",
     },
 }
 
@@ -139,6 +146,7 @@ nav.also{margin-top:2rem;font-size:.9rem}
 nav.also ul{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem}
 footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);
 color:var(--muted);font-size:.85rem}
+footer a{color:inherit}
 """.strip()
 
 
@@ -432,7 +440,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 {''.join(body)}
 {nav}
 <p style="margin-top:1.5rem"><a href="{esc(other)}">{'In English' if lang == 'fi' else 'Suomeksi'}</a></p>
-<footer>{esc(t['sources'])}</footer>
+<footer>{esc(t['sources'])}<br>{esc(t['contact'])} · <a href="mailto:{CONTACT}">{CONTACT}</a></footer>
 </body>
 </html>
 """
