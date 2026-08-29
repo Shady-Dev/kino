@@ -926,6 +926,53 @@ original title and the cinema's own Finnish synopsis, none of which is in the li
 - Genres are published in caps ("KOMEDIA,DRAAMA") and are capitalised on the way in.
   They are only the fallback for films TMDB misses, since the cards render from `gids`.
 
+#### The Johku chase, and why it stopped (2026-08-29)
+Six rounds of probing, recorded in full because the trail is plausible at every step and
+someone will otherwise walk it again. **Outcome: no usable showtime feed. Route A stands.**
+
+What the page renders and the server does not send: the film page shows a table with the
+date *including the year*, the auditorium ("Engel 1"), the per-screening price and a
+booking button, all cleanly classed (`_kj_showtime_date`, `_kj_showtime_time`,
+`_kj_showtime_hall`, `_kj_showtime_price`, `data-id` = Johku show id). None of it is in
+the 81 kB the server returns. A DevTools screenshot shows the built DOM, which is why it
+looked available and was not.
+
+The path, and where each step ended:
+1. `johku.com/kinoengel/allproducts.json` -> **403**. My guess, wrong shape.
+2. `widget-module.js` (912 kB) builds `apiUrl + shopId + "/" + locale + "/" + path`, and
+   the page publishes `<johku-widget id="kinoengel/da5a9f02c6dbf044" locale="fi_FI">`. So
+   the ids are public and the 403 was a bad path, not a wall. `X-ApiKey` is attached only
+   when an `apiKey` is set, so a public storefront does not obviously need one.
+3. Public and working: `settings/public.json`, `fi_FI/storefrontsettings.json` (246 kB,
+   two categories: 2 Elokuvat, 3 Arvokortit), `widgets/{id}.json` (type `Basket`, left
+   alone).
+4. `fi_FI/categories/2/allproducts.json?details=true` -> **200, 4.3 MB, 781 products**,
+   each with an `ownShow` array carrying exactly what is wanted: `start_date` "30.8.2026",
+   `starttime` "15.00", `resource_id`, `pricing_id`, show id. **But only the next show per
+   product**: Autofiktio has seven screenings and one entry, and the whole 4.3 MB contains
+   no 2026-09 date at all.
+5. Per-product detail: `products/{source_id}.json` -> 200 but `ownShow` empty;
+   `products/{numeric id}.json` -> 404; `products/{canonical}.json` -> 403. And `ownShow`
+   appears **zero times** in `widget-module.js`, so that module never reads shows either.
+   The `_kj_` markup belongs to a different code path: the WordPress plugin
+   `rs-johku-wordpress`.
+6. That plugin's loader is
+   `johku.com/embed/?shopId=kinoengel&productId={n}&identifier={hash}&...`, printed in the
+   film page's own HTML, so a `productId` is free per film. It returns 2265 bytes of
+   JavaScript that only pushes `_kjProd` and hands off. It did reveal a **composite**
+   product id (`992_5e578e61...`) that none of the earlier attempts used —
+   `products/992_5e578e61....json` -> **403**.
+
+So the show list is reachable only by whatever authenticated call the widget makes after
+that handoff. Getting at it means lifting the key, which is the line in "Access and
+ethics", and is not worth crossing for one single-screen venue out of 47.
+
+**Two things I was wrong about along the way**, both from assuming a mechanism instead of
+reading one: that the first 403 meant the API was closed (it meant my path was wrong), and
+that `widget-module.js` rendered the table (it does not). Each wrong guess cost a round
+trip. The rule that would have saved both: find the code that builds the URL before
+trying URLs.
+
 **The showtime table is not in the HTML and the API is closed to us.** The rows a browser
 shows on a film page — date *with the year*, auditorium, per-screening price, a real
 booking link — are injected by `johku.com/widget.js`, and none of it appears in the
