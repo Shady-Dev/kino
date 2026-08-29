@@ -131,6 +131,60 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     raise last
 
 
+# Per-site ceiling on secondary page fetches -- the film pages an adapter reads after
+# the listing tells it what is showing. Those loops iterate whatever the listing
+# contains, so the request count is bounded in practice by how many films a cinema is
+# showing (15-31 today) and unbounded in principle: a listing that ever returned
+# thousands would be fetched in full, politely paced and still thousands of requests at
+# someone else's expense.
+#
+# 120 is roughly four times the largest real figure. Truncating costs metadata, never
+# showtimes -- those come from the listing, which is one request -- so a film past the
+# cap simply shows without runtime, genres or synopsis until the next run. That is the
+# right way round, and it is logged loudly because a cap that trims silently would read
+# as complete data.
+PAGE_BUDGET = int(os.environ.get("KINO_PAGE_BUDGET") or 120)
+
+
+def capped(items, label, limit=None):
+    """Trim an *enrichment* loop to the budget. -> list, logged once if it trims.
+
+    Only for pages that add metadata to showtimes already parsed from a listing --
+    BioRex's and Engel's film pages. A film past the cap shows without runtime,
+    genres or synopsis until the next run, which is a fair trade for a bounded
+    request count.
+
+    Not for a loop that produces the showtimes themselves; use budget_or_raise.
+    """
+    items = list(items)
+    limit = PAGE_BUDGET if limit is None else limit
+    if len(items) > limit:
+        print(f"[{label}] page budget: {len(items)} film pages wanted, fetching {limit}, "
+              f"{len(items) - limit} skipped this run -- those films lose metadata only")
+        return items[:limit]
+    return items
+
+
+def budget_or_raise(items, label, limit=None):
+    """Same ceiling, for a loop whose pages carry the schedule itself. -> list.
+
+    eTiketti puts the screenings on the film pages, so trimming that loop does not
+    cost metadata, it drops showtimes -- and a venue that publishes half its day is
+    worse than one that publishes nothing, because run.py keeps the previous file
+    when a site fails and the health line then ages honestly. Caught by testing the
+    cap rather than by reading it: with the budget forced to 2, Kinopalatsi Kotka
+    went to zero showtimes and Trio 123 to 6 of 34, and both would have shipped.
+    """
+    items = list(items)
+    limit = PAGE_BUDGET if limit is None else limit
+    if len(items) > limit:
+        raise RuntimeError(
+            f"{label}: {len(items)} film pages to fetch, over the {limit} budget. "
+            "These pages carry the showtimes, so a partial fetch would publish a "
+            "partial schedule; failing instead keeps the last good data.")
+    return items
+
+
 def write_text_atomic(path, text):
     """Write via a sibling .tmp then os.replace, atomic on the same filesystem.
 

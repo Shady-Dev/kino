@@ -7,7 +7,7 @@ missing session yields wrong data rather than an error.
 import html as html_mod
 import http.cookiejar, json, re, time, urllib.parse, urllib.request
 
-from common import fetch
+from common import capped, fetch
 
 BASE = "https://biorex.fi"
 AJAX = BASE + "/wp-admin/admin-ajax.php?lang=fi"
@@ -226,7 +226,7 @@ def fetch_all(sleep=0.6, with_meta=True):
             for s in shows:
                 if s.get("movieUrl"):
                     pages.setdefault(s["title"], s["movieUrl"])
-        for title, url in pages.items():
+        for title, url in capped(sorted(pages.items()), 'biorex'):
             try:
                 meta[title] = film_meta(url)
             except Exception as e:

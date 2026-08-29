@@ -12,7 +12,7 @@ Adding another eTiketti cinema = an entry in SITES.
 import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import budget_or_raise, fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -147,7 +147,7 @@ def fetch_site(site, sleep=1.2):
             seen.add(mid); movies.append((path, mid))
 
     per_venue = {v["id"]: [] for v in site["venues"]}
-    for path, mid in movies:
+    for path, mid in budget_or_raise(movies, site['provider']):
         try:
             page = get(site["base"] + path)
         except Exception as e:

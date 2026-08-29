@@ -1821,6 +1821,32 @@ genres in a Swedish interface -- worth an eye on the first run rather than an as
   competing with the cinemas' own listings for their own venue names. That is a decision
   to take deliberately, not a side effect of adding markup. See "Access and ethics".
 
+### Secondary page fetches have a ceiling (2026-08-30)
+The adapters that read a listing and then fetch one page per film iterated whatever the
+listing contained. Bounded in practice by how many films a cinema shows -- 15 to 31 today
+-- and unbounded in principle: a listing that ever returned thousands would have been
+fetched in full, paced and still thousands of requests at someone else's expense.
+`common.PAGE_BUDGET` is 120, about four times the largest real figure, overridable with
+`KINO_PAGE_BUDGET` for testing.
+
+**The two loops are not the same loop, and testing the cap is what showed it.** With the
+budget forced to 2, eTiketti went to zero showtimes at Kinopalatsi Kotka and 6 of 34 at
+Trio 123 -- and would have published both. Its film pages *carry the screenings*; BioRex
+and Engel take screenings from the listing and use film pages only for runtime, genres
+and synopsis. So:
+
+- `common.capped()` trims and logs, for enrichment loops. A film past the cap shows
+  without metadata until the next run.
+- `common.budget_or_raise()` raises, for a loop whose pages are the schedule. `run.py`
+  then writes no file, the previous data stands, and the health line ages honestly --
+  which is the rule this repo already applies to a failed venue and to a zero-showtime
+  parse. **A venue publishing half its day is worse than one publishing nothing**, because
+  half a day looks complete.
+
+The first version used the trimming helper everywhere, which is the sort of thing that
+reads fine and quietly ships a partial schedule. It was only visible because the cap was
+tested by tripping it on a real provider rather than reasoned about.
+
 ### Conditional GETs, and what the providers actually support (2026-08-30)
 `common.fetch(cache=True)` sends a stored `ETag` / `Last-Modified` back as
 `If-None-Match` / `If-Modified-Since`, and a 304 returns the stored body without the

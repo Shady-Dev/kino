@@ -39,7 +39,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import capped, fetch
 
 BASE = "https://kinoengel.fi"
 URL = BASE + "/"
@@ -323,7 +323,7 @@ def enrich(shows, get=None):
     for s in shows:
         by_url.setdefault(s["url"], []).append(s)
     ok = fail = 0
-    for n, (url, rows) in enumerate(sorted(by_url.items())):
+    for n, (url, rows) in enumerate(capped(sorted(by_url.items()), 'engel')):
         if n:
             time.sleep(0.5)
         try:
