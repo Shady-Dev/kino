@@ -865,6 +865,21 @@ datacenter IPs and the adapter never touches it.
   window picks it.
 - **Deduplicates on (eventId, start, aud)**: a film can appear in a carousel and in the
   day list on the same page, and only one of those is a screening.
+- **Attribute quoting is mixed and it cost a live run.** WordPress emits double quotes,
+  the Johku schedule widget emits single: `<img src='https://johku.com/...'>`. The first
+  version matched double only, so every poster came back empty while the parse otherwise
+  looked healthy, 43 showtimes and 17 films. Every attribute regex here accepts both now.
+  Same class of thing as the BeautifulSoup re-serialisation note: never assume a page's
+  quoting is uniform.
+- **Posters are hosted on `johku.com`**, not on the cinema's own domain, so they go
+  through `mirror_posters.py` like every other remote poster.
+
+**Johku is a platform lead.** The schedule widget's classes are `rs-johku-schedule` and
+`rsjohku-ohjelmisto`, and the images come from `johku.com/kinoengel/files/`. Johku is a
+Finnish commerce and ticketing service, so its cinema customers may all render the same
+widget, which would make each of them a `SITES` entry rather than a parser. Worth a
+search for `rs-johku-schedule` and `johku.com` across Finnish cinema sites, alongside the
+existing `nexxo-scope` and `etiketti.app` sweeps.
 
 Still to do here: the cinema's own Finnish synopsis and a full-size poster are one
 request away, `wp/v2/elokuva?slug[]=...&_embed=wp:featuredmedia` for the ~40 films

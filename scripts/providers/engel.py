@@ -56,13 +56,18 @@ SITES = [{"provider": "engel", "label": "Kino Engel", "venues": [VENUE]}]
 OUTDOOR_SLUG = "kesakino-"
 OUTDOOR_AUD = "KesäKino"
 
-ANCHOR_RE = re.compile(r'<a\b[^>]*href="(?:https?://kinoengel\.fi)?(/elokuva/([^"/]+)/?)"[^>]*>'
+# Attribute quoting is mixed on this page: WordPress emits double quotes, the Johku
+# schedule widget emits single. Every attribute regex here has to accept both, which
+# cost a live run to find: `<img src='...'>` matched nothing and every poster came back
+# empty while the parse otherwise looked healthy.
+Q = r'["\']'
+ANCHOR_RE = re.compile(r'<a\b[^>]*href=["\'](?:https?://kinoengel\.fi)?(/elokuva/([^"\'/]+)/?)["\'][^>]*>'
                        r'(.*?)</a>', re.S | re.I)
 DATE_RE = re.compile(r'(?:Ma|Ti|Ke|To|Pe|La|Su)\s*(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'klo\s*(\d{1,2})[:.](\d{2})')
 IMG_RE = re.compile(r'<img\b[^>]*>', re.I)
-SRCSET_RE = re.compile(r'srcset="([^"]+)"')
-SRC_RE = re.compile(r'\b(?:data-src|src)="([^"]+)"')
+SRCSET_RE = re.compile(r'srcset=["\']([^"\']+)["\']')
+SRC_RE = re.compile(r'\b(?:data-src|src)=["\']([^"\']+)["\']')
 TAGS_RE = re.compile(r"<[^>]+>")
 NOISE_RE = re.compile(r"Osta liput|Varaa|Liput|klo\s*\d{1,2}[:.]\d{2}"
                       r"|(?:Ma|Ti|Ke|To|Pe|La|Su)\s*\d{1,2}\.\d{1,2}\.", re.I)
