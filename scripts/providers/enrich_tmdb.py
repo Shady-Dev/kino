@@ -216,20 +216,31 @@ def main() -> int:
         print(f"[enrich] dropped {len(overridden)} weak entries that now have an alias: "
               + " | ".join(sorted(overridden)))
 
-    # Two requests per run, not per film. Written for the client to render genre names in
-    # either language; ids on a show mean nothing without it.
+    # One request per UI language per run, not per film. Written for the client to render
+    # genre names in whichever language it is showing; ids on a show mean nothing without
+    # it. Swedish joined on 2026-08-29 with the third UI language -- without it a Swedish
+    # reader got the provider's own Finnish genre string, which is the gap English had.
     names = {}
-    for lang, slot in (("fi-FI", "fi"), ("en-US", "en")):
+    for lang, slot in (("fi-FI", "fi"), ("sv-SE", "sv"), ("en-US", "en")):
         try:
             g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}", th)
             names[slot] = {str(x["id"]): x["name"] for x in (g.get("genres") or [])}
         except Exception as e:
             print(f"[enrich] genre list {lang}: {e}")
+    # fi and en are the bar, as before. Swedish is written when it arrives and omitted
+    # when it does not: the client falls through to the provider's own genre string for a
+    # language it has no map for, so a missing slot degrades to what that language showed
+    # yesterday. Requiring all three would have let a Swedish outage delete the Finnish
+    # and English maps too, which is a worse failure than the one it guards against.
+    missing = [k for k in ("fi", "sv", "en") if not names.get(k)]
+    if missing:
+        print(f"[enrich] genre names missing for: {', '.join(missing)}")
     if names.get("fi") and names.get("en"):
         body = json.dumps(names, ensure_ascii=False, indent=1) + "\n"
         if not GENRES.exists() or GENRES.read_text(encoding="utf-8") != body:
             common.write_text_atomic(GENRES, body)
-            print(f"[enrich] genre names written ({len(names['fi'])} genres)")
+            print(f"[enrich] genre names written ({len(names['fi'])} genres, "
+                  f"{'+'.join(sorted(names))})")
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
              if not p.name.startswith(SKIP_PREFIXES)]

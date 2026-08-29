@@ -1457,9 +1457,22 @@ same `.seg` pill already used for Leffat/Ajat, so it is a pattern the page alrea
   reader before anyone leans on them, and that is the one part of this that cannot be
   checked by measurement.
 
-Still Finnish in Swedish mode: **genres**, because `data/tmdb-genres.json` carries `fi`
-and `en` only and `genresOf` falls through to the provider's own string. Same gap English
-already had; the fix is a third genre-map request in the enrichment pass.
+**Genres** were the last thing still Finnish in Swedish mode, because
+`data/tmdb-genres.json` carried `fi` and `en` only and `genresOf` falls through to the
+provider's own string for a language it has no map for. The enrichment pass now asks for
+`sv-SE` as well -- one more request per run, not per film.
+
+Written to degrade rather than fail: `fi` and `en` remain the bar for writing the file at
+all, and Swedish is included when it arrives and omitted when it does not. Requiring all
+three would have let one Swedish outage delete the Finnish and English maps too, which is
+a worse failure than the one it guards against, and the client already falls back
+gracefully.
+
+**Unverified from here**: the enrichment pass needs a TMDB token, so whether TMDB
+actually returns Swedish genre names for `sv-SE` is checked by the next cloud run. Look
+for `sv` in `data/tmdb-genres.json` and a `fi+sv+en` count in `run-enrich.log`. If TMDB
+ignores the language it returns English names under the `sv` key, which would put English
+genres in a Swedish interface -- worth an eye on the first run rather than an assumption.
 
 ## Open — app
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
