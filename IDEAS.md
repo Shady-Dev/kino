@@ -1127,23 +1127,35 @@ Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAre
 on the shared asset host (`mcswebsites...?comp=list` -> 404, though a *known* container
 lists fine), and searching for the platform vendor's client list.
 
-The blocker is a real list of Finnish cinema **domains**. KAVI, SES and NytLeffaan have
-the cinema list but render it client-side or publish names without sites. Get that list
-once and the sweep becomes trivial; until then, do not guess domains.
+This said the blocker was a real list of Finnish cinema **domains**, and that getting it
+once would make the sweep trivial. **Both halves were wrong, settled 2026-08-29.** The
+list exists and is one rendered page away (see the nytleffaan.fi entry above), and having
+it did not produce a single Vista site.
+
+**Re-swept with the real list: still zero.** 103 hosts probed for `/xml/TheatreAreas/`.
+Ten answered 200 and every one of them was a soft-404 serving the site's own HTML — the
+first bytes are not `<?xml`, so status alone would have reported ten false hits. Savon
+Kinot looks like the only Finnish Vista deployment leaving the XML services open.
+
+The lesson is about the guess, not the list: the sweep was blocked on a *presumed* missing
+input for two days, and the missing input turned out not to be what made it fail. Cheap
+to test, and it was tested last.
 
 ### Next providers
-- **Sweep for more Vista sites first.** This is now the highest-value lead: an open
-  `/xml/TheatreAreas/` makes a chain pure config. Finnish candidates worth testing:
-  Kinopalatsi/Bio Rex operators outside the chains, Tampere's Niagara, Cinamon (Estonian
-  Vista user), and any site whose URLs look like `/event/{id}/title/{slug}/` or
-  `/websales/show/{id}/`, which is the Vista front-end signature.
+- **eTiketti and Nexxo first, by a wide margin.** Both are `SITES` entries against parsers
+  that already exist and are already verified live against the endpoints those adapters
+  call — see the nytleffaan.fi entry for the host lists and their show counts. Roughly 22
+  sites, against 47 venues today. Do the venue-count and accent work before the first one
+  lands, not after.
+- **Vista is not the lead and should stop being described as one.** Tampere's Niagara,
+  named here as a candidate to test, is an eTiketti site. Cinamon and other non-Finnish
+  Vista users are untested and are the only remaining reason to keep the signature
+  (`/event/{id}/title/{slug}/`, `/websales/show/{id}/`) written down at all.
+- **Johku** is now a confirmed platform with four known Finnish cinemas. Worth a parser
+  once one of them is shown to render `rs-johku-schedule` server-side.
 - **Korttelikinot** (Helsinki: Orion, Riviera, Korjaamo, Regina) — they cooperate, so there
   may be a shared listing. Not yet probed.
-- Search Finnish cinema sites for the `nexxo-scope` plugin path to enumerate the ones that
-  come free with the existing adapter.
 - **Eventio** is a ticketing platform with cinema customers — another possible platform win.
-- Search Finnish cinema sites for `etiketti.app` (as well as `nexxo-scope`) to enumerate
-  cinemas the existing two platform adapters already cover.
 - ~196 cinemas / 306 screens in Finland (2009), but the tail clusters onto a few platforms.
   Platform adapters first; bespoke sites only when a cinema is on none.
 
