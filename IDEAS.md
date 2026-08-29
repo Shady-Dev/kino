@@ -1652,14 +1652,17 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
   then `fetch_data.py`. Committed data turns over provider by provider across several
   runs, so there is never a moment when a refreshed file carries a code the client does
   not know.
-  **The `SE` alias in `LN` is temporary and has to come out.** Left in place it stops
-  being a bridge and becomes the thing that hid this bug for months: an unknown code
-  rendering as itself, which is how 644 showtimes came to say "tekstit SV" with nobody
-  noticing. Remove it once no area file contains `SE-` -- check with a grep over
-  `data/area-*.json`, not by assuming the runs have happened.
-  Finnkino's half is compile-checked and unit-checked only. `fetch_data.py` cannot run
-  on a runner and could not be run here, so **the first local run is the real test**:
-  1660 `SE-S` and 41 `FI-SE-A` showtimes should become `SV-S` and `FI-SV-A`.
+  **Finished the same day.** The local run turned Finnkino over (1596 `SV`, 0 `SE`, and
+  all 41 `FI-SE-A` compounds became `FI-SV-A` with `FI-EN-A` and `EN-FR-A` untouched),
+  which was the one piece that could only be compile-checked here, since `fetch_data.py`
+  needs a token and cannot run on a runner. With no area file containing `SE-` the
+  temporary alias came out in the next commit, which was the condition set for it.
+  Worth keeping as the shape of a data-format migration in a repo with no build step and
+  two writers: **teach the reader both, change the writers, remove the old spelling once
+  the data has turned over, and gate the removal on a measurement rather than on a
+  belief that the runs have happened.** The check was a throwaway script that counted
+  the tags per provider; it reported Finnkino as the sole holdout until the moment it
+  was not.
 - **BioRex published `SV`, not `SE`, and it had been rendering as a bare "SV" on a fifth
   of the schedule** (found 2026-08-29). `etiketti.py` was fixed for exactly this and
   `biorex.py` never was: BioRex's format spans read "FI&SV", `_lang_str` passed the codes
