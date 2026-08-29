@@ -894,6 +894,20 @@ widget, which would make each of them a `SITES` entry rather than a parser. Wort
 search for `rs-johku-schedule` and `johku.com` across Finnish cinema sites, alongside the
 existing `nexxo-scope` and `etiketti.app` sweeps.
 
+First live run, 2026-08-29: **41 showtimes, 17 films, 11 dates, 6 KesäKino, 41 posters,
+0 failures**, and the cloud pass that followed mirrored 24 new posters and generated the
+two new pages (47 venues, 105 sitemap URLs). Two rows needed aliases: Engel publishes the
+Swedish-dubbed **"Minioner & monster"** and the Japanese **"Kokuho - kabukin mestari"**,
+both of which TMDB matched *correctly but weakly*, so no `tmdbId` was written and neither
+could merge with the other chains. The ids were verified against the cache rather than
+assumed — Minioner shares 1315772, the trailer key and the genre ids with Kätyrit &
+Monsterit — and both are now in `tmdb-aliases.json`. Expect this from any provider that
+publishes a Swedish-language strand.
+
+Engel writes no `rating` on any show. That is the listing, not the parser: no age limit,
+runtime or price appears anywhere on the front page. Age limits therefore come from
+nowhere for this venue, which is a real gap the film pages could close.
+
 Still to do here: the cinema's own Finnish synopsis and a full-size poster are one
 request away, `wp/v2/elokuva?slug[]=...&_embed=wp:featuredmedia` for the ~40 films
 actually showing rather than all 899. synmerge prefers a cinema's own text over TMDB, so

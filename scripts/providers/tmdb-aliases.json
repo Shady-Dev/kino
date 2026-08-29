@@ -10,5 +10,8 @@
  "backrooms everything must go edition": "1083381",
  "nalle puhin elokuva dub": "51162",
  "ryhmä hau dinoelokuva": "1185806",
- "ryhmä hau dinoelokuva suomeksi": "1185806"
+ "ryhmä hau dinoelokuva suomeksi": "1185806",
+ "_comment4": "Kino Engel publishes Swedish-strand and Japanese titles the search can only match weakly, so no id is written and the row cannot merge across chains. \"Minioner & monster\" (BARNSÖNDAGAR, Swedish dub) is Kätyrit & Monsterit: verified, not assumed, by the cache holding the same id, the same trailer key and the same genre ids for both. \"Kokuho - kabukin mestari\" is 国宝, already cached with a rating from 100 votes. Both ids come from the weak match enrich itself found, so nothing here is typed from memory.",
+ "minioner monster": "1315772",
+ "kokuho kabukin mestari": "1379266"
 }
