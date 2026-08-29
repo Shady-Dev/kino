@@ -1504,6 +1504,19 @@ genres in a Swedish interface -- worth an eye on the first run rather than an as
       every `${'{'}` inside HTML-producing template literals and classifying each
       interpolation; the non-escaped remainder is internal (L strings, locale month
       names, digits, ISO dates, pre-escaped glyph markup).
+- [x] **The background revalidate has to bypass the HTTP cache** (2026-08-30, sw.js v54).
+      The refresh was a plain `fetch(e.request)`, which is answered from the browser's own
+      HTTP cache. Pages serves `max-age=600`, so the refresh was handed the same stale
+      body the HTTP cache already held and wrote it back into the SW cache -- the stale
+      copy renewed itself on every load and the app could sit on it well past ten minutes.
+      Caught from a screenshot: Cinema Orion's posters were missing on the live site while
+      the origin had them, and `caches.match` and a page `fetch` both reported the *old*
+      `generated` while curl got the new one. Two caches in series, and only one of them
+      was being told to revalidate. `fetch(new Request(req, {cache:'no-cache'}))` fixes
+      it: conditional against the origin, so a 304 is still cheap.
+      Worth remembering generally: a service-worker cache sits *in front of* the HTTP
+      cache, not instead of it, and stale-while-revalidate is only as fresh as whatever
+      the inner cache hands back.
 - [x] **Data JSON is served stale and revalidated behind** (2026-08-29, sw.js v48).
       Reverses the network-first rule for `data/*.json` only; the page itself stays
       network-first so a fresh index.html still always wins online. The argument: on a
