@@ -878,7 +878,21 @@ datacenter IPs and the adapter never touches it.
     the same venue, each with its own poster lookup and its own TMDB miss. Identity has
     to come from the cleaned title, and `KESÄKINO` has to come off before anything keys
     on it.
-  - `/kesakino/` markup is its own widget set: `rsjohku-ohjelmisto`, `ohje-movie-poster`,
+  - **`acf` is empty on every film, so the REST API holds no schedule** (probed
+    2026-08-29). `wp/v2/elokuva` exists and exposes an `acf` key, which looked like the
+    whole adapter for a moment, but it comes back empty on all of them. The endpoint also
+    returns **899 films over 9 pages**, so it is the site's whole archive rather than
+    what is playing. Engel is therefore a parser for the times and REST for the metadata:
+    the front page (and `/kesakino/`) carry the dates, and `wp/v2/elokuva?slug=` gives
+    `link`, `content` and `featured_media` per film without a second page fetch.
+  - **Each strand is its own `elokuva` post.** 3303 `autofiktio` and 3295
+    `kesakino-autofiktio` are two records for one film, likewise 3298
+    `keltaiset-kirjeet` / 3299 `kesakino-keltaiset-kirjeet`. Of 100 posts on page 1, 23
+    were `kesakino-`. So the split is systematic and the merge has to be ours.
+  - **Three strand prefixes, not two.** `KESÄKINO:`, `BARNSÖNDAGAR:` and also
+    **`BARNFESTIVAL:`** (`barnfestival-nord`, `barnfestival-skurkarnas-skurk`), which the
+    first pass missed. Barnsöndagar and Barnfestival are real strands for
+    `EVENT_PREFIXES`; Kesäkino is a room and goes to `aud`.
     `ohje-movie-description`, `ohje-movie-schedule`, with times as `La 29.08.   klo
     21:30` (note the run of spaces). The `rsjohku` prefix is worth a look on its own
     terms: if it is a Finnish booking integration used by other cinemas, it is a platform
