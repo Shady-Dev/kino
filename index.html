@@ -677,9 +677,17 @@
          actBuy:'Tap a showtime to buy tickets on {host}' }
   };
   const LN = {
-    fi:{FI:'suomi', EN:'englanti', SE:'ruotsi', JA:'japani', FR:'ranska'},
-    en:{FI:'Finnish', EN:'English', SE:'Swedish', JA:'Japanese', FR:'French'}
+    fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', SE:'ruotsi', JA:'japani', FR:'ranska'},
+    en:{FI:'Finnish', EN:'English', SV:'Swedish', SE:'Swedish', JA:'Japanese', FR:'French'}
   };
+  // SV and SE both mean Swedish here, on purpose and only for now. SV is the ISO 639-1
+  // language code and is what Vista, Gilda and BioRex actually publish; SE is the ISO
+  // 3166 country code for Sweden, which Finnkino and Nexxo send and which the adapters
+  // used to normalise everything to. The tag is migrating to SV, and the committed data
+  // turns over provider by provider across several runs, so both have to render during
+  // the changeover. Drop SE once no area file contains it -- an alias kept past its
+  // migration stops being a bridge and starts hiding the next adapter that gets it
+  // wrong, which is exactly how "SV" reached 644 showtimes unnoticed.
   // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
   // language now stands on its own with no role word, so it has to read as a noun.
   const LW = { fi:{S:'tekstit'}, en:{S:'subs'} };

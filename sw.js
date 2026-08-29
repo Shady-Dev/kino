@@ -3,7 +3,7 @@
 // Data JSON is the other way around -- served from cache at once, refreshed behind --
 // because a launch that waits on the network is the single largest cost on a slow
 // connection and the page can tell honestly how old its data is (IDEAS, 2026-08-29).
-const CACHE = 'leffavuoro-v49';
+const CACHE = 'leffavuoro-v50';
 
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
