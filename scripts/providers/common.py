@@ -9,6 +9,8 @@ the adapters without their own retry loop, and the next cron is four hours
 away. tries=3 with backoff*n sleeps means a worst case of 3*backoff seconds of
 extra wait per request, so a dead upstream cannot stall the workflow.
 """
+import datetime
+import email.utils
 import hashlib
 import json
 import os
@@ -36,10 +38,60 @@ CACHE_DIR = pathlib.Path(os.environ.get("KINO_HTTP_CACHE")
                          or pathlib.Path(__file__).resolve().parents[2] / ".http-cache")
 _stats = {"hit": 0, "miss": 0, "stored": 0, "nostore": 0}
 
+# A 429 or 503 with Retry-After is the only case where an upstream states its own
+# terms, and the retry loop below used to ignore them: a provider asking for 60
+# seconds got three more requests inside 15, on our schedule rather than its own.
+# Kinoset has answered 403 under load before, so this is not hypothetical.
+#
+# Both ceilings exist because "sleep for as long as you are told" hands a stranger
+# the ability to stall the pipeline. RETRY_AFTER_MAX bounds one wait,
+# RETRY_AFTER_BUDGET bounds the whole process, so a host that 429s every request
+# cannot turn one run into an all-day one. Past either, the request fails instead of
+# waiting: the next run is four hours away, run.py keeps the previous file, and the
+# health line ages honestly -- which is a better answer than more requests at a host
+# that just said no.
+RETRY_AFTER_MAX = int(os.environ.get("KINO_RETRY_AFTER_MAX") or 120)
+RETRY_AFTER_BUDGET = int(os.environ.get("KINO_RETRY_AFTER_BUDGET") or 300)
+_throttle = {"asked": 0, "waited": 0.0, "refused": 0}
+
 
 def cache_stats():
     """-> (304s, full bodies, entries written). Reset per run by the caller."""
     return dict(_stats)
+
+
+def throttle_stats():
+    """-> how often an upstream asked us to slow down, and what that cost.
+
+    `asked` counts Retry-After responses, `waited` the seconds actually sat out,
+    `refused` the ones whose ask was past a ceiling and so were not retried at all.
+    All zero on a normal run, which is why run.py prints the line only when it is not.
+    """
+    return dict(_throttle)
+
+
+def _retry_after(value):
+    """Seconds to wait, from a Retry-After header. -> float, or None if unusable.
+
+    RFC 9110 allows delta-seconds or an HTTP-date and both appear in the wild. A date
+    already in the past means "now", not a negative sleep. None means the header was
+    absent or unparseable, which leaves the caller on its own fixed backoff -- a
+    malformed header is not a reason to give a provider three fast retries.
+    """
+    if not value:
+        return None
+    v = value.strip()
+    if v.isdigit():
+        return float(v)
+    try:
+        when = email.utils.parsedate_to_datetime(v)
+    except (TypeError, ValueError):
+        return None
+    if when is None:
+        return None
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=datetime.timezone.utc)
+    return max(0.0, (when - datetime.datetime.now(datetime.timezone.utc)).total_seconds())
 
 
 def _slot(url):
@@ -71,9 +123,11 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     """GET (or POST when `data` is given) with retry. -> bytes.
 
     `opener` lets a cookie-session adapter (BioRex) retry a single request
-    without redoing the whole session dance. Retries every exception the same
-    way the per-adapter get() loops already do; an HTTP 4xx is rare enough
-    here that distinguishing it is not worth the branch.
+    without redoing the whole session dance. Retries every exception on
+    backoff*n the way the per-adapter get() loops already do, with one
+    exception: a 429 or 503 carrying Retry-After is retried on the interval the
+    upstream named, and is not retried at all when that interval is past
+    RETRY_AFTER_MAX or would take the run past RETRY_AFTER_BUDGET.
 
     `cache=True` makes it a conditional GET: a stored ETag or Last-Modified goes back
     as If-None-Match / If-Modified-Since, and a 304 returns the stored body without
@@ -128,8 +182,23 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                 _stats["hit"] += 1
                 return cached_body
             last = e
+            # 429 and 503 are the two codes RFC 9110 lets carry Retry-After, and both
+            # mean "not now" rather than "never". Wait the stated time instead of ours.
+            hh = getattr(e, "headers", None)
+            wait = (_retry_after(hh.get("Retry-After"))
+                    if e.code in (429, 503) and hh is not None else None)
+            if wait is not None:
+                _throttle["asked"] += 1
+                if (wait > RETRY_AFTER_MAX
+                        or _throttle["waited"] + wait > RETRY_AFTER_BUDGET):
+                    _throttle["refused"] += 1
+                    raise
             if n + 1 < tries:
-                time.sleep(backoff * (n + 1))
+                if wait is None:
+                    time.sleep(backoff * (n + 1))
+                else:
+                    _throttle["waited"] += wait
+                    time.sleep(wait)
         except Exception as e:
             last = e
             if n + 1 < tries:

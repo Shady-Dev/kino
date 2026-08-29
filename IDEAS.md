@@ -1936,6 +1936,49 @@ it against, so the directory would only grow.
   Riviera's ajax calls would collide in one slot; `fetch` forces `cache=False` when
   `data` is given rather than trusting call sites.
 
+### Retry-After is the upstream's schedule, not ours (2026-08-30)
+`common.fetch` retried every HTTP error on the same fixed `backoff * n`, so a provider
+answering `429 Retry-After: 60` got three more requests inside 15 seconds. That is the
+one place an upstream states its own terms in a machine-readable way, and the pipeline
+was overriding them. A 429 or 503 carrying `Retry-After` is now retried on the interval
+the origin named. Nothing else changes: a 500, a reset, a 429 with no header, all keep
+the fixed backoff, and a 403 is still retried because that is the shape Kinoset's
+under-load refusal takes and it clears.
+
+**Both ceilings exist because "sleep as long as you are told" hands a stranger a lever on
+the pipeline.** `RETRY_AFTER_MAX` (120 s) bounds one wait and `RETRY_AFTER_BUDGET`
+(300 s) the whole process, so a host that 429s every request cannot turn one run into an
+all-day one -- with `tries=3` and no run-wide budget, 45 requests each asking two minutes
+is four and a half hours. Past either ceiling the request fails rather than waiting: the
+next run is four hours away regardless, `run.py` keeps the previous file, and the health
+line ages honestly. More requests at a host that just said no is the one response that is
+definitely wrong. Both are overridable (`KINO_RETRY_AFTER_MAX`, `KINO_RETRY_AFTER_BUDGET`)
+so the caps can be tripped in a test instead of reasoned about.
+
+`Retry-After` is delta-seconds *or* an HTTP-date, and both appear in the wild. A date
+already past means "now", not a negative sleep. An unparseable value falls back to the
+fixed backoff rather than being read as zero -- a malformed header is not a reason to hand
+a provider three fast retries.
+
+    [run] throttled: 2 Retry-After responses, 60s waited, 1 not retried
+          (asked for longer than a run can wait)
+
+Printed only when it fires, so a normal run's log does not grow. When it does appear it
+is a provider saying the rate is wrong, which belongs in the committed log rather than
+being inferred from a failure four hours later.
+
+**Tested by tripping it**, against a local server scripted to 429: the stated wait is
+honoured rather than the backoff (1 s waited where `backoff=30`), a `Retry-After: 9999`
+costs exactly one request and no sleep, the run-wide budget refuses the second of two
+2-second asks under a 3-second budget, an HTTP-date is parsed, a past date waits zero,
+and a plain 500 still takes its three tries with no throttle accounting. The 200 and 304
+paths are unchanged, confirmed live on Nexxo and Orion.
+
+Not covered by this: `enrich_tmdb.py` has its own bare `urlopen` with no retry at all, so
+a TMDB 429 skips that title rather than hammering. TMDB is the one upstream here that
+reliably rate-limits, and routing it through `common.fetch` would get it this handling.
+A separate change, not this one.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

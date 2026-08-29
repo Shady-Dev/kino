@@ -131,6 +131,15 @@ def main(argv) -> int:
               f"{c['nostore']} not stored (origin said no-store), "
               f"{c['stored']} cache entries written")
 
+    # Silent on a normal run. When it does appear, it is a provider telling us the
+    # rate is wrong, which is worth seeing in the committed log rather than inferring
+    # from a failure four hours later.
+    t = common.throttle_stats()
+    if t["asked"]:
+        print(f"[run] throttled: {t['asked']} Retry-After responses, "
+              f"{t['waited']:.0f}s waited, {t['refused']} not retried "
+              f"(asked for longer than a run can wait)")
+
     print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
           f"{failures} failures")
     return 1 if failures or not venues else 0
