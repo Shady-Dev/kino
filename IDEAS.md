@@ -1059,6 +1059,34 @@ Johku cinema would be a `SITES` entry against the same parser.
 Orion is in; Helsinki's combined view is 11 venues across 5 chains, and Engel would
 make it 12 across 6.
 
+### Bio Rex Kokkola, the first site off the sweep (added 2026-08-29)
+`biorex.org`, one venue, `etiketti.py`, **no parser change at all**. The first test of
+the sweep's central claim, and it held: the existing adapter ran against the site
+unmodified and returned 41 showtimes over 10 dates with rating, runtime, genres,
+languages, price, per-screening booking links and real seat counts, plus 18 synopses
+merged. That is the full Kotkan Leffat field set, so eTiketti sites are worth adding on
+the strength of the platform alone.
+
+- **Not the BioRex chain**, despite the name, and the two are unrelated: `biorex.org`
+  against the chain's `biorex.fi`. Exactly the Bio Rex Lasipalatsi trap Gilda already
+  carries, so the label spells the city out and the accent was chosen *away* from BioRex
+  blue rather than near it, since a similar colour would reinforce the confusion.
+- **One venue, three rooms.** DIGI 1, DIGI 2 and SALI 3 all report under the single place
+  name "BIO 1&2 REX". A room is not a venue, so the room stays in `aud` verbatim.
+- Accent `#006655`. Kokkola has no other venue, so the per-city rule leaves this
+  unconstrained -- the same reasoning that let Kino Akseli take the vacated gold -- but
+  it was measured anyway and is the best available worst-case against the other ten in
+  both normal and deuteranope vision.
+- **The accent numbers in this file cannot be reproduced and need a method written down.**
+  An independent CIEDE2000 + Brettel deuteranope model, checked against the one recorded
+  pair whose hex is written here (Finnkino vs the old BioRex gold), gives 8.1 where this
+  file says 5.0. On today's palette it puts BioRex/Riviera in Helsinki at 4.0 deutan
+  where the Engel entry records 34.5 for that same pair. One of the two is wrong and it
+  matters, because 4.0 would mean two chains sharing Helsinki are indistinguishable to a
+  deuteranope, which is the exact fault the palette was rebuilt to fix. Nothing was
+  changed on the strength of an unvalidated model. What is missing is the script: record
+  the transform and the ΔE formula next to the numbers so the next check is comparable.
+
 ### The cinema-list lead: nytleffaan.fi, probed 2026-08-29
 `nytleffaan.fi/elokuvateatterit/` is a directory of every Finnish cinema, run by Suomen
 Filmikamari (the industry umbrella body). It is the list of domains every sweep here

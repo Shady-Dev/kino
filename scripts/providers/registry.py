@@ -24,8 +24,9 @@ Fields:
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
-  where   local | cloud. Finnkino and Kino Akseli block datacenter IPs, so they can only
-          be fetched from an ordinary connection; everything else runs on Actions
+  where   local | cloud. Finnkino, Kino Engel and Kino Akseli block datacenter IPs, so
+          they can only be fetched from an ordinary connection; everything else runs on
+          Actions
 """
 
 PROVIDERS = [
@@ -47,6 +48,12 @@ PROVIDERS = [
          book="buy", module="orion", where="cloud"),
     dict(id="engel", label="Kino Engel", host="kinoengel.fi", accent="#B47ACC",
          book="buy", module="engel", where="local"),
+    # Not the BioRex chain above: an independent cinema in Kokkola that shares the
+    # name, on biorex.org rather than biorex.fi. Same trap as Gilda's Bio Rex
+    # Lasipalatsi, so the label spells the city out and the accent sits far from
+    # BioRex blue instead of near it.
+    dict(id="biorexkokkola", label="Bio Rex Kokkola", host="biorex.org", accent="#006655",
+         book="buy", module="etiketti", where="cloud"),
     dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#B8801A",
          book="door", module="kinoakseli", where="local"),
 ]

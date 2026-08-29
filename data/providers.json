@@ -64,6 +64,13 @@
    "book": "buy"
   },
   {
+   "id": "biorexkokkola",
+   "label": "Bio Rex Kokkola",
+   "host": "biorex.org",
+   "accent": "#006655",
+   "book": "buy"
+  },
+  {
    "id": "kinoakseli",
    "label": "Kino Akseli",
    "host": "kinoakseli.fi",

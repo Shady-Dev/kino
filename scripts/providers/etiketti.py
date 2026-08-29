@@ -26,6 +26,14 @@ SITES = [
          {"id": "kl-trio123", "match": "trio 123", "name": "Trio 123",
           "short": "Trio 123", "city": "Kotka"},
      ]},
+    # One cinema, three rooms (DIGI 1, DIGI 2, SALI 3), all reported under the single
+    # place name "BIO 1&2 REX". A room is not a venue, so this is one entry and the
+    # room lands in `aud` verbatim, the way it is printed on the ticket.
+    {"provider": "biorexkokkola", "base": "https://www.biorex.org", "label": "Bio Rex Kokkola",
+     "venues": [
+         {"id": "bx-kokkola", "match": "rex", "name": "Bio Rex Kokkola",
+          "short": "Bio Rex Kokkola", "city": "Kokkola"},
+     ]},
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')
