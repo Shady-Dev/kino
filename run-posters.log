@@ -1,0 +1,4 @@
+[mirror] 193 remote poster urls: 0 already mirrored, 192 downloaded (+6997 kB), 1 failed
+[mirror] failed kinoset.fi (1): InvalidURL: URL can't contain control characters. '/wp-content/plugins/nexxo-scope/banners/SPA WEEKEND_BLACK BEAR_POSTER_70x100_FINLAND.jpg' (found at least ' ')
+[mirror] 1346 references rewritten in 30 files; data/posters now 246 files, 8083 kB
+exit=0
