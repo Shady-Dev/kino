@@ -2352,6 +2352,30 @@ placeholder tile, and the page rendered **zero off-origin images** against 21 lo
 This was latent rather than live -- there is no remote poster in the data today -- which
 is exactly why it needed a test rather than an inspection.
 
+### The workflow's dependencies are pinned (2026-08-30)
+`actions/checkout@v4`, `actions/cache@v4` and a bare `pip install pillow`, in a job that
+holds `contents: write` on this repo and pushes to `main`.
+
+A floating major tag is a promise from someone else that no future v4.x will do something
+new with that token, and re-pointing a tag is the cheap half of a supply-chain
+compromise. A SHA is the only reference that cannot be moved underneath us. The pip
+install is worse in kind, not better: the runner installs it fresh every run, so the
+unpinned name is whatever PyPI serves that morning.
+
+- `actions/checkout` -> `11d5960a326750d5838078e36cf38b85af677262` (v4)
+- `actions/cache` -> `0057852bfaa89a56745cba8c7296529d2fc39830` (v4)
+- `pillow` -> `12.3.0`
+
+Resolved from the GitHub and PyPI APIs on 2026-08-30, not copied from anywhere. The
+readable version stays in a comment beside each, because a bare SHA tells you nothing
+about how far behind it has drifted, and a pin nobody can read is a pin nobody will
+update. Permissions were not touched; the job already had the narrowest set it can run
+with.
+
+Verified by parsing the file with PyYAML rather than by reading it -- a workflow that
+fails to parse takes the whole cloud half down, and the failure would look like a cron
+that simply did not fire.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

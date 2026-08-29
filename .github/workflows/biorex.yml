@@ -15,12 +15,18 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Actions and the one pip install are pinned. A floating major tag is a promise
+      # from someone else that a future v4.x will not do anything new with the token
+      # this job holds, and re-pointing a tag is the cheap half of a supply-chain
+      # compromise. The SHA is the only reference that cannot be moved under us. The
+      # readable version stays in the comment, since a bare SHA says nothing about how
+      # far behind it is: actions/checkout v4, actions/cache v4, resolved 2026-08-30.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       # Conditional GETs only help if the validators survive between runs, and a runner
       # is ephemeral. Restore-keys makes a stale cache better than none: an entry whose
       # validator no longer matches just costs the 200 it would have cost anyway.
       - name: Restore HTTP validator cache
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .http-cache
           key: http-cache-${{ github.run_id }}
@@ -60,7 +66,10 @@ jobs:
       - name: Mirror posters
         run: |
           set +e
-          python3 -m pip install --quiet --disable-pip-version-check pillow
+          # Pinned for the same reason, and exactly: the runner installs this fresh on
+          # every run, so an unpinned name is whatever PyPI serves that morning, in a
+          # job that then commits to this repo. Bump deliberately, not by waking up.
+          python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
           python3 scripts/providers/mirror_posters.py > run-posters.log 2>&1
           code=$?
           echo "exit=$code" >> run-posters.log
