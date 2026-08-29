@@ -1263,6 +1263,15 @@ is noise. Finnkino-only by design; a guessed premiere is worse than none.
 - Adapters carry a referer, three retries with backoff, and a pause between venues.
 ## Crawlers and search
 
+- State as of 2026-08-29: pages generated and committed, sitemap submitted, Rich Results
+  Test clean on a city page (371 valid, 0 invalid: 10 Local business, 10 Organisation, 351
+  Films). Remaining warnings are all optional fields -- `priceRange`, `telephone` and
+  `image` on MovieTheater, `director` and `dateCreated` on Movie. None are in the pipeline;
+  the first three would be manual data entry across 46 venues and `director` would need a
+  per-film TMDB credits call. Deliberately not chased: optional fields do not gate
+  eligibility, and the number that decides whether any of this worked is how many of the
+  103 URLs turn up in Search Console's Pages report.
+
 - `<head>` carries a description, canonical, OpenGraph and Twitter tags; `robots.txt` and
   a generated `sitemap.xml` exist (2026-08-28).
 - **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred

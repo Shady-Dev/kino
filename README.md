@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for **46 venues in 31 cities** across nine providers: Finnkino,
+Showtimes for **46 venues in 32 cities** across nine providers: Finnkino,
 BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion and
 Kino Akseli. Pick a venue and a
 date, see films with posters, TMDB ratings, age limits, runtimes, genres,
@@ -182,8 +182,13 @@ page's own is against Google's guidelines, so the rating is shown as credited te
 left out of the markup.
 
 These pages make no third-party requests at all: inline CSS, no webfont, and only
-same-origin posters. A page is rewritten only when its bytes change, which in practice is
-once a day when the date window shifts.
+same-origin posters. Structured data may still reference a cinema CDN poster, because a
+URL in markup is fetched by the crawler and never by the reader's browser.
+
+A page is rewritten only when its bytes change, which in practice is once a day when the
+date window shifts. Each one links into the app as `/?area={venueId}` (or
+`/?area=city:{City}`), so arriving from a search opens on that venue rather than on
+whatever was last browsed.
 
 ## Privacy
 
