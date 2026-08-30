@@ -1,5 +1,45 @@
 # Kino — Improvement Ideas
 
+## Current backlog
+
+The 18 items still open, with the section that holds each one and its reasoning. Presence
+here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
+line from this list when its item is ticked below.
+
+**[App](#app)**
+
+- Genre / format filter chips — discovery rather than filtering, since typed search
+  already covers genre
+- Sort toggle, title vs first showtime; hide or dim past showtimes
+- Tile / grid view mode — open questions on scan-by-poster vs time, and auto-width
+- Multi-cinema merged view beyond the existing city views
+- Favourites, starred float to top
+- Prices "alkaen" via the ticket-types endpoint
+- Light-mode polish and an accessibility pass
+
+**[Pipeline](#pipeline)**
+
+- Move the local fetch off the laptop to an always-on box on the same network — 19 of 48
+  venues ride on that machine and cloud VMs cannot replace it
+- Finnkino prices via the ticket-types endpoint
+- Commit `run.log` only on failure, to cut commit noise
+- Refresh the TMDB rating on a trailer re-check, which currently reuses the cached one
+- README workflow badge
+- Credential hygiene and rotation — tracked in private notes outside this repo
+
+**[Ops](#ops)**
+
+- Staleness monitor: an external ping on the age of `data/areas.json`
+- Flag a failed local provider actively; today `exit=1` is recorded and nothing surfaces it
+- Consider a data branch to keep `main` history clean
+
+**[Refactor before adding more providers](#refactor-to-do-before-adding-more-providers)**
+
+- A whole site parsing zero showtimes fails the run; watch for a legitimately empty site
+  tripping it
+- Repertory titles defeat the TMDB search — `queries()` should strip a trailing "(YYYY)"
+  and known prefixes the way `mergeKey()` does
+
 ## Done
 - [x] Self-hosted posters (moviexchange CDN → data/posters/, onerror fallback tiles)
 - [x] TMDB ratings — ★ badge, cached in data/tmdb.json
@@ -1295,7 +1335,7 @@ Still open from this pass:
       with no TMDB entry at all (music playback nights, shorts programmes), which is a
       `tmdb-aliases.json` job at best.
 
-## Open — pipeline
+## Pipeline
 - [x] **TMDB cannot be searched by Finnish distributor title.** Probed 2026-08-27:
       "Maailman rikkain nainen" gives 0 hits and `&language=fi-FI` also gives 0, while the
       original "La femme la plus riche du monde" gives exactly 1. `language` localises the
@@ -1508,7 +1548,7 @@ overriding, which is a reason to delete the entry rather than to debug it.
 Swedish is right. Reading the 19 values is what found the one that was wrong. The poster
 count failed the same way.
 
-## Open — app
+## App
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
       the `state.mode='xml'` branches, the attempts log, the `content://` help text from
       the pre-hosting single-file era). It fired only when same-origin `data/areas.json`
