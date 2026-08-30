@@ -1839,6 +1839,17 @@ count failed the same way.
 
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs
+- **A break-and-restore test pass can report the state before the restore.** Reverting a
+  break by writing the file again produces the same byte count, and if it lands inside
+  the same mtime second Python reuses the `__pycache__` bytecode compiled from the broken
+  source: the pass reported the broken module as still broken after it was restored, and
+  the same mechanism would just as happily report a broken module as fine and retire a
+  test that never actually ran red. Seen on 2026-08-30 with a one-letter provider id,
+  where `kinopirtii` -> `kinopirtti` is length-preserving by construction, which is the
+  common case for exactly this kind of edit. `find . -name __pycache__ -type d -exec rm
+  -rf {} +` between the break and the restore, and re-read the final green on a cleared
+  cache before believing it. This bears on the rule in CLAUDE.md rather than on one test:
+  a verification method that can silently report the wrong state is not a verification.
 - **`raw.githubusercontent.com` served a two-commit-stale `index.html` minutes after a
   push, and using it as the base for the next edit silently reverted the previous fix.**
   Read repo files through the Contents API with `Accept: application/vnd.github.raw`,
