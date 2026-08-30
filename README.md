@@ -249,6 +249,27 @@ it is one registry entry; see Contact below.
 
 This is a personal, non-commercial project with no affiliation to any of them.
 
+## Licence
+
+The **code** is [AGPL-3.0](LICENSE). Use it, change it, run it. The one condition
+that matters for a site like this one: if you deploy a modified version where
+people can reach it over a network, you have to offer them its source. That is
+AGPL section 13, and it is the reason for AGPL over plain GPL-3.0: GPL's
+copyleft triggers on distribution, and hosting a fork distributes nothing, so a
+GPL fork of a website could stay closed. Practically, a modified deployment
+should link back to its own source the way this one links to `LICENSE`.
+
+**The licence covers the code and nothing else in this repository.** Three kinds
+of file here are not mine to relicense:
+
+    data/area-*.json     showtimes, belonging to the cinemas listed above
+    data/posters/        poster art from the cinemas' own CDNs and TMDB
+    fonts/archivo-*      Archivo, under the SIL Open Font Licence (fonts/OFL.txt)
+
+Forking the code does not carry any right to that material. Read the providers
+yourself under your own name and User-Agent, the way this does, and see
+[Access and ethics](IDEAS.md) before you point it at anyone.
+
 ## Contact
 
 **tiles-39nomads@icloud.com**
