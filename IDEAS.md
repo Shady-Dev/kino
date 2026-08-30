@@ -2555,11 +2555,26 @@ with one author that is an acceptable trade, and it would not be for a library.
 
 Two things the file itself needed:
 
-- `LICENSE` is gnu.org's text **verbatim**, apart from the two placeholders in the
-  how-to-apply block that are meant to be filled. Left verbatim so GitHub's licence
-  detector recognises it, which is why the scoping note lives in the README instead of as
-  a preamble. Copyright holder is `Shady-Dev`, the GitHub identity: this repo is public
-  and a real name leaked into 18 commits once already.
+- `LICENSE` is gnu.org's text **byte-for-byte**, sha256 `0d96a4ff68ad6d4b...`, with the
+  `<one line...>`, `<year>` and `<name of author>` placeholders left exactly as they are.
+  **The first version filled them in, and that was wrong** (caught in review, fixed
+  2026-08-30). The licence's own header says "changing it is not allowed", the
+  how-to-apply block sits inside the document that covers, and FSF's instruction is to
+  *copy* that template out onto the program rather than fill it in place. The commit
+  message claimed the placeholders were "meant to be filled" and cited GitHub's picker;
+  checking the API showed GitHub ships them untouched too, so the justification was wrong
+  on both counts. Nothing about the project's licensing turned on it, but an edited
+  licence document is ambiguity for free.
+- The notice goes where GNU says instead: a comment block at the top of `index.html`,
+  which is the program, and the same three lines in the README. Deliberately **not** on
+  each of the fifteen pipeline scripts -- GNU asks for a copyright line and a pointer per
+  file, and fifteen headers of boilerplate in a hobby repo buys less than it costs. The
+  program a user actually receives carries it, and the footer names the licence and links
+  the source on every page.
+- The licence text is left unmodified so GitHub's detector recognises it, which is also
+  why the scoping note lives in the README rather than as a preamble here. Copyright
+  holder is `Shady-Dev`, the GitHub identity: this repo is public and a real name leaked
+  into 18 commits once already.
 - **The licence covers the code and nothing else in the tree.** A bare `LICENSE` at the
   root reads as covering everything, and three kinds of file here are not ours to
   relicense: 3059 showtimes belonging to the eleven chains, 304 mirrored posters from

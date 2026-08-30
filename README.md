@@ -181,6 +181,10 @@ This is a personal, non-commercial project with no affiliation to any of them.
 
 ## Licence
 
+    Leffavuoro
+    Copyright (C) 2026  Shady-Dev
+    Licensed under the GNU Affero General Public License, version 3 or later.
+
 The **code** is [AGPL-3.0](LICENSE). Use it, change it, run it. The condition
 that matters for a site like this: deploy a modified version where people reach
 it over a network and you must offer them its source. That is AGPL section 13,
