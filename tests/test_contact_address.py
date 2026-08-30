@@ -33,6 +33,11 @@ EMAIL = re.compile(r"[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}")
 # entry is a place a real address could hide behind a plausible-looking name.
 ALLOWED = {
     "noreply@anthropic.com",          # commit trailer, if it ever lands in a file
+    # The sanctioned author identity. It is in the metadata of every commit already, and
+    # CLAUDE.md names it so a future session can recognise an author line that is *not*
+    # it. Added after this test caught that very sentence being written -- which is the
+    # guard working, not a false positive: a GitHub noreply address is not a personal one.
+    "19388620+Shady-Dev@users.noreply.github.com",
 }
 
 # Files that hand-write the address. Generated pages are excluded on purpose: they are
