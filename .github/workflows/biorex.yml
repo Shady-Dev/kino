@@ -35,7 +35,17 @@ jobs:
       # which the runners now force onto Node 24 and warn about; v7/v6 declare node24
       # themselves. Checked before bumping: checkout takes no inputs here, and cache
       # v6.1.0 still accepts path, key and restore-keys.
+      #
+      # ref: main, not the default. The default is github.sha, resolved when the run is
+      # *created*; a run queued behind another therefore starts from a base that has
+      # since moved and spends nine minutes generating data on top of stale code. That
+      # is the cause of the rebase conflicts this job used to die on, and fixing it here
+      # is better than reconciling the damage at the end. Queueing itself stays --
+      # cancel-in-progress: false is what stops a cancelled run costing two venues every
+      # poster.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
       # Conditional GETs only help if the validators survive between runs, and a runner
       # is ephemeral. Restore-keys makes a stale cache better than none: an entry whose
       # validator no longer matches just costs the 200 it would have cost anyway.
@@ -112,15 +122,16 @@ jobs:
             # so the three attempts were really one, and the retry has never been able to
             # help with the failure it exists for. Clear the wreckage before trying again.
             git rebase --abort 2>/dev/null || true
-            # -X theirs, where "theirs" during a rebase is the commit being replayed:
-            # this run's data. Two runs overlap whenever one is queued behind another,
-            # because a queued run checks out github.sha as it was when the run was
-            # *created* and so starts from a base that has since moved. Both then hold a
-            # complete, equally fresh snapshot of the same providers, and a content merge
-            # of ~80 generated JSON files is meaningless -- taking the snapshot we just
-            # fetched is both defined and correct. Without this, any overlap conflicts on
-            # every file and the job fails having published nothing.
-            if git pull --rebase -X theirs --autostash -q origin main && git push -q; then
+            # A plain rebase, deliberately. -X theirs was tried and is wrong: it
+            # resolves every conflict in favour of this run's snapshot, which is only
+            # safe while the other side is an equivalent cloud snapshot. If main moved
+            # because a person changed the generator, a provider or a generated page,
+            # that policy silently overwrites the newer work with output from stale
+            # code -- a worse failure than the red run it prevents, because nothing
+            # says it happened. Starting from current main removes almost every
+            # occasion for a conflict; if one still happens, this job should fail and
+            # be looked at rather than pick a side on its own.
+            if git pull --rebase --autostash -q origin main && git push -q; then
               pushed=1; break
             fi
             sleep 5

@@ -3229,6 +3229,31 @@ base reproduces `pushed=0` exactly, and the fix pushes on the first attempt.
 - `git pull --rebase -X theirs`, where "theirs" during a rebase is the commit being
   replayed: this run's data. Verified that the snapshot which lands is the later run's.
 
+**`-X theirs` was wrong and was removed the same day.** It resolves *every* conflict in
+favour of this run's snapshot, which is only safe while the other side is an equivalent
+cloud snapshot. When `main` moves because a person changed the generator, a provider or a
+generated page, the policy overwrites that newer work with output from stale code -- and
+says nothing, which is a worse failure than the red run it was added to prevent.
+Demonstrated rather than argued: with a human fix to a generated file pushed mid-run,
+`-X theirs` pushes successfully and the fix is gone from `main`; without it the run fails
+and the fix survives.
+
+The cause was the stale base, so that is where it is now fixed: the checkout says
+`ref: main`, and a queued job therefore fetches the branch when it *starts* rather than
+resolving `github.sha` from when it was created. A run that is not stale has almost
+nothing to conflict about. If `main` still moves underneath one, the job fails and is
+looked at instead of picking a side on its own. `git rebase --abort` stays, because it is
+what makes the retries real, and `cancel-in-progress: false` stays for the reason it was
+added.
+
+Checked against a reproduction, five ways: a stale event SHA starts the job on the old
+commit while `ref: main` starts it on the current tip; a non-conflicting concurrent human
+commit rebases and pushes cleanly with both changes intact; a conflicting one fails with
+the human change still on `main`; a tree left wedged by an earlier conflict is cleared by
+the abort and the retry then pushes; and the commit step still precedes the
+provider-failure gate, so a run that publishes pages and then finishes red still
+publishes them.
+
 Nothing was lost on the day: the sibling run published `8534b3c` and its data was as
 fresh. The cost was a red run and, worth noting, **a failure that left no trace in the
 repo** -- every committed log read `exit=0`, so `scripts/check_runs.py` had nothing to
