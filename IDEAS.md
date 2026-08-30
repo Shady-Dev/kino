@@ -2626,6 +2626,31 @@ from element geometry, which is real, and the at-rest rendering is unchanged by
 screenshot. The scrolled interaction needs a look on a real phone. It is one CSS rule and
 one wrapper div to revert.
 
+**The real-device checks this still needs**, since geometry cannot answer any of them:
+does the branding row leave naturally rather than seeming to vanish; does the pinned
+strip stay completely still; does Safari jitter or bounce it during overscroll; does
+focusing search or raising the keyboard move it strangely; does returning to the top
+restore the row naturally; does rotating behave. If those are clean, v70 is done.
+
+### Two things left alone on purpose (2026-08-30)
+Both are visible in the measurements above and both would look like obvious defects to
+someone reading them cold. They are decisions.
+
+**The tools row wraps to two lines at 320 px**, which is why the header is 290 px there
+against 257 elsewhere, and why only one card fits whole. Left alone. Forcing five
+controls onto one line at that width buys the second row back by spending something
+worse: smaller tap targets, cryptic abbreviations, icons that need explaining, a
+horizontally scrolling control strip, or Finnish and Swedish labels squeezed until they
+stop reading. Two rows on a very narrow screen is the cheapest of those. Revisit only if
+a real 320 px device feels cumbersome in the hand, not because the number is ugly.
+
+**Theme and language are unreachable without scrolling to the top**, and that is the
+point rather than a side effect. They are configuration, not browsing controls: you set
+them once and then read a list. Trading permanent screen space for a control used once a
+month is the trade v70 exists to undo. **Do not add a floating theme button**, a
+duplicate in the pinned strip, or any other replacement -- that reintroduces the cost
+this change removed, in a smaller and harder-to-notice form.
+
 ### Two rejected in the same pass
 **Denser cards: rejected on measurement.** The proposal was `.movie{gap:14px;
 padding:16px 0}` against the current `18px`/`20px`. `.movie` is `display:flex` in a row,
