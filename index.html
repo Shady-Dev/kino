@@ -1656,9 +1656,18 @@
   const searchKey = x => (x || '').toLowerCase().normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '');
 
+  // Chips cost permanent horizontal space, so only the two or three biggest intents get
+  // one. Everything else belongs here, where it costs nothing: `method` carries the
+  // format and event vocabulary every provider publishes -- IMAX, LUXE, iSense, Prime,
+  // Plus, Senioribio, Perheleffa, Espoo Ciné, Kuvaileva tekstitys -- and the two rating
+  // fields make age limits findable. Kuvaileva tekstitys is the case that settles the
+  // argument: 10 showtimes, so it can never justify a chip, and the people who need it
+  // had no way to find it at all. `rating` and `age` go in as written ("K-18"); the
+  // collapsed form searchKey builds means "k18" and "k-18" both match.
   function haystack(s){
     if(s._hay) return s._hay;
-    const parts = [s.title || '', s.original || '', s.genres || ''];
+    const parts = [s.title || '', s.original || '', s.genres || '',
+                   s.method || '', s.rating || '', s.age || ''];
     const ids = Array.isArray(s.gids) ? s.gids : [];
     if(ids.length && genreNames){
       for(const lang of ['fi', 'en']){

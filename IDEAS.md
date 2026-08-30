@@ -2394,7 +2394,13 @@ Chips are for the two or three intents worth permanent horizontal space. Measure
 | sold out | 6 | 0.2% | 6 |
 
 Anniskelu lands in the same band as both existing chips and names a proposition people
-actively choose. Everything from IMAX down is search material, not chip material.
+actively choose. Everything from IMAX down is search material, not chip material, so the
+haystack gained `method`, `rating` and `age` in the same pass. That makes the whole tail
+findable at no cost in horizontal space: IMAX, LUXE, iSense, Prime, Plus, Senioribio,
+Perheleffa, Espoo Ciné, K-18, and **Kuvaileva tekstitys**, which is the case that settles
+the argument -- 10 showtimes, so it can never justify a chip, and until now the readers
+who need descriptive subtitles had no way to find it at all. `k18` and `k-18` both match,
+since `searchKey` already collapses punctuation.
 
 **The two exclude each other**, and once both read their own rule the overlap is
 **exactly 0** -- so the exclusion is a guard against a confusing empty state rather than
