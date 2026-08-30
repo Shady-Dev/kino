@@ -2043,8 +2043,23 @@ registry entry, with no address anywhere that a cinema could use to ask for it.
 
 **Plain text, not obfuscated.** Entity-encoding or a JavaScript-assembled address hides
 it from a scraper and from the cinema manager it exists for in the same move, and an
-address nobody can copy is not a contact route. The address is a dedicated alias rather
-than a personal mailbox, which is the right answer to that trade.
+address nobody can copy is not a contact route. Reviewed again 2026-08-30 and kept: every
+technique that survives a scraper driving a headless browser also defeats a screen reader,
+copy-paste or tap-to-mail, and the address is a dedicated alias rather than a personal
+mailbox, so exposure costs a rotation rather than a mailbox.
+
+**That plan only works if rotating is one reliable act**, and the address is hand-written
+in four files -- twice in `index.html`, since the markup keeps a literal so the line
+survives a broken script -- then stamped onto 107 generated pages by `build_pages.py`.
+The copy most likely to be missed is the generator's, because nothing reads its output: a
+dead address would sit on every venue page until a cinema tried to write and bounced.
+`tests/test_contact_address.py` discovers the address from the client's `CONTACT`
+constant and compares everything else against it, so it hardcodes none of its own and
+keeps working across a rotation.
+
+The same test refuses **any** other address in a tracked file, generated pages included.
+That is the cheaper half: a stray personal address in a public repo costs a history
+rewrite to remove, and a rewrite only helps if somebody notices in the first place.
 
 `renderContact()` is separate from `renderStatus()` on purpose: `renderStatus` returns
 early until schedule data has loaded, and the one line a cinema comes here for must not
