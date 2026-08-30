@@ -1290,6 +1290,20 @@ Studio 123 Kouvola 28, Kinolinna 29, Kino 123 35, Kinopirtti 45, Kino Ritz 5.
   every host carries a `/salikartta?id=` link and a price. Bio Grani is the one that
   publishes no free-seat count, which costs nothing: seat counts are deliberately
   unpublished anyway.
+- **A venue `short` that is a *prefix* of its chain label renders twice.** Both
+  `label_of` in `build_pages.py` and its mirror in `index.html` drop the chain prefix
+  only when the short name already *starts with* the chain, which is the BioRex case
+  ("BioRex Tripla" under chain "BioRex"). Studio 123 is the other direction: chain
+  "Studio 123 Järvenpää" against short "Studio 123", so the guard did not fire and the
+  picker read "Studio 123 Järvenpää Studio 123", with a venue page slugged
+  `studio-123-jarvenpaa-studio-123-jarvenpaa` and two such URLs in the sitemap. Fixed in
+  the adapter rather than in the two label functions: `short` now repeats the full label,
+  which is exactly what Bio Rex Kokkola already does, and the guard collapses it. The
+  symmetric fix in `label_of` was measured first and changes these two slugs and no
+  others -- but it would have meant editing `index.html` too, to keep the client and the
+  pre-rendered pages agreeing on a venue's name. The slug still doubles the city
+  (`studio-123-jarvenpaa-jarvenpaa`), which is the house pattern nine BioRex venues
+  already follow, and is not worth changing indexed URLs over.
 - **Kouvola, not Kuusankoski.** Both Kouvola sites give a Kuusankoski postal address, and
   neither site says either name in its own pages. The industry directory names one of the
   cinemas "Studio 123 Kouvola" outright, and Kouvola is the municipality a visitor

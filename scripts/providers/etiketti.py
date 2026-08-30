@@ -54,18 +54,22 @@ SITES = [
           "short": "Kino Saimaa", "city": "Puumala"},
      ]},
     # Two unrelated hosts both print the place name "STUDIO 123", in different towns.
-    # The label spells the town out for the same reason Bio Rex Kokkola does.
+    # The label spells the town out for the same reason Bio Rex Kokkola does -- and, like
+    # that entry, `short` repeats the label rather than shortening to "Studio 123". Both
+    # the client and build_pages drop the chain prefix only when the venue's short name
+    # already starts with it, so a short that is a *prefix* of the chain renders as
+    # "Studio 123 Järvenpää Studio 123" in the picker and slugs the same way.
     {"provider": "studio123jarvenpaa", "base": "https://studiot123.com",
      "label": "Studio 123 Järvenpää",
      "venues": [
          {"id": "s3-jarvenpaa", "match": "studio 123", "name": "Studio 123 Järvenpää",
-          "short": "Studio 123", "city": "Järvenpää"},
+          "short": "Studio 123 Järvenpää", "city": "Järvenpää"},
      ]},
     {"provider": "studio123kouvola", "base": "https://studio123.fi",
      "label": "Studio 123 Kouvola",
      "venues": [
          {"id": "s3-kouvola", "match": "studio 123", "name": "Studio 123 Kouvola",
-          "short": "Studio 123", "city": "Kouvola"},
+          "short": "Studio 123 Kouvola", "city": "Kouvola"},
      ]},
     {"provider": "ihmekompleksi", "base": "https://ihmekompleksi.fi", "label": "Ihme Kompleksi",
      "venues": [
