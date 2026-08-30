@@ -1549,6 +1549,15 @@ Swedish is right. Reading the 19 values is what found the one that was wrong. Th
 count failed the same way.
 
 ## App
+- [x] **Segmented controls are rounded rectangles, not capsules** (2026-08-30, sw.js
+      v72). Follow-up to the polish pass below: once the filter chips dropped to 7px,
+      the two full pills left — FI/SV/EN and Leffat/Ajat — read as strays rather than
+      as the primary tier. Both now share an 8px outer radius (a value already in use:
+      poster, calendar buttons, dropdown options); the inner segments carry no radius
+      of their own, the container's overflow:hidden clips them to its corners, so
+      selected-segment fill, dimensions and hit areas are unchanged. The shape system:
+      segmented controls 8px, filter chips and stubs 7px, date chips and inputs 10px,
+      theme toggle a circle, stubs keep the perforation.
 - [x] **Visual polish pass: boxes only where something is tappable or official**
       (2026-08-30, sw.js v71). The audit question for every bordered rounded thing:
       is it a control, a classification, or just text wearing a container? Applied:

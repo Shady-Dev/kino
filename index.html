@@ -353,13 +353,13 @@
 
   /* Three languages do not fit a toggle that shows the one you would switch *to*: with
      two you can infer where you are, with three you cannot, and reaching the third is
-     two taps with nothing saying so. Same segmented pill as Leffat/Ajat, so it is a
-     pattern already on the page rather than a new one.
-     flex:0 0 auto is load-bearing. The pill clips its overflow, so under flex pressure
-     it does not push the row wide, it silently eats "EN". */
+     two taps with nothing saying so. Same segmented control as Leffat/Ajat (shared 8px
+     radius), so it is a pattern already on the page rather than a new one.
+     flex:0 0 auto is load-bearing. The control clips its overflow, so under flex
+     pressure it does not push the row wide, it silently eats "EN". */
   .langseg{
     display:flex; flex:0 0 auto; overflow:hidden;
-    border:1px solid var(--line); border-radius:19px; background:var(--surface);
+    border:1px solid var(--line); border-radius:8px; background:var(--surface);
   }
   .langseg button{
     border:0; background:transparent; color:var(--muted); cursor:pointer;
@@ -536,7 +536,10 @@
     max-width:1100px; margin:0 auto; padding:0 20px 14px;
     display:flex; gap:8px; flex-wrap:wrap; align-items:center;
   }
-  .seg{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--surface)}
+  /* 8px on both segmented controls (this and .langseg): after the pill retreat on the
+     filter chips, the two full capsules were the odd ones out. The inner segments keep
+     no radius of their own — overflow:hidden clips them to the container's corners. */
+  .seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface)}
   .seg button{border:0; background:transparent; padding:7px 14px; font:inherit; font-size:.78rem; font-weight:700; color:var(--muted); cursor:pointer}
   .seg button.on{background:var(--ink); color:var(--bg)}
   .seg button:hover:not(.on){color:var(--ink)}
