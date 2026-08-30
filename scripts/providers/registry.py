@@ -100,8 +100,6 @@ PROVIDERS = [
     # Lahti already has Finnkino Kuvapalatsi. Same constraint, same measurement.
     dict(id="kinoiiris", label="Kino Iiris", host="kinoiiris.com", accent="#2F6FD0",
          book="buy", module="etiketti", where="cloud"),
-    dict(id="joutsankino", label="Joutsan Kino", host="kino.joutsa.fi", accent="#96702A",
-         book="buy", module="etiketti", where="cloud"),
     dict(id="kkino", label="K-Kino", host="k-kino.fi", accent="#4C6B1F",
          book="buy", module="etiketti", where="cloud"),
     dict(id="biograni", label="Bio Grani", host="biograni.fi", accent="#B03A55",

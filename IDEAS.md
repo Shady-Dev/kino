@@ -1237,7 +1237,10 @@ let it grow.
 ### The eTiketti sweep lands: fourteen hosts, sixteen venues (2026-08-30)
 Every host the nytleffaan.fi entry above lists as serving `/elokuvat/ohjelmistossa` is
 now a `SITES` entry, against the parser that already served Kotka and Kokkola. No new
-parser, no `index.html` edit: 11 chains to 25, 48 venues to 64, 33 cities to 45.
+parser and no `index.html` edit. Thirteen of the fourteen survived the first cloud run
+(Joutsan Kino 403s a runner, below), so what published is **11 chains to 24, 48 venues to
+63, 33 cities to 44**, measured from `run-pages.log` and the committed data rather than
+from the registry.
 
 Measured end to end before committing, by running the adapter into a throwaway output
 directory rather than over `data/`: **19 venues, 331 showtimes, 0 failures** across the
@@ -1295,6 +1298,19 @@ Studio 123 Kouvola 28, Kinolinna 29, Kino 123 35, Kinopirtti 45, Kino Ritz 5.
 - **Bio Grand says Tikkurila and never Vantaa** on its own site. Vantaa is the postal town
   of the address the directory lists, and it is what the venue picker needs, so the city
   is Vantaa and the district stays out of it.
+- **Joutsan Kino was dropped on the first cloud run: 403 from Cloudflare to a runner.**
+  It answers an ordinary connection fine -- 4 films and 7 showtimes, parsed before the
+  commit -- and refuses a datacenter IP, which is the Finnkino/Engel/Akseli category. The
+  registry already has a field for exactly this, `where="local"`, and it does not help
+  here: `run.py` takes a *module* and fetches every `SITES` entry in it, and `--where`
+  selects modules rather than sites. Marking one provider local would put the whole
+  eTiketti module in the local half as well as the cloud one, so all sixteen sites would
+  be fetched twice, by two writers, onto the same files. Making `where` a per-site
+  concept means changing `run.py` and the workflow that calls it per module, which is a
+  separate item and not one to start while `biorex.yml` has an unmerged branch against
+  it. So the site is removed rather than left failing: a run that is always red hides the
+  one that just broke, which is the lesson `fetch.yml` already cost. Thirteen sites,
+  fifteen venues. Joutsa is a candidate for the local half the day routing exists.
 - **This makes the empty-site problem live rather than theoretical.** K-Kino publishes 3
   showtimes and Kino Saimaa 2. A small cinema between programmes will parse zero, and a
   whole site parsing zero fails the run today -- by design, because that is what catches a
