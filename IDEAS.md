@@ -3082,6 +3082,48 @@ separately. It was also unusable by anyone who read it, whereas "the venv that h
 can be acted on anywhere. `tests/test_mirror_posters.py` carried the same path inside a
 runnable command and now carries a placeholder.
 
+### Finnkino drops the odd character to "?" (2026-08-30)
+The Vaiana live-action synopsis published "Catherine Laga?aia" and "Auli?i Cravalho".
+Both names carry an okina (U+02BB).
+
+**It is their payload, not this pipeline**, and the string proves it on its own: `®`,
+`“ ”` and every `ä` in the same sentence arrive intact, so the transport is not lossy.
+Neither candidate mechanism can even produce a "?" -- `json.loads` raises on malformed
+UTF-8 rather than substituting, and the one decode in `fetch_data.py` uses
+`errors="replace"`, which yields U+FFFD. Worth checking in that order next time: the
+question "is this ours or theirs" was settled by three characters in the text we already
+had, without a single request.
+
+**A "?" cannot be decoded back.** It could stand for an apostrophe, an okina, a real
+question mark, or anything else the CMS could not encode. Guessing per-character would
+have been easy here, because the names are recognisable, and wrong in general.
+
+So the repair transcribes rather than guesses. Several chains run the distributor's blurb
+verbatim, and `films-extra.json` already held the same 823-character sentence with the
+okina intact -- differing at exactly the two positions where Finnkino has "?".
+`synmerge.repair_from_twin` uses a twin only when it is the same length and differs
+*only* where this text has "?", so the result is a string we already hold rather than an
+invention. A twin that disagrees anywhere else is a different synopsis and is left alone;
+a genuine "Mitä?" is never touched, because no twin will differ there.
+
+- Covered by `tests/test_synopsis_repair.py`, and the cases that refuse to act are the
+  ones worth having: a twin that differs elsewhere, a twin that is also broken, a
+  different-length twin, no twin, and a real question mark. Verified by removing each
+  guard and watching the matching test go red.
+- The lookup goes through `synmerge.norm()`, the same key `films-extra.json` is written
+  with. Matching on the raw title silently never hits, which is what removing it shows.
+- `data/films.json` was repaired in place in the same commit, so the fix is live rather
+  than waiting on the next local run. `fetch_data.py` writes the same value from then on.
+- **This needs a local run to be exercised in the pipeline.** `fetch_data.py` cannot run
+  from a runner -- Finnkino answers Cloudflare 403 to datacenter IPs -- so the call site
+  is compile-checked here and the logic is unit-tested, but the integration only runs at
+  home. `[films] N character(s) restored from another chain's copy` in `run.log` is the
+  line that confirms it.
+- Two other intra-word "?" in the data are not this and are left alone: `watch?v=` in 39
+  YouTube URLs, and one missing space after a real question mark in a provider's own
+  prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
+  which is a different thing from restoring a character we can prove was there.
+
 ### Measuring when cinemas publish (2026-08-30)
 The polling slots should follow the providers' publication rhythm and nobody knows what it
 is. `scripts/poll_windows.py` reads only committed data -- no network -- and walks every

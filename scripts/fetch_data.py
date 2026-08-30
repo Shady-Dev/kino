@@ -6,6 +6,7 @@ import urllib.parse
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
 import common    # noqa: E402  shared atomic writers, see providers/common.py
 import strands   # noqa: E402  shared strand list, see providers/strands.py
+import synmerge  # noqa: E402  shared synopsis helpers, see providers/synmerge.py
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
@@ -540,6 +541,18 @@ def main() -> int:
             c = tmdb_cache.get(fid)
             if isinstance(c, dict) and c.get("v"):
                 entry["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
+
+    # Finnkino drops the odd character to "?" ("Catherine Laga?aia"). Other chains run
+    # the same distributor blurb intact, so where films-extra.json holds a copy that
+    # differs only at those positions, take its characters. Nothing is guessed; see
+    # synmerge.repair_from_twin.
+    try:
+        extra = (json.loads((out / "films-extra.json").read_text())).get("films") or {}
+    except Exception:
+        extra = {}
+    repaired = synmerge.repair_from_twin(films_full, extra)
+    if repaired:
+        print(f"[films] {repaired} character(s) restored from another chain's copy")
 
     common.write_json(out / "films.json",
                       {"generated": now, "films": films_full})
