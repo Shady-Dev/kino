@@ -2027,6 +2027,71 @@ a TMDB 429 skips that title rather than hammering. TMDB is the one upstream here
 reliably rate-limits, and routing it through `common.fetch` would get it this handling.
 A separate change, not this one.
 
+### A refusal has to say which layer refused (2026-08-30)
+Cloud run #110 went red on `nexxo` alone. All three Kinoset venues answered 403, `run.py`
+counted one failure and the workflow's gate fired. Nothing was lost: the previous files
+were kept, the three venues were published as `stale` with `status: partial`, and the
+commit landed before the gate, so the app aged honestly and the next run 43 minutes later
+served all fourteen showtimes again.
+
+**The committed log said `HTTP Error 403: Forbidden`, three times, and nothing else.**
+That is the same line whether something in front of the site blocked the address or the
+application itself was rate-limiting, and those want opposite responses: an edge decision
+does not clear by waiting and means the endpoint has to move to the local half the way
+Finnkino already has, while an origin throttle clears on its own and the right move is to
+do nothing until the next cron. There was no way to tell them apart, and no way to go and
+look afterwards, because the block was gone before anyone read the log. The unattended run
+is the only witness a transient refusal ever has.
+
+`common.fetch` now prints one line on the way out of a request it is giving up on:
+
+    [http] 403 from kinoset.fi, gave up after 3 attempt(s) -- Server: LiteSpeed
+
+- **Three headers, and never the body.** `Server`, `CF-Ray`, `Retry-After`. `run-*.log` is
+  committed to a public repo and a third party's error page carries whatever they ship to
+  visitors — that is the raw-dump rule, and one such dump already put someone else's API
+  key in here. Nothing about their stack beyond who answered; `X-Powered-By` was considered
+  and dropped for that reason.
+- **Measured against the live endpoint before writing this down**: `kinoset.fi` answers
+  `Server: LiteSpeed` with no `CF-Ray`, so it is not fronted by Cloudflare at all. A
+  Kinoset 403 should therefore read as the origin refusing, which matches the behaviour
+  already recorded above — it started answering 403 after repeated hits in one hour. If one
+  ever comes back reading `Server: cloudflare`, that is a genuinely different event.
+- **One line per host per process, not per request.** `mirror_posters` calls `fetch` once
+  per poster and has had 185 failures against one host in a single run; a line each would
+  bury the summary the log is read for. The ray id is unique per request so it cannot be
+  part of the key — its presence identifies the layer, and the line carries the first value
+  seen.
+- Both exits are covered: the exhausted retry loop and the `Retry-After` ceiling, which
+  raises without retrying. `[run] throttled:` counts those but never names the host.
+
+**Two other fixes were considered and rejected.**
+
+- **Defer a failed venue to a second pass at the end of the run.** The contract is
+  `fetch_site(site) -> {venue_id: [shows]}`, one site at a time, so retrying a subset of
+  venues means either changing that contract across all eleven adapters or re-fetching the
+  whole site — and several adapters take one listing request for every venue, so a subset
+  is not a smaller request. That is an interface change on speculation. It would also buy
+  very little: nexxo is one site of three venues, so "the end of the module run" is about
+  five seconds after the last failure, and even the end of the whole cloud run is minutes,
+  against a block that took somewhere under 43 to clear. Retuning retries on a single
+  occurrence is tuning against noise.
+- **Stop failing the workflow when every venue kept usable previous data.** This reverses
+  a decision recorded above deliberately: only a site where *every* venue came back empty
+  fails, precisely because nothing else would notice that. Kinoset losing all three venues
+  is that case, not a false alarm. The health line is what a visitor sees and it worked,
+  but nobody checks the site four times a day — the red run is the one notification there
+  is, and downgrading it would let a permanently dead provider publish green runs forever
+  while the data quietly aged. The Finnkino fallback workflow is the warning in the other
+  direction: it was red on every push for two days and hid the run that had actually
+  broken. One red run is not that.
+
+Tested by breaking it six ways: dropping either `_log_refusal` call, dropping the
+deduplication, appending the body, removing `CF-Ray` from the set, and printing when the
+response carried none of the three. Each turns exactly the tests that pin it red. The
+two-venue case runs one refused and one served venue through the loop and asserts a single
+line, so a version that logged on success or once per attempt fails.
+
 ### The site answers the User-Agent (2026-08-30)
 `Leffavuoro/1.0 (+https://leffavuoro.fi)` points every provider at this site, and the
 site said nothing about who was reading them or how to ask to be left out. A URL that

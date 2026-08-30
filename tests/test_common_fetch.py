@@ -1,4 +1,4 @@
-"""common.fetch: retry, Retry-After, and the two ceilings.
+"""common.fetch: retry, Retry-After, the two ceilings, and what a refusal says.
 
 These ran as a throwaway script when the Retry-After handling landed, which meant the
 one thing that proved a cap actually fires could not be re-run. A cap verified once and
@@ -9,14 +9,17 @@ because the behaviour under test is partly urllib's: which exception a 429 raise
 `e.headers` holds, whether a body is readable after an error. A mock would encode the
 assumptions instead of checking them.
 """
+import contextlib
 import email.utils
 import datetime
 import http.server
 import importlib
+import io
 import os
 import threading
 import time
 import unittest
+import urllib.error
 
 import _ctx                                                # noqa: F401
 import common
@@ -36,6 +39,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def version_string(self):
+        """The Server header. BaseHTTPRequestHandler sends one on every response, and
+        `send_header` would only append a second that `headers.get` never returns, so a
+        test that needs `Server: cloudflare` has to come through here."""
+        return getattr(self.server, "banner", "TestHTTP")
 
     def log_message(self, *a):
         pass
@@ -57,6 +66,21 @@ class FetchTest(unittest.TestCase):
     def setUp(self):
         self.srv.script.clear()
         self.srv.hits.clear()
+        self.srv.banner = "TestHTTP"
+        # Every test here that exercises a failure path now makes fetch print one
+        # diagnostic line. Swallowed by default so a run stays readable; `refusals`
+        # nests its own redirect inside this one for the tests that read them.
+        sink = contextlib.redirect_stdout(io.StringIO())
+        sink.__enter__()
+        self.addCleanup(sink.__exit__, None, None, None)
+
+    def refusals(self, fn):
+        """Run fn with stdout captured. -> (its return value, the [http] lines)."""
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            got = fn()
+        self.captured = buf.getvalue()
+        return got, [l for l in self.captured.splitlines() if l.startswith("[http]")]
 
     def reload(self, **env):
         """Fresh module so the throttle counters start at zero, with env overrides."""
@@ -173,6 +197,113 @@ class FetchTest(unittest.TestCase):
         self.srv.script["/k"] = [(200, {}, b"hello")]
         self.assertEqual(c.fetch(self.url + "/k"), b"hello")
         self.assertEqual(c.throttle_stats()["asked"], 0)
+
+    # -- a refusal says which layer refused -------------------------------------
+
+    def test_a_blocked_venue_is_identified_and_a_working_one_stays_silent(self):
+        """The Kinoset shape, with the loop in it: one venue refused, one served. The
+        committed log said `HTTP Error 403: Forbidden` three times and nothing else,
+        which is the same line for an edge block and for an origin throttle."""
+        c = self.reload()
+        self.srv.banner = "cloudflare"
+        self.srv.script["/v1"] = [(403, {"CF-Ray": "8f2a1b3c4d5e6f70-HEL"}, b"blocked")]
+        self.srv.script["/v2"] = [(200, {}, b"ok")]
+
+        def loop():
+            out = {}
+            for venue in ("v1", "v2"):
+                try:
+                    out[venue] = c.fetch(f"{self.url}/{venue}", tries=2, backoff=0)
+                except urllib.error.HTTPError as e:
+                    out[venue] = e.code
+            return out
+
+        got, lines = self.refusals(loop)
+        self.assertEqual(got, {"v1": 403, "v2": b"ok"})
+        self.assertEqual(len(lines), 1, f"one line for one refusal, got: {lines}")
+        self.assertIn("403", lines[0])
+        self.assertIn("Server: cloudflare", lines[0])
+        self.assertIn("CF-Ray: 8f2a1b3c4d5e6f70-HEL", lines[0])
+        self.assertIn("2 attempt(s)", lines[0])
+
+    def test_an_origin_refusal_does_not_read_as_an_edge_one(self):
+        """The distinction the line exists for: no ray means the application said no,
+        which clears on its own, rather than an address being blocked, which does not."""
+        c = self.reload()
+        self.srv.banner = "Apache/2.4.62"
+        self.srv.script["/o"] = [(403, {}, b"nope")]
+
+        def call():
+            with self.assertRaises(urllib.error.HTTPError):
+                c.fetch(self.url + "/o", tries=1, backoff=0)
+        _, lines = self.refusals(call)
+        self.assertEqual(len(lines), 1)
+        self.assertIn("Server: Apache/2.4.62", lines[0])
+        self.assertNotIn("CF-Ray", lines[0])
+
+    def test_one_line_per_host_however_many_requests_it_refuses(self):
+        """mirror_posters calls fetch once per poster and has had 185 failures against
+        one host in a run. A line each would bury the summary the log is read for."""
+        c = self.reload()
+        self.srv.banner = "cloudflare"
+        for n in (1, 2, 3):
+            self.srv.script[f"/p{n}"] = [(403, {"CF-Ray": f"ray-{n}"}, b"blocked")]
+
+        def loop():
+            for n in (1, 2, 3):
+                with self.assertRaises(urllib.error.HTTPError):
+                    c.fetch(f"{self.url}/p{n}", tries=1, backoff=0)
+
+        _, lines = self.refusals(loop)
+        self.assertEqual(len(lines), 1, f"deduplication is gone: {lines}")
+        self.assertIn("ray-1", lines[0])
+
+    def test_the_body_of_a_refusal_is_never_printed(self):
+        """run-*.log is committed to a public repo, and a third party's error page carries
+        whatever they ship to visitors. That rule cost a history rewrite once already."""
+        c = self.reload()
+        self.srv.banner = "cloudflare"
+        secret = b"<!-- apiKey: AIzaSyTESTONLYNOTREAL -->"
+        self.srv.script["/b"] = [(403, {"CF-Ray": "r1"}, secret)]
+
+        def call():
+            with self.assertRaises(urllib.error.HTTPError):
+                c.fetch(self.url + "/b", tries=1, backoff=0)
+
+        self.refusals(call)
+        self.assertNotIn("AIzaSy", self.captured)
+        self.assertNotIn("apiKey", self.captured)
+
+    def test_a_response_with_none_of_the_headers_prints_nothing(self):
+        """No empty line, and no line saying only the code -- that is what the adapter's
+        own FAILED line already says."""
+        c = self.reload()
+        self.srv.banner = ""
+        self.srv.script["/q"] = [(403, {}, b"nope")]
+
+        def call():
+            with self.assertRaises(urllib.error.HTTPError):
+                c.fetch(self.url + "/q", tries=1, backoff=0)
+
+        _, lines = self.refusals(call)
+        self.assertEqual(lines, [])
+
+    def test_a_refused_retry_after_says_what_was_asked_for(self):
+        """The ceiling path raises without retrying, and that exit needs the line too:
+        `[run] throttled:` counts them but never names the host."""
+        c = self.reload()
+        self.srv.banner = "cloudflare"
+        self.srv.script["/r"] = [(429, {"Retry-After": "9999"}, b"slow")]
+
+        def call():
+            with self.assertRaises(urllib.error.HTTPError):
+                c.fetch(self.url + "/r", tries=3, backoff=0)
+
+        _, lines = self.refusals(call)
+        self.assertEqual(len(lines), 1)
+        self.assertIn("Retry-After: 9999", lines[0])
+        self.assertIn("1 attempt(s)", lines[0])
+        self.assertEqual(self.srv.hits["/r"], 1)
 
 
 if __name__ == "__main__":

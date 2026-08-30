@@ -17,6 +17,7 @@ import os
 import pathlib
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 # Identifies the reader. Every adapter used to send a Chrome string, which is an
@@ -94,6 +95,56 @@ def _retry_after(value):
     return max(0.0, (when - datetime.datetime.now(datetime.timezone.utc)).total_seconds())
 
 
+# Which layer refused, on the way out of a request that is being given up on. A 403 in
+# a committed log read `HTTP Error 403: Forbidden` and nothing else, which is the same
+# line whether an edge blocked the address or the origin was throttling -- and those two
+# want opposite responses. The block is gone by the time anyone reads the log: Kinoset
+# refused all three venues at 08:31 UTC on 2026-08-30 and served them again at 09:14, so
+# the run is the only witness there will ever be.
+#
+# `Server: cloudflare` with a CF-Ray is a decision at the edge. That does not clear by
+# waiting, and the answer is to move the endpoint to the local half the way Finnkino
+# already is. An origin server with neither is the application rate-limiting, which is
+# what Kinoset has done before and which clears on its own -- leave it to the next cron.
+#
+# **Headers only, never the body.** `run-*.log` is committed to a public repo and a third
+# party's error page carries whatever they ship to visitors; that is the raw-dump rule,
+# and one such dump already put someone else's API key in here. These three are short,
+# fixed, and about the refusal rather than about their stack.
+DIAG_HEADERS = ("Server", "CF-Ray", "Retry-After")
+_diag_seen = set()
+
+
+def _server_hint(e):
+    """-> 'Server: cloudflare; CF-Ray: ...', or '' if the response said none of them."""
+    hh = getattr(e, "headers", None)
+    if hh is None:
+        return ""
+    return "; ".join(f"{k}: {(hh.get(k) or '').strip()[:80]}"
+                     for k in DIAG_HEADERS if (hh.get(k) or "").strip())
+
+
+def _log_refusal(e, url, attempts):
+    """Name the refusing layer once, the first time this host refuses this way.
+
+    Deduplicated because `mirror_posters` calls fetch once per poster and has had 185
+    failures against one host in a single run; a line each would bury the run's own
+    summary, which is the thing that made that run unreadable in the first place. The
+    ray id is unique per request by design, so it cannot be part of the key -- presence
+    is what identifies the layer, and the line carries the first value seen.
+    """
+    hint = _server_hint(e)
+    if not hint:
+        return
+    host = urllib.parse.urlsplit(url).netloc
+    key = (host, e.code, (e.headers.get("Server") or "").strip(),
+           bool((e.headers.get("CF-Ray") or "").strip()))
+    if key in _diag_seen:
+        return
+    _diag_seen.add(key)
+    print(f"[http] {e.code} from {host}, gave up after {attempts} attempt(s) -- {hint}")
+
+
 def _slot(url):
     return CACHE_DIR / (hashlib.sha256(url.encode()).hexdigest()[:32] + ".bin")
 
@@ -143,6 +194,9 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
 
     Never enable it on a POST -- the response is not addressed by the URL alone,
     so a slot would collide across different request bodies.
+
+    When a request is given up on, one `[http]` line names the refusing layer from a
+    fixed set of response headers -- see DIAG_HEADERS. Never the body.
     """
     if data is not None:
         cache = False
@@ -192,6 +246,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                 if (wait > RETRY_AFTER_MAX
                         or _throttle["waited"] + wait > RETRY_AFTER_BUDGET):
                     _throttle["refused"] += 1
+                    _log_refusal(e, url, n + 1)
                     raise
             if n + 1 < tries:
                 if wait is None:
@@ -203,6 +258,8 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             last = e
             if n + 1 < tries:
                 time.sleep(backoff * (n + 1))
+    if isinstance(last, urllib.error.HTTPError):
+        _log_refusal(last, url, tries)
     raise last
 
 
