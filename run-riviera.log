@@ -1,6 +1,6 @@
 [riviera] strand prefix split off 1 showtimes
 [riviera] synopses merged: 0
-[riviera] Riviera Kallio: 27 showtimes, 18 dates
-[riviera] Riviera Punavuori: 59 showtimes, 19 dates
-[run] riviera: 2 venues, 86 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[riviera] Riviera Kallio: 30 showtimes, 18 dates
+[riviera] Riviera Punavuori: 61 showtimes, 19 dates
+[run] riviera: 2 venues, 91 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
