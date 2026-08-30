@@ -1272,8 +1272,12 @@ Studio 123 Kouvola 28, Kinolinna 29, Kino 123 35, Kinopirtti 45, Kino Ritz 5.
   set -- so the intuitive "green is nothing like orange" is exactly backwards for a
   deuteranope. Worse, Kouvola's first pick of magenta against teal reads 43.5 dE00 in
   normal vision and **6.9** in deutan: two colours that could not look less alike, and
-  that collapse onto each other. Repicked to ochre against teal, 35.2. Vantaa settled on
-  violet (57.4) and Lahti on blue (60.3).
+  that collapse onto each other. Repicked to blue against orange at **73.5**: both Kouvola
+  chains are single-city, so both colours are free, and the pair is taken at the maximum
+  the L* band allows rather than merely far enough apart. It launched at 35.2, ochre
+  against teal, which cleared the rule and left the rest on the table for nothing. Vantaa
+  settled on violet (57.4) and Lahti on blue (60.3), where Finnkino's orange is the fixed
+  half of the pair.
 - **Hues now repeat across cities, deliberately.** Twenty-five chains cannot all be
   separable at once and do not have to be: the accent renders only in a combined city
   view and its legend, so the only pairs that exist are the ones inside one town. Four
@@ -2379,7 +2383,17 @@ about 14, not the 28 that was recorded.
 differ mostly in the red-green channel a deuteranope does not have, so BioRex and
 Riviera sat 3.9 ΔE00 apart in the one city where they appear side by side. The Helsinki
 floor is now **14.4**, and the binding pair is Finnkino/Cinema Orion -- orange against
-olive, both yellowish under deuteranopia, and about the ceiling for six chains.
+olive, both yellowish under deuteranopia.
+
+**"About the ceiling for six chains" was wrong** (measured 2026-08-30). It read as a
+property of the problem and was only a property of hand-picking. Every Helsinki chain but
+Finnkino appears in no other multi-chain city, so five of the six colours are free, and a
+greedy max-min search over the same L\* 38-60 band reaches a floor of **19.5 deutan and
+21.0 normal** -- better than the current palette on *both* axes, at the same mean chroma.
+Not applied: it moves five accents Helsinki readers have already learned, and the current
+floor is not hurting anyone. Recorded so the number is not quoted as a limit again. The
+search is four lines against `accent_check`'s own functions; re-run it before believing
+this either.
 
 - **Riviera moved, not BioRex.** Both give the same 14.4, because the floor ends up set
   by a different pair either way. Riviera's two venues are both in Helsinki, so its

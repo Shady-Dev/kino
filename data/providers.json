@@ -102,14 +102,14 @@
    "id": "studio123kouvola",
    "label": "Studio 123 Kouvola",
    "host": "studio123.fi",
-   "accent": "#17807A",
+   "accent": "#2040F0",
    "book": "buy"
   },
   {
    "id": "kino123",
    "label": "Kino 123",
    "host": "kino123.fi",
-   "accent": "#BF6B04",
+   "accent": "#E07000",
    "book": "buy"
   },
   {
