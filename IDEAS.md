@@ -2955,8 +2955,16 @@ anything else, and sets `fail=1` either way -- a run that mirrored no poster mus
 finish clean, but the two send you to different places.
 
 Note for running them: the cases that need a real Pillow skip on the system interpreter,
-which does not have it. The cloud installs it into the job and the local
-wrapper runs the script from `~/kino-auth/.venv`; use that interpreter to see all nine.
+which does not have it. The cloud installs it into the job and the local wrapper runs the
+script from its own venv; use that interpreter to see all nine.
+
+**That venv's path was written out here, and has been removed** (2026-08-30). CLAUDE.md
+forbids machine-specific detail in this repo and names paths first among them. A
+home-relative path carries no username, but it is still specific to one machine, and the
+directory it named is where the token retrieval lives, which the same rule lists
+separately. It was also unusable by anyone who read it, whereas "the venv that has Pillow"
+can be acted on anywhere. `tests/test_mirror_posters.py` carried the same path inside a
+runnable command and now carries a placeholder.
 
 ### Measuring when cinemas publish (2026-08-30)
 The polling slots should follow the providers' publication rhythm and nobody knows what it

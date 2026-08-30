@@ -12,7 +12,7 @@ Requirement 1 and the download-failure case need a real Pillow and skip without 
 on this repo's system interpreter means they skip -- the cloud installs Pillow into the job
 and the local wrapper runs the script from a venv that has it. Run them with either:
 
-    ~/kino-auth/.venv/bin/python -m unittest discover -s tests -p test_mirror_posters.py
+    <venv-with-pillow>/bin/python -m unittest discover -s tests -p test_mirror_posters.py
 
 The Pillow-absent cases run everywhere, by blocking the import rather than by stubbing
 the predicate: the thing under test is what happens when the import genuinely fails. The
