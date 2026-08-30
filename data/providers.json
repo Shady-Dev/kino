@@ -155,6 +155,13 @@
    "book": "buy"
   },
   {
+   "id": "joutsankino",
+   "label": "Joutsan Kino",
+   "host": "kino.joutsa.fi",
+   "accent": "#96702A",
+   "book": "buy"
+  },
+  {
    "id": "kkino",
    "label": "K-Kino",
    "host": "k-kino.fi",

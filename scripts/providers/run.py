@@ -37,6 +37,7 @@ else would notice that.
 import datetime
 import importlib
 import json
+import os
 import pathlib
 import sys
 
@@ -187,13 +188,67 @@ def run_site(mod, site, now):
     return live, total, stale, unverified
 
 
+def half_of(argv):
+    """Which half of the pipeline is running -> "cloud", "local" or "all".
+
+    Routing used to be per *module*, so a single site that has to be fetched from an
+    ordinary connection dragged its whole adapter with it: marking one eTiketti provider
+    local would have put all sixteen sites in both halves, with two writers on the same
+    files. That cost Joutsan Kino, which parses fine at home and answers a runner with a
+    Cloudflare 403.
+
+    Derived rather than passed, because the cloud workflow calls this per module with a
+    bare name and adding a flag there is a change to a file this could not touch. Actions
+    always sets GITHUB_ACTIONS and nothing else here does, so the workflow keeps working
+    unchanged and starts skipping the sites it was never able to fetch.
+
+    The default off Actions is "all", not "local": `run.py etiketti` on a laptop is how
+    an adapter gets exercised, and silently fetching one site of fifteen would make that
+    useless. The local *wrapper* therefore has to be explicit -- `--where local` -- which
+    is also what keeps one writer per provider file.
+    """
+    for flag in ("--half", "--where"):
+        if flag in argv:
+            return argv[argv.index(flag) + 1]
+    return "cloud" if os.environ.get("GITHUB_ACTIONS") else "all"
+
+
+def module_names(argv):
+    """The module names in argv -> list.
+
+    A flag's *value* is not a module name. Dropping only the flags left "local" behind
+    for `run.py etiketti --half local`, which run.py then tried to import: "[local]
+    unusable: No module named 'local'", counted as a failure, and printed the word in
+    the run summary. Caught by running it rather than by reading it.
+    """
+    skip = {argv.index(f) + 1 for f in ("--half", "--where") if f in argv}
+    return [a for i, a in enumerate(argv) if not a.startswith("-") and i not in skip]
+
+
+def sites_for(mod, half):
+    """The sites in this module that belong to `half`, in SITES order.
+
+    A site whose provider has no registry entry is kept rather than dropped: that is a
+    misconfiguration, and tests/test_registry_sites.py is where it should be reported,
+    not here by silently fetching nothing.
+    """
+    if half == "all":
+        return list(mod.SITES)
+    out = []
+    for site in mod.SITES:
+        p = registry.by_id(site.get("provider") or "")
+        if p is None or p.get("where") == half:
+            out.append(site)
+    return out
+
+
 def main(argv) -> int:
-    if "--where" in argv:
-        names = registry.modules(argv[argv.index("--where") + 1])
-    else:
-        names = [a for a in argv if not a.startswith("-")]
+    half = half_of(argv)
+    names = (registry.modules(argv[argv.index("--where") + 1])
+             if "--where" in argv else module_names(argv))
     if not names:
-        print("usage: run.py <module>... | run.py --where cloud|local", file=sys.stderr)
+        print("usage: run.py <module>... [--half cloud|local|all] | "
+              "run.py --where cloud|local", file=sys.stderr)
         return 2
 
     OUT.mkdir(exist_ok=True)
@@ -204,10 +259,17 @@ def main(argv) -> int:
     for name in names:
         try:
             mod = importlib.import_module(name)
-            sites = mod.SITES
+            mod.SITES          # a module without it is unusable, and says so here
         except Exception as e:
             print(f"[{name}] unusable: {e}", file=sys.stderr)
             failures += 1
+            continue
+        sites = sites_for(mod, half)
+        if not sites:
+            # Not a failure: the module's sites all belong to the other half. The cloud
+            # workflow iterates every cloud module, so this is the normal answer for a
+            # module whose only local site is fetched at home.
+            print(f"[{name}] no sites for the {half} half")
             continue
         for site in sites:
             label = site.get("provider") or name

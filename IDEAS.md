@@ -177,7 +177,7 @@ counts, Finnkino a sold-out flag and no counts, and the rest nothing at all. Onl
 flag survives into the data -- see "Seat counts are parsed and deliberately not
 published".
 
-63 venues / 44 cities across 24 providers. Each provider writes `data/area-{venueId}.json` in one shape
+64 venues / 45 cities across 25 providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now nothing: a registry entry generates
@@ -1226,21 +1226,21 @@ Also the competitive picture, since it comes up when deciding what to claim on t
 - **elokuviin.com** — claims all cinemas large and small, and does include festivals.
 - **kinossa.fi** — same aggregation idea.
 
-So **"Suomen kattavin" is not a defensible claim**: 63 venues against the 225 entries
+So **"Suomen kattavin" is not a defensible claim**: 64 venues against the 225 entries
 nytleffaan.fi lists (fewer distinct cinemas than that — Kinotour alone accounts for 14
 touring venues), and two services already claim full coverage. What is true and
-checkable: 24 chains merged into one city view, festival and strand screenings included
+checkable: 25 chains merged into one city view, festival and strand screenings included
 where those services drop them, sold-out marks and prices where a cinema publishes
-them, no ads and no tracking. Say the count ("24 ketjua, 63 teatteria, 44 kaupunkia") and
+them, no ads and no tracking. Say the count ("25 ketjua, 64 teatteria, 45 kaupunkia") and
 let it grow.
 
 ### The eTiketti sweep lands: fourteen hosts, sixteen venues (2026-08-30)
 Every host the nytleffaan.fi entry above lists as serving `/elokuvat/ohjelmistossa` is
 now a `SITES` entry, against the parser that already served Kotka and Kokkola. No new
-parser and no `index.html` edit. Thirteen of the fourteen survived the first cloud run
-(Joutsan Kino 403s a runner, below), so what published is **11 chains to 24, 48 venues to
-63, 33 cities to 44**, measured from `run-pages.log` and the committed data rather than
-from the registry.
+parser and no `index.html` edit. All fourteen publish: thirteen from the cloud half and
+Joutsan Kino from the local one, which needed the site-level routing below. **11 chains
+to 25, 48 venues to 64, 33 cities to 45**, measured from `run-pages.log` and the
+committed data rather than from the registry.
 
 Measured end to end before committing, by running the adapter into a throwaway output
 directory rather than over `data/`: **19 venues, 331 showtimes, 0 failures** across the
@@ -1312,19 +1312,13 @@ Studio 123 Kouvola 28, Kinolinna 29, Kino 123 35, Kinopirtti 45, Kino Ritz 5.
 - **Bio Grand says Tikkurila and never Vantaa** on its own site. Vantaa is the postal town
   of the address the directory lists, and it is what the venue picker needs, so the city
   is Vantaa and the district stays out of it.
-- **Joutsan Kino was dropped on the first cloud run: 403 from Cloudflare to a runner.**
-  It answers an ordinary connection fine -- 4 films and 7 showtimes, parsed before the
-  commit -- and refuses a datacenter IP, which is the Finnkino/Engel/Akseli category. The
-  registry already has a field for exactly this, `where="local"`, and it does not help
-  here: `run.py` takes a *module* and fetches every `SITES` entry in it, and `--where`
-  selects modules rather than sites. Marking one provider local would put the whole
-  eTiketti module in the local half as well as the cloud one, so all sixteen sites would
-  be fetched twice, by two writers, onto the same files. Making `where` a per-site
-  concept means changing `run.py` and the workflow that calls it per module, which is a
-  separate item and not one to start while `biorex.yml` has an unmerged branch against
-  it. So the site is removed rather than left failing: a run that is always red hides the
-  one that just broke, which is the lesson `fetch.yml` already cost. Thirteen sites,
-  fifteen venues. Joutsa is a candidate for the local half the day routing exists.
+- **Joutsan Kino 403s a runner, and that turned out to be a routing bug rather than a
+  reason to drop a cinema.** It answers an ordinary connection fine and refuses a
+  datacenter IP, which is the Finnkino/Engel/Akseli category. It was deleted first, to
+  get the cloud run out of `exit=1`, and restored the same day once routing could
+  express it -- see "Routing is per site, not per module" below. The deletion was the
+  wrong permanent answer: it converted an infrastructure limit into missing coverage,
+  and the only thing wrong with the cinema was which IP asked it.
 - **This makes the empty-site problem live rather than theoretical.** K-Kino publishes 3
   showtimes and Kino Saimaa 2. A small cinema between programmes will parse zero, and a
   whole site parsing zero fails the run today -- by design, because that is what catches a
@@ -1465,7 +1459,7 @@ Still open from this pass:
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the three providers that block datacenter IPs
       (Finnkino, Kino Akseli, Kino Engel), and with the MovieXchange route closed above
-      there is no other way off the laptop at all. 19 of 63 venues ride on that machine.
+      there is no other way off the laptop at all. 20 of 64 venues ride on that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
@@ -1844,7 +1838,7 @@ count failed the same way.
 
 ## Documentation state (2026-08-30, seventh pass)
 
-- `README.md` covers: Leffavuoro, **24 providers / 63 venues / 44 cities**, the
+- `README.md` covers: Leffavuoro, **25 providers / 64 venues / 45 cities**, the
   two-location pipeline with no cloud fallback for Finnkino, the data shape every
   provider writes (including `age`, `gids` and `tmdbId`, and why the last two are
   exact-match only), the three lists worth reading in `run-enrich.log`, a step-by-step
@@ -1855,8 +1849,8 @@ count failed the same way.
   it.** README said ten providers / 47 venues / 32 cities and 52 generated pages per
   language; IDEAS said the same in six places. That is the seventh time a carried-over
   count has been wrong here. The counts above were measured against `data/` and
-  `teatteri/` on 2026-08-30, re-measured after the eTiketti sweep: 24 registry entries, 63 venue directories,
-  44 distinct cities, 72 pages per language, 145 sitemap URLs, 19 on the local half. Two 47s are
+  `teatteri/` on 2026-08-30, re-measured after the eTiketti sweep: 25 registry entries, 64 venue directories,
+  45 distinct cities, 73 pages per language, 147 sitemap URLs, 20 on the local half. Two 47s are
   left alone on purpose, both inside dated sections recording what was true on the day.
 - `IDEAS.md` (this file) holds architecture decisions, per-provider API research and the
   backlog. Read it before touching the pipeline.
@@ -1993,7 +1987,7 @@ count failed the same way.
   Test clean on a city page (371 valid, 0 invalid: 10 Local business, 10 Organisation, 351
   Films). Remaining warnings are all optional fields -- `priceRange`, `telephone` and
   `image` on MovieTheater, `director` and `dateCreated` on Movie. None are in the pipeline;
-  the first three would be manual data entry across 63 venues and `director` would need a
+  the first three would be manual data entry across 64 venues and `director` would need a
   per-film TMDB credits call. Deliberately not chased: optional fields do not gate
   eligibility, and the number that decides whether any of this worked is how many of the
   107 URLs turn up in Search Console's Pages report.
@@ -2002,8 +1996,8 @@ count failed the same way.
   a generated `sitemap.xml` exist (2026-08-28).
 - **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred
   them. Markup does not create pages and the app is one JS-rendered URL, so
-  `scripts/build_pages.py` renders 72 pages per language from the committed JSON at the end
-  of every run: 63 venues plus the nine multi-venue cities. Same data, no second fetcher.
+  `scripts/build_pages.py` renders 73 pages per language from the committed JSON at the end
+  of every run: 64 venues plus the nine multi-venue cities. Same data, no second fetcher.
 - **City pages only where a city has more than one venue.** The original plan said "~31
   cities"; that was wrong, taken from the README's city count rather than measured. Only
   Espoo, Helsinki, Kotka, Savonlinna and Tampere have two or more venues, which is the same
@@ -2365,7 +2359,7 @@ recovered, and no number from it should be quoted again.
 | global minimum, any pair, deutan | 32.1 | 0.7 (Finnkino/Kino Akseli) |
 
 **Four cities have more than one chain in them.** Measured against the data,
-not assumed: 4 of 44 cities -- Helsinki with six, Vantaa, Lahti and Kouvola with two. Espoo, Tampere, Kotka and Savonlinna have two venues each
+not assumed: 4 of 45 cities -- Helsinki with six, Vantaa, Lahti and Kouvola with two. Espoo, Tampere, Kotka and Savonlinna have two venues each
 but one chain each, so the combined view there never puts two accents side by side. The
 worst pair is still the six chains in Helsinki; the three the eTiketti sweep created
 were measured against their city before they landed. This also retires the old bullet's
@@ -3123,6 +3117,52 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   YouTube URLs, and one missing space after a real question mark in a provider's own
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
+
+### Routing is per site, not per module (2026-08-30)
+`where` on a registry entry used to decide which half fetched a whole *adapter*. One
+cinema that can only be read from an ordinary connection therefore dragged its entire
+platform with it: marking a single eTiketti provider local would have put all sixteen
+sites in both halves, two writers racing on the same `data/venues-*.json`. That is why
+Joutsan Kino was deleted rather than moved, and deleting it was the wrong answer -- an
+infrastructure limit turned into a cinema the app stopped listing, when the parser and
+the site were both fine.
+
+`run.py` now filters `SITES` by each site's provider `where`, so a module can be split
+across the two halves.
+
+- **The half is derived, not passed, and that is the point.** The cloud workflow calls
+  `run.py <module>` with a bare name; requiring a flag would have meant editing
+  `biorex.yml`, which has an unmerged branch against it. Actions always sets
+  `GITHUB_ACTIONS` and nothing else here does, so the workflow keeps working untouched
+  and simply stops fetching the site it could never reach.
+- **Off Actions the default is `all`, not `local`.** `run.py etiketti` on a laptop is how
+  an adapter gets exercised; defaulting to the local half would have fetched one site of
+  sixteen and looked exactly like a broken parser. The local *wrapper* has to say
+  `--where local`, which is also what keeps one writer per provider file.
+- **A site whose provider has no registry entry is kept in both halves.** Dropping it
+  would turn a misconfiguration into a cinema that silently stops being fetched;
+  `tests/test_registry_sites.py` is what reports it.
+- Two properties are asserted against the live registry in `tests/test_run_routing.py`,
+  because a fixture cannot go stale in the way that matters: the halves are **disjoint**,
+  so no provider file has two writers, and they are **complete**, so routing cannot drop
+  a cinema the way the module-level scheme just did. Verified by breaking each guard.
+- **The argument parse was wrong and only running it showed that.** `run.py etiketti
+  --half local` took `local` for a module name, tried to import it, logged
+  `[local] unusable: No module named 'local'`, counted a failure and printed the word in
+  the summary. A flag's value is not a positional argument. `module_names()` now knows
+  that and is tested; the earlier version passed every test that existed at the time.
+- **The wrapper needs one line for this to run.** `where="local"` only routes a site --
+  something still has to call the local half for the eTiketti module. If the wrapper
+  invokes bare module names it never reaches `etiketti`, and Joutsan Kino publishes
+  nothing while the registry declares it, which is the health line's "unavailable" state.
+  `run.py --where local` covers every local site in one call, which is why that form
+  exists.
+
+Joutsan Kino was fetched from an ordinary connection and its data committed alongside
+this change, so the restored chain publishes immediately rather than waiting on the
+wrapper. Its two posters stay hot-linked until a cloud run mirrors them -- `mirror_posters`
+works from committed data regardless of which half fetched it -- so those films render
+placeholder tiles until then, which `build_pages` warns about by name.
 
 ### Measuring when cinemas publish (2026-08-30)
 The polling slots should follow the providers' publication rhythm and nobody knows what it

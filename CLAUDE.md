@@ -1,6 +1,6 @@
 # Working on this repo
 
-Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from 24 chains in one app. A
+Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from 25 chains in one app. A
 single-file vanilla JS PWA served from GitHub Pages, backed by a Python pipeline that
 commits static JSON. No build step, no framework, no dependencies beyond the standard
 library in the pipeline.

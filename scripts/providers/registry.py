@@ -100,6 +100,11 @@ PROVIDERS = [
     # Lahti already has Finnkino Kuvapalatsi. Same constraint, same measurement.
     dict(id="kinoiiris", label="Kino Iiris", host="kinoiiris.com", accent="#2F6FD0",
          book="buy", module="etiketti", where="cloud"),
+    # The only eTiketti site on the local half: its host 403s a datacenter IP the way
+    # Finnkino and Engel do. It shares the etiketti module with fourteen cloud sites,
+    # which is what site-level routing in run.py exists for.
+    dict(id="joutsankino", label="Joutsan Kino", host="kino.joutsa.fi", accent="#96702A",
+         book="buy", module="etiketti", where="local"),
     dict(id="kkino", label="K-Kino", host="k-kino.fi", accent="#4C6B1F",
          book="buy", module="etiketti", where="cloud"),
     dict(id="biograni", label="Bio Grani", host="biograni.fi", accent="#B03A55",
