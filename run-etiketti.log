@@ -6,8 +6,8 @@
 [kinopirtti] synopses merged: 0
 [kinopirtti] Kinopirtti: 40 showtimes, 5 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 26 showtimes, 4 dates
-[leffabuumi] Kino Ritz: 5 showtimes, 4 dates
+[leffabuumi] Kinolinna: 74 showtimes, 11 dates
+[leffabuumi] Kino Ritz: 15 showtimes, 11 dates
 [leffabuumi] Kino Saimaa: 2 showtimes, 2 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 21 showtimes, 4 dates
@@ -31,6 +31,6 @@
 [kkino] K-Kino: 3 showtimes, 2 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
-[run] http: 0 revalidated (304), 164 full, 164 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 18 venues, 292 showtimes, 0 stale, 0 unverified, 0 failures
+[run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 18 venues, 350 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0

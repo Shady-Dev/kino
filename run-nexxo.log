@@ -5,6 +5,24 @@
 [kinoset] Kino 1-2: 6 showtimes, 2 dates
 [kinoset] Kinema: 4 showtimes, 3 dates
 [kinoset] Bio: 4 showtimes, 3 dates
-[run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 3 venues, 14 showtimes, 0 stale, 0 unverified, 0 failures
+[kinoaurora] Kino Aurora (Jyväskylä): 33 showtimes
+[kinoaurora] synopses merged: 0
+[kinoaurora] Kino Aurora: 33 showtimes, 11 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 11 showtimes
+[kinohirvi] synopses merged: 0
+[kinohirvi] Kino Hirvi: 11 showtimes, 3 dates
+[biosade] Bio Säde (Mänttä): 8 showtimes
+[biosade] synopses merged: 0
+[biosade] Bio Säde: 8 showtimes, 3 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 23 showtimes
+[kinomarilyn] synopses merged: 0
+[kinomarilyn] Kino Marilyn: 23 showtimes, 6 dates
+[kinoolympia] Kino Olympia (Hanko): 7 showtimes
+[kinoolympia] synopses merged: 0
+[kinoolympia] Kino Olympia: 7 showtimes, 4 dates
+[jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
+[jarvelankino] synopses merged: 0
+[jarvelankino] Järvelän Kino: 6 showtimes, 4 dates
+[run] http: 0 revalidated (304), 9 full, 9 not stored (origin said no-store), 0 cache entries written
+[run] nexxo: 9 venues, 102 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
