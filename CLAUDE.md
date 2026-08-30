@@ -61,9 +61,12 @@ A registry entry plus an adapter. No `index.html` edit.
 - **Platform before site.** A cinema running Vista, MyCloudCinema, Nexxo, eTiketti or
   Johku is a `SITES` entry against an existing adapter. Check for a platform first, and
   only write a parser if it is on none of them.
-- **Measure a new accent against the whole set.** A new chain has to be separable from
-  every chain sharing a city, in normal *and* deuteranope vision. IDEAS carries the
-  numbers and the method.
+- **Measure a new accent against the whole set** with `python3 scripts/accent_check.py`.
+  `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
+  checks its own CIEDE2000 against published reference data. Never trust an accent number
+  with no script behind it: the figures that used to sit in IDEAS were CIE76 mislabelled
+  as ΔE and were wrong by a factor of five. Helsinki is the only city with more than one
+  chain in it, so it is the only place the rule binds.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
@@ -80,6 +83,12 @@ A registry entry plus an adapter. No `index.html` edit.
   schedules, no credentials, no token retrieval, no third-party endpoint inventories
   beyond the read endpoints an adapter actually uses. Operational detail lives in private
   notes outside the repo.
+- **No real name and no personal address, in a file or in a commit.** Commit as
+  `Shady-Dev <19388620+Shady-Dev@users.noreply.github.com>`; if you ever see an author
+  line that is not that or a `kino-bot`/`kino-local` identity, stop and say so rather
+  than carrying on. A real name reached 18 commits once and cost a history rewrite.
+  `tests/test_contact_address.py` fails if any address other than the contact alias
+  appears in a tracked file, generated pages included.
 - **Never inflect Finnish city names in generated text.** The correct forms are
   Helsinki -> Helsing**i**ssä and Tampere -> Tampereella: the stem changes, and Finnish
   cities do not all take the same case. Gluing a case ending onto the nominative instead
