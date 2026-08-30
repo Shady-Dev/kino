@@ -540,7 +540,11 @@
   }
   #sources .src{white-space:nowrap}
   #sources .src.bad{color:var(--accent); font-weight:700}
-  #sources .part{opacity:.75; cursor:help}
+  /* The marker carries the degraded state on a row whose age is still fine, so it is
+     the accent colour rather than dimmed. The row itself stays readable: the data is
+     not old, one of its cinemas simply did not refresh. */
+  #sources .part{color:var(--accent); cursor:help}
+  #sources .src.part-bad{color:var(--ink)}
   #tagkey{
     max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
     font-size:.72rem;
@@ -717,6 +721,7 @@
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
          allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä',
+         partialSources:'Osa teattereista ei päivittynyt',
          aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
          aSearch:'Suodata elokuvia nimen tai genren mukaan', aDays:'Valitse päivä',
          aView:'Valitse näkymä', aLang:'Kieli', aClose:'Sulje',
@@ -757,6 +762,7 @@
          partialCity:'Visar {n}/{m} biografer.',
          partialMissing:'Kunde inte laddas: {names}.',
          allFresh:'Alla {m} källor är aktuella', behind:'Källor efter',
+         partialSources:'Vissa biografer uppdaterades inte',
          aTheme:'Växla mellan ljust och mörkt tema', aVenue:'Välj biograf',
          aSearch:'Filtrera filmer efter titel eller genre', aDays:'Välj dag',
          aView:'Välj vy', aLang:'Språk', aClose:'Stäng',
@@ -794,6 +800,7 @@
          partialCity:'Showing {n} of {m} cinemas.',
          partialMissing:'Could not load: {names}.',
          allFresh:'All {m} sources up to date', behind:'Sources behind',
+         partialSources:'Some cinemas did not refresh',
          aTheme:'Switch between light and dark theme', aVenue:'Choose theatre',
          aSearch:'Filter movies by title or genre', aDays:'Choose date',
          aView:'Choose view', aLang:'Language', aClose:'Close',
@@ -1051,25 +1058,51 @@
     const t = iso ? new Date(iso).getTime() : NaN;
     return isNaN(t) ? null : (Date.now() - t) / 36e5;
   }
+  // --- healthState: pure, extracted verbatim by tests/health_state_harness.js ---
+  // Age alone was the whole test, so a provider that failed to refresh one venue read as
+  // healthy for as long as the venue it kept was under STALE_H -- the summary said every
+  // source was up to date while the expanded row beside it said (1/12). A partial refresh
+  // is a degraded state the moment it happens, independent of how old the retained data
+  // is, because it is a statement about *this run* rather than about the data's age.
+  //
+  // Order is by severity, and `behind` outranks `partial`: a provider that is both has
+  // the worse problem, and saying so twice in one summary line would not fit anyway.
+  // `partial` is kept distinct from `behind` rather than folded into it, because data two
+  // hours old is not behind and calling it that is the kind of false alarm that teaches
+  // people to ignore the line.
+  function healthState(m, ageH){
+    if(!m) return 'gone';
+    if(m.gone) return 'gone';
+    if(ageH === null || ageH > STALE_H) return 'behind';
+    if(m.status === 'partial' || m.stale > 0 || m.unverified > 0) return 'partial';
+    return 'ok';
+  }
+  // --- end healthState ---
   function renderHealth(){
     const el = document.querySelector('#sources');
     if(!el) return;
     const names = Object.keys(providerMeta);
     if(!names.length){ el.textContent = ''; return; }
+    const state_ = {};
     const parts = names.map(p => {
       const m = providerMeta[p], h = ageHours(m.oldest || m.generated);
+      const st = healthState(m, h);
+      state_[p] = st;
       const nm = esc((SOURCE[p] || [p])[0]);
       // Its venue file did not load at all. Distinct from `?`, which means a file
       // arrived carrying a timestamp that could not be read.
-      if(m.gone) return `<span class="src bad">\u26a0 ${nm} ${L[state.lang].unavailable}</span>`;
+      if(st === 'gone') return `<span class="src bad">\u26a0 ${nm} ${L[state.lang].unavailable}</span>`;
       if(h === null) return `<span class="src bad">${nm} ?</span>`;
-      const cls = h > STALE_H ? 'src bad' : 'src';
-      const mark = h > STALE_H ? '\u26a0 ' : '';
+      const cls = st === 'behind' ? 'src bad' : (st === 'partial' ? 'src part-bad' : 'src');
+      const mark = st === 'behind' ? '\u26a0 ' : '';
       // Without this a chain whose age comes from one stale cinema reads as if the
-      // whole chain were down. The count says how much of it is actually behind.
-      const part = m.stale
+      // whole chain were down. The count says how much of it is actually behind, and
+      // it covers both kinds: a venue that kept older data and one that has never
+      // produced a showtime.
+      const n = (m.stale || 0) + (m.unverified || 0);
+      const part = n
         ? ` <span class="part" title="${esc(L[state.lang].partialOf
-            .replace('{n}', m.stale).replace('{m}', m.venues))}">(${m.stale}/${m.venues})</span>`
+            .replace('{n}', n).replace('{m}', m.venues))}">(${n}/${m.venues})</span>`
         : '';
       return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}${part}</span>`;
     });
@@ -1083,19 +1116,21 @@
     // makes you open the disclosure to learn anything; a name is the answer. Truncated
     // past three, because at that point the shape of the problem is "most of them" and
     // the list is one click away.
-    const behind = names.filter(p => {
-      const m = providerMeta[p];
-      if(m.gone) return true;
-      const h = ageHours(m.oldest || m.generated);
-      return h === null || h > STALE_H;
-    }).map(p => (SOURCE[p] || [p])[0]);
+    const nameOf = p => (SOURCE[p] || [p])[0];
+    const behind = names.filter(p => state_[p] === 'behind' || state_[p] === 'gone').map(nameOf);
+    const partial = names.filter(p => state_[p] === 'partial').map(nameOf);
     const sum = document.querySelector('#freshSum');
     if(sum){
       const T = L[state.lang];
+      const list = xs => xs.slice(0, 3).join(', ') + (xs.length > 3 ? ` +${xs.length - 3}` : '');
       if(behind.length){
-        const shown = behind.slice(0, 3).join(', ')
-          + (behind.length > 3 ? ` +${behind.length - 3}` : '');
-        sum.textContent = `\u26a0 ${T.behind}: ${esc(shown)}`;
+        sum.textContent = `\u26a0 ${T.behind}: ${esc(list(behind))}`;
+        sum.className = 'bad';
+      } else if(partial.length){
+        // Named separately rather than folded into `behind`. The data is not old; one of
+        // this chain's cinemas did not refresh on the last run, which is a different
+        // thing and deserves different words.
+        sum.textContent = `\u26a0 ${T.partialSources}: ${esc(list(partial))}`;
         sum.className = 'bad';
       } else {
         sum.textContent = T.allFresh.replace('{m}', names.length);
@@ -1394,7 +1429,10 @@
       // `generated` so a file written before the field existed still renders.
       if(vs.length) providerMeta[prov] = {
         generated: j.generated, oldest: j.oldest || j.generated,
-        stale: Array.isArray(j.stale) ? j.stale.length : 0, venues: vs.length };
+        status: j.status || '',
+        stale: Array.isArray(j.stale) ? j.stale.length : 0,
+        unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
+        venues: vs.length };
     });
     state.generated = data.generated;
     return areas.concat(extra);

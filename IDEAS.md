@@ -2181,6 +2181,29 @@ chain is down" when eleven of twelve cinemas are fine. The count says how much o
 actually behind, with the venue tally in the title attribute, translated in all three
 languages.
 
+**Age alone was still the whole test, and that hid a partial refresh** (fixed later the
+same day). A provider whose venue failed to refresh read as healthy for as long as the
+data it kept stayed under `STALE_H`, so the collapsed summary said every source was up to
+date while the expanded row beside it said `(1/12)`. The two disagreed and the one a
+reader sees first was wrong.
+
+`healthState(m, ageH)` now returns `gone | behind | partial | ok`, in that order of
+severity. A partial refresh degrades the moment it happens, independent of the retained
+data's age, because it is a statement about *this run* rather than about how old the data
+is. **`partial` is kept separate from `behind` rather than folded into it**: two-hour-old
+data is not behind, and calling it that is the false alarm that teaches people to ignore
+the line. So the summary has a second phrase -- `⚠ Osa teattereista ei päivittynyt:
+Riviera` -- and `behind` outranks it when a provider is both.
+
+The classifier is pure and sits between two marker comments, so
+`tests/health_state_harness.js` slices it out of `index.html` and runs it with no DOM.
+Splitting the file to make it testable was the alternative and is explicitly deferred
+elsewhere in this document. Fourteen cases, including a file written before `status`
+existed. Verified by breaking it: reverting to age-only turns four red.
+**One term was not pinned at first** -- the unverified case also set `status: 'partial'`,
+so `m.unverified > 0` could be deleted with everything still green. Found by deleting it,
+which is the only way that gap ever shows up.
+
 **A venue that has never produced a showtime is `unverified`, not `stale`** (added
 2026-08-30, same pass). Two faults, one of which only appeared on the second run:
 
