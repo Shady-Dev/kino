@@ -10,7 +10,7 @@ Adding another Nexxo cinema means adding an entry to SITES, not writing code.
 import datetime, json, re, time, urllib.parse
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import EmptyProgramme, fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -25,6 +25,43 @@ SITES = [
           "short": "Kinema", "city": "Loimaa"},
          {"id": "ks-sastamala", "locationid": "3", "name": "Bio",
           "short": "Bio", "city": "Sastamala"},
+     ]},
+    # The 2026-08-30 sweep. Every locationid below was discovered by asking the endpoint,
+    # never assumed: kinohirvi.fi answers on 2 and 4 and on nothing else, and its id 4 is
+    # a different cinema in a different town.
+    {"provider": "kinoaurora", "base": "https://kinoaurora.fi", "label": "Kino Aurora",
+     "programme": "/ohjelmisto/", "venues": [
+         {"id": "au-jyvaskyla", "locationid": "1", "name": "Kino Aurora",
+          "short": "Kino Aurora", "city": "Jyväskylä"},
+     ]},
+    # Two cinemas on one host, so two entries rather than one provider labelled after
+    # whichever came first: Bio Säde is in Mänttä and Kino Hirvi in Äänekoski, and the
+    # picker has to name each one. `host` credits the site actually read, which for both
+    # is kinohirvi.fi -- biosade.fi is a separate domain that serves an empty programme.
+    {"provider": "kinohirvi", "base": "https://kinohirvi.fi", "label": "Kino Hirvi",
+     "programme": "/ohjelmisto/", "venues": [
+         {"id": "hi-aanekoski", "locationid": "2", "name": "Kino Hirvi",
+          "short": "Kino Hirvi", "city": "Äänekoski"},
+     ]},
+    {"provider": "biosade", "base": "https://kinohirvi.fi", "label": "Bio Säde",
+     "programme": "/ohjelmisto/", "venues": [
+         {"id": "sa-mantta", "locationid": "4", "name": "Bio Säde",
+          "short": "Bio Säde", "city": "Mänttä"},
+     ]},
+    {"provider": "kinomarilyn", "base": "https://kinomarilyn.fi", "label": "Kino Marilyn",
+     "programme": "/ohjelmisto/", "venues": [
+         {"id": "ma-loviisa", "locationid": "1", "name": "Kino Marilyn",
+          "short": "Kino Marilyn", "city": "Loviisa"},
+     ]},
+    {"provider": "kinoolympia", "base": "https://kino-olympia.fi", "label": "Kino Olympia",
+     "programme": "/ohjelmisto/", "venues": [
+         {"id": "ol-hanko", "locationid": "1", "name": "Kino Olympia",
+          "short": "Kino Olympia", "city": "Hanko"},
+     ]},
+    {"provider": "jarvelankino", "base": "https://jarvelankino.fi",
+     "label": "Järvelän Kino", "programme": "/ohjelmisto/", "venues": [
+         {"id": "ja-jarvela", "locationid": "1", "name": "Järvelän Kino",
+          "short": "Järvelän Kino", "city": "Järvelä"},
      ]},
 ]
 
@@ -120,11 +157,21 @@ def fetch_venue(site, venue, days=21, tries=3):
 
 def fetch_site(site, sleep=2.5):
     out = {}
+    answered = shows = 0
     for v in site["venues"]:
         try:
             out[v["id"]] = fetch_venue(site, v)
+            answered += 1
+            shows += len(out[v["id"]])
             print(f"[{site['provider']}] {v['name']} ({v['city']}): {len(out[v['id']])} showtimes")
         except Exception as e:
             print(f"[{site['provider']}] {v['name']} FAILED: {e}")
         time.sleep(sleep)
+    # Every locationid answered with valid JSON and not one of them listed a show. That
+    # is a cinema between programmes, not a broken parse -- four Nexxo hosts sit in
+    # exactly this state permanently. If any request failed, `answered` is short and this
+    # stays a normal failure, because then we do not actually know what the site holds.
+    if answered == len(site["venues"]) and not shows:
+        raise EmptyProgramme(
+            f"{site['base']} answered for {answered} locationid(s) and listed no shows")
     return out

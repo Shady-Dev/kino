@@ -174,6 +174,48 @@
    "host": "biograni.fi",
    "accent": "#B03A55",
    "book": "buy"
+  },
+  {
+   "id": "kinoaurora",
+   "label": "Kino Aurora",
+   "host": "kinoaurora.fi",
+   "accent": "#5B4FD0",
+   "book": "reserve"
+  },
+  {
+   "id": "kinohirvi",
+   "label": "Kino Hirvi",
+   "host": "kinohirvi.fi",
+   "accent": "#0F7B9C",
+   "book": "reserve"
+  },
+  {
+   "id": "biosade",
+   "label": "Bio Säde",
+   "host": "kinohirvi.fi",
+   "accent": "#8C3B7A",
+   "book": "reserve"
+  },
+  {
+   "id": "kinomarilyn",
+   "label": "Kino Marilyn",
+   "host": "kinomarilyn.fi",
+   "accent": "#1A6E4A",
+   "book": "reserve"
+  },
+  {
+   "id": "kinoolympia",
+   "label": "Kino Olympia",
+   "host": "kino-olympia.fi",
+   "accent": "#9C5518",
+   "book": "reserve"
+  },
+  {
+   "id": "jarvelankino",
+   "label": "Järvelän Kino",
+   "host": "jarvelankino.fi",
+   "accent": "#7A6A1E",
+   "book": "reserve"
   }
  ]
 }

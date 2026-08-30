@@ -107,5 +107,50 @@ class EmptyProgrammeTest(unittest.TestCase):
         self.assertEqual(after, prev)
 
 
+class NexxoEmptyTest(unittest.TestCase):
+    """Nexxo is where this case is not hypothetical: four hosts answer public_api.php
+    with valid JSON and no shows at any locationid, permanently. The distinction the
+    adapter has to make is between that and a request that never landed."""
+
+    SITE = {"provider": "p", "base": "https://example.test", "programme": "/ohjelmisto/",
+            "venues": [
+                {"id": "a", "locationid": "1", "name": "A", "short": "A", "city": "X"},
+                {"id": "b", "locationid": "2", "name": "B", "short": "B", "city": "Y"},
+            ]}
+
+    def patch(self, fn):
+        import nexxo
+        real = nexxo.fetch_venue
+        nexxo.fetch_venue = fn
+        self.addCleanup(lambda: setattr(nexxo, "fetch_venue", real))
+        return nexxo
+
+    def test_every_locationid_answering_with_no_shows_is_an_empty_programme(self):
+        nexxo = self.patch(lambda site, v, **kw: [])
+        with self.assertRaises(common.EmptyProgramme):
+            nexxo.fetch_site(self.SITE, sleep=0)
+
+    def test_a_failed_request_is_a_failure_not_an_empty_programme(self):
+        """If a locationid never answered we do not know what the site holds, so this
+        must stay a plain empty result and fail the run the way it always did."""
+        def boom(site, v, **kw):
+            raise RuntimeError("403")
+        nexxo = self.patch(boom)
+        self.assertEqual(nexxo.fetch_site(self.SITE, sleep=0), {})
+
+    def test_one_answering_and_one_failing_is_not_an_empty_programme(self):
+        def half(site, v, **kw):
+            if v["locationid"] == "1":
+                return []
+            raise RuntimeError("403")
+        nexxo = self.patch(half)
+        self.assertEqual(nexxo.fetch_site(self.SITE, sleep=0), {"a": []})
+
+    def test_any_showtime_anywhere_means_a_normal_result(self):
+        nexxo = self.patch(lambda site, v, **kw: [{"start": "x"}] if v["locationid"] == "1" else [])
+        out = nexxo.fetch_site(self.SITE, sleep=0)
+        self.assertEqual(len(out["a"]), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -109,6 +109,29 @@ PROVIDERS = [
          book="buy", module="etiketti", where="cloud"),
     dict(id="biograni", label="Bio Grani", host="biograni.fi", accent="#B03A55",
          book="buy", module="etiketti", where="cloud"),
+
+    # The Nexxo sweep of 2026-08-30. Six cinemas on five hosts, against the adapter that
+    # already served Kinoset. Only Kino Aurora lands in a city that already had a chain.
+    # `book="reserve"` throughout: Nexxo publishes no per-show booking URL, so a showtime
+    # opens the programme page filtered to that location, the same as Kinoset.
+    #
+    # Jyväskylä already has Finnkino Fantasia. Orange was the intuitive pick for a cinema
+    # called Aurora and measures 4.7 dE00 against Finnkino's: indigo instead, at 63.7.
+    dict(id="kinoaurora", label="Kino Aurora", host="kinoaurora.fi", accent="#5B4FD0",
+         book="reserve", module="nexxo", where="cloud"),
+    # Both read from kinohirvi.fi, which serves two cinemas in two towns on locationids
+    # 2 and 4. Bio Säde's own domain, biosade.fi, answers with an empty programme, so the
+    # host credited here is the one actually read.
+    dict(id="kinohirvi", label="Kino Hirvi", host="kinohirvi.fi", accent="#0F7B9C",
+         book="reserve", module="nexxo", where="cloud"),
+    dict(id="biosade", label="Bio Säde", host="kinohirvi.fi", accent="#8C3B7A",
+         book="reserve", module="nexxo", where="cloud"),
+    dict(id="kinomarilyn", label="Kino Marilyn", host="kinomarilyn.fi", accent="#1A6E4A",
+         book="reserve", module="nexxo", where="cloud"),
+    dict(id="kinoolympia", label="Kino Olympia", host="kino-olympia.fi", accent="#9C5518",
+         book="reserve", module="nexxo", where="cloud"),
+    dict(id="jarvelankino", label="Järvelän Kino", host="jarvelankino.fi", accent="#7A6A1E",
+         book="reserve", module="nexxo", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

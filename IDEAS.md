@@ -1200,6 +1200,9 @@ or 404 (elokuvateatteristar.fi).
 JSON. Six have live shows: kinoaurora.fi 40, ksek.fi 40, kinohirvi.fi 33, kinomarilyn.fi
 28, kino-olympia.fi 9, jarvelankino.fi 8. **kinohirvi.fi serves two locationids (2 and 4)**,
 so a host is not a venue. Discover the ids, never assume `1`.
+(Corrected by the sweep below: ksek.fi and kinoaurora.fi are the *same* deployment, so
+this list counted one operator twice, and kinohirvi.fi's id 4 is Bio Säde -- whose own
+domain is one of the four "empty" hosts.)
 
 The other four (biojukola.fi, biosade.fi, biosalo.fi, biostara.fi) return valid JSON with
 **zero shows at every id 1-6**. That is the case the zero-showtime run failure is waiting
@@ -1350,11 +1353,10 @@ assumption that is blocking the work before working around it.
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
   a `SITES` entry -- its screenings are server-rendered in a second eTiketti template.
-- **Nexxo is next**, and is the same shape the eTiketti sweep just was: `SITES` entries
-  against a parser that already exists, verified live against `public_api.php`. Six live
-  hosts, one of which serves two locationids. Do the venue-count and accent work before
-  the first one lands, not after -- and note that Nexxo brings the four sites that answer
-  valid JSON with zero shows, which is the empty-site case below.
+- **Nexxo is done** (2026-08-30): six cinemas on five hosts, see the sweep entry above.
+  Kino Metso, the touring locationid at kinoaurora.fi, is the piece left -- it needs the
+  room-splitting `match` that `etiketti.py` already has.
+- **Cinema Niagara** is the other parser-shaped leftover: eTiketti's second template.
 - **Vista is not the lead and should stop being described as one.** Tampere's Niagara,
   named here as a candidate to test, is an eTiketti site. Cinamon and other non-Finnish
   Vista users are untested and are the only remaining reason to keep the signature
@@ -3117,6 +3119,52 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   YouTube URLs, and one missing space after a real question mark in a provider's own
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
+
+### The Nexxo sweep: six cinemas, and two hosts that are not what they look like (2026-08-30)
+Six more cinemas against the adapter that already served Kinoset. No new parser: 25
+chains to 31, 64 venues to 70. Measured into a throwaway directory before committing --
+**9 venues, 102 showtimes, 0 failures** across the module, Kinoset included.
+
+Two of the ten hosts in the earlier probe are not separate cinemas, and both would have
+published wrong data:
+
+- **`ksek.fi` and `kinoaurora.fi` are one deployment.** Both answer locationid 1 with the
+  same 33 showtimes and locationid 2 with the same 13, compared row by row and identical.
+  The earlier entry listed them as two live hosts with 40 shows each, which double-counted
+  one operator; adding both would have published every showtime twice under two chain
+  names, in the same city, with two accents. **A distinct domain is not a distinct
+  cinema**, and the cheap check is to compare the payloads rather than the host list.
+- **`kinohirvi.fi` serves Bio Säde on locationid 4**, in Mänttä, 80 km from Kino Hirvi in
+  Äänekoski. `biosade.fi` -- one of the four hosts recorded as answering with zero shows --
+  is that cinema's own domain, serving an empty programme while its schedule is published
+  on someone else's host. So "the site is empty" and "the cinema has no programme" are not
+  the same statement either. Kino Hirvi and Bio Säde are two registry entries reading one
+  host, because the picker has to name each cinema and they are in different towns.
+
+Both are the same mistake in different clothes: **the host list was treated as the venue
+list.** Ids were discovered by asking the endpoint, never assumed, which is how the id-4
+cinema turned up at all.
+
+- **Orange was the intuitive accent for a cinema called Aurora and measures 4.7 dE00
+  against Finnkino's**, in Jyväskylä, where they share a city. Indigo instead, at 63.7.
+  That is the second time in one day the obvious colour was the one the script rejected.
+- **`book="reserve"` for all six**, as for Kinoset: Nexxo publishes no per-show booking
+  URL, so a showtime opens the programme page filtered to that location.
+- **`common.EmptyProgramme` is raised here too**, and this is the adapter it was written
+  for: `biojukola.fi`, `biosalo.fi` and `biostara.fi` answer `public_api.php` with valid
+  JSON and no shows at any id, permanently. The guard is that *every* locationid answered
+  -- if a request failed we do not know what the site holds, so that stays a failure.
+  None of the three is added: a site that has never published a show is not evidence the
+  parser works.
+
+**Deferred, and it is real coverage: Kino Metso.** `kinoaurora.fi` locationid 2 is a
+touring operation whose `roomTitle` values are *towns* -- Muurame, Petäjävesi, Riihivuori,
+Vaajakoski -- not screens, 13 showtimes across them. The adapter maps one locationid to
+one venue, so taking it as it stands would file four towns' screenings under a single
+venue in a single city, which is worse than not having them. Doing it properly needs the
+room-splitting `match` that `etiketti.py` already has, plus a decision on whether
+Riihivuori is a venue and whether Vaajakoski should read as Jyväskylä. Worth doing; not
+worth guessing at the end of a sweep.
 
 ### A quiet week is not a broken parser (2026-08-30)
 "A whole site parsing zero showtimes fails the run" is what catches a parse that broke
