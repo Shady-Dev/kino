@@ -620,6 +620,7 @@
   <details id="fresh"><summary id="freshSum"></summary><div id="sources"></div></details>
   <div id="credit">Näytösajat suomalaisista elokuvateattereista</div>
   <div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:tiles-39nomads@icloud.com">tiles-39nomads@icloud.com</a></div>
+  <div id="source">Lähdekoodi: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> · AGPL-3.0</div>
 </footer>
 
 <script>
@@ -716,7 +717,7 @@
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
-         contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt',
+         contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
          partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
@@ -757,7 +758,7 @@
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
-         contact:'För biografer: kontakt och begäran om borttagning',
+         contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
          partialMissing:'Kunde inte laddas: {names}.',
@@ -795,7 +796,7 @@
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
-         contact:'For cinemas: enquiries and removal requests',
+         contact:'For cinemas: enquiries and removal requests', source:'Source',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
          partialMissing:'Could not load: {names}.',
@@ -1054,6 +1055,13 @@
   // text on purpose: obfuscating it against scrapers also hides it from the reader it
   // exists for, and a contact route nobody can copy is not one.
   const CONTACT = 'tiles-39nomads@icloud.com';
+  // AGPL section 13 makes a network-deployed *modified* version offer its source, so
+  // this is not an obligation on the original. It is here because the clause is
+  // toothless without an example: a forker who never saw a source link has no idea one
+  // is expected. The licence's own how-to-apply text suggests exactly this for a web
+  // application.
+  const SOURCE_URL = 'https://github.com/Shady-Dev/kino';
+  const LICENCE = 'AGPL-3.0';
   function ageHours(iso){
     const t = iso ? new Date(iso).getTime() : NaN;
     return isNaN(t) ? null : (Date.now() - t) / 36e5;
@@ -1659,6 +1667,10 @@
   function renderContact(){
     document.querySelector('#contact').innerHTML =
       `${L[state.lang].contact} · <a href="mailto:${CONTACT}">${CONTACT}</a>`;
+    const src = document.querySelector('#source');
+    if(src) src.innerHTML = `${L[state.lang].source}: `
+      + `<a href="${SOURCE_URL}" rel="noopener">${SOURCE_URL.replace('https://', '')}</a>`
+      + ` · ${LICENCE}`;
   }
 
   /* ---------- render ---------- */

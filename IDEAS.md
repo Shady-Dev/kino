@@ -2516,6 +2516,47 @@ Worth knowing while reading the numbers: **6 of 3059 showtimes are sold out toda
 of them at the three providers that publish enough to tell. The mark is real but rare, so
 a change to it is easy to ship broken and hard to notice.
 
+### AGPL-3.0, and why not MIT or GPL (2026-08-30)
+Requirements were: keep the copyright, stay open to others, and make copiers credit the
+original. Two of those a licence can do; the third it cannot.
+
+**No licence on GitHub's list requires a visible credit in a running app.** MIT, Apache,
+BSD and the GPLs all require the notice to survive in the source and in distributed
+copies -- not to be shown to anyone using the site. A fork could run at another domain
+with the notice buried in a file nobody opens and be fully compliant. The clause that
+forced visible credit was BSD's 4-clause advertising clause, deprecated and not offered.
+Asking in the README is the whole of what is available.
+
+**AGPL over GPL-3.0 because this is a website.** GPL's copyleft triggers on
+*distribution*, and hosting a fork distributes nothing, so a GPL fork of a deployed web
+app can stay entirely closed -- which is the realistic way this project would be taken:
+someone stands up their own copy at another domain rather than shipping the code. AGPL
+section 13 closes exactly that. It is the only option on the list where "stays open"
+survives contact with a competing deployment.
+
+**AGPL over MIT** because MIT gives that fork away for free. The cost is real and worth
+naming: AGPL deters some users and many companies ban it outright. For a hobby project
+with one author that is an acceptable trade, and it would not be for a library.
+
+Two things the file itself needed:
+
+- `LICENSE` is gnu.org's text **verbatim**, apart from the two placeholders in the
+  how-to-apply block that are meant to be filled. Left verbatim so GitHub's licence
+  detector recognises it, which is why the scoping note lives in the README instead of as
+  a preamble. Copyright holder is `Shady-Dev`, the GitHub identity: this repo is public
+  and a real name leaked into 18 commits once already.
+- **The licence covers the code and nothing else in the tree.** A bare `LICENSE` at the
+  root reads as covering everything, and three kinds of file here are not ours to
+  relicense: 3059 showtimes belonging to the eleven chains, 304 mirrored posters from
+  their CDNs and TMDB, and Archivo under the SIL OFL already recorded in `fonts/OFL.txt`.
+  The README says so.
+
+The footer gained a source link. Section 13 binds whoever *modifies* and deploys, so it
+is not an obligation on the original -- but the clause is toothless without an example,
+since a forker who never saw a source link has no idea one is expected, and the licence's
+own how-to-apply text suggests precisely this for a web application. Four footer lines
+now instead of three, 129 px against 110 at 375 px, one line per language.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
