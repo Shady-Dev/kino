@@ -177,7 +177,7 @@ counts, Finnkino a sold-out flag and no counts, and the rest nothing at all. Onl
 flag survives into the data -- see "Seat counts are parsed and deliberately not
 published".
 
-48 venues / 33 cities across eleven providers. Each provider writes `data/area-{venueId}.json` in one shape
+63 venues / 44 cities across 24 providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now nothing: a registry entry generates
@@ -1108,8 +1108,8 @@ make it 12 across 6.
 
 ### Swedish: who actually publishes it (probed 2026-08-29)
 Finland is bilingual and four cities we cover are Swedish-strong (Vaasa, Pietarsaari,
-Porvoo, Kokkola), 23 of 48 venues sit in officially bilingual municipalities, and 1920
-showtimes already carry Swedish subtitles. So a Swedish mode has an audience. What it
+Porvoo, Kokkola), 23 of the 48 venues covered then sat in officially bilingual
+municipalities, and 1920 showtimes already carried Swedish subtitles. So a Swedish mode has an audience. What it
 does *not* have is much Swedish source text.
 
 - **BioRex publishes a real Swedish edition.** `admin-ajax.php?lang=sv` returns the same
@@ -1226,12 +1226,12 @@ Also the competitive picture, since it comes up when deciding what to claim on t
 - **elokuviin.com** — claims all cinemas large and small, and does include festivals.
 - **kinossa.fi** — same aggregation idea.
 
-So **"Suomen kattavin" is not a defensible claim**: 48 venues against the 225 entries
+So **"Suomen kattavin" is not a defensible claim**: 63 venues against the 225 entries
 nytleffaan.fi lists (fewer distinct cinemas than that — Kinotour alone accounts for 14
 touring venues), and two services already claim full coverage. What is true and
-checkable: eleven chains merged into one city view, festival and strand screenings included
+checkable: 24 chains merged into one city view, festival and strand screenings included
 where those services drop them, sold-out marks and prices where a cinema publishes
-them, no ads and no tracking. Say the count ("11 ketjua, 48 teatteria, 33 kaupunkia") and
+them, no ads and no tracking. Say the count ("24 ketjua, 63 teatteria, 44 kaupunkia") and
 let it grow.
 
 ### The eTiketti sweep lands: fourteen hosts, sixteen venues (2026-08-30)
@@ -1451,7 +1451,7 @@ Still open from this pass:
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the three providers that block datacenter IPs
       (Finnkino, Kino Akseli, Kino Engel), and with the MovieXchange route closed above
-      there is no other way off the laptop at all. 19 of 48 venues ride on that machine.
+      there is no other way off the laptop at all. 19 of 63 venues ride on that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
@@ -1830,7 +1830,7 @@ count failed the same way.
 
 ## Documentation state (2026-08-30, seventh pass)
 
-- `README.md` covers: Leffavuoro, **eleven providers / 48 venues / 33 cities**, the
+- `README.md` covers: Leffavuoro, **24 providers / 63 venues / 44 cities**, the
   two-location pipeline with no cloud fallback for Finnkino, the data shape every
   provider writes (including `age`, `gids` and `tmdbId`, and why the last two are
   exact-match only), the three lists worth reading in `run-enrich.log`, a step-by-step
@@ -1841,8 +1841,8 @@ count failed the same way.
   it.** README said ten providers / 47 venues / 32 cities and 52 generated pages per
   language; IDEAS said the same in six places. That is the seventh time a carried-over
   count has been wrong here. The counts above were measured against `data/` and
-  `teatteri/` on 2026-08-30, not carried over: 11 registry entries, 48 venue directories,
-  33 distinct cities, 53 pages per language, 19 venues on the local half. Two 47s are
+  `teatteri/` on 2026-08-30, re-measured after the eTiketti sweep: 24 registry entries, 63 venue directories,
+  44 distinct cities, 72 pages per language, 145 sitemap URLs, 19 on the local half. Two 47s are
   left alone on purpose, both inside dated sections recording what was true on the day.
 - `IDEAS.md` (this file) holds architecture decisions, per-provider API research and the
   backlog. Read it before touching the pipeline.
@@ -1979,7 +1979,7 @@ count failed the same way.
   Test clean on a city page (371 valid, 0 invalid: 10 Local business, 10 Organisation, 351
   Films). Remaining warnings are all optional fields -- `priceRange`, `telephone` and
   `image` on MovieTheater, `director` and `dateCreated` on Movie. None are in the pipeline;
-  the first three would be manual data entry across 48 venues and `director` would need a
+  the first three would be manual data entry across 63 venues and `director` would need a
   per-film TMDB credits call. Deliberately not chased: optional fields do not gate
   eligibility, and the number that decides whether any of this worked is how many of the
   107 URLs turn up in Search Console's Pages report.
@@ -1988,8 +1988,8 @@ count failed the same way.
   a generated `sitemap.xml` exist (2026-08-28).
 - **Pre-rendered pages, decided and built 2026-08-28**, superseding the note that deferred
   them. Markup does not create pages and the app is one JS-rendered URL, so
-  `scripts/build_pages.py` renders 53 pages per language from the committed JSON at the end
-  of every run: 48 venues plus the five multi-venue cities. Same data, no second fetcher.
+  `scripts/build_pages.py` renders 72 pages per language from the committed JSON at the end
+  of every run: 63 venues plus the nine multi-venue cities. Same data, no second fetcher.
 - **City pages only where a city has more than one venue.** The original plan said "~31
   cities"; that was wrong, taken from the README's city count rather than measured. Only
   Espoo, Helsinki, Kotka, Savonlinna and Tampere have two or more venues, which is the same
@@ -2350,10 +2350,11 @@ recovered, and no number from it should be quoted again.
 | old Finnkino / old BioRex, deutan | 5.0 | 1.8 |
 | global minimum, any pair, deutan | 32.1 | 0.7 (Finnkino/Kino Akseli) |
 
-**Helsinki is the only city with more than one chain in it.** Measured against the data,
-not assumed: 1 of 33 cities. Espoo, Tampere, Kotka and Savonlinna have two venues each
+**Four cities have more than one chain in them.** Measured against the data,
+not assumed: 4 of 44 cities -- Helsinki with six, Vantaa, Lahti and Kouvola with two. Espoo, Tampere, Kotka and Savonlinna have two venues each
 but one chain each, so the combined view there never puts two accents side by side. The
-whole per-city rule reduces to six chains in Helsinki. This also retires the old bullet's
+worst pair is still the six chains in Helsinki; the three the eTiketti sweep created
+were measured against their city before they landed. This also retires the old bullet's
 claim that "Kotka only ever shows two chains" and its 28.7 -> 24.8 figure: Kotka has one
 chain and has never had two.
 
