@@ -2892,6 +2892,49 @@ Note for running them: the cases that need a real Pillow skip on the system inte
 which does not have it. The cloud installs it into the job and the local
 wrapper runs the script from `~/kino-auth/.venv`; use that interpreter to see all nine.
 
+### Measuring when cinemas publish, instead of guessing (2026-08-30)
+The polling slots should follow the providers' publication rhythm and nobody knows what it
+is. `scripts/poll_windows.py` reads only committed data -- no network -- and walks every
+pair of consecutive data commits, reporting when new schedule data first became visible.
+
+**It exists because its first three runs disagreed with each other.** Over one unchanged
+history it reported 125 arrivals, then 20, then 4; the entire difference was its own bugs.
+A number that moves 30x under its author is not evidence, and the slots were going to be
+set from it. All four are now fixtures in `tests/test_poll_windows.py`:
+
+- **ISO strings are not comparable across offsets.** The local half commits `+03:00` and
+  the runner commits `+00:00`, so `"...T17:20:00+03:00" > "...T15:16:40+00:00"` is true
+  lexically and false in real time -- 17:20 EEST is 14:20 UTC, an hour *before* that
+  commit. Sixteen Gilda "arrivals" came out of two byte-identical files. Starts are epoch
+  seconds now.
+- **The weekday was the committer's, not the cinema's.** A cloud commit at 23:30 UTC is
+  02:30 the next day in Helsinki, filed under the wrong day -- and the weekday is the whole
+  output. Everything is normalised to `Europe/Helsinki`.
+- **An adapter commit usually touches no data file**, so checking the data commit alone
+  missed every one. The Orion parser landing between two cloud runs read as Orion
+  publishing 27 screenings. The check is now over the whole range since the previous
+  observation.
+- **A venue whose file is momentarily empty names no provider**, because the provider id
+  lives on the shows; it dropped out of the provider's state and stopped `seen` advancing,
+  so the next window was measured against a stale observation. Venues are attributed
+  globally now -- which then silently stopped first-population being flagged, since the
+  venue was no longer *missing*, so that is tracked explicitly.
+
+**First-seen titles are the weakest signal and are deliberately secondary.** A cinema
+opening next week's dates for films already showing publishes real news and introduces no
+title at all. The primary measure is future screenings added between consecutive
+observations, keyed `venue + title + start + aud`, plus horizon extension.
+
+**Every row is an observation window, never a publication time.** It reports
+`(previous observation, this one]` in full, because the event is only known to fall
+somewhere inside it. That window can never be narrower than the polling interval it is
+meant to inform, which is the ceiling on what this can ever say -- read the weekday long
+before the hour.
+
+As of 2026-08-30 it reports **9 organic arrivals over 4.4 days**, which is far too few to
+set anything by. The history has to accumulate first; the data is committed anyway, so it
+costs nothing to wait.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
