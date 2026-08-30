@@ -12,8 +12,11 @@ Fields:
   host    the cinema's own domain, credited in the footer
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
           Chains that share a city have to be far apart in *both* normal and red-green
-          colourblind vision. Helsinki is the only city with more than one chain in it
-          (measured, 2026-08-30), so it is the only place this rule binds.
+          colourblind vision, and only there: four cities have more than one chain in
+          them (measured after the eTiketti sweep, 2026-08-30) -- Helsinki with six,
+          Vantaa, Lahti and Kouvola with two each. Everywhere else a chain is alone in
+          its town and its accent is unconstrained, which is what makes 25 chains
+          survivable at all. Hues therefore repeat across cities on purpose.
           Run `python3 scripts/accent_check.py` before changing one: it prints every
           same-city pair in CIEDE2000 under two deuteranope models, and
           `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
@@ -65,6 +68,44 @@ PROVIDERS = [
          book="buy", module="etiketti", where="cloud"),
     dict(id="kinoakseli", label="Kino Akseli", host="kinoakseli.fi", accent="#B8801A",
          book="door", module="kinoakseli", where="local"),
+
+    # The eTiketti sweep of 2026-08-30. Fourteen hosts, sixteen venues, all against the
+    # parser that already served Kotka and Kokkola. Only three of them land in a city
+    # that already had a chain, and those three accents are the only ones the 3 px rule
+    # constrains -- see IDEAS. Every one publishes a per-show booking link, so `buy`.
+    dict(id="kinopirtti", label="Kinopirtti", host="kinopirtti.fi", accent="#8E44AD",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="leffabuumi", label="Leffabuumi", host="leffabuumi.fi", accent="#1F7A8C",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="studio123jarvenpaa", label="Studio 123 Järvenpää", host="studiot123.com",
+         accent="#B0308F", book="buy", module="etiketti", where="cloud"),
+    # Kouvola is the one town this sweep puts two of its own chains in, so these two
+    # accents are measured against each other and against nothing else.
+    dict(id="studio123kouvola", label="Studio 123 Kouvola", host="studio123.fi",
+         accent="#17807A", book="buy", module="etiketti", where="cloud"),
+    dict(id="kino123", label="Kino 123", host="kino123.fi", accent="#BF6B04",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="ihmekompleksi", label="Ihme Kompleksi", host="ihmekompleksi.fi",
+         accent="#7A5CD0", book="buy", module="etiketti", where="cloud"),
+    dict(id="kinotar", label="Kinotar 123", host="jamsankinotar.fi", accent="#2E7D5B",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="kinojuha", label="Kino Juha", host="kinojuha.fi", accent="#A6431F",
+         book="buy", module="etiketti", where="cloud"),
+    # Vantaa already has Finnkino Flamingo, so this one is measured against Finnkino's
+    # orange. Green is what it must not be: 13.6 dE00 under the harsher deutan model.
+    dict(id="biogrand", label="Bio Grand", host="biogrand.fi", accent="#7B4FB5",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="biovuoksi", label="Bio Vuoksi", host="biovuoksi.fi", accent="#3E6FA8",
+         book="buy", module="etiketti", where="cloud"),
+    # Lahti already has Finnkino Kuvapalatsi. Same constraint, same measurement.
+    dict(id="kinoiiris", label="Kino Iiris", host="kinoiiris.com", accent="#2F6FD0",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="joutsankino", label="Joutsan Kino", host="kino.joutsa.fi", accent="#96702A",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="kkino", label="K-Kino", host="k-kino.fi", accent="#4C6B1F",
+         book="buy", module="etiketti", where="cloud"),
+    dict(id="biograni", label="Bio Grani", host="biograni.fi", accent="#B03A55",
+         book="buy", module="etiketti", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

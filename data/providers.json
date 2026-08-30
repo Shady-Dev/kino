@@ -76,6 +76,104 @@
    "host": "kinoakseli.fi",
    "accent": "#B8801A",
    "book": "door"
+  },
+  {
+   "id": "kinopirtti",
+   "label": "Kinopirtti",
+   "host": "kinopirtti.fi",
+   "accent": "#8E44AD",
+   "book": "buy"
+  },
+  {
+   "id": "leffabuumi",
+   "label": "Leffabuumi",
+   "host": "leffabuumi.fi",
+   "accent": "#1F7A8C",
+   "book": "buy"
+  },
+  {
+   "id": "studio123jarvenpaa",
+   "label": "Studio 123 Järvenpää",
+   "host": "studiot123.com",
+   "accent": "#B0308F",
+   "book": "buy"
+  },
+  {
+   "id": "studio123kouvola",
+   "label": "Studio 123 Kouvola",
+   "host": "studio123.fi",
+   "accent": "#17807A",
+   "book": "buy"
+  },
+  {
+   "id": "kino123",
+   "label": "Kino 123",
+   "host": "kino123.fi",
+   "accent": "#BF6B04",
+   "book": "buy"
+  },
+  {
+   "id": "ihmekompleksi",
+   "label": "Ihme Kompleksi",
+   "host": "ihmekompleksi.fi",
+   "accent": "#7A5CD0",
+   "book": "buy"
+  },
+  {
+   "id": "kinotar",
+   "label": "Kinotar 123",
+   "host": "jamsankinotar.fi",
+   "accent": "#2E7D5B",
+   "book": "buy"
+  },
+  {
+   "id": "kinojuha",
+   "label": "Kino Juha",
+   "host": "kinojuha.fi",
+   "accent": "#A6431F",
+   "book": "buy"
+  },
+  {
+   "id": "biogrand",
+   "label": "Bio Grand",
+   "host": "biogrand.fi",
+   "accent": "#7B4FB5",
+   "book": "buy"
+  },
+  {
+   "id": "biovuoksi",
+   "label": "Bio Vuoksi",
+   "host": "biovuoksi.fi",
+   "accent": "#3E6FA8",
+   "book": "buy"
+  },
+  {
+   "id": "kinoiiris",
+   "label": "Kino Iiris",
+   "host": "kinoiiris.com",
+   "accent": "#2F6FD0",
+   "book": "buy"
+  },
+  {
+   "id": "joutsankino",
+   "label": "Joutsan Kino",
+   "host": "kino.joutsa.fi",
+   "accent": "#96702A",
+   "book": "buy"
+  },
+  {
+   "id": "kkino",
+   "label": "K-Kino",
+   "host": "k-kino.fi",
+   "accent": "#4C6B1F",
+   "book": "buy"
+  },
+  {
+   "id": "biograni",
+   "label": "Bio Grani",
+   "host": "biograni.fi",
+   "accent": "#B03A55",
+   "book": "buy"
   }
  ]
 }

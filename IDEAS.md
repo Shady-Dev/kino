@@ -35,8 +35,9 @@ line from this list when its item is ticked below.
 
 **[Refactor before adding more providers](#refactor-to-do-before-adding-more-providers)**
 
-- A whole site parsing zero showtimes fails the run; watch for a legitimately empty site
-  tripping it
+- A whole site parsing zero showtimes fails the run — now the top item, not a watch:
+  the eTiketti sweep added cinemas publishing 3 and 2 showtimes, so a quiet week turns
+  the run red
 - Repertory titles defeat the TMDB search — `queries()` should strip a trailing "(YYYY)"
   and known prefixes the way `mergeKey()` does
 
@@ -1185,7 +1186,9 @@ proves they are a customer of a platform, not that the platform answers us**.
 
 eTiketti is much bigger than Kotka. 22 hosts carry `etiketti.app`; **16 serve the
 `/elokuvat/ohjelmistossa` listing `etiketti.py` already parses**, verified by counting the
-`/elokuvat/{id}/` film links in the response: biorex.org 31 (Bio Rex Kokkola, which is
+`/elokuvat/{id}/` film links in the response. (Counting links proved less than it reads
+as: one of the 16, Cinema Niagara, serves the listing and renders its screenings in a
+different template that this parser reads as zero. Corrected in the sweep entry above.) biorex.org 31 (Bio Rex Kokkola, which is
 not the BioRex chain), kinopirtti.fi 16, arthousecinemaniagara.fi 15, leffabuumi.fi 13,
 studiot123.com 12, ihmekompleksi.fi 10, kino123.fi 9, jamsankinotar.fi 8, kinojuha.fi 8,
 studio123.fi 8, biogrand.fi 7, biovuoksi.fi 7, kinoiiris.com 7, kino.joutsa.fi 4,
@@ -1231,6 +1234,74 @@ where those services drop them, sold-out marks and prices where a cinema publish
 them, no ads and no tracking. Say the count ("11 ketjua, 48 teatteria, 33 kaupunkia") and
 let it grow.
 
+### The eTiketti sweep lands: fourteen hosts, sixteen venues (2026-08-30)
+Every host the nytleffaan.fi entry above lists as serving `/elokuvat/ohjelmistossa` is
+now a `SITES` entry, against the parser that already served Kotka and Kokkola. No new
+parser, no `index.html` edit: 11 chains to 25, 48 venues to 64, 33 cities to 45.
+
+Measured end to end before committing, by running the adapter into a throwaway output
+directory rather than over `data/`: **19 venues, 331 showtimes, 0 failures** across the
+whole module, the three existing venues included. Per new venue, smallest first: K-Kino
+Kangasala 3, Kino Saimaa 2, Kino Juha 7, Joutsan Kino 8, Bio Grani 8, Bio Grand 9, Bio
+Vuoksi 9, Ihme Kompleksi 10, Kinotar 123 15, Kino Iiris 16, Studio 123 Järvenpää 22,
+Studio 123 Kouvola 28, Kinolinna 29, Kino 123 35, Kinopirtti 45, Kino Ritz 5.
+
+- **Cinema Niagara is held back, and it is the interesting one.** It carries the
+  signature, serves the listing, and answers 14 film links -- and its film pages hold no
+  screening block this parser can read. Not a Cloudflare problem and not an empty
+  programme: the screenings are server-rendered and visible in the fetched bytes, in a
+  *different template*. There is no `klo` before the time (`<div class="time">10.00`),
+  the price is a bare `10,00€` rather than `Lippu 10,00`, seats read "Seats available"
+  rather than "Vapaat paikat", and an attribute sits between `<div` and `class`, which
+  is what defeats `ITEM_RE` outright. Adding it as it stands would parse zero showtimes
+  and fail the run. So eTiketti is not one template, and "serves the listing" was the
+  wrong test to have stopped at -- the 16-host figure counted film *links*, which is a
+  weaker claim than it reads as. The other 14 were verified by parsing screenings out
+  of them, not by counting links.
+- **The colour rule bound in three new towns, and the obvious pick was wrong in two of
+  them.** Vantaa gains a second chain (Finnkino Flamingo + Bio Grand), Lahti likewise
+  (Finnkino Kuvapalatsi + Kino Iiris), and Kouvola gets two of this sweep's own at once
+  (Kino 123 + Studio 123 Kouvola). Green against Finnkino's orange measures **13.6 dE00**
+  under the harsher deutan model -- below the 14.4 that was already the worst pair in the
+  set -- so the intuitive "green is nothing like orange" is exactly backwards for a
+  deuteranope. Worse, Kouvola's first pick of magenta against teal reads 43.5 dE00 in
+  normal vision and **6.9** in deutan: two colours that could not look less alike, and
+  that collapse onto each other. Repicked to ochre against teal, 35.2. Vantaa settled on
+  violet (57.4) and Lahti on blue (60.3).
+- **Hues now repeat across cities, deliberately.** Twenty-five chains cannot all be
+  separable at once and do not have to be: the accent renders only in a combined city
+  view and its legend, so the only pairs that exist are the ones inside one town. Four
+  cities have more than one chain -- Helsinki with six, Vantaa, Lahti and Kouvola with
+  two. Everywhere else the chain is alone and its accent is free. That is the property
+  that makes the number of chains irrelevant, and it should be stated rather than
+  rediscovered the next time someone counts the palette and panics.
+- **A registry entry and a `SITES` entry are joined by a bare string**, and nothing
+  checked it. A provider present on one side only still fetches, still writes
+  `data/venues-{id}.json` and still renders -- with no chain label, no accent, no host
+  credit and no booking verb, because all four come from the registry entry that is not
+  there. One typo's worth of risk at two sites; sixteen now. `tests/test_registry_sites.py`
+  asserts the join in both directions, that a `SITES` entry lives in the module the
+  registry names, and that no two adapters claim the same venue id -- a collision there
+  is one cinema's `data/area-{id}.json` overwriting another's.
+- **`book="buy"` for all fourteen, checked rather than assumed.** Every screening row on
+  every host carries a `/salikartta?id=` link and a price. Bio Grani is the one that
+  publishes no free-seat count, which costs nothing: seat counts are deliberately
+  unpublished anyway.
+- **Kouvola, not Kuusankoski.** Both Kouvola sites give a Kuusankoski postal address, and
+  neither site says either name in its own pages. The industry directory names one of the
+  cinemas "Studio 123 Kouvola" outright, and Kouvola is the municipality a visitor
+  searches for, so both venues carry it. One registry field if that turns out to read
+  wrong locally.
+- **Bio Grand says Tikkurila and never Vantaa** on its own site. Vantaa is the postal town
+  of the address the directory lists, and it is what the venue picker needs, so the city
+  is Vantaa and the district stays out of it.
+- **This makes the empty-site problem live rather than theoretical.** K-Kino publishes 3
+  showtimes and Kino Saimaa 2. A small cinema between programmes will parse zero, and a
+  whole site parsing zero fails the run today -- by design, because that is what catches a
+  silently broken parse. Fourteen small cinemas is a different bet from two, and the
+  escape hatch that item has been waiting for is now the next thing to build, not a
+  someday. Until then a quiet week at one cinema turns the run red.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 plausible Finnish cinema domains and probed each for `/xml/TheatreAreas/`.
 **Zero hits** beyond Savon Kinot itself. Also dead: account-level Azure blob enumeration
@@ -1252,11 +1323,14 @@ out not to be what made it fail. It was cheap to test and was tested last. Test 
 assumption that is blocking the work before working around it.
 
 ### Next providers
-- **eTiketti and Nexxo first.** Both are `SITES` entries against parsers
-  that already exist and are already verified live against the endpoints those adapters
-  call. See the nytleffaan.fi entry for the host lists and their show counts. Roughly 22
-  sites, against 48 venues today. Do the venue-count and accent work before the first one
-  lands, not after.
+- **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
+  above. Cinema Niagara is the one host left behind, and it needs parser work rather than
+  a `SITES` entry -- its screenings are server-rendered in a second eTiketti template.
+- **Nexxo is next**, and is the same shape the eTiketti sweep just was: `SITES` entries
+  against a parser that already exists, verified live against `public_api.php`. Six live
+  hosts, one of which serves two locationids. Do the venue-count and accent work before
+  the first one lands, not after -- and note that Nexxo brings the four sites that answer
+  valid JSON with zero shows, which is the empty-site case below.
 - **Vista is not the lead and should stop being described as one.** Tampere's Niagara,
   named here as a candidate to test, is an eTiketti site. Cinamon and other non-Finnish
   Vista users are untested and are the only remaining reason to keep the signature

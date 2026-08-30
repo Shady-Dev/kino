@@ -33,6 +33,92 @@ SITES = [
          {"id": "bx-kokkola", "match": "rex", "name": "Bio Rex Kokkola",
           "short": "Bio Rex Kokkola", "city": "Kokkola"},
      ]},
+    # The 2026-08-30 sweep. Fourteen more hosts serving this same listing, verified
+    # against it rather than against the etiketti.app signature in their HTML. Most are
+    # one cinema on one host, so `match` is the place name the screening block prints.
+    {"provider": "kinopirtti", "base": "https://kinopirtti.fi", "label": "Kinopirtti",
+     "venues": [
+         {"id": "kp-kemi", "match": "kinopirtti", "name": "Kinopirtti",
+          "short": "Kinopirtti", "city": "Kemi"},
+     ]},
+    # The one host here that is three cinemas in two towns, and the one that prints the
+    # *town* as the place and the cinema as the room ("MIKKELI | KINOLINNA | SALI 2").
+    # `match` runs against place and room joined, so the cinema name still selects.
+    {"provider": "leffabuumi", "base": "https://leffabuumi.fi", "label": "Leffabuumi",
+     "venues": [
+         {"id": "lb-kinolinna", "match": "kinolinna", "name": "Kinolinna",
+          "short": "Kinolinna", "city": "Mikkeli"},
+         {"id": "lb-ritz", "match": "ritz", "name": "Kino Ritz",
+          "short": "Kino Ritz", "city": "Mikkeli"},
+         {"id": "lb-saimaa", "match": "kino saimaa", "name": "Kino Saimaa",
+          "short": "Kino Saimaa", "city": "Puumala"},
+     ]},
+    # Two unrelated hosts both print the place name "STUDIO 123", in different towns.
+    # The label spells the town out for the same reason Bio Rex Kokkola does.
+    {"provider": "studio123jarvenpaa", "base": "https://studiot123.com",
+     "label": "Studio 123 Järvenpää",
+     "venues": [
+         {"id": "s3-jarvenpaa", "match": "studio 123", "name": "Studio 123 Järvenpää",
+          "short": "Studio 123", "city": "Järvenpää"},
+     ]},
+    {"provider": "studio123kouvola", "base": "https://studio123.fi",
+     "label": "Studio 123 Kouvola",
+     "venues": [
+         {"id": "s3-kouvola", "match": "studio 123", "name": "Studio 123 Kouvola",
+          "short": "Studio 123", "city": "Kouvola"},
+     ]},
+    {"provider": "ihmekompleksi", "base": "https://ihmekompleksi.fi", "label": "Ihme Kompleksi",
+     "venues": [
+         {"id": "ik-kankaanpaa", "match": "ihme kompleksi", "name": "Ihme Kompleksi",
+          "short": "Ihme Kompleksi", "city": "Kankaanpää"},
+     ]},
+    {"provider": "kino123", "base": "https://kino123.fi", "label": "Kino 123",
+     "venues": [
+         {"id": "k3-kouvola", "match": "kino 123", "name": "Kino 123",
+          "short": "Kino 123", "city": "Kouvola"},
+     ]},
+    {"provider": "kinotar", "base": "https://jamsankinotar.fi", "label": "Kinotar 123",
+     "venues": [
+         {"id": "kt-jamsa", "match": "kinotar", "name": "Kinotar 123",
+          "short": "Kinotar 123", "city": "Jämsä"},
+     ]},
+    {"provider": "kinojuha", "base": "https://kinojuha.fi", "label": "Kino Juha",
+     "venues": [
+         {"id": "kj-nurmijarvi", "match": "kino juha", "name": "Kino Juha",
+          "short": "Kino Juha", "city": "Nurmijärvi"},
+     ]},
+    # The site says Tikkurila throughout and never Vantaa; Vantaa is the postal town on
+    # the address the industry directory lists, and is what a visitor searches for.
+    {"provider": "biogrand", "base": "https://biogrand.fi", "label": "Bio Grand",
+     "venues": [
+         {"id": "bg-vantaa", "match": "bio grand", "name": "Bio Grand",
+          "short": "Bio Grand", "city": "Vantaa"},
+     ]},
+    {"provider": "biovuoksi", "base": "https://biovuoksi.fi", "label": "Bio Vuoksi",
+     "venues": [
+         {"id": "bv-imatra", "match": "bio vuoksi", "name": "Bio Vuoksi",
+          "short": "Bio Vuoksi", "city": "Imatra"},
+     ]},
+    {"provider": "kinoiiris", "base": "https://kinoiiris.com", "label": "Kino Iiris",
+     "venues": [
+         {"id": "ki-lahti", "match": "kino iiris", "name": "Kino Iiris",
+          "short": "Kino Iiris", "city": "Lahti"},
+     ]},
+    {"provider": "joutsankino", "base": "https://kino.joutsa.fi", "label": "Joutsan Kino",
+     "venues": [
+         {"id": "jk-joutsa", "match": "joutsan kino", "name": "Joutsan Kino",
+          "short": "Joutsan Kino", "city": "Joutsa"},
+     ]},
+    {"provider": "kkino", "base": "https://k-kino.fi", "label": "K-Kino",
+     "venues": [
+         {"id": "kk-kangasala", "match": "k-kino", "name": "K-Kino",
+          "short": "K-Kino", "city": "Kangasala"},
+     ]},
+    {"provider": "biograni", "base": "https://biograni.fi", "label": "Bio Grani",
+     "venues": [
+         {"id": "bn-kauniainen", "match": "bio grani", "name": "Bio Grani",
+          "short": "Bio Grani", "city": "Kauniainen"},
+     ]},
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')
