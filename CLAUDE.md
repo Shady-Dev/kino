@@ -10,21 +10,19 @@ library in the pipeline.
 It holds the architecture decisions, the per-provider API research, and a long list of
 approaches that were tried and rejected, with the reasoning. Several obvious improvements
 are in there as dead ends. If you disagree with a recorded decision, argue with it in the
-file instead of quietly reversing it, and update IDEAS.md in the same commit as the change
-it explains.
+file. Do not silently reverse it. Update IDEAS.md in the same commit as the change it
+explains.
 
-Write down why a change was made. The diff already shows what changed.
+Write down why a change was made. The diff already records what changed.
 
 ## How to work
 
 - **One commit per item.** Do not batch unrelated changes.
-- **Ask instead of guessing.** If an endpoint is unreachable or a claim cannot be checked
-  against the data, say so plainly. A wrong fact stated confidently costs more than a
-  missing one.
+- **Ask when a fact cannot be checked.** If an endpoint is unreachable or a claim cannot
+  be verified against the data, say so plainly and leave it unstated.
 - **Measure counts against the data before writing them down.** Numbers carried over from
   an older document have been wrong five times now: the city count, the poster count, the
   page rewrite frequency, and then the venue and provider counts after Kino Engel landed.
-  Count it, then write it.
 - **Verify a claim before documenting it.** The README asserted "nothing leaves the
   device" and "no third-party requests" while the page loaded a webfont from Google and
   hot-linked posters from seven other hosts. Documentation has to be factually accurate.
@@ -36,20 +34,20 @@ Write down why a change was made. The diff already shows what changed.
 - A hard refresh verifies. No workflow dispatch is involved.
 - Anything the language toggle can reach must be redrawn by `applyLang()`.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
-  provider URL through `safeUrl()`. Adapters publish verbatim text deliberately, because
-  the raw title is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
+  provider URL through `safeUrl()`. Adapters publish verbatim text, because the raw title
+  is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
 - **No `localStorage` assumptions beyond the existing keys.** Renaming `kino-prefs` or
   `kino-theme` wipes every user's saved venue, theme and starred cinema.
 
 ## Pipeline changes (`scripts/**`)
 
 - After the commit, dispatch the cloud workflow, then verify against the **committed**
-  `run-*.log` files. The Actions logs are not the ones to read.
+  `run-*.log` files. Do not read the Actions logs.
 - Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
-- A provider that parses zero showtimes fails the run deliberately. The failure this
-  guards against is an empty parse that silently leaves old data ageing.
+- A provider that parses zero showtimes fails the run. This catches an empty parse that
+  would otherwise leave old data ageing with no signal.
 
 ## Adding a provider
 
@@ -58,15 +56,15 @@ A registry entry plus an adapter. No `index.html` edit.
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
   is generated from it, and the client derives every label, host, accent and footer verb.
 - An adapter exposes `SITES` and `fetch_site(site) -> {venue_id: [shows]}`.
-- **Platform before site.** A cinema running Vista, MyCloudCinema, Nexxo, eTiketti or
-  Johku is a `SITES` entry against an existing adapter. Check for a platform first, and
-  only write a parser if it is on none of them.
+- **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
+  eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
+  it runs on none of them.
 - **Measure a new accent against the whole set** with `python3 scripts/accent_check.py`.
   `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
-  checks its own CIEDE2000 against published reference data. Never trust an accent number
-  with no script behind it: the figures that used to sit in IDEAS were CIE76 mislabelled
-  as ΔE and were wrong by a factor of five. Helsinki is the only city with more than one
-  chain in it, so it is the only place the rule binds.
+  checks its own CIEDE2000 against published reference data. Do not quote an accent number
+  that no script produced: the figures that used to sit in IDEAS were CIE76 mislabelled as
+  ΔE and were wrong by a factor of five. Helsinki is the only city with more than one chain
+  in it, so it is the only place the rule binds.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
@@ -84,16 +82,16 @@ A registry entry plus an adapter. No `index.html` edit.
   beyond the read endpoints an adapter actually uses. Operational detail lives in private
   notes outside the repo.
 - **No real name and no personal address, in a file or in a commit.** Commit as
-  `Shady-Dev <19388620+Shady-Dev@users.noreply.github.com>`; if you ever see an author
-  line that is not that or a `kino-bot`/`kino-local` identity, stop and say so rather
-  than carrying on. A real name reached 18 commits once and cost a history rewrite.
+  `Shady-Dev <19388620+Shady-Dev@users.noreply.github.com>`. If you see an author line
+  that is not that or a `kino-bot`/`kino-local` identity, stop and say so. A real name
+  reached 18 commits once and cost a history rewrite.
   `tests/test_contact_address.py` fails if any address other than the contact alias
   appears in a tracked file, generated pages included.
 - **Never inflect Finnish city names in generated text.** The correct forms are
   Helsinki -> Helsing**i**ssä and Tampere -> Tampereella: the stem changes, and Finnish
-  cities do not all take the same case. Gluing a case ending onto the nominative instead
-  gives Helsin**ki**ssä, which is wrong and is how a reader spots a generated page
-  immediately. Always use the nominative with a separator.
+  cities do not all take the same case. Gluing a case ending onto the nominative gives
+  Helsin**ki**ssä, which is wrong and is how a reader spots a generated page immediately.
+  Always use the nominative with a separator.
 - **Keep anything volatile out of generated pages**, or `write_if_changed` stops working:
   no build timestamp, no sold-out state in markup.
 - **Do not read a site from a datacenter IP and conclude it is unreachable.** Several
@@ -123,16 +121,15 @@ If a cinema would rather not be included, removing it is one registry entry.
 Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
 under `scripts/`.
 
-A fixture has to exercise the loop, not only the body. A one-item fixture once passed
+A fixture has to exercise the loop as well as the body. A one-item fixture once passed
 while the pacing branch it never entered was missing an import, and `py_compile` does not
 resolve names. Use two items minimum wherever there is pacing or an index.
 
-**A test earns its place by failing.** Write it, break the code it covers, watch it go
-red, then restore. A test that has never failed is a test you have not checked. Every
-cap, fallback and error path in here has to be verified by tripping it, because one of
-them looked correct and silently published a half-empty schedule until it was actually
-triggered.
+**Verify every test by breaking the code it covers.** Write it, break that code, watch the
+test go red, then restore. Every cap, fallback and error path in here has to be checked by
+tripping it: one of them looked correct and silently published a half-empty schedule until
+it was actually triggered.
 
-Tests talk to a real local HTTP server rather than a mocked `urlopen` where the behaviour
-under test is partly urllib's -- which exception a 429 raises, what `e.headers` holds. A
-mock there encodes the assumption instead of checking it.
+Where the behaviour under test is partly urllib's -- which exception a 429 raises, what
+`e.headers` holds -- tests talk to a real local HTTP server. A mock there would encode the
+assumption it is supposed to check.

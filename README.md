@@ -45,8 +45,9 @@ fallback: a runner cannot obtain a token at all, since the site answers
 Cloudflare 403 to datacenter IPs.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
-so one failing provider never blocks the rest. **Read `run.log` and
-`run-{module}.log`, not the Actions logs.** `enrich_tmdb.py` runs last and fills
+so one failing provider never blocks the rest. **The committed `run.log` and
+`run-{module}.log` are the authoritative record; the Actions logs are not.**
+`enrich_tmdb.py` runs last and fills
 in ratings, trailers, synopses and posters a provider does not supply, merging
 rather than overwriting the cinema's own text.
 
@@ -118,9 +119,9 @@ which is why the provider id sits on the site (`nexxo` serves Kinoset,
 `etiketti` serves Kotkan Leffat and Bio Rex Kokkola).
 
 **Check for an existing platform first.** A cinema running Vista, MyCloudCinema,
-Nexxo or eTiketti is a `SITES` entry, not a new parser. Adding a venue to an
-existing provider is one line. Pick the accent with `accent_check.py`, never by
-eye.
+Nexxo or eTiketti needs a `SITES` entry against the existing adapter. Adding a
+venue to an existing provider is one line. Pick the accent with
+`accent_check.py`; do not judge it by eye.
 
     python3 scripts/providers/run.py biorex
     python3 scripts/providers/run.py --where cloud
@@ -157,12 +158,12 @@ and the typeface is served from `fonts/`. Every `<img>` carries
 
 That was false until 2026-08-29, when the typeface came from Google Fonts and
 about a third of the posters were hot-linked from the cinemas' hosts and
-`image.tmdb.org`. Both are mirrored now. The record stays because a privacy
-claim is only as good as the record of when it was wrong.
+`image.tmdb.org`. Both are mirrored now. This paragraph stays so the privacy
+claim can be checked against when it was wrong.
 
-One thing leaves this origin by design: tapping a showtime or a trailer hands
-you to the cinema's booking page or to YouTube. GitHub Pages serves the site and
-logs requests, as any host would.
+Two things reach other hosts. Tapping a showtime or a trailer hands you to the
+cinema's booking page or to YouTube. GitHub Pages serves the site and logs
+requests, as any host would.
 
 ## Data sources
 
@@ -175,15 +176,15 @@ page, and the footer credits the source being displayed.
 Every provider is read through the same public interface its own site uses, under
 an honest User-Agent, **on a schedule that no visitor can influence**. The app
 loads static JSON from this origin, so browsing it, reloading it or leaving it
-open reaches no cinema at all. That part is guaranteed by how the site is built,
-not by a policy.
+open reaches no cinema. That property holds by construction: the client has no
+code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
 collection run. Under the normal configured cadence the three local providers are
 read four times a day, and the eight cloud providers usually up to eight, since
-runs are queued rather than merged. **That is the typical cadence, not a bound.**
-Scheduled execution is best-effort and may be delayed or missed, and a manual
-refresh adds runs, so the real figure can sit either side of it.
+runs are queued rather than merged. **Those figures describe the typical cadence
+and the configuration does not enforce them.** Scheduled execution is best-effort
+and may be delayed or missed, and a manual refresh adds runs.
 
 Booking, payment and administrative endpoints are never called. If a cinema would
 rather not be included, removing it is one registry entry; see Contact below.
@@ -217,8 +218,8 @@ under your own name and User-Agent, and see Access and ethics in
 **tiles-39nomads@icloud.com**
 
 The pipeline reads every provider as `Leffavuoro/1.0 (+https://leffavuoro.fi)`.
-That URL exists so a cinema can find out who is reading them, which only works
-if there is something to find.
+That URL resolves to this page so a cinema can identify who is reading them and
+reach the address above.
 
 If you run one of the cinemas above and would rather not be included, say so and
 the adapter comes out. It is one entry in `scripts/providers/registry.py`, and

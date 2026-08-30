@@ -190,7 +190,7 @@ Conventions worth keeping:
   after a brief detour). It was gated on two chains being present, because colour with no
   legend explained nothing on 19.9. — but that treated the symptom. The fault was the stub
   label failing to name the chain, and once the label carries it ("Riviera Punavuori") the
-  colour is no longer load-bearing. Keeping it on then has value: a palette only becomes
+  colour no longer carries the distinction. Keeping it on then has value: a palette only becomes
   learnable if it is always present, and the app looks better for it. The legend keeps
   the two-chain rule, since a one-item chain filter filters nothing.
 - **Glyphs need their own column.** Trailed after the label they landed wherever the text
@@ -341,7 +341,7 @@ POST https://biorex.fi/wp-admin/admin-ajax.php?lang=fi
 Other Finnish aggregators exist (leffajat.fi, kinoon.fi) — useful as prior art for which
 chains exist and how they present multi-cinema. Take data from the chains' own sources.
 
-### Nexxo Scope — a *platform*, not a site (probed 2026-08-26)
+### Nexxo Scope is a platform serving several sites (probed 2026-08-26)
 Kinoset runs the **Nexxo Scope** WordPress plugin, which exposes a clean JSON API. Other
 Finnish cinemas use the same plugin, so adding one is a **config entry, not a new parser** —
 append to `SITES` in `scripts/providers/nexxo.py` with base URL, locationid, name, city.
@@ -507,7 +507,7 @@ ratings) are the unexplored alternatives; both need a licence read first.
   `PAREN_NOISE` gained `uudelleenjulkaisu` so both passes strip the same vocabulary.
   Reissue labels carry no sequel information, which is why they are safe to drop where a
   subtitle after a dash is not.
-- **Name merging stays load-bearing.** Merging by `tmdbId` only helps films where *both*
+- **Name merging is still required.** Merging by `tmdbId` only helps films where *both*
   chains got an exact match, and the films that miss are exactly the Finnish distributor
   titles most likely to be spelled differently by different chains. So the `mergeKey()`
   strip list has to stay current; it is not superseded.
@@ -1000,7 +1000,7 @@ Johku is still a platform lead for the listing widget itself: `rs-johku-wordpres
 renders the same `rs-johku-schedule` markup on any of its cinema customers, so another
 Johku cinema would be a `SITES` entry against the same parser.
 
-### Probed, not yet added (2026-08-27)
+### Probed but not yet added (2026-08-27)
 - **Kino Engel** (kinoengel.fi) — Sofiankatu 4, Helsinki. Screens Engel 1 / Engel 2 plus
   an outdoor "KesäKino". Elementor; the front page renders a day-grouped list with title,
   "To 27.08. klo 17:30" and a link to /elokuva/{slug}/. No room or price in the list.
@@ -1170,7 +1170,7 @@ server-side. Engel's finding applies in advance: the listing parses, the API doe
 
 **MyCloudCinema:** mantsala.cine.fi, the backend BioRex and Gilda already sit on.
 
-Not measured and load-bearing before any of this lands: venue counts (a host can carry
+Not measured, and required before any of this lands: venue counts (a host can carry
 several; ksek.fi, leffabuumi.fi, studio123.fi, kino123.fi and k-kino.fi each list 2-3 in
 the directory), overlap with venues already covered, and accents. Nine chains already
 sit near the limit of what stays separable under deuteranopia; twenty would not, and the
@@ -1207,12 +1207,12 @@ Ten answered 200 and every one of them was a soft-404 serving the site's own HTM
 first bytes are not `<?xml`, so status alone would have reported ten false hits. Savon
 Kinot looks like the only Finnish Vista deployment leaving the XML services open.
 
-The lesson is about the guess, not the list: the sweep was blocked on a *presumed* missing
-input for two days, and the missing input turned out not to be what made it fail. Cheap
-to test, and it was tested last.
+The sweep was blocked for two days on a *presumed* missing input, and that input turned
+out not to be what made it fail. It was cheap to test and was tested last. Test the
+assumption that is blocking the work before working around it.
 
 ### Next providers
-- **eTiketti and Nexxo first, by a wide margin.** Both are `SITES` entries against parsers
+- **eTiketti and Nexxo first.** Both are `SITES` entries against parsers
   that already exist and are already verified live against the endpoints those adapters
   call. See the nytleffaan.fi entry for the host lists and their show counts. Roughly 22
   sites, against 48 venues today. Do the venue-count and accent work before the first one
@@ -1404,7 +1404,7 @@ Still open from this pass:
 - [ ] README workflow badge
 - [ ] Credential hygiene and rotation: tracked in local private notes
 
-### Ensi-illat: a badge, not a section (2026-08-27)
+### Ensi-illat renders as a badge on the film card (2026-08-27)
 Finnkino has coming-soon pages, and the temptation is a "Tulossa" view. Rejected: every
 row in this app ends in a bookable link, and an upcoming film has nothing to tap. Those
 pages also carry placeholder metadata — "Kesto 0t 1min" on films months out — and **only
@@ -1430,7 +1430,7 @@ shows the language you would switch *to* works for two and breaks at three: you 
 see where you are, and the third is two taps with nothing saying so. The control is the
 same `.seg` pill already used for Leffat/Ajat, so it is a pattern the page already has.
 
-- **`flex:0 0 auto` on the pill is load-bearing.** It clips its own overflow, so under
+- **`flex:0 0 auto` on the pill is required.** It clips its own overflow, so under
   flex pressure it does not widen the row -- it silently eats "EN". A prototype caught
   this; nothing on screen said anything was wrong.
 - **`#themeToggle` needed `flex:0 0 38px`.** Fixed width with no shrink guard, so the
@@ -1455,8 +1455,8 @@ same `.seg` pill already used for Leffat/Ajat, so it is a pattern the page alrea
   closes it for all three. Free, measured.
 - `<html lang>` follows the UI language. It never did, even with two.
 - **The Swedish strings are drafted, not translated.** They need a native Finland-Swedish
-  reader before anyone leans on them, and that is the one part of this that cannot be
-  checked by measurement. The contact line added on 2026-08-30 ("För biografer: kontakt
+  reader before anyone leans on them; no measurement here can check them. The contact
+  line added on 2026-08-30 ("För biografer: kontakt
   och begäran om borttagning") is in the same state, and it is the one string a cinema
   is most likely to read, so it belongs at the front of that review.
 
@@ -1504,9 +1504,9 @@ commit. A diff on that file, or the line reappearing, means `GENRE_FIX` stopped 
 -- most likely because TMDB translated one of the two upstream and the id no longer needs
 overriding, which is a reason to delete the entry rather than to debug it.
 
-The lesson is the same one the poster count taught: `fi+sv+en` in the log answers
-"did Swedish arrive", not "is Swedish right". Reading the 19 values is what found the
-one that was wrong.
+`fi+sv+en` in the log answers "did Swedish arrive" and says nothing about whether the
+Swedish is right. Reading the 19 values is what found the one that was wrong. The poster
+count failed the same way.
 
 ## Open — app
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
@@ -1548,9 +1548,8 @@ one that was wrong.
       `generated` while curl got the new one. Two caches in series, and only one of them
       was being told to revalidate. `fetch(new Request(req, {cache:'no-cache'}))` fixes
       it: conditional against the origin, so a 304 is still cheap.
-      Worth remembering generally: a service-worker cache sits *in front of* the HTTP
-      cache, not instead of it, and stale-while-revalidate is only as fresh as whatever
-      the inner cache hands back.
+      A service-worker cache sits *in front of* the HTTP cache. Both are consulted, and
+      stale-while-revalidate is only as fresh as whatever the inner cache hands back.
 - [x] **Data JSON is served stale and revalidated behind** (2026-08-29, sw.js v48).
       Reverses the network-first rule for `data/*.json` only; the page itself stays
       network-first so a fresh index.html still always wins online. The argument: on a
@@ -1984,7 +1983,7 @@ it against, so the directory would only grow.
   Riviera's ajax calls would collide in one slot; `fetch` forces `cache=False` when
   `data` is given rather than trusting call sites.
 
-### Retry-After is the upstream's schedule, not ours (2026-08-30)
+### Retry-After is honoured on the interval the upstream names (2026-08-30)
 `common.fetch` retried every HTTP error on the same fixed `backoff * n`, so a provider
 answering `429 Retry-After: 60` got three more requests inside 15 seconds. That is the
 one place an upstream states its own terms in a machine-readable way, and the pipeline
@@ -2354,9 +2353,9 @@ above the list reads `Näytetään 11/12 teatteria. Ei saatu ladattua: Kallio.`
 - **The first attempt at testing this proved nothing.** Deleting the file and reloading
   still showed no notice, because the browser's own HTTP cache answered the request with
   the copy it already had -- the service worker was unregistered, which is not the same
-  thing. Re-served on a fresh port so no cached entry applied. Same lesson as the SWR
-  bug: a service worker cache sits in front of the HTTP cache, not instead of it, and
-  clearing one is not clearing the other.
+  thing. Re-served on a fresh port so no cached entry applied. As with the SWR bug, a
+  service worker cache sits in front of the HTTP cache; clearing one leaves the other
+  populated.
 
 ### The service worker stopped caching failures (2026-08-30)
 Two of the three fetch branches called `cache.put` on whatever came back. The data-JSON
@@ -2382,7 +2381,7 @@ Nine cases: 404 and 500 on each branch, 200 on each branch, plus cross-origin an
 non-GET, which must not be intercepted at all rather than merely not cached. Verified by
 restoring the unconditional `put` -- three tests go red.
 
-### The footer says the one thing, not eleven (2026-08-30)
+### The footer credits only the source on screen (2026-08-30)
 The bottom of the page carried three dense blocks: a per-source age for all eleven
 providers, a credit line naming the chain twice, and the contact line. The ages are a
 *diagnostic* -- on a normal day they are eleven items all saying the same thing, and the
@@ -2414,10 +2413,10 @@ anything volatile or `write_if_changed` stops working and every page rewrites on
 run, and provider ages change by the minute. That leaves a client-rendered route, which
 is a router, a URL and a second render path for something that fits on one line.
 
-Worth knowing for any future layout work here: the harness browser reports
-`innerWidth: 0` until `resize_window` is called, and every measurement taken before that
-is nonsense -- text wraps to one character per line and a three-line footer measures
-396 px. Set a viewport first, then measure.
+For any future layout work here: the harness browser reports `innerWidth: 0` until
+`resize_window` is called, and every measurement taken before that is wrong -- text wraps
+to one character per line and a three-line footer measures 396 px. Set a viewport first,
+then measure.
 
 ### The app is operable from a keyboard (2026-08-30)
 Four faults, fixed as one pass because they interlock -- the dialog's close button is
@@ -2457,7 +2456,7 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
-### Poster URLs are checked against the origin, not just the scheme (2026-08-30)
+### Poster URLs are checked against the origin and path (2026-08-30)
 `safeUrl` answered two different questions with one rule. A ticket or trailer URL is
 *meant* to leave this origin, so http(s) and relative are all correct for it. A poster is
 not: an `<img>` is a request the browser makes on its own, and the README's claim that a
@@ -2592,9 +2591,9 @@ had not sold out is at worst optimistic in the same direction the reader already
 Do not "restore" the counts without solving the staleness, which the refresh rate rules
 out.
 
-Worth knowing while reading the numbers: **6 of 3059 showtimes are sold out today**, all
-of them at the three providers that publish enough to tell. The mark is real but rare, so
-a change to it is easy to ship broken and hard to notice.
+When reading the numbers: **6 of 3059 showtimes are sold out today**, all of them at the
+three providers that publish enough to tell. The mark is real but rare, so a change to it
+is easy to ship broken and hard to notice.
 
 ### AGPL-3.0, and why not MIT or GPL (2026-08-30)
 Requirements were: keep the copyright, stay open to others, and make copiers credit the
@@ -2709,10 +2708,9 @@ horizontally scrolling control strip, or Finnish and Swedish labels squeezed unt
 stop reading. Two rows on a very narrow screen is the cheapest of those. Revisit only if
 a real 320 px device feels cumbersome in the hand, not because the number is ugly.
 
-**Theme and language are unreachable without scrolling to the top**, and that is the
-point rather than a side effect. They are configuration, not browsing controls: you set
-them once and then read a list. Trading permanent screen space for a control used once a
-month is the trade v70 exists to undo. **Do not add a floating theme button**, a
+**Theme and language are unreachable without scrolling to the top**, by design. They are
+configuration rather than browsing controls: you set them once and then read a list. v70
+exists to stop spending permanent screen space on a control used about once a month. **Do not add a floating theme button**, a
 duplicate in the pinned strip, or any other replacement -- that reintroduces the cost
 this change removed, in a smaller and harder-to-notice form.
 
@@ -2892,7 +2890,7 @@ Note for running them: the cases that need a real Pillow skip on the system inte
 which does not have it. The cloud installs it into the job and the local
 wrapper runs the script from `~/kino-auth/.venv`; use that interpreter to see all nine.
 
-### Measuring when cinemas publish, instead of guessing (2026-08-30)
+### Measuring when cinemas publish (2026-08-30)
 The polling slots should follow the providers' publication rhythm and nobody knows what it
 is. `scripts/poll_windows.py` reads only committed data -- no network -- and walks every
 pair of consecutive data commits, reporting when new schedule data first became visible.
