@@ -75,11 +75,25 @@
   a{color:inherit}
 
   /* ===== Header ===== */
+  /* The whole header used to be sticky, so the logo, language toggle and theme button
+     held 58 px of every screen for the entire length of a 45-card list. They are the one
+     row a reader scrolling films has no use for. Sticking the *controls* instead lets
+     that row scroll away as ordinary content while the picker, search, dates and filters
+     stay pinned.
+     Deliberately no JavaScript, no scroll listener and no height constant: the wrapper
+     pins itself at top:0, so nothing has to know how tall the branding row is, and
+     nothing can drift when that row changes. Nothing resizes either, so the list never
+     shifts under the reader -- the header's flow height is identical before and after.
+     Scrolling back to the top brings the row back by itself, because it is just content. */
   header{
+    z-index:50;
+    background:var(--bg);
+    transition:background .25s;
+  }
+  .pinned{
     position:sticky; top:0; z-index:50;
     background:var(--bg);
     border-bottom:1px solid var(--line);
-    transition:background .25s;
   }
   .bar{
     max-width:1100px; margin:0 auto; padding:14px 20px;
@@ -595,6 +609,7 @@
     <div id="langSeg" class="langseg" role="group" aria-label="Kieli"></div>
     <button id="themeToggle" type="button" title="Vaihda teemaa" aria-label="Vaihda vaalean ja tumman teeman välillä">◐</button>
   </div>
+  <div class="pinned">
   <div class="controls">
     <select id="areaSelect" aria-label="Valitse teatteri"></select>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
@@ -608,6 +623,7 @@
     <button class="chip" id="chipLang">Suom. puhe</button>
     <button class="chip" id="chipKids">Lapsille</button>
     <button class="chip" id="chipAnnis">Anniskelu</button>
+  </div>
   </div>
 </header>
 

@@ -2587,6 +2587,63 @@ since a forker who never saw a source link has no idea one is expected, and the 
 own how-to-apply text suggests precisely this for a web application. Four footer lines
 now instead of three, 129 px against 110 at 375 px, one line per language.
 
+### The branding row stops holding a third of the screen (2026-08-30)
+The whole `<header>` was sticky, so the logo, language toggle and theme button stayed
+pinned for the entire length of a 45-card list. Measured before touching anything, the
+header was **27 to 36 per cent of the viewport** at every size tested:
+
+| viewport | header | share | list fold | cards fully visible |
+|---|---|---|---|---|
+| 320x812 | 290 | 35.7% | 522 | 1 |
+| 375x812 | 257 | 31.7% | 555 | 2 |
+| 390x844 | 257 | 30.5% | 587 | 2 |
+| 430x932 | 258 | 27.7% | 674 | 2 |
+| 1280x900 | 246 | 27.3% | 654 | 2 |
+
+The fix is one structural change and no JavaScript: the sticky moves off `<header>` and
+onto a `.pinned` wrapper around the picker, search, dates and filters. The branding row
+then scrolls away as ordinary content and comes back on its own when the reader returns
+to the top, because it *is* ordinary content.
+
+**No height constant anywhere**, which is the reason for this shape rather than
+`top: -58px` on the header. A negative offset needs a number that matches the branding
+row's height at every breakpoint, and that number silently rots the day the row changes.
+The wrapper pins itself at `top:0` and needs to know nothing.
+
+**No layout shift**, and that is measurable rather than argued: the header's flow height
+is byte-identical before and after at all five widths (290/257/257/258/246), because a
+plain wrapper adds no box. Nothing resizes while scrolling, so the list cannot jump.
+
+Recovered **58 px on mobile and 66 px on desktop**, consistently 8.6 to 11.1 per cent
+more list. It does not change how many cards fit *whole* at any tested size -- a card is
+214 px and the gain is a quarter of one -- so the honest claim is a quarter-card more of
+the next film visible, not an extra film.
+
+**Not verified: how it feels while scrolling.** The harness browser will not scroll, by
+`window.scrollTo`, `scrollIntoView`, direct `scrollTop` assignment or injected wheel
+events; `scrollY` stays 0 and input injection times out. Everything above is measured
+from element geometry, which is real, and the at-rest rendering is unchanged by
+screenshot. The scrolled interaction needs a look on a real phone. It is one CSS rule and
+one wrapper div to revert.
+
+### Two rejected in the same pass
+**Denser cards: rejected on measurement.** The proposal was `.movie{gap:14px;
+padding:16px 0}` against the current `18px`/`20px`. `.movie` is `display:flex` in a row,
+so **`gap` is the column gap and does nothing vertically** -- measured, median card 214 px
+and document height 10937 px identical with and without it; it only widens the text
+column by 4 px. The whole vertical effect is the padding: card 214 -> 206, document
+10937 -> 10577, 3.3 per cent. That changes the number of fully visible cards at **none**
+of 320/375/390/430/1280, and spends 20 per cent of the separation between films to do it.
+Compressing the product to save 8 px is the wrong direction when 58 px of chrome was
+available for free.
+
+**Result count: rejected.** No placement is free. Every option puts a new row directly
+above the list at the exact moment the reader is looking at filtered results, and the
+count largely restates what the list already shows, since the number of cards *is* the
+film count. The closest call of the three: the showtime half of it is genuinely not
+visible without scrolling. Not enough to earn permanent code and conditional chrome in a
+view whose stated purpose is to get out of the list's way.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a
