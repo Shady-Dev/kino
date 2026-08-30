@@ -10,7 +10,7 @@ Showtimes for 48 venues in 33 cities across eleven providers: Finnkino,
 BioRex, Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino
 Engel, Bio Rex Kokkola and Kino Akseli. Pick a venue and a date, see films with
 posters, TMDB ratings, age limits, runtimes, genres, languages, and ticket
-prices and seat availability where the cinema publishes them. Tapping a
+prices and sold-out marks where the cinema publishes them. Tapping a
 showtime opens that cinema's own booking page.
 
 Cities with more than one venue also get a combined view ("Kaikki Helsinki"). It

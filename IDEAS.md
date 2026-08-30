@@ -119,7 +119,7 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 
 | Provider | Venues | Auth | Runs where | Data |
 |---|---|---|---|---|
-| Finnkino | 17 | short-lived token | Local (blocks datacenter IPs) | full, seats |
+| Finnkino | 17 | short-lived token | Local (blocks datacenter IPs) | full; sold-out flag, no seat counts |
 | BioRex | 12 | none | Actions | no runtime/genres/seats |
 | Kinoset (Nexxo) | 3 | none | Actions | prices, duration, genres |
 | Kotkan Leffat (eTiketti) | 2 | none | Actions | prices, duration, seats |
@@ -130,8 +130,11 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 | Kino Engel | 1 | none | Local (blocks datacenter IPs) | own synopses, rating, runtime, genres; no price, room or booking URL |
 | Kino Akseli | 1 | none | Local (blocks datacenter IPs) | prices, no booking links |
 
-Ratings and trailers come from the shared TMDB enrichment pass, so only Finnkino and
-Kotkan Leffat still differ in what the source itself provides (seat availability).
+Ratings and trailers come from the shared TMDB enrichment pass, so what still differs
+between providers is what the source itself gives: eTiketti and Riviera publish real seat
+counts, Finnkino a sold-out flag and no counts, and the rest nothing at all. Only the
+flag survives into the data -- see "Seat counts are parsed and deliberately not
+published".
 
 48 venues / 33 cities across eleven providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
@@ -1184,7 +1187,7 @@ So **"Suomen kattavin" is not a defensible claim**: 48 venues against the 225 en
 nytleffaan.fi lists (fewer distinct cinemas than that — Kinotour alone accounts for 14
 touring venues), and two services already claim full coverage. What is true and
 checkable: eleven chains merged into one city view, festival and strand screenings included
-where those services drop them, seat availability and prices where a cinema publishes
+where those services drop them, sold-out marks and prices where a cinema publishes
 them, no ads and no tracking. Say the count ("11 ketjua, 48 teatteria, 33 kaupunkia") and
 let it grow.
 
@@ -1728,7 +1731,7 @@ one that was wrong.
   explicit flag and `exit 1`, or the step goes green having done nothing.
 - Small hosts rate-limit: Kinoset started answering 403 after repeated hits in one hour.
 - **Every frontend bug today came from a field that only Finnkino ever populated**:
-  `soldOut` (only Finnkino and Kotka have seats), `s.fi` (Finnish synopsis missing ->
+  `soldOut` (four providers can set it now, see below), `s.fi` (Finnish synopsis missing ->
   rendered blank instead of falling back to English), and a hash regex `m=([\w-]+)` that
   silently truncated ids containing spaces. When adding a provider, check field-presence
   assumptions in the client, not just the parser.
@@ -2442,6 +2445,31 @@ horizontally, which frees 8 px per chip; all four chips and the segment now sit 
 The Swedish and English labels are "Bar", not "Utskänkning" and "Licensed bar" -- both of
 those wrapped or left 3 px of margin. The glyph key keeps the fuller wording, so the
 term is still taught somewhere.
+
+### Seat counts are parsed and deliberately not published (2026-08-30)
+README said the app shows "seat availability where the cinema publishes them". It does
+not, and never has: what it shows is a sold-out mark.
+
+What each source actually gives, and what becomes of it:
+
+- **Finnkino** — an `isSoldOut` boolean from the API. No counts exist to publish.
+- **eTiketti** (Kotkan Leffat, Bio Rex Kokkola) — a real count, `Vapaat paikat N / M`,
+  parsed by `SEATS_RE` and then reduced to `soldOut: free == 0`.
+- **Riviera** — a real count, `Varatut paikat: N / M`, reduced the same way.
+- Everyone else — nothing, so `soldOut` is always false.
+
+The counts are therefore parsed and thrown away, which reads like an oversight and is
+not. **A number goes stale in a way a boolean does not.** The data is refreshed four
+times a day, so a count is up to six hours old when it is read: "12 vapaata" can be zero
+by the time anyone acts on it, and it would be shown with the authority of a figure.
+Sold-out survives that much better -- a screening that filled up stays full, and one that
+had not sold out is at worst optimistic in the same direction the reader already assumes.
+Do not "restore" the counts without solving the staleness, which the refresh rate rules
+out.
+
+Worth knowing while reading the numbers: **6 of 3059 showtimes are sold out today**, all
+of them at the three providers that publish enough to tell. The mark is real but rare, so
+a change to it is easy to ship broken and hard to notice.
 
 ## Access and ethics
 
