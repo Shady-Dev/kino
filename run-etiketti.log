@@ -3,6 +3,13 @@
 [kotkanleffat] Trio 123: 24 showtimes, 4 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 41 showtimes, 10 dates
+[savonkinot] synopses merged: 1
+[savonkinot] Tapio Joensuu: 26 showtimes, 4 dates
+[savonkinot] Killa Savonlinna: 4 showtimes, 4 dates
+[savonkinot] Kuvalinna Savonlinna: 4 showtimes, 4 dates
+[savonkinot] Kuvalipas Iisalmi: 6 showtimes, 3 dates
+[savonkinot] Maxim Varkaus: 12 showtimes, 4 dates
+[savonkinot] Kino-Hovi Kitee: 2 showtimes, 2 dates
 [kinopirtti] synopses merged: 0
 [kinopirtti] Kinopirtti: 40 showtimes, 5 dates
 [leffabuumi] synopses merged: 0
@@ -22,7 +29,7 @@
 [kinojuha] synopses merged: 0
 [kinojuha] Kino Juha: 7 showtimes, 5 dates
 [biogrand] synopses merged: 0
-[biogrand] Bio Grand: 8 showtimes, 4 dates
+[biogrand] Bio Grand: 10 showtimes, 4 dates
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 8 showtimes, 4 dates
 [kinoiiris] synopses merged: 0
@@ -31,6 +38,6 @@
 [kkino] K-Kino: 3 showtimes, 2 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
-[run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 18 venues, 350 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 185 full, 185 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 406 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
