@@ -1549,6 +1549,25 @@ Swedish is right. Reading the 19 values is what found the one that was wrong. Th
 count failed the same way.
 
 ## App
+- [x] **Visual polish pass: boxes only where something is tappable or official**
+      (2026-08-30, sw.js v71). The audit question for every bordered rounded thing:
+      is it a control, a classification, or just text wearing a container? Applied:
+      form controls (select, search, star) lost their drop shadows — the border is
+      the affordance, the shadow was the one treatment making the header read as a
+      stock component library; `.fmt` tags (2D, ANNISKELU, runtime, price) lost box
+      and border entirely and are now small uppercase muted type, because they are
+      passive metadata and were dressed like buttons next to the stubs people actually
+      tap; the premiere tag keeps weight through the accent colour instead of a border.
+      `.rating` (K-12) and `.agelim` keep their boxes: an official classification is
+      the chip shape's job. Filter chips dropped from the full pill to the stub's 7px
+      radius so the tools row reads as one primary segment (Leffat/Ajat, still a pill)
+      plus quiet toggles, not four equal capsules; the mobile padding measurements from
+      the 375px fit stay untouched. Hover states added where transitions existed but
+      no state did (.chip, .day, .seg, .lg-btn, .cal-day, select, .fav, title links),
+      and `.stub:active` mirrors `:hover` so a touch tap flashes the same inversion —
+      hover never fires on touch. Date labels get `text-overflow:ellipsis`: at 320px
+      "Huomenna" hard-clipped mid-glyph. Deliberately untouched: stub shadow and
+      perforation, the score ring, chain rules, and the date chips' two-line layout.
 - [x] **XML/CORS-proxy fallback deleted** (2026-08-28). ~80 lines (PROXIES, fetchXML,
       the `state.mode='xml'` branches, the attempts log, the `content://` help text from
       the pre-hosting single-file era). It fired only when same-origin `data/areas.json`

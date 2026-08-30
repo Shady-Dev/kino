@@ -137,17 +137,22 @@
     max-width:1100px; margin:0 auto; padding:16px 20px 12px;
     display:flex; flex-wrap:wrap; gap:10px; align-items:center;
   }
+  /* Form controls carry no shadow: a border on a flat surface is affordance enough,
+     and the drop shadows were the one treatment making the header read as a generic
+     component library rather than a timetable. The shadow stays on stubs (the thing
+     you tap) and posters (imagery). */
   select, .search{
     font:inherit; color:var(--ink); background:var(--surface);
     border:1px solid var(--line); border-radius:10px;
-    padding:10px 14px; box-shadow:var(--shadow);
+    padding:10px 14px;
   }
   select{cursor:pointer; max-width:280px}
+  select:hover, .fav:hover{border-color:var(--muted)}
   .fav{
     font:inherit; font-size:1.15rem; line-height:1; cursor:pointer;
     color:var(--muted); background:var(--surface);
     border:1px solid var(--line); border-radius:10px;
-    padding:8px 12px; box-shadow:var(--shadow);
+    padding:8px 12px;
   }
   .fav[aria-pressed="true"]{color:var(--accent); border-color:var(--accent)}
   .fav.labelled{display:inline-flex; align-items:center; gap:6px; color:var(--ink)}
@@ -187,8 +192,12 @@
     color:var(--muted); text-align:center; transition:all .15s;
     position:relative; overflow:hidden;
   }
+  .day:hover:not(.active){border-color:var(--muted)}
+  /* nowrap + overflow:hidden clipped "Huomenna" mid-glyph at 320px; an ellipsis at
+     least says the label continues. */
+  .day b, .day small{overflow:hidden; text-overflow:ellipsis}
   .day b{display:block; color:var(--ink); font-weight:700; font-size:.85rem; white-space:nowrap}
-  .day small{font-size:.74rem; font-weight:600; letter-spacing:.01em; white-space:nowrap}
+  .day small{display:block; font-size:.74rem; font-weight:600; letter-spacing:.01em; white-space:nowrap}
   /* Custom month picker: <input type=date> cannot dim individual days, and with
      horizons out to three months most days have no screening at all. */
   .cal-wrap{
@@ -217,6 +226,7 @@
     cursor:pointer; color:var(--ink); font-weight:700;
     background:var(--chip-bg); border-color:var(--line);
   }
+  .cal-day.has:hover{border-color:var(--muted)}
   .cal-day.off{opacity:.28}
   .cal-day.pad{opacity:0}
   .cal-day.sel{background:var(--ink); color:var(--bg); border-color:var(--ink)}
@@ -272,25 +282,40 @@
   }
   .poster.blank{display:grid;place-items:center;font-weight:800;font-size:1.5rem;letter-spacing:.04em;border:1px solid var(--line)}
   .info{flex:1; min-width:0}
-  .title{font-size:1.15rem; font-weight:800; line-height:1.25}
+  /* -.01em: Archivo at 800 tracks a touch loose at heading size; pulling it in makes
+     the title read as display type against the untracked meta lines below it. */
+  .title{font-size:1.15rem; font-weight:800; line-height:1.25; letter-spacing:-.01em}
   /* The trigger is a link because opening the sheet is hash navigation. It has to look
      like the heading it is, so only the focus ring gives it away. */
   .tlink{text-decoration:none; color:inherit; border-radius:3px}
+  .tlink:hover, .tinfo:hover b{
+    text-decoration:underline; text-decoration-thickness:1px;
+    text-decoration-color:var(--muted); text-underline-offset:3px;
+  }
   .meta1{
-    margin-top:7px; display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center;
+    /* 10px columns: the unboxed tags lean on whitespace where the border used to
+       separate them. */
+    margin-top:7px; display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center;
     font-size:.82rem;
   }
   .meta2{
     margin-top:5px; color:var(--muted); font-size:.8rem;
     display:flex; flex-wrap:wrap; gap:4px 14px;
   }
-  .rating, .fmt{
+  .rating{
     display:inline-block; border:1px solid var(--line); border-radius:5px;
     padding:1px 7px; font-weight:700; font-size:.72rem; color:var(--ink);
     background:var(--surface);
   }
-  .fmt{color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase}
-  .fmt.prem{color:var(--ink); border-color:var(--accent)}
+  /* Format, runtime and method tags are passive metadata, not controls. Boxing them
+     made them read as buttons beside the stubs; small uppercase type separated by the
+     row gap says "tag" on its own. The age rating keeps its box: it is an official
+     classification and the chip shape is what distinguishes it from the free-form tags. */
+  .fmt{
+    display:inline-block; padding:1px 0; font-size:.72rem;
+    color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+  }
+  .fmt.prem{color:var(--accent); font-weight:700}
   /* A limit the *screening* imposes, not the film's classification: a licensed bar
      auditorium is 18+ even when the film is K-12. Deliberately not red and not KAVI's
      official symbol — that artwork means a legal age rating, which this is not, and a
@@ -396,7 +421,7 @@
   }
   .sheet-body > .legend + .syn{margin-top:14px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
-  .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px}
+  .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
   .trailer{display:inline-block; margin-top:12px; color:var(--accent); font-weight:700;
     text-decoration:none; font-size:.88rem}
@@ -433,6 +458,7 @@
   }
   .legend .lg-btn.on{color:var(--ink); background:var(--chip-bg)}
   .legend .lg-btn:not(.on){opacity:.5}
+  .legend .lg-btn:hover{color:var(--ink); opacity:1}
   .legend .lg[class*="chain-"],
   .legend .lg-btn[class*="chain-"]{border-left-color:var(--chain, var(--line))}
   .legend .lg-btn.lg-all{
@@ -474,6 +500,10 @@
   .stub::before{top:-5px}.stub::after{bottom:-5px}
   .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
   .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
+  /* :active mirrors :hover so a touch tap flashes the same inversion — hover alone
+     never fires on touch — and the lift settles back for a pressed feel. */
+  .stub:active{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:none}
+  .stub:active .aud{color:var(--chip-hover-ink); opacity:.75}
   .stub.past{opacity:.45; pointer-events:none}
   .stub.sold{opacity:.55; pointer-events:none; filter:grayscale(1)}
   .stub.sold .time{text-decoration:line-through}
@@ -509,9 +539,14 @@
   .seg{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:var(--surface)}
   .seg button{border:0; background:transparent; padding:7px 14px; font:inherit; font-size:.78rem; font-weight:700; color:var(--muted); cursor:pointer}
   .seg button.on{background:var(--ink); color:var(--bg)}
-  .chip{border:1px solid var(--line); background:var(--surface); border-radius:999px;
-    padding:7px 13px; font:inherit; font-size:.78rem; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s}
+  .seg button:hover:not(.on){color:var(--ink)}
+  /* Secondary filters sit a step below the Leffat/Ajat segment: same height, but the
+     7px corner (the stub radius) instead of the full pill, so the row reads as one
+     primary control plus quiet toggles rather than four equal capsules. */
+  .chip{border:1px solid var(--line); background:var(--surface); border-radius:7px;
+    padding:7px 12px; font:inherit; font-size:.78rem; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s}
   .chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+  .chip:hover:not(.on){color:var(--ink); border-color:var(--muted)}
 
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
   .trow .stub{flex:0 0 158px; width:158px; min-width:0}
