@@ -24,6 +24,8 @@ line from this list when its item is ticked below.
 - Finnkino prices via the ticket-types endpoint
 - Commit `run.log` only on failure, to cut commit noise
 - Refresh the TMDB rating on a trailer re-check, which currently reuses the cached one
+- Fetch independent sites concurrently — the per-host pacing is the courtesy and stays,
+  the serialisation *across* unrelated hosts is incidental and costs ~3.5 min a run
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
 
@@ -3134,6 +3136,45 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   YouTube URLs, and one missing space after a real question mark in a provider's own
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
+
+### Where a run's time actually goes, and what could be taken back (2026-08-31)
+Measured off one cloud run's committed logs rather than guessed: **eTiketti is about 85%
+of it.** 185 requests against 9 for Nexxo, 25 for BioRex, 6 for Gilda and 1 for Orion. At
+`sleep=1.2` after each film page that is roughly **3.5 minutes of deliberate sleeping**,
+and everything else in the run is noise beside it.
+
+The distinction worth keeping straight before anyone "optimises" this:
+
+- **Per-host pacing is the design.** 1.2 s between two requests to the *same* cinema is
+  the courtesy the whole access story rests on, and it is not negotiable for speed.
+- **Serialising across hosts is not.** Reading kinopirtti.fi while biograni.fi is mid-fetch
+  adds nothing to either -- they are unrelated third parties who cannot tell. Nothing
+  chose that behaviour; it is how the loop was written when the module had two sites, and
+  it now has fifteen.
+
+So the available win is a pool **over sites**, keeping the sleep **within** each site:
+eTiketti's wall clock would go from the sum of fifteen sites to the slowest single one,
+roughly 3.5 min to ~20 s, with per-host load unchanged. No workflow edit needed.
+
+Not free, and these are the reasons it is a design item rather than a small patch:
+
+- **`common._stats` and `_throttle` are module-level dicts** mutated on every request and
+  not thread-safe. Those counters are what the committed logs use to show how the
+  pipeline fetched -- losing counts would quietly corrupt the evidence, which is worse
+  than being slow.
+- **Log interleaving.** `[provider] Venue: N showtimes` reads top to bottom today; a pool
+  shuffles it. The committed logs are the verification surface for every run, so output
+  would need buffering per site before printing.
+- **The HTTP validator cache** writes per-URL files, and concurrent writes want checking
+  against `write_text_atomic` rather than assuming.
+
+One avenue is already closed and should not be re-tried: **conditional GETs do not help
+here.** The same log reads `185 not stored (origin said no-store)` -- the eTiketti origins
+forbid caching, so there is nothing to revalidate against.
+
+Worth being honest about the payoff. At ~5 minutes, four to eight times a day, this is not
+hurting anyone. What it buys is a faster verification loop when changing an adapter, and a
+smaller window in which a mid-run failure can land. Do it deliberately or not at all.
 
 ### The local half can now announce a failure (2026-08-30)
 The cloud half has always announced its own: a provider that exits non-zero turns the
