@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-08-30: 419 showtimes
+[schedule] 2026-08-30: 387 showtimes
 [schedule] 2026-08-31: 333 showtimes
 [schedule] 2026-09-01: 326 showtimes
 [schedule] 2026-09-02: 385 showtimes
@@ -9,7 +9,7 @@
 [schedule] 2026-09-05: 7 showtimes
 [tmdb] no TMDB match (1): Harry Potter -elokuvamaraton 1
 [tmdb] 0 new lookups, 0 re-checks, cache 53, 52 mergeable by id
-[films] 50 film entries
+[films] 49 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
