@@ -2937,8 +2937,24 @@ costs nothing to wait.
 
 ## Access and ethics
 
-- Every provider is read through the same public interface its own site uses, four times a
-  day regardless of traffic, and every showtime links back to the cinema's own page.
+- Every provider is read through the same public interface its own site uses, on a
+  schedule no visitor can influence, and every showtime links back to the cinema's own
+  page. **The traffic-independence is guaranteed; the cadence is not.** The client reads
+  static JSON from this origin and never calls a cinema, so no amount of browsing produces
+  a single request -- that holds by construction, and it is the part worth promising.
+  The count holds by nothing. Normal configured cadence is four runs a day for the local
+  three, and for the cloud eight a four-times-daily cron *plus* one run after every local
+  run, since `dispatch_cloud.sh` fires the same workflow and the `concurrency` group
+  queues rather than merges -- usually up to eight. It is not a bound in either direction:
+  `workflow_dispatch` stays callable by hand or by API and can push it higher, and
+  scheduled execution is best-effort and may be delayed or missed, which can put it lower.
+  This said "four times a day regardless of traffic" until 2026-08-30, which was true of
+  the local half and had never been true of the cloud half. Two corrections went into the
+  replacement before it landed: the first draft printed "four to eight a day" as if it
+  were enforced, when nothing caps a manual dispatch, and it claimed GitHub "skips runs"
+  on evidence that only showed missing *data commits* -- and a run that changes no data
+  makes no commit, which this same document records elsewhere. A promise to a cinema has
+  to be one the configuration keeps, and a measurement has to be of the thing claimed.
 - Datacenter-IP blocks are a deliberate access control. Reading a site from an ordinary
   browser on an ordinary connection is fine; residential proxies, fingerprint spoofing and
   probing third-party auth with credentials that were never issued are not, and none of

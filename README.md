@@ -172,10 +172,21 @@ Engel, Bio Rex Kokkola and Kino Akseli. Ratings, trailers and fallback synopses
 and posters come from TMDB. Every showtime links to the cinema's own booking
 page, and the footer credits the source being displayed.
 
-Every provider is read through the same public interface its own site uses, four
-times a day regardless of traffic, under an honest User-Agent. Booking, payment
-and administrative endpoints are never called. If a cinema would rather not be
-included, removing it is one registry entry; see Contact below.
+Every provider is read through the same public interface its own site uses, under
+an honest User-Agent, **on a schedule that no visitor can influence**. The app
+loads static JSON from this origin, so browsing it, reloading it or leaving it
+open reaches no cinema at all. That part is guaranteed by how the site is built,
+not by a policy.
+
+Data is refreshed by a scheduled job and by a refresh triggered after each local
+collection run. Under the normal configured cadence the three local providers are
+read four times a day, and the eight cloud providers usually up to eight, since
+runs are queued rather than merged. **That is the typical cadence, not a bound.**
+Scheduled execution is best-effort and may be delayed or missed, and a manual
+refresh adds runs, so the real figure can sit either side of it.
+
+Booking, payment and administrative endpoints are never called. If a cinema would
+rather not be included, removing it is one registry entry; see Contact below.
 
 This is a personal, non-commercial project with no affiliation to any of them.
 
