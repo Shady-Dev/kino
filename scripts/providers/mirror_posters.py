@@ -18,11 +18,14 @@ Two things worth knowing before changing this:
   would put tens of megabytes of images into a repo that is currently 4 MB, to
   render a tile about 130 px wide on a phone. Pillow is installed in the
   workflow for this and nothing else.
-- **A failure is logged and left hot-linked, never fatal.** kinoakseli.fi
-  challenges datacenter IPs, so its posters cannot be fetched from a runner at
-  all and will fail every run by design. `tries=2` keeps that cheap. Anything
-  that has to succeed here would make a third party's uptime able to fail our
-  build.
+- **A poster that fails to download is logged and left hot-linked, never
+  fatal.** kinoakseli.fi challenges datacenter IPs, so its posters cannot be
+  fetched from a runner at all and will fail every run by design. `tries=2`
+  keeps that cheap. Anything that has to succeed here would make a third
+  party's uptime able to fail our build.
+- **Not being able to run at all is different, and exits CANNOT_RUN.** That is
+  not a poster that failed; it is every poster silently left remote by a step
+  that then reported success. See the exit codes below.
 
 Filenames are sha1(url)[:16].jpg: the sources have no id namespace in common,
 and the URL is the only thing that identifies a poster across all seven hosts.
@@ -39,6 +42,21 @@ from urllib.parse import quote, urlsplit, urlunsplit
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import common  # noqa: E402
+
+# Three states, because the caller has to tell them apart and the data cannot.
+#
+#   OK           ran; some posters may have failed to download, and those are logged
+#   CANNOT_RUN   cannot downscale at all, so nothing was attempted and nothing changed
+#   1            an uncaught traceback, which is what the interpreter already exits with
+#
+# The gap this closes: with a missing Pillow reported as OK, "mirrored everything" and
+# "could not mirror anything" were the same answer to a caller. The second is invisible
+# downstream -- every reference stays remote, the client declines to render a remote
+# poster, and those films show a placeholder tile -- so the one step positioned to notice
+# was the one saying it was fine. 3 rather than 1 because 1 already means the script
+# crashed, and 2 is the conventional usage error.
+OK = 0
+CANNOT_RUN = 3
 
 POSTER_DIR = pathlib.Path("data/posters")
 POSTER_W = 342          # what TMDB already serves and what the client renders from
@@ -107,31 +125,66 @@ def download(url: str, dest: pathlib.Path) -> bool:
     return True
 
 
-def have_pillow() -> bool:
+def pillow_problem() -> str:
+    """Can Pillow do the one job this script needs? -> '' if yes, else why not.
+
+    Importing it is not the question. `from PIL import Image` succeeds on an install
+    whose imaging library is incomplete -- a wheel built against a libjpeg that is no
+    longer there, a partial reinstall -- and then every poster raises inside its own try
+    and is counted as a download failure. Exit 0, "185 failed", and the same silent
+    degradation the exit code was split apart to catch, one layer further in.
+
+    So this is a round trip through the exact calls `download` makes: open a paletted
+    image, convert, resize with LANCZOS, save as JPEG at the real quality settings. Four
+    by six pixels, so it costs nothing.
+
+    The two causes get different sentences because they need different fixes, and
+    "install it with pip install pillow" is actively misleading to someone who has.
+    """
     try:
-        from PIL import Image        # noqa: F401
-        return True
-    except Exception:
-        return False
+        from PIL import Image
+    except Exception as e:
+        return (f"Pillow is not installed for this interpreter ({type(e).__name__}). "
+                "Install it with: python3 -m pip install pillow.")
+    try:
+        im = Image.new("P", (4, 6)).convert("RGB").resize((2, 3), Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=JPEG_Q, optimize=True)
+        if not buf.getbuffer().nbytes:
+            raise RuntimeError("the JPEG encoder returned no bytes")
+    except Exception as e:
+        return (f"Pillow is installed but cannot encode a JPEG ({type(e).__name__}: "
+                f"{e}). Its imaging library is probably incomplete. Reinstall it with: "
+                "python3 -m pip install --force-reinstall pillow.")
+    return ""
 
 
 def main() -> int:
-    # Checked once, up front. Without it every single download raises ImportError inside
-    # its own try and is counted as a failure, so a machine with no Pillow reports "185
-    # failed" and reads like the network is down. This runs on the local half too now,
-    # where Pillow is not a given, and the honest answer is one line rather than 185.
+    # Checked once, up front, and checked by using it rather than by importing it.
+    # Without this every single download raises inside its own try and is counted as a
+    # failure, so a machine that cannot downscale reports "185 failed" and reads like
+    # the network is down. This runs on the local half too now, where Pillow is not a
+    # given, and the honest answer is one line rather than 185.
     #
-    # Not an error exit: the local run must still publish showtimes, and without a mirror
-    # the data keeps the cinema's own poster URL, which is what it did before this script
-    # existed. The client declines to render those, so films show a placeholder tile and
-    # build_pages says so loudly. Nothing breaks; posters are just missing until a run
-    # that can downscale.
-    if not have_pillow():
-        print("[mirror] Pillow is not installed for this interpreter, so nothing can be "
-              "downscaled and no poster can be mirrored. Posters stay on the cinemas' "
-              "own hosts, the client will not render them, and those films show a "
-              "placeholder tile. Install it with: python3 -m pip install pillow")
-        return 0
+    # One line, and a non-zero exit. It used to return 0 so that a local run without
+    # Pillow could still publish showtimes -- but neither caller needs that, because
+    # neither one stops on this exit code. The cloud workflow commits the data in the step
+    # before the gate that reads it, and the local wrapper collects the code into `fail`
+    # and carries on through commit, push and dispatch. So the showtimes go out either
+    # way, and the only thing returning 0 bought was hiding the fact that no poster was
+    # mirrored. That is why there is no --optional flag: the tolerance already lives in
+    # the callers, where it belongs, and duplicating it here would just give the silent
+    # mode a name.
+    #
+    # Nothing below this point runs, so nothing is written and no reference is rewritten.
+    # The data keeps the cinema's own poster URL, exactly as it did before this script
+    # existed; the client declines to render those and build_pages says so loudly.
+    problem = pillow_problem()
+    if problem:
+        print(f"[mirror] {problem} Nothing can be downscaled, so no poster can be "
+              "mirrored: posters stay on the cinemas' own hosts, the client will not "
+              "render them, and those films show a placeholder tile.")
+        return CANNOT_RUN
 
     POSTER_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -209,7 +262,7 @@ def main() -> int:
     print(f"[mirror] {rewritten} references rewritten in {files} files; "
           f"data/posters now {len(list(POSTER_DIR.glob('*')))} files, "
           f"{total // 1024} kB")
-    return 0
+    return OK
 
 
 if __name__ == "__main__":

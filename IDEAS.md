@@ -2831,9 +2831,66 @@ is not a shortcut around the dependency.
 `mirror_posters` now checks for Pillow once, up front, instead of letting every download
 raise `ImportError` inside its own try. Without the check a machine with no Pillow
 reports "185 failed" and reads like the network is down; it now prints one line naming
-the real cause and the install command, and exits 0 so the local run still publishes
-showtimes. That makes the wrapper line safe to add before Pillow is installed, and safe
-to leave if it is ever removed.
+the real cause and the install command.
+
+**That line first exited 0, and that was the wrong half of the decision** (corrected
+2026-08-30, same day). Exiting 0 made "mirrored everything" and "could not mirror
+anything" the same answer to a caller, and the second state is invisible everywhere
+downstream: nothing is rewritten, every reference stays remote, the client refuses a
+remote poster on purpose since v64, and those films show placeholder tiles. The one step
+positioned to notice was the one reporting success. In the cloud that is worse than it
+sounds, because Pillow is `pip install`ed inside the job -- it is missing only when that
+install broke, and the workflow would have gone green over it.
+
+Three states now, and the middle one is the point:
+
+    OK (0)           ran; posters that failed to download are logged and left hot-linked
+    CANNOT_RUN (3)   cannot downscale at all, so nothing was attempted and nothing changed
+    1                an uncaught traceback, which is what the interpreter already exits with
+
+3 rather than 1 because 1 already means the script crashed, and 2 is the conventional
+usage error. A poster that fails to download stays exit 0 and is *not* folded into this:
+kinoakseli.fi challenges datacenter IPs and fails every cloud run by design, so making a
+download failure fatal would hand a third party the ability to fail the build.
+
+**The guard checks by using Pillow, not by importing it.** An import check leaves the same
+hole one layer in: `from PIL import Image` succeeds on an install whose imaging library is
+incomplete -- a wheel built against a libjpeg that is no longer there, a half-finished
+reinstall -- and then every poster raises inside its own try, is counted as a download
+failure, and the run exits 0 with "185 failed". So `pillow_problem()` does a four-by-six
+round trip through the exact calls `download` makes: open a paletted image, convert,
+resize with LANCZOS, save as JPEG at the real quality settings. It returns the reason
+rather than a boolean, because the two causes need different fixes and telling someone who
+has Pillow installed to install Pillow is worse than saying nothing.
+
+**No `--optional` flag, and that is an argument about where tolerance belongs.** The
+obvious reading is that a non-zero exit would stop the local run publishing showtimes. It
+does not, and neither caller needed changing: the cloud workflow commits data and logs in
+the step *before* the gate that reads `mirrorfail`, and the local wrapper collects the
+code into `fail` and carries on through commit, push and dispatch, failing only at the
+very end. So the showtimes go out either way. The only thing exit 0 bought was hiding the
+degradation, and a flag would have given that silence a name. The guard is also the first
+statement in `main()`, so a run that cannot mirror leaves exactly what the fetch wrote --
+which is what makes publishing over it safe rather than merely permitted.
+
+Covered by `tests/test_mirror_posters.py`. The Pillow-absent cases block the import
+through `sys.meta_path` rather than stubbing `have_pillow`, because a version that dropped
+the up-front check and let each download raise `ImportError` would still satisfy a stubbed
+predicate. Requirement five lives in the caller, so two of the tests read
+`biorex.yml` directly: the mirror step must still record `$?` into `mirrorfail` and the
+gate must still compare it to 0, since under `set +e` a non-zero exit changes nothing
+without both halves. Verified by breaking it eleven ways, including returning 0 again,
+setting `CANNOT_RUN = 1`, removing the guard entirely, moving it below the first `mkdir`,
+making a download failure fatal, deleting the workflow gate, reverting the guard to an
+import check, and collapsing the two reasons into one message.
+
+The local wrapper prints `posters: DEGRADED` for exit 3 and `posters: FAILED` for
+anything else, and sets `fail=1` either way -- a run that mirrored no poster must not
+finish clean, but the two send you to different places.
+
+Note for running them: the cases that need a real Pillow skip on the system interpreter,
+which does not have it. The cloud installs it into the job and the local
+wrapper runs the script from `~/kino-auth/.venv`; use that interpreter to see all nine.
 
 ## Access and ethics
 
