@@ -54,8 +54,11 @@ PROVIDERS = [
          book="buy", module="riviera", where="cloud"),
     dict(id="gilda", label="Gilda", host="gilda.fi", accent="#D62D8F",
          book="buy", module="gilda", where="cloud"),
+    # Moved off Vista on 2026-08-30: the /xml/ services 404 from every network and the
+    # site now runs eTiketti. Accent, host and venue ids are unchanged on purpose -- the
+    # ids key the saved home cinema and the /teatteri/ URLs.
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#0C8FA8",
-         book="buy", module="vista", where="cloud"),
+         book="buy", module="etiketti", where="cloud"),
     dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#4E7A16",
          book="buy", module="orion", where="cloud"),
     dict(id="engel", label="Kino Engel", host="kinoengel.fi", accent="#B47ACC",

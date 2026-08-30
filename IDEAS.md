@@ -3120,6 +3120,41 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
 
+### Savon Kinot left Vista for eTiketti (2026-08-30)
+The cloud run went `exit=1` on `vista`: `HTTP Error 404` from `www.savonkinot.fi`. Not a
+datacenter block and not a transient fault -- `/xml/TheatreAreas/`, `/xml/ScheduleDates/`
+and `/xml/Events/` all answer **404 from an ordinary connection too**, while the site
+itself serves 200. Fingerprinting the homepage found `etiketti.app` and
+`/elokuvat/{id}/{slug}` links: they have migrated platforms.
+
+So the fix was a `SITES` entry, not a parser. `etiketti.py` reads all six cinemas as they
+are -- 17 films, 54 screenings, verified against the live site before the change and
+again through `run.py` after it.
+
+- **The venue ids are the ones `vista.py` used**, deliberately and byte-for-byte:
+  `sk-tapio`, `sk-killa`, `sk-kuvalinna`, `sk-kuvalipas`, `sk-maxim`, `sk-kinohovi`. They
+  key the saved home cinema in `localStorage` and every `/teatteri/` URL and JSON-LD
+  address, so a rename would have silently wiped every Savon Kinot user's starred cinema
+  and 404'd twelve indexed pages. Nothing about a platform migration requires new ids,
+  and the diff was checked field by field rather than assumed.
+- **This deployment is the Leffabuumi shape**: the *town* is the place and the cinema is
+  in the room field, `JOENSUU | TAPIO | TAPIO 3`. `match` runs against the two joined, so
+  it needed no adapter change. Tapio's four rooms and Maxim's three are rooms, not
+  venues -- swept every film to be sure a seventh cinema was not hiding in one of them.
+- **`vista.py` keeps its parser and loses its sites.** `SITES = []` rather than deleting
+  the module: it works, several non-Finnish chains run the platform, and the endpoint
+  shapes in its docstring are the research that identified it. `registry.modules()` no
+  longer names it, so nothing runs it and the workflow loses a job step without being
+  edited. `run.py vista` now finds no sites and exits 0, which is the routing change from
+  earlier today doing its job.
+- Worth reading next to the "Vista sweep -- tried and failed" entry above, which
+  concluded Savon Kinot "looks like the only Finnish Vista deployment leaving the XML
+  services open". That is now zero. A platform inventory is a snapshot, and this one
+  lasted three days.
+- **The failure surfaced the way it was designed to**: one provider red, everything else
+  green and published, and the committed log naming the host and the status code. That is
+  the whole argument for not letting a run be permanently red.
+
 ### The Nexxo sweep: six cinemas, and two hosts that are not what they look like (2026-08-30)
 Six more cinemas against the adapter that already served Kinoset. No new parser: 25
 chains to 31, 64 venues to 70. Measured into a throwaway directory before committing --

@@ -33,6 +33,27 @@ SITES = [
          {"id": "bx-kokkola", "match": "rex", "name": "Bio Rex Kokkola",
           "short": "Bio Rex Kokkola", "city": "Kokkola"},
      ]},
+    # Savon Kinot moved here from Vista on or before 2026-08-30: its /xml/ services now
+    # 404 from every network and the site serves this listing instead. The venue ids are
+    # the ones vista.py used, deliberately -- they key the saved home cinema in
+    # localStorage and every /teatteri/ URL, so renaming them would wipe both.
+    # Like Leffabuumi, this deployment prints the *town* as the place and the cinema in
+    # the room field ("JOENSUU | TAPIO | TAPIO 3"); `match` runs against the two joined.
+    {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
+     "venues": [
+         {"id": "sk-tapio", "match": "tapio", "name": "Tapio Joensuu",
+          "short": "Tapio", "city": "Joensuu"},
+         {"id": "sk-killa", "match": "killa", "name": "Killa Savonlinna",
+          "short": "Killa", "city": "Savonlinna"},
+         {"id": "sk-kuvalinna", "match": "kuvalinna", "name": "Kuvalinna Savonlinna",
+          "short": "Kuvalinna", "city": "Savonlinna"},
+         {"id": "sk-kuvalipas", "match": "kuvalipas", "name": "Kuvalipas Iisalmi",
+          "short": "Kuvalipas", "city": "Iisalmi"},
+         {"id": "sk-maxim", "match": "maxim", "name": "Maxim Varkaus",
+          "short": "Maxim", "city": "Varkaus"},
+         {"id": "sk-kinohovi", "match": "kino-hovi", "name": "Kino-Hovi Kitee",
+          "short": "Kino-Hovi", "city": "Kitee"},
+     ]},
     # The 2026-08-30 sweep. Fourteen more hosts serving this same listing, verified
     # against it rather than against the etiketti.app signature in their HTML. Most are
     # one cinema on one host, so `match` is the place name the screening block prints.

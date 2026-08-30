@@ -35,27 +35,16 @@ from common import fetch
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
-SITES = [{
-    "provider": "savonkinot",
-    "label": "Savon Kinot",
-    "base": "https://www.savonkinot.fi",
-    "days": 31,
-    # area = TheatreArea id in the XML, theatre = TheatreID on each Show
-    "venues": [
-        {"id": "sk-tapio",     "area": "1006", "theatre": "1038",
-         "name": "Tapio Joensuu",       "short": "Tapio",     "city": "Joensuu"},
-        {"id": "sk-killa",     "area": "1003", "theatre": "1042",
-         "name": "Killa Savonlinna",    "short": "Killa",     "city": "Savonlinna"},
-        {"id": "sk-kuvalinna", "area": "1003", "theatre": "1044",
-         "name": "Kuvalinna Savonlinna", "short": "Kuvalinna", "city": "Savonlinna"},
-        {"id": "sk-kuvalipas", "area": "1002", "theatre": "1040",
-         "name": "Kuvalipas Iisalmi",   "short": "Kuvalipas", "city": "Iisalmi"},
-        {"id": "sk-maxim",     "area": "1005", "theatre": "1039",
-         "name": "Maxim Varkaus",       "short": "Maxim",     "city": "Varkaus"},
-        {"id": "sk-kinohovi",  "area": "1004", "theatre": "1043",
-         "name": "Kino-Hovi Kitee",     "short": "Kino-Hovi", "city": "Kitee"},
-    ],
-}]
+# Empty since 2026-08-30. Savon Kinot was the only Finnish Vista deployment leaving the
+# XML services open, and it moved to eTiketti: /xml/TheatreAreas/, /xml/ScheduleDates/
+# and /xml/Events/ all answer 404 now, from an ordinary connection as well as from a
+# runner, while the site itself serves 200. Its entry lives in etiketti.py.
+#
+# The module is kept rather than deleted. It is a working parser for a platform several
+# non-Finnish chains run, the endpoint shapes above are the research that found it, and
+# `registry.modules()` no longer names it, so nothing runs it: `run.py vista` finds no
+# sites and exits 0. Delete it only if Vista stops being a candidate altogether.
+SITES = []
 
 # Finnkino's tag set, so one language filter works across every provider.
 ISO = {"fi": "FI", "en": "EN", "sv": "SV", "se": "SV", "ja": "JA", "fr": "FR",
