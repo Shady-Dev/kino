@@ -3196,6 +3196,45 @@ Worth being honest about the payoff. At ~5 minutes, four to eight times a day, t
 hurting anyone. What it buys is a faster verification loop when changing an adapter, and a
 smaller window in which a mid-run failure can land. Do it deliberately or not at all.
 
+### Two cloud runs cannot both rebase their data (2026-08-31)
+A cloud run failed with `could not push after 3 attempts`, having fetched everything
+correctly: all six providers `exit=0`, enrichment, posters and pages all fine, the commit
+made. It died rebasing that commit onto a `main` that had moved, with a `CONFLICT` on
+about eighty generated JSON files.
+
+**A queued run always starts from a stale base, by design.** `actions/checkout` defaults
+to `github.sha`, which is resolved when the run is *created*, not when it starts. The
+`kino-data` concurrency group correctly queues a second run rather than cancelling it --
+that part works and should stay -- but the queued run then checks out the commit from
+when it was queued, sits behind a nine-minute sibling, and wakes up on a base two commits
+old. The checkout line says so outright: `git fetch --depth=1 origin +7f9494d...`.
+
+**Rebasing generated data was never going to work.** These files are whole-file snapshots
+of a fetch; a content merge of two independent snapshots is meaningless, so any overlap
+conflicts on every file that moved. Both runs hold a complete and equally fresh copy, so
+there is nothing to merge and nothing lost by choosing one.
+
+**And the retry loop could not retry.** A conflicted rebase leaves the tree unmerged, so
+attempts two and three died instantly on `Pulling is not possible because you have
+unmerged files`. Three attempts were one attempt, and had been since the loop was
+written -- it could never help with the failure it exists for.
+
+Fixed with two lines, both verified against a reproduction rather than reasoned about: a
+scratch repo with two clones committing different snapshots of the same file over one
+base reproduces `pushed=0` exactly, and the fix pushes on the first attempt.
+
+- `git rebase --abort 2>/dev/null || true` at the top of each attempt, so a wedged tree is
+  cleared and the retries are real. Tested by wedging a tree deliberately -- one `UU` file
+  and a rebase in progress -- and watching the loop recover.
+- `git pull --rebase -X theirs`, where "theirs" during a rebase is the commit being
+  replayed: this run's data. Verified that the snapshot which lands is the later run's.
+
+Nothing was lost on the day: the sibling run published `8534b3c` and its data was as
+fresh. The cost was a red run and, worth noting, **a failure that left no trace in the
+repo** -- every committed log read `exit=0`, so `scripts/check_runs.py` had nothing to
+find and a person had to notice the red badge. A run that dies before committing is
+outside what reading committed logs can ever catch.
+
 ### The local half can now announce a failure (2026-08-30)
 The cloud half has always announced its own: a provider that exits non-zero turns the
 Actions run red and somebody sees it. Both of today's outages surfaced that way -- Joutsan

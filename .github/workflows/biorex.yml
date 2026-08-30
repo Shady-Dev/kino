@@ -107,7 +107,20 @@ jobs:
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do
-            if git pull --rebase --autostash -q origin main && git push -q; then
+            # A rebase that conflicts leaves the tree unmerged, and every later attempt
+            # then dies on "Pulling is not possible because you have unmerged files" --
+            # so the three attempts were really one, and the retry has never been able to
+            # help with the failure it exists for. Clear the wreckage before trying again.
+            git rebase --abort 2>/dev/null || true
+            # -X theirs, where "theirs" during a rebase is the commit being replayed:
+            # this run's data. Two runs overlap whenever one is queued behind another,
+            # because a queued run checks out github.sha as it was when the run was
+            # *created* and so starts from a base that has since moved. Both then hold a
+            # complete, equally fresh snapshot of the same providers, and a content merge
+            # of ~80 generated JSON files is meaningless -- taking the snapshot we just
+            # fetched is both defined and correct. Without this, any overlap conflicts on
+            # every file and the job fails having published nothing.
+            if git pull --rebase -X theirs --autostash -q origin main && git push -q; then
               pushed=1; break
             fi
             sleep 5
