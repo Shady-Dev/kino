@@ -1,8 +1,8 @@
 [engel] 2 date(s) listed with no time anywhere, skipped: 09-11, 10-02 -- Hetki ennen valoa | Sve?ias – The Visitor | La Grazia | Rose
-[engel] film pages: 15 parsed, 0 with nothing usable, 32/33 showtimes rated
+[engel] film pages: 15 parsed, 0 with nothing usable, 31/32 showtimes rated
 [engel] strand prefix split off 2 showtimes
 [engel] synopses merged: 0
-[engel] Kino Engel: 33 showtimes, 10 dates
+[engel] Kino Engel: 32 showtimes, 10 dates
 [run] http: 0 revalidated (304), 16 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] engel: 1 venues, 33 showtimes, 0 stale, 0 unverified, 0 failures
+[run] engel: 1 venues, 32 showtimes, 0 stale, 0 unverified, 0 failures
 exit=0
