@@ -35,9 +35,9 @@ line from this list when its item is ticked below.
 
 **[Refactor before adding more providers](#refactor-to-do-before-adding-more-providers)**
 
-- A whole site parsing zero showtimes fails the run — now the top item, not a watch:
-  the eTiketti sweep added cinemas publishing 3 and 2 showtimes, so a quiet week turns
-  the run red
+- ~~A whole site parsing zero showtimes fails the run~~ — done 2026-08-30: an adapter
+  can raise `common.EmptyProgramme` after reading a listing with no films on it. A
+  listing full of films that parses to nothing still fails
 - Repertory titles defeat the TMDB search — `queries()` should strip a trailing "(YYYY)"
   and known prefixes the way `mergeKey()` does
 
@@ -3117,6 +3117,47 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   YouTube URLs, and one missing space after a real question mark in a provider's own
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
+
+### A quiet week is not a broken parser (2026-08-30)
+"A whole site parsing zero showtimes fails the run" is what catches a parse that broke
+silently and would otherwise leave old data ageing with nothing to say so. It also meant
+a cinema with nothing on this week turned the whole run red, and after the eTiketti sweep
+that stopped being hypothetical: **eight sites here are a single small venue**, K-Kino
+publishing 3 showtimes and Kino Saimaa 2. Joutsan Kino had just demonstrated the shape of
+it -- one site red, `exit=1`, everything else green and published.
+
+The line is drawn where an adapter knows something `run.py` cannot: **what the listing
+said**. `common.EmptyProgramme` may be raised only after a listing was fetched and parsed
+successfully and held no films. A listing that still lists films while the parse yields
+no showtimes is a broken parser wearing the same clothes, and keeps failing.
+
+- **No per-site "allow empty" flag, deliberately.** The obvious design is a boolean on
+  the `SITES` entry. It would switch the check off permanently for the one site most
+  likely to need it, which is the hole this was meant to close rather than widen. The
+  question is answered per run, from what the cinema published that day.
+- **An empty site still writes no `venues-{provider}.json`.** Nothing is stamped fresh
+  for a site that produced nothing, so the health line ages honestly rather than going
+  green on an empty answer. A cinema that is quiet for a fortnight therefore still turns
+  amber -- a soft signal that wants a look, instead of a hard failure that stops a run
+  which had nothing else wrong with it.
+- **Previously published data is kept.** The discriminator can be wrong: a site that
+  changes its markup so film links stop matching looks exactly like one with nothing on.
+  Keeping the last good file is what makes being wrong survivable, and it is asserted.
+- The log line is deliberately noisy -- `[provider] no programme published: ...` -- and
+  the run summary counts them. A cinema empty for weeks is worth chasing even though no
+  run went red over it.
+- Covered by `tests/test_empty_programme.py`. The tests that matter are the ones that
+  keep something failing: a listing with films and no showtimes, and a fetch error.
+  Verified by breaking each guard.
+- **One break did not go red, and that was worth knowing.** Removing `not venues` from
+  the exit condition changed nothing, because an all-empty site is already counted by
+  `if not v: failures += 1` earlier in `main`. What that clause actually guards now is
+  the case site-level routing created -- a module with no sites for this half -- which
+  had no test until the break said so. `run.py biorex --half local` has nothing to do
+  and must exit 0, not fail.
+- Only `etiketti` raises it so far. Nexxo is where it lands next: four of its hosts
+  answer `public_api.php` with valid JSON and zero shows, which is this case exactly, and
+  they should not be added before the adapter can say so.
 
 ### Routing is per site, not per module (2026-08-30)
 `where` on a registry entry used to decide which half fetched a whole *adapter*. One

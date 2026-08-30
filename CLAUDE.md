@@ -47,7 +47,12 @@ Write down why a change was made. The diff already records what changed.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
 - A provider that parses zero showtimes fails the run. This catches an empty parse that
-  would otherwise leave old data ageing with no signal.
+  would otherwise leave old data ageing with no signal. The one exception is an adapter
+  raising `common.EmptyProgramme`, which it may do **only** after fetching and parsing a
+  listing that contained no films at all -- a cinema with a quiet week. A listing that
+  still lists films while the parse yields nothing is the broken case and must keep
+  failing. Never add a per-site "allow empty" flag: it would switch the check off
+  permanently for the site most likely to need it.
 
 ## Adding a provider
 

@@ -12,7 +12,7 @@ Adding another eTiketti cinema = an entry in SITES.
 import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
 
-from common import budget_or_raise, fetch
+from common import EmptyProgramme, budget_or_raise, fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -237,6 +237,12 @@ def fetch_site(site, sleep=1.2):
     for path, mid in MOVIE_LINK_RE.findall(listing):
         if mid not in seen:
             seen.add(mid); movies.append((path, mid))
+
+    # The listing loaded and lists nothing: this cinema has no programme this week.
+    # Distinct from a listing full of films that this parser can no longer read, which
+    # still fails the run -- see common.EmptyProgramme.
+    if not movies:
+        raise EmptyProgramme(f"{site['base']}/elokuvat/ohjelmistossa lists no films")
 
     per_venue = {v["id"]: [] for v in site["venues"]}
     for path, mid in budget_or_raise(movies, site['provider']):

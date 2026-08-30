@@ -255,6 +255,8 @@ def main(argv) -> int:
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     venues = shows = failures = 0
     partial = []          # (provider, [venue ids]) for every site that kept old data
+    empty = []            # sites whose listing loaded and had no films on it
+    skipped = []          # modules with no sites for this half, which is not a problem
 
     for name in names:
         try:
@@ -270,11 +272,19 @@ def main(argv) -> int:
             # workflow iterates every cloud module, so this is the normal answer for a
             # module whose only local site is fetched at home.
             print(f"[{name}] no sites for the {half} half")
+            skipped.append(name)
             continue
         for site in sites:
             label = site.get("provider") or name
             try:
                 v, s, stale, unverified = run_site(mod, site, now)
+            except common.EmptyProgramme as e:
+                # Not a failure, and deliberately still noisy: a cinema with nothing on
+                # is a fact worth seeing in the committed log, and one that stays empty
+                # for weeks is worth chasing even though no run went red over it.
+                print(f"[{label}] no programme published: {e}")
+                empty.append(label)
+                continue
             except Exception as e:
                 print(f"[{label}] FAILED: {e}", file=sys.stderr)
                 failures += 1
@@ -323,8 +333,12 @@ def main(argv) -> int:
 
     print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
           f"{sum(len(i) for _, i, _ in partial)} stale, "
-          f"{sum(len(u) for _, _, u in partial)} unverified, {failures} failures")
-    return 1 if failures or not venues else 0
+          f"{sum(len(u) for _, _, u in partial)} unverified, "
+          f"{len(empty)} with no programme, {failures} failures")
+    # `not venues` is still a failure, because a run that wrote nothing and cannot say
+    # why is the case this whole check exists for. It stops being one only when every
+    # site said so itself -- an empty listing, or no sites on this half at all.
+    return 1 if failures or (not venues and not empty and not skipped) else 0
 
 
 if __name__ == "__main__":

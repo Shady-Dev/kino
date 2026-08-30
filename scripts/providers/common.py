@@ -56,6 +56,27 @@ RETRY_AFTER_BUDGET = int(os.environ.get("KINO_RETRY_AFTER_BUDGET") or 300)
 _throttle = {"asked": 0, "waited": 0.0, "refused": 0}
 
 
+class EmptyProgramme(Exception):
+    """An adapter reached a site, read its listing, and there were no films on it.
+
+    A whole site parsing zero showtimes fails the run, and that has to stay true: it is
+    the only thing that catches a parse which broke silently and would otherwise leave
+    old data ageing with no signal. But some cinemas genuinely publish nothing for a
+    week. Eight sites here are a single small venue -- K-Kino runs 3 showtimes, Kino
+    Saimaa 2 -- so "empty" stopped being hypothetical the day the eTiketti sweep landed.
+
+    The distinction an adapter can make, and run.py cannot, is *what the listing said*.
+    Raise this only after the listing was fetched and parsed successfully and contained
+    no films at all. A listing that still lists films while the parse yields no
+    showtimes is the broken case and must keep failing, and an unreachable listing
+    raises its own error long before this.
+
+    Nothing is muted by configuration on purpose: a per-site "allow empty" flag would
+    switch the check off permanently for the one site most likely to need it, which is
+    the hole this is meant to avoid rather than open.
+    """
+
+
 def cache_stats():
     """-> (304s, full bodies, entries written). Reset per run by the caller."""
     return dict(_stats)
