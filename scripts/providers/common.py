@@ -66,10 +66,19 @@ class EmptyProgramme(Exception):
     Saimaa 2 -- so "empty" stopped being hypothetical the day the eTiketti sweep landed.
 
     The distinction an adapter can make, and run.py cannot, is *what the listing said*.
-    Raise this only after the listing was fetched and parsed successfully and contained
-    no films at all. A listing that still lists films while the parse yields no
-    showtimes is the broken case and must keep failing, and an unreachable listing
-    raises its own error long before this.
+    Raise this only on **positive evidence that the upstream said it has nothing on** --
+    an empty-state element the template renders in place of its films, a payload that
+    answered in the expected schema with an empty collection. A listing that still lists
+    films while the parse yields no showtimes is the broken case and must keep failing,
+    and an unreachable listing raises its own error long before this.
+
+    **"My parser found nothing" is not that evidence**, and reading it as such is the
+    trap this class creates. Zero matches proves only that one regex or one key lookup
+    came back empty, which is exactly what a markup or schema change upstream produces --
+    while the page is still full of films. Inferring emptiness from it converts a parser
+    regression into a soft ageing signal: exit 0, stale data preserved, nothing red, and
+    the first symptom hours later on the health line. Every adapter raising this must
+    therefore check something it did *not* use to find the films.
 
     Nothing is muted by configuration on purpose: a per-site "allow empty" flag would
     switch the check off permanently for the one site most likely to need it, which is

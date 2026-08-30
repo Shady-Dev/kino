@@ -98,6 +98,18 @@ def _iso(start):
 
 
 def parse(payload, site, venue):
+    # Positive evidence that the endpoint answered in the schema this parser reads,
+    # before any of its emptiness is believed. A renamed or restructured key yields zero
+    # rows and is otherwise indistinguishable from a cinema with nothing on, which would
+    # let a schema change publish stale data behind an EmptyProgramme -- the same trap
+    # zero regex matches set for the eTiketti listing. A genuinely empty host answers
+    # {"shows": []}, verified live against biojukola.fi and biosalo.fi on 2026-08-31, so
+    # requiring the key costs the real case nothing.
+    if not isinstance(payload, dict) or "shows" not in payload:
+        raise RuntimeError(
+            f"{site['base']}: response has no 'shows' key "
+            f"(keys: {sorted(payload)[:6] if isinstance(payload, dict) else type(payload).__name__}). "
+            f"The schema changed; this is a parser break, not an empty programme")
     groups = payload.get("shows") or {}
     rows = [r for v in groups.values() for r in v] if isinstance(groups, dict) else list(groups)
     shows = []

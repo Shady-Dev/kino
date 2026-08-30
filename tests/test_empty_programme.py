@@ -152,5 +152,197 @@ class NexxoEmptyTest(unittest.TestCase):
         self.assertEqual(len(out["a"]), 1)
 
 
+# --- eTiketti listing classification -------------------------------------------------
+#
+# Fixtures are minimal reconstructions of the shapes measured live on 2026-08-31, not
+# copies of anyone's page: a populated listing wraps per-film cards in a movie-list
+# container, and the one genuinely empty cinema renders a phrase there instead. Every
+# site carries the hidden `no-results` container regardless, which is why it appears in
+# these fixtures and is never the thing under test.
+
+HIDDEN_NO_RESULTS = (
+    '<div class="no-results" id="no-results" style="display: none;">'
+    "<p>Ei näytöksiä valitsemallasi päivämäärällä.</p></div>")
+
+
+def listing(cards="", extra=""):
+    return ('<main><div class="screenings movie-list">' + cards + "</div>"
+            + extra + HIDDEN_NO_RESULTS + "</main>")
+
+
+def card(mid, slug, href=None):
+    href = href if href is not None else f'href="/elokuvat/{mid}/{slug}"'
+    return (f'<div class="item kemi date-1.9.2026 name-{slug}">'
+            f"<a {href}>{slug}</a></div>")
+
+
+POPULATED = listing(card(26, "hetki-ennen-valoa") + card(31, "autofiktio"))
+GENUINELY_EMPTY = listing("<p>Ei ohjelmistoa saatavilla.</p>")
+# Same two films, but the href shape changed upstream: an uppercase letter in the slug is
+# enough for MOVIE_LINK_RE to match nothing while the cards are still there.
+PARSER_BREAK = listing(card(26, "Hetki-Ennen-Valoa", href='href="/elokuvat/26/Hetki-Ennen-Valoa"')
+                       + card(31, "Autofiktio", href='href="/elokuvat/31/Autofiktio"'))
+FOREIGN_TEMPLATE = "<main><section><p>Tervetuloa</p></section></main>" + HIDDEN_NO_RESULTS
+# The phrase in ordinary page copy rather than in the film container. Only the
+# container check separates this from a real empty programme.
+PHRASE_OUTSIDE_CONTAINER = (
+    "<main><section><p>Kesällä ei ollut ohjelmistoa saatavilla.</p></section></main>"
+    + HIDDEN_NO_RESULTS)
+
+ETIKETTI_SITE = {"provider": "fakechain", "base": "https://example.test", "label": "Fake",
+                 "venues": [{"id": "fc-a", "match": "kemi", "name": "A", "short": "A",
+                             "city": "Kemi"}]}
+
+
+class EtikettiListingTest(unittest.TestCase):
+    """Zero movie links is not evidence of an empty programme."""
+
+    def fetch(self, page):
+        import etiketti
+        real = etiketti.get
+        etiketti.get = lambda url, tries=3: page
+        self.addCleanup(lambda: setattr(etiketti, "get", real))
+        return etiketti
+
+    def test_the_templates_empty_state_is_an_empty_programme(self):
+        e = self.fetch(GENUINELY_EMPTY)
+        with self.assertRaises(common.EmptyProgramme):
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+
+    def test_a_listing_of_films_with_unreadable_links_is_not_empty(self):
+        """The regression this guards. The cards are still on the page; only the href
+        shape changed. Reading that as an empty programme exits 0, keeps stale data and
+        says nothing -- which is the failure the zero-showtime rule exists to catch."""
+        e = self.fetch(PARSER_BREAK)
+        self.assertEqual(len(e.MOVIE_LINK_RE.findall(PARSER_BREAK)), 0,
+                         "fixture must defeat the link regex, or it tests nothing")
+        with self.assertRaises(Exception) as ctx:
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+        self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
+        self.assertIn("parser break", str(ctx.exception))
+
+    def test_a_response_without_the_film_container_is_not_empty(self):
+        """Three live hosts carry the eTiketti signature and serve a different page
+        entirely. No container means the expected listing never rendered."""
+        e = self.fetch(FOREIGN_TEMPLATE)
+        with self.assertRaises(Exception) as ctx:
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+        self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
+
+    def test_the_hidden_no_results_container_is_not_an_empty_marker(self):
+        """Every site ships it, populated ones included, hidden behind display:none for
+        client-side date filtering. Treating its presence as emptiness would classify a
+        broken parse as a quiet week on every host in the platform."""
+        e = self.fetch(listing(""))          # container, no cards, no empty phrase
+        with self.assertRaises(Exception) as ctx:
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+        self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
+        self.assertIn("no evidence", str(ctx.exception))
+
+    def test_the_phrase_in_a_hidden_sibling_is_not_an_empty_marker(self):
+        """The failure mode this template is already one step away from. It ships a
+        hidden `no-results` element on every site, populated ones included; if the empty
+        state ever moves into one, a page-wide text search would call a live cinema
+        empty. Everything is therefore asked of the container's own contents."""
+        page = listing(card(26, "hetki-ennen-valoa"),
+                       extra='<div style="display: none;"><p>Ei ohjelmistoa '
+                             "saatavilla.</p></div>")
+        # the cards are still there, but with links this parser cannot read
+        page = page.replace('href="/elokuvat/26/hetki-ennen-valoa"',
+                            'href="/elokuvat/26/Hetki-Ennen-Valoa"')
+        e = self.fetch(page)
+        self.assertEqual(len(e.MOVIE_LINK_RE.findall(page)), 0)
+        with self.assertRaises(Exception) as ctx:
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+        self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
+        self.assertIn("parser break", str(ctx.exception))
+
+    def test_cards_outside_the_container_do_not_mask_a_genuine_empty_state(self):
+        """The mirror of the case above: an unrelated `item` elsewhere on the page must
+        not make a genuinely empty container look populated."""
+        page = listing("<p>Ei ohjelmistoa saatavilla.</p>",
+                       extra='<div class="item promo">Tulossa</div>')
+        e = self.fetch(page)
+        with self.assertRaises(common.EmptyProgramme):
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+
+    def test_the_phrase_outside_the_film_container_is_not_an_empty_marker(self):
+        """Text anywhere on the page is not the template saying it has nothing on. The
+        container check is the only thing separating this from a genuine empty state,
+        and without it any page mentioning the words would silence a failure."""
+        e = self.fetch(PHRASE_OUTSIDE_CONTAINER)
+        with self.assertRaises(Exception) as ctx:
+            e.fetch_site(ETIKETTI_SITE, sleep=0)
+        self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
+        self.assertIn("not the listing this parser reads", str(ctx.exception))
+
+    def test_a_populated_listing_is_classified_normally(self):
+        """The fixture the others are measured against: links readable, so the empty
+        question never arises."""
+        e = self.fetch(POPULATED)
+        self.assertEqual(len(e.MOVIE_LINK_RE.findall(POPULATED)), 2)
+
+
+class EtikettiThroughRunTest(unittest.TestCase):
+    """The same distinction as run.py sees it: exit code and what happens to the data."""
+
+    PREV = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
+            "horizon": "2026-08-02",
+            "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self._saved = run.OUT
+        run.OUT = pathlib.Path(self.tmp.name)
+        self.addCleanup(lambda: setattr(run, "OUT", self._saved))
+        (run.OUT / "area-fc-a.json").write_text(json.dumps(self.PREV), encoding="utf-8")
+
+    def run_with(self, page):
+        import etiketti, importlib
+        realget, realimp = etiketti.get, importlib.import_module
+        etiketti.get = lambda url, tries=3: page
+        mod = type("M", (), {"__name__": "fakemod", "SITES": [ETIKETTI_SITE],
+                             "fetch_site": staticmethod(etiketti.fetch_site)})
+        importlib.import_module = lambda n: mod if n == "fakemod" else realimp(n)
+        self.addCleanup(lambda: setattr(etiketti, "get", realget))
+        self.addCleanup(lambda: setattr(importlib, "import_module", realimp))
+        return run.main(["fakemod", "--half", "all"])
+
+    def test_a_genuine_empty_programme_exits_zero(self):
+        self.assertEqual(self.run_with(GENUINELY_EMPTY), 0)
+
+    def test_a_genuine_empty_programme_leaves_the_previous_data_untouched(self):
+        """Not deleted and not re-stamped: `generated` must stay old so the health line
+        ages honestly instead of going green on an empty answer."""
+        self.run_with(GENUINELY_EMPTY)
+        after = json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8"))
+        self.assertEqual(after, self.PREV)
+        self.assertFalse((run.OUT / "venues-fakechain.json").exists())
+
+    def test_a_parser_break_fails_the_run(self):
+        self.assertEqual(self.run_with(PARSER_BREAK), 1)
+
+    def test_a_parser_break_leaves_the_previous_data_untouched(self):
+        self.run_with(PARSER_BREAK)
+        after = json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8"))
+        self.assertEqual(after, self.PREV)
+
+    def test_a_fetch_error_still_fails(self):
+        import etiketti
+        real = etiketti.get
+        def boom(url, tries=3):
+            raise RuntimeError("connection reset")
+        etiketti.get = boom
+        self.addCleanup(lambda: setattr(etiketti, "get", real))
+        import importlib
+        realimp = importlib.import_module
+        mod = type("M", (), {"__name__": "fakemod", "SITES": [ETIKETTI_SITE],
+                             "fetch_site": staticmethod(etiketti.fetch_site)})
+        importlib.import_module = lambda n: mod if n == "fakemod" else realimp(n)
+        self.addCleanup(lambda: setattr(importlib, "import_module", realimp))
+        self.assertEqual(run.main(["fakemod", "--half", "all"]), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

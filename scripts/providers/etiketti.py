@@ -150,6 +150,22 @@ SITES = [
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')
+# Three signals used only to tell "this cinema has nothing on" from "this parser stopped
+# reading a listing that still has films on it". They are deliberately independent of
+# MOVIE_LINK_RE: a slug that gains an uppercase letter, an underscore, a Scandinavian
+# character or a second attribute inside the href makes that regex match nothing while
+# the page is still full of films, and zero matches must never be read as an empty
+# programme on its own.
+#   - the film container, which says the expected template rendered at all
+#   - the per-film cards inside it, parsed without touching the href
+#   - the server-rendered empty state the template prints *instead of* the cards
+# Measured across five live sites on 2026-08-31: four populated ones carry the container
+# and the cards and never the phrase; the one genuinely empty cinema carries the
+# container and the phrase and no cards; three hosts on a different template carry no
+# container at all.
+LISTING_CONTAINER_RE = re.compile(r'<div[^>]*class="[^"]*\bmovie-list\b[^"]*"[^>]*>')
+LISTING_ITEM_RE = re.compile(r'class="item[ "]')
+LISTING_EMPTY_RE = re.compile(r"ohjelmistoa saatavilla", re.I)
 H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S)
 ITEM_RE = re.compile(r'<div class="item [^"]*date-(\d{1,2})\.(\d{1,2})\.(\d{4})"(.*?)(?=<div class="item |</div>\s*</div>\s*</div>|\Z)', re.S)
 TIME_RE = re.compile(r"klo\s*(\d{1,2})[.:](\d{2})")
@@ -252,6 +268,67 @@ def parse_movie(page, site, movie_url):
                  "lang": lang, "genres": genres, "syn": syn}
 
 
+def _film_container(listing):
+    """The film container's own contents -> str, or None if it is not there.
+
+    Depth-aware rather than a regex to the next `</div>`, because everything asked of
+    this has to be true *inside* the container and not merely somewhere on the page. The
+    template already ships one hidden element holding a different "nothing here" phrase
+    (`no-results`, `display: none`, present on populated sites too), which is exactly the
+    shape that would turn a page-wide text search into a false empty programme if the
+    empty state ever moved into a hidden sibling.
+    """
+    m = LISTING_CONTAINER_RE.search(listing)
+    if not m:
+        return None
+    depth = 1
+    for tag in re.finditer(r"<(/?)div\b", listing[m.end():]):
+        depth += -1 if tag.group(1) else 1
+        if depth == 0:
+            return listing[m.end():m.end() + tag.start()]
+    return listing[m.end():]          # unclosed markup: treat what is there as the body
+
+
+def _classify_no_films(listing, url):
+    """No movie links were found. Decide why, and raise accordingly. Never returns.
+
+    Zero regex matches proves only that *this* regex matched nothing. It does not prove
+    the cinema published nothing, and treating the two as the same turns a parser
+    regression into a soft ageing signal: the run exits 0, the previous data is kept, and
+    the only symptom is the health line going amber hours later.
+
+    So EmptyProgramme is raised only on positive evidence that the template rendered its
+    own "nothing on" state:
+
+      * the film container is present, so the expected page rendered at all, and
+      * it holds no per-film cards, read without going near the href, and
+      * the template's empty-state phrase is inside that same container -- not merely
+        somewhere on the page, where a hidden element could put it.
+
+    Anything else is a failure, including the case that looks most like emptiness -- a
+    container full of cards whose links this parser can no longer read. A false hard
+    failure costs one red run; a false empty publishes stale data indefinitely and says
+    nothing.
+    """
+    inner = _film_container(listing)
+    if inner is None:
+        raise RuntimeError(
+            f"{url}: no film container in the response, so this is not the listing this "
+            f"parser reads -- treating it as a fetch or template failure, not as a "
+            f"cinema with nothing on")
+    entries = len(LISTING_ITEM_RE.findall(inner))
+    if entries:
+        raise RuntimeError(
+            f"{url}: the film container holds {entries} entr(y/ies) and MOVIE_LINK_RE "
+            f"matched none of them. The markup changed; this is a parser break, not an "
+            f"empty programme")
+    if LISTING_EMPTY_RE.search(inner):
+        raise EmptyProgramme(f"{url} renders the template's empty programme")
+    raise RuntimeError(
+        f"{url}: no film entries and no empty-programme marker either, so there is no "
+        f"evidence the cinema published nothing. Failing rather than guessing")
+
+
 def fetch_site(site, sleep=1.2):
     listing = get(site["base"] + "/elokuvat/ohjelmistossa")
     seen, movies = set(), []
@@ -259,11 +336,8 @@ def fetch_site(site, sleep=1.2):
         if mid not in seen:
             seen.add(mid); movies.append((path, mid))
 
-    # The listing loaded and lists nothing: this cinema has no programme this week.
-    # Distinct from a listing full of films that this parser can no longer read, which
-    # still fails the run -- see common.EmptyProgramme.
     if not movies:
-        raise EmptyProgramme(f"{site['base']}/elokuvat/ohjelmistossa lists no films")
+        _classify_no_films(listing, site["base"] + "/elokuvat/ohjelmistossa")
 
     per_venue = {v["id"]: [] for v in site["venues"]}
     for path, mid in budget_or_raise(movies, site['provider']):
