@@ -1,10 +1,10 @@
-[kinoset] Kino 1-2 (Huittinen): 6 showtimes
-[kinoset] Kinema (Loimaa): 4 showtimes
-[kinoset] Bio (Sastamala): 4 showtimes
+[kinoset] Kino 1-2: no showtimes, keeping previous data from 2026-08-30T05:11:54+00:00
+[kinoset] Kinema: no showtimes, keeping previous data from 2026-08-30T05:11:54+00:00
+[kinoset] Bio: no showtimes, keeping previous data from 2026-08-30T05:11:54+00:00
+[kinoset] Kino 1-2 FAILED: HTTP Error 403: Forbidden
+[kinoset] Kinema FAILED: HTTP Error 403: Forbidden
+[kinoset] Bio FAILED: HTTP Error 403: Forbidden
 [kinoset] synopses merged: 0
-[kinoset] Kino 1-2: 6 showtimes, 2 dates
-[kinoset] Kinema: 4 showtimes, 3 dates
-[kinoset] Bio: 4 showtimes, 3 dates
-[run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 3 venues, 14 showtimes, 0 stale, 0 unverified, 0 failures
-exit=0
+[run] partial: kinoset kept previous data for 3 venue(s): ks-huittinen, ks-loimaa, ks-sastamala
+[run] nexxo: 0 venues, 0 showtimes, 3 stale, 0 unverified, 1 failures
+exit=1
