@@ -2709,6 +2709,47 @@ The state self-heals on any completed cloud run, which is what happened here: 4 
 downloaded, 0 remote references left. The fix is about not losing the run, and about
 noticing when it is lost.
 
+### The same asymmetry, one layer up: enrichment (2026-08-30)
+Posters fixed, and the very next look at Kino Engel showed no score rings. Same shape:
+`enrich_tmdb.py` runs only in the cloud, Finnkino has its own TMDB pass inside
+`fetch_data.py`, and Engel and Kino Akseli have neither. Measured across the local run
+that had just landed: **38 of 38 Engel showtimes and 12 of 12 Akseli went from a full set
+to zero**, against 38/38 `tmdbId`, 35 ratings and 35 trailers in the cloud commit before
+it.
+
+Five fields, and `gids` is the one that matters most -- it drives the genre names the
+client renders and the id half of the kids filter, so this was never only a missing
+badge. `tmdbId` also feeds cross-chain merging; the damage there was small today only
+because none of the 14 films showing at two or more Helsinki chains happened to be at
+Engel.
+
+**Running `enrich_tmdb` on the local half was the obvious fix and is the wrong one.** It
+writes three shared files -- `tmdb-titles.json`, `films-extra.json`, `tmdb-genres.json` --
+that the cloud pass also writes, and the wrapper pushes through `git pull --rebase`. A
+content conflict in a single-line JSON cache cannot auto-merge, would fail all three push
+attempts and abort the run. Trading a three-minute missing rating for a broken push is a
+bad trade.
+
+**The actual fix is to stop `run.py` dropping them.** A run rewrites a venue file
+wholesale from what the adapter returned, so anything only the TMDB pass knows is lost.
+`run_site` now reads the previous file first and carries `tmdbId`, `tmdb`, `votes`, `tr`
+and `gids` forward by title -- the same key the TMDB pass itself uses, and the right one,
+since these are properties of the film rather than the screening.
+
+- **A floor, never an override.** `setdefault` leaves anything the adapter supplied
+  alone, and the next enrichment pass overwrites all of it with fresh figures.
+- It helps in the cloud too, where `run.py` also runs before enrichment: if the TMDB pass
+  ever fails, the previous values stand instead of vanishing.
+- It fixes the general trap this file already records -- *running `run.py` locally for a
+  cloud provider and committing strips enrichment*, which once cost 1201 showtimes their
+  `tmdbId` -- rather than only the two local providers.
+
+Verified on the real cloud-committed file: 16 titles carry all five fields, none missing
+`gids`, and the stripped file yields nothing, as it should. Four tests, all confirmed to
+fail when broken -- removing the carry-forward errors two, and turning `setdefault` into
+an assignment fails the one that guards the adapter's own values. The first version
+shadowed the venue loop variable and the tests caught it on the first run.
+
 **Closing the asymmetry: the local half can run the mirror too.** `mirror_posters.py`
 needs no filter to do it. It only rewrites references that are still remote, and by the
 time the local run happens every cloud provider's poster is already local, so pointing it

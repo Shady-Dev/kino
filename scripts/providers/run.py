@@ -74,6 +74,43 @@ def generated_of(path):
     return previous(path)[0]
 
 
+# What the TMDB pass stamps onto a show and an adapter cannot know. `gids` is the one
+# that matters most: it drives the genre names the client renders and the kids filter's
+# id rule, so losing it is not just a missing score ring.
+ENRICHED = ("tmdbId", "tmdb", "votes", "tr", "gids")
+
+
+def enrichment_of(path):
+    """Previously committed enrichment, keyed by title. -> {title: {field: value}}.
+
+    A run rewrites a venue file wholesale from what the adapter returned, so every
+    enrichment field in the old file is dropped. In the cloud that is invisible, because
+    enrich_tmdb runs straight afterwards and puts them back. On the local half nothing
+    does: Kino Engel and Kino Akseli lose their ratings, trailers and genre ids on every
+    run and get them back only when the next cloud run lands, and the same happens to
+    anyone running run.py by hand -- the trap IDEAS already records as having cost 1201
+    showtimes their tmdbId.
+
+    Keyed by title because that is what the TMDB pass itself keys on, and because these
+    are properties of the *film*, not of the screening. Carried values are a floor, never
+    an override: `setdefault` leaves anything the adapter supplied alone, and the next
+    enrichment pass overwrites the lot with fresh figures.
+    """
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    out = {}
+    for s in doc.get("shows") or []:
+        title = s.get("title")
+        if not title or title in out:
+            continue
+        keep = {k: s[k] for k in ENRICHED if s.get(k) is not None and s.get(k) != ""}
+        if keep:
+            out[title] = keep
+    return out
+
+
 def run_site(mod, site, now):
     """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure."""
     label = site.get("provider") or mod.__name__
@@ -110,6 +147,13 @@ def run_site(mod, site, now):
                   f"publishing an empty file", file=sys.stderr)
         shows.sort(key=lambda s: s["start"])
         synmerge.strip_helpers(shows)
+        # Read before the write, so a venue keeps its ratings, trailers and genre ids
+        # rather than losing them for however long it takes the next enrichment pass to
+        # run. Never overrides what the adapter itself produced.
+        carried = enrichment_of(path)
+        for sh in shows:
+            for field, val in (carried.get(sh.get("title")) or {}).items():
+                sh.setdefault(field, val)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})
         common.write_json(path,
             {"generated": now, "dates": days, "horizon": days[-1] if days else "",

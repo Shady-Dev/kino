@@ -236,3 +236,84 @@ class GeneratedOfTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EnrichmentCarriedForwardTest(unittest.TestCase):
+    """A rewrite must not drop what only the TMDB pass can supply.
+
+    In the cloud this was invisible: enrich_tmdb runs straight after run.py and puts the
+    fields back. On the local half nothing does, so Kino Engel and Kino Akseli lost their
+    ratings, trailers and genre ids on every run and got them back only when the next
+    cloud run landed. Measured on the real data before the fix: 38 of 38 Engel showtimes
+    and 12 of 12 Akseli went from a full set to zero.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.out = pathlib.Path(self.tmp.name)
+        saved = run.OUT
+        run.OUT = self.out
+        self.addCleanup(self.tmp.cleanup)
+        self.addCleanup(lambda: setattr(run, "OUT", saved))
+
+    def run_site(self, mod, site=SITE, now=NOW):
+        with contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            return run.run_site(mod, site, now)
+
+    def seed_enriched(self, vid, title="A Film"):
+        (self.out / f"area-{vid}.json").write_text(json.dumps({
+            "generated": OLD, "dates": ["2026-08-01"], "horizon": "2026-08-01",
+            "shows": [dict(show(title, "2026-08-01T18:00:00+03:00"),
+                           tmdbId=1234, tmdb=7.4, votes=310,
+                           tr="https://youtu.be/x", gids=[18, 35])],
+        }), encoding="utf-8")
+
+    def area(self, vid):
+        return json.loads((self.out / f"area-{vid}.json").read_text(encoding="utf-8"))
+
+    def test_a_rewrite_keeps_the_enrichment_it_cannot_regenerate(self):
+        self.seed_enriched("fc-a")
+        mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        self.assertEqual(s["tmdbId"], 1234)
+        self.assertEqual(s["tmdb"], 7.4)
+        self.assertEqual(s["votes"], 310)
+        self.assertEqual(s["tr"], "https://youtu.be/x")
+        self.assertEqual(s["gids"], [18, 35],
+                         "gids drives genre names and the kids filter, not just a badge")
+        self.assertEqual(s["start"][:10], "2026-08-30", "the showtime itself is fresh")
+
+    def test_a_film_that_was_not_there_before_gets_nothing(self):
+        self.seed_enriched("fc-a", title="Some Other Film")
+        mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        for k in run.ENRICHED:
+            self.assertNotIn(k, s)
+
+    def test_the_adapter_wins_over_a_carried_value(self):
+        """A floor, never an override: a provider that publishes its own value keeps it,
+        and the next enrichment pass overwrites the lot regardless."""
+        self.seed_enriched("fc-a")
+        fresh = dict(show("A Film", "2026-08-30T18:00:00+03:00"), tmdb=9.9)
+        mod = FakeModule({"fc-a": [fresh],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        self.assertEqual(s["tmdb"], 9.9)
+        self.assertEqual(s["tmdbId"], 1234, "the other fields still carry")
+
+    def test_an_unreadable_previous_file_is_not_fatal(self):
+        (self.out / "area-fc-a.json").write_text('{"shows": [', encoding="utf-8")
+        mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        live, _, _, _ = self.run_site(mod)
+        self.assertEqual(live, 3)
