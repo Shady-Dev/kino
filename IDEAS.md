@@ -30,7 +30,8 @@ line from this list when its item is ticked below.
 **[Ops](#ops)**
 
 - Staleness monitor: an external ping on the age of `data/areas.json`
-- Flag a failed local provider actively; today `exit=1` is recorded and nothing surfaces it
+- ~~Flag a failed local provider actively~~ — done 2026-08-30: `scripts/check_runs.py`
+  plus `.github/workflows/logs.yml` fail on any committed log that did not end `exit=0`
 - Consider a data branch to keep `main` history clean
 
 **[Refactor before adding more providers](#refactor-to-do-before-adding-more-providers)**
@@ -3133,6 +3134,45 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   YouTube URLs, and one missing space after a real question mark in a provider's own
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
+
+### The local half can now announce a failure (2026-08-30)
+The cloud half has always announced its own: a provider that exits non-zero turns the
+Actions run red and somebody sees it. Both of today's outages surfaced that way -- Joutsan
+Kino's 403 and Savon Kinot's move off Vista, the second of which was noticed by a person
+looking at a red run, not by anything in here.
+
+The local half had nothing. It runs on a machine outside this repo, writes `exit=1` into
+a provider's log, pushes it and carries on. Nothing is red anywhere, and the first symptom
+is the health line going amber eight hours later, if someone happens to be on the site.
+**Twenty of seventy venues ride on that half, seventeen of them Finnkino** -- so "no
+signal" covered the largest provider in the app.
+
+`scripts/check_runs.py` reads every committed `run*.log` and exits non-zero if any of them
+did not end `exit=0`. `.github/workflows/logs.yml` runs it on any push that touches a log.
+
+- **The commit is the transport, and that is the whole trick.** Both halves already push
+  their logs here. Reading them on push gives the local half the same signal the cloud
+  half gets for free, without touching the wrapper -- which lives outside this repo,
+  cannot be tested from inside it, and is the one part of the pipeline no test covers.
+  It also needed no change to `biorex.yml`, which has an unmerged branch against it.
+- **A log with no `exit=` line fails too.** Every writer appends one, so its absence means
+  the run died before it could or the file was truncated. Treating that as clean is how a
+  half-written log passes for a healthy one.
+- **The last `exit=` wins, not the first and not the final line.** Taking the first would
+  report a run that recovered as failed; reading the final line would call a log
+  unreadable the moment anything is printed after it, which reports a healthy run as
+  broken. Both directions train people to ignore the check, which is the failure the
+  deleted `fetch.yml` already caused by being permanently red.
+- **A stale log counts.** `run-vista.log` sat at `exit=1` for hours today because its
+  module had been retired and nothing overwrote it. That is exactly the state this should
+  be loud about, and it was found by hand instead.
+- Covered by `tests/test_check_runs.py`, verified by breaking each guard. Two of the four
+  breaks initially went green against a test that could not tell the difference -- the
+  test was rewritten until it could, which is the same lesson as the `not venues` clause
+  earlier today.
+- Not covered, deliberately: **staleness**. A log that says `exit=0` four days ago is a
+  different problem, and the external ping on `data/areas.json` age is still open. This
+  answers "did the last run fail", not "did a run happen".
 
 ### Savon Kinot left Vista for eTiketti (2026-08-30)
 The cloud run went `exit=1` on `vista`: `HTTP Error 404` from `www.savonkinot.fi`. Not a

@@ -1,0 +1,43 @@
+name: Check run logs
+
+# The cloud half announces its own failures: a provider that exits non-zero turns its
+# run red and somebody sees it. That is how both of 2026-08-30's outages surfaced --
+# Joutsan Kino's 403 and Savon Kinot's move off Vista.
+#
+# The local half has no such thing. It runs on a machine outside this repo, writes
+# exit=1 into a provider's log, pushes it and carries on, with nothing red anywhere and
+# the first symptom being the health line going amber eight hours later. Twenty of
+# seventy venues ride on that half, seventeen of them Finnkino.
+#
+# Both halves commit their logs here, so reading them on push gives the local half the
+# signal the cloud half gets for free -- without touching the wrapper, which lives
+# outside this repo and cannot be tested from inside it.
+on:
+  push:
+    paths:
+      - 'run*.log'
+      - 'scripts/check_runs.py'
+      - '.github/workflows/logs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Only the newest push matters: this reads committed state, so an older commit's verdict
+# is already superseded. Cancelling here is safe in the way it was not for the fetch
+# workflow, which does work nothing else retries.
+concurrency:
+  group: check-run-logs
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to a SHA rather than a tag, the same rule the fetch workflow follows:
+      # re-pointing a tag is the cheap half of a supply-chain compromise, and a SHA is
+      # the only reference that cannot be moved under us. actions/checkout v4, resolved
+      # 2026-08-30.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Every committed run log ended exit=0
+        run: python3 scripts/check_runs.py
