@@ -1,5 +1,0 @@
-[savonkinot] FAILED: HTTP Error 404: Not Found
-[http] 404 from www.savonkinot.fi, gave up after 3 attempt(s) -- Server: nginx
-[savonkinot] Events unavailable, TMDB will cover it: HTTP Error 404: Not Found
-[run] vista: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 with no programme, 1 failures
-exit=1

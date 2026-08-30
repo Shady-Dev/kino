@@ -3154,6 +3154,10 @@ again through `run.py` after it.
 - **The failure surfaced the way it was designed to**: one provider red, everything else
   green and published, and the committed log naming the host and the status code. That is
   the whole argument for not letting a run be permanently red.
+- **`run-vista.log` was deleted with the sites.** A retired module stops being run, so
+  nothing overwrites its log, and the last thing it ever wrote was the 404 that retired
+  it -- a file sitting at `exit=1` forever, in the one place a sweep for failures looks.
+  A log is an artifact of a step that runs; when the step goes, the log goes with it.
 
 ### The Nexxo sweep: six cinemas, and two hosts that are not what they look like (2026-08-30)
 Six more cinemas against the adapter that already served Kinoset. No new parser: 25
