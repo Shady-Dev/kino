@@ -2709,10 +2709,25 @@ The state self-heals on any completed cloud run, which is what happened here: 4 
 downloaded, 0 remote references left. The fix is about not losing the run, and about
 noticing when it is lost.
 
-**Still open, and the real asymmetry:** the local half could mirror its own posters the
-way `fetch_data.py` already does, and then no window would exist at all. It needs Pillow
-on that machine -- `mirror_posters` imports PIL only when it downscales -- so it is a
-change to the wrapper's environment rather than to this repo.
+**Closing the asymmetry: the local half can run the mirror too.** `mirror_posters.py`
+needs no filter to do it. It only rewrites references that are still remote, and by the
+time the local run happens every cloud provider's poster is already local, so pointing it
+at the whole `data/` directory rewrites Engel and Akseli and touches nothing else.
+Verified: with a remote URL planted on a Kino Akseli show it rewrote that one reference
+in one file and left the other thirty alone.
+
+It does need **Pillow**, and that is not optional. Measured rather than assumed: Kino
+Akseli publishes the distributor's key art at 1984x2835, **872 kB for a single poster**,
+against 57 kB once downscaled to 342 px -- 25 times larger, into a repo that is 11 MB of
+posters in total. Engel's are gentler at 62-127 kB against 35-46 kB. Mirroring verbatim
+is not a shortcut around the dependency.
+
+`mirror_posters` now checks for Pillow once, up front, instead of letting every download
+raise `ImportError` inside its own try. Without the check a machine with no Pillow
+reports "185 failed" and reads like the network is down; it now prints one line naming
+the real cause and the install command, and exits 0 so the local run still publishes
+showtimes. That makes the wrapper line safe to add before Pillow is installed, and safe
+to leave if it is ever removed.
 
 ## Access and ethics
 

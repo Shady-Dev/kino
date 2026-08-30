@@ -107,7 +107,32 @@ def download(url: str, dest: pathlib.Path) -> bool:
     return True
 
 
+def have_pillow() -> bool:
+    try:
+        from PIL import Image        # noqa: F401
+        return True
+    except Exception:
+        return False
+
+
 def main() -> int:
+    # Checked once, up front. Without it every single download raises ImportError inside
+    # its own try and is counted as a failure, so a machine with no Pillow reports "185
+    # failed" and reads like the network is down. This runs on the local half too now,
+    # where Pillow is not a given, and the honest answer is one line rather than 185.
+    #
+    # Not an error exit: the local run must still publish showtimes, and without a mirror
+    # the data keeps the cinema's own poster URL, which is what it did before this script
+    # existed. The client declines to render those, so films show a placeholder tile and
+    # build_pages says so loudly. Nothing breaks; posters are just missing until a run
+    # that can downscale.
+    if not have_pillow():
+        print("[mirror] Pillow is not installed for this interpreter, so nothing can be "
+              "downscaled and no poster can be mirrored. Posters stay on the cinemas' "
+              "own hosts, the client will not render them, and those films show a "
+              "placeholder tile. Install it with: python3 -m pip install pillow")
+        return 0
+
     POSTER_DIR.mkdir(parents=True, exist_ok=True)
 
     docs = [(p, doc) for p, doc in area_docs()]
