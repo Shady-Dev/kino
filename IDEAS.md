@@ -2669,6 +2669,51 @@ film count. The closest call of the three: the showtime half of it is genuinely 
 visible without scrolling. Not enough to earn permanent code and conditional chrome in a
 view whose stated purpose is to get out of the list's way.
 
+### A cancelled cloud run cost two venues every poster (2026-08-30)
+Kino Engel and Kino Akseli rendered placeholder tiles for every film, at every screen
+size, for hours. Three things had to line up.
+
+**The local half publishes posters it cannot mirror.** `mirror_posters.py` runs only in
+the cloud workflow, so Engel and Akseli ship the cinema's own URLs -- `johku.com/...`,
+`kinoakseli.fi/...` -- and depend on a later cloud run to rewrite them into
+`data/posters/`. Finnkino does not have this problem because `fetch_data.py` mirrors its
+own posters in `download_poster`. That asymmetry is the root of it: 38 of 38 Engel
+showtimes and 12 of 12 Akseli were remote, and every cloud provider was clean.
+
+**`cancel-in-progress: true` threw away the run that fixes it.** A manual run of the
+local script dispatched the workflow while a scheduled one was in flight, so the
+in-flight run was cancelled mid-mirror. Nothing retries. Measured across the last 14
+local runs, the normal window between publishing a remote URL and the cloud rewriting it
+is a **2.7 minute median, 6.9 max**; a cancellation stretches it to the next cron, up to
+four hours.
+
+**Since v64 the client refuses a remote poster** rather than leaking the reader's IP to
+someone else's host, which is correct and is exactly the case `safeAssetUrl` was written
+for -- recorded then as "latent rather than live, which is precisely why it needed a test
+rather than an inspection". It is no longer latent. The fallback tile is the right
+behaviour; the data was wrong.
+
+Two changes, one for the cause and one so the next variant is not silent:
+
+- `cancel-in-progress: false`. Queueing keeps the serialisation the setting was added for
+  -- two runs must not race on the same data files -- while letting the queued run
+  actually finish. Four crons and four local dispatches a day means at most two in
+  flight, so nothing piles up.
+- `build_pages.py` names it. It runs straight after `mirror_posters`, already drops a
+  non-local poster from the markup, and said nothing about it, so a reader saw tiles and
+  the log looked clean. It now prints the hosts and the count. Verified against the real
+  broken data before the recovery: `78 poster references were still remote ... johku.com
+  x58, kinoakseli.fi x20`, and silent once the next cloud run had mirrored them.
+
+The state self-heals on any completed cloud run, which is what happened here: 4 posters
+downloaded, 0 remote references left. The fix is about not losing the run, and about
+noticing when it is lost.
+
+**Still open, and the real asymmetry:** the local half could mirror its own posters the
+way `fetch_data.py` already does, and then no window would exist at all. It needs Pillow
+on that machine -- `mirror_posters` imports PIL only when it downscales -- so it is a
+change to the wrapper's environment rather than to this repo.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, four times a

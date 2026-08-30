@@ -56,6 +56,25 @@ SITE = "https://leffavuoro.fi"
 # a search result is as likely a first landing as the app itself. Constant, so
 # write_if_changed keeps working.
 CONTACT = "tiles-39nomads@icloud.com"
+
+# Posters that reached the page generator still pointing at somebody else's host. Every
+# provider's images are supposed to be rewritten into data/posters/ by mirror_posters,
+# which runs immediately before this. A non-zero count here means that did not happen for
+# some venue, and the reader sees a placeholder tile instead of a poster -- silently,
+# because the page renders fine without it.
+#
+# Live cause, 2026-08-30: the local half publishes Kino Engel and Kino Akseli posters as
+# the cinema's own URLs and only the cloud run rewrites them, so a cancelled cloud run
+# left two venues with no posters at all until the next cron. The workflow no longer
+# cancels; this line is here so the next way it happens is not silent too.
+_unmirrored_hosts = {}
+
+
+def _unmirrored(img):
+    if img.startswith("http") or img.startswith("//"):
+        host = img.split("/")[2] if "//" in img else img
+        _unmirrored_hosts[host] = _unmirrored_hosts.get(host, 0) + 1
+    return ""
 DAYS = 4          # today plus three: enough to answer "what is on", small enough to commit
 CITY_DAYS = 2     # a ten-venue city at seven days was a 1.2 MB page
 LD_DAYS = 2       # markup for today and tomorrow only, see ld_json()
@@ -286,7 +305,7 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP.
     img = s0.get("img") or ""
     poster = f'<img src="/{esc(img)}" alt="" width="56" height="84" loading="lazy">' \
-        if img.startswith("data/posters/") else ""
+        if img.startswith("data/posters/") else _unmirrored(img)
 
     times = []
     for s in shows:
@@ -574,6 +593,14 @@ def main() -> int:
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")
+    if _unmirrored_hosts:
+        total = sum(_unmirrored_hosts.values())
+        where = ", ".join(f"{h} x{n}" for h, n in sorted(_unmirrored_hosts.items()))
+        print(f"[pages] WARNING: {total} poster references were still remote and were "
+              f"dropped from the markup, so those films render a placeholder tile: "
+              f"{where}. mirror_posters should have rewritten these; check whether the "
+              f"cloud run before this one completed.")
+
     print(f"[pages] {len(urls) + 1} urls in sitemap, "
           f"{stats['written']} files written, {stats['kept']} unchanged")
     return 0

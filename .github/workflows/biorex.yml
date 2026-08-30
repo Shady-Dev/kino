@@ -7,9 +7,19 @@ on:
 permissions:
   contents: write
 
+# One run at a time on the data files, but the queued one still runs. It used to be
+# cancel-in-progress: true, which discards work nothing retries: the local half publishes
+# Kino Engel and Kino Akseli posters as the cinema's own URLs, and only this workflow
+# rewrites them into data/posters/. Cancel the run doing that and the remote URLs stay in
+# the committed data until the next cron -- up to four hours, against a 2.7 minute median
+# -- and since v64 the client refuses a remote poster, so those two venues lose every
+# poster for the whole window. Seen live on 2026-08-30 when a manual run landed on top of
+# a scheduled one.
+# Queueing keeps the serialisation that cancel-in-progress was added for (two runs racing
+# on the same files) without throwing away the run that was mid-mirror.
 concurrency:
   group: kino-data
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   fetch:
