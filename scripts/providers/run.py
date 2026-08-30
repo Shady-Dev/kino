@@ -27,9 +27,12 @@ is designed against.
 A venue that keeps its previous file is recorded as *stale*, not failed: at this layer
 an empty parse and a cinema with nothing on today both arrive as `[]`, so they cannot be
 told apart, and treating either as a failure would fail the run on an ordinary closure.
-The file therefore carries `status`, `stale` and `oldest`, and `oldest` is what the
-health line ages on — a provider is as fresh as its weakest venue. Only a site where
-*every* venue came back empty is a failure, since nothing else would notice that.
+A venue with no shows and none before it is *unverified* instead — there is no older data
+to go stale, and it must not read as healthy either. The file therefore carries `status`,
+`stale`, `unverified` and `oldest`, and `oldest` is what the health line ages on: a
+provider is as fresh as its weakest venue, but a venue that never had data does not drag
+that down. Only a site where *every* venue came back empty is a failure, since nothing
+else would notice that.
 """
 import datetime
 import importlib
@@ -47,17 +50,28 @@ import synmerge            # noqa: E402
 OUT = pathlib.Path("data")
 
 
-def generated_of(path):
-    """The `generated` already committed for a venue. -> str, or '' if unreadable.
+def previous(path):
+    """What is already committed for a venue. -> (generated, show count).
 
-    A venue that keeps its previous file keeps that file's timestamp, so this is what
-    the provider is really as fresh as. Unreadable is treated as unknown rather than as
-    an error: a torn or hand-edited file must not stop the run publishing showtimes.
+    The count is the part that matters. `path.exists()` conflates two different states:
+    a venue holding real older data, and a venue whose only file is the empty one written
+    so the picker would not link to a 404. Keying on existence marks the second as
+    "keeping previous data" from its second run onward, which claims data that was never
+    there and drags the provider's `oldest` down forever.
+
+    Unreadable is unknown rather than an error: a torn or hand-edited file must not stop
+    the run publishing showtimes.
     """
     try:
-        return json.loads(path.read_text(encoding="utf-8")).get("generated") or ""
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        return doc.get("generated") or "", len(doc.get("shows") or [])
     except Exception:
-        return ""
+        return "", 0
+
+
+def generated_of(path):
+    """The `generated` already committed for a venue. -> str, or '' if unreadable."""
+    return previous(path)[0]
 
 
 def run_site(mod, site, now):
@@ -73,17 +87,27 @@ def run_site(mod, site, now):
     synmerge.merge(OUT, per_venue, label)
 
     live = total = 0
-    stale = []            # venues whose previous file was kept, so their data is older
+    stale = []            # kept its previous file: the data is real, just older
+    unverified = []       # no shows now and none before either: nothing to go stale
     for v in site["venues"]:
         shows = per_venue.get(v["id"]) or []
         path = OUT / f"area-{v['id']}.json"
-        if not shows and path.exists():
+        prev_gen, prev_shows = previous(path)
+        if not shows and prev_shows:
             stale.append(v["id"])
             print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
-                  f"from {generated_of(path) or 'an unknown time'}", file=sys.stderr)
+                  f"from {prev_gen or 'an unknown time'}", file=sys.stderr)
             continue
-        # No shows and no file yet (new venue whose first parse failed): write an
-        # empty file, or the picker below would link to a 404.
+        if not shows:
+            # Never produced a showtime: a venue added before its programme is published,
+            # or one whose parse has never worked. Those are not distinguishable here, so
+            # it is recorded rather than judged -- but it must not read as healthy, which
+            # is what happened when nothing tracked it at all. The empty file is still
+            # written so the picker does not link to a 404, and its `generated` is stamped
+            # fresh so a venue with no data cannot drag the provider's `oldest` down.
+            unverified.append(v["id"])
+            print(f"[{label}] {v['name']}: no showtimes and none previously; "
+                  f"publishing an empty file", file=sys.stderr)
         shows.sort(key=lambda s: s["start"])
         synmerge.strip_helpers(shows)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})
@@ -111,11 +135,12 @@ def run_site(mod, site, now):
                   if (OUT / f"area-{v['id']}.json").exists()]
         common.write_json(OUT / f"venues-{site['provider']}.json",
             {"generated": now, "oldest": min(stamps) if stamps else now,
-             "status": "partial" if stale else "ok", "stale": stale,
+             "status": "partial" if (stale or unverified) else "ok",
+             "stale": stale, "unverified": unverified,
              "provider": site["provider"],
              "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
                         for v in site["venues"]]})
-    return live, total, stale
+    return live, total, stale, unverified
 
 
 def main(argv) -> int:
@@ -143,15 +168,15 @@ def main(argv) -> int:
         for site in sites:
             label = site.get("provider") or name
             try:
-                v, s, stale = run_site(mod, site, now)
+                v, s, stale, unverified = run_site(mod, site, now)
             except Exception as e:
                 print(f"[{label}] FAILED: {e}", file=sys.stderr)
                 failures += 1
                 continue
             venues += v
             shows += s
-            if stale:
-                partial.append((label, stale))
+            if stale or unverified:
+                partial.append((label, stale, unverified))
             if not v:
                 failures += 1
 
@@ -182,12 +207,17 @@ def main(argv) -> int:
     # and the health line ages on the oldest venue, so the app stops claiming the
     # provider is fresh, and this line puts the venue names in the committed log.
     if partial:
-        for label, ids in partial:
-            print(f"[run] partial: {label} kept previous data for "
-                  f"{len(ids)} venue(s): {', '.join(ids)}")
+        for label, ids, new_ids in partial:
+            if ids:
+                print(f"[run] partial: {label} kept previous data for "
+                      f"{len(ids)} venue(s): {', '.join(ids)}")
+            if new_ids:
+                print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
+                      f"never produced a showtime: {', '.join(new_ids)}")
 
     print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
-          f"{sum(len(i) for _, i in partial)} stale, {failures} failures")
+          f"{sum(len(i) for _, i, _ in partial)} stale, "
+          f"{sum(len(u) for _, _, u in partial)} unverified, {failures} failures")
     return 1 if failures or not venues else 0
 
 

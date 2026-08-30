@@ -88,7 +88,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-b": [],
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
-        live, total, stale = self.run_site(mod)
+        live, total, stale, unverified = self.run_site(mod)
 
         self.assertEqual(live, 2)
         self.assertEqual(total, 2)
@@ -127,7 +127,7 @@ class RunSitePartialTest(unittest.TestCase):
         mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
                           "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        _, _, stale = self.run_site(mod)
+        _, _, stale, unverified = self.run_site(mod)
         self.assertNotIn("fc-a", stale)
         self.assertNotIn("fc-c", stale)
 
@@ -136,7 +136,7 @@ class RunSitePartialTest(unittest.TestCase):
         self.seed_previous("fc-b", OLD)
         mod = FakeModule({"fc-a": [], "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        live, _, stale = self.run_site(mod)
+        live, _, stale, unverified = self.run_site(mod)
         self.assertEqual(live, 1)
         self.assertEqual(sorted(stale), ["fc-a", "fc-b"])
         self.assertEqual(self.venues_file()["oldest"], OLD, "oldest is not the minimum")
@@ -146,30 +146,70 @@ class RunSitePartialTest(unittest.TestCase):
     def test_a_fully_fresh_provider_reports_ok(self):
         mod = FakeModule({v["id"]: [show("F", "2026-08-30T18:00:00+03:00")]
                           for v in SITE["venues"]})
-        live, total, stale = self.run_site(mod)
-        self.assertEqual((live, total, stale), (3, 3, []))
+        live, total, stale, unverified = self.run_site(mod)
+        self.assertEqual((live, total, stale, unverified), (3, 3, [], []))
         doc = self.venues_file()
         self.assertEqual(doc["status"], "ok")
         self.assertEqual(doc["stale"], [])
         self.assertEqual(doc["oldest"], NOW)
 
-    def test_a_new_venue_with_no_previous_file_is_not_called_stale(self):
-        """It gets an empty file so the picker does not link to a 404. Its data is from
-        now, not from the past, so calling it stale would misreport what is wrong."""
+    def test_a_new_venue_with_no_previous_file_is_unverified_not_stale(self):
+        """It gets an empty file so the picker does not link to a 404, and its data is
+        from now rather than the past, so `stale` would misreport what is wrong. It must
+        still not read as healthy: nothing tracked it at all, so a provider with a venue
+        that had never produced a showtime published itself as fully ok."""
         mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
                           "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        _, _, stale = self.run_site(mod)
+        _, _, stale, unverified = self.run_site(mod)
         self.assertEqual(stale, [])
+        self.assertEqual(unverified, ["fc-b"])
         self.assertEqual(self.area("fc-b")["shows"], [])
-        self.assertEqual(self.venues_file()["status"], "ok")
+        doc = self.venues_file()
+        self.assertEqual(doc["status"], "partial",
+                         "a venue that has never produced a showtime read as healthy")
+        self.assertEqual(doc["unverified"], ["fc-b"])
+        self.assertEqual(doc["stale"], [])
+
+    def test_an_empty_venue_stays_unverified_on_the_next_run(self):
+        """The bug the `path.exists()` discriminator hid. Run one writes an empty file;
+        run two then sees a file and called it stale, claiming previous data that was
+        never there -- and its ageing `generated` dragged the provider's `oldest` down
+        for a venue that has never had anything to be stale about."""
+        mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)                       # run one creates the empty file
+        later = "2026-08-31T12:00:00+00:00"
+        _, _, stale, unverified = self.run_site(mod, now=later)
+        self.assertEqual(stale, [], "an always-empty venue was reported as stale")
+        self.assertEqual(unverified, ["fc-b"])
+        doc = self.venues_file()
+        self.assertEqual(doc["oldest"], later,
+                         "a venue that never had data dragged `oldest` backwards")
+
+    def test_unverified_clears_when_the_venue_starts_producing(self):
+        empty = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                            "fc-b": [],
+                            "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(empty)
+        self.assertEqual(self.venues_file()["status"], "partial")
+        full = FakeModule({v["id"]: [show("F", "2026-08-31T18:00:00+03:00")]
+                           for v in SITE["venues"]})
+        later = "2026-08-31T12:00:00+00:00"
+        live, _, stale, unverified = self.run_site(full, now=later)
+        self.assertEqual((live, stale, unverified), (3, [], []))
+        doc = self.venues_file()
+        self.assertEqual(doc["status"], "ok")
+        self.assertEqual(doc["unverified"], [])
+        self.assertEqual(doc["oldest"], later)
 
     def test_a_totally_dead_site_writes_no_provider_file(self):
         """Nothing may stamp a fresh timestamp when every venue came back empty."""
         for v in SITE["venues"]:
             self.seed_previous(v["id"])
         mod = FakeModule({v["id"]: [] for v in SITE["venues"]})
-        live, _, stale = self.run_site(mod)
+        live, _, stale, unverified = self.run_site(mod)
         self.assertEqual(live, 0)
         self.assertEqual(len(stale), 3)
         self.assertFalse((self.out / "venues-fakechain.json").exists())

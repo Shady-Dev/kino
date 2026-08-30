@@ -2181,6 +2181,28 @@ chain is down" when eleven of twelve cinemas are fine. The count says how much o
 actually behind, with the venue tally in the title attribute, translated in all three
 languages.
 
+**A venue that has never produced a showtime is `unverified`, not `stale`** (added
+2026-08-30, same pass). Two faults, one of which only appeared on the second run:
+
+- A brand-new venue with no shows and no previous file fell through every branch. It got
+  its empty file so the picker would not 404, and then nothing recorded it, so a provider
+  carrying a venue that had never returned a showtime published `status: "ok"`.
+- On the *next* run that empty file existed, so `not shows and path.exists()` sent it
+  down the stale branch — claiming previous data that was never there, and letting its
+  ageing `generated` drag the provider's `oldest` down for a venue with nothing to be
+  stale about.
+
+The discriminator is now whether the previous file **contains shows**, not whether a file
+exists. A venue with none either way is listed in `unverified`, its empty file is
+rewritten with a fresh `generated` (nothing is being preserved, so nothing should age),
+and `status` is `partial` while either list is non-empty. It clears by itself the run the
+venue starts producing.
+
+Deliberately not a failure. A venue added before its programme is published and a venue
+whose parse has never worked are the same `[]` here, and failing on the first would fail
+the run on an ordinary new listing. `unverified` records it instead, and the run log names
+the venues.
+
 Covered by `tests/test_run_partial.py`, with **three venues and the stale one in the
 middle**: two venues would let an implementation that reports "the last venue's state"
 pass, since with one good and one bad those are the same answer. Verified by breaking it
