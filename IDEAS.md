@@ -2688,9 +2688,29 @@ compromise. A SHA is the only reference that cannot be moved underneath us. The 
 install is worse in kind, not better: the runner installs it fresh every run, so the
 unpinned name is whatever PyPI serves that morning.
 
-- `actions/checkout` -> `11d5960a326750d5838078e36cf38b85af677262` (v4)
-- `actions/cache` -> `0057852bfaa89a56745cba8c7296529d2fc39830` (v4)
+- `actions/checkout` -> `3d3c42e5aac5ba805825da76410c181273ba90b1` (v7.0.1)
+- `actions/cache` -> `55cc8345863c7cc4c66a329aec7e433d2d1c52a9` (v6.1.0)
 - `pillow` -> `12.3.0`
+
+**Both actions moved off their v4 pins on 2026-08-31**, because a run started warning that
+`actions/checkout` and `actions/cache` "target Node.js 20 but are being forced to run on
+Node.js 24". The runners still execute them, so this was a deadline rather than a
+breakage, and the fix is the same work as the original pinning: resolve the tag to a
+commit through the API, confirm the thing you are pinning is what you think, and write the
+readable version beside it. Both v7.0.1 and v6.1.0 declare `using: node24` in their own
+`action.yml`, checked at the resolved SHA rather than assumed from the version number.
+
+A major-version jump is where a pin stops being a formality, so the inputs were checked
+before the bump rather than after the next run: `checkout` is used with no inputs at all
+here, and `cache` v6.1.0 still accepts `path`, `key` and `restore-keys`. `.github/
+workflows/logs.yml` carries the same `checkout` pin and moved with it.
+
+The claim above about verifying with PyYAML did not hold this time: no interpreter on this
+machine has it, including the wrapper's venv. Rather than skip the check or claim one that
+did not happen, the edited lines were verified structurally -- indentation and list
+position of each `uses:`, no tabs, and every `uses:` a 40-character SHA rather than a
+tag. That is weaker than a parse and is worth saying so: the first real run is what
+proves the file.
 
 Resolved from the GitHub and PyPI APIs on 2026-08-30, not copied from anywhere. The
 readable version stays in a comment beside each, because a bare SHA tells you nothing

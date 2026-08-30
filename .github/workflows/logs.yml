@@ -36,8 +36,8 @@ jobs:
     steps:
       # Pinned to a SHA rather than a tag, the same rule the fetch workflow follows:
       # re-pointing a tag is the cheap half of a supply-chain compromise, and a SHA is
-      # the only reference that cannot be moved under us. actions/checkout v4, resolved
-      # 2026-08-30.
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      # the only reference that cannot be moved under us. actions/checkout v7.0.1,
+      # resolved 2026-08-31, and on node24 rather than the deprecated node20.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Every committed run log ended exit=0
         run: python3 scripts/check_runs.py
