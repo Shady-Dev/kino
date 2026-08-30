@@ -467,6 +467,49 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 
 # ---------------------------------------------------------------- main
 
+# Venue slugs that were public before a naming fix, and the venue id each now belongs to.
+#
+# A slug is built from the chain label and the city, so correcting a label moves the URL.
+# Studio 123's two venues rendered their name twice ("Studio 123 Kouvola Studio 123")
+# until 2026-08-30, and the fix silently retired four indexed paths -- bookmarks, links
+# and anything Google had already crawled would 404. The pages are regenerated as
+# redirects instead of being deleted.
+#
+# Deliberately a fixed table rather than a general aliasing framework: it is four entries
+# for one mistake, and a mechanism that rewrites URLs on every label edit would make it
+# easy to keep moving them. Add here only when a live URL has actually changed.
+LEGACY_VENUE_SLUGS = {
+    "studio-123-jarvenpaa-studio-123-jarvenpaa": "s3-jarvenpaa",
+    "studio-123-kouvola-studio-123-kouvola": "s3-kouvola",
+}
+
+
+def redirect_page(lang, to_path, label):
+    """A minimal page that sends a reader to the URL this one became.
+
+    Not a copy of the venue page: duplicating the content under both URLs is what
+    `canonical` exists to prevent, and the schedule would then age in two places. The
+    meta refresh moves a browser, the canonical and `noindex` tell a crawler which URL is
+    real, and the anchor is what someone lands on if neither runs. `follow` rather than
+    `nofollow`, so the link is what carries the old URL's standing to the new one.
+
+    Nothing volatile in it, so `write_if_changed` keeps returning "kept" and these four
+    files stop appearing in diffs.
+    """
+    t = ("Sivu on siirtynyt" if lang == "fi" else "This page has moved")
+    go = ("Siirry teatterin sivulle" if lang == "fi" else "Go to the cinema's page")
+    return (f'<!doctype html>\n<html lang="{lang}">\n<head>\n<meta charset="utf-8">\n'
+            f'<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+            f'<title>{esc(t)}: {esc(label)}</title>\n'
+            f'<link rel="canonical" href="{SITE}{to_path}">\n'
+            f'<meta name="robots" content="noindex,follow">\n'
+            f'<meta http-equiv="refresh" content="0;url={to_path}">\n'
+            f'</head>\n<body>\n'
+            f'<h1>{esc(t)}</h1>\n'
+            f'<p><a href="{to_path}">{esc(go)}: {esc(label)}</a></p>\n'
+            f'</body>\n</html>\n')
+
+
 def write_if_changed(path, text, stats):
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.read_text(encoding="utf-8") == text:
@@ -547,6 +590,19 @@ def main() -> int:
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
             write_if_changed(out, text, stats)
         urls += [p_fi, p_en]
+
+    # ---- redirects for venue URLs that were public under an older slug. Written after
+    # the venue pages so the destination exists, and deliberately not added to `urls`:
+    # the sitemap advertises canonical URLs only.
+    by_id = {v["id"]: v for v in venues}
+    for old_slug, vid in LEGACY_VENUE_SLUGS.items():
+        v = by_id.get(vid)
+        if v is None or v["slug"] == old_slug:
+            continue          # venue gone, or the slug is current again -- nothing to do
+        for lang, prefix, dest in (("fi", "teatteri", paths_venue(v)[0]),
+                                   ("en", "en/theatre", paths_venue(v)[1])):
+            out = ROOT / prefix / old_slug / "index.html"
+            write_if_changed(out, redirect_page(lang, dest, v["label"]), stats)
 
     # ---- city pages, only where the app offers a combined view
     for c, vs in multi.items():
