@@ -1,8 +1,38 @@
+[joutsankino] FAILED: HTTP Error 403: Forbidden
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 9 showtimes, 5 dates
-[kotkanleffat] Trio 123: 31 showtimes, 5 dates
+[kotkanleffat] Kinopalatsi Kotka: 8 showtimes, 5 dates
+[kotkanleffat] Trio 123: 27 showtimes, 5 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 45 showtimes, 11 dates
-[run] http: 0 revalidated (304), 48 full, 48 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 3 venues, 85 showtimes, 0 stale, 0 unverified, 0 failures
-exit=0
+[biorexkokkola] Bio Rex Kokkola: 43 showtimes, 11 dates
+[kinopirtti] synopses merged: 1
+[kinopirtti] Kinopirtti: 44 showtimes, 6 dates
+[leffabuumi] synopses merged: 0
+[leffabuumi] Kinolinna: 29 showtimes, 5 dates
+[leffabuumi] Kino Ritz: 5 showtimes, 4 dates
+[leffabuumi] Kino Saimaa: 2 showtimes, 2 dates
+[studio123jarvenpaa] synopses merged: 1
+[studio123jarvenpaa] Studio 123 Järvenpää: 21 showtimes, 4 dates
+[studio123kouvola] synopses merged: 1
+[studio123kouvola] Studio 123 Kouvola: 28 showtimes, 6 dates
+[ihmekompleksi] synopses merged: 1
+[ihmekompleksi] Ihme Kompleksi: 10 showtimes, 5 dates
+[kino123] synopses merged: 0
+[kino123] Kino 123: 35 showtimes, 5 dates
+[kinotar] synopses merged: 1
+[kinotar] Kinotar 123: 15 showtimes, 7 dates
+[kinojuha] synopses merged: 0
+[kinojuha] Kino Juha: 7 showtimes, 5 dates
+[biogrand] synopses merged: 0
+[biogrand] Bio Grand: 9 showtimes, 5 dates
+[biovuoksi] synopses merged: 1
+[biovuoksi] Bio Vuoksi: 9 showtimes, 5 dates
+[kinoiiris] synopses merged: 1
+[kinoiiris] Kino Iiris: 16 showtimes, 5 dates
+[http] 403 from kino.joutsa.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a3348e8398e4169a-SJC
+[kkino] synopses merged: 0
+[kkino] K-Kino: 3 showtimes, 2 dates
+[biograni] synopses merged: 0
+[biograni] Bio Grani: 8 showtimes, 5 dates
+[run] http: 0 revalidated (304), 165 full, 165 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 18 venues, 319 showtimes, 0 stale, 0 unverified, 1 failures
+exit=1
