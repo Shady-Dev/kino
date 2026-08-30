@@ -6,5 +6,5 @@
 [kinoset] Kinema: 4 showtimes, 3 dates
 [kinoset] Bio: 4 showtimes, 3 dates
 [run] http: 0 revalidated (304), 3 full, 3 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 3 venues, 14 showtimes, 0 failures
+[run] nexxo: 3 venues, 14 showtimes, 0 stale, 0 unverified, 0 failures
 exit=0
