@@ -1,29 +1,29 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 26 showtimes, 11 dates
-[kotkanleffat] Trio 123: 78 showtimes, 11 dates
+[kotkanleffat] Kinopalatsi Kotka: 25 showtimes, 10 dates
+[kotkanleffat] Trio 123: 75 showtimes, 10 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 67 showtimes, 15 dates
+[biorexkokkola] Bio Rex Kokkola: 65 showtimes, 14 dates
 [savonkinot] synopses merged: 0
-[savonkinot] Tapio Joensuu: 23 showtimes, 4 dates
+[savonkinot] Tapio Joensuu: 21 showtimes, 3 dates
 [savonkinot] Killa Savonlinna: 3 showtimes, 3 dates
 [savonkinot] Kuvalinna Savonlinna: 3 showtimes, 3 dates
 [savonkinot] Kuvalipas Iisalmi: 6 showtimes, 3 dates
-[savonkinot] Maxim Varkaus: 10 showtimes, 4 dates
+[savonkinot] Maxim Varkaus: 9 showtimes, 3 dates
 [savonkinot] Kino-Hovi Kitee: 2 showtimes, 2 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 43 showtimes, 6 dates
+[kinopirtti] Kinopirtti: 100 showtimes, 11 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 71 showtimes, 11 dates
+[leffabuumi] Kinolinna: 68 showtimes, 10 dates
 [leffabuumi] Kino Ritz: 14 showtimes, 10 dates
 [leffabuumi] Kino Saimaa: 2 showtimes, 2 dates
 [studio123jarvenpaa] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 17 showtimes, 4 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 60 showtimes, 10 dates
 [studio123kouvola] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 62 showtimes, 11 dates
+[studio123kouvola] Studio 123 Kouvola: 60 showtimes, 10 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 8 showtimes, 4 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 83 showtimes, 11 dates
+[kino123] Kino 123: 80 showtimes, 10 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 12 showtimes, 6 dates
 [kinojuha] synopses merged: 0
@@ -32,12 +32,12 @@
 [biogrand] Bio Grand: 26 showtimes, 10 dates
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 28 showtimes, 10 dates
-[kinoiiris] synopses merged: 1
-[kinoiiris] Kino Iiris: 37 showtimes, 11 dates
+[kinoiiris] synopses merged: 0
+[kinoiiris] Kino Iiris: 36 showtimes, 10 dates
 [kkino] synopses merged: 0
 [kkino] K-Kino: 3 showtimes, 2 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 7 dates
-[run] http: 0 revalidated (304), 206 full, 206 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 648 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 207 full, 207 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 730 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
