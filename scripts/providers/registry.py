@@ -35,9 +35,9 @@ Fields:
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
-  where   local | cloud. Finnkino, Kino Engel and Kino Akseli block datacenter IPs, so
-          they can only be fetched from an ordinary connection; everything else runs on
-          Actions
+  where   local | cloud. Finnkino, Kino Engel, Kino Akseli and Joutsan Kino block
+          datacenter IPs, so they can only be fetched from an ordinary connection;
+          everything else runs on Actions
 """
 
 PROVIDERS = [
@@ -114,7 +114,7 @@ PROVIDERS = [
     dict(id="kinoiiris", label="Kino Iiris", host="kinoiiris.com", accent="#2F6FD0",
          book="buy", module="etiketti", where="cloud"),
     # The only eTiketti site on the local half: its host 403s a datacenter IP the way
-    # Finnkino and Engel do. It shares the etiketti module with fourteen cloud sites,
+    # Finnkino and Engel do. It shares the etiketti module with sixteen cloud sites,
     # which is what site-level routing in run.py exists for.
     dict(id="joutsankino", label="Joutsan Kino", host="kino.joutsa.fi", accent="#96702A",
          book="buy", module="etiketti", where="local"),

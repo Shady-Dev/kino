@@ -1466,9 +1466,10 @@ Still open from this pass:
       `moviexchangeReleaseId` (`fetch_data.py`), so mirrored posters and the trailer
       fallback never needed credentials and still do not.
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
-      Cloud VMs are not an option for the three providers that block datacenter IPs
-      (Finnkino, Kino Akseli, Kino Engel), and with the MovieXchange route closed above
-      there is no other way off the laptop at all. 20 of 64 venues ride on that machine.
+      Cloud VMs are not an option for the four providers that block datacenter IPs
+      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino), and with the MovieXchange route
+      closed above there is no other way off the laptop at all. 20 of 74 venues ride on
+      that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
