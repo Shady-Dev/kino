@@ -1509,41 +1509,73 @@
   // the month picker (BEHIND/inert). Cities with more than one screen keep their
   // combined entry at the top of their group, exactly as the optgroups had it.
   const vwrap = $('#vwrap'), vlist = $('#vlist'), vq = $('#vq'), vnone = $('#vnone');
+  // --- venue picker model: pure, extracted verbatim by tests/venue_picker_harness.js ---
   // NFD + strip combining marks: "jarvela" finds Järvelä. The stripped string is the
   // same length as the NFC original, so match offsets index the original for <mark>.
-  const vfold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  function vhl(label, q){
+  function vfold(s){ return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+  function vhl(label, q, esc){
     if(!q) return esc(label);
     const i = vfold(label).indexOf(vfold(q));
     if(i < 0) return esc(label);
     return esc(label.slice(0, i)) + '<mark>' + esc(label.slice(i, i + q.length))
          + '</mark>' + esc(label.slice(i + q.length));
   }
-  function vRow(a, q){
-    return `<button class="vrow chain-${esc(a.provider)}" type="button" data-id="${esc(a.id)}"`
-      + ` aria-current="${state.area === a.id ? 'true' : 'false'}">`
-      + `<span class="vdot"></span><span class="vtxt">${vhl(labelOf(a), q)}</span></button>`;
+  // The flat list the sheet renders, decided away from the DOM so it can be tested.
+  // ctx: {T, fav, area, cityOrder, cityVenues, venueIndex, labelOf, cityLabel, cityOf}.
+  // Two rules Enter depends on, because Enter picks the FIRST row:
+  // - A combined "Kaikki {city}" row appears only when nothing is searched or the query
+  //   matches the row's own text or its city -- never merely because a venue in that
+  //   city matched. Searching "itis" must put Finnkino Itis first, not Kaikki Helsinki.
+  // - A venue matches on its label, its raw city name and the display city name, so in
+  //   Swedish both "Turku" and "Åbo" find a Turku venue.
+  function venueRows(q, ctx){
+    const T = ctx.T;
+    const allLabel = c => `${T.allIn} ${ctx.cityLabel(c)} (${ctx.cityVenues[c].length})`;
+    const hitAll = c => !q || vfold(`${allLabel(c)} ${c}`).includes(vfold(q));
+    const hitVenue = (a, c) =>
+      !q || vfold(`${ctx.labelOf(a)} ${c} ${ctx.cityLabel(c)}`).includes(vfold(q));
+    const rows = [];
+    const fav = ctx.fav;
+    if(fav && fav.startsWith('city:')){
+      const c = fav.slice(5);
+      if((ctx.cityVenues[c] || []).length > 1 && hitAll(c)){
+        rows.push({kind:'head', text:T.vOwn});
+        rows.push({kind:'all', id:fav, label:allLabel(c), current:ctx.area === fav});
+      }
+    } else if(fav && ctx.venueIndex[fav]){
+      const a = ctx.venueIndex[fav];
+      if(hitVenue(a, ctx.cityOf(a))){
+        rows.push({kind:'head', text:T.vOwn});
+        rows.push({kind:'venue', id:a.id, provider:a.provider,
+                   label:ctx.labelOf(a), current:ctx.area === a.id});
+      }
+    }
+    for(const c of ctx.cityOrder){
+      const vs = ctx.cityVenues[c].filter(a => hitVenue(a, c));
+      const showAll = ctx.cityVenues[c].length > 1 && hitAll(c);
+      if(!vs.length && !showAll) continue;
+      rows.push({kind:'head', text:ctx.cityLabel(c)});
+      if(showAll) rows.push({kind:'all', id:'city:' + c, label:allLabel(c),
+                             current:ctx.area === 'city:' + c});
+      for(const a of vs) rows.push({kind:'venue', id:a.id, provider:a.provider,
+                                    label:ctx.labelOf(a), current:ctx.area === a.id});
+    }
+    return rows;
   }
+  // --- end venue picker model ---
   function vDraw(){
     const q = vq.value.trim();
-    const T = L[state.lang];
-    const hit = a => !q || vfold(labelOf(a) + ' ' + cityLabel(cityOf(a))).includes(vfold(q));
+    const rows = venueRows(q, {
+      T: L[state.lang], fav: prefs.get().fav, area: state.area,
+      cityOrder, cityVenues, venueIndex, labelOf, cityLabel, cityOf,
+    });
     let html = '';
-    const fav = prefs.get().fav && venueIndex[prefs.get().fav];
-    if(fav && hit(fav)) html += `<div class="vcity">${esc(T.vOwn)}</div>` + vRow(fav, q);
-    for(const c of cityOrder){
-      const vs = cityVenues[c].filter(hit);
-      const allLbl = `${T.allIn} ${cityLabel(c)} (${cityVenues[c].length})`;
-      const showAll = cityVenues[c].length > 1
-        && (vs.length > 0 || (q && vfold(allLbl).includes(vfold(q))));
-      if(!vs.length && !showAll) continue;
-      html += `<div class="vcity">${esc(cityLabel(c))}</div>`;
-      if(showAll){
-        html += `<button class="vrow vall" type="button" data-id="city:${esc(c)}"`
-          + ` aria-current="${state.area === 'city:' + c ? 'true' : 'false'}">`
-          + `<span class="vdot"></span><span class="vtxt">${vhl(allLbl, q)}</span></button>`;
-      }
-      html += vs.map(a => vRow(a, q)).join('');
+    for(const r of rows){
+      if(r.kind === 'head'){ html += `<div class="vcity">${esc(r.text)}</div>`; continue; }
+      const cls = r.kind === 'all' ? 'vrow vall' : `vrow chain-${esc(r.provider)}`;
+      html += `<button class="${cls}" type="button" data-id="${esc(r.id)}"`
+        + ` aria-current="${r.current ? 'true' : 'false'}">`
+        + `<span class="vdot"></span><span class="vtxt">${vhl(r.label, q, esc)}</span></button>`;
     }
     vlist.innerHTML = html;
     vnone.classList.toggle('show', !html);

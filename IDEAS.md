@@ -2770,6 +2770,26 @@ dialog on the same modal lifecycle as the movie sheet and the month picker
   mobile, inert background, focus restore, two-stage Esc, diacritic search, combined
   row pick, star pinning, sv/en label redraws, `?area=` restore, clean console.
 
+**Reviewed (2026-08-31), three row-model faults fixed, and the model is tested now.**
+The first version showed the combined "Kaikki {city}" row whenever *any* venue in the
+city matched, sorted above the matches -- and Enter picks the first row, so searching
+"itis" and pressing Enter selected Kaikki Helsinki instead of Finnkino Itis, on the
+exact path desktop autofocus invites. The combined row now appears only when nothing is
+searched or the query matches the row's own text or its city. Two more from the same
+review: a saved `city:*` favourite (valid everywhere else) never showed under "Oma
+teatteri", which only looked venues up in `venueIndex`; and in Swedish a Turku venue was
+findable as "Åbo" but not as "Turku", because the haystack held only the display name.
+The venue haystack now carries both city names, and the pinned section renders combined
+favourites.
+
+All three were invisible to a manual pass that types a city name, which is the argument
+for the change that carries the fixes: the row list is decided in `venueRows()`, a pure
+function extracted verbatim by `tests/venue_picker_harness.js` the way `healthState`
+already was, with the row *order* asserted because Enter makes order behavior. Verified
+by breaking each fix -- the combined-row rule, the `city:` branch, the raw-city alias
+and the fold each turn their test red. Focus, inert, Escape and keyboard plumbing stay
+live-verified; they are DOM behavior, not model decisions.
+
 ### Poster URLs are checked against the origin and path (2026-08-30)
 `safeUrl` answered two different questions with one rule. A ticket or trailer URL is
 *meant* to leave this origin, so http(s) and relative are all correct for it. A poster is
