@@ -110,7 +110,7 @@ Every provider is read through the same public interface its own site uses, on a
 no visitor can influence, and every showtime links back to the cinema's own page. The
 traffic-independence is guaranteed by construction -- the client reads static JSON from
 this origin and never calls a cinema. The *cadence* is not enforced anywhere: normally the
-local three run four times a day and the cloud eight get a four-times-daily cron plus one
+local providers run four times a day and the cloud half gets a four-times-daily cron plus one
 run after each local run, so usually up to eight -- but `workflow_dispatch` stays callable
 by hand and scheduled execution is best-effort and may be delayed or missed. Describe it
 as a normal cadence, never as a bound, and do not write a fixed number back in.
