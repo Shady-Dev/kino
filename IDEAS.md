@@ -180,7 +180,7 @@ counts, Finnkino a sold-out flag and no counts, and the rest nothing at all. Onl
 flag survives into the data -- see "Seat counts are parsed and deliberately not
 published".
 
-64 venues / 45 cities across 25 providers. Each provider writes `data/area-{venueId}.json` in one shape
+74 venues / 52 cities across 32 providers. Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now nothing: a registry entry generates
@@ -1845,8 +1845,16 @@ count failed the same way.
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
 
-## Documentation state (2026-08-31, eighth pass)
+## Documentation state (2026-09-01, ninth pass)
 
+- Ninth pass, 2026-09-01: Kino Metso added four venues and no document moved with
+  it. Re-measured against `data/`, the registry and `sitemap.xml`: **32 providers /
+  74 venues / 52 cities**, 84 pages per language, 169 sitemap URLs, 4 local providers
+  (20 venues), 2933 poster references over 552 mirrored files. The README's Nexxo row
+  read 7 providers / 9 venues and is 8 / 13. Two rules moved with the same four
+  venues: the accent rule binds in five cities now that Jyväskylä has a third chain,
+  and the local half is four providers since Joutsan Kino joined it. Both are
+  corrected where they are stated.
 - Eighth pass, 2026-08-31: the Nexxo sweep had made the README stale again -- it still
   said 25 providers / 64 venues / 45 cities and 147 sitemap URLs. Every figure was
   re-measured against `data/`, the registry and `sitemap.xml` before being written:
