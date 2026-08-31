@@ -2748,13 +2748,17 @@ does it):
   near-white page. `applyTheme()` now writes the current `--bg` into the meta on every
   toggle; Android tints its UI from the same value.
 
-The user's own observation cracked the diagnosis: the smear vanished after opening a
-film sheet, which forces a full composite. On iOS 27 on an iPhone 15 Pro Max the stale
-snapshot survives even a fresh install — an iPhone 17 on the same iOS and the 26.5
-simulator launch clean — so v87 adds the workaround the observation implies: in
-standalone only, one frame after first paint, a momentary `translateZ(0)` on the root
-promotes the page to a fresh layer and back, forcing the recomposite a sheet-open
-would have caused. Also fixed in the same
+The user's own observation cracked most of the diagnosis: the smear vanished after
+opening a film sheet, which forces a full composite. **One device resists: an iPhone
+15 Pro Max on iOS 27 smears at launch even from a fresh install**, while an iPhone 17
+on the same iOS and the 26.5 simulator launch clean. Two page-side workarounds were
+tried and removed the same day when the device disproved them: a one-frame
+`translateZ(0)` on the root right after first paint (v87), then a sheet-grade inert
+flip on header/main/footer plus the transform, 700 ms after load (v88). A real sheet
+open still clears it, so whatever iOS drops on that interaction is not reachable by
+page-side layer churn. Parked as an iOS 27 compositor bug on that hardware; the fixes
+that survive below are the ones verified on-device. Do not add a third guess without a
+way to instrument the phone. Also fixed in the same
 pass: the venue list's 6px top padding was a slit rows scrolled through between the
 search head and the stuck city header; the padding is gone and the headers' own
 padding provides the spacing. The full-screen venue sheet pads past the inset so its
