@@ -43,6 +43,10 @@ const CASES = [
   // No `status`, so only the unverified term can catch it. Without this the term
   // could be deleted and every test still passed -- found by trying exactly that.
   ['unverified_count_only', { stale: 0, unverified: 1 }, 2],
+  // Both at once: the stale venue is the worse problem and must win the label.
+  ['stale_and_unverified', { status: 'partial', stale: 1, unverified: 1 }, 2],
+  // A pending venue on data that is also old: age outranks everything but gone.
+  ['unverified_but_old',  { status: 'partial', stale: 0, unverified: 1 }, 9],
   ['legacy_no_status',    { stale: 0, unverified: 0 }, 2],
   ['too_old',             { status: 'ok', stale: 0, unverified: 0 }, 9],
   ['too_old_and_partial', { status: 'partial', stale: 1, unverified: 0 }, 9],

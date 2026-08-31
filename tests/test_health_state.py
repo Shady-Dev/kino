@@ -49,14 +49,24 @@ class HealthStateTest(unittest.TestCase):
         """Guards a file written before `status` existed."""
         self.assertEqual(self.r["stale_count_only"], "partial")
 
-    def test_an_unverified_venue_alone_is_enough(self):
-        self.assertEqual(self.r["unverified_only"], "partial")
+    def test_an_unverified_venue_alone_is_pending_not_partial(self):
+        """A venue that has never produced a showtime while its fetch is fresh is a
+        cinema whose programme has not started, not a failure to refresh. Kino Metso
+        Tikkakoski publishes into late October from day one; a month of "did not
+        refresh" over it would teach people to ignore the line."""
+        self.assertEqual(self.r["unverified_only"], "pending")
 
-    def test_the_unverified_count_alone_is_enough(self):
+    def test_the_unverified_count_alone_is_enough_for_pending(self):
         """Without a `status` field, so only the unverified term can catch it. The first
         version of this file set status:'partial' here too, which meant the term could be
         deleted with every test still green -- found by deleting it."""
-        self.assertEqual(self.r["unverified_count_only"], "partial")
+        self.assertEqual(self.r["unverified_count_only"], "pending")
+
+    def test_a_stale_venue_outranks_a_pending_one(self):
+        self.assertEqual(self.r["stale_and_unverified"], "partial")
+
+    def test_age_outranks_pending(self):
+        self.assertEqual(self.r["unverified_but_old"], "behind")
 
     # -- nothing else moved --------------------------------------------------------
 

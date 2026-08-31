@@ -866,6 +866,7 @@
          partialMissing:'Ei saatu ladattua: {names}.',
          allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä',
          partialSources:'Osa teattereista ei päivittynyt',
+         noProgYet:'Ei vielä ohjelmistoa',
          aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
          aSearch:'Suodata elokuvia nimen tai genren mukaan', aDays:'Valitse päivä',
          aView:'Valitse näkymä', aLang:'Kieli', aClose:'Sulje',
@@ -910,6 +911,7 @@
          partialMissing:'Kunde inte laddas: {names}.',
          allFresh:'Alla {m} källor är aktuella', behind:'Källor efter',
          partialSources:'Vissa biografer uppdaterades inte',
+         noProgYet:'Inget program ännu',
          aTheme:'Växla mellan ljust och mörkt tema', aVenue:'Välj biograf',
          aSearch:'Filtrera filmer efter titel eller genre', aDays:'Välj dag',
          aView:'Välj vy', aLang:'Språk', aClose:'Stäng',
@@ -951,6 +953,7 @@
          partialMissing:'Could not load: {names}.',
          allFresh:'All {m} sources up to date', behind:'Sources behind',
          partialSources:'Some cinemas did not refresh',
+         noProgYet:'No programme yet',
          aTheme:'Switch between light and dark theme', aVenue:'Choose theatre',
          aSearch:'Filter movies by title or genre', aDays:'Choose date',
          aView:'Choose view', aLang:'Language', aClose:'Close',
@@ -1268,11 +1271,19 @@
   // `partial` is kept distinct from `behind` rather than folded into it, because data two
   // hours old is not behind and calling it that is the kind of false alarm that teaches
   // people to ignore the line.
+  // `pending` sits below `partial`: a venue that has never produced a showtime while
+  // its fetch is fresh is not a failure to update, it is a cinema whose programme has
+  // not started -- Kino Metso Tikkakoski publishes into late October from day one. A
+  // month of "did not refresh" over it would be the false alarm that teaches people to
+  // ignore the line, and a genuinely wrong venue mapping is caught by the adapter's
+  // unclaimed-room log, not by this. Anything stale keeps outranking it.
   function healthState(m, ageH){
     if(!m) return 'gone';
     if(m.gone) return 'gone';
     if(ageH === null || ageH > STALE_H) return 'behind';
-    if(m.status === 'partial' || m.stale > 0 || m.unverified > 0) return 'partial';
+    if(m.stale > 0) return 'partial';
+    if(m.unverified > 0) return 'pending';
+    if(m.status === 'partial') return 'partial';
     return 'ok';
   }
   // --- end healthState ---
@@ -1294,13 +1305,14 @@
       const cls = st === 'behind' ? 'src bad' : (st === 'partial' ? 'src part-bad' : 'src');
       const mark = st === 'behind' ? '\u26a0 ' : '';
       // Without this a chain whose age comes from one stale cinema reads as if the
-      // whole chain were down. The count says how much of it is actually behind, and
-      // it covers both kinds: a venue that kept older data and one that has never
-      // produced a showtime.
+      // whole chain were down. The count says how much of it is actually behind. A
+      // pending provider gets the same count muted, titled honestly: those venues
+      // have no programme yet, they did not fail to refresh.
       const n = (m.stale || 0) + (m.unverified || 0);
       const part = n
-        ? ` <span class="part" title="${esc(L[state.lang].partialOf
-            .replace('{n}', n).replace('{m}', m.venues))}">(${n}/${m.venues})</span>`
+        ? ` <span class="part" title="${esc(st === 'pending'
+            ? L[state.lang].noProgYet
+            : L[state.lang].partialOf.replace('{n}', n).replace('{m}', m.venues))}">(${n}/${m.venues})</span>`
         : '';
       return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${L[state.lang].hours}${part}</span>`;
     });
@@ -1317,6 +1329,7 @@
     const nameOf = p => (SOURCE[p] || [p])[0];
     const behind = names.filter(p => state_[p] === 'behind' || state_[p] === 'gone').map(nameOf);
     const partial = names.filter(p => state_[p] === 'partial').map(nameOf);
+    const pending = names.filter(p => state_[p] === 'pending');
     const sum = document.querySelector('#freshSum');
     if(sum){
       const T = L[state.lang];
@@ -1330,6 +1343,14 @@
         // thing and deserves different words.
         sum.textContent = `\u26a0 ${T.partialSources}: ${esc(list(partial))}`;
         sum.className = 'bad';
+      } else if(pending.length){
+        // Quiet, no warning mark: the fetch is fresh, the cinema's programme has not
+        // started. Named by venue rather than chain, because "Kino Metso" reads as the
+        // whole chain when only Tikkakoski is waiting on its October premiere.
+        const vnames = pending.flatMap(p => (providerMeta[p].unverifiedIds || []))
+          .map(id => (venueIndex[id] && venueIndex[id].label) || id);
+        sum.textContent = `${T.noProgYet}: ${list(vnames)}`;
+        sum.className = '';
       } else {
         sum.textContent = T.allFresh.replace('{m}', names.length);
         sum.className = '';
@@ -1772,6 +1793,9 @@
         status: j.status || '',
         stale: Array.isArray(j.stale) ? j.stale.length : 0,
         unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
+        // The ids too, not only the count: the health summary names a pending venue
+        // ("Tikkakoski"), and a count cannot be turned back into a name.
+        unverifiedIds: Array.isArray(j.unverified) ? j.unverified : [],
         venues: vs.length };
     });
     state.generated = data.generated;

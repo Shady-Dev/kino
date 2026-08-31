@@ -2726,6 +2726,27 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
+### A venue with no programme yet is not a failed refresh (2026-08-31)
+Kino Metso Tikkakoski publishes into late October from day one, so it sits inside the
+21-day window with zero showtimes for a month -- and the health line answered with
+"⚠ Osa teattereista ei päivittynyt: Kino Metso", which is wrong twice over: the fetch
+was an hour old, and a month-long standing warning is the always-red alarm that
+teaches readers to ignore the line before a real partial ever fires.
+
+`healthState` gained a `pending` state below `partial`: unverified venues on a fresh
+fetch render a quiet "Ei vielä ohjelmistoa: {venue}" summary with no warning mark, and
+the provider row keeps its muted count titled honestly. Severity order holds -- one
+stale venue outranks any number of pending ones, and age outranks both; verified by
+swapping the terms, which goes red. The summary names the *venue*, not the chain,
+because "Kino Metso" reads as the whole chain when only Tikkakoski is waiting; the
+provider meta therefore carries the unverified ids, not only their count.
+
+The risk `unverified` was guarding -- a wrong venue mapping publishing zero forever
+while reading healthy -- is held elsewhere for the case that created this: a wrong
+room id leaves the town's rows unowned and the adapter's unclaimed-room log line
+fires. A pending venue that never fills is still visible in the disclosure count, and
+turns `behind` the moment its data actually ages.
+
 ### The installed iOS app stops smearing the status bar (2026-08-31)
 Installed to an iPhone home screen, the top of the page showed a blurred smear behind
 the clock. Three separate causes, shipped as v84–v86 and verified together on a real
