@@ -11,6 +11,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Leffavuoro — elokuvat ja näytösajat</title>
 <meta name="theme-color" content="#0D0E12">
+<!-- Installed on iOS, the default status-bar treatment is a system material that
+     blurs whatever the page's top edge holds. black-translucent is the only style
+     that makes the bar truly transparent; the page then extends underneath, the
+     safe-area insets become non-zero, and the fixed strip in the CSS paints a flat
+     background behind the clock instead of the blur. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <!-- Crawler and share-preview metadata. Deliberately carries no venue or city count:
      those live in README and IDEAS and would be a third place to keep in step. The
      chains change far less often. og:image is the 512 icon, the only image on this
