@@ -3245,6 +3245,33 @@ existed.
   that the key file must contain its own name -- initially had no test and was only
   proved by hand; the test was added rather than the manual check being counted.
 
+### Provider text could close the JSON-LD element (2026-08-31)
+`ld_json()` serialised provider titles, theatre names and booking URLs with a plain
+`json.dumps` and the page embedded that inside `<script type="application/ld+json">`.
+Valid JSON is not enough in that position: the HTML parser ends a script element at the
+first literal `</script>` **regardless of the type attribute**, so a title containing
+one would have closed the element mid-document and opened a live script context on a
+generated page. Found by an external review, not by an incident -- no current provider
+ships such a title -- but the property that mattered was already broken: this was the
+one sink where upstream text crossed into markup without context-specific escaping,
+while every other interpolation goes through `esc()` or `safeUrl()`.
+
+- **The fix is alternative JSON spelling, not sanitisation.** `&`, `<`, `>`, U+2028 and
+  U+2029 are replaced with their `\uXXXX` escapes after serialisation, so a consumer
+  parses the identical value. That matters here more than usual: the raw title is the
+  key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`, so nothing may be
+  altered or dropped, only respelt.
+- **U+2028/U+2029 ride along** because `ensure_ascii=False` emits them raw and they are
+  legal in JSON but not in JavaScript source. No JS engine executes this block, but a
+  scraper that pastes it into one would break, and the escape costs nothing.
+- **A global replace is safe** because `<`, `>` and `&` can only occur inside JSON
+  string values -- the structural characters are `{}[],:"` and digits.
+- Covered by `tests/test_ld_json.py`, including the whole-document property that a page
+  built from a hostile title contains exactly one `</script>`. Verified by breaking the
+  escape loop: three of the four tests go red. The fourth -- escaping is lossless --
+  deliberately stays green on that break, because it guards the fix rather than the
+  hole.
+
 ### Where a run's time actually goes, and what could be taken back (2026-08-31)
 Measured off one cloud run's committed logs rather than guessed: **eTiketti is about 85%
 of it.** 185 requests against 9 for Nexxo, 25 for BioRex, 6 for Gilda and 1 for Orion. At

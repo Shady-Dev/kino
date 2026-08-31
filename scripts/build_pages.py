@@ -405,9 +405,20 @@ def ld_json(days, today, city, extra):
                                             "price": m.group(0).replace(",", "."),
                                             "priceCurrency": "EUR"}
                 events.append(ev)
-    return json.dumps({"@context": "https://schema.org",
-                       "@graph": list(theatres.values()) + events},
-                      ensure_ascii=False, separators=(",", ":"))
+    out = json.dumps({"@context": "https://schema.org",
+                      "@graph": list(theatres.values()) + events},
+                     ensure_ascii=False, separators=(",", ":"))
+    # This string is embedded inside <script>, and the HTML parser ends a script
+    # element at the first literal "</script>" regardless of its type attribute --
+    # valid JSON is not enough here. Titles, venue names and URLs are provider text,
+    # so a hostile or merely unlucky title could otherwise close the element and open
+    # a live script context. \uXXXX escapes are equivalent JSON, so a consumer parses
+    # the identical value. U+2028/U+2029 are legal in JSON but not in JS source, and
+    # ensure_ascii=False would emit them raw.
+    for ch, rep in (("&", "\\u0026"), ("<", "\\u003c"), (">", "\\u003e"),
+                    ("\u2028", "\\u2028"), ("\u2029", "\\u2029")):
+        out = out.replace(ch, rep)
+    return out
 
 
 def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
