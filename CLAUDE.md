@@ -36,6 +36,14 @@ Write down why a change was made. The diff already records what changed.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
   provider URL through `safeUrl()`. Adapters publish verbatim text, because the raw title
   is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
+- `esc()` protects HTML contexts only. Provider text that lands inside a `<script>`
+  element needs `\uXXXX` escaping instead, because a literal `</script>` ends the element
+  regardless of its type attribute -- `ld_json()` in `build_pages.py` is the pattern, and
+  the escapes are equivalent JSON so nothing downstream changes.
+- Client behaviour that can be decided away from the DOM is tested by extracting a pure
+  function verbatim between comment markers -- `healthState` and `venueRows` both work
+  this way. Keep the decision pure and the DOM plumbing thin, or it stops being
+  extractable. Focus, inert and key handling stay verified live against the served page.
 - **No `localStorage` assumptions beyond the existing keys.** Renaming `kino-prefs` or
   `kino-theme` wipes every user's saved venue, theme and starred cinema.
 
@@ -64,6 +72,12 @@ A registry entry plus an adapter. No `index.html` edit.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.
+- **Fetch the URL a showtime will link to and check it answers** before writing it into
+  `SITES`. The API endpoint is the platform's and identical across its sites; the
+  visitor-facing page is each site's own WordPress and named whatever its owner chose.
+  Six Nexxo sites shipped dead ticket links because one site's path was copied onto all
+  of them, and no offline test can hold this -- a path is right until a webmaster renames
+  a page.
 - **Measure a new accent against the whole set** with `python3 scripts/accent_check.py`.
   `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
   checks its own CIEDE2000 against published reference data. Do not quote an accent number
