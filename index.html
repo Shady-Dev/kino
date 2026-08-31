@@ -8,7 +8,7 @@
 <html lang="fi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Leffavuoro — elokuvat ja näytösajat</title>
 <meta name="theme-color" content="#0D0E12">
 <!-- Crawler and share-preview metadata. Deliberately carries no venue or city count:
@@ -94,6 +94,24 @@
     position:sticky; top:0; z-index:50;
     background:var(--bg);
     border-bottom:1px solid var(--line);
+  }
+  /* Installed on an iPhone, the page runs edge-to-edge under the transparent status
+     bar, and scrolling content showed through it as a blur across the top of the
+     screen. A fixed strip the height of the inset paints the page background behind
+     the status bar at all times -- it cannot ride on the sticky row, because sticky
+     is bound to its parent and stops covering once the header scrolls away. The
+     header pads down past the inset at rest, and the full-screen venue sheet does the
+     same so its search row clears the notch. env() is zero everywhere without a
+     notch, so nothing moves on any other device. */
+  @supports (padding: env(safe-area-inset-top)){
+    body::before{
+      content:""; position:fixed; top:0; left:0; right:0; z-index:45;
+      height:env(safe-area-inset-top); background:var(--bg);
+      pointer-events:none;
+    }
+    header{padding-top:env(safe-area-inset-top)}
+    .pinned{top:env(safe-area-inset-top)}
+    .vsheet{padding-top:env(safe-area-inset-top)}
   }
   .bar{
     max-width:1100px; margin:0 auto; padding:14px 20px;
