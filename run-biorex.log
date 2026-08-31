@@ -1,29 +1,29 @@
-[biorex] BioRex Tripla: 65 showtimes
-[biorex] BioRex Redi: 56 showtimes
-[biorex] BioRex Verkatehdas: 50 showtimes
-[biorex] BioRex Sveitsi: 42 showtimes
+[biorex] BioRex Tripla: 64 showtimes
+[biorex] BioRex Redi: 54 showtimes
+[biorex] BioRex Verkatehdas: 49 showtimes
+[biorex] BioRex Sveitsi: 41 showtimes
 [biorex] BioRex Kajaani: 21 showtimes
 [biorex] BioRex Pietarsaari: 16 showtimes
-[biorex] BioRex Porvoo: 40 showtimes
+[biorex] BioRex Porvoo: 39 showtimes
 [biorex] BioRex Riihimäki: 15 showtimes
-[biorex] BioRex Rovaniemi: 42 showtimes
-[biorex] BioRex Seinäjoki: 51 showtimes
+[biorex] BioRex Rovaniemi: 41 showtimes
+[biorex] BioRex Seinäjoki: 50 showtimes
 [biorex] BioRex Tornio: 31 showtimes
-[biorex] BioRex Vaasa: 50 showtimes
+[biorex] BioRex Vaasa: 49 showtimes
 [biorex] film pages: 24/24
 [biorex] synopses merged: 0
-[biorex] BioRex Tripla: 65 showtimes, 10 dates
-[biorex] BioRex Redi: 56 showtimes, 10 dates
-[biorex] BioRex Verkatehdas: 50 showtimes, 10 dates
-[biorex] BioRex Sveitsi: 42 showtimes, 8 dates
+[biorex] BioRex Tripla: 64 showtimes, 10 dates
+[biorex] BioRex Redi: 54 showtimes, 10 dates
+[biorex] BioRex Verkatehdas: 49 showtimes, 9 dates
+[biorex] BioRex Sveitsi: 41 showtimes, 7 dates
 [biorex] BioRex Kajaani: 21 showtimes, 6 dates
 [biorex] BioRex Pietarsaari: 16 showtimes, 6 dates
-[biorex] BioRex Porvoo: 40 showtimes, 9 dates
+[biorex] BioRex Porvoo: 39 showtimes, 9 dates
 [biorex] BioRex Riihimäki: 15 showtimes, 6 dates
-[biorex] BioRex Rovaniemi: 42 showtimes, 9 dates
-[biorex] BioRex Seinäjoki: 51 showtimes, 9 dates
+[biorex] BioRex Rovaniemi: 41 showtimes, 8 dates
+[biorex] BioRex Seinäjoki: 50 showtimes, 8 dates
 [biorex] BioRex Tornio: 31 showtimes, 7 dates
-[biorex] BioRex Vaasa: 50 showtimes, 10 dates
+[biorex] BioRex Vaasa: 49 showtimes, 9 dates
 [run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] biorex: 12 venues, 479 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] biorex: 12 venues, 470 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
