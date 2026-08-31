@@ -1433,14 +1433,15 @@ Still open from this pass:
       keeps its old `generated` and the health line can go stale honestly.
 - [ ] A whole site parsing zero showtimes fails the run (a single empty venue only
       logs). Watch for a legitimately empty site tripping it.
-- [ ] **Repertory titles defeat the TMDB search**: "Trainspotting (1996)",
-      "Vauvakino: La La Land", "KESÄKINO: Autofiktio", "BARNSÖNDAGAR: ..." all miss.
-      `queries()` in enrich_tmdb.py should strip a trailing "(YYYY)" and known prefixes,
-      the same way `mergeKey()` does in the client. Matters more as arthouse venues
-      are added: Riviera and Orion are in, and Orion's first run supplied the live
-      no-match list that `EVENT_PREFIXES` was extended from. Remaining misses are titles
-      with no TMDB entry at all (music playback nights, shorts programmes), which is a
-      `tmdb-aliases.json` job at best.
+- [x] **Repertory titles defeat the TMDB search** -- superseded by the `clean()` entry
+      above, which is the same item written twice. This copy stayed unchecked after the
+      fix landed, so the backlog advertised work that was already done: "Trainspotting
+      (1996)", "Vauvakino: La La Land", "KESÄKINO: Autofiktio" and "BARNSÖNDAGAR: ..."
+      are all searched cleaned today. `tests/test_tmdb_queries.py` now pins both halves
+      of it -- what gets stripped before the search, and that the exact strand list never
+      decapitates "Dyyni: Osa kolme" the way a `^\w+:` pattern would. Remaining misses
+      are titles with no TMDB entry at all (music playback nights, shorts programmes),
+      which is a `tmdb-aliases.json` job at best.
 
 ## Pipeline
 - [x] **TMDB cannot be searched by Finnish distributor title.** Probed 2026-08-27:
