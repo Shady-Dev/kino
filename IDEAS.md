@@ -1845,9 +1845,20 @@ count failed the same way.
       continues by design (so Finnkino still publishes), but nothing actively flags it.
 - [ ] Consider data branch to keep main history clean
 
-## Documentation state (2026-08-30, seventh pass)
+## Documentation state (2026-08-31, eighth pass)
 
-- `README.md` covers: Leffavuoro, **25 providers / 64 venues / 45 cities**, the
+- Eighth pass, 2026-08-31: the Nexxo sweep had made the README stale again -- it still
+  said 25 providers / 64 venues / 45 cities and 147 sitemap URLs. Every figure was
+  re-measured against `data/`, the registry and `sitemap.xml` before being written:
+  **31 providers / 70 venues / 50 cities**, 80 pages per language, 161 sitemap URLs,
+  4 local providers (20 venues), 2966 poster references over 543 mirrored files. The
+  provider table now groups by adapter -- nine rows instead of thirty-one -- and the
+  Data sources section points at the single provider list at the top instead of
+  carrying a second copy that goes stale on its own schedule. Vista is described as a
+  parser with no sites, and the checked-ticket-link rule from the Nexxo link fix is in
+  the adding-a-provider steps.
+- `README.md` covers: Leffavuoro, **25 providers / 64 venues / 45 cities** (as of the
+  seventh pass; superseded above), the
   two-location pipeline with no cloud fallback for Finnkino, the data shape every
   provider writes (including `age`, `gids` and `tmdbId`, and why the last two are
   exact-match only), the three lists worth reading in `run-enrich.log`, a step-by-step

@@ -6,45 +6,48 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 64 venues in 45 cities across 25 providers: Finnkino, BioRex,
+Showtimes for 70 venues in 50 cities across 31 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
-Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino and Bio Grani. Films with posters, TMDB ratings, age limits,
-runtimes, genres, languages, plus ticket prices and sold-out marks where the
-cinema publishes them. Tapping a showtime opens that cinema's own booking page.
+Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
+Hirvi, Bio Säde, Kino Marilyn, Kino Olympia and Järvelän Kino. Films with
+posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
+prices and sold-out marks where the cinema publishes them. Tapping a showtime
+opens that cinema's own booking page.
 
 Cities with more than one venue get a combined view that merges the same film
-across chains into one card. Installs as a PWA and serves the last loaded
-schedule offline. Venue, home theatre, day, language and theme live in
-`localStorage`.
+across chains into one card. The theatre picker is searchable, and "jarvela"
+finds Järvelä. Installs as a PWA and serves the last loaded schedule offline.
+Venue, home theatre, day, language and theme live in `localStorage`.
 
 ## How it works
 
 No cinema API is called at load time. A pipeline fetches ahead of time and
 commits static JSON, which GitHub Pages serves from the same origin: no CORS, no
-keys in the client, no third-party requests. Three providers block datacenter
-IPs, so it runs in two places.
+keys in the client, no third-party requests. Four providers can only be read
+from an ordinary connection, so the pipeline runs in two places. One adapter can
+serve many providers, because most small cinemas run one of a few ticketing
+platforms:
 
-| Provider | Venues | Auth | Runs |
-|---|---|---|---|
-| Finnkino | 17 | short-lived token | Local |
-| BioRex | 12 | none | GitHub Actions |
-| Savon Kinot | 6 | none | GitHub Actions |
-| Kinoset | 3 | none | GitHub Actions |
-| Kotkan Leffat | 2 | none | GitHub Actions |
-| Riviera | 2 | none | GitHub Actions |
-| Gilda | 2 | none | GitHub Actions |
-| Cinema Orion | 1 | none | GitHub Actions |
-| Bio Rex Kokkola | 1 | none | GitHub Actions |
-| Kino Engel | 1 | none | Local |
-| Kino Akseli | 1 | none | Local |
+| Adapter | Providers | Venues | Auth | Runs |
+|---|---|---|---|---|
+| Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
+| eTiketti | 17 | 25 | none | GitHub Actions, Joutsan Kino local |
+| BioRex | 1 | 12 | none | GitHub Actions |
+| Nexxo | 7 | 9 | none | GitHub Actions |
+| Riviera | 1 | 2 | none | GitHub Actions |
+| Gilda (MyCloudCinema) | 1 | 2 | none | GitHub Actions |
+| Cinema Orion | 1 | 1 | none | GitHub Actions |
+| Kino Engel | 1 | 1 | none | Local |
+| Kino Akseli | 1 | 1 | none | Local |
 
-A local machine runs those three four times a day, pushes, then triggers the
+A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
 run, so there is no stored credential and nothing to rotate. There is no cloud
 fallback: a runner cannot obtain a token at all, since the site answers
-Cloudflare 403 to datacenter IPs.
+Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
+how one eTiketti cinema can be local while the other sixteen run on Actions.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `run.log` and
@@ -76,9 +79,13 @@ per-provider research and the approaches tried and rejected.
     scripts/build_providers.py       registry -> data/providers.json
     scripts/build_pages.py           renders the indexable pages
     scripts/accent_check.py          chain accent separation, incl. deuteranope
+    scripts/check_runs.py            fails when any committed run log did not end exit=0
+    scripts/indexnow.py              tells IndexNow which generated pages a push changed
 
     tests/                           python3 -m unittest discover -s tests
     .github/workflows/biorex.yml     all cloud providers + enrichment
+    .github/workflows/logs.yml       runs check_runs.py on any push that touches a log
+    .github/workflows/indexnow.yml   runs indexnow.py on page changes
 
 ## Data shape
 
@@ -117,13 +124,17 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
-which is why the provider id sits on the site (`nexxo` serves Kinoset,
-`etiketti` serves Kotkan Leffat and Bio Rex Kokkola).
+which is why the provider id sits on the site: `etiketti` serves seventeen
+providers today and `nexxo` seven.
 
-**Check for an existing platform first.** A cinema running Vista, MyCloudCinema,
-Nexxo or eTiketti needs a `SITES` entry against the existing adapter. Adding a
-venue to an existing provider is one line. Pick the accent with
-`accent_check.py`; do not judge it by eye.
+**Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo
+or eTiketti needs a `SITES` entry against the existing adapter; `vista.py` keeps
+a working Vista XML parser with no sites, since the last Finnish deployment
+migrated to eTiketti. Adding a venue to an existing provider is one line. Pick
+the accent with `accent_check.py`; do not judge it by eye. Fetch the page a
+showtime will link to and check it answers before writing it down: the ticket
+links of six Nexxo sites once 404'd because one site's path was copied onto all
+of them.
 
     python3 scripts/providers/run.py biorex
     python3 scripts/providers/run.py --where cloud
@@ -137,9 +148,10 @@ the same committed JSON at the end of every run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-73 per language, 147 sitemap URLs: 64 venues plus the nine cities with more than
-one venue. A one-venue city would duplicate its venue page and compete with it,
-so those get the city into the venue page's title and address instead.
+80 per language, 161 sitemap URLs: 70 venues plus the ten cities with more than
+one venue, and the front page. A one-venue city would duplicate its venue page
+and compete with it, so those get the city into the venue page's title and
+address instead.
 
 Each page carries real HTML showtimes, `hreflang` pairs, and
 `ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the
@@ -153,10 +165,10 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-08-30: all 3157
-poster references resolve to `data/posters/` on this origin, across 304 files,
-and the typeface is served from `fonts/`. Every `<img>` carries
-`referrerpolicy="no-referrer"`.
+**A page load makes no third-party requests.** Counted 2026-08-31: all 2966
+poster references resolve to `data/posters/` on this origin — 2851 on showtimes
+and 115 in `films-extra.json`, across 543 mirrored files — and the typeface is
+served from `fonts/`. Every `<img>` carries `referrerpolicy="no-referrer"`.
 
 That was false until 2026-08-29, when the typeface came from Google Fonts and
 about a third of the posters were hot-linked from the cinemas' hosts and
@@ -169,11 +181,10 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas: Finnkino Oy, BioRex Cinemas,
-Kinoset, Kotkan Leffat, Riviera Cinemas, Savon Kinot, Gilda, Cinema Orion, Kino
-Engel, Bio Rex Kokkola and Kino Akseli. Ratings, trailers and fallback synopses
-and posters come from TMDB. Every showtime links to the cinema's own booking
-page, and the footer credits the source being displayed.
+Schedule data belongs to the respective cinemas — the 31 providers listed at the
+top of this page. Ratings, trailers and fallback synopses and posters come from
+TMDB. Every showtime links to the cinema's own booking page, and the footer
+credits the source being displayed.
 
 Every provider is read through the same public interface its own site uses, under
 an honest User-Agent, **on a schedule that no visitor can influence**. The app
@@ -182,10 +193,10 @@ open reaches no cinema. That property holds by construction: the client has no
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
-collection run. Under the normal configured cadence the three local providers are
-read four times a day, and the eight cloud providers usually up to eight, since
-runs are queued rather than merged. **Those figures describe the typical cadence
-and the configuration does not enforce them.** Scheduled execution is best-effort
+collection run. Under the normal configured cadence the four local providers are
+read four times a day, and the cloud providers usually up to eight, since runs
+are queued rather than merged. **Those figures describe the typical cadence and
+the configuration does not enforce them.** Scheduled execution is best-effort
 and may be delayed or missed, and a manual refresh adds runs.
 
 Booking, payment and administrative endpoints are never called. If a cinema would
