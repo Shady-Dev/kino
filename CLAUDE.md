@@ -83,7 +83,7 @@ A registry entry plus an adapter. No `index.html` edit.
   checks its own CIEDE2000 against published reference data. Do not quote an accent number
   that no script produced: the figures that used to sit in IDEAS were CIE76 mislabelled as
   ΔE and were wrong by a factor of five. The rule binds only where two chains share a city
-  -- Helsinki, Vantaa, Lahti and Kouvola as of the eTiketti sweep -- so measure which
+  -- Helsinki, Jyväskylä, Vantaa, Lahti and Kouvola as of Kino Metso -- so measure which
   cities a new site lands in before picking anything.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.

@@ -2419,6 +2419,11 @@ were measured against their city before they landed. This also retires the old b
 claim that "Kotka only ever shows two chains" and its 28.7 -> 24.8 figure: Kotka has one
 chain and has never had two.
 
+Superseded 2026-09-01: Kino Metso put a third chain in Jyväskylä, which Finnkino and
+Kino Aurora already shared, so the constrained set is 5 of 52 cities. Jyväskylä's worst
+pair measures 26.9 ΔE00 deutan (Finnkino/Kino Metso) and its best 63.7, so the city
+does not move the set's worst pair, which is still the 14.4 in Helsinki.
+
 Two structural conclusions the correction does *not* overturn. Kino Akseli's gold sits
 0.7 ΔE00 from Finnkino's orange under deuteranopia -- indistinguishable -- and that is
 still fine, because Nummela has one chain and the two never appear together. And six
