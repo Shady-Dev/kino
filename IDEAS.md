@@ -2613,7 +2613,7 @@ a correctness bug anyone would see in a tab. Found by an external review. Both b
 now pass the `caches.open().then(put)` chain to `e.waitUntil`, which is what the
 data-JSON branch had done for its background refresh all along.
 
-The harness had to learn what "termination" means before a test could catch this: its
+The harness could not catch this before it modelled termination: its
 stubbed `put` resolved inline and it read `stored` after awaiting only the response, so
 a forgotten write always "finished" in time. `put` now settles on a macrotask -- a real
 Cache write is asynchronous work that outlives the response -- and `stored` is read
@@ -2698,13 +2698,12 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
-### The month picker keeps the promise its role makes (2026-08-31)
+### The month picker gets the sheet's modal lifecycle (2026-08-31)
 The keyboard pass above gave the movie sheet real modality and left the month picker
-claiming it: `role="dialog" aria-modal="true"` in the markup, while focus stayed on the
-chip behind it, the background stayed tabbable and closing returned focus nowhere.
-Metadata that promises more than the widget does is worse than no metadata -- a screen
-reader announces a modal dialog and then behaves as if there were none. Found by an
-external review.
+only claiming it: `role="dialog" aria-modal="true"` in the markup, while focus stayed
+on the chip behind it, the background stayed tabbable and closing returned focus
+nowhere. A screen reader announced a modal dialog and then found none of the behaviour
+the role declares. Found by an external review.
 
 It now runs the sheet's own lifecycle rather than a second mechanism: the same
 `BEHIND()` roots go inert on open and come back on close, Escape and the backdrop close
@@ -3338,8 +3337,8 @@ while every other interpolation goes through `esc()` or `safeUrl()`.
 - Covered by `tests/test_ld_json.py`, including the whole-document property that a page
   built from a hostile title contains exactly one `</script>`. Verified by breaking the
   escape loop: three of the four tests go red. The fourth -- escaping is lossless --
-  deliberately stays green on that break, because it guards the fix rather than the
-  hole.
+  deliberately stays green on that break: it asserts the escaped output parses back to
+  the original strings, which also holds for unescaped output.
 
 ### Where a run's time actually goes, and what could be taken back (2026-08-31)
 Measured off one cloud run's committed logs rather than guessed: **eTiketti is about 85%
