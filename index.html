@@ -1043,15 +1043,23 @@
   };
   applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   // iOS 27 (seen on an iPhone 15 Pro Max; a 17 and the 26.5 simulator are fine) keeps
-  // a stale composite behind the status bar at launch in the installed app, and any
-  // later layer change -- opening a sheet, say -- clears it. So force one full
-  // recomposite right after first paint: a one-frame transform on the root promotes
-  // the page to a fresh layer and back. Standalone only; a browser tab never shows it.
+  // a stale composite behind the status bar at launch in the installed app, and
+  // opening and closing a sheet clears it. A one-frame transform right after first
+  // paint was not enough -- likely too early (the launch transition outlives it) and
+  // too light. So do what the sheet does, when the launch has settled: flip inert on
+  // the same subtrees for one frame, 700 ms after load, plus a root transform for the
+  // layer churn. Invisible when the bar is already clean. Standalone only.
   if(matchMedia('(display-mode: standalone)').matches){
-    requestAnimationFrame(() => requestAnimationFrame(() => {
+    addEventListener('load', () => setTimeout(() => {
+      const els = [document.querySelector('header'), main,
+                   document.querySelector('footer')].filter(Boolean);
+      els.forEach(el => { el.inert = true; });
       document.documentElement.style.transform = 'translateZ(0)';
-      requestAnimationFrame(() => { document.documentElement.style.transform = ''; });
-    }));
+      requestAnimationFrame(() => {
+        els.forEach(el => { el.inert = false; });
+        document.documentElement.style.transform = '';
+      });
+    }, 700), { once: true });
   }
   $('#themeToggle').onclick = () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
