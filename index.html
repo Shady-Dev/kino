@@ -222,7 +222,10 @@
   .vclose{font:inherit; font-size:1rem; color:var(--muted); background:var(--surface);
     border:1px solid var(--line); border-radius:10px; padding:8px 12px; cursor:pointer}
   .vclose:hover{border-color:var(--muted)}
-  .vlist{flex:1; overflow-y:auto; padding:6px 12px 24px; overscroll-behavior:contain}
+  /* No top padding: the city headers are sticky, and rows scrolled past them showed
+     through a padding-height slit between the search head and the stuck header. The
+     headers' own padding provides the breathing room instead. */
+  .vlist{flex:1; overflow-y:auto; padding:0 12px 24px; overscroll-behavior:contain}
   .vcity{position:sticky; top:0; z-index:1; background:var(--bg); color:var(--muted);
     font-size:.76rem; text-transform:uppercase; letter-spacing:.06em; padding:14px 4px 5px}
   .vrow{display:flex; align-items:center; gap:9px; width:100%; text-align:left;
@@ -1028,7 +1031,16 @@
   /* ---------- theme ---------- */
   const store = { get k(){ try{return localStorage.getItem('kino-theme')}catch(e){return null} },
                   set k(v){ try{localStorage.setItem('kino-theme',v)}catch(e){} } };
-  const applyTheme = t => document.documentElement.setAttribute('data-theme', t);
+  // theme-color follows the theme: installed on iOS with a translucent status bar,
+  // the clock's text colour is derived from this meta, so a hardcoded dark value
+  // would render a white clock on the light theme's near-white page. Android tints
+  // its UI from the same meta.
+  const applyTheme = t => {
+    document.documentElement.setAttribute('data-theme', t);
+    const m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.content = getComputedStyle(document.documentElement)
+      .getPropertyValue('--bg').trim() || '#0D0E12';
+  };
   applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   $('#themeToggle').onclick = () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
