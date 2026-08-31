@@ -184,6 +184,12 @@
     background:var(--surface)}
   .vfind{flex:1; display:flex; align-items:center; gap:8px; background:var(--bg);
     border:1px solid var(--line); border-radius:10px; padding:9px 12px}
+  /* The inner input suppresses its own outline, which also suppressed the global
+     input:focus-visible rule (same 0,1,1 specificity, later in the sheet) -- so the
+     field that desktop autofocuses had no visible focus at all. The ring belongs on
+     the visible control, which is this container. */
+  .vfind:focus-within{border-color:var(--accent);
+    box-shadow:0 0 0 2px var(--accent-soft)}
   .vfind input{flex:1; min-width:0; font:inherit; color:var(--ink); background:none;
     border:0; outline:none; padding:0}
   .vfind input::placeholder{color:var(--muted)}
@@ -711,7 +717,7 @@
       <button id="vclose" class="vclose" type="button" aria-label="Sulje">✕</button>
     </div>
     <div id="vlist" class="vlist"></div>
-    <div id="vnone" class="vnone">Ei osumia.</div>
+    <div id="vnone" class="vnone" role="status">Ei osumia.</div>
   </div>
 </div>
 
