@@ -6,6 +6,13 @@ never reaches the network again to discover it was fixed. The generic branch hol
 index.html, and its cached copy is what the offline fallback serves, so a cached 500 is
 worse still.
 
+And the writes it does make must survive worker termination. Once the response promise
+settles the browser may stop the worker; a fire-and-forget put() races that shutdown,
+and the write that loses is exactly the one the offline fallback needed. The harness
+models this: put() settles on a macrotask, and `stored` is read only after the response
+and every promise passed to e.waitUntil have settled -- so the success cases below also
+assert the write was extended, not merely started.
+
 Driven through tests/sw_fetch_harness.js because the service worker cannot be registered
 in this environment. The harness runs the real sw.js and records which URLs the code
 chose to cache; stubbing is right here because the decision under test is the code's own

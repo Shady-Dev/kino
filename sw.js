@@ -57,12 +57,18 @@ self.addEventListener('fetch', e => {
   // the request never reached the network again to find out it had been fixed. The
   // caller still gets the real response, so nothing here hides an error; it just stops
   // a transient becoming permanent. The data-JSON branch above already did this.
+  // Every cache write below goes through e.waitUntil: once the response promise has
+  // settled the browser may terminate the worker, and a fire-and-forget put() races
+  // that shutdown. Online nothing is lost -- the next visit refetches -- but the write
+  // that loses the race is exactly the one the offline fallback needed. The data-JSON
+  // branch above already extends its refresh; these two did not.
   if (url.pathname.includes('/data/posters/')) {
     e.respondWith(
       caches.match(e.request).then(hit => hit || fetch(e.request).then(r => {
         if (r.ok) {
           const copy = r.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copy));
+          e.waitUntil(caches.open(CACHE).then(c => c.put(e.request, copy))
+            .catch(() => {}));
         }
         return r;
       }))
@@ -76,7 +82,8 @@ self.addEventListener('fetch', e => {
       // index.html, and the cached copy is what the offline fallback serves.
       if (r.ok) {
         const copy = r.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
+        e.waitUntil(caches.open(CACHE).then(c => c.put(e.request, copy))
+          .catch(() => {}));
       }
       return r;
     }).catch(() => caches.match(e.request, { ignoreSearch: true }))

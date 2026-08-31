@@ -2578,6 +2578,26 @@ Nine cases: 404 and 500 on each branch, 200 on each branch, plus cross-origin an
 non-GET, which must not be intercepted at all rather than merely not cached. Verified by
 restoring the unconditional `put` -- three tests go red.
 
+### A cache write must outlive the response (2026-08-31)
+The poster and generic branches wrote their `cache.put` fire-and-forget: the response
+returned, and the write raced the browser's right to terminate the worker the moment no
+extend-lifetime promise remains. Usually the put wins the race; nothing guarantees it.
+Online the loss is invisible -- the next visit refetches -- but the write that loses is
+exactly the one the offline fallback needed, so this is an offline-reliability hole, not
+a correctness bug anyone would see in a tab. Found by an external review. Both branches
+now pass the `caches.open().then(put)` chain to `e.waitUntil`, which is what the
+data-JSON branch had done for its background refresh all along.
+
+The harness had to learn what "termination" means before a test could catch this: its
+stubbed `put` resolved inline and it read `stored` after awaiting only the response, so
+a forgotten write always "finished" in time. `put` now settles on a macrotask -- a real
+Cache write is asynchronous work that outlives the response -- and `stored` is read
+only after the response *and every promise passed to `e.waitUntil`* have settled. The
+existing 200-case assertions thereby became the waitUntil property: verified by
+restoring the fire-and-forget form, which turns `poster_200` and `page_200` red. No
+`CACHE` bump: that rule binds commits touching `index.html`, the byte-diff alone updates
+the worker, and nothing cached went stale.
+
 ### The footer credits only the source on screen (2026-08-30)
 The bottom of the page carried three dense blocks: a per-source age for all eleven
 providers, a credit line naming the chain twice, and the contact line. The ages are a

@@ -27,10 +27,17 @@ function response(status, body) {
 function run(cases) {
   const listeners = {};
   const stored = [];           // every url the code chose to cache
+  const extended = [];         // every promise the code passed to e.waitUntil
   let cached = new Map();      // what caches.match will answer with
 
+  // put() settles on a macrotask, not inline: a real Cache write is asynchronous work
+  // that outlives the response, and an inline stub would let a fire-and-forget write
+  // "finish" before the harness could model the worker being terminated.
   const cacheObj = {
-    put: async (req, res) => { stored.push(String(req.url || req)); },
+    put: (req, res) => new Promise(resolve => setImmediate(() => {
+      stored.push(String(req.url || req));
+      resolve();
+    })),
   };
   const sandbox = {
     self: {
@@ -61,6 +68,7 @@ function run(cases) {
   const out = [];
   for (const c of cases) {
     stored.length = 0;
+    extended.length = 0;
     cached = new Map(c.cached || []);
     sandbox.fetch = async () => response(c.status);
 
@@ -68,12 +76,12 @@ function run(cases) {
     const event = {
       request: { url: c.url, method: c.method || 'GET' },
       respondWith: (p) => { responded = p; },
-      waitUntil: () => {},
+      waitUntil: (p) => { extended.push(p); },
     };
     listeners.fetch(event);
     out.push({ name: c.name, responded: responded !== null, promise: responded });
   }
-  return { out, stored, cacheObj };
+  return { out, stored, extended, cacheObj };
 }
 
 (async () => {
@@ -91,9 +99,14 @@ function run(cases) {
   ];
 
   for (const c of cases) {
-    const { out, stored } = run([c]);
+    const { out, stored, extended } = run([c]);
     const r = out[0];
     if (r.promise) { try { await r.promise; } catch (e) { /* the caller still sees it */ } }
+    // The worker-termination model: once the response has settled, the browser keeps
+    // the worker alive only for promises passed to e.waitUntil. Whatever `stored`
+    // holds after these settle is what a real worker is guaranteed to have written;
+    // a put() the code fired and forgot is still pending here and is counted lost.
+    await Promise.allSettled(extended);
     results.push({ name: c.name, intercepted: r.responded, stored: stored.slice() });
   }
   process.stdout.write(JSON.stringify(results));
