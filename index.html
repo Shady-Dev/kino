@@ -175,7 +175,9 @@
     gap:8px; text-align:left}
   #areaSelect .vlbl{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;
     white-space:nowrap}
-  #areaSelect .vchev{color:var(--muted); font-size:1.05rem; line-height:1; flex:0 0 auto}
+  /* A drawn chevron, not the ▾ glyph: iOS renders the glyph small whatever the
+     font-size says, and it was reported unreadable twice. */
+  #areaSelect .vchev{color:var(--muted); flex:0 0 auto; display:inline-flex}
   #areaSelect:hover, .fav:hover{border-color:var(--muted)}
   .fav{
     font:inherit; font-size:1.15rem; line-height:1; cursor:pointer;
@@ -713,7 +715,7 @@
   <div class="pinned">
   <div class="controls">
     <button id="areaSelect" type="button" aria-haspopup="dialog" aria-expanded="false"
-            aria-label="Valitse teatteri"><span class="vlbl"></span><span class="vchev" aria-hidden="true">▾</span></button>
+            aria-label="Valitse teatteri"><span class="vlbl"></span><span class="vchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
     <input class="search" id="search" type="search" placeholder="Etsi esim. Dune tai komedia" aria-label="Suodata elokuvia nimen tai genren mukaan">
   </div>
