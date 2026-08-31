@@ -15,9 +15,9 @@
 [biosade] Bio Säde (Mänttä): 4 showtimes
 [biosade] synopses merged: 0
 [biosade] Bio Säde: 4 showtimes, 2 dates
-[kinomarilyn] Kino Marilyn (Loviisa): 47 showtimes
+[kinomarilyn] Kino Marilyn (Loviisa): 43 showtimes
 [kinomarilyn] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 47 showtimes, 12 dates
+[kinomarilyn] Kino Marilyn: 43 showtimes, 11 dates
 [kinoolympia] Kino Olympia (Hanko): 13 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 13 showtimes, 7 dates
@@ -33,5 +33,6 @@
 [kinometso] Petäjävesi: 5 showtimes, 3 dates
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 12 venues, 162 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] pending: kinometso has 1 venue(s) with no programme yet: km-tikkakoski
+[run] nexxo: 12 venues, 158 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0

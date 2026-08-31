@@ -25,5 +25,5 @@
 [biorex] BioRex Tornio: 31 showtimes, 7 dates
 [biorex] BioRex Vaasa: 49 showtimes, 9 dates
 [run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] biorex: 12 venues, 466 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] biorex: 12 venues, 466 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
