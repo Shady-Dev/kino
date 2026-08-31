@@ -73,12 +73,33 @@ function run(cases) {
     sandbox.fetch = async () => response(c.status);
 
     let responded = null;
+    // The spec's activity rule, not MDN's summary of it: waitUntil() throws
+    // InvalidStateError only when the event is not active, and the event is active
+    // while its dispatch flag is set OR its pending promises count is above zero --
+    // respondWith(r) adds r to those promises "as if event.waitUntil(r) is called".
+    // So a waitUntil inside a .then of the respondWith promise is legal, and one
+    // fired after every extension has settled is the bug this models.
     const event = {
       request: { url: c.url, method: c.method || 'GET' },
-      respondWith: (p) => { responded = p; },
-      waitUntil: (p) => { extended.push(p); },
+      _dispatching: true,
+      _pending: 0,
+      _extend(p) {
+        event._pending++;
+        Promise.resolve(p).catch(() => {}).finally(() => { event._pending--; });
+      },
+      respondWith(p) { responded = p; event._extend(p); },
+      waitUntil(p) {
+        if (!event._dispatching && event._pending === 0) {
+          throw new DOMException(
+            `waitUntil() on an inactive event (${c.name}): no extend-lifetime ` +
+            'promise is pending and dispatch has finished', 'InvalidStateError');
+        }
+        extended.push(p);
+        event._extend(p);
+      },
     };
     listeners.fetch(event);
+    event._dispatching = false;
     out.push({ name: c.name, responded: responded !== null, promise: responded });
   }
   return { out, stored, extended, cacheObj };

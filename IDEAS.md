@@ -2623,6 +2623,23 @@ restoring the fire-and-forget form, which turns `poster_200` and `page_200` red.
 `CACHE` bump: that rule binds commits touching `index.html`, the byte-diff alone updates
 the worker, and nothing cached went stale.
 
+**Challenged (2026-08-31) and the challenge rejected.** A review claimed calling
+`e.waitUntil` inside the `fetch().then()` throws `InvalidStateError` because MDN says it
+"must be initially called within the event callback". The spec's actual rule is
+narrower: it throws only when the event is **not active**, and an event is active while
+its dispatch flag is set *or its pending promises count is above zero* --
+`respondWith(r)` adds `r` to those promises "as if event.waitUntil(r) is called", and
+the spec's own note pins it: the throw applies when *no* lifetime extension promise was
+added in the dispatch task. These calls run inside the `.then` that settles the
+respondWith promise, so the event is still active; the data branch has done the same
+after an `await` since it was written. Confirmed against production Chrome on the live
+site: both branches answer 200 and both cache entries land. What the review was right
+about: the harness stub accepted `waitUntil` at *any* time. It now models the activity
+rule -- pending-extension counting, `InvalidStateError` when a call comes after every
+extension has settled -- verified by deferring a `waitUntil` behind `setTimeout`, which
+goes red. A guard built on MDN's summary instead would have failed correct code, which
+is the mock-encodes-the-assumption trap in new clothes.
+
 ### The footer credits only the source on screen (2026-08-30)
 The bottom of the page carried three dense blocks: a per-source age for all eleven
 providers, a credit line naming the chain twice, and the contact line. The ages are a
