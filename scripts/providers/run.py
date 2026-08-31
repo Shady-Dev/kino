@@ -3,7 +3,7 @@
 
     python3 scripts/providers/run.py biorex nexxo etiketti ...
     python3 scripts/providers/run.py --where cloud      # module list from the registry
-    python3 scripts/providers/run.py --where local      # the two that need a local fetch
+    python3 scripts/providers/run.py --where local      # the three modules with local sites
 
 Replaces the five near-identical fetch_*.py orchestrators. Every adapter module
 exposes exactly two things:

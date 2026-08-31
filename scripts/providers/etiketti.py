@@ -131,7 +131,7 @@ SITES = [
      ]},
     # Fetched from the local half: kino.joutsa.fi answers a runner with a Cloudflare 403
     # and an ordinary connection fine. `where="local"` on its registry entry is what
-    # routes it; run.py filters SITES by half, so the other fourteen stay cloud-side.
+    # routes it; run.py filters SITES by half, so the other sixteen stay cloud-side.
     {"provider": "joutsankino", "base": "https://kino.joutsa.fi", "label": "Joutsan Kino",
      "venues": [
          {"id": "jk-joutsa", "match": "joutsan kino", "name": "Joutsan Kino",
