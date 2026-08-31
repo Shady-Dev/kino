@@ -225,8 +225,12 @@ def main() -> int:
         bytes_added += dest.stat().st_size
         time.sleep(PAUSE)
 
-    # Rewrite references. A URL that failed keeps its remote address, so the
-    # poster still renders in the app; only the page generator drops it.
+    # Rewrite references. A URL that failed keeps its remote address on purpose, so a
+    # third party's downtime cannot stop publication -- but neither the app nor a
+    # generated page's <img> renders a remote poster (safeAssetUrl there, the
+    # data/posters/ check in build_pages here), so those films show a placeholder tile
+    # until a later run mirrors them. Only JSON-LD still references the remote URL: a
+    # crawler reading markup is not a visitor's browser.
     rewritten = files = 0
     for p, doc in docs:
         changed = False
