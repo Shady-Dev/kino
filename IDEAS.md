@@ -2726,6 +2726,41 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
+### The installed iOS app stops smearing the status bar (2026-08-31)
+Installed to an iPhone home screen, the top of the page showed a blurred smear behind
+the clock. Three separate causes, shipped as v84–v86 and verified together on a real
+notch (iPhone 17 Pro simulator, the site installed from Safari exactly the way a user
+does it):
+
+- **Nothing painted the status-bar strip.** The page runs edge-to-edge in standalone,
+  and whatever scrolled under the transparent bar showed through iOS's blur material.
+  A `position:fixed` strip the height of `env(safe-area-inset-top)` now paints `--bg`
+  behind the bar at all times. It cannot ride on the sticky controls row: sticky is
+  bound to its parent, and measured on the live site the pinned row leaves the
+  viewport under scroll, so only a fixed cover holds.
+- **The insets were dead until the app opted in.** Without
+  `apple-mobile-web-app-status-bar-style: black-translucent`, iOS lays the page out
+  below the bar, keeps `env(safe-area-inset-top)` at zero — the v84 strip computed to
+  0px tall — and draws its own smear. The meta is read at install time, so an
+  already-installed icon has to be removed and re-added once to pick it up.
+- **`theme-color` was hardcoded dark**, and with a translucent bar iOS derives the
+  clock's text colour from it: the light theme would have had a white clock on a
+  near-white page. `applyTheme()` now writes the current `--bg` into the meta on every
+  toggle; Android tints its UI from the same value.
+
+The user's own observation cracked the diagnosis: the smear vanished after opening a
+film sheet, which forces a full composite. On iOS 27 on an iPhone 15 Pro Max the stale
+snapshot survives even a fresh install — an iPhone 17 on the same iOS and the 26.5
+simulator launch clean — so v87 adds the workaround the observation implies: in
+standalone only, one frame after first paint, a momentary `translateZ(0)` on the root
+promotes the page to a fresh layer and back, forcing the recomposite a sheet-open
+would have caused. Also fixed in the same
+pass: the venue list's 6px top padding was a slit rows scrolled through between the
+search head and the stuck city header; the padding is gone and the headers' own
+padding provides the spacing. The full-screen venue sheet pads past the inset so its
+search row clears the Dynamic Island, verified on-device along with the rest:
+launch, scroll, picker open, keyboard staying down on touch open.
+
 ### The month picker gets the sheet's modal lifecycle (2026-08-31)
 The keyboard pass above gave the movie sheet real modality and left the month picker
 only claiming it: `role="dialog" aria-modal="true"` in the markup, while focus stayed

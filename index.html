@@ -1042,6 +1042,17 @@
       .getPropertyValue('--bg').trim() || '#0D0E12';
   };
   applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  // iOS 27 (seen on an iPhone 15 Pro Max; a 17 and the 26.5 simulator are fine) keeps
+  // a stale composite behind the status bar at launch in the installed app, and any
+  // later layer change -- opening a sheet, say -- clears it. So force one full
+  // recomposite right after first paint: a one-frame transform on the root promotes
+  // the page to a fresh layer and back. Standalone only; a browser tab never shows it.
+  if(matchMedia('(display-mode: standalone)').matches){
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.documentElement.style.transform = 'translateZ(0)';
+      requestAnimationFrame(() => { document.documentElement.style.transform = ''; });
+    }));
+  }
   $('#themeToggle').onclick = () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next); store.k = next;
