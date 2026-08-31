@@ -777,6 +777,8 @@
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
+         tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
+         tipList:'Avaa ohjelmisto', tipBuy:'Osta liput',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
          partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
@@ -818,6 +820,8 @@
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
+         tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
+         tipList:'Öppna programmet', tipBuy:'Köp biljetter',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
@@ -856,6 +860,8 @@
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
+         tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
+         tipList:'Open the programme', tipBuy:'Buy tickets',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
@@ -2139,7 +2145,12 @@
           .filter(Boolean).join(' · ')
           + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
         const tint = tintedList && t.provider ? ` chain-${esc(t.provider)}` : '';
-        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="Buy tickets — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
+        // The tooltip verb was hard-coded "Buy tickets" in every language and for every
+        // provider, including the reserve- and door-mode ones the footer wording
+        // already distinguishes through the registry's book field.
+        const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve',
+                                     list:'tipList' }[BOOK[t.provider]] || 'tipBuy'];
+        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span>
                 </a>`;
       }).join('');
