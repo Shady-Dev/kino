@@ -1,78 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
-Traceback (most recent call last):
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1321, in do_open
-    h.request(req.get_method(), req.selector, req.data, headers,
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-              encode_chunked=req.has_header('Transfer-encoding'))
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1367, in request
-    self._send_request(method, url, body, headers, encode_chunked)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1413, in _send_request
-    self.endheaders(body, encode_chunked=encode_chunked)
-    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1362, in endheaders
-    self._send_output(message_body, encode_chunked=encode_chunked)
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1122, in _send_output
-    self.send(msg)
-    ~~~~~~~~~^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1066, in send
-    self.connect()
-    ~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1501, in connect
-    super().connect()
-    ~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 1032, in connect
-    self.sock = self._create_connection(
-                ~~~~~~~~~~~~~~~~~~~~~~~^
-        (self.host,self.port), self.timeout, self.source_address)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 850, in create_connection
-    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
-               ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/socket.py", line 987, in getaddrinfo
-    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
-               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-socket.gaierror: [Errno 8] nodename nor servname provided, or not known
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/smartikainen/kino-auth/repo/scripts/fetch_data.py", line 588, in <module>
-    sys.exit(main())
-             ~~~~^^
-  File "/Users/smartikainen/kino-auth/repo/scripts/fetch_data.py", line 234, in main
-    raw_sites = api("/sites", token)
-  File "/Users/smartikainen/kino-auth/repo/scripts/fetch_data.py", line 166, in api
-    return json.loads(http_get(DIGITAL_API + path, {
-                      ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
-        "authorization": f"Bearer {token}",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<2 lines>...
-        "referer": "https://www.finnkino.fi/",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    }))
-    ^^
-  File "/Users/smartikainen/kino-auth/repo/scripts/fetch_data.py", line 131, in http_get
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 187, in urlopen
-    return opener.open(url, data, timeout)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 487, in open
-    response = self._open(req, data)
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 504, in _open
-    result = self._call_chain(self.handle_open, protocol, protocol +
-                              '_open', req)
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 464, in _call_chain
-    result = func(*args)
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1369, in https_open
-    return self.do_open(http.client.HTTPSConnection, req,
-           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                        context=self._context)
-                        ^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/lib/python3.14/urllib/request.py", line 1324, in do_open
-    raise URLError(err)
-urllib.error.URLError: <urlopen error [Errno 8] nodename nor servname provided, or not known>
-exit=1
+[sites] 17 cinemas
+[schedule] 2026-08-31: 15 showtimes
+[schedule] 2026-09-01: 326 showtimes
+[schedule] 2026-09-02: 384 showtimes
+[schedule] 2026-09-03: 388 showtimes
+[schedule] 2026-09-04: 0 showtimes
+[schedule] 2026-09-05: 7 showtimes
+[schedule] 2026-09-06: 4 showtimes
+[tmdb] no TMDB match (2): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2
+[tmdb] 0 new lookups, 0 re-checks, cache 54, 52 mergeable by id
+[films] 2 character(s) restored from another chain's copy
+[films] 44 film entries
+[attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[schedule] 17 venue files written, 0 kept as-is
+done
+exit=0
