@@ -59,6 +59,16 @@
   :root{
     --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
     --line:#E3E6EB; --accent:#B8860B; --accent-soft:#F4E9CE;
+    /* The accent is tuned to carry a 3 px border and a focus ring, where 3:1 is the
+       bar. As small text on --bg it measures 3.04:1 and fails AA, so text that wants
+       to look accent-coloured uses --accent-text instead: same hue, darkened until it
+       clears 4.5:1 on both --bg and --surface. Borders, rings and the wordmark stay on
+       --accent, which is what those numbers were chosen for. */
+    --accent-text:#8A6508;
+    /* Accent on an --ink background -- only the selected day chip. It is the inverse
+       surface, so it needs the opposite polarity from --accent-text and cannot share
+       it: light theme reads a dark gold on near-black, dark theme on near-white. */
+    --accent-on-ink:#B8860B;
     --chip-bg:#FFFFFF; --chip-hover:#16181D; --chip-hover-ink:#F6F7F9;
     --shadow:0 1px 3px rgba(22,24,29,.06);
     --past:#AEB4BE;
@@ -66,11 +76,20 @@
   [data-theme="dark"]{
     --bg:#0D0E12; --surface:#16181F; --ink:#EDEDEA; --muted:#8B93A1;
     --line:#262A33; --accent:#E8B84B; --accent-soft:#2A2415;
+    --accent-text:#E8B84B;
+    --accent-on-ink:#8A6508;
     --chip-bg:#1C1F28; --chip-hover:#E8B84B; --chip-hover-ink:#0D0E12;
     --shadow:0 1px 3px rgba(0,0,0,.4);
     --past:#4A4F5A;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  /* Announced, never seen. Not display:none and not visibility:hidden -- both remove the
+     node from the accessibility tree, which is the one thing this element exists for. */
+  .sr-only{
+    position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+    overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;
+    border:0;
+  }
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
   body{
@@ -240,7 +259,7 @@
   .vrow .vtxt{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;
     white-space:nowrap}
   .vrow .vtxt small{color:var(--muted)}
-  .vrow mark{background:none; color:var(--accent); font-weight:700}
+  .vrow mark{background:none; color:var(--accent-text); font-weight:700}
   .vrow.vall .vtxt{font-weight:600}
   .vnone{display:none; color:var(--muted); text-align:center; padding:36px 16px}
   .vnone.show{display:block}
@@ -319,7 +338,7 @@
   }
   .day.active{background:var(--ink); border-color:var(--ink)}
   .day.active b{color:var(--bg)}
-  .day.active small{color:var(--accent)}
+  .day.active small{color:var(--accent-on-ink)}
 
   /* ===== Movie list ===== */
   main{max-width:1100px; margin:0 auto; padding:8px 20px 80px}
@@ -380,7 +399,7 @@
     display:inline-block; padding:1px 0; font-size:.72rem;
     color:var(--muted); font-weight:600; letter-spacing:.05em; text-transform:uppercase;
   }
-  .fmt.prem{color:var(--accent); font-weight:700}
+  .fmt.prem{color:var(--accent-text); font-weight:700}
   /* A limit the *screening* imposes, not the film's classification: a licensed bar
      auditorium is 18+ even when the film is K-12. Deliberately not red and not KAVI's
      official symbol — that artwork means a legal age rating, which this is not, and a
@@ -488,7 +507,7 @@
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
-  .trailer{display:inline-block; margin-top:12px; color:var(--accent); font-weight:700;
+  .trailer{display:inline-block; margin-top:12px; color:var(--accent-text); font-weight:700;
     text-decoration:none; font-size:.88rem}
   .sheet-days{margin-top:6px}
   .sheet-days h3{margin:16px 0 8px; font-size:.75rem; color:var(--muted);
@@ -574,8 +593,8 @@
   .stub.sold .time{text-decoration:line-through}
   .stub.past .time{color:var(--past)}
 
-  .theatre-tag{color:var(--accent); font-weight:600}
-  .tmdb{color:var(--accent); font-weight:700}
+  .theatre-tag{color:var(--accent-text); font-weight:600}
+  .tmdb{color:var(--accent-text); font-weight:700}
   /* Score ring. The arc length carries the score and the number inside repeats it, so
      it survives greyscale and colourblind vision — which is why it is one hue rather
      than TMDB's green/amber/red: this app already spends colour on chain identity, and
@@ -657,16 +676,16 @@
   #fresh[open] summary::after{content:'\25b4'}
   #fresh summary:hover{color:var(--ink)}
   #fresh summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-  #fresh summary.bad{color:var(--accent); font-weight:700}
+  #fresh summary.bad{color:var(--accent-text); font-weight:700}
   #sources{
     padding:8px 0 2px; display:flex; flex-wrap:wrap; gap:4px 10px; font-size:.72rem;
   }
   #sources .src{white-space:nowrap}
-  #sources .src.bad{color:var(--accent); font-weight:700}
+  #sources .src.bad{color:var(--accent-text); font-weight:700}
   /* The marker carries the degraded state on a row whose age is still fine, so it is
      the accent colour rather than dimmed. The row itself stays readable: the data is
      not old, one of its cinemas simply did not refresh. */
-  #sources .part{color:var(--accent); cursor:help}
+  #sources .part{color:var(--accent-text); cursor:help}
   #sources .src.part-bad{color:var(--ink)}
   #tagkey{
     max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
@@ -751,6 +770,13 @@
   </div>
 </div>
 
+<!-- Pre-existing on purpose. A node inserted together with its text is not reliably
+     announced -- the region has to be in the tree before it changes, which is why the
+     venue picker's #vnone is markup rather than something vDraw() creates. The visible
+     empty state stays inside <main> and this carries only its words, so nextDayLink()'s
+     button never lands inside a live region. -->
+<div id="listStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
 <main id="main">
   <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
 </main>
@@ -767,6 +793,13 @@
 (() => {
   const $ = s => document.querySelector(s);
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
+  // Every write to main.innerHTML pairs with one of these. "No movies match your filters"
+  // is only painted, and the filter that produced it is typed into a field that keeps
+  // focus, so nothing tells a screen reader the list went empty -- silence reads the same
+  // as still loading. Passing '' on every other path is what stops a stale "no movies"
+  // being announced again when the next render succeeds.
+  const listStatusEl = $('#listStatus');
+  const setListStatus = msg => { if(listStatusEl) listStatusEl.textContent = msg || ''; };
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
                 fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
@@ -1198,6 +1231,24 @@
                || wrap.querySelector('.cal-nav:not([disabled])');
     if(first) first.focus();
   }
+  // --- calCell: pure, extracted verbatim by tests/cal_cell_harness.js ---
+  // The selected day used to be the `sel` class and nothing else, so the chosen date was
+  // visible and nowhere in the accessibility tree: a screen reader read the grid as
+  // "1, 2, 3" with no way to hear which one is current. The day chips outside the picker
+  // already say `aria-current="date"`, so the calendar now says the same thing.
+  //
+  // Only on the button. A day with no showtimes renders as a <span>, is not a control and
+  // cannot be the selected date, so marking it current would announce a state for
+  // something that has none.
+  function calCell(d, iso, has, selIso){
+    const sel = iso === selIso;
+    const cls = 'cal-day' + (has ? ' has' : ' off') + (sel ? ' sel' : '');
+    return has
+      ? `<button class="${cls}" data-day="${iso}"${sel ? ' aria-current="date"' : ''}>${d}</button>`
+      : `<span class="${cls}">${d}</span>`;
+  }
+  // --- end calCell ---
+
   function drawCal(base, max){
     const el = document.querySelector('.cal');
     if(!el) return;
@@ -1214,9 +1265,7 @@
     for(let d = 1; d <= days; d++){
       const iso = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const has = iso >= base && iso <= max && (!avail || avail.has(iso));
-      const cls = 'cal-day' + (has ? ' has' : ' off') + (iso === state.dateStr ? ' sel' : '');
-      cells += has ? `<button class="${cls}" data-day="${iso}">${d}</button>`
-                   : `<span class="${cls}">${d}</span>`;
+      cells += calCell(d, iso, has, state.dateStr);
     }
     const prevOk = ymAdd(calMonth, -1) >= ymOf(base);
     const nextOk = ymAdd(calMonth, 1) <= ymOf(max);
@@ -1908,6 +1957,7 @@
   }
 
   async function loadSchedule(){
+    setListStatus('');
     main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
       if(!jsonCache[state.area]){
@@ -1942,6 +1992,7 @@
       // rather than only at startup or on a language switch.
       if(searchEl && !searchEl.value) searchEl.placeholder = searchHint();
     } catch(e){
+      setListStatus('');
       main.innerHTML = netErrorHtml(e);
     }
   }
@@ -2143,7 +2194,11 @@
     const now = new Date();
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
-    if(!rows.length){ main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`; return; }
+    if(!rows.length){
+      setListStatus(emptyMsg());
+      main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
+      return;
+    }
     // The film cards label the venue and tint by chain in a combined view; this list
     // never did, so "Sali 14" named a room in one of five cinemas, with no colour and no
     // cinema, under a legend it had no connection to. The stub is a fixed 158 px ticket
@@ -2152,6 +2207,7 @@
     // has the full row width, and the stub carries the chain tint.
     const multi = labelVenues(state.shows);
     const tinted = multi;
+    setListStatus('');
     main.innerHTML = rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
@@ -2366,6 +2422,7 @@
     const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
 
     if(!movies.length){
+      setListStatus(emptyMsg());
       main.innerHTML = `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
       return;
     }
@@ -2466,6 +2523,7 @@
       ? `<div class="status">${L[state.lang].nomore}${nextDayLink()}</div>` : '';
     const overHead = over.length
       ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
+    setListStatus('');
     main.innerHTML = listLegend + noneLeft + live.map(card).join('')
       + overHead + over.map(card).join('');
   }
@@ -2492,9 +2550,13 @@
   //
   // Real modality means the *background* is inert while the sheet is open, which is what
   // stops Tab walking behind it. These are the roots outside the dialog.
+  // #listStatus is in here for the same reason main is: it sits outside the dialog, and a
+  // background render that finishes while a sheet is open would otherwise announce the
+  // list behind the modal to someone who is reading the modal.
   const BEHIND = () => [document.querySelector('header'), main,
                         document.querySelector('footer'), document.querySelector('#tagkey'),
-                        document.querySelector('#stale'), document.querySelector('#partial')];
+                        document.querySelector('#stale'), document.querySelector('#partial'),
+                        listStatusEl];
   let lastTrigger = null;
   function rememberTrigger(el){
     lastTrigger = el && el.closest ? (el.closest('a.tlink, a.tinfo') || el) : el;
@@ -2856,8 +2918,10 @@
       }
       // The static markup says this in Finnish, the default; EN prefs re-say it here
       // before the first fetch resolves.
-      if(state.lang !== 'fi')   // static markup is Finnish; restate it for sv/en
+      if(state.lang !== 'fi'){   // static markup is Finnish; restate it for sv/en
+        setListStatus('');
         main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
+      }
       buildDays();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
       // arrives, and ensureGenres invalidates every _hay on arrival, so this never
@@ -2880,6 +2944,7 @@
       buildDays();
       await loadSchedule();
     } catch(e){
+      setListStatus('');
       main.innerHTML = netErrorHtml(e);
     }
   })();

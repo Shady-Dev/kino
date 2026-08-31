@@ -15,7 +15,9 @@ line from this list when its item is ticked below.
 - Multi-cinema merged view beyond the existing city views
 - Favourites, starred float to top
 - Prices "alkaen" via the ticket-types endpoint
-- Light-mode polish and an accessibility pass
+- Accessibility: the two items an audit left open on purpose (the favourite star's
+  3.25:1 as text-or-icon, and 18 px title links that clear the spacing exception by
+  about a pixel)
 
 **[Pipeline](#pipeline)**
 
@@ -1822,7 +1824,57 @@ count failed the same way.
 - [ ] Multi-cinema merged view (e.g. all Helsinki)
 - [ ] Favorites (starred float to top)
 - [ ] Prices "alkaen" probe (ticket-types endpoint)
-- [ ] Light-mode polish + accessibility pass
+- [x] **Light-mode polish + accessibility pass.** Audited against the served page on
+      2026-09-01 in both themes, fi/sv/en, at 320/375/720/1440 px. Most of what this item
+      stood for was already done and had never been written down: focus order and rings,
+      the dialog inert/focus-restore lifecycle on all three sheets, `aria-pressed` on every
+      toggle, `aria-current="date"` on the day chips, localized accessible names, a blanket
+      reduced-motion rule, no horizontal overflow at any tested width, chain colour used as
+      a border with ink text over it, and poster-fallback initials at 4.34-5.24:1. Four
+      things were genuinely wrong and are fixed here:
+
+      1. **The selected day chip was unreadable in dark theme.** `.day.active` paints
+         `--ink`, which inverts with the theme, while its `small` label was `--accent`,
+         which does not: gold on a near-white pill, **1.57:1**. The sibling `<b>` had used
+         `--bg` all along and was fine at 16.44:1, which is why it read as a rendering
+         fault rather than a colour. Now `--accent-on-ink`: light keeps #B8860B (5.46:1,
+         unchanged), dark gets #8A6508 (**4.54:1**).
+      2. **The light accent failed as small text.** `--accent` #B8860B is chosen for a 3 px
+         border and a focus ring, where the bar is 3:1, and it measures 3.04:1 on `--bg` --
+         so every rule colouring text with it failed 1.4.3 while the ring it was picked for
+         passed. Eight rules did: `.vrow mark`, `.fmt.prem`, `.trailer`, `.theatre-tag`,
+         `.tmdb`, `#fresh summary.bad`, `#sources .src.bad`, `#sources .part`. They now use
+         `--accent-text` (light #8A6508, **4.97:1** on `--bg` and 5.32 on `--surface`; dark
+         keeps #E8B84B at 10.46). Borders, rings and the wordmark stay on `--accent`, which
+         is what its number was chosen for. Dark theme never had the defect, which is how it
+         survived: it is invisible to anyone developing in dark.
+      3. **An empty result was painted and never announced.** Filtering to nothing swaps the
+         list for a sentence while focus stays in the search field, so a screen reader got
+         silence -- the same thing it gets from a list still loading. `#listStatus` is now a
+         pre-existing polite atomic region and every one of the eight `main.innerHTML` sites
+         writes to it: the two empty paths pass `emptyMsg()`, the rest pass `''` so a stale
+         "no movies" cannot be announced over a list that has films again. It is markup
+         rather than an attribute on the injected node for the same reason `#vnone` is:
+         a region that arrives together with its text is not reliably announced.
+         `nextDayLink()`'s button stays in the visible block, outside the region.
+      4. **The calendar's selected day had no state.** Selection was the `sel` class and
+         nothing else, so the grid read as "1, 2, 3" -- while the day chips outside the
+         picker had said `aria-current="date"` since they were built. The selectable button
+         now says it; the `<span>` a day with no showtimes renders as never does, because it
+         is not a control and cannot be current.
+
+      Verified by breaking each of the 26 new guards and watching it go red, then live in
+      the browser with transitions disabled -- the 250 ms theme fade had produced nine
+      phantom failures and two phantom passes when measured too early, which is worth
+      knowing before anyone measures a colour here again. Two findings were left alone on
+      purpose and are listed at the top of this file: the favourite star at 3.25:1, where
+      whether 1.4.3 or 1.4.11 governs a text-rendered icon is genuinely unsettled, and 18 px
+      title links, which clear 2.5.8's spacing exception by about a pixel.
+
+      What the harness could not check: Enter/Space activation, Escape and arrow-key
+      navigation. Synthetic key events in the preview browser fire `keydown` but perform no
+      default action -- a bare `<button>` with an `onclick` received Enter and logged zero
+      clicks -- so those stay verified by hand against the served page, as they always were.
 
 ## Ops
 - [x] Per-provider health line in the app (⚠ past 8 h, from each `venues-*.json` generated)
