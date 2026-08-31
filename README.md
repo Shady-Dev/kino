@@ -217,7 +217,7 @@ under your own name and User-Agent, and see Access and ethics in
 
 ## Contact
 
-**tiles-39nomads@icloud.com**
+**leffavuoro@gmail.com**
 
 The pipeline reads every provider as `Leffavuoro/1.0 (+https://leffavuoro.fi)`.
 That URL resolves to this page so a cinema can identify who is reading them and

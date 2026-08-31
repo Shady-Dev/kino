@@ -2309,7 +2309,7 @@ leads nowhere is worse than no URL: it looks like an offer of contact and is not
 IDEAS has claimed since the first multi-provider commit that removing a cinema is one
 registry entry, with no address anywhere that a cinema could use to ask for it.
 
-`tiles-39nomads@icloud.com`, in three places, because a cinema can land on any of them:
+`leffavuoro@gmail.com`, in three places, because a cinema can land on any of them:
 
 - the app footer, on its own line under the source credit, translated in all three
   languages and redrawn by `applyLang()` like everything else the toggle reaches;

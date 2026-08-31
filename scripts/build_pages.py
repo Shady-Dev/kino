@@ -55,7 +55,7 @@ SITE = "https://leffavuoro.fi"
 # User-Agent points every provider at this site, so these pages have to answer too --
 # a search result is as likely a first landing as the app itself. Constant, so
 # write_if_changed keeps working.
-CONTACT = "tiles-39nomads@icloud.com"
+CONTACT = "leffavuoro@gmail.com"
 
 # Posters that reached the page generator still pointing at somebody else's host. Every
 # provider's images are supposed to be rewritten into data/posters/ by mirror_posters,
