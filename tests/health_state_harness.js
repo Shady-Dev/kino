@@ -45,8 +45,14 @@ const CASES = [
   ['unverified_count_only', { stale: 0, unverified: 1 }, 2],
   // Both at once: the stale venue is the worse problem and must win the label.
   ['stale_and_unverified', { status: 'partial', stale: 1, unverified: 1 }, 2],
-  // A pending venue on data that is also old: age outranks everything but gone.
   ['unverified_but_old',  { status: 'partial', stale: 0, unverified: 1 }, 9],
+  // Pending: run.py grants it only on the adapter's word (EMPTY_VENUES_CONFIRMED),
+  // and such a file carries status ok. It never outranks anything above it.
+  ['pending_only',        { status: 'ok', stale: 0, unverified: 0, pending: 1 }, 2],
+  ['pending_count_only',  { pending: 1 }, 2],
+  ['pending_and_stale',   { status: 'partial', stale: 1, unverified: 0, pending: 1 }, 2],
+  ['pending_and_unverified', { status: 'partial', stale: 0, unverified: 1, pending: 1 }, 2],
+  ['pending_but_old',     { status: 'ok', stale: 0, unverified: 0, pending: 1 }, 9],
   ['legacy_no_status',    { stale: 0, unverified: 0 }, 2],
   ['too_old',             { status: 'ok', stale: 0, unverified: 0 }, 9],
   ['too_old_and_partial', { status: 'partial', stale: 1, unverified: 0 }, 9],

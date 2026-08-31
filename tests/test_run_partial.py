@@ -204,6 +204,68 @@ class RunSitePartialTest(unittest.TestCase):
         self.assertEqual(doc["unverified"], [])
         self.assertEqual(doc["oldest"], later)
 
+    # -- pending: only on the adapter's word ----------------------------------------
+
+    def test_a_confirmed_empty_venue_is_pending_not_unverified(self):
+        """An adapter that sets EMPTY_VENUES_CONFIRMED vouches that a venue it reported
+        with an empty list is known empty -- nexxo's schema check makes that positive
+        evidence. Such a venue is a programme that has not started, and the provider
+        file must not read partial over it."""
+        mod = FakeModule({
+            "fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+            "fc-b": [],
+            "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
+        })
+        mod.EMPTY_VENUES_CONFIRMED = True
+        _, _, stale, unverified = self.run_site(mod)
+        self.assertEqual(unverified, [])
+        self.assertEqual(stale, [])
+        doc = self.venues_file()
+        self.assertEqual(doc["pending"], ["fc-b"])
+        self.assertEqual(doc["status"], "ok")
+        self.assertEqual(json.loads(
+            (self.out / "area-fc-b.json").read_text(encoding="utf-8"))["shows"], [])
+
+    def test_without_the_module_flag_the_same_venue_stays_unverified(self):
+        """run.py cannot tell "programme not started" from "parse never worked", so the
+        quiet state exists only where the adapter can."""
+        mod = FakeModule({
+            "fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+            "fc-b": [],
+            "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
+        })
+        _, _, _, unverified = self.run_site(mod)
+        self.assertEqual(unverified, ["fc-b"])
+        doc = self.venues_file()
+        self.assertEqual(doc["pending"], [])
+        self.assertEqual(doc["status"], "partial")
+
+    def test_the_flag_does_not_cover_a_venue_the_adapter_never_reported(self):
+        """Key absent means the adapter has nothing to vouch for -- the locationid
+        failed, or the venue fell out of the answer -- and that is the ambiguous case."""
+        mod = FakeModule({
+            "fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+            "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
+        })
+        mod.EMPTY_VENUES_CONFIRMED = True
+        _, _, _, unverified = self.run_site(mod)
+        self.assertEqual(unverified, ["fc-b"])
+        self.assertEqual(self.venues_file()["pending"], [])
+
+    def test_a_pending_venue_with_previous_data_is_stale_instead(self):
+        """The severity order run.py already keeps: real older data outranks the
+        adapter's word that today's answer is empty."""
+        self.seed_previous("fc-b")
+        mod = FakeModule({
+            "fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+            "fc-b": [],
+            "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
+        })
+        mod.EMPTY_VENUES_CONFIRMED = True
+        _, _, stale, _ = self.run_site(mod)
+        self.assertEqual(stale, ["fc-b"])
+        self.assertEqual(self.venues_file()["pending"], [])
+
     def test_a_totally_dead_site_writes_no_provider_file(self):
         """Nothing may stamp a fresh timestamp when every venue came back empty."""
         for v in SITE["venues"]:

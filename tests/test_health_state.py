@@ -49,24 +49,44 @@ class HealthStateTest(unittest.TestCase):
         """Guards a file written before `status` existed."""
         self.assertEqual(self.r["stale_count_only"], "partial")
 
-    def test_an_unverified_venue_alone_is_pending_not_partial(self):
-        """A venue that has never produced a showtime while its fetch is fresh is a
-        cinema whose programme has not started, not a failure to refresh. Kino Metso
-        Tikkakoski publishes into late October from day one; a month of "did not
-        refresh" over it would teach people to ignore the line."""
-        self.assertEqual(self.r["unverified_only"], "pending")
+    def test_an_unverified_venue_stays_partial(self):
+        """run.py cannot tell "added before its programme is published" from "a parse
+        that has never worked" -- its own comment says so -- and the ambiguous case must
+        stay visibly degraded. The first version of the pending state quieted these too,
+        which would have read a rotted venue match as a calm "no programme yet"."""
+        self.assertEqual(self.r["unverified_only"], "partial")
 
-    def test_the_unverified_count_alone_is_enough_for_pending(self):
+    def test_the_unverified_count_alone_is_enough(self):
         """Without a `status` field, so only the unverified term can catch it. The first
         version of this file set status:'partial' here too, which meant the term could be
         deleted with every test still green -- found by deleting it."""
-        self.assertEqual(self.r["unverified_count_only"], "pending")
+        self.assertEqual(self.r["unverified_count_only"], "partial")
 
-    def test_a_stale_venue_outranks_a_pending_one(self):
+    def test_a_stale_venue_and_an_unverified_one_read_partial(self):
         self.assertEqual(self.r["stale_and_unverified"], "partial")
 
-    def test_age_outranks_pending(self):
+    def test_age_outranks_unverified(self):
         self.assertEqual(self.r["unverified_but_old"], "behind")
+
+    # -- pending: the adapter vouched the venue is empty ----------------------------
+
+    def test_a_confirmed_empty_venue_is_pending_not_partial(self):
+        """Kino Metso Tikkakoski publishes into late October from day one. run.py grants
+        pending only when the adapter set EMPTY_VENUES_CONFIRMED and reported the venue
+        explicitly, so this quiet state never covers a parse that silently broke."""
+        self.assertEqual(self.r["pending_only"], "pending")
+
+    def test_the_pending_count_alone_is_enough(self):
+        self.assertEqual(self.r["pending_count_only"], "pending")
+
+    def test_a_stale_venue_outranks_a_pending_one(self):
+        self.assertEqual(self.r["pending_and_stale"], "partial")
+
+    def test_an_unverified_venue_outranks_a_pending_one(self):
+        self.assertEqual(self.r["pending_and_unverified"], "partial")
+
+    def test_age_outranks_pending(self):
+        self.assertEqual(self.r["pending_but_old"], "behind")
 
     # -- nothing else moved --------------------------------------------------------
 

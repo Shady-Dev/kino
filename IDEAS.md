@@ -2733,19 +2733,31 @@ Kino Metso Tikkakoski publishes into late October from day one, so it sits insid
 was an hour old, and a month-long standing warning is the always-red alarm that
 teaches readers to ignore the line before a real partial ever fires.
 
-`healthState` gained a `pending` state below `partial`: unverified venues on a fresh
-fetch render a quiet "Ei vielä ohjelmistoa: {venue}" summary with no warning mark, and
-the provider row keeps its muted count titled honestly. Severity order holds -- one
-stale venue outranks any number of pending ones, and age outranks both; verified by
-swapping the terms, which goes red. The summary names the *venue*, not the chain,
-because "Kino Metso" reads as the whole chain when only Tikkakoski is waiting; the
-provider meta therefore carries the unverified ids, not only their count.
+`healthState` gained a `pending` state below `partial`: a quiet "Ei vielä ohjelmistoa:
+{venue}" summary with no warning mark, the provider row keeping a muted count. The
+summary names the *venue*, not the chain, because "Kino Metso" reads as the whole
+chain when only Tikkakoski is waiting.
 
-The risk `unverified` was guarding -- a wrong venue mapping publishing zero forever
-while reading healthy -- is held elsewhere for the case that created this: a wrong
-room id leaves the town's rows unowned and the adapter's unclaimed-room log line
-fires. A pending venue that never fills is still visible in the disclosure count, and
-turns `behind` the moment its data actually ages.
+**The first version quieted every `unverified` venue, and a review caught that as
+overreach**: run.py's own comment says "added before its programme is published" and
+"a parse that has never worked" are not distinguishable there, so quieting both would
+read a rotted venue match as a calm "no programme yet" forever. The state is therefore
+granted only where the evidence is positive, and the adapter is the one who has it: a
+module that sets `EMPTY_VENUES_CONFIRMED` (nexxo -- its schema check means a venue
+with zero rows was answered and listed empty, and a mis-mapped roomed venue lands in
+the unclaimed-room log instead of silence) vouches for venues it explicitly reported
+empty, and run.py writes those into a `pending` list; everything else stays
+`unverified` and keeps reading `partial`. eTiketti must not set the flag: its venue
+match is a substring test over markup, and a rotted match yields the same empty list
+while the page still lists films. Severity order: stale and unverified outrank
+pending, age outranks all three; every rule verified by breaking it on both sides
+(five breaks, five reds -- including granting pending without the flag, without the
+venue key, and letting pending mark the provider partial).
+
+The same review's second point: the provider row's tooltip called every flagged venue
+"ei päivittynyt", which was only true of the stale ones. The count keeps one number,
+and the title now names each kind by what is true of it -- stale as "ei päivittynyt",
+unverified as "ei ole vielä saatu näytöksiä", pending as "ei vielä ohjelmistoa".
 
 ### The installed iOS app stops smearing the status bar (2026-08-31)
 Installed to an iPhone home screen, the top of the page showed a blurred smear behind

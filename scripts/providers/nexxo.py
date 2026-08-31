@@ -27,6 +27,16 @@ FI = ZoneInfo("Europe/Helsinki")
 
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
+# run.py may treat a venue this module reports with an empty list as positive evidence
+# of an empty programme ("pending" rather than "unverified"): parse() only yields rows
+# from a payload that passed the shows-key schema check, so zero rows means the
+# upstream answered and listed nothing for that venue -- and a mis-mapped room-split
+# venue cannot be silently empty, because its town's rows would land in the
+# unclaimed-room log line. An adapter whose venue match is a substring test over
+# markup (etiketti) must NOT set this: a rotted match yields the same empty list while
+# the page still lists films.
+EMPTY_VENUES_CONFIRMED = True
+
 SITES = [
     {"provider": "kinoset", "base": "https://kinoset.fi", "label": "Kinoset",
      "programme": "/ohjelmisto/", "venues": [
