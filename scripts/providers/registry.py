@@ -144,6 +144,12 @@ PROVIDERS = [
          book="reserve", module="nexxo", where="cloud"),
     dict(id="jarvelankino", label="Järvelän Kino", host="jarvelankino.fi", accent="#7A6A1E",
          book="reserve", module="nexxo", where="cloud"),
+    # KSEK's touring cinema, read from kinoaurora.fi (one deployment with ksek.fi);
+    # the host credited is the one actually read, as with Bio Säde. Accent measured
+    # 2026-08-31 against Muurame, Petäjävesi and Jyväskylä: worst same-city deutan
+    # pair 26.9 dE00 (vs Finnkino and Kino Aurora in Jyväskylä), L* 46.9.
+    dict(id="kinometso", label="Kino Metso", host="kinoaurora.fi", accent="#227D63",
+         book="reserve", module="nexxo", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

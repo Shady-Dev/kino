@@ -118,36 +118,44 @@ class NexxoEmptyTest(unittest.TestCase):
                 {"id": "b", "locationid": "2", "name": "B", "short": "B", "city": "Y"},
             ]}
 
+    ROW = {"movieId": "9", "movieTitle": "Film", "roomId": 1, "roomTitle": "A",
+           "startDate": "2026-09-02", "startTime": "2026-09-02 18:00:00"}
+
     def patch(self, fn):
+        """The seam is fetch_payload, one call per locationid: room-split venues made
+        fetch_site fetch a location once and parse it per venue, so patching the
+        per-venue helper would leave the code under test talking to the network."""
         import nexxo
-        real = nexxo.fetch_venue
-        nexxo.fetch_venue = fn
-        self.addCleanup(lambda: setattr(nexxo, "fetch_venue", real))
+        real = nexxo.fetch_payload
+        nexxo.fetch_payload = fn
+        self.addCleanup(lambda: setattr(nexxo, "fetch_payload", real))
         return nexxo
 
     def test_every_locationid_answering_with_no_shows_is_an_empty_programme(self):
-        nexxo = self.patch(lambda site, v, **kw: [])
+        nexxo = self.patch(lambda site, loc, **kw: {"shows": {}})
         with self.assertRaises(common.EmptyProgramme):
             nexxo.fetch_site(self.SITE, sleep=0)
 
     def test_a_failed_request_is_a_failure_not_an_empty_programme(self):
         """If a locationid never answered we do not know what the site holds, so this
         must stay a plain empty result and fail the run the way it always did."""
-        def boom(site, v, **kw):
+        def boom(site, loc, **kw):
             raise RuntimeError("403")
         nexxo = self.patch(boom)
         self.assertEqual(nexxo.fetch_site(self.SITE, sleep=0), {})
 
     def test_one_answering_and_one_failing_is_not_an_empty_programme(self):
-        def half(site, v, **kw):
-            if v["locationid"] == "1":
-                return []
+        def half(site, loc, **kw):
+            if loc == "1":
+                return {"shows": {}}
             raise RuntimeError("403")
         nexxo = self.patch(half)
         self.assertEqual(nexxo.fetch_site(self.SITE, sleep=0), {"a": []})
 
     def test_any_showtime_anywhere_means_a_normal_result(self):
-        nexxo = self.patch(lambda site, v, **kw: [{"start": "x"}] if v["locationid"] == "1" else [])
+        nexxo = self.patch(lambda site, loc, **kw:
+                           {"shows": {"d": [dict(self.ROW)]}} if loc == "1"
+                           else {"shows": {}})
         out = nexxo.fetch_site(self.SITE, sleep=0)
         self.assertEqual(len(out["a"]), 1)
 

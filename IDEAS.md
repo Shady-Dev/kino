@@ -3645,7 +3645,49 @@ one venue, so taking it as it stands would file four towns' screenings under a s
 venue in a single city, which is worse than not having them. Doing it properly needs the
 room-splitting `match` that `etiketti.py` already has, plus a decision on whether
 Riihivuori is a venue and whether Vaajakoski should read as Jyväskylä. Worth doing; not
-worth guessing at the end of a sweep.
+worth guessing at the end of a sweep. **Done 2026-08-31 -- see "Kino Metso: five towns
+on one locationid" below.**
+
+### Kino Metso: five towns on one locationid (2026-08-31)
+KSEK's touring cinema, added as four venues that share `kinoaurora.fi` locationid 2. A
+venue entry now takes a `rooms` list of roomIds it owns; `fetch_site` fetches each
+locationid once and parses it per venue, so four venues cost one request. 13 showtimes
+in the 21-day window on the day it landed.
+
+- **Its real home is ksek.fi, not kinoaurora.fi.** `ksek.fi/kino-metso/{town}/` exists
+  per town and each page filters the plugin by the same roomId the API reports --
+  verified 200 with showlist markup for every town before anything was written into
+  `SITES` (the rule the dead-link fix earned). So the site entry carries `site`
+  (ksek.fi, where a person goes) beside `base` (kinoaurora.fi, where the API lives),
+  and a venue with a `page` links straight to its own town's page with no query.
+- **Matching is on `roomId`, never `roomTitle`**: the ids are what KSEK's own pages
+  filter on (Muurame 2, Petäjävesi 4, Tikkakoski 11, Vaajakoski 12, Riihivuori 21,
+  Hankasalmi 19), and a title is one wording change from silently dropping a town.
+- **Riihivuori folds into Muurame.** It is a resort hill in Muurame municipality and
+  KSEK's own site gives it no page; the room name stays visible in `aud`, so a
+  Riihivuori screening still says where it is.
+- **Vaajakoski and Tikkakoski read as Jyväskylä** -- they are districts of it, so they
+  join the combined city view beside Finnkino and Kino Aurora, which is where a
+  Jyväskylä reader would look for them.
+- **Hankasalmi and Laukaa are not added**: pages exist, programme does not, and a venue
+  that has never published a show proves nothing about the parser. Rows no venue owns
+  are printed loudly -- `unclaimed room {id} "{title}": N showtime(s) not published` --
+  which is also how a new town announces itself: Tikkakoski appeared between two probes
+  of the same endpoint.
+- **Accent `#227D63`**, measured with `accent_check.py --candidate` against Muurame,
+  Petäjävesi and Jyväskylä: worst same-city deutan pair 26.9 dE00 (against Finnkino and
+  Kino Aurora in Jyväskylä), L* 46.9. Eight candidates measured; the intuitive olive of
+  a forest bird scored 6.3 and lost, again.
+- Covered by `tests/test_nexxo_rooms.py`, each guard verified by breaking it: the room
+  filter, id-not-title matching, the per-venue page link and the unclaimed counter all
+  go red. Two test traps surfaced on the way. The empty-programme tests patched
+  `fetch_venue`, which the one-fetch-per-locationid change no longer calls -- the
+  monkeypatch silently stopped intercepting and the tests spent minutes backing off
+  against a fake host; they now patch `fetch_payload`, the seam that exists. And
+  `test_common_fetch`'s `importlib.reload(common)` rebinds `EmptyProgramme` in place,
+  so an adapter that from-imports the class at discovery time raises an object the
+  reloaded test no longer recognises -- nexxo now references it through the module,
+  which is identical in production and one identity under reload.
 
 ### The Nexxo sweep shipped six dead ticket links (2026-08-31)
 A reader reported it from Järvelä: the show was real, the ticket link 404'd. The sweep
