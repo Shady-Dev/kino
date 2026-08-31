@@ -1,6 +1,6 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 7 showtimes, 4 dates
-[kotkanleffat] Trio 123: 24 showtimes, 4 dates
+[kotkanleffat] Kinopalatsi Kotka: 27 showtimes, 11 dates
+[kotkanleffat] Trio 123: 81 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 41 showtimes, 10 dates
 [savonkinot] synopses merged: 0
@@ -18,12 +18,12 @@
 [leffabuumi] Kino Saimaa: 2 showtimes, 2 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 21 showtimes, 4 dates
-[studio123kouvola] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 25 showtimes, 5 dates
+[studio123kouvola] synopses merged: 1
+[studio123kouvola] Studio 123 Kouvola: 66 showtimes, 11 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 8 showtimes, 4 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 32 showtimes, 4 dates
+[kino123] Kino 123: 88 showtimes, 11 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 12 showtimes, 6 dates
 [kinojuha] synopses merged: 0
@@ -38,6 +38,6 @@
 [kkino] K-Kino: 3 showtimes, 2 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
-[run] http: 0 revalidated (304), 185 full, 185 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 406 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 190 full, 190 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 580 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
