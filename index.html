@@ -1049,13 +1049,24 @@
     calChip.innerHTML = `<small>${L[state.lang].other}</small><b>\u{1F4C5}</b>`;
     calChip.classList.remove('active');
   }
+  // The picker declares role="dialog" aria-modal="true", and that is a promise, not a
+  // style: the background has to be inert while it is open, focus has to move into it,
+  // and closing has to hand focus back. It reuses the movie sheet's lifecycle (BEHIND /
+  // setInert) rather than a second mechanism doing almost the same thing. Unlike the
+  // sheet the wrap is created and removed per open, so there is no inert/aria-hidden
+  // state to manage on the dialog itself.
   function closeCal(){
     const w = document.querySelector('.cal-wrap');
     if(w) w.remove();
     if(calChip) calChip.setAttribute('aria-expanded', 'false');
     document.removeEventListener('keydown', calKey);
+    if(!w) return;                       // the cleanup call at the top of openCal
+    BEHIND().forEach(el => setInert(el, false));
+    // Back to the chip that opened it. selectDay mutates the existing chips rather
+    // than rebuilding the row, so the node is still live on the date-picked path too.
+    if(calChip && document.contains(calChip)) calChip.focus();
   }
-  function calKey(e){ if(e.key === 'Escape') closeCal(); }
+  function calKey(e){ if(e.key === 'Escape'){ e.preventDefault(); closeCal(); } }
   function openCal(){
     closeCal();
     if(calChip) calChip.setAttribute('aria-expanded', 'true');
@@ -1064,11 +1075,16 @@
     calMonth = ymOf(state.dateStr > base ? state.dateStr : base);
     const wrap = document.createElement('div');
     wrap.className = 'cal-wrap';
-    wrap.innerHTML = '<div class="cal" role="dialog" aria-modal="true"></div>';
+    wrap.innerHTML = '<div class="cal" role="dialog" aria-modal="true" aria-labelledby="calTitle"></div>';
     wrap.addEventListener('click', e => { if(e.target === wrap) closeCal(); });
     document.body.appendChild(wrap);
     document.addEventListener('keydown', calKey);
     drawCal(base, max);
+    BEHIND().forEach(el => setInert(el, true));
+    const first = wrap.querySelector('button.cal-day.sel')
+               || wrap.querySelector('button.cal-day')
+               || wrap.querySelector('.cal-nav:not([disabled])');
+    if(first) first.focus();
   }
   function drawCal(base, max){
     const el = document.querySelector('.cal');
@@ -1094,14 +1110,25 @@
     const nextOk = ymAdd(calMonth, 1) <= ymOf(max);
     el.innerHTML = `<div class="cal-head">
         <button class="cal-nav" type="button" data-mon="-1"${prevOk ? '' : ' disabled'} aria-label="${esc(L[state.lang].aPrevMonth)}">&lsaquo;</button>
-        <b>${title}</b>
+        <b id="calTitle">${title}</b>
         <button class="cal-nav" type="button" data-mon="1"${nextOk ? '' : ' disabled'} aria-label="${esc(L[state.lang].aNextMonth)}">&rsaquo;</button>
       </div>
       <div class="cal-grid">${dow}${cells}</div>
       ${avail ? `<small class="cal-note">${L[state.lang].onlyDays}</small>` : ''}`;
     el.onclick = e => {
       const nav = e.target.closest('.cal-nav');
-      if(nav && !nav.disabled){ calMonth = ymAdd(calMonth, +nav.dataset.mon); drawCal(base, max); return; }
+      if(nav && !nav.disabled){
+        const dir = nav.dataset.mon;
+        calMonth = ymAdd(calMonth, +dir); drawCal(base, max);
+        // The redraw replaced the node under focus, which would drop focus to <body>
+        // with the background inert. Same direction if it is still enabled, else the
+        // other arrow, else a day.
+        const next = el.querySelector(`.cal-nav[data-mon="${dir}"]:not([disabled])`)
+                  || el.querySelector('.cal-nav:not([disabled])')
+                  || el.querySelector('button.cal-day');
+        if(next) next.focus();
+        return;
+      }
       const day = e.target.closest('[data-day]');
       if(day){ closeCal(); selectDay(day.dataset.day); }
     };

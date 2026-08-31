@@ -2673,6 +2673,30 @@ English ("Choose theatre", "Filter movies by title or genre") next to hard-coded
 everything else the toggle reaches. An `aria-label` is a label; the rule that already
 covered the picker, the health line and the footer covers it too.
 
+### The month picker keeps the promise its role makes (2026-08-31)
+The keyboard pass above gave the movie sheet real modality and left the month picker
+claiming it: `role="dialog" aria-modal="true"` in the markup, while focus stayed on the
+chip behind it, the background stayed tabbable and closing returned focus nowhere.
+Metadata that promises more than the widget does is worse than no metadata -- a screen
+reader announces a modal dialog and then behaves as if there were none. Found by an
+external review.
+
+It now runs the sheet's own lifecycle rather than a second mechanism: the same
+`BEHIND()` roots go inert on open and come back on close, Escape and the backdrop close
+it, focus lands on the selected day (falling back to any day, then an arrow) and returns
+to the calendar chip. The chip survives the date-picked path because `selectDay`
+mutates the existing chips instead of rebuilding the row. One wrinkle the sheet does not
+have: month navigation redraws the grid through `innerHTML`, which replaces the arrow
+under focus and would have dropped focus onto an inert page -- the redraw refocuses the
+same-direction arrow, falling back to the other one, then a day. The dialog is labelled
+by its month heading (`aria-labelledby="calTitle"`), which the redraw re-creates.
+
+No unit test: the lifecycle is DOM-and-focus behaviour that stdlib-only Node cannot
+exercise, and a source-grep test would pin the implementation rather than the property.
+Verified live instead, against the served page: open, initial focus, both inert states,
+Escape, backdrop, month-nav focus survival and the date-picked focus return, plus a
+clean console.
+
 ### Poster URLs are checked against the origin and path (2026-08-30)
 `safeUrl` answered two different questions with one rule. A ticket or trailer URL is
 *meant* to leave this origin, so http(s) and relative are all correct for it. A poster is
