@@ -1,16 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-08-31: 15 showtimes
 [schedule] 2026-09-01: 326 showtimes
 [schedule] 2026-09-02: 384 showtimes
 [schedule] 2026-09-03: 388 showtimes
-[schedule] 2026-09-04: 0 showtimes
-[schedule] 2026-09-05: 7 showtimes
-[schedule] 2026-09-06: 4 showtimes
-[tmdb] no TMDB match (2): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2
-[tmdb] 0 new lookups, 0 re-checks, cache 54, 52 mergeable by id
+[schedule] 2026-09-04: 120 showtimes
+[schedule] 2026-09-05: 128 showtimes
+[schedule] 2026-09-06: 125 showtimes
+[schedule] 2026-09-07: 114 showtimes
+[tmdb] no TMDB match (4): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2 | Keinolla millä hyvänsä | Lyhyt rakkaustarina
+[tmdb] weak match, no exact title (1): I'm Game -> ഐ ആം ഗെയിം
+[tmdb] 5 new lookups, 7 re-checks, cache 59, 54 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 44 film entries
+[films] 53 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done

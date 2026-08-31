@@ -4,5 +4,5 @@
 [engel] synopses merged: 0
 [engel] Kino Engel: 23 showtimes, 8 dates
 [run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] engel: 1 venues, 23 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] engel: 1 venues, 23 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
