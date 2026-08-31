@@ -3567,6 +3567,33 @@ room-splitting `match` that `etiketti.py` already has, plus a decision on whethe
 Riihivuori is a venue and whether Vaajakoski should read as Jyväskylä. Worth doing; not
 worth guessing at the end of a sweep.
 
+### The Nexxo sweep shipped six dead ticket links (2026-08-31)
+A reader reported it from Järvelä: the show was real, the ticket link 404'd. The sweep
+above measured the *data* -- 9 venues, 102 showtimes, ids asked from the endpoint -- and
+copied Kinoset's `programme: "/ohjelmisto/"` onto every site without fetching it once.
+Only Kinoset has that page. Every other site 404'd on it, so every showtime link for six
+of the seven Nexxo providers was dead from the day they landed. The API endpoint is the
+platform's and identical everywhere; the visitor-facing page is each site's WordPress
+and named whatever its owner chose.
+
+The paths, each verified live for the plugin's `nexxo_showlist`/`nexxo_reservations`
+markup before being written down: Kino Aurora and Kino Olympia `/naytokset/`, Kino
+Marilyn `/esitysajat/`, Järvelän Kino `/naytoslista/`, Kino Hirvi and Bio Säde the
+front page.
+
+- **Bio Säde needed a second base.** The sweep entry recorded biosade.fi as "serving an
+  empty programme", and its *API* does answer empty at every id -- but its front page
+  renders the location-4 schedule by calling kinohirvi.fi's API from the browser. So
+  the SITES entry now carries `site` (where a person is sent, biosade.fi) beside `base`
+  (where the API lives, kinohirvi.fi). A host list still is not a venue list, and it is
+  not a landing-page list either.
+- **The check that was missing costs one request per site**: fetch the built URL,
+  expect 200 and the showlist markup. Do it before trusting any new `SITES` entry; no
+  offline test can hold this, because the path is right until a webmaster renames a
+  page.
+- The data files carry the old URLs until a cloud run rewrites them, so the fix was
+  followed by a dispatch rather than a wait for the cron.
+
 ### A quiet week is not a broken parser (2026-08-30)
 "A whole site parsing zero showtimes fails the run" is what catches a parse that broke
 silently and would otherwise leave old data ageing with nothing to say so. It also meant

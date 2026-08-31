@@ -6,6 +6,10 @@ One JSON endpoint per site, filtered by locationid:
 Response: {"shows": {"YYYY-MM-DD": [ ... ]}}
 
 Adding another Nexxo cinema means adding an entry to SITES, not writing code.
+`programme` is the page a showtime links to and it differs per site -- /ohjelmisto/,
+/naytokset/, /esitysajat/, /naytoslista/, or the front page. The 2026-08-30 sweep copied
+Kinoset's path onto every site unverified and shipped six dead ticket links; fetch the
+built URL and check for the plugin's showlist markup before trusting a new entry.
 """
 import datetime, json, re, time, urllib.parse
 from zoneinfo import ZoneInfo
@@ -30,7 +34,7 @@ SITES = [
     # never assumed: kinohirvi.fi answers on 2 and 4 and on nothing else, and its id 4 is
     # a different cinema in a different town.
     {"provider": "kinoaurora", "base": "https://kinoaurora.fi", "label": "Kino Aurora",
-     "programme": "/ohjelmisto/", "venues": [
+     "programme": "/naytokset/", "venues": [
          {"id": "au-jyvaskyla", "locationid": "1", "name": "Kino Aurora",
           "short": "Kino Aurora", "city": "Jyväskylä"},
      ]},
@@ -39,27 +43,31 @@ SITES = [
     # picker has to name each one. `host` credits the site actually read, which for both
     # is kinohirvi.fi -- biosade.fi is a separate domain that serves an empty programme.
     {"provider": "kinohirvi", "base": "https://kinohirvi.fi", "label": "Kino Hirvi",
-     "programme": "/ohjelmisto/", "venues": [
+     "programme": "/", "venues": [
          {"id": "hi-aanekoski", "locationid": "2", "name": "Kino Hirvi",
           "short": "Kino Hirvi", "city": "Äänekoski"},
      ]},
-    {"provider": "biosade", "base": "https://kinohirvi.fi", "label": "Bio Säde",
-     "programme": "/ohjelmisto/", "venues": [
+    # `site` is where a person is sent, `base` is where the API lives: biosade.fi's own
+    # API is empty, and its front page renders location 4 by calling kinohirvi.fi's API
+    # from the browser. So the data comes from kinohirvi.fi and the ticket link must not.
+    {"provider": "biosade", "base": "https://kinohirvi.fi",
+     "site": "https://www.biosade.fi", "label": "Bio Säde",
+     "programme": "/", "venues": [
          {"id": "sa-mantta", "locationid": "4", "name": "Bio Säde",
           "short": "Bio Säde", "city": "Mänttä"},
      ]},
     {"provider": "kinomarilyn", "base": "https://kinomarilyn.fi", "label": "Kino Marilyn",
-     "programme": "/ohjelmisto/", "venues": [
+     "programme": "/esitysajat/", "venues": [
          {"id": "ma-loviisa", "locationid": "1", "name": "Kino Marilyn",
           "short": "Kino Marilyn", "city": "Loviisa"},
      ]},
     {"provider": "kinoolympia", "base": "https://kino-olympia.fi", "label": "Kino Olympia",
-     "programme": "/ohjelmisto/", "venues": [
+     "programme": "/naytokset/", "venues": [
          {"id": "ol-hanko", "locationid": "1", "name": "Kino Olympia",
           "short": "Kino Olympia", "city": "Hanko"},
      ]},
     {"provider": "jarvelankino", "base": "https://jarvelankino.fi",
-     "label": "Järvelän Kino", "programme": "/ohjelmisto/", "venues": [
+     "label": "Järvelän Kino", "programme": "/naytoslista/", "venues": [
          {"id": "ja-jarvela", "locationid": "1", "name": "Järvelän Kino",
           "short": "Järvelän Kino", "city": "Järvelä"},
      ]},
@@ -138,7 +146,8 @@ def parse(payload, site, venue):
             "aud": ("" if (r.get("roomTitle") or "").strip() in
                     (venue["name"], venue["short"]) else (r.get("roomTitle") or "").strip()),
             "start": iso,
-            "url": f"{site['base']}{site['programme']}?location={venue['locationid']}",
+            "url": (f"{site.get('site') or site['base']}{site['programme']}"
+                    f"?location={venue['locationid']}"),
             "img": (f"{site['base']}/wp-content/plugins/nexxo-scope/banners/{poster}"
                     if poster else ""),
             "lang": _lang(r),
