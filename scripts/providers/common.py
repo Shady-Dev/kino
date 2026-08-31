@@ -55,6 +55,17 @@ RETRY_AFTER_MAX = int(os.environ.get("KINO_RETRY_AFTER_MAX") or 120)
 RETRY_AFTER_BUDGET = int(os.environ.get("KINO_RETRY_AFTER_BUDGET") or 300)
 _throttle = {"asked": 0, "waited": 0.0, "refused": 0}
 
+# Every response body is read in bounded chunks, never with a bare read(): these are
+# third parties, and a broken or compromised origin answering with gigabytes would
+# otherwise sit in memory in full before any parser or Pillow ever saw it. Not a
+# measured figure the way PAGE_BUDGET is -- the sizes that would need measuring are the
+# upstreams' to change -- but the largest body this pipeline legitimately reads is a
+# poster source image at a few MB, so 20 MB is generous headroom, not a boundary any
+# real response has approached. A Content-Length past the cap is refused before the
+# body is read; the chunked loop below enforces the cap whether or not the header was
+# sent, since the header is only the origin's claim.
+MAX_BODY = int(os.environ.get("KINO_MAX_BODY") or 20_000_000)
+
 
 class EmptyProgramme(Exception):
     """An adapter reached a site, read its listing, and there were no films on it.
@@ -188,6 +199,28 @@ def _read_slot(path):
         return None, None
 
 
+class BodyTooLarge(Exception):
+    """A response body passed the max_bytes cap. Deterministic, so never retried:
+    asking again downloads the same oversize answer at both ends' expense."""
+
+
+def _read_capped(r, url, limit):
+    """Read a response body, refusing past `limit` bytes. -> bytes."""
+    cl = (r.headers.get("Content-Length") or "").strip()
+    if cl.isdigit() and int(cl) > limit:
+        raise BodyTooLarge(f"{url}: Content-Length {cl} is past the {limit}-byte cap")
+    chunks, total = [], 0
+    while True:
+        chunk = r.read(65536)
+        if not chunk:
+            return b"".join(chunks)
+        total += len(chunk)
+        if total > limit:
+            raise BodyTooLarge(f"{url}: body passed the {limit}-byte cap "
+                               f"({total}+ bytes read)")
+        chunks.append(chunk)
+
+
 def _write_slot(path, meta, body):
     try:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -200,8 +233,11 @@ def _write_slot(path, meta, body):
 
 
 def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=None,
-          cache=False):
+          cache=False, max_bytes=None):
     """GET (or POST when `data` is given) with retry. -> bytes.
+
+    `max_bytes` caps the response body, MAX_BODY by default. Past it the read stops
+    and BodyTooLarge is raised without a retry.
 
     `opener` lets a cookie-session adapter (BioRex) retry a single request
     without redoing the whole session dance. Retries every exception on
@@ -230,6 +266,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     """
     if data is not None:
         cache = False
+    limit = MAX_BODY if max_bytes is None else max_bytes
     slot = _slot(url) if cache else None
     meta, cached_body = _read_slot(slot) if cache else (None, None)
 
@@ -246,7 +283,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             req = urllib.request.Request(url, data=data, headers=hdrs)
             op = opener.open if opener is not None else urllib.request.urlopen
             with op(req, timeout=timeout) as r:
-                body = r.read()
+                body = _read_capped(r, url, limit)
                 if cache:
                     _stats["miss"] += 1
                     cc = (r.headers.get("Cache-Control") or "").lower()
@@ -284,6 +321,8 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                 else:
                     _throttle["waited"] += wait
                     time.sleep(wait)
+        except BodyTooLarge:
+            raise
         except Exception as e:
             last = e
             if n + 1 < tries:

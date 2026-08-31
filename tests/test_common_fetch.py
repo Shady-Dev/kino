@@ -35,8 +35,14 @@ class Handler(http.server.BaseHTTPRequestHandler):
         status, hdrs, body = steps.pop(0) if len(steps) > 1 else steps[0]
         self.send_response(status)
         for k, v in hdrs.items():
-            self.send_header(k, v)
-        self.send_header("Content-Length", str(len(body)))
+            if k != "X-No-Length":
+                self.send_header(k, v)
+        if "X-No-Length" in hdrs:
+            # No Content-Length at all: the client reads until the connection
+            # closes, which is the response shape the streaming cap exists for.
+            self.send_header("Connection", "close")
+        else:
+            self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
 
@@ -84,7 +90,7 @@ class FetchTest(unittest.TestCase):
 
     def reload(self, **env):
         """Fresh module so the throttle counters start at zero, with env overrides."""
-        for k in ("KINO_RETRY_AFTER_MAX", "KINO_RETRY_AFTER_BUDGET"):
+        for k in ("KINO_RETRY_AFTER_MAX", "KINO_RETRY_AFTER_BUDGET", "KINO_MAX_BODY"):
             os.environ.pop(k, None)
         os.environ.update({k: str(v) for k, v in env.items()})
         # Never let a test write into the real validator cache.
@@ -197,6 +203,37 @@ class FetchTest(unittest.TestCase):
         self.srv.script["/k"] = [(200, {}, b"hello")]
         self.assertEqual(c.fetch(self.url + "/k"), b"hello")
         self.assertEqual(c.throttle_stats()["asked"], 0)
+
+    # -- the body cap ------------------------------------------------------------
+
+    def test_a_declared_oversize_is_refused_from_the_header(self):
+        c = self.reload()
+        self.srv.script["/big1"] = [(200, {}, b"x" * 2000)]
+        with self.assertRaises(c.BodyTooLarge) as cm:
+            c.fetch(self.url + "/big1", max_bytes=1000)
+        self.assertIn("Content-Length", str(cm.exception))
+        self.assertEqual(self.srv.hits["/big1"], 1, "an oversize answer was re-asked")
+
+    def test_an_undeclared_oversize_is_cut_off_while_reading(self):
+        """Content-Length is only the origin's claim; a response without one has to be
+        stopped by the read loop itself."""
+        c = self.reload()
+        self.srv.script["/big2"] = [(200, {"X-No-Length": "1"}, b"x" * 200_000)]
+        with self.assertRaises(c.BodyTooLarge) as cm:
+            c.fetch(self.url + "/big2", max_bytes=1000)
+        self.assertNotIn("Content-Length", str(cm.exception))
+        self.assertEqual(self.srv.hits["/big2"], 1)
+
+    def test_a_body_at_the_cap_passes(self):
+        c = self.reload()
+        self.srv.script["/fit"] = [(200, {}, b"x" * 1000)]
+        self.assertEqual(len(c.fetch(self.url + "/fit", max_bytes=1000)), 1000)
+
+    def test_the_default_cap_comes_from_the_environment(self):
+        c = self.reload(KINO_MAX_BODY=500)
+        self.srv.script["/env"] = [(200, {}, b"x" * 501)]
+        with self.assertRaises(c.BodyTooLarge):
+            c.fetch(self.url + "/env")
 
     # -- a refusal says which layer refused -------------------------------------
 

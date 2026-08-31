@@ -2093,6 +2093,31 @@ The first version used the trimming helper everywhere, which is the sort of thin
 reads fine and quietly ships a partial schedule. It was only visible because the cap was
 tested by tripping it on a real provider rather than reasoned about.
 
+### Response bodies have a ceiling too (2026-08-31)
+The request count was bounded (above) while each response was read with a bare
+`r.read()`: a broken or compromised origin answering with gigabytes would have sat in
+memory in full before any parser or Pillow saw a byte. Found by an external review.
+`common.fetch` now reads in 64 KB chunks against a cap -- `max_bytes` per call,
+`MAX_BODY` (20 MB, `KINO_MAX_BODY`) by default -- and raises `BodyTooLarge` past it.
+
+- **20 MB is headroom, not a measured figure** the way `PAGE_BUDGET` is: the sizes that
+  would need measuring are the upstreams' to change. The largest body this pipeline
+  legitimately reads is a poster source image at a few MB.
+- **A Content-Length past the cap is refused before the body is read**, but the header
+  is only the origin's claim: the chunked loop enforces the cap whether or not one was
+  sent. The tests cover the two shapes separately, and the exception message names
+  which layer refused.
+- **Never retried.** The oversize answer is deterministic; asking again downloads it
+  again at both ends' expense. `fetch`'s retry loop re-raises `BodyTooLarge`
+  immediately, and the hit-count assertions are what hold that.
+- **One cap in `fetch` covers every caller** -- adapters, enrichment, and
+  `mirror_posters.download()`, which already routes through it. An oversize poster
+  lands in the per-URL `failed` dict like any other bad download, so the run publishes
+  showtimes as usual.
+- Covered in `tests/test_common_fetch.py` against the real local HTTP server, including
+  a response that declares no Content-Length at all. Verified by breaking each guard:
+  the header refusal, the loop cap, the no-retry, and the capped read itself.
+
 ### The pipeline identifies itself (2026-08-30)
 Every adapter sent `Mozilla/5.0 ... Chrome/126.0.0.0`. That is an automated reader
 claiming to be a person at a keyboard, and it was the one thing in here a cinema had no
