@@ -1,13 +1,13 @@
-[kinoset] Kino 1-2 (Huittinen): 2 showtimes
-[kinoset] Kinema (Loimaa): 2 showtimes
-[kinoset] Bio (Sastamala): 2 showtimes
+[kinoset] Kino 1-2 (Huittinen): 16 showtimes
+[kinoset] Kinema (Loimaa): 7 showtimes
+[kinoset] Bio (Sastamala): 7 showtimes
 [kinoset] synopses merged: 0
-[kinoset] Kino 1-2: 2 showtimes, 1 dates
-[kinoset] Kinema: 2 showtimes, 2 dates
-[kinoset] Bio: 2 showtimes, 2 dates
-[kinoaurora] Kino Aurora (Jyväskylä): 33 showtimes
+[kinoset] Kino 1-2: 16 showtimes, 6 dates
+[kinoset] Kinema: 7 showtimes, 7 dates
+[kinoset] Bio: 7 showtimes, 7 dates
+[kinoaurora] Kino Aurora (Jyväskylä): 32 showtimes
 [kinoaurora] synopses merged: 0
-[kinoaurora] Kino Aurora: 33 showtimes, 11 dates
+[kinoaurora] Kino Aurora: 32 showtimes, 11 dates
 [kinohirvi] Kino Hirvi (Äänekoski): 6 showtimes
 [kinohirvi] synopses merged: 0
 [kinohirvi] Kino Hirvi: 6 showtimes, 2 dates
@@ -20,9 +20,9 @@
 [kinoolympia] Kino Olympia (Hanko): 13 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 13 showtimes, 7 dates
-[jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
+[jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
 [jarvelankino] synopses merged: 0
-[jarvelankino] Järvelän Kino: 6 showtimes, 5 dates
+[jarvelankino] Järvelän Kino: 7 showtimes, 6 dates
 [run] http: 0 revalidated (304), 9 full, 9 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 9 venues, 87 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[run] nexxo: 9 venues, 111 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
 exit=0
