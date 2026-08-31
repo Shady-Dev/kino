@@ -216,6 +216,13 @@
    "host": "jarvelankino.fi",
    "accent": "#7A6A1E",
    "book": "reserve"
+  },
+  {
+   "id": "kinometso",
+   "label": "Kino Metso",
+   "host": "kinoaurora.fi",
+   "accent": "#227D63",
+   "book": "reserve"
   }
  ]
 }

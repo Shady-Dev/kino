@@ -1,3 +1,4 @@
+[kinometso] Tikkakoski: no showtimes and none previously; publishing an empty file
 [kinoset] Kino 1-2 (Huittinen): 16 showtimes
 [kinoset] Kinema (Loimaa): 7 showtimes
 [kinoset] Bio (Sastamala): 7 showtimes
@@ -14,15 +15,24 @@
 [biosade] Bio Säde (Mänttä): 4 showtimes
 [biosade] synopses merged: 0
 [biosade] Bio Säde: 4 showtimes, 2 dates
-[kinomarilyn] Kino Marilyn (Loviisa): 19 showtimes
+[kinomarilyn] Kino Marilyn (Loviisa): 47 showtimes
 [kinomarilyn] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 19 showtimes, 5 dates
+[kinomarilyn] Kino Marilyn: 47 showtimes, 12 dates
 [kinoolympia] Kino Olympia (Hanko): 13 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 13 showtimes, 7 dates
 [jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
 [jarvelankino] synopses merged: 0
 [jarvelankino] Järvelän Kino: 7 showtimes, 6 dates
-[run] http: 0 revalidated (304), 9 full, 9 not stored (origin said no-store), 0 cache entries written
-[run] nexxo: 9 venues, 111 showtimes, 0 stale, 0 unverified, 0 with no programme, 0 failures
+[kinometso] Muurame (Muurame): 5 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 5 showtimes
+[kinometso] Tikkakoski (Jyväskylä): 0 showtimes
+[kinometso] Vaajakoski (Jyväskylä): 3 showtimes
+[kinometso] synopses merged: 0
+[kinometso] Muurame: 5 showtimes, 3 dates
+[kinometso] Petäjävesi: 5 showtimes, 3 dates
+[kinometso] Vaajakoski: 3 showtimes, 1 dates
+[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
+[run] partial: kinometso has 1 venue(s) that have never produced a showtime: km-tikkakoski
+[run] nexxo: 12 venues, 152 showtimes, 0 stale, 1 unverified, 0 with no programme, 0 failures
 exit=0
