@@ -78,6 +78,54 @@ class RoomSplitTest(unittest.TestCase):
         self.assertEqual(shows[0]["url"], "https://pages.example/kino-metso/?location=1")
 
 
+class ConfirmedEmptyEvidenceTest(unittest.TestCase):
+    """EMPTY_VENUES_CONFIRMED lets run.py read this adapter's [] as a pending
+    programme, so [] must only ever mean evidence. Rows that exist but cannot be
+    parsed have to raise: a renamed startTime would otherwise wipe every row and the
+    wipe would read as a quiet 'no programme yet', forever."""
+
+    def test_rows_with_dead_start_fields_raise_instead_of_reading_empty(self):
+        broken = dict(row(2, "Muurame", "Renamed Field"))
+        del broken["startTime"]
+        p = {"shows": {"d": [broken]}}
+        with self.assertRaises(RuntimeError) as cm:
+            nexxo.parse(p, SITE, SITE["venues"][0])
+        self.assertIn("parser break", str(cm.exception))
+
+    def test_a_malformed_start_raises_too(self):
+        bad = dict(row(2, "Muurame"), startTime="26.10.2026 klo 18")
+        with self.assertRaises(RuntimeError):
+            nexxo.parse({"shows": {"d": [bad]}}, SITE, SITE["venues"][0])
+
+    def test_upcoming_only_rows_are_a_confirmed_empty(self):
+        """The payload itself marks a row that legitimately has no scheduled showtime;
+        a venue whose whole listing is unscheduled premieres is genuinely not showing
+        anything yet."""
+        up = dict(row(2, "Muurame"), startTime="", isUpcoming="1")
+        up2 = dict(row(2, "Muurame", "Second"), startTime="", isUpcoming="1")
+        self.assertEqual(nexxo.parse({"shows": {"d": [up, up2]}},
+                                     SITE, SITE["venues"][0]), [])
+
+    def test_a_truly_empty_payload_is_a_confirmed_empty(self):
+        self.assertEqual(nexxo.parse({"shows": {}}, SITE, SITE["venues"][0]), [])
+
+    def test_a_room_filtered_venue_with_no_owned_rows_is_a_confirmed_empty(self):
+        """Someone else's rows in the payload are not this venue's problem -- the
+        Tikkakoski case, where every current row belongs to other towns."""
+        p = {"shows": {"d": [row(4, "Petäjävesi"), row(12, "Vaajakoski")]}}
+        self.assertEqual(nexxo.parse(p, SITE, SITE["venues"][0]), [])
+
+    def test_one_broken_row_among_parseable_ones_does_not_raise(self):
+        """The guard fires on a total wipe, where 'empty' would be a lie. A single
+        malformed row in an otherwise live listing is dropped, as before -- killing a
+        venue over one bad row would trade a metadata bug for missing showtimes."""
+        good = row(2, "Muurame", "Good")
+        bad = dict(row(2, "Muurame", "Bad"))
+        del bad["startTime"]
+        shows = nexxo.parse({"shows": {"d": [good, bad]}}, SITE, SITE["venues"][0])
+        self.assertEqual([s["title"] for s in shows], ["Good"])
+
+
 class UnclaimedRoomTest(unittest.TestCase):
     def test_rows_nobody_owns_are_counted_by_room(self):
         got = nexxo.unclaimed(PAYLOAD, SITE["venues"])

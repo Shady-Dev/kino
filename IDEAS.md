@@ -2759,6 +2759,23 @@ The same review's second point: the provider row's tooltip called every flagged 
 and the title now names each kind by what is true of it -- stale as "ei päivittynyt",
 unverified as "ei ole vielä saatu näytöksiä", pending as "ei vielä ohjelmistoa".
 
+**A second review pass tightened the evidence itself.** The module flag alone still
+had a hole: nexxo's parse() silently skipped rows whose startTime/startDate could not
+be read, so a renamed row field would wipe every row, return [], and read as a quiet
+pending programme. parse() now raises a diagnostic when relevant rows exist and not
+one produced a showtime -- naming the row counts and the venue -- so a schema change
+under the parser fails the venue loudly instead. The legitimate empties stay empties:
+an empty payload, a room filter that owns none of the rows, and rows the upstream
+itself marks upcoming-only (`isUpcoming`), which genuinely carry no scheduled
+showtime. One malformed row among parseable ones is still dropped rather than fatal --
+killing a venue over one bad row would trade a metadata bug for missing showtimes.
+And the runner's one-line summary now counts pending ("0 stale, 0 unverified, 1
+pending, ...") with its own `[run] pending:` naming line, because run-nexxo.log had
+read "0 stale, 0 unverified, 0 with no programme" while Tikkakoski sat pending -- a
+venue publishing nothing must not look like a venue that does not exist. Four guards,
+four reds when broken: the wipe raise, the upcoming exemption, the guard staying quiet
+on partial parses, and the summary's pending term.
+
 ### The installed iOS app stops smearing the status bar (2026-08-31)
 Installed to an iPhone home screen, the top of the page showed a blurred smear behind
 the clock. Three separate causes, shipped as v84–v86 and verified together on a real

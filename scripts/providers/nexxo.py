@@ -28,13 +28,15 @@ FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 # run.py may treat a venue this module reports with an empty list as positive evidence
-# of an empty programme ("pending" rather than "unverified"): parse() only yields rows
-# from a payload that passed the shows-key schema check, so zero rows means the
-# upstream answered and listed nothing for that venue -- and a mis-mapped room-split
-# venue cannot be silently empty, because its town's rows would land in the
-# unclaimed-room log line. An adapter whose venue match is a substring test over
-# markup (etiketti) must NOT set this: a rotted match yields the same empty list while
-# the page still lists films.
+# of an empty programme ("pending" rather than "unverified"), because parse() only
+# returns [] on evidence: the payload passed the shows-key schema check and the venue's
+# rows are genuinely absent (an empty payload, a room filter that owns none of them, or
+# rows the upstream itself marks upcoming-only). Rows that exist but cannot be parsed
+# raise instead of vanishing, so a renamed row field can never read as a quiet empty
+# programme -- and a mis-mapped room-split venue cannot be silently empty either,
+# because its town's rows land in the unclaimed-room log line. An adapter whose venue
+# match is a substring test over markup (etiketti) must NOT set this: a rotted match
+# yields the same empty list while the page still lists films.
 EMPTY_VENUES_CONFIRMED = True
 
 SITES = [
@@ -171,10 +173,18 @@ def parse(payload, site, venue):
         rooms = {str(x) for x in venue["rooms"]}
         rows = [r for r in rows if str(r.get("roomId") or "") in rooms]
     shows = []
+    skipped_upcoming = skipped_broken = 0
     for r in rows:
         iso = _iso(r.get("startTime") or "")
         if not iso or not r.get("startDate"):
-            continue                      # upcoming-only entries carry no showtime
+            # An upcoming-only entry legitimately has no scheduled showtime yet, and
+            # the payload says so itself. Any other row with an unreadable start is a
+            # schema change wearing empty clothes, and is counted rather than dropped.
+            if str(r.get("isUpcoming") or "") == "1":
+                skipped_upcoming += 1
+            else:
+                skipped_broken += 1
+            continue
         age = str(r.get("ageLimit") or r.get("agelimit") or "").strip()
         poster = (r.get("posterurl") or "").strip()
         price = r.get("priceIncludingTax") or ""
@@ -211,6 +221,17 @@ def parse(payload, site, venue):
             "venue": venue["id"],
             "_syn": (r.get("description") or "").strip(),
         })
+    # Rows existed for this venue and not one produced a showtime, for reasons the
+    # payload does not explain: that is the row schema changing under the parser, and
+    # returning [] here would let EMPTY_VENUES_CONFIRMED read it as a quiet pending
+    # programme. Upcoming-only rows are exempt -- a venue whose whole listing is
+    # unscheduled premieres is genuinely not showing anything yet.
+    if rows and not shows and skipped_broken:
+        raise RuntimeError(
+            f"{site['base']} locationid {venue['locationid']}: {len(rows)} row(s) for "
+            f"{venue['name']}, none parseable ({skipped_broken} with no readable "
+            f"startTime/startDate, {skipped_upcoming} upcoming-only). The row schema "
+            f"changed; this is a parser break, not an empty programme")
     shows.sort(key=lambda s: s["start"])
     return shows
 

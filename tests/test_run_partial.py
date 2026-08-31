@@ -88,7 +88,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-b": [],
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
-        live, total, stale, unverified = self.run_site(mod)
+        live, total, stale, unverified, pending = self.run_site(mod)
 
         self.assertEqual(live, 2)
         self.assertEqual(total, 2)
@@ -127,7 +127,7 @@ class RunSitePartialTest(unittest.TestCase):
         mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
                           "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        _, _, stale, unverified = self.run_site(mod)
+        _, _, stale, unverified, _ = self.run_site(mod)
         self.assertNotIn("fc-a", stale)
         self.assertNotIn("fc-c", stale)
 
@@ -136,7 +136,7 @@ class RunSitePartialTest(unittest.TestCase):
         self.seed_previous("fc-b", OLD)
         mod = FakeModule({"fc-a": [], "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        live, _, stale, unverified = self.run_site(mod)
+        live, _, stale, unverified, _ = self.run_site(mod)
         self.assertEqual(live, 1)
         self.assertEqual(sorted(stale), ["fc-a", "fc-b"])
         self.assertEqual(self.venues_file()["oldest"], OLD, "oldest is not the minimum")
@@ -146,7 +146,7 @@ class RunSitePartialTest(unittest.TestCase):
     def test_a_fully_fresh_provider_reports_ok(self):
         mod = FakeModule({v["id"]: [show("F", "2026-08-30T18:00:00+03:00")]
                           for v in SITE["venues"]})
-        live, total, stale, unverified = self.run_site(mod)
+        live, total, stale, unverified, pending = self.run_site(mod)
         self.assertEqual((live, total, stale, unverified), (3, 3, [], []))
         doc = self.venues_file()
         self.assertEqual(doc["status"], "ok")
@@ -161,7 +161,7 @@ class RunSitePartialTest(unittest.TestCase):
         mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
                           "fc-b": [],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        _, _, stale, unverified = self.run_site(mod)
+        _, _, stale, unverified, _ = self.run_site(mod)
         self.assertEqual(stale, [])
         self.assertEqual(unverified, ["fc-b"])
         self.assertEqual(self.area("fc-b")["shows"], [])
@@ -181,7 +181,7 @@ class RunSitePartialTest(unittest.TestCase):
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
         self.run_site(mod)                       # run one creates the empty file
         later = "2026-08-31T12:00:00+00:00"
-        _, _, stale, unverified = self.run_site(mod, now=later)
+        _, _, stale, unverified, _ = self.run_site(mod, now=later)
         self.assertEqual(stale, [], "an always-empty venue was reported as stale")
         self.assertEqual(unverified, ["fc-b"])
         doc = self.venues_file()
@@ -197,7 +197,7 @@ class RunSitePartialTest(unittest.TestCase):
         full = FakeModule({v["id"]: [show("F", "2026-08-31T18:00:00+03:00")]
                            for v in SITE["venues"]})
         later = "2026-08-31T12:00:00+00:00"
-        live, _, stale, unverified = self.run_site(full, now=later)
+        live, _, stale, unverified, _ = self.run_site(full, now=later)
         self.assertEqual((live, stale, unverified), (3, [], []))
         doc = self.venues_file()
         self.assertEqual(doc["status"], "ok")
@@ -217,7 +217,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
         mod.EMPTY_VENUES_CONFIRMED = True
-        _, _, stale, unverified = self.run_site(mod)
+        _, _, stale, unverified, _ = self.run_site(mod)
         self.assertEqual(unverified, [])
         self.assertEqual(stale, [])
         doc = self.venues_file()
@@ -234,7 +234,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-b": [],
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
-        _, _, _, unverified = self.run_site(mod)
+        _, _, _, unverified, _ = self.run_site(mod)
         self.assertEqual(unverified, ["fc-b"])
         doc = self.venues_file()
         self.assertEqual(doc["pending"], [])
@@ -248,7 +248,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
         mod.EMPTY_VENUES_CONFIRMED = True
-        _, _, _, unverified = self.run_site(mod)
+        _, _, _, unverified, _ = self.run_site(mod)
         self.assertEqual(unverified, ["fc-b"])
         self.assertEqual(self.venues_file()["pending"], [])
 
@@ -262,7 +262,7 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
         mod.EMPTY_VENUES_CONFIRMED = True
-        _, _, stale, _ = self.run_site(mod)
+        _, _, stale, _, _ = self.run_site(mod)
         self.assertEqual(stale, ["fc-b"])
         self.assertEqual(self.venues_file()["pending"], [])
 
@@ -271,10 +271,31 @@ class RunSitePartialTest(unittest.TestCase):
         for v in SITE["venues"]:
             self.seed_previous(v["id"])
         mod = FakeModule({v["id"]: [] for v in SITE["venues"]})
-        live, _, stale, unverified = self.run_site(mod)
+        live, _, stale, unverified, _ = self.run_site(mod)
         self.assertEqual(live, 0)
         self.assertEqual(len(stale), 3)
         self.assertFalse((self.out / "venues-fakechain.json").exists())
+
+
+class SummaryLineTest(unittest.TestCase):
+    """The run's one-line verdict must count pending venues: run-nexxo.log read
+    "0 stale, 0 unverified, 0 with no programme" while Tikkakoski sat pending, which
+    made the summary read as if the venue did not exist."""
+
+    def test_pending_venues_are_counted(self):
+        line = run.summary_line(["nexxo"], 12, 152,
+                                partial=[], pendings=[("kinometso", ["km-tikkakoski"])],
+                                empty=[], failures=0)
+        self.assertIn("1 pending", line)
+        self.assertIn("0 stale, 0 unverified, 1 pending, 0 with no programme", line)
+
+    def test_pending_is_not_a_failure_or_a_partial(self):
+        line = run.summary_line(["nexxo"], 12, 152,
+                                partial=[], pendings=[("kinometso", ["a", "b"])],
+                                empty=[], failures=0)
+        self.assertIn("2 pending", line)
+        self.assertIn("0 failures", line)
+        self.assertIn("0 stale", line)
 
 
 class GeneratedOfTest(unittest.TestCase):
@@ -377,5 +398,5 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
         mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
                           "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
-        live, _, _, _ = self.run_site(mod)
+        live, _, _, _, _ = self.run_site(mod)
         self.assertEqual(live, 3)

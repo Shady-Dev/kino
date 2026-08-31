@@ -200,7 +200,7 @@ def run_site(mod, site, now):
              "provider": site["provider"],
              "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
                         for v in site["venues"]]})
-    return live, total, stale, unverified
+    return live, total, stale, unverified, pending
 
 
 def half_of(argv):
@@ -257,6 +257,20 @@ def sites_for(mod, half):
     return out
 
 
+def summary_line(names, venues, shows, partial, pendings, empty, failures):
+    """The run's one-line verdict, in the committed log's fixed vocabulary.
+
+    Pending is counted here even though it is neither a failure nor a partial state:
+    the summary is what a sweep of the log reads, and a venue publishing nothing must
+    be visible in it rather than looking like a venue that does not exist.
+    """
+    return (f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
+            f"{sum(len(i) for _, i, _ in partial)} stale, "
+            f"{sum(len(u) for _, _, u in partial)} unverified, "
+            f"{sum(len(i) for _, i in pendings)} pending, "
+            f"{len(empty)} with no programme, {failures} failures")
+
+
 def main(argv) -> int:
     half = half_of(argv)
     names = (registry.modules(argv[argv.index("--where") + 1])
@@ -270,6 +284,7 @@ def main(argv) -> int:
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     venues = shows = failures = 0
     partial = []          # (provider, [venue ids]) for every site that kept old data
+    pendings = []         # (provider, [venue ids]) whose adapter confirmed no programme
     empty = []            # sites whose listing loaded and had no films on it
     skipped = []          # modules with no sites for this half, which is not a problem
 
@@ -292,7 +307,7 @@ def main(argv) -> int:
         for site in sites:
             label = site.get("provider") or name
             try:
-                v, s, stale, unverified = run_site(mod, site, now)
+                v, s, stale, unverified, pending = run_site(mod, site, now)
             except common.EmptyProgramme as e:
                 # Not a failure, and deliberately still noisy: a cinema with nothing on
                 # is a fact worth seeing in the committed log, and one that stays empty
@@ -308,6 +323,8 @@ def main(argv) -> int:
             shows += s
             if stale or unverified:
                 partial.append((label, stale, unverified))
+            if pending:
+                pendings.append((label, pending))
             if not v:
                 failures += 1
 
@@ -337,6 +354,12 @@ def main(argv) -> int:
     # it must not do is disappear: the venue file is published with a `partial` status
     # and the health line ages on the oldest venue, so the app stops claiming the
     # provider is fresh, and this line puts the venue names in the committed log.
+    # Pending is neither a failure nor a partial state -- the adapter confirmed the
+    # programme is empty -- but a venue publishing nothing is a fact the committed log
+    # must state, or the summary line reads as if the venue did not exist.
+    for label, ids in pendings:
+        print(f"[run] pending: {label} has {len(ids)} venue(s) with no programme "
+              f"yet: {', '.join(ids)}")
     if partial:
         for label, ids, new_ids in partial:
             if ids:
@@ -346,10 +369,7 @@ def main(argv) -> int:
                 print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
                       f"never produced a showtime: {', '.join(new_ids)}")
 
-    print(f"[run] {' '.join(names)}: {venues} venues, {shows} showtimes, "
-          f"{sum(len(i) for _, i, _ in partial)} stale, "
-          f"{sum(len(u) for _, _, u in partial)} unverified, "
-          f"{len(empty)} with no programme, {failures} failures")
+    print(summary_line(names, venues, shows, partial, pendings, empty, failures))
     # `not venues` is still a failure, because a run that wrote nothing and cannot say
     # why is the case this whole check exists for. It stops being one only when every
     # site said so itself -- an empty listing, or no sites on this half at all.
