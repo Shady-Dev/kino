@@ -3157,6 +3157,94 @@ a genuine "Mitä?" is never touched, because no twin will differ there.
   prose ("tapahtunut?Will Gluck"). Adding that space would be editing their sentence,
   which is a different thing from restoring a character we can prove was there.
 
+### IndexNow, and what it is actually worth here (2026-08-31)
+`scripts/indexnow.py` plus `.github/workflows/indexnow.yml` tell IndexNow which generated
+pages a push changed. The key is `9510fcf2085e43b89ff8b86a67f75362.txt` at the site root.
+
+**Worth being honest about the ceiling: Google has never adopted IndexNow.** It is Bing,
+Yandex, Seznam, Naver and Yep, which on a Finnish cinema site is the tail of the market
+and not the head. Nothing about the implementation changes that, and nothing larger should
+be built around it.
+
+What makes it a fair fit anyway is that showtimes are perishable and this repo knows
+exactly which pages moved -- the one thing the protocol asks for and most sites cannot
+supply. Measured across twelve runs, the change set is bimodal rather than "everything,
+always": quiet runs rewrite 0-23 pages, and the big ones (100-151) are day rollovers or
+new venues landing. `write_if_changed` is what makes that distinction, and it already
+existed.
+
+- **The URL list comes from the commit, not the generator.** `build_pages.py` takes no
+  network at all and is deterministic; putting a third-party POST inside it would trade
+  that for nothing, since git already records which page files changed. It also keeps the
+  submission out of `biorex.yml`, which has an unmerged branch against it.
+- **Every status letter is a notification, removals included.** `A`/`M` submit the page,
+  `D` submits the URL that is gone so the engine can drop it, `R` submits *both* sides so
+  the old entry retires and the new one is found. Nothing reads the file: a deleted page
+  cannot be read, and what a page now contains is a reason to announce it, not to stay
+  quiet.
+- **The first version filtered out `noindex` pages and that was backwards.** IndexNow is
+  for added, updated, deleted and moved URLs -- a redirect or a 404 is exactly what an
+  engine needs told, since otherwise it serves the old entry until it happens to recrawl.
+  The filter suppressed precisely the notifications worth sending, and the test written
+  for it "proved" that the commit adding four redirects should submit nothing. It now
+  submits all four. A test can confirm the wrong rule as comfortably as the right one.
+- **The key is a public ownership token, not a secret credential.** It is served openly at
+  the root so the protocol can confirm who controls the domain, which is why committing
+  it is correct. Possession cannot modify the site or authenticate another host, but it
+  would let someone submit same-host notifications and generate crawl noise -- so it is
+  not a secret and not nothing either. Its one invariant, that the file contains its own
+  name, is what the far end checks, so it is checked here first.
+- **`on: push` alone would have made this silent.** A push made with `GITHUB_TOKEN` does
+  not trigger a workflow -- GitHub suppresses it so workflows cannot recurse -- and the
+  routine `Update cloud provider data` commits are made exactly that way. Those are also
+  the commits where the theatre and city pages actually change, so the trigger would have
+  fired for hand commits and for nothing else: most of the feature, quietly missing, with
+  no error anywhere. The fix is a second trigger, `workflow_run` on "Fetch cloud
+  providers", rather than a PAT (a long-lived credential for a job that needs none) or an
+  edit to the frozen fetch workflow.
+- **The data commit has to be found, not handed over, and a lower time bound is not
+  enough to find it.** `workflow_run.head_sha` is where the triggering run *started*, and
+  a queued run starts from a base that has since moved, so the range it names can span an
+  earlier run's data commit too. The first attempt took the newest bot commit after the
+  run started, and that has a race with teeth: run A publishes commit A and finishes, run
+  B publishes commit B, and only then does A's notification job get CPU. Both commits are
+  newer than A's start, so A is handed B's commit -- A is never announced, B is announced
+  twice, and an A that published nothing at all is credited with B's work. The commit must
+  fall inside **the run's own window**, `run_started_at <= committed <= updated_at`, and
+  the newest match inside that interval is the right one.
+- **Never gated on `conclusion`.** The fetch workflow commits and pushes *before* its
+  provider-failure gate, so a run can publish live pages and still finish red -- those
+  URLs need announcing exactly as much as a green run's. Whether a commit exists is the
+  only question worth asking, and looking for it answers it.
+- **Branch guards on both doors.** `push: branches: [main]`, and for the other door
+  `github.event.workflow_run.head_branch == 'main'`, written as an event check so it does
+  not evaluate to null on a push and skip the job. A page committed on a branch is not
+  live, and announcing a URL that 404s is worse than announcing nothing.
+- `ref: main` on the checkout is **not** required -- on a workflow_run event `GITHUB_SHA`
+  is already the last commit on the default branch, which an earlier version of this note
+  had wrong. It stays because the job's correctness depends on which history it reads,
+  and that is worth stating rather than inheriting.
+- **10,000 URLs is the protocol's ceiling for one POST**, so the list is batched at that
+  size. This site is two orders of magnitude below it and the batching will not fire for
+  years; it exists so the limit is explicit rather than discovered as a 422 on the day
+  someone regenerates every page.
+- **A push is not one commit.** The range is the push event's own `before`..`after`;
+  `HEAD^..HEAD` would silently drop every page change in every earlier commit of the same
+  push, which looks identical to nothing having happened. An all-zero `before` means the
+  ref was created by that push, and falls back to the tip's parent rather than diffing
+  the empty tree, which would announce every page on the site. `fetch-depth: 0` for the
+  same reason: a clone deep enough for `HEAD^` is not deep enough for `before`.
+- **Response handling.** 200 and 202 are success -- 202 is the normal answer while a new
+  key is still being validated, and treating it as failure would make the very first
+  submission red. 400/403/422 are this repo's mistake and are not retried, because
+  retrying repeats it. 429, 5xx and a dead socket are transient and get a bounded three
+  attempts, honouring `Retry-After` when it is sane and capping it at 60 s so a stranger
+  cannot stall the job. Exhausting the retries exits non-zero: this workflow cannot block
+  publication, so a submission that keeps failing should say so rather than stay green.
+- Covered by `tests/test_indexnow.py`, verified by breaking each guard. One of them --
+  that the key file must contain its own name -- initially had no test and was only
+  proved by hand; the test was added rather than the manual check being counted.
+
 ### Where a run's time actually goes, and what could be taken back (2026-08-31)
 Measured off one cloud run's committed logs rather than guessed: **eTiketti is about 85%
 of it.** 185 requests against 9 for Nexxo, 25 for BioRex, 6 for Gilda and 1 for Orion. At

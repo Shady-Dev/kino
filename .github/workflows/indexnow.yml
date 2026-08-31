@@ -1,0 +1,72 @@
+name: IndexNow
+
+# Tell IndexNow which generated pages a push actually changed. Bing, Yandex, Seznam,
+# Naver and Yep; Google has never adopted the protocol, so this reaches the tail of the
+# Finnish market and not the head. It earns its place because showtimes are perishable
+# and this repo knows exactly which pages moved -- the one thing the protocol asks for
+# and most sites cannot supply.
+#
+# Separate from the fetch workflow on purpose. build_pages.py is offline and
+# deterministic and should stay that way, git already records which page files changed,
+# and biorex.yml has an unmerged branch against it.
+on:
+  # Hand-pushed page changes. This trigger alone would cover almost nothing: a push made
+  # with GITHUB_TOKEN does not fire `on: push` -- GitHub suppresses it so workflows
+  # cannot recurse -- and the routine "Update cloud provider data" commits are made that
+  # way. They are also the commits where the theatre and city pages actually change.
+  push:
+    # main only. A page committed on a branch is not live, and announcing a URL that
+    # returns 404 is worse than announcing nothing.
+    branches: [main]
+    paths:
+      - 'teatteri/**'
+      - 'kaupunki/**'
+      - 'en/**'
+  # So the data runs arrive through the other door. Not a PAT and not an edit to the
+  # fetch workflow: a PAT would hand a long-lived credential to a job that needs none,
+  # and biorex.yml has an unmerged branch against it.
+  workflow_run:
+    workflows: ["Fetch cloud providers"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# The newest push is the only one worth announcing: an older commit's URL list is a
+# subset of what the newer one already covers, and submitting the same pages twice is
+# what the protocol asks callers not to do.
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    # The same rule for the other door: a fetch run on a branch publishes nothing live.
+    # The push trigger is already branch-filtered above, so this only has to speak for
+    # workflow_run -- hence the event check rather than a bare branch comparison, which
+    # would be null on a push and skip the job entirely.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.head_branch == 'main'
+    steps:
+      # fetch-depth: 0 because the range is the push's own `before`..`after`, and a push
+      # is not one commit. A shallow clone deep enough for HEAD^ is not deep enough for
+      # a push carrying several commits, and the diff would either fail or quietly cover
+      # only the last one -- which looks exactly like nothing having changed.
+      #
+      # Pinned to a SHA rather than a tag, the same rule the other workflows follow.
+      # actions/checkout v7.0.1, resolved 2026-08-31, on node24.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          # `main` explicitly. On a workflow_run event GITHUB_SHA is already the last
+          # commit on the default branch, so this is not strictly required -- it is here
+          # because the job's correctness depends on which history it reads, and that is
+          # worth stating rather than inheriting.
+          ref: main
+      # The script reads the range off GITHUB_EVENT_PATH, which checkout does not provide
+      # and the runner always does.
+      - name: Submit changed pages
+        run: python3 scripts/indexnow.py
