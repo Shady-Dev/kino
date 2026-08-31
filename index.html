@@ -126,7 +126,7 @@
     transition:border-color .15s, transform .15s;
   }
   #themeToggle:hover{border-color:var(--accent); transform:rotate(15deg)}
-  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, select:focus-visible,
+  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible,
   input:focus-visible, .tlink:focus-visible, .tinfo:focus-visible, .sheet-close:focus-visible,
   button:focus-visible{
     outline:2px solid var(--accent); outline-offset:2px;
@@ -141,13 +141,17 @@
      and the drop shadows were the one treatment making the header read as a generic
      component library rather than a timetable. The shadow stays on stubs (the thing
      you tap) and posters (imagery). */
-  select, .search{
+  #areaSelect, .search{
     font:inherit; color:var(--ink); background:var(--surface);
     border:1px solid var(--line); border-radius:10px;
     padding:10px 14px;
   }
-  select{cursor:pointer; max-width:280px}
-  select:hover, .fav:hover{border-color:var(--muted)}
+  #areaSelect{cursor:pointer; max-width:280px; display:inline-flex; align-items:center;
+    gap:8px; text-align:left}
+  #areaSelect .vlbl{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap}
+  #areaSelect .vchev{color:var(--muted); font-size:.72rem; flex:0 0 auto}
+  #areaSelect:hover, .fav:hover{border-color:var(--muted)}
   .fav{
     font:inherit; font-size:1.15rem; line-height:1; cursor:pointer;
     color:var(--muted); background:var(--surface);
@@ -163,22 +167,47 @@
      Not --accent: that is already the theme colour. */
   .stub[class*="chain-"]{border-left:3px solid var(--chain, var(--line))}
 
-  /* themed dropdown on Chromium (progressive enhancement) */
-  select, ::picker(select){appearance:base-select}
-  ::picker(select){
-    background:var(--surface); color:var(--ink);
-    border:1px solid var(--line); border-radius:12px;
-    box-shadow:0 12px 40px rgba(0,0,0,.25);
-    padding:6px; margin-top:6px;
+  /* Venue picker sheet. The trigger keeps the old select's face; the list is a dialog
+     because a native select cannot carry a search field. Same modal lifecycle as the
+     movie sheet and the month picker (BEHIND/inert), full-screen on mobile with the
+     search pinned on top so the on-screen keyboard covers venues, never the field. */
+  .vwrap{position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:60; display:none}
+  .vwrap.open{display:block}
+  .vsheet{position:absolute; inset:0; background:var(--bg); display:flex;
+    flex-direction:column}
+  @media(min-width:700px){
+    .vsheet{inset:auto; left:50%; top:7vh; transform:translateX(-50%);
+      width:min(480px,92vw); max-height:80vh; border:1px solid var(--line);
+      border-radius:14px; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.25)}
   }
-  select option{
-    padding:9px 12px; border-radius:8px; font:inherit;
-    background:var(--surface); color:var(--ink); cursor:pointer;
-  }
-  select option:hover, select option:focus{background:var(--accent-soft)}
-  select option:checked{color:var(--accent); font-weight:700}
-  select option::checkmark{color:var(--accent)}
-  select optgroup{font:inherit; color:var(--muted); padding:6px 8px 2px}
+  .vhead{display:flex; gap:8px; padding:12px; border-bottom:1px solid var(--line);
+    background:var(--surface)}
+  .vfind{flex:1; display:flex; align-items:center; gap:8px; background:var(--bg);
+    border:1px solid var(--line); border-radius:10px; padding:9px 12px}
+  .vfind input{flex:1; min-width:0; font:inherit; color:var(--ink); background:none;
+    border:0; outline:none; padding:0}
+  .vfind input::placeholder{color:var(--muted)}
+  .vfind .vglass{color:var(--muted); flex:0 0 auto}
+  .vclose{font:inherit; font-size:1rem; color:var(--muted); background:var(--surface);
+    border:1px solid var(--line); border-radius:10px; padding:8px 12px; cursor:pointer}
+  .vclose:hover{border-color:var(--muted)}
+  .vlist{flex:1; overflow-y:auto; padding:6px 12px 24px; overscroll-behavior:contain}
+  .vcity{position:sticky; top:0; z-index:1; background:var(--bg); color:var(--muted);
+    font-size:.76rem; text-transform:uppercase; letter-spacing:.06em; padding:14px 4px 5px}
+  .vrow{display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+    font:inherit; color:var(--ink); background:none; border:0; border-radius:9px;
+    padding:9px 8px; cursor:pointer}
+  .vrow:hover{background:var(--accent-soft)}
+  .vrow[aria-current="true"]{box-shadow:inset 0 0 0 1px var(--accent)}
+  .vrow .vdot{width:8px; height:8px; border-radius:50%; flex:0 0 auto;
+    background:var(--chain, var(--line))}
+  .vrow .vtxt{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap}
+  .vrow .vtxt small{color:var(--muted)}
+  .vrow mark{background:none; color:var(--accent); font-weight:700}
+  .vrow.vall .vtxt{font-weight:600}
+  .vnone{display:none; color:var(--muted); text-align:center; padding:36px 16px}
+  .vnone.show{display:block}
   .search{flex:1; min-width:160px}
   .search::placeholder{color:var(--muted)}
 
@@ -614,7 +643,7 @@
     /* Venue picker and its star share one row; search gets the next. Setting the select to
        width:100% pushed the star onto a row of its own and wasted ~60px of height. */
     .controls{padding:10px 14px 8px; gap:8px}
-    select{max-width:none; flex:1 1 auto; width:auto; min-width:0}
+    #areaSelect{max-width:none; flex:1 1 auto; width:auto; min-width:0}
     .fav{flex:0 0 auto; padding:8px 11px}
     .search{flex:1 1 100%; width:100%; min-width:0}
     /* Tighter vertical rhythm: the header used to fill most of a phone screen. */
@@ -649,7 +678,8 @@
   </div>
   <div class="pinned">
   <div class="controls">
-    <select id="areaSelect" aria-label="Valitse teatteri"></select>
+    <button id="areaSelect" type="button" aria-haspopup="dialog" aria-expanded="false"
+            aria-label="Valitse teatteri"><span class="vlbl"></span><span class="vchev" aria-hidden="true">▾</span></button>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
     <input class="search" id="search" type="search" placeholder="Etsi esim. Dune tai komedia" aria-label="Suodata elokuvia nimen tai genren mukaan">
   </div>
@@ -670,6 +700,20 @@
 
 <div id="overlay"></div>
 <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" inert aria-hidden="true"></div>
+
+<div id="vwrap" class="vwrap">
+  <div class="vsheet" role="dialog" aria-modal="true" aria-label="Valitse teatteri">
+    <div class="vhead">
+      <span class="vfind">
+        <svg class="vglass" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.7" stroke="currentColor" stroke-width="1.6"/><path d="M10.2 10.2 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <input id="vq" type="search" autocomplete="off" enterkeyhint="done" placeholder="Hae teatteria tai kaupunkia" aria-label="Hae teatteria tai kaupunkia">
+      </span>
+      <button id="vclose" class="vclose" type="button" aria-label="Sulje">✕</button>
+    </div>
+    <div id="vlist" class="vlist"></div>
+    <div id="vnone" class="vnone">Ei osumia.</div>
+  </div>
+</div>
 
 <main id="main">
   <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
@@ -757,6 +801,7 @@
          fannis:'Anniskelu',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri, avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
+         vSearch:'Hae teatteria tai kaupunkia', vNone:'Ei osumia.', vOwn:'Oma teatteri',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'Kaikki', manySources:'usea lähde',
          soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
@@ -800,6 +845,7 @@
          fannis:'Bar',
          tomorrow:'I morgon', from:'från', sources:'Källor', hours:'h',
          favOn:'Egen biograf, öppnas här nästa gång', favOff:'Välj som egen biograf',
+         vSearch:'Sök biograf eller stad', vNone:'Inga träffar.', vOwn:'Egen biograf',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
          allIn:'Alla i', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
@@ -840,6 +886,7 @@
          fannis:'Bar',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
+         vSearch:'Search cinema or city', vNone:'No matches.', vOwn:'Home theatre',
          favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'All', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
@@ -966,7 +1013,7 @@
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
   let calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
-  let allVenues = [], cityGroups = {};
+  let allVenues = [], cityGroups = {}, cityOrder = [], cityVenues = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -1439,26 +1486,136 @@
   // Split out of fillAreaSelect: the language toggle has to relabel the picker
   // ("Kaikki Helsinki" / "All in Helsinki") without resetting the selected venue.
   function buildAreaOptions(){
-    const areas = allVenues;
     const byCity = new Map();
-    for(const a of areas){
+    for(const a of allVenues){
       const c = cityOf(a);
       if(!byCity.has(c)) byCity.set(c, []);
       byCity.get(c).push(a);
     }
-    const cities = [...byCity.keys()].sort((x,y)=>coll.compare(cityLabel(x), cityLabel(y)));
+    cityOrder = [...byCity.keys()].sort((x,y)=>coll.compare(cityLabel(x), cityLabel(y)));
     cityGroups = {};
-    for(const c of cities) cityGroups[c] = byCity.get(c).map(a => a.id);
-    const opt = a => `<option value="${esc(a.id)}">${esc(labelOf(a))}</option>`;
-    // Cities with more than one screen get a combined entry at the top of their group.
-    areaSel.innerHTML = cities.map(c => {
-      const vs = byCity.get(c).sort((x,y)=>coll.compare(labelOf(x), labelOf(y)));
-      const all = vs.length > 1
-        ? `<option value="city:${esc(c)}">${L[state.lang].allIn} ${esc(cityLabel(c))} (${vs.length})</option>`
-        : '';
-      return `<optgroup label="${esc(cityLabel(c))}">${all}${vs.map(opt).join('')}</optgroup>`;
-    }).join('');
+    cityVenues = {};
+    for(const c of cityOrder){
+      cityVenues[c] = byCity.get(c).slice().sort((x,y)=>coll.compare(labelOf(x), labelOf(y)));
+      cityGroups[c] = cityVenues[c].map(a => a.id);
+    }
+    syncVenueBtn();
   }
+
+  /* ---------- venue picker ---------- */
+  // The old control was a native <select>: free platform UI, but nowhere to hang a
+  // search field over 70 venues. The trigger keeps the select's face and its place in
+  // the row; the list is a dialog on the same modal lifecycle as the movie sheet and
+  // the month picker (BEHIND/inert). Cities with more than one screen keep their
+  // combined entry at the top of their group, exactly as the optgroups had it.
+  const vwrap = $('#vwrap'), vlist = $('#vlist'), vq = $('#vq'), vnone = $('#vnone');
+  // NFD + strip combining marks: "jarvela" finds Järvelä. The stripped string is the
+  // same length as the NFC original, so match offsets index the original for <mark>.
+  const vfold = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  function vhl(label, q){
+    if(!q) return esc(label);
+    const i = vfold(label).indexOf(vfold(q));
+    if(i < 0) return esc(label);
+    return esc(label.slice(0, i)) + '<mark>' + esc(label.slice(i, i + q.length))
+         + '</mark>' + esc(label.slice(i + q.length));
+  }
+  function vRow(a, q){
+    return `<button class="vrow chain-${esc(a.provider)}" type="button" data-id="${esc(a.id)}"`
+      + ` aria-current="${state.area === a.id ? 'true' : 'false'}">`
+      + `<span class="vdot"></span><span class="vtxt">${vhl(labelOf(a), q)}</span></button>`;
+  }
+  function vDraw(){
+    const q = vq.value.trim();
+    const T = L[state.lang];
+    const hit = a => !q || vfold(labelOf(a) + ' ' + cityLabel(cityOf(a))).includes(vfold(q));
+    let html = '';
+    const fav = prefs.get().fav && venueIndex[prefs.get().fav];
+    if(fav && hit(fav)) html += `<div class="vcity">${esc(T.vOwn)}</div>` + vRow(fav, q);
+    for(const c of cityOrder){
+      const vs = cityVenues[c].filter(hit);
+      const allLbl = `${T.allIn} ${cityLabel(c)} (${cityVenues[c].length})`;
+      const showAll = cityVenues[c].length > 1
+        && (vs.length > 0 || (q && vfold(allLbl).includes(vfold(q))));
+      if(!vs.length && !showAll) continue;
+      html += `<div class="vcity">${esc(cityLabel(c))}</div>`;
+      if(showAll){
+        html += `<button class="vrow vall" type="button" data-id="city:${esc(c)}"`
+          + ` aria-current="${state.area === 'city:' + c ? 'true' : 'false'}">`
+          + `<span class="vdot"></span><span class="vtxt">${vhl(allLbl, q)}</span></button>`;
+      }
+      html += vs.map(a => vRow(a, q)).join('');
+    }
+    vlist.innerHTML = html;
+    vnone.classList.toggle('show', !html);
+  }
+  function vKey(e){
+    if(e.key === 'Escape'){
+      e.preventDefault();
+      if(vq.value){ vq.value = ''; vDraw(); vq.focus(); } else closeVenueSheet();
+      return;
+    }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      const rows = [...vlist.querySelectorAll('.vrow')];
+      if(!rows.length) return;
+      e.preventDefault();
+      const i = rows.indexOf(document.activeElement);
+      const j = i < 0 ? (e.key === 'ArrowDown' ? 0 : rows.length - 1)
+                      : Math.min(rows.length - 1, Math.max(0, i + (e.key === 'ArrowDown' ? 1 : -1)));
+      rows[j].focus();
+    }
+    if(e.key === 'Enter' && document.activeElement === vq){
+      const first = vlist.querySelector('.vrow');
+      if(first){ e.preventDefault(); first.click(); }
+    }
+  }
+  function openVenueSheet(){
+    if(!allVenues.length) return;
+    vq.value = '';
+    vDraw();
+    vwrap.classList.add('open');
+    areaSel.setAttribute('aria-expanded', 'true');
+    BEHIND().forEach(el => setInert(el, true));
+    document.addEventListener('keydown', vKey);
+    const cur = vlist.querySelector('[aria-current="true"]');
+    if(cur) cur.scrollIntoView({ block: 'center' });
+    // A physical keyboard covers nothing, so fine pointers go straight to the field.
+    // On touch the focus stays off the input: the whole list shows first, and the
+    // on-screen keyboard waits until the field itself is tapped.
+    if(matchMedia('(pointer: fine)').matches) vq.focus();
+    else $('#vclose').focus();
+  }
+  function closeVenueSheet(){
+    if(!vwrap.classList.contains('open')) return;
+    vwrap.classList.remove('open');
+    areaSel.setAttribute('aria-expanded', 'false');
+    BEHIND().forEach(el => setInert(el, false));
+    document.removeEventListener('keydown', vKey);
+    areaSel.focus();
+  }
+  function selectVenue(id){
+    state.area = id; prefs.set({ area: id });
+    state.chains = null;
+    syncFav(); syncVenueBtn(); loadSchedule();
+  }
+  function syncVenueBtn(){
+    const el = areaSel.querySelector('.vlbl');
+    if(!el) return;
+    if(state.area && state.area.startsWith('city:')){
+      const c = state.area.slice(5);
+      el.textContent = `${L[state.lang].allIn} ${cityLabel(c)} (${(cityGroups[c] || []).length})`;
+    } else {
+      const v = venueIndex[state.area];
+      el.textContent = v ? v.label : '';
+    }
+  }
+  areaSel.onclick = openVenueSheet;
+  $('#vclose').onclick = closeVenueSheet;
+  vwrap.addEventListener('click', e => { if(e.target === vwrap) closeVenueSheet(); });
+  vq.addEventListener('input', vDraw);
+  vlist.addEventListener('click', e => {
+    const row = e.target.closest('.vrow');
+    if(row){ closeVenueSheet(); selectVenue(row.dataset.id); }
+  });
   function fillAreaSelect(areas){
     allVenues = areas.slice();
     venueIndex = {};
@@ -1490,7 +1647,7 @@
     } else {
       state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
     }
-    areaSel.value = state.area;
+    syncVenueBtn();
     syncFav();
   }
 
@@ -1546,11 +1703,6 @@
     const all = await fetchVenueLists(areasPromise);
     fillAreaSelect(all);
     renderHealth();
-    areaSel.addEventListener('change', () => {
-      state.area = areaSel.value; prefs.set({area: state.area});
-      state.chains = null;
-      syncFav(); loadSchedule();
-    });
   }
 
   /* ---------- schedule ---------- */
@@ -1749,10 +1901,15 @@
                                 if(el) el.setAttribute('aria-label', txt); };
     set('#themeToggle', T.aTheme);
     set('#areaSelect', T.aVenue);
+    set('#vwrap .vsheet', T.aVenue);
+    set('#vq', T.vSearch);
+    set('#vclose', T.aClose);
     set('#search', T.aSearch);
     set('#days', T.aDays);
     set('#viewSeg', T.aView);
     set('#langSeg', T.aLang);
+    vq.placeholder = T.vSearch;
+    vnone.textContent = T.vNone;
     const themeBtn = document.querySelector('#themeToggle');
     if(themeBtn) themeBtn.title = T.aTheme;
   }
@@ -2423,7 +2580,8 @@
     syncTools();
     // The venue picker, the health line and the footer are built once per load and
     // all carry translated text, so they need an explicit redraw here.
-    if(allVenues.length){ buildAreaOptions(); areaSel.value = state.area; }
+    if(allVenues.length) buildAreaOptions();     // re-sorts cities and redraws the trigger
+    if(vwrap.classList.contains('open')) vDraw();
     render();
     renderHealth();
     renderStatus();

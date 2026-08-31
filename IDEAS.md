@@ -2721,6 +2721,38 @@ Verified live instead, against the served page: open, initial focus, both inert 
 Escape, backdrop, month-nav focus survival and the date-picked focus return, plus a
 clean console.
 
+### The venue picker is searchable (2026-08-31)
+The native `<select>` was free platform UI, but at 70 venues finding one meant reading
+a long grouped list, and a native select has nowhere to hang a search field. The
+trigger keeps the select's face and its place in the controls row; tapping it opens a
+dialog on the same modal lifecycle as the movie sheet and the month picker
+(`BEHIND()`/inert, Escape, backdrop, focus restore).
+
+- **The keyboard never opens uninvited.** The classic combobox failure on mobile is
+  that tapping the control focuses an input, the on-screen keyboard erupts and covers
+  the list the person came to read. Here the sheet opens full-screen with focus on the
+  close button; the keyboard appears only when the search field itself is tapped, and
+  the field is pinned to the top so the keyboard covers venues, never the field or the
+  first results. On a fine pointer the field is focused immediately -- a physical
+  keyboard covers nothing.
+- **Search folds diacritics both ways** ("jarvela" finds Järvelä; NFD-strip keeps the
+  match offsets aligned with the NFC original, so the `<mark>` highlight lands right),
+  matches label and city, hides emptied city groups and keeps the combined
+  "Kaikki {city} (n)" rows findable by their own text. Esc clears the query first and
+  closes second.
+- **Selection is the old code path** -- `state.area`, `prefs`, `syncFav`,
+  `loadSchedule` -- so the saved venue, the star, `?area=` deep links and the
+  city-combined ids behave exactly as before. `buildAreaOptions()` still computes
+  `cityGroups`, it just stops writing `<optgroup>` markup.
+- The rows carry the existing `chain-{id}` classes, so the dot colour comes from the
+  same generated `--chain` variables the stubs and the legend already use.
+- Costs accepted: the select's free type-ahead is replaced by the search field, and
+  the Chromium `::picker(select)` theming block went with the element.
+- Verified live against the served page, desktop and mobile emulation both: trigger
+  face unchanged, autofocus only on fine pointers, full-screen top-anchored sheet on
+  mobile, inert background, focus restore, two-stage Esc, diacritic search, combined
+  row pick, star pinning, sv/en label redraws, `?area=` restore, clean console.
+
 ### Poster URLs are checked against the origin and path (2026-08-30)
 `safeUrl` answered two different questions with one rule. A ticket or trailer URL is
 *meant* to leave this origin, so http(s) and relative are all correct for it. A poster is
