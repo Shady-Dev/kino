@@ -1,0 +1,181 @@
+"""A provider's URL must not be able to become `javascript:` on the way to an href.
+
+`safeUrl` read the scheme off the raw string with a regular expression. A URL parser
+does not: it deletes ASCII tab, LF and CR from anywhere in the URL and strips the
+control characters off its ends, so `java<LF>script:alert(1)` matched no scheme at all,
+was returned as an ordinary relative URL, and resolved to javascript: when the link was
+followed. Four inputs got through that way -- LF, CR, tab, and a leading NUL, which
+`trim()` leaves in place -- and every one of them reaches a booking or trailer href
+built out of provider JSON.
+
+The functions are sliced verbatim out of index.html by tests/safe_url_harness.js and run
+on their own; they take a string and return a string, so they need no DOM. The harness
+then resolves whatever they accepted through a real WHATWG URL parser and reports the
+protocol, because the defect was a disagreement between the string the function tested
+and the URL a browser built from it. A test that only re-read the regex would have
+passed against the broken version.
+"""
+import json
+import pathlib
+import shutil
+import subprocess
+import unittest
+
+import _ctx
+
+
+HARNESS = pathlib.Path(__file__).resolve().parent / "safe_url_harness.js"
+
+# Every payload that must never come back out of safeUrl, whatever it is dressed as.
+HOSTILE = ["js_plain", "js_lf", "js_cr", "js_tab", "js_leading_nul", "js_crlf",
+           "js_many_lf", "js_trailing_del", "js_leading_vt", "js_mixed_case",
+           "js_upper", "data_html", "vbscript", "file_scheme"]
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class SafeUrlTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
+                             cwd=str(_ctx.ROOT), timeout=60)
+        if out.returncode:
+            raise AssertionError(f"harness failed: {out.stderr}")
+        cls.r = json.loads(out.stdout)
+
+    # -- the reported bug --------------------------------------------------------------
+
+    def test_a_newline_cannot_hide_the_scheme(self):
+        """The exact payload. `java<LF>script:` was accepted and resolved to
+        javascript:, because `[a-z0-9+.-]*` stops at the LF and the match fails, which
+        the old code read as "no scheme, therefore relative, therefore fine"."""
+        self.assertFalse(self.r["js_lf"]["accepted"])
+
+    def test_a_carriage_return_cannot_hide_the_scheme(self):
+        self.assertFalse(self.r["js_cr"]["accepted"])
+
+    def test_a_tab_cannot_hide_the_scheme(self):
+        self.assertFalse(self.r["js_tab"]["accepted"])
+
+    def test_a_leading_nul_cannot_hide_the_scheme(self):
+        """Not in the original report, found while reproducing it. `trim()` removes
+        whitespace and NUL is not whitespace, so it survived to the scheme match and
+        broke it the same way -- and a parser strips it before reading the scheme."""
+        self.assertFalse(self.r["js_leading_nul"]["accepted"])
+
+    def test_the_separator_can_repeat_or_pair_up(self):
+        """One check per character class would have passed CRLF and a payload split at
+        every letter. Both are the same rule applied more than once."""
+        self.assertFalse(self.r["js_crlf"]["accepted"])
+        self.assertFalse(self.r["js_many_lf"]["accepted"])
+
+    def test_a_control_character_anywhere_is_enough(self):
+        """DEL past the end of an otherwise-plain payload, and a vertical tab in front
+        of one. VT is removed by trim(), so this case says the two guards do not
+        silently depend on each other."""
+        self.assertFalse(self.r["js_trailing_del"]["accepted"])
+        self.assertFalse(self.r["js_leading_vt"]["accepted"])
+
+    # -- the invariant, stated against a real URL parser rather than the regex ----------
+
+    def test_nothing_accepted_resolves_to_a_non_http_scheme(self):
+        """The property the function exists for. Written against every case in the
+        table at once so a payload added later is covered without a test being added:
+        whatever comes back out, a browser resolving it lands on http or https."""
+        for name, rec in self.r.items():
+            if rec["accepted"]:
+                self.assertIn(rec["proto"], ("http:", "https:"),
+                              f"{name} resolved to {rec['proto']}")
+
+    def test_every_hostile_input_is_refused(self):
+        for name in HOSTILE:
+            self.assertFalse(self.r[name]["accepted"], f"{name} was accepted")
+
+    # -- schemes that were already refused ---------------------------------------------
+
+    def test_case_does_not_smuggle_a_scheme(self):
+        self.assertFalse(self.r["js_mixed_case"]["accepted"])
+        self.assertFalse(self.r["js_upper"]["accepted"])
+
+    def test_data_vbscript_and_file_stay_refused(self):
+        """These never depended on the control-character hole. They are here so that a
+        rewrite of the scheme test cannot quietly drop them."""
+        self.assertFalse(self.r["data_html"]["accepted"])
+        self.assertFalse(self.r["vbscript"]["accepted"])
+        self.assertFalse(self.r["file_scheme"]["accepted"])
+
+    # -- and the links that have to keep working ---------------------------------------
+
+    def test_ordinary_ticket_and_trailer_links_pass(self):
+        for name in ("https_plain", "http_plain", "https_upper", "relative_page"):
+            self.assertTrue(self.r[name]["accepted"], f"{name} was refused")
+
+    def test_a_trailing_newline_from_an_adapter_still_passes(self):
+        """The case that decides reject-over-strip. Adapters do leave a newline on the
+        end of a scraped href; `trim()` takes it off before the control check runs, so
+        rejecting on a control character costs nothing real. If trim() were ever moved
+        after the check, this goes red and the choice has to be made again."""
+        self.assertTrue(self.r["https_trailing_lf"]["accepted"])
+        self.assertEqual(self.r["https_trailing_lf"]["resolved"], "https://x.fi/a")
+        self.assertTrue(self.r["https_surrounding_ws"]["accepted"])
+
+    def test_the_ampersand_survives_as_an_entity(self):
+        """esc() runs on the way out, so a query string reaches the attribute as
+        `&amp;` and the browser reads back the `&`. Pinned because a showtimeId query
+        that lost its second parameter would 404 quietly."""
+        self.assertEqual(self.r["https_amp"]["out"], "https://x.fi/a?b=1&amp;c=2")
+        self.assertEqual(self.r["https_amp"]["resolved"], "https://x.fi/a?b=1&c=2")
+
+    def test_a_protocol_relative_link_is_allowed(self):
+        """Pinned rather than argued: a ticket link is meant to leave this origin, so
+        `//host/path` is a working link and not a hole. It is here so that changing the
+        answer is a decision someone makes on purpose."""
+        self.assertTrue(self.r["protocol_rel"]["accepted"])
+        self.assertEqual(self.r["protocol_rel"]["proto"], "https:")
+
+    def test_nothing_in_is_nothing_out(self):
+        for name in ("empty", "blank", "null", "undefined"):
+            self.assertEqual(self.r[name]["out"], "", name)
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class SafeAssetUrlTest(unittest.TestCase):
+    """The poster sink is a different question -- an <img> is a request the browser
+    makes on its own, so the README's claim that a page load reaches no third party
+    rests on this one. It answers with a path allowlist, which a control character
+    cannot walk out of, but it shares the guard so that the two sinks cannot drift into
+    disagreeing about what a URL is."""
+
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
+                             cwd=str(_ctx.ROOT), timeout=60)
+        if out.returncode:
+            raise AssertionError(f"harness failed: {out.stderr}")
+        cls.r = json.loads(out.stdout)
+
+    def test_a_mirrored_poster_passes_in_all_three_spellings(self):
+        for name in ("asset_ok", "asset_dot_slash", "asset_root_slash"):
+            self.assertTrue(self.r[name]["accepted"], f"{name} was refused")
+            self.assertTrue(self.r[name]["sameOrigin"], f"{name} left the origin")
+
+    def test_a_third_party_poster_is_refused(self):
+        """mirror_posters.py leaves the hot-linked URL in the data when a download
+        fails, on purpose, so this is a live case and not a hypothetical."""
+        self.assertFalse(self.r["asset_third_party"]["accepted"])
+        self.assertFalse(self.r["asset_protocol_rel"]["accepted"])
+
+    def test_a_path_outside_the_mirror_is_refused(self):
+        self.assertFalse(self.r["asset_outside_dir"]["accepted"])
+
+    def test_control_characters_are_refused_here_too(self):
+        self.assertFalse(self.r["asset_js"]["accepted"])
+        self.assertFalse(self.r["asset_js_lf"]["accepted"])
+        self.assertFalse(self.r["asset_lf_inside"]["accepted"])
+        self.assertFalse(self.r["asset_lf_in_prefix"]["accepted"])
+
+    def test_nothing_in_is_nothing_out(self):
+        self.assertEqual(self.r["asset_empty"]["out"], "")
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -3109,6 +3109,54 @@ by breaking each fix -- the combined-row rule, the `city:` branch, the raw-city 
 and the fold each turn their test red. Focus, inert, Escape and keyboard plumbing stay
 live-verified; they are DOM behavior, not model decisions.
 
+### A newline hid the scheme from `safeUrl` (2026-09-01)
+`safeUrl` read the scheme off the raw string with `^([a-z][a-z0-9+.-]*):`. A URL parser
+does not read it that way. It deletes ASCII tab, LF and CR from anywhere in the URL and
+strips the control characters off both ends *before* it looks for a scheme, so the string
+the function tested and the URL the browser built out of it were not the same string.
+
+`java<LF>script:alert(1)` matched nothing -- the character class stops at the LF, so the
+match fails -- and a failed match was read as "no scheme, therefore relative, therefore
+fine". The value went into the href, the browser removed the LF, and the link was
+`javascript:`. Reproduced against the function on its own, resolved through a real URL
+parser:
+
+    javascript:alert(1)        rejected
+    java<LF>script:alert(1)    ACCEPTED  -> javascript:
+    java<CR>script:alert(1)    ACCEPTED  -> javascript:
+    java<TAB>script:alert(1)   ACCEPTED  -> javascript:
+    <NUL>javascript:alert(1)   ACCEPTED  -> javascript:
+
+The fourth was not in the report and turned up while reproducing the first three: `trim()`
+removes whitespace, NUL is not whitespace, and a parser strips it anyway. Every one of
+these reaches an href built from provider JSON -- the three showtime stubs and the
+trailer link -- which is nine third-party sites' text.
+
+**Rejected on any control character rather than cleaned.** Cleaning would mean stripping
+exactly what the parser strips, and the whole defect is that this code was wrong about
+what the parser strips; the second version would have had to be right about the same
+thing. Rejecting needs only the weaker claim that a URL with a control character in it is
+not one a cinema published. It costs nothing real either: `trim()` still runs first, so
+the trailing newline an adapter leaves on a scraped href is gone before the check sees
+it, and that case is pinned by a test.
+
+`safeAssetUrl` did not have the hole -- a control character cannot walk a path out of the
+`data/posters/` allowlist, because removing characters cannot change a prefix that has
+none -- but it shares the guard. Two sinks that disagree about what a URL is are how the
+next one of these opens.
+
+Both are now sliced verbatim out of `index.html` by `tests/safe_url_harness.js`, the way
+`healthState` and `venueRows` already were. The harness does one thing those two do not:
+every accepted result is resolved through node's WHATWG URL parser and the protocol it
+lands on is asserted. A test that only re-read the function's own regex would have passed
+against the broken version, because the regex was self-consistent -- it was the
+disagreement with the parser that was the bug.
+
+Verified by breaking it, five ways: the guard removed from `safeUrl` (7 red), from
+`safeAssetUrl` (1), from both (8), the marker comment deleted so the harness slices
+nothing (2 errors, loudly), and -- the one worth having -- the guard narrowed to LF and
+CR only, which looks right and lets the tab and NUL payloads back in (4 red).
+
 ### Poster URLs are checked against the origin and path (2026-08-30)
 `safeUrl` answered two different questions with one rule. A ticket or trailer URL is
 *meant* to leave this origin, so http(s) and relative are all correct for it. A poster is

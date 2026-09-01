@@ -1455,6 +1455,19 @@
   function netErrorHtml(e){
     return `<div class="status">${L[state.lang].loadFail}<br><small>${esc(e.message||e)}</small></div>`;
   }
+  // --- url sinks: pure, extracted verbatim by tests/safe_url_harness.js ---
+  // A URL parser deletes ASCII tab, LF and CR from anywhere in a URL and strips the
+  // control characters off its ends, so the string a browser follows is not always the
+  // string tested here. `java<LF>script:alert(1)` carries no scheme past the match
+  // below -- `[a-z0-9+.-]*` stops at the LF -- so it was returned as a scheme-less
+  // relative URL and resolved to javascript: on the click. Four payloads got in that
+  // way: LF, CR, tab, and a leading NUL, which `trim()` does not remove either.
+  // Rejected rather than stripped clean: cleaning would have to reproduce the parser's
+  // removal rules exactly for the tested string and the emitted one to stay the same
+  // string, and being wrong about that is how this hole opened in the first place.
+  // No provider URL has ever carried one -- `trim()` still absorbs the stray newline
+  // an adapter leaves on the end.
+  const CTRL = /[\u0000-\u001F\u007F]/;
   // Every provider string crosses an innerHTML boundary somewhere, and every adapter
   // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
   // metacharacters — a stored-XSS surface fed by nine third-party sites, and a rendering
@@ -1473,6 +1486,7 @@
   const safeUrl = u => {
     u = String(u || '').trim();
     if(!u) return '';
+    if(CTRL.test(u)) return '';
     const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
     return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
   };
@@ -1487,9 +1501,11 @@
   const safeAssetUrl = u => {
     u = String(u || '').trim();
     if(!u) return '';
+    if(CTRL.test(u)) return '';
     if(/^[a-z][a-z0-9+.\-]*:/i.test(u) || u.startsWith('//')) return '';
     return u.replace(/^\.?\//, '').startsWith(ASSET_DIR) ? esc(u) : '';
   };
+  // --- end url sinks ---
   const jsonCache = {};
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
