@@ -4002,6 +4002,47 @@ As of 2026-08-30 it reports **9 organic arrivals over 4.4 days**, which is far t
 set anything by. The history has to accumulate first; the data is committed anyway, so it
 costs nothing to wait.
 
+### Finnkino publishes weekly, Tuesday ~15:00 -- their own statement (2026-09-01)
+
+Finnkino's site: the new programme, covering Friday through the following Thursday, goes
+on sale no later than about 15:00 on Tuesdays; a holiday early in the week can push it,
+usually by one day; special cases sell earlier. Their words, not a measurement -- but the
+committed data on the morning of Tue 2026-09-01, before that day's drop, matched it
+exactly and explains a number that otherwise reads as a broken fetch:
+
+    Finnkino, most venues      horizon 2026-09-03    2 days out
+    Finnkino 1101 / 1100       horizon 09-06 / 09-07 the "special cases" selling early
+    twelve non-Finnkino venues horizon 2026-09-30    29 days out
+    eTiketti tail              out to 2026-12-20
+
+The previous drop (Tue 08-25) covered Fri 08-28 -> Thu 09-03, and 09-03 is precisely
+where the horizon sat. **A 2-day Finnkino horizon next to a 29-day small-cinema horizon
+is not the pipeline under-fetching; it is Finnkino not having sold the weekend yet.**
+The prediction this makes is falsifiable within hours: after ~15:00 on a normal Tuesday
+the Finnkino horizons should jump a week (09-03 -> 09-10 on this one). If a Tuesday
+passes without the jump, either the week is holiday-shifted or the statement has gone
+stale and needs re-reading at the source.
+
+Two things this changes about reading the measurements above:
+
+- **For the weekly drop, read the showtime-count signal, not horizon.** `horizon` is the
+  furthest future start, so a single advance-sale screening drags it -- it moved 09-01 ->
+  09-02 -> 09-03 -> 09-05 on consecutive days while the weekly model was sitting still.
+- **The Tuesday drop is the single highest-value data event of the week**, and with four
+  local slots a day it can sit unfetched for hours: a Tuesday-afternoon visitor asking
+  about the weekend is told it is not published when it is. That argues for a local slot
+  shortly after 15:00 Helsinki on Tuesdays (and Wednesdays, per the holiday caveat) --
+  **deliberately not done yet.** One chain's policy page plus one observed Tuesday is a
+  sample of one, and the rule here is that slots come from measurement: revisit after
+  poll_windows has two or three clean Tuesdays in view. Finnkino is local-only, so any
+  new slot lands in the out-of-repo wrapper, not in anything this repo's tests can hold.
+
+Deliberately **not** surfaced in the UI: turning "ohjelmistoa ei ole vielä julkaistu"
+into "weekend showtimes appear Tuesday at 15" would promise one chain's policy on behalf
+of all 32, the policy shifts on holidays and breaks on special cases by Finnkino's own
+telling, and nothing in the pipeline would notice the policy page changing. A promise
+the app cannot verify is worse than no promise.
+
 ## Access and ethics
 
 - Every provider is read through the same public interface its own site uses, on a
