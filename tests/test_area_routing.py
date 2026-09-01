@@ -14,6 +14,13 @@ rewrite it when the reader picks something else.
 `startupArea` and `areaParamAfterSelect` are sliced verbatim out of index.html by
 tests/area_routing_harness.js and run on their own, the way `healthState`, `venueRows` and
 `priceLabel` are. Both are pure; the harness runs the shipped code rather than a copy.
+
+`startupLang` and `langParamAfterSelect` are the language half of the same link (2026-09-02).
+The generated pages exist in Finnish and English, and the app read its language from prefs
+alone, so an English landing page opened a Finnish app for any reader without a stored
+choice. The rules mirror the venue's: the parameter wins on arrival, stays in the URL while
+it is the answer, is rewritten when the reader toggles, and is stripped when it names a
+language the app does not have.
 """
 import json
 import pathlib
@@ -41,6 +48,8 @@ class AreaRoutingTest(unittest.TestCase):
         payload = json.loads(out.stdout)
         cls.r = payload["routing"]
         cls.u = payload["urls"]
+        cls.l = payload["lang"]
+        cls.lu = payload["langUrls"]
 
     # -- the seven behaviours the fix has to hold ----------------------------------------
 
@@ -132,6 +141,80 @@ class AreaRoutingTest(unittest.TestCase):
         """`known()` only accepts a `city:` id where the city has more than one venue,
         and a deep link naming a single-venue city falls through like any stale id."""
         self.assertEqual(self.r["city_deep_single_venue"]["area"], FAV)
+
+    # -- the language half of the link ----------------------------------------------------
+
+    def test_the_link_language_beats_the_stored_one(self):
+        """An English landing page opens the English app whatever the reader had before."""
+        self.assertEqual(self.l["en_link_fi_stored"]["lang"], "en")
+        self.assertEqual(self.l["fi_link_en_stored"]["lang"], "fi")
+
+    def test_the_link_language_opens_the_app_for_a_reader_with_nothing_stored(self):
+        """The case the pages were shipped without: no preference, English page, and the
+        app used to default to Finnish."""
+        self.assertEqual(self.l["en_link_nothing_stored"]["lang"], "en")
+
+    def test_the_link_language_is_kept_in_the_url_while_it_is_the_answer(self):
+        """Same reason as the venue: a reload has to be able to decide again."""
+        for case in ("en_link_fi_stored", "en_link_nothing_stored", "sv_link_fi_stored"):
+            with self.subTest(case=case):
+                self.assertTrue(self.l[case]["keepParam"])
+
+    def test_a_stored_choice_is_never_overwritten_by_a_link(self):
+        """`remember` is false when something valid is stored. Following one English link
+        must not switch a Finnish reader's app for good."""
+        self.assertFalse(self.l["en_link_fi_stored"]["remember"])
+        self.assertFalse(self.l["fi_link_en_stored"]["remember"])
+
+    def test_a_first_visit_keeps_the_language_it_arrived_in(self):
+        """Nothing valid stored: the link seeds the preference, so a later plain visit
+        stays in the language of the page the reader came through."""
+        self.assertTrue(self.l["en_link_nothing_stored"]["remember"])
+        self.assertTrue(self.l["en_link_bad_stored"]["remember"])
+
+    def test_only_a_supported_value_decides_anything(self):
+        """Exact match against LANGS: `EN` and `xx` fall through to the stored language,
+        and `keepParam` false tells the caller to strip them."""
+        for case, expect in (("upper_case_param", "fi"), ("bad_param_en_stored", "en")):
+            with self.subTest(case=case):
+                self.assertEqual(self.l[case]["lang"], expect)
+                self.assertFalse(self.l[case]["keepParam"])
+                self.assertFalse(self.l[case]["remember"])
+
+    def test_with_nothing_valid_anywhere_the_default_is_finnish(self):
+        for case in ("bad_param_nothing_stored", "no_param_nothing_stored",
+                     "no_param_bad_stored"):
+            with self.subTest(case=case):
+                self.assertEqual(self.l[case]["lang"], "fi")
+                self.assertFalse(self.l[case]["keepParam"])
+
+    def test_without_a_parameter_the_stored_language_applies_as_before(self):
+        self.assertEqual(self.l["no_param_en_stored"]["lang"], "en")
+        self.assertFalse(self.l["no_param_en_stored"]["keepParam"])
+        self.assertFalse(self.l["no_param_en_stored"]["remember"])
+
+    def test_swedish_is_a_supported_value(self):
+        """The pages never write it, but the app has it, so a hand-written link may."""
+        self.assertEqual(self.l["sv_link_fi_stored"]["lang"], "sv")
+
+    def test_the_language_decision_never_touches_the_venue_or_the_favourite(self):
+        """The result carries only its own three fields; nothing here can reach `fav`
+        or `area`."""
+        for case, r in self.l.items():
+            with self.subTest(case=case):
+                self.assertEqual(set(r), {"lang", "remember", "keepParam"})
+
+    def test_toggling_the_language_rewrites_the_parameter(self):
+        """Otherwise the value the reader arrived with would put them back on reload."""
+        self.assertEqual(self.lu["deep_lang_then_toggle"], "area=sk-tapio&lang=fi")
+        self.assertEqual(self.lu["lang_only_then_toggle"], "lang=sv")
+
+    def test_toggling_never_grows_a_language_parameter(self):
+        self.assertIsNone(self.lu["area_only_then_toggle"])
+        self.assertIsNone(self.lu["plain_visit_then_toggle"])
+
+    def test_an_empty_language_parameter_is_filled_rather_than_ignored(self):
+        self.assertEqual(self.lu["empty_lang_param"], "lang=en")
 
 
 if __name__ == "__main__":

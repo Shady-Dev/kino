@@ -1856,6 +1856,31 @@
     q.set('area', id);
     return q.toString();
   }
+  // -> which UI language a load starts in. `?lang=` is the second half of the deep link
+  // the generated pages carry: an English landing page has to open the English app, and
+  // until this the language came from prefs alone and defaulted to Finnish, so a reader
+  // with nothing stored landed in the wrong one. Exact match against LANGS -- `EN` or
+  // `xx` decide nothing and the caller strips them.
+  //
+  // `remember` seeds prefs only when nothing valid is stored: a first-time reader keeps
+  // the language of the page they arrived through on later plain visits, while a stored
+  // choice is never overwritten by a link somebody else wrote. `keepParam` keeps the
+  // parameter in the URL while it is the answer, so a reload applies it again, the same
+  // rule `startupArea` follows for the venue.
+  function startupLang(param, stored, langs){
+    if(langs.includes(param))  return { lang: param,  remember: !langs.includes(stored), keepParam: true };
+    if(langs.includes(stored)) return { lang: stored, remember: false, keepParam: false };
+    return { lang: langs[0], remember: false, keepParam: false };
+  }
+  // Same rule as areaParamAfterSelect: an explicit toggle rewrites a `lang` that is
+  // already in the URL, so the value the reader arrived with cannot override their
+  // choice on reload, and a plain `/` never grows one.
+  function langParamAfterSelect(search, lang){
+    const q = new URLSearchParams(search);
+    if(!q.has('lang')) return null;
+    q.set('lang', lang);
+    return q.toString();
+  }
   // --- end area routing ---
 
   function replaceQuery(q){
@@ -2883,7 +2908,25 @@
     applyAriaLabels();
     if(document.body.classList.contains('sheet-open')) syncSheet();
   }
-  state.lang = LANGS.includes(prefs.get().lang) ? prefs.get().lang : 'fi';
+  {
+    // The decision is startupLang(); see the comment on it. Read before any render, at
+    // the point the stored language used to be read, so every L[state.lang] lookup and
+    // the English films.json fetch in boot see the same value a stored choice would give.
+    let deepLang = '';
+    try { deepLang = new URLSearchParams(location.search).get('lang') || ''; } catch(_){}
+    const route = startupLang(deepLang, prefs.get().lang, LANGS);
+    state.lang = route.lang;
+    if(route.remember) prefs.set({ lang: route.lang });
+    if(deepLang && !route.keepParam){
+      // The link named a language the app does not have. Take it out of the URL rather
+      // than leaving it to claim something the toggle is not showing.
+      try {
+        const q = new URLSearchParams(location.search);
+        q.delete('lang');
+        replaceQuery(q.toString());
+      } catch(_){}
+    }
+  }
   renderContact();
   applyAriaLabels();
   langSeg.onclick = async e => {
@@ -2891,6 +2934,10 @@
     if(!b || b.dataset.lang === state.lang) return;
     state.lang = b.dataset.lang;
     prefs.set({lang: state.lang});
+    // Keep a deep-linked URL saying what the toggle shows, so a reload cannot put the
+    // reader back in the language they just left.
+    const lq = langParamAfterSelect(location.search, state.lang);
+    if(lq !== null) replaceQuery(lq);
     // Only English needs films.json, for the English titles Finnkino publishes. Swedish
     // falls back to the Finnish title on purpose: that is the name printed on the ticket
     // and on the cinema's own page, so an English one would send a reader looking for a

@@ -1,6 +1,7 @@
-// Runs index.html's own startupArea() and areaParamAfterSelect() against a table of
-// deep-link, favourite and stored-area combinations. Driven by tests/test_area_routing.py;
-// prints one JSON line.
+// Runs index.html's own startupArea(), areaParamAfterSelect(), startupLang() and
+// langParamAfterSelect() against tables of deep-link, favourite, stored-area and
+// stored-language combinations. Driven by tests/test_area_routing.py; prints one JSON
+// line.
 //
 // Sliced verbatim out of index.html between its marker comments and evaluated on its own,
 // the way healthState, venueRows and priceLabel are. Both functions are pure -- the
@@ -23,7 +24,7 @@ if (a === -1 || b === -1 || b < a) {
   process.exit(2);
 }
 const source = HTML.slice(a, b);
-for (const fn of ['startupArea', 'areaParamAfterSelect']) {
+for (const fn of ['startupArea', 'areaParamAfterSelect', 'startupLang', 'langParamAfterSelect']) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(source)) {
     console.error('marker block does not contain ' + fn);
     process.exit(2);
@@ -32,10 +33,13 @@ for (const fn of ['startupArea', 'areaParamAfterSelect']) {
 
 const sandbox = { URLSearchParams };
 vm.createContext(sandbox);
-vm.runInContext(source + '\n;globalThis.__s = startupArea; globalThis.__p = areaParamAfterSelect;',
+vm.runInContext(source + '\n;globalThis.__s = startupArea; globalThis.__p = areaParamAfterSelect;'
+                + 'globalThis.__l = startupLang; globalThis.__q = langParamAfterSelect;',
                 sandbox, { filename: 'areaRouting' });
 const startupArea = sandbox.__s;
 const areaParamAfterSelect = sandbox.__p;
+const startupLang = sandbox.__l;
+const langParamAfterSelect = sandbox.__q;
 
 // The venues this fixture knows about. `known` is the same shape the app builds: a venue
 // id, or a `city:` id for a city with more than one venue.
@@ -83,4 +87,38 @@ const URL_CASES = [
 const urls = {};
 for (const [name, search, id] of URL_CASES) urls[name] = areaParamAfterSelect(search, id);
 
-process.stdout.write(JSON.stringify({ routing, urls }));
+// The language half of the deep link. `LANGS` is passed in the way the app passes its own
+// constant, so the harness does not have to slice a second block.
+const LANGS = ['fi', 'sv', 'en'];
+// [name, ?lang= value, stored prefs.lang]
+const LANG_CASES = [
+  // -- the case the generated English pages need ---------------------------------------
+  ['en_link_nothing_stored',  'en', undefined],
+  ['en_link_fi_stored',       'en', 'fi'],
+  ['fi_link_en_stored',       'fi', 'en'],
+  ['sv_link_fi_stored',       'sv', 'fi'],
+  ['en_link_bad_stored',      'en', 'de'],
+  // -- no parameter: the stored restore as before -------------------------------------
+  ['no_param_en_stored',      '',   'en'],
+  ['no_param_nothing_stored', '',   undefined],
+  ['no_param_bad_stored',     '',   'de'],
+  // -- values the app does not have -----------------------------------------------------
+  ['bad_param_en_stored',     'xx', 'en'],
+  ['bad_param_nothing_stored','xx', undefined],
+  ['upper_case_param',        'EN', 'fi'],
+];
+const lang = {};
+for (const [name, param, stored] of LANG_CASES) lang[name] = startupLang(param, stored, LANGS);
+
+// [name, search, language the reader just picked]
+const LANG_URL_CASES = [
+  ['deep_lang_then_toggle',  '?area=sk-tapio&lang=en', 'fi'],
+  ['lang_only_then_toggle',  '?lang=en',               'sv'],
+  ['area_only_then_toggle',  '?area=sk-tapio',         'en'],
+  ['plain_visit_then_toggle','',                        'en'],
+  ['empty_lang_param',       '?lang=',                  'en'],
+];
+const langUrls = {};
+for (const [name, search, l] of LANG_URL_CASES) langUrls[name] = langParamAfterSelect(search, l);
+
+process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls }));

@@ -3301,6 +3301,49 @@ in the URL (1); selection not rewriting the parameter, so a reload bounces back 
 selection always writing one, so `/` grows a parameter (1); and the stored area checked
 before the favourite (4).
 
+### The deep link carries the language too (2026-09-02, sw.js v97)
+The generated pages come in Finnish and English and every one of them linked to
+`/?area=...`, while the app read its language from `kino-prefs` alone and defaulted to
+Finnish. An English theatre page therefore opened a Finnish app for any reader without a
+stored choice, which is most readers arriving from a search. Found while designing the
+landing-page redesign and fixed ahead of it, so the pages can link to `&lang=fi` and
+`&lang=en` on the day they land.
+
+`startupLang(param, stored, LANGS)` sits in the same marker block as `startupArea` and
+follows the same rules, for the same reasons:
+
+- **A supported value in the URL wins on arrival**, over whatever is stored. Exact match
+  against `LANGS`, so `EN` and `xx` decide nothing.
+- **It stays in the URL while it is the answer**, so a reload applies it again -- the
+  lesson of the venue half, where deleting the parameter after applying it lost the
+  selection on the second load.
+- **It seeds `prefs.lang` only when nothing valid is stored.** A first-time reader keeps
+  the language of the page they came through on later plain visits; a Finnish reader who
+  follows one English link is not switched for good. It never writes `fav` or `area`.
+- **The toggle rewrites a `lang` that is already present**, and only then, so the value
+  the reader arrived with cannot put them back on reload and an ordinary visit to `/`
+  never grows a parameter. Same shape as `areaParamAfterSelect`.
+- **A value the app does not have is stripped** with `replaceState`, and the stored or
+  default language applies -- a URL saying `?lang=xx` beside a toggle showing FI is the
+  disagreement the venue half already refuses.
+
+Read at the point the stored language used to be read, before any render, so every
+`L[state.lang]` lookup and the English `films.json` fetch in boot see the same value a
+stored choice would have given them. No new render path.
+
+Extracted verbatim by `tests/area_routing_harness.js` alongside the venue functions and
+driven by 13 new cases in `tests/test_area_routing.py`. Verified by breaking it seven
+ways: the stored language checked before the link (4 red), a valid link not kept in the
+URL (3), the link always overwriting the stored choice (1), the link never seeding a first
+visit (1), a case-insensitive match (1), the toggle always writing a parameter (1), and the
+default moved off Finnish (3).
+
+Checked live against the served page as well, on a fresh origin with nothing stored:
+`/?area=sk-tapio&lang=en` opened Tapio in English with `{"lang":"en","area":"sk-tapio"}`
+written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; opening the
+English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
+were stripped while `area` stayed, the city form included.
+
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading
 a long grouped list, and a native select has nowhere to hang a search field. The
