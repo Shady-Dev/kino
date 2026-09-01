@@ -79,6 +79,7 @@ per-provider research and the approaches tried and rejected.
     scripts/build_providers.py       registry -> data/providers.json
     scripts/build_pages.py           renders the indexable pages
     scripts/accent_check.py          chain accent separation, incl. deuteranope
+    scripts/check_inline_js.py       node --check on the inline script and sw.js
     scripts/check_runs.py            fails when any committed run log did not end exit=0
     scripts/check_staleness.py       fails when data/areas.json is older than 8 h
     scripts/indexnow.py              tells IndexNow which generated pages a push changed
@@ -87,6 +88,7 @@ per-provider research and the approaches tried and rejected.
     .github/workflows/biorex.yml     all cloud providers + enrichment
     .github/workflows/logs.yml       runs check_runs.py on any push that touches a log
     .github/workflows/indexnow.yml   runs indexnow.py on page changes
+    .github/workflows/ci.yml         suite, JS check and regeneration, on code pushes
 
 ## Data shape
 
