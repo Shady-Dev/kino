@@ -1587,7 +1587,7 @@ Still open from this pass:
       Now age decides. `due()` is a pure function over the cache: uncached or incomplete
       is fetched, complete-without-a-trailer keeps its daily re-check looking for one, and
       complete-with-a-trailer is re-read once it is `RATING_MAX_AGE` (7) days old --
-      oldest first, `REFRESH_BUDGET` (12) of them a run, both overridable in the style of
+      `REFRESH_BUDGET` (12) of them a run, both overridable in the style of
       `KINO_PAGE_BUDGET`. The budget is not a running cost: 94 entries at a seven-day age
       come due at about thirteen a day, roughly two per run. It is there for the catch-up,
       because without it the first run re-reads all 71 at once, stamps them with the same
@@ -1600,12 +1600,69 @@ Still open from this pass:
       Unchanged on purpose: `MIN_VOTES`, `n` travelling with the score so the threshold can
       be retuned without re-fetching, and a missing field counting as incomplete so a gate
       change costs one pass rather than a cache wipe.
+      **The success path was wrong too, and a review caught it.** `due()` decided
+      correctly and everything after it did not: if both localized `/movie/{id}` requests
+      failed while `/videos` answered, the pass wrote the *old* rating stamped with
+      today's date, emptied the cached `fi` and `en` text, counted the rating as re-read,
+      and parked the entry for another seven days on figures nothing had looked at. So a
+      film whose id had become unreadable would report itself refreshed for ever while
+      losing its synopsis on the first failure.
+      Three changes, all narrow. The synopsis slots are seeded from the cache instead of
+      from `""`, and only a response that *arrived* replaces either -- so a failed
+      request leaves the text alone and a response TMDB really has emptied still clears
+      it. `c` moves to today only when a detail response carried rating and vote data,
+      which is what an entry is parked on; a title that matched no id at all is not in
+      that state and keeps its daily re-check. And `due()` hands back the refresh keys
+      rather than a count, so the pass can say what became of each:
+      `[enrich] rating refresh: N scheduled, N re-read, N failed and still due, N
+      deferred (budget 12)`, printed after the loop because success is not knowable
+      before it.
+      **Which of the backlog a run takes is decided by the last attempt, not the last
+      success.** Ordering on `c` alone starves the queue, which is the second thing the
+      review found: an id that can never be read keeps `c` where it is, ages further
+      every day and so outranks everything else for ever, and a dozen of those would hold
+      the whole budget on every run while the rest of the backlog never moved. `a` records
+      every attempt, success or failure, and it is what the queue sorts on -- least
+      recently attempted first, an entry never attempted ahead of all of them. `c` still
+      decides whether an entry is *due*; `a` decides whose turn it is. So a failing id
+      comes back round rather than camping at the head, and the log still says so:
+      `N scheduled, 0 re-read, N failed and still due` on every run it takes part in.
+      `a` is deliberately not part of `is_complete()`. It is this pass's own bookkeeping
+      rather than anything the client reads, and requiring it would cost a full re-check
+      pass to introduce -- absence already means "never attempted", which is exactly the
+      state that sorts first.
+      **And it has to be recorded even when the title aborts**, which the first version
+      of it was not. `a` was written just before the cache entry, after the video
+      request, so a title that read its detail and then failed on `/videos` fell to the
+      per-title `except`, skipped the write entirely, and kept an entry saying it had
+      never been attempted -- back at the head of the queue on the next run and every run
+      after, which is the starvation `a` exists to stop, reached through the one path
+      that skips the write. A scheduled refresh that got as far as being attempted now
+      records it from the `except` as well, and only that: `c`, the rating, the votes,
+      the synopses, the trailer and the id stay whatever was cached, so the entry keeps
+      everything it had and stays due. Guarded so that an exception *after* the write
+      cannot put the old entry back over a refresh that did succeed. Found by review;
+      the tests that covered the earlier hole all failed inside the detail handler,
+      which is the one place the code already guarded.
+      **A rating needs both halves of the pair.** The gate was `"vote_count" in d`, so a
+      response carrying only `vote_count` set the rating to 0 over the top of a real one
+      and stamped the entry as read, and one carrying only `vote_average` was not noticed
+      at all. Both fields must be usable numbers or neither is taken, and zero counts as
+      usable -- a film nobody has voted on comes back with 0 and 0, and reading that is a
+      successful read that `MIN_VOTES` then gates on its own.
       Covered by `tests/test_tmdb_recheck.py`, which tests the decision rather than the
-      network: 14 tests over a fabricated cache, each verified by breaking the code under
-      it -- restoring the old trailer skip, removing the budget, refreshing newest first,
+      network: 22 tests, 15 over a fabricated cache and 7 driving `main()` with TMDB's
+      three endpoints stubbed by URL. Each verified by breaking the code under it --
+      restoring the old trailer skip, removing the budget, refreshing newest first,
       reading an unknown age as fresh, dropping `n` from completeness, dropping the daily
-      no-trailer check, making every trailer entry always stale, and not fetching an
-      uncached title. Eight breaks, all red.
+      no-trailer check, making every trailer entry always stale, not fetching an uncached
+      title, resetting the synopses to empty, stamping the date unconditionally, counting
+      a failure as a refresh, treating any detail response as a read, keeping stale text
+      over an empty overview, dropping the id when the read fails, accepting half of the
+      vote pair, keying the gate on either half alone, rejecting a legitimate zero,
+      ordering the queue on the last success, never recording an attempt, recording one
+      only on success, recording none when the title aborts, rolling a good write back,
+      and rewriting more than the marker on the way out. Twenty-six breaks, all red.
 - [ ] The same defect on the Finnkino path. `fetch_data.py` carries the identical rule
       (`cached.get("v") or cached.get("c") == today`) and the identical shape:
       `data/tmdb.json` holds 59 entries, 46 with a trailer, 45 of them last read on

@@ -10,6 +10,14 @@ decision, against a fabricated cache. The two properties that matter pull agains
 other: a rating has to stop being permanent, and one pass must not turn into a re-fetch
 of every title. `due()` is where they meet, so `due()` is what these exercise.
 """
+import contextlib
+import datetime
+import io
+import json
+import os
+import pathlib
+import tempfile
+import types
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -20,7 +28,11 @@ TODAY = "2026-09-01"
 
 
 def entry(day, trailer=True, **over):
-    """A complete cache entry as the current shape writes one."""
+    """A complete cache entry as the current shape writes one.
+
+    `a` is left out unless a test sets it: absent means never attempted, which is the
+    state every entry written before this field existed is in.
+    """
     e = {"r": 7.1, "n": 400, "v": "abc123" if trailer else "", "x": True,
          "g": [18], "i": 42, "c": day, "fi": "Suomeksi", "en": "In English", "p": "/a.jpg"}
     e.update(over)
@@ -28,9 +40,9 @@ def entry(day, trailer=True, **over):
 
 
 def due(cache, **kw):
-    """-> (sorted keys this pass would fetch, refreshed, deferred)."""
-    keys, refreshed, deferred = enrich_tmdb.due(list(cache), cache, TODAY, **kw)
-    return sorted(keys), refreshed, deferred
+    """-> (sorted keys this pass would fetch, how many are refreshes, deferred)."""
+    keys, refreshes, deferred = enrich_tmdb.due(list(cache), cache, TODAY, **kw)
+    return sorted(keys), len(refreshes), deferred
 
 
 class WhatIsDueTest(unittest.TestCase):
@@ -83,6 +95,13 @@ class WhatIsDueTest(unittest.TestCase):
     def test_a_title_that_is_not_cached_at_all_is_fetched(self):
         self.assertEqual(enrich_tmdb.due(["brand new"], {}, TODAY)[0], {"brand new"})
 
+    def test_a_refresh_is_handed_back_as_keys_so_its_outcome_can_be_reported(self):
+        """A scheduled refresh whose detail request fails is not a refreshed rating, and
+        main can only say so if it knows which keys were scheduled."""
+        cache = {"old": entry("2026-08-01"), "fresh": entry("2026-08-31")}
+        _, refreshes, _ = enrich_tmdb.due(list(cache), cache, TODAY, max_age=7)
+        self.assertEqual(refreshes, {"old"})
+
     def test_the_score_and_its_sample_size_are_one_entry(self):
         """`n` travels with `r`, so the MIN_VOTES threshold can be retuned without
         re-fetching. Both are written by the same path, so a refresh carries both."""
@@ -108,10 +127,39 @@ class BudgetTest(unittest.TestCase):
                 self.assertEqual(len(keys), 12)
                 self.assertEqual((refreshed, deferred), (12, n - 12))
 
-    def test_the_oldest_go_first_so_nothing_starves(self):
+    def test_among_entries_never_attempted_the_oldest_go_first(self):
         cache = {"a": entry("2026-08-01"), "b": entry("2026-08-20"),
                  "c": entry("2026-08-10"), "d": entry("2026-08-25")}
         self.assertEqual(due(cache, max_age=7, budget=2)[0], ["a", "c"])
+
+    def test_an_entry_never_attempted_outranks_an_older_one_that_was(self):
+        """The starvation rule. An id that can never be read keeps `c` where it is and
+        ages further every day, so ordering on `c` alone would let a dozen of them hold
+        the budget for ever while the rest of the backlog never moved."""
+        cache = {"tried": entry("2026-06-01", a=TODAY),
+                 "untried": entry("2026-08-20")}
+        self.assertEqual(due(cache, max_age=7, budget=1)[0], ["untried"])
+
+    def test_among_entries_all_attempted_the_least_recent_attempt_goes_first(self):
+        cache = {"yesterday": entry("2026-06-01", a="2026-08-31"),
+                 "last-week": entry("2026-06-01", a="2026-08-25"),
+                 "today": entry("2026-06-01", a=TODAY)}
+        self.assertEqual(due(cache, max_age=7, budget=2)[0],
+                         ["last-week", "yesterday"])
+
+    def test_a_backlog_larger_than_the_budget_rotates_instead_of_repeating(self):
+        """Two rounds with the first round's picks marked attempted-and-failed: `c` does
+        not move, because nothing was read, so only `a` can stop them being picked again.
+        """
+        cache = {f"t{i:02d}": entry(f"2026-08-{20 - i:02d}") for i in range(9)}
+        first = set(enrich_tmdb.due(list(cache), cache, TODAY, max_age=7, budget=3)[1])
+        for k in first:
+            cache[k]["a"] = TODAY                   # attempted, and it failed
+        second = set(enrich_tmdb.due(list(cache), cache, TODAY, max_age=7, budget=3)[1])
+        self.assertEqual(len(first), 3)
+        self.assertEqual(len(second), 3)
+        self.assertEqual(first & second, set(),
+                         "the same entries were scheduled twice while others waited")
 
     def test_an_entry_with_no_date_counts_as_the_oldest_thing_there_is(self):
         """An entry from a shape this code no longer writes has an unknown age, and
@@ -148,10 +196,343 @@ class AgainstTheCommittedCacheTest(unittest.TestCase):
     def test_a_run_a_fortnight_from_the_oldest_entry_still_fits_the_budget(self):
         """The catch-up is bounded. Every entry in the committed cache is past the age on
         this date, and one pass still re-reads only the budget."""
-        keys, refreshed, deferred = enrich_tmdb.due(
+        keys, refreshes, deferred = enrich_tmdb.due(
             list(self.cache), self.cache, "2026-09-30")
-        self.assertEqual(refreshed, enrich_tmdb.REFRESH_BUDGET)
+        self.assertEqual(len(refreshes), enrich_tmdb.REFRESH_BUDGET)
         self.assertGreater(deferred, 0, "nothing was deferred, so nothing was capped")
+
+
+class MainPathTest(unittest.TestCase):
+    """What a refresh writes back, driven through main() rather than through `due()`.
+
+    `due()` decides which entries to re-read; everything the review found wrong was in
+    what happened afterwards, so this drives the whole pass. TMDB itself is the one thing
+    stubbed -- the pass needs a token and a third party, and neither belongs in a suite --
+    and the stub is a dispatch on the URL, so the sequence of calls the code makes is
+    still its own.
+    """
+
+    ID = 42
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.dir = pathlib.Path(tmp.name)
+        for attr, value in (("DATA", self.dir), ("CACHE", self.dir / "tmdb-titles.json"),
+                            ("GENRES", self.dir / "tmdb-genres.json"),
+                            ("EXTRA", self.dir / "films-extra.json")):
+            saved = getattr(enrich_tmdb, attr)
+            setattr(enrich_tmdb, attr, value)
+            self.addCleanup(lambda a=attr, v=saved: setattr(enrich_tmdb, a, v))
+
+        # The paced sleeps are the courtesy to TMDB, not behaviour under test.
+        real_time = enrich_tmdb.time
+        enrich_tmdb.time = types.SimpleNamespace(sleep=lambda *_: None)
+        self.addCleanup(lambda: setattr(enrich_tmdb, "time", real_time))
+
+        saved_token = os.environ.get("TMDB_TOKEN")
+        os.environ["TMDB_TOKEN"] = "test-token"
+        self.addCleanup(lambda: (os.environ.__setitem__("TMDB_TOKEN", saved_token)
+                                 if saved_token is not None
+                                 else os.environ.pop("TMDB_TOKEN", None)))
+
+        self.today = datetime.date.today().isoformat()
+        self.stale_day = (datetime.date.today()
+                          - datetime.timedelta(days=10)).isoformat()
+        (self.dir / "area-zz.json").write_text(json.dumps({
+            "generated": self.today, "dates": [], "horizon": "",
+            "shows": [{"title": "Old Film", "start": "2026-09-02T18:00:00+03:00"},
+                      {"title": "Other Film", "start": "2026-09-02T20:00:00+03:00"}],
+        }), encoding="utf-8")
+        self.write_cache({
+            "old film": entry(self.stale_day, i=self.ID),
+            # A second entry, so the loop and the counters are exercised rather than a
+            # single-item shortcut through them.
+            "other film": entry(self.today, i=99),
+        })
+        self.calls = []
+
+    def write_cache(self, cache):
+        (self.dir / "tmdb-titles.json").write_text(json.dumps(cache), encoding="utf-8")
+
+    def cache(self):
+        return json.loads((self.dir / "tmdb-titles.json").read_text(encoding="utf-8"))
+
+    def run_main(self, detail, videos=None):
+        """main() with TMDB stubbed. -> (exit code, everything it printed).
+
+        `detail` answers /movie/{id}?language=... and `videos` answers
+        /movie/{id}/videos. The default lets videos succeed, which is why a hole outside
+        the detail handler stayed green: every failure a test could write landed inside
+        the one place the code already guards.
+        """
+        def fake_get(url, headers, timeout=25):
+            self.calls.append(url)
+            if "/genre/movie/list" in url:
+                return {"genres": [{"id": 18, "name": "Draama"}]}
+            if url.endswith("/videos"):
+                return videos(url) if videos else {
+                    "results": [{"site": "YouTube", "type": "Trailer",
+                                 "official": True, "key": "zzz"}]}
+            return detail(url)
+
+        real = enrich_tmdb.get
+        enrich_tmdb.get = fake_get
+        self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = enrich_tmdb.main()
+        return code, buf.getvalue()
+
+    # -- the defect --------------------------------------------------------------------
+
+    def test_a_failed_detail_request_keeps_the_entry_and_leaves_it_due(self):
+        """Both localized detail requests fail and /videos answers. The pass used to
+        write the old rating stamped with today, empty the cached synopses, count the
+        rating as re-read and park the entry for another seven days."""
+        def boom(url):
+            raise RuntimeError("500 from TMDB")
+
+        code, out = self.run_main(boom)
+        self.assertEqual(code, 0)
+        e = self.cache()["old film"]
+        self.assertEqual(e["fi"], "Suomeksi", "a cached synopsis was emptied")
+        self.assertEqual(e["en"], "In English", "a cached synopsis was emptied")
+        self.assertEqual((e["r"], e["n"]), (7.1, 400), "figures changed without a read")
+        self.assertEqual(e["c"], self.stale_day,
+                         "the entry was parked for a week on figures nothing re-read")
+        self.assertIn("1 scheduled, 0 re-read, 1 failed and still due", out)
+
+    def test_an_entry_a_failed_refresh_left_alone_is_due_again_next_run(self):
+        """The property the date is for. Nothing here asserts a log line: the question is
+        whether the next pass picks it up, which is what `due()` will be asked."""
+        def boom(url):
+            raise RuntimeError("500 from TMDB")
+
+        self.run_main(boom)
+        cache = self.cache()
+        _, refreshes, _ = enrich_tmdb.due(list(cache), cache, self.today)
+        self.assertIn("old film", refreshes)
+
+    # -- and the path that works --------------------------------------------------------
+
+    def test_a_detail_response_with_vote_data_settles_the_entry(self):
+        def ok(url):
+            return {"overview": "Uusi teksti", "vote_count": 900,
+                    "vote_average": 8.2, "genres": [{"id": 18}],
+                    "poster_path": "/b.jpg"}
+
+        code, out = self.run_main(ok)
+        self.assertEqual(code, 0)
+        e = self.cache()["old film"]
+        self.assertEqual((e["r"], e["n"]), (8.2, 900))
+        self.assertEqual(e["fi"], "Uusi teksti")
+        self.assertEqual(e["c"], self.today)
+        self.assertIn("1 scheduled, 1 re-read, 0 failed and still due", out)
+
+    def test_a_settled_entry_is_not_due_again_tomorrow(self):
+        def ok(url):
+            return {"overview": "Uusi teksti", "vote_count": 900,
+                    "vote_average": 8.2, "genres": [{"id": 18}]}
+
+        self.run_main(ok)
+        cache = self.cache()
+        _, refreshes, _ = enrich_tmdb.due(list(cache), cache, self.today)
+        self.assertEqual(refreshes, set())
+
+    def test_a_response_that_really_has_no_overview_still_clears_the_text(self):
+        """Seeding from the cache must not turn into "never clear". A detail response
+        that arrived and carries no overview is TMDB saying there is none."""
+        def empty(url):
+            return {"overview": "", "vote_count": 900, "vote_average": 8.2}
+
+        self.run_main(empty)
+        e = self.cache()["old film"]
+        self.assertEqual(e["fi"], "")
+        self.assertEqual(e["en"], "")
+        self.assertEqual(e["c"], self.today)
+
+    def test_a_detail_response_carrying_no_vote_data_does_not_settle_the_entry(self):
+        """"A detail response arrived" and "the rating was re-read" are different things.
+        TMDB sends vote_count on every /movie/{id} today, so this is the defensive half
+        of the rule -- what the entry is parked on is the figures, and text alone is not
+        them. The overview still lands, because that part of the response did arrive."""
+        def no_votes(url):
+            return {"overview": "Teksti ilman ääniä", "genres": [{"id": 18}]}
+
+        _, out = self.run_main(no_votes)
+        e = self.cache()["old film"]
+        self.assertEqual(e["fi"], "Teksti ilman ääniä")
+        self.assertEqual((e["r"], e["n"]), (7.1, 400))
+        self.assertEqual(e["c"], self.stale_day)
+        self.assertIn("1 scheduled, 0 re-read, 1 failed and still due", out)
+
+    def test_a_response_with_only_a_vote_count_settles_nothing(self):
+        """It used to set the rating to 0 over the top of a real one, stamp the entry
+        with today and log it as re-read. The pair is what an entry is parked on."""
+        _, out = self.run_main(lambda url: {"overview": "Teksti", "vote_count": 900})
+        e = self.cache()["old film"]
+        self.assertEqual((e["r"], e["n"]), (7.1, 400), "a real rating was erased")
+        self.assertEqual(e["c"], self.stale_day)
+        self.assertIn("1 scheduled, 0 re-read, 1 failed and still due", out)
+        # Handled, not survived: half a pair must be ignored rather than carried into
+        # the arithmetic and caught by the per-title guard three lines later.
+        self.assertNotIn("[enrich] Old Film:", out)
+
+    def test_a_response_with_only_a_vote_average_settles_nothing(self):
+        """The other half, which used not to be noticed at all: no `vote_count` meant the
+        branch never ran, so the entry was written with today's date anyway."""
+        _, out = self.run_main(lambda url: {"overview": "Teksti", "vote_average": 8.2})
+        e = self.cache()["old film"]
+        self.assertEqual((e["r"], e["n"]), (7.1, 400))
+        self.assertEqual(e["c"], self.stale_day)
+        self.assertIn("1 scheduled, 0 re-read, 1 failed and still due", out)
+        self.assertNotIn("[enrich] Old Film:", out)
+
+    def test_a_film_nobody_has_voted_on_is_still_a_successful_read(self):
+        """Zero is a value. Rejecting it would park every unrated film for ever, and the
+        MIN_VOTES gate already decides whether a score is worth showing."""
+        _, out = self.run_main(lambda url: {"overview": "Teksti", "vote_count": 0,
+                                            "vote_average": 0})
+        e = self.cache()["old film"]
+        self.assertEqual((e["r"], e["n"]), (0, 0))
+        self.assertEqual(e["c"], self.today)
+        self.assertIn("1 scheduled, 1 re-read, 0 failed and still due", out)
+
+    # -- the backlog rotates -------------------------------------------------------------
+
+    def backlog(self, n=8, budget=3):
+        """`n` stale entries against a forced budget of `budget`. -> {key: entry}.
+
+        More stale than one run can take, so which of them a second run picks is the
+        question. Oldest first by `c`, ids 100 upward, none of them ever attempted.
+        """
+        stale = {enrich_tmdb.norm(f"T{i:02d}"):
+                 entry((datetime.date.today()
+                        - datetime.timedelta(days=20 - i)).isoformat(), i=100 + i)
+                 for i in range(n)}
+        self.write_cache(stale)
+        (self.dir / "area-zz.json").write_text(json.dumps({
+            "generated": self.today, "dates": [], "horizon": "",
+            "shows": [{"title": f"T{i:02d}", "start": "2026-09-02T18:00:00+03:00"}
+                      for i in range(n)],
+        }), encoding="utf-8")
+        saved = enrich_tmdb.REFRESH_BUDGET
+        enrich_tmdb.REFRESH_BUDGET = budget
+        self.addCleanup(lambda: setattr(enrich_tmdb, "REFRESH_BUDGET", saved))
+        return stale
+
+    def ids_asked(self):
+        """The movie ids this run went to TMDB for, and reset. -> set of str."""
+        asked = {u.split("/movie/")[1].split("/")[0].split("?")[0]
+                 for u in self.calls if "/movie/" in u and "/genre/" not in u}
+        self.calls.clear()
+        return asked
+
+    def test_a_failed_id_does_not_hold_the_budget_on_the_next_run(self):
+        """Driven twice through main(). Every detail read fails, so `c` never moves and
+        only the recorded attempt can stop the same ids being asked again."""
+        self.backlog()
+
+        def boom(url):
+            raise RuntimeError("500 from TMDB")
+
+        self.run_main(boom)
+        first = self.ids_asked()
+        self.run_main(boom)
+        second = self.ids_asked()
+        self.assertEqual(len(first), 3)
+        self.assertEqual(len(second), 3)
+        self.assertEqual(first & second, set(),
+                         "the same failed ids held the budget a second time")
+
+    def test_a_refresh_that_dies_after_the_detail_read_still_records_the_attempt(self):
+        """The same starvation through the path the guard above does not cover.
+
+        `a` was written just before the cache entry, after the video request, so a title
+        that read its detail and then failed on `/videos` skipped the write entirely and
+        kept an entry saying it had never been attempted. Never-attempted sorts ahead of
+        everything, so the same three ids came back every run for ever. The detail
+        request succeeds here on purpose: the failure has to land outside the one handler
+        the earlier tests exercise.
+        """
+        stale = self.backlog()
+
+        def ok(url):
+            return {"overview": "Teksti", "vote_count": 900, "vote_average": 8.2,
+                    "genres": [{"id": 18}]}
+
+        def no_videos(url):
+            raise RuntimeError("500 from TMDB")
+
+        self.run_main(ok, videos=no_videos)
+        first = self.ids_asked()
+        self.run_main(ok, videos=no_videos)
+        second = self.ids_asked()
+        self.assertEqual(len(first), 3)
+        self.assertEqual(len(second), 3)
+        self.assertEqual(first & second, set(),
+                         "a title that died after its detail read stayed at the head "
+                         "of the queue")
+
+    def test_such_a_title_keeps_everything_it_had(self):
+        """Only the attempt marker moves. `c` in particular: the entry aborted before a
+        complete replacement could be written, so it is still due."""
+        stale = self.backlog()
+
+        def ok(url):
+            return {"overview": "Uusi teksti", "vote_count": 900, "vote_average": 8.2}
+
+        def no_videos(url):
+            raise RuntimeError("500 from TMDB")
+
+        self.run_main(ok, videos=no_videos)
+        after = self.cache()
+        touched = [k for k, v in after.items() if v.get("a") == self.today]
+        self.assertEqual(len(touched), 3, "the attempt was not recorded")
+        for k in touched:
+            was = stale[k]
+            self.assertEqual(after[k]["c"], was["c"], "the entry was parked")
+            for field in ("r", "n", "fi", "en", "v", "i", "x", "g", "p"):
+                self.assertEqual(after[k][field], was[field], f"{k}.{field}")
+
+    def test_an_exception_after_the_write_does_not_put_the_old_entry_back(self):
+        """The other side of the same guard. Everything up to and including the cache
+        write succeeded, so the refresh is real and must survive whatever raises after
+        it -- restoring the cached entry there would undo a rating that was read."""
+        self.backlog(n=1)
+
+        def exploding_sleep(seconds=0):
+            if seconds == 0.25:                # the per-title pause, after the write
+                raise RuntimeError("after the write")
+
+        enrich_tmdb.time = types.SimpleNamespace(sleep=exploding_sleep)
+
+        def ok(url):
+            return {"overview": "Uusi teksti", "vote_count": 900, "vote_average": 8.2}
+
+        self.run_main(ok)
+        e = self.cache()[enrich_tmdb.norm("T00")]
+        self.assertEqual((e["r"], e["n"]), (8.2, 900), "a real refresh was rolled back")
+        self.assertEqual(e["c"], self.today)
+        self.assertEqual(e["a"], self.today)
+
+    def test_the_fresh_entry_is_not_touched_at_all(self):
+        """Two entries, one due and one not. The one that is not must cost no requests,
+        or the budget means nothing."""
+        self.run_main(lambda url: {"overview": "x", "vote_count": 1, "vote_average": 1})
+        self.assertEqual([u for u in self.calls if "/99" in u], [])
+        self.assertEqual(self.cache()["other film"]["c"], self.today)
+
+    def test_a_failed_refresh_does_not_turn_the_pass_into_a_re_search(self):
+        """The id is kept even when the detail read fails, so the next pass spends two
+        requests on it rather than starting from a title search again."""
+        def boom(url):
+            raise RuntimeError("500 from TMDB")
+
+        self.run_main(boom)
+        self.assertEqual(self.cache()["old film"]["i"], self.ID)
+        self.assertEqual([u for u in self.calls if "/search/movie" in u], [])
 
 
 if __name__ == "__main__":

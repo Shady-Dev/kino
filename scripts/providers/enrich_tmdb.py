@@ -95,11 +95,32 @@ MIN_VOTES = 25
 # So age decides, not the presence of a trailer. The budget is what stops that becoming a
 # re-fetch of everything: without it the first run after this change re-reads all 71 at
 # once, stamps them all with the same date, and they all come due together again a week
-# later, for ever. Oldest first, so nothing starves. In the steady state the ceiling is
-# not reached -- 94 entries at a seven-day age come due at about thirteen a day, which is
-# roughly two per run -- so it is a bound on the catch-up rather than a running cost.
+# later, for ever. In the steady state the ceiling is not reached -- 96 entries at a
+# seven-day age come due at about fourteen a day, which is roughly two per run -- so it
+# is a bound on the catch-up rather than a running cost.
+#
+# Which of the backlog a run takes is decided by `a`, when a refresh was last *attempted*,
+# and not by `c`, when one last succeeded. Ordering on `c` alone starves the queue: an id
+# that can never be read keeps `c` where it is, ages further every day and so outranks
+# everything else for ever, and a dozen of those would spend the whole budget on every
+# run while the rest of the backlog never moved. Least recently attempted goes first, an
+# entry never attempted ahead of all of them, so the budget rotates.
+#
+# `a` is deliberately not part of is_complete(): it is this pass's own bookkeeping rather
+# than anything the client reads, and requiring it would cost a full re-check pass to
+# introduce for no gain.
 RATING_MAX_AGE = int(os.environ.get("KINO_TMDB_MAX_AGE") or 7)
 REFRESH_BUDGET = int(os.environ.get("KINO_TMDB_REFRESH") or 12)
+
+
+def _numeric(v):
+    """A usable number from a TMDB field. -> the value, or None.
+
+    Zero is a value: a film nobody has voted on comes back with `vote_count` 0 and
+    `vote_average` 0.0, and reading that is a successful read. Absent, null or a string
+    is not, and must not become a zero written over a rating that was real.
+    """
+    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
 
 
 def is_complete(c):
@@ -112,25 +133,29 @@ def is_complete(c):
             and "p" in c and "n" in c and "x" in c and "g" in c)
 
 
-def age_days(entry, today):
-    """Days since this entry was last read from TMDB. -> int, or None if unreadable.
+def age_days(entry, today, field="c"):
+    """Days since one of this entry's dates. -> int, or None if there is not one.
 
-    None is not zero: an entry with no `c`, or one written by a shape this code no longer
-    produces, has an unknown age and is treated as the oldest thing there is.
+    `c` is when TMDB last answered with rating and vote data, `a` when a refresh was last
+    attempted. None is not zero in either case: an entry with no `c` was written by a
+    shape this code no longer produces and is the oldest thing there is, and an entry
+    with no `a` has never been attempted, which puts it at the head of the queue.
     """
     try:
         return (datetime.date.fromisoformat(today)
-                - datetime.date.fromisoformat(entry.get("c") or "")).days
+                - datetime.date.fromisoformat(entry.get(field) or "")).days
     except (TypeError, ValueError):
         return None
 
 
 def due(titles, cache, today, max_age=None, budget=None):
-    """Which titles this pass fetches. -> (keys, refreshed, deferred).
+    """Which titles this pass fetches. -> (keys, refreshes, deferred).
 
-    `refreshed` counts the complete entries being re-read only because their rating is
-    old; `deferred` counts the ones that were also due and did not fit the budget, so the
-    caller can say so rather than trimming silently.
+    `refreshes` is the subset being re-read only because their rating is old, handed back
+    as keys rather than a count so the caller can report what actually became of each --
+    a scheduled refresh whose detail request fails is not a refreshed rating. `deferred`
+    counts the ones that were also due and did not fit the budget, so the caller can say
+    so rather than trimming silently.
 
     Four states:
 
@@ -139,8 +164,9 @@ def due(titles, cache, today, max_age=None, budget=None):
         pass rather than a wipe.
       * complete with no trailer -- once a day, looking for a trailer that may not have
         existed when the film opened. Unchanged.
-      * complete with a trailer -- used to be skipped for ever. Re-read once the entry is
-        `max_age` days old, oldest first, at most `budget` of them a run.
+      * complete with a trailer -- used to be skipped for ever. Re-read once `c` is
+        `max_age` days old, at most `budget` of them a run, least recently *attempted*
+        first so that an id which never reads cannot hold the queue. See RATING_MAX_AGE.
     """
     max_age = RATING_MAX_AGE if max_age is None else max_age
     budget = REFRESH_BUDGET if budget is None else budget
@@ -157,12 +183,13 @@ def due(titles, cache, today, max_age=None, budget=None):
                 work.add(k)
             continue
         if age is None or age >= max_age:
-            stale.append((age, k))
-    # Unknown age sorts oldest. Ties break on the key so the choice is the same on every
-    # machine and a test can name which entries are picked.
-    stale.sort(key=lambda p: (0 if p[0] is None else 1, -(p[0] or 0), p[1]))
-    refresh = stale[:budget]
-    return (work | {k for _, k in refresh}, len(refresh), len(stale) - len(refresh))
+            stale.append((age, age_days(c, today, "a"), k))
+    # Never attempted first, then longest since the last attempt, then oldest data, then
+    # the key -- so the choice is the same on every machine and a test can name it.
+    stale.sort(key=lambda p: (0 if p[1] is None else 1, -(p[1] or 0),
+                              0 if p[0] is None else 1, -(p[0] or 0), p[2]))
+    refresh = {k for _, _, k in stale[:budget]}
+    return work | refresh, refresh, len(stale) - len(refresh)
 
 
 def pick(hits, query):
@@ -355,22 +382,15 @@ def main() -> int:
             if k:
                 titles.setdefault(k, s.get("title"))
 
-    todo, refreshed, deferred = due(titles, cache, today)
-    if refreshed or deferred:
-        line = (f"[enrich] {refreshed} rating(s) re-read after {RATING_MAX_AGE}+ days")
-        if deferred:
-            # Logged rather than trimmed quietly: a ceiling nobody can see reads as
-            # "everything is current", which is the state this whole item is about.
-            line += (f", {deferred} more due and left for the next run "
-                     f"(budget {REFRESH_BUDGET})")
-        print(line)
-
+    todo, refreshes, deferred = due(titles, cache, today)
+    settled = set()          # scheduled refreshes that came back with rating/vote data
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
         c = cache.get(k)
+        replaced = False
         try:
             mid = c.get("i") if isinstance(c, dict) else None
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
@@ -410,30 +430,45 @@ def main() -> int:
                         poster = fallback.get("poster_path") or poster
                         exact_id = False
                         weak.append(f"{display or k} -> {fallback.get('title')}")
-            syn_fi = syn_en = ""
+            # Seeded from the cache, not from "". A detail request that fails must leave
+            # the text this entry already had: writing "" would empty the cache's copy of
+            # a synopsis nothing else can put back, and the pass would report a rating as
+            # re-read while carrying the old figures. Only a response that arrived
+            # replaces either slot, so a film whose overview TMDB really has emptied
+            # still clears.
+            syn_fi = (c.get("fi") or "") if isinstance(c, dict) else ""
+            syn_en = (c.get("en") or "") if isinstance(c, dict) else ""
+            detail_ok = False
             if mid:
                 # Finnish overview when TMDB has one, English as the fallback.
                 for langcode, slot in (("fi-FI", "fi"), ("en-US", "en")):
                     try:
                         d = get(f"https://api.themoviedb.org/3/movie/{mid}?language={langcode}", th)
-                        text = (d.get("overview") or "").strip()
-                        poster = poster or (d.get("poster_path") or "")
-                        if "vote_count" in d:
-                            votes = d.get("vote_count") or 0
-                            rating = d.get("vote_average") or 0
-                        # Genre ids cost nothing: they are in the response this pass
-                        # already fetches for the synopsis. Ids, not names, so one
-                        # id->name map per language covers every film.
-                        if d.get("genres"):
-                            gids = [g["id"] for g in d["genres"] if g.get("id")]
-                        if slot == "fi":
-                            syn_fi = text
-                            if text:
-                                break
-                        else:
-                            syn_en = text
                     except Exception:
-                        pass
+                        time.sleep(0.2)
+                        continue
+                    text = (d.get("overview") or "").strip()
+                    poster = poster or (d.get("poster_path") or "")
+                    # Both fields or neither. A response carrying only `vote_count` used
+                    # to set the rating to 0 over the top of a real one and then stamp the
+                    # entry as read; one carrying only `vote_average` was not noticed at
+                    # all. Either way it is not the pair the entry is parked on.
+                    fresh_n = _numeric(d.get("vote_count"))
+                    fresh_r = _numeric(d.get("vote_average"))
+                    if fresh_n is not None and fresh_r is not None:
+                        votes, rating = fresh_n, fresh_r
+                        detail_ok = True
+                    # Genre ids cost nothing: they are in the response this pass
+                    # already fetches for the synopsis. Ids, not names, so one
+                    # id->name map per language covers every film.
+                    if d.get("genres"):
+                        gids = [g["id"] for g in d["genres"] if g.get("id")]
+                    if slot == "fi":
+                        syn_fi = text
+                        if text:
+                            break
+                    else:
+                        syn_en = text
                     time.sleep(0.2)
             yt = ""
             if mid:
@@ -452,9 +487,24 @@ def main() -> int:
             # "x" = the id came from an exact title match (or a hand-written alias id).
             # Only those are safe to merge films on: a weak id would fold two different
             # films into one row, which is worse than showing two rows.
+            # `c` is what parks an entry for a week, so only a detail response that
+            # carried rating and vote data may move it. A film whose id has no readable
+            # detail keeps the date it had and stays due on the next run rather than
+            # being recorded as re-read on figures nothing looked at. A title that
+            # matched no id at all is not in that state: there is nothing to read, and
+            # it keeps its daily re-check as before.
+            stamp = today if (detail_ok or not mid) else (
+                (c.get("c") or "") if isinstance(c, dict) else "")
+            # `a` is every attempt, `c` only the ones that answered. Keeping them apart is
+            # what lets a failed entry stay due without outranking the rest of the backlog
+            # for ever -- see RATING_MAX_AGE.
+            attempt = today if mid else ((c.get("a") or "") if isinstance(c, dict) else "")
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
-                        "g": gids, "i": mid or "", "c": today,
+                        "g": gids, "i": mid or "", "c": stamp, "a": attempt,
                         "fi": syn_fi, "en": syn_en, "p": poster}
+            replaced = True
+            if detail_ok and k in refreshes:
+                settled.add(k)
             rechecked += 1 if isinstance(c, dict) else 0
             looked += 0 if isinstance(c, dict) else 1
             pending += 1
@@ -464,8 +514,34 @@ def main() -> int:
             time.sleep(0.25)
         except Exception as e:
             print(f"[enrich] {display}: {e}")
+            # A scheduled refresh that got as far as being attempted has to record that,
+            # even when nothing else about the entry can be written. `attempt` is set
+            # only just before the write, after the video request, so anything raising
+            # ahead of it -- that request, the arithmetic under it -- left the entry
+            # saying it had never been attempted. Which puts it back at the head of the
+            # queue on the next run and every run after: exactly the starvation `a`
+            # exists to stop, reachable through the one path that skips the write.
+            #
+            # Only the marker moves. `c`, the rating, the votes, the synopses, the
+            # trailer and the id are whatever was already cached, so a title that aborts
+            # keeps all of it and stays due -- `c` still advances only where a detail
+            # response carried the vote pair. Guarded on `replaced`, so an exception
+            # *after* the write cannot put the old entry back over a good one.
+            if k in refreshes and isinstance(c, dict) and not replaced:
+                cache[k] = {**c, "a": today}
 
     flush(cache, today)
+
+    # After the loop, because whether a scheduled refresh actually re-read anything is
+    # only known once its detail request has answered. A failure here is not an error --
+    # the entry keeps its figures and its date and comes back to the head of the queue --
+    # but a run where every refresh fails must not read like a run where every one
+    # worked. Deferred is what the budget left for the next pass; a ceiling nobody can
+    # see reads as "everything is current".
+    if refreshes or deferred:
+        print(f"[enrich] rating refresh: {len(refreshes)} scheduled, "
+              f"{len(settled)} re-read, {len(refreshes) - len(settled)} failed and "
+              f"still due, {deferred} deferred (budget {REFRESH_BUDGET})")
 
     touched = 0
     for p in files:
