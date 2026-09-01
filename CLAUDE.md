@@ -74,8 +74,8 @@ A registry entry plus an adapter. No `index.html` edit.
   sleep inside `fetch_site` still describes what a host sees. Two entries against one
   server must both name it in `base` -- Bio Säde's data comes from kinohirvi.fi and only
   its ticket links go to biosade.fi, which is what `site` is for. A site with no `base`
-  at all shares one group with every other base-less site of its module, which is slow
-  rather than rude.
+  at all shares one group with every other base-less site of its module, so those are
+  read one after the other.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.

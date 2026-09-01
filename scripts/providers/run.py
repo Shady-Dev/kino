@@ -240,8 +240,9 @@ def host_of(site):
 
     A site with no `base` keeps its host inside the adapter, out of reach from here.
     Those all answer "" and so share one group, which reads them one after the other
-    rather than assuming they are different cinemas. Being wrong in that direction costs
-    time; being wrong in the other doubles the request rate at somebody's server.
+    rather than assuming they are different cinemas. Treating an unknown host as its own
+    would put two requests at one server at once; treating two servers as one costs
+    seconds.
     """
     return urllib.parse.urlsplit(site.get("base") or "").netloc
 
@@ -257,7 +258,7 @@ def host_groups(sites):
     kinoaurora and kinometso, and kinohirvi.fi serves both kinohirvi and biosade. Keyed
     on the site, two of Nexxo's eight would be read concurrently against one cinema's
     server at twice the rate its adapter paces for -- which is the courtesy the whole
-    access story rests on. One thread per host keeps that sleep meaning what it says.
+    access story rests on. One thread per host is what keeps that pacing accurate.
     """
     groups = {}
     for i, site in enumerate(sites):
@@ -292,8 +293,8 @@ class Recorder:
     Both streams, not stdout alone: run_site reports stale, pending and unverified venues
     on stderr and the workflow merges the two (`> run-$m.log 2>&1`), so capturing one of
     them would move half the lines. They share one list per thread, so the order the two
-    were written in is the order they come back in. That is a change for the better in
-    its own right -- today stdout is block-buffered into a redirected log while stderr is
+    were written in is the order they come back in. That also changes what a committed
+    log looks like: today stdout is block-buffered into a redirected log while stderr is
     line-buffered, so a stderr line written last can land first in the file, which is why
     run-nexxo.log opens with kinometso's empty-venue notice from the eighth site of eight.
     """

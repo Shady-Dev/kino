@@ -46,8 +46,8 @@ _stats = {"hit": 0, "miss": 0, "stored": 0, "nostore": 0}
 # worse than a slow run, so the arithmetic is made correct by construction rather than
 # left to the interpreter.
 #
-# Said plainly, because it was measured rather than assumed: on CPython 3.14 with the GIL
-# the lock changes nothing observable. `_stats["miss"] += 1` compiles to a subscript, an
+# Measured rather than assumed: on CPython 3.14 with the GIL the lock changes nothing
+# observable. `_stats["miss"] += 1` compiles to a subscript, an
 # add and a store, and the eval loop does not offer to switch threads inside that stretch
 # -- eight threads and 1.6 million increments lose exactly zero. The same is true of the
 # Retry-After decision, whose read of `waited` and charge against it are separated by no

@@ -1483,18 +1483,17 @@ Still open from this pass:
       `run-nexxo.log` green, `check_runs.py` reports the failure on day one and reports
       the identical failure on day two, because nothing overwrote it. That is exactly the
       `run-vista.log` incident its docstring records. Deleting the log instead empties the
-      directory on an all-green day and the "no run logs" branch returns 1, which is the
-      same red for the opposite reason.
+      directory on an all-green day, and the "no run logs" branch returns 1.
       **And the green logs are the record.** README calls them authoritative and CLAUDE.md
       routes every pipeline verification through them; a run that publishes half a venue's
       showtimes exits 0, so the per-venue counts in a *successful* log are the only place a
       soft regression is visible at all. Truncating a green log to its summary and `exit=`
       lines would keep `check_runs` and the `logs.yml` trigger working, and would throw
-      away precisely that. Not worth 40 lines a run.
-      One thing the item got right and is worth writing down: the failure *signal* would
-      have survived, since a failing run still commits a log and still fires `logs.yml`.
-      The stale red is the part that kills it. Reopen only if run logs ever start forming
-      commits of their own.
+      away precisely that, to save about 40 lines a run.
+      One part of the item holds: the failure *signal* would have survived, since a
+      failing run still commits a log and still fires `logs.yml`. What stops it is the
+      stale red on the runs in between. Reopen only if run logs ever start forming commits
+      of their own.
 - [x] Finnkino no longer publishes an empty area file when a venue returns no shows: it
       keeps the previously committed one, matching `run.py`. A file is still written when
       none exists, because `areas.json` lists every site regardless of shows and the picker
@@ -1572,8 +1571,9 @@ Still open from this pass:
       read. The one place cached figures do carry over is an entry with no `mid` at all,
       where there is nothing to read them from, and that is correct.
       What was actually wrong is that most entries were never re-checked. The skip was
-      `complete and (c.get("v") or c.get("c") == today)`, so **finding a trailer ended the
-      entry's life**: its rating and vote count froze at whatever they were that day.
+      `complete and (c.get("v") or c.get("c") == today)`, so **a trailer stopped the entry
+      ever being read again**: its rating and vote count froze at whatever they were that
+      day.
       Measured against the committed `data/tmdb-titles.json` on 2026-09-01: 154 entries,
       94 with a trailer, and 71 of those 94 last read on 2026-08-27 -- five days, with
       nothing in the code that would ever read them again. A vote count moves fastest in
@@ -3679,10 +3679,10 @@ hurting anyone. What it buys is a faster verification loop when changing an adap
 smaller window in which a mid-run failure can land. Do it deliberately or not at all.
 
 ### A run reads unrelated hosts at once (2026-09-01)
-Done deliberately, per the entry above, with one correction to its design and one hazard
-it did not name.
+Done as the entry above proposed, with one correction to its design and one hazard it
+did not name.
 
-**The unit is the host, not the site.** Measured against the live `SITES` on 2026-09-01:
+**The pool is keyed on the host.** Measured against the live `SITES` on 2026-09-01:
 eTiketti is 17 sites on 17 distinct hosts, 25 venues -- there a pool over sites and a pool
 over hosts are the same thing. Nexxo is 8 sites on **6** hosts, 13 venues, because
 kinoaurora.fi serves both kinoaurora and kinometso and kinohirvi.fi serves both kinohirvi
@@ -3695,35 +3695,34 @@ access story rests on. `run.py::host_groups` therefore groups by
 `base` and not `site`: Bio Säde's showtimes come from kinohirvi.fi while its ticket links
 go to biosade.fi, so the visitor-facing host is not the one being paced. A site carrying
 no `base` at all keeps its host inside the adapter, out of reach; those share one group
-and are read one after the other, because being wrong about "these are different cinemas"
-costs somebody else, and being wrong the other way costs us seconds.
+and are read one after the other. Treating an unknown host as its own would put two
+requests at one server at once; treating two servers as one costs seconds.
 
 The hazards, and what each turned out to be worth:
 
-- **The log had to be buffered, and it came out better than it went in.** Sites finish out
-  of order, so a pool prints `[provider] Venue: N showtimes` in an unreadable order. Each
+- **Output is buffered per site and replayed in SITES order.** Sites finish out of
+  order, so a pool prints `[provider] Venue: N showtimes` in an unreadable order. Each
   site's output is collected and replayed when its turn comes, *both* streams into one
   list, so the merge the workflow does (`> run-$m.log 2>&1`) sees them in the order they
   were written. That fixes something already broken: Python line-buffers stderr and
   block-buffers a redirected stdout, so the committed `run-nexxo.log` opens with
   kinometso's empty-venue notice -- a line printed by the eighth site of eight. The
-  committed logs will read chronologically from this change on, which is a visible diff in
-  the next run and not a regression.
-- **`common`'s counters are now locked, and the lock is not a fix for anything observed.**
-  Said plainly because it was measured: on CPython 3.14 with the GIL, eight threads and
-  1.6 million `_stats["miss"] += 1` lose exactly zero, and the Retry-After decision's read
-  of `waited` and its charge against it are separated by no call and no jump. The lock is
-  there because that is an implementation accident rather than a language guarantee, and
-  it is not true of a free-threaded build, which 3.14 ships and which nothing here pins
-  against. It also lets the Retry-After ceiling be one decision instead of three reads:
-  the seconds are now reserved before the sleep, so parallel hosts cannot each pass the
-  same remaining budget. What the tests pin is the totals, which is what the committed log
-  offers as evidence -- not the lock.
+  committed logs read chronologically from this change on, so the next run's log shows
+  that as a diff.
+- **`common`'s counters are locked.** The lock fixes nothing that was measured going
+  wrong: on CPython 3.14 with the GIL, eight threads and 1.6 million `_stats["miss"] += 1`
+  lose exactly zero, and the Retry-After decision's read of `waited` and its charge
+  against it are separated by no call and no jump. It is there because that is an
+  implementation accident rather than a language guarantee, and it is false on a
+  free-threaded build, which 3.14 ships and which nothing here pins against. It also lets
+  the Retry-After ceiling be one decision instead of three reads: the seconds are reserved
+  before the sleep, so parallel hosts cannot each pass the same remaining budget. The
+  tests pin the totals, which is what the committed log offers as evidence.
 - **`_write_slot` writes a per-thread temp name.** The slot is a hash of the URL, so two
   threads asking the same URL would have written the same `<hash>.tmp`, one truncating the
   other and both renaming the result over the slot. The loser is a corrupt cache entry
-  served as a cached body on the next run. Unlikely across different sites and not worth
-  leaving to luck.
+  served as a cached body on the next run. Unlikely across different sites; the fix is
+  the temp name.
 - **`synmerge.merge()` is the hazard the entry above missed.** It is a read-modify-write of
   the shared `data/films-extra.json` and `run_site` calls it per site, so two sites merging
   at once each write back what they read and the second silently drops the first's
@@ -3739,8 +3738,8 @@ Everything else `run_site` writes was already single-writer, checked rather than
 across all eight adapters the 57 venue ids and 31 provider ids are each unique, so
 `area-{id}.json` and `venues-{provider}.json` have exactly one writer per run.
 
-**The pool is 8, and the number bounds this end rather than any cinema.** Per-host load is
-the host grouping's job; what a pool size bounds is open sockets and response bodies in
+**The pool is 8.** The number bounds this end and not any cinema: per-host load is the
+host grouping's job, and what a pool size bounds is open sockets and response bodies in
 flight, at most `MAX_HOSTS * MAX_BODY` = 160 MB against a runner's 16 GB. 8 is twice the
 four vCPUs an ubuntu-latest runner has, covers Nexxo's six groups outright and turns
 eTiketti's seventeen into three waves. "As many as there are sites" was rejected as a
