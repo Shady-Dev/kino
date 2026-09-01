@@ -7,9 +7,10 @@
 [schedule] 2026-09-05: 128 showtimes
 [schedule] 2026-09-06: 125 showtimes
 [schedule] 2026-09-07: 114 showtimes
+[tmdb] dropped 1 entries matched by the old picker
 [tmdb] no TMDB match (4): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2 | Keinolla millä hyvänsä | Lyhyt rakkaustarina
 [tmdb] weak match, no exact title (1): I'm Game -> ഐ ആം ഗെയിം
-[tmdb] 5 new lookups, 7 re-checks, cache 59, 54 mergeable by id
+[tmdb] 1 new lookups, 0 re-checks, cache 59, 54 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 53 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
