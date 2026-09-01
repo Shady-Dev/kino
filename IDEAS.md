@@ -24,7 +24,8 @@ line from this list when its item is ticked below.
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices via the ticket-types endpoint
-- Refresh the TMDB rating on a trailer re-check, which currently reuses the cached one
+- The same frozen TMDB rating on the Finnkino path (`fetch_data.py`), which can only
+  be verified from an ordinary connection
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
 
@@ -1563,8 +1564,47 @@ Still open from this pass:
       writes are atomic and the cache is idempotent: a partial write is simply a warmer
       start. Every 25 rather than every title because films-extra.json is re-read and
       rewritten whole on each flush.
-- [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
-      since reusing the movie id skips the search call)
+- [x] **A cached TMDB rating stops being permanent** (2026-09-01). The item was
+      misdescribed and the real defect was larger. It said the re-check reuses the cached
+      rating "since reusing the movie id skips the search call". It does not: the movie
+      detail request the re-check already makes carries `vote_count` and `vote_average`,
+      and the code overwrites both from it. Reusing the id skips the *search*, not the
+      read. The one place cached figures do carry over is an entry with no `mid` at all,
+      where there is nothing to read them from, and that is correct.
+      What was actually wrong is that most entries were never re-checked. The skip was
+      `complete and (c.get("v") or c.get("c") == today)`, so **finding a trailer ended the
+      entry's life**: its rating and vote count froze at whatever they were that day.
+      Measured against the committed `data/tmdb-titles.json` on 2026-09-01: 154 entries,
+      94 with a trailer, and 71 of those 94 last read on 2026-08-27 -- five days, with
+      nothing in the code that would ever read them again. A vote count moves fastest in
+      the weeks after release, which is when a film is in these cinemas.
+      Now age decides. `due()` is a pure function over the cache: uncached or incomplete
+      is fetched, complete-without-a-trailer keeps its daily re-check looking for one, and
+      complete-with-a-trailer is re-read once it is `RATING_MAX_AGE` (7) days old --
+      oldest first, `REFRESH_BUDGET` (12) of them a run, both overridable in the style of
+      `KINO_PAGE_BUDGET`. The budget is not a running cost: 94 entries at a seven-day age
+      come due at about thirteen a day, roughly two per run. It is there for the catch-up,
+      because without it the first run re-reads all 71 at once, stamps them with the same
+      date, and they come due together again a week later for ever. What it defers is
+      printed, since a ceiling nobody can see reads as "everything is current".
+      Projected against today's 121 titles before it ran: identical to the old behaviour
+      today (50 fetched, 0 refreshes -- nothing has passed seven days yet), and 62 fetched
+      with 12 refreshes and 40 deferred from 2026-09-03. A refresh costs two requests when
+      TMDB has a Finnish overview and three when it does not.
+      Unchanged on purpose: `MIN_VOTES`, `n` travelling with the score so the threshold can
+      be retuned without re-fetching, and a missing field counting as incomplete so a gate
+      change costs one pass rather than a cache wipe.
+      Covered by `tests/test_tmdb_recheck.py`, which tests the decision rather than the
+      network: 14 tests over a fabricated cache, each verified by breaking the code under
+      it -- restoring the old trailer skip, removing the budget, refreshing newest first,
+      reading an unknown age as fresh, dropping `n` from completeness, dropping the daily
+      no-trailer check, making every trailer entry always stale, and not fetching an
+      uncached title. Eight breaks, all red.
+- [ ] The same defect on the Finnkino path. `fetch_data.py` carries the identical rule
+      (`cached.get("v") or cached.get("c") == today`) and the identical shape:
+      `data/tmdb.json` holds 59 entries, 46 with a trailer, 45 of them last read on
+      2026-08-28. Not fixed in the same commit -- one item per commit, and that file
+      cannot run on a runner, so it **needs a run from an ordinary connection** to verify.
 - [x] **Independent hosts are fetched at the same time** (2026-09-01). `run.py` pools
       over *hosts*, not over sites, and each host is still read by one thread at the pace
       its adapter sets. See "A run reads unrelated hosts at once" below for the host

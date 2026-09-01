@@ -5,8 +5,9 @@ Finnkino gets these via films.json/tmdb.json keyed by its own filmId. The other
 providers have no such id, so this pass keys a cache on the normalised title and
 writes `tmdb` (rating) and `tr` (trailer URL) straight onto each show.
 
-Idempotent and cache-first: re-runs cost nothing once a title is known. Titles with
-no trailer are re-checked once a day, like the Finnkino path.
+Idempotent and cache-first: a re-run is cheap once a title is known. Titles with no
+trailer are re-checked once a day, looking for one; a cached rating is re-read once it is
+a week old, oldest first and a bounded number a run. See `due()`.
 """
 import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
@@ -78,6 +79,90 @@ def clean(title):
 # A rating is only worth showing once enough people have voted. A festival premiere
 # with three votes gives a clean 10.0 or 5.0, which reads as a verdict and is noise.
 MIN_VOTES = 25
+
+
+# How long a cached rating is allowed to stand, and how many stale ones one pass will
+# re-read.
+#
+# Finding a trailer used to end an entry's life: the skip was `c.get("v") or c.get("c")
+# == today`, so a film with a trailer was never looked at again and its rating and vote
+# count froze at whatever they were the day the trailer turned up. Measured against the
+# committed cache on 2026-09-01: 154 entries, 94 of them with a trailer, and 71 of those
+# 94 had not been re-read since 2026-08-27 -- five days, with nothing in the code that
+# would ever read them again. A vote count moves fastest in the weeks after release,
+# which is exactly when a film is in these cinemas.
+#
+# So age decides, not the presence of a trailer. The budget is what stops that becoming a
+# re-fetch of everything: without it the first run after this change re-reads all 71 at
+# once, stamps them all with the same date, and they all come due together again a week
+# later, for ever. Oldest first, so nothing starves. In the steady state the ceiling is
+# not reached -- 94 entries at a seven-day age come due at about thirteen a day, which is
+# roughly two per run -- so it is a bound on the catch-up rather than a running cost.
+RATING_MAX_AGE = int(os.environ.get("KINO_TMDB_MAX_AGE") or 7)
+REFRESH_BUDGET = int(os.environ.get("KINO_TMDB_REFRESH") or 12)
+
+
+def is_complete(c):
+    """Every field the current cache shape writes is present. -> bool.
+
+    A missing field means incomplete rather than wrong, so adding one -- "n" arrived with
+    the MIN_VOTES gate -- costs a single re-check pass instead of a cache wipe.
+    """
+    return (isinstance(c, dict) and ("fi" in c or "en" in c)
+            and "p" in c and "n" in c and "x" in c and "g" in c)
+
+
+def age_days(entry, today):
+    """Days since this entry was last read from TMDB. -> int, or None if unreadable.
+
+    None is not zero: an entry with no `c`, or one written by a shape this code no longer
+    produces, has an unknown age and is treated as the oldest thing there is.
+    """
+    try:
+        return (datetime.date.fromisoformat(today)
+                - datetime.date.fromisoformat(entry.get("c") or "")).days
+    except (TypeError, ValueError):
+        return None
+
+
+def due(titles, cache, today, max_age=None, budget=None):
+    """Which titles this pass fetches. -> (keys, refreshed, deferred).
+
+    `refreshed` counts the complete entries being re-read only because their rating is
+    old; `deferred` counts the ones that were also due and did not fit the budget, so the
+    caller can say so rather than trimming silently.
+
+    Four states:
+
+      * not in the cache -- fetched, obviously.
+      * cached in an older shape, missing a field -- fetched, so a gate change costs one
+        pass rather than a wipe.
+      * complete with no trailer -- once a day, looking for a trailer that may not have
+        existed when the film opened. Unchanged.
+      * complete with a trailer -- used to be skipped for ever. Re-read once the entry is
+        `max_age` days old, oldest first, at most `budget` of them a run.
+    """
+    max_age = RATING_MAX_AGE if max_age is None else max_age
+    budget = REFRESH_BUDGET if budget is None else budget
+    work, stale = set(), []
+    for k in titles:
+        c = cache.get(k)
+        if not is_complete(c):
+            work.add(k)
+            continue
+        age = age_days(c, today)
+        if not c.get("v"):
+            # Read today already is the only reason to skip, exactly as before.
+            if age != 0:
+                work.add(k)
+            continue
+        if age is None or age >= max_age:
+            stale.append((age, k))
+    # Unknown age sorts oldest. Ties break on the key so the choice is the same on every
+    # machine and a test can name which entries are picked.
+    stale.sort(key=lambda p: (0 if p[0] is None else 1, -(p[0] or 0), p[1]))
+    refresh = stale[:budget]
+    return (work | {k for _, k in refresh}, len(refresh), len(stale) - len(refresh))
 
 
 def pick(hits, query):
@@ -270,16 +355,22 @@ def main() -> int:
             if k:
                 titles.setdefault(k, s.get("title"))
 
+    todo, refreshed, deferred = due(titles, cache, today)
+    if refreshed or deferred:
+        line = (f"[enrich] {refreshed} rating(s) re-read after {RATING_MAX_AGE}+ days")
+        if deferred:
+            # Logged rather than trimmed quietly: a ceiling nobody can see reads as
+            # "everything is current", which is the state this whole item is about.
+            line += (f", {deferred} more due and left for the next run "
+                     f"(budget {REFRESH_BUDGET})")
+        print(line)
+
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
     for k, display in sorted(titles.items()):
-        c = cache.get(k)
-        # "n" (vote count) arrived with the MIN_VOTES gate: an entry without it carries
-        # an ungated rating, so treat it as incomplete and re-check once.
-        complete = (isinstance(c, dict) and ("fi" in c or "en" in c)
-                    and "p" in c and "n" in c and "x" in c and "g" in c)
-        if isinstance(c, dict) and complete and (c.get("v") or c.get("c") == today):
+        if k not in todo:
             continue
+        c = cache.get(k)
         try:
             mid = c.get("i") if isinstance(c, dict) else None
             rating = (c.get("r") or 0) if isinstance(c, dict) else 0
