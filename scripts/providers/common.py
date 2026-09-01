@@ -15,6 +15,7 @@ import hashlib
 import json
 import os
 import pathlib
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -38,6 +39,32 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 CACHE_DIR = pathlib.Path(os.environ.get("KINO_HTTP_CACHE")
                          or pathlib.Path(__file__).resolve().parents[2] / ".http-cache")
 _stats = {"hit": 0, "miss": 0, "stored": 0, "nostore": 0}
+
+# run.py fetches independent hosts in parallel, so every counter in this module is now
+# read-modify-written from several threads, and these counters are what the committed
+# run-*.log offers as evidence for how the pipeline fetched. A wrong number there is
+# worse than a slow run, so the arithmetic is made correct by construction rather than
+# left to the interpreter.
+#
+# Said plainly, because it was measured rather than assumed: on CPython 3.14 with the GIL
+# the lock changes nothing observable. `_stats["miss"] += 1` compiles to a subscript, an
+# add and a store, and the eval loop does not offer to switch threads inside that stretch
+# -- eight threads and 1.6 million increments lose exactly zero. The same is true of the
+# Retry-After decision, whose read of `waited` and charge against it are separated by no
+# call and no jump. So this is not a fix for an observed miscount.
+#
+# It is here because that behaviour is an implementation accident, not a language
+# guarantee, and it is not true of a free-threaded build -- which 3.14 ships and which
+# nothing in this repo pins against. The lock also lets the Retry-After ceiling be a
+# decision rather than three separate reads: see fetch(). `_diag_seen` shares it so that
+# its check-then-add cannot print one host's refusal twice.
+_lock = threading.Lock()
+
+
+def _bump(counter, key, by=1):
+    with _lock:
+        counter[key] += by
+
 
 # A 429 or 503 with Retry-After is the only case where an upstream states its own
 # terms, and the retry loop below used to ignore them: a provider asking for 60
@@ -99,7 +126,8 @@ class EmptyProgramme(Exception):
 
 def cache_stats():
     """-> (304s, full bodies, entries written). Reset per run by the caller."""
-    return dict(_stats)
+    with _lock:
+        return dict(_stats)
 
 
 def throttle_stats():
@@ -109,7 +137,8 @@ def throttle_stats():
     `refused` the ones whose ask was past a ceiling and so were not retried at all.
     All zero on a normal run, which is why run.py prints the line only when it is not.
     """
-    return dict(_throttle)
+    with _lock:
+        return dict(_throttle)
 
 
 def _retry_after(value):
@@ -180,9 +209,10 @@ def _log_refusal(e, url, attempts):
     host = urllib.parse.urlsplit(url).netloc
     key = (host, e.code, (e.headers.get("Server") or "").strip(),
            bool((e.headers.get("CF-Ray") or "").strip()))
-    if key in _diag_seen:
-        return
-    _diag_seen.add(key)
+    with _lock:
+        if key in _diag_seen:
+            return
+        _diag_seen.add(key)
     print(f"[http] {e.code} from {host}, gave up after {attempts} attempt(s) -- {hint}")
 
 
@@ -224,10 +254,20 @@ def _read_capped(r, url, limit):
 def _write_slot(path, meta, body):
     try:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        tmp = path.with_suffix(".tmp")
-        tmp.write_bytes(json.dumps(meta).encode() + b"\n\n" + body)
-        os.replace(tmp, path)
-        _stats["stored"] += 1
+        # The temp name carries the writing thread, because the slot name is a hash of
+        # the URL and two threads asking the same URL at once would otherwise write the
+        # same `<hash>.tmp` -- one truncating the other's bytes and both then renaming
+        # the result over the slot. Unlikely across different sites and not worth
+        # leaving to luck, since the loser is a corrupt cache entry that is served as a
+        # cached body on the next run.
+        tmp = path.with_name(f"{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+        try:
+            tmp.write_bytes(json.dumps(meta).encode() + b"\n\n" + body)
+            os.replace(tmp, path)
+        except Exception:
+            tmp.unlink(missing_ok=True)     # a unique name would otherwise accumulate
+            raise
+        _bump(_stats, "stored")
     except Exception:
         pass          # a cache that cannot be written must never fail a run
 
@@ -285,7 +325,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             with op(req, timeout=timeout) as r:
                 body = _read_capped(r, url, limit)
                 if cache:
-                    _stats["miss"] += 1
+                    _bump(_stats, "miss")
                     cc = (r.headers.get("Cache-Control") or "").lower()
                     et = r.headers.get("ETag")
                     lm = r.headers.get("Last-Modified")
@@ -294,13 +334,13 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                     # 2026-08-30. Without a validator there is nothing to revalidate
                     # with either, so the slot would only ever grow.
                     if ("no-store" in cc or "no-cache" in cc):
-                        _stats["nostore"] += 1
+                        _bump(_stats, "nostore")
                     elif et or lm:
                         _write_slot(slot, {"etag": et, "last_modified": lm}, body)
                 return body
         except urllib.error.HTTPError as e:
             if e.code == 304 and cached_body is not None:
-                _stats["hit"] += 1
+                _bump(_stats, "hit")
                 return cached_body
             last = e
             # 429 and 503 are the two codes RFC 9110 lets carry Retry-After, and both
@@ -309,18 +349,27 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             wait = (_retry_after(hh.get("Retry-After"))
                     if e.code in (429, 503) and hh is not None else None)
             if wait is not None:
-                _throttle["asked"] += 1
-                if (wait > RETRY_AFTER_MAX
-                        or _throttle["waited"] + wait > RETRY_AFTER_BUDGET):
-                    _throttle["refused"] += 1
+                # Counted, checked against the budget and charged to it in one step. The
+                # budget bounds the whole process, so with hosts running in parallel a
+                # check that read `waited` and charged it later would let several threads
+                # each pass the same remaining budget and then all sleep against it. The
+                # seconds are reserved before the sleep rather than after, and only when
+                # there is a retry left to sleep for -- which is what the sequential code
+                # did too, since the last attempt never slept.
+                sleeping = n + 1 < tries
+                with _lock:
+                    _throttle["asked"] += 1
+                    over = (wait > RETRY_AFTER_MAX
+                            or _throttle["waited"] + wait > RETRY_AFTER_BUDGET)
+                    if over:
+                        _throttle["refused"] += 1
+                    elif sleeping:
+                        _throttle["waited"] += wait
+                if over:
                     _log_refusal(e, url, n + 1)
                     raise
             if n + 1 < tries:
-                if wait is None:
-                    time.sleep(backoff * (n + 1))
-                else:
-                    _throttle["waited"] += wait
-                    time.sleep(wait)
+                time.sleep(backoff * (n + 1) if wait is None else wait)
         except BodyTooLarge:
             raise
         except Exception as e:

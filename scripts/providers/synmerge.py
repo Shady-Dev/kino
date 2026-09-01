@@ -3,9 +3,22 @@
 Providers run before the TMDB pass and their own text is better, so this only ever
 fills an empty slot — it never clobbers.
 """
-import json, pathlib, re
+import json, pathlib, re, threading
 
 import common
+
+# films-extra.json is one file for the whole run and merge() is a read-modify-write of
+# it, while run.py now fetches independent hosts in parallel. Two sites merging at once
+# would each write back a document built from what they read, so whichever finished
+# second would drop the other's synopses -- silently, since neither is an error and the
+# only symptom is a film with no Finnish blurb until some later run happens to add it.
+#
+# Serialised here rather than hoisted out of run_site and merged once after the pool
+# joins, because merging in place keeps "[label] synopses merged: N" inside that site's
+# own block in the committed log, and the merge itself is a few milliseconds against a
+# site's minutes of paced fetching. The lock lives on the function rather than at the
+# call site so a second caller cannot reintroduce the race by not knowing about it.
+_lock = threading.Lock()
 
 
 def norm(t):
@@ -19,24 +32,26 @@ def norm(t):
 
 def merge(out: pathlib.Path, per_venue: dict, label: str) -> None:
     path = out / "films-extra.json"
-    try:
-        doc = json.loads(path.read_text())
-    except Exception:
-        doc = {}
-    films = doc.get("films") or {}
-    added = 0
-    for shows in per_venue.values():
-        for s in shows:
-            syn = (s.get("_syn") or "").strip()
-            if not syn:
-                continue
-            e = films.setdefault(norm(s["title"]), {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
-            e.setdefault("s", {"fi": "", "en": ""})
-            if not e["s"].get("fi"):
-                e["s"]["fi"] = syn
-                added += 1
-    doc["films"] = films
-    common.write_json(path, doc)
+    with _lock:
+        try:
+            doc = json.loads(path.read_text())
+        except Exception:
+            doc = {}
+        films = doc.get("films") or {}
+        added = 0
+        for shows in per_venue.values():
+            for s in shows:
+                syn = (s.get("_syn") or "").strip()
+                if not syn:
+                    continue
+                e = films.setdefault(norm(s["title"]),
+                                     {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
+                e.setdefault("s", {"fi": "", "en": ""})
+                if not e["s"].get("fi"):
+                    e["s"]["fi"] = syn
+                    added += 1
+        doc["films"] = films
+        common.write_json(path, doc)
     print(f"[{label}] synopses merged: {added}")
 
 

@@ -38,13 +38,21 @@ degraded. The file therefore carries `status`, `stale`, `unverified`, `pending` 
 provider is as fresh as its weakest venue, but a venue that never had data does not drag
 that down. Only a site where *every* venue came back empty is a failure, since nothing
 else would notice that.
+
+Sites on different hosts are fetched at the same time, sites on the same host one after
+the other. The pacing inside an adapter's fetch_site is what a cinema experiences and is
+untouched by this; serialising *across* unrelated hosts was never a decision, only how
+the loop was written when a module had two sites. See host_groups and MAX_HOSTS.
 """
+import concurrent.futures
 import datetime
 import importlib
 import json
 import os
 import pathlib
 import sys
+import threading
+import urllib.parse
 
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -203,6 +211,189 @@ def run_site(mod, site, now):
     return live, total, stale, unverified, pending
 
 
+# How many hosts this end reads at the same time. Not a rate limit at any cinema: the
+# sleep inside each adapter's fetch_site is that, and host_groups below keeps every site
+# on one host in a single thread so that sleep still describes what the host sees. What
+# this number bounds is this end -- open sockets, and the response bodies in flight, at
+# most MAX_HOSTS * common.MAX_BODY.
+#
+# 8 is twice the four vCPUs an ubuntu-latest runner has, which is the usual shape for a
+# pool that spends most of its time waiting and parses HTML in between. It caps bodies in
+# flight at 160 MB against the runner's 16 GB, covers Nexxo's six host groups outright,
+# and turns eTiketti's seventeen into three waves instead of seventeen sites in a row.
+# "As many as there are sites" was rejected as a default: it would raise the ceiling
+# every time a cinema is added, with nobody deciding to.
+#
+# KINO_MAX_HOSTS overrides it, in the style of KINO_PAGE_BUDGET and KINO_MAX_BODY. 1 is
+# the sequential path this replaced, and the tests use it to show that path still writes
+# the same files and prints the same summary line.
+MAX_HOSTS = int(os.environ.get("KINO_MAX_HOSTS") or 8)
+
+
+def host_of(site):
+    """The host a site is read from. -> netloc, or "" when the adapter holds it.
+
+    `base` is where the API lives; `site`, where a module carries one, is where a visitor
+    is sent. Bio Säde is the case: its showtimes come from kinohirvi.fi and its ticket
+    links go to biosade.fi. The pacing key is the host actually read, so it is `base` and
+    never `site`.
+
+    A site with no `base` keeps its host inside the adapter, out of reach from here.
+    Those all answer "" and so share one group, which reads them one after the other
+    rather than assuming they are different cinemas. Being wrong in that direction costs
+    time; being wrong in the other doubles the request rate at somebody's server.
+    """
+    return urllib.parse.urlsplit(site.get("base") or "").netloc
+
+
+def host_groups(sites):
+    """Sites grouped by the host they are read from. -> [[(index, site), ...], ...].
+
+    Groups in first-appearance order and members in SITES order, so the run's shape is
+    the same on every run rather than dictated by a dict's iteration.
+
+    This is the unit the pool works in, and the host is the key rather than the site
+    because the data says so today, not hypothetically: kinoaurora.fi serves both
+    kinoaurora and kinometso, and kinohirvi.fi serves both kinohirvi and biosade. Keyed
+    on the site, two of Nexxo's eight would be read concurrently against one cinema's
+    server at twice the rate its adapter paces for -- which is the courtesy the whole
+    access story rests on. One thread per host keeps that sleep meaning what it says.
+    """
+    groups = {}
+    for i, site in enumerate(sites):
+        groups.setdefault(host_of(site), []).append((i, site))
+    return list(groups.values())
+
+
+class _Buffer:
+    """One captured stream: quacks like the real one and files its writes with `rec`."""
+
+    def __init__(self, rec, real):
+        self.rec, self.real = rec, real
+
+    def write(self, text):
+        return self.rec.write(self, text)
+
+    def flush(self):
+        self.real.flush()
+
+    def __getattr__(self, name):
+        return getattr(self.real, name)
+
+
+class Recorder:
+    """Holds a pooled run's output back so the committed log still reads in site order.
+
+    Sites finish out of order, so printing as they go shuffles `[provider] Venue: N
+    showtimes` into a list nobody can read downwards. Each worker's output is collected
+    instead and replayed when its turn comes, which leaves every site's lines contiguous
+    and in SITES order however long that site took.
+
+    Both streams, not stdout alone: run_site reports stale, pending and unverified venues
+    on stderr and the workflow merges the two (`> run-$m.log 2>&1`), so capturing one of
+    them would move half the lines. They share one list per thread, so the order the two
+    were written in is the order they come back in. That is a change for the better in
+    its own right -- today stdout is block-buffered into a redirected log while stderr is
+    line-buffered, so a stderr line written last can land first in the file, which is why
+    run-nexxo.log opens with kinometso's empty-venue notice from the eighth site of eight.
+    """
+
+    def __init__(self):
+        self._local = threading.local()
+        self.out = _Buffer(self, sys.stdout)
+        self.err = _Buffer(self, sys.stderr)
+
+    def install(self):
+        """Stand in for sys.stdout and sys.stderr. A thread that is not capturing writes
+        straight through, so anything printed outside a worker is unaffected."""
+        sys.stdout, sys.stderr = self.out, self.err
+
+    def remove(self):
+        sys.stdout, sys.stderr = self.out.real, self.err.real
+
+    def capture(self):
+        """Start collecting this thread's writes. -> the list they land in."""
+        self._local.chunks = chunks = []
+        return chunks
+
+    def release(self):
+        self._local.chunks = None
+
+    def write(self, buf, text):
+        chunks = getattr(self._local, "chunks", None)
+        if chunks is None:
+            return buf.real.write(text)
+        chunks.append((buf, text))
+        return len(text)
+
+    def replay(self, chunks):
+        """Write one site's captured output back out, in the order it was written.
+
+        Both real streams are flushed at every switch between them, and before the first
+        write, because once the workflow merges them they are two buffers over one file
+        descriptor: without the flushes the file would be ordered by whichever buffer
+        filled up first, which is the reordering this class exists to remove.
+        """
+        self.out.real.flush()
+        self.err.real.flush()
+        buf = None
+        for b, text in chunks:
+            if buf is not None and b is not buf:
+                buf.real.flush()
+            buf = b
+            buf.real.write(text)
+        if buf is not None:
+            buf.real.flush()
+
+
+def run_sites(mod, sites, now, workers=None):
+    """Fetch a module's sites, hosts at once and each host's sites in order.
+
+    Yields (label, result, error) in SITES order, `result` being run_site's tuple or None
+    when `error` holds what it raised. Yielded one at a time, after that site's output has
+    been replayed, so the caller's own line about a site -- `no programme published`,
+    `FAILED` -- still lands inside that site's block in the log.
+
+    The exception travels back rather than out. One site failing has never stopped the
+    rest of a run, and in a pool a raise would take its host group's remaining sites with
+    it as well.
+    """
+    workers = MAX_HOSTS if workers is None else workers
+    groups = host_groups(sites)
+    slots = [None] * len(sites)
+    done = [threading.Event() for _ in sites]
+    rec = Recorder()
+
+    def read_host(group):
+        """One host's sites, one after the other. Never raises: a site that died still
+        has to release the reader waiting on it, or the run hangs instead of failing."""
+        for i, site in group:
+            label = site.get("provider") or mod.__name__
+            chunks = []
+            try:
+                chunks = rec.capture()
+                slots[i] = (label, run_site(mod, site, now), None, chunks)
+            except BaseException as e:              # noqa: BLE001 -- see the docstring
+                slots[i] = (label, None, e, chunks)
+            finally:
+                rec.release()
+                done[i].set()
+
+    rec.install()
+    try:
+        with concurrent.futures.ThreadPoolExecutor(
+                max_workers=max(1, min(workers, len(groups) or 1))) as pool:
+            for group in groups:
+                pool.submit(read_host, group)
+            for i in range(len(sites)):
+                done[i].wait()
+                label, result, error, chunks = slots[i]
+                rec.replay(chunks)
+                yield label, result, error
+    finally:
+        rec.remove()
+
+
 def half_of(argv):
     """Which half of the pipeline is running -> "cloud", "local" or "all".
 
@@ -304,21 +495,19 @@ def main(argv) -> int:
             print(f"[{name}] no sites for the {half} half")
             skipped.append(name)
             continue
-        for site in sites:
-            label = site.get("provider") or name
-            try:
-                v, s, stale, unverified, pending = run_site(mod, site, now)
-            except common.EmptyProgramme as e:
+        for label, result, error in run_sites(mod, sites, now):
+            if isinstance(error, common.EmptyProgramme):
                 # Not a failure, and deliberately still noisy: a cinema with nothing on
                 # is a fact worth seeing in the committed log, and one that stays empty
                 # for weeks is worth chasing even though no run went red over it.
-                print(f"[{label}] no programme published: {e}")
+                print(f"[{label}] no programme published: {error}")
                 empty.append(label)
                 continue
-            except Exception as e:
-                print(f"[{label}] FAILED: {e}", file=sys.stderr)
+            if error is not None:
+                print(f"[{label}] FAILED: {error}", file=sys.stderr)
                 failures += 1
                 continue
+            v, s, stale, unverified, pending = result
             venues += v
             shows += s
             if stale or unverified:

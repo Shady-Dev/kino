@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 16 items still open, with the section that holds each one and its reasoning. Presence
+The 15 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
 line from this list when its item is ticked below.
 
@@ -26,8 +26,6 @@ line from this list when its item is ticked below.
 - Finnkino prices via the ticket-types endpoint
 - Commit `run.log` only on failure, to cut commit noise
 - Refresh the TMDB rating on a trailer re-check, which currently reuses the cached one
-- Fetch independent sites concurrently — the per-host pacing is the courtesy and stays,
-  the serialisation *across* unrelated hosts is incidental and costs ~3.5 min a run
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
 
@@ -1542,6 +1540,10 @@ Still open from this pass:
       rewritten whole on each flush.
 - [ ] Refresh TMDB rating on trailer re-check (currently the cached rating carries over,
       since reusing the movie id skips the search call)
+- [x] **Independent hosts are fetched at the same time** (2026-09-01). `run.py` pools
+      over *hosts*, not over sites, and each host is still read by one thread at the pace
+      its adapter sets. See "A run reads unrelated hosts at once" below for the host
+      sharing that makes the site the wrong unit, the four hazards and what each cost.
 - [ ] README workflow badge
 - [ ] Credential hygiene and rotation: tracked in local private notes
 
@@ -3585,6 +3587,12 @@ So the available win is a pool **over sites**, keeping the sleep **within** each
 eTiketti's wall clock would go from the sum of fifteen sites to the slowest single one,
 roughly 3.5 min to ~20 s, with per-host load unchanged. No workflow edit needed.
 
+**"Over sites" is wrong, and the next entry is what landed instead.** Two Nexxo hosts
+serve two sites each, so a pool keyed on the site doubles the request rate at those two
+cinemas -- the one thing this entry says is not negotiable. The unit is the host. The
+site count above is also stale: eTiketti is seventeen sites as of 2026-09-01, not
+fifteen.
+
 Not free, and these are the reasons it is a design item rather than a small patch:
 
 - **`common._stats` and `_throttle` are module-level dicts** mutated on every request and
@@ -3604,6 +3612,108 @@ forbid caching, so there is nothing to revalidate against.
 Worth being honest about the payoff. At ~5 minutes, four to eight times a day, this is not
 hurting anyone. What it buys is a faster verification loop when changing an adapter, and a
 smaller window in which a mid-run failure can land. Do it deliberately or not at all.
+
+### A run reads unrelated hosts at once (2026-09-01)
+Done deliberately, per the entry above, with one correction to its design and one hazard
+it did not name.
+
+**The unit is the host, not the site.** Measured against the live `SITES` on 2026-09-01:
+eTiketti is 17 sites on 17 distinct hosts, 25 venues -- there a pool over sites and a pool
+over hosts are the same thing. Nexxo is 8 sites on **6** hosts, 13 venues, because
+kinoaurora.fi serves both kinoaurora and kinometso and kinohirvi.fi serves both kinohirvi
+and biosade. Keyed on the site, those two pairs would be read concurrently against one
+cinema's server at twice the rate their adapter paces for, which is the courtesy the whole
+access story rests on. `run.py::host_groups` therefore groups by
+`urlsplit(site["base"]).netloc` and gives each group one thread, so the sleep inside
+`fetch_site` still describes what a host experiences.
+
+`base` and not `site`: Bio Säde's showtimes come from kinohirvi.fi while its ticket links
+go to biosade.fi, so the visitor-facing host is not the one being paced. A site carrying
+no `base` at all keeps its host inside the adapter, out of reach; those share one group
+and are read one after the other, because being wrong about "these are different cinemas"
+costs somebody else, and being wrong the other way costs us seconds.
+
+The hazards, and what each turned out to be worth:
+
+- **The log had to be buffered, and it came out better than it went in.** Sites finish out
+  of order, so a pool prints `[provider] Venue: N showtimes` in an unreadable order. Each
+  site's output is collected and replayed when its turn comes, *both* streams into one
+  list, so the merge the workflow does (`> run-$m.log 2>&1`) sees them in the order they
+  were written. That fixes something already broken: Python line-buffers stderr and
+  block-buffers a redirected stdout, so the committed `run-nexxo.log` opens with
+  kinometso's empty-venue notice -- a line printed by the eighth site of eight. The
+  committed logs will read chronologically from this change on, which is a visible diff in
+  the next run and not a regression.
+- **`common`'s counters are now locked, and the lock is not a fix for anything observed.**
+  Said plainly because it was measured: on CPython 3.14 with the GIL, eight threads and
+  1.6 million `_stats["miss"] += 1` lose exactly zero, and the Retry-After decision's read
+  of `waited` and its charge against it are separated by no call and no jump. The lock is
+  there because that is an implementation accident rather than a language guarantee, and
+  it is not true of a free-threaded build, which 3.14 ships and which nothing here pins
+  against. It also lets the Retry-After ceiling be one decision instead of three reads:
+  the seconds are now reserved before the sleep, so parallel hosts cannot each pass the
+  same remaining budget. What the tests pin is the totals, which is what the committed log
+  offers as evidence -- not the lock.
+- **`_write_slot` writes a per-thread temp name.** The slot is a hash of the URL, so two
+  threads asking the same URL would have written the same `<hash>.tmp`, one truncating the
+  other and both renaming the result over the slot. The loser is a corrupt cache entry
+  served as a cached body on the next run. Unlikely across different sites and not worth
+  leaving to luck.
+- **`synmerge.merge()` is the hazard the entry above missed.** It is a read-modify-write of
+  the shared `data/films-extra.json` and `run_site` calls it per site, so two sites merging
+  at once each write back what they read and the second silently drops the first's
+  synopses. Serialised inside `merge()` rather than hoisted out of the pooled section and
+  merged once after the join, because merging in place keeps `[label] synopses merged: N`
+  inside that site's own block in the log, and the merge costs milliseconds against a
+  site's minutes. One bounded consequence: the order *new* keys land in now follows which
+  site finished first. Keys already in the file keep their place -- `setdefault` does not
+  move them -- so this is a handful of new films appearing in a different order among
+  themselves on the run that first sees them, and nothing at all afterwards.
+
+Everything else `run_site` writes was already single-writer, checked rather than assumed:
+across all eight adapters the 57 venue ids and 31 provider ids are each unique, so
+`area-{id}.json` and `venues-{provider}.json` have exactly one writer per run.
+
+**The pool is 8, and the number bounds this end rather than any cinema.** Per-host load is
+the host grouping's job; what a pool size bounds is open sockets and response bodies in
+flight, at most `MAX_HOSTS * MAX_BODY` = 160 MB against a runner's 16 GB. 8 is twice the
+four vCPUs an ubuntu-latest runner has, covers Nexxo's six groups outright and turns
+eTiketti's seventeen into three waves. "As many as there are sites" was rejected as a
+default because it raises the ceiling every time a cinema is added, with nobody deciding
+to. `KINO_MAX_HOSTS` overrides it, in the style of `KINO_PAGE_BUDGET`, and 1 is the
+sequential path -- which a test uses to show that path still writes the same files and
+prints the same summary line.
+
+**No speed figure from a real run yet, so none is quoted here.** The ~20 s in the entry
+above remains a prediction. What has been measured is the code's scaling, against 17
+localhost servers at eTiketti's shape -- 17 hosts, 11 paced page fetches each -- at a tenth
+of the real 1.2 s pacing: 24.16 s at `workers=1`, 7.11 s at 4, 4.29 s at 8, 1.47 s at 17,
+with all 17 sites succeeding and exactly 187 requests made every time. That is a
+reproduction of the arithmetic, not of a run, and the real number belongs in this
+paragraph once a committed `run-etiketti.log` has been read.
+
+Covered by `tests/test_run_pool.py`, 21 tests against real localhost servers rather than a
+mocked fetch, because overlap in time is the property under test. Each was verified by
+breaking the code under it: keying the pool on the site instead of the host (four go red),
+letting a base-less site be assumed independent, dropping a request from the counters,
+charging the last retry for a sleep it never takes, printing from the worker instead of
+buffering (three go red), replaying without flushing between the streams, yielding only
+after the pool joins, letting a worker's exception escape (which hangs the run rather than
+failing it -- the reason the worker catches `BaseException`), removing the synmerge lock,
+and hard-coding the pool size past the environment. Sixteen checks, all red on the break
+and green on the restore.
+
+Checked once against the real thing rather than only against localhost: one `run.py nexxo`
+from an ordinary connection, into a scratch directory, over the six hosts this change is
+actually about. Same 12 venues, 158 showtimes, 10 requests, one pending venue and zero
+failures as the committed log, same site order -- and the one difference is the one
+predicted above, Tikkakoski's stderr notice moving out of line 1 and into kinometso's own
+block. No second run was made to time it: repeatedly reading someone's cinema to measure a
+pool is exactly what the access story forbids, and the wall-clock figure belongs to the
+cloud log.
+
+Not changed: `fetch_site` and its sleep, the workflow, and the site list. The local half
+runs the same `run.py`, so it picks this up on its next run with no wrapper edit.
 
 ### Two cloud runs cannot both rebase their data (2026-08-31)
 A cloud run failed with `could not push after 3 attempts`, having fetched everything
