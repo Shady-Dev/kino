@@ -3842,13 +3842,27 @@ to. `KINO_MAX_HOSTS` overrides it, in the style of `KINO_PAGE_BUDGET`, and 1 is 
 sequential path -- which a test uses to show that path still writes the same files and
 prints the same summary line.
 
-**No speed figure from a real run yet, so none is quoted here.** The ~20 s in the entry
-above remains a prediction. What has been measured is the code's scaling, against 17
-localhost servers at eTiketti's shape -- 17 hosts, 11 paced page fetches each -- at a tenth
-of the real 1.2 s pacing: 24.16 s at `workers=1`, 7.11 s at 4, 4.29 s at 8, 1.47 s at 17,
-with all 17 sites succeeding and exactly 187 requests made every time. That is a
-reproduction of the arithmetic, not of a run, and the real number belongs in this
-paragraph once a committed `run-etiketti.log` has been read.
+**Measured on the first cloud run, 2026-09-01.** The "Fetch cloud providers" step, which
+runs all six cloud modules one after another, took **186 s** against **562, 565, 610 and
+626 s** on the four sequential runs before it -- about a third, and roughly 400 s back on
+a run. Step durations are job metadata from the Actions API, not the Actions logs; what
+the run *did* was read from the committed logs, per the rule.
+
+That is more than the entry above predicted, and the prediction was low for a reason worth
+keeping: it counted eTiketti's sleeping (185 requests at 1.2 s) and not the request latency
+underneath it, and the site list has grown since. The scaling was reproduced beforehand
+against 17 localhost servers at eTiketti's shape -- 17 hosts, 11 paced page fetches each,
+at a tenth of the real pacing: 24.16 s at `workers=1`, 7.11 s at 4, 4.29 s at 8, 1.47 s at
+17, with 187 requests made every time.
+
+The committed logs say the rest of it held. `run-etiketti.log` has 16 provider blocks in
+SITES order with no site's lines inside another's, and `run-nexxo.log` 8; the counters are
+unchanged for the same work (Nexxo byte-identical at 10 requests, 12 venues, 165 showtimes,
+1 pending, 0 failures; eTiketti 225 requests against 224, one film page more than the run
+before it). Every provider exited 0 and `check_runs.py` passes. And the reordering landed:
+`run-nexxo.log` used to open with kinometso's empty-venue notice, printed by the eighth
+site of eight, and now opens with kinoset's first line while that notice sits at line 33
+inside kinometso's own block.
 
 Covered by `tests/test_run_pool.py`, 22 tests against real localhost servers rather than a
 mocked fetch, because overlap in time is the property under test. Each was verified by
