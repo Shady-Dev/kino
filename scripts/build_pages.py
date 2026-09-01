@@ -556,7 +556,13 @@ def main() -> int:
     multi = {c: vs for c, vs in by_city.items() if len(vs) > 1}
 
     stats = {"written": 0, "kept": 0}
+    # (path, text) for every page this run produces. Nothing reaches the tree until the
+    # whole set is built -- see the flush at the bottom of this function.
+    pages = []
     urls = []
+
+    def stage(path, text):
+        pages.append((path, text))
 
     def paths_venue(v):
         return f"/teatteri/{v['slug']}/", f"/en/theatre/{v['slug']}/"
@@ -599,7 +605,7 @@ def main() -> int:
                 # of whatever the app last had selected.
                 app_href="/?area=" + urllib.parse.quote(v["id"]))
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
-            write_if_changed(out, text, stats)
+            stage(out, text)
         urls += [p_fi, p_en]
 
     # ---- redirects for venue URLs that were public under an older slug. Written after
@@ -613,7 +619,7 @@ def main() -> int:
         for lang, prefix, dest in (("fi", "teatteri", paths_venue(v)[0]),
                                    ("en", "en/theatre", paths_venue(v)[1])):
             out = ROOT / prefix / old_slug / "index.html"
-            write_if_changed(out, redirect_page(lang, dest, v["label"]), stats)
+            stage(out, redirect_page(lang, dest, v["label"]))
 
     # ---- city pages, only where the app offers a combined view
     for c, vs in multi.items():
@@ -645,7 +651,7 @@ def main() -> int:
                 og_image=og,
                 app_href="/?area=" + urllib.parse.quote("city:" + c))
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
-            write_if_changed(out, text, stats)
+            stage(out, text)
         urls += [p_fi, p_en]
 
     # ---- sitemap
@@ -656,7 +662,29 @@ def main() -> int:
     sm = ('<?xml version="1.0" encoding="UTF-8"?>\n'
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
           f"{entries}\n</urlset>\n")
-    write_if_changed(ROOT / "sitemap.xml", sm, stats)
+    stage(ROOT / "sitemap.xml", sm)
+
+    # Everything above only decided what the pages say. This is where they land.
+    #
+    # The build used to write each page as it produced it, so an exception partway
+    # through left the tree holding some of this run's pages and some of the last run's
+    # -- and the cloud workflow stages `teatteri kaupunki en sitemap.xml` and pushes
+    # before it checks whether the build exited non-zero, so the mixture was published
+    # and only then did the run turn red. Measured against real data by raising on the
+    # 41st write: 40 of 172 pages new, 132 from the previous build, all committed.
+    #
+    # The mixture is worse than a partial update sounds. A city page is built from the
+    # venues it merges and after them, and the sitemap after both, so a half-built run
+    # can serve a city page whose showtimes disagree with the venue pages it links to,
+    # under a sitemap describing neither. Nothing on the page says it is inconsistent.
+    #
+    # Holding the whole set costs 4.5 MB across 173 files, measured, in a process that
+    # already has every showtime in memory. The loop does no work that can raise on its
+    # own -- it compares and writes -- so a build that fails now writes nothing at all.
+    # The previous complete page set stays exactly where it was, and because the failed
+    # build stages no page changes, the run's fresh schedule data still publishes.
+    for path, text in pages:
+        write_if_changed(path, text, stats)
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")

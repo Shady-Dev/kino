@@ -3641,6 +3641,58 @@ film count. The closest call of the three: the showtime half of it is genuinely 
 visible without scrolling. Not enough to earn permanent code and conditional chrome in a
 view whose stated purpose is to get out of the list's way.
 
+### A page build that dies partway published half a generation (2026-09-01)
+`build_pages.main()` wrote each page as it produced it. Every individual write is atomic
+-- `write_if_changed` goes through `common.write_text_atomic` -- but the *set* was not,
+and the set is what a reader sees. An exception anywhere in the render left the tree
+holding some of that run's pages and some of the previous run's, and `biorex.yml` stages
+`teatteri kaupunki en sitemap.xml` and pushes before it checks whether the build exited
+non-zero. So the mixture was committed, pushed and served, and only then did the run turn
+red.
+
+Measured rather than argued, in a clone with the schedule perturbed and an exception
+raised on the 41st render: **40 of 172 pages new, 132 from the previous build, all staged
+for commit** alongside 73 changed data files. With the fix, the same injection stages 0
+pages and the same 73 data files.
+
+A partial update sounds harmless and this one is not. A city page is built from the
+venues it merges and *after* them, and the sitemap after both, so a half-built run can
+serve a city page whose showtimes disagree with the venue pages it links to, under a
+sitemap describing neither. Nothing in the markup says it is inconsistent, and
+`write_if_changed` means the stale half carries no signal either -- it is byte-identical
+to a page that was correct yesterday.
+
+**Batched instead of gated in the workflow.** The pages are collected as `(path, text)`
+and written in one loop at the end, so a build that raises writes nothing at all. That
+puts the fix where the invariant is, and it costs `biorex.yml` no change -- which matters,
+because that file has an unmerged branch against it. It also keeps the workflow's existing
+behaviour correct rather than fighting it: a failed build now stages no page changes, so
+the run's fresh schedule data still publishes, which is the whole reason data is committed
+before the failure gate.
+
+Holding the set costs 4.5 MB across 173 files, measured, in a process that already has
+every showtime in memory.
+
+**The residual window is the flush itself** and it is not closed. The loop compares and
+writes and does no work of its own that can fail, so only the disk stops it halfway --
+which leaves the same mixture as before. That is pinned by a test asserting the error
+propagates, because the one response that would make it worse is catching it and letting
+the run report success: then the mixture publishes with a green tick.
+
+**Enrichment and poster mirroring were deliberately left alone.** Both tolerate many
+per-item failures by design, and a page missing some ratings or showing a placeholder
+tile is optional degradation -- it is a correct page with less on it. A page set from two
+different generations is not. Gating publication on `enrichfail` or `mirrorfail` would
+trade a slightly thinner page for a stale one, and there is no evidence yet that the trade
+is worth making.
+
+Verified by breaking it four ways: written-as-produced again (6 red), flushed before the
+city pass (2), flushed before the redirects (2), and the flush wrapped in a `try` that
+swallows the error (1). The first attempt at the "where the failure lands" test used a
+hard-coded 140, which *looks* late and is still inside the venue pass -- so the
+flush-before-the-city-pass half fix passed it. The boundary is now derived from the venue
+count, which is the only reason that mutation is red.
+
 ### A cancelled cloud run cost two venues every poster (2026-08-30)
 Kino Engel and Kino Akseli rendered placeholder tiles for every film, at every screen
 size, for hours. Three things had to line up.
