@@ -381,17 +381,24 @@ def run_sites(mod, sites, now, workers=None):
                 done[i].set()
 
     rec.install()
+    pool = concurrent.futures.ThreadPoolExecutor(
+        max_workers=max(1, min(workers, len(groups) or 1)))
     try:
-        with concurrent.futures.ThreadPoolExecutor(
-                max_workers=max(1, min(workers, len(groups) or 1))) as pool:
-            for group in groups:
-                pool.submit(read_host, group)
-            for i in range(len(sites)):
-                done[i].wait()
-                label, result, error, chunks = slots[i]
-                rec.replay(chunks)
-                yield label, result, error
+        for group in groups:
+            pool.submit(read_host, group)
+        for i in range(len(sites)):
+            done[i].wait()
+            label, result, error, chunks = slots[i]
+            rec.replay(chunks)
+            yield label, result, error
     finally:
+        # cancel_futures, so a run being torn down -- Ctrl-C, a closed laptop, a caller
+        # that stops reading -- stops asking hosts it has not reached yet. The hosts
+        # already in flight are still waited for: a thread part-way through writing a
+        # venue file has to finish, and `wait=True` is what makes the atomic write mean
+        # something. Nothing is cancelled on the normal path, where every group has run
+        # by the time the drain ends.
+        pool.shutdown(wait=True, cancel_futures=True)
         rec.remove()
 
 

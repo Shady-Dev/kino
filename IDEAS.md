@@ -3776,7 +3776,7 @@ with all 17 sites succeeding and exactly 187 requests made every time. That is a
 reproduction of the arithmetic, not of a run, and the real number belongs in this
 paragraph once a committed `run-etiketti.log` has been read.
 
-Covered by `tests/test_run_pool.py`, 21 tests against real localhost servers rather than a
+Covered by `tests/test_run_pool.py`, 22 tests against real localhost servers rather than a
 mocked fetch, because overlap in time is the property under test. Each was verified by
 breaking the code under it: keying the pool on the site instead of the host (four go red),
 letting a base-less site be assumed independent, dropping a request from the counters,
@@ -3784,8 +3784,9 @@ charging the last retry for a sleep it never takes, printing from the worker ins
 buffering (three go red), replaying without flushing between the streams, yielding only
 after the pool joins, letting a worker's exception escape (which hangs the run rather than
 failing it -- the reason the worker catches `BaseException`), removing the synmerge lock,
-and hard-coding the pool size past the environment. Sixteen checks, all red on the break
-and green on the restore.
+hard-coding the pool size past the environment, and draining the queue on teardown
+instead of cancelling it. Seventeen checks, all red on the break and green on the
+restore.
 
 Checked once against the real thing rather than only against localhost: one `run.py nexxo`
 from an ordinary connection, into a scratch directory, over the six hosts this change is
@@ -3795,6 +3796,14 @@ predicted above, Tikkakoski's stderr notice moving out of line 1 and into kinome
 block. No second run was made to time it: repeatedly reading someone's cinema to measure a
 pool is exactly what the access story forbids, and the wall-clock figure belongs to the
 cloud log.
+
+One thing the pool has that the sequential loop could not: **a run being torn down stops
+reading hosts it has not reached yet.** The executor is shut down with
+`cancel_futures=True`, so a Ctrl-C, a closed laptop or a caller that stops reading drops
+every host still queued. Hosts already in flight are waited for, because a thread part-way
+through writing a venue file has to finish and `wait=True` is what makes the atomic write
+mean anything. Nothing is cancelled on the normal path, where every group has run by the
+time the drain ends.
 
 Not changed: `fetch_site` and its sleep, the workflow, and the site list. The local half
 runs the same `run.py`, so it picks this up on its next run with no wrapper edit.

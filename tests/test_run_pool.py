@@ -241,6 +241,27 @@ class HostPacingTest(PoolTestCase):
         self.assertEqual(len(groups), 1)
 
 
+class TeardownTest(PoolTestCase):
+    def test_abandoning_a_run_stops_it_reading_hosts_it_never_reached(self):
+        """A run being torn down -- Ctrl-C, a closed laptop -- should not keep asking
+        cinemas for pages nobody is going to read. Three hosts through a pool of one:
+        after the first site is drained the generator is closed, and the third host must
+        never be reached. The second may already be in flight and is waited for, because
+        a thread part-way through writing a venue file has to finish.
+        """
+        h = self.hosts(3, delay=0.3)
+        mod = PoolMod([site(f"p{i}", h.base(i)) for i in range(3)], requests=1)
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+            gen = run.run_sites(mod, mod.SITES, NOW, workers=1)
+            first = next(gen)
+            gen.close()
+        self.assertEqual(first[0], "p0")
+        self.assertEqual(len(h.spans("p0")), 1, "the first host was not read at all")
+        self.assertEqual(len(h.spans("p2")), 0,
+                         "a host was read after the run had been abandoned")
+
+
 class HostGroupsAgainstTheRealSitesTest(unittest.TestCase):
     """Asserted against the live SITES rather than a fixture, the way test_run_routing
     checks routing against the live registry: a fixture cannot go stale in the way that
