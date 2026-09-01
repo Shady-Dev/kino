@@ -12,6 +12,7 @@ a week old, oldest first and a bounded number a run. See `due()`.
 import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
 import common
+import refresh
 
 DATA = pathlib.Path("data")
 CACHE = DATA / "tmdb-titles.json"
@@ -36,6 +37,9 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # Hand-maintained escape hatch for titles TMDB cannot be searched by. See the file's
 # own _comment. Lives next to the script, not in data/, because data/ is generated.
 ALIAS_FILE = pathlib.Path(__file__).resolve().parent / "tmdb-aliases.json"
+
+
+age_days = refresh.age_days
 
 
 def norm(t):
@@ -81,115 +85,24 @@ def clean(title):
 MIN_VOTES = 25
 
 
-# How long a cached rating is allowed to stand, and how many stale ones one pass will
-# re-read.
-#
-# Finding a trailer used to end an entry's life: the skip was `c.get("v") or c.get("c")
-# == today`, so a film with a trailer was never looked at again and its rating and vote
-# count froze at whatever they were the day the trailer turned up. Measured against the
-# committed cache on 2026-09-01: 154 entries, 94 of them with a trailer, and 71 of those
-# 94 had not been re-read since 2026-08-27 -- five days, with nothing in the code that
-# would ever read them again. A vote count moves fastest in the weeks after release,
-# which is exactly when a film is in these cinemas.
-#
-# So age decides, not the presence of a trailer. The budget is what stops that becoming a
-# re-fetch of everything: without it the first run after this change re-reads all 71 at
-# once, stamps them all with the same date, and they all come due together again a week
-# later, for ever. In the steady state the ceiling is not reached -- 96 entries at a
-# seven-day age come due at about fourteen a day, which is roughly two per run -- so it
-# is a bound on the catch-up rather than a running cost.
-#
-# Which of the backlog a run takes is decided by `a`, when a refresh was last *attempted*,
-# and not by `c`, when one last succeeded. Ordering on `c` alone starves the queue: an id
-# that can never be read keeps `c` where it is, ages further every day and so outranks
-# everything else for ever, and a dozen of those would spend the whole budget on every
-# run while the rest of the backlog never moved. Least recently attempted goes first, an
-# entry never attempted ahead of all of them, so the budget rotates.
-#
-# `a` is deliberately not part of is_complete(): it is this pass's own bookkeeping rather
-# than anything the client reads, and requiring it would cost a full re-check pass to
-# introduce for no gain.
-RATING_MAX_AGE = int(os.environ.get("KINO_TMDB_MAX_AGE") or 7)
-REFRESH_BUDGET = int(os.environ.get("KINO_TMDB_REFRESH") or 12)
-
-
-def _numeric(v):
-    """A usable number from a TMDB field. -> the value, or None.
-
-    Zero is a value: a film nobody has voted on comes back with `vote_count` 0 and
-    `vote_average` 0.0, and reading that is a successful read. Absent, null or a string
-    is not, and must not become a zero written over a rating that was real.
-    """
-    return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
-
-
+# The refresh schedule lives in refresh.py, because data/tmdb.json answers the same
+# question and used to answer it separately -- which is how the frozen-rating defect came
+# to sit in both files. What stays here is this cache's own shape.
 def is_complete(c):
-    """Every field the current cache shape writes is present. -> bool.
+    """Every field the title cache writes is present. -> bool.
 
     A missing field means incomplete rather than wrong, so adding one -- "n" arrived with
-    the MIN_VOTES gate -- costs a single re-check pass instead of a cache wipe.
+    the MIN_VOTES gate -- costs a single re-check pass instead of a cache wipe. This is
+    the predicate handed to refresh.due(); the Finnkino cache has its own, because it
+    carries neither synopsis nor poster.
     """
     return (isinstance(c, dict) and ("fi" in c or "en" in c)
             and "p" in c and "n" in c and "x" in c and "g" in c)
 
 
-def age_days(entry, today, field="c"):
-    """Days since one of this entry's dates. -> int, or None if there is not one.
-
-    `c` is when TMDB last answered with rating and vote data, `a` when a refresh was last
-    attempted. None is not zero in either case: an entry with no `c` was written by a
-    shape this code no longer produces and is the oldest thing there is, and an entry
-    with no `a` has never been attempted, which puts it at the head of the queue.
-    """
-    try:
-        return (datetime.date.fromisoformat(today)
-                - datetime.date.fromisoformat(entry.get(field) or "")).days
-    except (TypeError, ValueError):
-        return None
-
-
 def due(titles, cache, today, max_age=None, budget=None):
-    """Which titles this pass fetches. -> (keys, refreshes, deferred).
-
-    `refreshes` is the subset being re-read only because their rating is old, handed back
-    as keys rather than a count so the caller can report what actually became of each --
-    a scheduled refresh whose detail request fails is not a refreshed rating. `deferred`
-    counts the ones that were also due and did not fit the budget, so the caller can say
-    so rather than trimming silently.
-
-    Four states:
-
-      * not in the cache -- fetched, obviously.
-      * cached in an older shape, missing a field -- fetched, so a gate change costs one
-        pass rather than a wipe.
-      * complete with no trailer -- once a day, looking for a trailer that may not have
-        existed when the film opened. Unchanged.
-      * complete with a trailer -- used to be skipped for ever. Re-read once `c` is
-        `max_age` days old, at most `budget` of them a run, least recently *attempted*
-        first so that an id which never reads cannot hold the queue. See RATING_MAX_AGE.
-    """
-    max_age = RATING_MAX_AGE if max_age is None else max_age
-    budget = REFRESH_BUDGET if budget is None else budget
-    work, stale = set(), []
-    for k in titles:
-        c = cache.get(k)
-        if not is_complete(c):
-            work.add(k)
-            continue
-        age = age_days(c, today)
-        if not c.get("v"):
-            # Read today already is the only reason to skip, exactly as before.
-            if age != 0:
-                work.add(k)
-            continue
-        if age is None or age >= max_age:
-            stale.append((age, age_days(c, today, "a"), k))
-    # Never attempted first, then longest since the last attempt, then oldest data, then
-    # the key -- so the choice is the same on every machine and a test can name it.
-    stale.sort(key=lambda p: (0 if p[1] is None else 1, -(p[1] or 0),
-                              0 if p[0] is None else 1, -(p[0] or 0), p[2]))
-    refresh = {k for _, _, k in stale[:budget]}
-    return work | refresh, refresh, len(stale) - len(refresh)
+    """This pass's entries that are due. -> (keys, refreshes, deferred). See refresh.due."""
+    return refresh.due(titles, cache, today, is_complete, max_age, budget)
 
 
 def pick(hits, query):
@@ -453,8 +366,8 @@ def main() -> int:
                     # to set the rating to 0 over the top of a real one and then stamp the
                     # entry as read; one carrying only `vote_average` was not noticed at
                     # all. Either way it is not the pair the entry is parked on.
-                    fresh_n = _numeric(d.get("vote_count"))
-                    fresh_r = _numeric(d.get("vote_average"))
+                    fresh_n = refresh.numeric(d.get("vote_count"))
+                    fresh_r = refresh.numeric(d.get("vote_average"))
                     if fresh_n is not None and fresh_r is not None:
                         votes, rating = fresh_n, fresh_r
                         detail_ok = True
@@ -497,7 +410,7 @@ def main() -> int:
                 (c.get("c") or "") if isinstance(c, dict) else "")
             # `a` is every attempt, `c` only the ones that answered. Keeping them apart is
             # what lets a failed entry stay due without outranking the rest of the backlog
-            # for ever -- see RATING_MAX_AGE.
+            # for ever -- see refresh.py.
             attempt = today if mid else ((c.get("a") or "") if isinstance(c, dict) else "")
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
                         "g": gids, "i": mid or "", "c": stamp, "a": attempt,
@@ -538,10 +451,9 @@ def main() -> int:
     # but a run where every refresh fails must not read like a run where every one
     # worked. Deferred is what the budget left for the next pass; a ceiling nobody can
     # see reads as "everything is current".
-    if refreshes or deferred:
-        print(f"[enrich] rating refresh: {len(refreshes)} scheduled, "
-              f"{len(settled)} re-read, {len(refreshes) - len(settled)} failed and "
-              f"still due, {deferred} deferred (budget {REFRESH_BUDGET})")
+    line = refresh.report(len(refreshes), len(settled), deferred)
+    if line:
+        print(f"[enrich] {line}")
 
     touched = 0
     for p in files:

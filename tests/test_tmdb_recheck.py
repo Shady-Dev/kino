@@ -22,6 +22,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import enrich_tmdb
+import refresh
 
 
 TODAY = "2026-09-01"
@@ -198,7 +199,7 @@ class AgainstTheCommittedCacheTest(unittest.TestCase):
         this date, and one pass still re-reads only the budget."""
         keys, refreshes, deferred = enrich_tmdb.due(
             list(self.cache), self.cache, "2026-09-30")
-        self.assertEqual(len(refreshes), enrich_tmdb.REFRESH_BUDGET)
+        self.assertEqual(len(refreshes), refresh.REFRESH_BUDGET)
         self.assertGreater(deferred, 0, "nothing was deferred, so nothing was capped")
 
 
@@ -417,9 +418,11 @@ class MainPathTest(unittest.TestCase):
             "shows": [{"title": f"T{i:02d}", "start": "2026-09-02T18:00:00+03:00"}
                       for i in range(n)],
         }), encoding="utf-8")
-        saved = enrich_tmdb.REFRESH_BUDGET
-        enrich_tmdb.REFRESH_BUDGET = budget
-        self.addCleanup(lambda: setattr(enrich_tmdb, "REFRESH_BUDGET", saved))
+        # Patched where it lives. enrich_tmdb used to carry a copy of this name, and a
+        # copy is a thing that stops being the one the code reads.
+        saved = refresh.REFRESH_BUDGET
+        refresh.REFRESH_BUDGET = budget
+        self.addCleanup(lambda: setattr(refresh, "REFRESH_BUDGET", saved))
         return stale
 
     def ids_asked(self):
