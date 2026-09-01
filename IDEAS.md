@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 6 items still open, with the section that holds each one and its reasoning. Presence
+The 7 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -14,6 +14,8 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 - Accessibility: the favourite star's 3.25:1, where whether 1.4.3 or 1.4.11 governs a
   text-rendered icon is unsettled
+- Landing-page redesign for `/teatteri/`, `/kaupunki/`, `/en/theatre/` and `/en/city/` --
+  the 168 canonical pages a venue- or city-specific search can land on
 
 **[Pipeline](#pipeline)**
 
@@ -1989,6 +1991,22 @@ count failed the same way.
       checking the claim that the client half was already finished, which it was not:
       `priceLabel()` used parseFloat, so Cinema Orion's "alkaen 10€" was read as NaN and
       rendered nothing -- 23 of its 29 price-bearing showtimes. See the entry below.
+- [ ] **Landing-page redesign: `/teatteri/`, `/kaupunki/`, `/en/theatre/`, `/en/city/`.**
+      The 168 canonical venue and city landing pages -- 84 per language -- are where
+      venue- and city-specific search results can land. Four additional generated files
+      are legacy redirects. Counted 2026-09-01: 172 `index.html` files, 86 per language,
+      less the two retired Studio 123 slugs in each.
+
+      Not the only indexable thing here: the homepage is indexed too, and an earlier
+      draft of this entry said otherwise. What these pages are is the part a search for
+      a named cinema or town can open, and they were built by `build_pages.py` to be
+      indexable rather than to be read.
+
+      Prioritised above the README badge on 2026-09-01 because of who it reaches, and
+      **no design is decided** -- that is a separate task and nothing here anticipates
+      it. Two existing rules will constrain whatever it becomes: `write_if_changed` only
+      works while the output stays deterministic, and nothing volatile may go into a
+      generated page. The regeneration-drift step in `Checks` enforces both.
 - [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
       text-rendered icon is unsettled. Left open on purpose by the audit below.
       **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
