@@ -7,6 +7,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
 import common    # noqa: E402  shared atomic writers, see providers/common.py
 import strands   # noqa: E402  shared strand list, see providers/strands.py
 import synmerge  # noqa: E402  shared synopsis helpers, see providers/synmerge.py
+import refresh   # noqa: E402  shared rating-refresh schedule, see providers/refresh.py
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
@@ -21,6 +22,16 @@ ATTR_RE = re.compile(r"^\dD$|^(IMAX|4DX|Dolby|ScreenX|D-BOX|LUXE|iSense|HFR|Lase
 # A rating below this many votes is noise, not a verdict. Keep in step with
 # enrich_tmdb.MIN_VOTES so the two passes cannot disagree about the same film.
 TMDB_MIN_VOTES = 25
+
+
+def _tmdb_complete(c):
+    """What a fully-formed entry in data/tmdb.json looks like. -> bool.
+
+    Handed to refresh.due(). Narrower than the title cache's predicate on purpose: this
+    one carries no synopsis and no poster, because Finnkino publishes both itself, so
+    requiring them here would mark every entry incomplete for ever.
+    """
+    return isinstance(c, dict) and "n" in c and "x" in c and "g" in c
 # Event attributes worth keeping, and what they mean. The rest of what OCAPI ships here
 # is marketing and region codes (Maxim, Pkseutu, SEVERAL, TKU & R, Tampere, Varaus20),
 # which say nothing to a visitor. A licensed bar auditorium is 18+ whatever the film is
@@ -226,6 +237,182 @@ def download_poster(rid: str) -> str:
     _poster_cache[rid] = rel
     return rel
 
+def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
+    """Read what TMDB knows about every due film into `tmdb_cache`, in place.
+
+    -> {looked, rechecked, weak, thin, scheduled, settled, deferred}, which is everything
+    the caller prints about the pass.
+
+    Lifted out of main() so it can be driven from a test. This file cannot run on a
+    runner -- Finnkino answers a datacenter address with a Cloudflare 403 -- so the only
+    way to exercise the schedule and the failure paths without a live token is to call
+    the pass directly with TMDB stubbed.
+    """
+    looked = rechecked = 0
+    tmdb_weak, tmdb_thin = [], []
+    # Which entries are due, and which of those only because their rating is old.
+    # Finding a trailer used to end an entry's life here as well: the skip was
+    # `v or c == today`, so 46 of the 59 cached films were frozen, 45 of them last
+    # read on 2026-08-28. The schedule is providers/refresh.py, shared with the cloud
+    # pass so the two cannot drift apart again.
+    todo, refreshes, deferred = refresh.due(
+        [fid for fid, m in films_meta.items() if m["q"]],
+        tmdb_cache, today, _tmdb_complete)
+    settled = set()          # scheduled refreshes that came back with vote data
+    for fid, meta in films_meta.items():
+        if fid not in todo:
+            continue
+        cached = tmdb_cache.get(fid)
+        cached = cached if isinstance(cached, dict) else None
+        replaced = False
+        try:
+            mid = cached.get("i") if cached else None
+            va = (cached.get("r") or 0) if cached else 0
+            votes = (cached.get("n") or 0) if cached else 0
+            exact_id = bool(cached.get("x")) if cached else False
+            gids = (cached.get("g") or []) if cached else []
+            # An alias is either a bare TMDB id, which skips the search, or a
+            # replacement search string. Keyed on the Finnish title first, since
+            # that is what the cinema publishes and what the file is keyed by.
+            alias = aliases.get(_tnorm(meta.get("fi"))) or aliases.get(_tnorm(meta["q"]))
+            if not mid and alias and str(alias).isdigit():
+                mid = int(alias)
+                exact_id = True     # a hand-written id is as good as exact
+                va = votes = 0      # rating comes from the detail call below
+            if not mid:
+                # Every candidate is tried until one matches the title exactly; the
+                # first hit of any kind is the fallback. Stopping at the first
+                # candidate that returns anything is what sent "Die Hard 2 - Die
+                # Harder" to Die Hard in the cloud pass.
+                fallback = None
+                cands = _queries(meta["q"])
+                if alias and not str(alias).isdigit():
+                    cands.insert(0, str(alias))
+                for cand in cands:
+                    q = urllib.parse.quote(cand)
+                    u = f"https://api.themoviedb.org/3/search/movie?language=fi-FI&query={q}"
+                    year = meta["y"] and cand != str(alias or "")
+                    res = json.loads(http_get(
+                        u + (f"&primary_release_year={meta['y']}" if year else ""), th))
+                    results = res.get("results") or []
+                    hit, exact = _pick(results, cand)
+                    # A reissue carries the *reissue* year, so the filter hides the
+                    # film: "Autot (uudelleenjulkaisu)" is a 2026 release of a 2006
+                    # title, and searching the alias "Cars" with year=2026 returned
+                    # "The Boy Who Counted Cars". Retry unfiltered whenever the year
+                    # produced no exact match, not only when it produced nothing.
+                    if meta["y"] and year and not exact:
+                        alt = json.loads(http_get(u, th)).get("results") or []
+                        if alt:
+                            a_hit, a_exact = _pick(alt, cand)
+                            if a_exact or not hit:
+                                hit, exact, results = a_hit, a_exact, alt
+                    if hit and exact:
+                        mid = hit.get("id")
+                        va = hit.get("vote_average") or 0
+                        votes = hit.get("vote_count") or 0
+                        exact_id = True
+                        break
+                    if hit and fallback is None:
+                        fallback = hit
+                    time.sleep(0.2)
+                else:
+                    if fallback is not None:
+                        mid = fallback.get("id")
+                        va = fallback.get("vote_average") or 0
+                        votes = fallback.get("vote_count") or 0
+                        exact_id = False
+                        tmdb_weak.append(f"{meta['q']} -> {fallback.get('title')}")
+            # An id that did not come from a search carries no vote data with it
+            # (an alias id, or one restored from cache before "n" existed), and this
+            # pass otherwise never fetches the movie detail. One request, only in
+            # that case, keeps the rating and the vote floor working.
+            # One detail call covers both gaps: vote data for an id that did not come
+            # from a search, and the genre ids, which this pass never had. Skipped
+            # once the cache carries both, so it costs one pass per film, not one
+            # per run. Genre names are localized client-side from
+            # data/tmdb-genres.json, written by the cloud pass.
+            # ...and once more when the entry is being refreshed, which is the only
+            # way a rating this pass already holds can ever be re-read. Without that
+            # clause an age-based refresh would fetch nothing and stamp the entry as
+            # current, which is worse than not refreshing at all.
+            detail_ok = False
+            if mid and (not votes or not gids or fid in refreshes):
+                try:
+                    d = json.loads(http_get(
+                        f"https://api.themoviedb.org/3/movie/{mid}", th))
+                    # Both halves of the pair or neither. `or va` used to let a
+                    # response carrying one of them write a zero over a real rating.
+                    fresh_r = refresh.numeric(d.get("vote_average"))
+                    fresh_n = refresh.numeric(d.get("vote_count"))
+                    if fresh_r is not None and fresh_n is not None:
+                        va, votes = fresh_r, fresh_n
+                        detail_ok = True
+                    if d.get("genres"):
+                        gids = [g["id"] for g in d["genres"] if g.get("id")]
+                except Exception as e:
+                    print(f"[tmdb-detail] {meta['q']}: {e}")
+            # Seeded from the cache. A video request that fails must not empty a
+            # trailer this entry already had; one that answers and finds none does
+            # clear it, which is the rule the detail read follows too.
+            yt = (cached.get("v") or "") if cached else ""
+            if mid:
+                try:
+                    vids = json.loads(http_get(
+                        f"https://api.themoviedb.org/3/movie/{mid}/videos", th)).get("results") or []
+                    yt = ""
+                    for pref in (lambda v: v.get("type") == "Trailer" and v.get("official"),
+                                 lambda v: v.get("type") == "Trailer",
+                                 lambda v: v.get("type") == "Teaser"):
+                        hit = next((v for v in vids if v.get("site") == "YouTube" and pref(v)), None)
+                        if hit:
+                            yt = hit.get("key") or ""
+                            break
+                except Exception as e:
+                    print(f"[tmdb-videos] {meta['q']}: {e}")
+            # A rating needs votes: a premiere with three of them shows a clean
+            # 10.0, which reads as a verdict. Same floor as enrich_tmdb.
+            shown = round(va, 1) if va and votes >= TMDB_MIN_VOTES else 0
+            if va and not shown:
+                tmdb_thin.append(f"{meta['q']} ({round(va, 1)} / {votes} votes)")
+            # `c` is what parks an entry, so a *refresh* may only move it once a
+            # detail response carried the vote pair. The daily half is different and
+            # deliberately so: it is a trailer hunt that makes no detail request by
+            # design, and requiring one to advance the date would turn a once-a-day
+            # check into a once-a-run one at somebody else's expense.
+            stamp = (today if (detail_ok or fid not in refreshes)
+                     else (cached.get("c") or "") if cached else "")
+            # `a` is every attempt, `c` only the ones that answered. Keeping them
+            # apart is what stops an id that can never be read from holding the head
+            # of the queue for ever -- see providers/refresh.py.
+            attempt = today if mid else ((cached.get("a") or "") if cached else "")
+            tmdb_cache[fid] = {"r": shown, "n": votes, "v": yt,
+                               "x": bool(mid) and exact_id, "g": gids,
+                               "i": mid or "", "c": stamp, "a": attempt}
+            replaced = True
+            if detail_ok and fid in refreshes:
+                settled.add(fid)
+            if cached:
+                rechecked += 1
+            else:
+                looked += 1
+            time.sleep(0.25)
+        except Exception as e:
+            print(f"[tmdb] {meta['q']}: {e}")
+            # A scheduled refresh that got as far as being attempted has to record
+            # that even when nothing else can be written, or it reads as never
+            # attempted and returns to the head of the queue on every later run.
+            # Only the marker moves; everything else stays as cached, so the entry
+            # keeps what it had and stays due. Guarded so an exception after the
+            # write cannot put the old entry back over a refresh that worked.
+            if fid in refreshes and cached and not replaced:
+                tmdb_cache[fid] = {**cached, "a": today}
+
+    return {"looked": looked, "rechecked": rechecked, "weak": tmdb_weak,
+            "thin": tmdb_thin, "scheduled": len(refreshes),
+            "settled": len(settled), "deferred": deferred}
+
+
 def main() -> int:
     out = pathlib.Path("data"); out.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
@@ -384,124 +571,10 @@ def main() -> int:
             del tmdb_cache[fid]
         if overridden:
             print(f"[tmdb] dropped {len(overridden)} weak entries that now have an alias")
-        looked = rechecked = 0
-        tmdb_weak, tmdb_thin = [], []
         today = datetime.date.today().isoformat()
-        for fid, meta in films_meta.items():
-            if not meta["q"]:
-                continue
-            cached = tmdb_cache.get(fid)
-            cached = cached if isinstance(cached, dict) else None
-            # Skip only if we already have a trailer, or we already re-checked today.
-            if (cached and "n" in cached and "x" in cached and "g" in cached
-                    and (cached.get("v") or cached.get("c") == today)):
-                continue
-            try:
-                mid = cached.get("i") if cached else None
-                va = (cached.get("r") or 0) if cached else 0
-                votes = (cached.get("n") or 0) if cached else 0
-                exact_id = bool(cached.get("x")) if cached else False
-                gids = (cached.get("g") or []) if cached else []
-                # An alias is either a bare TMDB id, which skips the search, or a
-                # replacement search string. Keyed on the Finnish title first, since
-                # that is what the cinema publishes and what the file is keyed by.
-                alias = aliases.get(_tnorm(meta.get("fi"))) or aliases.get(_tnorm(meta["q"]))
-                if not mid and alias and str(alias).isdigit():
-                    mid = int(alias)
-                    exact_id = True     # a hand-written id is as good as exact
-                    va = votes = 0      # rating comes from the detail call below
-                if not mid:
-                    # Every candidate is tried until one matches the title exactly; the
-                    # first hit of any kind is the fallback. Stopping at the first
-                    # candidate that returns anything is what sent "Die Hard 2 - Die
-                    # Harder" to Die Hard in the cloud pass.
-                    fallback = None
-                    cands = _queries(meta["q"])
-                    if alias and not str(alias).isdigit():
-                        cands.insert(0, str(alias))
-                    for cand in cands:
-                        q = urllib.parse.quote(cand)
-                        u = f"https://api.themoviedb.org/3/search/movie?language=fi-FI&query={q}"
-                        year = meta["y"] and cand != str(alias or "")
-                        res = json.loads(http_get(
-                            u + (f"&primary_release_year={meta['y']}" if year else ""), th))
-                        results = res.get("results") or []
-                        hit, exact = _pick(results, cand)
-                        # A reissue carries the *reissue* year, so the filter hides the
-                        # film: "Autot (uudelleenjulkaisu)" is a 2026 release of a 2006
-                        # title, and searching the alias "Cars" with year=2026 returned
-                        # "The Boy Who Counted Cars". Retry unfiltered whenever the year
-                        # produced no exact match, not only when it produced nothing.
-                        if meta["y"] and year and not exact:
-                            alt = json.loads(http_get(u, th)).get("results") or []
-                            if alt:
-                                a_hit, a_exact = _pick(alt, cand)
-                                if a_exact or not hit:
-                                    hit, exact, results = a_hit, a_exact, alt
-                        if hit and exact:
-                            mid = hit.get("id")
-                            va = hit.get("vote_average") or 0
-                            votes = hit.get("vote_count") or 0
-                            exact_id = True
-                            break
-                        if hit and fallback is None:
-                            fallback = hit
-                        time.sleep(0.2)
-                    else:
-                        if fallback is not None:
-                            mid = fallback.get("id")
-                            va = fallback.get("vote_average") or 0
-                            votes = fallback.get("vote_count") or 0
-                            exact_id = False
-                            tmdb_weak.append(f"{meta['q']} -> {fallback.get('title')}")
-                # An id that did not come from a search carries no vote data with it
-                # (an alias id, or one restored from cache before "n" existed), and this
-                # pass otherwise never fetches the movie detail. One request, only in
-                # that case, keeps the rating and the vote floor working.
-                # One detail call covers both gaps: vote data for an id that did not come
-                # from a search, and the genre ids, which this pass never had. Skipped
-                # once the cache carries both, so it costs one pass per film, not one
-                # per run. Genre names are localized client-side from
-                # data/tmdb-genres.json, written by the cloud pass.
-                if mid and (not votes or not gids):
-                    try:
-                        d = json.loads(http_get(
-                            f"https://api.themoviedb.org/3/movie/{mid}", th))
-                        va = d.get("vote_average") or va
-                        votes = d.get("vote_count") or votes
-                        if d.get("genres"):
-                            gids = [g["id"] for g in d["genres"] if g.get("id")]
-                    except Exception as e:
-                        print(f"[tmdb-detail] {meta['q']}: {e}")
-                yt = ""
-                if mid:
-                    try:
-                        vids = json.loads(http_get(
-                            f"https://api.themoviedb.org/3/movie/{mid}/videos", th)).get("results") or []
-                        for pref in (lambda v: v.get("type") == "Trailer" and v.get("official"),
-                                     lambda v: v.get("type") == "Trailer",
-                                     lambda v: v.get("type") == "Teaser"):
-                            hit = next((v for v in vids if v.get("site") == "YouTube" and pref(v)), None)
-                            if hit:
-                                yt = hit.get("key") or ""
-                                break
-                    except Exception as e:
-                        print(f"[tmdb-videos] {meta['q']}: {e}")
-                # A rating needs votes: a premiere with three of them shows a clean
-                # 10.0, which reads as a verdict. Same floor as enrich_tmdb.
-                shown = round(va, 1) if va and votes >= TMDB_MIN_VOTES else 0
-                if va and not shown:
-                    tmdb_thin.append(f"{meta['q']} ({round(va, 1)} / {votes} votes)")
-                tmdb_cache[fid] = {"r": shown, "n": votes, "v": yt,
-                                   "x": bool(mid) and exact_id, "g": gids,
-                                   "i": mid or "", "c": today}
-                if cached:
-                    rechecked += 1
-                else:
-                    looked += 1
-                time.sleep(0.25)
-            except Exception as e:
-                print(f"[tmdb] {meta['q']}: {e}")
+        stats = enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today)
+        looked, rechecked = stats["looked"], stats["rechecked"]
+        tmdb_weak, tmdb_thin = stats["weak"], stats["thin"]
         common.write_json(cache_p, tmdb_cache)
         # A film that matched *nothing* was invisible here: the weak list only names the
         # ones that found something wrong. "Ryhmä Hau: Dinoelokuva" sat with an empty id
@@ -519,6 +592,10 @@ def main() -> int:
                   f"({len(tmdb_thin)}): " + " | ".join(sorted(tmdb_thin)))
         mergeable = sum(1 for c in tmdb_cache.values()
                         if isinstance(c, dict) and c.get("x") and c.get("i"))
+        line = refresh.report(stats["scheduled"], stats["settled"],
+                              stats["deferred"])
+        if line:
+            print(f"[tmdb] {line}")
         print(f"[tmdb] {looked} new lookups, {rechecked} re-checks, "
               f"cache {len(tmdb_cache)}, {mergeable} mergeable by id")
         def _rating(c):

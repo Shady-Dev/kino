@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 14 items still open, with the section that holds each one and its reasoning. Presence
+The 13 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
 line from this list when its item is ticked below.
 
@@ -24,8 +24,6 @@ line from this list when its item is ticked below.
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices via the ticket-types endpoint
-- The same frozen TMDB rating on the Finnkino path (`fetch_data.py`), which can only
-  be verified from an ordinary connection
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
 
@@ -1665,11 +1663,29 @@ Still open from this pass:
       ordering the queue on the last success, never recording an attempt, recording one
       only on success, recording none when the title aborts, rolling a good write back,
       and rewriting more than the marker on the way out. Twenty-six breaks, all red.
-- [ ] The same defect on the Finnkino path. `fetch_data.py` carries the identical rule
-      (`cached.get("v") or cached.get("c") == today`) and the identical shape:
-      `data/tmdb.json` held 59 entries on 2026-09-01, 46 with a trailer and 45 of those
-      last read on 2026-08-28. Not fixed in the same commit -- one item per commit, and that file
-      cannot run on a runner, so it **needs a run from an ordinary connection** to verify.
+- [x] **The same defect on the Finnkino path, fixed 2026-09-01.** `fetch_data.py` carried
+      the identical rule and the identical shape: `data/tmdb.json` held 59 entries, 46
+      with a trailer and 45 of those last read on 2026-08-28. It was worse than the cloud
+      pass, because its detail request is conditional on `not votes or not gids` -- so
+      even the daily half never re-read a rating it already held, and an age rule alone
+      would have scheduled the entry, fetched nothing and stamped it current.
+      The schedule is `providers/refresh.py` now, shared by both passes rather than
+      written twice, which is how this defect came to exist in two files and be fixed in
+      one. They differ in one thing and pass it in: what a complete entry looks like. The
+      Finnkino cache carries no synopsis and no poster, because Finnkino publishes both
+      itself, so the title cache's predicate would mark every row incomplete for ever.
+      Fixed there and not only in the schedule: a failed video read used to write an
+      empty string over a cached trailer.
+      Verified without live Finnkino -- that file answers a datacenter address with a
+      Cloudflare 403, so no runner can run it and there is no token here. The pass was
+      lifted out of `main()` into `enrich_cached_ratings()` so it can be driven directly
+      with TMDB stubbed by URL: 18 tests over both cache shapes, the failure paths, and a
+      two-run rotation over a backlog larger than the budget. The next run from an
+      ordinary connection is the operational check, not the proof.
+      One thing only a real pass could have caught: the first fixture omitted `y`, the
+      release year the search loop reads, and every cached-entry test passed anyway
+      because none of them reached the search. An uncached film raised `KeyError: 'y'`.
+      That is the argument for driving the pass rather than a reimplementation of it.
 - [x] **Independent hosts are fetched at the same time** (2026-09-01). `run.py` pools
       over *hosts*, not over sites, and each host is still read by one thread at the pace
       its adapter sets. See "A run reads unrelated hosts at once" below for the host
