@@ -133,6 +133,9 @@ class MirrorTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.srv.shutdown()
+        # shutdown() stops serve_forever; the listening socket is still
+        # open until this. test_run_pool.py has always done both.
+        cls.srv.server_close()
 
     def setUp(self):
         self.srv.files.clear()

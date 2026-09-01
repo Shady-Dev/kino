@@ -339,6 +339,15 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                         _write_slot(slot, {"etag": et, "last_modified": lm}, body)
                 return body
         except urllib.error.HTTPError as e:
+            # An HTTPError *is* the response, and it holds its socket until the garbage
+            # collector gets to it -- 24 ResourceWarnings in a suite run, and on a long
+            # run against a host that is refusing everything, that many sockets waiting
+            # on a collection nobody scheduled. Closed here because nothing ever wants
+            # the body: `code`, `reason` and `headers` all survive the close, the retry
+            # logic below reads only those, and `raise last` hands the caller an
+            # exception rather than a stream. close() is idempotent, so the paths that
+            # re-raise this same object cost nothing.
+            e.close()
             if e.code == 304 and cached_body is not None:
                 _bump(_stats, "hit")
                 return cached_body

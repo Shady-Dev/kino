@@ -92,12 +92,27 @@ jobs:
       # a skip means one of them is missing and coverage silently shrank. node is the
       # other one: four harnesses skip without it, and they are the only tests that touch
       # index.html at all.
-      - name: Unit suite, with nothing skipped
+      #
+      # A ResourceWarning fails it too. The suite leaked responses and listening sockets
+      # for as long as it has existed, which is noise that hides the next one -- and the
+      # HTTPError half was a real leak in `common.fetch`, not a test artefact.
+      #
+      # Read out of the captured output rather than with `-W error::ResourceWarning`.
+      # That flag was tried and does not work here: the socket warnings are raised while
+      # the interpreter is shutting down, so raising on them changes nothing the exit
+      # code can carry -- measured 2026-09-01, exit 0 with the leak reintroduced.
+      # unittest already enables warnings by default, so they are in the log either way.
+      - name: Unit suite, with nothing skipped and nothing leaked
         run: |
           set -o pipefail
           python3 -m unittest discover -s tests 2>&1 | tee "$RUNNER_TEMP/suite.log"
           if grep -qE 'skipped=' "$RUNNER_TEMP/suite.log"; then
             echo "::error::the suite skipped tests; a dependency is missing on the runner"
             grep -E 'skipped=' "$RUNNER_TEMP/suite.log"
+            exit 1
+          fi
+          if grep -q 'ResourceWarning' "$RUNNER_TEMP/suite.log"; then
+            echo "::error::the suite left something open"
+            grep -m5 'ResourceWarning' "$RUNNER_TEMP/suite.log"
             exit 1
           fi

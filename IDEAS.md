@@ -3230,6 +3230,40 @@ placeholder tile, and the page rendered **zero off-origin images** against 21 lo
 This was latent rather than live -- there is no remote poster in the data today -- which
 is exactly why it needed a test rather than an inspection.
 
+### A refused request held its socket until the collector noticed (2026-09-01)
+A suite run printed 24 ResourceWarnings and they were read as test noise for as long as
+they have been there. Thirteen of them were not: `urllib.error.HTTPError` *is* the
+response object, and `common.fetch` kept the last one in `last` across the retry loop and
+raised it, so every refusal left a socket open until the garbage collector happened to
+run. On a run against a host refusing everything -- `mirror_posters` has had 185 failures
+against one host in a single run -- that is 185 sockets waiting on a collection nobody
+scheduled.
+
+`e.close()` on entering the handler. Nothing ever wanted the body: `code`, `reason` and
+`headers` all survive the close, `_log_refusal` and `_server_hint` read only headers, no
+caller anywhere calls `.read()` on a caught error, and `raise last` hands the caller an
+exception rather than a stream. `close()` is idempotent, so the paths that re-raise the
+same object cost nothing.
+
+The other eleven were the fixtures: `shutdown()` stops `serve_forever` and leaves the
+listening socket open, and two of the three local servers never called `server_close()`.
+`test_run_pool.py` always did, which is what made it findable.
+
+**`-W error::ResourceWarning` does not enforce this**, which is worth writing down
+because it is the obvious thing to reach for. The socket warnings are raised while the
+interpreter is shutting down, after the test run has already reported its result, so the
+exception the flag raises has nothing left to change: measured 2026-09-01, exit 0 with
+the leak reintroduced and the warning printed. `Checks` greps the captured suite output
+instead, which catches both classes -- unittest enables warnings by default, so they are
+in the log with no flag at all.
+
+Verified by breaking both: `e.close()` removed turns four new tests in
+`test_common_fetch.py` red, and `server_close()` removed puts the unclosed-socket line
+back in the output the workflow reads. The four tests state the symptom as well as the
+mechanism -- one asserts the raised error is closed, one that the diagnostic headers
+survived it, and one records warnings around a three-attempt failure and forces a
+collection, because `closed` is only evidence for the thing that was actually wrong.
+
 ### The suite is a workflow rather than an instruction (2026-09-01)
 Three workflows existed and none of them ran a test. They fetch data, read committed run
 logs and ping IndexNow -- all about what the pipeline *did*, none about whether the code

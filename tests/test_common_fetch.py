@@ -6,12 +6,13 @@ never again is a cap nobody will notice breaking.
 
 Everything here talks to a real HTTP server on localhost rather than a mocked urlopen,
 because the behaviour under test is partly urllib's: which exception a 429 raises, what
-`e.headers` holds, whether a body is readable after an error. A mock would encode the
+`e.headers` holds, what survives closing the response. A mock would encode the
 assumptions instead of checking them.
 """
 import contextlib
 import email.utils
 import datetime
+import gc
 import http.server
 import importlib
 import io
@@ -20,6 +21,7 @@ import threading
 import time
 import unittest
 import urllib.error
+import warnings
 
 import _ctx                                                # noqa: F401
 import common
@@ -68,6 +70,9 @@ class FetchTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.srv.shutdown()
+        # shutdown() stops serve_forever; the listening socket is still
+        # open until this. test_run_pool.py has always done both.
+        cls.srv.server_close()
 
     def setUp(self):
         self.srv.script.clear()
@@ -197,6 +202,63 @@ class FetchTest(unittest.TestCase):
             c.fetch(self.url + "/j", tries=3, backoff=0)
         self.assertEqual(self.srv.hits["/j"], 3)
         self.assertEqual(c.throttle_stats()["asked"], 0)
+
+    # -- the refused response does not sit on its socket -------------------------------
+
+    def test_a_refused_response_comes_back_closed(self):
+        """An HTTPError *is* the response. Holding one without closing it keeps the
+        socket until the collector happens to run -- 24 ResourceWarnings in a suite run,
+        and on a run against a host refusing everything, that many sockets waiting on a
+        collection nobody scheduled."""
+        c = self.reload()
+        self.srv.script["/k1"] = [(429, {"Retry-After": "9999"}, b"go away")]
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            c.fetch(self.url + "/k1", backoff=30)
+        self.assertTrue(cm.exception.closed)
+
+    def test_the_last_of_several_tries_comes_back_closed_too(self):
+        """Three attempts, so three responses. The one that reaches the caller is the
+        last, and the two before it are dropped inside the loop -- a fix that only
+        closed the raised one would leave those two, which is most of them."""
+        c = self.reload()
+        self.srv.script["/k2"] = [(500, {}, b"boom")]
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            c.fetch(self.url + "/k2", tries=3, backoff=0)
+        self.assertEqual(self.srv.hits["/k2"], 3)
+        self.assertTrue(cm.exception.closed)
+
+    def test_no_resource_warning_survives_the_retry_loop(self):
+        """Stated as the symptom rather than the mechanism, because `closed` is only
+        evidence and this is the thing that was actually wrong. gc.collect() forces the
+        collection the warning would otherwise appear at some arbitrary later point."""
+        c = self.reload()
+        self.srv.script["/k3"] = [(403, {}, b"nope")]
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            with self.assertRaises(urllib.error.HTTPError):
+                c.fetch(self.url + "/k3", tries=3, backoff=0)
+            gc.collect()
+        leaked = [w for w in caught if issubclass(w.category, ResourceWarning)]
+        self.assertEqual(leaked, [], f"{len(leaked)} response(s) left open")
+
+    def test_the_diagnostic_headers_survive_the_close(self):
+        """What the close is allowed to cost. `_log_refusal` reads Server and CF-Ray off
+        the exception after the fact, so closing the body must not take the headers with
+        it -- that line is how a Cloudflare block was told apart from a real 403."""
+        c = self.reload()
+        self.srv.script["/k4"] = [(403, {"Server": "cloudflare", "CF-Ray": "abc-HEL"},
+                                   b"blocked")]
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            c.fetch(self.url + "/k4", tries=1, backoff=0)
+        e = cm.exception
+        self.assertTrue(e.closed)
+        self.assertEqual(e.code, 403)
+        self.assertEqual(e.headers.get("CF-Ray"), "abc-HEL")
+        # The real consumer rather than the header dict: _server_hint is what builds the
+        # line, so asserting on it covers the close and the reader together. `Server` is
+        # not asserted -- BaseHTTPRequestHandler writes its own banner over the scripted
+        # one, which is the harness talking and not the code under test.
+        self.assertIn("CF-Ray: abc-HEL", common._server_hint(e))
 
     def test_a_200_is_untouched(self):
         c = self.reload()
