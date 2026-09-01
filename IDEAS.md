@@ -3754,6 +3754,20 @@ The hazards, and what each turned out to be worth:
   site finished first. Keys already in the file keep their place -- `setdefault` does not
   move them -- so this is a handful of new films appearing in a different order among
   themselves on the run that first sees them, and nothing at all afterwards.
+- **The lock was not enough, and a review caught it.** It stops a lost write and decides
+  nothing about *whose* text lands when two sites publish different `_syn` for the same
+  normalised title -- two chains showing one film, each with its own blurb. Fill-if-empty
+  then means "whichever host answered first", which with a pool is a property of the
+  network. Probed 2026-09-01 with one slow site and one fast one over the same data:
+  `workers=1` published the first site's synopsis, `workers=2` published the second's.
+  The winner is now the earlier site in SITES order, which is what the sequential loop
+  produced and is the same at every pool size. `run_site` passes its index to
+  `synmerge.merge`, which keeps a per-run map of who claimed each slot; an earlier site
+  may take back a slot a later one filled **during this run**, and text that was in the
+  file before the run began is never touched -- the provider's own synopsis still beats
+  TMDB's. `synmerge.reset()` clears the map between modules, so a second module's site 0
+  cannot outrank the first module's site 1. Values are identical at any pool size; the
+  key-order consequence above is what remains, and it carries no meaning.
 
 Everything else `run_site` writes was already single-writer, checked rather than assumed:
 across all eight adapters the 57 venue ids and 31 provider ids are each unique, so

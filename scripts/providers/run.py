@@ -125,8 +125,14 @@ def enrichment_of(path):
     return out
 
 
-def run_site(mod, site, now):
-    """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure."""
+def run_site(mod, site, now, order=0):
+    """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure.
+
+    `order` is the site's index in the module's SITES, and only synmerge uses it: two
+    sites publishing different synopses for one film are decided by SITES order rather
+    than by which host answered first. A caller that fetches one site alone can leave it
+    at 0.
+    """
     label = site.get("provider") or mod.__name__
     per_venue = mod.fetch_site(site)
     # A strand prefix belongs in `method`, not in the title: left there it fragments the
@@ -135,7 +141,7 @@ def run_site(mod, site, now):
     split = sum(bool(strands.apply(s)) for shows in per_venue.values() for s in shows)
     if split:
         print(f"[{label}] strand prefix split off {split} showtimes")
-    synmerge.merge(OUT, per_venue, label)
+    synmerge.merge(OUT, per_venue, label, order)
 
     live = total = 0
     stale = []            # kept its previous file: the data is real, just older
@@ -361,6 +367,7 @@ def run_sites(mod, sites, now, workers=None):
     it as well.
     """
     workers = MAX_HOSTS if workers is None else workers
+    synmerge.reset()          # this module's sites decide their own synopsis winners
     groups = host_groups(sites)
     slots = [None] * len(sites)
     done = [threading.Event() for _ in sites]
@@ -374,7 +381,7 @@ def run_sites(mod, sites, now, workers=None):
             chunks = []
             try:
                 chunks = rec.capture()
-                slots[i] = (label, run_site(mod, site, now), None, chunks)
+                slots[i] = (label, run_site(mod, site, now, i), None, chunks)
             except BaseException as e:              # noqa: BLE001 -- see the docstring
                 slots[i] = (label, None, e, chunks)
             finally:

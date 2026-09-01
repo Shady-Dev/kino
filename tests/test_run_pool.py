@@ -119,6 +119,7 @@ class PoolMod:
     fail = ()
     empty = ()
     syn = False
+    shared = False        # True, or the providers that also publish one title in common
     chatty = False
 
     def __init__(self, sites, **kw):
@@ -137,9 +138,13 @@ class PoolMod:
             raise RuntimeError("connection reset")
         if prov in self.empty:
             raise common.EmptyProgramme("the listing renders its empty state")
-        return {v["id"]: [show(f"{prov} film",
-                               syn=f"{prov} synopsis" if self.syn else "")]
-                for v in site["venues"]}
+        out = {v["id"]: [show(f"{prov} film",
+                              syn=f"{prov} synopsis" if self.syn else "")]
+               for v in site["venues"]}
+        if self.shared is True or prov in (self.shared or ()):
+            for shows in out.values():
+                shows.append(show("Shared Film", syn=f"{prov} synopsis"))
+        return out
 
 
 class PoolTestCase(unittest.TestCase):
@@ -508,6 +513,66 @@ class SynopsisMergeTest(PoolTestCase):
 
         common.write_json = slow
         self.addCleanup(lambda: setattr(common, "write_json", real))
+
+    def shared_run(self, workers):
+        """One film published by all three sites with three different blurbs, the first
+        site slowest so it finishes last. -> (the parsed document, completion order)."""
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        out = pathlib.Path(tmp.name)
+        h = self.hosts(3, delay=0)
+        h.servers[0].delay = 0.25          # SITES order and completion order disagree
+        h.servers[1].delay = 0.05
+        mod = PoolMod([site(f"p{i}", h.base(i)) for i in range(3)],
+                      requests=2, syn=True, shared=True)
+        saved = run.OUT
+        run.OUT = out
+        try:
+            self.drain(mod, workers=workers)
+        finally:
+            run.OUT = saved
+        finished = sorted(("p0", "p1", "p2"),
+                          key=lambda p: max(e for _, e in h.spans(p)))
+        return json.loads((out / "films-extra.json").read_text()), finished
+
+    def test_the_same_film_from_two_sites_takes_the_earlier_site_s_synopsis(self):
+        """Two chains showing one film, each with its own Finnish blurb.
+
+        Fill-if-empty makes the winner "whichever host answered first", which with a pool
+        is a property of the network rather than of the data. Measured 2026-09-01 with
+        one slow site and one fast one: `workers=1` published the first site's synopsis
+        and `workers=2` published the second's, from identical input. The winner has to
+        be SITES order, which is what the sequential loop produced, at any pool size.
+        """
+        one, order_one = self.shared_run(1)
+        self.reset_counters()
+        many, order_many = self.shared_run(8)
+        self.assertEqual(order_many[-1], "p0",
+                         "the pooled run did not finish out of SITES order, so this "
+                         "fixture is not exercising the race it exists for")
+        self.assertEqual(one["films"]["shared film"]["s"]["fi"], "p0 synopsis")
+        self.assertEqual(many["films"]["shared film"]["s"]["fi"], "p0 synopsis")
+        # Compared as documents. Every value is identical at either pool size; what a
+        # pool still decides is the position a film seen for the first time on this run
+        # takes among the other new ones, which JSON object order does not carry meaning
+        # for and which no consumer reads.
+        self.assertEqual(one, many, "the published document depends on the pool size")
+
+    def test_a_later_module_does_not_outrank_an_earlier_one(self):
+        """Modules are fetched one after the other, so `reset()` drops a module's claims
+        when it is done. Without it the second module's site 0 outranks the first
+        module's site 1 and takes a slot that is already settled -- the file's text is no
+        longer "the first provider in SITES order" but "the lowest index of any module".
+        """
+        h = self.hosts(3, delay=0)
+        first = PoolMod([site("a0", h.base(0)), site("a1", h.base(1))],
+                        requests=1, syn=True, shared=("a1",))
+        second = PoolMod([site("b0", h.base(2))],
+                         requests=1, syn=True, shared=("b0",))
+        self.drain(first)
+        self.drain(second)
+        films = json.loads((self.out / "films-extra.json").read_text())["films"]
+        self.assertEqual(films["shared film"]["s"]["fi"], "a1 synopsis")
 
     def test_every_site_keeps_its_synopses(self):
         self.slow_merge_writes()
