@@ -9,7 +9,7 @@
 [biorex] BioRex Rovaniemi: 41 showtimes
 [biorex] BioRex Seinäjoki: 50 showtimes
 [biorex] BioRex Tornio: 31 showtimes
-[biorex] BioRex Vaasa: 49 showtimes
+[biorex] BioRex Vaasa: 45 showtimes
 [biorex] film pages: 24/24
 [biorex] synopses merged: 0
 [biorex] BioRex Tripla: 62 showtimes, 9 dates
@@ -23,7 +23,7 @@
 [biorex] BioRex Rovaniemi: 41 showtimes, 8 dates
 [biorex] BioRex Seinäjoki: 50 showtimes, 8 dates
 [biorex] BioRex Tornio: 31 showtimes, 7 dates
-[biorex] BioRex Vaasa: 49 showtimes, 9 dates
+[biorex] BioRex Vaasa: 45 showtimes, 9 dates
 [run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] biorex: 12 venues, 466 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] biorex: 12 venues, 462 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

@@ -11,7 +11,7 @@
 [savonkinot] Maxim Varkaus: 9 showtimes, 3 dates
 [savonkinot] Kino-Hovi Kitee: 2 showtimes, 2 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 100 showtimes, 11 dates
+[kinopirtti] Kinopirtti: 101 showtimes, 12 dates
 [leffabuumi] synopses merged: 0
 [leffabuumi] Kinolinna: 68 showtimes, 10 dates
 [leffabuumi] Kino Ritz: 14 showtimes, 10 dates
@@ -38,6 +38,6 @@
 [kkino] K-Kino: 3 showtimes, 2 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 7 dates
-[run] http: 0 revalidated (304), 207 full, 207 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 730 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 208 full, 208 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 731 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
