@@ -69,6 +69,13 @@ A registry entry plus an adapter. No `index.html` edit.
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
   is generated from it, and the client derives every label, host, accent and footer verb.
 - An adapter exposes `SITES` and `fetch_site(site) -> {venue_id: [shows]}`.
+- **A site's `base` is the pacing key.** `run.py` reads hosts concurrently and
+  serialises the sites that share one, keyed on `urlsplit(site["base"]).netloc`, so the
+  sleep inside `fetch_site` still describes what a host sees. Two entries against one
+  server must both name it in `base` -- Bio Säde's data comes from kinohirvi.fi and only
+  its ticket links go to biosade.fi, which is what `site` is for. A site with no `base`
+  at all shares one group with every other base-less site of its module, which is slow
+  rather than rude.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.

@@ -116,7 +116,7 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 1. Write `scripts/providers/{name}.py` exposing two things:
 
-       SITES             [{provider, label, venues:[{id, name, short, city}]}]
+       SITES             [{provider, label, base, venues:[{id, name, short, city}]}]
        fetch_site(site)  -> {venue_id: [show, ...]}
 
 2. Add an entry to `scripts/providers/registry.py`: id, label, host, accent,
@@ -126,6 +126,12 @@ Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves seventeen
 providers today and `nexxo` seven.
+
+`base` is the host the adapter reads, and `run.py` paces on it: sites on
+different hosts are fetched at the same time, sites sharing a host one after the
+other. Two entries against the same server therefore have to name that server in
+`base`, or they would be read at twice the rate their adapter paces for. Where a
+visitor is sent can be a different host and belongs in `site`.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo
 or eTiketti needs a `SITES` entry against the existing adapter; `vista.py` keeps
@@ -187,7 +193,9 @@ TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.
 
 Every provider is read through the same public interface its own site uses, under
-an honest User-Agent, **on a schedule that no visitor can influence**. The app
+an honest User-Agent, **on a schedule that no visitor can influence**. Unrelated
+cinemas are read at the same time; any one cinema is read one request at a time,
+at the pace its own adapter sets. The app
 loads static JSON from this origin, so browsing it, reloading it or leaving it
 open reaches no cinema. That property holds by construction: the client has no
 code that calls a cinema.
