@@ -246,6 +246,81 @@ class HostPacingTest(PoolTestCase):
         self.assertEqual(len(groups), 1)
 
 
+class WorkerTerminationTest(PoolTestCase):
+    """A `SystemExit` out of a worker has to reach the caller.
+
+    `except Exception` per site is the isolation a pool needs. Anything else ended a
+    sequential run and has to end this one, and that does not happen by itself: the
+    thread dies, ThreadPoolExecutor puts the exception on a future nobody reads, and the
+    run carries on and publishes. Recorded and re-raised by the reader instead -- and not
+    written into the log as a provider that failed, because it is not one.
+    """
+
+    class Exiting(PoolMod):
+        """Raises SystemExit for one site, the way `sys.exit()` in adapter code would."""
+        exiting = ()
+
+        def fetch_site(self, site):
+            if site["provider"] in self.exiting:
+                raise SystemExit(3)
+            return PoolMod.fetch_site(self, site)
+
+    def test_it_reaches_the_caller_instead_of_a_future_nobody_reads(self):
+        h = self.hosts(3, delay=0)
+        mod = self.Exiting([site(f"p{i}", h.base(i)) for i in range(3)],
+                           requests=1, exiting=("p1",))
+        with self.assertRaises(SystemExit) as caught:
+            self.main(mod)
+        self.assertEqual(caught.exception.code, 3, "a different exception got through")
+
+    def test_it_is_not_written_into_the_log_as_a_provider_failing(self):
+        h = self.hosts(3, delay=0)
+        mod = self.Exiting([site(f"p{i}", h.base(i)) for i in range(3)],
+                           requests=1, exiting=("p1",))
+        buf = io.StringIO()
+        real = importlib.import_module
+        importlib.import_module = lambda n: mod if n == "poolmod" else real(n)
+        self.addCleanup(lambda: setattr(importlib, "import_module", real))
+        with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+            with self.assertRaises(SystemExit):
+                run.main(["poolmod", "--half", "all"])
+        self.assertNotIn("FAILED", buf.getvalue())
+        self.assertNotIn("not read", buf.getvalue())
+
+    def test_a_host_with_sites_queued_behind_the_dead_one_does_not_hang(self):
+        """Two sites on one host share a thread, so the second is only reachable through
+        the first, and its reader is waiting on an event that thread will never reach.
+        Run on a watchdog, so a regression fails the suite instead of stopping it."""
+        h = self.hosts(2, delay=0)
+        mod = self.Exiting([site("shared_a", h.base(0)), site("shared_b", h.base(0)),
+                            site("alone", h.base(1))],
+                           requests=1, exiting=("shared_a",))
+        done, box = threading.Event(), {}
+
+        def go():
+            try:
+                with self.assertRaises(SystemExit):
+                    self.main(mod)
+                box["ok"] = True
+            finally:
+                done.set()
+
+        threading.Thread(target=go, daemon=True).start()
+        self.assertTrue(done.wait(30), "the run hung on a site nobody released")
+        self.assertTrue(box.get("ok"), "SystemExit did not reach the caller")
+
+    def test_an_ordinary_exception_is_still_isolated_and_still_returns(self):
+        """The distinction the restructure turns on: one of these ends the run and the
+        other is a cinema that could not be fetched."""
+        h = self.hosts(2, delay=0)
+        mod = self.Exiting([site("p0", h.base(0)), site("p1", h.base(1))],
+                           requests=1, fail=("p0",))
+        code, text = self.main(mod)
+        self.assertEqual(code, 1)
+        self.assertIn("[p0] FAILED: connection reset", text)
+        self.assertTrue((self.out / "venues-p1.json").exists())
+
+
 class TeardownTest(PoolTestCase):
     def test_abandoning_a_run_stops_it_reading_hosts_it_never_reached(self):
         """A run being torn down -- Ctrl-C, a closed laptop -- should not keep asking

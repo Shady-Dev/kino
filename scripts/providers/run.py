@@ -371,21 +371,49 @@ def run_sites(mod, sites, now, workers=None):
     groups = host_groups(sites)
     slots = [None] * len(sites)
     done = [threading.Event() for _ in sites]
+    fatal = []                # a BaseException out of a worker, re-raised by the reader
     rec = Recorder()
 
     def read_host(group):
-        """One host's sites, one after the other. Never raises: a site that died still
-        has to release the reader waiting on it, or the run hangs instead of failing."""
-        for i, site in group:
-            label = site.get("provider") or mod.__name__
-            chunks = []
-            try:
-                chunks = rec.capture()
-                slots[i] = (label, run_site(mod, site, now, i), None, chunks)
-            except BaseException as e:              # noqa: BLE001 -- see the docstring
-                slots[i] = (label, None, e, chunks)
-            finally:
-                rec.release()
+        """One host's sites, one after the other.
+
+        An ordinary failure is caught per site and travels back as that site's error,
+        which is the isolation a pool needs: one cinema refusing must not take the rest
+        of its host with it, let alone the run.
+
+        Anything that is not an ordinary failure -- a `SystemExit` out of adapter code --
+        ended a sequential run and has to end this one. Left alone it would not: the
+        thread dies, `ThreadPoolExecutor` puts the exception on a future nobody reads,
+        and the run carries on and publishes. So it is recorded here and re-raised by the
+        reader, which is the thread a sequential run would have raised it on. Recorded
+        rather than reported: a `SystemExit` is not a cinema that could not be fetched and
+        must not be written into the log as one.
+
+        The two `finally` blocks stop the reader waiting on a site that will never
+        report. The inner one releases a site once it has an outcome; the outer one
+        releases everything still held, and runs *after* `fatal` is recorded, so the
+        reader always sees the exception before it can reach an empty slot.
+        """
+        try:
+            for i, site in group:
+                label = site.get("provider") or mod.__name__
+                chunks = []
+                try:
+                    chunks = rec.capture()
+                    slots[i] = (label, run_site(mod, site, now, i), None, chunks)
+                except Exception as e:
+                    slots[i] = (label, None, e, chunks)
+                finally:
+                    rec.release()
+                    # Set only once there is an outcome to read. A site whose thread is
+                    # being unwound has none yet, and releasing the reader first would
+                    # hand it an empty slot before `fatal` was there to be seen.
+                    if slots[i] is not None:
+                        done[i].set()
+        except BaseException as e:          # noqa: BLE001 -- forwarded, not handled
+            fatal.append(e)
+        finally:
+            for i, _ in group:
                 done[i].set()
 
     rec.install()
@@ -396,6 +424,11 @@ def run_sites(mod, sites, now, workers=None):
             pool.submit(read_host, group)
         for i in range(len(sites)):
             done[i].wait()
+            if fatal:
+                # Raised on this thread, which is where a sequential run would have
+                # raised it. The `finally` below has already cancelled what was queued
+                # and put the streams back by the time it leaves here.
+                raise fatal[0]
             label, result, error, chunks = slots[i]
             rec.replay(chunks)
             yield label, result, error

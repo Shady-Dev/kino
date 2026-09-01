@@ -3855,7 +3855,7 @@ letting a base-less site be assumed independent, dropping a request from the cou
 charging the last retry for a sleep it never takes, printing from the worker instead of
 buffering (three go red), replaying without flushing between the streams, yielding only
 after the pool joins, letting a worker's exception escape (which hangs the run rather than
-failing it -- the reason the worker catches `BaseException`), removing the synmerge lock,
+failing it), removing the synmerge lock,
 hard-coding the pool size past the environment, and draining the queue on teardown
 instead of cancelling it. Seventeen checks, all red on the break and green on the
 restore.
@@ -3868,6 +3868,37 @@ predicted above, Tikkakoski's stderr notice moving out of line 1 and into kinome
 block. No second run was made to time it: repeatedly reading someone's cinema to measure a
 pool is exactly what the access story forbids, and the wall-clock figure belongs to the
 cloud log.
+
+**A worker that ends is not a provider that failed, and it is not a run that carries on
+either.** Two wrong answers in a row here, both caught by review. The first caught
+`BaseException` per site and handed it back as that site's error, turning a `SystemExit`
+out of adapter code into `[provider] FAILED: 3` -- a line that says a cinema could not be
+fetched, about a cinema nobody asked. The second reported it as `not read` instead, which
+stopped blaming the provider and still suppressed the exception: the run exited 1 and
+published, where a sequential run would have ended on the `SystemExit` itself.
+
+Suppression was never a choice anyone made. A worker's exception goes onto a future, and
+nothing here reads futures -- the pool is drained through per-site events, so the
+exception simply vanished. So it is recorded and re-raised by the reader thread, which is
+the thread a sequential run would have raised it on, and the generator's `finally` has
+cancelled what was queued and put `sys.stdout` and `sys.stderr` back before it leaves.
+Ordinary failures are still caught per site with `except Exception`: one cinema refusing
+must not take the rest of its host with it.
+
+The two `finally` blocks now do one job, which is to stop the reader waiting on a site
+that will never report. The inner one releases a site once it has an outcome; the outer
+one releases everything still held and runs *after* `fatal` is recorded, so the reader
+sees the exception before it can reach an empty slot. Nothing is ever reported as
+abandoned, so `HostAbandoned` and the `not read` cause `check_runs.py` had learned are
+both gone again -- there is no non-fatal path left that needs them.
+
+One thing threads cannot give back: `shutdown(wait=True)` still waits for the hosts
+already in flight, so the `SystemExit` arrives after they finish rather than at once. A
+sequential run had nothing in flight to wait for.
+
+Five tests, all break-verified: swallowing the exception, a reader that never checks for
+one, catching `BaseException` per site again, an outer block that releases nothing (which
+hangs, so that test runs on a watchdog), and an ordinary failure treated as fatal.
 
 One thing the pool has that the sequential loop could not: **a run being torn down stops
 reading hosts it has not reached yet.** The executor is shut down with
