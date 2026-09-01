@@ -30,7 +30,9 @@ Write down why a change was made. The diff already records what changed.
 ## Client changes (`index.html`, `sw.js`)
 
 - Bump the `CACHE` version in `sw.js` in **every** commit that touches `index.html`.
-- Extract the inline script block and `node --check` it before pushing.
+- `python3 scripts/check_inline_js.py` before pushing. It extracts the inline
+  script block, `node --check`s it and `sw.js`, and parses any JSON-LD. The
+  Checks workflow runs the same command, so a local pass is the same pass.
 - A hard refresh verifies. No workflow dispatch is involved.
 - Anything the language toggle can reach must be redrawn by `applyLang()`.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
@@ -148,6 +150,12 @@ If a cinema would rather not be included, removing it is one registry entry.
 
 Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
 under `scripts/`.
+
+`.github/workflows/ci.yml` runs the suite, `check_inline_js.py` and a regeneration-drift
+check on every push that touches `index.html`, `sw.js`, `scripts/**` or `tests/**`. It
+fails on a **skipped** test as well as a failing one: five poster tests skip locally
+because Pillow is not on the system interpreter, and on a runner where it is installed
+on purpose a skip means a dependency went missing and coverage shrank without saying so.
 
 A fixture has to exercise the loop as well as the body. A one-item fixture once passed
 while the pacing branch it never entered was missing an import, and `py_compile` does not

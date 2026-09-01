@@ -1,0 +1,103 @@
+name: Checks
+
+# Nothing ran the test suite. The three workflows that existed fetch data, read committed
+# run logs and ping IndexNow -- all of them about what the pipeline *did*, none about
+# whether the code that did it still parses. Every check here was already written down as
+# an instruction to a person in CLAUDE.md, which holds until the day somebody is in a
+# hurry, and the client is the worst case: no build step, so a syntax error in
+# index.html's script block ships, the page renders blank, and the service worker keeps
+# serving the last good copy to anyone who already has it -- so the person who pushed it
+# sees a working site.
+#
+# `scripts/check_runs.py` is deliberately not here. logs.yml already runs it, on pushes
+# that touch a run log or the checker itself, which is the trigger that matches what it
+# reads. Running it on a code change would turn this red for a provider outage that has
+# nothing to do with the diff.
+on:
+  # Code paths only. The routine data commits touch data/, run-*.log and the generated
+  # pages, and none of those change whether the code is correct. The cloud half's pushes
+  # are made with GITHUB_TOKEN and do not fire `on: push` at all, but the local half's do
+  # and there are four of those a day.
+  #
+  # push rather than pull_request: this repo's history is linear and direct-pushed, and a
+  # branch is pushed before any PR exists on it, so push already covers everything except
+  # a fork -- which has never happened here and would need a separate trigger anyway.
+  push:
+    paths:
+      - 'index.html'
+      - 'sw.js'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Safe to cancel, in the way it is not for the fetch workflow: this reads committed state
+# and does no work anything else retries, so an older commit's verdict is superseded the
+# moment a newer one lands.
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # Pinned to a SHA, the same rule the other two workflows follow: re-pointing a tag
+      # is the cheap half of a supply-chain compromise, and a SHA is the only reference
+      # that cannot be moved under us. actions/checkout v7.0.1, resolved 2026-08-31, and
+      # on node24 rather than the deprecated node20. The readable version stays in this
+      # comment because a bare SHA says nothing about how far behind it is.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      # Cheapest first, and the one with no dependencies at all.
+      - name: The client's JavaScript parses
+        run: python3 scripts/check_inline_js.py
+
+      # The generators are pure functions of the committed data, and the pages they write
+      # are committed too, so regenerating in a clean checkout must produce no diff. This
+      # is what keeps write_if_changed working and what the "nothing volatile in a
+      # generated page" rule in CLAUDE.md is for -- a build timestamp would turn this red
+      # on every run.
+      #
+      # It goes red in two different situations and they are worth telling apart. A
+      # generator change without regenerated output is the author's to fix by running the
+      # two scripts and committing. Committed data whose pages were never rebuilt is a
+      # live problem -- the site is serving markup that disagrees with its own JSON -- and
+      # is worth looking at rather than papering over.
+      - name: Generated output is reproducible
+        run: |
+          python3 scripts/build_providers.py
+          python3 scripts/build_pages.py
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::regenerating changed committed output"
+            git status --porcelain
+            git --no-pager diff --stat
+            exit 1
+          fi
+          echo "regenerated clean"
+
+      # Pinned exactly, for the reason biorex.yml pins it: the runner installs this fresh
+      # every time, so an unpinned name is whatever PyPI served that morning. Installed
+      # here because five poster tests skip without it, and a suite that quietly covers
+      # five fewer things than it did yesterday is the failure mode the next step exists
+      # to catch.
+      - name: Install Pillow
+        run: python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
+
+      # A skip is a test that did not run. Locally that is fine -- Pillow is not on the
+      # system interpreter -- but on a runner every dependency is installed on purpose, so
+      # a skip means one of them is missing and coverage silently shrank. node is the
+      # other one: four harnesses skip without it, and they are the only tests that touch
+      # index.html at all.
+      - name: Unit suite, with nothing skipped
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s tests 2>&1 | tee "$RUNNER_TEMP/suite.log"
+          if grep -qE 'skipped=' "$RUNNER_TEMP/suite.log"; then
+            echo "::error::the suite skipped tests; a dependency is missing on the runner"
+            grep -E 'skipped=' "$RUNNER_TEMP/suite.log"
+            exit 1
+          fi

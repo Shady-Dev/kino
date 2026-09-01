@@ -3230,6 +3230,65 @@ placeholder tile, and the page rendered **zero off-origin images** against 21 lo
 This was latent rather than live -- there is no remote poster in the data today -- which
 is exactly why it needed a test rather than an inspection.
 
+### The suite is a workflow rather than an instruction (2026-09-01)
+Three workflows existed and none of them ran a test. They fetch data, read committed run
+logs and ping IndexNow -- all about what the pipeline *did*, none about whether the code
+that did it still parses. Every check that mattered was written down in CLAUDE.md as an
+instruction to a person, which holds until the day somebody is in a hurry.
+
+The client is the worst case. There is no build step, so nothing parses `index.html`'s
+script block before a browser does: a syntax error ships, the page renders blank, and the
+service worker keeps serving the last good copy to everyone who already has it -- so the
+person who pushed it sees a working site and the people who did not have it see nothing.
+
+`Checks` runs four things on any push touching `index.html`, `sw.js`, `scripts/**` or
+`tests/**`.
+
+**The JavaScript parses.** `scripts/check_inline_js.py` is the CLAUDE.md instruction made
+runnable: it pulls the inline block out of the HTML, `node --check`s it and `sw.js`, and
+parses any `application/ld+json` as JSON rather than handing it to node, which would
+reject a perfectly good one. Node reports line numbers against the fragment it is given,
+so the fragment is padded to its offset in the file first -- the number printed is the
+line to open. A page with no inline script is a failure, not a no-op: zero blocks in a
+page that has one means the tag shape moved and the check has been passing on air.
+
+**Regeneration produces no diff.** The generators are pure functions of committed data
+and their output is committed too, so `build_providers.py` and `build_pages.py` in a clean
+checkout must change nothing. This is the rule about keeping volatile things out of
+generated pages, enforced instead of remembered -- a build timestamp would turn it red
+every run. Two different failures land here and they are worth telling apart: a generator
+changed without its output regenerated is the author's to fix, while committed data whose
+pages were never rebuilt means the live site is serving markup that disagrees with its own
+JSON.
+
+**A skipped test fails the run.** Five poster tests skip locally because Pillow is not on
+the system interpreter. On a runner every dependency is installed on purpose, so a skip
+there means one went missing and coverage shrank with nothing saying so -- and the four
+harnesses that need node are the only tests that touch `index.html` at all, so they are
+exactly the ones that could vanish unnoticed. Pillow is pinned to `12.3.0`, the same
+version and for the same reason as the mirror step.
+
+**`check_runs.py` is deliberately not in it.** `logs.yml` already runs it, on pushes that
+touch a run log or the checker, which is the trigger matching what it reads. Running it on
+a code change would turn this red for a provider outage that has nothing to do with the
+diff.
+
+`push` and not `pull_request`: this history is linear and direct-pushed, a branch is
+pushed before any PR exists on it, and a doubled trigger would run everything twice. A
+fork would need its own trigger and there has never been one.
+
+The path filter is what keeps this off the data commits. The cloud half pushes with
+GITHUB_TOKEN, which does not fire `on: push` at all, but the local half's four pushes a
+day do.
+
+Verified here as far as this machine can: the workflow parses, `check_inline_js.py`
+passes against the real client and has eleven tests of its own including the line-offset
+mapping and a two-block fixture, and regeneration in this tree produced zero drift. The
+skip gate was run and fires correctly here, where the five Pillow skips are real. **Not
+verified: that the five poster tests pass on a runner with `pillow==12.3.0`** -- they have
+never been run anywhere but a laptop without Pillow, so the first Checks run is where
+that gets answered.
+
 ### The workflow's dependencies are pinned (2026-08-30)
 `actions/checkout@v4`, `actions/cache@v4` and a bare `pip install pillow`, in a job that
 holds `contents: write` on this repo and pushes to `main`.
