@@ -3910,6 +3910,29 @@ through writing a venue file has to finish and `wait=True` is what makes the ato
 mean anything. Nothing is cancelled on the normal path, where every group has run by the
 time the drain ends.
 
+**What Nexxo was doing on the day this landed, recorded before it can be misread.** The
+last cloud run before this branch rebased -- 8fcdc47, still the sequential code -- came
+back `exit=1` with four sites refused: `403` from kinoset.fi and kinohirvi.fi
+(`Server: openresty`) and from kino-olympia.fi (`Server: Apache`). Six venues kept their
+previous data and the run went red. A manual `run.py nexxo` from an ordinary connection a
+few hours earlier had read all six hosts cleanly.
+
+Two things that establishes, and no more. The refusal came from the origin layer rather
+than from a Cloudflare edge: three origin `Server` strings and no CF-Ray on any of them.
+And it predates the pool -- a line of it was not on `main` when this happened -- which
+matters because the next Nexxo 403 will arrive after a change that reads hosts
+concurrently and will look like its cause.
+
+What it does *not* establish is which origin-side policy refused. Application rate
+limiting, a WAF rule and a policy on the address the runner called from are all
+consistent with these headers, and the ordinary-connection comparison separates none of
+them: an address-based rule and a rate limit both let a laptop through hours earlier.
+The rule in "A refusal has to say which layer refused" reads a missing CF-Ray as
+application rate limiting; that step distinguishes edge from origin, which it does
+correctly here, and it does not distinguish one origin policy from another. Left as an
+observation rather than a diagnosis, because the next run is the only thing that can
+narrow it.
+
 Not changed: `fetch_site` and its sleep, the workflow, and the site list. The local half
 runs the same `run.py`, so it picks this up on its next run with no wrapper edit -- and
 nothing else: its three modules have one site each on that half, so they are one host
