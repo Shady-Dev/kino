@@ -3247,6 +3247,60 @@ Verified by breaking it seven ways: the breakpoint back to 400 (4 red), `min-wid
 to 0 (3), the gap back to 6 (2), the larger label in the narrow band (6), the ellipsis
 backstop removed (1), chip padding widened (8), row padding widened (6).
 
+### A deep link opened the right cinema once, then lost it (2026-09-01, sw.js v96)
+Reported and reproduced: star Finnkino Cine Atlas, open a generated Tapio page, follow its
+`/?area=sk-tapio` link. Tapio opens. Press reload and Cine Atlas opens instead, and the
+reader is back in the 46-entry picker the link existed to skip.
+
+**The cause was a tidy-up.** `?area=` was applied and then deleted from the URL in the
+same breath:
+
+    if(known(deep)){ state.area = deep; prefs.set({ area: deep });
+                     u.searchParams.delete('area'); history.replaceState(...); }
+    else { state.area = known(pr.fav) ? pr.fav : ... }
+
+The deletion erased the load's own reason. On the next load `deep` was empty, the else
+branch ran, and the favourite beats the stored area -- so the link's venue lost to the
+star every time after the first. The stored write was to `area`, the last-browsed slot,
+which was right and is kept: **arriving through a link never restars anybody's cinema.**
+
+The old comment's worry was real -- "leaving it in place would override the picker on
+every reload" -- and the answer is narrower than throwing the parameter away. Keep it
+while it is the answer, and rewrite it when the reader picks something else. `selectVenue`
+now updates an `area` parameter that is already present, and only then: an ordinary visit
+to `/` must not start growing one because somebody used the picker.
+
+A parameter that decided nothing is stripped instead. A URL reading `?area=sk-gone` beside
+a picker showing Cine Atlas is the disagreement the deletion was reaching for, and it is
+the only case that actually wants it.
+
+Measured on the served page, favourite Cine Atlas throughout:
+
+| | URL after | picker | favourite |
+|---|---|---|---|
+| `/` | none | Finnkino Cine Atlas | 1094 |
+| `/?area=sk-tapio` | `?area=sk-tapio` | Savon Kinot Tapio | 1094 |
+| reload of that tab | `?area=sk-tapio` | Savon Kinot Tapio | 1094 |
+| pick Maxim there | `?area=sk-maxim` | Savon Kinot Maxim | 1094 |
+| reload again | `?area=sk-maxim` | Savon Kinot Maxim | 1094 |
+| `/?area=city:Helsinki` | kept | Kaikki Helsinki (12) | 1094 |
+| `/?area=sk-gone-forever` | stripped | Finnkino Cine Atlas | 1094 |
+| `/?area=sk-tapio&lang=en` | both kept | Savon Kinot Tapio | 1094 |
+
+The favourite is 1094 in every row, and the star reads unpressed on the Tapio and Maxim
+rows, so the picker, the URL and the star agree at each step. No `pushState` is involved
+anywhere in this path -- both writes are `replaceState` -- so back and forward leave the
+page rather than replaying a state that could disagree with the picker.
+
+`startupArea()` and `areaParamAfterSelect()` are pure and extracted verbatim by
+`tests/area_routing_harness.js`, the way `healthState`, `venueRows` and `priceLabel` are;
+18 tests drive the shipped functions rather than a copy. Verified by breaking it seven
+ways: `keepParam` false for a deep link, which is the original defect (2 red); the
+favourite checked before the link (5); the link written into `fav` (1); a stale link left
+in the URL (1); selection not rewriting the parameter, so a reload bounces back (5);
+selection always writing one, so `/` grows a parameter (1); and the stored area checked
+before the favourite (4).
+
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading
 a long grouped list, and a native select has nowhere to hang a search field. The

@@ -1826,8 +1826,51 @@
     document.removeEventListener('keydown', vKey);
     areaSel.focus();
   }
+  // --- area routing: pure, extracted verbatim by tests/area_routing_harness.js ---
+  // Which venue a load opens, and what the URL should say afterwards.
+  //
+  // `?area=` used to be applied and then deleted from the URL immediately. That looked
+  // tidy and lost the selection: on the next load the param was gone, the restore fell
+  // through to the branch below it, and the favourite beat the stored area -- so
+  // following a link from a Tapio page and pressing reload landed on the starred cinema
+  // instead. The param now stays for as long as it is the answer.
+  //
+  // `remember` writes the deep-linked venue into `area`, the last-browsed slot, and
+  // never into `fav`. Arriving through a link must not restar anybody's cinema.
+  //
+  // `keepParam` is false when the param did not decide anything, which includes a stale
+  // or hand-edited id: the caller strips it, so the URL cannot claim a venue the picker
+  // is not showing.
+  function startupArea(deep, pr, known){
+    if(known(deep))     return { area: deep,    remember: true,  keepParam: true };
+    if(known(pr.fav))   return { area: pr.fav,  remember: false, keepParam: false };
+    if(known(pr.area))  return { area: pr.area, remember: false, keepParam: false };
+    return { area: null, remember: false, keepParam: false };
+  }
+  // -> the query string a deep-linked tab should carry once the reader picks something
+  // else, or null to leave the URL alone. Only rewrites a param that is already there:
+  // an ordinary visit to `/` should not grow one just because somebody used the picker.
+  function areaParamAfterSelect(search, id){
+    const q = new URLSearchParams(search);
+    if(!q.has('area')) return null;
+    q.set('area', id);
+    return q.toString();
+  }
+  // --- end area routing ---
+
+  function replaceQuery(q){
+    try {
+      const u = new URL(location.href);
+      history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+    } catch(_){}
+  }
+
   function selectVenue(id){
     state.area = id; prefs.set({ area: id });
+    // Keep a deep-linked URL pointing at what is on screen, so a reload does not bounce
+    // the reader back to the venue they arrived on and then navigated away from.
+    const q = areaParamAfterSelect(location.search, id);
+    if(q !== null) replaceQuery(q);
     state.chains = null;
     syncFav(); syncVenueBtn(); loadSchedule();
   }
@@ -1863,23 +1906,23 @@
     // and without this a reader arriving from a search for one cinema landed on whatever
     // they browsed last and had to find it again in a 46-entry picker. Validated against
     // the venue list like any stored value, so a stale or hand-edited link falls through
-    // to the normal restore rather than showing an empty view.
+    // to the normal restore rather than showing an empty view. The decision is
+    // startupArea(); see the comment on it for why the param now survives the load.
     let deep = '';
     try {
       deep = new URLSearchParams(location.search).get('area') || '';
     } catch(_){ deep = ''; }
-    if(known(deep)){
-      state.area = deep;
-      prefs.set({ area: deep });   // stick, so the next visit opens here too
-      // Drop the param once applied: leaving it in place would override the picker on
-      // every reload, which is wrong for an app people keep open.
+    const route = startupArea(deep, pr, known);
+    state.area = route.area || areas[0].id;
+    if(route.remember) prefs.set({ area: route.area });
+    if(deep && !route.keepParam){
+      // The link named a venue that is not in the list any more. Take it out of the URL
+      // rather than leaving it to contradict the picker on screen.
       try {
-        const u = new URL(location.href);
-        u.searchParams.delete('area');
-        history.replaceState(null, '', u.pathname + u.search + u.hash);
+        const q = new URLSearchParams(location.search);
+        q.delete('area');
+        replaceQuery(q.toString());
       } catch(_){}
-    } else {
-      state.area = known(pr.fav) ? pr.fav : (known(pr.area) ? pr.area : areas[0].id);
     }
     syncVenueBtn();
     syncFav();
