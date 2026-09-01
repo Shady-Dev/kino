@@ -80,6 +80,7 @@ per-provider research and the approaches tried and rejected.
     scripts/build_pages.py           renders the indexable pages
     scripts/accent_check.py          chain accent separation, incl. deuteranope
     scripts/check_runs.py            fails when any committed run log did not end exit=0
+    scripts/check_staleness.py       fails when data/areas.json is older than 8 h
     scripts/indexnow.py              tells IndexNow which generated pages a push changed
 
     tests/                           python3 -m unittest discover -s tests

@@ -56,6 +56,12 @@ Write down why a change was made. The diff already records what changed.
 - Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
+- `scripts/check_staleness.py` answers "did a run happen", which `check_runs.py` does
+  not -- a committed log reading `exit=0` four days ago passes that one. This repo holds
+  only the verdict. The schedule that calls it, wherever it reads the file from and
+  whoever it tells live in the out-of-repo wrapper, because none of that can be written
+  down here. Its threshold is `STALE_H` from `index.html` and a test fails if the two
+  drift apart.
 - A provider that parses zero showtimes fails the run. This catches an empty parse that
   would otherwise leave old data ageing with no signal. The one exception is an adapter
   raising `common.EmptyProgramme`, which it may do **only** after fetching and parsing a

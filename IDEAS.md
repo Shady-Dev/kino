@@ -29,7 +29,8 @@ line from this list when its item is ticked below.
 
 **[Ops](#ops)**
 
-- Staleness monitor: an external ping on the age of `data/areas.json`
+- Staleness monitor: the verdict landed as `scripts/check_staleness.py`; the
+  external ping that calls it is still to build, and lives outside this repo
 - Consider a data branch to keep `main` history clean
 
 ## Done
@@ -2022,7 +2023,9 @@ count failed the same way.
 
 ## Ops
 - [x] Per-provider health line in the app (⚠ past 8 h, from each `venues-*.json` generated)
-- [ ] Staleness monitor (external ping on data/areas.json age)
+- [ ] Staleness monitor (external ping on data/areas.json age). The repo half is
+      done -- `scripts/check_staleness.py`, see below. Still open because the
+      thing that closes the gap is the ping, and it cannot live here.
 - [x] The cloud workflow fails loudly if any provider exits non-zero, and now also if the
       push does not land (the retry loop used to swallow that)
 - [x] The local half drives everything: it fetches Finnkino and Kino Akseli, pushes, then
@@ -3640,6 +3643,96 @@ count largely restates what the list already shows, since the number of cards *i
 film count. The closest call of the three: the showtime half of it is genuinely not
 visible without scrolling. Not enough to earn permanent code and conditional chrome in a
 view whose stated purpose is to get out of the list's way.
+
+### "Did a run happen" is a different question from "did it fail" (2026-09-01)
+`check_runs.py` reads every committed `run*.log` and fails on a non-zero or missing
+`exit=`. It has caught real outages. It cannot catch the one failure that produces no log
+at all: a run that never starts. The laptop asleep, launchd unloaded, the wrapper edited
+into silence -- a log reading `exit=0` four days ago passes that check happily, and the
+first symptom is the stale banner appearing for whoever opens the site. The gap was
+already written down under it, deliberately; this closes the half of it that can live
+here.
+
+`scripts/check_staleness.py` reads `data/areas.json` and exits non-zero when it is older
+than eight hours, cannot be parsed, or carries a timestamp that cannot be trusted.
+
+**`data/areas.json`, and only since this morning.** It is written by the local half,
+which carries 17 of 74 venues and the largest chain in the app. Until `3189906` it was
+written *before* the seven Finnkino date requests, so its age answered "when did a run
+last get as far as asking for the site list" -- a run that then published nothing still
+stamped it fresh. It is now written with the schedule files, so the age means "when did a
+complete publish last happen". Building this monitor a day earlier would have shipped one
+that lied, which is the argument for doing these two in this order rather than either
+alone.
+
+**Eight hours, strictly greater**, because that is `STALE_H` in `index.html` and the
+health line already uses it. A monitor firing at a different age would be a second,
+invisible definition of stale. A test reads the number out of `index.html` rather than
+copying it, so the two cannot drift apart quietly.
+
+**A future timestamp fails rather than reading as very fresh.** The writer stamps
+`datetime.now(timezone.utc)`; the reader is a different machine, so a few minutes of drift
+is ordinary and tolerated. Past that, one of the clocks is wrong and the age is not
+evidence of anything -- and it is the dangerous direction, because a badly future stamp
+keeps the file looking current for as long as the skew lasts, which silences the monitor
+instead of tripping it.
+
+A file that cannot be read is reported as unreadable and never as an age. "0.0 h old" for
+a file that failed to parse would be the healthiest-looking line the tool can print.
+
+**The limit is validated, because two spellings of it made the check unfailable.**
+`--hours inf` and `--hours nan` both exited 0 and reported the data fresh for ever: every
+comparison against them is false. That is worse than having no monitor, because there is
+one in the file map and in the wrapper's crontab and it never says anything. `nan` is the
+quieter of the two -- `inf` at least reads as odd in a log line. A negative limit exited 1
+and reported the data stale, which is the wrong direction as well: it is a typo, and
+answering it with "the pipeline has stopped" sends somebody to look at a pipeline that is
+fine. Both now exit **2**, argparse's code for a wrong invocation, so a caller can tell
+its own mistake from a verdict about the data. Zero stays valid and is how the tests reach
+the stale branch without waiting.
+
+**The streams are separable, which is not the same as quiet.** The verdict goes to stdout
+and every failure to stderr, so the wrapper can run `2>&1 >/dev/null` and keep only the
+complaints. An earlier draft of this said stderr made a cron "stay quiet while things
+work", which is wrong -- cron mails whatever a job writes to either stream. Discarding
+stdout is the wrapper's decision and this script cannot make it.
+
+**No command-line test reads the committed file at all, and getting there took two
+tries.** The first version ran the script with no arguments against `data/areas.json` and
+asserted success, which passes only while that file is under eight hours old: an unrelated
+code push would have turned `Checks` red because a laptop had not published that morning,
+the monitor reaching into the very CI it exists to stay out of.
+
+The second version kept one test on the committed file with `--hours 0`, reasoning that
+any committed file is older than an instant so the answer would be the same at any age.
+It is not. A timestamp up to five minutes ahead is deliberately accepted and clamped to
+`0.0 h old`, and `0.0 > 0` is false -- so a publisher clock a few minutes fast makes that
+invocation report *fresh* and the test red while the script is answering correctly.
+Reproduced by stamping the committed file two minutes ahead. The five-minute tolerance is
+read against a clock too, so putting it there moved the dependency rather than removing
+it.
+
+The default path is now exercised the only way that is actually deterministic: run the
+script with no arguments from a temporary working directory holding a `data/areas.json`
+the test wrote, once fresh and once twenty hours old. Confirmed by stamping the committed
+file at +2 minutes, -20 hours and -400 hours in turn -- the suite is green at all three,
+which it was not before.
+
+**The split is the point.** This repo supplies a verdict: a pure function of a file and a
+clock, which is why 28 tests can hold it. When it runs, where it reads the file from, and
+who hears about it are a schedule, an endpoint and a notification route -- machine-specific
+every one, and this repo is public. They stay in the wrapper. Nothing here is a workflow,
+an HTTP call, a secret or a scheduler, and the backlog item stays open until the ping
+exists.
+
+Verified by breaking it fourteen ways: `>=` instead of `>` at the threshold (1 red), the
+age check removed (6), naive timestamps silently treated as UTC (1), the future check
+disabled (1), the drift tolerance removed so ordinary skew pages someone (2), an
+unreadable file reported as fresh (18), the `generated` type guard removed (4 errors), the
+threshold moved off `STALE_H` (4), the default file changed (3), the limit taken on trust
+(7), the finite check removed (4), a negative limit allowed (2), a bad invocation exiting
+1 as though it were a verdict (4), and failures printed to stdout where a caller
+discarding stdout would never see them (3).
 
 ### A page build that dies partway published half a generation (2026-09-01)
 `build_pages.main()` wrote each page as it produced it. Every individual write is atomic
