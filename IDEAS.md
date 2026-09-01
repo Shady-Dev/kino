@@ -2,22 +2,19 @@
 
 ## Current backlog
 
-The 13 items still open, with the section that holds each one and its reasoning. Presence
-here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
-line from this list when its item is ticked below.
+The 7 items still open, with the section that holds each one and its reasoning. Presence
+here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
+ticked item is closed whether it was built or decided against -- the line says which.
+Drop a line from this list when its item is ticked below.
+
+Seven items were closed in one pass on 2026-09-01 without code: see
+"[Seven backlog items closed without building them](#seven-backlog-items-closed-without-building-them-2026-09-01)".
 
 **[App](#app)**
 
-- Genre / format filter chips — discovery rather than filtering, since typed search
-  already covers genre
-- Sort toggle, title vs first showtime; hide or dim past showtimes
-- Tile / grid view mode — open questions on scan-by-poster vs time, and auto-width
-- Multi-cinema merged view beyond the existing city views
-- Favourites, starred float to top
 - Prices "alkaen" via the ticket-types endpoint
-- Accessibility: the two items an audit left open on purpose (the favourite star's
-  3.25:1 as text-or-icon, and 18 px title links that clear the spacing exception by
-  about a pixel)
+- Accessibility: the favourite star's 3.25:1, where whether 1.4.3 or 1.4.11 governs a
+  text-rendered icon is unsettled
 
 **[Pipeline](#pipeline)**
 
@@ -31,7 +28,6 @@ line from this list when its item is ticked below.
 
 - Staleness monitor: the verdict landed as `scripts/check_staleness.py`; the
   external ping that calls it is still to build, and lives outside this repo
-- Consider a data branch to keep `main` history clean
 
 ## Done
 - [x] Self-hosted posters (moviexchange CDN → data/posters/, onerror fallback tiles)
@@ -1954,21 +1950,37 @@ count failed the same way.
       id -> name maps the cards render from, with the provider's genre string as fallback
       for films TMDB never matched. The per-show haystack is memoised and cleared when the
       genre maps arrive, or a search typed during that fetch would match titles only.
-- [ ] Genre / format filter chips (IMAX, LUXE, 2D/3D, genre) — the typed search covers
-      genre now, so chips are about discovery rather than filtering: they show what is
-      *available* tonight without having to guess a word.
-- [ ] Sort toggle: title ↔ first showtime; hide/dim past showtimes option
-- [ ] Tile/grid view mode (open questions: scan-by-poster vs time; showtimes on tile vs
-      behind tap; auto-width vs manual toggle)
-- [ ] Multi-cinema merged view (e.g. all Helsinki)
-- [ ] Favorites (starred float to top)
+- [x] **Dropped 2026-09-01: genre / format filter chips.** The typed search already
+      matches them -- `haystack()` folds in `genres`, `method` (2D, IMAX, Anniskelu),
+      the rating and the age limit, plus the TMDB genre names in both Finnish and
+      English. Chips would add a second way to reach the same set, on a mobile filter
+      row that already carries five controls.
+- [x] **Dropped 2026-09-01: sort toggle and a past-showtimes option.** Not because an
+      equivalent exists -- "Ajat" is a screening-level list, one row per screening sorted
+      by start time, so it is not the "Leffat" film list re-sorted by first showtime.
+      It is dropped because it already covers time-first browsing, which is what the
+      sort control was for. The past-showtimes half is answered too, differently in each
+      view: "Leffat" collapses a film's earlier screenings behind a "Menneet näytökset"
+      toggle *only while that film still has a later one*, so a film whose last screening
+      has passed stays fully visible; "Ajat" keeps past rows in place, dimmed to 45% with
+      `pointer-events:none`.
+- [x] **Dropped 2026-09-01: tile / grid view.** The question this app answers is when and
+      where a film plays. A poster-first tile either hides the showtimes or reprints the
+      card that is already there, and the open questions recorded here never resolved
+      because there was no version that did neither.
+- [x] **Fulfilled 2026-09-01: multi-cinema merged view.** The combined city view is this,
+      for the case that has evidence behind it: "Kaikki Helsinki (12)". Arbitrary
+      cinema-picking is a different feature and wants a user asking for it first.
+- [x] **Done: favourites float to top.** `venueRows()` pushes the starred venue, or a
+      starred combined city, as the first row under its own heading before any city
+      group, and `tests/test_venue_picker.py` asserts the order because Enter picks the
+      first row.
 - [ ] Prices "alkaen" probe (ticket-types endpoint)
-- [ ] The two accessibility findings the audit below left open on purpose: the favourite
-      star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a text-rendered icon is
-      unsettled, and 18 px title links, which clear 2.5.8's spacing exception by about a
-      pixel. They were named in the entry below and in the backlog head but carried no
-      marker of their own, so a count of the head against the tick marks came out one
-      short.
+- [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
+      text-rendered icon is unsettled. Left open on purpose by the audit below.
+      **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
+      2.5.8's spacing exception, by about a pixel, so they pass and there is nothing to
+      fix. One finding left, not two.
 - [x] **Light-mode polish + accessibility pass.** Audited against the served page on
       2026-09-01 in both themes, fi/sv/en, at 320/375/720/1440 px. Most of what this item
       stood for was already done and had never been written down: focus order and rings,
@@ -2048,7 +2060,21 @@ count failed the same way.
       `run*.log` and fails on a non-zero or missing `exit=`, and `.github/workflows/
       logs.yml` runs it on any push that touches one. A local failure therefore turns a
       workflow red without the wrapper being edited. Left unchecked after that landed.
-- [ ] Consider data branch to keep main history clean
+- [x] **Decided against 2026-09-01: a data branch.** Measured first: 195 of the last
+      30 days' commits are the pipeline's own (`Update cloud provider data` x116,
+      `Update schedule data (local)` x51, `Update schedule data` x28), and `.git` is
+      49 MB against 25 MB of `data/`, 21 MB of it mirrored posters. So the churn is
+      real. What is not real is a problem: nothing has gone wrong because of it.
+      Against that, GitHub Pages serves a branch, and this repo has no build step by
+      design -- there is no `deploy-pages` workflow, the client fetches `data/*.json`
+      from the same origin as the page, and moving the data off `main` breaks that.
+      The three ways out are all worse than the churn: read
+      `raw.githubusercontent.com`, which a hard rule forbids after its CDN served a
+      two-commit-stale file; add a Pages build that assembles two branches, which puts
+      the traffic path behind Actions scheduling; or split off only the logs and
+      posters, which reworks `check_runs.py` and `logs.yml` for a smaller win.
+      Branching does not shrink history either -- the old blobs stay unless `main` is
+      rewritten, and a rewrite has cost this repo once already.
 
 ## Documentation state (2026-09-01, ninth pass)
 
@@ -3707,6 +3733,69 @@ configuration rather than browsing controls: you set them once and then read a l
 exists to stop spending permanent screen space on a control used about once a month. **Do not add a floating theme button**, a
 duplicate in the pinned strip, or any other replacement -- that reintroduces the cost
 this change removed, in a smaller and harder-to-notice form.
+
+### Seven backlog items closed without building them (2026-09-01)
+The backlog had run to 13 and several entries had been sitting there long enough to look
+like commitments. A pass over them closed seven, and none of the seven needed code. Four
+were already built under other names, one was already passing, and two were decided
+against. What is left is 7.
+
+Each claim was checked against the source before it was written down here, because
+"already covered" is the easiest thing in a backlog to believe without looking.
+
+**Genre / format chips -- dropped.** The typed search already matches them. `haystack()`
+folds `genres`, `method` (2D, IMAX, Anniskelu), the rating and the age limit into the
+per-show string, and adds the TMDB genre names in Finnish and English on top. The entry
+argued chips were about discovery rather than filtering -- showing what is available
+tonight without guessing a word -- which is a real difference and still not worth a
+second route to the same set on a mobile filter row already carrying five controls.
+
+**Sort toggle and a past-showtimes option -- dropped, and the reason is narrower than
+"it already exists".** "Ajat" is not the "Leffat" list re-sorted. `renderMovies` groups by
+`eventId` and sorts films by title; `renderTimes` sorts `state.shows` by start and prints
+one row per screening, so a film with four screenings appears four times. Those are
+different lists at different granularity, and a title-versus-first-showtime toggle over
+the film list is a thing this app does not have.
+
+It is dropped anyway, because what the toggle was for -- browsing by time rather than by
+film -- is what "Ajat" already does. The past-showtimes half is separately answered, and
+the two views answer it differently on purpose: `renderMovies` shows only `ahead` while a
+film still has a future screening and puts the rest behind a "Menneet näytökset" toggle,
+falling back to the full list once `ahead` is empty so a finished film does not vanish;
+`renderTimes` leaves past rows where they are, at 45% opacity with `pointer-events:none`.
+
+**Tile / grid view -- dropped.** The question this app answers is when and where a film
+plays, and a poster-first tile either hides that or reprints the card that is already
+there. The open questions recorded against this item -- scan-by-poster versus time,
+showtimes on the tile or behind a tap, auto-width or a manual toggle -- never resolved
+because no arrangement avoided both.
+
+**Multi-cinema merged view -- fulfilled.** "Kaikki Helsinki (12)" is this feature for the
+case with evidence behind it. Letting a visitor assemble an arbitrary set of cinemas is a
+different feature, and it should wait for somebody asking for it.
+
+**Favourites float to top -- done.** `venueRows()` pushes the starred venue, or a starred
+combined city, as the first row under its own `vOwn` heading before any city group.
+`tests/test_venue_picker.py` asserts the order rather than the membership, because Enter
+picks the first row.
+
+**18 px title links -- dropped, and this halves an item rather than closing one.** They
+clear 2.5.8's spacing exception by about a pixel, so they pass. The accessibility entry
+covered two findings under one marker; the favourite star at 3.25:1 is still open, where
+whether 1.4.3 or 1.4.11 governs a text-rendered icon is unsettled.
+
+**A data branch -- decided against**, with the numbers first because the churn is real:
+195 of the last 30 days' commits are the pipeline's own, and `.git` is 49 MB against
+25 MB of `data/`, 21 MB of it posters. What is missing is a problem. Nothing has broken
+because of it, and the fix would be structural: GitHub Pages serves a branch, this repo
+has no build step on purpose, and the client reads `data/*.json` from the same origin as
+the page. Moving the data off `main` breaks that, and the three ways out are each worse
+than the churn -- `raw.githubusercontent.com` is forbidden by a hard rule after its CDN
+served a two-commit-stale file, a Pages build that assembles two branches puts the
+traffic path behind Actions scheduling, and splitting off only logs and posters reworks
+`check_runs.py` and `logs.yml` for a smaller win. Branching does not shrink history in
+any case: the blobs stay unless `main` is rewritten, and a rewrite has cost this repo
+once already. Reopen it if the repository size starts costing something measurable.
 
 ### Two rejected in the same pass
 **Denser cards: rejected on measurement.** The proposal was `.movie{gap:14px;
