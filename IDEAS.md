@@ -3264,6 +3264,33 @@ mechanism -- one asserts the raised error is closed, one that the diagnostic hea
 survived it, and one records warnings around a three-attempt failure and forces a
 collection, because `closed` is only evidence for the thing that was actually wrong.
 
+### A failing check has to say what failed (2026-09-01)
+The first `Checks` run went red and left nothing to read. The only annotation on it was
+"Process completed with exit code 1": the two gates emit `::error::` lines, but a plain
+test failure emitted none, and `set -o pipefail` ended the step at the `unittest` call
+before either gate ran.
+
+The Actions log answers 403 without a token, and this repo does not read Actions logs
+anyway. Check-run **annotations** are a different thing and are readable over the public
+API with no credential at all -- `/repos/{owner}/{repo}/check-runs/{id}/annotations` --
+which is what made "exit code 1" visible from outside in the first place. So the step now
+captures the suite's exit code instead of dying on it, emits one `::error::` per `FAIL:`
+or `ERROR:` line, and writes the summary lines to `$GITHUB_STEP_SUMMARY` as well.
+
+One trap in writing this, worth keeping: the first version emitted the annotations with
+`grep ... | while read`. grep exits 1 when it matches nothing, which is the *normal* case
+-- a green suite -- and `shell: bash` runs with pipefail, so the pipeline would carry
+grep's status and `-e` would end the step. A passing suite reporting failure, from the
+step added to make failures legible. Measured both ways against a synthetic log: `bash -e`
+exits 0, `bash -e -o pipefail` exits 1. The step gets the plain default today, so it was
+one `shell:` key away rather than already broken -- and the step it replaced set pipefail
+itself. `awk` exits 0 whether or not it matched, so neither shell matters.
+
+The failure was found by reproducing the runner's checkout locally rather than by reading
+anything, which worked and took four wrong guesses to reach. Pillow, flakiness, Python
+3.13, TZ=UTC and LC_ALL=C were all eliminated first, each of them green. That is the cost
+this change is meant to remove.
+
 ### The suite is a workflow rather than an instruction (2026-09-01)
 Three workflows existed and none of them ran a test. They fetch data, read committed run
 logs and ping IndexNow -- all about what the pipeline *did*, none about whether the code

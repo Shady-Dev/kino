@@ -102,10 +102,42 @@ jobs:
       # the interpreter is shutting down, so raising on them changes nothing the exit
       # code can carry -- measured 2026-09-01, exit 0 with the leak reintroduced.
       # unittest already enables warnings by default, so they are in the log either way.
+      #
+      # The suite's exit code is captured rather than allowed to end the step, so that a
+      # failure is named before the step dies. `::error::` lines become check-run
+      # annotations, and those are readable over the public API with no token at all --
+      # which the Actions log is not, and this repo does not read Actions logs anyway.
+      # The first run of this workflow failed with nothing recoverable but "Process
+      # completed with exit code 1", because the annotations were only ever emitted by
+      # the two gates below and never by a plain test failure.
       - name: Unit suite, with nothing skipped and nothing leaked
         run: |
-          set -o pipefail
-          python3 -m unittest discover -s tests 2>&1 | tee "$RUNNER_TEMP/suite.log"
+          set +e
+          python3 -m unittest discover -s tests > "$RUNNER_TEMP/suite.log" 2>&1
+          rc=$?
+          set -e
+          tail -60 "$RUNNER_TEMP/suite.log"
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            {
+              echo '### Unit suite'
+              echo '```'
+              grep -E '^(FAIL|ERROR): |^(OK|FAILED)|^Ran ' "$RUNNER_TEMP/suite.log" || true
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          # awk and not `grep | while read`. grep exits 1 when it matches nothing, which
+          # is the normal case here -- a green suite -- and under `shell: bash`, whose
+          # pipefail makes the pipeline carry grep's status, `-e` then ends the step and
+          # a passing suite reports failure. Measured both ways against a synthetic log:
+          # `bash -e` exits 0 on a green suite, `bash -e -o pipefail` exits 1. The step
+          # gets the plain default today, so this was one `shell:` key away rather than
+          # already broken -- and the version of this step it replaced set pipefail
+          # itself. awk exits 0 whether or not it matched, so neither shell matters.
+          awk '/^(FAIL|ERROR): / { print "::error::" $0 }' "$RUNNER_TEMP/suite.log"
+          if [ "$rc" != 0 ]; then
+            echo "::error::the suite failed (exit $rc)"
+            exit 1
+          fi
           if grep -qE 'skipped=' "$RUNNER_TEMP/suite.log"; then
             echo "::error::the suite skipped tests; a dependency is missing on the runner"
             grep -E 'skipped=' "$RUNNER_TEMP/suite.log"
