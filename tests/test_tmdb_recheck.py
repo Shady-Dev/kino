@@ -2,7 +2,7 @@
 
 The rule used to be `c.get("v") or c.get("c") == today`: a film with a trailer was never
 looked at again, so its rating and vote count froze at whatever they were the day the
-trailer turned up. Measured against the committed cache on 2026-09-01: 154 entries, 94
+trailer turned up. Measured against the committed cache on 2026-09-01: 156 entries, 96
 with a trailer, 71 of those last read on 2026-08-27 and never due to be read again.
 
 The pass needs a token and talks to a third party, so what is tested here is the

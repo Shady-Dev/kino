@@ -1580,9 +1580,11 @@ Still open from this pass:
       `complete and (c.get("v") or c.get("c") == today)`, so **a trailer stopped the entry
       ever being read again**: its rating and vote count froze at whatever they were that
       day.
-      Measured against the committed `data/tmdb-titles.json` on 2026-09-01: 154 entries,
-      94 with a trailer, and 71 of those 94 last read on 2026-08-27 -- five days, with
-      nothing in the code that would ever read them again. A vote count moves fastest in
+      Measured against the committed `data/tmdb-titles.json` on 2026-09-01: 156 entries,
+      96 with a trailer, and 71 of those 96 last read on 2026-08-27 -- five days, with
+      nothing in the code that would ever read them again. (First measured at 154 / 94 /
+      71 earlier the same day; three cloud runs landed in between and the number that
+      matters, the 71 nothing would re-read, did not move.) A vote count moves fastest in
       the weeks after release, which is when a film is in these cinemas.
       Now age decides. `due()` is a pure function over the cache: uncached or incomplete
       is fetched, complete-without-a-trailer keeps its daily re-check looking for one, and
@@ -1593,10 +1595,10 @@ Still open from this pass:
       because without it the first run re-reads all 71 at once, stamps them with the same
       date, and they come due together again a week later for ever. What it defers is
       printed, since a ceiling nobody can see reads as "everything is current".
-      Projected against today's 121 titles before it ran: identical to the old behaviour
-      today (50 fetched, 0 refreshes -- nothing has passed seven days yet), and 62 fetched
-      with 12 refreshes and 40 deferred from 2026-09-03. A refresh costs two requests when
-      TMDB has a Finnish overview and three when it does not.
+      Projected against the 124 titles in today's area files: unchanged on the day it
+      landed, because nothing had passed seven days yet, and from 2026-09-03 a run fetches
+      62 of them with 12 rating refreshes and 41 more deferred to later runs. A refresh
+      costs two requests when TMDB has a Finnish overview and three when it does not.
       Unchanged on purpose: `MIN_VOTES`, `n` travelling with the score so the threshold can
       be retuned without re-fetching, and a missing field counting as incomplete so a gate
       change costs one pass rather than a cache wipe.
@@ -1665,8 +1667,8 @@ Still open from this pass:
       and rewriting more than the marker on the way out. Twenty-six breaks, all red.
 - [ ] The same defect on the Finnkino path. `fetch_data.py` carries the identical rule
       (`cached.get("v") or cached.get("c") == today`) and the identical shape:
-      `data/tmdb.json` holds 59 entries, 46 with a trailer, 45 of them last read on
-      2026-08-28. Not fixed in the same commit -- one item per commit, and that file
+      `data/tmdb.json` held 59 entries on 2026-09-01, 46 with a trailer and 45 of those
+      last read on 2026-08-28. Not fixed in the same commit -- one item per commit, and that file
       cannot run on a runner, so it **needs a run from an ordinary connection** to verify.
 - [x] **Independent hosts are fetched at the same time** (2026-09-01). `run.py` pools
       over *hosts*, not over sites, and each host is still read by one thread at the pace
