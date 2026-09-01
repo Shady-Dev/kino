@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 18 items still open, with the section that holds each one and its reasoning. Presence
+The 16 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
 line from this list when its item is ticked below.
 
@@ -21,7 +21,7 @@ line from this list when its item is ticked below.
 
 **[Pipeline](#pipeline)**
 
-- Move the local fetch off the laptop to an always-on box on the same network — 19 of 48
+- Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices via the ticket-types endpoint
 - Commit `run.log` only on failure, to cut commit noise
@@ -34,17 +34,7 @@ line from this list when its item is ticked below.
 **[Ops](#ops)**
 
 - Staleness monitor: an external ping on the age of `data/areas.json`
-- ~~Flag a failed local provider actively~~ — done 2026-08-30: `scripts/check_runs.py`
-  plus `.github/workflows/logs.yml` fail on any committed log that did not end `exit=0`
 - Consider a data branch to keep `main` history clean
-
-**[Refactor before adding more providers](#refactor-to-do-before-adding-more-providers)**
-
-- ~~A whole site parsing zero showtimes fails the run~~ — done 2026-08-30: an adapter
-  can raise `common.EmptyProgramme` after reading a listing with no films on it. A
-  listing full of films that parses to nothing still fails
-- Repertory titles defeat the TMDB search — `queries()` should strip a trailing "(YYYY)"
-  and known prefixes the way `mergeKey()` does
 
 ## Done
 - [x] Self-hosted posters (moviexchange CDN → data/posters/, onerror fallback tiles)
