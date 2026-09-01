@@ -3108,6 +3108,88 @@ Verified live instead, against the served page: open, initial focus, both inert 
 Escape, backdrop, month-nav focus survival and the date-picked focus return, plus a
 clean console.
 
+### "Huomenna" was ellipsised on a 402px phone (2026-09-01, sw.js v94)
+The date row is six chips at `flex:1 1 0`, so each gets a sixth of the row. The label
+steps up from .6rem to .66rem above a breakpoint set at 400px. A .66rem "Huomenna"
+measures **53.43px** and a sixth of a 402px row leaves **53.00px**, so it lost by 0.43px
+and the ellipsis added on 2026-08-30 did what it was there for. An iPhone 17 is 402 CSS
+pixels wide.
+
+The breakpoint was simply in the wrong place. Working the column arithmetic backwards,
+`(vw - 28 - 30) / 6 - 4 >= 53.43` needs **vw >= 403**, so 401 and 402 were handed the
+larger font in a column that could not hold it. Two pixels wide, and a phone landed in it.
+
+Measured across the range before touching anything, Finnish, in Chrome against the
+self-hosted Archivo:
+
+| viewport | label size | column | "Huomenna" | |
+|---|---|---|---|---|
+| 320 | 9.6px | 40.00 | 48.57 | over by 8.57 |
+| 375 | 9.6px | 49.00 | 48.57 | fits by 0.43 |
+| 393 | 9.6px | 52.00 | 48.57 | fits |
+| 402 | 10.56px | 53.00 | 53.43 | **over by 0.43** |
+| 430 | 10.56px | 58.00 | 53.43 | fits |
+
+So 402 was the reported failure and 320 was a worse one nobody had reported. Three changes,
+all inside the narrow band:
+
+**The breakpoint moves 400 -> 410.** .6rem needs 48.57px and fits from 374px up, so the
+smaller size carries the whole band below 410 with room rather than handing over three
+pixels early.
+
+**`.day` gets `min-width:max-content` instead of `min-width:0`.** At 320px no size the
+rest of the design uses fits an equal sixth, and the six labels are nothing like equal --
+eight characters against two. max-content lets the one chip that needs more take it and
+leaves the other five sharing the rest, so the row stays even wherever it can be:
+**measured spread 0px from 375px up, 10.7px at 320px.** `min-width:0` was there to let a
+flex item shrink under its content, which is exactly the behaviour that produced the
+squeeze.
+
+**The gap drops 6px -> 5px below 410.** Found by the test rather than by looking: at 375px
+-- iPhone SE and mini, the narrowest common phone -- the margin was 0.26px unrounded. That
+is inside the noise that produced this bug, so the width was working by luck. 5px makes it
+1.10px by arithmetic and 1.43px measured.
+
+**`min-height:44px` on the chip.** Two lines of small type plus the padding come to
+42.5px on a phone, under the 44px tap-target floor -- and that was true before this
+change, not caused by it. The shortfall is 1.5px, so `min-height` is the whole fix;
+`.day` is a `<button>` and centres its own content, so the extra is split evenly and
+nothing moves. Measured 44.00px at 320, 375, 393, 402 and 430, and **132 device pixels at
+3x on the iPhone 17 simulator, which is 44.00 CSS px**. Desktop is untouched at 47px,
+where the same box was already over.
+
+Padding was the wrong instrument for it and an earlier draft of this used it: the
+shortfall is not the same at every breakpoint, so matching 44 with padding needs a
+different value per band, and once `min-height` is there the padding does not change the
+rendered height at all. That draft's extra declaration was removed rather than left in
+looking load-bearing.
+
+Verified at 320, 375, 393, 402 and 430 in all three languages, both themes, and on a real
+iPhone 17 simulator at 402: no clipping, one row, no overlap, no horizontal scroll, and
+the row unchanged at 561px and up. The widest label in each language is Finnish's
+"Huomenna" at 5.06 em-widths, ahead of "Tomorrow" at 4.67 and "I morgon" at 4.08, so
+Finnish is the binding case and the other two ride along.
+
+`tests/test_day_chip_fit.py` reads the padding, gap, font sizes and breakpoints out of
+`index.html` and recomputes the column, against glyph widths measured once and stored per
+1px of font-size. It demands a **1px margin**, not merely a fit, because the failing case
+missed by 0.43px and a test that accepted "fits" would have passed a layout already inside
+the rounding noise -- that requirement is what surfaced the 375px case. What it
+deliberately does not do is model rendering: sub-pixel rounding decides the last half
+pixel, and the browser and the simulator answered that half.
+
+Getting the parser right took four attempts and each failure is worth naming, because they
+all produce a test that passes while checking nothing: comments between `}` and the next
+selector get read as part of that selector; an anchored rule regex consumes the previous
+rule's `}` and so skips every second rule; `index()` on a media-block opener finds the
+first of two identical ones and leaves the rest of them in the base scope; and a findall
+for lengths-with-units reads `padding:0 14px 8px` as 8px because the `0` carries no unit.
+The parse-pins test exists for exactly this.
+
+Verified by breaking it seven ways: the breakpoint back to 400 (4 red), `min-width` back
+to 0 (3), the gap back to 6 (2), the larger label in the narrow band (6), the ellipsis
+backstop removed (1), chip padding widened (8), row padding widened (6).
+
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading
 a long grouped list, and a native select has nowhere to hang a search field. The

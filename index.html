@@ -270,11 +270,25 @@
     max-width:1100px; margin:0 auto; padding:0 20px 16px;
     display:flex; gap:6px;
   }
+  /* min-width:max-content, not 0. `flex:1 1 0` hands every chip an equal sixth, and the
+     six labels are nothing like equal: "Huomenna" is eight characters and "La" is two, so
+     the sixth that suits the short ones starves the long one. Below about 374px even the
+     small label size needs more than its share. max-content lets the one chip that is
+     long take what it needs and leaves the other five sharing the rest, so the row stays
+     visually even at every width where it can be -- measured spread is 0px from 375px up
+     and 10.7px at 320px, which is the one width where something has to give. */
   .day{
-    flex:1 1 0; min-width:0; border:1px solid var(--line); background:var(--surface);
+    flex:1 1 0; min-width:max-content; border:1px solid var(--line);
+    background:var(--surface);
     border-radius:10px; padding:7px 2px; cursor:pointer; font:inherit;
     color:var(--muted); text-align:center; transition:all .15s;
     position:relative; overflow:hidden;
+    /* 44px is the tap-target floor. Two lines of small type plus the padding come to
+       42.5px on a phone, so this adds the last 1.5px and does nothing on desktop, where
+       the same box already measures 47px. min-height rather than more padding: padding
+       would have to differ per breakpoint to land on the same number, and the shortfall
+       is not the same at every size. */
+    min-height:44px;
   }
   .day:hover:not(.active){border-color:var(--muted)}
   /* nowrap + overflow:hidden clipped "Huomenna" mid-glyph at 320px; an ellipsis at
@@ -716,9 +730,21 @@
     #tagkey{padding:14px 14px 0}
     footer{padding:14px 14px 18px}
   }
-  @media (max-width:400px){
+  /* 410, not 400, and the ten pixels are the whole of a bug. The label steps up from
+     .6rem to .66rem above this line, but a .66rem "Huomenna" measures 53.43px and a chip
+     does not offer that much until the viewport reaches 403px -- so 401 and 402 got the
+     bigger font in a column still too narrow for it, and ellipsised. An iPhone 17 is 402
+     CSS pixels wide and landed exactly in the gap. .6rem needs 48.57px and fits from
+     374px up, so the smaller size carries the whole band below 410 with room to spare. */
+  @media (max-width:410px){
     .day small{font-size:.6rem}
     .day b{font-size:.76rem}
+    /* And a pixel out of the gap. At 375px -- iPhone SE, mini, and the narrowest
+       common phone -- a 6px gap leaves "Huomenna" 48.83px against the 48.57px it needs:
+       a quarter of a pixel, which is inside the rounding noise that produced this bug in
+       the first place. 5px turns that margin into 1.10px and costs a pixel of air
+       between chips on small screens only. */
+    .days{gap:5px}
   }
 </style>
 </head>
