@@ -425,8 +425,10 @@ def main() -> int:
     if not sites:
         print("ERROR: no sites", file=sys.stderr); return 1
     sites.sort(key=lambda s: s["name"])
-    common.write_json(out / "areas.json", {"generated": now, "areas": sites})
     print(f"[sites] {len(sites)} cinemas")
+    # areas.json is written down with the schedule files, not here. It is the file whose
+    # age answers "when did Finnkino last refresh", so stamping it on a run that then
+    # publishes no schedule would say the data is current while it is not.
 
     qs = "&".join(f"siteIds={s['id']}" for s in sites)
     per_site = {s["id"]: [] for s in sites}
@@ -434,12 +436,15 @@ def main() -> int:
     films_meta = {}
     films_full = {}
     today = datetime.date.today()
+    failed_dates = []
     for d in range(7):
         date = (today + datetime.timedelta(days=d)).isoformat()
         try:
             data = api(f"/showtimes/by-business-date/{date}?{qs}", token)
         except Exception as e:
-            print(f"[schedule] {date} failed: {e}", file=sys.stderr); continue
+            print(f"[schedule] {date} failed: {e}", file=sys.stderr)
+            failed_dates.append(date)
+            continue
         rd = data.get("relatedData", {})
         films = {str(f["id"]): f for f in rd.get("films", [])}
         genmap = {str(g["id"]): t(g, "name", "text") for g in rd.get("genres", [])}
@@ -539,6 +544,27 @@ def main() -> int:
         print(f"[schedule] {date}: {n} showtimes")
         time.sleep(0.4)
 
+    # The seven requests are independent, and a day that fails is a day missing from
+    # every Finnkino venue at once. Written out, that day is absent from `dates`, which
+    # the client reads as "schedule not published yet" rather than "no shows" -- so the
+    # snapshot is not smaller than the truth, it disagrees with it, and it carries a
+    # fresh timestamp saying so. Nothing surfaced it either: the run exited 0, the age
+    # was current, and the health line stayed green.
+    #
+    # So publish seven days or none. The alternative on a failure is the previous file,
+    # which is hours older and *says* it is hours older -- the age and the health line
+    # both move, and a run exiting non-zero is what check_runs.py turns red on the next
+    # push. Same rule the rest of the pipeline already follows: a provider that parses
+    # nothing fails its run rather than blanking its venues.
+    #
+    # Poster downloads and the token fetch have already happened by here. Neither is a
+    # snapshot -- posters accumulate under a release id and are re-used by the next run.
+    if failed_dates:
+        print(f"ERROR: {len(failed_dates)} of 7 dates failed "
+              f"({', '.join(failed_dates)}); publishing nothing, "
+              f"all {len(sites)} venues keep the schedule they have", file=sys.stderr)
+        return 1
+
     tmdb_token = os.environ.get("TMDB_TOKEN", "").strip()
     if tmdb_token:
         cache_p = out / "tmdb.json"
@@ -637,6 +663,8 @@ def main() -> int:
     if unknown_attrs:
         print(f"[attrs] dropped, neither format nor language ({len(unknown_attrs)}): "
               + " | ".join(sorted(unknown_attrs)))
+
+    common.write_json(out / "areas.json", {"generated": now, "areas": sites})
 
     written = kept = 0
     for sid, shows in per_site.items():

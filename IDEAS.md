@@ -2678,6 +2678,54 @@ this either.
   allowed and deliberate: neither shares a city with Riviera, the chain accents only
   render in a combined city view, and Helsinki is the only city that has one.
 
+### Six days out of seven is not a Finnkino schedule (2026-09-01)
+`fetch_data.py` asks OCAPI for seven business dates, one request each. A request that
+raised was logged and stepped over, and the days that did answer were written out as the
+new snapshot with a current timestamp and an exit code of 0.
+
+That is not a smaller schedule, it is a wrong one. `dates` is built from the shows that
+arrived, and the client reads a date's absence from that list as "schedule not published
+yet" rather than "no shows" -- so one transient error took a whole day out of all
+seventeen Finnkino venues at once and the app said the cinema had not published it.
+Nothing surfaced it either: `check_runs.py` looks for a non-zero `exit=`, the health line
+looks at age, and both were clean.
+
+Reproduced by driving `main()` with OCAPI stubbed and day three raising: return code 0,
+the failure logged, `dates` going from seven entries to six, and the previous file gone.
+
+**All seven or none.** The alternative on a failure is the file from the last run, which
+is hours older and says so -- the age moves, the health line moves past eight hours, and
+the non-zero exit is what `check_runs.py` turns red on the next push. A published
+six-day week moves nothing a reader can see. This is the rule the rest of the pipeline
+already follows: a provider that parses nothing fails its run rather than blanking its
+venues, and a partial OCAPI response already refused to blank a venue here.
+
+The last day of the horizon is refused on the same terms, and that was the tempting
+exception -- six of seven looks like plenty when the missing one is six days out. It is
+still a day the client cannot tell from unpublished, and the next run is a few hours
+away.
+
+**`areas.json` moved down with the schedule files.** It was written before the seven
+requests, so a run that published nothing still stamped the one file whose age answers
+"when did Finnkino last refresh". The external staleness monitor on that age is still on
+the backlog; this is what would have made it lie the day it was built.
+
+Poster downloads and the token fetch have already happened by the time the run gives up.
+Neither is part of the snapshot -- a poster accumulates under its release id and the
+next run re-uses it -- so the abort is not a rollback and is not described as one.
+
+Not retried before giving up, and that is a real cost: a single blip now defers a whole
+refresh by up to six hours. `api()` has no retry at all, unlike `common.fetch` which every
+other provider goes through. Worth adding, as its own change with its own reasoning,
+rather than smuggled in behind this one.
+
+Thirteen tests drive the real `main()` in a temporary directory with OCAPI stubbed by
+URL, two sites and seven days, because this file cannot be run against the real endpoint
+from anywhere but an ordinary connection. Verified by breaking it six ways: the guard
+removed (9 red), logging without returning (8), returning 0 after refusing to publish
+(6), aborting only when all seven days fail (8), tolerating the last day (1), and
+`areas.json` put back above the loop (3).
+
 ### A provider is as fresh as its weakest venue (2026-08-30)
 `run.py`'s module docstring said an empty parse "counts as a failure". It did, for a
 whole site. One venue of twelve parsing to nothing hit the `keeping previous data`
