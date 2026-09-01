@@ -21,7 +21,7 @@
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 60 showtimes, 10 dates
 [ihmekompleksi] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 8 showtimes, 4 dates
+[ihmekompleksi] Ihme Kompleksi: 18 showtimes, 8 dates
 [kino123] synopses merged: 0
 [kino123] Kino 123: 80 showtimes, 10 dates
 [kinotar] synopses merged: 0
@@ -35,9 +35,9 @@
 [kinoiiris] synopses merged: 0
 [kinoiiris] Kino Iiris: 36 showtimes, 10 dates
 [kkino] synopses merged: 0
-[kkino] K-Kino: 3 showtimes, 2 dates
+[kkino] K-Kino: 7 showtimes, 5 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 7 dates
-[run] http: 0 revalidated (304), 208 full, 208 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 731 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 210 full, 210 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 745 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
