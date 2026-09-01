@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 7 items still open, with the section that holds each one and its reasoning. Presence
+The 8 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -14,8 +14,10 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 - Accessibility: the favourite star's 3.25:1, where whether 1.4.3 or 1.4.11 governs a
   text-rendered icon is unsettled
-- Landing-page redesign for `/teatteri/`, `/kaupunki/`, `/en/theatre/` and `/en/city/` --
-  the 168 canonical pages a venue- or city-specific search can land on
+- Landing pages: the screening list could span the full film width on narrow phones
+  once the poster column has ended, with a two-level label
+- Landing pages: the city legend's cinema names link to theatre pages and look like a
+  passive key
 
 **[Pipeline](#pipeline)**
 
@@ -1991,7 +1993,10 @@ count failed the same way.
       checking the claim that the client half was already finished, which it was not:
       `priceLabel()` used parseFloat, so Cinema Orion's "alkaen 10€" was read as NaN and
       rendered nothing -- 23 of its 29 price-bearing showtimes. See the entry below.
-- [ ] **Landing-page redesign: `/teatteri/`, `/kaupunki/`, `/en/theatre/`, `/en/city/`.**
+- [x] **Landing-page redesign: `/teatteri/`, `/kaupunki/`, `/en/theatre/`, `/en/city/`.**
+      Done 2026-09-02; see "[The landing pages belong to the
+      product](#the-landing-pages-belong-to-the-product-2026-09-02)" below. The rest
+      of this entry is the state it was written from.
       The 168 canonical venue and city landing pages -- 84 per language -- are where
       venue- and city-specific search results can land. Four additional generated files
       are legacy redirects. Counted 2026-09-01: 172 `index.html` files, 86 per language,
@@ -2007,6 +2012,24 @@ count failed the same way.
       it. Two existing rules will constrain whatever it becomes: `write_if_changed` only
       works while the output stays deterministic, and nothing volatile may go into a
       generated page. The regeneration-drift step in `Checks` enforces both.
+- [ ] **Landing pages: screening list across the full film width on narrow phones.**
+      Recorded 2026-09-02, not built. At 320 px the showtime list stays inside the 206 px
+      information column beside the poster even after the poster has ended, so a city
+      stub such as `Finnkino Tennispalatsi · Sali 10 · englanti · tekstitys suomi/ruotsi`
+      wraps to three lines while the 72 px poster column below the poster stays empty.
+      A possible answer: below an evidence-based narrow breakpoint, place the list across
+      the full film width after the synopsis. Structural, so it is its own change, and it
+      has to be measured on representative films with and without a synopsis, since the
+      list's starting height differs between the two. The same change is the place to
+      give the repeated screening metadata an intentional two-level hierarchy -- cinema
+      and room on the first line, spoken language and subtitles smaller and lighter on a
+      second -- rather than the single ` · `-joined run the stubs carry today.
+- [ ] **Landing pages: the city cinema links read as a legend.** Recorded 2026-09-02, not
+      built. The coloured cinema names under a city page's CTA are links to the theatre
+      pages and look like a passive colour key. A possible answer is a restrained link
+      affordance -- small padding, a clear hover and focus treatment, perhaps a short
+      `Teatterit` / `Cinemas` label in front -- and not large primary-style buttons, which
+      would compete with the one CTA on the page.
 - [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
       text-rendered icon is unsettled. Left open on purpose by the audit below.
       **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
@@ -3343,6 +3366,172 @@ Checked live against the served page as well, on a fresh origin with nothing sto
 written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; opening the
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
+
+### The landing pages belong to the product (2026-09-02)
+The 168 canonical pages under `/teatteri/`, `/kaupunki/`, `/en/theatre/` and `/en/city/`
+were built to be indexable and read like it: system font, boxed cards, a CTA that said
+"Ajantasaiset ajat, suodattimet ja koko ohjelmisto: Leffavuoro", and a showtime that
+read `16:00 Sali Tapio 4 FI-S, SV-S` with spaces for separators. A reader arriving from a
+search saw a page that did not look like the app it was sending them to. Redesigned in
+`build_pages.py` alone: no JavaScript on the pages, no new data, the same 4-day and 2-day
+horizons, the same JSON-LD, titles, descriptions, canonicals and hreflang pairs, the four
+legacy redirects byte-identical.
+
+**What a page is now.** Wordmark and the app's FI · SV · EN selector in a header bar; the
+unchanged h1;
+a subline (`Joensuu · savonkinot.fi`, or `12 teatteria`); a two-sentence intro; one CTA;
+sticky day headings; a film per row with the app's poster sizes (72×104 below 560 px,
+92×132 above), rating chip, credited TMDB score, runtime and genres, the synopsis once per
+page; ticket-shaped showtimes; on a city page a chain legend after the CTA and the venue
+links as 44 px chips at the foot. The tokens are the app's for both themes, chosen by
+`prefers-color-scheme`, and the typeface is the same two self-hosted Archivo files -- one
+same-origin request, so the README's privacy claim holds as written. The docstring's old
+"no webfont" line was about Google Fonts and is rewritten.
+
+**The CTA carries both halves of the deep link.** `/?area={id}&lang={fi|en}` -- the
+language half is the entry above. The label is `Avaa koko ohjelmisto` and `See the full
+programme`, one `<a>`, one line, 48 px tall: the app's selected-segment treatment, filled
+`--ink` with `--bg` text at weight 800, the only filled element on the page, against the
+outlined tickets that link out. It first shipped as a two-line sentence with "– nyt ja
+tulevina päivinä" / "and upcoming screenings" under the label, which measured 64 px on a
+phone and read as a hero panel rather than a button, pushing the first day heading 15 to
+16 px further down; the intro sentence already says the app carries the days ahead, so
+the button now says only what it does. Measured after: 48 px at 320, 375, 402 and 1200,
+one line in both languages at 320, the arrow 61 px clear of the label at its tightest.
+
+**The showtime label is the requested shape and nothing more.** `stub_parts()` returns
+room, spoken language and subtitle languages on a theatre page -- `Sali Tapio 4 ·
+englanti · tekstitys suomi/ruotsi`, or `Sali Tapio 4 · English · Finnish/Swedish
+subtitles` -- and the chain-prefixed cinema first on a city page, joined with ` · `, empty
+parts dropped. The room is the adapter's value verbatim, so Savon Kinot's normalised
+`Sali Tapio 4` shows as such and Leffabuumi's `KINOLINNA | SALI 1` keeps its pipe; the
+renderer splits nothing. The cinema is the chain-prefixed label, the app's own rule,
+because "Tripla" and "Kallio" name nothing on their own.
+
+**The language codes become words, and that is the one client rule ported.** `FI-S, SV-S`
+is the pipeline's storage format and the first version printed it; a reader has no reason
+to know it. `lang_parts()` is the app's `langTxt`: `-A` is the spoken language, `-S` a
+subtitle language, a compound `FI-SV-A` is two, duplicates collapse in source order, an
+absent role is omitted, and a code no table knows stays visible as itself. The name
+tables are the client's `LN.fi` and `LN.en` copied, and a test reads the client's out of
+`index.html` and asserts equality, so they cannot drift apart quietly. The subtitle word is
+the page's own -- "tekstitys" and "… subtitles" rather than the app's abbreviated
+"tekstit" and "subs" -- because a landing page has the room a stub does not.
+
+**Four codes in the committed data are not in the client's table, and each is a defect
+somewhere else.** Measured on 2026-09-02 across every area file: `TU` (62) and `MA` (3)
+are Finnkino's own vocabulary for Turkish and Malayalam ("Keltaiset kirjeet", "I'm
+Game") -- `fetch_data.lang_tag` maps `SE` to `SV` and should map these too; `XX` (46) is
+Nexxo's "no subtitles" on dubbed films, not a language, which `nexxo._lang` should drop;
+`LT` (1) is Lithuanian, a real code missing from the client's `LN` ("Svečias"). The app
+shows all four raw today. So that no page does, the generator carries `CODE_ALIAS`
+(TU → TR, MA → ML), `NO_SUBTITLES` (XX) and `LN_EXTRA` (LT, ML), each named in a test so
+adding one is a decision rather than a drift, and a test asserts every code in the
+committed data resolves. **Follow-ups, not done here:** the two adapter mappings, `LT`
+and `ML` in the client's `LN`, and then the removal of these extras once the data has
+turned over. Deliberately **not** ported: the app's `stubTags`, `priceLabel` and the
+metadata fold -- each a second implementation of a client rule with its own drift, for a
+page whose job is to hand the reader to the app.
+
+**Wrapping is decided per part.** The cinema and the language phrases may break at their
+spaces and, through a `<wbr>` after each slash, between joined names -- Chrome does not
+break after a solidus on its own, and "suomi/ruotsi/englanti/ranska" on Kino Engel's
+six-language screening clipped a 206 px column until it could. The room stays on one
+line. The showtime grid's column floor is `min(260px, 100%)`: 260 px so a desktop page
+runs two columns of the longer word labels rather than three of clipped ones, capped at
+the container so a 320 px phone gets one full-width column instead of a horizontal
+scroll -- a bare `260px` floor did exactly that and was caught by the overflow
+measurement. An earlier version kept the raw code string on one line and clipped the same
+Engel screening in a 223 px column; measured, then fixed, then superseded by the words.
+
+**FI · SV · EN.** The header carries the app's own three-way selector: the page's language
+is a plain span marked `aria-current="page"`, the other static language links to its
+page with `hreflang`, and Swedish -- which has no static page -- opens the app on this
+area in Swedish through the same `?area=…&lang=sv` the CTA relies on, since `startupLang`
+already accepts `sv`. Each segment is a 44 px target. No Swedish `hreflang` in `<head>`,
+because there is no Swedish canonical to point at. **Swedish landing pages** (84 more
+files, a third `hreflang`, a `/sv/` tree) are a possible SEO expansion on their own terms
+and are not part of this; the selector only stops Swedish readers being the one audience
+the landing pages left out.
+
+**The intro promises what the booking mode offers.** The old copy told every reader the
+time opened a ticket page, which was false for Kino Akseli (no links at all) and for the
+Nexxo cinemas (the programme page). `venue_intro(t, book, host)` reads the registry's
+`book` field: `Katso lähipäivien näytösajat. Kellonajasta pääset lipunmyyntiin sivustolla
+savonkinot.fi.`, `...paikkavaraukseen sivustolla...`, `...teatterin ohjelmistoon
+sivustolla...`, `Liput myydään ovelta.`, with English equivalents. A city mixes modes, so
+its intro says `kun linkki on saatavilla` / `where available`. The venue name is never
+inflected: the example tone "Savon Kinot Tapion" works for Tapio and breaks for Itis, so
+the venue appears only in nominative positions, the same rule cities already follow.
+
+**The synopsis is clamped, not cut.** Three lines below 560 px by `-webkit-line-clamp`,
+the full text in the markup, so the crawler and the reader hold the same document.
+Measured on Tapio at 402 px: 19 of 19 synopses clamped to 61 px with their 200
+characters intact in the DOM; unclamped at 1200.
+
+**Measured on the generated pages, served from this tree, in the preview browser's
+device and colour-scheme emulation** (Helsinki city page unless noted):
+
+| width | horizontal overflow | clipped label parts | stub height | CTA height | poster |
+|---|---|---|---|---|---|
+| 320 | none | 0 | 44 to 88.9 (the six-language Engel stub) | 48 | 72×104 |
+| 360 | none | 0 | 44 to 58.9 | 48 | |
+| 375 (city, and Tapio fi/en) | none | 0 | 44 to 58.9 / 44 | 48 | |
+| 402 (city fi, theatre fi) | none | 0 | 44 to 58.9 / 44 | 48 | 72×104 |
+| 402, dark (city en) | none | 0 | 44 to 58.9 | 48 | body #0D0E12, current segment #EDEDEA |
+| 1200 (city, theatre) | none | 0 | 44, two columns of 338 | 48 × 402 | 92×132 |
+
+Every selector segment 44 × 44, venue chips 44, Archivo confirmed loaded,
+`a:focus-visible` is the app's 2 px accent ring, no raw `-A`/`-S` code in any details
+cell, the Mikkeli page keeps `KINOLINNA | SALI 1` whole at 320 px, and the label reads
+`Sali Tapio 4 · tekstitys suomi/ruotsi` on Tapio and `Finnkino Tennispalatsi · Sali 10 ·
+englanti · tekstitys suomi/ruotsi` on Helsinki.
+Screenshots were rendered by headless Chrome from copies of the generated pages with one
+theme pinned, because that Chrome follows the OS appearance and refuses windows under
+about 500 px; the numbers above come from the emulated browser reading the untouched
+pages.
+
+**Cost.** The 172 generated files went from 5.15 MB to 7.60 MB in total, Helsinki fi
+from 260 kB to 350 kB, Tapio fi from 29 kB to 42 kB -- the spans around each label part,
+the language words being longer than their codes, and the inline CSS. `write_if_changed` holds: a second run writes
+0 files, and the drift check in `Checks` stays green.
+
+**Two refinements recorded and not built**, as backlog items above: the screening list
+spanning the full film width on narrow phones, with a two-level label; and a link
+affordance for the city page's cinema names.
+
+**Tests: one file, `tests/test_landing_pages.py`**, 28 tests. Most run the real `main()`
+into a temporary tree from the committed data and read what came out: 84 canonical pages
+per language, 4 redirects byte-identical to the committed ones, sitemap equal to the
+canonical set, every canonical self-referencing with its hreflang pair, one CTA per page in
+the page's language carrying the page's own venue or city and the parameter names
+`index.html` reads, every theatre page free of its own name in its stubs while each room
+in the window appears verbatim, every city stub naming a known cinema, no leading,
+trailing or doubled separator and no empty span inside any stub, every venue intro equal
+to its registry mode's sentence, the city intro generic, a second run writing nothing,
+no `generated` or `oldest` stamp in any page, no script after `</head>`, no raw `-A`/`-S`
+code left in any stub, every code in the committed data resolving to a name, the
+generator's name tables equal to the client's `LN.fi` and `LN.en` read out of
+`index.html`, and the FI · SV · EN selector on every page with the right segment current
+and the right two links. Synthetic shows pin the shape itself: theatre, city, empty room,
+time alone, Leffabuumi's pipe, the clock and link, the language rule case by case, and the
+page being identical under a shuffled input order.
+`test_build_pages_atomic` (9) and `test_legacy_slugs` are unchanged and green; the
+`test_ld_json` call to `page()` took the new keyword set.
+
+Verified by breaking the generator thirteen ways, each restored byte-identically with
+`__pycache__` cleared between: the theatre stub repeating the venue (6 red), the city stub
+dropping it (20), empty parts kept (82), a pipe split in the renderer (2), the CTA language
+hard-coded to Finnish (84), the CTA label unlocalised (84), the CTA losing the venue (149),
+the intro ignoring the booking mode (1), a build timestamp in the page (1), shows no
+longer sorted (1), the canonical always the Finnish page (84), the redirect page gaining
+the CTA (4). Then, for the words and the selector, thirteen more: codes rendered raw
+(161), duplicates kept (1), the subtitle role dropped (11), XX read as a language (3),
+the Finnkino aliases dropped (3), one Finnish name differing from the client's (5), an
+unknown code silently dropped (1), the current language rendered as a link (168), no
+`aria-current` (168), the SV link losing the area (168), the SV link gaining `hreflang`
+(168), a Swedish `hreflang` in `<head>` (168), and the selector in the order EN SV FI
+(168). All red.
 
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading

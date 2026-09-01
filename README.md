@@ -173,7 +173,18 @@ Each page carries real HTML showtimes, `hreflang` pairs, and
 `ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the
 ratings are TMDB's, and presenting another party's ratings as the page's own is
 against Google's guidelines, so it appears as credited text. Every page links
-into the app as `/?area={venueId}`.
+into the app as `/?area={venueId}&lang={fi|en}`, so a reader lands on the
+cinema or city they were reading about, in the language they were reading it
+in, and the app's saved favourite is left alone.
+
+Since 2026-09-02 the pages share the app's look: its wordmark, its typeface
+(the same self-hosted Archivo files, one same-origin request), its light and
+dark tokens following the OS, its FI · SV · EN selector, and ticket-shaped
+showtimes. A theatre page shows time, room and the languages in words; a city
+page adds the cinema and a colour rule per chain. Swedish has no static page
+yet, so its selector entry opens the app on the same area in Swedish. No
+JavaScript, and nothing volatile, so a page is rewritten only when its
+showtimes change.
 
 ## Privacy
 

@@ -61,10 +61,10 @@ class LdJsonEscapingTest(unittest.TestCase):
         is the one page() writes itself."""
         html = bp.page(
             lang="fi", path_fi="/teatteri/x/", path_en="/en/theatre/x/",
-            title="X", desc="d", h1="h", intro="i",
+            title="X", desc="d", h1="h", sub="s", intro="i",
             days=days_with(HOSTILE), today=TODAY, t=bp.L["fi"], extra={},
-            gmap={}, city="Helsinki", also={}, og_image="/icon-512.png",
-            app_href="/")
+            gmap={}, city="Helsinki", with_venue=False, legend="", also="",
+            og_image="/icon-512.png", app_href="/", area="x", chain_css="")
         self.assertEqual(html.lower().count("</script>"), 1)
 
 

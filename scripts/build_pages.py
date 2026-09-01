@@ -18,10 +18,20 @@ by putting the city in the venue page's title, h1 and JSON-LD address instead.
 
 Deliberate constraints:
 
-- **No third-party requests.** Inline CSS, no webfont, and only same-origin posters
-  (`data/posters/...`) are rendered; a poster hot-linked from a cinema CDN is skipped
-  rather than made to leak a visitor's IP on a page they arrived at from Google. See the
-  Privacy section of the README.
+- **No third-party requests.** Inline CSS, the same self-hosted Archivo the app uses
+  (`/fonts/`, one same-origin request), and only same-origin posters (`data/posters/...`)
+  are rendered; a poster hot-linked from a cinema CDN is skipped rather than made to leak
+  a visitor's IP on a page they arrived at from Google. See the Privacy section of the
+  README.
+- **No JavaScript.** The page is what the crawler sees and what the visitor sees. The
+  theme follows the OS through `prefers-color-scheme`, because the app's saved toggle
+  lives in localStorage and nothing here may read it.
+- **The showtime label is the requested shape and nothing more**: time, then on a city
+  page the cinema, then the room verbatim, then the languages in words. Empty parts
+  vanish. The language words are the one client rule ported here (`lang_parts`, the
+  app's `langTxt`), because `FI-S, SV-S` is the pipeline's storage format and not
+  something a reader should see; nothing else of the app's tag folding or price parsing
+  is -- the page is a landing, and the app is one tap away.
 - **A page is rewritten only when its bytes change.** Four runs a day across ~100 pages
   would otherwise commit megabytes of near-identical HTML forever. Quiet venues change
   once a week.
@@ -90,82 +100,213 @@ LD_DAYS = 2       # markup for today and tomorrow only, see ld_json()
 L = {
     "fi": {
         "lang": "fi", "locale": "fi_FI",
-        "venue_title": "{venue}, {city} – elokuvat ja näytösajat",
-        "city_title": "Elokuvat ja näytösajat – {city}",
-        "venue_h1": "{venue} – näytösajat",
-        "city_h1": "Elokuvat ja näytösajat – {city}",
-        "venue_desc": "{venue} ({city}): elokuvat, kellonajat, ikärajat ja liput "
-                      "lähipäiville.",
-        "city_desc": "Kaikki elokuvateatterit ja näytösajat – {city}: {venues}.",
-        "venue_intro": "Näytösajat lähipäiville. Kellonaika vie suoraan lippusivulle "
-                       "({provider}). Koko ohjelmisto ja suodattimet sovelluksessa.",
-        "city_intro": "Näytösajat {n} teatterista: {venues}.",
-        "app": "Ajantasaiset ajat, suodattimet ja koko ohjelmisto: Leffavuoro",
-        "today": "tänään", "tomorrow": "huomenna",
-        "no_shows": "Ei julkaistuja näytöksiä lähipäiville.",
-        "mins": "min", "rating_src": "arvosana TMDB",
-        "other_venues": "Muut teatterit samassa kaupungissa",
-        "city_link": "Kaikki teatterit – {city}",
-        "days": ["ma", "ti", "ke", "to", "pe", "la", "su"],
-        "sources": "Näytöstiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
-                   "kuvaukset: TMDB. Henkilökohtainen harrastusprojekti, ei "
+        "venue_title": "{venue}, {city} \u2013 elokuvat ja n\u00e4yt\u00f6sajat",
+        "city_title": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
+        "venue_h1": "{venue} \u2013 n\u00e4yt\u00f6sajat",
+        "city_h1": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
+        "venue_desc": "{venue} ({city}): elokuvat, kellonajat, ik\u00e4rajat ja liput "
+                      "l\u00e4hip\u00e4iville.",
+        "city_desc": "Kaikki elokuvateatterit ja n\u00e4yt\u00f6sajat \u2013 {city}: {venues}.",
+        "venue_sub": "{city} \u00b7 {host}",
+        "city_sub": "{n} teatteria",
+        # One sentence per booking mode, from the registry's `book` field. The old copy
+        # promised a ticket page for every cinema, which was wrong for Kino Akseli (no
+        # links at all) and for Nexxo (the programme page, not a ticket).
+        "intro_buy": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+                     "lipunmyyntiin sivustolla {host}.",
+        "intro_reserve": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+                         "paikkavaraukseen sivustolla {host}.",
+        "intro_list": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+                      "teatterin ohjelmistoon sivustolla {host}.",
+        "intro_door": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Liput myyd\u00e4\u00e4n ovelta.",
+        # A city mixes booking modes, so this promises only what every venue has.
+        "city_intro": "Katso {n} teatterin n\u00e4yt\u00f6sajat l\u00e4hip\u00e4iville. Kellonajasta "
+                      "p\u00e4\u00e4set teatterin lippu- tai ohjelmistosivulle, kun linkki on "
+                      "saatavilla.",
+        "cta": "Avaa koko ohjelmisto",
+        "today": "T\u00e4n\u00e4\u00e4n", "tomorrow": "Huomenna",
+        "days": ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
+        "no_shows": "Ei julkaistuja n\u00e4yt\u00f6ksi\u00e4 l\u00e4hip\u00e4iville.",
+        "mins": "min", "tmdb": "TMDB",
+        "venues_h": "Teatterit \u2013 {city}",
+        "city_link": "Kaikki teatterit \u2013 {city}",
+        "subs": "tekstitys {}", "lang_nav": "Kieli",
+        "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
+                   "kuvaukset: TMDB. Henkil\u00f6kohtainen harrastusprojekti, ei "
                    "sidoksissa teattereihin.",
-        "contact": "Elokuvateattereille: yhteydenotot ja poistopyynnöt",
+        "contact": "Elokuvateattereille: yhteydenotot ja poistopyynn\u00f6t",
+        "source": "L\u00e4hdekoodi",
     },
     "en": {
         "lang": "en", "locale": "en_GB",
-        "venue_title": "{venue}, {city} – films and showtimes",
-        "city_title": "Films and showtimes – {city}",
-        "venue_h1": "{venue} – showtimes",
-        "city_h1": "Films and showtimes – {city}",
+        "venue_title": "{venue}, {city} \u2013 films and showtimes",
+        "city_title": "Films and showtimes \u2013 {city}",
+        "venue_h1": "{venue} \u2013 showtimes",
+        "city_h1": "Films and showtimes \u2013 {city}",
         "venue_desc": "{venue} ({city}): films, times, age limits and tickets for the "
                       "next few days.",
-        "city_desc": "Every cinema and showtime in one list – {city}: {venues}.",
-        "venue_intro": "Showtimes for the next few days. A time goes straight to the "
-                       "ticket page ({provider}). Full schedule and filters in the app.",
-        "city_intro": "Showtimes from {n} cinemas: {venues}.",
-        "app": "Live times, filters and the full schedule: Leffavuoro",
-        "today": "today", "tomorrow": "tomorrow",
-        "no_shows": "No showtimes published for the next few days.",
-        "mins": "min", "rating_src": "rating by TMDB",
-        "other_venues": "Other cinemas in the same city",
-        "city_link": "All cinemas – {city}",
+        "city_desc": "Every cinema and showtime in one list \u2013 {city}: {venues}.",
+        "venue_sub": "{city} \u00b7 {host}",
+        "city_sub": "{n} cinemas",
+        "intro_buy": "See showtimes for the next few days. Choose a time to buy tickets "
+                     "on {host}.",
+        "intro_reserve": "See showtimes for the next few days. Choose a time to reserve "
+                         "seats on {host}.",
+        "intro_list": "See showtimes for the next few days. Choose a time to open the "
+                      "cinema programme on {host}.",
+        "intro_door": "See showtimes for the next few days. Tickets are sold at the door.",
+        "city_intro": "See showtimes from {n} cinemas for the next few days. Choose a time "
+                      "to open the cinema\u2019s ticket or programme page, where available.",
+        "cta": "See the full programme",
+        "today": "Today", "tomorrow": "Tomorrow",
         "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "no_shows": "No showtimes published for the next few days.",
+        "mins": "min", "tmdb": "TMDB",
+        "venues_h": "Cinemas \u2013 {city}",
+        "city_link": "All cinemas \u2013 {city}",
+        "subs": "{} subtitles", "lang_nav": "Language",
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
         "contact": "For cinemas: enquiries and removal requests",
+        "source": "Source",
     },
 }
 
+# The booking verb comes from the registry; a mode this table does not know reads as a
+# ticket page, which is what every provider but two actually offers.
+def venue_intro(t, book, host):
+    return t.get("intro_" + (book or "buy"), t["intro_buy"]).format(host=host)
+
+
+# The client's language-name tables, copied for fi and en. `tests/test_landing_pages.py`
+# reads the client's `LN` out of index.html and asserts these are identical, so the two
+# cannot drift apart without a test saying so. Keys are ISO 639-1 codes.
+LN = {
+    "fi": {"FI": "suomi", "EN": "englanti", "SV": "ruotsi", "ES": "espanja", "DE": "saksa",
+           "FR": "ranska", "IT": "italia", "RU": "ven\u00e4j\u00e4", "ET": "viro", "DA": "tanska",
+           "NO": "norja", "IS": "islanti", "NL": "hollanti", "PL": "puola", "PT": "portugali",
+           "UK": "ukraina", "AR": "arabia", "JA": "japani", "ZH": "kiina", "KO": "korea",
+           "HI": "hindi", "TR": "turkki", "KA": "georgia", "TA": "tamili"},
+    "en": {"FI": "Finnish", "EN": "English", "SV": "Swedish", "ES": "Spanish", "DE": "German",
+           "FR": "French", "IT": "Italian", "RU": "Russian", "ET": "Estonian", "DA": "Danish",
+           "NO": "Norwegian", "IS": "Icelandic", "NL": "Dutch", "PL": "Polish",
+           "PT": "Portuguese", "UK": "Ukrainian", "AR": "Arabic", "JA": "Japanese",
+           "ZH": "Chinese", "KO": "Korean", "HI": "Hindi", "TR": "Turkish", "KA": "Georgian",
+           "TA": "Tamil"},
+}
+# Codes the committed data carries that the client's table does not, each a defect
+# somewhere else and named here so a page never shows a raw code meanwhile:
+#   TU, MA -- Finnkino's own vocabulary for Turkish and Malayalam ("Keltaiset kirjeet",
+#             "I'm Game"). fetch_data.lang_tag maps SE -> SV and should map these too;
+#             until it does and the data has turned over, they are read as TR and ML here.
+#   XX     -- Nexxo's "no subtitles" on dubbed films. Not a language: the subtitle role
+#             is simply absent, so it renders nothing. nexxo._lang should drop it.
+#   LT     -- Lithuanian, a real code missing from the client's LN ("Svečias").
+# A code in none of these tables still renders, as itself, so a new one is visible on
+# the page rather than lost. `tests/test_landing_pages.py` asserts every code in the
+# committed data is covered, and lists these extras by name so adding one is a decision.
+CODE_ALIAS = {"TU": "TR", "MA": "ML"}
+NO_SUBTITLES = {"XX"}
+LN_EXTRA = {"fi": {"LT": "liettua", "ML": "malajalam"},
+            "en": {"LT": "Lithuanian", "ML": "Malayalam"}}
+LANG_RE = re.compile(r"^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$")
+
+
+def lang_parts(codes, lang):
+    """`"EN-A, FI-S, SV-S"` -> `["englanti", "tekstitys suomi/ruotsi"]`, the app's
+    `langTxt` rule: -A is the spoken language, -S a subtitle language, a compound
+    `FI-SV-A` is two languages, duplicates collapse in source order, an absent role is
+    omitted, and a name the tables lack stays visible as its code."""
+    by = {"A": [], "S": []}
+    for raw in (codes or "").split(","):
+        c = raw.strip()
+        if not c:
+            continue
+        m = LANG_RE.match(c)
+        if not m:
+            by["A"].append(c)          # not a tag this app knows: shown rather than lost
+            continue
+        for x in m.group(1).split("-"):
+            x = CODE_ALIAS.get(x, x)
+            if m.group(2) == "S" and x in NO_SUBTITLES:
+                continue
+            name = LN[lang].get(x) or LN_EXTRA[lang].get(x) or x
+            if name not in by[m.group(2)]:
+                by[m.group(2)].append(name)
+    out = []
+    if by["A"]:
+        out.append("/".join(by["A"]))
+    if by["S"]:
+        out.append(L[lang]["subs"].format("/".join(by["S"])))
+    return out
+
+
+# The app's own tokens, both themes, selected by the OS. Same Archivo files, same two
+# unicode-range subsets, absolute paths because the pages live in subdirectories. The
+# synopsis is clamped to three lines on a phone by CSS alone: the full text stays in the
+# markup, so the crawler and the visitor read the same document.
 CSS = """
-:root{--bg:#F6F7F9;--surface:#fff;--ink:#16181D;--muted:#5C6470;--line:#E3E6EB;
---accent:#8A6508}
-@media(prefers-color-scheme:dark){:root{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;
---muted:#8B93A1;--line:#262A33;--accent:#E8B84B}}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#F6F7F9;--surface:#FFFFFF;--ink:#16181D;--muted:#5C6470;--line:#E3E6EB;--accent:#B8860B;--accent-text:#8A6508;--chip-bg:#FFFFFF;--shadow:0 1px 3px rgba(22,24,29,.06)}
+@media(prefers-color-scheme:dark){:root{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#8B93A1;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,
-"Segoe UI",Roboto,sans-serif;padding:1.25rem;max-width:52rem;margin:0 auto}
-a{color:var(--accent)}
-h1{font-size:1.5rem;line-height:1.2;margin-bottom:.4rem}
-h2{font-size:1.05rem;margin:1.75rem 0 .6rem;padding-bottom:.3rem;
-border-bottom:1px solid var(--line)}
-h3{font-size:1rem;margin:0 0 .2rem}
-p{color:var(--muted);margin-bottom:.75rem}
-.app{display:inline-block;margin:.5rem 0 1rem;padding:.5rem .9rem;background:var(--surface);
-border:1px solid var(--line);border-radius:999px;text-decoration:none}
-.film{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;
-padding:.8rem;margin-bottom:.6rem;display:flex;gap:.8rem}
-.film img{width:56px;height:84px;object-fit:cover;border-radius:.3rem;flex:0 0 auto}
-.meta{color:var(--muted);font-size:.85rem;margin-bottom:.45rem}
-.times{list-style:none;display:flex;flex-wrap:wrap;gap:.35rem}
-.times a{display:inline-block;padding:.25rem .55rem;border:1px solid var(--line);
-border-radius:.35rem;background:var(--bg);text-decoration:none;font-size:.9rem}
-.syn{font-size:.9rem;color:var(--muted);margin:.35rem 0 .5rem}
-nav.also{margin-top:2rem;font-size:.9rem}
-nav.also ul{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem}
-footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid var(--line);
-color:var(--muted);font-size:.85rem}
+html{color-scheme:light dark}
+body{font:16px/1.5 'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:52rem;margin:0 auto;padding:0 20px 32px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.logo{font-stretch:125%;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:1.05rem;text-decoration:none;white-space:nowrap}
+.logo span{color:var(--accent)}
+.langseg{display:flex;flex:0 0 auto;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.langseg a,.langseg span{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 10px;color:var(--muted);text-decoration:none;font-weight:800;font-size:.74rem;letter-spacing:.06em}
+.langseg [aria-current]{background:var(--ink);color:var(--bg)}
+.langseg a:hover{color:var(--ink)}
+h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin:22px 0 4px}
+.sub{color:var(--muted);font-size:.9rem}
+.intro{color:var(--muted);margin:12px 0 14px}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:48px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:1rem;font-weight:800;line-height:1.3;white-space:nowrap;box-shadow:var(--shadow)}
+.cta .arr{flex:0 0 auto}
+.cta:hover{background:var(--accent-text);color:#fff}
+@media(prefers-color-scheme:dark){.cta:hover{background:var(--accent);color:var(--bg)}}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:14px 0 0;font-size:.72rem;color:var(--muted)}
+.legend .lg{padding-left:8px;border-left:3px solid var(--chain,var(--line))}
+h2.day{position:sticky;top:0;z-index:1;background:var(--bg);font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;border-bottom:1px solid var(--line)}
+.film{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.poster{flex:0 0 92px;width:92px;height:132px;border-radius:8px;object-fit:cover;background:var(--surface);box-shadow:var(--shadow)}
+.poster.blank{border:1px solid var(--line)}
+.info{flex:1;min-width:0}
+h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
+.meta1{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.82rem}
+.rating{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-weight:700;font-size:.72rem;background:var(--surface)}
+.tmdb{color:var(--accent-text);font-weight:700}
+.tmdb small{font-size:.72rem;font-weight:600;letter-spacing:.05em;margin-left:4px}
+.meta2{margin-top:4px;color:var(--muted);font-size:.8rem}
+.syn{color:var(--muted);font-size:.88rem;line-height:1.45;margin-top:6px}
+.times{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:8px;margin-top:10px}
+.stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
+.stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
+.stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;white-space:nowrap}
+.stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);border-left:1px dashed var(--line);position:relative}
+.stub .aud{flex-wrap:wrap;gap:0 4px}
+.stub .aud .a{white-space:nowrap}
+.stub .aud::before,.stub .aud::after{content:"";position:absolute;left:-5px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.stub .aud::before{top:-5px}.stub .aud::after{bottom:-5px}
+.stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stub:hover .aud{color:var(--bg);opacity:.75}
+.also{margin-top:24px}
+.also h2{font-size:.95rem;font-weight:800;margin-bottom:10px}
+.also ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.vchip{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);text-decoration:none;font-size:.85rem;font-weight:600;box-shadow:var(--shadow)}
+.vchip[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
+.vchip:hover{border-color:var(--muted)}
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
+@media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.film{gap:14px;padding:14px 0}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:360px){.logo{font-size:.66rem;letter-spacing:.04em}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 """.strip()
 
 
@@ -282,18 +423,49 @@ def clip(text, n=200):
     return (cut[:sp] if sp > n * 0.6 else cut).rstrip(" ,.;:") + "\u2026"
 
 
+def stub_parts(s, with_venue, lang):
+    """The whole showtime-label rule, as (css class, text) pairs.
+
+    Theatre page: room, then language codes -- the page already names the cinema, and
+    printing it again is how Joensuu read "Tapio · Sali Tapio 4". City page: the
+    chain-prefixed cinema first, because a bare "Sali 6" identifies none of twelve.
+    The room is the provider's value verbatim after the adapter's own normalisation;
+    Leffabuumi's "KINOLINNA | SALI 1" means something and stays. Empty parts vanish, so
+    no separator is ever leading, trailing or doubled.
+
+    The language codes become words through `lang_parts()`: spoken language first, then
+    the subtitle languages, each its own part. The classes decide wrapping only: the
+    cinema and the language phrases may break at their spaces, the room stays on one line.
+    """
+    parts = []
+    if with_venue:
+        parts.append(("v", s.get("venueLabel") or ""))
+    parts.append(("a", s.get("aud") or ""))
+    parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
+    return [(c, t) for c, t in parts if t]
+
+
+def _part(cls, text):
+    """One label part. A language phrase joins names with "/", which Chrome will not break
+    after on its own, so a six-language screening would clip in a 206 px column; a <wbr>
+    after each slash is a break opportunity and no text."""
+    body = esc(text).replace("/", "/<wbr>") if cls == "l" else esc(text)
+    return f"<span class={cls}>{body}</span>"
+
+
 def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     s0 = shows[0]
-    bits = []
-    if s0.get("len"):
-        bits.append(f"{esc(s0['len'])} {t['mins']}")
+    meta1 = []
     if s0.get("rating"):
-        bits.append(esc(s0["rating"]))
+        meta1.append(f'<span class="rating">{esc(s0["rating"])}</span>')
+    if s0.get("tmdb"):
+        meta1.append(f'<span class="tmdb">\u2605 {s0["tmdb"]:.1f}<small>{esc(t["tmdb"])}</small></span>')
+    meta2 = []
+    if s0.get("len"):
+        meta2.append(f"{esc(s0['len'])} {t['mins']}")
     g = genre_names(s0.get("gids"), s0.get("genres"), gmap, lang)
     if g:
-        bits.append(esc(g))
-    if s0.get("tmdb"):
-        bits.append(f"{s0['tmdb']:.1f}/10 ({t['rating_src']})")
+        meta2.append(esc(g))
 
     # A synopsis only on a film's first appearance: a four-day page repeats the same
     # title daily, and printing it each time both bloated the page and read like padding.
@@ -302,31 +474,31 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     if title not in syn_seen:
         syn = clip(((fx.get("s") or {}).get(lang) or ""))
         syn_seen.add(title)
-    # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP.
+    # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
+    # film with none keeps its column with a blank tile, so the text does not jump left.
     img = s0.get("img") or ""
-    poster = f'<img src="/{esc(img)}" alt="" width="56" height="84" loading="lazy">' \
-        if img.startswith("data/posters/") else _unmirrored(img)
+    if img.startswith("data/posters/"):
+        poster = f'<img class="poster" src="/{esc(img)}" alt="" width="92" height="132" loading="lazy">'
+    else:
+        poster = _unmirrored(img) or '<div class="poster blank" aria-hidden="true"></div>'
 
     times = []
     for s in shows:
         clock = (s.get("start") or "")[11:16]
-        bit = clock
-        if with_venue and s.get("venueShort"):
-            bit += f" {esc(s['venueShort'])}"
-        elif s.get("aud"):
-            bit += f" {esc(s['aud'])}"
-        if s.get("lang"):
-            bit += f" {esc(s['lang'])}"
+        parts = stub_parts(s, with_venue, lang)
+        aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
+               if parts else "")
+        cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""
+        inner = f'<span class="time">{clock}</span>{aud}'
         url = s.get("url") or ""
-        times.append(f'<li><a href="{esc(url)}" rel="nofollow noopener">{bit}</a></li>'
-                     if url.startswith("http") else f"<li>{bit}</li>")
+        times.append(f'<li><a class="stub{cls}" href="{esc(url)}" rel="nofollow noopener">{inner}</a></li>'
+                     if url.startswith("http") else f'<li><span class="stub{cls}">{inner}</span></li>')
 
-    return (f'<article class="film">{poster}<div>'
-            f"<h3>{esc(title)}</h3>"
-            f'<div class="meta">{" · ".join(bits)}</div>'
+    return (f'<article class="film">{poster}<div class="info"><h3>{esc(title)}</h3>'
+            + (f'<div class="meta1">{"".join(meta1)}</div>' if meta1 else "")
+            + (f'<div class="meta2">{" \u00b7 ".join(meta2)}</div>' if meta2 else "")
             + (f'<p class="syn">{esc(syn)}</p>' if syn else "")
-            + f'<ul class="times">{"".join(times)}</ul>'
-            "</div></article>")
+            + f'<ul class="times">{"".join(times)}</ul></div></article>')
 
 
 def poster_url(s, extra):
@@ -421,26 +593,39 @@ def ld_json(days, today, city, extra):
     return out
 
 
-def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
-         extra, gmap, city, also, og_image, app_href):
-    other = path_en if lang == "fi" else path_fi
+def lang_switch(lang, path_fi, path_en, area, t):
+    """FI · SV · EN, the app's own selector. The page's language is a plain span marked
+    current; the other static language links to its page; Swedish has no static page
+    yet, so it opens the app on this area in Swedish -- `lang=sv` is accepted by the same
+    startupLang() the CTA relies on. No Swedish hreflang in <head>: there is no Swedish
+    canonical to point at."""
+    sv = "/?area=" + urllib.parse.quote(area) + "&lang=sv"
+    def seg(code, href):
+        if code == lang:
+            return f'<span aria-current="page">{code.upper()}</span>'
+        hl = f' hreflang="{code}"' if code != "sv" else ""
+        return f'<a href="{esc(href)}"{hl}>{code.upper()}</a>'
+    return (f'<nav class="langseg" aria-label="{esc(t["lang_nav"])}">'
+            + seg("fi", path_fi) + seg("sv", sv) + seg("en", path_en) + "</nav>")
+
+
+def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
+         extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css):
     body, syn_seen = [], set()
     if not days:
-        body.append(f"<p>{esc(t['no_shows'])}</p>")
+        body.append(f'<p class="intro">{esc(t["no_shows"])}</p>')
     for iso in sorted(days):
-        body.append(f"<h2>{esc(day_label(iso, today, t))}</h2>")
+        body.append(f'<h2 class="day">{esc(day_label(iso, today, t))}</h2>')
         for title_, shows in sorted(days[iso].items(),
                                     key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,
-                                   with_venue=bool(also.get("multi")),
-                                   syn_seen=syn_seen))
-    nav = ""
-    if also.get("links"):
-        items = "".join(f'<li><a href="{esc(u)}">{esc(n)}</a></li>'
-                        for n, u in also["links"])
-        nav = (f'<nav class="also"><h2>{esc(also["heading"])}</h2>'
-               f"<ul>{items}</ul></nav>")
+                                   with_venue=with_venue, syn_seen=syn_seen))
     self_path = path_fi if lang == "fi" else path_en
+    # One link, one line. The intro already says the app carries the days ahead, so the
+    # button says only what it does; a two-line version read as a hero panel and pushed
+    # the first showtime 16 px further down a phone.
+    cta = (f'<a class="cta" href="{esc(app_href)}"><span>{esc(t["cta"])}</span>'
+           f'<span class="arr" aria-hidden="true">\u2192</span></a>')
     return f"""<!DOCTYPE html>
 <html lang="{t['lang']}">
 <head>
@@ -448,6 +633,9 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F7F9">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0E12">
 <link rel="canonical" href="{SITE}{self_path}">
 <link rel="alternate" hreflang="fi" href="{SITE}{path_fi}">
 <link rel="alternate" hreflang="en" href="{SITE}{path_en}">
@@ -460,17 +648,25 @@ def page(*, lang, path_fi, path_en, title, desc, h1, intro, days, today, t,
 <meta property="og:image" content="{SITE}{og_image}">
 <meta property="og:locale" content="{t['locale']}">
 <link rel="icon" href="/icon-192.png">
-<style>{CSS}</style>
+<link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>{CSS}
+{chain_css}</style>
 <script type="application/ld+json">{ld_json(days, today, city, extra)}</script>
 </head>
 <body>
+<div class="wrap">
+<header class="bar"><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}</header>
+<main>
 <h1>{esc(h1)}</h1>
-<p>{esc(intro)}</p>
-<a class="app" href="{esc(app_href)}">{esc(t['app'])}</a>
+<p class="sub">{esc(sub)}</p>
+<p class="intro">{esc(intro)}</p>
+{cta}
+{legend}
 {''.join(body)}
-{nav}
-<p style="margin-top:1.5rem"><a href="{esc(other)}">{'In English' if lang == 'fi' else 'Suomeksi'}</a></p>
-<footer>{esc(t['sources'])}<br>{esc(t['contact'])} · <a href="mailto:{CONTACT}">{CONTACT}</a></footer>
+{also}
+</main>
+<footer><div>{esc(t['sources'])}</div><div>{esc(t['contact'])} \u00b7 <a href="mailto:{CONTACT}">{CONTACT}</a></div><div>{esc(t['source'])}: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> \u00b7 AGPL-3.0</div></footer>
+</div>
 </body>
 </html>
 """
@@ -580,30 +776,28 @@ def main() -> int:
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
         og = f"/{first_poster}" if first_poster else "/icon-512.png"
-        links, heading = [], ""
-        if v["city"] in multi:
-            cf, ce = paths_city(v["city"])
-            links = [(L["fi"]["city_link"].format(city=v["city"]), cf)]
-            heading = L["fi"]["other_venues"]
+        prov = providers.get(v["provider"], {})
         for lang in ("fi", "en"):
             t = L[lang]
-            cf, ce = (paths_city(v["city"]) if v["city"] in multi else ("", ""))
-            lk = [(t["city_link"].format(city=v["city"]), cf if lang == "fi" else ce)] \
-                if v["city"] in multi else []
+            also = ""
+            if v["city"] in multi:
+                cp = paths_city(v["city"])[0 if lang == "fi" else 1]
+                also = (f'<nav class="also"><ul><li><a class="vchip" href="{esc(cp)}">'
+                        f'{esc(t["city_link"].format(city=v["city"]))}</a></li></ul></nav>')
             text = page(
                 lang=lang, path_fi=p_fi, path_en=p_en,
                 title=t["venue_title"].format(venue=v["label"], city=v["city"]),
                 desc=t["venue_desc"].format(venue=v["label"], city=v["city"]),
                 h1=t["venue_h1"].format(venue=v["label"]),
-                intro=t["venue_intro"].format(provider=chains.get(v["provider"], "")),
+                sub=t["venue_sub"].format(city=v["city"], host=prov.get("host", "")),
+                intro=venue_intro(t, prov.get("book"), prov.get("host", "")),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"],
-                also={"links": lk,
-                      "heading": t["other_venues"],
-                      "multi": False},
-                og_image=og,
-                # Deep link, so a reader arriving from search opens on this venue instead
-                # of whatever the app last had selected.
-                app_href="/?area=" + urllib.parse.quote(v["id"]))
+                with_venue=False, legend="", also=also, og_image=og,
+                # Deep link, so a reader arriving from search opens on this venue in this
+                # language instead of whatever the app last had selected. Both halves are
+                # decided by startupArea()/startupLang() in index.html.
+                app_href="/?area=" + urllib.parse.quote(v["id"]) + "&lang=" + lang,
+                area=v["id"], chain_css="")
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
             stage(out, text)
         urls += [p_fi, p_en]
@@ -626,7 +820,10 @@ def main() -> int:
         merged = []
         for v in vs:
             for s in load_shows(v["id"]):
-                merged.append({**s, "venueShort": short_of(v)})
+                # The chain-prefixed label, not the bare short: "Tripla" and "Kamppi" are
+                # shopping centres and "Kallio" a district. Same rule as the app's
+                # combined view.
+                merged.append({**s, "venueLabel": v["label"], "venueProvider": v["provider"]})
         days = group_by_day(merged, today, CITY_DAYS)
         p_fi, p_en = paths_city(c)
         names = ", ".join(sorted(v["label"] for v in vs))
@@ -634,22 +831,33 @@ def main() -> int:
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
         og = f"/{first_poster}" if first_poster else "/icon-512.png"
+        # One 3 px rule per chain on the stubs and on the venue links, and a legend that
+        # names each colour. Never colour alone: every stub also names its cinema.
+        chain_ids = sorted({v["provider"] for v in vs}, key=lambda k: chains.get(k, k))
+        chain_css = "".join(f".chain-{esc(k)}{{--chain:{esc(providers[k]['accent'])}}}"
+                            for k in chain_ids if providers.get(k, {}).get("accent"))
+        legend = ('<p class="legend">' + "".join(
+            f'<span class="lg chain-{esc(k)}">{esc(chains.get(k, k))}</span>' for k in chain_ids)
+            + "</p>")
         for lang in ("fi", "en"):
             t = L[lang]
-            lk = [(v["label"], paths_venue(v)[0 if lang == "fi" else 1]) for v in
-                  sorted(vs, key=lambda x: x["label"])]
+            chips = "".join(
+                f'<li><a class="vchip chain-{esc(v["provider"])}" '
+                f'href="{esc(paths_venue(v)[0 if lang == "fi" else 1])}">{esc(v["label"])}</a></li>'
+                for v in sorted(vs, key=lambda x: x["label"]))
+            also = (f'<nav class="also"><h2>{esc(t["venues_h"].format(city=c))}</h2>'
+                    f"<ul>{chips}</ul></nav>")
             text = page(
                 lang=lang, path_fi=p_fi, path_en=p_en,
                 title=t["city_title"].format(city=c),
                 desc=t["city_desc"].format(city=c, venues=names),
                 h1=t["city_h1"].format(city=c),
-                intro=t["city_intro"].format(n=len(vs), city=c, venues=names),
+                sub=t["city_sub"].format(n=len(vs)),
+                intro=t["city_intro"].format(n=len(vs)),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=c,
-                also={"links": lk,
-                      "heading": t["other_venues"],
-                      "multi": True},
-                og_image=og,
-                app_href="/?area=" + urllib.parse.quote("city:" + c))
+                with_venue=True, legend=legend, also=also, og_image=og,
+                app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
+                area="city:" + c, chain_css=chain_css)
             out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
             stage(out, text)
         urls += [p_fi, p_en]
