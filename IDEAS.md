@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 7 items still open, with the section that holds each one and its reasoning. Presence
+The 6 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -12,7 +12,6 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 **[App](#app)**
 
-- Prices "alkaen" via the ticket-types endpoint
 - Accessibility: the favourite star's 3.25:1, where whether 1.4.3 or 1.4.11 governs a
   text-rendered icon is unsettled
 
@@ -20,7 +19,10 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
-- Finnkino prices via the ticket-types endpoint
+- Finnkino prices -- **blocked, not merely unbuilt**: the public programme API carries
+  no prices at all, and the only route left is the booking flow, which this repo does
+  not call. See "[Finnkino publishes no prices outside the booking
+  flow](#finnkino-publishes-no-prices-outside-the-booking-flow-2026-09-01)"
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
 
@@ -1468,7 +1470,12 @@ Still open from this pass:
       showtimes), which rendered inside the age-limit chip and silently failed every
       `rating ===` comparison. Same bug class as the Vista "K-7 (4)" gotcha. Anything
       else now blanks; "coming soon" is premiere-chip material, not a rating.
-- [ ] Finnkino prices via the ticket-types endpoint (Kinoset + Akseli already show prices)
+- [ ] Finnkino prices. **Probed 2026-09-01 and blocked by the access rule rather than
+      by difficulty**; see the entry below. The programme response the adapter already
+      reads carries no price field anywhere, the obvious ticket-type read paths under the
+      same API all answer 404, and the remaining route is the seat-selection flow, which
+      this repo does not call or inventory. Left open only because a visitor-facing price
+      *page* would be a legitimate source, and that has not been looked at.
 - [x] **Commit run.log only on failure -- decided against 2026-09-01.** The premise does
       not survive being measured, and the two things that would break are the failure
       signal itself.
@@ -1975,7 +1982,10 @@ count failed the same way.
       starred combined city, as the first row under its own heading before any city
       group, and `tests/test_venue_picker.py` asserts the order because Enter picks the
       first row.
-- [ ] Prices "alkaen" probe (ticket-types endpoint)
+- [x] **Merged 2026-09-01 into the Pipeline entry.** "Prices alkaen" and "Finnkino
+      prices via the ticket-types endpoint" were the same endpoint from two sides and
+      counted twice against the head. The client half needs nothing: it already renders
+      exact and "alkaen" prices for the chains that publish them.
 - [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
       text-rendered icon is unsettled. Left open on purpose by the audit below.
       **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
@@ -3733,6 +3743,50 @@ configuration rather than browsing controls: you set them once and then read a l
 exists to stop spending permanent screen space on a control used about once a month. **Do not add a floating theme button**, a
 duplicate in the pinned strip, or any other replacement -- that reintroduces the cost
 this change removed, in a smaller and harder-to-notice form.
+
+### Finnkino publishes no prices outside the booking flow (2026-09-01)
+Two backlog entries wanted this -- "prices alkaen" under App and "Finnkino prices via the
+ticket-types endpoint" under Pipeline -- and they were the same endpoint counted twice.
+What was missing was a source for the largest chain.
+
+An earlier draft of this entry said the client half was already done, and that the price
+cell carried the ticket-type breakdown in a `title`. Both were wrong, and writing them
+down is what found a live bug -- see "[parseFloat only reads a leading
+number](#parsefloat-only-reads-a-leading-number-so-23-of-orions-29-prices-vanished-2026-09-01)".
+The `title` claim came from misreading an entry about *Cinema Orion's own page markup*,
+which is where that tooltip lives; this app renders the price as a bare `<span>`.
+
+There is not one, on the public API.
+
+**The programme response carries no prices.** This is the request the adapter already
+makes every run, so reading it again cost nothing new. A showtime object is
+`areaCategories, attributeIds, eventId, filmAdvanceBookingRuleId, filmId, id,
+isAllocatedSeating, isSoldOut, requires3dGlasses, restrictions, schedule, screenId,
+seatLayoutId, siteId`, and its `schedule` is `businessDate, endsAt, filmEndsAt,
+filmStartsAt, inSeatItemDelivery, startsAt`. Scanning the whole response -- showtimes and
+every `relatedData` collection -- for any key containing price, amount, cost, ticket, fee,
+tariff or currency returns **zero** matches, against 15 real showtimes.
+
+**The obvious ticket-type read paths are not there.** Per-showtime, per-site and a bare
+collection under the same API all answer 404. Not inventoried further than that, and the
+four attempts are the whole of it.
+
+**So the only route left is the seat-selection flow**, and that is where this stops. The
+access rule in CLAUDE.md is not "avoid booking endpoints if awkward": they are never
+called and never inventoried. A price that only exists once a visitor has started buying
+a ticket is inside that flow by definition. This is blocked by the repo's own rule rather
+than by difficulty, which is a better reason to stop than a technical one and needs
+writing down as such, because a future reader will otherwise re-probe it.
+
+**What is still open.** Finnkino publishes a visitor-facing price page -- ordinary
+content, not a booking endpoint -- and reading that would be within the rule. It would
+give per-cinema, per-ticket-type pricing rather than per-showtime, which is a weaker thing
+than the other chains publish and may not be worth rendering next to exact prices. Not
+probed; the entry stays open on that possibility alone.
+
+Request volume for the probe: one `/sites`, two programme reads and four 404s, plus a
+token fetch per run. Nothing was written to the repo -- the finding is this paragraph, and
+the raw responses were read and discarded.
 
 ### Seven backlog items closed without building them (2026-09-01)
 The backlog had run to 13 and several entries had been sitting there long enough to look
