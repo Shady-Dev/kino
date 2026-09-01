@@ -1446,15 +1446,44 @@
     if(tk) tk.innerHTML = tagKey(state.shows || []);
   }
 
-  // "12€" -> 12. Only Kinoset and Kino Akseli publish prices so far.
+  // Format the cheapest positive price, preserving a provider-supplied floor.
+  // --- priceLabel: pure, extracted verbatim by tests/price_label_harness.js ---
+  // parseFloat reads a leading number and nothing else, so a provider that publishes
+  // its own floor -- Cinema Orion writes "alkaen 10\u20ac" -- came back NaN, was filtered
+  // out as unpriced, and rendered no price at all. That was 23 of Orion's 29
+  // price-bearing showtimes on 2026-09-01, and the six that did show were the ones
+  // whose string happened to start with a digit.
+  //
+  // Two separate questions, and the old code only asked one. *What* the cheapest price
+  // is: the first number anywhere in the string, because no price string in the
+  // committed data carries a second one (checked across all 1043). And *whether* it is
+  // a floor: either this row list holds two different amounts, or a source string says
+  // so itself. The second test is on shape rather than on the word -- whatever is left
+  // once the number, the currency and the spacing are gone -- because the word is in
+  // the provider's language and there are three of those.
+  //
+  // The sign is inside the match on purpose. Leaving it out let "-5\u20ac" match as 5 and
+  // pass the `v > 0` guard the old code used it for, turning a rejected price into an
+  // accepted one; a test caught that, reading the diff did not.
   function priceLabel(rows){
-    const vals = rows.map(r => parseFloat(String(r.price || '').replace(',', '.')))
-      .filter(v => !isNaN(v) && v > 0);
+    let floor = false;
+    const vals = [];
+    for(const r of rows){
+      const raw = String(r.price || '').replace(',', '.');
+      const m = raw.match(/[-+]?\d+(?:\.\d+)?/);
+      if(!m) continue;
+      const v = parseFloat(m[0]);
+      if(isNaN(v) || v <= 0) continue;
+      if(/[^\d\s.,\u20ac$\u00a3]/.test(raw.replace(m[0], ''))) floor = true;
+      vals.push(v);
+    }
     if(!vals.length) return '';
     const lo = Math.min(...vals), hi = Math.max(...vals);
     const fmt = v => (Math.round(v * 100) % 100 === 0 ? String(Math.round(v)) : v.toFixed(2));
-    return lo === hi ? `${fmt(lo)}\u20ac` : `${L[state.lang].from} ${fmt(lo)}\u20ac`;
+    return (lo === hi && !floor) ? `${fmt(lo)}\u20ac`
+                                 : `${L[state.lang].from} ${fmt(lo)}\u20ac`;
   }
+  // --- end priceLabel ---
 
   const favBtn = $('#favBtn');
   // Nothing about a bare star says "this venue opens next time", so label it until the

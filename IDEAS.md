@@ -1984,8 +1984,11 @@ count failed the same way.
       first row.
 - [x] **Merged 2026-09-01 into the Pipeline entry.** "Prices alkaen" and "Finnkino
       prices via the ticket-types endpoint" were the same endpoint from two sides and
-      counted twice against the head. The client half needs nothing: it already renders
-      exact and "alkaen" prices for the chains that publish them.
+      counted twice against the head.
+- [x] **`alkaen` prices were parsed away, fixed 2026-09-01 (sw.js v95).** Found while
+      checking the claim that the client half was already finished, which it was not:
+      `priceLabel()` used parseFloat, so Cinema Orion's "alkaen 10€" was read as NaN and
+      rendered nothing -- 23 of its 29 price-bearing showtimes. See the entry below.
 - [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
       text-rendered icon is unsettled. Left open on purpose by the audit below.
       **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
@@ -3743,6 +3746,65 @@ configuration rather than browsing controls: you set them once and then read a l
 exists to stop spending permanent screen space on a control used about once a month. **Do not add a floating theme button**, a
 duplicate in the pinned strip, or any other replacement -- that reintroduces the cost
 this change removed, in a smaller and harder-to-notice form.
+
+### parseFloat only reads a leading number, so 23 of Orion's 29 prices vanished (2026-09-01, sw.js v95)
+Found by writing down a claim that was not true. An entry above said the client half of
+the price feature was finished; checking that before it was pushed turned up a live bug
+instead.
+
+`priceLabel()` read every price with `parseFloat(String(r.price).replace(',', '.'))`.
+parseFloat takes a number at the *start* of a string and stops caring after that, so a
+provider that publishes its own floor gets nothing: Cinema Orion writes **"alkaen 10€"**,
+which is NaN, which the next line filtered out as unpriced. Counted against the committed
+data:
+
+| Orion price string | rows | rendered before |
+|---|---:|---|
+| `alkaen 10€` | 22 | nothing |
+| `alkaen 12€` | 1 | nothing |
+| `10€` | 5 | `10€` |
+| `8.5€` | 1 | `8.50€` |
+
+**23 of 29.** No other provider was affected -- all 1014 of their price strings begin with
+the number -- which is why the cinema with the most interesting pricing was the one
+showing none of it.
+
+**Two questions had been collapsed into one.** What the cheapest price is, and whether to
+introduce it as a floor. The old code answered the second only with "this list holds two
+different amounts", which cannot see a source that has already said so itself. Now:
+
+- *The number* is the first one anywhere in the string. Safe today and checked rather
+  than assumed: no price string in the committed data carries a second number, across
+  all 1043 of them.
+- *The floor* is either two different amounts in the list, or anything left in the source
+  string once the number, the currency and the spacing are removed. Tested on shape
+  rather than on the word, because the word is in the provider's language and there are
+  three of those. `13 €` and `13&nbsp;€` stay exact; `alkaen 10€` does not.
+- *The prefix* comes from `L[state.lang].from`, so it reads alkaen, från or from.
+
+The sign stays inside the match, and that is not decoration. Pulling the number out of the
+middle of the string without it made `-5€` match as `5` and sail past the `v > 0` guard
+the old code had been relying on -- a rejected price turned into an accepted one. A test
+caught it; reading the diff had not.
+
+Verified live at 402px against Orion's own data: `alkaen 10€` renders where it used to
+render nothing, beside the exact `10€`. Eighteen tests through
+`tests/price_label_harness.js`, extracted verbatim the way `healthState` and `venueRows`
+are, with the three `from` translations read out of `index.html` rather than retyped so
+the localisation is checked against what ships. One of them asserts the three are actually
+different, because a harness that returned the same string three times would pass every
+localisation test in the file.
+
+The 23-of-29 count above is a dated measurement, not an invariant. Nothing asserts it:
+a test that read the committed data would tie `priceLabel()`'s correctness to what Cinema
+Orion happens to publish today, so an unrelated code push would go red the week they
+switch to plain numbers. The synthetic cases carry the regression on their own.
+
+Verified by breaking it seven ways: parseFloat over the whole string again (1 error), the
+floor marker never set (4 red), the floor marker set by any trailing character so every
+`13 €` gains a prefix (6), the sign dropped from the match (1), the floor computed and
+then ignored (4), the prefix hard-coded to Finnish (2), the zero-and-negative guard
+removed (1).
 
 ### Finnkino publishes no prices outside the booking flow (2026-09-01)
 Two backlog entries wanted this -- "prices alkaen" under App and "Finnkino prices via the
