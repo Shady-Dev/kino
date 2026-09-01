@@ -3824,6 +3824,44 @@ floor marker never set (4 red), the floor marker set by any trailing character s
 then ignored (4), the prefix hard-coded to Finnish (2), the zero-and-negative guard
 removed (1).
 
+### Listing data leaves four fifths of showtimes unpriced (2026-09-01)
+The committed data establishes the size of the gap, not what lies beyond it. Of 5,079
+showtimes, **1,043 carry a price on the listing we read and 4,030 do not.** Obtaining
+prices for the remainder would require another legitimate public source or crossing into
+the booking flow, which was not probed.
+
+| | |
+|---|---:|
+| showtimes with a price on the listing we read | **1,043 of 5,079** |
+| showtimes without | 4,030 |
+| providers publishing at least one listing price | 27 of 32 |
+| unpriced showtimes contributed by Finnkino | 2,333 |
+| unpriced showtimes contributed by BioRex | 1,364 |
+
+The provider count flatters it, and that is the correction worth keeping: 27 of 32 sounds
+like near-coverage and is not, because the two largest chains are among the five that
+publish nothing. A count of *providers* was the wrong denominator and had been quoted that
+way in conversation; showtimes are the honest one.
+
+An earlier draft of this entry went further and said cinemas do publish prices on the page
+the "buy tickets" button opens. That was not measured. Booking pages were deliberately not
+inspected, so nothing here can say what is or is not on them, and the claim is removed
+rather than softened.
+
+**The booking flow stays out of bounds and unprobed.** The rule is not conditional:
+"booking, payment and administrative endpoints are never called and are not inventoried".
+This app links visitors to those pages -- every showtime stub does, by design -- which is
+a different act from fetching them on a schedule. A second reason stands on its own even
+where the first did not apply: prices per showtime rather than per listing would mean
+roughly 4,000 extra fetches at the current cadence, mostly against the small ticketing
+platforms these cinemas share, and reading one listing per site is what this project's
+traffic claims are built on.
+
+What remains is the gap as measured and one avenue that has not been looked at: a
+visitor-facing price page, where a cinema publishes one, is ordinary content and *could*
+give per-ticket-type pricing rather than per-showtime. Whether any cinema has one, and
+what it would contain, is unknown here.
+
 ### Finnkino publishes no prices outside the booking flow (2026-09-01)
 Two backlog entries wanted this -- "prices alkaen" under App and "Finnkino prices via the
 ticket-types endpoint" under Pipeline -- and they were the same endpoint counted twice.
@@ -3858,11 +3896,11 @@ a ticket is inside that flow by definition. This is blocked by the repo's own ru
 than by difficulty, which is a better reason to stop than a technical one and needs
 writing down as such, because a future reader will otherwise re-probe it.
 
-**What is still open.** Finnkino publishes a visitor-facing price page -- ordinary
-content, not a booking endpoint -- and reading that would be within the rule. It would
-give per-cinema, per-ticket-type pricing rather than per-showtime, which is a weaker thing
-than the other chains publish and may not be worth rendering next to exact prices. Not
-probed; the entry stays open on that possibility alone.
+**What is still open.** If Finnkino publishes a visitor-facing price page, that would be
+ordinary content rather than a booking endpoint and reading it would be within the rule.
+It *could* give per-cinema, per-ticket-type pricing rather than per-showtime, which is a
+weaker thing than the chains with listing prices publish. Not probed, and not confirmed to
+exist; the entry stays open on that possibility alone.
 
 Request volume for the probe: one `/sites`, two programme reads and four 404s, plus a
 token fetch per run. Nothing was written to the repo -- the finding is this paragraph, and
