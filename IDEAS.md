@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 15 items still open, with the section that holds each one and its reasoning. Presence
+The 14 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status. Drop a
 line from this list when its item is ticked below.
 
@@ -24,7 +24,6 @@ line from this list when its item is ticked below.
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices via the ticket-types endpoint
-- Commit `run.log` only on failure, to cut commit noise
 - Refresh the TMDB rating on a trailer re-check, which currently reuses the cached one
 - README workflow badge
 - Credential hygiene and rotation — tracked in private notes outside this repo
@@ -1468,7 +1467,33 @@ Still open from this pass:
       `rating ===` comparison. Same bug class as the Vista "K-7 (4)" gotcha. Anything
       else now blanks; "coming soon" is premiere-chip material, not a rating.
 - [ ] Finnkino prices via the ticket-types endpoint (Kinoset + Akseli already show prices)
-- [ ] Commit run.log only on failure (less commit noise)
+- [x] **Commit run.log only on failure -- decided against 2026-09-01.** The premise does
+      not survive being measured, and the two things that would break are the failure
+      signal itself.
+      **The noise is not extra commits.** Across the last 300 commits, no routine run has
+      ever produced a commit made of run logs alone: the logs ride inside a data commit
+      that happens anyway (the only two log-only commits in that range are throwaway probe
+      notes). And it is already bounded by content -- an unchanged log is not committed,
+      so f4606c8 recorded 5 of the 9 cloud logs and e8458a70 recorded 4. What is left is
+      3-9 files and 10-81 changed lines sitting inside a commit that already rewrites
+      25-99 data files, about eight times a day.
+      **A green run that commits nothing leaves the last red log on `main` forever.**
+      Tripped rather than reasoned about: with `run-etiketti.log` at `exit=1` and
+      `run-nexxo.log` green, `check_runs.py` reports the failure on day one and reports
+      the identical failure on day two, because nothing overwrote it. That is exactly the
+      `run-vista.log` incident its docstring records. Deleting the log instead empties the
+      directory on an all-green day and the "no run logs" branch returns 1, which is the
+      same red for the opposite reason.
+      **And the green logs are the record.** README calls them authoritative and CLAUDE.md
+      routes every pipeline verification through them; a run that publishes half a venue's
+      showtimes exits 0, so the per-venue counts in a *successful* log are the only place a
+      soft regression is visible at all. Truncating a green log to its summary and `exit=`
+      lines would keep `check_runs` and the `logs.yml` trigger working, and would throw
+      away precisely that. Not worth 40 lines a run.
+      One thing the item got right and is worth writing down: the failure *signal* would
+      have survived, since a failing run still commits a log and still fires `logs.yml`.
+      The stale red is the part that kills it. Reopen only if run logs ever start forming
+      commits of their own.
 - [x] Finnkino no longer publishes an empty area file when a venue returns no shows: it
       keeps the previously committed one, matching `run.py`. A file is still written when
       none exists, because `areas.json` lists every site regardless of shows and the picker
