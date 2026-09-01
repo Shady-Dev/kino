@@ -3,13 +3,13 @@
 [kotkanleffat] Trio 123: 75 showtimes, 10 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 65 showtimes, 14 dates
-[savonkinot] synopses merged: 0
-[savonkinot] Tapio Joensuu: 21 showtimes, 3 dates
-[savonkinot] Killa Savonlinna: 3 showtimes, 3 dates
-[savonkinot] Kuvalinna Savonlinna: 3 showtimes, 3 dates
-[savonkinot] Kuvalipas Iisalmi: 6 showtimes, 3 dates
-[savonkinot] Maxim Varkaus: 9 showtimes, 3 dates
-[savonkinot] Kino-Hovi Kitee: 2 showtimes, 2 dates
+[savonkinot] synopses merged: 3
+[savonkinot] Tapio Joensuu: 86 showtimes, 10 dates
+[savonkinot] Killa Savonlinna: 11 showtimes, 9 dates
+[savonkinot] Kuvalinna Savonlinna: 12 showtimes, 9 dates
+[savonkinot] Kuvalipas Iisalmi: 20 showtimes, 10 dates
+[savonkinot] Maxim Varkaus: 33 showtimes, 11 dates
+[savonkinot] Kino-Hovi Kitee: 10 showtimes, 9 dates
 [kinopirtti] synopses merged: 0
 [kinopirtti] Kinopirtti: 101 showtimes, 12 dates
 [leffabuumi] synopses merged: 0
@@ -24,8 +24,8 @@
 [ihmekompleksi] Ihme Kompleksi: 18 showtimes, 8 dates
 [kino123] synopses merged: 0
 [kino123] Kino 123: 80 showtimes, 10 dates
-[kinotar] synopses merged: 0
-[kinotar] Kinotar 123: 12 showtimes, 6 dates
+[kinotar] synopses merged: 3
+[kinotar] Kinotar 123: 36 showtimes, 12 dates
 [kinojuha] synopses merged: 0
 [kinojuha] Kino Juha: 14 showtimes, 7 dates
 [biogrand] synopses merged: 0
@@ -33,11 +33,11 @@
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 28 showtimes, 10 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 36 showtimes, 10 dates
+[kinoiiris] Kino Iiris: 35 showtimes, 10 dates
 [kkino] synopses merged: 0
 [kkino] K-Kino: 7 showtimes, 5 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 7 dates
-[run] http: 0 revalidated (304), 210 full, 210 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 745 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 224 full, 224 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 24 venues, 896 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
