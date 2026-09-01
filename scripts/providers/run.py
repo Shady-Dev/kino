@@ -220,9 +220,10 @@ def run_site(mod, site, now):
 # 8 is twice the four vCPUs an ubuntu-latest runner has, which is the usual shape for a
 # pool that spends most of its time waiting and parses HTML in between. It caps bodies in
 # flight at 160 MB against the runner's 16 GB, covers Nexxo's six host groups outright,
-# and turns eTiketti's seventeen into three waves instead of seventeen sites in a row.
-# "As many as there are sites" was rejected as a default: it would raise the ceiling
-# every time a cinema is added, with nobody deciding to.
+# and takes eTiketti's cloud half -- 16 of its 17 sites, since Joutsan Kino is routed
+# local -- in two waves instead of sixteen sites in a row. "As many as there are sites"
+# was rejected as a default: it would raise the ceiling every time a cinema is added,
+# with nobody deciding to.
 #
 # KINO_MAX_HOSTS overrides it, in the style of KINO_PAGE_BUDGET and KINO_MAX_BODY. 1 is
 # the sequential path this replaced, and the tests use it to show that path still writes
@@ -250,8 +251,8 @@ def host_of(site):
 def host_groups(sites):
     """Sites grouped by the host they are read from. -> [[(index, site), ...], ...].
 
-    Groups in first-appearance order and members in SITES order, so the run's shape is
-    the same on every run rather than dictated by a dict's iteration.
+    Groups in the order their host is first seen and members in SITES order, so a run
+    reads the same way every time.
 
     This is the unit the pool works in, and the host is the key rather than the site
     because the data says so today, not hypothetically: kinoaurora.fi serves both

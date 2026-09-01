@@ -3704,7 +3704,8 @@ did not name.
 
 **The pool is keyed on the host.** Measured against the live `SITES` on 2026-09-01:
 eTiketti is 17 sites on 17 distinct hosts, 25 venues -- there a pool over sites and a pool
-over hosts are the same thing. Nexxo is 8 sites on **6** hosts, 13 venues, because
+over hosts are the same thing, and a *cloud* run reads 16 of them, since Joutsan Kino is
+routed local. Nexxo is 8 sites on **6** hosts, 13 venues, because
 kinoaurora.fi serves both kinoaurora and kinometso and kinohirvi.fi serves both kinohirvi
 and biosade. Keyed on the site, those two pairs would be read concurrently against one
 cinema's server at twice the rate their adapter paces for, which is the courtesy the whole
@@ -3761,8 +3762,8 @@ across all eight adapters the 57 venue ids and 31 provider ids are each unique, 
 **The pool is 8.** The number bounds this end and not any cinema: per-host load is the
 host grouping's job, and what a pool size bounds is open sockets and response bodies in
 flight, at most `MAX_HOSTS * MAX_BODY` = 160 MB against a runner's 16 GB. 8 is twice the
-four vCPUs an ubuntu-latest runner has, covers Nexxo's six groups outright and turns
-eTiketti's seventeen into three waves. "As many as there are sites" was rejected as a
+four vCPUs an ubuntu-latest runner has, covers Nexxo's six groups outright and takes
+eTiketti's 16 cloud sites in two waves. "As many as there are sites" was rejected as a
 default because it raises the ceiling every time a cinema is added, with nobody deciding
 to. `KINO_MAX_HOSTS` overrides it, in the style of `KINO_PAGE_BUDGET`, and 1 is the
 sequential path -- which a test uses to show that path still writes the same files and
@@ -3806,7 +3807,11 @@ mean anything. Nothing is cancelled on the normal path, where every group has ru
 time the drain ends.
 
 Not changed: `fetch_site` and its sleep, the workflow, and the site list. The local half
-runs the same `run.py`, so it picks this up on its next run with no wrapper edit.
+runs the same `run.py`, so it picks this up on its next run with no wrapper edit -- and
+nothing else: its three modules have one site each on that half, so they are one host
+group apiece and read exactly as they did, apart from the log order. Where this actually
+does anything is the cloud half, and there only for Nexxo (6 groups) and eTiketti (16);
+the other four cloud modules are a single site.
 
 ### Two cloud runs cannot both rebase their data (2026-08-31)
 A cloud run failed with `could not push after 3 attempts`, having fetched everything
