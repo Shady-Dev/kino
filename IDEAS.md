@@ -1421,8 +1421,14 @@ Still open from this pass:
       fetch_data.py already applied to Finnkino, for the reasons stated there. The file
       is still only written when at least one venue produced shows, so a fully dead site
       keeps its old `generated` and the health line can go stale honestly.
-- [ ] A whole site parsing zero showtimes fails the run (a single empty venue only
-      logs). Watch for a legitimately empty site tripping it.
+- [x] A whole site parsing zero showtimes fails the run (a single empty venue only
+      logs), and the legitimately empty site this told us to watch for did turn up. It
+      is handled rather than still being watched: `common.EmptyProgramme`, raised only on
+      positive evidence that the listing rendered its own empty state, is counted as
+      `empty` and not as a failure, and a listing that still lists films while the parse
+      yields nothing keeps failing. `tests/test_empty_programme.py` pins both halves.
+      This copy stayed unchecked after that landed, the same way the repertory-title item
+      below did.
 - [x] **Repertory titles defeat the TMDB search** -- superseded by the `clean()` entry
       above, which is the same item written twice. This copy stayed unchecked after the
       fix landed, so the backlog advertised work that was already done: "Trainspotting
@@ -1881,6 +1887,12 @@ count failed the same way.
 - [ ] Multi-cinema merged view (e.g. all Helsinki)
 - [ ] Favorites (starred float to top)
 - [ ] Prices "alkaen" probe (ticket-types endpoint)
+- [ ] The two accessibility findings the audit below left open on purpose: the favourite
+      star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a text-rendered icon is
+      unsettled, and 18 px title links, which clear 2.5.8's spacing exception by about a
+      pixel. They were named in the entry below and in the backlog head but carried no
+      marker of their own, so a count of the head against the tick marks came out one
+      short.
 - [x] **Light-mode polish + accessibility pass.** Audited against the served page on
       2026-09-01 in both themes, fi/sv/en, at 320/375/720/1440 px. Most of what this item
       stood for was already done and had never been written down: focus order and rings,
@@ -1952,8 +1964,12 @@ count failed the same way.
       nothing took the `keeping previous data` branch and was counted as neither live nor
       failed, and the provider file then stamped a fresh timestamp over all twelve.
       Fixed 2026-08-30; see "A provider is as fresh as its weakest venue" below.
-- [ ] The local half still only records it. `run-kinoakseli.log` gets `exit=1` and the run
-      continues by design (so Finnkino still publishes), but nothing actively flags it.
+- [x] The local half no longer only records it. `run-kinoakseli.log` still gets `exit=1`
+      and the run still continues by design, so Finnkino keeps publishing -- but the
+      commit is now the transport: `scripts/check_runs.py` reads every committed
+      `run*.log` and fails on a non-zero or missing `exit=`, and `.github/workflows/
+      logs.yml` runs it on any push that touches one. A local failure therefore turns a
+      workflow red without the wrapper being edited. Left unchecked after that landed.
 - [ ] Consider data branch to keep main history clean
 
 ## Documentation state (2026-09-01, ninth pass)
@@ -1966,6 +1982,10 @@ count failed the same way.
   venues: the accent rule binds in five cities now that Jyväskylä has a third chain,
   and the local half is four providers since Joutsan Kino joined it. Both are
   corrected where they are stated.
+  **The Nexxo correction reached the README's table and not its prose.** "`etiketti`
+  serves seventeen providers today and `nexxo` seven" survived the sweep three sections
+  further down and was found on 2026-09-01 by re-measuring the registry rather than by
+  re-reading. A count stated twice in one file needs looking for twice.
 - Eighth pass, 2026-08-31: the Nexxo sweep had made the README stale again -- it still
   said 25 providers / 64 venues / 45 cities and 147 sitemap URLs. Every figure was
   re-measured against `data/`, the registry and `sitemap.xml` before being written:
