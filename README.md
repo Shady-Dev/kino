@@ -116,7 +116,8 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 1. Write `scripts/providers/{name}.py` exposing two things:
 
-       SITES             [{provider, label, base, venues:[{id, name, short, city}]}]
+       SITES             [{provider, label, venues:[{id, name, short, city}],
+                          base (optional, see below)}]
        fetch_site(site)  -> {venue_id: [show, ...]}
 
 2. Add an entry to `scripts/providers/registry.py`: id, label, host, accent,
@@ -127,11 +128,17 @@ the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves seventeen
 providers today and `nexxo` eight.
 
-`base` is the host the adapter reads, and `run.py` paces on it: sites on
-different hosts are fetched at the same time, sites sharing a host one after the
-other. Two entries against the same server therefore have to name that server in
-`base`, or they would be read at twice the rate their adapter paces for. Where a
-visitor is sent can be a different host and belongs in `site`.
+`base` is the host the adapter reads, and it is optional: several single-site
+adapters keep their host inside `fetch_site` and work fine. What it buys is
+concurrency. `run.py` paces on `base`, reading sites on different hosts at the
+same time and sites sharing a host one after the other, and it cannot tell two
+unnamed hosts apart -- so every site in a module without a `base` is grouped
+together and read one at a time.
+
+A module with more than one site should therefore name the host it actually
+reads, or its sites gain nothing from the pool. Two entries against the *same*
+server must name it, or they would be read at twice the rate their adapter paces
+for. Where a visitor is sent can be a different host and belongs in `site`.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo
 or eTiketti needs a `SITES` entry against the existing adapter; `vista.py` keeps
