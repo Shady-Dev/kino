@@ -4860,6 +4860,80 @@ did not end `exit=0`. `.github/workflows/logs.yml` runs it on any push that touc
   different problem, and the external ping on `data/areas.json` age is still open. This
   answers "did the last run fail", not "did a run happen".
 
+### Savon Kinot names the venue inside its own room (2026-09-01)
+Joensuu showed **`TAPIO | TAPIO 4`** beside a venue label that already said Tapio, on the
+generated pages and in the app alike. Both print `aud` verbatim, and for the other sixteen
+eTiketti sites that is right -- `aud` is the room as printed on the ticket. Savon Kinot is
+the one that reports the venue and the room joined by a pipe, with the venue repeated in
+the room half.
+
+Measured before deciding anything: **127 of Savon Kinot's 157 showtimes carry a piped
+`aud`**, across 11 distinct values and six venues. Every one of the 11:
+
+| raw | venue | rendered |
+|---|---|---|
+| `TAPIO \| TAPIO 1..4` | Tapio Joensuu | `Sali Tapio 1..4` |
+| `MAXIM \| MAXIM 1..3` | Maxim Varkaus | `Sali Maxim 1..3` |
+| `KUVALIPAS \| KUVALIPAS` | Kuvalipas Iisalmi | *(empty)* |
+| `KUVALINNA` | Kuvalinna Savonlinna | *(empty)* |
+| `KILLA` | Killa Savonlinna | *(empty)* |
+| `KINO-HOVI` | Kino-Hovi Kitee | *(empty)* |
+
+**Empty for the single-screen houses is this family's own convention, not a decision taken
+here.** Eight other eTiketti cinemas already publish `aud` as `""` -- Bio Grand, Bio
+Grani, Bio Vuoksi, Ihme Kompleksi, Joutsan Kino, Kino Iiris, Kino Juha, K-Kino -- because
+a room that is only the venue again says nothing the venue label has not said. Killa,
+Kino-Hovi, Kuvalinna and Kuvalipas are all one screen, and three of them were already
+sending the bare venue name with no pipe at all.
+
+**The name stays with the number.** `Sali Tapio 4` rather than `Sali 4`, because a city
+page lists four cinemas and a bare "Sali 4" identifies none of them. The casing comes from
+the registry's `short`, so nothing in the parser has to decide how a Finnish name is
+capitalised.
+
+**Not a rule for eTiketti.** Leffabuumi pipes too -- `KINOLINNA | SALI 1`, 63 of its 78
+showtimes -- and means something else by it: the right half is a real room name and the
+left is which of its three buildings. Flattening that would leave rooms in different
+houses all called SALI 1. So the normaliser is opt-in per site, `aud_repeats_venue`, set
+on exactly one entry, and a test asserts the list of opted-in sites is exactly
+`["savonkinot"]`. Fixed at the parser rather than in `index.html` or `build_pages.py`:
+both consumers read the same field, and malformed presentation data should not reach
+either of them.
+
+An unrecognised room is returned unchanged rather than dropped, so a shape nobody
+anticipated arrives on the page looking odd instead of disappearing.
+
+**Operationally pending.** `run.py` takes a module, not a site, so refreshing Savon Kinot
+alone would mean fetching all seventeen eTiketti hosts -- not a narrow refresh, and it
+would fold sixteen providers' data churn into a parser fix. So no data was regenerated:
+the committed `data/area-sk-*.json` still holds `TAPIO | TAPIO 4`, and the live site keeps
+showing it until **the next cloud run replaces those files** -- `biorex.yml`, cron
+02:30/06:30/10:30/14:30 UTC plus one dispatched after each local run. The parser change is
+proved by 15 tests against the 11 real values; the data catching up is a scheduled event,
+not something this commit did.
+
+Verified by breaking it eight ways: the normaliser taken out of the emit (1 red), the flag
+taken off the site (2), the flag added to Leffabuumi as well (3), the single-screen room
+not emptied (1), the unpiped venue name not emptied (4), the number rewrite dropped (4),
+the prefix built from the raw hall instead of `short`, which reproduces `Sali TAPIO 4` (9),
+and an unrecognised room silently dropped (2).
+
+**And a trap found on the way, which is its own defect and is not fixed here.** Adding this
+test file with a plain `import etiketti` at the top turned three unrelated tests in
+`test_empty_programme.py` red. The cause: provider modules do `from common import
+EmptyProgramme`, which captures the class object at import time, and
+`tests/test_common_fetch.py` calls `importlib.reload(common)` to get fresh throttle
+counters -- which builds a *new* EmptyProgramme on the same module. A provider module
+imported before that reload keeps the old class, so `assertRaises(common.EmptyProgramme)`
+no longer catches what `fetch_site` raises, and `run.py`'s own handler stops recognising
+it either, which is the third failure: a genuinely empty programme exits 1 instead of 0.
+
+So the suite's result depends on **when a provider module is first imported**, and the
+next test file that imports one at module level will hit this again. Worked around here by
+importing inside a function, which is what the neighbouring test already does and is the
+reason the suite was green before. The real fix is at the reload boundary and belongs in
+its own change; this entry is where the next person finds out why.
+
 ### Savon Kinot left Vista for eTiketti (2026-08-30)
 The cloud run went `exit=1` on `vista`: `HTTP Error 404` from `www.savonkinot.fi`. Not a
 datacenter block and not a transient fault -- `/xml/TheatreAreas/`, `/xml/ScheduleDates/`

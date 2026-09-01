@@ -9,6 +9,7 @@ server-rendered and fetchable, so this parses the public pages:
 
 Adding another eTiketti cinema = an entry in SITES.
 """
+import re
 import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
 
@@ -39,7 +40,11 @@ SITES = [
     # localStorage and every /teatteri/ URL, so renaming them would wipe both.
     # Like Leffabuumi, this deployment prints the *town* as the place and the cinema in
     # the room field ("JOENSUU | TAPIO | TAPIO 3"); `match` runs against the two joined.
+    # Rooms arrive as `VENUE | VENUE n`, the venue repeated inside its own room name.
+    # The flag turns on normalise_aud for this site only; the other sixteen keep the
+    # room verbatim, and Leffabuumi's pipe means something else entirely.
     {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
+     "aud_repeats_venue": True,
      "venues": [
          {"id": "sk-tapio", "match": "tapio", "name": "Tapio Joensuu",
           "short": "Tapio", "city": "Joensuu"},
@@ -223,6 +228,54 @@ def _lang(page):
     return ", ".join(parts)
 
 
+def normalise_aud(raw, short):
+    """`VENUE | HALL` -> the hall alone, or "" when the hall is only the venue again.
+
+    Savon Kinot reports a room as the venue and the room joined by a pipe, and the room
+    half repeats the venue: `TAPIO | TAPIO 4`. Both the app and the generated pages print
+    `aud` verbatim -- correctly, because for every other eTiketti site it is already the
+    room as printed on the ticket -- so Joensuu showed "TAPIO | TAPIO 4" beside a venue
+    label that already said Tapio.
+
+    Three shapes, all of them in the committed data and all handled here:
+
+    - `TAPIO | TAPIO 4` -> `Sali Tapio 4`. The number is the room, and the name stays
+      with it because a bare "Sali 4" means nothing on a city page listing four cinemas.
+      The casing comes from the registry's `short`, so nothing here has to guess how a
+      Finnish name is capitalised.
+    - `KUVALIPAS | KUVALIPAS` -> `""`. One screen, and the hall half carries nothing the
+      venue label does not already say.
+    - `KILLA`, unpiped and equal to the venue -> `""`, the same case without the pipe.
+
+    Empty for a single-screen cinema is this provider family's own convention rather than
+    a choice made here: eight other eTiketti cinemas -- Bio Grand, Bio Grani, Bio Vuoksi,
+    Ihme Kompleksi, Joutsan Kino, Kino Iiris, Kino Juha and K-Kino -- already publish
+    `aud` as "".
+
+    Anything that matches none of those is returned unchanged. A room this does not
+    recognise should reach the page looking odd rather than be silently dropped, and
+    **this runs only for sites that opt in** with `aud_repeats_venue`. Leffabuumi also
+    pipes -- `KINOLINNA | SALI 1` -- and means something different by it: there the right
+    half is a real room name, not the venue again. A rule applied to every eTiketti site
+    would flatten that.
+    """
+    raw = (raw or "").strip()
+    if not raw:
+        return ""
+    parts = [x.strip() for x in raw.split("|")]
+    if len(parts) == 2:
+        left, hall = parts
+        if hall.casefold() == left.casefold():
+            return ""                                  # one screen, named twice
+        m = re.fullmatch(re.escape(left) + r"\s+(\d+)", hall, re.I)
+        if m:
+            return f"Sali {short} {m.group(1)}"
+        return hall                                    # a room name of its own
+    if len(parts) == 1 and parts[0].casefold() == (short or "").casefold():
+        return ""                                      # the venue name and nothing else
+    return raw
+
+
 def parse_movie(page, site, movie_url):
     """-> (list of raw screenings, film meta)."""
     h1 = H1_RE.search(page)
@@ -361,7 +414,10 @@ def fetch_site(site, sleep=1.2):
                 "genres": meta["genres"],
                 "method": "",
                 "theatre": venue["name"],
-                "aud": r["aud"],
+                # Verbatim for every site but the ones that repeat the venue inside the
+                # room; see normalise_aud.
+                "aud": (normalise_aud(r["aud"], venue["short"])
+                        if site.get("aud_repeats_venue") else r["aud"]),
                 "start": r["start"],
                 "url": r["url"],
                 "img": meta["img"],
