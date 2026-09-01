@@ -125,7 +125,7 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves seventeen
-providers today and `nexxo` seven.
+providers today and `nexxo` eight.
 
 `base` is the host the adapter reads, and `run.py` paces on it: sites on
 different hosts are fetched at the same time, sites sharing a host one after the
