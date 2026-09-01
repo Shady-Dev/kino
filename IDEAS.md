@@ -3858,18 +3858,27 @@ to. `KINO_MAX_HOSTS` overrides it, in the style of `KINO_PAGE_BUDGET`, and 1 is 
 sequential path -- which a test uses to show that path still writes the same files and
 prints the same summary line.
 
-**Measured on the first cloud run, 2026-09-01.** The "Fetch cloud providers" step, which
-runs all six cloud modules one after another, took **186 s** against **562, 565, 610 and
-626 s** on the four sequential runs before it -- about a third, and roughly 400 s back on
-a run. Step durations are job metadata from the Actions API, not the Actions logs; what
-the run *did* was read from the committed logs, per the rule.
+**One pooled run, 2026-09-01, and the sample is one.** The "Fetch cloud providers" step,
+which runs all six cloud modules one after another, completed in **186 s** against a
+**562 s median across eight sequential runs**: 3.0x faster, 376 s saved. Those eight span
+479-626 s, so the observed speed-up sits somewhere in **roughly 2.6-3.4x** depending on
+which sequential run it is measured against. That range is the honest figure until more
+pooled runs land; a single sample cannot separate the change from an ordinary good run,
+and the workloads are not controlled either -- the pooled run made 225 eTiketti requests
+against the previous run's 224.
 
-That is more than the entry above predicted, and the prediction was low for a reason worth
-keeping: it counted eTiketti's sleeping (185 requests at 1.2 s) and not the request latency
-underneath it, and the site list has grown since. The scaling was reproduced beforehand
-against 17 localhost servers at eTiketti's shape -- 17 hosts, 11 paced page fetches each,
-at a tenth of the real pacing: 24.16 s at `workers=1`, 7.11 s at 4, 4.29 s at 8, 1.47 s at
-17, with 187 requests made every time.
+Step durations are job metadata from the Actions API. That is not a reading of the Actions
+logs and does not touch the rule about committed logs, which is about what a run *did*:
+that half was read from `run-etiketti.log` and `run-nexxo.log` as always.
+
+Two things this measurement does **not** establish. It does not measure eTiketti's own
+duration -- the step covers all six modules, so "eTiketti went from 3.5 min to X" cannot
+be read off it, and the comparison against the prediction above is a comparison of
+inferred absolute savings, not of that one module's time. And the localhost benchmark run
+beforehand -- 17 servers at eTiketti's shape, a tenth of the real pacing, 24.16 s at
+`workers=1` against 4.29 s at 8 -- is directionally consistent with what production did
+and is not validation of it. It measured the arithmetic on loopback with no upstream in
+the path.
 
 The committed logs say the rest of it held. `run-etiketti.log` has 16 provider blocks in
 SITES order with no site's lines inside another's, and `run-nexxo.log` 8; the counters are
