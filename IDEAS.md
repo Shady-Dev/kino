@@ -3264,6 +3264,26 @@ mechanism -- one asserts the raised error is closed, one that the diagnostic hea
 survived it, and one records warnings around a three-attempt failure and forces a
 collection, because `closed` is only evidence for the thing that was actually wrong.
 
+### Checks needs the whole history, not the tip (2026-09-01)
+The first run of the workflow failed on four tests in `test_indexnow.py`, and none of them
+were wrong. `actions/checkout` fetches a single commit unless told otherwise, and those
+four ask git questions a one-commit repository cannot answer: `RealHistoryTest` diffs two
+named commits against their parents -- deliberately, so its fixtures cannot drift from
+what git actually recorded -- and two `PushRangeTest` cases assert the fallback to
+`HEAD^`, which does not resolve when HEAD is the only commit there is.
+
+Reproduced exactly by cloning this repo at `--depth 1` and running the suite in the clone:
+the same two errors and two failures, in the same four tests. At full depth, green with no
+skips and no warnings.
+
+`fetch-depth: 0`. The tests are right to read real history, so the checkout has to carry
+it. The cost was measured rather than assumed: a full clone is 22 MB against 15 MB
+shallow, because the mirrored posters dominate both and the extra 727 commits of history
+are almost free next to them.
+
+Worth keeping in mind for anything else added to this workflow: a runner's checkout is not
+the working copy this suite grew up in, and the depth is only the first way that shows.
+
 ### A failing check has to say what failed (2026-09-01)
 The first `Checks` run went red and left nothing to read. The only annotation on it was
 "Process completed with exit code 1": the two gates emit `::error::` lines, but a plain

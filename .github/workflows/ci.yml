@@ -50,7 +50,20 @@ jobs:
       # that cannot be moved under us. actions/checkout v7.0.1, resolved 2026-08-31, and
       # on node24 rather than the deprecated node20. The readable version stays in this
       # comment because a bare SHA says nothing about how far behind it is.
+      #
+      # fetch-depth: 0, because the suite tests this repo's real history. checkout
+      # defaults to a single commit, and four tests in test_indexnow.py need more than
+      # that: RealHistoryTest diffs two named commits against their parents so the
+      # fixtures cannot drift from what git recorded, and two PushRangeTest cases assert
+      # the fallback to HEAD^, which does not resolve when HEAD is the only commit there
+      # is. That is what turned the first run of this workflow red -- not a code fault,
+      # a checkout that could not answer the questions the tests ask.
+      #
+      # The cost is small and was measured rather than assumed: a full clone of this repo
+      # is 22 MB against 15 MB shallow, because the mirrored posters dominate both.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
 
       # Cheapest first, and the one with no dependencies at all.
       - name: The client's JavaScript parses
