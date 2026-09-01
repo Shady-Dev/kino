@@ -10,6 +10,10 @@ probe-*.html
 __pycache__/
 *.pyc
 .DS_Store
+# Written into every worktree by the agent tooling, not by this project. Untracked it
+# shows up as a pending change in all ten of them and gets offered as a pull request;
+# tracked it would be a public file this repo does not author and cannot keep accurate.
+AGENTS.md
 
 # Atomic-write staging files (common.write_json), in case a run dies between write and replace
 *.tmp
