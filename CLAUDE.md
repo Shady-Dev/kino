@@ -27,6 +27,35 @@ Write down why a change was made. The diff already records what changed.
   device" and "no third-party requests" while the page loaded a webfont from Google and
   hot-linked posters from seven other hosts. Documentation has to be factually accurate.
 
+## Agent execution
+
+- Before starting, briefly state what you will verify or change. During long work,
+  give short evidence-based updates. The final report must stand on its own.
+- Complete all reversible, in-scope work authorized by the request. Do not end a
+  turn after merely announcing the next step or ask permission for work already
+  requested.
+- Stop for destructive actions, unauthorized external side effects, or a product
+  decision whose alternatives would materially change the result.
+- An explicit approval gate overrides autonomy. If the user says "design first"
+  or asks to review a plan before implementation, stop at that gate.
+- The request or approved plan defines the scope. Do not silently add nearby
+  fixes, refactors, optimizations, documentation, or speculative tests. Report
+  unrelated findings as follow-ups.
+- Prefer surgical edits over whole-file rewrites when they produce the same
+  result and preserve surrounding work.
+- Batch independent reads and checks. Run dependent operations only after their
+  prerequisites are known.
+- Re-measure repository and external state before relying on remembered counts,
+  commits, workflow results, schedules, or generated data.
+- Scratch checks do not need to become permanent tests. Commit focused tests at
+  the same granularity as neighboring tests and only for requested behavior.
+- Write directly and literally. Avoid mannered prose, decorative metaphors, and
+  claims stronger than the evidence. Use headings and lists when they improve
+  clarity.
+- In handovers or compacted summaries, preserve exact user decisions,
+  constraints, rejected approaches and reasons, paths, counts, dates, commit
+  IDs, current state, and remaining work.
+
 ## Client changes (`index.html`, `sw.js`)
 
 - Bump the `CACHE` version in `sw.js` in **every** commit that touches `index.html`.
