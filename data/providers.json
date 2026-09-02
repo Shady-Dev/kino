@@ -223,6 +223,13 @@
    "host": "kinoaurora.fi",
    "accent": "#227D63",
    "book": "reserve"
+  },
+  {
+   "id": "niagara",
+   "label": "Cinema Niagara",
+   "host": "cinemaniagara.fi",
+   "accent": "#6A4FBF",
+   "book": "buy"
   }
  ]
 }

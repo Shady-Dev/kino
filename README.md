@@ -6,12 +6,13 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 74 venues in 52 cities across 32 providers: Finnkino, BioRex,
+Showtimes for 74 venues in 52 cities across 33 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
-Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino and Kino Metso. Films
+Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso and
+Cinema Niagara. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page.
@@ -212,7 +213,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas — the 32 providers listed at the
+Schedule data belongs to the respective cinemas — the 33 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.
