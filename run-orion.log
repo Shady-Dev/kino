@@ -1,5 +1,5 @@
 [orion] synopses merged: 0
-[orion] Cinema Orion: 29 showtimes, 12 dates
-[run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] orion: 1 venues, 29 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[orion] Cinema Orion: 27 showtimes, 11 dates
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] orion: 1 venues, 27 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
