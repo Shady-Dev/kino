@@ -3383,10 +3383,11 @@ a subline (`Joensuu · savonkinot.fi`, or `12 teatteria`); a two-sentence intro;
 sticky day headings; a film per row with the app's poster sizes (72×104 below 560 px,
 92×132 above), rating chip, credited TMDB score, runtime and genres, the synopsis once per
 page; ticket-shaped showtimes; on a city page a chain legend after the CTA and the venue
-links as 44 px chips at the foot. The tokens are the app's for both themes, chosen by
-`prefers-color-scheme`, and the typeface is the same two self-hosted Archivo files -- one
-same-origin request, so the README's privacy claim holds as written. The docstring's old
-"no webfont" line was about Google Fonts and is rewritten.
+links as 44 px chips at the foot. The tokens are the app's for both themes -- see "The
+landing pages follow the app's theme" below for how the theme is chosen -- and the
+typeface is the same two self-hosted Archivo files -- one same-origin request, so the
+README's privacy claim holds as written. The docstring's old "no webfont" line was about
+Google Fonts and is rewritten.
 
 **The CTA carries both halves of the deep link.** `/?area={id}&lang={fi|en}` -- the
 language half is the entry above. The label is `Avaa koko ohjelmisto` and `See the full
@@ -3532,6 +3533,58 @@ unknown code silently dropped (1), the current language rendered as a link (168)
 `aria-current` (168), the SV link losing the area (168), the SV link gaining `hreflang`
 (168), a Swedish `hreflang` in `<head>` (168), and the selector in the order EN SV FI
 (168). All red.
+
+### The landing pages follow the app's theme (2026-09-02)
+The redesign shipped with the theme chosen by `prefers-color-scheme` alone, on the
+reasoning that the pages carry no JavaScript and the app's toggle lives in
+`localStorage`. Reproduced the same day on the live site: `kino-theme` set to light in the
+app, OS dark, open `/kaupunki/helsinki/` -- dark, on the same origin, beside an app the
+reader had just set light. That is not a stylistic preference, it is two pages
+disagreeing about a choice the reader made, so the "no JavaScript" line gives way to "no
+JavaScript that renders content".
+
+Two constants in `build_pages.py`, both the app's own behaviour rather than a new one:
+
+- **`THEME_HEAD_JS`, in `<head>` before the stylesheet**, reads `kino-theme` inside the
+  same try/catch the app's `store` uses, applies a stored `dark` or `light`, and otherwise
+  asks `matchMedia` -- the app's `applyTheme(store.k || matchMedia(...))` in one
+  expression. It sets `data-theme` on `<html>` before first paint, so there is no flash.
+  One narrowing: a stored value the app never writes is treated as absent rather than
+  applied, since an attribute value is a CSS selector here.
+- **`THEME_BODY_JS`, at the end of `<body>`**, is the app's toggle handler: flip the
+  attribute, write the same key, and repaint `theme-color` from the applied `--bg` so a
+  translucent status bar draws its clock in the right colour. The no-script page carries
+  one `theme-color` per scheme; the script rewrites both.
+
+The stylesheet holds the dark tokens twice, once under `:root[data-theme=dark]` and once
+under `@media (prefers-color-scheme: dark)` for `:root:not([data-theme=light])`, so a
+stored choice wins in both directions and a page with no script still follows the OS.
+`html:not([data-theme]) #themeToggle{display:none}` hides the button when the script did
+not run: a control that cannot act is worse than none.
+
+The toggle is the app's 44 px circle -- 44 rather than the app's 38, the touch floor the
+rest of the page keeps -- and the header's vertical padding dropped from 12 to 8 px so the
+bar stays about the app's height. Measured at 320 px with the logo, the three 44 px
+selector segments and the toggle in one row: wordmark 92 px, segments 120 to 254, toggle
+262 to 306, which is the content edge exactly, bar 63 px, no overflow -- after the
+wordmark dropped to .6rem below 360 px, because at .66rem the row measured 297 px in 292
+and the toggle sat 5 px into the margin. The segments and the toggle are floors; the
+wordmark is the one thing in that row allowed to give.
+
+Tests read every generated page: the head script present, before `<style>`, reading the
+key with the two-value guard; both token blocks and the hidden-without-script rule in the
+stylesheet; the toggle with its localised accessible name; the body script writing the
+same key; no script on any page containing `innerHTML`, `document.write`,
+`createElement`, `appendChild`, `fetch(` or `textContent`; and both scripts passing
+`node --check`, the same check the app's inline block gets. Verified by breaking it ten
+ways, each red: the head script dropped (168), moved after the stylesheet (168), applying
+any stored value (168), not reading the key (168), the toggle not persisting (336), dark
+tokens only from the OS (168), the toggle shown without the script (168), its name
+unlocalised (168), a script writing `innerHTML` (168), and a syntax error in the head
+script (1). Checked live on the served pages, OS dark throughout: nothing stored opens
+dark; stored light opens light with both `theme-color` metas at `#F6F7F9`; the landing
+toggle turns the page dark and stores `dark`; the app then opens dark; the app's toggle
+back to light carries to the city page.
 
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading

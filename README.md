@@ -182,8 +182,10 @@ Since 2026-09-02 the pages share the app's look: its wordmark, its typeface
 dark tokens following the OS, its FI · SV · EN selector, and ticket-shaped
 showtimes. A theatre page shows time, room and the languages in words; a city
 page adds the cinema and a colour rule per chain. Swedish has no static page
-yet, so its selector entry opens the app on the same area in Swedish. No
-JavaScript, and nothing volatile, so a page is rewritten only when its
+yet, so its selector entry opens the app on the same area in Swedish. The theme
+toggle reads and writes the same `kino-theme` key as the app, so a choice made
+on either side carries to the other; that is the only script on the page, and
+it renders nothing. Nothing volatile, so a page is rewritten only when its
 showtimes change.
 
 ## Privacy

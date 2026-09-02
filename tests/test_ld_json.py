@@ -58,14 +58,16 @@ class LdJsonEscapingTest(unittest.TestCase):
 
     def test_page_has_exactly_one_script_closer(self):
         """The whole-document property the escaping exists for: the only "</script>"
-        is the one page() writes itself."""
+        closers are the ones page() writes itself -- one per script element it emits,
+        the JSON-LD block and the two theme scripts -- and the hostile title adds none."""
         html = bp.page(
             lang="fi", path_fi="/teatteri/x/", path_en="/en/theatre/x/",
             title="X", desc="d", h1="h", sub="s", intro="i",
             days=days_with(HOSTILE), today=TODAY, t=bp.L["fi"], extra={},
             gmap={}, city="Helsinki", with_venue=False, legend="", also="",
             og_image="/icon-512.png", app_href="/", area="x", chain_css="")
-        self.assertEqual(html.lower().count("</script>"), 1)
+        self.assertEqual(html.lower().count("</script>"), html.lower().count("<script"))
+        self.assertEqual(html.lower().count("</script>"), 3)
 
 
 if __name__ == "__main__":

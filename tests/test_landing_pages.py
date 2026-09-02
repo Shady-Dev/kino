@@ -19,6 +19,8 @@ What they pin is the requested behaviour and nothing that merely mirrors the moc
 - the language codes render as words, from a table identical to the client's, and no
   raw code is left on any page built from the committed data;
 - the FI · SV · EN selector marks the page's language and links the other two;
+- the theme is the app's: the stored `kino-theme` wins before first paint, the OS decides
+  otherwise, the toggle writes the same key, and no script renders content;
 - regeneration is deterministic and nothing volatile reaches a page.
 """
 import contextlib
@@ -29,6 +31,7 @@ import pathlib
 import random
 import re
 import shutil
+import subprocess
 import tempfile
 import unittest
 from datetime import date
@@ -381,7 +384,74 @@ class GeneratedPagesTest(unittest.TestCase):
             with self.subTest(path=k):
                 for st in stamps:
                     self.assertNotIn(st, text)
-                self.assertNotIn("<script", text.split("</head>")[1])
+                body_scripts = re.findall(r"<script>(.*?)</script>", text.split("</head>")[1], re.S)
+                if k in self.redirects:
+                    self.assertEqual(body_scripts, [])
+                else:
+                    self.assertEqual(len(body_scripts), 1)
+                    self.assertIn("kino-theme", body_scripts[0])
+
+    # -- the theme ---------------------------------------------------------------------------
+
+    def test_the_theme_is_read_before_first_paint_from_the_apps_key(self):
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                head = text.split("</head>")[0]
+                scripts = re.findall(r"<script>(.*?)</script>", head, re.S)
+                self.assertEqual(len(scripts), 1)
+                js = scripts[0]
+                self.assertIn("localStorage.getItem('kino-theme')", js)
+                self.assertIn("prefers-color-scheme: dark", js)
+                self.assertIn("setAttribute('data-theme'", js)
+                # a stored value the app never writes is treated as absent, not applied
+                self.assertIn("k==='dark'||k==='light'", js)
+                self.assertLess(head.index("<script>"), head.index("<style>"))
+
+    def test_the_stylesheet_honours_the_stored_theme_and_falls_back_to_the_os(self):
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                css = re.search(r"<style>(.*?)</style>", text, re.S).group(1)
+                self.assertIn(":root[data-theme=dark]{--bg:#0D0E12", css)
+                self.assertIn("@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D0E12", css)
+                self.assertIn("html:not([data-theme]) #themeToggle{display:none}", css)
+
+    def test_the_toggle_is_the_apps_button_with_a_localised_name(self):
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                m = re.search(r'<button id="themeToggle" type="button" title="([^"]+)" aria-label="([^"]+)">', text)
+                self.assertIsNotNone(m)
+                if k.startswith("/en/"):
+                    self.assertEqual(m.group(2), "Switch between light and dark theme")
+                else:
+                    self.assertEqual(m.group(2), "Vaihda vaalean ja tumman teeman välillä")
+                body_js = re.findall(r"<script>(.*?)</script>", text.split("</head>")[1], re.S)[0]
+                self.assertIn("localStorage.setItem('kino-theme',next)", body_js)
+                self.assertIn("theme-color", body_js)
+
+    def test_no_script_renders_content(self):
+        """The rule the pages keep: what the crawler reads is what the visitor reads. The
+        two scripts touch an attribute, a meta and a button, nothing else."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                for js in re.findall(r"<script>(.*?)</script>", text, re.S):
+                    for banned in ("innerHTML", "document.write", "createElement",
+                                   "appendChild", "fetch(", "textContent"):
+                        self.assertNotIn(banned, js)
+
+    @unittest.skipIf(shutil.which("node") is None, "node not installed")
+    def test_the_inline_scripts_parse(self):
+        """The same check `scripts/check_inline_js.py` gives the app, against one page of
+        each family; the scripts are constants, so one page each is every page."""
+        for prefix in ("/teatteri/", "/kaupunki/", "/en/theatre/", "/en/city/"):
+            k = next(p for p in self.canonical if p.startswith(prefix))
+            for js in re.findall(r"<script>(.*?)</script>", self.canonical[k], re.S):
+                with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:
+                    f.write(js); name = f.name
+                try:
+                    r = subprocess.run(["node", "--check", name], capture_output=True, text=True)
+                finally:
+                    pathlib.Path(name).unlink()
+                self.assertEqual(r.returncode, 0, (k, r.stderr))
 
 
 class StubShapeTest(unittest.TestCase):

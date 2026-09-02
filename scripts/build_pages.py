@@ -23,9 +23,13 @@ Deliberate constraints:
   are rendered; a poster hot-linked from a cinema CDN is skipped rather than made to leak
   a visitor's IP on a page they arrived at from Google. See the Privacy section of the
   README.
-- **No JavaScript.** The page is what the crawler sees and what the visitor sees. The
-  theme follows the OS through `prefers-color-scheme`, because the app's saved toggle
-  lives in localStorage and nothing here may read it.
+- **No JavaScript that renders content.** The page is what the crawler sees and what the
+  visitor sees. The one script is the theme: the app stores its toggle in
+  `localStorage["kino-theme"]`, and a landing page that ignored it opened dark beside a
+  light app on the same origin. Before first paint the page reads that key exactly as
+  the app does and sets `data-theme`; without it the theme follows the OS. The toggle
+  button writes the same key, so a choice made on either page carries to the other, and
+  it is hidden when the script did not run.
 - **The showtime label is the requested shape and nothing more**: time, then on a city
   page the cinema, then the room verbatim, then the languages in words. Empty parts
   vanish. The language words are the one client rule ported here (`lang_parts`, the
@@ -131,6 +135,7 @@ L = {
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys {}", "lang_nav": "Kieli",
+        "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
         "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
                    "kuvaukset: TMDB. Henkil\u00f6kohtainen harrastusprojekti, ei "
                    "sidoksissa teattereihin.",
@@ -165,6 +170,7 @@ L = {
         "venues_h": "Cinemas \u2013 {city}",
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "lang_nav": "Language",
+        "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
         "contact": "For cinemas: enquiries and removal requests",
@@ -241,22 +247,55 @@ def lang_parts(codes, lang):
     return out
 
 
-# The app's own tokens, both themes, selected by the OS. Same Archivo files, same two
-# unicode-range subsets, absolute paths because the pages live in subdirectories. The
-# synopsis is clamped to three lines on a phone by CSS alone: the full text stays in the
-# markup, so the crawler and the visitor read the same document.
+# The theme, before first paint. The same key and the same fallback as the app's
+# `store`/`applyTheme`: a stored "dark" or "light" wins, otherwise the OS decides. Any
+# other stored value is treated as absent rather than applied. Without this script the
+# attribute is never set, the CSS falls back to `prefers-color-scheme`, and the toggle
+# stays hidden, so a reader without JavaScript loses nothing they could use.
+THEME_HEAD_JS = (
+    "(function(){var k=null;try{k=localStorage.getItem('kino-theme')}catch(e){}"
+    "var t=(k==='dark'||k==='light')?k:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');"
+    "document.documentElement.setAttribute('data-theme',t)})();"
+)
+# The toggle: the app's own handler, and theme-color follows the applied --bg so a
+# translucent status bar draws the clock in the right colour. Both metas are rewritten
+# because the no-script page carries one per scheme.
+THEME_BODY_JS = (
+    "(function(){var b=document.getElementById('themeToggle');if(!b)return;"
+    "function paint(){var c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()||'#0D0E12';"
+    "var m=document.querySelectorAll('meta[name=\\'theme-color\\']');"
+    "for(var i=0;i<m.length;i++){m[i].removeAttribute('media');m[i].setAttribute('content',c)}}"
+    "paint();"
+    "b.onclick=function(){var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';"
+    "document.documentElement.setAttribute('data-theme',next);"
+    "try{localStorage.setItem('kino-theme',next)}catch(e){}paint()}})();"
+)
+
+# The app's own tokens, both themes: a stored choice through `data-theme` first, the OS
+# through `prefers-color-scheme` otherwise. Same Archivo files, same two unicode-range
+# subsets, absolute paths because the pages live in subdirectories. The synopsis is
+# clamped to three lines on a phone by CSS alone: the full text stays in the markup, so
+# the crawler and the visitor read the same document.
 CSS = """
 @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Archivo';font-style:normal;font-weight:100 900;font-stretch:62% 125%;font-display:swap;src:url(/fonts/archivo-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{--bg:#F6F7F9;--surface:#FFFFFF;--ink:#16181D;--muted:#5C6470;--line:#E3E6EB;--accent:#B8860B;--accent-text:#8A6508;--chip-bg:#FFFFFF;--shadow:0 1px 3px rgba(22,24,29,.06)}
-@media(prefers-color-scheme:dark){:root{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#8B93A1;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
+:root[data-theme=dark]{--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#8B93A1;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0D0E12;--surface:#16181F;--ink:#EDEDEA;--muted:#8B93A1;--line:#262A33;--accent:#E8B84B;--accent-text:#E8B84B;--chip-bg:#1C1F28;--shadow:0 1px 3px rgba(0,0,0,.4)}}
 *{box-sizing:border-box;margin:0;padding:0}
 html{color-scheme:light dark}
+html[data-theme=dark]{color-scheme:dark}
+html[data-theme=light]{color-scheme:light}
 body{font:16px/1.5 'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 a{color:inherit}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .wrap{max-width:52rem;margin:0 auto;padding:0 20px 32px}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.bar .logo{margin-right:auto}
+#themeToggle{border:1px solid var(--line);background:var(--surface);color:var(--ink);flex:0 0 44px;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center;transition:border-color .15s,transform .15s}
+#themeToggle:hover{border-color:var(--accent);transform:rotate(15deg)}
+#themeToggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html:not([data-theme]) #themeToggle{display:none}
 .logo{font-stretch:125%;font-weight:900;letter-spacing:.16em;text-transform:uppercase;font-size:1.05rem;text-decoration:none;white-space:nowrap}
 .logo span{color:var(--accent)}
 .langseg{display:flex;flex:0 0 auto;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
@@ -269,7 +308,8 @@ h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin
 .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:48px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:1rem;font-weight:800;line-height:1.3;white-space:nowrap;box-shadow:var(--shadow)}
 .cta .arr{flex:0 0 auto}
 .cta:hover{background:var(--accent-text);color:#fff}
-@media(prefers-color-scheme:dark){.cta:hover{background:var(--accent);color:var(--bg)}}
+:root[data-theme=dark] .cta:hover{background:var(--accent);color:var(--bg)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .cta:hover{background:var(--accent);color:var(--bg)}}
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:14px 0 0;font-size:.72rem;color:var(--muted)}
 .legend .lg{padding-left:8px;border-left:3px solid var(--chain,var(--line))}
 h2.day{position:sticky;top:0;z-index:1;background:var(--bg);font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;border-bottom:1px solid var(--line)}
@@ -305,7 +345,7 @@ footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:v
 footer a{color:inherit}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
 @media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.film{gap:14px;padding:14px 0}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
-@media(max-width:360px){.logo{font-size:.66rem;letter-spacing:.04em}}
+@media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 """.strip()
 
@@ -636,6 +676,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F7F9">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0E12">
+<script>{THEME_HEAD_JS}</script>
 <link rel="canonical" href="{SITE}{self_path}">
 <link rel="alternate" hreflang="fi" href="{SITE}{path_fi}">
 <link rel="alternate" hreflang="en" href="{SITE}{path_en}">
@@ -655,7 +696,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 </head>
 <body>
 <div class="wrap">
-<header class="bar"><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}</header>
+<header class="bar"><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></header>
 <main>
 <h1>{esc(h1)}</h1>
 <p class="sub">{esc(sub)}</p>
@@ -667,6 +708,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 </main>
 <footer><div>{esc(t['sources'])}</div><div>{esc(t['contact'])} \u00b7 <a href="mailto:{CONTACT}">{CONTACT}</a></div><div>{esc(t['source'])}: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> \u00b7 AGPL-3.0</div></footer>
 </div>
+<script>{THEME_BODY_JS}</script>
 </body>
 </html>
 """
