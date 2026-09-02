@@ -2020,10 +2020,11 @@ count failed the same way.
       A possible answer: below an evidence-based narrow breakpoint, place the list across
       the full film width after the synopsis. Structural, so it is its own change, and it
       has to be measured on representative films with and without a synopsis, since the
-      list's starting height differs between the two. The same change is the place to
-      give the repeated screening metadata an intentional two-level hierarchy -- cinema
-      and room on the first line, spoken language and subtitles smaller and lighter on a
-      second -- rather than the single ` · `-joined run the stubs carry today.
+      list's starting height differs between the two. The two-level hierarchy this item
+      first proposed -- cinema and room, then language -- arrived another way the same
+      day: language now sits on the card when every screening shares it, and a city
+      stub stacks time over cinema and room like the app's combined view, so what is
+      left here is the full-width list itself.
 - [ ] **Landing pages: the city cinema links read as a legend.** Recorded 2026-09-02, not
       built. The coloured cinema names under a city page's CTA are links to the theatre
       pages and look like a passive colour key. A possible answer is a restrained link
@@ -3407,7 +3408,9 @@ subtitles` -- and the chain-prefixed cinema first on a city page, joined with ` 
 parts dropped. The room is the adapter's value verbatim, so Savon Kinot's normalised
 `Sali Tapio 4` shows as such and Leffabuumi's `KINOLINNA | SALI 1` keeps its pipe; the
 renderer splits nothing. The cinema is the chain-prefixed label, the app's own rule,
-because "Tripla" and "Kallio" name nothing on their own.
+because "Tripla" and "Kallio" name nothing on their own. Superseded the same day by "The
+card is the app's card" below: language and price moved onto the card when every
+screening shares them, and the city stubs stack the way the app's combined view does.
 
 **The language codes become words, and that is the one client rule ported.** `FI-S, SV-S`
 is the pipeline's storage format and the first version printed it; a reader has no reason
@@ -3492,8 +3495,9 @@ theme pinned, because that Chrome follows the OS appearance and refuses windows 
 about 500 px; the numbers above come from the emulated browser reading the untouched
 pages.
 
-**Cost.** The 172 generated files went from 5.15 MB to 7.60 MB in total, Helsinki fi
-from 260 kB to 350 kB, Tapio fi from 29 kB to 42 kB -- the spans around each label part,
+**Cost.** The 172 generated files went from 5.15 MB to 8.32 MB in total, Helsinki fi
+from 260 kB to 351 kB, Tapio fi from 29 kB to 48 kB (measured after the card entry below;
+the ring markup and the theme scripts are the growth since the first version) -- the spans around each label part,
 the language words being longer than their codes, and the inline CSS. `write_if_changed` holds: a second run writes
 0 files, and the drift check in `Checks` stays green.
 
@@ -3585,6 +3589,67 @@ script (1). Checked live on the served pages, OS dark throughout: nothing stored
 dark; stored light opens light with both `theme-color` metas at `#F6F7F9`; the landing
 toggle turns the page dark and stores `dark`; the app then opens dark; the app's toggle
 back to light carries to the city page.
+
+### The card is the app's card (2026-09-02)
+Compared side by side at 402 px after the redesign shipped, the landing page and the app
+shared their materials -- typeface, sizes, tokens, chip shapes, poster -- and assembled
+them differently: a text star for the score ring, language words on every stub where the
+app folds them onto the card, side-by-side stubs where the combined view stacks them,
+tighter card padding. The app is the blueprint, so the differences that were choices went.
+
+- **Film facts fold first-non-empty across the day's screenings** (`first()`), the app's
+  own rule: rating, runtime, genres, score, votes, poster. Never the first screening
+  alone -- a chain that publishes no rating must not blank the card when another did.
+- **Language and price sit on the card once when every screening shares them**, and on
+  the screening when they differ. `lang_parts` was already the app's `langTxt`;
+  `price_label` is now its `priceLabel`, and the test runs the client's own harness cases
+  (`tests/price_label_harness.js`) through both and asserts the same answers, so the port
+  cannot drift. Differing prices give the card the app's "alkaen 10€" floor and each
+  screening its own amount; differing languages give the card nothing it cannot say for
+  all of them. The eighteen-fold "englanti · tekstitys suomi/ruotsi" under one film is
+  gone.
+- **The score is the app's ring**, the same markup and CSS, with `role="img"` and the
+  label "TMDB 7.1/10 · 41 ääntä" so it reads as one thing; `thin` under 25 votes as in
+  the app. No `aggregateRating` in the JSON-LD, as before.
+- **Stubs follow the view they are in.** The app's single-venue view is a row of ticket
+  stubs, its combined view a grid of stacked ones (`.stubs.grid`, 168 px columns, 140
+  below 520). A theatre page is the first, a city page the second, with the app's own
+  paddings and the perforation dropped on the stacked form as the app drops it. The 44 px
+  floor stays on both.
+- **Card spacing is the app's**: 20 px between films, 18 px poster gap, meta rows at 7 and
+  5 px, meta2 as the app's wrapped spans in its order -- genres, runtime, language,
+  price.
+
+One more thing the comparison found and fixed here: the page sets `line-height: 1.5` on
+`body` and the app does not, so a stacked stub measured 54 px against the app's 46. The
+stub's time and place lines are 1.2 now.
+
+Measured on the generated pages after the change, no horizontal overflow and no clipped
+label part at any width:
+
+| width | page | stubs | columns | notes |
+|---|---|---|---|---|
+| 320 | Helsinki | 48.5 to 76.1 stacked, 202 wide | 1 | header 63, segments 44, toggle 44 |
+| 402 | Helsinki | 48.5 to 62.3 stacked, 284 wide | 1 | the app shows one per row here too |
+| 402 | Tapio | 44, row stubs 147 wide | wrap | `16:00 │ Sali Tapio 4` |
+| 1200 | Helsinki | 48.5 to 62.3 stacked, 222 wide | 3 | poster 92×132 |
+| 1200 | Tapio | 44, 147 wide | wrap | |
+
+The card change made the Helsinki page taller, 40 190 px at 402 against 33 251 before
+it: a stacked stub is one per row where the old row stub was one per row as well but
+shorter. That is the app's own trade in its combined view, and the page-length problem is
+the open backlog item about the city page, not this one. Tapio at 402 is 8 657 px.
+
+Not ported, still: the app's `stubTags` fold for format tags (IMAX, Anniskelu), the
+premiere chip, glyphs and the age chip. Those are the next step if the card is to be the
+app's to the last detail; each is small and each is a further client rule to keep in step.
+
+Verified by breaking it ten ways, each red: film facts from the first screening (1),
+language always on the card from the first screening (2), a differing price dropped from
+the screening (1), the price floor word ignored (5), the price prefix hard-coded Finnish
+(3), the ring without its label (2), `thin` never applied (1), city stubs not stacked
+(21), theatre stubs stacked too (141), and the sign dropped from the price number, which
+the client's own harness cases catch (1).
 
 ### The venue picker is searchable (2026-08-31)
 The native `<select>` was free platform UI, but at 70 venues finding one meant reading

@@ -30,12 +30,13 @@ Deliberate constraints:
   the app does and sets `data-theme`; without it the theme follows the OS. The toggle
   button writes the same key, so a choice made on either page carries to the other, and
   it is hidden when the script did not run.
-- **The showtime label is the requested shape and nothing more**: time, then on a city
-  page the cinema, then the room verbatim, then the languages in words. Empty parts
-  vanish. The language words are the one client rule ported here (`lang_parts`, the
-  app's `langTxt`), because `FI-S, SV-S` is the pipeline's storage format and not
-  something a reader should see; nothing else of the app's tag folding or price parsing
-  is -- the page is a landing, and the app is one tap away.
+- **The card is the app's card.** Film facts -- rating, runtime, genres, score -- fold
+  from the day's screenings by first non-empty value, never from the first screening
+  alone. Language and price sit on the card once when every screening shares them and on
+  the individual screening when they differ (`lang_parts` is the app's `langTxt`,
+  `price_label` its `priceLabel`, each pinned against the client). The showtime keeps
+  time, the cinema on a city page, and the room verbatim. The app's own tag folding for
+  format tags (`stubTags`) is not ported.
 - **A page is rewritten only when its bytes change.** Four runs a day across ~100 pages
   would otherwise commit megabytes of near-identical HTML forever. Quiet venues change
   once a week.
@@ -136,6 +137,7 @@ L = {
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys {}", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
+        "from": "alkaen", "votes": "\u00e4\u00e4nt\u00e4",
         "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
                    "kuvaukset: TMDB. Henkil\u00f6kohtainen harrastusprojekti, ei "
                    "sidoksissa teattereihin.",
@@ -171,6 +173,7 @@ L = {
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "lang_nav": "Language",
         "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
+        "from": "from", "votes": "votes",
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
         "contact": "For cinemas: enquiries and removal requests",
@@ -247,6 +250,70 @@ def lang_parts(codes, lang):
     return out
 
 
+PRICE_NUM = re.compile(r"[-+]?\d+(?:\.\d+)?")
+
+
+def price_label(rows, lang):
+    """The app's `priceLabel`, for the same rows. The first number anywhere in the string
+    is the price, sign included so "-5\u20ac" stays rejected; a floor is either two different
+    amounts or a source that says so itself ("alkaen 10\u20ac"), tested on shape rather than
+    on the word because the word is in the provider's language. `tests/test_landing_pages.py`
+    runs the client's own harness cases through this and asserts the same answers."""
+    floor, vals = False, []
+    for r in rows:
+        raw = str(r.get("price") or "").replace(",", ".")
+        m = PRICE_NUM.search(raw)
+        if not m:
+            continue
+        try:
+            v = float(m.group(0))
+        except ValueError:
+            continue
+        if v != v or v <= 0:
+            continue
+        if re.search(r"[^\d\s.,\u20ac$\u00a3]", raw.replace(m.group(0), "", 1)):
+            floor = True
+        vals.append(v)
+    if not vals:
+        return ""
+    lo, hi = min(vals), max(vals)
+
+    def fmt(v):
+        return str(int(round(v))) if round(v * 100) % 100 == 0 else f"{v:.2f}"
+
+    return f"{fmt(lo)}\u20ac" if (lo == hi and not floor) else f"{L[lang]['from']} {fmt(lo)}\u20ac"
+
+
+VOTE_SOLID = 25     # the app's: a rating on fewer votes is dimmed, not hidden
+
+
+def short_votes(n):
+    return (f"{n / 1000:.1f}k" if n < 10000 else f"{n / 1000:.0f}k") if n >= 1000 else str(n)
+
+
+def score_ring(tmdb, votes, t):
+    """The app's ring, as static markup: arc for the glance, number for the value, vote
+    count beside it. `role="img"` so the label is read as one thing: "TMDB 7.1/10 · 41
+    ääntä". No `aggregateRating` in the JSON-LD, see the module docstring."""
+    if not tmdb:
+        return ""
+    n = int(votes or 0)
+    thin = " thin" if n and n < VOTE_SOLID else ""
+    lbl = f"TMDB {tmdb}/10" + (f" \u00b7 {n} {t['votes']}" if n else "")
+    return (f'<span class="ring{thin}" role="img" style="--v:{round(float(tmdb) * 10)}" '
+            f'title="{esc(lbl)}" aria-label="{esc(lbl)}"><b>{esc(tmdb)}</b></span>'
+            + (f'<span class="votes">{esc(short_votes(n))}</span>' if n else ""))
+
+
+def first(shows, key):
+    """A film fact folded across the day's screenings: the first non-empty value, so a
+    chain that publishes no rating cannot blank the card when another one did."""
+    for s in shows:
+        if s.get(key):
+            return s[key]
+    return None
+
+
 # The theme, before first paint. The same key and the same fallback as the app's
 # `store`/`applyTheme`: a stored "dark" or "light" wins, otherwise the OS decides. Any
 # other stored value is treated as absent rather than applied. Without this script the
@@ -313,21 +380,29 @@ h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:14px 0 0;font-size:.72rem;color:var(--muted)}
 .legend .lg{padding-left:8px;border-left:3px solid var(--chain,var(--line))}
 h2.day{position:sticky;top:0;z-index:1;background:var(--bg);font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;border-bottom:1px solid var(--line)}
-.film{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.film{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
 .poster{flex:0 0 92px;width:92px;height:132px;border-radius:8px;object-fit:cover;background:var(--surface);box-shadow:var(--shadow)}
 .poster.blank{border:1px solid var(--line)}
 .info{flex:1;min-width:0}
 h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
-.meta1{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.82rem}
-.rating{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-weight:700;font-size:.72rem;background:var(--surface)}
-.tmdb{color:var(--accent-text);font-weight:700}
-.tmdb small{font-size:.72rem;font-weight:600;letter-spacing:.05em;margin-left:4px}
-.meta2{margin-top:4px;color:var(--muted);font-size:.8rem}
+.meta1{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.82rem}
+.rating{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-weight:700;font-size:.72rem;color:var(--ink);background:var(--surface)}
+.ring{--v:0;position:relative;flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--v) * 3.6deg),var(--line) 0);display:grid;place-items:center}
+.ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--bg)}
+.ring b{position:relative;font-size:.68rem;font-weight:800;color:var(--ink);line-height:1}
+.ring.thin{opacity:.55}
+.votes{color:var(--muted);font-size:.7rem;font-weight:600}
+.meta2{margin-top:5px;color:var(--muted);font-size:.8rem;display:flex;flex-wrap:wrap;gap:4px 14px}
 .syn{color:var(--muted);font-size:.88rem;line-height:1.45;margin-top:6px}
-.times{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:8px;margin-top:10px}
+.times{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.grid .stub{flex-direction:column;align-items:stretch}
+.grid .stub .time{padding:6px 10px 2px 12px}
+.grid .stub .aud{padding:0 10px 7px 12px;border-left:0;align-items:flex-start;line-height:1.2}
+.grid .stub .aud::before,.grid .stub .aud::after{display:none}
 .stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
-.stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;white-space:nowrap}
+.stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;line-height:1.2;white-space:nowrap}
 .stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);border-left:1px dashed var(--line);position:relative}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
@@ -344,7 +419,8 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.film{gap:14px;padding:14px 0}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:520px){.times.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 """.strip()
@@ -463,25 +539,30 @@ def clip(text, n=200):
     return (cut[:sp] if sp > n * 0.6 else cut).rstrip(" ,.;:") + "\u2026"
 
 
-def stub_parts(s, with_venue, lang):
-    """The whole showtime-label rule, as (css class, text) pairs.
+def stub_parts(s, with_venue, lang, own_lang=False, own_price=False):
+    """The showtime label, as (css class, text) pairs.
 
-    Theatre page: room, then language codes -- the page already names the cinema, and
-    printing it again is how Joensuu read "Tapio · Sali Tapio 4". City page: the
-    chain-prefixed cinema first, because a bare "Sali 6" identifies none of twelve.
-    The room is the provider's value verbatim after the adapter's own normalisation;
-    Leffabuumi's "KINOLINNA | SALI 1" means something and stays. Empty parts vanish, so
-    no separator is ever leading, trailing or doubled.
+    Theatre page: the room -- the page already names the cinema, and printing it again
+    is how Joensuu read "Tapio · Sali Tapio 4". City page: the chain-prefixed cinema
+    first, because a bare "Sali 6" identifies none of twelve. The room is the provider's
+    value verbatim after the adapter's own normalisation; Leffabuumi's "KINOLINNA |
+    SALI 1" means something and stays. Empty parts vanish, so no separator is ever
+    leading, trailing or doubled.
 
-    The language codes become words through `lang_parts()`: spoken language first, then
-    the subtitle languages, each its own part. The classes decide wrapping only: the
-    cinema and the language phrases may break at their spaces, the room stays on one line.
+    Language and price belong to the card when every screening of the film that day
+    shares them, the app's rule; `own_lang` and `own_price` put them on this screening
+    when they differ, so nothing a screening says differently is lost. The classes decide
+    wrapping only: the cinema and the language phrases may break at their spaces, the
+    room stays on one line.
     """
     parts = []
     if with_venue:
         parts.append(("v", s.get("venueLabel") or ""))
     parts.append(("a", s.get("aud") or ""))
-    parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
+    if own_lang:
+        parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
+    if own_price:
+        parts.append(("p", price_label([s], lang)))
     return [(c, t) for c, t in parts if t]
 
 
@@ -494,18 +575,31 @@ def _part(cls, text):
 
 
 def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
-    s0 = shows[0]
-    meta1 = []
-    if s0.get("rating"):
-        meta1.append(f'<span class="rating">{esc(s0["rating"])}</span>')
-    if s0.get("tmdb"):
-        meta1.append(f'<span class="tmdb">\u2605 {s0["tmdb"]:.1f}<small>{esc(t["tmdb"])}</small></span>')
+    rating, length = first(shows, "rating"), first(shows, "len")
+    genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
+    tmdb = first(shows, "tmdb")
+    # Shared by every screening of this film today -> on the card once. Otherwise each
+    # screening says its own, and the card says nothing it cannot say for all of them.
+    langs = {s.get("lang") or "" for s in shows}
+    shared_lang = lang_parts(next(iter(langs)), lang) if len(langs) == 1 else []
+    own_lang = len(langs) > 1
+    price_all = price_label(shows, lang)
+    own_prices = {price_label([s], lang) for s in shows}
+    own_price = len(own_prices) > 1
+
+    meta1 = [score_ring(tmdb, first(shows, "votes"), t)]
+    if rating:
+        meta1.append(f'<span class="rating">{esc(rating)}</span>')
+    meta1 = [m for m in meta1 if m]
     meta2 = []
-    if s0.get("len"):
-        meta2.append(f"{esc(s0['len'])} {t['mins']}")
-    g = genre_names(s0.get("gids"), s0.get("genres"), gmap, lang)
-    if g:
-        meta2.append(esc(g))
+    if genres:
+        meta2.append(f"<span>{esc(genres)}</span>")
+    if length:
+        meta2.append(f"<span>{esc(length)} {t['mins']}</span>")
+    if shared_lang:
+        meta2.append(f'<span>{esc(" \u00b7 ".join(shared_lang))}</span>')
+    if price_all:
+        meta2.append(f"<span>{esc(price_all)}</span>")
 
     # A synopsis only on a film's first appearance: a four-day page repeats the same
     # title daily, and printing it each time both bloated the page and read like padding.
@@ -516,7 +610,7 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         syn_seen.add(title)
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
     # film with none keeps its column with a blank tile, so the text does not jump left.
-    img = s0.get("img") or ""
+    img = first(shows, "img") or ""
     if img.startswith("data/posters/"):
         poster = f'<img class="poster" src="/{esc(img)}" alt="" width="92" height="132" loading="lazy">'
     else:
@@ -525,7 +619,7 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     times = []
     for s in shows:
         clock = (s.get("start") or "")[11:16]
-        parts = stub_parts(s, with_venue, lang)
+        parts = stub_parts(s, with_venue, lang, own_lang=own_lang, own_price=own_price)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
         cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""
@@ -534,11 +628,14 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         times.append(f'<li><a class="stub{cls}" href="{esc(url)}" rel="nofollow noopener">{inner}</a></li>'
                      if url.startswith("http") else f'<li><span class="stub{cls}">{inner}</span></li>')
 
+    # The app's combined view stacks time over place in a grid; its single-venue view
+    # keeps the row stub. A city page is the combined view, a theatre page is not.
+    grid = " grid" if with_venue else ""
     return (f'<article class="film">{poster}<div class="info"><h3>{esc(title)}</h3>'
             + (f'<div class="meta1">{"".join(meta1)}</div>' if meta1 else "")
-            + (f'<div class="meta2">{" \u00b7 ".join(meta2)}</div>' if meta2 else "")
+            + (f'<div class="meta2">{"".join(meta2)}</div>' if meta2 else "")
             + (f'<p class="syn">{esc(syn)}</p>' if syn else "")
-            + f'<ul class="times">{"".join(times)}</ul></div></article>')
+            + f'<ul class="times{grid}">{"".join(times)}</ul></div></article>')
 
 
 def poster_url(s, extra):

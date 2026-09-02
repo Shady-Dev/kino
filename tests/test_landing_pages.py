@@ -21,6 +21,10 @@ What they pin is the requested behaviour and nothing that merely mirrors the moc
 - the FI · SV · EN selector marks the page's language and links the other two;
 - the theme is the app's: the stored `kino-theme` wins before first paint, the OS decides
   otherwise, the toggle writes the same key, and no script renders content;
+- the card is the app's: film facts fold first-non-empty across the day's screenings,
+  language and price sit on the card when shared and on the screening when they differ,
+  the score is the app's ring with an accessible label, prices are labelled the way the
+  client labels them, and a city page stacks its stubs the way the combined view does;
 - regeneration is deterministic and nothing volatile reaches a page.
 """
 import contextlib
@@ -28,6 +32,7 @@ import html
 import io
 import json
 import pathlib
+import ast
 import random
 import re
 import shutil
@@ -272,8 +277,8 @@ class GeneratedPagesTest(unittest.TestCase):
         the committed data has become words."""
         for k, text in self.canonical.items():
             with self.subTest(path=k):
-                for st in STUB_RE.findall(text):
-                    self.assertIsNone(RAW_CODE_RE.search(text_of(st)), text_of(st))
+                for block in re.findall(r'<article class="film">(.*?)</article>', text, re.S):
+                    self.assertIsNone(RAW_CODE_RE.search(text_of(block)), text_of(block)[:120])
 
     def test_every_code_in_the_committed_data_is_known(self):
         """The guarantee behind the test above, stated on the data rather than the output:
@@ -310,6 +315,43 @@ class GeneratedPagesTest(unittest.TestCase):
         self.assertEqual(tables["fi"], bp.LN["fi"])
         self.assertEqual(tables["en"], bp.LN["en"])
         self.assertGreater(len(tables["fi"]), 20)
+
+    def test_a_city_page_stacks_its_stubs_and_a_theatre_page_does_not(self):
+        """The app's combined view is a grid of stacked stubs; its single-venue view is a
+        row of ticket stubs. A city page is the combined view."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                lists = re.findall(r'<ul class="times( grid)?">', text)
+                if not lists:
+                    continue          # nothing in the window; the count test covers it
+                city = k.startswith("/kaupunki/") or k.startswith("/en/city/")
+                self.assertEqual({bool(g) for g in lists}, {city})
+
+    def test_the_price_label_is_the_clients(self):
+        """The client's own harness cases, run through both implementations. The case
+        table is read out of tests/price_label_harness.js and its answers come from node
+        running the shipped priceLabel, so neither side is retyped here."""
+        if shutil.which("node") is None:
+            self.skipTest("node not installed")
+        harness = ROOT / "tests" / "price_label_harness.js"
+        out = subprocess.run(["node", str(harness)], capture_output=True, text=True,
+                             cwd=str(ROOT), timeout=60)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        expected = json.loads(out.stdout)
+        src = harness.read_text(encoding="utf-8")
+        cases = re.findall(r"^\s*\['(\w+)',\s*'(\w+)',\s*\[(.*?)\]\],?\s*$", src, re.M)
+        self.assertGreater(len(cases), 15)
+        checked = 0
+        for name, lang, inner in cases:
+            if lang not in ("fi", "en"):
+                continue
+            prices = ast.literal_eval("[" + inner.replace("null", "None").replace("undefined", "None") + "]")
+            with self.subTest(case=name):
+                self.assertEqual(bp.price_label([{"price": p} for p in prices], lang), expected[name])
+                checked += 1
+        self.assertGreater(checked, 12)
+        for lang in ("fi", "en"):
+            self.assertEqual(expected["__from"][lang], bp.L[lang]["from"])
 
     def test_a_city_page_names_the_cinema_on_every_showtime(self):
         for k, text in self.canonical.items():
@@ -473,32 +515,89 @@ class StubShapeTest(unittest.TestCase):
         m = AUD_RE.search(html)
         return text_of(m.group(1)) if m else None
 
+    def block(self, shows, with_venue, lang="fi"):
+        return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set())
+
+    def meta2_text(self, html):
+        m = re.search(r'<div class="meta2">(.*?)</div>', html)
+        return [text_of(x) for x in re.findall(r"<span>(.*?)</span>", m.group(1))] if m else []
+
+    def stub_texts(self, html):
+        return [text_of(a) for a in re.findall(r'<span class="aud">(.*?)</span></span>', html)]
+
     def test_theatre_shape(self):
         s = self.show(lang="EN-A, FI-S, SV-S")
-        self.assertEqual(self.aud_text(s, False), "Sali Tapio 4 · englanti · tekstitys suomi/ruotsi")
-        self.assertEqual(self.aud_text(s, False, "en"),
-                         "Sali Tapio 4 · English · Finnish/Swedish subtitles")
+        self.assertEqual(self.aud_text(s, False), "Sali Tapio 4")
+        self.assertIn("englanti · tekstitys suomi/ruotsi", self.meta2_text(self.block([s], False)))
+        self.assertIn("English · Finnish/Swedish subtitles", self.meta2_text(self.block([s], False, "en")))
 
     def test_city_shape(self):
         s = self.show(lang="EN-A, FI-S, SV-S", venueLabel="Finnkino Tennispalatsi", aud="Sali 10")
-        self.assertEqual(self.aud_text(s, True),
-                         "Finnkino Tennispalatsi · Sali 10 · englanti · tekstitys suomi/ruotsi")
-        self.assertEqual(self.aud_text(s, True, "en"),
-                         "Finnkino Tennispalatsi · Sali 10 · English · Finnish/Swedish subtitles")
+        self.assertEqual(self.aud_text(s, True), "Finnkino Tennispalatsi · Sali 10")
+        self.assertIn('<ul class="times grid">', self.block([s], True))
+        self.assertIn('<ul class="times">', self.block([s], False))
+
+    def test_shared_language_sits_on_the_card_once(self):
+        shows = [self.show(start="2026-09-02T16:00:00+03:00", aud="Sali Tapio 4"),
+                 self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1")]
+        html = self.block(shows, False)
+        self.assertEqual(self.meta2_text(html).count("tekstitys suomi/ruotsi"), 1)
+        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
+
+    def test_a_differing_language_stays_on_its_screening(self):
+        """Never the first screening's language for all of them: a dubbed 16:00 and a
+        subtitled 19:00 each say their own, and the card says neither."""
+        shows = [self.show(start="2026-09-02T16:00:00+03:00", aud="Sali Tapio 4", lang="FI-A"),
+                 self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1", lang="EN-A, FI-S, SV-S")]
+        html = self.block(shows, False)
+        self.assertEqual(self.stub_texts(html),
+                         ["Sali Tapio 4 · suomi", "Sali Tapio 1 · englanti · tekstitys suomi/ruotsi"])
+        self.assertFalse(any("tekstitys" in m or m == "suomi" for m in self.meta2_text(html)))
+
+    def test_shared_price_sits_on_the_card_and_a_differing_one_on_the_screening(self):
+        same = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
+                self.show(start="2026-09-02T19:00:00+03:00", price="13\u20ac", aud="Sali Tapio 1")]
+        html = self.block(same, False)
+        self.assertIn("13\u20ac", self.meta2_text(html))
+        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
+        diff = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
+                self.show(start="2026-09-02T19:00:00+03:00", price="10\u20ac", aud="Sali Tapio 1")]
+        html = self.block(diff, False)
+        self.assertIn("alkaen 10\u20ac", self.meta2_text(html))
+        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4 · 13\u20ac", "Sali Tapio 1 · 10\u20ac"])
+        self.assertIn("from 10\u20ac", self.meta2_text(self.block(diff, False, "en")))
+
+    def test_film_facts_fold_first_non_empty_not_first(self):
+        shows = [self.show(start="2026-09-02T16:00:00+03:00", rating="", tmdb=None, votes=None),
+                 self.show(start="2026-09-02T19:00:00+03:00", rating="K-12", tmdb=7.1, votes=41)]
+        html = self.block(shows, False)
+        self.assertIn('<span class="rating">K-12</span>', html)
+        self.assertIn('aria-label="TMDB 7.1/10 · 41 ääntä"', html)
+
+    def test_the_score_is_the_apps_ring_with_an_accessible_label(self):
+        html = self.block([self.show(tmdb=7.1, votes=41)], False)
+        self.assertIn('<span class="ring" role="img" style="--v:71" title="TMDB 7.1/10 · 41 ääntä" '
+                      'aria-label="TMDB 7.1/10 · 41 ääntä"><b>7.1</b></span><span class="votes">41</span>', html)
+        thin = self.block([self.show(tmdb=6.4, votes=12)], False, "en")
+        self.assertIn('class="ring thin"', thin)
+        self.assertIn("TMDB 6.4/10 · 12 votes", thin)
+        self.assertIn(">1.2k<", self.block([self.show(tmdb=8.0, votes=1234)], False))
+        self.assertNotIn("ring", self.block([self.show(tmdb=None)], False))
+        self.assertIn('aria-label="TMDB 7.1/10"><b>7.1</b></span>', self.block([self.show(tmdb=7.1, votes=None)], False))
 
     def test_an_empty_room_leaves_no_separator(self):
-        self.assertEqual(self.aud_text(self.show(aud=""), False), "tekstitys suomi/ruotsi")
-        self.assertEqual(self.aud_text(self.show(aud=""), True),
-                         "Savon Kinot Tapio · tekstitys suomi/ruotsi")
+        shows = [self.show(aud="", lang="FI-A"), self.show(aud="", lang="EN-A", start="2026-09-02T19:00:00+03:00")]
+        self.assertEqual(self.stub_texts(self.block(shows, False)), ["suomi", "englanti"])
+        self.assertEqual(self.stub_texts(self.block(shows, True)),
+                         ["Savon Kinot Tapio · suomi", "Savon Kinot Tapio · englanti"])
 
     def test_nothing_but_the_time_leaves_no_details_cell(self):
         self.assertIsNone(self.aud_text(self.show(aud="", lang=""), False))
 
     def test_the_room_is_verbatim_including_leffabuumis_pipe(self):
         s = self.show(aud="KINOLINNA | SALI 1", lang="FI-A", venueLabel="Leffabuumi Kinolinna")
-        self.assertEqual(self.aud_text(s, False), "KINOLINNA | SALI 1 · suomi")
-        self.assertEqual(self.aud_text(s, True),
-                         "Leffabuumi Kinolinna · KINOLINNA | SALI 1 · suomi")
+        self.assertEqual(self.aud_text(s, False), "KINOLINNA | SALI 1")
+        self.assertEqual(self.aud_text(s, True), "Leffabuumi Kinolinna · KINOLINNA | SALI 1")
 
     def test_language_words_follow_the_apps_rule(self):
         cases = {

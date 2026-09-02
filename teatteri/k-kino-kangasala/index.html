@@ -58,21 +58,29 @@ h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:14px 0 0;font-size:.72rem;color:var(--muted)}
 .legend .lg{padding-left:8px;border-left:3px solid var(--chain,var(--line))}
 h2.day{position:sticky;top:0;z-index:1;background:var(--bg);font-size:.95rem;font-weight:800;padding:16px 0 8px;margin-top:10px;border-bottom:1px solid var(--line)}
-.film{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.film{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
 .poster{flex:0 0 92px;width:92px;height:132px;border-radius:8px;object-fit:cover;background:var(--surface);box-shadow:var(--shadow)}
 .poster.blank{border:1px solid var(--line)}
 .info{flex:1;min-width:0}
 h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
-.meta1{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.82rem}
-.rating{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-weight:700;font-size:.72rem;background:var(--surface)}
-.tmdb{color:var(--accent-text);font-weight:700}
-.tmdb small{font-size:.72rem;font-weight:600;letter-spacing:.05em;margin-left:4px}
-.meta2{margin-top:4px;color:var(--muted);font-size:.8rem}
+.meta1{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.82rem}
+.rating{display:inline-block;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-weight:700;font-size:.72rem;color:var(--ink);background:var(--surface)}
+.ring{--v:0;position:relative;flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--v) * 3.6deg),var(--line) 0);display:grid;place-items:center}
+.ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--bg)}
+.ring b{position:relative;font-size:.68rem;font-weight:800;color:var(--ink);line-height:1}
+.ring.thin{opacity:.55}
+.votes{color:var(--muted);font-size:.7rem;font-weight:600}
+.meta2{margin-top:5px;color:var(--muted);font-size:.8rem;display:flex;flex-wrap:wrap;gap:4px 14px}
 .syn{color:var(--muted);font-size:.88rem;line-height:1.45;margin-top:6px}
-.times{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:8px;margin-top:10px}
+.times{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+.times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+.grid .stub{flex-direction:column;align-items:stretch}
+.grid .stub .time{padding:6px 10px 2px 12px}
+.grid .stub .aud{padding:0 10px 7px 12px;border-left:0;align-items:flex-start;line-height:1.2}
+.grid .stub .aud::before,.grid .stub .aud::after{display:none}
 .stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
-.stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;white-space:nowrap}
+.stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;line-height:1.2;white-space:nowrap}
 .stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);border-left:1px dashed var(--line);position:relative}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
@@ -89,7 +97,8 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.film{gap:14px;padding:14px 0}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:520px){.times.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -104,7 +113,7 @@ footer a{color:inherit}
 <p class="intro">Katso lähipäivien näytösajat. Kellonajasta pääset lipunmyyntiin sivustolla k-kino.fi.</p>
 <a class="cta" href="/?area=kk-kangasala&amp;lang=fi"><span>Avaa koko ohjelmisto</span><span class="arr" aria-hidden="true">→</span></a>
 
-<h2 class="day">Pe 4.9.</h2><article class="film"><img class="poster" src="/data/posters/040e01ff342f1c6d.jpg" alt="" width="92" height="132" loading="lazy"><div class="info"><h3>Presidentin kyyditys</h3><div class="meta1"><span class="rating">K-12</span></div><div class="meta2">87 min · Komedia, Draama, Historia</div><p class="syn">Lokakuussa 1930 Suomen armeijan ylimpään johtoon kuulunut joukko upseereita päätti ryyppyillan päätteeksi kaapata Suomen ensimmäisen, jo eläkkeellä olevan, presidentti Ståhlbergin. Suomen kansa oli…</p><ul class="times"><li><a class="stub" href="https://k-kino.fi/salikartta?id=53451" rel="nofollow noopener"><span class="time">13:15</span><span class="aud"><span class=l>suomi</span></span></a></li></ul></div></article>
+<h2 class="day">Pe 4.9.</h2><article class="film"><img class="poster" src="/data/posters/040e01ff342f1c6d.jpg" alt="" width="92" height="132" loading="lazy"><div class="info"><h3>Presidentin kyyditys</h3><div class="meta1"><span class="rating">K-12</span></div><div class="meta2"><span>Komedia, Draama, Historia</span><span>87 min</span><span>suomi</span><span>12.50€</span></div><p class="syn">Lokakuussa 1930 Suomen armeijan ylimpään johtoon kuulunut joukko upseereita päätti ryyppyillan päätteeksi kaapata Suomen ensimmäisen, jo eläkkeellä olevan, presidentti Ståhlbergin. Suomen kansa oli…</p><ul class="times"><li><a class="stub" href="https://k-kino.fi/salikartta?id=53451" rel="nofollow noopener"><span class="time">13:15</span></a></li></ul></div></article>
 
 </main>
 <footer><div>Näytöstiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja kuvaukset: TMDB. Henkilökohtainen harrastusprojekti, ei sidoksissa teattereihin.</div><div>Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:leffavuoro@gmail.com">leffavuoro@gmail.com</a></div><div>Lähdekoodi: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> · AGPL-3.0</div></footer>
