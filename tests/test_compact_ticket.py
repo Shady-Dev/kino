@@ -43,7 +43,7 @@ class ClientCompactTicketTest(unittest.TestCase):
         self.assertIn("justify-content:center", price)
         self.assertIn("align-self:stretch", price)
         self.assertIn("--pw:56px", rule(HTML, ".stub"))
-        self.assertIn("min-height:44px", rule(HTML, ".stub"))
+        self.assertIn("min-height:40px", rule(HTML, ".stub"))       # 44 until 2026-09-02, judged too heavy a band
         self.assertNotIn("border-left", rule(HTML, ".stub .aud"))          # no second seam after the time
 
     def test_the_notches_sit_on_the_compartment_seam(self):
@@ -131,6 +131,8 @@ class GeneratedCompactTicketTest(unittest.TestCase):
                      "font-size:.78rem", "font-weight:700", "color:var(--ink)", "align-self:stretch", "position:relative"):
             self.assertIn(prop, price, prop)
         self.assertIn("left:-4px", rule(GEN, ".stub .price::before,.stub .price::after"))
+        self.assertIn("min-height:40px", rule(GEN, ".stub"))                 # the row ticket's height, 44 until 2026-09-02
+        self.assertIn("min-height:40px", rule(GEN, ".grid .stub"))
         self.assertNotIn("border-left", rule(GEN, ".stub .aud"))
         self.assertIsNone(rule(GEN, ".stub .aud::before,.stub .aud::after"))   # the row's notches moved to the price
         self.assertNotIn(".stub .time + .price", GEN)

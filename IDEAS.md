@@ -3566,6 +3566,31 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### Tickets are 40 px (2026-09-02, sw.js v103)
+
+A reader found the tickets heavy on a phone. The row ticket had gone from 32 to 44 px that
+same morning when it gained the price compartment, and the combined view's tickets were 44
+too, so a one-line "17:30 · Plevna · Sali 7" sat in a 44 px band. Rendered the same tickets
+at 44, 40 and 36 and at 44 with lighter strokes, with the app's own stylesheet, and chose
+40: it takes the weight off without crowding the two-line "alkaen 10€", which sits 27 px
+tall inside a 36 px ticket's 34 px interior. A uniform 160 px ticket for every view was
+mocked up first and declined: at that width the combined view's venue names truncate on
+three of five sample tickets with the chain-prefixed label and on all five as one row, and
+a no-room cinema gets a blank second line. The mock is in the review folder outside the
+repo; the current anatomy stays.
+
+Only `min-height` changed, in the client's row and grid tickets and the generator's, 44 to
+40. WCAG 2.5.8 asks 24 px. Measured live at 375: Tampere combined view 33 tickets at 40,
+two at 43.5 where the venue label wraps, time and venue text inside every ticket, no width
+overflow; Orion single view and time mode 40 with "alkaen 10€" fitting; Helsinki sheet 109
+at 40, one column; Niagara theatre page 19 at 40, prices fitting; Tampere city page 40 with
+wrapped labels growing a ticket to 43.7 or 59.5, as before. Pinned in
+`tests/test_compact_ticket.py` and `tests/test_ticket_anatomy.py` for both renderers; a
+mutation back to 44 on the client's row ticket, the generator's row ticket and the
+generator's grid ticket each goes red. 170 pages rewritten once, the second regeneration
+writes nothing. Deliberately not changed: the header's 44 px controls, the CTA and the
+language segments, which are not tickets.
+
 ### The single-cinema ticket has a price compartment (2026-09-02, sw.js v102)
 
 The row stub is the ticket a visitor sees most: one cinema, its screenings in a row. After

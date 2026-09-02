@@ -40,7 +40,7 @@ class ClientTicketTest(unittest.TestCase):
         self.assertIn("--tw:64px", grid)
         self.assertIn("grid-template-columns:var(--tw) minmax(0,1fr) auto", grid)
         self.assertIn('grid-template-areas:"time aud price"', grid)
-        self.assertIn("min-height:44px", grid)
+        self.assertIn("min-height:40px", grid)
         aud = rule(HTML, ".stubs.grid .stub .aud")
         self.assertIn("border-left:1px dashed var(--line)", aud)
         self.assertIn("flex-wrap:wrap", aud)
@@ -98,7 +98,7 @@ class GeneratedTicketTest(unittest.TestCase):
         grid = rule(GEN, ".grid .stub")
         self.assertIn('grid-template-areas:"time aud price"', grid)
         self.assertIn("grid-template-columns:64px minmax(0,1fr) auto", grid)
-        self.assertIn("min-height:44px", grid)
+        self.assertIn("min-height:40px", grid)
 
     def test_the_city_page_needs_the_same_240px_ticket(self):
         self.assertIn("minmax(min(240px,100%),1fr)", rule(GEN, ".times.grid"))
