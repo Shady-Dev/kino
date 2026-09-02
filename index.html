@@ -564,8 +564,13 @@
      run under the price. Long words break instead of crossing the seam or the price. */
   .stubs.grid .stub .aud .loc{white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; min-width:0}
   .stubs.grid .stub .glyphs{align-self:center; padding-top:0}
-  .stubs.grid .stub .price{grid-area:price; display:flex; align-items:center; padding:0 10px 0 4px; border-left:0}
-  .stubs.grid .stub::before,.stubs.grid .stub::after{left:calc(var(--tw) - 4px)}
+  .stubs.grid .stub .price{
+    grid-area:price; flex:none; width:auto; align-self:stretch;
+    display:flex; align-items:center; padding:0 10px 0 4px; border-left:0;
+    font-size:.72rem; color:var(--muted); white-space:nowrap;
+  }
+  .stubs.grid .stub .price:empty{display:none}
+  .stubs.grid .stub::before,.stubs.grid .stub::after{left:calc(var(--tw) - 4px); right:auto}
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
   .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
   .legend .lg-btn{
@@ -586,8 +591,8 @@
   }
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   .stub{
-    --r:7px;
-    display:inline-flex; align-items:center; text-decoration:none;
+    --r:7px; --pw:56px;
+    display:inline-flex; align-items:center; text-decoration:none; min-height:44px;
     background:var(--chip-bg); border:1px solid var(--line);
     border-radius:var(--r); box-shadow:var(--shadow);
     font-variant-numeric:tabular-nums;
@@ -597,7 +602,7 @@
   .stub .time{padding:7px 10px 7px 12px; font-weight:800; font-size:.92rem}
   .stub .aud{
     padding:7px 12px 7px 10px; font-size:.72rem; color:var(--muted);
-    border-left:1px dashed var(--line); max-width:130px;
+    max-width:130px;
     display:flex; align-items:center; gap:6px; min-width:0;
   }
   /* Glyphs sit in their own column, pushed right and never wrapping with the label:
@@ -608,16 +613,23 @@
      visitor cannot afford to have eaten by an ellipsis. */
   .stub .aud .loc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
   .stub .aud .agelim{flex:0 0 auto}
-  /* The screening's own price, at the trailing edge, inside the same click target. Muted
-     and small like the room, so the time stays the strongest thing on the ticket and the
-     price never reads as a second button. Absent when the cinema publishes none. */
-  .stub .price{flex:0 0 auto; padding:7px 10px 7px 6px; font-size:.72rem; font-weight:700; color:var(--muted); white-space:nowrap}
-  .stub .time + .price{border-left:1px dashed var(--line); padding-left:10px}
-  .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink); opacity:.75}
-  /* perforation notches */
+  /* The price compartment: the tear-off end of the ticket. A fixed --pw wide whether or
+     not the cinema publishes a price, so every ticket in a row has the same silhouette
+     and an unpriced one simply has a blank stub -- never a dash, "free" or a zero. The
+     dashed seam is its left border and the notches sit on that same x, from the same
+     variable. Ink, bold, .78rem: read as a fact of the ticket, a step below the .92rem
+     time and never a badge. "alkaen 10€" wraps to two lines inside the compartment. */
+  .stub .price{
+    flex:0 0 var(--pw); width:var(--pw); box-sizing:border-box; align-self:stretch;
+    display:flex; align-items:center; justify-content:center; padding:0 4px;
+    border-left:1px dashed var(--line); text-align:center; white-space:normal;
+    font-size:.78rem; font-weight:700; line-height:1.1; color:var(--ink);
+  }
+  .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink)}
+  /* perforation notches, centred on the seam */
   .stub::before,.stub::after{
     content:""; position:absolute; width:8px; height:8px; border-radius:50%;
-    background:var(--bg); border:1px solid var(--line); left:var(--notch);
+    background:var(--bg); border:1px solid var(--line); left:auto; right:calc(var(--pw) - 4px);
   }
   .stub::before{top:-5px}.stub::after{bottom:-5px}
   .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
@@ -2385,8 +2397,8 @@
       const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
       const own_price = priceLabel([s]);
       return `<div class="trow">
-        <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}</a>
+        <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
+          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
           <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
@@ -2651,10 +2663,11 @@
         // already distinguishes through the registry's book field.
         const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve',
                                      list:'tipList' }[BOOK[t.provider]] || 'tipBuy'];
-        // The screening's own price, or nothing. Never the film's: see the meta2 note.
+        // The screening's own price, or an empty compartment. Never the film's: see the
+        // meta2 note.
         const own_price = priceLabel([t]);
-        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}
+        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -2791,8 +2804,8 @@
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
         const own_price = priceLabel([s]);
-        return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}</a>`;
+        return `<a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
     const sheetPoster = safeAssetUrl(sample.img);

@@ -24,7 +24,7 @@ GEN = (_ctx.ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
 
 
 def rule(css, selector):
-    m = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", css)
+    m = re.search(r"(?m)^\s*" + re.escape(selector) + r"\s*\{([^}]*)\}", css)
     return m.group(1) if m else None
 
 
@@ -46,7 +46,7 @@ class ClientTicketTest(unittest.TestCase):
         self.assertIn("flex-wrap:wrap", aud)
         self.assertIn("min-width:0", aud)
         self.assertIn("overflow-wrap:anywhere", rule(HTML, ".stubs.grid .stub .aud .loc"))
-        self.assertRegex(HTML, r"\.stubs\.grid \.stub::before,\.stubs\.grid \.stub::after\{left:calc\(var\(--tw\) - 4px\)\}")
+        self.assertRegex(HTML, r"\.stubs\.grid \.stub::before,\.stubs\.grid \.stub::after\{left:calc\(var\(--tw\) - 4px\)(; right:auto)?\}")
 
     def test_the_time_compartment_spans_the_ticket(self):
         self.assertIn("align-items:stretch", rule(HTML, ".stubs.grid .stub"))
@@ -85,9 +85,10 @@ class GeneratedTicketTest(unittest.TestCase):
         self.assertNotRegex(GEN, r"\.grid \.stub \.aud::before,\.grid \.stub \.aud::after\{display:none\}")
 
     def test_the_seam_is_the_details_border_and_the_notches_ride_on_it(self):
-        """The generator's notches are pseudo-elements of `.aud` at left:-4px, so their
-        centre sits on its left border wherever the time compartment ends."""
-        self.assertIn("left:-4px", rule(GEN, ".stub .aud::before,.stub .aud::after"))   # centre on the seam
+        """The generator's combined-view notches are pseudo-elements of `.aud` at
+        left:-4px, so their centre sits on its left border wherever the time compartment
+        ends. (The row ticket's notches moved to its price compartment on 2026-09-02.)"""
+        self.assertIn("left:-4px", rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
         grid_aud = rule(GEN, ".grid .stub .aud")
         self.assertIn("border-left:1px dashed var(--line)", grid_aud)
         self.assertIn("flex-wrap:wrap", grid_aud)
@@ -110,8 +111,7 @@ class GeneratedTicketTest(unittest.TestCase):
                 "url": "https://www.finnkino.fi/x", "lang": "ES-A, FI-S, SV-S"}
         html = bp.film_block("Autofiktio", [show], {}, {}, "fi", bp.L["fi"], True, set())
         li = re.search(r"<li>(.*?)</li>", html, re.S).group(1)
-        self.assertRegex(li, r'<span class="time">17:30</span><span class="aud">.*Finnkino Plevna.*Sali 7.*</span></a>$')
-        self.assertNotIn('class="price"', li)
+        self.assertRegex(li, r'<span class="time">17:30</span><span class="aud">.*Finnkino Plevna.*Sali 7.*</span><span class="price"></span></a>$')
 
 
 if __name__ == "__main__":

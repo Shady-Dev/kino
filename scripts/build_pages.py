@@ -404,18 +404,21 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .grid .stub .time{grid-area:time;padding:0 10px 0 12px}
 .grid .stub .aud{grid-area:aud;min-width:0;display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:2px 4px;padding:6px 8px 6px 10px;border-left:1px dashed var(--line);line-height:1.2;overflow-wrap:anywhere}
 .grid .stub .aud .a{white-space:normal}
-.grid .stub .price{grid-area:price;display:flex;align-items:center;padding:0 10px 0 4px;border-left:0}
+.grid .stub .price{grid-area:price;flex:none;width:auto;display:flex;align-items:center;padding:0 10px 0 4px;border-left:0;font-size:.72rem;color:var(--muted);white-space:nowrap}
+.grid .stub .price:empty{display:none}
+.grid .stub .price::before,.grid .stub .price::after{display:none}
+.grid .stub .aud::before,.grid .stub .aud::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.grid .stub .aud::before{top:-5px}.grid .stub .aud::after{bottom:-5px}
 .stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
 .stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;line-height:1.2;white-space:nowrap}
-.stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);border-left:1px dashed var(--line);position:relative}
+.stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);position:relative}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
-.stub .aud::before,.stub .aud::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
-.stub .aud::before{top:-5px}.stub .aud::after{bottom:-5px}
-.stub .price{flex:0 0 auto;display:flex;align-items:center;padding:0 10px 0 6px;font-size:.72rem;font-weight:700;color:var(--muted);white-space:nowrap}
-.stub .time + .price{border-left:1px dashed var(--line);padding-left:10px}
-.stub:hover .price{color:var(--bg);opacity:.75}
+.stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
+.stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
+.stub:hover .price{color:var(--bg)}
 .stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .stub:hover .aud{color:var(--bg);opacity:.75}
 .also{margin-top:24px}
@@ -627,8 +630,11 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         parts = stub_parts(s, with_venue, lang, own_lang=own_lang)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
+        # Always present: the compartment is part of the ticket's silhouette, blank when
+        # the cinema publishes no price. The grid hides an empty one (`:empty`) so the
+        # combined view keeps its shape.
         own_price = price_label([s], lang)
-        price = f'<span class="price">{esc(own_price)}</span>' if own_price else ""
+        price = f'<span class="price">{esc(own_price)}</span>'
         cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""
         inner = f'<span class="time">{clock}</span>{aud}{price}'
         url = s.get("url") or ""

@@ -608,11 +608,12 @@ class StubShapeTest(unittest.TestCase):
         return re.findall(r"<li>(.*?)</li>", html, re.S)
 
     def stub_prices(self, html):
-        """One entry per stub: the price element's text, or None when the stub has none."""
+        """One entry per stub: the price compartment's text, or None when it is blank.
+        The compartment itself is always there (2026-09-02): it is part of the ticket."""
         out = []
         for li in self.stubs_of(html):
             m = re.search(r'<span class="price">(.*?)</span>', li)
-            out.append(text_of(m.group(1)) if m else None)
+            out.append(text_of(m.group(1)) or None if m else None)
         return out
 
     @staticmethod
@@ -660,15 +661,17 @@ class StubShapeTest(unittest.TestCase):
         self.assertEqual(self.stub_prices(html), ["13\u20ac"] * 3)
         self.assertNotIn("\u20ac", self.card_text(html))
 
-    def test_no_prices_means_no_price_markup_at_all(self):
+    def test_no_prices_means_blank_compartments_and_no_value(self):
+        """The compartment stays so the ticket keeps its silhouette; nothing is printed in
+        it -- no euro, no dash, no zero, no word."""
         shows = [self.show(start="2026-09-02T16:00:00+03:00", price=None),
                  self.show(start="2026-09-02T19:00:00+03:00", price="", aud="Sali Tapio 1")]
         html = self.block(shows, False)
-        self.assertNotIn('class="price"', html)
         self.assertNotIn("\u20ac", html)
         for li in self.stubs_of(html):
-            self.assertTrue(li.endswith("</span></a>"), li)      # nothing after the label
-            self.assertNotIn("<span></span>", li)
+            self.assertTrue(li.endswith('<span class="price"></span></a>'), li)
+            self.assertEqual(li.count('class="price"'), 1)
+        self.assertEqual(self.stub_prices(html), [None, None])
 
     def test_a_providers_own_floor_survives_on_its_stub(self):
         s = self.show(price="alkaen 10\u20ac")
@@ -681,7 +684,7 @@ class StubShapeTest(unittest.TestCase):
             with self.subTest(with_venue=with_venue):
                 html = self.block(self.tampere(), with_venue)
                 lis = self.stubs_of(html)
-                self.assertEqual([("price" in li) for li in lis], [True, False, False])
+                self.assertEqual(self.stub_prices(html), ["11\u20ac", None, None])
                 self.assertIn("16:15", lis[0])
                 self.assertNotIn("\u20ac", self.card_text(html))
 

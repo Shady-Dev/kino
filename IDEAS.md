@@ -3566,6 +3566,53 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### The single-cinema ticket has a price compartment (2026-09-02, sw.js v102)
+
+The row stub is the ticket a visitor sees most: one cinema, its screenings in a row. After
+the price moved onto the screening it trailed the room as a small muted word with no
+compartment of its own, and a ticket without a price was a different shape from one with
+-- 125.5 px against wider, 32 px tall, the price .72rem muted at the edge, and the
+perforation still after the time where it had always been, 3.8 px off its own seam.
+
+**Decision.** Presentation only; ownership is unchanged. The last 56 px of every row ticket
+are the price compartment, the tear-off end: the dashed seam is its left border and the
+notches are centred on that seam from the same variable (`--pw`, `right:calc(var(--pw) -
+4px)`), so they cannot drift. The compartment is always there and blank when the cinema
+publishes no price -- never a dash, "free" or a zero -- so priced and unpriced tickets in
+a row share one silhouette. The price is `var(--ink)`, 700, .78rem, centred on the time's
+axis; the time stays .92rem/800. No accent, badge, pill, icon or extra border. The seam
+after the time is gone: one perforation, at the stub end. "alkaen 10€" and "från 10€"
+wrap to two lines inside the compartment (`white-space:normal`, line-height 1.1). The row
+ticket gains the 44 px minimum the other views already had. The generated theatre pages
+carry the same anatomy, their notches now pseudo-elements of the price compartment. The
+combined city and "all" views are untouched: their time compartment, seam and notches stay
+where the previous entry put them, and an empty compartment collapses there (`:empty`).
+
+**Measured live**, preview browser. Cinema Niagara at 375 and 1200, both themes: 143.8 ×
+44 px, compartment 56, seam and notch centre both at 86.8, price 12.48 px / 700 in ink
+(#16181D light, #EDEDEA dark), text 22.4 px wide inside, centred on the time to 0 px, no
+clipping or overflow. Kotkan Leffat Trio 123, rooms and prices: 6 tickets, 44 px, rooms
+intact, aligned. Finnkino Plevna, no prices: 25 tickets, all blank compartments, 172 px
+wide like a priced ticket of the same shape, aligned, notches drawn. Cinema Orion in
+Swedish: "från 10€" wraps to two lines, text 23.4 × 27.2 inside the compartment, 44 px.
+Time mode: 158 px rows, 44 px, aligned. Generated theatre page for Niagara: 19 tickets,
+121.8 × 44, seam and notch 64.8, ink .78rem; Plevna's page: 132 blank compartments,
+aligned. Combined Tampere view and city page: seam 64, 44 px, empty compartments hidden,
+priced ones still .72rem muted -- unchanged.
+
+**Tests**, `tests/test_compact_ticket.py`, 13: fixed compartment and seam, notches from the
+same variable, ink a step below the time, every renderer emits the compartment whether or
+not there is a price, the combined view untouched, no film-level or sheet-header price;
+generator: priced ticket ends with the price inside the anchor, unpriced ticket has the
+same anatomy with a blank compartment, room and price both survive, long localised labels
+kept whole and allowed to wrap, compartment and notches match the client, generated
+combined view untouched, no film-level price. Nine mutations, restored byte-identical and
+each red: compartment unfixed, notches back at 56 px from the left, one renderer emitting
+the compartment only when priced, the combined view no longer hiding an empty one, price
+muted; and the generator's compartment unfixed, notches back on the room seam, conditional
+emission, `:empty` rule removed. 170 pages rewritten once; the second regeneration writes
+nothing.
+
 ### The combined view's stub is the same ticket (2026-09-02, sw.js v101)
 
 The combined city view hid the stub's perforation on purpose: `.stubs.grid .stub::before,
