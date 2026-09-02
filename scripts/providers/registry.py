@@ -12,11 +12,11 @@ Fields:
   host    the cinema's own domain, credited in the footer
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
           Chains that share a city have to be far apart in *both* normal and red-green
-          colourblind vision, and only there: five cities have more than one chain in
-          them (measured 2026-09-01, after Kino Metso) -- Helsinki with six, Jyväskylä
-          with three, Vantaa, Lahti and Kouvola with two each. Everywhere else a chain
-          is alone in its town and its accent is unconstrained, which is what makes 32
-          chains survivable at all. Hues therefore repeat across cities on purpose.
+          colourblind vision, and only there: six cities have more than one chain in
+          them (measured 2026-09-02, after Cinema Niagara) -- Helsinki with six,
+          Jyväskylä with three, Vantaa, Lahti, Kouvola and Tampere with two each.
+          Everywhere else a chain is alone in its town and its accent is unconstrained,
+          which is what makes 33 chains survivable at all. Hues therefore repeat across cities on purpose.
           Run `python3 scripts/accent_check.py` before changing one: it prints every
           same-city pair in CIEDE2000 under two deuteranope models, and
           `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
@@ -151,6 +151,17 @@ PROVIDERS = [
     # pair 26.9 dE00 (vs Finnkino and Kino Aurora in Jyväskylä), L* 46.9.
     dict(id="kinometso", label="Kino Metso", host="kinoaurora.fi", accent="#227D63",
          book="reserve", module="nexxo", where="cloud"),
+    # Cinema Niagara, Tampere (2026-09-02): the eTiketti host the sweep left behind,
+    # because its screenings render in a second template that etiketti.py now reads.
+    # Tampere becomes the sixth two-chain city, so the accent is measured against
+    # Finnkino's orange: #6A4FBF is 47.0 / 68.1 / 60.6 dE00 (normal / Viénot / Machado),
+    # greens failed the deutan columns at 17-19, and no other chain uses this hex. The
+    # cinema sells per-show tickets on its own /salikartta page, so `buy`. `where` is
+    # provisional until a cloud run has succeeded: cinemaniagara.fi answered an ordinary
+    # connection with no challenge and no Cloudflare header, which is how the other
+    # cloud eTiketti hosts look, and one field flips it if a runner is refused.
+    dict(id="niagara", label="Cinema Niagara", host="cinemaniagara.fi", accent="#6A4FBF",
+         book="buy", module="etiketti", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

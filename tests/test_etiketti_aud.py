@@ -158,7 +158,9 @@ class OtherSitesUnchangedTest(unittest.TestCase):
         auditorium strings have to stay byte-for-byte what they are."""
         others = [s["provider"] for s in load().SITES
                   if not s.get("aud_repeats_venue")]
-        self.assertEqual(len(others), 16)
+        # The sixteen from the sweep and Cinema Niagara (2026-09-02). Pinned so a new
+        # site lands here as a decision rather than a drift.
+        self.assertEqual(len(others), 17)
         for prov in others:
             vals = self.by_provider.get(prov)
             if not vals:

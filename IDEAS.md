@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 8 items still open, with the section that holds each one and its reasoning. Presence
+The 9 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -19,6 +19,8 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 **[Pipeline](#pipeline)**
 
+- Cinema Niagara, Tampere: eTiketti's second template, code landed 2026-09-02; open until
+  the first cloud run has published its data
 - Language codes normalised end to end: the adapter and client fixes landed 2026-09-02;
   open until the committed data holds no `TU`, `MA` or `XX` and the landing-page aliases go
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
@@ -1463,6 +1465,121 @@ Still open from this pass:
       Unaffected: the MX *CDN* is a public read reached through Finnkino's own
       `moviexchangeReleaseId` (`fetch_data.py`), so mirrored posters and the trailer
       fallback never needed credentials and still do not.
+- [ ] **Cinema Niagara, Tampere (Phase 1 design 2026-09-02; not implemented).** The one
+      eTiketti host the 2026-08-30 sweep left behind, re-probed as an ordinary visitor
+      with the pipeline's own user agent: five GETs to cinemaniagara.fi (`/`,
+      `/robots.txt`, `/elokuvat/ohjelmistossa`, `/?shows=all`, `/elokuvat/70/the-invite`),
+      one HEAD on arthousecinemaniagara.fi, two GETs to kotkanleffat.fi for a
+      side-by-side of the two templates. No booking, basket, account or admin path was
+      touched and nothing raw is committed.
+      **Observed.** arthousecinemaniagara.fi answers 301 to cinemaniagara.fi, which is
+      canonical. nginx, no Cloudflare header, no challenge; images on cdn.etiketti.app.
+      robots.txt disallows `/salikartta`, `/tili` and `/ostoskori`, the paths this repo
+      never reads. The site is eTiketti -- the signature is in every page -- in a *second
+      template*. `/elokuvat/ohjelmistossa` is the listing `etiketti.py` already reads:
+      `movie-list` container, 20 `item` cards, 20 film links, the same hidden
+      `no-results` element Kotka has. Each film page carries its screenings
+      server-rendered, but as `<div\n class="item tampere date-3.9.2026">` with
+      `<div class="time"><span>16.15`, `<div class="show-price"> 13,00€`, `Paikkoja
+      vapaana: 126/127`, tags in `movie-specs` (`<span class="tag">Seniorikino</span>`)
+      and no place line, where Kotka prints `<div class="item kotka date-2.9.2026">`,
+      `KE 2.9. klo 20.00`, `TRIO 123 | SALI 2<br> Lippu 15,00€<br> Vapaat paikat 27/35`.
+      Detail labels read `<span class="label">Kesto </span> 1 h 48 min` with no colon
+      (Kotka: `Kesto:</span>`), genres sit under a label literally reading `genre`,
+      language `englanti, espanja`, subtitles `Suomi ja ruotsi`, age `ikarajat/fi-12.svg`,
+      poster `poster-img` on cdn.etiketti.app as webp with `?w=250`, synopsis in
+      `description-container`; Näyttelijät, Ohjaaja, Käsikirjoittaja, Ensi-ilta and
+      Levittäjä are printed too, and the shows schema has no field for them. Ticket links
+      are `/salikartta?id=NNNNN`, as on every eTiketti site. `/?shows=all` lists 53
+      screenings of 26 films over 16 dates, 2026-09-02 to 2026-12-10, each rendered twice
+      -- a `desktop` and a `mobile` wrapper, 106 hrefs for 53 ids -- while a film page
+      renders each once (film 70: 3 items, 3 ids). Six of the 26 films are pre-sales from
+      2026-10-22 on and are not on the listing yet. Prices are per screening: 13,00 (22),
+      11,00 (17), 10,00 (9), 8,00 (4), 12,00 (1), and eleven films carry two or three
+      different ones. Every screening prints free/total seats, 123-127 of 127, class
+      `seats-high`; no sold-out screening was on sale, so the zero case is unobserved
+      here. Nine tag strings: Seniorikino, Ensi-ilta, Walhalla - Kuukauden pohjoismainen
+      elokuva, Cinemadrome, Viimeinen näytös, Erikoisnäytös, Tekijävierailu, Q&A,
+      Ennakkonäytös; Gilda already publishes `Seniorikino` in `method`.
+      **Design.** A `SITES` entry against `etiketti.py`, per the platform rule, with the
+      adapter taught the second template: an item regex that accepts whitespace between
+      `div` and `class` and classes after the date; time from `klo HH.MM` or the `time`
+      div; price from `Lippu N` or `show-price`; seats from `Vapaat paikat` or `Paikkoja
+      vapaana`; the place falling back to the item's place class (`tampere`) so `match`
+      still selects the venue; labels with or without the colon; genres from either
+      markup; tags from `movie-specs` into `method`, ` · `-joined, verbatim and
+      unescaped; and a Finnish language-name map for `_lang` (the inverse of the client's
+      `LN.fi`) so `espanja` becomes `ES-A` instead of vanishing. The read surface stays
+      listing + film pages, 21 GETs a run at 1.2 s like the other sixteen hosts;
+      `?shows=all` is not read, pre-sales films appear when they enter the listing, and
+      screenings are keyed on the `salikartta` id so a duplicated surface cannot double a
+      show. Registry: `id="niagara"`, label "Cinema Niagara", host cinemaniagara.fi,
+      `book="buy"`, `module="etiketti"`, `where="cloud"` provisionally -- unverified from
+      a runner, the first cloud run decides, and one field flips it. Venue `cn-tampere`,
+      "Cinema Niagara", Tampere, which becomes the sixth two-chain city, so the accent
+      binds against Finnkino #E4551F. Measured with accent_check (normal / Viénot /
+      Machado dE00): greens fail deutan (#0E9B63 17.2, #3A7D44 19.1); violet #6A4FBF
+      47.0 / 68.1 / 60.6 and blue #1F6FB2 48.6 / 63.6 / 56.8 both clear it and match no
+      other chain's hex. Seats: `soldOut` from `free == 0`, the rule the sixteen eTiketti
+      sites already use; counts are not published, because the shows schema has no
+      `free`/`total` field, runs are hours apart, and a count shown as live would be
+      false. That display is a separate decision. Landing pages carry no seat or sold-out
+      state, as now.
+      **Expected.** Registry 32→33, eTiketti `SITES` +1 (adapter venues 57→58, 74→75 in
+      all), `tests/test_etiketti_templates.py` with hand-written fixtures for both
+      templates, `data/providers.json` regenerated. After an authorised run:
+      `data/venues-niagara.json`, `data/area-cn-tampere.json`, mirrored posters, pages
+      `/teatteri/cinema-niagara-tampere/` and `/en/theatre/cinema-niagara-tampere/`
+      (canonical 168→170, sitemap 169→171), Tampere city pages regenerate. README 74→75
+      venues, 32→33 providers, cities unchanged at 52. Open before Phase 2: the accent
+      pick between the two measured, and whether seat counts are ever displayed.
+      **Decided and built (Phase 2, 2026-09-02).** Accent `#6A4FBF`. Venue id `cn-tampere`,
+      permanent. Seats are read only to derive `soldOut` from zero free seats; no capacity
+      field and no count on screen, because data fetched a few times a day would read as
+      live while going stale, and that display stays deferred. `etiketti.py` reads both
+      templates with one set of regexes, each an alternation of exactly the two shapes:
+      the item tag matched on whitespace with the class attribute captured whole and the
+      date and place read out of it (`_place_class`, which is what lets `match: "tampere"`
+      select a venue the template never names); time from `klo` or the `time` div; price
+      from `Lippu` or `show-price`; seats from either phrase; labels with or without the
+      colon; genres from `movie-genre` spans or the `genre` label; `movie-specs` tags into
+      `method`, ` · `-joined, entity-decoded, whitespace-collapsed, wording kept. Shows are
+      keyed on the `/salikartta?id=` href per site, so a page that renders a screening
+      twice publishes it once; a row without an id is keyed on film, start, place and
+      auditorium together, because a shared host screens one film in two halls at the
+      same minute and film-plus-start alone would have folded them, and the key is
+      recorded only once a registered venue took the row, so a malformed copy that
+      matched nothing cannot suppress the valid copy after it. `_lang` now reads
+      Finnish language names through `LANG_NAMES`, the inverse of the client's `LN.fi`
+      and asserted equal to it, matched on the first four letters so "suom./ruots." and
+      "englanniksi" still resolve; a site that prints "espanja" now publishes `ES-A`
+      where it published nothing. The ticket href is published and never fetched -- the
+      test stub raises on any `/salikartta` request. Kotka's template parses exactly as
+      before: the fixture asserts place, room, `15€`, 27 free seats, `12.5€`, sold out at
+      0/120, and empty `method`. Tests: `tests/test_etiketti_templates.py`, 32 of them --
+      both templates, four opener variants, two dates with +03:00 and +02:00, responsive
+      duplicates and a thrice-repeated id, a no-id screening repeated by markup collapsing
+      to one show while two venues or two halls at the same minute stay two, a malformed
+      same-id copy not suppressing the valid one, the id winning over the composite,
+      three prices on one film, poster/synopsis/
+      runtime/age/genres/language, tags, seats to soldOut both ways with no count in the
+      show, missing and malformed optionals, an item without a time skipped, credits not
+      published, a listing of films whose pages render nothing failing the run and keeping
+      the previous file, the platform's empty state, registry and SITES agreeing, the
+      venue id unique, the accent at or above the set's worst same-city pair and above
+      40 in all three models, and a sold-out Niagara show rendering into a page and its
+      JSON-LD with no availability word anywhere. The roster count in
+      `test_etiketti_aud.py` moves 16→17. Seventeen mutations, each restored byte-identical
+      and each red: single-space item tag, no trailing class, dedup removed, time div
+      branch removed, show-price branch removed, second seats phrase removed, soldOut at
+      one seat, place fallback emptied, tags dropped, day and month swapped, colon
+      required on Kesto, whole-word language names, genre label removed, accent set to a
+      green, fallback key back to film-plus-start, key recorded before the venue match,
+      the id no longer preferred. Full suite 634, inline JS clean, providers.json
+      regenerated to 33, pages
+      built twice with nothing written. **Still to run:** the first cloud fetch, which
+      also settles `where`; the data commit that follows it; then the two theatre pages,
+      the Tampere city pages and the README venue and page counts, all measured then.
 - [ ] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99).** Four
       codes in the committed data were not in the client's name table, each a defect
       somewhere else, and the landing pages had aliased them meanwhile (see "The landing

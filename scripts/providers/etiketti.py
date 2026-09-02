@@ -7,6 +7,14 @@ server-rendered and fetchable, so this parses the public pages:
   /elokuvat/{id}/{slug}     -> every screening for that film, with room, price,
                                free seats and a booking link
 
+Two screening templates render those pages. Kotka's (sixteen hosts, 2026-08-30) prints
+"KE 2.9. klo 20.00", "TRIO 123 | SALI 2", "Lippu 15,00€" and "Vapaat paikat 27/35";
+Cinema Niagara's (2026-09-02) prints the time in a `time` div, the price in `show-price`,
+"Paikkoja vapaana: 126/127", per-screening tags in `movie-specs`, no place line, and its
+detail labels carry no colon. Every regex below accepts exactly those two shapes. The
+listing, the film links and the `/salikartta?id=` ticket href are the same on both, and
+the ticket page is never fetched: it is the outbound link and nothing more.
+
 Adding another eTiketti cinema = an entry in SITES.
 """
 import re
@@ -152,6 +160,15 @@ SITES = [
          {"id": "bn-kauniainen", "match": "bio grani", "name": "Bio Grani",
           "short": "Bio Grani", "city": "Kauniainen"},
      ]},
+    # Cinema Niagara, Tampere (2026-09-02): the host the sweep left behind, because its
+    # screenings render in the second template. It prints no place line at all, so
+    # `match` runs against the item's place class -- "tampere" -- which is what the
+    # fallback in parse_movie exists for. arthousecinemaniagara.fi redirects here.
+    {"provider": "niagara", "base": "https://cinemaniagara.fi", "label": "Cinema Niagara",
+     "venues": [
+         {"id": "cn-tampere", "match": "tampere", "name": "Cinema Niagara",
+          "short": "Cinema Niagara", "city": "Tampere"},
+     ]},
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')
@@ -172,19 +189,36 @@ LISTING_CONTAINER_RE = re.compile(r'<div[^>]*class="[^"]*\bmovie-list\b[^"]*"[^>
 LISTING_ITEM_RE = re.compile(r'class="item[ "]')
 LISTING_EMPTY_RE = re.compile(r"ohjelmistoa saatavilla", re.I)
 H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S)
-ITEM_RE = re.compile(r'<div class="item [^"]*date-(\d{1,2})\.(\d{1,2})\.(\d{4})"(.*?)(?=<div class="item |</div>\s*</div>\s*</div>|\Z)', re.S)
-TIME_RE = re.compile(r"klo\s*(\d{1,2})[.:](\d{2})")
+# One screening. Kotka writes `<div class="item kotka date-2.9.2026">`; Niagara breaks the
+# line after `<div` and, on its listing, appends a `name-` class after the date, so the
+# tag is matched on whitespace and the class attribute is captured whole. The date and the
+# place are read out of it afterwards. The block runs to the next item or to the template's
+# three closing divs, as before.
+ITEM_RE = re.compile(r'<div\s+class="(item [^"]*\bdate-\d{1,2}\.\d{1,2}\.\d{4}\b[^"]*)"(.*?)'
+                     r'(?=<div\s+class="item |</div>\s*</div>\s*</div>|\Z)', re.S)
+ITEM_DATE_RE = re.compile(r"\bdate-(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
+# Kotka: "KE 2.9. klo 20.00". Niagara: <div class="time"><span>16.15</span>.
+TIME_RE = re.compile(r'(?:klo\s*|class="time"[^>]*>\s*(?:<span[^>]*>\s*)?)(\d{1,2})[.:](\d{2})')
 # Trio 123 screenings read "TRIO 123 | SALI 1"; Kinopalatsi has no room at all.
 PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
-PRICE_RE = re.compile(r"Lippu\s*([\d,\.]+)")
-SEATS_RE = re.compile(r"Vapaat paikat\s*(\d+)\s*/\s*(\d+)")
+# Kotka: "Lippu 15,00€". Niagara: <div class="show-price"> 13,00€. Per screening on both;
+# eleven of Niagara's films carried two or three different prices on 2026-09-02.
+PRICE_RE = re.compile(r'(?:Lippu\s*|class="show-price"[^>]*>\s*)([\d,\.]+)')
+# Kotka: "Vapaat paikat 27/35". Niagara: "Paikkoja vapaana: 126/127". Read only to derive
+# soldOut; the counts themselves are not published (IDEAS, "Cinema Niagara").
+SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)")
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
+# Niagara's per-screening labels: "Seniorikino", "Ensi-ilta", "Q&amp;A" ... Kotka has none.
+TAG_RE = re.compile(r'<span class="tag"[^>]*>(.*?)</span>', re.S)
 AGE_RE = re.compile(r"ikarajat/fi-(\d+|s)\.svg", re.I)
-DUR_RE = re.compile(r"Kesto:</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?", re.I)
-LANGV_RE = re.compile(r"Kieli:</span>\s*([^<]+)", re.I)
-SUBS_RE = re.compile(r"Tekstitys:</span>\s*([^<]+)", re.I)
+# Kotka: `Kesto:</span> 1 h 46 min`. Niagara: `Kesto </span> 1 h 48 min`, no colon.
+DUR_RE = re.compile(r"Kesto:?\s*</span>\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?", re.I)
+LANGV_RE = re.compile(r"Kieli:?\s*</span>\s*([^<]+)", re.I)
+SUBS_RE = re.compile(r"Tekstitys:?\s*</span>\s*([^<]+)", re.I)
 POSTER_RE = re.compile(r'<img class="poster-img" src="([^"]+)"')
 GENRES_RE = re.compile(r'<span class="movie-genre">([^<]+)</span>')
+# Niagara lists its genres under a detail label that literally reads "genre".
+GENRES2_RE = re.compile(r'<span class="label">\s*genre\s*</span>\s*([^<]+)', re.I)
 DESC_RE = re.compile(r'class="description-container[^"]*"[^>]*>\s*<span>(.*?)</span>', re.S)
 # The description opens with an age-limit boilerplate line; drop it.
 AGE_BOILER_RE = re.compile(r"^Elokuva on [^.]*\.[^.]*\.\s*", re.S)
@@ -204,20 +238,37 @@ def get(url, tries=3):
         cache=True).decode("utf-8", "replace")
 
 
+# Finnish language names -> ISO 639-1, the inverse of the client's `LN.fi`. The sites
+# print names, not codes: "Suomi ja ruotsi", "englanti, espanja". Matched on the first
+# four letters of a word so the inflected and abbreviated forms the templates use --
+# "suomeksi", "ruots.", "englanniksi" -- resolve too. SV rather than SE: SE is Sweden the
+# country, which this app used to store because Finnkino does.
+LANG_NAMES = {
+    "suomi": "FI", "englanti": "EN", "ruotsi": "SV", "espanja": "ES", "saksa": "DE",
+    "ranska": "FR", "italia": "IT", "venäjä": "RU", "viro": "ET", "tanska": "DA",
+    "norja": "NO", "islanti": "IS", "hollanti": "NL", "puola": "PL", "portugali": "PT",
+    "ukraina": "UK", "arabia": "AR", "japani": "JA", "kiina": "ZH", "korea": "KO",
+    "hindi": "HI", "turkki": "TR", "georgia": "KA", "tamili": "TA", "liettua": "LT",
+    "malajalam": "ML",
+}
+LANG_WORD_RE = re.compile(r"[a-zåäö]+")
+
+
+def lang_codes(v):
+    """'Suomi ja ruotsi' -> ['FI', 'SV']; 'englanti, espanja' -> ['EN', 'ES'];
+    'Alkuperäinen' -> []. Source order, no repeats."""
+    out = []
+    for word in LANG_WORD_RE.findall((v or "").lower()):
+        for name, code in LANG_NAMES.items():
+            if word.startswith(name[:4]) and code not in out:
+                out.append(code)
+                break
+    return out
+
+
 def _lang(page):
     """'Alkuperäinen' / 'Suomi ja ruotsi' -> Finnkino-style tags."""
-    def codes(v):
-        v = (v or "").lower()
-        out = []
-        if "suomi" in v or "suom" in v:
-            out.append("FI")
-        if "ruotsi" in v or "ruots" in v:
-            # SV: the ISO 639-1 code for Swedish. SE is Sweden the country, which this
-            # app used to use because Finnkino does.
-            out.append("SV")
-        if "englan" in v:
-            out.append("EN")
-        return out
+    codes = lang_codes
     a = LANGV_RE.search(page)
     s = SUBS_RE.search(page)
     av = _txt(a.group(1)) if a else ""
@@ -276,6 +327,14 @@ def normalise_aud(raw, short):
     return raw
 
 
+def _place_class(cls):
+    """`item tampere date-3.9.2026 name-x` -> "tampere": the class tokens that are not the
+    item marker, a date or a name. Kotka would give "kotka", but there the place line
+    wins and this is never consulted."""
+    return " ".join(t for t in cls.split()
+                    if t != "item" and not t.startswith(("date-", "name-")))
+
+
 def parse_movie(page, site, movie_url):
     """-> (list of raw screenings, film meta)."""
     h1 = H1_RE.search(page)
@@ -292,22 +351,31 @@ def parse_movie(page, site, movie_url):
     poster = POSTER_RE.search(page)
     img = poster.group(1).split("?")[0] if poster else ""
     lang = _lang(page)
-    genres = ", ".join(dict.fromkeys(_txt(g) for g in GENRES_RE.findall(page) if _txt(g)))
+    genre_hits = GENRES_RE.findall(page)
+    if not genre_hits:
+        g2 = GENRES2_RE.search(page)
+        genre_hits = g2.group(1).split(",") if g2 else []
+    genres = ", ".join(dict.fromkeys(_txt(g) for g in genre_hits if _txt(g)))
     d = DESC_RE.search(page)
     syn = AGE_BOILER_RE.sub("", _txt(d.group(1))) if d else ""
 
     out = []
     for m in ITEM_RE.finditer(page):
-        d, mo, y, block = int(m.group(1)), int(m.group(2)), int(m.group(3)), m.group(4)
+        cls, block = m.group(1), m.group(2)
+        dm = ITEM_DATE_RE.search(cls)
+        d, mo, y = int(dm.group(1)), int(dm.group(2)), int(dm.group(3))
         tm = TIME_RE.search(block)
         if not tm:
             continue
         place = PLACE_RE.search(block)
-        theatre = _txt(place.group(1)) if place else ""
+        # Niagara prints no place line; its item carries the place as a class instead
+        # ("item tampere date-..."), and `match` runs against that.
+        theatre = _txt(place.group(1)) if place else _place_class(cls)
         room = _txt(place.group(2)) if (place and place.group(2)) else ""
         price = PRICE_RE.search(block)
         seats = SEATS_RE.search(block)
         book = BOOK_RE.search(block)
+        tags = [_txt(t) for t in TAG_RE.findall(block)]
         out.append({
             "theatre_raw": theatre, "aud": room,
             "start": datetime.datetime(y, mo, d, int(tm.group(1)), int(tm.group(2)),
@@ -315,6 +383,12 @@ def parse_movie(page, site, movie_url):
             "price": (price.group(1).replace(",", ".").rstrip("0").rstrip(".") + "\u20ac"
                       if price else ""),
             "free": int(seats.group(1)) if seats else None,
+            "method": " \u00b7 ".join(dict.fromkeys(t for t in tags if t)),
+            # The public screening id, as the ticket href carries it. The key a show is
+            # deduplicated on: Niagara's programme renders every screening twice, in a
+            # desktop and a mobile wrapper, and a film page must never be able to do the
+            # same. Never fetched.
+            "sid": book.group(1) if book else "",
             "url": site["base"] + (book.group(1) if book else movie_url),
         })
     return out, {"title": title, "rating": rating, "len": minutes, "img": img,
@@ -393,6 +467,7 @@ def fetch_site(site, sleep=1.2):
         _classify_no_films(listing, site["base"] + "/elokuvat/ohjelmistossa")
 
     per_venue = {v["id"]: [] for v in site["venues"]}
+    seen_shows = set()
     for path, mid in budget_or_raise(movies, site['provider']):
         try:
             page = get(site["base"] + path)
@@ -401,10 +476,20 @@ def fetch_site(site, sleep=1.2):
             continue
         rows, meta = parse_movie(page, site, path)
         for r in rows:
+            # One public screening, one show, whatever the markup repeats. The ticket id
+            # is the key. A row without one is keyed on the film, its start, the place
+            # and the auditorium together: a shared host screens one film in two halls
+            # at the same minute, and film-plus-start alone would have folded them.
+            key = r["sid"] or (path, r["start"], r["theatre_raw"], r["aud"])
+            if key in seen_shows:
+                continue
             hay = f"{r['theatre_raw']} {r['aud']}".lower()
             venue = next((v for v in site["venues"] if v["match"] in hay), None)
             if not venue:
                 continue
+            # Recorded only once a registered venue took the row, so a malformed copy
+            # that matched nothing cannot suppress the valid copy that follows it.
+            seen_shows.add(key)
             per_venue[venue["id"]].append({
                 "eventId": mid,
                 "title": meta["title"] or "?",
@@ -412,7 +497,7 @@ def fetch_site(site, sleep=1.2):
                 "len": meta["len"],
                 "rating": meta["rating"],
                 "genres": meta["genres"],
-                "method": "",
+                "method": r["method"],
                 "theatre": venue["name"],
                 # Verbatim for every site but the ones that repeat the venue inside the
                 # room; see normalise_aud.
