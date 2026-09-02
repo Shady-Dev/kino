@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 8 items still open, with the section that holds each one and its reasoning. Presence
+The 7 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -12,8 +12,6 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 **[App](#app)**
 
-- Accessibility: the favourite star's 3.25:1, where whether 1.4.3 or 1.4.11 governs a
-  text-rendered icon is unsettled
 - Landing pages: the screening list could span the full film width on narrow phones
   once the poster column has ended, with a two-level label
 - Landing pages: the city legend's cinema names link to theatre pages and look like a
@@ -2031,11 +2029,31 @@ count failed the same way.
       affordance -- small padding, a clear hover and focus treatment, perhaps a short
       `Teatterit` / `Cinemas` label in front -- and not large primary-style buttons, which
       would compete with the one CTA on the page.
-- [ ] The favourite star at 3.25:1, where whether 1.4.3 or 1.4.11 governs a
-      text-rendered icon is unsettled. Left open on purpose by the audit below.
+- [x] **The pressed favourite star reads at 4.5:1 (2026-09-02, sw.js v98).** The glyph
+      was painted with `--accent`, which measures 3.25:1 on `--surface` in light theme.
+      The 2026-09-01 audit left it there because a text-rendered icon might count as a
+      graphical object under 1.4.11, where 3:1 passes, and not as text under 1.4.3,
+      where it fails. Settled by clearing the higher bar: `--accent-text`, the token the
+      audit created for exactly this case, measures 5.32:1 on `--surface`, so both
+      readings pass. Dark theme is unchanged by construction, because `--accent-text`
+      and `--accent` are the same #E8B84B there (9.61:1). Measured live against the
+      served page before and after, both themes, from computed style: pressed 3.25 ->
+      5.32 light and 9.61 -> 9.61 dark; unpressed `--muted` 5.98 / 5.73; the labelled
+      first-visit state paints `--ink` at 17.76 / 15.11. None of those moved. The border
+      stays on `--accent` (3.25 / 9.61, the 1.4.11 job it was tuned for); hover and the
+      shared `button:focus-visible` ring are untouched, and the click path was exercised
+      live. `FavouriteStarTest` in `tests/test_theme_contrast.py` resolves the token the
+      pressed rule actually names and the token `.fav` paints behind it and computes the
+      ratio per theme, so a later retune of `--accent-text` or `--surface` is caught; the
+      star moved from `ACCENT_TEXT_ALLOWED` to `TEXT_RULES`, so the routing tests now
+      require the text token there. Mutations, each restored byte-identical: glyph back
+      on `--accent` (5 red), light `--accent-text` raised to #B8860B (3 red), border
+      moved to the text token (1 red), unpressed glyph on `--line` (2 red), pressed rule
+      deleted (5 red), light `--surface` darkened to #F4E9CE (4 red); the button surface
+      moved to `--bg` stayed green at 4.97 / 10.46, which is correct.
       **The other half of this item was dropped on 2026-09-01**: 18 px title links clear
       2.5.8's spacing exception, by about a pixel, so they pass and there is nothing to
-      fix. One finding left, not two.
+      fix.
 - [x] **Light-mode polish + accessibility pass.** Audited against the served page on
       2026-09-01 in both themes, fi/sv/en, at 320/375/720/1440 px. Most of what this item
       stood for was already done and had never been written down: focus order and rings,

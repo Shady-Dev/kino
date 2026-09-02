@@ -13,6 +13,13 @@ either token.
 The ratios are computed here rather than asserted as hex strings, because the thing that
 must stay true is the contrast, not the value that produced it. Changing a token is
 allowed; changing it to something unreadable is not.
+
+The pressed favourite star joined the text rules on 2026-09-02. The audit had left it on
+`--accent` because a text-rendered icon might be a graphical object under 1.4.11 (3:1)
+rather than text under 1.4.3 (4.5:1). It measured 3.25:1 on `--surface` in light theme,
+so it passed one reading and failed the other; painting it with `--accent-text` clears
+both, and `FavouriteStarTest` reads the token the rule actually names rather than
+assuming it.
 """
 import pathlib
 import re
@@ -36,11 +43,17 @@ TEXT_RULES = (
     "#fresh summary.bad",
     "#sources .src.bad",
     "#sources .part",
+    '.fav[aria-pressed="true"]',
 )
 
 # Accent as a non-text colour is fine at 3:1 and stays on --accent. The wordmark dot is a
 # logotype, which 1.4.3 exempts outright.
-ACCENT_TEXT_ALLOWED = (".logo span", '.fav[aria-pressed="true"]')
+ACCENT_TEXT_ALLOWED = (".logo span",)
+
+# The favourite button: its glyph is U+2605 / U+2606 at 1.15rem, well under the 24px
+# that would make it large text.
+FAV = ".fav"
+FAV_PRESSED = '.fav[aria-pressed="true"]'
 
 AA_TEXT = 4.5          # 1.4.3, text under 18.66px bold / 24px
 AA_NON_TEXT = 3.0      # 1.4.11, borders and focus indicators
@@ -144,6 +157,66 @@ class TokenRoutingTest(unittest.TestCase):
 
     def test_the_selected_day_label_uses_the_ink_token(self):
         self.assertRegex(HTML, r"\.day\.active small\{color:var\(--accent-on-ink\)\}")
+
+
+def rule_token(selector, prop):
+    """The token `prop` resolves to in the last rule for exactly `selector` that sets it.
+
+    Exactly: `.fav` must not match `.fav[aria-pressed="true"]`, `.fav.labelled` or
+    `.fav:hover`, so the selector has to be followed by `{`. Two `.fav{` rules exist (the
+    base one and a media-query override that sets only flex and padding), and taking the
+    last body that names the property is what the cascade does for equal specificity.
+    The lookbehind keeps `border-color` from answering for `color`."""
+    bodies = re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", HTML)
+    if not bodies:
+        raise AssertionError(f"no rule for {selector}")
+    pattern = r"(?<![-\w])" + re.escape(prop) + r"\s*:\s*var\(--([a-z-]+)\)"
+    hits = [m.group(1) for b in bodies for m in [re.search(pattern, b)] if m]
+    if not hits:
+        raise AssertionError(f"{selector} sets no {prop} from a token")
+    return hits[-1]
+
+
+class FavouriteStarTest(unittest.TestCase):
+    """The star is the one control whose colour changes with state, so each state is
+    measured on the surface the button actually paints, in the theme the reader is in.
+    Light theme pressed measured 3.25:1 before the fix; every other cell already passed."""
+
+    def test_the_pressed_star_paints_its_glyph_with_the_text_token(self):
+        self.assertEqual(rule_token(FAV_PRESSED, "color"), "accent-text")
+
+    def test_the_pressed_star_is_readable_on_its_own_surface_in_both_themes(self):
+        """Resolves whatever token the rule names, so a later retune of `--accent-text`
+        or of `--surface` is measured rather than trusted."""
+        fg, bg = rule_token(FAV_PRESSED, "color"), rule_token(FAV, "background")
+        for theme, t in (("light", LIGHT), ("dark", DARK)):
+            with self.subTest(theme=theme):
+                ratio = contrast(t[fg], t[bg])
+                self.assertGreaterEqual(
+                    ratio, AA_TEXT,
+                    f"pressed star --{fg} {t[fg]} on --{bg} {t[bg]} is {ratio:.3f}:1")
+
+    def test_the_unpressed_star_is_readable_in_both_themes(self):
+        """`--muted` on `--surface`. Unchanged by the fix and measured so that it stays
+        that way: 5.98:1 light, 5.73:1 dark on 2026-09-02."""
+        fg, bg = rule_token(FAV, "color"), rule_token(FAV, "background")
+        for theme, t in (("light", LIGHT), ("dark", DARK)):
+            with self.subTest(theme=theme):
+                ratio = contrast(t[fg], t[bg])
+                self.assertGreaterEqual(
+                    ratio, AA_TEXT,
+                    f"unpressed star --{fg} {t[fg]} on --{bg} {t[bg]} is {ratio:.3f}:1")
+
+    def test_the_pressed_border_keeps_the_accent_and_its_own_bar(self):
+        """The border is the 1.4.11 case `--accent` was tuned for. Moving it to the text
+        token would darken it for no reader's benefit."""
+        self.assertEqual(rule_token(FAV_PRESSED, "border-color"), "accent")
+        bg = rule_token(FAV, "background")
+        for theme, t in (("light", LIGHT), ("dark", DARK)):
+            with self.subTest(theme=theme):
+                ratio = contrast(t["accent"], t[bg])
+                self.assertGreaterEqual(ratio, AA_NON_TEXT,
+                                        f"pressed border on --{bg} is {ratio:.3f}:1")
 
 
 if __name__ == "__main__":
