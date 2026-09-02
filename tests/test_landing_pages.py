@@ -22,7 +22,8 @@ What they pin is the requested behaviour and nothing that merely mirrors the moc
 - the theme is the app's: the stored `kino-theme` wins before first paint, the OS decides
   otherwise, the toggle writes the same key, and no script renders content;
 - the card is the app's: film facts fold first-non-empty across the day's screenings,
-  language and price sit on the card when shared and on the screening when they differ,
+  language sits on the card when shared and on the screening when it differs, the price
+  sits on its own screening's stub and never on the card,
   the score is the app's ring with an accessible label, prices are labelled the way the
   client labels them, and a city page stacks its stubs the way the combined view does;
 - regeneration is deterministic and nothing volatile reaches a page.
@@ -338,6 +339,23 @@ class GeneratedPagesTest(unittest.TestCase):
         self.assertEqual(tables["en"], bp.LN["en"])
         self.assertGreater(len(tables["fi"]), 20)
 
+    def test_a_price_appears_only_inside_a_screening_stub(self):
+        """Across every generated page: the euro sign occurs only inside a stub's price
+        element, never in the card's metadata. The committed Tampere case of 2026-09-02
+        is one instance; this holds for whatever the data says today."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                body = text.split("<main>")[1].split("</main>")[0]
+                metas = re.findall(r'<div class="meta[12]">(.*?)</div>', body)
+                self.assertFalse(any("\u20ac" in m for m in metas), k)
+                # A synopsis is the cinema's prose and may quote a price ("9€/kpl" in a
+                # senior-screening blurb); it is not a label and is left out of the check.
+                stripped = re.sub(r'<p class="syn">.*?</p>', "", body, flags=re.S)
+                stripped = re.sub(r'<span class="price">[^<]*</span>', "", stripped)
+                self.assertNotIn("\u20ac", stripped, k)
+                for li in re.findall(r"<li>(.*?)</li>", body, re.S):
+                    self.assertLessEqual(li.count('class="price"'), 1)
+
     def test_a_city_page_stacks_its_stubs_and_a_theatre_page_does_not(self):
         """The app's combined view is a grid of stacked stubs; its single-venue view is a
         row of ticket stubs. A city page is the combined view."""
@@ -583,18 +601,112 @@ class StubShapeTest(unittest.TestCase):
                          ["Sali Tapio 4 · suomi", "Sali Tapio 1 · englanti · tekstitys suomi/ruotsi"])
         self.assertFalse(any("tekstitys" in m or m == "suomi" for m in self.meta2_text(html)))
 
-    def test_shared_price_sits_on_the_card_and_a_differing_one_on_the_screening(self):
-        same = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
-                self.show(start="2026-09-02T19:00:00+03:00", price="13\u20ac", aud="Sali Tapio 1")]
-        html = self.block(same, False)
-        self.assertIn("13\u20ac", self.meta2_text(html))
-        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
-        diff = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
-                self.show(start="2026-09-02T19:00:00+03:00", price="10\u20ac", aud="Sali Tapio 1")]
-        html = self.block(diff, False)
-        self.assertIn("alkaen 10\u20ac", self.meta2_text(html))
-        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4 · 13\u20ac", "Sali Tapio 1 · 10\u20ac"])
-        self.assertIn("from 10\u20ac", self.meta2_text(self.block(diff, False, "en")))
+    # -- price: the screening's, never the film's (2026-09-02) ----------------------------
+
+    @staticmethod
+    def stubs_of(html):
+        return re.findall(r"<li>(.*?)</li>", html, re.S)
+
+    def stub_prices(self, html):
+        """One entry per stub: the price element's text, or None when the stub has none."""
+        out = []
+        for li in self.stubs_of(html):
+            m = re.search(r'<span class="price">(.*?)</span>', li)
+            out.append(text_of(m.group(1)) if m else None)
+        return out
+
+    @staticmethod
+    def card_text(html):
+        m = re.search(r"<h3>.*?<ul class=", html, re.S)
+        return text_of(m.group(0)) if m else ""
+
+    def tampere(self):
+        """The committed Autofiktio / Tampere case of 2026-09-02, field for field: Cinema
+        Niagara 16:15 at 11€, Finnkino Plevna 17:30 and 20:15 with no published price."""
+        base = dict(title="Autofiktio", lang="ES-A, FI-S, SV-S", rating="K-12", len="112",
+                    genres="Draama, Komedia", gids=[18, 35], img="", tmdb=6.3, votes=123)
+        return [dict(base, start="2026-09-02T16:15:00+03:00", price="11\u20ac", aud="",
+                     venueLabel="Cinema Niagara", venueProvider="niagara",
+                     url="https://cinemaniagara.fi/salikartta?id=54280"),
+                dict(base, start="2026-09-02T17:30:00+03:00", price=None, aud="Sali 7",
+                     venueLabel="Finnkino Plevna", venueProvider="finnkino",
+                     url="https://www.finnkino.fi/websales/show/302341/"),
+                dict(base, start="2026-09-02T20:15:00+03:00", price=None, aud="Sali 7",
+                     venueLabel="Finnkino Plevna", venueProvider="finnkino",
+                     url="https://www.finnkino.fi/websales/show/302342/")]
+
+    def test_one_priced_screening_among_unpriced_ones_prices_only_itself(self):
+        """The defect. price_label over the three skipped the unpriced two and put 11€ on
+        the card as if Finnkino charged it."""
+        html = self.block(self.tampere(), True)
+        self.assertEqual(self.stub_prices(html), ["11\u20ac", None, None])
+        self.assertNotIn("\u20ac", self.card_text(html))
+        self.assertEqual(html.count("11\u20ac"), 1)
+        niagara = next(li for li in self.stubs_of(html) if "Cinema Niagara" in li)
+        self.assertIn('<span class="price">11\u20ac</span>', niagara)
+
+    def test_different_prices_stay_with_their_screenings(self):
+        shows = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
+                 self.show(start="2026-09-02T19:00:00+03:00", price="10\u20ac", aud="Sali Tapio 1")]
+        html = self.block(shows, False)
+        self.assertEqual(self.stub_prices(html), ["13\u20ac", "10\u20ac"])
+        self.assertNotIn("\u20ac", self.card_text(html))
+        self.assertNotIn("alkaen", html)
+
+    def test_the_same_price_everywhere_is_still_each_screenings_own(self):
+        shows = [self.show(start=f"2026-09-02T{h}:00:00+03:00", price="13\u20ac", aud=f"Sali {h}")
+                 for h in ("14", "17", "20")]
+        html = self.block(shows, False)
+        self.assertEqual(self.stub_prices(html), ["13\u20ac"] * 3)
+        self.assertNotIn("\u20ac", self.card_text(html))
+
+    def test_no_prices_means_no_price_markup_at_all(self):
+        shows = [self.show(start="2026-09-02T16:00:00+03:00", price=None),
+                 self.show(start="2026-09-02T19:00:00+03:00", price="", aud="Sali Tapio 1")]
+        html = self.block(shows, False)
+        self.assertNotIn('class="price"', html)
+        self.assertNotIn("\u20ac", html)
+        for li in self.stubs_of(html):
+            self.assertTrue(li.endswith("</span></a>"), li)      # nothing after the label
+            self.assertNotIn("<span></span>", li)
+
+    def test_a_providers_own_floor_survives_on_its_stub(self):
+        s = self.show(price="alkaen 10\u20ac")
+        self.assertEqual(self.stub_prices(self.block([s], False)), ["alkaen 10\u20ac"])
+        self.assertEqual(self.stub_prices(self.block([s], False, "en")), ["from 10\u20ac"])
+        self.assertNotIn("\u20ac", self.card_text(self.block([s], False)))
+
+    def test_city_and_theatre_pages_both_attach_the_price_to_the_right_stub(self):
+        for with_venue in (True, False):
+            with self.subTest(with_venue=with_venue):
+                html = self.block(self.tampere(), with_venue)
+                lis = self.stubs_of(html)
+                self.assertEqual([("price" in li) for li in lis], [True, False, False])
+                self.assertIn("16:15", lis[0])
+                self.assertNotIn("\u20ac", self.card_text(html))
+
+    def test_a_hostile_price_string_cannot_reach_the_page(self):
+        """price_label rebuilds the label from the number it finds, so markup in a
+        provider's price string never survives it; the leftover letters make it a floor.
+        The element is escaped on top of that, asserted at the source."""
+        s = self.show(price="13\u20ac<b>x</b>")
+        html = self.block([s], False)
+        self.assertNotIn("<b>", html)
+        self.assertEqual(self.stub_prices(html), ["alkaen 13\u20ac"])
+        src = (ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
+        self.assertIn('<span class="price">{esc(own_price)}</span>', src)
+
+    def test_venue_room_and_links_are_what_they_were(self):
+        html = self.block(self.tampere(), True)
+        self.assertEqual(re.findall(r'href="([^"]+)"', html),
+                         ["https://cinemaniagara.fi/salikartta?id=54280",
+                          "https://www.finnkino.fi/websales/show/302341/",
+                          "https://www.finnkino.fi/websales/show/302342/"])
+        self.assertEqual(self.stub_texts(html),
+                         ["Cinema Niagara", "Finnkino Plevna · Sali 7", "Finnkino Plevna · Sali 7"])
+        self.assertIn('class="stub chain-niagara"', html)
+        self.assertIn('class="stub chain-finnkino"', html)
+        self.assertNotIn("sold", html.lower())
 
     def test_film_facts_fold_first_non_empty_not_first(self):
         shows = [self.show(start="2026-09-02T16:00:00+03:00", rating="", tmdb=None, votes=None),

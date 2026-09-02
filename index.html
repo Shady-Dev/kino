@@ -533,9 +533,17 @@
     display:grid; gap:8px;
     grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
   }
-  .stubs.grid .stub{flex-direction:column; align-items:stretch}
-  .stubs.grid .stub .time{padding:6px 10px 2px 12px}
+  /* Stacked stub: time and price share the top row, the place takes the second. A grid
+     rather than a column so the price sits at the trailing edge of the time line without
+     a third row and with one markup for every view. */
+  .stubs.grid .stub{
+    display:grid; grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:"time price" "aud aud"; align-items:start;
+  }
+  .stubs.grid .stub .time{grid-area:time; padding:6px 10px 2px 12px}
+  .stubs.grid .stub .price{grid-area:price; align-self:center; padding:6px 10px 2px 6px; border-left:0}
   .stubs.grid .stub .aud{
+    grid-area:aud;
     padding:0 10px 7px 12px; border-left:0; max-width:none;
     display:flex; align-items:flex-start;
   }
@@ -590,6 +598,12 @@
      visitor cannot afford to have eaten by an ellipsis. */
   .stub .aud .loc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
   .stub .aud .agelim{flex:0 0 auto}
+  /* The screening's own price, at the trailing edge, inside the same click target. Muted
+     and small like the room, so the time stays the strongest thing on the ticket and the
+     price never reads as a second button. Absent when the cinema publishes none. */
+  .stub .price{flex:0 0 auto; padding:7px 10px 7px 6px; font-size:.72rem; font-weight:700; color:var(--muted); white-space:nowrap}
+  .stub .time + .price{border-left:1px dashed var(--line); padding-left:10px}
+  .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink); opacity:.75}
   /* perforation notches */
   .stub::before,.stub::after{
     content:""; position:absolute; width:8px; height:8px; border-radius:50%;
@@ -650,7 +664,11 @@
   .chip:hover:not(.on){color:var(--ink); border-color:var(--muted)}
 
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
-  .trow .stub{flex:0 0 158px; width:158px; min-width:0}
+  /* Was a fixed 158 px. With the price on the ticket, "alkaen 10€" beside a room ran
+     4 px past that and was clipped by overflow:hidden; the stub now grows to its content
+     up to 220 px and the film title beside it gives way, since it can ellipsise and the
+     price cannot. */
+  .trow .stub{flex:0 0 auto; width:auto; min-width:158px; max-width:220px}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
   .trow .stub .aud{flex:1 1 0; min-width:0; max-width:none; text-align:left}
   .trow .stub .aud .loc{flex:0 1 auto}
@@ -2355,9 +2373,10 @@
       const where = venueName(s);
       const tint = tinted && s.provider ? ` chain-${esc(s.provider)}` : '';
       const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
+      const own_price = priceLabel([s]);
       return `<div class="trow">
         <a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>
+          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}</a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
           <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
@@ -2622,8 +2641,10 @@
         // already distinguishes through the registry's book field.
         const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve',
                                      list:'tipList' }[BOOK[t.provider]] || 'tipBuy'];
+        // The screening's own price, or nothing. Never the film's: see the meta2 note.
+        const own_price = priceLabel([t]);
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span>
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -2633,7 +2654,13 @@
         premiereChip(m),
         fmts
       ].filter(Boolean).join('');
-      const price = priceLabel(m.times);
+      // No price on the card, ever. priceLabel over the film's screenings folded the
+      // cheapest one onto the meta line, and a screening without a price is skipped by
+      // it -- so Autofiktio in Tampere read "11€" at film level from Cinema Niagara's
+      // 16:15 while Finnkino's 17:30 and 20:15 published no price at all (2026-09-02).
+      // A price belongs to the ticket being opened: provider, time, format and ticket
+      // type differ between screenings, so it lives on each stub and nowhere else, even
+      // when every stub happens to say the same.
       // The past-times toggle sits on the meta line, not in the stub grid: a ticket-shaped
       // cell that is not a ticket reads as a broken showtime.
       const pastToggle = (gone.length && ahead.length)
@@ -2645,7 +2672,6 @@
         genresOf(m) ? `<span>${esc(genresOf(m))}</span>` : '',
         m.len ? `<span>${esc(m.len)} min</span>` : '',
         m.lang ? `<span>${esc(langTxt(m.lang))}</span>` : '',
-        price ? `<span>${price}</span>` : '',
         pastToggle
       ].filter(Boolean).join('');
       return `<article class="movie" data-id="${esc(m.eventId)}">
@@ -2726,13 +2752,12 @@
     const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : (f.s.fi || f.s.en))) || '';
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
-    const sheetPrice = priceLabel(all);
+    // No folded price here either: each stub below carries its own.
     const meta1 = [
       scoreRing(sample),
       sample.rating ? `<span class="rating">${esc(sample.rating)}</span>` : '',
       premiereChip({ ...sample, times: all }),
       sample.len ? `<span class="fmt">${esc(sample.len)} ${L[lang].min}</span>` : '',
-      sheetPrice ? `<span class="fmt">${sheetPrice}</span>` : '',
       fmts
     ].filter(Boolean).join('');
     const byDay = new Map();
@@ -2755,8 +2780,9 @@
         const where = venueName(s);
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
+        const own_price = priceLabel([s]);
         return `<a class="stub${cls}${tint}" style="--notch:${past?52:56}px" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span></a>`;
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span>${own_price ? `<span class="price">${esc(own_price)}</span>` : ''}</a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
     const sheetPoster = safeAssetUrl(sample.img);

@@ -18,6 +18,7 @@ retyping them, so the localisation is exercised against what actually ships.
 """
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import unittest
@@ -128,6 +129,35 @@ class PriceLabelTest(unittest.TestCase):
         the same string three times, every localisation test above would pass."""
         want = self.r["__from"]
         self.assertEqual(len({want["fi"], want["sv"], want["en"]}), 3, want)
+
+
+class PricePlacementTest(unittest.TestCase):
+    """The price is the screening's, never the film's (2026-09-02). `priceLabel` over a
+    film's screenings skips the unpriced ones, so Autofiktio in Tampere read "11€" on the
+    card from Cinema Niagara's 16:15 while Finnkino's 17:30 and 20:15 published none. The
+    rendering is DOM work and stays verified live; what can be pinned here is the source:
+    every call folds one row, and every stub renderer carries the price element."""
+
+    HTML = (pathlib.Path(_ctx.ROOT) / "index.html").read_text(encoding="utf-8")
+
+    def test_price_label_is_only_ever_asked_about_one_screening(self):
+        calls = re.findall(r"priceLabel\(([^)]*)\)", self.HTML)
+        self.assertEqual(sorted(calls), ["[s]", "[s]", "[t]", "rows"])   # definition + 3 renderers
+
+    def test_the_card_and_the_sheet_carry_no_folded_price(self):
+        self.assertNotIn("priceLabel(m.times)", self.HTML)
+        self.assertNotIn("priceLabel(all)", self.HTML)
+        self.assertNotIn("sheetPrice", self.HTML)
+
+    def test_each_stub_renderer_emits_the_price_element_inside_the_stub(self):
+        stubs = re.findall(r'<a class="stub\$\{cls\}.*?</a>', self.HTML, re.S)
+        self.assertEqual(len(stubs), 3)
+        for stub in stubs:
+            with self.subTest(stub=stub[:60]):
+                self.assertIn('<span class="price">${esc(own_price)}</span>', stub)
+                self.assertIn('<span class="time">', stub)
+        self.assertRegex(self.HTML, r"\.stub \.price\{[^}]*white-space:nowrap")
+        self.assertRegex(self.HTML, r'grid-template-areas:"time price" "aud aud"')
 
 
 if __name__ == "__main__":

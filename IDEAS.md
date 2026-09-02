@@ -3566,6 +3566,65 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### A price is the screening's, never the film's (2026-09-02, sw.js v100)
+
+Reported from a screenshot of the Tampere combined view. Autofiktio had three screenings
+on 2026-09-02: Cinema Niagara 16:15 at `11€`, Finnkino Plevna 17:30 and 20:15 with no
+published price. The card's metadata line read "espanja · tekstit suomi/ruotsi 11€", and
+no stub carried a price. A reader takes that as the film's price at every screening,
+including two where Finnkino publishes none and may charge something else.
+
+**Root cause, in both renderers.** The client folded `priceLabel(m.times)` onto the card
+(and `priceLabel(all)` onto the sheet). `priceLabel` reads the cheapest positive price
+across the rows and skips rows without one, so a priced subset became a film-wide figure.
+The generator did the same with `price_label(shows)` on the card, and its "differing
+prices go on the screening" rule counted the empty string as a differing price, so the
+Tampere case printed `11€` twice: once on the card, once on Niagara's stub.
+
+**Decision.** The price is the ticket's. Provider, time, format and ticket type differ
+between screenings, so a value from a non-empty subset must never be promoted to the film.
+Both renderers now put each screening's own `priceLabel([s])` in a dedicated
+`<span class="price">` inside its stub, and nothing on the card or in the sheet header --
+even when every screening happens to agree, because the agreement is a fact about today's
+screenings and not about the film. A screening without a price gets no element, so there
+is no empty separator or spacing. A provider's own floor survives as `priceLabel` already
+kept it: "alkaen 10€" renders "alkaen 10€" in Finnish and "från" / "from" in the other
+two. JSON-LD is untouched; it was already per screening.
+
+**Design.** The stub stays one click target: the price is a child span at the trailing
+edge, `.72rem`, muted like the room, no border, so the time stays the strongest element
+and the price does not read as a second button. In the stacked stub of the combined view
+the stub becomes a two-column grid, `"time price" / "aud aud"`, so the price sits on the
+time row without a third line and the markup is the same in every view; the row stub keeps
+its flex row with the price after the label. The time-mode row stub was a fixed 158 px, and
+"alkaen 10€" beside it ran 4 px past the edge under overflow:hidden (measured: price right
+231.3 against a stub right of 228); it now grows to its content, no shrink, capped at 220
+px, and the film title beside it ellipsises instead, since it can and the price cannot.
+Measured after: Cinema Orion in time mode 158 / 162.3 px wide at 320 and 1200 with no
+clipped stub, Kotkan Leffat Trio 123 with rooms and prices 158 / 170.6, rooms intact. The
+row stub's 32 px height is what it was: the price carries the time's own vertical padding.
+Measured live in the preview browser on the
+Tampere case at 320, 375, 402 and 1200 px in both themes: every stub 45.5 px, price inset
+1 px from the trailing edge, no overlap with the time or the place, no clipped stub, no
+horizontal overflow, zero euro signs in any card meta. Helsinki in Swedish at 320, with
+Orion's "från 10€" floors: 140 stubs, 3 priced, none clipped. Screenshots before and after
+at 375 and 1200 in both themes, app and city page, kept outside the repo.
+
+**Tests.** Generator: one priced screening among two unpriced prices only itself and the
+card says nothing (the committed Tampere case, field for field); two different prices stay
+with their screenings; the same price three times is on each stub and never the card; no
+prices means no price markup and no trailing artefact; "alkaen 10€" survives per language;
+city and theatre pages attach the price to the same stub; a hostile price string cannot
+reach the page; hrefs, venue labels and rooms are unchanged; and across every generated
+page the euro sign occurs only inside a stub's price element, never in a meta line, with
+synopsis prose excluded since a cinema's blurb may quote a price. Client: every
+`priceLabel(` call folds one row, `priceLabel(m.times)`, `priceLabel(all)` and
+`sheetPrice` are gone, and all three stub renderers emit the element. Mutations, restored
+byte-identical: film-level fold restored (98 red across the suite), one screening's price
+copied to every stub (4 red), price element dropped (7 red), the client's fold restored
+(red on the source tests). 170 generated pages rewritten once; the second regeneration
+writes nothing.
+
 ### The landing pages belong to the product (2026-09-02)
 The 168 canonical pages under `/teatteri/`, `/kaupunki/`, `/en/theatre/` and `/en/city/`
 were built to be indexable and read like it: system font, boxed cards, a CTA that said

@@ -32,7 +32,7 @@ Deliberate constraints:
   it is hidden when the script did not run.
 - **The card is the app's card.** Film facts -- rating, runtime, genres, score -- fold
   from the day's screenings by first non-empty value, never from the first screening
-  alone. Language and price sit on the card once when every screening shares them and on
+  alone. Language sits on the card once when every screening shares it and on
   the individual screening when they differ (`lang_parts` is the app's `langTxt`,
   `price_label` its `priceLabel`, each pinned against the client). The showtime keeps
   time, the cinema on a city page, and the room verbatim. The app's own tag folding for
@@ -400,9 +400,10 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .syn{color:var(--muted);font-size:.88rem;line-height:1.45;margin-top:6px}
 .times{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
 .times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
-.grid .stub{flex-direction:column;align-items:stretch}
-.grid .stub .time{padding:6px 10px 2px 12px}
-.grid .stub .aud{padding:0 10px 7px 12px;border-left:0;align-items:flex-start;line-height:1.2}
+.grid .stub{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"time price" "aud aud";align-items:start}
+.grid .stub .time{grid-area:time;padding:6px 10px 2px 12px}
+.grid .stub .price{grid-area:price;align-self:center;padding:6px 10px 2px 6px;border-left:0}
+.grid .stub .aud{grid-area:aud;padding:0 10px 7px 12px;border-left:0;align-items:flex-start;line-height:1.2}
 .grid .stub .aud::before,.grid .stub .aud::after{display:none}
 .stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
@@ -412,6 +413,9 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .aud .a{white-space:nowrap}
 .stub .aud::before,.stub .aud::after{content:"";position:absolute;left:-5px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .aud::before{top:-5px}.stub .aud::after{bottom:-5px}
+.stub .price{flex:0 0 auto;display:flex;align-items:center;padding:0 10px 0 6px;font-size:.72rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.stub .time + .price{border-left:1px dashed var(--line);padding-left:10px}
+.stub:hover .price{color:var(--bg);opacity:.75}
 .stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .stub:hover .aud{color:var(--bg);opacity:.75}
 .also{margin-top:24px}
@@ -543,8 +547,9 @@ def clip(text, n=200):
     return (cut[:sp] if sp > n * 0.6 else cut).rstrip(" ,.;:") + "\u2026"
 
 
-def stub_parts(s, with_venue, lang, own_lang=False, own_price=False):
-    """The showtime label, as (css class, text) pairs.
+def stub_parts(s, with_venue, lang, own_lang=False):
+    """The showtime label, as (css class, text) pairs. The price is not a label part: it
+    is its own element on the stub, see film_block.
 
     Theatre page: the room -- the page already names the cinema, and printing it again
     is how Joensuu read "Tapio · Sali Tapio 4". City page: the chain-prefixed cinema
@@ -553,11 +558,10 @@ def stub_parts(s, with_venue, lang, own_lang=False, own_price=False):
     SALI 1" means something and stays. Empty parts vanish, so no separator is ever
     leading, trailing or doubled.
 
-    Language and price belong to the card when every screening of the film that day
-    shares them, the app's rule; `own_lang` and `own_price` put them on this screening
-    when they differ, so nothing a screening says differently is lost. The classes decide
-    wrapping only: the cinema and the language phrases may break at their spaces, the
-    room stays on one line.
+    Language belongs to the card when every screening of the film that day shares it,
+    the app's rule; `own_lang` puts it on this screening when they differ, so nothing a
+    screening says differently is lost. The classes decide wrapping only: the cinema and
+    the language phrases may break at their spaces, the room stays on one line.
     """
     parts = []
     if with_venue:
@@ -565,8 +569,6 @@ def stub_parts(s, with_venue, lang, own_lang=False, own_price=False):
     parts.append(("a", s.get("aud") or ""))
     if own_lang:
         parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
-    if own_price:
-        parts.append(("p", price_label([s], lang)))
     return [(c, t) for c, t in parts if t]
 
 
@@ -582,14 +584,16 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
-    # Shared by every screening of this film today -> on the card once. Otherwise each
-    # screening says its own, and the card says nothing it cannot say for all of them.
+    # Language shared by every screening of this film today -> on the card once.
+    # Otherwise each screening says its own, and the card says nothing it cannot say for
+    # all of them. Price never folds: `price_label(shows)` skipped unpriced screenings, so
+    # Autofiktio in Tampere carried "11€" at film level from Cinema Niagara's 16:15 while
+    # Finnkino's 17:30 and 20:15 published none (2026-09-02). A price is the ticket's --
+    # provider, time, format and ticket type differ -- so each stub prints its own or
+    # nothing, even when every stub happens to agree.
     langs = {s.get("lang") or "" for s in shows}
     shared_lang = lang_parts(next(iter(langs)), lang) if len(langs) == 1 else []
     own_lang = len(langs) > 1
-    price_all = price_label(shows, lang)
-    own_prices = {price_label([s], lang) for s in shows}
-    own_price = len(own_prices) > 1
 
     meta1 = [score_ring(tmdb, first(shows, "votes"), t)]
     if rating:
@@ -602,8 +606,6 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         meta2.append(f"<span>{esc(length)} {t['mins']}</span>")
     if shared_lang:
         meta2.append(f'<span>{esc(" \u00b7 ".join(shared_lang))}</span>')
-    if price_all:
-        meta2.append(f"<span>{esc(price_all)}</span>")
 
     # A synopsis only on a film's first appearance: a four-day page repeats the same
     # title daily, and printing it each time both bloated the page and read like padding.
@@ -623,11 +625,13 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     times = []
     for s in shows:
         clock = (s.get("start") or "")[11:16]
-        parts = stub_parts(s, with_venue, lang, own_lang=own_lang, own_price=own_price)
+        parts = stub_parts(s, with_venue, lang, own_lang=own_lang)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
+        own_price = price_label([s], lang)
+        price = f'<span class="price">{esc(own_price)}</span>' if own_price else ""
         cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""
-        inner = f'<span class="time">{clock}</span>{aud}'
+        inner = f'<span class="time">{clock}</span>{aud}{price}'
         url = s.get("url") or ""
         times.append(f'<li><a class="stub{cls}" href="{esc(url)}" rel="nofollow noopener">{inner}</a></li>'
                      if url.startswith("http") else f'<li><span class="stub{cls}">{inner}</span></li>')
