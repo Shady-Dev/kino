@@ -195,25 +195,29 @@ LN = {
            "FR": "ranska", "IT": "italia", "RU": "ven\u00e4j\u00e4", "ET": "viro", "DA": "tanska",
            "NO": "norja", "IS": "islanti", "NL": "hollanti", "PL": "puola", "PT": "portugali",
            "UK": "ukraina", "AR": "arabia", "JA": "japani", "ZH": "kiina", "KO": "korea",
-           "HI": "hindi", "TR": "turkki", "KA": "georgia", "TA": "tamili"},
+           "HI": "hindi", "TR": "turkki", "KA": "georgia", "TA": "tamili", "LT": "liettua",
+           "ML": "malajalam"},
     "en": {"FI": "Finnish", "EN": "English", "SV": "Swedish", "ES": "Spanish", "DE": "German",
            "FR": "French", "IT": "Italian", "RU": "Russian", "ET": "Estonian", "DA": "Danish",
            "NO": "Norwegian", "IS": "Icelandic", "NL": "Dutch", "PL": "Polish",
            "PT": "Portuguese", "UK": "Ukrainian", "AR": "Arabic", "JA": "Japanese",
            "ZH": "Chinese", "KO": "Korean", "HI": "Hindi", "TR": "Turkish", "KA": "Georgian",
-           "TA": "Tamil"},
+           "TA": "Tamil", "LT": "Lithuanian", "ML": "Malayalam"},
 }
-# Codes the committed data carries that the client's table does not, each a defect
-# somewhere else and named here so a page never shows a raw code meanwhile:
+# Codes the committed data carried on 2026-09-02 that the client's table did not, each a
+# defect somewhere else and named here so a page never showed a raw code meanwhile. The
+# fixes landed the same day -- fetch_data.lang_tag maps TU and MA, nexxo._lang drops XX,
+# LT and ML are in the client's LN and mirrored above -- but the committed data turns over
+# only as the adapters run again, Finnkino from an ordinary connection, so these stay
+# exactly as they are until a re-measure of data/area-*.json finds no TU, MA or XX:
 #   TU, MA -- Finnkino's own vocabulary for Turkish and Malayalam ("Keltaiset kirjeet",
-#             "I'm Game"). fetch_data.lang_tag maps SE -> SV and should map these too;
-#             until it does and the data has turned over, they are read as TR and ML here.
+#             "I'm Game"), read as TR and ML here.
 #   XX     -- Nexxo's "no subtitles" on dubbed films. Not a language: the subtitle role
-#             is simply absent, so it renders nothing. nexxo._lang should drop it.
-#   LT     -- Lithuanian, a real code missing from the client's LN ("Svečias").
+#             is simply absent, so it renders nothing.
+#   LT, ML -- now in LN above, which is consulted first; kept so the set goes in one step.
 # A code in none of these tables still renders, as itself, so a new one is visible on
 # the page rather than lost. `tests/test_landing_pages.py` asserts every code in the
-# committed data is covered, and lists these extras by name so adding one is a decision.
+# committed data is covered, and `tests/test_lang_normalization.py` pins this set.
 CODE_ALIAS = {"TU": "TR", "MA": "ML"}
 NO_SUBTITLES = {"XX"}
 LN_EXTRA = {"fi": {"LT": "liettua", "ML": "malajalam"},

@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 7 items still open, with the section that holds each one and its reasoning. Presence
+The 8 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -19,6 +19,8 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 **[Pipeline](#pipeline)**
 
+- Language codes normalised end to end: the adapter and client fixes landed 2026-09-02;
+  open until the committed data holds no `TU`, `MA` or `XX` and the landing-page aliases go
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices -- **blocked, not merely unbuilt**: the public programme API carries
@@ -1461,6 +1463,42 @@ Still open from this pass:
       Unaffected: the MX *CDN* is a public read reached through Finnkino's own
       `moviexchangeReleaseId` (`fetch_data.py`), so mirrored posters and the trailer
       fallback never needed credentials and still do not.
+- [ ] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99).** Four
+      codes in the committed data were not in the client's name table, each a defect
+      somewhere else, and the landing pages had aliased them meanwhile (see "The landing
+      pages belong to the product"). Re-measured before editing, across data/area-*.json:
+      `TU-A` 62 rows, all Finnkino, all "Keltaiset kirjeet", which the five other chains
+      screening it tag `TR-A` (51 rows); `MA-A` 3 rows, Finnkino, "I'm Game", a
+      Malayalam-language film -- the TMDB cache stores no original language, so this one
+      rests on the film rather than on a cross-check; `XX-S` 46 rows, all Nexxo sites,
+      every one in the subtitle role, beside `FI-A` (32), alone (8), `EN-A` (3) or `SV-A`
+      (3), Nexxo's "no subtitles"; `LT-A` 1 row, "Svečias – The Visitor"; `ML` none. 241
+      of 5310 rows carry no language at all.
+      **Code.** `fetch_data.lang_tag` maps language components through `FINNKINO_LANG`
+      (`SE`→`SV`, `TU`→`TR`, `MA`→`ML`); the role letter is never mapped and a compound
+      keeps its shape, `.TU-SE-S` → `TR-SV-S`. `nexxo._lang` drops `XX` from the subtitle
+      role before the join, so `FI-A, XX-S` publishes `FI-A` and a bare `XX-S` publishes
+      "", the value rows without language information already carry; `XX` in the audio
+      column is not dropped, because it has never been seen there and a raw code on the
+      page is the visible signal the tables are built around. The client's `LN` gains
+      `LT` and `ML` in fi, sv and en, appended after `TA` in all three so the existing
+      order is untouched, and the generator's fi/en mirror gains them too.
+      **Still open, which is why the marker is.** The committed data turns over only when
+      the adapters run: Finnkino from an ordinary connection on the local schedule, Nexxo
+      on its next provider run. `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` in
+      `build_pages.py` stay exactly as they are until a re-measure of data/area-*.json
+      finds no `TU`, `MA` or `XX`; then they go, with the tests that name them, and this
+      item closes. Not done in the code commit: no live data refresh.
+      Tests in `tests/test_lang_normalization.py`: TU/MA in both roles, SE and compounds
+      unchanged, all 673 other two-letter codes pass through, the map is exactly three
+      entries; XX-S vanishing beside FI/EN/SV and alone, XX beside a real subtitle code,
+      existing Nexxo semantics including kept duplicates, every output a well-formed tag
+      list or ""; LT and ML named in all three client tables, one key order across the
+      tables with the additions last, the names rendering through `lang_parts`; the alias
+      set pinned by value and agreeing with the client's names, and the four legacy
+      shapes in the data still rendering as words. Provider modules are imported inside
+      the tests, for the `EmptyProgramme` reload trap recorded under "Savon Kinot names the
+      venue inside its own room".
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the four providers that block datacenter IPs
       (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino), and with the MovieXchange route
@@ -3456,7 +3494,8 @@ shows all four raw today. So that no page does, the generator carries `CODE_ALIA
 adding one is a decision rather than a drift, and a test asserts every code in the
 committed data resolves. **Follow-ups, not done here:** the two adapter mappings, `LT`
 and `ML` in the client's `LN`, and then the removal of these extras once the data has
-turned over. Deliberately **not** ported: the app's `stubTags`, `priceLabel` and the
+turned over. Promoted to a Pipeline backlog item and the code half done on 2026-09-02;
+see "Language codes normalised end to end". Deliberately **not** ported: the app's `stubTags`, `priceLabel` and the
 metadata fold -- each a second implementation of a client rule with its own drift, for a
 page whose job is to hand the reader to the app.
 

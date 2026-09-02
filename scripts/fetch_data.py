@@ -181,17 +181,23 @@ def api(path, token):
         "referer": "https://www.finnkino.fi/",
     }))
 
+# Finnkino's language vocabulary where it departs from ISO 639-1. SE is ISO 3166 for
+# Sweden, the country; TU and MA are Finnkino's own for Turkish and Malayalam, measured
+# on 2026-09-02 as "Keltaiset kirjeet" (62 rows, tagged TR-A by every other chain that
+# screens it) and "I'm Game" (3 rows). Everything downstream is keyed by the ISO code:
+# the other adapters publish it and the client's name table knows only it.
+FINNKINO_LANG = {"SE": "SV", "TU": "TR", "MA": "ML"}
+
+
 def lang_tag(lbl):
     """OCAPI language attribute -> this app's tag. '.FI-S' -> 'FI-S', '.FI-SE-A' ->
-    'FI-SV-A'.
+    'FI-SV-A', '.TU-A' -> 'TR-A'.
 
-    Finnkino writes Swedish as SE, which is ISO 3166 for the country. Everything here
-    stores the ISO 639-1 language code, SV, and every other adapter now publishes that.
     Only the language components are mapped: the trailing A or S is the role, and a
     compound label carries two languages before it.
     """
     parts = lbl.lstrip(".").split("-")
-    return "-".join(["SV" if c == "SE" else c for c in parts[:-1]] + [parts[-1]])
+    return "-".join([FINNKINO_LANG.get(c, c) for c in parts[:-1]] + [parts[-1]])
 
 
 def loc(obj):
