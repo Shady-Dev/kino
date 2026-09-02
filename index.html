@@ -529,30 +529,43 @@
 
   /* Ticket stubs — the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+  /* A ticket needs about 240 px before a second column is worth having: 64 px of time,
+     up to 75 px of "alkaen 10€", and 90 px for the cinema's name to keep its words. The
+     film sheet is where this bit -- 335 px wide at 375, so minmax(168px) gave two 163 px
+     columns and "Cinema Orion" beside a floor price broke letter by letter over nine
+     lines; 520 px gave three columns and 1 px of details. min(240px,100%) is what keeps
+     a track from exceeding a container narrower than 240. Measured 2026-09-02. */
   .stubs.grid{
     display:grid; gap:8px;
-    grid-template-columns:repeat(auto-fill, minmax(168px, 1fr));
+    grid-template-columns:repeat(auto-fill, minmax(min(240px, 100%), 1fr));
   }
-  /* Stacked stub: time and price share the top row, the place takes the second. A grid
-     rather than a column so the price sits at the trailing edge of the time line without
-     a third row and with one markup for every view. */
+  /* The combined view's ticket. Same component as the row stub, adapted: a fixed time
+     compartment on the left spanning the full height, the details compartment beside it
+     wrapping as it needs, the price at the trailing edge. The seam is the details
+     compartment's dashed left border and sits at --tw; the notches are placed from the
+     same variable, so the perforation and the divider share one x by construction.
+     Until 2026-09-02 the notches were hidden here ("the perforation reads wrong on a
+     stacked stub"), which left the chain rule carrying the whole ticket affordance --
+     see IDEAS. 64 px is 12 + 41.8 + 10: the row stub's own padding around a tabular
+     "00:00" at .92rem, measured. */
   .stubs.grid .stub{
-    display:grid; grid-template-columns:minmax(0,1fr) auto;
-    grid-template-areas:"time price" "aud aud"; align-items:start;
+    --tw:64px;
+    display:grid; grid-template-columns:var(--tw) minmax(0,1fr) auto;
+    grid-template-areas:"time aud price"; align-items:stretch; min-height:44px;
   }
-  .stubs.grid .stub .time{grid-area:time; padding:6px 10px 2px 12px}
-  .stubs.grid .stub .price{grid-area:price; align-self:center; padding:6px 10px 2px 6px; border-left:0}
+  .stubs.grid .stub .time{grid-area:time; display:flex; align-items:center; padding:0 10px 0 12px}
   .stubs.grid .stub .aud{
-    grid-area:aud;
-    padding:0 10px 7px 12px; border-left:0; max-width:none;
-    display:flex; align-items:flex-start;
+    grid-area:aud; max-width:none; min-width:0;
+    display:flex; flex-wrap:wrap; align-items:center; align-content:center; gap:2px 6px;
+    padding:6px 8px 6px 10px; border-left:1px dashed var(--line);
   }
-  .stubs.grid .stub .aud .loc{white-space:normal; overflow:visible; text-overflow:clip}
-  /* Top-aligned in the grid: the label may run to two lines, the glyph column stays
-     level with the first, so a row of stubs has its glyphs on one line. */
-  .stubs.grid .stub .glyphs{align-self:flex-start; padding-top:1px}
-  /* the perforation reads wrong on a stacked stub */
-  .stubs.grid .stub::before,.stubs.grid .stub::after{display:none}
+  /* min-width:0 and overflow-wrap: a grid item's default minimum is its content, so one
+     unbreakable "Tennispalatsi" in a narrow column would push past its compartment and
+     run under the price. Long words break instead of crossing the seam or the price. */
+  .stubs.grid .stub .aud .loc{white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; min-width:0}
+  .stubs.grid .stub .glyphs{align-self:center; padding-top:0}
+  .stubs.grid .stub .price{grid-area:price; display:flex; align-items:center; padding:0 10px 0 4px; border-left:0}
+  .stubs.grid .stub::before,.stubs.grid .stub::after{left:calc(var(--tw) - 4px)}
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
   .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
   .legend .lg-btn{
@@ -572,9 +585,6 @@
     background:var(--chip-bg);
   }
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
-  @media (max-width:520px){
-    .stubs.grid{grid-template-columns:repeat(auto-fill, minmax(140px, 1fr))}
-  }
   .stub{
     --r:7px;
     display:inline-flex; align-items:center; text-decoration:none;

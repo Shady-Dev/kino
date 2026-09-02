@@ -399,19 +399,19 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .meta2{margin-top:5px;color:var(--muted);font-size:.8rem;display:flex;flex-wrap:wrap;gap:4px 14px}
 .syn{color:var(--muted);font-size:.88rem;line-height:1.45;margin-top:6px}
 .times{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
-.times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
-.grid .stub{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"time price" "aud aud";align-items:start}
-.grid .stub .time{grid-area:time;padding:6px 10px 2px 12px}
-.grid .stub .price{grid-area:price;align-self:center;padding:6px 10px 2px 6px;border-left:0}
-.grid .stub .aud{grid-area:aud;padding:0 10px 7px 12px;border-left:0;align-items:flex-start;line-height:1.2}
-.grid .stub .aud::before,.grid .stub .aud::after{display:none}
+.times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr))}
+.grid .stub{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"time aud price";align-items:stretch;min-height:44px}
+.grid .stub .time{grid-area:time;padding:0 10px 0 12px}
+.grid .stub .aud{grid-area:aud;min-width:0;display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:2px 4px;padding:6px 8px 6px 10px;border-left:1px dashed var(--line);line-height:1.2;overflow-wrap:anywhere}
+.grid .stub .aud .a{white-space:normal}
+.grid .stub .price{grid-area:price;display:flex;align-items:center;padding:0 10px 0 4px;border-left:0}
 .stub{display:flex;align-items:stretch;min-height:44px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
 .stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;line-height:1.2;white-space:nowrap}
 .stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);border-left:1px dashed var(--line);position:relative}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
-.stub .aud::before,.stub .aud::after{content:"";position:absolute;left:-5px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.stub .aud::before,.stub .aud::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .aud::before{top:-5px}.stub .aud::after{bottom:-5px}
 .stub .price{flex:0 0 auto;display:flex;align-items:center;padding:0 10px 0 6px;font-size:.72rem;font-weight:700;color:var(--muted);white-space:nowrap}
 .stub .time + .price{border-left:1px dashed var(--line);padding-left:10px}
@@ -427,7 +427,6 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:520px){.times.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 @media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

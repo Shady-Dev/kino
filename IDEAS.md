@@ -3566,6 +3566,74 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### The combined view's stub is the same ticket (2026-09-02, sw.js v101)
+
+The combined city view hid the stub's perforation on purpose: `.stubs.grid .stub::before,
+.stubs.grid .stub::after{display:none}`, "the perforation reads wrong on a stacked stub",
+and the generated city pages hid their notches the same way. The stacked stub put the time
+above the place, so a notch at the row stub's seam position pointed at nothing. Visual
+review of the Tampere view during the price change showed what the choice cost: beside a
+single-cinema view whose stubs read as tickets, the combined stubs read as generic rounded
+cards, and the chain-coloured left rule was carrying the whole booking affordance alone.
+
+**Decision.** Every showtime is the same ticket component in every view. Suppressing the
+signature form was deliberate and is reversed, because it weakened the affordance and the
+product's consistency. Not by deleting the rule: the notch has to sit on a real divider.
+
+**Anatomy.** The combined stub is the row stub adapted. A time compartment on the left,
+`--tw:64px` wide -- 12 + 41.8 + 10, the row stub's own padding around a tabular "00:00"
+at .92rem, measured -- spanning the full height; the details compartment beside it,
+wrapping as it needs, with a dashed left border that is the seam; the price at the
+trailing edge in its own column. The notches are placed at `calc(var(--tw) - 4px)`, so
+the seam and the 8 px notch's centre share one x by construction, in every state. The
+generated city pages use the same grid; their notches are pseudo-elements of the details
+compartment and now sit at `left:-4px` rather than `-5px`, which puts the centre on the
+seam instead of one pixel left of it, on theatre pages too. `min-height:44px` keeps the
+touch target where the stacked stub had it. A grid item's default minimum is its content,
+so one unbreakable "Tennispalatsi" in a narrow column ran under the price in a fixture;
+`min-width:0` and `overflow-wrap:anywhere` on the details side, and the room span allowed
+to wrap in grid mode, break the word instead. Past and sold-out stubs keep the silhouette
+and their own treatment; the "näytä menneet" control is a button on the meta line and has
+no pseudo-element.
+
+**Measured live**, preview browser, Tampere combined view at 320, 375, 402 and 1200 in
+both themes: 37 stubs, seam 64.0 and notch centre 64.0 on every one, notches rendered,
+heights 44 to 56 px, time compartment full height, no clipping, no overlap, no horizontal
+overflow. Fixture page with the app's stylesheet -- sold out, past, "alkaen 10€", a
+six-line venue and room, no price -- all six aligned at 64, none crossing the seam or the
+price. Generated Tampere city page: 90 stubs aligned at 375 and 1200, heights 44 to 73,
+no clipping. The single-cinema row stub is unchanged: 32 px tall, and its notch centre
+measures 60 against a seam at 63.8, a 3.8 px offset it has always had -- noted, not
+touched here, since the instruction was not to regress that shape.
+
+**A second column needs a 240 px ticket.** The grid had `minmax(168px, 1fr)` and a phone
+override of 140 px, inherited from the stacked stub, where the place had the whole width
+below the time. With the time compartment beside the details that minimum was far too
+small, and the film sheet is where it showed: the sheet is 335 px wide at a 375 px viewport,
+so two 163 px columns left 4 px of details beside "alkaen 10€" and "Cinema Orion" broke
+letter by letter over nine lines, 151 px tall; at 520 px three 155 px columns left 1 px.
+The `overflow-wrap:anywhere` guard made that not overlap, and was never meant to be the
+presentation. Both grids now use `minmax(min(240px, 100%), 1fr)` and the phone override
+is gone: 240 is 64 of time, up to 75 of floor price and 90 for a cinema name to keep its
+words, and `min(…, 100%)` keeps the single track from overflowing a container narrower
+than 240. Measured after, real Autofiktio sheet in Helsinki: one column at 375, 402 and
+520 (details 176 / 203 / 321 px), two at 600 (276 px tickets, 117 px details) and from 700
+up where the sheet is 680 wide (315 px tickets, 156 px details); 109 stubs, 0 broken
+words, all 44 px, all aligned. Card view at 1200: three 311 px columns, 0 broken. Helsinki
+city page: two 337 px columns at 1200, two 305 px at 768, one 257 px column at 375, 340
+stubs aligned, 0 broken words, no clipping, 44 to 59.5 px tall. Pinned in both renderers,
+and a mutation back to 168 px is red in each.
+
+**Tests**, `tests/test_ticket_anatomy.py`: the suppression rule is gone in both renderers;
+a second column needs a 240 px ticket, in the client and in the generator;
+the time compartment, seam and notch position derive from the same variable in the client;
+the generator's grid has the seam border and the notch on it; both views share one stub
+markup; the price stays inside its own stub; the past-times control is not a ticket; a
+rendered city stub keeps venue and room on the details side. Mutations, restored
+byte-identical and each red: the client's `display:none` restored, the client's seam
+removed, the generator's suppression restored, the generator's seam removed. 170 pages
+rewritten once; the second regeneration writes nothing.
+
 ### A price is the screening's, never the film's (2026-09-02, sw.js v100)
 
 Reported from a screenshot of the Tampere combined view. Autofiktio had three screenings

@@ -157,7 +157,7 @@ class PricePlacementTest(unittest.TestCase):
                 self.assertIn('<span class="price">${esc(own_price)}</span>', stub)
                 self.assertIn('<span class="time">', stub)
         self.assertRegex(self.HTML, r"\.stub \.price\{[^}]*white-space:nowrap")
-        self.assertRegex(self.HTML, r'grid-template-areas:"time price" "aud aud"')
+        self.assertRegex(self.HTML, r'grid-template-areas:"time aud price"')
 
 
 if __name__ == "__main__":
