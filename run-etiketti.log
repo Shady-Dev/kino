@@ -11,7 +11,7 @@
 [savonkinot] Maxim Varkaus: 30 showtimes, 10 dates
 [savonkinot] Kino-Hovi Kitee: 9 showtimes, 8 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 92 showtimes, 11 dates
+[kinopirtti] Kinopirtti: 89 showtimes, 11 dates
 [leffabuumi] synopses merged: 0
 [leffabuumi] Kinolinna: 63 showtimes, 9 dates
 [leffabuumi] Kino Ritz: 13 showtimes, 9 dates
@@ -20,8 +20,8 @@
 [studio123jarvenpaa] Studio 123 Järvenpää: 54 showtimes, 9 dates
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 54 showtimes, 9 dates
-[ihmekompleksi] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 16 showtimes, 7 dates
+[ihmekompleksi] synopses merged: 2
+[ihmekompleksi] Ihme Kompleksi: 22 showtimes, 9 dates
 [kino123] synopses merged: 0
 [kino123] Kino 123: 72 showtimes, 9 dates
 [kinotar] synopses merged: 0
@@ -33,11 +33,13 @@
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 26 showtimes, 9 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 32 showtimes, 9 dates
+[kinoiiris] Kino Iiris: 31 showtimes, 9 dates
 [kkino] synopses merged: 0
 [kkino] K-Kino: 10 showtimes, 6 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 10 showtimes, 7 dates
-[run] http: 0 revalidated (304), 220 full, 220 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 24 venues, 825 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] synopses merged: 4
+[niagara] Cinema Niagara: 47 showtimes, 12 dates
+[run] http: 0 revalidated (304), 245 full, 245 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 25 venues, 874 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
