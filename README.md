@@ -34,7 +34,7 @@ platforms:
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
 | Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
-| eTiketti | 17 | 25 | none | GitHub Actions, Joutsan Kino local |
+| eTiketti | 18 | 26 | none | GitHub Actions, Joutsan Kino local |
 | BioRex | 1 | 12 | none | GitHub Actions |
 | Nexxo | 8 | 13 | none | GitHub Actions |
 | Riviera | 1 | 2 | none | GitHub Actions |
@@ -103,9 +103,10 @@ Every provider writes the same thing, so the client has no per-provider code.
     data/tmdb-genres.json        {fi,sv,en} genre id -> name, for rendering `gids`
     data/areas.json              Finnkino venue list (legacy shape, numeric ids)
 
-A showtime carries `title, start (ISO, Europe/Helsinki), theatre, aud, url, img,
-len, rating, age, genres, gids, lang, method, soldOut, price, provider, venue,
-tmdbId`.
+A showtime carries `eventId, title, original, start (ISO, Europe/Helsinki),
+theatre, aud, url, img, len, rating, age, genres, gids, lang, method, soldOut,
+price, provider, venue, tmdbId, tmdb, votes, tr`. The last three are TMDB's
+score, its vote count and a trailer, written by the enrichment step.
 
 Two fields are easy to confuse. `rating` is the **film's** age classification;
 `age` is a limit the **screening** adds on top, since a licensed auditorium can
@@ -129,7 +130,7 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
-which is why the provider id sits on the site: `etiketti` serves seventeen
+which is why the provider id sits on the site: `etiketti` serves eighteen
 providers today and `nexxo` eight.
 
 `base` is the host the adapter reads, and it is optional: several single-site
@@ -182,9 +183,14 @@ Since 2026-09-02 the pages share the app's look: its wordmark, its typeface
 (the same self-hosted Archivo files, one same-origin request), its light and
 dark tokens following the OS, its FI · SV · EN selector, and ticket-shaped
 showtimes. The card is the app's: score ring, rating, genres, runtime, and the
-language and price once when every screening shares them, on the screening when
-they differ. A theatre page's stub shows time and room; a city page stacks time
-over cinema and room with a colour rule per chain. Swedish has no static page
+language once when every screening shares it, on the screening when they differ.
+A price is never the film's: every ticket ends in a 56 px price compartment
+behind the dashed seam and its notches, blank when the cinema publishes none, so
+a priced and an unpriced screening keep one shape. A theatre page's ticket shows
+time, room and price. A city page's ticket puts a 64 px time compartment first,
+then cinema and room, then the price, with a colour rule per chain, and a second
+column only where a 240 px ticket fits. Tickets are 40 px tall, in the app and
+here. Swedish has no static page
 yet, so its selector entry opens the app on the same area in Swedish. The theme
 toggle reads and writes the same `kino-theme` key as the app, so a choice made
 on either side carries to the other; that is the only script on the page, and
@@ -197,10 +203,11 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-01: all 2933
-poster references resolve to `data/posters/` on this origin — 2817 on showtimes
-and 116 in `films-extra.json`, across 552 mirrored files — and the typeface is
-served from `fonts/`. Every `<img>` carries `referrerpolicy="no-referrer"`.
+**A page load makes no third-party requests.** Counted 2026-09-02: all 4956
+poster references resolve to `data/posters/` on this origin — 4822 on showtimes
+and 134 in `films-extra.json`, across 633 mirrored files, none off-origin — and
+the typeface is served from `fonts/`. Every `<img>` carries
+`referrerpolicy="no-referrer"`.
 
 That was false until 2026-08-29, when the typeface came from Google Fonts and
 about a third of the posters were hot-linked from the cinemas' hosts and
