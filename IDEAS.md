@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 9 items still open, with the section that holds each one and its reasoning. Presence
+The 8 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -19,8 +19,6 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 **[Pipeline](#pipeline)**
 
-- Cinema Niagara, Tampere: eTiketti's second template, code landed 2026-09-02; open until
-  the first cloud run has published its data
 - Language codes normalised end to end: the adapter and client fixes landed 2026-09-02;
   open until the committed data holds no `TU`, `MA` or `XX` and the landing-page aliases go
 - Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
@@ -1465,7 +1463,7 @@ Still open from this pass:
       Unaffected: the MX *CDN* is a public read reached through Finnkino's own
       `moviexchangeReleaseId` (`fetch_data.py`), so mirrored posters and the trailer
       fallback never needed credentials and still do not.
-- [ ] **Cinema Niagara, Tampere (Phase 1 design 2026-09-02; not implemented).** The one
+- [x] **Cinema Niagara, Tampere (designed, built and live 2026-09-02).** The one
       eTiketti host the 2026-08-30 sweep left behind, re-probed as an ordinary visitor
       with the pipeline's own user agent: five GETs to cinemaniagara.fi (`/`,
       `/robots.txt`, `/elokuvat/ohjelmistossa`, `/?shows=all`, `/elokuvat/70/the-invite`),
@@ -1577,9 +1575,29 @@ Still open from this pass:
       green, fallback key back to film-plus-start, key recorded before the venue match,
       the id no longer preferred. Full suite 634, inline JS clean, providers.json
       regenerated to 33, pages
-      built twice with nothing written. **Still to run:** the first cloud fetch, which
-      also settles `where`; the data commit that follows it; then the two theatre pages,
-      the Tampere city pages and the README venue and page counts, all measured then.
+      built twice with nothing written.
+      **Live (first cloud run, dispatched 2026-09-02 10:40Z, data commit a7b2b8f7).** The
+      runner read cinemaniagara.fi without a challenge, so `where="cloud"` stands.
+      run-etiketti.log: `[niagara] Cinema Niagara: 47 showtimes, 12 dates`, 4 synopses
+      merged, 25 venues and 874 showtimes across the module, 0 failures, exit 0, and no
+      `/salikartta` request anywhere in it. Verified from the committed data, not the
+      Actions output: 47 shows, 12 dates 2026-09-02 to 2026-09-17, 47 distinct
+      `salikartta` ids, every start Helsinki-offset, no `free`, `seats`, `total` or
+      `capacity` field on any show, `soldOut` a bool on all 47 (none sold out today),
+      prices 13€ ×22, 11€ ×17, 10€ ×6, 12€ ×1, 8€ ×1 with eleven films carrying two
+      prices, tags Seniorikino 13, Ensi-ilta 6, Viimeinen näytös 2, Erikoisnäytös 2,
+      Tekijävierailu 2, Q&A 1, Ennakkonäytös 1, Walhalla 1; poster, runtime, genres and
+      language on 47 of 47, age on 38, TMDB id on 39, trailer on 24; language values use
+      DA, EN, ES, FI, FR, IT, NO, SV and TR, every one a code the client names, which is
+      the `LANG_NAMES` map doing its work. Posters: 31 downloaded, 0 failed, every `img`
+      a `data/posters/` path. Pages: `/teatteri/cinema-niagara-tampere/` and its English
+      twin written, 14 synopses on the Finnish one, both Tampere city pages regenerated,
+      none of the four carrying a sold-out or availability word. Counts, measured:
+      providers 33, venues 75, canonical pages 170 (85 per language), sitemap 171.
+      accent_check now finds the Tampere pair in the venue data: Finnkino vs Cinema
+      Niagara 47.0 / 68.1 / 60.6. The 6 pre-sales films from 2026-10-22 on are not
+      published, as designed, until they enter the listing. **Deferred**, recorded above:
+      exact seat counts on screen; credits.
 - [ ] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99).** Four
       codes in the committed data were not in the client's name table, each a defect
       somewhere else, and the landing pages had aliased them meanwhile (see "The landing
@@ -1602,7 +1620,9 @@ Still open from this pass:
       order is untouched, and the generator's fi/en mirror gains them too.
       **Still open, which is why the marker is.** The committed data turns over only when
       the adapters run: Finnkino from an ordinary connection on the local schedule, Nexxo
-      on its next provider run. `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` in
+      on its next provider run. Measured after the 2026-09-02 10:45Z cloud run: `XX` is
+      gone from the data (46 → 0), `TU-A` 62 and `MA-A` 3 remain, all Finnkino, awaiting
+      the local run; `LT-A` 1 is a real code and now named. `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` in
       `build_pages.py` stay exactly as they are until a re-measure of data/area-*.json
       finds no `TU`, `MA` or `XX`; then they go, with the tests that name them, and this
       item closes. Not done in the code commit: no live data refresh.

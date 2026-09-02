@@ -47,8 +47,16 @@ import build_pages as bp
 
 ROOT = _ctx.ROOT
 REAL_DATA = ROOT / "data"
-CANONICAL_PER_LANG = 84
 REDIRECTS = 4
+
+
+def advertised():
+    """The figures README states: (pages per language, sitemap URLs). Read rather than
+    retyped, so the sentence a reader sees is measured against the committed venues
+    below. A venue added without README following fails here."""
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    m = re.search(r"(\d+) per language, (\d+) sitemap URLs", readme)
+    return int(m.group(1)), int(m.group(2))
 
 CTA_RE = re.compile(r'<a class="cta" href="([^"]+)">(.*?)</a>', re.S)
 AUD_RE = re.compile(r'<span class="aud">(.*?)</span></span>', re.S)   # up to the stub's end
@@ -98,6 +106,12 @@ class GeneratedPagesTest(unittest.TestCase):
                 v["slug"] = f"{v['slug']}-{bp.slug(v['id'])}"
             seen.add(v["slug"])
             cls.venues.append(v)
+        # One theatre page per venue and one city page per city with more than one venue,
+        # in each language. 75 venues and 10 such cities on 2026-09-02, which is 85.
+        by_city = {}
+        for v in cls.venues:
+            by_city.setdefault(v["city"], []).append(v)
+        cls.per_lang = len(cls.venues) + sum(1 for vs in by_city.values() if len(vs) > 1)
 
     @classmethod
     def tearDownClass(cls):
@@ -125,17 +139,25 @@ class GeneratedPagesTest(unittest.TestCase):
                 by_prefix.get(k.split("/")[1] if not k.startswith("/en/") else "en/" + k.split("/")[2], 0) + 1
         fi = by_prefix["teatteri"] + by_prefix["kaupunki"]
         en = by_prefix["en/theatre"] + by_prefix["en/city"]
-        self.assertEqual((fi, en), (CANONICAL_PER_LANG, CANONICAL_PER_LANG))
+        self.assertEqual((fi, en), (self.per_lang, self.per_lang))
         self.assertEqual(len(self.redirects), REDIRECTS)
-        self.assertEqual(len(self.pages), 2 * CANONICAL_PER_LANG + REDIRECTS)
+        self.assertEqual(len(self.pages), 2 * self.per_lang + REDIRECTS)
         for family in ("teatteri", "kaupunki", "en/theatre", "en/city"):
             self.assertGreater(by_prefix[family], 0, family)
+
+    def test_the_readme_advertises_the_measured_counts(self):
+        """`85 per language, 171 sitemap URLs` has to be what the data produces. The
+        number was carried over from an older document and wrong five times before the
+        rule in CLAUDE.md was written; this makes the sixth impossible to commit."""
+        per_lang, urls = advertised()
+        self.assertEqual(per_lang, self.per_lang)
+        self.assertEqual(urls, 2 * self.per_lang + 1)
 
     def test_the_sitemap_lists_exactly_the_canonical_pages(self):
         sm = (self.root / "sitemap.xml").read_text(encoding="utf-8")
         locs = set(re.findall(r"<loc>(.*?)</loc>", sm))
         self.assertEqual(locs, {bp.SITE + "/"} | {bp.SITE + k for k in self.canonical})
-        self.assertEqual(len(locs), 2 * CANONICAL_PER_LANG + 1)
+        self.assertEqual(len(locs), 2 * self.per_lang + 1)
 
     def test_the_legacy_redirects_are_untouched(self):
         for k, text in self.redirects.items():
