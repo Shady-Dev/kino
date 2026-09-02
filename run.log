@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-02: 315 showtimes
+[schedule] 2026-09-02: 68 showtimes
 [schedule] 2026-09-03: 388 showtimes
 [schedule] 2026-09-04: 354 showtimes
 [schedule] 2026-09-05: 420 showtimes
@@ -12,7 +12,7 @@
 [tmdb] weak match, no exact title (2): I'm Game -> ഐ ആം ഗെയിം | Lyhyt rakkaustarina -> Breve storia d'amore
 [tmdb] 2 new lookups, 0 re-checks, cache 59, 54 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 56 film entries
+[films] 55 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
