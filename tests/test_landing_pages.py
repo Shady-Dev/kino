@@ -415,13 +415,20 @@ class GeneratedPagesTest(unittest.TestCase):
         self.assertIn(" 0 files written", out)
 
     def test_nothing_volatile_reaches_a_page(self):
+        """Only a stamp with a time component is evidence. `films-extra.json` writes
+        `generated` as a bare date, and every page with a screening that day carries the
+        same date inside a JSON-LD `startDate`; on 2026-09-02 that failed 154 pages on a
+        legitimate `2026-09-02T18:15:00+03:00`. It had passed only while the date-only
+        stamp lagged a day behind the screenings on the page. A build timestamp that
+        leaked would carry its time of day, and that is what is searched for."""
         stamps = set()
         for p in (self.root / "data").glob("*.json"):
             d = json.loads(p.read_text(encoding="utf-8"))
             for key in ("generated", "oldest"):
-                if isinstance(d, dict) and d.get(key):
+                if isinstance(d, dict) and d.get(key) and "T" in d[key]:
                     stamps.add(d[key])
         self.assertTrue(stamps)
+        self.assertTrue(all(len(st) >= len("2026-09-02T05:10") for st in stamps))
         for k, text in self.pages.items():
             with self.subTest(path=k):
                 for st in stamps:

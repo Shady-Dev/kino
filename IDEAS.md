@@ -2349,7 +2349,12 @@ count failed the same way.
   and no `availability` in the markup. Sold-out state flips several times a day and would
   have rewritten every popular page on every run while still being stale in the index. A
   second consecutive run writes zero files; in practice a page changes once a day when the
-  date window shifts.
+  date window shifts. The test for this counts only stamps with a time component
+  (2026-09-02): `films-extra.json` writes `generated` as a bare date, every page with a
+  screening that day carries the same date inside a JSON-LD `startDate`, and the first day
+  the two coincided 154 pages failed on a legitimate showtime. It had passed only while
+  that stamp lagged a day behind the pages. A leaked build timestamp carries its time of
+  day, and a bare date entering the stamp set now fails on its own.
 - **Finnish city names are never inflected by the generator. Correct: Helsinki ->
   Helsingi**ssä, Tampere -> Tampereella. The stem changes under consonant gradation, and
   the two cities do not even take the same case. Glue the ending onto the nominative and
