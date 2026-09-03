@@ -10,7 +10,7 @@
 [tmdb] dropped 2 entries matched by the old picker
 [tmdb] no TMDB match (4): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2 | Keinolla millä hyvänsä | Spider-Man: No Way Home & Brand New Day
 [tmdb] weak match, no exact title (2): I'm Game -> ഐ ആം ഗെയിം | Lyhyt rakkaustarina -> Breve storia d'amore
-[tmdb] 3 new lookups, 9 re-checks, cache 60, 54 mergeable by id
+[tmdb] 2 new lookups, 0 re-checks, cache 60, 54 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 56 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
