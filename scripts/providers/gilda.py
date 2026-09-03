@@ -32,6 +32,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from common import fetch
+import synmerge
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -204,10 +205,14 @@ def parse(payload, site, pages=None):
         mid = film.get("movie_id")
         img = (f"{posters}/{mid}/{width}/{poster}"
                if (posters and poster and mid) else "")
-        # description is HTML with entities: strip tags, then unescape, or the
-        # synopsis renders as "Almod&oacute;var" in the movie sheet
-        syn = html_mod.unescape(TAGS_RE.sub(" ", film.get("description") or ""))
-        syn = re.sub(r"\s{2,}", " ", syn.replace("\xa0", " ")).strip()
+        # description is HTML with entities and paragraphs. A senior screening opens
+        # with a paragraph of Gilda's own -- the first Tuesday, 9 EUR, coffee included --
+        # before the distributor's blurb, and a screening sometimes carries the plain film
+        # title, so that paragraph reached the synopsis every cinema showing the film
+        # reads (Cinema Niagara displayed Gilda's price for "Keltaiset kirjeet"). Drop the
+        # paragraphs that quote a price or name Gilda; keep the rest, unescaped, or the
+        # synopsis renders as "Almod&oacute;var" in the movie sheet.
+        syn = synmerge.drop_notes_html(film.get("description") or "", names=("Gilda",))
         for s in film.get("show_times") or []:
             if s.get("deleted") or not s.get("show_is_visible", 1):
                 continue

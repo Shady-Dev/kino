@@ -3,9 +3,44 @@
 Providers run before the TMDB pass and their own text is better, so this only ever
 fills an empty slot — it never clobbers.
 """
+import html as html_mod
 import json, pathlib, re, threading
 
 import common
+
+# A film synopsis never quotes a ticket price. Text that does is a screening note --
+# "Elokuvaliput seniorikinon näytöksiin saat hintaan 9€/kpl", "Liput 8€ maksetaan
+# Pennittömien edustajalle" -- and it describes one cinema's screening, so it must not
+# reach the slot every cinema showing the film reads from.
+PRICE_RE = re.compile(r"\d\s*(?:€|eur\b|euroa\b)|€\s*\d", re.I)
+_TAGS = re.compile(r"<[^>]+>")
+
+
+def is_note(text):
+    """True when a synopsis candidate is a screening note rather than a synopsis."""
+    return bool(PRICE_RE.search(text or ""))
+
+
+def drop_notes_html(desc, names=()):
+    """Plain text of an HTML description with its screening-note paragraphs removed.
+
+    A paragraph is a note when it quotes a price or names the cinema itself (`names` are
+    stems matched as word prefixes, so "Gilda" also catches "Gildan"). Gilda's
+    senior-screening entries open with one such paragraph before the distributor's blurb;
+    dropping it at the paragraph boundary is structural, where a sentence split would be a
+    guess. Text with no paragraphs is treated as one.
+    """
+    stems = [re.compile(r"\b" + re.escape(n), re.I) for n in names if n]
+    out = []
+    for raw in re.split(r"</p\s*>", desc or ""):
+        text = html_mod.unescape(_TAGS.sub(" ", raw)).replace("\xa0", " ")
+        text = re.sub(r"\s{2,}", " ", text).strip()
+        if not text:
+            continue
+        if is_note(text) or any(s.search(text) for s in stems):
+            continue
+        out.append(text)
+    return " ".join(out)
 
 # films-extra.json is one file for the whole run and merge() is a read-modify-write of
 # it, while run.py now fetches independent hosts in parallel. Two sites merging at once
@@ -75,11 +110,15 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
         except Exception:
             doc = {}
         films = doc.get("films") or {}
-        added = 0
+        added = skipped = 0
         for shows in per_venue.values():
             for s in shows:
                 syn = (s.get("_syn") or "").strip()
                 if not syn:
+                    continue
+                if is_note(syn):
+                    # Never into the shared slot: see PRICE_RE. Left empty for TMDB.
+                    skipped += 1
                     continue
                 key = norm(s["title"])
                 e = films.setdefault(key,
@@ -97,6 +136,8 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
         doc["films"] = films
         common.write_json(path, doc)
     print(f"[{label}] synopses merged: {added}")
+    if skipped:
+        print(f"[{label}] synopses skipped as screening notes (price): {skipped}")
 
 
 def repair_from_twin(films: dict, extra: dict) -> int:

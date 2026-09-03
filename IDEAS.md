@@ -3566,6 +3566,67 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### A screening note is not a synopsis (2026-09-03)
+
+Found by an external review: Cinema Niagara's sheet for "Keltaiset kirjeet" opened with
+"Gildan seniorikinonäytökset joka kuun ensimmäisenä tiistaina. Elokuvaliput seniorikinon
+näytöksiin saat hintaan 9€/kpl. Lipun hintaan sisältyy leffakahvit!" -- Gilda's senior
+screening, its price and its coffee, on a Tampere cinema that has none of them.
+
+**How it got there.** `films-extra.json` holds one Finnish synopsis per normalised title,
+filled by the first provider to publish one and read by every cinema showing the film, and
+that is the right design for what it usually holds: several chains run the distributor's
+blurb verbatim. Gilda's MyCloudCinema `description` is HTML in paragraphs, and every one of
+its senior-screening entries opens with a paragraph of the cinema's own before the blurb
+(read once from its movies endpoint on 2026-09-03: 7 of 41 entries, all with the note as
+the first `<p>`). The adapter stripped tags and merged the whole thing, a screening
+sometimes carries the plain film title, so the note landed under the plain key too, and
+fill-if-empty then kept it there: Gilda's *current* description for the film is clean and
+could never replace it. Measured across the committed file: **10 of 166 entries** held a
+note. Five plain keys read by every cinema -- keltaiset kirjeet, la grazia, myrskyn ikkuna,
+rakkautta ja virtahepoja, 70mm the odyssey -- four `seniorikino …` keys that only Gilda's
+own screenings read, and Bio Vuoksi's "Juhlanäytös! … Liput 8€ maksetaan Pennittömien
+edustajalle" under nouvelle vague, a whole text that is an event notice and not a synopsis.
+
+**Two rules, at two layers, and the shared slot stays shared.**
+
+- Structural, at the adapter. `synmerge.drop_notes_html(desc, names)` splits on `</p>` and
+  drops a paragraph that quotes a price or names the cinema (`names` are stems matched as
+  word prefixes, so "Gilda" catches "Gildan"); Gilda passes `("Gilda",)`. The paragraph is
+  the source's own boundary, so this removes exactly the note and keeps the blurb whole. A
+  sentence split would have been a guess ("klo 18.15", "la 12.9." end sentences that are
+  not).
+- Generic, at the merge. `synmerge.is_note(text)` is true for a price in either order
+  (`9€`, `€ 10`, `12 euroa`, `5 EUR`), and `merge()` refuses such text outright, counting it
+  as `synopses skipped as screening notes (price): N` in the committed log. A film synopsis
+  never quotes a ticket price, so this costs nothing, and it holds for the adapters that
+  strip tags before merging, which is all of the others. The slot stays empty for TMDB.
+
+**Provenance was considered and declined.** The review proposed storing which provider
+supplied each synopsis and reusing text only for that provider's own cinemas. That fixes the
+leak by giving up the sharing: every cinema whose adapter publishes no text would fall
+back to TMDB, whose Finnish overview exists for only some films, and the distributor's blurb
+is the same text at every cinema, which is why one slot was chosen. The defect was text that
+is not a synopsis in a field named as one, and it is fixed where the text is read. What
+remains recorded and accepted: Cinema Orion's "Ainoa näytös, klubialennus." lines carry no
+price and no cinema name and still merge; the rule for them, if one is ever wanted, would
+be Orion's own.
+
+**The cache was repaired in the same commit**, as the Finnkino "?" repair was: the exact
+Gilda paragraph stripped from the nine entries that began with it, which leaves the text the
+fixed adapter now produces, and nouvelle vague blanked, since the whole text is a notice.
+Written back through `common.write_json`, so the next run's serialisation is byte-identical
+to it. Nothing needed a run to be exercised: the merge rule is unit-tested on a temporary
+file and the adapter rule goes through `gilda.parse()` on a two-paragraph fixture.
+
+**Tests**, `tests/test_synopsis_notes.py`: the paragraph rule on price, on the cinema's
+name, on text without paragraphs; `is_note` on prices in either order and on the years and
+durations it must not match; `merge()` refusing a priced text, merging the clean one beside
+it and staying silent about skipping when nothing was skipped; and `gilda.parse()` yielding
+the blurb alone. Five mutations, restored byte-identical and each red: the price rule
+removed (3; the Gilda paragraph still falls to the name rule), the name rule removed (1), the merge guard removed (1),
+Gilda stripping tags again (1), the skipped line printed unconditionally (1).
+
 ### A direct film link opens its sheet on load (2026-09-03, sw.js v106)
 
 Found by an external review: `/?area=cn-tampere&lang=fi#m=61` loaded the Niagara list with
