@@ -3566,6 +3566,68 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### The Ajat ticket is time and price (2026-09-03, sw.js v104)
+
+Reported from a desktop screenshot of Finnkino Sello's Ajat list: the film titles started
+at three different x positions. Since v100 the time-mode stub grew to its content between
+158 and 220 px, so a "Sali 3" ticket measured 170.2, "Sali 1 Ⓐ" 191.2 and "LUXE 5 Ⓐ"
+201.8, and the titles sat at 254, 275 and 286. On a phone the same rows left the title
+119 to 163 px at 375 and 64 to 96 at 320.
+
+**Decision.** In the Ajat list the ticket is the time and the price: 62 + 56 + 2 = 120 px by
+construction, no floor and no cap, 122 with a chain rule in a combined view. The room, the
+venue tag of a combined view and the screening's own age limit move onto the meta line,
+which has the full row width: "Sali 1 · K-12 · 145 min · 2D · Anniskelu · englanti · tekstit
+suomi/ruotsi", and "Finnkino Plevna · Sali 5 · S · 78 min · …" in Kaikki Tampere, the venue
+first so the two read as one address. The 18+ limit keeps its pill markup (`ageGlyph`) and
+sits after the room; the Anniskelu glyph is not carried over, because the meta line already
+says the word. The sold-out word moves with the room. The room never breaks across lines
+(`.room{white-space:nowrap}`); the widest in the data, "KINOLINNA | SALI 1" at 103 px, fits
+the 201 px column at 375. Applied at every width: one markup, one rule, and the same
+silhouette on a phone and a desktop, rather than a breakpoint with the room rendered twice.
+The card's row ticket and the sheet's keep the room, since there the ticket is the only
+place the room has; a test pins that exactly two renderers still emit `.aud`.
+
+**Measured on the served tree**, Sello, Ajat, both themes:
+
+| viewport | before: stub / title column | after: stub / title column |
+|---|---|---|
+| 320 | 170.2 to 201.8 / 64 to 96, three columns | 120 / 146, one column |
+| 375 | 170.2 to 201.8 / 119 to 163 | 120 / 168 to 201 |
+| 402 | 170.2 to 201.8 / 146 to 190 | 120 / 168 to 228, no title ellipsised |
+| 1200 | 170.2 to 201.8 / 845 and up | 120 / one column |
+
+Every ticket 40 px tall, no row or page overflow, meta line one to three lines at 375 (rows
+59 / 70 / 87 px) where it ran to four beside a 202 px ticket, and up to four at 320. Kaikki Tampere at 375: 51
+rows, 122 px, venue tag first on every row. Orion, which publishes no room, is unchanged
+apart from the alignment. The before figures include a pre-existing 2 px poke of the meta
+text into the page margin at 320 on the LUXE rows; the page never scrolled horizontally.
+
+**Two candidates measured and declined**, renders in the review folder outside the repo:
+
+- **A fixed 204 px stub with the room inside.** One line of CSS. Orion then shows a 204 px
+  ticket with nothing between the time and the price, and every cinema without rooms (22
+  venues publish none) pays 34 px of title on a phone for a label it does not have.
+- **One shared column per list, room inside**: a grid over the rows with `subgrid` rows and
+  `fit-content(220px)`, the label allowed to wrap and the glyphs dropping under it. It
+  aligns the titles and sizes the column to the list, Sello 201.8, Orion 158, Kinolinna 220
+  with the room on two lines, Plevna 218.9. Declined because the phone title column stays
+  119 px at 375 and the column moves when a filter removes the rows that set it. Two
+  things learned on the way, kept because the next grid will meet them: a `column-gap` set
+  on a subgrid but not on its parent is applied as margins on the subgrid's items, so the
+  stub filled 213 of a 220 track until the gap moved to the parent; and `fit-content` with
+  `overflow-wrap:anywhere` on the label lets the column shrink to the wrapped label, while
+  `break-word` keeps the one-line width.
+
+**Tests**, `tests/test_compact_ticket.py`, `TimeModeTicketTest`: the time-mode stub is time
+and price with no `.aud`, `.loc`, glyph row or age glyph inside; the meta line opens with
+venue, room, age pill and sold-out word in that order; `.trow .stub` has no width floor or
+cap and the `.trow .stub .aud` rule is gone; the room does not wrap; exactly two renderers
+still emit `.aud` and three the price. Five mutations, each restored byte-identical and each
+red: the room put back into the stub (2), the room dropped from the meta line (1), the venue
+placed after the room (1), `min-width:158px` restored (1), the nowrap rule removed (1).
+Generated pages are untouched: `build_pages.py` has no times view.
+
 ### Tickets are 40 px (2026-09-02, sw.js v103)
 
 A reader found the tickets heavy on a phone. The row ticket had gone from 32 to 44 px that

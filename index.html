@@ -686,18 +686,18 @@
   .chip:hover:not(.on){color:var(--ink); border-color:var(--muted)}
 
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
-  /* Was a fixed 158 px. With the price on the ticket, "alkaen 10€" beside a room ran
-     4 px past that and was clipped by overflow:hidden; the stub now grows to its content
-     up to 220 px and the film title beside it gives way, since it can ellipsise and the
-     price cannot. */
-  .trow .stub{flex:0 0 auto; width:auto; min-width:158px; max-width:220px}
+  /* The ticket in this list is time and price only: 62 + 56 + 2 = 120 px by construction,
+     no floor and no cap, so every row's title starts at one x. Until 2026-09-03 it carried
+     the room and grew to its label, 158 to 220 px: three widths in one list, and 119 px
+     left for the title at 375. The room, the venue and the screening's age limit are on
+     the meta line, where the room never breaks across lines. */
+  .trow .stub{flex:0 0 auto; width:auto}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
-  .trow .stub .aud{flex:1 1 0; min-width:0; max-width:none; text-align:left}
-  .trow .stub .aud .loc{flex:0 1 auto}
   .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
          border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .tinfo small{color:var(--muted); font-size:.75rem}
+  .tinfo small .room{white-space:nowrap}
 
   #stale{
     display:none; max-width:1060px; margin:12px auto 0; padding:10px 14px;
@@ -2379,12 +2379,15 @@
       main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
       return;
     }
-    // The film cards label the venue and tint by chain in a combined view; this list
-    // never did, so "Sali 14" named a room in one of five cinemas, with no colour and no
-    // cinema, under a legend it had no connection to. The stub is a fixed 158 px ticket
-    // and its label column is ~75 px, so "Kinopalatsi · Sali 14" would truncate to
-    // "Kinopalat…" and lose both halves. The venue goes on the meta line instead, which
-    // has the full row width, and the stub carries the chain tint.
+    // The ticket here is time and price. The room, the venue in a combined view and the
+    // screening's own age limit go on the meta line, which has the full row width. Until
+    // 2026-09-03 the stub carried the room and grew to its label, 158 to 220 px, so one
+    // list showed two or three title columns and a phone title beside a "LUXE 5 \u24B6"
+    // ticket had 64 px at 320 and 119 at 375. Every ticket is now 62 + 56 + 2 = 120 px by
+    // construction and the title column at 375 is 168 to 201 px. The Anniskelu glyph is not
+    // carried over: the meta line already says the word. The venue tag stays first, then
+    // the room, so "Finnkino Plevna \u00b7 Sali 5" reads as one address; the stub keeps
+    // the chain tint.
     const multi = labelVenues(state.shows);
     const tinted = multi;
     setListStatus('');
@@ -2395,12 +2398,14 @@
       const where = venueName(s);
       const tint = tinted && s.provider ? ` chain-${esc(s.provider)}` : '';
       const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
+      const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : '';
+      const sold = s.soldOut && !past ? L[state.lang].soldout : '';
       const own_price = priceLabel([s]);
       return `<div class="trow">
         <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
-          <span class="time">${t}</span><span class="aud"><span class="loc">${esc(s.aud)}${s.soldOut && !past ? ' · ' + L[state.lang].soldout : ''}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>
+          <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
-          <small>${[venue, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
+          <small>${[venue, room, ageGlyph(s), sold, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
     }).join('');
   }

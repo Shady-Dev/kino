@@ -151,5 +151,48 @@ class GeneratedCompactTicketTest(unittest.TestCase):
         self.assertNotIn("\u20ac", card)
 
 
+
+
+def render_times_source():
+    """The body of renderTimes(), which owns the Ajat list."""
+    m = re.search(r"function renderTimes\(\)\{.*?\n  \}\n", HTML, re.S)
+    return m.group(0)
+
+
+class TimeModeTicketTest(unittest.TestCase):
+    """The Ajat ticket is time and price (2026-09-03). The room, the venue and the
+    screening's age limit sit on the meta line, so every ticket is 120 px by construction
+    and the titles share one x."""
+
+    def test_the_time_mode_ticket_is_time_and_price(self):
+        src = render_times_source()
+        stub = re.search(r'<a class="stub\$\{cls\}\$\{tint\}".*?</a>', src, re.S).group(0)
+        self.assertIn('<span class="time">${t}</span>', stub)
+        self.assertIn('<span class="price">${esc(own_price)}</span>', stub)
+        for gone in ('class="aud"', 'class="loc"', 'glyphRow(', 'ageGlyph('):
+            self.assertNotIn(gone, stub)
+
+    def test_the_room_venue_and_age_open_the_meta_line(self):
+        src = render_times_source()
+        self.assertIn('const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : \'\';', src)
+        self.assertIn("const sold = s.soldOut && !past ? L[state.lang].soldout : '';", src)
+        small = re.search(r"<small>\$\{\[(.*?)\]\.filter\(Boolean\)\.join\(' \u00b7 '\)\}</small>", src).group(1)
+        parts = [x.strip() for x in re.split(r",(?![^(]*\))", small)]
+        self.assertEqual(parts[:4], ["venue", "room", "ageGlyph(s)", "sold"], parts)
+        self.assertIn("esc(s.rating)", parts[4])
+
+    def test_the_ticket_has_no_width_floor_or_cap(self):
+        stub = rule(HTML, ".trow .stub")
+        self.assertIsNotNone(stub)
+        self.assertNotIn("min-width", stub)
+        self.assertNotIn("max-width", stub)
+        self.assertIsNone(rule(HTML, ".trow .stub .aud"))
+        self.assertIn("white-space:nowrap", rule(HTML, ".tinfo small .room"))
+
+    def test_the_card_and_sheet_tickets_keep_the_room(self):
+        self.assertEqual(HTML.count('<span class="aud">'), 2)
+        self.assertEqual(HTML.count('<span class="price">${esc(own_price)}</span>'), 3)
+
+
 if __name__ == "__main__":
     unittest.main()
