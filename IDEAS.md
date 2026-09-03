@@ -3566,6 +3566,46 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### A tag the room already names is said once, and the Ⓐ stays on the stub (2026-09-03, sw.js v105)
+
+Two things a reader found on the day the Ajat ticket lost its room. First, the meta line
+now read "LUXE 6 · K-16 · 172 min · 2D · Anniskelu · LUXE": the room carries the format and
+the method tag repeats it. The pair had always been there, split between the stub label and
+the meta line, and putting both on one line made it visible. Measured across the committed
+data: **774 rows in five classes**, LUXE rooms and LUXE (319 tag rows), "N Plus" rooms and
+Plus (256), iSense (88), Prime (50), IMAX (21); no tag is ever repeated inside one method
+string, and the one venue whose *name* carries a format, LUXE Mylly, also names it in every
+room, so the room rule covers it.
+
+**The room keeps the word.** It is the adapter's value verbatim, what the ticket prints,
+and the app's own rule since 2026-08-27 for the stub label: `stubTags` drops a tag the room
+name contains, case-folded, and drops plain 2D, which sits on 2524 of 5020 rows and says
+nothing. The Ajat line now runs the same function over the screening's tags, so the two
+places a screening's tags render agree, and 2D leaves the Ajat line the way it left the
+stubs. IMAX in a "Sali 2", 3D anywhere and every word the room does not say survive; the
+card's shared pills are untouched and still show 2D when every screening is 2D.
+
+Second, toggling the Anniskelu filter made every Ⓐ disappear. The card folds a tag every
+surviving screening shares onto the card, and under that filter every survivor shares
+Anniskelu, so it became an ANNISKELU pill on the card and left the stubs -- the filter
+removed the marker for the thing it filters on. **A tag drawn as a glyph never folds.**
+`common` skips `glyphOf(f)`, so the Ⓐ sits on every anniskelu stub whether or not the
+day's screenings all are, and the card never grows the pill; the glyph key in the footer
+already renders only when a shown screening carries the tag. Words still fold: a film whose
+every screening is LUXE says LUXE once on the card.
+
+Measured on the served tree, Kaikki Helsinki filtered to "odyss", 1200 px: Ajat 18 rows,
+no meta line naming a room word twice, no 2D, one line each; Leffat with the Anniskelu
+filter on, one card, 11 stubs, 11 Ⓐ, no card pill; without the filter 18 stubs, 11 Ⓐ.
+Sello Ajat at 375: 17 rows, no duplicate, no 2D, rows 59 to 70 px.
+
+**Tests**, `tests/test_stub_tags.py` with `tests/stub_tags_harness.js`: `stubTags` is
+sliced verbatim between marker comments the way `priceLabel` is and run over the five data
+classes, the survivors, the null room, the case fold and an empty tag; the Ajat line is
+pinned to run it and the fold to skip glyph tags. Five mutations, restored byte-identical
+and each red: the raw method string back on the Ajat line (1), glyph tags folding again
+(1), the room clause removed (2), the 2D clause removed (3), a case-sensitive match (1).
+
 ### The Ajat ticket is time and price (2026-09-03, sw.js v104)
 
 Reported from a desktop screenshot of Finnkino Sello's Ajat list: the film titles started

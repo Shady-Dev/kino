@@ -2400,12 +2400,16 @@
       const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
       const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : '';
       const sold = s.soldOut && !past ? L[state.lang].soldout : '';
+      // The screening's tags pass the stub rule: a format the room name already says
+      // ("LUXE 6" and LUXE, "1 Plus" and Plus, IMAX and IMAX) is not said twice on one
+      // line, and plain 2D goes as it does on every stub.
+      const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');
       const own_price = priceLabel([s]);
       return `<div class="trow">
         <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
           <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
-          <small>${[venue, room, ageGlyph(s), sold, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(s.method), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
+          <small>${[venue, room, ageGlyph(s), sold, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(tags), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
     }).join('');
   }
@@ -2494,8 +2498,10 @@
   // carries the format, and 2D is on nearly every screening, so it says nothing. Drop a
   // tag the auditorium name already contains, and drop 2D outright — the exceptions
   // (IMAX, 3D, iSense) are what a visitor is actually looking for.
+  // --- stubTags: pure, extracted verbatim by tests/stub_tags_harness.js ---
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
+  // --- end stubTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
   // Premiere date, from films.json (Finnkino only — nobody else publishes one, and a
   // guessed premiere is worse than none). Shown while it is still ahead, because that is
@@ -2642,7 +2648,10 @@
       // rather than vanishing — one IMAX screening among 2D ones must still say so.
       const tagsOf = t => (t.method || '').split(' · ').filter(Boolean);
       const tagSets = m.times.map(t => new Set(tagsOf(t)));
-      const common = [...(tagSets[0] || [])].filter(f => tagSets.every(set => set.has(f)));
+      // A tag drawn as a glyph (Anniskelu) stays on every stub even when all of them
+      // share it: the A is where a reader looks for it, and folding it onto the card
+      // made it vanish the moment the Anniskelu filter left only such screenings.
+      const common = [...(tagSets[0] || [])].filter(f => !glyphOf(f) && tagSets.every(set => set.has(f)));
       // Past times are hidden behind a compact stub rather than a global toggle: it costs
       // no header space and only appears on the cards that have any. If *every* time has
       // passed they stay visible, since an empty card would read as a bug.
