@@ -1,5 +1,5 @@
-[biorex] BioRex Tripla: 165 showtimes
-[biorex] BioRex Redi: 136 showtimes
+[biorex] BioRex Tripla: 163 showtimes
+[biorex] BioRex Redi: 134 showtimes
 [biorex] BioRex Verkatehdas: 129 showtimes
 [biorex] BioRex Sveitsi: 107 showtimes
 [biorex] BioRex Kajaani: 58 showtimes
@@ -12,8 +12,8 @@
 [biorex] BioRex Vaasa: 123 showtimes
 [biorex] film pages: 29/29
 [biorex] synopses merged: 0
-[biorex] BioRex Tripla: 165 showtimes, 16 dates
-[biorex] BioRex Redi: 136 showtimes, 16 dates
+[biorex] BioRex Tripla: 163 showtimes, 16 dates
+[biorex] BioRex Redi: 134 showtimes, 16 dates
 [biorex] BioRex Verkatehdas: 129 showtimes, 16 dates
 [biorex] BioRex Sveitsi: 107 showtimes, 15 dates
 [biorex] BioRex Kajaani: 58 showtimes, 15 dates
@@ -25,5 +25,5 @@
 [biorex] BioRex Tornio: 75 showtimes, 14 dates
 [biorex] BioRex Vaasa: 123 showtimes, 16 dates
 [run] http: 0 revalidated (304), 29 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] biorex: 12 venues, 1186 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] biorex: 12 venues, 1182 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
