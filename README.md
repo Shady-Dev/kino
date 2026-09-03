@@ -184,11 +184,12 @@ Since 2026-09-02 the pages share the app's look: its wordmark, its typeface
 dark tokens following the OS, its FI · SV · EN selector, and ticket-shaped
 showtimes. The card is the app's: score ring, rating, genres, runtime, and the
 language once when every screening shares it, on the screening when they differ.
-A price is never the film's: every ticket ends in a 56 px price compartment
-behind the dashed seam and its notches, blank when the cinema publishes none, so
-a priced and an unpriced screening keep one shape. A theatre page's ticket shows
-time, room and price. A city page's ticket puts a 64 px time compartment first,
-then cinema and room, then the price, with a colour rule per chain, and a second
+A price is never the film's: it sits on the screening's ticket. A theatre page's
+ticket shows time, room and price, and ends in a 56 px price compartment behind
+the dashed seam and its notches, blank when the cinema publishes none, so a priced
+and an unpriced screening keep one shape. A city page's ticket puts a 64 px time
+compartment first, then cinema and room, then the price where there is one and
+no compartment where there is none, with a colour rule per chain, and a second
 column only where a 240 px ticket fits. Tickets are 40 px tall, in the app and
 here. Swedish has no static page
 yet, so its selector entry opens the app on the same area in Swedish. The theme
