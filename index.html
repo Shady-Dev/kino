@@ -3168,6 +3168,10 @@
       searchEl.placeholder = searchHint();
       buildDays();
       await loadSchedule();
+      // A direct link carries the film in the fragment. Nothing fired hashchange for it,
+      // so the sheet stayed closed on a load or a refresh; open it once the schedule
+      // that names the film is here, since showSheet reads it from jsonCache.
+      if(location.hash) syncSheet();
     } catch(e){
       setListStatus('');
       main.innerHTML = netErrorHtml(e);

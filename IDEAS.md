@@ -3566,6 +3566,26 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### A direct film link opens its sheet on load (2026-09-03, sw.js v106)
+
+Found by an external review: `/?area=cn-tampere&lang=fi#m=61` loaded the Niagara list with
+the fragment intact and the sheet closed, and a refresh with a sheet open closed it.
+`syncSheet()` reads `#m=<id>` and opens the sheet, and it ran on `hashchange` and inside
+`applyLang()` when a sheet was already open -- nothing called it after the first schedule
+arrived, so the one way to reach a film from outside the app never opened it. Reproduced
+headlessly against the live site with an id from the day's list before changing anything.
+
+The call sits after the boot's `await loadSchedule()`, guarded on a fragment being present:
+`showSheet` lists the film's screenings from `jsonCache[state.area]`, which that first load
+fills, so a sync placed earlier would open an empty sheet, and an ordinary load must not
+touch the sheet at all. Before the `catch`, so a failed load renders the error and opens
+nothing. Checked on the served tree: with the fragment the sheet is open, not inert, and
+titled with the film; without it the sheet stays inert.
+
+`tests/test_sheet_direct_load.py` pins the call, its position after the load and before the
+catch, the `hashchange` listener that still exists, and the reason for the order. One
+mutation, the call removed, red; restored byte-identical.
+
 ### A tag the room already names is said once, and the Ⓐ stays on the stub (2026-09-03, sw.js v105)
 
 Two things a reader found on the day the Ajat ticket lost its room. First, the meta line
