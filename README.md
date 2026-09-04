@@ -26,7 +26,7 @@ Venue, home theatre, day, language and theme live in `localStorage`.
 
 No cinema API is called at load time. A pipeline fetches ahead of time and
 commits static JSON, which GitHub Pages serves from the same origin: no CORS, no
-keys in the client, no third-party requests. Four providers can only be read
+keys in the client, no third-party requests. Five providers can only be read
 from an ordinary connection, so the pipeline runs in two places. One adapter can
 serve many providers, because most small cinemas run one of a few ticketing
 platforms:
@@ -34,7 +34,7 @@ platforms:
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
 | Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
-| eTiketti | 18 | 26 | none | GitHub Actions, Joutsan Kino local |
+| eTiketti | 18 | 26 | none | GitHub Actions; Savon Kinot and Joutsan Kino local |
 | BioRex | 1 | 12 | none | GitHub Actions |
 | Nexxo | 8 | 13 | none | GitHub Actions |
 | Riviera | 1 | 2 | none | GitHub Actions |
@@ -235,7 +235,7 @@ open reaches no cinema. That property holds by construction: the client has no
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
-collection run. Under the normal configured cadence the four local providers are
+collection run. Under the normal configured cadence the five local providers are
 read four times a day, and the cloud providers usually up to eight, since runs
 are queued rather than merged. **Those figures describe the typical cadence and
 the configuration does not enforce them.** Scheduled execution is best-effort

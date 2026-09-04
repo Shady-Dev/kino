@@ -61,8 +61,12 @@ PROVIDERS = [
     # Moved off Vista on 2026-08-30: the /xml/ services 404 from every network and the
     # site now runs eTiketti. Accent, host and venue ids are unchanged on purpose -- the
     # ids key the saved home cinema and the /teatteri/ URLs.
+    # Local since 2026-09-04: savonkinot.fi sits behind Cloudflare, which answers a
+    # datacenter address 403 at the edge (CF-Ray present, no Retry-After) while the same
+    # request from an ordinary connection gets 200. See IDEAS "Savon Kinot moves to the
+    # local half".
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#0C8FA8",
-         book="buy", module="etiketti", where="cloud"),
+         book="buy", module="etiketti", where="local"),
     dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#4E7A16",
          book="buy", module="orion", where="cloud"),
     dict(id="engel", label="Kino Engel", host="kinoengel.fi", accent="#B47ACC",

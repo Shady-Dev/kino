@@ -114,8 +114,18 @@ class LiveRegistryTest(unittest.TestCase):
         self.assertEqual(p["where"], "local")
         self.assertEqual(p["module"], "etiketti")
         etiketti = importlib.import_module("etiketti")
-        self.assertEqual(ids(run.sites_for(etiketti, "local")), ["joutsankino"])
+        self.assertIn("joutsankino", ids(run.sites_for(etiketti, "local")))
         self.assertGreater(len(run.sites_for(etiketti, "cloud")), 1)
+
+    def test_the_local_etiketti_sites_are_exactly_savon_kinot_and_joutsan_kino(self):
+        """Savon Kinot joined the local half on 2026-09-04: savonkinot.fi sits behind
+        Cloudflare, which answers a datacenter address 403 at the edge while an ordinary
+        connection gets 200. The list is explicit so a site drifting between halves is a
+        failing test and a decision, never a side effect of a registry edit."""
+        etiketti = importlib.import_module("etiketti")
+        self.assertEqual(ids(run.sites_for(etiketti, "local")), ["savonkinot", "joutsankino"])
+        self.assertEqual(registry.by_id("savonkinot")["where"], "local")
+        self.assertNotIn("savonkinot", ids(run.sites_for(etiketti, "cloud")))
 
 
 if __name__ == "__main__":

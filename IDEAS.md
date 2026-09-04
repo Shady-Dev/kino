@@ -21,7 +21,7 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 - Language codes normalised end to end: the adapter and client fixes landed 2026-09-02;
   open until the committed data holds no `TU`, `MA` or `XX` and the landing-page aliases go
-- Move the local fetch off the laptop to an always-on box on the same network — 20 of 74
+- Move the local fetch off the laptop to an always-on box on the same network — 26 of 75
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices -- **blocked, not merely unbuilt**: the public programme API carries
   no prices at all, and the only route left is the booking flow, which this repo does
@@ -159,7 +159,7 @@ Shape: **one adapter per provider, or better per *platform*, each running where 
 | Kinoset (Nexxo) | 3 | none | Actions | prices, duration, genres |
 | Kotkan Leffat (eTiketti) | 2 | none | Actions | prices, duration, seats |
 | Riviera | 2 | none | Actions | seats, duration, 24-date horizon |
-| Savon Kinot (Vista) | 6 | none | Actions | fullest feed: original title, ISO langs, posters, deep links |
+| Savon Kinot (eTiketti since 2026-08-30) | 6 | none | Local since 2026-09-04 (Cloudflare 403 to datacenter IPs) | fullest feed: original title, ISO langs, posters, deep links |
 | Cinema Orion | 1 | none | Actions | ticket-type prices, own Finnish blurbs; no seats, runtimes or age limits |
 | Gilda (MyCloudCinema) | 2 | none | Actions | posters, own synopses, formats; no seats or deep links |
 | Kino Engel | 1 | none | Local (blocks datacenter IPs) | own synopses, rating, runtime, genres; no price, room or booking URL |
@@ -1637,10 +1637,10 @@ Still open from this pass:
       the tests, for the `EmptyProgramme` reload trap recorded under "Savon Kinot names the
       venue inside its own room".
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
-      Cloud VMs are not an option for the four providers that block datacenter IPs
-      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino), and with the MovieXchange route
-      closed above there is no other way off the laptop at all. 20 of 74 venues ride on
-      that machine.
+      Cloud VMs are not an option for the five providers that block datacenter IPs
+      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, and Savon Kinot since
+      2026-09-04), and with the MovieXchange route closed above there is no other way off
+      the laptop at all. 26 of 75 venues ride on that machine.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
@@ -3565,6 +3565,39 @@ Checked live against the served page as well, on a fresh origin with nothing sto
 written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; opening the
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
+
+### Savon Kinot moves to the local half (2026-09-04)
+
+Cloud fetches #158 (11:11 UTC) and #159 (14:26 UTC) failed on one provider: www.savonkinot.fi
+answered `403` on all three attempts, `Server: cloudflare` with a CF-Ray from the Dallas
+edge and no `Retry-After`, so Cloudflare refused at the edge before the cinema's server saw
+anything. Every run from 09-02 23:14 to 09-04 07:23 UTC had read the site normally (66 to 73
+showtimes at Tapio). The other 16 eTiketti hosts fetched in the same runs.
+
+**Not the polling rate.** Cloudflare's rate limiter answers `429` with `Retry-After`; this
+was `403` without one. The refusal hit the first request of the run, the listing page,
+after 3.7 hours with no contact, and again 3.2 hours later, longer than any rate window.
+The adapter makes one listing request plus one per film -- 23 films that day, about 24
+requests at 1.2 s spacing, at most eight runs a day. Runner addresses change between runs
+and the block held across two of them, so it keys on the address range, not the address.
+
+**Address-based, so the fix is the address.** From an ordinary connection the site answered
+`200` in 0.6 s with the adapter's exact User-Agent, with a browser one and with none. The
+registry entry moves from `where="cloud"` to `where="local"`: the cloud run skips the site
+and the local wrapper's `run.py etiketti --where local` reads it beside Joutsan Kino, four
+times a day instead of up to eight. Same route Finnkino, Kino Akseli, Kino Engel and Joutsan
+Kino already take; the local half is now five providers and 26 of 75 venues, which is
+recorded against the open item about moving that half off the laptop. Nothing else changes:
+adapter, headers and pacing are as they were on 2026-08-30.
+
+**Exercised from an ordinary connection before the push**, from a scratch directory so no
+data was hand-committed: `run.py etiketti --where local` read Savon Kinot and Joutsan Kino,
+six Savon Kinot venues with showtimes, `exit=0`. The committed data catches up on the
+wrapper's next local run, which is the run that matters; the cloud half's next run turns
+`run-etiketti.log` green by no longer asking.
+
+`tests/test_run_routing.py` pins the two local eTiketti sites in SITES order and the
+registry field; the halves-disjoint-and-complete test already covers the rest.
 
 ### A screening note is not a synopsis (2026-09-03)
 
