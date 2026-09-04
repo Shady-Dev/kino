@@ -1,17 +1,12 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 20 showtimes, 7 dates
+[kotkanleffat] Kinopalatsi Kotka: 19 showtimes, 7 dates
 [kotkanleffat] Trio 123: 57 showtimes, 7 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 54 showtimes, 11 dates
-[savonkinot] synopses merged: 0
-[savonkinot] Tapio Joensuu: 66 showtimes, 8 dates
-[savonkinot] Killa Savonlinna: 8 showtimes, 6 dates
-[savonkinot] Kuvalinna Savonlinna: 9 showtimes, 6 dates
-[savonkinot] Kuvalipas Iisalmi: 14 showtimes, 7 dates
-[savonkinot] Maxim Varkaus: 24 showtimes, 8 dates
-[savonkinot] Kino-Hovi Kitee: 8 showtimes, 7 dates
-[kinopirtti] synopses merged: 1
-[kinopirtti] Kinopirtti: 71 showtimes, 8 dates
+[http] 403 from www.savonkinot.fi, gave up after 3 attempt(s) -- Server: cloudflare; CF-Ray: a35c8fc36e904a0b-IAD
+[savonkinot] FAILED: HTTP Error 403: Forbidden
+[kinopirtti] synopses merged: 0
+[kinopirtti] Kinopirtti: 70 showtimes, 8 dates
 [leffabuumi] synopses merged: 0
 [leffabuumi] Kinolinna: 97 showtimes, 14 dates
 [leffabuumi] Kino Ritz: 19 showtimes, 14 dates
@@ -34,14 +29,14 @@
 [biovuoksi] synopses skipped as screening notes (price): 1
 [biovuoksi] Bio Vuoksi: 21 showtimes, 7 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 25 showtimes, 7 dates
+[kinoiiris] Kino Iiris: 23 showtimes, 7 dates
 [kkino] synopses merged: 0
-[kkino] synopses skipped as screening notes (price): 10
-[kkino] K-Kino: 10 showtimes, 6 dates
+[kkino] synopses skipped as screening notes (price): 9
+[kkino] K-Kino: 9 showtimes, 5 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 9 showtimes, 6 dates
-[niagara] synopses merged: 0
-[niagara] Cinema Niagara: 38 showtimes, 11 dates
-[run] http: 0 revalidated (304), 222 full, 222 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 25 venues, 774 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-exit=0
+[niagara] synopses merged: 1
+[niagara] Cinema Niagara: 38 showtimes, 12 dates
+[run] http: 0 revalidated (304), 198 full, 198 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 640 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+exit=1
