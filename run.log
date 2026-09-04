@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-04: 354 showtimes
+[schedule] 2026-09-04: 323 showtimes
 [schedule] 2026-09-05: 421 showtimes
 [schedule] 2026-09-06: 404 showtimes
 [schedule] 2026-09-07: 332 showtimes
@@ -10,7 +10,8 @@
 [tmdb] dropped 2 entries matched by the old picker
 [tmdb] no TMDB match (4): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2 | Keinolla millä hyvänsä | Spider-Man: No Way Home & Brand New Day
 [tmdb] weak match, no exact title (2): I'm Game -> ഐ ആം ഗെയിം | Lyhyt rakkaustarina -> Breve storia d'amore
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 16 deferred (budget 12)
+[tmdb] rating held back, under 25 votes (1): Spa Weekend (6.7 / 23 votes)
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 4 deferred (budget 12)
 [tmdb] 2 new lookups, 12 re-checks, cache 60, 54 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 51 film entries
