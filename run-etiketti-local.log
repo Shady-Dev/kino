@@ -1,5 +1,12 @@
+[savonkinot] synopses merged: 0
+[savonkinot] Tapio Joensuu: 58 showtimes, 7 dates
+[savonkinot] Killa Savonlinna: 7 showtimes, 5 dates
+[savonkinot] Kuvalinna Savonlinna: 8 showtimes, 5 dates
+[savonkinot] Kuvalipas Iisalmi: 12 showtimes, 6 dates
+[savonkinot] Maxim Varkaus: 21 showtimes, 7 dates
+[savonkinot] Kino-Hovi Kitee: 7 showtimes, 6 dates
 [joutsankino] synopses merged: 0
-[joutsankino] Joutsan Kino: 8 showtimes, 7 dates
-[run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[joutsankino] Joutsan Kino: 7 showtimes, 6 dates
+[run] http: 0 revalidated (304), 28 full, 28 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 7 venues, 120 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
