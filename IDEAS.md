@@ -3566,6 +3566,36 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### Search Console baseline, 2026-08-29 to 2026-09-02 (read 2026-09-04)
+
+First export, web search, five days of data. **The tables do not share a denominator**, so
+none of the figures below is a share of another table: the chart, devices and countries
+tables sum to **1776 impressions and 12 clicks** (CTR 0.68 %); the pages table sums to
+**1951** because an impression counts once per URL and one query can show two of ours; the
+queries table sums to **1300** because rare queries are anonymised and left out. A later
+export is comparable to this one only table by table, over the same window and filters.
+
+What the five days showed: theatre pages carried about 92 % of page-level impressions, 74 of
+the 170 canonical pages appeared, and the front runners were small-town cinemas -- Leffabuumi
+Kinolinna and Kino Ritz 168 and 167 impressions at positions 5 to 7, Savon Kinot's four pages
+about 300 together, BioRex Seinäjoki 86 -- while Finnkino pages sat at positions 12 to 20.
+Visible queries were the cinema's name (746), "elokuvat <city>" (285) and "<cinema>
+ohjelmisto" (248, with two of the three attributed clicks); no query contained "leffavuoro".
+Mobile position 8.4 against desktop 23.6. The signal is early and small: a page per small
+cinema ranks on page one for that cinema's name within days, where competition is thin.
+
+**Decisions on that read**, the user's, 2026-09-04:
+
+- No broad SEO change on five days of data. Re-read after two to four more weeks.
+- **No city pages for one-cinema towns.** They would duplicate and compete with the theatre
+  pages that already rank; the theatre page carries the city intent.
+- **The one experiment, when run: "ohjelmisto" in Finnish theatre-page titles and
+  descriptions**, the word searchers actually type and the pages never say. On a subset of
+  pages against an unchanged control set, the same pages compared over two to four weeks,
+  designed and measured like any other `build_pages` string change.
+- **Desktop position and the absence of brand queries: watch, don't act.** Both are too small
+  to mean anything yet.
+
 ### Savon Kinot moves to the local half (2026-09-04)
 
 Cloud fetches #158 (11:11 UTC) and #159 (14:26 UTC) failed on one provider: www.savonkinot.fi
