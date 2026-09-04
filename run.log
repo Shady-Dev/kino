@@ -1,17 +1,16 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-04: 70 showtimes
 [schedule] 2026-09-05: 421 showtimes
 [schedule] 2026-09-06: 404 showtimes
 [schedule] 2026-09-07: 332 showtimes
 [schedule] 2026-09-08: 324 showtimes
 [schedule] 2026-09-09: 315 showtimes
 [schedule] 2026-09-10: 329 showtimes
+[schedule] 2026-09-11: 11 showtimes
 [tmdb] dropped 2 entries matched by the old picker
 [tmdb] no TMDB match (4): Harry Potter -elokuvamaraton 1 | Harry Potter -elokuvamaraton 2 | Keinolla millä hyvänsä | Spider-Man: No Way Home & Brand New Day
 [tmdb] weak match, no exact title (2): I'm Game -> ഐ ആം ഗെയിം | Lyhyt rakkaustarina -> Breve storia d'amore
-[tmdb] rating refresh: 4 scheduled, 4 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 2 new lookups, 4 re-checks, cache 60, 54 mergeable by id
+[tmdb] 3 new lookups, 8 re-checks, cache 61, 55 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 51 film entries
 [attrs] dropped, neither format nor language (7): Erikois | Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
