@@ -3566,6 +3566,44 @@ written and the favourite untouched; pressing FI rewrote the URL to `lang=fi`; o
 English link again applied English and left the stored `fi` alone; `lang=xx` and `lang=EN`
 were stripped while `area` stayed, the city form included.
 
+### Confirmed empty beats kept data (2026-09-05, sw.js v107)
+
+Kino Metso's Muurame had one screening on 2026-09-04 at 19:00, its last for now. The
+23:39 UTC cloud run found the town empty and `run.py` took the "no showtimes, keeping
+previous data" branch: the file kept the past show, the venue was listed `stale`, the
+provider read `partial`, and `oldest` was pinned to 17:43 UTC while three venues were fresh.
+Read from the live feed through the adapter's own parser: Muurame 0 shows in 21 days,
+Petäjävesi 5, Tikkakoski 0, Vaajakoski 3. Not a fetch or parse failure -- a touring cinema's
+town is empty between visits, and the rule from 2026-08-31 honoured the adapter's
+confirmation of emptiness (`EMPTY_VENUES_CONFIRMED`) only for venues that had never had data.
+
+**The invariant now**, the user's, and the order the loop checks it in:
+
+1. Confirmed empty from a successful adapter response -- the module sets
+   `EMPTY_VENUES_CONFIRMED` and reported the venue explicitly -- publishes a fresh empty
+   file and records the venue as `pending`, whether or not old data exists.
+2. Zero rows without that confirmation keeps the previous file and marks the venue `stale`.
+3. A fetch, schema or parse failure never reaches the loop: the site fails as a whole and
+   every file it owns stays as it was.
+
+That distinguishes "the programme has ended" from "we failed to retrieve it", which the
+previous order could not. The evidence trusted is exactly what the `pending` rule already
+trusted: nexxo's schema check raises on a changed payload and a mis-mapped room lands in
+the unclaimed-room log, so its `[]` is positive. eTiketti does not set the flag and keeps
+rule 2. No new state, no schema change; `pending` now means "no programme at the moment"
+rather than "not started", and the wording follows: "Ei ohjelmistoa juuri nyt", "Inget
+program just nu", "No programme right now", in the footer line and the provider tooltip.
+
+**Tests**, `tests/test_run_partial.py`, `ConfirmedEmptyTest`: confirmed empty with an old
+file (pending, empty file stamped now, provider ok, `oldest` now), confirmed empty with no
+file, zero rows from a module without the flag (stale, kept), a confirming module that did
+not report the venue (stale, kept), a failing fetch (every file untouched, no provider
+file written), and Kino Metso's shape with four venues -- one ended, one never started,
+two live -- reading ok with `oldest` from the live venues. Mutations, each restored
+byte-identical and each red: the old order restored (3), the reported-venue condition
+dropped (2), pending granted without the flag (9), the fresh stamp on the empty file
+replaced by the old one (4).
+
 ### Search Console baseline, 2026-08-29 to 2026-09-02 (read 2026-09-04)
 
 First export, web search, five days of data. **The tables do not share a denominator**, so

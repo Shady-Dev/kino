@@ -965,9 +965,9 @@
          partialMissing:'Ei saatu ladattua: {names}.',
          allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä',
          partialSources:'Osa teattereista ei päivittynyt',
-         noProgYet:'Ei vielä ohjelmistoa',
+         noProgYet:'Ei ohjelmistoa juuri nyt',
          unverifiedOf:'{n}/{m} teatterilta ei ole vielä saatu näytöksiä',
-         pendingOf:'{n}/{m}: ei vielä ohjelmistoa',
+         pendingOf:'{n}/{m}: ei ohjelmistoa juuri nyt',
          aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
          aSearch:'Suodata elokuvia nimen tai genren mukaan', aDays:'Valitse päivä',
          aView:'Valitse näkymä', aLang:'Kieli', aClose:'Sulje',
@@ -1012,9 +1012,9 @@
          partialMissing:'Kunde inte laddas: {names}.',
          allFresh:'Alla {m} källor är aktuella', behind:'Källor efter',
          partialSources:'Vissa biografer uppdaterades inte',
-         noProgYet:'Inget program ännu',
+         noProgYet:'Inget program just nu',
          unverifiedOf:'{n}/{m} biografer har ännu inte gett föreställningar',
-         pendingOf:'{n}/{m}: inget program ännu',
+         pendingOf:'{n}/{m}: inget program just nu',
          aTheme:'Växla mellan ljust och mörkt tema', aVenue:'Välj biograf',
          aSearch:'Filtrera filmer efter titel eller genre', aDays:'Välj dag',
          aView:'Välj vy', aLang:'Språk', aClose:'Stäng',
@@ -1056,9 +1056,9 @@
          partialMissing:'Could not load: {names}.',
          allFresh:'All {m} sources up to date', behind:'Sources behind',
          partialSources:'Some cinemas did not refresh',
-         noProgYet:'No programme yet',
+         noProgYet:'No programme right now',
          unverifiedOf:'{n}/{m} cinemas have not yet returned showtimes',
-         pendingOf:'{n}/{m}: no programme yet',
+         pendingOf:'{n}/{m}: no programme right now',
          aTheme:'Switch between light and dark theme', aVenue:'Choose theatre',
          aSearch:'Filter movies by title or genre', aDays:'Choose date',
          aView:'Choose view', aLang:'Language', aClose:'Close',
@@ -1395,11 +1395,14 @@
   // people to ignore the line.
   // `pending` sits below `partial`, and only the adapter can grant it: run.py writes a
   // venue into `pending` only when the module vouches that its empty answer is positive
-  // evidence (EMPTY_VENUES_CONFIRMED) -- a cinema whose programme has not started, like
-  // Kino Metso Tikkakoski publishing into late October from day one. A month of "did
-  // not refresh" over that would be the false alarm that teaches people to ignore the
-  // line. `unverified` stays partial: run.py cannot tell "added before its programme"
-  // from "a parse that has never worked", and the ambiguous case must stay visible.
+  // evidence (EMPTY_VENUES_CONFIRMED) -- a cinema with no programme at the moment, one
+  // that has not started, like Kino Metso Tikkakoski publishing into late October from
+  // day one, or a touring cinema's town between visits, like Muurame the day after its
+  // last screening (since 2026-09-05; before that an ended programme was kept and read
+  // "did not refresh" for weeks). A month of that over a quiet town would be the false
+  // alarm that teaches people to ignore the line. `unverified` stays partial: run.py
+  // cannot tell "added before its programme" from "a parse that has never worked", and
+  // the ambiguous case must stay visible.
   function healthState(m, ageH){
     if(!m) return 'gone';
     if(m.gone) return 'gone';

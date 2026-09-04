@@ -24,16 +24,19 @@ builds its picker from, so dropping a failed venue would make its still-committe
 file unreachable while the health line stays green — the silent failure this pipeline
 is designed against.
 
-A venue that keeps its previous file is recorded as *stale*, not failed: at this layer
-an empty parse and a cinema with nothing on today both arrive as `[]`, so they cannot be
-told apart, and treating either as a failure would fail the run on an ordinary closure.
-A venue with no shows and none before it splits two ways. If the adapter's module sets
-`EMPTY_VENUES_CONFIRMED` and reported the venue explicitly, its emptiness is positive
-evidence — the upstream answered in schema and listed nothing — and the venue is
-*pending*: a programme that has not started, quiet on the health line. Otherwise it is
+A venue with no shows is one of three things, in this order. If the adapter's module
+sets `EMPTY_VENUES_CONFIRMED` and reported the venue explicitly, its emptiness is
+positive evidence — the upstream answered in schema and listed nothing — and the venue is
+*pending*: no programme at the moment, an empty file stamped fresh, quiet on the health
+line, whether or not it had data before (a touring cinema's town is empty between visits;
+until 2026-09-05 a town with an old file was kept and marked stale for weeks). Otherwise,
+if it has a previous file, it keeps it and is recorded as *stale*, not failed: at this
+layer an empty parse and a cinema with nothing on today both arrive as `[]`, and treating
+either as a failure would fail the run on an ordinary closure. Otherwise it is
 *unverified*: never any data, and "a venue added before its programme is published" and
 "one whose parse has never worked" are not distinguishable here, so it must stay visibly
-degraded. The file therefore carries `status`, `stale`, `unverified`, `pending` and
+degraded. A fetch, schema or parse failure never reaches this loop: the site fails as a
+whole and every file it owns is left as it was. The file therefore carries `status`, `stale`, `unverified`, `pending` and
 `oldest`, and `oldest` is what the health line ages on: a
 provider is as fresh as its weakest venue, but a venue that never had data does not drag
 that down. Only a site where *every* venue came back empty is a failure, since nothing
@@ -146,35 +149,36 @@ def run_site(mod, site, now, order=0):
     live = total = 0
     stale = []            # kept its previous file: the data is real, just older
     unverified = []       # never any data, emptiness unconfirmed: parse rot looks the same
-    pending = []          # never any data, and the adapter confirmed the programme is empty
+    pending = []          # the adapter confirmed the venue empty: no programme at the moment
     for v in site["venues"]:
         shows = per_venue.get(v["id"]) or []
         path = OUT / f"area-{v['id']}.json"
         prev_gen, prev_shows = previous(path)
-        if not shows and prev_shows:
+        confirmed = getattr(mod, "EMPTY_VENUES_CONFIRMED", False) and v["id"] in per_venue
+        if not shows and confirmed:
+            # Positive evidence: the module promises that a venue it reported with an
+            # empty list is *known* empty -- the upstream answered in schema and listed
+            # nothing. Whether the venue had data before does not change that. A touring
+            # cinema's town is empty between visits, and keeping its last, past show
+            # marked stale for weeks said "not updated" about a programme that had ended.
+            # The empty file is stamped fresh so it cannot drag `oldest` down.
+            pending.append(v["id"])
+            print(f"[{label}] {v['name']}: no programme at the moment (adapter confirmed "
+                  f"the venue empty); publishing an empty file", file=sys.stderr)
+        elif not shows and prev_shows:
             stale.append(v["id"])
             print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
                   f"from {prev_gen or 'an unknown time'}", file=sys.stderr)
             continue
-        if not shows:
-            # Never produced a showtime. Two different states hide here, and only the
-            # adapter can tell them apart: a module that sets EMPTY_VENUES_CONFIRMED
-            # promises that a venue it reported with an empty list is *known* empty --
-            # the upstream answered in schema and listed nothing -- so that venue is
-            # pending, a programme that has not started. Anything else stays
-            # unverified: "added before its programme is published" and "a parse that
-            # has never worked" are not distinguishable here, so it is recorded rather
-            # than judged and must not read as healthy. Both still get the empty file,
-            # so the picker does not link to a 404, and both are stamped fresh so a
-            # venue with no data cannot drag the provider's `oldest` down.
-            if getattr(mod, "EMPTY_VENUES_CONFIRMED", False) and v["id"] in per_venue:
-                pending.append(v["id"])
-                print(f"[{label}] {v['name']}: no programme yet (adapter confirmed "
-                      f"the venue empty); publishing an empty file", file=sys.stderr)
-            else:
-                unverified.append(v["id"])
-                print(f"[{label}] {v['name']}: no showtimes and none previously; "
-                      f"publishing an empty file", file=sys.stderr)
+        elif not shows:
+            # Never produced a showtime and nobody vouches for the emptiness: "added
+            # before its programme is published" and "a parse that has never worked" are
+            # not distinguishable here, so it is recorded rather than judged and must not
+            # read as healthy. It still gets the empty file, so the picker does not link
+            # to a 404, stamped fresh so a venue with no data cannot drag `oldest` down.
+            unverified.append(v["id"])
+            print(f"[{label}] {v['name']}: no showtimes and none previously; "
+                  f"publishing an empty file", file=sys.stderr)
         shows.sort(key=lambda s: s["start"])
         synmerge.strip_helpers(shows)
         # Read before the write, so a venue keeps its ratings, trailers and genre ids

@@ -50,7 +50,8 @@ SITE = {
 }
 
 
-class RunSitePartialTest(unittest.TestCase):
+class RunSiteHarness(unittest.TestCase):
+    """Temporary OUT plus the helpers; the test classes below inherit it."""
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.out = pathlib.Path(self.tmp.name)
@@ -78,6 +79,9 @@ class RunSitePartialTest(unittest.TestCase):
             "generated": generated, "dates": ["2026-08-01"], "horizon": "2026-08-01",
             "shows": [show("Yesterday's Film", "2026-08-01T18:00:00+03:00")],
         }), encoding="utf-8")
+
+
+class RunSitePartialTest(RunSiteHarness):
 
     # -- the partial case ---------------------------------------------------------
 
@@ -252,9 +256,12 @@ class RunSitePartialTest(unittest.TestCase):
         self.assertEqual(unverified, ["fc-b"])
         self.assertEqual(self.venues_file()["pending"], [])
 
-    def test_a_pending_venue_with_previous_data_is_stale_instead(self):
-        """The severity order run.py already keeps: real older data outranks the
-        adapter's word that today's answer is empty."""
+    def test_a_confirmed_empty_venue_with_previous_data_is_pending_not_stale(self):
+        """Reversed on 2026-09-05. Until then real older data outranked the adapter's word
+        that today's answer is empty, so a touring cinema's town kept its last, past show
+        and read "did not refresh" for weeks after its programme had ended. The adapter's
+        confirmation is the same evidence `pending` already trusts; the old file does not
+        change what the upstream said today. See ConfirmedEmptyTest for the full shape."""
         self.seed_previous("fc-b")
         mod = FakeModule({
             "fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
@@ -262,9 +269,10 @@ class RunSitePartialTest(unittest.TestCase):
             "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")],
         })
         mod.EMPTY_VENUES_CONFIRMED = True
-        _, _, stale, _, _ = self.run_site(mod)
-        self.assertEqual(stale, ["fc-b"])
-        self.assertEqual(self.venues_file()["pending"], [])
+        _, _, stale, _, pending = self.run_site(mod)
+        self.assertEqual((stale, pending), ([], ["fc-b"]))
+        self.assertEqual(self.venues_file()["pending"], ["fc-b"])
+        self.assertEqual(self.area("fc-b")["shows"], [])
 
     def test_a_totally_dead_site_writes_no_provider_file(self):
         """Nothing may stamp a fresh timestamp when every venue came back empty."""
@@ -315,6 +323,116 @@ class GeneratedOfTest(unittest.TestCase):
         p.write_text('{"generated": "2026-08', encoding="utf-8")
         self.assertEqual(run.generated_of(p), "")
         self.assertEqual(run.generated_of(self.dir / "missing.json"), "")
+
+
+class ConfirmedModule(FakeModule):
+    """An adapter that vouches for emptiness: a venue it reports with [] was answered in
+    schema and listed nothing (nexxo). Its word outranks a previous file."""
+    __name__ = "fakeconfirmed"
+    EMPTY_VENUES_CONFIRMED = True
+
+
+class FailingModule(FakeModule):
+    __name__ = "fakefailing"
+    EMPTY_VENUES_CONFIRMED = True
+
+    def fetch_site(self, site):
+        raise RuntimeError("upstream unreachable")
+
+
+FOUR = {
+    "provider": "fakechain",
+    "label": "Fake Touring Cinema",
+    "venues": [
+        {"id": "fc-a", "name": "Alpha", "short": "Alpha", "city": "Espoo"},
+        {"id": "fc-b", "name": "Beta", "short": "Beta", "city": "Espoo"},
+        {"id": "fc-c", "name": "Gamma", "short": "Gamma", "city": "Espoo"},
+        {"id": "fc-d", "name": "Delta", "short": "Delta", "city": "Espoo"},
+    ],
+}
+
+
+class ConfirmedEmptyTest(RunSiteHarness):
+    """Confirmed empty beats kept data (2026-09-05). Kino Metso's Muurame had one show,
+    its last for now; the next run found the town empty, kept the past show, marked the
+    venue stale and pinned the provider's `oldest` to it. The adapter had confirmed the
+    emptiness and was not asked. The invariant: confirmed empty publishes a fresh empty
+    file in the quiet state whether or not old data exists; zero rows without
+    confirmation keeps the previous file as stale; a failure never replaces anything."""
+
+    def test_confirmed_empty_with_an_old_file_is_pending_not_stale(self):
+        self.seed_previous("fc-b")
+        mod = ConfirmedModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                               "fc-b": [],
+                               "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        live, total, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((live, total), (2, 2))
+        self.assertEqual(stale, [], "the programme had ended; that is not stale data")
+        self.assertEqual(pending, ["fc-b"])
+        self.assertEqual(unverified, [])
+        empty = self.area("fc-b")
+        self.assertEqual(empty["shows"], [], "the past show was kept")
+        self.assertEqual(empty["generated"], NOW, "the empty file was not stamped fresh")
+        doc = self.venues_file()
+        self.assertEqual(doc["status"], "ok")
+        self.assertEqual((doc["stale"], doc["pending"]), ([], ["fc-b"]))
+        self.assertEqual(doc["oldest"], NOW, "an ended programme dragged `oldest` down")
+
+    def test_confirmed_empty_with_no_file_is_pending_as_before(self):
+        mod = ConfirmedModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                               "fc-b": [],
+                               "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        _, _, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((stale, unverified, pending), ([], [], ["fc-b"]))
+        self.assertEqual(self.area("fc-b")["shows"], [])
+        self.assertEqual(self.venues_file()["status"], "ok")
+
+    def test_zero_rows_without_confirmation_still_keeps_the_previous_file(self):
+        """The same answer from a module that cannot vouch for it: stale, kept."""
+        self.seed_previous("fc-b")
+        mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        _, _, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((stale, pending), (["fc-b"], []))
+        self.assertEqual(self.area("fc-b")["generated"], OLD)
+        self.assertEqual(self.venues_file()["status"], "partial")
+
+    def test_a_confirming_module_that_did_not_report_the_venue_does_not_get_pending(self):
+        """The flag alone is not evidence; the venue has to be in the adapter's answer."""
+        self.seed_previous("fc-b")
+        mod = ConfirmedModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                               "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        _, _, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((stale, pending), (["fc-b"], []))
+        self.assertEqual(self.area("fc-b")["generated"], OLD)
+
+    def test_a_failed_fetch_never_replaces_previous_data(self):
+        self.seed_previous("fc-a"); self.seed_previous("fc-b"); self.seed_previous("fc-c")
+        with self.assertRaises(RuntimeError):
+            self.run_site(FailingModule({}))
+        for vid in ("fc-a", "fc-b", "fc-c"):
+            self.assertEqual(self.area(vid)["generated"], OLD, vid)
+            self.assertEqual(self.area(vid)["shows"][0]["title"], "Yesterday's Film")
+        self.assertFalse((self.out / "venues-fakechain.json").exists(),
+                         "a failed site must not publish a provider file")
+
+    def test_a_touring_cinema_with_two_empty_towns_reads_ok_and_ages_on_its_live_venues(self):
+        """Kino Metso's shape: one town whose programme ended (old file), one that has
+        never had one, two with showtimes. The provider is ok, both towns pending, and
+        `oldest` comes from the live venues, all stamped now."""
+        self.seed_previous("fc-b")
+        mod = ConfirmedModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                               "fc-b": [], "fc-c": [],
+                               "fc-d": [show("D", "2026-09-19T14:00:00+03:00")]})
+        live, total, stale, unverified, pending = self.run_site(mod, site=FOUR)
+        self.assertEqual((live, total), (2, 2))
+        self.assertEqual((stale, unverified, sorted(pending)), ([], [], ["fc-b", "fc-c"]))
+        doc = self.venues_file()
+        self.assertEqual(doc["status"], "ok")
+        self.assertEqual(doc["oldest"], NOW)
+        self.assertEqual(sorted(doc["pending"]), ["fc-b", "fc-c"])
+        self.assertEqual([v["id"] for v in doc["venues"]], ["fc-a", "fc-b", "fc-c", "fc-d"])
 
 
 if __name__ == "__main__":
