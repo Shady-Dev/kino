@@ -5782,6 +5782,18 @@ correctly here, and it does not distinguish one origin policy from another. Left
 observation rather than a diagnosis, because the next run is the only thing that can
 narrow it.
 
+**A second observation, 2026-09-05, narrows it toward a per-hour limit.** The same three
+hosts -- kinoset.fi and kinohirvi.fi (`Server: openresty`), kino-olympia.fi (`Server:
+Apache`) -- refused with origin-layer 403 again, in a cloud run dispatched by hand at 23:56
+UTC, the **third run within 41 minutes** (23:15 cron-adjacent, 23:42 after a local run,
+23:56 manual). Every other run that day read them, including two that followed the previous
+one by 20 and 26 minutes. Six venues kept their previous data, `run-nexxo.log` went `exit=1`
+and the dispatched run failed on the provider gate. Two data points, both a manual dispatch
+stacked on runs already made, both refused by exactly these hosts and nothing else. Rule
+for the person at the keyboard until a third point says otherwise: **do not dispatch a
+cloud run within an hour of one that already ran**; a code change that needs a run can
+wait for the next cron or the next local run's own dispatch.
+
 Not changed: `fetch_site` and its sleep, the workflow, and the site list. The local half
 runs the same `run.py`, so it picks this up on its next run with no wrapper edit -- and
 nothing else: its three modules have one site each on that half, so they are one host
