@@ -6,13 +6,13 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 77 venues in 52 cities across 35 providers: Finnkino, BioRex,
+Showtimes for 78 venues in 52 cities across 36 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
 Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
-Cinema Niagara, Heureka and Korjaamo Kino. Films
+Cinema Niagara, Heureka, Korjaamo Kino and Kino Tapiola. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page, or the ticket shop where the screening is
@@ -45,6 +45,7 @@ platforms:
 | Kino Akseli | 1 | 1 | none | Local |
 | Heureka | 1 | 1 | none | GitHub Actions |
 | Vista (public XML) | 1 | 1 | none | GitHub Actions |
+| Kino Tapiola | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -171,7 +172,7 @@ the same committed JSON at the end of every run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-87 per language, 175 sitemap URLs: 77 venues plus the ten cities with more than
+88 per language, 177 sitemap URLs: 78 venues plus the ten cities with more than
 one venue, and the front page. A one-venue city would duplicate its venue page
 and compete with it, so those get the city into the venue page's title and
 address instead.
@@ -209,9 +210,9 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-05: all 4142
-poster references resolve to `data/posters/` on this origin: 4002 on showtimes
-and 140 in `films-extra.json`, across 653 mirrored files, none off-origin. The
+**A page load makes no third-party requests.** Counted 2026-09-05: all 4070
+poster references resolve to `data/posters/` on this origin: 3926 on showtimes
+and 144 in `films-extra.json`, across 657 mirrored files, none off-origin. The
 typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
@@ -226,7 +227,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 35 providers listed at the
+Schedule data belongs to the respective cinemas, the 36 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

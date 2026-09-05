@@ -1557,6 +1557,80 @@ tekstitys: ruotsi" for a rated film and "96 min · HelAFF · tekstitys: englanti
 an unrated one, the shorts render initials tiles, and the six other Helsinki chains
 still list their stubs beside it (186 on 7.9.).
 
+### Kino Tapiola: a parser for one listing page, keyed on the title (2026-09-05)
+
+The second of the three the Johku sweep left. `scripts/providers/tapiola.py` reads
+`/elokuvat/` once and one film page per film. The snapshot committed with it is the run
+from an ordinary connection: 15 showtimes, 11 films, 6 dates (5.9. to 23.9.), every
+showtime rated from its film page.
+
+**What was verified before the parser was written.** The listing renders one
+`div.movie-list-movie` per screening with the date and its year, so no year guessing.
+The three Autofiktio runs on the page, `autofiktio-4`, `-5` and `-6`, were fetched and
+compared field by field: the same `<h1>`, `<title>`, age limit, runtime, language,
+subtitle line, credits and synopsis (953 bytes each); only the Johku show ids in
+`data-showid` differ. That is the fact the design rests on, and the fixture pins it:
+three slugs, one `eventId`, one film-page fetch, the metadata on all three runs.
+
+Decisions:
+
+- **`eventId` is `synmerge.norm(title)`**, the key the client's `normTitle` and the
+  synopsis cache already use, so the three runs are one film in the venue view without
+  any slug arithmetic. Nothing strips a trailing number: "Fez Summer 55" keeps its 55,
+  and a test says so. The film page URL stays per run, so each showtime links to the
+  page that sells it.
+- **No images from the site.** The list paints 3:2 press stills behind the titles and the
+  film page shows a 214 × 300 distributor image with no `og:image`. Neither is mirrored;
+  TMDB supplies the posters, which is the rule since Heureka.
+- **The `cat-` class is the strand.** `cat-seniorikino` becomes "Seniorikino" in
+  `method`; the title stays as published. An unknown `cat-` class passes through
+  capitalised rather than vanishing.
+- **Rows without a time are not screenings.** `/elokuvat/tulossa/` renders the same
+  blocks with a date class and no clock; the parser skips them, and a date that does not
+  exist (31.2.) is skipped too. The five `/erikoisnaytokset/` pages repeat rows already on
+  `/elokuvat/` and the opera page listed nothing, so they are not read.
+- **The list container is the emptiness evidence.** `div.movie-list` present with no rows
+  is a confirmed empty programme (`EMPTY_VENUES_CONFIRMED`, the venue goes pending with a
+  fresh empty file); the container missing is a changed template and fails the venue,
+  keeping the previous file.
+- **Film page**: the age limit is a class (`info-icon age-limit-K-12`), read from the
+  class and not from the text; "Elokuvan kesto 1h 52min" becomes minutes; "Kieli OV"
+  means an original version and yields no audio tag, a Finnish language name yields one;
+  "Tekstitys Suomi/Ruotsi" becomes `FI-S, SV-S`. The synopsis is the description's
+  paragraphs minus the press quote with its stars, and inline markup is removed without
+  leaving a gap ("<em>The Odyssey</em>, on" stays "The Odyssey, on").
+- `book="buy"`: the film page is where the Johku embed sells the ticket, the same
+  arrangement as Kino Engel.
+
+**Accent, measured against one chain.** Espoo holds Finnkino Sello and Omena and nothing
+else, so the search's best is taken, as Kouvola's pair was: #003CFC measures 52.7 / 80.4 /
+71.6 dE00 (normal / Viénot / Machado) from Finnkino's orange, L* 38.3. Studio 123 Kouvola
+sits in the same blue band and never shares a screen with it. Helsinki's floor is
+untouched.
+
+`where="cloud"` is provisional, as Korjaamo's was: 200 from an ordinary connection and
+from a non-residential fetcher, nginx in front, no challenge header. The first cloud run
+decides, and one registry field moves it to the local half if a runner is refused.
+
+**Counts, re-measured from the tree:** 36 providers, 78 venues, 52 cities, 88 pages per
+language, 177 sitemap URLs; Espoo's city page lists 3 theatres. README's provider list,
+adapter table, page counts, poster paragraph and data-sources count moved with them.
+
+**Tests:** `tests/test_tapiola.py`, 20 tests: the listing (six screenings from nine rows,
+the three runs sharing one key and keeping three pages, the number kept, the strand, an
+entity unescaped and a repeated row dropped, the timeless and impossible rows skipped,
+the show shape, empty list against missing list), the film page (both shapes and an
+empty body), enrichment (one fetch for three runs; a failed page costs that film only),
+four runner paths (publish; confirmed empty clears the old file and stays green; a
+changed template fails and keeps the previous file; a refused listing fails), the registry
+entry and the committed pages. 15 mutations through `kino-mutation-check`, 15 red,
+including the slug as key, a numeric suffix stripped, and one page per run.
+
+Accepted, not worked around: `price` stays empty (the price sits in the Johku embed),
+`soldOut` stays false, and "Myrskyn ikkuna (ennakkonäytös!)" and "Päivien lumo +
+tekijävierailu" keep their suffixes, so they will not match TMDB until the run ends and the
+plain title returns.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
@@ -1570,9 +1644,9 @@ still list their stubs beside it (186 on 7.9.).
   and other non-Finnish Vista users remain untested.
 - **Johku is a ticketing platform, not a listing template** (2026-09-05). The four known
   sites render three different HTML shapes and none of them Engel's widget. Kino Tapiola
-  is parser-shaped (Engel's pattern: server-rendered rows plus a film page). KuvaTähti
-  and Kulttuurimylly are Johku-hosted storefronts to re-read once their programmes
-  resume. Virtasali is a Kalajoki culture hall with no films listed.
+  got its own parser the same day; see "Kino Tapiola: a parser for one listing page"
+  above. KuvaTähti and Kulttuurimylly are Johku-hosted storefronts to re-read once their
+  programmes resume. Virtasali is a Kalajoki culture hall with no films listed.
 - **Korttelikinot** (Helsinki: Orion, Riviera, Korjaamo, Regina): Orion and Riviera are
   in; Korjaamo and Regina were probed 2026-09-05 and share nothing. Korjaamo runs Vista,
   Regina a WordPress theme with its own showtime endpoints and KAVI's ticket shop. Both
@@ -2540,6 +2614,11 @@ count failed the same way.
 
 ## Documentation state (2026-09-05, tenth pass)
 
+- Twelfth pass, 2026-09-05: Kino Tapiola. Re-measured against `data/`, the registry and
+  `sitemap.xml`: **36 providers / 78 venues / 52 cities**, 88 pages per language, 177
+  sitemap URLs, 5 local providers (26 venues), 4070 poster references over 657 mirrored
+  files, none off-origin. README's provider list, adapter table, page counts, poster
+  count and data-sources count moved with it.
 - Eleventh pass, 2026-09-05: Korjaamo Kino. Re-measured against `data/`, the registry and
   `sitemap.xml`: **35 providers / 77 venues / 52 cities**, 87 pages per language, 175
   sitemap URLs, 5 local providers (26 venues), 4142 poster references over 653 mirrored

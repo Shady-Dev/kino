@@ -244,6 +244,13 @@
    "host": "korjaamokino.fi",
    "accent": "#C07E7E",
    "book": "buy"
+  },
+  {
+   "id": "tapiola",
+   "label": "Kino Tapiola",
+   "host": "kinotapiola.fi",
+   "accent": "#003CFC",
+   "book": "buy"
   }
  ]
 }

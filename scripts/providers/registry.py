@@ -189,6 +189,17 @@ PROVIDERS = [
     # Helsinki's worst pair stays Finnkino/Cinema Orion at 14.4.
     dict(id="korjaamo", label="Korjaamo Kino", host="korjaamokino.fi", accent="#C07E7E",
          book="buy", module="vista", where="cloud"),
+    # Kino Tapiola, Espoo (2026-09-05): its own WordPress theme renders the programme
+    # server-side, Johku sells the tickets through client-side embeds, so a showtime
+    # opens the film page and `buy` is the verb. `where` is provisional as Korjaamo's
+    # was: 200 from an ordinary connection and from a non-residential fetcher, nginx in
+    # front, no challenge header; the first cloud run decides. Espoo holds Finnkino
+    # Sello and Omena and nothing else, so the accent is measured against one orange
+    # and the search's best is taken, as Kouvola's pair was: #003CFC is 52.7 / 80.4 /
+    # 71.6 dE00 (normal / Viénot / Machado) from Finnkino, L* 38.3, the same blue band
+    # as Studio 123 Kouvola, which never shares a screen with it.
+    dict(id="tapiola", label="Kino Tapiola", host="kinotapiola.fi", accent="#003CFC",
+         book="buy", module="tapiola", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
