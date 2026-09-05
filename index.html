@@ -3129,26 +3129,56 @@
     // the SW (instant -- it is the copy just cached), compare `generated`, and only a
     // real change re-derives. The cooldown stops the loop this would otherwise be:
     // the re-read triggers background refreshes of its own, which message again.
-    let swrLast = 0;
-    navigator.serviceWorker.addEventListener('message', async ev => {
-      const path = ((ev.data || {}).fresh || '');
-      const m = path.match(/\/data\/area-(.+)\.json$/);
-      if(!m || !jsonCache[state.area]) return;
-      const hit = state.area === m[1] ||
-        (state.area.startsWith('city:') && (cityGroups[state.area.slice(5)] || []).includes(m[1]));
-      if(!hit || Date.now() - swrLast < 60000) return;
-      swrLast = Date.now();
-      try {
-        const fresh = state.area.startsWith('city:')
-          ? await loadCity(state.area.slice(5))
-          : await fetchJSON(path.slice(1));
-        if(fresh.generated && fresh.generated !== jsonCache[state.area].generated){
-          jsonCache[state.area] = fresh;
-          lastLoad = Date.now();   // the refresh was a real network fetch, seconds ago
-          loadSchedule();          // warm cache: runs synchronously to render, no spinner
-        }
-      } catch(_){ /* next visit gets it */ }
+    //
+    // --- background refresh: pure, extracted verbatim by tests/swr_refresh_harness.js ---
+    // The decision is a function of `io` -- the selection, the payload cache, the city
+    // groups, the two readers and the clock -- so the harness can drive the shipped code
+    // without a DOM. The listener below is the only plumbing.
+    function makeFreshHandler(io){
+      let last = 0;
+      return async function onFresh(path){
+        const m = (path || '').match(/\/data\/area-(.+)\.json$/);
+        if(!m) return;
+        // Read once, here. The read below can take seconds on a slow connection and the
+        // reader may pick another cinema meanwhile; everything after the await goes back
+        // to `area`, never to io.area(). The old handler read the selection again after
+        // the await, so a late answer for A was written into B's slot and rendered as B.
+        const area = io.area();
+        if(!io.cache[area]) return;
+        const hit = area === m[1] ||
+          (area.startsWith('city:') && (io.groups()[area.slice(5)] || []).includes(m[1]));
+        if(!hit || io.now() - last < 60000) return;
+        last = io.now();
+        try {
+          const fresh = area.startsWith('city:')
+            ? await io.loadCity(area.slice(5))
+            : await io.fetchJSON(path.slice(1));
+          // A refreshAll that emptied the cache meanwhile is reloading `area` itself;
+          // writing into the slot it cleared would race that load.
+          const held = io.cache[area];
+          if(held && fresh.generated && fresh.generated !== held.generated){
+            io.cache[area] = fresh;
+            // Render only what is on screen. The payload for a cinema the reader has
+            // left is still kept: it is what loadSchedule serves when they come back.
+            if(io.area() === area) io.applied();
+          }
+        } catch(_){ /* next visit gets it */ }
+      };
+    }
+    // --- end background refresh ---
+    const onFresh = makeFreshHandler({
+      area: () => state.area,
+      cache: jsonCache,
+      groups: () => cityGroups,   // reassigned by buildAreaOptions, so read through a getter
+      now: Date.now,
+      loadCity,
+      fetchJSON,
+      applied(){
+        lastLoad = Date.now();   // the refresh was a real network fetch, seconds ago
+        loadSchedule();          // warm cache: runs synchronously to render, no spinner
+      },
     });
+    navigator.serviceWorker.addEventListener('message', ev => onFresh((ev.data || {}).fresh || ''));
   }
 
   /* ---------- init ---------- */

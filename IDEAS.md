@@ -4232,6 +4232,32 @@ which could pick an unrelated article's image; The Stellars keeps its tile; Reco
 keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
 16:9 stills.
 
+### A background refresh lands in the slot it was asked for (2026-09-05, sw.js v113)
+
+The service worker's `{fresh: path}` handler re-read the file and then compared and
+assigned `jsonCache[state.area]` -- reading the selection *after* the await. A reader who
+picked cinema B while A's read was in flight had A's answer written into B's slot and A's
+programme drawn under B's name, and the mistake stuck for the life of the tab: B's slot
+now held A's payload, so every later render of B was A. Found by an external review; the
+window is the read's own latency, seconds on a slow connection, and the venue picker is
+exactly what a reader uses while waiting.
+
+The area is now read once, before the await, and everything after it goes back to that
+value: only that slot is compared and written, and a render happens only if that area is
+still the one on screen. A payload for a cinema the reader has left is kept rather than
+dropped -- it is what `loadSchedule` serves when they come back. A slot that was emptied
+meanwhile (`refreshAll` on resume clears the whole cache and reloads) stays empty, because
+whoever emptied it is reloading it and a late write would race that load.
+
+The handler became `makeFreshHandler(io)`, a function of the selection, the cache, the
+city groups, the readers and the clock, sliced verbatim by `tests/swr_refresh_harness.js`
+the way `healthState` and the area routing are. The reads are promises the scenario
+settles by hand, which is the only way to put "switched during the await" under test at
+all; the listener that feeds it is the one line of plumbing left. Nine tests in
+`tests/test_swr_refresh.py`; verified by putting `io.area()` back after the await, which
+turns three red -- both late-answer slot tests and the emptied-slot one -- and by
+rendering regardless of selection and writing into an emptied slot, one red each.
+
 ### The past-times control inflects its count (2026-09-05, sw.js v112)
 
 "Näytä 1 aiempaa" is not Finnish: one hidden screening is "Näytä aiempi", two or more
