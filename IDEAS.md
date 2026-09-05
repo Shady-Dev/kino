@@ -4234,6 +4234,39 @@ which could pick an unrelated article's image; The Stellars keeps its tile; Reco
 keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
 16:9 stills.
 
+### The reproducibility check is told the day the pages were built for (2026-09-05)
+
+`ci.yml` regenerates the committed pages and requires a clean tree, on the argument that
+the generators are pure functions of the committed data. They were not quite: `main()`
+read `datetime.now(FI).date()`, and every page lists a window of days starting there --
+four on a venue page, two on a city page, two in the JSON-LD -- with the sitemap stamped
+the same day. Identical committed input built on 2026-09-05 and on -06 produced 165
+different files on the reviewer's checkout, and 173 of 183 on this tree the same day, so a
+check re-run after midnight failed with no code or data change. Found by an external
+review.
+
+**Publishing keeps the clock; reproduction is told the day.** `main(today=None)` takes an
+explicit date, `build_pages.py --date YYYY-MM-DD` passes one, and `--date recorded` reads
+back the day the committed build was for. Nothing new records it: every sitemap URL's
+`lastmod` is already written from `today`, so the committed `sitemap.xml` carries the day
+verbatim and a test pins that it equals the build date. A tree without a sitemap has
+nothing to reproduce and the flag says so instead of guessing. `ci.yml` calls `--date
+recorded`; `biorex.yml` and the local wrapper are untouched and build for today.
+
+**Not done, deliberately.** Not a dedicated date file: a second record of the same fact
+that the sitemap already holds, and one more path to keep committed. Not a page-level
+stamp: that is the volatile-markup rule in CLAUDE.md, and the sitemap is already the one
+generated file that legitimately carries the day. Not freezing the clock in CI to the
+commit's date: a build straddling midnight would then be irreproducible, and the day the
+pages list is the day *they* were built for, not the day the commit landed.
+
+`tests/test_build_date.py` builds a two-venue synthetic city against a patched clock:
+an explicit date yields byte-identical output under two different clocks, no date follows
+the clock in Europe/Helsinki, a later date moves the window by the day expected, the
+sitemap records the build date and `recorded_date()` reads it back, `--date recorded` on
+a later day rewrites nothing while a plain build does, a malformed date is refused, and
+`ci.yml` is read to check it passes the flag while `biorex.yml` does not.
+
 ### Every cinema in a combined city can refresh it (2026-09-05, sw.js v114)
 
 `loadCity` sets `generated` to the *oldest* member's timestamp so the stale banner reports

@@ -80,10 +80,17 @@ jobs:
       # two scripts and committing. Committed data whose pages were never rebuilt is a
       # live problem -- the site is serving markup that disagrees with its own JSON -- and
       # is worth looking at rather than papering over.
+      #
+      # Pure of the data and of the day. Every page lists a window of days starting at the
+      # day it was built for, so the rebuild has to be told that day rather than read the
+      # clock, or this goes red after midnight with nothing changed: the same committed
+      # input built on 2026-09-05 and on -06 differed in 173 of 183 files. The committed sitemap
+      # records the day as every URL's lastmod and `--date recorded` reads it back.
+      # Publishing (biorex.yml) keeps the clock.
       - name: Generated output is reproducible
         run: |
           python3 scripts/build_providers.py
-          python3 scripts/build_pages.py
+          python3 scripts/build_pages.py --date recorded
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::regenerating changed committed output"
             git status --porcelain

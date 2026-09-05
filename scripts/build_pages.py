@@ -46,6 +46,7 @@ Deliberate constraints:
   party's ratings as the page's own is against Google's structured-data guidelines. The
   rating is shown as text, credited, and left out of the JSON-LD.
 """
+import argparse
 import html
 import json
 import re
@@ -905,13 +906,38 @@ def write_if_changed(path, text, stats):
     stats["written"] += 1
 
 
-def main() -> int:
+def recorded_date():
+    """The day the committed pages were built for, read back from sitemap.xml.
+
+    Every URL's `lastmod` is written from `today`, so the sitemap already records the
+    date the rest of the generation used and no second file has to carry it. A tree with
+    no sitemap has nothing to reproduce, and this says so rather than guessing a day.
+    """
+    sm = ROOT / "sitemap.xml"
+    m = (re.search(r"<lastmod>(\d{4}-\d{2}-\d{2})</lastmod>", sm.read_text(encoding="utf-8"))
+         if sm.exists() else None)
+    if not m:
+        raise SystemExit("[pages] no recorded build date: sitemap.xml is missing or carries "
+                         "no <lastmod>")
+    return date.fromisoformat(m.group(1))
+
+
+def main(today=None) -> int:
+    """Build every page for `today`; the current Helsinki date unless one is given.
+
+    The pages are a function of the data *and* of the day: each lists a window of days
+    starting at `today`, and the sitemap stamps it. Publishing wants the clock.
+    Reproducing a committed build -- the CI check regenerates and requires a clean tree --
+    wants the day that build was for, or the same input goes red after midnight with
+    nothing changed: on 2026-09-05 against -06 it was 173 of 183 files. See recorded_date().
+    """
     providers = {p["id"]: p for p in
                  json.loads((DATA / "providers.json").read_text())["providers"]}
     chains = {k: v.get("label", k) for k, v in providers.items()}
     gmap = json.loads((DATA / "tmdb-genres.json").read_text())
     extra = json.loads((DATA / "films-extra.json").read_text()).get("films", {})
-    today = datetime.now(FI).date()
+    if today is None:
+        today = datetime.now(FI).date()
 
     venues = load_venues()
     for v in venues:
@@ -1091,5 +1117,25 @@ def main() -> int:
     return 0
 
 
+def cli(argv):
+    ap = argparse.ArgumentParser(
+        description="Render the indexable venue and city pages from data/.")
+    ap.add_argument("--date", metavar="YYYY-MM-DD|recorded",
+                    help="the day to build for: an ISO date, or `recorded` for the day the "
+                         "committed sitemap.xml carries, which is how CI reproduces the "
+                         "committed pages. Default: today in Europe/Helsinki.")
+    args = ap.parse_args(argv)
+    if args.date is None:
+        today = None
+    elif args.date == "recorded":
+        today = recorded_date()
+    else:
+        try:
+            today = date.fromisoformat(args.date)
+        except ValueError:
+            ap.error(f"--date: not an ISO date or `recorded`: {args.date!r}")
+    return main(today=today)
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(cli(sys.argv[1:]))

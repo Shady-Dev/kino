@@ -83,6 +83,11 @@ Write down why a change was made. The diff already records what changed.
 - After the commit, dispatch the cloud workflow, then verify against the **committed**
   `run-*.log` files. Do not read the Actions logs.
 - Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
+- The pages depend on the day they are built for. `build_pages.py` alone builds for
+  today in Helsinki, which is what publishing wants; `--date recorded` rebuilds for the
+  day the committed `sitemap.xml` carries, which is what CI's reproducibility check and a
+  local regeneration on a later day want. A diff after a plain rebuild on another day is
+  the date moving, not drift.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
 - `scripts/check_staleness.py` answers "did a run happen", which `check_runs.py` does
