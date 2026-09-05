@@ -875,7 +875,7 @@
   let films = null;
   // films.json is Finnkino-only (keyed by its filmId). Other providers get synopses from
   // films-extra.json, keyed by normalised title -- same normalisation as enrich_tmdb.py.
-  let extraFilms = null;
+  // That file is held by `extra`, the store below.
   const normTitle = t => (t || '').toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
   // Cross-provider identity for the combined city view: "Spider-Man: Brand New Day 2D",
@@ -890,14 +890,73 @@
     .replace(/\((?:re-?release|uudelleenjulkaisu|uusi\s+kopio)\)/gi, ' ')
     .replace(/,?\s*\bsuomeksi\b/gi, ' ')
     .replace(/\b(?:2d|3d|imax|4k)\b/gi, ' '));
-  async function ensureExtraFilms(){
-    if(extraFilms) return extraFilms;
-    try {
-      const j = await fetchJSON('data/films-extra.json');
-      extraFilms = j.films || {};
-    } catch(_) { extraFilms = {}; }
-    return extraFilms;
+  // --- film metadata store: pure, extracted verbatim by tests/swr_refresh_harness.js ---
+  // The copy the service worker just cached, read from the Cache Storage the window
+  // shares with it -- not fetched. A fetch through the SW answers from that same cache,
+  // but it also starts a background refresh, and every refresh that lands posts
+  // another message: the loop a 60 s cooldown used to hold back, at the price of
+  // dropping every message inside the window, a second cinema's genuine update
+  // included. A cache read causes no refresh and no message, so nothing here can feed
+  // itself, and the cooldown is gone.
+  async function readCached(path){
+    const r = await caches.match(path);
+    if(!r) throw new Error('not cached: ' + path);
+    return r.json();
   }
+
+  // films-extra.json, held for the life of the tab. Two rules the old memo got wrong.
+  // A failed fetch is not memoised: the caller gets an empty map once and the next
+  // caller fetches again. Before, one failed fetch left every later sheet in the tab
+  // without a synopsis. And the worker's `fresh` message for the file re-reads the copy
+  // it cached and swaps it in, so a synopsis that landed after the tab opened reaches an
+  // open sheet without a reload. `io` carries the fetch, the cache read and the redraw
+  // hook. Concurrent loads share one fetch. Concurrent fresh reads share one read. A load
+  // in flight is awaited before a fresh read: the worker answers a load from cache before
+  // it refreshes, so the load's answer is the older copy.
+  function makeExtraStore(io){
+    let films = null, sig = '', loading = null, reading = null, again = false;
+    // The change test. The file's `generated` is a bare date and the file is rewritten
+    // several times a day, so the timestamp cannot say whether anything moved; the
+    // serialised map can, and it is compared once per message, not once per lookup.
+    const signature = j => JSON.stringify((j && j.films) || {});
+    function adopt(j){ films = (j && j.films) || {}; sig = signature(j); }
+    return {
+      get: () => films,
+      ensure(){
+        if(films) return Promise.resolve(films);
+        if(loading) return loading;
+        loading = io.fetch().then(j => { adopt(j); return films; }, () => films || {})
+          .finally(() => { loading = null; });
+        return loading;
+      },
+      fresh(){
+        // Nothing memoised and nothing loading: no one has asked for the file yet, and
+        // the next ensure() reads the copy the worker just cached. Otherwise one read at
+        // a time; a message during a read queues one more read after it.
+        if(!films && !loading) return Promise.resolve();
+        if(reading){ again = true; return reading; }
+        reading = (async () => {
+          do {
+            again = false;
+            try {
+              if(loading) await loading;
+              const j = await io.read();
+              const key = signature(j);
+              if(films && key !== sig){ adopt(j); io.changed(films); }
+            } catch(_){ /* the copy is in the cache; the next load reads it */ }
+          } while(again);
+          reading = null;
+        })();
+        return reading;
+      },
+    };
+  }
+  // --- end film metadata store ---
+  const extra = makeExtraStore({
+    fetch: () => fetchJSON('data/films-extra.json'),
+    read: () => readCached('data/films-extra.json'),
+    changed: () => refreshOpenSheet(),
+  });
 
   // TMDB genre ids are language-neutral; data/tmdb-genres.json turns them into names.
   // Provider genre strings stay as the fallback: four chains spell the family genre four
@@ -2819,7 +2878,7 @@
     const native = all.map(s => s._eid).find(id => id && films[id]) || sample._eid;
     let f = films[fid] || films[native] || {};
     if(!f.s && sample.title){
-      const ex = await ensureExtraFilms();
+      const ex = await extra.ensure();
       const hit = ex[normTitle(sample.title)];
       if(hit) f = { ...f, s: hit.s, tr: f.tr || hit.tr };
     }
@@ -2968,6 +3027,20 @@
       try { id = decodeURIComponent(id); } catch(_) {}
       showSheet(id);
     } else hideSheet();
+  }
+  // films-extra.json changed under the page. The sheet is the only reader of that file.
+  // An open sheet is redrawn for the same film with its scroll position kept. A closed
+  // one is left alone. Cinema, day, filters and the fragment are not touched.
+  async function refreshOpenSheet(){
+    const m = location.hash.match(/m=(.+)$/);
+    if(!m || sheetEl.inert) return;
+    let id = m[1];
+    try { id = decodeURIComponent(id); } catch(_) {}
+    const body = sheetEl.querySelector('.sheet-body');
+    const y = body ? body.scrollTop : 0;
+    await showSheet(id);
+    const nb = sheetEl.querySelector('.sheet-body');
+    if(nb) nb.scrollTop = y;
   }
   window.addEventListener('hashchange', syncSheet);
   matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });
@@ -3148,8 +3221,8 @@
     //
     // --- background refresh: pure, extracted verbatim by tests/swr_refresh_harness.js ---
     // The decision is a function of `io` -- the selection, the payload cache, the city
-    // groups and the readers -- so the harness can drive the shipped code without a DOM.
-    // The listener below is the only plumbing.
+    // groups, the readers and the metadata store -- so the harness can drive the shipped
+    // code without a DOM. The listener below is the only plumbing.
 
     // What the handler compares. A venue file changes when its `generated` does; a
     // combined city carries `stamp`, one entry per member, because its `generated` is
@@ -3158,19 +3231,8 @@
     // Tennispalatsi had not moved.
     function refreshKey(p){ return (p && (p.stamp || p.generated)) || ''; }
 
-    // The copy the service worker just cached, read from the Cache Storage the window
-    // shares with it -- not fetched. A fetch through the SW answers from that same cache,
-    // but it also starts a background refresh, and every refresh that lands posts
-    // another message: the loop a 60 s cooldown used to hold back, at the price of
-    // dropping every message inside the window, a second cinema's genuine update
-    // included. A cache read causes no refresh and no message, so nothing here can feed
-    // itself, and the cooldown is gone.
-    async function readCached(path){
-      const r = await caches.match(path);
-      if(!r) throw new Error('not cached: ' + path);
-      return r.json();
-    }
-
+    // The reads go through io.read -- readCached, defined with the metadata store -- and
+    // never through fetch. See that function for why.
     function makeFreshHandler(io){
       const inflight = new Map();   // area -> the read running for it
       const again = new Set();      // areas messaged while their read was running
@@ -3213,6 +3275,8 @@
         inflight.delete(area);
       }
       return function onFresh(path){
+        // The film metadata file has its own store and its own change test.
+        if(/\/data\/films-extra\.json$/.test(path || '')) return io.extra.fresh();
         const m = (path || '').match(/\/data\/area-(.+)\.json$/);
         if(!m) return;
         const area = io.area();   // read once, here -- see reread()
@@ -3233,6 +3297,7 @@
       groups: () => cityGroups,   // reassigned by buildAreaOptions, so read through a getter
       read: readCached,
       loadCity,
+      extra,
       applied(){
         lastLoad = Date.now();   // the SW's refresh was a real network fetch, seconds ago
         loadSchedule();          // warm cache: runs synchronously to render, no spinner

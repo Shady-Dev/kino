@@ -38,8 +38,10 @@ function slice(start, end, mustHave) {
 
 const FOLD = slice('// --- city fold: pure, extracted verbatim by tests/swr_refresh_harness.js ---',
                    '// --- end city fold ---', ['cityPayload', 'mergeIds']);
+const META = slice('// --- film metadata store: pure, extracted verbatim by tests/swr_refresh_harness.js ---',
+                   '// --- end film metadata store ---', ['readCached', 'makeExtraStore']);
 const HANDLER = slice('// --- background refresh: pure, extracted verbatim by tests/swr_refresh_harness.js ---',
-                      '// --- end background refresh ---', ['refreshKey', 'readCached', 'makeFreshHandler']);
+                      '// --- end background refresh ---', ['refreshKey', 'makeFreshHandler']);
 
 // What `caches.match` answers with, by relative path -- the copy the worker put there.
 const store = new Map();
@@ -49,14 +51,16 @@ const sandbox = {
   },
 };
 vm.createContext(sandbox);
-vm.runInContext(FOLD + '\n' + HANDLER +
+vm.runInContext(FOLD + '\n' + META + '\n' + HANDLER +
                 '\n;globalThis.__mk = makeFreshHandler; globalThis.__fold = cityPayload;' +
-                ' globalThis.__rc = readCached; globalThis.__key = refreshKey;',
+                ' globalThis.__rc = readCached; globalThis.__key = refreshKey;' +
+                ' globalThis.__store = makeExtraStore;',
                 sandbox, { filename: 'backgroundRefresh' });
 const makeFreshHandler = sandbox.__mk;
 const cityPayload = sandbox.__fold;
 const readCached = sandbox.__rc;
 const refreshKey = sandbox.__key;
+const makeExtraStore = sandbox.__store;
 
 function clone(x) { return JSON.parse(JSON.stringify(x)); }
 
@@ -115,9 +119,30 @@ function setup(opts) {
       return cityPayload(ids, parts, CTX);
     },
     applied: () => { st.applied++; },
+    extra: { fresh: () => { st.metaFresh = (st.metaFresh || 0) + 1; return Promise.resolve(); } },
   };
   return { io, st, cache, reads, handler: makeFreshHandler(io) };
 }
+
+// The metadata store over hand-settled fetches and reads. `sheetOpen` stands for the one
+// consumer of the file: the redraw hook counts when it fires with a sheet open.
+function metaSetup(opts) {
+  const fetches = [], reads = [];
+  const st = { redraws: 0, changed: 0, sheetOpen: !!opts.sheetOpen };
+  const io = {
+    fetch: () => new Promise((resolve, reject) => fetches.push({ resolve, reject })),
+    read: () => new Promise((resolve, reject) => reads.push({ resolve, reject })),
+    changed: () => { st.changed++; if (st.sheetOpen) st.redraws++; },
+  };
+  const store = makeExtraStore(io);
+  const settleFetch = v => { const f = fetches.shift(); if (!f) throw new Error('no fetch pending'); v instanceof Error ? f.reject(v) : f.resolve(clone(v)); };
+  const settleRead = v => { const r = reads.shift(); if (!r) throw new Error('no read pending'); v instanceof Error ? r.reject(v) : r.resolve(clone(v)); };
+  return { store, st, fetches, reads, settleFetch, settleRead };
+}
+const META_OLD = { generated: '2026-09-05', films: { carrie: { s: { fi: 'Carrie: teksti' }, r: 7.3 } } };
+const META_NEW = { generated: '2026-09-05', films: { carrie: { s: { fi: 'Carrie: teksti' }, r: 7.3 },
+                                                     persepolis: { s: { fi: 'Marjane Satrapin lapsuus' }, r: 7.9 } } };
+const synopsisOf = (films, key) => (films && films[key] && films[key].s && films[key].s.fi) || null;
 
 const tick = () => new Promise(r => setImmediate(r));
 const titles = p => (p.shows || []).map(s => s.title);
@@ -321,6 +346,109 @@ async function run() {
     out.burst = { afterFirst, duringFirst, afterSecondStarted, settled, afterFourth,
                   applied: s.st.applied, city: summary(s.cache['city:X']),
                   pending: s.reads.queue.length };
+  }
+
+  // ===== film metadata: films-extra.json behind an open sheet ============================
+
+  // -- an open sheet whose film had no synopsis gets one when the file refreshes ----------
+  {
+    const m = metaSetup({ sheetOpen: true });
+    const p = m.store.ensure();
+    m.settleFetch(META_OLD);
+    const first = await p;
+    const before = synopsisOf(first, 'persepolis');
+    const f = m.store.fresh();
+    await tick();
+    m.settleRead(META_NEW);
+    await f;
+    out.meta_open_sheet_gains_synopsis = { before, after: synopsisOf(m.store.get(), 'persepolis'),
+      redraws: m.st.redraws, changed: m.st.changed, fetches: m.fetches.length, pendingReads: m.reads.length };
+  }
+
+  // -- the first fetch fails; a later sheet fetches again and succeeds --------------------
+  {
+    const m = metaSetup({ sheetOpen: true });
+    const p1 = m.store.ensure();
+    const p1b = m.store.ensure();                        // a second caller during the load
+    const shared = p1 === p1b;
+    m.settleFetch(new Error('HTTP 503'));
+    const r1 = await p1;
+    const p2 = m.store.ensure();
+    const fetchedAgain = m.fetches.length === 1;
+    m.settleFetch(META_NEW);
+    const r2 = await p2;
+    const p3 = m.store.ensure();                         // memoised now: no third fetch
+    await tick();
+    out.meta_failed_then_succeeds = { shared, firstResult: Object.keys(r1), fetchedAgain,
+      second: synopsisOf(r2, 'persepolis'), thirdFetches: m.fetches.length, memoised: (await p3) === r2,
+      changed: m.st.changed };
+  }
+
+  // -- an unchanged rewrite: same content, new file bytes, no redraw, no fetch -------------
+  {
+    const m = metaSetup({ sheetOpen: true });
+    const p = m.store.ensure(); m.settleFetch(META_NEW); await p;
+    const f1 = m.store.fresh();
+    const f2 = m.store.fresh();                          // a second message during the read
+    const f3 = m.store.fresh();
+    await tick();
+    const readsDuring = m.reads.length;
+    m.settleRead({ generated: '2026-09-06', films: clone(META_NEW.films) });   // only the date moved
+    await tick(); await tick();
+    const followUp = m.reads.length;
+    if (m.reads.length) m.settleRead({ generated: '2026-09-06', films: clone(META_NEW.films) });
+    await Promise.all([f1, f2, f3]);
+    out.meta_unchanged_no_redraw = { readsDuring, followUp, changed: m.st.changed, redraws: m.st.redraws,
+      fetches: m.fetches.length, pendingReads: m.reads.length };
+  }
+
+  // -- a slow first load answers after the worker already cached a newer copy --------------
+  {
+    const m = metaSetup({ sheetOpen: true });
+    const p = m.store.ensure();                          // fetch in flight, answered later
+    const f = m.store.fresh();                           // the worker's message arrives first
+    await tick();
+    const readBeforeLoad = m.reads.length;
+    // A store that did not wait for the load has a read pending now; it gets the newer
+    // copy first, and the older load answer then lands on top of it. A store that waited
+    // reads after the load and applies the newer copy last.
+    if (m.reads.length) m.settleRead(META_NEW);
+    await tick();
+    m.settleFetch(META_OLD);                             // the delayed, older answer
+    await p;
+    await tick();
+    if (m.reads.length) m.settleRead(META_NEW);
+    await f;
+    out.meta_delayed_load_cannot_overwrite = { readBeforeLoad, final: synopsisOf(m.store.get(), 'persepolis'),
+      changed: m.st.changed, redraws: m.st.redraws };
+  }
+
+  // -- a message before anyone asked for the file: nothing to update, nothing read ----------
+  {
+    const m = metaSetup({ sheetOpen: false });
+    await m.store.fresh();
+    out.meta_fresh_before_any_load = { reads: m.reads.length, fetches: m.fetches.length, changed: m.st.changed,
+      films: m.store.get() };
+  }
+
+  // -- a change with no sheet open: the map moves, nothing is redrawn -------------------------
+  {
+    const m = metaSetup({ sheetOpen: false });
+    const p = m.store.ensure(); m.settleFetch(META_OLD); await p;
+    const f = m.store.fresh(); await tick(); m.settleRead(META_NEW); await f;
+    out.meta_change_sheet_closed = { changed: m.st.changed, redraws: m.st.redraws,
+      after: synopsisOf(m.store.get(), 'persepolis') };
+  }
+
+  // -- the handler routes the file's message to the store and nowhere else -------------------
+  {
+    const s = setup({ area: 'A', cache: { A: A1 } });
+    await s.handler('/data/films-extra.json');
+    await s.handler('/data/films-extra.json');
+    out.meta_routed = { metaFresh: s.st.metaFresh || 0, reads: s.reads.calls.length, applied: s.st.applied };
+    const s2 = setup({ area: 'A', cache: { A: A1 } });
+    const done = s2.handler('/data/area-A.json'); await tick(); s2.reads.settle('data/area-A.json', A2); await done;
+    out.meta_routed.areaMessageMetaFresh = s2.st.metaFresh || 0;
   }
 
   // -- the reader the handler is built with -----------------------------------------------------

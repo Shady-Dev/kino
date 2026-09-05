@@ -26,6 +26,12 @@ and the re-read comes from Cache Storage, never from a fetch -- a fetch through 
 would start another refresh and another message, which is the loop the cooldown existed
 for. With no loop to hold back there is no cooldown, and a burst of member messages folds
 into one extra read instead of being dropped.
+
+The film metadata file, `films-extra.json`, has its own store (`makeExtraStore`), sliced
+the same way. A failed fetch is not memoised as empty, concurrent loads share one fetch,
+the worker's message for the file is a cache read compared on the serialised content, an
+open sheet is redrawn once on a real change, and a load still in flight when the message
+arrives cannot overwrite the newer copy.
 """
 import json
 import pathlib
@@ -215,6 +221,68 @@ class BackgroundRefreshTest(unittest.TestCase):
         r = self.r["burst"]
         self.assertEqual(r["afterFourth"], 6)
         self.assertEqual(r["pending"], 0)
+
+    # -- film metadata behind an open sheet ---------------------------------------------------
+
+    def test_an_open_sheet_gains_a_synopsis_when_the_file_refreshes(self):
+        """The film had no entry when the sheet opened. The worker cached a newer file and
+        posted a message. The store read the cache, swapped the map in and redrew the sheet
+        once. No second fetch."""
+        r = self.r["meta_open_sheet_gains_synopsis"]
+        self.assertIsNone(r["before"])
+        self.assertEqual(r["after"], "Marjane Satrapin lapsuus")
+        self.assertEqual((r["changed"], r["redraws"]), (1, 1))
+        self.assertEqual(r["fetches"], 0, "the refresh must not fetch")
+        self.assertEqual(r["pendingReads"], 0)
+
+    def test_a_failed_fetch_is_not_memoised_and_a_later_one_succeeds(self):
+        """The old memo wrote `{}` on failure, so no later sheet in the tab had a synopsis.
+        Two callers during one load share the fetch. The failed load returns an empty map.
+        The next caller fetches again and succeeds. After that the map is memoised."""
+        r = self.r["meta_failed_then_succeeds"]
+        self.assertTrue(r["shared"])
+        self.assertEqual(r["firstResult"], [])
+        self.assertTrue(r["fetchedAgain"])
+        self.assertEqual(r["second"], "Marjane Satrapin lapsuus")
+        self.assertEqual(r["thirdFetches"], 0)
+        self.assertTrue(r["memoised"])
+        self.assertEqual(r["changed"], 0, "a load is not a change; the caller renders it")
+
+    def test_an_unchanged_rewrite_redraws_nothing_and_fetches_nothing(self):
+        """The file is rewritten several times a day with the same content and the same
+        bare date. Three messages during one read fold into one follow-up read. Neither
+        read finds a change. Nothing is redrawn and nothing touches the network."""
+        r = self.r["meta_unchanged_no_redraw"]
+        self.assertEqual(r["readsDuring"], 1)
+        self.assertEqual(r["followUp"], 1, "one follow-up read for the two queued messages")
+        self.assertEqual((r["changed"], r["redraws"]), (0, 0))
+        self.assertEqual(r["fetches"], 0)
+        self.assertEqual(r["pendingReads"], 0)
+
+    def test_a_delayed_first_load_cannot_overwrite_the_newer_copy(self):
+        """The worker answers a load from its cache and refreshes behind, so a load still
+        in flight when the message arrives carries the older copy. The fresh read waits for
+        it, then applies the newer copy on top. The final map is the newer one."""
+        r = self.r["meta_delayed_load_cannot_overwrite"]
+        self.assertEqual(r["readBeforeLoad"], 0, "the read waits for the load to land")
+        self.assertEqual(r["final"], "Marjane Satrapin lapsuus")
+        self.assertEqual((r["changed"], r["redraws"]), (1, 1))
+
+    def test_a_message_before_anyone_asked_for_the_file_costs_nothing(self):
+        r = self.r["meta_fresh_before_any_load"]
+        self.assertEqual((r["reads"], r["fetches"], r["changed"]), (0, 0, 0))
+        self.assertIsNone(r["films"])
+
+    def test_a_change_with_no_sheet_open_updates_the_map_without_a_redraw(self):
+        r = self.r["meta_change_sheet_closed"]
+        self.assertEqual(r["after"], "Marjane Satrapin lapsuus")
+        self.assertEqual((r["changed"], r["redraws"]), (1, 0))
+
+    def test_the_handler_routes_the_file_to_the_store_only(self):
+        r = self.r["meta_routed"]
+        self.assertEqual(r["metaFresh"], 2)
+        self.assertEqual((r["reads"], r["applied"]), (0, 0), "no area read for a metadata message")
+        self.assertEqual(r["areaMessageMetaFresh"], 0)
 
     def test_the_re_read_comes_from_cache_storage_not_the_network(self):
         """A fetch through the worker would start another background refresh and another

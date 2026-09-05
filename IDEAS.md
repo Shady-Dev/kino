@@ -4234,6 +4234,22 @@ which could pick an unrelated article's image; The Stellars keeps its tile; Reco
 keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
 16:9 stills.
 
+### Film metadata refreshes under an open sheet, and a failed fetch is not memoised (2026-09-05, sw.js v116)
+
+Regina films showed no synopsis for a reader. The data was fine; the client was not.
+`ensureExtraFilms()` memoised `{}` after a failed fetch, so no later sheet in the tab had a
+synopsis. `fresh` messages were handled for area files only, so a metadata copy that
+landed after the tab opened waited for a reload.
+
+`makeExtraStore(io)` replaces the memo. One shared fetch per load; a failure memoises
+nothing. `fresh()` reads the cached copy from Cache Storage and compares the serialised
+`films` map, since `generated` is a bare date. A real change swaps the map in and redraws
+an open sheet: `refreshOpenSheet()`, same film, scroll kept, cinema, day, filters and
+fragment untouched. A load in flight is awaited before the read, because the worker
+answers a load from cache before it refreshes. `readCached` moved next to the store.
+
+Seven harness scenarios, seven tests. Each rule removed goes red.
+
 ### A slot refilled during a background read keeps the refill (2026-09-05, sw.js v115)
 
 The handler's guard against `refreshAll` was "is there still an entry" after the await.
