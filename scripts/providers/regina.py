@@ -32,9 +32,18 @@ What shapes the parser:
 - **No images from the site.** The stills are 16:9, the film page's `og:image` too, so
   posters come from TMDB.
 
-An empty schedule is a confirmed empty programme only when the listing page agrees: zero
-films marked `shows-coming`. An empty schedule beside a listing that still promises
-screenings is a changed endpoint and fails the venue.
+An empty first window is asked for once more and then fails the venue, keeping the
+previous file. It is never read as a confirmed empty programme. The first version took
+the listing page's `shows-coming` count as the evidence and published an empty venue on
+2026-09-05 at 16:57 UTC, when a runner got a window with no screenings *and* a listing
+with no `shows-coming` while the same two requests from an ordinary connection returned
+21 rows and 17 marked films. The site runs on SiteGround (`sg-f-cache` in its headers),
+whose reputation challenge answers a datacenter address with a small HTTP 202 shell that
+`fetch` accepts as success; that is what emptied Kino Engel from runners, and it is the
+only reading of two contentless answers in one minute. A page that is not the page has no
+`shows-coming` either, so absence of a class is not evidence of anything. A challenge
+shell is now recognised and named in the log; an empty answer is retried once and then
+fails; and whether this venue must move to the local half is decided by the run logs.
 """
 import datetime
 import html as html_mod
@@ -57,9 +66,7 @@ VENUE = {"id": "regina-helsinki", "provider": "regina", "providerId": "1",
 
 SITES = [{"provider": "regina", "label": "Kino Regina", "base": BASE, "venues": [VENUE]}]
 
-# The listing's own count of films with upcoming screenings is the positive evidence
-# behind an empty schedule; see fetch_site.
-EMPTY_VENUES_CONFIRMED = True
+# No EMPTY_VENUES_CONFIRMED here, on purpose: see the module docstring.
 
 BLOCK_RE = re.compile(r'<div class="movie pr col-12 ([a-z]*)">(.*?)(?=<div class="movie pr col-12 |$)', re.S)
 FILM_RE = re.compile(r'<a href="(?:https?://kinoregina\.fi)?/elokuva/(\d+)/?"[^>]*class="title[^"]*"[^>]*>(.*?)</a>', re.S | re.I)
@@ -261,6 +268,14 @@ NEXT_RE = re.compile(r"loadNextTwoWeeks\('(\d{4}-\d{2}-\d{2})'")
 MAX_PAGES = 4
 
 
+def challenged(page):
+    """SiteGround's captcha answers a refused address with a ~170-byte meta-refresh shell
+    that names `sgcaptcha`; an honest empty window is a ~590-byte fragment with the
+    load-more button. Either marker is enough on its own."""
+    low = (page or "").lower()
+    return "sgcaptcha" in low or "sg-captcha" in low or len(low.strip()) < 300
+
+
 def fetch_schedule(today=None, get=None, sleep=1.0):
     """Every window from today -> [page html]. The first page is always fetched."""
     get = get or get_schedule
@@ -270,6 +285,24 @@ def fetch_schedule(today=None, get=None, sleep=1.0):
         if n:
             time.sleep(sleep)
         page = get(day)
+        if challenged(page):
+            raise RuntimeError(f"challenged: {len(page)} bytes for the window from {day}, "
+                               f"the SiteGround shell rather than the schedule (a refused "
+                               f"address; see the module docstring)")
+        if n == 0 and not parse_schedule(page):
+            # One empty first answer proves nothing: a runner got one at 16:57 UTC on
+            # 2026-09-05 while the same POST from elsewhere listed 21 rows. Ask once more
+            # before the caller fails the venue, and say what the empty answer looked
+            # like, in counts, so the next such log can be read.
+            print(f"[regina] first window from {day} has no screenings: {len(page)} bytes, "
+                  f"{len(re.findall('day-header', page))} day headers, "
+                  f"{'with' if NEXT_RE.search(page) else 'without'} the load-more button; "
+                  f"asking once more")
+            time.sleep(sleep * 3)
+            page = get(day)
+            if challenged(page):
+                raise RuntimeError(f"challenged on the second try: {len(page)} bytes for "
+                                   f"the window from {day}")
         pages.append(page)
         if not parse_schedule(page):
             break
@@ -281,25 +314,14 @@ def fetch_schedule(today=None, get=None, sleep=1.0):
     return pages
 
 
-def get_listing():
-    return fetch(LISTING, cache=True, headers=HEADERS, timeout=30).decode("utf-8", "replace")
-
-
-def upcoming_films(listing):
-    """How many films the programme page marks as having screenings ahead."""
-    return len(re.findall(r'class="movie pr col-12 shows-coming"', listing))
-
-
 def fetch_site(site=SITES[0]):
-    """Runner contract: the schedule windows, one venue; the listing decides what an
-    empty answer means."""
+    """Runner contract: the schedule windows, one venue. An empty answer, asked twice, is
+    a failure and not an empty programme; the previous file stays."""
     shows = parse_schedule("".join(fetch_schedule()))
     if not shows:
-        n = upcoming_films(get_listing())
-        if n:
-            raise RuntimeError(f"schedule answered with no screenings while the listing "
-                               f"marks {n} film(s) with upcoming shows")
-        return {VENUE["id"]: []}
+        raise RuntimeError("schedule answered twice with no screenings; nothing the site "
+                           "publishes can confirm an empty programme, so the previous "
+                           "file is kept")
     enrich(shows)
     return {VENUE["id"]: shows}
 

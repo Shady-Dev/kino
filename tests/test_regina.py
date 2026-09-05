@@ -338,32 +338,63 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("Kino Regina: 5 showtimes, 4 dates", log)
         self.assertIn("0 failures", log)
 
-    def test_an_empty_schedule_with_an_empty_listing_is_a_confirmed_empty_programme(self):
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-regina-helsinki.json").write_text(json.dumps(prev))
-        listing = '<div class="movie pr col-12 no-shows">a</div><div class="movie pr col-12 no-shows">b</div>'
-        self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): WINDOW_EMPTY, LISTING: listing})
+    PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+            "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+
+    def serve_sequence(self, first_answers, rest):
+        """The same POST answered differently on successive calls: `first_answers` in
+        order for today's window, then `rest` for anything else."""
+        queue = list(first_answers)
+
+        def fetch(url, data=None, **kw):
+            key = (url, data.decode("ascii")) if data else url
+            self.calls.append(key)
+            if key == (SCHEDULE, f"getShowtimesMovies={self.today()}") and queue:
+                return queue.pop(0).encode("utf-8")
+            page = rest.get(key)
+            if isinstance(page, Exception):
+                raise page
+            if page is None:
+                raise RuntimeError(f"unexpected fetch {key}")
+            return page.encode("utf-8")
+        regina.fetch = fetch
+
+    def test_an_empty_first_window_is_asked_once_more_and_then_published(self):
+        """2026-09-05, 16:57 UTC: one empty answer from a runner while the site listed 21
+        rows to everyone else. One retry covers a single such answer."""
+        self.serve_sequence([WINDOW_EMPTY, WINDOW_1],
+                            {(SCHEDULE, "getShowtimesMovies=2026-09-21"): WINDOW_EMPTY, **self.films()})
         code, log = self.main()
         self.assertEqual(code, 0, log)
         area = json.loads((run.OUT / "area-regina-helsinki.json").read_text())
-        self.assertEqual(area["shows"], [])
-        venues = json.loads((run.OUT / "venues-regina.json").read_text())
-        self.assertEqual((venues["status"], venues["pending"]), ("ok", ["regina-helsinki"]))
-        self.assertIn("pending", log)
+        self.assertEqual(len(area["shows"]), 4)
+        self.assertEqual(self.calls[:3], [(SCHEDULE, f"getShowtimesMovies={self.today()}")] * 2
+                         + [(SCHEDULE, "getShowtimesMovies=2026-09-21")])
+        self.assertIn("has no screenings: ", log)
+        self.assertIn("asking once more", log)
 
-    def test_an_empty_schedule_beside_a_listing_with_upcoming_films_fails_the_site(self):
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-regina-helsinki.json").write_text(json.dumps(prev))
-        listing = '<div class="movie pr col-12 shows-coming">a</div><div class="movie pr col-12 no-shows">b</div>'
-        self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): WINDOW_EMPTY, LISTING: listing})
+    def test_an_empty_schedule_twice_fails_the_site_and_keeps_the_previous_file(self):
+        (run.OUT / "area-regina-helsinki.json").write_text(json.dumps(self.PREV))
+        self.serve_sequence([WINDOW_EMPTY, WINDOW_EMPTY], {})
         code, log = self.main()
         self.assertEqual(code, 1)
         self.assertIn("FAILED", log)
-        self.assertIn("marks 1 film(s) with upcoming shows", log)
-        self.assertEqual(json.loads((run.OUT / "area-regina-helsinki.json").read_text()), prev)
+        self.assertIn("answered twice with no screenings", log)
+        self.assertEqual(json.loads((run.OUT / "area-regina-helsinki.json").read_text()), self.PREV)
         self.assertFalse((run.OUT / "venues-regina.json").exists())
+        self.assertNotIn(LISTING, self.calls)              # the listing is no evidence and is not read
+
+    def test_a_challenge_shell_is_named_and_fails_the_site(self):
+        (run.OUT / "area-regina-helsinki.json").write_text(json.dumps(self.PREV))
+        shell = ('<html><head><meta http-equiv="refresh" content="0;url=/.well-known/sgcaptcha/?r=%2F">'
+                 '</head><body></body></html>')
+        self.serve_sequence([shell], {})
+        code, log = self.main()
+        self.assertEqual(code, 1)
+        self.assertIn("challenged", log)
+        self.assertEqual(len(self.calls), 1)               # no retry against a challenge
+        self.assertEqual(json.loads((run.OUT / "area-regina-helsinki.json").read_text()), self.PREV)
+        self.assertFalse(hasattr(regina, "EMPTY_VENUES_CONFIRMED"))
 
     def test_a_refused_schedule_fails_the_site(self):
         self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): RuntimeError("HTTP Error 403: Forbidden")})

@@ -202,9 +202,11 @@ PROVIDERS = [
          book="buy", module="tapiola", where="cloud"),
     # Kino Regina, Helsinki (2026-09-05): KAVI's cinema at Oodi. The theme's own POST
     # endpoint renders the schedule, each row with its ticket link into kauppa.kavi.fi,
-    # so `buy`. `cloud` is confirmed rather than provisional: a throwaway workflow read
-    # the listing, the POST and a film page from a runner before the adapter was
-    # written. Helsinki has seven chains already, so the accent is the search's best:
+    # so `buy`. `cloud` was read from a runner before the adapter was written, and two
+    # of the first day's three runs published; the third got SiteGround's reputation
+    # challenge, the 202 shell that keeps Kino Engel local, and now fails the venue
+    # instead of emptying it. A repeat in the logs moves this entry to `local`.
+    # Helsinki has seven chains already, so the accent is the search's best:
     # #8A4854 measures 18.4 / 19.9 / 18.4 dE00 (normal / Viénot / Machado) from Gilda's
     # magenta, 47.8 / 18.4 / 16.3 from Riviera's teal and 50.7 / 16.9 / 16.3 from Cinema
     # Orion's green, its three nearest; the other four sit above 20. L* 39.0. An eighth

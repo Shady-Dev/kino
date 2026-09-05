@@ -1703,10 +1703,11 @@ Decisions:
   either would be an adapter inventing a form the cinema does not use.
 - **No images from the site**: the listing stills and the film page's `og:image` are 16:9.
   Posters come from TMDB.
-- **Emptiness needs the listing's agreement.** A schedule with no screenings is a confirmed
-  empty programme only when `/ohjelmisto/elokuvat/` marks zero films `shows-coming`; an
-  empty schedule beside a listing that still promises screenings is a changed endpoint and
-  fails the venue, keeping the previous file.
+- **An empty answer is never an empty programme** (revised the same evening, see "The
+  evening run emptied the venue" below). The first version read the listing's
+  `shows-coming` count as agreement and was fooled within four hours. Now an empty first
+  window is asked for once more and then fails the venue, keeping the previous file, and
+  SiteGround's challenge shell is recognised and named in the log.
 
 **Accent, measured against seven chains.** Helsinki is now the eight-chain city, and that
 crowding shows in the numbers: the search's best deutan separations sit at 16 to 17
@@ -1755,6 +1756,28 @@ guessed), so the next run replaces the poster and writes the ids. Live after the
 the venue is in the picker and in "Helsinki – kaikki teatterit (14)", the stubs link
 to `kauppa.kavi.fi`, the meta line reads "K-12 · 120 min · MARILYN MONROE 100 VUOTTA ·
 35 mm · tekstitys: suomi/ruotsi", and the cards carry the site's capitals.
+
+**The evening run emptied the venue (2026-09-05, 16:57 UTC, data commit `164e45b9`
+then `19ec143a`).** The run dispatched to apply the trilogy aliases read one window with
+no screenings, then the listing with no `shows-coming`, and did exactly what the
+emptiness rule said: it published an empty file and a pending venue, and Kino Regina
+showed no programme on the site for the hour it took to notice. From an ordinary
+connection at the same minute the POST listed 21 rows and the listing marked 17 films.
+Two contentless 200-class answers in one minute from a host whose headers say
+`sg-f-cache` have one reading: SiteGround's reputation challenge, the small HTTP 202
+meta-refresh shell that keeps Kino Engel on the local half, which `fetch` accepts as
+success and which has no `shows-coming` in it either. Three lessons, all already in
+this file in other words: absence of a marker on a page that may not be the page is not
+evidence; a runner-side probe that passes proves the address was not challenged *that
+minute*, not that it will not be; and the confirmed-empty path is the one place a wrong
+guess deletes data, so it needs positive evidence this site does not publish. The fix,
+same day: `challenged()` names the shell and fails the venue at once; an honest empty
+first window is asked for once more and then fails too; `EMPTY_VENUES_CONFIRMED` is
+gone from the module; the listing is not read. A failed run keeps the previous file, so
+the worst case is a stale venue with an amber health line, which is the honest state.
+Whether Regina must join Engel on the local half is a decision for the run logs: two of
+the first day's three cloud runs published, the third was refused. A repeat moves the
+entry to `local`, which needs a wrapper block outside this repo.
 
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
