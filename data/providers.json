@@ -230,6 +230,13 @@
    "host": "cinemaniagara.fi",
    "accent": "#6A4FBF",
    "book": "buy"
+  },
+  {
+   "id": "heureka",
+   "label": "Heureka",
+   "host": "heureka.fi",
+   "accent": "#0B8468",
+   "book": "admission"
   }
  ]
 }

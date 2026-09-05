@@ -16,7 +16,7 @@ Fields:
           them (measured 2026-09-02, after Cinema Niagara) -- Helsinki with six,
           Jyväskylä with three, Vantaa, Lahti, Kouvola and Tampere with two each.
           Everywhere else a chain is alone in its town and its accent is unconstrained,
-          which is what makes 33 chains survivable at all. Hues therefore repeat across cities on purpose.
+          which is what makes 34 chains survivable at all. Hues therefore repeat across cities on purpose.
           Run `python3 scripts/accent_check.py` before changing one: it prints every
           same-city pair in CIEDE2000 under two deuteranope models, and
           `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
@@ -28,16 +28,19 @@ Fields:
           band reaches 19.5, and IDEAS says why it has not been applied. Where a city
           has only two chains and both are free, take the best pair going -- Kouvola
           sits at 73.5 for that reason
-  book    buy | reserve | door | list -> footer call to action. "list" is for a
-          provider that publishes no per-show booking URL, so a showtime can only
+  book    buy | reserve | door | list | admission -> footer call to action. "list" is
+          for a provider that publishes no per-show booking URL, so a showtime can only
           open the programme page (Gilda: seat choice lives in React state, and the
-          bundle exposes no shareable showtime route)
+          bundle exposes no shareable showtime route). "admission" is for a venue whose
+          screenings are included in a general admission ticket (Heureka): the showtime
+          links to the ticket shop, the footer and the generated page say so, and the
+          price compartment stays blank because there is no per-screening price
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
-  where   local | cloud. Finnkino, Kino Engel, Kino Akseli and Joutsan Kino block
-          datacenter IPs, so they can only be fetched from an ordinary connection;
-          everything else runs on Actions
+  where   local | cloud. Finnkino, Kino Engel, Kino Akseli, Joutsan Kino and Savon
+          Kinot block datacenter IPs, so they can only be fetched from an ordinary
+          connection; everything else runs on Actions
 """
 
 PROVIDERS = [
@@ -166,6 +169,19 @@ PROVIDERS = [
     # cloud eTiketti hosts look, and one field flips it if a runner is refused.
     dict(id="niagara", label="Cinema Niagara", host="cinemaniagara.fi", accent="#6A4FBF",
          book="buy", module="etiketti", where="cloud"),
+    # Heureka's planetarium, Vantaa (2026-09-05): a science centre's daily programme
+    # read from the three metaobject arrays its calendar page renders inline. The
+    # screenings are included in the day admission and there is no planetarium ticket,
+    # so `admission`: every showtime opens the ticket collection and no price is shown.
+    # Vantaa already has Finnkino Flamingo and Bio Grand, so the accent is measured
+    # against both: #0B8468 is 26.5 / 26.0 dE00 (Viénot / Machado) from Finnkino's
+    # orange and 30.3 / 27.9 from Bio Grand's violet, L* 49.0, the best of a 22-candidate
+    # sweep; Heureka's own lime green fails the Finnkino pair at 6.9. `where` is
+    # provisional in the same sense as Cinema Niagara's: the Shopify storefront answered
+    # the pipeline's user agent 200 from an ordinary connection and from a non-residential
+    # fetcher, Cloudflare in front, no challenge; the first cloud run decides.
+    dict(id="heureka", label="Heureka", host="heureka.fi", accent="#0B8468",
+         book="admission", module="heureka", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

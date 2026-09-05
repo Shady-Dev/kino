@@ -171,7 +171,7 @@ counts, Finnkino a sold-out flag and no counts, and the rest nothing at all. Onl
 flag survives into the data -- see "Seat counts are parsed and deliberately not
 published".
 
-74 venues / 52 cities across 32 providers. Each provider writes `data/area-{venueId}.json` in one shape
+76 venues / 52 cities across 34 providers (2026-09-05). Each provider writes `data/area-{venueId}.json` in one shape
 (`{generated, dates, horizon, shows[]}`) plus `data/venues-{provider}.json`
 (`{id, name, short, city}`). Finnkino still uses `data/areas.json` with numeric ids.
 Adding a provider to the frontend is now nothing: a registry entry generates
@@ -2324,8 +2324,14 @@ count failed the same way.
       Branching does not shrink history either -- the old blobs stay unless `main` is
       rewritten, and a rewrite has cost this repo once already.
 
-## Documentation state (2026-09-01, ninth pass)
+## Documentation state (2026-09-05, tenth pass)
 
+- Tenth pass, 2026-09-05: Heureka Planetaario. Re-measured against `data/`, the registry
+  and `sitemap.xml`: **34 providers / 76 venues / 52 cities**, 86 pages per language, 173
+  sitemap URLs, 5 local providers (26 venues), 4297 poster references over 650 mirrored
+  files, none off-origin. The README's provider list, adapter table, page counts, poster
+  count and data-sources count moved with it, and its `age` paragraph names the
+  planetarium beside the licensed auditorium.
 - Ninth pass, 2026-09-01: Kino Metso added four venues and no document moved with
   it. Re-measured against `data/`, the registry and `sitemap.xml`: **32 providers /
   74 venues / 52 cities**, 84 pages per language, 169 sitemap URLs, 4 local providers
@@ -3603,6 +3609,167 @@ two live -- reading ok with `oldest` from the live venues. Mutations, each resto
 byte-identical and each red: the old order restored (3), the reported-venue condition
 dropped (2), pending granted without the flag (9), the fresh stamp on the empty file
 replaced by the old one (4).
+
+### Heureka Planetaario: a science centre's daily programme as a venue (2026-09-05, sw.js v108)
+
+Heureka's planetarium in Vantaa shows four films a day on a weekly pattern. It is not a
+cinema and it does not sell a screening: the films are included in the day admission,
+there is no planetarium ticket, and the planetarium admits from five years of age
+whatever the film. Added as the 34th provider without a page, a layout or a rule of its
+own; what it needed was a fifth booking mode and one generic sentence on the generated
+page.
+
+**Source, read as a visitor on 2026-09-05.** heureka.fi is a Shopify storefront behind
+Cloudflare. Its "Päivän ohjelma" page renders three arrays straight into the HTML from
+Shopify metaobjects -- `window.eventCalendarData` (22 items in nine categories, six of
+them `Planetaarioelokuvat`, each with a duration, a date range and a list of clock strings
+per weekday), `window.eventExceptionsData` (a replacement weekday schedule for one item
+over one date range, newest start wins) and `window.disabledHolidays` (three closed days)
+-- and the page's own script expands them into the day a visitor picks. There is no feed
+for the calendar: `/pages/tapahtumakalenteri.json` is the page object without the section
+(225 bytes), the blog's `.json` is 404, and `/blogs/planetaario.atom` lists the four film
+articles with no times. So the adapter reads the three arrays and expands them the way
+the page does, 21 days ahead like the Nexxo window, holidays skipped, exceptions applied,
+`Planetaarioelokuvat` only: the same calendar carries the rat feeding, the laboratory
+sessions, the sphere shows and all-day exhibition events. Per film the blog article gives
+`Kesto`, `Ikäsuositus`, `Tuottaja`, the description and a `Kielivaihtoehdot` line; the
+FAQ under it repeats the admission rules and quotes a school-group price, and stays out
+of the synopsis. Measured on the day: 192 showtimes, 4 films, 21 dates (Asteroid Quest
+66, Metsän sydän 66, The Stellars - Tähtijengi 51, Recombination 9), five requests at
+1.2 s spacing, about 1.6 MB each. Conditional GETs are off for this host: the page answers
+`If-None-Match` with a full 200 and a fresh ETag every time, so a stored body would never
+be revalidated.
+
+**The facts the design rests on, from Heureka's own pages.** `/blogs/tietoa/hinnasto`:
+the Heureka ticket covers the exhibitions, the planetarium films and the shows for one
+day; five products in `/collections/liput/products.json` from 0 to 26 euro across age
+and discount categories, a Thursday evening price and a seasonal discount, none of them
+a planetarium ticket. `/blogs/planetaario`: "Ikäraja: 5 vuotta", the per-film
+recommendations "eivät ole rajoituksia", weekend and school-holiday seats reserved on
+arrival through a QR code with no guarantee of a place, no advance reservation for
+individual visitors on weekdays.
+
+**Decisions.**
+
+- **The price compartment stays blank.** The proposal was the word "Liput" (sv
+  "Biljetter", en "Tickets") in the tear-off end of every Heureka ticket. Measured in
+  Archivo at the compartment's own .78rem/700 against its 48 px content box: Liput 30.1,
+  Tickets 43.7, Biljetter 46.8 px -- the Swedish word fits by 1.2 px, inside the rounding
+  noise the day-chip fix recorded. The larger reason is what the word says: a ticket is
+  already the link to buy tickets, and "Liput" does not say the one thing that differs
+  here, that the ticket is the admission ticket. Every cinema that publishes no price
+  already renders a blank compartment (about 4000 showtimes), and no per-screening price
+  is Heureka's state exactly. If the word is wanted later it is one line per renderer,
+  `priceLabel([t]) || ticketWord(t)`, and the measurement above says it fits.
+- **`book="admission"`, a fifth registry mode**, carries the semantics where the app
+  already keeps booking semantics: the footer verb ("Näytökset sisältyvät pääsylippuun ·
+  Napauta näytöstä ostaaksesi liput — heureka.fi"), the stub tooltip ("Osta pääsylippu"),
+  and the generated page's intro ("Näytökset sisältyvät pääsylippuun, jonka voit ostaa
+  sivustolla heureka.fi."). No Heureka string exists in the client or the generator. The
+  combined Vantaa view keeps its generic footer line, as every combined view does.
+  Reservation guidance is not shown: it differs between weekdays, weekends and school
+  holidays, the app cannot know the holiday calendar, and a wrong promise about a seat is
+  worse than none. The Swedish strings are drafted, in the same state as the rest of the
+  Swedish copy.
+- **The five-year floor is the per-show `age` field**, `K-5`, the slot a licensed
+  auditorium's 18+ already uses: a limit of the room, separate from the film's
+  classification, rendered as the outlined 5+ pill on every stub and on the Ajat meta
+  line. `rating` stays blank because no KAVI classification exists. The footer's tag key
+  used to render a fixed "18+" as its sample; it now renders the first limit on screen,
+  so the key reads "5+ ikäraja tässä näytöksessä" on this venue. Generated pages carry
+  no age chip, so they gain one generic sentence, `age_note()`: when every screening in
+  the page's window shares a screening-level limit, the intro ends "Näytösten ikäraja on
+  5 vuotta." A page with mixed or no limits says nothing. No other venue's page changed
+  under the rule on the day it landed.
+- **Recommendations are a `method` tag.** "Sopii parhaiten yli 10-vuotiaille" becomes
+  "Suositus 10+", "5–10-vuotiaille" "Suositus 5–10 v", "aikuisille" "Suositus
+  aikuisille"; other wording produces no tag. The word "Suositus" is part of every tag so
+  it cannot be read as a limit, and the client renders it as the small uppercase pill it
+  already uses for Seniorikino and Anniskelu: on the card when every screening shares it,
+  which a film-level fact always does, in the sheet's meta line, and on the Ajat line
+  through `stubTags`. Finnish in every language, like every other method tag. Not on the
+  generated pages, where method tags are not ported.
+- **Identity.** Provider `heureka`, label "Heureka"; venue `hk-vantaa`, name "Heureka
+  Planetaario", short "Planetaario", so `labelOf` reads "Heureka Planetaario" and the
+  chain-prefixed rule adds nothing twice; `aud` blank (one dome, the venue is the room);
+  no "Planetaario" method tag, since the venue name already says it. `eventId` is the
+  article handle. Audio languages come from the `Kielivaihtoehdot` line through
+  etiketti's `LANG_NAMES` (Finnish default, English and Swedish on headphones; "selkokieli"
+  has no code and is dropped) as `FI-A, EN-A, SV-A`, which the card reads
+  "suomi/englanti/ruotsi"; Recombination has no speech and no line, so no language. No
+  poster: Heureka publishes 16:9 stills and the calendar's images are the same stills,
+  which is the Orion case this file already declines; the TMDB pass fills what it can
+  and the initials tile stands otherwise.
+- **Accent `#0B8468`.** Vantaa already holds Finnkino's orange and Bio Grand's violet.
+  Measured with `accent_check.py --candidate` against both: 26.5 / 26.0 ΔE00 (Viénot /
+  Machado) from Finnkino and 30.3 / 27.9 from Bio Grand, L* 49.0, the best worst-pair of
+  22 candidates; Heureka's own lime green scores 6.9 against Finnkino's orange, and every
+  green tried under 20. The hex is used by no other chain.
+- **`where="cloud"`, provisional.** All four official pages answered 200 to the
+  pipeline's user agent from an ordinary connection, and the calendar page answered 200
+  to a non-residential fetcher as well, with Cloudflare in front and no challenge. That
+  is not a GitHub runner; the first cloud run decides, and one field flips it, as it did
+  for Cinema Niagara.
+
+**Failure modes, in the runner's vocabulary.** A page without the arrays, an empty
+array, or planetarium clock strings that all fail to parse raise and the previous file is
+kept. A calendar that parsed with no planetarium film in the window raises
+`common.EmptyProgramme`: for a one-venue site the confirmed-empty path would exit 1,
+because `run.py` counts a site with no live venue as a failure, and EmptyProgramme is the
+path written for a listing with nothing on. A film page that fails costs that film its
+metadata and nothing else.
+
+**Measured on the served tree**, same-origin rig, 2026-09-05:
+
+| view | width | result |
+|---|---|---|
+| Heureka, Leffat | 320 / 375 / 1200 | 4 cards, 10 stubs, pills "Suositus 10+", "Suositus 7+", "Suositus aikuisille", "Suositus 5–10 v", no overflow |
+| Heureka, Ajat | 320 | 10 rows, 120 × 40 px tickets, title column 146 px, 3 titles ellipsised ("The Stellars - Tähtijengi") |
+| Heureka, Ajat | 375 / 1200 | title column 168.3 px, 0 clipped, rows 59 to 72 px, meta "5+ · 28 min · Suositus 5–10 v · suomi/englanti/ruotsi" |
+| Kaikki Vantaa, Leffat | 375 | 19 cards and 41 stubs, from 15 and 31; legend Bio Grand, Finnkino, Heureka; stubs "Heureka Planetaario" with the 5+ glyph |
+| Kaikki Vantaa, Ajat | 320 / 375 / 1200 | 41 rows, 122 px tickets, 22 / 9 / 0 titles ellipsised, meta opens "Heureka Planetaario · 5+ · 28 min" |
+| sheet, Asteroid Quest | 375 | "28 MIN · SUOSITUS 10+", synopsis, one column of 5+ stubs |
+| footer | 375, fi / sv / en | tag key "5+ ikäraja tässä näytöksessä"; the admission verb in each language |
+
+Generated pages: 5 files written on the first run, 0 on the second; 86 per language and
+173 sitemap URLs. `/teatteri/heureka-planetaario-vantaa/` carries the admission intro
+and the age sentence in both languages, every stub linking to the ticket collection, no
+euro sign after the first day heading, no "Suositus"; `/kaupunki/vantaa/` reads "3
+teatteria" with Heureka in the legend and on its stubs. Shots before and after under the
+review folder outside the repo.
+
+**Tests**, `tests/test_heureka.py`, 30: the JavaScript literal (bare keys, trailing and
+doubled commas, single quotes, a title with a colon and a comma), the three arrays off a
+fixture page, the weekday expansion, a holiday, an exception replacing one day, a run that
+ended, an item with no times, an all-day planetarium item, the festival title kept whole,
+the show shape (collection URL, no price, `K-5`, blank rating and room, runtime, ids), the
+film page (runtime, recommendation, languages, synopsis without the FAQ or its price, the
+recommendation wordings, a silent film, missing parts), four runs through `run.main` with
+the fetch stubbed by path (full publish with metadata, empty programme green and writing
+nothing, refused calendar red with the previous file untouched, a failing film page
+costing metadata only), the registry entry and label, the client's strings and branches,
+the tag key's sample, the generator's intro and age sentence, and the committed Heureka
+and Vantaa pages following the theatre and city templates. `test_all_five_booking_modes`
+replaces the four-mode test. Mutations, each restored byte-identical and each red: the
+category filter dropped (6), the all-day filter dropped (2), holidays ignored (1),
+exceptions ignored (1), the date range ignored (1), the URL built per event (2), the age
+dropped (2), unreadable clocks tolerated (1), the empty programme raised as a failure (2),
+the synopsis read from the FAQ (2), the "yli N" rule dropped (3), a film-page failure made
+fatal (1), the single-quote escape (1), doubled commas kept (5), the registry back to `buy`
+(1), the footer branch dropped (1), the tooltip entry dropped (1), the tag key back to a
+fixed 18+ (1), the Swedish string dropped (1), the generator's intro dropped (1), the age
+sentence never (1) and on mixed pages (1). One mutation went VOID and changed the code
+instead: a guard for "ei ole puhetta" in the language parser could not be made to matter,
+because a page for a film without speech carries no `Kielivaihtoehdot` line to begin
+with, so the guard is gone.
+
+**Consequences accepted, and open.** The Lapsille filter never admits a Heureka film:
+its gate reads the KAVI rating first and Heureka publishes none, which is the rule the
+filter was built on. The static pages show neither the recommendation nor the 5+ chip on
+the stubs, only the intro sentence. Whether TMDB knows any of the four titles is unknown
+until the first cloud run's `run-enrich.log`. The holiday list on the page held three
+dates on the day; a closed day Heureka has not entered there publishes screenings the way
+its own page does.
 
 ### Search Console baseline, 2026-08-29 to 2026-09-02 (read 2026-09-04)
 

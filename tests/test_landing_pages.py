@@ -429,12 +429,13 @@ class GeneratedPagesTest(unittest.TestCase):
                     expected = bp.venue_intro(bp.L[lang], prov.get("book"), prov["host"])
                     self.assertIn(bp.esc(expected), self.canonical[path])
 
-    def test_all_four_booking_modes_have_their_own_sentence(self):
+    def test_all_five_booking_modes_have_their_own_sentence(self):
         for lang in ("fi", "en"):
-            seen = {bp.venue_intro(bp.L[lang], b, "x.fi") for b in ("buy", "reserve", "list", "door")}
-            self.assertEqual(len(seen), 4, lang)
+            seen = {bp.venue_intro(bp.L[lang], b, "x.fi")
+                    for b in ("buy", "reserve", "list", "door", "admission")}
+            self.assertEqual(len(seen), 5, lang)
             self.assertNotIn("x.fi", bp.venue_intro(bp.L[lang], "door", "x.fi"))
-            for b in ("buy", "reserve", "list"):
+            for b in ("buy", "reserve", "list", "admission"):
                 self.assertIn("x.fi", bp.venue_intro(bp.L[lang], b, "x.fi"))
             self.assertEqual(bp.venue_intro(bp.L[lang], None, "x.fi"),
                              bp.venue_intro(bp.L[lang], "buy", "x.fi"))

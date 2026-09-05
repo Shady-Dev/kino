@@ -6,16 +6,17 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 75 venues in 52 cities across 33 providers: Finnkino, BioRex,
+Showtimes for 76 venues in 52 cities across 34 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
-Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso and
-Cinema Niagara. Films
+Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
+Cinema Niagara and Heureka. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
-opens that cinema's own booking page.
+opens that cinema's own booking page, or the ticket shop where the screening is
+included in a general admission ticket (Heureka's planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card. The theatre picker is searchable, and "jarvela"
@@ -42,6 +43,7 @@ platforms:
 | Cinema Orion | 1 | 1 | none | GitHub Actions |
 | Kino Engel | 1 | 1 | none | Local |
 | Kino Akseli | 1 | 1 | none | Local |
+| Heureka | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -110,7 +112,7 @@ score, its vote count and a trailer, written by the enrichment step.
 
 Two fields are easy to confuse. `rating` is the **film's** age classification;
 `age` is a limit the **screening** adds on top, since a licensed auditorium can
-be 18+ whatever the film is rated. `tmdbId` and `gids` are written only for
+be 18+ whatever the film is rated and Heureka's planetarium admits from five. `tmdbId` and `gids` are written only for
 exact TMDB matches, because a weak id folds two different films into one card.
 
 On a provider file, `generated` is when it was written and `oldest` is its
@@ -126,7 +128,8 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
        fetch_site(site)  -> {venue_id: [show, ...]}
 
 2. Add an entry to `scripts/providers/registry.py`: id, label, host, accent,
-   `book` mode, module, and `where` it runs (`cloud` or `local`).
+   `book` mode (`buy`, `reserve`, `door`, `list` or `admission`), module, and
+   `where` it runs (`cloud` or `local`).
 
 Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
@@ -166,7 +169,7 @@ the same committed JSON at the end of every run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-85 per language, 171 sitemap URLs: 75 venues plus the ten cities with more than
+86 per language, 173 sitemap URLs: 76 venues plus the ten cities with more than
 one venue, and the front page. A one-venue city would duplicate its venue page
 and compete with it, so those get the city into the venue page's title and
 address instead.
@@ -204,9 +207,9 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-02: all 4956
-poster references resolve to `data/posters/` on this origin — 4822 on showtimes
-and 134 in `films-extra.json`, across 633 mirrored files, none off-origin — and
+**A page load makes no third-party requests.** Counted 2026-09-05: all 4297
+poster references resolve to `data/posters/` on this origin — 4159 on showtimes
+and 138 in `films-extra.json`, across 650 mirrored files, none off-origin — and
 the typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
@@ -221,7 +224,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas — the 33 providers listed at the
+Schedule data belongs to the respective cinemas — the 34 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

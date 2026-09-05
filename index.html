@@ -957,8 +957,9 @@
          actReserve:'Napauta näytöstä varataksesi paikat — {host}',
          actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
          actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
+         actAdmission:'Näytökset sisältyvät pääsylippuun · Napauta näytöstä ostaaksesi liput — {host}',
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
-         tipList:'Avaa ohjelmisto', tipBuy:'Osta liput',
+         tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
          partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
@@ -1004,8 +1005,9 @@
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
+         actAdmission:'Föreställningarna ingår i inträdesbiljetten · Tryck på en föreställning för att köpa biljetter — {host}',
          tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
-         tipList:'Öppna programmet', tipBuy:'Köp biljetter',
+         tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
@@ -1048,8 +1050,9 @@
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
+         actAdmission:'Screenings are included in admission · Tap a showtime to buy tickets on {host}',
          tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
-         tipList:'Open the programme', tipBuy:'Buy tickets',
+         tipList:'Open the programme', tipBuy:'Buy tickets', tipAdmission:'Buy admission ticket',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
@@ -2222,13 +2225,16 @@
     const stamp = t.toLocaleString('fi-FI',
       {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
     // book mode per provider: door = sold at the door, reserve = free seat
-    // reservation rather than payment. From the registry, not from an id test.
+    // reservation rather than payment, admission = the screening is included in a
+    // general admission ticket and the link opens the ticket shop (Heureka). From the
+    // registry, not from an id test.
     const bk = BOOK[v.provider] || 'buy';
     const T = L[state.lang];
     const act = (combined ? T.actCombined
       : bk === 'door' ? T.actDoor
       : bk === 'reserve' ? T.actReserve
       : bk === 'list' ? T.actList
+      : bk === 'admission' ? T.actAdmission
       : T.actBuy).replace('{host}', host);
     // `footer` now wraps three lines, so this writes to the credit line rather than
     // replacing the whole block. Host dropped from the label: `act` already ends in it
@@ -2552,11 +2558,13 @@
   // something that is not on screen.
   function tagKey(shows){
     const hasA = shows.some(s => /anniskelu/i.test(s.method || ''));
-    const hasAge = shows.some(s => ageOf(s));
-    if(!hasA && !hasAge) return '';
+    // The key's sample is the first limit on screen. It used to be a fixed eighteen,
+    // the only limit in the data until the planetarium's five.
+    const aged = shows.find(s => ageOf(s));
+    if(!hasA && !aged) return '';
     const bits = [];
     if(hasA) bits.push(`<span><span class="gl">A</span>${L[state.lang].keyAnniskelu}</span>`);
-    if(hasAge) bits.push(`<span><span class="gl age">18+</span>${L[state.lang].keyAge}</span>`);
+    if(aged) bits.push(`<span>${ageGlyph(aged)}${L[state.lang].keyAge}</span>`);
     return `<div class="tagkey">${bits.join('')}</div>`;
   }
 
@@ -2678,8 +2686,8 @@
         // The tooltip verb was hard-coded "Buy tickets" in every language and for every
         // provider, including the reserve- and door-mode ones the footer wording
         // already distinguishes through the registry's book field.
-        const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve',
-                                     list:'tipList' }[BOOK[t.provider]] || 'tipBuy'];
+        const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve', list:'tipList',
+                                     admission:'tipAdmission' }[BOOK[t.provider]] || 'tipBuy'];
         // The screening's own price, or an empty compartment. Never the film's: see the
         // meta2 note.
         const own_price = priceLabel([t]);

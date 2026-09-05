@@ -124,6 +124,15 @@ L = {
         "intro_list": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
                       "teatterin ohjelmistoon sivustolla {host}.",
         "intro_door": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Liput myyd\u00e4\u00e4n ovelta.",
+        # A venue whose screenings are included in a general admission ticket (Heureka):
+        # the time opens the ticket shop, and no seat is reserved for that screening.
+        "intro_admission": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. N\u00e4yt\u00f6kset "
+                           "sis\u00e4ltyv\u00e4t p\u00e4\u00e4sylippuun, jonka voit ostaa "
+                           "sivustolla {host}.",
+        # Appended to the intro when every screening on the page carries the same
+        # screening-level age limit -- a limit of the room, stated once for the venue,
+        # because the pages render no per-stub age chip. See age_note().
+        "age_note": "N\u00e4yt\u00f6sten ik\u00e4raja on {n} vuotta.",
         # A city mixes booking modes, so this promises only what every venue has.
         "city_intro": "Katso {n} teatterin n\u00e4yt\u00f6sajat l\u00e4hip\u00e4iville. Kellonajasta "
                       "p\u00e4\u00e4set teatterin lippu- tai ohjelmistosivulle, kun linkki on "
@@ -162,6 +171,9 @@ L = {
         "intro_list": "See showtimes for the next few days. Choose a time to open the "
                       "cinema programme on {host}.",
         "intro_door": "See showtimes for the next few days. Tickets are sold at the door.",
+        "intro_admission": "See showtimes for the next few days. Screenings are included in "
+                           "the admission ticket, sold on {host}.",
+        "age_note": "Screenings have an age limit of {n} years.",
         "city_intro": "See showtimes from {n} cinemas for the next few days. Choose a time "
                       "to open the cinema\u2019s ticket or programme page, where available.",
         "cta": "See the full programme",
@@ -185,6 +197,24 @@ L = {
 # ticket page, which is what every provider but two actually offers.
 def venue_intro(t, book, host):
     return t.get("intro_" + (book or "buy"), t["intro_buy"]).format(host=host)
+
+
+def age_note(t, shows):
+    """One sentence when every screening on the page shares a screening-level age limit.
+
+    `age` is the limit a venue or room imposes on a screening, separate from the film's
+    classification: Finnkino's bar screenings carry K-18 on some rows, and the Heureka
+    planetarium admits from five whatever the film, on every row. The app renders it as
+    a chip on each stub; these pages render no chip, so the one case where the limit is
+    the venue's -- every screening in the window carries the same one -- is said once in
+    the intro. A mixed page says nothing, because a sentence about "the screenings"
+    would be wrong for most of them. -> "" when there is nothing to say.
+    """
+    ages = {(s.get("age") or "").strip() for s in shows}
+    if len(ages) != 1:
+        return ""
+    n = re.sub(r"\D", "", ages.pop())
+    return t["age_note"].format(n=n) if n else ""
 
 
 # The client's language-name tables, copied for fi and en. `tests/test_landing_pages.py`
@@ -942,7 +972,10 @@ def main() -> int:
                 desc=t["venue_desc"].format(venue=v["label"], city=v["city"]),
                 h1=t["venue_h1"].format(venue=v["label"]),
                 sub=t["venue_sub"].format(city=v["city"], host=prov.get("host", "")),
-                intro=venue_intro(t, prov.get("book"), prov.get("host", "")),
+                intro=" ".join(x for x in (
+                    venue_intro(t, prov.get("book"), prov.get("host", "")),
+                    age_note(t, [s for d in days.values() for sh in d.values() for s in sh]))
+                    if x),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"],
                 with_venue=False, legend="", also=also, og_image=og,
                 # Deep link, so a reader arriving from search opens on this venue in this
