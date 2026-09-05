@@ -75,6 +75,38 @@ class EmptyProgrammeTest(unittest.TestCase):
         self.run_mod(Mod(common.EmptyProgramme("nothing on")))
         self.assertFalse((run.OUT / "venues-fakechain.json").exists())
 
+    def test_a_confirmed_empty_single_venue_module_exits_0_and_publishes_the_empty_venue(self):
+        """A module that vouches for emptiness and reports its one venue empty: the run is
+        green, the area file is fresh and empty, the provider file lists the venue pending.
+        The unconfirmed twin below keeps failing."""
+        (run.OUT).mkdir(exist_ok=True)
+        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
+                "horizon": "2026-08-02",
+                "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+        (run.OUT / "area-fc-a.json").write_text(json.dumps(prev), encoding="utf-8")
+        mod = Mod({"fc-a": []})
+        mod.EMPTY_VENUES_CONFIRMED = True
+        self.assertEqual(self.run_mod(mod), 0)
+        area = json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8"))
+        self.assertEqual(area["shows"], [])
+        self.assertNotEqual(area["generated"], prev["generated"])
+        venues = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
+        self.assertEqual((venues["status"], venues["pending"]), ("ok", ["fc-a"]))
+
+    def test_a_confirming_module_that_reports_no_venue_still_fails(self):
+        """The flag is not enough on its own: an empty answer that names no venue is
+        unexplained, and stays a failure with the previous file untouched."""
+        (run.OUT).mkdir(exist_ok=True)
+        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
+                "horizon": "2026-08-02",
+                "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+        (run.OUT / "area-fc-a.json").write_text(json.dumps(prev), encoding="utf-8")
+        mod = Mod({})
+        mod.EMPTY_VENUES_CONFIRMED = True
+        self.assertEqual(self.run_mod(mod), 1)
+        self.assertEqual(json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8")), prev)
+        self.assertFalse((run.OUT / "venues-fakechain.json").exists())
+
     def test_a_module_with_no_sites_for_this_half_is_not_a_failure(self):
         """Site-level routing made this reachable: `run.py biorex --half local` has
         nothing to do and must say so with 0, not fail. Before routing, a run that

@@ -1,45 +1,46 @@
-"""Heureka Planetaario (Vantaa) -- the science centre's daily programme. Stdlib only.
+"""Heurekan planetaario (Vantaa): the science centre's daily programme. Stdlib only.
 
-Heureka runs a Shopify storefront, and its "Päivän ohjelma" page renders three arrays
-straight into the HTML from Shopify metaobjects: `window.eventCalendarData` (every
-programme item with a category, a duration, a date range and a list of times per
-weekday), `window.eventExceptionsData` (a replacement weekday schedule for one item over
-one date range) and `window.disabledHolidays` (days the whole house is closed). The
-page's own script expands those three into the day a visitor picks. This adapter reads
-the same three arrays and expands them the same way for the days ahead, which is the
-nearest thing the site has to a structured feed: there is no JSON endpoint for the
-calendar, and the rendered list is built client-side from exactly this data.
+Source. heureka.fi is a Shopify storefront. Its "Päivän ohjelma" page renders three
+arrays into the HTML from Shopify metaobjects, and the page's own script expands them
+into the day a visitor picks:
 
-Only `kategoria == "Planetaarioelokuvat"` is a screening. The same calendar carries the
-rat feeding, the laboratory sessions, the science shows on the sphere and all-day
-exhibition events, none of which belong in a cinema listing.
+    window.eventCalendarData      every programme item: kategoria, kesto (min), a date
+                                  range, a blog path, and clock strings per weekday
+    window.eventExceptionsData    a replacement weekday schedule for one item over one
+                                  date range; the newest `alkaa` wins when several apply
+    window.disabledHolidays       days the house is closed
 
-Screenings are included in Heureka's day admission and there is no planetarium ticket
-to buy, so every showtime links to the ticket collection, `price` stays empty and the
-registry marks the provider `book="admission"`: the footer verb and the page intro say
-the ticket is the admission ticket, and the price compartment stays blank the way it
-does for every cinema that publishes no price. Admission has several categories and
-changing promotions (measured 2026-09-05: five products in the collection, from 0 to
-26 euro), so one figure on a showtime would be wrong for most readers.
+There is no feed for the calendar (the page's `.json` is the page object without the
+section, the blog's `.json` is 404, the atom feed lists articles without times), so this
+adapter reads the same three arrays and expands them the same way for DAYS days ahead.
+Only `kategoria == "Planetaarioelokuvat"` is a screening; the calendar also carries the
+rat feeding, laboratory sessions, sphere shows and all-day exhibition events.
 
-The planetarium admits from five years of age, whatever the film. That is a limit of
-the room and the per-show `age` field holds that kind of limit; `rating` stays blank
-because no KAVI classification is published. Heureka's own per-film "Ikäsuositus" (7+,
-10+, 5–10) is a recommendation, so it travels as a `method` tag -- "Suositus 10+" --
-which the client renders as the small uppercase pill it uses for every other passive
-tag. The rating chip is for classifications and stays out of this.
+Admission. Planetarium films are included in the day ticket and there is no planetarium
+ticket, so every showtime links to the ticket collection, `price` is empty, and the
+registry entry is `book="admission"`. Admission has several visitor categories and
+changing promotions (five products from 0 to 26 euro on 2026-09-05), so a single figure
+on a showtime would be wrong for most readers.
 
-Per film, the blog article behind the calendar item gives the runtime (also in the
-calendar), the recommendation, the audio languages (the film is dubbed; other languages
-are heard through headphones) and the synopsis. The synopsis is the description block
-alone: the article's FAQ repeats the admission and reservation rules and quotes a
-school-group price, which `synmerge` would refuse anyway and which are not a synopsis.
-Posters are not taken: Heureka publishes 16:9 stills, and a still cropped into a 2:3
-tile is the Orion case IDEAS already declines. The TMDB pass fills what it can.
+Age. The planetarium admits from five years, whatever the film: `age = "K-5"` on every
+show, the screening-level field a licensed auditorium's 18+ also uses. `rating` stays
+empty; no KAVI classification is published. Heureka's per-film "Ikäsuositus" is a
+recommendation and travels as a `method` tag, "Suositus yli 10 v", which the client
+renders as a passive pill; the rating chip is for classifications.
 
-Conditional requests are not used: the calendar page answers `If-None-Match` with a
-full 200 and a fresh ETag every time (checked 2026-09-05), so storing a 1.6 MB body per
-URL would buy nothing.
+Film pages. The blog article behind a calendar item gives Kesto, Ikäsuositus, the
+description and a "Kielivaihtoehdot" line (Finnish by default, English and Swedish
+through headphones). The synopsis is the description block only; the FAQ below it
+repeats the admission rules and quotes a school-group price. No poster: Heureka's images
+are 16:9 stills, which IDEAS declines for 2:3 tiles.
+
+Emptiness. A calendar that parsed with no planetarium film in the window reports the
+venue as an empty list, and EMPTY_VENUES_CONFIRMED lets run.py publish it as pending. A
+page without the arrays, an empty array, or planetarium clocks that all fail to parse
+raise instead, so the previous file is kept.
+
+Conditional requests are off: the calendar page answers If-None-Match with a full 200
+and a new ETag every time (checked 2026-09-05).
 """
 import datetime
 import html as html_mod
@@ -57,16 +58,21 @@ BASE = "https://www.heureka.fi"
 CALENDAR = "/pages/tapahtumakalenteri"
 TICKETS = "https://www.heureka.fi/collections/liput"
 CATEGORY = "Planetaarioelokuvat"
-DAYS = 21                    # like the Nexxo window: the schedule is a weekly rule
-AGE = "K-5"                  # the planetarium's own floor; not a KAVI classification
+DAYS = 21
+AGE = "K-5"
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 HEADERS = {"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
 
-VENUE = {"id": "hk-vantaa", "provider": "heureka", "name": "Heureka Planetaario",
-         "short": "Planetaario", "city": "Vantaa"}
+# `short` is the full name, so labelOf() collapses the chain prefix instead of reading
+# "Heureka Heurekan planetaario"; Bio Rex Kokkola does the same.
+VENUE = {"id": "hk-vantaa", "provider": "heureka", "name": "Heurekan planetaario",
+         "short": "Heurekan planetaario", "city": "Vantaa"}
 
 SITES = [{"provider": "heureka", "label": "Heureka", "base": BASE, "venues": [VENUE]}]
+
+# A venue reported with an empty list was answered in schema and listed nothing.
+EMPTY_VENUES_CONFIRMED = True
 
 WEEKDAYS = ["maanantai", "tiistai", "keskiviikko", "torstai", "perjantai",
             "lauantai", "sunnuntai"]                        # date.weekday(): 0 = Monday
@@ -97,11 +103,10 @@ def _slug(title):
 def _js_to_json(text):
     """A JavaScript array literal as the page writes it -> JSON text.
 
-    Three things have to change: bare keys (`nimi:`), trailing commas, and the doubled
-    commas an empty metaobject reference leaves behind (`["2026-03-13",\\n,\\n"2026-12-24",
-    \\n]`, which the page itself cleans with `filter(Boolean)`). Strings are copied as
-    written, since `\\/` and `\\u0026` are JSON already and a title can contain a colon or
-    a comma.
+    Bare keys are quoted, trailing commas dropped, and the doubled commas an empty
+    metaobject reference leaves behind (`["2026-03-13",\\n,\\n"2026-12-24",\\n]`, which
+    the page cleans with `filter(Boolean)`) collapsed. String bodies are copied as they
+    are: `\\/` and `\\u0026` are JSON already, and a title may contain a colon or a comma.
     """
     out, i, n = [], 0, len(text)
     while i < n:
@@ -163,9 +168,8 @@ def calendar_arrays(page):
         raise RuntimeError(f"{BASE}{CALENDAR}: no window.eventCalendarData on the page "
                            f"(markup changed?)")
     if not events:
-        # The calendar carries every kind of programme item. An array with none at all
-        # means the section failed to render, so this is a parser break and the previous
-        # data is kept.
+        # The array holds every kind of programme item; none at all means the section
+        # did not render.
         raise RuntimeError(f"{BASE}{CALENDAR}: eventCalendarData is empty")
     exceptions = js_array(page, "eventExceptionsData") or []
     holidays = [h for h in (js_array(page, "disabledHolidays") or []) if h]
@@ -179,12 +183,10 @@ def _in_range(day, start, end):
 
 
 def times_on(ev, exceptions, day):
-    """The clock strings an event runs on `day`, the way the page's renderDay decides.
+    """The clock strings an event runs on `day`, as the page's renderDay decides them.
 
-    An exception whose range covers the day replaces the event's whole weekday schedule
-    -- newest `alkaa` wins when several apply, as on the page -- and while one applies
-    the event's own date range is not consulted. Without one, the event runs only inside
-    its own range. Times come back as written ("12.30"); blanks are dropped.
+    An exception covering the day replaces the event's weekday schedule and suspends
+    its date range; without one, the event runs inside its own range. Blanks dropped.
     """
     iso = day.isoformat()
     active = [ex for ex in exceptions
@@ -219,10 +221,9 @@ def _event_id(ev):
 def parse_calendar(page, today=None, days=DAYS):
     """-> (shows, {blog path: eventId}) for the planetarium films in the window.
 
-    Raises `common.EmptyProgramme` when the calendar parsed and no planetarium film has
-    a time in the window, and RuntimeError when planetarium times were listed and not
-    one of them could be read -- that is the clock format changing under the parser,
-    and returning [] would publish a quiet week over it.
+    An empty list is a confirmed empty programme. RuntimeError when planetarium clocks
+    were listed and none could be read: the clock format changed, and [] would publish
+    a quiet week over it.
     """
     events, exceptions, holidays = calendar_arrays(page)
     today = today or datetime.datetime.now(FI).date()
@@ -239,7 +240,6 @@ def parse_calendar(page, today=None, days=DAYS):
                 start = _iso(day, clock)
                 if not start:
                     continue
-                title = _txt(ev.get("nimi"))
                 eid = _event_id(ev)
                 blog = (ev.get("tapahtumasivu_blog_post") or "").strip()
                 if blog.startswith("/blogs/"):
@@ -247,14 +247,14 @@ def parse_calendar(page, today=None, days=DAYS):
                 kesto = ev.get("kesto")
                 shows.append({
                     "eventId": eid,
-                    "title": title,
+                    "title": _txt(ev.get("nimi")),
                     "original": "",
                     "len": str(kesto) if isinstance(kesto, int) and kesto > 0 else "",
                     "rating": "",
                     "genres": "",
                     "method": "",
                     "theatre": VENUE["name"],
-                    "aud": "",                       # one dome; the venue is the room
+                    "aud": "",
                     "start": start,
                     "url": TICKETS,
                     "img": "",
@@ -269,10 +269,6 @@ def parse_calendar(page, today=None, days=DAYS):
     if tokens and not shows:
         raise RuntimeError(f"{BASE}{CALENDAR}: {tokens} planetarium time(s) listed in the "
                            f"next {days} days and none could be read (clock format changed?)")
-    if not shows:
-        raise common.EmptyProgramme(
-            f"{BASE}{CALENDAR}: {len(events)} programme items, no planetarium film "
-            f"scheduled in the next {days} days")
     shows.sort(key=lambda s: (s["start"], s["title"]))
     return shows, blogs
 
@@ -280,12 +276,12 @@ def parse_calendar(page, today=None, days=DAYS):
 # ---------------------------------------------------------------- the film page
 
 def recommendation(text):
-    """Heureka's Ikäsuositus wording -> a labelled tag, or "" when it names no age.
+    """Heureka's Ikäsuositus -> a labelled tag, or "" when it names no age.
 
-    "Sopii parhaiten yli 10-vuotiaille" -> "Suositus 10+"; "5–10-vuotiaille" ->
-    "Suositus 5–10 v"; "...aikuisille" -> "Suositus aikuisille". Any other wording
-    produces no tag. The word "Suositus" is part of every tag so that it cannot be read
-    as an age limit.
+    "Sopii parhaiten yli 10-vuotiaille" -> "Suositus yli 10 v"; "5–10-vuotiaille" ->
+    "Suositus 5–10 v"; "...aikuisille" -> "Suositus aikuisille". "yli" is kept because the
+    source says over ten. Every tag starts with "Suositus" so it cannot be read as a
+    limit.
     """
     t = _txt(text)
     m = REC_RANGE_RE.search(t)
@@ -293,17 +289,15 @@ def recommendation(text):
         return f"Suositus {m.group(1)}–{m.group(2)} v"
     m = REC_OVER_RE.search(t)
     if m:
-        return f"Suositus {m.group(1)}+"
+        return f"Suositus yli {m.group(1)} v"
     if REC_ADULTS_RE.search(t):
         return "Suositus aikuisille"
     return ""
 
 
 def languages(page):
-    """The 'Kielivaihtoehdot' line -> "FI-A, EN-A, SV-A"; "" when the page lists none.
-
-    A film without speech (Recombination) has no such line, so it publishes no language
-    the same way a page that was never read does."""
+    """The 'Kielivaihtoehdot' line -> "FI-A, EN-A, SV-A"; "" when the page has none.
+    A film without speech (Recombination) has no such line."""
     m = LANGS_RE.search(page)
     if not m:
         return ""

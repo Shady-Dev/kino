@@ -76,6 +76,9 @@ const CASES = [
   ['range_fi',              'fi', ['13€', '10€']],
   ['range_sv',              'sv', ['13€', '10€']],
   ['range_en',              'en', ['13€', '10€']],
+  // -- Finnish typography is Finnish only -----------------------------------------------
+  ['decimal_sv',            'sv', ['8.5€']],
+  ['decimal_en',            'en', ['8.5€']],
 ];
 
 const out = {};

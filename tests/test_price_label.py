@@ -28,6 +28,7 @@ import _ctx
 
 HARNESS = pathlib.Path(__file__).resolve().parent / "price_label_harness.js"
 EUR = "€"
+FI = "\u00a0€"      # Finnish output: a non-breaking space before the sign, comma decimals
 
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
@@ -44,48 +45,48 @@ class PriceLabelTest(unittest.TestCase):
 
     def test_a_source_that_says_alkaen_renders_a_price(self):
         """The reported case. It used to render the empty string."""
-        self.assertEqual(self.r["orion_floor_only"], f"alkaen 10{EUR}")
+        self.assertEqual(self.r["orion_floor_only"], f"alkaen 10{FI}")
 
     def test_the_same_floor_repeated_is_still_a_floor(self):
         """Three screenings all at "alkaen 10€" agree on the number, so the old
         two-different-amounts rule would call it exact even once the number parsed.
         The source said floor and that has to survive."""
-        self.assertEqual(self.r["orion_floor_repeated"], f"alkaen 10{EUR}")
+        self.assertEqual(self.r["orion_floor_repeated"], f"alkaen 10{FI}")
 
     def test_the_other_orion_floor_parses_too(self):
-        self.assertEqual(self.r["orion_floor_twelve"], f"alkaen 12{EUR}")
+        self.assertEqual(self.r["orion_floor_twelve"], f"alkaen 12{FI}")
 
     def test_orions_real_mix_takes_the_cheapest(self):
         """The three strings Orion actually publishes, together: 10 as a floor, 10
         exact, 8.5 exact. The label is the cheapest of them, introduced as a floor."""
-        self.assertEqual(self.r["orion_real_mix"], f"alkaen 8.50{EUR}")
+        self.assertEqual(self.r["orion_real_mix"], f"alkaen 8,50{FI}")
 
     # -- what already worked, and must keep working ---------------------------------------
 
     def test_a_single_exact_price_has_no_prefix(self):
-        self.assertEqual(self.r["exact_single"], f"13{EUR}")
+        self.assertEqual(self.r["exact_single"], f"13{FI}")
 
     def test_the_same_exact_price_twice_has_no_prefix(self):
         """The case a shape-based floor test could break: `13€` twice is still exact,
         and nothing in either string is a floor marker."""
-        self.assertEqual(self.r["exact_repeated"], f"13{EUR}")
+        self.assertEqual(self.r["exact_repeated"], f"13{FI}")
 
     def test_two_different_amounts_are_introduced_as_a_floor(self):
-        self.assertEqual(self.r["two_amounts"], f"alkaen 10{EUR}")
+        self.assertEqual(self.r["two_amounts"], f"alkaen 10{FI}")
 
     def test_both_decimal_separators_read_the_same(self):
-        self.assertEqual(self.r["decimal_comma"], f"8.50{EUR}")
-        self.assertEqual(self.r["decimal_point"], f"8.50{EUR}")
+        self.assertEqual(self.r["decimal_comma"], f"8,50{FI}")
+        self.assertEqual(self.r["decimal_point"], f"8,50{FI}")
 
     def test_a_whole_number_written_with_decimals_loses_them(self):
-        self.assertEqual(self.r["whole_from_decimal"], f"12{EUR}")
+        self.assertEqual(self.r["whole_from_decimal"], f"12{FI}")
 
     def test_a_space_before_the_currency_is_not_a_floor_marker(self):
         """`13 €` and `13&nbsp;€` are exact prices that happen to have something after
         the number. A floor test that only asked "is there anything left" would call
         both of these floors and prefix every price on the site."""
-        self.assertEqual(self.r["spaced_currency"], f"13{EUR}")
-        self.assertEqual(self.r["nbsp_currency"], f"13{EUR}")
+        self.assertEqual(self.r["spaced_currency"], f"13{FI}")
+        self.assertEqual(self.r["nbsp_currency"], f"13{FI}")
 
     # -- nothing to say ------------------------------------------------------------------
 
@@ -108,21 +109,30 @@ class PriceLabelTest(unittest.TestCase):
     def test_a_free_screening_beside_a_paid_one_reports_the_paid_price(self):
         """Pinned rather than argued. The free row carries no number so it is not part
         of the range, and the label describes what a ticket costs."""
-        self.assertEqual(self.r["mixed_free_and_priced"], f"10{EUR}")
+        self.assertEqual(self.r["mixed_free_and_priced"], f"10{FI}")
 
     # -- and the prefix is the language's ---------------------------------------------------
 
     def test_the_floor_prefix_is_localised(self):
         want = self.r["__from"]
-        self.assertEqual(self.r["floor_fi"], f"{want['fi']} 10{EUR}")
+        self.assertEqual(self.r["floor_fi"], f"{want['fi']} 10{FI}")
         self.assertEqual(self.r["floor_sv"], f"{want['sv']} 10{EUR}")
         self.assertEqual(self.r["floor_en"], f"{want['en']} 10{EUR}")
 
     def test_a_range_uses_the_same_localised_prefix(self):
         want = self.r["__from"]
-        self.assertEqual(self.r["range_fi"], f"{want['fi']} 10{EUR}")
+        self.assertEqual(self.r["range_fi"], f"{want['fi']} 10{FI}")
         self.assertEqual(self.r["range_sv"], f"{want['sv']} 10{EUR}")
         self.assertEqual(self.r["range_en"], f"{want['en']} 10{EUR}")
+
+    def test_finnish_typography_is_finnish_only(self):
+        """Comma decimals and a non-breaking space before the sign in Finnish; the other
+        two languages keep the source's shape."""
+        self.assertEqual(self.r["decimal_comma"], f"8,50{FI}")
+        self.assertEqual(self.r["decimal_sv"], f"8.50{EUR}")
+        self.assertEqual(self.r["decimal_en"], f"8.50{EUR}")
+        self.assertNotIn(" ", self.r["exact_single"].replace("\u00a0", ""))
+        self.assertEqual(self.r["exact_single"][-2], "\u00a0")
 
     def test_the_three_translations_are_actually_different(self):
         """Guards the harness rather than the code: if `translation()` silently returned

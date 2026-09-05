@@ -850,7 +850,7 @@
 <div id="tagkey"></div>
 <footer>
   <details id="fresh"><summary id="freshSum"></summary><div id="sources"></div></details>
-  <div id="credit">Näytösajat suomalaisista elokuvateattereista</div>
+  <div id="credit">Suomalaisten elokuvateatterien näytösajat</div>
   <div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:leffavuoro@gmail.com">leffavuoro@gmail.com</a></div>
   <div id="source">Lähdekoodi: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> · AGPL-3.0</div>
 </footer>
@@ -935,39 +935,39 @@
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          fannis:'Anniskelu',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
-         favOn:'Oma teatteri, avataan tämä jatkossa', favOff:'Aseta omaksi teatteriksi',
+         favOn:'Oma teatteri valittu – avautuu jatkossa automaattisesti', favOff:'Aseta omaksi teatteriksi',
          vSearch:'Hae teatteria tai kaupunkia', vNone:'Ei osumia.', vOwn:'Oma teatteri',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
-         allIn:'Kaikki', manySources:'usea lähde',
-         soldout:'loppuunmyyty', staleOne:'aikataulu ei ole päivittynyt',
+         allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
+         soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
-         nomore:'Ei enää näytöksiä tänään.',
-         noshows:'Ei näytöksiä tänä päivänä valitussa teatterissa.',
-         notpublished:'Ohjelmistoa ei ole vielä julkaistu tälle päivälle.',
-         onlyDays:'Vain päivät, joille on näytöksiä, ovat valittavissa.',
-         showPast:'aiemmin', hidePast:'piilota aiemmat', nextShows:'Seuraavat näytökset',
+         nomore:'Ei enää näytöksiä tänään.', sheetNone:'Ei näytöksiä valitussa teatterissa.',
+         noshows:'Valitussa teatterissa ei ole näytöksiä tänä päivänä.',
+         notpublished:'Tämän päivän ohjelmistoa ei ole vielä julkaistu.',
+         onlyDays:'Valittavissa ovat vain päivät, joille on näytöksiä.',
+         showPast:'Näytä {n} aiempaa', hidePast:'Piilota aiemmat', nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
          loadingTheatres:'Ladataan teattereita…', loadingSchedule:'Ladataan näytöksiä…',
-         loadFail:'Aikataulua ei juuri nyt saatu ladattua.',
-         dataLabel:'Aikataulut', updated:'päivitetty',
-         actCombined:'Napauta näytöstä avataksesi teatterin oman sivun',
+         loadFail:'Näytöstietoja ei juuri nyt saatu ladattua.',
+         dataLabel:'Näytöstiedot', updated:'päivitetty',
+         actCombined:'Näytösajasta teatterin omalle sivulle',
          actDoor:'Liput myydään ovelta · {host}',
-         actReserve:'Napauta näytöstä varataksesi paikat — {host}',
-         actList:'Napauta näytöstä avataksesi ohjelmiston — {host}',
-         actBuy:'Napauta näytöstä ostaaksesi liput — {host}',
-         actAdmission:'Näytökset sisältyvät pääsylippuun · Napauta näytöstä ostaaksesi liput — {host}',
+         actReserve:'Näytösajasta paikkavaraukseen — {host}',
+         actList:'Näytösajasta teatterin ohjelmistoon — {host}',
+         actBuy:'Näytösajasta lipunmyyntiin — {host}',
+         actAdmission:'Sisältyy pääsylippuun · Näytösajasta lippukauppaan — {host}',
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
          tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
-         partialOf:'{n}/{m} teatteria ei päivittynyt', unavailable:'ei saatavilla',
+         partialOf:'{n}/{m} teatterin näytöstiedot eivät päivittyneet', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
-         allFresh:'Kaikki {m} lähdettä ajan tasalla', behind:'Lähteitä jäljessä',
-         partialSources:'Osa teattereista ei päivittynyt',
+         allFresh:'Näytöstiedot ajan tasalla ({m} lähdettä)', behind:'Vanhentuneet näytöstiedot',
+         partialSources:'Osa näytöstiedoista ei päivittynyt',
          noProgYet:'Ei ohjelmistoa juuri nyt',
-         unverifiedOf:'{n}/{m} teatterilta ei ole vielä saatu näytöksiä',
+         unverifiedOf:'{n}/{m} teatterilta ei ole vielä saatu näytöstietoja',
          pendingOf:'{n}/{m}: ei ohjelmistoa juuri nyt',
          aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
          aSearch:'Suodata elokuvia nimen tai genren mukaan', aDays:'Valitse päivä',
@@ -986,14 +986,14 @@
          favOn:'Egen biograf, öppnas här nästa gång', favOff:'Välj som egen biograf',
          vSearch:'Sök biograf eller stad', vNone:'Inga träffar.', vOwn:'Egen biograf',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
-         allIn:'Alla i', manySources:'flera källor',
+         allIn:'{city} – alla biografer', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
          nomatch:'Ingen film matchar filtren.',
-         nomore:'Inga fler föreställningar i dag.',
+         nomore:'Inga fler föreställningar i dag.', sheetNone:'Inga föreställningar på vald biograf.',
          noshows:'Inga föreställningar denna dag på vald biograf.',
          notpublished:'Programmet för denna dag har inte publicerats ännu.',
          onlyDays:'Endast dagar med föreställningar kan väljas.',
-         showPast:'tidigare', hidePast:'dölj tidigare', nextShows:'Nästa föreställningar',
+         showPast:'Visa {n} tidigare', hidePast:'Dölj tidigare', nextShows:'Nästa föreställningar',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1005,7 +1005,7 @@
          actReserve:'Tryck på en föreställning för att boka platser — {host}',
          actList:'Tryck på en föreställning för att öppna programmet — {host}',
          actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
-         actAdmission:'Föreställningarna ingår i inträdesbiljetten · Tryck på en föreställning för att köpa biljetter — {host}',
+         actAdmission:'Ingår i inträdet · Från föreställningstiden till biljettbutiken — {host}',
          tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
@@ -1031,14 +1031,14 @@
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
          vSearch:'Search cinema or city', vNone:'No matches.', vOwn:'Home theatre',
          favCta:'Save', favCtaLong:'Save as home theatre',
-         allIn:'All', manySources:'multiple sources',
+         allIn:'{city} – all cinemas', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
-         nomore:'No more shows today.',
+         nomore:'No more shows today.', sheetNone:'No screenings at the selected cinema.',
          noshows:'No shows for this day at the selected theatre.',
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
-         showPast:'earlier', hidePast:'hide earlier', nextShows:'Next screenings',
+         showPast:'Show {n} earlier', hidePast:'Hide earlier', nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -1050,7 +1050,7 @@
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
-         actAdmission:'Screenings are included in admission · Tap a showtime to buy tickets on {host}',
+         actAdmission:'Included in admission · A showtime opens the ticket shop on {host}',
          tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
          tipList:'Open the programme', tipBuy:'Buy tickets', tipAdmission:'Buy admission ticket',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
@@ -1098,8 +1098,8 @@
   // screened here before.
   // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
   // language now stands on its own with no role word, so it has to read as a noun.
-  const LW = { fi:{S:'tekstit'}, sv:{S:'text'}, en:{S:'subs'} };
-  // "EN-A, FI-S, SE-S" reads "englanti · tekstit suomi/ruotsi": audio bare, subtitles
+  const LW = { fi:{S:'tekstitys:'}, sv:{S:'text'}, en:{S:'subs'} };
+  // "EN-A, FI-S, SE-S" reads "englanti · tekstitys: suomi/ruotsi": audio bare, subtitles
   // labelled, one entry per role rather than per language. The "/" matches how a single
   // multi-language code (FI-SE-S) has always rendered.
   function langTxt(code){
@@ -1526,9 +1526,14 @@
     }
     if(!vals.length) return '';
     const lo = Math.min(...vals), hi = Math.max(...vals);
-    const fmt = v => (Math.round(v * 100) % 100 === 0 ? String(Math.round(v)) : v.toFixed(2));
-    return (lo === hi && !floor) ? `${fmt(lo)}\u20ac`
-                                 : `${L[state.lang].from} ${fmt(lo)}\u20ac`;
+    // Finnish typography: a comma decimal and a non-breaking space before the sign,
+    // "10,50 €". Swedish and English keep the source's "10.50€".
+    const fi = state.lang === 'fi';
+    const fmt = v => {
+      const n = Math.round(v * 100) % 100 === 0 ? String(Math.round(v)) : v.toFixed(2);
+      return fi ? n.replace('.', ',') + '\u00a0\u20ac' : n + '\u20ac';
+    };
+    return (lo === hi && !floor) ? fmt(lo) : `${L[state.lang].from} ${fmt(lo)}`;
   }
   // --- end priceLabel ---
 
@@ -1779,7 +1784,7 @@
   //   Swedish both "Turku" and "Åbo" find a Turku venue.
   function venueRows(q, ctx){
     const T = ctx.T;
-    const allLabel = c => `${T.allIn} ${ctx.cityLabel(c)} (${ctx.cityVenues[c].length})`;
+    const allLabel = c => `${T.allIn.replace('{city}', ctx.cityLabel(c))} (${ctx.cityVenues[c].length})`;
     const hitAll = c => !q || vfold(`${allLabel(c)} ${c}`).includes(vfold(q));
     const hitVenue = (a, c) =>
       !q || vfold(`${ctx.labelOf(a)} ${c} ${ctx.cityLabel(c)}`).includes(vfold(q));
@@ -1951,7 +1956,7 @@
     if(!el) return;
     if(state.area && state.area.startsWith('city:')){
       const c = state.area.slice(5);
-      el.textContent = `${L[state.lang].allIn} ${cityLabel(c)} (${(cityGroups[c] || []).length})`;
+      el.textContent = `${L[state.lang].allIn.replace('{city}', cityLabel(c))} (${(cityGroups[c] || []).length})`;
     } else {
       const v = venueIndex[state.area];
       el.textContent = v ? v.label : '';
@@ -2713,7 +2718,7 @@
       // cell that is not a ticket reads as a broken showtime.
       const pastToggle = (gone.length && ahead.length)
         ? `<button class="pastlink" data-reveal="${esc(m.eventId)}" aria-expanded="${open}">`
-          + (open ? L[state.lang].hidePast : `+${gone.length} ${L[state.lang].showPast}`)
+          + (open ? L[state.lang].hidePast : L[state.lang].showPast.replace('{n}', gone.length))
           + `</button>`
         : '';
       const meta2 = [
@@ -2833,6 +2838,9 @@
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>`;
       }).join('') + '</div>').join('');
     const legend = multi ? chainLegend(all) : '';
+    // A direct #m= link to a film this venue is not showing opens the sheet with nothing
+    // in it; say so instead of showing an empty head.
+    const body = days || `<div class="status">${L[lang].sheetNone}</div>`;
     const sheetPoster = safeAssetUrl(sample.img);
     const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
@@ -2846,7 +2854,7 @@
         </div></div>
       <div class="sheet-body">${legend}
         ${syn ? `<p class="syn">${esc(syn)}</p>` : ''}
-        <div class="sheet-days">${days}</div>
+        <div class="sheet-days">${body}</div>
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
     document.body.classList.add('sheet-open');

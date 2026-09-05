@@ -417,6 +417,46 @@ class ConfirmedEmptyTest(RunSiteHarness):
         self.assertFalse((self.out / "venues-fakechain.json").exists(),
                          "a failed site must not publish a provider file")
 
+    def test_a_single_venue_site_confirmed_empty_publishes_fresh_empty_files(self):
+        """Heureka's shape: one venue, a paused programme. The old screenings go, the empty
+        file is stamped now, the provider file is written with the venue pending."""
+        one = {**SITE, "venues": SITE["venues"][:1]}
+        self.seed_previous("fc-a")
+        mod = ConfirmedModule({"fc-a": []})
+        live, total, stale, unverified, pending = self.run_site(mod, site=one)
+        self.assertEqual((live, total, stale, unverified, pending), (0, 0, [], [], ["fc-a"]))
+        self.assertEqual(self.area("fc-a")["shows"], [])
+        self.assertEqual(self.area("fc-a")["generated"], NOW)
+        doc = self.venues_file()
+        self.assertEqual((doc["status"], doc["pending"], doc["oldest"]), ("ok", ["fc-a"], NOW))
+        self.assertEqual([v["id"] for v in doc["venues"]], ["fc-a"])
+
+    def test_every_venue_confirmed_empty_writes_the_provider_file(self):
+        self.seed_previous("fc-b")
+        mod = ConfirmedModule({"fc-a": [], "fc-b": [], "fc-c": []})
+        live, _, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((live, stale, unverified, sorted(pending)), (0, [], [], ["fc-a", "fc-b", "fc-c"]))
+        self.assertEqual(self.venues_file()["status"], "ok")
+        self.assertEqual(self.area("fc-b")["shows"], [])
+
+    def test_pending_beside_an_unexplained_venue_with_no_live_one_writes_no_provider_file(self):
+        """Two venues confirmed empty and one the adapter did not report: part of the site
+        is unexplained, so nothing is stamped fresh at provider level."""
+        self.seed_previous("fc-b")
+        mod = ConfirmedModule({"fc-a": [], "fc-c": []})
+        live, _, stale, unverified, pending = self.run_site(mod)
+        self.assertEqual((live, stale, sorted(pending)), (0, ["fc-b"], ["fc-a", "fc-c"]))
+        self.assertFalse((self.out / "venues-fakechain.json").exists())
+        self.assertEqual(self.area("fc-b")["generated"], OLD)
+
+    def test_an_unconfirmed_empty_single_venue_site_writes_no_provider_file(self):
+        one = {**SITE, "venues": SITE["venues"][:1]}
+        self.seed_previous("fc-a")
+        live, _, stale, unverified, pending = self.run_site(FakeModule({"fc-a": []}), site=one)
+        self.assertEqual((live, stale, unverified, pending), (0, ["fc-a"], [], []))
+        self.assertFalse((self.out / "venues-fakechain.json").exists())
+        self.assertEqual(self.area("fc-a")["shows"][0]["title"], "Yesterday's Film")
+
     def test_a_touring_cinema_with_two_empty_towns_reads_ok_and_ages_on_its_live_venues(self):
         """Kino Metso's shape: one town whose programme ended (old file), one that has
         never had one, two with showtimes. The provider is ok, both towns pending, and

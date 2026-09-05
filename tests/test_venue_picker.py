@@ -14,6 +14,7 @@ import json
 import pathlib
 import shutil
 import subprocess
+import re
 import unittest
 
 import _ctx
@@ -23,6 +24,25 @@ HARNESS = pathlib.Path(__file__).resolve().parent / "venue_picker_harness.js"
 
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
+class CombinedRowLabelTest(unittest.TestCase):
+    """The combined row reads "{city} – kaikki teatterit (n)": the city first, so the
+    trigger's ellipsis eats the generic tail and never the city. Every language carries
+    the placeholder, and both renderers compose through it."""
+    HTML = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
+
+    def test_every_language_has_a_city_placeholder(self):
+        labels = re.findall(r"allIn:'([^']*)'", self.HTML)
+        self.assertEqual(len(labels), 3)
+        for label in labels:
+            self.assertTrue(label.startswith("{city} – "), label)
+        self.assertIn("{city} – kaikki teatterit", labels)
+
+    def test_both_renderers_compose_through_the_placeholder(self):
+        self.assertEqual(self.HTML.count(".allIn.replace('{city}',"), 2)
+        self.assertNotRegex(self.HTML, r"\$\{T\.allIn\} ")
+        self.assertNotRegex(self.HTML, r"\.allIn\} \$\{")
+
+
 class VenuePickerModelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

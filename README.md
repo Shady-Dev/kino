@@ -111,9 +111,10 @@ price, provider, venue, tmdbId, tmdb, votes, tr`. The last three are TMDB's
 score, its vote count and a trailer, written by the enrichment step.
 
 Two fields are easy to confuse. `rating` is the **film's** age classification;
-`age` is a limit the **screening** adds on top, since a licensed auditorium can
-be 18+ whatever the film is rated and Heureka's planetarium admits from five. `tmdbId` and `gids` are written only for
-exact TMDB matches, because a weak id folds two different films into one card.
+`age` is a limit the **screening** adds on top: a licensed auditorium can be 18+
+whatever the film is rated, and Heureka's planetarium admits from five. `tmdbId`
+and `gids` are written only for exact TMDB matches, because a weak id folds two
+different films into one card.
 
 On a provider file, `generated` is when it was written and `oldest` is its
 weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or

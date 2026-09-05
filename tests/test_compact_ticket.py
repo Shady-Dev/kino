@@ -106,7 +106,7 @@ class GeneratedCompactTicketTest(unittest.TestCase):
 
     def test_a_priced_ticket_ends_with_the_price_inside_the_anchor(self):
         li = self.stubs(self.block([self.show()]))[0]
-        self.assertTrue(li.endswith('<span class="price">11\u20ac</span></a>'), li)
+        self.assertTrue(li.endswith('<span class="price">11\u00a0\u20ac</span></a>'), li)
 
     def test_an_unpriced_ticket_has_the_same_anatomy_with_a_blank_compartment(self):
         li = self.stubs(self.block([self.show(price=None)]))[0]
@@ -118,10 +118,10 @@ class GeneratedCompactTicketTest(unittest.TestCase):
     def test_room_and_price_both_survive(self):
         li = self.stubs(self.block([self.show(aud="Sali 7", price="13\u20ac")]))[0]
         self.assertIn("<span class=a>Sali 7</span>", li)
-        self.assertTrue(li.endswith('<span class="price">13\u20ac</span></a>'))
+        self.assertTrue(li.endswith('<span class="price">13\u00a0\u20ac</span></a>'))
 
     def test_long_localised_labels_are_kept_whole_in_the_markup(self):
-        self.assertIn('<span class="price">alkaen 10\u20ac</span>', self.block([self.show(price="alkaen 10\u20ac")]))
+        self.assertIn('<span class="price">alkaen 10\u00a0\u20ac</span>', self.block([self.show(price="alkaen 10\u20ac")]))
         self.assertIn('<span class="price">from 10\u20ac</span>', self.block([self.show(price="alkaen 10\u20ac")], lang="en"))
         self.assertIn("white-space:normal", rule(GEN, ".stub .price"))       # and wrap inside the compartment
 

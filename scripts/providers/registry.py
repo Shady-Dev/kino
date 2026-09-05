@@ -169,17 +169,13 @@ PROVIDERS = [
     # cloud eTiketti hosts look, and one field flips it if a runner is refused.
     dict(id="niagara", label="Cinema Niagara", host="cinemaniagara.fi", accent="#6A4FBF",
          book="buy", module="etiketti", where="cloud"),
-    # Heureka's planetarium, Vantaa (2026-09-05): a science centre's daily programme
-    # read from the three metaobject arrays its calendar page renders inline. The
-    # screenings are included in the day admission and there is no planetarium ticket,
-    # so `admission`: every showtime opens the ticket collection and no price is shown.
-    # Vantaa already has Finnkino Flamingo and Bio Grand, so the accent is measured
-    # against both: #0B8468 is 26.5 / 26.0 dE00 (Viénot / Machado) from Finnkino's
-    # orange and 30.3 / 27.9 from Bio Grand's violet, L* 49.0, the best of a 22-candidate
-    # sweep; Heureka's own lime green fails the Finnkino pair at 6.9. `where` is
-    # provisional in the same sense as Cinema Niagara's: the Shopify storefront answered
-    # the pipeline's user agent 200 from an ordinary connection and from a non-residential
-    # fetcher, Cloudflare in front, no challenge; the first cloud run decides.
+    # Heurekan planetaario, Vantaa (2026-09-05). Screenings are included in the day
+    # admission and there is no planetarium ticket, so `admission`. Vantaa already holds
+    # Finnkino and Bio Grand: #0B8468 measures 26.5 / 26.0 dE00 (Viénot / Machado) from
+    # Finnkino's orange and 30.3 / 27.9 from Bio Grand's violet, L* 49.0; Heureka's own
+    # lime green scores 6.9 against the orange. `where` is provisional as Niagara's was:
+    # 200 from an ordinary connection and from a non-residential fetcher, Cloudflare in
+    # front, no challenge. The first cloud run decides.
     dict(id="heureka", label="Heureka", host="heureka.fi", accent="#0B8468",
          book="admission", module="heureka", where="cloud"),
 ]

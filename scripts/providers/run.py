@@ -39,8 +39,10 @@ degraded. A fetch, schema or parse failure never reaches this loop: the site fai
 whole and every file it owns is left as it was. The file therefore carries `status`, `stale`, `unverified`, `pending` and
 `oldest`, and `oldest` is what the health line ages on: a
 provider is as fresh as its weakest venue, but a venue that never had data does not drag
-that down. Only a site where *every* venue came back empty is a failure, since nothing
-else would notice that.
+that down. A site where every venue came back empty is a failure, since nothing else
+would notice that -- unless every one of them was confirmed empty, in which case the
+provider file is written with them all pending and the run stays green (Heureka: one
+venue, and a paused programme must clear the old screenings).
 
 Sites on different hosts are fetched at the same time, sites on the same host one after
 the other. The pacing inside an adapter's fetch_site is what a cinema experiences and is
@@ -197,9 +199,10 @@ def run_site(mod, site, now, order=0):
             total += len(shows)
             print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
 
-    # Every venue, not just the fresh ones — see the module docstring. Written only
-    # when at least one venue produced shows, so a fully dead site does not stamp a
-    # fresh `generated` and green the health line on total failure.
+    # Every venue, not just the fresh ones — see the module docstring. Written when at
+    # least one venue produced shows, or when the adapter confirmed every venue empty;
+    # a site that came back empty without that confirmation does not stamp a fresh
+    # `generated` and green the health line on total failure.
     #
     # `oldest` is the honest number and `generated` was not. `generated` says when this
     # file was written, which is now; the health line was reading it and calling the
@@ -207,7 +210,7 @@ def run_site(mod, site, now, order=0):
     # files on disk rather than from `stale`, so it cannot drift from what was actually
     # written. Same rule the combined city view already applies: a group is as fresh as
     # its weakest member.
-    if live:
+    if live or confirmed_empty_site(site, pending):
         stamps = [generated_of(OUT / f"area-{v['id']}.json") or now
                   for v in site["venues"]
                   if (OUT / f"area-{v['id']}.json").exists()]
@@ -219,6 +222,16 @@ def run_site(mod, site, now, order=0):
              "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
                         for v in site["venues"]]})
     return live, total, stale, unverified, pending
+
+
+def confirmed_empty_site(site, pending):
+    """True when the adapter confirmed every venue of the site empty.
+
+    Such a site has answered: the programme is paused. Its files are fresh and empty and
+    the provider is healthy. A site with pending venues beside stale or unverified ones
+    and no live venue is not this -- part of it is unexplained -- and keeps failing.
+    """
+    return bool(pending) and len(pending) == len(site["venues"])
 
 
 # How many hosts this end reads at the same time. Not a rate limit at any cinema: the
@@ -501,6 +514,11 @@ def sites_for(mod, half):
     return out
 
 
+def site_of(mod, sites, label):
+    """The site a result line came from. Labels are provider ids, unique per module."""
+    return next(s for s in sites if (s.get("provider") or mod.__name__) == label)
+
+
 def summary_line(names, venues, shows, partial, pendings, empty, failures):
     """The run's one-line verdict, in the committed log's fixed vocabulary.
 
@@ -567,7 +585,7 @@ def main(argv) -> int:
                 partial.append((label, stale, unverified))
             if pending:
                 pendings.append((label, pending))
-            if not v:
+            if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
                 failures += 1
 
     # Every request this run asked an upstream for, and how it was asked. Printed
@@ -614,8 +632,9 @@ def main(argv) -> int:
     print(summary_line(names, venues, shows, partial, pendings, empty, failures))
     # `not venues` is still a failure, because a run that wrote nothing and cannot say
     # why is the case this whole check exists for. It stops being one only when every
-    # site said so itself -- an empty listing, or no sites on this half at all.
-    return 1 if failures or (not venues and not empty and not skipped) else 0
+    # site said so itself -- an empty listing, every venue confirmed empty, or no sites
+    # on this half at all.
+    return 1 if failures or (not venues and not empty and not pendings and not skipped) else 0
 
 
 if __name__ == "__main__":

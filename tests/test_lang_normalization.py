@@ -143,9 +143,9 @@ class NameTableTest(unittest.TestCase):
 
     def test_the_new_names_render_through_the_generator(self):
         import build_pages as bp
-        self.assertEqual(bp.lang_parts("LT-A, FI-S", "fi"), ["liettua", "tekstitys suomi"])
+        self.assertEqual(bp.lang_parts("LT-A, FI-S", "fi"), ["liettua", "tekstitys: suomi"])
         self.assertEqual(bp.lang_parts("LT-A, FI-S", "en"), ["Lithuanian", "Finnish subtitles"])
-        self.assertEqual(bp.lang_parts("ML-A, EN-S", "fi"), ["malajalam", "tekstitys englanti"])
+        self.assertEqual(bp.lang_parts("ML-A, EN-S", "fi"), ["malajalam", "tekstitys: englanti"])
         self.assertEqual(bp.lang_parts("ML-A, EN-S", "en"), ["Malayalam", "English subtitles"])
 
 
@@ -177,7 +177,7 @@ class GeneratorAliasTest(unittest.TestCase):
     def test_legacy_codes_still_in_the_data_render_as_words(self):
         """The four shapes the committed data carries on 2026-09-02."""
         import build_pages as bp
-        self.assertEqual(bp.lang_parts("FI-S, SV-S, TU-A", "fi"), ["turkki", "tekstitys suomi/ruotsi"])
+        self.assertEqual(bp.lang_parts("FI-S, SV-S, TU-A", "fi"), ["turkki", "tekstitys: suomi/ruotsi"])
         self.assertEqual(bp.lang_parts("EN-S, MA-A", "en"), ["Malayalam", "English subtitles"])
         self.assertEqual(bp.lang_parts("FI-A, XX-S", "fi"), ["suomi"])
         self.assertEqual(bp.lang_parts("XX-S", "en"), [])

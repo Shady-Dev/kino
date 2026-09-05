@@ -339,6 +339,14 @@ class GeneratedPagesTest(unittest.TestCase):
         self.assertEqual(tables["en"], bp.LN["en"])
         self.assertGreater(len(tables["fi"]), 20)
 
+    def test_the_finnish_subtitle_label_is_the_clients(self):
+        """`LW.fi.S` in index.html and the generator's `subs` must render the same words:
+        "tekstitys: suomi/ruotsi" on the card and on the page."""
+        client = (ROOT / "index.html").read_text(encoding="utf-8")
+        word = re.search(r"const LW = \{ fi:\{S:'([^']*)'\}", client).group(1)
+        self.assertEqual(f"{word} suomi/ruotsi", bp.L["fi"]["subs"].format("suomi/ruotsi"))
+        self.assertTrue(word.endswith(":"), word)
+
     def test_a_price_appears_only_inside_a_screening_stub(self):
         """Across every generated page: the euro sign occurs only inside a stub's price
         element, never in the card's metadata. The committed Tampere case of 2026-09-02
@@ -576,7 +584,7 @@ class StubShapeTest(unittest.TestCase):
     def test_theatre_shape(self):
         s = self.show(lang="EN-A, FI-S, SV-S")
         self.assertEqual(self.aud_text(s, False), "Sali Tapio 4")
-        self.assertIn("englanti · tekstitys suomi/ruotsi", self.meta2_text(self.block([s], False)))
+        self.assertIn("englanti · tekstitys: suomi/ruotsi", self.meta2_text(self.block([s], False)))
         self.assertIn("English · Finnish/Swedish subtitles", self.meta2_text(self.block([s], False, "en")))
 
     def test_city_shape(self):
@@ -589,7 +597,7 @@ class StubShapeTest(unittest.TestCase):
         shows = [self.show(start="2026-09-02T16:00:00+03:00", aud="Sali Tapio 4"),
                  self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1")]
         html = self.block(shows, False)
-        self.assertEqual(self.meta2_text(html).count("tekstitys suomi/ruotsi"), 1)
+        self.assertEqual(self.meta2_text(html).count("tekstitys: suomi/ruotsi"), 1)
         self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
 
     def test_a_differing_language_stays_on_its_screening(self):
@@ -599,7 +607,7 @@ class StubShapeTest(unittest.TestCase):
                  self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1", lang="EN-A, FI-S, SV-S")]
         html = self.block(shows, False)
         self.assertEqual(self.stub_texts(html),
-                         ["Sali Tapio 4 · suomi", "Sali Tapio 1 · englanti · tekstitys suomi/ruotsi"])
+                         ["Sali Tapio 4 · suomi", "Sali Tapio 1 · englanti · tekstitys: suomi/ruotsi"])
         self.assertFalse(any("tekstitys" in m or m == "suomi" for m in self.meta2_text(html)))
 
     # -- price: the screening's, never the film's (2026-09-02) ----------------------------
@@ -641,17 +649,17 @@ class StubShapeTest(unittest.TestCase):
         """The defect. price_label over the three skipped the unpriced two and put 11€ on
         the card as if Finnkino charged it."""
         html = self.block(self.tampere(), True)
-        self.assertEqual(self.stub_prices(html), ["11\u20ac", None, None])
+        self.assertEqual(self.stub_prices(html), ["11\u00a0\u20ac", None, None])
         self.assertNotIn("\u20ac", self.card_text(html))
-        self.assertEqual(html.count("11\u20ac"), 1)
+        self.assertEqual(html.count("11\u00a0\u20ac"), 1)
         niagara = next(li for li in self.stubs_of(html) if "Cinema Niagara" in li)
-        self.assertIn('<span class="price">11\u20ac</span>', niagara)
+        self.assertIn('<span class="price">11\u00a0\u20ac</span>', niagara)
 
     def test_different_prices_stay_with_their_screenings(self):
         shows = [self.show(start="2026-09-02T16:00:00+03:00", price="13\u20ac"),
                  self.show(start="2026-09-02T19:00:00+03:00", price="10\u20ac", aud="Sali Tapio 1")]
         html = self.block(shows, False)
-        self.assertEqual(self.stub_prices(html), ["13\u20ac", "10\u20ac"])
+        self.assertEqual(self.stub_prices(html), ["13\u00a0\u20ac", "10\u00a0\u20ac"])
         self.assertNotIn("\u20ac", self.card_text(html))
         self.assertNotIn("alkaen", html)
 
@@ -659,7 +667,7 @@ class StubShapeTest(unittest.TestCase):
         shows = [self.show(start=f"2026-09-02T{h}:00:00+03:00", price="13\u20ac", aud=f"Sali {h}")
                  for h in ("14", "17", "20")]
         html = self.block(shows, False)
-        self.assertEqual(self.stub_prices(html), ["13\u20ac"] * 3)
+        self.assertEqual(self.stub_prices(html), ["13\u00a0\u20ac"] * 3)
         self.assertNotIn("\u20ac", self.card_text(html))
 
     def test_no_prices_means_blank_compartments_and_no_value(self):
@@ -676,7 +684,7 @@ class StubShapeTest(unittest.TestCase):
 
     def test_a_providers_own_floor_survives_on_its_stub(self):
         s = self.show(price="alkaen 10\u20ac")
-        self.assertEqual(self.stub_prices(self.block([s], False)), ["alkaen 10\u20ac"])
+        self.assertEqual(self.stub_prices(self.block([s], False)), ["alkaen 10\u00a0\u20ac"])
         self.assertEqual(self.stub_prices(self.block([s], False, "en")), ["from 10\u20ac"])
         self.assertNotIn("\u20ac", self.card_text(self.block([s], False)))
 
@@ -685,7 +693,7 @@ class StubShapeTest(unittest.TestCase):
             with self.subTest(with_venue=with_venue):
                 html = self.block(self.tampere(), with_venue)
                 lis = self.stubs_of(html)
-                self.assertEqual(self.stub_prices(html), ["11\u20ac", None, None])
+                self.assertEqual(self.stub_prices(html), ["11\u00a0\u20ac", None, None])
                 self.assertIn("16:15", lis[0])
                 self.assertNotIn("\u20ac", self.card_text(html))
 
@@ -696,7 +704,7 @@ class StubShapeTest(unittest.TestCase):
         s = self.show(price="13\u20ac<b>x</b>")
         html = self.block([s], False)
         self.assertNotIn("<b>", html)
-        self.assertEqual(self.stub_prices(html), ["alkaen 13\u20ac"])
+        self.assertEqual(self.stub_prices(html), ["alkaen 13\u00a0\u20ac"])
         src = (ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
         self.assertIn('<span class="price">{esc(own_price)}</span>', src)
 
@@ -747,28 +755,28 @@ class StubShapeTest(unittest.TestCase):
     def test_language_words_follow_the_apps_rule(self):
         cases = {
             # role words, and subtitles after the spoken language
-            "EN-A, FI-S, SV-S": (["englanti", "tekstitys suomi/ruotsi"],
+            "EN-A, FI-S, SV-S": (["englanti", "tekstitys: suomi/ruotsi"],
                                  ["English", "Finnish/Swedish subtitles"]),
             # a dubbed film: spoken language only
             "FI-A": (["suomi"], ["Finnish"]),
             # subtitles only
-            "FI-S, SV-S": (["tekstitys suomi/ruotsi"], ["Finnish/Swedish subtitles"]),
+            "FI-S, SV-S": (["tekstitys: suomi/ruotsi"], ["Finnish/Swedish subtitles"]),
             # duplicates collapse, source order kept
-            "FI-A, FI-S, SV-S, FI-S": (["suomi", "tekstitys suomi/ruotsi"],
+            "FI-A, FI-S, SV-S, FI-S": (["suomi", "tekstitys: suomi/ruotsi"],
                                       ["Finnish", "Finnish/Swedish subtitles"]),
             # a compound tag is two languages
-            "FI-S, FI-SV-A, SV-S": (["suomi/ruotsi", "tekstitys suomi/ruotsi"],
+            "FI-S, FI-SV-A, SV-S": (["suomi/ruotsi", "tekstitys: suomi/ruotsi"],
                                     ["Finnish/Swedish", "Finnish/Swedish subtitles"]),
             # Nexxo's no-subtitles marker is an absent role
             "FI-A, XX-S": (["suomi"], ["Finnish"]),
             "XX-S": ([], []),
             # Finnkino's own codes and the one ISO code the client lacks
-            "TU-A, FI-S, SV-S": (["turkki", "tekstitys suomi/ruotsi"],
+            "TU-A, FI-S, SV-S": (["turkki", "tekstitys: suomi/ruotsi"],
                                  ["Turkish", "Finnish/Swedish subtitles"]),
-            "EN-S, MA-A": (["malajalam", "tekstitys englanti"], ["Malayalam", "English subtitles"]),
-            "LT-A, FI-S": (["liettua", "tekstitys suomi"], ["Lithuanian", "Finnish subtitles"]),
+            "EN-S, MA-A": (["malajalam", "tekstitys: englanti"], ["Malayalam", "English subtitles"]),
+            "LT-A, FI-S": (["liettua", "tekstitys: suomi"], ["Lithuanian", "Finnish subtitles"]),
             # a code nobody has mapped stays visible rather than vanishing
-            "ZZ-A, FI-S": (["ZZ", "tekstitys suomi"], ["ZZ", "Finnish subtitles"]),
+            "ZZ-A, FI-S": (["ZZ", "tekstitys: suomi"], ["ZZ", "Finnish subtitles"]),
             "": ([], []),
         }
         for codes, (fi, en) in cases.items():

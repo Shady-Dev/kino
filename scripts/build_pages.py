@@ -109,7 +109,7 @@ L = {
         "city_title": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
         "venue_h1": "{venue} \u2013 n\u00e4yt\u00f6sajat",
         "city_h1": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
-        "venue_desc": "{venue} ({city}): elokuvat, kellonajat, ik\u00e4rajat ja liput "
+        "venue_desc": "{venue} ({city}): elokuvat, n\u00e4yt\u00f6sajat, ik\u00e4rajat ja liput "
                       "l\u00e4hip\u00e4iville.",
         "city_desc": "Kaikki elokuvateatterit ja n\u00e4yt\u00f6sajat \u2013 {city}: {venues}.",
         "venue_sub": "{city} \u00b7 {host}",
@@ -117,24 +117,22 @@ L = {
         # One sentence per booking mode, from the registry's `book` field. The old copy
         # promised a ticket page for every cinema, which was wrong for Kino Akseli (no
         # links at all) and for Nexxo (the programme page, not a ticket).
-        "intro_buy": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+        "intro_buy": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. N\u00e4yt\u00f6sajasta p\u00e4\u00e4set "
                      "lipunmyyntiin sivustolla {host}.",
-        "intro_reserve": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+        "intro_reserve": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. N\u00e4yt\u00f6sajasta p\u00e4\u00e4set "
                          "paikkavaraukseen sivustolla {host}.",
-        "intro_list": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Kellonajasta p\u00e4\u00e4set "
+        "intro_list": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. N\u00e4yt\u00f6sajasta p\u00e4\u00e4set "
                       "teatterin ohjelmistoon sivustolla {host}.",
         "intro_door": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Liput myyd\u00e4\u00e4n ovelta.",
-        # A venue whose screenings are included in a general admission ticket (Heureka):
-        # the time opens the ticket shop, and no seat is reserved for that screening.
-        "intro_admission": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. N\u00e4yt\u00f6kset "
-                           "sis\u00e4ltyv\u00e4t p\u00e4\u00e4sylippuun, jonka voit ostaa "
-                           "sivustolla {host}.",
-        # Appended to the intro when every screening on the page carries the same
-        # screening-level age limit -- a limit of the room, stated once for the venue,
-        # because the pages render no per-stub age chip. See age_note().
-        "age_note": "N\u00e4yt\u00f6sten ik\u00e4raja on {n} vuotta.",
+        # Screenings included in a general admission ticket (Heureka): the time opens the
+        # ticket shop and reserves no seat.
+        "intro_admission": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Esitykset sis\u00e4ltyv\u00e4t "
+                           "p\u00e4\u00e4sylippuun, jonka voit ostaa sivustolta {host}.",
+        # Appended when every screening on the page shares a screening-level age limit;
+        # the pages render no per-stub age chip. See age_note().
+        "age_note": "Ik\u00e4raja {n} vuotta.",
         # A city mixes booking modes, so this promises only what every venue has.
-        "city_intro": "Katso {n} teatterin n\u00e4yt\u00f6sajat l\u00e4hip\u00e4iville. Kellonajasta "
+        "city_intro": "Katso {n} teatterin n\u00e4yt\u00f6sajat l\u00e4hip\u00e4iville. N\u00e4yt\u00f6sajasta "
                       "p\u00e4\u00e4set teatterin lippu- tai ohjelmistosivulle, kun linkki on "
                       "saatavilla.",
         "cta": "Avaa koko ohjelmisto",
@@ -144,7 +142,7 @@ L = {
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",
-        "subs": "tekstitys {}", "lang_nav": "Kieli",
+        "subs": "tekstitys: {}", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
         "from": "alkaen", "votes": "\u00e4\u00e4nt\u00e4",
         "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
@@ -173,7 +171,7 @@ L = {
         "intro_door": "See showtimes for the next few days. Tickets are sold at the door.",
         "intro_admission": "See showtimes for the next few days. Screenings are included in "
                            "the admission ticket, sold on {host}.",
-        "age_note": "Screenings have an age limit of {n} years.",
+        "age_note": "Age limit {n} years.",
         "city_intro": "See showtimes from {n} cinemas for the next few days. Choose a time "
                       "to open the cinema\u2019s ticket or programme page, where available.",
         "cta": "See the full programme",
@@ -202,13 +200,10 @@ def venue_intro(t, book, host):
 def age_note(t, shows):
     """One sentence when every screening on the page shares a screening-level age limit.
 
-    `age` is the limit a venue or room imposes on a screening, separate from the film's
-    classification: Finnkino's bar screenings carry K-18 on some rows, and the Heureka
-    planetarium admits from five whatever the film, on every row. The app renders it as
-    a chip on each stub; these pages render no chip, so the one case where the limit is
-    the venue's -- every screening in the window carries the same one -- is said once in
-    the intro. A mixed page says nothing, because a sentence about "the screenings"
-    would be wrong for most of them. -> "" when there is nothing to say.
+    `age` is the room's limit, separate from the film's classification: K-18 on some
+    Finnkino rows, K-5 on every Heureka row. The app puts it on each stub; these pages
+    render no chip, so the venue-wide case is said once in the intro. A mixed page says
+    nothing. -> "" when there is nothing to say.
     """
     ages = {(s.get("age") or "").strip() for s in shows}
     if len(ages) != 1:
@@ -313,9 +308,11 @@ def price_label(rows, lang):
     lo, hi = min(vals), max(vals)
 
     def fmt(v):
-        return str(int(round(v))) if round(v * 100) % 100 == 0 else f"{v:.2f}"
+        n = str(int(round(v))) if round(v * 100) % 100 == 0 else f"{v:.2f}"
+        # Finnish typography, as in the client: "10,50 €" with a non-breaking space.
+        return n.replace(".", ",") + "\u00a0\u20ac" if lang == "fi" else n + "\u20ac"
 
-    return f"{fmt(lo)}\u20ac" if (lo == hi and not floor) else f"{L[lang]['from']} {fmt(lo)}\u20ac"
+    return fmt(lo) if (lo == hi and not floor) else f"{L[lang]['from']} {fmt(lo)}"
 
 
 VOTE_SOLID = 25     # the app's: a rating on fewer votes is dimmed, not hidden

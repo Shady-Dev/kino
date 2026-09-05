@@ -53,7 +53,7 @@ const SV_CITY = { Helsinki: 'Helsingfors', Turku: 'Åbo' };
 function ctx(overrides) {
   const lang = (overrides && overrides.lang) || 'fi';
   return Object.assign({
-    T: { allIn: lang === 'sv' ? 'Alla i' : 'Kaikki', vOwn: 'Oma teatteri' },
+    T: { allIn: lang === 'sv' ? '{city} – alla biografer' : '{city} – kaikki teatterit', vOwn: 'Oma teatteri' },
     fav: null,
     area: 'itis',
     cityOrder,

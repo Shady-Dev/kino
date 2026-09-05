@@ -1,9 +1,10 @@
-"""Heureka Planetaario: the calendar's three arrays, the film page, and the admission mode.
+"""Heurekan planetaario: the calendar's three arrays, the film page, and the admission mode.
 
 The adapter expands `window.eventCalendarData`, `window.eventExceptionsData` and
 `window.disabledHolidays` the way the calendar page's own script does, keeps only the
-`Planetaarioelokuvat` category, and reads runtime, recommendation, languages and the
-synopsis off each film's article. The registry's fifth `book` mode, `admission`, carries
+`Planetaarioelokuvat` category, reports a calendar with no planetarium film as a confirmed
+empty venue, and reads runtime, recommendation, languages and the synopsis off each film's
+article. The registry's fifth `book` mode, `admission`, carries
 the admission semantics in the client's footer and tooltip and in the generated page's
 intro, and the per-show `age` field carries the planetarium's five-year floor.
 
@@ -264,7 +265,7 @@ class ExpansionTest(unittest.TestCase):
         self.assertEqual(s["len"], "28")
         self.assertEqual(s["img"], "")
         self.assertEqual((s["provider"], s["venue"], s["theatre"]),
-                         ("heureka", "hk-vantaa", "Heureka Planetaario"))
+                         ("heureka", "hk-vantaa", "Heurekan planetaario"))
         self.assertEqual(s["eventId"], "asteroid-quest")
         self.assertTrue(s["start"].endswith("+03:00"), s["start"])
         self.assertFalse(s["soldOut"])
@@ -280,11 +281,11 @@ class ExpansionTest(unittest.TestCase):
         starts = [s["start"] for s in self.shows]
         self.assertEqual(starts, sorted(starts))
 
-    def test_no_planetarium_film_in_the_window_is_an_empty_programme(self):
+    def test_no_planetarium_film_in_the_window_is_a_confirmed_empty_list(self):
         h = heureka()
         page = CALENDAR.replace('kategoria: "Planetaarioelokuvat"', 'kategoria: "Tiedeteatteri"')
-        with self.assertRaises(common.EmptyProgramme):
-            h.parse_calendar(page, TODAY, days=7)
+        self.assertEqual(h.parse_calendar(page, TODAY, days=7), ([], {}))
+        self.assertTrue(h.EMPTY_VENUES_CONFIRMED)
 
     def test_unreadable_clocks_fail_the_venue_rather_than_emptying_it(self):
         h = heureka()
@@ -302,7 +303,7 @@ class FilmPageTest(unittest.TestCase):
     def test_runtime_recommendation_languages_and_synopsis(self):
         m = heureka().film_meta(ARTICLE)
         self.assertEqual(m["len"], "28")
-        self.assertEqual(m["method"], "Suositus 10+")
+        self.assertEqual(m["method"], "Suositus yli 10 v")
         self.assertEqual(m["lang"], "FI-A, EN-A, SV-A")
         self.assertEqual(m["_syn"], "Millaisia asteroidit ovat? Ovatko ne uhkia vai keinoja? "
                                     "Asteroid Quest -planetaarioelokuvassa opit asteroideista & "
@@ -321,7 +322,7 @@ class FilmPageTest(unittest.TestCase):
 
     def test_the_recommendation_wordings(self):
         rec = heureka().recommendation
-        self.assertEqual(rec("Sopii parhaiten yli 7-vuotiaille"), "Suositus 7+")
+        self.assertEqual(rec("Sopii parhaiten yli 7-vuotiaille"), "Suositus yli 7 v")
         self.assertEqual(rec("Sopii parhaiten 5–10-vuotiaille"), "Suositus 5–10 v")
         self.assertEqual(rec("Suositellaan erityisesti 5-10-vuotiaille"), "Suositus 5–10 v")
         self.assertEqual(rec("Elokuva sopii parhaiten taiteesta kiinnostuneille aikuisille"),
@@ -330,6 +331,10 @@ class FilmPageTest(unittest.TestCase):
         self.assertEqual(rec(""), "")
         for text in ("Sopii parhaiten yli 10-vuotiaille", "5–10-vuotiaille", "aikuisille"):
             self.assertTrue(rec(text).startswith("Suositus "), text)
+        # "over ten" must not become "ten and over": the boundary is the source's.
+        self.assertEqual(rec("Sopii parhaiten yli 10-vuotiaille"), "Suositus yli 10 v")
+        self.assertNotIn("10+", rec("Sopii parhaiten yli 10-vuotiaille"))
+        self.assertNotIn("7+", rec("Sopii parhaiten yli 7-vuotiaille"))
 
     def test_missing_parts_stay_empty(self):
         m = heureka().film_meta("<html><body><main><p>Tulossa</p></main></body></html>")
@@ -380,24 +385,36 @@ class RunnerTest(unittest.TestCase):
         aq = [s for s in area["shows"] if s["title"] == "Asteroid Quest"]
         self.assertTrue(aq)
         self.assertEqual({(s["len"], s["method"], s["lang"], s["age"], s["price"]) for s in aq},
-                         {("28", "Suositus 10+", "FI-A, EN-A, SV-A", "K-5", "")})
+                         {("28", "Suositus yli 10 v", "FI-A, EN-A, SV-A", "K-5", "")})
         self.assertTrue(all(s["url"] == self.h.TICKETS for s in area["shows"]))
         self.assertNotIn("_syn", area["shows"][0])
         self.assertEqual(venues["venues"][0]["city"], "Vantaa")
         self.assertEqual(venues["status"], "ok")
         self.assertEqual(self.calls, [self.h.CALENDAR, "/blogs/planetaario/asteroid-quest"])
-        self.assertIn("Heureka Planetaario:", log)
+        self.assertIn("Heurekan planetaario:", log)
         self.assertIn("0 failures", log)
 
-    def test_an_empty_programme_keeps_the_run_green_and_writes_nothing(self):
+    def test_a_confirmed_empty_programme_clears_old_screenings_and_stays_green(self):
+        """Heureka pauses its programme: the calendar still parses, no planetarium film is
+        in it. The old screenings must go, the venue reads pending, the run is green."""
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+                "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        (run.OUT / "area-hk-vantaa.json").write_text(json.dumps(prev))
         page = CALENDAR.replace('kategoria: "Planetaarioelokuvat"', 'kategoria: "Tiedeteatteri"')
         self.serve({self.h.CALENDAR: page})
         self.h.fetch_site.__defaults__ = (self.h.SITES[0], 0, TODAY)
         self.addCleanup(lambda: setattr(self.h.fetch_site, "__defaults__", (self.h.SITES[0], 1.2, None)))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertIn("no programme published", log)
-        self.assertEqual(sorted(p.name for p in run.OUT.iterdir()), [])
+        area = json.loads((run.OUT / "area-hk-vantaa.json").read_text())
+        self.assertEqual(area["shows"], [])
+        self.assertNotEqual(area["generated"], prev["generated"])
+        venues = json.loads((run.OUT / "venues-heureka.json").read_text())
+        self.assertEqual((venues["status"], venues["pending"], venues["stale"]), ("ok", ["hk-vantaa"], []))
+        self.assertEqual(venues["oldest"], area["generated"])
+        self.assertIn("pending", log)
+        self.assertIn("0 failures", log)
+        self.assertEqual(self.calls, [self.h.CALENDAR])
 
     def test_a_refused_calendar_fails_the_site_and_keeps_the_previous_file(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
@@ -438,9 +455,9 @@ class AdmissionModeTest(unittest.TestCase):
         h = heureka()
         v = h.SITES[0]["venues"][0]
         self.assertEqual((v["id"], v["name"], v["short"], v["city"]),
-                         ("hk-vantaa", "Heureka Planetaario", "Planetaario", "Vantaa"))
+                         ("hk-vantaa", "Heurekan planetaario", "Heurekan planetaario", "Vantaa"))
         self.assertEqual(bp.label_of({**v, "provider": "heureka"}, {"heureka": "Heureka"}),
-                         "Heureka Planetaario")
+                         "Heurekan planetaario")       # the chain prefix collapses; no "Heureka Heurekan"
 
     def test_the_client_has_the_admission_strings_in_every_language(self):
         self.assertEqual(self.HTML.count("actAdmission:'"), 3)
@@ -466,21 +483,20 @@ class AdmissionModeTest(unittest.TestCase):
 
     def test_the_age_sentence_fires_only_when_every_screening_shares_a_limit(self):
         t = bp.L["fi"]
-        self.assertEqual(bp.age_note(t, [{"age": "K-5"}, {"age": "K-5"}]),
-                         "Näytösten ikäraja on 5 vuotta.")
-        self.assertEqual(bp.age_note(bp.L["en"], [{"age": "K-5"}]),
-                         "Screenings have an age limit of 5 years.")
+        self.assertEqual(bp.age_note(t, [{"age": "K-5"}, {"age": "K-5"}]), "Ikäraja 5 vuotta.")
+        self.assertEqual(bp.age_note(bp.L["en"], [{"age": "K-5"}]), "Age limit 5 years.")
         self.assertEqual(bp.age_note(t, [{"age": "K-18"}, {"age": ""}]), "")
         self.assertEqual(bp.age_note(t, [{"age": ""}, {}]), "")
         self.assertEqual(bp.age_note(t, []), "")
 
     def test_the_committed_heureka_page_follows_the_theatre_template(self):
-        fi = (ROOT / "teatteri" / "heureka-planetaario-vantaa" / "index.html").read_text(encoding="utf-8")
-        en = (ROOT / "en" / "theatre" / "heureka-planetaario-vantaa" / "index.html").read_text(encoding="utf-8")
+        fi = (ROOT / "teatteri" / "heurekan-planetaario-vantaa" / "index.html").read_text(encoding="utf-8")
+        en = (ROOT / "en" / "theatre" / "heurekan-planetaario-vantaa" / "index.html").read_text(encoding="utf-8")
         flamingo = (ROOT / "teatteri" / "finnkino-flamingo-vantaa" / "index.html").read_text(encoding="utf-8")
         for page in (fi, en):
-            self.assertIn("Näytösten ikäraja on 5 vuotta." if page is fi
-                          else "Screenings have an age limit of 5 years.", page)
+            self.assertIn("Ikäraja 5 vuotta." if page is fi else "Age limit 5 years.", page)
+            self.assertIn("Esitykset sisältyvät pääsylippuun" if page is fi
+                          else "included in the admission ticket", page)
             self.assertIn('href="https://www.heureka.fi/collections/liput"', page)
             self.assertNotIn("€", page.split("<h2", 1)[1])          # no price on any stub
             self.assertNotIn("Suositus", page)                            # method tags are not ported
@@ -494,7 +510,7 @@ class AdmissionModeTest(unittest.TestCase):
 
     def test_the_vantaa_city_page_lists_the_planetarium_beside_the_cinemas(self):
         city = (ROOT / "kaupunki" / "vantaa" / "index.html").read_text(encoding="utf-8")
-        self.assertIn("Heureka Planetaario", city)
+        self.assertIn("Heurekan planetaario", city)
         self.assertIn("chain-heureka", city)
         self.assertIn('class="times grid"', city)
         self.assertIn("3 teatteria", city)
