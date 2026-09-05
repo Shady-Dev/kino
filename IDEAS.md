@@ -1631,6 +1631,18 @@ Accepted, not worked around: `price` stays empty (the price sits in the Johku em
 tekijävierailu" keep their suffixes, so they will not match TMDB until the run ends and the
 plain title returns.
 
+**First cloud run, 2026-09-05 14:29 UTC** (the cron; data commit `535032dd`):
+`run-tapiola.log` reads 11 film pages parsed, 15 showtimes, 6 dates, 15 of 15 rated,
+0 failures, `exit=0`, so `where="cloud"` holds and kinotapiola.fi does not challenge a
+runner. Enrichment matched nine of the eleven films exactly and gave each a poster (one
+newly mirrored, +60 kB; the rest were already on this origin from other chains), and
+found nothing for the two suffixed titles, as expected above. The live area file was
+byte-identical to the commit twelve minutes after it landed. Before that run the cards
+showed initials tiles and no genres or scores for about 45 minutes: the snapshot a
+provider commit carries is the raw adapter output, and everything TMDB supplies waits
+for the next cloud run. That gap is the cost of the one-run-per-hour rule, and it is
+the same gap Korjaamo had.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
