@@ -1643,6 +1643,103 @@ provider commit carries is the raw adapter output, and everything TMDB supplies 
 for the next cloud run. That gap is the cost of the one-run-per-hour rule, and it is
 the same gap Korjaamo had.
 
+### Kino Regina: the theme's own schedule endpoint, read from a runner first (2026-09-05)
+
+The last of the three the Johku sweep left, and the one whose cloud routing was settled
+before a line of the adapter existed. `scripts/providers/regina.py` posts to the theme's
+`getShowtimesMoviesV2.php` and reads one film page per film. The snapshot committed with
+it: 21 showtimes, 17 films, 9 dates (5.9. to 17.9.), every showtime rated, 17 synopses
+merged from the cinema's own Finnish text.
+
+**The runner probe.** A throwaway workflow on a branch (`probe/regina-runner`, deleted
+after reading) fetched the listing, the POST and a film page from a GitHub runner with the
+adapters' User-Agent, one pass-or-fail step per finding, so the verdict was readable from
+the unauthenticated jobs API with no logs and no token: all six steps green, no
+`SG-Captcha` or `cf-mitigated` header. That is why `where="cloud"` here is a fact and not
+the provisional guess Niagara, Heureka, Korjaamo and Tapiola started with. The pattern
+costs one branch push and needs a token with the `workflow` scope; it is the way to answer
+"does this host challenge a datacenter address" before writing a parser.
+
+**The endpoint, measured from an ordinary connection.** A POST body
+`getShowtimesMovies=YYYY-MM-DD` returns server-rendered HTML: a day header, then one
+`div.movie` block per screening with the time, the title linked to `/elokuva/{id}`, the
+start with its year in `span.start` ("05-09-2026 14:00", `Europe/Helsinki` beside it) and
+the show's own ticket link into `kauppa.kavi.fi`. A start date in the past is clamped to
+today. Each answer covers about two weeks and ends with the page's "Lataa lisää" button,
+whose `onclick` names the first day of the next window (`loadNextTwoWeeks('2026-09-21')`);
+a window past the published programme is an empty shell that still carries the button.
+The adapter follows the button while a window has screenings, and stops after four.
+Today that is two requests: the first window has the programme, the second is empty.
+
+Decisions:
+
+- **`eventId` is the film id**, the number in `/elokuva/{id}`, shared by the listing, the
+  film page and the ticket rows. No title arithmetic.
+- **"Myynti on päättynyt." is not sold out.** The block turns `grey` with that note when
+  online sales close; the door may still sell. `soldOut` stays false, the row stays.
+- **The ticket URL is the show's own** KAVI buybox link; a row without one falls back to
+  the film page. The footer and the page intro credit kinoregina.fi, where the schedule is
+  read, while the link itself lands on kauppa.kavi.fi. That wording is the shared
+  template's and is left as it is; it is noted here as an imprecision rather than fixed.
+- **Teemat is a strand tag only when it is a concise named series**: at most 26
+  characters and four words, no colon, not one of the cinema's scheduling words
+  (jatkoaika, ohjelmisto, kesä, syksy and the like). "PAUL THOMAS ANDERSON", "KESÄJAZZIT"
+  and "MARILYN MONROE 100 VUOTTA" pass; "JATKOAIKA KESÄ 2026" and "KURITTOMAT
+  SUKUPOLVET: NUORISOA SUOMALAISESSA ELOKUVASSA" do not. Tags are deduplicated and joined
+  with " · ".
+- **Kopiotieto is a tag only for a film gauge**: 8, 16, 35 or 70 mm, normalised with a
+  space. "DCP" and any prose are dropped.
+- **Kuvaus alone is the synopsis**: the lead paragraphs up to the "***" rule that
+  separates them from the programme essay. Lisätieto ("kaksi väliaikaa", "Kevään
+  ohjelmavihkossa on virheellinen näytösaika") is screening-specific and never appended.
+- **The age limit is an image.** `alt="Ikäraja: K12"` becomes "K-12"; "S" and "T" become
+  "S". Every one of the 17 films carried one, so 21 of 21 showtimes are rated.
+- **Titles are published as written, in capitals.** The site writes "PIUKAT PAIKAT" and
+  "SÁTÁNTANGÓ" in its markup and its `<title>` alike, so there is no proper-cased source.
+  The rule that adapters publish verbatim text holds; the cross-chain merge lowercases
+  its key, and TMDB matching is case-insensitive. A card in the Helsinki view will carry a
+  capitalised title beside the other chains' mixed case. Recasing was declined for now:
+  title case mis-capitalises Finnish common nouns and sentence case lowercases names, and
+  either would be an adapter inventing a form the cinema does not use.
+- **No images from the site**: the listing stills and the film page's `og:image` are 16:9.
+  Posters come from TMDB.
+- **Emptiness needs the listing's agreement.** A schedule with no screenings is a confirmed
+  empty programme only when `/ohjelmisto/elokuvat/` marks zero films `shows-coming`; an
+  empty schedule beside a listing that still promises screenings is a changed endpoint and
+  fails the venue, keeping the previous file.
+
+**Accent, measured against seven chains.** Helsinki is now the eight-chain city, and that
+crowding shows in the numbers: the search's best deutan separations sit at 16 to 17
+against the 14.4 floor, and the greens it ranked first fell to 12.5 to 14.1 in normal
+vision. #8A4854 was taken: 18.4 / 19.9 / 18.4 dE00 (normal / Viénot / Machado) from
+Gilda's magenta, 47.8 / 18.4 / 16.3 from Riviera's teal, 50.7 / 16.9 / 16.3 from Cinema
+Orion's green, the other four above 20; L* 39.0. Helsinki's worst pair stays
+Finnkino/Cinema Orion at 14.4, so nothing already on the site moved.
+
+**A lead, not chased.** The film page's showtime rows carry
+`data-url="https://ws-api.eventio.com/v1/{key}/events.json?custom.EKID={id}"`: KAVI's
+shop runs on Eventio, and the page itself reads that JSON. The server-rendered rows made
+it unnecessary here, and the key in the URL is the page's, so it was not called. It is the
+Eventio platform lead the backlog already names, now with a concrete shape.
+
+**Counts, re-measured from the tree:** 37 providers, 79 venues, 52 cities, 89 pages per
+language, 179 sitemap URLs; Helsinki's city page lists 14 theatres. README's provider
+list, adapter table, page counts, poster paragraph and data-sources count moved with them.
+Korttelikinot coverage is complete: Orion, Riviera, Korjaamo, Regina.
+
+**Tests:** `tests/test_regina.py`, 25 tests: the schedule (rows keyed on the id, the
+closed sale kept and not sold out, the show's ticket link and the film-page fallback, an
+event row and a repeated row dropped, the show shape, an empty window), the window walk
+(followed until empty, ended by a missing or non-advancing next day, bounded at four
+against a server that always offers more), the film page (rating, runtime, series, gauge
+and synopsis; subtitles, the series filter and its deduplication; the DCP drop; each series
+rule on its own; the age-alt shapes), five runner paths (publish across two windows;
+confirmed empty with an empty listing; empty schedule beside a listing with upcoming films
+fails and keeps the previous file; a refused POST fails; a failed film page costs that
+film only), the registry entry and the committed pages. 19 mutations through
+`kino-mutation-check`, 19 red; two of them went red only after a case was added that a
+single rule decides alone, which is what the void result was for.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
@@ -1659,10 +1756,9 @@ the same gap Korjaamo had.
   got its own parser the same day; see "Kino Tapiola: a parser for one listing page"
   above. KuvaTähti and Kulttuurimylly are Johku-hosted storefronts to re-read once their
   programmes resume. Virtasali is a Kalajoki culture hall with no films listed.
-- **Korttelikinot** (Helsinki: Orion, Riviera, Korjaamo, Regina): Orion and Riviera are
-  in; Korjaamo and Regina were probed 2026-09-05 and share nothing. Korjaamo runs Vista,
-  Regina a WordPress theme with its own showtime endpoints and KAVI's ticket shop. Both
-  are parseable; see the sweep entry below.
+- **Korttelikinot are complete** (2026-09-05): Orion, Riviera, Korjaamo Kino and Kino
+  Regina. Korjaamo runs Vista, Regina a WordPress theme with its own showtime endpoint
+  and KAVI's ticket shop; see their entries above.
 - **Eventio** is a ticketing platform with cinema customers — another possible platform win.
 - ~196 cinemas / 306 screens in Finland (2009), but the tail clusters onto a few platforms.
   Platform adapters first; bespoke sites only when a cinema is on none.
@@ -2626,6 +2722,11 @@ count failed the same way.
 
 ## Documentation state (2026-09-05, tenth pass)
 
+- Thirteenth pass, 2026-09-05: Kino Regina. Re-measured against `data/`, the registry and
+  `sitemap.xml`: **37 providers / 79 venues / 52 cities**, 89 pages per language, 179
+  sitemap URLs, 5 local providers (26 venues), 3900 poster references over 658 mirrored
+  files, none off-origin. README's provider list, adapter table, page counts, poster
+  count and data-sources count moved with it.
 - Twelfth pass, 2026-09-05: Kino Tapiola. Re-measured against `data/`, the registry and
   `sitemap.xml`: **36 providers / 78 venues / 52 cities**, 88 pages per language, 177
   sitemap URLs, 5 local providers (26 venues), 4070 poster references over 657 mirrored

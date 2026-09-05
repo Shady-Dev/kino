@@ -13,7 +13,7 @@ Fields:
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
           Chains that share a city have to be far apart in *both* normal and red-green
           colourblind vision, and only there: six cities have more than one chain in
-          them (measured 2026-09-05, after Korjaamo Kino) -- Helsinki with seven,
+          them (measured 2026-09-05, after Kino Regina) -- Helsinki with eight,
           Jyväskylä with three, Vantaa, Lahti, Kouvola and Tampere with two each.
           Everywhere else a chain is alone in its town and its accent is unconstrained,
           which is what makes 34 chains survivable at all. Hues therefore repeat across cities on purpose.
@@ -200,6 +200,19 @@ PROVIDERS = [
     # as Studio 123 Kouvola, which never shares a screen with it.
     dict(id="tapiola", label="Kino Tapiola", host="kinotapiola.fi", accent="#003CFC",
          book="buy", module="tapiola", where="cloud"),
+    # Kino Regina, Helsinki (2026-09-05): KAVI's cinema at Oodi. The theme's own POST
+    # endpoint renders the schedule, each row with its ticket link into kauppa.kavi.fi,
+    # so `buy`. `cloud` is confirmed rather than provisional: a throwaway workflow read
+    # the listing, the POST and a film page from a runner before the adapter was
+    # written. Helsinki has seven chains already, so the accent is the search's best:
+    # #8A4854 measures 18.4 / 19.9 / 18.4 dE00 (normal / Viénot / Machado) from Gilda's
+    # magenta, 47.8 / 18.4 / 16.3 from Riviera's teal and 50.7 / 16.9 / 16.3 from Cinema
+    # Orion's green, its three nearest; the other four sit above 20. L* 39.0. An eighth
+    # chain in one city leaves only muted tones this far from everything; the greens the
+    # search ranked higher on deutan fell to 12.5 to 14.1 in normal vision. Helsinki's
+    # worst pair stays Finnkino/Cinema Orion at 14.4.
+    dict(id="regina", label="Kino Regina", host="kinoregina.fi", accent="#8A4854",
+         book="buy", module="regina", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

@@ -251,6 +251,13 @@
    "host": "kinotapiola.fi",
    "accent": "#003CFC",
    "book": "buy"
+  },
+  {
+   "id": "regina",
+   "label": "Kino Regina",
+   "host": "kinoregina.fi",
+   "accent": "#8A4854",
+   "book": "buy"
   }
  ]
 }
