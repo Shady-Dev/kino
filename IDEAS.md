@@ -2517,7 +2517,9 @@ count failed the same way.
       60 s cooldown in the handler stops the loop this would otherwise be, since the
       re-read triggers refreshes of its own. Worst case a visitor sees data as old as
       their previous visit for the first ~2 s of a launch, bounded below by the 10 min
-      resume-refresh that already existed.
+      resume-refresh that already existed. *The cooldown and the re-read through the SW
+      went on 2026-09-05 -- see "Every cinema in a combined city can refresh it" for
+      what replaced them and why the loop cannot come back.*
 - [x] **The boot fetches speculatively from prefs** (2026-08-29). Concurrency fixed the
       fetches within a wave; the waves themselves were still serial: providers.json, then
       the nine venue lists (their names come from provider ids), then the schedule file
@@ -4231,6 +4233,56 @@ source, a valid image type and verified dimensions; no "first portrait image" fa
 which could pick an unrelated article's image; The Stellars keeps its tile; Recombination
 keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
 16:9 stills.
+
+### Every cinema in a combined city can refresh it (2026-09-05, sw.js v114)
+
+`loadCity` sets `generated` to the *oldest* member's timestamp so the stale banner reports
+the weakest link. The background-refresh handler compared that same value to decide
+whether a re-read had changed anything -- so when Kinopalatsi refreshed and Tennispalatsi
+had not, the combined view's `generated` did not move and the fresh schedule was thrown
+away. Found by the same external review as the slot bug above. The freshness value is
+right and stays; it was the change detector that was wrong.
+
+**The fold got a second signal.** `cityPayload` -- the fold, now sliced out of `loadCity`
+so the harness can run it -- returns `stamp`, one `id@generated` entry per expected member
+with `-` for a member whose file could not be read. `refreshKey()` compares a city on its
+stamp and a venue on its `generated`, so any member updating, dropping out or coming back
+counts, and the banner keeps reading `generated` and `oldest` exactly as before.
+
+**The cooldown could not stay.** The handler dropped every message inside 60 s of the last
+one it acted on. The members of a city land a second apart, one message each, so with the
+detector fixed the first message would have applied one member and the cooldown would
+have dropped the rest -- the reported case, "staggered member updates", was the case it
+could never handle. But the cooldown was load-bearing: the re-read went through the
+service worker, whose data branch answers from cache *and* starts a background refresh,
+and every refresh that lands posts another message. Without the cooldown, one message
+would have re-read forever at network latency.
+
+Listener-side alternatives were worked through and each fails one of the two
+requirements. A per-file cooldown applies staggered members but multiplies the re-reads
+(N members, N re-reads, N² revalidation requests to the origin) and still loops whenever
+latency exceeds the window. Coalescing the dropped messages into one re-read at the end
+of the window applies them, then re-arms itself from its own second wave and loops every
+60 s for the life of the tab. Reading a single member to see whether it changed loops at
+network latency for the same reason. The SW could compare bytes before messaging, which
+works, but changes the worker's contract for a problem that lives in the page.
+
+**The re-read no longer goes through the worker.** `readCached` reads the copy the worker
+just wrote from Cache Storage, which the window shares with it: the same bytes a fetch
+would have returned, without the fetch. A cache read starts no refresh and posts no
+message, so nothing in the handler can feed itself and the loop is impossible by
+construction rather than held back by a timer. With no loop there is no cooldown; the one
+remaining rule is one read per area at a time, with the messages that arrive during a read
+folded into a single read after it. A burst of N member messages is at most two reads,
+and every member is seen. The `caches` global is guaranteed here: the handler only runs on
+a message from a registered worker, and a context that registers one has Cache Storage.
+
+Harness scenarios and tests in `tests/swr_refresh_harness.js` and `tests/test_swr_refresh.py`
+grew from nine to nineteen; the sandbox deliberately has no `fetch`, so a reader that
+reached for the network fails the run. Verified by breaking it: comparing `generated`
+again (two red), dropping the missing marker from the stamp (one), reading the selection
+after the await again (three), and dropping the coalescing or reading through a fetch,
+each of which breaks the harness run itself and turns the whole file red.
 
 ### A background refresh lands in the slot it was asked for (2026-09-05, sw.js v113)
 

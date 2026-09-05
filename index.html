@@ -2087,16 +2087,25 @@
 
   // Combined city view: fetch each venue in the city and fold them into one payload.
   // eventId is rewritten to the merge key so grouping, the sheet and the URL hash all
-  // keep working unchanged.
-  async function loadCity(city){
+  // keep working unchanged. `read` is fetchJSON on a load and the service worker's own
+  // cache on a background refresh -- see readCached.
+  async function loadCity(city, read = fetchJSON){
     const ids = cityGroups[city] || [];
     // Remembered so the next boot can prefetch these files before the venue lists
     // arrive; validated against the live cityGroups then, like any stored value.
     prefs.set({ cityIds: Object.assign({}, prefs.get().cityIds, { [city]: ids }) });
     const parts = await Promise.all(ids.map(async id => {
-      try { return await fetchJSON(`data/area-${id}.json`); }
+      try { return await read(`data/area-${id}.json`); }
       catch(_) { return null; }
     }));
+    return cityPayload(ids, parts, { venueIndex, mergeKey });
+  }
+
+  // --- city fold: pure, extracted verbatim by tests/swr_refresh_harness.js ---
+  // The members' payloads folded into the combined view's. `parts[i]` is the payload of
+  // `ids[i]`, or null where its file could not be read; `ctx` carries venueIndex and
+  // mergeKey, the two things this needs from the rest of the app.
+  function cityPayload(ids, parts, ctx){
     const shows = [], dates = new Set();
     // The expected ids stay the source of truth. A venue whose file fails was skipped
     // silently, so a city could render a confident, complete-looking programme that was
@@ -2106,11 +2115,11 @@
     let generated = '', oldest = '';
     parts.forEach((p, i) => {
       if(!p){
-        const mv = venueIndex[ids[i]] || {};
+        const mv = ctx.venueIndex[ids[i]] || {};
         missing.push(mv.short || mv.name || ids[i]);
         return;
       }
-      const v = venueIndex[ids[i]] || {};
+      const v = ctx.venueIndex[ids[i]] || {};
       // `generated` is the oldest of the parts so the stale banner reflects the weakest
       // link. Carry the provider it came from too: the banner used to look the name up
       // from venueIndex[state.area], which has no entry for a `city:` key, so it fell
@@ -2121,14 +2130,21 @@
       }
       (p.dates || []).forEach(d => dates.add(d));
       for(const s of (p.shows || [])){
-        shows.push({ ...s, eventId: mergeKey(s.title), _eid: s.eventId,
+        shows.push({ ...s, eventId: ctx.mergeKey(s.title), _eid: s.eventId,
                      venueShort: v.short || s.theatre, venueLabel: v.label || v.short || s.theatre,
                      provider: s.provider || v.provider });
       }
     });
     mergeIds(shows);
     const list = [...dates].sort();
-    return { generated, oldest, dates: list, horizon: list[list.length-1] || '', shows,
+    // `generated` is the oldest member's, which is right for the stale banner and exactly
+    // why it cannot also say whether anything changed: a newer member refreshing leaves
+    // it where it was, and a background refresh that compared it threw the newer member's
+    // update away. `stamp` names every member with its own timestamp, a missing one as
+    // `-`, so a member updating, dropping out or coming back all move it. refreshKey()
+    // reads it.
+    const stamp = ids.map((id, i) => `${id}@${parts[i] ? (parts[i].generated || '?') : '-'}`).join(' ');
+    return { generated, oldest, stamp, dates: list, horizon: list[list.length-1] || '', shows,
              missing, expected: ids.length };
   }
 
@@ -2149,6 +2165,7 @@
     }
     for(const s of shows) s.eventId = find(s.eventId);
   }
+  // --- end city fold ---
 
   async function loadSchedule(){
     setListStatus('');
@@ -3125,44 +3142,80 @@
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').catch(()=>{});
     // The SW hands back cached data JSON at once and refreshes it behind (see sw.js).
-    // When a refresh lands, swap the fresh bytes in without a spinner: re-read through
-    // the SW (instant -- it is the copy just cached), compare `generated`, and only a
-    // real change re-derives. The cooldown stops the loop this would otherwise be:
-    // the re-read triggers background refreshes of its own, which message again.
+    // When a refresh lands it posts `{fresh: path}`, and the page swaps the fresh bytes
+    // in without a spinner: re-read the selection, compare, and only a real change
+    // re-derives.
     //
     // --- background refresh: pure, extracted verbatim by tests/swr_refresh_harness.js ---
     // The decision is a function of `io` -- the selection, the payload cache, the city
-    // groups, the two readers and the clock -- so the harness can drive the shipped code
-    // without a DOM. The listener below is the only plumbing.
+    // groups and the readers -- so the harness can drive the shipped code without a DOM.
+    // The listener below is the only plumbing.
+
+    // What the handler compares. A venue file changes when its `generated` does; a
+    // combined city carries `stamp`, one entry per member, because its `generated` is
+    // the *oldest* member's for the stale banner's sake and stays put while a newer
+    // member updates -- which is how a fresh Kinopalatsi used to be thrown away because
+    // Tennispalatsi had not moved.
+    function refreshKey(p){ return (p && (p.stamp || p.generated)) || ''; }
+
+    // The copy the service worker just cached, read from the Cache Storage the window
+    // shares with it -- not fetched. A fetch through the SW answers from that same cache,
+    // but it also starts a background refresh, and every refresh that lands posts
+    // another message: the loop a 60 s cooldown used to hold back, at the price of
+    // dropping every message inside the window, a second cinema's genuine update
+    // included. A cache read causes no refresh and no message, so nothing here can feed
+    // itself, and the cooldown is gone.
+    async function readCached(path){
+      const r = await caches.match(path);
+      if(!r) throw new Error('not cached: ' + path);
+      return r.json();
+    }
+
     function makeFreshHandler(io){
-      let last = 0;
-      return async function onFresh(path){
-        const m = (path || '').match(/\/data\/area-(.+)\.json$/);
-        if(!m) return;
-        // Read once, here. The read below can take seconds on a slow connection and the
-        // reader may pick another cinema meanwhile; everything after the await goes back
-        // to `area`, never to io.area(). The old handler read the selection again after
-        // the await, so a late answer for A was written into B's slot and rendered as B.
-        const area = io.area();
-        if(!io.cache[area]) return;
-        const hit = area === m[1] ||
-          (area.startsWith('city:') && (io.groups()[area.slice(5)] || []).includes(m[1]));
-        if(!hit || io.now() - last < 60000) return;
-        last = io.now();
+      const inflight = new Map();   // area -> the read running for it
+      const again = new Set();      // areas messaged while their read was running
+      async function reread(area){
         try {
           const fresh = area.startsWith('city:')
-            ? await io.loadCity(area.slice(5))
-            : await io.fetchJSON(path.slice(1));
-          // A refreshAll that emptied the cache meanwhile is reloading `area` itself;
-          // writing into the slot it cleared would race that load.
+            ? await io.loadCity(area.slice(5), io.read)
+            : await io.read(`data/area-${area}.json`);
+          // Everything after the await goes back to `area`, never to io.area(): the
+          // reader may have picked another cinema meanwhile, and the old handler read
+          // the selection again here, so a late answer for A was written into B's slot
+          // and rendered as B. A slot refreshAll emptied meanwhile stays empty: it is
+          // reloading it, and a late write would race that load.
           const held = io.cache[area];
-          if(held && fresh.generated && fresh.generated !== held.generated){
+          const key = refreshKey(fresh);
+          if(held && key && key !== refreshKey(held)){
             io.cache[area] = fresh;
             // Render only what is on screen. The payload for a cinema the reader has
             // left is still kept: it is what loadSchedule serves when they come back.
             if(io.area() === area) io.applied();
           }
         } catch(_){ /* next visit gets it */ }
+      }
+      async function drain(area){
+        // The members of a city land within a second of each other, one message each.
+        // One read runs per area at a time, and the messages that arrive while it runs
+        // fold into a single read after it, which sees all of them. Nothing is dropped.
+        do {
+          again.delete(area);
+          await reread(area);
+        } while(again.has(area));
+        inflight.delete(area);
+      }
+      return function onFresh(path){
+        const m = (path || '').match(/\/data\/area-(.+)\.json$/);
+        if(!m) return;
+        const area = io.area();   // read once, here -- see reread()
+        if(!io.cache[area]) return;
+        const hit = area === m[1] ||
+          (area.startsWith('city:') && (io.groups()[area.slice(5)] || []).includes(m[1]));
+        if(!hit) return;
+        if(inflight.has(area)){ again.add(area); return inflight.get(area); }
+        const p = drain(area);
+        inflight.set(area, p);
+        return p;
       };
     }
     // --- end background refresh ---
@@ -3170,11 +3223,10 @@
       area: () => state.area,
       cache: jsonCache,
       groups: () => cityGroups,   // reassigned by buildAreaOptions, so read through a getter
-      now: Date.now,
+      read: readCached,
       loadCity,
-      fetchJSON,
       applied(){
-        lastLoad = Date.now();   // the refresh was a real network fetch, seconds ago
+        lastLoad = Date.now();   // the SW's refresh was a real network fetch, seconds ago
         loadSchedule();          // warm cache: runs synchronously to render, no spinner
       },
     });
