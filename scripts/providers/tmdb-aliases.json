@@ -13,5 +13,9 @@
  "ryhmä hau dinoelokuva suomeksi": "1185806",
  "_comment4": "Kino Engel publishes Swedish-strand and Japanese titles the search can only match weakly, so no id is written and the row cannot merge across chains. \"Minioner & monster\" (BARNSÖNDAGAR, Swedish dub) is Kätyrit & Monsterit: verified, not assumed, by the cache holding the same id, the same trailer key and the same genre ids for both. \"Kokuho - kabukin mestari\" is 国宝, already cached with a rating from 100 votes. Both ids come from the weak match enrich itself found, so nothing here is typed from memory.",
  "minioner monster": "1315772",
- "kokuho kabukin mestari": "1379266"
+ "kokuho kabukin mestari": "1379266",
+ "_comment_regina": "Kino Regina, 2026-09-05. The site writes titles in capitals and TMDB's popularity fallback picked part IV (52316) for \"ONCE UPON A TIME IN CHINA II\" and a 2021 documentary for the first film, so a wrong poster reached the site. Ids from Wikidata P4947: Tsui Hark's 1991, 1992 and 1993 films.",
+ "once upon a time in china": "10617",
+ "once upon a time in china ii": "10618",
+ "once upon a time in china iii": "10619"
 }

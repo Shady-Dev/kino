@@ -1740,6 +1740,22 @@ film only), the registry entry and the committed pages. 19 mutations through
 `kino-mutation-check`, 19 red; two of them went red only after a case was added that a
 single rule decides alone, which is what the void result was for.
 
+**First cloud run, 2026-09-05 15:51 UTC** (dispatched after the merge; data commit
+`164e45b9`): `run-regina.log` reads two windows, the second empty from 21.9., 17 film
+pages parsed, 21 showtimes, 9 dates, 21 of 21 rated, `exit=0`. Enrichment gave ten films
+an exact id and posters to thirteen; four Finnish-titled archive prints matched nothing.
+Two weak matches were right (The Turin Horse under its Hungarian title, part III of
+Once Upon a Time in China under its Chinese one) and two were wrong: the first Once Upon
+a Time in China went to a 2021 documentary of the same name, which had no poster and so
+showed nothing, and **part II took part IV's poster**, which did reach the site. The
+capitals are not the cause; the popularity fallback is, and it is the standing risk the
+weak-match log line exists for. `tmdb-aliases.json` now pins all three to Tsui Hark's
+films (10617, 10618, 10619, resolved through Wikidata's TMDB property rather than
+guessed), so the next run replaces the poster and writes the ids. Live after the deploy:
+the venue is in the picker and in "Helsinki – kaikki teatterit (14)", the stubs link
+to `kauppa.kavi.fi`, the meta line reads "K-12 · 120 min · MARILYN MONROE 100 VUOTTA ·
+35 mm · tekstitys: suomi/ruotsi", and the cards carry the site's capitals.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
