@@ -1,3 +1,7 @@
-[regina] FAILED: <urlopen error timed out>
-[run] regina: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-exit=1
+[regina] schedule: 2 window(s), the last from 2026-09-21
+[regina] film pages: 16 parsed, 0 with nothing usable, 20/20 showtimes rated
+[regina] synopses merged: 0
+[regina] Kino Regina: 20 showtimes, 8 dates
+[run] http: 0 revalidated (304), 16 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] regina: 1 venues, 20 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0
