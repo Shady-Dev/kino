@@ -1,7 +1,7 @@
 """Vista public XML web services — a *platform*, not a site.
 
 Vista is the ticketing system behind Finnkino, and its web front end exposes a set of
-unauthenticated XML endpoints. Savon Kinot leaves them open, so any other Vista cinema
+unauthenticated XML endpoints. Korjaamo Kino leaves them open, so any other Vista cinema
 that does the same is a `SITES` entry here with a base URL and its venue list, no new
 parser. Check `{base}/xml/TheatreAreas/` before adding one.
 
@@ -23,6 +23,21 @@ Notes from probing savonkinot.fi (2026-08-27):
   problem.
 - `SubtitleLanguage2` can carry a Name with an empty ISOTwoLetterCode, so fall back to
   mapping the Finnish language name.
+
+Notes from probing korjaamokino.fi (2026-09-05):
+- The same four endpoints answer **JSON by default** and XML when the request says
+  `Accept: application/xml` (or `?format=xml`). `get()` has always sent an XML accept
+  header, so the parser saw XML from the first request and nothing here changed.
+- One area (1007 "Korjaamo"), one theatre (1045 "Korjaamo Kino"), one auditorium
+  named "Sali". `_aud` blanks that bare word: a room name that only says "the hall"
+  tells a reader nothing beside the time.
+- `Rating` reads "Ei tiedossa" on most shows, with an empty `RatingLabel` beside it.
+  That is "not known", not a rating, and `_rating` maps it to "" so the client shows
+  nothing rather than the phrase.
+- `Images` is empty on every show, so posters come from TMDB.
+- `EventSeries` carries the festival a screening belongs to ("HelAFF"); it lands in
+  `method` beside `PresentationMethod`, as it did for Savon Kinot.
+- A non-residential fetcher received the schedule, so the site runs on Actions.
 """
 import re
 import time
@@ -35,16 +50,17 @@ from common import fetch
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
-# Empty since 2026-08-30. Savon Kinot was the only Finnish Vista deployment leaving the
-# XML services open, and it moved to eTiketti: /xml/TheatreAreas/, /xml/ScheduleDates/
-# and /xml/Events/ all answer 404 now, from an ordinary connection as well as from a
-# runner, while the site itself serves 200. Its entry lives in etiketti.py.
-#
-# The module is kept rather than deleted. It is a working parser for a platform several
-# non-Finnish chains run, the endpoint shapes above are the research that found it, and
-# `registry.modules()` no longer names it, so nothing runs it: `run.py vista` finds no
-# sites and exits 0. Delete it only if Vista stops being a candidate altogether.
-SITES = []
+# Savon Kinot, the first site here, moved to eTiketti on 2026-08-30 and its entry lives
+# in etiketti.py; the module sat with no sites until Korjaamo Kino (2026-09-05). The
+# 103-host sweep of 2026-08-29 that found no other Finnish Vista site never probed
+# korjaamokino.fi. `theatre` is the Schedule's TheatreID and `area` the TheatreAreas ID,
+# both read off the endpoints rather than assumed.
+KORJAAMO = {"id": "korjaamo-helsinki", "provider": "korjaamo", "providerId": "1045",
+            "theatre": "1045", "area": "1007",
+            "name": "Korjaamo Kino", "short": "Korjaamo Kino", "city": "Helsinki"}
+
+SITES = [{"provider": "korjaamo", "label": "Korjaamo Kino",
+          "base": "https://korjaamokino.fi", "venues": [KORJAAMO]}]
 
 # Finnkino's tag set, so one language filter works across every provider.
 ISO = {"fi": "FI", "en": "EN", "sv": "SV", "se": "SV", "ja": "JA", "fr": "FR",
@@ -52,7 +68,8 @@ ISO = {"fi": "FI", "en": "EN", "sv": "SV", "se": "SV", "ja": "JA", "fr": "FR",
        "et": "ET", "pl": "PL"}
 NAMES = {"suomi": "FI", "englanti": "EN", "ruotsi": "SV", "japani": "JA",
          "ranska": "FR", "saksa": "DE", "espanja": "ES", "italia": "IT",
-         "venäjä": "RU", "tanska": "DA", "norja": "NO", "viro": "ET", "puola": "PL"}
+         "venäjä": "RU", "tanska": "DA", "norja": "NO", "viro": "ET", "puola": "PL",
+         "arabia": "AR"}
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
@@ -89,9 +106,12 @@ def _lang(show):
 
 
 def _rating(v):
-    """"K-7 (4)" -> "K-7", "Sallittu kaikenikäisille" -> "S"."""
+    """"K-7 (4)" -> "K-7", "Sallittu kaikenikäisille" -> "S", "Ei tiedossa" -> ""."""
     v = (v or "").strip()
-    if not v:
+    if not v or v.lower().startswith("ei tiedossa"):
+        # Korjaamo publishes "Ei tiedossa" with an empty RatingLabel for a film KAVI has
+        # not classified yet. It is the absence of a rating, so it must not reach the
+        # client as one: an unknown string there is rendered as a tag.
         return ""
     if v.lower().startswith(("sallittu", "s ")) or v.upper() == "S":
         return "S"
@@ -112,10 +132,12 @@ def _start(show):
 
 
 def _aud(show, venue):
-    """"Joensuu, Tapio 4" -> "Tapio 4". Blank when it only repeats the venue name."""
+    """"Joensuu, Tapio 4" -> "Tapio 4". Blank when it only repeats the venue name, and
+    blank for a bare "Sali": a one-screen cinema's room called "the hall" adds nothing
+    beside the time, the same way Orion and Heureka publish no room."""
     raw = _txt(show, "TheatreAuditorium")
     name = raw.split(",", 1)[1].strip() if "," in raw else raw.strip()
-    return "" if name.lower() == venue["short"].lower() else name
+    return "" if name.lower() in (venue["short"].lower(), "sali") else name
 
 
 def _https(url):
@@ -145,8 +167,11 @@ def parse_schedule(xml_text, site, venues):
             continue
         img = _https(_txt(s, "Images", "EventMediumImagePortrait")
                      or _txt(s, "Images", "EventSmallImagePortrait"))
-        method = ", ".join(x for x in (_txt(s, "PresentationMethod"),
-                                       _txt(s, "EventSeries")) if x)
+        # " · " is the separator every other adapter writes and the one the client
+        # splits on. Joined with ", " the pair "2D, HelAFF" was one tag the client could
+        # neither drop as 2D nor read as the festival strand.
+        method = " · ".join(x for x in (_txt(s, "PresentationMethod"),
+                                        _txt(s, "EventSeries")) if x)
         per_venue.setdefault(venue["id"], []).append({
             "eventId": _txt(s, "EventID"),
             "title": _txt(s, "Title"),

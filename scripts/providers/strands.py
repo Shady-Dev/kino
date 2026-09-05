@@ -46,6 +46,11 @@ EVENT_PREFIXES = (
     # it in `aud`, because the Kesäkino is Engel's outdoor screen rather than a strand,
     # so nothing is left here for the central pass to split.
     "barnfestival",
+    # Korjaamo Kino, 2026-09-05. The Helsinki African Film Festival publishes its films
+    # as "HelAFF: Fez Summer 55" and its short programmes as "HelAFF Short Films 1",
+    # without a colon, so only the features are split. Vista already puts the festival
+    # in `method` through EventSeries, and apply() does not add it twice.
+    "helaff",
 )
 
 

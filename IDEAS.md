@@ -1464,6 +1464,81 @@ again), then Kino Tapiola, then Kino Regina. Each of the two parsers is a single
 venue on the pattern Engel and Akseli already use. Korttelikinot coverage would then be
 complete: Orion, Riviera, Korjaamo, Regina.
 
+### Korjaamo Kino: the Vista module gets a Finnish site (2026-09-05)
+
+The first of the three the Johku sweep left, and the cheapest: a `SITES` entry against
+`vista.py`, which had sat without a site since Savon Kinot left it on 2026-08-30. The
+snapshot committed with this entry is the run from an ordinary connection: 16 showtimes,
+6 dates (7.9. to 15.9.), one screen, 10 of the 16 in the Helsinki African Film Festival.
+
+**Verified as a visitor before writing anything down.** The Schedule XML names the theatre
+"Korjaamo Kino" (TheatreID 1045, area 1007 "Korjaamo") and one auditorium, "Sali";
+korjaamokino.fi's own `/cinemas` page gives Töölönkatu 51 B, 00250 Helsinki, and its
+footer writes the name the same way. `/websales/show/168058` and `/websales/show/168060`,
+the ticket links the showtimes carry, answer 200; `/event/{id}` redirects to the film
+page. The venue dict holds `theatre` and `area` as the endpoints publish them.
+
+Five things changed in the module and one beside it, each the narrowest place that
+could hold it:
+
+- **"Ei tiedossa" is no rating.** 10 of the 16 shows carry `Rating` "Ei tiedossa" with an
+  empty `RatingLabel`: KAVI has not classified the film. `_rating()` passed any
+  unrecognised string through, which would have put the phrase on every stub as if it
+  were a rating. It now returns "" for that phrase, and the shapes Savon Kinot published
+  ("K-7 (4)" to "K-7", "Sallittu kaikenikäisille" to "S", "K16" to "K-16") are pinned by
+  a test so the change alters nothing else.
+- **A bare "Sali" is no room.** `_aud()` already blanked a room that repeated the venue
+  name; it blanks the bare word for a hall the same way. Orion and Heureka publish no
+  room for their single screens, and a stub reading "15:00 · Sali" says nothing.
+- **The tag separator is the client's.** `method` joined PresentationMethod and
+  EventSeries with ", ", so "2D, HelAFF" reached the client as one tag it could neither
+  drop as 2D nor read as the strand. Every other adapter writes " · ", the client splits
+  on it, and the module does now.
+- **Arabic has a name.** Three screenings are spoken in Arabic; the XML gives the Finnish
+  name with no ISO code, `NAMES` had no entry, and the client's `LN` table already
+  renders `AR`. One line.
+- **HelAFF is a strand prefix.** The features are published as "HelAFF: Fez Summer 55",
+  the short programmes as "HelAFF Short Films 1" without a colon, so `strands.split`
+  takes the prefix off five features and leaves the shorts alone. Vista already put the
+  festival in `method` through EventSeries, and `apply()` does not add it twice. The
+  bare titles are what TMDB can match.
+- The module docstring stops saying Savon Kinot was the only Finnish Vista site, and
+  records why the 103-host sweep missed this one: korjaamokino.fi was not among the
+  hosts probed.
+
+**Accent, measured against six chains.** Helsinki is the seven-chain city now, so the
+search's own ranking picked it: #C07E7E measures 19.7 / 18.5 / 17.7 dE00 (normal /
+Viénot / Machado) from Finnkino's orange and 21.3 / 20.1 / 17.9 from Gilda's magenta,
+its two nearest; BioRex, Orion, Riviera and Engel all sit above 23. L* 59.6, at the top of
+the 38 to 60 search band, and that was the trade: every darker rose tried (#AE6A72,
+#A4626B, #B5707A, L* 49 to 55) fell to 13.8 to 14.4 deutan against Gilda, at or under
+the set's current floor. Helsinki's worst pair stays Finnkino/Cinema Orion at 14.4.
+
+`where="cloud"` is provisional the way Niagara's and Heureka's were: a non-residential
+fetcher received the Schedule JSON, robots.txt says nothing about `/xml/`, and the first
+cloud run decides. The same four endpoints answer JSON by default and XML on `Accept`;
+`get()` has always asked for XML, so the parser saw the schema it knows from the first
+request.
+
+**Counts, re-measured from the tree:** 35 providers, 77 venues, 52 cities, 87 pages per
+language, 175 sitemap URLs, Helsinki's city page lists 13 theatres. README, the adapter
+table (Vista gets its row back) and the poster paragraph moved with them.
+
+**Tests:** `tests/test_vista.py`, 21 tests: the rating table both ways, the hall rule, the
+schedule from a four-show fixture cut from the real answer (one show from a theatre the
+site does not list, which must vanish), the separator, the languages, the synopsis
+markup, the strand split and its non-doubling, three runner paths (publish; a refused
+Schedule keeps the previous file and fails the run; a failed Events call costs synopses
+and nothing else), the registry entry and the committed pages. 13 mutations through
+`kino-mutation-check`: 12 red, one VOID. The void one drops `dttmShowStartUTC` and lets
+`_start` fall back to the local time, which in this fixture is the same instant, so no
+test can tell; a fixture that made the two disagree would be fabricating data the site
+does not publish, and the fallback is Savon Kinot's, not this entry's.
+
+Accepted, not worked around: `price` stays empty because the public XML carries no
+prices, `soldOut` stays false, `Images` is empty on every show so posters come from TMDB
+on the cloud run, and "useita kieliä" yields no audio tag because it is not a language.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
@@ -1472,11 +1547,9 @@ complete: Orion, Riviera, Korjaamo, Regina.
   Kino Metso, the touring locationid at kinoaurora.fi, is the piece left -- it needs the
   room-splitting `match` that `etiketti.py` already has.
 - **Cinema Niagara** is the other parser-shaped leftover: eTiketti's second template.
-- **Vista has one Finnish site after all: Korjaamo Kino** (2026-09-05). korjaamokino.fi
-  answers `/xml/TheatreAreas/`, `/xml/Schedule/`, `/xml/ScheduleDates/` and
-  `/xml/Events/` in the schema `vista.py` parses, XML on `Accept`, JSON by default. A
-  registry entry against the existing module, plus one rating fix. Cinamon and other
-  non-Finnish Vista users remain untested. See the sweep entry below.
+- **Vista has one Finnish site after all: Korjaamo Kino**, probed and added on
+  2026-09-05; see "Korjaamo Kino: the Vista module gets a Finnish site" above. Cinamon
+  and other non-Finnish Vista users remain untested.
 - **Johku is a ticketing platform, not a listing template** (2026-09-05). The four known
   sites render three different HTML shapes and none of them Engel's widget. Kino Tapiola
   is parser-shaped (Engel's pattern: server-rendered rows plus a film page). KuvaTähti
@@ -2449,6 +2522,11 @@ count failed the same way.
 
 ## Documentation state (2026-09-05, tenth pass)
 
+- Eleventh pass, 2026-09-05: Korjaamo Kino. Re-measured against `data/`, the registry and
+  `sitemap.xml`: **35 providers / 77 venues / 52 cities**, 87 pages per language, 175
+  sitemap URLs, 5 local providers (26 venues), 4142 poster references over 653 mirrored
+  files, none off-origin. README's provider list, adapter table, page counts, poster
+  count and data-sources count moved with it.
 - Tenth pass, 2026-09-05: Heurekan planetaario. Re-measured against `data/`, the registry
   and `sitemap.xml`: **34 providers / 76 venues / 52 cities**, 86 pages per language, 173
   sitemap URLs, 5 local providers (26 venues), 4297 poster references over 650 mirrored

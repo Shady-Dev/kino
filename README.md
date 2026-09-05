@@ -6,13 +6,13 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 76 venues in 52 cities across 34 providers: Finnkino, BioRex,
+Showtimes for 77 venues in 52 cities across 35 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
 Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
-Cinema Niagara and Heureka. Films
+Cinema Niagara, Heureka and Korjaamo Kino. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page, or the ticket shop where the screening is
@@ -44,6 +44,7 @@ platforms:
 | Kino Engel | 1 | 1 | none | Local |
 | Kino Akseli | 1 | 1 | none | Local |
 | Heureka | 1 | 1 | none | GitHub Actions |
+| Vista (public XML) | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -149,10 +150,10 @@ reads, or its sites gain nothing from the pool. Two entries against the *same*
 server must name it, or they would be read at twice the rate their adapter paces
 for. Where a visitor is sent can be a different host and belongs in `site`.
 
-**Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo
-or eTiketti needs a `SITES` entry against the existing adapter; `vista.py` keeps
-a working Vista XML parser with no sites, since the last Finnish deployment
-migrated to eTiketti. Adding a venue to an existing provider is one line. Pick
+**Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
+eTiketti or Vista with its public XML services open needs a `SITES` entry
+against the existing adapter; `vista.py` reads Korjaamo Kino that way. Adding a
+venue to an existing provider is one line. Pick
 the accent with `accent_check.py`; do not judge it by eye. Fetch the page a
 showtime will link to and check it answers before writing it down: the ticket
 links of six Nexxo sites once 404'd because one site's path was copied onto all
@@ -170,7 +171,7 @@ the same committed JSON at the end of every run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-86 per language, 173 sitemap URLs: 76 venues plus the ten cities with more than
+87 per language, 175 sitemap URLs: 77 venues plus the ten cities with more than
 one venue, and the front page. A one-venue city would duplicate its venue page
 and compete with it, so those get the city into the venue page's title and
 address instead.
@@ -208,9 +209,9 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-05: all 4297
-poster references resolve to `data/posters/` on this origin: 4159 on showtimes
-and 138 in `films-extra.json`, across 650 mirrored files, none off-origin. The
+**A page load makes no third-party requests.** Counted 2026-09-05: all 4142
+poster references resolve to `data/posters/` on this origin: 4002 on showtimes
+and 140 in `films-extra.json`, across 653 mirrored files, none off-origin. The
 typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
@@ -225,7 +226,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 34 providers listed at the
+Schedule data belongs to the respective cinemas, the 35 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

@@ -13,7 +13,7 @@ Fields:
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
           Chains that share a city have to be far apart in *both* normal and red-green
           colourblind vision, and only there: six cities have more than one chain in
-          them (measured 2026-09-02, after Cinema Niagara) -- Helsinki with six,
+          them (measured 2026-09-05, after Korjaamo Kino) -- Helsinki with seven,
           Jyväskylä with three, Vantaa, Lahti, Kouvola and Tampere with two each.
           Everywhere else a chain is alone in its town and its accent is unconstrained,
           which is what makes 34 chains survivable at all. Hues therefore repeat across cities on purpose.
@@ -178,6 +178,17 @@ PROVIDERS = [
     # front, no challenge. The first cloud run decides.
     dict(id="heureka", label="Heureka", host="heureka.fi", accent="#0B8468",
          book="admission", module="heureka", where="cloud"),
+    # Korjaamo Kino, Helsinki (2026-09-05): the Vista module's first site since Savon
+    # Kinot left it. korjaamokino.fi answers the public /xml/ services to anyone, a
+    # non-residential fetcher included, so `cloud`. Per-show ticket links to
+    # /websales/show/{id}, so `buy`. Helsinki has six chains already, so the accent is
+    # the search's best: #C07E7E measures 19.7 / 18.5 / 17.7 dE00 (normal / Viénot /
+    # Machado) from Finnkino's orange and 21.3 / 20.1 / 17.9 from Gilda's magenta, its
+    # two nearest; the other four sit above 23. L* 59.6, the top of the search band:
+    # every darker rose tried (L* 49 to 55) fell to 13.8 to 14.4 deutan against Gilda.
+    # Helsinki's worst pair stays Finnkino/Cinema Orion at 14.4.
+    dict(id="korjaamo", label="Korjaamo Kino", host="korjaamokino.fi", accent="#C07E7E",
+         book="buy", module="vista", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

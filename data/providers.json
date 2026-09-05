@@ -237,6 +237,13 @@
    "host": "heureka.fi",
    "accent": "#0B8468",
    "book": "admission"
+  },
+  {
+   "id": "korjaamo",
+   "label": "Korjaamo Kino",
+   "host": "korjaamokino.fi",
+   "accent": "#C07E7E",
+   "book": "buy"
   }
  ]
 }
