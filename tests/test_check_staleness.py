@@ -1,19 +1,9 @@
-"""Nothing here notices a run that never happens.
+"""check_staleness.py: fail when no run has happened, which check_runs.py cannot see.
 
-`check_runs.py` reads committed logs and answers "did the last run fail". A log saying
-`exit=0` four days ago passes it, because every failure this repo can see is a failure of
-a run that ran. A run that never starts -- laptop asleep, launchd unloaded, the wrapper
-edited into silence -- produces no log to be unhappy about, and the first symptom is the
-stale-data banner appearing for whoever happens to open the site.
-
-`check_staleness.py` is the verdict half of the external monitor: a pure function of a
-file and a clock. When it runs, where it reads from and who hears about it live in
-`kino-auth`, because a schedule and an endpoint are machine-specific and this repo is
-public. That split is the reason the verdict is testable at all, so these tests are the
-whole of what this repo can promise about it.
-
-The clock is injected. A test that used the real one could only assert on ages that
-happen to be true while it runs, which is how a boundary test ends up asserting nothing.
+`check_runs.py` reads committed logs and answers "did the last run fail"; a log saying
+`exit=0` four days ago passes it. A run that never starts produces no log. The staleness
+check is a pure function of a file and a clock; when it runs and who it tells live outside
+this public repo. The clock is injected so a boundary test asserts something.
 """
 import datetime
 import json
@@ -231,7 +221,7 @@ class StalenessTest(unittest.TestCase):
                 self.assertFalse(ok)
                 self.assertNotIn("h old", msg)
 
-    # -- the file this actually watches ---------------------------------------------------
+    # -- the file this watches ---------------------------------------------------
 
     def test_the_repos_own_areas_json_is_readable(self):
         """Against the committed file, not a fixture. This says the format the pipeline
@@ -253,7 +243,7 @@ class StalenessTest(unittest.TestCase):
 
 
 class CommandLineTest(unittest.TestCase):
-    """The half `kino-auth` actually calls: an exit code and one line."""
+    """The half `kino-auth` calls: an exit code and one line."""
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -296,7 +286,7 @@ class CommandLineTest(unittest.TestCase):
         return self.dir
 
     def test_the_default_path_resolves_and_passes(self):
-        """The invocation `kino-auth` will actually make: no arguments at all. Run from
+        """The invocation `kino-auth` will make: no arguments at all. Run from
         a temporary working directory so it reads a timestamp this test controls."""
         out = subprocess.run([sys.executable, str(SCRIPT)], capture_output=True,
                              text=True, cwd=str(self.default_path_dir(hours(1))),
@@ -360,7 +350,7 @@ class CommandLineTest(unittest.TestCase):
                 self.assertIn("limit must", out.stderr)
 
     def test_a_bare_negative_infinity_is_still_refused(self):
-        """The spelling a caller would actually type. argparse rejects it before the
+        """The spelling a caller would type. argparse rejects it before the
         validator sees it; what matters is that it does not run the check."""
         out = self.run_it("--hours", "-inf")
         self.assertEqual(out.returncode, 2)

@@ -1,37 +1,19 @@
-"""A background refresh lands in the slot it was asked for, and sees every cinema.
+"""A background refresh lands in the slot it was asked for, sees every cinema, and refreshes metadata.
 
-The service worker serves data JSON from its cache and refreshes it behind, and when a
-refresh lands it posts `{fresh: path}` to the page. Two things were wrong with what the
-page did next.
-
-It re-read the file and then compared and assigned `jsonCache[state.area]` -- reading the
-selection *after* the await. A reader who picked cinema B while A's read was in flight got
-A's answer written into B's slot and A's programme rendered under B's name, and the
-mistake stuck: B's slot held A's payload for as long as the tab lived.
-
-And for a combined city it compared `generated`, which `loadCity` sets to the *oldest*
-member's timestamp so the stale banner reports the weakest link. A newer member updating
-while the oldest stayed put left that value unchanged, so the refreshed schedule was
-discarded. The cooldown that guarded the handler made it worse: it dropped every message
-inside sixty seconds, so the members of a city that land a second apart were mostly
-thrown away too.
-
-The handler is `makeFreshHandler(io)` and the fold is `cityPayload`, both sliced verbatim
-out of index.html by tests/swr_refresh_harness.js. The rules pinned here: the area is read
-once, before the await; only that area's slot is compared and written; a render happens
-only if that area is still on screen; a slot emptied meanwhile stays empty and a slot
-refilled meanwhile keeps the refill, because the entry is compared by identity; a city is
+The worker serves data JSON from cache and posts `{fresh: path}` when a refresh lands.
+Rules pinned here: the area is read once, before the await; only that slot is compared
+and written; a render happens only if that area is still on screen; a slot emptied or
+refilled meanwhile is left alone, since the entry is compared by identity; a city is
 compared on a per-member `stamp` while its `generated` keeps reporting the oldest member;
-and the re-read comes from Cache Storage, never from a fetch -- a fetch through the worker
-would start another refresh and another message, which is the loop the cooldown existed
-for. With no loop to hold back there is no cooldown, and a burst of member messages folds
-into one extra read instead of being dropped.
+the re-read comes from Cache Storage, never a fetch, so no message loop is possible and
+there is no cooldown; a burst of member messages folds into one follow-up read.
 
-The film metadata file, `films-extra.json`, has its own store (`makeExtraStore`), sliced
-the same way. A failed fetch is not memoised as empty, concurrent loads share one fetch,
-the worker's message for the file is a cache read compared on the serialised content, an
-open sheet is redrawn once on a real change, and a load still in flight when the message
-arrives cannot overwrite the newer copy.
+`films-extra.json` has its own store, `makeExtraStore`: a failed fetch is not memoised,
+concurrent loads share one fetch, the worker's message is a cache read compared on the
+serialised content, an open sheet is redrawn once on a real change, and a load in flight
+when the message arrives cannot overwrite the newer copy.
+
+All sliced verbatim out of index.html by tests/swr_refresh_harness.js.
 """
 import json
 import pathlib

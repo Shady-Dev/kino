@@ -1,27 +1,20 @@
 name: Checks
 
-# Nothing ran the test suite. The three workflows that existed fetch data, read committed
-# run logs and ping IndexNow -- all of them about what the pipeline *did*, none about
-# whether the code that did it still parses. Every check here was already written down as
-# an instruction to a person in CLAUDE.md, which holds until the day somebody is in a
-# hurry, and the client is the worst case: no build step, so a syntax error in
-# index.html's script block ships, the page renders blank, and the service worker keeps
-# serving the last good copy to anyone who already has it -- so the person who pushed it
-# sees a working site.
+# Static checks for the code paths: the client parses, generated output regenerates
+# clean, and the unit suite passes with nothing skipped and nothing leaked. The client
+# has no build step, so a syntax error in index.html's script block would otherwise ship
+# and the service worker would keep serving the last good copy to whoever pushed it.
 #
-# `scripts/check_runs.py` is deliberately not here. logs.yml already runs it, on pushes
-# that touch a run log or the checker itself, which is the trigger that matches what it
-# reads. Running it on a code change would turn this red for a provider outage that has
-# nothing to do with the diff.
+# scripts/check_runs.py is not run here. logs.yml runs it on pushes that change a run log
+# or the checker, and running it on a code change would fail the change on a provider
+# outage.
 on:
-  # Code paths only. The routine data commits touch data/, run-*.log and the generated
-  # pages, and none of those change whether the code is correct. The cloud half's pushes
-  # are made with GITHUB_TOKEN and do not fire `on: push` at all, but the local half's do
-  # and there are four of those a day.
+  # Code paths only. Data commits touch data/, run-*.log and the generated pages, none of
+  # which changes whether the code is correct. Cloud pushes use GITHUB_TOKEN and do not
+  # fire `on: push`; the local half's pushes do, four times a day.
   #
-  # push rather than pull_request: this repo's history is linear and direct-pushed, and a
-  # branch is pushed before any PR exists on it, so push already covers everything except
-  # a fork -- which has never happened here and would need a separate trigger anyway.
+  # `push` rather than `pull_request`: history is linear and direct-pushed, so push covers
+  # every change except a fork, which has not happened.
   push:
     paths:
       - 'index.html'
@@ -34,9 +27,8 @@ on:
 permissions:
   contents: read
 
-# Safe to cancel, in the way it is not for the fetch workflow: this reads committed state
-# and does no work anything else retries, so an older commit's verdict is superseded the
-# moment a newer one lands.
+# Cancelling is safe here, unlike the fetch workflow: this reads committed state and
+# retries nothing, so a newer commit's verdict supersedes an older one.
 concurrency:
   group: checks-${{ github.ref }}
   cancel-in-progress: true
@@ -45,48 +37,28 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      # Pinned to a SHA, the same rule the other two workflows follow: re-pointing a tag
-      # is the cheap half of a supply-chain compromise, and a SHA is the only reference
-      # that cannot be moved under us. actions/checkout v7.0.1, resolved 2026-08-31, and
-      # on node24 rather than the deprecated node20. The readable version stays in this
-      # comment because a bare SHA says nothing about how far behind it is.
+      # Pinned to a SHA, as in the other workflows: a tag can be re-pointed, a SHA cannot.
+      # actions/checkout v7.0.1, resolved 2026-08-31, on node24.
       #
-      # fetch-depth: 0, because the suite tests this repo's real history. checkout
-      # defaults to a single commit, and four tests in test_indexnow.py need more than
-      # that: RealHistoryTest diffs two named commits against their parents so the
-      # fixtures cannot drift from what git recorded, and two PushRangeTest cases assert
-      # the fallback to HEAD^, which does not resolve when HEAD is the only commit there
-      # is. That is what turned the first run of this workflow red -- not a code fault,
-      # a checkout that could not answer the questions the tests ask.
-      #
-      # The cost is small and was measured rather than assumed: a full clone of this repo
-      # is 22 MB against 15 MB shallow, because the mirrored posters dominate both.
+      # fetch-depth: 0 because test_indexnow.py reads this repo's real history: two named
+      # commits are diffed against their parents, and two cases need HEAD^ to resolve.
+      # A full clone is 22 MB against 15 MB shallow; the mirrored posters dominate both.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
 
-      # Cheapest first, and the one with no dependencies at all.
+      # Cheapest first, and dependency-free.
       - name: The client's JavaScript parses
         run: python3 scripts/check_inline_js.py
 
-      # The generators are pure functions of the committed data, and the pages they write
-      # are committed too, so regenerating in a clean checkout must produce no diff. This
-      # is what keeps write_if_changed working and what the "nothing volatile in a
-      # generated page" rule in CLAUDE.md is for -- a build timestamp would turn this red
-      # on every run.
+      # The generators are functions of the committed data, and the committed pages must
+      # regenerate byte-identical. Red means one of two things: a generator change without
+      # regenerated output (run both scripts and commit), or committed data whose pages
+      # were never rebuilt (the site serves markup that disagrees with its own JSON).
       #
-      # It goes red in two different situations and they are worth telling apart. A
-      # generator change without regenerated output is the author's to fix by running the
-      # two scripts and committing. Committed data whose pages were never rebuilt is a
-      # live problem -- the site is serving markup that disagrees with its own JSON -- and
-      # is worth looking at rather than papering over.
-      #
-      # Pure of the data and of the day. Every page lists a window of days starting at the
-      # day it was built for, so the rebuild has to be told that day rather than read the
-      # clock, or this goes red after midnight with nothing changed: the same committed
-      # input built on 2026-09-05 and on -06 differed in 173 of 183 files. The committed sitemap
-      # records the day as every URL's lastmod and `--date recorded` reads it back.
-      # Publishing (biorex.yml) keeps the clock.
+      # The pages also depend on the day they were built for. `--date recorded` rebuilds
+      # for the day the committed sitemap carries; a plain rebuild after midnight differed
+      # in 173 of 183 files with nothing changed. Publishing (biorex.yml) uses the clock.
       - name: Generated output is reproducible
         run: |
           python3 scripts/build_providers.py
@@ -99,37 +71,23 @@ jobs:
           fi
           echo "regenerated clean"
 
-      # Pinned exactly, for the reason biorex.yml pins it: the runner installs this fresh
-      # every time, so an unpinned name is whatever PyPI served that morning. Installed
-      # here because five poster tests skip without it, and a suite that quietly covers
-      # five fewer things than it did yesterday is the failure mode the next step exists
-      # to catch.
+      # Pinned exactly: the runner installs it fresh every run. Five poster tests skip
+      # without it, and the next step fails on a skip.
       - name: Install Pillow
         run: python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
 
-      # A skip is a test that did not run. Locally that is fine -- Pillow is not on the
-      # system interpreter -- but on a runner every dependency is installed on purpose, so
-      # a skip means one of them is missing and coverage silently shrank. node is the
-      # other one: four harnesses skip without it, and they are the only tests that touch
-      # index.html at all.
+      # Fail on skipped tests: every dependency is installed on the runner on purpose, so
+      # a skip means one is missing and coverage shrank. node is the other dependency;
+      # four harnesses skip without it and they are the only tests that touch index.html.
       #
-      # A ResourceWarning fails it too. The suite leaked responses and listening sockets
-      # for as long as it has existed, which is noise that hides the next one -- and the
-      # HTTPError half was a real leak in `common.fetch`, not a test artefact.
+      # Fail on ResourceWarning too. The suite leaked sockets and responses for as long as
+      # it existed, and one leak hides the next. Read from the captured log rather than
+      # with `-W error::ResourceWarning`: the socket warnings are raised during interpreter
+      # shutdown and do not reach the exit code (measured 2026-09-01).
       #
-      # Read out of the captured output rather than with `-W error::ResourceWarning`.
-      # That flag was tried and does not work here: the socket warnings are raised while
-      # the interpreter is shutting down, so raising on them changes nothing the exit
-      # code can carry -- measured 2026-09-01, exit 0 with the leak reintroduced.
-      # unittest already enables warnings by default, so they are in the log either way.
-      #
-      # The suite's exit code is captured rather than allowed to end the step, so that a
-      # failure is named before the step dies. `::error::` lines become check-run
-      # annotations, and those are readable over the public API with no token at all --
-      # which the Actions log is not, and this repo does not read Actions logs anyway.
-      # The first run of this workflow failed with nothing recoverable but "Process
-      # completed with exit code 1", because the annotations were only ever emitted by
-      # the two gates below and never by a plain test failure.
+      # The exit code is captured so a failure is named before the step dies. `::error::`
+      # lines become check-run annotations, readable over the public API without a token;
+      # the Actions log is not, and this repo does not read Actions logs.
       - name: Unit suite, with nothing skipped and nothing leaked
         run: |
           set +e
@@ -145,14 +103,8 @@ jobs:
               echo '```'
             } >> "$GITHUB_STEP_SUMMARY"
           fi
-          # awk and not `grep | while read`. grep exits 1 when it matches nothing, which
-          # is the normal case here -- a green suite -- and under `shell: bash`, whose
-          # pipefail makes the pipeline carry grep's status, `-e` then ends the step and
-          # a passing suite reports failure. Measured both ways against a synthetic log:
-          # `bash -e` exits 0 on a green suite, `bash -e -o pipefail` exits 1. The step
-          # gets the plain default today, so this was one `shell:` key away rather than
-          # already broken -- and the version of this step it replaced set pipefail
-          # itself. awk exits 0 whether or not it matched, so neither shell matters.
+          # awk rather than `grep | while read`: grep exits 1 on a green suite (no match),
+          # and under pipefail that would fail the step. awk exits 0 either way.
           awk '/^(FAIL|ERROR): / { print "::error::" $0 }' "$RUNNER_TEMP/suite.log"
           if [ "$rc" != 0 ]; then
             echo "::error::the suite failed (exit $rc)"

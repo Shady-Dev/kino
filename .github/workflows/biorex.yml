@@ -7,16 +7,10 @@ on:
 permissions:
   contents: write
 
-# One run at a time on the data files, but the queued one still runs. It used to be
-# cancel-in-progress: true, which discards work nothing retries: the local half publishes
-# Kino Engel and Kino Akseli posters as the cinema's own URLs, and only this workflow
-# rewrites them into data/posters/. Cancel the run doing that and the remote URLs stay in
-# the committed data until the next cron -- up to four hours, against a 2.7 minute median
-# -- and since v64 the client refuses a remote poster, so those two venues lose every
-# poster for the whole window. Seen live on 2026-08-30 when a manual run landed on top of
-# a scheduled one.
-# Queueing keeps the serialisation that cancel-in-progress was added for (two runs racing
-# on the same files) without throwing away the run that was mid-mirror.
+# One run at a time on the data files; a queued run still runs. cancel-in-progress: true
+# discarded work nothing retries: the local half publishes Kino Engel and Kino Akseli
+# posters as the cinemas' own URLs and only this workflow mirrors them, so a cancelled run
+# left those venues without posters until the next cron (seen 2026-08-30).
 concurrency:
   group: kino-data
   cancel-in-progress: false
@@ -25,30 +19,21 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      # Actions and the one pip install are pinned. A floating major tag is a promise
-      # from someone else that a future v4.x will not do anything new with the token
-      # this job holds, and re-pointing a tag is the cheap half of a supply-chain
-      # compromise. The SHA is the only reference that cannot be moved under us. The
-      # readable version stays in the comment, since a bare SHA says nothing about how
-      # far behind it is: actions/checkout v7.0.1, actions/cache v6.1.0, resolved
-      # 2026-08-31. Both were bumped off their v4 pins because those target Node 20,
-      # which the runners now force onto Node 24 and warn about; v7/v6 declare node24
-      # themselves. Checked before bumping: checkout takes no inputs here, and cache
-      # v6.1.0 still accepts path, key and restore-keys.
+      # Actions and the one pip install are pinned to exact versions: a tag can be
+      # re-pointed, a SHA cannot, and this job holds a write token. actions/checkout
+      # v7.0.1 and actions/cache v6.1.0, resolved 2026-08-31, both on node24. cache v6.1.0
+      # still accepts path, key and restore-keys.
       #
-      # ref: main, not the default. The default is github.sha, resolved when the run is
-      # *created*; a run queued behind another therefore starts from a base that has
-      # since moved and spends nine minutes generating data on top of stale code. That
-      # is the cause of the rebase conflicts this job used to die on, and fixing it here
-      # is better than reconciling the damage at the end. Queueing itself stays --
-      # cancel-in-progress: false is what stops a cancelled run costing two venues every
-      # poster.
+      # ref: main rather than the default github.sha, which is resolved when the run is
+      # created. A run queued behind another would otherwise generate data on top of a
+      # base that has since moved, which caused the rebase conflicts this job used to
+      # die on.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
-      # Conditional GETs only help if the validators survive between runs, and a runner
-      # is ephemeral. Restore-keys makes a stale cache better than none: an entry whose
-      # validator no longer matches just costs the 200 it would have cost anyway.
+      # Conditional GETs need the validators to survive between runs on an ephemeral
+      # runner. A stale cache costs nothing: a mismatched validator gets the 200 it would
+      # have got anyway.
       - name: Restore HTTP validator cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -57,9 +42,9 @@ jobs:
           restore-keys: http-cache-
       - name: Build providers.json
         run: python3 scripts/build_providers.py
-      # One step for every cloud provider: the module list comes from the registry, so
-      # adding a provider needs no edit here. Logs stay per module (run-{module}.log) and
-      # are committed on purpose: read those, not the Actions logs.
+      # One loop over every cloud provider; the module list comes from the registry, so
+      # adding a provider needs no edit here. Logs are per module (run-{module}.log) and
+      # committed: read those, not the Actions logs.
       - name: Fetch cloud providers
         run: |
           set +e
@@ -84,24 +69,22 @@ jobs:
           echo "$code" > "$RUNNER_TEMP/enrichfail"
           tail -3 run-enrich.log
       # Mirror posters before the pages are built, so a poster fetched on this run is
-      # already same-origin in the markup this run generates. Pillow is installed for the
-      # downscale and nothing else; see the module docstring for why verbatim mirroring
-      # is not an option.
+      # same-origin in the markup this run generates. Pillow is installed for the
+      # downscale only; the module docstring explains the downscale.
       - name: Mirror posters
         run: |
           set +e
-          # Pinned for the same reason, and exactly: the runner installs this fresh on
-          # every run, so an unpinned name is whatever PyPI serves that morning, in a
-          # job that then commits to this repo. Bump deliberately, not by waking up.
+          # Pinned exactly: the runner installs this fresh every run, in a job that
+          # commits to this repo.
           python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
           python3 scripts/providers/mirror_posters.py > run-posters.log 2>&1
           code=$?
           echo "exit=$code" >> run-posters.log
           echo "$code" > "$RUNNER_TEMP/mirrorfail"
           tail -4 run-posters.log
-      # Pages last: they are rendered from the JSON the steps above just wrote, so this
-      # has to run after enrichment or the posters and ratings would be a run behind.
-      # Not gated on provider failure -- a stale venue still deserves a page.
+      # Pages last: they render the JSON the steps above wrote, so posters and ratings
+      # would otherwise be a run behind. Not gated on provider failure; a stale venue
+      # still gets a page.
       - name: Build indexable pages
         run: |
           set +e
@@ -117,20 +100,12 @@ jobs:
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do
-            # A rebase that conflicts leaves the tree unmerged, and every later attempt
-            # then dies on "Pulling is not possible because you have unmerged files" --
-            # so the three attempts were really one, and the retry has never been able to
-            # help with the failure it exists for. Clear the wreckage before trying again.
+            # A conflicted rebase leaves the tree unmerged and every later attempt dies
+            # on "Pulling is not possible because you have unmerged files". Abort first.
             git rebase --abort 2>/dev/null || true
-            # A plain rebase, deliberately. -X theirs was tried and is wrong: it
-            # resolves every conflict in favour of this run's snapshot, which is only
-            # safe while the other side is an equivalent cloud snapshot. If main moved
-            # because a person changed the generator, a provider or a generated page,
-            # that policy silently overwrites the newer work with output from stale
-            # code -- a worse failure than the red run it prevents, because nothing
-            # says it happened. Starting from current main removes almost every
-            # occasion for a conflict; if one still happens, this job should fail and
-            # be looked at rather than pick a side on its own.
+            # A plain rebase. -X theirs resolves every conflict in favour of this run's
+            # snapshot, which silently overwrites newer generator or provider changes on
+            # main with output from stale code. A conflict should fail the job instead.
             if git pull --rebase --autostash -q origin main && git push -q; then
               pushed=1; break
             fi

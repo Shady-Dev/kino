@@ -1,21 +1,13 @@
 """A tag the room name already says is not said twice on one line (2026-09-03).
 
-The Ajat list moved the room onto the meta line on 2026-09-03 and the line then read
-"LUXE 6 · K-16 · 172 min · 2D · Anniskelu · LUXE": the room carries the format and the
-method tag repeats it. Measured across the committed data the same day: 774 rows in five
-classes -- LUXE rooms and LUXE, "N Plus" rooms and Plus, iSense, Prime, IMAX -- and no
-other duplicate class (no tag repeated inside one method string). The card's stub had the
-rule already, `stubTags`: drop a tag the room name contains, case-folded, and drop plain
-2D, which is on half the rows and says nothing. The Ajat line now runs the same function,
-so the room keeps the word and the tag goes.
+The Ajat meta line read "LUXE 6 · K-16 · 172 min · 2D · Anniskelu · LUXE": the room
+carries the format and the method tag repeats it. 774 rows in five classes on 2026-09-03
+(LUXE, "N Plus" and Plus, iSense, Prime, IMAX). The card's stub already had `stubTags`:
+drop a tag the room name contains, case-folded, and drop plain 2D. The Ajat line runs the
+same function. A glyph tag stays on the stub even when every screening shares it, so the
+Anniskelu filter cannot make its own marker disappear.
 
-The same pass stops a glyph tag folding onto the card. With the Anniskelu filter on, every
-surviving screening shares the tag, so it became a card pill and the A left every stub --
-the filter made the marker disappear. A tag drawn as a glyph stays on the stub whether or
-not the day's screenings all share it.
-
-`stubTags` is sliced verbatim out of index.html by tests/stub_tags_harness.js, the way
-`priceLabel`, `healthState` and `venueRows` are.
+`stubTags` is sliced verbatim out of index.html by tests/stub_tags_harness.js.
 """
 import json
 import pathlib

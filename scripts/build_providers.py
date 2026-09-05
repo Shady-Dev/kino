@@ -3,7 +3,7 @@
 
 Offline and deterministic, so both push paths (Mac and Actions) can run it and emit
 identical bytes: no rebase conflict between the two writers, and no commit at all
-unless the registry actually changed. That is also why the file carries no
+unless the registry changed. That is also why the file carries no
 `generated` timestamp, unlike every other file in data/.
 
 Run from the repo root.

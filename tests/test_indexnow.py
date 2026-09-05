@@ -1,14 +1,9 @@
 """indexnow: announce every kind of page change, including the ones that remove a page.
 
-IndexNow exists for added, updated, deleted and moved URLs. The removals are the half
-that is easy to get wrong and the half that matters most: an engine that is never told a
-URL is gone keeps serving the old entry until it happens to recrawl. An earlier version
-of this script read each file and skipped anything carrying `noindex`, which silently
-suppressed exactly the notifications worth sending -- a redirect page *is* the indexing
-change.
-
-Three other things are load-bearing and are pinned here: a push is not one commit, 202 is
-success rather than failure, and 429 is transient rather than a misconfiguration.
+IndexNow covers added, updated, deleted and moved URLs, and removals matter most: an
+engine never told a URL is gone keeps serving it until it recrawls. An earlier version
+skipped pages carrying `noindex`, which suppressed exactly those notifications. Also
+pinned: a push is not one commit, 202 is success, and 429 is transient.
 """
 import json
 import pathlib
@@ -132,7 +127,7 @@ class StatusLetterTest(unittest.TestCase):
 
 
 class RealHistoryTest(unittest.TestCase):
-    """Against this repo, so the fixtures cannot drift from what git actually records."""
+    """Against this repo, so the fixtures cannot drift from what git records."""
 
     def urls(self, rev):
         return indexnow.changed_urls(f"{rev}^", rev)
@@ -154,7 +149,7 @@ class RealHistoryTest(unittest.TestCase):
 
 class WorkflowRunCommitTest(unittest.TestCase):
     """A push made with GITHUB_TOKEN does not fire `on: push`, so the routine data
-    commits -- the ones that actually move the pages -- arrive only through
+    commits -- the ones that move the pages -- arrive only through
     workflow_run, and have to be found rather than handed over.
 
     `workflow_run.head_sha` is where the triggering run *started*, and a queued run
@@ -348,7 +343,7 @@ class PushRangeTest(unittest.TestCase):
 
     def test_an_all_zero_before_falls_back_to_the_tip_parent(self):
         """Branch creation. Diffing the empty tree would announce every page on the
-        site; the tip's parent announces what the push actually did."""
+        site; the tip's parent announces what the push did."""
         self.event({"before": "0" * 40, "after": "HEAD"})
         before, after = indexnow.push_range()
         self.assertEqual((before, after), ("HEAD^", "HEAD"))

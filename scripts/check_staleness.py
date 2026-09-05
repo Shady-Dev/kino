@@ -7,41 +7,24 @@
     python3 scripts/check_staleness.py --file PATH
     python3 scripts/check_staleness.py --hours N
 
-`check_runs.py` answers "did the last run fail". It does not answer "did a run happen",
-and those are different questions: a committed log reading `exit=0` four days ago passes
-it happily. Every failure this repo can see announces itself through a run that ran. A
-run that never starts -- the laptop asleep, launchd unloaded, the wrapper edited into
-silence -- announces nothing at all, and the first symptom is the health line going amber
-for whoever happens to be looking at the site.
+`check_runs.py` answers "did the last run fail", not "did a run happen": a log reading
+`exit=0` four days ago passes it. A run that never starts (laptop asleep, launchd
+unloaded, wrapper edited into silence) announces nothing.
 
-`data/areas.json` is the file to watch. It is written by the local half, which carries 17
-of 74 venues and the largest chain in the app, and since 2026-09-01 it is written *with*
-the schedule files rather than before them -- so its age now means "when did a complete
-Finnkino publish last happen" rather than "when did a run last get as far as asking for
-the site list". Watching it before that change would have measured the wrong thing.
+`data/areas.json` is the file to watch. The local half writes it together with the
+schedule files (since 2026-09-01), so its age means "when did a complete Finnkino publish
+last happen".
 
-**This script is only the verdict.** When to run it, where to read the file from, and who
-to tell live in `kino-auth`, outside this repo -- a schedule and an endpoint are
-machine-specific and this repo is public. Everything here is a pure function of a file and
-a clock, which is why it can be tested.
+This script is only the verdict. When to run it, where to read the file from and who to
+tell live in `kino-auth`, outside this public repo. Everything here is a pure function of
+a file and a clock.
 
-Eight hours, because that is `STALE_H` in index.html and the health line already uses it:
-a monitor that fired at a different age than the banner would be reporting a second,
-invisible definition of stale. Strictly greater, for the same reason -- the client reads
-`ageH > STALE_H`, so exactly eight hours is not yet late.
-
-The verdict goes to stdout and every failure to stderr, which is a split the caller can
-use -- `2>&1 >/dev/null` keeps the complaints and drops the routine line. It is not
-silence by itself: cron mails whatever a job writes to either stream, so staying quiet on
-a good run is the wrapper's decision to discard stdout, not something this script can
-arrange on its own.
-
-A timestamp in the future fails rather than reading as very fresh. The writer stamps
-`datetime.now(timezone.utc)` and the reader is a different machine, so a couple of minutes
-of drift is ordinary and tolerated; past that, one of the two clocks is wrong and the age
-cannot be trusted. It is the dangerous direction as well: a badly future timestamp keeps
-the file looking fresh for as long as the skew lasts, which is exactly the silence this
-exists to break.
+Eight hours is `STALE_H` in index.html, so the monitor and the banner agree; strictly
+greater, as the client reads `ageH > STALE_H`. The verdict goes to stdout and every
+failure to stderr, so a caller can keep one and drop the other. A timestamp in the future
+fails rather than reading as fresh: a couple of minutes of clock drift is tolerated, more
+means one clock is wrong, and a future stamp would keep the file looking fresh for as long
+as the skew lasts.
 """
 import argparse
 import datetime

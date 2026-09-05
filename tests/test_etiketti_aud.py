@@ -1,18 +1,11 @@
 """Savon Kinot reports a room as the venue repeated inside its own room name.
 
-`TAPIO | TAPIO 4` reached both the app and the generated pages verbatim, so Joensuu
-showed "TAPIO | TAPIO 4" next to a venue label that already said Tapio. Verbatim is right
-for the other sixteen eTiketti sites -- there `aud` is the room as printed on the ticket --
-so the fix is a per-site normaliser rather than anything applied to the family.
-
-Counted in the committed data on 2026-09-01: 127 of Savon Kinot's 157 showtimes carry a
-piped `aud`, across 11 distinct values and six venues. Every one of those 11 is exercised
-below against the venue `short` the registry actually gives it.
-
-Leffabuumi pipes too -- `KINOLINNA | SALI 1`, 63 of its 78 showtimes -- and means
-something different: the right half is a real room name, not the venue again. It does not
-opt in, and a test here says so, because a rule applied to every eTiketti site would
-flatten it to "SALI 1" and lose which building it is in.
+`TAPIO | TAPIO 4` reached the app and the pages verbatim, beside a venue label that
+already said Tapio. Verbatim is right for the other sixteen eTiketti sites, so the fix is
+a per-site normaliser. On 2026-09-01, 127 of Savon Kinot's 157 showtimes carried a piped
+`aud` across 11 values and six venues; every one is exercised here against the venue
+`short` the registry gives it. Leffabuumi pipes too (`KINOLINNA | SALI 1`) and means a
+real room, so it does not opt in, and a test says so.
 """
 import importlib
 import json

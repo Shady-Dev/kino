@@ -1,13 +1,10 @@
 """Shared HTTP fetch with retry for provider adapters.
 
-Named common, not http: run.py and fetch_data.py put this directory first on
-sys.path, and a local http.py would shadow the stdlib package urllib.request
-itself imports (http.client), breaking every fetch in the pipeline.
+Named common, not http: run.py and fetch_data.py put this directory first on sys.path,
+and a local http.py would shadow the stdlib package urllib.request imports.
 
-One transient 502 or connection reset used to count as total site failure for
-the adapters without their own retry loop, and the next cron is four hours
-away. tries=3 with backoff*n sleeps means a worst case of 3*backoff seconds of
-extra wait per request, so a dead upstream cannot stall the workflow.
+tries=3 with backoff*n sleeps: one transient 502 or connection reset no longer counts as
+a site failure, and the worst case is 3*backoff seconds of extra wait per request.
 """
 import datetime
 import email.utils
@@ -133,7 +130,7 @@ def cache_stats():
 def throttle_stats():
     """-> how often an upstream asked us to slow down, and what that cost.
 
-    `asked` counts Retry-After responses, `waited` the seconds actually sat out,
+    `asked` counts Retry-After responses, `waited` the seconds sat out,
     `refused` the ones whose ask was past a ceiling and so were not retried at all.
     All zero on a normal run, which is why run.py prints the line only when it is not.
     """

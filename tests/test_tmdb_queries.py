@@ -1,19 +1,10 @@
 """What `queries()` sends to TMDB, and what it must never send.
 
-`clean()` and `queries()` already do this work -- the entry in IDEAS records the fix and
-the 8-of-9 misses it closed -- but nothing pinned the behaviour, so the two rules that
-make it correct were held only by the comments explaining them:
-
-  * the strand list is exact, never a `^\\w+:` pattern, because most colons in this data
-    are franchise titles. "Spider-Man:" appears 443 times in one day's showtimes against
-    4 for "Seniorikino:", and a pattern would decapitate every one of them;
-  * only the *search string* is cleaned. `norm()` keys the cache and films-extra.json on
-    the title as the cinema published it, and `normTitle()` in index.html has to agree
-    with that key, so a title that TMDB is searched for under a shorter name still has
-    to key under its full one.
-
-The raw title staying in the candidate list is the third rule: a wrong cleanup then
-costs one extra request instead of a missing film.
+Two rules: the strand list is exact, never a `^\\w+:` pattern, because most colons are
+franchise titles ("Spider-Man:" 443 times in one day against 4 for "Seniorikino:"); and
+only the search string is cleaned, since `norm()` keys the cache and films-extra.json on
+the published title and `normTitle()` in index.html must agree. The raw title stays in the
+candidate list, so a wrong cleanup costs one extra request instead of a missing film.
 """
 import unittest
 

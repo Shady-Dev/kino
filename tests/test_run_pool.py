@@ -1,15 +1,10 @@
 """run.py reads unrelated hosts at once and one host's sites one after the other.
 
-The serialisation across hosts was never a decision -- it is how the loop was written
-when a module had two sites -- and it costs eTiketti about 3.5 minutes of a run. The
-per-host pacing *is* the decision, and every test here exists to keep it: the unit the
-pool works in is the host, not the site, because two of Nexxo's sites share kinoaurora.fi
-and two more share kinohirvi.fi, and reading either pair concurrently would double the
-request rate at one cinema's server.
-
-Everything talks to real HTTP servers on localhost, one per host, the way
-tests/test_common_fetch.py does. Overlap is the property under test and a mocked fetch
-would have to fake the timing, which is the thing being measured.
+Serialising across hosts cost eTiketti about 3.5 minutes of a run. The pool's unit is the
+host, not the site: two of Nexxo's sites share kinoaurora.fi and two more share
+kinohirvi.fi, and reading either pair concurrently would double the request rate at one
+cinema's server. Everything talks to real HTTP servers on localhost, one per host, because
+overlap is the property under test.
 """
 import contextlib
 import http.server
@@ -46,7 +41,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
                                     started, time.monotonic()))
         body = b"ok"
         self.send_response(200)
-        # What every eTiketti and Nexxo origin actually sends, so `miss` and `nostore`
+        # What every eTiketti and Nexxo origin sends, so `miss` and `nostore`
         # are both exercised and nothing is written to the validator cache.
         self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(body)))
@@ -108,7 +103,7 @@ def site(provider, base, venues=1, **extra):
 
 
 class PoolMod:
-    """Stands in for an adapter, and actually fetches: SITES plus fetch_site.
+    """Stands in for an adapter, and fetches: SITES plus fetch_site.
 
     The requests are what the pool has to keep apart, so they go over the wire. `stagger`
     makes sites finish out of SITES order, which is what a buffered log has to survive.
@@ -378,11 +373,11 @@ class CounterTest(PoolTestCase):
     """What the `[run] http:` and `[run] throttled:` lines report has to stay exact when
     the requests behind them were made from several threads.
 
-    There is no test here that the lock itself is load-bearing, because on CPython with
+    There is no test here that the lock itself is needed, because on CPython with
     the GIL it is not: eight threads and 1.6 million `_stats["miss"] += 1` lose exactly
     zero, since the eval loop does not offer to switch inside that stretch of bytecode.
     See the comment on common._lock for why it is there anyway. What these two do is pin
-    the totals, which is the property the committed log actually rests on and the one a
+    the totals, which is the property the committed log rests on and the one a
     later change to the accounting would break.
     """
 
@@ -400,7 +395,7 @@ class CounterTest(PoolTestCase):
     def test_four_throttled_hosts_report_exactly_what_they_waited(self):
         """Four hosts all answering 429 with `Retry-After: 1`, at once.
 
-        `asked` counts every one of them and `waited` counts only the seconds actually
+        `asked` counts every one of them and `waited` counts only the seconds
         sat out: three attempts per site, of which the last does not sleep because there
         is no retry after it. Two per site, eight in total. Charging the last attempt too
         would report a run as having waited a third longer than it did.

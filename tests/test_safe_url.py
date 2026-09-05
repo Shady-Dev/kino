@@ -1,19 +1,13 @@
 """A provider's URL must not be able to become `javascript:` on the way to an href.
 
-`safeUrl` read the scheme off the raw string with a regular expression. A URL parser
-does not: it deletes ASCII tab, LF and CR from anywhere in the URL and strips the
-control characters off its ends, so `java<LF>script:alert(1)` matched no scheme at all,
-was returned as an ordinary relative URL, and resolved to javascript: when the link was
-followed. Four inputs got through that way -- LF, CR, tab, and a leading NUL, which
-`trim()` leaves in place -- and every one of them reaches a booking or trailer href
-built out of provider JSON.
+`safeUrl` read the scheme off the raw string. A URL parser deletes ASCII tab, LF and CR
+anywhere in the URL and strips control characters off its ends, so
+`java<LF>script:alert(1)` matched no scheme, was returned as a relative URL and resolved
+to javascript:. LF, CR, tab and a leading NUL all got through to booking and trailer hrefs.
 
-The functions are sliced verbatim out of index.html by tests/safe_url_harness.js and run
-on their own; they take a string and return a string, so they need no DOM. The harness
-then resolves whatever they accepted through a real WHATWG URL parser and reports the
-protocol, because the defect was a disagreement between the string the function tested
-and the URL a browser built from it. A test that only re-read the regex would have
-passed against the broken version.
+The functions are sliced verbatim out of index.html by tests/safe_url_harness.js, and the
+harness resolves whatever they accept through a real WHATWG URL parser and reports the
+protocol, since the defect was the gap between the tested string and the browser's URL.
 """
 import json
 import pathlib

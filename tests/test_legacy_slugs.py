@@ -1,13 +1,9 @@
-"""Venue URLs that were public before a naming fix have to keep resolving.
+"""Venue URLs that were public before a naming fix keep resolving.
 
-A venue slug is built from the chain label and the city, so correcting a label moves the
-URL. Studio 123's two venues rendered their name twice until 2026-08-30 -- "Studio 123
-Kouvola Studio 123" -- and fixing that retired four indexed paths. Deleting the old pages
-turned every bookmark, inbound link and crawled URL into a 404, which the fix did not
-need to cost.
-
-These pin the two halves that can rot independently: the table pointing at a venue that
-no longer exists, and the redirect page losing one of the four things it has to say.
+A slug is built from the chain label and the city, so correcting a label moves the URL.
+Fixing Studio 123's doubled names on 2026-08-30 retired four indexed paths; they are
+redirect pages now. Pinned: the table pointing at a venue that no longer exists, and the
+redirect page losing one of the four things it has to say.
 """
 import json
 import pathlib

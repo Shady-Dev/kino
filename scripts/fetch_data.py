@@ -683,7 +683,7 @@ def main() -> int:
             print(f"[schedule] {sid}: no shows, keeping previous file", file=sys.stderr)
             kept += 1
             continue
-        # Dates actually present, so the UI can tell "no shows" apart from
+        # Dates present, so the UI can tell "no shows" apart from
         # "schedule not published yet" instead of showing one message for both.
         day_list = sorted({s["start"][:10] for s in shows if s.get("start")})
         common.write_json(path,

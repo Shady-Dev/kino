@@ -1,15 +1,10 @@
 """A site with nothing on must not fail the run; a broken parse still must.
 
-"A whole site parsing zero showtimes fails the run" is what catches a parse that broke
-silently, and it has to keep doing that. But eight sites here are a single small venue --
-K-Kino publishes 3 showtimes, Kino Saimaa 2 -- so a cinema with a quiet week turning the
-whole run red stopped being hypothetical when the eTiketti sweep landed. Joutsan Kino had
-just shown what one red site does to a module: exit=1 with everything else green.
-
-The line is drawn where the adapter has information run.py does not: what the listing
-said. An empty listing is a cinema with no programme. A listing full of films that
-yields no showtimes is a broken parser wearing the same clothes, and every test below
-that keeps it failing is the point of the exercise.
+A site parsing zero showtimes fails the run, which catches a silently broken parser. Eight
+sites are a single small venue (K-Kino publishes 3 showtimes, Kino Saimaa 2), so a quiet
+week must not turn the run red. The adapter has the information run.py lacks: an empty
+listing is a cinema with no programme (`EmptyProgramme`); a listing full of films that
+yields no showtimes is a broken parser and keeps failing.
 """
 import json
 import pathlib

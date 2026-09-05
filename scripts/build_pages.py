@@ -1,50 +1,36 @@
 #!/usr/bin/env python3
 """Pre-render one indexable page per venue and per multi-venue city, in fi and en.
 
-Why pre-render at all: the app is a single JS-rendered URL, so the whole site was one
-entry in a search index no matter how much markup went in `<head>`. Structured data does
-not create pages. These do, from the same committed JSON the app reads, so there is one
-source of truth and no second fetcher.
+The app is a single JS-rendered URL, so the site was one entry in a search index. These
+pages come from the same committed JSON the app reads: one source of truth, no second
+fetcher.
 
     /teatteri/{slug}/           fi, one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/           fi, a whole city     /en/city/{slug}/
     /sitemap.xml                every page, both languages
 
-City pages exist only where a city has more than one venue, which is the same rule the
-app uses for its combined view: five cities today (Espoo, Helsinki, Kotka, Savonlinna,
-Tampere). A city page for a one-venue city would be the venue page at a second URL, and
-duplicate content at two URLs is worse than one good one. Single-venue cities are covered
-by putting the city in the venue page's title, h1 and JSON-LD address instead.
+City pages exist only where a city has more than one venue, the app's own rule for its
+combined view. A city page for a one-venue city would duplicate the venue page, so those
+cities go into the venue page's title, h1 and JSON-LD address instead.
 
-Deliberate constraints:
+Constraints:
 
-- **No third-party requests.** Inline CSS, the same self-hosted Archivo the app uses
-  (`/fonts/`, one same-origin request), and only same-origin posters (`data/posters/...`)
-  are rendered; a poster hot-linked from a cinema CDN is skipped rather than made to leak
-  a visitor's IP on a page they arrived at from Google. See the Privacy section of the
-  README.
-- **No JavaScript that renders content.** The page is what the crawler sees and what the
-  visitor sees. The one script is the theme: the app stores its toggle in
-  `localStorage["kino-theme"]`, and a landing page that ignored it opened dark beside a
-  light app on the same origin. Before first paint the page reads that key exactly as
-  the app does and sets `data-theme`; without it the theme follows the OS. The toggle
-  button writes the same key, so a choice made on either page carries to the other, and
-  it is hidden when the script did not run.
-- **The card is the app's card.** Film facts -- rating, runtime, genres, score -- fold
-  from the day's screenings by first non-empty value, never from the first screening
-  alone. Language sits on the card once when every screening shares it and on
-  the individual screening when they differ (`lang_parts` is the app's `langTxt`,
-  `price_label` its `priceLabel`, each pinned against the client). The showtime keeps
-  time, the cinema on a city page, and the room verbatim. The app's own tag folding for
-  format tags (`stubTags`) is not ported.
-- **A page is rewritten only when its bytes change.** Four runs a day across ~100 pages
-  would otherwise commit megabytes of near-identical HTML forever. Quiet venues change
-  once a week.
-- **No timestamp in the page body**, for the same reason: `generated` moves every run and
-  would defeat the comparison above. Freshness belongs in the app, which the page links.
-- **No `aggregateRating` in the markup.** The ratings are TMDB's, and presenting another
+- No third-party requests: inline CSS, the self-hosted Archivo (`/fonts/`) and only
+  same-origin posters (`data/posters/...`). A hot-linked poster is skipped. See the
+  Privacy section of the README.
+- No JavaScript that renders content. The one script applies the theme: it reads
+  `localStorage["kino-theme"]` before first paint and sets `data-theme`, as the app does;
+  the toggle writes the same key and is hidden when the script did not run.
+- The card is the app's card. Film facts (rating, runtime, genres, score) fold from the
+  day's screenings by first non-empty value. Language sits on the card when every
+  screening shares it and on the screening when they differ (`lang_parts` is the app's
+  `langTxt`, `price_label` its `priceLabel`, each pinned against the client). The showtime
+  keeps time, the cinema on a city page, and the room verbatim. `stubTags` is not ported.
+- A page is rewritten only when its bytes change, and no timestamp appears in the body:
+  several runs a day across ~180 pages would otherwise commit near-identical HTML forever.
+- No `aggregateRating` in the markup. The ratings are TMDB's, and presenting another
   party's ratings as the page's own is against Google's structured-data guidelines. The
-  rating is shown as text, credited, and left out of the JSON-LD.
+  rating is shown as credited text.
 """
 import argparse
 import html
@@ -193,7 +179,7 @@ L = {
 }
 
 # The booking verb comes from the registry; a mode this table does not know reads as a
-# ticket page, which is what every provider but two actually offers.
+# ticket page, which is what every provider but two offers.
 def venue_intro(t, book, host):
     return t.get("intro_" + (book or "buy"), t["intro_buy"]).format(host=host)
 
@@ -864,7 +850,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 #
 # Deliberately a fixed table rather than a general aliasing framework: it is four entries
 # for one mistake, and a mechanism that rewrites URLs on every label edit would make it
-# easy to keep moving them. Add here only when a live URL has actually changed.
+# easy to keep moving them. Add here only when a live URL has changed.
 LEGACY_VENUE_SLUGS = {
     "studio-123-jarvenpaa-studio-123-jarvenpaa": "s3-jarvenpaa",
     "studio-123-kouvola-studio-123-kouvola": "s3-kouvola",

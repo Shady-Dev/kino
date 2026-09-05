@@ -1,6 +1,7 @@
 # Working on this repo
 
-Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from 33 chains in one app. A
+Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from 37 providers (2026-09-06) in one
+app. A
 single-file vanilla JS PWA served from GitHub Pages, backed by a Python pipeline that
 commits static JSON. No build step, no framework, no dependencies beyond the standard
 library in the pipeline.
@@ -21,11 +22,10 @@ Write down why a change was made. The diff already records what changed.
 - **Ask when a fact cannot be checked.** If an endpoint is unreachable or a claim cannot
   be verified against the data, say so plainly and leave it unstated.
 - **Measure counts against the data before writing them down.** Numbers carried over from
-  an older document have been wrong five times now: the city count, the poster count, the
-  page rewrite frequency, and then the venue and provider counts after Kino Engel landed.
-- **Verify a claim before documenting it.** The README asserted "nothing leaves the
-  device" and "no third-party requests" while the page loaded a webfont from Google and
-  hot-linked posters from seven other hosts. Documentation has to be factually accurate.
+  an older document have been wrong five times: the city count, the poster count, the page
+  rewrite frequency, and the venue and provider counts.
+- **Verify a claim before documenting it.** The README asserted "no third-party requests"
+  while the page loaded a webfont from Google and hot-linked posters from seven hosts.
 
 ## Agent execution
 
@@ -67,14 +67,14 @@ Write down why a change was made. The diff already records what changed.
 - Escape provider text at every `innerHTML` interpolation (`esc()`), and run every
   provider URL through `safeUrl()`. Adapters publish verbatim text, because the raw title
   is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
-- `esc()` protects HTML contexts only. Provider text that lands inside a `<script>`
-  element needs `\uXXXX` escaping instead, because a literal `</script>` ends the element
-  regardless of its type attribute -- `ld_json()` in `build_pages.py` is the pattern, and
-  the escapes are equivalent JSON so nothing downstream changes.
+- `esc()` protects HTML contexts only. Provider text inside a `<script>` element needs
+  `\uXXXX` escaping, because a literal `</script>` ends the element regardless of its
+  type attribute. `ld_json()` in `build_pages.py` is the pattern; the escapes are
+  equivalent JSON.
 - Client behaviour that can be decided away from the DOM is tested by extracting a pure
-  function verbatim between comment markers -- `healthState` and `venueRows` both work
-  this way. Keep the decision pure and the DOM plumbing thin, or it stops being
-  extractable. Focus, inert and key handling stay verified live against the served page.
+  function verbatim between comment markers (`healthState`, `venueRows`). Keep the
+  decision pure and the DOM plumbing thin, or it stops being extractable. Focus, inert and
+  key handling stay verified live against the served page.
 - **No `localStorage` assumptions beyond the existing keys.** Renaming `kino-prefs` or
   `kino-theme` wipes every user's saved venue, theme and starred cinema.
 
@@ -84,25 +84,22 @@ Write down why a change was made. The diff already records what changed.
   `run-*.log` files. Do not read the Actions logs.
 - Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
 - The pages depend on the day they are built for. `build_pages.py` alone builds for
-  today in Helsinki, which is what publishing wants; `--date recorded` rebuilds for the
-  day the committed `sitemap.xml` carries, which is what CI's reproducibility check and a
-  local regeneration on a later day want. A diff after a plain rebuild on another day is
-  the date moving, not drift.
+  today in Helsinki (publishing); `--date recorded` rebuilds for the day the committed
+  `sitemap.xml` carries (CI's reproducibility check, and a local regeneration on a later
+  day). A diff after a plain rebuild on another day is the date moving, not drift.
 - `scripts/fetch_data.py` and the local-only adapters cannot run on a runner. Compile
   check them, and **say clearly when a change needs a run from an ordinary connection**.
 - `scripts/check_staleness.py` answers "did a run happen", which `check_runs.py` does
-  not -- a committed log reading `exit=0` four days ago passes that one. This repo holds
-  only the verdict. The schedule that calls it, wherever it reads the file from and
-  whoever it tells live in the out-of-repo wrapper, because none of that can be written
-  down here. Its threshold is `STALE_H` from `index.html` and a test fails if the two
-  drift apart.
-- A provider that parses zero showtimes fails the run. This catches an empty parse that
+  not: a committed log reading `exit=0` four days ago passes that one. This repo holds
+  only the verdict; the schedule, the file location and the recipient live in the
+  out-of-repo wrapper. Its threshold is `STALE_H` from `index.html`, and a test fails if
+  the two drift apart.
+- A provider that parses zero showtimes fails the run, which catches an empty parse that
   would otherwise leave old data ageing with no signal. The one exception is an adapter
-  raising `common.EmptyProgramme`, which it may do **only** after fetching and parsing a
-  listing that contained no films at all -- a cinema with a quiet week. A listing that
-  still lists films while the parse yields nothing is the broken case and must keep
-  failing. Never add a per-site "allow empty" flag: it would switch the check off
-  permanently for the site most likely to need it.
+  raising `common.EmptyProgramme`, allowed **only** after fetching and parsing a listing
+  that contained no films at all. A listing that lists films while the parse yields
+  nothing is the broken case and must keep failing. Never add a per-site "allow empty"
+  flag: it would switch the check off permanently for the site most likely to need it.
 
 ## Adding a provider
 
@@ -114,27 +111,25 @@ A registry entry plus an adapter. No `index.html` edit.
 - **A site's `base` is the pacing key.** `run.py` reads hosts concurrently and
   serialises the sites that share one, keyed on `urlsplit(site["base"]).netloc`, so the
   sleep inside `fetch_site` still describes what a host sees. Two entries against one
-  server must both name it in `base` -- Bio Säde's data comes from kinohirvi.fi and only
-  its ticket links go to biosade.fi, which is what `site` is for. A site with no `base`
-  at all shares one group with every other base-less site of its module, so those are
-  read one after the other -- correct, and no faster than before, which is why a module
-  with more than one site should name the host it reads.
+  server must both name it in `base`: Bio Säde's data comes from kinohirvi.fi and only its
+  ticket links go to biosade.fi, which is what `site` is for. A site with no `base` shares
+  one group with every other base-less site of its module and is read in series with them,
+  so a module with more than one site should name the host it reads.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.
 - **Fetch the URL a showtime will link to and check it answers** before writing it into
   `SITES`. The API endpoint is the platform's and identical across its sites; the
-  visitor-facing page is each site's own WordPress and named whatever its owner chose.
-  Six Nexxo sites shipped dead ticket links because one site's path was copied onto all
-  of them, and no offline test can hold this -- a path is right until a webmaster renames
-  a page.
+  visitor-facing page is each site's own WordPress, named whatever its owner chose. Six
+  Nexxo sites shipped dead ticket links because one site's path was copied onto all of
+  them. No offline test can hold this.
 - **Measure a new accent against the whole set** with `python3 scripts/accent_check.py`.
   `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
   checks its own CIEDE2000 against published reference data. Do not quote an accent number
   that no script produced: the figures that used to sit in IDEAS were CIE76 mislabelled as
-  ΔE and were wrong by a factor of five. The rule binds only where two chains share a city
-  -- Helsinki, Jyväskylä, Vantaa, Lahti, Kouvola and Tampere as of Cinema Niagara -- so measure which
-  cities a new site lands in before picking anything.
+  ΔE. The rule binds only where two chains share a city (Helsinki, Jyväskylä, Vantaa,
+  Lahti, Kouvola and Tampere as of 2026-09-05), so measure which cities a new site lands
+  in before picking anything.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
@@ -149,7 +144,7 @@ A registry entry plus an adapter. No `index.html` edit.
   `.gitignore` blocks `probe/` and `probe-*`.
 - **Nothing machine-specific in this repo.** It is public. No paths, no hostnames, no
   schedules, no credentials, no token retrieval, no third-party endpoint inventories
-  beyond the read endpoints an adapter actually uses. Operational detail lives in private
+  beyond the read endpoints an adapter uses. Operational detail lives in private
   notes outside the repo.
 - **No real name and no personal address, in a file or in a commit.** Commit as
   `Shady-Dev <19388620+Shady-Dev@users.noreply.github.com>`. If you see an author line
@@ -157,11 +152,10 @@ A registry entry plus an adapter. No `index.html` edit.
   reached 18 commits once and cost a history rewrite.
   `tests/test_contact_address.py` fails if any address other than the contact alias
   appears in a tracked file, generated pages included.
-- **Never inflect Finnish city names in generated text.** The correct forms are
-  Helsinki -> Helsing**i**ssä and Tampere -> Tampereella: the stem changes, and Finnish
-  cities do not all take the same case. Gluing a case ending onto the nominative gives
-  Helsin**ki**ssä, which is wrong and is how a reader spots a generated page immediately.
-  Always use the nominative with a separator.
+- **Never inflect Finnish city names in generated text.** Helsinki -> Helsing**i**ssä and
+  Tampere -> Tampereella: the stem changes, and cities do not all take the same case.
+  Gluing a case ending onto the nominative gives Helsin**ki**ssä, which is wrong. Always
+  use the nominative with a separator.
 - **Keep anything volatile out of generated pages**, or `write_if_changed` stops working:
   no build timestamp, no sold-out state in markup.
 - **Do not read a site from a datacenter IP and conclude it is unreachable.** Several
@@ -172,12 +166,11 @@ A registry entry plus an adapter. No `index.html` edit.
 
 Every provider is read through the same public interface its own site uses, on a schedule
 no visitor can influence, and every showtime links back to the cinema's own page. The
-traffic-independence is guaranteed by construction -- the client reads static JSON from
-this origin and never calls a cinema. The *cadence* is not enforced anywhere: normally the
-local providers run four times a day and the cloud half gets a four-times-daily cron plus one
-run after each local run, so usually up to eight -- but `workflow_dispatch` stays callable
-by hand and scheduled execution is best-effort and may be delayed or missed. Describe it
-as a normal cadence, never as a bound, and do not write a fixed number back in.
+client reads static JSON from this origin and never calls a cinema. The cadence is not
+enforced anywhere: normally the local providers run four times a day and the cloud half
+gets a four-times-daily cron plus one run after each local run, so usually up to eight,
+but `workflow_dispatch` stays callable by hand and scheduled execution is best-effort.
+Describe it as a normal cadence, never as a bound, and do not write a fixed number back in.
 
 Reading a site as an ordinary visitor is fine. Residential proxies, fingerprint spoofing,
 solving a captcha, and using credentials that were never issued to a visitor are not.
@@ -193,19 +186,19 @@ under `scripts/`.
 
 `.github/workflows/ci.yml` runs the suite, `check_inline_js.py` and a regeneration-drift
 check on every push that touches `index.html`, `sw.js`, `scripts/**` or `tests/**`. It
-fails on a **skipped** test as well as a failing one: five poster tests skip locally
-because Pillow is not on the system interpreter, and on a runner where it is installed
-on purpose a skip means a dependency went missing and coverage shrank without saying so.
+fails on a **skipped** test as well as a failing one: every dependency is installed on the
+runner, so a skip means one went missing. Locally five poster tests skip because Pillow is
+not on the system interpreter.
 
 A fixture has to exercise the loop as well as the body. A one-item fixture once passed
 while the pacing branch it never entered was missing an import, and `py_compile` does not
 resolve names. Use two items minimum wherever there is pacing or an index.
 
 **Verify every test by breaking the code it covers.** Write it, break that code, watch the
-test go red, then restore. Every cap, fallback and error path in here has to be checked by
-tripping it: one of them looked correct and silently published a half-empty schedule until
-it was actually triggered.
+test go red, then restore. Every cap, fallback and error path has to be checked by
+tripping it: one looked correct and silently published a half-empty schedule until it was
+triggered.
 
-Where the behaviour under test is partly urllib's -- which exception a 429 raises, what
-`e.headers` holds -- tests talk to a real local HTTP server. A mock there would encode the
+Where the behaviour under test is partly urllib's (which exception a 429 raises, what
+`e.headers` holds), tests talk to a real local HTTP server. A mock would encode the
 assumption it is supposed to check.

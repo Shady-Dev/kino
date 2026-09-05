@@ -1,17 +1,11 @@
 """Every showtime is the same ticket in every view (2026-09-02).
 
-The combined city view used to hide the stub's perforation -- `.stubs.grid .stub::before,
-.stubs.grid .stub::after{display:none}`, "the perforation reads wrong on a stacked stub" --
-and the generated city pages did the same to their notches. Deliberate at the time, and a
-visual review of the Tampere view showed what it cost: the combined stubs read as generic
-rounded cards, with the chain-coloured left rule carrying the whole affordance while the
-single-cinema view beside them kept the ticket.
-
-The combined stub is now the row stub adapted: a fixed time compartment on the left, the
-details compartment beside it, the price at the trailing edge, a dashed seam between the
-first two, and notches placed from the same variable as the seam so they cannot drift
-apart. Rendering is DOM work and is measured live; what is pinned here is the source that
-makes the alignment hold by construction, in both renderers.
+The combined city view hid the stub's perforation and the generated city pages hid their
+notches, so combined stubs read as generic cards. The combined stub is now the row stub
+adapted: a fixed time compartment, the details compartment, the price at the trailing
+edge, a dashed seam between the first two, and notches placed from the same variable as
+the seam. Rendering is measured live; the source that makes the alignment hold is pinned
+here, in both renderers.
 """
 import re
 import unittest

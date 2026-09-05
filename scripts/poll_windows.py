@@ -1,45 +1,38 @@
 #!/usr/bin/env python3
-"""When do the cinemas actually publish? Answered from committed data, no network.
+"""When do the cinemas publish? Answered from committed data, no network.
 
     python3 scripts/poll_windows.py                # every provider
     python3 scripts/poll_windows.py --provider kinoset --provider biorex
     python3 scripts/poll_windows.py --since 2026-09-01
     python3 scripts/poll_windows.py --include-development   # keep the flagged commits
 
-The polling schedule should follow the publication rhythm, and nobody knows what that
-rhythm is. This walks every pair of consecutive data commits and reports when new
-schedule data first became visible, so after a few weeks of undisturbed history the
-slots can be set from measurement instead of from folklore about Finnish release days.
+The polling schedule should follow the publication rhythm. This walks every pair of
+consecutive data commits and reports when new schedule data first became visible, so the
+slots can be set from measurement.
 
-**What a timestamp here means.** A row saying `Thu 19h` does not say the cinema published
-at 19:00 on Thursday. It says: the publication happened *after the previous successful
-observation and no later than this commit*. Every row therefore carries `gap`, the
-interval back to the previous poll of that provider, which is the width of the window the
-event is known to fall in. With four polls a day that width is around six hours, so this
-can never resolve a publication time more finely than the schedule it is meant to inform.
-Read the weekday distribution long before reading the hour.
+What a timestamp means. `Thu 19h` says the publication happened after the previous
+successful observation and no later than this commit. Every row carries `gap`, the
+interval back to the previous poll of that provider, which is the width of that window.
+With four polls a day it is about six hours, so read the weekday distribution before the
+hour.
 
-**What counts as new schedule data.** Showtimes are keyed on
-`(venue, title, start, aud)` and only ones starting after the commit was made are
-counted, so a screening scrolling into the past is not an arrival. Three signals:
+What counts as new schedule data. Showtimes are keyed on `(venue, title, start, aud)` and
+only ones starting after the commit are counted, so a screening scrolling into the past is
+not an arrival. Three signals:
 
     showtimes   future screenings present in this commit and absent in the previous one
     horizon     the furthest future start moved outward
-    titles      a title not previously seen for that provider (the weakest of the three:
-                a cinema adding next week's dates for a film already showing publishes
-                real news and introduces no title at all)
+    titles      a title not previously seen for that provider (the weakest: a cinema
+                adding next week's dates for a film already showing introduces none)
 
-**What is deliberately not counted.** Enrichment (`tmdbId`, `tmdb`, `votes`, `tr`,
-`gids`), poster rewrites (`img`), synopses, the `generated` stamp, page generation and
-any other rewrite that leaves the same screenings in place. None of those are in the key,
-so a commit that only enriches produces nothing here.
+Not counted: enrichment (`tmdbId`, `tmdb`, `votes`, `tr`, `gids`), poster rewrites
+(`img`), synopses, the `generated` stamp, page generation and any other rewrite that
+leaves the same screenings in place.
 
-**Development is flagged, not counted.** A provider's own adapter changing between two
-observations means the diff may be backfill -- a new venue, a fixed parser suddenly
-seeing everything -- rather than the cinema publishing. Those rows are excluded by
+Development is flagged, not counted. An adapter changing between two observations means
+the diff may be backfill rather than the cinema publishing; those rows are excluded by
 default and `--include-development` puts them back. The first observation of any provider
-is always excluded: everything is new at first sight, which says nothing about anyone's
-publication schedule. The Aug 26-30 window is almost entirely this.
+is always excluded. The Aug 26-30 window is almost entirely this.
 """
 import argparse
 import collections
@@ -169,7 +162,7 @@ def venue_of(path):
 def venue_providers(trees, cache):
     """venue id -> provider, learned from every blob in the history at once.
 
-    Taken from the shows, because that is where the provider id actually lives -- but it
+    Taken from the shows, because that is where the provider id lives -- but it
     has to be learned globally rather than per commit. A venue whose file is momentarily
     empty carries no show and therefore names no provider, and reading it per commit
     dropped that venue out of the provider's state; every screening then counted as new

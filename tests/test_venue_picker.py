@@ -1,14 +1,9 @@
 """The venue picker's row model: what a query shows, and in which order.
 
-Order is behavior here, not presentation: Enter in the search field picks the first
-row, so a combined "Kaikki {city}" row sorting above a searched venue silently changes
-what Enter selects. That is the bug an external review found on the first version --
-searching "itis" put Kaikki Helsinki first because the combined row appeared whenever
-any venue in the city matched -- and these tests exist so it cannot come back.
-
-Driven through tests/venue_picker_harness.js, which extracts the pure model verbatim
-from index.html and runs it in Node. Focus, inert, Escape and keyboard behavior are DOM
-plumbing outside the model and stay verified live.
+Order is behaviour: Enter picks the first row, so a combined "Kaikki {city}" row sorting
+above a searched venue changes what Enter selects. Searching "itis" once put Kaikki
+Helsinki first. Driven through tests/venue_picker_harness.js, which extracts the pure model
+verbatim from index.html. Focus, inert, Escape and keyboard behaviour stay verified live.
 """
 import json
 import pathlib

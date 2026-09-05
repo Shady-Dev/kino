@@ -9,23 +9,19 @@ screening with the time, the film's title and numeric id, an ISO-like start with
 is clamped to today, and a date past the window returns an empty shell. One request per
 run covers the programme (5.9. to 17.9. on the day this was written).
 
-Read from a GitHub runner on 2026-09-05 with a throwaway workflow: the listing GET, this
-POST and a film page all answered 200 with no challenge header, so the site runs on the
-cloud half from the first day, not provisionally.
+Read from a GitHub runner on 2026-09-05: the listing GET, this POST and a film page all
+answered 200 with no challenge header, so the site runs on the cloud half.
 
 What shapes the parser:
 
 - **The film id is the key.** Every row links `/elokuva/{id}`, the same id the film page
   and the listing use, so `eventId` is that number and no title arithmetic is needed.
 - **Titles are recased.** The site writes every title in capitals ("PIUKAT PAIKAT",
-  "THE TURIN HORSE"), which on a card beside the other chains reads as a different
-  typeface, and the user asked for the shared design to hold. A title with no lowercase
-  letter becomes sentence case (Finnish convention, and right for most of this archive
-  cinema's Finnish titles), roman numerals kept; then the film page's own Kuvaus text is
-  searched for the same title in its own casing and that spelling wins ("One Battle After
-  Another", "Sátántangó"). Every key that touches a title lowercases it first, so nothing
-  downstream moves: `synmerge.norm`, `enrich_tmdb.norm`, the aliases and the client's
-  `normTitle` see the same string as before.
+  "THE TURIN HORSE"). A title with no lowercase letter becomes sentence case (Finnish
+  convention), roman numerals kept; then the film page's own Kuvaus text is searched for
+  the same title in its own casing and that spelling wins ("One Battle After Another",
+  "Sátántangó"). Every key that touches a title lowercases it first, so `synmerge.norm`,
+  `enrich_tmdb.norm`, the aliases and the client's `normTitle` see the same string.
 - **"Myynti on päättynyt." is not sold out.** A row turns `grey` with that note once online
   sales close for the screening; the seats may be free at the door, so `soldOut` stays
   false and the row stays a showtime.
@@ -39,17 +35,14 @@ What shapes the parser:
   posters come from TMDB.
 
 An empty first window is asked for once more and then fails the venue, keeping the
-previous file. It is never read as a confirmed empty programme. The first version took
-the listing page's `shows-coming` count as the evidence and published an empty venue on
-2026-09-05 at 16:57 UTC, when a runner got a window with no screenings *and* a listing
-with no `shows-coming` while the same two requests from an ordinary connection returned
-21 rows and 17 marked films. The site runs on SiteGround (`sg-f-cache` in its headers),
-whose reputation challenge answers a datacenter address with a small HTTP 202 shell that
-`fetch` accepts as success; that is what emptied Kino Engel from runners, and it is the
-only reading of two contentless answers in one minute. A page that is not the page has no
-`shows-coming` either, so absence of a class is not evidence of anything. A challenge
-shell is now recognised and named in the log; an empty answer is retried once and then
-fails; and whether this venue must move to the local half is decided by the run logs.
+previous file; it is never read as a confirmed empty programme. The first version took the
+listing page's `shows-coming` count as evidence and published an empty venue on 2026-09-05
+at 16:57 UTC: a runner had received a small HTTP 202 challenge shell from SiteGround
+(`sg-f-cache`), which `fetch` accepts as success, while an ordinary connection got 21 rows.
+A page that is not the page has no `shows-coming` either, so a missing class is not
+evidence. A challenge shell is now recognised and named in the log, an empty answer is
+retried once and then fails, and the run logs decide whether this venue moves to the local
+half.
 """
 import datetime
 import html as html_mod

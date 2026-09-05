@@ -8,30 +8,25 @@ Run it:
     python3 scripts/accent_check.py --candidate '#B47ACC' --city Helsinki,Tampere
     python3 scripts/accent_check.py --selftest # CIEDE2000 against Sharma's test data
 
-IDEAS says accents are "measured against the set, not picked". It recorded the results
-and not the method, so the numbers could not be checked and two of them turned out to
-disagree with each other. This file is the method. Prose can be misread; a script can be
-run, and its CIEDE2000 is checked against published reference data on every run.
-
-Nothing in the pipeline imports this. It exists to be run by hand before an accent is
-chosen, and to be re-run when the set changes.
+This is the method behind the accent figures in IDEAS; earlier figures were recorded
+without one and two of them disagreed. Its CIEDE2000 is checked against published
+reference data on every run. Nothing in the pipeline imports it: run it by hand before
+choosing an accent, and again when the set changes.
 
 WHAT IS COMPUTED, EXACTLY
 -------------------------
 1. sRGB hex -> linear RGB, using the piecewise IEC 61966-2-1 transfer function, not a
    gamma-2.2 approximation.
-2. Deuteranope simulation, applied to LINEAR RGB. Doing it on gamma-encoded values is
-   the classic error and shifts the numbers a long way; it is the likeliest explanation
-   for the figures this script contradicts.
-   - Primary: Vienot, Brettel & Mollon (1999), the LMS projection every mainstream
-     simulator implements. Full dichromacy, no severity parameter.
+2. Deuteranope simulation, applied to LINEAR RGB. Applying it to gamma-encoded values
+   shifts the numbers a long way.
+   - Primary: Vienot, Brettel & Mollon (1999), the LMS projection mainstream simulators
+     implement. Full dichromacy, no severity parameter.
    - Cross-check: Machado, Oliveira & Fernandes (2009), deuteranomaly at severity 1.0.
-     Two independently derived models agreeing is what makes a verdict here trustworthy.
 3. Linear RGB -> CIE XYZ (sRGB primaries, D65) -> CIELAB (D65, 2 degree observer).
 4. CIEDE2000 (Sharma, Wu & Dalal 2005 formulation), kL = kC = kH = 1.
 
-A pair's separation is its dE00. For a set, the number that matters is the MINIMUM over
-the pairs that can appear together, because that is the pair a reader has to tell apart.
+A pair's separation is its dE00. For a set, the figure that matters is the minimum over
+the pairs that can appear together.
 """
 import argparse
 import json
@@ -285,7 +280,7 @@ def search(pid, accents, step=6, top=12):
     """Best replacement accent for one provider. -> [(worst_deutan, worst_normal, hex)]
 
     Maximises the *minimum* separation against the chains that share a city with this
-    one, because the minimum is what a reader actually has to resolve. Chains it never
+    one, because the minimum is what a reader has to resolve. Chains it never
     appears beside are unconstrained -- the same reasoning that lets Kino Akseli keep a
     gold that is 0.8 dE00 from Finnkino's orange, since Nummela has one chain.
     """

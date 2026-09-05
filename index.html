@@ -453,7 +453,7 @@
      two you can infer where you are, with three you cannot, and reaching the third is
      two taps with nothing saying so. Same segmented control as Leffat/Ajat (shared 8px
      radius), so it is a pattern already on the page rather than a new one.
-     flex:0 0 auto is load-bearing. The control clips its overflow, so under flex
+     flex:0 0 auto is required. The control clips its overflow, so under flex
      pressure it does not push the row wide, it silently eats "EN". */
   .langseg{
     display:flex; flex:0 0 auto; overflow:hidden;
@@ -861,9 +861,8 @@
   const main = $('#main'), areaSel = $('#areaSelect'), daysEl = $('#days'), searchEl = $('#search');
   // Every write to main.innerHTML pairs with one of these. "No movies match your filters"
   // is only painted, and the filter that produced it is typed into a field that keeps
-  // focus, so nothing tells a screen reader the list went empty -- silence reads the same
-  // as still loading. Passing '' on every other path is what stops a stale "no movies"
-  // being announced again when the next render succeeds.
+  // focus, so a screen reader is not told the list went empty. Passing '' on every other
+  // path stops a stale "no movies" being announced again when the next render succeeds.
   const listStatusEl = $('#listStatus');
   const setListStatus = msg => { if(listStatusEl) listStatusEl.textContent = msg || ''; };
 
@@ -879,40 +878,34 @@
   const normTitle = t => (t || '').toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
   // Cross-provider identity for the combined city view: "Spider-Man: Brand New Day 2D",
-  // "Ryhmä Hau: Dinoelokuva (suomeksi)" and "Marsupilami, suomeksi" must all match their
-  // plain forms at another chain.
-  // Reissue markers are the same film labelled in two languages: BioRex ships
-  // "Autot (re-release)", Finnkino "Autot (uudelleenjulkaisu)". Safe to strip because
-  // they carry no sequel information, unlike a subtitle after a dash -- dropping that
-  // would merge "Mission: Impossible - Dead Reckoning" into "Mission: Impossible".
+  // "Ryhmä Hau: Dinoelokuva (suomeksi)" and "Marsupilami, suomeksi" must match their plain
+  // forms at another chain. Reissue markers ("Autot (re-release)" at BioRex, "Autot
+  // (uudelleenjulkaisu)" at Finnkino) carry no sequel information and are safe to strip.
+  // A subtitle after a dash is not: dropping it would merge "Mission: Impossible - Dead
+  // Reckoning" into "Mission: Impossible".
   const mergeKey = t => normTitle((t || '')
     .replace(/\((?:suomeksi|dubattu|dub|orig\.?)\)/gi, ' ')
     .replace(/\((?:re-?release|uudelleenjulkaisu|uusi\s+kopio)\)/gi, ' ')
     .replace(/,?\s*\bsuomeksi\b/gi, ' ')
     .replace(/\b(?:2d|3d|imax|4k)\b/gi, ' '));
   // --- film metadata store: pure, extracted verbatim by tests/swr_refresh_harness.js ---
-  // The copy the service worker just cached, read from the Cache Storage the window
-  // shares with it -- not fetched. A fetch through the SW answers from that same cache,
-  // but it also starts a background refresh, and every refresh that lands posts
-  // another message: the loop a 60 s cooldown used to hold back, at the price of
-  // dropping every message inside the window, a second cinema's genuine update
-  // included. A cache read causes no refresh and no message, so nothing here can feed
-  // itself, and the cooldown is gone.
+  // The copy the service worker just cached, read from Cache Storage rather than fetched.
+  // A fetch through the SW would start another background refresh, and every refresh
+  // that lands posts another message; a cache read starts nothing, so the handler cannot
+  // feed itself and needs no cooldown.
   async function readCached(path){
     const r = await caches.match(path);
     if(!r) throw new Error('not cached: ' + path);
     return r.json();
   }
 
-  // films-extra.json, held for the life of the tab. Two rules the old memo got wrong.
-  // A failed fetch is not memoised: the caller gets an empty map once and the next
-  // caller fetches again. Before, one failed fetch left every later sheet in the tab
-  // without a synopsis. And the worker's `fresh` message for the file re-reads the copy
-  // it cached and swaps it in, so a synopsis that landed after the tab opened reaches an
-  // open sheet without a reload. `io` carries the fetch, the cache read and the redraw
-  // hook. Concurrent loads share one fetch. Concurrent fresh reads share one read. A load
-  // in flight is awaited before a fresh read: the worker answers a load from cache before
-  // it refreshes, so the load's answer is the older copy.
+  // films-extra.json, held for the life of the tab. A failed fetch is not memoised: the
+  // caller gets an empty map once and the next caller fetches again. The worker's `fresh`
+  // message for the file re-reads the cached copy and swaps it in, so a synopsis that
+  // landed after the tab opened reaches an open sheet without a reload. `io` carries the
+  // fetch, the cache read and the redraw hook. Concurrent loads share one fetch and
+  // concurrent fresh reads share one read. A load in flight is awaited before a fresh
+  // read, because the worker answers a load from cache before it refreshes.
   function makeExtraStore(io){
     let films = null, sig = '', loading = null, reading = null, again = false;
     // The change test. The file's `generated` is a bare date and the file is rewritten
@@ -1148,18 +1141,13 @@
         AR:'Arabic', JA:'Japanese', ZH:'Chinese', KO:'Korean', HI:'Hindi',
         TR:'Turkish', KA:'Georgian', TA:'Tamil', LT:'Lithuanian', ML:'Malayalam'}
   };
-  // Keys are ISO 639-1 language codes. Swedish is SV, not SE: SE is Sweden the country,
-  // and this app stored it until 2026-08-29 because Finnkino sends it.
-  // A code with no entry here renders as itself, and that is how a bare "SV" sat on 644
-  // showtimes unnoticed -- and then how "ES" sat on 133 more, found the same day while
-  // checking the first fix. Which way to fix it depends on the code:
-  //   a real language code missing from this map  -> add it here, the adapter is right
-  //   something that is not a language code at all -> fix the adapter (SE was this)
-  // The list covers every code in the data plus the ones the adapters' own name maps
-  // can emit, so a new one means a provider started publishing a language nobody has
-  // screened here before.
-  // Full nominatives above, not the old abbreviated "engl."/"ruots." forms: the audio
-  // language now stands on its own with no role word, so it has to read as a noun.
+  // Keys are ISO 639-1 language codes. Swedish is SV; Finnkino sends SE (the country),
+  // which the adapter maps. A code with no entry renders as itself, which is how a bare
+  // "SV" sat on 644 showtimes and "ES" on 133 unnoticed. A real code missing here: add it.
+  // Something that is not a language code: fix the adapter. The list covers every code in
+  // the data plus the ones the adapters' name maps can emit.
+  // Full nominatives, not "engl."/"ruots.": the audio language stands alone with no role
+  // word, so it has to read as a noun.
   const LW = { fi:{S:'tekstitys:'}, sv:{S:'text'}, en:{S:'subs'} };
   // "EN-A, FI-S, SE-S" reads "englanti · tekstitys: suomi/ruotsi": audio bare, subtitles
   // labelled, one entry per role rather than per language. The "/" matches how a single
@@ -1181,9 +1169,8 @@
     return out.join(' · ');
   }
   // films.json is keyed by Finnkino's filmId. In a combined city view eventId is the
-  // cross-chain merge key, so the id has to come from the show's own _eid -- the same
-  // resolution showSheet() already does. Without it English mode fell back to the
-  // Finnish title for every film in every combined view.
+  // cross-chain merge key, so the id comes from the show's own _eid, as in showSheet().
+  // Without it English mode fell back to the Finnish title in every combined view.
   const filmEntry = m => {
     if(!films || !m) return null;
     const ids = [m.eventId, m._eid, ...(m.times || []).map(t => t._eid)];
@@ -1218,11 +1205,9 @@
       .getPropertyValue('--bg').trim() || '#0D0E12';
   };
   applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
-  // No launch-time recomposite hack here, though two were tried (v87, v88): on the
-  // one device that shows a stale composite behind the status bar at launch -- an
-  // iPhone 15 Pro Max on iOS 27 -- neither a root-transform nudge nor a sheet-grade
-  // inert flip after load cleared it, while a real sheet open does. Parked as an OS
-  // compositor bug; see IDEAS before adding a third guess.
+  // No launch-time recomposite hack. Two were tried (v87, v88) on the one device that
+  // shows a stale composite behind the status bar at launch (iPhone 15 Pro Max, iOS 27)
+  // and neither cleared it. Parked as an OS compositor bug; see IDEAS before a third.
   $('#themeToggle').onclick = () => {
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next); store.k = next;
@@ -1247,20 +1232,17 @@
   const addDays = (iso, n) => { const t = new Date(iso + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10); };
   const dowOf = iso => new Date(iso + 'T12:00:00Z').getUTCDay();
   const dmOf  = iso => { const [,m,d] = iso.split('-'); return `${+d}.${+m}.`; };
-  // The picked day is persisted as an ISO date, not as an offset from today. The offset
-  // had to be clamped to the chip range on every rebuild, so once horizons ran months out
-  // (Gilda into December) picking a far date and then reloading -- or just toggling the
-  // language, which rebuilds the row -- silently landed on today+13 with an empty list and
-  // nothing on screen to explain it. An old `dayIdx` pref is ignored, which falls back to
-  // today.
+  // The picked day is persisted as an ISO date, not an offset from today. The offset was
+  // clamped to the chip range on every rebuild, so with horizons months out a far date
+  // plus a reload or a language toggle landed on today+13 with an empty list. An old
+  // `dayIdx` pref is ignored and falls back to today.
   function savedDay(){
     const d = prefs.get().day;
     const base = fiToday();
     if(typeof d !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(d) || d < base) return null;
-    // state.horizon is empty until the first area file lands. Unknown is not unlimited,
-    // but the saved date was inside somebody's horizon when it was picked, and a date past
-    // this venue's own horizon already has its own empty state ("ohjelmistoa ei ole vielä
-    // julkaistu"), which explains itself.
+    // state.horizon is empty until the first area file lands. The saved date was inside a
+    // horizon when it was picked, and a date past this venue's horizon has its own empty
+    // state ("ohjelmistoa ei ole vielä julkaistu").
     if(state.horizon && d > state.horizon) return null;
     return d;
   }
@@ -1269,9 +1251,7 @@
     const base = fiToday();
     const saved = savedDay() || base;
     // aria-current, not aria-selected: these are buttons that pick a day, not tabs with
-    // panels, and the file used to claim role="tab" while implementing none of the
-    // pattern -- no aria-selected, no aria-controls, no arrow keys. `date` is the exact
-    // token for "the one in this set that is current".
+    // panels. `date` is the token for "the one in this set that is current".
     const activate = el => {
       [...daysEl.children].forEach(c => { c.classList.remove('active'); c.removeAttribute('aria-current'); });
       el.classList.add('active');
@@ -1317,21 +1297,18 @@
     return new Date(Date.UTC(y, m - 1 + k, 1)).toISOString().slice(0, 7);
   };
   let calMonth = null;
-  // The calendar chip shows the picked date while that date is the one being viewed, and
-  // goes back to the 📅 face as soon as a quick chip takes over. Leaving the date on it
-  // was a lie: the chip read "La 19.9." but tapping it opened the picker, because it is
-  // the picker button, not a shortcut back to that date.
+  // The calendar chip shows the picked date while that date is being viewed and goes back
+  // to the 📅 face when a quick chip takes over. It is the picker button, not a shortcut
+  // back to that date, so it must not keep showing one.
   function resetCalChip(){
     if(!calChip) return;
     calChip.innerHTML = `<small>${L[state.lang].other}</small><b>\u{1F4C5}</b>`;
     calChip.classList.remove('active');
   }
-  // The picker declares role="dialog" aria-modal="true", and that is a promise, not a
-  // style: the background has to be inert while it is open, focus has to move into it,
-  // and closing has to hand focus back. It reuses the movie sheet's lifecycle (BEHIND /
-  // setInert) rather than a second mechanism doing almost the same thing. Unlike the
-  // sheet the wrap is created and removed per open, so there is no inert/aria-hidden
-  // state to manage on the dialog itself.
+  // The picker declares role="dialog" aria-modal="true", so the background is inert while
+  // it is open, focus moves into it and closing hands focus back. It reuses the movie
+  // sheet's lifecycle (BEHIND / setInert). The wrap is created and removed per open, so
+  // the dialog itself carries no inert/aria-hidden state.
   function closeCal(){
     const w = document.querySelector('.cal-wrap');
     if(w) w.remove();
@@ -1364,14 +1341,10 @@
     if(first) first.focus();
   }
   // --- calCell: pure, extracted verbatim by tests/cal_cell_harness.js ---
-  // The selected day used to be the `sel` class and nothing else, so the chosen date was
-  // visible and nowhere in the accessibility tree: a screen reader read the grid as
-  // "1, 2, 3" with no way to hear which one is current. The day chips outside the picker
-  // already say `aria-current="date"`, so the calendar now says the same thing.
-  //
-  // Only on the button. A day with no showtimes renders as a <span>, is not a control and
-  // cannot be the selected date, so marking it current would announce a state for
-  // something that has none.
+  // The selected day carries aria-current="date", as the day chips outside the picker
+  // do; the `sel` class alone left the chosen date out of the accessibility tree.
+  // Only on the button: a day with no showtimes renders as a <span>, is not a control
+  // and cannot be the selected date.
   function calCell(d, iso, has, selIso){
     const sel = iso === selIso;
     const cls = 'cal-day' + (has ? ' has' : ' off') + (sel ? ' sel' : '');
@@ -1431,15 +1404,12 @@
   // silently stops is otherwise invisible unless you happen to pick one of its venues.
   const STALE_H = 8;
   // The route a cinema uses to ask a question or to be taken out. The pipeline's
-  // User-Agent points every provider at this site, so the site has to answer. Plain
-  // text on purpose: obfuscating it against scrapers also hides it from the reader it
-  // exists for, and a contact route nobody can copy is not one.
+  // User-Agent points every provider here, so the site has to answer. Plain text:
+  // obfuscating it against scrapers also hides it from the reader it exists for.
   const CONTACT = 'leffavuoro@gmail.com';
-  // AGPL section 13 makes a network-deployed *modified* version offer its source, so
-  // this is not an obligation on the original. It is here because the clause is
-  // toothless without an example: a forker who never saw a source link has no idea one
-  // is expected. The licence's own how-to-apply text suggests exactly this for a web
-  // application.
+  // AGPL section 13 makes a network-deployed modified version offer its source. Not an
+  // obligation on the original; this is the example a forker needs, and the licence's
+  // how-to-apply text suggests it for a web application.
   const SOURCE_URL = 'https://github.com/Shady-Dev/kino';
   const LICENCE = 'AGPL-3.0';
   function ageHours(iso){
@@ -1447,27 +1417,16 @@
     return isNaN(t) ? null : (Date.now() - t) / 36e5;
   }
   // --- healthState: pure, extracted verbatim by tests/health_state_harness.js ---
-  // Age alone was the whole test, so a provider that failed to refresh one venue read as
-  // healthy for as long as the venue it kept was under STALE_H -- the summary said every
-  // source was up to date while the expanded row beside it said (1/12). A partial refresh
-  // is a degraded state the moment it happens, independent of how old the retained data
-  // is, because it is a statement about *this run* rather than about the data's age.
-  //
-  // Order is by severity, and `behind` outranks `partial`: a provider that is both has
-  // the worse problem, and saying so twice in one summary line would not fit anyway.
-  // `partial` is kept distinct from `behind` rather than folded into it, because data two
-  // hours old is not behind and calling it that is the kind of false alarm that teaches
-  // people to ignore the line.
-  // `pending` sits below `partial`, and only the adapter can grant it: run.py writes a
-  // venue into `pending` only when the module vouches that its empty answer is positive
-  // evidence (EMPTY_VENUES_CONFIRMED) -- a cinema with no programme at the moment, one
-  // that has not started, like Kino Metso Tikkakoski publishing into late October from
-  // day one, or a touring cinema's town between visits, like Muurame the day after its
-  // last screening (since 2026-09-05; before that an ended programme was kept and read
-  // "did not refresh" for weeks). A month of that over a quiet town would be the false
-  // alarm that teaches people to ignore the line. `unverified` stays partial: run.py
-  // cannot tell "added before its programme" from "a parse that has never worked", and
-  // the ambiguous case must stay visible.
+  // Severity order: behind > partial > pending > ok. A partial refresh is degraded the
+  // moment it happens, whatever the age of the kept data; age alone once let a provider
+  // that failed one venue read as healthy. `partial` stays distinct from `behind`: data
+  // two hours old is not behind, and saying so is the false alarm that teaches people to
+  // ignore the line.
+  // `pending` is granted only when the adapter vouches that an empty answer is positive
+  // evidence (EMPTY_VENUES_CONFIRMED): a programme not yet started (Kino Metso Tikkakoski
+  // publishing into late October from day one) or a touring cinema's town between visits
+  // (Muurame). `unverified` stays partial: run.py cannot tell "added before its programme"
+  // from "a parse that has never worked", so that case stays visible.
   function healthState(m, ageH){
     if(!m) return 'gone';
     if(m.gone) return 'gone';
@@ -1494,10 +1453,9 @@
       if(h === null) return `<span class="src bad">${nm} ?</span>`;
       const cls = st === 'behind' ? 'src bad' : (st === 'partial' ? 'src part-bad' : 'src');
       const mark = st === 'behind' ? '\u26a0 ' : '';
-      // Without this a chain whose age comes from one stale cinema reads as if the
-      // whole chain were down. The count says how many venues are not fully live, and
-      // the title names each kind by what is true of it -- stale, never-yet-answered
-      // and not-yet-programmed are three different facts, not one "did not refresh".
+      // Without this a chain whose age comes from one stale cinema reads as if the whole
+      // chain were down. The count says how many venues are not fully live; the title
+      // names each kind: stale, never yet answered, not yet programmed.
       const T = L[state.lang];
       const nS = m.stale || 0, nU = m.unverified || 0, nP = m.pending || 0;
       const n = nS + nU + nP;
@@ -1510,16 +1468,13 @@
         : '';
       return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${T.hours}${part}</span>`;
     });
-    // The key lives here rather than under the chain legend: it is reference material,
-    // not something to scan past on the way to a showtime, and the word it decodes is
-    // already on the card, in the times meta line and in the sheet. A second key row
-    // above the list read as clutter.
+    // The key sits here rather than under the chain legend: it is reference material, and
+    // the word it decodes is already on the card, the meta line and the sheet.
     el.innerHTML = parts.join(' · ');
 
-    // The summary names the sources that are behind rather than counting them. A count
-    // makes you open the disclosure to learn anything; a name is the answer. Truncated
-    // past three, because at that point the shape of the problem is "most of them" and
-    // the list is one click away.
+    // The summary names the sources that are behind rather than counting them; a name is
+    // the answer, a count needs the disclosure opened. Truncated past three, where the
+    // problem is "most of them" and the list is one click away.
     const nameOf = p => (SOURCE[p] || [p])[0];
     const behind = names.filter(p => state_[p] === 'behind' || state_[p] === 'gone').map(nameOf);
     const partial = names.filter(p => state_[p] === 'partial').map(nameOf);
@@ -1538,10 +1493,9 @@
         sum.textContent = `\u26a0 ${T.partialSources}: ${esc(list(partial))}`;
         sum.className = 'bad';
       } else if(pending.length){
-        // Quiet, no warning mark: the fetch is fresh and the adapter confirmed the
-        // programme has not started. Named by venue rather than chain, because "Kino
-        // Metso" reads as the whole chain when only Tikkakoski is waiting on its
-        // October premiere.
+        // Quiet, no warning mark: the fetch is fresh and the adapter confirmed there is no
+        // programme yet. Named by venue, since "Kino Metso" reads as the whole chain when
+        // only Tikkakoski is waiting.
         const vnames = pending.flatMap(p => (providerMeta[p].pendingIds || []))
           .map(id => (venueIndex[id] && venueIndex[id].label) || id);
         sum.textContent = `${T.noProgYet}: ${list(vnames)}`;
@@ -1557,23 +1511,15 @@
 
   // Format the cheapest positive price, preserving a provider-supplied floor.
   // --- priceLabel: pure, extracted verbatim by tests/price_label_harness.js ---
-  // parseFloat reads a leading number and nothing else, so a provider that publishes
-  // its own floor -- Cinema Orion writes "alkaen 10\u20ac" -- came back NaN, was filtered
-  // out as unpriced, and rendered no price at all. That was 23 of Orion's 29
-  // price-bearing showtimes on 2026-09-01, and the six that did show were the ones
-  // whose string happened to start with a digit.
-  //
-  // Two separate questions, and the old code only asked one. *What* the cheapest price
-  // is: the first number anywhere in the string, because no price string in the
-  // committed data carries a second one (checked across all 1043). And *whether* it is
-  // a floor: either this row list holds two different amounts, or a source string says
-  // so itself. The second test is on shape rather than on the word -- whatever is left
-  // once the number, the currency and the spacing are gone -- because the word is in
-  // the provider's language and there are three of those.
-  //
-  // The sign is inside the match on purpose. Leaving it out let "-5\u20ac" match as 5 and
-  // pass the `v > 0` guard the old code used it for, turning a rejected price into an
-  // accepted one; a test caught that, reading the diff did not.
+  // parseFloat reads only a leading number, so a provider's own floor (Cinema Orion's
+  // "alkaen 10\u20ac") parsed as NaN and rendered no price: 23 of Orion's 29 priced
+  // showtimes on 2026-09-01. Two questions. What the cheapest price is: the first number
+  // anywhere in the string; no price string in the data carries a second one (checked
+  // across 1043). Whether it is a floor: the row list holds two amounts, or a source
+  // string says so by its shape once number, currency and spacing are removed, since the
+  // word is in the provider's language and there are three of those.
+  // The sign is inside the match: without it "-5\u20ac" matched as 5 and passed the
+  // `v > 0` guard.
   function priceLabel(rows){
     let floor = false;
     const vals = [];
@@ -1625,33 +1571,26 @@
     return `<div class="status">${L[state.lang].loadFail}<br><small>${esc(e.message||e)}</small></div>`;
   }
   // --- url sinks: pure, extracted verbatim by tests/safe_url_harness.js ---
-  // A URL parser deletes ASCII tab, LF and CR from anywhere in a URL and strips the
-  // control characters off its ends, so the string a browser follows is not always the
-  // string tested here. `java<LF>script:alert(1)` carries no scheme past the match
-  // below -- `[a-z0-9+.-]*` stops at the LF -- so it was returned as a scheme-less
-  // relative URL and resolved to javascript: on the click. Four payloads got in that
-  // way: LF, CR, tab, and a leading NUL, which `trim()` does not remove either.
-  // Rejected rather than stripped clean: cleaning would have to reproduce the parser's
-  // removal rules exactly for the tested string and the emitted one to stay the same
-  // string, and being wrong about that is how this hole opened in the first place.
-  // No provider URL has ever carried one -- `trim()` still absorbs the stray newline
-  // an adapter leaves on the end.
+  // A URL parser deletes ASCII tab, LF and CR anywhere in a URL and strips control
+  // characters off its ends, so the string a browser follows is not always the string
+  // tested. `java<LF>script:alert(1)` carried no scheme past `[a-z0-9+.-]*`, was returned
+  // as a relative URL and resolved to javascript: on click; LF, CR, tab and a leading NUL
+  // all got in. Such strings are rejected rather than cleaned, since cleaning would have
+  // to reproduce the parser's rules exactly. `trim()` still absorbs a stray trailing
+  // newline from an adapter.
   const CTRL = /[\u0000-\u001F\u007F]/;
-  // Every provider string crosses an innerHTML boundary somewhere, and every adapter
-  // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
-  // metacharacters -- a stored-XSS surface fed by nine third-party sites, and a rendering
-  // bug on harmless titles ("Movie &lt;3"). Escape at the sink, never in the adapters:
-  // the verbatim title is the key for normTitle(), films-extra.json and tmdb-aliases.
+  // Every provider string crosses an innerHTML boundary, and every adapter strips tags
+  // then unescapes, so a source page's entities arrive as live HTML metacharacters: a
+  // stored-XSS surface fed by third-party sites, and a rendering bug on "Movie &lt;3".
+  // Escape at the sink, never in the adapters: the verbatim title is the key for
+  // normTitle(), films-extra.json and tmdb-aliases.
   const esc = v => String(v ?? '').replace(/[&<>"']/g,
     ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   // href/src values also come from provider JSON. esc() stops attribute breakout; this
-  // additionally rejects any scheme that is not http(s), so a hostile booking URL cannot
-  // be javascript: or data:. Scheme-less (repo-relative poster paths) stays allowed.
-  // Two different questions, and one answer was being used for both. A ticket or
-  // trailer URL is *meant* to leave this origin, so http(s) and relative are all fine.
-  // A poster is not: an <img> is a request the browser makes on its own, and the
-  // README's claim that a page load makes no third-party requests rests on every
-  // poster being local. safeUrl said yes to `https://third-party/x.jpg` in both roles.
+  // rejects any scheme that is not http(s), so a booking URL cannot be javascript: or
+  // data:. Scheme-less (repo-relative poster paths) stays allowed. Ticket and trailer
+  // URLs are meant to leave this origin. A poster is not: an <img> is a request the
+  // browser makes on its own, so posters have their own check below.
   const safeUrl = u => {
     u = String(u || '').trim();
     if(!u) return '';
@@ -1659,13 +1598,10 @@
     const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
     return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
   };
-  // Same-origin, and inside the mirror directory. Deliberately a path allowlist rather
-  // than an origin check: `mirror_posters.py` leaves a hot-linked URL in the data when a
-  // download fails, on purpose, so that a third party's uptime cannot stop the pipeline
-  // publishing showtimes. That makes the privacy invariant something the client has to
-  // hold on its own rather than something it inherits from the pipeline behaving. Every
-  // poster reference in the committed data is `data/posters/` today (3157 of them,
-  // counted 2026-08-30), so the rule costs nothing and catches the day one is not.
+  // Same-origin and inside the mirror directory. A path allowlist rather than an origin
+  // check: mirror_posters.py leaves a hot-linked URL in the data when a download fails,
+  // so the privacy invariant has to hold in the client. Every poster reference in the
+  // data was data/posters/ on 2026-08-30 (3157 of them), so the rule costs nothing.
   const ASSET_DIR = 'data/posters/';
   const safeAssetUrl = u => {
     u = String(u || '').trim();
@@ -1678,12 +1614,10 @@
   const jsonCache = {};
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
-  // Boot-time speculation: every URL the boot will need is derivable before any
-  // response arrives, so those requests can start in parallel instead of in three
-  // serial waves (providers -> venue lists -> schedule). A prefetched promise is
-  // consumed once by the fetchJSON call that would have made the same request; a
-  // wrong guess (venue changed on another device, stale city ids) is one wasted
-  // request and the normal path fetches as before.
+  // Boot-time speculation: every URL the boot needs is derivable before any response
+  // arrives, so the requests start in parallel instead of in three serial waves
+  // (providers -> venue lists -> schedule). A prefetched promise is consumed once by the
+  // fetchJSON call for the same URL; a wrong guess is one wasted request.
   const prefetched = new Map();
   function prefetch(path){
     if(prefetched.has(path)) return;
@@ -1698,16 +1632,13 @@
       prefetched.delete(path);
       return p;
     }
-    // No cache-buster: GitHub Pages serves max-age=600 and data updates 4x/day, so a
-    // schedule up to 10 min stale is immaterial and the stale banner covers the
-    // pathological case. The buster made every fetch a unique URL, so the SW cached a
-    // fresh copy of every file per app open (tens of MB on a phone, evicted only on a
-    // CACHE bump) and the HTTP cache never served anything.
+    // No cache-buster: Pages serves max-age=600 and data updates a few times a day, so
+    // ten minutes stale is immaterial and the stale banner covers the rest. The buster
+    // made every fetch a unique URL, so the SW cached a fresh copy per app open.
     //
-    // fetch() has no timeout of its own, so a connection that opens and then stalls --
-    // the normal shape of a phone leaving coverage -- never settles and never rejects:
-    // the spinner spins until the app is closed, with no error and nothing to retry.
-    // Abort at FETCH_MS so the catch in the caller can draw netErrorHtml instead.
+    // fetch() has no timeout, so a connection that opens and stalls never settles and
+    // the spinner spins until the app is closed. Abort at FETCH_MS so the caller's catch
+    // can draw netErrorHtml.
     const ac = new AbortController();
     const t = setTimeout(() => ac.abort(), FETCH_MS);
     try {
@@ -1720,11 +1651,10 @@
   }
 
   const LANGS = ['fi','sv','en'];
-  // Swedish names for the cities we cover. Display only: cityGroups is keyed by the
-  // Finnish name and so is the `city:` value in prefs and in the ?area= links the
-  // generated pages carry, so translating the key would break every deep link. Cities
-  // with no established Swedish name keep the Finnish one, which is also what
-  // Finland-Swedish usage does for monolingual municipalities.
+  // Swedish names for the cities we cover. Display only: cityGroups, the `city:` pref
+  // value and the ?area= links on the generated pages are keyed by the Finnish name, so
+  // translating the key would break every deep link. Cities with no established Swedish
+  // name keep the Finnish one.
   const CITY_SV = {
     Espoo:'Esbo', Helsinki:'Helsingfors', Hyvinkää:'Hyvinge', Hämeenlinna:'Tavastehus',
     Iisalmi:'Idensalmi', Kajaani:'Kajana', Kokkola:'Karleby', Lahti:'Lahtis',
@@ -1734,10 +1664,8 @@
   };
   const cityLabel = c => (state.lang === 'sv' && CITY_SV[c]) || c;
 
-  // Sorting followed Finnish collation in every language, which was a recorded gap for
-  // English and would have been a worse one for Swedish. One collator per language,
-  // rebuilt on switch. Measured as free: Intl.Collator and localeCompare cost the same
-  // on a 45-title sort, V8 caches it either way.
+  // One collator per language, rebuilt on switch; sorting used to follow Finnish
+  // collation in every language. Measured as free on a 45-title sort.
   const COLLATE = { fi:'fi', sv:'sv-FI', en:'en' };
   let coll = new Intl.Collator(COLLATE.fi);
 
@@ -1748,12 +1676,11 @@
     const w = (a.name || '').trim().split(/\s+/);
     return w.length > 1 ? w[w.length-1] : (a.name || '');
   }
-  // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city -- the
-  // optgroup label already carries the city. BioRex names are already chain-prefixed.
-  // Every provider-specific string and colour comes from data/providers.json, which
-  // the pipeline generates from scripts/providers/registry.py. Adding a provider is a
-  // registry entry plus an adapter: no edit in this file. The fallback keeps the app
-  // usable when that file is missing (first deploy, or an old service worker).
+  // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city; the group
+  // label already carries the city. Every provider-specific string and colour comes from
+  // data/providers.json, generated from scripts/providers/registry.py, so adding a
+  // provider needs no edit here. The fallback keeps the app usable when that file is
+  // missing (first deploy, or an old service worker).
   const PROV_FALLBACK = [
     { id:'finnkino',     label:'Finnkino',      host:'finnkino.fi',       accent:'#E4551F', book:'buy' },
     { id:'biorex',       label:'BioRex',        host:'biorex.fi',         accent:'#1273D4', book:'buy' },
@@ -1819,11 +1746,10 @@
   }
 
   /* ---------- venue picker ---------- */
-  // The old control was a native <select>: free platform UI, but nowhere to hang a
-  // search field over 70 venues. The trigger keeps the select's face and its place in
-  // the row; the list is a dialog on the same modal lifecycle as the movie sheet and
-  // the month picker (BEHIND/inert). Cities with more than one screen keep their
-  // combined entry at the top of their group, exactly as the optgroups had it.
+  // The trigger keeps a native select's face and place in the row; the list is a dialog
+  // on the same modal lifecycle as the movie sheet and the month picker (BEHIND/inert),
+  // with a search field over 70 venues. Cities with more than one screen keep their
+  // combined entry at the top of their group.
   const vwrap = $('#vwrap'), vlist = $('#vlist'), vq = $('#vq'), vnone = $('#vnone');
   // --- venue picker model: pure, extracted verbatim by tests/venue_picker_harness.js ---
   // NFD + strip combining marks: "jarvela" finds Järvelä. The stripped string is the
@@ -1838,10 +1764,10 @@
   }
   // The flat list the sheet renders, decided away from the DOM so it can be tested.
   // ctx: {T, fav, area, cityOrder, cityVenues, venueIndex, labelOf, cityLabel, cityOf}.
-  // Two rules Enter depends on, because Enter picks the FIRST row:
+  // Two rules Enter depends on, because Enter picks the first row:
   // - A combined "Kaikki {city}" row appears only when nothing is searched or the query
-  //   matches the row's own text or its city -- never merely because a venue in that
-  //   city matched. Searching "itis" must put Finnkino Itis first, not Kaikki Helsinki.
+  //   matches the row's own text or its city, never because a venue in that city
+  //   matched. Searching "itis" must put Finnkino Itis first.
   // - A venue matches on its label, its raw city name and the display city name, so in
   //   Swedish both "Turku" and "Åbo" find a Turku venue.
   function venueRows(q, ctx){
@@ -1942,19 +1868,12 @@
   }
   // --- area routing: pure, extracted verbatim by tests/area_routing_harness.js ---
   // Which venue a load opens, and what the URL should say afterwards.
-  //
-  // `?area=` used to be applied and then deleted from the URL immediately. That looked
-  // tidy and lost the selection: on the next load the param was gone, the restore fell
-  // through to the branch below it, and the favourite beat the stored area -- so
-  // following a link from a Tapio page and pressing reload landed on the starred cinema
-  // instead. The param now stays for as long as it is the answer.
-  //
-  // `remember` writes the deep-linked venue into `area`, the last-browsed slot, and
-  // never into `fav`. Arriving through a link must not restar anybody's cinema.
-  //
-  // `keepParam` is false when the param did not decide anything, which includes a stale
-  // or hand-edited id: the caller strips it, so the URL cannot claim a venue the picker
-  // is not showing.
+  // `?area=` stays in the URL for as long as it is the answer. Applied and then deleted,
+  // a reload fell through to the stored restore and the favourite beat the deep-linked
+  // venue. `remember` writes the venue into `area`, the last-browsed slot, never into
+  // `fav`: a link must not restar anybody's cinema. `keepParam` is false when the param
+  // decided nothing (a stale or hand-edited id), and the caller strips it so the URL
+  // cannot claim a venue the picker is not showing.
   function startupArea(deep, pr, known){
     if(known(deep))     return { area: deep,    remember: true,  keepParam: true };
     if(known(pr.fav))   return { area: pr.fav,  remember: false, keepParam: false };
@@ -1971,16 +1890,11 @@
     return q.toString();
   }
   // -> which UI language a load starts in. `?lang=` is the second half of the deep link
-  // the generated pages carry: an English landing page has to open the English app, and
-  // until this the language came from prefs alone and defaulted to Finnish, so a reader
-  // with nothing stored landed in the wrong one. Exact match against LANGS -- `EN` or
-  // `xx` decide nothing and the caller strips them.
-  //
-  // `remember` seeds prefs only when nothing valid is stored: a first-time reader keeps
-  // the language of the page they arrived through on later plain visits, while a stored
-  // choice is never overwritten by a link somebody else wrote. `keepParam` keeps the
-  // parameter in the URL while it is the answer, so a reload applies it again, the same
-  // rule `startupArea` follows for the venue.
+  // the generated pages carry; without it a reader with nothing stored opened a Finnish
+  // app from an English page. Exact match against LANGS; `EN` or `xx` decide nothing and
+  // the caller strips them. `remember` seeds prefs only when nothing valid is stored, so
+  // a stored choice is never overwritten by a link. `keepParam` keeps the parameter while
+  // it is the answer, the same rule `startupArea` follows.
   function startupLang(param, stored, langs){
     if(langs.includes(param))  return { lang: param,  remember: !langs.includes(stored), keepParam: true };
     if(langs.includes(stored)) return { lang: stored, remember: false, keepParam: false };
@@ -2041,12 +1955,10 @@
     const pr = prefs.get();
     const known = id => !!id && (areas.some(a => a.id === id) ||
       (id.startsWith('city:') && (cityGroups[id.slice(5)] || []).length > 1));
-    // ?area= beats both. The pre-rendered pages under /teatteri/ and /kaupunki/ link here,
-    // and without this a reader arriving from a search for one cinema landed on whatever
-    // they browsed last and had to find it again in a 46-entry picker. Validated against
-    // the venue list like any stored value, so a stale or hand-edited link falls through
-    // to the normal restore rather than showing an empty view. The decision is
-    // startupArea(); see the comment on it for why the param now survives the load.
+    // ?area= beats both: the pre-rendered pages link here, and a reader arriving from a
+    // search for one cinema must land on it. Validated against the venue list like any
+    // stored value, so a stale link falls through to the normal restore. The decision is
+    // startupArea().
     let deep = '';
     try {
       deep = new URLSearchParams(location.search).get('area') || '';
@@ -2074,11 +1986,9 @@
     const data = await (areasPromise || fetchJSON('data/areas.json'));
     const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
       .map(a => ({ ...a, provider:'finnkino' }));
-    // Seeded from the expected provider list *before* any venue file is fetched, so a
-    // provider whose file never arrives stays on screen as unavailable instead of
-    // vanishing. It used to be built only from what loaded, which meant a chain that was
-    // completely down was indistinguishable from a chain that does not exist -- the one
-    // state the health line most needs to show, and the only one it could not.
+    // Seeded from the expected provider list before any venue file is fetched, so a
+    // provider whose file never arrives stays on screen as unavailable. Built only from
+    // what loaded, a chain that was down looked the same as one that did not exist.
     providerMeta = {};
     for(const pr of PROVIDERS) if(pr && pr.id) providerMeta[pr.id] = { venues: 0, gone: true };
     providerMeta.finnkino = { generated: data.generated, oldest: data.generated,
@@ -2166,10 +2076,9 @@
   // mergeKey, the two things this needs from the rest of the app.
   function cityPayload(ids, parts, ctx){
     const shows = [], dates = new Set();
-    // The expected ids stay the source of truth. A venue whose file fails was skipped
-    // silently, so a city could render a confident, complete-looking programme that was
-    // missing a whole cinema -- and the one place that would have shown it, the health
-    // line, is per provider, not per venue. Named here so the view can say so.
+    // The expected ids stay the source of truth. A venue whose file fails is named here
+    // so the view can say so; skipped silently, a city rendered a complete-looking
+    // programme missing a whole cinema, and the health line is per provider, not venue.
     const missing = [];
     let generated = '', oldest = '';
     parts.forEach((p, i) => {
@@ -2196,23 +2105,20 @@
     });
     mergeIds(shows);
     const list = [...dates].sort();
-    // `generated` is the oldest member's, which is right for the stale banner and exactly
-    // why it cannot also say whether anything changed: a newer member refreshing leaves
-    // it where it was, and a background refresh that compared it threw the newer member's
-    // update away. `stamp` names every member with its own timestamp, a missing one as
-    // `-`, so a member updating, dropping out or coming back all move it. refreshKey()
-    // reads it.
+    // `generated` is the oldest member's, which the stale banner needs, so it cannot also
+    // be the change test: a newer member refreshing leaves it unchanged. `stamp` names
+    // every member with its own timestamp, a missing one as `-`, so any member updating,
+    // dropping out or coming back moves it. refreshKey() reads it.
     const stamp = ids.map((id, i) => `${id}@${parts[i] ? (parts[i].generated || '?') : '-'}`).join(' ');
     return { generated, oldest, stamp, dates: list, horizon: list[list.length-1] || '', shows,
              missing, expected: ids.length };
   }
 
-  // Two signals say "same film" and neither is complete on its own, so treat both as
-  // links rather than picking one. The title key merges chains that agree on the title;
-  // the TMDB id merges chains that do not ("Mutiny" vs "Mutiny - Lavastettu
-  // syylliseksi"). Choosing the id when present *unmerged* pairs that used to work:
-  // "Maailman rikkain nainen" resolved an id at Gilda and none at Finnkino, so one row
-  // was keyed by id and its twin by title. Union them and take the group root.
+  // Two signals say "same film" and neither is complete, so both are links. The title key
+  // merges chains that agree on the title; the TMDB id merges chains that do not ("Mutiny"
+  // vs "Mutiny - Lavastettu syylliseksi"). Choosing the id when present unmerged pairs
+  // that used to work ("Maailman rikkain nainen" had an id at Gilda and none at
+  // Finnkino). Union them and take the group root.
   function mergeIds(shows){
     const parent = new Map();
     const find = k => { while(parent.get(k) !== k) { parent.set(k, parent.get(parent.get(k))); k = parent.get(k); } return k; };
@@ -2271,7 +2177,7 @@
   // redraw them: they carry translated strings and used to stay stale until reload.
   function renderStatus(){
     // Painted before the `generated` guard below: a city where every part failed has no
-    // timestamp at all, and that is precisely the case that must not render as an
+    // timestamp at all, and that is the case that must not render as an
     // ordinary empty day.
     const partEl = document.querySelector('#partial');
     if(partEl){
@@ -2320,23 +2226,18 @@
       : bk === 'list' ? T.actList
       : bk === 'admission' ? T.actAdmission
       : T.actBuy).replace('{host}', host);
-    // `footer` now wraps three lines, so this writes to the credit line rather than
-    // replacing the whole block. Host dropped from the label: `act` already ends in it
-    // for every book mode that names one, and printing "Finnkino ... finnkino.fi" twice
-    // was half of what made this line long.
+    // `footer` wraps three lines, so this writes to the credit line only. The host is not
+    // repeated in the label: `act` already ends in it for every book mode that names one.
     const creditEl = document.querySelector('#credit');
     if(creditEl) creditEl.textContent = `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
   }
 
   // Separate from the footer because renderStatus() returns early until schedule data
-  // has loaded, and the one line a cinema comes here for must not depend on that. The
-  // Finnish version is also in the static markup, the way the footer's is, so a broken
-  // script still leaves the address on the page. Both strings are ours, not a
-  // provider's, so there is nothing to escape.
-  // Accessible names were a mix of hard-coded English ("Choose theatre") and hard-coded
-  // Finnish ("Sulje"), so a screen reader heard two languages at once and neither
-  // followed the toggle. Everything the toggle can reach has to be redrawn by
-  // applyLang(), and an aria-label is no different from a visible one.
+  // has loaded, and the contact line must not depend on that. The Finnish version is
+  // also in the static markup, so a broken script still leaves the address on the page.
+  // Both strings are ours, so there is nothing to escape.
+  // Accessible names follow the language toggle like visible text: everything the toggle
+  // can reach is redrawn by applyLang().
   function applyAriaLabels(){
     const T = L[state.lang];
     const set = (sel, txt) => { const el = document.querySelector(sel);
@@ -2366,19 +2267,14 @@
   }
 
   /* ---------- render ---------- */
-  // What the search box matches: the title, the original title, and the genres -- in
-  // *both* languages, so "comedy" finds a film the Finnish UI labels Komedia and vice
-  // versa. Genre ids are checked through the same id -> name maps the card renders from,
-  // with the provider's own genre string as the fallback for films TMDB never matched.
-  // Punctuation and spacing are not part of what anyone means by a title: nobody types
-  // "Spider-Man" with the hyphen in the right place, and "spiderman", "spider man" and
-  // "spider-man" are one search. Diacritics fold too, so "katyrit" finds "Kätyrit".
-  // Everything non-alphanumeric is removed from both sides rather than replaced with a
-  // space, so the query need not guess the separator either.
-  // The example in the placeholder is the film with the most showtimes on screen -- a
-  // decent "what is big right now" signal that costs nothing and never goes stale, unlike
-  // a hardcoded title. Shortened at a colon so "Spider-Man: Brand New Day" becomes
-  // "Spider-Man", which is what someone would actually type.
+  // What the search box matches: the title, the original title and the genres, in both
+  // languages, so "comedy" finds a film the Finnish UI labels Komedia. Genre ids go
+  // through the same id -> name maps the card renders from, with the provider's genre
+  // string as the fallback. Everything non-alphanumeric is removed from both sides and
+  // diacritics fold, so "spiderman", "spider man" and "spider-man" are one search and
+  // "katyrit" finds "Kätyrit".
+  // The placeholder example is the film with the most showtimes on screen, shortened at
+  // a colon ("Spider-Man: Brand New Day" becomes "Spider-Man").
   function popularTitle(){
     const count = new Map();
     for(const s of state.shows){
@@ -2398,14 +2294,11 @@
   const searchKey = x => (x || '').toLowerCase().normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '');
 
-  // Chips cost permanent horizontal space, so only the two or three biggest intents get
-  // one. Everything else belongs here, where it costs nothing: `method` carries the
-  // format and event vocabulary every provider publishes -- IMAX, LUXE, iSense, Prime,
-  // Plus, Senioribio, Perheleffa, Espoo Ciné, Kuvaileva tekstitys -- and the two rating
-  // fields make age limits findable. Kuvaileva tekstitys is the case that settles the
-  // argument: 10 showtimes, so it can never justify a chip, and the people who need it
-  // had no way to find it at all. `rating` and `age` go in as written ("K-18"); the
-  // collapsed form searchKey builds means "k18" and "k-18" both match.
+  // Chips cost permanent horizontal space, so only the biggest intents get one; the rest
+  // is searchable here. `method` carries every provider's format and event vocabulary
+  // (IMAX, LUXE, iSense, Prime, Plus, Senioribio, Perheleffa, Espoo Ciné, Kuvaileva
+  // tekstitys), and the two rating fields make age limits findable. `rating` and `age`
+  // go in as written ("K-18"); the collapsed searchKey form matches "k18" and "k-18".
   function haystack(s){
     if(s._hay) return s._hay;
     const parts = [s.title || '', s.original || '', s.genres || '',
@@ -2426,34 +2319,28 @@
     const q = state.filter.trim().toLowerCase();
     if(q && !haystack(s).includes(q) && !haystack(s).includes(searchKey(q))) return false;
     if(state.fLang && !/FI(?:-[A-Z]{2})?-A/.test(s.lang || '')) return false;
-    // `Anniskelu` in `method` covers two different things, because fetch_data maps both
-    // of Finnkino's attributes onto that one word: `annisk_k18` is an anniskelunäytös
-    // (drinks, 18+, sets `age`), plain `anniskelu` is an anniskelualuesali, a room that
-    // is permanently licensed. Finnkino states the rest of the rule outright and IDEAS
-    // records it: in those rooms **alcohol is not served at S/7 family films**. So a
-    // children's film in a licensed room carries the tag and is not a bar screening --
-    // 18 showtimes across 6 films. Excluding them is reading the documented rule, not
-    // inferring one. The direction matters too: promising a bar that will not be there
-    // is the same class of error as the BioRex K-18 inference that told people a
-    // screening was closed when it was not.
+    // `Anniskelu` in `method` covers two things, because fetch_data maps both Finnkino
+    // attributes onto it: `annisk_k18` is an anniskelunäytös (drinks, 18+, sets `age`),
+    // plain `anniskelu` is a permanently licensed room. Finnkino's rule, recorded in
+    // IDEAS: alcohol is not served at S/7 family films in those rooms. So a children's
+    // film in a licensed room carries the tag and is not a bar screening (18 showtimes
+    // across 6 films); it is excluded here. Promising a bar that will not be there is the
+    // same error as the BioRex K-18 inference that marked open screenings closed.
     if(state.fAnnis){
       if(!/anniskelu/i.test(s.method || '')) return false;
       if(s.age !== 'K-18' && (s.rating === 'S' || s.rating === 'K-7')) return false;
     }
-    // Rating first, so the filter can never admit a restricted film -- the cinema
-    // enforces the age limit at the door and this is only a browse aid. Genre ids then
-    // remove the merely-unrestricted: documentaries and dramas. Whitelisting Animation
-    // and Family alone was tried and rejected -- TMDB tags Marsupilami as Adventure,
-    // Comedy, so a K-7 family comedy would have vanished from the filter. A film with no
-    // ids stays on rating alone.
+    // Rating first, so the filter can never admit a restricted film; the cinema enforces
+    // the limit at the door and this is a browse aid. Genre ids then remove the merely
+    // unrestricted (documentaries, dramas). Whitelisting Animation and Family alone was
+    // rejected: TMDB tags Marsupilami as Adventure, Comedy. A film with no ids stays on
+    // rating alone.
     if(state.fKids){
       if(!(s.rating === 'S' || s.rating === 'K-7')) return false;
-      // The *screening's* own limit outranks the film's rating: an S-rated film in an
-      // Annisk_K18 screening is one minors cannot attend, and the gate above only reads
-      // the film. Five showtimes are in that state today and all five happen to be
-      // caught by the genre rule below, so nothing leaks right now -- by luck, not by
-      // this rule. The comment above promises errors land on "boring for a child" and
-      // never on "unsuitable"; without this line that promise is not kept.
+      // The screening's own limit outranks the film's rating: an S-rated film in an
+      // Annisk_K18 screening cannot admit minors, and the gate above reads only the film.
+      // The five showtimes in that state today are also caught by the genre rule, so this
+      // line is what makes the exclusion a rule rather than luck.
       if(s.age && s.age !== 'S' && s.age !== 'K-7') return false;
       const g = Array.isArray(s.gids) ? s.gids : [];
       if(g.length && !g.includes(16) && !g.includes(10751)
@@ -2472,15 +2359,11 @@
       main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
       return;
     }
-    // The ticket here is time and price. The room, the venue in a combined view and the
-    // screening's own age limit go on the meta line, which has the full row width. Until
-    // 2026-09-03 the stub carried the room and grew to its label, 158 to 220 px, so one
-    // list showed two or three title columns and a phone title beside a "LUXE 5 \u24B6"
-    // ticket had 64 px at 320 and 119 at 375. Every ticket is now 62 + 56 + 2 = 120 px by
-    // construction and the title column at 375 is 168 to 201 px. The Anniskelu glyph is not
-    // carried over: the meta line already says the word. The venue tag stays first, then
-    // the room, so "Finnkino Plevna \u00b7 Sali 5" reads as one address; the stub keeps
-    // the chain tint.
+    // The ticket is time and price. The room, the venue in a combined view and the
+    // screening's age limit go on the meta line, which has the full row width. Until
+    // 2026-09-03 the stub carried the room and grew to 158 to 220 px, leaving a phone
+    // title 64 px at 320. Every ticket is now 62 + 56 + 2 = 120 px. The venue tag comes
+    // first, then the room ("Finnkino Plevna \u00b7 Sali 5"); the stub keeps the chain tint.
     const multi = labelVenues(state.shows);
     const tinted = multi;
     setListStatus('');
@@ -2574,23 +2457,20 @@
       + ` &rarr; ${fiDay[dowOf(next)]} ${dmOf(next)}</button>`;
   }
 
-  // Whether a showtime needs its venue spelled out. It must depend on the *view*, not on
-  // how many venues happen to have shows on the day being looked at: a combined city view
-  // showing a single 14:00 with no venue and a blank auditorium (single-screen houses
-  // render one) tells the visitor nothing at all.
+  // Whether a showtime needs its venue spelled out depends on the view, not on how many
+  // venues have shows that day: a combined view showing a single 14:00 with no venue
+  // tells the visitor nothing.
   // An age limit that belongs to the screening rather than the film: a licensed bar
-  // auditorium is 18+ even when the film is K-12. It has to sit on the showtime, since
-  // one film at one venue can have both kinds on the same day.
+  // auditorium is 18+ even when the film is K-12, and one film at one venue can have
+  // both kinds on the same day.
   const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
   const ageChip = s => ageOf(s) ? `<span class="agelim">${esc(ageOf(s))}</span>` : '';
   // Glyphs for the two tags that repeat on every stub. Everything else stays a word:
   // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
   // each would need its own legend entry to say less than the word does.
   const GLYPH = { anniskelu: ['A', 'Anniskelu'] };
-  // A stub label was reading "Tennispalatsi · LUXE 8 · 2D · LUXE": the room name already
-  // carries the format, and 2D is on nearly every screening, so it says nothing. Drop a
-  // tag the auditorium name already contains, and drop 2D outright -- the exceptions
-  // (IMAX, 3D, iSense) are what a visitor is actually looking for.
+  // Drop a tag the auditorium name already contains ("LUXE 8" plus "LUXE") and drop 2D
+  // outright; IMAX, 3D and iSense are what a visitor looks for.
   // The past-times control's label. Finnish inflects the count: one hidden screening is
   // "Näytä aiempi", two or more "Näytä {n} aiempaa"; the reverse action is one word.
   // --- pastLabel: pure, extracted verbatim by tests/past_label_harness.js ---
@@ -2602,11 +2482,9 @@
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   // --- end stubTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
-  // Premiere date, from films.json (Finnkino only -- nobody else publishes one, and a
-  // guessed premiere is worse than none). Shown while it is still ahead, because that is
-  // when it changes a decision: tickets go on sale days before a film opens, so a
-  // bookable showtime can sit in front of an opening night. Once the film has opened the
-  // badge is noise and disappears.
+  // Premiere date, from films.json (Finnkino only; nobody else publishes one). Shown
+  // while it is still ahead: tickets go on sale days before a film opens, so a bookable
+  // showtime can sit in front of an opening night. After opening the badge disappears.
   const premiereOf = m => {
     const f = filmEntry(m);
     const rd = f && f.rd;
@@ -2644,7 +2522,7 @@
     const n = a.replace(/[^0-9]/g, '') || a;
     return `<span class="gl age" title="${esc(a)}" aria-label="${esc(a)}">${esc(n)}+</span>`;
   };
-  // Only rendered when the day's shows actually carry these, so it never explains
+  // Only rendered when the day's shows carry these, so it never explains
   // something that is not on screen.
   function tagKey(shows){
     const hasA = shows.some(s => /anniskelu/i.test(s.method || ''));
@@ -2659,21 +2537,14 @@
   }
 
   // The chain tint is on for every stub in a combined view, including a day served by a
-  // single chain. It was briefly gated on two chains being present, because colour with
-  // no legend explained nothing -- but that was the wrong end of the problem: the stub
-  // label was the thing failing to name the chain, and it now does. With the meaning
-  // carried by words, colour is a scanning aid, and it only becomes one if it is always
-  // there to be learned. The legend keeps its own rule and stays hidden below two chains,
-  // where it would be a filter with nothing to filter.
+  // single chain: the label carries the meaning, and colour is a scanning aid that has
+  // to be always present to be learned. The legend stays hidden below two chains.
   //
-  // In a combined view a stub must name the *cinema*, not the district. "Punavuori",
-  // "Kallio", "Tripla", "Redi" and "Kamppi" are all bare venue shorts, and on their own
-  // they say nothing about which chain -- Punavuori is a neighbourhood of Helsinki, not a
-  // cinema. The chain colour used to fill that gap, which broke the app's own rule that
-  // colour never carries meaning alone, and fell apart entirely on a day served by one
-  // chain, where there is no legend and no tint. So the label carries the chain:
-  // "Riviera Punavuori". labelOf() already omits the prefix when the short starts with
-  // the chain name, so Finnkino venues do not become "Finnkino Finnkino Itis".
+  // In a combined view a stub names the cinema, not the district. "Punavuori", "Kallio",
+  // "Tripla", "Redi" and "Kamppi" are bare venue shorts that say nothing about the chain,
+  // so the label is "Riviera Punavuori". labelOf() omits the prefix when the short
+  // already starts with the chain name, so Finnkino venues do not become "Finnkino
+  // Finnkino Itis".
   const venueName = s => s.venueLabel || s.venueShort || (s.theatre || '').split(',')[0];
 
   const labelVenues = shows =>
@@ -2683,13 +2554,10 @@
     if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
     const byEvent = new Map();
-    // Facts about the *film* are folded from every showtime it has, filtered or not, so
-    // they do not move when a filter changes which chain's screenings survive. Chains
-    // disagree: Finnkino calls "Laula minulle Arja" "Dokumentti, Kotimainen" and Gilda
-    // calls it "Dokumentti", so with "Suom. puhe" on -- which drops Finnkino's subtitled
-    // screenings -- the genres used to change under the visitor. `lang` is deliberately
-    // NOT in this list: it belongs to the screening, and showing "tekstit suomi/ruotsi"
-    // from a screening the filter just removed would be wrong.
+    // Facts about the film are folded from every showtime it has, filtered or not, so
+    // they do not move when a filter changes which chain's screenings survive (Finnkino
+    // and Gilda disagree on "Laula minulle Arja"'s genres). `lang` is not in this list:
+    // it belongs to the screening.
     const FILM_FIELDS = ['tmdb','votes','tr','img','len','genres','rating','original','gids'];
     const filmFacts = new Map();
     for(const s of state.shows){
@@ -2742,11 +2610,10 @@
         ? `<img class="poster" src="${posterUrl}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML=this.dataset.f" data-f='${tile.replace(/'/g,"&#39;")}'>`
         : tile;
       const stubClass = multiTheatre ? 'stubs grid' : 'stubs';
-      // method is per *showtime*, so a pill at film level claimed something about every
-      // screening: 47 film/day combinations mix an Anniskelu screening with normal ones
-      // at one venue, and the card used to inherit the first showtime's tags. Tags every
-      // showtime shares stay on the card; the rest move onto the stub they belong to,
-      // rather than vanishing -- one IMAX screening among 2D ones must still say so.
+      // method is per showtime, so a film-level pill claimed something about every
+      // screening (47 film/day combinations mix an Anniskelu screening with normal ones).
+      // Tags every showtime shares stay on the card; the rest move onto their stub, so
+      // one IMAX screening among 2D ones still says so.
       const tagsOf = t => (t.method || '').split(' · ').filter(Boolean);
       const tagSets = m.times.map(t => new Set(tagsOf(t)));
       // A tag drawn as a glyph (Anniskelu) stays on every stub even when all of them
@@ -2792,15 +2659,12 @@
         premiereChip(m),
         fmts
       ].filter(Boolean).join('');
-      // No price on the card, ever. priceLabel over the film's screenings folded the
-      // cheapest one onto the meta line, and a screening without a price is skipped by
-      // it -- so Autofiktio in Tampere read "11€" at film level from Cinema Niagara's
-      // 16:15 while Finnkino's 17:30 and 20:15 published no price at all (2026-09-02).
-      // A price belongs to the ticket being opened: provider, time, format and ticket
-      // type differ between screenings, so it lives on each stub and nowhere else, even
-      // when every stub happens to say the same.
-      // The past-times toggle sits on the meta line, not in the stub grid: a ticket-shaped
-      // cell that is not a ticket reads as a broken showtime.
+      // No price on the card. A folded cheapest price skips screenings without one, so
+      // Autofiktio in Tampere read "11€" at film level from Niagara's 16:15 while
+      // Finnkino's screenings published no price (2026-09-02). A price belongs to the
+      // ticket being opened, so it lives on each stub.
+      // The past-times toggle sits on the meta line, not in the stub grid: a
+      // ticket-shaped cell that is not a ticket reads as a broken showtime.
       const pastToggle = (gone.length && ahead.length)
         ? `<button class="pastlink" data-reveal="${esc(m.eventId)}" aria-expanded="${open}">`
           + pastLabel(open, gone.length, L[state.lang])
@@ -2832,11 +2696,9 @@
       + overHead + over.map(card).join('');
   }
 
-  // render() rebuilds the whole list through innerHTML, which is ~90 cards in a combined
-  // city view. Per keystroke that stutters on a mid-range phone, and the frames in
-  // between are thrown away anyway. 120 ms is under the point where the list feels
-  // detached from the typing and still collapses a fast burst into one render. Keyed DOM
-  // reuse would be the real fix and is not worth it at this list size.
+  // render() rebuilds the whole list through innerHTML, ~90 cards in a combined city
+  // view, which stutters per keystroke on a mid-range phone. 120 ms collapses a fast
+  // burst into one render without the list feeling detached from the typing.
   let searchTimer = null;
   searchEl.oninput = () => {
     clearTimeout(searchTimer);
@@ -2846,17 +2708,14 @@
   /* ---------- movie sheet ---------- */
   const sheetEl = document.querySelector('#sheet'), overlayEl = document.querySelector('#overlay');
 
-  // Modal lifecycle. The sheet was hidden with a CSS transform only, so it stayed in the
-  // focus order and in the accessibility tree the whole time, permanently announcing
-  // itself as an open dialog. `inert` is used rather than `hidden` because the sheet
-  // animates in and out and `display:none` would kill the transition; it removes the
-  // subtree from focus and from assistive tech in one attribute.
+  // Modal lifecycle. `inert` rather than `hidden`: the sheet animates in and out, and
+  // display:none would kill the transition; inert removes the subtree from focus and from
+  // assistive tech in one attribute. Hidden by a transform alone, the sheet stayed in the
+  // focus order and announced itself as an open dialog.
   //
-  // Real modality means the *background* is inert while the sheet is open, which is what
-  // stops Tab walking behind it. These are the roots outside the dialog.
-  // #listStatus is in here for the same reason main is: it sits outside the dialog, and a
-  // background render that finishes while a sheet is open would otherwise announce the
-  // list behind the modal to someone who is reading the modal.
+  // The background is inert while the sheet is open, so Tab cannot walk behind it. These
+  // are the roots outside the dialog. #listStatus is included because a background
+  // render finishing while a sheet is open would otherwise announce the list behind it.
   const BEHIND = () => [document.querySelector('header'), main,
                         document.querySelector('footer'), document.querySelector('#tagkey'),
                         document.querySelector('#stale'), document.querySelector('#partial'),
@@ -2972,8 +2831,7 @@
     sheetEl.setAttribute('aria-hidden', 'true');
     // Back to the control that opened it, but only if it is still on the page: the list
     // is rebuilt through innerHTML on every render, and a stale node would swallow the
-    // focus silently. Only on a real close, so arriving on a hash-less URL does not
-    // yank focus somewhere unexpected.
+    // focus. Only on a real close, so a hash-less URL does not move focus.
     if(wasOpen && lastTrigger && document.contains(lastTrigger)){
       lastTrigger.focus();
     }
@@ -3121,9 +2979,8 @@
     const lq = langParamAfterSelect(location.search, state.lang);
     if(lq !== null) replaceQuery(lq);
     // Only English needs films.json, for the English titles Finnkino publishes. Swedish
-    // falls back to the Finnish title on purpose: that is the name printed on the ticket
-    // and on the cinema's own page, so an English one would send a reader looking for a
-    // film under a name nothing local uses. See IDEAS.
+    // falls back to the Finnish title on purpose: that is the name on the ticket and on
+    // the cinema's own page. See IDEAS.
     if(state.lang === 'en') await ensureFilms();
     applyLang();
   };
@@ -3151,12 +3008,9 @@
   segM.onclick = () => { state.view = 'movies'; prefs.set({view:'movies'}); syncTools(); render(); };
   segT.onclick = () => { state.view = 'times';  prefs.set({view:'times'});  syncTools(); render(); };
   chipLang.onclick = () => { state.fLang = !state.fLang; prefs.set({fLang:state.fLang}); syncTools(); render(); };
-  // Lapsille and Anniskelu turn each other off. Not an arbitrary rule: the two overlap
-  // on 22 of 3059 showtimes, five of which state a K-18 limit on the screening itself,
-  // and of the six films in the overlap exactly one is a children's film. "A kids' film
-  // in a licensed auditorium" is a real thing but a rare one, and leaving both on mostly
-  // produces an empty list from two chips that each looked like they should have worked.
-  // Turning the other off says which one won, where an empty result would not.
+  // Lapsille and Anniskelu turn each other off. They overlap on 22 of 3059 showtimes, so
+  // leaving both on mostly produces an empty list from two chips that each looked like
+  // they should have worked. Turning the other off says which one won.
   chipKids.onclick = () => {
     state.fKids = !state.fKids;
     if(state.fKids) state.fAnnis = false;
@@ -3177,16 +3031,12 @@
 
   /* ---------- refresh on resume ---------- */
   // An installed PWA is resumed, not reloaded, so boot runs once and everything it
-  // fetched stays frozen. Only the date rollover used to force a refetch, which meant a
-  // phone opened in the evening showed the morning's schedule and a source line counting
-  // upward -- "Finnkino 6h" -- while a desktop tab, reloaded, read 0h off the same repo.
-  // The ages were honest: the app really was holding six-hour-old showtimes, sold-out
-  // flags and all.
+  // fetched stays frozen; with only the date rollover forcing a refetch, a phone opened
+  // in the evening showed the morning's schedule.
   //
-  // REFRESH_MS is 10 minutes because GitHub Pages serves data with max-age=600; refetching
-  // more eagerly than that would be answered from the HTTP cache anyway. providerMeta is
-  // refreshed through fetchVenueLists rather than loadAreas so the venue picker is left
-  // alone.
+  // REFRESH_MS is 10 minutes because Pages serves data with max-age=600; refetching
+  // sooner would be answered from the HTTP cache. providerMeta is refreshed through
+  // fetchVenueLists rather than loadAreas so the venue picker is left alone.
   const REFRESH_MS = 10 * 60 * 1000;
   let builtFor = fiToday();
   async function refreshAll({ rollover }){
@@ -3215,20 +3065,17 @@
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').catch(()=>{});
     // The SW hands back cached data JSON at once and refreshes it behind (see sw.js).
-    // When a refresh lands it posts `{fresh: path}`, and the page swaps the fresh bytes
-    // in without a spinner: re-read the selection, compare, and only a real change
-    // re-derives.
+    // When a refresh lands it posts `{fresh: path}`; the page re-reads the selection,
+    // compares, and re-derives only on a real change, without a spinner.
     //
     // --- background refresh: pure, extracted verbatim by tests/swr_refresh_harness.js ---
-    // The decision is a function of `io` -- the selection, the payload cache, the city
-    // groups, the readers and the metadata store -- so the harness can drive the shipped
+    // The decision is a function of `io` (the selection, the payload cache, the city
+    // groups, the readers and the metadata store), so the harness can drive the shipped
     // code without a DOM. The listener below is the only plumbing.
 
-    // What the handler compares. A venue file changes when its `generated` does; a
-    // combined city carries `stamp`, one entry per member, because its `generated` is
-    // the *oldest* member's for the stale banner's sake and stays put while a newer
-    // member updates -- which is how a fresh Kinopalatsi used to be thrown away because
-    // Tennispalatsi had not moved.
+    // What the handler compares. A venue file changes when its `generated` does. A city
+    // carries `stamp`, one entry per member, because its `generated` is the oldest
+    // member's and stays put while a newer member updates.
     function refreshKey(p){ return (p && (p.stamp || p.generated)) || ''; }
 
     // The reads go through io.read -- readCached, defined with the metadata store -- and
@@ -3237,23 +3084,19 @@
       const inflight = new Map();   // area -> the read running for it
       const again = new Set();      // areas messaged while their read was running
       async function reread(area){
-        // The entry this read is comparing against, taken before the await. refreshAll
-        // deletes every entry and loadSchedule refills the selected one, and both can
-        // happen while the read is in flight; a check that only asked "is there an
-        // entry" after the await let a snapshot read before the refill overwrite the
-        // newer schedule the refill put there. The object is the identity: whoever
-        // replaced it, this answer is about a payload that is no longer held.
+        // The entry this read compares against, taken before the await. refreshAll deletes
+        // every entry and loadSchedule refills the selected one, possibly during the
+        // read; an existence check after the await let an older snapshot overwrite the
+        // refill. The object is the identity: if it was replaced, this answer is dropped.
         const before = io.cache[area];
         if(!before) return;
         try {
           const fresh = area.startsWith('city:')
             ? await io.loadCity(area.slice(5), io.read)
             : await io.read(`data/area-${area}.json`);
-          // Everything after the await goes back to `area`, never to io.area(): the
-          // reader may have picked another cinema meanwhile, and the old handler read
-          // the selection again here, so a late answer for A was written into B's slot
-          // and rendered as B. A slot refreshAll emptied meanwhile stays empty, and one
-          // it has already refilled keeps the refill: either way `before` is gone.
+          // Everything after the await uses `area`, never io.area(): the reader may have
+          // picked another cinema meanwhile, and a late answer for A must not land in
+          // B's slot. A slot emptied or refilled meanwhile is left alone.
           const held = io.cache[area];
           const key = refreshKey(fresh);
           if(held && held === before && key && key !== refreshKey(held)){

@@ -4,14 +4,11 @@ Kotka's template (sixteen hosts since 2026-08-30) prints "KE 2.9. klo 20.00", a 
 line "TRIO 123 | SALI 2", "Lippu 15,00€" and "Vapaat paikat 27/35". Cinema Niagara's
 (2026-09-02) prints the time in a `time` div, the price in `show-price`, "Paikkoja
 vapaana: 126/127", per-screening tags in `movie-specs`, no place line, a newline between
-`<div` and `class`, and detail labels without a colon. The fixtures below are minimal
-hand-written reconstructions of those shapes, not copies of anyone's page.
+`<div` and `class`, and labels without a colon. The fixtures are minimal hand-written
+reconstructions of those shapes.
 
-Niagara's programme page renders every screening twice, in a desktop and a mobile wrapper.
-The adapter never reads that page, but a film page must not be able to double a show
-either, so shows are keyed on the public screening id the ticket href carries. The href
-itself is published as the outbound link and is never fetched.
-
+Niagara's programme page renders every screening twice, so shows are keyed on the public
+screening id the ticket href carries. The href is the outbound link and is never fetched.
 Provider modules are imported inside the tests: they bind `common.EmptyProgramme` at
 import time and `test_common_fetch` reloads `common`.
 """

@@ -4,27 +4,16 @@
     python3 scripts/check_runs.py            # the repo's own logs
     python3 scripts/check_runs.py --dir DIR
 
-The cloud half already announces its own failures: a provider that exits non-zero turns
-the Actions run red and somebody sees it. That is how both of 2026-08-30's outages were
-caught -- Joutsan Kino's 403 and Savon Kinot's 404 off Vista.
+A failed cloud provider turns its Actions run red. The local half runs outside this repo,
+writes `exit=1` into the provider's log, pushes it and carries on, and the first symptom
+would be the health line going amber eight hours later. Both halves commit their logs, so
+reading them on push is the local half's failure signal, without touching the wrapper or
+the fetch workflow.
 
-The local half has no such thing. It runs on a machine outside this repo, records
-`exit=1` in the provider's log, pushes it, and carries on. Nothing is red anywhere, and
-the first symptom is the health line going amber eight hours later -- if anyone is
-looking at the site. Twenty of seventy venues ride on that half, seventeen of them
-Finnkino, so "no signal" covers the largest provider in the app.
-
-The commit is the transport. Both halves push their logs here, so reading them on push
-gives the local half the signal the cloud half gets for free, without touching the
-wrapper (which lives outside this repo and cannot be tested from inside it) or the
-workflow that fetches (which has an unmerged branch against it).
-
-A log with no `exit=` line at all is a failure too: every writer appends one, so its
-absence means the run died before it could, or the file was truncated.
-
-A stale log counts. `run-vista.log` sat at `exit=1` for hours on 2026-08-30 because the
-module had been retired and nothing overwrote it -- exactly the state this is meant to
-be loud about, and it was found by hand.
+A log with no `exit=` line is a failure too: every writer appends one, so its absence
+means the run died first or the file was truncated. A stale log counts: `run-vista.log`
+sat at `exit=1` for hours on 2026-08-30 after the module was retired and nothing
+overwrote it.
 """
 import argparse
 import pathlib

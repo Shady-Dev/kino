@@ -1,14 +1,10 @@
-"""The month picker has to say which day is selected, not only colour it.
+"""The month picker marks the selected day with aria-current="date".
 
-The grid used to mark the chosen date with the `sel` class alone. A sighted user saw an
-inverted pill; a screen reader read "1, 2, 3, 4" with nothing current in it, while the day
-chips a few pixels above the picker had said `aria-current="date"` all along. Same
-control, same information, two different answers.
-
-`calCell` is sliced verbatim out of index.html by tests/cal_cell_harness.js and run on its
-own: it takes a day number, an ISO date, whether that date has showtimes and the selected
-date, and returns markup. Focus movement into the grid, Escape and the month-nav focus
-restore are DOM plumbing and stay verified live against the served page.
+The `sel` class alone left the chosen date out of the accessibility tree, while the day
+chips above the picker already said `aria-current="date"`. `calCell` is sliced verbatim
+out of index.html by tests/cal_cell_harness.js: it takes a day number, an ISO date,
+whether the date has showtimes and the selected date, and returns markup. Focus movement,
+Escape and the month-nav focus restore stay verified live.
 """
 import json
 import pathlib

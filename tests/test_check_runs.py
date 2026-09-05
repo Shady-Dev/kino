@@ -1,13 +1,9 @@
-"""check_runs: the local half has no other way to announce a failure.
+"""check_runs.py: the local half's only failure signal.
 
-A cloud provider that fails turns the Actions run red and somebody sees it -- that is how
-both of 2026-08-30's outages surfaced. The local half runs on a machine outside this repo,
-writes `exit=1` into a log, pushes it and carries on, with nothing red anywhere. Twenty of
-seventy venues ride on that half, seventeen of them Finnkino.
-
-Both halves commit their logs here, so the commit is the transport and this reads them.
-The cases below are the ones that decide whether it is worth having: a log with no exit
-line, and a stale log nobody overwrites any more.
+A failed cloud provider turns its Actions run red. The local half runs outside this repo,
+writes `exit=1` into a log, pushes it and carries on. Both halves commit their logs, so
+reading them is the signal. The deciding cases: a log with no exit line, and a stale log
+nobody overwrites any more.
 """
 import pathlib
 import tempfile

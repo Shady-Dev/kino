@@ -1,20 +1,10 @@
 """poll_windows: the classification has to be right before its output guides a schedule.
 
-This analyser exists to say when cinemas publish, and the polling slots would be set from
-what it prints. Its first three runs said 125, then 20, then 4 arrivals over the same
-history -- the difference was entirely its own bugs, and a number that moves by 30x under
-its author is not evidence. Every one of those bugs is pinned here.
-
-Git traversal is the implementation, not an incidental detail: what counts as "the
-previous observation", and whether an adapter moved in between, are both questions about
-commit ranges. So the fixtures build real throwaway repositories with controlled commit
-timestamps and messages rather than mocking git, which would only encode the assumptions
-being tested. They are small -- two to four commits each -- and no test touches the
-network or the real repository.
-
-Timestamps in the fixtures deliberately mix `+03:00` and `+00:00`, because that is what
-the real history contains: the local half commits in Helsinki time and the runner commits
-in UTC, and the two bugs that mattered most both came from treating those as comparable.
+The first three runs reported 125, 20 and 4 arrivals over the same history; the difference
+was the analyser's own bugs, each pinned here. Git traversal is the implementation, so the
+fixtures build small throwaway repositories with controlled commit timestamps rather than
+mocking git. Timestamps mix `+03:00` and `+00:00` on purpose: the local half commits in
+Helsinki time and the runner in UTC, and both serious bugs came from comparing them.
 """
 import datetime
 import json

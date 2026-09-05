@@ -3,10 +3,9 @@
 
     python3 scripts/providers/run.py biorex nexxo etiketti ...
     python3 scripts/providers/run.py --where cloud      # module list from the registry
-    python3 scripts/providers/run.py --where local      # the three modules with local sites
+    python3 scripts/providers/run.py --where local      # the modules with local sites
 
-Replaces the five near-identical fetch_*.py orchestrators. Every adapter module
-exposes exactly two things:
+Every adapter module exposes two things:
 
     SITES             list of sites. One module can serve several providers
                       (nexxo -> kinoset, etiketti -> kotkanleffat), so the provider
@@ -16,38 +15,30 @@ exposes exactly two things:
 
 Written per site: data/area-{venueId}.json and data/venues-{provider}.json.
 
-A venue with no showtimes keeps its previously committed area file, so the app does
-not go empty on a parse regression; a venue that never had a file gets an empty one,
-so the picker never links to a 404 (same two rules as fetch_data.py for Finnkino).
-venues-{provider}.json always lists **every** venue of the site: it is what the client
-builds its picker from, so dropping a failed venue would make its still-committed area
-file unreachable while the health line stays green — the silent failure this pipeline
-is designed against.
+venues-{provider}.json always lists every venue of the site. The client builds its picker
+from it, so dropping a failed venue would make its still-committed area file unreachable
+while the health line stayed green.
 
-A venue with no shows is one of three things, in this order. If the adapter's module
-sets `EMPTY_VENUES_CONFIRMED` and reported the venue explicitly, its emptiness is
-positive evidence — the upstream answered in schema and listed nothing — and the venue is
-*pending*: no programme at the moment, an empty file stamped fresh, quiet on the health
-line, whether or not it had data before (a touring cinema's town is empty between visits;
-until 2026-09-05 a town with an old file was kept and marked stale for weeks). Otherwise,
-if it has a previous file, it keeps it and is recorded as *stale*, not failed: at this
-layer an empty parse and a cinema with nothing on today both arrive as `[]`, and treating
-either as a failure would fail the run on an ordinary closure. Otherwise it is
-*unverified*: never any data, and "a venue added before its programme is published" and
-"one whose parse has never worked" are not distinguishable here, so it must stay visibly
-degraded. A fetch, schema or parse failure never reaches this loop: the site fails as a
-whole and every file it owns is left as it was. The file therefore carries `status`, `stale`, `unverified`, `pending` and
-`oldest`, and `oldest` is what the health line ages on: a
-provider is as fresh as its weakest venue, but a venue that never had data does not drag
-that down. A site where every venue came back empty is a failure, since nothing else
-would notice that -- unless every one of them was confirmed empty, in which case the
-provider file is written with them all pending and the run stays green (Heureka: one
-venue, and a paused programme must clear the old screenings).
+A venue with no shows is one of three things, checked in this order:
+
+  * pending: the module sets `EMPTY_VENUES_CONFIRMED` and reported the venue explicitly,
+    so the upstream answered in schema and listed nothing. The venue gets an empty file
+    stamped fresh and stays quiet on the health line, whether or not it had data before.
+  * stale: it has a previous file, which it keeps. An empty parse and a cinema with
+    nothing on today both arrive as `[]`, so this is not treated as a failure.
+  * unverified: never any data. A venue added before its programme is published and a
+    parse that has never worked look the same here, so it stays visibly degraded.
+
+A fetch, schema or parse failure never reaches that loop: the site fails as a whole and
+every file it owns is left as it was. The provider file carries `status`, `stale`,
+`unverified`, `pending` and `oldest`; the health line ages on `oldest`, so a provider is
+as fresh as its weakest venue with data. A site where every venue came back empty fails
+the run, unless every one was confirmed empty, in which case the file is written with
+them all pending (Heureka: one venue, and a paused programme must clear old screenings).
 
 Sites on different hosts are fetched at the same time, sites on the same host one after
-the other. The pacing inside an adapter's fetch_site is what a cinema experiences and is
-untouched by this; serialising *across* unrelated hosts was never a decision, only how
-the loop was written when a module had two sites. See host_groups and MAX_HOSTS.
+the other. Pacing inside an adapter's fetch_site is what a cinema experiences and is
+untouched. See host_groups and MAX_HOSTS.
 """
 import concurrent.futures
 import datetime
@@ -222,7 +213,7 @@ def run_site(mod, site, now, order=0):
     # `oldest` is the honest number and `generated` was not. `generated` says when this
     # file was written, which is now; the health line was reading it and calling the
     # whole provider fresh while one of its venues sat on week-old data. Taken from the
-    # files on disk rather than from `stale`, so it cannot drift from what was actually
+    # files on disk rather than from `stale`, so it cannot drift from what was
     # written. Same rule the combined city view already applies: a group is as fresh as
     # its weakest member.
     if live or confirmed_empty_site(site, pending):
@@ -274,7 +265,7 @@ def host_of(site):
 
     `base` is where the API lives; `site`, where a module carries one, is where a visitor
     is sent. Bio Säde is the case: its showtimes come from kinohirvi.fi and its ticket
-    links go to biosade.fi. The pacing key is the host actually read, so it is `base` and
+    links go to biosade.fi. The pacing key is the host read, so it is `base` and
     never `site`.
 
     A site with no `base` keeps its host inside the adapter, out of reach from here.

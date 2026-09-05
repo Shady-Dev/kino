@@ -1,15 +1,8 @@
-"""The client's JavaScript is syntax-checked by something a workflow can run.
+"""check_inline_js.py: node --check on the inline script, with line numbers against the HTML.
 
-There is no build step, so nothing parses index.html's script block before a browser
-does. A syntax error ships, the page renders blank, and the service worker keeps serving
-the last good copy to anyone who already has it -- so the person who pushed it sees a
-working site. CLAUDE.md has carried "extract the inline script and node --check it" as an
-instruction to a human since the file was written, which is the kind of check that holds
-until the day somebody is in a hurry.
-
-The line numbers are the part worth testing rather than eyeballing. node reports against
-the fragment it was handed; the fragment starts partway down the HTML; adding those two
-numbers by hand is how you end up staring at the wrong line.
+There is no build step, so a syntax error in index.html's script block ships and the
+service worker keeps serving the last good copy to whoever pushed it. node reports line
+numbers against the fragment it was handed; the script maps them back to the HTML file.
 """
 import pathlib
 import shutil

@@ -1,26 +1,13 @@
-"""A deep link opened the right cinema once, then lost it on reload.
+"""`?area=` and `?lang=` deep links: applied on load and kept in the URL while they are the answer.
 
-Reproduced: star Finnkino Cine Atlas, open a generated Tapio page, follow its
-`/?area=sk-tapio` link. Tapio opens. The app then deletes the parameter from the URL, so
-the next load has nothing to go on, falls through to the stored restore, and the favourite
-beats the last-browsed area -- the tab lands on Cine Atlas and the reader has to find
-Tapio again in the picker they followed a link to avoid.
+The app used to apply `?area=` and delete it, so a reload fell through to the stored
+restore and the favourite beat the deep-linked venue. The parameter now stays while it is
+the answer and is rewritten when the reader picks something else. `?lang=` follows the
+same rules (2026-09-02): an English landing page must open the English app for a reader
+with nothing stored, and a stored choice is never overwritten by a link.
 
-The deletion was deliberate and its reasoning is in the old comment: leaving the parameter
-in place would override the picker on every reload. That is a real problem and it has a
-narrower answer than throwing the parameter away -- keep it while it is the answer, and
-rewrite it when the reader picks something else.
-
-`startupArea` and `areaParamAfterSelect` are sliced verbatim out of index.html by
-tests/area_routing_harness.js and run on their own, the way `healthState`, `venueRows` and
-`priceLabel` are. Both are pure; the harness runs the shipped code rather than a copy.
-
-`startupLang` and `langParamAfterSelect` are the language half of the same link (2026-09-02).
-The generated pages exist in Finnish and English, and the app read its language from prefs
-alone, so an English landing page opened a Finnish app for any reader without a stored
-choice. The rules mirror the venue's: the parameter wins on arrival, stays in the URL while
-it is the answer, is rewritten when the reader toggles, and is stripped when it names a
-language the app does not have.
+`startupArea`, `areaParamAfterSelect`, `startupLang` and `langParamAfterSelect` are sliced
+verbatim out of index.html by tests/area_routing_harness.js and run on their own.
 """
 import json
 import pathlib

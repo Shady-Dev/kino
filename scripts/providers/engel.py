@@ -1,36 +1,25 @@
-"""Kino Engel (Sofiankatu 4, Helsinki) — front-page scrape. Stdlib only.
+"""Kino Engel (Sofiankatu 4, Helsinki): front-page scrape. Stdlib only.
 
-kinoengel.fi answers **HTTP 202 with an `SG-Captcha: challenge` header** to a datacenter
-address, so this runs from the Mac alongside Finnkino and Kino Akseli. The challenge is
-on IP reputation, not on the request shape, so there is nothing to spoof and nothing that
-would make it work from Actions.
+kinoengel.fi answers HTTP 202 with an `SG-Captcha: challenge` header to a datacenter
+address, so this runs on the local half. The challenge is on IP reputation, not on the
+request shape.
 
-The site has an open WordPress REST API and it looked for a moment like the whole
-adapter: `wp/v2/elokuva` exists and exposes `acf`. It is empty on every film, and the
-endpoint returns 899 posts across 9 pages, so it is the archive rather than the
-programme. The schedule only exists in the rendered page. REST is still worth a second
-pass later for the cinema's own Finnish synopsis and a full-size poster; see the note at
-the bottom.
+The WordPress REST API (`wp/v2/elokuva`) is the archive, not the programme: `acf` is empty
+on every film and it returns 899 posts. The schedule exists only in the rendered page.
+REST may still serve the cinema's own synopsis and a full-size poster later; see the note
+at the bottom.
 
-Two things about this site that shape the parser:
+Parser notes:
 
-- **Rows carry their own date**, "La 29.08." next to "klo 17:30", so the `<h2>` day
-  headings and the date `<select>` above them are both redundant. Parsing the rows alone
-  means the heading markup can change without breaking this.
-- **A strand is a separate `elokuva` post.** `autofiktio` (3303) and `kesakino-autofiktio`
-  (3295) are two records for one film, and 23 of the first 100 posts are `kesakino-`. So
-  the slug cannot be the `eventId`: it would split one film into two cards in one venue,
-  each with its own poster lookup and its own TMDB miss. The id is the slug with the
-  strand prefix removed, which is exactly the plain post's slug, so both halves land on
-  one card.
-
-**KesäKino is a room, not a strand.** It is the outdoor screen, so it goes in `aud` where
-the client renders it on the showtime stub, next to "Sali 1" and "LUXE 4". Routing it
-through `strands.py` would put it in `method` as a pill beside Anniskelu and SenioriKino,
-which frames a place as a programme category. `kesäkino` stays in `EVENT_PREFIXES`
-regardless, because `enrich_tmdb.clean()` needs it off the TMDB search string; this
-adapter simply strips it first, so `run.py`'s central pass finds nothing left to split.
-`BARNSÖNDAGAR:` and `BARNFESTIVAL:` are real strands and are left for that pass.
+- Rows carry their own date ("La 29.08." next to "klo 17:30"), so the `<h2>` day headings
+  and the date `<select>` are not read.
+- A strand is a separate `elokuva` post: `autofiktio` (3303) and `kesakino-autofiktio`
+  (3295) are one film, and 23 of the first 100 posts are `kesakino-`. The `eventId` is the
+  slug with the strand prefix removed, so both land on one card.
+- KesäKino is a room, not a strand: it is the outdoor screen and goes in `aud`. `kesäkino`
+  stays in `EVENT_PREFIXES` because `enrich_tmdb.clean()` needs it off the search string;
+  this adapter strips it first. `BARNSÖNDAGAR:` and `BARNFESTIVAL:` are real strands and
+  are left for the central pass.
 """
 import datetime
 import html as html_mod
@@ -361,7 +350,7 @@ def fetch_site(site=SITES[0]):
 
 # Next pass, deliberately not in this one: wp/v2/elokuva?slug[]=... with
 # _embed=wp:featuredmedia gives the cinema's own Finnish synopsis (`content.rendered`,
-# which synmerge prefers over TMDB) and a full-size poster, for the ~40 films actually
+# which synmerge prefers over TMDB) and a full-size poster, for the ~40 films
 # showing rather than all 899. One request, keyed by the slugs this parse already has.
 
 if __name__ == "__main__":

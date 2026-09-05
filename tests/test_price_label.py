@@ -1,20 +1,12 @@
 """A provider that publishes its own floor price had it thrown away.
 
-`priceLabel()` read every price with `parseFloat`, which accepts a number only at the
-start of the string. Cinema Orion writes "alkaen 10€" -- the cinema's own way of saying
-the cheapest ticket type is 10 -- and that came back NaN, was filtered out as unpriced,
-and rendered nothing at all. Counted against the committed data on 2026-09-01: **23 of
-Orion's 29 price-bearing showtimes showed no price**, and the six that did were the ones
-whose string happened to begin with a digit. Every other provider was unaffected, because
-all 1014 of their price strings start with the number.
+`priceLabel()` used `parseFloat`, which reads a number only at the start of the string,
+so Cinema Orion's "alkaen 10€" came back NaN and rendered nothing: 23 of Orion's 29 priced
+showtimes on 2026-09-01. Two questions had been one: what the cheapest price is, and
+whether to introduce it as a floor, which a source string can say itself.
 
-Two questions had been collapsed into one. What the cheapest price is, and whether it
-should be introduced as a floor. The second used to be answered only by "this list holds
-two different amounts", which cannot see a source that already said so.
-
-Extracted verbatim by tests/price_label_harness.js the way `healthState` and `venueRows`
-are. The harness reads the three real `from` translations out of index.html rather than
-retyping them, so the localisation is exercised against what actually ships.
+Extracted verbatim by tests/price_label_harness.js. The harness reads the three real
+`from` translations out of index.html rather than retyping them.
 """
 import json
 import pathlib
@@ -57,7 +49,7 @@ class PriceLabelTest(unittest.TestCase):
         self.assertEqual(self.r["orion_floor_twelve"], f"alkaen 12{FI}")
 
     def test_orions_real_mix_takes_the_cheapest(self):
-        """The three strings Orion actually publishes, together: 10 as a floor, 10
+        """The three strings Orion publishes, together: 10 as a floor, 10
         exact, 8.5 exact. The label is the cheapest of them, introduced as a floor."""
         self.assertEqual(self.r["orion_real_mix"], f"alkaen 8,50{FI}")
 

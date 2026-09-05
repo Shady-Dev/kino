@@ -1,13 +1,9 @@
 """run_site: a provider that is partly stale must not publish itself as fresh.
 
-The failure this guards is the one the pipeline was built against and still had: a
-provider with three venues where one parses to nothing keeps that venue's previous file,
-and the provider-level file used to stamp `generated: now` over all three. The health
-line reads that stamp, so the app said the chain was current while one of its cinemas
-sat on days-old showtimes.
-
-Three venues, not two: two would let a version that reports "the last venue's state" or
-"any venue's state" pass, because with one good and one bad those are the same answer.
+A provider with three venues where one parses to nothing keeps that venue's previous file,
+and the provider-level file used to stamp `generated: now` over all three, so the health
+line called the chain current. Three venues, not two: with one good and one bad, "the last
+venue's state" and "any venue's state" give the same answer.
 """
 import contextlib
 import io

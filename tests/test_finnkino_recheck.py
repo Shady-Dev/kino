@@ -1,16 +1,10 @@
 """The Finnkino rating cache gets the same refresh schedule as the title cache.
 
-`data/tmdb.json` had the defect enrich_tmdb's cache had, and worse. The skip was
-`v or c == today`, so finding a trailer ended an entry's life -- measured 2026-09-01,
-46 of 59 entries frozen, 45 of them last read on 2026-08-28. And its detail request is
-conditional on `not votes or not gids`, so even the daily half never re-read a rating it
-already held: an age rule alone would have fetched nothing and stamped the entry current.
-
-This file cannot be exercised the way the cloud pass can. `fetch_data.py` reads Finnkino,
-which answers a datacenter address with a Cloudflare 403, so there is no runner that can
-run it and no live token here. What is tested instead is the decision and the pass around
-it, with TMDB stubbed by URL -- and the next real run from an ordinary connection is the
-operational check, not the proof.
+`data/tmdb.json` skipped an entry on `v or c == today`, so a cached trailer froze its
+rating: 46 of 59 entries on 2026-09-01, 45 of them last read on 2026-08-28. Its detail
+request was also conditional on `not votes or not gids`, so an age rule alone would have
+fetched nothing. Finnkino answers a datacenter address with a 403, so the decision and
+the pass around it are tested with TMDB stubbed by URL.
 """
 import contextlib
 import datetime
@@ -28,7 +22,7 @@ TODAY = "2026-09-01"
 
 
 def entry(day, trailer=True, **over):
-    """A complete entry in the shape data/tmdb.json actually carries.
+    """A complete entry in the shape data/tmdb.json carries.
 
     Seven fields, and no synopsis or poster: Finnkino publishes both itself, which is why
     this cache needs its own completeness predicate rather than the title cache's.

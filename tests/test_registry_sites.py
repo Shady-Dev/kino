@@ -1,19 +1,11 @@
 """The registry and the adapters have to agree on provider ids.
 
-`run.py` writes `data/venues-{provider}.json` from the `provider` string on a SITES
-entry, and the client looks that id up in `data/providers.json`, which is generated
-from the registry. Nothing joins the two at runtime: a provider that exists on one
-side only still fetches, still writes a file and still renders -- with no chain label,
-no host credit in the footer, no booking verb and no accent, because every one of
-those is derived from the registry entry that is not there.
-
-That was one typo's worth of risk while two sites shared the eTiketti adapter. The
-2026-08-30 sweep took it to sixteen, so the join is asserted here instead of being
-noticed on the site.
-
-The other direction matters as much: a registry entry naming a module that does not
-serve it is a chain in the picker that no fetch ever fills, which reads to a visitor
-as a cinema with no showtimes rather than as a mistake.
+`run.py` writes `data/venues-{provider}.json` from the `provider` string on a SITES entry;
+the client looks that id up in `data/providers.json`, generated from the registry. Nothing
+joins the two at runtime: a provider on one side only still fetches and renders, with no
+label, host credit, booking verb or accent. The 2026-08-30 sweep took the eTiketti adapter
+to sixteen sites, so the join is asserted here. The other direction too: a registry entry
+whose module does not serve it is a chain in the picker that no fetch fills.
 """
 import importlib
 import unittest

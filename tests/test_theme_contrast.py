@@ -1,25 +1,12 @@
-"""The accent is two colours, because one number cannot do two jobs.
+"""The accent is two colours, because one cannot meet both contrast rules.
 
-`--accent` is chosen for a 3 px chain border and a focus ring, where WCAG 1.4.11 asks for
-3:1. Light theme's #B8860B measures 3.04:1 on `--bg`, which clears that bar and fails the
-4.5:1 that 1.4.3 asks of small text -- and eight rules were colouring text with it. Dark
-theme never had the problem, so the failure was invisible to anyone developing in dark.
-
-`--accent-text` is the same hue darkened until it clears 4.5:1 against both surfaces in
-both themes. `--accent-on-ink` is the third case: the selected day chip paints `--ink`
-behind it, so its label needs the opposite polarity from everything else and cannot share
-either token.
-
-The ratios are computed here rather than asserted as hex strings, because the thing that
-must stay true is the contrast, not the value that produced it. Changing a token is
-allowed; changing it to something unreadable is not.
-
-The pressed favourite star joined the text rules on 2026-09-02. The audit had left it on
-`--accent` because a text-rendered icon might be a graphical object under 1.4.11 (3:1)
-rather than text under 1.4.3 (4.5:1). It measured 3.25:1 on `--surface` in light theme,
-so it passed one reading and failed the other; painting it with `--accent-text` clears
-both, and `FavouriteStarTest` reads the token the rule actually names rather than
-assuming it.
+`--accent` is chosen for a 3 px chain border and a focus ring (WCAG 1.4.11, 3:1). Light
+theme's #B8860B measures 3.04:1 on `--bg`, which fails the 4.5:1 that 1.4.3 asks of small
+text, and eight rules coloured text with it. `--accent-text` is the same hue darkened to
+clear 4.5:1 against both surfaces in both themes; `--accent-on-ink` is the selected day
+chip's label, painted on `--ink`. The ratios are computed rather than asserted as hex, so
+a token may change but not to something unreadable. The pressed favourite star joined the
+text rules on 2026-09-02; it measured 3.25:1 on `--surface` before.
 """
 import pathlib
 import re
@@ -95,7 +82,7 @@ class TokenContrastTest(unittest.TestCase):
 
     def test_accent_text_is_readable_on_both_surfaces_in_both_themes(self):
         """The defect this token exists for. Text sits on --bg or on --surface; both have
-        to clear 4.5:1, in the theme the reader is actually using."""
+        to clear 4.5:1, in the theme the reader is using."""
         for theme, t in (("light", LIGHT), ("dark", DARK)):
             for surface in ("bg", "surface"):
                 with self.subTest(theme=theme, surface=surface):
@@ -179,7 +166,7 @@ def rule_token(selector, prop):
 
 class FavouriteStarTest(unittest.TestCase):
     """The star is the one control whose colour changes with state, so each state is
-    measured on the surface the button actually paints, in the theme the reader is in.
+    measured on the surface the button paints, in the theme the reader is in.
     Light theme pressed measured 3.25:1 before the fix; every other cell already passed."""
 
     def test_the_pressed_star_paints_its_glyph_with_the_text_token(self):

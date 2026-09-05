@@ -5,23 +5,17 @@
     python3 scripts/indexnow.py --dry-run  # print what would be sent, send nothing
     python3 scripts/indexnow.py --before X --after Y
 
-IndexNow is Bing, Yandex, Seznam, Naver and Yep. **Google has never adopted it**, so on a
-Finnish cinema site this reaches the tail of the market and not the head; it is worth the
-few lines it costs and not worth building anything larger around. What makes it a fair
-fit is that showtimes are perishable and this repo knows exactly which pages moved, which
-is the one thing the protocol asks for and most sites cannot supply.
+IndexNow reaches Bing, Yandex, Seznam, Naver and Yep; Google does not use it. Showtimes
+are perishable and git records exactly which pages moved, which is what the protocol asks
+for.
 
-The URL list comes from the *commit range*, not from the generator. `build_pages.py` is
-offline and deterministic on purpose and putting a third-party POST inside it would trade
-that for nothing, since git already records which page files changed and how. It also
-keeps the submission out of the fetch workflow, which has an unmerged branch against it.
+The URL list comes from the commit range, not from the generator: `build_pages.py` stays
+offline and deterministic, and the submission stays out of the fetch workflow, which has
+an unmerged branch against it.
 
-**Every kind of change is a notification, including the ones that remove a page.** The
-protocol is for added, updated, deleted and moved URLs: a redirect, a meta-refresh page
-or a URL that now 404s is precisely what an engine needs to be told about, because
-otherwise it keeps the old entry until it happens to recrawl. An earlier version of this
-script filtered out pages carrying `noindex` and would have stayed silent about exactly
-the changes worth announcing.
+Every kind of change is a notification, including the ones that remove a page: an engine
+never told a URL is gone keeps the old entry until it recrawls. An earlier version filtered
+out pages carrying `noindex` and stayed silent about exactly those changes.
 """
 import argparse
 import json
@@ -62,7 +56,7 @@ RETRY_AFTER_MAX = 60
 MAX_URLS_PER_POST = 10000
 # The cloud workflow commits as this identity. A push made with GITHUB_TOKEN does not
 # trigger `on: push` -- GitHub suppresses it to stop workflows recursing -- so the
-# routine data commits, which are the ones that actually move the pages, arrive only
+# routine data commits, which are the ones that move the pages, arrive only
 # through workflow_run and have to be found by looking for them.
 BOT_NAME = "kino-bot"
 BOT_SUBJECT = "Update cloud provider data"
@@ -117,7 +111,7 @@ def event_range():
     The second exists because a push made with GITHUB_TOKEN does not trigger `on: push`
     at all -- GitHub suppresses it so workflows cannot recurse. Without this path the
     trigger would fire only for hand commits and stay silent for the routine data runs,
-    which are precisely where the theatre and city pages change. That is most of the
+    which is where the theatre and city pages change. That is most of the
     feature, quietly missing.
     """
     ev = _event()
@@ -151,7 +145,7 @@ def push_range():
 
     An all-zero `before` means the ref was created by this push. Diffing against the
     empty tree would then announce every page on the site; falling back to the tip's
-    parent announces what that push actually did, which is the useful answer and the
+    parent announces what that push did, which is the useful answer and the
     quieter one. Only if there is no parent either does the empty tree apply.
     """
     ev = os.environ.get("GITHUB_EVENT_PATH")

@@ -1,18 +1,10 @@
-"""An empty result has to be heard, not only seen.
+"""An empty result is announced to a screen reader, not only painted.
 
 Filtering to nothing replaces the list with "Ei elokuvia suodattimilla" and leaves focus
-in the search field. Sighted users see the sentence appear; everyone else got silence,
-which is indistinguishable from a list still loading.
-
-The fix is the pattern the venue picker already used for "Ei osumia.": a region that is in
-the document before its text changes. A `role="status"` attribute on the node that is
-created together with its content is not reliably announced -- the element and the text
-arrive in the same mutation, and screen readers differ on whether that counts as a change
-to a live region. So `#listStatus` is markup, and the renderers write words into it.
-
-These are assertions about the served document and about the pairing between the two, both
-of which a later edit can break without breaking anything visible. What the region sounds
-like in a real screen reader is not testable here and stays a live check.
+in the search field, so a screen reader heard nothing. A `role="status"` node created
+together with its text is not reliably announced, so `#listStatus` is markup and the
+renderers write into it, the pattern the venue picker already used. What the region
+sounds like stays a live check.
 """
 import pathlib
 import re

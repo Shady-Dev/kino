@@ -1,22 +1,15 @@
 """The date row must not hand a label a column narrower than the label.
 
-An iPhone 17 is 402 CSS pixels wide and showed "Huomen…". The row is six chips at
-`flex:1 1 0`, so each gets a sixth of the width; the label steps up from .6rem to .66rem
-above a breakpoint that was set at 400px, and a .66rem "Huomenna" needs 53.43px while a
-sixth of a 402px row offers 53.00. The bigger font started three pixels before there was
-room for it, and 401-402 fell in the gap.
+At 402 CSS pixels (iPhone 17) the row showed "Huomen…": six chips at `flex:1 1 0`, a
+.66rem "Huomenna" needing 53.43px against a sixth of the row offering 53.00, because the
+font-size breakpoint sat at 400px. The arithmetic is checked here with the CSS values read
+out of index.html, so moving the breakpoint, gap, paddings or font size re-runs the sum.
+Rendering is not checked here: sub-pixel rounding decides the last half-pixel, and that was
+verified in the browser and the iOS Simulator at 320, 375, 393, 402 and 430.
 
-What is checked here is the arithmetic, which is where the bug lived: the CSS values are
-read out of index.html and the column is computed from them, so moving the breakpoint,
-the gap, the row padding, the chip padding or the font size all re-run the sum. What is
-deliberately *not* checked here is the rendering. Sub-pixel rounding decides the last
-half-pixel -- the failing case was over by 0.43px -- and no model in Python is going to
-be faithful about that. The browser and the iOS Simulator answered that half, at 320,
-375, 393, 402 and 430.
-
-The glyph widths below were measured once, in Chrome, against the self-hosted Archivo at
-the weight the chips use, and are stored per 1px of font-size so they scale. A test
-asserts the font stack has not changed underneath them.
+The glyph widths were measured once in Chrome against the self-hosted Archivo at the
+chips' weight and are stored per 1px of font-size. A test asserts the font stack has not
+changed.
 """
 import pathlib
 import re

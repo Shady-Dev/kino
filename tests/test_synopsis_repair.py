@@ -1,16 +1,10 @@
 """synmerge.repair_from_twin: transcribe from a copy we hold, never guess.
 
-Finnkino's payload publishes "Catherine Laga?aia" and "Auli?i Cravalho" where the name
-carries an okina. The pipeline is not the culprit -- in that same string `®`, `“ ”` and
-every `ä` arrive intact, and the two candidate mechanisms here cannot produce a "?" at
-all: `json.loads` raises on malformed UTF-8, and the single decode in fetch_data.py uses
-errors="replace", which yields U+FFFD.
-
-The danger in fixing it is inventing text. A "?" is not decodable on its own -- it could
-be an apostrophe, an okina, or a real question mark -- so the substitution is only made
-against another chain's copy of the same sentence, and only where that copy agrees
-everywhere else. These tests exist to hold that line: every case below that leaves the
-text alone is worth more than the one that repairs it.
+Finnkino publishes "Catherine Laga?aia" where the name carries an okina; the pipeline does
+not cause it (json.loads raises on malformed UTF-8, and the decode uses errors="replace",
+which yields U+FFFD). A "?" could be an apostrophe, an okina or a real question mark, so
+the substitution is made only against another chain's copy of the same sentence, and only
+where that copy agrees everywhere else.
 """
 import unittest
 

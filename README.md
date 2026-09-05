@@ -58,9 +58,8 @@ how one eTiketti cinema can be local while the other sixteen run on Actions.
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `run.log` and
 `run-{module}.log` are the authoritative record; the Actions logs are not.**
-`enrich_tmdb.py` runs last and fills
-in ratings, trailers, synopses and posters a provider does not supply, merging
-rather than overwriting the cinema's own text.
+`enrich_tmdb.py` runs last and fills in ratings, trailers, synopses and
+posters a provider does not supply, without overwriting the cinema's own text.
 
 Why any of it is shaped this way is in [IDEAS.md](IDEAS.md), along with the
 per-provider research and the approaches tried and rejected.
@@ -140,26 +139,21 @@ the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves eighteen
 providers today and `nexxo` eight.
 
-`base` is the host the adapter reads, and it is optional: several single-site
-adapters keep their host inside `fetch_site` and work fine. What it buys is
-concurrency. `run.py` paces on `base`, reading sites on different hosts at the
-same time and sites sharing a host one after the other, and it cannot tell two
-unnamed hosts apart -- so every site in a module without a `base` is grouped
-together and read one at a time.
-
-A module with more than one site should therefore name the host it actually
-reads, or its sites gain nothing from the pool. Two entries against the *same*
-server must name it, or they would be read at twice the rate their adapter paces
-for. Where a visitor is sent can be a different host and belongs in `site`.
+`base` is the host the adapter reads, and it is optional. `run.py` paces on it:
+sites on different hosts are read at the same time, sites sharing a host one
+after the other, and every site in a module without a `base` is grouped together
+and read one at a time. A module with more than one site should name the host it
+reads, or its sites gain nothing from the pool. Two entries against the same
+server must both name it, or they are read at twice the rate their adapter paces
+for. The host a visitor is sent to can differ and belongs in `site`.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
 eTiketti or Vista with its public XML services open needs a `SITES` entry
 against the existing adapter; `vista.py` reads Korjaamo Kino that way. Adding a
-venue to an existing provider is one line. Pick
-the accent with `accent_check.py`; do not judge it by eye. Fetch the page a
-showtime will link to and check it answers before writing it down: the ticket
-links of six Nexxo sites once 404'd because one site's path was copied onto all
-of them.
+venue to an existing provider is one line. Pick the accent with
+`accent_check.py`, not by eye. Fetch the page a showtime will link to and check
+it answers before writing it down: six Nexxo sites once shipped dead ticket
+links because one site's path was copied onto all of them.
 
     python3 scripts/providers/run.py biorex
     python3 scripts/providers/run.py --where cloud
@@ -186,24 +180,17 @@ into the app as `/?area={venueId}&lang={fi|en}`, so a reader lands on the
 cinema or city they were reading about, in the language they were reading it
 in, and the app's saved favourite is left alone.
 
-Since 2026-09-02 the pages share the app's look: its wordmark, its typeface
-(the same self-hosted Archivo files, one same-origin request), its light and
-dark tokens following the OS, its FI · SV · EN selector, and ticket-shaped
-showtimes. The card is the app's: score ring, rating, genres, runtime, and the
-language once when every screening shares it, on the screening when they differ.
-A price is never the film's: it sits on the screening's ticket. A theatre page's
-ticket shows time, room and price, and ends in a 56 px price compartment behind
-the dashed seam and its notches, blank when the cinema publishes none, so a priced
-and an unpriced screening keep one shape. A city page's ticket puts a 64 px time
-compartment first, then cinema and room, then the price where there is one and
-no compartment where there is none, with a colour rule per chain, and a second
-column only where a 240 px ticket fits. Tickets are 40 px tall, in the app and
-here. Swedish has no static page
-yet, so its selector entry opens the app on the same area in Swedish. The theme
-toggle reads and writes the same `kino-theme` key as the app, so a choice made
-on either side carries to the other; that is the only script on the page, and
-it renders nothing. Nothing volatile, so a page is rewritten only when its
-showtimes change.
+The pages share the app's design: wordmark, the same self-hosted Archivo,
+light and dark tokens following the OS, the FI · SV · EN selector and
+ticket-shaped showtimes. The card is the app's card, and a price sits on the
+screening's ticket, never on the film. A theatre page's ticket ends in a 56 px
+price compartment, blank when the cinema publishes none; a city page's ticket
+puts a 64 px time compartment first, then cinema and room, with a colour rule
+per chain. Swedish has no static page, so its selector entry opens the app on
+the same area in Swedish. The theme toggle reads and writes the same
+`kino-theme` key as the app; it is the only script on the page and renders
+nothing. Nothing volatile, so a page is rewritten only when its showtimes
+change.
 
 ## Privacy
 
@@ -217,10 +204,9 @@ and 144 in `films-extra.json`, across 658 mirrored files, none off-origin. The
 typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
-That was false until 2026-08-29, when the typeface came from Google Fonts and
-about a third of the posters were hot-linked from the cinemas' hosts and
-`image.tmdb.org`. Both are mirrored now. This paragraph stays so the privacy
-claim can be checked against when it was wrong.
+Until 2026-08-29 the typeface came from Google Fonts and about a third of the
+posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
+mirrored now.
 
 Two things reach other hosts. Tapping a showtime or a trailer hands you to the
 cinema's booking page or to YouTube. GitHub Pages serves the site and logs
@@ -236,9 +222,8 @@ credits the source being displayed.
 Every provider is read through the same public interface its own site uses, under
 an honest User-Agent, **on a schedule that no visitor can influence**. Unrelated
 cinemas are read at the same time; any one cinema is read one request at a time,
-at the pace its own adapter sets. The app
-loads static JSON from this origin, so browsing it, reloading it or leaving it
-open reaches no cinema. That property holds by construction: the client has no
+at the pace its own adapter sets. The app loads static JSON from this origin, so
+browsing it, reloading it or leaving it open reaches no cinema: the client has no
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
@@ -259,11 +244,10 @@ This is a personal, non-commercial project with no affiliation to any of them.
     Copyright (C) 2026  Shady-Dev
     Licensed under the GNU Affero General Public License, version 3 or later.
 
-The **code** is [AGPL-3.0](LICENSE). Use it, change it, run it. The condition
-that matters for a site like this: deploy a modified version where people reach
-it over a network and you must offer them its source. That is AGPL section 13,
-and it is why AGPL rather than GPL-3.0, whose copyleft triggers on a
-distribution that hosting a fork never performs.
+The **code** is [AGPL-3.0](LICENSE). Use it, change it, run it. Deploy a
+modified version that people reach over a network and you must offer them its
+source (AGPL section 13). GPL-3.0's copyleft triggers on distribution, which
+hosting a fork never performs.
 
 **The licence covers the code and nothing else here.** Not mine to relicense:
 

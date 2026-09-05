@@ -261,7 +261,7 @@ def main() -> int:
         try:
             g = get(f"https://api.themoviedb.org/3/genre/movie/list?language={lang}", th)
             names[slot] = {str(x["id"]): x["name"] for x in (g.get("genres") or [])}
-            # Only rename an id TMDB actually returned, so this can never invent a genre.
+            # Only rename an id TMDB returned, so this can never invent a genre.
             names[slot].update({k: v for k, v in GENRE_FIX.get(slot, {}).items()
                                 if k in names[slot]})
         except Exception as e:
@@ -445,7 +445,7 @@ def main() -> int:
 
     flush(cache, today)
 
-    # After the loop, because whether a scheduled refresh actually re-read anything is
+    # After the loop, because whether a scheduled refresh re-read anything is
     # only known once its detail request has answered. A failure here is not an error --
     # the entry keeps its figures and its date and comes back to the head of the queue --
     # but a run where every refresh fails must not read like a run where every one

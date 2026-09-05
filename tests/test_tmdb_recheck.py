@@ -1,14 +1,10 @@
-"""Which cached titles the TMDB pass re-reads, and how many of them at once.
+"""Which cached titles the TMDB pass re-reads, and how many at once.
 
-The rule used to be `c.get("v") or c.get("c") == today`: a film with a trailer was never
-looked at again, so its rating and vote count froze at whatever they were the day the
-trailer turned up. Measured against the committed cache on 2026-09-01: 156 entries, 96
-with a trailer, 71 of those last read on 2026-08-27 and never due to be read again.
-
-The pass needs a token and talks to a third party, so what is tested here is the
-decision, against a fabricated cache. The two properties that matter pull against each
-other: a rating has to stop being permanent, and one pass must not turn into a re-fetch
-of every title. `due()` is where they meet, so `due()` is what these exercise.
+The rule was `c.get("v") or c.get("c") == today`, so a film with a trailer was never read
+again: on 2026-09-01, 96 of 156 entries had a trailer and 71 of those were last read on
+2026-08-27. The pass needs a token, so the decision, `due()`, is tested against a
+fabricated cache: a rating must not be permanent, and one pass must not re-fetch every
+title.
 """
 import contextlib
 import datetime
@@ -185,7 +181,7 @@ class AgainstTheCommittedCacheTest(unittest.TestCase):
     """The catch-up, against the real cache rather than a fixture.
 
     A fixture can be built to fit the budget. This asks the question of the cache that
-    actually exists, on a date by which every entry in it is past the age.
+    exists, on a date by which every entry in it is past the age.
     """
 
     def setUp(self):
@@ -305,7 +301,7 @@ class MainPathTest(unittest.TestCase):
         self.assertIn("1 scheduled, 0 re-read, 1 failed and still due", out)
 
     def test_an_entry_a_failed_refresh_left_alone_is_due_again_next_run(self):
-        """The property the date is for. Nothing here asserts a log line: the question is
+        """The property the date is for. Nothing here asserts a log line; what matters is
         whether the next pass picks it up, which is what `due()` will be asked."""
         def boom(url):
             raise RuntimeError("500 from TMDB")

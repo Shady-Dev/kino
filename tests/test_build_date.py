@@ -1,18 +1,13 @@
-"""The pages are a function of the data and of the day; the day has to be sayable.
+"""The pages are built for an explicit day, and CI rebuilds for the recorded one.
 
-`build_pages.main()` read `datetime.now(FI).date()`, and every page lists a window of days
-starting there, with the sitemap stamped the same day. CI regenerates the committed pages
-and requires a clean tree, so identical committed input built on 2026-09-05 and on -06
-produced 165 different files and a check re-run after midnight went red with nothing
-changed.
+`build_pages.main()` read the clock, and every page lists a window of days from that day,
+so CI's regeneration check went red after midnight with nothing changed. `main(today=None)`
+takes the day; `--date YYYY-MM-DD` passes one; `--date recorded` reads it back from the
+committed sitemap, whose every `lastmod` is written from that day. Publishing still reads
+the clock.
 
-`main(today=None)` now takes the day explicitly, `--date YYYY-MM-DD` passes one, and
-`--date recorded` reads back the day the committed build was for from the sitemap, whose
-every `lastmod` is written from `today`. Publishing still reads the clock.
-
-These tests build a small synthetic city -- two venues in Oulu, one show a day for a week
--- against a patched clock, so the day is the only thing that moves between builds and
-the data is not this week's.
+Built against a small synthetic city (two venues in Oulu, one show a day for a week) with
+a patched clock, so the day is the only thing that moves between builds.
 """
 import contextlib
 import io

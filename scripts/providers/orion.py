@@ -1,52 +1,35 @@
-"""Cinema Orion (Helsinki, Eerikinkatu 15, run by ELKE ry) — front page table. Stdlib only.
+"""Cinema Orion (Helsinki, Eerikinkatu 15, run by ELKE ry): front page table. Stdlib only.
 
-Everything the app needs is server-rendered on one page: a `<table class="kinola-day">`
-per day, one `<tr>` per screening carrying date, time, title, price and the ticket link.
-One request, no per-film follow-up.
+Everything is server-rendered on one page: a `<table class="kinola-day">` per day, one
+`<tr>` per screening with date, time, title, price and the ticket link. One request.
 
-Two things the source dictates:
-  * **Ticket URLs come from the markup, never built.** Most point at
+  * Ticket URLs come from the markup, never built. Most point at
     orion.kinola.ee/web/screening/{uuid}, but festival screenings link to the festival's
-    own box office instead (Espoo Ciné -> boxoffice.espoocine.fi). A templated URL would
-    be dead for exactly the screenings that are hardest to find elsewhere. A row with no
-    link at all (free admission) falls back to the programme page.
-  * The price cell's `title` attribute carries the full ticket-type breakdown, so a
-    screening with cheaper types reads "alkaen 8.5€" rather than the base price alone.
+    own box office (Espoo Ciné -> boxoffice.espoocine.fi). A row with no link (free
+    admission) falls back to the programme page.
+  * The price cell's `title` attribute carries the ticket-type breakdown, so a screening
+    with cheaper types reads "alkaen 8.5€".
 
-The title cell has two shapes and both matter:
+The title cell has two shapes:
 
     <td class='title'> Espoo Ciné: Four Minus Three </td>
     <td class='title'><a href='/elokuvat/{slug}/' title ="Film"> Film
       <span class="descrption">Finnish blurb<span> </a></td>
 
-The linked shape wraps the title together with a screening blurb, so the film title is
-read from the anchor's `title` attribute, not from the cell's text: flattening the cell
-glues the blurb onto the title, which splits one film into one "film" per blurb and
-leaves TMDB nothing to match. `descrption` is the site's spelling, and its inner
-`<span>` is never closed, so that span is cut at whatever tag comes next. The blurb
-goes to `_syn`; it mixes screening notes ("Ensi-iltaelokuva, klubialennus.") into the
-synopsis, but synmerge only ever fills an empty slot.
+In the linked shape the title is read from the anchor's `title` attribute, not the cell
+text, which would glue the blurb onto the title and split one film into one "film" per
+blurb. `descrption` is the site's spelling and its inner `<span>` is never closed. The
+blurb goes to `_syn`; synmerge only fills an empty slot.
 
-`eventId` comes from the film page slug where there is one, so repeat screenings of the
-same film share an id. Festival rows have no film page and fall back to a slug of the
-title.
+`eventId` is the film page slug where there is one; festival rows fall back to a slug of
+the title. A known event prefix ("Espoo Ciné:", "Pieni elokuvakerho:") is split off into
+`method` from the shared list in `strands.py`, matched exactly, never as a colon pattern.
+Third-party events (festivals, HopeaCine, Orion Club) are real screenings here and stay
+in the data with the title stored exactly as published, so norm() keys agree with the
+client.
 
-A known event prefix ("Espoo Ciné:", "Pieni elokuvakerho:") is split off the title into
-`method`, where the client already renders it as a pill. The film title then stands
-alone, which is what the poster fallback tile and the TMDB search both need: with the
-prefix left in, every Espoo Ciné screening rendered the same "EC" tile and none of the
-17 titles could be searched. The list is `enrich_tmdb.EVENT_PREFIXES`, shared so a new
-strand is added in one place (`strands.py`), matched exactly, never as a colon pattern, or
-"Dyyni: Osa kolme" loses its head.
-
-The programme includes third-party events (festivals, HopeaCine, Orion Club), which are
-real screenings at this venue and belong in the data. They arrive with prefixes like
-"Espoo Ciné:"; that is enrich_tmdb.clean()'s problem, not this adapter's, and the title
-is stored exactly as published so norm() keys stay in agreement with the client.
-
-Single screen, so `aud` stays blank. The table has no age limits, runtimes or seat
-counts, and there is no per-film page in it, so those fields stay empty and the TMDB
-pass fills what it can.
+Single screen, so `aud` stays blank. No age limits, runtimes or seat counts in the table;
+the TMDB pass fills what it can.
 """
 import datetime, html as html_mod, re, sys, unicodedata
 from zoneinfo import ZoneInfo

@@ -1,13 +1,9 @@
 """Provider text inside the JSON-LD block must not be able to close the element.
 
-`ld_json()` output is embedded inside <script type="application/ld+json">, and the HTML
-parser ends a script element at the first literal "</script>" regardless of the type
-attribute. Titles, theatre names and booking URLs are provider text published verbatim
-(the raw title is the enrichment key, so adapters cannot escape it at the source), which
-made this the one sink where upstream data reached a script context unescaped -- every
-other interpolation in the generator and the client already goes through esc() or
-safeUrl(). The serializer therefore \\uXXXX-escapes the HTML-significant characters,
-which is equivalent JSON: a consumer parses the identical value.
+The HTML parser ends a script element at the first literal "</script>" regardless of its
+type attribute, and titles, theatre names and booking URLs are provider text published
+verbatim. `ld_json()` therefore \\uXXXX-escapes the HTML-significant characters, which is
+equivalent JSON.
 """
 import datetime
 import json

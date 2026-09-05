@@ -59,7 +59,7 @@ SITES = [
      ]},
     # Two cinemas on one host, so two entries rather than one provider labelled after
     # whichever came first: Bio Säde is in Mänttä and Kino Hirvi in Äänekoski, and the
-    # picker has to name each one. `host` credits the site actually read, which for both
+    # picker has to name each one. `host` credits the site read, which for both
     # is kinohirvi.fi -- biosade.fi is a separate domain that serves an empty programme.
     {"provider": "kinohirvi", "base": "https://kinohirvi.fi", "label": "Kino Hirvi",
      "programme": "/", "venues": [
@@ -320,7 +320,7 @@ def fetch_site(site, sleep=2.5):
     # Every locationid answered with valid JSON and not one of them listed a show. That
     # is a cinema between programmes, not a broken parse -- four Nexxo hosts sit in
     # exactly this state permanently. If any request failed, `answered` is short and this
-    # stays a normal failure, because then we do not actually know what the site holds.
+    # stays a normal failure, because then we do not know what the site holds.
     if answered == len(site["venues"]) and not shows:
         raise common.EmptyProgramme(
             f"{site['base']} answered for {answered} locationid(s) and listed no shows")

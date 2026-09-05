@@ -1,24 +1,14 @@
-"""A page build that dies partway must not leave half of a new generation on disk.
+"""A page build that fails partway writes nothing.
 
-`build_pages.main()` wrote each page as it produced it. An exception anywhere in the
-render left the tree holding some of that run's pages and some of the previous run's --
-and `biorex.yml` stages `teatteri kaupunki en sitemap.xml` and pushes *before* it checks
-whether the build exited non-zero, so the mixture was published and only then did the run
-turn red.
+`build_pages.main()` wrote each page as it produced it, and `biorex.yml` stages and pushes
+the pages before it checks the exit code, so a failed build published a mix of two
+generations: city pages disagreeing with the venue pages they link to, under a sitemap
+describing neither. Measured before the fix by raising on the 41st render against the real
+data: 40 of 172 pages new, 132 old, all staged.
 
-A partial update sounds harmless and this one is not. City pages are built from the venues
-they merge and after them, and the sitemap after both, so a half-built run can serve a
-city page whose showtimes disagree with the venue pages it links to, under a sitemap that
-describes neither. Nothing in the markup says it is inconsistent.
-
-Measured before the fix, by raising on the 41st render against the real data: 40 of 172
-pages new, 132 from the previous build, all staged for commit alongside 73 changed data
-files.
-
-These run the real `main()` against the repo's own `data/`, copied into a temporary tree
-with `ROOT` and `DATA` pointed at it. Real data rather than a fixture because the loop
-that matters spans 74 venues and 10 multi-venue cities, and the ordering between those two
-passes is the thing that makes a partial build incoherent rather than merely short.
+The pages are now collected and written in one loop at the end. These tests run the real
+`main()` against the repo's own `data/` in a temporary tree, because the ordering between
+the venue pass and the city pass is what makes a partial build incoherent.
 """
 import contextlib
 import hashlib

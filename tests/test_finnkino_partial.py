@@ -1,24 +1,15 @@
 """One failed date must not publish a six-day week as a fresh seven-day schedule.
 
-`main()` asks OCAPI for seven business dates, one request each. A request that raised was
-logged and stepped over, and the days that did answer were then written out as the new
-snapshot with a current timestamp and an exit code of 0. The missing day was simply not
-in the file.
+`main()` asks OCAPI for seven business dates. A failed request was logged and skipped, and
+the remaining days were written as a new snapshot with a fresh timestamp and exit 0. The
+client reads a date's absence from `dates` as "not published yet", so a whole day across
+seventeen venues read as unpublished with nothing to surface it. The rule is now all seven
+or none, and `areas.json` moved down with the schedule files because its age is what an
+external monitor watches.
 
-That is worse than a smaller schedule. `dates` is built from the shows that arrived, and
-the client reads a date's absence from that list as "schedule not published yet" rather
-than "no shows" -- so a whole day across every Finnkino venue, seventeen of them, read as
-unpublished while the file said it was minutes old. Nothing surfaced it: no non-zero exit
-for check_runs.py to find, no ageing timestamp, no health flag.
-
-The rule is now all seven or none, and `areas.json` moved down with the schedule files
-because its age is the thing an external monitor would watch.
-
-Like tests/test_finnkino_recheck.py, this cannot be exercised against the real endpoint:
-www.finnkino.fi answers a datacenter address with a Cloudflare 403, so there is no runner
-that can run this file and no live token here. `main()` is driven for real with OCAPI
-stubbed by URL, in a temporary directory. The next run from an ordinary connection is the
-operational check, not the proof.
+www.finnkino.fi answers a datacenter address with a Cloudflare 403, so `main()` is driven
+with OCAPI stubbed by URL in a temporary directory. The next run from an ordinary
+connection is the operational check.
 """
 import contextlib
 import datetime

@@ -4,22 +4,15 @@
     python3 scripts/check_inline_js.py              # index.html and sw.js
     python3 scripts/check_inline_js.py FILE [FILE]  # any .html or .js
 
-There is no build step here, so nothing parses `index.html`'s script block before a
-browser does. A syntax error ships, the page renders blank, and the service worker keeps
-serving the last good copy to everyone who already has it -- so the person who pushed it
-sees a working site. CLAUDE.md has said "extract the inline script and node --check it"
-since the file was written; this is that instruction as something a workflow can run.
+There is no build step, so nothing parses `index.html`'s script block before a browser
+does; a syntax error ships and the service worker keeps serving the last good copy to
+whoever pushed it. Line numbers are reported against the HTML file, not the extracted
+fragment.
 
-Line numbers are reported against the HTML file rather than the extracted fragment. An
-error at line 812 of a fragment that starts at line 646 is at line 1457 of index.html,
-and hand-adding those two numbers is how you end up looking at the wrong line.
-
-A `<script>` with a `src` is somebody else's file. A `<script type="application/ld+json">`
-is not JavaScript at all -- it is parsed as JSON here, because a broken one silently
-removes the page from every rich result and nothing else in this repo would notice.
-
-An HTML file with no inline script is a failure. The one this exists to check has
-exactly one, so zero means the tag shape changed and this has been checking nothing.
+A `<script>` with a `src` is skipped. A `<script type="application/ld+json">` is parsed
+as JSON, because a broken one silently removes the page from rich results. An HTML file
+with no inline script is a failure: the file this checks has exactly one, so zero means
+the tag shape changed.
 """
 import argparse
 import json

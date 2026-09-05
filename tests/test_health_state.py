@@ -1,14 +1,9 @@
 """The footer must not call a provider healthy while one of its cinemas did not refresh.
 
-The classifier used to be age alone, so a provider whose venue failed to refresh read as
-healthy for as long as the data it kept stayed under STALE_H. The collapsed summary said
-every source was up to date while the expanded row beside it said (1/12) -- the two
-disagreed, and the one a reader sees first was the wrong one.
-
-`healthState` is sliced verbatim out of index.html by tests/health_state_harness.js and
-run on its own. It takes provider metadata and an age and returns a string, so it needs
-no DOM; the alternatives were stubbing the whole app or splitting the single file, which
-this repo deliberately does not do.
+The classifier was age alone, so a provider with one failed venue read as healthy while
+the expanded row beside it said (1/12). `healthState` is sliced verbatim out of index.html
+by tests/health_state_harness.js; it takes provider metadata and an age and returns a
+string.
 """
 import json
 import pathlib

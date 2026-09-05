@@ -1,14 +1,10 @@
 """The single-cinema ticket has a price compartment (2026-09-02).
 
-The row stub is the ticket a visitor sees most: one cinema, its screenings in a row. Its
-price used to trail the room as a small muted word with no compartment of its own, and a
-ticket without a price was a different shape from one with. Now the last 56 px of every row
-ticket are the price compartment -- the tear-off end -- with the dashed seam as its left
-border and the notches centred on that seam, from the same variable. It is blank when the
-cinema publishes no price, so priced and unpriced tickets share one silhouette, and nothing
-is ever invented for the blank. The price is ink, bold, .78rem: a fact of the ticket, a step
-below the .92rem time, never a badge. The combined view keeps its own anatomy unchanged: the
-time compartment on the left, and an empty compartment collapses there.
+The last 56 px of every row ticket are the price compartment, with the dashed seam as its
+left border and the notches centred on that seam from the same variable. It is blank when
+the cinema publishes no price, so priced and unpriced tickets share one silhouette. The
+price is ink, bold, .78rem, a step below the .92rem time. The combined view keeps its own
+anatomy: time compartment on the left, empty compartment collapsed.
 
 Rendering is measured live; the source is pinned here, in both renderers.
 """

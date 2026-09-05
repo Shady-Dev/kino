@@ -1,22 +1,10 @@
-"""One contact address, written by hand in several places, and nothing else in the tree.
+"""One contact address, and no other address anywhere in the tree.
 
-Two separate jobs.
-
-**Rotation.** The address is a disposable alias, so the plan when it attracts spam is to
-delete it and mint another. That plan only works if changing it is a single reliable act.
-It is currently typed out in the client (twice: the static fallback and the JS constant),
-in the page generator, and in both documents. Miss one and the site contradicts itself --
-most likely in the generated pages, because those are rewritten from `build_pages.py` on
-the next run and nobody reads them, so the dead address would sit there until a cinema
-tried to write and bounced.
-
-**Leaks.** No address other than that one belongs in a tracked file. This repo is public
-and a real name reached 18 commits once already; that was fixed by rewriting history,
-which is expensive and only works if you notice. This is the cheap standing check.
-
-Nothing here hardcodes the address. It is discovered from the client and everything else
-is compared against it, so the test carries no address of its own and keeps working
-across a rotation.
+Rotation: the address is a disposable alias typed in the client (static fallback and JS
+constant), the page generator and both documents. Missing one on rotation leaves the site
+contradicting itself, most likely in the generated pages. Leaks: this repo is public, and
+a real name once reached 18 commits. The address is discovered from the client, so the
+test carries none of its own and keeps working across a rotation.
 """
 import pathlib
 import re

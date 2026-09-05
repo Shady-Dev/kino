@@ -1,28 +1,18 @@
-"""mirror_posters: "mirrored everything" and "could not mirror anything" must not be
-the same answer.
+"""mirror_posters: "mirrored everything" and "could not mirror anything" are different exits.
 
-The dependency check was added so that a machine without Pillow said so once instead of
-reporting 185 download failures. It returned 0, which made a missing Pillow indistinguish-
-able from a clean run to every caller -- and that state is invisible everywhere else:
-nothing is rewritten, every reference stays remote, the client refuses to render a remote
-poster on purpose, and the films show placeholder tiles. The one step positioned to notice
-was the one saying it was fine.
+The dependency check returned 0 when Pillow was missing, so a missing Pillow was
+indistinguishable from a clean run: nothing rewritten, every reference remote, placeholder
+tiles everywhere. It exits CANNOT_RUN now.
 
-Requirement 1 and the download-failure case need a real Pillow and skip without one, which
-on this repo's system interpreter means they skip -- the cloud installs Pillow into the job
-and the local wrapper runs the script from a venv that has it. Run them with either:
+The cases that need a real Pillow skip without one, which they do on this repo's system
+interpreter; run them with a venv that has it:
 
     <venv-with-pillow>/bin/python -m unittest discover -s tests -p test_mirror_posters.py
 
-The Pillow-absent cases run everywhere, by blocking the import rather than by stubbing
-the predicate: the thing under test is what happens when the import genuinely fails. The
-importable-but-broken case is the other half -- an install whose imaging library is
-incomplete passes an import check and then fails once per poster, which is the same silent
-degradation one layer further in.
-
-The server is a real one on localhost for the same reason the fetch tests use one -- the
-failure path runs through urllib, common.fetch's retry and Pillow's decoder, and a mock
-would encode what those do instead of checking it.
+The Pillow-absent cases block the import rather than stub the predicate. The
+importable-but-broken case covers an install whose imaging library is incomplete. The
+server is a real one on localhost, since the failure path runs through urllib,
+common.fetch's retry and Pillow's decoder.
 """
 import contextlib
 import http.server

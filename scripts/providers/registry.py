@@ -3,38 +3,29 @@
 
 Everything provider-specific that is not parsing lives here. data/providers.json is
 generated from this by scripts/build_providers.py, so the frontend carries no provider
-list of its own: adding a provider is an entry here plus an adapter, with no edit to
-index.html.
+list of its own: adding a provider is an entry here plus an adapter.
 
 Fields:
   id      matches the `provider` field on every show and data/venues-{id}.json
   label   chain name, used in the venue picker, the chain legend and the footer
   host    the cinema's own domain, credited in the footer
   accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
-          Chains that share a city have to be far apart in *both* normal and red-green
-          colourblind vision, and only there: six cities have more than one chain in
-          them (measured 2026-09-05, after Kino Regina) -- Helsinki with eight,
-          Jyväskylä with three, Vantaa, Lahti, Kouvola and Tampere with two each.
-          Everywhere else a chain is alone in its town and its accent is unconstrained,
-          which is what makes 34 chains survivable at all. Hues therefore repeat across cities on purpose.
-          Run `python3 scripts/accent_check.py` before changing one: it prints every
-          same-city pair in CIEDE2000 under two deuteranope models, and
-          `--search {id}` proposes a replacement. Do not eyeball it, and do not trust
-          a number that no longer has a script behind it -- the figures that used to
-          sit here were CIE76 mislabelled as ΔE, and were wrong by a factor of five.
-          Current worst same-city pair: 14.4 ΔE00 deutan (Finnkino/Cinema Orion);
-          Jyväskylä's worst is 26.9 (Finnkino/Kino Metso).
-          That is where hand-picking landed, not a ceiling: a search over the same L*
-          band reaches 19.5, and IDEAS says why it has not been applied. Where a city
-          has only two chains and both are free, take the best pair going -- Kouvola
-          sits at 73.5 for that reason
+          Chains that share a city must be far apart in normal and in red-green
+          colourblind vision; elsewhere the accent is unconstrained, so hues repeat
+          across cities on purpose. Six cities have more than one chain (measured
+          2026-09-05): Helsinki with eight, Jyväskylä with three, Vantaa, Lahti, Kouvola
+          and Tampere with two each. Run `python3 scripts/accent_check.py` before
+          changing one: it prints every same-city pair in CIEDE2000 under two
+          deuteranope models, and `--search {id}` proposes a replacement. Do not quote a
+          figure no script produced; the numbers that used to sit here were CIE76
+          mislabelled as ΔE. Current worst same-city pair: 14.4 ΔE00 deutan
+          (Finnkino/Cinema Orion); Jyväskylä's worst is 26.9 (Finnkino/Kino Metso).
+          A search over the same L* band reaches 19.5; IDEAS says why it is not applied.
   book    buy | reserve | door | list | admission -> footer call to action. "list" is
-          for a provider that publishes no per-show booking URL, so a showtime can only
-          open the programme page (Gilda: seat choice lives in React state, and the
-          bundle exposes no shareable showtime route). "admission" is for a venue whose
-          screenings are included in a general admission ticket (Heureka): the showtime
-          links to the ticket shop, the footer and the generated page say so, and the
-          price compartment stays blank because there is no per-screening price
+          for a provider with no per-show booking URL, so a showtime opens the programme
+          page (Gilda). "admission" is for a venue whose screenings are included in a
+          general admission ticket (Heureka): the showtime links to the ticket shop and
+          the price compartment stays blank
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
@@ -141,7 +132,7 @@ PROVIDERS = [
          book="reserve", module="nexxo", where="cloud"),
     # Both read from kinohirvi.fi, which serves two cinemas in two towns on locationids
     # 2 and 4. Bio Säde's own domain, biosade.fi, answers with an empty programme, so the
-    # host credited here is the one actually read.
+    # host credited here is the one read.
     dict(id="kinohirvi", label="Kino Hirvi", host="kinohirvi.fi", accent="#0F7B9C",
          book="reserve", module="nexxo", where="cloud"),
     dict(id="biosade", label="Bio Säde", host="kinohirvi.fi", accent="#8C3B7A",
@@ -153,7 +144,7 @@ PROVIDERS = [
     dict(id="jarvelankino", label="Järvelän Kino", host="jarvelankino.fi", accent="#7A6A1E",
          book="reserve", module="nexxo", where="cloud"),
     # KSEK's touring cinema, read from kinoaurora.fi (one deployment with ksek.fi);
-    # the host credited is the one actually read, as with Bio Säde. Accent measured
+    # the host credited is the one read, as with Bio Säde. Accent measured
     # 2026-08-31 against Muurame, Petäjävesi and Jyväskylä: worst same-city deutan
     # pair 26.9 dE00 (vs Finnkino and Kino Aurora in Jyväskylä), L* 46.9.
     dict(id="kinometso", label="Kino Metso", host="kinoaurora.fi", accent="#227D63",

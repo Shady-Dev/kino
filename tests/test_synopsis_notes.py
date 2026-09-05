@@ -1,24 +1,13 @@
 """A screening note is not a synopsis (2026-09-03).
 
 `films-extra.json` holds one Finnish synopsis per normalised title, filled by the first
-provider to publish one and read by every cinema showing the film. Gilda's senior-screening
-entries open with a paragraph of the cinema's own -- "Gildan seniorikinonäytökset joka kuun
-ensimmäisenä tiistaina. Elokuvaliput ... 9€/kpl. Lipun hintaan sisältyy leffakahvit!" --
-before the distributor's blurb, and a screening sometimes carries the plain film title, so
-that paragraph landed in the shared slot for "Keltaiset kirjeet" and Cinema Niagara showed
-Gilda's price. Fill-if-empty then kept it there. Bio Vuoksi's "Liput 8€ maksetaan
-Pennittömien edustajalle" is the same class from another adapter.
-
-Two rules, at two layers. Structural, at the adapter: Gilda's description is HTML with
-paragraphs, and a paragraph that quotes a price or names the cinema is dropped whole.
-Generic, at the merge: text that quotes a price never enters the shared slot at all, and
-is counted in the log, so an adapter that strips paragraph boundaries before merging cannot
-leak a price either. The slot stays empty for TMDB.
-
-The Gilda test goes through `parse()` with a two-paragraph description, so the adapter's
-call site is exercised rather than only the helper. Provider modules are imported inside
-the tests: they bind `common.EmptyProgramme` at import time and test_common_fetch reloads
-`common`.
+provider to publish one. Gilda's senior-screening entries open with the cinema's own
+paragraph (a price and a coffee offer) before the distributor's blurb, so it landed in the
+shared slot and Cinema Niagara showed Gilda's price. Two rules: at the adapter, a paragraph
+that quotes a price or names the cinema is dropped whole; at the merge, text quoting a
+price never enters the shared slot and is counted in the log. The slot stays empty for
+TMDB. Provider modules are imported inside the tests because they bind
+`common.EmptyProgramme` at import time and test_common_fetch reloads `common`.
 """
 import io
 import json

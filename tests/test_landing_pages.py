@@ -1,12 +1,9 @@
 """The generated landing pages, as a reader and a crawler receive them (2026-09-02).
 
-The pages under /teatteri/, /kaupunki/, /en/theatre/ and /en/city/ were redesigned to
-belong to the same product as the app: wordmark, one CTA into the app carrying both the
-venue and the language, ticket-shaped showtimes, the app's tokens in both themes. These
-tests read the pages the real `main()` writes from the repo's own committed data, the way
-`test_build_pages_atomic` does, plus a few synthetic shows for the label rule.
-
-What they pin is the requested behaviour and nothing that merely mirrors the mockup:
+The pages under /teatteri/, /kaupunki/, /en/theatre/ and /en/city/ share the app's design:
+wordmark, one CTA into the app carrying venue and language, ticket-shaped showtimes, the
+app's tokens in both themes. These tests read the pages the real `main()` writes from the
+committed data, plus a few synthetic shows for the label rule. They pin:
 
 - the four page families exist in the counts the sitemap advertises, and the four legacy
   redirects are byte-identical to the committed ones;

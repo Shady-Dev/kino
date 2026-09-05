@@ -1,13 +1,8 @@
 """common.fetch: retry, Retry-After, the two ceilings, and what a refusal says.
 
-These ran as a throwaway script when the Retry-After handling landed, which meant the
-one thing that proved a cap actually fires could not be re-run. A cap verified once and
-never again is a cap nobody will notice breaking.
-
-Everything here talks to a real HTTP server on localhost rather than a mocked urlopen,
-because the behaviour under test is partly urllib's: which exception a 429 raises, what
-`e.headers` holds, what survives closing the response. A mock would encode the
-assumptions instead of checking them.
+Every test talks to a real HTTP server on localhost rather than a mocked urlopen, because
+the behaviour under test is partly urllib's: which exception a 429 raises, what
+`e.headers` holds, what survives closing the response.
 """
 import contextlib
 import email.utils
@@ -143,7 +138,7 @@ class FetchTest(unittest.TestCase):
         self.assertEqual(c.fetch(self.url + "/d", backoff=30), b"ok")
         self.assertLess(time.monotonic() - t0, 1.0)
 
-    # -- the ceilings actually fire ----------------------------------------------
+    # -- the ceilings fire ----------------------------------------------
 
     def test_an_ask_past_the_ceiling_costs_one_request_and_no_sleep(self):
         c = self.reload()
@@ -229,7 +224,7 @@ class FetchTest(unittest.TestCase):
 
     def test_no_resource_warning_survives_the_retry_loop(self):
         """Stated as the symptom rather than the mechanism, because `closed` is only
-        evidence and this is the thing that was actually wrong. gc.collect() forces the
+        evidence and this is the thing that was wrong. gc.collect() forces the
         collection the warning would otherwise appear at some arbitrary later point."""
         c = self.reload()
         self.srv.script["/k3"] = [(403, {}, b"nope")]

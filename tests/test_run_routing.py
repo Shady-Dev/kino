@@ -1,18 +1,9 @@
 """run.py routes individual sites, not whole adapter modules.
 
-Routing used to be per module. One site that can only be fetched from an ordinary
-connection therefore dragged its entire adapter with it: marking a single eTiketti
-provider local would have put all sixteen sites in both halves, with two writers racing
-on the same files. The cost was real -- Joutsan Kino parses fine at home, answers a
-runner with a Cloudflare 403, and was deleted to keep the cloud run green.
-
-Two properties are load-bearing here and are asserted against the live registry rather
-than a fixture, because a fixture cannot go stale in the way that matters:
-
-  * the halves are disjoint -- no provider is fetched by both, so every
-    data/venues-{provider}.json has exactly one writer
-  * the halves are complete -- every site belongs to one, so routing cannot silently
-    drop a cinema the way the old module-level scheme did
+Per-module routing would have put all sixteen eTiketti sites in both halves to make one
+of them local, with two writers racing on the same files. Asserted against the live
+registry: the halves are disjoint, so every data/venues-{provider}.json has one writer,
+and complete, so routing cannot drop a cinema.
 """
 import importlib
 import os

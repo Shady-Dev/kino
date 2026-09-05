@@ -1,22 +1,13 @@
-"""sw.js must never write a failed response into Cache Storage.
+"""sw.js never caches a failed response, and its cache writes outlive the response.
 
-The poster branch is cache-first, so a cached 404 is not a stale entry that expires --
-it is a tile that stays broken for the life of the cache version, because the request
-never reaches the network again to discover it was fixed. The generic branch holds
-index.html, and its cached copy is what the offline fallback serves, so a cached 500 is
-worse still.
+Posters are cache-first, so a cached 404 stays broken for the life of the cache version;
+the generic branch holds index.html, whose cached copy is the offline fallback. Once the
+response promise settles the browser may stop the worker, so every write goes through
+e.waitUntil. The harness models that: put() settles on a macrotask and `stored` is read
+only after the response and every waitUntil promise have settled.
 
-And the writes it does make must survive worker termination. Once the response promise
-settles the browser may stop the worker; a fire-and-forget put() races that shutdown,
-and the write that loses is exactly the one the offline fallback needed. The harness
-models this: put() settles on a macrotask, and `stored` is read only after the response
-and every promise passed to e.waitUntil have settled -- so the success cases below also
-assert the write was extended, not merely started.
-
-Driven through tests/sw_fetch_harness.js because the service worker cannot be registered
-in this environment. The harness runs the real sw.js and records which URLs the code
-chose to cache; stubbing is right here because the decision under test is the code's own
-(`was r.ok true before put`), not anything the Cache API does by itself.
+Driven through tests/sw_fetch_harness.js, which runs the real sw.js with stubbed Cache and
+fetch and records which URLs the code chose to cache.
 """
 import json
 import pathlib
