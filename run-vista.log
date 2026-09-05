@@ -1,0 +1,6 @@
+[korjaamo] strand prefix split off 5 showtimes
+[korjaamo] synopses merged: 0
+[korjaamo] Korjaamo Kino: 16 showtimes, 6 dates
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] vista: 1 venues, 16 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0

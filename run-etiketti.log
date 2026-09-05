@@ -1,22 +1,22 @@
 [kotkanleffat] synopses merged: 0
 [kotkanleffat] Kinopalatsi Kotka: 15 showtimes, 6 dates
-[kotkanleffat] Trio 123: 48 showtimes, 6 dates
+[kotkanleffat] Trio 123: 46 showtimes, 6 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 51 showtimes, 10 dates
+[biorexkokkola] Bio Rex Kokkola: 49 showtimes, 10 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 58 showtimes, 7 dates
+[kinopirtti] Kinopirtti: 57 showtimes, 7 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 91 showtimes, 13 dates
+[leffabuumi] Kinolinna: 89 showtimes, 13 dates
 [leffabuumi] Kino Ritz: 18 showtimes, 13 dates
 [leffabuumi] Kino Saimaa: 5 showtimes, 4 dates
 [studio123jarvenpaa] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 36 showtimes, 6 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 35 showtimes, 6 dates
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 37 showtimes, 7 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 19 showtimes, 7 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 48 showtimes, 6 dates
+[kino123] Kino 123: 47 showtimes, 6 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 24 showtimes, 8 dates
 [kinojuha] synopses merged: 0
@@ -27,7 +27,7 @@
 [biovuoksi] synopses skipped as screening notes (price): 1
 [biovuoksi] Bio Vuoksi: 17 showtimes, 6 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 20 showtimes, 6 dates
+[kinoiiris] Kino Iiris: 19 showtimes, 6 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 9
 [kkino] K-Kino: 9 showtimes, 5 dates
@@ -35,6 +35,6 @@
 [biograni] Bio Grani: 8 showtimes, 5 dates
 [niagara] synopses merged: 0
 [niagara] Cinema Niagara: 32 showtimes, 11 dates
-[run] http: 0 revalidated (304), 200 full, 200 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 559 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 199 full, 199 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 549 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
