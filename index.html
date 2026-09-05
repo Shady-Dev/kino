@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Leffavuoro — elokuvat ja näytösajat</title>
+<title>Leffavuoro – elokuvat ja näytösajat</title>
 <meta name="theme-color" content="#0D0E12">
 <!-- Installed on iOS, the default status-bar treatment is a system material that
      blurs whatever the page's top edge holds. black-translucent is the only style
@@ -26,14 +26,14 @@
 <link rel="canonical" href="https://leffavuoro.fi/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Leffavuoro">
-<meta property="og:title" content="Leffavuoro — elokuvat ja näytösajat">
+<meta property="og:title" content="Leffavuoro – elokuvat ja näytösajat">
 <meta property="og:description" content="Suomen elokuvateatterien näytösajat yhdessä paikassa. Valitse teatteri ja päivä.">
 <meta property="og:url" content="https://leffavuoro.fi/">
 <meta property="og:image" content="https://leffavuoro.fi/icon-512.png">
 <meta property="og:locale" content="fi_FI">
 <meta property="og:locale:alternate" content="en_GB">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leffavuoro — elokuvat ja näytösajat">
+<meta name="twitter:title" content="Leffavuoro – elokuvat ja näytösajat">
 <meta name="twitter:description" content="Suomen elokuvateatterien näytösajat yhdessä paikassa. Valitse teatteri ja päivä.">
 <meta name="twitter:image" content="https://leffavuoro.fi/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -416,14 +416,14 @@
   .fmt.prem{color:var(--accent-text); font-weight:700}
   /* A limit the *screening* imposes, not the film's classification: a licensed bar
      auditorium is 18+ even when the film is K-12. Deliberately not red and not KAVI's
-     official symbol — that artwork means a legal age rating, which this is not, and a
+     official symbol -- that artwork means a legal age rating, which this is not, and a
      red chip inside a stub whose left rule is already Finnkino orange or Kotkan Leffat
      crimson would compete with the one thing colour does here. Separated by shape and
      weight instead, so it also survives greyscale and colourblind vision. */
   /* Two glyphs, no more. A stub's label column is about 75 px and truncates, so
      "Anniskelu" costs a third of it; the word survives on the card, where there is room.
      Monochrome and drawn with currentColor on purpose: the chain rule is the only thing
-     in a stub allowed to carry colour. Never a glyph alone — each one has a title and an
+     in a stub allowed to carry colour. Never a glyph alone -- each one has a title and an
      aria-label with the Finnish word, and the legend spells both out. */
   .gl{
     display:inline-grid; place-items:center; flex:0 0 auto;
@@ -527,7 +527,7 @@
   .sheet-days h3{margin:16px 0 8px; font-size:.75rem; color:var(--muted);
     text-transform:uppercase; letter-spacing:.08em; font-weight:700}
 
-  /* Ticket stubs — the signature */
+  /* Ticket stubs -- the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
   /* A ticket needs about 240 px before a second column is worth having: 64 px of time,
      up to 75 px of "alkaen 10€", and 90 px for the cinema's name to keep its words. The
@@ -634,8 +634,8 @@
   .stub::before{top:-5px}.stub::after{bottom:-5px}
   .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
   .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
-  /* :active mirrors :hover so a touch tap flashes the same inversion — hover alone
-     never fires on touch — and the lift settles back for a pressed feel. */
+  /* :active mirrors :hover so a touch tap flashes the same inversion -- hover alone
+     never fires on touch -- and the lift settles back for a pressed feel. */
   .stub:active{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:none}
   .stub:active .aud{color:var(--chip-hover-ink); opacity:.75}
   .stub.past{opacity:.45; pointer-events:none}
@@ -646,7 +646,7 @@
   .theatre-tag{color:var(--accent-text); font-weight:600}
   .tmdb{color:var(--accent-text); font-weight:700}
   /* Score ring. The arc length carries the score and the number inside repeats it, so
-     it survives greyscale and colourblind vision — which is why it is one hue rather
+     it survives greyscale and colourblind vision -- which is why it is one hue rather
      than TMDB's green/amber/red: this app already spends colour on chain identity, and
      a second colour language competing with it would cost more than it explains.
      Deliberately not a copy of TMDB's widget either; we use their data, not their
@@ -672,7 +672,7 @@
   }
   /* 8px on both segmented controls (this and .langseg): after the pill retreat on the
      filter chips, the two full capsules were the odd ones out. The inner segments keep
-     no radius of their own — overflow:hidden clips them to the container's corners. */
+     no radius of their own -- overflow:hidden clips them to the container's corners. */
   .seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface)}
   .seg button{border:0; background:transparent; padding:7px 14px; font:inherit; font-size:.78rem; font-weight:700; color:var(--muted); cursor:pointer}
   .seg button.on{background:var(--ink); color:var(--bg)}
@@ -874,7 +874,7 @@
                 revealed:new Set() };  // eventIds whose past showtimes are expanded
   let films = null;
   // films.json is Finnkino-only (keyed by its filmId). Other providers get synopses from
-  // films-extra.json, keyed by normalised title — same normalisation as enrich_tmdb.py.
+  // films-extra.json, keyed by normalised title -- same normalisation as enrich_tmdb.py.
   let extraFilms = null;
   const normTitle = t => (t || '').toLowerCase()
     .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
@@ -883,7 +883,7 @@
   // plain forms at another chain.
   // Reissue markers are the same film labelled in two languages: BioRex ships
   // "Autot (re-release)", Finnkino "Autot (uudelleenjulkaisu)". Safe to strip because
-  // they carry no sequel information, unlike a subtitle after a dash — dropping that
+  // they carry no sequel information, unlike a subtitle after a dash -- dropping that
   // would merge "Mission: Impossible - Dead Reckoning" into "Mission: Impossible".
   const mergeKey = t => normTitle((t || '')
     .replace(/\((?:suomeksi|dubattu|dub|orig\.?)\)/gi, ' ')
@@ -909,7 +909,7 @@
     try { genreNames = await fetchJSON('data/tmdb-genres.json'); }
     catch(_) { genreNames = {}; }
     // The search haystack is memoised per show and includes genre names, so it has to be
-    // thrown away once the maps arrive — otherwise a search typed before the fetch
+    // thrown away once the maps arrive -- otherwise a search typed before the fetch
     // finished would keep matching titles only.
     for(const s of state.shows) delete s._hay;
     return genreNames;
@@ -954,10 +954,10 @@
          dataLabel:'Näytöstiedot', updated:'päivitetty',
          actCombined:'Näytösajasta teatterin omalle sivulle',
          actDoor:'Liput myydään ovelta · {host}',
-         actReserve:'Näytösajasta paikkavaraukseen — {host}',
-         actList:'Näytösajasta teatterin ohjelmistoon — {host}',
-         actBuy:'Näytösajasta lipunmyyntiin — {host}',
-         actAdmission:'Sisältyy pääsylippuun · Näytösajasta lippukauppaan — {host}',
+         actReserve:'Näytösajasta paikkavaraukseen – {host}',
+         actList:'Näytösajasta teatterin ohjelmistoon – {host}',
+         actBuy:'Näytösajasta lipunmyyntiin – {host}',
+         actAdmission:'Sisältyy pääsylippuun · Näytösajasta lippukauppaan – {host}',
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
          tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
@@ -1002,10 +1002,10 @@
          dataLabel:'Tidtabeller', updated:'uppdaterad',
          actCombined:'Tryck på en föreställning för att öppna biografens egen sida',
          actDoor:'Biljetter säljs vid dörren · {host}',
-         actReserve:'Tryck på en föreställning för att boka platser — {host}',
-         actList:'Tryck på en föreställning för att öppna programmet — {host}',
-         actBuy:'Tryck på en föreställning för att köpa biljetter — {host}',
-         actAdmission:'Ingår i inträdet · Från föreställningstiden till biljettbutiken — {host}',
+         actReserve:'Tryck på en föreställning för att boka platser – {host}',
+         actList:'Tryck på en föreställning för att öppna programmet – {host}',
+         actBuy:'Tryck på en föreställning för att köpa biljetter – {host}',
+         actAdmission:'Ingår i inträdet · Från föreställningstiden till biljettbutiken – {host}',
          tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
@@ -1119,7 +1119,7 @@
     return out.join(' · ');
   }
   // films.json is keyed by Finnkino's filmId. In a combined city view eventId is the
-  // cross-chain merge key, so the id has to come from the show's own _eid — the same
+  // cross-chain merge key, so the id has to come from the show's own _eid -- the same
   // resolution showSheet() already does. Without it English mode fell back to the
   // Finnish title for every film in every combined view.
   const filmEntry = m => {
@@ -1187,8 +1187,8 @@
   const dmOf  = iso => { const [,m,d] = iso.split('-'); return `${+d}.${+m}.`; };
   // The picked day is persisted as an ISO date, not as an offset from today. The offset
   // had to be clamped to the chip range on every rebuild, so once horizons ran months out
-  // (Gilda into December) picking a far date and then reloading — or just toggling the
-  // language, which rebuilds the row — silently landed on today+13 with an empty list and
+  // (Gilda into December) picking a far date and then reloading -- or just toggling the
+  // language, which rebuilds the row -- silently landed on today+13 with an empty list and
   // nothing on screen to explain it. An old `dayIdx` pref is ignored, which falls back to
   // today.
   function savedDay(){
@@ -1577,7 +1577,7 @@
   const CTRL = /[\u0000-\u001F\u007F]/;
   // Every provider string crosses an innerHTML boundary somewhere, and every adapter
   // strips tags *then* unescapes, so a source page's entities arrive here as live HTML
-  // metacharacters — a stored-XSS surface fed by nine third-party sites, and a rendering
+  // metacharacters -- a stored-XSS surface fed by nine third-party sites, and a rendering
   // bug on harmless titles ("Movie &lt;3"). Escape at the sink, never in the adapters:
   // the verbatim title is the key for normTitle(), films-extra.json and tmdb-aliases.
   const esc = v => String(v ?? '').replace(/[&<>"']/g,
@@ -1686,7 +1686,7 @@
     const w = (a.name || '').trim().split(/\s+/);
     return w.length > 1 ? w[w.length-1] : (a.name || '');
   }
-  // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city — the
+  // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city -- the
   // optgroup label already carries the city. BioRex names are already chain-prefixed.
   // Every provider-specific string and colour comes from data/providers.json, which
   // the pipeline generates from scripts/providers/registry.py. Adding a provider is a
@@ -2023,7 +2023,7 @@
                               stale: 0, venues: areas.length };
     if(!areas.length) throw new Error('Theatre list came back empty');
     // Extra providers, each optional: a missing or broken file must not take the app down.
-    // Fetched in parallel — awaiting eight files one at a time was most of the startup
+    // Fetched in parallel -- awaiting eight files one at a time was most of the startup
     // waterfall on mobile. Promise.all keeps array order, so the picker order is stable.
     const extra = [];
     // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
@@ -2057,7 +2057,7 @@
   async function loadAreas(areasPromise){
     // No fallback path: if same-origin areas.json fails, the site itself is broken or
     // the visitor is offline on first visit, and the boot's catch says so. The old
-    // XML/CORS-proxy chain could not have helped in either case — see IDEAS.
+    // XML/CORS-proxy chain could not have helped in either case -- see IDEAS.
     const all = await fetchVenueLists(areasPromise);
     fillAreaSelect(all);
     renderHealth();
@@ -2287,7 +2287,7 @@
   }
 
   /* ---------- render ---------- */
-  // What the search box matches: the title, the original title, and the genres — in
+  // What the search box matches: the title, the original title, and the genres -- in
   // *both* languages, so "comedy" finds a film the Finnish UI labels Komedia and vice
   // versa. Genre ids are checked through the same id -> name maps the card renders from,
   // with the provider's own genre string as the fallback for films TMDB never matched.
@@ -2296,7 +2296,7 @@
   // "spider-man" are one search. Diacritics fold too, so "katyrit" finds "Kätyrit".
   // Everything non-alphanumeric is removed from both sides rather than replaced with a
   // space, so the query need not guess the separator either.
-  // The example in the placeholder is the film with the most showtimes on screen — a
+  // The example in the placeholder is the film with the most showtimes on screen -- a
   // decent "what is big right now" signal that costs nothing and never goes stale, unlike
   // a hardcoded title. Shortened at a colon so "Spider-Man: Brand New Day" becomes
   // "Spider-Man", which is what someone would actually type.
@@ -2361,10 +2361,10 @@
       if(!/anniskelu/i.test(s.method || '')) return false;
       if(s.age !== 'K-18' && (s.rating === 'S' || s.rating === 'K-7')) return false;
     }
-    // Rating first, so the filter can never admit a restricted film — the cinema
+    // Rating first, so the filter can never admit a restricted film -- the cinema
     // enforces the age limit at the door and this is only a browse aid. Genre ids then
     // remove the merely-unrestricted: documentaries and dramas. Whitelisting Animation
-    // and Family alone was tried and rejected — TMDB tags Marsupilami as Adventure,
+    // and Family alone was tried and rejected -- TMDB tags Marsupilami as Adventure,
     // Comedy, so a K-7 family comedy would have vanished from the filter. A film with no
     // ids stays on rating alone.
     if(state.fKids){
@@ -2510,14 +2510,14 @@
   const GLYPH = { anniskelu: ['A', 'Anniskelu'] };
   // A stub label was reading "Tennispalatsi · LUXE 8 · 2D · LUXE": the room name already
   // carries the format, and 2D is on nearly every screening, so it says nothing. Drop a
-  // tag the auditorium name already contains, and drop 2D outright — the exceptions
+  // tag the auditorium name already contains, and drop 2D outright -- the exceptions
   // (IMAX, 3D, iSense) are what a visitor is actually looking for.
   // --- stubTags: pure, extracted verbatim by tests/stub_tags_harness.js ---
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   // --- end stubTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
-  // Premiere date, from films.json (Finnkino only — nobody else publishes one, and a
+  // Premiere date, from films.json (Finnkino only -- nobody else publishes one, and a
   // guessed premiere is worse than none). Shown while it is still ahead, because that is
   // when it changes a decision: tickets go on sale days before a film opens, so a
   // bookable showtime can sit in front of an opening night. Once the film has opened the
@@ -2575,7 +2575,7 @@
 
   // The chain tint is on for every stub in a combined view, including a day served by a
   // single chain. It was briefly gated on two chains being present, because colour with
-  // no legend explained nothing — but that was the wrong end of the problem: the stub
+  // no legend explained nothing -- but that was the wrong end of the problem: the stub
   // label was the thing failing to name the chain, and it now does. With the meaning
   // carried by words, colour is a scanning aid, and it only becomes one if it is always
   // there to be learned. The legend keeps its own rule and stays hidden below two chains,
@@ -2583,7 +2583,7 @@
   //
   // In a combined view a stub must name the *cinema*, not the district. "Punavuori",
   // "Kallio", "Tripla", "Redi" and "Kamppi" are all bare venue shorts, and on their own
-  // they say nothing about which chain — Punavuori is a neighbourhood of Helsinki, not a
+  // they say nothing about which chain -- Punavuori is a neighbourhood of Helsinki, not a
   // cinema. The chain colour used to fill that gap, which broke the app's own rule that
   // colour never carries meaning alone, and fell apart entirely on a day served by one
   // chain, where there is no legend and no tint. So the label carries the chain:
@@ -2601,8 +2601,8 @@
     // Facts about the *film* are folded from every showtime it has, filtered or not, so
     // they do not move when a filter changes which chain's screenings survive. Chains
     // disagree: Finnkino calls "Laula minulle Arja" "Dokumentti, Kotimainen" and Gilda
-    // calls it "Dokumentti", so with "Suom. puhe" on — which drops Finnkino's subtitled
-    // screenings — the genres used to change under the visitor. `lang` is deliberately
+    // calls it "Dokumentti", so with "Suom. puhe" on -- which drops Finnkino's subtitled
+    // screenings -- the genres used to change under the visitor. `lang` is deliberately
     // NOT in this list: it belongs to the screening, and showing "tekstit suomi/ruotsi"
     // from a screening the filter just removed would be wrong.
     const FILM_FIELDS = ['tmdb','votes','tr','img','len','genres','rating','original','gids'];
@@ -2661,7 +2661,7 @@
       // screening: 47 film/day combinations mix an Anniskelu screening with normal ones
       // at one venue, and the card used to inherit the first showtime's tags. Tags every
       // showtime shares stay on the card; the rest move onto the stub they belong to,
-      // rather than vanishing — one IMAX screening among 2D ones must still say so.
+      // rather than vanishing -- one IMAX screening among 2D ones must still say so.
       const tagsOf = t => (t.method || '').split(' · ').filter(Boolean);
       const tagSets = m.times.map(t => new Set(tagsOf(t)));
       // A tag drawn as a glyph (Anniskelu) stays on every stub even when all of them
@@ -2696,7 +2696,7 @@
         // The screening's own price, or an empty compartment. Never the film's: see the
         // meta2 note.
         const own_price = priceLabel([t]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} — ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
+        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');

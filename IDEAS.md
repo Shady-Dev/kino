@@ -3653,7 +3653,7 @@ guarantee of a place, and weekdays take no advance reservation from individual v
   renderer, `priceLabel([t]) || ticketWord(t)`.
 - **`book="admission"`**, a fifth registry mode, carries the admission semantics where
   the app keeps booking semantics: footer "Sisältyy pääsylippuun · Näytösajasta
-  lippukauppaan — heureka.fi", tooltip "Osta pääsylippu", page intro "Esitykset
+  lippukauppaan – heureka.fi", tooltip "Osta pääsylippu", page intro "Esitykset
   sisältyvät pääsylippuun, jonka voit ostaa sivustolta heureka.fi." No Heureka string in
   the client or the generator. Reservation guidance is not shown: it depends on weekday
   and school-holiday calendars the app does not have. The first wording, "Näytökset
@@ -3711,9 +3711,9 @@ clocks that all fail to parse raise, so the previous file is kept and the run is
 | Vantaa – kaikki teatterit, Leffat | 375 | 19 cards and 41 stubs, from 15 and 31; legend Bio Grand, Finnkino, Heureka; stubs "Heurekan planetaario" with the 5+ glyph |
 | Vantaa – kaikki teatterit, Ajat | 320 / 375 / 1200 | 41 rows, 122 px tickets, 22 / 9 / 0 titles ellipsised |
 | sheet, Asteroid Quest | 375 | "28 min · Suositus yli 10 v", synopsis, 66 stubs over 21 days |
-| footer | 375 | tag key "5+ ikäraja tässä näytöksessä"; "Näytöstiedot: Heureka · päivitetty … · Sisältyy pääsylippuun · Näytösajasta lippukauppaan — heureka.fi" |
+| footer | 375 | tag key "5+ ikäraja tässä näytöksessä"; "Näytöstiedot: Heureka · päivitetty … · Sisältyy pääsylippuun · Näytösajasta lippukauppaan – heureka.fi" |
 
-Preview browser: stub tooltip "Osta pääsylippu — Heurekan planetaario · K-5"; the static
+Preview browser: stub tooltip "Osta pääsylippu – Heurekan planetaario · K-5"; the static
 `/teatteri/heurekan-planetaario-vantaa/` at 375 and 1200 with 36 tickets at 121.8 × 40
 px, every href the ticket collection, blank compartments, no overflow; `/kaupunki/vantaa/`
 "3 teatteria" with Heureka in the legend and on 20 stubs.
@@ -3748,9 +3748,9 @@ generated-page copy -- found translated-sounding constructions. Every Finnish st
 `index.html` and `build_pages.py` was read in place; provider titles, synopses and room
 names are untouched. `tests/test_finnish_copy.py` pins the result.
 
-- **Booking lines name the showtime.** "Napauta näytöstä ostaaksesi liput
-  — {host}" is device-specific and makes a screening the control. Now "Näytösajasta
-  lipunmyyntiin — {host}", "Näytösajasta paikkavaraukseen", "Näytösajasta teatterin
+- **Booking lines name the showtime.** "Napauta näytöstä ostaaksesi liput"
+  is device-specific and makes a screening the control. Now "Näytösajasta
+  lipunmyyntiin – {host}", "Näytösajasta paikkavaraukseen", "Näytösajasta teatterin
   ohjelmistoon", "Näytösajasta teatterin omalle sivulle" for a combined view, and the
   admission line above. Tooltips stay "Osta liput", "Varaa paikat", "Avaa ohjelmisto",
   "Osta pääsylippu". Generated intros drop "Kellonajasta pääset" for "Näytösajasta

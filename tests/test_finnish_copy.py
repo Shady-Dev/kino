@@ -15,7 +15,7 @@ import build_pages as bp
 
 HTML = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
 
-REJECTED = ("Napauta", "Kellonajasta", "aikataulu", "Aikataulu", "tekstit ")
+REJECTED = ("Napauta", "Kellonajasta", "aikataulu", "Aikataulu", "tekstit ", "\u2014")
 
 
 def client_fi():
@@ -38,12 +38,12 @@ class ClientCopyTest(unittest.TestCase):
         self.assertNotIn("Näytösajat suomalaisista", HTML)
 
     def test_booking_lines_refer_to_the_showtime(self):
-        self.assertEqual(self.fi["actBuy"], "Näytösajasta lipunmyyntiin — {host}")
-        self.assertEqual(self.fi["actReserve"], "Näytösajasta paikkavaraukseen — {host}")
-        self.assertEqual(self.fi["actList"], "Näytösajasta teatterin ohjelmistoon — {host}")
+        self.assertEqual(self.fi["actBuy"], "Näytösajasta lipunmyyntiin – {host}")
+        self.assertEqual(self.fi["actReserve"], "Näytösajasta paikkavaraukseen – {host}")
+        self.assertEqual(self.fi["actList"], "Näytösajasta teatterin ohjelmistoon – {host}")
         self.assertEqual(self.fi["actCombined"], "Näytösajasta teatterin omalle sivulle")
         self.assertEqual(self.fi["actAdmission"],
-                         "Sisältyy pääsylippuun · Näytösajasta lippukauppaan — {host}")
+                         "Sisältyy pääsylippuun · Näytösajasta lippukauppaan – {host}")
         self.assertEqual(self.fi["tipAdmission"], "Osta pääsylippu")
 
     def test_freshness_lines_describe_the_data(self):
@@ -69,6 +69,26 @@ class ClientCopyTest(unittest.TestCase):
     def test_the_subtitle_word_is_a_label(self):
         self.assertIn("const LW = { fi:{S:'tekstitys:'}", HTML)
         self.assertIn('<div id="credit">Suomalaisten elokuvateatterien näytösajat</div>', HTML)
+
+
+class NoEmDashTest(unittest.TestCase):
+    """Finnish and Swedish punctuate with the en dash; no string this repo renders
+    carries an em dash, in any language, and neither does the page title."""
+
+    def test_no_em_dash_in_any_client_string_or_title(self):
+        start = HTML.index("\n  const L = {")
+        end = HTML.index("\n  };", start)
+        self.assertNotIn("\u2014", HTML[start:end])
+        self.assertIn("<title>Leffavuoro – elokuvat ja näytösajat</title>", HTML)
+        self.assertNotIn("\u2014", HTML[:HTML.index("<style")])            # the head's meta tags
+        self.assertIn("title=\"${verb} – ${esc(", HTML)                       # the stub tooltip
+
+    def test_no_em_dash_in_the_generator_strings(self):
+        for lang, table in bp.L.items():
+            for key, text in table.items():
+                if isinstance(text, str):
+                    with self.subTest(lang=lang, key=key):
+                        self.assertNotIn("\u2014", text)
 
 
 class GeneratorCopyTest(unittest.TestCase):

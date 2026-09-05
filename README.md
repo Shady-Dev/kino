@@ -209,9 +209,9 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 no cinema anything.
 
 **A page load makes no third-party requests.** Counted 2026-09-05: all 4297
-poster references resolve to `data/posters/` on this origin — 4159 on showtimes
-and 138 in `films-extra.json`, across 650 mirrored files, none off-origin — and
-the typeface is served from `fonts/`. Every `<img>` carries
+poster references resolve to `data/posters/` on this origin: 4159 on showtimes
+and 138 in `films-extra.json`, across 650 mirrored files, none off-origin. The
+typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
 That was false until 2026-08-29, when the typeface came from Google Fonts and
@@ -225,7 +225,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas — the 34 providers listed at the
+Schedule data belongs to the respective cinemas, the 34 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.
