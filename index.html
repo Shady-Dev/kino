@@ -3175,6 +3175,14 @@
       const inflight = new Map();   // area -> the read running for it
       const again = new Set();      // areas messaged while their read was running
       async function reread(area){
+        // The entry this read is comparing against, taken before the await. refreshAll
+        // deletes every entry and loadSchedule refills the selected one, and both can
+        // happen while the read is in flight; a check that only asked "is there an
+        // entry" after the await let a snapshot read before the refill overwrite the
+        // newer schedule the refill put there. The object is the identity: whoever
+        // replaced it, this answer is about a payload that is no longer held.
+        const before = io.cache[area];
+        if(!before) return;
         try {
           const fresh = area.startsWith('city:')
             ? await io.loadCity(area.slice(5), io.read)
@@ -3182,11 +3190,11 @@
           // Everything after the await goes back to `area`, never to io.area(): the
           // reader may have picked another cinema meanwhile, and the old handler read
           // the selection again here, so a late answer for A was written into B's slot
-          // and rendered as B. A slot refreshAll emptied meanwhile stays empty: it is
-          // reloading it, and a late write would race that load.
+          // and rendered as B. A slot refreshAll emptied meanwhile stays empty, and one
+          // it has already refilled keeps the refill: either way `before` is gone.
           const held = io.cache[area];
           const key = refreshKey(fresh);
-          if(held && key && key !== refreshKey(held)){
+          if(held && held === before && key && key !== refreshKey(held)){
             io.cache[area] = fresh;
             // Render only what is on screen. The payload for a cinema the reader has
             // left is still kept: it is what loadSchedule serves when they come back.

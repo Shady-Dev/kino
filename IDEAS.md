@@ -4234,6 +4234,29 @@ which could pick an unrelated article's image; The Stellars keeps its tile; Reco
 keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
 16:9 stills.
 
+### A slot refilled during a background read keeps the refill (2026-09-05, sw.js v115)
+
+The handler's guard against `refreshAll` was "is there still an entry" after the await.
+That covers the entry staying deleted and not the sequence that actually happens on
+resume: `refreshAll` deletes every entry and `loadSchedule` refills the selected one, and
+both fit inside a read's latency. A read started against the 06:00 payload answered with
+a 09:00 snapshot after the refill had put 10:00 there; 09:00 passed the existence check,
+compared unequal to 10:00, and overwrote and rendered the older schedule. Found by an
+external review, with the sequence spelled out.
+
+`reread` now takes the entry object before the await and writes only if the slot still
+holds that same object. Whoever replaced it -- the refill, or an earlier follow-up read of
+the same area -- this answer is about a payload no longer held, and is dropped. An
+invalidation counter would have needed `refreshAll` and `loadSchedule` to bump it; the
+object identity is already there and costs nothing to keep. The coalesced follow-up is
+untouched: it takes the *current* entry as its baseline, so a message queued behind a
+discarded read still gets its read, measured against the refill, and one queued behind a
+slot that stayed empty costs no read at all. Three harness scenarios: delete-then-refill,
+the same with a queued message, and delete with a queued message and no refill. The first
+two go red with the identity test removed, which is the old existence check, or with the
+identity taken after the await; removing the empty-slot return leaves the third scenario's
+follow-up read unsettled and fails the harness run outright.
+
 ### The reproducibility check is told the day the pages were built for (2026-09-05)
 
 `ci.yml` regenerates the committed pages and requires a clean tree, on the argument that

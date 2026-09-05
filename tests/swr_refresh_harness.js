@@ -126,6 +126,8 @@ const summary = p => ({ generated: p.generated, oldest: p.oldest, missing: p.mis
 
 const A1 = payload('A', '2026-09-05T06:00:00+00:00');
 const A2 = payload('A', '2026-09-05T09:00:00+00:00');
+const A3 = payload('A', '2026-09-05T10:00:00+00:00', 'Film at A, reloaded');
+const A4 = payload('A', '2026-09-05T11:00:00+00:00', 'Film at A, latest');
 const B1 = payload('B', '2026-09-05T07:00:00+00:00');
 const a1 = payload('a', '2026-09-05T06:00:00+00:00');
 const a2 = payload('a', '2026-09-05T09:00:00+00:00', 'Film at a, later');
@@ -167,6 +169,55 @@ async function run() {
     s.reads.settle('data/area-A.json', A2);
     await done;
     out.invalidated_during_read = { applied: s.st.applied, keys: Object.keys(s.cache) };
+  }
+
+  // -- the slot emptied and refilled during the read: refreshAll then loadSchedule ------
+  // The refill is a newer schedule than the snapshot the read started for. The old
+  // check only asked whether an entry existed after the await, so the refill lost.
+  {
+    const s = setup({ area: 'A', cache: { A: A1, B: B1 } });
+    const done = s.handler('/data/area-A.json');
+    await tick();
+    delete s.cache.A;
+    s.cache.A = clone(A3);                              // loadSchedule refilled it, later than the read
+    s.reads.settle('data/area-A.json', A2);             // the read answers with the older snapshot
+    await done;
+    out.refilled_during_read = { applied: s.st.applied, A: s.cache.A, reads: s.reads.calls };
+  }
+
+  // -- the same, with a message queued behind the read: the follow-up still runs and
+  // compares against the refill rather than the snapshot the first read started from -----
+  {
+    const s = setup({ area: 'A', cache: { A: A1, B: B1 } });
+    const first = s.handler('/data/area-A.json');
+    await tick();
+    delete s.cache.A;
+    s.cache.A = clone(A3);
+    const second = s.handler('/data/area-A.json');     // queued behind the first read
+    await tick();
+    const duringFirst = s.reads.calls.length;
+    s.reads.settle('data/area-A.json', A2);             // older than the refill: discarded
+    await tick(); await tick();
+    const afterFirst = { applied: s.st.applied, generated: s.cache.A.generated, reads: s.reads.calls.length };
+    s.reads.settle('data/area-A.json', A4);             // the follow-up sees a newer copy
+    await Promise.all([first, second]);
+    out.refilled_then_follow_up = { duringFirst, afterFirst, applied: s.st.applied, A: s.cache.A,
+                                    reads: s.reads.calls.length, pending: s.reads.queue.length };
+  }
+
+  // -- emptied and not refilled, with a message queued: the follow-up has nothing to
+  // compare against and does not read --------------------------------------------------------
+  {
+    const s = setup({ area: 'A', cache: { A: A1, B: B1 } });
+    const first = s.handler('/data/area-A.json');
+    await tick();
+    const second = s.handler('/data/area-A.json');
+    await tick();
+    delete s.cache.A;
+    s.reads.settle('data/area-A.json', A2);
+    await Promise.all([first, second]);
+    out.emptied_then_follow_up = { reads: s.reads.calls.length, applied: s.st.applied,
+                                   keys: Object.keys(s.cache), pending: s.reads.queue.length };
   }
 
   // -- nothing changed: the same generated comes back --------------------------------------

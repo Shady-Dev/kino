@@ -19,7 +19,8 @@ thrown away too.
 The handler is `makeFreshHandler(io)` and the fold is `cityPayload`, both sliced verbatim
 out of index.html by tests/swr_refresh_harness.js. The rules pinned here: the area is read
 once, before the await; only that area's slot is compared and written; a render happens
-only if that area is still on screen; a slot emptied meanwhile stays empty; a city is
+only if that area is still on screen; a slot emptied meanwhile stays empty and a slot
+refilled meanwhile keeps the refill, because the entry is compared by identity; a city is
 compared on a per-member `stamp` while its `generated` keeps reporting the oldest member;
 and the re-read comes from Cache Storage, never from a fetch -- a fetch through the worker
 would start another refresh and another message, which is the loop the cooldown existed
@@ -41,6 +42,8 @@ A_GEN = "2026-09-05T06:00:00+00:00"     # the oldest member, and the one that st
 B_GEN = "2026-09-05T07:00:00+00:00"
 B_NEW = "2026-09-05T08:00:00+00:00"
 A_NEW = "2026-09-05T09:00:00+00:00"
+A_RELOAD = "2026-09-05T10:00:00+00:00"  # what loadSchedule refilled the slot with
+A_LATEST = "2026-09-05T11:00:00+00:00"
 
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
@@ -100,6 +103,36 @@ class BackgroundRefreshTest(unittest.TestCase):
         r = self.r["invalidated_during_read"]
         self.assertEqual(r["keys"], [])
         self.assertEqual(r["applied"], 0)
+
+    def test_a_slot_refilled_during_the_read_keeps_the_refill(self):
+        """refreshAll emptied A and loadSchedule refilled it with a 10:00 schedule before
+        the read answered with a 09:00 snapshot. The refill is the newer one and stays;
+        an existence check after the await let the snapshot overwrite it."""
+        r = self.r["refilled_during_read"]
+        self.assertEqual(r["A"]["generated"], A_RELOAD)
+        self.assertEqual([s["title"] for s in r["A"]["shows"]], ["Film at A, reloaded"])
+        self.assertEqual(r["applied"], 0)
+
+    def test_a_follow_up_read_compares_against_the_refill(self):
+        """A message queued behind the discarded read still gets its follow-up, and that
+        follow-up measures against the refilled entry: a newer copy is applied."""
+        r = self.r["refilled_then_follow_up"]
+        self.assertEqual(r["duringFirst"], 1, "the queued message started no read of its own")
+        self.assertEqual(r["afterFirst"]["applied"], 0)
+        self.assertEqual(r["afterFirst"]["generated"], A_RELOAD)
+        self.assertEqual(r["afterFirst"]["reads"], 2, "exactly one follow-up read")
+        self.assertEqual(r["A"]["generated"], A_LATEST)
+        self.assertEqual(r["applied"], 1)
+        self.assertEqual(r["pending"], 0)
+
+    def test_a_follow_up_for_an_emptied_slot_reads_nothing(self):
+        """Emptied and not refilled: there is nothing to compare a read against, so the
+        queued message costs no read and the slot is left to whoever emptied it."""
+        r = self.r["emptied_then_follow_up"]
+        self.assertEqual(r["reads"], 1)
+        self.assertEqual(r["applied"], 0)
+        self.assertEqual(r["keys"], ["B"])
+        self.assertEqual(r["pending"], 0)
 
     # -- the fold: freshness stays the oldest member's ------------------------------------------
 
