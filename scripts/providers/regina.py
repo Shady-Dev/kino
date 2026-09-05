@@ -16,10 +16,16 @@ cloud half from the first day, not provisionally.
 What shapes the parser:
 
 - **The film id is the key.** Every row links `/elokuva/{id}`, the same id the film page
-  and the listing use, so `eventId` is that number and no title arithmetic is needed. The
-  site writes titles in capitals ("PIUKAT PAIKAT"); they are published as written, because
-  the title is the key the synopsis cache and the cross-chain merge normalise, and the
-  merge lowercases anyway.
+  and the listing use, so `eventId` is that number and no title arithmetic is needed.
+- **Titles are recased.** The site writes every title in capitals ("PIUKAT PAIKAT",
+  "THE TURIN HORSE"), which on a card beside the other chains reads as a different
+  typeface, and the user asked for the shared design to hold. A title with no lowercase
+  letter becomes sentence case (Finnish convention, and right for most of this archive
+  cinema's Finnish titles), roman numerals kept; then the film page's own Kuvaus text is
+  searched for the same title in its own casing and that spelling wins ("One Battle After
+  Another", "Sátántangó"). Every key that touches a title lowercases it first, so nothing
+  downstream moves: `synmerge.norm`, `enrich_tmdb.norm`, the aliases and the client's
+  `normTitle` see the same string as before.
 - **"Myynti on päättynyt." is not sold out.** A row turns `grey` with that note once online
   sales close for the screening; the seats may be free at the door, so `soldOut` stays
   false and the row stays a showtime.
@@ -104,6 +110,53 @@ def _para(s):
     return re.sub(r"\s+", " ", html_mod.unescape(TAGS_RE.sub("", s))).strip()
 
 
+ROMAN_RE = re.compile(r"^[ivx]+$")
+# A title with one of these words is English: Finnish has none of them. It then gets
+# English title case, with the small words below in lowercase unless they open the title
+# or a subtitle. Everything else is sentence case, the Finnish convention. Words that
+# both languages share ("on", "a", "in") are deliberately not triggers.
+ENGLISH_MARKERS = {"the", "of", "upon", "and", "with", "from"}
+SMALL_WORDS = {"a", "an", "the", "of", "in", "on", "at", "to", "for", "and", "or", "but",
+               "with", "from", "by", "vs"}
+
+
+def recase(title):
+    """"PHANTASM - YÖN KAUHUT" -> "Phantasm - Yön kauhut", "THE TURIN HORSE" -> "The Turin
+    Horse"; a title that already has a lowercase letter is left alone. Roman numerals stay
+    upper; the first word after a colon or a dash gets a capital."""
+    t = (title or "").strip()
+    if not t or any(ch.islower() for ch in t):
+        return t
+    words = t.lower().split(" ")
+    english = any(w.strip(",.!?") in ENGLISH_MARKERS for w in words)
+    out, cap = [], True
+    for w in words:
+        if not w:
+            out.append(w)
+            continue
+        if ROMAN_RE.fullmatch(w):
+            out.append(w.upper())
+        elif cap or (english and w.strip(",.!?") not in SMALL_WORDS):
+            out.append(w[0].upper() + w[1:])
+        else:
+            out.append(w)
+        cap = w.endswith(":") or w in ("-", "–")
+    return " ".join(out)
+
+
+def cased_in(text, title):
+    """The title as `text` spells it, when the text carries the same title in another
+    casing; "" otherwise. The cinema's own synopsis is the one source on this site that
+    writes a title in mixed case."""
+    if not text or not title:
+        return ""
+    m = re.search(r"(?<![\wÀ-ÿ])" + re.escape(title) + r"(?![\wÀ-ÿ])", text, re.I)
+    if not m:
+        return ""
+    found = m.group(0)
+    return found if found != title and any(ch.islower() for ch in found) else ""
+
+
 def parse_schedule(page):
     """The POST response -> [show]. Rows without a film link (events) are skipped."""
     shows, seen = [], set()
@@ -113,7 +166,7 @@ def parse_schedule(page):
         s = START_RE.search(block)
         if not (f and s):
             continue
-        fid, title = f.group(1), _txt(f.group(2))
+        fid, title = f.group(1), recase(_txt(f.group(2)))
         if not title:
             continue
         day, month, year, hh, mm = (int(x) for x in s.groups())
@@ -177,8 +230,9 @@ def gauge_tag(value):
     return f"{m.group(1)} mm" if m else ""
 
 
-def details(page):
-    """Film-page metadata. Returns {} for anything the page does not carry."""
+def details(page, title=None):
+    """Film-page metadata. Returns {} for anything the page does not carry. With `title`,
+    the Kuvaus text is searched for the same title in the cinema's own casing."""
     d = {}
     grid = {}
     for label, cell in GRID_RE.findall(page):
@@ -217,6 +271,12 @@ def details(page):
         text = " ".join(paras)
         if len(text) > 40:
             d["_syn"] = text
+        if title:
+            # The whole Kuvaus section, essay included: the proper-cased title is often in
+            # the essay's first sentence rather than the lead.
+            cased = cased_in(_para(k.group(1)), title)
+            if cased:
+                d["title"] = cased
     return d
 
 
@@ -233,7 +293,7 @@ def enrich(shows, get=None):
             time.sleep(0.5)
         url = f"{BASE}/elokuva/{fid}/"
         try:
-            d = details(get(url))
+            d = details(get(url), title=rows[0]["title"])
         except Exception as e:
             fail += 1
             print(f"[regina] film page {fid} failed: {type(e).__name__}: {e}")
@@ -245,7 +305,9 @@ def enrich(shows, get=None):
         ok += 1
         for s in rows:
             for key, val in d.items():
-                if val and not s.get(key):
+                if key == "title":
+                    s[key] = val            # the cinema's own casing replaces the sentence case
+                elif val and not s.get(key):
                     s[key] = val
     print(f"[regina] film pages: {ok} parsed, {fail} with nothing usable, "
           f"{sum(1 for s in shows if s.get('rating'))}/{len(shows)} showtimes rated")

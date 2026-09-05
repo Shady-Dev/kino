@@ -551,6 +551,50 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
         self.assertEqual(s["tmdb"], 9.9)
         self.assertEqual(s["tmdbId"], 1234, "the other fields still carry")
 
+    def test_a_recased_title_keeps_its_enrichment(self):
+        """Kino Regina publishes capitals and the adapter recases them; the previous run's
+        posters and ids belong to the film, not to its spelling."""
+        self.seed_enriched("fc-a", title="A FILM")
+        mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        self.assertEqual((s["title"], s["tmdbId"]), ("A Film", 1234))
+
+    def seed_with_poster(self, vid, img, title="A Film"):
+        (self.out / f"area-{vid}.json").write_text(json.dumps({
+            "generated": OLD, "dates": ["2026-08-01"], "horizon": "2026-08-01",
+            "shows": [dict(show(title, "2026-08-01T18:00:00+03:00"), tmdbId=1234, img=img)],
+        }), encoding="utf-8")
+
+    def test_a_mirrored_poster_is_carried_when_the_adapter_has_none(self):
+        """A provider that publishes no image gets its poster from TMDB and the mirror;
+        a hand-run snapshot must not empty the tile until the next cloud run."""
+        self.seed_with_poster("fc-a", "data/posters/abc123.jpg")
+        mod = FakeModule({"fc-a": [dict(show("A FILM", "2026-08-30T18:00:00+03:00"), img="")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        self.assertEqual((s["img"], s["tmdbId"]), ("data/posters/abc123.jpg", 1234))
+
+    def test_an_own_poster_and_a_remote_previous_one_are_left_alone(self):
+        self.seed_with_poster("fc-a", "data/posters/abc123.jpg")
+        mod = FakeModule({"fc-a": [dict(show("A Film", "2026-08-30T18:00:00+03:00"),
+                                        img="https://cinema.test/own.jpg")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        self.assertEqual(self.area("fc-a")["shows"][0]["img"], "https://cinema.test/own.jpg")
+        # A previous *remote* URL is the adapter's to resupply, not a floor.
+        self.seed_with_poster("fc-b", "https://image.tmdb.org/t/p/w342/x.jpg", title="B")
+        mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [dict(show("B", "2026-08-30T19:00:00+03:00"), img="")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        self.assertEqual(self.area("fc-b")["shows"][0]["img"], "")
+
     def test_an_unreadable_previous_file_is_not_fatal(self):
         (self.out / "area-fc-a.json").write_text('{"shows": [', encoding="utf-8")
         mod = FakeModule({"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],

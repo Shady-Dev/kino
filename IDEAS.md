@@ -1694,13 +1694,31 @@ Decisions:
   ohjelmavihkossa on virheellinen näytösaika") is screening-specific and never appended.
 - **The age limit is an image.** `alt="Ikäraja: K12"` becomes "K-12"; "S" and "T" become
   "S". Every one of the 17 films carried one, so 21 of 21 showtimes are rated.
-- **Titles are published as written, in capitals.** The site writes "PIUKAT PAIKAT" and
-  "SÁTÁNTANGÓ" in its markup and its `<title>` alike, so there is no proper-cased source.
-  The rule that adapters publish verbatim text holds; the cross-chain merge lowercases
-  its key, and TMDB matching is case-insensitive. A card in the Helsinki view will carry a
-  capitalised title beside the other chains' mixed case. Recasing was declined for now:
-  title case mis-capitalises Finnish common nouns and sentence case lowercases names, and
-  either would be an adapter inventing a form the cinema does not use.
+- **Titles are recased** (revised the same evening; the first version published the
+  site's capitals, and the user, seeing "PIUKAT PAIKAT" beside the other chains'
+  mixed case, read it as a different typeface and asked for the shared design to hold).
+  The site writes every title in capitals in its markup and its `<title>` alike, so
+  there is no proper-cased source for the schedule itself. Two steps: a title with no
+  lowercase letter becomes sentence case, roman numerals kept and the word after a colon
+  or dash capitalised, which is the Finnish convention and right for most of this archive
+  cinema's Finnish titles; then the film page's Kuvaus text is searched for the same
+  title in the cinema's own casing, and that spelling wins ("One Battle After Another"
+  from the essay's first sentence). English titles the Kuvaus never spells stay in
+  sentence case ("The turin horse"), which is the residue of not having a source.
+  Why this does not break the verbatim rule's reason: every key that touches a title
+  lowercases it first (`synmerge.norm`, `enrich_tmdb.norm`, the alias keys, the client's
+  `normTitle`), so the synopsis cache, the TMDB cache and the cross-chain merge see the
+  same key as before. Two things did move in `run.py`'s carry-over of the previous
+  file's enrichment. It was keyed on the exact title, so the first recased run would
+  have dropped every id the 17:16 UTC run had attached to the capitals; it is keyed on
+  `synmerge.norm` now. And it never carried a poster: `img` is an adapter's own field
+  most of the time, but for a provider that publishes no image the mirrored TMDB poster
+  under `data/posters/` is the film's as much as its id, and a hand-run snapshot that
+  dropped it emptied the tiles twice today (Tapiola's first commit, Regina's refetch).
+  A mirrored poster is now carried when the fresh show has none; a provider's remote
+  URL is not. Both pinned in `test_run_partial.py`. The recased snapshot committed here
+  carries its 15 ids and 16 posters. The series tags stay as published; the client
+  uppercases pills anyway.
 - **No images from the site**: the listing stills and the film page's `og:image` are 16:9.
   Posters come from TMDB.
 - **An empty answer is never an empty programme** (revised the same evening, see "The

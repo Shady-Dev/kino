@@ -97,6 +97,11 @@ def generated_of(path):
 # that matters most: it drives the genre names the client renders and the kids filter's
 # id rule, so losing it is not just a missing score ring.
 ENRICHED = ("tmdbId", "tmdb", "votes", "tr", "gids")
+# A poster is carried too, but only a mirrored one: `data/posters/...` is what the TMDB
+# pass and mirror_posters left behind for a film whose adapter publishes no image, and
+# it is as much the film's as its id. A provider's own remote URL is the adapter's to
+# resupply and is not carried. Applied only where the fresh show has no `img` at all.
+MIRRORED = "data/posters/"
 
 
 def enrichment_of(path):
@@ -110,10 +115,14 @@ def enrichment_of(path):
     anyone running run.py by hand -- the trap IDEAS already records as having cost 1201
     showtimes their tmdbId.
 
-    Keyed by title because that is what the TMDB pass itself keys on, and because these
-    are properties of the *film*, not of the screening. Carried values are a floor, never
-    an override: `setdefault` leaves anything the adapter supplied alone, and the next
-    enrichment pass overwrites the lot with fresh figures.
+    Keyed by the normalised title, `synmerge.norm`, because that is what the TMDB pass
+    itself keys on, and because these are properties of the *film*, not of the
+    screening. Normalised rather than exact since 2026-09-05: Kino Regina's adapter
+    started recasing the site's capitals, and an exact key would have dropped every
+    poster and id the previous run had attached to "PIUKAT PAIKAT" the moment the same
+    film came back as "Piukat paikat". Carried values are a floor, never an override:
+    `setdefault` leaves anything the adapter supplied alone, and the next enrichment
+    pass overwrites the lot with fresh figures.
     """
     try:
         doc = json.loads(path.read_text(encoding="utf-8"))
@@ -121,10 +130,12 @@ def enrichment_of(path):
         return {}
     out = {}
     for s in doc.get("shows") or []:
-        title = s.get("title")
+        title = synmerge.norm(s.get("title"))
         if not title or title in out:
             continue
         keep = {k: s[k] for k in ENRICHED if s.get(k) is not None and s.get(k) != ""}
+        if str(s.get("img") or "").startswith(MIRRORED):
+            keep["img"] = s["img"]
         if keep:
             out[title] = keep
     return out
@@ -188,8 +199,12 @@ def run_site(mod, site, now, order=0):
         # run. Never overrides what the adapter itself produced.
         carried = enrichment_of(path)
         for sh in shows:
-            for field, val in (carried.get(sh.get("title")) or {}).items():
-                sh.setdefault(field, val)
+            for field, val in (carried.get(synmerge.norm(sh.get("title"))) or {}).items():
+                if field == "img":
+                    if not sh.get("img"):
+                        sh["img"] = val         # the adapter published none; the mirrored poster stays
+                else:
+                    sh.setdefault(field, val)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})
         common.write_json(path,
             {"generated": now, "dates": days, "horizon": days[-1] if days else "",

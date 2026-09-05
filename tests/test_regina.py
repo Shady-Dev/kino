@@ -161,7 +161,7 @@ class ScheduleTest(unittest.TestCase):
 
     def test_a_closed_sale_is_a_showtime_and_not_sold_out(self):
         s = self.by_id["202769"][0]
-        self.assertEqual((s["title"], s["soldOut"]), ("SÁTÁNTANGÓ", False))
+        self.assertEqual((s["title"], s["soldOut"]), ("Sátántangó", False))
         self.assertTrue(s["url"].startswith("https://kauppa.kavi.fi/fi/events/pwdg/event_buybox/show/"))
 
     def test_the_ticket_link_is_the_shows_own_and_the_film_page_is_the_fallback(self):
@@ -177,10 +177,44 @@ class ScheduleTest(unittest.TestCase):
         s = self.by_id["1415167"][0]
         self.assertEqual((s["title"], s["img"], s["price"], s["aud"], s["rating"], s["method"], s["lang"],
                           s["provider"], s["venue"], s["theatre"]),
-                         ("PERSEPOLIS", "", "", "", "", "", "", "regina", "regina-helsinki", "Kino Regina"))
+                         ("Persepolis", "", "", "", "", "", "", "regina", "regina-helsinki", "Kino Regina"))
 
     def test_an_empty_window_parses_to_nothing(self):
         self.assertEqual(regina.parse_schedule(WINDOW_EMPTY), [])
+
+
+class RecaseTest(unittest.TestCase):
+    def test_capitals_become_sentence_case(self):
+        for raw, want in (("PIUKAT PAIKAT", "Piukat paikat"), ("KÄPY SELÄN ALLA", "Käpy selän alla"),
+                          ("PHANTASM - YÖN KAUHUT", "Phantasm - Yön kauhut"),
+                          ("70 MM: 2001: AVARUUSSEIKKAILU", "70 mm: 2001: Avaruusseikkailu"),
+                          ("PRINSSI JA REVYYTYTTÖ", "Prinssi ja revyytyttö"),
+                          ("ELÄMÄ ON JUHLA", "Elämä on juhla"),                     # "on" is not a marker
+                          ("SORRY, BABY", "Sorry, baby"), ("SÁTÁNTANGÓ", "Sátántangó")):
+            with self.subTest(raw=raw):
+                self.assertEqual(regina.recase(raw), want)
+
+    def test_an_english_title_gets_title_case_with_small_words_lowered(self):
+        for raw, want in (("THE TURIN HORSE", "The Turin Horse"),
+                          ("ONCE UPON A TIME IN CHINA II", "Once Upon a Time in China II"),
+                          ("THE ZONE OF INTEREST", "The Zone of Interest"),
+                          ("KISS OF THE SPIDER WOMAN", "Kiss of the Spider Woman"),
+                          ("ONE BATTLE AFTER ANOTHER", "One battle after another")):   # no marker word
+            with self.subTest(raw=raw):
+                self.assertEqual(regina.recase(raw), want)
+
+    def test_a_mixed_case_title_is_left_alone(self):
+        self.assertEqual(regina.recase("The Turin Horse"), "The Turin Horse")
+        self.assertEqual(regina.recase("Sisko tahtoisin jäädä"), "Sisko tahtoisin jäädä")
+        self.assertEqual(regina.recase(""), "")
+
+    def test_the_synopsis_casing_wins_when_it_spells_the_same_title(self):
+        text = "Loistokkaalta kopiolta nähtävä One Battle After Another (2025) on toimintaelokuvaa."
+        self.assertEqual(regina.cased_in(text, "One battle after another"), "One Battle After Another")
+        self.assertEqual(regina.cased_in("Mestarillinen Sátántango on", "Sátántangó"), "")     # not the same title
+        self.assertEqual(regina.cased_in("PIUKAT PAIKAT on komedia", "Piukat paikat"), "")     # capitals do not win
+        self.assertEqual(regina.cased_in("Carrie Whiten elämä", "Carrie"), "")                  # same spelling, no change
+        self.assertEqual(regina.cased_in("", "Carrie"), "")
 
 
 class WindowTest(unittest.TestCase):
@@ -228,8 +262,11 @@ class WindowTest(unittest.TestCase):
 
 class DetailsTest(unittest.TestCase):
     def test_rating_runtime_series_gauge_and_synopsis(self):
-        d = regina.details(ONE_BATTLE)
+        d = regina.details(ONE_BATTLE, title="One battle after another")
         self.assertEqual((d["rating"], d["len"], d["method"]), ("K-12", "162", "PAUL THOMAS ANDERSON · 70 mm"))
+        self.assertEqual(d["title"], "One Battle After Another")          # the Kuvaus spelling
+        self.assertNotIn("title", regina.details(ONE_BATTLE))              # only asked for with a title
+        self.assertNotIn("title", regina.details(PLAIN, title="Piukat paikat"))   # not in that text
         self.assertNotIn("lang", d)                                   # "ei tekstitystä"
         self.assertEqual(d["_syn"], "Loistokkaalta 70 mm:n kopiolta nähtävä One Battle After Another (2025) "
                                     "on harvinaista ison kankaan poliittista toimintaelokuvaa.")
@@ -324,6 +361,8 @@ class RunnerTest(unittest.TestCase):
         area = json.loads((run.OUT / "area-regina-helsinki.json").read_text())
         venues = json.loads((run.OUT / "venues-regina.json").read_text())
         self.assertEqual([s["eventId"] for s in area["shows"]], ["202769", "1415167", "105609", "1653971", "139011"])
+        self.assertEqual([s["title"] for s in area["shows"]],
+                         ["Sátántangó", "Persepolis", "Piukat paikat", "One Battle After Another", "Carrie"])
         one = area["shows"][3]
         self.assertEqual((one["rating"], one["len"], one["method"], one["url"]),
                          ("K-12", "162", "PAUL THOMAS ANDERSON · 70 mm", f"{BASE}/elokuva/1653971/"))
