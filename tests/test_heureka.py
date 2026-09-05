@@ -475,7 +475,7 @@ class AdmissionModeTest(unittest.TestCase):
         self.assertNotIn("18+", key)
 
     def test_the_generated_intro_for_admission(self):
-        for lang, host_word in (("fi", "sisältyvät pääsylippuun"), ("en", "included in the admission ticket")):
+        for lang, host_word in (("fi", "sisältyvät pääsylipun hintaan"), ("en", "included in the admission ticket")):
             text = bp.venue_intro(bp.L[lang], "admission", "heureka.fi")
             self.assertIn(host_word, text)
             self.assertIn("heureka.fi", text)
@@ -483,7 +483,7 @@ class AdmissionModeTest(unittest.TestCase):
 
     def test_the_age_sentence_fires_only_when_every_screening_shares_a_limit(self):
         t = bp.L["fi"]
-        self.assertEqual(bp.age_note(t, [{"age": "K-5"}, {"age": "K-5"}]), "Ikäraja 5 vuotta.")
+        self.assertEqual(bp.age_note(t, [{"age": "K-5"}, {"age": "K-5"}]), "Näytösten ikäraja on 5 vuotta.")
         self.assertEqual(bp.age_note(bp.L["en"], [{"age": "K-5"}]), "Age limit 5 years.")
         self.assertEqual(bp.age_note(t, [{"age": "K-18"}, {"age": ""}]), "")
         self.assertEqual(bp.age_note(t, [{"age": ""}, {}]), "")
@@ -494,8 +494,8 @@ class AdmissionModeTest(unittest.TestCase):
         en = (ROOT / "en" / "theatre" / "heurekan-planetaario-vantaa" / "index.html").read_text(encoding="utf-8")
         flamingo = (ROOT / "teatteri" / "finnkino-flamingo-vantaa" / "index.html").read_text(encoding="utf-8")
         for page in (fi, en):
-            self.assertIn("Ikäraja 5 vuotta." if page is fi else "Age limit 5 years.", page)
-            self.assertIn("Esitykset sisältyvät pääsylippuun" if page is fi
+            self.assertIn("Näytösten ikäraja on 5 vuotta." if page is fi else "Age limit 5 years.", page)
+            self.assertIn("Esitykset sisältyvät pääsylipun hintaan" if page is fi
                           else "included in the admission ticket", page)
             self.assertIn('href="https://www.heureka.fi/collections/liput"', page)
             self.assertNotIn("€", page.split("<h2", 1)[1])          # no price on any stub

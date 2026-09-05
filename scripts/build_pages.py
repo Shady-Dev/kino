@@ -127,10 +127,10 @@ L = {
         # Screenings included in a general admission ticket (Heureka): the time opens the
         # ticket shop and reserves no seat.
         "intro_admission": "Katso l\u00e4hip\u00e4ivien n\u00e4yt\u00f6sajat. Esitykset sis\u00e4ltyv\u00e4t "
-                           "p\u00e4\u00e4sylippuun, jonka voit ostaa sivustolta {host}.",
+                           "p\u00e4\u00e4sylipun hintaan. P\u00e4\u00e4sylipun voi ostaa osoitteesta {host}.",
         # Appended when every screening on the page shares a screening-level age limit;
         # the pages render no per-stub age chip. See age_note().
-        "age_note": "Ik\u00e4raja {n} vuotta.",
+        "age_note": "N\u00e4yt\u00f6sten ik\u00e4raja on {n} vuotta.",
         # A city mixes booking modes, so this promises only what every venue has.
         "city_intro": "Katso {n} teatterin n\u00e4yt\u00f6sajat l\u00e4hip\u00e4iville. N\u00e4yt\u00f6sajasta "
                       "p\u00e4\u00e4set teatterin lippu- tai ohjelmistosivulle, kun linkki on "
@@ -138,7 +138,7 @@ L = {
         "cta": "Avaa koko ohjelmisto",
         "today": "T\u00e4n\u00e4\u00e4n", "tomorrow": "Huomenna",
         "days": ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
-        "no_shows": "Ei julkaistuja n\u00e4yt\u00f6ksi\u00e4 l\u00e4hip\u00e4iville.",
+        "no_shows": "L\u00e4hip\u00e4iville ei ole julkaistu n\u00e4yt\u00f6ksi\u00e4.",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",

@@ -3654,7 +3654,7 @@ guarantee of a place, and weekdays take no advance reservation from individual v
 - **`book="admission"`**, a fifth registry mode, carries the admission semantics where
   the app keeps booking semantics: footer "Sisältyy pääsylippuun · Näytösajasta
   lippukauppaan – heureka.fi", tooltip "Osta pääsylippu", page intro "Esitykset
-  sisältyvät pääsylippuun, jonka voit ostaa sivustolta heureka.fi." No Heureka string in
+  sisältyvät pääsylipun hintaan. Pääsylipun voi ostaa osoitteesta heureka.fi." No Heureka string in
   the client or the generator. Reservation guidance is not shown: it depends on weekday
   and school-holiday calendars the app does not have. The first wording, "Näytökset
   sisältyvät pääsylippuun · Napauta näytöstä ostaaksesi liput", repeated an interaction
@@ -3662,8 +3662,8 @@ guarantee of a place, and weekdays take no advance reservation from individual v
 - **Five-year floor** is the per-show `age`, `K-5`, the field a licensed auditorium's 18+
   uses: the outlined 5+ pill on every stub and Ajat row. `rating` stays blank; no KAVI
   classification exists. The footer's tag key samples the first limit on screen instead
-  of a fixed 18+. Generated pages render no age chip, so `age_note()` appends "Ikäraja 5
-  vuotta." when every screening in the page's window shares a limit, and nothing on a
+  of a fixed 18+. Generated pages render no age chip, so `age_note()` appends "Näytösten
+  ikäraja on 5 vuotta." when every screening in the page's window shares a limit, and nothing on a
   mixed page. No other venue's page changed under the rule.
 - **Recommendations** are a `method` tag: "Sopii parhaiten yli 10-vuotiaille" ->
   "Suositus yli 10 v", "5–10-vuotiaille" -> "Suositus 5–10 v", "aikuisille" -> "Suositus
@@ -3754,20 +3754,22 @@ names are untouched. `tests/test_finnish_copy.py` pins the result.
   ohjelmistoon", "Näytösajasta teatterin omalle sivulle" for a combined view, and the
   admission line above. Tooltips stay "Osta liput", "Varaa paikat", "Avaa ohjelmisto",
   "Osta pääsylippu". Generated intros drop "Kellonajasta pääset" for "Näytösajasta
-  pääset", and the admission intro reads "Esitykset sisältyvät pääsylippuun, jonka voit
-  ostaa sivustolta {host}." followed by "Ikäraja 5 vuotta." -- three sentences, "näytös"
-  once.
+  pääset", and the admission intro reads "Esitykset sisältyvät pääsylipun hintaan.
+  Pääsylipun voi ostaa osoitteesta {host}." followed by "Näytösten ikäraja on {n} vuotta."
+  The generated empty state reads "Lähipäiville ei ole julkaistu näytöksiä." The manifest
+  name takes the en dash with the page title.
 - **Freshness describes the data.** "Näytöstiedot" replaces "Aikataulut" as the footer
   label, "näytöstiedot eivät ole päivittyneet" the stale banner, "Vanhentuneet
   näytöstiedot" the sources summary, "Osa näytöstiedoista ei päivittynyt" the partial
-  one, and the per-provider tooltips say which data did not arrive.
+  one, and the per-provider tooltip reads "Näytöstiedot eivät päivittyneet {n}/{m}
+  teatterilta".
 - **Combined rows read "{city} – kaikki teatterit (n)"**, city first so the trigger's
   ellipsis would eat the generic tail; measured unclipped at 320 and 375 for Helsinki,
   Savonlinna and Vantaa. The generated pages' city chip keeps "Kaikki teatterit – {city}".
   Swedish and English follow the same template.
 - **Controls and states.** "Näytä 2 aiempaa" / "Piilota aiemmat"; "Oma teatteri valittu
-  – avautuu jatkossa automaattisesti"; "Valitussa teatterissa ei ole näytöksiä tänä
-  päivänä."; "Tämän päivän ohjelmistoa ei ole vielä julkaistu."; "Valittavissa ovat vain
+  – avautuu jatkossa automaattisesti"; "Valitussa teatterissa ei ole näytöksiä
+  tänään."; "Tämän päivän ohjelmistoa ei ole vielä julkaistu."; "Valittavissa ovat vain
   päivät, joille on näytöksiä."; "Näytöstietoja ei juuri nyt saatu ladattua."; the
   static credit "Suomalaisten elokuvateatterien näytösajat". A direct `#m=` link to a film
   the venue is not showing used to open an empty sheet; it now reads "Ei näytöksiä

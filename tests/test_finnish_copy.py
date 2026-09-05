@@ -7,6 +7,7 @@ the showtime -- "Näytösajasta lipunmyyntiin" -- and freshness messages describ
 showtime data ("näytöstiedot"), never the cinema. The client's `L.fi` block and the
 generator's `L["fi"]` are read as they ship. Provider text is not touched by any of this.
 """
+import json
 import re
 import unittest
 
@@ -59,7 +60,8 @@ class ClientCopyTest(unittest.TestCase):
         self.assertEqual(self.fi["hidePast"], "Piilota aiemmat")
         self.assertEqual(self.fi["allIn"], "{city} – kaikki teatterit")
         self.assertEqual(self.fi["favOn"], "Oma teatteri valittu – avautuu jatkossa automaattisesti")
-        self.assertEqual(self.fi["noshows"], "Valitussa teatterissa ei ole näytöksiä tänä päivänä.")
+        self.assertEqual(self.fi["noshows"], "Valitussa teatterissa ei ole näytöksiä tänään.")
+        self.assertEqual(self.fi["partialOf"], "Näytöstiedot eivät päivittyneet {n}/{m} teatterilta")
         self.assertEqual(self.fi["notpublished"], "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
         self.assertEqual(self.fi["sheetNone"], "Ei näytöksiä valitussa teatterissa.")
         self.assertIn("sheetNone:'", HTML[HTML.index("\n    sv:{"):])          # sv and en have it too
@@ -83,6 +85,13 @@ class NoEmDashTest(unittest.TestCase):
         self.assertNotIn("\u2014", HTML[:HTML.index("<style")])            # the head's meta tags
         self.assertIn("title=\"${verb} – ${esc(", HTML)                       # the stub tooltip
 
+    def test_the_manifest_name_uses_the_en_dash(self):
+        manifest = json.loads((_ctx.ROOT / "manifest.webmanifest").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["name"], "Leffavuoro – elokuvat ja näytösajat")
+        for key, value in manifest.items():
+            if isinstance(value, str):
+                self.assertNotIn("\u2014", value, key)
+
     def test_no_em_dash_in_the_generator_strings(self):
         for lang, table in bp.L.items():
             for key, text in table.items():
@@ -105,9 +114,10 @@ class GeneratorCopyTest(unittest.TestCase):
         for key in ("intro_buy", "intro_reserve", "intro_list", "city_intro"):
             self.assertIn("Näytösajasta pääset", fi[key], key)
         self.assertEqual(bp.venue_intro(fi, "admission", "x.fi"),
-                         "Katso lähipäivien näytösajat. Esitykset sisältyvät pääsylippuun, "
-                         "jonka voit ostaa sivustolta x.fi.")
-        self.assertEqual(fi["age_note"], "Ikäraja {n} vuotta.")
+                         "Katso lähipäivien näytösajat. Esitykset sisältyvät pääsylipun hintaan. "
+                         "Pääsylipun voi ostaa osoitteesta x.fi.")
+        self.assertEqual(fi["age_note"], "Näytösten ikäraja on {n} vuotta.")
+        self.assertEqual(fi["no_shows"], "Lähipäiville ei ole julkaistu näytöksiä.")
         self.assertEqual(fi["subs"], "tekstitys: {}")
         self.assertIn("näytösajat", fi["venue_desc"])
         self.assertNotIn("kellonajat", fi["venue_desc"])
