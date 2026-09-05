@@ -1539,6 +1539,24 @@ Accepted, not worked around: `price` stays empty because the public XML carries 
 prices, `soldOut` stays false, `Images` is empty on every show so posters come from TMDB
 on the cloud run, and "useita kieliä" yields no audio tag because it is not a language.
 
+**First cloud run, 2026-09-05 12:24 UTC** (dispatched after the merge; data commit
+`14888ed1`): `run-vista.log` reads 16 showtimes, 6 dates, 0 failures, `exit=0`, so
+`where="cloud"` holds. Enrichment matched six films exactly (Autofiktio, Hetki Ennen
+Valoa, Presidentin Kyyditys, Päivien lumo, Svečias, The Ice Tower), matched the four
+HelAFF features only weakly, to TMDB entries under their Arabic titles, and found
+nothing for the five short programmes and Hijacked Twice. The weak matches got their
+posters and no id, which is the enrichment's standing rule and its standing risk: four
+posters mirrored (+149 kB), all four for those features. Opened and checked by eye
+after the deploy: each carries its own film's title, Fez Summer 55, One More Show and
+Rose Water in Latin script and My Father's Scent only in Arabic, so nothing to fix,
+and the log line is where to look if a later run swaps one. Live after the deploy,
+read as a visitor: the venue is in the picker and in "Helsinki – kaikki teatterit
+(13)", the
+stubs link to `/websales/show/{id}`, the meta line reads "K-12 · 87 min · suomi ·
+tekstitys: ruotsi" for a rated film and "96 min · HelAFF · tekstitys: englanti" for
+an unrated one, the shorts render initials tiles, and the six other Helsinki chains
+still list their stubs beside it (186 on 7.9.).
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
