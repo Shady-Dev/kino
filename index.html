@@ -945,7 +945,8 @@
          noshows:'Valitussa teatterissa ei ole näytöksiä tänään.',
          notpublished:'Tämän päivän ohjelmistoa ei ole vielä julkaistu.',
          onlyDays:'Valittavissa ovat vain päivät, joille on näytöksiä.',
-         showPast:'Näytä {n} aiempaa', hidePast:'Piilota aiemmat', nextShows:'Seuraavat näytökset',
+         showPast:'Näytä {n} aiempaa', showPastOne:'Näytä aiempi', hidePast:'Piilota aiemmat',
+         nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
@@ -993,7 +994,8 @@
          noshows:'Inga föreställningar denna dag på vald biograf.',
          notpublished:'Programmet för denna dag har inte publicerats ännu.',
          onlyDays:'Endast dagar med föreställningar kan väljas.',
-         showPast:'Visa {n} tidigare', hidePast:'Dölj tidigare', nextShows:'Nästa föreställningar',
+         showPast:'Visa {n} tidigare', showPastOne:'Visa en tidigare', hidePast:'Dölj tidigare',
+         nextShows:'Nästa föreställningar',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1038,7 +1040,8 @@
          noshows:'No shows for this day at the selected theatre.',
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
-         showPast:'Show {n} earlier', hidePast:'Hide earlier', nextShows:'Next screenings',
+         showPast:'Show {n} earlier', showPastOne:'Show 1 earlier', hidePast:'Hide earlier',
+         nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -2512,6 +2515,12 @@
   // carries the format, and 2D is on nearly every screening, so it says nothing. Drop a
   // tag the auditorium name already contains, and drop 2D outright -- the exceptions
   // (IMAX, 3D, iSense) are what a visitor is actually looking for.
+  // The past-times control's label. Finnish inflects the count: one hidden screening is
+  // "Näytä aiempi", two or more "Näytä {n} aiempaa"; the reverse action is one word.
+  // --- pastLabel: pure, extracted verbatim by tests/past_label_harness.js ---
+  const pastLabel = (open, n, T) =>
+    open ? T.hidePast : (n === 1 ? T.showPastOne : T.showPast.replace('{n}', n));
+  // --- end pastLabel ---
   // --- stubTags: pure, extracted verbatim by tests/stub_tags_harness.js ---
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
@@ -2718,7 +2727,7 @@
       // cell that is not a ticket reads as a broken showtime.
       const pastToggle = (gone.length && ahead.length)
         ? `<button class="pastlink" data-reveal="${esc(m.eventId)}" aria-expanded="${open}">`
-          + (open ? L[state.lang].hidePast : L[state.lang].showPast.replace('{n}', gone.length))
+          + pastLabel(open, gone.length, L[state.lang])
           + `</button>`
         : '';
       const meta2 = [

@@ -57,6 +57,7 @@ class ClientCopyTest(unittest.TestCase):
 
     def test_controls_and_empty_states(self):
         self.assertEqual(self.fi["showPast"], "Näytä {n} aiempaa")
+        self.assertEqual(self.fi["showPastOne"], "Näytä aiempi")
         self.assertEqual(self.fi["hidePast"], "Piilota aiemmat")
         self.assertEqual(self.fi["allIn"], "{city} – kaikki teatterit")
         self.assertEqual(self.fi["favOn"], "Oma teatteri valittu – avautuu jatkossa automaattisesti")

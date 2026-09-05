@@ -3741,6 +3741,17 @@ recommendation nor the 5+ chip on stubs, only the intro sentence. Whether TMDB k
 four titles is unknown until the first cloud run. Heureka's holiday list held three dates;
 a closed day not entered there publishes screenings the way the page itself does.
 
+### The past-times control inflects its count (2026-09-05, sw.js v112)
+
+"Näytä 1 aiempaa" is not Finnish: one hidden screening is "Näytä aiempi", two or more
+"Näytä {n} aiempaa", and the reverse action stays "Piilota aiemmat". The label is now
+`pastLabel(open, n, T)`, a pure function sliced verbatim by `tests/past_label_harness.js`
+the way `stubTags` and `priceLabel` are, with a `showPastOne` string in all three
+languages ("Visa en tidigare", "Show 1 earlier"). Six tests in `tests/test_past_label.py`;
+five mutations red and restored byte-identical: the singular branch dropped, the open
+state ignored, the singular applied at two, the renderer bypassing the helper, the
+Finnish singular written with the number.
+
 ### The Finnish interface copy, reviewed (2026-09-05, sw.js v109)
 
 A reader's review of the Finnish strings this repo owns -- interface, accessible names,
