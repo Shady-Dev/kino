@@ -1,7 +1,7 @@
-[regina] schedule: 2 window(s), the last from 2026-09-21
-[regina] film pages: 17 parsed, 0 with nothing usable, 21/21 showtimes rated
+[regina] schedule: 1 window(s), the last from 2026-09-05
 [regina] synopses merged: 0
-[regina] Kino Regina: 21 showtimes, 9 dates
-[run] http: 0 revalidated (304), 17 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] regina: 1 venues, 21 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[regina] Kino Regina: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[run] pending: regina has 1 venue(s) with no programme yet: regina-helsinki
+[run] regina: 0 venues, 0 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
