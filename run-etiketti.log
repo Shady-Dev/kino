@@ -14,13 +14,13 @@
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 31 showtimes, 6 dates
 [ihmekompleksi] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 17 showtimes, 7 dates
+[ihmekompleksi] Ihme Kompleksi: 16 showtimes, 6 dates
 [kino123] synopses merged: 0
 [kino123] Kino 123: 40 showtimes, 5 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 19 showtimes, 7 dates
 [kinojuha] synopses merged: 0
-[kinojuha] Kino Juha: 6 showtimes, 4 dates
+[kinojuha] Kino Juha: 5 showtimes, 3 dates
 [biogrand] synopses merged: 0
 [biogrand] Bio Grand: 13 showtimes, 5 dates
 [biovuoksi] synopses merged: 0
@@ -34,7 +34,7 @@
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 6 showtimes, 4 dates
 [niagara] synopses merged: 0
-[niagara] Cinema Niagara: 30 showtimes, 11 dates
-[run] http: 0 revalidated (304), 193 full, 193 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 481 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] Cinema Niagara: 29 showtimes, 10 dates
+[run] http: 0 revalidated (304), 191 full, 191 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 478 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
