@@ -2,7 +2,7 @@
 
 ## Current backlog
 
-The 8 items still open, with the section that holds each one and its reasoning. Presence
+The 9 items still open, with the section that holds each one and its reasoning. Presence
 here means open; the `[ ]` / `[x]` marker on the item itself stays the only status, and a
 ticked item is closed whether it was built or decided against -- the line says which.
 Drop a line from this list when its item is ticked below.
@@ -16,6 +16,10 @@ Seven items were closed in one pass on 2026-09-01 without code: see
   once the poster column has ended, with a two-level label
 - Landing pages: the city legend's cinema names link to theatre pages and look like a
   passive key
+- Heurekan planetaario posters: Asteroid Quest and Metsän sydän have portrait key
+  visuals on heureka.fi, mirrored only with Heureka's written permission; The Stellars has
+  no portrait source. See "[Heureka's missing posters wait for written
+  permission](#heurekas-missing-posters-wait-for-written-permission-2026-09-05)"
 
 **[Pipeline](#pipeline)**
 
@@ -3740,6 +3744,29 @@ the KAVI rating first and Heureka publishes none. The static pages carry neither
 recommendation nor the 5+ chip on stubs, only the intro sentence. Whether TMDB knows the
 four titles is unknown until the first cloud run. Heureka's holiday list held three dates;
 a closed day not entered there publishes screenings the way the page itself does.
+
+### Heureka's missing posters wait for written permission (2026-09-05)
+
+Three of the four planetarium films render initials tiles: Asteroid Quest and The
+Stellars have no TMDB entry, Metsän sydän has one (1732662) without a poster. The
+enrichment matched nothing weakly, so no wrong poster is on the site.
+
+Heureka's own site carries portrait key visuals for two of them: the Asteroid Quest
+textless poster art (4200 × 5943, the same artwork as Saint Thomas Productions' poster
+minus title and credits, alt "Asteroid Quest -elokuvan visuaalinen ilme") and a 1350 ×
+1920 image of the oak for Metsän sydän, the article's og:image. The Stellars has only
+16:9 stills; Creative Planet hands posters to licensed venues; fddb.org refuses automated
+readers; TMDB has nothing under either title. Recombination's TMDB poster is correct.
+
+**Not mirrored.** Public availability on heureka.fi is not permission to copy and
+redistribute: Finnish copyright reserves copying and public distribution to the rights
+holder (Tekijänoikeuslaki 404/1961), and Heureka's FAQ licenses none of its promotional
+artwork. The route is written permission from Heureka's media contact. Should it arrive,
+the accepted implementation is narrow: the article's portrait `og:image` only, same-site
+source, a valid image type and verified dimensions; no "first portrait image" fallback,
+which could pick an unrelated article's image; The Stellars keeps its tile; Recombination
+keeps TMDB's poster. Declined regardless: weak TMDB matches, generated artwork, cropped
+16:9 stills.
 
 ### The past-times control inflects its count (2026-09-05, sw.js v112)
 
