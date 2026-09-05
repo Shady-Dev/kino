@@ -4329,9 +4329,20 @@ would have returned, without the fetch. A cache read starts no refresh and posts
 message, so nothing in the handler can feed itself and the loop is impossible by
 construction rather than held back by a timer. With no loop there is no cooldown; the one
 remaining rule is one read per area at a time, with the messages that arrive during a read
-folded into a single read after it. A burst of N member messages is at most two reads,
-and every member is seen. The `caches` global is guaranteed here: the handler only runs on
-a message from a registered worker, and a context that registers one has Cache Storage.
+folded into a single read after it. Messages that land during a read share one follow-up,
+so a burst that arrives together is two reads; a connection that spreads them past the
+first read costs one cache read per message, still no network and still bounded by the
+member count. The `caches` global is guaranteed here: the handler only runs on a message
+from a registered worker, and a context that registers one has Cache Storage.
+
+**Measured live on v115, real Chrome, 2026-09-05.** Helsinki on screen with the worker's
+cache warm; Sello's cached copy doctored to an older stamp with marked titles; the picker
+then switched to Espoo with a MutationObserver recording every state `#main` passed
+through. Relative to the click: the ordinary load spinner at 9 ms (Espoo was not yet in
+memory), the doctored copy on screen at 20 ms, three worker messages at 24 to 26 ms, one
+per member, and the real schedule at 35 ms with no spinner state between -- the worker
+had already replaced the doctored entry. Over the following 118 s: no further message, no
+further data request, no DOM change. A loop would have shown as repeating messages.
 
 Harness scenarios and tests in `tests/swr_refresh_harness.js` and `tests/test_swr_refresh.py`
 grew from nine to nineteen; the sandbox deliberately has no `fetch`, so a reader that
