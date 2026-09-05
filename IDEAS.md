@@ -1209,8 +1209,10 @@ it, and expect to need the "legitimately empty site" escape hatch that item desc
 
 **Johku is confirmed as a platform, not one cinema.** `kuvatahti.johku.com` appears in the
 directory outright, and kinotapiola.fi, kulttuurimylly.com and virtasali.fi carry the
-widget. Unverified: nobody has checked whether they render `rs-johku-schedule`
-server-side. Engel's finding applies in advance: the listing parses, the API does not.
+widget. (Corrected 2026-09-05: only Kulttuurimylly renders a `<johku-widget>`; Tapiola
+embeds the Johku basket and its own theme lists the programme; Virtasali has no Johku
+on it at all. None of the three renders `rs-johku-schedule`. See "The Johku sweep:
+three integrations, no shared listing" below.)
 
 **MyCloudCinema:** mantsala.cine.fi, the backend BioRex and Gilda already sit on.
 
@@ -1351,6 +1353,117 @@ The sweep was blocked for two days on a *presumed* missing input, and that input
 out not to be what made it fail. It was cheap to test and was tested last. Test the
 assumption that is blocking the work before working around it.
 
+### The Johku sweep: three integrations, no shared listing (2026-09-05)
+
+The question was whether the four known Johku cinemas render the `rs-johku-schedule`
+markup `engel.py` parses, which would have made each a `SITES` entry. Read as a visitor
+from an ordinary connection on 2026-09-05, the four sites plus the two Korttelikinot
+fallbacks. Findings only; the page dumps stayed in the scratchpad.
+
+**The answer is no.** Johku is the shop behind the button, and each cinema renders its
+programme with whatever its own site builder offers:
+
+- **Kino Tapiola** (Mäntyviita 2, 02110 Espoo). Its own WordPress theme (Bedrock layout,
+  `/app/themes/kinotapiola/`). Johku appears only as the basket embed
+  (`johku.com/embed/basket/?shopId=kinotapiola`) and, on each film page, a
+  `johku.com/embed/?shopId=kinotapiola&productId={n}&view=schedule` script that draws the
+  ticket table client-side. The programme itself is server-rendered on `/elokuvat/`: one
+  `div.movie-list-movie` per screening with an `a[href="/naytos/{slug}/"]`, a `.title`, a
+  `.date` reading "lauantai 5.9.2026 – Klo 12:00" (the year is printed, unlike Engel and
+  Akseli) and a 3:2 still as a background image; strands carry a class (`cat-seniorikino`).
+  16 rows over 6 dates today. The date `<select>` filters client-side and adds nothing.
+  `/elokuvat/tulossa/` lists 30 premieres with a date class and no time; the five
+  `/erikoisnaytokset/` pages repeat rows already on `/elokuvat/` (seniorikino 1, the rest
+  0) and the opera page has 0 rows. The film page gives "Elokuvan kesto 2h 53min", Kieli,
+  Tekstitys "Suomi/Ruotsi" and Ohjaus, and **no age rating anywhere**; no `og:image`. The
+  slug is per run (`autofiktio-4`, `-5`, `-6` are one film on three dates), so the
+  `eventId` has to drop the numeric suffix. No per-show booking URL outside the embed: a
+  showtime opens the film page, `book="buy"`, as Engel does. A non-residential fetcher got
+  the rows, so the cloud half is the first guess. robots.txt allows everything but
+  wp-admin. Espoo already holds Finnkino Sello and Omena, so the accent is measured against
+  Finnkino's orange. **Parser-shaped, Engel-sized.**
+- **Kulttuurimylly** (Jauhokuja 3, 00920 Helsinki, Myllypuro). Squarespace. The programme
+  exists only inside `<johku-widget id="kulttuurimylly/...">` elements filled by
+  `johku.com/widget.js`; the page text says public screenings resume in autumn 2026 with
+  premieres announced for 5.12. and 12.12. The Johku-hosted storefront
+  `kulttuurimylly.johku.com/fi_FI` is a Nuxt app that **server-renders a schedule**: its
+  `__NUXT_DATA__` payload carries `showschedule-fi_FI-f2026-09-05-c2` and `-c5` keys, both
+  `data: []` today because nothing is scheduled. Re-read it when the programme resumes; if
+  the array fills, the storefront HTML is the read and no key is involved.
+- **KuvaTähti** (Kuva-Tähti Oy: Kuvala in Uusikaupunki, Kauttuan Kuva in Eura; a third
+  screen in Vehmaa is named but has no showtimes page). kuvatahti.fi *is* the Johku
+  storefront (`kuvatahti.johku.com`, identical bytes), Cloudflare in front. The venue
+  pages `/fi_FI/naytosajat/kuvala` and `/kauttuan-kuva` are storefront "products" (type 0,
+  subtype 8) whose showtimes load client-side, and the payload has no `showschedule` key
+  on any page read. Both venues announced a maintenance break 30.8. to 3.9. and list
+  nothing yet. The storefront script obtains `/api/auth/widget-session` and sends
+  `X-ApiKey`, which is the route "The Johku chase" already declined. Re-read the front
+  page once a programme is up: a `showschedule` key like Kulttuurimylly's would be the
+  read; its absence would settle KuvaTähti as not readable without a key.
+- **Virtasali** (Kalajoki). WordPress, LiteSpeed, **no Johku on it** (the 2026-08-29 note
+  saying it carries the widget was wrong or is out of date). A municipal culture hall:
+  `/ohjelmistot/` renders every event server-side ("05.09.2026 klo 18:00", lippu.fi
+  ticket links, a category class per card), and of 12 upcoming events **0 are in
+  `category-elokuvat`**. Not a cinema provider today. Dropped from the candidates.
+
+Two details from the probe that will bite again: Cloudflare answers the Johku storefront
+with an HTTP **103 Early Hints** interim response, which `urllib` reports as the final
+status ("HTTP 103") while curl reads through it, so a 103 in a probe log means "use
+curl", not "blocked"; and `?k=elokuvat` in a shell command needs quoting or zsh reports
+"no matches found" and runs nothing.
+
+**Korjaamo Kino is a Vista site with the public services open** (Töölönkatu 51 B, 00250
+Helsinki; korjaamokino.fi, IIS, the newer Vista web template with `/event/{id}/{slug}`,
+`/websales/show/{id}`, `/schedule`). `/xml/TheatreAreas/` answers
+`[{"ID":1007,"Name":"Korjaamo"}]`, JSON by default and XML with `Accept: application/xml`
+or `?format=xml`, and `/xml/Schedule/?area=1007&nrOfDays=31`, `/xml/ScheduleDates/` and
+`/xml/Events/` do the same. The XML is the schema `vista.py` parses: `Schedule/Shows/Show`
+with `dttmShowStartUTC`, `EventID`, `TheatreID` 1045, `Theatre` "Korjaamo Kino",
+`TheatreAuditorium` "Sali", `ShowURL`, `EventURL`, `LengthInMinutes`, `Genres`,
+`PresentationMethod` "2D", `EventSeries` ("HelAFF" on 10 of 16 shows), `SpokenLanguage`
+and `SubtitleLanguage1/2` with ISO codes, and an empty `Images` element; `/xml/Events/`
+carries `Synopsis` and `ShortSynopsis` for all 16 events. 16 shows over 6 dates
+(7.9. to 15.9.), one screen. `vista.py`'s `get()` already sends
+`accept: application/xml, text/xml, */*`, so the module runs unchanged; `registry.modules()`
+derives the module list from `PROVIDERS`, so a provider entry with `module="vista"` is the
+whole re-enablement. One fix first: `Rating` reads "Ei tiedossa" on 10 of the 16 shows and
+`_rating()` passes an unrecognised string through, so it would publish "Ei tiedossa" as a
+rating; it has to become "". Posters come from TMDB, since `Images` is empty. A
+non-residential fetcher received the Schedule JSON, so `where="cloud"` is the first guess.
+The ticket URL `/websales/show/168058` answers 200 to a visitor; robots.txt disallows
+`/websales/` and `/account/` to crawlers and says nothing about `/xml/`. This repo links to
+websales and never fetches it, which is the same line every other provider sits on. The
+103-host Vista sweep of 2026-08-29 found nothing because korjaamokino.fi was not among the
+hosts probed, so the "only Savon Kinot" statement in `vista.py`'s docstring is out of date
+and goes with the entry that adds the cinema. Helsinki is the six-chain city: the accent is
+the one thing here that needs measuring before anything is written.
+
+**Kino Regina** (Keskustakirjasto Oodi, Töölönlahdenkatu 4, 00100 Helsinki; KAVI's
+cinema; kinoregina.fi). WordPress with its own theme, `kinoregina2`. `/ohjelmisto/elokuvat/`
+lists 252 films alphabetically with 17 marked `shows-coming`, and every showtime list on
+the site is injected by the theme's own PHP under
+`/wp-content/themes/kinoregina2/assets/functions/`: `getShowtimesMoviesV2.php` with a POST
+body `getShowtimesMovies=2026-09-05` returned the day list from that date, 9 dates
+(5.9. to 17.9.) and 21 rows, each a `day-header` ("Lauantai 5.9."), a `.time` ("14:00"),
+an `a.title[href="/elokuva/{id}"]`, a `.start` ("05-09-2026 14:00" with `Europe/Helsinki`),
+a 16:9 still and a `kauppa.kavi.fi/fi/events/pwdg/event_buybox/show/{hex}` ticket link;
+class `grey` with "Myynti on päättynyt." once sales close, `green` otherwise.
+`getShowtimesOfSingleMovieSmallList.php` with `getShowtimesOfSingleMovieSmallList={id}`
+returns one film's rows, and the `getNextTwoWeeks` body the "load more" button sends
+answered 500. The film page `/elokuva/{id}/` renders its own showtimes server-side too,
+with Ohjaaja, Maa, Tekstitys ("English subtitles"), Kesto "146 min", Kopiotieto "DCP" and
+an Ikäraja field that is empty for an archive print. The GET pages load from a
+non-residential fetcher; the POST endpoint was only tried from here. robots.txt allows
+everything. Parser-shaped: one POST per run covers about twelve days, and how far the
+endpoint will go past that is unmeasured because the second-fortnight call failed.
+`book="buy"` against KAVI's shop, host credited kinoregina.fi.
+
+**Order to build, if the three are wanted:** Korjaamo Kino first (a registry entry, a
+one-line rating fix, a fixture from the XML above, and the Vista module gets a live site
+again), then Kino Tapiola, then Kino Regina. Each of the two parsers is a single-screen
+venue on the pattern Engel and Akseli already use. Korttelikinot coverage would then be
+complete: Orion, Riviera, Korjaamo, Regina.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
@@ -1359,14 +1472,20 @@ assumption that is blocking the work before working around it.
   Kino Metso, the touring locationid at kinoaurora.fi, is the piece left -- it needs the
   room-splitting `match` that `etiketti.py` already has.
 - **Cinema Niagara** is the other parser-shaped leftover: eTiketti's second template.
-- **Vista is not the lead and should stop being described as one.** Tampere's Niagara,
-  named here as a candidate to test, is an eTiketti site. Cinamon and other non-Finnish
-  Vista users are untested and are the only remaining reason to keep the signature
-  (`/event/{id}/title/{slug}/`, `/websales/show/{id}/`) written down at all.
-- **Johku** is now a confirmed platform with four known Finnish cinemas. Worth a parser
-  once one of them is shown to render `rs-johku-schedule` server-side.
-- **Korttelikinot** (Helsinki: Orion, Riviera, Korjaamo, Regina) — they cooperate, so there
-  may be a shared listing. Not yet probed.
+- **Vista has one Finnish site after all: Korjaamo Kino** (2026-09-05). korjaamokino.fi
+  answers `/xml/TheatreAreas/`, `/xml/Schedule/`, `/xml/ScheduleDates/` and
+  `/xml/Events/` in the schema `vista.py` parses, XML on `Accept`, JSON by default. A
+  registry entry against the existing module, plus one rating fix. Cinamon and other
+  non-Finnish Vista users remain untested. See the sweep entry below.
+- **Johku is a ticketing platform, not a listing template** (2026-09-05). The four known
+  sites render three different HTML shapes and none of them Engel's widget. Kino Tapiola
+  is parser-shaped (Engel's pattern: server-rendered rows plus a film page). KuvaTähti
+  and Kulttuurimylly are Johku-hosted storefronts to re-read once their programmes
+  resume. Virtasali is a Kalajoki culture hall with no films listed.
+- **Korttelikinot** (Helsinki: Orion, Riviera, Korjaamo, Regina): Orion and Riviera are
+  in; Korjaamo and Regina were probed 2026-09-05 and share nothing. Korjaamo runs Vista,
+  Regina a WordPress theme with its own showtime endpoints and KAVI's ticket shop. Both
+  are parseable; see the sweep entry below.
 - **Eventio** is a ticketing platform with cinema customers — another possible platform win.
 - ~196 cinemas / 306 screens in Finland (2009), but the tail clusters onto a few platforms.
   Platform adapters first; bespoke sites only when a cinema is on none.
