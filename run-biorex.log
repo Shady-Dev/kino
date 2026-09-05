@@ -1,29 +1,29 @@
-[biorex] BioRex Tripla: 128 showtimes
-[biorex] BioRex Redi: 107 showtimes
-[biorex] BioRex Verkatehdas: 101 showtimes
-[biorex] BioRex Sveitsi: 87 showtimes
+[biorex] BioRex Tripla: 122 showtimes
+[biorex] BioRex Redi: 101 showtimes
+[biorex] BioRex Verkatehdas: 96 showtimes
+[biorex] BioRex Sveitsi: 82 showtimes
 [biorex] BioRex Kajaani: 46 showtimes
-[biorex] BioRex Pietarsaari: 32 showtimes
-[biorex] BioRex Porvoo: 68 showtimes
-[biorex] BioRex Riihimäki: 30 showtimes
-[biorex] BioRex Rovaniemi: 83 showtimes
-[biorex] BioRex Seinäjoki: 100 showtimes
+[biorex] BioRex Pietarsaari: 30 showtimes
+[biorex] BioRex Porvoo: 64 showtimes
+[biorex] BioRex Riihimäki: 28 showtimes
+[biorex] BioRex Rovaniemi: 78 showtimes
+[biorex] BioRex Seinäjoki: 99 showtimes
 [biorex] BioRex Tornio: 59 showtimes
-[biorex] BioRex Vaasa: 99 showtimes
+[biorex] BioRex Vaasa: 93 showtimes
 [biorex] film pages: 28/28
 [biorex] synopses merged: 0
-[biorex] BioRex Tripla: 128 showtimes, 14 dates
-[biorex] BioRex Redi: 107 showtimes, 14 dates
-[biorex] BioRex Verkatehdas: 101 showtimes, 14 dates
-[biorex] BioRex Sveitsi: 87 showtimes, 13 dates
+[biorex] BioRex Tripla: 122 showtimes, 14 dates
+[biorex] BioRex Redi: 101 showtimes, 14 dates
+[biorex] BioRex Verkatehdas: 96 showtimes, 14 dates
+[biorex] BioRex Sveitsi: 82 showtimes, 13 dates
 [biorex] BioRex Kajaani: 46 showtimes, 13 dates
-[biorex] BioRex Pietarsaari: 32 showtimes, 12 dates
-[biorex] BioRex Porvoo: 68 showtimes, 13 dates
-[biorex] BioRex Riihimäki: 30 showtimes, 11 dates
-[biorex] BioRex Rovaniemi: 83 showtimes, 13 dates
-[biorex] BioRex Seinäjoki: 100 showtimes, 13 dates
+[biorex] BioRex Pietarsaari: 30 showtimes, 12 dates
+[biorex] BioRex Porvoo: 64 showtimes, 13 dates
+[biorex] BioRex Riihimäki: 28 showtimes, 11 dates
+[biorex] BioRex Rovaniemi: 78 showtimes, 13 dates
+[biorex] BioRex Seinäjoki: 99 showtimes, 13 dates
 [biorex] BioRex Tornio: 59 showtimes, 12 dates
-[biorex] BioRex Vaasa: 99 showtimes, 14 dates
+[biorex] BioRex Vaasa: 93 showtimes, 14 dates
 [run] http: 0 revalidated (304), 28 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] biorex: 12 venues, 940 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] biorex: 12 venues, 898 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
