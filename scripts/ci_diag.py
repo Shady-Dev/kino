@@ -25,6 +25,8 @@ import urllib.request
 from urllib.parse import urlsplit
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
+import registry  # noqa: E402
+import run  # noqa: E402
 
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 HEADERS = ("Server", "Date", "Content-Type", "Content-Length", "CF-Ray", "CF-Cache-Status",
@@ -34,32 +36,40 @@ IMDS = ("http://169.254.169.254/metadata/instance/compute/location"
 EGRESS = "https://checkip.amazonaws.com"
 
 
-def failed_logs(paths):
+def failed_logs(paths, modules=None):
     """{module: [lines]} for every log whose last exit= is not 0.
 
-    Kept lines are the pipeline's own `[http]` and `FAILED` lines, which name a host and a
-    reason and nothing from a response body.
+    `modules` limits it to the logs this run wrote: the repo root also holds the local
+    half's committed logs, and an old local failure must not start probes here. Kept lines
+    are the pipeline's own `[http]` and `FAILED` lines, which name a host and a reason and
+    nothing from a response body.
     """
     out = {}
     for p in sorted(paths):
+        module = re.sub(r"^run-|\.log$", "", pathlib.Path(p).name)
+        if modules is not None and module not in modules:
+            continue
         text = pathlib.Path(p).read_text(encoding="utf-8", errors="replace")
         exits = re.findall(r"^exit=(\d+)$", text, re.M)
         if not exits or exits[-1] == "0":
             continue
-        module = re.sub(r"^run-|\.log$", "", pathlib.Path(p).name)
         out[module] = [l for l in text.splitlines() if l.startswith("[http]") or "FAILED" in l]
     return out
 
 
 def hosts_for(module, lines):
-    """Hosts named by the log's `[http]` lines plus every base the module's SITES read."""
+    """Hosts named by the log's `[http]` lines plus the bases of the module's cloud sites.
+
+    Only the cloud half: etiketti also carries two local-only sites that a runner is not
+    meant to read at all.
+    """
     hosts = set(re.findall(r"^\[http\] \d+ from ([^,\s]+)", "\n".join(lines), re.M))
     try:
-        sites = getattr(importlib.import_module(module), "SITES", ())
+        sites = run.sites_for(importlib.import_module(module), "cloud")
     except Exception:
         sites = ()
-    for s in sites.values() if isinstance(sites, dict) else sites:
-        host = urlsplit((s.get("base") or "") if isinstance(s, dict) else "").netloc
+    for s in sites:
+        host = urlsplit(s.get("base") or "").netloc
         if host:
             hosts.add(host)
     return sorted(hosts)
@@ -73,7 +83,13 @@ def _get(url, timeout, headers=None):
             n = len(r.read())
             return r.status, r.headers, n, int((time.monotonic() - t0) * 1000), None
     except urllib.error.HTTPError as e:
-        n = len(e.read())
+        # An HTTPError is also the response; unread or half-read it leaks a socket.
+        try:
+            n = len(e.read())
+        except Exception:
+            n = -1
+        finally:
+            e.close()
         return e.code, e.headers, n, int((time.monotonic() - t0) * 1000), None
     except Exception as e:  # URLError, socket.timeout, ssl errors
         return None, {}, 0, int((time.monotonic() - t0) * 1000), f"{type(e).__name__}: {e}"
@@ -125,6 +141,16 @@ def render(failed, facts, probes):
 
 
 def main(argv):
+    """Never fails the job: the workflow also marks the step continue-on-error, and a
+    diagnostics bug must not cost the schedule its publication."""
+    try:
+        return _main(argv)
+    except Exception as e:
+        print(f"[diag] failed: {type(e).__name__}: {e}")
+        return 0
+
+
+def _main(argv):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", required=True, help="directory for diag.txt")
     ap.add_argument("--until", required=True, help="YYYY-MM-DD; after this day do nothing")
@@ -136,9 +162,9 @@ def main(argv):
     if dt.date.today() > dt.date.fromisoformat(a.until):
         print(f"[diag] expired {a.until}, nothing done")
         return 0
-    failed = failed_logs(glob.glob(a.logs))
+    failed = failed_logs(glob.glob(a.logs), registry.modules("cloud"))
     if not failed:
-        print("[diag] every log ends exit=0, no report")
+        print("[diag] every cloud log ends exit=0, no report")
         return 0
     facts = ({"region": "skipped", "egress": "skipped", "run_id": "?", "event": "?"}
              if a.offline else runner_facts())

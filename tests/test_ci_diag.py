@@ -6,14 +6,17 @@ the step before the commit with a pinned upload action and a two-day retention.
 """
 import contextlib
 import datetime as dt
+import gc
 import http.server
 import io
 import os
 import pathlib
+import sys
 import tempfile
 import threading
 import time
 import unittest
+import warnings
 
 import _ctx
 import ci_diag
@@ -37,6 +40,16 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
     def log_message(self, *a):
         pass
+
+
+def hosts(module, lines):
+    """hosts_for imports the adapter. Drop it again: adapters bind `common.EmptyProgramme`
+    at import time and test_common_fetch reloads `common`, so an adapter imported this
+    early would hold the stale class when the etiketti tests import it later."""
+    try:
+        return ci_diag.hosts_for(module, lines)
+    finally:
+        sys.modules.pop(module, None)
 
 
 def write_logs(d, **logs):
@@ -69,10 +82,29 @@ class Diag(unittest.TestCase):
         self.assertNotIn("[run] nexxo: 5 venues", got["bad"])
 
     def test_hosts_come_from_http_lines_and_module_sites(self):
-        hosts = ci_diag.hosts_for("nexxo", ["[http] 403 from example.invalid, gave up"])
-        self.assertIn("example.invalid", hosts)
-        self.assertIn("kinohirvi.fi", hosts)
-        self.assertEqual(ci_diag.hosts_for("no_such_module", []), [])
+        got = hosts("nexxo", ["[http] 403 from example.invalid, gave up"])
+        self.assertIn("example.invalid", got)
+        self.assertIn("kinohirvi.fi", got)
+        self.assertEqual(hosts("no_such_module", []), [])
+
+    def test_hosts_skip_a_module_s_local_only_sites(self):
+        got = hosts("etiketti", [])
+        self.assertIn("kotkanleffat.fi", got)
+        self.assertNotIn("kino.joutsa.fi", got)
+        self.assertNotIn("www.savonkinot.fi", got)
+
+    def test_failed_logs_ignores_modules_outside_the_given_half(self):
+        with tempfile.TemporaryDirectory() as d:
+            write_logs(d, engel="FAILED\nexit=1\n", nexxo="FAILED\nexit=1\n")
+            got = ci_diag.failed_logs(sorted(pathlib.Path(d).glob("run-*.log")), ["nexxo"])
+        self.assertEqual(list(got), ["nexxo"])
+
+    def test_probe_closes_the_error_response(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            ci_diag.probe(self.url + "/", timeout=5)
+            gc.collect()
+        self.assertEqual([str(x.message) for x in w if x.category is ResourceWarning], [])
 
     def test_probe_keeps_status_headers_and_length_never_the_body(self):
         p = ci_diag.probe(self.url + "/", timeout=5)
@@ -101,6 +133,7 @@ class Diag(unittest.TestCase):
                                      "--logs", str(pathlib.Path(d) / "run-*.log"),
                                      "--probe", self.url + "/{host}"])
         finally:
+            sys.modules.pop("nexxo", None)  # see hosts()
             if old is None:
                 del os.environ["GITHUB_OUTPUT"]
             else:
@@ -110,7 +143,7 @@ class Diag(unittest.TestCase):
 
     def test_main_writes_report_and_flags_the_upload(self):
         with tempfile.TemporaryDirectory() as d:
-            code, text, gh = self.run_main(d, "2999-01-01", bad=(
+            code, text, gh = self.run_main(d, "2999-01-01", nexxo=(
                 "[http] 403 from example.invalid, gave up after 3 attempt(s) -- Server: x\n"
                 "exit=1\n"))
         self.assertEqual(code, 0)
@@ -123,13 +156,29 @@ class Diag(unittest.TestCase):
 
     def test_main_without_a_failure_writes_nothing(self):
         with tempfile.TemporaryDirectory() as d:
-            code, text, gh = self.run_main(d, "2999-01-01", ok="exit=0\n")
+            code, text, gh = self.run_main(d, "2999-01-01", biorex="exit=0\n")
         self.assertEqual((code, text, gh), (0, None, ""))
+
+    def test_main_ignores_a_committed_local_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            code, text, gh = self.run_main(d, "2999-01-01", biorex="exit=0\n",
+                                           engel="[http] 403 from a.b, gave up\nexit=1\n")
+        self.assertEqual((code, text, gh), (0, None, ""))
+
+    def test_main_returns_zero_on_an_internal_error(self):
+        with tempfile.TemporaryDirectory() as d:
+            write_logs(d, nexxo="[http] 403 from a.b, gave up\nexit=1\n")
+            with contextlib.redirect_stdout(io.StringIO()) as out:
+                code = ci_diag.main(["--out", str(pathlib.Path(d) / "o"), "--until", "2999-01-01",
+                                     "--offline", "--logs", str(pathlib.Path(d) / "run-*.log"),
+                                     "--probe", "{no_such_field}"])
+        self.assertEqual(code, 0)
+        self.assertIn("[diag] failed: KeyError", out.getvalue())
 
     def test_main_after_the_until_date_does_nothing(self):
         yesterday = (dt.date.today() - dt.timedelta(days=1)).isoformat()
         with tempfile.TemporaryDirectory() as d:
-            code, text, gh = self.run_main(d, yesterday, bad="[http] 403 from a.b\nexit=1\n")
+            code, text, gh = self.run_main(d, yesterday, nexxo="[http] 403 from a.b\nexit=1\n")
         self.assertEqual((code, text, gh), (0, None, ""))
 
 
@@ -148,6 +197,9 @@ class Workflow(unittest.TestCase):
         self.assertIn("uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a", wf)
         self.assertIn("if: steps.diag.outputs.report == 'true'", wf)
         self.assertIn("retention-days: 2", wf)
+        block = wf[wf.index("name: Diagnose provider failures"):wf.index("name: Enrich with TMDB")]
+        self.assertEqual(block.count("continue-on-error: true"), 2)
+        self.assertEqual(block.count("timeout-minutes: 3"), 2)
         self.assertNotIn("diag", wf[wf.index("git add data"):].split("\n")[0])
 
 

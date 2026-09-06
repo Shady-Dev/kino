@@ -1456,7 +1456,14 @@ retention, gated on the step's `report` output. Nothing is committed and no resp
 or environment is recorded, for the same reason raw probe dumps are banned. The step
 disarms itself after `--until`; remove it and this entry once the answer is in.
 
-Validation: `tests/test_ci_diag.py`, 9 tests against a local server, 14 of 14 mutations red.
+Same day, three review findings: both steps are `continue-on-error` with a three-minute
+bound and the script exits 0 on its own errors, so diagnostics cannot skip the commit that
+publishes the schedule; only the cloud modules' logs count, because the repo root also holds
+the local half's committed logs and an old Engel failure started probes; hosts come from
+`run.sites_for(mod, "cloud")`, which leaves out etiketti's two local-only sites; the
+`HTTPError` response is closed, since CI fails on a `ResourceWarning`.
+
+Validation: `tests/test_ci_diag.py`, 14 tests against a local server, 21 of 21 mutations red.
 
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
