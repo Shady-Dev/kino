@@ -940,9 +940,14 @@ Decided 2026-09-06: local. Of the six cloud runs after the fix, three were chall
 HTTP 202), so SiteGround refuses the address for the whole host and an in-run retry cannot
 help. Failures came from northcentralus, westcentralus and centralus; passes from westus and
 westus3. Nothing selects a region on hosted runners. `where="local"` on the registry entry
-routes the module to the local half; the wrapper outside the repo needs its own block, log
-and `git add` entry for `regina`, and until that runs the committed `run-regina.log` still
-ends `exit=1` and the venue ages.
+routes the module to the local half. The wrapper outside the repo got its block, its own
+`run-regina.log` and its `git add` entry on 2026-09-06, placed before the poster step like
+Joutsan Kino's so the run mirrors the posters it brings in: 15 of the venue's 20 showtimes
+carry one. No `--half` flag, because the module has one site, that site is local, and off a
+runner `half_of` defaults to `all`, which selects the same site. A fetch from an ordinary
+connection that evening returned 20 showtimes over 8 dates and exit 0, so the routing is
+the whole fix. The committed `run-regina.log` still ends `exit=1` and keeps `Check run
+logs` red until the first local run overwrites it.
 
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
