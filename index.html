@@ -3117,20 +3117,29 @@
         } while(again.has(area));
         inflight.delete(area);
       }
+      // The held slots a refreshed venue file feeds: its own, and the combined city that
+      // holds it. At most those two, since a venue belongs to one city.
+      function slotsFor(venue){
+        return Object.keys(io.cache).filter(a => a === venue ||
+          (a.startsWith('city:') && (io.groups()[a.slice(5)] || []).includes(venue)));
+      }
       return function onFresh(path){
         // The film metadata file has its own store and its own change test.
         if(/\/data\/films-extra\.json$/.test(path || '')) return io.extra.fresh();
         const m = (path || '').match(/\/data\/area-(.+)\.json$/);
         if(!m) return;
-        const area = io.area();   // read once, here -- see reread()
-        if(!io.cache[area]) return;
-        const hit = area === m[1] ||
-          (area.startsWith('city:') && (io.groups()[area.slice(5)] || []).includes(m[1]));
-        if(!hit) return;
-        if(inflight.has(area)){ again.add(area); return inflight.get(area); }
-        const p = drain(area);
-        inflight.set(area, p);
-        return p;
+        // Every held slot, not only the one on screen. loadSchedule serves a slot it
+        // already holds without re-reading, so a slot skipped here kept the schedule it
+        // was fetched with until a reload: leave a cinema while its refresh is still in
+        // flight, come back, and the stale copy is what gets served. The re-read is a
+        // Cache Storage read, so refreshing a slot nobody is looking at costs no request.
+        // reread() decides on its own whether each answer is worth drawing.
+        return Promise.all(slotsFor(m[1]).map(area => {
+          if(inflight.has(area)){ again.add(area); return inflight.get(area); }
+          const p = drain(area);
+          inflight.set(area, p);
+          return p;
+        }));
       };
     }
     // --- end background refresh ---

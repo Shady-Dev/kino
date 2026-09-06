@@ -2227,6 +2227,35 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### A background refresh reaches every held slot (2026-09-06, sw.js v118)
+`onFresh` read `io.area()` and dropped any message that did not name the selection. An
+entry in the payload cache the reader had left kept whatever it was fetched with, and
+`loadSchedule` serves a held entry without re-reading it, so that cinema stayed on that
+schedule until a reload or a resume cleared the cache. Reaching it took no more than
+leaving a cinema while its refresh was still in flight and coming back.
+
+`slotsFor(venue)` now returns the held entries a refreshed file feeds: its own, and the
+combined city holding it. At most those two, since a venue belongs to one city. `onFresh`
+drains each through the per-area `inflight` map that was already there, and `reread` still
+compares against the entry taken before its own await and calls `io.applied()` only for
+the one on screen. The re-read is a Cache Storage read, so refreshing an entry nobody is
+looking at costs no request.
+
+Three scenarios and five tests added; `tests/test_swr_refresh.py` is 34. Five mutations,
+all red: the selected-area filter put back, each half of the new filter dropped on its
+own, `io.applied()` made unconditional, and only the first matching slot refreshed.
+
+Three of those five scored VOID on the first pass, and the harness was the reason. A
+mutation that makes the code ask for a slot a scenario did not stage either throws in
+`settle` or leaves an `await` that never returns, and the harness then printed nothing:
+empty stdout, every test erroring in `setUpClass`, which a mutation run reads as no test
+going red. So `out` moved to module scope, `run()` is raced against a ten-second watchdog,
+whatever `out` holds is printed either way, and the failure goes into `__error` for
+`test_the_harness_ran_every_scenario` to fail on. The three new scenarios were also moved
+onto the stub Cache Storage store, where a read for an unstaged path answers a miss
+instead of killing the run. The next scenario written here should follow that pattern: a
+harness that dies on the mutation cannot verify the test the mutation is aimed at.
+
 ### A slot refilled during a background read keeps the refill (2026-09-05, sw.js v115)
 The handler's guard against `refreshAll` was "is there still an entry" after the await. On
 resume `refreshAll` deletes every entry and `loadSchedule` refills the selected one, both

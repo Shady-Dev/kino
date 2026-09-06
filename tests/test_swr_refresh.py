@@ -1,8 +1,10 @@
 """A background refresh lands in the slot it was asked for, sees every cinema, and refreshes metadata.
 
 The worker serves data JSON from cache and posts `{fresh: path}` when a refresh lands.
-Rules pinned here: the area is read once, before the await; only that slot is compared
-and written; a render happens only if that area is still on screen; a slot emptied or
+Rules pinned here: every held slot the refreshed file feeds is compared and written, its
+own and the combined city holding it, whether or not it is the one on screen; each is
+compared against the entry taken before its await; a render happens only if that area is
+still on screen; a slot emptied or
 refilled meanwhile is left alone, since the entry is compared by identity; a city is
 compared on a per-member `stamp` while its `generated` keeps reporting the oldest member;
 the re-read comes from Cache Storage, never a fetch, so no message loop is possible and
@@ -75,10 +77,50 @@ class BackgroundRefreshTest(unittest.TestCase):
         self.assertEqual(r["applied"], 0)
         self.assertEqual(r["A"]["generated"], A_GEN)
 
-    def test_a_file_outside_the_selection_reads_nothing(self):
+    def test_the_harness_ran_every_scenario(self):
+        """A scenario that throws, or one whose handler never settles, used to print
+        nothing and error every test in setUpClass, which a mutation run scores as no test
+        going red. The harness prints what it has and names the failure here instead."""
+        self.assertNotIn("__error", self.r, self.r.get("__error", ""))
+
+    def test_a_file_no_held_slot_is_fed_by_reads_nothing(self):
         r = self.r["not_a_hit"]
         self.assertEqual(r["reads"], [])
         self.assertEqual(r["applied"], 0)
+
+    # -- slots the reader is not looking at ---------------------------------------------
+
+    def test_a_held_slot_off_screen_is_refreshed(self):
+        """B is on screen and the message names A. loadSchedule serves a held slot without
+        re-reading it, so leaving A alone here served the stale copy on the way back."""
+        r = self.r["unselected_venue_slot"]
+        self.assertEqual(r["reads"], ["data/area-A.json"])
+        self.assertEqual(r["A"]["generated"], A_NEW)
+
+    def test_refreshing_an_off_screen_slot_draws_nothing(self):
+        """Writing a slot nobody is looking at must not redraw the cinema that is."""
+        r = self.r["unselected_venue_slot"]
+        self.assertEqual(r["applied"], 0)
+        self.assertEqual(r["B"]["generated"], B_GEN)
+
+    def test_a_member_of_a_held_city_off_screen_is_refreshed(self):
+        """The combined city is held behind A. Its member b changed, so the fold is redone
+        from both members and the stamp carries b's new time."""
+        r = self.r["unselected_city_member"]
+        self.assertEqual(r["reads"], ["data/area-a.json", "data/area-b.json"])
+        self.assertEqual(r["city"]["key"], f"a@{A_GEN} b@{B_NEW}")
+        self.assertEqual(r["applied"], 0)
+        self.assertEqual(r["A"]["generated"], A_GEN)
+
+    def test_one_file_refreshes_both_the_venue_and_its_city(self):
+        """a is on screen and city:X is held behind it. The two entries go stale
+        independently, so one message writes both; only the one on screen is drawn."""
+        r = self.r["venue_and_its_city"]
+        self.assertEqual(r["reads"],
+                         ["data/area-a.json", "data/area-a.json", "data/area-b.json"])
+        self.assertEqual(r["a"]["generated"], A_NEW)
+        self.assertEqual(r["city"]["titles"], ["Film at a, later", "Film at b"])
+        self.assertEqual(r["applied"], 1)
 
     def test_a_selection_with_nothing_loaded_is_left_to_load_schedule(self):
         r = self.r["nothing_held"]

@@ -110,7 +110,12 @@ function setup(opts) {
     area: () => st.area,
     cache,
     groups: () => opts.groups || GROUPS,
-    read: opts.cached ? readCached : reads.read,
+    // Both readers record the path they are asked for, so a scenario can assert which
+    // slots a message reached. The cached one resolves from the stub store, so a read for
+    // a path the scenario did not stage answers a miss rather than throwing: a mutation
+    // that reaches for the wrong slot then produces a wrong payload instead of killing
+    // the harness, and killing it shows up as no test going red at all.
+    read: opts.cached ? (p => { reads.calls.push(p); return readCached(p); }) : reads.read,
     // loadCity is the thin thing it is in the app -- read every member, fold with the
     // real cityPayload -- minus the prefs write.
     loadCity: async (city, read) => {
@@ -159,8 +164,9 @@ const a2 = payload('a', '2026-09-05T09:00:00+00:00', 'Film at a, later');
 const b1 = payload('b', '2026-09-05T07:00:00+00:00');
 const b2 = payload('b', '2026-09-05T08:00:00+00:00', 'Film at b, later');
 
+const out = {};
+
 async function run() {
-  const out = {};
 
   // ===== the slot a late answer lands in ================================================
 
@@ -255,14 +261,45 @@ async function run() {
     out.unchanged = { applied: s.st.applied, A: s.cache.A };
   }
 
-  // -- a file the selection does not include ---------------------------------------------
+  // -- a file no held slot is fed by ------------------------------------------------------
   {
     const s = setup({ area: 'A', cache: { A: A1, 'city:X': fold([a1, b1]) } });
-    await s.handler('/data/area-B.json');
-    await s.handler('/data/area-b.json');
+    await s.handler('/data/area-B.json');          // no B slot, and no city holds B
     await s.handler('/data/venues-finnkino.json');
     await s.handler('');
     out.not_a_hit = { reads: s.reads.calls, applied: s.st.applied };
+  }
+
+  // -- a venue the reader has left, still held ------------------------------------------
+  // The message arrives for A while B is on screen. loadSchedule serves a held slot
+  // without re-reading it, so leaving A's slot alone froze that cinema until a reload.
+  {
+    store.clear(); store.set('data/area-A.json', A2); store.set('data/area-B.json', B1);
+    const s = setup({ area: 'B', cached: true, cache: { A: A1, B: B1 } });
+    await s.handler('/data/area-A.json');
+    out.unselected_venue_slot = { reads: s.reads.calls, applied: s.st.applied,
+                                  A: s.cache.A, B: s.cache.B };
+  }
+
+  // -- a member of a held city the reader is not looking at ------------------------------
+  {
+    store.clear(); store.set('data/area-a.json', a1); store.set('data/area-b.json', b2);
+    const s = setup({ area: 'A', cached: true, cache: { A: A1, 'city:X': fold([a1, b1]) } });
+    await s.handler('/data/area-b.json');
+    out.unselected_city_member = { reads: s.reads.calls, applied: s.st.applied,
+                                   city: summary(s.cache['city:X']), A: s.cache.A };
+  }
+
+  // -- one file feeding both a venue slot and the city holding it ------------------------
+  // The two slots are separate entries and both go stale on their own, so one message has
+  // to write both. The fold reads the same file a second time; only the slot on screen is
+  // drawn.
+  {
+    store.clear(); store.set('data/area-a.json', a2); store.set('data/area-b.json', b1);
+    const s = setup({ area: 'a', cached: true, cache: { a: a1, 'city:X': fold([a1, b1]) } });
+    await s.handler('/data/area-a.json');
+    out.venue_and_its_city = { reads: s.reads.calls, applied: s.st.applied,
+                               a: s.cache.a, city: summary(s.cache['city:X']) };
   }
 
   // -- nothing loaded yet for the selection ----------------------------------------------
@@ -460,7 +497,20 @@ async function run() {
     out.read_cached = { hit: summary(hit), miss, fetchDefined: typeof sandbox.fetch !== 'undefined' };
   }
 
-  process.stdout.write(JSON.stringify(out));
 }
 
-run().catch(e => { console.error(e && e.stack || e); process.exit(1); });
+// A scenario that throws, or one whose handler never settles because the code under test
+// asked for a slot the scenario did not stage, used to print nothing at all. The Python
+// side then saw empty stdout, every test errored in setUpClass, and a mutation run scored
+// that as "nothing went red" rather than as the breakage it is. Whatever `out` holds is
+// printed either way now, and `__error` turns the death itself into one failing test.
+const WATCHDOG_MS = 10000;
+let watchdog;
+Promise.race([
+  run(),
+  new Promise((_, reject) => {
+    watchdog = setTimeout(
+      () => reject(new Error(`a scenario did not settle within ${WATCHDOG_MS} ms`)), WATCHDOG_MS);
+  }),
+]).catch(e => { out.__error = String((e && e.stack) || e); })
+  .then(() => { clearTimeout(watchdog); process.stdout.write(JSON.stringify(out)); });

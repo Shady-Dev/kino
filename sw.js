@@ -3,7 +3,7 @@
 // Data JSON is served from cache at once and refreshed behind, because waiting on the
 // network is the largest launch cost on a slow connection and the page reports its
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
-const CACHE = 'leffavuoro-v117';
+const CACHE = 'leffavuoro-v118';
 
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
