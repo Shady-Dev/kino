@@ -1,6 +1,6 @@
-[tapiola] film pages: 10 parsed, 0 with nothing usable, 12/12 showtimes rated
+[tapiola] film pages: 9 parsed, 0 with nothing usable, 11/11 showtimes rated
 [tapiola] synopses merged: 0
-[tapiola] Kino Tapiola: 12 showtimes, 5 dates
-[run] http: 0 revalidated (304), 11 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] tapiola: 1 venues, 12 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[tapiola] Kino Tapiola: 11 showtimes, 5 dates
+[run] http: 0 revalidated (304), 10 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] tapiola: 1 venues, 11 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
