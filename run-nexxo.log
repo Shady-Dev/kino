@@ -5,9 +5,9 @@
 [kinoset] Kino 1-2: 8 showtimes, 3 dates
 [kinoset] Kinema: 3 showtimes, 3 dates
 [kinoset] Bio: 3 showtimes, 3 dates
-[kinoaurora] Kino Aurora (Jyväskylä): 26 showtimes
+[kinoaurora] locationid 1 FAILED: <urlopen error timed out>
 [kinoaurora] synopses merged: 0
-[kinoaurora] Kino Aurora: 26 showtimes, 7 dates
+[kinoaurora] Kino Aurora: no showtimes, keeping previous data from 2026-09-05T23:51:36+00:00
 [kinohirvi] Kino Hirvi (Äänekoski): 12 showtimes
 [kinohirvi] synopses merged: 0
 [kinohirvi] Kino Hirvi: 12 showtimes, 3 dates
@@ -23,16 +23,15 @@
 [jarvelankino] Järvelän Kino (Järvelä): 5 showtimes
 [jarvelankino] synopses merged: 0
 [jarvelankino] Järvelän Kino: 5 showtimes, 4 dates
-[kinometso] Muurame (Muurame): 0 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 5 showtimes
-[kinometso] Tikkakoski (Jyväskylä): 0 showtimes
-[kinometso] Vaajakoski (Jyväskylä): 3 showtimes
+[kinometso] locationid 2 FAILED: <urlopen error timed out>
 [kinometso] synopses merged: 0
-[kinometso] Muurame: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinometso] Petäjävesi: 5 showtimes, 3 dates
-[kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinometso] Vaajakoski: 3 showtimes, 1 dates
-[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
-[run] pending: kinometso has 2 venue(s) with no programme yet: km-muurame, km-tikkakoski
-[run] nexxo: 11 venues, 103 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-exit=0
+[kinometso] Muurame: no showtimes and none previously; publishing an empty file
+[kinometso] Petäjävesi: no showtimes, keeping previous data from 2026-09-05T23:51:36+00:00
+[kinometso] Tikkakoski: no showtimes and none previously; publishing an empty file
+[kinometso] Vaajakoski: no showtimes, keeping previous data from 2026-09-05T23:51:36+00:00
+[run] http: 0 revalidated (304), 8 full, 8 not stored (origin said no-store), 0 cache entries written
+[run] partial: kinoaurora kept previous data for 1 venue(s): au-jyvaskyla
+[run] partial: kinometso kept previous data for 2 venue(s): km-petajavesi, km-vaajakoski
+[run] partial: kinometso has 2 venue(s) that have never produced a showtime: km-muurame, km-tikkakoski
+[run] nexxo: 8 venues, 69 showtimes, 3 stale, 2 unverified, 0 pending, 0 with no programme, 2 failures
+exit=1
