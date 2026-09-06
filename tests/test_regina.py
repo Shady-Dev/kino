@@ -340,7 +340,9 @@ class RunnerTest(unittest.TestCase):
     def main(self):
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main(["regina"])
+            # --half all: on Actions run.py derives "cloud" from GITHUB_ACTIONS, and a
+            # local module has no cloud sites (test_empty_programme does the same).
+            code = run.main(["regina", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
     def today(self):
@@ -459,7 +461,7 @@ class RegistryAndPagesTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("regina")
         self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
-                         ("Kino Regina", "kinoregina.fi", "buy", "regina", "cloud"))
+                         ("Kino Regina", "kinoregina.fi", "buy", "regina", "local"))
         self.assertEqual(p["accent"], "#8A4854")
         self.assertEqual(sum(1 for q in registry.PROVIDERS if q["accent"] == p["accent"]), 1)
         self.assertEqual((VENUE["id"], VENUE["name"], VENUE["short"], VENUE["city"]),

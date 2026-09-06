@@ -934,6 +934,16 @@ venue; an empty first window is asked for once more and then fails; `EMPTY_VENUE
 is gone from the module; the listing is not read. Whether Regina joins Engel on the local
 half is a decision for the run logs.
 
+Decided 2026-09-06: local. Of the six cloud runs after the fix, three were challenged (23:19,
+05:19 and 13:44 UTC), each recovering on the next run. The 13:44 diagnostics artifact
+(`ci_diag.py`) shows the same 167-byte shell for the homepage from that runner (centralus,
+HTTP 202), so SiteGround refuses the address for the whole host and an in-run retry cannot
+help. Failures came from northcentralus, westcentralus and centralus; passes from westus and
+westus3. Nothing selects a region on hosted runners. `where="local"` on the registry entry
+routes the module to the local half; the wrapper outside the repo needs its own block, log
+and `git add` entry for `regina`, and until that runs the committed `run-regina.log` still
+ends `exit=1` and the venue ages.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than

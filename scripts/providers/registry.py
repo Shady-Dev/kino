@@ -29,9 +29,9 @@ Fields:
   module  scripts/providers/{module}.py. One module can serve several providers
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
-  where   local | cloud. Finnkino, Kino Engel, Kino Akseli, Joutsan Kino and Savon
-          Kinot block datacenter IPs, so they can only be fetched from an ordinary
-          connection; everything else runs on Actions
+  where   local | cloud. Finnkino, Kino Engel, Kino Akseli, Joutsan Kino, Savon
+          Kinot and Kino Regina block or challenge datacenter IPs, so they can only be
+          fetched from an ordinary connection; everything else runs on Actions
 """
 
 PROVIDERS = [
@@ -205,7 +205,7 @@ PROVIDERS = [
     # search ranked higher on deutan fell to 12.5 to 14.1 in normal vision. Helsinki's
     # worst pair stays Finnkino/Cinema Orion at 14.4.
     dict(id="regina", label="Kino Regina", host="kinoregina.fi", accent="#8A4854",
-         book="buy", module="regina", where="cloud"),
+         book="buy", module="regina", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

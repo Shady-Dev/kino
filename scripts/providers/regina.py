@@ -41,8 +41,9 @@ at 16:57 UTC: a runner had received a small HTTP 202 challenge shell from SiteGr
 (`sg-f-cache`), which `fetch` accepts as success, while an ordinary connection got 21 rows.
 A page that is not the page has no `shows-coming` either, so a missing class is not
 evidence. A challenge shell is now recognised and named in the log, an empty answer is
-retried once and then fails, and the run logs decide whether this venue moves to the local
-half.
+retried once and then fails. Moved to the local half 2026-09-06: three of the next six
+cloud runs were challenged, and a diagnostics probe from a refused runner got the same shell
+for the homepage, so the address is refused for the whole host and a retry cannot help.
 """
 import datetime
 import html as html_mod
