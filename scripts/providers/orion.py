@@ -3,10 +3,14 @@
 Everything is server-rendered on one page: a `<table class="kinola-day">` per day, one
 `<tr>` per screening with date, time, title, price and the ticket link. One request.
 
-  * Ticket URLs come from the markup, never built. Most point at
-    orion.kinola.ee/web/screening/{uuid}, but festival screenings link to the festival's
-    own box office (Espoo Ciné -> boxoffice.espoocine.fi). A row with no link (free
-    admission) falls back to the programme page.
+  * Ticket URLs come from the markup, never built, but they are resolved against the
+    site before they are stored. The site published absolute orion.kinola.ee links until
+    2026-09-06 and now publishes site-relative ones (`/checkout/{uuid}`); a bare path
+    reaches the client as a bare path, and the browser resolves it against leffavuoro.fi,
+    which answers 404. urljoin leaves an absolute link alone, so festival screenings
+    keep pointing at the festival's own box office (Espoo Ciné ->
+    boxoffice.espoocine.fi). A row with no link (free admission) falls back to the
+    programme page.
   * The price cell's `title` attribute carries the ticket-type breakdown, so a screening
     with cheaper types reads "alkaen 8.5€".
 
@@ -32,6 +36,7 @@ Single screen, so `aud` stays blank. No age limits, runtimes or seat counts in t
 the TMDB pass fills what it can.
 """
 import datetime, html as html_mod, re, sys, unicodedata
+from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 from common import fetch
@@ -78,6 +83,14 @@ def _slug(title):
     s = unicodedata.normalize("NFKD", _txt(title).lower())
     s = "".join(c for c in s if not unicodedata.combining(c))
     return re.sub(r"-{2,}", "-", re.sub(r"[^a-z0-9]+", "-", s)).strip("-")[:60] or "naytos"
+
+
+def _ticket(href):
+    """The row's ticket link, resolved against the site. See the module docstring: the
+    site moved to site-relative paths, and a bare path stored here becomes a leffavuoro.fi
+    link in the client, because safeUrl passes a scheme-less URL through. An absolute
+    href, including a festival's own box office, comes back unchanged."""
+    return urljoin(URL, href) if href else URL
 
 
 def _num(v):
@@ -169,7 +182,7 @@ def parse(page, today=None):
                 "theatre": VENUE["name"],
                 "aud": "",
                 "start": start,
-                "url": html_mod.unescape(href.group(1)) if href else URL,
+                "url": _ticket(html_mod.unescape(href.group(1)) if href else ""),
                 "img": "",
                 "lang": "",
                 "soldOut": False,

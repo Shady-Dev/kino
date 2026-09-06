@@ -553,8 +553,11 @@ touches it.
 - Attribute quoting is loose (`title ="Film"`, `13&nbsp;€`).
 - The price cell's `title` attribute carries the ticket-type breakdown, so a screening
   with cheaper types shows "alkaen {cheapest}€".
-- Ticket URLs come from the markup, never built. On 2026-08-27 every row pointed at
-  `orion.kinola.ee/web/screening/{uuid}`, so the festival box-office case is unexercised.
+- Ticket URLs come from the markup, never built, but resolved against the site before
+  they are stored. On 2026-08-27 every row pointed at `orion.kinola.ee/web/screening/{uuid}`
+  and the festival box-office case was unexercised against the live page; the site moved to
+  site-relative `/checkout/{uuid}` by 2026-09-06, which is the entry below. Both shapes and
+  the box-office case are now covered by fixture in `tests/test_orion.py`.
 - Third-party events (festivals, HopeaCine, Pieni elokuvakerho, playback nights) are real
   screenings and stay. The strand name is split off into `method` from the shared list;
   added `espoo ciné`, `espoo cine`, `pieni elokuvakerho`, `pitchblack playback`,
@@ -568,6 +571,43 @@ touches it.
 - Wrong assumptions recorded so they are not repeated: ELKE's "Rajapinnat" page is an
   arts programme, not an API; the `naytokset` post type answers 200 with an empty list;
   Kinola exposes only an admin login and screening pages rendered client-side.
+
+### Cinema Orion's ticket links became site-relative, and reached the reader as ours (2026-09-06)
+The site moved from absolute `orion.kinola.ee/web/screening/{uuid}` links to site-relative
+`/checkout/{uuid}` ones. `orion.py` stored the row's href verbatim, so the bare path went
+into the data and out to the two surfaces, which failed differently:
+
+- The app rendered `href="/checkout/{uuid}"`. `safeUrl` allows a URL with no scheme,
+  because it only rejects a scheme that is not http or https, so the browser resolved the
+  path against leffavuoro.fi and all 14 showtimes pointed at a 404 on this origin. Checked
+  with `curl` against our own host; cinemaorion.fi's checkout was never called.
+- The static pages dropped the link instead. `build_pages.py:656` renders a URL that does
+  not start with `http` as a `<span>` rather than an `<a>`, and line 735 leaves `url` and
+  the price offer out of the JSON-LD, so the Orion page shipped 14 unlinked showtimes and
+  no offers rather than 14 wrong links.
+
+Fix: `_ticket()` resolves the href with `urljoin` against `URL`, which leaves an absolute
+link alone. That matters here rather than being a detail of urljoin: festival rows link to
+the festival's own box office (Espoo Ciné to boxoffice.espoocine.fi) and must not be
+dragged onto cinemaorion.fi. A row with no link still falls back to the programme page.
+
+Orion was the only provider storing a relative URL, measured across the 36 providers whose
+shows carry a `provider` field (Finnkino's do not): every other ticket host matched or
+ended with its registry host. After the refetch all 14 are absolute on cinemaorion.fi with
+the uuids unchanged, and the four regenerated pages carry 11 ticket links where they
+carried none.
+
+`tests/test_orion.py`, 6 tests, five mutations red. The general one is
+`test_every_stored_url_is_absolute_http`: a URL with no scheme and no host is a link to
+this origin whatever it was meant to be, and that is the assertion that would have caught
+the change on the day the site made it. A sixth mutation was discarded rather than
+recorded as a break: `urljoin(URL, "")` already returns `URL`, so removing the explicit
+fallback is an equivalent rewrite.
+
+Left alone on purpose, because it is a client decision rather than a parser one: `safeUrl`
+still accepts a scheme-less URL, so the next provider that publishes a bare path repeats
+this. Deciding whether the client should reject one, or resolve it against the provider
+host, is a separate change.
 
 ### Kino Engel (added 2026-08-29)
 `scripts/providers/engel.py`, one venue, runs locally. Accent `#B47ACC`.
