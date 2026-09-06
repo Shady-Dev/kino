@@ -1480,6 +1480,38 @@ the local half's committed logs and an old Engel failure started probes; hosts c
 
 Validation: `tests/test_ci_diag.py`, 14 tests against a local server, 21 of 21 mutations red.
 
+Readings, to be folded into the Nexxo and Regina notes when the step is removed.
+
+2026-09-06 13:44 UTC, Regina, centralus. The homepage answered the same 167-byte SiteGround
+shell as the schedule window, HTTP 202, so the refusal covers the host rather than one
+endpoint. Settled `where="local"`; see the Kino Regina entry.
+
+2026-09-06 17:11 UTC, Nexxo, run 34047817637, `event: schedule`, northcentralus.
+`jarvelankino.fi` (5.44.245.76) timed out after 15.3 s. The module's five other hosts,
+probed from the same runner seconds later, all answered 200 in under 3.3 s, `kinoaurora.fi`
+(5.44.244.43) among them on the neighbouring address. The refusal was therefore the host's:
+the runner had a route out to every other Nexxo address in the same seconds. That is the
+opposite of the Regina reading, where the whole host was shut, and the two get different
+fixes for that reason.
+
+The region is shared with runs that passed. What this run had extra was a second sweep. A
+`workflow_dispatch` from the local wrapper and a `schedule` run were created six seconds
+apart, and the `kino-data` concurrency group did exactly what it is for: the dispatched job
+ran 17:11:24 to 17:15:54 and the scheduled job 17:15:56 to 17:21:48, back to back. Both
+swept the same six hosts, so `jarvelankino.fi` was read twice inside seven minutes, at
+17:13:19 and again after 17:16, and refused the second. That is the leading explanation so
+far. One more paired run either repeats it or kills it.
+
+The hour rule in the Nexxo notes was written for a dispatch made by hand, and nothing
+applies it to a queued run: `cancel-in-progress: false` makes a duplicate wait instead of
+drop, which converts an overlap into a back-to-back pair. Dropping a queued run is a
+different change from cancelling a running one, and it is a decision for the owner rather
+than something to slip in here.
+
+One thing this cannot answer: the cron is `30 2,6,10,14` UTC and this `schedule` run was
+created at 17:11:27, so GitHub delivered it late by a margin nothing here can measure. It
+matters only because a late schedule is what landed on top of the wrapper's dispatch.
+
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
 - A break-and-restore test pass can report the state before the restore. Writing the file
