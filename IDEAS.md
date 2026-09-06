@@ -986,15 +986,23 @@ Joutsan Kino's so the run mirrors the posters it brings in: 15 of the venue's 20
 carry one. No `--half` flag, because the module has one site, that site is local, and off a
 runner `half_of` defaults to `all`, which selects the same site.
 
-What is verified so far is local and partial. `zsh -n` accepts the wrapper, and
-`run.py regina` from an ordinary connection returned 20 showtimes over 8 dates and exit 0,
-which shows the adapter and the routing work from an address the host answers. It does not
-exercise the block as the wrapper runs it: the `tee`, the `pipestatus` read, the
-`exit=` line and the `git add` entry have never executed. Recovery is pending until a
-scheduled local run publishes fresh data and a `run-regina.log` ending `exit=0`. Until
-then the committed log still ends `exit=1`, `Check run logs` stays red on local pushes,
-and the venue's data ages from 2026-09-06 11:15 UTC. Read the committed log after the next
-local push rather than treating the block as done.
+Before the wrapper had run, what was verified was local and partial: `zsh -n` accepts the
+wrapper, and `run.py regina` from an ordinary connection returned 20 showtimes over 8 dates
+and exit 0, which covers the adapter and the routing but not the block as the wrapper runs
+it.
+
+**Recovered on the local run of 2026-09-06 23:11 UTC** (`85281746`). `run-regina.log` ends
+`exit=0` with 17 showtimes over 7 dates, `data/area-regina-helsinki.json` is in the same
+commit with `generated` at 23:11:19Z against 11:14:51Z before it, and the four parts that
+had never executed all did: `tee` wrote the run's output, the `pipestatus` read produced
+the appended `exit=` line, and the `git add` entry staged the log and the data together.
+The drop from 20 showtimes to 17 is the programme moving as a day passed, not a loss.
+
+`Check run logs` went red on that same push, which was the ordinary case rather than a new
+fault: the tree still carried the cloud `run-nexxo.log` from 17:11, and a local push is
+checked against every committed log including the cloud half's. Bot pushes do not trigger
+that workflow, so the red clears on the next cloud run rather than on a rerun. It did:
+`19f97e8a` has nexxo at `exit=0` and all 18 committed run logs ending `exit=0`.
 
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
