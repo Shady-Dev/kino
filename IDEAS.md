@@ -984,10 +984,17 @@ routes the module to the local half. The wrapper outside the repo got its block,
 `run-regina.log` and its `git add` entry on 2026-09-06, placed before the poster step like
 Joutsan Kino's so the run mirrors the posters it brings in: 15 of the venue's 20 showtimes
 carry one. No `--half` flag, because the module has one site, that site is local, and off a
-runner `half_of` defaults to `all`, which selects the same site. A fetch from an ordinary
-connection that evening returned 20 showtimes over 8 dates and exit 0, so the routing is
-the whole fix. The committed `run-regina.log` still ends `exit=1` and keeps `Check run
-logs` red until the first local run overwrites it.
+runner `half_of` defaults to `all`, which selects the same site.
+
+What is verified so far is local and partial. `zsh -n` accepts the wrapper, and
+`run.py regina` from an ordinary connection returned 20 showtimes over 8 dates and exit 0,
+which shows the adapter and the routing work from an address the host answers. It does not
+exercise the block as the wrapper runs it: the `tee`, the `pipestatus` read, the
+`exit=` line and the `git add` entry have never executed. Recovery is pending until a
+scheduled local run publishes fresh data and a `run-regina.log` ending `exit=0`. Until
+then the committed log still ends `exit=1`, `Check run logs` stays red on local pushes,
+and the venue's data ages from 2026-09-06 11:15 UTC. Read the committed log after the next
+local push rather than treating the block as done.
 
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
