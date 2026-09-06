@@ -1,16 +1,16 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 12 showtimes, 5 dates
-[kotkanleffat] Trio 123: 40 showtimes, 5 dates
+[kotkanleffat] Kinopalatsi Kotka: 11 showtimes, 5 dates
+[kotkanleffat] Trio 123: 38 showtimes, 5 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 45 showtimes, 9 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 49 showtimes, 6 dates
+[kinopirtti] Kinopirtti: 46 showtimes, 6 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 83 showtimes, 12 dates
+[leffabuumi] Kinolinna: 80 showtimes, 12 dates
 [leffabuumi] Kino Ritz: 16 showtimes, 12 dates
 [leffabuumi] Kino Saimaa: 5 showtimes, 4 dates
 [studio123jarvenpaa] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 29 showtimes, 5 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 27 showtimes, 5 dates
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 31 showtimes, 6 dates
 [ihmekompleksi] synopses merged: 0
@@ -22,19 +22,19 @@
 [kinojuha] synopses merged: 0
 [kinojuha] Kino Juha: 5 showtimes, 3 dates
 [biogrand] synopses merged: 0
-[biogrand] Bio Grand: 13 showtimes, 5 dates
+[biogrand] Bio Grand: 11 showtimes, 5 dates
 [biovuoksi] synopses merged: 0
 [biovuoksi] synopses skipped as screening notes (price): 1
-[biovuoksi] Bio Vuoksi: 14 showtimes, 5 dates
+[biovuoksi] Bio Vuoksi: 13 showtimes, 5 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 17 showtimes, 5 dates
+[kinoiiris] Kino Iiris: 15 showtimes, 5 dates
 [kkino] synopses merged: 0
-[kkino] synopses skipped as screening notes (price): 9
-[kkino] K-Kino: 9 showtimes, 5 dates
+[kkino] synopses skipped as screening notes (price): 8
+[kkino] K-Kino: 8 showtimes, 5 dates
 [biograni] synopses merged: 0
-[biograni] Bio Grani: 6 showtimes, 4 dates
+[biograni] Bio Grani: 5 showtimes, 4 dates
 [niagara] synopses merged: 0
-[niagara] Cinema Niagara: 29 showtimes, 10 dates
-[run] http: 0 revalidated (304), 191 full, 191 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 478 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] Cinema Niagara: 28 showtimes, 10 dates
+[run] http: 0 revalidated (304), 189 full, 189 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 459 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
