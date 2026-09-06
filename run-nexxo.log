@@ -20,9 +20,9 @@
 [kinoolympia] Kino Olympia (Hanko): 6 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 6 showtimes, 3 dates
-[jarvelankino] Järvelän Kino (Järvelä): 5 showtimes
+[jarvelankino] locationid 1 FAILED: <urlopen error timed out>
 [jarvelankino] synopses merged: 0
-[jarvelankino] Järvelän Kino: 5 showtimes, 4 dates
+[jarvelankino] Järvelän Kino: no showtimes, keeping previous data from 2026-09-06T17:13:19+00:00
 [kinometso] Muurame (Muurame): 0 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 5 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
@@ -32,7 +32,8 @@
 [kinometso] Petäjävesi: 5 showtimes, 3 dates
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
-[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 9 full, 9 not stored (origin said no-store), 0 cache entries written
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-muurame, km-tikkakoski
-[run] nexxo: 11 venues, 103 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-exit=0
+[run] partial: jarvelankino kept previous data for 1 venue(s): ja-jarvela
+[run] nexxo: 10 venues, 98 showtimes, 1 stale, 0 unverified, 2 pending, 0 with no programme, 1 failures
+exit=1
