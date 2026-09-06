@@ -58,6 +58,21 @@ jobs:
             tail -6 "run-$m.log"
           done
           echo "$fail" > "$RUNNER_TEMP/provfail"
+      # Temporary, self-disarming on the --until date. Runs fail against Nexxo and
+      # Regina hosts from some runner addresses and not others; the committed logs do not
+      # record the address. On a failed provider this probes the failing modules' hosts
+      # from the same runner and uploads region, egress address, status, timing, a fixed
+      # header set and body length as an artifact kept two days. No bodies, no
+      # environment, nothing committed. upload-artifact v7.0.1, resolved 2026-09-06.
+      - name: Diagnose provider failures
+        id: diag
+        run: python3 scripts/ci_diag.py --out "$RUNNER_TEMP/diag" --until 2026-09-09
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: steps.diag.outputs.report == 'true'
+        with:
+          name: provider-diag-${{ github.run_id }}
+          path: ${{ runner.temp }}/diag
+          retention-days: 2
       - name: Enrich with TMDB
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}

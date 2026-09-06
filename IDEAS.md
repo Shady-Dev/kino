@@ -1441,6 +1441,23 @@ architecture decisions, per-provider API research and the backlog. `cf-worker/wo
 and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted 2026-08-27. `run-*.log`
 files in the repo root are committed per run by design.
 
+## Cloud run diagnostics artifact (2026-09-06, temporary until 2026-09-09)
+Problem: three of five cloud runs on 2026-09-05/06 failed against Nexxo and Regina hosts
+(origin 403, timeouts, a SiteGround challenge on one window), each cleared by the next run.
+Runner region did not explain it: `westus` appeared on both sides. The committed logs do not
+record the runner's address, and Actions job logs need a sign-in, so nothing correlated
+failures with addresses.
+
+Decision: `scripts/ci_diag.py` runs in `biorex.yml` right after the provider loop. When a
+`run-*.log` ends non-zero it probes the failing modules' hosts from the same runner and
+records region (Azure IMDS), egress address, DNS answer, status, timing, a fixed header set
+and body length. Uploaded with `actions/upload-artifact` (v7.0.1, SHA-pinned), two-day
+retention, gated on the step's `report` output. Nothing is committed and no response body
+or environment is recorded, for the same reason raw probe dumps are banned. The step
+disarms itself after `--until`; remove it and this entry once the answer is in.
+
+Validation: `tests/test_ci_diag.py`, 9 tests against a local server, 14 of 14 mutations red.
+
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
 - A break-and-restore test pass can report the state before the restore. Writing the file
