@@ -1,8 +1,8 @@
 [engel] 1 date(s) listed with no time anywhere, skipped: 10-02 -- La Grazia | Rose
-[engel] film pages: 17 parsed, 0 with nothing usable, 29/30 showtimes rated
+[engel] film pages: 17 parsed, 0 with nothing usable, 25/26 showtimes rated
 [engel] strand prefix split off 1 showtimes
 [engel] synopses merged: 0
-[engel] Kino Engel: 30 showtimes, 7 dates
+[engel] Kino Engel: 26 showtimes, 6 dates
 [run] http: 0 revalidated (304), 18 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] engel: 1 venues, 30 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 26 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
