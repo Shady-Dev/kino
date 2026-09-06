@@ -1529,18 +1529,22 @@ endpoint. Settled `where="local"`; see the Kino Regina entry.
 2026-09-06 17:11 UTC, Nexxo, run 34047817637, `event: schedule`, northcentralus.
 `jarvelankino.fi` (5.44.245.76) timed out after 15.3 s. The module's five other hosts,
 probed from the same runner seconds later, all answered 200 in under 3.3 s, `kinoaurora.fi`
-(5.44.244.43) among them on the neighbouring address. The refusal was therefore the host's:
-the runner had a route out to every other Nexxo address in the same seconds. That is the
-opposite of the Regina reading, where the whole host was shut, and the two get different
-fixes for that reason.
+(5.44.244.43) among them on the neighbouring address. What that narrows down is where the
+problem sits, not what it was: the runner had a route out to every other Nexxo address in
+the same seconds, so the fault was specific to `jarvelankino.fi` or to the path to it. A
+timeout says only that no answer arrived in 15.3 s. It is not evidence of a refusal, a
+block or a rate limit, and it carries no mechanism at all, which is the difference from
+the Regina reading, where a 202 shell with SiteGround's headers named itself.
 
 The region is shared with runs that passed. What this run had extra was a second sweep. A
 `workflow_dispatch` from the local wrapper and a `schedule` run were created six seconds
 apart, and the `kino-data` concurrency group did exactly what it is for: the dispatched job
 ran 17:11:24 to 17:15:54 and the scheduled job 17:15:56 to 17:21:48, back to back. Both
 swept the same six hosts, so `jarvelankino.fi` was read twice inside seven minutes, at
-17:13:19 and again after 17:16, and refused the second. That is the leading explanation so
-far. One more paired run either repeats it or kills it.
+17:13:19 and again after 17:16, and it did not answer the second time. Closely spaced runs
+are the hypothesis that suggests, and nothing here tests it: the pairing and the timeout
+are both measured, the link between them is not. One more paired run either supports it or
+kills it, and a timeout in a run with no pair beside it kills it outright.
 
 The hour rule in the Nexxo notes was written for a dispatch made by hand, and nothing
 applies it to a queued run: `cancel-in-progress: false` makes a duplicate wait instead of
