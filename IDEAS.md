@@ -1550,8 +1550,23 @@ ran 17:11:24 to 17:15:54 and the scheduled job 17:15:56 to 17:21:48, back to bac
 swept the same six hosts, so `jarvelankino.fi` was read twice inside seven minutes, at
 17:13:19 and again after 17:16, and it did not answer the second time. Closely spaced runs
 are the hypothesis that suggests, and nothing here tests it: the pairing and the timeout
-are both measured, the link between them is not. One more paired run either supports it or
-kills it, and a timeout in a run with no pair beside it kills it outright.
+are both measured, the link between them is not.
+
+Neither of the two observations still to come settles it, so record them as what they are.
+A second paired run that times out is consistent with the hypothesis and does not
+establish it: the pairing would repeat, but so would everything else about the setup, and
+a second instance of an uncontrolled observation is another data point rather than a test.
+A timeout with no pair beside it weakens the paired-run explanation without ruling out
+rate limiting, which can act over a window longer than the gap between two runs or on
+cumulative volume rather than spacing, and the timeout may have nothing to do with limiting
+at all.
+
+What would discriminate is varying the spacing deliberately and watching the host, which
+is not available here: the cadence is a schedule plus a wrapper dispatch, the host is a
+third party read as an ordinary visitor, and probing it to settle our own question is not
+something to do to someone else's server. So this stays a standing observation that gets
+more or less likely, and the entry should not be rewritten later as though a run count
+proved it.
 
 The hour rule in the Nexxo notes was written for a dispatch made by hand, and nothing
 applies it to a queued run: `cancel-in-progress: false` makes a duplicate wait instead of
