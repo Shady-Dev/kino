@@ -200,6 +200,16 @@ def parse(payload, site, pages=None):
     pages = pages or {}
     doc = (payload.get("fi") or {}).get("data") or []
     per_venue = {}
+    # The feed lists a film twice. Read on 2026-09-07 it held 39 film records for 33
+    # distinct `movie_id`s: six films appeared as two copies that differ in one field,
+    # `premiere`, and each copy carried the same `show_times`. Both copies parsed, so 44
+    # of 183 rows were repeats and the app drew each as its own stub -- "Presidentin
+    # kyyditys" showed twice at 14:40 in Gilda 3 on 12 September. Nothing here reads
+    # `premiere`, so the copies are interchangeable, and the guard is on the screening
+    # rather than the record: venue, start, film and auditorium identify one screening,
+    # whatever shape the feed arrives in.
+    seen = set()
+    dropped = 0
     for film in doc:
         poster = (film.get("movie_poster") or "").strip()
         mid = film.get("movie_id")
@@ -248,7 +258,14 @@ def parse(payload, site, pages=None):
             }
             if syn:
                 row["_syn"] = syn
+            key = (venue["id"], start, row["eventId"], row["aud"])
+            if key in seen:
+                dropped += 1
+                continue
+            seen.add(key)
             per_venue.setdefault(venue["id"], []).append(row)
+    if dropped:
+        print(f"[{site['provider']}] dropped {dropped} duplicate showtime(s)")
     return per_venue
 
 

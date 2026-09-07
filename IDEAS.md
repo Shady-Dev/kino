@@ -529,6 +529,19 @@ GET {base}/wp-json/gilda-react-booking/v1/cinemas    -> cinema_id 15, Narinkka 2
 - The main house is Gilda Kamppi; `short` carries "Kamppi" so the client does not render
   "Gilda Gilda". The sibling keeps `short: "Bio Rex Lasipalatsi"`.
 - Seat counts would need the closed seatplan endpoint, so `soldOut` is always false.
+- **The feed lists a film twice (2026-09-07).** Read live it returned 39 film records for
+  33 distinct `movie_id`s: six films arrived as two copies differing in exactly one field,
+  `premiere`, each carrying the same `show_times`. Both parsed, so 44 of 183 rows were
+  duplicates and the app drew each as its own stub: "Presidentin kyyditys" showed twice at
+  14:40 in Gilda 3 on 12 September, and the committed data held 43 byte-identical rows.
+  The `show_times` list inside a film has no repeats, so the duplication is at the film
+  level, and nothing here reads `premiere`, which makes the copies interchangeable. The
+  key is the screening rather than the record -- venue, start, film and auditorium -- so
+  it holds whatever shape the feed arrives in, and `parse` prints how many rows it
+  dropped. Every component of that key is tested: dropping the
+  venue collapses one film playing both houses at one time, dropping the start collapses a
+  matinee into an evening show, dropping the auditorium collapses two screens, and
+  dropping the film id collapses two films whose screen names `_aud` blanked.
 
 ### Cinema Orion (added 2026-08-27)
 `scripts/providers/orion.py`. One venue, Eerikinkatu 15, Helsinki, run by ELKE ry. Single
