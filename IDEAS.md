@@ -883,8 +883,30 @@ but sits at L\* 36.4, under the band the 3 px borders stay legible in.
 Star gives Oulu a second cinema and a combined city row. It does not give Oulu an area: an
 area needs two cinema cities.
 
-Cloud routing is provisional until the first committed run. Nothing in the read suggests a
-datacenter block, and only a run from Actions settles it.
+Cloud routing was provisional until the first committed run, and the run settled it the
+other way. See "Cine and Star answer an ordinary connection and 403 a runner".
+
+### Cine and Star answer an ordinary connection and 403 a runner (2026-09-08)
+Both were registered `where="cloud"`, since nothing in a read from an ordinary connection
+suggested otherwise. The first cloud run after they landed failed both:
+
+    [http] 403 from kiertue.cine.fi, gave up after 3 attempt(s) -- Server: cloudflare
+    [http] 403 from lippu.elokuvateatteristar.fi, gave up after 3 attempt(s) -- cloudflare
+
+CF-Ray present, no Retry-After, edge datacenter DFW. The same two URLs answered 200 from
+an ordinary connection minutes later, and had answered 200 on 2026-09-07 when the adapters
+were written. That is Savon Kinot's signature exactly, so both move to `where="local"`.
+
+`run.py` filters SITES by half, so the etiketti module now reads four sites locally and
+sixteen on Actions. The wrapper needs no new block: etiketti already runs a local half for
+Savon Kinot and Joutsan Kino, and it stages `data` wholesale.
+
+The run committed its data and still exited 1, which is the intended behaviour: a provider
+that parses nothing fails the run rather than letting old data age quietly. The other
+sixteen eTiketti sites wrote 715 showtimes across 19 venues in the same run.
+
+`tests/test_run_routing.py` pins the local list, so a site moving between halves stays a
+decision rather than a side effect.
 
 ### The accent rule covers regions as well as cities (2026-09-07)
 `scripts/accent_check.py` compared chains that share a city. Region rows shipped in v125

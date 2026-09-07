@@ -108,15 +108,19 @@ class LiveRegistryTest(unittest.TestCase):
         self.assertIn("joutsankino", ids(run.sites_for(etiketti, "local")))
         self.assertGreater(len(run.sites_for(etiketti, "cloud")), 1)
 
-    def test_the_local_etiketti_sites_are_exactly_savon_kinot_and_joutsan_kino(self):
-        """Savon Kinot joined the local half on 2026-09-04: savonkinot.fi sits behind
-        Cloudflare, which answers a datacenter address 403 at the edge while an ordinary
-        connection gets 200. The list is explicit so a site drifting between halves is a
-        failing test and a decision, never a side effect of a registry edit."""
+    def test_the_local_etiketti_sites_are_the_four_that_403_a_runner(self):
+        """Savon Kinot joined the local half on 2026-09-04, Cine and Star on 2026-09-08:
+        each sits behind Cloudflare, which answers a datacenter address 403 at the edge
+        while an ordinary connection gets 200. The list is explicit so a site drifting
+        between halves is a failing test and a decision, never a side effect of a
+        registry edit."""
         etiketti = importlib.import_module("etiketti")
-        self.assertEqual(ids(run.sites_for(etiketti, "local")), ["savonkinot", "joutsankino"])
-        self.assertEqual(registry.by_id("savonkinot")["where"], "local")
-        self.assertNotIn("savonkinot", ids(run.sites_for(etiketti, "cloud")))
+        self.assertEqual(ids(run.sites_for(etiketti, "local")),
+                         ["savonkinot", "joutsankino", "cine", "star"])
+        for pid in ("savonkinot", "cine", "star"):
+            with self.subTest(provider=pid):
+                self.assertEqual(registry.by_id(pid)["where"], "local")
+                self.assertNotIn(pid, ids(run.sites_for(etiketti, "cloud")))
 
 
 if __name__ == "__main__":

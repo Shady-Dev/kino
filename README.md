@@ -57,7 +57,7 @@ cloud workflow. It takes a fresh Finnkino token from a real browser session each
 run, so there is no stored credential and nothing to rotate. There is no cloud
 fallback: a runner cannot obtain a token at all, since the site answers
 Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
-how two eTiketti cinemas can be local while the other eighteen run on Actions.
+how four eTiketti cinemas can be local while the other sixteen run on Actions.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `run.log` and
