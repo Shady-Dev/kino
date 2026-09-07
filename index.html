@@ -353,12 +353,12 @@
   .cal-note{display:block; margin-top:10px; font-size:.7rem; color:var(--muted); text-align:center}
   /* Past showtimes are hidden by default. The toggle lives on the meta line, so it
      costs no header space and no slot in the showtime grid. */
-  .pastlink{
+  .pastlink, .synmore{
     font:inherit; font-size:inherit; cursor:pointer; padding:0;
     background:none; border:0; border-bottom:1px dotted currentColor;
     color:var(--muted);
   }
-  .pastlink:hover{color:var(--ink)}
+  .pastlink:hover, .synmore:hover{color:var(--ink)}
   .daydone{
     max-width:1100px; margin:26px auto 4px; padding:0 0 8px;
     border-bottom:1px solid var(--line);
@@ -529,7 +529,9 @@
   .sheet-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch; padding:0 20px 28px;
     border-top:1px solid var(--line)}
-  .sheet-body > .syn:first-child{margin-top:14px}
+  /* The times come first in the body now, so these are the elements that meet the
+     border and the sticky chain key. */
+  .sheet-body > .sheet-days:first-child{margin-top:10px}
   /* The chain key has to stay put while the day list scrolls: a long film has 40+ stubs
      over several days, and the colour on a stub means nothing once the key has scrolled
      away. Negative margins span the body's 20 px padding so the sticky strip reaches
@@ -539,10 +541,15 @@
     margin:0 -20px; padding:10px 20px;
     background:var(--bg); border-bottom:1px solid var(--line);
   }
-  .sheet-body > .legend + .syn{margin-top:14px}
+  .sheet-body > .legend + .sheet-days{margin-top:10px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
+  /* Four lines and the rest behind the toggle. -webkit-line-clamp is the only property
+     that clamps by line box; it works in every engine that ships this app. */
+  .syn.clamp{display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;
+    overflow:hidden}
+  .synmore{margin-top:8px}
   .trailer{display:inline-block; margin-top:12px; color:var(--accent-text); font-weight:700;
     text-decoration:none; font-size:.88rem}
   .sheet-days{margin-top:6px}
@@ -551,6 +558,11 @@
 
   /* Ticket stubs -- the signature */
   .stubs{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px}
+  /* `hidden` is display:none in the UA sheet, which any author `display` outranks, so the
+     collapsed past times rendered in full. `.stubs.grid` sets display:grid at the same
+     0,2,0 specificity and sits further down the file, so the hidden rule has to name both
+     classes to win rather than depend on order. */
+  .stubs[hidden], .stubs.grid[hidden]{display:none}
   /* A ticket needs about 240 px before a second column is worth having: 64 px of time,
      up to 75 px of "alkaen 10€", and 90 px for the cinema's name to keep its words. The
      film sheet is where this bit -- 335 px wide at 375, so minmax(168px) gave two 163 px
@@ -1015,6 +1027,7 @@
          notpublished:'Tämän päivän ohjelmistoa ei ole vielä julkaistu.',
          onlyDays:'Valittavissa ovat vain päivät, joille on näytöksiä.',
          showPast:'Näytä {n} aiempaa', showPastOne:'Näytä aiempi', hidePast:'Piilota aiemmat',
+         synMore:'Lue koko kuvaus', synLess:'Näytä vähemmän',
          nextShows:'Seuraavat näytökset',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
@@ -1068,6 +1081,7 @@
          notpublished:'Programmet för denna dag har inte publicerats ännu.',
          onlyDays:'Endast dagar med föreställningar kan väljas.',
          showPast:'Visa {n} tidigare', showPastOne:'Visa en tidigare', hidePast:'Dölj tidigare',
+         synMore:'Läs hela beskrivningen', synLess:'Visa mindre',
          nextShows:'Nästa föreställningar',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
@@ -1118,6 +1132,7 @@
          notpublished:'The schedule for this day has not been published yet.',
          onlyDays:'Only days with screenings can be picked.',
          showPast:'Show {n} earlier', showPastOne:'Show 1 earlier', hidePast:'Hide earlier',
+         synMore:'Read full description', synLess:'Show less',
          nextShows:'Next screenings',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
@@ -2893,9 +2908,8 @@
     // Across venues, "Sali 7" alone says nothing about which cinema: label the venue and
     // tint by chain, exactly as the main list does.
     const multi = labelVenues(all);
-    const days = [...byDay.entries()].map(([k, arr]) =>
-      `<h3>${k}</h3><div class="${multi ? 'stubs grid' : 'stubs'}">` +
-      arr.map(s => {
+    const stubsCls = multi ? 'stubs grid' : 'stubs';
+    const stub = s => {
         const past = s.start < now;
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
@@ -2905,8 +2919,34 @@
         const own_price = priceLabel([s]);
         return `<a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>`;
-      }).join('') + '</div>').join('');
+    };
+    // Past times sat in the grid dimmed, so a film with a matinee opened on times nobody
+    // can book. Hidden behind the control the list already uses, and above the upcoming
+    // ones so revealing them keeps the day in order. A day where everything has passed
+    // keeps its times, since an empty group would look broken; the cards do the same.
+    const grid = rows => `<div class="${stubsCls}">` + rows.map(stub).join('') + '</div>';
+    const days = [...byDay.entries()].map(([k, arr], i) => {
+      const ahead = arr.filter(s => s.start >= now);
+      const gone = arr.filter(s => s.start < now);
+      if(!ahead.length) return `<h3>${k}</h3>` + grid(arr);
+      if(!gone.length) return `<h3>${k}</h3>` + grid(ahead);
+      return `<h3>${k}</h3>`
+        + `<button class="pastlink" data-pastday="${i}" aria-expanded="false">`
+        + esc(pastLabel(false, gone.length, L[lang])) + '</button>'
+        + `<div class="${stubsCls}" data-pastfor="${i}" hidden>`
+        + gone.map(stub).join('') + '</div>'
+        + grid(ahead);
+    }).join('');
     const legend = multi ? chainLegend(all) : '';
+    // A TMDB overview runs past 600 characters. Above the times it filled a phone screen
+    // and pushed every showtime below the fold, so it now sits under them, clamped to
+    // four lines. Short ones are left alone: a toggle over two lines is not worth it.
+    const synLong = syn.length > 260;
+    const synHtml = syn
+      ? `<p class="syn${synLong ? ' clamp' : ''}">${esc(syn)}</p>`
+        + (synLong ? `<button class="synmore" type="button" aria-expanded="false">`
+                     + `${esc(L[lang].synMore)}</button>` : '')
+      : '';
     // A direct #m= link to a film this venue is not showing opens the sheet with nothing
     // in it; say so instead of showing an empty head.
     const body = days || `<div class="status">${L[lang].sheetNone}</div>`;
@@ -2922,10 +2962,29 @@
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">${legend}
-        ${syn ? `<p class="syn">${esc(syn)}</p>` : ''}
         <div class="sheet-days">${body}</div>
+        ${synHtml}
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
+    // Both toggles work on the markup that is already there: no re-render, so the
+    // scroll position and the open day stay where the reader left them.
+    for(const b of sheetEl.querySelectorAll('[data-pastday]')){
+      b.onclick = () => {
+        const box = sheetEl.querySelector(`[data-pastfor="${b.dataset.pastday}"]`);
+        if(!box) return;
+        box.hidden = !box.hidden;
+        b.setAttribute('aria-expanded', String(!box.hidden));
+        b.textContent = pastLabel(!box.hidden, box.children.length, L[state.lang]);
+      };
+    }
+    const synBtn = sheetEl.querySelector('.synmore');
+    if(synBtn) synBtn.onclick = () => {
+      const p = sheetEl.querySelector('.syn');
+      if(!p) return;
+      const open = !p.classList.toggle('clamp');
+      synBtn.setAttribute('aria-expanded', String(open));
+      synBtn.textContent = open ? L[state.lang].synLess : L[state.lang].synMore;
+    };
     document.body.classList.add('sheet-open');
     // Order matters: un-inert before focusing, or the focus call is a no-op.
     sheetEl.inert = false;

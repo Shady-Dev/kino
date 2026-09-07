@@ -1472,6 +1472,32 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The film sheet shows the times before the synopsis (2026-09-07, v126)
+On a phone the sheet opened with a 600-character synopsis and then every screening of the
+day, the ones that had already started included: Autofiktio's first bookable showtime was
+below the fold behind text and times nobody can book. Three changes:
+
+- The day list moved above the synopsis. Order in the template is order on screen, since
+  the body is one assignment.
+- Past times sit behind `pastLabel`, the pure function the cards' toggle already uses, so
+  the sheet cannot drift into its own wording or its own singular rule. The collapsed block
+  sits above the upcoming times, so revealing it keeps the day in order, and a day where
+  everything has passed keeps its times, since an empty group would look broken; the cards
+  do the same.
+- A synopsis over 260 characters is clamped to four lines, with the toggle beside it. Short
+  ones are left alone; a toggle over two lines is not worth it.
+
+Both toggles work on the markup that is already there, so nothing re-renders and the
+scroll position and the open day stay put.
+
+**`hidden` did not collapse the block.** `hidden` is `display:none` in the UA
+stylesheet, which any author `display` outranks: `.stubs.grid{display:grid}` matches the
+collapsed block at the same 0,2,0 specificity and sits further down the file, so the past
+times rendered in full while the DOM said `hidden`. The rule names both classes rather than
+relying on order, and the test asserts the ordering too. Measured after: at 390x844 the
+first bookable showtime sits at y=466 with eight stubs visible unscrolled, and the
+synopsis renders at 94 px.
+
 ### The picker browses cities or regions (2026-09-07)
 Someone in Espoo who would drive the 15 km to Tennispalatsi had to know to look under
 Helsinki. The combined city view answered that inside one city and nowhere else, and the
