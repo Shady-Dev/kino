@@ -6,7 +6,7 @@
 [kinopirtti] synopses merged: 0
 [kinopirtti] Kinopirtti: 99 showtimes, 12 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 71 showtimes, 11 dates
+[leffabuumi] Kinolinna: 70 showtimes, 11 dates
 [leffabuumi] Kino Ritz: 13 showtimes, 10 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [studio123jarvenpaa] synopses merged: 0
@@ -16,8 +16,8 @@
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 12 showtimes, 5 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 83 showtimes, 11 dates
-[kinotar] synopses merged: 1
+[kino123] Kino 123: 81 showtimes, 11 dates
+[kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 30 showtimes, 9 dates
 [kinojuha] synopses merged: 0
 [kinojuha] Kino Juha: 16 showtimes, 8 dates
@@ -36,5 +36,5 @@
 [niagara] synopses merged: 0
 [niagara] Cinema Niagara: 21 showtimes, 8 dates
 [run] http: 0 revalidated (304), 212 full, 212 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 728 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 19 venues, 725 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
