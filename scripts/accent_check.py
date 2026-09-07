@@ -3,7 +3,7 @@
 
 Run it:
 
-    python3 scripts/accent_check.py            # same-city pairs, worst first
+    python3 scripts/accent_check.py            # shared-view pairs, worst first
     python3 scripts/accent_check.py --all      # every pair
     python3 scripts/accent_check.py --candidate '#B47ACC' --city Helsinki,Tampere
     python3 scripts/accent_check.py --selftest # CIEDE2000 against Sharma's test data
@@ -26,9 +26,11 @@ WHAT IS COMPUTED, EXACTLY
 4. CIEDE2000 (Sharma, Wu & Dalal 2005 formulation), kL = kC = kH = 1.
 
 A pair's separation is its dE00. For a set, the figure that matters is the minimum over
-the pairs that can appear together.
+the pairs that can appear together. Two views put chains side by side: a combined city,
+and a region row from registry.REGIONS. Both are checked.
 """
 import argparse
+import importlib
 import json
 import math
 import pathlib
@@ -195,12 +197,48 @@ def cities_by_provider():
     return out
 
 
-def shared_city_pairs(extra=None):
-    """-> [(city, a, b)] for every pair of providers that can appear in one list.
+def cities_declared_by_adapters():
+    """-> {provider_id: {city, ...}} from every adapter's SITES.
 
-    A combined city view is the only place two chains sit side by side, so this is the
-    exact set of pairs the 3 px rule has to survive. `extra` adds a hypothetical
-    (id, cities) so a candidate accent can be tested before it is committed.
+    A provider is registered one commit and fetched the next, so for that window it has
+    no data/venues-{id}.json and its cities exist only in the adapter. Without this an
+    accent would be chosen against an incomplete set on the one day it is being chosen.
+
+    The adapters are imported here rather than at module level. A provider module
+    imported before tests/test_common_fetch.py reloads `common` is left holding a stale
+    EmptyProgramme, which turns unrelated tests red.
+    """
+    out = {}
+    for name in registry.modules():
+        mod = importlib.import_module(name)
+        for site in mod.SITES:
+            for v in site["venues"]:
+                out.setdefault(site["provider"], set()).add(v["city"])
+    return out
+
+
+def provider_cities():
+    """-> {provider_id: {city, ...}} from the committed data and the adapters together."""
+    out = {pid: set(cs) for pid, cs in cities_by_provider().items()}
+    for pid, cs in cities_declared_by_adapters().items():
+        out.setdefault(pid, set()).update(cs)
+    return out
+
+
+def shared_view_pairs(extra=None):
+    """-> [(view, a, b)] for every pair of providers that can appear in one list.
+
+    Two views put chains side by side, and the 3 px rule has to survive both:
+
+    - a combined city, where every chain in that town is listed together;
+    - a region row, where every chain in any of the region's cities is listed together.
+
+    The regions come from registry.REGIONS, so there is no second list to maintain. A
+    city inside a region yields pairs under both names, which is correct: they are two
+    views a reader can open.
+
+    `extra` adds a hypothetical (id, cities) so a candidate accent can be tested before
+    it is committed, and the regions it lands in follow from those cities.
 
     `cities` is a sequence, not a string. A chain that lands in two cities has to clear
     the existing accents in *both*, and taking only the first is how a tool like this
@@ -208,18 +246,29 @@ def shared_city_pairs(extra=None):
     accepted and wrapped rather than iterated, since iterating one would silently test
     the letters of the city name.
     """
-    by = cities_by_provider()
+    by = provider_cities()
     if extra:
         pid, cities = extra
         if isinstance(cities, str):
             cities = [cities]
         by.setdefault(pid, set()).update(cities)
+
+    views = {}
+    for pid, cs in by.items():
+        for city in cs:
+            views.setdefault(city, set()).add(pid)
+    for r in registry.REGIONS:
+        member_cities = set(r["cities"])
+        here = {pid for pid, cs in by.items() if cs & member_cities}
+        if here:
+            views.setdefault(r["name"], set()).update(here)
+
     pairs = []
-    for city in sorted({c for cs in by.values() for c in cs}):
-        here = sorted(p for p, cs in by.items() if city in cs)
+    for view in sorted(views):
+        here = sorted(views[view])
         for i in range(len(here)):
             for j in range(i + 1, len(here)):
-                pairs.append((city, here[i], here[j]))
+                pairs.append((view, here[i], here[j]))
     return pairs
 
 
@@ -275,17 +324,59 @@ def row(label, a, b, n, v, m):
 # is the one constraint in the old notes that did not depend on the broken metric.
 L_MIN, L_MAX = 38.0, 60.0
 
+# The separation a combined-city pair holds. Every city pair is at or above it; region
+# pairs are measured on the same scale and twelve established ones sit below.
+FLOOR = 14.4
+
+
+def separation_labs(x, y):
+    """-> the dE00 a pair offers: the minimum across normal vision and both deuteranope
+    models.
+
+    The one scorer. A pair separates only as well as its weakest model, and that model is
+    as often normal vision as it is either simulation: Bio Grani and Gilda are 19.9 apart
+    to a deuteranope and 14.1 to everyone else. Ranking or counting on the deutan figure
+    alone hides exactly that pair, so the reports and `search` both come through here.
+    """
+    return min(ciede2000(x[i], y[i]) for i in range(3))
+
+
+def separation(a, b):
+    """-> separation_labs for two hex colours."""
+    return separation_labs(labs_for(a), labs_for(b))
+
+
+def worst_labs(cand, fixed):
+    """-> (overall, normal, deutan) minimum dE00 from one labs triple to any of `fixed`.
+
+    `overall` is the score the reports rank on, taken over every rival.
+    """
+    overall = min(separation_labs(cand, f) for f in fixed)
+    normal = min(ciede2000(cand[0], f[0]) for f in fixed)
+    deutan = min(min(ciede2000(cand[i], f[i]) for i in (1, 2)) for f in fixed)
+    return overall, normal, deutan
+
+
+def worst_against(hexcolour, fixed):
+    """-> (overall, normal, deutan) for one hex colour against `fixed`, a list of
+    labs_for() triples."""
+    return worst_labs(labs_for(hexcolour), fixed)
+
 
 def search(pid, accents, step=6, top=12):
-    """Best replacement accent for one provider. -> [(worst_deutan, worst_normal, hex)]
+    """Best replacement accents for one provider.
 
-    Maximises the *minimum* separation against the chains that share a city with this
-    one, because the minimum is what a reader has to resolve. Chains it never
-    appears beside are unconstrained -- the same reasoning that lets Kino Akseli keep a
-    gold that is 0.8 dE00 from Finnkino's orange, since Nummela has one chain.
+    -> ([(worst_overall, worst_normal, worst_deutan, hex)], rivals), ranked by
+    `worst_overall` descending.
+
+    Maximises the *minimum* separation against the chains that share a city or a region
+    with this one, because the minimum is what a reader has to resolve. That minimum is
+    taken across normal vision and both deuteranope models together. Ranking on the
+    deutan figure alone promotes a colour whose normal-vision separation is the binding
+    constraint. Chains this one never appears beside are unconstrained.
     """
     rivals = sorted({b if a == pid else a
-                     for _, a, b in shared_city_pairs() if pid in (a, b)})
+                     for _, a, b in shared_view_pairs() if pid in (a, b)})
     if not rivals:
         return [], rivals
     fixed = [labs_for(accents[r]) for r in rivals]
@@ -297,9 +388,8 @@ def search(pid, accents, step=6, top=12):
                 cand = labs_for(h)
                 if not (L_MIN <= cand[0][0] <= L_MAX):
                     continue
-                wn = min(ciede2000(cand[0], f[0]) for f in fixed)
-                wd = min(min(ciede2000(cand[i], f[i]) for i in (1, 2)) for f in fixed)
-                out.append((wd, wn, h))
+                wo, wn, wd = worst_labs(cand, fixed)
+                out.append((wo, wn, wd, h))
     out.sort(reverse=True)
     return out[:top], rivals
 
@@ -307,14 +397,16 @@ def search(pid, accents, step=6, top=12):
 def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--all", action="store_true",
-                    help="every pair in the set, not only pairs that share a city")
+                    help="every pair in the set, not only pairs that share a view")
     ap.add_argument("--candidate", metavar="HEX",
                     help="test a hypothetical accent before committing it")
     ap.add_argument("--city", metavar="CITY", default=None,
                     help="city or cities the candidate would appear in, comma separated;"
-                         " it is measured against the existing chains in every one")
+                         " it is measured against the existing chains in every one and"
+                         " in every region those cities belong to")
     ap.add_argument("--search", metavar="PROVIDER_ID",
-                    help="best replacement accent for one chain, against its own city")
+                    help="best replacement accent for one chain, against every chain it"
+                         " shares a city or a region with")
     ap.add_argument("--selftest", action="store_true")
     args = ap.parse_args(argv)
 
@@ -337,21 +429,19 @@ def main(argv):
             ap.error(f"unknown provider id: {args.search}")
         best, rivals = search(args.search, accents)
         if not rivals:
-            print(f"{labels[args.search]} shares no city with another chain, so its "
-                  f"accent is unconstrained. Nothing to search.")
+            print(f"{labels[args.search]} shares no city or region with another chain, "
+                  f"so its accent is unconstrained. Nothing to search.")
             return 0
-        cur = labs_for(accents[args.search])
         fixed = [labs_for(accents[r]) for r in rivals]
-        cn = min(ciede2000(cur[0], f[0]) for f in fixed)
-        cd = min(min(ciede2000(cur[i], f[i]) for i in (1, 2)) for f in fixed)
-        print(f"{labels[args.search]} shares a city with: "
+        co, cn, cd = worst_against(accents[args.search], fixed)
+        print(f"{labels[args.search]} shares a city or region with: "
               f"{', '.join(labels[r] for r in rivals)}")
-        print(f"current {accents[args.search]}: worst normal {cn:.1f}, "
-              f"worst deutan {cd:.1f}\n")
-        print(f"best candidates in L* {L_MIN:.0f}-{L_MAX:.0f}, ranked by worst deutan:")
-        print("  hex       worst deutan  worst normal")
-        for wd, wn, h in best:
-            print(f"  {h}   {wd:11.1f}   {wn:11.1f}")
+        print(f"current {accents[args.search]}: worst overall {co:.1f} "
+              f"(normal {cn:.1f}, deutan {cd:.1f})\n")
+        print(f"best candidates in L* {L_MIN:.0f}-{L_MAX:.0f}, ranked by worst overall:")
+        print("  hex       worst overall  worst normal  worst deutan")
+        for wo, wn, wd, h in best:
+            print(f"  {h}   {wo:12.1f}   {wn:11.1f}   {wd:11.1f}")
         return 0
 
     print("dE00 between chain accents. Higher is more separable; the number that")
@@ -365,13 +455,15 @@ def main(argv):
         rows = []
         for i in range(len(ids)):
             for j in range(i + 1, len(ids)):
-                n, v, m = dE(accents[ids[i]], accents[ids[j]])
-                rows.append((min(v, m), row("(any)", labels[ids[i]], labels[ids[j]],
-                                            n, v, m)))
+                a, b = accents[ids[i]], accents[ids[j]]
+                n, v, m = dE(a, b)
+                rows.append((separation(a, b), row("(any)", labels[ids[i]],
+                                                   labels[ids[j]], n, v, m)))
         for _, line in sorted(rows):
             print(line)
         worst = min(r[0] for r in rows)
-        print(f"\nglobal minimum over all pairs: {worst:.1f} dE00 (worse of the two models)")
+        print(f"\nglobal minimum over all pairs: {worst:.1f} dE00 "
+              f"(minimum across the three models)")
         return 0
 
     cities = [c.strip() for c in (args.city or "").split(",") if c.strip()]
@@ -379,18 +471,21 @@ def main(argv):
         extra = ("candidate", cities)
 
     rows = []
-    for city, a, b in shared_city_pairs(extra):
+    for view, a, b in shared_view_pairs(extra):
         n, v, m = dE(accents[a], accents[b])
-        rows.append((min(v, m), city, row(city, labels[a], labels[b], n, v, m)))
+        rows.append((separation(accents[a], accents[b]), view,
+                     row(view, labels[a], labels[b], n, v, m)))
     if not rows:
-        print("no city has two chains in it")
+        print("no city or region has two chains in it")
         return 0
     for _, _, line in sorted(rows):
         print(line)
 
-    worst = rows[0] if len(rows) == 1 else sorted(rows)[0]
-    print(f"\nworst same-city pair: {worst[0]:.1f} dE00 under the harsher of the two "
-          f"deutan models, in {worst[1]}")
+    worst = sorted(rows)[0]
+    below = sum(1 for r in rows if r[0] < FLOOR)
+    print(f"\nworst shared-view pair: {worst[0]:.1f} dE00 across the three models, "
+          f"in {worst[1]}")
+    print(f"{below} of {len(rows)} pairs are below {FLOOR}")
     print("L* of each accent (the 3 px rule needs this legible on both themes):")
     for pid in sorted(accents):
         print(f"  {labels[pid]:<26} {accents[pid]}  L* {labs_for(accents[pid])[0][0]:5.1f}")

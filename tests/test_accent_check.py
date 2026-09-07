@@ -5,6 +5,8 @@ checked. A colour tool whose own arithmetic is unverified is the same failure on
 down, so the CIEDE2000 implementation is pinned to Sharma, Wu & Dalal's published pairs
 here as well as in --selftest.
 """
+import contextlib
+import io
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -38,13 +40,66 @@ class Ciede2000Test(unittest.TestCase):
         self.assertNotAlmostEqual(A.srgb_to_linear(0.02), 0.02 ** 2.2, places=4)
 
 
-class SharedCityTest(unittest.TestCase):
+class SharedViewTest(unittest.TestCase):
+    """Two views list chains side by side: a combined city, and a region row. The 3 px
+    accent rule has to hold in both, so both are generated here from registry.REGIONS and
+    the provider cities rather than from a list kept in the tool."""
+
     def test_pairs_come_from_the_data_not_a_hand_list(self):
-        pairs = A.shared_city_pairs()
-        self.assertTrue(pairs, "no same-city pairs found at all")
-        for city, a, b in pairs:
+        pairs = A.shared_view_pairs()
+        self.assertTrue(pairs, "no shared-view pairs found at all")
+        for view, a, b in pairs:
             self.assertNotEqual(a, b)
             self.assertLess(a, b, "pairs should be ordered so they cannot duplicate")
+
+    def test_every_region_with_two_chains_is_a_view(self):
+        """The regions are read from registry.REGIONS. A region that stopped producing
+        pairs would mean the region half of the model had been dropped."""
+        by = A.provider_cities()
+        views = {v for v, a, b in A.shared_view_pairs()}
+        for r in A.registry.REGIONS:
+            here = {p for p, cs in by.items() if cs & set(r["cities"])}
+            if len(here) >= 2:
+                self.assertIn(r["name"], views, f"{r['name']} has {len(here)} chains "
+                                                f"and produced no pair")
+
+    def test_a_region_pair_is_not_only_a_city_pair(self):
+        """Two chains in different towns of one region never share a city, so a
+        city-only model would report nothing for them."""
+        cities = {v for v, a, b in A.shared_view_pairs()} & {
+            c for r in A.registry.REGIONS for c in r["cities"]}
+        pairs = A.shared_view_pairs()
+        cross = [(v, a, b) for v, a, b in pairs
+                 if v == "Keski-Uusimaa" and {a, b} == {"cine", "kinoakseli"}]
+        self.assertEqual(len(cross), 1, "Cine and Kino Akseli are in one region")
+        same_city = [(v, a, b) for v, a, b in pairs
+                     if v in cities and {a, b} == {"cine", "kinoakseli"}]
+        self.assertEqual(same_city, [], "they are in different towns")
+
+    def test_cine_meets_kino_akseli_before_cine_has_a_venue_file(self):
+        """A provider is registered one commit and fetched the next. Its accent is chosen
+        in that window, so the adapter's own cities have to count."""
+        if not (A.DATA / "venues-cine.json").exists():
+            self.assertNotIn("cine", A.cities_by_provider(),
+                             "committed data already has Cine; drop this branch")
+        self.assertEqual(A.cities_declared_by_adapters()["cine"], {"Kerava", "Sipoo"})
+        self.assertIn(("Keski-Uusimaa", "cine", "kinoakseli"), A.shared_view_pairs())
+
+    def test_star_meets_finnkino_in_oulu(self):
+        self.assertIn("Oulu", A.cities_declared_by_adapters()["star"])
+        self.assertIn(("Oulu", "finnkino", "star"), A.shared_view_pairs())
+
+    def test_a_candidate_in_kerava_is_measured_against_the_whole_region(self):
+        """Kerava has one cinema, so a city-only check would clear a candidate against
+        Cine alone and miss the four chains it meets in the Keski-Uusimaa row."""
+        by = A.provider_cities()
+        ku = next(r for r in A.registry.REGIONS if r["name"] == "Keski-Uusimaa")
+        expect = {p for p, cs in by.items() if cs & set(ku["cities"])}
+        pairs = A.shared_view_pairs(extra=("candidate", ["Kerava"]))
+        got = {b if a == "candidate" else a for v, a, b in pairs
+               if v == "Keski-Uusimaa" and "candidate" in (a, b)}
+        self.assertEqual(got, expect)
+        self.assertGreaterEqual(len(expect), 4)
 
     def test_a_candidate_is_measured_against_every_city_it_is_given(self):
         """--city took a comma-separated list and then broke after the first entry, so a
@@ -53,37 +108,218 @@ class SharedCityTest(unittest.TestCase):
 
         Two cities minimum, and the candidate has to appear in both, or the loop is
         never exercised."""
-        base = {c for c, a, b in A.shared_city_pairs()}
-        pairs = A.shared_city_pairs(extra=("candidate", ["Helsinki", "Tampere"]))
-        cities = {c for c, a, b in pairs if "candidate" in (a, b)}
-        self.assertIn("Helsinki", cities)
-        self.assertIn("Tampere", cities,
+        base = {c for c, a, b in A.shared_view_pairs()}
+        pairs = A.shared_view_pairs(extra=("candidate", ["Helsinki", "Tampere"]))
+        views = {c for c, a, b in pairs if "candidate" in (a, b)}
+        self.assertIn("Helsinki", views)
+        self.assertIn("Tampere", views,
                       "second city dropped: the candidate loop stops after the first")
         self.assertTrue(base.issubset({c for c, a, b in pairs}),
-                        "adding a candidate lost an existing city's pairs")
+                        "adding a candidate lost an existing view's pairs")
 
     def test_a_bare_string_is_one_city_not_a_sequence_of_letters(self):
         """`for c in "Helsinki"` yields 'H', 'e', 'l' ... which would quietly measure
         the candidate against nothing at all."""
-        pairs = A.shared_city_pairs(extra=("candidate", "Helsinki"))
-        cities = {c for c, a, b in pairs if "candidate" in (a, b)}
+        pairs = A.shared_view_pairs(extra=("candidate", "Helsinki"))
+        cities = {c for c, a, b in pairs if "candidate" in (a, b)} - {
+            r["name"] for r in A.registry.REGIONS}
         self.assertEqual(cities, {"Helsinki"})
 
     def test_a_candidate_in_a_one_chain_city_is_measured_against_that_one_chain(self):
         """Kokkola has a single cinema today, so a candidate landing there makes exactly
-        one pair. Written after the first version of this test asserted zero pairs and
-        was wrong: one existing chain plus a candidate is a pair, which is the whole
-        point of asking."""
-        pairs = [p for p in A.shared_city_pairs(extra=("candidate", ["Kokkola"]))
+        one pair in the city view. Written after the first version of this test asserted
+        zero pairs and was wrong: one existing chain plus a candidate is a pair, which is
+        the whole point of asking."""
+        pairs = [p for p in A.shared_view_pairs(extra=("candidate", ["Kokkola"]))
                  if p[0] == "Kokkola"]
         self.assertEqual(len(pairs), 1)
         self.assertIn("biorexkokkola", pairs[0])
 
-    def test_a_candidate_in_a_town_with_no_cinema_is_unconstrained(self):
-        """The same reasoning that lets Kino Akseli keep a gold 0.7 dE00 from Finnkino's
-        orange: Nummela has one chain, so the two never appear together."""
-        pairs = A.shared_city_pairs(extra=("candidate", ["Nowheresville"]))
-        self.assertEqual([p for p in pairs if p[0] == "Nowheresville"], [])
+    def test_cine_clears_the_city_view_floor_in_every_view_it_appears_in(self):
+        """Cine is alone in Kerava and in Sipoo, so the city check cleared it while its
+        accent sat 3.9 dE00 from Kino Akseli in the Keski-Uusimaa row. 14.4 is the worst
+        pair any city view holds, and Cine has to reach it in the region rows too."""
+        accents = {p["id"]: p["accent"] for p in A.registry.PROVIDERS}
+        pairs = [(v, a, b) for v, a, b in A.shared_view_pairs() if "cine" in (a, b)]
+        self.assertTrue(pairs, "Cine shares no view, so this asserts nothing")
+        worst = min(min(A.dE(accents[a], accents[b])) for _, a, b in pairs)
+        self.assertGreaterEqual(worst, 14.4, f"worst Cine pair is {worst:.1f} dE00")
+
+    def test_a_candidate_in_a_town_with_no_cinema_and_no_region_is_unconstrained(self):
+        pairs = A.shared_view_pairs(extra=("candidate", ["Nowheresville"]))
+        self.assertEqual([p for p in pairs if "candidate" in (p[1], p[2])], [])
+
+
+class SearchRankingTest(unittest.TestCase):
+    """`--search` proposes replacement accents. It ranked them on the deuteranope figure
+    alone, which promotes a colour whose normal-vision separation is the binding one.
+
+    Everything here recomputes the three minima from the returned hex with A.dE, the
+    public pair function, rather than reading the tuple the implementation built.
+    """
+
+    STEP = 8
+
+    @classmethod
+    def setUpClass(cls):
+        cls.accents = {p["id"]: p["accent"] for p in A.registry.PROVIDERS}
+        cls.best, cls.rivals = A.search("cine", cls.accents, step=cls.STEP, top=12)
+        cls.grid = [f"#{r:02X}{g:02X}{b:02X}"
+                    for r in range(0, 256, cls.STEP)
+                    for g in range(0, 256, cls.STEP)
+                    for b in range(0, 256, cls.STEP)]
+
+    def minima(self, hexcolour):
+        """-> (overall, normal, deutan), recomputed from scratch against the rivals."""
+        triples = [A.dE(hexcolour, self.accents[r]) for r in self.rivals]
+        normal = min(t[0] for t in triples)
+        deutan = min(min(t[1], t[2]) for t in triples)
+        return min(normal, deutan), normal, deutan
+
+    def in_band(self, hexcolour):
+        return A.L_MIN <= A.labs_for(hexcolour)[0][0] <= A.L_MAX
+
+    def test_the_ranking_is_non_increasing_in_the_three_model_minimum(self):
+        self.assertTrue(self.best, "search returned nothing to rank")
+        got = [self.minima(h)[0] for *_, h in self.best]
+        self.assertEqual(got, sorted(got, reverse=True),
+                         "candidates are not ordered by their weakest model")
+
+    def test_the_top_candidate_is_the_best_in_the_band_on_that_minimum(self):
+        """Ranked on the wrong figure the leader is some other colour entirely, so this
+        is the assertion that fails first if the ordering key changes back."""
+        best_possible = max(self.minima(h)[0] for h in self.grid if self.in_band(h))
+        self.assertAlmostEqual(self.minima(self.best[0][-1])[0], best_possible, places=6)
+
+    def test_a_deutan_stronger_candidate_does_not_lead_when_normal_vision_binds(self):
+        """The defect, stated as a colour: better under both deuteranope models than the
+        leader, worse once normal vision is counted. Ranking on deutan alone puts one of
+        these first."""
+        lead_overall, _, lead_deutan = self.minima(self.best[0][-1])
+        trap = [h for h in self.grid if self.in_band(h)
+                and self.minima(h)[2] > lead_deutan
+                and self.minima(h)[0] < lead_overall]
+        self.assertTrue(trap, "no such colour on this grid, so the test proves nothing")
+        returned = [h for *_, h in self.best]
+        for h in trap:
+            with self.subTest(colour=h):
+                self.assertNotEqual(h, returned[0])
+                self.assertNotIn(h, returned[:3])
+
+    def test_the_reported_columns_carry_all_three_figures(self):
+        """The summary line and the table print overall, normal and deutan, so a reader
+        can see which model binds without rerunning anything."""
+        for entry in self.best:
+            self.assertEqual(len(entry), 4)
+            overall, normal, deutan, h = entry
+            want = self.minima(h)
+            self.assertAlmostEqual(overall, want[0], places=6)
+            self.assertAlmostEqual(normal, want[1], places=6)
+            self.assertAlmostEqual(deutan, want[2], places=6)
+
+
+class ReportRankingTest(unittest.TestCase):
+    """The ordinary report and --all ranked and counted on the deuteranope minimum, so a
+    pair whose normal-vision separation is the binding one sorted as though it were fine.
+
+    Bio Grani and Gilda are the real case: 19.942 apart to a deuteranope, 14.093 to
+    everyone else. Ranked on deutan it sits mid-table and is missing from the count of
+    pairs under the floor; ranked on the weakest model it leads, ahead of BioRex and
+    Studio 123 Järvenpää at 14.148, whose own binding model is deutan.
+    """
+
+    ACCENTS = {p["id"]: p["accent"] for p in A.registry.PROVIDERS}
+
+    def report(self, argv=()):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            A.main(list(argv))
+        return buf.getvalue()
+
+    def test_the_two_pairs_measure_what_the_ranking_turns_on(self):
+        grani_gilda = A.dE(self.ACCENTS["biograni"], self.ACCENTS["gilda"])
+        rex_studio = A.dE(self.ACCENTS["biorex"], self.ACCENTS["studio123jarvenpaa"])
+        self.assertAlmostEqual(min(grani_gilda), 14.093, places=3)
+        self.assertAlmostEqual(min(grani_gilda[1:]), 19.942, places=3)
+        self.assertEqual(min(grani_gilda), grani_gilda[0], "normal vision has to bind")
+        self.assertAlmostEqual(min(rex_studio), 14.148, places=3)
+        self.assertAlmostEqual(min(rex_studio[1:]), 14.148, places=3)
+        self.assertLess(min(grani_gilda), min(rex_studio))
+        self.assertGreater(min(grani_gilda[1:]), min(rex_studio[1:]),
+                           "the deutan figure has to disagree, or nothing is proved")
+
+    def test_the_report_ranks_the_normal_bound_pair_first(self):
+        out = self.report()
+        grani = out.index("Bio Grani      Gilda")
+        studio = out.index("BioRex         Studio 123 Järvenpää")
+        self.assertLess(grani, studio,
+                        "ranked on the deutan minimum, Bio Grani/Gilda sorts below")
+
+    def test_the_report_counts_every_pair_below_the_floor(self):
+        rows = [A.separation(self.ACCENTS[a], self.ACCENTS[b])
+                for _, a, b in A.shared_view_pairs()]
+        self.assertEqual(len(rows), 139)
+        self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 12)
+        self.assertIn(f"12 of 139 pairs are below {A.FLOOR}", self.report())
+
+    def test_the_worst_pair_summary_uses_the_same_score(self):
+        worst = min(A.separation(self.ACCENTS[a], self.ACCENTS[b])
+                    for _, a, b in A.shared_view_pairs())
+        self.assertAlmostEqual(worst, 4.479, places=3)
+        self.assertIn(f"worst shared-view pair: {worst:.1f} dE00 across the three models",
+                      self.report())
+
+    def test_all_ranks_and_summarises_on_the_same_score(self):
+        ids = sorted(self.ACCENTS)
+        worst = min(A.separation(self.ACCENTS[ids[i]], self.ACCENTS[ids[j]])
+                    for i in range(len(ids)) for j in range(i + 1, len(ids)))
+        self.assertIn(f"global minimum over all pairs: {worst:.1f} dE00 "
+                      f"(minimum across the three models)", self.report(["--all"]))
+
+    @staticmethod
+    def scores(out):
+        """-> the weakest-model figure of every printed pair, in printed order."""
+        got = []
+        for line in out.splitlines():
+            parts = line.split()
+            if len(parts) < 4:
+                continue
+            try:
+                n, v, m = (float(parts[i]) for i in range(3))
+            except ValueError:
+                continue
+            got.append(min(n, v, m))
+        return got
+
+    def test_all_lists_pairs_in_order_of_their_weakest_model(self):
+        """Parsed back out of the printed columns, so this checks what a reader sees
+        rather than the key the sort was handed."""
+        got = self.scores(self.report(["--all"]))
+        self.assertGreater(len(got), 100)
+        for i in range(1, len(got)):
+            self.assertGreaterEqual(got[i], got[i - 1] - 0.05,
+                                    f"row {i} is out of order: {got[i - 1]} then {got[i]}")
+
+    def test_the_report_lists_pairs_in_order_of_their_weakest_model(self):
+        got = self.scores(self.report())
+        self.assertGreater(len(got), 100)
+        for i in range(1, len(got)):
+            self.assertGreaterEqual(got[i], got[i - 1] - 0.05,
+                                    f"row {i} is out of order: {got[i - 1]} then {got[i]}")
+
+    def test_search_and_the_reports_cannot_diverge(self):
+        """One scorer. `separation` is what the reports order on, and `worst_labs` builds
+        a candidate's overall figure out of the same call, so a change to one moves both.
+        """
+        for _, a, b in A.shared_view_pairs():
+            with self.subTest(pair=(a, b)):
+                self.assertEqual(A.separation(self.ACCENTS[a], self.ACCENTS[b]),
+                                 min(A.dE(self.ACCENTS[a], self.ACCENTS[b])))
+        rivals = ["biorex", "kinoakseli", "kinojuha"]
+        fixed = [A.labs_for(self.ACCENTS[r]) for r in rivals]
+        overall, _, _ = A.worst_labs(A.labs_for("#BA7E8A"), fixed)
+        self.assertEqual(overall, min(A.separation("#BA7E8A", self.ACCENTS[r])
+                                      for r in rivals))
 
 
 if __name__ == "__main__":

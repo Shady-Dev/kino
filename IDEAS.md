@@ -886,6 +886,43 @@ area needs two cinema cities.
 Cloud routing is provisional until the first committed run. Nothing in the read suggests a
 datacenter block, and only a run from Actions settles it.
 
+### The accent rule covers regions as well as cities (2026-09-07)
+`scripts/accent_check.py` compared chains that share a city. Region rows shipped in v125
+and list every chain in a region's cities together, so two chains in different towns of one
+region sit side by side without ever sharing a city. The tool cleared those pairs because
+it could not see them.
+
+`shared_view_pairs()` replaces `shared_city_pairs()` and builds both views: the combined
+cities, and the regions read from `registry.REGIONS`. There is no second list to maintain.
+Provider cities come from the committed `data/venues-*.json` and from the adapters'
+`SITES`, so a provider that is registered but not yet fetched is included. An accent is
+chosen in exactly that window, and Cine had no venue file when this was measured.
+
+Cine's `#FE4719` measured 3.9 dE00 against Kino Akseli under both deuteranope models.
+Kerava and Nummela are different towns in Keski-Uusimaa, so the city-only check reported
+nothing at all. Cine now carries `#BA7E8A`, L\* 59.2, worst case 21.4: BioRex
+34.7 / 37.7 / 35.6, Kino Akseli 33.1 / 22.3 / 21.5, Kino Juha 26.6 / 24.7 / 23.9,
+Studio 123 Järvenpää 23.0 / 25.8 / 23.6, Kino Marilyn 51.5 / 21.4 / 21.4.
+
+An exhaustive search at step 2 over the L\* 38 to 60 band tops out at `#BC808E` with 22.2
+at L\* 60.0. That is 0.8 dE00 better on the band edge, so `#BA7E8A` at L\* 59.2 was kept.
+`separation()` is the one scorer: the minimum across normal vision and both deuteranope
+models. `--search`, the ordinary report and `--all` rank and count through it, so a colour
+whose normal-vision separation is the binding one cannot sort as though it were fine. On
+its own step 6 grid `--search` returns `#BA7E8A` first.
+
+A combined-city pair holds a strict 14.4 dE00 minimum across normal vision and both
+deuteranope models, and the worst is exactly that, Finnkino against Cinema Orion. Region
+pairs are measured on the same scale because a region row is one result view, but twelve
+of the 139 pairs sit below 14.4 and every one is an established colour: Bio Grand and
+BioRex at 4.479 in Pääkaupunkiseutu, BioRex and Kinopirtti at 5.7 in Meri-Lappi, Bio Grani
+and Kino Regina at 6.8, Heureka and Kino Regina at 7.1, Bio Grani and Gilda at 14.093, and
+seven more. None is recoloured here. Bio Grani and Gilda is the pair a deutan-only count
+missed: 19.942 apart under both simulations, 14.093 in normal vision, so it read as clear
+while normal vision was the binding model. A new or changed accent clears 14.4 in every view it enters where that is reachable,
+and must not lower an existing regional minimum without the reason recorded here. Colour
+stays supplementary in both views, which also print the venue name and the chain legend.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 Finnish cinema domains and probed `/xml/TheatreAreas/`: zero hits beyond Savon
 Kinot. Azure blob enumeration on the shared asset host and a search for the vendor's client

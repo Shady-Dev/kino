@@ -9,18 +9,24 @@ Fields:
   id      matches the `provider` field on every show and data/venues-{id}.json
   label   chain name, used in the venue picker, the chain legend and the footer
   host    the cinema's own domain, credited in the footer
-  accent  3 px left border in combined views. Never the sole signal, see IDEAS.md.
-          Chains that share a city must be far apart in normal and in red-green
-          colourblind vision; elsewhere the accent is unconstrained, so hues repeat
-          across cities on purpose. Six cities have more than one chain (measured
-          2026-09-05): Helsinki with eight, Jyväskylä with three, Vantaa, Lahti, Kouvola
-          and Tampere with two each. Run `python3 scripts/accent_check.py` before
-          changing one: it prints every same-city pair in CIEDE2000 under two
-          deuteranope models, and `--search {id}` proposes a replacement. Do not quote a
-          figure no script produced; the numbers that used to sit here were CIE76
-          mislabelled as ΔE. Current worst same-city pair: 14.4 ΔE00 deutan
-          (Finnkino/Cinema Orion); Jyväskylä's worst is 26.9 (Finnkino/Kino Metso).
-          A search over the same L* band reaches 19.5; IDEAS says why it is not applied.
+  accent  3 px left border in combined views. Never the sole signal: those views print
+          the venue name and the chain legend too. Two views list chains together, a
+          combined city and a region row from REGIONS, and both are measured. The scale
+          is 14.4 ΔE00 across normal vision and both deuteranope models. Combined-city
+          pairs hold it without exception, the worst being exactly 14.4 (Finnkino/Cinema
+          Orion); a search over the same L* band reaches 19.5 and IDEAS says why it is
+          not applied. Region pairs do not all hold it: 12 of the 139 pairs are below,
+          worst 4.5 (Bio Grand/BioRex in Pääkaupunkiseutu), and all 12 are established
+          colours IDEAS lists. Score on the weakest of the three models: Bio Grani and
+          Gilda are 19.9 apart to a deuteranope and 14.1 to everyone else. A new or changed accent clears 14.4 in every view it
+          enters where that is reachable, and must not lower an existing regional minimum
+          without the reason recorded in IDEAS. Measured 2026-09-07: 8 cities hold more
+          than one chain (Helsinki eight, Jyväskylä and Vantaa three, Espoo, Kouvola,
+          Lahti, Oulu and Tampere two) and 11 of the 14 regions do. Run
+          `python3 scripts/accent_check.py` before changing one: it prints every
+          shared-view pair in CIEDE2000 under two deuteranope models, and `--search {id}`
+          ranks replacements on their weakest model. Do not quote a figure no script
+          produced; the numbers that used to sit here were CIE76 mislabelled as ΔE.
   book    buy | reserve | door | list | admission -> footer call to action. "list" is
           for a provider with no per-show booking URL, so a showtime opens the programme
           page (Gilda). "admission" is for a venue whose screenings are included in a
@@ -121,9 +127,10 @@ PROVIDERS = [
     dict(id="biograni", label="Bio Grani", host="biograni.fi", accent="#B03A55",
          book="buy", module="etiketti", where="cloud"),
     # kiertue.cine.fi publishes Cine Keuda-Talo in Kerava and Cine Nikkilä in Sipoo.
-    # Neither city has another provider. Cloud routing is provisional until its first
-    # committed run.
-    dict(id="cine", label="Cine", host="kiertue.cine.fi", accent="#FE4719",
+    # Neither city has another provider, but both sit in Keski-Uusimaa, where four
+    # more chains are listed in one row: worst case 21.4 dE00, L* 59.2. Cloud
+    # routing is provisional until its first committed run.
+    dict(id="cine", label="Cine", host="kiertue.cine.fi", accent="#BA7E8A",
          book="buy", module="etiketti", where="cloud"),
     # Oulu already has Finnkino Plaza, so this accent is constrained: 50.0 normal,
     # 73.7 Viénot, 65.1 Machado against Finnkino orange, at L* 46.1. Kino Tapiola's

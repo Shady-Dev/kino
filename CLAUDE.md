@@ -127,9 +127,15 @@ A registry entry plus an adapter. No `index.html` edit.
   `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
   checks its own CIEDE2000 against published reference data. Do not quote an accent number
   that no script produced: the figures that used to sit in IDEAS were CIE76 mislabelled as
-  ΔE. The rule binds only where two chains share a city (Helsinki, Jyväskylä, Vantaa,
-  Lahti, Kouvola and Tampere as of 2026-09-05), so measure which cities a new site lands
-  in before picking anything.
+  ΔE. Two views list chains together, a combined city and a region row from `REGIONS`,
+  and both are measured: 8 cities and 11 of the 14 regions as of 2026-09-07, so a site
+  alone in its town is still constrained by its region. Combined-city pairs hold a strict
+  14.4 ΔE00 minimum across all three models. Region pairs are measured on the same scale,
+  but twelve established ones sit below it. Score on the weakest of the three models: Bio
+  Grani and Gilda are 19.9 apart to a deuteranope and 14.1 to everyone else. Clear 14.4 in
+  every view a new accent enters where that is reachable, and never lower an existing
+  regional minimum without recording why in IDEAS. Colour stays supplementary: both views
+  also print venue names and a chain legend.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 

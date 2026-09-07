@@ -441,8 +441,8 @@ class NiagaraRegistryTest(unittest.TestCase):
 
     def test_the_accent_clears_finnkino_in_tampere_in_every_vision_model(self):
         """Tampere is the sixth two-chain city. The pair must not become the set's
-        binding constraint: every model at or above the current worst same-city pair,
-        and comfortably above the 3 px rule's floor."""
+        binding constraint: every model at or above the worst pair of any shared
+        view, and comfortably above the 3 px rule's floor."""
         import accent_check as A
         import registry
         niagara = registry.by_id("niagara")["accent"]
@@ -450,7 +450,7 @@ class NiagaraRegistryTest(unittest.TestCase):
         pair = A.dE(niagara, finnkino)
         accents = {p["id"]: p["accent"] for p in registry.PROVIDERS}
         worst = min(min(A.dE(accents[a], accents[b]))
-                    for _, a, b in A.shared_city_pairs() if a in accents and b in accents)
+                    for _, a, b in A.shared_view_pairs() if a in accents and b in accents)
         for model, value in zip(("normal", "vienot", "machado"), pair):
             with self.subTest(model=model):
                 self.assertGreaterEqual(value, worst)
