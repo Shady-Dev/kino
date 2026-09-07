@@ -4,7 +4,13 @@
 runtime notices a typo or a town that has quietly lost its cinema: the client would draw
 an area whose count is short, or none at all. Both directions are asserted here, and
 data/regions.json is checked against the registry so an edit without a rebuild fails.
+
+A city is backed either by committed venue data or by an adapter that names it. A
+provider is registered one commit and fetched the next, so for that window its cities
+are real and its `data/venues-{id}.json` does not exist. A typo and a town whose cinema
+is gone appear in neither set.
 """
+import importlib
 import json
 import unittest
 
@@ -26,6 +32,38 @@ def cities_with_venues():
     return out
 
 
+def cities_declared_by_adapters():
+    """-> {city} every adapter's SITES names, run or not.
+
+    Imported inside the function. A provider module imported at the top of a test file
+    is captured before `test_common_fetch` reloads `common`, and the stale
+    `EmptyProgramme` that leaves behind turns unrelated tests red.
+    """
+    out = set()
+    for name in registry.modules():
+        mod = importlib.import_module(name)
+        for site in mod.SITES:
+            for v in site["venues"]:
+                out.add(v["city"])
+    return out
+
+
+def providers_declaring(city):
+    """-> {provider id} whose SITES put a venue in `city`."""
+    out = set()
+    for name in registry.modules():
+        mod = importlib.import_module(name)
+        for site in mod.SITES:
+            if any(v["city"] == city for v in site["venues"]):
+                out.add(site["provider"])
+    return out
+
+
+def cities_covered():
+    """Committed venue data plus the cities the adapters name."""
+    return set(cities_with_venues()) | cities_declared_by_adapters()
+
+
 class RegionsTest(unittest.TestCase):
     def test_a_city_belongs_to_one_area(self):
         """Overlapping areas would offer the same cinema through two rows and make a
@@ -37,17 +75,35 @@ class RegionsTest(unittest.TestCase):
                 seen[c] = r["name"]
 
     def test_every_city_named_has_a_cinema(self):
-        """A name that no venue file backs is a dead entry: the area's count is short and
-        nothing else says so."""
+        """A name that neither the data nor an adapter backs is a dead entry: the
+        area's count is short and nothing else says so."""
+        have = cities_covered()
+        for r in registry.REGIONS:
+            for c in r["cities"]:
+                self.assertIn(c, have, f"{r['name']} names {c}, which no venue "
+                              f"file and no adapter backs")
+
+    def test_a_city_the_data_lacks_belongs_to_a_provider_that_has_not_run(self):
+        """Bounds the adapter half of the check above. A region city missing from the
+        data has to be served by a provider with no venue file at all, so a cinema
+        dropped from a provider that has one still fails. Once the run lands, the
+        city is in the committed set and this passes unchanged."""
         have = cities_with_venues()
         for r in registry.REGIONS:
             for c in r["cities"]:
-                self.assertIn(c, have, f"{r['name']} names {c}, which has no venue")
+                if c in have:
+                    continue
+                for pid in providers_declaring(c):
+                    with self.subTest(city=c, provider=pid):
+                        self.assertFalse(
+                            (DATA / f"venues-{pid}.json").exists(),
+                            f"{pid} has committed venues and none of them is in {c}, "
+                            f"so {r['name']} draws a city that is no longer there")
 
     def test_an_area_holds_two_cinema_cities(self):
         """One city is not an area, it is that city's own combined row under a second
         name. The client drops such an area as well; this says so at the source."""
-        have = cities_with_venues()
+        have = cities_covered()
         for r in registry.REGIONS:
             live = [c for c in r["cities"] if c in have]
             self.assertGreaterEqual(len(live), 2, r["name"])

@@ -176,6 +176,13 @@
    "book": "buy"
   },
   {
+   "id": "cine",
+   "label": "Cine",
+   "host": "kiertue.cine.fi",
+   "accent": "#FE4719",
+   "book": "buy"
+  },
+  {
    "id": "kinoaurora",
    "label": "Kino Aurora",
    "host": "kinoaurora.fi",

@@ -810,6 +810,50 @@ throwaway directory first: 19 venues, 331 showtimes, 0 failures.
 - The empty-site problem became live: K-Kino publishes 3 showtimes and Kino Saimaa 2. See
   "A quiet week is not a broken parser".
 
+### Cine Kerava and Sipoo use the eTiketti adapter (2026-09-07)
+`kiertue.cine.fi` was requested by a user. Its `/elokuvat/ohjelmistossa` listing and film
+pages render the eTiketti template `etiketti.py` already parses, so this is a `SITES`
+entry and no new parser. Read on 2026-09-07: 7 films on the listing, 4 screenings for Cine
+Keuda-Talo in Kerava and 6 for Cine Nikkilä in Sipoo, each with a `/salikartta?id=` link, a
+price, a rating, a language and seat availability. One ticket URL answered 200.
+
+The place lines are `KERAVA | CINE KEUDA-TALO` and `SIPOO | CINE NIKKILÄ`. `PLACE_RE`
+splits them into place `KERAVA` and `aud` `CINE KEUDA-TALO`, so the room field repeats the
+cinema. The site opts into `normalise_aud` and both venues publish `aud` as "". Matching
+runs against the raw place and room joined, so the venue selects before the field is
+emptied.
+
+Cine is the second site to set the flag. The gating tests in `tests/test_etiketti_aud.py`
+ran over Savon Kinot alone through an `sk_site()` helper. They now run over
+`optedin_sites()`, checking every opted-in site for a venue `short` and for a room field
+holding only the venue name. Five mutations red.
+
+Kerava joins Keski-Uusimaa. Its longest hop stays Hyvinkää to Nummela, so `km` is
+unchanged at 45. Sipoo joins Itä-Uusimaa and widens it: the longest hop becomes Sipoo to
+Loviisa, an estimated 65 km, the widest of any area here and above the roughly 60 km the
+cut was argued from. Kept because Sipoo's nearest cinema city is Porvoo, at about a quarter
+of that distance. The figure is an estimate, like the others in `REGIONS`, and is not
+published.
+
+`CITY_SV` gains `Kerava: Kervo` and `Sipoo: Sibbo`, both established Swedish names. That
+edits `index.html`, so `sw.js` goes to v128.
+
+`tests/test_regions.py` required every `REGIONS` city to appear in committed
+`data/venues-*.json`. Kerava and Sipoo cannot until the cloud workflow writes
+`data/venues-cine.json`. A city is now backed by the data or by an adapter that names it. A
+second test bounds that: a region city missing from the data must belong to a provider with
+no venue file at all, so a cinema dropped from a provider that has one still fails.
+
+The accent is Cine's `#FE4719`, L\* 57.7. Kerava and Sipoo have no other provider.
+
+Cine Mäntsälä is excluded. `mantsala.cine.fi` runs MyCloudCinema: its root carries the
+vendor signature, and `/elokuvat/ohjelmistossa` answers 200 with a 2958-byte page holding
+no `movie-list` container and no film links, which the eTiketti parser would read as an
+empty programme and fail on. It needs an adapter for that platform.
+
+Kiertuenäytökset is excluded. `kiertue.cine.fi/teatterit/kiertue` renders zero screening
+items, zero date classes and zero booking links.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 Finnish cinema domains and probed `/xml/TheatreAreas/`: zero hits beyond Savon
 Kinot. Azure blob enumeration on the shared asset host and a search for the vendor's client

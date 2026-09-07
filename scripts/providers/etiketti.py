@@ -49,8 +49,8 @@ SITES = [
     # Like Leffabuumi, this deployment prints the *town* as the place and the cinema in
     # the room field ("JOENSUU | TAPIO | TAPIO 3"); `match` runs against the two joined.
     # Rooms arrive as `VENUE | VENUE n`, the venue repeated inside its own room name.
-    # The flag turns on normalise_aud for this site only; the other sixteen keep the
-    # room verbatim, and Leffabuumi's pipe means something else entirely.
+    # The flag turns on normalise_aud here and on Cine below; the other seventeen
+    # keep the room verbatim, and Leffabuumi's pipe means something else entirely.
     {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
      "aud_repeats_venue": True,
      "venues": [
@@ -144,7 +144,7 @@ SITES = [
      ]},
     # Fetched from the local half: kino.joutsa.fi answers a runner with a Cloudflare 403
     # and an ordinary connection fine. `where="local"` on its registry entry is what
-    # routes it; run.py filters SITES by half, so the other sixteen stay cloud-side.
+    # routes it; run.py filters SITES by half, so the other seventeen stay cloud-side.
     {"provider": "joutsankino", "base": "https://kino.joutsa.fi", "label": "Joutsan Kino",
      "venues": [
          {"id": "jk-joutsa", "match": "joutsan kino", "name": "Joutsan Kino",
@@ -159,6 +159,18 @@ SITES = [
      "venues": [
          {"id": "bn-kauniainen", "match": "bio grani", "name": "Bio Grani",
           "short": "Bio Grani", "city": "Kauniainen"},
+     ]},
+    # kiertue.cine.fi publishes the two cinemas below. Cine Mäntsälä runs a separate
+    # MyCloudCinema deployment and the touring page lists no stops, so neither is here.
+    # The second field of each place line repeats the cinema name, so `aud` goes through
+    # normalise_aud and comes out empty.
+    {"provider": "cine", "base": "https://kiertue.cine.fi", "label": "Cine",
+     "aud_repeats_venue": True,
+     "venues": [
+         {"id": "cine-keuda", "match": "cine keuda-talo", "name": "Cine Keuda-Talo",
+          "short": "Cine Keuda-Talo", "city": "Kerava"},
+         {"id": "cine-nikkila", "match": "cine nikkilä", "name": "Cine Nikkilä",
+          "short": "Cine Nikkilä", "city": "Sipoo"},
      ]},
     # Cinema Niagara, Tampere (2026-09-02): the host the sweep left behind, because its
     # screenings render in the second template. It prints no place line at all, so
