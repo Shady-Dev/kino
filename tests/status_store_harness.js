@@ -61,11 +61,15 @@ function world(opts) {
     '/data/venues-orion.json': venues('2026-09-07T06:00:00+00:00'),
     '/data/venues-kinometso.json': venues('2026-09-07T06:00:00+00:00'),
   });
-  const st = { net: 0, cache: 0, renders: 0, netPaths: [], timers: [], heldCache: [] };
+  const st = { net: 0, cache: 0, renders: 0, netPaths: [], timers: [], heldCache: [], heldNet: [] };
   // `holdCache` makes every cache read a promise the scenario settles by hand, which is
   // the only way to place a load inside a read's await.
   const io = {
-    net: async p => { st.net++; st.netPaths.push(p); return files[p] ? clone(files[p]) : null; },
+    net: p => {
+      st.net++; st.netPaths.push(p);
+      if(!(opts && opts.holdNet)) return Promise.resolve(files[p] ? clone(files[p]) : null);
+      return new Promise(resolve => st.heldNet.push({ path: p, resolve }));
+    },
     cache: p => {
       st.cache++;
       if(!(opts && opts.holdCache)) return Promise.resolve(files[p] ? clone(files[p]) : null);
@@ -87,6 +91,19 @@ function world(opts) {
   // Run the deferred pass without awaiting it, so a scenario can act while it is inside
   // an await, then settle the reads it is waiting on.
   st.startTimers = () => { while (st.timers.length) st.timers.shift().fn(); };
+  // Release the network reads a suspended load waits on, in waves: it asks for the
+  // provider list first and the per-provider files after that answers.
+  st.settleNet = async () => {
+    let waves = 0;
+    while (st.heldNet.length && waves < 8) {
+      for (const r of st.heldNet.splice(0)) r.resolve(files[r.path] ? clone(files[r.path]) : null);
+      // The load asks for the provider list first and the per-provider files only once
+      // that answers, so give the next wave time to be queued before looking again.
+      for (let i = 0; i < 4; i++) await tick();
+      waves++;
+    }
+    return waves;
+  };
   st.settle = async (value) => {
     const r = st.heldCache.shift();
     if (!r) throw new Error('no cache read pending');
@@ -305,6 +322,97 @@ async function run() {
       orion: w.store.state().meta.orion.oldest,
       kinometso: w.store.state().meta.kinometso.oldest,
       net: w.st.net,
+    };
+  }
+
+  // -- the reported ordering: a load already in flight when the refresh begins -------------
+  // `gen` moves when a load starts, so a refresh beginning under one shares its `gen`. The
+  // guard has to be ordered against the load's write instead.
+  {
+    const w = world({ holdCache: true, holdNet: true });
+    const seed = w.store.load({ force: true });   // held: settle before awaiting it
+    await tick();
+    await w.st.settleNet();
+    await seed;
+    const before = w.store.state().meta.orion.oldest;
+
+    w.st.clock += 61000;
+    w.files['/data/venues-orion.json'] = venues('2026-09-07T11:00:00+00:00');
+    const load2 = w.store.load({ force: true });
+    await tick();
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    const readsWhileLoading = w.st.heldCache.length;
+    const netBefore = w.st.net;
+    await w.st.settleNet();
+    await load2;
+    const afterLoad = w.store.state().meta.orion.oldest;
+    const netAfterLoad = w.st.net;
+    while (w.st.heldCache.length) await w.st.settle(venues('2026-09-07T10:00:00+00:00'));
+    w.st.startTimers();
+    await tick();
+    while (w.st.heldCache.length) await w.st.settle(venues('2026-09-07T10:00:00+00:00'));
+    out.refresh_under_a_running_load = {
+      before, readsWhileLoading, afterLoad,
+      final: w.store.state().meta.orion.oldest,
+      netAddedAfterLoad: w.st.net - netAfterLoad,
+    };
+  }
+
+  // -- the reverse completion order: the cache answers before the load does ------------------
+  {
+    const w = world({ holdCache: true, holdNet: true });
+    const seed = w.store.load({ force: true });   // held: settle before awaiting it
+    await tick();
+    await w.st.settleNet();
+    await seed;
+
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    const readsBefore = w.st.heldCache.length;
+
+    w.st.clock += 61000;
+    w.files['/data/venues-orion.json'] = venues('2026-09-07T11:00:00+00:00');
+    const load2 = w.store.load({ force: true });
+    await tick();
+    await w.st.settle(venues('2026-09-07T10:00:00+00:00'));
+    const afterCache = w.store.state().meta.orion.oldest;
+    await w.st.settleNet();
+    await load2;
+    out.cache_answers_before_the_load = {
+      readsBefore, afterCache, final: w.store.state().meta.orion.oldest,
+    };
+  }
+
+  // -- a message queued during a load is drained after it, and adds no requests --------------
+  {
+    const w = world({ holdCache: true, holdNet: true });
+    const seed = w.store.load({ force: true });   // held: settle before awaiting it
+    await tick();
+    await w.st.settleNet();
+    await seed;
+
+    w.st.clock += 61000;
+    const load2 = w.store.load({ force: true });
+    await tick();
+    w.store.fresh('/data/venues-kinometso.json');
+    w.st.startTimers();
+    await tick();
+    const readsDuringLoad = w.st.heldCache.length;
+    await w.st.settleNet();
+    await load2;
+    const netAfterLoad = w.st.net;
+    const timersAfterLoad = w.st.timers.length;
+    w.files['/data/venues-kinometso.json'] = venues('2026-09-07T12:00:00+00:00');
+    w.st.startTimers();
+    await tick();
+    while (w.st.heldCache.length) await w.st.settle();
+    out.queued_during_load = {
+      readsDuringLoad, timersAfterLoad,
+      netAddedByMessage: w.st.net - netAfterLoad,
+      kinometso: w.store.state().meta.kinometso.oldest,
     };
   }
 

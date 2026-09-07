@@ -2301,6 +2301,39 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### The refresh guard was ordered against the wrong event (2026-09-07, sw.js v122)
+`gen` moves when a load *starts*, so a refresh that began while a load was already in
+flight shared that load's generation and passed the guard v121 added. Start a load and hold
+its network answer, start a refresh and hold its cache answer, complete the load with 11:00,
+then resolve the cache with 10:00: the state regressed to 10:00. The guard only ever caught
+a load that began after the pass did.
+
+Two rules replace it, and both are about what a refresh may write rather than when it ran.
+`loading` counts loads in flight: a pass does not begin under one and abandons if one
+starts mid-pass, because a load reads every file and its answer supersedes anything the
+cache can hand back. The load's own completion hands the queue back, so nothing queued
+during it is dropped. And `notBehind` refuses any payload whose `generated` is older than
+the one held; `generated` is the pipeline's write time, only moves forward, and ISO-8601 at
+a fixed offset sorts as text. That second rule is what makes the outcome independent of
+which of the two finishes first, which is the property the ordering guards alone could not
+give.
+
+`epoch`, a counter that moved when a load wrote, was written first and then removed. With
+`loading` in place no reachable state could tell it apart from `gen`, its mutation came
+back VOID, and a guard no mutation can turn red is not carrying weight.
+
+`tests/test_status_store.py` is 22 tests, with both the network and the cache reads
+hand-settled so a load can be suspended mid-flight around a refresh. Seven mutations red:
+the pass allowed to run under a load, the in-flight check dropped after the await, the
+older-payload rule removed and inverted, the load's reschedule removed, passes allowed to
+overlap, and a network fallback on the message path. The two `gen` checks inside `load()`
+are each redundant with the other, so neither is individually red; removing both is.
+
+One test moved from asserting the mechanism to asserting the state. It had pinned "the pass
+abandons and schedules a follow-up", which stopped being how the same outcome is reached
+once `notBehind` could refuse the write in place. Whether the pass abandons or runs on and
+declines, orion has to end on the load's data and the queued message still has to land.
+
 ### A cache read that started before a newer load could walk the page backwards (2026-09-07, sw.js v121)
 `fresh()` awaits every cache read, so state can move underneath a pass. `load()` may finish
 during one of those awaits and write a newer payload; the read that started earlier then

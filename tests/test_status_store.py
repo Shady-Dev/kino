@@ -152,15 +152,40 @@ class StatusStoreTest(unittest.TestCase):
         self.assertEqual(r["kinometso"], "2026-09-07T11:30:00+00:00")
         self.assertEqual(r["net"], 4)
 
-    def test_a_message_arriving_during_an_abandoned_pass_is_not_lost(self):
-        """The pass drops its own batch when a load overtakes it, which is right, because
-        the load read those files itself. Anything queued after that batch was taken has
-        been looked at by nobody, so a follow-up pass has to be scheduled for it."""
+    def test_a_pass_overtaken_by_a_load_keeps_the_loads_data_and_still_serves_its_queue(self):
+        """A load lands while a pass holds a read. The stale bytes that read captured are
+        refused, the load's newer payload stands, and the message that arrived meanwhile is
+        still applied. Asserted on the state rather than on how the pass got there: whether
+        it abandons or runs on and refuses the write, the answer has to be the same."""
         r = self.r["abandoned_pass_requeues"]
-        self.assertEqual(r["timersAfterAbandon"], 1)
         self.assertEqual(r["orion"], "2026-09-07T11:00:00+00:00")
         self.assertEqual(r["kinometso"], "2026-09-07T12:00:00+00:00")
         self.assertEqual(r["net"], 8, "messages added network requests")
+
+    def test_a_refresh_that_began_under_a_running_load_cannot_regress_the_state(self):
+        """The ordering `gen` missed. It moves when a load starts, so a refresh beginning
+        while one is already in flight shares that load's generation and passed the guard.
+        A load in flight is left to finish, and what it wrote is what stands."""
+        r = self.r["refresh_under_a_running_load"]
+        self.assertEqual(r["readsWhileLoading"], 0, "a pass started under a running load")
+        self.assertEqual(r["afterLoad"], "2026-09-07T11:00:00+00:00")
+        self.assertEqual(r["final"], "2026-09-07T11:00:00+00:00")
+        self.assertEqual(r["netAddedAfterLoad"], 0)
+
+    def test_a_cache_read_answering_before_the_load_does_not_win_either(self):
+        """The reverse completion order. The pass was already running when the load
+        started, its read answers first with older bytes, and the load answers after."""
+        r = self.r["cache_answers_before_the_load"]
+        self.assertEqual(r["readsBefore"], 1)
+        self.assertEqual(r["afterCache"], "2026-09-07T06:00:00+00:00")
+        self.assertEqual(r["final"], "2026-09-07T11:00:00+00:00")
+
+    def test_a_message_queued_during_a_load_is_drained_after_it_without_requests(self):
+        r = self.r["queued_during_load"]
+        self.assertEqual(r["readsDuringLoad"], 0)
+        self.assertEqual(r["timersAfterLoad"], 1, "the load did not reschedule the pass")
+        self.assertEqual(r["netAddedByMessage"], 0)
+        self.assertEqual(r["kinometso"], "2026-09-07T12:00:00+00:00")
 
     def test_a_failed_provider_list_clears_the_rows_and_records_the_check(self):
         """statusModel reads no rows as "could not check". Keeping the old rows would show

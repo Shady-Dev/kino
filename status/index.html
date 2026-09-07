@@ -597,7 +597,12 @@
     const RESUME_MS = 60000;         // a resumed tab may ask the network at most this often
     const BURST_MS = 300;            // one refresh lands as many messages; fold them
     let providers = [], meta = {}, checkedAt = null;
-    let gen = 0, lastNet = 0, timer = null, running = false;
+    // `gen` orders loads against each other and moves when one starts, which is why it
+    // cannot order a refresh: a refresh beginning while a load is already in flight shares
+    // that load's `gen` and passed the check while its older bytes landed on top. What
+    // orders the two is `loading`, a count of loads in flight, plus the rule that a
+    // refresh never writes a payload older than the one held.
+    let gen = 0, loading = 0, lastNet = 0, timer = null, running = false;
     const queued = new Set();
 
     function normalise(j){
@@ -634,6 +639,14 @@
     // folding is trying to avoid in the first place.
     const key = m => m ? [m.generated, m.oldest, m.status, m.stale, m.unverified,
                           m.pending, m.venues].join('|') : '';
+    // `key` says whether two entries differ; it does not say which way round they are, so
+    // on its own it will happily write an older payload over a newer one. `generated` is
+    // the pipeline's write time and only moves forward, and ISO-8601 in a fixed offset
+    // sorts as text, so a refresh carrying an older one is behind what is already held and
+    // is dropped. Equal timestamps still pass, because the other fields can move within a
+    // run and `key` is what decides then.
+    const notBehind = (e, held) => !held || !held.generated || !e.generated
+                                || e.generated >= held.generated;
 
     async function load(opts){
       const force = !!(opts && opts.force);
@@ -641,26 +654,34 @@
       if(!force && lastNet && io.now() - lastNet < RESUME_MS) return false;
       const mine = ++gen;
       lastNet = io.now();
-      const j = await io.net('/data/providers.json');
-      // A load that could not read the list clears the rows. Keeping them would show a
-      // list nothing just verified, and statusModel reads no rows as "could not check",
-      // which is the honest answer when the file naming the providers did not arrive.
-      const list = j ? (j.providers || []).filter(p => p && p.id) : [];
-      if(mine !== gen) return false;
-      const next = {};
-      await Promise.all(list.map(async p => {
-        const one = await io.net(pathFor(p.id));
-        if(!one) return;
-        const e = entryFrom(p.id, one);
-        if(e) next[p.id] = e;
-      }));
-      // The token, checked once more after the last await: a slower earlier load must not
-      // write over a newer one. Retrying later is deliberate and allowed; this only drops
-      // answers that arrived out of order.
-      if(mine !== gen) return false;
-      providers = list; meta = next; checkedAt = io.now();
-      io.changed();
-      return true;
+      loading++;
+      try {
+        const j = await io.net('/data/providers.json');
+        // A load that could not read the list clears the rows. Keeping them would show a
+        // list nothing just verified, and statusModel reads no rows as "could not check",
+        // which is the honest answer when the file naming the providers did not arrive.
+        const list = j ? (j.providers || []).filter(p => p && p.id) : [];
+        if(mine !== gen) return false;
+        const next = {};
+        await Promise.all(list.map(async p => {
+          const one = await io.net(pathFor(p.id));
+          if(!one) return;
+          const e = entryFrom(p.id, one);
+          if(e) next[p.id] = e;
+        }));
+        // The token, checked once more after the last await: a slower earlier load must
+        // not write over a newer one. Retrying later is deliberate and allowed; this only
+        // drops answers that arrived out of order.
+        if(mine !== gen) return false;
+        providers = list; meta = next; checkedAt = io.now();
+        io.changed();
+        return true;
+      } finally {
+        loading--;
+        // Messages that arrived while this load ran have been looked at by nobody. They
+        // get a pass now, comparing against what this load just wrote.
+        if(!loading && queued.size) schedule();
+      }
     }
 
     // Cache Storage only. See the block comment.
@@ -685,17 +706,21 @@
       timer = io.defer(() => { timer = null; drain(); }, BURST_MS);
     }
     async function drain(){
+      // A load in flight is going to write every file, and its answer is newer than
+      // anything the cache can hand back. Racing it wins nothing and can lose: leave the
+      // queue alone and let the load's own completion schedule this.
+      if(loading) return;
       running = true;
       try {
         while(queued.size){
           const paths = [...queued];
           queued.clear();
-          const mine = gen;
           let moved = false;
           for(const path of paths){
             const j = await io.cache(path);
-            // Checked after the await and before the write, every time.
-            if(mine !== gen) return;
+            // A load started while this read was in flight. It reads every file and its
+            // answer supersedes these bytes, so hand the queue back to it.
+            if(loading) return;
             if(!j) continue;
             if(/\/data\/providers\.json$/.test(path)){
               const list = (j.providers || []).filter(x => x && x.id);
@@ -708,7 +733,9 @@
             const id = v ? v[1] : (/\/data\/areas\.json$/.test(path) ? 'finnkino' : '');
             if(!id) continue;
             const e = entryFrom(id, j);
-            if(e && key(e) !== key(meta[id])){ meta[id] = e; moved = true; }
+            if(e && notBehind(e, meta[id]) && key(e) !== key(meta[id])){
+              meta[id] = e; moved = true;
+            }
           }
           // `checkedAt` is not restamped: it says when this page last asked the network,
           // and the worker refreshing a file behind the page is not this page asking.
@@ -717,8 +744,10 @@
       } finally {
         running = false;
         // A burst that landed while this pass was abandoning still deserves a look, and
-        // it will now compare against whatever the load wrote.
-        if(queued.size) schedule();
+        // it will now compare against whatever the load wrote. Not while a load is in
+        // flight: that one reschedules on its way out, and scheduling here as well would
+        // spin a timer for as long as the load takes.
+        if(queued.size && !loading) schedule();
       }
     }
 
