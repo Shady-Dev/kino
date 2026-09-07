@@ -112,7 +112,7 @@ PROVIDERS = [
     dict(id="kinoiiris", label="Kino Iiris", host="kinoiiris.com", accent="#2F6FD0",
          book="buy", module="etiketti", where="cloud"),
     # The only eTiketti site on the local half: its host 403s a datacenter IP the way
-    # Finnkino and Engel do. It shares the etiketti module with seventeen cloud sites,
+    # Finnkino and Engel do. It shares the etiketti module with eighteen cloud sites,
     # which is what site-level routing in run.py exists for.
     dict(id="joutsankino", label="Joutsan Kino", host="kino.joutsa.fi", accent="#96702A",
          book="buy", module="etiketti", where="local"),
@@ -125,6 +125,14 @@ PROVIDERS = [
     # committed run.
     dict(id="cine", label="Cine", host="kiertue.cine.fi", accent="#FE4719",
          book="buy", module="etiketti", where="cloud"),
+    # Oulu already has Finnkino Plaza, so this accent is constrained: 50.0 normal,
+    # 73.7 Viénot, 65.1 Machado against Finnkino orange, at L* 46.1. Kino Tapiola's
+    # #003CFC is pinned unique by tests/test_tapiola.py and Star's own red is
+    # L* 36.4, under the legible band; IDEAS records both. `host` is the public
+    # domain for the footer credit, the adapter reads lippu. Cloud routing is
+    # provisional until its first committed run.
+    dict(id="star", label="Elokuvateatteri Star", host="elokuvateatteristar.fi",
+         accent="#2563EB", book="buy", module="etiketti", where="cloud"),
 
     # The Nexxo sweep of 2026-08-30. Six cinemas on five hosts, against the adapter that
     # already served Kinoset. Only Kino Aurora lands in a city that already had a chain.

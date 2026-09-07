@@ -1,6 +1,6 @@
 """eTiketti renders its screenings in two templates, and etiketti.py reads both.
 
-Kotka's template (sixteen hosts since 2026-08-30) prints "KE 2.9. klo 20.00", a place
+Kotka's template (nineteen of the twenty hosts) prints "KE 2.9. klo 20.00", a place
 line "TRIO 123 | SALI 2", "Lippu 15,00€" and "Vapaat paikat 27/35". Cinema Niagara's
 (2026-09-02) prints the time in a `time` div, the price in `show-price`, "Paikkoja
 vapaana: 126/127", per-screening tags in `movie-specs`, no place line, a newline between

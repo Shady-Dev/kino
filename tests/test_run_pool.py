@@ -361,8 +361,11 @@ class HostGroupsAgainstTheRealSitesTest(unittest.TestCase):
         self.assertIn(frozenset({"kinoaurora", "kinometso"}), together)
         self.assertIn(frozenset({"kinohirvi", "biosade"}), together)
 
-    def test_etiketti_is_seventeen_hosts(self):
-        """The measurement the pool size is argued from."""
+    def test_every_etiketti_site_is_its_own_host(self):
+        """The property the pool size is argued from: no eTiketti site shares a host
+        with another, so the module's sites are all read concurrently. Asserted as
+        one group per site rather than against a number, which went stale twice as
+        the sweep grew."""
         etiketti = importlib.import_module("etiketti")
         self.assertEqual(len(run.host_groups(etiketti.SITES)), len(etiketti.SITES))
 

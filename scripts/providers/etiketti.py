@@ -7,7 +7,7 @@ server-rendered and fetchable, so this parses the public pages:
   /elokuvat/{id}/{slug}     -> every screening for that film, with room, price,
                                free seats and a booking link
 
-Two screening templates render those pages. Kotka's (sixteen hosts, 2026-08-30) prints
+Two screening templates render those pages. Kotka's (nineteen of the twenty hosts) prints
 "KE 2.9. klo 20.00", "TRIO 123 | SALI 2", "Lippu 15,00€" and "Vapaat paikat 27/35";
 Cinema Niagara's (2026-09-02) prints the time in a `time` div, the price in `show-price`,
 "Paikkoja vapaana: 126/127", per-screening tags in `movie-specs`, no place line, and its
@@ -49,7 +49,7 @@ SITES = [
     # Like Leffabuumi, this deployment prints the *town* as the place and the cinema in
     # the room field ("JOENSUU | TAPIO | TAPIO 3"); `match` runs against the two joined.
     # Rooms arrive as `VENUE | VENUE n`, the venue repeated inside its own room name.
-    # The flag turns on normalise_aud here and on Cine below; the other seventeen
+    # The flag turns on normalise_aud here and on Cine below; the other eighteen
     # keep the room verbatim, and Leffabuumi's pipe means something else entirely.
     {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
      "aud_repeats_venue": True,
@@ -144,7 +144,7 @@ SITES = [
      ]},
     # Fetched from the local half: kino.joutsa.fi answers a runner with a Cloudflare 403
     # and an ordinary connection fine. `where="local"` on its registry entry is what
-    # routes it; run.py filters SITES by half, so the other seventeen stay cloud-side.
+    # routes it; run.py filters SITES by half, so the other eighteen stay cloud-side.
     {"provider": "joutsankino", "base": "https://kino.joutsa.fi", "label": "Joutsan Kino",
      "venues": [
          {"id": "jk-joutsa", "match": "joutsan kino", "name": "Joutsan Kino",
@@ -180,6 +180,16 @@ SITES = [
      "venues": [
          {"id": "cn-tampere", "match": "tampere", "name": "Cinema Niagara",
           "short": "Cinema Niagara", "city": "Tampere"},
+     ]},
+    # Elokuvateatteri Star, Oulu (2026-09-07). The public site is
+    # elokuvateatteristar.fi, which the footer credits; the programme and every
+    # /salikartta link are on lippu., which is what `base` reads and run.py paces on.
+    # Five rooms, SALI 1 to SALI 5, so no `aud_repeats_venue`.
+    {"provider": "star", "base": "https://lippu.elokuvateatteristar.fi",
+     "label": "Elokuvateatteri Star",
+     "venues": [
+         {"id": "star-oulu", "match": "star", "name": "Elokuvateatteri Star",
+          "short": "Elokuvateatteri Star", "city": "Oulu"},
      ]},
 ]
 

@@ -1,7 +1,7 @@
 """Savon Kinot reports a room as the venue repeated inside its own room name.
 
 `TAPIO | TAPIO 4` reached the app and the pages verbatim, beside a venue label that
-already said Tapio. Verbatim is right for the other seventeen eTiketti sites, so the fix
+already said Tapio. Verbatim is right for the other eighteen eTiketti sites, so the fix
 is a per-site normaliser. On 2026-09-01, 127 of Savon Kinot's 157 showtimes carried a
 piped `aud` across 11 values and six venues; every one is exercised here against the
 venue `short` the registry gives it. Leffabuumi pipes too (`KINOLINNA | SALI 1`) and
@@ -186,9 +186,10 @@ class OtherSitesUnchangedTest(unittest.TestCase):
         auditorium strings have to stay byte-for-byte what they are."""
         others = [s["provider"] for s in load().SITES
                   if not s.get("aud_repeats_venue")]
-        # The sixteen from the sweep and Cinema Niagara (2026-09-02). Pinned so a new
-        # site lands here as a decision rather than a drift.
-        self.assertEqual(len(others), 17)
+        # The sixteen from the sweep, Cinema Niagara (2026-09-02) and Elokuvateatteri
+        # Star (2026-09-07). Pinned so a new site lands here as a decision rather than
+        # a drift.
+        self.assertEqual(len(others), 18)
         for prov in others:
             vals = self.by_provider.get(prov)
             if not vals:

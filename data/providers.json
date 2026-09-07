@@ -183,6 +183,13 @@
    "book": "buy"
   },
   {
+   "id": "star",
+   "label": "Elokuvateatteri Star",
+   "host": "elokuvateatteristar.fi",
+   "accent": "#2563EB",
+   "book": "buy"
+  },
+  {
    "id": "kinoaurora",
    "label": "Kino Aurora",
    "host": "kinoaurora.fi",

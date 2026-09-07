@@ -57,7 +57,7 @@ cloud workflow. It takes a fresh Finnkino token from a real browser session each
 run, so there is no stored credential and nothing to rotate. There is no cloud
 fallback: a runner cannot obtain a token at all, since the site answers
 Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
-how one eTiketti cinema can be local while the other sixteen run on Actions.
+how two eTiketti cinemas can be local while the other eighteen run on Actions.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `run.log` and
@@ -140,7 +140,7 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 Nothing else needs editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
-which is why the provider id sits on the site: `etiketti` serves eighteen
+which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.
 
 `base` is the host the adapter reads, and it is optional. `run.py` paces on it:

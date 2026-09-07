@@ -854,6 +854,38 @@ empty programme and fail on. It needs an adapter for that platform.
 Kiertuenäytökset is excluded. `kiertue.cine.fi/teatterit/kiertue` renders zero screening
 items, zero date classes and zero booking links.
 
+### Elokuvateatteri Star, Oulu (2026-09-07)
+Requested by a user. `lippu.elokuvateatteristar.fi` serves the same
+`/elokuvat/ohjelmistossa` listing and film pages, on Kotka's template: `klo` times, `Lippu`
+prices, `Vapaat paikat` seat counts and a `place | room` line, with posters on
+`cdn.etiketti.app/star/`. A full read returned 24 films and 133 screenings for one venue,
+each with an auditorium, a price and a `/salikartta` link, 128 with a rating and 108 with a
+language. A second read an hour later returned 134, so the count is a reading rather than a
+property of the site. One ticket URL answered 200.
+
+The public site is `elokuvateatteristar.fi` and the programme and ticket links are on the
+`lippu.` subdomain. `host` is the public domain, which the footer credits. `base` is
+`https://lippu.elokuvateatteristar.fi`, which the adapter reads and `run.py` paces on: the
+pacing key is `urlsplit(base).netloc`, so the public domain there would name a host the run
+never touches.
+
+The room field holds `SALI 1` through `SALI 5`, five rooms in one building, so
+`aud_repeats_venue` stays off.
+
+Accent `#2563EB`: 50.0 normal, 73.7 Viénot and 65.1 Machado against Finnkino Plaza, Oulu's
+other chain, at L\* 46.1, and unique in the registry. Two colours were measured and
+rejected. `#003CFC` is Kino Tapiola's hex, which `tests/test_tapiola.py` pins as unique, so
+reusing it turns that test red; its figures against Finnkino, 52.7 / 80.4 / 71.6 at
+L\* 38.3, are the ones the Tapiola entry above records. Star's brand red `#AF0310`, from
+`/customers/star/css/style.min.css`, is unique and clears the rule at 19.6 / 18.6 / 18.7
+but sits at L\* 36.4, under the band the 3 px borders stay legible in.
+
+Star gives Oulu a second cinema and a combined city row. It does not give Oulu an area: an
+area needs two cinema cities.
+
+Cloud routing is provisional until the first committed run. Nothing in the read suggests a
+datacenter block, and only a run from Actions settles it.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 Finnish cinema domains and probed `/xml/TheatreAreas/`: zero hits beyond Savon
 Kinot. Azure blob enumeration on the shared asset host and a search for the vendor's client
