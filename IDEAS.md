@@ -2301,6 +2301,69 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### A classification published at one chain fills a blank at another (2026-09-07)
+A cinema that publishes no age rating is not saying the film is unrestricted, it is saying
+it publishes none, and 383 of 2916 showtimes were in that state. KAVI's classification is
+national, so a cinema reports the same fact rather than forming an opinion. The tree agrees:
+of 37 films rated at more than one chain, zero disagree.
+
+`shared_ratings()` groups exact TMDB matches by `tmdbId` and publishes one classification
+per film; `borrowed_rating()` decides what a single showing may take. Four rules, each
+measured rather than assumed:
+
+- **Exact matches only, on both sides.** A weak match neither donates nor receives, the
+  same gate `tmdbId` already passes for the cross-chain merge. Thirteen titles were weak in
+  the run this was written against, one of them "Kapina" matched to "Matilda ja lasten
+  kapina"; a children's classification landing on that film fails in the unsafe direction
+  for Lapsille.
+- **Unanimity, or nothing.** A disagreement publishes no shared value and prints the film,
+  the sources and the values. Strictest-wins was rejected: two cinemas disagreeing about a
+  national classification means one is wrong, and the run should say so.
+- **Runtime compatibility where both sides publish one.** Measured across the tree the gaps
+  are 0 min (78 pairs), 1 min (3) and 20 min (10), with nothing between. The 20-minute
+  cluster is Riviera's 110-minute "Practical Magic" against a 130-minute listing, an
+  alternate cut. The tolerance is five minutes, sitting in that gap. A runtime missing on
+  either side does not block: the rule is a veto on evidence of a different cut, not a
+  requirement that both publish one.
+- **A cinema's own rating is never replaced.** The shared value only fills a blank.
+
+Measured on the committed data of 2026-09-07: 383 unrated showtimes to 292, 91 filled
+across 23 titles, 10 refused by the runtime rule, 0 disagreements. These move with every
+run and are kept here rather than in the code. Lapsille goes from 546 eligible showtimes
+to 572. Riviera gains eight of them, "Hetki ennen valoa" and the Oasis documentary, both
+K-7 elsewhere.
+
+Provenance is kept because the UI cannot show it: a borrowed rating renders exactly like a
+published one, so the show carries `rsrc: "shared"` and the films-extra entry carries `kr`
+with `krs`, the chains it came from. Nothing else could tell them apart afterwards.
+
+Two persistence bugs in the first cut, both about a second run rather than a first.
+`run.py` keeps a stale venue's previous data, so a borrowed rating survives into the next
+run; counting it as a source let a loan outlive its donor and then lend itself onward, so
+`rsrc` now disqualifies a show from donating. And the value is re-decided from scratch each
+run, cleared first, because nothing else writes anything when a donor leaves the programme.
+The same held for `films-extra.json`: `kr` and `krs` are dropped from every entry before the
+current set is written, and the write runs on an empty set, which is exactly the case where
+every previous value has to go.
+
+A third followed from the same shape: the show loop reaches `continue` when a title has no
+cache entry, so clearing after that point never ran and a loan survived its own film being
+retitled or pruned. The clear moved above the guard, which is also where it belongs: it
+undoes this pass's own writing and does not need the cache to do it.
+
+`tests/test_shared_rating.py`, 27 tests, ten mutations red. Most of them run `main()`
+against a temporary tree and read the files back, including two runs with the donor removed
+between them: the source-text checks the first cut used could only confirm the source says
+what it says, which is the failure mode that shipped the /status/ refetch loop.
+
+Two mutations stay VOID and the reason is worth keeping. The `x` checks in the pass cannot
+be made to fail, because `main()` deletes every weak entry carrying an id as it loads the
+cache, so one never reaches the pass. That deletion is documented as a one-off for a shape
+change, so it is the wrong thing to depend on, and the checks are what remains if it goes.
+
+No client change: the pass fills the show's own `rating`, which `passFilters` already reads.
+Takes effect on the next cloud run.
+
 ### Lapsille hid the whole planetarium (2026-09-07, sw.js v123)
 Reported: the Lapsille chip shows none of Heureka's films, in every language. All 192 of
 them, and two independent gates were rejecting each one.

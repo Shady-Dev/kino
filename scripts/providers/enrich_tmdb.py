@@ -175,6 +175,96 @@ def get(url, headers, timeout=25):
 # and the cache is idempotent, so a partial one is just a warmer start next time.
 FLUSH_EVERY = 25
 
+# --- shared KAVI classification -------------------------------------------------------
+# A cinema that publishes no age rating is not saying the film is unrestricted; it is
+# saying it publishes none, and a good fraction of showtimes are in that state. The
+# classification is KAVI's and national, so a cinema is reporting the same fact rather
+# than forming an opinion, and the data agrees: no film rated at more than one chain has
+# yet been rated differently. The measured counts move with every run and live in the
+# IDEAS entry rather than here.
+#
+# Borrowing is deliberately narrow.
+#   * Only exact TMDB matches take part. A weak match neither donates nor receives: 13
+#     titles were weak in the run this was written against, one of them "Kapina" ->
+#     "Matilda ja lasten kapina", and a children's classification landing on the wrong
+#     film fails in the unsafe direction for the Lapsille filter. Same rule the cross-
+#     chain merge already applies to `tmdbId`.
+#     The `x` checks below cannot be made to fail today, and that is worth knowing rather
+#     than trusting: main() deletes every weak entry that carries an id as it loads the
+#     cache, so one never reaches this pass in the first place. That deletion is described
+#     there as a one-off for a shape change, so it is the wrong thing to depend on, and
+#     these checks are what is left if it goes.
+#   * Every non-empty rating for the film has to agree. Disagreement publishes nothing
+#     and is logged with the film, the sources and the values; taking the strictest was
+#     rejected, because two cinemas disagreeing about a national classification means one
+#     of them is wrong and the run should say so rather than paper over it.
+#   * Runtimes have to be compatible where both sides publish one. The measured gaps fall
+#     into a tight cluster at nought to one minute and a far one around twenty, with
+#     nothing between; the far cluster was Riviera's 110-minute "Practical Magic" against
+#     a 130-minute listing, an alternate cut. Five minutes sits in the gap between them.
+#   * A cinema's own rating is never replaced. The shared value only fills a blank.
+RUNTIME_TOL_MIN = 5
+
+
+def _minutes(v):
+    """A published runtime in whole minutes, or None. Providers write it as a string."""
+    m = re.match(r"^\s*(\d+)\s*$", str(v if v is not None else ""))
+    return int(m.group(1)) if m else None
+
+
+def shared_ratings(rated):
+    """Exact-matched shows that carry a rating -> ({tmdbId: entry}, [disagreements]).
+
+    `entry` is {"rating", "sources", "runtimes"}: the agreed classification, the chains
+    that published it, and the runtimes they published it with.
+
+    A value this pass wrote itself is not evidence. run.py keeps a stale venue's previous
+    data, so a borrowed rating survives into the next run, and counting it as a source
+    would let a loan outlive the cinema it was borrowed from and then donate itself
+    onward. `rsrc` marks those, and only a cinema's own rating is a source.
+    """
+    seen = {}
+    for s in rated:
+        if s.get("rsrc") == "shared":
+            continue
+        fid, r = s.get("tmdbId"), (s.get("rating") or "").strip()
+        if not fid or not r:
+            continue
+        e = seen.setdefault(fid, {"ratings": {}, "runtimes": set(), "title": s.get("title")})
+        e["ratings"].setdefault(r, set()).add(s.get("provider") or "finnkino")
+        mins = _minutes(s.get("len"))
+        if mins is not None:
+            e["runtimes"].add(mins)
+    table, clashes = {}, []
+    for fid, e in seen.items():
+        if len(e["ratings"]) > 1:
+            clashes.append({"tmdbId": fid, "title": e["title"],
+                            "values": {r: sorted(ps) for r, ps in sorted(e["ratings"].items())}})
+            continue
+        rating, sources = next(iter(e["ratings"].items()))
+        table[fid] = {"rating": rating, "sources": sorted(sources),
+                      "runtimes": sorted(e["runtimes"])}
+    return table, clashes
+
+
+def borrowed_rating(show, table, tol=RUNTIME_TOL_MIN):
+    """The classification this show may borrow, or None.
+
+    The caller has already established that the show's title is an exact TMDB match.
+    """
+    if (show.get("rating") or "").strip():
+        return None                       # a cinema's own rating is never replaced
+    e = table.get(show.get("tmdbId"))
+    if not e:
+        return None
+    mine = _minutes(show.get("len"))
+    if mine is not None and e["runtimes"]:
+        if min(abs(mine - d) for d in e["runtimes"]) > tol:
+            return None                   # an alternate cut, not this film
+    return e["rating"]
+# --- end shared KAVI classification ----------------------------------------------------
+
+
 
 def merge_extra(cache, today):
     """Fold cached text/ratings/posters into films-extra.json.
@@ -207,6 +297,31 @@ def merge_extra(cache, today):
             e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
         if not e.get("tr") and c.get("v"):
             e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
+    common.write_json(EXTRA, {"generated": today, "films": films})
+
+
+def merge_shared(shared, today):
+    """Publish the shared classification into films-extra.json: `kr` is the value, `krs`
+    the chains it came from. Keyed like everything else in that file.
+
+    Every existing `kr` is dropped first and the current set written fresh, so this is the
+    whole answer rather than an accumulation. A film loses its shared value when its donor
+    leaves the programme, when a second chain starts disagreeing, or when the runtime rule
+    starts refusing it, and none of those write anything to notice: only clearing first
+    removes them. For the same reason it runs on an empty set, which is exactly the case
+    where every previous value has to go."""
+    try:
+        doc = json.loads(EXTRA.read_text())
+    except Exception:
+        doc = {}
+    films = doc.get("films") or {}
+    for e in films.values():
+        if isinstance(e, dict):
+            e.pop("kr", None)
+            e.pop("krs", None)
+    for k, v in shared.items():
+        e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
+        e["kr"], e["krs"] = v["kr"], v["krs"]
     common.write_json(EXTRA, {"generated": today, "films": films})
 
 
@@ -455,16 +570,43 @@ def main() -> int:
     if line:
         print(f"[enrich] {line}")
 
-    touched = 0
+    # A first pass over every area file, so a rating published at one chain can fill a
+    # blank at another. Only exact matches take part, on both sides.
+    docs = {}
+    donors = []
     for p in files:
         try:
-            doc = json.loads(p.read_text())
+            docs[p] = json.loads(p.read_text())
         except Exception:
             continue
+        for s in docs[p].get("shows", []):
+            c = cache.get(norm(s.get("title")))
+            if isinstance(c, dict) and c.get("x") and c.get("i"):
+                donors.append({**s, "tmdbId": c["i"]})
+    table, clashes = shared_ratings(donors)
+    for d in clashes:
+        values = " ".join(f"{r}={'/'.join(ps)}" for r, ps in d["values"].items())
+        print(f"[enrich] rating disagreement, nothing shared: {d['title']} "
+              f"(tmdb {d['tmdbId']}) {values}")
+    shared_by_key = {}          # films-extra key -> the entry it publishes
+    filled = 0
+
+    touched = 0
+    for p, doc in docs.items():
         changed = False
         for s in doc.get("shows", []):
+            # Anything this pass wrote before goes first, ahead of the cache guard. A show
+            # whose cache entry has since gone, because its title changed or the entry was
+            # pruned, still reaches `continue` below, and clearing after that point would
+            # never run: the loan would sit there with nothing left to justify it.
+            was = ((s.get("rating") or ""), s.get("rsrc"))
+            if s.get("rsrc") == "shared":
+                s["rating"] = ""
+                s.pop("rsrc", None)
             c = cache.get(norm(s.get("title")))
             if not isinstance(c, dict):
+                if ((s.get("rating") or ""), s.get("rsrc")) != was:
+                    changed = True
                 continue
             if c.get("r") and s.get("tmdb") != c["r"]:
                 s["tmdb"] = c["r"]; changed = True
@@ -489,9 +631,32 @@ def main() -> int:
             # for the family genre alone.
             if c.get("g") and s.get("gids") != c["g"]:
                 s["gids"] = c["g"]; changed = True
+            # A classification another chain published for the same film, filling a blank
+            # only. `rsrc` is provenance: the UI shows a borrowed rating exactly like a
+            # published one, and nothing else can tell them apart afterwards.
+            #
+            # Decided from scratch every run. A value this pass wrote earlier was cleared
+            # above, so what is left in `rating` is the cinema's own and a loan that no
+            # longer qualifies simply does not come back. Without that it outlives its
+            # donor.
+            borrowed = None
+            if c.get("x") and c.get("i"):
+                borrowed = borrowed_rating({**s, "tmdbId": c["i"]}, table)
+            if borrowed:
+                s["rating"], s["rsrc"] = borrowed, "shared"
+            if ((s.get("rating") or ""), s.get("rsrc")) != was:
+                changed = True
+            if borrowed:
+                filled += 1
+                shared_by_key[norm(s.get("title"))] = {"kr": borrowed,
+                                                       "krs": table[c["i"]]["sources"]}
         if changed:
             common.write_json(p, doc)
             touched += 1
+    if filled or clashes:
+        print(f"[enrich] shared classification: {filled} blank rating(s) filled from "
+              f"{len(shared_by_key)} title(s), {len(clashes)} disagreement(s)")
+    merge_shared(shared_by_key, today)
 
     # Name the titles that found nothing: these are the candidates for tmdb-aliases.json.
     missing = sorted(display for k, display in titles.items()
