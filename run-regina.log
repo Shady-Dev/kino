@@ -35,6 +35,7 @@
 [regina] film page 141112 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 1417008 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 146024 failed: HTTPError: HTTP Error 404: Not Found
+[regina] film page 146603 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 147564 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 1505093 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 1559198 failed: HTTPError: HTTP Error 404: Not Found
@@ -79,12 +80,13 @@
 [regina] film page 607913 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 773020 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 773210 failed: HTTPError: HTTP Error 404: Not Found
+[regina] film page 774539 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 878807 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 926256 failed: HTTPError: HTTP Error 404: Not Found
 [regina] film page 960394 failed: HTTPError: HTTP Error 404: Not Found
-[regina] film pages: 21 parsed, 82 with nothing usable, 29/148 showtimes rated
-[regina] synopses merged: 8
+[regina] film pages: 19 parsed, 84 with nothing usable, 26/148 showtimes rated
+[regina] synopses merged: 0
 [regina] Kino Regina: 148 showtimes, 54 dates
-[run] http: 0 revalidated (304), 21 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 19 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] regina: 1 venues, 148 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
