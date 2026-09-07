@@ -210,10 +210,73 @@ PROVIDERS = [
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
 
+# Areas the picker offers beside the cities, generated into data/regions.json by
+# scripts/build_regions.py. Kept here rather than in index.html because that is the one
+# file a provider change never touches: a cinema in a new town would otherwise land
+# outside every area with nothing to catch it, and tests/test_regions.py fails on a city
+# named here that has no venue.
+#
+# The rule: two or more cinema cities, and every pair inside the area close enough that
+# a cinema in one town can replace one in another. `km` is the longest hop inside
+# the area, and every figure is an estimate rather than a measured road distance, so it
+# documents the intent of the cut and is not published to the client. Cities excluded on
+# distance stay ordinary city rows: Sastamala is 70 km from Kangasala, Jamsa 95 from
+# Aanekoski, Loimaa 65 from Turku, Kuopio 75 from Varkaus, Savonlinna 105 from Mikkeli,
+# Kitee 75 from Joensuu, Vaasa 95 from Kokkola and Rovaniemi 115 from Kemi.
+#
+# A city belongs to at most one area, so the areas never overlap and no cinema is
+# reachable through two of them. Names are nominative and never inflected.
+#
+# `name` is the Finnish name and the key: data/regions.json, the `region:` preference and
+# the ?area= links are all keyed by it, so translating it would break every stored value
+# and every deep link, exactly as CITY_SV in index.html is display-only. `sv` and `en` are
+# the display names, and the picker's search matches all three in every language, the way
+# a Turku venue is already found under Åbo. The Swedish forms follow the established city
+# name where one exists (Tavastehus, Lahtis, Villmanstrand, Björneborg, Åbo, Karleby,
+# Tammerfors, S:t Michel) with -regionen; Jyväskylä has no Swedish name, so its region
+# keeps the Finnish stem. A native reader should check the coined -regionen forms.
+REGIONS = [
+    dict(name="Pääkaupunkiseutu", sv="Huvudstadsregionen", en="Capital region",
+         cities=["Helsinki", "Espoo", "Vantaa", "Kauniainen"], km=20),
+    dict(name="Keski-Uusimaa", sv="Mellersta Nyland", en="Central Uusimaa",
+         cities=["Järvenpää", "Nurmijärvi", "Hyvinkää", "Nummela"], km=45),
+    dict(name="Itä-Uusimaa", sv="Östra Nyland", en="Eastern Uusimaa",
+         cities=["Porvoo", "Loviisa"], km=40),
+    dict(name="Hämeenlinnan seutu", sv="Tavastehusregionen", en="Hämeenlinna region",
+         cities=["Hämeenlinna", "Riihimäki"], km=35),
+    dict(name="Lahden seutu", sv="Lahtisregionen", en="Lahti region",
+         cities=["Lahti", "Järvelä"], km=30),
+    dict(name="Kymenlaakso", sv="Kymmenedalen", en="Kymenlaakso",
+         cities=["Kotka", "Kouvola"], km=55),
+    dict(name="Lappeenrannan seutu", sv="Villmanstrandsregionen", en="Lappeenranta region",
+         cities=["Lappeenranta", "Imatra"], km=35),
+    dict(name="Mikkelin seutu", sv="S:t Michelsregionen", en="Mikkeli region",
+         cities=["Mikkeli", "Puumala"], km=60),
+    dict(name="Tampereen seutu", sv="Tammerforsregionen", en="Tampere region",
+         cities=["Tampere", "Kangasala"], km=20),
+    dict(name="Porin seutu", sv="Björneborgsregionen", en="Pori region",
+         cities=["Pori", "Kankaanpää", "Huittinen"], km=60),
+    dict(name="Turun seutu", sv="Åboregionen", en="Turku region",
+         cities=["Turku", "Raisio"], km=10),
+    dict(name="Jyväskylän seutu", sv="Jyväskyläregionen", en="Jyväskylä region",
+         cities=["Jyväskylä", "Muurame", "Petäjävesi", "Äänekoski"], km=40),
+    dict(name="Kokkolan seutu", sv="Karlebyregionen", en="Kokkola region",
+         cities=["Kokkola", "Pietarsaari"], km=60),
+    dict(name="Meri-Lappi", sv="Havslappland", en="Sea Lapland",
+         cities=["Kemi", "Tornio"], km=25),
+]
+
+REGION_KEYS = ("name", "sv", "en", "cities")
+
 
 def frontend():
     """The subset the client needs. Nothing about where a provider runs leaks out."""
     return [{k: p[k] for k in FRONTEND_KEYS} for p in PROVIDERS]
+
+
+def regions():
+    """The areas the client needs. `km` documents the cut and stays out of the JSON."""
+    return [{k: r[k] for k in REGION_KEYS} for r in REGIONS]
 
 
 def by_id(pid):

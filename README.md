@@ -19,8 +19,12 @@ opens that cinema's own booking page, or the ticket shop where the screening is
 included in a general admission ticket (Heureka's planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
-across chains into one card. The theatre picker is searchable, and "jarvela"
-finds Järvelä. Installs as a PWA and serves the last loaded schedule offline.
+across chains into one card, and so do 14 regions: the picker switches between
+its 52 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+cities. A region groups towns close enough that a cinema in one can replace one
+in another, every pair inside it within about 60 km. The theatre picker is
+searchable, and "jarvela" finds Järvelä, "capital region" finds
+Pääkaupunkiseutu. Installs as a PWA and serves the last loaded schedule offline.
 Venue, home theatre, day, language and theme live in `localStorage`.
 
 ## How it works
@@ -168,9 +172,11 @@ the same committed JSON at the end of every run:
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
 89 per language, 179 sitemap URLs: 79 venues plus the ten cities with more than
-one venue, and the front page. A one-venue city would duplicate its venue page
-and compete with it, so those get the city into the venue page's title and
-address instead.
+one venue, and the front page. The 14 regions get no page of their own: a region
+page would compete with the city and venue pages it is made of, and a region
+exists only inside the picker. A one-venue city would
+duplicate its venue page and compete with it, so those get the city into the
+venue page's title and address instead.
 
 Each page carries real HTML showtimes, `hreflang` pairs, and
 `ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the

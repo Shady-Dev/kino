@@ -33,6 +33,9 @@ class CombinedRowLabelTest(unittest.TestCase):
         self.assertIn("{city} – kaikki teatterit", labels)
 
     def test_both_renderers_compose_through_the_placeholder(self):
+        """Two call sites, the trigger and the row, both for a city. An area composes
+        neither: its row and its trigger read the name and the count, because an area has
+        no single-venue twin to tell itself apart from."""
         self.assertEqual(self.HTML.count(".allIn.replace('{city}',"), 2)
         self.assertNotRegex(self.HTML, r"\$\{T\.allIn\} ")
         self.assertNotRegex(self.HTML, r"\.allIn\} \$\{")
@@ -100,6 +103,79 @@ class VenuePickerModelTest(unittest.TestCase):
     def test_the_pinned_row_obeys_the_filter(self):
         self.assertNotIn("all:city:Helsinki", self.r["fav_city_filtered_out"])
         self.assertIn("venue:tku", self.r["fav_city_filtered_out"])
+
+    # -- areas ---------------------------------------------------------------------
+
+    def test_the_city_view_is_the_list_areas_never_joined(self):
+        """The point of the second view: with areas in the data, an empty query in the
+        city view returns exactly the rows it returned before areas existed."""
+        self.assertEqual(self.r["cities_view"], self.r["no_query"])
+
+    def test_the_areas_view_lists_the_areas_alone(self):
+        self.assertEqual(self.r["areas_view"],
+                         ["#Alueet", "area:region:Uusimaa", "area:region:Varsinais-Suomi"])
+
+    def test_an_area_row_carries_its_cinema_count(self):
+        """The count is the row's own column, so the model has to produce it: three
+        cinemas across two cities, one in the other area."""
+        self.assertEqual(self.r["areas_view_counts"], ["Uusimaa:3", "Varsinais-Suomi:1"])
+
+    def test_the_selected_area_is_the_current_row(self):
+        self.assertEqual(self.r["area_current"], ["Uusimaa:true", "Varsinais-Suomi:false"])
+
+    def test_an_area_name_query_reads_the_same_from_either_view(self):
+        """Search spans both lists, so the switch cannot hide an area from a query."""
+        self.assertEqual(self.r["area_name_query"], ["#Alueet", "area:region:Uusimaa"])
+        self.assertEqual(self.r["area_name_query_from_areas_view"],
+                         self.r["area_name_query"])
+
+    def test_a_query_matching_only_a_member_city_puts_the_area_below(self):
+        """Enter takes the first row, so "turku" has to select the cinema in Turku. The
+        area is offered below the cinemas."""
+        self.assertEqual(self.r["city_query_puts_area_below"],
+                         ["#Turku", "venue:tku", "#Alueet", "area:region:Varsinais-Suomi"])
+        self.assertEqual(self.r["city_query_from_areas_view"],
+                         self.r["city_query_puts_area_below"])
+
+    def test_kaikki_finds_the_combined_rows_and_no_areas(self):
+        """An area row shows its name and its count, so "kaikki teatterit" is not text an
+        area carries, and the highlight has to be computed against the text it shows."""
+        self.assertEqual(self.r["kaikki_query_with_areas"],
+                         ["#Helsinki", "all:city:Helsinki"])
+
+    def test_an_area_row_reads_the_reader_s_language(self):
+        """The Finnish name is the key everywhere it is stored; the row shows the
+        translation, so an English reader never meets a Finnish area name."""
+        self.assertEqual(self.r["area_labels_en"], ["Uusimaa region", "Southwest Finland"])
+        self.assertEqual(self.r["area_labels_sv"], ["Nyland", "Egentliga Finland"])
+
+    def test_an_area_is_found_by_any_of_its_three_names(self):
+        """"Capital region" returned nothing while the area was labelled in Finnish only.
+        The haystack is all three names in every language, the way a Turku venue is
+        already found under Åbo."""
+        self.assertEqual(self.r["en_query_in_finnish"],
+                         ["#Alueet", "area:region:Varsinais-Suomi"])
+        self.assertEqual(self.r["sv_query_in_finnish"],
+                         ["#Alueet", "area:region:Varsinais-Suomi"])
+        self.assertEqual(self.r["fi_query_in_english"],
+                         ["#Alueet", "area:region:Varsinais-Suomi"])
+
+    def test_the_highlight_lands_on_the_name_the_row_shows(self):
+        """Matching reads three names and the row shows one, so the mark has to be
+        computed against the visible string or it lands on the wrong characters."""
+        self.assertEqual(self.r["en_query_highlight"], ["<mark>Southwest</mark> Finland"])
+
+    def test_a_saved_area_is_pinned_in_both_views(self):
+        self.assertEqual(self.r["fav_area_in_cities_view"][:2],
+                         ["#Oma teatteri", "area:region:Uusimaa"])
+        self.assertEqual(self.r["fav_area_in_areas_view"][:2],
+                         ["#Oma teatteri", "area:region:Uusimaa"])
+
+    def test_a_saved_venue_is_not_pinned_into_the_areas_view(self):
+        """A venue row above a list of areas would be the clutter the second view
+        avoids, and the venue is one switch away."""
+        self.assertEqual(self.r["fav_venue_in_areas_view"],
+                         ["#Alueet", "area:region:Uusimaa", "area:region:Varsinais-Suomi"])
 
     # -- the unfiltered list -------------------------------------------------------
 

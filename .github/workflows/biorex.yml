@@ -40,8 +40,10 @@ jobs:
           path: .http-cache
           key: http-cache-${{ github.run_id }}
           restore-keys: http-cache-
-      - name: Build providers.json
-        run: python3 scripts/build_providers.py
+      - name: Build providers.json and regions.json
+        run: |
+          python3 scripts/build_providers.py
+          python3 scripts/build_regions.py
       # One loop over every cloud provider; the module list comes from the registry, so
       # adding a provider needs no edit here. Logs are per module (run-{module}.log) and
       # committed: read those, not the Actions logs.

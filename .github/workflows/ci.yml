@@ -63,6 +63,7 @@ jobs:
       - name: Generated output is reproducible
         run: |
           python3 scripts/build_providers.py
+          python3 scripts/build_regions.py
           python3 scripts/build_pages.py --date recorded
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::regenerating changed committed output"

@@ -213,9 +213,10 @@ Conventions:
   legend above the list and in the sheet. Never colour alone. Stubs use a CSS grid.
 - Auditorium names stay verbatim, since that is what the ticket prints.
 
-Since done elsewhere: TMDB id as a merge signal (see "The score ring"). Still open: a
-curated "Pääkaupunkiseutu" entry (Helsinki + Espoo + Vantaa), and sparse-date dimming,
-which `<input type="date">` cannot do without a custom picker.
+Since done elsewhere: TMDB id as a merge signal (see "The score ring"). The curated
+"Pääkaupunkiseutu" entry is done and grew into fourteen regions; see "The picker browses
+cities or regions". Still open: sparse-date dimming, which `<input type="date">` cannot do
+without a custom picker.
 
 ### BioRex API — probed and confirmed 2026-08-26
 WordPress + admin-ajax. No auth, no nonce, no Cloudflare block. **12 requests per run**
@@ -1457,6 +1458,62 @@ TMDB translated one upstream.
       theme fade produced phantom failures when measured too early. What the harness cannot
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
+
+### The picker browses cities or regions (2026-09-07)
+Someone in Espoo who would drive the 15 km to Tennispalatsi had to know to look under
+Helsinki. The combined city view answered that inside one city and nowhere else, and the
+open backlog entry asked for a curated Pääkaupunkiseutu.
+
+**The cut.** A region earns a row where two or more of its cities have a cinema and every
+pair inside it is close enough that a cinema in one town can replace one in another:
+about 60 km, measured to the longest hop. That leaves 14 regions covering 35 of the 52
+cities and 61 of the 79 venues. Maakunta boundaries were tried first and rejected: they
+put Rovaniemi in the same row as Tornio, 230 km apart, and Jyväskylä with Joutsa. The
+distance figures in `registry.py` are estimates rather than measured road distances, so
+they document the intent of the cut and are not published to the client. Seventeen cities
+have no neighbour within reach and stay ordinary city rows.
+
+**Why a second view.** An area layer above the cities made a 141-row list longer, so the
+sheet gained a switch instead: `Kaupungit` is the list exactly as it shipped, `Alueet` is
+the regions alone. Neither view carries the other's rows, the default list is unchanged,
+and the 17 cities with no region need no special handling. The switch costs 36 px of head
+once. Which view opens is remembered in `kino-prefs`, validated like any stored
+value: a stored `areas` with no regions in the data opens on the cities.
+
+**Search reads both.** `venueRows` matches a region on its own text and ranks it above the
+cinemas only then; a query that hit only a member city puts the region under them, because
+Enter takes the first row and "kangasala" means the cinema in Kangasala. A query that names
+a city which is also a region's head opens the region: "tampere" opens Tampereen seutu, the
+same shape as "helsinki" opening the combined city.
+
+**Names in three languages.** The Finnish name keys `data/regions.json`, the `region:`
+preference and `?area=`, exactly as `CITY_SV` is display-only, and translating it would
+break every stored value. `sv` and `en` are display names and the haystack holds all three,
+so "capital region" finds Pääkaupunkiseutu in Finnish and "meri-lappi" finds Sea Lapland in
+English. The coined `-regionen` forms follow the established Swedish city name where one
+exists; a native reader should still check them.
+
+**Where the mapping lives.** `REGIONS` in `scripts/providers/registry.py`, published by
+`scripts/build_regions.py` on the same contract as `build_providers.py`: offline,
+deterministic, no timestamp. In `index.html` the list would sit in the one file a provider
+change never touches, and `tests/test_regions.py` fails on a city named in two regions or
+on a name no venue file backs. The client treats the file as optional: without it the
+picker is what it was before regions existed, which is what a first deploy or an old
+worker serves.
+
+**One resolver.** `groupIdsOf(area)` answers for `city:` and `region:` alike, so loading,
+the stale banner, venue labelling, `?area=` validation and the worker's refresh path treat
+a region like a city. `loadCity` became `loadGroup`, and the refresh path's group map is
+keyed by the whole area string: a venue file now feeds at most three held slots, its own,
+its city and its region, and the old filter sliced the `city:` prefix off by hand.
+
+**The trigger label.** A region reads `Pääkaupunkiseutu (21)`, not
+`… – kaikki teatterit (21)`, which measured 244 px against a 240 px slot at 320 and was
+ellipsized at every width. A city needs the phrase to tell its combined row from the single
+venue of the same name; a region has no single-venue twin. The picker's placeholder became a
+noun list, `Alue, kaupunki tai teatteri`, 178 px in a 201 px field at 320, and the
+accessible name stayed a sentence where length costs nothing.
+
 ## Ops
 - [x] Per-provider health line in the app (⚠ past 8 h, from each `venues-*.json` generated)
 - [ ] Staleness monitor (external ping on data/areas.json age). The repo half is

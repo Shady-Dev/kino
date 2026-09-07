@@ -261,6 +261,22 @@
   .vrow .vtxt small{color:var(--muted)}
   .vrow mark{background:none; color:var(--accent-text); font-weight:700}
   .vrow.vall .vtxt{font-weight:600}
+  /* Areas are a second view rather than more rows in the list, so the switch costs one
+     line in the head once instead of a row per area, and the city list stays the length
+     it has always been. Hidden entirely when data/regions.json names no usable area. */
+  .vviews{display:flex; padding:8px 12px 10px; background:var(--surface);
+    border-bottom:1px solid var(--line)}
+  .vviews .vv{flex:1; font:inherit; font-size:.9rem; color:var(--muted);
+    background:var(--bg); border:1px solid var(--line); cursor:pointer; padding:7px 6px;
+    display:flex; align-items:center; justify-content:center; gap:6px}
+  .vviews .vv:first-child{border-radius:9px 0 0 9px}
+  .vviews .vv:last-child{border-radius:0 9px 9px 0; border-left:0}
+  .vviews .vv[aria-pressed="true"]{background:var(--ink); color:var(--bg); font-weight:600}
+  .vviews .vv .vvn{font-size:.78rem; opacity:.75; font-variant-numeric:tabular-nums}
+  .vrow.varea .vtxt{font-weight:600}
+  /* The count, in its own column instead of after a separator. */
+  .vrow .vnum{flex:0 0 auto; color:var(--muted); font-size:.82rem;
+    font-variant-numeric:tabular-nums; padding-left:8px}
   .vnone{display:none; color:var(--muted); text-align:center; padding:36px 16px}
   .vnone.show{display:block}
   .search{flex:1; min-width:160px}
@@ -812,9 +828,13 @@
     <div class="vhead">
       <span class="vfind">
         <svg class="vglass" width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.7" stroke="currentColor" stroke-width="1.6"/><path d="M10.2 10.2 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        <input id="vq" type="search" autocomplete="off" enterkeyhint="done" placeholder="Hae teatteria tai kaupunkia" aria-label="Hae teatteria tai kaupunkia">
+        <input id="vq" type="search" autocomplete="off" enterkeyhint="done" placeholder="Alue, kaupunki tai teatteri" aria-label="Hae aluetta, kaupunkia tai teatteria">
       </span>
       <button id="vclose" class="vclose" type="button" aria-label="Sulje">✕</button>
+    </div>
+    <div id="vviews" class="vviews" role="group" aria-label="Selaa kaupunkeja tai alueita" hidden>
+      <button class="vv" type="button" data-view="cities" aria-pressed="true">Kaupungit</button>
+      <button class="vv" type="button" data-view="areas" aria-pressed="false">Alueet</button>
     </div>
     <div id="vlist" class="vlist"></div>
     <div id="vnone" class="vnone" role="status">Ei osumia.</div>
@@ -854,6 +874,7 @@
   const setListStatus = msg => { if(listStatusEl) listStatusEl.textContent = msg || ''; };
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
+                vview:'cities',   // which list the venue picker browses: cities or areas
                 fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
                 genProvider:'',  // whose data `generated` came from, for the stale banner
                 chains:null,     // null = every chain; a Set = only those
@@ -975,7 +996,10 @@
          fannis:'Anniskelu',
          tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri valittu – avautuu jatkossa automaattisesti', favOff:'Aseta omaksi teatteriksi',
-         vSearch:'Hae teatteria tai kaupunkia', vNone:'Ei osumia.', vOwn:'Oma teatteri',
+         vSearch:'Hae aluetta, kaupunkia tai teatteria',
+         vSearchPh:'Alue, kaupunki tai teatteri', vNone:'Ei osumia.',
+         vOwn:'Oma teatteri', vAreas:'Alueet', vCities:'Kaupungit',
+         vTheatres:'teatteria', aVenueView:'Selaa kaupunkeja tai alueita',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
          soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
@@ -1025,7 +1049,10 @@
          fannis:'Bar',
          tomorrow:'I morgon', from:'från', sources:'Källor', hours:'h',
          favOn:'Egen biograf, öppnas här nästa gång', favOff:'Välj som egen biograf',
-         vSearch:'Sök biograf eller stad', vNone:'Inga träffar.', vOwn:'Egen biograf',
+         vSearch:'Sök område, stad eller biograf',
+         vSearchPh:'Område, stad eller biograf', vNone:'Inga träffar.',
+         vOwn:'Egen biograf', vAreas:'Områden', vCities:'Städer',
+         vTheatres:'biografer', aVenueView:'Bläddra bland städer eller områden',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
          allIn:'{city} – alla biografer', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
@@ -1072,7 +1099,10 @@
          fannis:'Bar',
          tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
-         vSearch:'Search cinema or city', vNone:'No matches.', vOwn:'Home theatre',
+         vSearch:'Search area, city or cinema',
+         vSearchPh:'Area, city or cinema', vNone:'No matches.',
+         vOwn:'Home theatre', vAreas:'Areas', vCities:'Cities',
+         vTheatres:'cinemas', aVenueView:'Browse cities or areas',
          favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'{city} – all cinemas', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
@@ -1213,6 +1243,15 @@
   let fiDay = L[state.lang].days;
   let calChip = null, dayBtns = {}, venueIndex = {};
   let allVenues = [], cityGroups = {}, cityOrder = [], cityVenues = {};
+  // Areas, from data/regions.json. Same shape as the city maps, keyed by area name.
+  let REGIONS = [], regionGroups = {}, regionOrder = [], regionVenues = {},
+      regionCities = {}, regionText = {};
+  // Display only, the CITY_SV rule: the Finnish name is the key everywhere it is stored
+  // or linked, and the translations are what the sheet and the trigger read out.
+  const regionLabel = r => {
+    const e = REGIONS.find(x => x.name === r);
+    return (e && e[state.lang]) || r;
+  };
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -1617,6 +1656,14 @@
     try { applyProviders((await fetchJSON('data/providers.json')).providers); }
     catch(_){ applyProviders(null); }   // fallback already applied; stay quiet
   }
+  // The areas the picker offers beside the cities, generated from registry.py so a
+  // cinema in a new town cannot be classified in a file a provider change never
+  // touches. Optional on purpose: no file, no areas, and the picker is what it was
+  // before they existed, which is what a first deploy or an old worker serves.
+  async function loadRegions(p){
+    try { REGIONS = ((await (p || fetchJSON('data/regions.json'))).regions) || []; }
+    catch(_){ REGIONS = []; }
+  }
   function shortOf(a){
     if(a.short) return a.short;
     const city = cityOf(a);
@@ -1644,7 +1691,25 @@
       cityVenues[c] = byCity.get(c).slice().sort((x,y)=>coll.compare(labelOf(x), labelOf(y)));
       cityGroups[c] = cityVenues[c].map(a => a.id);
     }
+    // Areas keep the registry's order, which runs south to north; the capital is first
+    // because that is where most of the cinemas are. An area with one cinema is not
+    // offered: it would be the venue's own row under a second name.
+    regionOrder = []; regionVenues = {}; regionGroups = {}; regionCities = {};
+    regionText = {};
+    for(const r of REGIONS){
+      const vs = [];
+      for(const c of (r.cities || [])) for(const a of (cityVenues[c] || [])) vs.push(a);
+      if(vs.length < 2) continue;
+      regionOrder.push(r.name);
+      regionVenues[r.name] = vs;
+      regionGroups[r.name] = vs.map(a => a.id);
+      regionCities[r.name] = (r.cities || []).filter(c => (cityVenues[c] || []).length);
+      // Every name the area answers to, so "capital region" finds Pääkaupunkiseutu in
+      // Finnish and "pääkaupunkiseutu" finds it in English.
+      regionText[r.name] = [r.name, r.sv, r.en].filter(Boolean).join(' ');
+    }
     syncVenueBtn();
+    syncViewSeg();
   }
 
   /* ---------- venue picker ---------- */
@@ -1653,6 +1718,7 @@
   // with a search field over 70 venues. Cities with more than one screen keep their
   // combined entry at the top of their group.
   const vwrap = $('#vwrap'), vlist = $('#vlist'), vq = $('#vq'), vnone = $('#vnone');
+  const vviews = $('#vviews');
   // --- venue picker model: pure, extracted verbatim by tests/venue_picker_harness.js ---
   // NFD + strip combining marks: "jarvela" finds Järvelä. The stripped string is the
   // same length as the NFC original, so match offsets index the original for <mark>.
@@ -1665,34 +1731,78 @@
          + '</mark>' + esc(label.slice(i + q.length));
   }
   // The flat list the sheet renders, decided away from the DOM so it can be tested.
-  // ctx: {T, fav, area, cityOrder, cityVenues, venueIndex, labelOf, cityLabel, cityOf}.
+  // ctx: {T, fav, area, view, cityOrder, cityVenues, venueIndex, labelOf, cityLabel,
+  // cityOf, regionOrder, regionVenues, regionCities, regionText, regionLabel}.
   // Two rules Enter depends on, because Enter picks the first row:
   // - A combined "Kaikki {city}" row appears only when nothing is searched or the query
   //   matches the row's own text or its city, never because a venue in that city
   //   matched. Searching "itis" must put Finnkino Itis first.
   // - A venue matches on its label, its raw city name and the display city name, so in
   //   Swedish both "Turku" and "Åbo" find a Turku venue.
+  // Areas (2026-09-07) are a second view rather than more rows in the first, so the
+  // city list is exactly what it was before them. Three rules:
+  // - `view` decides only what an empty query browses: 'areas' lists the areas alone,
+  //   anything else lists the cities alone. Search reads both from either view, so an
+  //   area is findable without switching.
+  // - An area outranks the cinemas only when the query hit the area's own row text. A
+  //   query that hit only one of its cities puts the area after them, because Enter
+  //   takes the first row and "kangasala" means the cinema in Kangasala.
+  // - The favourite keeps its pinned row in both views when it is an area, and only in
+  //   the city view when it is a city or a venue.
   function venueRows(q, ctx){
     const T = ctx.T;
     const allLabel = c => `${T.allIn.replace('{city}', ctx.cityLabel(c))} (${ctx.cityVenues[c].length})`;
     const hitAll = c => !q || vfold(`${allLabel(c)} ${c}`).includes(vfold(q));
     const hitVenue = (a, c) =>
       !q || vfold(`${ctx.labelOf(a)} ${c} ${ctx.cityLabel(c)}`).includes(vfold(q));
+    const regionOrder = ctx.regionOrder || [];
+    const regionVenues = ctx.regionVenues || {};
+    const regionCities = ctx.regionCities || {};
+    const areaRow = r => ({kind:'area', id:'region:' + r, name:ctx.regionLabel(r),
+                           count:(regionVenues[r] || []).length,
+                           current:ctx.area === 'region:' + r});
+    // The area's own text is its names in all three languages, which is what an area
+    // row and the trigger read out between them. Never its cities: "kangasala" means the
+    // cinema in Kangasala, and Enter takes the first row.
+    const regionText = ctx.regionText || {};
+    const hitAreaOwn = r => !q || vfold(regionText[r] || r).includes(vfold(q));
+    const hitAreaCity = r => (regionCities[r] || []).some(
+      c => vfold(`${c} ${ctx.cityLabel(c)}`).includes(vfold(q)));
     const rows = [];
     const fav = ctx.fav;
-    if(fav && fav.startsWith('city:')){
+    const areasView = ctx.view === 'areas';
+    if(fav && fav.startsWith('region:')){
+      const r = fav.slice(7);
+      if((regionVenues[r] || []).length > 1 && hitAreaOwn(r)){
+        rows.push({kind:'head', text:T.vOwn});
+        rows.push(areaRow(r));
+      }
+    } else if(fav && fav.startsWith('city:')){
       const c = fav.slice(5);
-      if((ctx.cityVenues[c] || []).length > 1 && hitAll(c)){
+      if(!areasView && (ctx.cityVenues[c] || []).length > 1 && hitAll(c)){
         rows.push({kind:'head', text:T.vOwn});
         rows.push({kind:'all', id:fav, label:allLabel(c), current:ctx.area === fav});
       }
     } else if(fav && ctx.venueIndex[fav]){
       const a = ctx.venueIndex[fav];
-      if(hitVenue(a, ctx.cityOf(a))){
+      if(!areasView && hitVenue(a, ctx.cityOf(a))){
         rows.push({kind:'head', text:T.vOwn});
         rows.push({kind:'venue', id:a.id, provider:a.provider,
                    label:ctx.labelOf(a), current:ctx.area === a.id});
       }
+    }
+    // Browsing the areas: the areas alone. Every cinema stays one switch or one keystroke
+    // away in the city view, so nothing here has to expand.
+    if(!q && areasView){
+      if(regionOrder.length) rows.push({kind:'head', text:T.vAreas});
+      for(const r of regionOrder) rows.push(areaRow(r));
+      return rows;
+    }
+    const own = q ? regionOrder.filter(hitAreaOwn) : [];
+    const near = q ? regionOrder.filter(r => !hitAreaOwn(r) && hitAreaCity(r)) : [];
+    if(own.length){
+      rows.push({kind:'head', text:T.vAreas});
+      for(const r of own) rows.push(areaRow(r));
     }
     for(const c of ctx.cityOrder){
       const vs = ctx.cityVenues[c].filter(a => hitVenue(a, c));
@@ -1704,18 +1814,33 @@
       for(const a of vs) rows.push({kind:'venue', id:a.id, provider:a.provider,
                                     label:ctx.labelOf(a), current:ctx.area === a.id});
     }
+    if(near.length){
+      rows.push({kind:'head', text:T.vAreas});
+      for(const r of near) rows.push(areaRow(r));
+    }
     return rows;
   }
   // --- end venue picker model ---
   function vDraw(){
     const q = vq.value.trim();
     const rows = venueRows(q, {
-      T: L[state.lang], fav: prefs.get().fav, area: state.area,
+      T: L[state.lang], fav: prefs.get().fav, area: state.area, view: state.vview,
       cityOrder, cityVenues, venueIndex, labelOf, cityLabel, cityOf,
+      regionOrder, regionVenues, regionCities, regionText, regionLabel,
     });
     let html = '';
     for(const r of rows){
       if(r.kind === 'head'){ html += `<div class="vcity">${esc(r.text)}</div>`; continue; }
+      if(r.kind === 'area'){
+        // The count is a column of its own, and the accessible name says the word the
+        // column drops. Areas carry no chain dot: an area is not one chain.
+        html += `<button class="vrow varea" type="button" data-id="${esc(r.id)}"`
+          + ` aria-current="${r.current ? 'true' : 'false'}"`
+          + ` aria-label="${esc(r.name)}, ${r.count} ${esc(L[state.lang].vTheatres)}">`
+          + `<span class="vtxt">${vhl(r.name, q, esc)}</span>`
+          + `<span class="vnum">${r.count}</span></button>`;
+        continue;
+      }
       const cls = r.kind === 'all' ? 'vrow vall' : `vrow chain-${esc(r.provider)}`;
       html += `<button class="${cls}" type="button" data-id="${esc(r.id)}"`
         + ` aria-current="${r.current ? 'true' : 'false'}">`
@@ -1724,6 +1849,32 @@
     vlist.innerHTML = html;
     vnone.classList.toggle('show', !html);
   }
+  // The switch, its counts and its pressed state. Hidden when there is no area to
+  // browse, so a missing data/regions.json leaves the sheet exactly as it was.
+  function syncViewSeg(){
+    if(!vviews) return;
+    const T = L[state.lang];
+    vviews.hidden = !regionOrder.length;
+    vviews.setAttribute('aria-label', T.aVenueView);
+    const areas = state.vview === 'areas' && regionOrder.length;
+    for(const b of vviews.querySelectorAll('.vv')){
+      const isAreas = b.dataset.view === 'areas';
+      const n = isAreas ? regionOrder.length : cityOrder.length;
+      b.innerHTML = `${esc(isAreas ? T.vAreas : T.vCities)}<span class="vvn">${n}</span>`;
+      b.setAttribute('aria-pressed', isAreas === !!areas ? 'true' : 'false');
+    }
+  }
+  if(vviews) vviews.addEventListener('click', e => {
+    const b = e.target.closest('.vv');
+    if(!b) return;
+    state.vview = b.dataset.view === 'areas' ? 'areas' : 'cities';
+    prefs.set({ vview: state.vview });
+    syncViewSeg();
+    vDraw();
+    // A different list under the same field: start it at the top rather than at
+    // whatever offset the previous one was scrolled to.
+    vlist.scrollTop = 0;
+  });
   function vKey(e){
     if(e.key === 'Escape'){
       e.preventDefault();
@@ -1747,6 +1898,10 @@
   function openVenueSheet(){
     if(!allVenues.length) return;
     vq.value = '';
+    // The remembered view, validated like any stored value: a stored 'areas' with no
+    // areas in the data opens on the cities.
+    state.vview = (prefs.get().vview === 'areas' && regionOrder.length) ? 'areas' : 'cities';
+    syncViewSeg();
     vDraw();
     vwrap.classList.add('open');
     areaSel.setAttribute('aria-expanded', 'true');
@@ -1835,6 +1990,12 @@
     if(state.area && state.area.startsWith('city:')){
       const c = state.area.slice(5);
       el.textContent = `${L[state.lang].allIn.replace('{city}', cityLabel(c))} (${(cityGroups[c] || []).length})`;
+    } else if(state.area && state.area.startsWith('region:')){
+      // Name and count, without the "kaikki teatterit" a city row needs to tell the
+      // combined view apart from the single venue of the same name. An area has no
+      // single-venue twin, and the long form clipped in the trigger at every width.
+      const r = state.area.slice(7);
+      el.textContent = `${regionLabel(r)} (${(regionGroups[r] || []).length})`;
     } else {
       const v = venueIndex[state.area];
       el.textContent = v ? v.label : '';
@@ -1856,7 +2017,8 @@
     // A starred venue opens every time; otherwise fall back to the last one browsed.
     const pr = prefs.get();
     const known = id => !!id && (areas.some(a => a.id === id) ||
-      (id.startsWith('city:') && (cityGroups[id.slice(5)] || []).length > 1));
+      ((id.startsWith('city:') || id.startsWith('region:'))
+        && (groupIdsOf(id) || []).length > 1));
     // ?area= beats both: the pre-rendered pages link here, and a reader arriving from a
     // search for one cinema must land on it. Validated against the venue list like any
     // stored value, so a stale link falls through to the normal restore. The decision is
@@ -1938,15 +2100,32 @@
     return loadSchedule();
   }
 
-  // Combined city view: fetch each venue in the city and fold them into one payload.
+  // The venue ids behind a combined view, or null for a single venue. One resolver for
+  // both prefixes, so a city and an area load, refresh and label through the same path.
+  function groupIdsOf(area){
+    area = area || '';
+    if(area.startsWith('city:'))   return cityGroups[area.slice(5)] || null;
+    if(area.startsWith('region:')) return regionGroups[area.slice(7)] || null;
+    return null;
+  }
+  // Every combined view keyed by the string the picker stores, for the refresh path.
+  function groupIndex(){
+    const out = {};
+    for(const c of cityOrder)   out['city:' + c]   = cityGroups[c];
+    for(const r of regionOrder) out['region:' + r] = regionGroups[r];
+    return out;
+  }
+  // Combined view: fetch each venue in the city or area and fold them into one payload.
   // eventId is rewritten to the merge key so grouping, the sheet and the URL hash all
   // keep working unchanged. `read` is fetchJSON on a load and the service worker's own
   // cache on a background refresh -- see readCached.
-  async function loadCity(city, read = fetchJSON){
-    const ids = cityGroups[city] || [];
+  async function loadGroup(area, read = fetchJSON){
+    const ids = groupIdsOf(area) || [];
     // Remembered so the next boot can prefetch these files before the venue lists
-    // arrive; validated against the live cityGroups then, like any stored value.
-    prefs.set({ cityIds: Object.assign({}, prefs.get().cityIds, { [city]: ids }) });
+    // arrive; validated against the live groups then, like any stored value. Keyed by
+    // the whole area string since 2026-09-07, so an area can be prefetched too: an
+    // entry stored under a bare city name is simply not found and costs a prefetch.
+    prefs.set({ cityIds: Object.assign({}, prefs.get().cityIds, { [area]: ids }) });
     const parts = await Promise.all(ids.map(async id => {
       try { return await read(`data/area-${id}.json`); }
       catch(_) { return null; }
@@ -2021,8 +2200,8 @@
     main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
       if(!jsonCache[state.area]){
-        jsonCache[state.area] = state.area.startsWith('city:')
-          ? await loadCity(state.area.slice(5))
+        jsonCache[state.area] = groupIdsOf(state.area)
+          ? await loadGroup(state.area)
           : await fetchJSON(`data/area-${state.area}.json`);
         lastLoad = Date.now();   // only a real fetch counts; a cache hit proves nothing
       }
@@ -2091,7 +2270,7 @@
       staleEl.style.display = 'none';
     }
     const t = new Date(state.generated);
-    const combined = state.area.startsWith('city:');
+    const combined = !!groupIdsOf(state.area);
     const v = venueIndex[state.area] || {};
     const [src, host] = combined
       ? [L[state.lang].manySources, '']
@@ -2135,12 +2314,14 @@
     set('#vwrap .vsheet', T.aVenue);
     set('#vq', T.vSearch);
     set('#vclose', T.aClose);
+    set('#vviews', T.aVenueView);
     set('#search', T.aSearch);
     set('#days', T.aDays);
     set('#viewSeg', T.aView);
     set('#langSeg', T.aLang);
-    vq.placeholder = T.vSearch;
+    vq.placeholder = T.vSearchPh;
     vnone.textContent = T.vNone;
+    syncViewSeg();
     const themeBtn = document.querySelector('#themeToggle');
     if(themeBtn) themeBtn.title = T.aTheme;
   }
@@ -2478,7 +2659,7 @@
   const venueName = s => s.venueLabel || s.venueShort || (s.theatre || '').split(',')[0];
 
   const labelVenues = shows =>
-    (state.area || '').startsWith('city:') || new Set(shows.map(s => s.theatre)).size > 1;
+    !!groupIdsOf(state.area) || new Set(shows.map(s => s.theatre)).size > 1;
 
   function render(){
     if(state.view === 'times'){ renderTimes(); return; }
@@ -3021,8 +3202,9 @@
         const before = io.cache[area];
         if(!before) return;
         try {
-          const fresh = area.startsWith('city:')
-            ? await io.loadCity(area.slice(5), io.read)
+          const ids = io.groups()[area];
+          const fresh = ids
+            ? await io.loadGroup(area, io.read)
             : await io.read(`data/area-${area}.json`);
           // Everything after the await uses `area`, never io.area(): the reader may have
           // picked another cinema meanwhile, and a late answer for A must not land in
@@ -3047,11 +3229,11 @@
         } while(again.has(area));
         inflight.delete(area);
       }
-      // The held slots a refreshed venue file feeds: its own, and the combined city that
-      // holds it. At most those two, since a venue belongs to one city.
+      // The held slots a refreshed venue file feeds: its own, its city and its area. At
+      // most those three, since a venue belongs to one city and a city to one area.
       function slotsFor(venue){
-        return Object.keys(io.cache).filter(a => a === venue ||
-          (a.startsWith('city:') && (io.groups()[a.slice(5)] || []).includes(venue)));
+        const g = io.groups();
+        return Object.keys(io.cache).filter(a => a === venue || (g[a] || []).includes(venue));
       }
       return function onFresh(path){
         // The film metadata file has its own store and its own change test.
@@ -3076,9 +3258,9 @@
     const onFresh = makeFreshHandler({
       area: () => state.area,
       cache: jsonCache,
-      groups: () => cityGroups,   // reassigned by buildAreaOptions, so read through a getter
+      groups: groupIndex,   // rebuilt by buildAreaOptions, so read through a getter
       read: readCached,
-      loadCity,
+      loadGroup,
       extra,
       applied(){
         lastLoad = Date.now();   // the SW's refresh was a real network fetch, seconds ago
@@ -3100,8 +3282,8 @@
         let target = '';
         try { target = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
         target = target || pr.fav || pr.area || '';
-        if(target.startsWith('city:')){
-          for(const id of (pr.cityIds || {})[target.slice(5)] || []) prefetch(`data/area-${id}.json`);
+        if(target.startsWith('city:') || target.startsWith('region:')){
+          for(const id of (pr.cityIds || {})[target] || []) prefetch(`data/area-${id}.json`);
         } else if(target){
           prefetch(`data/area-${target}.json`);
         }
@@ -3123,7 +3305,12 @@
       const areasP = fetchJSON('data/areas.json');
       areasP.catch(() => {});   // handled inside loadAreas; this only silences the
                                 // transient unhandled-rejection the pre-start would log
+      const regionsP = fetchJSON('data/regions.json');
+      regionsP.catch(() => {});
       await loadProviders();
+      // Before loadAreas: buildAreaOptions folds the areas out of the venue list, so the
+      // region file has to be here by then or the picker draws without them.
+      await loadRegions(regionsP);
       await loadAreas(areasP);
       if(state.lang === 'en'){ await ensureFilms(); }
       drawLangSeg();

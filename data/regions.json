@@ -1,0 +1,137 @@
+{
+ "regions": [
+  {
+   "name": "Pääkaupunkiseutu",
+   "sv": "Huvudstadsregionen",
+   "en": "Capital region",
+   "cities": [
+    "Helsinki",
+    "Espoo",
+    "Vantaa",
+    "Kauniainen"
+   ]
+  },
+  {
+   "name": "Keski-Uusimaa",
+   "sv": "Mellersta Nyland",
+   "en": "Central Uusimaa",
+   "cities": [
+    "Järvenpää",
+    "Nurmijärvi",
+    "Hyvinkää",
+    "Nummela"
+   ]
+  },
+  {
+   "name": "Itä-Uusimaa",
+   "sv": "Östra Nyland",
+   "en": "Eastern Uusimaa",
+   "cities": [
+    "Porvoo",
+    "Loviisa"
+   ]
+  },
+  {
+   "name": "Hämeenlinnan seutu",
+   "sv": "Tavastehusregionen",
+   "en": "Hämeenlinna region",
+   "cities": [
+    "Hämeenlinna",
+    "Riihimäki"
+   ]
+  },
+  {
+   "name": "Lahden seutu",
+   "sv": "Lahtisregionen",
+   "en": "Lahti region",
+   "cities": [
+    "Lahti",
+    "Järvelä"
+   ]
+  },
+  {
+   "name": "Kymenlaakso",
+   "sv": "Kymmenedalen",
+   "en": "Kymenlaakso",
+   "cities": [
+    "Kotka",
+    "Kouvola"
+   ]
+  },
+  {
+   "name": "Lappeenrannan seutu",
+   "sv": "Villmanstrandsregionen",
+   "en": "Lappeenranta region",
+   "cities": [
+    "Lappeenranta",
+    "Imatra"
+   ]
+  },
+  {
+   "name": "Mikkelin seutu",
+   "sv": "S:t Michelsregionen",
+   "en": "Mikkeli region",
+   "cities": [
+    "Mikkeli",
+    "Puumala"
+   ]
+  },
+  {
+   "name": "Tampereen seutu",
+   "sv": "Tammerforsregionen",
+   "en": "Tampere region",
+   "cities": [
+    "Tampere",
+    "Kangasala"
+   ]
+  },
+  {
+   "name": "Porin seutu",
+   "sv": "Björneborgsregionen",
+   "en": "Pori region",
+   "cities": [
+    "Pori",
+    "Kankaanpää",
+    "Huittinen"
+   ]
+  },
+  {
+   "name": "Turun seutu",
+   "sv": "Åboregionen",
+   "en": "Turku region",
+   "cities": [
+    "Turku",
+    "Raisio"
+   ]
+  },
+  {
+   "name": "Jyväskylän seutu",
+   "sv": "Jyväskyläregionen",
+   "en": "Jyväskylä region",
+   "cities": [
+    "Jyväskylä",
+    "Muurame",
+    "Petäjävesi",
+    "Äänekoski"
+   ]
+  },
+  {
+   "name": "Kokkolan seutu",
+   "sv": "Karlebyregionen",
+   "en": "Kokkola region",
+   "cities": [
+    "Kokkola",
+    "Pietarsaari"
+   ]
+  },
+  {
+   "name": "Meri-Lappi",
+   "sv": "Havslappland",
+   "en": "Sea Lapland",
+   "cities": [
+    "Kemi",
+    "Tornio"
+   ]
+  }
+ ]
+}

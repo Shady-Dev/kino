@@ -73,15 +73,17 @@ const payload = (venue, generated, title) => ({
             theatre: venue, eventId: `${venue}-1` }],
 });
 
-// The two-member city every city scenario uses. The fold needs the venue index for the
-// member names and providers, and a merge key; the identity rule is not under test here.
-const GROUPS = { X: ['a', 'b'] };
+// The two-member city every city scenario uses, keyed the way the page keys a combined
+// view: the whole area string, so a city and an area resolve through one map. The fold
+// needs the venue index for the member names and providers, and a merge key; the
+// identity rule is not under test here.
+const GROUPS = { 'city:X': ['a', 'b'] };
 const VENUES = {
   a: { id: 'a', provider: 'p1', short: 'A', label: 'Chain A' },
   b: { id: 'b', provider: 'p2', short: 'B', label: 'Chain B' },
 };
 const CTX = { venueIndex: VENUES, mergeKey: t => t.toLowerCase() };
-const fold = parts => cityPayload(GROUPS.X, parts, CTX);
+const fold = parts => cityPayload(GROUPS['city:X'], parts, CTX);
 
 // Reads a scenario settles by hand, in arrival order per path.
 function makeReads() {
@@ -116,10 +118,11 @@ function setup(opts) {
     // that reaches for the wrong slot then produces a wrong payload instead of killing
     // the harness, and killing it shows up as no test going red at all.
     read: opts.cached ? (p => { reads.calls.push(p); return readCached(p); }) : reads.read,
-    // loadCity is the thin thing it is in the app -- read every member, fold with the
-    // real cityPayload -- minus the prefs write.
-    loadCity: async (city, read) => {
-      const ids = (opts.groups || GROUPS)[city] || [];
+    // loadGroup is the thin thing it is in the app -- read every member, fold with the
+    // real cityPayload -- minus the prefs write. It takes the area string, so the same
+    // stub serves a city and an area.
+    loadGroup: async (area, read) => {
+      const ids = (opts.groups || GROUPS)[area] || [];
       const parts = await Promise.all(ids.map(id => read(`data/area-${id}.json`).catch(() => null)));
       return cityPayload(ids, parts, CTX);
     },
@@ -300,6 +303,21 @@ async function run() {
     await s.handler('/data/area-a.json');
     out.venue_and_its_city = { reads: s.reads.calls, applied: s.st.applied,
                                a: s.cache.a, city: summary(s.cache['city:X']) };
+  }
+
+  // -- one file feeding a venue, its city and the area holding that city -----------------
+  // A venue belongs to one city and a city to one area, so a message reaches at most
+  // three slots. Before areas existed the filter sliced the 'city:' prefix off by hand
+  // and an area slot would have been skipped: held, stale, and served on the way back.
+  {
+    store.clear(); store.set('data/area-a.json', a2); store.set('data/area-b.json', b1);
+    const s = setup({ area: 'region:R', cached: true,
+                      groups: { 'city:X': ['a', 'b'], 'region:R': ['a', 'b'] },
+                      cache: { a: a1, 'city:X': fold([a1, b1]), 'region:R': fold([a1, b1]) } });
+    await s.handler('/data/area-a.json');
+    out.venue_city_and_area = { applied: s.st.applied, a: s.cache.a,
+                                city: summary(s.cache['city:X']),
+                                area: summary(s.cache['region:R']) };
   }
 
   // -- nothing loaded yet for the selection ----------------------------------------------

@@ -122,6 +122,15 @@ class BackgroundRefreshTest(unittest.TestCase):
         self.assertEqual(r["city"]["titles"], ["Film at a, later", "Film at b"])
         self.assertEqual(r["applied"], 1)
 
+    def test_one_file_refreshes_the_venue_its_city_and_its_area(self):
+        """An area is a third slot over the same venue files. The area is on screen, so it
+        is the only one drawn, and all three hold the newer programme."""
+        r = self.r["venue_city_and_area"]
+        self.assertEqual(r["a"]["generated"], A_NEW)
+        self.assertEqual(r["city"]["titles"], ["Film at a, later", "Film at b"])
+        self.assertEqual(r["area"]["titles"], ["Film at a, later", "Film at b"])
+        self.assertEqual(r["applied"], 1)
+
     def test_a_selection_with_nothing_loaded_is_left_to_load_schedule(self):
         r = self.r["nothing_held"]
         self.assertEqual(r["reads"], [])
