@@ -686,12 +686,16 @@
 
     // Cache Storage only. See the block comment.
     //
-    // A pass awaits every read, so state can move underneath it twice over. `load()` may
-    // finish during an await and write a newer payload, and a cache read that started
-    // before it carries older bytes; writing those back regresses the page to the older
-    // timestamp. `gen` is taken once per pass and rechecked after every await, before any
-    // write, and the pass is abandoned rather than merged: a completed load has read every
-    // file and its answer is newer than anything still in flight here.
+    // A pass awaits every read, so state can move underneath it. `load()` may write a
+    // newer payload while a read that started earlier is still in flight, and writing
+    // those older bytes back regresses the page to the older timestamp.
+    //
+    // Two things stop that, and neither is a generation check: `gen` moves when a load
+    // *starts*, so a pass that began under a running load shared its value and sailed
+    // through. `loading` counts loads in flight, so a pass does not begin under one and
+    // abandons if one starts mid-pass, and the load hands the queue back on its way out.
+    // `notBehind` then refuses any payload older than the one held, which is what makes
+    // the answer the same whichever of the two finishes first.
     //
     // Passes do not overlap either. `timer` alone did not stop that, because it is cleared
     // before the awaits, so a second burst could schedule and run beside the first. One
