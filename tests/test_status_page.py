@@ -57,7 +57,9 @@ class StatusPageFileTest(unittest.TestCase):
         for marker in ("// --- status time: pure, extracted verbatim by tests/status_harness.js ---",
                        "// --- end status time ---",
                        "// --- status model: pure, extracted verbatim by tests/status_harness.js ---",
-                       "// --- end status model ---"):
+                       "// --- end status model ---",
+                       "// --- status store: pure, extracted verbatim by tests/status_store_harness.js ---",
+                       "// --- end status store ---"):
             self.assertIn(marker, self.status)
 
     # -- nothing from the reference ----------------------------------------------------------
@@ -127,9 +129,28 @@ class StatusPageFileTest(unittest.TestCase):
             self.assertTrue(path.startswith("/data/"), path)
 
     def test_the_refresh_listener_only_answers_the_files_this_page_reads(self):
-        """A message for any other path would start a load, and a load that fetched the
-        file the message was about is the loop the app's own handler avoids."""
         self.assertIn(r"/\/data\/(providers|areas|venues-[^/]+)\.json$/", self.status)
+
+    def test_the_worker_message_path_and_the_network_path_stay_separate(self):
+        """Structural only. What the message path actually does is counted in
+        tests/test_status_store.py, because the version of this that read the source text
+        passed while the code underneath it looped: the code was legible and the comment
+        above it asserted the opposite of what it did."""
+        self.assertIn("statusStore.fresh(p)", self.status)
+        self.assertIn("document.visibilityState === 'visible') statusStore.load()", self.status)
+        a = self.status.index("// --- status store: pure, extracted verbatim")
+        b = self.status.index("// --- end status store ---")
+        block = self.status[a:b]
+        self.assertIn("io.cache(path)", block)
+        self.assertIn("io.net(", block)
+
+    def test_a_worker_refresh_does_not_restamp_the_check_time(self):
+        """`checkedAt` is when this page last asked the network. The worker refreshing a
+        file behind the page is not this page asking, and stamping it would report a check
+        that never happened."""
+        a = self.status.index("function fresh(path)")
+        b = self.status.index("return { load, fresh, state:")
+        self.assertNotIn("checkedAt =", self.status[a:b])
 
     def test_the_saved_favourite_is_read_but_never_written(self):
         """Arriving from a cinema and going back must not promote it to the favourite."""
@@ -171,7 +192,7 @@ class StatusPageWiringTest(unittest.TestCase):
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         m = re.search(r"const CACHE = 'leffavuoro-v(\d+)';", sw)
         self.assertIsNotNone(m)
-        self.assertGreaterEqual(int(m.group(1)), 119)
+        self.assertGreaterEqual(int(m.group(1)), 120)
 
 
 if __name__ == "__main__":

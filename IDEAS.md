@@ -2301,6 +2301,44 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### The status page answered the worker by refetching, and rate-limited the origin (2026-09-07, sw.js v120)
+Shipped in `9f4c9cec` and live for about half an hour. `sw.js` serves data JSON from cache,
+revalidates behind, and posts `{fresh: path}` to every window client whenever a
+revalidation succeeds, **including one that changed nothing**. `/status/` answered that
+message by calling `load()`, which refetches all 38 metadata files, which produces 38 more
+messages. Unbounded, in every open tab at once. GitHub Pages rate-limited the whole origin
+with an HTTP 429, and both `leffavuoro.fi` and `shady-dev.github.io` served it to
+everyone, not only to the address that had been testing.
+
+The comment above the listener claimed the opposite of what the code did: "a message never
+triggers a fetch of its own". It was written from the app's design, where `onFresh` reads
+Cache Storage through `readCached` for precisely this reason, and never checked against
+the code beneath it.
+
+Why the checks passed. The in-app browser blocks service worker registration, so no
+message is ever posted there and the page cannot loop; the loop needs a worker, and it
+needs a **second** visit, because `sw.js` posts only when it served a cached copy and the
+first visit has nothing cached. Reproduced in real Chrome against a local server: first
+visit 38 requests, second visit **249**. After the fix the same second visit holds at 38,
+flat over sixteen seconds.
+
+The fix is a seam rather than a patch. `makeStatusStore(io)` holds both ways the page
+stays current, so the difference between them is one readable rule instead of a comment:
+`load()` may reach the network and `fresh()` may not. `fresh()` reads Cache Storage only,
+folds a burst of messages into one pass, compares `generated`, `oldest`, `status` and the
+three counts, and calls back only when something actually moved. It does not restamp
+`checkedAt`, because that says when this page last asked the network and a worker refresh
+behind the page is not this page asking. `load()` is throttled to once a minute on resume,
+bypassed by an explicit `force` at boot, and keeps the generation token that drops an
+out-of-order answer.
+
+`tests/test_status_store.py`, 13 tests over the real store through a stubbed `io` that
+counts network and cache reads separately. The one that matters asserts a message adds
+**zero** network requests, and it fails on the shipped code. The source-text checks that
+were already there did not catch this and could not have, because the code was legible and
+the comment above it was the part that lied. A check that reads the source can only
+confirm the source says what it says.
+
 ### The footer's global half became a page (2026-09-07, sw.js v119)
 `/status/` answers one question: how current is the data Leffavuoro is showing. The app
 footer used to carry a per-source age list behind a disclosure, the contact address and

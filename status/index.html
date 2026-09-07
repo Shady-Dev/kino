@@ -578,67 +578,143 @@
   // --- end status model ---
 
   /* ---------- reading the published metadata ---------- */
-  // Every request is same-origin and independent. One provider's file failing leaves that
-  // row unknown and the rest of the page intact, which is the whole reason these are not
-  // awaited together as one promise.
-  const readJson = path => fetch(path, { credentials:'omit' })
-    .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))));
+  // --- status store: pure, extracted verbatim by tests/status_store_harness.js ---
+  // Both ways this page stays current, in one place, because the difference between them
+  // is the whole bug of 2026-09-07: `load()` goes to the network and `fresh()` never may.
+  //
+  // sw.js serves data JSON from cache, revalidates behind, and posts `{fresh: path}` to
+  // every window client whenever a revalidation succeeds, including one that changed
+  // nothing. Answering that by loading again refetched all 38 files, which produced 38
+  // more messages, in every open tab at once: five messages took the request count from
+  // 38 to 228 locally, and in production it rate-limited the origin for everyone. The
+  // message already means the cache holds the newer bytes, so `fresh()` reads the cache
+  // and stops there.
+  //
+  // `io` is the seam: `net(path)` and `cache(path)` both resolve to parsed JSON or null,
+  // `now()` is the clock, `changed()` is called only when the held state actually moved,
+  // and `defer(fn, ms)` is the timer. Nothing here touches the DOM.
+  function makeStatusStore(io){
+    const RESUME_MS = 60000;         // a resumed tab may ask the network at most this often
+    const BURST_MS = 300;            // one refresh lands as many messages; fold them
+    let providers = [], meta = {}, checkedAt = null;
+    let gen = 0, lastNet = 0, timer = null;
+    const queued = new Set();
 
-  function normalise(j){
-    const names = {};
-    for(const v of (j.venues || [])) if(v && v.id) names[v.id] = v.name || v.id;
-    const list = (j.venues || []).filter(v => v && v.id);
-    return {
-      generated: j.generated || '', oldest: j.oldest || j.generated || '',
-      status: j.status || '',
-      stale: Array.isArray(j.stale) ? j.stale.length : 0,
-      unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
-      pending: Array.isArray(j.pending) ? j.pending.length : 0,
-      staleIds: Array.isArray(j.stale) ? j.stale : [],
-      unverifiedIds: Array.isArray(j.unverified) ? j.unverified : [],
-      pendingIds: Array.isArray(j.pending) ? j.pending : [],
-      names, venues: list.length,
-      city: list.length === 1 ? (list[0].city || '') : '',
-    };
+    function normalise(j){
+      const names = {};
+      for(const v of (j.venues || [])) if(v && v.id) names[v.id] = v.name || v.id;
+      const list = (j.venues || []).filter(v => v && v.id);
+      return {
+        generated: j.generated || '', oldest: j.oldest || j.generated || '',
+        status: j.status || '',
+        stale: Array.isArray(j.stale) ? j.stale.length : 0,
+        unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
+        pending: Array.isArray(j.pending) ? j.pending.length : 0,
+        staleIds: Array.isArray(j.stale) ? j.stale : [],
+        unverifiedIds: Array.isArray(j.unverified) ? j.unverified : [],
+        pendingIds: Array.isArray(j.pending) ? j.pending : [],
+        names, venues: list.length,
+        city: list.length === 1 ? (list[0].city || '') : '',
+      };
+    }
+
+    // areas.json is Finnkino in the legacy numeric shape, with no per-venue arrays.
+    function fromAreas(j){
+      const areas = (j.areas || []).filter(x => x.id && x.id !== '1029');
+      if(!areas.length) return null;
+      return normalise({ generated: j.generated, oldest: j.generated, status: 'ok',
+                         venues: areas.map(x => ({ id: x.id, name: x.name })) });
+    }
+    const pathFor = id => id === 'finnkino' ? '/data/areas.json' : `/data/venues-${id}.json`;
+    const entryFrom = (id, j) => id === 'finnkino' ? fromAreas(j)
+                               : ((j.venues || []).length ? normalise(j) : null);
+
+    // What counts as a change. Comparing the whole entry would fire on a re-read that
+    // produced identical bytes, and a render that changes nothing is what the burst
+    // folding is trying to avoid in the first place.
+    const key = m => m ? [m.generated, m.oldest, m.status, m.stale, m.unverified,
+                          m.pending, m.venues].join('|') : '';
+
+    async function load(opts){
+      const force = !!(opts && opts.force);
+      // A resumed tab that is opened and closed repeatedly must not ask 38 times a minute.
+      if(!force && lastNet && io.now() - lastNet < RESUME_MS) return false;
+      const mine = ++gen;
+      lastNet = io.now();
+      const j = await io.net('/data/providers.json');
+      // A load that could not read the list clears the rows. Keeping them would show a
+      // list nothing just verified, and statusModel reads no rows as "could not check",
+      // which is the honest answer when the file naming the providers did not arrive.
+      const list = j ? (j.providers || []).filter(p => p && p.id) : [];
+      if(mine !== gen) return false;
+      const next = {};
+      await Promise.all(list.map(async p => {
+        const one = await io.net(pathFor(p.id));
+        if(!one) return;
+        const e = entryFrom(p.id, one);
+        if(e) next[p.id] = e;
+      }));
+      // The token, checked once more after the last await: a slower earlier load must not
+      // write over a newer one. Retrying later is deliberate and allowed; this only drops
+      // answers that arrived out of order.
+      if(mine !== gen) return false;
+      providers = list; meta = next; checkedAt = io.now();
+      io.changed();
+      return true;
+    }
+
+    // Cache Storage only. See the block comment.
+    function fresh(path){
+      queued.add(path);
+      if(timer) return;
+      timer = io.defer(async () => {
+        timer = null;
+        const paths = [...queued];
+        queued.clear();
+        let moved = false;
+        for(const path of paths){
+          const j = await io.cache(path);
+          if(!j) continue;
+          if(/\/data\/providers\.json$/.test(path)){
+            const list = (j.providers || []).filter(x => x && x.id);
+            if(list.length && list.map(x => x.id).join(',') !== providers.map(x => x.id).join(',')){
+              providers = list; moved = true;
+            }
+            continue;
+          }
+          const v = path.match(/\/data\/venues-([^/]+)\.json$/);
+          const id = v ? v[1] : (/\/data\/areas\.json$/.test(path) ? 'finnkino' : '');
+          if(!id) continue;
+          const e = entryFrom(id, j);
+          if(e && key(e) !== key(meta[id])){ meta[id] = e; moved = true; }
+        }
+        // `checkedAt` is not restamped: it says when this page last asked the network, and
+        // the worker refreshing a file behind the page is not this page asking.
+        if(moved) io.changed();
+      }, BURST_MS);
+    }
+
+    return { load, fresh, state: () => ({ providers, meta, checkedAt }) };
   }
+  // --- end status store ---
 
-  let providers = [], meta = {}, checkedAt = null, gen = 0;
-
-  async function load(){
-    // Every load carries a token. A slow answer that lands after a newer load started is
-    // dropped rather than written over the newer state, which is the same rule the app's
-    // background refresh uses on its payload cache.
-    const mine = ++gen;
-    let list = [];
-    try {
-      const j = await readJson('/data/providers.json');
-      list = (j.providers || []).filter(p => p && p.id);
-    } catch(e){ list = []; }
-    if(mine !== gen) return;
-
-    const next = {};
-    const jobs = list.map(async p => {
-      if(p.id === 'finnkino'){
-        // Finnkino is areas.json in the legacy numeric shape, with no per-venue arrays.
-        try {
-          const a = await readJson('/data/areas.json');
-          const areas = (a.areas || []).filter(x => x.id && x.id !== '1029');
-          if(!areas.length) return;
-          next[p.id] = normalise({ generated:a.generated, oldest:a.generated, status:'ok',
-                                   venues: areas.map(x => ({ id:x.id, name:x.name })) });
-        } catch(e){}
-        return;
-      }
+  /* ---------- the store, over the real seams ---------- */
+  // net() and cache() both answer parsed JSON or null, so the store has one shape to
+  // handle and a failed read is never confused with an empty file.
+  const statusStore = makeStatusStore({
+    net: path => fetch(path, { credentials: 'omit' })
+      .then(r => r.ok ? r.json() : null).catch(() => null),
+    cache: async path => {
+      if(!('caches' in self)) return null;
       try {
-        const j = await readJson(`/data/venues-${p.id}.json`);
-        if((j.venues || []).length) next[p.id] = normalise(j);
-      } catch(e){}
-    });
-    await Promise.all(jobs);
-    if(mine !== gen) return;
-    providers = list; meta = next; checkedAt = Date.now();
-    render();
-  }
+        const hit = await caches.match(path);
+        return hit ? await hit.json() : null;
+      } catch(_){ return null; }
+    },
+    now: () => Date.now(),
+    defer: (fn, ms) => setTimeout(fn, ms),
+    changed: () => render(),
+  });
 
   /* ---------- rendering ---------- */
   function collator(){
@@ -648,6 +724,7 @@
 
   function render(){
     const T = Object.assign({ lang }, L[lang]);
+    const { providers, meta, checkedAt } = statusStore.state();
     const m = statusModel(providers, meta, Date.now(), T, collator());
 
     $('summary').dataset.level = m.level;
@@ -744,25 +821,23 @@
     if(cur) cur.focus();
   });
 
-  /* ---------- staying current ----------
-     The worker serves data JSON from cache and posts `{fresh: path}` when newer bytes
-     land. Only the files this page reads count, and a message never triggers a fetch of
-     its own: load() reads through the same worker, so answering a message with a request
-     for the file the message was about is the loop to avoid. */
+  // --- staying current ---
+  // Two paths, and only one of them may reach the network. See makeStatusStore.
   if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('message', ev => {
       const p = (ev.data || {}).fresh || '';
-      if(/\/data\/(providers|areas|venues-[^/]+)\.json$/.test(p)) load();
+      if(/\/data\/(providers|areas|venues-[^/]+)\.json$/.test(p)) statusStore.fresh(p);
     });
   }
-  // A resumed tab is the other way this page goes stale: it was opened, backgrounded and
-  // brought back hours later. Re-read on return, and only then.
+  // A resumed tab is the other way this page goes stale: opened, backgrounded, brought
+  // back hours later. The store throttles how often this may ask.
   document.addEventListener('visibilitychange', () => {
-    if(document.visibilityState === 'visible') load();
+    if(document.visibilityState === 'visible') statusStore.load();
   });
+  // --- end staying current ---
 
   applyLang();
-  load();
+  statusStore.load({ force: true });
 })();
 </script>
 </body>
