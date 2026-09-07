@@ -143,6 +143,16 @@ class VenuePickerModelTest(unittest.TestCase):
         self.assertEqual(self.r["kaikki_query_with_areas"],
                          ["#Helsinki", "all:city:Helsinki"])
 
+    def test_an_area_row_names_the_cities_it_stands_for(self):
+        """A row reading only "Kymenlaakso 4" leaves the reader guessing whether their
+        town is in it, and selecting the row to find out closes the picker."""
+        self.assertEqual(self.r["area_cities"],
+                         ["Uusimaa: Helsinki, Järvelä", "Varsinais-Suomi: Turku"])
+
+    def test_the_cities_on_the_row_follow_the_language(self):
+        """Same rule as the group headings: the key stays Finnish, the reader sees Åbo."""
+        self.assertEqual(self.r["area_cities_sv"], ["Helsingfors, Järvelä", "Åbo"])
+
     def test_an_area_row_reads_the_reader_s_language(self):
         """The Finnish name is the key everywhere it is stored; the row shows the
         translation, so an English reader never meets a Finnish area name."""

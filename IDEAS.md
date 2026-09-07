@@ -1520,6 +1520,16 @@ a region like a city. `loadCity` became `loadGroup`, and the refresh path's grou
 keyed by the whole area string: a venue file now feeds at most three held slots, its own,
 its city and its region, and the old filter sliced the `city:` prefix off by hand.
 
+**The row lists its cities (2026-09-07, v125).** A row reading `Kymenlaakso 4` left the
+reader to guess whether their town was in it, and selecting the row to find out closed the
+picker. The cities are on a second line, in the reader's language like every other place
+name in the app, with the full list also in the row's accessible name and title because the
+line can ellipsize. A disclosure control was the other option and was rejected: a chevron
+adds a second focusable to every row in a list whose arrow keys walk one row at a time, to
+reveal text that already fits on the line. The second line also
+takes the row from 36 px to 47 px, past the 44 px touch target the plain row missed. At
+320 nothing clips, not even Jyväskylän seutu's four towns.
+
 **The trigger label.** A region reads `Pääkaupunkiseutu (21)`, not
 `… – kaikki teatterit (21)`, which measured 244 px against a 240 px slot at 320 and was
 ellipsized at every width. A city needs the phrase to tell its combined row from the single

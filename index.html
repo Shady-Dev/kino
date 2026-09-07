@@ -273,7 +273,13 @@
   .vviews .vv:last-child{border-radius:0 9px 9px 0; border-left:0}
   .vviews .vv[aria-pressed="true"]{background:var(--ink); color:var(--bg); font-weight:600}
   .vviews .vv .vvn{font-size:.78rem; opacity:.75; font-variant-numeric:tabular-nums}
-  .vrow.varea .vtxt{font-weight:600}
+  /* Two lines: the area and the cities in it. The row is 51 px, which also takes the
+     plain 36 px row past a 44 px touch target on a phone. */
+  .vrow.varea{align-items:flex-start; padding-top:8px; padding-bottom:8px}
+  .vrow.varea .vtxt b{display:block; font-weight:600}
+  .vrow.varea .vtxt small{display:block; font-size:.78rem; overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap}
+  .vrow.varea .vnum{align-self:center}
   /* The count, in its own column instead of after a separator. */
   .vrow .vnum{flex:0 0 auto; color:var(--muted); font-size:.82rem;
     font-variant-numeric:tabular-nums; padding-left:8px}
@@ -1758,8 +1764,12 @@
     const regionOrder = ctx.regionOrder || [];
     const regionVenues = ctx.regionVenues || {};
     const regionCities = ctx.regionCities || {};
+    // The cities are on the row: an area row reading only "Kymenlaakso 4" leaves the
+    // reader to guess whether their town is in it, and selecting the row to find out
+    // closes the picker.
     const areaRow = r => ({kind:'area', id:'region:' + r, name:ctx.regionLabel(r),
                            count:(regionVenues[r] || []).length,
+                           cities:(regionCities[r] || []).map(ctx.cityLabel).join(', '),
                            current:ctx.area === 'region:' + r});
     // The area's own text is its names in all three languages, which is what an area
     // row and the trigger read out between them. Never its cities: "kangasala" means the
@@ -1832,13 +1842,17 @@
     for(const r of rows){
       if(r.kind === 'head'){ html += `<div class="vcity">${esc(r.text)}</div>`; continue; }
       if(r.kind === 'area'){
-        // The count is a column of its own, and the accessible name says the word the
-        // column drops. Areas carry no chain dot: an area is not one chain.
+        // The count is a column of its own, and the accessible name carries both the word
+        // the column drops and the whole city list, which the second line may ellipsize.
+        // Areas take no chain dot: an area is not one chain.
+        const words = `${r.name}, ${r.count} ${L[state.lang].vTheatres}`
+          + (r.cities ? `: ${r.cities}` : '');
         html += `<button class="vrow varea" type="button" data-id="${esc(r.id)}"`
           + ` aria-current="${r.current ? 'true' : 'false'}"`
-          + ` aria-label="${esc(r.name)}, ${r.count} ${esc(L[state.lang].vTheatres)}">`
-          + `<span class="vtxt">${vhl(r.name, q, esc)}</span>`
-          + `<span class="vnum">${r.count}</span></button>`;
+          + ` aria-label="${esc(words)}" title="${esc(words)}">`
+          + `<span class="vtxt"><b>${vhl(r.name, q, esc)}</b>`
+          + (r.cities ? `<small>${esc(r.cities)}</small>` : '')
+          + `</span><span class="vnum">${r.count}</span></button>`;
         continue;
       }
       const cls = r.kind === 'all' ? 'vrow vall' : `vrow chain-${esc(r.provider)}`;

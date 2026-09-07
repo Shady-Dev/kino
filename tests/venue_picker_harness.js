@@ -121,6 +121,10 @@ const out = {
     .filter(r => r.kind === 'area').map(r => `${r.name}:${r.current}`),
 
   // Area names in three languages: the row shows the reader's, the search reads all.
+  area_cities: venueRows('', ctx(Object.assign({ view: 'areas' }, REGIONS)))
+    .filter(r => r.kind === 'area').map(r => `${r.name}: ${r.cities}`),
+  area_cities_sv: venueRows('', ctx(Object.assign({ view: 'areas', lang: 'sv' }, REGIONS)))
+    .filter(r => r.kind === 'area').map(r => r.cities),
   area_labels_en: venueRows('', ctx(Object.assign({ view: 'areas', lang: 'en' }, REGIONS)))
     .filter(r => r.kind === 'area').map(r => r.name),
   area_labels_sv: venueRows('', ctx(Object.assign({ view: 'areas', lang: 'sv' }, REGIONS)))
