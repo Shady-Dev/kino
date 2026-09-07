@@ -7,12 +7,10 @@
 [schedule] 2026-09-12: 22 showtimes
 [schedule] 2026-09-13: 21 showtimes
 [schedule] 2026-09-14: 11 showtimes
-[tmdb] dropped 2 entries matched by the old picker
+[tmdb] dropped 4 entries matched by the old picker
 [tmdb] no TMDB match (2): Keinolla millä hyvänsä | Spider-Man: No Way Home & Brand New Day
 [tmdb] weak match, no exact title (4): I'm Game -> ഐ ആം ഗെയിം | Kapina -> Matilda ja lasten kapina | Lyhyt rakkaustarina -> Breve storia d'amore | Practical Magic: Lumotut sisaret -> Lumotut sisaret
-[tmdb] rating held back, under 25 votes (4): Laula minulle Arja (5.0 / 1 votes) | Presidentin kyyditys (5.0 / 1 votes) | Päivien lumo (7.0 / 1 votes) | Svečias – The Visitor (5.0 / 1 votes)
-[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 7 new lookups, 6 re-checks, cache 66, 58 mergeable by id
+[tmdb] 4 new lookups, 0 re-checks, cache 66, 58 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 47 film entries
 [attrs] dropped, neither format nor language (6): Maxim | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
