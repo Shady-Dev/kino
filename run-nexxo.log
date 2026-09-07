@@ -8,15 +8,15 @@
 [kinoaurora] Kino Aurora (Jyväskylä): 33 showtimes
 [kinoaurora] synopses merged: 0
 [kinoaurora] Kino Aurora: 33 showtimes, 10 dates
-[kinohirvi] Kino Hirvi (Äänekoski): 6 showtimes
+[kinohirvi] Kino Hirvi (Äänekoski): 22 showtimes
 [kinohirvi] synopses merged: 0
-[kinohirvi] Kino Hirvi: 6 showtimes, 2 dates
-[biosade] Bio Säde (Mänttä): 4 showtimes
+[kinohirvi] Kino Hirvi: 22 showtimes, 5 dates
+[biosade] Bio Säde (Mänttä): 16 showtimes
 [biosade] synopses merged: 0
-[biosade] Bio Säde: 4 showtimes, 2 dates
-[kinomarilyn] Kino Marilyn (Loviisa): 43 showtimes
+[biosade] Bio Säde: 16 showtimes, 5 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 39 showtimes
 [kinomarilyn] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 43 showtimes, 12 dates
+[kinomarilyn] Kino Marilyn: 39 showtimes, 11 dates
 [kinoolympia] Kino Olympia (Hanko): 14 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 14 showtimes, 7 dates
@@ -24,15 +24,15 @@
 [jarvelankino] synopses merged: 0
 [jarvelankino] Järvelän Kino: 6 showtimes, 5 dates
 [kinometso] Muurame (Muurame): 0 showtimes
-[kinometso] Petäjävesi (Petäjävesi): 5 showtimes
+[kinometso] Petäjävesi (Petäjävesi): 4 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 3 showtimes
 [kinometso] synopses merged: 0
 [kinometso] Muurame: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinometso] Petäjävesi: 5 showtimes, 3 dates
+[kinometso] Petäjävesi: 4 showtimes, 2 dates
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-muurame, km-tikkakoski
-[run] nexxo: 11 venues, 122 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
+[run] nexxo: 11 venues, 145 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
 exit=0
