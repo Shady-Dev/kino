@@ -6,13 +6,14 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 79 venues in 52 cities across 37 providers: Finnkino, BioRex,
+Showtimes for 82 venues in 54 cities across 39 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
 Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
-Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola and Kino Regina. Films
+Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine and
+Elokuvateatteri Star. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page, or the ticket shop where the screening is
@@ -20,7 +21,7 @@ included in a general admission ticket (Heureka's planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 52 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 54 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -39,7 +40,7 @@ platforms:
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
 | Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
-| eTiketti | 18 | 26 | none | GitHub Actions; Savon Kinot and Joutsan Kino local |
+| eTiketti | 20 | 29 | none | GitHub Actions; 4 of 20 local, see registry |
 | BioRex | 1 | 12 | none | GitHub Actions |
 | Nexxo | 8 | 13 | none | GitHub Actions |
 | Riviera | 1 | 2 | none | GitHub Actions |
@@ -171,8 +172,8 @@ the same committed JSON at the end of every run:
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-89 per language, 179 sitemap URLs: 79 venues plus the ten cities with more than
-one venue, and the front page. The 14 regions get no page of their own: a region
+93 per language, 187 sitemap URLs: 82 venues plus the eleven cities with more
+than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
 duplicate its venue page and compete with it, so those get the city into the
@@ -204,9 +205,9 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-05: all 3900
-poster references resolve to `data/posters/` on this origin: 3756 on showtimes
-and 144 in `films-extra.json`, across 658 mirrored files, none off-origin. The
+**A page load makes no third-party requests.** Counted 2026-09-08: all 3230
+poster references resolve to `data/posters/` on this origin: 2995 on showtimes
+and 235 in `films-extra.json`, across 828 mirrored files, none off-origin. The
 typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
@@ -220,7 +221,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 37 providers listed at the
+Schedule data belongs to the respective cinemas, the 39 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.
