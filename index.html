@@ -2209,6 +2209,39 @@
     return (s._hay = parts.join(' ').toLowerCase() + ' ' + parts.map(searchKey).join(' '));
   }
 
+  // --- kids gates: pure, extracted verbatim by tests/kids_filter_harness.js ---
+  // Two questions the Lapsille filter asks, kept out of passFilters so both can be driven
+  // from fixtures. Neither decides on its own: the genre rule in passFilters still runs.
+
+  // Is the film's own classification within the line the filter draws, S and K-7?
+  //
+  // An empty `rating` is not "unrestricted", it is "this cinema publishes no KAVI
+  // classification", and 378 of 2916 showtimes are in that state. Most are arthouse and
+  // stay out. Heureka is the exception: it publishes a per-film audience recommendation
+  // instead, always worded "Suositus ...", and no other provider uses that word. Its
+  // planetarium programme is children's programming apart from the films it marks
+  // "aikuisille", so the recommendation is read where a classification is missing and
+  // only the adult one is refused. A missing rating with no recommendation stays out,
+  // which is what keeps Riviera's and Cinema Orion's unrated programmes out.
+  function kidsRated(s){
+    if(s.rating === 'S' || s.rating === 'K-7') return true;
+    if(s.rating) return false;
+    const rec = String(s.method || '');
+    if(!/suositus/i.test(rec)) return false;
+    return !/aikuisille/i.test(rec);
+  }
+
+  // Does the screening's own age limit admit children? `age` is the screening-level field,
+  // so K-18 on a licensed room refuses whatever the film is rated. A limit of seven or
+  // below admits; anything higher, or a limit this does not recognise, does not.
+  function kidsAdmitted(age){
+    if(!age) return true;
+    if(age === 'S') return true;
+    const m = /^K-(\d+)$/.exec(String(age));
+    return !!m && Number(m[1]) <= 7;
+  }
+  // --- end kids gates ---
+
   function passFilters(s){
     const q = state.filter.trim().toLowerCase();
     if(q && !haystack(s).includes(q) && !haystack(s).includes(searchKey(q))) return false;
@@ -2230,12 +2263,15 @@
     // rejected: TMDB tags Marsupilami as Adventure, Comedy. A film with no ids stays on
     // rating alone.
     if(state.fKids){
-      if(!(s.rating === 'S' || s.rating === 'K-7')) return false;
+      if(!kidsRated(s)) return false;
       // The screening's own limit outranks the film's rating: an S-rated film in an
       // Annisk_K18 screening cannot admit minors, and the gate above reads only the film.
       // The five showtimes in that state today are also caught by the genre rule, so this
       // line is what makes the exclusion a rule rather than luck.
-      if(s.age && s.age !== 'S' && s.age !== 'K-7') return false;
+      // A numeric limit at or below seven is not a restriction for this filter: Heureka's
+      // whole programme carries K-5, the planetarium's five-year admission floor rather
+      // than a classification, and rejecting it hid 192 showtimes.
+      if(!kidsAdmitted(s.age)) return false;
       const g = Array.isArray(s.gids) ? s.gids : [];
       if(g.length && !g.includes(16) && !g.includes(10751)
          && (g.includes(99) || g.includes(18))) return false;

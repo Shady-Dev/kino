@@ -2301,6 +2301,40 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### Lapsille hid the whole planetarium (2026-09-07, sw.js v123)
+Reported: the Lapsille chip shows none of Heureka's films, in every language. All 192 of
+them, and two independent gates were rejecting each one.
+
+`rating` is empty, because Heureka publishes no KAVI classification, and the filter asked
+for `S` or `K-7`. `age` is `K-5` on every show, which is the planetarium's five-year
+admission floor rather than a classification, and the screening-limit gate accepted only
+`S` and `K-7`. Both are the field-presence trap: rules written against the fields Finnkino
+populates, meeting a provider that populates different ones.
+
+An empty rating is not "unrestricted", it is "this cinema publishes no classification", and
+378 of 2916 showtimes are in that state. Reading it as unrestricted would pull Riviera's 81
+and Cinema Orion's 14 arthouse showtimes into a children's filter. Heureka is the only one
+of them carrying an audience signal instead: a per-film recommendation, always worded
+"Suositus ...", and no other provider uses that word. So the recommendation is read only
+where a classification is missing, and a missing rating with no recommendation still stays
+out.
+
+Where to cut was the reader's call, and they took the whole planetarium except what Heureka
+itself marks for adults: "Suositus 5-10 v" (51), "Suositus yli 7 v" (66) and "Suositus yli
+10 v" (66) are in, "Suositus aikuisille" (9) is out. The narrower reading, cutting at seven
+to match the K-7 line the filter draws elsewhere, was offered and declined.
+
+The screening limit now parses its number and admits seven or below, so `K-5` passes where
+it used to be refused for not being one of two literals. A limit the pattern does not
+recognise is still treated as a restriction: not recognising a limit is not evidence that
+children are admitted.
+
+`kidsRated` and `kidsAdmitted` are extracted between markers, `tests/test_kids_filter.py`,
+10 tests, six mutations red. Verified against the served data in a browser at Heureka in
+all three languages (four titles listed, three under the filter, Recombination gone), at
+Riviera (four titles, none under the filter) and at Finnkino Promenadi (nine titles, PAW
+Patrol alone under the filter, unchanged).
+
 ### The refresh guard was ordered against the wrong event (2026-09-07, sw.js v122)
 `gen` moves when a load *starts*, so a refresh that began while a load was already in
 flight shared that load's generation and passed the guard v121 added. Start a load and hold
