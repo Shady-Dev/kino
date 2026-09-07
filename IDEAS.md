@@ -1472,6 +1472,22 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### An empty result can clear the filter that caused it (2026-09-07, v127)
+12 September with Anniskelu on rendered "Yksikään elokuva ei vastaa suodattimia." and
+nothing else. The message names the cause and then leaves the reader to work out which of
+five chips, a chain filter or the search box did it, scroll back up and undo it.
+
+`clearFiltersLink()` puts the action beside the message, and only when a filter is
+actually on: an empty day with nothing set is not a filter problem and the button would
+claim otherwise. A chain filter counts, since the legend empties the list exactly the same
+way and `emptyMsg` already blames the filters for it. Clearing resets the three chips, the
+chain set and the search box, then puts focus back in the field.
+
+`emptyActions()` folds it together with the next-day link, which keeps each empty path a
+single line: `tests/test_list_status.py` pairs a render with its announcement by line and
+reads `emptyMsg()` off the assignment line, so splitting the expression across two lines
+turned two of its guards red until it was put back on one line.
+
 ### The film sheet shows the times before the synopsis (2026-09-07, v126)
 On a phone the sheet opened with a 600-character synopsis and then every screening of the
 day, the ones that had already started included: Autofiktio's first bookable showtime was

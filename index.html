@@ -1022,6 +1022,7 @@
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
          soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
          nomatch:'Yksikään elokuva ei vastaa suodattimia.',
+         clearFilters:'Tyhjennä suodattimet',
          nomore:'Ei enää näytöksiä tänään.', sheetNone:'Ei näytöksiä valitussa teatterissa.',
          noshows:'Valitussa teatterissa ei ole näytöksiä tänään.',
          notpublished:'Tämän päivän ohjelmistoa ei ole vielä julkaistu.',
@@ -1076,6 +1077,7 @@
          allIn:'{city} – alla biografer', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
          nomatch:'Ingen film matchar filtren.',
+         clearFilters:'Rensa filtren',
          nomore:'Inga fler föreställningar i dag.', sheetNone:'Inga föreställningar på vald biograf.',
          noshows:'Inga föreställningar denna dag på vald biograf.',
          notpublished:'Programmet för denna dag har inte publicerats ännu.',
@@ -1127,6 +1129,7 @@
          allIn:'{city} – all cinemas', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No movies match your filters.',
+         clearFilters:'Clear filters',
          nomore:'No more shows today.', sheetNone:'No screenings at the selected cinema.',
          noshows:'No shows for this day at the selected theatre.',
          notpublished:'The schedule for this day has not been published yet.',
@@ -2496,7 +2499,7 @@
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){
       setListStatus(emptyMsg());
-      main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
+      main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
     // The ticket is time and price. The room, the venue in a combined view and the
@@ -2566,6 +2569,7 @@
   main.addEventListener('click', e => {
     const goto = e.target.closest('[data-goto]');
     if(goto){ selectDay(goto.dataset.goto); return; }
+    if(e.target.closest('[data-clearfilters]')){ clearFilters(); return; }
     const rev = e.target.closest('[data-reveal]');
     if(rev){
       const id = rev.dataset.reveal;
@@ -2586,6 +2590,30 @@
     if(state.dateStr === fiToday()) return t.nomore;
     return t.noshows;
   }
+  // Which filters are on. `chains` counts: a chain filter empties the list exactly the
+  // same way, and the message blames "your filters" for it too.
+  function anyFilter(){
+    return !!(state.filter || state.fLang || state.fKids || state.fAnnis || state.chains);
+  }
+  // A list emptied by a filter gets the clear action next to the message. Otherwise the
+  // reader has to find which of five chips, the chain filter or the search box did it.
+  function clearFiltersLink(){
+    return anyFilter()
+      ? `<button class="nextday" data-clearfilters="1">${L[state.lang].clearFilters}</button>`
+      : '';
+  }
+  function clearFilters(){
+    state.filter = ''; searchEl.value = '';
+    state.fLang = false; state.fKids = false; state.fAnnis = false;
+    state.chains = null;
+    prefs.set({ fLang:false, fKids:false, fAnnis:false });
+    syncTools();
+    render();
+    searchEl.focus();
+  }
+  // What an empty list offers: the next day that has screenings, or clearing the filter
+  // that emptied it. Never both, since a filter suppresses the next-day link.
+  function emptyActions(){ return nextDayLink() + clearFiltersLink(); }
   // Long horizons are sparse, so an empty day should point at the next real one instead
   // of leaving the visitor to hunt through the picker.
   function nextDayLink(){
@@ -2724,7 +2752,7 @@
 
     if(!movies.length){
       setListStatus(emptyMsg());
-      main.innerHTML = `<div class="status">${emptyMsg()}${nextDayLink()}</div>`;
+      main.innerHTML = `<div class="status">${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
 
@@ -3090,7 +3118,7 @@
   main.addEventListener('click', e => {
     // Controls inside a card must not also open the movie sheet. This used to test only
     // `a.stub`, so the past-times toggle (a button) opened the sheet on every click.
-    if(e.target.closest('a.stub, [data-reveal], [data-goto], .lg-btn')) return;
+    if(e.target.closest('a.stub, [data-reveal], [data-goto], [data-clearfilters], .lg-btn')) return;
     // The title and the times-view row are real links now, so let the browser navigate:
     // handling them here as well would set the same hash twice and, more to the point,
     // would mean the keyboard path and the mouse path ran different code.
