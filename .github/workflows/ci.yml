@@ -18,6 +18,7 @@ on:
   push:
     paths:
       - 'index.html'
+      - 'status/**'
       - 'sw.js'
       - 'scripts/**'
       - 'tests/**'

@@ -1,7 +1,7 @@
-// Runs index.html's own healthState() against a table of provider states.
+// Runs status/index.html's own healthState() against a table of provider states.
 // Driven by tests/test_health_state.py; prints one JSON line.
 //
-// The function is sliced verbatim out of index.html between its two marker comments and
+// The function is sliced verbatim out of status/index.html between its two marker comments and
 // evaluated on its own. It is pure by construction -- it takes the provider metadata and
 // an age in hours and returns a string -- so it needs no DOM, and the alternative would
 // have been either stubbing the whole app or splitting the single file, which the repo
@@ -12,14 +12,14 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const HTML = fs.readFileSync(path.join(__dirname, '..', 'status', 'index.html'), 'utf8');
 const START = '// --- healthState: pure, extracted verbatim by tests/health_state_harness.js ---';
 const END = '// --- end healthState ---';
 
 const a = HTML.indexOf(START);
 const b = HTML.indexOf(END);
 if (a === -1 || b === -1 || b < a) {
-  console.error('healthState markers not found in index.html');
+  console.error('healthState markers not found in status/index.html');
   process.exit(2);
 }
 const source = HTML.slice(a, b);

@@ -27,9 +27,7 @@ TEXT_RULES = (
     ".trailer",
     ".theatre-tag",
     ".tmdb",
-    "#fresh summary.bad",
-    "#sources .src.bad",
-    "#sources .part",
+    "#statusLink a",
     '.fav[aria-pressed="true"]',
 )
 

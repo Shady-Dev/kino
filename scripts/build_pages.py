@@ -57,7 +57,6 @@ SITE = "https://leffavuoro.fi"
 # User-Agent points every provider at this site, so these pages have to answer too --
 # a search result is as likely a first landing as the app itself. Constant, so
 # write_if_changed keeps working.
-CONTACT = "leffavuoro@gmail.com"
 
 # Posters that reached the page generator still pointing at somebody else's host. Every
 # provider's images are supposed to be rewritten into data/posters/ by mirror_posters,
@@ -137,6 +136,7 @@ L = {
                    "sidoksissa teattereihin.",
         "contact": "Elokuvateattereille: yhteydenotot ja poistopyynn\u00f6t",
         "source": "L\u00e4hdekoodi",
+        "status_link": "Palvelun tila ja tiedot \u2197",
     },
     "en": {
         "lang": "en", "locale": "en_GB",
@@ -175,6 +175,7 @@ L = {
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
         "contact": "For cinemas: enquiries and removal requests",
         "source": "Source",
+        "status_link": "Service status and information \u2197",
     },
 }
 
@@ -443,6 +444,8 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .vchip:hover{border-color:var(--muted)}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
+footer .statuslink a{color:var(--accent-text);font-weight:700;text-decoration:none;display:inline-block;padding:6px 0;min-height:34px}
+footer .statuslink a:hover{text-decoration:underline}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
 @media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
@@ -830,7 +833,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 {''.join(body)}
 {also}
 </main>
-<footer><div>{esc(t['sources'])}</div><div>{esc(t['contact'])} \u00b7 <a href="mailto:{CONTACT}">{CONTACT}</a></div><div>{esc(t['source'])}: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> \u00b7 AGPL-3.0</div></footer>
+<footer><div>{esc(t['sources'])}</div><div class="statuslink"><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
 </div>
 <script>{THEME_BODY_JS}</script>
 </body>

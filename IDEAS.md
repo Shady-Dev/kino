@@ -2301,6 +2301,67 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### The footer's global half became a page (2026-09-07, sw.js v119)
+`/status/` answers one question: how current is the data Leffavuoro is showing. The app
+footer used to carry a per-source age list behind a disclosure, the contact address and
+the source and licence lines, which is a lot of standing text under a schedule and the
+wrong place for anything a reader consults deliberately. Those move; what stays beside
+the schedule is what describes that schedule, which is `#credit` (source, fetch time and
+what tapping a showtime does) and the stale and partial-city warnings, which are about
+the selection rather than the service.
+
+The page is a second document with its own inline script, because there is no build step
+to share one with. That would normally mean two health models, so `healthState` moved
+rather than being copied: the app had no other consumer once its footer list was gone, and
+`tests/health_state_harness.js` now slices it from `status/index.html`.
+`tests/test_status_page.py` fails if the app grows a copy back, and `STALE_H` is still
+declared in both because the app ages its own banner on it, so those two are compared
+rather than assumed.
+
+Two presentation splits sit in `statusModel` and nowhere else. A provider whose file never
+arrived and one whose timestamp will not parse both read as "could not check": healthState
+calls the second `behind`, which would claim a delay nobody measured. And a `behind`
+provider with more than one venue is described by its oldest venue, never as a chain that
+failed, because `oldest` is a minimum and says nothing about the other eleven. Zero rows
+is the same answer as every row unknown: providers.json not arriving means nothing was
+checked, and falling through to the green headline would report health nobody measured.
+A confirmed-empty venue keeps its own row label and is named in the summary, so a quiet
+state is never folded into "everything updated".
+
+Nothing is probed. Every request is this origin's own published JSON, one per provider,
+each independent, so a single file failing leaves that row unknown and the rest intact.
+Help, contact, source and licence are static markup for the same reason: a page that could
+read nothing still has to say who to write to. Per-venue timestamps are not published, and
+none are invented: `oldest` already is the affected venue's own time, because run.py takes
+it as the minimum over each venue's area file.
+
+Refreshing follows the app's rules. The worker's `{fresh: path}` message triggers a re-read
+only for the files this page reads, and the re-read goes through the worker rather than
+around it, so answering a message cannot fetch the file the message was about. Every load
+carries a token and a late answer is dropped rather than written over a newer one. Open
+rows and focus survive a redraw.
+
+The three copies of the contact address in `index.html`, `build_pages.py` and the client's
+`CONTACT` constant are gone with it; the address is written once, in the status page's
+markup, and `tests/test_contact_address.py` discovers it there and fails if either file
+grows one back. Generated venue and city pages get the same footer link through
+`build_pages.py`, carrying their own `?area=` and `?lang=`.
+
+Deviation from the reference, recorded because it is visible: the reference supplies
+Finnish only and has no language affordance, so the header carries a compact FI/SV/EN
+control and a theme toggle, matching what the generated pages already offer. The scenario
+and theme selects, the app-footer preview block and every invented cinema and timestamp
+are gone, and `tests/test_status_page.py` fails if any of them come back.
+
+`tests/test_status_model.py`, 19 tests over the states a run can produce, and
+`tests/test_status_page.py`, 20 file-level checks. Verified in a browser against the real
+data at 320, 390 and desktop widths, in both themes and all three languages: no horizontal
+overflow at 320, the open row and the focus survive a refresh, and the back link carries
+the area and language without touching the saved favourite. Not verified: toggling a row
+with Enter or Space. The automation driver does not deliver a synthetic key press to a
+`<summary>`, and an unstyled `<details>` on the same page behaves identically, so this is
+the driver rather than the markup; the page adds no key handling of its own.
+
 ### A background refresh reaches every held slot (2026-09-06, sw.js v118)
 `onFresh` read `io.area()` and dropped any message that did not name the selection. An
 entry in the payload cache the reader had left kept whatever it was fetched with, and

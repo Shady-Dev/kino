@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F6F7F9">
+<meta name="robots" content="index,follow">
+<title>Palvelun tila – Leffavuoro</title>
+<meta name="description" content="Näytösaikojen päivitykset ja tietojen ajantasaisuus.">
+<link rel="canonical" href="https://leffavuoro.fi/status/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  /* Archivo, self-hosted, same two faces and ranges as index.html. Absolute paths: this
+     page is one directory down and the font files are not duplicated. */
+  @font-face{font-family:'Archivo';font-style:normal;
+    font-weight:100 900;font-stretch:62% 125%;font-display:swap;
+    src:url(/fonts/archivo-latin-ext.woff2) format('woff2');
+    unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Archivo';font-style:normal;
+    font-weight:100 900;font-stretch:62% 125%;font-display:swap;
+    src:url(/fonts/archivo-latin.woff2) format('woff2');
+    unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+
+  /* Palette from index.html, unchanged. The four status pairs are this page's own: the
+     app has no green/amber vocabulary because its health line carries one accent and a
+     warning mark instead. */
+  :root{
+    color-scheme:light;
+    --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
+    --line:#E3E6EB; --accent:#B8860B; --accent-text:#8A6508;
+    --good:#22633E; --good-bg:#EDF5EF;
+    --warn:#85530B; --warn-bg:#FFF3DD;
+    --unknown:#59616E; --unknown-bg:#ECEFF3;
+  }
+  [data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0D0E12; --surface:#16181F; --ink:#EDEDEA; --muted:#8B93A1;
+    --line:#262A33; --accent:#E8B84B; --accent-text:#E8B84B;
+    --good:#99D6AC; --good-bg:#1B2C23;
+    --warn:#F2C477; --warn-bg:#302718;
+    --unknown:#BBC3CE; --unknown-bg:#252B35;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  .sr-only{
+    position:absolute; width:1px; height:1px; margin:-1px; padding:0;
+    overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0;
+  }
+  body{
+    background:var(--bg); color:var(--ink); font-size:15px; line-height:1.5;
+    font-family:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  a{color:inherit;text-underline-offset:4px}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  button,a,summary{touch-action:manipulation}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:3px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .site-header{
+    max-width:1040px;margin:auto;padding:24px 28px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .wordmark{text-decoration:none;font-weight:780;letter-spacing:-1.3px;font-size:25px}
+  .wordmark span{color:var(--accent-text)}
+  .head-tools{display:flex;align-items:center;gap:14px}
+  .back{font-size:13px;color:var(--muted);padding:10px 0}
+  /* Segmented language control, the app's shape reduced to the two things this page
+     needs: a current value and two other values one tap away. */
+  .langseg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .langseg button{
+    min-height:34px;padding:0 9px;font-size:12px;color:var(--muted);
+    background:var(--surface);border-right:1px solid var(--line);
+  }
+  .langseg button:last-child{border-right:0}
+  .langseg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+  #themeToggle{min-height:34px;min-width:34px;font-size:15px;color:var(--muted)}
+
+  .layout{max-width:880px;margin:30px auto 0;padding:0 28px}
+  .eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:1.8px;color:var(--muted);margin-bottom:12px}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.1;font-weight:650;letter-spacing:-1.7px}
+  .intro{color:var(--muted);margin-top:13px;font-size:15px}
+
+  .summary{
+    display:flex;gap:16px;align-items:flex-start;border-radius:12px;padding:23px 24px;
+    margin:29px 0 15px;background:var(--good-bg);color:var(--good);
+  }
+  .summary[data-level="warn"]{background:var(--warn-bg);color:var(--warn)}
+  .summary[data-level="unknown"]{background:var(--unknown-bg);color:var(--unknown)}
+  .summary-icon{
+    display:grid;place-items:center;width:27px;height:27px;flex:none;
+    border:1.5px solid currentColor;border-radius:50%;font-weight:650;
+  }
+  .summary h2{font-size:18px;font-weight:600;line-height:1.4;letter-spacing:-.3px}
+  .summary p{margin-top:5px;font-size:13px}
+  .checked{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  .sources{margin-top:36px}
+  .section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:15px}
+  .section-head h2{font-size:19px;font-weight:600;letter-spacing:-.3px}
+  .section-head span{font-size:12px;color:var(--muted)}
+  .provider-list{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 23px}
+  .provider-list:empty{display:none}
+  .provider{border-bottom:1px solid var(--line)}
+  .provider:last-child{border-bottom:0}
+  .provider summary{
+    list-style:none;display:grid;grid-template-columns:minmax(0,1fr) auto 12px;
+    align-items:center;gap:18px;padding:19px 0;cursor:pointer;min-height:80px;
+  }
+  .provider summary::-webkit-details-marker{display:none}
+  .provider-name{font-size:15px;font-weight:550}
+  .provider-meta{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:3px}
+  .state{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--good)}
+  .state.warn{color:var(--warn)}
+  .state.unknown{color:var(--unknown)}
+  .state.neutral{color:var(--muted)}
+  .mark{font-size:13px;min-width:12px;text-align:center;font-weight:650}
+  .chevron{color:var(--muted);transition:transform .15s}
+  .provider[open] .chevron{transform:rotate(90deg)}
+  .provider-detail{font-size:13px;color:var(--muted);padding:0 0 20px;max-width:600px}
+  .provider-detail a{display:inline-block;margin-top:9px;color:var(--ink)}
+
+  .support{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin:36px 0 42px}
+  .support h2{font-size:15px;margin-bottom:11px;font-weight:600}
+  .support p{font-size:13px;color:var(--muted);margin:7px 0}
+  .support details{font-size:13px;border-bottom:1px solid var(--line)}
+  .support summary{padding:12px 0;cursor:pointer}
+  .support dl{margin:0 0 15px;font-size:12px}
+  .support dt{font-weight:600;margin:12px 0 4px}
+  .support dd{margin:0;color:var(--muted)}
+  .support a{overflow-wrap:anywhere}
+
+  .site-footer{
+    border-top:1px solid var(--line);padding:20px 0 30px;display:flex;
+    justify-content:space-between;flex-wrap:wrap;gap:15px;color:var(--muted);font-size:12px;
+  }
+  .site-footer nav{display:flex;gap:19px;flex-wrap:wrap}
+
+  @media (max-width:580px){
+    .site-header{padding:18px 20px;gap:12px}
+    .wordmark{font-size:23px}
+    .layout{margin-top:22px;padding:0 20px}
+    .back{font-size:12px}
+    .summary{padding:19px 17px;gap:12px}
+    .summary h2{font-size:16px}
+    .summary-icon{width:24px;height:24px}
+    .provider-list{padding:0 17px}
+    /* Status under the name, chevron spanning both rows. Keeps the row readable at 320
+       px, where the longest translated label ("Osa tiedoista päivittämättä") cannot sit
+       beside the cinema name. */
+    .provider summary{grid-template-columns:minmax(0,1fr) 12px;gap:6px 8px;padding:17px 0}
+    .provider summary>div{grid-column:1}
+    .provider .state{grid-column:1;margin-top:4px}
+    .provider .chevron{grid-column:2;grid-row:1 / 3}
+    .support{grid-template-columns:1fr;gap:28px}
+    .checked{gap:5px}
+    .section-head{align-items:baseline}
+    .site-footer{display:block}
+    .site-footer nav{margin-top:12px}
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="wordmark" href="/" id="homeLink">Leffavuoro<span>.</span></a>
+  <div class="head-tools">
+    <a class="back" href="/" id="backLink">← Näytösaikoihin</a>
+    <div class="langseg" id="langSeg" role="group"></div>
+    <button id="themeToggle" type="button" title="Vaihda teemaa">◐</button>
+  </div>
+</header>
+
+<main class="layout">
+  <div class="eyebrow">Leffavuoro</div>
+  <h1 id="pageTitle">Palvelun tila</h1>
+  <p class="intro" id="pageIntro">Näytösaikojen päivitykset ja tietojen ajantasaisuus.</p>
+
+  <!-- role=status, not alert: the summary changes when a background refresh lands, and
+       a polite announcement is right for "one cinema is behind". aria-atomic so the whole
+       sentence is read rather than the words that changed. -->
+  <section class="summary" id="summary" data-level="unknown" aria-labelledby="summaryTitle"
+           role="status" aria-live="polite" aria-atomic="true">
+    <span class="summary-icon" id="summaryIcon" aria-hidden="true">?</span>
+    <div>
+      <h2 id="summaryTitle">Tarkistetaan…</h2>
+      <p id="summaryDetail"></p>
+    </div>
+  </section>
+  <div class="checked"><span id="checked"></span><span id="tzNote"></span></div>
+
+  <section class="sources" aria-labelledby="sourcesTitle">
+    <div class="section-head">
+      <h2 id="sourcesTitle">Tietolähteet</h2>
+      <span id="sourceCount"></span>
+    </div>
+    <div class="provider-list" id="providers"></div>
+  </section>
+
+  <div class="support">
+    <section aria-labelledby="helpTitle">
+      <h2 id="helpTitle">Tietoa päivityksistä</h2>
+      <p id="helpLead"></p>
+      <details id="helpStates">
+        <summary id="helpStatesSum"></summary>
+        <dl id="helpStatesList"></dl>
+      </details>
+    </section>
+    <section id="contact" aria-labelledby="contactTitle">
+      <h2 id="contactTitle">Yhteystiedot</h2>
+      <p id="contactLead"></p>
+      <p><a href="mailto:leffavuoro@gmail.com">leffavuoro@gmail.com</a></p>
+      <p id="contactRemoval"></p>
+      <details id="srcDetails">
+        <summary id="srcSum"></summary>
+        <p id="srcData"></p>
+        <p><a href="https://github.com/Shady-Dev/kino" rel="noopener" id="srcRepo">Lähdekoodi GitHubissa</a>
+           · <a href="https://github.com/Shady-Dev/kino/blob/main/LICENSE" rel="noopener">AGPL-3.0-or-later</a></p>
+        <p id="srcThird"></p>
+      </details>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <span id="footCredit"></span>
+    <nav id="footNav" aria-label="Lisätietoja"></nav>
+  </footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+
+  /* ---------- shared constants ----------
+     STALE_H is the app's threshold and check_staleness.py's; tests/test_status_page.py
+     fails if the three drift apart. */
+  const STALE_H = 8;
+  const TZ = 'Europe/Helsinki';
+  const LANGS = ['fi','sv','en'];
+  const LOCALE = { fi:'fi-FI', sv:'sv-SE', en:'en-GB' };
+
+  const esc = v => String(v ?? '').replace(/[&<>"']/g,
+    ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  // Same rule as the app's: a registry host is ours, but it is still interpolated into an
+  // href, and one shape of guard for every sink is easier to keep right than two.
+  const CTRL = /[\u0000-\u001F\u007F]/;
+  const safeUrl = u => {
+    u = String(u || '').trim();
+    if(!u) return '';
+    if(CTRL.test(u)) return '';
+    const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
+    return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
+  };
+
+  /* ---------- copy ---------- */
+  const L = {
+    fi: {
+      title:'Palvelun tila', intro:'Näytösaikojen päivitykset ja tietojen ajantasaisuus.',
+      back:'← Näytösaikoihin', theme:'Vaihda teemaa', langGroup:'Kieli',
+      sources:'Tietolähteet', sourceCount:'{n} tietolähdettä', sourceCount1:'1 tietolähde',
+      checked:'Tilanne tarkistettu {when}', checkFailed:'Tarkistus ei onnistunut',
+      tz:'Ajat Suomen aikaa',
+      sumOk:'Näytösajat ovat ajan tasalla',
+      sumOkDetail:'Kaikki tietolähteet päivitettiin onnistuneesti.',
+      sumOneLate:'Yhden teatterin tietojen päivitys viivästyy',
+      sumOneLateDetail:'{name} · viimeksi päivitetty {ago}.',
+      sumMixed:'Kaikkien tietojen ajantasaisuutta ei voitu varmistaa',
+      sumMixedDetail:'Viivästyneet, osittaiset ja tarkistamatta jääneet päivitykset näkyvät listan alussa.',
+      sumUnknown:'Tilaa ei voitu tarkistaa',
+      sumUnknownDetail:'Päivitystietoja ei saatu luettua. Yritä myöhemmin uudelleen.',
+      sumPendingDetail:'Ohjelmistoa ei ole vielä julkaistu: {names}.',
+      stOk:'Ajan tasalla', stLate:'Päivitys viivästynyt',
+      stPartial:'Osa tiedoista päivittämättä', stPending:'Ei julkaistua ohjelmistoa',
+      stUnknown:'Tilaa ei voitu tarkistaa',
+      venues1:'{city}', venuesN:'{n} teatteria',
+      updatedAgo:'päivitetty {ago}',
+      metaLate:'päivitetty {ago}', metaPartialN:'{n}/{m} teatterin tiedot päivittämättä',
+      metaPending:'{n}/{m} teatterissa ei julkaistua ohjelmistoa',
+      metaUnknown:'Päivitystietoja ei saatu luettua',
+      dOk1:'Näytösajat päivitettiin {when}.',
+      dOkN:'Kaikkien {m} teatterin tiedot päivitettiin {when}.',
+      dLate1:'Viimeisin onnistunut päivitys {when}. Näytösajat voivat olla vanhentuneita.',
+      dLateN:'Vanhimmat tiedot ovat {when}. Osa teattereista on voitu päivittää myöhemmin.',
+      dPartial:'{names}: tietoja ei saatu päivitettyä, ja aiemmat tiedot ovat edelleen näkyvissä. Vanhin tieto on {when}.',
+      dPending:'{names}: ohjelmisto tarkistettiin {when}, eikä siinä ollut näytöksiä.',
+      dUnknown:'Tietolähteen tilaa ei voitu tarkistaa. Tämä ei kerro teatterin oman sivuston toiminnasta.',
+      siteLink:'Teatterin sivusto ↗',
+      helpTitle:'Tietoa päivityksistä',
+      helpLead:'Päivitysviive koskee Leffavuorossa näkyviä tietoja. Tarkista ajantasainen näytösaika teatterin omalta sivulta.',
+      helpStates:'Mitä tilat tarkoittavat?',
+      hOk:'Tiedot on päivitetty viimeisten {h} tunnin aikana.',
+      hLate:'Viimeisimmästä päivityksestä on yli {h} tuntia.',
+      hPartial:'Kaikkien teatterien tietoja ei saatu päivitettyä.',
+      hPending:'Teatterin ohjelmisto tarkistettiin, eikä siinä ollut näytöksiä.',
+      hUnknown:'Päivitystietoja ei saatu luettua.',
+      contactTitle:'Yhteystiedot',
+      contactLead:'Virhe näytösajoissa tai kysyttävää palvelusta?',
+      contactRemoval:'Teatterit voivat pyytää tietojensa korjaamista tai poistamista.',
+      srcSum:'Tietolähteet ja lähdekoodi',
+      srcData:'Näytösajat ovat elokuvateattereiden julkaisemasta ohjelmistosta. Elokuvien lisätietoja saadaan myös TMDB:stä.',
+      srcRepo:'Lähdekoodi GitHubissa',
+      srcThird:'Julisteet ja muu kolmansien osapuolten aineisto kuuluvat oikeudenhaltijoilleen. Archivo-kirjasimen lisenssi on SIL Open Font License.',
+      footCredit:'Leffavuoro · elokuvat ja näytösajat',
+      navShowtimes:'Näytösajat', navContact:'Yhteystiedot', navSource:'Lähdekoodi',
+      at:'klo {t}', agoMin:'{n} min sitten', agoHour1:'1 tunti sitten',
+      agoHours:'{n} tuntia sitten', agoUnknown:'aikaa ei tiedetä', compactH:'{n} t',
+    },
+    sv: {
+      title:'Tjänstens status', intro:'Uppdateringar av föreställningstider och uppgifternas aktualitet.',
+      back:'← Till föreställningstiderna', theme:'Byt tema', langGroup:'Språk',
+      sources:'Datakällor', sourceCount:'{n} datakällor', sourceCount1:'1 datakälla',
+      checked:'Kontrollerat {when}', checkFailed:'Kontrollen misslyckades',
+      tz:'Tider i finsk tid',
+      sumOk:'Föreställningstiderna är aktuella',
+      sumOkDetail:'Alla datakällor uppdaterades utan fel.',
+      sumOneLate:'Uppdateringen för en biograf är försenad',
+      sumOneLateDetail:'{name} · senast uppdaterad {ago}.',
+      sumMixed:'Alla uppgifters aktualitet kunde inte bekräftas',
+      sumMixedDetail:'Försenade, delvisa och okontrollerade uppdateringar visas först i listan.',
+      sumUnknown:'Statusen kunde inte kontrolleras',
+      sumUnknownDetail:'Uppdateringsuppgifterna kunde inte läsas. Försök igen senare.',
+      sumPendingDetail:'Programmet har ännu inte publicerats: {names}.',
+      stOk:'Aktuell', stLate:'Uppdatering försenad',
+      stPartial:'En del av uppgifterna ouppdaterade', stPending:'Inget publicerat program',
+      stUnknown:'Statusen kunde inte kontrolleras',
+      venues1:'{city}', venuesN:'{n} biografer',
+      updatedAgo:'uppdaterad {ago}',
+      metaLate:'uppdaterad {ago}', metaPartialN:'{n}/{m} biografers uppgifter ouppdaterade',
+      metaPending:'{n}/{m} biografer utan publicerat program',
+      metaUnknown:'Uppdateringsuppgifterna kunde inte läsas',
+      dOk1:'Föreställningstiderna uppdaterades {when}.',
+      dOkN:'Alla {m} biografers uppgifter uppdaterades {when}.',
+      dLate1:'Senaste lyckade uppdatering {when}. Föreställningstiderna kan vara föråldrade.',
+      dLateN:'De äldsta uppgifterna är från {when}. En del biografer kan ha uppdaterats senare.',
+      dPartial:'{names}: uppgifterna kunde inte uppdateras, och de tidigare uppgifterna visas fortfarande. Äldsta uppgiften är från {when}.',
+      dPending:'{names}: programmet kontrollerades {when} och innehöll inga föreställningar.',
+      dUnknown:'Datakällans status kunde inte kontrolleras. Detta säger ingenting om biografens egen webbplats.',
+      siteLink:'Biografens webbplats ↗',
+      helpTitle:'Om uppdateringarna',
+      helpLead:'Fördröjningen gäller uppgifterna i Leffavuoro. Kontrollera aktuell föreställningstid på biografens egen sida.',
+      helpStates:'Vad betyder statusarna?',
+      hOk:'Uppgifterna har uppdaterats under de senaste {h} timmarna.',
+      hLate:'Mer än {h} timmar sedan senaste uppdatering.',
+      hPartial:'Alla biografers uppgifter kunde inte uppdateras.',
+      hPending:'Biografens program kontrollerades och innehöll inga föreställningar.',
+      hUnknown:'Uppdateringsuppgifterna kunde inte läsas.',
+      contactTitle:'Kontaktuppgifter',
+      contactLead:'Fel i föreställningstiderna eller frågor om tjänsten?',
+      contactRemoval:'Biografer kan begära rättelse eller radering av sina uppgifter.',
+      srcSum:'Datakällor och källkod',
+      srcData:'Föreställningstiderna kommer från biografernas publicerade program. Filmuppgifter hämtas även från TMDB.',
+      srcRepo:'Källkod på GitHub',
+      srcThird:'Affischer och annat material från tredje part tillhör sina rättighetsinnehavare. Typsnittet Archivo används under SIL Open Font License.',
+      footCredit:'Leffavuoro · filmer och föreställningstider',
+      navShowtimes:'Föreställningstider', navContact:'Kontakt', navSource:'Källkod',
+      at:'kl. {t}', agoMin:'{n} min sedan', agoHour1:'1 timme sedan',
+      agoHours:'{n} timmar sedan', agoUnknown:'tiden är okänd', compactH:'{n} h',
+    },
+    en: {
+      title:'Service status', intro:'Showtime updates and how current the data is.',
+      back:'← To showtimes', theme:'Switch theme', langGroup:'Language',
+      sources:'Data sources', sourceCount:'{n} data sources', sourceCount1:'1 data source',
+      checked:'Checked {when}', checkFailed:'The check did not succeed',
+      tz:'Times in Finnish time',
+      sumOk:'Showtimes are up to date',
+      sumOkDetail:'Every data source updated successfully.',
+      sumOneLate:'One cinema’s update is delayed',
+      sumOneLateDetail:'{name} · last updated {ago}.',
+      sumMixed:'Could not confirm that all data is current',
+      sumMixedDetail:'Delayed, partial and unchecked updates are listed first.',
+      sumUnknown:'Status could not be checked',
+      sumUnknownDetail:'Update information could not be read. Try again later.',
+      sumPendingDetail:'No programme published yet: {names}.',
+      stOk:'Up to date', stLate:'Update delayed',
+      stPartial:'Some data not updated', stPending:'No published programme',
+      stUnknown:'Status could not be checked',
+      venues1:'{city}', venuesN:'{n} cinemas',
+      updatedAgo:'updated {ago}',
+      metaLate:'updated {ago}', metaPartialN:'{n}/{m} cinemas not updated',
+      metaPending:'{n}/{m} cinemas with no published programme',
+      metaUnknown:'Update information could not be read',
+      dOk1:'Showtimes updated {when}.',
+      dOkN:'All {m} cinemas updated {when}.',
+      dLate1:'Last successful update {when}. Showtimes may be out of date.',
+      dLateN:'The oldest data is from {when}. Some cinemas may have updated later.',
+      dPartial:'{names}: could not be updated, and the previous data is still shown. The oldest data is from {when}.',
+      dPending:'{names}: the programme was checked {when} and contained no screenings.',
+      dUnknown:'This data source’s status could not be checked. It says nothing about the cinema’s own website.',
+      siteLink:'Cinema website ↗',
+      helpTitle:'About the updates',
+      helpLead:'The delay applies to the data shown in Leffavuoro. Check the current showtime on the cinema’s own page.',
+      helpStates:'What do the states mean?',
+      hOk:'Updated within the last {h} hours.',
+      hLate:'More than {h} hours since the last update.',
+      hPartial:'Not every cinema’s data could be updated.',
+      hPending:'The cinema’s programme was checked and contained no screenings.',
+      hUnknown:'Update information could not be read.',
+      contactTitle:'Contact',
+      contactLead:'An error in the showtimes, or a question about the service?',
+      contactRemoval:'Cinemas can ask for their data to be corrected or removed.',
+      srcSum:'Data sources and source code',
+      srcData:'Showtimes come from the cinemas’ own published programmes. Film details also come from TMDB.',
+      srcRepo:'Source code on GitHub',
+      srcThird:'Posters and other third-party material belong to their rights holders. The Archivo typeface is used under the SIL Open Font License.',
+      footCredit:'Leffavuoro · films and showtimes',
+      navShowtimes:'Showtimes', navContact:'Contact', navSource:'Source',
+      at:'at {t}', agoMin:'{n} min ago', agoHour1:'1 hour ago',
+      agoHours:'{n} hours ago', agoUnknown:'time unknown', compactH:'{n} h',
+    },
+  };
+
+  /* ---------- theme: the app's key and the app's fallback ---------- */
+  const store = { get k(){ try{ return localStorage.getItem('kino-theme'); }catch(e){ return null; } },
+                  set k(v){ try{ localStorage.setItem('kino-theme', v); }catch(e){} } };
+  const applyTheme = t => {
+    document.documentElement.setAttribute('data-theme', t);
+    const m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.content = getComputedStyle(document.documentElement)
+      .getPropertyValue('--bg').trim() || '#0D0E12';
+  };
+  applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  $('themeToggle').onclick = () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next); store.k = next;
+  };
+
+  /* ---------- language and the way back ----------
+     `area` is read and passed on, never written: arriving here from a cinema and going
+     back must land on that cinema, and must not promote it to the saved favourite. */
+  const prefs = {
+    get(){ try{ return JSON.parse(localStorage.getItem('kino-prefs') || '{}'); }catch(e){ return {}; } },
+    set(p){ try{ localStorage.setItem('kino-prefs', JSON.stringify(Object.assign(prefs.get(), p))); }catch(e){} }
+  };
+  let param = new URLSearchParams('');
+  try { param = new URLSearchParams(location.search); } catch(e){}
+  const areaParam = param.get('area') || '';
+  // Same precedence as the app: an explicit ?lang= wins, then the stored choice, then fi.
+  const askedLang = param.get('lang') || '';
+  let lang = LANGS.includes(askedLang) ? askedLang
+           : (LANGS.includes(prefs.get().lang) ? prefs.get().lang : LANGS[0]);
+
+  function backHref(){
+    const q = new URLSearchParams();
+    if(areaParam) q.set('area', areaParam);
+    if(lang !== LANGS[0]) q.set('lang', lang);
+    const s = q.toString();
+    return '/' + (s ? '?' + s : '');
+  }
+
+  /* ---------- time ---------- */
+  // --- status time: pure, extracted verbatim by tests/status_harness.js ---
+  const fmt = {};
+  function dtFmt(l){
+    if(!fmt[l]) fmt[l] = {
+      d: new Intl.DateTimeFormat(LOCALE[l], { timeZone: TZ, day:'numeric', month:'numeric' }),
+      t: new Intl.DateTimeFormat(LOCALE[l], { timeZone: TZ, hour:'2-digit', minute:'2-digit', hour12:false }),
+    };
+    return fmt[l];
+  }
+  // Absolute, in Helsinki, always. A relative age answers "is this current"; the absolute
+  // time answers "which run was it", and the two are not interchangeable.
+  function whenText(iso, l, T){
+    const ms = iso ? new Date(iso).getTime() : NaN;
+    if(isNaN(ms)) return T.agoUnknown;
+    const f = dtFmt(l), d = new Date(ms);
+    return `${f.d.format(d)} ${T.at.replace('{t}', f.t.format(d))}`;
+  }
+  function ageHours(iso, now){
+    const t = iso ? new Date(iso).getTime() : NaN;
+    return isNaN(t) ? null : (now - t) / 36e5;
+  }
+  function agoText(h, T){
+    if(h === null) return T.agoUnknown;
+    if(h < 1) return T.agoMin.replace('{n}', Math.max(1, Math.round(h * 60)));
+    const n = Math.round(h);
+    return (n === 1 ? T.agoHour1 : T.agoHours).replace('{n}', n);
+  }
+  // --- end status time ---
+
+  // --- healthState: pure, extracted verbatim by tests/health_state_harness.js ---
+  // Severity order: behind > partial > pending > ok. A partial refresh is degraded the
+  // moment it happens, whatever the age of the kept data; age alone once let a provider
+  // that failed one venue read as healthy. `partial` stays distinct from `behind`: data
+  // two hours old is not behind, and saying so is the false alarm that teaches people to
+  // ignore the line.
+  // `pending` is granted only when the adapter vouches that an empty answer is positive
+  // evidence (EMPTY_VENUES_CONFIRMED): a programme not yet started (Kino Metso Tikkakoski
+  // publishing into late October from day one) or a touring cinema's town between visits
+  // (Muurame). `unverified` stays partial: run.py cannot tell "added before its programme"
+  // from "a parse that has never worked", so that case stays visible.
+  function healthState(m, ageH){
+    if(!m) return 'gone';
+    if(m.gone) return 'gone';
+    if(ageH === null || ageH > STALE_H) return 'behind';
+    if(m.stale > 0 || m.unverified > 0 || m.status === 'partial') return 'partial';
+    if(m.pending > 0) return 'pending';
+    return 'ok';
+  }
+  // --- end healthState ---
+
+  // --- status model: pure, extracted verbatim by tests/status_harness.js ---
+  // The whole page as data: one call turns the published metadata into the summary and
+  // the rows, so every state can be driven from a fixture. The DOM half below only
+  // writes what this returns.
+  //
+  // healthState above stays the authority on severity. Two presentation splits sit here
+  // and nowhere else. A provider whose file never arrived, and one whose timestamp will
+  // not parse, both read as "could not check": healthState calls the second `behind`,
+  // which would claim a delay that was never measured. And a `behind` provider with more
+  // than one venue is described by its oldest venue, never as a whole chain that failed,
+  // because `oldest` is a minimum and says nothing about the rest.
+  function statusModel(providers, meta, now, T, collate){
+    const rank = { unknown:0, late:1, partial:2, pending:3, ok:4 };
+    const rows = providers.map(p => {
+      const m = meta[p.id];
+      const iso = m && (m.oldest || m.generated);
+      const h = ageHours(iso, now);
+      const hs = healthState(m, h);
+      const venues = (m && m.venues) || 0;
+      const state = (hs === 'gone' || h === null) ? 'unknown'
+                  : hs === 'behind' ? 'late'
+                  : hs === 'partial' ? 'partial'
+                  : hs === 'pending' ? 'pending' : 'ok';
+      const names = ids => (ids || []).map(id => (m.names && m.names[id]) || id);
+      const ago = agoText(h, T);
+      const when = whenText(iso, T.lang, T);
+      let sub = '', detail = '';
+      if(state === 'unknown'){
+        sub = T.metaUnknown;
+        detail = T.dUnknown;
+      } else if(state === 'late'){
+        sub = T.metaLate.replace('{ago}', ago);
+        detail = venues > 1 ? T.dLateN.replace('{when}', when)
+                            : T.dLate1.replace('{when}', when);
+      } else if(state === 'partial'){
+        const bad = names(m.staleIds).concat(names(m.unverifiedIds));
+        sub = T.metaPartialN.replace('{n}', bad.length || 1).replace('{m}', venues);
+        detail = T.dPartial.replace('{names}', bad.join(', ')).replace('{when}', when);
+      } else if(state === 'pending'){
+        const idle = names(m.pendingIds);
+        sub = T.metaPending.replace('{n}', idle.length || 1).replace('{m}', venues);
+        detail = T.dPending.replace('{names}', idle.join(', ')).replace('{when}', when);
+      } else {
+        sub = T.updatedAgo.replace('{ago}', ago);
+        detail = venues > 1 ? T.dOkN.replace('{m}', venues).replace('{when}', when)
+                            : T.dOk1.replace('{when}', when);
+      }
+      const scope = venues > 1 ? T.venuesN.replace('{n}', venues)
+                               : (m && m.city ? T.venues1.replace('{city}', m.city) : '');
+      return { id:p.id, name:p.label || p.id, host:p.host || '', state,
+               label:T['st' + state[0].toUpperCase() + state.slice(1)] || T.stUnknown,
+               meta: scope ? `${scope} · ${sub}` : sub, detail, venues,
+               ago, when, iso: iso || '' };
+    });
+    rows.sort((a, b) => (rank[a.state] - rank[b.state]) || collate(a.name, b.name));
+
+    const by = s => rows.filter(r => r.state === s);
+    const late = by('late'), partial = by('partial'), unknown = by('unknown'), pending = by('pending');
+    let level = 'good', title = T.sumOk, detail = T.sumOkDetail;
+    // No rows at all means providers.json did not arrive, so nothing was checked. That
+    // is the same answer as every row unknown, and it must not fall through to green.
+    if(!rows.length || unknown.length === rows.length){
+      level = 'unknown'; title = T.sumUnknown; detail = T.sumUnknownDetail;
+    } else if(late.length === 1 && !partial.length && !unknown.length && late[0].venues === 1){
+      level = 'warn'; title = T.sumOneLate;
+      detail = T.sumOneLateDetail.replace('{name}', late[0].name).replace('{ago}', late[0].ago);
+    } else if(late.length || partial.length || unknown.length){
+      level = 'warn'; title = T.sumMixed; detail = T.sumMixedDetail;
+    } else if(pending.length){
+      // Nothing failed, so the headline stays green, but the venues without a programme
+      // are named rather than folded into "everything updated".
+      detail = T.sumPendingDetail.replace('{names}',
+        pending.map(r => r.name).join(', '));
+    }
+    const icon = level === 'good' ? '✓' : level === 'warn' ? '!' : '?';
+    return { level, title, detail, icon, rows,
+             count: rows.length === 1 ? T.sourceCount1 : T.sourceCount.replace('{n}', rows.length) };
+  }
+  // --- end status model ---
+
+  /* ---------- reading the published metadata ---------- */
+  // Every request is same-origin and independent. One provider's file failing leaves that
+  // row unknown and the rest of the page intact, which is the whole reason these are not
+  // awaited together as one promise.
+  const readJson = path => fetch(path, { credentials:'omit' })
+    .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))));
+
+  function normalise(j){
+    const names = {};
+    for(const v of (j.venues || [])) if(v && v.id) names[v.id] = v.name || v.id;
+    const list = (j.venues || []).filter(v => v && v.id);
+    return {
+      generated: j.generated || '', oldest: j.oldest || j.generated || '',
+      status: j.status || '',
+      stale: Array.isArray(j.stale) ? j.stale.length : 0,
+      unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
+      pending: Array.isArray(j.pending) ? j.pending.length : 0,
+      staleIds: Array.isArray(j.stale) ? j.stale : [],
+      unverifiedIds: Array.isArray(j.unverified) ? j.unverified : [],
+      pendingIds: Array.isArray(j.pending) ? j.pending : [],
+      names, venues: list.length,
+      city: list.length === 1 ? (list[0].city || '') : '',
+    };
+  }
+
+  let providers = [], meta = {}, checkedAt = null, gen = 0;
+
+  async function load(){
+    // Every load carries a token. A slow answer that lands after a newer load started is
+    // dropped rather than written over the newer state, which is the same rule the app's
+    // background refresh uses on its payload cache.
+    const mine = ++gen;
+    let list = [];
+    try {
+      const j = await readJson('/data/providers.json');
+      list = (j.providers || []).filter(p => p && p.id);
+    } catch(e){ list = []; }
+    if(mine !== gen) return;
+
+    const next = {};
+    const jobs = list.map(async p => {
+      if(p.id === 'finnkino'){
+        // Finnkino is areas.json in the legacy numeric shape, with no per-venue arrays.
+        try {
+          const a = await readJson('/data/areas.json');
+          const areas = (a.areas || []).filter(x => x.id && x.id !== '1029');
+          if(!areas.length) return;
+          next[p.id] = normalise({ generated:a.generated, oldest:a.generated, status:'ok',
+                                   venues: areas.map(x => ({ id:x.id, name:x.name })) });
+        } catch(e){}
+        return;
+      }
+      try {
+        const j = await readJson(`/data/venues-${p.id}.json`);
+        if((j.venues || []).length) next[p.id] = normalise(j);
+      } catch(e){}
+    });
+    await Promise.all(jobs);
+    if(mine !== gen) return;
+    providers = list; meta = next; checkedAt = Date.now();
+    render();
+  }
+
+  /* ---------- rendering ---------- */
+  function collator(){
+    try { return new Intl.Collator(LOCALE[lang]).compare; }
+    catch(e){ return (a, b) => (a < b ? -1 : a > b ? 1 : 0); }
+  }
+
+  function render(){
+    const T = Object.assign({ lang }, L[lang]);
+    const m = statusModel(providers, meta, Date.now(), T, collator());
+
+    $('summary').dataset.level = m.level;
+    $('summaryIcon').textContent = m.icon;
+    $('summaryTitle').textContent = m.title;
+    $('summaryDetail').textContent = m.detail;
+    $('sourceCount').textContent = providers.length ? m.count : '';
+    $('checked').textContent = checkedAt && providers.length
+      ? T.checked.replace('{when}', whenText(new Date(checkedAt).toISOString(), lang, T))
+      : T.checkFailed;
+    $('tzNote').textContent = T.tz;
+
+    // Which rows the reader had open, kept across a re-render. Rebuilding the list is
+    // what makes a background refresh cheap; losing the open row is what would make it
+    // feel like a reload.
+    const host = $('providers');
+    const open = new Set([...host.querySelectorAll('details[open]')].map(d => d.dataset.id));
+    const focusId = document.activeElement && document.activeElement.closest
+      ? (document.activeElement.closest('details.provider') || {}).id : null;
+    host.innerHTML = m.rows.map(r => {
+      const tone = r.state === 'late' || r.state === 'partial' ? 'warn'
+                 : r.state === 'unknown' ? 'unknown'
+                 : r.state === 'pending' ? 'neutral' : '';
+      const mark = r.state === 'ok' ? '✓' : r.state === 'unknown' ? '?'
+                 : r.state === 'pending' ? '–' : '!';
+      const url = r.host ? safeUrl('https://' + r.host + '/') : '';
+      const link = url ? `<br><a href="${url}" rel="noopener">${esc(T.siteLink)}</a>` : '';
+      return `<details class="provider" id="row-${esc(r.id)}" data-id="${esc(r.id)}"`
+        + `${open.has(r.id) ? ' open' : ''}><summary><div class="provider-name">${esc(r.name)}`
+        + `<span class="provider-meta">${esc(r.meta)}</span></div>`
+        + `<span class="state ${tone}"><span class="mark" aria-hidden="true">${mark}</span>`
+        + `${esc(r.label)}</span><span class="chevron" aria-hidden="true">›</span></summary>`
+        + `<div class="provider-detail">${esc(r.detail)}${link}</div></details>`;
+    }).join('');
+    // innerHTML replaced the node the reader was on. Put focus back on the same row's
+    // summary so a refresh cannot move the keyboard caret.
+    if(focusId){
+      const back = document.getElementById(focusId);
+      if(back) back.querySelector('summary').focus();
+    }
+  }
+
+  function applyLang(){
+    const T = L[lang];
+    document.documentElement.lang = lang;
+    document.title = `${T.title} – Leffavuoro`;
+    $('pageTitle').textContent = T.title;
+    $('pageIntro').textContent = T.intro;
+    const back = $('backLink');
+    back.textContent = T.back; back.href = backHref();
+    $('homeLink').href = backHref();
+    $('themeToggle').title = T.theme;
+    $('themeToggle').setAttribute('aria-label', T.theme);
+    $('langSeg').setAttribute('aria-label', T.langGroup);
+    $('sourcesTitle').textContent = T.sources;
+    $('helpTitle').textContent = T.helpTitle;
+    $('helpLead').textContent = T.helpLead;
+    $('helpStatesSum').textContent = T.helpStates;
+    $('helpStatesList').innerHTML =
+      [[T.stOk, T.hOk.replace('{h}', STALE_H)], [T.stLate, T.hLate.replace('{h}', STALE_H)],
+       [T.stPartial, T.hPartial], [T.stPending, T.hPending], [T.stUnknown, T.hUnknown]]
+      .map(([d, t]) => `<dt>${esc(d)}</dt><dd>${esc(t)}</dd>`).join('');
+    $('contactTitle').textContent = T.contactTitle;
+    $('contactLead').textContent = T.contactLead;
+    $('contactRemoval').textContent = T.contactRemoval;
+    $('srcSum').textContent = T.srcSum;
+    $('srcData').textContent = T.srcData;
+    $('srcRepo').textContent = T.srcRepo;
+    $('srcThird').textContent = T.srcThird;
+    $('footCredit').textContent = T.footCredit;
+    $('footNav').innerHTML =
+      `<a href="${esc(backHref())}">${esc(T.navShowtimes)}</a>`
+      + `<a href="#contact">${esc(T.navContact)}</a>`
+      + `<a href="https://github.com/Shady-Dev/kino" rel="noopener">${esc(T.navSource)}</a>`;
+    $('langSeg').innerHTML = LANGS.map(l =>
+      `<button type="button" data-lang="${l}" aria-pressed="${l === lang}">`
+      + `${l.toUpperCase()}</button>`).join('');
+    render();
+  }
+
+  $('langSeg').addEventListener('click', e => {
+    const b = e.target.closest('button[data-lang]');
+    if(!b || b.dataset.lang === lang) return;
+    lang = b.dataset.lang;
+    prefs.set({ lang });                 // the app's key: a choice here is a choice there
+    try {
+      const q = new URLSearchParams(location.search);
+      if(q.has('lang')){ q.set('lang', lang); }
+      const s = q.toString();
+      history.replaceState(null, '', location.pathname + (s ? '?' + s : ''));
+    } catch(_){}
+    applyLang();
+    const cur = $('langSeg').querySelector(`button[data-lang="${lang}"]`);
+    if(cur) cur.focus();
+  });
+
+  /* ---------- staying current ----------
+     The worker serves data JSON from cache and posts `{fresh: path}` when newer bytes
+     land. Only the files this page reads count, and a message never triggers a fetch of
+     its own: load() reads through the same worker, so answering a message with a request
+     for the file the message was about is the loop to avoid. */
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.addEventListener('message', ev => {
+      const p = (ev.data || {}).fresh || '';
+      if(/\/data\/(providers|areas|venues-[^/]+)\.json$/.test(p)) load();
+    });
+  }
+  // A resumed tab is the other way this page goes stale: it was opened, backgrounded and
+  // brought back hours later. Re-read on return, and only then.
+  document.addEventListener('visibilitychange', () => {
+    if(document.visibilityState === 'visible') load();
+  });
+
+  applyLang();
+  load();
+})();
+</script>
+</body>
+</html>

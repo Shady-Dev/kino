@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Syntax-check the client's JavaScript. -> 0 clean, 1 something is broken.
 
-    python3 scripts/check_inline_js.py              # index.html and sw.js
+    python3 scripts/check_inline_js.py              # index.html, status/index.html, sw.js
     python3 scripts/check_inline_js.py FILE [FILE]  # any .html or .js
 
 There is no build step, so nothing parses `index.html`'s script block before a browser
@@ -11,8 +11,13 @@ fragment.
 
 A `<script>` with a `src` is skipped. A `<script type="application/ld+json">` is parsed
 as JSON, because a broken one silently removes the page from rich results. An HTML file
-with no inline script is a failure: the file this checks has exactly one, so zero means
+with no inline script is a failure: each file this checks has exactly one, so zero means
 the tag shape changed.
+
+`node --check` parses; it does not run. A regular expression literal with a broken
+character class is valid syntax and throws only when the engine builds it, which is how
+a status/index.html class written with literal control bytes passed here and died in the
+browser. Anything that has to be constructed at runtime needs a test, not this.
 """
 import argparse
 import json
@@ -24,7 +29,7 @@ import sys
 import tempfile
 
 SCRIPT_RE = re.compile(r"<script([^>]*)>(.*?)</script>", re.S | re.I)
-DEFAULT = ["index.html", "sw.js"]
+DEFAULT = ["index.html", "status/index.html", "sw.js"]
 
 
 def blocks(html):

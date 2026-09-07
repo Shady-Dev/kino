@@ -1,10 +1,12 @@
 """One contact address, and no other address anywhere in the tree.
 
-Rotation: the address is a disposable alias typed in the client (static fallback and JS
-constant), the page generator and both documents. Missing one on rotation leaves the site
-contradicting itself, most likely in the generated pages. Leaks: this repo is public, and
-a real name once reached 18 commits. The address is discovered from the client, so the
-test carries none of its own and keeps working across a rotation.
+Rotation: the address is a disposable alias, written once in /status/'s markup and
+repeated in both documents. It moved there on 2026-09-07 with the rest of the footer's
+global half; the app and the page generator now link to that page instead of carrying an
+address, which is three fewer copies to miss on a rotation. Markup rather than a
+constant, because the address has to survive a script that never ran. Leaks: this repo is
+public, and a real name once reached 18 commits. The address is discovered from the page,
+so the test carries none of its own and keeps working across a rotation.
 """
 import pathlib
 import re
@@ -28,10 +30,9 @@ ALLOWED = {
     "19388620+Shady-Dev@users.noreply.github.com",
 }
 
-# Files that hand-write the address. Generated pages are excluded on purpose: they are
-# rewritten from build_pages.py on the next run, so between a rotation and that run they
-# are legitimately behind, and failing on it would just be noise.
-SOURCES = ["index.html", "scripts/build_pages.py", "README.md", "IDEAS.md"]
+# Files that hand-write the address. Generated pages are excluded on purpose: they no
+# longer carry one at all, and they are rewritten from build_pages.py on the next run.
+SOURCES = ["status/index.html", "README.md", "IDEAS.md"]
 
 
 def tracked_text_files():
@@ -52,12 +53,12 @@ def tracked_text_files():
 class ContactAddressTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        html = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
-        m = re.search(r"const CONTACT = '([^']+)'", html)
-        assert m, "index.html no longer declares a CONTACT constant"
+        html = (_ctx.ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        m = re.search(r'href="mailto:([^"]+)"', html)
+        assert m, "status/index.html no longer carries a mailto link"
         cls.contact = m.group(1)
 
-    def test_the_client_constant_is_an_address_at_all(self):
+    def test_the_published_address_is_an_address_at_all(self):
         self.assertRegex(self.contact, EMAIL)
 
     def test_every_hand_written_copy_agrees(self):
@@ -71,20 +72,22 @@ class ContactAddressTest(unittest.TestCase):
                 self.assertEqual(found, {self.contact},
                                  f"{name} carries an address that is not the contact one")
 
-    def test_the_client_static_fallback_matches_its_constant(self):
-        """The markup holds a literal so the address survives a broken script. That is a
-        second copy inside one file, and the likeliest one to be missed."""
-        html = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
-        markup = re.search(r'<div id="contact">.*?</div>', html, re.S)
-        self.assertIsNotNone(markup, "the static contact line is gone")
+    def test_the_address_is_static_markup_in_the_contact_section(self):
+        """A status page that could not read a single file still has to say who to write
+        to, so the address cannot be something the status renderer produces."""
+        html = (_ctx.ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        markup = re.search(r'<section id="contact".*?</section>', html, re.S)
+        self.assertIsNotNone(markup, "the static contact section is gone")
         self.assertIn(self.contact, markup.group(0))
 
-    def test_the_page_generator_matches(self):
-        py = (_ctx.ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
-        m = re.search(r'^CONTACT = "([^"]+)"', py, re.M)
-        self.assertIsNotNone(m, "build_pages.py no longer declares CONTACT")
-        self.assertEqual(m.group(1), self.contact,
-                         "the generator would stamp a different address onto every page")
+    def test_the_app_and_the_generator_link_rather_than_carry_an_address(self):
+        """Three copies removed on 2026-09-07. Any of them coming back is a rotation trap
+        this test would otherwise stop covering."""
+        for name in ("index.html", "scripts/build_pages.py"):
+            text = (_ctx.ROOT / name).read_text(encoding="utf-8")
+            self.assertEqual(set(EMAIL.findall(text)) - ALLOWED, set(),
+                             f"{name} carries an address again")
+            self.assertIn("/status/", text, f"{name} does not link to the status page")
 
     @unittest.skipIf(shutil.which("git") is None, "git not installed")
     def test_no_other_address_is_tracked_anywhere(self):

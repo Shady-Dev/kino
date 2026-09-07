@@ -717,30 +717,15 @@
     display:flex; flex-direction:column; gap:6px;
   }
   footer a{color:inherit}
-  /* The per-source ages are a diagnostic. On a normal day they are eleven rows saying
-     the same thing, so the summary carries the one bit that matters and the list sits
-     behind a disclosure. <details> rather than a scripted toggle: it is keyboard
-     operable and announced correctly without any code. */
-  #fresh summary{
-    cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:6px;
-    width:fit-content; border-radius:4px;
+  /* One link out, styled as the footer's only affordance. The provider health list it
+     replaced lived behind a <details> here; that whole question is /status/ now. */
+  #statusLink{padding-top:6px}
+  #statusLink a{
+    color:var(--accent-text); font-weight:600; text-decoration:none;
+    display:inline-block; padding:6px 0; min-height:34px;
   }
-  #fresh summary::-webkit-details-marker{display:none}
-  #fresh summary::after{content:'\25be'; font-size:.85em; opacity:.7}
-  #fresh[open] summary::after{content:'\25b4'}
-  #fresh summary:hover{color:var(--ink)}
-  #fresh summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-  #fresh summary.bad{color:var(--accent-text); font-weight:700}
-  #sources{
-    padding:8px 0 2px; display:flex; flex-wrap:wrap; gap:4px 10px; font-size:.72rem;
-  }
-  #sources .src{white-space:nowrap}
-  #sources .src.bad{color:var(--accent-text); font-weight:700}
-  /* The marker carries the degraded state on a row whose age is still fine, so it is
-     the accent colour rather than dimmed. The row itself stays readable: the data is
-     not old, one of its cinemas simply did not refresh. */
-  #sources .part{color:var(--accent-text); cursor:help}
-  #sources .src.part-bad{color:var(--ink)}
+  #statusLink a:hover{text-decoration:underline}
+  #statusLink a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   #tagkey{
     max-width:1100px; margin:0 auto; padding:20px 20px 0; color:var(--muted);
     font-size:.72rem;
@@ -849,10 +834,12 @@
 
 <div id="tagkey"></div>
 <footer>
-  <details id="fresh"><summary id="freshSum"></summary><div id="sources"></div></details>
+  <!-- Per-selection attribution, written by renderStatus(): which source this schedule
+       came from, when it was fetched and what tapping a showtime does. It belongs beside
+       the schedule it describes and stays here. The global provider health list, the
+       contact address and the source and licence lines moved to /status/. -->
   <div id="credit">Suomalaisten elokuvateatterien näytösajat</div>
-  <div id="contact">Elokuvateattereille: yhteydenotot ja poistopyynnöt · <a href="mailto:leffavuoro@gmail.com">leffavuoro@gmail.com</a></div>
-  <div id="source">Lähdekoodi: <a href="https://github.com/Shady-Dev/kino" rel="noopener">github.com/Shady-Dev/kino</a> · AGPL-3.0</div>
+  <div id="statusLink"><a href="/status/">Palvelun tila ja tiedot ↗</a></div>
 </footer>
 
 <script>
@@ -1014,6 +1001,7 @@
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
          tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
+         statusLink:'Palvelun tila ja tiedot \u2197',
          partialOf:'Näytöstiedot eivät päivittyneet {n}/{m} teatterilta', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
@@ -1063,6 +1051,7 @@
          tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
+         statusLink:'Tjänstens status och information \u2197',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
          partialMissing:'Kunde inte laddas: {names}.',
@@ -1109,6 +1098,7 @@
          tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
          tipList:'Open the programme', tipBuy:'Buy tickets', tipAdmission:'Buy admission ticket',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
+         statusLink:'Service status and information \u2197',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
          partialMissing:'Could not load: {names}.',
@@ -1221,7 +1211,7 @@
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
-  let calChip = null, dayBtns = {}, venueIndex = {}, providerMeta = {};
+  let calChip = null, dayBtns = {}, venueIndex = {};
   let allVenues = [], cityGroups = {}, cityOrder = [], cityVenues = {};
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
@@ -1406,105 +1396,17 @@
   // The route a cinema uses to ask a question or to be taken out. The pipeline's
   // User-Agent points every provider here, so the site has to answer. Plain text:
   // obfuscating it against scrapers also hides it from the reader it exists for.
-  const CONTACT = 'leffavuoro@gmail.com';
   // AGPL section 13 makes a network-deployed modified version offer its source. Not an
   // obligation on the original; this is the example a forker needs, and the licence's
   // how-to-apply text suggests it for a web application.
-  const SOURCE_URL = 'https://github.com/Shady-Dev/kino';
-  const LICENCE = 'AGPL-3.0';
   function ageHours(iso){
     const t = iso ? new Date(iso).getTime() : NaN;
     return isNaN(t) ? null : (Date.now() - t) / 36e5;
   }
-  // --- healthState: pure, extracted verbatim by tests/health_state_harness.js ---
-  // Severity order: behind > partial > pending > ok. A partial refresh is degraded the
-  // moment it happens, whatever the age of the kept data; age alone once let a provider
-  // that failed one venue read as healthy. `partial` stays distinct from `behind`: data
-  // two hours old is not behind, and saying so is the false alarm that teaches people to
-  // ignore the line.
-  // `pending` is granted only when the adapter vouches that an empty answer is positive
-  // evidence (EMPTY_VENUES_CONFIRMED): a programme not yet started (Kino Metso Tikkakoski
-  // publishing into late October from day one) or a touring cinema's town between visits
-  // (Muurame). `unverified` stays partial: run.py cannot tell "added before its programme"
-  // from "a parse that has never worked", so that case stays visible.
-  function healthState(m, ageH){
-    if(!m) return 'gone';
-    if(m.gone) return 'gone';
-    if(ageH === null || ageH > STALE_H) return 'behind';
-    if(m.stale > 0 || m.unverified > 0 || m.status === 'partial') return 'partial';
-    if(m.pending > 0) return 'pending';
-    return 'ok';
-  }
-  // --- end healthState ---
-  function renderHealth(){
-    const el = document.querySelector('#sources');
-    if(!el) return;
-    const names = Object.keys(providerMeta);
-    if(!names.length){ el.textContent = ''; return; }
-    const state_ = {};
-    const parts = names.map(p => {
-      const m = providerMeta[p], h = ageHours(m.oldest || m.generated);
-      const st = healthState(m, h);
-      state_[p] = st;
-      const nm = esc((SOURCE[p] || [p])[0]);
-      // Its venue file did not load at all. Distinct from `?`, which means a file
-      // arrived carrying a timestamp that could not be read.
-      if(st === 'gone') return `<span class="src bad">\u26a0 ${nm} ${L[state.lang].unavailable}</span>`;
-      if(h === null) return `<span class="src bad">${nm} ?</span>`;
-      const cls = st === 'behind' ? 'src bad' : (st === 'partial' ? 'src part-bad' : 'src');
-      const mark = st === 'behind' ? '\u26a0 ' : '';
-      // Without this a chain whose age comes from one stale cinema reads as if the whole
-      // chain were down. The count says how many venues are not fully live; the title
-      // names each kind: stale, never yet answered, not yet programmed.
-      const T = L[state.lang];
-      const nS = m.stale || 0, nU = m.unverified || 0, nP = m.pending || 0;
-      const n = nS + nU + nP;
-      const kinds = [];
-      if(nS) kinds.push(T.partialOf.replace('{n}', nS).replace('{m}', m.venues));
-      if(nU) kinds.push(T.unverifiedOf.replace('{n}', nU).replace('{m}', m.venues));
-      if(nP) kinds.push(T.pendingOf.replace('{n}', nP).replace('{m}', m.venues));
-      const part = n
-        ? ` <span class="part" title="${esc(kinds.join(' \u00b7 '))}">(${n}/${m.venues})</span>`
-        : '';
-      return `<span class="${cls}">${mark}${nm} ${Math.round(h)}${T.hours}${part}</span>`;
-    });
-    // The key sits here rather than under the chain legend: it is reference material, and
-    // the word it decodes is already on the card, the meta line and the sheet.
-    el.innerHTML = parts.join(' · ');
-
-    // The summary names the sources that are behind rather than counting them; a name is
-    // the answer, a count needs the disclosure opened. Truncated past three, where the
-    // problem is "most of them" and the list is one click away.
-    const nameOf = p => (SOURCE[p] || [p])[0];
-    const behind = names.filter(p => state_[p] === 'behind' || state_[p] === 'gone').map(nameOf);
-    const partial = names.filter(p => state_[p] === 'partial').map(nameOf);
-    const pending = names.filter(p => state_[p] === 'pending');
-    const sum = document.querySelector('#freshSum');
-    if(sum){
-      const T = L[state.lang];
-      const list = xs => xs.slice(0, 3).join(', ') + (xs.length > 3 ? ` +${xs.length - 3}` : '');
-      if(behind.length){
-        sum.textContent = `\u26a0 ${T.behind}: ${esc(list(behind))}`;
-        sum.className = 'bad';
-      } else if(partial.length){
-        // Named separately rather than folded into `behind`. The data is not old; one of
-        // this chain's cinemas did not refresh on the last run, which is a different
-        // thing and deserves different words.
-        sum.textContent = `\u26a0 ${T.partialSources}: ${esc(list(partial))}`;
-        sum.className = 'bad';
-      } else if(pending.length){
-        // Quiet, no warning mark: the fetch is fresh and the adapter confirmed there is no
-        // programme yet. Named by venue, since "Kino Metso" reads as the whole chain when
-        // only Tikkakoski is waiting.
-        const vnames = pending.flatMap(p => (providerMeta[p].pendingIds || []))
-          .map(id => (venueIndex[id] && venueIndex[id].label) || id);
-        sum.textContent = `${T.noProgYet}: ${list(vnames)}`;
-        sum.className = '';
-      } else {
-        sum.textContent = T.allFresh.replace('{m}', names.length);
-        sum.className = '';
-      }
-    }
+  // The provider health model and its footer list moved to status/index.html on
+  // 2026-09-07: one page owns that question now, and healthState lives there. What the
+  // schedule still answers for itself is beside the schedule, in renderStatus().
+  function renderTagKey(){
     const tk = document.querySelector('#tagkey');
     if(tk) tk.innerHTML = tagKey(state.shows || []);
   }
@@ -1979,9 +1881,9 @@
     syncFav();
   }
 
-  // Fetch the venue lists and rebuild providerMeta. Split out of loadAreas so a resume can
-  // refresh the ages without going near fillAreaSelect, which re-runs the prefs-based
-  // venue restore and would bounce the reader off the venue they were looking at.
+  // Fetch the venue lists. Split out of loadAreas so a resume can refresh them without
+  // going near fillAreaSelect, which re-runs the prefs-based venue restore and would
+  // bounce the reader off the venue they were looking at.
   async function fetchVenueLists(areasPromise){
     const data = await (areasPromise || fetchJSON('data/areas.json'));
     const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
@@ -1989,10 +1891,6 @@
     // Seeded from the expected provider list before any venue file is fetched, so a
     // provider whose file never arrives stays on screen as unavailable. Built only from
     // what loaded, a chain that was down looked the same as one that did not exist.
-    providerMeta = {};
-    for(const pr of PROVIDERS) if(pr && pr.id) providerMeta[pr.id] = { venues: 0, gone: true };
-    providerMeta.finnkino = { generated: data.generated, oldest: data.generated,
-                              stale: 0, venues: areas.length };
     if(!areas.length) throw new Error('Theatre list came back empty');
     // Extra providers, each optional: a missing or broken file must not take the app down.
     // Fetched in parallel -- awaiting eight files one at a time was most of the startup
@@ -2007,20 +1905,6 @@
       if(!j) return;
       const vs = (j.venues || []).filter(v => v.id && v.name);
       for(const v of vs) extra.push({ ...v, provider: prov });
-      // `oldest` is the weakest venue's timestamp; `generated` only says when the
-      // pipeline wrote this file, which is always now. Reading `generated` was how a
-      // chain with one week-old cinema reported itself as current. Falls back to
-      // `generated` so a file written before the field existed still renders.
-      if(vs.length) providerMeta[prov] = {
-        generated: j.generated, oldest: j.oldest || j.generated,
-        status: j.status || '',
-        stale: Array.isArray(j.stale) ? j.stale.length : 0,
-        unverified: Array.isArray(j.unverified) ? j.unverified.length : 0,
-        pending: Array.isArray(j.pending) ? j.pending.length : 0,
-        // The ids too, not only the count: the health summary names a pending venue
-        // ("Tikkakoski"), and a count cannot be turned back into a name.
-        pendingIds: Array.isArray(j.pending) ? j.pending : [],
-        venues: vs.length };
     });
     state.generated = data.generated;
     return areas.concat(extra);
@@ -2032,7 +1916,7 @@
     // XML/CORS-proxy chain could not have helped in either case -- see IDEAS.
     const all = await fetchVenueLists(areasPromise);
     fillAreaSelect(all);
-    renderHealth();
+    renderTagKey();
   }
 
   /* ---------- schedule ---------- */
@@ -2162,7 +2046,7 @@
         }
       }
       render();
-      renderHealth();
+      renderTagKey();
       renderStatus();
       // The example is drawn from the shows now on screen, so it is refreshed with them
       // rather than only at startup or on a language switch.
@@ -2230,6 +2114,10 @@
     // repeated in the label: `act` already ends in it for every book mode that names one.
     const creditEl = document.querySelector('#credit');
     if(creditEl) creditEl.textContent = `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
+    // The status link carries the selection, and the selection is only known here: at
+    // boot renderContact() runs before any venue is restored, so the href it wrote then
+    // was the bare page.
+    renderContact();
   }
 
   // Separate from the footer because renderStatus() returns early until schedule data
@@ -2257,13 +2145,19 @@
     if(themeBtn) themeBtn.title = T.aTheme;
   }
 
+  // The one footer link out. Its href carries the reader's selection and language so
+  // /status/ can offer the way back to exactly this screen; neither is written to prefs
+  // by following it. The Finnish label is in the static markup too, so a script that
+  // failed to run still leaves a usable link.
   function renderContact(){
-    document.querySelector('#contact').innerHTML =
-      `${L[state.lang].contact} · <a href="mailto:${CONTACT}">${CONTACT}</a>`;
-    const src = document.querySelector('#source');
-    if(src) src.innerHTML = `${L[state.lang].source}: `
-      + `<a href="${SOURCE_URL}" rel="noopener">${SOURCE_URL.replace('https://', '')}</a>`
-      + ` · ${LICENCE}`;
+    const el = document.querySelector('#statusLink');
+    if(!el) return;
+    const q = new URLSearchParams();
+    if(state.area) q.set('area', state.area);
+    if(state.lang !== 'fi') q.set('lang', state.lang);
+    const qs = q.toString();
+    el.innerHTML = `<a href="/status/${qs ? '?' + qs : ''}">`
+      + `${esc(L[state.lang].statusLink)}</a>`;
   }
 
   /* ---------- render ---------- */
@@ -2942,7 +2836,7 @@
     if(allVenues.length) buildAreaOptions();     // re-sorts cities and redraws the trigger
     if(vwrap.classList.contains('open')) vDraw();
     render();
-    renderHealth();
+    renderTagKey();
     renderStatus();
     renderContact();
     applyAriaLabels();
@@ -3035,7 +2929,7 @@
   // in the evening showed the morning's schedule.
   //
   // REFRESH_MS is 10 minutes because Pages serves data with max-age=600; refetching
-  // sooner would be answered from the HTTP cache. providerMeta is refreshed through
+  // sooner would be answered from the HTTP cache. The venue lists are refreshed through
   // fetchVenueLists rather than loadAreas so the venue picker is left alone.
   const REFRESH_MS = 10 * 60 * 1000;
   let builtFor = fiToday();
@@ -3048,7 +2942,7 @@
     Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
     try {
       await fetchVenueLists();       // ages and horizons, without touching the picker
-      renderHealth();
+      renderTagKey();
     } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
     await loadSchedule();
   }

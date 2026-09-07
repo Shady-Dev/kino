@@ -47,12 +47,12 @@ class CheckInlineJsTest(unittest.TestCase):
     # -- the file it exists for ----------------------------------------------------------
 
     def test_the_repos_own_client_passes(self):
-        """Run against index.html and sw.js themselves, not a fixture. If this goes red
-        the client is broken, which is the whole point."""
+        """Run against index.html, status/index.html and sw.js themselves, not a fixture.
+        If this goes red the client is broken, which is the whole point."""
         out = subprocess.run([sys.executable, str(SCRIPT)], capture_output=True,
                              text=True, cwd=str(_ctx.ROOT), timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
-        self.assertIn("2 script(s) checked, 0 problem(s)", out.stdout)
+        self.assertIn("3 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 
