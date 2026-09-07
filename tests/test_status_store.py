@@ -33,6 +33,11 @@ class StatusStoreTest(unittest.TestCase):
             raise AssertionError(f"harness failed: {out.stderr}")
         cls.r = json.loads(out.stdout)
 
+    def test_the_harness_ran_every_scenario(self):
+        """A scenario that throws prints nothing, and a mutation run reads an empty stdout
+        as no test going red. Removing the requeue did exactly that and came back VOID."""
+        self.assertNotIn("__error", self.r, self.r.get("__error", ""))
+
     # -- the deliberate path -------------------------------------------------------------
 
     def test_the_first_load_reads_the_list_and_every_file_it_names(self):
@@ -115,6 +120,47 @@ class StatusStoreTest(unittest.TestCase):
         r = self.r["stale_load_dropped"]
         self.assertFalse(r["slowWrote"])
         self.assertTrue(r["fastWrote"])
+
+    # -- state moving underneath a pass ------------------------------------------------------
+
+    def test_a_cache_read_that_started_before_a_newer_load_does_not_win(self):
+        """The regression: a pass captures 10:00 bytes, a load completes with 11:00 while
+        the read is in flight, and the read then answers. Writing it back walks the page
+        backwards to a timestamp the load already superseded."""
+        r = self.r["stale_cache_read"]
+        self.assertEqual(r["pendingReads"], 1)
+        self.assertEqual(r["afterLoad"], "2026-09-07T11:00:00+00:00")
+        self.assertEqual(r["afterStaleRead"], "2026-09-07T11:00:00+00:00")
+
+    def test_a_refresh_still_applies_when_no_load_intervened(self):
+        """The guard drops a pass that was overtaken. It must not drop every pass."""
+        r = self.r["fresh_applies_without_a_load"]
+        self.assertEqual(r["after"], "2026-09-07T11:00:00+00:00")
+
+    def test_passes_do_not_overlap(self):
+        """`timer` alone did not stop this: it is cleared before the awaits, so a second
+        burst could schedule and run beside the first, two passes writing the same keys."""
+        r = self.r["no_overlapping_passes"]
+        self.assertEqual(r["timersWhileRunning"], 0)
+        self.assertEqual(r["readsWhileRunning"], 1)
+
+    def test_a_burst_arriving_during_a_pass_is_drained_after_it(self):
+        """Serialising passes must not drop the messages that arrived during one."""
+        r = self.r["no_overlapping_passes"]
+        self.assertEqual(r["secondPassStarted"], 1)
+        self.assertEqual(r["orion"], "2026-09-07T11:00:00+00:00")
+        self.assertEqual(r["kinometso"], "2026-09-07T11:30:00+00:00")
+        self.assertEqual(r["net"], 4)
+
+    def test_a_message_arriving_during_an_abandoned_pass_is_not_lost(self):
+        """The pass drops its own batch when a load overtakes it, which is right, because
+        the load read those files itself. Anything queued after that batch was taken has
+        been looked at by nobody, so a follow-up pass has to be scheduled for it."""
+        r = self.r["abandoned_pass_requeues"]
+        self.assertEqual(r["timersAfterAbandon"], 1)
+        self.assertEqual(r["orion"], "2026-09-07T11:00:00+00:00")
+        self.assertEqual(r["kinometso"], "2026-09-07T12:00:00+00:00")
+        self.assertEqual(r["net"], 8, "messages added network requests")
 
     def test_a_failed_provider_list_clears_the_rows_and_records_the_check(self):
         """statusModel reads no rows as "could not check". Keeping the old rows would show

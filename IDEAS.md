@@ -2301,6 +2301,35 @@ answers a load from cache before it refreshes. `readCached` moved next to the st
 
 Seven harness scenarios, seven tests. Each rule removed goes red.
 
+### A cache read that started before a newer load could walk the page backwards (2026-09-07, sw.js v121)
+`fresh()` awaits every cache read, so state can move underneath a pass. `load()` may finish
+during one of those awaits and write a newer payload; the read that started earlier then
+answers with older bytes and wrote them back. Held 10:00, load completes with 11:00, the
+read resolves with 10:00, and the page regresses to 10:00. The generation token guarded
+`load()` against itself and nothing guarded `fresh()`.
+
+`gen` is now taken once per pass and rechecked after every await, before any write, and the
+pass is abandoned rather than merged: a completed load has read every file, so its answer
+is newer than anything still in flight here. Anything queued after that pass took its batch
+has been seen by nobody, so the abandon path schedules a follow-up.
+
+Passes no longer overlap either. `timer` alone did not stop that, because it is cleared
+before the awaits, so a second burst could schedule and run beside the first with both
+writing the same keys. One pass runs at a time and later arrivals drain after it, which is
+the shape the app's own handler already uses.
+
+`tests/test_status_store.py` is 18 tests, with the cache reads hand-settled so a load can
+be placed inside a read's await. Five mutations red: the guard removed, the guard moved
+after the write, passes allowed to overlap, the requeue dropped, and a network fallback
+added to the message path. The last of those keeps the v120 rule in place, that a worker
+message adds zero requests.
+
+One of the five came back VOID first, for the same reason the swr harness did on
+2026-09-06: dropping the requeue makes the harness throw, an empty stdout scores as nothing
+going red, and the mutation reads as covered. The lesson had been written down and not
+applied to this harness. It now hoists `out`, races a watchdog, prints whatever it holds
+and reports the failure in `__error`.
+
 ### The status page answered the worker by refetching, and rate-limited the origin (2026-09-07, sw.js v120)
 Shipped in `9f4c9cec` and live for about half an hour. `sw.js` serves data JSON from cache,
 revalidates behind, and posts `{fresh: path}` to every window client whenever a

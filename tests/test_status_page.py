@@ -192,7 +192,7 @@ class StatusPageWiringTest(unittest.TestCase):
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         m = re.search(r"const CACHE = 'leffavuoro-v(\d+)';", sw)
         self.assertIsNotNone(m)
-        self.assertGreaterEqual(int(m.group(1)), 120)
+        self.assertGreaterEqual(int(m.group(1)), 121)
 
 
 if __name__ == "__main__":

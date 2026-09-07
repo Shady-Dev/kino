@@ -61,10 +61,16 @@ function world(opts) {
     '/data/venues-orion.json': venues('2026-09-07T06:00:00+00:00'),
     '/data/venues-kinometso.json': venues('2026-09-07T06:00:00+00:00'),
   });
-  const st = { net: 0, cache: 0, renders: 0, netPaths: [], timers: [] };
+  const st = { net: 0, cache: 0, renders: 0, netPaths: [], timers: [], heldCache: [] };
+  // `holdCache` makes every cache read a promise the scenario settles by hand, which is
+  // the only way to place a load inside a read's await.
   const io = {
     net: async p => { st.net++; st.netPaths.push(p); return files[p] ? clone(files[p]) : null; },
-    cache: async p => { st.cache++; return files[p] ? clone(files[p]) : null; },
+    cache: p => {
+      st.cache++;
+      if(!(opts && opts.holdCache)) return Promise.resolve(files[p] ? clone(files[p]) : null);
+      return new Promise(resolve => st.heldCache.push({ path: p, resolve }));
+    },
     now: () => st.clock,
     // Timers run when the scenario says so, so a burst can be posted before it fires.
     defer: (fn, ms) => { st.timers.push({ fn, ms }); return st.timers.length; },
@@ -78,11 +84,22 @@ function world(opts) {
       await tick();
     }
   };
+  // Run the deferred pass without awaiting it, so a scenario can act while it is inside
+  // an await, then settle the reads it is waiting on.
+  st.startTimers = () => { while (st.timers.length) st.timers.shift().fn(); };
+  st.settle = async (value) => {
+    const r = st.heldCache.shift();
+    if (!r) throw new Error('no cache read pending');
+    r.resolve(value === undefined ? (files[r.path] ? clone(files[r.path]) : null) : value);
+    await tick(); await tick();
+    return r.path;
+  };
   return { st, files, store: makeStatusStore(io) };
 }
 
+const out = {};
+
 async function run() {
-  const out = {};
 
   // -- the first load reads every file over the network ---------------------------------
   {
@@ -205,7 +222,106 @@ async function run() {
                                  checkedAtMoved: !!w.store.state().checkedAt };
   }
 
-  process.stdout.write(JSON.stringify(out));
+  // -- the reported defect: a cache read that started before a newer load must not win ----
+  // 10:00 held, a pass begins its read, a load completes with 11:00, then the read answers
+  // with the 10:00 bytes it captured. Writing those back regresses the page.
+  {
+    const w = world({ holdCache: true });
+    await w.store.load({ force: true });
+    const before = w.store.state().meta.orion.oldest;
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    const pending = w.st.heldCache.length;
+    // A newer load lands while the read is in flight.
+    w.files['/data/venues-orion.json'] = venues('2026-09-07T11:00:00+00:00');
+    w.st.clock += 61000;
+    await w.store.load({ force: true });
+    const afterLoad = w.store.state().meta.orion.oldest;
+    // The read now answers with what it captured before the load.
+    await w.st.settle(venues('2026-09-07T10:00:00+00:00'));
+    out.stale_cache_read = { before, pendingReads: pending, afterLoad,
+                             afterStaleRead: w.store.state().meta.orion.oldest };
+  }
+
+  // -- a refresh still applies when no load intervened -------------------------------------
+  {
+    const w = world({ holdCache: true });
+    await w.store.load({ force: true });
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    await w.st.settle(venues('2026-09-07T11:00:00+00:00'));
+    out.fresh_applies_without_a_load = { after: w.store.state().meta.orion.oldest,
+                                         renders: w.st.renders };
+  }
+
+  // -- passes do not overlap: a burst during a running pass is drained after it -------------
+  {
+    const w = world({ holdCache: true });
+    await w.store.load({ force: true });
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    // A second burst arrives while the first pass sits in its await.
+    w.store.fresh('/data/venues-kinometso.json');
+    const timersWhileRunning = w.st.timers.length;
+    const readsWhileRunning = w.st.heldCache.length;
+    await w.st.settle(venues('2026-09-07T11:00:00+00:00'));       // first pass read
+    const secondPassStarted = w.st.heldCache.length;
+    await w.st.settle(venues('2026-09-07T11:30:00+00:00'));       // drained follow-up
+    out.no_overlapping_passes = {
+      timersWhileRunning, readsWhileRunning, secondPassStarted,
+      orion: w.store.state().meta.orion.oldest,
+      kinometso: w.store.state().meta.kinometso.oldest,
+      net: w.st.net,
+    };
+  }
+
+  // -- a message arriving during an abandoned pass is not lost -----------------------------
+  // The pass is overtaken by a load and drops its batch. Anything queued after that batch
+  // was taken has not been looked at by anyone and still needs a pass.
+  {
+    const w = world({ holdCache: true });
+    await w.store.load({ force: true });
+    w.store.fresh('/data/venues-orion.json');
+    w.st.startTimers();
+    await tick();
+    // Overtake the pass.
+    w.files['/data/venues-orion.json'] = venues('2026-09-07T11:00:00+00:00');
+    w.files['/data/venues-kinometso.json'] = venues('2026-09-07T11:00:00+00:00');
+    w.st.clock += 61000;
+    await w.store.load({ force: true });
+    // A message lands while the pass is still inside its await.
+    w.store.fresh('/data/venues-kinometso.json');
+    await w.st.settle(venues('2026-09-07T10:00:00+00:00'));   // the abandoned read
+    const timersAfterAbandon = w.st.timers.length;
+    w.st.startTimers();
+    await tick();
+    w.files['/data/venues-kinometso.json'] = venues('2026-09-07T12:00:00+00:00');
+    await w.st.settle(venues('2026-09-07T12:00:00+00:00'));
+    out.abandoned_pass_requeues = {
+      timersAfterAbandon,
+      orion: w.store.state().meta.orion.oldest,
+      kinometso: w.store.state().meta.kinometso.oldest,
+      net: w.st.net,
+    };
+  }
+
 }
 
-run().catch(e => { console.error(e && e.stack || e); process.exit(1); });
+// A scenario that throws, or one whose await never settles, used to print nothing, and a
+// mutation run scores an empty stdout as "nothing went red" rather than as the breakage it
+// is. That happened here: removing the requeue made `settle` throw with no pending read,
+// and the mutation came back VOID. Whatever `out` holds is printed either way now, and the
+// failure goes into `__error` for one test to fail on.
+const WATCHDOG_MS = 10000;
+let watchdog;
+Promise.race([
+  run(),
+  new Promise((_, reject) => {
+    watchdog = setTimeout(
+      () => reject(new Error(`a scenario did not settle within ${WATCHDOG_MS} ms`)), WATCHDOG_MS);
+  }),
+]).catch(e => { out.__error = String((e && e.stack) || e); })
+  .then(() => { clearTimeout(watchdog); process.stdout.write(JSON.stringify(out)); });

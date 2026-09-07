@@ -597,7 +597,7 @@
     const RESUME_MS = 60000;         // a resumed tab may ask the network at most this often
     const BURST_MS = 300;            // one refresh lands as many messages; fold them
     let providers = [], meta = {}, checkedAt = null;
-    let gen = 0, lastNet = 0, timer = null;
+    let gen = 0, lastNet = 0, timer = null, running = false;
     const queued = new Set();
 
     function normalise(j){
@@ -664,34 +664,62 @@
     }
 
     // Cache Storage only. See the block comment.
+    //
+    // A pass awaits every read, so state can move underneath it twice over. `load()` may
+    // finish during an await and write a newer payload, and a cache read that started
+    // before it carries older bytes; writing those back regresses the page to the older
+    // timestamp. `gen` is taken once per pass and rechecked after every await, before any
+    // write, and the pass is abandoned rather than merged: a completed load has read every
+    // file and its answer is newer than anything still in flight here.
+    //
+    // Passes do not overlap either. `timer` alone did not stop that, because it is cleared
+    // before the awaits, so a second burst could schedule and run beside the first. One
+    // pass runs at a time and anything that arrives while it runs is drained after it,
+    // which is the same shape as the app's own drain loop.
     function fresh(path){
       queued.add(path);
-      if(timer) return;
-      timer = io.defer(async () => {
-        timer = null;
-        const paths = [...queued];
-        queued.clear();
-        let moved = false;
-        for(const path of paths){
-          const j = await io.cache(path);
-          if(!j) continue;
-          if(/\/data\/providers\.json$/.test(path)){
-            const list = (j.providers || []).filter(x => x && x.id);
-            if(list.length && list.map(x => x.id).join(',') !== providers.map(x => x.id).join(',')){
-              providers = list; moved = true;
+      schedule();
+    }
+    function schedule(){
+      if(timer || running) return;
+      timer = io.defer(() => { timer = null; drain(); }, BURST_MS);
+    }
+    async function drain(){
+      running = true;
+      try {
+        while(queued.size){
+          const paths = [...queued];
+          queued.clear();
+          const mine = gen;
+          let moved = false;
+          for(const path of paths){
+            const j = await io.cache(path);
+            // Checked after the await and before the write, every time.
+            if(mine !== gen) return;
+            if(!j) continue;
+            if(/\/data\/providers\.json$/.test(path)){
+              const list = (j.providers || []).filter(x => x && x.id);
+              if(list.length && list.map(x => x.id).join(',') !== providers.map(x => x.id).join(',')){
+                providers = list; moved = true;
+              }
+              continue;
             }
-            continue;
+            const v = path.match(/\/data\/venues-([^/]+)\.json$/);
+            const id = v ? v[1] : (/\/data\/areas\.json$/.test(path) ? 'finnkino' : '');
+            if(!id) continue;
+            const e = entryFrom(id, j);
+            if(e && key(e) !== key(meta[id])){ meta[id] = e; moved = true; }
           }
-          const v = path.match(/\/data\/venues-([^/]+)\.json$/);
-          const id = v ? v[1] : (/\/data\/areas\.json$/.test(path) ? 'finnkino' : '');
-          if(!id) continue;
-          const e = entryFrom(id, j);
-          if(e && key(e) !== key(meta[id])){ meta[id] = e; moved = true; }
+          // `checkedAt` is not restamped: it says when this page last asked the network,
+          // and the worker refreshing a file behind the page is not this page asking.
+          if(moved) io.changed();
         }
-        // `checkedAt` is not restamped: it says when this page last asked the network, and
-        // the worker refreshing a file behind the page is not this page asking.
-        if(moved) io.changed();
-      }, BURST_MS);
+      } finally {
+        running = false;
+        // A burst that landed while this pass was abandoning still deserves a look, and
+        // it will now compare against whatever the load wrote.
+        if(queued.size) schedule();
+      }
     }
 
     return { load, fresh, state: () => ({ providers, meta, checkedAt }) };
