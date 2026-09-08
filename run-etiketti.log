@@ -34,7 +34,7 @@
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 8 showtimes, 5 dates
 [niagara] synopses merged: 0
-[niagara] Cinema Niagara: 21 showtimes, 8 dates
-[run] http: 0 revalidated (304), 212 full, 212 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 715 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] Cinema Niagara: 51 showtimes, 11 dates
+[run] http: 0 revalidated (304), 216 full, 216 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 745 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
