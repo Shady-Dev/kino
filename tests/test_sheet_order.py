@@ -1,9 +1,12 @@
-"""The film sheet leads with the times, and long content is collapsed.
+"""The film sheet leads with the synopsis, and long content is collapsed.
 
-On a phone the sheet opened with a 600-character synopsis, then every screening of the
-day including the ones that had already started: Autofiktio's first bookable showtime was
-below the fold behind text and dead times. The day list now comes first, past times sit
-behind the control the cards already use, and a long synopsis is clamped under them.
+The sheet is a details view: the reader has already seen the selected day's tickets on
+the main page. It renders header, chain key, synopsis, then the whole schedule. The
+synopsis is clamped to four lines, so it introduces the film without pushing the first
+day off the screen, and past times sit behind the control the cards already use.
+
+Moving the synopsis under the entire schedule instead was a regression: a film with many
+future screenings put it several scrolls down, where nothing led to it.
 
 Source-level guards, in the shape tests/test_ticket_anatomy.py uses. The behaviour --
 focus, the drag, the scroll position -- stays a live check against the served page.
@@ -25,16 +28,54 @@ def rule(selector):
 
 class SheetOrderTest(unittest.TestCase):
 
-    def test_the_day_list_is_rendered_before_the_synopsis(self):
-        """Order in the template is the order on screen: the body is one assignment."""
+    def body_template(self):
+        """-> the .sheet-body template literal. It is one assignment, so the order of the
+        interpolations is the order of the nodes on screen."""
         body = HTML[HTML.index('<div class="sheet-body">'):]
-        body = body[:body.index("</div>`")]
-        self.assertLess(body.index("sheet-days"), body.index("synHtml"), body[:200])
+        return body[:body.index("</div>`")]
+
+    def test_the_synopsis_is_rendered_before_the_day_list(self):
+        body = self.body_template()
+        self.assertLess(body.index("synHtml"), body.index("sheet-days"), body[:200])
+
+    def test_the_legend_leads_and_the_day_list_closes_the_body(self):
+        """The whole order in one assertion. Sorted by position, not filtered by
+        presence: filtering reads the same whatever order the template is in."""
+        body = self.body_template()
+        marks = ("${legend}", "synHtml", "sheet-days")
+        self.assertEqual(sorted(marks, key=body.index), list(marks))
+
+    def test_only_one_synopsis_is_rendered(self):
+        """A second copy under the schedule would satisfy the order check above."""
+        self.assertEqual(self.body_template().count("synHtml"), 1)
+        self.assertEqual(HTML.count('class="syn${synLong'), 1)
+
+    def test_the_day_list_is_not_split_around_the_synopsis(self):
+        """One .sheet-days container holds every day, so the first day cannot be lifted
+        above the synopsis while the rest stays below."""
+        self.assertEqual(self.body_template().count("sheet-days"), 1)
+        self.assertIn('<div class="sheet-days">${body}</div>', HTML)
 
     def test_a_long_synopsis_is_clamped_and_a_short_one_is_not(self):
         self.assertRegex(HTML, r"synLong = syn\.length > \d+")
-        self.assertIn("-webkit-line-clamp:4", rule(".syn.clamp"))
+        self.assertIn("-webkit-line-clamp:4;", rule(".syn.clamp"))
         self.assertRegex(HTML, r"class=\"syn\$\{synLong \? ' clamp' : ''\}\"")
+
+    def test_the_disclosure_is_only_rendered_for_a_long_synopsis(self):
+        """A short synopsis gets no control: the clamp is what the button reveals, and a
+        toggle over two lines reveals nothing."""
+        self.assertRegex(HTML, r"synLong \? `<button class=\"synmore\"")
+
+    def test_the_synopsis_leads_the_body_and_the_sticky_key(self):
+        """With the synopsis first it is the element meeting the body's border and the
+        sticky chain key, so the spacing rules have to name it."""
+        top = (".sheet-body > .syn:first-child, "
+               ".sheet-body > .sheet-days:first-child")
+        after_legend = (".sheet-body > .legend + .syn, "
+                        ".sheet-body > .legend + .sheet-days")
+        self.assertIn("margin-top:10px", rule(top))
+        self.assertIn("margin-top:10px", rule(after_legend))
+        self.assertIn("position:sticky", rule(".sheet-body > .legend"))
 
     def test_the_synopsis_toggle_exists_in_three_languages(self):
         self.assertEqual(len(re.findall(r"synMore:'", HTML)), 3)

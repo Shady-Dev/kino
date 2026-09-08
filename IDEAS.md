@@ -1623,6 +1623,27 @@ single line: `tests/test_list_status.py` pairs a render with its announcement by
 reads `emptyMsg()` off the assignment line, so splitting the expression across two lines
 turned two of its guards red until it was put back on one line.
 
+### The film sheet keeps the synopsis above the schedule (2026-09-08, v129)
+v126 moved the synopsis under the day list. That fixed the phone screen full of text but
+created a second problem: the sheet lists every future screening, so for a film playing
+across a dozen Helsinki cinemas the synopsis sat several scrolls down with nothing leading
+to it.
+
+The sheet is a details view. The reader has already seen the selected day's tickets on the
+main page and opened the sheet for the film, so the body now runs legend, synopsis, whole
+schedule. The four-line clamp is what makes that safe: it is the reason the synopsis can
+lead without burying the first day, and it stays.
+
+Measured on Autofiktio (644-character synopsis) in the Helsinki combined view, offsets from
+the top of `.sheet-body`: sticky legend at 1 px, synopsis at 69 px over 94 px of height,
+first day heading at 206 px, first ticket at 231 px. The body viewport is 421 px at 320x720
+and 528 px at 390x844, so both the whole synopsis and the first bookable ticket are on
+screen unscrolled at either width. Expanding the synopsis takes it to 400 px.
+
+Unchanged: the clamp and its toggle, no disclosure under 260 characters, past times behind
+`pastLabel` with an all-past day keeping its times, no re-render on either toggle, and the
+sticky chain key in combined views.
+
 ### The film sheet shows the times before the synopsis (2026-09-07, v126)
 On a phone the sheet opened with a 600-character synopsis and then every screening of the
 day, the ones that had already started included: Autofiktio's first bookable showtime was

@@ -529,9 +529,9 @@
   .sheet-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch; padding:0 20px 28px;
     border-top:1px solid var(--line)}
-  /* The times come first in the body now, so these are the elements that meet the
-     border and the sticky chain key. */
-  .sheet-body > .sheet-days:first-child{margin-top:10px}
+  /* The synopsis leads the body, so it is what meets the border and the sticky chain
+     key. A film with no synopsis puts the day list there instead. */
+  .sheet-body > .syn:first-child, .sheet-body > .sheet-days:first-child{margin-top:10px}
   /* The chain key has to stay put while the day list scrolls: a long film has 40+ stubs
      over several days, and the colour on a stub means nothing once the key has scrolled
      away. Negative margins span the body's 20 px padding so the sticky strip reaches
@@ -541,7 +541,7 @@
     margin:0 -20px; padding:10px 20px;
     background:var(--bg); border-bottom:1px solid var(--line);
   }
-  .sheet-body > .legend + .sheet-days{margin-top:10px}
+  .sheet-body > .legend + .syn, .sheet-body > .legend + .sheet-days{margin-top:10px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
@@ -2967,9 +2967,11 @@
         + grid(ahead);
     }).join('');
     const legend = multi ? chainLegend(all) : '';
-    // A TMDB overview runs past 600 characters. Above the times it filled a phone screen
-    // and pushed every showtime below the fold, so it now sits under them, clamped to
-    // four lines. Short ones are left alone: a toggle over two lines is not worth it.
+    // A TMDB overview runs past 600 characters. Unclamped it filled a phone screen and
+    // pushed every showtime below the fold, so it is clamped to four lines. Four lines
+    // is short enough to lead the body without burying the first day, which putting it
+    // under the whole schedule did for a film with many future screenings. Short ones
+    // are left alone: a toggle over two lines is not worth it.
     const synLong = syn.length > 260;
     const synHtml = syn
       ? `<p class="syn${synLong ? ' clamp' : ''}">${esc(syn)}</p>`
@@ -2991,8 +2993,8 @@
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">${legend}
-        <div class="sheet-days">${body}</div>
         ${synHtml}
+        <div class="sheet-days">${body}</div>
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
     // Both toggles work on the markup that is already there: no re-render, so the
