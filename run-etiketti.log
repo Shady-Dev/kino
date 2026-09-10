@@ -2,7 +2,7 @@
 [kotkanleffat] Kinopalatsi Kotka: 18 showtimes, 7 dates
 [kotkanleffat] Trio 123: 64 showtimes, 7 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 43 showtimes, 9 dates
+[biorexkokkola] Bio Rex Kokkola: 42 showtimes, 8 dates
 [kinopirtti] synopses merged: 0
 [kinopirtti] Kinopirtti: 69 showtimes, 8 dates
 [leffabuumi] synopses merged: 0
@@ -36,5 +36,5 @@
 [niagara] synopses merged: 0
 [niagara] Cinema Niagara: 39 showtimes, 10 dates
 [run] http: 0 revalidated (304), 181 full, 181 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 575 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 19 venues, 574 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
