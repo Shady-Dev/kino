@@ -1,7 +1,7 @@
 [regina] schedule: 4 window(s), the last from 2026-11-30
-[regina] film pages: 101 parsed, 0 with nothing usable, 129/145 showtimes rated
+[regina] film pages: 101 parsed, 0 with nothing usable, 126/142 showtimes rated
 [regina] synopses merged: 0
-[regina] Kino Regina: 145 showtimes, 53 dates
+[regina] Kino Regina: 142 showtimes, 52 dates
 [run] http: 0 revalidated (304), 101 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] regina: 1 venues, 145 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] regina: 1 venues, 142 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
