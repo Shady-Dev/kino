@@ -5,12 +5,13 @@
 [savonkinot] Kuvalipas Iisalmi: 15 showtimes, 9 dates
 [savonkinot] Maxim Varkaus: 29 showtimes, 9 dates
 [savonkinot] Kino-Hovi Kitee: 10 showtimes, 9 dates
-[joutsankino] FAILED: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+[joutsankino] synopses merged: 0
+[joutsankino] Joutsan Kino: 7 showtimes, 5 dates
 [cine] synopses merged: 0
-[cine] Cine Keuda-Talo: 8 showtimes, 3 dates
+[cine] Cine Keuda-Talo: 9 showtimes, 3 dates
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
 [star] synopses merged: 0
 [star] Elokuvateatteri Star: 115 showtimes, 9 dates
-[run] http: 0 revalidated (304), 60 full, 60 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 9 venues, 278 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-exit=1
+[run] http: 0 revalidated (304), 65 full, 65 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 10 venues, 286 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0
