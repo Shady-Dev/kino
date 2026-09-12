@@ -9,9 +9,7 @@
 [schedule] 2026-09-18: 0 showtimes
 [tmdb] dropped 2 entries matched by the old picker
 [tmdb] weak match, no exact title (2): Lyhyt rakkaustarina -> Breve storia d'amore | Practical Magic: Lumotut sisaret -> Lumotut sisaret
-[tmdb] rating held back, under 25 votes (1): Oasis: Don't Look Back In Anger (7.2 / 8 votes)
-[tmdb] rating refresh: 1 scheduled, 1 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 2 new lookups, 5 re-checks, cache 65, 60 mergeable by id
+[tmdb] 2 new lookups, 0 re-checks, cache 65, 60 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 47 film entries
 [attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
