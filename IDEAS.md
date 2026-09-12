@@ -470,6 +470,40 @@ POST /wp/wp-admin/admin-ajax.php
   (Amélie, Trainspotting, Twin Peaks) so the TMDB pass picks up a lot of new entries.
 - The bundle that revealed the endpoint: `/app/themes/riviera/public/js/app.*.js`.
 
+### Riviera published the listing URL for every screening (2026-09-13)
+All 94 showtimes carried `https://www.rivieracinemas.fi/elokuvat/`, the venue's listing page.
+`parse` took the first `href` in the row and kept it only when it started with `http`, and the
+ajax listing carries no `href` at all, so every screening fell back.
+
+What it does carry, measured 2026-09-13: 94 items, 90 with `<button class="... show_tickets"
+data-movieid="{id}">` in the action cell and 4 with a `disabled` button that has neither the
+class nor the id. The theme's `app.8dae36.js` sets the ticket iframe to
+`https://tickets.rivieracinemas.fi/websales/show/{data-movieid}` on that click, so the id is
+the screening and that URL is where a visitor lands.
+
+The film-page route is the same screening by another address:
+`/Event/31766/?show=982926#tickets` and websales show 982926 are both the 14.9. 18:00 Odyssey
+in Kallio. The film id it needs is in neither the listing markup nor the ajax payload, and
+`movie-sitemap.xml` lists the Event URLs without titles, so building it would cost a film-page
+fetch per film per run. The adapter publishes the button's URL instead, which costs nothing
+beyond the one request it already makes.
+
+`show_url()` reads the action cell only: an anchor wins if the theme ever ships one, resolved
+with `urljoin` and unescaped so a relative href keeps its query and fragment; otherwise the
+button's id against the site's `tickets` prefix; otherwise the listing. Scoping to the cell is
+what stops a linked film title from answering for the screening, which is the shape the old
+rule read. A sold-out row keeps the listing, because a `disabled` button carries no id and
+there is nothing to sell.
+
+Live run 2026-09-13: 94 showtimes, 90 with a websales URL, 4 sold-out rows on the listing. Two
+opened in a browser and read against the parse: 982926 is The Odyssey, Ma 14.9. 18:00, Kallio
+Sali 1; 983265 is Practical Magic: Lumotut sisaret, Ma 14.9. 17:00, Punavuori Sali 1. Nothing
+was selected or bought, and the pipeline calls no booking endpoint: it reads the same listing
+it always did and writes a link.
+
+`tests/test_riviera_links.py`, 7 tests. Five mutations red, and all seven fail against the
+parser they replace.
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web
 front end exposes unauthenticated XML services. A Vista cinema that leaves them open is a

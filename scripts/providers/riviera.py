@@ -23,6 +23,12 @@ SITE = {"provider": "riviera", "label": "Riviera",
         "base": "https://www.rivieracinemas.fi",
         "ajax": "/wp/wp-admin/admin-ajax.php",
         "listing": "/elokuvat/",
+        # Where the site's own "Valitse näytös" button sends a visitor. The
+        # listing carries no link at all: the button holds the screening id in
+        # data-movieid and the theme's app.js sets the ticket iframe to
+        # {tickets}{id}. Publishing that URL is what a click does, one request per run
+        # and none per screening.
+        "tickets": "https://tickets.rivieracinemas.fi/websales/show/",
         # `area` is ignored by their backend (1040 all / 1024 Kallio / 1039 Punavuori),
         # which is why venues carry a `match` against the location field instead.
         "area": "1040",
@@ -41,7 +47,14 @@ LOC_RE = re.compile(r'class="location">\s*([^<]+?)\s*<')
 TITLE_RE = re.compile(r'class="movielist__item__title title">\s*([^<]+?)\s*<')
 SEATS_RE = re.compile(r"Varatut paikat:\s*(\d+)\s*/\s*(\d+)")
 LEN_RE = re.compile(r"Kesto:\s*(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?")
-HREF_RE = re.compile(r'href="([^"]+)"')
+# The actions cell, and the two shapes a screening link takes inside it. An anchor wins
+# when the theme ships one, because it is the site's own URL for that screening including
+# any query and fragment; the button is what it ships today. Scoped to the cell so a link
+# elsewhere in the row (a title, a trailer) cannot answer for the screening.
+ACTIONS_RE = re.compile(r'<div class="movielist__item__actions.*?</div>', re.S)
+ACTION_HREF_RE = re.compile(r'<a\b[^>]*\bhref="([^"]*)"', re.S)
+SHOW_BTN_RE = re.compile(r'<button\b[^>]*\bshow_tickets\b[^>]*>', re.S)
+MOVIEID_RE = re.compile(r'\bdata-movieid="(\d+)"')
 DISABLED_RE = re.compile(r"<button[^>]*\bdisabled\b")
 TAGS_RE = re.compile(r"<[^>]+>")
 # "To 27.8.2026" -> day, month, year
@@ -52,10 +65,31 @@ def _txt(x):
     return re.sub(r"\s+", " ", html_mod.unescape(TAGS_RE.sub(" ", x or ""))).strip()
 
 
-def parse(page_html, listing=""):
+def show_url(block, listing="", base="", tickets=""):
+    """The URL for one screening: the action cell's own link, else its ticket page.
+
+    An anchor is resolved against `base` with urljoin, so a relative href keeps its
+    query and fragment instead of being dropped for not starting with http. That was the
+    old rule, and every Riviera showtime published `/elokuvat/` because of it. With no
+    anchor, the button's data-movieid is the screening id the theme opens as
+    `{tickets}{id}`. With neither, the listing, which at least names the cinema.
+    """
+    cell = ACTIONS_RE.search(block)
+    cell = cell.group(0) if cell else ""
+    a = ACTION_HREF_RE.search(cell)
+    if a and a.group(1).strip():
+        return urllib.parse.urljoin(base or listing, html_mod.unescape(a.group(1).strip()))
+    btn = SHOW_BTN_RE.search(cell)
+    sid = MOVIEID_RE.search(btn.group(0)) if btn else None
+    if sid and tickets:
+        return tickets + sid.group(1)
+    return listing
+
+
+def parse(page_html, listing="", base="", tickets=""):
     """-> list of raw showings; venue assignment happens in fetch_site.
 
-    `listing` is the fallback URL for a showing whose block has no absolute href.
+    `listing` is the fallback URL for a showing whose cell names no screening.
     """
     out = []
     for block in ITEM_RE.findall(page_html):
@@ -76,7 +110,6 @@ def parse(page_html, listing=""):
         minutes = ""
         if ln and (ln.group(1) or ln.group(2)):
             minutes = str(int(ln.group(1) or 0) * 60 + int(ln.group(2) or 0))
-        href = HREF_RE.search(block)
         out.append({
             "loc": venue_name.strip().lower(),
             "aud": room.strip(),
@@ -86,8 +119,7 @@ def parse(page_html, listing=""):
             "len": minutes,
             # A disabled button plus every seat taken is the sold-out signal.
             "soldOut": bool(seats and total and taken >= total) or bool(DISABLED_RE.search(block)),
-            "url": (href.group(1) if href and href.group(1).startswith("http")
-                    else listing),
+            "url": show_url(block, listing, base, tickets),
         })
     return out
 
@@ -107,7 +139,8 @@ def fetch_site(site=SITE, tries=3):
         "x-requested-with": "XMLHttpRequest",
         "referer": listing}, tries=tries).decode("utf-8", "replace"))
 
-    rows = parse((payload.get("data") or {}).get("movies") or "", listing)
+    rows = parse((payload.get("data") or {}).get("movies") or "", listing, base,
+                 site.get("tickets", ""))
     per_venue = {v["id"]: [] for v in site["venues"]}
     unmatched = 0
     for r in rows:
