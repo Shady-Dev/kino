@@ -8,6 +8,7 @@ here as well as in --selftest.
 import contextlib
 import io
 import unittest
+from unittest import mock
 
 import _ctx                                                # noqa: F401
 import accent_check as A
@@ -144,6 +145,27 @@ class SharedViewTest(unittest.TestCase):
         self.assertTrue(pairs, "Cine shares no view, so this asserts nothing")
         worst = min(min(A.dE(accents[a], accents[b])) for _, a, b in pairs)
         self.assertGreaterEqual(worst, 14.4, f"worst Cine pair is {worst:.1f} dE00")
+
+    def test_a_region_named_like_a_city_stays_its_own_view(self):
+        """Cities and regions are keyed apart. Under one dict keyed on the bare name, a
+        region called "Tampere" would fold its pairs into the Tampere city view and the
+        report would list a chain from Kangasala as though it sat in Tampere's own row."""
+        regions = [{"name": "Tampere", "cities": ["Tampere", "Kangasala"]}]
+        with mock.patch.object(A, "cities_by_provider",
+                               return_value={"a": {"Tampere"}, "b": {"Tampere"}}), \
+                mock.patch.object(A, "cities_declared_by_adapters",
+                                  return_value={"c": {"Kangasala"}}), \
+                mock.patch.object(A.registry, "REGIONS", regions):
+            pairs = A.view_pairs()
+            flat = A.shared_view_pairs()
+        self.assertEqual(flat, [(label, a, b) for _, label, a, b in pairs],
+                         "the report's view drops only the kind")
+        city = [(a, b) for kind, label, a, b in pairs if kind == "city"]
+        region = [(a, b) for kind, label, a, b in pairs if kind == "region"]
+        self.assertEqual(city, [("a", "b")])
+        self.assertEqual(region, [("a", "b"), ("a", "c"), ("b", "c")])
+        self.assertEqual({label for _, label, _, _ in pairs}, {"Tampere"},
+                         "both views keep the readable name")
 
     def test_a_candidate_in_a_town_with_no_cinema_and_no_region_is_unconstrained(self):
         pairs = A.shared_view_pairs(extra=("candidate", ["Nowheresville"]))

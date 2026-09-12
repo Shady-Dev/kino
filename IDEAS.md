@@ -945,6 +945,15 @@ while normal vision was the binding model. A new or changed accent clears 14.4 i
 and must not lower an existing regional minimum without the reason recorded here. Colour
 stays supplementary in both views, which also print the venue name and the chain legend.
 
+### Accent views are keyed by kind as well as name (2026-09-12)
+`shared_view_pairs()` built both views in one dict keyed on the bare name, so a region
+named like a city would have merged with that city's pairs under one label. No current
+region name is a city name, and the client never had the problem (it keys areas as
+`region:` plus the name), but nothing enforced it in the tool. `view_pairs()` now keys on
+`("city", name)` and `("region", name)` and returns the kind with each pair;
+`shared_view_pairs()` is the same list without the kind, which is what the report prints.
+A fixture test with a region called "Tampere" shows the two views staying apart.
+
 ### Vista sweep — tried and failed (2026-08-27)
 Guessed 45 Finnish cinema domains and probed `/xml/TheatreAreas/`: zero hits beyond Savon
 Kinot. Azure blob enumeration on the shared asset host and a search for the vendor's client

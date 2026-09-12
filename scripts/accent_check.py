@@ -225,24 +225,26 @@ def provider_cities():
     return out
 
 
-def shared_view_pairs(extra=None):
-    """-> [(view, a, b)] for every pair of providers that can appear in one list.
+def view_pairs(extra=None):
+    """-> [(kind, label, a, b)] for every pair of providers that can appear in one list.
 
     Two views put chains side by side, and the 3 px rule has to survive both:
 
     - a combined city, where every chain in that town is listed together;
     - a region row, where every chain in any of the region's cities is listed together.
 
-    The regions come from registry.REGIONS, so there is no second list to maintain. A
-    city inside a region yields pairs under both names, which is correct: they are two
-    views a reader can open.
+    `kind` is "city" or "region" and `label` is the city or the region name. The two are
+    keyed apart, so a region that happened to carry a city's name would still be its own
+    view rather than merging with the city's pairs under one label. The regions come from
+    registry.REGIONS, so there is no second list to maintain. A city inside a region
+    yields pairs under both views, which is correct: they are two lists a reader can open.
 
     `extra` adds a hypothetical (id, cities) so a candidate accent can be tested before
     it is committed, and the regions it lands in follow from those cities.
 
     `cities` is a sequence, not a string. A chain that lands in two cities has to clear
     the existing accents in *both*, and taking only the first is how a tool like this
-    approves a colour that collides somewhere it was never asked about. A bare string is
+    approves a colour that collides one town over. A bare string is the common slip; it is
     accepted and wrapped rather than iterated, since iterating one would silently test
     the letters of the city name.
     """
@@ -256,20 +258,25 @@ def shared_view_pairs(extra=None):
     views = {}
     for pid, cs in by.items():
         for city in cs:
-            views.setdefault(city, set()).add(pid)
+            views.setdefault(("city", city), set()).add(pid)
     for r in registry.REGIONS:
         member_cities = set(r["cities"])
         here = {pid for pid, cs in by.items() if cs & member_cities}
         if here:
-            views.setdefault(r["name"], set()).update(here)
+            views.setdefault(("region", r["name"]), set()).update(here)
 
     pairs = []
-    for view in sorted(views):
-        here = sorted(views[view])
+    for kind, label in sorted(views):
+        here = sorted(views[(kind, label)])
         for i in range(len(here)):
             for j in range(i + 1, len(here)):
-                pairs.append((view, here[i], here[j]))
+                pairs.append((kind, label, here[i], here[j]))
     return pairs
+
+
+def shared_view_pairs(extra=None):
+    """-> [(label, a, b)]: view_pairs without the kind, which is what the report prints."""
+    return [(label, a, b) for _, label, a, b in view_pairs(extra)]
 
 
 # ---------------------------------------------------------------- selftest
