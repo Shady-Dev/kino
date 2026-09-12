@@ -945,6 +945,15 @@ while normal vision was the binding model. A new or changed accent clears 14.4 i
 and must not lower an existing regional minimum without the reason recorded here. Colour
 stays supplementary in both views, which also print the venue name and the chain legend.
 
+### FLOOR is the policy threshold, not a measurement (2026-09-12)
+`FLOOR = 14.4` in `accent_check.py` began as the worst combined-city pair, Finnkino against
+Cinema Orion, which measures 14.425. Read as a measurement it is a coincidence 0.025 dE00
+wide, and a mutation to 14.3 or 14.42 turned nothing red because the only test reused
+`A.FLOOR` in its own arithmetic. It is the threshold CLAUDE.md and the registry already
+state as policy, so the comment now says so, one test pins the literal, and another asserts
+every combined-city pair clears 14.4 written out. Scoring and the printed count are
+unchanged.
+
 ### Accent views are keyed by kind as well as name (2026-09-12)
 `shared_view_pairs()` built both views in one dict keyed on the bare name, so a region
 named like a city would have merged with that city's pairs under one label. No current

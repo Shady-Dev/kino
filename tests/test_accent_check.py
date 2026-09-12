@@ -284,6 +284,22 @@ class ReportRankingTest(unittest.TestCase):
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 12)
         self.assertIn(f"12 of 139 pairs are below {A.FLOOR}", self.report())
 
+    def test_the_floor_is_the_fixed_policy_value(self):
+        """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the
+        current set. Pinned as a literal so the count test above, which reuses A.FLOOR,
+        cannot pass with a floor that quietly moved."""
+        self.assertEqual(A.FLOOR, 14.4)
+
+    def test_every_combined_city_pair_clears_the_floor(self):
+        """The half of the policy that holds without exception. Region rows are measured
+        on the same scale but twelve established pairs sit below, so this is asserted on
+        the city views alone, against the literal rather than A.FLOOR."""
+        city = [(label, a, b) for kind, label, a, b in A.view_pairs() if kind == "city"]
+        self.assertGreaterEqual(len(city), 10, "too few city pairs to mean anything")
+        for label, a, b in city:
+            with self.subTest(city=label, pair=(a, b)):
+                self.assertGreaterEqual(min(A.dE(self.ACCENTS[a], self.ACCENTS[b])), 14.4)
+
     def test_the_worst_pair_summary_uses_the_same_score(self):
         worst = min(A.separation(self.ACCENTS[a], self.ACCENTS[b])
                     for _, a, b in A.shared_view_pairs())

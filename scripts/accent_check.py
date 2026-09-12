@@ -331,8 +331,12 @@ def row(label, a, b, n, v, m):
 # is the one constraint in the old notes that did not depend on the broken metric.
 L_MIN, L_MAX = 38.0, 60.0
 
-# The separation a combined-city pair holds. Every city pair is at or above it; region
-# pairs are measured on the same scale and twelve established ones sit below.
+# The policy floor, in dE00 on the weakest of the three models. A new or changed accent
+# clears it in every view it enters where that is reachable, and no combined-city pair sits
+# below it. Fixed rather than measured: it is the number CLAUDE.md and the registry state,
+# and tests/test_accent_check.py pins the value and the city-view contract separately from
+# the count the report prints against it. Region rows are measured on the same scale and
+# twelve established pairs sit below; IDEAS lists them.
 FLOOR = 14.4
 
 
