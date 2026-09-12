@@ -3191,6 +3191,21 @@ inside a stub's price element (synopsis prose excluded). Mutations red: film-lev
 restored (98), one price copied to every stub (4), price element dropped (7), the client's
 fold restored. 170 pages rewritten once.
 
+### A corrected label leaves its old venue URL behind (2026-08-31)
+A venue slug is built from the chain label and the city, so correcting a label moves the URL.
+Studio 123's two venues rendered their name twice until `1da8dc3`, and fixing that deleted
+four already-indexed paths. `build_pages.py` generates those four from a fixed
+`LEGACY_VENUE_SLUGS` table instead: a canonical to the corrected URL, `noindex,follow`, a meta
+refresh and an ordinary link, Finnish old paths to Finnish destinations and English to
+English. They carry no schedule, since duplicating the content under both URLs is what
+canonical exists to prevent.
+
+They are left out of the sitemap, which advertises canonical URLs only. So `teatteri/` and
+`en/theatre/` hold 84 directories each while the sitemap lists 82 venue pages per language,
+measured 2026-09-13. That difference is these two redirects, and deleting them as strays
+brings the 404s back. Add to the table only when a live URL has actually changed: a general
+aliasing mechanism was rejected because it would make URLs easy to keep moving.
+
 ### The landing pages belong to the product (2026-09-02)
 The 168 canonical pages under `/teatteri/`, `/kaupunki/`, `/en/theatre/` and `/en/city/`
 were indexable and looked nothing like the app: system font, boxed cards, a sentence-long
