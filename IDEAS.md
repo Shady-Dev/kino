@@ -2008,6 +2008,14 @@ mean pelivuoro" is Google's spelling model; nothing in markup addresses it. Goog
 refreshes a snippet on recrawl; one Search Console request after deploy is the only lever.
 `tests/test_snippets.py`, 7 tests, six mutations red.
 
+### Landing-page sitelinks repeated the intro and the CTA (2026-09-13)
+Every theatre sitelink opened with the same two sentences and the CTA, then one film.
+Fix in `build_pages.py`: `data-nosnippet` on the header bar (now a `div` inside
+`<header>`, the CSS is class-keyed), on a `span` inside `.intro` and the `no_shows`
+line, on both CTA spans and on the footer's two divs. h1, subline, day headings, films,
+synopses and showtimes stay quotable; titles and descriptions unchanged. 186 pages
+regenerated. `tests/test_landing_pages.py` `SnippetTest`, seven mutations red.
+
 ### Secondary page fetches have a ceiling (2026-08-30)
 Adapters that read a listing and then fetch one page per film iterated whatever the listing
 contained, 15 to 31 films today and unbounded in principle. `common.PAGE_BUDGET` is 120,

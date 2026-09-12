@@ -780,7 +780,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css):
     body, syn_seen = [], set()
     if not days:
-        body.append(f'<p class="intro">{esc(t["no_shows"])}</p>')
+        body.append(f'<p class="intro"><span data-nosnippet>{esc(t["no_shows"])}</span></p>')
     for iso in sorted(days):
         body.append(f'<h2 class="day">{esc(day_label(iso, today, t))}</h2>')
         for title_, shows in sorted(days[iso].items(),
@@ -791,8 +791,8 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
     # One link, one line. The intro already says the app carries the days ahead, so the
     # button says only what it does; a two-line version read as a hero panel and pushed
     # the first showtime 16 px further down a phone.
-    cta = (f'<a class="cta" href="{esc(app_href)}"><span>{esc(t["cta"])}</span>'
-           f'<span class="arr" aria-hidden="true">\u2192</span></a>')
+    cta = (f'<a class="cta" href="{esc(app_href)}"><span data-nosnippet>{esc(t["cta"])}</span>'
+           f'<span class="arr" aria-hidden="true" data-nosnippet>\u2192</span></a>')
     return f"""<!DOCTYPE html>
 <html lang="{t['lang']}">
 <head>
@@ -823,17 +823,17 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 </head>
 <body>
 <div class="wrap">
-<header class="bar"><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></header>
+<header><div class="bar" data-nosnippet><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
 <main>
 <h1>{esc(h1)}</h1>
 <p class="sub">{esc(sub)}</p>
-<p class="intro">{esc(intro)}</p>
+<p class="intro"><span data-nosnippet>{esc(intro)}</span></p>
 {cta}
 {legend}
 {''.join(body)}
 {also}
 </main>
-<footer><div>{esc(t['sources'])}</div><div class="statuslink"><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
+<footer><div data-nosnippet>{esc(t['sources'])}</div><div class="statuslink" data-nosnippet><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
 </div>
 <script>{THEME_BODY_JS}</script>
 </body>

@@ -807,5 +807,78 @@ class StubShapeTest(unittest.TestCase):
             self.assertEqual(render(order), ref)
 
 
+class SnippetTest(GeneratedPagesTest):
+    """What a search engine may quote from a landing page (2026-09-13).
+
+    Google's sitelinks for the theatre pages all opened with the intro sentence and the
+    CTA, the same words on 84 pages, and one film after them. The boilerplate carries
+    `data-nosnippet`: the header bar, the intro, the CTA and the footer. The heading, the
+    subline, the day headings, the films and the showtimes stay quotable. Google honours
+    the attribute on div, span and section only, as a boolean.
+    """
+
+    @staticmethod
+    def split(text):
+        """-> (quotable text, [(tag, attrs) of every marked element])."""
+        from html.parser import HTMLParser
+
+        class P(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.depth, self.out, self.marked = 0, [], []
+                self.skip = 0
+
+            def handle_starttag(self, tag, attrs):
+                a = dict(attrs)
+                if tag in ("script", "style"):
+                    self.skip += 1
+                if "data-nosnippet" in a:
+                    self.marked.append((tag, a))
+                    self.depth += 1
+                elif self.depth:
+                    self.depth += 1
+
+            def handle_endtag(self, tag):
+                if tag in ("script", "style"):
+                    self.skip -= 1
+                if self.depth:
+                    self.depth -= 1
+
+            def handle_data(self, data):
+                if not self.depth and not self.skip:
+                    self.out.append(data)
+
+        p = P()
+        p.feed(text)
+        return re.sub(r"\s+", " ", "".join(p.out)), p.marked
+
+    def test_the_boilerplate_is_excluded_and_the_schedule_is_not(self):
+        for k, text in self.canonical.items():
+            quotable, marked = self.split(text)
+            lang = "en" if k.startswith("/en/") else "fi"
+            t = bp.L[lang]
+            for tag, a in marked:
+                self.assertIn(tag, ("div", "span", "section"), (k, tag))
+                self.assertIsNone(a["data-nosnippet"], (k, tag))
+            self.assertNotIn(t["cta"], quotable, k)
+            self.assertNotIn(t["sources"][:30], quotable, k)
+            self.assertNotIn("Leffavuoro.", quotable, k)          # the wordmark
+            intro = re.search(r'<p class="intro">(.*?)</p>', text, re.S).group(1)
+            self.assertNotIn(text_of(intro)[:30], quotable, k)
+            h1 = text_of(re.search(r"<h1>(.*?)</h1>", text, re.S).group(1))
+            self.assertIn(h1, quotable, k)
+            for day in re.findall(r'<h2 class="day">(.*?)</h2>', text, re.S):
+                self.assertIn(text_of(day), quotable, k)
+            for film in re.findall(r"<h3>(.*?)</h3>", text, re.S)[:3]:
+                self.assertIn(html.unescape(text_of(film)), quotable, k)
+            for stub in STUB_RE.findall(text)[:3]:
+                self.assertIn(re.search(r"\d\d[:.]\d\d", text_of(stub)).group(0), quotable, k)
+
+    def test_the_meta_description_stays(self):
+        for k, text in self.canonical.items():
+            m = re.search(r'<meta name="description" content="([^"]+)">', text)
+            self.assertTrue(m and m.group(1).strip(), k)
+
+
 if __name__ == "__main__":
     unittest.main()
