@@ -16,6 +16,13 @@ import _ctx
 HTML = (pathlib.Path(_ctx.ROOT) / "index.html").read_text(encoding="utf-8")
 
 
+def rule(css, selector):
+    """The body of the rule whose selector list is exactly `selector`, anchored at the
+    start of a line."""
+    m = re.search(r"(?m)^\s*" + re.escape(selector) + r"\s*\{([^}]*)\}", css)
+    return m.group(1) if m else None
+
+
 class EmptyStateActionTest(unittest.TestCase):
 
     def test_the_clear_action_only_appears_when_a_filter_is_on(self):
@@ -37,6 +44,34 @@ class EmptyStateActionTest(unittest.TestCase):
 
     def test_the_label_exists_in_three_languages(self):
         self.assertEqual(len(re.findall(r"clearFilters:'", HTML)), 3)
+
+
+class ClearFiltersTapTargetTest(unittest.TestCase):
+    """The control is a tap target and was under the floor.
+
+    `.nextday` carries both the clear-filters button and the next-day link, and one line
+    of .85rem type inside 8px padding renders 33px: 112.5 x 33 for "Rensa filtren" at
+    320px, against the 44px floor the date chip already meets.
+
+    Declared rather than computed, because the rendered height is font metrics plus
+    line-height plus padding and modelling that in Python would be guesswork. Measured on
+    the served page at 320 and 390 in fi, sv and en: both buttons 44.0px, no horizontal
+    overflow, focus ring 2px solid at 2px offset.
+    """
+
+    def test_the_control_declares_the_44px_floor(self):
+        body = rule(HTML, ".nextday")
+        self.assertIsNotNone(body, ".nextday rule not found")
+        m = re.search(r"min-height:\s*([\d.]+)px", body)
+        self.assertIsNotNone(m, ".nextday declares no min-height")
+        self.assertGreaterEqual(float(m.group(1)), 44.0)
+
+    def test_the_label_stays_centred_in_the_taller_box(self):
+        """min-height on a block button pins the label to the top and leaves the pill
+        looking wrong, which is how a fix for the target size becomes a visual defect."""
+        body = rule(HTML, ".nextday")
+        self.assertIn("display:flex", body)
+        self.assertIn("align-items:center", body)
 
 
 if __name__ == "__main__":

@@ -1641,6 +1641,30 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The clear-filters control meets the 44px floor (2026-09-13, v130)
+`.nextday` carries two buttons: the clear-filters action in the empty state and the next-day
+link. One line of .85rem type inside 8px padding renders 33px tall, so both sat under the 44px
+tap-target floor `.day` has carried since v94. "Rensa filtren" measured 112.5 x 33 at 320px,
+which clears the WCAG 2.2 AA minimum of 24px and misses the guideline the rest of the app
+meets.
+
+`min-height:44px` on the shared rule, with the button switched from `display:block` to a
+centred flex box so the extra 11px splits evenly above and below the label. `box-sizing` is
+border-box for everything in the page, so the pill keeps its width, padding and radius, and
+only its height moves. A modifier on the clear button alone was rejected: both buttons are tap
+targets and both were short, and one declaration covers them.
+
+Measured on the served page at 320 and 390 CSS px in fi, sv and en, light and dark:
+clear-filters 44.0px tall and 169 / 112.5 / 105 wide, next-day 44.0px and 225.7 / 227.9 /
+203.2, no horizontal overflow at either width, focus ring 2px solid at 2px offset from the
+existing `button:focus-visible` rule. Clicking it restores the list, drops the button and
+leaves focus in the search field.
+
+`tests/test_empty_state.py` gained two tests on the declared values, because the rendered
+height is font metrics plus line-height plus padding and modelling that in Python would be
+guesswork. Three mutations red: the declaration deleted, 40px in its place, and
+`display:block` back.
+
 ### An empty result can clear the filter that caused it (2026-09-07, v127)
 12 September with Anniskelu on rendered "Yksikään elokuva ei vastaa suodattimia." and
 nothing else. The message names the cause and then leaves the reader to work out which of

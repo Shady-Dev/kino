@@ -367,10 +367,18 @@
   }
   .nextday{
     /* Own line: inline-block left it stranded beside the message with a wide gap. */
-    display:block; width:fit-content; margin:14px auto 0;
+    display:flex; align-items:center; justify-content:center;
+    width:fit-content; margin:14px auto 0;
     font:inherit; font-size:.85rem; font-weight:600;
     cursor:pointer; color:var(--ink); background:var(--chip-bg);
     border:1px solid var(--line); border-radius:999px; padding:8px 16px;
+    /* 44px is the tap-target floor, the one .day already carries. One line of .85rem
+       type inside 8px padding measures 33px. min-height adds the missing 11px to the
+       box and nothing to the type: box-sizing is border-box, so the pill keeps its
+       width, padding and radius, and centring splits the extra evenly above and below
+       the label. Both buttons on this class are tap targets and both were under the
+       floor, so the shared rule carries it rather than a modifier on one of them. */
+    min-height:44px;
   }
   .day.active{background:var(--ink); border-color:var(--ink)}
   .day.active b{color:var(--bg)}
