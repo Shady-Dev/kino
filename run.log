@@ -1,17 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-12: 79 showtimes
 [schedule] 2026-09-13: 438 showtimes
 [schedule] 2026-09-14: 332 showtimes
 [schedule] 2026-09-15: 321 showtimes
 [schedule] 2026-09-16: 338 showtimes
 [schedule] 2026-09-17: 418 showtimes
 [schedule] 2026-09-18: 0 showtimes
+[schedule] 2026-09-19: 0 showtimes
 [tmdb] dropped 2 entries matched by the old picker
 [tmdb] weak match, no exact title (2): Lyhyt rakkaustarina -> Breve storia d'amore | Practical Magic: Lumotut sisaret -> Lumotut sisaret
-[tmdb] 2 new lookups, 0 re-checks, cache 65, 60 mergeable by id
+[tmdb] 2 new lookups, 4 re-checks, cache 65, 60 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 47 film entries
+[films] 46 film entries
 [attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
