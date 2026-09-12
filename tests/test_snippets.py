@@ -84,5 +84,27 @@ class ScriptTest(unittest.TestCase):
         self.assertNotIn("dataset.nosnippet", SCRIPT)
 
 
+class SiteNameTest(unittest.TestCase):
+    """Google reads the site name from `WebSite` structured data on the home page first,
+    then og:site_name, the title and the wordmark. The four have to agree."""
+
+    def blocks(self):
+        import json
+        return [json.loads(b) for b in
+                re.findall(r'<script type="application/ld\+json">(.*?)</script>', CLIENT, re.S)]
+
+    def test_one_website_node_on_the_home_page(self):
+        sites = [b for b in self.blocks() if b.get("@type") == "WebSite"]
+        self.assertEqual(len(sites), 1)
+        site = sites[0]
+        self.assertEqual(site["@context"], "https://schema.org")
+        self.assertEqual(site["name"], "Leffavuoro")
+        canonical = re.search(r'<link rel="canonical" href="([^"]+)">', CLIENT).group(1)
+        self.assertEqual(site["url"], canonical)
+        og = re.search(r'<meta property="og:site_name" content="([^"]+)">', CLIENT).group(1)
+        self.assertEqual(site["name"], og)
+        self.assertTrue(re.search(r"<title>Leffavuoro\b", CLIENT))
+
+
 if __name__ == "__main__":
     unittest.main()

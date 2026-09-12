@@ -2016,6 +2016,13 @@ line, on both CTA spans and on the footer's two divs. h1, subline, day headings,
 synopses and showtimes stay quotable; titles and descriptions unchanged. 186 pages
 regenerated. `tests/test_landing_pages.py` `SnippetTest`, seven mutations red.
 
+### The home page names the site in `WebSite` structured data (2026-09-13)
+Google picks a site name from `WebSite` JSON-LD on the home page first, then
+`og:site_name`, the title and the wordmark. The first was missing; the other three
+already said Leffavuoro. One block, `name` and `url` (the canonical), home page only,
+no `alternateName`. Whether it changes the "pelivuoro" suggestion is Google's call and
+is not claimed. `tests/test_snippets.py` `SiteNameTest`; five mutations red.
+
 ### Secondary page fetches have a ceiling (2026-08-30)
 Adapters that read a listing and then fetch one page per film iterated whatever the listing
 contained, 15 to 31 films today and unbounded in principle. `common.PAGE_BUDGET` is 120,

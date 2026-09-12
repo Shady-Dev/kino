@@ -52,7 +52,8 @@ class CheckInlineJsTest(unittest.TestCase):
         out = subprocess.run([sys.executable, str(SCRIPT)], capture_output=True,
                              text=True, cwd=str(_ctx.ROOT), timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
-        self.assertIn("3 script(s) checked, 0 problem(s)", out.stdout)
+        # index.html's inline script and its WebSite JSON-LD, status/index.html, sw.js.
+        self.assertIn("4 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 
