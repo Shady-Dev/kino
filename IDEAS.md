@@ -25,7 +25,7 @@ Seven items were closed in one pass on 2026-09-01 without code: see
 
 - Language codes normalised end to end: the adapter and client fixes landed 2026-09-02;
   open until the committed data holds no `TU`, `MA` or `XX` and the landing-page aliases go
-- Move the local fetch off the laptop to an always-on box on the same network — 26 of 75
+- Move the local fetch off the laptop to an always-on box on the same network — 30 of 82
   venues ride on that machine and cloud VMs cannot replace it
 - Finnkino prices -- **blocked, not merely unbuilt**: the public programme API carries
   no prices at all, and the only route left is the booking flow, which this repo does
@@ -1300,10 +1300,12 @@ files plus five frontend edits; all fixed:
       `LN_EXTRA` in `build_pages.py` go with their tests. After the 2026-09-02 cloud run
       `XX` was gone; `TU-A` and `MA-A` await a local run. `tests/test_lang_normalization.py`.
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
-      Cloud VMs are not an option for the five providers that block datacenter IPs
-      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, and Savon Kinot since
-      2026-09-04), and with the MovieXchange route closed above there is no other way off
-      the laptop at all. 26 of 75 venues ride on that machine.
+      Cloud VMs are not an option for the eight providers that block datacenter IPs
+      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, Savon Kinot since 2026-09-04,
+      Kino Regina since 2026-09-06, Cine and Elokuvateatteri Star since 2026-09-08), and
+      with the MovieXchange route closed above there is no other way off the laptop at
+      all. 30 of 82 venues ride on that machine, counted from the registry and the venue
+      files on 2026-09-13.
 - [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
       classification text passed through raw when it did not start with a digit, and the
       live values include "Tulossa" and "-" (verified in committed data: 5 and 7
