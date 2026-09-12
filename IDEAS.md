@@ -945,6 +945,22 @@ while normal vision was the binding model. A new or changed accent clears 14.4 i
 and must not lower an existing regional minimum without the reason recorded here. Colour
 stays supplementary in both views, which also print the venue name and the chain legend.
 
+### A region city is backed by the data or an adapter; the two agree after a run (2026-09-12)
+`tests/test_regions.py` gained a second test on 2026-09-07 meant to bound the adapter half
+of the check: a region city missing from the data had to belong to a provider with no venue
+file at all, "so a cinema dropped from a provider that has one still fails". It could not:
+`run.py` writes `data/venues-{provider}.json` from SITES on every successful run of the
+site, city included, so a venue dropped from SITES leaves the adapters and, on the next run,
+the data together. Between the edit and the run the stale venue file keeps backing the
+city, and that window is the same one every provider addition passes through. On the day
+of the review every region city was in the data and the test's loop body never ran.
+
+The decision is now one function, `dead_entries()`, with fixture cases for a fetched
+provider, one that has not run, a typo, and the dropped-venue window left open on purpose.
+Closing that window means comparing SITES to the venue files directly, which fails each
+addition until the pipeline has run; not done. The contract the file relies on, that the
+venue file carries each city verbatim from SITES, is pinned in `tests/test_run_partial.py`.
+
 ### FLOOR is the policy threshold, not a measurement (2026-09-12)
 `FLOOR = 14.4` in `accent_check.py` began as the worst combined-city pair, Finnkino against
 Cinema Orion, which measures 14.425. Read as a measurement it is a coincidence 0.025 dE00

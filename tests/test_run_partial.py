@@ -121,6 +121,21 @@ class RunSitePartialTest(RunSiteHarness):
         self.assertEqual([v["id"] for v in self.venues_file()["venues"]],
                          ["fc-a", "fc-b", "fc-c"])
 
+    def test_the_venue_file_carries_each_city_verbatim_from_sites(self):
+        """tests/test_regions.py backs an area city by the data or by an adapter and
+        relies on the two agreeing after a run. This is that contract: every venue's
+        city reaches the venue file exactly as SITES spells it, shows or no shows. Three
+        distinct cities, so a file that repeated the first one would fail."""
+        site = {**SITE, "venues": [dict(v, city=c) for v, c in
+                                   zip(SITE["venues"], ("Espoo", "Vantaa", "Kerava"))]}
+        self.seed_previous("fc-b")
+        mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod, site=site)
+        self.assertEqual([v["city"] for v in self.venues_file()["venues"]],
+                         ["Espoo", "Vantaa", "Kerava"])
+
     def test_the_middle_venue_is_the_stale_one_so_position_cannot_pass_by_luck(self):
         """Guards an implementation that reports only the first or last venue."""
         self.seed_previous("fc-b")
