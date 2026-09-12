@@ -1,16 +1,16 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 15 showtimes, 6 dates
-[kotkanleffat] Trio 123: 55 showtimes, 6 dates
+[kotkanleffat] Kinopalatsi Kotka: 14 showtimes, 6 dates
+[kotkanleffat] Trio 123: 52 showtimes, 6 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 37 showtimes, 8 dates
+[biorexkokkola] Bio Rex Kokkola: 34 showtimes, 8 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 63 showtimes, 10 dates
+[kinopirtti] Kinopirtti: 60 showtimes, 10 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 43 showtimes, 6 dates
+[leffabuumi] Kinolinna: 41 showtimes, 6 dates
 [leffabuumi] Kino Ritz: 8 showtimes, 6 dates
 [leffabuumi] Kino Saimaa: 3 showtimes, 2 dates
 [studio123jarvenpaa] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 35 showtimes, 6 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 33 showtimes, 6 dates
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 35 showtimes, 6 dates
 [ihmekompleksi] synopses merged: 0
@@ -24,17 +24,16 @@
 [biogrand] synopses merged: 0
 [biogrand] Bio Grand: 15 showtimes, 6 dates
 [biovuoksi] synopses merged: 0
-[biovuoksi] synopses skipped as screening notes (price): 1
-[biovuoksi] Bio Vuoksi: 20 showtimes, 5 dates
+[biovuoksi] Bio Vuoksi: 18 showtimes, 5 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 26 showtimes, 6 dates
+[kinoiiris] Kino Iiris: 25 showtimes, 6 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 16
 [kkino] K-Kino: 16 showtimes, 8 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 6 showtimes, 3 dates
 [niagara] synopses merged: 0
-[niagara] Cinema Niagara: 34 showtimes, 10 dates
-[run] http: 0 revalidated (304), 179 full, 179 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 19 venues, 505 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] Cinema Niagara: 32 showtimes, 10 dates
+[run] http: 0 revalidated (304), 174 full, 174 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 19 venues, 486 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
