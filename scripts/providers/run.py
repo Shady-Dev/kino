@@ -249,10 +249,10 @@ def confirmed_empty_site(site, pending):
 # 8 is twice the four vCPUs an ubuntu-latest runner has, which is the usual shape for a
 # pool that spends most of its time waiting and parses HTML in between. It caps bodies in
 # flight at 160 MB against the runner's 16 GB, covers Nexxo's six host groups outright,
-# and takes eTiketti's cloud half -- 16 of its 17 sites, since Joutsan Kino is routed
-# local -- in two waves instead of sixteen sites in a row. "As many as there are sites"
-# was rejected as a default: it would raise the ceiling every time a cinema is added,
-# with nobody deciding to.
+# and takes eTiketti's cloud half, the largest set of hosts any module reads (each site is
+# its own host, so its size is the site count), in a few waves instead of one site at a
+# time. "As many as there are sites" was rejected as a default: it would raise the ceiling
+# every time a cinema is added, with nobody deciding to.
 #
 # KINO_MAX_HOSTS overrides it, in the style of KINO_PAGE_BUDGET and KINO_MAX_BODY. 1 is
 # the sequential path this replaced, and the tests use it to show that path still writes

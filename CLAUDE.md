@@ -1,10 +1,9 @@
 # Working on this repo
 
-Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from 37 providers (2026-09-06) in one
-app. A
-single-file vanilla JS PWA served from GitHub Pages, backed by a Python pipeline that
-commits static JSON. No build step, no framework, no dependencies beyond the standard
-library in the pipeline.
+Leffavuoro (leffavuoro.fi): Finnish cinema showtimes from the providers listed in
+`scripts/providers/registry.py`, in one app. A single-file vanilla JS PWA served from
+GitHub Pages, backed by a Python pipeline that commits static JSON. No build step, no
+framework, no dependencies beyond the standard library in the pipeline.
 
 ## Read IDEAS.md first
 
