@@ -77,12 +77,35 @@ class SharedViewTest(unittest.TestCase):
                      if v in cities and {a, b} == {"cine", "kinoakseli"}]
         self.assertEqual(same_city, [], "they are in different towns")
 
-    def test_cine_meets_kino_akseli_before_cine_has_a_venue_file(self):
+    def test_a_provider_with_no_venue_file_brings_its_declared_cities(self):
         """A provider is registered one commit and fetched the next. Its accent is chosen
-        in that window, so the adapter's own cities have to count."""
-        if not (A.DATA / "venues-cine.json").exists():
-            self.assertNotIn("cine", A.cities_by_provider(),
-                             "committed data already has Cine; drop this branch")
+        in that window, so the adapter's own cities have to count. Fixtures rather than
+        the committed data: the day Cine's venue file landed, the data started supplying
+        the very pair this used to check, and a broken merge went unnoticed.
+
+        The newcomer is absent from the data by construction and present only in the
+        adapters. It has to meet the established chain in the region row through a city
+        of its own, and in the city view when it lands in the established chain's town."""
+        regions = [{"name": "Keski-Uusimaa", "cities": ["Kerava", "Nummela"]}]
+        data = {"kinoakseli": {"Nummela"}}
+        with mock.patch.object(A, "cities_by_provider", return_value=dict(data)), \
+                mock.patch.object(A, "cities_declared_by_adapters",
+                                  return_value={"newcomer": {"Kerava"}}), \
+                mock.patch.object(A.registry, "REGIONS", regions):
+            self.assertNotIn("newcomer", A.cities_by_provider())
+            self.assertEqual(A.provider_cities(),
+                             {"kinoakseli": {"Nummela"}, "newcomer": {"Kerava"}})
+            self.assertIn(("Keski-Uusimaa", "kinoakseli", "newcomer"),
+                          A.shared_view_pairs())
+        with mock.patch.object(A, "cities_by_provider", return_value=dict(data)), \
+                mock.patch.object(A, "cities_declared_by_adapters",
+                                  return_value={"newcomer": {"Nummela"}}), \
+                mock.patch.object(A.registry, "REGIONS", regions):
+            self.assertIn(("Nummela", "kinoakseli", "newcomer"), A.shared_view_pairs())
+
+    def test_cine_meets_kino_akseli_in_the_keski_uusimaa_row(self):
+        """The real pair the fixture above stands for. Kerava and Nummela are different
+        towns, so it exists only in the region view."""
         self.assertEqual(A.cities_declared_by_adapters()["cine"], {"Kerava", "Sipoo"})
         self.assertIn(("Keski-Uusimaa", "cine", "kinoakseli"), A.shared_view_pairs())
 
