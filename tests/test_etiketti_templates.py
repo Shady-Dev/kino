@@ -440,20 +440,24 @@ class NiagaraRegistryTest(unittest.TestCase):
         self.assertEqual(ids.count("cn-tampere"), 1)
 
     def test_the_accent_clears_finnkino_in_tampere_in_every_vision_model(self):
-        """Tampere is the sixth two-chain city. The pair must not become the set's
-        binding constraint: every model at or above the worst pair of any shared
-        view, and comfortably above the 3 px rule's floor."""
+        """Tampere is a two-chain city. The pair must not become the combined-city set's
+        binding constraint, so every model is at or above the worst pair of any city view.
+        Region rows are measured on the same scale but twelve established pairs sit far
+        below, so their minimum would make the first assertion trivial. The second is the
+        margin: comfortably above the 3 px rule's floor."""
         import accent_check as A
         import registry
         niagara = registry.by_id("niagara")["accent"]
         finnkino = registry.by_id("finnkino")["accent"]
         pair = A.dE(niagara, finnkino)
         accents = {p["id"]: p["accent"] for p in registry.PROVIDERS}
-        worst = min(min(A.dE(accents[a], accents[b]))
-                    for _, a, b in A.shared_view_pairs() if a in accents and b in accents)
+        city_worst = min(min(A.dE(accents[a], accents[b]))
+                         for kind, _, a, b in A.view_pairs() if kind == "city")
+        self.assertGreaterEqual(city_worst, A.FLOOR,
+                                "the city baseline itself is below the floor")
         for model, value in zip(("normal", "vienot", "machado"), pair):
             with self.subTest(model=model):
-                self.assertGreaterEqual(value, worst)
+                self.assertGreaterEqual(value, city_worst)
                 self.assertGreaterEqual(value, 40.0)
         self.assertNotIn(niagara, {v for k, v in accents.items() if k != "niagara"})
 
