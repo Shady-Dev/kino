@@ -13,6 +13,8 @@ focus, the drag, the scroll position -- stays a live check against the served pa
 """
 import pathlib
 import re
+import shutil
+import subprocess
 import unittest
 
 import _ctx
@@ -57,9 +59,22 @@ class SheetOrderTest(unittest.TestCase):
         self.assertIn('<div class="sheet-days">${body}</div>', HTML)
 
     def test_a_long_synopsis_is_clamped_and_a_short_one_is_not(self):
-        self.assertRegex(HTML, r"synLong = syn\.length > \d+")
+        self.assertIn("const synLong = syn.length > 260;", HTML)
         self.assertIn("-webkit-line-clamp:4;", rule(".syn.clamp"))
         self.assertRegex(HTML, r"class=\"syn\$\{synLong \? ' clamp' : ''\}\"")
+
+    @unittest.skipIf(shutil.which("node") is None, "node not installed")
+    def test_the_disclosure_boundary_sits_between_260_and_261_characters(self):
+        """The decision line, run as written, on both sides of its boundary. A synopsis of
+        exactly 260 characters is short: no clamp, no button. 261 is long. The regex the
+        earlier test used accepted any number, so `> 0` (a toggle over two lines) and
+        `> 600` (no toggle at all) both passed."""
+        line = re.search(r"const synLong = syn\.length > \d+;", HTML).group(0)
+        script = ("for (const n of [259, 260, 261, 700]) { const syn = 'x'.repeat(n); "
+                  + line + " console.log(n, synLong); }")
+        out = subprocess.run(["node", "-e", script], capture_output=True, text=True,
+                             check=True).stdout.split()
+        self.assertEqual(out, ["259", "false", "260", "false", "261", "true", "700", "true"])
 
     def test_the_disclosure_is_only_rendered_for_a_long_synopsis(self):
         """A short synopsis gets no control: the clamp is what the button reveals, and a
