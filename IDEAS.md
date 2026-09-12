@@ -504,6 +504,28 @@ it always did and writes a link.
 `tests/test_riviera_links.py`, 7 tests. Five mutations red, and all seven fail against the
 parser they replace.
 
+### Riviera prices come from the screening's ticket page (2026-09-13)
+The `filter_movies` payload has no price field (94 rows, 2026-09-13). The public page a
+showtime already links to, `tickets.rivieracinemas.fi/websales/show/{id}`, prints
+`table.showPrices-table` with one row per ticket category; the ordinary seat is
+"Sohvapaikka tai Nojatuolipaikka" (20,00 € on 982926, 22,00 € on 984518). Only that row
+is the price: a restricted category first, the cheapest amount or the first euro on the
+page never is, and no row or two rows with different amounts leaves the price "" (never
+zero). Format is eTiketti's ("20€", "12.5€"), so the app and the pages render it as is.
+
+Request policy: one GET per screening id after the schedule is parsed, sequential, 1 s
+apart, at most 40 pages a run (`KINO_RIVIERA_PRICE_MAX`), three consecutive failures end
+the pass. `data/prices-riviera.json` holds `{id: {price, at}}`, pruned to the ids on the
+listing, rewritten only when it changed; an id is re-read after 48 h
+(`KINO_RIVIERA_PRICE_TTL_H`). Tradeoff: a price change reaches the site within two days,
+and 90 screenings with an id (of 94 listed, 2026-09-13) cost about six pages a run in
+steady state; a first fill takes three runs. Exercised once from an ordinary connection
+with the ceiling at 6: six pages, six prices, 18 € to 49 €, zero failures. The page sends `Cache-Control: no-store` and a session cookie, so the HTTP
+validator cache does not apply and no cookie is kept. A failed page is not cached and
+the showtime is published without a price; the schedule cannot fail on this step.
+Sold-out rows keep the listing URL and are not asked. `tests/test_riviera_prices.py`, 17
+tests, fourteen mutations red.
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web
 front end exposes unauthenticated XML services. A Vista cinema that leaves them open is a

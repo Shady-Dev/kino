@@ -10,11 +10,16 @@ so the adapter splits by the `location` field ("Kallio, Sali 1") rather than by 
 Parameterised by base URL: every field the endpoint needs lives on the site dict, so
 another cinema on the same WordPress theme (Gilda) is a SITES entry with no new parser.
 Confirm the ajax action matches before adding one.
+
+Prices (2026-09-13): the listing carries none. Each screening's public ticket page,
+`{tickets}{id}`, prints a `table.showPrices-table` with one row per ticket category, and
+the ordinary seat is "Sohvapaikka tai Nojatuolipaikka". That row's amount is the price
+shown; a page without exactly one such row publishes no price. See enrich_prices().
 """
-import datetime, html as html_mod, json, re, urllib.parse
+import datetime, html as html_mod, json, os, pathlib, re, time, urllib.parse
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import fetch, write_json
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -124,7 +129,136 @@ def parse(page_html, listing="", base="", tickets=""):
     return out
 
 
-def fetch_site(site=SITE, tries=3):
+# ---------------------------------------------------------------- prices
+
+# Where a screening's price comes from and how often it is asked for. One GET per
+# screening id, on the ticket host, sequential and `price_sleep` apart. An id is read
+# again after PRICE_TTL_H, so a price change reaches the site within that time and a
+# screening is otherwise read once for its whole life on the listing. At most
+# PRICE_FETCH_MAX pages per run: never-fetched ids first, then the oldest. Three
+# consecutive failures end the pass for this run. Nothing here can fail the schedule:
+# a price that cannot be read stays "" and the showtime is published without it.
+PRICES_PATH = pathlib.Path("data") / "prices-riviera.json"
+PRICE_TTL_H = float(os.environ.get("KINO_RIVIERA_PRICE_TTL_H") or 48)
+PRICE_FETCH_MAX = int(os.environ.get("KINO_RIVIERA_PRICE_MAX") or 40)
+PRICE_FAIL_STOP = 3
+ORDINARY = "sohvapaikka tai nojatuolipaikka"
+
+SHOW_ID_RE = re.compile(r"/websales/show/(\d+)$")
+PRICE_TABLE_RE = re.compile(r"<table[^>]*\bshowPrices-table\b[^>]*>(.*?)</table>", re.S)
+PRICE_ROW_RE = re.compile(r"<tr\b.*?</tr>", re.S)
+CATEGORY_RE = re.compile(r"<td[^>]*\bshowPrices-table-ticketCategory\b[^>]*>(.*?)</td>", re.S)
+PRICE_CELL_RE = re.compile(r"<td[^>]*\bshowPrices-table-price\b[^>]*>(.*?)</td>", re.S)
+AMOUNT_RE = re.compile(r"(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:\u20ac|EUR)", re.I)
+
+
+def ordinary_price(page_html):
+    """The ordinary seat's price on a ticket page -> "20\u20ac", "12.5\u20ac", or "".
+
+    Only the row whose category is ORDINARY counts: a wheelchair, concession or other
+    restricted ticket listed above it must not become the advertised price, and neither
+    may the cheapest or the first amount on the page. No such row, or two of them
+    naming different amounts, is "" -- unknown, never zero. The string is eTiketti's
+    shape, which priceLabel() and price_label() already render.
+    """
+    table = PRICE_TABLE_RE.search(page_html or "")
+    if not table:
+        return ""
+    amounts = set()
+    for row in PRICE_ROW_RE.findall(table.group(1)):
+        cat, cell = CATEGORY_RE.search(row), PRICE_CELL_RE.search(row)
+        if not (cat and cell) or _txt(cat.group(1)).lower() != ORDINARY:
+            continue
+        m = AMOUNT_RE.search(_txt(cell.group(1)))
+        if m:
+            amounts.add(m.group(1).replace(",", "."))
+    if len(amounts) != 1:
+        return ""
+    amount = amounts.pop()
+    if float(amount) <= 0:
+        return ""
+    return amount.rstrip("0").rstrip(".") + "\u20ac"
+
+
+def _age_h(entry, now):
+    try:
+        at = datetime.datetime.fromisoformat(entry["at"])
+    except (KeyError, TypeError, ValueError):
+        return float("inf")
+    return (now - at).total_seconds() / 3600
+
+
+def enrich_prices(shows, site, *, now=None, sleep=1.0, path=None, limit=None):
+    """Put each screening's ordinary seat price on its showtimes. -> counts dict.
+
+    `shows` are the rows fetch_site built, every one carrying its ticket URL; a row
+    without one (sold out, listing fallback) is left alone. The cache at `path` maps a
+    screening id to {"price", "at"} and is pruned to the ids on the listing, so it cannot
+    grow past the programme. Only a changed cache is written.
+    """
+    tickets = site.get("tickets") or ""
+    path = pathlib.Path(path or PRICES_PATH)
+    limit = PRICE_FETCH_MAX if limit is None else limit
+    now = now or datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
+    try:
+        old = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        if not isinstance(old, dict):
+            old = {}
+    except (OSError, ValueError):
+        old = {}
+
+    by_id = {}
+    for s in shows:
+        url = s.get("url") or ""
+        m = SHOW_ID_RE.search(url) if tickets and url.startswith(tickets) else None
+        if m:
+            by_id.setdefault(m.group(1), []).append(s)
+    cache = {k: v for k, v in old.items() if k in by_id and isinstance(v, dict)}
+
+    due = [i for i in by_id if i not in cache or _age_h(cache[i], now) >= PRICE_TTL_H]
+    due.sort(key=lambda i: (i in cache, cache.get(i, {}).get("at", ""), int(i)))
+    todo, deferred = due[:limit], len(due) - min(len(due), limit)
+    if deferred:
+        print(f"[{site['provider']}] prices: {len(due)} ticket pages due, reading {limit}, "
+              f"{deferred} wait for the next run")
+
+    fetched = failed = 0
+    streak = 0
+    for n, sid in enumerate(todo):
+        if streak >= PRICE_FAIL_STOP:
+            deferred += 1
+            continue
+        if n:
+            time.sleep(sleep)
+        try:
+            page = fetch(tickets + sid, headers={"user-agent": UA, "accept": "text/html",
+                                                 "referer": site["base"].rstrip("/") + "/"},
+                         tries=2, timeout=20).decode("utf-8", "replace")
+        except Exception as e:                     # noqa: BLE001 -- the price is optional
+            failed += 1
+            streak += 1
+            print(f"[{site['provider']}] price page {sid}: {type(e).__name__}: "
+                  f"{str(e)[:80]}")
+            continue
+        streak = 0
+        fetched += 1
+        cache[sid] = {"price": ordinary_price(page), "at": now.isoformat()}
+
+    for sid, group in by_id.items():
+        price = (cache.get(sid) or {}).get("price") or ""
+        for s in group:
+            s["price"] = price
+
+    if cache != old:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        write_json(path, dict(sorted(cache.items())), indent=1)
+    return {"screenings": len(by_id), "priced": sum(1 for i in by_id if (cache.get(i) or {}).get("price")),
+            "fetched": fetched, "reused": len(by_id) - len(due),
+            "unknown": sum(1 for i in by_id if i in cache and not cache[i].get("price")),
+            "failed": failed, "deferred": deferred}
+
+
+def fetch_site(site=SITE, tries=3, price_sleep=1.0, prices_path=None, now=None):
     base = site["base"].rstrip("/")
     ajax = base + site.get("ajax", "/wp/wp-admin/admin-ajax.php")
     listing = base + site.get("listing", "/elokuvat/")
@@ -161,4 +295,15 @@ def fetch_site(site=SITE, tries=3):
         per_venue[k].sort(key=lambda s: s["start"])
         for s in per_venue[k]:
             s["eventId"] = re.sub(r"[^\w]+", "-", s["title"].lower()).strip("-")
+    # After the schedule is complete, and never able to take it down: a failure here
+    # publishes the showtimes without prices, which is what the site did before.
+    try:
+        st = enrich_prices([s for v in per_venue.values() for s in v], site,
+                           sleep=price_sleep, path=prices_path, now=now)
+        print(f"[{site['provider']}] prices: {st['screenings']} screenings, "
+              f"{st['priced']} priced, {st['fetched']} pages read, {st['reused']} reused, "
+              f"{st['unknown']} without an ordinary seat, {st['failed']} failed, "
+              f"{st['deferred']} deferred")
+    except Exception as e:                         # noqa: BLE001 -- the price is optional
+        print(f"[{site['provider']}] prices skipped: {type(e).__name__}: {str(e)[:80]}")
     return {k: v for k, v in per_venue.items() if v}
