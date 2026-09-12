@@ -1994,6 +1994,20 @@ files in the repo root are committed per run by design.
   competing with the cinemas' own listings. A deliberate decision, not a side effect of
   markup. See "Access and ethics".
 
+### Search snippets quoted the chrome and a load failure (2026-09-13)
+Google's copy of `/` (crawled ~2026-08-29) read `Leffavuoro. EN. Tallenna. Tänään 29.8.
+... Leffat Ajat. Suom. puhe. Lapsille. Aikataulua ei juuri nyt saatu ladattua`. Cause:
+`robots.txt` disallows `/data/`, so the renderer never loads a schedule and every render
+is the chrome plus the load-failure line. The `/data/` rule stays (the schedule is not a
+directory to index). Fix: `data-nosnippet` on the header bar, the pinned controls,
+`#stale`, `#partial`, the picker, `#listStatus`, `#tagkey` and every `<div class="status">`,
+each created with the attribute (Google forbids toggling it from script). `<main>`, the
+film rows, the footer sentence and the meta description stay quotable; the description
+was checked and kept. Not done: `<noscript>`, `max-snippet`, a title rewrite. "Did you
+mean pelivuoro" is Google's spelling model; nothing in markup addresses it. Google
+refreshes a snippet on recrawl; one Search Console request after deploy is the only lever.
+`tests/test_snippets.py`, 7 tests, six mutations red.
+
 ### Secondary page fetches have a ceiling (2026-08-30)
 Adapters that read a listing and then fetch one page per film iterated whatever the listing
 contained, 15 to 31 films today and unbounded in principle. `common.PAGE_BUDGET` is 120,

@@ -818,13 +818,13 @@
 <body>
 
 <header>
-  <div class="bar">
+  <div class="bar" data-nosnippet>
     <div class="logo">Leffavuoro<span>.</span></div>
     <div class="spacer"></div>
     <div id="langSeg" class="langseg" role="group" aria-label="Kieli"></div>
     <button id="themeToggle" type="button" title="Vaihda teemaa" aria-label="Vaihda vaalean ja tumman teeman välillä">◐</button>
   </div>
-  <div class="pinned">
+  <div class="pinned" data-nosnippet>
   <div class="controls">
     <button id="areaSelect" type="button" aria-haspopup="dialog" aria-expanded="false"
             aria-label="Valitse teatteri"><span class="vlbl"></span><span class="vchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
@@ -843,13 +843,13 @@
   </div>
 </header>
 
-<div id="stale" role="status"></div>
-<div id="partial" role="status"></div>
+<div id="stale" role="status" data-nosnippet></div>
+<div id="partial" role="status" data-nosnippet></div>
 
 <div id="overlay"></div>
 <div id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" inert aria-hidden="true"></div>
 
-<div id="vwrap" class="vwrap">
+<div id="vwrap" class="vwrap" data-nosnippet>
   <div class="vsheet" role="dialog" aria-modal="true" aria-label="Valitse teatteri">
     <div class="vhead">
       <span class="vfind">
@@ -872,13 +872,13 @@
      venue picker's #vnone is markup rather than something vDraw() creates. The visible
      empty state stays inside <main> and this carries only its words, so nextDayLink()'s
      button never lands inside a live region. -->
-<div id="listStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+<div id="listStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-nosnippet></div>
 
 <main id="main">
-  <div class="status"><div class="reel"></div>Ladataan teattereita…</div>
+  <div class="status" data-nosnippet><div class="reel"></div>Ladataan teattereita…</div>
 </main>
 
-<div id="tagkey"></div>
+<div id="tagkey" data-nosnippet></div>
 <footer>
   <!-- Per-selection attribution, written by renderStatus(): which source this schedule
        came from, when it was fetched and what tapping a showtime does. It belongs beside
@@ -1541,7 +1541,7 @@
   };
 
   function netErrorHtml(e){
-    return `<div class="status">${L[state.lang].loadFail}<br><small>${esc(e.message||e)}</small></div>`;
+    return `<div class="status" data-nosnippet>${L[state.lang].loadFail}<br><small>${esc(e.message||e)}</small></div>`;
   }
   // --- url sinks: pure, extracted verbatim by tests/safe_url_harness.js ---
   // A URL parser deletes ASCII tab, LF and CR anywhere in a URL and strips control
@@ -2238,7 +2238,7 @@
 
   async function loadSchedule(){
     setListStatus('');
-    main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
+    main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
       if(!jsonCache[state.area]){
         jsonCache[state.area] = groupIdsOf(state.area)
@@ -2508,7 +2508,7 @@
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){
       setListStatus(emptyMsg());
-      main.innerHTML = timesLegend + `<div class="status">${emptyMsg()}${emptyActions()}</div>`;
+      main.innerHTML = timesLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
     // The ticket is time and price. The room, the venue in a combined view and the
@@ -2761,7 +2761,7 @@
 
     if(!movies.length){
       setListStatus(emptyMsg());
-      main.innerHTML = `<div class="status">${emptyMsg()}${emptyActions()}</div>`;
+      main.innerHTML = `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
 
@@ -2865,7 +2865,7 @@
     };
     // Nothing left today: say so where the list would have been, and offer the next day.
     const noneLeft = !live.length
-      ? `<div class="status">${L[state.lang].nomore}${nextDayLink()}</div>` : '';
+      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${nextDayLink()}</div>` : '';
     const overHead = over.length
       ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
     setListStatus('');
@@ -2988,7 +2988,7 @@
       : '';
     // A direct #m= link to a film this venue is not showing opens the sheet with nothing
     // in it; say so instead of showing an empty head.
-    const body = days || `<div class="status">${L[lang].sheetNone}</div>`;
+    const body = days || `<div class="status" data-nosnippet>${L[lang].sheetNone}</div>`;
     const sheetPoster = safeAssetUrl(sample.img);
     const poster = sheetPoster ? `<img class="poster" src="${sheetPoster}" alt="">` : '';
     sheetEl.innerHTML = `
@@ -3404,7 +3404,7 @@
       // before the first fetch resolves.
       if(state.lang !== 'fi'){   // static markup is Finnish; restate it for sv/en
         setListStatus('');
-        main.innerHTML = `<div class="status"><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
+        main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
       }
       buildDays();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
