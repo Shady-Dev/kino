@@ -886,6 +886,7 @@
        the schedule it describes and stays here. The global provider health list, the
        contact address and the source and licence lines moved to /status/. -->
   <div id="credit">Suomalaisten elokuvateatterien näytösajat</div>
+  <div id="priceNote">Suuntaa-antava hinta. Lopullinen hinta teatterin lipunmyynnissä.</div>
   <div id="statusLink"><a href="/status/">Palvelun tila ja tiedot ↗</a></div>
 </footer>
 
@@ -1054,6 +1055,7 @@
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
          tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
+         priceNote:'Suuntaa-antava hinta. Lopullinen hinta teatterin lipunmyynnissä.',
          statusLink:'Palvelun tila ja tiedot \u2197',
          partialOf:'Näytöstiedot eivät päivittyneet {n}/{m} teatterilta', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
@@ -1109,6 +1111,7 @@
          tipDoor:'Biljetter vid dörren', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
+         priceNote:'Riktpris. Slutligt pris i biografens biljettförsäljning.',
          statusLink:'Tjänstens status och information \u2197',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
@@ -1161,6 +1164,7 @@
          tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
          tipList:'Open the programme', tipBuy:'Buy tickets', tipAdmission:'Buy admission ticket',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
+         priceNote:'Indicative price. Final price at the cinema\u2019s ticket checkout.',
          statusLink:'Service status and information \u2197',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
@@ -2373,6 +2377,10 @@
   // by following it. The Finnish label is in the static markup too, so a script that
   // failed to run still leaves a usable link.
   function renderContact(){
+    // The price note is a fixed footer sentence in the reader's language; the amounts
+    // on the tickets are the providers' and the final price is the cinema's.
+    const note = document.querySelector('#priceNote');
+    if(note) note.textContent = L[state.lang].priceNote;
     const el = document.querySelector('#statusLink');
     if(!el) return;
     const q = new URLSearchParams();

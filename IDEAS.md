@@ -1701,6 +1701,15 @@ height is font metrics plus line-height plus padding and modelling that in Pytho
 guesswork. Three mutations red: the declaration deleted, 40px in its place, and
 `display:block` back.
 
+### The footer says a price is indicative (2026-09-13, v133)
+Ticket amounts are what a provider publishes for a screening; the cinema's checkout sets
+the final price. One footer line under the credit, `#priceNote`, in the footer's own
+typography, redrawn by `renderContact()` with the language: FI "Suuntaa-antava hinta.
+Lopullinen hinta teatterin lipunmyynnissä.", SV "Riktpris. Slutligt pris i biografens
+biljettförsäljning.", EN "Indicative price. Final price at the cinema's ticket checkout."
+No banner, icon or tooltip; tickets and price fields unchanged. `tests/test_price_note.py`,
+five mutations red.
+
 ### An empty result can clear the filter that caused it (2026-09-07, v127)
 12 September with Anniskelu on rendered "Yksikään elokuva ei vastaa suodattimia." and
 nothing else. The message names the cause and then leaves the reader to work out which of
