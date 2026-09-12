@@ -1158,11 +1158,11 @@ is gone from the module; the listing is not read. Whether Regina joins Engel on 
 half is a decision for the run logs.
 
 Decided 2026-09-06: local. Of the six cloud runs after the fix, three were challenged (23:19,
-05:19 and 13:44 UTC), each recovering on the next run. The 13:44 diagnostics artifact
-(`ci_diag.py`) shows the same 167-byte shell for the homepage from that runner (centralus,
-HTTP 202), so SiteGround refuses the address for the whole host and an in-run retry cannot
-help. Failures came from northcentralus, westcentralus and centralus; passes from westus and
-westus3. Nothing selects a region on hosted runners. `where="local"` on the registry entry
+05:19 and 13:44 UTC), each recovering on the next run. A probe from that runner at 13:44 got
+the same 167-byte shell for the homepage (centralus, HTTP 202), so SiteGround refuses the
+address for the whole host and an in-run retry cannot help. Failures came from northcentralus,
+westcentralus and centralus; passes from westus and westus3.
+Nothing selects a region on hosted runners. `where="local"` on the registry entry
 routes the module to the local half. The wrapper outside the repo got its block, its own
 `run-regina.log` and its `git add` entry on 2026-09-06, placed before the poster step like
 Joutsan Kino's so the run mirrors the posters it brings in: 15 of the venue's 20 showtimes
@@ -1823,83 +1823,13 @@ architecture decisions, per-provider API research and the backlog. `cf-worker/wo
 and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted 2026-08-27. `run-*.log`
 files in the repo root are committed per run by design.
 
-## Cloud run diagnostics artifact (2026-09-06, temporary until 2026-09-09)
-Problem: three of five cloud runs on 2026-09-05/06 failed against Nexxo and Regina hosts
-(origin 403, timeouts, a SiteGround challenge on one window), each cleared by the next run.
-Runner region did not explain it: `westus` appeared on both sides. The committed logs do not
-record the runner's address, and Actions job logs need a sign-in, so nothing correlated
-failures with addresses.
-
-Decision: `scripts/ci_diag.py` runs in `biorex.yml` right after the provider loop. When a
-`run-*.log` ends non-zero it probes the failing modules' hosts from the same runner and
-records region (Azure IMDS), egress address, DNS answer, status, timing, a fixed header set
-and body length. Uploaded with `actions/upload-artifact` (v7.0.1, SHA-pinned), two-day
-retention, gated on the step's `report` output. Nothing is committed and no response body
-or environment is recorded, for the same reason raw probe dumps are banned. The step
-disarms itself after `--until`; remove it and this entry once the answer is in.
-
-Same day, three review findings: both steps are `continue-on-error` with a three-minute
-bound and the script exits 0 on its own errors, so diagnostics cannot skip the commit that
-publishes the schedule; only the cloud modules' logs count, because the repo root also holds
-the local half's committed logs and an old Engel failure started probes; hosts come from
-`run.sites_for(mod, "cloud")`, which leaves out etiketti's two local-only sites; the
-`HTTPError` response is closed, since CI fails on a `ResourceWarning`.
-
-Validation: `tests/test_ci_diag.py`, 14 tests against a local server, 21 of 21 mutations red.
-
-Readings, to be folded into the Nexxo and Regina notes when the step is removed.
-
-2026-09-06 13:44 UTC, Regina, centralus. The homepage answered the same 167-byte SiteGround
-shell as the schedule window, HTTP 202, so the refusal covers the host rather than one
-endpoint. Settled `where="local"`; see the Kino Regina entry.
-
-2026-09-06 17:11 UTC, Nexxo, run 34047817637, `event: schedule`, northcentralus.
-`jarvelankino.fi` (5.44.245.76) timed out after 15.3 s. The module's five other hosts,
-probed from the same runner seconds later, all answered 200 in under 3.3 s, `kinoaurora.fi`
-(5.44.244.43) among them on the neighbouring address. What that narrows down is where the
-problem sits, not what it was: the runner had a route out to every other Nexxo address in
-the same seconds, so the fault was specific to `jarvelankino.fi` or to the path to it. A
-timeout says only that no answer arrived in 15.3 s. It is not evidence of a refusal, a
-block or a rate limit, and it carries no mechanism at all, which is the difference from
-the Regina reading, where a 202 shell with SiteGround's headers named itself.
-
-The region is shared with runs that passed. What this run had extra was a second sweep. A
-`workflow_dispatch` from the local wrapper and a `schedule` run were created six seconds
-apart, and the `kino-data` concurrency group did exactly what it is for: the dispatched job
-ran 17:11:24 to 17:15:54 and the scheduled job 17:15:56 to 17:21:48, back to back. Both
-swept the same six hosts, so `jarvelankino.fi` was read twice inside seven minutes, at
-17:13:19 and again after 17:16, and it did not answer the second time. Closely spaced runs
-are the hypothesis that suggests, and nothing here tests it: the pairing and the timeout
-are both measured, the link between them is not.
-
-Neither of the two observations still to come settles it, so record them as what they are.
-A second paired run that times out is consistent with the hypothesis and does not
-establish it: the pairing would repeat, but so would everything else about the setup, and
-a second instance of an uncontrolled observation is another data point rather than a test.
-A timeout with no pair beside it weakens the paired-run explanation without ruling out
-rate limiting, which can act over a window longer than the gap between two runs or on
-cumulative volume rather than spacing, and the timeout may have nothing to do with limiting
-at all.
-
-What would discriminate is varying the spacing deliberately and watching the host, which
-is not available here: the cadence is a schedule plus a wrapper dispatch, the host is a
-third party read as an ordinary visitor, and probing it to settle our own question is not
-something to do to someone else's server. So this stays a standing observation that gets
-more or less likely, and the entry should not be rewritten later as though a run count
-proved it.
-
-The hour rule in the Nexxo notes was written for a dispatch made by hand, and nothing
-applies it to a queued run: `cancel-in-progress: false` makes a duplicate wait instead of
-drop, which converts an overlap into a back-to-back pair. Dropping a queued run is a
-different change from cancelling a running one, and it is a decision for the owner rather
-than something to slip in here.
-
-One thing this cannot answer: the cron is `30 2,6,10,14` UTC and this `schedule` run was
-created at 17:11:27, so GitHub delivered it late by a margin nothing here can measure. It
-matters only because a late schedule is what landed on top of the wrapper's dispatch.
-
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
+- An adapter binds `EmptyProgramme` at import time and `test_common_fetch` reloads `common`
+  for its counters, which rebinds that class. `reload()` puts the original class back on the
+  reloaded module, because an adapter imported earlier in the run keeps the one it bound. Four
+  etiketti tests went red when `test_ci_diag.py` was deleted: it had been dropping adapters
+  from `sys.modules` for its own reasons and healing the order by accident.
 - A break-and-restore test pass can report the state before the restore. Writing the file
   again with the same byte count inside the same mtime second makes Python reuse the
   `__pycache__` bytecode compiled from the broken source. Clear `__pycache__` between the
@@ -3941,6 +3871,30 @@ read them hours earlier. On 2026-09-05 the same three hosts refused again in the
 cloud run within 41 minutes, a manual dispatch stacked on two earlier runs. Rule until a
 third point says otherwise: do not dispatch a cloud run within an hour of one that already
 ran.
+
+A Nexxo timeout, read from the runner on 2026-09-06 17:11 UTC (run 34047817637, `event:
+schedule`, northcentralus). `jarvelankino.fi` (5.44.245.76) timed out after 15.3 s while the
+module's five other hosts, probed from the same runner seconds later, all answered 200 in
+under 3.3 s, `kinoaurora.fi` (5.44.244.43) on the neighbouring address among them. That
+locates the fault on `jarvelankino.fi` or on the path to it and says nothing about what it
+was: a timeout carries no mechanism, so it is no evidence of a refusal, a block or a rate
+limit. The Regina reading differs exactly there, since a 167-byte 202 shell with SiteGround's
+headers names itself. What this run had extra was a second sweep. A `workflow_dispatch` from
+the local wrapper and a `schedule` run were created six seconds apart and `kino-data` ran them
+back to back, 17:11:24 to 17:15:54 and 17:15:56 to 17:21:48, so the six hosts were swept twice
+inside seven minutes and `jarvelankino.fi` was read at 17:13:19 and again after 17:16. Closely
+spaced runs are the hypothesis that suggests, and nothing here tests it. The hour rule above
+was written for a dispatch made by hand and nothing applies it to a queued run:
+`cancel-in-progress: false` makes a duplicate wait instead of drop, which converts an overlap
+into a back-to-back pair. Dropping a queued run is the owner's decision and is not made here.
+A second paired timeout would repeat the whole uncontrolled setup rather than test the
+pairing, and an unpaired one would weaken that explanation without ruling out limiting over a
+window longer than the gap or on cumulative volume. What would discriminate is varying the
+spacing deliberately and watching the host, which means probing a third party's server to
+settle our own question. So this stays a standing observation, and a later run count does not
+turn it into a finding. One thing it cannot answer: the cron is `30 2,6,10,14` UTC and that
+`schedule` run was created at 17:11:27, delivered late by a margin nothing here measures. It
+matters only because a late schedule is what landed on top of the wrapper's dispatch.
 
 ### Two cloud runs cannot both rebase their data (2026-08-31)
 A cloud run with every provider `exit=0` died on `could not push after 3 attempts`: a

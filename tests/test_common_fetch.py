@@ -21,6 +21,14 @@ import warnings
 import _ctx                                                # noqa: F401
 import common
 
+# An adapter binds the exception class at import time (`from common import
+# EmptyProgramme`), and a reload below rebinds it to a new class object. An adapter
+# imported before the first reload would then raise a class the etiketti tests no longer
+# recognise, and four of them go red on an exception that escapes their assertRaises.
+# The suite used to be saved from this by accident: the only module that dropped adapters
+# from sys.modules did it for its own reasons, and deleting it turned the four red.
+EMPTY_PROGRAMME = common.EmptyProgramme
+
 
 class Handler(http.server.BaseHTTPRequestHandler):
     """Replays a scripted list of responses per path, then repeats the last one."""
@@ -96,7 +104,12 @@ class FetchTest(unittest.TestCase):
         # Never let a test write into the real validator cache.
         os.environ["KINO_HTTP_CACHE"] = os.path.join(
             os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
-        return importlib.reload(common)
+        mod = importlib.reload(common)
+        # The counters are what this reload is for. The exception type is not: keep the
+        # class the adapters already hold, or an `except EmptyProgramme` elsewhere in the
+        # suite stops matching what this module now raises.
+        mod.EmptyProgramme = EMPTY_PROGRAMME
+        return mod
 
     # -- Retry-After is honoured -------------------------------------------------
 
