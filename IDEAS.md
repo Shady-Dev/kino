@@ -568,9 +568,13 @@ title and year, none trusted". An exact title further off is a weak fallback log
 An alias string is never filtered, same rule as the Finnkino pass.
 
 Cache: an entry records the evidence it was judged on (`o`, `y`). `reconsider()` drops an
-exact entry whose current evidence is nonblank and differs, at most `KINO_TMDB_RECONSIDER`
-= 25 a run in key order, aliases excluded; the rest wait. Weak ids were already dropped on
-every load and unmatched titles re-searched daily, so those need nothing. Not done: the
+entry whose current evidence is nonblank and differs, exact matches and unmatched titles
+alike, at most `KINO_TMDB_RECONSIDER` = 25 a run in key order, aliases excluded; the rest
+wait untouched. Weak ids were already dropped on every load. Unmatched titles were left
+to their daily retry at first, which is why the three films above stayed unmatched on
+2026-09-13: the 00:55 UTC run had searched them, the 02:00 local run then published their
+original titles and years, and the 02:55 cloud run skipped them as checked today
+(f8647014). Fixed the same day; an unchanged unmatched title keeps the daily retry only. Not done: the
 Finnkino pass in `fetch_data.py` already filters on OCAPI's year and keeps its own loop;
 no client change, the field is not rendered. `tests/test_tmdb_matching.py`, 37 tests, 18
 mutations red.

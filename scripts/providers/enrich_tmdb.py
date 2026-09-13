@@ -273,24 +273,29 @@ RECONSIDER_BUDGET = int(os.environ.get("KINO_TMDB_RECONSIDER") or 25)
 
 
 def reconsider(facts, cache, aliases, budget=None):
-    """Exact matches whose evidence has changed since they were judged.
-    -> (keys to re-judge, how many more wait for the next run).
+    """Exact matches and unmatched titles whose evidence has changed since they were
+    judged. -> (keys to re-judge, how many more wait for the next run).
 
     A cached id is kept for ever once `x` is set, so a film matched on its Finnish title
     alone stays matched when the cinema starts publishing the year that says it is the
-    other film of that name. An entry records the original title and year it was judged
-    on (`o`, `y`; absent in older entries, read as none). When the shows now carry
-    different evidence, and some, the entry is dropped and searched again. Weak entries
-    are dropped on every load anyway, a title with no id is re-searched daily, and a key
-    with an alias is a hand decision and is left alone. Key order, so a budget that
-    defers the rest picks up where it left off.
+    other film of that name. A title with no id is re-searched once a day, so one whose
+    original title and year arrive after today's search would wait until tomorrow: three
+    Regina films did on 2026-09-13. An entry records the original title and year it was
+    judged on (`o`, `y`; absent in older entries, read as none). When the shows now carry
+    different evidence, and some, the entry is dropped and searched again, exact and
+    unmatched alike, out of one budget in key order so a pass that defers the rest picks
+    up where it left off. Weak entries are dropped on every load anyway, and a key with
+    an alias is a hand decision and is left alone. An unmatched title whose evidence has
+    not changed keeps its daily retry and nothing else.
     """
     budget = RECONSIDER_BUDGET if budget is None else budget
     due = []
     for k in sorted(facts):
         c, f = cache.get(k), facts[k]
-        if not (isinstance(c, dict) and c.get("i") and c.get("x")) or aliases.get(k):
+        if not isinstance(c, dict) or aliases.get(k):
             continue
+        if c.get("i") and not c.get("x"):
+            continue                          # weak: dropped on load, not this list
         now = (norm(f.get("o")), f.get("y") or "")
         if now == ("", ""):
             continue
@@ -547,14 +552,16 @@ def main() -> int:
     facts = gather(shows)
     titles = {k: f["t"] for k, f in facts.items()}
 
-    # An exact match judged before its original title or year was published is judged
-    # again now that it is: same title, another film. Bounded per run, aliases excluded.
+    # A match judged, or a search that found nothing, before the original title or year
+    # was published is judged again now that it is. Bounded per run, aliases excluded.
     rejudge, held = reconsider(facts, cache, aliases)
+    matched = sum(1 for k in rejudge if (cache.get(k) or {}).get("i"))
     for k in rejudge:
         del cache[k]
     if rejudge or held:
-        print(f"[enrich] re-judging {len(rejudge)} exact match(es) on new title or year "
-              f"evidence, {held} wait for the next run: " + " | ".join(rejudge))
+        print(f"[enrich] re-judging {len(rejudge)} title(s) on new title or year evidence "
+              f"({matched} exact match(es), {len(rejudge) - matched} unmatched), "
+              f"{held} wait for the next run: " + " | ".join(rejudge))
 
     todo, refreshes, deferred = due(titles, cache, today)
     settled = set()          # scheduled refreshes that came back with rating/vote data

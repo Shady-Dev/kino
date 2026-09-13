@@ -200,12 +200,37 @@ class ReconsiderTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.reconsider(self.facts(a="1974"), cache, {"a": "Cars"}),
                          ([], 0))
 
-    def test_a_weak_or_unmatched_entry_is_not_this_list(self):
-        """Weak ids are dropped on every load and a title without an id is re-searched
-        daily, so both already see the new candidates."""
-        cache = {"w": self.entry(22, x=False), "n": self.entry("", x=False)}
-        self.assertEqual(enrich_tmdb.reconsider(self.facts(w="1962", n="1962"), cache, {}),
-                         ([], 0))
+    def test_a_weak_entry_is_not_this_list(self):
+        """Weak ids are dropped on every load, so they already see the new candidates."""
+        cache = {"w": self.entry(22, x=False)}
+        self.assertEqual(enrich_tmdb.reconsider(self.facts(w="1962"), cache, {}), ([], 0))
+
+    def test_an_unmatched_entry_is_re_judged_when_evidence_arrives(self):
+        """A title with no id is searched once a day; one whose original title and year
+        arrive after today's search would otherwise wait until tomorrow. Legacy entries
+        without `o`/`y` count as judged on nothing."""
+        cache = {"n": self.entry("", x=False)}
+        self.assertEqual(enrich_tmdb.reconsider(self.facts(n="1962"), cache, {}), (["n"], 0))
+        legacy = {"n": {"r": 0, "n": 0, "v": "", "x": False, "g": [], "i": "", "c": "2026-09-13",
+                        "fi": "", "en": "", "p": ""}}
+        facts = {"n": {"t": "n", "o": "All Night Long", "y": ""}}
+        self.assertEqual(enrich_tmdb.reconsider(facts, legacy, {}), (["n"], 0))
+
+    def test_an_unmatched_entry_judged_on_the_same_evidence_is_left_to_its_daily_retry(self):
+        cache = {"n": self.entry("", x=False, o="all night long", y="1962")}
+        facts = {"n": {"t": "n", "o": "All Night Long", "y": "1962"}}
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
+        self.assertEqual(enrich_tmdb.reconsider(self.facts(n=""), {"n": self.entry("", x=False)}, {}),
+                         ([], 0), "no evidence now: nothing to re-judge")
+
+    def test_exact_and_unmatched_entries_share_one_budget_in_key_order(self):
+        cache = {"a": self.entry(1), "b": self.entry("", x=False), "c": self.entry(""), "d": self.entry(3)}
+        del cache["c"]["x"]; cache["c"]["x"] = False
+        due, held = enrich_tmdb.reconsider(self.facts(a="1", b="2", c="3", d="4"), cache, {}, budget=2)
+        self.assertEqual((due, held), (["a", "b"], 2))
+        # The deferred ones are untouched, so the next pass picks them up.
+        due2, held2 = enrich_tmdb.reconsider(self.facts(c="3", d="4"), cache, {}, budget=2)
+        self.assertEqual((due2, held2), (["c", "d"], 0))
 
     def test_the_budget_bounds_a_pass_and_reports_the_rest_in_key_order(self):
         cache = {k: self.entry(1) for k in ("c", "a", "b")}
@@ -218,7 +243,7 @@ class ReconsiderTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), (["a"], 0))
 
 
-class MainPathTest(unittest.TestCase):
+class MainHarness(unittest.TestCase):
     """The whole pass, TMDB stubbed on the URL. `table` maps (query, year filter) to hits;
     an unknown pair answers nothing, which is what TMDB does for a Finnish title."""
 
@@ -277,6 +302,9 @@ class MainPathTest(unittest.TestCase):
             code = enrich_tmdb.main()
         self.assertEqual(code, 0)
         return buf.getvalue()
+
+
+class MainPathTest(MainHarness):
 
     # 1. an original title enables the match
     def test_an_original_title_finds_a_film_the_finnish_title_cannot(self):
@@ -347,7 +375,7 @@ class MainPathTest(unittest.TestCase):
         out = self.run_main({("All Night Long", "1962"): [ALL_NIGHT_1962]})
         e = self.cache()["all night long"]
         self.assertEqual((e["i"], e["x"], e["y"]), (37038, True, "1962"))
-        self.assertIn("re-judging 1 exact match(es)", out)
+        self.assertIn("re-judging 1 title(s) on new title or year evidence (1 exact match(es), 0 unmatched)", out)
 
     def test_a_re_judged_match_is_not_re_judged_again_next_run(self):
         self.shows({"title": "All Night Long", "year": "1962"})
@@ -387,6 +415,93 @@ class MainPathTest(unittest.TestCase):
         c = self.cache()
         self.assertEqual((c["old film"]["i"], c["other film"]["i"]), (1, 2))
         self.assertEqual((c["old film"]["o"], c["old film"]["y"]), ("", ""))
+
+
+class FixedDate(datetime.date):
+    @classmethod
+    def today(cls):
+        return cls(2026, 9, 13)
+
+
+class SameDayReconsiderTest(MainHarness):
+    """The gap the three Regina films fell into on 2026-09-13, on a fixed date: a title
+    searched without result this morning, whose original title and year the local run
+    published at noon, is searched again in the afternoon run."""
+
+    TODAY = "2026-09-13"
+
+    def setUp(self):
+        super().setUp()
+        real = enrich_tmdb.datetime
+        enrich_tmdb.datetime = types.SimpleNamespace(date=FixedDate)
+        self.addCleanup(lambda: setattr(enrich_tmdb, "datetime", real))
+
+    def unmatched(self, day, **over):
+        e = {"r": 0, "n": 0, "v": "", "x": False, "g": [], "i": "", "c": day, "a": "",
+             "fi": "", "en": "", "p": ""}
+        e.update(over)
+        return e
+
+    def test_an_unmatched_title_checked_today_is_searched_again_when_evidence_arrives(self):
+        self.shows({"title": "Rakasta tai tuhoudu", "original": "All Night Long", "year": "1962"})
+        self.cache_write({"rakasta tai tuhoudu": self.unmatched(self.TODAY)})
+        out = self.run_main({("All Night Long", "1962"): [ALL_NIGHT_1962]})
+        self.assertIn("re-judging 1 title(s) on new title or year evidence "
+                      "(0 exact match(es), 1 unmatched)", out)
+        e = self.cache()["rakasta tai tuhoudu"]
+        self.assertEqual((e["i"], e["x"], e["o"], e["y"]), (37038, True, "all night long", "1962"))
+        self.assertIn(("Rakasta tai tuhoudu", "1962"), self.searches)
+
+    def test_a_failed_retry_records_the_evidence_and_is_not_retried_again_that_day(self):
+        self.shows({"title": "Prinssi ja revyytyttö", "original": "The Prince and the Showgirl",
+                    "year": "1957"})
+        self.cache_write({"prinssi ja revyytyttö": self.unmatched(self.TODAY)})
+        self.run_main({})                                   # TMDB answers nothing
+        e = self.cache()["prinssi ja revyytyttö"]
+        self.assertEqual((e["i"], e["o"], e["y"]),
+                         ("", "the prince and the showgirl", "1957"))
+        self.assertEqual(e["c"], self.TODAY)
+        n = len(self.searches)
+        out = self.run_main({})                             # same day, same evidence
+        self.assertEqual(len(self.searches), n, "searched again with nothing new")
+        self.assertNotIn("re-judging", out)
+
+    def test_an_unchanged_unmatched_title_keeps_its_daily_retry(self):
+        self.shows({"title": "Bussipysäkki"})
+        self.cache_write({"bussipysäkki": self.unmatched("2026-09-12"),
+                          "other": self.unmatched(self.TODAY)})
+        self.shows({"title": "Bussipysäkki"}, {"title": "Other"})
+        out = self.run_main({})
+        self.assertIn(("Bussipysäkki", ""), self.searches, "yesterday's miss is retried")
+        self.assertNotIn(("Other", ""), self.searches, "today's miss waits for tomorrow")
+        self.assertNotIn("re-judging", out)
+
+    def test_a_deferred_title_keeps_its_old_evidence_and_is_taken_next_pass(self):
+        real = enrich_tmdb.RECONSIDER_BUDGET
+        enrich_tmdb.RECONSIDER_BUDGET = 1
+        self.addCleanup(lambda: setattr(enrich_tmdb, "RECONSIDER_BUDGET", real))
+        self.shows({"title": "Aaa", "year": "1962"}, {"title": "Bbb", "year": "1957"})
+        self.cache_write({"aaa": self.unmatched(self.TODAY), "bbb": self.unmatched(self.TODAY)})
+        out = self.run_main({("Aaa", "1962"): [hit(1, "Aaa", 1962)], ("Bbb", "1957"): [hit(2, "Bbb", 1957)]})
+        self.assertIn("1 wait for the next run", out)
+        c = self.cache()
+        self.assertEqual(c["aaa"]["i"], 1)
+        self.assertEqual((c["bbb"]["i"], c["bbb"].get("y")), ("", None), "deferred: untouched")
+        out = self.run_main({("Aaa", "1962"): [hit(1, "Aaa", 1962)], ("Bbb", "1957"): [hit(2, "Bbb", 1957)]})
+        self.assertIn("re-judging 1 title(s)", out)
+        self.assertEqual(self.cache()["bbb"]["i"], 2)
+
+    def test_an_alias_and_a_settled_exact_match_are_left_alone(self):
+        self.shows({"title": "Kummisetä osa II", "year": "1974"}, {"title": "Settled", "year": "1990"})
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"kummisetä osa ii": "240"}))
+        self.cache_write({
+            "kummisetä osa ii": {"r": 8.5, "n": 12000, "v": "k", "x": True, "g": [18], "i": 240,
+                                 "c": self.TODAY, "fi": "", "en": "", "p": ""},
+            "settled": {"r": 7.0, "n": 100, "v": "k", "x": True, "g": [18], "i": 5,
+                        "c": self.TODAY, "fi": "", "en": "", "p": "", "o": "", "y": "1990"}})
+        out = self.run_main({})
+        self.assertEqual(self.searches, [])
+        self.assertNotIn("re-judging", out)
 
 
 if __name__ == "__main__":
