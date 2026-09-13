@@ -105,7 +105,7 @@ def due(titles, cache, today, max_age=None, budget=None):
     return refresh.due(titles, cache, today, is_complete, max_age, budget)
 
 
-def pick(hits, query):
+def pick(hits, query, year=None):
     """Choose a search hit. -> (hit, exact).
 
     TMDB sorts by popularity, so hits[0] on a one-word title is whatever is trending:
@@ -121,12 +121,24 @@ def pick(hits, query):
     right all along and were being written off as weak matches, which cost them their
     `tmdbId` and their genre ids. `language` localizes the response; it does not widen
     which titles are searched, so this is presentation, not matching.
+
+    With `year`, the published year decides among the hits whose title matches exactly:
+    the first one within YEAR_TOL wins, in TMDB's order. An exact title whose year is
+    further off is returned as *not* exact: a 1981 "All Night Long" is not the 1962 one,
+    and popularity alone must not settle it. Without a year the first exact hit wins, as
+    before. A hit with no release date cannot contradict a year and is accepted.
     """
     q = norm(query)
-    for h in hits:
-        if norm(h.get("title")) == q or norm(h.get("original_title")) == q:
-            return h, True
-    return hits[0], False
+    exact = [h for h in hits
+             if norm(h.get("title")) == q or norm(h.get("original_title")) == q]
+    if not exact:
+        return hits[0], False
+    if year:
+        near = [h for h in exact if plausible(release_year(h), year)]
+        if near:
+            return near[0], True
+        return exact[0], False
+    return exact[0], True
 
 
 def load_aliases():
@@ -137,11 +149,16 @@ def load_aliases():
         return {}
 
 
-def queries(title, alias=None):
-    """Cleaned title, then its head before a dash/colon, then the raw title.
+def queries(title, alias=None, original=None):
+    """Cleaned title, the original title, the head before a dash/colon, the raw title.
 
-    An alias that is not a bare TMDB id goes first. The raw title stays last so a
-    wrong cleanup costs an extra request rather than a missing film.
+    An alias that is not a bare TMDB id goes first. The original title comes second:
+    TMDB searches original, translated and alternative titles, so it is the string most
+    likely to hit when the Finnish distributor title matches nothing, and it is tried
+    only after the published title has failed, so a film that already matched keeps its
+    match. Candidates are deduplicated case-insensitively, so an original title equal
+    to the published one costs no request. The raw title stays last so a wrong cleanup
+    costs an extra request rather than a missing film.
     """
     out = []
 
@@ -154,11 +171,121 @@ def queries(title, alias=None):
         add(str(alias))
     c = clean(title)
     add(c)
+    add(clean(original))
     head = re.split(r"\s+[-–]\s+|:\s+", c, maxsplit=1)[0].strip()
     if len(head) > 3:
         add(head)
     add(title)
     return out
+
+
+# --- what a show says about the film -----------------------------------------------------
+# The optional `year` field is the film's release year as the cinema published it, four
+# digits as a string. A cinema that prints it in the title instead, "Trainspotting (1996)",
+# is read the same way, before clean() strips it from the search string. A screening date
+# is never a year: a repertory house shows a 1962 film in 2026.
+YEAR_RE = re.compile(r"^(?:19|20)\d{2}$")
+YEAR_IN_TITLE = re.compile(r"\(\s*((?:19|20)\d{2})\s*\)\s*$")
+
+
+def published_year(show):
+    """The film's year as the cinema published it, or ""."""
+    y = str(show.get("year") or "").strip()
+    if YEAR_RE.match(y):
+        return y
+    m = YEAR_IN_TITLE.search(show.get("title") or "")
+    return m.group(1) if m else ""
+
+
+def gather(shows):
+    """Every published title with the evidence its shows carry.
+    -> {key: {"t": display title, "o": original title, "y": year}}.
+
+    One title can be published by several chains. The original title and the year are
+    used only when every show that carries one agrees: two different originals or two
+    different years under one title is not evidence either way, and the search runs on
+    the title alone as it did before either field existed. A show from older data, with
+    neither field, contributes nothing and changes nothing.
+    """
+    out = {}
+    for s in shows:
+        k = norm(s.get("title"))
+        if not k:
+            continue
+        e = out.setdefault(k, {"t": s.get("title"), "_o": {}, "_y": set()})
+        o = (s.get("original") or "").strip()
+        if o and norm(o):
+            e["_o"].setdefault(norm(o), o)
+        y = published_year(s)
+        if y:
+            e["_y"].add(y)
+    for e in out.values():
+        originals, years = e.pop("_o"), e.pop("_y")
+        e["o"] = next(iter(originals.values())) if len(originals) == 1 else ""
+        e["y"] = next(iter(years)) if len(years) == 1 else ""
+    return out
+
+
+def release_year(hit):
+    """A search hit's release year, or "" when TMDB has none."""
+    d = str((hit or {}).get("release_date") or "")
+    return d[:4] if re.match(r"^\d{4}", d) else ""
+
+
+# A published year and TMDB's primary release year differ by one for a good share of
+# older films: production year against premiere, or a festival year against the
+# general release. Two apart is another film with the same title.
+YEAR_TOL = 1
+
+
+def plausible(hit_year, year):
+    """Whether a hit's year can be the published one. Unknown cannot contradict."""
+    if not hit_year or not year:
+        return True
+    return abs(int(hit_year) - int(year)) <= YEAR_TOL
+
+
+def search(cand, year, headers):
+    """One search request. -> hits. `year` filters on TMDB's primary release year
+    (documented as a string parameter on /3/search/movie); "" sends no filter."""
+    url = ("https://api.themoviedb.org/3/search/movie?language=fi-FI&query="
+           + urllib.parse.quote(cand))
+    if year:
+        url += f"&primary_release_year={year}"
+    return get(url, headers).get("results") or []
+
+
+# How many exact matches one pass may re-judge on new evidence. The first pass after a
+# cinema starts publishing years has every one of its films to re-judge; each costs the
+# searches and the detail calls again, so the catch-up is spread over runs.
+RECONSIDER_BUDGET = int(os.environ.get("KINO_TMDB_RECONSIDER") or 25)
+
+
+def reconsider(facts, cache, aliases, budget=None):
+    """Exact matches whose evidence has changed since they were judged.
+    -> (keys to re-judge, how many more wait for the next run).
+
+    A cached id is kept for ever once `x` is set, so a film matched on its Finnish title
+    alone stays matched when the cinema starts publishing the year that says it is the
+    other film of that name. An entry records the original title and year it was judged
+    on (`o`, `y`; absent in older entries, read as none). When the shows now carry
+    different evidence, and some, the entry is dropped and searched again. Weak entries
+    are dropped on every load anyway, a title with no id is re-searched daily, and a key
+    with an alias is a hand decision and is left alone. Key order, so a budget that
+    defers the rest picks up where it left off.
+    """
+    budget = RECONSIDER_BUDGET if budget is None else budget
+    due = []
+    for k in sorted(facts):
+        c, f = cache.get(k), facts[k]
+        if not (isinstance(c, dict) and c.get("i") and c.get("x")) or aliases.get(k):
+            continue
+        now = (norm(f.get("o")), f.get("y") or "")
+        if now == ("", ""):
+            continue
+        if now != (c.get("o") or "", c.get("y") or ""):
+            due.append(k)
+    return due[:budget], max(0, len(due) - budget)
 
 
 def get(url, headers, timeout=25):
@@ -398,22 +525,31 @@ def main() -> int:
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
              if not p.name.startswith(SKIP_PREFIXES)]
-    titles = {}
+    shows = []
     for p in files:
         try:
             doc = json.loads(p.read_text())
         except Exception as e:
             print(f"[enrich] {p.name}: unreadable ({e})")
             continue
-        for s in doc.get("shows", []):
-            k = norm(s.get("title"))
-            if k:
-                titles.setdefault(k, s.get("title"))
+        shows.extend(doc.get("shows", []))
+    facts = gather(shows)
+    titles = {k: f["t"] for k, f in facts.items()}
+
+    # An exact match judged before its original title or year was published is judged
+    # again now that it is: same title, another film. Bounded per run, aliases excluded.
+    rejudge, held = reconsider(facts, cache, aliases)
+    for k in rejudge:
+        del cache[k]
+    if rejudge or held:
+        print(f"[enrich] re-judging {len(rejudge)} exact match(es) on new title or year "
+              f"evidence, {held} wait for the next run: " + " | ".join(rejudge))
 
     todo, refreshes, deferred = due(titles, cache, today)
     settled = set()          # scheduled refreshes that came back with rating/vote data
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
+    offyear = []             # exact titles refused on the published year
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
@@ -438,26 +574,44 @@ def main() -> int:
                 # of any kind as the fallback. Extra requests are spent only on titles
                 # that match nothing exactly.
                 fallback = None
-                for cand in queries(display or k, alias):
-                    res = get("https://api.themoviedb.org/3/search/movie?language=fi-FI&query="
-                              + urllib.parse.quote(cand), th)
-                    hits = res.get("results") or []
-                    if hits:
-                        hit, exact = pick(hits, cand)
-                        if exact:
-                            mid = hit.get("id")
-                            poster = hit.get("poster_path") or poster
-                            exact_id = True
-                            break
-                        if fallback is None:
-                            fallback = hit
+                fact = facts.get(k) or {"o": "", "y": ""}
+                for cand in queries(display or k, alias, fact["o"]):
+                    # The year filters the search, except on an alias string: an alias
+                    # exists because the search needs a hand, and "Cars" with a reissue
+                    # year returned "The Boy Who Counted Cars" in the Finnkino pass.
+                    year = fact["y"] if cand != str(alias or "") else ""
+                    hits = search(cand, year, th)
+                    hit, exact = pick(hits, cand, year) if hits else (None, False)
+                    if year and not exact:
+                        # Nothing of that year matched exactly. Ask without the filter:
+                        # TMDB's primary release year can sit a year off the published
+                        # one, and pick() still holds the hit to the year, so a same-
+                        # titled film from another decade comes back as weak, never as
+                        # the match.
+                        alt = search(cand, "", th)
+                        if alt:
+                            a_hit, a_exact = pick(alt, cand, year)
+                            if a_exact or hit is None:
+                                hit, exact = a_hit, a_exact
+                    if hit and exact:
+                        mid = hit.get("id")
+                        poster = hit.get("poster_path") or poster
+                        exact_id = True
+                        break
+                    if hit and fallback is None:
+                        fallback = hit
                     time.sleep(0.2)
                 else:
                     if fallback is not None:
                         mid = fallback.get("id")
                         poster = fallback.get("poster_path") or poster
                         exact_id = False
-                        weak.append(f"{display or k} -> {fallback.get('title')}")
+                        hy = release_year(fallback)
+                        if fact["y"] and hy and not plausible(hy, fact["y"]):
+                            offyear.append(f"{display or k} ({fact['y']}) -> "
+                                           f"{fallback.get('title')} ({hy})")
+                        else:
+                            weak.append(f"{display or k} -> {fallback.get('title')}")
             # Seeded from the cache, not from "". A detail request that fails must leave
             # the text this entry already had: writing "" would empty the cache's copy of
             # a synopsis nothing else can put back, and the pass would report a rating as
@@ -527,9 +681,13 @@ def main() -> int:
             # what lets a failed entry stay due without outranking the rest of the backlog
             # for ever -- see refresh.py.
             attempt = today if mid else ((c.get("a") or "") if isinstance(c, dict) else "")
+            # `o` and `y` are the evidence the id was judged on, so reconsider() can
+            # tell a match made before the cinema published them from one made after.
+            fact = facts.get(k) or {"o": "", "y": ""}
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
                         "g": gids, "i": mid or "", "c": stamp, "a": attempt,
-                        "fi": syn_fi, "en": syn_en, "p": poster}
+                        "fi": syn_fi, "en": syn_en, "p": poster,
+                        "o": norm(fact["o"]), "y": fact["y"]}
             replaced = True
             if detail_ok and k in refreshes:
                 settled.add(k)
@@ -667,6 +825,9 @@ def main() -> int:
     # on purpose. Both are for reading, not for acting on automatically.
     if weak:
         print(f"[enrich] weak match, no exact title ({len(weak)}): " + " | ".join(sorted(weak)))
+    if offyear:
+        print(f"[enrich] year mismatch, exact title refused ({len(offyear)}): "
+              + " | ".join(sorted(offyear)))
     if thin:
         print(f"[enrich] rating held back, under {MIN_VOTES} votes ({len(thin)}): "
               + " | ".join(sorted(thin)))

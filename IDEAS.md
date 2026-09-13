@@ -545,6 +545,33 @@ Reported missing by the user on three venues where the browser shows a price.
   widget's key; the 2026-08-29 decision above stands. Options left to the user: render the
   film page in a headless browser on the local half, or ask the cinema or Johku for a feed.
 
+### The TMDB search reads the original title and the published year (2026-09-13)
+Three Regina films sat unmatched: "Lucky luke sotapolulla" (La ballade des Dalton, 1978),
+"Rakasta tai tuhoudu" (All Night Long, 1962), "Prinssi ja revyytyttö" (The Prince and the
+Showgirl, 1957). `queries()` searched the Finnish title alone, the show's `original` was
+never a candidate for any provider, and no year reached the search, so "All Night Long"
+would have taken the 1981 film first in TMDB's popularity order. Approximate count at
+c621b0cf: 29 of Regina's 96 titles had no id, 8 were weak.
+
+`enrich_tmdb.py` now: `gather()` collects per title the `original` and the year its shows
+carry (the optional `year` field, or a trailing "(1996)" read before `clean()` strips it;
+never the screening date), and uses either only when every show agrees. `queries()` puts
+the cleaned original second, after the published title, deduplicated, so a film that
+already matched keeps its match. With a year the search sends `primary_release_year`
+(a string parameter per TMDB's /3/search/movie reference, checked 2026-09-13), retries
+unfiltered when nothing exact came back, and `pick()` accepts an exact title only within
+`YEAR_TOL` = 1 of the published year; an exact title further off is a weak fallback and is
+logged as "year mismatch, exact title refused". Without a year the first exact hit wins as
+before. An alias string is never filtered, same rule as the Finnkino pass.
+
+Cache: an entry records the evidence it was judged on (`o`, `y`). `reconsider()` drops an
+exact entry whose current evidence is nonblank and differs, at most `KINO_TMDB_RECONSIDER`
+= 25 a run in key order, aliases excluded; the rest wait. Weak ids were already dropped on
+every load and unmatched titles re-searched daily, so those need nothing. Not done: the
+Finnkino pass in `fetch_data.py` already filters on OCAPI's year and keeps its own loop;
+no client change, the field is not rendered. `tests/test_tmdb_matching.py`, 37 tests, 18
+mutations red.
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
 that leaves its /xml/ services open needs no auth (Korjaamo Kino today, Savon Kinot before

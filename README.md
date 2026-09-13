@@ -115,7 +115,11 @@ Every provider writes the same thing, so the client has no per-provider code.
 A showtime carries `eventId, title, original, start (ISO, Europe/Helsinki),
 theatre, aud, url, img, len, rating, age, genres, gids, lang, method, soldOut,
 price, provider, venue, tmdbId, tmdb, votes, tr`. The last three are TMDB's
-score, its vote count and a trailer, written by the enrichment step.
+score, its vote count and a trailer, written by the enrichment step. `year` is
+optional: the film's release year as the cinema publishes it, a four-digit
+string, absent when it publishes none. The TMDB search uses `original` and
+`year` when present and runs on the title alone when they are absent, so older
+files without either field stay valid.
 
 Two fields are easy to confuse. `rating` is the **film's** age classification;
 `age` is a limit the **screening** adds on top: a licensed auditorium can be 18+
