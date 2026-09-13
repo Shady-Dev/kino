@@ -37,7 +37,7 @@ for (const [src, fn] of [[KNOWN, 'knownArea'], [HOME, 'showHome'], [HOME, 'onPop
     process.exit(2);
   }
 }
-const EARLY = (HTML.match(/<script>(\(function\(\)\{try\{var a=new URLSearchParams[\s\S]*?)<\/script>/) || [])[1];
+const EARLY = (HTML.match(/<script>(\(function\(\)\{var d=document\.documentElement;[\s\S]*?)<\/script>/) || [])[1];
 if (!EARLY) { console.error('early script not found'); process.exit(2); }
 
 const PRELUDE = `
@@ -156,6 +156,12 @@ const out = { today };
   api.reset(scoped('v1'), { fav: '' }, {}, 'https://leffavuoro.fi/', true);
   api.onPopState();
   out.back_to_home = snap();
+
+  // Back to / with a favourite stored: the favourite, as a visit to / gives, URL left bare
+  api.reset(scoped('v2'), { fav: 'v1' }, { 'data/area-v1.json': v1 }, 'https://leffavuoro.fi/', true);
+  api.onPopState();
+  await new Promise(r => setTimeout(r, 0));
+  out.back_to_home_with_fav = snap();
 
   // Forward from / to a known location: shown, nothing pushed
   api.reset(home(), { fav: '' }, { 'data/area-v2.json': v2 }, 'https://leffavuoro.fi/?area=v2');

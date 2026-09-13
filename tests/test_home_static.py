@@ -38,10 +38,9 @@ class StaticChooserTest(unittest.TestCase):
         """The cities with pages are not all the cities: the last item says so and opens
         the picker, where every city and theatre is."""
         self.assertIn('<li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li>', MAIN)
-        self.assertLess(MAIN.index('id="homeMore"'), MAIN.index("<!-- cities:start -->"),
-                        "outside the generated block, so --home leaves it alone")
+        self.assertGreater(MAIN.index('id="homeMore"'), MAIN.index("<!-- cities:end -->"),
+                           "outside the generated block and last in the markup, so the Tab order holds without JS")
         self.assertIn("if(e.target.closest('#homeMore')){ openVenueSheet(); return; }", HTML)
-        self.assertIn(".home .cities .more{order:1}", HTML)
         for lang, text in (("fi", "Ja paljon muita…"), ("sv", "Och många fler…"), ("en", "And many more…")):
             self.assertEqual(strings(lang).get("homeMore"), text, lang)
 
@@ -91,7 +90,7 @@ class StaticChooserTest(unittest.TestCase):
         self.assertNotIn("html:not(.scoped) #areaSelect", HTML, "the trigger is the picker and stays")
 
     def test_the_head_script_sets_a_class_and_nothing_else(self):
-        early = re.search(r"<script>(\(function\(\)\{try\{var a=new URLSearchParams.*?)</script>", HTML, re.S).group(1)
+        early = re.search(r"<script>(\(function\(\)\{var d=document\.documentElement;.*?)</script>", HTML, re.S).group(1)
         self.assertIn("classList.add('scoped')", early)
         for forbidden in ("setItem", "fetch(", "navigator", "cookie", "geolocation", "XMLHttpRequest", "sendBeacon"):
             self.assertNotIn(forbidden, early, forbidden)

@@ -2,10 +2,10 @@
 
 The combined city view hid the stub's perforation and the generated city pages hid their
 notches, so combined stubs read as generic cards. The combined stub is now the row stub
-adapted: a fixed time compartment, the details compartment, the price at the trailing
-edge, a dashed seam between the first two, and notches placed from the same variable as
-the seam. Rendering is measured live; the source that makes the alignment hold is pinned
-here, in both renderers.
+adapted: a fixed time compartment, the details compartment, the price compartment at the
+trailing edge with the dashed seam as its left border and the notches as its own
+pseudo-elements (moved there from after the time on 2026-09-13). Rendering is measured
+live; the source that makes the alignment hold is pinned here, in both renderers.
 """
 import re
 import unittest

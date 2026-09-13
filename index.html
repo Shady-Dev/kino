@@ -42,7 +42,7 @@
      stored favourite) or on the chooser, so a returning visitor never sees the chooser
      flash. Only a class is set: the app validates both later and takes the class off
      when neither holds. Nothing is stored or sent. -->
-<script>(function(){try{var a=new URLSearchParams(location.search).get('area');var f=JSON.parse(localStorage.getItem('kino-prefs')||'{}').fav;if(a||f)document.documentElement.classList.add('scoped');}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;try{if(new URLSearchParams(location.search).get('area')){d.classList.add('scoped');return;}}catch(e){}try{if(JSON.parse(localStorage.getItem('kino-prefs')||'{}').fav)d.classList.add('scoped');}catch(e){}})();</script>
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -419,7 +419,6 @@
   /* The list is the cities with a page of their own; the last item says there are
      more and opens the picker, which has every city and theatre. Same shape as the
      links, muted, so it reads as the continuation of the list. */
-  .home .cities .more{order:1}
   .home .cities .more button{display:inline-flex; align-items:center; min-height:40px; padding:0 14px;
     border:1px dashed var(--line); border-radius:10px; background:transparent; color:var(--muted);
     font:inherit; font-weight:600; font-size:.9rem; cursor:pointer}
@@ -935,7 +934,7 @@
     <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
     <div class="note" id="homeNote" data-nosnippet hidden></div>
     <h2>Näytösajat kaupungeittain</h2>
-    <ul class="cities"><li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li><!-- cities:start -->
+    <ul class="cities"><!-- cities:start -->
 <li><a href="/kaupunki/espoo/" data-city="Espoo" data-slug="espoo">Espoo</a></li>
 <li><a href="/kaupunki/helsinki/" data-city="Helsinki" data-slug="helsinki">Helsinki</a></li>
 <li><a href="/kaupunki/jyvaskyla/" data-city="Jyväskylä" data-slug="jyvaskyla">Jyväskylä</a></li>
@@ -947,7 +946,7 @@
 <li><a href="/kaupunki/savonlinna/" data-city="Savonlinna" data-slug="savonlinna">Savonlinna</a></li>
 <li><a href="/kaupunki/tampere/" data-city="Tampere" data-slug="tampere">Tampere</a></li>
 <li><a href="/kaupunki/vantaa/" data-city="Vantaa" data-slug="vantaa">Vantaa</a></li>
-<!-- cities:end --></ul>
+<!-- cities:end --><li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li></ul>
   </section>
   <div class="boot"><div class="status" data-nosnippet><div class="reel"></div>Ladataan teattereita…</div></div>
 </main>
@@ -2187,17 +2186,19 @@
     renderStatus();
   }
   // Back/Forward. The URL is the location, so the entry's `?area=` decides: a known one is
-  // shown without a new history entry, none is the chooser, an unknown one is the chooser
-  // with its note. A hash-only step (the film sheet) fires this too and changes nothing.
+  // shown without a new history entry, an unknown one is the chooser with its note, and
+  // none is what a visit to `/` is: the favourite when one is stored, else the chooser
+  // (the same startupArea() decision, and the URL stays `/` as on that visit). A
+  // hash-only step (the film sheet) fires this too and changes nothing.
   function onPopState(){
     let id = '';
     try { id = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
-    const scoped = document.documentElement.classList.contains('scoped');
+    if(!id) id = startupArea('', prefs.get(), knownArea).area || '';
     if(id && knownArea(id)){
-      if(id !== state.area || !scoped) selectVenue(id);
+      if(id !== state.area) selectVenue(id, { keepUrl: true });
       return;
     }
-    if(!id && !scoped && !state.area) return;      // already the chooser
+    if(!id && !document.documentElement.classList.contains('scoped') && !state.area) return;
     showHome(id ? L[state.lang].homeUnknown : '');
   }
   // What a boot that fails before any location is on screen shows: the chooser, so
@@ -2218,6 +2219,7 @@
   // it. A pick from the venue list passes neither and behaves as before.
   // A Back/Forward entry already names its area, so a pick made from onPopState()
   // rewrites nothing and pushes nothing: the URL check below is the whole rule.
+  // `opts.keepUrl`: the favourite opening on a bare `/` leaves the URL bare, as at boot.
   function selectVenue(id, opts){
     const o = opts || {};
     const fromHome = !state.area;
@@ -2227,7 +2229,7 @@
     // The URL says what is on screen: a reload lands on it, a share names it, and each
     // pick is a history entry so Back walks the picks and reaches the chooser at /.
     const q = areaParamAfterSelect(location.search, id);
-    if(q !== null) pushQuery(q);
+    if(q !== null && !o.keepUrl) pushQuery(q);
     if(!o.keepChains) state.chains = null;
     syncFav(); syncVenueBtn();
     const p = loadSchedule({ keepDay: !!o.keepDay });
@@ -3670,6 +3672,7 @@
   }
   document.addEventListener('visibilitychange', () => {
     if(document.visibilityState !== 'visible') return;
+    if(!state.area) return;        // the chooser holds no schedule and refetches nothing
     const rollover = fiToday() !== builtFor;
     if(rollover || Date.now() - lastLoad > REFRESH_MS){
       refreshAll({ rollover });

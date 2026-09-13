@@ -73,6 +73,15 @@ class HomeFlowTest(unittest.TestCase):
         self.assertEqual(s["main"], '<section id="home">HOME</section>')
         self.assertIn("renderStatus", s["calls"], "the credit line and banners are cleared")
 
+    def test_back_to_the_bare_page_with_a_favourite_shows_the_favourite(self):
+        """`/` means the same thing on Back as on a visit: the favourite when one is
+        stored. The URL stays bare and no history entry is added."""
+        s = self.o["back_to_home_with_fav"]
+        self.assertEqual((s["area"], s["search"]), ("v1", ""))
+        self.assertFalse([c for c in s["calls"] if c.startswith("push") or c.startswith("replace")])
+        self.assertIn("fetch data/area-v1.json", s["calls"])
+        self.assertNotIn("renderHome ", s["calls"])
+
     def test_forward_to_a_location_shows_it_without_a_new_entry(self):
         s = self.o["forward_to_area"]
         self.assertEqual((s["area"], s["search"]), ("v2", "?area=v2"))
@@ -118,6 +127,7 @@ class HomeFlowTest(unittest.TestCase):
             self.assertFalse(e[case]["threw"], case)
         self.assertFalse(e["corrupt"]["scoped"])
         self.assertFalse(e["storage_throws"]["scoped"])
+        self.assertTrue(e["storage_throws_with_url"]["scoped"], "a link scopes before storage is touched")
 
 
 if __name__ == "__main__":

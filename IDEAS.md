@@ -1819,28 +1819,21 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
-### The homepage is a chooser, not an arbitrary cinema (2026-09-13, v141)
+### The homepage is a chooser, not an arbitrary cinema (2026-09-13, v141 to v143)
 Bug: `/` with nothing stored opened `areas[0]` (Finnkino Cine Atlas), and every pick wrote a
-last-browsed `area` slot that the next visit restored as if chosen. Fix: `startupArea()`
-is URL, then explicit `fav`, then null = the chooser; the slot is neither written nor
-read. The chooser is static markup in `<main>` (intro, `Näytösajat kaupungeittain`, city
-links written by `build_pages.py --home` from the multi-venue rule, markers
-`cities:start/end`; main() only warns when stale, the commit is a human one with the
-sw bump); `renderHome()` relabels it per language, sv links go to `/?area=city:X&lang=sv`
-since sv has no pages. `html.scoped` (set before first paint by a 20-line `<head>` script
-when `?area=` or a stored `fav` exists, then by picks and popstate) hides `#home` or hides
-the schedule controls with `display:none`, so they are not tabbable. A pick pushes
-`?area=` (URL is the location's identity; `/` never grew one before), `onPopState()`
-restores chooser or scope, `loadSeq` drops a schedule that resolves after Back. Invalid
-`?area=` with no favourite: chooser plus one note line. No storage added, nothing sent.
-v142: a boot that fails before any location is on screen (`bootFallback()`) shows the
-chooser with the load-failure line when a link or favourite asked for one, URL and
-favourite untouched; the language toggle draws before the fetches so the fallback is
-switchable; the list ends with "Ja paljon muita…", which opens the picker (3 mutations).
-Not done: generated pages untouched; the Ajat/times view unchanged. Tests:
-`test_home_flow.py` (12, node harness), `test_home_static.py` (12), routing 32; 18
-mutations red. Live at the rig: no `area-*.json` fetched on `/`, Tab order is
-lang, theme, picker, 11 cities, status link; pick, Back and Forward verified.
+last-browsed `area` slot the next visit restored as if chosen.
+Fix: `startupArea()` is URL, then explicit `fav`, then null = the chooser; the slot is
+neither written nor read. The chooser is static markup in `<main>`: intro, prompt on the
+picker trigger, `Näytösajat kaupungeittain`, city links from `build_pages.py --home`
+(markers `cities:start/end`, main() only warns when stale) and "Ja paljon muita…", which
+opens the picker. `renderHome()` relabels per language; sv links go to
+`/?area=city:X&lang=sv`. `html.scoped` (a `<head>` script: `?area=` first, then a stored
+`fav`) hides `#home` or the schedule controls (`display:none`). A pick pushes `?area=`;
+`onPopState()` restores the scope, or on a bare `/` what a visit gives (favourite, URL
+left bare, else chooser); `loadSeq` drops a load resolving after Back; `loadSchedule()`,
+`render()` and the tab-focus refresh do nothing without a location; `bootFallback()`
+shows the chooser plus the load-failure line when the venue lists fail. No storage added,
+nothing sent. Tests: `test_home_flow.py`, `test_home_static.py`, `test_area_routing.py`.
 
 ### The perforation sits before the price (2026-09-13, v140)
 Bug: on the combined ticket the dashed seam and notches sat after the time (`--tw`) with

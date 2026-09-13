@@ -644,9 +644,8 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         parts = stub_parts(s, with_venue, lang, own_lang=own_lang)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
-        # Always present: the compartment is part of the ticket's silhouette, blank when
-        # the cinema publishes no price. The grid hides an empty one (`:empty`) so the
-        # combined view keeps its shape.
+        # Always emitted, so the markup is one shape; the CSS hides an empty compartment
+        # (`:empty`) together with its seam and notches in both layouts (2026-09-13).
         own_price = price_label([s], lang)
         price = f'<span class="price">{esc(own_price)}</span>'
         cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""
