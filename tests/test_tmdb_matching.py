@@ -140,6 +140,29 @@ class PickTest(unittest.TestCase):
         h, exact = enrich_tmdb.pick([hit(9, "Obscure", None)], "Obscure", "1950")
         self.assertEqual((h["id"], exact), (9, True))
 
+    def test_the_year_itself_beats_a_neighbouring_year_in_either_order(self):
+        hits = [hit(1963001, "All Night Long", 1963), ALL_NIGHT_1962]
+        for order in (hits, list(reversed(hits))):
+            h, exact = enrich_tmdb.pick(order, "All Night Long", "1962")
+            self.assertEqual((h["id"], exact), (37038, True))
+
+    def test_two_films_of_the_same_title_and_year_are_a_tie_and_not_exact(self):
+        """Whatever order TMDB lists them in: an unresolved tie stays weak, so no tmdbId,
+        no merge, and the entry is dropped and searched again next run."""
+        hits = [hit(101, "Remake", 1990), hit(202, "Remake", 1990)]
+        for order in (hits, list(reversed(hits))):
+            h, exact = enrich_tmdb.pick(order, "Remake", "1990")
+            self.assertFalse(exact)
+            self.assertIn(h["id"], (101, 202))
+
+    def test_the_published_original_title_breaks_a_same_year_tie(self):
+        hits = [hit(555, "Rakasta tai tuhoudu", 1962, original="Toute la nuit"),
+                hit(37038, "Rakasta tai tuhoudu", 1962, original="All Night Long")]
+        for order in (hits, list(reversed(hits))):
+            h, exact = enrich_tmdb.pick(order, "Rakasta tai tuhoudu", "1962",
+                                        original="All Night Long")
+            self.assertEqual((h["id"], exact), (37038, True))
+
     def test_no_exact_title_is_the_popularity_fallback_as_before(self):
         h, exact = enrich_tmdb.pick([hit(1, "Mother Mary", 2025)], "Mother", "2009")
         self.assertEqual((h["id"], exact), (1, False))
@@ -304,6 +327,15 @@ class MainPathTest(unittest.TestCase):
         self.assertEqual((e["i"], e["x"]), (22, False), "kept as a weak fallback, not a match")
         self.assertIn("year mismatch, exact title refused (1): All Night Long (1962) -> "
                       "All Night Long (1981)", out)
+        self.assertNotIn("weak match, no exact title", out)
+
+    def test_a_same_year_tie_is_cached_weak_and_logged_as_a_tie(self):
+        self.shows({"title": "Remake", "year": "1990"})
+        out = self.run_main({("Remake", "1990"): [hit(101, "Remake", 1990), hit(202, "Remake", 1990)]})
+        e = self.cache()["remake"]
+        self.assertFalse(e["x"])
+        self.assertIn("several films match the title and year, none trusted (1): "
+                      "Remake (1990) -> Remake (1990)", out)
         self.assertNotIn("weak match, no exact title", out)
 
     # 7. new evidence re-judges a cached exact match

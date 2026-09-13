@@ -39,9 +39,9 @@ What shapes the parser:
   Luke på krigsstigen/The Ballad of the Daltons"). For a Finnish film the original *is*
   the Finnish title and the span holds the Swedish one alone ("En kotte under ryggen" for
   Käpy selän alla), so the first segment is published as `original` only when the Maa
-  row does not start with Suomi. Both feed the TMDB search in `enrich_tmdb.py`; the
-  ticket page prints the same line but is read only for prices and under a quota, so
-  nothing here depends on it.
+  row names no Finnish share and the span lists at least two titles. Both feed the TMDB
+  search in `enrich_tmdb.py`; the ticket page prints the same line but is read only for
+  prices and under a quota, so nothing here depends on it.
 - **No images from the site.** The stills are 16:9, the film page's `og:image` too, so
   posters come from TMDB.
 
@@ -234,19 +234,27 @@ def published_year(page):
 
 
 def original_title(page, country):
-    """The first segment of the original-name span, unless the film is Finnish.
+    """The first segment of the original-name span, where the observed convention holds.
 
-    The span lists the other-language titles, original first. A Finnish film's original
-    is the title the cinema already publishes, and its span holds the Swedish title
-    alone, which must not be published as the original: the client shows `original` as
-    the English-mode title and the TMDB search would query a Swedish title."""
-    if (country or "").strip().lower().startswith("suomi"):
+    Observed on five pages (2026-09-13): a foreign film lists original, Swedish and
+    sometimes English, slash-separated ("La ballade des Dalton/Lucky Luke på
+    krigsstigen/The Ballad of the Daltons"); a Finnish film's original is the title the
+    cinema already publishes and its span holds the Swedish title alone ("En kotte under
+    ryggen"). Publishing that as the original would put a Swedish title on the English
+    UI and into the TMDB search. So the first segment is taken only when the Maa row is
+    present and names no Finnish share at all, and the span lists at least two titles;
+    a co-production in either order, a missing country and a lone segment are left
+    empty, since nothing observed says what they mean. The year is not affected."""
+    countries = [c.strip().lower() for c in (country or "").split("/") if c.strip()]
+    if not countries or any(c.startswith("suomi") for c in countries):
         return ""
     m = ORIGINAL_RE.search(page or "")
     if not m:
         return ""
-    first = _txt(m.group(1)).split("/")[0].strip()
-    return first
+    parts = [x.strip() for x in _txt(m.group(1)).split("/") if x.strip()]
+    if len(parts) < 2:
+        return ""
+    return parts[0]
 
 
 def series_tag(value):

@@ -105,7 +105,7 @@ def due(titles, cache, today, max_age=None, budget=None):
     return refresh.due(titles, cache, today, is_complete, max_age, budget)
 
 
-def pick(hits, query, year=None):
+def pick(hits, query, year=None, original=None):
     """Choose a search hit. -> (hit, exact).
 
     TMDB sorts by popularity, so hits[0] on a one-word title is whatever is trending:
@@ -122,23 +122,34 @@ def pick(hits, query, year=None):
     `tmdbId` and their genre ids. `language` localizes the response; it does not widen
     which titles are searched, so this is presentation, not matching.
 
-    With `year`, the published year decides among the hits whose title matches exactly:
-    the first one within YEAR_TOL wins, in TMDB's order. An exact title whose year is
-    further off is returned as *not* exact: a 1981 "All Night Long" is not the 1962 one,
-    and popularity alone must not settle it. Without a year the first exact hit wins, as
-    before. A hit with no release date cannot contradict a year and is accepted.
+    With `year`, the published year decides among the hits whose title matches exactly.
+    The year itself beats a neighbouring year; among hits at the same distance, a hit
+    whose original title is the published `original` beats the rest. What is left has
+    to be one film: two different ids still standing is a tie, returned as *not* exact,
+    whatever order TMDB listed them in. An exact title whose year is further off than
+    YEAR_TOL is not exact either: a 1981 "All Night Long" is not the 1962 one. Without a
+    year the first exact hit wins, as before. A hit with no release date cannot
+    contradict a year and is accepted.
     """
     q = norm(query)
     exact = [h for h in hits
              if norm(h.get("title")) == q or norm(h.get("original_title")) == q]
     if not exact:
         return hits[0], False
-    if year:
-        near = [h for h in exact if plausible(release_year(h), year)]
-        if near:
-            return near[0], True
+    if not year:
+        return exact[0], True
+    near = [h for h in exact if plausible(release_year(h), year)]
+    if not near:
         return exact[0], False
-    return exact[0], True
+    best = min(abs(int(release_year(h)) - int(year)) if release_year(h) else YEAR_TOL
+               for h in near)
+    tier = [h for h in near
+            if (abs(int(release_year(h)) - int(year)) if release_year(h) else YEAR_TOL) == best]
+    if len({h.get("id") for h in tier}) > 1 and norm(original):
+        named = [h for h in tier if norm(h.get("original_title")) == norm(original)]
+        if named:
+            tier = named
+    return tier[0], len({h.get("id") for h in tier}) == 1
 
 
 def load_aliases():
@@ -550,6 +561,7 @@ def main() -> int:
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
     offyear = []             # exact titles refused on the published year
+    ties = []                # several films of that title and year; none trusted
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
@@ -581,7 +593,8 @@ def main() -> int:
                     # year returned "The Boy Who Counted Cars" in the Finnkino pass.
                     year = fact["y"] if cand != str(alias or "") else ""
                     hits = search(cand, year, th)
-                    hit, exact = pick(hits, cand, year) if hits else (None, False)
+                    hit, exact = (pick(hits, cand, year, fact["o"]) if hits
+                                  else (None, False))
                     if year and not exact:
                         # Nothing of that year matched exactly. Ask without the filter:
                         # TMDB's primary release year can sit a year off the published
@@ -590,7 +603,7 @@ def main() -> int:
                         # the match.
                         alt = search(cand, "", th)
                         if alt:
-                            a_hit, a_exact = pick(alt, cand, year)
+                            a_hit, a_exact = pick(alt, cand, year, fact["o"])
                             if a_exact or hit is None:
                                 hit, exact = a_hit, a_exact
                     if hit and exact:
@@ -607,9 +620,14 @@ def main() -> int:
                         poster = fallback.get("poster_path") or poster
                         exact_id = False
                         hy = release_year(fallback)
-                        if fact["y"] and hy and not plausible(hy, fact["y"]):
+                        titled = any(norm(fallback.get(f)) == norm(c) for f in ("title", "original_title")
+                                     for c in queries(display or k, alias, fact["o"]))
+                        if fact["y"] and titled and hy and not plausible(hy, fact["y"]):
                             offyear.append(f"{display or k} ({fact['y']}) -> "
                                            f"{fallback.get('title')} ({hy})")
+                        elif fact["y"] and titled:
+                            ties.append(f"{display or k} ({fact['y']}) -> "
+                                        f"{fallback.get('title')} ({hy or '?'})")
                         else:
                             weak.append(f"{display or k} -> {fallback.get('title')}")
             # Seeded from the cache, not from "". A detail request that fails must leave
@@ -828,6 +846,9 @@ def main() -> int:
     if offyear:
         print(f"[enrich] year mismatch, exact title refused ({len(offyear)}): "
               + " | ".join(sorted(offyear)))
+    if ties:
+        print(f"[enrich] several films match the title and year, none trusted ({len(ties)}): "
+              + " | ".join(sorted(ties)))
     if thin:
         print(f"[enrich] rating held back, under {MIN_VOTES} votes ({len(thin)}): "
               + " | ".join(sorted(thin)))

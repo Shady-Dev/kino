@@ -568,9 +568,28 @@ class FilmIdentityTest(unittest.TestCase):
             with self.subTest(maa=maa):
                 self.assertNotIn("original", regina.details(self.page(maa=maa, original="En kotte under ryggen")))
 
-    def test_a_co_production_led_by_another_country_keeps_its_original(self):
+    def test_a_co_production_with_a_finnish_share_in_any_position_publishes_none(self):
+        """Nothing observed says whether the first segment is the original or the Swedish
+        title when Finland co-produced, so the field stays empty and the year stays."""
         d = regina.details(self.page(maa="Ranska/Suomi", original="Le Havre/Le Havre"))
-        self.assertEqual(d["original"], "Le Havre")
+        self.assertNotIn("original", d)
+        self.assertEqual(d["year"], "2025")
+
+    def test_a_missing_country_row_publishes_the_year_and_no_original(self):
+        page = self.page(maa="Yhdysvallat", original="All Night Long/Nattens makt")
+        page = page.replace('<div class="col-4 col-md-2"><b><span>Maa</span></b></div>'
+                            '<div class="col-8 col-md-4"><span>Yhdysvallat</span></div>', "")
+        self.assertNotIn("Maa", page)
+        d = regina.details(page)
+        self.assertNotIn("original", d)
+        self.assertEqual(d["year"], "2025")
+
+    def test_a_lone_segment_is_not_taken_as_the_original(self):
+        """Every observed foreign page lists at least original and Swedish; one segment
+        could be either."""
+        d = regina.details(self.page(maa="Ranska/ Belgia", original="La ballade des Dalton"))
+        self.assertNotIn("original", d)
+        self.assertEqual(d["year"], "2025")
 
     def test_no_span_means_no_original(self):
         self.assertNotIn("original", regina.details(self.page(maa="Yhdysvallat")))

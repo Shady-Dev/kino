@@ -560,9 +560,12 @@ the cleaned original second, after the published title, deduplicated, so a film 
 already matched keeps its match. With a year the search sends `primary_release_year`
 (a string parameter per TMDB's /3/search/movie reference, checked 2026-09-13), retries
 unfiltered when nothing exact came back, and `pick()` accepts an exact title only within
-`YEAR_TOL` = 1 of the published year; an exact title further off is a weak fallback and is
-logged as "year mismatch, exact title refused". Without a year the first exact hit wins as
-before. An alias string is never filtered, same rule as the Finnkino pass.
+`YEAR_TOL` = 1 of the published year, the year itself ahead of a neighbouring one and the
+published original title breaking a same-year tie; two different ids still standing is a
+tie and stays weak whatever order TMDB listed them, logged as "several films match the
+title and year, none trusted". An exact title further off is a weak fallback logged as
+"year mismatch, exact title refused". Without a year the first exact hit wins as before.
+An alias string is never filtered, same rule as the Finnkino pass.
 
 Cache: an entry records the evidence it was judged on (`o`, `y`). `reconsider()` drops an
 exact entry whose current evidence is nonblank and differs, at most `KINO_TMDB_RECONSIDER`
@@ -576,12 +579,17 @@ Regina publishes both on the film page the adapter already reads: the heading in
 `#main-content` ("LUCKY LUKE SOTAPOLULLA (1978)") gives `year`, and `span.original-name`
 lists the other-language titles slash-separated, original first. For a Finnish film the
 span holds the Swedish title alone, so the first segment is `original` only when the Maa
-row does not start with Suomi. Checked on five saved pages 2026-09-13: 1978 / La ballade
+row is present, names no Finnish share, and the span lists at least two titles; a
+co-production in either order, a missing country or a lone segment leaves `original`
+empty and keeps the year. Checked on five saved pages 2026-09-13: 1978 / La ballade
 des Dalton, 1962 / All Night Long, 1957 / The Prince and the Showgirl, 1970 / The Music
 Lovers, and 1966 with no original for Käpy selän alla. Nothing reads the ticket page for
 this. Regina is on the local half, so the fields reach `data/` with the next local run and
-the search uses them on the cloud run after it. `tests/test_regina.py` `FilmIdentityTest`,
-12 tests, nine mutations red.
+the search uses them on the cloud run after it. What the three films then match is for
+`run-enrich.log` to say: they are re-judged, not promised an id, and an unresolved tie is
+a valid outcome. No TMDB id was checked from here; the ids in the tests are fixture
+values. `tests/test_regina.py` `FilmIdentityTest`, 14 tests, nine mutations red, plus
+`tests/test_tmdb_matching.py` tie cases (41 tests).
 
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
