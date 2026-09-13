@@ -31,6 +31,17 @@ What shapes the parser:
   Kopiotieto ("35 mm", "70 mm", "DCP") and the synopsis under Kuvaus. Teemat becomes a
   strand tag only when it is a concise named series; Kopiotieto only when it names a film
   gauge; Lisätieto is screening-specific and never part of the synopsis.
+- **The year and the original title are on the film page too.** The heading inside the
+  main content reads "LUCKY LUKE SOTAPOLULLA (1978)", and `year` is that bracketed number
+  only: a heading without one publishes no year, and a screening date never stands in.
+  Under the still, `<span class="original-name">` lists the film's other titles separated
+  by slashes, original first, then Swedish, then English ("La ballade des Dalton/Lucky
+  Luke på krigsstigen/The Ballad of the Daltons"). For a Finnish film the original *is*
+  the Finnish title and the span holds the Swedish one alone ("En kotte under ryggen" for
+  Käpy selän alla), so the first segment is published as `original` only when the Maa
+  row does not start with Suomi. Both feed the TMDB search in `enrich_tmdb.py`; the
+  ticket page prints the same line but is read only for prices and under a quota, so
+  nothing here depends on it.
 - **No images from the site.** The stills are 16:9, the film page's `og:image` too, so
   posters come from TMDB.
 
@@ -80,6 +91,9 @@ GRID_RE = re.compile(r'<div class="col-4 col-md-2"><b><span>(.*?)</span></b></di
                      r'<div class="col-8 col-md-4">(.*?)</div>', re.S | re.I)
 AGE_RE = re.compile(r'alt="Ikäraja:\s*(K\s*-?\s*\d+|S|T)"', re.I)
 KESTO_RE = re.compile(r"(\d+)\s*min", re.I)
+HEADING_RE = re.compile(r'id="main-content"[^>]*>.*?<h1>(.*?)</h1>', re.S | re.I)
+YEAR_RE = re.compile(r"\(\s*((?:19|20)\d{2})\s*\)\s*$")
+ORIGINAL_RE = re.compile(r'<span class="original-name">(.*?)</span>', re.S | re.I)
 KUVAUS_RE = re.compile(r'<a name="kuvaus"></a>.*?<div class="col-12 single-movie-main-content-area">(.*?)</div>',
                        re.S | re.I)
 PARA_RE = re.compile(r"<p\b[^>]*>(.*?)</p>", re.S | re.I)
@@ -209,6 +223,32 @@ def _subs(text):
     return out
 
 
+def published_year(page):
+    """The bracketed year in the main heading, "LUCKY LUKE SOTAPOLULLA (1978)" -> "1978";
+    "" when the heading carries none."""
+    m = HEADING_RE.search(page or "")
+    if not m:
+        return ""
+    y = YEAR_RE.search(_txt(m.group(1)))
+    return y.group(1) if y else ""
+
+
+def original_title(page, country):
+    """The first segment of the original-name span, unless the film is Finnish.
+
+    The span lists the other-language titles, original first. A Finnish film's original
+    is the title the cinema already publishes, and its span holds the Swedish title
+    alone, which must not be published as the original: the client shows `original` as
+    the English-mode title and the TMDB search would query a Swedish title."""
+    if (country or "").strip().lower().startswith("suomi"):
+        return ""
+    m = ORIGINAL_RE.search(page or "")
+    if not m:
+        return ""
+    first = _txt(m.group(1)).split("/")[0].strip()
+    return first
+
+
 def series_tag(value):
     """A Teemat value as a strand tag, or "" when it is generic or not concise."""
     v = _txt(value)
@@ -252,6 +292,12 @@ def details(page, title=None):
         tags.append(gauge)
     if tags:
         d["method"] = " · ".join(tags)
+    year = published_year(page)
+    if year:
+        d["year"] = year
+    original = original_title(page, _txt(grid.get("maa", "")))
+    if original:
+        d["original"] = original
     k = KUVAUS_RE.search(page)
     if k:
         # Only Kuvaus, never Lisätieto: the lead paragraphs up to the "***" rule that

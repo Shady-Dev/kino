@@ -11,6 +11,7 @@ import io
 import json
 import pathlib
 import tempfile
+import types
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -102,7 +103,9 @@ WINDOW_2 = (
 WINDOW_EMPTY = load_more("2026-10-23")
 
 
-def film_page(age_alt, kesto, tekstitys, teemat, kopiotieto, lisatieto, kuvaus):
+def film_page(age_alt, kesto, tekstitys, teemat, kopiotieto, lisatieto, kuvaus,
+              heading="X (2025)", maa="Yhdysvallat", original=""):
+    original_span = f'<span class="original-name">{original}</span>' if original else ""
     age = (f'<span><img src="{BASE}/wp-content/themes/kinoregina2/assets/img/K16.jpg" width="32" height="32" '
            f'alt="{age_alt}" /></span>') if age_alt else "<span></span>"
     teemat_html = "".join(f'<span><a href="{BASE}/teemat/{slug}">{name}</a></span>' for slug, name in teemat)
@@ -110,10 +113,12 @@ def film_page(age_alt, kesto, tekstitys, teemat, kopiotieto, lisatieto, kuvaus):
                      f'<div class="col-8 col-md-4"><span>{lisatieto}</span></div>') if lisatieto else ""
     return f"""<!doctype html><html><head><title>X - Kino Regina</title>
 <meta property="og:image" content="http://kinoregina.fi/wp-content/uploads/2026/06/still-optimized.jpg"></head><body>
-<div class="main-content col-12 col-lg-9 col-xl-6" id="main-content"><div class="row"><div class="col-12"><h1>X (2025)</h1></div></div>
+<header><div class="col-12"><h1>Elokuvat</h1></div></header>
+<div class="main-content col-12 col-lg-9 col-xl-6" id="main-content"><div class="row"><div class="col-12"><h1>{heading}</h1></div></div>
+<div class="row"><div class="col-12"><img src="{BASE}/wp-content/uploads/2026/06/still-optimized.jpg" class="featured-image w-100 movie" alt="{heading}" /> {original_span}</div></div>
 <a name="lisatiedot"></a><div class="row"><div class="col-12"><div class="row">
 <div class="col-4 col-md-2"><b><span>Ohjaaja</span></b></div><div class="col-8 col-md-4"><span>Joku Ohjaaja</span></div>
-<div class="col-4 col-md-2"><b><span>Maa</span></b></div><div class="col-8 col-md-4"><span>Yhdysvallat</span></div>
+<div class="col-4 col-md-2"><b><span>Maa</span></b></div><div class="col-8 col-md-4"><span>{maa}</span></div>
 <div class="col-4 col-md-2"><b><span>Tekstitys</span></b></div><div class="col-8 col-md-4"><span>{tekstitys}</span></div>
 <div class="col-4 col-md-2"><b><span>Kesto</span></b></div><div class="col-8 col-md-4"><span>{kesto}</span></div>
 <div class="col-4 col-md-2"><b><span>Teemat</span></b></div><div class="col-8 col-md-4">{teemat_html}</div>
@@ -502,6 +507,102 @@ class RegistryAndPagesTest(unittest.TestCase):
         self.assertIn("Kino Regina", city)
         self.assertIn("chain-regina", city)
         self.assertIn("14 teatteria", city)
+
+
+class FilmIdentityTest(unittest.TestCase):
+    """The year and the original title the film page publishes, for the TMDB search.
+
+    Three repertory films sat unmatched on their Finnish titles while the page named the
+    original and the year: "LUCKY LUKE SOTAPOLULLA (1978)" over "La ballade des
+    Dalton/Lucky Luke på krigsstigen/The Ballad of the Daltons"."""
+
+    def setUp(self):
+        # The 0.5 s between film pages is the courtesy to the site, not behaviour under test.
+        real = regina.time
+        regina.time = types.SimpleNamespace(sleep=lambda *_: None)
+        self.addCleanup(lambda: setattr(regina, "time", real))
+
+    def page(self, **kw):
+        return film_page("", "84 min", "suom. tekstit/svensk text", [], "35 mm", "",
+                         "<p>Daltonin veljekset karkaavat.</p>", **kw)
+
+    # -- the year -----------------------------------------------------------------------
+
+    def test_the_bracketed_year_in_the_main_heading_is_the_year(self):
+        d = regina.details(self.page(heading="LUCKY LUKE SOTAPOLULLA (1978)"))
+        self.assertEqual(d["year"], "1978")
+
+    def test_a_heading_without_a_year_publishes_none(self):
+        """No field at all, so the enrichment sees older-shaped data and searches on the
+        title alone; never a guess from the screening date."""
+        self.assertNotIn("year", regina.details(self.page(heading="LUCKY LUKE SOTAPOLULLA")))
+
+    def test_only_a_trailing_bracketed_year_counts(self):
+        self.assertNotIn("year", regina.details(self.page(heading="2001: AVARUUSSEIKKAILU")))
+        self.assertEqual(regina.details(self.page(heading="2001: AVARUUSSEIKKAILU (1968)"))["year"],
+                         "1968")
+
+    def test_the_site_heading_outside_the_main_content_is_not_read(self):
+        """Every page opens with an h1 "Elokuvat"; the film's own heading is the one
+        inside #main-content."""
+        d = regina.details(self.page(heading="RAKASTA TAI TUHOUDU (1962)"))
+        self.assertEqual(d["year"], "1962")
+        self.assertEqual(regina.published_year(self.page(heading="X")), "")
+
+    # -- the original title -------------------------------------------------------------
+
+    def test_the_first_segment_of_the_original_name_span_is_the_original(self):
+        d = regina.details(self.page(
+            maa="Ranska/ Belgia",
+            original="La ballade des Dalton/Lucky Luke på krigsstigen/The Ballad of the Daltons"))
+        self.assertEqual(d["original"], "La ballade des Dalton")
+
+    def test_a_single_segment_is_the_original(self):
+        d = regina.details(self.page(maa="Iso-Britannia", original="All Night Long/Nattens makt"))
+        self.assertEqual(d["original"], "All Night Long")
+
+    def test_a_finnish_film_publishes_no_original(self):
+        """The span then holds the Swedish title alone, "En kotte under ryggen" for Käpy
+        selän alla, and the Finnish title is already the original."""
+        for maa in ("Suomi", "Suomi/Ruotsi", "suomi"):
+            with self.subTest(maa=maa):
+                self.assertNotIn("original", regina.details(self.page(maa=maa, original="En kotte under ryggen")))
+
+    def test_a_co_production_led_by_another_country_keeps_its_original(self):
+        d = regina.details(self.page(maa="Ranska/Suomi", original="Le Havre/Le Havre"))
+        self.assertEqual(d["original"], "Le Havre")
+
+    def test_no_span_means_no_original(self):
+        self.assertNotIn("original", regina.details(self.page(maa="Yhdysvallat")))
+
+    def test_entities_in_the_span_are_decoded(self):
+        d = regina.details(self.page(maa="Yhdysvallat", original="Who&#8217;s Afraid/Vem &auml;r r&auml;dd"))
+        self.assertEqual(d["original"], "Who\u2019s Afraid")
+
+    # -- reaching the showtimes without the ticket page -------------------------------------
+
+    def test_year_and_original_reach_every_showtime_from_the_film_page_alone(self):
+        """The ticket page prints the same line but is read only for prices and under a
+        quota. enrich() folds the film page onto the rows and asks nothing else."""
+        shows = regina.parse_schedule(WINDOW_1)
+        asked = []
+
+        def get(url):
+            asked.append(url)
+            return self.page(heading="RAKASTA TAI TUHOUDU (1962)", maa="Iso-Britannia",
+                             original="All Night Long/Nattens makt")
+
+        regina.enrich(shows, get=get)
+        self.assertGreater(len(shows), 1)
+        self.assertEqual({(s["year"], s["original"]) for s in shows}, {("1962", "All Night Long")})
+        self.assertTrue(all(u.startswith(f"{BASE}/elokuva/") for u in asked), asked)
+        self.assertFalse(any("kauppa.kavi.fi" in u for u in asked))
+
+    def test_a_row_that_already_carries_an_original_keeps_it(self):
+        shows = regina.parse_schedule(WINDOW_1)
+        shows[0]["original"] = "Kept"
+        regina.enrich(shows, get=lambda u: self.page(maa="Yhdysvallat", original="Other/Annan"))
+        self.assertEqual(shows[0]["original"], "Kept")
 
 
 if __name__ == "__main__":

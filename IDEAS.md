@@ -572,6 +572,17 @@ Finnkino pass in `fetch_data.py` already filters on OCAPI's year and keeps its o
 no client change, the field is not rendered. `tests/test_tmdb_matching.py`, 37 tests, 18
 mutations red.
 
+Regina publishes both on the film page the adapter already reads: the heading inside
+`#main-content` ("LUCKY LUKE SOTAPOLULLA (1978)") gives `year`, and `span.original-name`
+lists the other-language titles slash-separated, original first. For a Finnish film the
+span holds the Swedish title alone, so the first segment is `original` only when the Maa
+row does not start with Suomi. Checked on five saved pages 2026-09-13: 1978 / La ballade
+des Dalton, 1962 / All Night Long, 1957 / The Prince and the Showgirl, 1970 / The Music
+Lovers, and 1966 with no original for Käpy selän alla. Nothing reads the ticket page for
+this. Regina is on the local half, so the fields reach `data/` with the next local run and
+the search uses them on the cloud run after it. `tests/test_regina.py` `FilmIdentityTest`,
+12 tests, nine mutations red.
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
 that leaves its /xml/ services open needs no auth (Korjaamo Kino today, Savon Kinot before
