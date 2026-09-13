@@ -1819,6 +1819,24 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The ticket menu adds the screening to a calendar (2026-09-13, v146)
+Bug: no way to get a screening into a calendar; readers retyped time and place.
+Fix: menu row 2 "Lisää kalenteriin" downloads an .ics from `icsFor(show, venue, lang,
+now)`, pure between markers: one VEVENT, DTSTART/DTEND with `TZID=Europe/Helsinki` and
+the EU-rule VTIMEZONE, SUMMARY the title verbatim, LOCATION `label, hall, city`
+(`venueFor()`: `labelOf`/`cityOf` of the venue behind the screening, so "Omena Espoo"
+reads `Finnkino Omena, iSense, Espoo`; a combined-view Finnkino show takes the city off
+its theatre name), no hall when `aud` is empty (627 of 3561 shows), DESCRIPTION the
+method as text and the `safeUrl()` ticket link, URL the same, UID djb2 of venue, start
+and title `@leffavuoro.fi`. No `len` (35 of 3561) books 120 minutes and appends
+"Kesto arvioitu" in the language. TEXT escaping per RFC 5545, 75-octet folding by UTF-8
+bytes, CRLF. Delivered as a Blob on an `<a download>`. Verified: iOS 26.5 Simulator,
+Safari and the standalone web app both open Calendar's add sheet directly with the
+right title, place, span and notes, no fallback needed; the pane's blob read back
+byte-exact. Desktop Chrome: the click ran, then the extension lost the tab (a native
+dialog, most likely "Ask where to save"); no file reached Downloads, not verified.
+Tests: `tests/test_ics.py` with `ics_harness.js`, 16 mutations red.
+
 ### Each upcoming ticket in the sheet has a menu: share the screening (2026-09-13, v145)
 Bug: a screening could be opened at the cinema or nothing; no way to hand one to
 somebody, and the v144 link had no maker.

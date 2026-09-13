@@ -1160,6 +1160,7 @@
          nextShows:'Seuraavat näytökset',
          nextMatch:'Seuraava näytös', atTime:'klo',
          shareScreening:'Jaa näytös', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
+         addCalendar:'Lisää kalenteriin',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
@@ -1225,6 +1226,7 @@
          nextShows:'Nästa föreställningar',
          nextMatch:'Nästa föreställning', atTime:'kl.',
          shareScreening:'Dela visningen', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
+         addCalendar:'Lägg till i kalendern',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1287,6 +1289,7 @@
          nextShows:'Next screenings',
          nextMatch:'Next screening', atTime:'at',
          shareScreening:'Share screening', aActions:'Screening actions', linkCopied:'Link copied',
+         addCalendar:'Add to calendar',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -2224,11 +2227,81 @@
     return [title, [venue, hall].filter(Boolean).join(', '), `${day} ${at} ${time}`].join('\n');
   }
   // -> which way a ticket's menu opens: leftwards (aligned to the ticket's right edge)
-  // when the ticket ends within 200 px of the viewport's right edge, else rightwards.
+  // when the ticket ends within 200 px of the viewport's right edge and 200 px lie to
+  // the left of that edge for the menu to open into, else rightwards. A 157 px ticket
+  // at 375 is 198 px from the right edge and 177 from the left: flipped, its menu
+  // started 19 px off screen (seen in the rig).
   function menuSide(right, viewportWidth){
-    return viewportWidth - right < 200 ? 'left' : 'right';
+    return viewportWidth - right < 200 && right >= 200 ? 'left' : 'right';
   }
   // --- end screening link ---
+
+  // --- ics: pure, extracted verbatim by tests/ics_harness.js ---
+  // One screening as an iCalendar file (RFC 5545). `show` has `title`, `start` (a Date),
+  // `len` (minutes as text, may be missing), `aud`, `url`, `method`; `venue` is
+  // {id, label, city}: the label already reads "Finnkino Omena" or "Kino Regina"
+  // (labelOf) and the city is the nominative (cityOf). No street address: none is in
+  // the data and none is invented. Wall time in Europe/Helsinki with its VTIMEZONE, so
+  // a calendar in another zone shows the local start. A missing runtime books 120
+  // minutes and says so in the description. `now` is DTSTAMP, a parameter so a test
+  // can pin the whole file.
+  const ICS_ESTIMATED = { fi:'Kesto arvioitu', sv:'Längd uppskattad', en:'Runtime estimated' };
+  const ICS_TZ = ['BEGIN:VTIMEZONE', 'TZID:Europe/Helsinki',
+    'BEGIN:DAYLIGHT', 'TZOFFSETFROM:+0200', 'TZOFFSETTO:+0300', 'TZNAME:EEST',
+    'DTSTART:19700329T030000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU', 'END:DAYLIGHT',
+    'BEGIN:STANDARD', 'TZOFFSETFROM:+0300', 'TZOFFSETTO:+0200', 'TZNAME:EET',
+    'DTSTART:19701025T040000', 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', 'END:STANDARD',
+    'END:VTIMEZONE'];
+  // TEXT values: backslash, semicolon, comma and line breaks are escaped (3.3.11).
+  const icsText = v => String(v ?? '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+  // Helsinki wall time as DATE-TIME: fiDate/fiTime are the page's own formatters.
+  const icsLocal = d => fiDate(d).replace(/-/g, '') + 'T' + fiTime(d).replace(':', '') + '00';
+  const icsUtc = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  // A content line is folded at 75 octets (3.1): CRLF and one space, counting UTF-8
+  // bytes, never splitting a code point.
+  function icsFold(line){
+    const bytes = c => { const p = c.codePointAt(0); return p < 0x80 ? 1 : p < 0x800 ? 2 : p < 0x10000 ? 3 : 4; };
+    const out = []; let cur = '', n = 0, limit = 75;
+    for(const ch of line){
+      const b = bytes(ch);
+      if(n + b > limit){ out.push(cur); cur = ' '; n = 1; limit = 75; }
+      cur += ch; n += b;
+    }
+    out.push(cur);
+    return out.join('\r\n');
+  }
+  // A stable id from what makes the screening: venue, start and title (djb2, hex).
+  function icsUid(venueId, start, title){
+    const s = `${venueId}|${start.toISOString()}|${title}`;
+    let h = 5381;
+    for(let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+    return h.toString(16).padStart(8, '0') + '-' + s.length.toString(16) + '@leffavuoro.fi';
+  }
+  function icsFor(show, venue, lang, now){
+    const start = show.start instanceof Date ? show.start : new Date(show.start);
+    const mins = parseInt(show.len, 10);
+    const known = Number.isFinite(mins) && mins > 0;
+    const end = new Date(start.getTime() + (known ? mins : 120) * 60000);
+    const url = safeUrl(show.url);
+    const desc = [(show.method || '').split(' \u00b7 ').filter(Boolean).join(', '), url,
+                  known ? '' : (ICS_ESTIMATED[lang] || ICS_ESTIMATED.fi)].filter(Boolean).join('\n');
+    const where = [venue.label, show.aud || '', venue.city].filter(Boolean).join(', ');
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Leffavuoro//leffavuoro.fi//FI',
+      'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', ...ICS_TZ,
+      'BEGIN:VEVENT',
+      `UID:${icsUid(venue.id, start, show.title)}`,
+      `DTSTAMP:${icsUtc(now || new Date())}`,
+      `DTSTART;TZID=Europe/Helsinki:${icsLocal(start)}`,
+      `DTEND;TZID=Europe/Helsinki:${icsLocal(end)}`,
+      `SUMMARY:${icsText(show.title)}`,
+      `LOCATION:${icsText(where)}`,
+      desc ? `DESCRIPTION:${icsText(desc)}` : '',
+      url ? `URL:${url}` : '',
+      'END:VEVENT', 'END:VCALENDAR'].filter(Boolean);
+    return lines.map(icsFold).join('\r\n') + '\r\n';
+  }
+  // --- end ics ---
 
   function replaceQuery(q){
     try {
@@ -3659,7 +3732,8 @@
     const menu = document.createElement('div');
     menu.className = 'tkmenu ' + menuSide(tk.getBoundingClientRect().right, window.innerWidth);
     menu.setAttribute('role', 'menu');
-    menu.innerHTML = `<button type="button" role="menuitem" class="mi" data-act="share"><span>${esc(T.shareScreening)}</span><small>${esc(sub)}</small></button>`;
+    menu.innerHTML = `<button type="button" role="menuitem" class="mi" data-act="share"><span>${esc(T.shareScreening)}</span><small>${esc(sub)}</small></button>`
+      + `<button type="button" role="menuitem" class="mi" data-act="cal"><span>${esc(T.addCalendar)}</span></button>`;
     tk.appendChild(menu);
     tk.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
@@ -3695,6 +3769,26 @@
       if(ok) toast(T.linkCopied);
     }
   }
+  // The place for the calendar entry: the venue behind the screening when the list has
+  // it (its own id, or the single venue on screen), else what the combined loader
+  // labelled it, with the city read off the Finnkino theatre name ("Plevna Tampere").
+  function venueFor(s){
+    const a = venueIndex[s.venue] || (venueIndex[state.area] || null);
+    if(a) return { id: a.id, label: labelOf(a), city: cityOf(a) };
+    return { id: s.venue || s.theatre || '', label: venueName(s), city: cityOf({ name: s.theatre }) };
+  }
+  function calendarScreening(s){
+    const ics = icsFor({ ...s, start: s.start }, venueFor(s), state.lang);
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const href = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = href;
+    a.download = `leffavuoro-${fiDate(s.start)}-${normTitle(sheetCtx.title).replace(/\s+/g, '-').slice(0, 40) || 'naytos'}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(href), 60000);
+  }
   sheetEl.addEventListener('click', e => {
     const more = e.target.closest('.more');
     if(more){
@@ -3707,6 +3801,7 @@
       const s = sheetCtx && sheetCtx.all[+openTk.querySelector('.more').dataset.i];
       closeStubMenu(true);
       if(s && mi.dataset.act === 'share') shareScreening(s);
+      if(s && mi.dataset.act === 'cal') calendarScreening(s);
       return;
     }
     if(openTk && !e.target.closest('.tkmenu')) closeStubMenu(false);

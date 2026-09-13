@@ -96,8 +96,9 @@ out.share.with_hall = shareText('Ryhmä Hau: Dinoelokuva', 'Finnkino Promenadi',
 out.share.no_hall = shareText('Kino Regina', 'Kino Regina', '', 'La 13.9.', 'kl.', '20:45');
 out.share.verbatim = shareText('<b>A & B</b>', 'V', 'H', 'D', 'at', 'T');
 out.side.far_from_edge = menuSide(120, 375);
-out.side.at_199 = menuSide(176, 375);
-out.side.at_200 = menuSide(175, 375);
+out.side.at_199_no_room_left = menuSide(176, 375);   // the single-view ticket at 375
+out.side.at_199_room_left = menuSide(1001, 1200);
+out.side.at_200 = menuSide(1000, 1200);
 out.side.at_edge = menuSide(375, 375);
 out.side.wide = menuSide(900, 1200);
 

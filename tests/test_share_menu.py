@@ -53,10 +53,11 @@ class SharePureTest(unittest.TestCase):
     def test_the_share_payload_is_plain_text_not_html_escaped(self):
         self.assertEqual(self.share["verbatim"].split("\n")[0], "<b>A & B</b>")
 
-    def test_the_menu_flips_leftwards_within_200px_of_the_right_edge(self):
+    def test_the_menu_flips_leftwards_within_200px_of_the_right_edge_when_it_fits_there(self):
         self.assertEqual((self.side["far_from_edge"], self.side["wide"]), ("right", "right"))
-        self.assertEqual((self.side["at_199"], self.side["at_edge"]), ("left", "left"))
+        self.assertEqual((self.side["at_199_room_left"], self.side["at_edge"]), ("left", "left"))
         self.assertEqual(self.side["at_200"], "right", "200 px is not within")
+        self.assertEqual(self.side["at_199_no_room_left"], "right", "a 157 px ticket at 375: flipped, the menu left the screen")
 
 
 class ShareMarkupTest(unittest.TestCase):
