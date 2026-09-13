@@ -53,14 +53,16 @@ const out = { hash: {}, url: {}, parse: {}, target: {}, share: {}, side: {} };
 // -- building ---------------------------------------------------------------------------
 out.hash.plain = screeningHash('HO00000413');
 out.hash.full = screeningHash('HO00000413', '2026-09-13', '2026-09-13T15:10:00+03:00');
+out.hash.with_venue = screeningHash('spider man', '2026-09-13', '2026-09-13T17:00:00+03:00', '1151');
 out.hash.odd_id = screeningHash('a&b=c #x', '', '');
 out.url.full = screeningUrl('https://leffavuoro.fi/?area=old&lang=sv#m=zzz', '1004',
-                            'HO00000413', '2026-09-13', '2026-09-13T15:10:00+03:00');
+                            'HO00000413', '2026-09-13', '2026-09-13T15:10:00+03:00', '1004');
 out.url.bare = screeningUrl('https://leffavuoro.fi/', 'city:Helsinki', '1499');
 out.url.from_page = screeningUrl('https://leffavuoro.fi/kaupunki/tampere/', 'city:Tampere', '61');
 
 // -- parsing -----------------------------------------------------------------------------
 out.parse.round_trip = parseSheetHash('#' + out.hash.full);
+out.parse.with_venue = parseSheetHash('#' + out.hash.with_venue);
 out.parse.odd_id = parseSheetHash('#' + out.hash.odd_id);
 out.parse.old_link = parseSheetHash('#m=HO00000413');
 out.parse.old_link_encoded = parseSheetHash('#m=' + encodeURIComponent('Ryhmä Hau: Dinoelokuva'));
@@ -73,8 +75,8 @@ out.parse.other_hash = parseSheetHash('#top');
 
 // -- the screening the sheet opens on --------------------------------------------------
 // Helsinki is UTC+3 in September. `at` is 'YYYY-MM-DDTHH:MM' Helsinki wall time.
-const show = (at) => ({ start: new Date(at + ':00+03:00'), at });
-const shows = ['2026-09-13T12:00', '2026-09-13T15:10', '2026-09-14T18:00', '2026-09-16T20:45'].map(show);
+const show = (at, vid) => ({ start: new Date(at + ':00+03:00'), at, _vid: vid || '1004' });
+const shows = ['2026-09-13T12:00', '2026-09-13T15:10', '2026-09-14T18:00', '2026-09-16T20:45'].map(a => show(a));
 const now = new Date('2026-09-13T14:00:00+03:00');
 const pick = (hit) => hit ? hit.at : null;
 const target = (want) => pick(screeningTarget(shows, want, now, fiDate));
@@ -90,6 +92,18 @@ out.target.no_want = pick(screeningTarget(shows, null, now, fiDate));
 out.target.all_gone = pick(screeningTarget(shows, { day: '2026-09-13', start: '' },
                                            new Date('2026-09-17T00:00:00+03:00'), fiDate));
 out.target.empty = pick(screeningTarget([], { day: '2026-09-13', start: '' }, now, fiDate));
+// Two cinemas in one combined view, the same film at the same minute (Sello and Omena,
+// 17:00), plus a later Omena screening and a Sello one the next day.
+const pair = [show('2026-09-13T17:00', '1151'), show('2026-09-13T17:00', '1157'),
+              show('2026-09-13T20:30', '1157'), show('2026-09-14T17:00', '1151')];
+const pickV = (hit) => hit ? hit.at + '@' + hit._vid : null;
+const targetV = (want) => pickV(screeningTarget(pair, want, now, fiDate));
+out.target.pair_sello = targetV({ day: '2026-09-13', start: '2026-09-13T17:00:00+03:00', venue: '1151' });
+out.target.pair_omena = targetV({ day: '2026-09-13', start: '2026-09-13T17:00:00+03:00', venue: '1157' });
+out.target.pair_no_venue = targetV({ day: '2026-09-13', start: '2026-09-13T17:00:00+03:00', venue: '' });
+out.target.pair_venue_time_gone = targetV({ day: '2026-09-13', start: '2026-09-13T16:00:00+03:00', venue: '1157' });
+out.target.pair_venue_time_moved = targetV({ day: '2026-09-13', start: '2026-09-13T16:00:00+03:00', venue: '1151' });
+out.target.pair_unknown_venue = targetV({ day: '2026-09-13', start: '2026-09-13T17:00:00+03:00', venue: 'zzz' });
 
 // -- the share text and the menu's side (v145) -----------------------------------------
 out.share.with_hall = shareText('Ryhmä Hau: Dinoelokuva', 'Finnkino Promenadi', 'Sali 3', 'Ti 15.9.', 'klo', '16:30');

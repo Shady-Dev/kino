@@ -109,7 +109,7 @@ class ShareMarkupTest(unittest.TestCase):
 
     def test_share_uses_the_native_sheet_else_the_clipboard_and_the_toast(self):
         fn = re.search(r"async function shareScreening\(s\)\{.*?\n  \}\n", HTML, re.S).group(0)
-        self.assertIn("screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso)", fn)
+        self.assertIn("screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid)", fn)
         self.assertIn("shareText(sheetCtx.title, venueName(s), s.aud || '',", fn)
         self.assertIn("await navigator.share({ title: sheetCtx.title, text, url });", fn)
         self.assertIn("await navigator.clipboard.writeText(url); toast(T.linkCopied);", fn)

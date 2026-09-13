@@ -1819,6 +1819,18 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### A screening link names its venue too (2026-09-13, v148)
+Bug (review of v144): `screeningTarget()` matched on the instant alone and the mark took
+the first `.stub[data-start]`, so in a combined view a share of Sello 17:00 opened on
+Omena 17:00. Measured: 57 same-city, same-title, same-minute pairs in the committed
+files, 48 in Helsinki, 7 in Espoo, 1 in Oulu.
+Fix: the fragment adds `v=<venue id>`; every screening in the sheet carries `_vid` (the
+combined loader's stamp, else the provider's `venue`, else the single venue on screen);
+the exact match needs instant and venue when the link names one, a named venue whose
+time moved stays at that venue that day, an older link without `v=` reads as before;
+the mark selects by `data-i`. Tests: two-venue fixture in `screening_link_harness.js`,
+6 mutations red.
+
 ### The calendar place comes from the venue list, never from a theatre's last word (2026-09-13, v147)
 Bug (review of v146): `venueFor()` looked up `s.venue`, then the single venue on screen,
 and otherwise read the city off the theatre text. A Finnkino show in a combined view has

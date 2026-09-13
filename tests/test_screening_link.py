@@ -42,22 +42,24 @@ class ScreeningLinkTest(unittest.TestCase):
 
     def test_the_share_url_keeps_the_tabs_other_params_and_replaces_area_and_fragment(self):
         self.assertEqual(self.u["full"],
-                         "https://leffavuoro.fi/?area=1004&lang=sv#m=HO00000413&d=2026-09-13&t=2026-09-13T15%3A10%3A00%2B03%3A00")
+                         "https://leffavuoro.fi/?area=1004&lang=sv#m=HO00000413&d=2026-09-13&t=2026-09-13T15%3A10%3A00%2B03%3A00&v=1004")
         self.assertEqual(self.u["from_page"], "https://leffavuoro.fi/kaupunki/tampere/?area=city%3ATampere#m=61")
 
     # -- parsing ---------------------------------------------------------------------------
     def test_a_built_fragment_reads_back(self):
-        self.assertEqual(self.p["round_trip"], {"fid": "HO00000413", "day": "2026-09-13", "start": START})
+        self.assertEqual(self.p["round_trip"], {"fid": "HO00000413", "day": "2026-09-13", "start": START, "venue": ""})
+        self.assertEqual(self.h["with_venue"], "m=spider%20man&d=2026-09-13&t=2026-09-13T17%3A00%3A00%2B03%3A00&v=1151")
+        self.assertEqual(self.p["with_venue"]["venue"], "1151")
         self.assertEqual(self.p["odd_id"]["fid"], "a&b=c #x")
 
     def test_an_older_film_link_reads_as_before(self):
-        self.assertEqual(self.p["old_link"], {"fid": "HO00000413", "day": "", "start": ""})
+        self.assertEqual(self.p["old_link"], {"fid": "HO00000413", "day": "", "start": "", "venue": ""})
         self.assertEqual(self.p["old_link_encoded"]["fid"], "Ryhmä Hau: Dinoelokuva")
 
     def test_a_malformed_day_or_start_is_dropped_not_guessed(self):
         self.assertEqual(self.p["bad_day"]["day"], "")
         self.assertEqual(self.p["bad_day"]["start"], START, "a raw + in the offset is given back")
-        self.assertEqual(self.p["bad_start"], {"fid": "x", "day": "2026-09-13", "start": ""})
+        self.assertEqual(self.p["bad_start"], {"fid": "x", "day": "2026-09-13", "start": "", "venue": ""})
 
     def test_no_film_means_no_sheet(self):
         for case in ("no_film", "empty_film", "nothing", "other_hash"):
@@ -81,6 +83,18 @@ class ScreeningLinkTest(unittest.TestCase):
         self.assertEqual(self.t["nothing_named"], "2026-09-13T15:10")
         self.assertEqual(self.t["no_want"], "2026-09-13T15:10")
 
+    def test_two_cinemas_at_the_same_minute_are_told_apart_by_the_venue(self):
+        """57 same-city, same-title, same-start pairs in the committed files (48 in
+        Helsinki): a share of Sello 17:00 must not open on Omena 17:00."""
+        self.assertEqual(self.t["pair_sello"], "2026-09-13T17:00@1151")
+        self.assertEqual(self.t["pair_omena"], "2026-09-13T17:00@1157")
+        self.assertEqual(self.t["pair_no_venue"], "2026-09-13T17:00@1151", "an older link without v= takes the first")
+
+    def test_a_named_venue_whose_time_moved_stays_at_that_venue_that_day(self):
+        self.assertEqual(self.t["pair_venue_time_gone"], "2026-09-13T17:00@1157", "not Sello's 17:00, Omena's")
+        self.assertEqual(self.t["pair_venue_time_moved"], "2026-09-13T17:00@1151")
+        self.assertEqual(self.t["pair_unknown_venue"], "2026-09-13T17:00@1151", "a venue the list lacks decides nothing")
+
     def test_nothing_ahead_is_null_never_a_past_screening(self):
         self.assertIsNone(self.t["all_gone"])
         self.assertIsNone(self.t["empty"])
@@ -102,9 +116,11 @@ class SheetPlumbingTest(unittest.TestCase):
         body = re.search(r"async function showSheet\(fid, want\)\{.*?\n  \}\n", HTML, re.S).group(0)
         self.assertIn("if(want && (want.day || want.start)){", body, "a plain film link changes nothing")
         self.assertIn("screeningTarget(all, want, now, fiDate)", body)
-        self.assertIn('.stubs:not([hidden]) .stub[data-start="${hit.start.getTime()}"]', body)
+        self.assertIn('.stubs:not([hidden]) .stub[data-i="${hit._i}"]', body, "by index: two cinemas can share a start")
+        self.assertNotIn("data-start", body)
         self.assertIn("el.classList.add('pick');", body)
-        self.assertIn('data-start="${s.start.getTime()}"', body)
+        self.assertIn('data-i="${s._i}"', body)
+        self.assertIn("s._vid = s._vid || s.venue || state.area;", body, "every screening in the sheet knows its venue")
         self.assertIn("body.scrollTop = h.getBoundingClientRect().top - body.getBoundingClientRect().top", body)
         self.assertIn(".stub.pick{border-color:var(--accent)", HTML)
 

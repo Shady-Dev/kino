@@ -2173,21 +2173,25 @@
   // --- screening link: pure, extracted verbatim by tests/screening_link_harness.js ---
   // A link can name one screening. The location stays in the query (`?area=`) and the
   // sheet's state in the fragment: `m=` the film as before, `d=` the day the link was
-  // made for and `t=` the screening's start, both optional. In the fragment, not the
-  // query: closing the sheet strips the fragment, so a day and a screening never
-  // outlive the sheet they describe, and a plain `?area=` link is unchanged.
-  function screeningHash(fid, day, start){
+  // made for, `t=` the screening's start and `v=` its venue, all optional. In the
+  // fragment, not the query: closing the sheet strips the fragment, so a day and a
+  // screening never outlive the sheet they describe, and a plain `?area=` link is
+  // unchanged. `v=` because a start alone is ambiguous in a combined view: 57 pairs of
+  // the same film at the same minute in two cinemas of one city (48 in Helsinki),
+  // measured 2026-09-13.
+  function screeningHash(fid, day, start, venue){
     let h = 'm=' + encodeURIComponent(fid);
     if(day)   h += '&d=' + encodeURIComponent(day);
     if(start) h += '&t=' + encodeURIComponent(start);
+    if(venue) h += '&v=' + encodeURIComponent(venue);
     return h;
   }
   // -> the share URL: the tab's own URL with `area` set and the fragment replaced, so
   // `lang` and anything else the reader arrived with travel along.
-  function screeningUrl(href, area, fid, day, start){
+  function screeningUrl(href, area, fid, day, start, venue){
     const u = new URL(href);
     u.searchParams.set('area', area);
-    u.hash = screeningHash(fid, day, start);
+    u.hash = screeningHash(fid, day, start, venue);
     return u.href;
   }
   // -> what the fragment names: {fid, day, start}, or null without a film. `d` has to
@@ -2204,20 +2208,26 @@
     const day = q.get('d') || '', start = (q.get('t') || '').replace(' ', '+');
     return { fid,
              day: /^\d{4}-\d{2}-\d{2}$/.test(day) ? day : '',
-             start: start && !isNaN(Date.parse(start)) ? start : '' };
+             start: start && !isNaN(Date.parse(start)) ? start : '',
+             venue: q.get('v') || '' };
   }
-  // -> the screening the sheet opens on: the named one while it is still ahead, else
-  // the first still ahead on the named day, else the film's next screening (nextMatch's
+  // -> the screening the sheet opens on: the named one (instant and, when the link
+  // names one, venue) while it is still ahead, else the first still ahead on the named
+  // day at that venue, else any that day, else the film's next screening (nextMatch's
   // rule: the earliest ahead of now, any day), else null. `shows` are the film's with
-  // `start` as a Date. A shared link outlives the screening it named and must still
-  // land on the film, never on an empty view.
+  // `start` as a Date and `_vid` the venue id. A shared link outlives the screening it
+  // named and must still land on the film, never on an empty view.
   function screeningTarget(shows, want, now, dateOf){
     const t = want && want.start ? Date.parse(want.start) : NaN;
-    const exact = !isNaN(t) && shows.find(s => s.start >= now && s.start.getTime() === t);
+    const v = want && want.venue || '';
+    const ahead = shows.filter(s => s.start >= now);
+    const exact = !isNaN(t) && ahead.find(s => s.start.getTime() === t && (!v || s._vid === v));
     if(exact) return exact;
     if(want && want.day){
-      const onDay = shows.find(s => s.start >= now && dateOf(s.start) === want.day);
-      if(onDay) return onDay;
+      const onDay = ahead.filter(s => dateOf(s.start) === want.day);
+      const same = v && onDay.find(s => s._vid === v);
+      if(same) return same;
+      if(onDay.length) return onDay[0];
     }
     return nextMatch(shows, '*', '', now, () => true, dateOf);
   }
@@ -3492,7 +3502,10 @@
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start), startIso:s.start}))
       .sort((a,b) => a.start - b.start);
-    all.forEach((s, i) => { s._i = i; });   // the menu button names its screening by index
+    // Index and venue on every screening: the menu button and the link's mark name a
+    // screening by index (two cinemas can share a start), and `_vid` is the venue the
+    // combined loader stamped, the provider's own id, or the single venue on screen.
+    all.forEach((s, i) => { s._i = i; s._vid = s._vid || s.venue || state.area; });
     const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
     // In a combined view eventId is the cross-chain merge key, so films.json (keyed by
     // Finnkino's filmId) has to be looked up through the show's own id.
@@ -3542,7 +3555,7 @@
         // The menu button sits beside the ticket, outside the anchor; a past screening
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
-        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-start="${s.start.getTime()}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
@@ -3601,7 +3614,7 @@
     // link names neither and the sheet opens as it always has.
     if(want && (want.day || want.start)){
       const hit = screeningTarget(all, want, now, fiDate);
-      const el = hit && sheetEl.querySelector(`.stubs:not([hidden]) .stub[data-start="${hit.start.getTime()}"]`);
+      const el = hit && sheetEl.querySelector(`.stubs:not([hidden]) .stub[data-i="${hit._i}"]`);
       if(el){
         el.classList.add('pick');
         let h = el.parentElement;
@@ -3758,7 +3771,7 @@
   async function shareScreening(s){
     const T = L[state.lang];
     const iso = fiDate(s.start);
-    const url = screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso);
+    const url = screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid);
     const text = shareText(sheetCtx.title, venueName(s), s.aud || '',
                            `${fiDay[dowOf(iso)]} ${dmOf(iso)}`, T.atTime, fiTime(s.start));
     if(navigator.share){
