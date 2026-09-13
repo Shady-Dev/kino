@@ -536,6 +536,15 @@ Reported missing by the user on three venues where the browser shows a price.
   local half, so the wrapper's machine reads these pages, 137 screenings at 40 a run.
   `regina.ordinary_price`, `tests/test_regina_prices.py`, three mutations red. Exercised
   once with the ceiling at 3: two priced at 10 €, one page with no buybox (sales closed).
+- Korjaamo Kino: Vista's websales "Select tickets" page lists `ticket-list__item`
+  rows; categories are per screening with no fixed ordinary name ("HelAFF" on a festival
+  screening), so restricted categories are dropped by name (wheelchair, concessions,
+  members) and the rest must agree on one amount. `vista.ordinary_price`, the site's
+  `tickets` prefix, `tests/test_vista_prices.py`, five mutations red. Exercised once from an
+  ordinary connection with the ceiling at 3: two screenings, 13 € both.
+- Kino Engel: the price rows are drawn by Johku's widget from an API that needs the
+  widget's key; the 2026-08-29 decision above stands. Options left to the user: render the
+  film page in a headless browser on the local half, or ask the cinema or Johku for a feed.
 
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web

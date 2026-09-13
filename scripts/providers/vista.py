@@ -45,6 +45,9 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
+import html as html_mod
+
+import prices
 from common import fetch
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -60,7 +63,51 @@ KORJAAMO = {"id": "korjaamo-helsinki", "provider": "korjaamo", "providerId": "10
             "name": "Korjaamo Kino", "short": "Korjaamo Kino", "city": "Helsinki"}
 
 SITES = [{"provider": "korjaamo", "label": "Korjaamo Kino",
-          "base": "https://korjaamokino.fi", "venues": [KORJAAMO]}]
+          "base": "https://korjaamokino.fi", "venues": [KORJAAMO],
+          # The public ticket page a showtime links to; see ordinary_price().
+          "tickets": "https://korjaamokino.fi/websales/show/"}]
+
+# ---------------------------------------------------------------- prices
+
+# Vista's websales "Select tickets" page lists one <li class="ticket-list__item"> per
+# category with a `ticket-list__label` and a `ticket-list__price` ("14,00 €"). The
+# categories are per screening and carry no fixed ordinary name (a festival screening
+# sells "HelAFF"), so the rule is by exclusion: drop the restricted categories by name,
+# and the remaining ones must agree on one amount. Probed 2026-09-13 on two Korjaamo
+# screenings: "HelAFF 14,00 €" alone, and "HelAFF" plus "Pyörätuolipaikka" at the same
+# amount. The fetch, cache and pacing are prices.py's.
+ITEM_RE = re.compile(r'<li class="ticket-list__item"[^>]*>(.*?)</li>', re.S)
+LABEL_RE = re.compile(r'class="ticket-list__label[^"]*"[^>]*>(.*?)</p>', re.S)
+PRICE_RE = re.compile(r'class="ticket-list__price"[^>]*>(.*?)</span>', re.S)
+AMOUNT_RE = re.compile(r"(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:\u20ac|EUR)", re.I)
+# Stems, so "Lasten lippu (alle 10v.)", "Eläkeläislippu" and "Opiskelijalippu" all match.
+# Measured 2026-09-13 on a regular Korjaamo screening: Normaali lippu 13,00 € beside
+# Eläkeläislippu, Opiskelijalippu and Lasten lippu at 11,00 €.
+RESTRICTED_RE = re.compile(r"py\u00f6r\u00e4tuoli|avustaja|opiskelija|laps|lasten|el\u00e4kel|senior"
+                           r"|klubi|j\u00e4sen|alennus|varhais|kanta|ty\u00f6t\u00f6n|veteraani"
+                           r"|varusmies|nuoriso|juniori|ryhm\u00e4|sarja|lahja",
+                           re.I)
+
+
+def _text(x):
+    return re.sub(r"\s+", " ", html_mod.unescape(re.sub(r"<[^>]+>", " ", x or ""))).strip()
+
+
+def ordinary_price(page_html):
+    """The unrestricted ticket price on a websales page -> "14\u20ac" or "".
+
+    "" when no unrestricted category is listed or the unrestricted ones disagree; a
+    restricted category alone is never the advertised price.
+    """
+    amounts = []
+    for item in ITEM_RE.findall(page_html or ""):
+        label, price = LABEL_RE.search(item), PRICE_RE.search(item)
+        if not (label and price) or RESTRICTED_RE.search(_text(label.group(1))):
+            continue
+        m = AMOUNT_RE.search(_text(price.group(1)))
+        if m:
+            amounts.append(m.group(1))
+    return prices.one_amount(amounts) if amounts else ""
 
 # Finnkino's tag set, so one language filter works across every provider.
 ISO = {"fi": "FI", "en": "EN", "sv": "SV", "se": "SV", "ja": "JA", "fr": "FR",
@@ -214,7 +261,7 @@ def synopses(xml_text):
     return out
 
 
-def fetch_site(site, sleep=1.5):
+def fetch_site(site, sleep=1.5, price_sleep=1.0, prices_path=None, now=None):
     base = site["base"].rstrip("/")
     days = site.get("days", 31)
     venues = site["venues"]
@@ -242,6 +289,10 @@ def fetch_site(site, sleep=1.5):
             text = syn.get(s["eventId"])
             if text:
                 s["_syn"] = text
+    if site.get("tickets"):
+        prices.run([s for v in per_venue.values() for s in v], provider=site["provider"],
+                   prefix=site["tickets"], parse=ordinary_price, referer=base + "/",
+                   path=prices_path, now=now, sleep=price_sleep)
     return per_venue
 
 
