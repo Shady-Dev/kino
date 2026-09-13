@@ -53,7 +53,9 @@ class CheckInlineJsTest(unittest.TestCase):
                              text=True, cwd=str(_ctx.ROOT), timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
         # index.html's inline script and its WebSite JSON-LD, status/index.html, sw.js.
-        self.assertIn("4 script(s) checked, 0 problem(s)", out.stdout)
+        # index.html carries two inline scripts since 2026-09-13: the app and the <head>
+        # script that decides the first paint; status/index.html and sw.js make five.
+        self.assertIn("5 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 

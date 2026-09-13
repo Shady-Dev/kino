@@ -24,7 +24,7 @@ if (a === -1 || b === -1 || b < a) {
   process.exit(2);
 }
 const source = HTML.slice(a, b);
-for (const fn of ['startupArea', 'areaParamAfterSelect', 'startupLang', 'langParamAfterSelect']) {
+for (const fn of ['startupArea', 'areaParamAfterSelect', 'startupLang', 'langParamAfterSelect', 'homeCityHref']) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(source)) {
     console.error('marker block does not contain ' + fn);
     process.exit(2);
@@ -34,12 +34,14 @@ for (const fn of ['startupArea', 'areaParamAfterSelect', 'startupLang', 'langPar
 const sandbox = { URLSearchParams };
 vm.createContext(sandbox);
 vm.runInContext(source + '\n;globalThis.__s = startupArea; globalThis.__p = areaParamAfterSelect;'
-                + 'globalThis.__l = startupLang; globalThis.__q = langParamAfterSelect;',
+                + 'globalThis.__l = startupLang; globalThis.__q = langParamAfterSelect;'
+                + 'globalThis.__h = homeCityHref;',
                 sandbox, { filename: 'areaRouting' });
 const startupArea = sandbox.__s;
 const areaParamAfterSelect = sandbox.__p;
 const startupLang = sandbox.__l;
 const langParamAfterSelect = sandbox.__q;
+const homeCityHref = sandbox.__h;
 
 // The venues this fixture knows about. `known` is the same shape the app builds: a venue
 // id, or a `city:` id for a city with more than one venue.
@@ -121,4 +123,9 @@ const LANG_URL_CASES = [
 const langUrls = {};
 for (const [name, search, l] of LANG_URL_CASES) langUrls[name] = langParamAfterSelect(search, l);
 
-process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls }));
+// Where the chooser's city links point per language: the Finnish and English pages, and
+// the app with ?area= for Swedish, which has no pages.
+const homeHrefs = { fi: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi'), en: homeCityHref('Jyväskylä', 'jyvaskyla', 'en'),
+                    sv: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv') };
+
+process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls, homeHrefs }));

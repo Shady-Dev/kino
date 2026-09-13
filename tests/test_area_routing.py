@@ -37,6 +37,7 @@ class AreaRoutingTest(unittest.TestCase):
         cls.u = payload["urls"]
         cls.l = payload["lang"]
         cls.lu = payload["langUrls"]
+        cls.h = payload["homeHrefs"]
 
     # -- the seven behaviours the fix has to hold ----------------------------------------
 
@@ -58,11 +59,11 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertTrue(self.r["reload_with_deep"]["keepParam"])
 
     def test_arriving_by_deep_link_never_touches_the_favourite(self):
-        """`remember` writes the last-browsed slot and the caller passes it to
-        `prefs.set({area})`. Nothing in this path writes `fav`, so following a link
-        cannot restar somebody's cinema -- which is the whole reason the favourite still
-        wins on a later ordinary visit."""
-        self.assertTrue(self.r["fav_and_deep"]["remember"])
+        """Nothing in this path writes `fav`, so following a link cannot restar
+        somebody's cinema -- which is why the favourite still wins on a later ordinary
+        visit. Since 2026-09-13 nothing writes the last-browsed slot either: the route
+        carries no `remember` and the caller stores nothing."""
+        self.assertNotIn("remember", self.r["fav_and_deep"])
         self.assertEqual(self.r["fav_only_no_deep"]["area"], FAV)
 
     def test_picking_another_cinema_rewrites_the_parameter(self):
@@ -75,8 +76,10 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertTrue(self.r["city_deep"]["keepParam"])
 
     def test_an_unknown_deep_link_falls_through(self):
+        """To the favourite when there is one, otherwise to the chooser (null); the
+        stored last-browsed slot no longer catches it."""
         self.assertEqual(self.r["unknown_deep"]["area"], FAV)
-        self.assertEqual(self.r["unknown_deep_no_fav"]["area"], "sk-maxim")
+        self.assertIsNone(self.r["unknown_deep_no_fav"]["area"])
         self.assertIsNone(self.r["unknown_deep_nothing"]["area"])
 
     # -- and the URL never contradicts the picker -----------------------------------------
@@ -88,17 +91,19 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertFalse(self.r["unknown_deep"]["keepParam"])
         self.assertFalse(self.r["unknown_deep_nothing"]["keepParam"])
 
-    def test_an_ordinary_visit_never_grows_a_parameter(self):
-        """Using the picker on `/` must not start writing `?area=` into the URL. Only a
-        parameter that is already there gets rewritten."""
-        self.assertIsNone(self.u["no_param"])
-        self.assertIsNone(self.u["other_params_only"])
+    def test_a_pick_on_the_bare_page_writes_the_parameter(self):
+        """Since 2026-09-13 `/` is the chooser and the URL is the location's identity, so
+        a pick from `/` writes `?area=`; until then only an existing parameter was
+        rewritten. Other parameters survive."""
+        self.assertEqual(self.u["no_param"], "area=sk-maxim")
+        self.assertEqual(self.u["other_params_only"], "lang=en&area=sk-maxim")
 
     def test_other_query_parameters_survive_the_rewrite(self):
         self.assertEqual(self.u["deep_with_other_params"], "area=sk-maxim&lang=en")
 
-    def test_picking_the_venue_you_arrived_on_leaves_the_link_intact(self):
-        self.assertEqual(self.u["deep_then_pick_same"], f"area={DEEP}")
+    def test_picking_the_venue_you_arrived_on_changes_nothing(self):
+        """Null: the URL already says it, so the caller adds no history entry."""
+        self.assertIsNone(self.u["deep_then_pick_same"])
 
     def test_a_city_selection_is_encoded_into_the_parameter(self):
         """The colon is percent-encoded on the way out and URLSearchParams decodes it on
@@ -115,14 +120,20 @@ class AreaRoutingTest(unittest.TestCase):
     def test_the_favourite_still_beats_the_stored_area(self):
         self.assertEqual(self.r["fav_beats_stored"]["area"], "br-redi")
 
-    def test_the_stored_area_is_used_when_nothing_is_starred(self):
-        self.assertEqual(self.r["stored_only"]["area"], "sk-maxim")
+    def test_the_stored_last_browsed_slot_is_ignored(self):
+        """An older build wrote `area` on every pick. It is not an explicit choice and
+        must not bypass the chooser."""
+        self.assertIsNone(self.r["stored_only"]["area"])
 
     def test_a_first_visit_decides_nothing_and_leaves_it_to_the_caller(self):
-        """null rather than a guess: the caller falls back to `areas[0].id`, which this
-        function cannot know."""
+        """null is the chooser: no guess, no first venue of the list."""
         self.assertIsNone(self.r["nothing_at_all"]["area"])
         self.assertIsNone(self.r["stale_stored"]["area"])
+
+    def test_city_links_point_at_the_pages_that_exist(self):
+        self.assertEqual(self.h["fi"], "/kaupunki/jyvaskyla/")
+        self.assertEqual(self.h["en"], "/en/city/jyvaskyla/")
+        self.assertEqual(self.h["sv"], "/?area=city%3AJyv%C3%A4skyl%C3%A4&lang=sv")
 
     def test_a_city_with_one_venue_is_not_a_valid_area(self):
         """`known()` only accepts a `city:` id where the city has more than one venue,

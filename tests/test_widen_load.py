@@ -44,7 +44,7 @@ class WidenLoadTest(unittest.TestCase):
         self.assertEqual((s["filter"], s["chains"], s["fKids"], s["view"]),
                          ("Zzzz", ["finnkino"], True, "times"))
         self.assertEqual(s["fav"], "v1")
-        self.assertEqual(s["prefArea"], "city:C", "the last-browsed slot moves as for any pick")
+        self.assertEqual(s["prefArea"], "v1", "the last-browsed slot is not written by any pick since 2026-09-13")
         self.assertIsNone(s.get("prefDay"), "the day is not rewritten")
         self.assertTrue(s["focused"])
 

@@ -38,6 +38,11 @@
 <meta name="twitter:description" content="Suomen elokuvateatterien näytösajat yhdessä paikassa. Valitse teatteri ja päivä.">
 <meta name="twitter:image" content="https://leffavuoro.fi/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
+<!-- Decides before first paint whether the page opens on a location (a ?area= link or a
+     stored favourite) or on the chooser, so a returning visitor never sees the chooser
+     flash. Only a class is set: the app validates both later and takes the class off
+     when neither holds. Nothing is stored or sent. -->
+<script>(function(){try{var a=new URLSearchParams(location.search).get('area');var f=JSON.parse(localStorage.getItem('kino-prefs')||'{}').fav;if(a||f)document.documentElement.classList.add('scoped');}catch(e){}})();</script>
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="icon-192.png">
 <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -171,7 +176,7 @@
     transition:border-color .15s, transform .15s;
   }
   #themeToggle:hover{border-color:var(--accent); transform:rotate(15deg)}
-  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible,
+  #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, .home .cities a:focus-visible,
   input:focus-visible, .tlink:focus-visible, .tinfo:focus-visible, .sheet-close:focus-visible,
   button:focus-visible{
     outline:2px solid var(--accent); outline-offset:2px;
@@ -391,6 +396,26 @@
   /* ===== Movie list ===== */
   main{max-width:1100px; margin:0 auto; padding:8px 20px 80px}
   .status{padding:60px 0; text-align:center; color:var(--muted)}
+  /* The chooser. `html.scoped` means a location is on screen or on its way: the early
+     script in <head> sets it for a ?area= link or a stored favourite, the app sets it on
+     a pick and clears it on the way back to /. Without it the static intro and city
+     links are the page, and the schedule controls are out of the tree, for the keyboard
+     as well as the eye. The trigger stays: it is the picker. */
+  html:not(.scoped) #favBtn, html:not(.scoped) .search, html:not(.scoped) .days,
+  html:not(.scoped) .tools, html:not(.scoped) #tagkey, html:not(.scoped) #stale,
+  html:not(.scoped) #partial, html:not(.scoped) .boot, html:not(.scoped) #priceNote,
+  html:not(.scoped) #credit{display:none}
+  html.scoped #home{display:none}
+  .home{max-width:640px; margin:0 auto; padding:20px 0 0}
+  .home .intro{font-size:1.05rem; line-height:1.5; margin:0 0 14px}
+  .home .note{color:var(--muted); font-size:.9rem; margin:0 0 14px}
+  .home h2{font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--muted); margin:22px 0 10px}
+  .home .cities{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+  .home .cities a{display:inline-flex; align-items:center; min-height:40px; padding:0 14px;
+    border:1px solid var(--line); border-radius:10px; background:var(--surface);
+    color:var(--ink); text-decoration:none; font-weight:600; font-size:.9rem}
+  .home .cities a:hover{border-color:var(--muted)}
   /* What emptied the list: the search as typed, then the filters that are on, one line
      each. Plain text under the message, not chips. A long query wraps inside the column
      rather than widening the page. */
@@ -843,7 +868,7 @@
   <div class="pinned" data-nosnippet>
   <div class="controls">
     <button id="areaSelect" type="button" aria-haspopup="dialog" aria-expanded="false"
-            aria-label="Valitse teatteri"><span class="vlbl"></span><span class="vchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+            aria-label="Valitse teatteri"><span class="vlbl">Valitse kaupunki tai teatteri</span><span class="vchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
     <button id="favBtn" class="fav" aria-pressed="false" title="Oma teatteri">☆</button>
     <input class="search" id="search" type="search" placeholder="Etsi esim. Dune tai komedia" aria-label="Suodata elokuvia nimen tai genren mukaan">
   </div>
@@ -891,7 +916,30 @@
 <div id="listStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-nosnippet></div>
 
 <main id="main">
-  <div class="status" data-nosnippet><div class="reel"></div>Ladataan teattereita…</div>
+  <!-- The chooser: what / is when neither the URL nor a stored favourite names a
+       location. Static so it is here without JavaScript and before any data loads; the
+       city list between the markers is written by scripts/build_pages.py --home from
+       the same multi-venue rule as the city pages. The Finnish page is the static href;
+       renderHome() relabels and relinks it for sv and en. -->
+  <section id="home" class="home">
+    <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
+    <div class="note" id="homeNote" data-nosnippet hidden></div>
+    <h2>Näytösajat kaupungeittain</h2>
+    <ul class="cities"><!-- cities:start -->
+<li><a href="/kaupunki/espoo/" data-city="Espoo" data-slug="espoo">Espoo</a></li>
+<li><a href="/kaupunki/helsinki/" data-city="Helsinki" data-slug="helsinki">Helsinki</a></li>
+<li><a href="/kaupunki/jyvaskyla/" data-city="Jyväskylä" data-slug="jyvaskyla">Jyväskylä</a></li>
+<li><a href="/kaupunki/kotka/" data-city="Kotka" data-slug="kotka">Kotka</a></li>
+<li><a href="/kaupunki/kouvola/" data-city="Kouvola" data-slug="kouvola">Kouvola</a></li>
+<li><a href="/kaupunki/lahti/" data-city="Lahti" data-slug="lahti">Lahti</a></li>
+<li><a href="/kaupunki/mikkeli/" data-city="Mikkeli" data-slug="mikkeli">Mikkeli</a></li>
+<li><a href="/kaupunki/oulu/" data-city="Oulu" data-slug="oulu">Oulu</a></li>
+<li><a href="/kaupunki/savonlinna/" data-city="Savonlinna" data-slug="savonlinna">Savonlinna</a></li>
+<li><a href="/kaupunki/tampere/" data-city="Tampere" data-slug="tampere">Tampere</a></li>
+<li><a href="/kaupunki/vantaa/" data-city="Vantaa" data-slug="vantaa">Vantaa</a></li>
+<!-- cities:end --></ul>
+  </section>
+  <div class="boot"><div class="status" data-nosnippet><div class="reel"></div>Ladataan teattereita…</div></div>
 </main>
 
 <div id="tagkey" data-nosnippet></div>
@@ -1063,6 +1111,9 @@
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
          loadingTheatres:'Ladataan teattereita…', loadingSchedule:'Ladataan näytöksiä…',
+         homeIntro:'Suomen elokuvateatterien näytösajat yhdessä paikassa.',
+         homePick:'Valitse kaupunki tai teatteri', homeByCity:'Näytösajat kaupungeittain',
+         homeUnknown:'Linkin teatteria tai kaupunkia ei löytynyt. Valitse toinen.',
          loadFail:'Näytöstietoja ei juuri nyt saatu ladattua.',
          dataLabel:'Näytöstiedot', updated:'päivitetty',
          actCombined:'Näytösajasta teatterin omalle sivulle',
@@ -1123,6 +1174,9 @@
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
          loadingTheatres:'Laddar biografer…', loadingSchedule:'Laddar föreställningar…',
+         homeIntro:'Visningstider för biografer i Finland på ett ställe.',
+         homePick:'Välj stad eller biograf', homeByCity:'Visningstider per stad',
+         homeUnknown:'Biografen eller staden i länken hittades inte. Välj en annan.',
          loadFail:'Tidtabellen kunde inte laddas just nu.',
          dataLabel:'Tidtabeller', updated:'uppdaterad',
          actCombined:'Tryck på en föreställning för att öppna biografens egen sida',
@@ -1180,6 +1234,9 @@
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
          loadingTheatres:'Loading theatres…', loadingSchedule:'Loading schedule…',
+         homeIntro:'Cinema showtimes across Finland in one place.',
+         homePick:'Choose a city or cinema', homeByCity:'Showtimes by city',
+         homeUnknown:'The cinema or city in the link was not found. Choose another.',
          loadFail:"Couldn't load the schedule right now.",
          dataLabel:'Schedule data', updated:'updated',
          actCombined:'Tap a showtime to open the cinema\u2019s own page',
@@ -1554,6 +1611,7 @@
   // Nothing about a bare star says "this venue opens next time", so label it until the
   // user has set one. Short label on phones, full sentence on desktop.
   function syncFav(){
+    if(!state.area) return;                 // the chooser has nothing to star
     const t = L[state.lang];
     const anyFav = !!prefs.get().fav;
     const on = prefs.get().fav === state.area;
@@ -1997,27 +2055,37 @@
     areaSel.focus();
   }
   // --- area routing: pure, extracted verbatim by tests/area_routing_harness.js ---
-  // Which venue a load opens, and what the URL should say afterwards.
+  // Which location a load opens, and what the URL should say afterwards.
   // `?area=` stays in the URL for as long as it is the answer. Applied and then deleted,
-  // a reload fell through to the stored restore and the favourite beat the deep-linked
-  // venue. `remember` writes the venue into `area`, the last-browsed slot, never into
-  // `fav`: a link must not restar anybody's cinema. `keepParam` is false when the param
-  // decided nothing (a stale or hand-edited id), and the caller strips it so the URL
-  // cannot claim a venue the picker is not showing.
+  // a reload fell through to the favourite and it beat the deep-linked venue. Nothing
+  // here writes `fav`: a link must not restar anybody's cinema. `keepParam` is false when
+  // the param decided nothing (a stale or hand-edited id), and the caller strips it so
+  // the URL cannot claim a venue the picker is not showing. A null area is the chooser:
+  // until 2026-09-13 a stored last-browsed slot (`pr.area`) and then the first venue in
+  // the list filled it, so a first visit opened an arbitrary Helsinki cinema. The slot
+  // is neither written nor read any more; a value an older build stored is ignored.
   function startupArea(deep, pr, known){
-    if(known(deep))     return { area: deep,    remember: true,  keepParam: true };
-    if(known(pr.fav))   return { area: pr.fav,  remember: false, keepParam: false };
-    if(known(pr.area))  return { area: pr.area, remember: false, keepParam: false };
-    return { area: null, remember: false, keepParam: false };
+    if(known(deep))     return { area: deep,    keepParam: true };
+    if(known(pr.fav))   return { area: pr.fav,  keepParam: false };
+    return { area: null, keepParam: false };
   }
-  // -> the query string a deep-linked tab should carry once the reader picks something
-  // else, or null to leave the URL alone. Only rewrites a param that is already there:
-  // an ordinary visit to `/` should not grow one just because somebody used the picker.
+  // -> the query string the tab should carry once the reader picks a location. The URL
+  // is the location's identity now that / is the chooser: a pick always writes `area`,
+  // so a reload, a share and Back/Forward all name what is on screen. Null when the URL
+  // already says it, so the caller adds no history entry for a pick of the same thing.
   function areaParamAfterSelect(search, id){
     const q = new URLSearchParams(search);
-    if(!q.has('area')) return null;
+    if(q.get('area') === id) return null;
     q.set('area', id);
     return q.toString();
+  }
+  // -> where a chooser city link points in each language: the Finnish and English city
+  // pages exist, Swedish has none and follows the pages' own language-link rule, the app
+  // with `?area=` and `lang=sv`.
+  function homeCityHref(city, slug, lang){
+    if(lang === 'en') return `/en/city/${slug}/`;
+    if(lang === 'sv') return `/?area=${encodeURIComponent('city:' + city)}&lang=sv`;
+    return `/kaupunki/${slug}/`;
   }
   // -> which UI language a load starts in. `?lang=` is the second half of the deep link
   // the generated pages carry; without it a reader with nothing stored opened a Finnish
@@ -2047,21 +2115,102 @@
       history.replaceState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
     } catch(_){}
   }
+  function pushQuery(q){
+    try {
+      const u = new URL(location.href);
+      history.pushState(null, '', u.pathname + (q ? '?' + q : '') + u.hash);
+    } catch(_){}
+  }
+
+  // --- the chooser: what / is with no location -------------------------------------------
+  // The static markup inside <main> is the chooser; it is kept here because loadSchedule
+  // replaces <main>'s content, and Back to / has to put it back. `homeNote` is the one
+  // line the chooser may add: the explanation for a link naming a location the list does
+  // not have. `loadSeq` numbers every load, so a schedule that resolves after the reader
+  // has moved on (to the chooser, or to another location) is dropped instead of drawn.
+  const HOME_TEMPLATE = $('#main').innerHTML;
+  let homeNote = '', unknownDeep = false, loadSeq = 0;
+  function knownArea(id){
+    return !!id && (allVenues.some(a => a.id === id) ||
+      ((id.startsWith('city:') || id.startsWith('region:'))
+        && (groupIdsOf(id) || []).length > 1));
+  }
+  // Relabels and relinks the static chooser for the current language: the intro and
+  // heading are strings, the city list keeps its own markup and takes the language's
+  // city names, hrefs and collation.
+  function renderHome(){
+    const home = main.querySelector('#home');
+    if(!home) return;
+    const T = L[state.lang];
+    home.querySelector('.intro').textContent = T.homeIntro;
+    home.querySelector('h2').textContent = T.homeByCity;
+    const note = home.querySelector('#homeNote');
+    if(note){ note.textContent = homeNote; note.hidden = !homeNote; }
+    const ul = home.querySelector('.cities');
+    const items = [...ul.querySelectorAll('li')];
+    for(const li of items){
+      const a = li.querySelector('a');
+      if(!a) continue;
+      a.textContent = cityLabel(a.dataset.city);
+      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang);
+    }
+    const cmp = new Intl.Collator(COLLATE[state.lang]).compare;   // `coll` is built later in boot
+    items.sort((x, y) => cmp(x.textContent, y.textContent));
+    for(const li of items) ul.appendChild(li);
+  }
+  function showHome(note){
+    loadSeq++;                              // a schedule still in flight lands nowhere
+    state.area = '';
+    state.shows = [];
+    homeNote = note || '';
+    document.documentElement.classList.remove('scoped');
+    setListStatus('');
+    main.innerHTML = HOME_TEMPLATE;
+    renderHome();
+    syncVenueBtn();
+    renderTagKey();
+    renderStatus();
+  }
+  // Back/Forward. The URL is the location, so the entry's `?area=` decides: a known one is
+  // shown without a new history entry, none is the chooser, an unknown one is the chooser
+  // with its note. A hash-only step (the film sheet) fires this too and changes nothing.
+  function onPopState(){
+    let id = '';
+    try { id = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
+    const scoped = document.documentElement.classList.contains('scoped');
+    if(id && knownArea(id)){
+      if(id !== state.area || !scoped) selectVenue(id);
+      return;
+    }
+    if(!id && !scoped && !state.area) return;      // already the chooser
+    showHome(id ? L[state.lang].homeUnknown : '');
+  }
+  window.addEventListener('popstate', onPopState);
+  // --- end chooser ---------------------------------------------------------------------
 
   // `opts.keepChains`: a wider search repeats the same search in a bigger scope, so the
   // chain restriction travels with it. `opts.keepDay`: the selected day is part of that
   // search too, so the load must not advance it even when the wider scope has nothing on
   // it. A pick from the venue list passes neither and behaves as before.
+  // A Back/Forward entry already names its area, so a pick made from onPopState()
+  // rewrites nothing and pushes nothing: the URL check below is the whole rule.
   function selectVenue(id, opts){
     const o = opts || {};
-    state.area = id; prefs.set({ area: id });
-    // Keep a deep-linked URL pointing at what is on screen, so a reload does not bounce
-    // the reader back to the venue they arrived on and then navigated away from.
+    const fromHome = !state.area;
+    state.area = id;
+    homeNote = '';
+    document.documentElement.classList.add('scoped');
+    // The URL says what is on screen: a reload lands on it, a share names it, and each
+    // pick is a history entry so Back walks the picks and reaches the chooser at /.
     const q = areaParamAfterSelect(location.search, id);
-    if(q !== null) replaceQuery(q);
+    if(q !== null) pushQuery(q);
     if(!o.keepChains) state.chains = null;
     syncFav(); syncVenueBtn();
-    return loadSchedule({ keepDay: !!o.keepDay });
+    const p = loadSchedule({ keepDay: !!o.keepDay });
+    // A film link with no location (`/#m=id`) waits on the chooser; once a scope is
+    // chosen the fragment is honoured if that scope has the film. Nothing is invented.
+    if(fromHome && location.hash) p.then(() => { if(state.area === id) syncSheet(); });
+    return p;
   }
   function syncVenueBtn(){
     const el = areaSel.querySelector('.vlbl');
@@ -2077,7 +2226,7 @@
       el.textContent = `${regionLabel(r)} (${(regionGroups[r] || []).length})`;
     } else {
       const v = venueIndex[state.area];
-      el.textContent = v ? v.label : '';
+      el.textContent = v ? v.label : L[state.lang].homePick;   // the chooser's prompt
     }
   }
   areaSel.onclick = openVenueSheet;
@@ -2093,22 +2242,18 @@
     venueIndex = {};
     for(const a of areas) venueIndex[a.id] = Object.assign({}, a, { short: shortOf(a), label: labelOf(a) });
     buildAreaOptions();
-    // A starred venue opens every time; otherwise fall back to the last one browsed.
+    // A starred venue opens every time; otherwise the chooser.
     const pr = prefs.get();
-    const known = id => !!id && (areas.some(a => a.id === id) ||
-      ((id.startsWith('city:') || id.startsWith('region:'))
-        && (groupIdsOf(id) || []).length > 1));
-    // ?area= beats both: the pre-rendered pages link here, and a reader arriving from a
-    // search for one cinema must land on it. Validated against the venue list like any
-    // stored value, so a stale link falls through to the normal restore. The decision is
-    // startupArea().
+    // ?area= beats the favourite: the pre-rendered pages link here, and a reader arriving
+    // from a search for one cinema must land on it. Validated against the venue list like
+    // the stored value, so a stale link falls through. The decision is startupArea().
     let deep = '';
     try {
       deep = new URLSearchParams(location.search).get('area') || '';
     } catch(_){ deep = ''; }
-    const route = startupArea(deep, pr, known);
-    state.area = route.area || areas[0].id;
-    if(route.remember) prefs.set({ area: route.area });
+    const route = startupArea(deep, pr, knownArea);
+    state.area = route.area || '';
+    unknownDeep = !!deep && !route.keepParam;
     if(deep && !route.keepParam){
       // The link named a venue that is not in the list any more. Take it out of the URL
       // rather than leaving it to contradict the picker on screen.
@@ -2278,16 +2423,21 @@
   // below must leave it, decided before anything is drawn so nothing flickers.
   async function loadSchedule(opts){
     const keepDay = !!(opts && opts.keepDay);
+    const seq = ++loadSeq;
+    const area = state.area;
     setListStatus('');
     main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
-      if(!jsonCache[state.area]){
-        jsonCache[state.area] = groupIdsOf(state.area)
-          ? await loadGroup(state.area)
-          : await fetchJSON(`data/area-${state.area}.json`);
+      if(!jsonCache[area]){
+        jsonCache[area] = groupIdsOf(area)
+          ? await loadGroup(area)
+          : await fetchJSON(`data/area-${area}.json`);
         lastLoad = Date.now();   // only a real fetch counts; a cache hit proves nothing
       }
-      const cache = jsonCache[state.area];
+      // The reader may have moved on while this was in flight: Back to the chooser, or
+      // another pick. The payload stays cached for the next visit; nothing is drawn.
+      if(seq !== loadSeq) return;
+      const cache = jsonCache[area];
       if(cache.generated) state.generated = cache.generated;
       state.genProvider = cache.oldest || (venueIndex[state.area] || {}).provider || '';
       state.dates = Array.isArray(cache.dates) ? cache.dates : null;
@@ -2313,6 +2463,7 @@
       // rather than only at startup or on a language switch.
       if(searchEl && !searchEl.value) searchEl.placeholder = searchHint();
     } catch(e){
+      if(seq !== loadSeq) return;          // a stale failure must not cover the chooser
       setListStatus('');
       main.innerHTML = netErrorHtml(e);
     }
@@ -2321,6 +2472,17 @@
   // Stale banner and footer credit. Pulled out of loadSchedule so applyLang can
   // redraw them: they carry translated strings and used to stay stale until reload.
   function renderStatus(){
+    if(!state.area){
+      // The chooser: no schedule, so no banner and no credit line.
+      for(const id of ['partial', 'stale']){
+        const el = document.getElementById(id);
+        if(el) el.style.display = 'none';
+      }
+      const creditEl = document.querySelector('#credit');
+      if(creditEl) creditEl.textContent = '';
+      renderContact();
+      return;
+    }
     // Painted before the `generated` guard below: a city where every part failed has no
     // timestamp at all, and that is the case that must not render as an
     // ordinary empty day.
@@ -3301,6 +3463,7 @@
     sheetEl.addEventListener('pointercancel', end);
   })();
   function syncSheet(){
+    if(!state.area) return;                 // a film link waits for a location
     const m = location.hash.match(/m=(.+)$/);
     if(m){
       let id = m[1];
@@ -3363,8 +3526,8 @@
     // all carry translated text, so they need an explicit redraw here.
     if(allVenues.length) buildAreaOptions();     // re-sorts cities and redraws the trigger
     if(vwrap.classList.contains('open')) vDraw();
-    render();
-    renderTagKey();
+    if(state.area){ render(); renderTagKey(); }
+    else { renderHome(); syncVenueBtn(); }         // the chooser has no list to redraw
     renderStatus();
     renderContact();
     applyAriaLabels();
@@ -3592,7 +3755,9 @@
         for(const p of PROV_FALLBACK) if(p.id !== 'finnkino') prefetch(`data/venues-${p.id}.json`);
         let target = '';
         try { target = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
-        target = target || pr.fav || pr.area || '';
+        // Only a location the load will show: the link's, or the favourite's. With
+        // neither, the chooser opens and no schedule is fetched.
+        target = target || pr.fav || '';
         if(target.startsWith('city:') || target.startsWith('region:')){
           for(const id of (pr.cityIds || {})[target] || []) prefetch(`data/area-${id}.json`);
         } else if(target){
@@ -3600,10 +3765,15 @@
         }
       }
       // The static markup says this in Finnish, the default; EN prefs re-say it here
-      // before the first fetch resolves.
+      // before the first fetch resolves. The chooser is restated in place, the loading
+      // line only where a location is on its way (the <head> script's class).
       if(state.lang !== 'fi'){   // static markup is Finnish; restate it for sv/en
-        setListStatus('');
-        main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingTheatres}</div>`;
+        renderHome();
+        syncVenueBtn();
+        if(document.documentElement.classList.contains('scoped')){
+          const boot = main.querySelector('.boot .status');
+          if(boot) boot.innerHTML = `<div class="reel"></div>${L[state.lang].loadingTheatres}`;
+        }
       }
       buildDays();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
@@ -3630,12 +3800,24 @@
       fiDay = L[state.lang].days;
       searchEl.placeholder = searchHint();
       buildDays();
+      if(!state.area){
+        // No link, no favourite: the chooser. A link that named nothing the list has
+        // says so in one line. Nothing is fetched beyond the venue lists.
+        showHome(unknownDeep ? L[state.lang].homeUnknown : '');
+        return;
+      }
       await loadSchedule();
       // A direct link carries the film in the fragment. Nothing fired hashchange for it,
       // so the sheet stayed closed on a load or a refresh; open it once the schedule
       // that names the film is here, since showSheet reads it from jsonCache.
       if(location.hash) syncSheet();
     } catch(e){
+      if(!state.area && !document.documentElement.classList.contains('scoped')){
+        // The venue lists did not arrive and nothing was asked for: the static chooser
+        // stands, its city links are plain pages and need none of this.
+        showHome();
+        return;
+      }
       setListStatus('');
       main.innerHTML = netErrorHtml(e);
     }

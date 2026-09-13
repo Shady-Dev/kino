@@ -1819,6 +1819,25 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The homepage is a chooser, not an arbitrary cinema (2026-09-13, v141)
+Bug: `/` with nothing stored opened `areas[0]` (Finnkino Cine Atlas), and every pick wrote a
+last-browsed `area` slot that the next visit restored as if chosen. Fix: `startupArea()`
+is URL, then explicit `fav`, then null = the chooser; the slot is neither written nor
+read. The chooser is static markup in `<main>` (intro, `Näytösajat kaupungeittain`, city
+links written by `build_pages.py --home` from the multi-venue rule, markers
+`cities:start/end`; main() only warns when stale, the commit is a human one with the
+sw bump); `renderHome()` relabels it per language, sv links go to `/?area=city:X&lang=sv`
+since sv has no pages. `html.scoped` (set before first paint by a 20-line `<head>` script
+when `?area=` or a stored `fav` exists, then by picks and popstate) hides `#home` or hides
+the schedule controls with `display:none`, so they are not tabbable. A pick pushes
+`?area=` (URL is the location's identity; `/` never grew one before), `onPopState()`
+restores chooser or scope, `loadSeq` drops a schedule that resolves after Back. Invalid
+`?area=` with no favourite: chooser plus one note line. No storage added, nothing sent.
+Not done: generated pages untouched; the Ajat/times view unchanged. Tests:
+`test_home_flow.py` (12, node harness), `test_home_static.py` (12), routing 32; 18
+mutations red. Live at the rig: no `area-*.json` fetched on `/`, Tab order is
+lang, theme, picker, 11 cities, status link; pick, Back and Forward verified.
+
 ### The perforation sits before the price (2026-09-13, v140)
 Bug: on the combined ticket the dashed seam and notches sat after the time (`--tw`) with
 the price loose at the far right; on the row ticket an unpriced screening kept a blank

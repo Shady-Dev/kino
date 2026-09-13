@@ -105,8 +105,9 @@ class WiringTest(unittest.TestCase):
         self.assertNotIn("prefs.set", body)
         sel = HTML[HTML.index("function selectVenue(id, opts)"):HTML.index("function syncVenueBtn()")]
         self.assertIn("if(!o.keepChains) state.chains = null;", sel)
-        self.assertIn("return loadSchedule({ keepDay: !!o.keepDay });", sel)
-        self.assertIn("prefs.set({ area: id })", sel)
+        self.assertIn("const p = loadSchedule({ keepDay: !!o.keepDay });", sel)
+        self.assertIn("return p;", sel)
+        self.assertNotIn("prefs.set(", sel)          # no last-browsed slot since 2026-09-13
         self.assertNotIn("fav", sel.replace("syncFav", ""))
 
     def test_the_click_goes_through_the_list_handler(self):

@@ -1093,6 +1093,8 @@ def main(today=None) -> int:
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")
+    if sync_home(write=False):
+        print("[pages] index.html city links stale: run build_pages.py --home")
     if _unmirrored_hosts:
         total = sum(_unmirrored_hosts.values())
         where = ", ".join(f"{h} x{n}" for h, n in sorted(_unmirrored_hosts.items()))
@@ -1106,6 +1108,59 @@ def main(today=None) -> int:
     return 0
 
 
+# ---------------------------------------------------------------- the homepage's city links
+# index.html opens on a chooser when neither the URL nor a stored favourite names a
+# location, and the chooser lists the city landing pages this script builds. The list is
+# markup in index.html, between these markers, so it is there without JavaScript and
+# before any data loads; it is generated from the same multi-venue rule as the pages, so
+# a link can only point at a page that exists. `--home` rewrites the block; main() only
+# reports when it is stale, because a change to index.html carries a service-worker bump
+# and is a human commit, and the cloud workflow stages the pages alone.
+HOME_START = "<!-- cities:start -->"
+HOME_END = "<!-- cities:end -->"
+INDEX = ROOT / "index.html"
+
+
+def home_cities(venues=None):
+    """The cities with a landing page, Finnish order. -> [{"city", "slug"}]"""
+    venues = load_venues() if venues is None else venues
+    by_city = {}
+    for v in venues:
+        by_city.setdefault(city_of(v), []).append(v)
+    multi = [c for c, vs in by_city.items() if len(vs) > 1]
+    return [{"city": c, "slug": slug(c)} for c in sorted(multi, key=str.casefold)]
+
+
+def home_links_html(cities):
+    """One <li> per city. The Finnish page is the static href; `data-city` and
+    `data-slug` let the client relabel and relink the list for sv and en."""
+    return "".join(f'\n<li><a href="/kaupunki/{c["slug"]}/" data-city="{esc(c["city"])}" '
+                   f'data-slug="{c["slug"]}">{esc(c["city"])}</a></li>' for c in cities) + "\n"
+
+
+def home_block(html, links=None):
+    """index.html with the marked block replaced by `links`; the current block when
+    `links` is None. -> (text, current block) or raises when the markers are missing."""
+    a, b = html.index(HOME_START) + len(HOME_START), html.index(HOME_END)
+    current = html[a:b]
+    if links is None:
+        return html, current
+    return html[:a] + links + html[b:], current
+
+
+def sync_home(write):
+    """Compare index.html's city links with the data; rewrite them when `write`.
+    -> True when they differed."""
+    html = INDEX.read_text(encoding="utf-8")
+    links = home_links_html(home_cities())
+    new, current = home_block(html, links)
+    if current == links:
+        return False
+    if write:
+        common.write_text_atomic(INDEX, new)
+    return True
+
+
 def cli(argv):
     ap = argparse.ArgumentParser(
         description="Render the indexable venue and city pages from data/.")
@@ -1113,7 +1168,14 @@ def cli(argv):
                     help="the day to build for: an ISO date, or `recorded` for the day the "
                          "committed sitemap.xml carries, which is how CI reproduces the "
                          "committed pages. Default: today in Europe/Helsinki.")
+    ap.add_argument("--home", action="store_true",
+                    help="rewrite the homepage's city links in index.html from the data "
+                         "and exit; bump sw.js when committing the result")
     args = ap.parse_args(argv)
+    if args.home:
+        changed = sync_home(write=True)
+        print(f"[pages] index.html city links {'rewritten' if changed else 'unchanged'}")
+        return 0
     if args.date is None:
         today = None
     elif args.date == "recorded":

@@ -46,9 +46,13 @@ const PRELUDE = `
   let state = {};
   const jsonCache = {};
   let lastLoad = 0;
-  const location = { search: '' };
+  const location = { search: '', hash: '' };
   const areaParamAfterSelect = () => null;
   const replaceQuery = () => {};
+  const pushQuery = () => {};
+  let homeNote = '', loadSeq = 0;
+  const syncSheet = () => {};
+  const document = { documentElement: { classList: { add(){}, remove(){}, contains(){ return true; } } } };
   const syncFav = () => calls.push('syncFav');
   const syncVenueBtn = () => calls.push('syncVenueBtn');
   const setListStatus = () => {};
