@@ -614,9 +614,14 @@ entry: `unpublish()` strips `tmdb votes tr gids tmdbId` and a TMDB poster; `merg
 clears `r tr img en` for every untrusted key, `fi` only when equal to the candidate's own
 overview (79 other texts checked, all cinema copy). Posters carry `isrc: "tmdb"` (set by
 the pass and by the `run.py` carry); a trusted entry replaces a marked stale poster, an
-untrusted one drops it, unmarked mirrored posters are the cinema's. Old unmarked carries
-get the mark on each adapter's next `run.py` run (local run for the local half). The
-carry itself stays: 208 trusted shows sat on one. Cache, budgets, picker unchanged.
+untrusted one drops it. An unmarked mirrored poster is left alone: the path cannot tell a
+cinema's poster from a pre-mark TMDB one, only the next `run.py` run of that adapter can
+(adapter publishes a poster: remote URL, cinema's; none: carried and marked). Cloud files
+got that at c228d2b6. Legacy poster cleanup pending on the local half: Regina publishes
+no posters, so its 110 shows are all TMDB mirrors, 98 the trusted entry's own, 12 titles
+from an older candidate (Naisen kasvot still Obsession's). To verify after the next local
+run and its cloud follow-up: those 12 replaced or blank, cinema posters elsewhere kept.
+The carry itself stays: 208 trusted shows sat on one. Cache, budgets, picker unchanged.
 The 2026-08-27 "weak match still beats no film" rule now covers the search only.
 Tests: `test_tmdb_trust.py` 20 / 20 mutations red, `test_finnkino_trust.py` 4 / 5,
 `test_run_partial.py` +1.
