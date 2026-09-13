@@ -1,9 +1,12 @@
 """Vista public XML web services — a *platform*, not a site.
 
-Vista is the ticketing system behind Finnkino, and its web front end exposes a set of
-unauthenticated XML endpoints. Korjaamo Kino leaves them open, so any other Vista cinema
-that does the same is a `SITES` entry here with a base URL and its venue list, no new
-parser. Check `{base}/xml/TheatreAreas/` before adding one.
+Vista is the ticketing platform Finnkino also runs. A site that leaves its /xml/ services
+open needs no auth (Korjaamo Kino today, Savon Kinot before 2026-08-30), so any such
+cinema is a `SITES` entry here with a base URL and its venue list, no new parser. Check
+`{base}/xml/TheatreAreas/` before adding one. Finnkino's own host answers a plain client
+with a Cloudflare challenge (403, `cf-mitigated: challenge`, probed 2026-09-13) and is
+read through OCAPI with a token by `fetch_data.py` instead; its /xml/ was never probed
+past the challenge.
 
     GET {base}/xml/TheatreAreas/                     -> ID + Name per area
     GET {base}/xml/Schedule/?area={id}&nrOfDays=31    -> every Show in the window

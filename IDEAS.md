@@ -124,8 +124,7 @@ the 12 h JWT expiry.
   removed. The direct-fetch fallback only works from an ordinary connection.
 
 Machine setup, schedule, token retrieval and credentials live in local private notes.
-Superseded: pushing the token into repository secrets and rotating it. The leftover
-`FINNKINO_SECRET` should be deleted in repository settings.
+Superseded: pushing the token into repository secrets and rotating it.
 
 ## Multi-provider — current state
 Goal: coverage for everyone, including small towns. Shape: one adapter per provider, or
@@ -547,10 +546,12 @@ Reported missing by the user on three venues where the browser shows a price.
   film page in a headless browser on the local half, or ask the cinema or Johku for a feed.
 
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
-`scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web
-front end exposes unauthenticated XML services. A Vista cinema that leaves them open is a
-`SITES` entry with a base URL and a venue list. Test a candidate with
-`{base}/xml/TheatreAreas/`.
+`scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
+that leaves its /xml/ services open needs no auth (Korjaamo Kino today, Savon Kinot before
+2026-08-30) and is a `SITES` entry with a base URL and a venue list. Test a candidate with
+`{base}/xml/TheatreAreas/`. Finnkino's own host answers a plain client with a Cloudflare
+challenge (403, `cf-mitigated: challenge`, probed 2026-09-13) and is read through OCAPI
+with a token instead; its /xml/ was never probed past the challenge.
 
 ```
 GET {base}/xml/TheatreAreas/                    -> ID + Name per area
