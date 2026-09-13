@@ -1753,6 +1753,12 @@ biljettförsäljning.", EN "Indicative price. Final price at the cinema's ticket
 No banner, icon or tooltip; tickets and price fields unchanged. `tests/test_price_note.py`,
 five mutations red.
 
+### The empty-search message names the day (2026-09-13, v135)
+"Yksikään elokuva ei vastaa suodattimia." read as a verdict on the film. Now FI "Valitulle
+päivälle ei löytynyt näytöksiä näillä hakuehdoilla.", EN "No screenings match your
+filters on the selected date.", SV "Inga visningar matchar dina filter på det valda
+datumet.", the user's wording. Pinned in `tests/test_finnish_copy.py`.
+
 ### An empty film search offers the next day it finds a screening (2026-09-13, v134)
 Searching a film on a day it does not play showed only the clear-filters button; the
 next-day link was suppressed whenever a filter was on. Now a nonblank search with nothing

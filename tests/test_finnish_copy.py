@@ -65,6 +65,7 @@ class ClientCopyTest(unittest.TestCase):
         self.assertEqual(self.fi["partialOf"], "Näytöstiedot eivät päivittyneet {n}/{m} teatterilta")
         self.assertEqual(self.fi["notpublished"], "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
         self.assertEqual(self.fi["sheetNone"], "Ei näytöksiä valitussa teatterissa.")
+        self.assertEqual(self.fi["nomatch"], "Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.")
         self.assertIn("sheetNone:'", HTML[HTML.index("\n    sv:{"):])          # sv and en have it too
         self.assertEqual(HTML.count("sheetNone:'"), 3)
         self.assertIn("L[lang].sheetNone", HTML)
