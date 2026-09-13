@@ -35,8 +35,12 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # raise instead of vanishing, so a renamed row field can never read as a quiet empty
 # programme -- and a mis-mapped room-split venue cannot be silently empty either,
 # because its town's rows land in the unclaimed-room log line. An adapter whose venue
-# match is a substring test over markup (etiketti) must NOT set this: a rotted match
-# yields the same empty list while the page still lists films.
+# match is a substring test over markup (etiketti) sets this only on evidence the read
+# itself produced, because a rotted match and a drifted screening pattern both yield the
+# same empty list while the page still lists films: there, the site's own theatre
+# navigation has to name the venue, every film page has to have been fetched and parsed,
+# every page with screening blocks has to have produced at least one row, and every row
+# has to have been taken by a registered venue. Any miss clears the confirmation.
 EMPTY_VENUES_CONFIRMED = True
 
 SITES = [

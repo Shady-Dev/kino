@@ -23,9 +23,9 @@ run.py publish a fresh empty file for such a venue instead of keeping its last, 
 shows marked stale, but only on positive evidence from this read: the listing's own
 theatre navigation (`/teatterit/<slug>` links) names the venue with its registered
 `match` text, every film page was fetched and parsed, and every screening row matched a
-registered venue. A fetch that skipped a page, a row naming a place nobody registered,
-or a venue the navigation does not list leaves the venue out of the result, and run.py
-keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the provider
+registered venue. A fetch that skipped a page, a page whose screening blocks all lacked a
+readable time, a row naming a place nobody registered, or a venue the navigation does not
+list leaves the venue out of the result, and run.py keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the provider
 read "not updated" for its past shows.
 """
 import re
@@ -377,7 +377,12 @@ def _place_class(cls):
 
 
 def parse_movie(page, site, movie_url):
-    """-> (list of raw screenings, film meta)."""
+    """-> (list of raw screenings, film meta).
+
+    `meta["skipped"]` counts screening blocks this parser found and could not read a time
+    out of. A page whose blocks all land there is a template that moved, and fetch_site
+    needs to tell that apart from a film with no screenings left.
+    """
     h1 = H1_RE.search(page)
     title = _txt(h1.group(1)) if h1 else ""
     age = AGE_RE.search(page)
@@ -400,13 +405,14 @@ def parse_movie(page, site, movie_url):
     d = DESC_RE.search(page)
     syn = AGE_BOILER_RE.sub("", _txt(d.group(1))) if d else ""
 
-    out = []
+    out, skipped = [], 0
     for m in ITEM_RE.finditer(page):
         cls, block = m.group(1), m.group(2)
         dm = ITEM_DATE_RE.search(cls)
         d, mo, y = int(dm.group(1)), int(dm.group(2)), int(dm.group(3))
         tm = TIME_RE.search(block)
         if not tm:
+            skipped += 1
             continue
         place = PLACE_RE.search(block)
         # Niagara prints no place line; its item carries the place as a class instead
@@ -433,7 +439,7 @@ def parse_movie(page, site, movie_url):
             "url": site["base"] + (book.group(1) if book else movie_url),
         })
     return out, {"title": title, "rating": rating, "len": minutes, "img": img,
-                 "lang": lang, "genres": genres, "syn": syn}
+                 "lang": lang, "genres": genres, "syn": syn, "skipped": skipped}
 
 
 def _film_container(listing):
@@ -531,6 +537,15 @@ def fetch_site(site, sleep=1.2):
             complete = False
             continue
         rows, meta = parse_movie(page, site, path)
+        # Screening blocks on the page and not one of them readable. That is TIME_RE off
+        # the template, and it looks exactly like a film nobody is showing any more: every
+        # venue ends the read rowless and every venue the navigation names would be
+        # published empty. nexxo.py raises on the same shape; here the read is only
+        # disqualified, so the venues that did parse still publish their rows.
+        if meta["skipped"] and not rows:
+            print(f"[{site['provider']}] movie {mid}: {meta['skipped']} screening block(s), "
+                  f"none with a readable time; no venue of this site can be called empty")
+            complete = False
         for r in rows:
             # One public screening, one show, whatever the markup repeats. The ticket id
             # is the key. A row without one is keyed on the film, its start, the place

@@ -3362,6 +3362,22 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### A drifted screening pattern could confirm every eTiketti venue empty (2026-09-14)
+Bug: `complete` was cleared by a failed fetch and by an unregistered place, never by a
+film page that fetched and parsed to nothing. With TIME_RE off the template every venue
+ends the read rowless and `EMPTY_VENUES_CONFIRMED` publishes a fresh empty file for each
+one the navigation names: Cine reproduced as (0 live, 0 showtimes, both pending),
+`area-cine-keuda.json` overwritten with `shows: []`, exit 0. CLAUDE.md's case, a listing
+that lists films while the parse yields nothing, has to keep failing.
+Fix: `parse_movie` counts the blocks it could read no time out of, and a page with blocks
+and no row clears `complete`, so that site confirms no venue empty. The read is
+disqualified rather than raised on as nexxo does: one odd block among readable ones is not
+a template move, and the venues that did parse still publish. No live venue and nothing
+confirmed empty is already a run.py failure.
+Tests: a Keuda page with the clock gone from both blocks vouches for nothing, keeps both
+previous files and writes no provider file; a mixed page still confirms. The fixtures and
+the stub now come from `test_etiketti_templates`. Seven mutations.
+
 ### eTiketti confirms an empty venue from its own navigation (2026-09-13)
 Bug: Cine Nikkilä's programme ended with the 16:45 screening on 13.9. The 20:12 local run
 found no row for it, took the keep-previous branch, and the provider read "Päivitys

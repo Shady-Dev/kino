@@ -6,8 +6,7 @@ every run. Now the adapter reports a rowless venue as an empty list when the lis
 theatre navigation names it and the read left nothing unexplained. Fixtures are Cine's
 shape in the Kotka template: the town is the place line and the cinema is the room.
 """
-import datetime
-import importlib
+import functools
 import json
 import pathlib
 import tempfile
@@ -15,14 +14,12 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import common                                              # noqa: F401
-
-
-def load():
-    return importlib.import_module("etiketti")
+from test_etiketti_templates import HIDDEN, Stubbed as StubbedGet, listing, load
+from test_etiketti_templates import site as site_of
 
 
 def site():
-    return next(s for s in load().SITES if s["provider"] == "cine")
+    return site_of("cine")
 
 
 NAV = ('<div class="footer-nav"><ul><li><a href="/teatterit">Teatterit</a><ul>'
@@ -32,14 +29,12 @@ NAV = ('<div class="footer-nav"><ul><li><a href="/teatterit">Teatterit</a><ul>'
        '<li><a href="/teatterit/kiertue">Kiertuenäytökset</a></li></ul></li></ul></div>')
 NAV_WITHOUT_NIKKILA = NAV.replace('<li><a href="/teatterit/nikkila">Cine Nikkilä</a></li>', "")
 PROSE = '<ul><li><a href="/esitysjaksot">Esitysjaksot Keravalla ja Nikkilässä</a></li></ul>'
-HIDDEN = ('<div class="no-results" id="no-results" style="display: none;">'
-          "<p>Ei näytöksiä valitsemallasi päivämäärällä.</p></div>")
 
 
-def listing(paths, nav=NAV):
-    cards = "".join(f'<div class="item kerava date-17.9.2026 name-x"><a href="{p}">x</a></div>'
-                    for p in paths)
-    return f'<main><div class="screenings movie-list">{cards}</div>{HIDDEN}</main>{PROSE}{nav}'
+def cine_listing(*paths, nav=NAV):
+    """Cine's listing: the film cards, then the footer prose and the theatre navigation.
+    The prose is always there, so every fetch test also proves it identifies nothing."""
+    return listing(*paths, nav=PROSE + nav)
 
 
 def item(day, hhmm, place, room, sid):
@@ -57,26 +52,15 @@ def film(*items):
 KEUDA_FILM = film(item(17, "18.00", "KERAVA", "CINE KEUDA-TALO", 901),
                   item(18, "18.00", "KERAVA", "CINE KEUDA-TALO", 902))
 MANTSALA_FILM = film(item(17, "19.00", "MÄNTSÄLÄ", "CINE MÄNTSÄLÄ", 903))
+# Keuda's page with the clock gone from both of its screening blocks. `klo 18.00` is what
+# TIME_RE reads, so this is the template moving under the parser: the blocks are still
+# there and not one of them produces a row.
+DRIFTED_FILM = KEUDA_FILM.replace(" klo 18.00", "")
 
 
-def stub_get(mapping):
-    def get(url, tries=3):
-        for suffix, page in mapping.items():
-            if url.endswith(suffix):
-                if isinstance(page, Exception):
-                    raise page
-                return page
-        raise AssertionError(f"unexpected fetch: {url}")
-    return get
-
-
-class Stubbed(unittest.TestCase):
+class Stubbed(StubbedGet):
     def fetch(self, mapping):
-        e = load()
-        real = e.get
-        e.get = stub_get(mapping)
-        self.addCleanup(lambda: setattr(e, "get", real))
-        return e.fetch_site(site(), sleep=0)
+        return self.stub(mapping).fetch_site(site(), sleep=0)
 
 
 class ConfirmedEmptyTest(Stubbed):
@@ -85,7 +69,7 @@ class ConfirmedEmptyTest(Stubbed):
         self.assertTrue(load().EMPTY_VENUES_CONFIRMED)
 
     def test_a_rowless_venue_named_by_the_navigation_comes_back_empty(self):
-        out = self.fetch({"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki"]),
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
                           "/elokuvat/13/hetki": KEUDA_FILM})
         self.assertEqual(sorted(out), ["cine-keuda", "cine-nikkila"])
         self.assertEqual(out["cine-nikkila"], [])
@@ -94,7 +78,7 @@ class ConfirmedEmptyTest(Stubbed):
         self.assertEqual(out["cine-keuda"][0]["theatre"], "Cine Keuda-Talo")
 
     def test_a_film_page_that_failed_to_fetch_leaves_the_venue_unconfirmed(self):
-        out = self.fetch({"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki", "/elokuvat/21/myrsky"]),
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
                           "/elokuvat/13/hetki": KEUDA_FILM,
                           "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
         self.assertEqual(sorted(out), ["cine-keuda"], "Keuda keeps its rows, Nikkilä is not vouched for")
@@ -102,15 +86,45 @@ class ConfirmedEmptyTest(Stubbed):
 
     def test_a_row_for_a_place_nobody_registered_leaves_the_venue_unconfirmed(self):
         """A renamed venue looks exactly like an unregistered place."""
-        out = self.fetch({"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki", "/elokuvat/2/prima"]),
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/2/prima"),
                           "/elokuvat/13/hetki": KEUDA_FILM,
                           "/elokuvat/2/prima": MANTSALA_FILM})
         self.assertEqual(sorted(out), ["cine-keuda"])
 
     def test_a_venue_the_navigation_does_not_name_is_not_identified(self):
-        out = self.fetch({"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki"], nav=NAV_WITHOUT_NIKKILA),
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", nav=NAV_WITHOUT_NIKKILA),
                           "/elokuvat/13/hetki": KEUDA_FILM})
         self.assertEqual(sorted(out), ["cine-keuda"])
+
+    def test_a_page_whose_blocks_lost_their_time_vouches_for_no_venue(self):
+        """The failure EMPTY_VENUES_CONFIRMED makes dangerous: a parse that stops reading
+        screening blocks leaves every venue rowless, which is indistinguishable from a
+        chain with nothing on. Both venues are named by the navigation, so without the
+        guard both would come back confirmed empty."""
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                          "/elokuvat/13/hetki": DRIFTED_FILM})
+        self.assertEqual(out, {}, "a drifted screening pattern confirms nothing")
+
+    def test_one_unreadable_block_beside_a_readable_one_is_not_drift(self):
+        """Where the line sits, and why it is not "any skipped block": a page that still
+        produced a row is a page this parser reads, so a single odd block does not
+        withhold the confirmation. nexxo.py draws it in the same place."""
+        mixed = film(item(17, "18.00", "KERAVA", "CINE KEUDA-TALO", 901),
+                     item(18, "18.00", "KERAVA", "CINE KEUDA-TALO", 902).replace(" klo 18.00", ""))
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                          "/elokuvat/13/hetki": mixed})
+        self.assertEqual(sorted(out), ["cine-keuda", "cine-nikkila"])
+        self.assertEqual(len(out["cine-keuda"]), 1)
+
+    def test_a_drifted_page_beside_a_readable_one_still_publishes_the_rows_it_read(self):
+        """Disqualifying the read is not failing the site: Keuda's rows are real and get
+        published, and only the empty-venue confirmation is withheld."""
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki",
+                                                                  "/elokuvat/21/myrsky"),
+                          "/elokuvat/13/hetki": KEUDA_FILM,
+                          "/elokuvat/21/myrsky": DRIFTED_FILM})
+        self.assertEqual(sorted(out), ["cine-keuda"])
+        self.assertEqual(len(out["cine-keuda"]), 2)
 
     def test_prose_naming_the_town_identifies_nothing(self):
         e = load()
@@ -138,10 +152,12 @@ class RunSiteTest(Stubbed):
         (run.OUT / "area-cine-nikkila.json").write_text(json.dumps(self.PREV), encoding="utf-8")
 
     def run_site(self, mapping):
-        e = load()
-        real = e.get
-        e.get = stub_get(mapping)
-        self.addCleanup(lambda: setattr(e, "get", real))
+        e = self.stub(mapping)
+        # run.py calls fetch_site with the module's own pacing sleep, 1.2 s per film page.
+        # That is what a cinema sees on a real run and pure wall clock here.
+        real = e.fetch_site
+        e.fetch_site = functools.partial(real, sleep=0)
+        self.addCleanup(lambda: setattr(e, "fetch_site", real))
         return self.run.run_site(e, site(), self.NOW)
 
     def read(self, name):
@@ -149,7 +165,7 @@ class RunSiteTest(Stubbed):
 
     def test_a_confirmed_empty_nikkila_gets_a_fresh_empty_file_and_the_provider_is_fresh(self):
         live, total, stale, unverified, pending = self.run_site(
-            {"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki"]), "/elokuvat/13/hetki": KEUDA_FILM})
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"), "/elokuvat/13/hetki": KEUDA_FILM})
         self.assertEqual((live, total, stale, unverified, pending), (1, 2, [], [], ["cine-nikkila"]))
         nik = self.read("area-cine-nikkila.json")
         self.assertEqual((nik["generated"], nik["shows"], nik["dates"]), (self.NOW, [], []))
@@ -162,12 +178,33 @@ class RunSiteTest(Stubbed):
         """The keep-previous branch never advances the stamp, so without confirmation
         the provider stays "not updated" for as long as the venue has no row."""
         live, total, stale, unverified, pending = self.run_site(
-            {"/elokuvat/ohjelmistossa": listing(["/elokuvat/13/hetki", "/elokuvat/21/myrsky"]),
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
              "/elokuvat/13/hetki": KEUDA_FILM, "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
         self.assertEqual((stale, pending), (["cine-nikkila"], []))
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
         prov = self.read("venues-cine.json")
         self.assertEqual((prov["status"], prov["oldest"]), ("partial", self.PREV["generated"]))
+
+
+class DriftedParseTest(RunSiteTest):
+    """The same drift through run.py, with a previous file for both venues."""
+
+    def setUp(self):
+        super().setUp()
+        (self.run.OUT / "area-cine-keuda.json").write_text(json.dumps(self.PREV), encoding="utf-8")
+
+    def test_a_drifted_parse_keeps_both_files_and_leaves_the_site_failing(self):
+        live, total, stale, unverified, pending = self.run_site(
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+             "/elokuvat/13/hetki": DRIFTED_FILM})
+        self.assertEqual((live, total, unverified, pending), (0, 0, [], []))
+        self.assertEqual(sorted(stale), ["cine-keuda", "cine-nikkila"])
+        self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
+        self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
+        # No live venue and nothing confirmed empty is the run's failure condition, and
+        # the provider file is not stamped, so the health line cannot read fresh.
+        self.assertFalse(self.run.confirmed_empty_site(site(), pending))
+        self.assertFalse((self.run.OUT / "venues-cine.json").exists())
 
 
 if __name__ == "__main__":

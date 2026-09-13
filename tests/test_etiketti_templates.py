@@ -109,10 +109,12 @@ NIAGARA_FILM = niagara_page()
 FOREIGN_FILM = "<main><h1>Elokuva</h1><section><p>Liput ovelta.</p></section></main>"
 
 
-def listing(*paths):
+def listing(*paths, nav=""):
+    """The programme listing. `nav` is appended outside `main`, where the site renders its
+    theatre navigation, which is what identifies a venue with no screening row."""
     cards = "".join(f'<div class="item tampere date-3.9.2026 name-x"><a href="{p}">x</a></div>'
                     for p in paths)
-    return f'<main><div class="screenings movie-list">{cards}</div>{HIDDEN}</main>'
+    return f'<main><div class="screenings movie-list">{cards}</div>{HIDDEN}</main>{nav}'
 
 
 LISTING = listing("/elokuvat/70/the-invite", "/elokuvat/63/the-dog-stars")
@@ -122,12 +124,16 @@ GENUINELY_EMPTY = ('<main><div class="screenings movie-list"><p>Ei ohjelmistoa s
 
 def stub_get(mapping):
     """Route `etiketti.get` by URL suffix. Anything unmapped is a test error, and a
-    request for /salikartta is the one thing this adapter must never make."""
+    request for /salikartta is the one thing this adapter must never make. A mapped value
+    that is an exception is raised instead of returned, which is how a page that fails to
+    fetch is staged."""
     def get(url, tries=3):
         if "/salikartta" in url:
             raise AssertionError(f"booking page requested: {url}")
         for suffix, page in mapping.items():
             if url.endswith(suffix):
+                if isinstance(page, Exception):
+                    raise page
                 return page
         raise AssertionError(f"unexpected fetch: {url}")
     return get
