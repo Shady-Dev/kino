@@ -3395,6 +3395,21 @@ empty beside Keuda-Talo's rows; a failed page, an unregistered place or a missin
 each keep the previous file through run.py; prose alone identifies nothing. Live read
 2026-09-13: Keuda-Talo 12 rows, all matched, Nikkilä none. Seven mutations.
 
+### The design-contract entry has to be in the contract's own commit (2026-09-14)
+Bug: the check read one range and asked whether `IDEAS.md` appears anywhere in it. The
+merge-base fallback is every commit the branch has that main does not, so an entry written
+for an unrelated earlier commit answered for a later `DESIGN.md`-only one. Reproduced on a
+temp repo: exit 0 with an unreachable `before`, exit 1 with `before` naming the commit
+before it, same tree.
+Fix: `entryless_commits` lists the commits in the range that change a contract file and
+not `IDEAS.md`; any of them fails the push. The net diff gates first, so a push that
+changes a contract file and takes it back still has nothing to explain. Measured: both
+commits that ever touched `DESIGN.md` or `tests/test_design_contract.py` carry the entry
+in the same commit, and CLAUDE.md asks for that anyway, so nothing already pushed regresses.
+Tests: an entry in another commit of the branch no longer answers for the change, one in
+the contract's own commit passes, the message names the offending sha. The force-push
+mirror is re-anchored on a dropped tip carrying the same change. Seven mutations.
+
 ### A readable `before` is used only when it is an ancestor (2026-09-14)
 Bug: `push_base` returned `github.event.before` whenever the object existed, locally or
 after the fetch by SHA. After a force-push that object is the tip the push replaced, so

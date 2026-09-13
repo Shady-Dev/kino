@@ -21,6 +21,12 @@ all-zero `before`. The range is recovered in this order:
 3. otherwise exit 2 and say so. A push to the base branch itself with an unreachable
    `before` has no range to recover, and guessing one would hide a contract change.
 
+The entry has to be in the same commit as the contract change, not merely somewhere in
+the range. The merge-base fallback is a superset of the push, and read as one range an
+`IDEAS.md` edit in an unrelated earlier commit answers for a later contract-only commit.
+Per commit it cannot, and CLAUDE.md asks for the same commit anyway. The net diff still
+gates: a push that changes a contract file and takes it back has nothing to explain.
+
 Exit 0 when the contract is untouched or the IDEAS entry is present, 1 on a violation,
 2 when the range cannot be determined.
 """
@@ -82,6 +88,19 @@ def _resolve(repo, rev):
     return r.stdout.strip() if r.returncode == 0 else None
 
 
+def entryless_commits(base, after, repo):
+    """Commits in base..after that change a contract file and not IDEAS.md. -> [sha]"""
+    with_entry = set(_log(base, after, repo, (ENTRY,)))
+    return [c for c in _log(base, after, repo, CONTRACT) if c not in with_entry]
+
+
+def _log(base, after, repo, paths):
+    r = _git(repo, "log", "--format=%H", f"{base}..{after}", "--", *paths)
+    if r.returncode:
+        raise RuntimeError(r.stderr.strip())
+    return [line for line in r.stdout.splitlines() if line]
+
+
 def changed_files(base, after, repo):
     r = _git(repo, "diff", "--name-only", base, after)
     if r.returncode:
@@ -89,14 +108,16 @@ def changed_files(base, after, repo):
     return [line for line in r.stdout.splitlines() if line]
 
 
-def verdict(files):
-    """(ok, message) for the files a push changed."""
+def verdict(files, entryless=()):
+    """(ok, message) for a push: the files it changed, and the commits in it that changed
+    a contract file without touching IDEAS.md."""
     touched = sorted(f for f in files if f in CONTRACT)
     if not touched:
         return True, "design contract untouched"
-    if ENTRY in files:
-        return True, "design contract change carries an IDEAS entry"
-    return False, f"{' and '.join(touched)} changed without an IDEAS.md entry"
+    if entryless:
+        return False, (f"{' and '.join(touched)} changed without an IDEAS.md entry in the "
+                       f"same commit ({', '.join(c[:10] for c in entryless)})")
+    return True, "design contract change carries an IDEAS entry"
 
 
 def main(argv=None):
@@ -112,7 +133,8 @@ def main(argv=None):
         print(f"::error::cannot determine the push range for {args.after[:10]}: "
               f"before {args.before[:10]} is unreachable and {args.base} gives no merge base")
         return 2
-    ok, message = verdict(changed_files(base, args.after, repo))
+    ok, message = verdict(changed_files(base, args.after, repo),
+                          entryless_commits(base, args.after, repo))
     if not ok:
         print(f"::error::{message}")
         return 1

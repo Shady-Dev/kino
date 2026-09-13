@@ -72,9 +72,18 @@ class CheckDesignPushTest(unittest.TestCase):
     def test_an_unreachable_before_still_catches_the_design_change(self):
         self.assertEqual(self.run_check(MISSING, self.c), 1)
 
-    def test_an_unreachable_before_passes_when_the_entry_is_on_the_branch(self):
+    def test_an_entry_in_another_commit_of_the_branch_does_not_answer_for_the_change(self):
+        """The recovered range is a superset of the push, so "IDEAS.md changed somewhere in
+        here" lets an unrelated commit explain B's contract change. It has to be B's own."""
         commit(self.repo, "D", **{"IDEAS.md": "notes\nwhy\n"})
-        self.assertEqual(self.run_check(MISSING, "HEAD"), 0)
+        self.assertEqual(self.run_check(MISSING, "HEAD"), 1)
+        self.assertEqual(cdp.entryless_commits(self.a, "HEAD", self.repo), [self.b])
+
+    def test_the_entry_in_the_contract_commit_itself_passes(self):
+        git(self.repo, "checkout", "-q", "-B", "entry", self.a)
+        d = commit(self.repo, "D", **{"DESIGN.md": "v9\n", "IDEAS.md": "notes\nwhy\n"})
+        self.assertEqual(cdp.entryless_commits(self.a, d, self.repo), [])
+        self.assertEqual(self.run_check(MISSING, d), 0)
 
     def test_an_all_zero_before_is_a_created_ref_and_uses_the_merge_base(self):
         self.assertEqual(cdp.push_base("0" * 40, self.c, "main", self.repo, self.log.append), self.a)
@@ -94,12 +103,17 @@ class CheckDesignPushTest(unittest.TestCase):
 
     # -- the rule --------------------------------------------------------------------------
 
-    def test_the_verdict_names_the_touched_file(self):
-        ok, msg = cdp.verdict(["tests/test_design_contract.py", "index.html"])
+    def test_the_verdict_names_the_touched_file_and_the_commit_without_the_entry(self):
+        ok, msg = cdp.verdict(["tests/test_design_contract.py", "index.html"], ["0123456789abcdef"])
         self.assertFalse(ok)
-        self.assertIn("tests/test_design_contract.py changed without an IDEAS.md entry", msg)
-        self.assertEqual(cdp.verdict(["DESIGN.md", "IDEAS.md"]), (True, "design contract change carries an IDEAS entry"))
-        self.assertEqual(cdp.verdict(["index.html"]), (True, "design contract untouched"))
+        self.assertIn("tests/test_design_contract.py changed without an IDEAS.md entry in "
+                      "the same commit", msg)
+        self.assertIn("0123456789", msg)
+        self.assertEqual(cdp.verdict(["DESIGN.md", "IDEAS.md"]),
+                         (True, "design contract change carries an IDEAS entry"))
+        self.assertEqual(cdp.verdict(["index.html"], ["0123456789abcdef"]),
+                         (True, "design contract untouched"),
+                         "a push that takes its own contract change back has nothing to explain")
 
 
 class ForcePushedBranchTest(unittest.TestCase):
@@ -135,14 +149,14 @@ class ForcePushedBranchTest(unittest.TestCase):
         self.assertEqual(self.run_check(before, after), 0,
                          "the push leaves DESIGN.md at v1; the change is the one it dropped")
 
-    def test_an_entry_only_the_dropped_tip_carried_does_not_excuse_the_new_one(self):
-        """The mirror case. `before` had the contract change and its entry, `after` has the
-        contract change alone; IDEAS.md differs from the dropped tip, so the raw range
-        reads as an entry the push does not have."""
+    def test_a_contract_change_the_raw_range_cannot_see_is_still_caught(self):
+        """The mirror case. The dropped tip carried the same contract change with its
+        entry, so `before..after` shows only IDEAS.md going away and reads "contract
+        untouched" for a push that changes DESIGN.md with no entry at all."""
         before, after = self.rewrite({"DESIGN.md": "v2\n", "IDEAS.md": "notes\nwhy\n"},
-                                     {"DESIGN.md": "v3\n"})
+                                     {"DESIGN.md": "v2\n"})
         self.assertEqual(cdp.verdict(cdp.changed_files(before, after, self.repo)),
-                         (True, "design contract change carries an IDEAS entry"))
+                         (True, "design contract untouched"))
         self.assertEqual(self.run_check(before, after), 1)
 
 
