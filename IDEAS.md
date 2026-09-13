@@ -1819,6 +1819,23 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### A link can name one screening (2026-09-13, v144)
+Bug: a film link (`?area=X#m=<id>`) opened the sheet on its first day; nothing could point
+at one screening, which the per-screening share (v145) needs.
+Fix: the fragment may add `d=YYYY-MM-DD` and `t=<start ISO>`, both optional and encoded
+(`+` as `%2B`), and stays a fragment so closing the sheet drops them with `m=`.
+`screeningHash()` / `screeningUrl()` build them (the tab's `lang` travels along),
+`parseSheetHash()` reads them (a malformed `d` or `t` is dropped, a raw `+` given back;
+an old `#m=` link reads as before), `screeningTarget()` picks the ticket: the named
+screening while still ahead, else the first ahead on the named day, else the film's
+next screening through `nextMatch()`, else nothing. `showSheet(fid, want)` marks it
+`.stub.pick` (accent border) and scrolls its day heading to the body top; a plain film
+link marks and scrolls nothing. The list's day is not moved: the fragment is the sheet's
+state, not the list's. `refreshOpenSheet()` redraws with the mark and restores the scroll.
+Tests: `tests/test_screening_link.py` with `screening_link_harness.js`, 15 mutations red.
+Live at 800 px: Ti 15.9. heading 6 px from the body top, 16:30 outlined; a gone `t`
+lands on the film's next ticket.
+
 ### The homepage is a chooser, not an arbitrary cinema (2026-09-13, v141 to v143)
 Bug: `/` with nothing stored opened `areas[0]` (Finnkino Cine Atlas), and every pick wrote a
 last-browsed `area` slot the next visit restored as if chosen.

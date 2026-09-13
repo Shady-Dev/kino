@@ -729,6 +729,8 @@
   .stub.sold{opacity:.55; pointer-events:none; filter:grayscale(1)}
   .stub.sold .time{text-decoration:line-through}
   .stub.past .time{color:var(--past)}
+  /* The screening a link named: outlined, so the eye lands on it among the day's. */
+  .stub.pick{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft)}
 
   .theatre-tag{color:var(--accent-text); font-weight:600}
   .tmdb{color:var(--accent-text); font-weight:700}
@@ -2121,6 +2123,59 @@
   }
   // --- end area routing ---
 
+  // --- screening link: pure, extracted verbatim by tests/screening_link_harness.js ---
+  // A link can name one screening. The location stays in the query (`?area=`) and the
+  // sheet's state in the fragment: `m=` the film as before, `d=` the day the link was
+  // made for and `t=` the screening's start, both optional. In the fragment, not the
+  // query: closing the sheet strips the fragment, so a day and a screening never
+  // outlive the sheet they describe, and a plain `?area=` link is unchanged.
+  function screeningHash(fid, day, start){
+    let h = 'm=' + encodeURIComponent(fid);
+    if(day)   h += '&d=' + encodeURIComponent(day);
+    if(start) h += '&t=' + encodeURIComponent(start);
+    return h;
+  }
+  // -> the share URL: the tab's own URL with `area` set and the fragment replaced, so
+  // `lang` and anything else the reader arrived with travel along.
+  function screeningUrl(href, area, fid, day, start){
+    const u = new URL(href);
+    u.searchParams.set('area', area);
+    u.hash = screeningHash(fid, day, start);
+    return u.href;
+  }
+  // -> what the fragment names: {fid, day, start}, or null without a film. `d` has to
+  // be a date and `t` an instant Date.parse accepts; anything else is dropped rather
+  // than guessed at. An older `#m=<id>` link, id encoded, reads as before.
+  function parseSheetHash(hash){
+    const h = (hash || '').replace(/^#/, '');
+    if(!/^m=/.test(h)) return null;
+    const q = new URLSearchParams(h);
+    const fid = q.get('m') || '';
+    if(!fid) return null;
+    // A hand-typed link may carry the offset's `+` raw; the query parser reads it as a
+    // space, and no instant has one, so it is given back.
+    const day = q.get('d') || '', start = (q.get('t') || '').replace(' ', '+');
+    return { fid,
+             day: /^\d{4}-\d{2}-\d{2}$/.test(day) ? day : '',
+             start: start && !isNaN(Date.parse(start)) ? start : '' };
+  }
+  // -> the screening the sheet opens on: the named one while it is still ahead, else
+  // the first still ahead on the named day, else the film's next screening (nextMatch's
+  // rule: the earliest ahead of now, any day), else null. `shows` are the film's with
+  // `start` as a Date. A shared link outlives the screening it named and must still
+  // land on the film, never on an empty view.
+  function screeningTarget(shows, want, now, dateOf){
+    const t = want && want.start ? Date.parse(want.start) : NaN;
+    const exact = !isNaN(t) && shows.find(s => s.start >= now && s.start.getTime() === t);
+    if(exact) return exact;
+    if(want && want.day){
+      const onDay = shows.find(s => s.start >= now && dateOf(s.start) === want.day);
+      if(onDay) return onDay;
+    }
+    return nextMatch(shows, '*', '', now, () => true, dateOf);
+  }
+  // --- end screening link ---
+
   function replaceQuery(q){
     try {
       const u = new URL(location.href);
@@ -3294,7 +3349,7 @@
   }
   function setInert(el, on){ if(el) el.inert = on; }
   function sheetKeydown(e){ if(e.key === 'Escape'){ e.preventDefault(); closeSheet(); } }
-  async function showSheet(fid){
+  async function showSheet(fid, want){
     await ensureFilms();
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start)}))
@@ -3345,7 +3400,7 @@
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
         const own_price = priceLabel([s]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+        return `<a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-start="${s.start.getTime()}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>`;
     };
     // Past times sat in the grid dimmed, so a film with a matinee opened on times nobody
@@ -3396,6 +3451,21 @@
         <div class="sheet-days">${body}</div>
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
+    // A link that named a day or a screening opens on it: the ticket is marked and its
+    // day's heading scrolled to the top of the body. A named screening that has gone,
+    // or a day that has, lands on the film's next one (screeningTarget). A plain film
+    // link names neither and the sheet opens as it always has.
+    if(want && (want.day || want.start)){
+      const hit = screeningTarget(all, want, now, fiDate);
+      const el = hit && sheetEl.querySelector(`.stubs:not([hidden]) .stub[data-start="${hit.start.getTime()}"]`);
+      if(el){
+        el.classList.add('pick');
+        let h = el.parentElement;
+        while(h && h.tagName !== 'H3') h = h.previousElementSibling;
+        const body = sheetEl.querySelector('.sheet-body');
+        if(h && body) body.scrollTop = h.getBoundingClientRect().top - body.getBoundingClientRect().top - 6;
+      }
+    }
     // Both toggles work on the markup that is already there: no re-render, so the
     // scroll position and the open day stay where the reader left them.
     for(const b of sheetEl.querySelectorAll('[data-pastday]')){
@@ -3494,24 +3564,19 @@
   })();
   function syncSheet(){
     if(!state.area) return;                 // a film link waits for a location
-    const m = location.hash.match(/m=(.+)$/);
-    if(m){
-      let id = m[1];
-      try { id = decodeURIComponent(id); } catch(_) {}
-      showSheet(id);
-    } else hideSheet();
+    const want = parseSheetHash(location.hash);
+    if(want) showSheet(want.fid, want);
+    else hideSheet();
   }
   // films-extra.json changed under the page. The sheet is the only reader of that file.
   // An open sheet is redrawn for the same film with its scroll position kept. A closed
   // one is left alone. Cinema, day, filters and the fragment are not touched.
   async function refreshOpenSheet(){
-    const m = location.hash.match(/m=(.+)$/);
-    if(!m || sheetEl.inert) return;
-    let id = m[1];
-    try { id = decodeURIComponent(id); } catch(_) {}
+    const want = parseSheetHash(location.hash);
+    if(!want || sheetEl.inert) return;
     const body = sheetEl.querySelector('.sheet-body');
     const y = body ? body.scrollTop : 0;
-    await showSheet(id);
+    await showSheet(want.fid, want);      // the mark stays; the scroll is put back below
     const nb = sheetEl.querySelector('.sheet-body');
     if(nb) nb.scrollTop = y;
   }
@@ -3532,7 +3597,7 @@
     const el = e.target.closest('article.movie, .tinfo');
     if(el){
       rememberTrigger(el.querySelector('a.tlink') || el);
-      location.hash = 'm=' + encodeURIComponent(el.dataset.id);
+      location.hash = screeningHash(el.dataset.id);
     }
   });
 
