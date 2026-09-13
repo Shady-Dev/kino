@@ -760,7 +760,10 @@
     font-size:.88rem; font-weight:600; text-align:left; cursor:pointer; white-space:nowrap;
   }
   .tkmenu .mi small{font-size:.72rem; font-weight:500; color:var(--muted)}
-  .tkmenu .mi:hover, .tkmenu .mi:focus-visible{background:var(--chip-bg)}
+  /* --accent-soft, not --chip-bg: the chip ground is #FFFFFF in the light theme, the
+     same as the menu's surface, so the hover was invisible there (review of v145). Ink
+     over it 14.7:1 light and 13.2:1 dark, the muted subline 4.95:1 and 4.98:1. */
+  .tkmenu .mi:hover, .tkmenu .mi:focus-visible{background:var(--accent-soft)}
   .tkmenu .mi:focus-visible{outline-offset:-2px}   /* the ring stays inside the menu's border */
   /* Confirmation of a copied link: one line, fixed, above the sheet, gone on its own. */
   .toast{

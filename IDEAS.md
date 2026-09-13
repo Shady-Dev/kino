@@ -1819,6 +1819,11 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### Ticket menu follow-ups from review (2026-09-13, v149 to v151)
+v149: the menu row's hover and focus ground was `--chip-bg`, #FFFFFF in the light theme
+on a #FFFFFF surface, invisible; now `--accent-soft` (ink 14.7:1 light, 13.2:1 dark,
+the muted subline 4.95:1 and 4.98:1).
+
 ### A screening link names its venue too (2026-09-13, v148)
 Bug (review of v144): `screeningTarget()` matched on the instant alone and the mark took
 the first `.stub[data-start]`, so in a combined view a share of Sello 17:00 opened on

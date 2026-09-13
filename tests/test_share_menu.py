@@ -88,6 +88,8 @@ class ShareMarkupTest(unittest.TestCase):
         for want in ("background:var(--surface)", "border:1px solid var(--line)", "border-radius:8px", "position:absolute"):
             self.assertIn(want, menu)
         self.assertEqual(rule(".tkmenu.left"), "left:auto; right:0")
+        self.assertEqual(rule(".tkmenu .mi:hover, .tkmenu .mi:focus-visible"), "background:var(--accent-soft)",
+                         "--chip-bg is the surface's own white in the light theme")
         self.assertIn("menuSide(tk.getBoundingClientRect().right, window.innerWidth)", HTML)
 
     def test_the_button_is_40px_muted_at_rest_and_accent_while_open(self):
