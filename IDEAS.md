@@ -603,55 +603,23 @@ values. `tests/test_regina.py` `FilmIdentityTest`, 14 tests, nine mutations red,
 `tests/test_tmdb_matching.py` tie cases (41 tests).
 
 ### Only a trusted TMDB match publishes metadata (2026-09-13)
-"Naisen kasvot" (Kino Regina, 1938) matched nothing exactly and fell back to TMDB 4780,
-De Palma's "Obsession" (1976). The weak flag withheld the `tmdbId`, and nothing else:
-the wrong film's poster, rating, votes, trailer, genre ids and synopses went onto the show
-and into `films-extra.json`, `mirror_posters` rewrote the poster to `data/posters/`, and
-`run.py` carried every one of those fields from the previous venue file into the next
-run, so a fresh adapter result did not clear them. The Finnkino pass wrote the same fields
-from its weak candidates and let TMDB's trailer replace Finnkino's own. An alias fixed the
-one film; measured at d2a41e21 the rest was 20 weak titles on 102 shows in 22 venue files
-(90 ratings, 99 genre lists, 82 trailers, 11 posters, 10 stale ids) and 31 films-extra
-keys, two of them from a candidate older than today's. "A weak match still beats no film"
-(2026-08-27, above) was written for the search, where it is still true: the candidate is
-still found, logged and retried. It is no longer published.
+Bug: a weak candidate withheld `tmdbId` only. Poster, rating, votes, trailer, gids and
+synopses of the wrong film went onto shows and into films-extra.json, and `run.py`'s
+carry-over kept them run after run ("Naisen kasvot" -> Obsession). At d2a41e21: 20 weak
+titles, 102 shows, 22 files, 31 films-extra keys. Same in `fetch_data.py`, which also let
+TMDB's trailer replace Finnkino's.
 
-`enrich_tmdb.trusted()` is the one rule, `x` and an id, the same gate `tmdbId` and the
-shared classification already passed. The area pass writes nothing for an untrusted
-entry and takes back what this pass could have written (`unpublish`: `tmdb`, `votes`,
-`tr`, `gids`, `tmdbId`, and `img` only when it is an image.tmdb.org address or the
-mirrored copy of that entry's poster; a cinema's own poster, mirrored or not, is never
-touched). `merge_extra` fills from trusted entries and clears `r`, `tr`, `img` and the
-English synopsis for every other key, including keys the cache no longer holds, since a
-weak entry is dropped on load and a film that then left the programme is exactly the key
-with residue and no entry. The Finnish slot is the cinema's or TMDB's, and only text
-equal to the untrusted candidate's own overview is cleared: all 79 other texts under
-untrusted keys at d2a41e21 read as cinema copy. A cleared slot is refilled by the
-provider's `synmerge` on the run after, because providers merge before this pass. The
-cache keeps the weak candidate as before: budgets, pacing, aliases and the picker are
-unchanged, and so is the request cost of a weak title. `fetch_data.py` applies the same
-gate to `tmdb`, `votes`, `gids`, `tmdbId` and the trailer; its files are rebuilt from
-each run, so the next local run is the cleanup there. No client change: the app and the
-pages already render nothing where a field is absent, and a show without a poster gets
-the blank tile. Weak matches that were right (Regina's "The Turin Horse", Tapiola's
-HELAFF titles) lose their metadata until each is verified and aliased.
-
-The poster needed provenance of its own. After the first run (736b9db5) "Naisen kasvot",
-trusted through its alias, still showed Obsession's poster: `run.py` had carried the
-mirrored file from the previous venue file, the pass only ever filled a blank `img`, and
-on a local-half file a mirrored TMDB poster and a mirrored cinema poster are the same
-kind of path. A poster the pass writes, and one `run.py` carries for a show whose adapter
-published none, now carries `isrc: "tmdb"` (the `rsrc` precedent). A trusted entry
-replaces a marked poster that is not its own and drops one it cannot replace; an
-untrusted entry drops a marked poster whatever its path; an unmarked mirrored poster is
-the cinema's and is never touched. Posters carried before the mark existed are marked by
-the next run of their adapter through `run.py`, so each provider's stale posters clear on
-that provider's next run: the cloud run for cloud providers, the local run for Regina and
-the rest of the local half. Removing the carry instead was rejected: 208 trusted shows
-sat on a carried poster at 736b9db5, and every local run would have blanked them until
-the cloud run after it. No client change: `isrc` is one more field the app ignores.
-`tests/test_tmdb_trust.py` (20 tests, 20 mutations red), `tests/test_finnkino_trust.py`
-(4 tests, 5 mutations red), `tests/test_run_partial.py` one test on the mark.
+Fix: `enrich_tmdb.trusted()` (`x` and an id) gates every write in both passes. Untrusted
+entry: `unpublish()` strips `tmdb votes tr gids tmdbId` and a TMDB poster; `merge_extra`
+clears `r tr img en` for every untrusted key, `fi` only when equal to the candidate's own
+overview (79 other texts checked, all cinema copy). Posters carry `isrc: "tmdb"` (set by
+the pass and by the `run.py` carry); a trusted entry replaces a marked stale poster, an
+untrusted one drops it, unmarked mirrored posters are the cinema's. Old unmarked carries
+get the mark on each adapter's next `run.py` run (local run for the local half). The
+carry itself stays: 208 trusted shows sat on one. Cache, budgets, picker unchanged.
+The 2026-08-27 "weak match still beats no film" rule now covers the search only.
+Tests: `test_tmdb_trust.py` 20 / 20 mutations red, `test_finnkino_trust.py` 4 / 5,
+`test_run_partial.py` +1.
 
 ### BioRex, Gilda and Tapiola publish no per-screening price (probed 2026-09-13)
 Asked whether the shared ticket-page price step (`prices.py`) could cover the three
