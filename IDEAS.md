@@ -2347,6 +2347,9 @@ was checked and kept. Not done: `<noscript>`, `max-snippet`, a title rewrite. "D
 mean pelivuoro" is Google's spelling model; nothing in markup addresses it. Google
 refreshes a snippet on recrawl; one Search Console request after deploy is the only lever.
 `tests/test_snippets.py`, 7 tests, six mutations red.
+Verified 2026-09-13 17:58 by the live test at v151: "URL is available to Google", 200, all
+resources loaded, no console messages, rendered screenshot shows the chooser with its city
+links; indexing requested from the same screen.
 
 ### Landing-page sitelinks repeated the intro and the CTA (2026-09-13)
 Every theatre sitelink opened with the same two sentences and the CTA, then one film.
