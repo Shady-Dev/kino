@@ -544,6 +544,13 @@ Reported missing by the user on three venues where the browser shows a price.
 - Kino Engel: the price rows are drawn by Johku's widget from an API that needs the
   widget's key; the 2026-08-29 decision above stands. Options left to the user: render the
   film page in a headless browser on the local half, or ask the cinema or Johku for a feed.
+  Headless render measured 2026-09-13 on one film page from an ordinary connection: 6 s
+  to a settled DOM, and the widget's own table carried date, time, hall and price per
+  screening (Autofiktio, four screenings, all Engel 1, 12,50 €), the times matching the
+  committed rows exactly. It would need Chrome on the local machine, about 15 pages a
+  run at roughly 6 s each, and the adapter would have to keep four fields and never the
+  page, which carries the widget's key. Deferred by the user the same day: no more
+  polling on the local half for now. `price` and `aud` stay empty for Engel.
 
 ### The TMDB search reads the original title and the published year (2026-09-13)
 Three Regina films sat unmatched: "Lucky luke sotapolulla" (La ballade des Dalton, 1978),
