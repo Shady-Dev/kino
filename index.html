@@ -388,6 +388,13 @@
   /* ===== Movie list ===== */
   main{max-width:1100px; margin:0 auto; padding:8px 20px 80px}
   .status{padding:60px 0; text-align:center; color:var(--muted)}
+  /* What emptied the list: the search as typed, then the filters that are on, one line
+     each. Plain text under the message, not chips. A long query wraps inside the column
+     rather than widening the page. */
+  .status .ctx{
+    margin:10px auto 0; max-width:36em; font-size:.85rem; line-height:1.45;
+    overflow-wrap:anywhere;
+  }
   .status .reel{
     width:34px;height:34px;margin:0 auto 16px;border-radius:50%;
     border:3px solid var(--line); border-top-color:var(--accent);
@@ -1032,6 +1039,7 @@
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
          soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
+         searchCtx:'Hakusi: \u201d{query}\u201d',
          clearFilters:'Tyhjennä suodattimet',
          nomore:'Ei enää näytöksiä tänään.', sheetNone:'Ei näytöksiä valitussa teatterissa.',
          noshows:'Valitussa teatterissa ei ole näytöksiä tänään.',
@@ -1089,6 +1097,7 @@
          allIn:'{city} – alla biografer', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
+         searchCtx:'Din sökning: \u201d{query}\u201d',
          clearFilters:'Rensa filtren',
          nomore:'Inga fler föreställningar i dag.', sheetNone:'Inga föreställningar på vald biograf.',
          noshows:'Inga föreställningar denna dag på vald biograf.',
@@ -1143,6 +1152,7 @@
          allIn:'{city} – all cinemas', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No screenings match your filters on the selected date.',
+         searchCtx:'Your search: \u201c{query}\u201d',
          clearFilters:'Clear filters',
          nomore:'No more shows today.', sheetNone:'No screenings at the selected cinema.',
          noshows:'No shows for this day at the selected theatre.',
@@ -2520,7 +2530,7 @@
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){
       setListStatus(emptyStatus());
-      main.innerHTML = timesLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
+      main.innerHTML = timesLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
       return;
     }
     // The ticket is time and price. The room, the venue in a combined view and the
@@ -2676,6 +2686,32 @@
     const hit = nextMatchInfo();
     return hit ? `<button class="nextday" data-goto="${hit.iso}">${esc(hit.label)}</button>` : '';
   }
+  // --- emptyContext: pure, extracted verbatim by tests/empty_context_harness.js ---
+  // What emptied the list, as text: the search as typed and the labels of the filters
+  // that are on, chain restrictions included. `flags` carries fLang/fKids/fAnnis,
+  // `chains` is a Set of provider ids or null, `T` the language table and `chainName`
+  // maps a provider id to its label. Either half is empty when it has nothing, so the
+  // caller drops that line on its own instead of printing a blank one.
+  function emptyContextParts(query, flags, chains, T, chainName){
+    const labels = [];
+    if(flags.fLang)  labels.push(T.flang);
+    if(flags.fKids)  labels.push(T.fkids);
+    if(flags.fAnnis) labels.push(T.fannis);
+    if(chains) for(const c of [...chains].sort()) labels.push(chainName(c));
+    return { query: (query || '').trim(), filters: labels };
+  }
+  // --- end emptyContext ---
+  // Rendered from the same state passFilters reads, beside the empty message, so it says
+  // what actually emptied the list. User text goes through esc(); the replacement is a
+  // function so a query containing "$&" is inserted literally rather than expanded.
+  function emptyContext(){
+    const T = L[state.lang];
+    const p = emptyContextParts(state.filter, state, state.chains, T, c => (SOURCE[c] || [c])[0]);
+    const lines = [];
+    if(p.query) lines.push(esc(T.searchCtx.replace('{query}', () => p.query)));
+    if(p.filters.length) lines.push(esc(p.filters.join(', ')));
+    return lines.length ? `<p class="ctx">${lines.join('<br>')}</p>` : '';
+  }
   // What an empty list offers: the next day that has screenings, or clearing the filter
   // that emptied it. With a search on, the next day that search finds something and the
   // clear action side by side; without one, never both, since a filter suppresses the
@@ -2824,7 +2860,7 @@
 
     if(!movies.length){
       setListStatus(emptyStatus());
-      main.innerHTML = `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
+      main.innerHTML = `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
       return;
     }
 
@@ -2929,7 +2965,7 @@
     // Nothing left today: say so where the list would have been, and offer the next day,
     // or with a search on, the next day that search finds a screening.
     const noneLeft = !live.length
-      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${nextMatchLink() || nextDayLink()}</div>` : '';
+      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${emptyContext()}${nextMatchLink() || nextDayLink()}</div>` : '';
     const overHead = over.length
       ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
     setListStatus('');

@@ -1766,6 +1766,21 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### An empty result names what emptied it (2026-09-13, v136)
+"Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla." blamed the filters without
+saying which; the search box, three chips and the chain legend empty the list the same
+way. Under the message, two plain lines: the search as typed (`Hakusi: ”Autofiktio”`, SV
+`Din sökning:`, EN `Your search:`) and the labels of the filters that are on, chips in
+their row order then chain names by id, comma-separated. Either line is dropped when it
+has nothing; nothing at all when neither has. The cinema and the day are not repeated,
+the picker and the day chips already show them. `emptyContextParts()` is pure and
+extracted by `tests/empty_context_harness.js`; the renderer reads the same state
+`passFilters` reads, escapes the text and inserts the query through a function so `$&`
+stays literal. Text only, no chips, inside `.status` and not in `#listStatus`, so a screen
+reader finds it in the list and hears the empty message once. `.status .ctx` wraps at
+`overflow-wrap:anywhere` under a 36em column. `tests/test_empty_context.py`, 14 tests, nine
+mutations red.
+
 ### The clear-filters control meets the 44px floor (2026-09-13, v130)
 `.nextday` carries two buttons: the clear-filters action in the empty state and the next-day
 link. One line of .85rem type inside 8px padding renders 33px tall, so both sat under the 44px
