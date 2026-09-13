@@ -1797,8 +1797,10 @@ equivalent mutants removed from the code.
 saying which; the search box, three chips and the chain legend empty the list the same
 way. Under the message, two plain lines: the search as typed (`Hakusi: ”Autofiktio”`, SV
 `Din sökning:`, EN `Your search:`) and the labels of the filters that are on, chips in
-their row order then chain names by id, comma-separated. Either line is dropped when it
-has nothing; nothing at all when neither has. The cinema and the day are not repeated,
+their row order then chain names by id, comma-separated, behind `Suodattimet:` (SV
+`Filter:`, EN `Filters:`, added the same day at the user's request) so a lone chain name
+reads as a restriction rather than a source line. Either line is dropped when it has
+nothing; nothing at all when neither has. The cinema and the day are not repeated,
 the picker and the day chips already show them. `emptyContextParts()` is pure and
 extracted by `tests/empty_context_harness.js`; the renderer reads the same state
 `passFilters` reads, escapes the text and inserts the query through a function so `$&`

@@ -1042,7 +1042,7 @@
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
          soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
-         searchCtx:'Hakusi: \u201d{query}\u201d',
+         searchCtx:'Hakusi: \u201d{query}\u201d', filtersCtx:'Suodattimet: {list}',
          widenTo:'Laajenna hakua: {area}', widenHelsinki:'Etsi Helsingistä',
          widenCapital:'Etsi koko pääkaupunkiseudulta',
          clearFilters:'Tyhjennä suodattimet',
@@ -1102,7 +1102,7 @@
          allIn:'{city} – alla biografer', manySources:'flera källor',
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
-         searchCtx:'Din sökning: \u201d{query}\u201d',
+         searchCtx:'Din sökning: \u201d{query}\u201d', filtersCtx:'Filter: {list}',
          widenTo:'Utöka sökningen: {area}', widenHelsinki:'Sök i Helsingfors',
          widenCapital:'Sök i hela huvudstadsregionen',
          clearFilters:'Rensa filtren',
@@ -1159,7 +1159,7 @@
          allIn:'{city} – all cinemas', manySources:'multiple sources',
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No screenings match your filters on the selected date.',
-         searchCtx:'Your search: \u201c{query}\u201d',
+         searchCtx:'Your search: \u201c{query}\u201d', filtersCtx:'Filters: {list}',
          widenTo:'Broaden search: {area}', widenHelsinki:'Search in Helsinki',
          widenCapital:'Search across the capital region',
          clearFilters:'Clear filters',
@@ -2729,7 +2729,7 @@
     const p = emptyContextParts(state.filter, state, state.chains, T, c => (SOURCE[c] || [c])[0]);
     const lines = [];
     if(p.query) lines.push(esc(T.searchCtx.replace('{query}', () => p.query)));
-    if(p.filters.length) lines.push(esc(p.filters.join(', ')));
+    if(p.filters.length) lines.push(esc(T.filtersCtx.replace('{list}', () => p.filters.join(', '))));
     return lines.length ? `<p class="ctx">${lines.join('<br>')}</p>` : '';
   }
   // --- widerTargets: pure, extracted verbatim by tests/wider_targets_harness.js ---

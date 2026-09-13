@@ -75,7 +75,7 @@ class WiringTest(unittest.TestCase):
     def test_user_text_is_escaped_and_inserted_literally(self):
         body = HTML[HTML.index("function emptyContext()"):HTML.index("function emptyActions()")]
         self.assertIn("esc(T.searchCtx.replace('{query}', () => p.query))", body)
-        self.assertIn("esc(p.filters.join(', '))", body)
+        self.assertIn("esc(T.filtersCtx.replace('{list}', () => p.filters.join(', ')))", body)
 
     def test_lines_are_separated_by_a_break_and_dropped_when_empty(self):
         body = HTML[HTML.index("function emptyContext()"):HTML.index("function emptyActions()")]
@@ -97,6 +97,10 @@ class WiringTest(unittest.TestCase):
         self.assertIn("searchCtx:'Din sökning: \\u201d{query}\\u201d'", HTML)
         self.assertIn("searchCtx:'Your search: \\u201c{query}\\u201d'", HTML)
         self.assertEqual(len(re.findall(r"searchCtx:'", HTML)), 3)
+        self.assertIn("filtersCtx:'Suodattimet: {list}'", HTML)
+        self.assertIn("filtersCtx:'Filter: {list}'", HTML)
+        self.assertIn("filtersCtx:'Filters: {list}'", HTML)
+        self.assertEqual(len(re.findall(r"filtersCtx:'", HTML)), 3)
 
     def test_a_long_query_wraps_inside_the_column(self):
         m = re.search(r"(?m)^\s*\.status \.ctx\{([^}]*)\}", HTML)
