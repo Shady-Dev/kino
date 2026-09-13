@@ -590,6 +590,25 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
         s = self.area("fc-a")["shows"][0]
         self.assertEqual((s["img"], s["tmdbId"]), ("data/posters/abc123.jpg", 1234))
 
+    def test_a_carried_poster_is_marked_as_the_tmdb_passs(self):
+        """The carry is what puts a TMDB poster on a fresh show, so it says so: the TMDB
+        pass replaces a marked poster when the film's match changes and drops it when the
+        match is not trusted, and would otherwise take a stale one for the cinema's own."""
+        self.seed_with_poster("fc-a", "data/posters/abc123.jpg")
+        mod = FakeModule({"fc-a": [dict(show("A Film", "2026-08-30T18:00:00+03:00"), img="")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        s = self.area("fc-a")["shows"][0]
+        self.assertEqual((s["img"], s.get("isrc")), ("data/posters/abc123.jpg", "tmdb"))
+        # A poster the adapter publishes itself carries no mark.
+        mod = FakeModule({"fc-a": [dict(show("A Film", "2026-08-30T18:00:00+03:00"),
+                                        img="https://cinema.test/own.jpg")],
+                          "fc-b": [show("B", "2026-08-30T19:00:00+03:00")],
+                          "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
+        self.run_site(mod)
+        self.assertNotIn("isrc", self.area("fc-a")["shows"][0])
+
     def test_an_own_poster_and_a_remote_previous_one_are_left_alone(self):
         self.seed_with_poster("fc-a", "data/posters/abc123.jpg")
         mod = FakeModule({"fc-a": [dict(show("A Film", "2026-08-30T18:00:00+03:00"),

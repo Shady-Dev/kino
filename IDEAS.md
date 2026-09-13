@@ -635,8 +635,23 @@ each run, so the next local run is the cleanup there. No client change: the app 
 pages already render nothing where a field is absent, and a show without a poster gets
 the blank tile. Weak matches that were right (Regina's "The Turin Horse", Tapiola's
 HELAFF titles) lose their metadata until each is verified and aliased.
-`tests/test_tmdb_trust.py` (14 tests, 15 mutations red) and `tests/test_finnkino_trust.py`
-(4 tests, 5 mutations red).
+
+The poster needed provenance of its own. After the first run (736b9db5) "Naisen kasvot",
+trusted through its alias, still showed Obsession's poster: `run.py` had carried the
+mirrored file from the previous venue file, the pass only ever filled a blank `img`, and
+on a local-half file a mirrored TMDB poster and a mirrored cinema poster are the same
+kind of path. A poster the pass writes, and one `run.py` carries for a show whose adapter
+published none, now carries `isrc: "tmdb"` (the `rsrc` precedent). A trusted entry
+replaces a marked poster that is not its own and drops one it cannot replace; an
+untrusted entry drops a marked poster whatever its path; an unmarked mirrored poster is
+the cinema's and is never touched. Posters carried before the mark existed are marked by
+the next run of their adapter through `run.py`, so each provider's stale posters clear on
+that provider's next run: the cloud run for cloud providers, the local run for Regina and
+the rest of the local half. Removing the carry instead was rejected: 208 trusted shows
+sat on a carried poster at 736b9db5, and every local run would have blanked them until
+the cloud run after it. No client change: `isrc` is one more field the app ignores.
+`tests/test_tmdb_trust.py` (20 tests, 20 mutations red), `tests/test_finnkino_trust.py`
+(4 tests, 5 mutations red), `tests/test_run_partial.py` one test on the mark.
 
 ### BioRex, Gilda and Tapiola publish no per-screening price (probed 2026-09-13)
 Asked whether the shared ticket-page price step (`prices.py`) could cover the three

@@ -127,7 +127,8 @@ whatever the film is rated, and Heureka's planetarium admits from five. Every
 TMDB field (`tmdbId`, `tmdb`, `votes`, `gids`, `tr`, a TMDB poster in `img`) is
 written only for a trusted match, an exact title or a hand-written alias id: a
 weak id folds two different films into one card, and its poster, rating and
-synopsis are the wrong film's.
+synopsis are the wrong film's. A TMDB poster carries `isrc: "tmdb"`, so the pass
+can replace or drop it later; a cinema's own poster carries no mark.
 
 On a provider file, `generated` is when it was written and `oldest` is its
 weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or

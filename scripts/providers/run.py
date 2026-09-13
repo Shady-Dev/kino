@@ -194,6 +194,10 @@ def run_site(mod, site, now, order=0):
                 if field == "img":
                     if not sh.get("img"):
                         sh["img"] = val         # the adapter published none; the mirrored poster stays
+                        # ...marked as the TMDB pass's, so that pass can replace it when
+                        # the film's match changes and drop it when the match is not
+                        # trusted. A poster the adapter publishes carries no mark.
+                        sh["isrc"] = "tmdb"
                 else:
                     sh.setdefault(field, val)
         days = sorted({s["start"][:10] for s in shows if s.get("start")})

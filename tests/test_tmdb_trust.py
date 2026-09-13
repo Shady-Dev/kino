@@ -68,7 +68,7 @@ class TrustHarness(MainHarness):
             lang = "fi" if "language=fi-FI" in url else "en"
             return {"overview": d.get(lang, ""), "vote_count": d.get("n"),
                     "vote_average": d.get("r"), "genres": [{"id": g} for g in d.get("g", [])],
-                    "poster_path": f"/{mid}.jpg"}
+                    "poster_path": d.get("p", f"/{mid}.jpg")}
         real = enrich_tmdb.get
         enrich_tmdb.get = fake_get
         self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
@@ -265,6 +265,63 @@ class PropagationTest(TrustHarness):
         self.shows(regina(), regina(provider="orion", venue="orion"))
         self.weak_naisen_kasvot()
         self.assertTrue(all("tmdbId" not in s for s in self.area()["shows"]))
+
+
+class PosterProvenanceTest(TrustHarness):
+    """A poster the pass wrote, or run.py carried from the previous file for a show whose
+    adapter published none, is marked `isrc: "tmdb"`. The mark is what lets the pass
+    correct a poster from an earlier candidate: "Naisen kasvot" was aliased to 76848 and
+    went on showing Obsession's mirrored poster, because only a blank was ever filled."""
+
+    def alias(self):
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"naisen kasvot": "76848"}))
+
+    def test_a_trusted_entry_replaces_a_marked_stale_poster(self):
+        self.shows(regina(img=mirrored("/4780.jpg"), isrc="tmdb"))
+        self.alias()
+        self.run_main({}, detail={76848: RIGHT})
+        show = self.area()["shows"][0]
+        self.assertEqual((show["img"], show["isrc"]), (W342 + "/76848.jpg", "tmdb"))
+
+    def test_a_trusted_entry_leaves_an_unmarked_mirrored_poster_alone(self):
+        """Unmarked and mirrored is a cinema's own poster as far as the pass can tell."""
+        self.shows(regina(img="data/posters/0123456789abcdef.jpg"))
+        self.alias()
+        self.run_main({}, detail={76848: RIGHT})
+        show = self.area()["shows"][0]
+        self.assertEqual(show["img"], "data/posters/0123456789abcdef.jpg")
+        self.assertNotIn("isrc", show)
+
+    def test_a_marked_poster_a_trusted_entry_cannot_replace_comes_off(self):
+        self.shows(regina(img=mirrored("/4780.jpg"), isrc="tmdb"))
+        self.alias()
+        self.run_main({}, detail={76848: {**RIGHT, "p": None}})
+        show = self.area()["shows"][0]
+        self.assertNotIn("img", show)
+        self.assertNotIn("isrc", show)
+        self.assertEqual(show["tmdbId"], 76848, "the rest of the trusted entry still lands")
+
+    def test_an_untrusted_entry_drops_a_marked_poster_whatever_its_path(self):
+        self.shows(regina(img="data/posters/0123456789abcdef.jpg", isrc="tmdb"))
+        self.weak_naisen_kasvot()
+        show = self.area()["shows"][0]
+        self.assertNotIn("img", show)
+        self.assertNotIn("isrc", show)
+
+    def test_the_pass_marks_the_poster_it_writes(self):
+        self.shows(regina(img=""))
+        self.alias()
+        self.run_main({}, detail={76848: RIGHT})
+        show = self.area()["shows"][0]
+        self.assertEqual((show["img"], show["isrc"]), (W342 + "/76848.jpg", "tmdb"))
+
+    def test_a_cinemas_own_poster_is_never_replaced(self):
+        self.shows(regina())
+        self.alias()
+        self.run_main({}, detail={76848: RIGHT})
+        show = self.area()["shows"][0]
+        self.assertEqual(show["img"], regina()["img"])
+        self.assertNotIn("isrc", show)
 
 
 class PlaceholderTest(TrustHarness):

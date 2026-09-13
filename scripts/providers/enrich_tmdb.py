@@ -151,16 +151,45 @@ def tmdb_poster(img, c):
 
 def unpublish(show, c):
     """Take back what this pass may have written onto a show from an untrusted entry.
-    -> whether anything changed. The cinema's own poster stays."""
+    -> whether anything changed. The cinema's own poster stays.
+
+    A poster is TMDB's when it is one of this entry's forms, an image.tmdb.org address,
+    or marked `isrc: "tmdb"`: the mark is set by this pass on every poster it writes and
+    by run.py on a mirrored poster it carries from the previous file for a show whose
+    adapter published none, so a poster that came from an earlier candidate is caught by
+    the mark where the path alone could not tell it from a cinema's own mirrored poster."""
     changed = False
     for field in PUBLISHED:
         if field in show:
             del show[field]
             changed = True
-    if tmdb_poster(show.get("img"), c):
-        del show["img"]
+    if tmdb_poster(show.get("img"), c) or show.get("isrc") == "tmdb":
+        show.pop("img", None)
+        changed = True
+    if show.pop("isrc", None) is not None:
         changed = True
     return changed
+
+
+def publish_poster(show, c):
+    """Put a trusted entry's poster on a show that has none of its own. -> changed.
+
+    A cinema's own poster is never replaced. A poster marked as TMDB's is this entry's to
+    correct: "Naisen kasvot" was weak one day and aliased the next, and the show went on
+    carrying the wrong film's mirrored poster because only a blank was ever filled. A
+    marked poster the entry cannot replace, having none, comes off."""
+    own = TMDB_IMG + c["p"] if c.get("p") else ""
+    if show.get("isrc") == "tmdb" and show.get("img") not in poster_refs(c):
+        if own:
+            show["img"] = own
+        else:
+            show.pop("img", None)
+            show.pop("isrc", None)
+        return True
+    if not show.get("img") and own:
+        show["img"], show["isrc"] = own, "tmdb"
+        return True
+    return False
 
 
 def unpublish_extra(e, c):
@@ -888,8 +917,8 @@ def main() -> int:
                 url = "https://www.youtube.com/watch?v=" + c["v"]
                 if s.get("tr") != url:
                     s["tr"] = url; changed = True
-            if not s.get("img") and c.get("p"):
-                s["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]; changed = True
+            if publish_poster(s, c):
+                changed = True
             # The film's identity across chains. Only an exact match is written: the
             # combined city view merges on it, and a weak id would fold two different
             # films into one row. Chains publish the same film under different titles
