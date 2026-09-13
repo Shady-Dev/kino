@@ -538,6 +538,7 @@ def fetch_site(site, sleep=1.2):
 
     per_venue = {v["id"]: [] for v in site["venues"]}
     seen_shows = set()
+    unclaimed = {}        # place text -> rows, named in the log below
     # Emptiness is confirmed only for a read with nothing unexplained: every film page
     # fetched, every screening row taken by a registered venue. Either miss clears it.
     complete = True
@@ -570,8 +571,17 @@ def fetch_site(site, sleep=1.2):
             venue = next((v for v in site["venues"] if v["match"] in hay), None)
             if not venue:
                 # A place nobody registered: a renamed venue looks exactly like this, so
-                # no venue of this site can be called empty on this read.
+                # no venue of this site can be called empty on this read. Deliberately not
+                # excused by the navigation naming the place as one of the site's own
+                # theatres -- Cine's navigation names Cine Mäntsälä and Kiertuenäytökset,
+                # neither of them registered here -- because a `match` that has rotted off
+                # a *registered* venue drops its rows onto a place the navigation names
+                # too, and excusing that would publish a venue that is showing films as
+                # confirmed empty. The cost is the other direction: one row for a sibling
+                # cinema withholds every empty confirmation on the site, and the venue
+                # reads "not updated" again. It keeps its real data while it does.
                 complete = False
+                unclaimed[r["theatre_raw"]] = unclaimed.get(r["theatre_raw"], 0) + 1
                 continue
             # Recorded only once a registered venue took the row, so a malformed copy
             # that matched nothing cannot suppress the valid copy that follows it.
@@ -601,6 +611,12 @@ def fetch_site(site, sleep=1.2):
             })
         time.sleep(sleep)
 
+    # Named, because withholding the confirmation is otherwise invisible: the venue simply
+    # goes on reading "not updated" and nothing says which place did it.
+    if unclaimed:
+        print(f"[{site['provider']}] no registered venue claims "
+              + ", ".join(f"{p!r} ({n} row(s))" for p, n in sorted(unclaimed.items()))
+              + "; no venue of this site is confirmed empty on this read")
     for k in per_venue:
         per_venue[k].sort(key=lambda s: s["start"])
     # A venue with rows is reported. A venue without rows is reported, empty, only when

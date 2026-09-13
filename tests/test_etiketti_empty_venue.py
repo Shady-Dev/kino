@@ -7,10 +7,12 @@ theatre navigation names it and the read left nothing unexplained. Fixtures are 
 shape in the Kotka template: the town is the place line and the cinema is the room.
 """
 import functools
+import io
 import json
 import pathlib
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 
 import _ctx                                                # noqa: F401
 import common                                              # noqa: F401
@@ -62,6 +64,12 @@ class Stubbed(StubbedGet):
     def fetch(self, mapping):
         return self.stub(mapping).fetch_site(site(), sleep=0)
 
+    def fetch_logged(self, mapping):
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            out = self.fetch(mapping)
+        return out, buf.getvalue()
+
 
 class ConfirmedEmptyTest(Stubbed):
 
@@ -85,11 +93,18 @@ class ConfirmedEmptyTest(Stubbed):
         self.assertEqual(len(out["cine-keuda"]), 2)
 
     def test_a_row_for_a_place_nobody_registered_leaves_the_venue_unconfirmed(self):
-        """A renamed venue looks exactly like an unregistered place."""
-        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/2/prima"),
-                          "/elokuvat/13/hetki": KEUDA_FILM,
-                          "/elokuvat/2/prima": MANTSALA_FILM})
+        """A renamed venue looks exactly like an unregistered place, and the navigation
+        naming that place deliberately does not excuse it: Cine's navigation names Cine
+        Mäntsälä, and a `match` rotted off a registered venue would drop that venue's rows
+        onto a navigation-named place in exactly the same way. The log says which place
+        withheld the confirmation, which is otherwise invisible."""
+        out, log = self.fetch_logged(
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/2/prima"),
+             "/elokuvat/13/hetki": KEUDA_FILM,
+             "/elokuvat/2/prima": MANTSALA_FILM})
         self.assertEqual(sorted(out), ["cine-keuda"])
+        self.assertIn("MÄNTSÄLÄ", log)
+        self.assertIn("no venue of this site is confirmed empty", log)
 
     def test_a_venue_the_navigation_does_not_name_is_not_identified(self):
         out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", nav=NAV_WITHOUT_NIKKILA),

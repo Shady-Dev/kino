@@ -3362,6 +3362,22 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### A sibling cinema in the navigation still withholds the confirmation (2026-09-14)
+Cine's navigation names Cine Mäntsälä and Kiertuenäytökset, neither registered here
+(Mäntsälä is a separate deployment). A row for either clears `complete` and withholds
+Nikkilä's empty confirmation, so the venue would read "Päivitys viivästynyt" again while
+the row is there. The committed local run of 2026-09-13 read Cine complete: 12 rows for
+Keuda-Talo, none unclaimed.
+Rejected: excusing a row whose place the navigation names. The navigation names the site's
+own theatres, so a `match` rotted off a *registered* venue drops that venue's rows onto a
+navigation-named place too, and excusing those would publish a venue that is showing films
+as confirmed empty. That is the one failure this flag may not have; withholding fails the
+other way, and the venue keeps its real data while it does.
+Fix: the read names the unclaimed place and its row count in the log, so a withheld
+confirmation is visible in the committed run log instead of being silent.
+Tests: the unregistered-place case asserts the place is named and that the navigation
+naming it does not excuse the row. Three mutations.
+
 ### The eTiketti navigation prints the town with the cinema (2026-09-14)
 Bug: `identified_venues` compared the whole anchor text to `match`, and the comment above
 it claimed every eTiketti site renders the navigation. Measured 2026-09-14, one listing
