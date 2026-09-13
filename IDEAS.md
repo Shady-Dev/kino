@@ -602,6 +602,24 @@ a valid outcome. No TMDB id was checked from here; the ids in the tests are fixt
 values. `tests/test_regina.py` `FilmIdentityTest`, 14 tests, nine mutations red, plus
 `tests/test_tmdb_matching.py` tie cases (41 tests).
 
+### BioRex, Gilda and Tapiola publish no per-screening price (probed 2026-09-13)
+Asked whether the shared ticket-page price step (`prices.py`) could cover the three
+unpriced non-Finnkino providers. Read as a visitor from an ordinary connection, one page or
+payload each, nothing kept:
+- **BioRex**: the admin-ajax listing's `data-click-data-layer` carries event, movie,
+  cinema, show id and time only (82 objects, no price field). The showtime link lands on
+  `webshop.biorex.fi/fi/#/book/{id}`, a 3.9 kB single-page shell whose prices come from
+  the booking flow, which is never called.
+- **Gilda**: the booking API's `show_times[].tickets` is `[]` on all 81 screenings; the
+  film page prints no amount but "0,00 €". Prices appear only inside MyCloudCinema's
+  purchase flow.
+- **Kino Tapiola**: the screening page's ticket box carries no amount; the only prices on
+  the site are the footer's house rates, "Liput 12,50 / 11,50 €", which are not a
+  screening's price and would be an inference to publish.
+So the step applies to none of them today. Coverage stays 907 of 3773 showtimes priced;
+Finnkino (booking flow only), Heureka (admission) and Engel (Johku widget, deferred) are
+the other zeros.
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
 that leaves its /xml/ services open needs no auth (Korjaamo Kino today, Savon Kinot before
