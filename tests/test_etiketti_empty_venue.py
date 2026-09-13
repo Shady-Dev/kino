@@ -133,6 +133,38 @@ class ConfirmedEmptyTest(Stubbed):
         self.assertEqual(e.identified_venues(NAV, site()), {"cine-keuda", "cine-nikkila"})
 
 
+class NavigationAnchorTest(unittest.TestCase):
+    """What an anchor has to look like to identify a venue. Measured 2026-09-14 across the
+    20 hosts: 6 render `/teatterit/` anchors, naming all 10 of their registered venues."""
+
+    def test_an_anchor_carrying_other_attributes_still_identifies(self):
+        """A class on the anchor would otherwise stop identification with no symptom: the
+        venue silently goes back to reading "not updated" for as long as it is empty."""
+        nav = ('<a class="theatre-link" href="/teatterit/keuda-talo" title="x">Cine Keuda-Talo</a>'
+               '<a href="/teatterit/nikkila" class="theatre-link">Cine Nikkilä</a>')
+        self.assertEqual(load().identified_venues(nav, site()), {"cine-keuda", "cine-nikkila"})
+
+    def test_the_town_printed_in_front_of_the_cinema_still_identifies_it(self):
+        """Leffabuumi's anchors name the town with the cinema, as its screening rows do.
+        Compared whole, its three venues identified as none."""
+        nav = ('<a href="/teatterit/kinolinna">Mikkeli Kinolinna</a>'
+               '<a href="/teatterit/ritz">Mikkeli Ritz</a>'
+               '<a href="/teatterit/kino-saimaa">Puumala Kino Saimaa</a>')
+        self.assertEqual(load().identified_venues(nav, site_of("leffabuumi")),
+                         {"lb-kinolinna", "lb-ritz", "lb-saimaa"})
+
+    def test_a_link_that_is_not_the_theatre_navigation_identifies_nothing(self):
+        """The evidence is the site listing the venue as one of its theatres. A link that
+        merely prints the name -- a campaign page, a news item -- is not that."""
+        nav = '<a href="/esitysjaksot/nikkila">Cine Nikkilä</a>'
+        self.assertEqual(load().identified_venues(nav, site()), set())
+
+    def test_a_venue_no_anchor_names_is_still_not_identified(self):
+        """The substring is looked for in the anchor, not the anchor in the venue."""
+        nav = '<a href="/teatterit/keuda-talo">Cine Keuda-Talo</a>'
+        self.assertEqual(load().identified_venues(nav, site()), {"cine-keuda"})
+
+
 class RunSiteTest(Stubbed):
     """What run.py writes for the two venues, from a previous Nikkilä file with past shows."""
 

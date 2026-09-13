@@ -3362,6 +3362,21 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### The eTiketti navigation prints the town with the cinema (2026-09-14)
+Bug: `identified_venues` compared the whole anchor text to `match`, and the comment above
+it claimed every eTiketti site renders the navigation. Measured 2026-09-14, one listing
+read per host: 6 of the 20 carry `/teatterit/` anchors at all, and the whole-text
+comparison identified 6 of the 29 registered venues. Leffabuumi prints "Mikkeli Kinolinna",
+"Mikkeli Ritz" and "Puumala Kino Saimaa" against matches `kinolinna`, `ritz` and `kino
+saimaa`: 0 of 3. Kinotar prints "Kinotar 123" against `kinotar`.
+Fix: `match` is looked for inside the anchor text, the rule the screening rows already
+use, which takes the count to 10 of 29 and to all 10 venues of the six hosts that render a
+navigation. `VENUE_LINK_RE` also tolerates other attributes on the anchor; no host carried
+one on the day, so that half buys nothing now and stops a silent regression later. The
+other 19 venues stay unconfirmable and keep their previous file, which is the safe side.
+Tests: an anchor with a class, "Mikkeli Ritz" identifying `ritz`, a link outside
+`/teatterit/` identifying nothing. Four mutations.
+
 ### A drifted screening pattern could confirm every eTiketti venue empty (2026-09-14)
 Bug: `complete` was cleared by a failed fetch and by an unregistered place, never by a
 film page that fetched and parsed to nothing. With TIME_RE off the template every venue

@@ -21,8 +21,8 @@ Empty venues (2026-09-13). A site's film pages carry every screening, so a regis
 venue with no row is either out of programme or renamed. `EMPTY_VENUES_CONFIRMED` lets
 run.py publish a fresh empty file for such a venue instead of keeping its last, past
 shows marked stale, but only on positive evidence from this read: the listing's own
-theatre navigation (`/teatterit/<slug>` links) names the venue with its registered
-`match` text, every film page was fetched and parsed, and every screening row matched a
+theatre navigation (`/teatterit/<slug>` links, which 6 of the 20 hosts render) names the
+venue with anchor text carrying its registered `match`, every film page was fetched and parsed, and every screening row matched a
 registered venue. A fetch that skipped a page, a page whose screening blocks all lacked a
 readable time, a row naming a place nobody registered, or a venue the navigation does not
 list leaves the venue out of the result, and run.py keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the provider
@@ -40,10 +40,15 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # See "Empty venues" in the module docstring: a venue returned with an empty list is
 # known empty, and fetch_site returns one only on that evidence.
 EMPTY_VENUES_CONFIRMED = True
-# The theatre navigation every eTiketti site renders in its footer: the venue's own page
-# link with the venue's name as the text. Anchors only, never prose: "Esitysjaksot
-# Keravalla ja Nikkilässä" names the town without identifying the venue.
-VENUE_LINK_RE = re.compile(r'<a\s+href="/teatterit/[^"]+"\s*>([^<]+)</a>', re.I)
+# The theatre navigation, on the sites that render one: the venue's own page link with the
+# venue's name as the text. Not every site. Measured 2026-09-14, one listing read per host:
+# 6 of the 20 carry `/teatterit/` anchors at all, and on those six the anchors name all 10
+# of their registered venues. The other 19 venues cannot be confirmed empty, which is the
+# safe side of this. Anchors only, never prose: "Esitysjaksot Keravalla ja Nikkilässä"
+# names the town without identifying the venue. Any attributes on the anchor, because one
+# that gains a class would otherwise stop identifying anything with no other symptom;
+# no host carried one on 2026-09-14, so this buys nothing today and costs nothing either.
+VENUE_LINK_RE = re.compile(r'<a[^>]*href="/teatterit/[^"]+"[^>]*>([^<]*)</a>', re.I)
 
 SITES = [
     {"provider": "kotkanleffat", "base": "https://kotkanleffat.fi", "label": "Kotkan Leffat",
@@ -506,12 +511,19 @@ def _classify_no_films(listing, url):
 def identified_venues(listing, site):
     """The registered venues the listing's theatre navigation names -> set of ids.
 
-    Positive identification for an empty venue: the site itself lists the venue, under
-    the name `match` expects, so a venue with no screening row is out of programme rather
-    than renamed or gone. Compared whole, case-folded, against the anchor text alone.
+    Positive identification for an empty venue: the site itself lists the venue, under the
+    name `match` expects, so a venue with no screening row is out of programme rather than
+    renamed or gone. `match` is looked for *inside* the anchor text, case-folded, the way
+    a screening row is matched: Leffabuumi's anchors read "Mikkeli Kinolinna" and "Puumala
+    Kino Saimaa", so a whole-text comparison identified 0 of its 3 venues. That comparison
+    was what cost the coverage, not the anchor pattern: 6 venues of 29 identified whole,
+    10 as a substring, measured 2026-09-14 across all 20 hosts. Both ends run the same
+    rule, so a `match` loose enough to take a foreign anchor here was already taking
+    foreign rows there.
     """
-    names = {_txt(t).lower() for t in VENUE_LINK_RE.findall(listing)}
-    return {v["id"] for v in site["venues"] if v["match"].lower() in names}
+    names = [_txt(t).lower() for t in VENUE_LINK_RE.findall(listing)]
+    return {v["id"] for v in site["venues"]
+            if any(v["match"].lower() in n for n in names)}
 
 
 def fetch_site(site, sleep=1.2):
