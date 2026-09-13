@@ -3378,6 +3378,22 @@ confirmation is visible in the committed run log instead of being silent.
 Tests: the unregistered-place case asserts the place is named and that the navigation
 naming it does not excuse the row. Three mutations.
 
+### Kino Juha publishes two spaces on one listing (2026-09-14)
+Bug: the site prints the place as "KINO JUHA" or "VIP-SALI" and only the first was
+registered, so every VIP-SALI row matched no venue and was dropped. Measured 2026-09-14:
+13 screenings over 9 film pages, 7 published and 6 lost, ever since the site was added on
+2026-08-30. The unclaimed-place log line added the same day is what surfaced it, in the
+cloud run committed at 3495cf8c.
+Rejected: letting those rows claim Kino Juha as a hall of it. Both salikartta pages, read
+as a visitor, print the address under the place: Keskustie 7 for KINO JUHA, Pratikankuja 3
+for VIP-SALI, both Nurmijärvi, both HTTP 200. A hall fallback would have published 6
+screenings at the wrong building, and the calendar LOCATION with them.
+Fix: a second venue `kj-vipsali`, match `vip-sali`. The accent is the provider's, so there
+was nothing to measure; label and page slug stay distinct from the main hall's.
+Tests: the 13 split 7 and 6 with no shared ticket id, one screening listed under two films
+is published once, a third place stays unclaimed. Five mutations. The venue's data files
+and the README's venue count follow the next cloud run.
+
 ### The eTiketti navigation prints the town with the cinema (2026-09-14)
 Bug: `identified_venues` compared the whole anchor text to `match`, and the comment above
 it claimed every eTiketti site renders the navigation. Measured 2026-09-14, one listing

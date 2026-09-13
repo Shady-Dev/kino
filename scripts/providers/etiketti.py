@@ -145,10 +145,18 @@ SITES = [
          {"id": "kt-jamsa", "match": "kinotar", "name": "Kinotar 123",
           "short": "Kinotar 123", "city": "Jämsä"},
      ]},
+    # Two screening spaces at two addresses in Nurmijärvi, published on one listing and
+    # distinguished only by the place line: "KINO JUHA" is Keskustie 7 and "VIP-SALI" is
+    # Pratikankuja 3. Read from the two salikartta pages as a visitor on 2026-09-14, which
+    # print the address under the place; the site's own footer names Kino Juha on both, and
+    # it runs Taaborin kesäteatteri besides. VIP-Sali was unregistered until then, so its
+    # 6 of the site's 13 screenings were dropped as an unclaimed place on every run.
     {"provider": "kinojuha", "base": "https://kinojuha.fi", "label": "Kino Juha",
      "venues": [
          {"id": "kj-nurmijarvi", "match": "kino juha", "name": "Kino Juha",
           "short": "Kino Juha", "city": "Nurmijärvi"},
+         {"id": "kj-vipsali", "match": "vip-sali", "name": "VIP-Sali",
+          "short": "VIP-Sali", "city": "Nurmijärvi"},
      ]},
     # The site says Tikkurila throughout and never Vantaa; Vantaa is the postal town on
     # the address the industry directory lists, and is what a visitor searches for.
