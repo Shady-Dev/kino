@@ -292,7 +292,8 @@ def fetch_site(site, sleep=1.5, price_sleep=1.0, prices_path=None, now=None):
     if site.get("tickets"):
         prices.run([s for v in per_venue.values() for s in v], provider=site["provider"],
                    prefix=site["tickets"], parse=ordinary_price, referer=base + "/",
-                   path=prices_path, now=now, sleep=price_sleep)
+                   path=prices_path, now=now, sleep=price_sleep,
+                   fetch_fn=lambda url, headers: get(url, tries=2, timeout=20))
     return per_venue
 
 

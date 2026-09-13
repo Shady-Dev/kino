@@ -205,5 +205,6 @@ def fetch_site(site=SITE, tries=3, price_sleep=1.0, prices_path=None, now=None):
     # publishes the showtimes without prices, which is what the site did before.
     prices.run([s for v in per_venue.values() for s in v], provider=site["provider"],
                prefix=site.get("tickets", ""), parse=ordinary_price, referer=base + "/",
-               path=prices_path, now=now, sleep=price_sleep)
+               path=prices_path, now=now, sleep=price_sleep,
+               fetch_fn=lambda url, headers: fetch(url, headers=headers, tries=2, timeout=20))
     return {k: v for k, v in per_venue.items() if v}

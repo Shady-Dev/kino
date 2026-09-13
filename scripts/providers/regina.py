@@ -410,7 +410,9 @@ def fetch_site(site=SITES[0], price_sleep=1.0, prices_path=None, now=None):
                            "file is kept")
     enrich(shows)
     prices.run(shows, provider=site["provider"], prefix=TICKETS, parse=ordinary_price,
-               referer=BASE + "/", path=prices_path, now=now, sleep=price_sleep)
+               referer=BASE + "/", path=prices_path, now=now, sleep=price_sleep,
+               fetch_fn=lambda url, headers: fetch(url, headers=dict(HEADERS, referer=BASE + "/"),
+                                                   tries=2, timeout=20))
     return {VENUE["id"]: shows}
 
 

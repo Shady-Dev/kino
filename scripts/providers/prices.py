@@ -34,6 +34,16 @@ FAIL_STOP = 3
 OUT = pathlib.Path("data")
 
 
+def _out():
+    """Where the caches live: run.py's OUT when the runner is loaded (tests point it at a
+    temporary tree), else data/ under the working directory."""
+    try:
+        import run
+        return pathlib.Path(run.OUT)
+    except Exception:                              # noqa: BLE001 -- run.py is optional here
+        return OUT
+
+
 def fmt(amount):
     """"20,00" -> "20€", "12,50" -> "12.5€": eTiketti's shape, which the client's
     priceLabel() and the pages' price_label() already render. -> "" for zero or junk."""
@@ -70,13 +80,16 @@ def key_of(url, prefix):
 
 
 def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
-           sleep=1.0, limit=None, headers=None):
+           sleep=1.0, limit=None, headers=None, fetch_fn=None):
     """Put each screening's price on its rows. -> counts dict.
 
     `prefix` is the ticket-page URL prefix a row's `url` must carry to be asked;
     `parse(page_html)` -> "20€" or "". `headers` replaces the default GET headers.
+    `fetch_fn(url, headers)` -> bytes or str does the GET; an adapter passes one built on
+    its own module-level getter, so a test that fakes that getter keeps the price pages
+    offline too. The default is common.fetch with two tries and a 20 s timeout.
     """
-    path = pathlib.Path(path or (OUT / f"prices-{provider}.json"))
+    path = pathlib.Path(path or (_out() / f"prices-{provider}.json"))
     limit = FETCH_MAX if limit is None else limit
     now = now or datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
     try:
@@ -112,7 +125,10 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
             time.sleep(sleep)
         url = by_key[k][0]["url"]
         try:
-            page = fetch(url, headers=hdrs, tries=2, timeout=20).decode("utf-8", "replace")
+            page = (fetch_fn(url, hdrs) if fetch_fn
+                    else fetch(url, headers=hdrs, tries=2, timeout=20))
+            if isinstance(page, bytes):
+                page = page.decode("utf-8", "replace")
         except Exception as e:                     # noqa: BLE001 -- the price is optional
             failed += 1
             streak += 1

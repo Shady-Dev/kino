@@ -324,14 +324,22 @@ class RunnerTest(unittest.TestCase):
         regina.time.sleep = lambda s: None
         self.calls = []
 
+    # KAVI's shop page each screening links to, as regina.ordinary_price() reads it.
+    BUYBOX = ('<html><body><form class="jsonformify buybox-form"><div class="row">'
+              '<label for="event_add_form_products_1">Peruslippu</label>'
+              '<span itemprop="price">10,00 €</span></div></form></body></html>')
+
     def serve(self, answers):
-        """answers: {url or (url, post body): html or Exception}."""
+        """answers: {url or (url, post body): html or Exception}. A ticket page not in
+        `answers` is served as BUYBOX."""
         def fetch(url, data=None, **kw):
             key = (url, data.decode("ascii")) if data else url
             self.calls.append(key)
             page = answers.get(key)
             if isinstance(page, Exception):
                 raise page
+            if page is None and not data and url.startswith(regina.TICKETS):
+                return self.BUYBOX.encode("utf-8")
             if page is None:
                 raise RuntimeError(f"unexpected fetch {key}")
             return page.encode("utf-8")
@@ -375,7 +383,15 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.calls[:3], [(SCHEDULE, f"getShowtimesMovies={self.today()}"),
                                           (SCHEDULE, "getShowtimesMovies=2026-09-21"),
                                           (SCHEDULE, "getShowtimesMovies=2026-10-07")])
-        self.assertEqual(len(self.calls), 8)                 # three windows and five film pages
+        tickets = [s["url"] for s in area["shows"] if s["url"].startswith(regina.TICKETS)]
+        # Three windows, five film pages, then one ticket page per screening that links
+        # to the shop, after the film pages and through the same fetch.
+        self.assertEqual(len(self.calls), 8 + len(tickets))
+        self.assertEqual(sorted(self.calls[8:]), sorted(tickets))   # never-read keys, in key order
+        self.assertEqual([s["price"] for s in area["shows"] if s["url"] in tickets],
+                         ["10€"] * len(tickets))
+        self.assertTrue(tickets)
+        self.assertIn(f"prices: {len(tickets)} screenings, {len(tickets)} priced", log)
         self.assertIn("Kino Regina: 5 showtimes, 4 dates", log)
         self.assertIn("0 failures", log)
 

@@ -197,12 +197,20 @@ class RunnerTest(unittest.TestCase):
         vista.time.sleep = lambda s: None
         self.calls = []
 
+    # The ticket page each screening links to, as vista.ordinary_price() reads it: one
+    # unrestricted category. Served for every websales/show URL the run asks for.
+    TICKET_PAGE = ('<html><body><ul class="ticket-list__list"><li class="ticket-list__item">'
+                   '<p class="ticket-list__label bold">Normaali lippu</p>'
+                   '<span class="ticket-list__price">13,00 €</span></li></ul></body></html>')
+
     def serve(self, pages):
         def get(url, tries=3, timeout=40):
             self.calls.append(url)
             page = pages.get(url)
             if isinstance(page, Exception):
                 raise page
+            if page is None and url.startswith(vista.SITES[0]["tickets"]):
+                return self.TICKET_PAGE
             if page is None:
                 raise RuntimeError(f"unexpected fetch {url}")
             return page
@@ -232,7 +240,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(venues["venues"], [{"id": "korjaamo-helsinki", "name": "Korjaamo Kino",
                                             "short": "Korjaamo Kino", "city": "Helsinki"}])
         self.assertEqual((venues["status"], venues["stale"], venues["pending"]), ("ok", [], []))
-        self.assertEqual(self.calls, [self.EVENTS_URL, self.SCHEDULE_URL])
+        tickets = vista.SITES[0]["tickets"]
+        self.assertEqual(self.calls[:2], [self.EVENTS_URL, self.SCHEDULE_URL])
+        # Then one ticket page per screening, after the schedule, through the same getter.
+        self.assertEqual(self.calls[2:], [s["url"] for s in area["shows"]])
+        self.assertTrue(all(u.startswith(tickets) for u in self.calls[2:]))
+        self.assertEqual([s["price"] for s in area["shows"]], ["13€"] * 3)
+        self.assertTrue((run.OUT / "prices-korjaamo.json").exists())
+        self.assertIn("prices: 3 screenings, 3 priced, 3 pages read", log)
         self.assertIn("Korjaamo Kino: 3 showtimes, 2 dates", log)
         self.assertIn("0 failures", log)
 
