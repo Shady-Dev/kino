@@ -20,9 +20,9 @@
 [kinoolympia] Kino Olympia (Hanko): 6 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 6 showtimes, 3 dates
-[jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
+[jarvelankino] Järvelän Kino (Järvelä): 8 showtimes
 [jarvelankino] synopses merged: 0
-[jarvelankino] Järvelän Kino: 6 showtimes, 5 dates
+[jarvelankino] Järvelän Kino: 8 showtimes, 5 dates
 [kinometso] Muurame (Muurame): 0 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
@@ -34,5 +34,5 @@
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-muurame, km-petajavesi, km-tikkakoski
-[run] nexxo: 10 venues, 90 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] nexxo: 10 venues, 92 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
 exit=0
