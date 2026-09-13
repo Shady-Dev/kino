@@ -16,6 +16,17 @@ listing, the film links and the `/salikartta?id=` ticket href are the same on bo
 the ticket page is never fetched: it is the outbound link and nothing more.
 
 Adding another eTiketti cinema = an entry in SITES.
+
+Empty venues (2026-09-13). A site's film pages carry every screening, so a registered
+venue with no row is either out of programme or renamed. `EMPTY_VENUES_CONFIRMED` lets
+run.py publish a fresh empty file for such a venue instead of keeping its last, past
+shows marked stale, but only on positive evidence from this read: the listing's own
+theatre navigation (`/teatterit/<slug>` links) names the venue with its registered
+`match` text, every film page was fetched and parsed, and every screening row matched a
+registered venue. A fetch that skipped a page, a row naming a place nobody registered,
+or a venue the navigation does not list leaves the venue out of the result, and run.py
+keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the provider
+read "not updated" for its past shows.
 """
 import re
 import datetime, html as html_mod, json, re, time
@@ -25,6 +36,14 @@ from common import EmptyProgramme, budget_or_raise, fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
+
+# See "Empty venues" in the module docstring: a venue returned with an empty list is
+# known empty, and fetch_site returns one only on that evidence.
+EMPTY_VENUES_CONFIRMED = True
+# The theatre navigation every eTiketti site renders in its footer: the venue's own page
+# link with the venue's name as the text. Anchors only, never prose: "Esitysjaksot
+# Keravalla ja Nikkilässä" names the town without identifying the venue.
+VENUE_LINK_RE = re.compile(r'<a\s+href="/teatterit/[^"]+"\s*>([^<]+)</a>', re.I)
 
 SITES = [
     {"provider": "kotkanleffat", "base": "https://kotkanleffat.fi", "label": "Kotkan Leffat",
@@ -478,6 +497,17 @@ def _classify_no_films(listing, url):
         f"evidence the cinema published nothing. Failing rather than guessing")
 
 
+def identified_venues(listing, site):
+    """The registered venues the listing's theatre navigation names -> set of ids.
+
+    Positive identification for an empty venue: the site itself lists the venue, under
+    the name `match` expects, so a venue with no screening row is out of programme rather
+    than renamed or gone. Compared whole, case-folded, against the anchor text alone.
+    """
+    names = {_txt(t).lower() for t in VENUE_LINK_RE.findall(listing)}
+    return {v["id"] for v in site["venues"] if v["match"].lower() in names}
+
+
 def fetch_site(site, sleep=1.2):
     listing = get(site["base"] + "/elokuvat/ohjelmistossa")
     seen, movies = set(), []
@@ -490,11 +520,15 @@ def fetch_site(site, sleep=1.2):
 
     per_venue = {v["id"]: [] for v in site["venues"]}
     seen_shows = set()
+    # Emptiness is confirmed only for a read with nothing unexplained: every film page
+    # fetched, every screening row taken by a registered venue. Either miss clears it.
+    complete = True
     for path, mid in budget_or_raise(movies, site['provider']):
         try:
             page = get(site["base"] + path)
         except Exception as e:
             print(f"[{site['provider']}] movie {mid}: {e}")
+            complete = False
             continue
         rows, meta = parse_movie(page, site, path)
         for r in rows:
@@ -508,6 +542,9 @@ def fetch_site(site, sleep=1.2):
             hay = f"{r['theatre_raw']} {r['aud']}".lower()
             venue = next((v for v in site["venues"] if v["match"] in hay), None)
             if not venue:
+                # A place nobody registered: a renamed venue looks exactly like this, so
+                # no venue of this site can be called empty on this read.
+                complete = False
                 continue
             # Recorded only once a registered venue took the row, so a malformed copy
             # that matched nothing cannot suppress the valid copy that follows it.
@@ -539,4 +576,8 @@ def fetch_site(site, sleep=1.2):
 
     for k in per_venue:
         per_venue[k].sort(key=lambda s: s["start"])
-    return {k: v for k, v in per_venue.items() if v}
+    # A venue with rows is reported. A venue without rows is reported, empty, only when
+    # the navigation identified it and the read was complete; otherwise it is left out
+    # and run.py keeps its previous file.
+    empty_ok = identified_venues(listing, site) if complete else set()
+    return {k: v for k, v in per_venue.items() if v or k in empty_ok}

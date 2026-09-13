@@ -3362,6 +3362,23 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### eTiketti confirms an empty venue from its own navigation (2026-09-13)
+Bug: Cine Nikkilä's programme ended with the 16:45 screening on 13.9. The 20:12 local run
+found no row for it, took the keep-previous branch, and the provider read "Päivitys
+viivästynyt" on a 14:10 stamp while Keuda-Talo was fresh. The stamp never advances on
+that branch, so the label would have stayed until Nikkilä's next programme. Same shape as
+Kino Metso's Muurame (2026-09-04); eTiketti did not set `EMPTY_VENUES_CONFIRMED`.
+Fix: it does now, on evidence from the read itself: the listing's theatre navigation
+(`/teatterit/<slug>` anchors) names the venue with its `match` text, every film page was
+fetched, and every screening row matched a registered venue. A skipped page, a row for
+an unregistered place (a rename looks like that) or a venue the navigation lacks leaves it
+out of the result, and run.py keeps the previous file as before. Anchors only: the
+footer's "Esitysjaksot Keravalla ja Nikkilässä" names the town, not the venue.
+Tests: `tests/test_etiketti_empty_venue.py`, Kotka-template fixtures for Cine: confirmed
+empty beside Keuda-Talo's rows; a failed page, an unregistered place or a missing anchor
+each keep the previous file through run.py; prose alone identifies nothing. Live read
+2026-09-13: Keuda-Talo 12 rows, all matched, Nikkilä none. Seven mutations.
+
 ### The design-contract check survives a rewritten branch (2026-09-13)
 Bug: `ci.yml` diffed `github.event.before..github.sha` inline. After the rebase and
 force-push of a branch the old tip hung off no ref, the full clone did not carry it, and
