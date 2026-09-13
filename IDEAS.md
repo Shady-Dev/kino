@@ -3362,6 +3362,20 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### The design-contract check survives a rewritten branch (2026-09-13)
+Bug: `ci.yml` diffed `github.event.before..github.sha` inline. After the rebase and
+force-push of a branch the old tip hung off no ref, the full clone did not carry it, and
+`git diff` died with exit 128 (run 34773073208); the same SHA's main push passed. A
+created ref was skipped outright by the step's `if`.
+Fix: `scripts/check_design_push.py` owns the range. A reachable `before` is used as is;
+an unreachable one is fetched by SHA, then replaced by the merge base with the base
+branch, which is a superset of the push and never the tip's parent alone, since a design
+change in an earlier commit of the same push would slip past `HEAD^`. No range at all
+exits 2 with a message rather than guessing.
+Tests: `tests/test_check_design_push.py` builds real git repositories: exact range kept,
+unreachable and all-zero `before` recovered through the merge base and still red on the
+contract change, no range exits 2, the raw diff on the missing SHA raises. Six mutations.
+
 ### The hovered search hit paints ink (2026-09-13, v155)
 Bug: `.vrow mark` is `--accent-text`, tuned for `--bg` and `--surface` (4.97 and 5.32:1
 light). A hovered picker row paints `--accent-soft`, and there the same token measures
