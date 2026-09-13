@@ -1923,6 +1923,16 @@ left bare, else chooser); `loadSeq` drops a load resolving after Back; `loadSche
 shows the chooser plus the load-failure line when the venue lists fail. No storage added,
 nothing sent. Tests: `test_home_flow.py`, `test_home_static.py`, `test_area_routing.py`.
 
+### The combined ticket kept its empty compartment (2026-09-13, v152)
+Bug: v140 hid an unpriced compartment with `.stub .price:empty{display:none}` (0,3,0),
+but the combined ticket's `.stubs.grid .stub .price{display:flex…}` is 0,4,0 and won, so
+every unpriced ticket in a combined view kept a 19 px compartment with seam and notches:
+26 of 29 in the Tampere sheet, measured live at v143. The row ticket and the generated
+city pages (`.grid .stub .price`, 0,3,0, before the `:empty` rule) were right.
+Fix: `.stubs.grid .stub .price:empty{display:none}` after the grid rule; the
+`test_compact_ticket` assertion that pinned the rule's absence now pins its presence and
+order. Two mutations red.
+
 ### The perforation sits before the price (2026-09-13, v140)
 Bug: on the combined ticket the dashed seam and notches sat after the time (`--tw`) with
 the price loose at the far right; on the row ticket an unpriced screening kept a blank

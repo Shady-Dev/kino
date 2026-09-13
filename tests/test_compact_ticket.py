@@ -57,7 +57,11 @@ class ClientCompactTicketTest(unittest.TestCase):
 
     def test_no_price_means_no_compartment_seam_or_notches(self):
         self.assertEqual(rule(HTML, ".stub .price:empty"), "display:none")
-        self.assertIsNone(rule(HTML, ".stubs.grid .stub .price:empty"))
+        # The combined ticket's price rule is one class more specific than `.stub .price:empty`,
+        # so the hide has to be said again at that level or the empty compartment renders
+        # (it did, v140 to v151).
+        self.assertEqual(rule(HTML, ".stubs.grid .stub .price:empty"), "display:none")
+        self.assertLess(HTML.index(".stubs.grid .stub .price{"), HTML.index(".stubs.grid .stub .price:empty{"))
         # the Ajat list keeps the width (its ticket stays 120 px by construction) and
         # nothing else: no seam, no notches
         self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "display:flex; border-left:0")

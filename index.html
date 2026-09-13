@@ -712,6 +712,12 @@
     position:relative;
   }
   .stub .price:empty{display:none}
+  /* The combined ticket's own price rule (0,4,0) outranks the line above (0,3,0), so
+     its empty compartment kept rendering with seam and notches, 19 px wide, on every
+     unpriced ticket of a combined view: 26 of 29 in the Tampere sheet on 2026-09-13.
+     Restated at the higher specificity. The generator's `.grid .stub .price` is 0,3,0
+     and loses to its later `:empty` rule, so the city pages were right all along. */
+  .stubs.grid .stub .price:empty{display:none}
   .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink)}
   /* perforation notches, centred on the seam */
   .stub .price::before,.stub .price::after{
