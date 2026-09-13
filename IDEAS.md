@@ -3391,8 +3391,8 @@ screenings at the wrong building, and the calendar LOCATION with them.
 Fix: a second venue `kj-vipsali`, match `vip-sali`. The accent is the provider's, so there
 was nothing to measure; label and page slug stay distinct from the main hall's.
 Tests: the 13 split 7 and 6 with no shared ticket id, one screening listed under two films
-is published once, a third place stays unclaimed. Five mutations. The venue's data files
-and the README's venue count follow the next cloud run.
+is published once, a third place stays unclaimed. Five mutations. The cloud run of 23:13
+published both venues, 7 and 6; the README is 83 venues and 191 sitemap URLs from there.
 
 ### The eTiketti navigation prints the town with the cinema (2026-09-14)
 Bug: `identified_venues` compared the whole anchor text to `match`, and the comment above
