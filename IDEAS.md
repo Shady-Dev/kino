@@ -2026,11 +2026,13 @@ files in the repo root are committed per run by design.
   markup. See "Access and ethics".
 
 ### Search snippets quoted the chrome and a load failure (2026-09-13)
-Google's copy of `/` (crawled ~2026-08-29) read `Leffavuoro. EN. Tallenna. Tänään 29.8.
-... Leffat Ajat. Suom. puhe. Lapsille. Aikataulua ei juuri nyt saatu ladattua`. Cause:
-`robots.txt` disallows `/data/`, so the renderer never loads a schedule and every render
-is the chrome plus the load-failure line. The `/data/` rule stays (the schedule is not a
-directory to index). Fix: `data-nosnippet` on the header bar, the pinned controls,
+Observed: Google's copy of `/` read `Leffavuoro. EN. Tallenna. Tänään 29.8. ... Leffat
+Ajat. Suom. puhe. Lapsille. Aikataulua ei juuri nyt saatu ladattua`, wording the client
+carried from v35 to v109 (2026-08-28 to 09-05) and day chips from 29.8, so a stale copy;
+and `robots.txt` disallows `/data/`, which the client reads for every schedule. Inferred,
+not shown: that the blocked `data/` requests are what put the load-failure line into the
+indexed render. Google's fetch and render logs were not available. The `/data/` rule
+stays (the schedule is not a directory to index). Fix: `data-nosnippet` on the header bar, the pinned controls,
 `#stale`, `#partial`, the picker, `#listStatus`, `#tagkey` and every `<div class="status">`,
 each created with the attribute (Google forbids toggling it from script). `<main>`, the
 film rows, the footer sentence and the meta description stay quotable; the description
