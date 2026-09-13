@@ -1,17 +1,18 @@
 [savonkinot] synopses merged: 0
-[savonkinot] Tapio Joensuu: 43 showtimes, 6 dates
-[savonkinot] Killa Savonlinna: 5 showtimes, 5 dates
-[savonkinot] Kuvalinna Savonlinna: 4 showtimes, 4 dates
-[savonkinot] Kuvalipas Iisalmi: 8 showtimes, 6 dates
-[savonkinot] Maxim Varkaus: 17 showtimes, 6 dates
-[savonkinot] Kino-Hovi Kitee: 7 showtimes, 6 dates
+[savonkinot] Tapio Joensuu: 34 showtimes, 5 dates
+[savonkinot] Killa Savonlinna: 4 showtimes, 4 dates
+[savonkinot] Kuvalinna Savonlinna: 3 showtimes, 3 dates
+[savonkinot] Kuvalipas Iisalmi: 6 showtimes, 5 dates
+[savonkinot] Maxim Varkaus: 14 showtimes, 5 dates
+[savonkinot] Kino-Hovi Kitee: 5 showtimes, 5 dates
 [joutsankino] synopses merged: 0
-[joutsankino] Joutsan Kino: 7 showtimes, 6 dates
+[joutsankino] Joutsan Kino: 6 showtimes, 5 dates
 [cine] synopses merged: 0
 [cine] Cine Keuda-Talo: 12 showtimes, 3 dates
-[cine] Cine Nikkilä: 2 showtimes, 1 dates
+[cine] Cine Nikkilä: no showtimes, keeping previous data from 2026-09-13T11:10:39+00:00
 [star] synopses merged: 0
-[star] Elokuvateatteri Star: 61 showtimes, 8 dates
-[run] http: 0 revalidated (304), 55 full, 55 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 10 venues, 166 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[star] Elokuvateatteri Star: 51 showtimes, 7 dates
+[run] http: 0 revalidated (304), 53 full, 53 not stored (origin said no-store), 0 cache entries written
+[run] partial: cine kept previous data for 1 venue(s): cine-nikkila
+[run] etiketti: 9 venues, 135 showtimes, 1 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
