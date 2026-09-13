@@ -916,6 +916,12 @@ def main(today=None) -> int:
     Reproducing a committed build -- the CI check regenerates and requires a clean tree --
     wants the day that build was for, or the same input goes red after midnight with
     nothing changed: on 2026-09-05 against -06 it was 173 of 183 files. See recorded_date().
+
+    -> 0, or 3 when the homepage's city links are stale. The pages, the sitemap and the
+    run's data are written either way; only the verdict changes. A city crossing into its
+    second venue creates a city page that `index.html` does not list, and the print saying
+    so is read by nobody: `check_runs.py` reads `exit=`, and the data commit that moves
+    the city touches none of the paths that start Checks. 3 puts it in `exit=`.
     """
     providers = {p["id"]: p for p in
                  json.loads((DATA / "providers.json").read_text())["providers"]}
@@ -1090,7 +1096,8 @@ def main(today=None) -> int:
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")
-    if sync_home(write=False):
+    stale_home = sync_home(write=False)
+    if stale_home:
         print("[pages] index.html city links stale: run build_pages.py --home")
     if _unmirrored_hosts:
         total = sum(_unmirrored_hosts.values())
@@ -1102,7 +1109,12 @@ def main(today=None) -> int:
 
     print(f"[pages] {len(urls) + 1} urls in sitemap, "
           f"{stats['written']} files written, {stats['kept']} unchanged")
-    return 0
+    # Last, so the summary still reaches the log. biorex.yml commits the pages and the
+    # data before it reads this, and fails the run at its final step; the stale list is
+    # then a red run with the reason in the committed run-pages.log, not a line in a log
+    # nobody opens. `--home` fixes it and is a human commit, because index.html carries a
+    # service-worker bump.
+    return 3 if stale_home else 0
 
 
 # ---------------------------------------------------------------- the homepage's city links
@@ -1167,7 +1179,8 @@ def cli(argv):
                          "committed pages. Default: today in Europe/Helsinki.")
     ap.add_argument("--home", action="store_true",
                     help="rewrite the homepage's city links in index.html from the data "
-                         "and exit; bump sw.js when committing the result")
+                         "and exit 0; bump sw.js when committing the result. Without it a "
+                         "build whose links are stale writes every page and exits 3")
     args = ap.parse_args(argv)
     if args.home:
         changed = sync_home(write=True)

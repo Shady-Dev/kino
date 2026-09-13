@@ -3378,6 +3378,22 @@ confirmation is visible in the committed run log instead of being silent.
 Tests: the unregistered-place case asserts the place is named and that the navigation
 naming it does not excuse the row. Three mutations.
 
+### A stale homepage city list fails the pages build (2026-09-14)
+Bug: `build_pages.py` printed "index.html city links stale" and exited 0, and nothing
+reads a print: `check_runs.py` reads `exit=` only, `biorex.yml` commits the pages before it
+looks and fails only on a non-zero `pagesfail`, and Checks does not run on a data commit.
+On 2026-09-14 the kino-bot commit 92005f27 gave Nurmijärvi its second venue; its city page
+and sitemap entry were committed, the line sat above `exit=0`, and `test_home_static` was
+red on main until a human ran the suite (fixed by hand in 03bcfd58). It recurs every time.
+Fix: `main()` returns 3 when `sync_home(write=False)` is true, after the pages, the
+sitemap and the summary line. The pages and the run's data still publish, since the commit
+step is not gated on `pagesfail`; the run goes red at the final step with the reason in the
+committed log. `--home` still exits 0 after rewriting. `check_runs.py` needed no change: it
+reports `exit=3` like any non-zero code.
+Tests: two synthetic cities of two venues each: stale exits 3 and still writes every page,
+one missing city is enough, a list in sync exits 0, `--home` repairs and the build after it
+is clean. Five mutations.
+
 ### A venue can add a city page that index.html never hears about (2026-09-14, v156)
 Bug: registering VIP-Sali gave Nurmijärvi a second venue, so it crossed the threshold for
 a city page. The cloud run built `/kaupunki/nurmijarvi/`, committed it and put it in the
