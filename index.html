@@ -729,6 +729,47 @@
   .stub.sold{opacity:.55; pointer-events:none; filter:grayscale(1)}
   .stub.sold .time{text-decoration:line-through}
   .stub.past .time{color:var(--past)}
+  /* The sheet's ticket and its menu button, side by side in one wrapper: the button is
+     outside the anchor (a button inside a link is neither), 40 px square, dots in
+     currentColor, muted at rest and accent while its menu is open. A past ticket has
+     no button. In the combined grid the wrapper is the grid item and the ticket fills
+     what the button leaves. */
+  .tk{position:relative; display:inline-flex; align-items:stretch; gap:2px; max-width:100%}
+  .tk .stub{min-width:0}
+  .stubs.grid .tk{display:grid; grid-template-columns:minmax(0,1fr) auto}
+  .tk .more{
+    width:40px; height:40px; flex:0 0 40px; align-self:center; padding:0; margin:0;
+    border:0; border-radius:8px; background:transparent; color:var(--muted); cursor:pointer;
+    display:grid; place-items:center;
+  }
+  .tk .more svg{width:20px; height:20px; display:block}
+  .tk .more:hover{color:var(--ink)}
+  .tk.open .more{color:var(--accent)}
+  /* The menu: below the ticket, opening rightwards from its left edge or, near the
+     viewport's right edge, leftwards from its right edge (menuSide). Two rows of 44 px. */
+  .tkmenu{
+    position:absolute; top:calc(100% + 4px); left:0; z-index:5; min-width:196px;
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    box-shadow:0 8px 24px rgba(0,0,0,.18); padding:4px; margin:0;
+  }
+  .tkmenu.left{left:auto; right:0}
+  .tkmenu .mi{
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+    gap:2px; width:100%; min-height:44px; padding:6px 12px; margin:0; border:0;
+    border-radius:6px; background:transparent; color:var(--ink); font:inherit;
+    font-size:.88rem; font-weight:600; text-align:left; cursor:pointer; white-space:nowrap;
+  }
+  .tkmenu .mi small{font-size:.72rem; font-weight:500; color:var(--muted)}
+  .tkmenu .mi:hover, .tkmenu .mi:focus-visible{background:var(--chip-bg)}
+  .tkmenu .mi:focus-visible{outline-offset:-2px}   /* the ring stays inside the menu's border */
+  /* Confirmation of a copied link: one line, fixed, above the sheet, gone on its own. */
+  .toast{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:120;
+    background:var(--ink); color:var(--bg); padding:10px 16px; border-radius:8px;
+    font-size:.85rem; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,.25);
+    pointer-events:none; opacity:0; transition:opacity .2s;
+  }
+  .toast.on{opacity:1}
   /* The screening a link named: outlined, so the eye lands on it among the day's. */
   .stub.pick{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft)}
 
@@ -1118,6 +1159,7 @@
          synMore:'Lue koko kuvaus', synLess:'Näytä vähemmän',
          nextShows:'Seuraavat näytökset',
          nextMatch:'Seuraava näytös', atTime:'klo',
+         shareScreening:'Jaa näytös', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
@@ -1182,6 +1224,7 @@
          synMore:'Läs hela beskrivningen', synLess:'Visa mindre',
          nextShows:'Nästa föreställningar',
          nextMatch:'Nästa föreställning', atTime:'kl.',
+         shareScreening:'Dela visningen', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1243,6 +1286,7 @@
          synMore:'Read full description', synLess:'Show less',
          nextShows:'Next screenings',
          nextMatch:'Next screening', atTime:'at',
+         shareScreening:'Share screening', aActions:'Screening actions', linkCopied:'Link copied',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -2173,6 +2217,16 @@
       if(onDay) return onDay;
     }
     return nextMatch(shows, '*', '', now, () => true, dateOf);
+  }
+  // -> what a share carries as text, one fact per line: the title, the place (venue and
+  // hall when there is one), the day and the time with the language's "at" word.
+  function shareText(title, venue, hall, day, at, time){
+    return [title, [venue, hall].filter(Boolean).join(', '), `${day} ${at} ${time}`].join('\n');
+  }
+  // -> which way a ticket's menu opens: leftwards (aligned to the ticket's right edge)
+  // when the ticket ends within 200 px of the viewport's right edge, else rightwards.
+  function menuSide(right, viewportWidth){
+    return viewportWidth - right < 200 ? 'left' : 'right';
   }
   // --- end screening link ---
 
@@ -3352,8 +3406,9 @@
   async function showSheet(fid, want){
     await ensureFilms();
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
-      .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start)}))
+      .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start), startIso:s.start}))
       .sort((a,b) => a.start - b.start);
+    all.forEach((s, i) => { s._i = i; });   // the menu button names its screening by index
     const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
     // In a combined view eventId is the cross-chain merge key, so films.json (keyed by
     // Finnkino's filmId) has to be looked up through the show's own id.
@@ -3400,9 +3455,14 @@
         const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
         const own_price = priceLabel([s]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-start="${s.start.getTime()}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>`;
+        // The menu button sits beside the ticket, outside the anchor; a past screening
+        // has nothing to share or add and gets none.
+        const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
+        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-start="${s.start.getTime()}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
+    sheetCtx = { all, title, fid };
+    closeStubMenu(false);
     // Past times sat in the grid dimmed, so a film with a matinee opened on times nobody
     // can book. Hidden behind the control the list already uses, and above the upcoming
     // ones so revealing them keeps the day in order. A day where everything has passed
@@ -3504,6 +3564,7 @@
   }
 
   function hideSheet(){
+    closeStubMenu(false);
     const wasOpen = document.body.classList.contains('sheet-open');
     document.body.classList.remove('sheet-open');
     sheetEl.classList.remove('dragging');
@@ -3562,6 +3623,117 @@
     sheetEl.addEventListener('pointerup', end);
     sheetEl.addEventListener('pointercancel', end);
   })();
+  // --- the ticket's menu: share this screening -----------------------------------------
+  // One menu at a time, built when its dots button is pressed and removed when it
+  // closes, so nothing stale survives a re-render. `sheetCtx` is what showSheet drew:
+  // the film's screenings by index, the title and the film id the fragment uses.
+  const DOTS = '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg>';
+  let sheetCtx = null, openTk = null, toastEl = null, toastTimer = 0;
+  function toast(msg){
+    if(!toastEl){
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast'; toastEl.setAttribute('role', 'status');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg; toastEl.classList.add('on');
+    setListStatus(msg);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('on'), 2400);
+  }
+  function closeStubMenu(refocus){
+    if(!openTk) return;
+    const tk = openTk; openTk = null;
+    const m = tk.querySelector('.tkmenu'); if(m) m.remove();
+    tk.classList.remove('open');
+    const b = tk.querySelector('.more');
+    if(b){ b.setAttribute('aria-expanded', 'false'); if(refocus) b.focus(); }
+  }
+  function openStubMenu(btn){
+    const tk = btn.closest('.tk');
+    const s = sheetCtx && sheetCtx.all[+btn.dataset.i];
+    if(!tk || !s) return;
+    closeStubMenu(false);
+    const T = L[state.lang];
+    const iso = fiDate(s.start);
+    const sub = [`${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`, s.aud].filter(Boolean).join(' \u00b7 ');
+    const menu = document.createElement('div');
+    menu.className = 'tkmenu ' + menuSide(tk.getBoundingClientRect().right, window.innerWidth);
+    menu.setAttribute('role', 'menu');
+    menu.innerHTML = `<button type="button" role="menuitem" class="mi" data-act="share"><span>${esc(T.shareScreening)}</span><small>${esc(sub)}</small></button>`;
+    tk.appendChild(menu);
+    tk.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    openTk = tk;
+    const first = menu.querySelector('.mi');
+    if(first) first.focus();
+    // The sheet body is the scroll container: a menu under the last row would sit
+    // below its bottom edge until scrolled to.
+    menu.scrollIntoView({ block: 'nearest' });
+  }
+  async function shareScreening(s){
+    const T = L[state.lang];
+    const iso = fiDate(s.start);
+    const url = screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso);
+    const text = shareText(sheetCtx.title, venueName(s), s.aud || '',
+                           `${fiDay[dowOf(iso)]} ${dmOf(iso)}`, T.atTime, fiTime(s.start));
+    if(navigator.share){
+      try { await navigator.share({ title: sheetCtx.title, text, url }); } catch(_){}
+      return;
+    }
+    try { await navigator.clipboard.writeText(url); toast(T.linkCopied); }
+    catch(_){
+      // No clipboard permission (an insecure origin, an old browser): the plain way.
+      // Selecting the textarea moves focus; it goes back where it was (the dots).
+      const back = document.activeElement;
+      const ta = document.createElement('textarea');
+      ta.value = url; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch(__){}
+      ta.remove();
+      if(back && back.focus) back.focus();
+      if(ok) toast(T.linkCopied);
+    }
+  }
+  sheetEl.addEventListener('click', e => {
+    const more = e.target.closest('.more');
+    if(more){
+      e.preventDefault();
+      if(openTk && openTk.contains(more)) closeStubMenu(true); else openStubMenu(more);
+      return;
+    }
+    const mi = e.target.closest('.tkmenu .mi');
+    if(mi){
+      const s = sheetCtx && sheetCtx.all[+openTk.querySelector('.more').dataset.i];
+      closeStubMenu(true);
+      if(s && mi.dataset.act === 'share') shareScreening(s);
+      return;
+    }
+    if(openTk && !e.target.closest('.tkmenu')) closeStubMenu(false);
+  });
+  // Arrow keys move between the rows, Escape closes and puts focus back on the dots.
+  // Escape is handled here, ahead of sheetKeydown's, so the menu closes before the sheet.
+  sheetEl.addEventListener('keydown', e => {
+    if(!openTk) return;
+    const items = [...openTk.querySelectorAll('.tkmenu .mi')];
+    const at = items.indexOf(document.activeElement);
+    if(e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); closeStubMenu(true); return; }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      if(!items.length) return;
+      const step = e.key === 'ArrowDown' ? 1 : -1;
+      items[(at + step + items.length) % items.length].focus();
+      return;
+    }
+    if(e.key === 'Tab') closeStubMenu(false);
+  }, true);
+  // A tap or a click anywhere outside the sheet's menu closes it; the overlay, the
+  // day chips and the page behind are inert while the sheet is open, so this is the
+  // sheet itself and the scrollbar.
+  document.addEventListener('pointerdown', e => {
+    if(openTk && !openTk.contains(e.target)) closeStubMenu(false);
+  }, true);
+  // --- end ticket menu -------------------------------------------------------------------
   function syncSheet(){
     if(!state.area) return;                 // a film link waits for a location
     const want = parseSheetHash(location.hash);

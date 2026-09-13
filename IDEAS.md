@@ -1819,6 +1819,25 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### Each upcoming ticket in the sheet has a menu: share the screening (2026-09-13, v145)
+Bug: a screening could be opened at the cinema or nothing; no way to hand one to
+somebody, and the v144 link had no maker.
+Fix: the sheet's stub renderer wraps every ticket, `<div class="tk"><a class="stub">…</a>
+<button class="more"></button></div>`, the button outside the anchor, none on `.past`;
+cards and the Ajat list untouched; `.stubs.grid .tk` is the grid item. 40 px dots, inline
+SVG in currentColor, `--muted` at rest, `--accent` open (an icon: `test_theme_contrast`
+allows it). One `role="menu"` at a time, built on press, removed on close: a 44 px
+`menuitem` "Jaa näytös" with `day time · hall` under it; `menuSide()` flips it leftwards
+within 200 px of the viewport edge; Escape (captured ahead of the sheet's), outside
+pointerdown, Tab and hideSheet close it, focus returns to the dots, arrows cycle rows.
+`shareText()` is title, place, day and time; `navigator.share`, else the clipboard and a
+`role="status"` toast that also feeds `#listStatus`; the payload is plain text.
+Measured: 320 Tampere sheet, menu right edge 300 = the dots' right edge, no overflow on
+body, sheet or document; 1200 rightwards. Live: click, Escape, focus return, toast text
+and URL, three languages redrawn on toggle. Enter/Space on the dots is native button
+behaviour and not injectable from the pane (noted at v134 already). Tests:
+`tests/test_share_menu.py`, 13 mutations red.
+
 ### A link can name one screening (2026-09-13, v144)
 Bug: a film link (`?area=X#m=<id>`) opened the sheet on its first day; nothing could point
 at one screening, which the per-screening share (v145) needs.

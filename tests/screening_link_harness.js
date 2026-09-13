@@ -23,7 +23,7 @@ function slice(start, end, name) {
 }
 const SRC = slice('  // --- screening link: pure, extracted verbatim by tests/screening_link_harness.js ---',
                   '  // --- end screening link ---', 'screening link');
-for (const fn of ['screeningHash', 'screeningUrl', 'parseSheetHash', 'screeningTarget']) {
+for (const fn of ['screeningHash', 'screeningUrl', 'parseSheetHash', 'screeningTarget', 'shareText', 'menuSide']) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(SRC)) {
     console.error('marker block does not contain ' + fn);
     process.exit(2);
@@ -41,12 +41,14 @@ const sandbox = { URL, URLSearchParams, encodeURIComponent };
 vm.createContext(sandbox);
 vm.runInContext(HELPERS + '\n' + NEXT + '\n' + SRC
                 + '\n;globalThis.__h = screeningHash; globalThis.__u = screeningUrl;'
-                + 'globalThis.__p = parseSheetHash; globalThis.__t = screeningTarget; globalThis.__d = fiDate;',
+                + 'globalThis.__p = parseSheetHash; globalThis.__t = screeningTarget; globalThis.__d = fiDate;'
+                + 'globalThis.__x = shareText; globalThis.__m = menuSide;',
                 sandbox, { filename: 'screeningLink' });
 const screeningHash = sandbox.__h, screeningUrl = sandbox.__u;
 const parseSheetHash = sandbox.__p, screeningTarget = sandbox.__t, fiDate = sandbox.__d;
+const shareText = sandbox.__x, menuSide = sandbox.__m;
 
-const out = { hash: {}, url: {}, parse: {}, target: {} };
+const out = { hash: {}, url: {}, parse: {}, target: {}, share: {}, side: {} };
 
 // -- building ---------------------------------------------------------------------------
 out.hash.plain = screeningHash('HO00000413');
@@ -88,5 +90,15 @@ out.target.no_want = pick(screeningTarget(shows, null, now, fiDate));
 out.target.all_gone = pick(screeningTarget(shows, { day: '2026-09-13', start: '' },
                                            new Date('2026-09-17T00:00:00+03:00'), fiDate));
 out.target.empty = pick(screeningTarget([], { day: '2026-09-13', start: '' }, now, fiDate));
+
+// -- the share text and the menu's side (v145) -----------------------------------------
+out.share.with_hall = shareText('Ryhmä Hau: Dinoelokuva', 'Finnkino Promenadi', 'Sali 3', 'Ti 15.9.', 'klo', '16:30');
+out.share.no_hall = shareText('Kino Regina', 'Kino Regina', '', 'La 13.9.', 'kl.', '20:45');
+out.share.verbatim = shareText('<b>A & B</b>', 'V', 'H', 'D', 'at', 'T');
+out.side.far_from_edge = menuSide(120, 375);
+out.side.at_199 = menuSide(176, 375);
+out.side.at_200 = menuSide(175, 375);
+out.side.at_edge = menuSide(375, 375);
+out.side.wide = menuSide(900, 1200);
 
 process.stdout.write(JSON.stringify(out) + '\n');

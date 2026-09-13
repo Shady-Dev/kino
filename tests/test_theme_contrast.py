@@ -32,8 +32,9 @@ TEXT_RULES = (
 )
 
 # Accent as a non-text colour is fine at 3:1 and stays on --accent. The wordmark dot is a
-# logotype, which 1.4.3 exempts outright.
-ACCENT_TEXT_ALLOWED = (".logo span",)
+# logotype, which 1.4.3 exempts outright. The open ticket menu's dots are an icon drawn in
+# currentColor (1.4.11, 3:1), not text.
+ACCENT_TEXT_ALLOWED = (".logo span", ".tk.open .more")
 
 # The favourite button: its glyph is U+2605 / U+2606 at 1.15rem, well under the 24px
 # that would make it large text.
