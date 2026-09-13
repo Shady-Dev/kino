@@ -5,5 +5,5 @@
 [enrich] year mismatch, exact title refused (1): Tartuffe (1925) -> Tartuffe (1978)
 [enrich] several films match the title and year, none trusted (2): Casablanca (1942) -> Casablanca (1943) | Intermezzo (1936) -> Intermezzo (1936)
 [enrich] rating held back, under 25 votes (5): Beginnings (Begyndelser) (6.8 / 16 votes) | Berliinin sankari (6.6 / 19 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes) | Svecias – The Visitor (5.0 / 1 votes) | Tartuffe (7.0 / 1 votes)
-[enrich] 215 titles, 20 new, 0 re-checks, 177 with rating, 253 with synopsis, 250 with poster, 235 mergeable by id, 27 files updated
+[enrich] 215 titles, 20 new, 0 re-checks, 177 with rating, 253 with synopsis, 250 with poster, 235 mergeable by id, 9 files updated
 exit=0
