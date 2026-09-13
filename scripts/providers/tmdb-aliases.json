@@ -17,5 +17,7 @@
  "_comment_regina": "Kino Regina, 2026-09-05. The site writes titles in capitals and TMDB's popularity fallback picked part IV (52316) for \"ONCE UPON A TIME IN CHINA II\" and a 2021 documentary for the first film, so a wrong poster reached the site. Ids from Wikidata P4947: Tsui Hark's 1991, 1992 and 1993 films.",
  "once upon a time in china": "10617",
  "once upon a time in china ii": "10618",
- "once upon a time in china iii": "10619"
+ "once upon a time in china iii": "10619",
+ "_comment_lucky_luke": "Kino Regina, 2026-09-13. Regina publishes the original as \"La ballade des Dalton\"; TMDB 50166 registers it as \"Lucky Luke: La Ballade des Dalton\", so the exact-title rule refused the hit and the search kept it weak. Identity checked against the TMDB record: directors René Goscinny and Morris on both sides, 1978 on both, the Daltons' inheritance plot in both synopses, 84 against 82 minutes.",
+ "lucky luke sotapolulla": "50166"
 }

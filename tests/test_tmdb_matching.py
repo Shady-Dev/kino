@@ -417,6 +417,29 @@ class MainPathTest(MainHarness):
         self.assertEqual((c["old film"]["o"], c["old film"]["y"]), ("", ""))
 
 
+class AliasFileTest(unittest.TestCase):
+    """The hand-maintained alias file, as the pass reads it."""
+
+    FILE = _ctx.ROOT / "scripts" / "providers" / "tmdb-aliases.json"
+
+    def test_every_key_is_a_norm_key_and_every_value_an_id_or_a_search_string(self):
+        """A key that is not its own norm() can never be looked up: the pass keys on the
+        normalised published title. An id is digits; anything else is searched."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        entries = {k: v for k, v in doc.items() if not k.startswith("_")}
+        self.assertGreater(len(entries), 5)
+        for k, v in entries.items():
+            with self.subTest(key=k):
+                self.assertEqual(k, enrich_tmdb.norm(k))
+                self.assertIsInstance(v, str)
+                self.assertTrue(v.strip())
+
+    def test_the_lucky_luke_alias_pins_the_verified_id(self):
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc["lucky luke sotapolulla"], "50166")
+        self.assertEqual(enrich_tmdb.norm("Lucky luke sotapolulla"), "lucky luke sotapolulla")
+
+
 class FixedDate(datetime.date):
     @classmethod
     def today(cls):
