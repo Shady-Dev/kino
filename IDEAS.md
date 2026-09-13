@@ -528,6 +528,15 @@ tests through fetch_site(); the shared loop is pinned in `tests/test_prices.py` 
 mutations red). First cloud run 2026-09-12 23:18 UTC: 90 screenings with an id of 94, 40
 read, 40 priced, 0 failed, 50 deferred.
 
+### Regina and Korjaamo prices come from their ticket pages too (2026-09-13)
+Reported missing by the user on three venues where the browser shows a price.
+- Kino Regina: KAVI's shop page a showtime links to lists categories as rows with a
+  `<label>` and a schema.org `Offer`; "Peruslippu" is the ordinary ticket (10,00 € on the
+  two probed screenings; KAVI-klubilaisten lippu and Lapsi are not). Regina is on the
+  local half, so the wrapper's machine reads these pages, 137 screenings at 40 a run.
+  `regina.ordinary_price`, `tests/test_regina_prices.py`, three mutations red. Exercised
+  once with the ceiling at 3: two priced at 10 €, one page with no buybox (sales closed).
+
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web
 front end exposes unauthenticated XML services. A Vista cinema that leaves them open is a

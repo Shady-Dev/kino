@@ -52,6 +52,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
+import prices
 from common import capped, fetch
 
 BASE = "https://kinoregina.fi"
@@ -370,7 +371,36 @@ def fetch_schedule(today=None, get=None, sleep=1.0):
     return pages
 
 
-def fetch_site(site=SITES[0]):
+# ---------------------------------------------------------------- prices
+
+# KAVI's shop page a showtime links to lists ticket categories as rows: a <label> with the
+# category and a schema.org Offer carrying <span itemprop="price">10,00 €</span> (twice,
+# one per breakpoint). "Peruslippu" is the ordinary ticket; KAVI-klubilaisten lippu and
+# Lapsi are not. Probed 2026-09-13 on two screenings: 10,00 € both. The fetch, cache and
+# pacing are prices.py's; Regina runs on the local half, so the pages are read from there.
+TICKETS = "https://kauppa.kavi.fi/"
+ORDINARY = "peruslippu"
+PRICE_ROW_RE = re.compile(r'<div class="row[^"]*"[^>]*>(.*?)(?=<div class="row|</form>)', re.S)
+LABEL_RE = re.compile(r"<label\b[^>]*>(.*?)</label>", re.S)
+OFFER_RE = re.compile(r'itemprop="price"[^>]*>\s*([^<]+?)\s*<', re.S)
+AMOUNT_RE = re.compile(r"(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:\u20ac|EUR)", re.I)
+
+
+def ordinary_price(page_html):
+    """The Peruslippu price on a KAVI shop page -> "10\u20ac" or "" (absent, ambiguous)."""
+    amounts = []
+    for row in PRICE_ROW_RE.findall(page_html or ""):
+        label = LABEL_RE.search(row)
+        if not label or _txt(label.group(1)).lower() != ORDINARY:
+            continue
+        for offer in OFFER_RE.findall(row):
+            m = AMOUNT_RE.search(html_mod.unescape(offer))
+            if m:
+                amounts.append(m.group(1))
+    return prices.one_amount(amounts) if amounts else ""
+
+
+def fetch_site(site=SITES[0], price_sleep=1.0, prices_path=None, now=None):
     """Runner contract: the schedule windows, one venue. An empty answer, asked twice, is
     a failure and not an empty programme; the previous file stays."""
     shows = parse_schedule("".join(fetch_schedule()))
@@ -379,6 +409,8 @@ def fetch_site(site=SITES[0]):
                            "publishes can confirm an empty programme, so the previous "
                            "file is kept")
     enrich(shows)
+    prices.run(shows, provider=site["provider"], prefix=TICKETS, parse=ordinary_price,
+               referer=BASE + "/", path=prices_path, now=now, sleep=price_sleep)
     return {VENUE["id"]: shows}
 
 
