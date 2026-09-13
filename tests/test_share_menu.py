@@ -103,6 +103,7 @@ class ShareMarkupTest(unittest.TestCase):
         key = re.search(r"sheetEl\.addEventListener\('keydown', e => \{.*?\n  \}, true\);", HTML, re.S).group(0)
         self.assertIn("if(e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); closeStubMenu(true); return; }", key)
         self.assertIn("if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){", key)
+        self.assertIn("if(e.key === 'Tab') closeStubMenu(true);", key, "default Tab then moves on from the dots, not from body")
         close = re.search(r"function closeStubMenu\(refocus\)\{.*?\n  \}\n", HTML, re.S).group(0)
         self.assertIn("if(refocus) b.focus();", close)
         self.assertIn("b.setAttribute('aria-expanded', 'false');", close)

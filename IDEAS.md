@@ -1823,6 +1823,8 @@ TMDB translated one upstream.
 v149: the menu row's hover and focus ground was `--chip-bg`, #FFFFFF in the light theme
 on a #FFFFFF surface, invisible; now `--accent-soft` (ink 14.7:1 light, 13.2:1 dark,
 the muted subline 4.95:1 and 4.98:1).
+v150: Tab inside the menu closed it without refocusing, so the default Tab started from
+body; it now closes with focus on the dots and the default Tab moves on from there.
 
 ### A screening link names its venue too (2026-09-13, v148)
 Bug (review of v144): `screeningTarget()` matched on the instant alone and the mark took

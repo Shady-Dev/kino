@@ -3840,7 +3840,9 @@
       items[(at + step + items.length) % items.length].focus();
       return;
     }
-    if(e.key === 'Tab') closeStubMenu(false);
+    // Tab closes and puts focus back on the dots first, so the browser's default Tab
+    // moves on from there; closing without the refocus left it to start from body.
+    if(e.key === 'Tab') closeStubMenu(true);
   }, true);
   // A tap or a click anywhere outside the sheet's menu closes it; the overlay, the
   // day chips and the page behind are inert while the sheet is open, so this is the
