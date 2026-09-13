@@ -79,6 +79,11 @@ class GeneratedPagesTest(unittest.TestCase):
         (cls.root / "data").mkdir()
         for p in REAL_DATA.glob("*.json"):
             shutil.copy2(p, cls.root / "data" / p.name)
+        # The day the committed data was fetched for, read from the real sitemap before
+        # ROOT moves: a build for the clock's day against a checkout whose data has aged
+        # past it lists no showtimes, and on 2026-09-13 five city pages of a week-old
+        # checkout came out empty that way. The same day rules every window below.
+        cls.today = bp.recorded_date()
         cls.saved = (bp.ROOT, bp.DATA)
         bp.ROOT, bp.DATA = cls.root, cls.root / "data"
         bp._unmirrored_hosts.clear()
@@ -120,7 +125,7 @@ class GeneratedPagesTest(unittest.TestCase):
     def run_main(cls):
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
-            bp.main()
+            bp.main(today=cls.today)
         return buf.getvalue()
 
     def page_for(self, prefix, needle):
@@ -262,7 +267,7 @@ class GeneratedPagesTest(unittest.TestCase):
             # Only shows inside the page's own window count: a touring cinema can hold
             # shows in its file and none in the next four days, and that page is right
             # to carry no stubs.
-            window = bp.group_by_day(bp.load_shows(v["id"]), bp.datetime.now(bp.FI).date())
+            window = bp.group_by_day(bp.load_shows(v["id"]), self.today)
             if not window:
                 continue
             k = f"/teatteri/{v['slug']}/"

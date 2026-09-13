@@ -3362,6 +3362,18 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### The landing-page tests build for the recorded day too (2026-09-13)
+Bug: `tests/test_landing_pages.py` built its pages with `bp.main()`, the clock's day. On
+a checkout whose data had aged past that day, five city pages (Espoo, Kotka, Lahti,
+Savonlinna, Tampere) and one theatre page came out without a stub and 11 tests failed
+with nothing wrong in the code: the same test against the same data, built for the day
+the data was fetched for, passed. Fresh data hides this, which is why CI never saw it.
+Fix: `setUpClass` reads `recorded_date()` from the real sitemap before `ROOT` moves and
+passes it to `main()`; the theatre-window test uses the same day instead of `now()`.
+Tests: a week-old checkout (362c9386, data to 2026-09-12, run on 2026-09-13) went from
+11 failures to 50 tests green with this change alone; the suite on main stays green. A
+same-day mutation check is vacuous by construction, so the stale checkout is the fixture.
+
 ### Every cinema in a combined city can refresh it (2026-09-05, sw.js v114)
 `loadCity` sets `generated` to the oldest member's timestamp for the stale banner. The
 background-refresh handler compared that value to detect change, so when a newer member
