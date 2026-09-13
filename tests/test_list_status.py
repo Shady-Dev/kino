@@ -77,13 +77,18 @@ class RenderPairingTest(unittest.TestCase):
 
     def test_the_empty_paths_announce_the_visible_message(self):
         """The same call that paints the sentence supplies the words, so the two cannot
-        drift into saying different things in different languages."""
+        drift into saying different things in different languages. Since v134 the
+        announcement is emptyStatus(): the message, then the next-screening suggestion
+        when there is one, which is the button's own label."""
         empty = [i for i in self.render_sites() if "emptyMsg()" in LINES[i]]
         self.assertEqual(len(empty), 2, "expected the times list and the movie list")
         for i in empty:
             window = "\n".join(LINES[max(0, i - 3):i + 1])
             with self.subTest(line=i + 1):
-                self.assertIn("setListStatus(emptyMsg())", window)
+                self.assertIn("setListStatus(emptyStatus())", window)
+        body = HTML[HTML.index("function emptyStatus()"):]
+        body = body[:body.index("\n  }")]
+        self.assertIn("return emptyMsg() + (hit ? ' ' + hit.label : '')", body)
 
     def test_the_other_paths_clear_it(self):
         """Otherwise "no movies" is still in the region when the next render succeeds,

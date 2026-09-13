@@ -1753,6 +1753,20 @@ biljettförsäljning.", EN "Indicative price. Final price at the cinema's ticket
 No banner, icon or tooltip; tickets and price fields unchanged. `tests/test_price_note.py`,
 five mutations red.
 
+### An empty film search offers the next day it finds a screening (2026-09-13, v134)
+Searching a film on a day it does not play showed only the clear-filters button; the
+next-day link was suppressed whenever a filter was on. Now a nonblank search with nothing
+on the selected day offers one button, `Seuraava näytös → La 19.9. klo 15:30`, beside the
+clear action, in both views and in the "nothing left today" state. `nextMatch()` (pure,
+extracted by `tests/next_match_harness.js`) scans the whole loaded area schedule
+(`jsonCache`, not the day-narrowed `state.shows`) for the earliest screening on a later
+Helsinki day that is still ahead and passes `passFilters`, so the destination is computed
+from current state at every render. The click goes through `selectDay()`, keeps search,
+area, filters and view, and moves focus to the day chip. No suggestion without a later
+match; a blank search keeps the plain next-day link. Measured on the served page at 320 and desktop in fi, sv, en: button 44 px,
+266 px wide at 320, no horizontal scroll, focus ring on Tab. `tests/test_next_match.py`,
+14 tests, nine mutations red.
+
 ### An empty result can clear the filter that caused it (2026-09-07, v127)
 12 September with Anniskelu on rendered "Yksikään elokuva ei vastaa suodattimia." and
 nothing else. The message names the cause and then leaves the reader to work out which of

@@ -1040,6 +1040,7 @@
          showPast:'Näytä {n} aiempaa', showPastOne:'Näytä aiempi', hidePast:'Piilota aiemmat',
          synMore:'Lue koko kuvaus', synLess:'Näytä vähemmän',
          nextShows:'Seuraavat näytökset',
+         nextMatch:'Seuraava näytös', atTime:'klo',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
@@ -1096,6 +1097,7 @@
          showPast:'Visa {n} tidigare', showPastOne:'Visa en tidigare', hidePast:'Dölj tidigare',
          synMore:'Läs hela beskrivningen', synLess:'Visa mindre',
          nextShows:'Nästa föreställningar',
+         nextMatch:'Nästa föreställning', atTime:'kl.',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1149,6 +1151,7 @@
          showPast:'Show {n} earlier', showPastOne:'Show 1 earlier', hidePast:'Hide earlier',
          synMore:'Read full description', synLess:'Show less',
          nextShows:'Next screenings',
+         nextMatch:'Next screening', atTime:'at',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -2516,7 +2519,7 @@
     const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
     if(!rows.length){
-      setListStatus(emptyMsg());
+      setListStatus(emptyStatus());
       main.innerHTML = timesLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
@@ -2586,7 +2589,15 @@
   }
   main.addEventListener('click', e => {
     const goto = e.target.closest('[data-goto]');
-    if(goto){ selectDay(goto.dataset.goto); return; }
+    if(goto){
+      // The button goes away with the list it sat in, so focus moves to the day chip
+      // that now shows the chosen date rather than falling to the document.
+      const iso = goto.dataset.goto;
+      selectDay(iso);
+      const chip = dayBtns[iso] || calChip;
+      if(chip) chip.focus();
+      return;
+    }
     if(e.target.closest('[data-clearfilters]')){ clearFilters(); return; }
     const rev = e.target.closest('[data-reveal]');
     if(rev){
@@ -2629,9 +2640,52 @@
     render();
     searchEl.focus();
   }
+  // --- nextMatch: pure, extracted verbatim by tests/next_match_harness.js ---
+  // The earliest screening on a later day than `dateStr` that is still ahead of `now`
+  // and passes the same predicate as the list. `shows` is the whole area schedule with
+  // `start` as a Date; `dateOf` maps a Date to its Helsinki date; a blank query means
+  // there is no search and the answer is null, so the plain next-day link stands.
+  function nextMatch(shows, query, dateStr, now, pass, dateOf){
+    if(!(query || '').trim()) return null;
+    let best = null;
+    for(const s of shows || []){
+      // Duck-typed rather than instanceof: the harness runs this in its own realm.
+      const t = s.start;
+      if(!t || typeof t.getTime !== 'function' || isNaN(t) || t < now) continue;
+      if(dateOf(t) <= dateStr) continue;
+      if(!pass(s)) continue;
+      if(!best || t < best.start) best = s;
+    }
+    return best;
+  }
+  // --- end nextMatch ---
+  // A search with nothing on the selected day: the next day the same search and filters
+  // find something, computed from the whole loaded schedule at render time, so a change
+  // of search, area, filter or data cannot leave a stale destination behind.
+  function nextMatchInfo(){
+    const cache = jsonCache[state.area];
+    if(!cache || !Array.isArray(cache.shows)) return null;
+    const all = cache.shows.map(s => ({ ...s, start: new Date(s.start) }));
+    const hit = nextMatch(all, state.filter, state.dateStr, new Date(), passFilters, fiDate);
+    if(!hit) return null;
+    const iso = fiDate(hit.start);
+    const T = L[state.lang];
+    return { iso, label: `${T.nextMatch} → ${fiDay[dowOf(iso)]} ${dmOf(iso)} ${T.atTime} ${fiTime(hit.start)}` };
+  }
+  function nextMatchLink(){
+    const hit = nextMatchInfo();
+    return hit ? `<button class="nextday" data-goto="${hit.iso}">${esc(hit.label)}</button>` : '';
+  }
   // What an empty list offers: the next day that has screenings, or clearing the filter
-  // that emptied it. Never both, since a filter suppresses the next-day link.
-  function emptyActions(){ return nextDayLink() + clearFiltersLink(); }
+  // that emptied it. With a search on, the next day that search finds something and the
+  // clear action side by side; without one, never both, since a filter suppresses the
+  // next-day link.
+  function emptyActions(){ return (nextMatchLink() || nextDayLink()) + clearFiltersLink(); }
+  // The empty state's announcement: the message, then the suggestion if there is one.
+  function emptyStatus(){
+    const hit = nextMatchInfo();
+    return emptyMsg() + (hit ? ' ' + hit.label : '');
+  }
   // Long horizons are sparse, so an empty day should point at the next real one instead
   // of leaving the visitor to hunt through the picker.
   function nextDayLink(){
@@ -2769,7 +2823,7 @@
     const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
 
     if(!movies.length){
-      setListStatus(emptyMsg());
+      setListStatus(emptyStatus());
       main.innerHTML = `<div class="status" data-nosnippet>${emptyMsg()}${emptyActions()}</div>`;
       return;
     }
@@ -2872,9 +2926,10 @@
                 </div>
               </article>`;
     };
-    // Nothing left today: say so where the list would have been, and offer the next day.
+    // Nothing left today: say so where the list would have been, and offer the next day,
+    // or with a search on, the next day that search finds a screening.
     const noneLeft = !live.length
-      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${nextDayLink()}</div>` : '';
+      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${nextMatchLink() || nextDayLink()}</div>` : '';
     const overHead = over.length
       ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
     setListStatus('');
