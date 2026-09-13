@@ -1819,6 +1819,19 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The perforation sits before the price (2026-09-13, v140)
+Bug: on the combined ticket the dashed seam and notches sat after the time (`--tw`) with
+the price loose at the far right; on the row ticket an unpriced screening kept a blank
+56 px compartment with seam and notches (the 2026-09-02 "shared silhouette" decision,
+reversed on request). Fix: the seam is `.price`'s dashed left border and the notches are
+`.price::before/::after` at `left:-4px`, in both tickets; `.stub .price:empty{display:none}`
+drops compartment, seam and notches together. Exception: the Ajat list keeps the empty
+compartment (`.trow`, its 120 px construction). Measured: notch centre equals the price
+boundary on every priced ticket at 320/390/1200, cards and sheet; unpriced Regina ticket
+87.8 px against 143.8. Not changed: generated pages (they still seam after the time in the
+grid; a follow-up rewrites 191 files), markup, data, translations.
+`tests/test_compact_ticket.py`, `tests/test_ticket_anatomy.py` updated.
+
 ### An empty film search offers the city and the region (2026-09-13, v137)
 A film searched at one cinema on a day it does not play offered the next day it does, and
 nothing about the cinemas around it. Under that action, and only for a nonblank search,

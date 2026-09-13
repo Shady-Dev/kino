@@ -1,10 +1,12 @@
-"""The single-cinema ticket has a price compartment (2026-09-02).
+"""The ticket's perforation belongs to the price compartment (2026-09-02, revised 2026-09-13).
 
-The last 56 px of every row ticket are the price compartment, with the dashed seam as its
-left border and the notches centred on that seam from the same variable. It is blank when
-the cinema publishes no price, so priced and unpriced tickets share one silhouette. The
-price is ink, bold, .78rem, a step below the .92rem time. The combined view keeps its own
-anatomy: time compartment on the left, empty compartment collapsed.
+The last 56 px of a row ticket are the price compartment, with the dashed seam as its left
+border and the notches as its own pseudo-elements, so the perforation sits at the price
+boundary wherever that lands. Since 2026-09-13 an empty compartment is dropped on the card
+and sheet tickets (no seam, no notches, no reserved width); only the Ajat list keeps it,
+for its 120 px construction. The combined view's ticket carries the same perforation: the
+seam moved there from after the time to before the price. The generated pages keep their
+own copy of the row anatomy and are not part of this file's client assertions.
 
 Rendering is measured live; the source is pinned here, in both renderers.
 """
@@ -42,12 +44,22 @@ class ClientCompactTicketTest(unittest.TestCase):
         self.assertIn("min-height:40px", rule(HTML, ".stub"))       # 44 until 2026-09-02, judged too heavy a band
         self.assertNotIn("border-left", rule(HTML, ".stub .aud"))          # no second seam after the time
 
-    def test_the_notches_sit_on_the_compartment_seam(self):
-        notch = rule(HTML, ".stub::before,.stub::after")
-        self.assertIn("right:calc(var(--pw) - 4px)", notch)
-        self.assertIn("left:auto", notch)
-        self.assertNotIn("var(--notch)", HTML)
+    def test_the_notches_are_the_compartments_own(self):
+        """Anchored to the price box, not placed from the ticket edge or a percentage."""
+        notch = rule(HTML, ".stub .price::before,.stub .price::after")
+        self.assertIn("left:-4px", notch)
+        self.assertIn("position:absolute", notch)
+        self.assertIn("position:relative", rule(HTML, ".stub .price"))
+        self.assertIsNone(rule(HTML, ".stub::before,.stub::after"))
+        self.assertNotIn("var(--pw) - 4px", HTML)
+        self.assertNotIn("var(--tw) - 4px", HTML)
         self.assertNotIn("--notch:", HTML)
+
+    def test_no_price_means_no_compartment_seam_or_notches(self):
+        self.assertEqual(rule(HTML, ".stub .price:empty"), "display:none")
+        self.assertIsNone(rule(HTML, ".stubs.grid .stub .price:empty"))
+        # the Ajat list is the exception: its ticket stays 120 px wide by construction
+        self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "display:flex")
 
     def test_the_price_is_ink_and_a_step_below_the_time(self):
         price, time = rule(HTML, ".stub .price"), rule(HTML, ".stub .time")
@@ -70,14 +82,14 @@ class ClientCompactTicketTest(unittest.TestCase):
             self.assertTrue(stub.rstrip().endswith('<span class="price">${esc(own_price)}</span></a>')
                             or stub.rstrip().endswith('<span class="price">${esc(own_price)}</span>\n                </a>'), stub[-120:])
 
-    def test_the_combined_view_is_untouched(self):
+    def test_the_combined_view_perforates_before_the_price(self):
         grid_price = rule(HTML, ".stubs.grid .stub .price")
-        self.assertIn("border-left:0", grid_price)
+        self.assertNotIn("border-left:0", grid_price)           # inherits the row seam
         self.assertIn("color:var(--muted)", grid_price)
         self.assertIn("font-size:.72rem", grid_price)
-        self.assertEqual(rule(HTML, ".stubs.grid .stub .price:empty"), "display:none")
-        self.assertRegex(HTML, r"\.stubs\.grid \.stub::before,\.stubs\.grid \.stub::after\{left:calc\(var\(--tw\) - 4px\); right:auto\}")
-        self.assertIn("border-left:1px dashed var(--line)", rule(HTML, ".stubs.grid .stub .aud"))
+        self.assertNotIn("border-left", rule(HTML, ".stubs.grid .stub .aud"))   # no seam after the time
+        self.assertNotIn(".stubs.grid .stub::before", HTML)
+        self.assertIn('grid-template-areas:"time aud price"', rule(HTML, ".stubs.grid .stub"))
 
     def test_no_film_level_or_sheet_header_price(self):
         self.assertEqual(sorted(re.findall(r"priceLabel\(([^)]*)\)", HTML)), ["[s]", "[s]", "[t]", "rows"])

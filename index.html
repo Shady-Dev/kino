@@ -594,13 +594,13 @@
   }
   /* The combined view's ticket. Same component as the row stub, adapted: a fixed time
      compartment on the left spanning the full height, the details compartment beside it
-     wrapping as it needs, the price at the trailing edge. The seam is the details
-     compartment's dashed left border and sits at --tw; the notches are placed from the
-     same variable, so the perforation and the divider share one x by construction.
-     Until 2026-09-02 the notches were hidden here ("the perforation reads wrong on a
-     stacked stub"), which left the chain rule carrying the whole ticket affordance --
-     see IDEAS. 64 px is 12 + 41.8 + 10: the row stub's own padding around a tabular
-     "00:00" at .92rem, measured. */
+     wrapping as it needs, the price compartment at the trailing edge. The perforation is
+     the price compartment's, as on the row stub: its dashed left border is the seam and
+     the notches are its own pseudo-elements, so seam, notches and price move together
+     and an unpriced ticket has none of the three. Until 2026-09-13 the seam sat after
+     the time (at --tw) with the price loose at the far right; until 2026-09-02 the
+     notches were hidden here altogether -- see IDEAS. 64 px is 12 + 41.8 + 10: the row
+     stub's own padding around a tabular "00:00" at .92rem, measured. */
   .stubs.grid .stub{
     --tw:64px;
     display:grid; grid-template-columns:var(--tw) minmax(0,1fr) auto;
@@ -610,7 +610,7 @@
   .stubs.grid .stub .aud{
     grid-area:aud; max-width:none; min-width:0;
     display:flex; flex-wrap:wrap; align-items:center; align-content:center; gap:2px 6px;
-    padding:6px 8px 6px 10px; border-left:1px dashed var(--line);
+    padding:6px 8px 6px 4px;
   }
   /* min-width:0 and overflow-wrap: a grid item's default minimum is its content, so one
      unbreakable "Tennispalatsi" in a narrow column would push past its compartment and
@@ -619,11 +619,9 @@
   .stubs.grid .stub .glyphs{align-self:center; padding-top:0}
   .stubs.grid .stub .price{
     grid-area:price; flex:none; width:auto; align-self:stretch;
-    display:flex; align-items:center; padding:0 10px 0 4px; border-left:0;
+    display:flex; align-items:center; padding:0 10px 0 8px;
     font-size:.72rem; color:var(--muted); white-space:nowrap;
   }
-  .stubs.grid .stub .price:empty{display:none}
-  .stubs.grid .stub::before,.stubs.grid .stub::after{left:calc(var(--tw) - 4px); right:auto}
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
   .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
   .legend .lg-btn{
@@ -666,25 +664,29 @@
      visitor cannot afford to have eaten by an ellipsis. */
   .stub .aud .loc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
   .stub .aud .agelim{flex:0 0 auto}
-  /* The price compartment: the tear-off end of the ticket. A fixed --pw wide whether or
-     not the cinema publishes a price, so every ticket in a row has the same silhouette
-     and an unpriced one simply has a blank stub -- never a dash, "free" or a zero. The
-     dashed seam is its left border and the notches sit on that same x, from the same
-     variable. Ink, bold, .78rem: read as a fact of the ticket, a step below the .92rem
-     time and never a badge. "alkaen 10€" wraps to two lines inside the compartment. */
+  /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
+     The dashed seam is its left border and the notches are its own pseudo-elements,
+     centred on that border, so the perforation is anchored to the price wherever the
+     compartment lands. No price, no compartment: the ticket ends after the details,
+     with no seam and no notches (2026-09-13; until then a blank compartment was kept
+     for a shared silhouette). Never a dash, "free" or a zero. Ink, bold, .78rem: read as
+     a fact of the ticket, a step below the .92rem time and never a badge. "alkaen 10€"
+     wraps to two lines inside the compartment. */
   .stub .price{
     flex:0 0 var(--pw); width:var(--pw); box-sizing:border-box; align-self:stretch;
     display:flex; align-items:center; justify-content:center; padding:0 4px;
     border-left:1px dashed var(--line); text-align:center; white-space:normal;
     font-size:.78rem; font-weight:700; line-height:1.1; color:var(--ink);
+    position:relative;
   }
+  .stub .price:empty{display:none}
   .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink)}
   /* perforation notches, centred on the seam */
-  .stub::before,.stub::after{
+  .stub .price::before,.stub .price::after{
     content:""; position:absolute; width:8px; height:8px; border-radius:50%;
-    background:var(--bg); border:1px solid var(--line); left:auto; right:calc(var(--pw) - 4px);
+    background:var(--bg); border:1px solid var(--line); left:-4px;
   }
-  .stub::before{top:-5px}.stub::after{bottom:-5px}
+  .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
   .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
   .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
   /* :active mirrors :hover so a touch tap flashes the same inversion -- hover alone
@@ -746,6 +748,9 @@
      the meta line, where the room never breaks across lines. */
   .trow .stub{flex:0 0 auto; width:auto}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
+  /* The one place an empty compartment stays: it is what makes every row's ticket
+     120 px and every title start at one x. The card and sheet tickets drop it. */
+  .trow .stub .price:empty{display:flex}
   .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
          border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}

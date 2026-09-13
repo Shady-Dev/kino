@@ -27,20 +27,23 @@ class ClientTicketTest(unittest.TestCase):
     def test_the_combined_view_no_longer_hides_the_notches(self):
         self.assertNotRegex(HTML, r"\.stubs\.grid \.stub::before,\s*\.stubs\.grid \.stub::after\s*\{\s*display:\s*none")
 
-    def test_seam_and_notches_are_placed_from_one_variable(self):
-        """The time compartment is `--tw` wide, the details compartment starts there with
-        its dashed border, and the 8 px notch is centred on it: left = --tw - 4."""
+    def test_seam_and_notches_belong_to_the_price_compartment(self):
+        """The time compartment is `--tw` wide; the seam is the price compartment's dashed
+        left border and the notches are its own pseudo-elements, so the perforation sits
+        at the price boundary (2026-09-13; until then at --tw, after the time)."""
         grid = rule(HTML, ".stubs.grid .stub")
         self.assertIn("--tw:64px", grid)
         self.assertIn("grid-template-columns:var(--tw) minmax(0,1fr) auto", grid)
         self.assertIn('grid-template-areas:"time aud price"', grid)
         self.assertIn("min-height:40px", grid)
         aud = rule(HTML, ".stubs.grid .stub .aud")
-        self.assertIn("border-left:1px dashed var(--line)", aud)
+        self.assertNotIn("border-left", aud)
         self.assertIn("flex-wrap:wrap", aud)
         self.assertIn("min-width:0", aud)
         self.assertIn("overflow-wrap:anywhere", rule(HTML, ".stubs.grid .stub .aud .loc"))
-        self.assertRegex(HTML, r"\.stubs\.grid \.stub::before,\.stubs\.grid \.stub::after\{left:calc\(var\(--tw\) - 4px\)(; right:auto)?\}")
+        self.assertNotIn("border-left:0", rule(HTML, ".stubs.grid .stub .price"))
+        self.assertIn("left:-4px", rule(HTML, ".stub .price::before,.stub .price::after"))
+        self.assertNotIn(".stubs.grid .stub::before", HTML)
 
     def test_the_time_compartment_spans_the_ticket(self):
         self.assertIn("align-items:stretch", rule(HTML, ".stubs.grid .stub"))
