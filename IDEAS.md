@@ -617,10 +617,10 @@ the pass and by the `run.py` carry); a trusted entry replaces a marked stale pos
 untrusted one drops it. An unmarked mirrored poster is left alone: the path cannot tell a
 cinema's poster from a pre-mark TMDB one, only the next `run.py` run of that adapter can
 (adapter publishes a poster: remote URL, cinema's; none: carried and marked). Cloud files
-got that at c228d2b6. Legacy poster cleanup pending on the local half: Regina publishes
-no posters, so its 110 shows are all TMDB mirrors, 98 the trusted entry's own, 12 titles
-from an older candidate (Naisen kasvot still Obsession's). To verify after the next local
-run and its cloud follow-up: those 12 replaced or blank, cinema posters elsewhere kept.
+got that at c228d2b6, the local half at 7c96e583 + a91eda3d: Regina (publishes no
+posters) 112 marked, all the trusted entry's own, Naisen kasvot on 76848's poster, Faust
+and The Time That Remains blank, no marked poster on an untrusted show; Engel, Akseli,
+Cine, Savon Kinot, Star and Joutsa kept their own posters unmarked. Verified 2026-09-13.
 The carry itself stays: 208 trusted shows sat on one. Cache, budgets, picker unchanged.
 The 2026-08-27 "weak match still beats no film" rule now covers the search only.
 Tests: `test_tmdb_trust.py` 20 / 20 mutations red, `test_finnkino_trust.py` 4 / 5,
