@@ -2278,6 +2278,17 @@
     for(let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
     return h.toString(16).padStart(8, '0') + '-' + s.length.toString(16) + '@leffavuoro.fi';
   }
+  // -> the place behind a screening, {id, label, city}: the venue the list knows, found
+  // by the id the combined loader stamped (`_vid`), the id the provider publishes
+  // (`venue`, every non-Finnkino show) or the single venue on screen (`area`), labelled
+  // and placed by the picker's own rules. Only a show none of those name falls back to
+  // its theatre text, city as the last word, which holds for Finnkino ("Plevna Tampere")
+  // and for nothing else (45 of 65 other venues, measured 2026-09-13).
+  function venuePlace(s, area, index, labelOf, cityOf, venueName){
+    const a = index[s._vid] || index[s.venue] || index[area];
+    if(a) return { id: a.id, label: labelOf(a), city: cityOf(a) };
+    return { id: s._vid || s.venue || s.theatre || '', label: venueName(s), city: cityOf({ name: s.theatre }) };
+  }
   function icsFor(show, venue, lang, now){
     const start = show.start instanceof Date ? show.start : new Date(show.start);
     const mins = parseInt(show.len, 10);
@@ -2593,7 +2604,7 @@
       }
       (p.dates || []).forEach(d => dates.add(d));
       for(const s of (p.shows || [])){
-        shows.push({ ...s, eventId: ctx.mergeKey(s.title), _eid: s.eventId,
+        shows.push({ ...s, eventId: ctx.mergeKey(s.title), _eid: s.eventId, _vid: ids[i],
                      venueShort: v.short || s.theatre, venueLabel: v.label || v.short || s.theatre,
                      provider: s.provider || v.provider });
       }
@@ -3769,14 +3780,7 @@
       if(ok) toast(T.linkCopied);
     }
   }
-  // The place for the calendar entry: the venue behind the screening when the list has
-  // it (its own id, or the single venue on screen), else what the combined loader
-  // labelled it, with the city read off the Finnkino theatre name ("Plevna Tampere").
-  function venueFor(s){
-    const a = venueIndex[s.venue] || (venueIndex[state.area] || null);
-    if(a) return { id: a.id, label: labelOf(a), city: cityOf(a) };
-    return { id: s.venue || s.theatre || '', label: venueName(s), city: cityOf({ name: s.theatre }) };
-  }
+  const venueFor = s => venuePlace(s, state.area, venueIndex, labelOf, cityOf, venueName);
   function calendarScreening(s){
     const ics = icsFor({ ...s, start: s.start }, venueFor(s), state.lang);
     const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });

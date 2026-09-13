@@ -21,7 +21,7 @@ function slice(start, end, name) {
 }
 const SRC = slice('  // --- ics: pure, extracted verbatim by tests/ics_harness.js ---',
                   '  // --- end ics ---', 'ics');
-if (!/function icsFor\s*\(/.test(SRC)) {
+if (!/function icsFor\s*\(/.test(SRC) || !/function venuePlace\s*\(/.test(SRC)) {
   console.error('marker block does not contain icsFor');
   process.exit(2);
 }
@@ -32,11 +32,17 @@ if (!/fiDate = /.test(HELPERS) || !/safeUrl/.test(SAFE)) {
   console.error('helpers not found in index.html');
   process.exit(2);
 }
-const sandbox = { URL };
+// The picker's naming rules, sliced from the page: cityOf, shortOf, labelOf, with the
+// chain table they read.
+const NAMES = HTML.slice(HTML.indexOf('  function cityOf(a){'), HTML.indexOf('  // "Itis Helsinki" never says Finnkino'))
+  + HTML.slice(HTML.indexOf('  function shortOf(a){'), HTML.indexOf('  // Split out of fillAreaSelect'));
+if (!/function labelOf/.test(NAMES)) { console.error('naming rules not found'); process.exit(2); }
+const sandbox = { URL, CHAIN: { finnkino: 'Finnkino', riviera: 'Riviera', niagara: 'Cinema Niagara' } };
 vm.createContext(sandbox);
-vm.runInContext(HELPERS + '\n' + SAFE + '\n' + SRC + '\n;globalThis.__i = icsFor;',
+vm.runInContext(HELPERS + '\n' + SAFE + '\n' + NAMES + '\n' + SRC + '\n;globalThis.__i = icsFor; globalThis.__v = venuePlace;'
+                + 'globalThis.__c = cityOf; globalThis.__l = labelOf;',
                 sandbox, { filename: 'ics' });
-const icsFor = sandbox.__i;
+const icsFor = sandbox.__i, venuePlace = sandbox.__v, cityOf = sandbox.__c, labelOf = sandbox.__l;
 
 const NOW = new Date('2026-09-13T12:00:00Z');
 const base = {
@@ -57,5 +63,22 @@ out.long_title = icsFor({ ...base, title: 'Ääkkösiä '.repeat(12).trim() }, f
 out.bad_url = icsFor({ ...base, url: 'javascript:alert(1)' }, finnkino, 'fi', NOW);
 out.iso_start = icsFor({ ...base, start: '2026-11-01T18:00:00+02:00' }, finnkino, 'fi', NOW);   // winter time
 out.same_again = icsFor(base, finnkino, 'fi', new Date('2027-01-01T00:00:00Z'));
+
+// -- the place behind a screening: a two-venue combined view and a single view -------
+const INDEX = {
+  '1100': { id: '1100', name: 'Kinopalatsi Helsinki', provider: 'finnkino' },
+  'rv-kallio': { id: 'rv-kallio', name: 'Riviera Kallio', short: 'Kallio', city: 'Helsinki', provider: 'riviera' },
+  'cn-tampere': { id: 'cn-tampere', name: 'Cinema Niagara', short: 'Cinema Niagara', city: 'Tampere', provider: 'niagara' },
+};
+const venueName = s => s.venueLabel || s.venueShort || (s.theatre || '').split(',')[0];
+const place = (s, area) => venuePlace(s, area, INDEX, labelOf, cityOf, venueName);
+out.place = {
+  combined_riviera: place({ theatre: 'Riviera Kallio', venue: 'rv-kallio', _vid: 'rv-kallio', venueLabel: 'Riviera Kallio' }, 'city:Helsinki'),
+  combined_finnkino: place({ theatre: 'Kinopalatsi Helsinki', _vid: '1100' }, 'city:Helsinki'),   // the stamped id alone decides
+  combined_by_venue_only: place({ theatre: 'Riviera Kallio', venue: 'rv-kallio', venueLabel: 'Riviera Kallio' }, 'city:Helsinki'),
+  single_finnkino: place({ theatre: 'Kinopalatsi Helsinki' }, '1100'),
+  single_niagara: place({ theatre: 'Cinema Niagara', venue: 'cn-tampere' }, 'cn-tampere'),
+  unknown: place({ theatre: 'Plevna Tampere', venueLabel: 'Finnkino Plevna' }, 'city:Tampere'),
+};
 
 process.stdout.write(JSON.stringify(out) + '\n');

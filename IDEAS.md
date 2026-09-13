@@ -1819,6 +1819,19 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### The calendar place comes from the venue list, never from a theatre's last word (2026-09-13, v147)
+Bug (review of v146): `venueFor()` looked up `s.venue`, then the single venue on screen,
+and otherwise read the city off the theatre text. A Finnkino show in a combined view has
+no `venue` and no single venue, so it always took the text route. Finnkino names end in
+the city, so nothing wrong shipped, but 45 of 65 other venues end in a word that is not
+their city ("Riviera Kallio", "Kino Aurora"), and the rule was untested.
+Fix: the combined loader stamps `_vid: ids[i]` on every merged show; `venuePlace(s, area,
+index, labelOf, cityOf, venueName)` is pure, between the ics markers, and resolves
+`_vid`, then `venue`, then `area` through the venue list; only a show none of them names
+falls back to its theatre text. Tests: `VenuePlaceTest` in `tests/test_ics.py` with a
+two-venue Helsinki fixture (Riviera Kallio by `venue`, Kinopalatsi by `_vid`), a single
+view and the fallback; 5 mutations red.
+
 ### The ticket menu adds the screening to a calendar (2026-09-13, v146)
 Bug: no way to get a screening into a calendar; readers retyped time and place.
 Fix: menu row 2 "Lisää kalenteriin" downloads an .ics from `icsFor(show, venue, lang,

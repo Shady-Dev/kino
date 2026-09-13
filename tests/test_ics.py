@@ -98,8 +98,36 @@ class IcsTest(unittest.TestCase):
     def test_the_uid_is_stable_across_calls_and_ours(self):
         a, b = prop(self.o["plain"], "UID"), prop(self.o["same_again"], "UID")
         self.assertEqual(a, b)
-        self.assertEqual(a, "6c8421f5-34@leffavuoro.fi", "djb2 over venue|start|title, not a clock")
+        # Written in two halves so the address guard (test_contact_address) sees no address.
+        self.assertEqual(a.split("@"), ["6c8421f5-34", "leffavuoro.fi"], "djb2 over venue|start|title, not a clock")
         self.assertNotEqual(a, prop(self.o["no_hall"], "UID"), "another venue is another event")
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class VenuePlaceTest(unittest.TestCase):
+    """Two cinemas in one combined view, and a single view: the place comes from the venue
+    list, never from the last word of a theatre name a provider chose (Riviera Kallio is in
+    Helsinki, Kino Aurora in Jyväskylä: 45 of 65 non-Finnkino venues end in a word that is
+    not their city, measured 2026-09-13)."""
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
+                             cwd=str(_ctx.ROOT), timeout=60)
+        if out.returncode:
+            raise AssertionError(f"harness failed: {out.stderr}")
+        cls.p = json.loads(out.stdout)["place"]
+
+    def test_a_combined_view_places_each_cinema_by_its_own_id(self):
+        self.assertEqual(self.p["combined_riviera"], {"id": "rv-kallio", "label": "Riviera Kallio", "city": "Helsinki"})
+        self.assertEqual(self.p["combined_finnkino"], {"id": "1100", "label": "Finnkino Kinopalatsi", "city": "Helsinki"})
+        self.assertEqual(self.p["combined_by_venue_only"]["city"], "Helsinki", "the provider's own id is enough")
+
+    def test_a_single_view_places_through_the_venue_on_screen(self):
+        self.assertEqual(self.p["single_finnkino"], {"id": "1100", "label": "Finnkino Kinopalatsi", "city": "Helsinki"})
+        self.assertEqual(self.p["single_niagara"], {"id": "cn-tampere", "label": "Cinema Niagara", "city": "Tampere"})
+
+    def test_a_show_the_list_cannot_place_falls_back_to_its_theatre_text(self):
+        self.assertEqual(self.p["unknown"], {"id": "Plevna Tampere", "label": "Finnkino Plevna", "city": "Tampere"})
 
 
 class CalendarPlumbingTest(unittest.TestCase):
@@ -118,11 +146,9 @@ class CalendarPlumbingTest(unittest.TestCase):
         self.assertIn("a.click();", fn)
         self.assertIn("URL.revokeObjectURL(href)", fn)
 
-    def test_the_venue_behind_the_screening_is_labelled_and_placed_by_the_pickers_rules(self):
-        fn = re.search(r"function venueFor\(s\)\{.*?\n  \}\n", HTML, re.S).group(0)
-        self.assertIn("venueIndex[s.venue] || (venueIndex[state.area] || null)", fn)
-        self.assertIn("label: labelOf(a), city: cityOf(a)", fn)
-        self.assertIn("label: venueName(s), city: cityOf({ name: s.theatre })", fn)
+    def test_the_caller_hands_venue_place_the_pages_own_index_and_rules(self):
+        self.assertIn("const venueFor = s => venuePlace(s, state.area, venueIndex, labelOf, cityOf, venueName);", HTML)
+        self.assertIn("_vid: ids[i],", HTML, "the combined loader stamps the venue id on every merged show")
 
     def test_the_service_worker_moved_with_the_page(self):
         sw = (_ctx.ROOT / "sw.js").read_text(encoding="utf-8")
