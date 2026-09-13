@@ -2212,10 +2212,15 @@ files in the repo root are committed per run by design.
 Observed: Google's copy of `/` read `Leffavuoro. EN. Tallenna. Tänään 29.8. ... Leffat
 Ajat. Suom. puhe. Lapsille. Aikataulua ei juuri nyt saatu ladattua`, wording the client
 carried from v35 to v109 (2026-08-28 to 09-05) and day chips from 29.8, so a stale copy;
-and `robots.txt` disallows `/data/`, which the client reads for every schedule. Inferred,
-not shown: that the blocked `data/` requests are what put the load-failure line into the
-indexed render. Google's fetch and render logs were not available. The `/data/` rule
-stays (the schedule is not a directory to index). Fix: `data-nosnippet` on the header bar, the pinned controls,
+and `robots.txt` disallows `/data/`, which the client reads for every schedule. Confirmed
+later the same day by Search Console's live test: empty picker, "HTTP 499", 14 of 15
+resources "blocked by robots.txt" (`areas`, `providers`, `regions`, `tmdb-genres`, ten
+`venues-*`). Googlebot renders before it indexes, so the JSON the client loads is a
+rendering dependency, not crawl waste; `robots.txt` now allows `providers`, `regions`,
+`areas`, `films`, `films-extra`, `tmdb-genres`, the `venues-` and `area-` families and
+`posters/`, and keeps `tmdb.json`, `tmdb-titles.json`, `prices-*` and the logs closed.
+No fetch carries a cache-buster. `tests/test_robots.py` matches with Google's longest-rule
+semantics (18 tests, 7 red on the old file). Fix here: `data-nosnippet` on the header bar, the pinned controls,
 `#stale`, `#partial`, the picker, `#listStatus`, `#tagkey` and every `<div class="status">`,
 each created with the attribute (Google forbids toggling it from script). `<main>`, the
 film rows, the footer sentence and the meta description stay quotable; the description
