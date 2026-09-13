@@ -1867,8 +1867,8 @@ and title `@leffavuoro.fi`. No `len` (35 of 3561) books 120 minutes and appends
 bytes, CRLF. Delivered as a Blob on an `<a download>`. Verified: iOS 26.5 Simulator,
 Safari and the standalone web app both open Calendar's add sheet directly with the
 right title, place, span and notes, no fallback needed; the pane's blob read back
-byte-exact. Desktop Chrome: the click ran, then the extension lost the tab (a native
-dialog, most likely "Ask where to save"); no file reached Downloads, not verified.
+byte-exact. Desktop Chrome: the builder's scripted click ended in a native dialog it
+could not see; the maintainer then tested by hand on 2026-09-13 and the download worked.
 Tests: `tests/test_ics.py` with `ics_harness.js`, 16 mutations red.
 
 ### Each upcoming ticket in the sheet has a menu: share the screening (2026-09-13, v145)
