@@ -3378,6 +3378,21 @@ confirmation is visible in the committed run log instead of being silent.
 Tests: the unregistered-place case asserts the place is named and that the navigation
 naming it does not excuse the row. Three mutations.
 
+### A venue can add a city page that index.html never hears about (2026-09-14, v156)
+Bug: registering VIP-Sali gave Nurmijärvi a second venue, so it crossed the threshold for
+a city page. The cloud run built `/kaupunki/nurmijarvi/`, committed it and put it in the
+sitemap, and the static chooser in `index.html` went on listing eleven cities. The page
+was live and reachable from the picker but missing from the homepage's own list.
+Why nothing caught it: `test_home_static` does compare the block against
+`build_pages.home_cities()`, but the commit that moved the data was kino-bot's, and
+Checks runs only on pushes touching `index.html`, `sw.js`, `scripts/**` or `tests/**`. The
+venue commit passed Checks hours earlier, when the venue still had no data file and the
+city still had one venue.
+Fix: `build_pages.py --home` rewrote the block, one line, Mikkeli to Oulu.
+Tests: the two that were already red went green; no new ones. The gap is the trigger, not
+the coverage, so the check to make is running the suite after a data commit that adds a
+venue, which is what found this.
+
 ### Kino Juha publishes two spaces on one listing (2026-09-14)
 Bug: the site prints the place as "KINO JUHA" or "VIP-SALI" and only the first was
 registered, so every VIP-SALI row matched no venue and was dropped. Measured 2026-09-14:
