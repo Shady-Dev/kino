@@ -90,7 +90,7 @@ class WiringTest(unittest.TestCase):
         list itself and is not announced a second time."""
         body = HTML[HTML.index("function emptyStatus()"):HTML.index("function nextDayLink()")]
         self.assertNotIn("emptyContext", body)
-        self.assertNotIn("<button", HTML[HTML.index("function emptyContext()"):HTML.index("function emptyActions()")])
+        self.assertNotIn("<button", HTML[HTML.index("function emptyContext()"):HTML.index("// --- widerTargets: pure")])
 
     def test_the_copy_exists_in_three_languages(self):
         self.assertIn("searchCtx:'Hakusi: \\u201d{query}\\u201d'", HTML)

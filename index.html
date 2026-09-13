@@ -381,6 +381,9 @@
        floor, so the shared rule carries it rather than a modifier on one of them. */
     min-height:44px;
   }
+  /* An invitation to search wider sits under the next-screening action and weighs less:
+     no fill, regular weight, the same pill, floor and stacking. */
+  .nextday.wider{background:transparent; font-weight:500; margin-top:8px}
   .day.active{background:var(--ink); border-color:var(--ink)}
   .day.active b{color:var(--bg)}
   .day.active small{color:var(--accent-on-ink)}
@@ -1040,6 +1043,8 @@
          soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
          searchCtx:'Hakusi: \u201d{query}\u201d',
+         widenTo:'Laajenna hakua: {area}', widenHelsinki:'Etsi Helsingistä',
+         widenCapital:'Etsi koko pääkaupunkiseudulta',
          clearFilters:'Tyhjennä suodattimet',
          nomore:'Ei enää näytöksiä tänään.', sheetNone:'Ei näytöksiä valitussa teatterissa.',
          noshows:'Valitussa teatterissa ei ole näytöksiä tänään.',
@@ -1098,6 +1103,8 @@
          soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
          searchCtx:'Din sökning: \u201d{query}\u201d',
+         widenTo:'Utöka sökningen: {area}', widenHelsinki:'Sök i Helsingfors',
+         widenCapital:'Sök i hela huvudstadsregionen',
          clearFilters:'Rensa filtren',
          nomore:'Inga fler föreställningar i dag.', sheetNone:'Inga föreställningar på vald biograf.',
          noshows:'Inga föreställningar denna dag på vald biograf.',
@@ -1153,6 +1160,8 @@
          soldout:'sold out', staleOne:'schedule has not refreshed',
          nomatch:'No screenings match your filters on the selected date.',
          searchCtx:'Your search: \u201c{query}\u201d',
+         widenTo:'Broaden search: {area}', widenHelsinki:'Search in Helsinki',
+         widenCapital:'Search across the capital region',
          clearFilters:'Clear filters',
          nomore:'No more shows today.', sheetNone:'No screenings at the selected cinema.',
          noshows:'No shows for this day at the selected theatre.',
@@ -2034,13 +2043,15 @@
     } catch(_){}
   }
 
-  function selectVenue(id){
+  // `keepChains`: a wider search repeats the same search in a bigger scope, so the chain
+  // restriction travels with it; a pick from the venue list starts clean as before.
+  function selectVenue(id, keepChains){
     state.area = id; prefs.set({ area: id });
     // Keep a deep-linked URL pointing at what is on screen, so a reload does not bounce
     // the reader back to the venue they arrived on and then navigated away from.
     const q = areaParamAfterSelect(location.search, id);
     if(q !== null) replaceQuery(q);
-    state.chains = null;
+    if(!keepChains) state.chains = null;
     syncFav(); syncVenueBtn(); loadSchedule();
   }
   function syncVenueBtn(){
@@ -2609,6 +2620,8 @@
       return;
     }
     if(e.target.closest('[data-clearfilters]')){ clearFilters(); return; }
+    const widen = e.target.closest('[data-widen]');
+    if(widen){ widenTo(widen.dataset.widen); return; }
     const rev = e.target.closest('[data-reveal]');
     if(rev){
       const id = rev.dataset.reveal;
@@ -2712,11 +2725,84 @@
     if(p.filters.length) lines.push(esc(p.filters.join(', ')));
     return lines.length ? `<p class="ctx">${lines.join('<br>')}</p>` : '';
   }
+  // --- widerTargets: pure, extracted verbatim by tests/wider_targets_harness.js ---
+  // Where a search that found nothing here could be repeated, wider. A venue offers its
+  // city and the curated region that city belongs to, a city its region, a region
+  // nothing. A target is offered only when it adds at least one theatre the chain
+  // restriction admits; when the region admits exactly the theatres the city does, the
+  // city stands alone; a city in no region or in more than one is offered no region.
+  // ctx: {area, chains (Set or null), venue: id -> {city, provider} or null,
+  //       cityGroups: city -> [ids], regionCities: region -> [cities], regionGroups:
+  //       region -> [ids]}. Geography comes from the registries only.
+  function widerTargets(ctx){
+    const area = ctx.area || '';
+    const admits = id => {
+      const v = ctx.venue(id);
+      return !!v && (!ctx.chains || ctx.chains.has(v.provider));
+    };
+    const eligible = ids => new Set((ids || []).filter(admits));
+    const same = (a, b) => a.size === b.size && [...a].every(x => b.has(x));
+    // A region id names no venue, so it falls out here with nothing to offer.
+    let city, current;
+    if(area.startsWith('city:')){
+      city = area.slice(5);
+      current = new Set(ctx.cityGroups[city] || []);
+    } else {
+      const v = ctx.venue(area);
+      if(!v) return [];
+      city = v.city;
+      current = new Set([area]);
+    }
+    const adds = ids => [...eligible(ids)].some(id => !current.has(id));
+    const out = [];
+    const cityIds = ctx.cityGroups[city] || [];
+    const cityOffered = adds(cityIds);          // false from the city view itself
+    if(cityOffered) out.push({ kind:'city', name: city, id:'city:' + city });
+    const regions = Object.keys(ctx.regionCities || {})
+      .filter(r => (ctx.regionCities[r] || []).includes(city));
+    if(regions.length === 1){
+      const r = regions[0], rIds = ctx.regionGroups[r] || [];
+      const twin = cityOffered && same(eligible(rIds), eligible(cityIds));
+      if(!twin && adds(rIds)) out.push({ kind:'region', name: r, id:'region:' + r });
+    }
+    return out;
+  }
+  // --- end widerTargets ---
+  // The two approved names have their own copy; every other place takes the template
+  // with the registry's translated display name after a colon, never an inflected form.
+  function widenLabel(t){
+    const T = L[state.lang];
+    if(t.id === 'city:Helsinki') return T.widenHelsinki;
+    if(t.id === 'region:P\u00e4\u00e4kaupunkiseutu') return T.widenCapital;
+    const name = t.kind === 'city' ? cityLabel(t.name) : regionLabel(t.name);
+    return T.widenTo.replace('{area}', () => name);
+  }
+  // Only for a search: a blank search keeps the plain next-day recovery. Nothing is
+  // fetched to decide this; the buttons invite a search, they do not promise a result.
+  function widerLinks(){
+    if(!(state.filter || '').trim()) return '';
+    const ctx = {
+      area: state.area, chains: state.chains,
+      venue: id => { const a = venueIndex[id]; return a ? { city: cityOf(a), provider: a.provider } : null; },
+      cityGroups, regionCities, regionGroups,
+    };
+    return widerTargets(ctx).map(t =>
+      `<button class="nextday wider" data-widen="${esc(t.id)}">${esc(widenLabel(t))}</button>`).join('');
+  }
+  // The same search in the wider scope: only the area changes. The search, the day, the
+  // chips, the chain restriction and the view are state and stay; the favourite is not
+  // touched, since selectVenue writes the last-browsed slot only. Focus moves to the
+  // picker trigger, which now names the new scope, as the button goes away with the list.
+  function widenTo(id){
+    if(!groupIdsOf(id)) return;
+    selectVenue(id, true);
+    areaSel.focus();
+  }
   // What an empty list offers: the next day that has screenings, or clearing the filter
   // that emptied it. With a search on, the next day that search finds something and the
   // clear action side by side; without one, never both, since a filter suppresses the
   // next-day link.
-  function emptyActions(){ return (nextMatchLink() || nextDayLink()) + clearFiltersLink(); }
+  function emptyActions(){ return (nextMatchLink() || nextDayLink()) + widerLinks() + clearFiltersLink(); }
   // The empty state's announcement: the message, then the suggestion if there is one.
   function emptyStatus(){
     const hit = nextMatchInfo();
@@ -2965,7 +3051,7 @@
     // Nothing left today: say so where the list would have been, and offer the next day,
     // or with a search on, the next day that search finds a screening.
     const noneLeft = !live.length
-      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${emptyContext()}${nextMatchLink() || nextDayLink()}</div>` : '';
+      ? `<div class="status" data-nosnippet>${L[state.lang].nomore}${emptyContext()}${nextMatchLink() || nextDayLink()}${widerLinks()}</div>` : '';
     const overHead = over.length
       ? `<div class="daydone">${L[state.lang].alreadyShown}</div>` : '';
     setListStatus('');

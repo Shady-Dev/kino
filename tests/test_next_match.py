@@ -73,8 +73,8 @@ class WiringTest(unittest.TestCase):
     """The DOM half, pinned at source level."""
 
     def test_both_empty_states_and_the_nothing_left_message_offer_it(self):
-        self.assertRegex(HTML, r"function emptyActions\(\)\{ return \(nextMatchLink\(\) \|\| nextDayLink\(\)\) \+ clearFiltersLink\(\); \}")
-        self.assertRegex(HTML, r"nomore\}\$\{emptyContext\(\)\}\$\{nextMatchLink\(\) \|\| nextDayLink\(\)\}")
+        self.assertRegex(HTML, r"function emptyActions\(\)\{ return \(nextMatchLink\(\) \|\| nextDayLink\(\)\) \+ widerLinks\(\) \+ clearFiltersLink\(\); \}")
+        self.assertRegex(HTML, r"nomore\}\$\{emptyContext\(\)\}\$\{nextMatchLink\(\) \|\| nextDayLink\(\)\}\$\{widerLinks\(\)\}")
         # Both views announce the suggestion with the empty message.
         self.assertEqual(HTML.count("setListStatus(emptyStatus());"), 2)
 

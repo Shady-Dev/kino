@@ -1766,6 +1766,30 @@ TMDB translated one upstream.
       check: Enter, Space, Escape and arrow keys, since synthetic key events perform no
       default action; those stay verified by hand.
 
+### An empty film search offers the city and the region (2026-09-13, v137)
+A film searched at one cinema on a day it does not play offered the next day it does, and
+nothing about the cinemas around it. Under that action, and only for a nonblank search,
+the empty state now offers to repeat the same search wider: a venue offers its city and
+the curated region the city sits in, a city its region, a region nothing. `widerTargets()`
+(pure, extracted by `tests/wider_targets_harness.js`) reads the venue, city and region
+registries the picker already builds, never a name or a map: a target is offered only when
+it adds a theatre the chain restriction admits, a region admitting exactly the city's
+theatres yields to the city, and a city in two regions or none gets no region. Nothing is
+fetched to decide it; the buttons invite a search and promise no result, and a wider search
+that finds nothing shows the ordinary empty state with its context. Order: next screening,
+city, region, clear filters. Copy: `Etsi Helsingistä` and `Etsi koko pääkaupunkiseudulta`
+are approved wording with SV and EN counterparts; every other place takes `Laajenna hakua:
+{area}` with the registry's translated name after a colon, never an inflected suffix.
+Activation goes through `selectVenue(id, true)`: the area, its `prefs.area` slot and the
+`?area=` param move as for any pick, the chain restriction is kept (a plain pick still
+resets it), search, day, chips, view and the favourite are untouched, focus lands on the
+picker trigger that now names the scope, and `#listStatus` announces the result as on any
+render. `.nextday.wider` is the same 44 px pill without fill at weight 500. Measured live
+at 320 and 390: Kino Regina with a search offered both, the city click kept the search,
+the day, Lapsille and the starred Regina and left the region action, the region click left
+the plain empty state. `tests/test_wider_search.py`, 20 tests, nine mutations red and two
+equivalent mutants removed from the code.
+
 ### An empty result names what emptied it (2026-09-13, v136)
 "Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla." blamed the filters without
 saying which; the search box, three chips and the chain legend empty the list the same
