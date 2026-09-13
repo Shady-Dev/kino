@@ -3383,8 +3383,9 @@ the data was fetched for, passed. Fresh data hides this, which is why CI never s
 Fix: `setUpClass` reads `recorded_date()` from the real sitemap before `ROOT` moves and
 passes it to `main()`; the theatre-window test uses the same day instead of `now()`.
 Tests: a week-old checkout (362c9386, data to 2026-09-12, run on 2026-09-13) went from
-11 failures to 50 tests green with this change alone; the suite on main stays green. A
-same-day mutation check is vacuous by construction, so the stale checkout is the fixture.
+11 failures to 50 tests green with this change alone; the suite on main stays green.
+`LateClockTest` reruns every page assertion with `bp.datetime` patched 400 days past the
+recorded day, so the fix is red on any real day when removed.
 
 ### Every cinema in a combined city can refresh it (2026-09-05, sw.js v114)
 `loadCity` sets `generated` to the oldest member's timestamp for the stale banner. The

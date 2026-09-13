@@ -37,7 +37,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
-from datetime import date
+from datetime import date, datetime, time, timedelta
 
 import _ctx
 import build_pages as bp
@@ -552,6 +552,42 @@ class GeneratedPagesTest(unittest.TestCase):
                 finally:
                     pathlib.Path(name).unlink()
                 self.assertEqual(r.returncode, 0, (k, r.stderr))
+
+
+class LateClockTest(GeneratedPagesTest):
+    """Every page assertion above, built with a clock 400 days past the recorded day.
+
+    The build must follow the recorded day, not the clock: on 2026-09-13 a checkout whose
+    data ended on 2026-09-12 lost every showtime in five cities when the pages were built
+    for the clock's day, and eleven tests failed with nothing wrong in the generator. The
+    clock here is far enough out that no data window can reach it, so this class passes
+    on any real day with the fix and fails on the city-page content assertions without."""
+
+    @classmethod
+    def setUpClass(cls):
+        recorded = bp.recorded_date()
+        late = datetime.combine(recorded + timedelta(days=400), time(12), tzinfo=bp.FI)
+
+        class LateClock(datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return late if tz is None else late.astimezone(tz)
+
+        cls.saved_clock = bp.datetime
+        bp.datetime = LateClock
+        try:
+            super().setUpClass()
+        except BaseException:
+            bp.datetime = cls.saved_clock
+            raise
+
+    @classmethod
+    def tearDownClass(cls):
+        bp.datetime = cls.saved_clock
+        super().tearDownClass()
+
+    def test_the_clock_is_indeed_later_than_the_recorded_day(self):
+        self.assertGreater(bp.datetime.now(bp.FI).date(), self.today)
 
 
 class StubShapeTest(unittest.TestCase):
