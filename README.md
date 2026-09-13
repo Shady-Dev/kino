@@ -76,8 +76,8 @@ per-provider research and the approaches tried and rejected.
     manifest.webmanifest             PWA manifest
     fonts/                           self-hosted Archivo subsets + OFL licence
     robots.txt, sitemap.xml          crawl rules; the sitemap is generated
-    teatteri/, kaupunki/, en/        generated pages (committed by CI)
-    data/                            generated JSON and posters (committed by CI)
+    teatteri/, kaupunki/, en/        generated pages (committed by every run, cloud and local)
+    data/                            generated JSON and posters (committed by every run)
 
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
     scripts/providers/registry.py    single source of truth for every provider
@@ -167,7 +167,8 @@ links because one site's path was copied onto all of them.
 ## Indexable pages
 
 The app is one JS-rendered URL, so `build_pages.py` renders static pages from
-the same committed JSON at the end of every run:
+the same committed JSON at the end of every run, on the runner and on the
+local machine alike, so a schedule and the pages built from it land in one commit:
 
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/

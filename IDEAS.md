@@ -2965,6 +2965,19 @@ stayed empty costs no read. Three harness scenarios; removing the identity test 
 the identity after the await turns two red, and removing the empty-slot return fails the
 harness run.
 
+### The local half commits the pages with its schedules (2026-09-13)
+`77a86640` (kino-local, 02:13) updated eight providers' schedules and no page; the next
+code push on top of it, `c30f0e6c`, failed Checks' regeneration step on 48 pages of
+showtime drift while the same code had passed on a branch. The wrapper outside the repo
+now runs `build_pages.py` after the poster step, logs to `run-pages-local.log` (read by
+`check_runs.py` like every `run*.log`) and stages `teatteri kaupunki en sitemap.xml` with
+`data`. Both halves build for today in Helsinki from the committed data, so whichever
+runs second writes nothing. The check stays strict. `tests/test_pages_follow_data.py`
+pins what it relies on: a screening moved five minutes changes that venue's two theatre
+pages and no unrelated page, and the same data rebuilds byte-identical (one mutation red:
+a build stamp in every page). Exercised in the wrapper's clone at `bdb4a897`: 0 files
+written, `exit=0`.
+
 ### The reproducibility check is told the day the pages were built for (2026-09-05)
 `ci.yml` regenerates the committed pages and requires a clean tree, but `main()` read
 `datetime.now(FI).date()` and every page lists a window of days starting there, with the
