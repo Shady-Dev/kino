@@ -3395,6 +3395,21 @@ empty beside Keuda-Talo's rows; a failed page, an unregistered place or a missin
 each keep the previous file through run.py; prose alone identifies nothing. Live read
 2026-09-13: Keuda-Talo 12 rows, all matched, Nikkilä none. Seven mutations.
 
+### A readable `before` is used only when it is an ancestor (2026-09-14)
+Bug: `push_base` returned `github.event.before` whenever the object existed, locally or
+after the fetch by SHA. After a force-push that object is the tip the push replaced, so
+`before..after` is the difference between two branches and not the push. Reproduced in a
+temp repo both ways: a branch A->B carrying the contract change, force-pushed as A->C
+without it, exits 1 over a change the push removed; and B carrying `DESIGN.md` with its
+entry, replaced by C carrying `DESIGN.md` alone, exits 0 because `IDEAS.md` differs from
+the dropped tip.
+Fix: `git merge-base --is-ancestor before after` gates the fast path, and a readable but
+replaced `before` falls through to the merge-base range like an unreachable one, with its
+own log line. `ci.yml` loses the kept comment claiming an all-zero `before` skips the step;
+the script has recovered that range through the merge base since 2026-09-13.
+Tests: both directions in `tests/test_check_design_push.py` against real git repositories,
+and the stale comment's absence. Five mutations.
+
 ### The design-contract check survives a rewritten branch (2026-09-13)
 Bug: `ci.yml` diffed `github.event.before..github.sha` inline. After the rebase and
 force-push of a branch the old tip hung off no ref, the full clone did not carry it, and

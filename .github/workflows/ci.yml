@@ -53,9 +53,6 @@ jobs:
       - name: The client's JavaScript parses
         run: python3 scripts/check_inline_js.py
 
-      # The design contract (DESIGN.md) and the test that enforces it change only with a
-      # dated IDEAS.md entry in the same push. `before` is all zeros on a branch's first
-      # push and absent on a dispatch; both skip, since there is no range to read.
       # A push touching DESIGN.md or tests/test_design_contract.py must change IDEAS.md in
       # the same push. The script owns the range: `github.event.before` is not always a
       # commit the checkout can see (a force-pushed branch, a created ref), and an inline

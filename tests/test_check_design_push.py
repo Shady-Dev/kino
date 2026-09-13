@@ -102,6 +102,50 @@ class CheckDesignPushTest(unittest.TestCase):
         self.assertEqual(cdp.verdict(["index.html"]), (True, "design contract untouched"))
 
 
+class ForcePushedBranchTest(unittest.TestCase):
+    """`before` names the tip a force-push replaced. It is often still readable -- GitHub
+    serves a rewritten SHA for a while -- and `before..after` is then the difference
+    between two branches, not the push."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.repo = pathlib.Path(self.tmp.name)
+        git(self.repo, "init", "-q", "-b", "main")
+        self.a = commit(self.repo, "A", **{"DESIGN.md": "v1\n", "IDEAS.md": "notes\n",
+                                           "index.html": "x\n"})
+        self.log = []
+
+    def rewrite(self, dropped, kept):
+        """Commit `dropped` on a branch off main, rewind, commit `kept` in its place.
+        -> (the tip the push reported as `before`, the tip it actually pushed)."""
+        git(self.repo, "checkout", "-q", "-B", "feature", self.a)
+        before = commit(self.repo, "dropped", **dropped)
+        git(self.repo, "checkout", "-q", "-B", "feature", self.a)
+        return before, commit(self.repo, "kept", **kept)
+
+    def run_check(self, before, after):
+        return cdp.main([before, after, "--base", "main", "--repo", str(self.repo)])
+
+    def test_a_design_change_the_push_dropped_is_not_charged_to_the_new_tip(self):
+        before, after = self.rewrite({"DESIGN.md": "v2\n"}, {"index.html": "y\n"})
+        self.assertTrue(cdp.has_commit(self.repo, before), "the replaced tip is still readable")
+        self.assertEqual(cdp.push_base(before, after, "main", self.repo, self.log.append), self.a)
+        self.assertTrue(any("not an ancestor" in m for m in self.log), self.log)
+        self.assertEqual(self.run_check(before, after), 0,
+                         "the push leaves DESIGN.md at v1; the change is the one it dropped")
+
+    def test_an_entry_only_the_dropped_tip_carried_does_not_excuse_the_new_one(self):
+        """The mirror case. `before` had the contract change and its entry, `after` has the
+        contract change alone; IDEAS.md differs from the dropped tip, so the raw range
+        reads as an entry the push does not have."""
+        before, after = self.rewrite({"DESIGN.md": "v2\n", "IDEAS.md": "notes\nwhy\n"},
+                                     {"DESIGN.md": "v3\n"})
+        self.assertEqual(cdp.verdict(cdp.changed_files(before, after, self.repo)),
+                         (True, "design contract change carries an IDEAS entry"))
+        self.assertEqual(self.run_check(before, after), 1)
+
+
 class WorkflowWiringTest(unittest.TestCase):
     CI = (_ctx.ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 
@@ -113,6 +157,8 @@ class WorkflowWiringTest(unittest.TestCase):
     def test_ci_no_longer_skips_a_created_ref(self):
         """The script handles the all-zero before itself, through the merge base."""
         self.assertNotIn("github.event.before != '0000000000000000000000000000000000000000'", self.CI)
+        self.assertNotIn("both skip, since there is no range to read", self.CI,
+                         "the comment outlived the skip it described")
 
 
 if __name__ == "__main__":

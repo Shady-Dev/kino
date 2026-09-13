@@ -7,12 +7,15 @@ Run by ci.yml with `github.event.before` and `github.sha`. The range is the push
 never the tip's parent alone: a push is not one commit, and a design change in an
 earlier commit of the same push would slip past `HEAD^..HEAD`.
 
-`before` is not always a commit the runner can see. After a force-push the previous tip
-hangs off no ref, a full clone does not carry it, and `git diff` fails with exit 128
-(2026-09-13, run 34773073208). A branch created by the push reports an all-zero
-`before`. In both cases the range is recovered in this order:
+`before` is not always usable. After a force-push it names the tip the push replaced: a
+full clone does not carry it and `git diff` fails with exit 128 (2026-09-13, run
+34773073208), and when it *is* readable -- GitHub serves a rewritten SHA for a while --
+`before..after` is the difference between two branches rather than the push, so it reports
+the files of the commits the push dropped. A branch created by the push reports an
+all-zero `before`. The range is recovered in this order:
 
-1. fetch `before` by SHA from origin, which GitHub serves for a while after a rewrite;
+1. `before` itself, fetched by SHA from origin when the checkout lacks it, and used only
+   when it is an ancestor of `after`: that range is exactly the push;
 2. otherwise the merge base of the base branch and `after`, which is every commit the
    push put on the branch that main does not have: a superset of the push, never less;
 3. otherwise exit 2 and say so. A push to the base branch itself with an unreachable
@@ -39,17 +42,29 @@ def has_commit(repo, rev):
     return _git(repo, "cat-file", "-e", f"{rev}^{{commit}}").returncode == 0
 
 
+def is_ancestor(repo, rev, tip):
+    return _git(repo, "merge-base", "--is-ancestor", rev, tip).returncode == 0
+
+
 def push_base(before, after, base_ref, repo, log=print):
     """The commit to diff `after` against -> sha, or None when no range can be found."""
     if before and set(before) != {"0"}:
-        if has_commit(repo, before):
-            return before
-        if _git(repo, "remote", "get-url", "origin").returncode == 0:
+        readable = has_commit(repo, before)
+        if not readable and _git(repo, "remote", "get-url", "origin").returncode == 0:
             _git(repo, "fetch", "--quiet", "origin", before)
-            if has_commit(repo, before):
+            readable = has_commit(repo, before)
+            if readable:
                 log(f"[design] before {before[:10]} fetched by sha")
+        if readable:
+            if is_ancestor(repo, before, after):
                 return before
-        log(f"[design] before {before[:10]} is not reachable (rewritten branch)")
+            # Readable but replaced: the range would carry whatever the dropped commits
+            # touched, in either direction. It reports a contract change the push does not
+            # make, and it accepts an IDEAS entry that only the dropped tip had.
+            log(f"[design] before {before[:10]} is not an ancestor of {after[:10]} "
+                f"(force-pushed branch)")
+        else:
+            log(f"[design] before {before[:10]} is not reachable (rewritten branch)")
     else:
         log("[design] before is all zeros (created ref)")
     mb = _git(repo, "merge-base", base_ref, after)
