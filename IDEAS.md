@@ -1923,6 +1923,22 @@ left bare, else chooser); `loadSeq` drops a load resolving after Back; `loadSche
 shows the chooser plus the load-failure line when the venue lists fail. No storage added,
 nothing sent. Tests: `test_home_flow.py`, `test_home_static.py`, `test_area_routing.py`.
 
+### Every phone control reaches 44 px (2026-09-13, v154)
+Bug: measured at 393 (iPhone 15) on request: view segment and filter chips 25 to 27 px,
+legend buttons 25, language buttons 36 x 28, theme 38, favourite 36, picker and search
+39.5, sheet close 34, the reveal and synopsis links 14.5 to 18.5 with no padding. Day
+chips 44, tickets 40 (the recorded exception), dots 40, menu rows 44 were fine. Text sizes
+11.5 px and up, none under the caption floor; nothing overflowed.
+Fix, phone only where it says so: the pill row stays 36 px to the eye and reaches 44
+through a transparent `::after` 4 px past the border above and below (5 from the padding
+edge on the bordered chip and legend button, probed at 42 with 4; `z-index:1`, or content
+after it in the DOM covered the lower part; `.seg` loses `overflow:hidden`, its end buttons carry
+7 px radius); under 560 px the header controls, picker, search and favourite get 44 and
+under 700 the sheet close; the text links take 13 px padding given back by margins, the
+dotted line as text-decoration. Measured after: every control 44 or 36+8, text unmoved
+(synopsis gap 8 px as before). DESIGN.md "Tap targets", `tap.*` in the contract test,
+9 mutations red.
+
 ### A design contract guards the ticket (2026-09-13)
 Bug: the perforation left unpriced tickets in v140 because a task spec said so, although
 the v102 entry here had decided the opposite; the tests that pinned it were rewritten in

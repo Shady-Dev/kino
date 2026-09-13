@@ -41,3 +41,21 @@ ticket.empty.display     = not none
 The Ajat list is the one exception in width: its unpriced ticket keeps the full 56 px
 compartment so every ticket in the list is 120 px and the titles share one x. It keeps
 the seam and notches like every other ticket.
+
+## Tap targets
+
+On a phone every control reaches 44 px of hit area (Apple's floor): day chips, the header
+controls, the picker and search, the sheet's close button, the menu rows and the text-only
+reveal links all measure 44 or more at 393 px wide. The view segment, the filter chips and
+the chain legend buttons stay 36 px tall to the eye and reach 44 through a transparent 4 px
+extension above and below the border, so the filter row does not weigh as much as the day
+row. The
+ticket is the one control under the floor, at 40 px (IDEAS "Tickets are 40 px"). Desktop
+keeps the smaller header sizes; a mouse needs no 44.
+
+```
+tap.floor          = 44px
+tap.pill.visible   = 36px
+tap.pill.reach     = 4px
+tap.ticket         = 40px
+```

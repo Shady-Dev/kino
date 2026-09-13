@@ -22,8 +22,10 @@ CI = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
 
 
 def contract():
-    block = re.search(r"```\n(.*?)```", DESIGN, re.S).group(1)
-    return dict(re.findall(r"^(\S+)\s*=\s*(.+?)\s*$", block, re.M))
+    out = {}
+    for block in re.findall(r"```\n(.*?)```", DESIGN, re.S):
+        out.update(re.findall(r"^(\S+)\s*=\s*(.+?)\s*$", block, re.M))
+    return out
 
 
 def rule(src, selector):
@@ -84,6 +86,52 @@ class DesignContractTest(unittest.TestCase):
                             "no rule hides the notches of an empty compartment")
         self.assertIn("var(--pe)", rule(HTML, ".stub .price:empty"))
         self.assertIn("var(--pe)", rule(HTML, ".stubs.grid .stub .price:empty"))
+
+    # -- tap targets on a phone --------------------------------------------------------------
+    def test_pills_stay_36_to_the_eye_and_reach_44(self):
+        c = self.c
+        vis, reach = c["tap.pill.visible"], c["tap.pill.reach"]
+        self.assertEqual((int(vis[:-2]) + 2 * int(reach[:-2])), int(c["tap.floor"][:-2]), "36 + 2 x 4 = 44")
+        pills = rule(HTML, ".seg button, .chip, .legend .lg-btn")
+        self.assertEqual(prop(pills, "min-height"), vis)
+        self.assertIn("position:relative", pills)
+        self.assertIn("z-index:1", pills, "later content in the DOM painted over the extension below (measured 2026-09-13)")
+        ext = rule(HTML, ".seg button::after, .chip::after, .legend .lg-btn::after")
+        self.assertEqual(prop(ext, "top"), "-" + reach)
+        self.assertEqual(prop(ext, "bottom"), "-" + reach)
+        # the bordered pills measure from the padding edge, one more px for the border
+        bordered = rule(HTML, ".chip::after, .legend .lg-btn::after")
+        more = f"-{int(reach[:-2]) + 1}px"
+        self.assertEqual((prop(bordered, "top"), prop(bordered, "bottom")), (more, more))
+        self.assertIn('content:""', ext)
+        self.assertIn("position:absolute", ext)
+        self.assertNotIn("overflow:hidden", rule(HTML, ".seg"), "it would clip the extension")
+        self.assertIsNotNone(rule(HTML, ".seg button:first-child"))
+        self.assertIsNotNone(rule(HTML, ".seg button:last-child"))
+
+    def test_the_header_controls_and_the_sheet_close_reach_44_on_a_phone(self):
+        floor = self.c["tap.floor"]
+        mobile = HTML[HTML.index("    .fav{flex:0 0 auto; padding:8px 11px}"):]
+        mobile = mobile[:mobile.index("\n  }\n")]
+        self.assertIn(f".langseg button{{height:{floor};", mobile)
+        self.assertIn(f"#themeToggle{{flex-basis:{floor}; width:{floor}; height:{floor}}}", mobile)
+        self.assertIn(f"#areaSelect, .search, .fav{{min-height:{floor}}}", mobile)
+        self.assertIn(f"@media (max-width:699px){{ .sheet-close{{width:{floor}; height:{floor};", HTML)
+        self.assertRegex(HTML, r"\.day\{[^}]*min-height:" + re.escape(floor), "the day chip has carried the floor since v129")
+
+    def test_text_links_reach_44_without_moving(self):
+        floor = self.c["tap.floor"]
+        links = rule(HTML, ".pastlink, .synmore")
+        self.assertEqual(prop(links, "min-height"), floor)
+        self.assertEqual(prop(links, "padding"), "13px 0")
+        self.assertEqual(prop(links, "margin"), "-13px 0", "the padding is taken back, so the text stays where it was")
+        self.assertIn("display:inline-flex", links)
+        self.assertNotIn("border-bottom", links, "a border would sit on the padding edge")
+        self.assertIn("text-decoration:underline dotted", links)
+
+    def test_the_ticket_is_the_recorded_exception(self):
+        self.assertEqual(self.c["tap.ticket"], self.c["ticket.min_height"])
+        self.assertLess(int(self.c["tap.ticket"][:-2]), int(self.c["tap.floor"][:-2]))
 
     # -- the generator ----------------------------------------------------------------------
     def test_the_generated_ticket_matches(self):

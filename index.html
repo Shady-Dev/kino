@@ -359,9 +359,13 @@
   .cal-note{display:block; margin-top:10px; font-size:.7rem; color:var(--muted); text-align:center}
   /* Past showtimes are hidden by default. The toggle lives on the meta line, so it
      costs no header space and no slot in the showtime grid. */
+  /* Text-only controls reach 44 px of hit area without moving: 13 px of padding above
+     and below, taken back by the margins, and the dotted line as text-decoration since
+     the border would sit on the padding edge (DESIGN.md, tap.floor). */
   .pastlink, .synmore{
-    font:inherit; font-size:inherit; cursor:pointer; padding:0;
-    background:none; border:0; border-bottom:1px dotted currentColor;
+    font:inherit; font-size:inherit; cursor:pointer; padding:13px 0; margin:-13px 0;
+    display:inline-flex; align-items:center; min-height:44px;
+    background:none; border:0; text-decoration:underline dotted; text-underline-offset:3px;
     color:var(--muted);
   }
   .pastlink:hover, .synmore:hover{color:var(--ink)}
@@ -565,6 +569,8 @@
   .sheet-close{position:absolute; top:12px; right:14px; width:34px; height:34px;
     border-radius:50%; border:1px solid var(--line); background:var(--surface);
     color:var(--muted); font-size:1rem; cursor:pointer}
+  /* 44 px on a phone (DESIGN.md, tap.floor); the circle grows into the head's margin. */
+  @media (max-width:699px){ .sheet-close{width:44px; height:44px; top:8px; right:10px} }
   .sheet-head{display:flex; gap:16px; align-items:flex-start;
     flex:0 0 auto; padding:0 20px 14px}
   /* Drag-to-dismiss: only the bottom-sheet layout gets a grab handle. */
@@ -600,7 +606,7 @@
      that clamps by line box; it works in every engine that ships this app. */
   .syn.clamp{display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;
     overflow:hidden}
-  .synmore{margin-top:8px}
+  .synmore{margin-top:-5px}   /* 8 px of gap after the 13 px the hit area takes back */
   .trailer{display:inline-block; margin-top:12px; color:var(--accent-text); font-weight:700;
     text-decoration:none; font-size:.88rem}
   .sheet-days{margin-top:6px}
@@ -808,9 +814,10 @@
     display:flex; gap:8px; flex-wrap:wrap; align-items:center;
   }
   /* 8px on both segmented controls (this and .langseg): after the pill retreat on the
-     filter chips, the two full capsules were the odd ones out. The inner segments keep
-     no radius of their own -- overflow:hidden clips them to the container's corners. */
-  .seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface)}
+     filter chips, the two full capsules were the odd ones out. The end segments carry
+     7 px of their own radius (below); overflow:hidden used to clip them and would clip
+     the 44 px hit extension too. */
+  .seg{display:flex; border:1px solid var(--line); border-radius:8px; background:var(--surface)}
   .seg button{border:0; background:transparent; padding:7px 14px; font:inherit; font-size:.78rem; font-weight:700; color:var(--muted); cursor:pointer}
   .seg button.on{background:var(--ink); color:var(--bg)}
   .seg button:hover:not(.on){color:var(--ink)}
@@ -821,6 +828,18 @@
     padding:7px 12px; font:inherit; font-size:.78rem; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s}
   .chip.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
   .chip:hover:not(.on){color:var(--ink); border-color:var(--muted)}
+  /* Tap targets on a phone (DESIGN.md, tap.*): the pill row stays 36 px tall to the eye
+     and the segment, the filter chips and the legend buttons each reach 44 px of hit
+     area through a transparent 4 px extension above and below. Measured 2026-09-13 at
+     393: 25 to 27 px before. `.seg` cannot clip with overflow:hidden any more, so its
+     end buttons carry the radius themselves (8 px outer minus the 1 px border). */
+  .seg button, .chip, .legend .lg-btn{min-height:36px; position:relative; z-index:1}   /* the extension paints over what follows */
+  .seg button::after, .chip::after, .legend .lg-btn::after{content:""; position:absolute; left:0; right:0; top:-4px; bottom:-4px}
+  /* An absolute child measures from the padding edge: the chip and the legend button have
+     a 1 px border, so -4 reached 3 px past it (42 in all, probed). One more for those. */
+  .chip::after, .legend .lg-btn::after{top:-5px; bottom:-5px}
+  .seg button:first-child{border-radius:7px 0 0 7px}
+  .seg button:last-child{border-radius:0 7px 7px 0}
 
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
   /* The ticket in this list is time and price only: 62 + 56 + 2 = 120 px by construction,
@@ -880,6 +899,11 @@
     .controls{padding:10px 14px 8px; gap:8px}
     #areaSelect{max-width:none; flex:1 1 auto; width:auto; min-width:0}
     .fav{flex:0 0 auto; padding:8px 11px}
+    /* The header's controls reach the 44 px floor on a phone (DESIGN.md, tap.floor);
+       measured 2026-09-13 at 393: 36 to 39.5 before. Desktop keeps its sizes. */
+    .langseg button{height:44px; padding:0 12px}
+    #themeToggle{flex-basis:44px; width:44px; height:44px}
+    #areaSelect, .search, .fav{min-height:44px}
     .search{flex:1 1 100%; width:100%; min-width:0}
     /* Tighter vertical rhythm: the header used to fill most of a phone screen. */
     .bar{padding:10px 14px; gap:10px}
