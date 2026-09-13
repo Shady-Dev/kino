@@ -602,6 +602,42 @@ a valid outcome. No TMDB id was checked from here; the ids in the tests are fixt
 values. `tests/test_regina.py` `FilmIdentityTest`, 14 tests, nine mutations red, plus
 `tests/test_tmdb_matching.py` tie cases (41 tests).
 
+### Only a trusted TMDB match publishes metadata (2026-09-13)
+"Naisen kasvot" (Kino Regina, 1938) matched nothing exactly and fell back to TMDB 4780,
+De Palma's "Obsession" (1976). The weak flag withheld the `tmdbId`, and nothing else:
+the wrong film's poster, rating, votes, trailer, genre ids and synopses went onto the show
+and into `films-extra.json`, `mirror_posters` rewrote the poster to `data/posters/`, and
+`run.py` carried every one of those fields from the previous venue file into the next
+run, so a fresh adapter result did not clear them. The Finnkino pass wrote the same fields
+from its weak candidates and let TMDB's trailer replace Finnkino's own. An alias fixed the
+one film; measured at d2a41e21 the rest was 20 weak titles on 102 shows in 22 venue files
+(90 ratings, 99 genre lists, 82 trailers, 11 posters, 10 stale ids) and 31 films-extra
+keys, two of them from a candidate older than today's. "A weak match still beats no film"
+(2026-08-27, above) was written for the search, where it is still true: the candidate is
+still found, logged and retried. It is no longer published.
+
+`enrich_tmdb.trusted()` is the one rule, `x` and an id, the same gate `tmdbId` and the
+shared classification already passed. The area pass writes nothing for an untrusted
+entry and takes back what this pass could have written (`unpublish`: `tmdb`, `votes`,
+`tr`, `gids`, `tmdbId`, and `img` only when it is an image.tmdb.org address or the
+mirrored copy of that entry's poster; a cinema's own poster, mirrored or not, is never
+touched). `merge_extra` fills from trusted entries and clears `r`, `tr`, `img` and the
+English synopsis for every other key, including keys the cache no longer holds, since a
+weak entry is dropped on load and a film that then left the programme is exactly the key
+with residue and no entry. The Finnish slot is the cinema's or TMDB's, and only text
+equal to the untrusted candidate's own overview is cleared: all 79 other texts under
+untrusted keys at d2a41e21 read as cinema copy. A cleared slot is refilled by the
+provider's `synmerge` on the run after, because providers merge before this pass. The
+cache keeps the weak candidate as before: budgets, pacing, aliases and the picker are
+unchanged, and so is the request cost of a weak title. `fetch_data.py` applies the same
+gate to `tmdb`, `votes`, `gids`, `tmdbId` and the trailer; its files are rebuilt from
+each run, so the next local run is the cleanup there. No client change: the app and the
+pages already render nothing where a field is absent, and a show without a poster gets
+the blank tile. Weak matches that were right (Regina's "The Turin Horse", Tapiola's
+HELAFF titles) lose their metadata until each is verified and aliased.
+`tests/test_tmdb_trust.py` (14 tests, 15 mutations red) and `tests/test_finnkino_trust.py`
+(4 tests, 5 mutations red).
+
 ### BioRex, Gilda and Tapiola publish no per-screening price (probed 2026-09-13)
 Asked whether the shared ticket-page price step (`prices.py`) could cover the three
 unpriced non-Finnkino providers. Read as a visitor from an ordinary connection, one page or

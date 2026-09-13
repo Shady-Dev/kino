@@ -123,9 +123,11 @@ files without either field stay valid.
 
 Two fields are easy to confuse. `rating` is the **film's** age classification;
 `age` is a limit the **screening** adds on top: a licensed auditorium can be 18+
-whatever the film is rated, and Heureka's planetarium admits from five. `tmdbId`
-and `gids` are written only for exact TMDB matches, because a weak id folds two
-different films into one card.
+whatever the film is rated, and Heureka's planetarium admits from five. Every
+TMDB field (`tmdbId`, `tmdb`, `votes`, `gids`, `tr`, a TMDB poster in `img`) is
+written only for a trusted match, an exact title or a hand-written alias id: a
+weak id folds two different films into one card, and its poster, rating and
+synopsis are the wrong film's.
 
 On a provider file, `generated` is when it was written and `oldest` is its
 weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or

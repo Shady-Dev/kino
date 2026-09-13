@@ -8,10 +8,16 @@ writes `tmdb` (rating) and `tr` (trailer URL) straight onto each show.
 Idempotent and cache-first: a re-run is cheap once a title is known. Titles with no
 trailer are re-checked once a day, looking for one; a cached rating is re-read once it is
 a week old, oldest first and a bounded number a run. See `due()`.
+
+Only a trusted match publishes: an exact title match or a hand-written alias id, `x` in
+the cache. A weak candidate is kept in the cache for the log and the retry, and nothing
+of it reaches a show or films-extra.json; what an earlier run wrote from one is taken
+back. See `trusted()`.
 """
 import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 
 import common
+import mirror_posters
 import refresh
 
 DATA = pathlib.Path("data")
@@ -103,6 +109,74 @@ def is_complete(c):
 def due(titles, cache, today, max_age=None, budget=None):
     """This pass's entries that are due. -> (keys, refreshes, deferred). See refresh.due."""
     return refresh.due(titles, cache, today, is_complete, max_age, budget)
+
+
+# --- what may be published -----------------------------------------------------------------
+# The cache keeps a weak candidate: its id is what the log names and what the daily retry
+# starts from. Publishing is a separate question, answered once, here. Kino Regina's
+# "Naisen kasvot" (1938) fell back to TMDB 4780, De Palma's "Obsession" (1976): the weak
+# flag withheld the tmdbId, and the wrong film's poster, rating, votes, trailer, genre
+# ids and synopses went onto the show and into films-extra.json regardless, where run.py
+# then carried them from one venue file into the next. A cinema's own fields are never
+# touched by any of this: only what this pass itself writes is gated, and only what this
+# pass itself could have written is taken back.
+TMDB_IMG = "https://image.tmdb.org/t/p/w342"
+# The show fields this pass writes. `img` is handled apart, because a cinema publishes
+# posters too.
+PUBLISHED = ("tmdb", "votes", "tr", "gids", "tmdbId")
+
+
+def trusted(c):
+    """Whether a cache entry may supply public metadata: an exact title match or a
+    hand-written alias id, and an id to go with it."""
+    return isinstance(c, dict) and bool(c.get("x")) and bool(c.get("i"))
+
+
+def poster_refs(c):
+    """Every form the entry's poster takes in published data: the w342 URL this pass
+    writes, and the path mirror_posters rewrites it to on the same run."""
+    p = (c.get("p") or "") if isinstance(c, dict) else ""
+    if not p:
+        return set()
+    url = TMDB_IMG + p
+    return {url, f"data/posters/{mirror_posters.key_for(url)}.jpg"}
+
+
+def tmdb_poster(img, c):
+    """Whether a show's `img` is TMDB's: any image.tmdb.org address, or the mirrored
+    copy of this entry's poster. A cinema's own poster, mirrored or not, is neither."""
+    img = (img or "").strip()
+    return bool(img) and (img.startswith("https://image.tmdb.org/") or img in poster_refs(c))
+
+
+def unpublish(show, c):
+    """Take back what this pass may have written onto a show from an untrusted entry.
+    -> whether anything changed. The cinema's own poster stays."""
+    changed = False
+    for field in PUBLISHED:
+        if field in show:
+            del show[field]
+            changed = True
+    if tmdb_poster(show.get("img"), c):
+        del show["img"]
+        changed = True
+    return changed
+
+
+def unpublish_extra(e, c):
+    """Take back what merge_extra may have written into a films-extra entry from an
+    untrusted candidate. `r`, `tr`, `img` and the English synopsis are written by nothing
+    else, so they go. The Finnish slot is the cinema's or TMDB's, and only text equal to
+    this candidate's own overview is known to be TMDB's; other text stands. `kr`/`krs`
+    belong to merge_shared, which decides them from scratch every run."""
+    e["r"] = 0
+    e["tr"] = ""
+    e.pop("img", None)
+    s = e.setdefault("s", {"fi": "", "en": ""})
+    s["en"] = ""
+    if s.get("fi") and isinstance(c, dict) and s["fi"] == (c.get("fi") or ""):
+        s["fi"] = ""
+# --- end what may be published -------------------------------------------------------------
 
 
 def pick(hits, query, year=None, original=None):
@@ -417,14 +491,22 @@ def merge_extra(cache, today):
     (better) Finnish synopses into this file before this pass runs, so an existing fi
     text is never clobbered. Re-reading the file per flush keeps that rule true even
     if a provider wrote to it in between.
+
+    Trusted entries fill. Every other key in the file, an untrusted entry's or one the
+    cache no longer holds, gives back what a run before this rule wrote from a weak
+    candidate: a weak entry is dropped as the cache loads, so a film that then left the
+    programme is exactly the key with residue and no entry. See unpublish_extra.
     """
     try:
         doc = json.loads(EXTRA.read_text())
     except Exception:
         doc = {}
     films = doc.get("films") or {}
+    for k, e in films.items():
+        if isinstance(e, dict) and not trusted(cache.get(k)):
+            unpublish_extra(e, cache.get(k))
     for k, c in cache.items():
-        if not isinstance(c, dict):
+        if not trusted(c):
             continue
         if not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
             continue
@@ -787,7 +869,12 @@ def main() -> int:
                 s["rating"] = ""
                 s.pop("rsrc", None)
             c = cache.get(norm(s.get("title")))
-            if not isinstance(c, dict):
+            if not trusted(c):
+                # A weak candidate, a title that matched nothing, or no entry at all:
+                # nothing is written, and what an earlier run wrote from a weak candidate
+                # comes off, run.py having carried it here from the previous file.
+                if unpublish(s, c):
+                    changed = True
                 if ((s.get("rating") or ""), s.get("rsrc")) != was:
                     changed = True
                 continue
@@ -846,8 +933,9 @@ def main() -> int:
                      if not (cache.get(k) or {}).get("i"))
     if missing:
         print(f"[enrich] no TMDB match ({len(missing)}): " + " | ".join(missing))
-    # A weak match is a wrong poster waiting to happen; a thin one is a rating hidden
-    # on purpose. Both are for reading, not for acting on automatically.
+    # A weak match publishes nothing (see trusted()) and is listed here so it can be
+    # verified and aliased; a thin one is a rating hidden on purpose. Both are for
+    # reading, not for acting on automatically.
     if weak:
         print(f"[enrich] weak match, no exact title ({len(weak)}): " + " | ".join(sorted(weak)))
     if offyear:

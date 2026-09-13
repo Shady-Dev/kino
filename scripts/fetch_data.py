@@ -630,25 +630,32 @@ def main() -> int:
             print(f"[tmdb] {line}")
         print(f"[tmdb] {looked} new lookups, {rechecked} re-checks, "
               f"cache {len(tmdb_cache)}, {mergeable} mergeable by id")
-        def _rating(c):
-            return (c.get("r") if isinstance(c, dict) else c) or 0
+        # Only a trusted entry publishes: an exact title match or an alias id. The
+        # `tmdbId` gate always said so, because a weak id would merge two different
+        # films into one row; the rating, the votes, the genre ids and the trailer were
+        # written from a weak candidate all the same, and were the wrong film's. Same
+        # rule as enrich_tmdb.trusted(). The Finnkino trailer stands where TMDB's is not
+        # trusted. Every venue file this run publishes, and films.json, are rebuilt from
+        # this run's response, so a weak candidate's fields from an earlier run do not
+        # survive the first run after this rule.
+        def _trusted(c):
+            return isinstance(c, dict) and bool(c.get("x")) and bool(c.get("i"))
         for shows in per_site.values():
             for sh in shows:
                 c = tmdb_cache.get(sh["eventId"])
-                v = _rating(c)
-                if v:
-                    sh["tmdb"] = v
-                    if isinstance(c, dict) and c.get("n"):
+                if not _trusted(c):
+                    continue
+                if c.get("r"):
+                    sh["tmdb"] = c["r"]
+                    if c.get("n"):
                         sh["votes"] = c["n"]
-                # Cross-chain film identity for the combined city view. Exact matches
-                # only: a weak id would merge two different films into one row.
-                if isinstance(c, dict) and c.get("x") and c.get("i"):
-                    sh["tmdbId"] = c["i"]
-                if isinstance(c, dict) and c.get("g"):
+                # Cross-chain film identity for the combined city view.
+                sh["tmdbId"] = c["i"]
+                if c.get("g"):
                     sh["gids"] = c["g"]
         for fid, entry in films_full.items():
             c = tmdb_cache.get(fid)
-            if isinstance(c, dict) and c.get("v"):
+            if _trusted(c) and c.get("v"):
                 entry["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
 
     # Finnkino drops the odd character to "?" ("Catherine Laga?aia"). Other chains run

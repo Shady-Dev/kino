@@ -1,0 +1,286 @@
+"""Only a trusted TMDB match may supply public film metadata.
+
+Kino Regina's "Naisen kasvot" (1938) matched nothing exactly, and the popularity fallback
+was TMDB 4780, De Palma's "Obsession" (1976). The weak flag withheld the `tmdbId`, but the
+wrong film's poster, rating, votes, trailer, genre ids and synopses were written onto the
+show and into films-extra.json all the same, and run.py carries those fields from the
+previous venue file into every later run. An alias corrected that one film; this file
+pins the rule for the rest: a weak or unmatched candidate publishes nothing, the cinema's
+own fields stay, and what an earlier run published from a weak candidate is taken back
+by the next pass.
+
+Same harness as test_tmdb_matching: TMDB is a dispatch on the URL, here with a detail and
+a video table as well, so the weak candidate can carry a complete set of attractive
+metadata.
+"""
+import contextlib
+import io
+import json
+import unittest
+
+import _ctx                                                # noqa: F401
+import build_pages
+import enrich_tmdb
+import mirror_posters
+from test_tmdb_matching import MainHarness, hit
+
+# The historical mismatch. The production alias for the title is not consulted here: the
+# harness points ALIAS_FILE at an empty temporary directory.
+OBSESSION = hit(4780, "Obsession", 1976)
+WRONG = {"fi": "Väärä elokuva, väärä teksti.", "en": "Wrong film, wrong text.",
+         "n": 1200, "r": 7.3, "g": [53], "v": "wrongkey"}
+RIGHT = {"fi": "Oikea teksti.", "en": "Right text.", "n": 300, "r": 6.8, "g": [18], "v": "rightkey"}
+W342 = "https://image.tmdb.org/t/p/w342"
+
+
+def mirrored(poster_path):
+    """Where mirror_posters puts a TMDB poster, which is how an earlier run left it."""
+    return f"data/posters/{mirror_posters.key_for(W342 + poster_path)}.jpg"
+
+
+def regina(**over):
+    """Naisen kasvot as Kino Regina publishes it: every field is the cinema's own."""
+    return {"title": "Naisen kasvot", "original": "En kvinnas ansikte", "year": "1938",
+            "img": "https://kinoregina.fi/posters/naisen-kasvot.jpg", "rating": "K-12",
+            "len": "100", "genres": "Draama", "provider": "regina", "venue": "regina", **over}
+
+
+class TrustHarness(MainHarness):
+
+    def run_main(self, table, detail=None, videos=None):
+        detail, videos = detail or {}, videos or {}
+
+        def fake_get(url, headers, timeout=25):
+            if "/genre/movie/list" in url:
+                return {"genres": [{"id": 18, "name": "Draama"}, {"id": 53, "name": "Jännitys"}]}
+            if "/search/movie" in url:
+                import urllib.parse
+                q = urllib.parse.parse_qs(urllib.parse.urlsplit(url).query)
+                key = (q["query"][0], (q.get("primary_release_year") or [""])[0])
+                self.searches.append(key)
+                return {"results": table.get(key, [])}
+            mid = int(url.split("/movie/")[1].split("/")[0].split("?")[0])
+            if url.endswith("/videos"):
+                key = videos.get(mid)
+                return {"results": [{"site": "YouTube", "type": "Trailer", "official": True,
+                                     "key": key}] if key else []}
+            d = detail.get(mid) or {}
+            lang = "fi" if "language=fi-FI" in url else "en"
+            return {"overview": d.get(lang, ""), "vote_count": d.get("n"),
+                    "vote_average": d.get("r"), "genres": [{"id": g} for g in d.get("g", [])],
+                    "poster_path": f"/{mid}.jpg"}
+        real = enrich_tmdb.get
+        enrich_tmdb.get = fake_get
+        self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = enrich_tmdb.main()
+        self.assertEqual(code, 0)
+        return buf.getvalue()
+
+    def area(self):
+        return json.loads((self.dir / "area-zz.json").read_text(encoding="utf-8"))
+
+    def extra(self):
+        return json.loads((self.dir / "films-extra.json").read_text(encoding="utf-8"))["films"]
+
+    def extra_write(self, films):
+        (self.dir / "films-extra.json").write_text(
+            json.dumps({"generated": "2026-09-01", "films": films}), encoding="utf-8")
+
+    def weak_naisen_kasvot(self):
+        """The search as it went on 2026-09-13: nothing exact, Obsession as the fallback."""
+        self.run_main({("Naisen kasvot", ""): [OBSESSION]},
+                      detail={4780: WRONG}, videos={4780: WRONG["v"]})
+        e = self.cache()["naisen kasvot"]
+        self.assertEqual((e["i"], e["x"]), (4780, False), "the candidate stays weak")
+        return e
+
+    def assert_no_tmdb_fields(self, show):
+        for field in ("tmdb", "votes", "tr", "gids", "tmdbId"):
+            self.assertNotIn(field, show, f"{field} came from the weak candidate")
+        self.assertFalse((show.get("img") or "").startswith(W342), "a TMDB poster")
+        self.assertNotEqual(show.get("img"), mirrored("/4780.jpg"), "the mirrored TMDB poster")
+
+    def assert_no_tmdb_extra(self, key):
+        fx = self.extra().get(key) or {}
+        for field in ("r", "tr", "img"):
+            self.assertFalse(fx.get(field), f"films-extra {field} came from the weak candidate")
+        self.assertFalse((fx.get("s") or {}).get("en"), "the weak candidate's English synopsis")
+        return fx
+
+
+class WeakCandidateTest(TrustHarness):
+
+    # 1. a complete set of attractive but wrong metadata contributes nothing
+    def test_a_weak_candidate_publishes_nothing(self):
+        self.shows(regina())
+        self.weak_naisen_kasvot()
+        show = self.area()["shows"][0]
+        self.assert_no_tmdb_fields(show)
+        fx = self.assert_no_tmdb_extra("naisen kasvot")
+        self.assertFalse((fx.get("s") or {}).get("fi"), "the weak candidate's Finnish synopsis")
+
+    # 2. the cinema's own fields survive that same case
+    def test_provider_fields_survive(self):
+        self.shows(regina())
+        self.extra_write({"naisen kasvot": {"s": {"fi": "Reginan oma teksti.", "en": ""},
+                                            "r": 0, "tr": ""}})
+        self.weak_naisen_kasvot()
+        show = self.area()["shows"][0]
+        for field, value in regina().items():
+            self.assertEqual(show.get(field), value, field)
+        self.assertEqual(self.extra()["naisen kasvot"]["s"]["fi"], "Reginan oma teksti.")
+
+    # 3. a trusted exact match still enriches
+    def test_an_exact_match_enriches_as_before(self):
+        self.shows({"title": "Naisen kasvot", "original": "En kvinnas ansikte", "year": "1938"})
+        right = hit(76848, "Naisen kasvot", 1938, original="En kvinnas ansikte")
+        self.run_main({("Naisen kasvot", "1938"): [right]},
+                      detail={76848: RIGHT}, videos={76848: RIGHT["v"]})
+        show = self.area()["shows"][0]
+        self.assertEqual((show["tmdbId"], show["tmdb"], show["votes"], show["gids"]),
+                         (76848, 6.8, 300, [18]))
+        self.assertEqual(show["tr"], "https://www.youtube.com/watch?v=rightkey")
+        self.assertEqual(show["img"], W342 + "/76848.jpg")
+        fx = self.extra()["naisen kasvot"]
+        # The pass stops at a Finnish overview and reads the English one only when there
+        # is none, so `en` stays empty here.
+        self.assertEqual((fx["s"]["fi"], fx["s"]["en"], fx["r"]), ("Oikea teksti.", "", 6.8))
+        self.assertEqual((fx["img"], fx["tr"]),
+                         (W342 + "/76848.jpg", "https://www.youtube.com/watch?v=rightkey"))
+
+    # 4. a verified alias still enriches
+    def test_an_alias_id_enriches_as_before(self):
+        self.shows(regina(img=""))
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"naisen kasvot": "76848"}))
+        self.run_main({("Naisen kasvot", ""): [OBSESSION]},
+                      detail={76848: RIGHT, 4780: WRONG}, videos={76848: RIGHT["v"]})
+        show = self.area()["shows"][0]
+        self.assertEqual((show["tmdbId"], show["tmdb"], show["gids"]), (76848, 6.8, [18]))
+        self.assertEqual(show["img"], W342 + "/76848.jpg")
+        self.assertEqual(self.extra()["naisen kasvot"]["s"]["fi"], "Oikea teksti.")
+        self.assertEqual(self.searches, [], "an alias id is not searched")
+
+
+class ContaminatedDataTest(TrustHarness):
+    """What the runs before this rule left behind, and a normal pass taking it back."""
+
+    def seed(self, fi="Väärä elokuva, väärä teksti.", img=None):
+        # run.py carried these from the previous venue file; the adapter published no
+        # poster, so the mirrored TMDB one was carried too.
+        self.shows(regina(img=img if img is not None else mirrored("/4780.jpg"),
+                          tmdb=7.3, votes=1200, gids=[53], tmdbId=4780,
+                          tr="https://www.youtube.com/watch?v=wrongkey"))
+        self.extra_write({"naisen kasvot": {
+            "s": {"fi": fi, "en": "Wrong film, wrong text."}, "r": 7.3,
+            "tr": "https://www.youtube.com/watch?v=wrongkey", "img": mirrored("/4780.jpg")}})
+        self.cache_write({"naisen kasvot": {
+            "r": 7.3, "n": 1200, "v": "wrongkey", "x": False, "g": [53], "i": 4780,
+            "c": "2026-09-12", "a": "2026-09-12", "fi": "Väärä elokuva, väärä teksti.",
+            "en": "Wrong film, wrong text.", "p": "/4780.jpg", "o": "", "y": ""}})
+
+    # 5. a normal run corrects previously applied weak-match metadata
+    def test_a_normal_run_takes_the_weak_metadata_back(self):
+        self.seed()
+        self.weak_naisen_kasvot()
+        show = self.area()["shows"][0]
+        self.assert_no_tmdb_fields(show)
+        self.assertNotIn("img", show, "the carried TMDB poster is gone, nothing replaces it")
+        fx = self.assert_no_tmdb_extra("naisen kasvot")
+        self.assertFalse(fx["s"]["fi"], "the Finnish synopsis was the candidate's own overview")
+        for field in ("rating", "len", "genres", "original", "year"):
+            self.assertEqual(show[field], regina()[field], field)
+
+    def test_a_synopsis_that_is_not_the_candidates_is_left(self):
+        """The slot holds either the cinema's text or a weak candidate's; only text equal
+        to the candidate's overview is known to be TMDB's, and nothing else is guessed."""
+        self.seed(fi="Reginan oma teksti.")
+        self.weak_naisen_kasvot()
+        self.assertEqual(self.extra()["naisen kasvot"]["s"]["fi"], "Reginan oma teksti.")
+
+    def test_a_cinemas_own_mirrored_poster_is_not_taken(self):
+        self.seed(img="data/posters/0123456789abcdef.jpg")
+        self.weak_naisen_kasvot()
+        self.assertEqual(self.area()["shows"][0]["img"], "data/posters/0123456789abcdef.jpg")
+
+    def test_a_title_the_cache_no_longer_knows_keeps_no_tmdb_residue(self):
+        """A weak entry is dropped as the cache loads; a film that then left the programme
+        is searched no more, and its films-extra entry stood with the candidate's fields."""
+        self.shows(regina())
+        self.extra_write({"paholaiset": {"s": {"fi": "", "en": "Some other film."}, "r": 6.1,
+                                         "tr": "https://www.youtube.com/watch?v=x",
+                                         "img": "data/posters/fedcba9876543210.jpg"}})
+        self.weak_naisen_kasvot()
+        self.assert_no_tmdb_extra("paholaiset")
+
+    def test_an_unmatched_title_keeps_no_tmdb_residue(self):
+        """Here the poster is still the w342 address: the pass wrote it and the mirror
+        step failed to download it, so it was carried as it was."""
+        self.shows(regina(tmdb=7.3, votes=1200, gids=[53], tr="https://www.youtube.com/watch?v=x",
+                          img=W342 + "/4780.jpg"))
+        self.extra_write({"naisen kasvot": {"s": {"fi": "Reginan oma teksti.", "en": "Wrong."},
+                                            "r": 7.3, "tr": "https://www.youtube.com/watch?v=x"}})
+        self.run_main({})
+        self.assertEqual(self.cache()["naisen kasvot"]["i"], "")
+        show = self.area()["shows"][0]
+        self.assert_no_tmdb_fields(show)
+        self.assertNotIn("img", show)
+        fx = self.assert_no_tmdb_extra("naisen kasvot")
+        self.assertEqual(fx["s"]["fi"], "Reginan oma teksti.")
+
+    # 8. repeating the pipeline produces the same clean result
+    def test_a_second_pass_changes_nothing(self):
+        self.seed()
+        self.weak_naisen_kasvot()
+        first = {p.name: p.read_bytes() for p in sorted(self.dir.glob("*.json"))}
+        self.weak_naisen_kasvot()
+        second = {p.name: p.read_bytes() for p in sorted(self.dir.glob("*.json"))}
+        self.assertEqual(first, second)
+        self.assert_no_tmdb_fields(self.area()["shows"][0])
+
+
+class PropagationTest(TrustHarness):
+    """Weak metadata must not reach other screenings through the shared film record."""
+
+    # 6. shared film records, poster fallbacks, title-based sharing
+    def test_a_weak_poster_does_not_reach_a_show_without_one(self):
+        self.shows(regina(), regina(img="", provider="orion", venue="orion"))
+        self.weak_naisen_kasvot()
+        shows = self.area()["shows"]
+        self.assertEqual(shows[0]["img"], regina()["img"])
+        self.assertFalse(shows[1].get("img"))
+        self.assertNotIn("img", self.extra().get("naisen kasvot") or {},
+                         "the sheet's poster fallback")
+
+    def test_a_weak_match_neither_donates_nor_receives_a_classification(self):
+        self.shows(regina(), regina(rating="", provider="orion", venue="orion"))
+        self.weak_naisen_kasvot()
+        shows = self.area()["shows"]
+        self.assertEqual(shows[0]["rating"], "K-12")
+        self.assertEqual(shows[1].get("rating", ""), "")
+        self.assertNotIn("rsrc", shows[1])
+
+    def test_a_weak_match_does_not_merge_two_films_into_one(self):
+        self.shows(regina(), regina(provider="orion", venue="orion"))
+        self.weak_naisen_kasvot()
+        self.assertTrue(all("tmdbId" not in s for s in self.area()["shows"]))
+
+
+class PlaceholderTest(TrustHarness):
+
+    # 7. no reliable poster: the page uses the existing blank tile
+    def test_a_film_without_a_reliable_poster_gets_the_blank_tile(self):
+        self.shows(regina(img=""))
+        self.weak_naisen_kasvot()
+        show = self.area()["shows"][0]
+        html = build_pages.film_block(show["title"], [show], self.extra(), {"fi": {}}, "fi",
+                                      build_pages.L["fi"], False, set())
+        self.assertIn('<div class="poster blank" aria-hidden="true"></div>', html)
+        self.assertNotIn("<img", html)
+        self.assertNotIn("4780", html)
+        self.assertNotIn("Väärä", html)
+
+
+if __name__ == "__main__":
+    unittest.main()
