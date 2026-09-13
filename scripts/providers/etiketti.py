@@ -22,11 +22,12 @@ venue with no row is either out of programme or renamed. `EMPTY_VENUES_CONFIRMED
 run.py publish a fresh empty file for such a venue instead of keeping its last, past
 shows marked stale, but only on positive evidence from this read: the listing's own
 theatre navigation (`/teatterit/<slug>` links, which 6 of the 20 hosts render) names the
-venue with anchor text carrying its registered `match`, every film page was fetched and parsed, and every screening row matched a
-registered venue. A fetch that skipped a page, a page whose screening blocks all lacked a
-readable time, a row naming a place nobody registered, or a venue the navigation does not
-list leaves the venue out of the result, and run.py keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the provider
-read "not updated" for its past shows.
+venue with anchor text carrying its registered `match`, every film page was fetched and
+parsed, and every screening row matched a registered venue. A fetch that skipped a page, a
+page whose screening blocks all lacked a readable time, a row naming a place nobody
+registered, or a venue the navigation does not list leaves the venue out of the result,
+and run.py keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the
+provider read "not updated" for its past shows.
 """
 import re
 import datetime, html as html_mod, json, re, time
