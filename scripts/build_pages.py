@@ -417,13 +417,9 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .times.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr))}
 .grid .stub{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"time aud price";align-items:stretch;min-height:40px}
 .grid .stub .time{grid-area:time;padding:0 10px 0 12px}
-.grid .stub .aud{grid-area:aud;min-width:0;display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:2px 4px;padding:6px 8px 6px 10px;border-left:1px dashed var(--line);line-height:1.2;overflow-wrap:anywhere}
+.grid .stub .aud{grid-area:aud;min-width:0;display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:2px 4px;padding:6px 8px 6px 4px;line-height:1.2;overflow-wrap:anywhere}
 .grid .stub .aud .a{white-space:normal}
-.grid .stub .price{grid-area:price;flex:none;width:auto;display:flex;align-items:center;padding:0 10px 0 4px;border-left:0;font-size:.72rem;color:var(--muted);white-space:nowrap}
-.grid .stub .price:empty{display:none}
-.grid .stub .price::before,.grid .stub .price::after{display:none}
-.grid .stub .aud::before,.grid .stub .aud::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
-.grid .stub .aud::before{top:-5px}.grid .stub .aud::after{bottom:-5px}
+.grid .stub .price{grid-area:price;flex:none;width:auto;display:flex;align-items:center;padding:0 10px 0 8px;font-size:.72rem;color:var(--muted);white-space:nowrap}
 .stub{display:flex;align-items:stretch;min-height:40px;background:var(--chip-bg);border:1px solid var(--line);border-radius:7px;box-shadow:var(--shadow);text-decoration:none;color:inherit;font-variant-numeric:tabular-nums;position:relative;overflow:hidden}
 .stub[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
 .stub .time{display:flex;align-items:center;padding:0 10px 0 12px;font-weight:800;font-size:.92rem;line-height:1.2;white-space:nowrap}
@@ -433,6 +429,7 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
 .stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
+.stub .price:empty{display:none}
 .stub:hover .price{color:var(--bg)}
 .stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .stub:hover .aud{color:var(--bg);opacity:.75}

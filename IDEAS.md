@@ -1833,6 +1833,10 @@ the schedule controls with `display:none`, so they are not tabbable. A pick push
 `?area=` (URL is the location's identity; `/` never grew one before), `onPopState()`
 restores chooser or scope, `loadSeq` drops a schedule that resolves after Back. Invalid
 `?area=` with no favourite: chooser plus one note line. No storage added, nothing sent.
+v142: a boot that fails before any location is on screen (`bootFallback()`) shows the
+chooser with the load-failure line when a link or favourite asked for one, URL and
+favourite untouched; the language toggle draws before the fetches so the fallback is
+switchable; the list ends with "Ja paljon muita…", which opens the picker (3 mutations).
 Not done: generated pages untouched; the Ajat/times view unchanged. Tests:
 `test_home_flow.py` (12, node harness), `test_home_static.py` (12), routing 32; 18
 mutations red. Live at the rig: no `area-*.json` fetched on `/`, Tab order is
@@ -1847,9 +1851,11 @@ reversed on request). Fix: the seam is `.price`'s dashed left border and the not
 drops compartment, seam and notches together. Exception: the Ajat list keeps the empty
 compartment (`.trow`, its 120 px construction). Measured: notch centre equals the price
 boundary on every priced ticket at 320/390/1200, cards and sheet; unpriced Regina ticket
-87.8 px against 143.8. Not changed: generated pages (they still seam after the time in the
-grid; a follow-up rewrites 191 files), markup, data, translations.
-`tests/test_compact_ticket.py`, `tests/test_ticket_anatomy.py` updated.
+87.8 px against 143.8. v142: the Ajat exception keeps only the width (no seam, no
+notches, `.trow .stub .price:empty`), and the generated pages follow (`build_pages.py`
+CSS, 186 files regenerated with `--date recorded`, second run writes nothing; Kotka
+page at 375: notch and price boundary both 214.1, Regina unpriced ticket 65.8).
+`tests/test_compact_ticket.py`, `tests/test_ticket_anatomy.py` updated, 5 mutations red.
 
 ### An empty film search offers the city and the region (2026-09-13, v137)
 A film searched at one cinema on a day it does not play offered the next day it does, and

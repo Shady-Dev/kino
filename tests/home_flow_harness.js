@@ -30,7 +30,7 @@ const HOME = slice('  function showHome(note){', '  window.addEventListener(\'po
 const SEL = slice('  // A Back/Forward entry already names its area', '  function syncVenueBtn(){', 'selectVenue');
 const DAY = slice('  function selectDay(iso){', '  // The venue ids behind a combined view', 'selectDay');
 const LOAD = slice('  async function loadSchedule(opts){', '  // Stale banner and footer credit', 'loadSchedule');
-for (const [src, fn] of [[KNOWN, 'knownArea'], [HOME, 'showHome'], [HOME, 'onPopState'],
+for (const [src, fn] of [[KNOWN, 'knownArea'], [HOME, 'showHome'], [HOME, 'onPopState'], [HOME, 'bootFallback'],
                          [SEL, 'selectVenue'], [LOAD, 'loadSchedule'], [ROUTING, 'areaParamAfterSelect']]) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(src)) {
     console.error('slice does not contain ' + fn);
@@ -95,7 +95,7 @@ const EXPORT = `
       for (const k of Object.keys(jsonCache)) delete jsonCache[k]; calls.length = 0; },
     state: () => state, prefs: () => Object.assign({}, prefsStore), calls: () => calls.slice(),
     main: () => main.innerHTML, classes: () => [...classes], location: () => Object.assign({}, location),
-    homeNote: () => homeNote, cache: jsonCache, selectVenue, showHome, onPopState, fiToday,
+    homeNote: () => homeNote, cache: jsonCache, selectVenue, showHome, onPopState, bootFallback, loadSchedule, fiToday,
   };
 `;
 const sandbox = { Date, Array, Object, Set, Map, Promise, isNaN, console, URL, URLSearchParams, Intl };
@@ -147,6 +147,11 @@ const out = { today };
   await pending2;
   out.stale_failure = snap();
 
+  // a refresh with no location (tab focus, rollover, service-worker update) fetches and draws nothing
+  api.reset(home(), { fav: '' }, { 'data/area-.json': v1 }, 'https://leffavuoro.fi/');
+  await api.loadSchedule();
+  out.refresh_on_chooser = snap();
+
   // Back from a location to /
   api.reset(scoped('v1'), { fav: '' }, {}, 'https://leffavuoro.fi/', true);
   api.onPopState();
@@ -172,6 +177,15 @@ const out = { today };
   api.reset(home(), { fav: '' }, { 'data/area-v1.json': v1 }, 'https://leffavuoro.fi/#m=e');
   await api.selectVenue('v1');
   out.film_link_after_pick = snap();
+
+  // a boot that fails before anything is on screen: the chooser, with the load-failure
+  // line when a link or a favourite had asked for a location
+  const T = { loadFail: 'EI LADATTU' };
+  out.boot_fallback = {
+    fav_or_link_lists_failed: api.bootFallback('', true, T),
+    nothing_asked_lists_failed: api.bootFallback('', false, T),
+    location_already_shown: api.bootFallback('v1', true, T),
+  };
 
   // the <head> script: what it decides, and that it never throws
   const early = (search, storage) => {

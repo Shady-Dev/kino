@@ -416,6 +416,14 @@
     border:1px solid var(--line); border-radius:10px; background:var(--surface);
     color:var(--ink); text-decoration:none; font-weight:600; font-size:.9rem}
   .home .cities a:hover{border-color:var(--muted)}
+  /* The list is the cities with a page of their own; the last item says there are
+     more and opens the picker, which has every city and theatre. Same shape as the
+     links, muted, so it reads as the continuation of the list. */
+  .home .cities .more{order:1}
+  .home .cities .more button{display:inline-flex; align-items:center; min-height:40px; padding:0 14px;
+    border:1px dashed var(--line); border-radius:10px; background:transparent; color:var(--muted);
+    font:inherit; font-weight:600; font-size:.9rem; cursor:pointer}
+  .home .cities .more button:hover{color:var(--ink); border-color:var(--muted)}
   /* What emptied the list: the search as typed, then the filters that are on, one line
      each. Plain text under the message, not chips. A long query wraps inside the column
      rather than widening the page. */
@@ -773,9 +781,11 @@
      the meta line, where the room never breaks across lines. */
   .trow .stub{flex:0 0 auto; width:auto}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
-  /* The one place an empty compartment stays: it is what makes every row's ticket
-     120 px and every title start at one x. The card and sheet tickets drop it. */
-  .trow .stub .price:empty{display:flex}
+  /* The one place an empty compartment keeps its width: it is what makes every row's
+     ticket 120 px and every title start at one x. It keeps nothing else: no seam and no
+     notches, so an unpriced row ticket reads as a plain ticket, as on the cards. */
+  .trow .stub .price:empty{display:flex; border-left:0}
+  .trow .stub .price:empty::before,.trow .stub .price:empty::after{display:none}
   .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
          border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
@@ -925,7 +935,7 @@
     <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
     <div class="note" id="homeNote" data-nosnippet hidden></div>
     <h2>Näytösajat kaupungeittain</h2>
-    <ul class="cities"><!-- cities:start -->
+    <ul class="cities"><li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li><!-- cities:start -->
 <li><a href="/kaupunki/espoo/" data-city="Espoo" data-slug="espoo">Espoo</a></li>
 <li><a href="/kaupunki/helsinki/" data-city="Helsinki" data-slug="helsinki">Helsinki</a></li>
 <li><a href="/kaupunki/jyvaskyla/" data-city="Jyväskylä" data-slug="jyvaskyla">Jyväskylä</a></li>
@@ -1114,6 +1124,7 @@
          homeIntro:'Suomen elokuvateatterien näytösajat yhdessä paikassa.',
          homePick:'Valitse kaupunki tai teatteri', homeByCity:'Näytösajat kaupungeittain',
          homeUnknown:'Linkin teatteria tai kaupunkia ei löytynyt. Valitse toinen.',
+         homeMore:'Ja paljon muita…',
          loadFail:'Näytöstietoja ei juuri nyt saatu ladattua.',
          dataLabel:'Näytöstiedot', updated:'päivitetty',
          actCombined:'Näytösajasta teatterin omalle sivulle',
@@ -1177,6 +1188,7 @@
          homeIntro:'Visningstider för biografer i Finland på ett ställe.',
          homePick:'Välj stad eller biograf', homeByCity:'Visningstider per stad',
          homeUnknown:'Biografen eller staden i länken hittades inte. Välj en annan.',
+         homeMore:'Och många fler…',
          loadFail:'Tidtabellen kunde inte laddas just nu.',
          dataLabel:'Tidtabeller', updated:'uppdaterad',
          actCombined:'Tryck på en föreställning för att öppna biografens egen sida',
@@ -1237,6 +1249,7 @@
          homeIntro:'Cinema showtimes across Finland in one place.',
          homePick:'Choose a city or cinema', homeByCity:'Showtimes by city',
          homeUnknown:'The cinema or city in the link was not found. Choose another.',
+         homeMore:'And many more…',
          loadFail:"Couldn't load the schedule right now.",
          dataLabel:'Schedule data', updated:'updated',
          actCombined:'Tap a showtime to open the cinema\u2019s own page',
@@ -2147,16 +2160,18 @@
     const note = home.querySelector('#homeNote');
     if(note){ note.textContent = homeNote; note.hidden = !homeNote; }
     const ul = home.querySelector('.cities');
-    const items = [...ul.querySelectorAll('li')];
+    const more = ul.querySelector('#homeMore');
+    if(more) more.textContent = T.homeMore;
+    const items = [...ul.querySelectorAll('li')].filter(li => li.querySelector('a[data-city]'));
     for(const li of items){
       const a = li.querySelector('a');
-      if(!a) continue;
       a.textContent = cityLabel(a.dataset.city);
       a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang);
     }
     const cmp = new Intl.Collator(COLLATE[state.lang]).compare;   // `coll` is built later in boot
     items.sort((x, y) => cmp(x.textContent, y.textContent));
     for(const li of items) ul.appendChild(li);
+    if(more) ul.appendChild(more.parentElement);                  // the "more" item stays last
   }
   function showHome(note){
     loadSeq++;                              // a schedule still in flight lands nowhere
@@ -2184,6 +2199,15 @@
     }
     if(!id && !scoped && !state.area) return;      // already the chooser
     showHome(id ? L[state.lang].homeUnknown : '');
+  }
+  // What a boot that fails before any location is on screen shows: the chooser, so
+  // the intro and the city links stay usable, with the load-failure line when a link
+  // or a favourite had asked for a location and the lists never came (`scoped`). A
+  // location already on screen keeps the schedule's own error and its controls: null.
+  // The URL and the favourite are left as they are; nothing else is chosen.
+  function bootFallback(area, scoped, T){
+    if(area) return null;
+    return scoped ? T.loadFail : '';
   }
   window.addEventListener('popstate', onPopState);
   // --- end chooser ---------------------------------------------------------------------
@@ -2422,6 +2446,9 @@
   // `opts.keepDay`: the caller chose the day on purpose and the late-evening advance
   // below must leave it, decided before anything is drawn so nothing flickers.
   async function loadSchedule(opts){
+    // The chooser has no schedule: a refresh on tab focus, a rollover or a service-worker
+    // update must leave it alone rather than fetch `area-.json` and draw a 404 over it.
+    if(!state.area) return;
     const keepDay = !!(opts && opts.keepDay);
     const seq = ++loadSeq;
     const area = state.area;
@@ -3088,6 +3115,7 @@
     !!groupIdsOf(state.area) || new Set(shows.map(s => s.theatre)).size > 1;
 
   function render(){
+    if(!state.area) return;                 // the chooser is not a list to redraw
     if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
     const byEvent = new Map();
@@ -3489,6 +3517,9 @@
   matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });
   overlayEl.onclick = closeSheet;
   main.addEventListener('click', e => {
+    // The chooser's "and many more" opens the picker. Delegated: showHome() replaces
+    // the markup, so a listener on the button itself would not survive Back.
+    if(e.target.closest('#homeMore')){ openVenueSheet(); return; }
     // Controls inside a card must not also open the movie sheet. This used to test only
     // `a.stub`, so the past-times toggle (a button) opened the sheet on every click.
     if(e.target.closest('a.stub, [data-reveal], [data-goto], [data-clearfilters], .lg-btn')) return;
@@ -3776,6 +3807,9 @@
         }
       }
       buildDays();
+      // The language toggle depends on nothing fetched, and a boot that fails on the
+      // venue lists falls back to the chooser, which has to be switchable too.
+      drawLangSeg();
       // Genre names are cosmetic: genresOf falls back to provider strings until the map
       // arrives, and ensureGenres invalidates every _hay on arrival, so this never
       // belongs on the critical path.
@@ -3812,10 +3846,12 @@
       // that names the film is here, since showSheet reads it from jsonCache.
       if(location.hash) syncSheet();
     } catch(e){
-      if(!state.area && !document.documentElement.classList.contains('scoped')){
-        // The venue lists did not arrive and nothing was asked for: the static chooser
-        // stands, its city links are plain pages and need none of this.
-        showHome();
+      const note = bootFallback(state.area, document.documentElement.classList.contains('scoped'),
+                                L[state.lang]);
+      if(note !== null){
+        // Nothing is on screen yet: the chooser, its city links being plain pages that
+        // need none of what failed. See bootFallback.
+        showHome(note);
         return;
       }
       setListStatus('');

@@ -60,6 +60,13 @@ class HomeFlowTest(unittest.TestCase):
         self.assertNotIn("ERR", s["main"])
         self.assertEqual(s["area"], "")
 
+    def test_a_refresh_on_the_chooser_fetches_and_draws_nothing(self):
+        """refreshAll() runs on tab focus and rollover and ends in loadSchedule(); with no
+        location that used to fetch `data/area-.json` and draw its 404 over the chooser."""
+        s = self.o["refresh_on_chooser"]
+        self.assertEqual(s["calls"], [])
+        self.assertEqual(s["main"], '<section id="home">HOME</section>')
+
     def test_back_to_the_bare_page_restores_the_chooser(self):
         s = self.o["back_to_home"]
         self.assertEqual((s["area"], s["classes"], s["homeNote"]), ("", [], ""))
@@ -89,6 +96,13 @@ class HomeFlowTest(unittest.TestCase):
         s = self.o["film_link_after_pick"]
         self.assertEqual(s["calls"][-1], "syncSheet")
         self.assertEqual(s["search"], "?area=v1")
+
+    # 7. a boot that fails before anything is on screen recovers to the chooser
+    def test_a_failed_boot_shows_the_chooser_with_the_load_failure_line(self):
+        b = self.o["boot_fallback"]
+        self.assertEqual(b["fav_or_link_lists_failed"], "EI LADATTU")
+        self.assertEqual(b["nothing_asked_lists_failed"], "")
+        self.assertIsNone(b["location_already_shown"], "the schedule's own error stands")
 
     # 1, 4, 7. the first paint decision
     def test_the_head_script_scopes_only_a_link_or_a_favourite(self):

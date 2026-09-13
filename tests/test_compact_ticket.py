@@ -58,8 +58,10 @@ class ClientCompactTicketTest(unittest.TestCase):
     def test_no_price_means_no_compartment_seam_or_notches(self):
         self.assertEqual(rule(HTML, ".stub .price:empty"), "display:none")
         self.assertIsNone(rule(HTML, ".stubs.grid .stub .price:empty"))
-        # the Ajat list is the exception: its ticket stays 120 px wide by construction
-        self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "display:flex")
+        # the Ajat list keeps the width (its ticket stays 120 px by construction) and
+        # nothing else: no seam, no notches
+        self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "display:flex; border-left:0")
+        self.assertEqual(rule(HTML, ".trow .stub .price:empty::before,.trow .stub .price:empty::after"), "display:none")
 
     def test_the_price_is_ink_and_a_step_below_the_time(self):
         price, time = rule(HTML, ".stub .price"), rule(HTML, ".stub .time")
@@ -145,13 +147,15 @@ class GeneratedCompactTicketTest(unittest.TestCase):
         self.assertIsNone(rule(GEN, ".stub .aud::before,.stub .aud::after"))   # the row's notches moved to the price
         self.assertNotIn(".stub .time + .price", GEN)
 
-    def test_the_generated_combined_view_is_untouched(self):
-        self.assertEqual(rule(GEN, ".grid .stub .price:empty"), "display:none")
-        self.assertEqual(rule(GEN, ".grid .stub .price::before,.grid .stub .price::after"), "display:none")
-        self.assertIn("left:-4px", rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
-        self.assertIn("border-left:1px dashed var(--line)", rule(GEN, ".grid .stub .aud"))
+    def test_the_generated_tickets_perforate_before_the_price_too(self):
+        """Since 2026-09-13 the pages follow the app: the seam and notches are the price
+        compartment's in the grid as well, and an empty compartment is dropped."""
+        self.assertEqual(rule(GEN, ".stub .price:empty"), "display:none")
+        self.assertIsNone(rule(GEN, ".grid .stub .price::before,.grid .stub .price::after"))
+        self.assertIsNone(rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
+        self.assertNotIn("border-left", rule(GEN, ".grid .stub .aud"))
         grid_price = rule(GEN, ".grid .stub .price")
-        self.assertIn("border-left:0", grid_price); self.assertIn("color:var(--muted)", grid_price)
+        self.assertNotIn("border-left:0", grid_price); self.assertIn("color:var(--muted)", grid_price)
 
     def test_no_film_level_price(self):
         html = self.block([self.show(), self.show(start="2026-09-02T18:00:00+03:00", price="13\u20ac")])

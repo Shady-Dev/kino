@@ -81,13 +81,15 @@ class GeneratedTicketTest(unittest.TestCase):
     def test_the_city_page_no_longer_hides_the_notches(self):
         self.assertNotRegex(GEN, r"\.grid \.stub \.aud::before,\.grid \.stub \.aud::after\{display:none\}")
 
-    def test_the_seam_is_the_details_border_and_the_notches_ride_on_it(self):
-        """The generator's combined-view notches are pseudo-elements of `.aud` at
-        left:-4px, so their centre sits on its left border wherever the time compartment
-        ends. (The row ticket's notches moved to its price compartment on 2026-09-02.)"""
-        self.assertIn("left:-4px", rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
+    def test_the_seam_is_the_price_border_and_the_notches_ride_on_it(self):
+        """The generator's notches are pseudo-elements of `.price` at left:-4px in both
+        tickets, so their centre sits on the price compartment's dashed border; the
+        details compartment has no seam of its own (2026-09-13; until then the grid seam
+        sat after the time)."""
+        self.assertIn("left:-4px", rule(GEN, ".stub .price::before,.stub .price::after"))
+        self.assertIsNone(rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
         grid_aud = rule(GEN, ".grid .stub .aud")
-        self.assertIn("border-left:1px dashed var(--line)", grid_aud)
+        self.assertNotIn("border-left", grid_aud)
         self.assertIn("flex-wrap:wrap", grid_aud)
         self.assertIn("min-width:0", grid_aud)
         self.assertIn("overflow-wrap:anywhere", grid_aud)

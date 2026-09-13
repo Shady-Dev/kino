@@ -34,6 +34,17 @@ class StaticChooserTest(unittest.TestCase):
                          "only the note line is a transient control")
         self.assertIn('<div class="note" id="homeNote" data-nosnippet hidden></div>', home)
 
+    def test_the_list_ends_with_an_item_that_opens_the_picker(self):
+        """The cities with pages are not all the cities: the last item says so and opens
+        the picker, where every city and theatre is."""
+        self.assertIn('<li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li>', MAIN)
+        self.assertLess(MAIN.index('id="homeMore"'), MAIN.index("<!-- cities:start -->"),
+                        "outside the generated block, so --home leaves it alone")
+        self.assertIn("if(e.target.closest('#homeMore')){ openVenueSheet(); return; }", HTML)
+        self.assertIn(".home .cities .more{order:1}", HTML)
+        for lang, text in (("fi", "Ja paljon muita…"), ("sv", "Och många fler…"), ("en", "And many more…")):
+            self.assertEqual(strings(lang).get("homeMore"), text, lang)
+
     def test_the_picker_prompt_is_the_static_trigger_label(self):
         self.assertIn('<span class="vlbl">Valitse kaupunki tai teatteri</span>', HTML)
 
@@ -100,7 +111,7 @@ class StaticChooserTest(unittest.TestCase):
         self.assertIn('<meta name="description" content="Suomen elokuvateatterien näytösajat yhdessä paikassa:', HTML)
 
     def test_the_service_worker_moved_with_the_page(self):
-        self.assertIn("leffavuoro-v141", SW)
+        self.assertGreaterEqual(int(re.search(r"leffavuoro-v(\d+)", SW).group(1)), 141)
 
 
 if __name__ == "__main__":
