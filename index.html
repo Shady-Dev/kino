@@ -674,7 +674,7 @@
   }
   .legend.top{max-width:1100px; margin:0 auto; padding:0 20px 4px}
   .stub{
-    --r:7px; --pw:56px;
+    --r:7px; --pw:56px; --pe:16px;
     display:inline-flex; align-items:center; text-decoration:none; min-height:40px;
     background:var(--chip-bg); border:1px solid var(--line);
     border-radius:var(--r); box-shadow:var(--shadow);
@@ -699,9 +699,10 @@
   /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
      The dashed seam is its left border and the notches are its own pseudo-elements,
      centred on that border, so the perforation is anchored to the price wherever the
-     compartment lands. No price, no compartment: the ticket ends after the details,
-     with no seam and no notches (2026-09-13; until then a blank compartment was kept
-     for a shared silhouette). Never a dash, "free" or a zero. Ink, bold, .78rem: read as
+     compartment lands. No price: the compartment narrows to a 16 px tail (--pe) and
+     keeps the seam and notches, so every ticket is perforated on the right and reads as
+     a ticket (v153; v140 to v152 dropped the tail, which read as lost styling; v102 to
+     v139 kept a blank 56 px box, which wasted the row). Never a dash, "free" or a zero. Ink, bold, .78rem: read as
      a fact of the ticket, a step below the .92rem time and never a badge. "alkaen 10€"
      wraps to two lines inside the compartment. */
   .stub .price{
@@ -711,13 +712,10 @@
     font-size:.78rem; font-weight:700; line-height:1.1; color:var(--ink);
     position:relative;
   }
-  .stub .price:empty{display:none}
+  .stub .price:empty{flex:0 0 var(--pe); width:var(--pe); padding:0}
   /* The combined ticket's own price rule (0,4,0) outranks the line above (0,3,0), so
-     its empty compartment kept rendering with seam and notches, 19 px wide, on every
-     unpriced ticket of a combined view: 26 of 29 in the Tampere sheet on 2026-09-13.
-     Restated at the higher specificity. The generator's `.grid .stub .price` is 0,3,0
-     and loses to its later `:empty` rule, so the city pages were right all along. */
-  .stubs.grid .stub .price:empty{display:none}
+     the tail has to be restated at that level or the grid keeps its auto width. */
+  .stubs.grid .stub .price:empty{width:var(--pe); min-width:var(--pe); padding:0}
   .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink)}
   /* perforation notches, centred on the seam */
   .stub .price::before,.stub .price::after{
@@ -832,11 +830,10 @@
      the meta line, where the room never breaks across lines. */
   .trow .stub{flex:0 0 auto; width:auto}
   .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
-  /* The one place an empty compartment keeps its width: it is what makes every row's
-     ticket 120 px and every title start at one x. It keeps nothing else: no seam and no
-     notches, so an unpriced row ticket reads as a plain ticket, as on the cards. */
-  .trow .stub .price:empty{display:flex; border-left:0}
-  .trow .stub .price:empty::before,.trow .stub .price:empty::after{display:none}
+  /* The Ajat ticket keeps the full 56 px compartment when empty, seam and notches
+     included: it is what makes every row's ticket 120 px and every title start at one
+     x, and since v153 every ticket is perforated on the right anyway. */
+  .trow .stub .price:empty{flex:0 0 var(--pw); width:var(--pw)}
   .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
          border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}

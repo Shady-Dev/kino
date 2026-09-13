@@ -88,7 +88,8 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
 .stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
-.stub .price:empty{display:none}
+.stub .price:empty{flex:0 0 16px;width:16px;padding:0}
+.grid .stub .price:empty{width:16px;min-width:16px;padding:0}
 .stub:hover .price{color:var(--bg)}
 .stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .stub:hover .aud{color:var(--bg);opacity:.75}

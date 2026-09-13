@@ -429,7 +429,8 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
 .stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
-.stub .price:empty{display:none}
+.stub .price:empty{flex:0 0 16px;width:16px;padding:0}
+.grid .stub .price:empty{width:16px;min-width:16px;padding:0}
 .stub:hover .price{color:var(--bg)}
 .stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .stub:hover .aud{color:var(--bg);opacity:.75}
@@ -644,8 +645,8 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
         parts = stub_parts(s, with_venue, lang, own_lang=own_lang)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
-        # Always emitted, so the markup is one shape; the CSS hides an empty compartment
-        # (`:empty`) together with its seam and notches in both layouts (2026-09-13).
+        # Always emitted, so the markup is one shape; an empty compartment (`:empty`) narrows
+        # to a 16 px tail and keeps its seam and notches in both layouts (2026-09-13, v153).
         own_price = price_label([s], lang)
         price = f'<span class="price">{esc(own_price)}</span>'
         cls = f" chain-{esc(s['venueProvider'])}" if with_venue and s.get("venueProvider") else ""

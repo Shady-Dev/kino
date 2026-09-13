@@ -55,17 +55,22 @@ class ClientCompactTicketTest(unittest.TestCase):
         self.assertNotIn("var(--tw) - 4px", HTML)
         self.assertNotIn("--notch:", HTML)
 
-    def test_no_price_means_no_compartment_seam_or_notches(self):
-        self.assertEqual(rule(HTML, ".stub .price:empty"), "display:none")
-        # The combined ticket's price rule is one class more specific than `.stub .price:empty`,
-        # so the hide has to be said again at that level or the empty compartment renders
-        # (it did, v140 to v151).
-        self.assertEqual(rule(HTML, ".stubs.grid .stub .price:empty"), "display:none")
+    def test_no_price_means_a_narrow_tail_with_seam_and_notches(self):
+        """v153: every ticket is perforated on the right. An empty compartment narrows to
+        16 px (--pe) and keeps the seam and notches; v140 to v152 dropped it, which read as
+        lost styling, and v102 to v139 kept a blank 56 px box."""
+        self.assertIn("--pe:16px", rule(HTML, ".stub"))
+        self.assertEqual(rule(HTML, ".stub .price:empty"), "flex:0 0 var(--pe); width:var(--pe); padding:0")
+        # The combined ticket's price rule is one class more specific, so the tail width
+        # has to be said again at that level or the grid keeps its auto width.
+        self.assertEqual(rule(HTML, ".stubs.grid .stub .price:empty"), "width:var(--pe); min-width:var(--pe); padding:0")
         self.assertLess(HTML.index(".stubs.grid .stub .price{"), HTML.index(".stubs.grid .stub .price:empty{"))
-        # the Ajat list keeps the width (its ticket stays 120 px by construction) and
-        # nothing else: no seam, no notches
-        self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "display:flex; border-left:0")
-        self.assertEqual(rule(HTML, ".trow .stub .price:empty::before,.trow .stub .price:empty::after"), "display:none")
+        for gone in ("display:none", "border-left:0"):
+            self.assertNotIn(gone, rule(HTML, ".stub .price:empty"))
+        # the Ajat list keeps the full 56 px compartment: every row ticket 120 px, and its
+        # seam and notches with it
+        self.assertEqual(rule(HTML, ".trow .stub .price:empty"), "flex:0 0 var(--pw); width:var(--pw)")
+        self.assertNotIn(".trow .stub .price:empty::before", HTML)
 
     def test_the_price_is_ink_and_a_step_below_the_time(self):
         price, time = rule(HTML, ".stub .price"), rule(HTML, ".stub .time")
@@ -153,8 +158,10 @@ class GeneratedCompactTicketTest(unittest.TestCase):
 
     def test_the_generated_tickets_perforate_before_the_price_too(self):
         """Since 2026-09-13 the pages follow the app: the seam and notches are the price
-        compartment's in the grid as well, and an empty compartment is dropped."""
-        self.assertEqual(rule(GEN, ".stub .price:empty"), "display:none")
+        compartment's in the grid as well, and an empty compartment is a 16 px tail (v153)."""
+        self.assertEqual(rule(GEN, ".stub .price:empty"), "flex:0 0 16px;width:16px;padding:0")
+        self.assertEqual(rule(GEN, ".grid .stub .price:empty"), "width:16px;min-width:16px;padding:0")
+        self.assertLess(GEN.index(".grid .stub .price{"), GEN.index(".grid .stub .price:empty{"))
         self.assertIsNone(rule(GEN, ".grid .stub .price::before,.grid .stub .price::after"))
         self.assertIsNone(rule(GEN, ".grid .stub .aud::before,.grid .stub .aud::after"))
         self.assertNotIn("border-left", rule(GEN, ".grid .stub .aud"))

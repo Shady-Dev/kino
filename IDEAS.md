@@ -1923,6 +1923,19 @@ left bare, else chooser); `loadSeq` drops a load resolving after Back; `loadSche
 shows the chooser plus the load-failure line when the venue lists fail. No storage added,
 nothing sent. Tests: `test_home_flow.py`, `test_home_static.py`, `test_area_routing.py`.
 
+### An unpriced ticket keeps a narrow perforated tail (2026-09-13, v153)
+Reversal of v140, on request the same evening: with no compartment at all the unpriced
+tickets read as lost styling ("the cut-off belongs on the right"). Two mocks compared at
+375 via the rig's `css=`: the v102 blank 56 px box (row tickets 340 px, combined venue
+text on two lines) and a 16 px tail; the tail was chosen, priced tickets untouched.
+Fix: `--pe:16px` on `.stub`; `.stub .price:empty{flex:0 0 var(--pe); width:var(--pe);
+padding:0}` and the same width at the grid's 0,4,0 level; the Ajat ticket keeps its full
+56 px compartment, seam and notches now included, so every ticket is perforated on the
+right. Generator: the same two rules, 186 pages regenerated with `--date recorded`, second
+run writes nothing. Measured: tail 16.0 px, notch centre on the seam, priced compartments
+41.9 and 80.6 px unchanged, city pages identical. `tests/test_compact_ticket.py` updated,
+5 mutations red.
+
 ### The combined ticket kept its empty compartment (2026-09-13, v152)
 Bug: v140 hid an unpriced compartment with `.stub .price:empty{display:none}` (0,3,0),
 but the combined ticket's `.stubs.grid .stub .price{display:flex…}` is 0,4,0 and won, so
@@ -1934,6 +1947,7 @@ Fix: `.stubs.grid .stub .price:empty{display:none}` after the grid rule; the
 order. Two mutations red.
 
 ### The perforation sits before the price (2026-09-13, v140)
+Reversed in part by v153 the same day: the empty compartment came back as a 16 px tail.
 Bug: on the combined ticket the dashed seam and notches sat after the time (`--tw`) with
 the price loose at the far right; on the row ticket an unpriced screening kept a blank
 56 px compartment with seam and notches (the 2026-09-02 "shared silhouette" decision,
