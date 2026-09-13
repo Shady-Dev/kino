@@ -3371,8 +3371,8 @@ Fix: `.vrow:hover mark{color:var(--ink)}`; the rest state keeps the accent and t
 weight marks the hit in both states. Rejected: retuning `--accent-soft` (a ground under
 many controls) or `--accent-text` (eight text rules already measured on it).
 Tests: `SearchHighlightTest` resolves the tokens each rule names and measures the pair
-at rest and hovered in both themes, and pins that the light pair is under the floor so the
-rule can be dropped if the tokens move. Two mutations red.
+at rest and hovered in both themes; nothing pins the old pair under the floor, so a retune
+of either token stays green. Two mutations red.
 
 ### The landing-page tests build for the recorded day too (2026-09-13)
 Bug: `tests/test_landing_pages.py` built its pages with `bp.main()`, the clock's day. On

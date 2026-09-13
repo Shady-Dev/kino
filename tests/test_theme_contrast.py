@@ -209,7 +209,8 @@ class SearchHighlightTest(unittest.TestCase):
     """The picker's search hit (`.vrow mark`) is measured on the grounds it actually
     sits on: the sheet's --bg at rest and --accent-soft on a hovered row. --accent-text
     on --accent-soft measured 4.41:1 in the light theme on 2026-09-13, so the hovered
-    hit paints --ink. The rest state keeps the accent."""
+    hit paints --ink. The rest state keeps the accent. Both pairs are measured through
+    the tokens the rules name, so a retune of either token is measured, never pinned."""
 
     def test_the_hit_at_rest_keeps_the_text_token_and_is_readable(self):
         fg, bg = rule_token(".vrow mark", "color"), rule_token(".vsheet", "background")
@@ -227,12 +228,6 @@ class SearchHighlightTest(unittest.TestCase):
                 ratio = contrast(t[fg], t[bg])
                 self.assertGreaterEqual(ratio, AA_TEXT,
                                         f"hovered hit --{fg} on --{bg} is {ratio:.3f}:1")
-
-    def test_the_hover_ground_is_the_one_the_text_token_fails_on(self):
-        """Pins why the hover rule exists: if --accent-soft or --accent-text moves so the
-        pair clears 4.5:1 in both themes, the hover rule can go."""
-        light = contrast(LIGHT["accent-text"], LIGHT["accent-soft"])
-        self.assertLess(light, AA_TEXT, f"light --accent-text on --accent-soft is {light:.3f}:1")
 
 
 if __name__ == "__main__":
