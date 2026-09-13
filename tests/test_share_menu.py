@@ -118,6 +118,9 @@ class ShareMarkupTest(unittest.TestCase):
         self.assertIn("await navigator.clipboard.writeText(url); toast(T.linkCopied);", fn)
         self.assertNotIn("esc(", fn, "the payload is plain text")
         self.assertIn("toastEl.setAttribute('role', 'status');", HTML)
+        self.assertLess(HTML.index("document.body.appendChild(toastEl);"), HTML.index("function toast(msg){"),
+                        "the live region is in the tree from boot, empty; a region created and filled in one tick is often not announced")
+        self.assertNotIn("if(!toastEl)", HTML)
         self.assertIn("setListStatus(msg);", re.search(r"function toast\(msg\)\{.*?\n  \}\n", HTML, re.S).group(0))
 
     def test_the_strings_in_all_three_languages(self):

@@ -1825,6 +1825,8 @@ on a #FFFFFF surface, invisible; now `--accent-soft` (ink 14.7:1 light, 13.2:1 d
 the muted subline 4.95:1 and 4.98:1).
 v150: Tab inside the menu closed it without refocusing, so the default Tab started from
 body; it now closes with focus on the dots and the default Tab moves on from there.
+v151: the `role="status"` toast element is created empty at boot and only filled in
+`toast()`; a live region inserted and filled in one tick is often not announced.
 
 ### A screening link names its venue too (2026-09-13, v148)
 Bug (review of v144): `screeningTarget()` matched on the instant alone and the mark took

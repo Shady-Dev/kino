@@ -3728,13 +3728,13 @@
   // closes, so nothing stale survives a re-render. `sheetCtx` is what showSheet drew:
   // the film's screenings by index, the title and the film id the fragment uses.
   const DOTS = '<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg>';
-  let sheetCtx = null, openTk = null, toastEl = null, toastTimer = 0;
+  let sheetCtx = null, openTk = null, toastTimer = 0;
+  // The live region exists, empty, from boot: a role="status" element inserted and
+  // filled in the same tick is often not announced (review of v145).
+  const toastEl = document.createElement('div');
+  toastEl.className = 'toast'; toastEl.setAttribute('role', 'status');
+  document.body.appendChild(toastEl);
   function toast(msg){
-    if(!toastEl){
-      toastEl = document.createElement('div');
-      toastEl.className = 'toast'; toastEl.setAttribute('role', 'status');
-      document.body.appendChild(toastEl);
-    }
     toastEl.textContent = msg; toastEl.classList.add('on');
     setListStatus(msg);
     clearTimeout(toastTimer);
