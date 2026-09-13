@@ -2043,16 +2043,20 @@
     } catch(_){}
   }
 
-  // `keepChains`: a wider search repeats the same search in a bigger scope, so the chain
-  // restriction travels with it; a pick from the venue list starts clean as before.
-  function selectVenue(id, keepChains){
+  // `opts.keepChains`: a wider search repeats the same search in a bigger scope, so the
+  // chain restriction travels with it. `opts.keepDay`: the selected day is part of that
+  // search too, so the load must not advance it even when the wider scope has nothing on
+  // it. A pick from the venue list passes neither and behaves as before.
+  function selectVenue(id, opts){
+    const o = opts || {};
     state.area = id; prefs.set({ area: id });
     // Keep a deep-linked URL pointing at what is on screen, so a reload does not bounce
     // the reader back to the venue they arrived on and then navigated away from.
     const q = areaParamAfterSelect(location.search, id);
     if(q !== null) replaceQuery(q);
-    if(!keepChains) state.chains = null;
-    syncFav(); syncVenueBtn(); loadSchedule();
+    if(!o.keepChains) state.chains = null;
+    syncFav(); syncVenueBtn();
+    return loadSchedule({ keepDay: !!o.keepDay });
   }
   function syncVenueBtn(){
     const el = areaSel.querySelector('.vlbl');
@@ -2265,7 +2269,10 @@
   }
   // --- end city fold ---
 
-  async function loadSchedule(){
+  // `opts.keepDay`: the caller chose the day on purpose and the late-evening advance
+  // below must leave it, decided before anything is drawn so nothing flickers.
+  async function loadSchedule(opts){
+    const keepDay = !!(opts && opts.keepDay);
     setListStatus('');
     main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
     try {
@@ -2286,7 +2293,7 @@
         .map(s => ({ ...s, start: new Date(s.start) }))
         .filter(s => fiDate(s.start) === state.dateStr);
       // Late evening with nothing left today: move to the next day that has shows.
-      if(!state.advanced && state.dateStr === fiToday() && !state.shows.length){
+      if(!keepDay && !state.advanced && state.dateStr === fiToday() && !state.shows.length){
         const next = (state.dates || []).find(x => x > state.dateStr);
         if(next){
           state.advanced = true;
@@ -2795,8 +2802,9 @@
   // picker trigger, which now names the new scope, as the button goes away with the list.
   function widenTo(id){
     if(!groupIdsOf(id)) return;
-    selectVenue(id, true);
+    const done = selectVenue(id, { keepChains: true, keepDay: true });
     areaSel.focus();
+    return done;
   }
   // What an empty list offers: the next day that has screenings, or clearing the filter
   // that emptied it. With a search on, the next day that search finds something and the

@@ -99,12 +99,13 @@ class WiringTest(unittest.TestCase):
 
     def test_activation_changes_the_area_only_and_keeps_the_chains(self):
         body = HTML[HTML.index("function widenTo("):HTML.index("function emptyActions()")]
-        self.assertIn("selectVenue(id, true)", body)
+        self.assertIn("selectVenue(id, { keepChains: true, keepDay: true })", body)
         self.assertIn("areaSel.focus()", body)
         self.assertNotIn("state.filter", body)
         self.assertNotIn("prefs.set", body)
-        sel = HTML[HTML.index("function selectVenue(id, keepChains)"):HTML.index("function syncVenueBtn()")]
-        self.assertIn("if(!keepChains) state.chains = null;", sel)
+        sel = HTML[HTML.index("function selectVenue(id, opts)"):HTML.index("function syncVenueBtn()")]
+        self.assertIn("if(!o.keepChains) state.chains = null;", sel)
+        self.assertIn("return loadSchedule({ keepDay: !!o.keepDay });", sel)
         self.assertIn("prefs.set({ area: id })", sel)
         self.assertNotIn("fav", sel.replace("syncFav", ""))
 

@@ -1782,7 +1782,9 @@ are approved wording with SV and EN counterparts; every other place takes `Laaje
 {area}` with the registry's translated name after a colon, never an inflected suffix.
 Activation goes through `selectVenue(id, true)`: the area, its `prefs.area` slot and the
 `?area=` param move as for any pick, the chain restriction is kept (a plain pick still
-resets it), search, day, chips, view and the favourite are untouched, focus lands on the
+resets it), the day is kept through the load (`loadSchedule({keepDay})` skips the
+late-evening advance, decided before anything is drawn; a plain pick still advances),
+search, chips, view and the favourite are untouched, focus lands on the
 picker trigger that now names the scope, and `#listStatus` announces the result as on any
 render. `.nextday.wider` is the same 44 px pill without fill at weight 500. Measured live
 at 320 and 390: Kino Regina with a search offered both, the city click kept the search,
