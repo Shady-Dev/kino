@@ -1923,6 +1923,20 @@ left bare, else chooser); `loadSeq` drops a load resolving after Back; `loadSche
 shows the chooser plus the load-failure line when the venue lists fail. No storage added,
 nothing sent. Tests: `test_home_flow.py`, `test_home_static.py`, `test_area_routing.py`.
 
+### A design contract guards the ticket (2026-09-13)
+Bug: the perforation left unpriced tickets in v140 because a task spec said so, although
+the v102 entry here had decided the opposite; the tests that pinned it were rewritten in
+the same commit, so nothing resisted. Tests that pin the current CSS and travel with it
+guard nothing.
+Fix: `DESIGN.md` names the decisions (the ticket's anatomy: 40 px, 7 px radius, .92rem/800
+time, 56 px price, 16 px tail, dashed seam, 8 px notches at -4 px, perforation always
+present) and its change procedure: explicit written instruction naming the file, dated
+entry here, same commit. `tests/test_design_contract.py` checks `index.html` and
+`build_pages.py` against the file's values, 9 mutations red (hidden tail, grid hide, Ajat
+seam, hidden notches, 44 px, 12 px tail, generator hide, solid seam, CLAUDE.md silent).
+`ci.yml` refuses a push touching `DESIGN.md` or that test without an `IDEAS.md` change in
+the push range. CLAUDE.md "Design contract" says the same in the working rules.
+
 ### An unpriced ticket keeps a narrow perforated tail (2026-09-13, v153)
 Reversal of v140, on request the same evening: with no compartment at all the unpriced
 tickets read as lost styling ("the cut-off belongs on the right"). Two mocks compared at

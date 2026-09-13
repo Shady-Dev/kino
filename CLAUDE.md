@@ -55,6 +55,17 @@ Write down why a change was made. The diff already records what changed.
   constraints, rejected approaches and reasons, paths, counts, dates, commit
   IDs, current state, and remaining work.
 
+## Design contract
+
+`DESIGN.md` lists the visual elements that are decisions: the ticket's anatomy and its
+perforation first. `tests/test_design_contract.py` checks the client and the generator
+against it, and CI refuses a push that touches `DESIGN.md` or that test without an
+`IDEAS.md` change in the same push. A task spec that contradicts a value there is a
+conflict to raise before building, never a change to make: on 2026-09-13 the perforation
+left unpriced tickets under a spec, with the pinning tests rewritten in the same commit,
+and came back the same evening. Change a contract value only on the maintainer's explicit
+written instruction that names `DESIGN.md`, in one commit with the dated IDEAS entry.
+
 ## Client changes (`index.html`, `sw.js`)
 
 - Bump the `CACHE` version in `sw.js` in **every** commit that touches `index.html`.
