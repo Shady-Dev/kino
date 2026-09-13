@@ -266,6 +266,9 @@
     white-space:nowrap}
   .vrow .vtxt small{color:var(--muted)}
   .vrow mark{background:none; color:var(--accent-text); font-weight:700}
+  /* The hover ground is --accent-soft, where --accent-text measures 4.41:1 in the
+     light theme, under the 4.5 text floor; the weight keeps the hit visible. */
+  .vrow:hover mark{color:var(--ink)}
   .vrow.vall .vtxt{font-weight:600}
   /* Areas are a second view rather than more rows in the list, so the switch costs one
      line in the head once instead of a row per area, and the city list stays the length

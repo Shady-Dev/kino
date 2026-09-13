@@ -3362,6 +3362,18 @@ volatile-markup rule); freezing CI's clock to the commit's date (a build straddl
 midnight would be irreproducible). `tests/test_build_date.py` builds a synthetic two-venue
 city against a patched clock.
 
+### The hovered search hit paints ink (2026-09-13, v155)
+Bug: `.vrow mark` is `--accent-text`, tuned for `--bg` and `--surface` (4.97 and 5.32:1
+light). A hovered picker row paints `--accent-soft`, and there the same token measures
+4.41:1 in the light theme, under the 4.5 text floor. The theme test measured the token on
+the two surfaces only, so the pairing was never checked. Dark is 8.36:1 either way.
+Fix: `.vrow:hover mark{color:var(--ink)}`; the rest state keeps the accent and the bold
+weight marks the hit in both states. Rejected: retuning `--accent-soft` (a ground under
+many controls) or `--accent-text` (eight text rules already measured on it).
+Tests: `SearchHighlightTest` resolves the tokens each rule names and measures the pair
+at rest and hovered in both themes, and pins that the light pair is under the floor so the
+rule can be dropped if the tokens move. Two mutations red.
+
 ### The landing-page tests build for the recorded day too (2026-09-13)
 Bug: `tests/test_landing_pages.py` built its pages with `bp.main()`, the clock's day. On
 a checkout whose data had aged past that day, five city pages (Espoo, Kotka, Lahti,

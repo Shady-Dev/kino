@@ -205,5 +205,35 @@ class FavouriteStarTest(unittest.TestCase):
                                         f"pressed border on --{bg} is {ratio:.3f}:1")
 
 
+class SearchHighlightTest(unittest.TestCase):
+    """The picker's search hit (`.vrow mark`) is measured on the grounds it actually
+    sits on: the sheet's --bg at rest and --accent-soft on a hovered row. --accent-text
+    on --accent-soft measured 4.41:1 in the light theme on 2026-09-13, so the hovered
+    hit paints --ink. The rest state keeps the accent."""
+
+    def test_the_hit_at_rest_keeps_the_text_token_and_is_readable(self):
+        fg, bg = rule_token(".vrow mark", "color"), rule_token(".vsheet", "background")
+        self.assertEqual(fg, "accent-text")
+        for theme, t in (("light", LIGHT), ("dark", DARK)):
+            with self.subTest(theme=theme):
+                ratio = contrast(t[fg], t[bg])
+                self.assertGreaterEqual(ratio, AA_TEXT,
+                                        f"search hit --{fg} on --{bg} is {ratio:.3f}:1")
+
+    def test_the_hovered_hit_is_readable_on_the_hover_ground(self):
+        fg, bg = rule_token(".vrow:hover mark", "color"), rule_token(".vrow:hover", "background")
+        for theme, t in (("light", LIGHT), ("dark", DARK)):
+            with self.subTest(theme=theme):
+                ratio = contrast(t[fg], t[bg])
+                self.assertGreaterEqual(ratio, AA_TEXT,
+                                        f"hovered hit --{fg} on --{bg} is {ratio:.3f}:1")
+
+    def test_the_hover_ground_is_the_one_the_text_token_fails_on(self):
+        """Pins why the hover rule exists: if --accent-soft or --accent-text moves so the
+        pair clears 4.5:1 in both themes, the hover rule can go."""
+        light = contrast(LIGHT["accent-text"], LIGHT["accent-soft"])
+        self.assertLess(light, AA_TEXT, f"light --accent-text on --accent-soft is {light:.3f}:1")
+
+
 if __name__ == "__main__":
     unittest.main()
