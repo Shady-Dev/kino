@@ -1,6 +1,6 @@
-[korjaamo] strand prefix split off 2 showtimes
+[korjaamo] prices: 2 screenings, 2 priced, 2 pages read, 0 reused, 0 without an ordinary ticket, 0 failed, 0 deferred
 [korjaamo] synopses merged: 0
-[korjaamo] Korjaamo Kino: 6 showtimes, 2 dates
-[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] vista: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[korjaamo] Korjaamo Kino: 2 showtimes, 1 dates
+[run] http: 0 revalidated (304), 4 full, 2 not stored (origin said no-store), 0 cache entries written
+[run] vista: 1 venues, 2 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

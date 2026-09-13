@@ -1,8 +1,8 @@
-[riviera] prices: 90 ticket pages due, reading 40, 50 wait for the next run
-[riviera] prices: 90 screenings, 40 priced, 40 pages read, 0 reused, 0 without an ordinary seat, 0 failed, 50 deferred
+[riviera] prices: 50 ticket pages due, reading 40, 10 wait for the next run
+[riviera] prices: 84 screenings, 72 priced, 40 pages read, 34 reused, 2 without an ordinary ticket, 0 failed, 10 deferred
 [riviera] strand prefix split off 1 showtimes
 [riviera] synopses merged: 0
-[riviera] Riviera Kallio: 30 showtimes, 19 dates
-[riviera] Riviera Punavuori: 64 showtimes, 25 dates
-[run] riviera: 2 venues, 94 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[riviera] Riviera Kallio: 27 showtimes, 18 dates
+[riviera] Riviera Punavuori: 60 showtimes, 24 dates
+[run] riviera: 2 venues, 87 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
