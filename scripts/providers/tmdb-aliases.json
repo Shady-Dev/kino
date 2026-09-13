@@ -19,5 +19,13 @@
  "once upon a time in china ii": "10618",
  "once upon a time in china iii": "10619",
  "_comment_lucky_luke": "Kino Regina, 2026-09-13. Regina publishes the original as \"La ballade des Dalton\"; TMDB 50166 registers it as \"Lucky Luke: La Ballade des Dalton\", so the exact-title rule refused the hit and the search kept it weak. Identity checked against the TMDB record: directors René Goscinny and Morris on both sides, 1978 on both, the Daltons' inheritance plot in both synopses, 84 against 82 minutes.",
- "lucky luke sotapolulla": "50166"
+ "lucky luke sotapolulla": "50166",
+ "_comment_regina_weak": "Kino Regina, 2026-09-13. Seven repertory titles the search left weak: TMDB registers the original in Arabic or Japanese script, or under a title Regina's span gives as a lone segment the adapter does not publish. Each id checked against the TMDB record and Regina's film page on director, year, cast and plot. Chronicle of a Disappearance 49104 (Suleiman 1996, 88 min both). Fantom 28480 (Murnau 1922, Phantom; 122 against 119 min, a print length). It Must Be Heaven 539531 (Suleiman 2019; 101 against 103 min). Kuolemaantuomittu 687 (Dead Man Walking, Robbins 1995, 122 min both). Naisen kasvot: the weak candidate 4780 was De Palma's 1976 Obsession under its Finnish title and put the wrong poster on the row; 76848 is Molander's 1938 En kvinnas ansikte with Bergman, Svennberg and Henrikson, 104 min both. Palatsin hiljaisuus 44284 (Tlatli 1994, Hend Sabri; 127 against 124 min). Ringu 0: Bāsudei 9674 (Tsuruta 2000, Nakama, Tanabe, Asō, 99 min both).",
+ "chronicle of a disappearance": "49104",
+ "fantom": "28480",
+ "it must be heaven": "539531",
+ "kuolemaantuomittu": "687",
+ "naisen kasvot": "76848",
+ "palatsin hiljaisuus": "44284",
+ "ringu 0 bāsudei": "9674"
 }
