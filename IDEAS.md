@@ -513,18 +513,20 @@ is the price: a restricted category first, the cheapest amount or the first euro
 page never is, and no row or two rows with different amounts leaves the price "" (never
 zero). Format is eTiketti's ("20€", "12.5€"), so the app and the pages render it as is.
 
-Request policy: one GET per screening id after the schedule is parsed, sequential, 1 s
-apart, at most 40 pages a run (`KINO_RIVIERA_PRICE_MAX`), three consecutive failures end
-the pass. `data/prices-riviera.json` holds `{id: {price, at}}`, pruned to the ids on the
-listing, rewritten only when it changed; an id is re-read after 48 h
-(`KINO_RIVIERA_PRICE_TTL_H`). Tradeoff: a price change reaches the site within two days,
+Request policy (`scripts/providers/prices.py`, shared since the same day): one GET per
+screening id after the schedule is parsed, sequential, 1 s apart, at most 40 pages a run
+(`KINO_PRICE_MAX`), three consecutive failures end the pass. `data/prices-riviera.json`
+holds `{id: {price, at}}`, pruned to the ids on the listing, rewritten only when it
+changed; an id is re-read after 48 h (`KINO_PRICE_TTL_H`). Tradeoff: a price change reaches the site within two days,
 and 90 screenings with an id (of 94 listed, 2026-09-13) cost about six pages a run in
 steady state; a first fill takes three runs. Exercised once from an ordinary connection
 with the ceiling at 6: six pages, six prices, 18 € to 49 €, zero failures. The page sends `Cache-Control: no-store` and a session cookie, so the HTTP
 validator cache does not apply and no cookie is kept. A failed page is not cached and
 the showtime is published without a price; the schedule cannot fail on this step.
 Sold-out rows keep the listing URL and are not asked. `tests/test_riviera_prices.py`, 17
-tests, fourteen mutations red.
+tests through fetch_site(); the shared loop is pinned in `tests/test_prices.py` (12
+mutations red). First cloud run 2026-09-12 23:18 UTC: 90 screenings with an id of 94, 40
+read, 40 priced, 0 failed, 50 deferred.
 
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
 `scripts/providers/vista.py`. Vista is the ticketing system behind Finnkino, and its web

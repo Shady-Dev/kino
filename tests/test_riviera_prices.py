@@ -1,5 +1,9 @@
 """Riviera: a screening's price comes from its own public ticket page (2026-09-13).
 
+The fetch, cache and pacing live in prices.py since the same day (shared with Regina and
+Korjaamo) and are pinned in tests/test_prices.py; these tests run the whole adapter
+through fetch_site() so the wiring is covered too.
+
 The listing carries no price. `tickets.rivieracinemas.fi/websales/show/{id}` prints a
 `table.showPrices-table`, one row per ticket category; the ordinary seat is "Sohvapaikka
 tai Nojatuolipaikka" and only that row counts. Fixtures here are the table's shape with
@@ -19,6 +23,7 @@ from unittest import mock
 
 import _ctx                                                # noqa: F401
 import build_pages as bp
+import prices
 import riviera
 from test_riviera_links import BASE, LISTING, TICKETS, SOLD_OUT, button, item, listing
 
@@ -78,8 +83,8 @@ class OrdinaryPriceTest(unittest.TestCase):
 class FakeFetch:
     """The two requests fetch_site makes: the listing POST and ticket-page GETs."""
 
-    def __init__(self, page, prices, fail=()):
-        self.page, self.prices, self.fail = page, prices, set(fail)
+    def __init__(self, page, pages, fail=()):
+        self.page, self.pages, self.fail = page, pages, set(fail)
         self.gets = []
 
     def __call__(self, url, headers=None, data=None, **kw):
@@ -89,7 +94,7 @@ class FakeFetch:
         sid = url.rsplit("/", 1)[1]
         if sid in self.fail:
             raise OSError("boom")
-        return price_page(self.prices[sid]).encode()
+        return price_page(self.pages[sid]).encode()
 
 
 def rows(*items):
@@ -102,12 +107,12 @@ class EnrichmentTest(unittest.TestCase):
         self.path = pathlib.Path(self.tmp.name) / "prices-riviera.json"
         self.addCleanup(self.tmp.cleanup)
 
-    def run_site(self, page, prices, fail=(), now=NOW, limit=None):
-        fake = FakeFetch(page, prices, fail)
-        with mock.patch.object(riviera, "fetch", fake), \
-             mock.patch.object(riviera.time, "sleep") as slept:
+    def run_site(self, page, pages, fail=(), now=NOW, limit=None):
+        fake = FakeFetch(page, pages, fail)
+        with mock.patch.object(riviera, "fetch", fake), mock.patch.object(prices, "fetch", fake), \
+             mock.patch.object(prices.time, "sleep") as slept:
             if limit is not None:
-                with mock.patch.object(riviera, "PRICE_FETCH_MAX", limit):
+                with mock.patch.object(prices, "FETCH_MAX", limit):
                     out = riviera.fetch_site(riviera.SITE, price_sleep=0.7,
                                              prices_path=self.path, now=now)
             else:
@@ -170,7 +175,7 @@ class EnrichmentTest(unittest.TestCase):
         shows, fake, _ = self.run_site(page, {"1": [(ORDINARY, "25,00 €")]})
         self.assertEqual((fake.gets, shows[0]["price"]), ([], "20€"))
         stale = self.cache()
-        stale["1"]["at"] = (NOW - datetime.timedelta(hours=riviera.PRICE_TTL_H + 1)).isoformat()
+        stale["1"]["at"] = (NOW - datetime.timedelta(hours=prices.TTL_H + 1)).isoformat()
         self.path.write_text(json.dumps(stale), encoding="utf-8")
         shows, fake, _ = self.run_site(page, {"1": [(ORDINARY, "25,00 €")]})
         self.assertEqual((fake.gets, shows[0]["price"]), ([TICKETS + "1"], "25€"))
