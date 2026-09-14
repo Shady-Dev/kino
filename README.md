@@ -32,10 +32,12 @@ Venue, home theatre, day, language and theme live in `localStorage`.
 
 No cinema API is called at load time. A pipeline fetches ahead of time and
 commits static JSON, which GitHub Pages serves from the same origin: no CORS, no
-keys in the client, no third-party requests. Six providers can only be read
-from an ordinary connection, so the pipeline runs in two places. One adapter can
-serve many providers, because most small cinemas run one of a few ticketing
-platforms:
+keys in the client, no third-party requests. Some providers block or challenge
+datacenter addresses and can only be read from an ordinary connection, so the
+pipeline runs in two places; `scripts/providers/registry.py` marks each provider
+`where="local"` or `where="cloud"` and is the list, so this page does not carry a
+second copy of it to go stale. One adapter can serve many providers, because most
+small cinemas run one of a few ticketing platforms:
 
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
