@@ -23,9 +23,9 @@ import urllib.request
 # automated pipeline claiming to be a person at a keyboard -- the one thing in here a
 # cinema had no way to check for itself. Probed against all eleven providers on
 # 2026-08-30 before changing it: every one answers this byte-for-byte identically to the
-# Chrome string, so honesty costs nothing. If a provider ever refuses it, say so in
-# IDEAS and keep the browser string for that one host deliberately, rather than quietly
-# re-disguising the whole pipeline.
+# Chrome string, so honesty costs nothing. If a provider ever refuses it, record the
+# reading in docs/research/ticketing-platforms.md and keep the browser string for that one
+# host deliberately, rather than quietly re-disguising the whole pipeline.
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 # Validator cache for conditional GETs. Deliberately outside the repo tree and

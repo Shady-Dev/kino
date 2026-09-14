@@ -32,7 +32,7 @@ Film pages. The blog article behind a calendar item gives Kesto, Ikäsuositus, t
 description and a "Kielivaihtoehdot" line (Finnish by default, English and Swedish
 through headphones). The synopsis is the description block only; the FAQ below it
 repeats the admission rules and quotes a school-group price. No poster: Heureka's images
-are 16:9 stills, which IDEAS declines for 2:3 tiles.
+are 16:9 stills, which docs/archive/2026-09-providers.md declines for 2:3 tiles.
 
 Emptiness. A calendar that parsed with no planetarium film in the window reports the
 venue as an empty list, and EMPTY_VENUES_CONFIRMED lets run.py publish it as pending. A

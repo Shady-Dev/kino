@@ -103,8 +103,8 @@ def enrichment_of(path):
     enrich_tmdb runs straight afterwards and puts them back. On the local half nothing
     does: Kino Engel and Kino Akseli lose their ratings, trailers and genre ids on every
     run and get them back only when the next cloud run lands, and the same happens to
-    anyone running run.py by hand -- the trap IDEAS already records as having cost 1201
-    showtimes their tmdbId.
+    anyone running run.py by hand -- the trap docs/archive/2026-09-pipeline.md records as
+    having cost 1201 showtimes their tmdbId.
 
     Keyed by the normalised title, `synmerge.norm`, because that is what the TMDB pass
     itself keys on, and because these are properties of the *film*, not of the

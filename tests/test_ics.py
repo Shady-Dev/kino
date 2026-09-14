@@ -4,7 +4,8 @@
 run on their own with the page's Helsinki formatters and safeUrl. Measured 2026-09-13:
 35 of 3561 committed shows have no `len` (booked as 120 minutes, said so), 627 no `aud`
 (no hall in LOCATION). The download plumbing and the second menu row are pinned on the
-source; the download itself is verified by hand on the platforms IDEAS names.
+source; the download itself is verified by hand on the platforms named in
+docs/archive/2026-09-app.md.
 """
 import json
 import pathlib

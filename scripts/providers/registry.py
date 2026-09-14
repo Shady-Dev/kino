@@ -14,15 +14,16 @@ Fields:
           combined city and a region row from REGIONS, and both are measured. The scale
           is 14.4 ΔE00 across normal vision and both deuteranope models. Combined-city
           pairs hold it without exception, the worst being exactly 14.4 (Finnkino/Cinema
-          Orion); a search over the same L* band reaches 19.5 and IDEAS says why it is
-          not applied. Region pairs do not all hold it: 12 of the 139 pairs are below,
-          worst 4.5 (Bio Grand/BioRex in Pääkaupunkiseutu), and all 12 are established
-          colours IDEAS lists. Score on the weakest of the three models: Bio Grani and
-          Gilda are 19.9 apart to a deuteranope and 14.1 to everyone else. A new or changed accent clears 14.4 in every view it
-          enters where that is reachable, and must not lower an existing regional minimum
-          without the reason recorded in IDEAS. Measured 2026-09-07: 8 cities hold more
-          than one chain (Helsinki eight, Jyväskylä and Vantaa three, Espoo, Kouvola,
-          Lahti, Oulu and Tampere two) and 11 of the 14 regions do. Run
+          Orion); a search over the same L* band reaches 19.5 and
+          docs/research/accent-colour.md says why it is not applied. Region pairs do not
+          all hold it: 12 of the 139 pairs are below, worst 4.5 (Bio Grand/BioRex in
+          Pääkaupunkiseutu), and all 12 are established colours that file lists. Score on
+          the weakest of the three models: Bio Grani and Gilda are 19.9 apart to a
+          deuteranope and 14.1 to everyone else. A new or changed accent clears 14.4 in
+          every view it enters where that is reachable, and must not lower an existing
+          regional minimum without the reason recorded in IDEAS.md. Measured 2026-09-07:
+          8 cities hold more than one chain (Helsinki eight, Jyväskylä and Vantaa three,
+          Espoo, Kouvola, Lahti, Oulu and Tampere two) and 11 of the 14 regions do. Run
           `python3 scripts/accent_check.py` before changing one: it prints every
           shared-view pair in CIEDE2000 under two deuteranope models, and `--search {id}`
           ranks replacements on their weakest model. Do not quote a figure no script
@@ -64,8 +65,8 @@ PROVIDERS = [
     # ids key the saved home cinema and the /teatteri/ URLs.
     # Local since 2026-09-04: savonkinot.fi sits behind Cloudflare, which answers a
     # datacenter address 403 at the edge (CF-Ray present, no Retry-After) while the same
-    # request from an ordinary connection gets 200. See IDEAS "Savon Kinot moves to the
-    # local half".
+    # request from an ordinary connection gets 200. See "Savon Kinot moves to the local
+    # half" in docs/archive/2026-09-providers.md.
     dict(id="savonkinot", label="Savon Kinot", host="savonkinot.fi", accent="#0C8FA8",
          book="buy", module="etiketti", where="local"),
     dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#4E7A16",
@@ -84,7 +85,8 @@ PROVIDERS = [
     # The eTiketti sweep of 2026-08-30. Fourteen hosts, sixteen venues, all against the
     # parser that already served Kotka and Kokkola. Only three of them land in a city
     # that already had a chain, and those three accents are the only ones the 3 px rule
-    # constrains -- see IDEAS. Every one publishes a per-show booking link, so `buy`.
+    # constrains -- see the sweep entry in docs/archive/2026-09-providers.md. Every one
+    # publishes a per-show booking link, so `buy`.
     dict(id="kinopirtti", label="Kinopirtti", host="kinopirtti.fi", accent="#8E44AD",
          book="buy", module="etiketti", where="cloud"),
     dict(id="leffabuumi", label="Leffabuumi", host="leffabuumi.fi", accent="#1F7A8C",
@@ -137,7 +139,8 @@ PROVIDERS = [
     # Oulu already has Finnkino Plaza, so this accent is constrained: 50.0 normal,
     # 73.7 Viénot, 65.1 Machado against Finnkino orange, at L* 46.1. Kino Tapiola's
     # #003CFC is pinned unique by tests/test_tapiola.py and Star's own red is
-    # L* 36.4, under the legible band; IDEAS records both. `host` is the public
+    # L* 36.4, under the legible band; docs/archive/2026-09-providers.md records both.
+    # `host` is the public
     # domain for the footer credit, the adapter reads lippu.
     # Local since the first cloud run: lippu. answered the runner a Cloudflare 403 at
     # the edge while an ordinary connection got 200.
@@ -248,7 +251,8 @@ PROVIDERS = [
     # L* 60.0 for Lumo, 47.6 / 35.8 / 34.1 at L* 46.5 for Laitila, and the three are 18.2
     # dE00 or more apart from each other. Against the whole 42-accent set the nearest
     # neighbour is 8.1 to 9.3 dE00, which is near the ceiling the L* 38-60 band still
-    # offers: see IDEAS, and it binds nothing, because an accent is only ever read
+    # offers: see docs/research/accent-colour.md, and it binds nothing, because an
+    # accent is only ever read
     # beside the chains that share its city or its region.
     dict(id="kinopiispanristi", label="Kino Piispanristi", host="kinopiispanristi.fi",
          accent="#0096EA", book="reserve", module="cinemahouse", where="cloud"),

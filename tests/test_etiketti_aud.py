@@ -30,8 +30,8 @@ def load():
     So the suite's result depends on when a provider module is first imported. Importing
     at the top of this file moved etiketti ahead of the reload and turned three unrelated
     tests red -- the first thing a new test file here is likely to trip over. Recorded in
-    IDEAS as its own defect; this import keeps the ordering the rest of the suite already
-    relies on.
+    docs/archive/2026-09-gotchas.md as its own defect; this import keeps the ordering the
+    rest of the suite already relies on.
     """
     return importlib.import_module("etiketti")
 

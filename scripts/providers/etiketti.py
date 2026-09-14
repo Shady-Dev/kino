@@ -260,7 +260,8 @@ PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
 # eleven of Niagara's films carried two or three different prices on 2026-09-02.
 PRICE_RE = re.compile(r'(?:Lippu\s*|class="show-price"[^>]*>\s*)([\d,\.]+)')
 # Kotka: "Vapaat paikat 27/35". Niagara: "Paikkoja vapaana: 126/127". Read only to derive
-# soldOut; the counts themselves are not published (IDEAS, "Cinema Niagara").
+# soldOut; the counts themselves are not published (docs/archive/2026-09-pipeline.md,
+# "Cinema Niagara, Tampere").
 SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)")
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
 # Niagara's per-screening labels: "Seniorikino", "Ensi-ilta", "Q&amp;A" ... Kotka has none.

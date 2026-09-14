@@ -8,7 +8,8 @@ Run it:
     python3 scripts/accent_check.py --candidate '#B47ACC' --city Helsinki,Tampere
     python3 scripts/accent_check.py --selftest # CIEDE2000 against Sharma's test data
 
-This is the method behind the accent figures in IDEAS; earlier figures were recorded
+This is the method behind the accent figures in docs/research/accent-colour.md; earlier
+figures were recorded
 without one and two of them disagreed. Its CIEDE2000 is checked against published
 reference data on every run. Nothing in the pipeline imports it: run it by hand before
 choosing an accent, and again when the set changes.
@@ -336,7 +337,7 @@ L_MIN, L_MAX = 38.0, 60.0
 # below it. Fixed rather than measured: it is the number CLAUDE.md and the registry state,
 # and tests/test_accent_check.py pins the value and the city-view contract separately from
 # the count the report prints against it. Region rows are measured on the same scale and
-# twelve established pairs sit below; IDEAS lists them.
+# twelve established pairs sit below; docs/research/accent-colour.md lists them.
 FLOOR = 14.4
 
 

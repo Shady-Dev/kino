@@ -446,8 +446,8 @@ FLUSH_EVERY = 25
 # saying it publishes none, and a good fraction of showtimes are in that state. The
 # classification is KAVI's and national, so a cinema is reporting the same fact rather
 # than forming an opinion, and the data agrees: no film rated at more than one chain has
-# yet been rated differently. The measured counts move with every run and live in the
-# IDEAS entry rather than here.
+# yet been rated differently. The measured counts move with every run and live in
+# docs/archive/2026-09-pipeline.md rather than here.
 #
 # Borrowing is deliberately narrow.
 #   * Only exact TMDB matches take part. A weak match neither donates nor receives: 13

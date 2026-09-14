@@ -155,7 +155,8 @@ def parse(posts_html, venue):
             "img": _poster(chunk),
             "lang": _lang_str(audio, subs),
             "soldOut": False,   # BioRex exposes no seat availability in this response
-            "price": "",        # BioRex publishes no price on the listing (IDEAS)
+            # No price on the listing; docs/research/prices.md has the probe.
+            "price": "",
             "provider": "biorex",
             "venue": venue["id"],
             "movieUrl": movie.group(1) if movie else "",

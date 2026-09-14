@@ -36,7 +36,8 @@ def _tmdb_complete(c):
 # is marketing and region codes (Maxim, Pkseutu, SEVERAL, TKU & R, Tampere, Varaus20),
 # which say nothing to a visitor. A licensed bar auditorium is 18+ whatever the film is
 # rated -- Finnkino spells that out in "Annisk_K18" -- so the limit belongs on the
-# screening, exactly as it does for BioRex. See the `age` convention in IDEAS.
+# screening, exactly as it does for BioRex. See the `age` convention in
+# docs/archive/2026-09-providers.md.
 EVENT_ATTRS = {"anniskelu": ("Anniskelu", ""),
                "annisk_k18": ("Anniskelu", "K-18"),
                "eventcine": ("Event cinema", "")}
