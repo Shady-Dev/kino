@@ -25,23 +25,33 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### The TMDB marker fix is deployed and not yet exercised (opened 2026-09-14)
+### The TMDB marker fix resolves four of eight keys (opened 2026-09-14)
 
 `f3b61ee8` takes `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised
-strand off the TMDB search string. It needs a cloud run that completes **and** publishes
-*after* 00:00 UTC: eight cache keys carry `c: 2026-09-14` and `refresh.due` skips an entry
-already checked today, so the 22:35 run of 2026-09-14 skipped them again. Re-measured at
-`3147f45e`, all eight still read `c: 2026-09-14` with no id: `kojootti vs acme
-englanniksi`, `… på svenska`, `… suomeksi puhuttu`, `… dub`, `… eng`, `… sub`, `gråben vs
-acme på svenska`, `kätyrit monsterit englanniksi`. The boundary is
-`datetime.date.today()` at `enrich_tmdb.py:613`, the runner's date, and the pass runs only
-from `biorex.yml:68` with no `TZ`, so it rolls at midnight UTC and not at midnight
-Helsinki. Expected match for the Kojootti and Gråben family is 1204680.
-**Next action:** after the first run that publishes past 00:00 UTC, read the committed
-cache and `logs/run-enrich.log` and tell three outcomes apart: searched and matched,
-searched and still unmatched (a different cause, and the marker fix would not be
-sufficient alone), or skipped again. An unchanged entry read *before* publication is not a
-failed retry.
+strand off the TMDB search string. The eight keys were still stamped `c: 2026-09-14` at
+`3147f45e`, so every run that day skipped them; the daily retry needs a run that publishes
+after 00:00 UTC. What each key will then do was settled on 2026-09-14 by running `clean()`
+and `queries()` over the published titles and searching TMDB with the exact strings they
+produce, so the run confirms a prediction rather than discovering one:
+
+- **Searched and matched, four keys.** `(englanniksi)`, `(på svenska)`,
+  `(suomeksi puhuttu)` and `(Dub)` all clean to `Kojootti vs. ACME`, which matches 1204680
+  exactly. This is the fix working.
+- **Searched, candidate refused, one key.** `Gråben vs. ACME (på svenska)` cleans to
+  `Gråben vs. ACME`, which returns 1204680 as its only hit but not as an exact title:
+  TMDB has no Swedish title for the film. The trust gate withholds the id, correctly, so
+  this row stays scoreless whatever the marker fix does.
+- **Searched, no candidate at all, two keys.** Bio Rex Kokkola publishes
+  `Kojootti vs. ACME ENG` and Kinopirtti `Kojootti vs. ACME SUB`, bare suffixes with no
+  parentheses. `clean()` leaves them, both searches return 0 results, and the marker fix
+  was never going to reach them. A different cause, not a failure of this fix.
+- **Gone, one key.** `kätyrit monsterit englanniksi` is in no area file any more.
+
+**Next action:** after the first run publishing past 00:00 UTC, read the committed cache
+and `logs/run-enrich.log` and check the four against 1204680. Open separately, and not
+decided here: whether `TRAIL_NOISE` should gain the bare `ENG` and `SUB` suffixes. They are
+short, ambiguous tokens where `englanniksi` is not, so eating a real trailing word is a
+live risk and the call is the maintainer's.
 
 ### Provider coverage, and what is next
 
