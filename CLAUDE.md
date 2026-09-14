@@ -37,24 +37,30 @@ change, so a contract change is explained in `IDEAS.md` and never in `docs/resea
 ## AGENTS.md is not this project's file
 
 `CLAUDE.md` is the authoritative working-rules document and the only tracked one. An
-`AGENTS.md` also appears in every worktree. It is written there by agent tooling that
-lives outside this repository, and `.gitignore` excludes it deliberately (commit
-`3996e21a`): untracked it would show up as a pending change in every worktree and be
-offered as a pull request, and tracked it would be a public file this project does not
-author and cannot keep accurate.
+`AGENTS.md` also appears in each worktree, untracked: `.gitignore` has excluded it since
+commit `3996e21a`, whose note gives the reason as a file the agent tooling writes, which
+untracked would show up as a pending change in every worktree and be offered as a pull
+request, and tracked would be a public file this project does not author and cannot keep
+accurate.
 
-Nothing here generates or updates it, and its content is a point-in-time copy of
-`CLAUDE.md` from whenever that worktree was made. Measured 2026-09-14 across twelve
-worktrees: twelve different files, 135 to 220 lines.
+**What was checked here, 2026-09-14.** No generator for it exists in this repository: a
+search of the tracked `.py`, `.yml`, `.sh`, `.json` and `.toml` files finds no reference
+to `AGENTS.md`, and the only tracked file naming it is this one. Across the twelve
+worktrees on one machine there were twelve different `AGENTS.md` files, 135 to 220 lines.
+Four were read: the 135-line ones carry no design contract, no placement rule and no
+mention of the browser suite, and the largest at 220 lines has the design contract but
+neither of the other two.
 
-**Those copies are stale, and nothing in this repository can fix that.** A session that
-reads `AGENTS.md` instead of this file is following superseded rules, and the gap is not
-cosmetic. Checked in four of the twelve: the 135-line copies carry no design contract, no
-placement rule and no mention of the browser suite; even the newest, at 220 lines, has the
-design contract but neither of the other two. Read `CLAUDE.md`. If you are an agent whose
-convention is to read `AGENTS.md`, read this file instead and ignore that one. Pointing
-the tooling here would be a change to the tooling rather than to this project, and is
-deliberately not attempted from inside it.
+**So those copies are stale, and nothing in this repository updates them.** A session
+that reads one instead of this file is following superseded rules, and the gap is not
+cosmetic.
+
+What that evidence does **not** establish, and what this file therefore does not claim:
+what writes those copies, when, or whether anything ever refreshes them. Twelve files
+differing in length shows they disagree with each other, not how they came to. Read
+`CLAUDE.md`. If your convention is to read `AGENTS.md`, read this file instead. Whatever
+maintains those copies is not in this repository, so changing it is not attempted from
+inside it.
 
 ## How to work
 
