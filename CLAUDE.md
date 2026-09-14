@@ -7,13 +7,32 @@ framework, no dependencies beyond the standard library in the pipeline.
 
 ## Read IDEAS.md first
 
-It holds the architecture decisions, the per-provider API research, and a long list of
-approaches that were tried and rejected, with the reasoning. Several obvious improvements
-are in there as dead ends. If you disagree with a recorded decision, argue with it in the
-file. Do not silently reverse it. Update IDEAS.md in the same commit as the change it
-explains.
+It holds the architecture decisions and a long list of approaches that were tried and
+rejected, with the reasoning. Several obvious improvements are in there as dead ends. If
+you disagree with a recorded decision, argue with it in the file. Do not silently reverse
+it. Update IDEAS.md in the same commit as the change it explains.
 
 Write down why a change was made. The diff already records what changed.
+
+## Where it goes
+
+| What you have | Where it belongs |
+|---|---|
+| A rule every session must follow | `CLAUDE.md`, here |
+| A visual value that is a decision | `DESIGN.md`, and only on written instruction |
+| What the product is, and how to run it | `README.md` |
+| A proposal, a priority, a status, a dated decision record | `IDEAS.md` |
+| What you observed probing a site or evaluating a tool | `docs/research/<topic>.md` |
+
+A research file separates findings, each with its source and the date it was read, from
+inferences, open questions, and implementation status with the concrete next step. A
+decision record in `IDEAS.md` links to its research file instead of repeating it. A
+finding does not become a rule by being written down: promoting one into `CLAUDE.md` is a
+decision, and it needs its `IDEAS.md` entry like any other.
+
+`IDEAS.md` keeps one role nothing else can take: `scripts/check_design_push.py` requires
+an entry there in the same commit as a `DESIGN.md` or `tests/test_design_contract.py`
+change, so a contract change is explained in `IDEAS.md` and never in `docs/research/`.
 
 ## How to work
 

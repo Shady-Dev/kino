@@ -67,8 +67,10 @@ so one failing provider never blocks the rest. **The committed `run.log` and
 `enrich_tmdb.py` runs last and fills in ratings, trailers, synopses and
 posters a provider does not supply, without overwriting the cinema's own text.
 
-Why any of it is shaped this way is in [IDEAS.md](IDEAS.md), along with the
-per-provider research and the approaches tried and rejected.
+Why any of it is shaped this way is in [IDEAS.md](IDEAS.md), with the approaches tried
+and rejected. The investigations those decisions rest on, what each ticketing platform
+publishes and how it was read, are under
+[docs/research/](docs/research/ticketing-platforms.md).
 
 ## Files
 
@@ -77,6 +79,7 @@ per-provider research and the approaches tried and rejected.
     manifest.webmanifest             PWA manifest
     fonts/                           self-hosted Archivo subsets + OFL licence
     robots.txt, sitemap.xml          crawl rules; the sitemap is generated
+    docs/research/                   per-topic investigation notes behind the decisions
     teatteri/, kaupunki/, en/        generated pages (committed by every run, cloud and local)
     data/                            generated JSON and posters (committed by every run)
 

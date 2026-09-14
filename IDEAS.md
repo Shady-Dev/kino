@@ -218,61 +218,13 @@ cities or regions". Still open: sparse-date dimming, which `<input type="date">`
 without a custom picker.
 
 ### BioRex API — probed and confirmed 2026-08-26
-WordPress + admin-ajax. No auth, no nonce, no Cloudflare block. **12 requests per run**
-(`date=-1` returns all dates at once).
-
-```
-GET  https://biorex.fi/elokuvat/                      # session cookie
-POST https://biorex.fi/teatterin-valinta/   location={venueId}
-POST https://biorex.fi/wp-admin/admin-ajax.php?lang=fi
-     action=br_movies_handler&genre=-1&date=-1&format=-1&language=-1&activeType=showtimes
-```
-
-- Response is `{"posts": "<html>"}` — HTML in JSON, parse with BeautifulSoup
-- **The cookie step is required.** Without it you silently get BioRex Verkatehdas
-  instead of an error, so a missing session = wrong data, not a failure
-- `?cinema_id=` in page URLs is decorative; the cookie decides the venue
-- `f_cinemas={slug}` query param handles the within-city sub-filter (`all`/`helsinki`/`redi`)
-- Each `.showtime-item` carries a `data-click-data-layer` JSON attribute:
-  `movieId, movieName, showId, showCinemaId, showCinemaName, showDate, showTime,
-  showDateTime (ISO +03:00), showWeekday` — use this, not text scraping
-- Also in the item: `.showtime-item__place__value` ("BioRex Tripla, Sali 6"),
-  `.showtime-item__movie-rating` ("(K-16)"), `.showtime-item__format` (["EN","FI&SV"] =
-  audio, subs), `icon-puhekieli` class = Finnish dub, poster `data-srcset` (1080w variant,
-  `web.biorex.mycloudcinema.com`), booking href via `biorex.fi/secure-redirect/`
-- Missing vs Finnkino: runtime, genres, synopsis, sold-out state. TMDB covers
-  rating/trailer/poster via `movieName`; runtime would need the film page
-- Venue ids: 13 Helsinki Tripla, 14 Helsinki Redi, 1 Hämeenlinna, 9 Hyvinkää, 7 Kajaani,
-  4 Pietarsaari, 10 Porvoo, 8 Riihimäki, 2 Rovaniemi, 12 Seinäjoki, 3 Tornio, 5 Vaasa
-- Dates are sparse (e.g. 27–31.8, 1–3.9, then 5.9, 9.9, 11–13.9, 30.9) — special
-  events, not a rolling window. Scrape `#dayselect` options rather than generating dates.
-  `<input type="date">` cannot disable individual days, so dimming unavailable dates
-  would need a custom picker — deferred until BioRex is actually in.
-
-Other Finnish aggregators exist (leffajat.fi, kinoon.fi) — useful as prior art for which
-chains exist and how they present multi-cinema. Take data from the chains' own sources.
+The endpoint, the cookie step and the field set are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md), where the
+claim that the response is parsed with BeautifulSoup is corrected: it never was.
 
 ### Nexxo Scope is a platform serving several sites (probed 2026-08-26)
-Kinoset runs the **Nexxo Scope** WordPress plugin, which exposes a clean JSON API. Other
-Finnish cinemas use the same plugin, so adding one is a **config entry, not a new parser** —
-append to `SITES` in `scripts/providers/nexxo.py` with base URL, locationid, name, city.
-
-```
-GET {base}/wp-content/plugins/nexxo-scope/public_api.php
-    ?action=exportdailyshows&locationid=N&days=21&lang=fi&upcoming=0
--> {"shows": {"YYYY-MM-DD": [ {...} ]}}
-```
-
-- `upcoming=1` returns the coming-soon list with `startDate: null` — use `upcoming=0`
-- Fields: `movieTitle, startTime, klo, roomTitle, ageLimit, duration, genre,
-  priceIncludingTax, posterurl, showId, code_language, code_subtitles, showTypeTitle`
-- Posters: prefix `posterurl` with `{base}/wp-content/plugins/nexxo-scope/banners/`
-- `code_subtitles` can be multi ("FI-SE") -> split to `FI-S, SE-S`; `OV` = unspecified
-- `code_external_title` is a distributor code, not a title
-- No per-show booking URL, so link to `/ohjelmisto/?location=N`
-- The same API also exposes write actions. Not used, not probed.
-- Kinoset ids: 1 Huittinen (Kino 1-2, 2 screens), 2 Loimaa (Kinema), 3 Sastamala (Bio)
-- Their film week runs Fri–Thu, published Tuesdays
+The API, the field set and the host-is-not-a-venue trap are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Kino Akseli (probed 2026-08-26)
 Single screen, Nummela, WordPress + Elementor, showtimes server-rendered in the page.
@@ -285,26 +237,8 @@ Single screen, Nummela, WordPress + Elementor, showtimes server-rendered in the 
 - Gives price and genres; no runtime, auditorium or booking URL; ~3-day horizon
 
 ### eTiketti — a platform (probed 2026-08-26)
-Kotkan Leffat runs **eTiketti** (etiketti.app). The API host
-`{customer}.etiketti.app/api/yleiset/...` is behind Cloudflare, so the adapter reads
-the cinema's own server-rendered pages instead. Another eTiketti cinema = a `SITES` entry
-in `scripts/providers/etiketti.py`.
-
-```
-/elokuvat/ohjelmistossa      -> movie links /elokuvat/{id}/{slug}
-/elokuvat/{id}/{slug}        -> every screening for that film
-```
-
-Per screening, inside `<div class="item ... date-D.M.YYYY">`:
-- `date-27.8.2026` class carries the full date including year; time from `klo HH.MM`
-- `TRIO 123 | VIP-SALI` — but **Kinopalatsi screenings have no room and no `|`**, so the
-  room must be optional in the regex (this silently dropped 17 showtimes first time)
-- `Lippu 18,00€` and `Vapaat paikat 13/22` -> price and real sold-out state
-- Booking link `/salikartta?id=NNNN`
-Film-level: `<h1>` title, `ikarajat/fi-16.svg` -> rating, `Kesto: 2 h 53 min` -> minutes,
-`Kieli:` / `Tekstitys:` -> language tags, `<img class="poster-img">` -> poster.
-Roughly 1 listing + ~15 movie pages per run, paced 1.2 s apart.
-Kotka venues: Kinopalatsi (no rooms, ~236 seats), Trio 123 (SALI 1/2, VIP-SALI).
+Both templates, the optional room and the navigation finding are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Synopses and enrichment
 `scripts/providers/enrich_tmdb.py` runs last in the cloud workflow and merges into
@@ -669,33 +603,8 @@ Finnkino (booking flow only), Heureka (admission) and Engel (Johku widget, defer
 the other zeros.
 
 ### Vista public XML — a *platform*, and the one to grow (added 2026-08-27)
-`scripts/providers/vista.py`. Vista is the ticketing platform Finnkino also runs. A site
-that leaves its /xml/ services open needs no auth (Korjaamo Kino today, Savon Kinot before
-2026-08-30) and is a `SITES` entry with a base URL and a venue list. Test a candidate with
-`{base}/xml/TheatreAreas/`. Finnkino's own host answers a plain client with a Cloudflare
-challenge (403, `cf-mitigated: challenge`, probed 2026-09-13) and is read through OCAPI
-with a token instead; its /xml/ was never probed past the challenge.
-
-```
-GET {base}/xml/TheatreAreas/                    -> ID + Name per area
-GET {base}/xml/Schedule/?area={id}&nrOfDays=31   -> every Show in the window
-GET {base}/xml/ScheduleDates/                   -> published date list
-GET {base}/xml/Events/                          -> per-film synopsis, cast, credits
-```
-
-- No auth, no Cloudflare, datacenter IPs fine. Runs on Actions.
-- `nrOfDays=31` is honoured, so one request per area covers the window. A one-day fetch is
-  not enough: Kitee had 0 shows today and 7 in the window.
-- Areas map to one or two theatres and each Show carries `TheatreID`, so venues split from
-  the data.
-- Richest field set of any provider: `OriginalTitle`, `LengthInMinutes`, `Genres`,
-  `PresentationMethod`, four poster sizes, nested language elements with ISO codes, a
-  per-show deep link in `ShowURL`. No seat counts.
-- Handled in the adapter: `Rating` is `"K-7 (4)"` or `"Sallittu kaikenikäisille"`, not a
-  bare `"K-7"`, which the client's kids filter would silently miss; parse
-  `dttmShowStartUTC` and convert through `Europe/Helsinki`; `SubtitleLanguage2` can carry a
-  `Name` with an empty ISO code; `TheatreAuditorium` is `"Joensuu, Tapio 4"`, so strip the
-  city and blank a room that repeats the venue; synopsis tag names vary between versions.
+The four services and the shapes that need handling are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Gilda / MyCloudCinema (added 2026-08-27)
 `scripts/providers/gilda.py`. Two Helsinki venues: Gilda salit 1-3 and Bio Rex Lasipalatsi
@@ -875,25 +784,10 @@ original title and the cinema's own Finnish synopsis, none of which is in the li
   They are only the fallback for films TMDB misses, since the cards render from `gids`.
 
 #### The Johku chase, and why it stopped (2026-08-29)
-Six rounds of probing for a Johku showtime feed. Outcome: none usable; the front-page parse
-stands.
-
-The film page renders a table with the year, the auditorium, the per-screening price and a
-booking button, cleanly classed (`_kj_showtime_*`), and none of it is in the 81 kB the
-server sends. The path: `johku.com/kinoengel/allproducts.json` 403 (wrong path);
-`widget-module.js` publishes the shop id and locale, and `settings/public.json`,
-`storefrontsettings.json` and `widgets/{id}.json` are public;
-`categories/2/allproducts.json?details=true` is 200 with 781 products but carries only the
-next show per product; per-product detail is empty, 404 or 403; the `rs-johku-wordpress`
-loader hands off to an authenticated widget call. The show list is reachable only with the
-widget's `X-ApiKey`, which is the line in "Access and ethics".
-
-Consequences accepted: `price` and `aud` stay empty for Engel, a showtime opens the film
-page, and dates whose times exist only behind the widget stay missing. Two wrong
-assumptions cost round trips: that the first 403 meant a closed API, and that
-`widget-module.js` rendered the table. Find the code that builds the URL before trying
-URLs. Johku remains a platform lead: another cinema rendering `rs-johku-schedule` would be
-a `SITES` entry against the same parser.
+The six rounds of probing and where they stopped are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md). What it
+cost here stands: `price` and `aud` stay empty for Engel, a showtime opens the film
+page, and dates whose times exist only behind the widget stay missing.
 
 ### Probed but not yet added (2026-08-27)
 Kino Engel (kinoengel.fi, Sofiankatu 4, Helsinki), added 2026-08-29; the probe notes:
@@ -945,38 +839,8 @@ seat counts, plus 18 synopses, so eTiketti sites are worth adding on the platfor
   recorded here were unreproducible; see "The accent numbers, re-derived".
 
 ### The cinema-list lead: nytleffaan.fi, probed 2026-08-29
-`nytleffaan.fi/elokuvateatterit/`, run by Suomen Filmikamari, lists every Finnish cinema:
-225 entries across 152 hosts, each linking the cinema's own site. The page needs a browser
-to render, which is why it sat unprobed.
-
-Swept 103 of the 152 from an ordinary connection, two requests per host: the homepage for
-a platform fingerprint and `/xml/TheatreAreas/`. A signature in someone's HTML proves they
-are a platform's customer, not that the platform answers us, so hits were verified against
-the endpoint each adapter needs.
-
-- eTiketti: 22 hosts carry `etiketti.app`; 16 serve the `/elokuvat/ohjelmistossa` listing
-  (biorex.org 31 film links, kinopirtti.fi 16, arthousecinemaniagara.fi 15, leffabuumi.fi
-  13, studiot123.com 12, ihmekompleksi.fi 10, kino123.fi 9, jamsankinotar.fi 8,
-  kinojuha.fi 8, studio123.fi 8, biogrand.fi 7, biovuoksi.fi 7, kinoiiris.com 7,
-  kino.joutsa.fi 4, k-kino.fi 3, biograni.fi 2). Counting links proved less than it reads
-  as: Cinema Niagara renders its screenings in a different template.
-- Nexxo: all 10 hosts carrying `nexxo-scope` answer `public_api.php`; six have live shows.
-  kinohirvi.fi serves two locationids, so a host is not a venue. Corrected by the sweep:
-  ksek.fi and kinoaurora.fi are one deployment, and kinohirvi.fi's id 4 is Bio Säde. Four
-  hosts return valid JSON with zero shows at every id.
-- Johku: `kuvatahti.johku.com` is in the directory; the widget claims for kinotapiola.fi,
-  kulttuurimylly.com and virtasali.fi were corrected on 2026-09-05 (see "The Johku sweep").
-- MyCloudCinema: mantsala.cine.fi.
-
-Required before any of it lands: venue counts per host, overlap with covered venues, and
-accents measured per city.
-
-Competitive picture: nytleffaan.fi (industry-run, gets exhibitor data, excludes event
-cinema and festivals), elokuviin.com (includes festivals), kinossa.fi. "Suomen kattavin" is
-not a defensible claim against 225 directory entries and two services claiming full
-coverage. What is true and checkable: chains merged into one city view, festival and
-strand screenings included, sold-out marks and prices where published, no ads and no
-tracking. Say the count and let it grow.
+The sweep, its per-platform counts and the competitive picture are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### The eTiketti sweep lands: fourteen hosts, sixteen venues (2026-08-30)
 Every host the nytleffaan.fi probe lists as serving `/elokuvat/ohjelmistossa` became a
@@ -1180,55 +1044,13 @@ region name is a city name, and the client never had the problem (it keys areas 
 A fixture test with a region called "Tampere" shows the two views staying apart.
 
 ### Vista sweep — tried and failed (2026-08-27)
-Guessed 45 Finnish cinema domains and probed `/xml/TheatreAreas/`: zero hits beyond Savon
-Kinot. Azure blob enumeration on the shared asset host and a search for the vendor's client
-list were also dead. Re-swept 2026-08-29 with the real 103-host list: still zero. Ten hosts
-answered 200 with the site's own HTML, a soft-404; the first bytes are not `<?xml`, so
-status alone would have reported ten false hits. The sweep was blocked for two days on a
-presumed missing input (the domain list) that turned out not to be what made it fail;
-korjaamokino.fi was not among the hosts probed and is a Vista site (see "The Johku sweep").
+Both failed sweeps, and the soft-404 that would have reported ten false hits, are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### The Johku sweep: three integrations, no shared listing (2026-09-05)
-Do the four known Johku cinemas render the `rs-johku-schedule` markup `engel.py` parses?
-Read as a visitor from an ordinary connection on 2026-09-05. No: Johku is the shop behind
-the button, and each cinema renders its programme with its own site builder.
-
-- Kino Tapiola (Espoo): its own WordPress theme. Johku is the basket embed and a per-film
-  schedule widget drawn client-side. The programme is server-rendered on `/elokuvat/`, one
-  `div.movie-list-movie` per screening with the date and year ("lauantai 5.9.2026 – Klo
-  12:00"). The slug is per run (`autofiktio-4`, `-5`, `-6`), so the `eventId` cannot be the
-  slug. No age rating on the film page, no `og:image`, no per-show booking URL. A
-  non-residential fetcher got the rows. Parser-shaped, Engel-sized.
-- Kulttuurimylly (Helsinki): Squarespace, programme only inside `<johku-widget>` filled by
-  `johku.com/widget.js`. The Johku storefront is a Nuxt app whose `__NUXT_DATA__` carries
-  `showschedule-*` keys, empty today since public screenings resume in autumn 2026. Re-read
-  when the programme resumes; if the array fills, the storefront HTML is the read.
-- KuvaTähti (Kuvala, Kauttuan Kuva): kuvatahti.fi is the Johku storefront behind Cloudflare;
-  showtimes load client-side through `/api/auth/widget-session` and `X-ApiKey`, the route
-  declined in "The Johku chase". Both venues listed nothing during a maintenance break.
-- Virtasali (Kalajoki): WordPress, no Johku, a municipal culture hall with 0 of 12 events in
-  `category-elokuvat`. Dropped.
-
-Two probe details: Cloudflare answers the storefront with an HTTP 103 Early Hints interim
-response, which `urllib` reports as the final status while curl reads through it; and
-`?k=elokuvat` needs quoting in zsh.
-
-Korjaamo Kino is a Vista site with the public services open: `/xml/TheatreAreas/` answers
-`[{"ID":1007,"Name":"Korjaamo"}]`, JSON by default and XML on `Accept: application/xml`,
-and `/xml/Schedule/`, `/xml/ScheduleDates/` and `/xml/Events/` do the same. 16 shows over 6
-dates, one screen, `EventSeries` "HelAFF" on 10 of 16, `Images` empty, `Rating` "Ei
-tiedossa" on 10. The 103-host Vista sweep missed it because korjaamokino.fi was not among
-the hosts probed.
-
-Kino Regina (KAVI's cinema at Oodi): WordPress theme `kinoregina2`; every showtime list is
-injected by the theme's own PHP. `getShowtimesMoviesV2.php` with a POST body
-`getShowtimesMovies=YYYY-MM-DD` returns the day list from that date as server-rendered HTML
-(9 dates, 21 rows), each row with a `.time`, `a.title[href="/elokuva/{id}"]`, a `.start`
-with the year, and a `kauppa.kavi.fi` ticket link. The film page renders showtimes too,
-with Ohjaaja, Maa, Tekstitys, Kesto and Kopiotieto.
-
-Order built: Korjaamo Kino, then Kino Tapiola, then Kino Regina. Korttelikinot coverage is
-then complete: Orion, Riviera, Korjaamo, Regina.
+The four sites, the two probe details and the Korjaamo and Regina findings that came
+out of the same pass are in
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Korjaamo Kino: the Vista module gets a Finnish site (2026-09-05)
 A `SITES` entry against `vista.py`, which had no site since Savon Kinot left it. The
@@ -2304,23 +2126,42 @@ on every provider change, because carried-over counts have been wrong repeatedly
 count, poster count, page rewrite frequency, venue and provider counts, and once a count
 stated twice in one file where only one copy moved).
 
-Latest, 2026-09-05 after Kino Regina: 37 providers / 79 venues / 52 cities, 89 pages per
-language, 179 sitemap URLs, 5 local providers (26 venues), 3900 poster references over 658
-mirrored files, none off-origin. README's provider list, adapter table, page counts, poster
-count and data-sources count moved with it.
+Latest, 2026-09-14 after the Cinemahouse batch: 42 providers / 86 venues / 57 cities, 98
+pages per language, 197 sitemap URLs, 8 local providers (30 venues), 3728 poster references
+over 970 mirrored files, 253 of them still off-origin and waiting for the first cloud run
+to mirror them. README's provider list, adapter table, page counts, poster paragraph and
+data-sources count moved with it.
 
-Earlier passes: Tapiola (36 / 78 / 52), Korjaamo (35 / 77 / 52), Heureka (34 / 76 / 52),
+Earlier passes: Kino Regina 2026-09-05 (37 / 79 / 52, 89 pages, 179 sitemap URLs, 5 local
+providers over 26 venues, 3900 poster references over 658 mirrored files, none
+off-origin), Tapiola (36 / 78 / 52), Korjaamo (35 / 77 / 52), Heureka (34 / 76 / 52),
 Kino Metso 2026-09-01 (32 / 74 / 52, when the Nexxo correction reached the README's table
 and not its prose), the Nexxo sweep 2026-08-31 (31 / 70 / 50, when the provider table was
 regrouped by adapter and the Data sources section stopped carrying a second copy), and
 Bio Rex Kokkola 2026-08-30 (25 / 64 / 45). Counts inside dated sections record what was
 true on the day and are left alone.
 
-`README.md` covers the product, the two-location pipeline, the data shape every provider
-writes, adding a provider, and the contact and opt-out address. `IDEAS.md` holds
-architecture decisions, per-provider API research and the backlog. `cf-worker/worker.js`
-and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted 2026-08-27. `run-*.log`
-files in the repo root are committed per run by design.
+Where each document's content belongs, restated 2026-09-14 when the research moved out of
+this file. `README.md` covers the product, the two-location pipeline, the data shape every
+provider writes, adding a provider, and the contact and opt-out address. `CLAUDE.md` holds
+the accepted working rules and `DESIGN.md` the visual contract; both are authoritative and
+neither is a place to record findings. **`IDEAS.md` holds proposals, priorities, statuses
+and the dated decision records** — what was decided and why, including what was decided
+against. **`docs/research/` holds the investigations those decisions rest on**, one file
+per topic, each separating findings with their sources and dates from inferences, open
+questions and implementation status:
+
+    docs/research/ticketing-platforms.md   BioRex, Nexxo, eTiketti, Vista, Johku, sweeps
+    docs/research/kinola.md                three templates, films against other events
+    docs/research/tooling-evaluation.md    the seven tools measured on 2026-09-14
+
+A decision record links to its research rather than restating it. This file keeps its role
+in the design-contract check unchanged: `scripts/check_design_push.py` still requires an
+`IDEAS.md` entry in the same commit as a `DESIGN.md` or `tests/test_design_contract.py`
+change, so a contract change is explained here, not in `docs/research/`.
+
+`cf-worker/worker.js` and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted
+2026-08-27. `run-*.log` files in the repo root are committed per run by design.
 
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
@@ -2448,53 +2289,17 @@ and a two-line client change; index.html is frozen by the maintainer's instructi
 2026-09-14, so it is a proposal here, not a change.
 
 ### Kinola films and other events: requirements for the adapter, not a rule (2026-09-14)
-Sampled 2026-09-14 on kinokilta.fi and kinolaika.fi; no `kinola.py` exists, so this is an
-implementation requirement, nothing built or tested. Concerts and films are one WordPress
-`film` post type; no taxonomy, tag, JSON-LD, og:type, REST type or filter option separates
-them (Laika's filter lists its concerts under "Kaikki elokuvat"). The film page is the only
-evidence. **Known film** only on structured film metadata (`Ohjaus`/`Ohjaaja`, `Kieli`,
-`Lajityyppi`, a classification) or a verified structured signal. **Known non-film** only on
-an explicit event-level description of a live act (a performer billed as such, a gig, a
-quiz), never on a word: a synopsis can say konsertti, and a concert film is a screening.
-**Unresolved** is everything else and stays so; a log line records it, it does not make it a
-film. Publishing unresolved rows is a maintainer decision before the adapter ships: include
-them and some live events show as films, omit them and thin-metadata films vanish; a
-per-title override list covers either. Fixtures required: a film with no metadata (A Fox
-Under a Pink Moon: 76 min, K-16, `Tekstitys` only), a concert film (Oasis: Don't Look Back
-in Anger, `Ohjaus` present), a film whose synopsis mentions a concert, and a billed live
-concert (Arppa, "Akustisesti saleissa", no film metadata). Only the last is non-film.
+The three-state rule, the sample it rests on and the four required fixtures are in
+[docs/research/kinola.md](docs/research/kinola.md). Still open there, and the
+maintainer's: whether to publish the rows the page cannot resolve.
 
 ### Kinola runs three templates, and Orion's parser reads one of them (2026-09-14)
-Read as a visitor 2026-09-14: cinemaorion.fi renders `table.kinola-day` rows (`orion.py`);
-kinokilta.fi/naytokset/ renders 56 `li.kinola-event` with `.date` "TI 15.9.2026", `.time`,
-`.movie-subtitle` (a strand: Kahvikino, Anniskelunäytös K18) and `.duration-info`;
-kinolaika.fi/ohjelmisto/ renders 47 `div.kinola-event` with one `.kinola-event-date`
-"16/09/2026 14:00", a `.kinola-event-venue` and 4 sold-out rows without a checkout link.
-Neither carries `kinola-day`, so `orion.parse` returns zero on both; kinokonepaja.fi lists
-no event. Reusable from orion.py: `_iso`, `_slug`, `_price`, the `/checkout/<uuid>` link
-resolved with `urljoin`, the runner contract. Not reusable: the block, row and cell regexes,
-bound to the table. The fit is one `kinola.py` with a template per site named in `SITES`
-(table, kilta, laika), not a copy of orion.py. Films from other events: the film page says.
-On 23 Laika pages the 16 films carry `Ohjaus` and `Kieli`; the 7 concerts and events carry
-neither and read "Not rated" or K-18 with no director (Tuure Kilpeläinen, Arppa, Antti
-Autio, Knipi, Mariska, Livemusavisa, 50 vuotta rokkia): no director and no language means
-not a film. Kilta: 37 pages, every one with `Ohjaaja` or `Lajityyppi`.
+The three templates and what is reusable from `orion.py` are in
+[docs/research/kinola.md](docs/research/kinola.md).
 
-### Seven tools evaluated against the pipeline, one adopted, one trialled (2026-09-14)
-Adopt: stdlib typing, the show contract above. Trial in CI: Playwright, `tests/browser/`, six
-tests on Playwright's own pinned Chromium (151 for 1.62.0), fixture data from the committed
-2026-09-14 files, pinned clock, `expect` waits only, PNG and trace per failure; a `browser`
-job in ci.yml installs the pin and caches the download, `KINO_BROWSER_CHANNEL=chrome` runs
-it on the installed Chrome locally. A click before the venue lists arrived failed 1 run in 7;
-see "The picker has no ready signal". Reference only: Beautiful
-Soup. The Orion regexes match a bs4 rewrite on 5 of 6 malformed variants, only a nested
-table differs and no Kinola page has one; 4x slower. Awesome Python and Go: catalogues.
-Superpowers: begins at brainstorming, which CLAUDE.md and the kino-* skills settle.
-Defer: Scrapy 2.19. Measured defaults on a scripted server: 500 and 429 both finish
-`finished` with zero items, three tries 0.0 s apart, Retry-After unread (`retry.py` has no
-such code); a `start_requests`-only spider sends nothing, because `start()` is the entry
-since 2.13 and this one was an obsolete example, not a defect. Failure vs empty needs an
-errback flag or a stats check the spider writes itself; that is what run.py already does.
+### Seven tools evaluated against the pipeline, one adopted, one now in CI (2026-09-14)
+The seven verdicts and their measurements are in
+[docs/research/tooling-evaluation.md](docs/research/tooling-evaluation.md).
 
 ### Every adapter is held to one show contract, at the boundary (2026-09-14)
 Bug: the show dict had no written shape. Twelve modules measured, eleven emitted the same
