@@ -1,19 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-14: 69 showtimes
+[schedule] 2026-09-14: 0 showtimes
 [schedule] 2026-09-15: 321 showtimes
 [schedule] 2026-09-16: 338 showtimes
 [schedule] 2026-09-17: 418 showtimes
-[schedule] 2026-09-18: 18 showtimes
-[schedule] 2026-09-19: 23 showtimes
-[schedule] 2026-09-20: 34 showtimes
+[schedule] 2026-09-18: 146 showtimes
+[schedule] 2026-09-19: 148 showtimes
+[schedule] 2026-09-20: 153 showtimes
 [tmdb] dropped 3 entries matched by the old picker
 [tmdb] no TMDB match (2): Myrskyn ikkuna | Ooppera: 20 Years of the Met in Cinemas
 [tmdb] weak match, no exact title (3): Lyhyt rakkaustarina -> Breve storia d'amore | NCT 127 5TH TOUR ‘NEO CITY : SEOUL - THE -> NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS | Practical Magic: Lumotut sisaret -> Lumotut sisaret
-[tmdb] rating held back, under 25 votes (1): Resident Evil (9.2 / 4 votes)
-[tmdb] 6 new lookups, 0 re-checks, cache 70, 62 mergeable by id
+[tmdb] 3 new lookups, 1 re-checks, cache 70, 62 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 48 film entries
+[films] 51 film entries
 [attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
