@@ -39,45 +39,67 @@ are called Pressure:
 
 All 17 providers publish 100 min and K-12. 1318413 is the film; 1701077 is a short.
 
-**The language-marker keys, measured 2026-09-14** by running `clean()` and `queries()` over
-the published titles and searching with the exact strings they produce:
+**Every published Kojootti vs. ACME variant, measured 2026-09-14** against the committed
+data and by searching with the string `queries()` actually produces. The earlier count of
+"eight cache keys" came from a handover and understated the spread: the film is sold under
+fourteen title shapes, and what separates them is the shape of the marker, not the chain.
 
-| published title | search string | outcome |
-|---|---|---|
-| `Kojootti vs. ACME (englanniksi)` | `Kojootti vs. ACME` | exact 1204680 |
-| `Kojootti vs. ACME (på svenska)` | `Kojootti vs. ACME` | exact 1204680 |
-| `Kojootti vs. ACME (suomeksi puhuttu)` | `Kojootti vs. ACME` | exact 1204680 |
-| `Kojootti vs. ACME (Dub)` | `Kojootti vs. ACME` | exact 1204680 |
-| `Gråben vs. ACME (på svenska)` | `Gråben vs. ACME` | 1 hit, 1204680, **not exact** |
-| `Kojootti vs. ACME ENG` | `Kojootti vs. ACME ENG` | **0 results** |
-| `Kojootti vs. ACME SUB` | `Kojootti vs. ACME SUB` | **0 results** |
-| `Kätyrit & Monsterit (englanniksi)` | — | film is in no area file any more |
+| published shape | providers | showtimes | `clean()` gives | search |
+|---|---|---:|---|---|
+| `(suomeksi)`, `, suomeksi`, `SUOMEKSI`, `(orig)` | 6 | 31 | `Kojootti vs. ACME` | already matched |
+| `(englanniksi)` | 3 | 18 | `Kojootti vs. ACME` | exact 1204680 |
+| `ENGLANNIKSI` | 2 | 9 | `Kojootti vs. ACME` | exact 1204680 |
+| `(Dub)` | 1 | 8 | `Kojootti vs. ACME` | exact 1204680 |
+| `, englanniksi` | 1 | 5 | `Kojootti vs. ACME` | exact 1204680 |
+| `(suomeksi puhuttu)` | 1 | 2 | `Kojootti vs. ACME` | exact 1204680 |
+| `(på svenska)` | 1 | 1 | `Kojootti vs. ACME` | exact 1204680 |
+| `DUB`, `ENG`, `SUB` | 2 | 10 | unchanged | **0 results** |
+| `Gråben vs. ACME (på svenska)` | 1 | 2 | `Gråben vs. ACME` | 1 hit, **not exact** |
 
-Three distinct outcomes, which is what the marker fix had to be told apart from: four
-searched and matched, one searched with its only candidate refused by the exact-title rule,
-two searched with no candidate at all.
+So three distinct outcomes, and the marker fix is not the whole story:
+
+- **43 showtimes over six shapes will resolve** on the first run that re-searches them.
+  They were skipped, not refused: `refresh.due` skips an entry already checked today and
+  all of these were stamped `c: 2026-09-14`.
+- **10 showtimes found nothing** because `DUB`, `ENG` and `SUB` are bare uppercase labels
+  `clean()` does not touch. Fixed 2026-09-14 in `etiketti.py` instead, where the page's
+  own language rows corroborate the label; see the entry in
+  [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md) once closed.
+- **2 showtimes are correctly refused.** `Gråben vs. ACME` returns 1204680 as its only hit
+  but not as an exact title, because TMDB has no Swedish title for the film, so the trust
+  gate withholds the id. Not a marker problem and not something to alias: the identity
+  evidence is a single weak hit.
 
 ## Inferences and open questions
 
-- **The Gråben refusal is correct, not a gap.** TMDB has no Swedish title for the film, so
-  the only hit is not an exact match and the trust gate withholds the id. No change to the
-  marker handling can alter that; only a registered Swedish alternative title would.
-- **`ENG` and `SUB` are bare suffixes with no parentheses**, which `clean()` does not
-  touch. Adding them to `TRAIL_NOISE` would close both keys. Not done: they are short,
-  ambiguous tokens where `englanniksi` is not, so eating a real trailing title word is a
-  live risk. Open, and the maintainer's call.
-- **`gilda.py` publishes `original` with the strand prefix still attached** on six shows
-  (`"Seniorikino: Myrskyn Ikkuna"`) while `title` has it split off, which is what put
-  `seniorikino myrskyn ikkuna` in the cache's `o` field. Found in passing on 2026-09-14.
-  It does not cause any miss here, since the cleaned original dedupes against the published
-  title, but it feeds `reconsider()`'s evidence comparison. Unfixed.
+- **The Gråben refusal is correct, not a gap.** No change to marker handling can alter it;
+  only a registered Swedish alternative title would. It is deliberately not aliased: the
+  identity evidence is one weak hit, which is not enough to write an id by hand.
+- **The bare labels were fixed at the adapter, not in the shared cleaner.** `DUB`, `ENG`
+  and `SUB` are ordinary words that can end a real title, so stripping them for every
+  provider was refused. `etiketti.strip_version_suffix()` removes one only when the page
+  also states a language of its own, which those two sites do. The uppercase requirement is
+  what keeps "King of Dub" intact.
+- **Whether a marker belongs in the title at all is the provider's choice**, and fourteen
+  shapes for one film say the answer is no. Nothing here proposes normalising them further:
+  each shape that matters is either handled by `clean()` or corroborated at an adapter.
+- **`gilda.py` published `original` with the strand attached** on six shows. Fixed
+  2026-09-14 in `strands.apply()`, which now splits both fields with the same exact list
+  and never copies the display title over a real original-language one.
 
 ## Status and next step
 
-Myrskyn ikkuna is aliased to 1318413 in `scripts/providers/tmdb-aliases.json`, which both
-passes read. The alias takes effect on the next cloud run; the check is that
-`logs/run-enrich.log` stops listing the title and the shows gain a `tmdbId`.
+Three changes are deployed and none is confirmed in published data yet, because no pipeline
+run has happened since they landed:
 
-The four marker keys need a run that publishes after 00:00 UTC, because `refresh.due`
-skips an entry already checked today and all eight were stamped `c: 2026-09-14`. Next step
-for both: read the committed cache and `logs/run-enrich.log` after that run.
+| change | what confirms it | which half |
+|---|---|---|
+| alias 1318413 | `tmdbId` on the 93 Myrskyn ikkuna shows | **both**: 35 are Finnkino, 58 are not |
+| marker fix re-search | `tmdbId` 1204680 on the 43 skipped showtimes | cloud, after 00:00 UTC |
+| `etiketti` label strip | `DUB`/`ENG`/`SUB` gone from published titles, then the id | cloud |
+| `strands` original split | no `Seniorikino:` in any `original` | cloud (Gilda) |
+
+Read the published show records rather than the log: a title's absence from
+`run-enrich.log` says it was not searched, which is also what a skip looks like. Finnkino
+is on the local half and `fetch_data.py` reads the same alias file, so a cloud run alone
+cannot establish the Pressure result for its 35 showtimes.

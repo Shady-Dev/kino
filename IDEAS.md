@@ -25,17 +25,19 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### The TMDB marker fix, and Myrskyn ikkuna (opened 2026-09-14)
+### Four TMDB matching fixes, deployed and unconfirmed (opened 2026-09-14)
 
-Both wait on the same thing: a cloud run that publishes after 00:00 UTC, because
-`refresh.due` skips an entry already checked today and all the keys are stamped
-`c: 2026-09-14`. What each will do was measured on 2026-09-14 rather than left to the run:
-four of the eight marker keys match 1204680 exactly, one has its only candidate refused by
-the exact-title rule, two find nothing because `ENG` and `SUB` are bare suffixes `clean()`
-does not touch, and one film has left the programme. Myrskyn ikkuna is aliased to 1318413.
-Evidence and the per-key table: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
-**Next action:** after that run, read the committed cache and `logs/run-enrich.log`.
-Undecided there and not decided here: whether `TRAIL_NOISE` should gain `ENG` and `SUB`.
+Myrskyn ikkuna aliased to 1318413; the language-marker fix; `etiketti` dropping a bare
+`DUB`/`ENG`/`SUB` label from a title when the page states the language itself; and
+`strands.apply()` splitting the strand off `original` as well as `title`. Measured, not
+assumed: 43 showtimes over six marker shapes resolve once re-searched, 10 more once the two
+eTiketti sites refetch, 93 Myrskyn ikkuna showtimes on the alias, and Gråben's 2 stay
+refused because its only hit is not an exact title, which is correct and not to be aliased.
+Evidence and the per-shape table:
+[docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
+**Next action:** after the next runs, read the published show records, not the log: a title
+missing from `run-enrich.log` was not searched, which is what a skip looks like too.
+Finnkino is on the local half, so a cloud run alone cannot settle its 35 Pressure rows.
 
 ### Provider coverage, and what is next
 
