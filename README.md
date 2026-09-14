@@ -6,14 +6,14 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 83 venues in 54 cities across 39 providers: Finnkino, BioRex,
+Showtimes for 86 venues in 57 cities across 42 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
 Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
-Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine and
-Elokuvateatteri Star. Films
+Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine,
+Elokuvateatteri Star, Kino Piispanristi, Kino Lumo and Laitilan Kino. Films
 with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
 prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page, or the ticket shop where the screening is
@@ -21,7 +21,7 @@ included in a general admission ticket (Heureka's planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 54 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 57 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -52,6 +52,7 @@ platforms:
 | Vista (public XML) | 1 | 1 | none | GitHub Actions |
 | Kino Tapiola | 1 | 1 | none | GitHub Actions |
 | Kino Regina | 1 | 1 | none | Local |
+| Cinemahouse (cinema-reservations) | 3 | 3 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -180,7 +181,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-95 per language, 191 sitemap URLs: 83 venues plus the twelve cities with more
+98 per language, 197 sitemap URLs: 86 venues plus the twelve cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -213,10 +214,14 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-08: all 3230
-poster references resolve to `data/posters/` on this origin: 2995 on showtimes
-and 235 in `films-extra.json`, across 828 mirrored files, none off-origin. The
-typeface is served from `fonts/`. Every `<img>` carries
+**A page load makes no third-party requests.** Counted 2026-09-14: of 3728
+poster references, 3475 resolve to `data/posters/` on this origin (3231 on
+showtimes and 244 in `films-extra.json`) across 970 mirrored files. The 253
+still off-origin are the Cinemahouse batch's, committed by a local run of an
+adapter whose posters only the cloud run mirrors; the client refuses a poster
+that is not under `data/posters/` and draws its placeholder tile instead, and
+`build_pages.py` leaves such a reference out of the markup, so none of them is a
+request either. The typeface is served from `fonts/`. Every `<img>` carries
 `referrerpolicy="no-referrer"`.
 
 Until 2026-08-29 the typeface came from Google Fonts and about a third of the
@@ -229,7 +234,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 39 providers listed at the
+Schedule data belongs to the respective cinemas, the 42 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

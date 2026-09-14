@@ -272,6 +272,27 @@
    "host": "kinoregina.fi",
    "accent": "#8A4854",
    "book": "buy"
+  },
+  {
+   "id": "kinopiispanristi",
+   "label": "Kino Piispanristi",
+   "host": "kinopiispanristi.fi",
+   "accent": "#0096EA",
+   "book": "reserve"
+  },
+  {
+   "id": "kinolumo",
+   "label": "Kino Lumo",
+   "host": "kinolumo.fi",
+   "accent": "#F64EAE",
+   "book": "reserve"
+  },
+  {
+   "id": "laitilankino",
+   "label": "Laitilan Kino",
+   "host": "laitilankino.fi",
+   "accent": "#3C7872",
+   "book": "reserve"
   }
  ]
 }

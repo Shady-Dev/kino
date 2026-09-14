@@ -1363,6 +1363,31 @@ checked against every committed log including the cloud half's. Bot pushes do no
 that workflow, so the red clears on the next cloud run rather than on a rerun. It did:
 `19f97e8a` has nexxo at `exit=0` and all 18 committed run logs ending `exit=0`.
 
+### Cinemahouse: three cinemas on one WordPress plugin (2026-09-14)
+Bug: Kino Piispanristi (Kaarina), Kino Lumo (Salo) and Laitilan Kino (Laitila) were unread.
+All three run the `cinema-reservations` plugin under a cinemahouse-child theme, Laitila on
+an older build with the same markup, so one adapter serves them.
+Fix: `cinemahouse.py`, one front page per site. `cr-screening-row` carries the date, time,
+room, price, free seats and `/varaa/?screening_id=N`; `cr-movie-tile` carries the poster,
+age limit, runtime, genres and the film page, joined on the normalised title; one film page
+per film for the cinema's own synopsis, `common.capped`. A row has no year, so `_iso` takes
+the nearest. `eventId` is the normalised title with the strand off, since ENNAKKONAYTOS is
+its own post. Dedup is on the screening id, which is unique inside a site and collides
+across them. `EmptyProgramme` only when the filter select offers no day and there is no
+tile and no row, and the film parse reads no part of that day list; a page still listing a
+film or a day and parsing to zero fails. `book="reserve"`: /varaa/ takes a name, an email
+and a phone and ends in "Vahvista varaus", with no payment step anywhere. Accents are
+unconstrained (no shared city or region); against Finnkino 51.2 / 35.2 / 47.6 dE00 on the
+weakest model, 18.2 and up between the three. Laitila's own JSON-LD stamps a 13:00 Helsinki
+screening `+00:00`, so the rendered clock is the time source. First run 175 / 71 / 7
+showtimes, 0 failures, three screenings a site read back against the pages by hand.
+Tests: `tests/test_cinemahouse.py`, 43 tests, 29 mutations red; the `test_show_contract`
+sample, 4 mutations red.
+Accepted: eight titles survive `enrich_tmdb.clean` uncleaned (Laitila's seven "(Kahvi ja
+Kino)" and "Kojootti vs. ACME ENGLANNIKSI") and will not match TMDB; posters stay remote
+until the first cloud run mirrors them; an emptied programme keeps its last screenings,
+since `EmptyProgramme` writes nothing.
+
 ### Next providers
 - **eTiketti is done** (2026-08-30): fourteen hosts, sixteen venues, see the sweep entry
   above. Cinema Niagara is the one host left behind, and it needs parser work rather than
@@ -1371,6 +1396,9 @@ that workflow, so the red clears on the next cloud run rather than on a rerun. I
   Kino Metso, the touring locationid at kinoaurora.fi, is the piece left -- it needs the
   room-splitting `match` that `etiketti.py` already has.
 - **Cinema Niagara** is the other parser-shaped leftover: eTiketti's second template.
+- **Cinemahouse is done** (2026-09-14): three cinemas on the `cinema-reservations`
+  plugin, one adapter; see the entry above. Another site on that plugin is a `SITES`
+  entry.
 - **Vista has one Finnish site after all: Korjaamo Kino**, probed and added on
   2026-09-05; see "Korjaamo Kino: the Vista module gets a Finnish site" above. Cinamon
   and other non-Finnish Vista users remain untested.

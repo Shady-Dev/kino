@@ -229,6 +229,33 @@ PROVIDERS = [
     # worst pair stays Finnkino/Cinema Orion at 14.4.
     dict(id="regina", label="Kino Regina", host="kinoregina.fi", accent="#8A4854",
          book="buy", module="regina", where="local"),
+
+    # The Cinemahouse batch of 2026-09-14: three cinemas running the WordPress
+    # `cinema-reservations` plugin under a cinemahouse-child theme, one adapter for all
+    # three. `book="reserve"` throughout: the link a showtime carries,
+    # /varaa/?screening_id=N, is a seat-reservation page that asks for a name, an email
+    # and a phone number and ends in "Vahvista varaus", with no payment step anywhere in
+    # it, so the showtime reserves a seat rather than selling a ticket. `where="cloud"`:
+    # all three answer LiteSpeed with no Cloudflare and no challenge, and the first cloud
+    # run decides as it did for Niagara and Heureka.
+    #
+    # Kaarina, Salo and Laitila each hold one cinema and none of the three is in a
+    # REGIONS area, so none of these accents is constrained today and
+    # `accent_check.py --search` says so for each. They are measured against Finnkino
+    # anyway, because Kaarina is about 10 km from Turku and Turku is Finnkino's, so a
+    # later Turun seutu entry would put that pair in one row: 51.2 / 65.5 / 57.5 dE00
+    # (normal / Vienot / Machado) at L* 59.7 for Piispanristi, 35.2 / 37.8 / 34.7 at
+    # L* 60.0 for Lumo, 47.6 / 35.8 / 34.1 at L* 46.5 for Laitila, and the three are 18.2
+    # dE00 or more apart from each other. Against the whole 42-accent set the nearest
+    # neighbour is 8.1 to 9.3 dE00, which is near the ceiling the L* 38-60 band still
+    # offers: see IDEAS, and it binds nothing, because an accent is only ever read
+    # beside the chains that share its city or its region.
+    dict(id="kinopiispanristi", label="Kino Piispanristi", host="kinopiispanristi.fi",
+         accent="#0096EA", book="reserve", module="cinemahouse", where="cloud"),
+    dict(id="kinolumo", label="Kino Lumo", host="kinolumo.fi", accent="#F64EAE",
+         book="reserve", module="cinemahouse", where="cloud"),
+    dict(id="laitilankino", label="Laitilan Kino", host="laitilankino.fi",
+         accent="#3C7872", book="reserve", module="cinemahouse", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

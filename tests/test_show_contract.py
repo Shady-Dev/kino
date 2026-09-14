@@ -3,7 +3,7 @@
 The show dict is read by key in run.py, synmerge and the client, and a key one adapter
 leaves out is the bug class that filled the day multi-provider landed. BioRex shipped
 without `price` and was covered only by a `|| ''` in the client. This parses each of the
-twelve registry modules' own fixtures, the ones its adapter tests already use, and
+thirteen registry modules' own fixtures, the ones its adapter tests already use, and
 checks every emitted show: the seventeen keys present with the annotated type, an
 `eventId`, a `start` that parses as an aware ISO instant, an absolute http(s) `url`, and
 `provider` and `venue` naming the site the fixture is for. Extra keys are allowed when
@@ -28,6 +28,7 @@ import common
 import registry
 import run
 
+import test_cinemahouse as C
 import test_etiketti_templates as E
 import test_gilda_duplicates as G
 import test_heureka as H
@@ -119,6 +120,16 @@ def sample_heureka():
     return shows, hk.SITES[0]["provider"], [v["id"] for v in hk.SITES[0]["venues"]]
 
 
+def sample_cinemahouse():
+    """Through `parse`, because the rows carry no metadata: the film grid supplies the
+    poster, the age limit, the runtime and the genres, and a sample taken from the row
+    parser alone would never exercise that join."""
+    site = C.PIISPANRISTI
+    with contextlib.redirect_stdout(io.StringIO()):
+        shows = mod("cinemahouse").parse(C.PR_PAGE, site, today=C.TODAY)
+    return shows, site["provider"], [v["id"] for v in site["venues"]]
+
+
 def sample_etiketti():
     e = E.load()
     real = e.get
@@ -172,6 +183,7 @@ SAMPLES = {
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
     "gilda": sample_gilda, "heureka": sample_heureka, "etiketti": sample_etiketti,
     "biorex": sample_biorex, "engel": sample_engel, "kinoakseli": sample_kinoakseli,
+    "cinemahouse": sample_cinemahouse,
 }
 
 
