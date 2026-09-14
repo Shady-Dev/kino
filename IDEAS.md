@@ -2381,6 +2381,22 @@ files in the repo root are committed per run by design.
   competing with the cinemas' own listings. A deliberate decision, not a side effect of
   markup. See "Access and ethics".
 
+### Seven tools evaluated against the pipeline, one adopted, one trialled (2026-09-14)
+Adopt: stdlib typing, the show contract above. Trial in CI: Playwright, `tests/browser/`, six
+tests on Playwright's own pinned Chromium (151 for 1.62.0), fixture data from the committed
+2026-09-14 files, pinned clock, `expect` waits only, PNG and trace per failure; a `browser`
+job in ci.yml installs the pin and caches the download, `KINO_BROWSER_CHANNEL=chrome` runs
+it on the installed Chrome locally. A click before the venue lists arrived failed 1 run in 7
+until the page is entered on network idle; 6 of 6 green after. Reference only: Beautiful
+Soup. The Orion regexes match a bs4 rewrite on 5 of 6 malformed variants, only a nested
+table differs and no Kinola page has one; 4x slower. Awesome Python and Go: catalogues.
+Superpowers: begins at brainstorming, which CLAUDE.md and the kino-* skills settle.
+Defer: Scrapy 2.19. Measured defaults on a scripted server: 500 and 429 both finish
+`finished` with zero items, three tries 0.0 s apart, Retry-After unread (`retry.py` has no
+such code); a `start_requests`-only spider sends nothing, because `start()` is the entry
+since 2.13 and this one was an obsolete example, not a defect. Failure vs empty needs an
+errback flag or a stats check the spider writes itself; that is what run.py already does.
+
 ### Every adapter is held to one show contract, at the boundary (2026-09-14)
 Bug: the show dict had no written shape. Twelve modules measured, eleven emitted the same
 seventeen keys and BioRex emitted no `price`; the client survived on `r.price || ''`.

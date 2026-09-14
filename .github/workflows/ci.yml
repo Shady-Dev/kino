@@ -131,3 +131,53 @@ jobs:
             grep -m5 'ResourceWarning' "$RUNNER_TEMP/suite.log"
             exit 1
           fi
+
+  # The venue picker and the ticket links in a real engine: tests/browser, which the
+  # unit suite above does not discover (the directory is not a package). Its own job so
+  # a browser-side failure and a pipeline failure read as two verdicts, and so the unit
+  # job stays dependency-light.
+  #
+  # Playwright is pinned exactly and drives its own Chromium, the build `playwright
+  # install chromium` fetches for that Playwright version, so the engine under test is
+  # decided by the pin and not by whichever Chrome the runner image ships that week (152
+  # on ubuntu-24.04 as of 2026-09-14). The ~170 MB download is cached by Playwright
+  # version; `--with-deps` installs the shared libraries Chromium needs on the image.
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Install Playwright
+        run: python3 -m pip install --quiet --disable-pip-version-check playwright==1.62.0
+
+      # actions/cache v6.1.0, the pin biorex.yml already carries. Keyed on the Playwright
+      # version because that is what decides which Chromium build gets downloaded.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-1.62.0
+
+      - name: Install Playwright's Chromium
+        run: python3 -m playwright install --with-deps chromium
+
+      - name: Browser suite
+        run: |
+          set +e
+          python3 -m unittest discover -s tests/browser -v > "$RUNNER_TEMP/browser.log" 2>&1
+          rc=$?
+          set -e
+          tail -40 "$RUNNER_TEMP/browser.log"
+          awk '/^(FAIL|ERROR): / { print "::error::" $0 }' "$RUNNER_TEMP/browser.log"
+          if [ "$rc" != 0 ]; then
+            echo "::error::the browser suite failed (exit $rc)"
+            exit 1
+          fi
+
+      # The PNG and trace zip a failing test leaves behind, readable with
+      # `playwright show-trace`. actions/upload-artifact v6.0.0, pinned to its SHA.
+      - if: failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: browser-failures
+          path: tests/browser/out/
+          if-no-files-found: ignore

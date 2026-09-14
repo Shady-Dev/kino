@@ -22,3 +22,6 @@ AGENTS.md
 # verbatim copies of third parties' pages, which is exactly what the probe/ rule above
 # exists to keep out of a public repo. Restored between Actions runs by actions/cache.
 .http-cache/
+
+# Playwright failure artefacts from tests/browser (a PNG and a trace zip per failure)
+tests/browser/out/
