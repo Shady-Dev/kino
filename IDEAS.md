@@ -25,19 +25,18 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### Four TMDB matching fixes, deployed and unconfirmed (opened 2026-09-14)
+### 36 marker showtimes wait on a run past midnight UTC (opened 2026-09-14)
 
-Myrskyn ikkuna aliased to 1318413; the language-marker fix; `etiketti` dropping a bare
-`DUB`/`ENG`/`SUB` label from a title when the page states the language itself; and
-`strands.apply()` splitting the strand off `original` as well as `title`. Measured, not
-assumed: 43 showtimes over six marker shapes resolve once re-searched, 10 more once the two
-eTiketti sites refetch, 93 Myrskyn ikkuna showtimes on the alias, and Gråben's 2 stay
-refused because its only hit is not an exact title, which is correct and not to be aliased.
-Evidence and the per-shape table:
-[docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
-**Next action:** after the next runs, read the published show records, not the log: a title
-missing from `run-enrich.log` was not searched, which is what a skip looks like too.
-Finnkino is on the local half, so a cloud run alone cannot settle its 35 Pressure rows.
+Three of the four TMDB matching fixes are published and closed; see the archive. What is
+left is the daily retry: `refresh.due` skips an entry already checked today, and seven keys
+still read `c: 2026-09-14` with no id, so the 23:18 UTC run skipped them again rather than
+refusing them. Measured: six shapes over 36 showtimes match 1204680 exactly once searched.
+The seventh, `Gråben vs. ACME (på svenska)`, stays refused on purpose, because its only hit
+is not an exact title and one weak hit is not identity evidence to alias on.
+**Next action:** after the first run publishing past 00:00 UTC, read the show records for
+`tmdbId` 1204680, not `logs/run-enrich.log`; a title missing from that log was not searched,
+which is what a skip looks like too.
+Evidence: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
 
 ### Provider coverage, and what is next
 

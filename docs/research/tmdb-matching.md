@@ -89,17 +89,15 @@ So three distinct outcomes, and the marker fix is not the whole story:
 
 ## Status and next step
 
-Three changes are deployed and none is confirmed in published data yet, because no pipeline
-run has happened since they landed:
+Published 2026-09-14, verified on show records rather than on the log:
 
-| change | what confirms it | which half |
-|---|---|---|
-| alias 1318413 | `tmdbId` on the 93 Myrskyn ikkuna shows | **both**: 35 are Finnkino, 58 are not |
-| marker fix re-search | `tmdbId` 1204680 on the 43 skipped showtimes | cloud, after 00:00 UTC |
-| `etiketti` label strip | `DUB`/`ENG`/`SUB` gone from published titles, then the id | cloud |
-| `strands` original split | no `Seniorikino:` in any `original` | cloud (Gilda) |
+| change | outcome |
+|---|---|
+| alias 1318413 | **93/93** showtimes, 35 Finnkino on the 23:12 local run and 58 on the 23:18 cloud run |
+| `etiketti` label strip | **no ENG, SUB or DUB title left**; those 10 showtimes carry 1204680 |
+| `strands` original split | **no `original` carries a strand**; Gilda's six are clean |
+| marker re-search | **not yet**: 36 showtimes over six shapes, still `c: 2026-09-14` |
 
-Read the published show records rather than the log: a title's absence from
-`run-enrich.log` says it was not searched, which is also what a skip looks like. Finnkino
-is on the local half and `fetch_data.py` reads the same alias file, so a cloud run alone
-cannot establish the Pressure result for its 35 showtimes.
+The last one is a skip, not a refusal, and needs a run publishing after 00:00 UTC. Gråben's
+2 showtimes stay refused and are not to be aliased. Three stale cache keys, `kojootti vs
+acme dub`, `... eng` and `... sub`, now reference no show and will age out.

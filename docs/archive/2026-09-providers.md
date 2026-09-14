@@ -1017,3 +1017,25 @@ Bio Säde the front page. Bio Säde needed a second base: its front page renders
 location-4 schedule by calling kinohirvi.fi's API, so the entry carries `site` (biosade.fi)
 beside `base` (kinohirvi.fi). The missing check costs one request per site and no offline
 test can hold it. A dispatch followed rather than a wait for the cron.
+
+### An eTiketti audio-version label is not part of the film title (2026-09-14)
+
+Bug: Bio Rex Kokkola published "Kojootti vs. ACME ENG" beside the plain title and
+Kinopirtti "Kojootti vs. ACME DUB" and "... SUB". The search string is the published
+title, so all three went to TMDB with the label attached and returned 0 results, while the
+plain title matches 1204680 exactly. 10 showtimes, unmatched since the film opened.
+Measured before choosing the layer: the language is already extracted separately here.
+Kinopirtti's DUB row carries `lang` FI-A and method "Puhuttu suomeksi", its SUB row
+EN-A, FI-S, SV-S and "Puhuttu englanniksi"; Kokkola's ENG row carries FI-S against the
+plain title's FI-A. The label is a second copy of what the page already states.
+Fix: `etiketti.strip_version_suffix()`, not `enrich_tmdb.clean()`. The shared cleaner would
+have to strip these words for every provider, and ENG, SUB and DUB can end a real title.
+Four conditions, all required: one of exactly three labels, published in capitals,
+something left after it, and a language row on the page to corroborate it. A page stating
+no language keeps its title, because there the label is the only record of the version.
+Rejected: adding the bare tokens to `TRAIL_NOISE`, which would eat "King of Dub".
+Tests: `test_etiketti_templates.VersionSuffixTest`, 7 tests, four mutations red, one of
+them pinned on the function because `parse_movie` cannot reach the empty-result guard.
+Published 2026-09-14 on the 23:18 UTC cloud run: no ENG, SUB or DUB title is left in the
+data and all 10 showtimes carry 1204680.
+

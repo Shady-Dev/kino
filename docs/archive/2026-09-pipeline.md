@@ -1106,3 +1106,43 @@ ended `exit=0`, 10 venues, 110 showtimes, 0 stale, 0 failures.
 Nothing was changed for it and nothing here explains it: a timeout carries no mechanism,
 which is the reading the 2026-09-06 entry above already records. Worth reopening only if
 the same host fails again, since a second failure is the first evidence of a pattern.
+
+### The strand comes off the original title too (2026-09-14)
+
+Bug: `strands.apply()` split the strand off `title` and folded it into `method`, and never
+touched `original`. Gilda publishes it in both, so six shows carried "Seniorikino: ..." as
+their original title into `gather()`, which is where `enrich_tmdb` records the evidence an
+entry was judged on, and into the search as its second query.
+Fix: `apply()` splits `original` with the same exact list, so nothing new decides what a
+strand is. What it deliberately does not do is copy `title` into `original`: a provider
+publishing a real original-language title puts something else there, Kino Regina's
+"La ballade des Dalton" against "Lucky luke sotapolulla", and overwriting it would cost the
+match the original title exists to win. A strand on the original alone is split too,
+without the clean title gaining a tag it never had.
+Reconsideration checked rather than assumed: `reconsider()` re-judges a title when the
+evidence moves from the strand-prefixed original to the clean one and leaves it alone when
+the evidence is unchanged.
+Tests: `test_vista.StrandTest`, 6 added, three mutations red including the original being
+overwritten with the display title.
+Published 2026-09-14 on the 23:18 UTC cloud run: no `original` in the data carries a strand.
+
+### Myrskyn ikkuna is aliased, and TMDB simply has no Finnish title for it (2026-09-14)
+
+Bug: 93 showtimes over 17 providers carried no `tmdbId`, so the film drew an initials tile
+everywhere it played. The title is clean, so `clean()` left it and the search string was the
+published title itself.
+Cause, probed: `search/movie?query=Myrskyn ikkuna` returns 0 results with `language=fi-FI`
+and 0 without. TMDB holds no Finnish title for the film at all, no `fi` entry in
+`/translations` and no Finnish row in `/alternative_titles`. Search covers original, English
+and registered alternative titles, so no query spelling, language parameter or year fallback
+can reach it. Not a defect in normalisation, cache eligibility or the acceptance rules.
+Identity verified before the id was written, because two 2026 films are called Pressure:
+1318413 is 101 min against the 100 min all 17 providers publish, has 394 votes, and its
+Latvian and Polish alternative titles name the Normandy D-Day story; 1701077 is a 5-minute
+short with 0 votes.
+Fix: one alias key, which both passes read. Tests pin the id and that both published
+spellings normalise onto it, Gilda capitalising the second word.
+Published 2026-09-14: the local run at 23:12 UTC gave Finnkino's 35 showtimes the id, and
+the cloud run at 23:18 the other 58. A cloud run alone could not have shown the first,
+which is why the check read show records on both halves rather than `run-enrich.log`.
+
