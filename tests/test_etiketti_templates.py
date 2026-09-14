@@ -493,5 +493,70 @@ class NiagaraRegistryTest(unittest.TestCase):
                 self.assertIn("11", html)
 
 
+class VersionSuffixTest(unittest.TestCase):
+    """Two sites label the audio version in the film-page H1 as well as in the language
+    rows, which cost those rows their TMDB match: no search with a trailing ENG or SUB
+    reaches the film. The label is dropped only when the page states a language of its
+    own, so nothing the suffix carried is lost."""
+
+    def film(self, h1, kieli="englanti", tekstitys="Suomi ja ruotsi"):
+        rows = ""
+        if kieli:
+            rows += f'<span class="label">Kieli:</span> {kieli}<br />\n'
+        if tekstitys:
+            rows += f'<span class="label">Tekstitys:</span> {tekstitys}<br />\n'
+        return (f"<main>\n<h1>{h1}</h1>\n" + rows +
+                '<h2>N\u00e4yt\u00f6kset</h2>\n<div class="screenings">\n</div>\n</main>')
+
+    def title_of(self, h1, **kw):
+        e = load()
+        _, meta = e.parse_movie(self.film(h1, **kw), site("kinopirtti"), "/elokuvat/1/x")
+        return meta["title"]
+
+    def test_the_two_published_examples_lose_the_label(self):
+        """Bio Rex Kokkola's ENG and Kinopirtti's SUB, the two rows that went unmatched."""
+        self.assertEqual(self.title_of("Kojootti vs. ACME ENG"), "Kojootti vs. ACME")
+        self.assertEqual(self.title_of("Kojootti vs. ACME SUB"), "Kojootti vs. ACME")
+
+    def test_the_dub_variant_beside_it_loses_it_too(self):
+        self.assertEqual(self.title_of("Kojootti vs. ACME DUB"), "Kojootti vs. ACME")
+
+    def test_a_legitimate_title_ending_in_the_same_word_is_untouched(self):
+        """The reason this is not a global strip of ambiguous trailing words. "Dub" ends a
+        real title as an ordinary capitalised word; only the all-capitals label goes."""
+        for real in ("King of Dub", "The Dog Stars", "Kojootti vs. ACME",
+                     "Practical Magic: Lumotut sisaret"):
+            with self.subTest(title=real):
+                self.assertEqual(self.title_of(real), real)
+
+    def test_a_page_that_states_no_language_keeps_its_title(self):
+        """The corroboration is the point: with no language row the label is the only
+        record of the version, so removing it would lose the fact."""
+        self.assertEqual(
+            self.title_of("Kojootti vs. ACME ENG", kieli="", tekstitys=""),
+            "Kojootti vs. ACME ENG")
+
+    def test_the_language_the_page_states_still_reaches_the_show(self):
+        """Dropping the label must not drop what it stood for."""
+        e = load()
+        _, meta = e.parse_movie(self.film("Kojootti vs. ACME SUB"), site("kinopirtti"),
+                                "/elokuvat/1/x")
+        self.assertEqual(meta["title"], "Kojootti vs. ACME")
+        self.assertIn("EN-A", meta["lang"])
+        self.assertIn("FI-S", meta["lang"])
+
+    def test_a_label_alone_is_not_a_title_to_strip(self):
+        self.assertEqual(self.title_of("SUB"), "SUB")
+
+    def test_stripping_never_returns_an_empty_title(self):
+        """Called on the function, because parse_movie cannot produce these: `_txt` has
+        already trimmed the H1. The guard is what stops a title that is nothing but a
+        label, however it is spaced, from being emptied by a later caller."""
+        e = load()
+        for odd in (" SUB", "  ENG", "DUB "):
+            with self.subTest(title=odd):
+                self.assertEqual(e.strip_version_suffix(odd, "FI-S"), odd)
+
+
 if __name__ == "__main__":
     unittest.main()

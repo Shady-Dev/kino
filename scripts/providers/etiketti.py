@@ -335,6 +335,38 @@ def _lang(page):
     return ", ".join(parts)
 
 
+# Two eTiketti sites put the audio version in the film-page H1 as well as in the language
+# rows: Bio Rex Kokkola sells "Kojootti vs. ACME" beside "Kojootti vs. ACME ENG", and
+# Kinopirtti sells "Kojootti vs. ACME DUB" and "Kojootti vs. ACME SUB". The suffix is a
+# label, not part of the film's name, and it cost those rows their TMDB match: the search
+# string is the published title, and no query with a trailing ENG or SUB reaches the film
+# (0 results, probed 2026-09-14; see docs/research/tmdb-matching.md).
+#
+# Stripped here rather than in the shared TMDB cleaner on purpose. `enrich_tmdb.clean()`
+# would have to strip these words from every provider's titles, and ENG, SUB and DUB are
+# ordinary words that can end a real title; here the adapter knows the site and can require
+# the page to corroborate the label before removing it.
+VERSION_SUFFIXES = ("ENG", "SUB", "DUB")
+
+
+def strip_version_suffix(title, lang):
+    """Drop a trailing audio-version label from an eTiketti title. -> title
+
+    Four conditions, all required, because the cost of being wrong is a mangled film name:
+    the last word is one of exactly three known labels; it is published in capitals, which
+    a word inside a real title is not; something is left of the title after it; and the
+    page stated a language of its own, so the fact the label carries is not the only copy
+    and nothing is lost by dropping it. A page with no language row keeps its title
+    untouched.
+    """
+    if not lang:
+        return title
+    head, sep, last = title.rstrip().rpartition(" ")
+    if not sep or last not in VERSION_SUFFIXES:
+        return title
+    return head.rstrip() or title
+
+
 def normalise_aud(raw, short):
     """`VENUE | HALL` -> the hall alone, or "" when the hall is only the venue again.
 
@@ -453,7 +485,8 @@ def parse_movie(page, site, movie_url):
             "sid": book.group(1) if book else "",
             "url": site["base"] + (book.group(1) if book else movie_url),
         })
-    return out, {"title": title, "rating": rating, "len": minutes, "img": img,
+    return out, {"title": strip_version_suffix(title, lang), "rating": rating,
+                 "len": minutes, "img": img,
                  "lang": lang, "genres": genres, "syn": syn, "skipped": skipped}
 
 
