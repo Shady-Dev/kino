@@ -222,15 +222,16 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-14: of 3728
-poster references, 3475 resolve to `data/posters/` on this origin (3231 on
-showtimes and 244 in `films-extra.json`) across 970 mirrored files. The 253
-still off-origin are the Cinemahouse batch's, committed by a local run of an
-adapter whose posters only the cloud run mirrors; the client refuses a poster
-that is not under `data/posters/` and draws its placeholder tile instead, and
-`build_pages.py` leaves such a reference out of the markup, so none of them is a
-request either. The typeface is served from `fonts/`. Every `<img>` carries
-`referrerpolicy="no-referrer"`.
+**A page load makes no third-party requests.** Counted 2026-09-14 after the
+Cinemahouse batch had been through a full run: all 4044 poster references resolve
+to `data/posters/` on this origin, 3791 on showtimes and 253 in
+`films-extra.json`, across 1023 mirrored files, none off-origin. A newly added
+provider publishes its posters on the cinema's own host and they stay that way
+until a run reaches the mirroring step, which either half performs; in between
+the client refuses a poster that is not under `data/posters/` and draws its
+placeholder tile, and `build_pages.py` leaves such a reference out of the markup,
+so an unmirrored poster is never a request either. The typeface is served from
+`fonts/`. Every `<img>` carries `referrerpolicy="no-referrer"`.
 
 Until 2026-08-29 the typeface came from Google Fonts and about a third of the
 posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are

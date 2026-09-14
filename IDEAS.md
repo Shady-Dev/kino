@@ -486,6 +486,29 @@ Reported missing by the user on three venues where the browser shows a price.
   page, which carries the widget's key. Deferred by the user the same day: no more
   polling on the local half for now. `price` and `aud` stay empty for Engel.
 
+### The Cinemahouse batch and the marker fix, verified on the first cloud run (2026-09-14)
+First cloud run including `cinemahouse`, dispatched by the local wrapper at 20:37 UTC on
+`52d8268b`, data at `712ebc7e`. `run-cinemahouse.log` reads `exit=0`: 3 venues, 253
+showtimes, 0 failures, so the provisional `where="cloud"` holds. The run itself went red on
+`run-nexxo.log`, `jarvelankino locationid 1 FAILED: <urlopen error timed out>`, which kept
+its previous file; unrelated to this batch and the shape IDEAS already records as carrying
+no mechanism.
+Posters: all 253 were mirrored, but by the **local** half, not the cloud one. Its
+`mirror_posters.py` step runs over the whole of `data/`, so it swept the new provider too:
+`47 downloaded` in that log is exactly the film count, 21 + 19 + 7. The tree is 4044 poster
+references, 0 off-origin, 1023 files. The README paragraph claiming 253 were waiting for a
+cloud run was wrong on both halves and is corrected.
+Marker fix, partially exercised. Every key that was new or held a wrong id was re-judged and
+every id matches the ones read off /movie/{id} by hand: Presidentin kyyditys 1412214, Lapin
+sota 1450460, Pirjo i Sverige 1729175, Rakkautta ja virtahepoja 1450473, Kerro kaikille
+1304530, Hetki ennen valoa 1015881, Matka Piemonteen 1545391 by alias, and Avengers
+Endgame Re-release (encore) from a weak 24428, The Avengers 2012, to an exact 1769545.
+Not yet exercised: every `Kojootti vs. ACME` language-marker spelling. Those entries were
+stamped `c: 2026-09-14` by the 17:13 UTC run, which predates the fix, and came out of this
+run byte-identical because the pass skips a title already checked today. They take the
+daily retry on the first run after midnight UTC. Same timing the 2026-09-13 entry above
+records; not a defect in the fix, and nothing to change.
+
 ### A language marker in the title blocked the TMDB search (2026-09-14)
 Bug: `clean()` took `suomeksi` off the search string in all three positions it occurs in
 and took none of its counterparts off any of them, so a cinema selling the dubbed and the
