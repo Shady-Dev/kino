@@ -1,0 +1,1098 @@
+# Archive: pipeline decisions, to 2026-09-14
+
+Dated decision records moved out of `IDEAS.md` on 2026-09-15, so that file can be a short
+index of open work rather than a 4,937-line history. Each entry is the record as it was
+written, heading unchanged, so a reference that used to name a heading in `IDEAS.md`
+resolves here against the same text. Everything here is closed: built, reversed, or
+decided against, and the entry says which.
+
+The generic half: `scripts/providers/run.py`, `common.py`, the TMDB enrichment passes,
+the shared price and poster steps, and the rules every adapter is held to. Per-provider
+records are in [2026-09-providers.md](2026-09-providers.md).
+
+Active and deferred work is in [IDEAS.md](../../IDEAS.md). The accepted working rules are
+in [CLAUDE.md](../../CLAUDE.md), the visual contract in [DESIGN.md](../../DESIGN.md), and
+the investigations these decisions rest on under [docs/research/](../research/).
+
+---
+
+## Token automation — how it works now
+The token is fetched fresh at run time and used within seconds, so nothing has to survive
+the 12 h JWT expiry.
+
+- The local wrapper: get token → `scripts/fetch_data.py` → `scripts/providers/run.py` for
+  the local modules → push data, posters and logs, then dispatch the cloud workflow.
+- Both fetchers run inside a `set +e` window with `echo "exit=$?"` appended to their own
+  log, so one failure cannot abort the push or take fresh Finnkino data with it.
+- The wrapper hard-resets the clone to `origin/main` before every run, so a manual edit
+  inside `repo/` is destroyed at the next slot. Test edits belong in a separate clone.
+- The TTL guard runs before `cd repo`, so a bad Finnkino token aborts the whole script.
+- No cloud fallback. `.github/workflows/fetch.yml` was deleted 2026-08-27: a runner cannot
+  obtain a token (www.finnkino.fi answers Cloudflare 403 to datacenter IPs) and the stored
+  `FINNKINO_SECRET` was stale within 12 hours, so it had failed on every push for two days,
+  which hid the run that broke. A stale Finnkino shows in the app's own health line.
+- `get_token()` reads `FINNKINO_TOKEN` from the environment first; that path must not be
+  removed. The direct-fetch fallback only works from an ordinary connection.
+
+Machine setup, schedule, token retrieval and credentials live in local private notes.
+Superseded: pushing the token into repository secrets and rotating it.
+
+### Synopses and enrichment
+`scripts/providers/enrich_tmdb.py` runs last in the cloud workflow and merges into
+`data/films-extra.json` — it never overwrites text a provider already supplied.
+
+Priority: the cinema's own text (Finnkino `films.json`, or provider page text merged via
+`scripts/providers/synmerge.py`) > TMDB Finnish > TMDB English.
+
+- `films-extra.json` is keyed by normalised title. **Three implementations of that
+  normalisation must agree**: `enrich_tmdb.norm()`, `synmerge.norm()` and `normTitle()` in
+  index.html. A mismatch fails silently with no synopsis and no error.
+- The two Python ones strip `_` explicitly (`[^\w\s]|_`). `\w` counts the underscore as a
+  word character, `\p{L}\p{N}` in the client does not, so a title containing one would
+  have keyed two different ways and lost its synopsis with nothing in the log. No title
+  has used one yet — checked at the change, 90 keys in each cache, zero underscores — so
+  this is a latent divergence closed before it fires, not a bug fix.
+- Synopses live in that one file rather than on each show: a 300-char synopsis repeated
+  across BioRex Tripla's 158 showtimes would add ~50 kB to a single venue file.
+- Provider helper fields `_syn` / `movieUrl` are stripped before area files are written.
+- BioRex fetches ~28 film pages per run (0.4 s apart) for synopsis, runtime and genres.
+- Kinoset's API `description` is mostly empty and it only tags genres on some shows, so
+  those fall back to TMDB.
+- **Match on the title, not on TMDB's popularity order** (2026-08-27). `hits[0]` sent
+  Orion's "Mother" to the poster for "Mother Mary": TMDB search sorts by popularity, so
+  a short generic title lands on whatever is trending. `pick()` prefers a hit whose
+  `title` or `original_title` normalises exactly to the query and only then falls back to
+  the popularity order, because a Finnish distributor title often matches nothing exactly
+  and a weak match still beats no film. Fallbacks are named in `run-enrich.log` as
+  **weak match**, which is the list to read when a poster looks wrong.
+- **A title can carry two strand prefixes, and `split()` takes one per call.** Orion
+  published "Espoo Ciné: Artist in Focus: Mare's Nest": the festival, then its section.
+  The adapter's own `split_strand` took "Espoo Ciné" and stopped, so the section stayed
+  in the title, TMDB matched nothing and the film lost its poster, rating, trailer, genre
+  ids and merge-by-id — all four, not just the poster that made it noticeable.
+  `run.py` applies `strands.apply` centrally *after* the adapter, so a second known
+  prefix does come off, which is why adding "artist in focus" to `EVENT_PREFIXES` is the
+  whole fix here. A provider that does not also split in its own adapter gets one pass
+  only and would still need a loop. Not looping in `split()` on purpose: one call, one
+  prefix keeps the exact-list guarantee easy to reason about, and two-prefix titles are
+  so far a single showtime.
+- **A programme is not a film and will never match.** "Follow The Plants" (Orion, a
+  curated multi-artist assembly) and the Gilda playback nights sit in the no-match list
+  permanently and correctly. The list is for finding *missed* films; entries that belong
+  there are not a backlog.
+- **Both passes must log the titles that match nothing, not just the weak ones.**
+  `fetch_data.py` printed weak matches and held-back ratings but never a no-match list, so
+  "Ryhmä Hau: Dinoelokuva" sat with an empty id for a day — no rating, no genres, a clean
+  log. A weak match is at least visible; a missing one was not. Both passes now print it.
+- **Search with `language=fi-FI`, or the exact-title test can never fire on a Finnish
+  title** (2026-08-27). Without it TMDB answers in English, so `pick()` compared
+  "Autofiktio" against "Bitter Christmas", "Kuopus" against "The Little Sister" and
+  "Kummisetä osa II" against "The Godfather Part II" — and wrote all three off as weak
+  matches. The ids were right the whole time; TMDB has registered Finnish titles and
+  had matched them. The cost of the mistake was not a wrong film but a missing one:
+  a weak entry gets no `tmdbId` and no `gids`, so 29 films were excluded from cross-chain
+  merging and from genre-based filtering for no reason.
+  `language` localizes the response, it does not widen which titles are searched, so this
+  is presentation rather than matching — the fix is one query parameter, not 29 aliases.
+  **Verify before writing aliases**: a "weak match" line is a claim about the comparison,
+  not about the film.
+
+### The score ring (2026-08-27)
+The score is a ring: arc length for the glance, the number inside, the vote count beside
+it, since 7.1 from 41 votes and 7.1 from 15 000 are different claims. A rating under
+`VOTE_SOLID` = 25 votes is dimmed rather than hidden.
+
+Two departures from TMDB's widget: one hue, not green/amber/red, since colour is spent on
+chain identity and red-vs-green is the classic colourblind failure; and not a copy of
+their component, which would imply an endorsement. IMDb's ratings dataset names
+"where/what/how to watch applications" as a licensed commercial use, so it is out; Trakt
+and Leffatykki are unexplored alternatives.
+
+- A rating needs votes: `vote_average` written straight through showed ★10 on a festival
+  premiere with three votes. Ratings come from the movie detail call and are stored only
+  above `MIN_VOTES` = 25; the count lives in the cache as `n`, held-back ratings are
+  logged. The cache was rebuilt once when `pick()` landed.
+- The search loop tries every candidate until one matches exactly and keeps the first
+  hit as the fallback: "Die Hard 2 - Die Harder" returned *Die Hard* on candidate 1 while
+  candidate 2 matched exactly.
+- Film identity across chains is the TMDB id: BioRex publishes "Mutiny", Finnkino "Mutiny
+  - Lavastettu syylliseksi". Both passes write `tmdbId`, only for an exact match (`x` in
+  both caches), since a weak id would fold two films into one. Dropping everything after a
+  dash in `mergeKey()` was rejected: it would merge "Mission: Impossible - Dead Reckoning"
+  into "Mission: Impossible".
+- Reissue markers belong in `mergeKey()`: `(re-release)`, `(uudelleenjulkaisu)`, `(uusi
+  kopio)` alongside `(suomeksi)`, and `PAREN_NOISE` gained `uudelleenjulkaisu`.
+- Name merging is still required for films where one chain got no exact match.
+- Finnkino publishes the bar-screening attributes; `EVENT_ATTRS` keeps `Annisk_K18`,
+  `Anniskelu` and `EventCine`, and `Annisk_K18` sets `age`. Dropped attributes are logged.
+- The release-year filter defeats aliases and reissues: `Autot (uudelleenjulkaisu)`
+  carries the reissue year. The search retries without the year whenever it produced no
+  exact match, and never applies a year to an alias search string.
+- `fetch_data.py` needs candidate queries too: `_queries()` yields the de-noised title,
+  the raw title, then the head before a dash. Never before a colon, which would search
+  "Mission" for "Mission: Impossible - Dead Reckoning". `enrich_tmdb.queries()` still
+  splits on a colon, which is worth watching.
+
+### Strand prefixes are split off centrally (2026-08-27)
+`scripts/providers/strands.py` owns the exact list and the split. `enrich_tmdb.clean()`
+imports the list for the TMDB search; `run.py` applies the split to every adapter's shows
+and `fetch_data.py` to Finnkino's, so a strand goes to `method` and the bare film title
+stays in `title`. Only `orion.py` did this before, which left Gilda selling
+"Seniorikino: Hetki Ennen Valoa" as a film of its own — fragmented from the plain title,
+unmatchable on TMDB, and sharing an initials tile with every other Seniorikino screening.
+
+- **Exact list, never a `^\w+:` pattern.** In one day's data the colon prefixes are
+  "Spider-Man:" ×443, "Ryhmä Hau:" ×272, "Insidious:" ×159 against "Seniorikino:" ×4 and
+  "Pieni elokuvakerho:" ×3. A pattern would behead every franchise in the schedule.
+- Real strands are rare (about 10 showtimes a day, Gilda and Riviera), so this is
+  structure rather than volume: a new adapter inherits it without knowing it exists, and
+  a new strand is one line that fixes the search, the merge and the tile at once.
+
+### Genres come from TMDB ids (2026-08-27)
+Provider genre strings are unusable as data: four spellings for the family genre, trailing
+spaces, Orion publishes none, and in English mode they stay Finnish. Both TMDB passes keep
+the genre ids from the `/movie/{id}` response they already fetch; ids land on each show as
+`gids`, and `data/tmdb-genres.json` holds the id -> name map for `fi`, `sv` and `en`.
+
+- TMDB's Finnish genre names are real translations: 18 of 19 differ from English.
+- The kids filter cannot whitelist Animation and Family: TMDB tags "Marsupilami" as
+  Adventure, Comedy. The rule: rating gate first, then ids `16`/`10751` mean kids,
+  `99`/`18` without them mean not kids, no ids means rating alone.
+- Provider strings stay as the fallback. Entries without `g` count as incomplete.
+- Film facts fold from every showtime; screening facts from the surviving ones. Toggling
+  "Suom. puhe" changed a card's genres because Finnkino and Gilda disagree on "Laula
+  minulle Arja". `tmdb`, `tr`, `img`, `len`, `genres`, `rating` and `original` fold from
+  the unfiltered set, genres taking the longest string; `lang` stays on the filtered set.
+- Chains disagree more than expected: for one documentary Kotkan Leffat published `SV-S`,
+  which the client's `LN` map keyed on `SE` rendered as a bare "SV". Fixed in `etiketti.py`.
+- The sheet's chain key is sticky (`position:sticky; top:0` with negative side margins).
+  Day headings are not, since the legend wraps at narrow widths.
+- The times list carries the venue on the meta line as a `.theatre-tag` in a combined
+  view, and the stub gains the chain tint.
+- English titles resolve through `_eid`: `disp()` looked up `films.json` with the merge
+  key and showed the Finnish title in every combined view. `filmEntry()` scans the
+  group's showtimes for the Finnkino member and falls back to the show's `original`.
+- Never translate `s.title` itself: it is the key for `mergeKey()`, `normTitle()`, the
+  TMDB title cache and `tmdb-aliases.json`. English titles are a render-time substitution.
+- Merge on the union of both signals: keying by `tmdbId` when present unmerged "Maailman
+  rikkain nainen", which had an id at Gilda and none at Finnkino. `mergeIds()` unions the
+  title key with the id key.
+- A merged card folds metadata by first non-empty, not from `times[0]`.
+- `tmdb-aliases.json` is read by both passes; an alias id triggers a `/movie/{id}` call in
+  `fetch_data.py` so the vote floor still applies. Aliases are keyed by the title as each
+  chain publishes it (`autot re release`, `autot uudelleenjulkaisu` both map to `Cars`).
+- The two TMDB passes stay separate and agree on the rules (exact-match preference,
+  `MIN_VOTES` = 25, `n` and `x` in both caches) but fetch at different times, so the same
+  film can briefly carry two ratings. A single shared pass is not written.
+
+### A language marker in the title blocked the TMDB search (2026-09-14)
+Bug: `clean()` took `suomeksi` off the search string in all three positions it occurs in
+and took none of its counterparts off any of them, so a cinema selling the dubbed and the
+subtitled run as two films had one searchable and the other not. Measured over the
+committed data: one film, Coyote vs. Acme, is published under eight spellings by nine
+chains, and 44 showtimes across 13 titles and 11 cache keys could not be searched at all,
+every one of them cached unmatched or never searched. Laitilan Kino added a second shape,
+a strand in a trailing parenthesis, and it is not one title but every title that cinema
+publishes: its whole fortnightly programme is "<film> (Kahvi ja Kino)".
+Fix: `PAREN_NOISE` gains `englanniksi`, `på svenska` and `suomeksi puhuttu`,
+`TRAIL_NOISE` gains `englanniksi`, and `clean()` takes a trailing parenthesis off when its
+content is in `strands.EVENT_PREFIXES`, which gains "kahvi ja kino". One list, both
+positions. A parenthesis holding anything else is left alone, checked against the four in
+the data: an original title, two anniversary editions and a subtitle note. The published
+title never moves, so every cache key, `normTitle` key and merge key stands.
+Two the cleaned search still cannot settle are aliased with their evidence in the file:
+"Matka Piemonteen" has no Finnish title on TMDB at all (Resan till Piemonte, 1545391,
+identified from the cinema's own film page by its director and five of six billed actors),
+and BioRex's "Avengers: Endgame Re-release (encore)" matched 24428, The Avengers (2012),
+weakly, so the trust gate withheld its metadata and 50 showtimes went scoreless while
+every other chain matched 1769545 exactly.
+Tests: `tests/test_tmdb_queries.py`, 12 added, 11 mutations red. No data change: only the
+search string moves, and an unmatched entry takes its daily retry on the next cloud run.
+
+### The TMDB search reads the original title and the published year (2026-09-13)
+Three Regina films sat unmatched: "Lucky luke sotapolulla" (La ballade des Dalton, 1978),
+"Rakasta tai tuhoudu" (All Night Long, 1962), "Prinssi ja revyytyttö" (The Prince and the
+Showgirl, 1957). `queries()` searched the Finnish title alone, the show's `original` was
+never a candidate for any provider, and no year reached the search, so "All Night Long"
+would have taken the 1981 film first in TMDB's popularity order. Approximate count at
+c621b0cf: 29 of Regina's 96 titles had no id, 8 were weak.
+
+`enrich_tmdb.py` now: `gather()` collects per title the `original` and the year its shows
+carry (the optional `year` field, or a trailing "(1996)" read before `clean()` strips it;
+never the screening date), and uses either only when every show agrees. `queries()` puts
+the cleaned original second, after the published title, deduplicated, so a film that
+already matched keeps its match. With a year the search sends `primary_release_year`
+(a string parameter per TMDB's /3/search/movie reference, checked 2026-09-13), retries
+unfiltered when nothing exact came back, and `pick()` accepts an exact title only within
+`YEAR_TOL` = 1 of the published year, the year itself ahead of a neighbouring one and the
+published original title breaking a same-year tie; two different ids still standing is a
+tie and stays weak whatever order TMDB listed them, logged as "several films match the
+title and year, none trusted". An exact title further off is a weak fallback logged as
+"year mismatch, exact title refused". Without a year the first exact hit wins as before.
+An alias string is never filtered, same rule as the Finnkino pass.
+
+Cache: an entry records the evidence it was judged on (`o`, `y`). `reconsider()` drops an
+entry whose current evidence is nonblank and differs, exact matches and unmatched titles
+alike, at most `KINO_TMDB_RECONSIDER` = 25 a run in key order, aliases excluded; the rest
+wait untouched. Weak ids were already dropped on every load. Unmatched titles were left
+to their daily retry at first, which is why the three films above stayed unmatched on
+2026-09-13: the 00:55 UTC run had searched them, the 02:00 local run then published their
+original titles and years, and the 02:55 cloud run skipped them as checked today
+(f8647014). Fixed the same day; an unchanged unmatched title keeps the daily retry only. Not done: the
+Finnkino pass in `fetch_data.py` already filters on OCAPI's year and keeps its own loop;
+no client change, the field is not rendered. `tests/test_tmdb_matching.py`, 37 tests, 18
+mutations red.
+
+Regina publishes both on the film page the adapter already reads: the heading inside
+`#main-content` ("LUCKY LUKE SOTAPOLULLA (1978)") gives `year`, and `span.original-name`
+lists the other-language titles slash-separated, original first. For a Finnish film the
+span holds the Swedish title alone, so the first segment is `original` only when the Maa
+row is present, names no Finnish share, and the span lists at least two titles; a
+co-production in either order, a missing country or a lone segment leaves `original`
+empty and keeps the year. Checked on five saved pages 2026-09-13: 1978 / La ballade
+des Dalton, 1962 / All Night Long, 1957 / The Prince and the Showgirl, 1970 / The Music
+Lovers, and 1966 with no original for Käpy selän alla. Nothing reads the ticket page for
+this. Regina is on the local half, so the fields reach `data/` with the next local run and
+the search uses them on the cloud run after it. What the three films then match is for
+`run-enrich.log` to say: they are re-judged, not promised an id, and an unresolved tie is
+a valid outcome. No TMDB id was checked from here; the ids in the tests are fixture
+values. `tests/test_regina.py` `FilmIdentityTest`, 14 tests, nine mutations red, plus
+`tests/test_tmdb_matching.py` tie cases (41 tests).
+
+### Only a trusted TMDB match publishes metadata (2026-09-13)
+Bug: a weak candidate withheld `tmdbId` only. Poster, rating, votes, trailer, gids and
+synopses of the wrong film went onto shows and into films-extra.json, and `run.py`'s
+carry-over kept them run after run ("Naisen kasvot" -> Obsession). At d2a41e21: 20 weak
+titles, 102 shows, 22 files, 31 films-extra keys. Same in `fetch_data.py`, which also let
+TMDB's trailer replace Finnkino's.
+
+Fix: `enrich_tmdb.trusted()` (`x` and an id) gates every write in both passes. Untrusted
+entry: `unpublish()` strips `tmdb votes tr gids tmdbId` and a TMDB poster; `merge_extra`
+clears `r tr img en` for every untrusted key, `fi` only when equal to the candidate's own
+overview (79 other texts checked, all cinema copy). Posters carry `isrc: "tmdb"` (set by
+the pass and by the `run.py` carry); a trusted entry replaces a marked stale poster, an
+untrusted one drops it. An unmarked mirrored poster is left alone: the path cannot tell a
+cinema's poster from a pre-mark TMDB one, only the next `run.py` run of that adapter can
+(adapter publishes a poster: remote URL, cinema's; none: carried and marked). Cloud files
+got that at c228d2b6, the local half at 7c96e583 + a91eda3d: Regina (publishes no
+posters) 112 marked, all the trusted entry's own, Naisen kasvot on 76848's poster, Faust
+and The Time That Remains blank, no marked poster on an untrusted show; Engel, Akseli,
+Cine, Savon Kinot, Star and Joutsa kept their own posters unmarked. Verified 2026-09-13.
+The carry itself stays: 208 trusted shows sat on one. Cache, budgets, picker unchanged.
+The 2026-08-27 "weak match still beats no film" rule now covers the search only.
+Tests: `test_tmdb_trust.py` 20 / 20 mutations red, `test_finnkino_trust.py` 4 / 5,
+`test_run_partial.py` +1.
+
+### A region city is backed by the data or an adapter; the two agree after a run (2026-09-12)
+`tests/test_regions.py` gained a second test on 2026-09-07 meant to bound the adapter half
+of the check: a region city missing from the data had to belong to a provider with no venue
+file at all, "so a cinema dropped from a provider that has one still fails". It could not:
+`run.py` writes `data/venues-{provider}.json` from SITES on every successful run of the
+site, city included, so a venue dropped from SITES leaves the adapters and, on the next run,
+the data together. Between the edit and the run the stale venue file keeps backing the
+city, and that window is the same one every provider addition passes through. On the day
+of the review every region city was in the data and the test's loop body never ran.
+
+The decision is now one function, `dead_entries()`, with fixture cases for a fetched
+provider, one that has not run, a typo, and the dropped-venue window left open on purpose.
+Closing that window means comparing SITES to the venue files directly, which fails each
+addition until the pipeline has run; not done. The contract the file relies on, that the
+venue file carries each city verbatim from SITES, is pinned in `tests/test_run_partial.py`.
+
+## Refactor to do before adding more providers
+Adding a venue to an existing platform is one line. Adding a platform used to cost four
+files plus five frontend edits; all fixed:
+
+- [x] `data/providers.json`, generated by `scripts/build_providers.py` from
+      `scripts/providers/registry.py`. The frontend derives every label, host, accent and
+      footer verb from it. No `generated` field, so identical bytes mean no diff. index.html
+      keeps a hardcoded fallback list for a missing file or a stale service worker.
+- [x] One generic runner, `scripts/providers/run.py <module>... | --where cloud|local`.
+      Every adapter exposes `SITES` and `fetch_site(site) -> {venue_id: [shows]}`.
+- [x] The cloud workflow loops over `registry.py --cloud`. Failure flags go to
+      `$RUNNER_TEMP`, never into a commit; data is committed before the failure check so one
+      dead provider still publishes the rest. The enrich gate reads its exit code from
+      `$RUNNER_TEMP` rather than grepping `exit=0` out of a log that also carries film
+      titles and TMDB error text.
+- [x] `riviera.py` is parameterised by base URL.
+- [x] Repertory titles: `clean()` in enrich_tmdb strips a trailing "(YYYY)", bracketed
+      format noise, a trailing ", suomeksi" and a known-list event prefix. Only the search
+      string is cleaned; `norm()` still keys on the published title.
+- [x] `venues-{provider}.json` lists every venue of the site, and a venue with no shows and
+      no file gets an empty one (2026-08-28). The file is written only when at least one
+      venue produced shows.
+- [x] A whole site parsing zero showtimes fails the run; `common.EmptyProgramme` on positive
+      evidence of an empty listing is counted as `empty`. `tests/test_empty_programme.py`.
+
+## Pipeline
+- [x] **TMDB cannot be searched by Finnish distributor title.** Probed 2026-08-27:
+      "Maailman rikkain nainen" gives 0 hits and `&language=fi-FI` also gives 0, while the
+      original "La femme la plus riche du monde" gives exactly 1. `language` localises the
+      *response* only; it does not widen the match, which covers original + English +
+      registered alternative titles. Escape hatch: `scripts/providers/tmdb-aliases.json`,
+      keyed by `norm()` of the published title, valued either a TMDB id (skips the search)
+      or a replacement search string. `run-enrich.log` now names every title that found
+      nothing, which is the input to that file. Wikidata (P4947 = TMDB id, matched on the
+      Finnish label) is the automated version if this outgrows a hand list.
+- [x] **MovieXchange API credentials, decided against 2026-08-29.** Server-side
+      client_credentials would have moved the whole pipeline back to Actions. Not requested:
+      an approach to a third party with no promise of free access. Reopen only if
+      MovieXchange publishes open access terms. Consequence: the split pipeline is the final
+      architecture. The MX CDN is a public read reached through Finnkino's own
+      `moviexchangeReleaseId` and never needed credentials.
+- [x] **Cinema Niagara, Tampere (built and live 2026-09-02).** The one eTiketti host the
+      2026-08-30 sweep left behind: the same platform in a second template. Re-probed as a
+      visitor: nginx, no Cloudflare, robots.txt disallows `/salikartta`, `/tili` and
+      `/ostoskori`, which this repo never reads. Each film page renders its screenings as
+      `<div\n class="item tampere date-3.9.2026">` with `<div class="time"><span>16.15`,
+      `<div class="show-price"> 13,00€`, `Paikkoja vapaana: 126/127`, tags in `movie-specs`
+      and no place line, where Kotka prints `KE 2.9. klo 20.00`, `TRIO 123 | SALI 2<br>
+      Lippu 15,00€<br> Vapaat paikat 27/35`. Labels carry no colon; genres sit under a
+      label reading `genre`. `/?shows=all` renders every screening twice (desktop and
+      mobile wrappers).
+      **Design.** A `SITES` entry with `etiketti.py` taught the second template: every
+      regex is an alternation of exactly the two shapes; the place falls back to the item's
+      place class (`tampere`) so `match` still selects the venue; `movie-specs` tags go into
+      `method`; `_lang` reads Finnish language names through `LANG_NAMES`, the inverse of
+      the client's `LN.fi` and asserted equal to it, matched on the first four letters.
+      Shows are keyed on the `/salikartta?id=` href so a duplicated surface cannot double a
+      show; a row without an id is keyed on film, start, place and auditorium, recorded
+      only once a registered venue took the row. The ticket href is never fetched. Registry:
+      `id="niagara"`, `book="buy"`, `module="etiketti"`, venue `cn-tampere`, accent
+      `#6A4FBF` (47.0 / 68.1 / 60.6 dE00 against Finnkino; greens fail deutan). Seats are
+      read only to derive `soldOut`; counts stay unpublished.
+      **Tests:** `tests/test_etiketti_templates.py`, 32 tests; seventeen mutations red.
+      **Live** (first cloud run 2026-09-02 10:40Z, data commit a7b2b8f7): 47 showtimes, 12
+      dates, 0 failures, no `/salikartta` request; poster, runtime, genres and language on
+      47 of 47, TMDB id on 39; language codes DA, EN, ES, FI, FR, IT, NO, SV, TR, every one
+      the client names. Counts: providers 33, venues 75, canonical pages 170, sitemap 171.
+      Deferred: seat counts on screen; credits.
+- [ ] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99).** Four
+      codes in the data were not in the client's name table: `TU-A` 62 rows and `MA-A` 3
+      rows (Finnkino's Turkish and Malayalam), `XX-S` 46 rows (Nexxo's "no subtitles"),
+      `LT-A` 1 row (Lithuanian). `fetch_data.lang_tag` maps through `FINNKINO_LANG`
+      (`SE`→`SV`, `TU`→`TR`, `MA`→`ML`), never touching the role letter; `nexxo._lang`
+      drops `XX` from the subtitle role; the client's `LN` gains `LT` and `ML` in all three
+      languages, and the generator's mirror too. Still open until a re-measure of
+      data/area-*.json finds no `TU`, `MA` or `XX`, when `CODE_ALIAS`, `NO_SUBTITLES` and
+      `LN_EXTRA` in `build_pages.py` go with their tests. After the 2026-09-02 cloud run
+      `XX` was gone; `TU-A` and `MA-A` await a local run. `tests/test_lang_normalization.py`.
+- [ ] Move the local fetch off the laptop onto an always-on box on the same network.
+      Cloud VMs are not an option for the eight providers that block datacenter IPs
+      (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, Savon Kinot since 2026-09-04,
+      Kino Regina since 2026-09-06, Cine and Elokuvateatteri Star since 2026-09-08), and
+      with the MovieXchange route closed above there is no other way off the laptop at
+      all. 30 of 82 venues ride on that machine, counted from the registry and the venue
+      files on 2026-09-13.
+- [x] Finnkino ratings whitelisted to `S` and `K-n` (2026-08-28). The OCAPI
+      classification text passed through raw when it did not start with a digit, and the
+      live values include "Tulossa" and "-" (verified in committed data: 5 and 7
+      showtimes), which rendered inside the age-limit chip and silently failed every
+      `rating ===` comparison. Same bug class as the Vista "K-7 (4)" gotcha. Anything
+      else now blanks; "coming soon" is premiere-chip material, not a rating.
+- [ ] Finnkino prices. **Probed 2026-09-01 and blocked by the access rule rather than
+      by difficulty**; see the entry below. The programme response the adapter already
+      reads carries no price field anywhere, the obvious ticket-type read paths under the
+      same API all answer 404, and the remaining route is the seat-selection flow, which
+      this repo does not call or inventory. Left open only because a visitor-facing price
+      *page* would be a legitimate source, and that has not been looked at.
+- [x] **Commit run.log only on failure -- decided against 2026-09-01.** Across the last
+      300 commits no routine run produced a log-only commit; logs ride inside data commits
+      that happen anyway, and an unchanged log is not committed. A green run that commits
+      nothing would leave the last red log on `main` forever, so `check_runs.py` would
+      report the same failure every day (the `run-vista.log` incident). And the green logs
+      are the record: the per-venue counts in a successful log are the only place a soft
+      regression is visible. Reopen only if run logs start forming commits of their own.
+- [x] Finnkino no longer publishes an empty area file when a venue returns no shows: it
+      keeps the previously committed one, matching `run.py`. A file is still written when
+      none exists, because `areas.json` lists every site regardless of shows and the picker
+      would otherwise link to a 404. New log line: `N venue files written, M kept as-is`.
+- [x] Dropped `data/attrs.json` and `data/film-sample.json`: written every Finnkino run,
+      read by nothing.
+- [x] Retry/backoff for transient API errors (2026-08-28). One transient 502 counted as a
+      total site failure with the next cron four hours away. Shared
+      `providers/common.py::fetch(url, headers, data, tries=3, backoff=5, opener)`, named
+      `common` because a local `http.py` would shadow the stdlib. All nine adapters migrated
+      one per commit, each keeping its own timeout and backoff (Vista 40 s, Gilda 45 s, Nexxo
+      backoff 6). `common.fetch` retries only the request, not the parse: a 200 with a
+      non-JSON body is a shape change to look at.
+- [x] **Refresh on resume, not only on date rollover** (2026-08-28). An installed PWA is
+      resumed, not reloaded, so `providerMeta` stayed frozen while the age counted up. The
+      threshold is 10 minutes because Pages serves data with `max-age=600`.
+      `fetchVenueLists` was split out of `loadAreas` so a refresh does not bounce the reader
+      off their venue. Still open: a tab left visible all day never fires
+      `visibilitychange`; a timer was not added.
+- [x] Search input debounced 120 ms (2026-08-28): every keystroke rebuilt the whole list
+      through innerHTML — ~90 cards in a combined Helsinki view — and the intermediate
+      frames were discarded anyway. 120 ms is below the point where the list feels
+      detached from the typing. Keyed DOM reuse is the real fix and was rejected: at this
+      list size it buys nothing and costs a rewrite of the render path.
+- [x] `fetchJSON` aborts after 8 s (2026-08-28): `fetch()` has no timeout, so a connection
+      that opens and then stalls — a phone walking out of coverage, not a refused one —
+      never settled and never rejected. The spinner ran forever with no error and nothing
+      to retry, which reads as a broken app rather than a broken network. AbortController
+      lets the existing `netErrorHtml` catch fire. 8 s because the files are small and a
+      slow 3G first byte is still well inside it.
+- [x] Atomic data writes (2026-08-28): every writer went through bare `write_text`, so a
+      run killed mid-write left truncated JSON. Harmless on Actions (ephemeral runner),
+      real locally: the wrapper writes into a checked-out repo and the next run's
+      `git add data` would commit the torn file — and cancel-in-progress means
+      mid-run kills happen. `common.write_json` / `write_text_atomic`
+      (sibling .tmp + os.replace, atomic on one filesystem on both platforms) used by
+      run.py, synmerge, enrich_tmdb and fetch_data. *.tmp gitignored for the narrow
+      window between write and replace.
+- [x] enrich_tmdb checkpoints its cache (2026-08-28): `tmdb-titles.json` and
+      `films-extra.json` are written every 25 titles, not only after the loop. Each
+      per-title body already catches its own exceptions, but anything raised outside one
+      — the two genre-list calls, the area-file write pass, a cancelled runner — skipped
+      the single end-of-run write and discarded every lookup of the run, ~300 TMDB
+      requests on a cold cache, to be spent again four hours later. Cheap because the
+      writes are atomic and the cache is idempotent: a partial write is simply a warmer
+      start. Every 25 rather than every title because films-extra.json is re-read and
+      rewritten whole on each flush.
+- [x] **A cached TMDB rating stops being permanent** (2026-09-01). The skip was `complete
+      and (c.get("v") or c.get("c") == today)`, so a trailer stopped an entry ever being
+      read again. Measured on 2026-09-01: 156 entries, 96 with a trailer, 71 of those last
+      read on 2026-08-27. Now age decides: `due()` fetches uncached or incomplete entries,
+      keeps the daily no-trailer check, and re-reads a complete entry once it is
+      `RATING_MAX_AGE` (7) days old, `REFRESH_BUDGET` (12) a run. The budget bounds the
+      catch-up, since without it the first run re-reads all 71 at once and they come due
+      together for ever; what it defers is printed.
+      Three review findings fixed with it. The success path wrote the old rating stamped
+      with today's date when both localized detail requests failed, and emptied the cached
+      text: synopsis slots are now seeded from the cache and only a response that arrived
+      replaces them, and `c` moves to today only when a detail response carried rating and
+      vote data. The queue is ordered on `a`, the last attempt, not `c`: an unreadable id
+      would otherwise outrank everything for ever. `a` is recorded even when the title
+      aborts after its detail read, from the `except`, so a failing title cannot camp at the
+      head. A rating needs both halves of the pair: a response carrying only `vote_count`
+      had set the rating to 0 over a real one; zero counts as usable.
+      `tests/test_tmdb_recheck.py`, 22 tests against a fabricated cache and `main()` with
+      TMDB stubbed by URL; twenty-six breaks red.
+- [x] **The same defect on the Finnkino path, fixed 2026-09-01.** `data/tmdb.json` had
+      the same rule (46 of 59 entries frozen, 45 last read on 2026-08-28), and its detail
+      request was conditional on `not votes or not gids`, so an age rule alone would have
+      fetched nothing. The schedule is `providers/refresh.py`, shared by both passes; the
+      Finnkino cache passes in its own `complete` predicate, since it carries no synopsis or
+      poster. A failed video read no longer writes an empty string over a cached trailer.
+      Tested with the pass lifted into `enrich_cached_ratings()` and TMDB stubbed by URL;
+      the first fixture omitted `y` and every cached-entry test passed anyway, which an
+      uncached film caught with `KeyError: 'y'`. The next local run is the operational
+      check.
+- [x] **Independent hosts are fetched at the same time** (2026-09-01). `run.py` pools
+      over *hosts*, not over sites, and each host is still read by one thread at the pace
+      its adapter sets. See "A run reads unrelated hosts at once" below for the host
+      sharing that makes the site the wrong unit, the four hazards and what each cost.
+- [ ] README workflow badge
+- [ ] Credential hygiene and rotation: tracked in local private notes
+
+### Every adapter is held to one show contract, at the boundary (2026-09-14)
+Bug: the show dict had no written shape. Twelve modules measured, eleven emitted the same
+seventeen keys and BioRex emitted no `price`; the client survived on `r.price || ''`.
+Fix: `common.Show`, a stdlib `TypedDict`, names the keys; `common.check_shows` is the
+runtime rule and `run_site` applies it to what `fetch_site` returned before any write: a
+missing key, a wrong type, a blank `start`, or a show filed under another venue fails the
+site like a parse error, so the previous files stay and the log names venue and key. BioRex
+writes `price: ""`. Extras stay allowed: `_`-prefixed, `age`, `year`, `movieUrl`.
+Tests: `test_show_contract.py` parses each of the twelve modules' own fixtures (reused from
+their adapter tests; BioRex, Engel and Kino Akseli gained a minimal one) and checks every
+show: keys, types, an aware ISO `start`, an absolute `url`, `provider` and `venue` of the
+fixture's site, no duplicate screening. A registry module without a sample fails. Five
+breaks red: Orion dropping `url`, Riviera misfiling a venue, BioRex `soldOut` as a string,
+Engel a naive `start`, run.py skipping the check. The fake adapters in the run tests now
+emit full shows. Not done: a dataclass for the fetch result; run.py already models it.
+
+### Secondary page fetches have a ceiling (2026-08-30)
+Adapters that read a listing and then fetch one page per film iterated whatever the listing
+contained, 15 to 31 films today and unbounded in principle. `common.PAGE_BUDGET` is 120,
+about four times the largest real figure, overridable with `KINO_PAGE_BUDGET`.
+
+The two loops are not the same loop, which tripping the cap showed: with the budget forced
+to 2, eTiketti went to zero showtimes at Kinopalatsi Kotka and 6 of 34 at Trio 123, and
+would have published both, because its film pages carry the screenings, while BioRex and
+Engel use film pages only for metadata. `common.capped()` trims and logs, for enrichment
+loops; `common.budget_or_raise()` raises, for a loop whose pages are the schedule, so
+`run.py` writes no file and the previous data stands. A venue publishing half its day is
+worse than one publishing nothing, because half a day looks complete.
+
+### Response bodies have a ceiling too (2026-08-31)
+The request count was bounded while each response was read with a bare `r.read()`. Found
+by an external review. `common.fetch` reads in 64 KB chunks against a cap (`max_bytes` per
+call, `MAX_BODY` 20 MB by default, `KINO_MAX_BODY`) and raises `BodyTooLarge` past it.
+
+- 20 MB is headroom; the largest body legitimately read is a poster source image of a few
+  MB.
+- A Content-Length past the cap is refused before the body is read, and the chunked loop
+  enforces the cap whether or not a header was sent.
+- Never retried: the oversize answer is deterministic.
+- One cap in `fetch` covers adapters, enrichment and `mirror_posters.download()`; an
+  oversize poster lands in the `failed` dict like any other bad download.
+
+Covered in `tests/test_common_fetch.py` against the real local server, including a response
+with no Content-Length; each guard break-verified.
+
+### The pipeline identifies itself (2026-08-30)
+Every adapter sent `Mozilla/5.0 ... Chrome/126.0.0.0`, an automated reader claiming to be a
+person, which made the ethics section's claim untestable by a cinema. Now `Leffavuoro/1.0
+(+https://leffavuoro.fi)` everywhere, including `fetch_data.py` and the TMDB pass.
+
+Probed first against every provider: each answers the honest string byte-for-byte
+identically to the Chrome string; Finnkino answers 403 to curl under either. Engel's film
+page differed between the two agents and also between two requests with the same agent (a
+cache-buster in a script URL): a difference is not evidence of discrimination until the same
+request twice is ruled out. If a provider ever refuses the honest string, record it here and
+keep the browser string for that host deliberately. The URL in the string is where a cinema
+that wants out is supposed to look; the contact route closed that on 2026-08-30.
+
+### Conditional GETs, and what the providers actually support (2026-08-30)
+`common.fetch(cache=True)` sends a stored `ETag` / `Last-Modified` back as `If-None-Match`
+/ `If-Modified-Since`, and a 304 returns the stored body. Verified live against Cinema
+Orion: the second fetch was a 304 and 118 kB was not resent.
+
+Measured before building it: only Cinema Orion sends a validator.
+
+| origin | ETag | Last-Modified | Cache-Control |
+|---|---|---|---|
+| cinemaorion.fi | no | **yes** | – |
+| kotkanleffat.fi (eTiketti) | no | no | `no-store, no-cache, must-revalidate` |
+| kinoset.fi (Nexxo) | no | no | `no-store, no-cache, must-revalidate, max-age=0` |
+| biorex.org, kinoengel.fi, gilda.fi, rivieracinemas.fi | no | no | – |
+| savonkinot.fi (Vista) | no | no | `private` |
+
+So this saves about one request per run. It stays because it is the correct way to ask,
+costs nothing where the origin offers nothing, and picks up a provider that starts sending
+validators. `run.py` prints the shape of every run so the claim can be checked:
+
+    [run] http: 1 revalidated (304), 85 full, 48 not stored (origin said no-store),
+          0 cache entries written
+
+Rules: a response marked `no-store` or `no-cache` is never written to disk, and neither is
+one without a validator. The cache lives in `.http-cache/`, gitignored, never committed
+(it holds verbatim third-party pages, the `probe/` rule). The workflow restores it with
+`actions/cache`. Never enabled on a POST: `fetch` forces `cache=False` when `data` is
+given, since a POST response is not addressed by its URL alone.
+
+### Retry-After is honoured on the interval the upstream names (2026-08-30)
+`common.fetch` retried every HTTP error on the same fixed `backoff * n`, so a provider
+answering `429 Retry-After: 60` got three more requests inside 15 seconds. A 429 or 503
+carrying `Retry-After` is now retried on the interval named. A 500, a reset, a 429 without
+the header and a 403 keep the fixed backoff.
+
+Two ceilings, because "sleep as long as you are told" hands a stranger a lever on the
+pipeline: `RETRY_AFTER_MAX` (120 s) bounds one wait and `RETRY_AFTER_BUDGET` (300 s) the
+whole process. Past either, the request fails, `run.py` keeps the previous file and the
+health line ages. Both overridable (`KINO_RETRY_AFTER_MAX`, `KINO_RETRY_AFTER_BUDGET`) so
+tests can trip them. `Retry-After` is delta-seconds or an HTTP-date; a past date means
+now; an unparseable value falls back to the fixed backoff.
+
+    [run] throttled: 2 Retry-After responses, 60s waited, 1 not retried
+          (asked for longer than a run can wait)
+
+Printed only when it fires. Tested against a local server scripted to 429: the stated wait
+is honoured, a `Retry-After: 9999` costs one request and no sleep, the budget refuses the
+second of two 2-second asks under a 3-second budget, an HTTP-date is parsed, a past date
+waits zero, a plain 500 still takes three tries.
+
+Not covered: `enrich_tmdb.py` uses a bare `urlopen` with no retry, so a TMDB 429 skips
+that title. Routing it through `common.fetch` is a separate change.
+
+### A refusal has to say which layer refused (2026-08-30)
+Cloud run #110 went red on `nexxo`: all three Kinoset venues answered 403. Nothing was lost
+(previous files kept, venues published `stale`, commit before the gate, the next run 43
+minutes later served everything), but the log said `HTTP Error 403: Forbidden` three times
+and nothing else. An edge block and an origin throttle want opposite responses (move the
+endpoint to the local half, or wait), and the block was gone before anyone read the log.
+
+`common.fetch` prints one line for a request it gives up on:
+
+    [http] 403 from kinoset.fi, gave up after 3 attempt(s) -- Server: LiteSpeed
+
+- Three headers, never the body: `Server`, `CF-Ray`, `Retry-After`. The log is committed
+  to a public repo and a third party's error page carries whatever they ship; one raw dump
+  already put someone else's API key in here. `X-Powered-By` was dropped for that reason.
+- Measured live: `kinoset.fi` answers `Server: LiteSpeed` with no `CF-Ray`, so a Kinoset
+  403 is the origin refusing. `Server: cloudflare` would be a different event.
+- One line per host per process, not per request: `mirror_posters` has had 185 failures
+  against one host in a run. The ray id is unique per request, so its presence identifies
+  the layer and the line carries the first value seen.
+
+Rejected: deferring a failed venue to a second pass (an interface change across eleven
+adapters, against a block that took under 43 minutes to clear); and not failing the
+workflow when every venue kept usable data (a permanently dead provider would publish
+green runs while the data aged). Six mutations red, including logging on success or once
+per attempt.
+
+### Six days out of seven is not a Finnkino schedule (2026-09-01)
+`fetch_data.py` asks OCAPI for seven business dates, one request each. A request that
+raised was logged and skipped, and the remaining days were written as a new snapshot with a
+current timestamp and exit 0. `dates` is built from the shows that arrived, and the client
+reads a date's absence as "not published yet", so one transient error took a whole day out
+of all seventeen Finnkino venues with nothing to surface it. Reproduced with OCAPI stubbed
+and day three raising.
+
+Decision: all seven or none. On a failure the previous file stands, its age moves past
+eight hours, and the non-zero exit turns `check_runs.py` red; a published six-day week
+moves nothing a reader can see. The last day of the horizon is refused on the same terms.
+`areas.json` moved down with the schedule files, since a run that published nothing still
+stamped the one file whose age answers "when did Finnkino last refresh". Poster downloads
+and the token fetch have already happened by then and are not rolled back.
+
+Not retried before giving up: `api()` has no retry, unlike `common.fetch`. A separate
+change.
+
+Thirteen tests drive the real `main()` with OCAPI stubbed by URL. Break-verified six ways:
+the guard removed (9 red), logging without returning (8), returning 0 after refusing (6),
+aborting only when all seven fail (8), tolerating the last day (1), `areas.json` above the
+loop (3).
+
+### A provider is as fresh as its weakest venue (2026-08-30)
+One venue of twelve parsing to nothing kept its previous file, and `venues-{provider}.json`
+then stamped `generated: now` across all twelve, so the app said BioRex was an hour old
+while one cinema sat on week-old showtimes.
+
+`venues-{provider}.json` gains three additive fields: `oldest`, the minimum `generated`
+across the provider's venue files, read off disk after the run and what the health line
+ages on; `status`, `ok` or `partial`; `stale`, the venue ids whose previous file was kept.
+`generated` keeps its meaning.
+
+Stale, not failed: at this layer a broken parser and a cinema with nothing on today both
+arrive as `[]`, so failing on a venue-level empty would fire on every Monday closure.
+`[run] partial:` names the venues in the log and the status carries them to the client,
+which shows `⚠ Riviera 119h (1/2)` rather than blaming the whole chain. A site where every
+venue came back empty still fails.
+
+Fixed the same day: age alone still hid a partial refresh. `healthState(m, ageH)` returns
+`gone | behind | partial | ok` in severity order; `partial` is separate from `behind`
+because two-hour-old data is not behind, and calling it that is the false alarm that
+teaches people to ignore the line. Fourteen harness cases; reverting to age-only turns
+four red. One term was unpinned at first (`m.unverified > 0` could be deleted with
+everything green), found by deleting it.
+
+Added the same pass: a venue that has never produced a showtime is `unverified`, not
+`stale`. A new venue with no shows and no file fell through every branch and published
+`status: "ok"`; on the next run its empty file existed, so it went down the stale branch
+and its ageing `generated` dragged `oldest` down. The discriminator is whether the previous
+file contains shows. An unverified venue's empty file is rewritten with a fresh
+`generated`, `status` is `partial` while either list is non-empty, and it clears itself
+when the venue starts producing. Not a failure: a venue added before its programme and a
+parse that never worked look the same here.
+
+Covered by `tests/test_run_partial.py` with three venues and the stale one in the middle;
+two venues would let "the last venue's state" pass.
+
+### A venue with no programme yet is not a failed refresh (2026-08-31)
+Kino Metso Tikkakoski publishes into late October from day one, so it sat in the 21-day
+window with zero showtimes for a month, and the health line read "⚠ Osa teattereista ei
+päivittynyt: Kino Metso": the fetch was fresh, and a month-long warning teaches readers to
+ignore the line.
+
+`healthState` gained `pending` below `partial`: a quiet "Ei vielä ohjelmistoa: {venue}"
+with no warning mark, named by venue since "Kino Metso" reads as the whole chain.
+
+The first version quieted every `unverified` venue; a review caught that as overreach,
+since run.py cannot tell "added before its programme" from "a parse that has never
+worked". `pending` is granted only where the adapter has positive evidence: a module that
+sets `EMPTY_VENUES_CONFIRMED` (nexxo, whose schema check means a venue with zero rows was
+answered and listed empty) vouches for the venues it reported empty. eTiketti must not set
+the flag: its venue match is a substring test over markup. Severity: stale and unverified
+outrank pending, age outranks all three. The provider row's tooltip names each kind ("ei
+päivittynyt", "ei ole vielä saatu näytöksiä", "ei vielä ohjelmistoa").
+
+A second review tightened the evidence: nexxo's `parse()` silently skipped rows whose
+start could not be read, so a renamed field would have emptied every row and read as
+pending. It now raises when relevant rows exist and none produced a showtime; an empty
+payload, a room filter owning no rows, and `isUpcoming` rows stay legitimate empties, and
+one malformed row among parseable ones is still dropped. The runner's summary counts
+pending with its own `[run] pending:` line. Nine guards, nine reds when broken.
+
+### Confirmed empty beats kept data (2026-09-05, sw.js v107)
+Kino Metso's Muurame had its last screening on 2026-09-04. The next cloud run found the
+town empty and took the "no showtimes, keeping previous data" branch: the past show was
+kept, the venue read `stale`, the provider `partial`, and `oldest` was pinned to an old
+stamp while three venues were fresh. The 2026-08-31 rule honoured `EMPTY_VENUES_CONFIRMED`
+only for venues that had never had data.
+
+The order the loop checks now:
+
+1. Confirmed empty from a successful adapter response (the module sets
+   `EMPTY_VENUES_CONFIRMED` and reported the venue) publishes a fresh empty file and
+   records the venue as `pending`, whether or not old data exists.
+2. Zero rows without that confirmation keeps the previous file and marks the venue `stale`.
+3. A fetch, schema or parse failure never reaches the loop: the site fails as a whole.
+
+`pending` now means "no programme at the moment" rather than "not started": "Ei ohjelmistoa
+juuri nyt", "Inget program just nu", "No programme right now". No new state, no schema
+change. eTiketti does not set the flag and keeps rule 2.
+
+`tests/test_run_partial.py`, `ConfirmedEmptyTest`: confirmed empty with and without an old
+file, zero rows without the flag, a confirming module that did not report the venue, a
+failing fetch, and Kino Metso's four-venue shape. Four mutations red.
+
+### A classification published at one chain fills a blank at another (2026-09-07)
+A cinema that publishes no age rating is not saying the film is unrestricted, it is saying
+it publishes none, and 383 of 2916 showtimes were in that state. KAVI's classification is
+national, so a cinema reports the same fact rather than forming an opinion. The tree agrees:
+of 37 films rated at more than one chain, zero disagree.
+
+`shared_ratings()` groups exact TMDB matches by `tmdbId` and publishes one classification
+per film; `borrowed_rating()` decides what a single showing may take. Four rules, each
+measured rather than assumed:
+
+- **Exact matches only, on both sides.** A weak match neither donates nor receives, the
+  same gate `tmdbId` already passes for the cross-chain merge. Thirteen titles were weak in
+  the run this was written against, one of them "Kapina" matched to "Matilda ja lasten
+  kapina"; a children's classification landing on that film fails in the unsafe direction
+  for Lapsille.
+- **Unanimity, or nothing.** A disagreement publishes no shared value and prints the film,
+  the sources and the values. Strictest-wins was rejected: two cinemas disagreeing about a
+  national classification means one is wrong, and the run should say so.
+- **Runtime compatibility where both sides publish one.** Measured across the tree the gaps
+  are 0 min (78 pairs), 1 min (3) and 20 min (10), with nothing between. The 20-minute
+  cluster is Riviera's 110-minute "Practical Magic" against a 130-minute listing, an
+  alternate cut. The tolerance is five minutes, sitting in that gap. A runtime missing on
+  either side does not block: the rule is a veto on evidence of a different cut, not a
+  requirement that both publish one.
+- **A cinema's own rating is never replaced.** The shared value only fills a blank.
+
+Measured on the committed data of 2026-09-07: 383 unrated showtimes to 292, 91 filled
+across 23 titles, 10 refused by the runtime rule, 0 disagreements. These move with every
+run and are kept here rather than in the code. Lapsille goes from 546 eligible showtimes
+to 572. Riviera gains eight of them, "Hetki ennen valoa" and the Oasis documentary, both
+K-7 elsewhere.
+
+Provenance is kept because the UI cannot show it: a borrowed rating renders exactly like a
+published one, so the show carries `rsrc: "shared"` and the films-extra entry carries `kr`
+with `krs`, the chains it came from. Nothing else could tell them apart afterwards.
+
+Two persistence bugs in the first cut, both about a second run rather than a first.
+`run.py` keeps a stale venue's previous data, so a borrowed rating survives into the next
+run; counting it as a source let a loan outlive its donor and then lend itself onward, so
+`rsrc` now disqualifies a show from donating. And the value is re-decided from scratch each
+run, cleared first, because nothing else writes anything when a donor leaves the programme.
+The same held for `films-extra.json`: `kr` and `krs` are dropped from every entry before the
+current set is written, and the write runs on an empty set, which is exactly the case where
+every previous value has to go.
+
+A third followed from the same shape: the show loop reaches `continue` when a title has no
+cache entry, so clearing after that point never ran and a loan survived its own film being
+retitled or pruned. The clear moved above the guard, which is also where it belongs: it
+undoes this pass's own writing and does not need the cache to do it.
+
+`tests/test_shared_rating.py`, 27 tests, ten mutations red. Most of them run `main()`
+against a temporary tree and read the files back, including two runs with the donor removed
+between them: the source-text checks the first cut used could only confirm the source says
+what it says, which is the failure mode that shipped the /status/ refetch loop.
+
+Two mutations stay VOID and the reason is worth keeping. The `x` checks in the pass cannot
+be made to fail, because `main()` deletes every weak entry carrying an id as it loads the
+cache, so one never reaches the pass. That deletion is documented as a one-off for a shape
+change, so it is the wrong thing to depend on, and the checks are what remains if it goes.
+
+No client change: the pass fills the show's own `rating`, which `passFilters` already reads.
+Takes effect on the next cloud run.
+
+### A failed site publishes its failure, not its last good state (2026-09-14)
+Bug: `run_site` withheld `venues-<provider>.json` unless a venue went live or the adapter
+confirmed every one empty, so a site that produced nothing left the previous file standing,
+reading `status: ok` with an empty `stale`, and discarded the stale list it had just
+computed. Measured on 3b62ea4f: four Nexxo sites 403ed at 16:30, six venues kept previous
+data, and all four provider files still read ok on the 11:14 stamp. `healthState` checks
+`stale` before age, so the only signal left was `oldest` crossing `STALE_H` = 8: eight
+hours of a failing provider reading healthy.
+Fix: the file is written whatever the outcome. `oldest` still comes from the venue files on
+disk, so a dead site keeps the previous stamp and ages exactly as it did; what is new is
+that `stale` names the venues and `status` reads partial at once. A fetch that raised still
+writes nothing, because `run_sites` catches it above this.
+Tests: the four that pinned the withheld file now pin the record, `oldest` included. Four
+mutations, against `test_run_partial.py` and `test_etiketti_empty_venue.py`.
+
+### A screening note is not a synopsis (2026-09-03)
+Found by an external review: Cinema Niagara's sheet for "Keltaiset kirjeet" opened with
+Gilda's senior-screening paragraph, its price and its coffee.
+
+`films-extra.json` holds one Finnish synopsis per normalised title, filled by the first
+provider to publish one. Gilda's MyCloudCinema `description` is HTML in paragraphs, and its
+senior-screening entries open with the cinema's own paragraph (7 of 41 on 2026-09-03). The
+adapter stripped tags and merged the whole thing under the plain key, and fill-if-empty
+kept it there. Measured: 10 of 166 entries held a note, five under plain keys read by every
+cinema, plus Bio Vuoksi's "Liput 8€ maksetaan Pennittömien edustajalle" as a whole text.
+
+Two rules, at two layers:
+- At the adapter, `synmerge.drop_notes_html(desc, names)` splits on `</p>` and drops a
+  paragraph that quotes a price or names the cinema (stems as word prefixes, so "Gilda"
+  catches "Gildan"). The paragraph is the source's own boundary; a sentence split would
+  guess ("klo 18.15", "la 12.9." end sentences that are not).
+- At the merge, `synmerge.is_note(text)` is true for a price in either order (`9€`,
+  `€ 10`, `12 euroa`, `5 EUR`), and `merge()` refuses such text, counting it as
+  `synopses skipped as screening notes (price): N`. The slot stays empty for TMDB.
+
+Rejected: per-provider provenance, reusing text only for the supplying provider's cinemas.
+That gives up the sharing, and the distributor's blurb is the same text at every cinema.
+Accepted: Cinema Orion's "Ainoa näytös, klubialennus." lines carry no price and no cinema
+name and still merge.
+
+The cache was repaired in the same commit: the Gilda paragraph stripped from nine entries,
+nouvelle vague blanked. `tests/test_synopsis_notes.py`; five mutations red.
+
+### A refused request held its socket until the collector noticed (2026-09-01)
+A suite run printed 24 ResourceWarnings. Thirteen were real: `urllib.error.HTTPError` is
+the response object, and `common.fetch` kept the last one across the retry loop and raised
+it, so every refusal left a socket open until garbage collection. Against a host refusing
+everything (`mirror_posters` has had 185 failures against one host) that is 185 sockets.
+
+`e.close()` on entering the handler. `code`, `reason` and `headers` survive the close, no
+caller reads the body, and `close()` is idempotent. The other eleven were fixtures:
+`shutdown()` leaves the listening socket open and two of the three local servers never
+called `server_close()`.
+
+`-W error::ResourceWarning` does not enforce this: the socket warnings are raised while
+the interpreter shuts down, after the result is reported (measured 2026-09-01, exit 0 with
+the leak reintroduced). `Checks` greps the captured suite output instead. Four new tests in
+`test_common_fetch.py` go red with `e.close()` removed; `server_close()` removed puts the
+warning back in the output the workflow reads.
+
+### Seat counts are parsed and deliberately not published (2026-08-30)
+README said the app shows "seat availability". It shows a sold-out mark. Finnkino gives an
+`isSoldOut` boolean; eTiketti (`Vapaat paikat N / M`) and Riviera (`Varatut paikat: N / M`)
+give counts, reduced to `soldOut: free == 0`; everyone else gives nothing.
+
+The counts are thrown away on purpose. The data is refreshed a few times a day, so a count
+is up to six hours old when read; "12 vapaata" can be zero by then and would be shown with
+the authority of a figure. Sold-out survives staleness better. Do not restore the counts
+without solving the staleness. 6 of 3059 showtimes were sold out on the day.
+
+### A cancelled cloud run cost two venues every poster (2026-08-30)
+Kino Engel and Kino Akseli rendered placeholder tiles for every film for hours. Three
+causes lined up: the local half publishes those posters as the cinemas' own URLs and only
+the cloud run mirrors them (38 of 38 Engel and 12 of 12 Akseli showtimes remote);
+`cancel-in-progress: true` cancelled the run doing the mirroring when a manual dispatch
+landed on a scheduled run, and nothing retries; and since v64 the client refuses a remote
+poster, correctly. The normal window between publishing a remote URL and the cloud
+rewriting it is a 2.7 minute median, 6.9 max; a cancellation stretched it to the next cron.
+
+Two changes: `cancel-in-progress: false`, which keeps runs serialised and lets the queued
+run finish; and `build_pages.py` prints the hosts and count of poster references still
+remote (`78 poster references were still remote ... johku.com x58, kinoakseli.fi x20` on
+the broken data). The state self-heals on any completed cloud run.
+
+### The same asymmetry, one layer up: enrichment (2026-08-30)
+After the poster fix, Kino Engel had no score rings: `enrich_tmdb.py` runs only in the
+cloud, Finnkino has its own TMDB pass in `fetch_data.py`, and Engel and Kino Akseli had
+neither. A local run took 38 of 38 Engel and 12 of 12 Akseli showtimes from a full set of
+`tmdbId`, `tmdb`, `votes`, `tr` and `gids` to zero. `gids` drives the genre names and the
+id half of the kids filter; `tmdbId` drives cross-chain merging.
+
+Rejected: running `enrich_tmdb` on the local half. It writes three shared files that the
+cloud pass also writes, and the wrapper pushes through `git pull --rebase`; a conflict in a
+single-line JSON cache cannot auto-merge and would abort the run.
+
+Decision: `run_site` reads the previous venue file and carries the five fields forward by
+title, the key the TMDB pass uses. `setdefault`, so an adapter's own value wins and the
+next enrichment pass overwrites all of it. This also covers a failed cloud enrichment and
+the old trap of running `run.py` locally for a cloud provider, which once stripped 1201
+showtimes of `tmdbId`. Four tests, break-verified.
+
+The local half also runs `mirror_posters.py`. It rewrites only references still remote,
+so pointing it at the whole `data/` directory touches Engel and Akseli and nothing else.
+It needs Pillow: Akseli publishes 1984x2835 key art, 872 kB per poster against 57 kB
+downscaled.
+
+`mirror_posters` checks Pillow once, up front, by using it (open, convert, resize, save a
+4x6 JPEG), since `from PIL import Image` succeeds on an install with an incomplete imaging
+library. A missing or broken Pillow exits `CANNOT_RUN` (3): exit 0 had made "mirrored
+everything" and "could not mirror anything" the same answer, and in the cloud Pillow is
+installed inside the job, so a broken install would have gone green. A poster that fails
+to download stays exit 0 (kinoakseli.fi fails every cloud run by design). No `--optional`
+flag: neither caller stops on the exit code, since the cloud commits data before its gate
+and the wrapper collects the code and carries on, so exit 0 only hid the degradation.
+The wrapper prints `posters: DEGRADED` for 3 and `posters: FAILED` otherwise.
+
+Covered by `tests/test_mirror_posters.py`. The Pillow-absent cases block the import
+through `sys.meta_path`; two tests read `biorex.yml` to hold the mirror step recording
+`$?` into `mirrorfail` and the gate comparing it to 0. Break-verified eleven ways. The
+cases needing a real Pillow skip on the system interpreter; run them from the venv that
+has it. That venv's path was written here once and removed the same day: CLAUDE.md forbids
+machine-specific detail.
+
+### Finnkino drops the odd character to "?" (2026-08-30)
+The Vaiana live-action synopsis published "Catherine Laga?aia" and "Auli?i Cravalho"; both
+names carry an okina (U+02BB). It is Finnkino's payload: `®`, `“ ”` and every `ä` in the
+same sentence arrive intact, `json.loads` raises on malformed UTF-8, and the one decode in
+`fetch_data.py` uses `errors="replace"`, which yields U+FFFD.
+
+A "?" cannot be decoded back (apostrophe, okina, real question mark), so the repair
+transcribes rather than guesses. `films-extra.json` already held the same 823-character
+sentence from another chain with the okina intact. `synmerge.repair_from_twin` uses a
+twin only when it has the same length and differs only where this text has "?"; a twin
+that disagrees elsewhere is a different synopsis, and a genuine "Mitä?" is never touched.
+
+- `tests/test_synopsis_repair.py` covers the refusals: a twin that differs elsewhere, a
+  broken twin, a different-length twin, no twin, a real question mark.
+- The lookup goes through `synmerge.norm()`, the key `films-extra.json` is written with.
+- `data/films.json` was repaired in place in the same commit.
+- The call site in `fetch_data.py` runs only from an ordinary connection; `[films] N
+  character(s) restored from another chain's copy` in `run.log` confirms it.
+- Left alone: `watch?v=` in YouTube URLs, and a missing space after a real question mark
+  in a provider's prose.
+
+### Where a run's time actually goes, and what could be taken back (2026-08-31)
+Measured off one cloud run's committed logs: eTiketti is about 85% of a run, 185 requests
+against 9 for Nexxo, 25 for BioRex, 6 for Gilda and 1 for Orion, about 3.5 minutes of
+deliberate `sleep=1.2` between film pages.
+
+Per-host pacing is the design and not negotiable. Serialising across unrelated hosts was
+never a decision; it is how the loop was written when the module had two sites. The win
+is a pool across hosts with the sleep kept within each host.
+
+The first draft said "over sites", which is wrong: two Nexxo hosts serve two sites each,
+so a pool keyed on the site doubles the request rate at those cinemas. The unit is the
+host; the next entry is what landed. Hazards named here and resolved there: `common`'s
+module-level counters, log interleaving, and the HTTP validator cache's per-URL writes.
+Conditional GETs do not help: the eTiketti origins answer `no-store`.
+
+### A run reads unrelated hosts at once (2026-09-01)
+`run.py` fetches sites on different hosts concurrently and sites on one host one after the
+other. `host_groups` groups by `urlsplit(site["base"]).netloc`, one thread per group, so
+the sleep inside `fetch_site` still describes what a host experiences. Measured against
+`SITES` on 2026-09-01: eTiketti is 17 sites on 17 hosts (16 read by the cloud); Nexxo is
+8 sites on 6 hosts, because kinoaurora.fi serves kinoaurora and kinometso and kinohirvi.fi
+serves kinohirvi and biosade. Keyed on the site, those pairs would be read at twice their
+adapter's pace. `base` rather than `site`: Bio Säde's showtimes come from kinohirvi.fi
+while its ticket links go to biosade.fi. Sites with no `base` share one group.
+
+Hazards and decisions:
+
+- Output is buffered per site and replayed in SITES order, both streams into one list, so
+  the committed logs read chronologically. This also fixed the old buffering artefact
+  where `run-nexxo.log` opened with the eighth site's stderr notice.
+- `common`'s counters are locked. Nothing measurably went wrong under the GIL, but that is
+  an implementation accident and false on a free-threaded build. The lock also lets the
+  Retry-After ceiling be one decision: seconds are reserved before the sleep.
+- `_write_slot` uses a per-thread temp name; two threads writing the same URL slot would
+  otherwise truncate each other's `<hash>.tmp`.
+- `synmerge.merge()` is a read-modify-write of the shared `data/films-extra.json`, called
+  per site. It is serialised inside `merge()`, and the winner for a slot two sites fill in
+  the same run is the earlier site in SITES order, tracked per run so the result is the
+  same at every pool size. Text already in the file before the run is never touched.
+  `synmerge.reset()` clears the map between modules. Probed with one slow and one fast
+  site: `workers=1` and `workers=2` published different synopses before the fix.
+- Everything else `run_site` writes was already single-writer: 57 venue ids and 31
+  provider ids, each unique.
+- The pool is 8 (`MAX_HOSTS`, overridable with `KINO_MAX_HOSTS`; 1 is the sequential
+  path). It bounds this end only: open sockets and bodies in flight, at most
+  `MAX_HOSTS * MAX_BODY` = 160 MB. "As many as there are sites" was rejected because it
+  would raise the ceiling every time a cinema is added.
+- A worker's exception is recorded and re-raised by the reader thread, which is where a
+  sequential run would have raised it. Two earlier versions caught `BaseException` per
+  site (a `SystemExit` read as a provider failure) or reported it as `not read` (the run
+  exited 1 and still published). Ordinary failures stay per site. Teardown cancels queued
+  hosts (`cancel_futures=True`) and waits for hosts in flight, so atomic writes finish.
+
+Measured on the first pooled run: the "Fetch cloud providers" step took 186 s against a
+562 s median across eight sequential runs (479-626 s), roughly 2.6-3.4x; one sample. Step
+durations are job metadata, not Actions logs. Counters were unchanged for the same work
+and every provider exited 0. One `run.py nexxo` from an ordinary connection into a scratch
+directory matched the committed log; no second run was made to time it.
+
+Covered by `tests/test_run_pool.py`, 22 tests against real localhost servers, and five for
+the fatal path; seventeen break-checks red. Not changed: `fetch_site`, the workflow, the
+site list. The local half's modules have one site each and read exactly as before.
+
+Nexxo 403s, recorded so they are not blamed on the pool: the last sequential run before
+this landed was refused by kinoset.fi, kinohirvi.fi (`Server: openresty`) and
+kino-olympia.fi (`Server: Apache`), origin layer, no CF-Ray, while an ordinary connection
+read them hours earlier. On 2026-09-05 the same three hosts refused again in the third
+cloud run within 41 minutes, a manual dispatch stacked on two earlier runs. Rule until a
+third point says otherwise: do not dispatch a cloud run within an hour of one that already
+ran.
+
+A Nexxo timeout, read from the runner on 2026-09-06 17:11 UTC (run 34047817637, `event:
+schedule`, northcentralus). `jarvelankino.fi` (5.44.245.76) timed out after 15.3 s while the
+module's five other hosts, probed from the same runner seconds later, all answered 200 in
+under 3.3 s, `kinoaurora.fi` (5.44.244.43) on the neighbouring address among them. That
+locates the fault on `jarvelankino.fi` or on the path to it and says nothing about what it
+was: a timeout carries no mechanism, so it is no evidence of a refusal, a block or a rate
+limit. The Regina reading differs exactly there, since a 167-byte 202 shell with SiteGround's
+headers names itself. What this run had extra was a second sweep. A `workflow_dispatch` from
+the local wrapper and a `schedule` run were created six seconds apart and `kino-data` ran them
+back to back, 17:11:24 to 17:15:54 and 17:15:56 to 17:21:48, so the six hosts were swept twice
+inside seven minutes and `jarvelankino.fi` was read at 17:13:19 and again after 17:16. Closely
+spaced runs are the hypothesis that suggests, and nothing here tests it. The hour rule above
+was written for a dispatch made by hand and nothing applies it to a queued run:
+`cancel-in-progress: false` makes a duplicate wait instead of drop, which converts an overlap
+into a back-to-back pair. Dropping a queued run is the owner's decision and is not made here.
+A second paired timeout would repeat the whole uncontrolled setup rather than test the
+pairing, and an unpaired one would weaken that explanation without ruling out limiting over a
+window longer than the gap or on cumulative volume. What would discriminate is varying the
+spacing deliberately and watching the host, which means probing a third party's server to
+settle our own question. So this stays a standing observation, and a later run count does not
+turn it into a finding. One thing it cannot answer: the cron is `30 2,6,10,14` UTC and that
+`schedule` run was created at 17:11:27, delivered late by a margin nothing here measures. It
+matters only because a late schedule is what landed on top of the wrapper's dispatch.
+
+### A quiet week is not a broken parser (2026-08-30)
+"A whole site parsing zero showtimes fails the run" catches a silently broken parser, and
+after the eTiketti sweep eight sites are a single small venue (K-Kino 3 showtimes, Kino
+Saimaa 2), so a quiet week turned the run red.
+
+`common.EmptyProgramme` may be raised only after a listing was fetched and parsed and held
+no films. A listing with films whose parse yields no showtimes keeps failing.
+
+- No per-site "allow empty" flag: it would switch the check off permanently for the site
+  most likely to need it. Emptiness is decided per run.
+- An empty site writes no `venues-{provider}.json`, so the health line ages rather than
+  going green on an empty answer.
+- Previously published data is kept, since the discriminator can be wrong.
+- The log line is `[provider] no programme published: ...` and the summary counts them.
+- One break did not go red: removing `not venues` from the exit condition changed nothing,
+  because an all-empty site is already counted earlier. That clause guards a module with
+  no sites for this half, which must exit 0; it had no test until the break said so.
+
+Covered by `tests/test_empty_programme.py`. Only `etiketti` raised it at the time; Nexxo
+followed.
+
+### Routing is per site, not per module (2026-08-30)
+`where` on a registry entry decided which half fetched a whole adapter, so marking one
+eTiketti provider local would have put all sixteen sites in both halves with two writers on
+the same files. That is why Joutsan Kino was deleted, which was the wrong answer.
+
+`run.py` filters `SITES` by each site's provider `where`.
+
+- The half is derived, not passed: Actions sets `GITHUB_ACTIONS`, so the cloud workflow's
+  bare `run.py <module>` keeps working without an edit to `biorex.yml`.
+- Off Actions the default is `all`: `run.py etiketti` on a laptop exercises the adapter.
+  The local wrapper says `--where local`, which keeps one writer per provider file.
+- A site whose provider has no registry entry is kept in both halves;
+  `tests/test_registry_sites.py` reports it.
+- `tests/test_run_routing.py` asserts against the live registry that the halves are
+  disjoint and complete.
+- `run.py etiketti --half local` took `local` for a module name; `module_names()` is fixed
+  and tested.
+- The wrapper needs `run.py --where local` for the eTiketti module, or Joutsan Kino
+  publishes nothing.
+
+Joutsan Kino was fetched from an ordinary connection and committed with this change; its
+posters stayed hot-linked until a cloud run mirrored them.
+
+### Posters are mirrored (2026-08-29)
+`scripts/providers/mirror_posters.py` runs after enrichment and before `build_pages`,
+downloads every hot-linked poster into `data/posters/` and rewrites the `img` reference on
+each show and in `films-extra.json`.
+
+- The count was wrong by an order of magnitude: "1523 of 4279" counted references, not
+  files. The data held 194 distinct remote URLs against 3494 references, a ~5 MB job.
+- Everything is downscaled to 342 px wide: TMDB serves w342 at ~25 kB, MyCloudCinema only
+  1080, Nexxo and Kino Akseli 1984x2835 key art. Pillow is installed in the workflow for
+  this only.
+- Named `sha1(url)[:16]`: seven hosts with no id namespace in common.
+- A failure is logged and left hot-linked; a third party's uptime must not stop the
+  pipeline publishing.
+- Kino Akseli's posters mirror from a runner: the datacenter challenge is on its pages, and
+  `wp-content/uploads/` served all six. "The site blocks datacenter IPs" is a claim about
+  the endpoint that was tested.
+- Nexxo publishes filenames with spaces, which urllib rejects; `fetch` goes through
+  `request_url()`, and the cache key stays the published URL.
+- The first run after this rewrote nearly every generated page as the `<img>` tags appeared.
+- Open: nothing prunes a poster once its film stops screening; a few MB a year.
+- `/data/` is disallowed in `robots.txt`, so the mirrored posters were unfetchable by
+  Googlebot until `Allow: /data/posters/` overrode it.

@@ -1,12 +1,13 @@
 # Ticketing platforms: what each one publishes and how it is read
 
 Research notes, moved out of `IDEAS.md` on 2026-09-14 so that file can stay an index of
-proposals and decisions. Decisions still live in `IDEAS.md`; accepted working rules live
-in `CLAUDE.md`. Nothing here is a rule.
+open work. Open items live in `IDEAS.md`, the dated decision records in
+`docs/archive/2026-09-providers.md`, and accepted working rules in `CLAUDE.md`. Nothing
+here is a rule.
 
 Every reading below was taken as an ordinary visitor, through the same public interface
 the cinema's own site uses. Booking, payment and administrative endpoints are not called
-and are not inventoried; see "Access and ethics" in `IDEAS.md`.
+and are not inventoried; see "Access and ethics" in `CLAUDE.md`.
 
 Each topic separates what was observed from what was concluded, because several
 conclusions here were wrong the first time and the observations were not.
@@ -99,7 +100,8 @@ GET {base}/wp-content/plugins/nexxo-scope/public_api.php
 - Three hosts have answered 403 under load (`Server: LiteSpeed`, `openresty`, `Apache`,
   no CF-Ray), which reads as the origin rather than an edge. Whether closely spaced runs
   cause it is an open question that would need probing a third party's server to settle,
-  so it stays an observation. See "A run reads unrelated hosts at once" in `IDEAS.md`.
+  so it stays an observation. See "A run reads unrelated hosts at once" in
+  `docs/archive/2026-09-pipeline.md`.
 
 **Status and next step**
 
@@ -315,5 +317,5 @@ not among the hosts probed at all.
 **Status and next step**
 
 The eTiketti and Nexxo sweeps both landed (2026-08-30). The open candidate list lives in
-`IDEAS.md` under "Next providers", which is the status index. Next step: probe Eventio,
-and re-read Kulttuurimylly when its programme resumes.
+`IDEAS.md` under "Provider coverage, and what is next", which is the status index. Next
+step: probe Eventio, and re-read Kulttuurimylly when its programme resumes.

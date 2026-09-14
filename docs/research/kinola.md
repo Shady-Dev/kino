@@ -1,7 +1,8 @@
 # Kinola: three templates, and telling a film from a concert
 
 Research notes for an adapter that does not exist yet, moved out of `IDEAS.md` on
-2026-09-14. Nothing here is a rule, and nothing here is built: there is no
+2026-09-14. The open decision it waits on is tracked under "Blocked" in `IDEAS.md`.
+Nothing here is a rule, and nothing here is built: there is no
 `scripts/providers/kinola.py` (checked again 2026-09-14). One item in it, whether to
 publish rows the page cannot resolve, is a maintainer decision and is flagged as such.
 

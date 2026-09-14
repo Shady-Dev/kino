@@ -7,10 +7,17 @@ framework, no dependencies beyond the standard library in the pipeline.
 
 ## Read IDEAS.md first
 
-It holds the architecture decisions and a long list of approaches that were tried and
-rejected, with the reasoning. Several obvious improvements are in there as dead ends. If
-you disagree with a recorded decision, argue with it in the file. Do not silently reverse
-it. Update IDEAS.md in the same commit as the change it explains.
+It is the index of open work: active items with their next action, what is blocked and on
+what, and what was deferred with the reason. Read it before proposing anything, because
+several obvious improvements are recorded there as dead ends.
+
+The reasoning behind what already exists is not in it. Closed decision records moved to
+`docs/archive/` on 2026-09-15, one file per area, and `IDEAS.md` maps them at the bottom
+under "Where the rest went". A long list of approaches tried and rejected is in there;
+read the archive file for the area you are touching before reversing anything. If you
+disagree with a recorded decision, argue with it in writing. Do not silently reverse it.
+Update `IDEAS.md` in the same commit as the change it explains, and add the dated record
+to the archive file for its area once the work is closed.
 
 Write down why a change was made. The diff already records what changed.
 
@@ -21,12 +28,13 @@ Write down why a change was made. The diff already records what changed.
 | A rule every session must follow | `CLAUDE.md`, here |
 | A visual value that is a decision | `DESIGN.md`, and only on written instruction |
 | What the product is, and how to run it | `README.md` |
-| A proposal, a priority, a status, a dated decision record | `IDEAS.md` |
+| A proposal, a priority, a status, an open item's next action | `IDEAS.md` |
+| The dated record of a decision, once the work is closed | `docs/archive/<date>-<area>.md` |
 | What you observed probing a site or evaluating a tool | `docs/research/<topic>.md` |
 
 A research file separates findings, each with its source and the date it was read, from
 inferences, open questions, and implementation status with the concrete next step. A
-decision record in `IDEAS.md` links to its research file instead of repeating it. A
+decision record links to its research file instead of repeating it. A
 finding does not become a rule by being written down: promoting one into `CLAUDE.md` is a
 decision, and it needs its `IDEAS.md` entry like any other.
 
@@ -188,16 +196,17 @@ provider missing from it loses its venues, not just its label.
 - **Measure a new accent against the whole set** with `python3 scripts/accent_check.py`.
   `--search {id}` proposes one, `--candidate HEX --city A,B` tests one, `--selftest`
   checks its own CIEDE2000 against published reference data. Do not quote an accent number
-  that no script produced: the figures that used to sit in IDEAS were CIE76 mislabelled as
-  ΔE. Two views list chains together, a combined city and a region row from `REGIONS`,
-  and both are measured: 8 cities and 11 of the 14 regions as of 2026-09-07, so a site
-  alone in its town is still constrained by its region. Combined-city pairs hold a strict
-  14.4 ΔE00 minimum across all three models. Region pairs are measured on the same scale,
-  but twelve established ones sit below it. Score on the weakest of the three models: Bio
-  Grani and Gilda are 19.9 apart to a deuteranope and 14.1 to everyone else. Clear 14.4 in
-  every view a new accent enters where that is reachable, and never lower an existing
-  regional minimum without recording why in IDEAS. Colour stays supplementary: both views
-  also print venue names and a chain legend.
+  that no script produced: the figures first recorded for these were CIE76 mislabelled as
+  ΔE, and `docs/research/accent-colour.md` carries the corrected ones. Two views list
+  chains together, a combined city and a region row from `REGIONS`, and both are measured:
+  8 cities and 11 of the 14 regions as of 2026-09-07, so a site alone in its town is still
+  constrained by its region. Combined-city pairs hold a strict 14.4 ΔE00 minimum across
+  all three models. Region pairs are measured on the same scale, but twelve established
+  ones sit below it. Score on the weakest of the three models: Bio Grani and Gilda are
+  19.9 apart to a deuteranope and 14.1 to everyone else. Clear 14.4 in every view a new
+  accent enters where that is reachable, and never lower an existing regional minimum
+  without recording why in `IDEAS.md`. Colour stays supplementary: both views also print
+  venue names and a chain legend.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
@@ -208,7 +217,8 @@ provider missing from it loses its venues, not just its label.
   Contents API with `Accept: application/vnd.github.raw`, or a tarball of `main`.
 - **Never commit a raw probe dump.** A third party's page carries whatever they ship to
   visitors, and one such dump put someone else's API key in this repo and tripped secret
-  scanning. Probe, read the answer, write the *finding* in IDEAS, commit nothing raw.
+  scanning. Probe, read the answer, write the *finding* in `docs/research/`, commit
+  nothing raw.
   `.gitignore` blocks `probe/` and `probe-*`.
 - **Nothing machine-specific in this repo.** It is public. No paths, no hostnames, no
   schedules, no credentials, no token retrieval, no third-party endpoint inventories

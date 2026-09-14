@@ -69,9 +69,10 @@ so one failing provider never blocks the rest. **The committed `run.log` and
 `enrich_tmdb.py` runs last and fills in ratings, trailers, synopses and
 posters a provider does not supply, without overwriting the cinema's own text.
 
-Why any of it is shaped this way is in [IDEAS.md](IDEAS.md), with the approaches tried
-and rejected. The investigations those decisions rest on, what each ticketing platform
-publishes and how it was read, are under
+Open work is in [IDEAS.md](IDEAS.md). Why any of it is shaped this way, with the
+approaches tried and rejected, is in the dated records under
+[docs/archive/](docs/archive/). The investigations those decisions rest on, what each
+ticketing platform publishes and how it was read, are under
 [docs/research/](docs/research/ticketing-platforms.md).
 
 ## Files
@@ -292,7 +293,7 @@ hosting a fork never performs.
 
 Forking the code carries no right to that material. Read the providers yourself,
 under your own name and User-Agent, and see Access and ethics in
-[IDEAS.md](IDEAS.md) first.
+[CLAUDE.md](CLAUDE.md) first.
 
 ## Contact
 

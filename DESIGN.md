@@ -1,12 +1,12 @@
 # Design contract
 
 The visual elements below are decisions, not defaults. They were each argued out once
-(the entries in IDEAS.md under "App" hold the reasoning and the measurements) and one of
-them was lost twice in a single day when a task spec said otherwise and the tests that
-pinned it were rewritten in the same commit. `tests/test_design_contract.py` checks the
-CSS in `index.html` and `scripts/build_pages.py` against the values here, so a change has
-to touch this file, and CI refuses a push that touches this file or that test without an
-IDEAS.md entry in the same push.
+(the app entries in `docs/archive/2026-09-app.md` hold the reasoning and the measurements)
+and one of them was lost twice in a single day when a task spec said otherwise and the
+tests that pinned it were rewritten in the same commit. `tests/test_design_contract.py`
+checks the CSS in `index.html` and `scripts/build_pages.py` against the values here, so a
+change has to touch this file, and CI refuses a push that touches this file or that test
+without an IDEAS.md entry in the same push.
 
 ## Changing this
 
@@ -49,9 +49,8 @@ controls, the picker and search, the sheet's close button, the menu rows and the
 reveal links all measure 44 or more at 393 px wide. The view segment, the filter chips and
 the chain legend buttons stay 36 px tall to the eye and reach 44 through a transparent 4 px
 extension above and below the border, so the filter row does not weigh as much as the day
-row. The
-ticket is the one control under the floor, at 40 px (IDEAS "Tickets are 40 px"). Desktop
-keeps the smaller header sizes; a mouse needs no 44.
+row. The ticket is the one control under the floor, at 40 px (the archive entry "Tickets
+are 40 px"). Desktop keeps the smaller header sizes; a mouse needs no 44.
 
 ```
 tap.floor          = 44px

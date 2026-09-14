@@ -15,7 +15,8 @@ declined.
 
 **Status**: `common.Show` names the seventeen keys every adapter publishes and
 `common.check_shows` is the runtime rule `run_site` applies before any write. See "Every
-adapter is held to one show contract, at the boundary" in `IDEAS.md`. Done.
+adapter is held to one show contract, at the boundary" in
+`docs/archive/2026-09-pipeline.md`. Done.
 
 ---
 
@@ -33,7 +34,7 @@ while `allVenues` is empty, the day chips are built before `await loadAreas()`, 
 `fillAreaSelect` touches no DOM of its own. The honest fix would be an `aria-busy` on the
 trigger, which is a two-line client change; `index.html` is frozen by the maintainer's
 instruction of 2026-09-14, so the test retries the click instead. See "The picker has no
-ready signal, so the test clicks until it opens" in `IDEAS.md`.
+ready signal, so the test clicks until it opens" in `docs/archive/2026-09-ops.md`.
 
 **Status**: **Correction:** the original note called this a trial. It is in CI as the
 `browser` job in `.github/workflows/ci.yml`, which installs the pin and caches the
@@ -69,7 +70,7 @@ that differs is a nested table, and no Kinola page has one. bs4 is about 4× slo
 
 **Inferences and open questions**: bs4 re-serialises attributes with single quotes, so a
 regex must never be written against its rendering of a page. That trap is recorded under
-"Notes / gotchas" in `IDEAS.md` and is the reason the two approaches cannot be mixed
+`docs/archive/2026-09-gotchas.md` and is the reason the two approaches cannot be mixed
 casually.
 
 **Status**: not adopted, and `bs4` appears nowhere in the repository. **Correction,
