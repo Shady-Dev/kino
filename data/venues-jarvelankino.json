@@ -1,1 +1,1 @@
-{"generated": "2026-09-14T20:38:53+00:00", "oldest": "2026-09-14T17:15:00+00:00", "status": "partial", "stale": ["ja-jarvela"], "unverified": [], "pending": [], "provider": "jarvelankino", "venues": [{"id": "ja-jarvela", "name": "Järvelän Kino", "short": "Järvelän Kino", "city": "Järvelä"}]}
+{"generated": "2026-09-14T22:32:29+00:00", "oldest": "2026-09-14T22:32:29+00:00", "status": "ok", "stale": [], "unverified": [], "pending": [], "provider": "jarvelankino", "venues": [{"id": "ja-jarvela", "name": "Järvelän Kino", "short": "Järvelän Kino", "city": "Järvelä"}]}
