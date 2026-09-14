@@ -25,34 +25,23 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### Two verifications waiting on a cloud run (opened 2026-09-14)
+### The TMDB marker fix is deployed and not yet exercised (opened 2026-09-14)
 
-One of the two is closed. The remaining one needs a cloud run that completes **and**
-publishes *after* 00:00 UTC, which the 22:35 run of 2026-09-14 was not: it ran on the same
-UTC day the entries were last stamped, so `refresh.due` skipped them again, exactly as this
-entry predicted. Re-measured at `3147f45e`: the eight keys still read `c: 2026-09-14` with
-no id.
-
-1. **The TMDB marker fix is deployed and not yet exercised.** `f3b61ee8` takes
-   `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised strand off the
-   search string. Eight cache keys still carry `c: 2026-09-14` from the 17:13 UTC run,
-   which predates it, and `refresh.due` skips an entry already checked today:
-   `kojootti vs acme englanniksi`, `… på svenska`, `… suomeksi puhuttu`, `… dub`,
-   `… eng`, `… sub`, `gråben vs acme på svenska`, `kätyrit monsterit englanniksi`.
-   The boundary is `datetime.date.today()` at `enrich_tmdb.py:613`, the runner's date,
-   and the pass runs only from `biorex.yml:68` with no `TZ`, so it rolls at midnight UTC
-   and not at midnight Helsinki. Expected match for the Kojootti and Gråben family is
-   1204680.
-   **Next action:** after the first run that completes and publishes past 00:00 UTC, read
-   the committed cache and `logs/run-enrich.log` and tell three outcomes apart: searched and
-   matched, searched and still unmatched (a different cause, and the marker fix would not
-   be sufficient alone), or skipped again. An unchanged entry read *before* publication is
-   not a failed retry.
-2. **Järvelän Kino recovered (closed 2026-09-14).** The 22:35 UTC cloud run `3147f45e`
-   reads `[jarvelankino] Järvelän Kino (Järvelä): 8 showtimes` over 6 dates, and
-   `logs/run-nexxo.log` ends `exit=0`, `10 venues, 110 showtimes, 0 stale, 0 failures`.
-   The 20:37 timeout was transient, which is what a timeout carrying no mechanism usually
-   turns out to be. Nothing was changed for it. Investigate only if it fails again.
+`f3b61ee8` takes `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised
+strand off the TMDB search string. It needs a cloud run that completes **and** publishes
+*after* 00:00 UTC: eight cache keys carry `c: 2026-09-14` and `refresh.due` skips an entry
+already checked today, so the 22:35 run of 2026-09-14 skipped them again. Re-measured at
+`3147f45e`, all eight still read `c: 2026-09-14` with no id: `kojootti vs acme
+englanniksi`, `… på svenska`, `… suomeksi puhuttu`, `… dub`, `… eng`, `… sub`, `gråben vs
+acme på svenska`, `kätyrit monsterit englanniksi`. The boundary is
+`datetime.date.today()` at `enrich_tmdb.py:613`, the runner's date, and the pass runs only
+from `biorex.yml:68` with no `TZ`, so it rolls at midnight UTC and not at midnight
+Helsinki. Expected match for the Kojootti and Gråben family is 1204680.
+**Next action:** after the first run that publishes past 00:00 UTC, read the committed
+cache and `logs/run-enrich.log` and tell three outcomes apart: searched and matched,
+searched and still unmatched (a different cause, and the marker fix would not be
+sufficient alone), or skipped again. An unchanged entry read *before* publication is not a
+failed retry.
 
 ### Provider coverage, and what is next
 
@@ -136,39 +125,6 @@ generated artwork, a cropped 16:9 still. Full entry:
   Finnkino token is fetched fresh at run time and used within seconds, so there is no
   stored credential and nothing to rotate; this item covers the rest.
 
-### The run logs moved to logs/, and the local half had to be changed by hand (2026-09-15)
-
-Bug: 20 run logs sat at the repo root, 20 of its 45 tracked entries, so the root read as
-build output rather than as the product.
-Fix: `logs/`. Every dependency moved in the same commit, and three of them would have
-failed *silently* rather than loudly, which is why the map was built before anything moved:
-`logs.yml`'s path filter was `run*.log` and a GitHub glob does not cross a `/`, so the only
-job that runs `check_runs.py` would simply have stopped firing; `robots.txt` closed the logs
-with the root-anchored `/run.log` and `/run-`, which would have gone dead and left the logs
-crawlable under `Allow: /`; and `tests/test_robots.py` asserted the old URLs were blocked,
-which stays green for ever because a rule that matches nothing still refuses a path nothing
-serves. The loud ones were `biorex.yml`'s `git add run-*.log` (unmatched pathspec) and
-`check_runs.py`'s zero-logs branch.
-`check_runs.py` gained two things rather than a new caller: a `--dir` default derived from
-the file's own location, so the documented command works from any cwd, and `strays()`,
-which fails on any `run*.log` left at the repo root. That last one is the guard for the one
-failure this may not have, a writer that was not migrated publishing to the old place while
-the check reads the moved copies and calls them green.
-**The local half is not in this repo.** Its wrapper was edited by hand, the same day: seven
-`tee` targets, seven `exit=` appends, the staging list and an explicit `mkdir -p logs`. A
-repo change does not reach it, which is the standing hazard with anything the wrapper
-writes.
-**Both writers verified the same evening.** The local wrapper ran at 22:28 UTC and pushed
-`a9704850`: it reset to the new tree, wrote and staged `logs/run.log`,
-`logs/run-posters-local.log` and `logs/run-pages-local.log`, and finished clean. It
-dispatched the cloud run, which pushed `3147f45e` with six fresh logs under `logs/`
-(cinemahouse, enrich, nexxo, pages, posters, riviera). Neither recreated a root log: the
-root is 26 entries with no `run*.log`, and `check_runs.py` on that tree reads
-`20 run log(s), 0 failed`. The earlier `Check run logs` red proved only the reader half,
-discovery and checking after the move, not that a fetch writes where it should; keeping
-those two apart is why this entry names which run proved which half.
-Tests: `test_check_runs.py` +2 (the default finds the repo's own logs; a root log fails),
-`test_robots.py` +1 reading the committed tree rather than a list. Three mutations red.
 
 ## Blocked
 
@@ -264,25 +220,32 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-14, eleventh pass)
+## Documentation state (2026-09-14, twelfth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, measured 2026-09-14 at `6b50bd4f` with data at `712ebc7e`:
+Latest, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`, after a local run and
+the cloud run it dispatched:
 
 | | |
 |---|---:|
 | providers / venues / cities | 42 / 86 / 57 |
 | local providers (venues) | 8 (30) |
+| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12 |
 | generated pages per language | 98 |
 | sitemap URLs | 197 |
-| poster references (shows / films-extra) | 4044 (3791 / 253) |
+| poster references (shows / films-extra) | 4193 (3940 / 253) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1023 |
+| mirrored poster files | 1029 |
 | `sw.js` CACHE | `leffavuoro-v157` |
+
+Two README numbers were wrong when this pass measured them and are corrected with it: the
+adapter table said eTiketti served 29 venues against 30 in the venue files, and the cadence
+paragraph said six local providers against the registry's eight. Both are registry-derived,
+which is the class of number this section exists to catch.
 
 Poster counts live here and not in README: they move with every run, and stating them
 there made the file wrong within hours twice on 2026-09-14. README carries the behaviour

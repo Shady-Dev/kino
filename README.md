@@ -42,7 +42,7 @@ small cinemas run one of a few ticketing platforms:
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
 | Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
-| eTiketti | 20 | 29 | none | GitHub Actions; 4 of 20 local, see registry |
+| eTiketti | 20 | 30 | none | GitHub Actions; 4 of 20 local, see registry |
 | BioRex | 1 | 12 | none | GitHub Actions |
 | Nexxo | 8 | 13 | none | GitHub Actions |
 | Riviera | 1 | 2 | none | GitHub Actions |
@@ -266,7 +266,7 @@ browsing it, reloading it or leaving it open reaches no cinema: the client has n
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
-collection run. Under the normal configured cadence the six local providers are
+collection run. Under the normal configured cadence the eight local providers are
 read four times a day, and the cloud providers usually up to eight, since runs
 are queued rather than merged. **Those figures describe the typical cadence and
 the configuration does not enforce them.** Scheduled execution is best-effort

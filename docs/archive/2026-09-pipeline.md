@@ -1096,3 +1096,13 @@ each show and in `films-extra.json`.
 - Open: nothing prunes a poster once its film stops screening; a few MB a year.
 - `/data/` is disallowed in `robots.txt`, so the mirrored posters were unfetchable by
   Googlebot until `Allow: /data/posters/` overrode it.
+
+### A Nexxo timeout recovered on its own (2026-09-14)
+
+`run-nexxo.log` ended `exit=1` on the 20:37 UTC run: `jarvelankino locationid 1 FAILED:
+<urlopen error timed out>`, previous data kept, which is the retention working. The 22:35
+run read `[jarvelankino] Järvelän Kino (Järvelä): 8 showtimes` over 6 dates and the log
+ended `exit=0`, 10 venues, 110 showtimes, 0 stale, 0 failures.
+Nothing was changed for it and nothing here explains it: a timeout carries no mechanism,
+which is the reading the 2026-09-06 entry above already records. Worth reopening only if
+the same host fails again, since a second failure is the first evidence of a pattern.
