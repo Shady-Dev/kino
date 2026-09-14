@@ -39,6 +39,13 @@ decision record links to its research file instead of repeating it. A
 finding does not become a rule by being written down: promoting one into `CLAUDE.md` is a
 decision, and it needs its `IDEAS.md` entry like any other.
 
+`tests/test_ideas_index.py` enforces the `IDEAS.md` row rather than trusting it: a
+whole-file ceiling, a 15-line ceiling per open item, and no measurement table inside one.
+The rule above was prose for two days and was broken three times in that window, always
+the same way, by writing a finished piece of work up in the file where the open work
+lives. If an entry will not fit, that is the signal it is a record for `docs/archive/` or
+evidence for `docs/research/`, not a reason to raise a cap.
+
 `IDEAS.md` keeps one role nothing else can take: `scripts/check_design_push.py` requires
 an entry there in the same commit as a `DESIGN.md` or `tests/test_design_contract.py`
 change, so a contract change is explained in `IDEAS.md` and never in `docs/research/`.

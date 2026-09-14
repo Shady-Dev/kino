@@ -25,33 +25,17 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### The TMDB marker fix resolves four of eight keys (opened 2026-09-14)
+### The TMDB marker fix, and Myrskyn ikkuna (opened 2026-09-14)
 
-`f3b61ee8` takes `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised
-strand off the TMDB search string. The eight keys were still stamped `c: 2026-09-14` at
-`3147f45e`, so every run that day skipped them; the daily retry needs a run that publishes
-after 00:00 UTC. What each key will then do was settled on 2026-09-14 by running `clean()`
-and `queries()` over the published titles and searching TMDB with the exact strings they
-produce, so the run confirms a prediction rather than discovering one:
-
-- **Searched and matched, four keys.** `(englanniksi)`, `(på svenska)`,
-  `(suomeksi puhuttu)` and `(Dub)` all clean to `Kojootti vs. ACME`, which matches 1204680
-  exactly. This is the fix working.
-- **Searched, candidate refused, one key.** `Gråben vs. ACME (på svenska)` cleans to
-  `Gråben vs. ACME`, which returns 1204680 as its only hit but not as an exact title:
-  TMDB has no Swedish title for the film. The trust gate withholds the id, correctly, so
-  this row stays scoreless whatever the marker fix does.
-- **Searched, no candidate at all, two keys.** Bio Rex Kokkola publishes
-  `Kojootti vs. ACME ENG` and Kinopirtti `Kojootti vs. ACME SUB`, bare suffixes with no
-  parentheses. `clean()` leaves them, both searches return 0 results, and the marker fix
-  was never going to reach them. A different cause, not a failure of this fix.
-- **Gone, one key.** `kätyrit monsterit englanniksi` is in no area file any more.
-
-**Next action:** after the first run publishing past 00:00 UTC, read the committed cache
-and `logs/run-enrich.log` and check the four against 1204680. Open separately, and not
-decided here: whether `TRAIL_NOISE` should gain the bare `ENG` and `SUB` suffixes. They are
-short, ambiguous tokens where `englanniksi` is not, so eating a real trailing word is a
-live risk and the call is the maintainer's.
+Both wait on the same thing: a cloud run that publishes after 00:00 UTC, because
+`refresh.due` skips an entry already checked today and all the keys are stamped
+`c: 2026-09-14`. What each will do was measured on 2026-09-14 rather than left to the run:
+four of the eight marker keys match 1204680 exactly, one has its only candidate refused by
+the exact-title rule, two find nothing because `ENG` and `SUB` are bare suffixes `clean()`
+does not touch, and one film has left the programme. Myrskyn ikkuna is aliased to 1318413.
+Evidence and the per-key table: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
+**Next action:** after that run, read the committed cache and `logs/run-enrich.log`.
+Undecided there and not decided here: whether `TRAIL_NOISE` should gain `ENG` and `SUB`.
 
 ### Provider coverage, and what is next
 
@@ -67,12 +51,10 @@ is a `SITES` entry, not a parser. What each platform publishes is in
   `cinema-reservations` site is a `SITES` entry.
 - **Eventio** is a ticketing platform with cinema customers and is unprobed. It surfaced
   as KAVI's shop under Kino Regina. **Next action:** probe one customer site.
-- **Cinema Niagara and Kino Metso are done** (2026-09-02 and 2026-08-31); both were the
-  parser-shaped leftovers of their sweeps.
-- **Complete:** eTiketti (twenty providers), Nexxo (eight), the Korttelikinot, and Vista's
-  one Finnish site. Cinamon and other non-Finnish Vista users are untested.
-- Roughly 196 cinemas and 306 screens exist in Finland (2009), and the tail clusters onto
-  a few platforms. Platform adapters first; a bespoke site only when a cinema is on none.
+- **Complete:** eTiketti (twenty), Nexxo (eight), the Korttelikinot, Vista's one Finnish
+  site, and the two parser-shaped leftovers, Cinema Niagara and Kino Metso. Cinamon and
+  other non-Finnish Vista users are untested. Platform adapters first; a bespoke site only
+  when a cinema is on none.
 
 ### Language codes normalised end to end
 
