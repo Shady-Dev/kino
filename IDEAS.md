@@ -27,9 +27,11 @@ contract change is explained here, never in `docs/research/`.
 
 ### Two verifications waiting on a cloud run (opened 2026-09-14)
 
-Neither blocks a new cinema. Both need a cloud run that has completed **and** published.
-Re-measured 2026-09-14 21:13 UTC at `6b50bd4f`: no run has landed since `712ebc7e`
-(20:44 UTC), and UTC had not crossed midnight, so the daily retry was not yet due.
+One of the two is closed. The remaining one needs a cloud run that completes **and**
+publishes *after* 00:00 UTC, which the 22:35 run of 2026-09-14 was not: it ran on the same
+UTC day the entries were last stamped, so `refresh.due` skipped them again, exactly as this
+entry predicted. Re-measured at `3147f45e`: the eight keys still read `c: 2026-09-14` with
+no id.
 
 1. **The TMDB marker fix is deployed and not yet exercised.** `f3b61ee8` takes
    `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised strand off the
@@ -46,12 +48,11 @@ Re-measured 2026-09-14 21:13 UTC at `6b50bd4f`: no run has landed since `712ebc7
    matched, searched and still unmatched (a different cause, and the marker fix would not
    be sufficient alone), or skipped again. An unchanged entry read *before* publication is
    not a failed retry.
-2. **Järvelän Kino has not been shown to recover.** `logs/run-nexxo.log` ends `exit=1` on
-   20:37 UTC run: `locationid 1 FAILED: <urlopen error timed out>`, previous data kept,
-   which is the retention working. `check_runs.py` reports that log red until the next
-   successful Nexxo run, so a red there is expected rather than new.
-   **Next action:** read `logs/run-nexxo.log` on `origin/main`. Investigate only if it fails a
-   second time; a timeout carries no mechanism.
+2. **Järvelän Kino recovered (closed 2026-09-14).** The 22:35 UTC cloud run `3147f45e`
+   reads `[jarvelankino] Järvelän Kino (Järvelä): 8 showtimes` over 6 dates, and
+   `logs/run-nexxo.log` ends `exit=0`, `10 venues, 110 showtimes, 0 stale, 0 failures`.
+   The 20:37 timeout was transient, which is what a timeout carrying no mechanism usually
+   turns out to be. Nothing was changed for it. Investigate only if it fails again.
 
 ### Provider coverage, and what is next
 
@@ -157,10 +158,15 @@ the check reads the moved copies and calls them green.
 `tee` targets, seven `exit=` appends, the staging list and an explicit `mkdir -p logs`. A
 repo change does not reach it, which is the standing hazard with anything the wrapper
 writes.
-Not verified here: an actual run of either half. The cloud half is confirmed only by the
-next scheduled run and the local half by the next wrapper run; until both have published
-into `logs/`, this migration is cut over rather than proven. `strays()` is what makes a
-miss loud in the meantime.
+**Both writers verified the same evening.** The local wrapper ran at 22:28 UTC and pushed
+`a9704850`: it reset to the new tree, wrote and staged `logs/run.log`,
+`logs/run-posters-local.log` and `logs/run-pages-local.log`, and finished clean. It
+dispatched the cloud run, which pushed `3147f45e` with six fresh logs under `logs/`
+(cinemahouse, enrich, nexxo, pages, posters, riviera). Neither recreated a root log: the
+root is 26 entries with no `run*.log`, and `check_runs.py` on that tree reads
+`20 run log(s), 0 failed`. The earlier `Check run logs` red proved only the reader half,
+discovery and checking after the move, not that a fetch writes where it should; keeping
+those two apart is why this entry names which run proved which half.
 Tests: `test_check_runs.py` +2 (the default finds the repo's own logs; a root log fails),
 `test_robots.py` +1 reading the committed tree rather than a list. Three mutations red.
 
