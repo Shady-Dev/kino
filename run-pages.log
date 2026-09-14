@@ -1,4 +1,3 @@
 [pages] 83 venues, 12 multi-venue cities (Espoo, Helsinki, Jyväskylä, Kotka, Kouvola, Lahti, Mikkeli, Nurmijärvi, Oulu, Savonlinna, Tampere, Vantaa)
-[pages] index.html city links stale: run build_pages.py --home
-[pages] 191 urls in sitemap, 7 files written, 188 unchanged
+[pages] 191 urls in sitemap, 4 files written, 191 unchanged
 exit=0
