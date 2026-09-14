@@ -2149,11 +2149,18 @@ on every provider change, because carried-over counts have been wrong repeatedly
 count, poster count, page rewrite frequency, venue and provider counts, and once a count
 stated twice in one file where only one copy moved).
 
-Latest, 2026-09-14 after the Cinemahouse batch: 42 providers / 86 venues / 57 cities, 98
-pages per language, 197 sitemap URLs, 8 local providers (30 venues), 3728 poster references
-over 970 mirrored files, 253 of them still off-origin and waiting for the first cloud run
-to mirror them. README's provider list, adapter table, page counts, poster paragraph and
-data-sources count moved with it.
+Latest, 2026-09-14 after the Cinemahouse batch had been through a full run (data at
+`712ebc7e`): 42 providers / 86 venues / 57 cities, 98 pages per language, 197 sitemap URLs,
+8 local providers (30 venues), 4044 poster references over 1023 mirrored files, none
+off-origin. README's provider list, adapter table, page counts and data-sources count moved
+with it.
+
+Poster counts live here and no longer in README. They move with every run, and stating them
+there made the file wrong within hours twice on 2026-09-14: once when the batch landed with
+253 remote references, and again when the local half mirrored them the same evening. README
+now carries the behaviour instead, which does not move: `mirror_posters.py` sweeps the whole
+of `data/`, so either half mirrors any provider's posters, and an unmirrored one is refused
+by the client and dropped from the generated markup rather than fetched.
 
 Earlier passes: Kino Regina 2026-09-05 (37 / 79 / 52, 89 pages, 179 sitemap URLs, 5 local
 providers over 26 venues, 3900 poster references over 658 mirrored files, none

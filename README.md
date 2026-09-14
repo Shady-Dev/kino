@@ -222,16 +222,20 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Counted 2026-09-14 after the
-Cinemahouse batch had been through a full run: all 4044 poster references resolve
-to `data/posters/` on this origin, 3791 on showtimes and 253 in
-`films-extra.json`, across 1023 mirrored files, none off-origin. A newly added
-provider publishes its posters on the cinema's own host and they stay that way
-until a run reaches the mirroring step, which either half performs; in between
-the client refuses a poster that is not under `data/posters/` and draws its
-placeholder tile, and `build_pages.py` leaves such a reference out of the markup,
-so an unmirrored poster is never a request either. The typeface is served from
-`fonts/`. Every `<img>` carries `referrerpolicy="no-referrer"`.
+**A page load makes no third-party requests.** Posters are served from
+`data/posters/` on this origin, and the typeface from `fonts/`. Every `<img>`
+carries `referrerpolicy="no-referrer"`.
+
+`mirror_posters.py` runs over the whole of `data/` and rewrites every reference
+that still points at a cinema's own host, so **either half of the pipeline
+mirrors any provider's posters**, whichever runs first. A newly added provider
+therefore publishes remote poster URLs for at most one run. Two independent
+guards cover that window rather than one: the client refuses a poster outside
+`data/posters/` and draws its placeholder tile, and `build_pages.py` leaves such
+a reference out of the generated markup. So an unmirrored poster is a missing
+picture, never a request to another host. Dated measurements of how many
+references exist and how many files back them live in IDEAS.md under
+"Documentation state", not here, because they move with every run.
 
 Until 2026-08-29 the typeface came from Google Fonts and about a third of the
 posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
