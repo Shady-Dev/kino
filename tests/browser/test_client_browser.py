@@ -25,6 +25,7 @@ import json
 import os
 import pathlib
 import threading
+import time
 import unittest
 
 from playwright.sync_api import expect, sync_playwright
@@ -45,7 +46,18 @@ expect.set_options(timeout=10_000)
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
-    """index.html, sw.js and fonts from the checkout; data/ from the fixture."""
+    """index.html, sw.js and fonts from the checkout; data/ from the fixture.
+
+    `delay` holds seconds by path suffix: a venue file answered late is how the readiness
+    condition below is shown to wait rather than to race the boot."""
+    delay = {}
+
+    def do_GET(self):
+        for suffix, secs in self.delay.items():
+            if self.path.endswith(suffix):
+                time.sleep(secs)
+        self.server.served.append((self.path, time.monotonic()))
+        super().do_GET()
 
     def translate_path(self, path):
         rel = path.split("?", 1)[0].split("#", 1)[0].lstrip("/")
@@ -62,6 +74,7 @@ class Browser(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        cls.srv.served = []
         threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
@@ -84,11 +97,7 @@ class Browser(unittest.TestCase):
         OUT.mkdir(exist_ok=True)
         self.page = self.ctx.new_page()
         self.page.clock.install(time=FIXED)
-        # Until the network has been quiet for 500 ms: the picker opens only once the
-        # venue lists are in (`openVenueSheet` returns before that), and the page
-        # exposes no DOM marker for that moment. A click that landed first failed one
-        # run in seven on a cold machine.
-        self.page.goto(self.origin + "/index.html", wait_until="networkidle")
+        self.page.goto(self.origin + "/index.html")
 
     def tearDown(self):
         res = getattr(self._outcome, "result", None)
@@ -102,9 +111,22 @@ class Browser(unittest.TestCase):
         self.ctx.close()
 
     def open_picker(self):
-        self.page.locator("#areaSelect").click()
-        expect(self.page.locator("#vwrap")).to_have_class("vwrap open")
-        return self.page.locator("#vq")
+        """Click until the picker opens. `openVenueSheet` returns before the venue lists
+        have arrived and the page changes nothing observable when they do (the day chips
+        are built before `loadAreas`; the trigger's label and attributes stay as in the
+        markup), so the condition is the picker itself: a click that opened it. Each
+        attempt waits on the class through `expect`, no fixed sleep, and the loop is
+        bounded by the same 10 s the other waits get."""
+        deadline = time.monotonic() + 10
+        vwrap = self.page.locator("#vwrap")
+        while True:
+            self.page.locator("#areaSelect").click()
+            try:
+                expect(vwrap).to_have_class("vwrap open", timeout=250)
+                return self.page.locator("#vq")
+            except AssertionError:
+                if time.monotonic() > deadline:
+                    raise
 
     def pick_orion(self):
         vq = self.open_picker(); vq.fill("orion")
@@ -170,6 +192,26 @@ class Mobile(Browser):
     def test_select_on_mobile_renders_tickets(self):
         self.pick_orion()
         expect(self.page.locator("a.stub").first).to_be_in_viewport()
+
+class DelayedVenues(Browser):
+    """The venue file arrives two seconds late: the picker opens on the venue anyway, and
+    only after that file was served, so the readiness condition waited for the data and not
+    for the page load."""
+
+    def setUp(self):
+        Handler.delay = {"/data/venues-orion.json": 2.0}
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+        self.srv.served.clear()
+        super().setUp()
+
+    def test_the_picker_opens_only_after_the_late_venue_file(self):
+        self.pick_orion()
+        opened = time.monotonic()
+        served = {path.split("?")[0]: t for path, t in self.srv.served}
+        self.assertIn("/data/venues-orion.json", served)
+        self.assertGreater(served["/data/venues-orion.json"] - served["/index.html"], 2.0)
+        self.assertGreater(opened, served["/data/venues-orion.json"])
+
 
 if __name__ == "__main__":
     unittest.main()

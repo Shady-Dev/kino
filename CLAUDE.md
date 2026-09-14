@@ -200,6 +200,19 @@ If a cinema would rather not be included, removing it is one registry entry.
 Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
 under `scripts/`.
 
+`tests/browser/` is a second suite, not discovered by the line above: six Playwright tests
+that drive the venue picker and the ticket links in a real engine against fixture data
+and a pinned clock. CI runs it as the `browser` job on Playwright's own Chromium. Locally:
+
+    python3 -m venv .venv && .venv/bin/pip install playwright==1.62.0
+    .venv/bin/python -m playwright install chromium      # or KINO_BROWSER_CHANNEL=chrome
+    .venv/bin/python -m unittest discover -s tests/browser
+
+Run it for a change to the picker, the stubs or boot. A failure leaves a PNG and a trace
+zip in `tests/browser/out/` (`playwright show-trace`). The page exposes no DOM signal for
+"venue lists loaded", so the tests click the trigger until the picker opens; do not add a
+sleep, and do not change `index.html` to add a marker without the maintainer's word.
+
 `.github/workflows/ci.yml` runs the suite, `check_inline_js.py` and a regeneration-drift
 check on every push that touches `index.html`, `sw.js`, `scripts/**` or `tests/**`. It
 fails on a **skipped** test as well as a failing one: every dependency is installed on the

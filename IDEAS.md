@@ -2381,6 +2381,20 @@ files in the repo root are committed per run by design.
   competing with the cinemas' own listings. A deliberate decision, not a side effect of
   markup. See "Access and ethics".
 
+### The picker has no ready signal, so the test clicks until it opens (2026-09-14)
+Bug: the browser tests waited on network idle before the first click, a proxy for the
+venue lists having loaded. Measured for a real signal: `openVenueSheet` returns while
+`allVenues` is empty, the day chips are built at boot before `await loadAreas()`, the
+trigger's label and attributes stay as in the markup, and `fillAreaSelect` touches no DOM
+of its own. Nothing on the page says "venues usable".
+Fix: `open_picker` clicks the trigger and waits on the open class through `expect`, 250 ms
+per attempt, bounded at 10 s. `DelayedVenues` serves `venues-orion.json` two seconds late
+from the fixture server and asserts the picker opened on the venue after that file was
+served; with the retry removed it fails. 3 of 3 runs green, 5.6 s for 7 tests.
+Not done: an `aria-busy` on the trigger until the lists arrive would be the honest signal
+and a two-line client change; index.html is frozen by the maintainer's instruction of
+2026-09-14, so it is a proposal here, not a change.
+
 ### Kinola runs three templates, and Orion's parser reads one of them (2026-09-14)
 Read as a visitor 2026-09-14: cinemaorion.fi renders `table.kinola-day` rows (`orion.py`);
 kinokilta.fi/naytokset/ renders 56 `li.kinola-event` with `.date` "TI 15.9.2026", `.time`,
@@ -2402,8 +2416,8 @@ Adopt: stdlib typing, the show contract above. Trial in CI: Playwright, `tests/b
 tests on Playwright's own pinned Chromium (151 for 1.62.0), fixture data from the committed
 2026-09-14 files, pinned clock, `expect` waits only, PNG and trace per failure; a `browser`
 job in ci.yml installs the pin and caches the download, `KINO_BROWSER_CHANNEL=chrome` runs
-it on the installed Chrome locally. A click before the venue lists arrived failed 1 run in 7
-until the page is entered on network idle; 6 of 6 green after. Reference only: Beautiful
+it on the installed Chrome locally. A click before the venue lists arrived failed 1 run in 7;
+see "The picker has no ready signal". Reference only: Beautiful
 Soup. The Orion regexes match a bs4 rewrite on 5 of 6 malformed variants, only a nested
 table differs and no Kinola page has one; 4x slower. Awesome Python and Go: catalogues.
 Superpowers: begins at brainstorming, which CLAUDE.md and the kino-* skills settle.
