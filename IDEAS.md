@@ -2381,6 +2381,22 @@ files in the repo root are committed per run by design.
   competing with the cinemas' own listings. A deliberate decision, not a side effect of
   markup. See "Access and ethics".
 
+### Kinola runs three templates, and Orion's parser reads one of them (2026-09-14)
+Read as a visitor 2026-09-14: cinemaorion.fi renders `table.kinola-day` rows (`orion.py`);
+kinokilta.fi/naytokset/ renders 56 `li.kinola-event` with `.date` "TI 15.9.2026", `.time`,
+`.movie-subtitle` (a strand: Kahvikino, Anniskelunäytös K18) and `.duration-info`;
+kinolaika.fi/ohjelmisto/ renders 47 `div.kinola-event` with one `.kinola-event-date`
+"16/09/2026 14:00", a `.kinola-event-venue` and 4 sold-out rows without a checkout link.
+Neither carries `kinola-day`, so `orion.parse` returns zero on both; kinokonepaja.fi lists
+no event. Reusable from orion.py: `_iso`, `_slug`, `_price`, the `/checkout/<uuid>` link
+resolved with `urljoin`, the runner contract. Not reusable: the block, row and cell regexes,
+bound to the table. The fit is one `kinola.py` with a template per site named in `SITES`
+(table, kilta, laika), not a copy of orion.py. Films from other events: the film page says.
+On 23 Laika pages the 16 films carry `Ohjaus` and `Kieli`; the 7 concerts and events carry
+neither and read "Not rated" or K-18 with no director (Tuure Kilpeläinen, Arppa, Antti
+Autio, Knipi, Mariska, Livemusavisa, 50 vuotta rokkia): no director and no language means
+not a film. Kilta: 37 pages, every one with `Ohjaaja` or `Lajityyppi`.
+
 ### Seven tools evaluated against the pipeline, one adopted, one trialled (2026-09-14)
 Adopt: stdlib typing, the show contract above. Trial in CI: Playwright, `tests/browser/`, six
 tests on Playwright's own pinned Chromium (151 for 1.62.0), fixture data from the committed
