@@ -2395,20 +2395,22 @@ Not done: an `aria-busy` on the trigger until the lists arrive would be the hone
 and a two-line client change; index.html is frozen by the maintainer's instruction of
 2026-09-14, so it is a proposal here, not a change.
 
-### Kinola films and other events: what the pages say and what they do not (2026-09-14)
-Sampled 2026-09-14, so evidence, not a rule. Both sites render concerts and films as the
-same WordPress `film` post type; no taxonomy, tag, JSON-LD or og:type marks either, the
-REST types list answers empty (Laika) or 401 (Kilta), and Laika's own filter endpoint
-(`kinola_get_filter_options`, `field=film`) lists all eight concerts under "Kaikki
-elokuvat". So there is no authoritative signal; the film page is the only evidence.
-Design for `kinola.py`: three states. Known film: `Ohjaus`/`Ohjaaja` or `Kieli`/`Lajityyppi`
-in the meta. Known non-film: no director and the page text names the form (konsertti,
-keikka, visa, orkesteri; Laika's seven all do, "Not rated" or K-18 beside a duration).
-Unresolved: neither, published as a film and printed by name in the run log, so a film
-with thin metadata never vanishes silently. Fixtures to carry: "A Fox Under a Pink Moon"
-(76 min, K-16, `Tekstitys`, no director or language: unresolved, must publish) and Arppa
-("Arppa konserttis...", "Not rated": known non-film, must not). A `tmdb-aliases`-style
-override list settles a misread by hand. For the session building the adapter.
+### Kinola films and other events: requirements for the adapter, not a rule (2026-09-14)
+Sampled 2026-09-14 on kinokilta.fi and kinolaika.fi; no `kinola.py` exists, so this is an
+implementation requirement, nothing built or tested. Concerts and films are one WordPress
+`film` post type; no taxonomy, tag, JSON-LD, og:type, REST type or filter option separates
+them (Laika's filter lists its concerts under "Kaikki elokuvat"). The film page is the only
+evidence. **Known film** only on structured film metadata (`Ohjaus`/`Ohjaaja`, `Kieli`,
+`Lajityyppi`, a classification) or a verified structured signal. **Known non-film** only on
+an explicit event-level description of a live act (a performer billed as such, a gig, a
+quiz), never on a word: a synopsis can say konsertti, and a concert film is a screening.
+**Unresolved** is everything else and stays so; a log line records it, it does not make it a
+film. Publishing unresolved rows is a maintainer decision before the adapter ships: include
+them and some live events show as films, omit them and thin-metadata films vanish; a
+per-title override list covers either. Fixtures required: a film with no metadata (A Fox
+Under a Pink Moon: 76 min, K-16, `Tekstitys` only), a concert film (Oasis: Don't Look Back
+in Anger, `Ohjaus` present), a film whose synopsis mentions a concert, and a billed live
+concert (Arppa, "Akustisesti saleissa", no film metadata). Only the last is non-film.
 
 ### Kinola runs three templates, and Orion's parser reads one of them (2026-09-14)
 Read as a visitor 2026-09-14: cinemaorion.fi renders `table.kinola-day` rows (`orion.py`);
