@@ -76,10 +76,28 @@ def split(title):
 
 
 def apply(show):
-    """Split a show's title in place, folding the strand into `method`."""
+    """Split a show's title in place, folding the strand into `method`.
+
+    `original` is split too, and by the same exact list. Gilda publishes the strand in
+    both fields ("Seniorikino: Myrskyn Ikkuna") while only `title` was ever cleaned, so
+    six shows carried a strand-prefixed original into `gather()`, which is where
+    `enrich_tmdb` reads the evidence an entry was judged on.
+
+    What this deliberately does not do is copy `title` into `original`. A provider that
+    publishes a real original-language title puts something else there entirely -- Kino
+    Regina's "La ballade des Dalton" against "Lucky luke sotapolulla" -- and that is the
+    field the TMDB search uses as its second query. Only a strand this list already knows
+    is removed, and a value carrying no strand is left exactly as published, including an
+    empty one.
+    """
     title, strand = split(show.get("title"))
-    if not strand:
+    orig, ostrand = split(show.get("original"))
+    if not strand and not ostrand:
         return False
+    if ostrand:
+        show["original"] = orig
+    if not strand:
+        return True
     show["title"] = title
     tags = [x for x in (show.get("method") or "").split(" · ") if x]
     if strand not in tags:

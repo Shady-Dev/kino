@@ -183,6 +183,53 @@ class StrandTest(unittest.TestCase):
         self.assertTrue(strands.apply(s))
         self.assertEqual((s["title"], s["method"]), ("Fez Summer 55", "2D · HelAFF"))
 
+    def test_the_strand_comes_off_the_original_title_too(self):
+        """Gilda's shape: it publishes the strand in both fields, and only `title` was
+        ever cleaned, so six shows carried "Seniorikino: ..." into the evidence
+        `enrich_tmdb.gather()` reads."""
+        s = {"title": "Seniorikino: Myrskyn Ikkuna",
+             "original": "Seniorikino: Myrskyn Ikkuna", "method": ""}
+        self.assertTrue(strands.apply(s))
+        self.assertEqual(s["title"], "Myrskyn Ikkuna")
+        self.assertEqual(s["original"], "Myrskyn Ikkuna")
+        self.assertEqual(s["method"], "Seniorikino")
+
+    def test_a_real_original_language_title_is_never_replaced_by_the_display_title(self):
+        """The failure this must not become. `original` is the search's second query, so
+        overwriting Regina's French title with the Finnish one would cost the match the
+        original title exists to win."""
+        s = {"title": "Lucky luke sotapolulla", "original": "La ballade des Dalton",
+             "method": ""}
+        self.assertFalse(strands.apply(s))
+        self.assertEqual(s["original"], "La ballade des Dalton")
+
+    def test_a_strand_on_a_real_original_leaves_the_rest_of_it_alone(self):
+        s = {"title": "Seniorikino: Lucky luke sotapolulla",
+             "original": "Seniorikino: La ballade des Dalton", "method": ""}
+        self.assertTrue(strands.apply(s))
+        self.assertEqual(s["title"], "Lucky luke sotapolulla")
+        self.assertEqual(s["original"], "La ballade des Dalton")
+
+    def test_an_original_nobody_published_stays_empty(self):
+        s = {"title": "Seniorikino: Hetki", "original": "", "method": ""}
+        self.assertTrue(strands.apply(s))
+        self.assertEqual(s["original"], "")
+
+    def test_a_strand_on_the_original_alone_is_still_split(self):
+        """The title is clean and the original is not; the strand still has to come off
+        the field the search reads, and the clean title must not gain a tag it never had."""
+        s = {"title": "Myrskyn Ikkuna", "original": "Seniorikino: Myrskyn Ikkuna",
+             "method": "Ensi-ilta"}
+        self.assertTrue(strands.apply(s))
+        self.assertEqual(s["original"], "Myrskyn Ikkuna")
+        self.assertEqual((s["title"], s["method"]), ("Myrskyn Ikkuna", "Ensi-ilta"))
+
+    def test_a_franchise_colon_is_not_a_strand_in_either_field(self):
+        s = {"title": "Spider-Man: Brand New Day",
+             "original": "Spider-Man: Brand New Day", "method": ""}
+        self.assertFalse(strands.apply(s))
+        self.assertEqual(s["original"], "Spider-Man: Brand New Day")
+
 
 class RunnerTest(unittest.TestCase):
     def setUp(self):
