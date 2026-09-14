@@ -34,6 +34,28 @@ decision, and it needs its `IDEAS.md` entry like any other.
 an entry there in the same commit as a `DESIGN.md` or `tests/test_design_contract.py`
 change, so a contract change is explained in `IDEAS.md` and never in `docs/research/`.
 
+## AGENTS.md is not this project's file
+
+`CLAUDE.md` is the authoritative working-rules document and the only tracked one. An
+`AGENTS.md` also appears in every worktree. It is written there by agent tooling that
+lives outside this repository, and `.gitignore` excludes it deliberately (commit
+`3996e21a`): untracked it would show up as a pending change in every worktree and be
+offered as a pull request, and tracked it would be a public file this project does not
+author and cannot keep accurate.
+
+Nothing here generates or updates it, and its content is a point-in-time copy of
+`CLAUDE.md` from whenever that worktree was made. Measured 2026-09-14 across twelve
+worktrees: twelve different files, 135 to 220 lines.
+
+**Those copies are stale, and nothing in this repository can fix that.** A session that
+reads `AGENTS.md` instead of this file is following superseded rules, and the gap is not
+cosmetic. Checked in four of the twelve: the 135-line copies carry no design contract, no
+placement rule and no mention of the browser suite; even the newest, at 220 lines, has the
+design contract but neither of the other two. Read `CLAUDE.md`. If you are an agent whose
+convention is to read `AGENTS.md`, read this file instead and ignore that one. Pointing
+the tooling here would be a change to the tooling rather than to this project, and is
+deliberately not attempted from inside it.
+
 ## How to work
 
 - **One commit per item.** Do not batch unrelated changes.

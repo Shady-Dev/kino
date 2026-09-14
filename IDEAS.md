@@ -2182,6 +2182,27 @@ dropped from the committed block, a hand-edited accent, the markers removed, and
 client reading `PROV_FALLBACK` instead of `PROVIDERS`. One bug found by its own idempotence
 test: comparing the extracted region rather than the rebuilt file reported every run stale.
 
+### AGENTS.md is the tooling's copy, and CLAUDE.md stays the one document (2026-09-14)
+Bug: a session comparing `AGENTS.md` with `CLAUDE.md` finds them 178 diff lines apart and
+reads it as two maintained copies that drifted. It is not. `AGENTS.md` is written into
+each worktree by tooling outside this repository and `.gitignore` has excluded it since
+`3996e21a`; nothing here generates, updates or tracks it. Measured 2026-09-14 across the
+twelve worktrees on this machine: twelve different files, 135 to 220 lines, each a copy of
+`CLAUDE.md` from the day its worktree was made. Everything unique to one was older wording
+or a stale count; `CLAUDE.md` is a strict superset and nothing in either is vendor-specific.
+Considered and rejected on the maintainer's instruction: tracking `AGENTS.md` and reducing
+`CLAUDE.md` to Claude Code's `@AGENTS.md` import. It was built and reverted unpushed, for
+two reasons. The recorded decision says a tracked copy would be a public file this project
+does not author and cannot keep accurate, and the import would have resolved to a file no
+clone contains, leaving a fresh checkout with no working rules at all. The absence of
+`AGENTS.md` from the commit's own file list is what surfaced it.
+Fix: `CLAUDE.md` stays authoritative and gains a short section naming the limitation
+without softening it: the copies are stale, nothing here can fix that, and the oldest
+carry no design contract, no placement rule and no browser suite. Pointing the tooling at
+`CLAUDE.md` is a tooling change and is not attempted from inside the repository.
+Tests: none. Documentation only, and `test_design_contract.py` already fails if
+`CLAUDE.md` stops naming the contract.
+
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
 - An adapter binds `EmptyProgramme` at import time and `test_common_fetch` reloads `common`
