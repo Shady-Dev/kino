@@ -1,6 +1,6 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 8 showtimes, 4 dates
-[kotkanleffat] Trio 123: 35 showtimes, 4 dates
+[kotkanleffat] Kinopalatsi Kotka: 25 showtimes, 11 dates
+[kotkanleffat] Trio 123: 99 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 18 showtimes, 6 dates
 [kinopirtti] synopses merged: 0
@@ -12,11 +12,11 @@
 [studio123jarvenpaa] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 20 showtimes, 4 dates
 [studio123kouvola] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 23 showtimes, 4 dates
+[studio123kouvola] Studio 123 Kouvola: 67 showtimes, 11 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 12 showtimes, 5 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 32 showtimes, 4 dates
+[kino123] Kino 123: 95 showtimes, 11 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 9 showtimes, 3 dates
 [kinojuha] synopses merged: 0
@@ -27,7 +27,7 @@
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 11 showtimes, 3 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 19 showtimes, 4 dates
+[kinoiiris] Kino Iiris: 18 showtimes, 4 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 13
 [kkino] K-Kino: 13 showtimes, 7 dates
@@ -35,6 +35,6 @@
 [biograni] Bio Grani: 1 showtimes, 1 dates
 [niagara] synopses merged: 0
 [niagara] Cinema Niagara: 25 showtimes, 8 dates
-[run] http: 0 revalidated (304), 155 full, 155 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 20 venues, 380 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 163 full, 163 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 20 venues, 567 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
