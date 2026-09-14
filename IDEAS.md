@@ -2395,6 +2395,21 @@ Not done: an `aria-busy` on the trigger until the lists arrive would be the hone
 and a two-line client change; index.html is frozen by the maintainer's instruction of
 2026-09-14, so it is a proposal here, not a change.
 
+### Kinola films and other events: what the pages say and what they do not (2026-09-14)
+Sampled 2026-09-14, so evidence, not a rule. Both sites render concerts and films as the
+same WordPress `film` post type; no taxonomy, tag, JSON-LD or og:type marks either, the
+REST types list answers empty (Laika) or 401 (Kilta), and Laika's own filter endpoint
+(`kinola_get_filter_options`, `field=film`) lists all eight concerts under "Kaikki
+elokuvat". So there is no authoritative signal; the film page is the only evidence.
+Design for `kinola.py`: three states. Known film: `Ohjaus`/`Ohjaaja` or `Kieli`/`Lajityyppi`
+in the meta. Known non-film: no director and the page text names the form (konsertti,
+keikka, visa, orkesteri; Laika's seven all do, "Not rated" or K-18 beside a duration).
+Unresolved: neither, published as a film and printed by name in the run log, so a film
+with thin metadata never vanishes silently. Fixtures to carry: "A Fox Under a Pink Moon"
+(76 min, K-16, `Tekstitys`, no director or language: unresolved, must publish) and Arppa
+("Arppa konserttis...", "Not rated": known non-film, must not). A `tmdb-aliases`-style
+override list settles a misread by hand. For the session building the adapter.
+
 ### Kinola runs three templates, and Orion's parser reads one of them (2026-09-14)
 Read as a visitor 2026-09-14: cinemaorion.fi renders `table.kinola-day` rows (`orion.py`);
 kinokilta.fi/naytokset/ renders 56 `li.kinola-event` with `.date` "TI 15.9.2026", `.time`,
