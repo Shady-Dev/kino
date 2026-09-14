@@ -215,8 +215,8 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A data branch: decided against 2026-09-01. Branching does not shrink history and every
   way off `main` is worse.
 - `og:image` as a 1200x630 card rather than `icon-512.png`. It would preview better.
-- A 1200x630 aside: no venue or city count in the meta description, since that is a third
-  copy of a number that goes stale.
+- A venue or city count in the meta description. It would be a third copy of a number that
+  goes stale.
 - The SEO experiment: "ohjelmisto" in Finnish theatre-page titles and descriptions on a
   subset against an unchanged control. Waits on the Search Console re-read.
 - A Tuesday ~15:00 Helsinki local slot for Finnkino's weekly drop. Not built on a sample
