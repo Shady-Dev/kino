@@ -121,7 +121,7 @@ class StatusLetterTest(unittest.TestCase):
     def test_non_page_files_are_ignored(self):
         self.r.write("teatteri/a/index.html"); a = self.r.commit()
         self.r.write("data/areas.json", "{}")
-        self.r.write("run.log", "exit=0")
+        self.r.write("logs/run.log", "exit=0")
         self.r.write("scripts/x.py", "x = 1"); b = self.r.commit()
         self.assertEqual(self.r.urls(a, b), [])
 

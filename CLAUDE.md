@@ -26,6 +26,7 @@ Write down why a change was made. The diff already records what changed.
 | What you have | Where it belongs |
 |---|---|
 | A rule every session must follow | `CLAUDE.md`, here |
+| How the pieces fit, and why | `docs/architecture.md` |
 | A visual value that is a decision | `DESIGN.md`, and only on written instruction |
 | What the product is, and how to run it | `README.md` |
 | A proposal, a priority, a status, an open item's next action | `IDEAS.md` |
@@ -146,8 +147,13 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
 ## Pipeline changes (`scripts/**`)
 
 - After the commit, dispatch the cloud workflow, then verify against the **committed**
-  `run-*.log` files. Do not read the Actions logs.
-- Page changes show up in `run-pages.log`, poster mirroring in `run-posters.log`.
+  `logs/run-*.log` files. Do not read the Actions logs.
+- Page changes show up in `logs/run-pages.log`, poster mirroring in
+  `logs/run-posters.log`.
+- **Both halves write into `logs/`.** The cloud half does because `biorex.yml` says so;
+  the local half does because the wrapper outside this repo was changed to. A writer that
+  still publishes to the repo root is caught by `check_runs.py`, which fails on a stray
+  rather than reading the moved copies and calling them green.
 - The pages depend on the day they are built for. `build_pages.py` alone builds for
   today in Helsinki (publishing); `--date recorded` rebuilds for the day the committed
   `sitemap.xml` carries (CI's reproducibility check, and a local regeneration on a later

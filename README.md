@@ -64,14 +64,14 @@ Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
 how four eTiketti cinemas can be local while the other sixteen run on Actions.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
-so one failing provider never blocks the rest. **The committed `run.log` and
-`run-{module}.log` are the authoritative record; the Actions logs are not.**
+so one failing provider never blocks the rest. **The committed `logs/run.log` and
+`logs/run-{module}.log` are the authoritative record; the Actions logs are not.**
 `enrich_tmdb.py` runs last and fills in ratings, trailers, synopses and
 posters a provider does not supply, without overwriting the cinema's own text.
 
-Open work is in [IDEAS.md](IDEAS.md). Why any of it is shaped this way, with the
-approaches tried and rejected, is in the dated records under
-[docs/archive/](docs/archive/). The investigations those decisions rest on, what each
+How the pieces fit together is in [docs/architecture.md](docs/architecture.md), and open
+work in [IDEAS.md](IDEAS.md). Why any of it is shaped this way, with the approaches tried
+and rejected, is in the dated records under [docs/archive/](docs/archive/). The investigations those decisions rest on, what each
 ticketing platform publishes and how it was read, are under
 [docs/research/](docs/research/ticketing-platforms.md).
 
@@ -82,7 +82,10 @@ ticketing platform publishes and how it was read, are under
     manifest.webmanifest             PWA manifest
     fonts/                           self-hosted Archivo subsets + OFL licence
     robots.txt, sitemap.xml          crawl rules; the sitemap is generated
+    docs/architecture.md             how the pieces fit, and the constraints behind them
     docs/research/                   per-topic investigation notes behind the decisions
+    docs/archive/                    dated decision records, closed
+    logs/                            committed run logs, one per fetcher (the record)
     teatteri/, kaupunki/, en/        generated pages (committed by every run, cloud and local)
     data/                            generated JSON and posters (committed by every run)
 

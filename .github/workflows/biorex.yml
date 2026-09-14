@@ -45,19 +45,22 @@ jobs:
           python3 scripts/build_providers.py
           python3 scripts/build_regions.py
       # One loop over every cloud provider; the module list comes from the registry, so
-      # adding a provider needs no edit here. Logs are per module (run-{module}.log) and
-      # committed: read those, not the Actions logs.
+      # adding a provider needs no edit here. Logs are per module (logs/run-{module}.log)
+      # and committed: read those, not the Actions logs. `mkdir -p logs` because a fresh
+      # checkout has the directory but a redirect into a missing one is a hard failure,
+      # and this step is the first writer in the run.
       - name: Fetch cloud providers
         run: |
           set +e
+          mkdir -p logs
           fail=0
           for m in $(python3 scripts/providers/registry.py --cloud); do
-            python3 scripts/providers/run.py "$m" > "run-$m.log" 2>&1
+            python3 scripts/providers/run.py "$m" > "logs/run-$m.log" 2>&1
             code=$?
-            echo "exit=$code" >> "run-$m.log"
+            echo "exit=$code" >> "logs/run-$m.log"
             [ "$code" = 0 ] || fail=1
             echo "--- $m (exit=$code)"
-            tail -6 "run-$m.log"
+            tail -6 "logs/run-$m.log"
           done
           echo "$fail" > "$RUNNER_TEMP/provfail"
       - name: Enrich with TMDB
@@ -65,11 +68,11 @@ jobs:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
         run: |
           set +e
-          python3 scripts/providers/enrich_tmdb.py > run-enrich.log 2>&1
+          python3 scripts/providers/enrich_tmdb.py > logs/run-enrich.log 2>&1
           code=$?
-          echo "exit=$code" >> run-enrich.log
+          echo "exit=$code" >> logs/run-enrich.log
           echo "$code" > "$RUNNER_TEMP/enrichfail"
-          tail -3 run-enrich.log
+          tail -3 logs/run-enrich.log
       # Mirror posters before the pages are built, so a poster fetched on this run is
       # same-origin in the markup this run generates. Pillow is installed for the
       # downscale only; the module docstring explains the downscale.
@@ -79,26 +82,26 @@ jobs:
           # Pinned exactly: the runner installs this fresh every run, in a job that
           # commits to this repo.
           python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
-          python3 scripts/providers/mirror_posters.py > run-posters.log 2>&1
+          python3 scripts/providers/mirror_posters.py > logs/run-posters.log 2>&1
           code=$?
-          echo "exit=$code" >> run-posters.log
+          echo "exit=$code" >> logs/run-posters.log
           echo "$code" > "$RUNNER_TEMP/mirrorfail"
-          tail -4 run-posters.log
+          tail -4 logs/run-posters.log
       # Pages last: they render the JSON the steps above wrote, so posters and ratings
       # would otherwise be a run behind. Not gated on provider failure; a stale venue
       # still gets a page.
       - name: Build indexable pages
         run: |
           set +e
-          python3 scripts/build_pages.py > run-pages.log 2>&1
+          python3 scripts/build_pages.py > logs/run-pages.log 2>&1
           code=$?
-          echo "exit=$code" >> run-pages.log
+          echo "exit=$code" >> logs/run-pages.log
           echo "$code" > "$RUNNER_TEMP/pagesfail"
-          tail -3 run-pages.log
+          tail -3 logs/run-pages.log
       - name: Commit data and logs
         run: |
           git config user.name kino-bot && git config user.email a@b.c
-          git add data run-*.log teatteri kaupunki en sitemap.xml
+          git add data logs teatteri kaupunki en sitemap.xml
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
           for i in 1 2 3; do

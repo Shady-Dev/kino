@@ -7,8 +7,11 @@ name: Check run logs
 # local half the same signal without touching the wrapper.
 on:
   push:
+    # 'logs/**', not 'run*.log': the logs moved into logs/ on 2026-09-15 and a GitHub path
+    # glob does not cross a '/', so the old pattern would match nothing and this job would
+    # simply stop firing, with no error anywhere to say so.
     paths:
-      - 'run*.log'
+      - 'logs/**'
       - 'scripts/check_runs.py'
       - '.github/workflows/logs.yml'
   workflow_dispatch:

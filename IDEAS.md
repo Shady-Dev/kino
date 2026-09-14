@@ -42,15 +42,15 @@ Re-measured 2026-09-14 21:13 UTC at `6b50bd4f`: no run has landed since `712ebc7
    and not at midnight Helsinki. Expected match for the Kojootti and Gråben family is
    1204680.
    **Next action:** after the first run that completes and publishes past 00:00 UTC, read
-   the committed cache and `run-enrich.log` and tell three outcomes apart: searched and
+   the committed cache and `logs/run-enrich.log` and tell three outcomes apart: searched and
    matched, searched and still unmatched (a different cause, and the marker fix would not
    be sufficient alone), or skipped again. An unchanged entry read *before* publication is
    not a failed retry.
-2. **Järvelän Kino has not been shown to recover.** `run-nexxo.log` ends `exit=1` on the
+2. **Järvelän Kino has not been shown to recover.** `logs/run-nexxo.log` ends `exit=1` on
    20:37 UTC run: `locationid 1 FAILED: <urlopen error timed out>`, previous data kept,
    which is the retention working. `check_runs.py` reports that log red until the next
    successful Nexxo run, so a red there is expected rather than new.
-   **Next action:** read `run-nexxo.log` on `origin/main`. Investigate only if it fails a
+   **Next action:** read `logs/run-nexxo.log` on `origin/main`. Investigate only if it fails a
    second time; a timeout carries no mechanism.
 
 ### Provider coverage, and what is next
@@ -134,6 +134,35 @@ generated artwork, a cropped 16:9 still. Full entry:
 - **Credential hygiene and rotation.** Tracked in private notes outside this repo. The
   Finnkino token is fetched fresh at run time and used within seconds, so there is no
   stored credential and nothing to rotate; this item covers the rest.
+
+### The run logs moved to logs/, and the local half had to be changed by hand (2026-09-15)
+
+Bug: 20 run logs sat at the repo root, 20 of its 45 tracked entries, so the root read as
+build output rather than as the product.
+Fix: `logs/`. Every dependency moved in the same commit, and three of them would have
+failed *silently* rather than loudly, which is why the map was built before anything moved:
+`logs.yml`'s path filter was `run*.log` and a GitHub glob does not cross a `/`, so the only
+job that runs `check_runs.py` would simply have stopped firing; `robots.txt` closed the logs
+with the root-anchored `/run.log` and `/run-`, which would have gone dead and left the logs
+crawlable under `Allow: /`; and `tests/test_robots.py` asserted the old URLs were blocked,
+which stays green for ever because a rule that matches nothing still refuses a path nothing
+serves. The loud ones were `biorex.yml`'s `git add run-*.log` (unmatched pathspec) and
+`check_runs.py`'s zero-logs branch.
+`check_runs.py` gained two things rather than a new caller: a `--dir` default derived from
+the file's own location, so the documented command works from any cwd, and `strays()`,
+which fails on any `run*.log` left at the repo root. That last one is the guard for the one
+failure this may not have, a writer that was not migrated publishing to the old place while
+the check reads the moved copies and calls them green.
+**The local half is not in this repo.** Its wrapper was edited by hand, the same day: seven
+`tee` targets, seven `exit=` appends, the staging list and an explicit `mkdir -p logs`. A
+repo change does not reach it, which is the standing hazard with anything the wrapper
+writes.
+Not verified here: an actual run of either half. The cloud half is confirmed only by the
+next scheduled run and the local half by the next wrapper run; until both have published
+into `logs/`, this migration is cut over rather than proven. `strays()` is what makes a
+miss loud in the meantime.
+Tests: `test_check_runs.py` +2 (the default finds the repo's own logs; a root log fails),
+`test_robots.py` +1 reading the committed tree rather than a list. Three mutations red.
 
 ## Blocked
 
@@ -299,6 +328,7 @@ out of this file and each entry kept its heading.
 
 | File | What is in it |
 |---|---|
+| [docs/architecture.md](docs/architecture.md) | how the pieces fit and the constraints behind them; a standing document, not an archive |
 | [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md) | BioRex, Nexxo, eTiketti, Vista, Johku, and the directory and domain sweeps |
 | [docs/research/kinola.md](docs/research/kinola.md) | the three templates, films against other events, the four required fixtures |
 | [docs/research/tooling-evaluation.md](docs/research/tooling-evaluation.md) | the seven tools measured on 2026-09-14 |

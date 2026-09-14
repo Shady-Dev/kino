@@ -173,9 +173,20 @@ class DataDirectoryTest(unittest.TestCase):
                 self.assertFalse(allowed(f"/data/{f}"), f)
         for name in ("tmdb.json", "tmdb-titles.json", "prices-riviera.json"):
             self.assertIn(name, data_files())
-        for path in ("/run.log", "/run-enrich.log", "/run-nexxo.log", "/run-pages-local.log",
+        # The logs moved under /logs/ on 2026-09-15. Asserting the old root URLs here
+        # would have passed for ever while the real files became crawlable, since a
+        # rule that matches nothing still refuses a path nothing serves.
+        for path in ("/logs/", "/logs/run.log", "/logs/run-enrich.log",
+                     "/logs/run-nexxo.log", "/logs/run-pages-local.log",
                      "/data/", "/data/unknown.json"):
             self.assertFalse(allowed(path), path)
+
+    def test_every_committed_log_is_blocked_at_the_url_it_is_served_from(self):
+        """Reads the tree rather than a list, so a log this test never heard of counts."""
+        logs = sorted((_ctx.ROOT / "logs").glob("run*.log"))
+        self.assertTrue(logs, "no committed run logs to check")
+        for p in logs:
+            self.assertFalse(allowed(f"/logs/{p.name}"), p.name)
 
     def test_every_data_file_is_classified(self):
         for f in data_files():

@@ -9,7 +9,7 @@ name: Checks
 # or the checker, and running it on a code change would fail the change on a provider
 # outage.
 on:
-  # Code paths only. Data commits touch data/, run-*.log and the generated pages, none of
+  # Code paths only. Data commits touch data/, logs/ and the generated pages, none of
   # which changes whether the code is correct. Cloud pushes use GITHUB_TOKEN and do not
   # fire `on: push`; the local half's pushes do, four times a day.
   #

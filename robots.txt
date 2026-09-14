@@ -2,13 +2,15 @@
 # and Google renders the page before indexing it, so the files the client needs to
 # draw a schedule must be fetchable: Search Console's live test on 2026-09-13 showed an
 # empty picker and the load-failure line, with 14 of 15 resources "blocked by
-# robots.txt". The run-*.log files are build output and the TMDB and price caches are
-# pipeline state; nothing public reads them, so they stay closed.
+# robots.txt". The run logs are build output and the TMDB and price caches are pipeline
+# state; nothing public reads them, so they stay closed. The logs moved from the root into
+# /logs/ on 2026-09-15 and the two root-anchored rules that used to close them
+# (`/run.log` and the `/run-` prefix) went with them: one directory rule covers exactly the
+# same files, and nothing else lives under /logs/.
 User-agent: *
 Allow: /
 Disallow: /data/
-Disallow: /run.log
-Disallow: /run-
+Disallow: /logs/
 
 # What the client reads, by file or by stable filename family. A longer Allow wins over
 # the shorter Disallow (longest match; on a tie Allow wins). Posters moved under /data/

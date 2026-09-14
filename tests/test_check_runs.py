@@ -5,6 +5,8 @@ writes `exit=1` into a log, pushes it and carries on. Both halves commit their l
 reading them is the signal. The deciding cases: a log with no exit line, and a stale log
 nobody overwrites any more.
 """
+import contextlib
+import io
 import pathlib
 import tempfile
 import unittest
@@ -24,6 +26,29 @@ class CheckRunsTest(unittest.TestCase):
 
     def run_check(self):
         return check_runs.main(["--dir", str(self.dir)])
+
+    def test_the_default_dir_finds_the_repos_own_logs(self):
+        """Every other test passes --dir, so none of them would notice the logs moving.
+
+        This is the one that goes red on a half-done migration: it asserts the default
+        resolves to a directory that actually holds the committed logs, and it does not
+        care what the working directory is.
+        """
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            check_runs.main([])
+        self.assertNotIn("nothing has been committed yet", err.getvalue())
+        self.assertRegex(out.getvalue(), r"\[check\] \d+ run log\(s\)")
+
+    def test_a_log_left_at_the_repo_root_fails(self):
+        """A writer that was not migrated keeps publishing where nothing reads.
+
+        Without this the check would read the moved copies, find them fine and report
+        green while the live half wrote somewhere else entirely.
+        """
+        self.assertEqual(check_runs.strays(self.dir), [])
+        (self.dir / "run-stray.log").write_text("exit=0\n", encoding="utf-8")
+        self.assertEqual([p.name for p in check_runs.strays(self.dir)], ["run-stray.log"])
 
     def test_all_clean_passes(self):
         self.log("run.log", "[run] fine\nexit=0\n")
