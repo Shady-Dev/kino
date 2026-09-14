@@ -2163,6 +2163,25 @@ change, so a contract change is explained here, not in `docs/research/`.
 `cf-worker/worker.js` and the `TOKEN_WORKER_URL` branch in `get_token()` were deleted
 2026-08-27. `run-*.log` files in the repo root are committed per run by design.
 
+### The client's offline provider list is generated, not kept by hand (2026-09-14)
+Bug: `PROV_FALLBACK` in `index.html` held 11 of the registry's 42 providers. It is not a
+cosmetic list: `fetchVenueLists()` asks for `data/venues-{id}.json` for whichever provider
+list is in force, so on the path the code's own comment covers, `data/providers.json`
+failing to load, 31 providers and 38 of 86 venues left the picker, the health line and the
+chain palette together. Measured 2026-09-14 against the registry and the committed venue
+files. Reached by one failed fetch of one file, and it lasts the whole session.
+Fix: the block is generated from the registry between `/* providers:start */` markers by
+`build_providers.py --sync-index`, the same shape `build_pages.py --home` already uses for
+the homepage city links. A plain run reports a stale block and still exits 0, unlike
+`--home`'s exit 3, because `biorex.yml` runs this script ungated before it fetches
+anything and a data run must not fail over this. The test is the gate instead.
+Adding a provider now rewrites that block, so it touches `index.html` and needs the `sw.js`
+bump; CLAUDE.md and README say so where they used to say "no index.html edit". v157.
+Tests: `tests/test_prov_fallback.py`, 9 tests, 10 mutations red, among them a provider
+dropped from the committed block, a hand-edited accent, the markers removed, and the
+client reading `PROV_FALLBACK` instead of `PROVIDERS`. One bug found by its own idempotence
+test: comparing the extracted region rather than the rebuilt file reported every run stale.
+
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
 - An adapter binds `EmptyProgramme` at import time and `test_common_fetch` reloads `common`

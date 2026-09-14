@@ -132,7 +132,12 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
 
 ## Adding a provider
 
-A registry entry plus an adapter. No `index.html` edit.
+A registry entry plus an adapter. No hand-written `index.html` edit, but one generated
+one: `python3 scripts/build_providers.py --sync-index` rewrites the `PROV_FALLBACK`
+block from the registry, so bump `CACHE` in `sw.js` in the same commit. That block is
+the list the client falls back to when `data/providers.json` cannot be read, and
+`fetchVenueLists` asks for `data/venues-{id}.json` for whichever list is in force, so a
+provider missing from it loses its venues, not just its label.
 
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
   is generated from it, and the client derives every label, host, accent and footer verb.

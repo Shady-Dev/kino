@@ -92,7 +92,7 @@ publishes and how it was read, are under
     scripts/providers/common.py      shared fetch with retry, atomic writes
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
     scripts/providers/mirror_posters.py  mirrors hot-linked posters same-origin
-    scripts/build_providers.py       registry -> data/providers.json
+    scripts/build_providers.py       registry -> data/providers.json + the client's fallback
     scripts/build_pages.py           renders the indexable pages
     scripts/accent_check.py          chain accent separation, incl. deuteranope
     scripts/check_inline_js.py       node --check on the inline script and sw.js
@@ -152,7 +152,10 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
    `book` mode (`buy`, `reserve`, `door`, `list` or `admission`), module, and
    `where` it runs (`cloud` or `local`).
 
-Nothing else needs editing. The workflow loops over `registry.py --cloud` and
+Then `python3 scripts/build_providers.py --sync-index`, which writes
+`data/providers.json` and the client's offline fallback list from the same registry;
+bump `CACHE` in `sw.js` with it, since that touches `index.html`. Nothing else needs
+editing. The workflow loops over `registry.py --cloud` and
 the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.

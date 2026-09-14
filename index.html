@@ -1838,20 +1838,57 @@
   // "Itis Helsinki" never says Finnkino, so prefix the chain and drop the city; the group
   // label already carries the city. Every provider-specific string and colour comes from
   // data/providers.json, generated from scripts/providers/registry.py, so adding a
-  // provider needs no edit here. The fallback keeps the app usable when that file is
-  // missing (first deploy, or an old service worker).
+  // provider needs no edit to the code here. The fallback keeps the app usable when that
+  // file is missing (a partial deploy, or an old service worker), and it has to name
+  // every provider: fetchVenueLists() asks for data/venues-{id}.json for whatever list
+  // is in force, so a provider absent from the fallback loses its venues entirely, not
+  // just its label. The block between the markers is generated from the registry by
+  // scripts/build_providers.py --sync-index; do not edit it by hand.
   const PROV_FALLBACK = [
-    { id:'finnkino',     label:'Finnkino',      host:'finnkino.fi',       accent:'#E4551F', book:'buy' },
-    { id:'biorex',       label:'BioRex',        host:'biorex.fi',         accent:'#1273D4', book:'buy' },
-    { id:'kinoset',      label:'Kinoset',       host:'kinoset.fi',        accent:'#0E9B63', book:'reserve' },
-    { id:'kotkanleffat', label:'Kotkan Leffat', host:'kotkanleffat.fi',   accent:'#C42749', book:'buy' },
-    { id:'riviera',      label:'Riviera',       host:'rivieracinemas.fi', accent:'#0C6464', book:'buy' },
-    { id:'gilda',        label:'Gilda',         host:'gilda.fi',          accent:'#D62D8F', book:'buy' },
-    { id:'savonkinot',   label:'Savon Kinot',   host:'savonkinot.fi',     accent:'#0C8FA8', book:'buy' },
-    { id:'orion',        label:'Cinema Orion',  host:'cinemaorion.fi',    accent:'#4E7A16', book:'buy' },
-    { id:'engel',        label:'Kino Engel',    host:'kinoengel.fi',      accent:'#B47ACC', book:'buy' },
-    { id:'biorexkokkola',label:'Bio Rex Kokkola',host:'biorex.org',       accent:'#006655', book:'buy' },
-    { id:'kinoakseli',   label:'Kino Akseli',   host:'kinoakseli.fi',     accent:'#B8801A', book:'door' }
+    /* providers:start */
+    { id:'finnkino',           label:'Finnkino',             host:'finnkino.fi',            accent:'#E4551F', book:'buy' },
+    { id:'biorex',             label:'BioRex',               host:'biorex.fi',              accent:'#1273D4', book:'buy' },
+    { id:'kinoset',            label:'Kinoset',              host:'kinoset.fi',             accent:'#0E9B63', book:'reserve' },
+    { id:'kotkanleffat',       label:'Kotkan Leffat',        host:'kotkanleffat.fi',        accent:'#C42749', book:'buy' },
+    { id:'riviera',            label:'Riviera',              host:'rivieracinemas.fi',      accent:'#0C6464', book:'buy' },
+    { id:'gilda',              label:'Gilda',                host:'gilda.fi',               accent:'#D62D8F', book:'buy' },
+    { id:'savonkinot',         label:'Savon Kinot',          host:'savonkinot.fi',          accent:'#0C8FA8', book:'buy' },
+    { id:'orion',              label:'Cinema Orion',         host:'cinemaorion.fi',         accent:'#4E7A16', book:'buy' },
+    { id:'engel',              label:'Kino Engel',           host:'kinoengel.fi',           accent:'#B47ACC', book:'buy' },
+    { id:'biorexkokkola',      label:'Bio Rex Kokkola',      host:'biorex.org',             accent:'#006655', book:'buy' },
+    { id:'kinoakseli',         label:'Kino Akseli',          host:'kinoakseli.fi',          accent:'#B8801A', book:'door' },
+    { id:'kinopirtti',         label:'Kinopirtti',           host:'kinopirtti.fi',          accent:'#8E44AD', book:'buy' },
+    { id:'leffabuumi',         label:'Leffabuumi',           host:'leffabuumi.fi',          accent:'#1F7A8C', book:'buy' },
+    { id:'studio123jarvenpaa', label:'Studio 123 Järvenpää', host:'studiot123.com',         accent:'#B0308F', book:'buy' },
+    { id:'studio123kouvola',   label:'Studio 123 Kouvola',   host:'studio123.fi',           accent:'#2040F0', book:'buy' },
+    { id:'kino123',            label:'Kino 123',             host:'kino123.fi',             accent:'#E07000', book:'buy' },
+    { id:'ihmekompleksi',      label:'Ihme Kompleksi',       host:'ihmekompleksi.fi',       accent:'#7A5CD0', book:'buy' },
+    { id:'kinotar',            label:'Kinotar 123',          host:'jamsankinotar.fi',       accent:'#2E7D5B', book:'buy' },
+    { id:'kinojuha',           label:'Kino Juha',            host:'kinojuha.fi',            accent:'#A6431F', book:'buy' },
+    { id:'biogrand',           label:'Bio Grand',            host:'biogrand.fi',            accent:'#7B4FB5', book:'buy' },
+    { id:'biovuoksi',          label:'Bio Vuoksi',           host:'biovuoksi.fi',           accent:'#3E6FA8', book:'buy' },
+    { id:'kinoiiris',          label:'Kino Iiris',           host:'kinoiiris.com',          accent:'#2F6FD0', book:'buy' },
+    { id:'joutsankino',        label:'Joutsan Kino',         host:'kino.joutsa.fi',         accent:'#96702A', book:'buy' },
+    { id:'kkino',              label:'K-Kino',               host:'k-kino.fi',              accent:'#4C6B1F', book:'buy' },
+    { id:'biograni',           label:'Bio Grani',            host:'biograni.fi',            accent:'#B03A55', book:'buy' },
+    { id:'cine',               label:'Cine',                 host:'kiertue.cine.fi',        accent:'#BA7E8A', book:'buy' },
+    { id:'star',               label:'Elokuvateatteri Star', host:'elokuvateatteristar.fi', accent:'#2563EB', book:'buy' },
+    { id:'kinoaurora',         label:'Kino Aurora',          host:'kinoaurora.fi',          accent:'#5B4FD0', book:'reserve' },
+    { id:'kinohirvi',          label:'Kino Hirvi',           host:'kinohirvi.fi',           accent:'#0F7B9C', book:'reserve' },
+    { id:'biosade',            label:'Bio Säde',             host:'kinohirvi.fi',           accent:'#8C3B7A', book:'reserve' },
+    { id:'kinomarilyn',        label:'Kino Marilyn',         host:'kinomarilyn.fi',         accent:'#1A6E4A', book:'reserve' },
+    { id:'kinoolympia',        label:'Kino Olympia',         host:'kino-olympia.fi',        accent:'#9C5518', book:'reserve' },
+    { id:'jarvelankino',       label:'Järvelän Kino',        host:'jarvelankino.fi',        accent:'#7A6A1E', book:'reserve' },
+    { id:'kinometso',          label:'Kino Metso',           host:'kinoaurora.fi',          accent:'#227D63', book:'reserve' },
+    { id:'niagara',            label:'Cinema Niagara',       host:'cinemaniagara.fi',       accent:'#6A4FBF', book:'buy' },
+    { id:'heureka',            label:'Heureka',              host:'heureka.fi',             accent:'#0B8468', book:'admission' },
+    { id:'korjaamo',           label:'Korjaamo Kino',        host:'korjaamokino.fi',        accent:'#C07E7E', book:'buy' },
+    { id:'tapiola',            label:'Kino Tapiola',         host:'kinotapiola.fi',         accent:'#003CFC', book:'buy' },
+    { id:'regina',             label:'Kino Regina',          host:'kinoregina.fi',          accent:'#8A4854', book:'buy' },
+    { id:'kinopiispanristi',   label:'Kino Piispanristi',    host:'kinopiispanristi.fi',    accent:'#0096EA', book:'reserve' },
+    { id:'kinolumo',           label:'Kino Lumo',            host:'kinolumo.fi',            accent:'#F64EAE', book:'reserve' },
+    { id:'laitilankino',       label:'Laitilan Kino',        host:'laitilankino.fi',        accent:'#3C7872', book:'reserve' }
+    /* providers:end */
   ];
   let PROVIDERS = [];
   const CHAIN = {}, SOURCE = {}, BOOK = {};
