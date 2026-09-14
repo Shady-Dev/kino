@@ -87,5 +87,122 @@ class QueriesTest(unittest.TestCase):
         self.assertNotEqual(enrich_tmdb.norm("Dyyni: Osa kolme"), enrich_tmdb.norm("Dyyni"))
 
 
+class AudioMarkerTest(unittest.TestCase):
+    """A marker names the audio, never the film, so it comes off the search string.
+
+    `suomeksi` was on the list and its counterparts were not, so a cinema selling the
+    dubbed and the subtitled run as two films had one searchable and the other not.
+    Measured across the committed data on 2026-09-14: one film, Coyote vs. Acme, was
+    published under eight spellings by nine chains, and the four below were the ones the
+    search could not reach.
+    """
+
+    def test_every_spelling_of_the_english_marker_comes_off(self):
+        """Three positions, all in the data on 2026-09-14: parenthesised at Kino 123,
+        Leffabuumi and Studio 123 Järvenpää, trailing in caps at the two Cinemahouse
+        sites, comma-separated at Kotkan Leffat."""
+        for published in ("Kojootti vs. ACME (englanniksi)",
+                          "Kojootti vs. ACME ENGLANNIKSI",
+                          "Kojootti vs. ACME, englanniksi"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
+
+    def test_the_swedish_and_the_spelled_out_finnish_markers_come_off(self):
+        self.assertEqual(enrich_tmdb.clean("Gråben vs. ACME (på svenska)"),
+                         "Gråben vs. ACME")
+        self.assertEqual(enrich_tmdb.clean("Kojootti vs. ACME (pa svenska)"),
+                         "Kojootti vs. ACME")
+        self.assertEqual(enrich_tmdb.clean("Kojootti vs. ACME (suomeksi puhuttu)"),
+                         "Kojootti vs. ACME")
+
+    def test_the_finnish_markers_still_come_off(self):
+        """The half that already worked, pinned so the rewrite cannot drop it."""
+        for published in ("Kojootti vs. ACME (suomeksi)", "Kojootti vs. ACME SUOMEKSI",
+                          "Kojootti vs. ACME, suomeksi", "Kojootti vs. ACME (Dub)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
+
+    def test_the_two_runs_of_one_film_still_key_apart(self):
+        """The dub and the subtitled run are two cards at the cinema and must stay two
+        cache entries, even though they now search for the same string."""
+        fi, en = "Kojootti vs. ACME SUOMEKSI", "Kojootti vs. ACME ENGLANNIKSI"
+        self.assertEqual(enrich_tmdb.clean(fi), enrich_tmdb.clean(en))
+        self.assertNotEqual(enrich_tmdb.norm(fi), enrich_tmdb.norm(en))
+        self.assertEqual(enrich_tmdb.norm(en), "kojootti vs acme englanniksi")
+
+
+class ParenthesisedStrandTest(unittest.TestCase):
+    """A strand can sit in a trailing parenthesis instead of in front of a colon.
+
+    Laitilan Kino publishes its whole fortnightly programme as "<film> (Kahvi ja Kino)",
+    so this is not one title but every title that cinema will ever publish. The content
+    is matched against the one shared list in strands.py, so a parenthesis holding
+    anything else is left alone.
+    """
+
+    def test_a_listed_strand_in_a_trailing_parenthesis_comes_off(self):
+        self.assertEqual(enrich_tmdb.clean("Lapin sota (Kahvi ja Kino)"), "Lapin sota")
+        self.assertEqual(enrich_tmdb.clean("Presidentin kyyditys (Kahvi ja Kino)"),
+                         "Presidentin kyyditys")
+
+    def test_the_same_strand_still_comes_off_in_front_of_a_colon(self):
+        """One list, both positions: the entry added for the parenthesis has to keep
+        working where strands.split() reads it."""
+        self.assertEqual(enrich_tmdb.clean("Kahvi ja Kino: Lapin sota"), "Lapin sota")
+
+    def test_a_parenthesis_that_is_not_a_listed_strand_is_left_alone(self):
+        """Every one of these is in the committed data and every one is part of the
+        title or a note about the screening, not a strand."""
+        for published in ("Beginnings (Begyndelser)",
+                          "Nirvana 'Nevermind' (35th Anniversary)",
+                          "Burleskino: Gypsy (+keskusteluvieras)",
+                          "Svečias – The Visitor (tekstitys suomi & englanti)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), published)
+
+    def test_a_title_that_is_only_a_strand_is_not_emptied(self):
+        """Stripping it would leave nothing to search, so the published title stands."""
+        self.assertEqual(enrich_tmdb.clean("(Kahvi ja Kino)"), "(Kahvi ja Kino)")
+
+    def test_a_strand_that_is_not_at_the_end_is_left_alone(self):
+        """The rule cuts everything from the parenthesis onwards, which is only safe
+        when the parenthesis is last. Unanchored it would take "osa 2" off this title
+        as well, and the published title would lose a word it needs."""
+        self.assertEqual(enrich_tmdb.clean("Lapin sota (Kahvi ja Kino) osa 2"),
+                         "Lapin sota (Kahvi ja Kino) osa 2")
+
+    def test_the_marker_stays_in_the_cache_key(self):
+        """Same rule as the year and the prefix: only the search string is cleaned."""
+        for published in ("Lapin sota (Kahvi ja Kino)", "Kojootti vs. ACME ENGLANNIKSI",
+                          "Gråben vs. ACME (på svenska)"):
+            with self.subTest(published=published):
+                self.assertNotEqual(enrich_tmdb.norm(published),
+                                    enrich_tmdb.norm(enrich_tmdb.clean(published)))
+
+    def test_the_raw_title_is_still_the_last_candidate(self):
+        q = enrich_tmdb.queries("Lapin sota (Kahvi ja Kino)")
+        self.assertEqual(q[0], "Lapin sota")
+        self.assertEqual(q[-1], "Lapin sota (Kahvi ja Kino)")
+
+
+class AliasTest(unittest.TestCase):
+    """The two cases the cleaned search still cannot settle, 2026-09-14."""
+
+    def test_the_aliases_are_keyed_by_the_published_title(self):
+        import json
+        import pathlib
+        aliases = json.loads((pathlib.Path(enrich_tmdb.__file__).parent
+                              / "tmdb-aliases.json").read_text(encoding="utf-8"))
+        for published, tmdb_id in (("Matka Piemonteen (Kahvi ja Kino)", "1545391"),
+                                   ("Avengers: Endgame Re-release (encore)", "1769545")):
+            with self.subTest(published=published):
+                self.assertEqual(aliases.get(enrich_tmdb.norm(published)), tmdb_id)
+
+    def test_an_alias_is_tried_before_the_cleaned_title(self):
+        """A bare id skips the search outright; a replacement string goes first."""
+        q = enrich_tmdb.queries("Matka Piemonteen (Kahvi ja Kino)", alias="Resan till Piemonte")
+        self.assertEqual(q[0], "Resan till Piemonte")
+
+
 if __name__ == "__main__":
     unittest.main()

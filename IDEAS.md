@@ -552,6 +552,30 @@ Reported missing by the user on three venues where the browser shows a price.
   page, which carries the widget's key. Deferred by the user the same day: no more
   polling on the local half for now. `price` and `aud` stay empty for Engel.
 
+### A language marker in the title blocked the TMDB search (2026-09-14)
+Bug: `clean()` took `suomeksi` off the search string in all three positions it occurs in
+and took none of its counterparts off any of them, so a cinema selling the dubbed and the
+subtitled run as two films had one searchable and the other not. Measured over the
+committed data: one film, Coyote vs. Acme, is published under eight spellings by nine
+chains, and 44 showtimes across 13 titles and 11 cache keys could not be searched at all,
+every one of them cached unmatched or never searched. Laitilan Kino added a second shape,
+a strand in a trailing parenthesis, and it is not one title but every title that cinema
+publishes: its whole fortnightly programme is "<film> (Kahvi ja Kino)".
+Fix: `PAREN_NOISE` gains `englanniksi`, `på svenska` and `suomeksi puhuttu`,
+`TRAIL_NOISE` gains `englanniksi`, and `clean()` takes a trailing parenthesis off when its
+content is in `strands.EVENT_PREFIXES`, which gains "kahvi ja kino". One list, both
+positions. A parenthesis holding anything else is left alone, checked against the four in
+the data: an original title, two anniversary editions and a subtitle note. The published
+title never moves, so every cache key, `normTitle` key and merge key stands.
+Two the cleaned search still cannot settle are aliased with their evidence in the file:
+"Matka Piemonteen" has no Finnish title on TMDB at all (Resan till Piemonte, 1545391,
+identified from the cinema's own film page by its director and five of six billed actors),
+and BioRex's "Avengers: Endgame Re-release (encore)" matched 24428, The Avengers (2012),
+weakly, so the trust gate withheld its metadata and 50 showtimes went scoreless while
+every other chain matched 1769545 exactly.
+Tests: `tests/test_tmdb_queries.py`, 12 added, 11 mutations red. No data change: only the
+search string moves, and an unmatched entry takes its daily retry on the next cloud run.
+
 ### The TMDB search reads the original title and the published year (2026-09-13)
 Three Regina films sat unmatched: "Lucky luke sotapolulla" (La ballade des Dalton, 1978),
 "Rakasta tai tuhoudu" (All Night Long, 1962), "Prinssi ja revyytyttö" (The Prince and the

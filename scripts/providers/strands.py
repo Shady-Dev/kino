@@ -51,6 +51,11 @@ EVENT_PREFIXES = (
     # without a colon, so only the features are split. Vista already puts the festival
     # in `method` through EventSeries, and apply() does not add it twice.
     "helaff",
+    # Laitilan Kino, 2026-09-14. Its whole programme is a fortnightly matinee strand and
+    # the name sits in a trailing parenthesis rather than in front of a colon: "Lapin
+    # sota (Kahvi ja Kino)". enrich_tmdb.clean() reads this same list in both positions,
+    # so a strand listed once is taken off the search string wherever the cinema puts it.
+    "kahvi ja kino",
 )
 
 

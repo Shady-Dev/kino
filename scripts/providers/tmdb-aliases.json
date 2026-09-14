@@ -27,5 +27,8 @@
  "kuolemaantuomittu": "687",
  "naisen kasvot": "76848",
  "palatsin hiljaisuus": "44284",
- "ringu 0 bāsudei": "9674"
+ "ringu 0 bāsudei": "9674",
+ "_comment_markers": "2026-09-14. Two cases the cleaned search cannot settle. Laitilan Kino's \"Matka Piemonteen\" has no Finnish title registered on TMDB at all (site search: 0 films); the film is Alexandra-Therese Keining's \"Resan till Piemonte\", identified from the cinema's own film page by its director and by five of the six billed actors, every one of which the TMDB record carries. BioRex publishes \"Avengers: Endgame Re-release (encore)\", where the bare \"Re-release\" sits mid-title and the search landed weakly on 24428, The Avengers (2012): the trust gate withheld its metadata so nothing wrong shipped, but 50 showtimes went without a score while the same film matched 1769545 exactly at every other chain, on the same English synopsis. Ids read off /movie/{id}, never typed from memory.",
+ "matka piemonteen kahvi ja kino": "1545391",
+ "avengers endgame re release encore": "1769545"
 }

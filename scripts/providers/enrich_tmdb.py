@@ -63,10 +63,27 @@ def norm(t):
 from strands import EVENT_PREFIXES  # noqa: E402
 
 # Screening-format and re-release noise in brackets, including a bare year.
+#
+# The audio-language markers are the half that was missing until 2026-09-14: `suomeksi`
+# was here and its counterparts were not, so a cinema selling the dubbed and the
+# subtitled run as two films had one of them searchable and the other not. Measured
+# across the committed data that day: `englanniksi` in three spellings at six providers
+# (18 showtimes as `(englanniksi)`, 9 as a trailing ENGLANNIKSI, 5 as `, englanniksi`),
+# `(på svenska)` at two and `(suomeksi puhuttu)` at one, 32 showtimes and five distinct
+# titles in all, every one of them cached unmatched. A marker names the audio, never the
+# film, so it belongs off the search string exactly as `suomeksi` already was.
 PAREN_NOISE = re.compile(
-    r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?|re-?release"
+    r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu)?|englanniksi|p[åa]\s+svenska"
+    r"|dubattu|dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
-TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|dubattu)\b\s*$", re.I)
+TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|englanniksi|dubattu)\b\s*$", re.I)
+
+# A strand can sit in a trailing parenthesis instead of in front of a colon. The content
+# is matched against the one shared list in strands.py rather than against a pattern, so
+# a parenthesis holding anything else -- an original title ("Beginnings (Begyndelser)"),
+# an edition ("Nirvana 'Nevermind' (35th Anniversary)"), a screening note -- is left
+# alone, and a strand added for either position covers both.
+PAREN_STRAND = re.compile(r"\(\s*([^()]{1,40}?)\s*\)\s*$")
 
 
 def clean(title):
@@ -82,6 +99,9 @@ def clean(title):
         if low.startswith(pre + ":"):
             t = t[len(pre) + 1:].strip()
             break
+    m = PAREN_STRAND.search(t)
+    if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
+        t = t[:m.start()].strip()
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", t))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 
