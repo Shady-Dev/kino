@@ -439,6 +439,17 @@ class AliasFileTest(unittest.TestCase):
         self.assertEqual(doc["lucky luke sotapolulla"], "50166")
         self.assertEqual(enrich_tmdb.norm("Lucky luke sotapolulla"), "lucky luke sotapolulla")
 
+    def test_the_pressure_alias_covers_both_published_spellings(self):
+        """TMDB holds no Finnish title for 1318413, so no query spelling reaches it and
+        the alias is the only route. Seventeen providers publish the film and Gilda
+        capitalises the second word, so the guard that matters is that both spellings
+        normalise onto the one key rather than the id itself."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc["myrskyn ikkuna"], "1318413")
+        for published in ("Myrskyn ikkuna", "Myrskyn Ikkuna"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.norm(published), "myrskyn ikkuna")
+
 
 class FixedDate(datetime.date):
     @classmethod
