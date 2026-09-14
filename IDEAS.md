@@ -2236,6 +2236,36 @@ and what it does not settle, without softening the staleness.
 Tests: none. Documentation only, and `test_design_contract.py` already fails if `CLAUDE.md`
 stops naming the contract.
 
+### Two verifications left open on 2026-09-14, for whoever runs next
+Neither blocks another cinema. Both need a cloud run that has not happened yet, and the
+session monitor that was going to read them does not survive the session, so they are
+written here instead.
+
+1. **The TMDB marker fix is deployed but not yet exercised.** `f3b61ee8` takes
+   `englanniksi`, `på svenska`, `suomeksi puhuttu` and a parenthesised strand off the
+   search string. Eight cache keys still carry `c: 2026-09-14` from the 17:13 UTC run,
+   which predates it, and `refresh.due` skips an entry already checked today, so the
+   20:37 run left them byte-identical: `kojootti vs acme englanniksi`, `… på svenska`,
+   `… suomeksi puhuttu`, `… dub`, `… eng`, `… sub`, `gråben vs acme på svenska`,
+   `kätyrit monsterit englanniksi`. The boundary is `datetime.date.today()` at
+   `enrich_tmdb.py` line 613, the runner's local date, and the pass runs only from
+   `biorex.yml:68` with no `TZ` set, so on a hosted runner it rolls at midnight UTC and
+   not at midnight Helsinki. The first run after that re-searches them. Expected match
+   for the Kojootti and Gråben family is 1204680, which `kojootti vs acme` and
+   `gråben vs acme` already hold exactly. Three outcomes to tell apart: searched and
+   matched, searched and still unmatched (a different cause, and it would mean the
+   marker fix is not sufficient on its own), or skipped again. Read the committed
+   cache and `run-enrich.log`, and only after a run has completed *and* published, since
+   an unchanged entry read before publication is not a failed retry.
+2. **Järvelän Kino has not been shown to recover.** `run-nexxo.log` ends `exit=1` on the
+   20:37 UTC run: `locationid 1 FAILED: <urlopen error timed out>`, previous data kept,
+   which is the retention working. Recovery is undemonstrated. `check_runs.py` reports
+   that log red until the next successful Nexxo run, so a red there is expected rather
+   than new. Investigate only if it fails again; a timeout carries no mechanism.
+
+Unrelated and still open: Kinola's publication policy, in
+[docs/research/kinola.md](docs/research/kinola.md).
+
 ## Notes / gotchas
 - Read the committed `run.log`, not Actions logs.
 - An adapter binds `EmptyProgramme` at import time and `test_common_fetch` reloads `common`
