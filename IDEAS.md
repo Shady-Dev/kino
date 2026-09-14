@@ -2381,6 +2381,22 @@ files in the repo root are committed per run by design.
   competing with the cinemas' own listings. A deliberate decision, not a side effect of
   markup. See "Access and ethics".
 
+### Every adapter is held to one show contract, at the boundary (2026-09-14)
+Bug: the show dict had no written shape. Twelve modules measured, eleven emitted the same
+seventeen keys and BioRex emitted no `price`; the client survived on `r.price || ''`.
+Fix: `common.Show`, a stdlib `TypedDict`, names the keys; `common.check_shows` is the
+runtime rule and `run_site` applies it to what `fetch_site` returned before any write: a
+missing key, a wrong type, a blank `start`, or a show filed under another venue fails the
+site like a parse error, so the previous files stay and the log names venue and key. BioRex
+writes `price: ""`. Extras stay allowed: `_`-prefixed, `age`, `year`, `movieUrl`.
+Tests: `test_show_contract.py` parses each of the twelve modules' own fixtures (reused from
+their adapter tests; BioRex, Engel and Kino Akseli gained a minimal one) and checks every
+show: keys, types, an aware ISO `start`, an absolute `url`, `provider` and `venue` of the
+fixture's site, no duplicate screening. A registry module without a sample fails. Five
+breaks red: Orion dropping `url`, Riviera misfiling a venue, BioRex `soldOut` as a string,
+Engel a naive `start`, run.py skipping the check. The fake adapters in the run tests now
+emit full shows. Not done: a dataclass for the fetch result; run.py already models it.
+
 ### Search snippets quoted the chrome and a load failure (2026-09-13)
 Observed: Google's copy of `/` read `Leffavuoro. EN. Tallenna. Tänään 29.8. ... Leffat
 Ajat. Suom. puhe. Lapsille. Aikataulua ei juuri nyt saatu ladattua`, wording the client

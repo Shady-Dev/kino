@@ -14,6 +14,7 @@ import os
 import pathlib
 import threading
 import time
+import typing
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -89,6 +90,71 @@ _throttle = {"asked": 0, "waited": 0.0, "refused": 0}
 # body is read; the chunked loop below enforces the cap whether or not the header was
 # sent, since the header is only the origin's claim.
 MAX_BODY = int(os.environ.get("KINO_MAX_BODY") or 20_000_000)
+
+
+class Show(typing.TypedDict):
+    """One screening as every adapter publishes it and as run.py, synmerge and the client
+    read it. Plain dicts stay the runtime shape; this is the written contract, and
+    `SHOW_KEYS` is what tests/test_show_contract.py holds each adapter to.
+
+    Every key is required and a value the adapter cannot fill is "" (or False). Measured
+    2026-09-14 across the twelve adapters: eleven emitted all seventeen and BioRex emitted
+    no `price`, which the client tolerated only because priceLabel reads `r.price || ''`.
+    Every frontend bug on the day multi-provider landed came from a field only Finnkino
+    populated, so a key present with an empty value is the rule and a missing key is not.
+    An adapter may add keys of its own (`_syn`, `age`, `movieUrl`); a TypedDict does not
+    validate at runtime, so the test is the check, not this class.
+    """
+    eventId: str        # the provider's film id, scoped to its site; the film key in films.json
+    title: str          # verbatim, the key for normTitle(), films-extra.json, tmdb-aliases.json
+    original: str
+    len: str
+    rating: str
+    genres: str
+    method: str         # strand, format or language tag shown on the stub
+    theatre: str
+    aud: str            # room, verbatim: it is what the ticket prints
+    start: str          # ISO 8601 with offset, Europe/Helsinki
+    url: str            # absolute http(s); the client runs it through safeUrl()
+    img: str
+    lang: str
+    soldOut: bool
+    price: str          # "8€", "alkaen 10€", "Vapaa pääsy", or ""
+    provider: str       # registry id
+    venue: str          # a venue id the site's registry entry lists
+
+
+SHOW_KEYS = tuple(Show.__annotations__)
+
+
+def check_shows(per_venue, label, venue_ids=()):
+    """Refuse an adapter's result that does not meet `Show`. -> None, or raises RuntimeError.
+
+    run.py calls this on what fetch_site returned, before anything is written, so a show
+    missing a key or carrying the wrong type fails its site the way a parse error does:
+    the previous files stay, the health line ages, and the log names the venue and the
+    key. A TypedDict checks nothing at runtime; this is the check. Keys beyond the
+    contract are allowed: adapters carry `_syn` for synmerge and `age`, `movieUrl` and
+    `year` as documented extras, and the enrichment pass adds its own later.
+
+    `venue_ids` is the site's venue list when the caller has one: a show filed under a
+    venue the site does not list would be written to a file the picker never links.
+    """
+    for vid, shows in per_venue.items():
+        if venue_ids and vid not in venue_ids:
+            raise RuntimeError(f"{label}: shows for venue {vid!r}, which the site does not list")
+        for s in shows:
+            for k, t in Show.__annotations__.items():
+                if k not in s:
+                    raise RuntimeError(f"{label}: venue {vid}: a show has no {k!r} "
+                                       f"(title {s.get('title')!r})")
+                if not isinstance(s[k], t):
+                    raise RuntimeError(f"{label}: venue {vid}: {k!r} is "
+                                       f"{type(s[k]).__name__}, not {t.__name__} "
+                                       f"(title {s.get('title')!r})")
+            if not s["start"] or not s["venue"] or s["venue"] != vid:
+                raise RuntimeError(f"{label}: venue {vid}: a show with start {s['start']!r} "
+                                   f"filed under venue {s['venue']!r} (title {s['title']!r})")
 
 
 class EmptyProgramme(Exception):

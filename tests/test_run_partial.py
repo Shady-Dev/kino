@@ -13,6 +13,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import common
 import run
 
 
@@ -28,11 +29,18 @@ class FakeModule:
         self.per_venue = per_venue
 
     def fetch_site(self, site):
-        return self.per_venue
+        # A real adapter fills `venue` and `provider` itself; the fixtures here name
+        # only what the test is about, so the fake stamps them the way run.py's
+        # contract check expects.
+        return {vid: [dict(s, venue=vid, provider=site["provider"]) for s in shows]
+                for vid, shows in self.per_venue.items()}
 
 
 def show(title, start):
-    return {"title": title, "start": start, "url": "https://example.test/x"}
+    """A show meeting common.Show, blank where the test does not care."""
+    s = {k: ("" if t is str else False) for k, t in common.Show.__annotations__.items()}
+    s.update(eventId=title.lower(), title=title, start=start, url="https://example.test/x")
+    return s
 
 
 SITE = {

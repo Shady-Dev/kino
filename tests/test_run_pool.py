@@ -89,7 +89,11 @@ def overlap(spans_a, spans_b):
 
 
 def show(title, start="2026-08-30T18:00:00+03:00", syn=""):
-    s = {"title": title, "start": start, "url": "https://example.test/x"}
+    """A show meeting common.Show, blank where the test does not care; the fake adapter
+    stamps `venue` and `provider` the way a real one fills them."""
+    s = {k: ("" if t is str else False) for k, t in common.Show.__annotations__.items()}
+    s.update(eventId=title.lower().replace(" ", "-"), title=title, start=start,
+             url="https://example.test/x")
     if syn:
         s["_syn"] = syn
     return s
@@ -139,6 +143,9 @@ class PoolMod:
         if self.shared is True or prov in (self.shared or ()):
             for shows in out.values():
                 shows.append(show("Shared Film", syn=f"{prov} synopsis"))
+        for vid, shows in out.items():
+            for s in shows:
+                s.update(venue=vid, provider=prov)
         return out
 
 

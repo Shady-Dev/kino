@@ -142,6 +142,10 @@ def run_site(mod, site, now, order=0):
     """
     label = site.get("provider") or mod.__name__
     per_venue = mod.fetch_site(site)
+    # Every show is checked against common.Show before a byte is written. An adapter
+    # that drops a key or changes a type fails its site here, like a parse error, rather
+    # than publishing a file the client reads by key.
+    common.check_shows(per_venue, label, {v["id"] for v in site["venues"]})
     # A strand prefix belongs in `method`, not in the title: left there it fragments the
     # film, blocks the TMDB match and gives every film in the strand the same fallback
     # tile. Applied centrally so a new adapter gets it without knowing it exists.
