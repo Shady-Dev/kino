@@ -3378,6 +3378,21 @@ confirmation is visible in the committed run log instead of being silent.
 Tests: the unregistered-place case asserts the place is named and that the navigation
 naming it does not excuse the row. Three mutations.
 
+### A failed site publishes its failure, not its last good state (2026-09-14)
+Bug: `run_site` withheld `venues-<provider>.json` unless a venue went live or the adapter
+confirmed every one empty, so a site that produced nothing left the previous file standing,
+reading `status: ok` with an empty `stale`, and discarded the stale list it had just
+computed. Measured on 3b62ea4f: four Nexxo sites 403ed at 16:30, six venues kept previous
+data, and all four provider files still read ok on the 11:14 stamp. `healthState` checks
+`stale` before age, so the only signal left was `oldest` crossing `STALE_H` = 8: eight
+hours of a failing provider reading healthy.
+Fix: the file is written whatever the outcome. `oldest` still comes from the venue files on
+disk, so a dead site keeps the previous stamp and ages exactly as it did; what is new is
+that `stale` names the venues and `status` reads partial at once. A fetch that raised still
+writes nothing, because `run_sites` catches it above this.
+Tests: the four that pinned the withheld file now pin the record, `oldest` included. Four
+mutations, against `test_run_partial.py` and `test_etiketti_empty_venue.py`.
+
 ### A stale homepage city list fails the pages build (2026-09-14)
 Bug: `build_pages.py` printed "index.html city links stale" and exited 0, and nothing
 reads a print: `check_runs.py` reads `exit=` only, `biorex.yml` commits the pages before it

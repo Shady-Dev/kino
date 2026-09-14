@@ -249,9 +249,13 @@ class DriftedParseTest(RunSiteTest):
         self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
         # No live venue and nothing confirmed empty is the run's failure condition, and
-        # the provider file is not stamped, so the health line cannot read fresh.
+        # the provider file records both venues stale on the previous stamp, so the health
+        # line reads degraded at once rather than waiting for the age to cross STALE_H.
         self.assertFalse(self.run.confirmed_empty_site(site(), pending))
-        self.assertFalse((self.run.OUT / "venues-cine.json").exists())
+        doc = json.loads((self.run.OUT / "venues-cine.json").read_text(encoding="utf-8"))
+        self.assertEqual(doc["status"], "partial")
+        self.assertEqual(sorted(doc["stale"]), ["cine-keuda", "cine-nikkila"])
+        self.assertEqual(doc["oldest"], self.PREV["generated"])
 
 
 if __name__ == "__main__":

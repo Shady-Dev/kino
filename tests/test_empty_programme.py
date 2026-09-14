@@ -100,7 +100,9 @@ class EmptyProgrammeTest(unittest.TestCase):
         mod.EMPTY_VENUES_CONFIRMED = True
         self.assertEqual(self.run_mod(mod), 1)
         self.assertEqual(json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8")), prev)
-        self.assertFalse((run.OUT / "venues-fakechain.json").exists())
+        doc = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
+        self.assertEqual((doc["status"], doc["stale"], doc["pending"]), ("partial", ["fc-a"], []))
+        self.assertEqual(doc["oldest"], prev["generated"], "the record ages, it does not refresh")
 
     def test_a_module_with_no_sites_for_this_half_is_not_a_failure(self):
         """Site-level routing made this reachable: `run.py biorex --half local` has

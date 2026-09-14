@@ -285,15 +285,21 @@ class RunSitePartialTest(RunSiteHarness):
         self.assertEqual(self.venues_file()["pending"], ["fc-b"])
         self.assertEqual(self.area("fc-b")["shows"], [])
 
-    def test_a_totally_dead_site_writes_no_provider_file(self):
-        """Nothing may stamp a fresh timestamp when every venue came back empty."""
+    def test_a_totally_dead_site_records_every_venue_stale(self):
+        """The file is the health record, so the case it exists for cannot be the case it
+        is withheld for. Nothing is stamped fresh: `oldest` is still the previous data's,
+        which is the number the client ages on."""
         for v in SITE["venues"]:
             self.seed_previous(v["id"])
         mod = FakeModule({v["id"]: [] for v in SITE["venues"]})
         live, _, stale, unverified, _ = self.run_site(mod)
         self.assertEqual(live, 0)
         self.assertEqual(len(stale), 3)
-        self.assertFalse((self.out / "venues-fakechain.json").exists())
+        doc = self.venues_file()
+        self.assertEqual(doc["status"], "partial")
+        self.assertEqual(sorted(doc["stale"]), ["fc-a", "fc-b", "fc-c"])
+        self.assertEqual(doc["oldest"], OLD, "a dead site may not stamp itself fresh")
+        self.assertEqual([v["id"] for v in doc["venues"]], ["fc-a", "fc-b", "fc-c"])
 
 
 class SummaryLineTest(unittest.TestCase):
@@ -450,22 +456,26 @@ class ConfirmedEmptyTest(RunSiteHarness):
         self.assertEqual(self.venues_file()["status"], "ok")
         self.assertEqual(self.area("fc-b")["shows"], [])
 
-    def test_pending_beside_an_unexplained_venue_with_no_live_one_writes_no_provider_file(self):
+    def test_pending_beside_an_unexplained_venue_with_no_live_one_is_partial(self):
         """Two venues confirmed empty and one the adapter did not report: part of the site
-        is unexplained, so nothing is stamped fresh at provider level."""
+        is unexplained, so it is recorded as partial and `oldest` stays the old one."""
         self.seed_previous("fc-b")
         mod = ConfirmedModule({"fc-a": [], "fc-c": []})
         live, _, stale, unverified, pending = self.run_site(mod)
         self.assertEqual((live, stale, sorted(pending)), (0, ["fc-b"], ["fc-a", "fc-c"]))
-        self.assertFalse((self.out / "venues-fakechain.json").exists())
+        doc = self.venues_file()
+        self.assertEqual((doc["status"], doc["stale"], sorted(doc["pending"])),
+                         ("partial", ["fc-b"], ["fc-a", "fc-c"]))
+        self.assertEqual(doc["oldest"], OLD)
         self.assertEqual(self.area("fc-b")["generated"], OLD)
 
-    def test_an_unconfirmed_empty_single_venue_site_writes_no_provider_file(self):
+    def test_an_unconfirmed_empty_single_venue_site_is_partial(self):
         one = {**SITE, "venues": SITE["venues"][:1]}
         self.seed_previous("fc-a")
         live, _, stale, unverified, pending = self.run_site(FakeModule({"fc-a": []}), site=one)
         self.assertEqual((live, stale, unverified, pending), (0, ["fc-a"], [], []))
-        self.assertFalse((self.out / "venues-fakechain.json").exists())
+        doc = self.venues_file()
+        self.assertEqual((doc["status"], doc["stale"], doc["oldest"]), ("partial", ["fc-a"], OLD))
         self.assertEqual(self.area("fc-a")["shows"][0]["title"], "Yesterday's Film")
 
     def test_a_touring_cinema_with_two_empty_towns_reads_ok_and_ages_on_its_live_venues(self):

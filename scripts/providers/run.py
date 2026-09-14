@@ -209,28 +209,36 @@ def run_site(mod, site, now, order=0):
             total += len(shows)
             print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
 
-    # Every venue, not just the fresh ones — see the module docstring. Written when at
-    # least one venue produced shows, or when the adapter confirmed every venue empty;
-    # a site that came back empty without that confirmation does not stamp a fresh
-    # `generated` and green the health line on total failure.
+    # Every venue, not just the fresh ones — see the module docstring. Written whatever
+    # the outcome, because this file is the site's health record and a site with no live
+    # venue is the case the record exists for. It used to be withheld unless a venue went
+    # live or the adapter confirmed every one empty, so a dead site could not stamp itself
+    # fresh; that also discarded the `stale` list just computed, and the previous file
+    # stayed on disk reading `status: ok` with an empty `stale`. Measured 2026-09-14: four
+    # Nexxo sites 403ed, six venues kept previous data, and all four provider files still
+    # read ok for the 5.7 h it took `oldest` to cross the client's STALE_H. `healthState`
+    # reads `stale` before age, so naming the venues is what makes that window degraded.
     #
     # `oldest` is the honest number and `generated` was not. `generated` says when this
     # file was written, which is now; the health line was reading it and calling the
     # whole provider fresh while one of its venues sat on week-old data. Taken from the
     # files on disk rather than from `stale`, so it cannot drift from what was
     # written. Same rule the combined city view already applies: a group is as fresh as
-    # its weakest member.
-    if live or confirmed_empty_site(site, pending):
-        stamps = [generated_of(OUT / f"area-{v['id']}.json") or now
-                  for v in site["venues"]
-                  if (OUT / f"area-{v['id']}.json").exists()]
-        common.write_json(OUT / f"venues-{site['provider']}.json",
-            {"generated": now, "oldest": min(stamps) if stamps else now,
-             "status": "partial" if (stale or unverified) else "ok",
-             "stale": stale, "unverified": unverified, "pending": pending,
-             "provider": site["provider"],
-             "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
-                        for v in site["venues"]]})
+    # its weakest member — and a site with nothing live keeps every previous stamp, so
+    # `oldest` goes on ageing here exactly as it did while the file was withheld.
+    #
+    # A fetch that raised never gets here: run_sites catches it, the site's files are
+    # untouched and its previous provider file stands.
+    stamps = [generated_of(OUT / f"area-{v['id']}.json") or now
+              for v in site["venues"]
+              if (OUT / f"area-{v['id']}.json").exists()]
+    common.write_json(OUT / f"venues-{site['provider']}.json",
+        {"generated": now, "oldest": min(stamps) if stamps else now,
+         "status": "partial" if (stale or unverified) else "ok",
+         "stale": stale, "unverified": unverified, "pending": pending,
+         "provider": site["provider"],
+         "venues": [{k: v[k] for k in ("id", "name", "short", "city")}
+                    for v in site["venues"]]})
     return live, total, stale, unverified, pending
 
 
