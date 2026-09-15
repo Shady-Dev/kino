@@ -316,21 +316,22 @@ class Held:
     """How much a run holds while it waits for an earlier site to be published.
 
     A global pool fetches ahead of the publication order, so results and captured log text
-    pile up behind the slowest early module. The worst case is every site fetched and none
-    published, and that is the whole half at once -- there is no smaller bound, because
-    blocking a worker until a permit frees can deadlock: the site the coordinator is waiting
-    for may be the one that cannot get a permit.
+    pile up behind the slowest early module. The shape of the worst case is every site
+    fetched and none published, which is the whole half at once; nothing in the code makes
+    it smaller, because blocking a worker until a permit frees can deadlock -- the site the
+    coordinator is waiting for may be the one that cannot get a permit.
 
-    **Measured instead, 2026-09-15.** The 48 cloud sites' committed schedules are 1.83 MB of
-    JSON over 71 venue files and 3,312 showtimes; held as the Python dicts a fetch returns
-    that is 5.45 MB, plus at most 1.72 MB of `_syn` that `strip_helpers` drops at
-    publication and about as much again in duplication across venues. Under 10 MB, against
-    a runner with 16 GB. Captured log text is capped separately, per site, by
-    `run.MAX_CAPTURE`.
+    **So this is a measurement, not a bound.** At the programme of 2026-09-15 the 48 cloud
+    sites' committed schedules are 1.83 MB of JSON over 71 venue files and 3,312 showtimes;
+    held as the Python dicts a fetch returns that is 5.45 MB, plus at most 1.72 MB of `_syn`
+    that `strip_helpers` drops at publication and about as much again in duplication across
+    venues, so under 10 MB against a runner's 16 GB. It scales with the cinemas and with the
+    length of their programmes, and both grow. Captured log text is the part that is
+    actually bounded, per site, by `run.MAX_CAPTURE`.
 
-    Sampled at every publication, which is when the queue is longest, and reported in
-    `logs/run-cloud.log` so the figure above is checked on every run rather than asserted
-    once.
+    Which is why this is sampled at every publication, when the queue is longest, and
+    reported in `logs/run-cloud.log`: the figure is re-measured on every run rather than
+    asserted once from one day's data.
     """
 
     def __init__(self, items):

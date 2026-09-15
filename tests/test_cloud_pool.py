@@ -618,12 +618,17 @@ class PageDerivedHostTest(CloudTestCase):
         """Fetches its own host, then one neither site declares."""
         elsewhere = ""
         extra = 1
+        swallow = False        # catch around the page-derived fetch, as adapters do
 
         def fetch_site(self, site):
             prov = site["provider"]
             common.fetch(f"{site['base']}/{prov}/own", cache=True)
             for n in range(self.extra):
-                common.fetch(f"{self.elsewhere}/{prov}/page{n}", cache=True)
+                try:
+                    common.fetch(f"{self.elsewhere}/{prov}/page{n}", cache=True)
+                except Exception:
+                    if not self.swallow:
+                        raise
             out = {v["id"]: [P.show(f"{prov} film")] for v in site["venues"]}
             for vid, shows in out.items():
                 for s in shows:
@@ -656,20 +661,70 @@ class PageDerivedHostTest(CloudTestCase):
         self.assertFalse(P.overlap(self.spans_on(h, 2, "a0"), self.spans_on(h, 2, "b0")),
                          "two modules read one undeclared host at the same time")
 
-    def test_the_wait_is_bounded_and_says_so_rather_than_deadlocking(self):
-        """Two adapters reading each other's hosts in opposite orders would deadlock a run
-        that waited forever, which is worse than reading one server twice in a minute. So
-        the claim gives up, goes ahead, and names both sites in the module's own log."""
+    PREV = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
+            "horizon": "2026-08-02",
+            "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+
+    def contended(self, **kw):
+        """A run where mod_a reaches the shared host first and holds it.
+
+        mod_a's own host answers at once and mod_b's takes a moment, so a0 claims host 2
+        before b0 asks for it; host 2 is slow, so a0 still holds it when b0 does.
+        -> (hosts, exit code, logs).
+        """
         saved = common.HOST_CLAIM_WAIT
         common.HOST_CLAIM_WAIT = 0.05
         self.addCleanup(lambda: setattr(common, "HOST_CLAIM_WAIT", saved))
-        h = self.hosts(3, delay=0.25)
-        code, logs = self.cloud(self.build(h, extra=3))
+        h = self.hosts(3, delay=0)
+        h.servers[1].delay = 0.3
+        h.servers[2].delay = 0.5
+        (self.out / "area-b0-0.json").write_text(json.dumps(self.PREV), encoding="utf-8")
+        code, logs = self.cloud(self.build(h, **kw))
+        return h, code, logs
+
+    def test_giving_up_on_a_claim_sends_no_request_at_all(self):
+        """The property the ceiling exists for. Going ahead after the wait was the first
+        answer and it was wrong: it dropped the guarantee exactly when the other site is
+        slow, which is when it matters, and a log line does not make two concurrent
+        requests at one cinema's server acceptable."""
+        h, _, _ = self.contended()
+        self.assertEqual(self.spans_on(h, 2, "b0"), [],
+                         "a request went to a host another site still held")
+        self.assertTrue(self.spans_on(h, 2, "a0"), "the holder never read it either")
+
+    def test_the_site_that_gave_up_fails_and_keeps_its_previous_data(self):
+        h, code, logs = self.contended()
+        self.assertEqual(code, 1)
+        self.assertIn("[b0] FAILED:", logs["mod_b"])
+        self.assertIn("sent nothing", logs["mod_b"])
+        self.assertIn("`reads`", logs["mod_b"])
+        self.assertEqual(json.loads((self.out / "area-b0-0.json").read_text()), self.PREV)
+        self.assertFalse((self.out / "venues-b0.json").exists())
+
+    def test_the_site_that_held_the_host_still_publishes(self):
+        """One site failing is one site failing, as with any other fetch failure."""
+        h, _, logs = self.contended()
+        self.assertRegex(logs["mod_a"], r"(?m)^exit=0\s*$")
+        self.assertTrue((self.out / "venues-a0.json").exists())
+
+    def test_an_adapter_that_swallows_the_refusal_still_fails_its_site(self):
+        """Several adapters catch broadly around their own fetches. Left to them, a
+        refused claim would become a partial publish: some pages read, one skipped, no
+        error anywhere. The refusal is re-raised when the site's fetch ends."""
+        h, code, logs = self.contended(swallow=True)
+        self.assertEqual(code, 1)
+        self.assertIn("[b0] FAILED:", logs["mod_b"])
+        self.assertEqual(self.spans_on(h, 2, "b0"), [])
+        self.assertEqual(json.loads((self.out / "area-b0-0.json").read_text()), self.PREV)
+
+    def test_nothing_waits_for_a_host_no_other_site_holds(self):
+        """The uncontended path, which is every host in the half today: claimed, read, and
+        released with no waiting at all."""
+        h = self.hosts(3, delay=0)
+        code, _ = self.cloud(self.build(h))
         self.assertEqual(code, 0)
-        said = [l for text in logs.values() for l in text.splitlines()
-                if "at once: waited" in l]
-        self.assertTrue(said, "nothing named the shared host")
-        self.assertIn("`reads`", said[0])
+        self.assertTrue(self.spans_on(h, 2, "a0"))
+        self.assertTrue(self.spans_on(h, 2, "b0"))
 
     def test_every_claim_is_released_when_its_site_finishes(self):
         """Held for the life of one site's fetch and no longer. A claim that outlived its

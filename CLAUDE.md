@@ -211,8 +211,10 @@ provider missing from it loses its venues, not just its label.
   read one after the other whichever field named it. A differing `base` is not evidence of
   an independent upstream; check where the requests actually go. A URL read out of a page
   cannot be declared, and `common.reading` claims whatever host a request reaches for the
-  life of that site's fetch -- one site at a time, but not one rate, so a `[http] ... at
-  once` line in a log is a `reads` entry waiting to be written.
+  life of that site's fetch: one site at a time, and a site that cannot get the claim
+  within `KINO_HOST_CLAIM_WAIT` **fails before sending anything** rather than reading a
+  host another site is still reading. A `read by ... and ... at once` line in a log is a
+  `reads` entry waiting to be written.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.

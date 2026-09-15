@@ -1728,10 +1728,11 @@ pages are refetched.
 
 A later `[run] http:` line reading a non-zero `revalidated (304)` is weaker evidence than
 it looks, and weaker than this first said: the counter is per module and per run, so it
-proves *some* entry was reused, not that these 42 were. What would settle it for these is
-`0 revalidated` against a run that reads the same film pages again -- Kinola's log names how
-many pages it read -- or a count that matches them. The counter as it stands cannot tell one
-entry from another.
+proves *some* entry was reused, not that these 42 were. Comparing it against the film-page
+count does not close the gap either -- that was the second answer here and it is no better,
+because neither number identifies an entry. Only URL-level evidence would, and there is no
+reason to build it: the forecast it would defend has been withdrawn, and what the cache
+does is visible in the aggregate line on every run anyway.
 
 **And revalidating would not save the time it was quoted for.** A conditional GET is still
 a request: `common.fetch` sends `If-None-Match`, the origin answers 304, the round trip

@@ -122,6 +122,7 @@ def reset_accounting():
         _scope_throttle.clear()
         _scope_hosts.clear()
         _hosts_all.clear()
+        _host_refused.clear()
         _diag_seen.clear()
     with _host_cv:
         _host_owner.clear()
@@ -146,14 +147,31 @@ def hosts_read(scope=None):
 # only sites of one module could overlap; the coordinator overlaps every module.
 #
 # So a fetch claims the host it is about to read, for as long as that site keeps reading it,
-# and a second site waits. **A bound and not a rate limit**: past HOST_CLAIM_WAIT the
-# request goes anyway, with one line naming both sites, because a pipeline that deadlocks on
-# two adapters reading each other's hosts in opposite orders would be worse than one that
-# reads a shared server twice inside a minute. That line is the signal to declare the host
-# in the site's `reads`, which turns this bound into the rate guarantee grouping gives.
+# and a second site waits. Past HOST_CLAIM_WAIT it **fails, before the request is sent**.
+#
+# Going ahead anyway was the first answer here and it was wrong: it dropped the guarantee at
+# exactly the moment it was needed, when the other site is slow, and a log line does not
+# make two concurrent requests at one cinema's server acceptable. Failing is also what the
+# rest of this pipeline does with a site it cannot read properly -- `run.py` keeps the
+# previous files, the health line ages, the log names the site, and everything else in the
+# run still publishes -- so there is nothing new to reason about.
+#
+# It does not deadlock. Two adapters holding each other's hosts both give up after the
+# ceiling, release what they held on the way out, and fail; the next run tries again. That
+# is bounded, unlike waiting forever, and visible, unlike going ahead.
 HOST_CLAIM_WAIT = float(os.environ.get("KINO_HOST_CLAIM_WAIT") or 60)
 _host_cv = threading.Condition()
 _host_owner = {}
+_host_refused = {}          # label -> the message of the claim it gave up on
+
+
+class HostBusy(RuntimeError):
+    """Another site was still reading this host when the claim gave up.
+
+    Raised before the request, so nothing is sent. The site fails, keeps its previous data
+    and says which two sites collided; the remedy is to name the host in one of their
+    `reads`, which moves the serialisation into the grouping where it costs nothing.
+    """
 
 
 @contextlib.contextmanager
@@ -166,51 +184,57 @@ def reading(label):
     """
     prev = getattr(_scopes, "owner", None)
     _scopes.owner = label
+    with _lock:
+        _host_refused.pop(label, None)
+    ok = False
     try:
         yield
+        ok = True
     finally:
         _scopes.owner = prev
         with _host_cv:
             for h in [h for h, o in _host_owner.items() if o == label]:
                 del _host_owner[h]
             _host_cv.notify_all()
+        with _lock:
+            refused = _host_refused.pop(label, None)
+    # An adapter that catches broadly around its own fetches would otherwise turn a refused
+    # claim into a partial publish: some pages read, one skipped, no error. The refusal is
+    # recorded when it is raised and re-raised here if the body swallowed it, so the site
+    # fails whatever the adapter did with the exception.
+    if ok and refused:
+        raise HostBusy(refused)
 
 
 def _claim(url):
     """Hold `url`'s host for this site until its fetch ends. -> the host, or "".
 
-    Records the host either way: the log's account of what a module read must not depend on
-    whether anything was contended.
+    Raises HostBusy, before anything is sent, when another site still holds it after
+    HOST_CLAIM_WAIT. The host is recorded as read only once the claim is held, so the log's
+    account of what a module read stays an account of requests it actually made.
     """
     host = urllib.parse.urlsplit(url).netloc
+    owner = getattr(_scopes, "owner", None)
+    if host and owner is not None:
+        with _host_cv:
+            held = _host_owner.get(host)
+            if held is not None and held != owner:
+                if not _host_cv.wait_for(
+                        lambda: _host_owner.get(host, owner) == owner, HOST_CLAIM_WAIT):
+                    why = (f"{host} is read by {owner} and {held} at once; waited "
+                           f"{HOST_CLAIM_WAIT:.0f}s for it and sent nothing. Name it in "
+                           f"one of their `reads` so the two sites are read one after the "
+                           f"other")
+                    with _lock:
+                        _host_refused[owner] = why
+                    raise HostBusy(why)
+            _host_owner[host] = owner
     if host:
         with _lock:
             _hosts_all.add(host)
             box = _scope_hosts.get(_scope())
             if box is not None:
                 box.add(host)
-    owner = getattr(_scopes, "owner", None)
-    if owner is None or not host:
-        return host
-    with _host_cv:
-        if _host_owner.get(host, owner) == owner:
-            _host_owner[host] = owner
-            return host
-        held = _host_owner[host]
-        if _host_cv.wait_for(lambda: _host_owner.get(host, owner) == owner,
-                             HOST_CLAIM_WAIT):
-            _host_owner[host] = owner
-            return host
-    # Said once per host and scope, like a refusal: this is a finding about the site's
-    # declarations, not an event that repeats usefully.
-    key = ("shared-host", _scope(), host)
-    with _lock:
-        if key in _diag_seen:
-            return host
-        _diag_seen.add(key)
-    print(f"[http] {host} is read by {owner} and {held} at once: waited "
-          f"{HOST_CLAIM_WAIT:.0f}s and went ahead. Name it in one of their `reads` so "
-          f"the two sites are read one after the other")
     return host
 
 

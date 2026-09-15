@@ -1339,15 +1339,21 @@ enrichment carry-forward, the stale/pending/unverified decision and the file wri
   module the run never reached has the abort and `exit=1` appended to its log, so a fatal
   cannot leave a previous `exit=0` standing and read as a success.
 
-**Buffered results: measured, 2026-09-15.** Ordered publication lets the pool fetch ahead,
-so a slow early module leaves later modules' schedules waiting in memory. The worst case is
-every site fetched and none published, and that is the whole cloud half at once: the 48
-sites' committed schedules are 1.83 MB of JSON over 71 venue files and 3,312 showtimes,
-which held as the Python dicts a fetch returns is **5.45 MB**, plus at most 1.72 MB of
-`_syn` that `strip_helpers` removes at publication and about as much again in duplication
-across venues -- **under 10 MB**. Captured log text is capped separately at 1 MiB a site.
-`logs/run-cloud.log` reports the peak actually held each run, so the figure is checked
-rather than asserted once.
+**Buffered results: measured at today's programme, 2026-09-15.** Ordered publication lets
+the pool fetch ahead, so a slow early module leaves later modules' schedules waiting in
+memory. The shape of the worst case is every site fetched and none published, which is the
+whole cloud half at once; the size of it is whatever the half's programme happens to be. At
+2026-09-15 that is 48 sites, 71 venue files, 3,312 showtimes, 1.83 MB of committed JSON --
+**5.45 MB** held as the Python dicts a fetch returns, plus at most 1.72 MB of `_syn` that
+`strip_helpers` removes at publication and about as much again in duplication across
+venues, so under 10 MB against a runner's 16 GB.
+
+**That is an estimate of today, not a bound.** It scales with the number of cinemas and the
+length of their programmes, both of which grow, and nothing in the code caps it -- a
+blocking permit would deadlock, since the site the coordinator is waiting for may be the one
+that cannot get one. What makes the figure honest is that `logs/run-cloud.log` reports the
+peak actually held on every run, so it is re-measured rather than asserted once. Captured
+log text is the part that *is* bounded, at 1 MiB a site.
 
 **The host audit, done before the overlap was enabled.** Every cloud adapter was read for
 the hosts it can request, its module-level mutable state, its threads and its writes. None
@@ -1384,11 +1390,22 @@ new. Three things carry it now.
   party's markup answering on one day, not a property of the code.
 - **Claimed at run time.** `common.reading` claims whatever host a fetch actually goes to,
   for as long as that site keeps reading it, so an undeclared shared host is read by one
-  site at a time whatever the href said. **A bound and not a rate limit**: past
-  `HOST_CLAIM_WAIT`, 60 s by default, the request goes ahead and one line names both sites,
-  because two adapters reading each other's hosts in opposite orders would otherwise
-  deadlock the run. That line is the signal to declare the host in `reads`, which turns the
-  bound into the grouping's rate guarantee.
+  site at a time whatever the href said. A site that cannot get the claim within
+  `HOST_CLAIM_WAIT`, 60 s by default, **fails before the request is sent**: `HostBusy`,
+  raised ahead of the socket, the previous files kept, and both sites named. That line is
+  the signal to declare the host in `reads`, which moves the serialisation into the
+  grouping where it costs nothing.
+
+  **Going ahead after the wait was the first answer here and it was wrong.** It dropped the
+  guarantee at exactly the moment it was needed -- when the other site is slow -- and a log
+  line does not make two concurrent requests at one cinema's server acceptable. Failing is
+  what the rest of the pipeline already does with a site it cannot read properly, so there
+  is nothing new to reason about, and it does not deadlock either: two adapters holding each
+  other's hosts both give up at the ceiling, release on the way out and fail, which is
+  bounded where waiting is not and visible where proceeding is not. An adapter that catches
+  broadly around its own fetches would have turned a refusal into a partial publish, so the
+  refusal is recorded when raised and re-raised when the site's fetch ends, whatever the
+  adapter did with the exception.
 
 Every module's log now ends with the hosts it actually read, so a collision appears in the
 committed record instead of being argued about.
@@ -1405,11 +1422,11 @@ and eight writing identical files and identical logs. That is equivalence and is
 a speedup: a localhost server with a 50 ms delay is not eTiketti. The production figure
 waits for an ordinary scheduled run, and the open item is in `IDEAS.md`.
 
-Tests: `tests/test_cloud_pool.py`, 53, reusing `test_run_pool`'s local HTTP servers because
+Tests: `tests/test_cloud_pool.py`, 57, reusing `test_run_pool`'s local HTTP servers because
 overlap is the property under test and a mock would encode the answer. Two modules on one
 undeclared host are shown not to overlap on it while overlapping on the hosts they do
 declare, which is the control that keeps the first assertion meaningful, and the ceiling is
-shown to give up and say so rather than wait forever. 25 mutations, all red; one survived
+shown to send nothing at all when it gives up. 29 mutations, all red; one survived
 first -- releasing a site before the exception it died on is recorded, which a real run
 never reproduces because the coordinator is not scheduled inside those few bytecodes, so it
 is asserted directly on `read_host` instead of through the pool.

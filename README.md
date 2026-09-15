@@ -194,10 +194,11 @@ The host a visitor is sent to can differ and belongs in `site`.
 
 A URL read out of a page cannot be declared in advance, and four adapters fetch
 one. `common.reading` claims whatever host a request actually goes to for as
-long as that site keeps reading it, so an undeclared shared host is still read
-by one site at a time; past `KINO_HOST_CLAIM_WAIT` the request goes ahead with a
-line in the log naming both sites, which is the signal to add the host to
-`reads`. Every module's log ends with the hosts it read.
+long as that site keeps reading it, so an undeclared shared host is read by one
+site at a time. Past `KINO_HOST_CLAIM_WAIT` the site **fails before sending the
+request**, keeping its previous data like any other fetch failure, and names the
+two sites that collided; the remedy is to add the host to `reads`. Every
+module's log ends with the hosts it read.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
 eTiketti or Vista with its public XML services open needs a `SITES` entry
