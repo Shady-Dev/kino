@@ -27,9 +27,11 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-54 providers, 99 venues, 68 cities declared as of 2026-09-15. Thirteen venues are
-committed and unpublished: no run has fetched any of them. Check for an existing platform
-first. Every candidate assessed on 2026-09-15, with its evidence, is in
+54 providers, 99 venues, 68 cities declared as of 2026-09-15. Committed and unpublished:
+13 venues across 12 providers on 9 adapters, and no run has fetched any of them. The three
+counts differ and are not interchangeable: Kuvakukko is one provider with two venues, and
+TMB is one adapter serving four providers. Check for an existing platform first. Every
+candidate assessed on 2026-09-15, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
@@ -211,10 +213,13 @@ run fetches them:
 | mirrored poster files | 1041 |
 | `sw.js` CACHE | `leffavuoro-v166` |
 
-Thirteen venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas
-(Akaa, Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino
-Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä), Kino Kirkkonummi, Bio
-Savoy (Mariehamn) and Cine Mäntsälä (Mäntsälä). Hyvinkää and Kuopio were already covered,
+Declared and unpublished, measured at this tree: **13 venues, 12 providers, 9 adapters**.
+Kuvakukko is one provider with two venues and TMB one adapter with four providers, so the
+three figures are kept apart rather than restated as one. The venues are Iso-Hannu (Rauma),
+the four TMB cinemas (Akaa, Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää),
+Bio-Kaari (Forssa), Kino Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä),
+Kino Kirkkonummi, Bio Savoy (Mariehamn) and Cine Mäntsälä (Mäntsälä). Hyvinkää and Kuopio
+were already covered,
 so the first run that fetches them adds eleven cities and thirteen venues; Hyvinkää and
 Kuopio would each reach two venues and gain a city page, taking the pages to 113 per
 language and the sitemap to 227 if every one publishes. Those are predictions, not

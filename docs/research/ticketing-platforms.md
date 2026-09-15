@@ -721,11 +721,12 @@ anchors and `#/movie/{movie_id}` film links, and for all four of that day's scre
 `allow_reservations` and `sold_out`, plus `rating_name`, `running_time`, `audio_lang`,
 `subtitle_lang`, `screen_name` and `premiere`.
 
-**What is still unknown.** Whether `getShowDates` is the whole programme. It is the list
-the app itself offers, which is the visitor standard this repo reads to, but nothing found
-declares a horizon. The host serves no `robots.txt`: that path answers 200 with the SPA's
-own not-found screen, the soft-404 shape that would have reported ten false hits in the
-Vista sweep.
+**Coverage: settled, and not an open question.** `getShowDates` is the date list the app
+offers an ordinary visitor, which is the coverage standard this repo reads to, so whether
+some larger undisclosed programme exists behind it is not a gap to chase. Nothing found
+declares a horizon and nothing needs to. The host serves no `robots.txt`: that path answers
+200 with the SPA's own not-found screen, the soft-404 shape that would have reported ten
+false hits in the Vista sweep.
 
 - Cine is already a provider here and Mäntsälä is a venue it does not carry.
 
@@ -756,8 +757,9 @@ Cine Mäntsälä's source question is answered as of 2026-09-15: read `show_time
 JSON-LD. The adapter was written the same day, `scripts/providers/cinemantsala.py`, and the
 decisions it rests on are in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). It is committed and
-unpublished until a cloud run fetches it. **Next action:** none here; what is left is one
-open question above, whether `getShowDates` is the whole programme.
+unpublished until a cloud run fetches it. **Next action:** none. Reading the visitor's own
+date list meets the coverage standard, so this investigation is closed rather than
+waiting on anything.
 
 ---
 
