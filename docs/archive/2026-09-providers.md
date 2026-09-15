@@ -1588,3 +1588,34 @@ expecting zero rows.
   site had nothing else to publish, and a budget refusal that a cap would also have
   failed. The fixtures were rewritten, not the assertions.
 - **Not yet published.** Declared counts move to 56 providers, 101 venues, 69 cities.
+
+**Completed the same day: the two safeguards the first pass only half-built.**
+
+- **The precedence is implemented, not assumed.** `classify` consulted the override before
+  the labels already, but nothing proved it mattered, because every exclusion fixture used
+  a plain film page. A billed live act whose page fills `Ohjaus` and `Lajityyppi` publishes
+  by default, and that is now a fixture: the classifier reaches `film` on it, the exclusion
+  withholds it, and the test asserts both halves so the precedence cannot quietly invert.
+  A concert film and a film whose synopsis mentions a concert are unaffected, since an
+  exclusion is scoped to one page and no keyword is read.
+- **Three states, and only two of them a runtime verdict.** `film` and `unresolved` are
+  what the classifier can reach; `non-film` is reachable only through an evidence-backed
+  exclusion. The run log now says "confirmed non-film by evidence-backed exclusion" of
+  those and counts them apart from unresolved entries, because the two are different
+  claims and only the first is a person's. The eleven live acts at Laika stay
+  **unresolved**, not confirmed: no exclusion is needed for them, since the classifier
+  omits them already, and recording one would be redundant by the definition below.
+- **Revalidation moved out of the tests and into the run.** The first pass had a redundancy
+  helper that lived in the test file and re-stated the rule it was checking, so it could
+  only prove decision semantics against a fixed fixture. `override_state` now scores every
+  entry in the file against the page as it stands: `active`, `redundant`, or
+  `evidence-unavailable`, one log line each. An entry is scored even when its event has
+  left the programme, which is how the third state is reached and why it is not the second:
+  a film going off programme proves nothing about whether its override is still needed, so
+  nothing is dropped on that basis.
+- Measured live 2026-09-15 after the change: Laika's own entry reports `active`, and the
+  omission line reads 0 confirmed non-films over 0 screenings against 11 unresolved over
+  12.
+- Tests: 82 in the file, up from 72. Ten further mutations, all red; one was void first
+  because `parse` never separates a vanished event from an unread page, so the `listed`
+  parameter was only reachable from a direct call and is now tested there.

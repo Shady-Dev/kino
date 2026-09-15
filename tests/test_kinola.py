@@ -158,6 +158,15 @@ LABELLED_RUNTIME_ONLY = kilta_film(director="", genre="", lang="", subs="",
 RATING_ONLY_IN_THE_SYNOPSIS = laika_film(
     head="87 min", syn=("Elokuva esitettiin aikoinaan K-12 ikärajalla ja se on sittemmin "
                         "luokiteltu uudelleen, mistä kertoo tämä pitkä kuvausteksti."))
+# A billed live act whose page fills the generic fields. Nothing at run time can tell it
+# from a film, which is the whole reason the policy gives an exclusion precedence over
+# generic metadata rather than asking the classifier to be cleverer.
+LIVE_ACT_WITH_METADATA = kilta_film(
+    director="Arppa", genre="Konsertti", lang="suomi", subs="", dur="130 min",
+    rating="K-18",
+    syn=("Arppa - Akustisesti saleissa. Arppa lähtee syksyllä konserttisalikiertueelle "
+         "ennen keväälle ajoittuvaa keikkataukoaan, ja lavalla kuullaan tuotantoa "
+         "kaikilta levyiltä yhtyeen kanssa."))
 SYNOPSIS_MENTIONS_CONCERT = kilta_film(
     director="Klaus Härö", genre="Draama",
     syn=("Elokuvan käännekohta on konsertti jossa päähenkilöt kohtaavat, ja siitä "
@@ -276,14 +285,16 @@ class LabelsTest(unittest.TestCase):
 
 class ClassifyTest(unittest.TestCase):
     def one(self, page):
-        return K.classify("kinolaika", "s", K.film_facts(page), {})
+        """-> (publish, state), dropping the default the caller does not need here."""
+        publish, state, _ = K.classify("kinolaika", "s", K.film_facts(page), {})
+        return publish, state
 
     def test_a_labelled_director_is_film_evidence(self):
-        self.assertEqual(self.one(laika_film(director="Klaus Härö")), (True, "film"))
+        self.assertEqual(self.one(laika_film(director="Klaus Härö")), (True, K.FILM))
 
     def test_a_labelled_genre_is_film_evidence(self):
         self.assertEqual(self.one(kilta_film(director="", genre="Draama")),
-                         (True, "film"))
+                         (True, K.FILM))
 
     def test_a_runtime_and_a_classification_are_not_film_evidence(self):
         """The trap the policy was corrected for. Arppa is 130 min and K-18 with no
@@ -291,11 +302,11 @@ class ClassifyTest(unittest.TestCase):
         facts = K.film_facts(LIVE_ACT)
         self.assertEqual(facts["len"], "130")
         self.assertEqual(facts["rating"], "K-18")
-        self.assertEqual(K.classify("kinolaika", "arppa", facts, {}),
-                         (False, "unresolved"))
+        self.assertEqual(K.classify("kinolaika", "arppa", facts, {})[:2],
+                         (False, K.UNRESOLVED))
 
     def test_a_film_whose_page_fills_no_field_is_unresolved_not_a_non_film(self):
-        self.assertEqual(self.one(SPARSE_FILM), (False, "unresolved"))
+        self.assertEqual(self.one(SPARSE_FILM), (False, K.UNRESOLVED))
 
     def test_a_labelled_runtime_on_its_own_is_still_not_film_evidence(self):
         """Conflicting metadata, and the shape a classifier could most easily get wrong:
@@ -305,19 +316,59 @@ class ClassifyTest(unittest.TestCase):
         facts = K.film_facts(LABELLED_RUNTIME_ONLY)
         self.assertEqual(facts["labels"].get("kesto"), "130 min")
         self.assertEqual(facts["rating"], "K-18")
-        self.assertEqual(K.classify("kinokilta", "x", facts, {}), (False, "unresolved"))
+        self.assertEqual(K.classify("kinokilta", "x", facts, {})[:2],
+                         (False, K.UNRESOLVED))
 
     def test_a_concert_film_publishes(self):
-        self.assertEqual(self.one(CONCERT_FILM), (True, "film"))
+        self.assertEqual(self.one(CONCERT_FILM), (True, K.FILM))
 
     def test_a_synopsis_mentioning_a_concert_does_not_withhold_the_film(self):
-        self.assertEqual(self.one(SYNOPSIS_MENTIONS_CONCERT), (True, "film"))
+        self.assertEqual(self.one(SYNOPSIS_MENTIONS_CONCERT), (True, K.FILM))
+
+    def test_a_billed_live_act_that_fills_the_generic_fields_publishes_by_default(self):
+        """The gap the precedence exists to close. Nothing at run time separates this page
+        from a film: it names a director and a genre like any other."""
+        facts = K.film_facts(LIVE_ACT_WITH_METADATA)
+        self.assertEqual(facts["labels"].get("ohjaaja"), "Arppa")
+        self.assertEqual(facts["genres"], "Konsertti")
+        self.assertEqual(K.default_state(facts), K.FILM)
+        self.assertEqual(self.one(LIVE_ACT_WITH_METADATA), (True, K.FILM))
+
+    def test_an_exclusion_beats_the_generic_metadata_on_that_same_page(self):
+        """The adopted precedence: explicit event-level evidence of a live act prevents
+        automatic inclusion even where generic metadata is present."""
+        o = {("kinolaika", "arppa"): {"action": "exclude"}}
+        publish, state, default = K.classify("kinolaika", "arppa",
+                                             K.film_facts(LIVE_ACT_WITH_METADATA), o)
+        self.assertFalse(publish)
+        self.assertEqual(state, K.NON_FILM)
+        self.assertEqual(default, K.FILM, "the classifier would have published it")
+
+    def test_a_concert_film_is_not_touched_by_that_precedence(self):
+        """The exclusion is scoped to one page. A concert film keeps publishing, and so
+        does a film whose synopsis mentions a concert, because neither is named."""
+        o = {("kinolaika", "arppa"): {"action": "exclude"}}
+        for slug, page in (("oasis", CONCERT_FILM),
+                           ("hetki", SYNOPSIS_MENTIONS_CONCERT)):
+            with self.subTest(slug=slug):
+                publish, state, _ = K.classify("kinolaika", slug, K.film_facts(page), o)
+                self.assertTrue(publish)
+                self.assertEqual(state, K.FILM)
+
+    def test_the_classifier_never_returns_non_film_on_its_own(self):
+        """`non-film` is an assertion a person makes on evidence. Nothing on these pages
+        lets the runtime make it, and a word in a title or synopsis must not."""
+        for page in (LIVE_ACT, LIVE_ACT_WITH_METADATA, SPARSE_FILM, CONCERT_FILM,
+                     LABELLED_RUNTIME_ONLY, SYNOPSIS_MENTIONS_CONCERT):
+            self.assertIn(K.default_state(K.film_facts(page)),
+                          (K.FILM, K.UNRESOLVED))
+            self.assertNotEqual(K.default_state(K.film_facts(page)), K.NON_FILM)
 
     def test_the_word_konsertti_in_a_live_acts_page_is_not_what_withholds_it(self):
         """Proof that no keyword is doing the work: strip every mention and the verdict
         is unchanged, because the absence of a labelled field is the whole rule."""
         page = LIVE_ACT.replace("konserttisalikiertueelle", "kiertueelle")
-        self.assertEqual(self.one(page), (False, "unresolved"))
+        self.assertEqual(self.one(page), (False, K.UNRESOLVED))
 
 
 class FilmFactsTest(unittest.TestCase):
@@ -379,15 +430,17 @@ class OverrideTest(unittest.TestCase):
 
     def test_an_include_override_publishes_a_film_the_classifier_leaves_unresolved(self):
         o = {("kinolaika", "fox"): {"action": "include"}}
-        self.assertEqual(K.classify("kinolaika", "fox", self.facts(SPARSE_FILM), o),
-                         (True, "override:include"))
+        publish, state, default = K.classify("kinolaika", "fox",
+                                             self.facts(SPARSE_FILM), o)
+        self.assertEqual((publish, state, default), (True, K.FILM, K.UNRESOLVED))
 
     def test_an_exclude_override_withholds_an_event_the_classifier_would_publish(self):
         """The direction the proposed guard would have forbidden: an override is needed
         precisely because the default includes wrongly."""
         o = {("kinokilta", "gig"): {"action": "exclude"}}
-        self.assertEqual(K.classify("kinokilta", "gig", self.facts(kilta_film()), o),
-                         (False, "override:exclude"))
+        publish, state, default = K.classify("kinokilta", "gig",
+                                             self.facts(kilta_film()), o)
+        self.assertEqual((publish, state, default), (False, K.NON_FILM, K.FILM))
 
     def test_the_override_is_consulted_before_the_classifier(self):
         """Both directions disagree with the default, so neither verdict can come from
@@ -448,39 +501,92 @@ class ShippedOverridesTest(unittest.TestCase):
                          ("kinolaika", "include"))
         self.assertIn("dokumenttielokuva", entry["evidence"])
 
+    def test_whether_an_entry_is_still_needed_is_not_asserted_here(self):
+        """Deliberately absent. Whether a shipped override still changes the decision
+        depends on the source page as it stands, which only a run can see, so
+        `override_state` scores it there and the log carries the answer. A fixture
+        standing in for the page would prove the fixture, not the entry."""
+        self.assertTrue(hasattr(K, "override_state"))
 
-class RedundantOverrideTest(unittest.TestCase):
-    """The guard the policy asks for: an override that does not change the default.
 
-    Aimed at the decision and not at the page. An `include` whose page already classifies
-    as a film is redundant; an `exclude` whose page classifies as a film is **not**, which
-    is the case the first version of this guard would have rejected.
+class OverrideRevalidationTest(unittest.TestCase):
+    """`override_state` is the revalidation, and it runs in the adapter rather than here.
+
+    The helper this replaced lived in the test file and re-stated the rule it was meant to
+    check, so it could only prove decision semantics. This scores an entry against the
+    page as it stands, which is the question that matters as the source changes: is this
+    override still doing anything.
     """
 
-    @staticmethod
-    def redundant(action, publishes_by_default):
-        return (action == "include" and publishes_by_default) or \
-               (action == "exclude" and not publishes_by_default)
+    FILM_PAGE = K.film_facts(kilta_film())
+    SPARSE_PAGE = K.film_facts(SPARSE_FILM)
+    GIG_PAGE = K.film_facts(LIVE_ACT_WITH_METADATA)
 
-    def test_an_include_for_a_page_that_already_classifies_is_redundant(self):
-        self.assertTrue(self.redundant("include", True))
+    def state(self, action, facts, listed=True, read=True):
+        return K.override_state({"action": action},
+                                K.default_state(facts) if facts else K.UNRESOLVED,
+                                listed, read)
 
-    def test_an_exclude_for_a_page_that_classifies_is_not_redundant(self):
-        self.assertFalse(self.redundant("exclude", True))
+    def test_an_include_is_active_while_the_page_fills_no_field(self):
+        self.assertEqual(self.state("include", self.SPARSE_PAGE), K.ACTIVE)
 
-    def test_an_include_for_an_unresolved_page_is_not_redundant(self):
-        self.assertFalse(self.redundant("include", False))
+    def test_an_include_turns_redundant_once_the_page_names_a_director(self):
+        """The case the policy wants surfaced: the cinema filled the field in, so the
+        entry is no longer carrying the decision."""
+        self.assertEqual(self.state("include", self.FILM_PAGE), K.REDUNDANT)
 
-    def test_an_exclude_for_an_unresolved_page_is_redundant(self):
-        self.assertTrue(self.redundant("exclude", False))
+    def test_an_exclude_is_active_while_the_page_still_classifies_as_a_film(self):
+        """A billed gig that fills the generic fields. The exclusion is the only thing
+        withholding it, so it is doing all the work."""
+        self.assertEqual(self.state("exclude", self.GIG_PAGE), K.ACTIVE)
+        self.assertEqual(K.default_state(self.GIG_PAGE), K.FILM)
 
-    def test_the_shipped_entry_changes_the_default_decision(self):
-        """Measured against the fixture that stands in for its page: no labelled field,
-        so the classifier leaves it unresolved and the include is doing work."""
-        default = K.classify("kinolaika", "a-fox-under-a-pink-moon",
-                             K.film_facts(SPARSE_FILM), {})[0]
-        self.assertFalse(default)
-        self.assertFalse(self.redundant("include", default))
+    def test_an_exclude_turns_redundant_once_the_page_stops_classifying(self):
+        self.assertEqual(self.state("exclude", self.SPARSE_PAGE), K.REDUNDANT)
+
+    def test_an_event_absent_from_the_listing_is_unavailable_not_redundant(self):
+        """A film off programme proves nothing about whether its override is needed.
+        Treating that as redundancy would delete a still-needed entry."""
+        for action in ("include", "exclude"):
+            with self.subTest(action=action):
+                self.assertEqual(self.state(action, None, listed=False, read=False),
+                                 K.UNAVAILABLE)
+
+    def test_a_page_that_was_not_read_is_unavailable_even_when_the_event_is_listed(self):
+        self.assertEqual(self.state("include", None, listed=True, read=False),
+                         K.UNAVAILABLE)
+
+    def test_an_unlisted_event_is_unavailable_even_when_its_page_was_read(self):
+        """The mirror of the case above, and the reason `listed` is a parameter rather
+        than an inference from the page. Inside `parse` the two always move together,
+        because pages come from the listing's own slugs, so only this reaches it: a
+        cached or separately supplied page does not make a vanished event current."""
+        self.assertEqual(self.state("include", self.SPARSE_PAGE, listed=False,
+                                    read=True), K.UNAVAILABLE)
+        self.assertEqual(self.state("exclude", self.GIG_PAGE, listed=False,
+                                    read=True), K.UNAVAILABLE)
+
+    def test_unavailable_is_never_confused_with_either_verdict(self):
+        self.assertNotIn(K.UNAVAILABLE, (K.ACTIVE, K.REDUNDANT))
+
+    def test_every_entry_in_the_file_is_scored_even_when_its_film_is_gone(self):
+        """Scored from the override file, not from the listing, so an entry whose event
+        has left the programme is reported rather than quietly skipped."""
+        page = listing(laika_row("hetki", "Hetki ennen valoa"),
+                       laika_row("hetki", "Hetki ennen valoa", date="17/09/2026 16:00"))
+        _, om = K.parse(LAIKA, page, {"hetki": laika_film()},
+                        {("kinolaika", "gone"): {"action": "include"},
+                         ("kinolaika", "hetki"): {"action": "include"}})
+        self.assertEqual(om["overrides"],
+                         {"gone": K.UNAVAILABLE, "hetki": K.REDUNDANT})
+
+    def test_an_override_for_another_provider_is_not_scored_here(self):
+        page = listing(laika_row("hetki", "Hetki ennen valoa"),
+                       laika_row("oasis", "Oasis", date="18/09/2026 20:00"))
+        _, om = K.parse(LAIKA, page,
+                        {"hetki": laika_film(), "oasis": CONCERT_FILM},
+                        {("kinokilta", "hetki"): {"action": "exclude"}})
+        self.assertEqual(om["overrides"], {})
 
 
 # ---------------------------------------------------------------- parse and omissions
@@ -516,19 +622,36 @@ class ParseTest(unittest.TestCase):
         self.assertIs(oasis[0]["soldOut"], True)
         self.assertEqual(oasis[0]["url"], "https://www.kinolaika.fi/film/oasis/")
 
-    def test_the_omission_count_is_unique_films_and_screenings_split_by_reason(self):
+    def test_the_omission_count_is_unique_films_and_screenings_split_by_state(self):
         _, om = self.run_parse()
         self.assertEqual(om["unresolved_films"], {"Arppa"})
         self.assertEqual(om["unresolved_shows"], 2)
-        self.assertEqual(om["excluded_films"], set())
-        self.assertEqual(om["excluded_shows"], 0)
+        self.assertEqual(om["non_film_films"], set())
+        self.assertEqual(om["non_film_shows"], 0)
 
-    def test_a_force_exclude_is_counted_apart_from_an_unresolved_entry(self):
+    def test_a_confirmed_non_film_is_counted_apart_from_an_unresolved_entry(self):
+        """Two different claims. Only the first says a person judged it not a film."""
         _, om = self.run_parse({("kinolaika", "oasis"): {"action": "exclude"}})
-        self.assertEqual(om["excluded_films"], {"Oasis: Don't Look Back in Anger"})
-        self.assertEqual(om["excluded_shows"], 1)
+        self.assertEqual(om["non_film_films"], {"Oasis: Don't Look Back in Anger"})
+        self.assertEqual(om["non_film_shows"], 1)
         self.assertEqual(om["unresolved_films"], {"Arppa", "A Fox Under a Pink Moon"})
         self.assertEqual(om["unresolved_shows"], 3)
+
+    def test_an_excluded_live_act_with_metadata_is_a_confirmed_non_film(self):
+        """The precedence through parse: the page would classify as a film, the exclusion
+        withholds it, and the report says confirmed rather than unresolved."""
+        page = listing(laika_row("arppa", "Arppa"),
+                       laika_row("arppa", "Arppa", date="31/10/2026 19:00"),
+                       laika_row("hetki", "Hetki ennen valoa", date="17/09/2026 16:00"))
+        per, om = K.parse(LAIKA, page,
+                          {"arppa": LIVE_ACT_WITH_METADATA, "hetki": laika_film()},
+                          {("kinolaika", "arppa"): {"action": "exclude"}})
+        self.assertEqual([s["title"] for s in per["laika-karkkila"]],
+                         ["Hetki ennen valoa"])
+        self.assertEqual(om["non_film_films"], {"Arppa"})
+        self.assertEqual(om["non_film_shows"], 2)
+        self.assertEqual(om["unresolved_films"], set())
+        self.assertEqual(om["overrides"], {"arppa": K.ACTIVE})
 
     def test_the_same_film_at_the_same_minute_twice_is_one_row(self):
         """The listing has repeated a row before; the screening is the film and the
@@ -623,7 +746,8 @@ class RunnerTest(unittest.TestCase):
         laika = json.loads((run.OUT / "area-laika-karkkila.json").read_text())["shows"]
         self.assertEqual(len(kilta), 2)
         self.assertEqual([s["title"] for s in laika], ["Hetki ennen valoa"])
-        self.assertIn("omitted 1 unresolved film(s) over 1 screening(s)", log)
+        self.assertIn("0 confirmed non-film(s)", log)
+        self.assertIn("1 unresolved over 1", log)
         self.assertIn("unresolved: Arppa", log)
         self.assertIn("0 failures", log)
         for pid in ("kinokilta", "kinolaika"):

@@ -132,7 +132,10 @@ has to satisfy, not a description of anything that exists.
   alone. An age classification is not film evidence. No single field is assumed
   sufficient in advance.
 - Explicit event-level evidence of a live act prevents automatic inclusion even where
-  generic metadata is present.
+  generic metadata is present. **Built 2026-09-15**: the exclusion is consulted before the
+  labels, and the case is covered by a fixture of a billed live act whose page fills
+  `Ohjaus` and `Lajityyppi`, which publishes without one. The three states are `film` and
+  `unresolved`, both runtime verdicts, and `non-film`, which only an exclusion asserts.
 - Never classify from a keyword in the title or the synopsis alone, in either direction.
 
 **Overrides**
@@ -151,6 +154,10 @@ has to satisfy, not a description of anything that exists.
   change the default decision; the guard identifies those. An event that has left the
   programme, or a page that cannot be read, does **not** by itself prove an override
   redundant, so neither may be treated as grounds to drop one.
+  **Built 2026-09-15 as `kinola.override_state`**, scoring every entry on every run as
+  `active`, `redundant` or `evidence-unavailable` and logging one line each. It replaced a
+  first attempt that lived in the test file and could only prove decision semantics
+  against a fixed fixture, not that an entry is still needed as its source page changes.
 - *A Fox Under a Pink Moon* is a known candidate for an inclusion override if the
   validated predicate still leaves it unresolved. Its identity and its source page are
   verified before an entry is written, not assumed from this file.

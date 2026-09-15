@@ -22,6 +22,23 @@ Laika's own filter lists its concerts under "Kaikki elokuvat". So:
 - everything else is omitted, and the count is logged;
 - an override decides before the classifier runs, in either direction.
 
+**Three states, and only one of them a runtime decision.** `film` and `unresolved` are what
+the classifier can reach on its own. `non-film` is reachable **only** through a scoped,
+evidence-backed exclusion, because these pages carry no structural signal for a live act
+and reading a word out of a title or a synopsis is what the policy forbids. So the measured
+report says "confirmed non-film" of an exclusion and nothing else: the classifier never
+identifies a gig by itself, and this module does not pretend otherwise.
+
+**The precedence.** An exclusion beats generic metadata. A billed live act whose page fills
+`Ohjaus` or `Lajityyppi` would otherwise publish, and that is exactly the case an exclusion
+exists for, so the override is consulted before the labels are looked at rather than after.
+
+**Revalidation, at run time and for every entry.** Each override is scored against the page
+as it stands now: `active` when it changes the classifier's verdict, `redundant` when the
+classifier already reaches the same outcome, and `evidence-unavailable` when the event is
+not in the listing or its page was not read. The third is not the second: a film that has
+left the programme proves nothing about whether its override is still needed.
+
 **An age classification and a runtime are not film evidence.** This is the trap the policy
 was corrected for: Laika's billed live acts carry both. *Arppa* reads "130 min K-18" and
 *Livemusavisa* "120 min K-18", with no director and no genre. Only the labelled director
@@ -116,6 +133,12 @@ SITES = [
 # The label whose presence is film evidence. Not the runtime and not the classification:
 # see the module docstring, Laika's live acts carry both.
 FILM_LABELS = ("ohjaaja", "ohjaus", "lajityyppi")
+
+# The policy's three states. NON_FILM is never a runtime verdict; it is what an
+# evidence-backed exclusion asserts.
+FILM, NON_FILM, UNRESOLVED = "film", "non-film", "unresolved"
+# How an override stands against the page as it is now.
+ACTIVE, REDUNDANT, UNAVAILABLE = "active", "redundant", "evidence-unavailable"
 
 EVENT_RE = re.compile(r'class=["\']kinola-event["\']')
 TITLE_RE = re.compile(r'<a[^>]*class=["\']kinola-event-title["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>',
@@ -326,41 +349,88 @@ def load_overrides(path=None):
     return out
 
 
+def default_state(facts):
+    """-> FILM or UNRESOLVED: everything the classifier can say without help.
+
+    Never NON_FILM. Nothing on these pages marks a live act structurally, so a runtime
+    verdict of "this is not a film" would have to come from a word in a title or a
+    synopsis, which the policy forbids.
+    """
+    return FILM if any(facts["labels"].get(k) for k in FILM_LABELS) else UNRESOLVED
+
+
 def classify(provider, slug, facts, overrides):
-    """-> (publish, reason). The override is consulted first, so it decides rather than
-    argues with the classifier: a force-exclude exists precisely because the default
-    would include."""
+    """-> (publish, state, default).
+
+    `state` is the policy's verdict and `default` is what the classifier would have said
+    alone, which is what makes revalidation possible at all.
+
+    The override is consulted before the labels, which is the adopted precedence: explicit
+    event-level evidence of a live act prevents automatic inclusion even where generic
+    metadata is present. A billed gig whose page fills `Ohjaus` would publish otherwise.
+    """
+    d = default_state(facts)
     o = overrides.get((provider, slug))
     if o:
-        return o["action"] == "include", "override:" + o["action"]
-    if any(facts["labels"].get(k) for k in FILM_LABELS):
-        return True, "film"
-    return False, "unresolved"
+        return (True, FILM, d) if o["action"] == "include" else (False, NON_FILM, d)
+    return d == FILM, d, d
+
+
+def override_state(entry, default, listed, page_read):
+    """-> ACTIVE, REDUNDANT or UNAVAILABLE for one override, against the page as it is.
+
+    Redundancy is a statement about the decision: an `include` is redundant once the page
+    classifies as a film on its own, and an `exclude` is redundant once it does not. An
+    entry whose event is not in the listing, or whose page was not read, is neither active
+    nor redundant: the evidence for it is simply unavailable this run, and dropping it on
+    that basis would delete a still-needed override the first time a film went off
+    programme.
+    """
+    if not listed or not page_read:
+        return UNAVAILABLE
+    if entry["action"] == "include":
+        return REDUNDANT if default == FILM else ACTIVE
+    return ACTIVE if default == FILM else REDUNDANT
 
 
 def parse(site, listing, pages, overrides=None):
     """-> ({venue_id: [show]}, omissions). `pages` is {slug: film page html}.
 
     `omissions` counts what the policy left out, as unique films and as screenings, split
-    by why: a force-exclude override, or the classifier finding no film evidence.
+    by state: `non_film_*` is what an evidence-backed exclusion asserted, `unresolved_*`
+    what the classifier could not resolve. The two are never merged, because only the
+    first is a claim that something is not a film and only a person made it.
+
+    `om["overrides"]` scores every entry against the pages this run read: active,
+    redundant, or evidence-unavailable.
     """
     overrides = {} if overrides is None else overrides
     venue = site["venues"][0]
     rows = TEMPLATES[site["template"]](listing, site)
     facts_by_slug = {slug: film_facts(html) for slug, html in pages.items()}
+    listed = {e["slug"] for e in rows if e["slug"]}
     shows, seen = [], set()
-    om = {"excluded_films": set(), "excluded_shows": 0,
-          "unresolved_films": set(), "unresolved_shows": 0}
+    om = {"non_film_films": set(), "non_film_shows": 0,
+          "unresolved_films": set(), "unresolved_shows": 0, "overrides": {}}
+    # Every entry for this provider, not only the ones the listing happens to hold, so an
+    # override whose film has left the programme is reported rather than silently ignored.
+    for (pid, slug), entry in sorted(overrides.items()):
+        if pid != site["provider"]:
+            continue
+        facts = facts_by_slug.get(slug)
+        om["overrides"][slug] = override_state(
+            entry, default_state(facts) if facts else UNRESOLVED,
+            slug in listed, facts is not None)
     for e in rows:
         slug = e["slug"] or ""
         facts = facts_by_slug.get(slug) or {"labels": {}, "rating": "", "len": "",
                                             "genres": "", "img": "", "syn": "",
                                             "lang": ""}
-        publish, why = classify(site["provider"], slug, facts, overrides)
+        publish, state, _ = classify(site["provider"], slug, facts, overrides)
         if not publish:
-            if why == "override:exclude":
-                om["excluded_films"].add(e["title"])
-                om["excluded_shows"] += 1
+            if state == NON_FILM:
+                om["non_film_films"].add(e["title"])
+                om["non_film_shows"] += 1
             else:
                 om["unresolved_films"].add(e["title"])
                 om["unresolved_shows"] += 1
@@ -430,11 +500,19 @@ def fetch_site(site, sleep=1.2):
     shows = per_venue[site["venues"][0]["id"]]
     pid = site["provider"]
     print(f"[{pid}] {len(rows)} screening(s) listed, {len(slugs)} film page(s) read")
-    print(f"[{pid}] omitted {len(om['unresolved_films'])} unresolved film(s) over "
-          f"{om['unresolved_shows']} screening(s) and {len(om['excluded_films'])} "
-          f"force-excluded over {om['excluded_shows']}")
+    # The two omission classes are reported apart on purpose. "Confirmed non-film" says a
+    # person excluded it on recorded evidence; "unresolved" says the classifier could not
+    # tell, which is not the same claim and must not be dressed up as one.
+    print(f"[{pid}] omitted {len(om['non_film_films'])} confirmed non-film(s) by "
+          f"evidence-backed exclusion over {om['non_film_shows']} screening(s), and "
+          f"{len(om['unresolved_films'])} unresolved over {om['unresolved_shows']}")
+    if om["non_film_films"]:
+        print(f"[{pid}] confirmed non-film: "
+              f"{', '.join(sorted(om['non_film_films'])[:12])}")
     if om["unresolved_films"]:
         print(f"[{pid}] unresolved: {', '.join(sorted(om['unresolved_films'])[:12])}")
+    for slug, state in sorted(om["overrides"].items()):
+        print(f"[{pid}] override {slug}: {state}")
     if not shows:
         raise RuntimeError(
             f"{site['base']}{site['listing']} lists {len(rows)} screening(s) and none "
