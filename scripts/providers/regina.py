@@ -76,7 +76,12 @@ HEADERS = {"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
 VENUE = {"id": "regina-helsinki", "provider": "regina", "providerId": "1",
          "name": "Kino Regina", "short": "Kino Regina", "city": "Helsinki"}
 
-SITES = [{"provider": "regina", "label": "Kino Regina", "base": BASE, "venues": [VENUE]}]
+# `reads` names kauppa.kavi.fi because the price pass GETs TICKETS pages there, which
+# `base` does not cover. Found by the first run to carry the `[run] hosts:` line rather
+# than by reading the code: `logs/run-regina.log` on 2026-09-16 reported two hosts
+# attempted where the site declared one.
+SITES = [{"provider": "regina", "label": "Kino Regina", "base": BASE,
+          "reads": ("kauppa.kavi.fi",), "venues": [VENUE]}]
 
 # No EMPTY_VENUES_CONFIRMED here, on purpose: see the module docstring.
 

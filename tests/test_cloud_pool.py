@@ -289,6 +289,17 @@ class LiveSelectionTest(unittest.TestCase):
         self.assertIn("tickets.rivieracinemas.fi", run.hosts_of(riviera.SITES[0]))
         self.assertIn("www.rivieracinemas.fi", run.hosts_of(riviera.SITES[0]))
 
+    def test_every_site_that_reads_a_second_host_declares_it(self):
+        """The two in the registry, and how each was found: Riviera's ticket host by
+        reading the adapter, Kino Regina's by the first run that carried the hosts line
+        reporting two where the site declared one."""
+        import regina
+        import riviera
+        self.assertEqual(sorted(run.hosts_of(riviera.SITES[0])),
+                         ["tickets.rivieracinemas.fi", "www.rivieracinemas.fi"])
+        self.assertEqual(sorted(run.hosts_of(regina.SITES[0])),
+                         ["kauppa.kavi.fi", "kinoregina.fi"])
+
     def test_every_declared_host_is_one_a_module_could_reach(self):
         """`reads` is a claim about requests, so it may not name a host no adapter uses."""
         for it in self.cloud_items():
