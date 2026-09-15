@@ -753,7 +753,11 @@ Sun Kino is blocked on the Johku key. Bio Savoy was the highest-value of the thr
 new autonomous region, a source that needs no date inference and Swedish-language content
 for an interface that already has a Swedish mode; it was added on 2026-09-15 in `aec9ff4d`.
 Cine Mäntsälä's source question is answered as of 2026-09-15: read `show_times/`, never the
-JSON-LD. **Next action:** add the provider, one venue in Mäntsälä on a new adapter.
+JSON-LD. The adapter was written the same day, `scripts/providers/cinemantsala.py`, and the
+decisions it rests on are in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). It is committed and
+unpublished until a cloud run fetches it. **Next action:** none here; what is left is one
+open question above, whether `getShowDates` is the whole programme.
 
 ---
 

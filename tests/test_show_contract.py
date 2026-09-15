@@ -39,6 +39,7 @@ import test_vaakuna as V
 import test_kuvakukko as KK
 import test_kirkkonummi as KN
 import test_biosavoy as BS
+import test_cinemantsala as CM
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -209,6 +210,19 @@ def sample_biosavoy():
             [v["id"] for v in site["venues"]])
 
 
+def sample_cinemantsala():
+    """No `today` and no window: every row carries a UTC instant, and the sample is the
+    concatenation of two windows the way `fetch_site` assembles them."""
+    site = CM.cm.SITES[0]
+    rows = [CM.show(13394, "2026-09-15T13:45:00.000Z"),
+            CM.show(13391, "2026-09-15T14:00:00.000Z", mid=1013,
+                    title="Presidentin kyyditys", screen="Sali 2", rating="K12"),
+            CM.show(13233, "2026-12-01T16:30:00.000Z", mid=1003, title="Hamnet",
+                    rating="K16", audio="EN")]
+    return (mod("cinemantsala").parse(rows), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 def sample_kirkkonummi():
     """`today` pinned: the page publishes no year."""
     site = KN.kirkkonummi.SITES[0]
@@ -254,6 +268,7 @@ SAMPLES = {
     "julia": sample_julia, "biokaari": sample_biokaari,
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
+    "cinemantsala": sample_cinemantsala,
 }
 
 

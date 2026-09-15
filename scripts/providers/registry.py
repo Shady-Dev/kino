@@ -371,6 +371,25 @@ PROVIDERS = [
     # why the Finnish exonym would be the wrong key here.
     dict(id="biosavoy", label="Bio Savoy", host="biosavoy.ax", accent="#7766FF",
          book="door", module="biosavoy", where="cloud"),
+
+    # Cine Mäntsälä, Mäntsälä (2026-09-15). Separate from the `cine` entry above, which
+    # is kiertue.cine.fi in Kerava and Sipoo: this is its own MyCloudCinema deployment on
+    # its own host, with its own operator named in its own footer, and it runs on Actions
+    # while Cine is local. Same shape as BioRex against Bio Rex Kokkola, so the label
+    # spells the town out rather than leaving two rows both reading "Cine".
+    # Mäntsälä holds no other provider and sits in no REGIONS area, so this accent enters
+    # neither shared view. `accent_check.py --search cinemantsala` says exactly that:
+    # "shares no city or region with another chain, so its accent is unconstrained".
+    # Chosen anyway on the one hypothetical worth insuring against, Keski-Uusimaa being
+    # the area Mäntsälä would join if the areas were ever extended: of twelve candidates
+    # measured against that set this had the largest worst pair, 27.2 normal / 13.4
+    # Viénot / 13.2 Machado. Nothing reaches 14.4 there -- the area already holds twelve
+    # sub-threshold pairs of its own -- so the bar CLAUDE.md sets is not reachable in a
+    # view this colour does not currently enter, and no existing minimum moves.
+    # `book="buy"`: the site sells per-show tickets and each showtime links to the
+    # `#/book/{show_time_id}` anchor the programme itself emits.
+    dict(id="cinemantsala", label="Cine Mäntsälä", host="mantsala.cine.fi",
+         accent="#5B21B6", book="buy", module="cinemantsala", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

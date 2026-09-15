@@ -1340,3 +1340,75 @@ Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
 - Measured live before committing: 12 screenings, 10 films, 3 dates, both halls, and the
   destination fetched at 200 over http.
 - **Not yet published.** Declared counts move to 53 providers, 98 venues, 67 cities.
+
+### Cine Mäntsälä: MyCloudCinema read through the visitor's own requests (2026-09-15)
+
+Added as `scripts/providers/cinemantsala.py`, one provider, one venue in Mäntsälä. The
+investigation that unblocked it, including what was tried first and why it was wrong, is in
+[ticketing-platforms.md](../research/ticketing-platforms.md).
+
+- **The JSON-LD feed the page injects is the wrong source, twice over.**
+  `/webservices/structured_data/get` carries today only, 4 of the 37 screenings a visitor
+  reaches that week, and it drops the `Z` off a UTC instant, so reading its naive
+  `startDate` as a local time publishes every showtime three hours early. This was settled
+  by comparing the feed with `getShowTimes` for the same day: identical rows, identical
+  `show_time_id` values, one day's worth.
+- **Not a `SITES` entry on `gilda.py`, which reads the same platform.** Gilda has a
+  WordPress facade that returns the whole programme in one response; this site serves
+  MyCloudCinema's own `/webservices/show_times/` endpoints, one date window at a time. The
+  row shape *is* shared, so `FORMATS` and `LANG` are imported from that module and a test
+  asserts the identity, but the fetch has nothing in common. Third time this week that a
+  platform fingerprint turned out to be a lead rather than an adapter.
+- **`number_of_days` is a cap of 7, not a request.** Asked for 7, 14 and 120 from
+  2026-09-15 the endpoint returned the same 37 rows over six days, while a window from
+  2026-12-01 did reach 12-05. So `getShowDates` is walked and covered with as few seven-day
+  windows as it takes: 17 dates to 2026-12-22 took nine requests. Windows can overlap and a
+  repeated `show_time_id` is one screening.
+- **`show_date` is a UTC instant, not a date.** Local midnight arrives as the preceding
+  `21:00:00.000Z` through 2026-10-19 and `22:00:00.000Z` from 2026-11-02, tracking the
+  2026-10-25 DST change, so it is converted and never sliced. That mapping was checked
+  three ways against the programme: the first window's business date, `getShowTimes` on
+  2026-10-06, and the window from 2026-12-01. `business_date` on a screening row is the
+  *local* date stamped `T00:00:00.000Z`, a second convention in one payload, and nothing
+  reads it.
+- **A failed window fails the site.** These requests carry the schedule, so
+  `common.budget_or_raise`'s rule applies and half a programme is worse than none. A
+  window count over 30 is refused for the same reason: the count comes from the cinema's
+  own date list and nothing else bounds it.
+- **An empty date list is `EmptyProgramme`; dates with no screening is not.** The dates are
+  derived from the screenings, so a list of them beside an empty parse is the contradiction
+  CLAUDE.md names as the broken case, and it fails.
+- **The ticket link is read, not constructed.** The rendered programme emits one
+  `#/book/{id}` anchor per screening, and the 37 ids it emitted were exactly the 37
+  `show_time_id` values the window returned, as sets; the 2026-12-15 date route emitted
+  exactly the two this adapter publishes for that day. `#/book/13394` loaded once resolves
+  to the seat-selection page for that screening, which is how the destination was verified;
+  the booking flow is never called by the adapter.
+- Vocabulary, from 48 rows: `rating_name` is Finnish (`K7`, "Sallittu kaikenikäisille",
+  "Ikäraja tulossa!", "Luokittelematon"), `subtitle_lang` is a phrase rather than a code
+  ("Suomeksi ja ruotsiksi", "Ei"), and `title_extension` is the strand field, which
+  `strands.py` says belongs in `method`. Because the strand arrives in its own field,
+  nothing comes off the title and `EVENT_PREFIXES` is untouched.
+- `movie_audio_style_name` is "Original language" or "Dubbed" and is **not** published: all
+  five dubbed rows are Finnish-language children's films whose `audio_lang` is already
+  `FI`, so `lang` states it and a pill would repeat it.
+- Posters are `/media/posters/{movie_id}/{width}/{movie_poster}` and only widths 216 and
+  1080 exist; 300, 500, 720, 1024 and 2048 answer 404. 1080 is published, same as Gilda.
+- **Separate from the `cine` entry**, which is kiertue.cine.fi in Kerava and Sipoo: its own
+  host, its own operator, its own platform, and cloud where Cine is local. Same shape as
+  BioRex against Bio Rex Kokkola, so the label spells the town out.
+- Accent `#5B21B6`. `accent_check.py --search cinemantsala` reports it unconstrained:
+  Mäntsälä holds no other provider and sits in no `REGIONS` area. Chosen against the one
+  area Mäntsälä would join if the areas were extended, Keski-Uusimaa, where of twelve
+  measured candidates it had the largest worst pair at 27.2 normal / 13.4 Viénot / 13.2
+  Machado. Nothing reaches 14.4 there, the area already holding twelve sub-threshold pairs
+  of its own, so the bar is unreachable in a view this colour does not currently enter and
+  no existing minimum moves.
+- Tests: `tests/test_cinemantsala.py`, 60 tests, plus a contract sample. 24 mutations, all
+  24 red after two were void: a naive `show_date` fixture that a Helsinki machine resolved
+  to the same date as the good row, and a sort fixture that arrived already sorted. Both
+  fixtures were rewritten rather than the assertions.
+- Measured live before committing: 17 dates, 9 windows, 50 screenings to 2026-12-22, both
+  screens, `check_shows` clean, 50 distinct booking URLs, and offsets `+03:00` and `+02:00`
+  both present in one run, which is the DST conversion exercised by real data.
+- **Not yet published.** Declared counts move to 54 providers, 99 venues, 68 cities.
