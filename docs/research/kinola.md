@@ -1,8 +1,11 @@
 # Kinola: three templates, and telling a film from a concert
 
-Research notes for an adapter that does not exist yet, moved out of `IDEAS.md` on
-2026-09-14. Nothing here is built: there is no `scripts/providers/kinola.py`, re-checked
-2026-09-15, and no registry entry for Kilta, Laika or Konepaja.
+Research notes moved out of `IDEAS.md` on 2026-09-14, when nothing here was built.
+**The adapter shipped on 2026-09-15**, `scripts/providers/kinola.py`, for Kilta and Laika;
+Konepaja still has no registry entry. What it decided and what it measured are in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md) under "Kino Kilta and
+Kino Laika: the Kinola adapter, under the adopted policy". The findings below are as they
+were read and are not updated by it.
 
 **The publication policy was decided on 2026-09-15** and the decision, with the reasoning
 and the three corrections it made to the proposal below, is in
@@ -45,11 +48,11 @@ registered here.
 
 **Status and next step**
 
-Unbuilt. The classification question that used to gate it was settled on 2026-09-15; what
-is left is validation and then the adapter. Two template details carry forward as
-requirements: Kilta and Laika are candidates for **one** adapter with a separate handler
-per template, and the empty-programme reading for Konepaja is dated 2026-09-14 and has to
-be re-read before it is relied on.
+Built 2026-09-15 as one adapter with a handler per template, which is the shape this file
+proposed. Konepaja was re-read that day rather than relied on: it renders the filters and
+a "tulossa" grid of 44 film links, so a count of `kinola-event` occurrences looks like a
+programme, and its screening list says "Ei tulevia tapahtumia." The 2026-09-14 reading
+stands and it has no `SITES` entry.
 
 ---
 
@@ -107,11 +110,13 @@ one breaks a rule that reads plausible:
 
 Only the fourth is a non-film.
 
-**Status: policy adopted 2026-09-15, implementation not started.** Next action, in order:
-validate the structured-metadata predicate and the three templates against the fixtures
-and against the pages as they stand; measure what the policy omits; then write the adapter
-only when that is asked for. The requirements below are what it has to satisfy and are
-recorded rather than implemented.
+**Status: shipped 2026-09-15.** The predicate was validated over 65 film pages before the
+adapter was written, and it is the labelled director or genre field alone: a runtime and an
+age classification are not evidence, because Laika's live acts carry both. 53 pages
+publish, 12 carry no field, eleven of those are billed live acts and one is a film. What
+the policy omits was measured in films and in screenings and is in the archive entry. The
+requirements below were the build's contract; they are kept because they still describe
+what the adapter has to keep satisfying.
 
 ---
 

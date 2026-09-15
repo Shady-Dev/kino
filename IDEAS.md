@@ -44,19 +44,18 @@ existing platform first. Every candidate assessed on 2026-09-15, with its eviden
   MyCloudCinema's two readers, the Korttelikinot, Vista's one Finnish site, and the
   parser-shaped ones.
 
-### Kinola: policy adopted, implementation not started
+### Kinola: built, and Konepaja still has no programme
 
-Kilta and Laika publish films and concerts through one WordPress post type, so the film
-page is the only evidence there is. The publication policy was decided 2026-09-15:
-publish positively identified films including concert films, omit explicit live events
-and unresolved rows alike, never classify from a keyword, and allow evidence-backed
-force-include and force-exclude overrides applied before the classifier. The dated record
-is in [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md); the findings
-and the build requirements are in [docs/research/kinola.md](docs/research/kinola.md).
-**Next action:** validate the structured-metadata predicate and the three templates
-against the fixtures and the pages as they stand, measure what the policy omits as both
-unique events and screening counts, then write the adapter only when that is asked for.
-Konepaja stays out until its programme is re-read, and `orion.py` is not touched.
+Kino Kilta and Kino Laika ship as `kinola.py` under the policy adopted 2026-09-15. The
+classifier is the labelled director or genre field and nothing else: validated over 65
+film pages, 53 publish and 12 carry no field, of which eleven are billed live acts and one
+is a film, *A Fox Under a Pink Moon*, which is the override list's only entry. A runtime
+and an age classification are not evidence, because Laika's live acts carry both. Omitted
+on the day it was written, 11 films over 12 of 105 screenings, none force-excluded.
+Decisions and measurements:
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** nothing here. Kino Konepaja gets a `SITES` entry when it lists a
+screening: re-read 2026-09-15, its event list still says "Ei tulevia tapahtumia."
 
 ### Move the local fetch off the laptop
 
@@ -194,20 +193,20 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-15, fifteenth pass)
+## Documentation state (2026-09-15, sixteenth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-15 with data at `d216607b`, the run that published the
-thirteen waiting venues. Declared and committed now agree for the first time since the
-week's additions began, so there is no gap to state:
+Latest, re-measured 2026-09-15 after Kino Kilta and Kino Laika were added. The declared
+figures are the registry's and the adapters'; the committed ones are what `data/` holds at
+`e3b1f51b`, and the two disagree by the two venues no run has fetched yet:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 54 / 99 / 68 |
+| providers / venues / cities (declared) | 56 / 101 / 69 |
 | venues in committed data | 99 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
@@ -216,9 +215,15 @@ week's additions began, so there is no gap to state:
 | poster references (shows / films-extra) | 6322 (6046 / 276) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1122 |
-| `sw.js` CACHE | `leffavuoro-v167` |
+| `sw.js` CACHE | `leffavuoro-v168` |
 
-Nothing is declared and unpublished. **13 venues, 12 providers, 9 adapters** published in
+Two venues are declared and unpublished, Kino Kilta (Turku) and Kino Laika (Karkkila),
+both on the `kinola` adapter. Turku is already covered by Finnkino, so the first run that
+fetches them adds one city, Karkkila, and two venues; Turku reaches two venues and gains a
+city page, which will take the pages to 116 per language and the sitemap to 233 if both
+publish. Those are predictions, not measurements.
+
+The batch before them is published. **13 venues, 12 providers, 9 adapters** landed in
 `d216607b`: Iso-Hannu (Rauma), the four TMB cinemas (Akaa, Valkeakoski, Pieksämäki,
 Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino Vaakuna (Lohja), Kino Kuvakukko
 (Kuopio), Kino Manttu (Nilsiä), Kino Kirkkonummi, Bio Savoy (Mariehamn) and Cine Mäntsälä

@@ -1522,3 +1522,69 @@ four fixtures plus conflicting metadata and both override directions, one adapte
 Kilta and Laika with a handler per template, and `orion.py` left alone. Konepaja stays
 out: it listed no event on 2026-09-14 and that reading is dated, so it is re-read before
 it is carried forward, the same way Kino Kaustinen waits.
+
+### Kino Kilta and Kino Laika: the Kinola adapter, under the adopted policy (2026-09-15)
+
+Added as `scripts/providers/kinola.py`, two providers on one adapter with a handler per
+template, plus `scripts/providers/kinola-overrides.json`. The policy it implements was
+adopted earlier the same day; that record is "Kinola: the publication policy, adopted" and
+the findings are in [kinola.md](../research/kinola.md). `orion.py` reads the third Kinola
+template and is unchanged, which a test asserts by feeding it this module's markup and
+expecting zero rows.
+
+- **Konepaja is still out, re-read 2026-09-15.** `kinokonepaja.fi` renders the Kinola
+  filters and a "tulossa" grid of 44 film-page links, so a count of `kinola-event`
+  occurrences looks like a programme; its screening list says "Ei tulevia tapahtumia."
+  The dated 2026-09-14 finding therefore stands rather than being carried forward on
+  trust, and the site gets an entry when it lists a screening, as Kino Kaustinen will.
+- **The classifier is the labelled director or genre field, and nothing else.** Validated
+  against 65 distinct film pages that day: 53 carry `Ohjaaja`, `Ohjaus` or `Lajityyppi`
+  and publish; 12 carry none. Eleven of the twelve are billed live acts and one is a
+  genuine film.
+- **A runtime and an age classification are not evidence, and this is not theory.**
+  *Arppa* reads "130 min K-18" and *Livemusavisa* "120 min K-18", both with no director
+  and no genre. Either field counted as evidence would publish every gig in Karkkila as a
+  film. The correction the policy made on paper is the one the data demanded.
+- **One override, in the include direction:** *A Fox Under a Pink Moon* at Laika. Its page
+  fills no field but names the film in prose, "Esitettävänä elokuvana on Mehrdad Oskouen
+  dokumenttielokuva A Fox Under A Pink Moon (2025)", with 76 min and K-16 beside it.
+  Identity and source verified before the entry was written, as the requirements asked.
+  Overrides are scoped to a provider plus the site's own `/film/{slug}/` identifier, carry
+  action, reason, evidence and a verification date, and are applied before the classifier.
+- **The redundancy guard is on the decision, not the page.** An `include` whose page
+  already classifies is redundant; an `exclude` whose page classifies is not, and that is
+  the case the first draft of the guard would have rejected. Both directions are pinned by
+  tests.
+- **What the policy omits, measured** on 2026-09-15 as the requirements asked, in unique
+  films and in screenings: Kilta 58 screenings over 41 films with nothing omitted; Laika
+  47 over 24, of which 35 publish, 11 films over 12 screenings left unresolved and none
+  force-excluded. 93 of 105 screenings publish; the 12 withheld are 11.4% of the listing
+  and every one of them a live act.
+- **Sold-out screenings are kept**, with the film page's own href in place of the checkout
+  anchor Laika drops. All four sold-out rows that day were live acts, so no sold-out film
+  publishes yet and only a fixture reaches the case. A second fixture covers the sold-out
+  class appearing on the anchor rather than on a span, which neither site does today.
+- Two date formats, both carrying their year, so `common.resolve_year` is not used:
+  `TI 15.9.2026` on Kilta and `16/09/2026 14:00` on Laika. `+03:00` and `+02:00` both
+  appear in one run.
+- **Kilta's rating is the `alt` attribute and not the image beside it:** the site serves
+  `age-7.svg` next to `alt='Ikäraja: K-12'`. Laika's is bare text above the first
+  paragraph and is read from that bounded region, so a limit quoted in a synopsis is not
+  mistaken for the film's own. The two cinemas rate the same film differently, *Hetki
+  ennen valoa* being K-12 at Kilta and K-7 at Laika; each publishes its own page and
+  `enrich_tmdb` reports the disagreement.
+- `LANG` and the venue-blanking rule come from `gilda.py`; the block, row and cell
+  patterns are this module's own, as the research file predicted.
+- Accents: Kilta `#1D6F8B`, constrained by Finnkino in Turku and in Turun seutu and
+  measured at 52.3 normal / 53.7 Viénot / 49.1 Machado. Laika `#9A3412`, which
+  `accent_check.py --search` reports unconstrained, Karkkila holding no other provider and
+  sitting in no `REGIONS` area. The set's twelve sub-threshold region pairs are unchanged;
+  the pinned pair total moved 146 to 148 for the two Turku views Kilta enters.
+- Tests: `tests/test_kinola.py`, 72 tests, plus a contract sample. 26 mutations, all 26
+  red; seven were void first and every one was a real gap in a fixture rather than in the
+  code: a live act with no labelled runtime, a sold-out marker never placed on an anchor,
+  a rating decoy that sat after the real value instead of standing alone, an unbounded
+  header that no fixture could distinguish, no repeated row, a film-page failure whose
+  site had nothing else to publish, and a budget refusal that a cap would also have
+  failed. The fixtures were rewritten, not the assertions.
+- **Not yet published.** Declared counts move to 56 providers, 101 venues, 69 cities.

@@ -1,0 +1,32 @@
+{
+  "_comment": [
+    "Evidence-backed classification overrides for kinola.py, applied BEFORE the default",
+    "classifier so an entry decides rather than argues with it. Two directions:",
+    "`include` publishes a film whose page fills no metadata field, `exclude` withholds an",
+    "event the classifier would otherwise publish. The second is why the mechanism cannot",
+    "be one-sided.",
+    "",
+    "Scope is a provider id plus the site's own /film/{slug}/ identifier. Never a title",
+    "keyword: classifying on a word is what the adopted policy forbids, and a keyword list",
+    "here would reintroduce it through the back door.",
+    "",
+    "Every entry carries action, reason, evidence and verified. `evidence` names where the",
+    "claim was read and `verified` the day it was read, so a stale entry is visible rather",
+    "than merely old. An override that no longer changes the default decision is redundant",
+    "and tests/test_kinola.py fails on one; an event leaving the programme, or a page that",
+    "cannot be read, is not by itself proof of that.",
+    "",
+    "The decision and the corrections behind it: docs/archive/2026-09-providers.md,",
+    "\"Kinola: the publication policy, adopted\"."
+  ],
+  "overrides": [
+    {
+      "provider": "kinolaika",
+      "slug": "a-fox-under-a-pink-moon",
+      "action": "include",
+      "reason": "A documentary screening whose page fills no metadata field, so the classifier leaves it unresolved.",
+      "evidence": "kinolaika.fi/film/a-fox-under-a-pink-moon/ names it in prose: \"Esitettavana elokuvana on Mehrdad Oskouen dokumenttielokuva A Fox Under A Pink Moon (2025)\", with 76 min, K-16 and English subtitles beside it. Director, form and year are all stated; only the labelled fields are missing.",
+      "verified": "2026-09-15"
+    }
+  ]
+}

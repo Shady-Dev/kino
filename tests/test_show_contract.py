@@ -40,6 +40,7 @@ import test_kuvakukko as KK
 import test_kirkkonummi as KN
 import test_biosavoy as BS
 import test_cinemantsala as CM
+import test_kinola as KL
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -223,6 +224,20 @@ def sample_cinemantsala():
             [v["id"] for v in site["venues"]])
 
 
+def sample_kinola():
+    """One provider per sample, so this is Laika: the template with the sold-out
+    fallback and the live act the policy omits, both in the input. Kilta's template is
+    held to the same contract inside tests/test_kinola.py."""
+    site = KL.LAIKA
+    out = mod("kinola").parse(
+        site,
+        KL.listing(KL.laika_row("hetki", "Hetki ennen valoa"),
+                   KL.laika_row("hetki", "Hetki ennen valoa", date="17/09/2026 16:00"),
+                   KL.laika_row("arppa", "Arppa", date="30/10/2026 19:00", sold=True)),
+        {"hetki": KL.laika_film(), "arppa": KL.LIVE_ACT})[0]
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_kirkkonummi():
     """`today` pinned: the page publishes no year."""
     site = KN.kirkkonummi.SITES[0]
@@ -268,7 +283,7 @@ SAMPLES = {
     "julia": sample_julia, "biokaari": sample_biokaari,
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
-    "cinemantsala": sample_cinemantsala,
+    "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
 }
 
 

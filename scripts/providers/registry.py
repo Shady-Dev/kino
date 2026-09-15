@@ -390,6 +390,20 @@ PROVIDERS = [
     # `#/book/{show_time_id}` anchor the programme itself emits.
     dict(id="cinemantsala", label="Cine Mäntsälä", host="mantsala.cine.fi",
          accent="#5B21B6", book="buy", module="cinemantsala", where="cloud"),
+
+    # Kino Kilta (Turku) and Kino Laika (Karkkila), 2026-09-15. Both on Kinola, which is
+    # also Cinema Orion's platform, but neither renders the `kinola-day` table `orion.py`
+    # reads, so they are a separate module with a handler per template rather than two
+    # SITES entries. Kino Konepaja is the third Kinola tenant here and is deliberately
+    # absent: re-read 2026-09-15, its screening list still says "Ei tulevia tapahtumia."
+    # `book="buy"`: both sell per-screening through their own /checkout/{uuid}, and a
+    # sold-out row falls back to the film page it emits.
+    # Kilta's accent is constrained by Finnkino in Turku and in Turun seutu; Laika's is
+    # not, Karkkila holding no other provider and sitting in no REGIONS area.
+    dict(id="kinokilta", label="Kino Kilta", host="kinokilta.fi", accent="#1D6F8B",
+         book="buy", module="kinola", where="cloud"),
+    dict(id="kinolaika", label="Kino Laika", host="kinolaika.fi", accent="#9A3412",
+         book="buy", module="kinola", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
