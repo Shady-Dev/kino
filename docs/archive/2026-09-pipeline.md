@@ -1434,9 +1434,14 @@ between the runs, not the cost of the module that happened to be added.
 `fetch_site` sleeps 1.2 s before every film page but the first, and `logs/run-kinola.log`
 records 41 pages for Kilta and 24 for Laika: 40 x 1.2 = 48.0 s and 23 x 1.2 = 27.6 s. The
 two sites are on different hosts, so `run.py` reads them in parallel and has since
-2026-09-01. Their sum, 75.6 s, is worker time and is not elapsed anything; the elapsed
-contribution of that sleeping is the larger of the two, about 48 s, and only when nothing
-else is queued behind them.
+2026-09-01, which makes their sum of 75.6 s worker time and not elapsed anything.
+
+**And 48 s is not the elapsed contribution either**, which is how this was first written.
+It is the explicit sleeping inside one site, interleaved with 41 requests: a lower bound on
+that site's own duration, since the requests and the parsing are on top of it, and no
+statement at all about how much the site adds to the run. What it adds depends on whether
+it was on the critical path, and the per-module logs carried no timing before
+`run_cloud.py` added one. Nothing measured to date isolates it.
 
 **Conditional GETs do not shorten it.** See the entry in
 [2026-09-providers.md](2026-09-providers.md) for why: a 304 is still a request and the
