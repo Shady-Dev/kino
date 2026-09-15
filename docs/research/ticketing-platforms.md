@@ -387,6 +387,35 @@ and Elokuvateatteri Elo (Heinola). Four sites, one template, footer "Mediapalvel
   neither. That would be one request per film per venue, about 68 a run against a third
   party, for fields the card does without. A deliberate omission rather than an oversight.
 
+**Findings** (all four sites read as a visitor, 2026-09-16, on the price page)
+
+- **The price is also on a page of its own, one per venue**, and each list view links it
+  in its own nav: `?hinnat=2` at Toijala, `3` at Sampo, `4` at Mania, `1` at Elo. All four
+  state the same table that day.
+
+      Liput   2D  Aikuinen 14.45 €  Eläkeläinen 12.45 €  Lapsi 11.45 €
+                  LA, SU ja arkipyhät +0.50 €
+              3D  Aikuinen 16.95 €  Eläkeläinen 15.95 €  Lapsi 13.95 €
+              Lastenliput on alle 13-vuotiaille.  Ma-To opiskelijat -2 €
+
+- **The surcharge is visible in the schedule.** The film page prints the price beside each
+  screening, and a Sunday row reads 14.95 / 12.95 / 11.95 where the Wednesday above it
+  reads 14.45 / 12.45 / 11.45.
+- **The list view carries no price and no 3D marker.** Zero `€` on the page; the three
+  `3D` strings are the `<title>` and the "Mediapalvelu W3D" footer, none of them on a row.
+  No screening on any of the four was 3D that day.
+
+**Inferences and open questions**
+
+- Reading the price page costs **one request per venue**, not one per film, which is the
+  objection the 2026-09-15 omission rested on. That objection still stands for the runtime,
+  which is only on the film page.
+- Two things the price cannot be read exactly for. *Arkipyhä*: the same +0.50 applies on a
+  weekday public holiday, which needs a calendar this repo does not carry, so such a
+  screening publishes 0.50 low. *3D*: nothing on the row distinguishes it, so a 3D
+  screening would publish at the 2D price and nothing would notice. Both are stated in
+  `tmb.py` rather than worked around.
+
 **Inferences and open questions**
 
 - Whether the four ever diverge in programme is not established; on the day read they ran
@@ -396,6 +425,10 @@ and Elokuvateatteri Elo (Heinola). Four sites, one template, footer "Mediapalvel
   the list view, so no strand label is published. Reading it would need the film pages.
 
 **Status and next step**
+
+Prices implemented 2026-09-16 on the maintainer's instruction, from the price page and not
+from the film page; the runtime is still not read. Next step: none. If a row ever carries a
+3D marker, that is the signal to split the two tables.
 
 Live as `scripts/providers/tmb.py`, four providers, four venues, cloud half. Committed
 2026-09-15 and **not yet published**: no run has fetched them. Next step: verify from the

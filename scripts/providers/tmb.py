@@ -40,10 +40,42 @@ Three things this parser deliberately does not do:
   provider here rates, so it is **not** mapped: a sequence that looks like S, K-7, K-12,
   K-16 is a guess, and a wrong classification is worse than none. An unmapped image
   yields no rating and the TMDB pass fills what it can.
-- **It does not publish a price or a runtime**, both of which the film page carries per
-  screening. Reading them would cost one request per film per venue, about 68 a run
-  against a third party, for fields the card can do without. Recorded in
-  docs/research/ticketing-platforms.md as a known, deliberate omission.
+- **It does not read the film page.** That page carries a runtime and a per-screening
+  price, and reading it would cost one request per film per venue, about 68 a run against
+  a third party. The runtime stays unpublished for that reason; the price no longer has
+  to, see below.
+
+## The price, from the site's own price page
+
+Added 2026-09-16 on the maintainer's instruction, and **not** from the film page. Each
+list view already links the operator's price page in its own nav -- `?hinnat=2` at
+Toijala, `3` at Sampo, `4` at Mania, `1` at Elo -- so the number is read from the page in
+hand rather than written down per site, and the cost is **one request per venue**, not one
+per film. Read as a visitor 2026-09-16; all four state the same table.
+
+    Liput   2D  Aikuinen 14.45 €  Eläkeläinen 12.45 €  Lapsi 11.45 €
+                LA, SU ja arkipyhät +0.50 €
+            3D  Aikuinen 16.95 €  Eläkeläinen 15.95 €  Lapsi 13.95 €
+
+Published as `"14.45€ / 12.45€ / 11.45€"`, the three tiers in the order the page prints
+them, which is the shape `julia.py` already publishes and which `build_pages.price_label`
+renders as a floor. The Saturday and Sunday surcharge is applied, because the page states
+it and the film page confirms it: a Sunday row reads 14.95 / 12.95 / 11.95.
+
+**Two things it cannot know, stated rather than papered over.**
+
+- *Arkipyhä.* The same rule adds 0.50 on a weekday public holiday. Which days those are is
+  a calendar this repo does not carry, so a screening on one is published 0.50 low. The
+  rendered label is a floor, so it understates rather than overstates.
+- *3D.* The list view carries no 3D marker at all -- the three `3D` strings on the page are
+  the `<title>` and the W3D footer -- so a 3D screening is indistinguishable from a 2D one
+  and would be published at the 2D price. No row on any of the four sites was 3D when this
+  was written. Nothing here notices if one appears; the remedy is a marker on the row, and
+  guessing from a title is what this adapter already refuses to do for age limits.
+
+A price page that cannot be read or parsed costs the prices and nothing else: the
+screenings publish with `price` empty and the run stays green, because a missing price is
+metadata and the schedule is not.
 
 A list view whose container is present with no screening row is a confirmed empty
 programme; a page without the container is a template change and fails the venue.
@@ -87,6 +119,17 @@ ROW_RE = re.compile(
     re.S | re.I)
 AGE_RE = re.compile(r'ikaraja_(\w+)\.png', re.I)
 SALI_RE = re.compile(r'sali(?:&nbsp;|\s)*([\w-]+)', re.I)
+
+# The price page, and the tiers on it. The link is read from the list view rather than
+# written per site: each of the four numbers its own, and a number copied between sites is
+# how six Nexxo links once shipped dead.
+PRICE_LINK_RE = re.compile(r'\?hinnat=(\d+)')
+TIER_RE = re.compile(r'(Aikuinen|El\u00e4kel\u00e4inen|Lapsi)\s*(\d{1,3}[.,]\d{2})\s*\u20ac', re.I)
+# "LA, SU ja arkipyhät +0.50 €". Only the amount is read; which days it applies to is in
+# the module docstring, and only the two this parser can identify are applied.
+SURCHARGE_RE = re.compile(r'\+\s*(\d{1,3}[.,]\d{2})\s*\u20ac')
+# In the order the page prints them, which is the order they are published in.
+TIERS = ("aikuinen", "el\u00e4kel\u00e4inen", "lapsi")
 
 # Measured against this repo's own committed ratings for films other providers also carry.
 # 1 and 5 are deliberately absent; see the docstring.
@@ -162,19 +205,95 @@ def parse(page, site, venue):
     return shows
 
 
-def get_list(site):
-    return fetch(site["base"] + "/?lista=1", cache=True,
+def price_url(page, base):
+    """The site's own price page, from the link its list view carries. -> url, or "".
+
+    Read rather than written down: the four sites number it 2, 3, 4 and 1, and a number
+    copied from one site onto another is exactly how six Nexxo ticket links once shipped
+    dead. No link, no price page, no price.
+    """
+    m = PRICE_LINK_RE.search(page)
+    return f"{base}/?hinnat={m.group(1)}" if m else ""
+
+
+def price_tiers(page):
+    """The 2D ticket prices and the weekend surcharge. -> ([float, ...], float).
+
+    Empty when the block is not there or does not hold all three tiers: a partial table is
+    not published, because which tier a lone amount belongs to would be a guess.
+
+    Bounded to the 2D block, between `Liput` and the `3D` heading after it. The 3D tiers
+    are 2.50 higher and sit immediately below, so an unbounded search publishes those; the
+    page `<title>` also carries "3D-elokuvat", which is why the search starts at `Liput`
+    rather than at the first `3D` on the page.
+    """
+    text = _txt(page)
+    start = text.find("Liput")
+    i = text.find("2D", start) if start >= 0 else -1
+    if i < 0:
+        return [], 0.0
+    j = text.find("3D", i + 2)
+    block = text[i:j if j > i else i + 300]
+    found = {k.lower(): float(v.replace(",", ".")) for k, v in TIER_RE.findall(block)}
+    if not all(k in found for k in TIERS):
+        return [], 0.0
+    m = SURCHARGE_RE.search(block)
+    return [found[k] for k in TIERS], float(m.group(1).replace(",", ".")) if m else 0.0
+
+
+def _amount(v):
+    return f"{v:.2f}".rstrip("0").rstrip(".")
+
+
+def price_of(tiers, surcharge, start):
+    """One screening's price. -> "14.45€ / 12.45€ / 11.45€", or "" with no table.
+
+    The surcharge applies on Saturday and Sunday, which the price page states and the film
+    page confirms. It also applies on a weekday public holiday, which nothing here can
+    identify; see the module docstring.
+    """
+    if not tiers:
+        return ""
+    bump = surcharge if start.weekday() >= 5 else 0.0
+    return " / ".join(f"{_amount(v + bump)}\u20ac" for v in tiers)
+
+
+def get(url):
+    return fetch(url, cache=True,
                  headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
                  timeout=30).decode("utf-8", "replace")
 
 
-def fetch_site(site):
-    """Runner contract: one list view, one venue."""
+def get_list(site):
+    return get(site["base"] + "/?lista=1")
+
+
+def fetch_site(site, sleep=1.0):
+    """Runner contract: one list view, one venue, and one price page after it."""
     venue = site["venues"][0]
-    shows = parse(get_list(site), site, venue)
+    page = get_list(site)
+    shows = parse(page, site, venue)
+    tiers, surcharge = [], 0.0
+    url = price_url(page, site["base"])
+    if url:
+        time.sleep(sleep)
+        try:
+            tiers, surcharge = price_tiers(get(url))
+        except Exception as e:
+            # The schedule is already parsed and is what this venue is for. A price page
+            # that will not answer costs the prices and nothing else.
+            print(f"[tmb] {site['provider']}: {url}: {e}; publishing without prices",
+                  file=sys.stderr)
+    if not tiers:
+        print(f"[tmb] {site['provider']}: no price table read from "
+              f"{url or 'a page that links none'}", file=sys.stderr)
+    for s in shows:
+        s["price"] = price_of(tiers, surcharge,
+                              datetime.datetime.fromisoformat(s["start"]))
     print(f"[tmb] {site['provider']}: {len(shows)} showtimes, "
           f"{len({s['eventId'] for s in shows})} films, "
-          f"{len({s['start'][:10] for s in shows})} dates")
+          f"{len({s['start'][:10] for s in shows})} dates, "
+          f"{sum(1 for s in shows if s['price'])} priced")
     return {venue["id"]: shows}
 
 
