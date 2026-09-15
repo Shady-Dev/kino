@@ -11,8 +11,9 @@
 [cine] Cine Keuda-Talo: 13 showtimes, 4 dates
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [star] synopses merged: 0
-[star] Elokuvateatteri Star: 135 showtimes, 11 dates
+[star] Elokuvateatteri Star: 134 showtimes, 11 dates
 [run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 4 attempted -- kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 9 venues, 334 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 9 venues, 333 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
