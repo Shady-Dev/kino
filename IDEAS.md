@@ -32,12 +32,12 @@ and unpublished: no run has fetched any of them. Check for an existing platform 
 Every candidate assessed on 2026-09-15, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Cine Mäntsälä is implementable** through the request its own page makes,
-  `/webservices/structured_data/get?cinema_id=1`, which returned today's four screenings
-  only. **Next action:** establish whether a longer window is reachable before adding a
-  one-day provider.
-- **Sun Kino's four venues are blocked**, on evidence: the bundle carries
-  `/api/auth/widget-session` and `X-ApiKey`, and the public `allproducts.json` answers 403.
+- **Cine Mäntsälä** reads through its own page's `structured_data/get` request. Two reads
+  on 2026-09-15 returned the same four screenings, both dated that day, which is consistent
+  with a today-only feed but does not prove one. Its timestamps carry no offset and the
+  site declares no zone. **Next action:** read the feed on a different day.
+- **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
+  required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
 - **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. **Next action:** re-read its listing on a later Monday.

@@ -649,11 +649,17 @@ Alareksi (Alajärvi), which would be an attractive single integration.
 - And the public endpoint answers for itself: `johku.com/elokuviin/allproducts.json?
   details=true` returns **403** with `"Et ole kirjautunut sisään tai kirjautumisesi on
   vanhentunut."` No session was sought and none should be.
-- So: **blocked**, on the route "Access and ethics" draws a line at, and now shown by the
-  vendor's own response rather than by an absent key. It would need Johku or the cinemas to
-  offer a feed. What is *not* established is whether any subset of the programme is
-  reachable unauthenticated; the Engel investigation found `allproducts.json` carries only
-  the next show per product even when it answers, which is not a programme.
+- So **that endpoint is closed**: demonstrated by the vendor's own response rather than by
+  an absent key, and it is the route "Access and ethics" draws a line at. No session was
+  sought and none should be.
+
+**Two separate things, and only the first is settled.** What is demonstrated is that
+`allproducts.json` requires a session. What is *not* established is whether any other public
+programme source exists for these four cinemas at all: the four venue pages were read and
+render nothing, but no sweep was made of the cinemas' own municipal or tourism listings, and
+the Engel investigation separately found that `allproducts.json` carries only the next show
+per product even when it does answer, which would not be a programme anyway. "This endpoint
+is closed" is not "there is no public source".
 
 ### Cine Mäntsälä, mantsala.cine.fi: implementable, through its own page's request
 
@@ -667,13 +673,29 @@ That is the page's own public request, fetched to inject JSON-LD. It answers 200
 list of screenings: `location.name`, `name`, `startDate`, `endDate`, poster and still
 `image` URLs, and an `offers.url` of `https://mantsala.cine.fi/#/book/{id}`.
 
-- **The window is the open question.** It returned **four entries, all on the day read**.
-  Whether a longer window is reachable through the same endpoint is not established, and a
-  provider that can only ever show today is a poor one. That is the thing to settle before
-  adding it.
-- `startDate` is a local ISO time with **no offset**, unlike Bio Savoy's, so a zone would
-  have to be assumed. Europe/Helsinki is the obvious one and Mäntsälä is in it, but it is
-  an assumption and should be written down as one.
+**Coverage: narrowed, still not settled.** Read twice on 2026-09-15, some hours apart. Both
+reads returned **exactly four entries, the same four booking ids, all dated that day**. That
+is consistent with a today-only feed and does not prove one: both reads fell on the same
+day, so "today only" and "currently showing" are indistinguishable from here. What would
+settle it is a read on a different day, or a parameter; `structured_data/get` takes
+`cinema_id` and `url` and nothing else that was found.
+
+**What the visitor sees was checked, and it is not a fuller page.** The SPA bundle names
+`/show-list` and `/widgets/show-list`. `/widgets/show-list` serves 6 kB of Angular template
+with `{{movie.show_time | date:'HH:mm'}}` bindings and **no data at all**, so the visitor's
+programme is fetched by the app from an API this investigation did not identify without
+guessing, which it did not do. The bundle also names
+`webservices/authorisationrequests/managerLogin`; that is an administrative route and was
+not touched.
+
+**Timezone: no source evidence.** `startDate` is `2026-09-15T13:45`, naive. Nothing on the
+site declares a zone: searching the page for `timezone`, `Helsinki`, `EET` or an offset
+returns only `evästeet` and `stylesheet`. The platform does model zones internally, the
+bundle carries `utcOffset` and `timeZone` fields, but the JSON-LD omits them. So reading
+these as Europe/Helsinki would rest on the cinema's location and on schema.org's convention
+that a local time is local to the venue, not on anything the source says. That is an
+assumption, and it should be written down as one rather than made silently.
+
 - Cine is already a provider here and Mäntsälä is a venue it does not carry.
 
 ### Bio Savoy, Mariehamn: ready, and the cleanest source in the batch
