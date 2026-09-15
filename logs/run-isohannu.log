@@ -1,0 +1,6 @@
+[isohannu] film pages: 14 parsed, 0 with nothing usable, 66/66 showtimes rated
+[isohannu] synopses merged: 0
+[isohannu] Iso-Hannu: 66 showtimes, 7 dates
+[run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] isohannu: 1 venues, 66 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0

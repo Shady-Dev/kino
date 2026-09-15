@@ -17,9 +17,9 @@
 [kinomarilyn] Kino Marilyn (Loviisa): 45 showtimes
 [kinomarilyn] synopses merged: 0
 [kinomarilyn] Kino Marilyn: 45 showtimes, 12 dates
-[kinoolympia] Kino Olympia (Hanko): 14 showtimes
+[kinoolympia] Kino Olympia (Hanko): 15 showtimes
 [kinoolympia] synopses merged: 0
-[kinoolympia] Kino Olympia: 14 showtimes, 7 dates
+[kinoolympia] Kino Olympia: 15 showtimes, 7 dates
 [jarvelankino] Järvelän Kino (Järvelä): 8 showtimes
 [jarvelankino] synopses merged: 0
 [jarvelankino] Järvelän Kino: 8 showtimes, 6 dates
@@ -34,5 +34,5 @@
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-muurame, km-petajavesi, km-tikkakoski
-[run] nexxo: 10 venues, 133 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] nexxo: 10 venues, 134 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
 exit=0

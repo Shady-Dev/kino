@@ -1,0 +1,6 @@
+[biosavoy] 43 showtimes, 13 films, 10 dates, halls ['Sal 1', 'Sal 2']
+[biosavoy] synopses merged: 0
+[biosavoy] Bio Savoy: 43 showtimes, 10 dates
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] biosavoy: 1 venues, 43 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0

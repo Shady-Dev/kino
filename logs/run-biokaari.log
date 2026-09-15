@@ -1,0 +1,7 @@
+[biokaari] film pages: 3 parsed, 0 with nothing usable, 15/15 showtimes rated
+[biokaari] 15 showtimes, 3 films, 10 dates
+[biokaari] synopses merged: 0
+[biokaari] Bio-Kaari: 15 showtimes, 10 dates
+[run] http: 0 revalidated (304), 4 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] biokaari: 1 venues, 15 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0
