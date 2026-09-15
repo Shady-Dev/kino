@@ -7,14 +7,17 @@ tiedossa" rating, an auditorium called only "Sali", a festival in EventSeries an
 language the name table did not know.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
+import shutil
 import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
 import build_pages as bp
+import common
 import registry
 import run
 import strands
@@ -334,22 +337,131 @@ class RegistryAndPagesTest(unittest.TestCase):
                          "Korjaamo Kino")            # the chain prefix collapses, no doubling
 
     def test_the_committed_page_follows_the_theatre_template(self):
+        """What holds whatever the programme is.
+
+        The screening-shaped markers moved to TheatrePageTest below: whether the committed
+        page carries a stub is a fact about the cinema's week, not about the generator.
+        What is still asserted here is that the page is whole and internally consistent --
+        screenings *and* the day and list markup that carry them, or no screenings and the
+        line that says so. Half of one is the failure this exists for.
+        """
         fi = (ROOT / "teatteri" / "korjaamo-kino-helsinki" / "index.html").read_text(encoding="utf-8")
         en = (ROOT / "en" / "theatre" / "korjaamo-kino-helsinki" / "index.html").read_text(encoding="utf-8")
         orion = (ROOT / "teatteri" / "cinema-orion-helsinki" / "index.html").read_text(encoding="utf-8")
-        for page in (fi, en):
-            self.assertIn('href="https://korjaamokino.fi/websales/show/', page)
+        for page in (fi, en, orion):
             self.assertNotIn("Ei tiedossa", page)
-        for marker in ('class="langseg"', 'class="cta"', '<h2 class="day">', '<p class="intro">',
-                       'class="stub"', '<ul class="times">'):
+        for marker in ('class="langseg"', 'class="cta"', '<p class="intro">',
+                       'rel="canonical"'):
             self.assertIn(marker, fi)
+            self.assertIn(marker, en)
             self.assertIn(marker, orion)
         self.assertEqual(fi.count("<style"), orion.count("<style"))
+        for page, lang in ((fi, "fi"), (en, "en"), (orion, "fi")):
+            with self.subTest(page=lang):
+                if 'class="stub"' in page:
+                    self.assertIn('<ul class="times">', page)
+                    self.assertIn('<h2 class="day">', page)
+                    self.assertNotIn(bp.L[lang]["no_shows"], page)
+                else:
+                    self.assertIn(bp.L[lang]["no_shows"], page)
+                    self.assertNotIn('<ul class="times">', page)
+                    self.assertNotIn('<h2 class="day">', page)
 
     def test_the_helsinki_city_page_lists_the_cinema(self):
         city = (ROOT / "kaupunki" / "helsinki" / "index.html").read_text(encoding="utf-8")
         self.assertIn("Korjaamo Kino", city)
         self.assertIn("chain-korjaamo", city)
+
+
+class TheatrePageTest(unittest.TestCase):
+    """What a Vista screening renders, and what a page with nothing in its window does.
+
+    Both used to be asserted against the committed page, which carries a stub only while
+    Korjaamo happens to have a screening inside the four days `build_pages.DAYS` renders.
+    On 2026-09-16 it did not -- its nearest was 2026-09-22, six days out -- so the test went
+    red on a correct page built from data fetched twenty minutes earlier. The generator is
+    what is under test, so it is driven here from fixture screenings at a fixed date, and
+    both cases are covered rather than whichever one the week happens to supply.
+    """
+
+    TODAY = datetime.date(2026, 9, 16)
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.root = pathlib.Path(tmp.name)
+        (self.root / "data").mkdir()
+        for p in (ROOT / "data").glob("*.json"):
+            shutil.copy2(p, self.root / "data" / p.name)
+        for name in ("ROOT", "DATA"):
+            self.addCleanup(setattr, bp, name, getattr(bp, name))
+        bp.ROOT, bp.DATA = self.root, self.root / "data"
+        bp._unmirrored_hosts.clear()
+        self.addCleanup(bp._unmirrored_hosts.clear)
+
+    def row(self, n, day):
+        """One screening meeting common.Show, blank where the page does not read it."""
+        s = {k: ("" if typ is str else False)
+             for k, typ in common.Show.__annotations__.items()}
+        s.update(eventId=f"fixture-{n}", title=f"Fixture Film {n}", len="88",
+                 rating="K-12", theatre="Korjaamo Kino", aud="Sali",
+                 start=f"{day}T1{n}:30:00+03:00", lang="FI-A",
+                 url=f"https://korjaamokino.fi/websales/show/{1000 + n}/",
+                 provider="korjaamo", venue="korjaamo-helsinki")
+        return s
+
+    def korjaamo(self, *offsets):
+        """Put Korjaamo's screenings this many days from the build date, then build.
+
+        -> (the Finnish theatre page, the English one). Two screenings on two days, so a
+        page rendering one film on one day is never what is being read.
+        """
+        rows = [self.row(n, (self.TODAY + datetime.timedelta(days=off)).isoformat())
+                for n, off in enumerate(offsets)]
+        days = sorted({s["start"][:10] for s in rows})
+        area = self.root / "data" / "area-korjaamo-helsinki.json"
+        doc = json.loads(area.read_text(encoding="utf-8"))
+        doc.update(shows=rows, dates=days, horizon=days[-1])
+        area.write_text(json.dumps(doc, ensure_ascii=False), encoding="utf-8")
+        with contextlib.redirect_stdout(io.StringIO()):
+            bp.main(today=self.TODAY)
+        return tuple(
+            (self.root / p / "korjaamo-kino-helsinki" / "index.html").read_text(encoding="utf-8")
+            for p in ("teatteri", pathlib.Path("en") / "theatre"))
+
+    def test_a_screening_in_the_window_renders_its_websales_ticket_link(self):
+        fi, en = self.korjaamo(0, 2)
+        for page, lang in ((fi, "fi"), (en, "en")):
+            with self.subTest(page=lang):
+                self.assertIn('href="https://korjaamokino.fi/websales/show/1000/', page)
+                self.assertIn('href="https://korjaamokino.fi/websales/show/1001/', page)
+                for marker in ('class="stub"', '<ul class="times">', '<h2 class="day">'):
+                    self.assertIn(marker, page)
+                self.assertNotIn(bp.L[lang]["no_shows"], page)
+
+    def test_a_programme_beyond_the_window_still_renders_a_whole_page(self):
+        """Korjaamo's real state on 2026-09-16, and a valid one: screenings published, none
+        of them inside the four days the page renders. The page must say so and stay whole;
+        what it must not do is go half-rendered or lose its own furniture."""
+        fi, en = self.korjaamo(6, 20)
+        for page, lang in ((fi, "fi"), (en, "en")):
+            with self.subTest(page=lang):
+                self.assertIn(bp.L[lang]["no_shows"], page)
+                self.assertNotIn("websales/show/", page)
+                for absent in ('class="stub"', '<ul class="times">', '<h2 class="day">'):
+                    self.assertNotIn(absent, page)
+                for marker in ('class="langseg"', 'class="cta"', '<p class="intro">',
+                               'rel="canonical"', "Korjaamo Kino"):
+                    self.assertIn(marker, page)
+
+    def test_the_window_is_what_decides_between_the_two(self):
+        """The same screening inside and outside it, so the difference is the date and
+        nothing else. `DAYS` is today plus three."""
+        inside, _ = self.korjaamo(bp.DAYS - 1)
+        outside, _ = self.korjaamo(bp.DAYS)
+        self.assertIn("websales/show/1000/", inside)
+        self.assertNotIn("websales/show/1000/", outside)
+        self.assertIn(bp.L["fi"]["no_shows"], outside)
 
 
 if __name__ == "__main__":
