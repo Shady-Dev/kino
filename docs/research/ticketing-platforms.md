@@ -436,6 +436,51 @@ records after a scheduled run.
 
 ---
 
+## Bio-Kaari, Forssa (2026-09-15)
+
+**Findings** (bio-kaari.fi, read as a visitor 2026-09-15)
+
+WordPress with a site-specific plugin, `wp-content/plugins/biokaari/`, that renders the
+whole programme server-side.
+
+- **MyCloudCinema, and that did not make it a `SITES` entry.** Posters come from
+  `mcswebsites.blob.core.windows.net` and tickets from
+  `bio-kaari.azurewebsites.net/websales/`, the platform BioRex and Gilda also run on.
+  All three render it differently: BioRex is `admin-ajax` returning HTML inside JSON,
+  Gilda is MyCloudCinema's own document, this is a bespoke WordPress plugin. Same
+  conclusion this file already reached about Johku, on a different platform.
+- **The date is the day container's id.** `<div class="searchResults" id="15092026">`, ten
+  of them, all in the markup with the later ones `display:none`. The film rows repeat
+  verbatim across days, so the container is the only thing that separates them: 15
+  screenings over 10 days when read, each with its own `websales/show/{id}`, which is what
+  confirms no day's times are being published on another.
+- A film can hold several `<li>` rows on one day. The screening-row tags are upper case
+  (`<P>`, `<DIV>`, `<A>`) where the rest of the markup is lower case.
+- The title carries a release year, `(2026)`, taken as the optional `year` field rather
+  than left in `title`, which is the TMDB and merge key.
+- The ticket link is published as `http://` on a host that answers `https://` and
+  redirects there. It is upgraded, and it is read from the page rather than constructed.
+  The sales page itself is never fetched.
+- The film page adds `Lajityyppi`, `Ikäraja: K7/4` (the 4 is the flexibility years, not
+  part of the classification) and `Kesto: 1 h 27 min`. Three films when read, so the
+  per-film pass is a few requests a run.
+
+**Inferences and open questions**
+
+- The weekly articles under `/elokuvat-naytosajat-ja-hinnat-DD-DD-M/` restate the same
+  programme in prose with prices. The front page's day containers are the structured
+  source and are what this adapter reads; whether the articles ever carry a screening the
+  containers do not is not established, and nothing here depends on it.
+- No price is published in the day containers, so `price` stays empty.
+
+**Status and next step**
+
+Live as `scripts/providers/biokaari.py`, one provider, one venue, cloud half. Committed
+2026-09-15 and **not yet published**. Next step: verify from the committed logs and show
+records after a scheduled run.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)

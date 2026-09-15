@@ -315,6 +315,18 @@ PROVIDERS = [
     # `accent_check.py --search julia`; the figures are in IDEAS.md and the archive.
     dict(id="julia", label="Julia 1&2", host="juliaelokuvat.fi", accent="#12664E",
          book="door", module="julia", where="cloud"),
+
+    # Bio-Kaari, Forssa (2026-09-15). A MyCloudCinema cinema, which is a lead and not an
+    # adapter: BioRex, Gilda and this one all run on that platform and all three render it
+    # differently, so it gets its own parser, scripts/providers/biokaari.py.
+    # `book="buy"`: the showtime carries the cinema's own web-sales link, read from the
+    # page rather than constructed, and upgraded to the https its host redirects to.
+    # Forssa holds no other chain and is in no REGIONS area, so this accent enters no
+    # shared view; measured against the whole set anyway at 6.2 dE00 from its nearest on
+    # the weakest of three models, which is near the best available with 48 accents
+    # already in the band.
+    dict(id="biokaari", label="Bio-Kaari", host="bio-kaari.fi", accent="#DD1100",
+         book="buy", module="biokaari", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

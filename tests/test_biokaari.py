@@ -1,0 +1,184 @@
+"""Bio-Kaari, Forssa: ten day containers, repeated rows, one ticket id per screening.
+
+The fixtures follow `bio-kaari.fi` as read on 2026-09-15: a `div.searchResults` per day
+whose **id is the date**, holding a `div.searchItem` per film, whose `ul.searchItemShows`
+holds one `<li>` per screening with an upper-case `<P>`/`<DIV>`/`<A>` row.
+
+Three days and two films, because the failure this page invites is publishing one day's
+times on every day: the rows repeat verbatim across containers and only the container id
+separates them. A one-day fixture would never show it. One film also carries two `<li>`
+rows on a single day, which is the other shape the page uses.
+"""
+import unittest
+
+import _ctx                                                # noqa: F401
+import biokaari
+import common
+
+BASE = "https://www.bio-kaari.fi"
+TICKETS = "http://bio-kaari.azurewebsites.net/websales/show"
+
+
+def item(event, title, year, shows, poster=True):
+    """`shows` is [(time, ticket_id), ...] -- a film can screen more than once a day."""
+    img = (f'<div class="searchItemImage"><a href="tapahtuma/?event={event}">'
+           f'<img decoding="async" src="https://mcswebsites.blob.core.windows.net/1018/'
+           f'Event_{event}/portrait_medium/{event}.jpg"></a></div>') if poster else ""
+    lis = "".join(
+        f'<li><P class="searchItemEventTime">{t}</P>'
+        f'<DIV class="searchItemEventLink"><A href="{TICKETS}/{tid}/">'
+        f'<SPAN>Osta lippu</SPAN></A></DIV></li>' for t, tid in shows)
+    yr = f"<small><span> ({year})</span></small>" if year else ""
+    return (f'<div class="searchItem">{img}'
+            f'<div class="searchItemData"><a href="tapahtuma/?event={event}">'
+            f'<h2>{title}{yr}</h2></a>'
+            f'<ul class="searchItemShows">{lis}</ul></div></div>'
+            f'<!-- tapahtuma loppuu -->')
+
+
+def day(ddmmyyyy, *items, hidden=False):
+    style = ' style="display:none"' if hidden else ""
+    return (f'<div class="searchResults" id="{ddmmyyyy}"{style}>' + "".join(items) +
+            '</div><!-- paiva loppuu -->')
+
+
+def page(*days):
+    return ('<html><body><div class="eventSearch">'
+            '<select id="dateSelection"><option value="15092026">Tänään 15.09.2026</option>'
+            '</select>' + "".join(days) + '</div></body></html>')
+
+
+# The same two films, at the same times, on three days: only the container id differs.
+LISTING = page(
+    day("15092026",
+        item("31671", "Hetki ennen valoa", "2026", [("17:30", "984056")]),
+        item("31668", "Presidentin kyyditys", "2026", [("19:30", "984055")])),
+    day("16092026",
+        item("31671", "Hetki ennen valoa", "2026", [("17:30", "984058")]),
+        item("31668", "Presidentin kyyditys", "2026", [("19:30", "984057")]), hidden=True),
+    day("19092026",
+        # Two screenings of one film on one day.
+        item("31671", "Hetki ennen valoa", "2026",
+             [("15:00", "984070"), ("17:00", "984071")]), hidden=True),
+)
+
+FILM_PAGE = ("<html><body>ELOKUVA Hetki ennen valoa (2026) Lajityyppi: Draama "
+             "Ik&auml;raja: K7/4 N&auml;yt&ouml;kset Ensi-ilta: 11.09.2026 "
+             "Kesto: 1 h 27 min Jakelija: B-Plan Distribution</body></html>")
+
+
+class ProgrammeTest(unittest.TestCase):
+    def setUp(self):
+        self.shows = biokaari.parse(LISTING)
+
+    def test_each_day_container_supplies_its_own_date(self):
+        """The rows repeat across days; the container id is the only thing that separates
+        them. Reading rows without their container would put every time on every day."""
+        self.assertEqual(sorted({s["start"][:10] for s in self.shows}),
+                         ["2026-09-15", "2026-09-16", "2026-09-19"])
+        by_day = {}
+        for s in self.shows:
+            by_day.setdefault(s["start"][:10], []).append(s["start"][11:16])
+        self.assertEqual(sorted(by_day["2026-09-15"]), ["17:30", "19:30"])
+        self.assertEqual(sorted(by_day["2026-09-19"]), ["15:00", "17:00"])
+
+    def test_a_hidden_day_is_still_read(self):
+        """The later days are in the markup with display:none, so they are published."""
+        self.assertIn("2026-09-16", {s["start"][:10] for s in self.shows})
+
+    def test_two_screenings_of_one_film_on_one_day_are_both_published(self):
+        d19 = [s for s in self.shows if s["start"][:10] == "2026-09-19"]
+        self.assertEqual(len(d19), 2)
+        self.assertEqual(len({s["url"] for s in d19}), 2)
+
+    def test_every_screening_has_its_own_ticket_id(self):
+        self.assertEqual(len({s["url"] for s in self.shows}), len(self.shows))
+
+    def test_the_ticket_link_is_read_from_the_page_and_upgraded_to_https(self):
+        for s in self.shows:
+            self.assertTrue(s["url"].startswith("https://bio-kaari.azurewebsites.net/"), s["url"])
+        self.assertNotIn("http://", " ".join(s["url"] for s in self.shows))
+
+    def test_the_release_year_leaves_the_title_and_becomes_its_own_field(self):
+        """`title` is the TMDB and merge key, so the year is not part of the name."""
+        s = self.shows[0]
+        self.assertEqual(s["title"], "Hetki ennen valoa")
+        self.assertEqual(s["year"], "2026")
+        self.assertNotIn("2026", s["title"])
+
+    def test_the_event_id_is_the_film_and_folds_its_runs_together(self):
+        runs = {s["eventId"] for s in self.shows}
+        self.assertEqual(runs, {"31671", "31668"})
+
+    def test_the_poster_is_the_platforms_own_host(self):
+        self.assertTrue(self.shows[0]["img"].startswith(
+            "https://mcswebsites.blob.core.windows.net/"))
+
+    def test_every_show_meets_the_contract(self):
+        common.check_shows({biokaari.VENUE["id"]: self.shows}, "biokaari",
+                           {biokaari.VENUE["id"]})
+
+
+class FilmPageTest(unittest.TestCase):
+    def test_the_age_limit_drops_the_flexibility_years(self):
+        """The page writes `K7/4`: the 4 is how many years the limit may flex, not part
+        of the classification."""
+        self.assertEqual(biokaari.details(FILM_PAGE)["rating"], "K-7")
+        self.assertEqual(biokaari._rating("K12/3"), "K-12")
+        self.assertEqual(biokaari._rating("S"), "S")
+        self.assertEqual(biokaari._rating("ei tiedossa"), "")
+
+    def test_runtime_and_genre(self):
+        d = biokaari.details(FILM_PAGE)
+        self.assertEqual(d["len"], "87")
+        self.assertEqual(d["genres"], "draama")
+
+    def test_details_fold_onto_every_screening_of_the_film(self):
+        shows = biokaari.parse(LISTING)
+        biokaari.enrich(shows, get=lambda u: FILM_PAGE, sleep=0)
+        for s in shows:
+            self.assertEqual(s["rating"], "K-7")
+
+    def test_a_film_page_that_fails_leaves_the_others_enriched(self):
+        shows = biokaari.parse(LISTING)
+
+        def get(u):
+            if u.endswith("=31671"):
+                raise OSError("boom")
+            return FILM_PAGE
+
+        biokaari.enrich(shows, get=get, sleep=0)
+        self.assertEqual({s["rating"] for s in shows if s["eventId"] == "31671"}, {""})
+        self.assertEqual({s["rating"] for s in shows if s["eventId"] == "31668"}, {"K-7"})
+
+
+class EmptyAndBrokenTest(unittest.TestCase):
+    def test_day_containers_with_no_screening_is_an_empty_programme(self):
+        with self.assertRaises(common.EmptyProgramme):
+            biokaari.parse(page(day("15092026"), day("16092026")))
+
+    def test_a_page_without_a_day_container_is_a_failure(self):
+        with self.assertRaises(RuntimeError) as cm:
+            biokaari.parse("<html><body><p>Tervetuloa</p></body></html>")
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_an_impossible_date_does_not_abort_the_page(self):
+        out = biokaari.parse(page(
+            day("31022026", item("1", "X", "2026", [("18:00", "1")])),
+            day("16092026", item("2", "Y", "2026", [("18:00", "2")]))))
+        self.assertEqual([s["title"] for s in out], ["Y"])
+
+    def test_a_film_without_a_year_still_publishes(self):
+        out = biokaari.parse(page(day("16092026", item("1", "X", None, [("18:00", "1")]))))
+        self.assertEqual(out[0]["title"], "X")
+        self.assertNotIn("year", out[0])
+
+
+class SiteTest(unittest.TestCase):
+    def test_one_venue_in_forssa(self):
+        self.assertEqual([v["city"] for v in biokaari.SITES[0]["venues"]], ["Forssa"])
+        self.assertEqual(biokaari.SITES[0]["base"], BASE)
+
+
+if __name__ == "__main__":
+    unittest.main()

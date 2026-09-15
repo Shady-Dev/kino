@@ -1176,3 +1176,34 @@ one request.
   pages independently give 87 for both films).
 - **Not yet published.** No run has fetched it. Declared counts move to 48 providers, 92
   venues, 62 cities; Hyvinkää was already covered, so no new town.
+
+### Bio-Kaari, Forssa: a MyCloudCinema cinema that still needed its own parser (2026-09-15)
+
+Forssa had no cinema here. Added as `scripts/providers/biokaari.py`, one provider, one
+venue. Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+- **The platform fingerprint was a lead and not an adapter.** Posters from
+  `mcswebsites.blob.core.windows.net` and tickets from `.../websales/` make this
+  MyCloudCinema, which BioRex and Gilda also run on, and all three render it differently:
+  HTML-in-JSON through `admin-ajax`, MyCloudCinema's own document, and here a bespoke
+  WordPress plugin. Checking for an existing adapter was right and reusing one would not
+  have worked.
+- **The date is the day container's id**, `id="15092026"`, and the film rows repeat
+  verbatim across the ten containers. A parser reading rows without their container would
+  publish one day's times on every day; the mutation that does exactly that turns four
+  tests red. That every one of the 15 screenings read had its own `websales/show/{id}` is
+  what confirms the association is right rather than merely plausible.
+- The release year in the title becomes the optional `year` field instead of staying in
+  `title`, which is the TMDB and merge key.
+- `Ikäraja: K7/4` becomes `K-7`: the 4 is how many years the limit may flex under the
+  kuvaohjelmalaki, not part of the classification.
+- The ticket link is read from the page and upgraded to the https its host redirects to.
+  It is never constructed from a copied path, and the sales page is never fetched.
+- Accent `#DD1100`, unconstrained: Forssa holds no other chain and is in no REGIONS area.
+  Measured at 6.2 dE00 from its nearest on the weakest model, near the best available with
+  48 accents already in the band.
+- Tests: `tests/test_biokaari.py`, 18 tests, plus a contract sample. Eight mutations, all
+  red, none void.
+- Measured live before committing: 15 screenings, 3 films, 10 dates, 15 distinct ticket
+  ids, and the film pages filling rating, runtime and genre for all 15.
+- **Not yet published.** Declared counts move to 49 providers, 93 venues, 63 cities.
