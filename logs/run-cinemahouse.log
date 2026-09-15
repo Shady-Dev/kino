@@ -1,14 +1,14 @@
 [kinopiispanristi] film pages: 21 with a synopsis, 0 without, 21 films
 [kinopiispanristi] strand prefix split off 1 showtimes
 [kinopiispanristi] synopses merged: 0
-[kinopiispanristi] Kino Piispanristi: 165 showtimes, 12 dates
+[kinopiispanristi] Kino Piispanristi: 163 showtimes, 12 dates
 [kinolumo] film pages: 19 with a synopsis, 0 without, 19 films
 [kinolumo] strand prefix split off 1 showtimes
 [kinolumo] synopses merged: 0
-[kinolumo] Kino Lumo: 70 showtimes, 12 dates
+[kinolumo] Kino Lumo: 68 showtimes, 12 dates
 [laitilankino] film pages: 13 with a synopsis, 0 without, 13 films
 [laitilankino] synopses merged: 0
 [laitilankino] Laitilan Kino: 25 showtimes, 13 dates
 [run] http: 0 revalidated (304), 56 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] cinemahouse: 3 venues, 260 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] cinemahouse: 3 venues, 256 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

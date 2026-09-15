@@ -1,6 +1,6 @@
-[korjaamo] prices: 5 screenings, 5 priced, 3 pages read, 2 reused, 0 without an ordinary ticket, 0 failed, 0 deferred
-[korjaamo] synopses merged: 1
+[korjaamo] prices: 5 screenings, 5 priced, 0 pages read, 5 reused, 0 without an ordinary ticket, 0 failed, 0 deferred
+[korjaamo] synopses merged: 0
 [korjaamo] Korjaamo Kino: 5 showtimes, 3 dates
-[run] http: 0 revalidated (304), 5 full, 3 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] vista: 1 venues, 5 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

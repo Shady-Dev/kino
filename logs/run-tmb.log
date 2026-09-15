@@ -1,15 +1,15 @@
-[tmb] kinotoijala: 22 showtimes, 7 films, 12 dates
+[tmb] kinotoijala: 21 showtimes, 7 films, 11 dates
 [kinotoijala] synopses merged: 0
-[kinotoijala] Kino-Toijala: 22 showtimes, 12 dates
-[tmb] kinosampo: 22 showtimes, 7 films, 12 dates
+[kinotoijala] Kino-Toijala: 21 showtimes, 11 dates
+[tmb] kinosampo: 21 showtimes, 7 films, 11 dates
 [kinosampo] synopses merged: 0
-[kinosampo] Kino-Sampo: 22 showtimes, 12 dates
-[tmb] kinomania: 29 showtimes, 8 films, 12 dates
+[kinosampo] Kino-Sampo: 21 showtimes, 11 dates
+[tmb] kinomania: 28 showtimes, 7 films, 11 dates
 [kinomania] synopses merged: 0
-[kinomania] KinoMania: 29 showtimes, 12 dates
-[tmb] kinoelo: 29 showtimes, 8 films, 12 dates
+[kinomania] KinoMania: 28 showtimes, 11 dates
+[tmb] kinoelo: 28 showtimes, 7 films, 11 dates
 [kinoelo] synopses merged: 0
-[kinoelo] Elokuvateatteri Elo: 29 showtimes, 12 dates
+[kinoelo] Elokuvateatteri Elo: 28 showtimes, 11 dates
 [run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
-[run] tmb: 4 venues, 102 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] tmb: 4 venues, 98 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
