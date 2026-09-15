@@ -308,8 +308,13 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
   "visuaalista teatteria, eläviä kuvia ja poikkitaiteellisia esityksiä". The four events
   on `/esitys/` when read were concerts and performances, one of them titled
   *elokuvaton*. `/ohjelmisto/` renders nothing server-side.
-- **Kino Julia** is not an operating cinema. `turunleffat.biokuva.fi` is a local cinema
-  history archive; its `/elokuvateatteri/julia/` is prose about a 1980s Eerikinkatu build.
+- **"Julia" was the wrong cinema.** This entry read `turunleffat.biokuva.fi`, a local
+  cinema-history archive, and closed the candidate as a defunct Turku house. The page is
+  genuine and the reading of it was right; the identity was not. The operating cinema is
+  **Julia 1&2 in Hyvinkää**, `juliaelokuvat.fi`, and it was added on 2026-09-15. Corrected
+  the same day. The lesson is the one already in this file's inferences and it was not
+  applied here: a name on a candidate list is not a cinema, and matching a name against a
+  search result is not identifying it. Confirm town and operator before classifying.
 - **Kino Diana** has closed. `kinodiana.fi` is 2.4 kB whose entire visible text is "Kino
   Diana www.kinopiispanristi.fi www.kinodiana.fi". Its audience moved to Kino
   Piispanristi and Kino Lumo, both already providers here.
@@ -394,6 +399,40 @@ and Elokuvateatteri Elo (Heinola). Four sites, one template, footer "Mediapalvel
 Live as `scripts/providers/tmb.py`, four providers, four venues, cloud half. Committed
 2026-09-15 and **not yet published**: no run has fetched them. Next step: verify from the
 committed logs and show records after a scheduled run.
+
+---
+
+## Julia 1&2, Hyvinkää (2026-09-15)
+
+**Findings** (juliaelokuvat.fi, read as a visitor 2026-09-15)
+
+An operating two-hall cinema at Hämeenkatu 34, on its own WordPress. Not the Turku "Julia"
+an earlier entry in this file closed; see the correction in the batch section above.
+
+- `/ohjelmisto/` is the whole published programme in one request: one `div.elokuva` per
+  film with the film-page link, the poster, a `<div id='bNNNN'>` of `<br>`-separated
+  screenings and `<strong>`-labelled `Hinta`, `Ikäraja`, `Kesto` and `Genre`.
+- **The films are listed twice.** An index above the programme repeats every title with a
+  "Katso näytösajat tästä" link and no screening, so a parser anchored on the title alone
+  would publish dateless rows. Anchoring on the film block and requiring a screening row
+  handles it.
+- **The year is two digits**, `15.09.26`. Published, not missing, so it is read as 2000+YY
+  and nothing is taken from the clock. Two films ran 4 screenings over 2 dates when read.
+- `Salit` states two halls, 110 and 57 seats; screenings carry `1. sali` / `2. sali`.
+- **No online booking anywhere.** Tickets at the door, reservations by phone, and `/liput/`
+  sells only gift tickets. So the showtime links to the film's own page and the registry
+  entry is `book="door"`; no ticket host exists and none is invented.
+
+**Inferences and open questions**
+
+- The programme was two films deep on the day read. Whether it is always that short is not
+  established and nothing here depends on it.
+
+**Status and next step**
+
+Live as `scripts/providers/julia.py`, one provider, one venue, cloud half. Committed
+2026-09-15 and **not yet published**. Next step: verify from the committed logs and show
+records after a scheduled run.
 
 ---
 

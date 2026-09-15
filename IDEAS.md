@@ -27,8 +27,8 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-47 providers, 91 venues, 62 cities declared as of 2026-09-15. Iso-Hannu and the four TMB
-cinemas are committed but not yet published: no run has fetched them. Check for an existing platform first. What each
+48 providers, 92 venues, 62 cities declared as of 2026-09-15. Iso-Hannu, the four TMB
+cinemas and Julia 1&2 are committed but not yet published: no run has fetched them. Check for an existing platform first. What each
 platform publishes, and the 2026-09-15 classification of the nine candidates that were on
 this list, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
@@ -203,7 +203,7 @@ cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 47 / 91 / 62 |
+| providers / venues / cities (declared) | 48 / 92 / 62 |
 | venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
@@ -214,10 +214,10 @@ cloud run publishes `data/venues-isohannu.json`:
 | mirrored poster files | 1041 |
 | `sw.js` CACHE | `leffavuoro-v158` |
 
-Five venues are declared and unpublished: Iso-Hannu (Rauma) and the four TMB cinemas
-(Akaa, Valkeakoski, Pieksämäki, Heinola). The first run that fetches them adds five
-cities and five venues, which would take the pages to 103 per language and the sitemap to
-207 if every one publishes a programme. Those are predictions, not measurements, and are
+Six venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas (Akaa,
+Valkeakoski, Pieksämäki, Heinola) and Julia 1&2 (Hyvinkää, a city already covered). The
+first run that fetches them adds five cities and six venues, which would take the pages to
+104 per language and the sitemap to 209 if every one publishes a programme. Those are predictions, not measurements, and are
 the reason README's page sentence still reads 86 venues: it describes the committed
 pages, which have not moved.
 

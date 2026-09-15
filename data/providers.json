@@ -328,6 +328,13 @@
    "host": "elokuvat-elo.info",
    "accent": "#AA77AA",
    "book": "reserve"
+  },
+  {
+   "id": "julia",
+   "label": "Julia 1&2",
+   "host": "juliaelokuvat.fi",
+   "accent": "#12664E",
+   "book": "door"
   }
  ]
 }

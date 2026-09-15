@@ -303,9 +303,12 @@ class ReportRankingTest(unittest.TestCase):
     def test_the_report_counts_every_pair_below_the_floor(self):
         rows = [A.separation(self.ACCENTS[a], self.ACCENTS[b])
                 for _, a, b in A.shared_view_pairs()]
-        self.assertEqual(len(rows), 139)
+        # 139 until 2026-09-15, when Julia 1&2 joined Hyvinkää and Keski-Uusimaa and
+        # added six pairs. The total moves whenever a provider enters a shared view; the
+        # twelve is the number that must not, and all six of Julia's clear the floor.
+        self.assertEqual(len(rows), 145)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 12)
-        self.assertIn(f"12 of 139 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"12 of 145 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

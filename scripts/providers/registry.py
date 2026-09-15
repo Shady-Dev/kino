@@ -305,6 +305,16 @@ PROVIDERS = [
          book="reserve", module="tmb", where="cloud"),
     dict(id="kinoelo", label="Elokuvateatteri Elo", host="elokuvat-elo.info",
          accent="#AA77AA", book="reserve", module="tmb", where="cloud"),
+
+    # Julia 1&2, Hyvinkää (2026-09-15). Not the defunct Turku "Julia" a sweep recorded
+    # earlier from a cinema-history page; this is an operating cinema on its own
+    # WordPress. `book="door"`: it sells at the door and takes reservations by phone, so
+    # there is no ticket host to link to and none is invented.
+    # Unlike the TMB four, this accent is constrained: Hyvinkää already holds BioRex, and
+    # Keski-Uusimaa holds BioRex, Cine, Kino Juha and Studio 123 Järvenpää. Chosen with
+    # `accent_check.py --search julia`; the figures are in IDEAS.md and the archive.
+    dict(id="julia", label="Julia 1&2", host="juliaelokuvat.fi", accent="#12664E",
+         book="door", module="julia", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

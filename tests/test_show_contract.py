@@ -33,6 +33,7 @@ import test_etiketti_templates as E
 import test_gilda_duplicates as G
 import test_isohannu as I
 import test_tmb as T
+import test_julia as J
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -196,12 +197,19 @@ def sample_tmb():
             [v["id"] for v in site["venues"]])
 
 
+def sample_julia():
+    site = J.julia.SITES[0]
+    return (mod("julia").parse(J.LISTING), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
     "gilda": sample_gilda, "heureka": sample_heureka, "etiketti": sample_etiketti,
     "biorex": sample_biorex, "engel": sample_engel, "kinoakseli": sample_kinoakseli,
     "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu, "tmb": sample_tmb,
+    "julia": sample_julia,
 }
 
 

@@ -1131,3 +1131,48 @@ towns that carried no cinema here before. The probe evidence is in
 - **Not yet published.** No run has fetched them, so there is no `logs/run-tmb.log` and no
   venue file. Declared counts move to 47 providers, 91 venues, 62 cities; the committed
   data still holds 86 venues.
+
+### Julia 1&2, Hyvinkää, and the identity the last batch got wrong (2026-09-15)
+
+The 2026-09-15 candidate batch closed a name called "Julia" as a defunct Turku cinema,
+having read `turunleffat.biokuva.fi/elokuvateatteri/julia/`: a local cinema-history page
+about a 1980s Eerikinkatu build. The reading of that page was right and the identity was
+wrong. The candidate is **Julia 1&2 in Hyvinkää**, Hämeenkatu 34, an operating two-hall
+cinema on its own WordPress, and it is added here. The earlier entry is left as written
+and carries a dated correction pointing at this one.
+
+What made the error possible is worth naming, because the same shape closed two other
+candidates that day: a name was matched against a search result rather than against a
+town and an operator. Confirming the town first would have separated the two Julias in
+one request.
+
+- `/ohjelmisto/` is the whole programme in one request. The films are listed twice, once
+  in an index with no screenings and once in the programme proper, so the parser anchors
+  on the film block and requires a screening row; anchoring on the title would have
+  published dateless shows.
+- **The year is two digits**, `15.09.26`, read as 2000+YY. It is published rather than
+  missing, so nothing is inferred from the clock. The mutation that substitutes today's
+  year scored **VOID** at first, because the fixture year and the year the suite runs in
+  were both 2026 and agree; the test now carries rows in 2027 and 2029 and the mutation
+  is red. The same pass found the dedupe untested for the same reason, no fixture
+  repeated a row, and that is covered now too.
+- Price, age limit, runtime, genres and a poster all come from the film block. `Ikäraja:
+  7` becomes `K-7` and an unreadable value yields no rating rather than a guess.
+- **`book="door"`.** There is no online booking: the cinema sells at the door and takes
+  reservations by phone, and `/liput/` sells gift tickets only. The showtime links to the
+  film's own page. No ticket host was invented.
+- Accent `#12664E`. This one is genuinely constrained, unlike the TMB four: Hyvinkää
+  already holds BioRex and Keski-Uusimaa holds BioRex, Cine, Kino Akseli, Kino Juha and
+  Studio 123 Järvenpää. The first colour tried, `#00AA88`, measured **1.7** on the weakest
+  model and was rejected by `accent_check.py --search julia`, which is what that tool is
+  for; `#12664E` measures 20.0 and every one of Julia's six shared-view pairs clears the
+  14.4 floor. `tests/test_accent_check.py` pinned the shared-view pair total at 139 and it
+  is now 145; the twelve pairs below the floor are unchanged, which is the number that
+  matters.
+- Tests: `tests/test_julia.py`, 17 tests, plus a contract sample. Eight mutations, all
+  red, none void after the two VOIDs above were closed.
+- Measured live before committing: 4 screenings, 2 films, 2 dates, both halls, price
+  `14€ / 12€`, ratings K-7 and K-12, runtimes 87 and 87 (the cinema's own figures; TMB's
+  pages independently give 87 for both films).
+- **Not yet published.** No run has fetched it. Declared counts move to 48 providers, 92
+  venues, 62 cities; Hyvinkää was already covered, so no new town.
