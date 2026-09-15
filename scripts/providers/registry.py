@@ -327,6 +327,18 @@ PROVIDERS = [
     # already in the band.
     dict(id="biokaari", label="Bio-Kaari", host="bio-kaari.fi", accent="#DD1100",
          book="buy", module="biokaari", where="cloud"),
+
+    # Kino Vaakuna, Lohja (2026-09-15). Its own site, its own parser. The first provider
+    # here whose pages publish no year at all, so it is also the first user of
+    # `common.resolve_year`; see that function for why "nearest occurrence" rather than
+    # "next occurrence".
+    # `book="reserve"`: "Varaa liput" opens the film's own page and the cinema takes
+    # reservations by phone and email, so there is no purchase link and none is invented.
+    # No auditorium is invented either; the page names none.
+    # Lohja holds no other chain and is in no REGIONS area, so this accent enters no
+    # shared view; measured at 6.1 dE00 from its nearest on the weakest of three models.
+    dict(id="vaakuna", label="Kino Vaakuna", host="kinovaakuna.fi", accent="#CC4477",
+         book="reserve", module="vaakuna", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

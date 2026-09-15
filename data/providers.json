@@ -342,6 +342,13 @@
    "host": "bio-kaari.fi",
    "accent": "#DD1100",
    "book": "buy"
+  },
+  {
+   "id": "vaakuna",
+   "label": "Kino Vaakuna",
+   "host": "kinovaakuna.fi",
+   "accent": "#CC4477",
+   "book": "reserve"
   }
  ]
 }

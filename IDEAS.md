@@ -27,7 +27,7 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-49 providers, 93 venues, 63 cities declared as of 2026-09-15. Seven venues are committed
+50 providers, 94 venues, 64 cities declared as of 2026-09-15. Eight venues are committed
 and unpublished: no run has fetched any of them. Check for an existing platform first. What each
 platform publishes, and the 2026-09-15 classification of the nine candidates that were on
 this list, is in
@@ -203,7 +203,7 @@ cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 49 / 93 / 63 |
+| providers / venues / cities (declared) | 50 / 94 / 64 |
 | venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
@@ -214,10 +214,11 @@ cloud run publishes `data/venues-isohannu.json`:
 | mirrored poster files | 1041 |
 | `sw.js` CACHE | `leffavuoro-v158` |
 
-Seven venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas (Akaa,
-Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää, already covered) and Bio-Kaari
-(Forssa). The first run that fetches them adds six cities and seven venues, which would
-take the pages to 105 per language and the sitemap to 211 if every one publishes. Those are predictions, not measurements, and are
+Eight venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas (Akaa,
+Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää, already covered), Bio-Kaari
+(Forssa) and Kino Vaakuna (Lohja). The first run that fetches them adds seven cities and
+eight venues, which would take the pages to 106 per language and the sitemap to 213 if
+every one publishes. Those are predictions, not measurements, and are
 the reason README's page sentence still reads 86 venues: it describes the committed
 pages, which have not moved.
 

@@ -522,3 +522,39 @@ def write_text_atomic(path, text):
 
 def write_json(path, obj, **dumps_kw):
     write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))
+
+def resolve_year(day, month, today):
+    """A `DD.MM.` with no year -> the year that puts it nearest `today`. -> int, or None.
+
+    Several small cinemas publish a day and a month and no year at all (Kino Vaakuna,
+    Kino Kirkkonummi, Kuvakukko). The year is missing rather than abbreviated, so it has
+    to be resolved, and every way of doing that is a guess about which occurrence is
+    meant. This is the narrowest one that survives the case the naive rules fail on.
+
+    **Nearest occurrence, ties to the future.** The candidates are the same day and month
+    in `today.year - 1`, `today.year` and `today.year + 1`, and the one closest to `today`
+    wins. That bounds the answer to about six months either side of today, which is the
+    point: a rule that only ever looks forward turns a stale row into a date a year out.
+    On 2 January a page still showing `28.12.` means five days ago, not in eleven months;
+    on 28 December a page showing `05.01.` means in eight days, not eleven months back.
+    Both fall out of "nearest" without a special case.
+
+    A date in the past is not discarded here. The caller publishes it and the client
+    filters past screenings already, which is the honest division: this function answers
+    which year, not whether to show it.
+
+    Returns None when no candidate year holds that day and month at all, which is 29.02.
+    in a three-year window with no leap year in it. The caller skips such a row rather
+    than moving it to a date the page did not publish.
+    """
+    best = None
+    for year in (today.year - 1, today.year, today.year + 1):
+        try:
+            when = datetime.date(year, month, day)
+        except ValueError:
+            continue
+        # Ties go to the future: a date equally far either way is the coming one.
+        key = (abs((when - today).days), 0 if when >= today else 1)
+        if best is None or key < best[0]:
+            best = (key, year)
+    return best[1] if best else None

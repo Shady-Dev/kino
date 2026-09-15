@@ -1207,3 +1207,33 @@ venue. Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
 - Measured live before committing: 15 screenings, 3 films, 10 dates, 15 distinct ticket
   ids, and the film pages filling rating, runtime and genre for all 15.
 - **Not yet published.** Declared counts move to 49 providers, 93 venues, 63 cities.
+
+### Kino Vaakuna, Lohja, and a shared rule for pages that publish no year (2026-09-15)
+
+Lohja had no cinema here. Added as `scripts/providers/vaakuna.py`, and with it
+`common.resolve_year`, because three of the candidates assessed that day publish a day and
+a month and no year at all.
+
+- **The rule is nearest occurrence, ties to the future**, over last year, this year and
+  next. "Next occurrence" is the rule that suggests itself and it is wrong in the case
+  that matters: on 2 January a page still showing `28.12.` means five days ago, and a
+  forward-only rule puts it eleven months out where nothing filters it. Nearest handles
+  both directions and bounds every answer to about six months either side of today. A day
+  and month naming no real date in the window is skipped, never moved.
+- **The tie-break is live code**, which was not obvious: a twelve-year sweep finds 195
+  exact ties, all at 183 days across a leap year. The first test for it used 181 against
+  184 days, which is not a tie at all, and the mutation flipping the tie-break scored
+  **VOID** against it. The test now uses 2027-08-31 against `01.03.`, a real tie, and the
+  mutation is red.
+- The age limit is an image whose filename is the number, `icon/16.png`, so it is read
+  rather than inferred. One film carried `icon/.png` and publishes no rating, which is
+  what the site does too.
+- `book="reserve"`: "Varaa liput" opens the film's own page and reservations are by phone
+  and email. No purchase link and no auditorium were invented.
+- Accent `#CC4477`, unconstrained: Lohja holds no other chain and is in no REGIONS area.
+- Tests: `tests/test_vaakuna.py`, 19 tests including `resolve_year` on its own, plus a
+  contract sample whose `today` is pinned so it cannot drift with the calendar. Ten
+  mutations, all red, none void after the tie case was fixed.
+- Measured live before committing: 19 screenings, 8 films, 8 dates, prices and runtimes on
+  all of them and ratings on all but the one the site does not rate.
+- **Not yet published.** Declared counts move to 50 providers, 94 venues, 64 cities.

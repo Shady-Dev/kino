@@ -1,0 +1,175 @@
+"""Kino Vaakuna, Lohja: film cards, an age limit in an image name, and no year anywhere.
+
+The fixtures follow `kinovaakuna.fi/etusivu.html` as read on 2026-09-15: one
+`div.MovieCard` per film with the film-page link, the poster, `Liput:`, `Kesto:`, an
+`Ikäraja:` image whose filename is the number, and a table of `Ti 15.09.   klo 18:40`
+rows.
+
+`today` is passed in everywhere rather than read from the clock, because the year is the
+one thing this page does not publish and a test that resolved it against the real date
+would pass in September and fail in January. `common.resolve_year` has its own tests; what
+is pinned here is that this parser uses it and skips a row it cannot place.
+"""
+import datetime
+import unittest
+
+import _ctx                                                # noqa: F401
+import common
+import vaakuna
+
+BASE = "https://www.kinovaakuna.fi"
+TODAY = datetime.date(2026, 9, 15)
+
+
+def card(slug, title, shows, price="13 €", kesto="1 h 27 min", icon="12", poster=True):
+    rows = "".join(f'<tr><td class="">{s}</td></tr>' for s in shows)
+    img = (f'<img class="MovieCard__Poster img-fluid" '
+           f'src="{BASE}/media/cache/{slug}.png" alt="{title} Juliste">') if poster else ""
+    age = (f'<li>Ikäraja: <img src="{BASE}/media/layout/img/icon/{icon}.png" '
+           f'style="width: 1.5rem;"></li>') if icon is not None else ""
+    return (f'<div class="MovieCard card h-100 border-0 rounded-0 shadow-sm">'
+            f'<a href="{BASE}/elokuvat/{slug}.html" class="MovieCard__PosterLink">{img}</a>'
+            f'<div class="card-body d-flex flex-column text-center">'
+            f'<h2 class="font-size-h5 mb-3">{title}</h2>'
+            f'<ul class="list-unstyled mb-0 font-size-2">'
+            f'<li class="mb-2"><strong>Liput: {price}</strong></li>'
+            f'<li class="mb-2">Kesto: {kesto}</li>{age}</ul>'
+            f'<div class="mt-2 mb-1">Näytösajat:</div>'
+            f'<table class="table table-sm mb-0 font-size-1">{rows}</table></div>'
+            f'<a class="btn btn-primary" href="{BASE}/elokuvat/{slug}.html">'
+            f'Varaa liput &raquo;</a></div>')
+
+
+def page(*cards):
+    return "<html><body><main>" + "".join(cards) + "</main></body></html>"
+
+
+LISTING = page(
+    card("the-odyssey", "The Odyssey", ["Ti 15.09.   klo 18:40"],
+         price="15€ (lahja/sarjalippu +2€)", kesto="2 h 53 min", icon="16"),
+    card("hetki-ennen-valoa", "Hetki Ennen Valoa",
+         ["Ti 15.09.   klo 17:00", "Ke 16.09.   klo 15:00"], icon="7"),
+    # The site publishes an empty icon name for a film it gives no age limit.
+    card("resident-evil", "Resident Evil", ["Pe 18.09.   klo 20:45"],
+         kesto="1 h 34 min", icon=""),
+)
+
+
+class ProgrammeTest(unittest.TestCase):
+    def setUp(self):
+        self.shows = vaakuna.parse(LISTING, today=TODAY)
+
+    def test_every_row_in_every_card_is_a_screening(self):
+        self.assertEqual(len(self.shows), 4)
+        self.assertEqual(sorted({s["eventId"] for s in self.shows}),
+                         ["hetki-ennen-valoa", "resident-evil", "the-odyssey"])
+
+    def test_each_card_keeps_its_own_price_runtime_and_rating(self):
+        by = {s["title"]: s for s in self.shows}
+        self.assertEqual((by["The Odyssey"]["rating"], by["The Odyssey"]["len"]),
+                         ("K-16", "173"))
+        self.assertEqual(by["The Odyssey"]["price"], "15€ (lahja/sarjalippu +2€)")
+        self.assertEqual((by["Hetki Ennen Valoa"]["rating"], by["Hetki Ennen Valoa"]["len"]),
+                         ("K-7", "87"))
+        self.assertEqual(by["Hetki Ennen Valoa"]["price"], "13 €")
+
+    def test_the_age_limit_is_read_from_the_image_name(self):
+        self.assertEqual(vaakuna._rating("16"), "K-16")
+        self.assertEqual(vaakuna._rating("7"), "K-7")
+        self.assertEqual(vaakuna._rating("S"), "S")
+        self.assertEqual(vaakuna._rating(""), "",
+                         "the site writes icon/.png for a film it does not rate")
+        self.assertEqual(vaakuna._rating("kuva"), "")
+
+    def test_a_film_the_site_does_not_rate_publishes_no_rating(self):
+        by = {s["title"]: s for s in self.shows}
+        self.assertEqual(by["Resident Evil"]["rating"], "")
+
+    def test_no_auditorium_is_invented(self):
+        self.assertEqual({s["aud"] for s in self.shows}, {""})
+
+    def test_the_destination_is_the_films_own_page(self):
+        for s in self.shows:
+            self.assertRegex(s["url"], rf"^{BASE}/elokuvat/[^/]+\.html$")
+
+    def test_every_show_meets_the_contract(self):
+        common.check_shows({vaakuna.VENUE["id"]: self.shows}, "vaakuna",
+                           {vaakuna.VENUE["id"]})
+
+
+class YearTest(unittest.TestCase):
+    """The page publishes no year. These pin that the parser resolves one rather than
+    assuming the current year, and that it never moves a row to a date the page did not
+    publish."""
+
+    def test_a_date_later_this_year_stays_in_this_year(self):
+        out = vaakuna.parse(page(card("a", "A", ["Ke 23.09.   klo 19:20"])), today=TODAY)
+        self.assertEqual(out[0]["start"][:10], "2026-09-23")
+
+    def test_a_january_row_read_in_december_rolls_forward(self):
+        out = vaakuna.parse(page(card("a", "A", ["Ma 05.01.   klo 19:00"])),
+                            today=datetime.date(2026, 12, 28))
+        self.assertEqual(out[0]["start"][:10], "2027-01-05")
+
+    def test_a_december_row_read_in_january_stays_in_the_past(self):
+        """The case a next-occurrence rule gets wrong: on 2 January a page still showing
+        28.12. means five days ago, not in eleven months. The client filters past
+        screenings; publishing one a year out would not be filtered."""
+        out = vaakuna.parse(page(card("a", "A", ["Su 28.12.   klo 19:00"])),
+                            today=datetime.date(2026, 1, 2))
+        self.assertEqual(out[0]["start"][:10], "2025-12-28")
+
+    def test_a_day_and_month_that_name_no_date_in_the_window_are_skipped(self):
+        out = vaakuna.parse(page(card("a", "A", ["To 29.02.   klo 19:00",
+                                                 "Ti 15.09.   klo 19:00"])), today=TODAY)
+        self.assertEqual([s["start"][:10] for s in out], ["2026-09-15"])
+
+    def test_a_repeated_row_is_published_once(self):
+        r = "Ti 15.09.   klo 18:40"
+        out = vaakuna.parse(page(card("a", "A", [r, r])), today=TODAY)
+        self.assertEqual(len(out), 1)
+
+
+class EmptyAndBrokenTest(unittest.TestCase):
+    def test_cards_with_no_screening_is_an_empty_programme(self):
+        with self.assertRaises(common.EmptyProgramme):
+            vaakuna.parse(page(card("a", "A", []), card("b", "B", [])), today=TODAY)
+
+    def test_a_page_without_a_card_is_a_failure(self):
+        with self.assertRaises(RuntimeError) as cm:
+            vaakuna.parse("<html><body><p>Tervetuloa</p></body></html>", today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+
+class SiteTest(unittest.TestCase):
+    def test_one_venue_in_lohja(self):
+        self.assertEqual([v["city"] for v in vaakuna.SITES[0]["venues"]], ["Lohja"])
+
+
+class ResolveYearTest(unittest.TestCase):
+    """`common.resolve_year` itself: three adapters will share it, so it is pinned on its
+    own rather than only through one parser."""
+
+    def test_nearest_occurrence_wins_in_both_directions(self):
+        self.assertEqual(common.resolve_year(28, 12, datetime.date(2026, 1, 2)), 2025)
+        self.assertEqual(common.resolve_year(5, 1, datetime.date(2026, 12, 28)), 2027)
+
+    def test_a_date_in_the_same_year_is_that_year(self):
+        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15)), 2026)
+        self.assertEqual(common.resolve_year(1, 7, datetime.date(2026, 9, 15)), 2026)
+
+    def test_a_tie_goes_to_the_future(self):
+        """A real tie, not an approximate one. It needs a leap year to be reachable at
+        all: on 2027-08-31, 01.03. is 183 days back to 2027-03-01 and 183 days forward to
+        2028-03-01, and the coming one is the one meant. The first case written here was
+        181 against 184 days, which is not a tie, and the mutation that flips the
+        tie-break scored VOID against it."""
+        self.assertEqual(common.resolve_year(1, 3, datetime.date(2027, 8, 31)), 2028)
+
+    def test_no_candidate_year_holds_the_date(self):
+        self.assertIsNone(common.resolve_year(29, 2, datetime.date(2026, 9, 15)))
+        self.assertEqual(common.resolve_year(29, 2, datetime.date(2024, 3, 1)), 2024)
+
+
+if __name__ == "__main__":
+    unittest.main()

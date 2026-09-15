@@ -481,6 +481,53 @@ records after a scheduled run.
 
 ---
 
+## The year nobody publishes, and Kino Vaakuna (2026-09-15)
+
+**Findings**
+
+Three of the secondary candidates publish a programme with **no year anywhere**: Kino
+Vaakuna (`Ti 15.09.   klo 18:40`), Kino Kirkkonummi (`20.9. Sunnuntai klo18.00`) and
+Kuvakukko/Kino Manttu (`Tiistai 15.9.` headings with `Klo 13:` rows). It is one problem,
+not three, and it is solved once in `common.resolve_year`.
+
+**The rule: nearest occurrence, ties to the future.** Candidates are the same day and
+month in last year, this year and next; the one closest to today wins. The obvious rule,
+"next occurrence", is wrong in a way that matters: on 2 January a page still showing
+`28.12.` means five days ago, and a forward-only rule publishes it eleven months out,
+where nothing filters it. Nearest gets both directions right without a special case, and
+bounds every answer to about six months either side of today. A day and month that name no
+real date in the window, 29.02. outside a leap year, resolve to nothing and the row is
+skipped rather than moved to a date the page did not publish.
+
+Ties are reachable, which was not obvious: 195 of them in a twelve-year sweep, all at 183
+days across a leap year, so the tie-break is live code and not decoration. The first test
+written for it used 181 days against 184, which is not a tie, and the mutation that flips
+the tie-break scored **VOID** against it.
+
+**Kino Vaakuna, Lohja** (kinovaakuna.fi, read 2026-09-15) is the first adapter using it.
+One `div.MovieCard` per film on the front page with the film-page link, poster, `Liput:`,
+`Kesto:` and a screening table. 19 screenings over 8 dates and 8 films when read.
+
+- **The age limit is an image whose filename is the number**, `icon/16.png`, so it is read
+  rather than inferred. One film carried `icon/.png`, an empty name, and publishes no
+  rating: the site rates it nowhere and neither does this.
+- **No online purchase.** "Varaa liput" opens the film's own page; reservations are by
+  phone and email. `book="reserve"`, and no auditorium is invented because the page names
+  none.
+
+**Inferences and open questions**
+
+- Whether Vaakuna ever publishes a year is not established; it did not on the day read.
+- The same rule is what Kirkkonummi and Kuvakukko will need, and neither is implemented.
+
+**Status and next step**
+
+`scripts/providers/vaakuna.py` is live, one provider, one venue, cloud half, committed
+2026-09-15 and **not yet published**. `common.resolve_year` is shared and tested on its
+own. Next step: Kuvakukko/Kino Manttu and Kino Kirkkonummi, both of which reuse it.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)
