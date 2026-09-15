@@ -356,6 +356,13 @@
    "host": "kuvakukko.fi",
    "accent": "#7A3FB8",
    "book": "door"
+  },
+  {
+   "id": "kirkkonummi",
+   "label": "Kino Kirkkonummi",
+   "host": "kinokirkkonummi.fi",
+   "accent": "#BB6688",
+   "book": "list"
   }
  ]
 }

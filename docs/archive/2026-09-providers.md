@@ -1270,3 +1270,38 @@ Kuopio's two municipal cinemas, added as one provider with two venues,
 - Measured live before committing: 36 screenings at Kuvakukko over 9 dates, 9 at Manttu
   over 3, and the contract check passes for both.
 - **Not yet published.** Declared counts move to 51 providers, 96 venues, 65 cities.
+
+### Kino Kirkkonummi, and reversing a deferral made on maintenance grounds (2026-09-15)
+
+Deferred earlier the same day as "parseable only by reading page-builder markup that
+carries no contract", and implemented on a second look. The deferral was a judgement about
+how much upkeep the parser would need, not a finding that it could not be written, and the
+page does not bear it out: the screenings are server-rendered in a consistent shape and
+there are three to five a week. Kirkkonummi is a new town.
+
+- **Everything on the page is published twice**, desktop and mobile: 21 headings and 46
+  list items for 6 films, 11 real screenings. Deduplicated on (film, start). The mutation
+  that removes it doubles the programme and turns two tests red.
+- **A row is a screening only if it reads `D.M. Weekday kloHH.MM`.** The same element
+  carries cast, directors, notes, an address and a phone number.
+- **"Tulossa 25.9. alkaen" is a release date and is excluded three times over**: the row
+  must begin with the date, carry a weekday, and carry a time. Measured each relaxation
+  separately: any one alone still excludes it, and only relaxing all three admits it. That
+  is why the mutation aimed at it scored **VOID** twice before it was written to defeat the
+  pattern anchor and the `re.match` call together. The same over-determination showed up in
+  `kuvakukko.py` an hour earlier, and it is worth knowing that `re.match` plus a `^` cannot
+  be broken by editing either one.
+- The year comes from the weekday, as everywhere else in this batch.
+- **`book="list"`**: the site is a single page with no per-film page and no booking host,
+  so a showtime opens the programme page. That is what the mode is for, and it is the
+  honest label when tickets are reserved by phone. The page names two seat counts and never
+  says which screening uses which, so no auditorium is invented.
+- Accent `#BB6688`. The first colour tried, `#1E7A3C`, measured 4.4 dE00 from Bio Grani on
+  the weakest model; Kirkkonummi shares no view with it, so nothing bound the choice, but
+  a near-clone of an existing chain colour is still a bad one. `#BB6688` is 6.1 from its
+  nearest, which is close to the best available with 51 accents already in the band.
+- Tests: `tests/test_kirkkonummi.py`, 17 tests, plus a contract sample. Eight mutations,
+  all red, none void.
+- Measured live before committing: 11 screenings, 5 films, 8 dates, the release-only film
+  correctly absent.
+- **Not yet published.** Declared counts move to 52 providers, 97 venues, 66 cities.

@@ -37,6 +37,7 @@ import test_julia as J
 import test_biokaari as BK
 import test_vaakuna as V
 import test_kuvakukko as KK
+import test_kirkkonummi as KN
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -200,6 +201,13 @@ def sample_tmb():
             [v["id"] for v in site["venues"]])
 
 
+def sample_kirkkonummi():
+    """`today` pinned: the page publishes no year."""
+    site = KN.kirkkonummi.SITES[0]
+    return (mod("kirkkonummi").parse(KN.LISTING, today=KN.TODAY), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 def sample_kuvakukko():
     """Two venues on one page; `today` pinned because the page publishes no year."""
     site = KK.kuvakukko.SITES[0]
@@ -237,6 +245,7 @@ SAMPLES = {
     "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu, "tmb": sample_tmb,
     "julia": sample_julia, "biokaari": sample_biokaari,
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
+    "kirkkonummi": sample_kirkkonummi,
 }
 
 

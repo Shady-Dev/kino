@@ -300,10 +300,11 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
   the cinema is alive rather than closed.
 - **Iso-Hannu**, Rauma, is on none of the platforms here and got the batch's one parser.
   See `scripts/providers/isohannu.py`.
-- **Kino Kirkkonummi** is WordPress with Elementor. Its showtimes are hand-authored
-  `elementor-icon-list` text ("20.9. Sunnuntai klo18.00"): no year, no room, no booking
-  host among its outbound links, and no semantic class around the time. Parseable only by
-  reading page-builder markup that carries no contract.
+- **Kino Kirkkonummi** is WordPress with Elementor, and this entry deferred it as
+  "parseable only by reading page-builder markup that carries no contract". That was a
+  maintenance judgement, not a demonstration, and it did not survive a second look:
+  the screenings are server-rendered in a consistent shape and it was implemented the same
+  day. See the Kirkkonummi section below. Corrected 2026-09-15.
 - **Teatteri Union** is WHS's stage, not a cinema. Its own words: a programme of
   "visuaalista teatteria, eläviä kuvia ja poikkitaiteellisia esityksiä". The four events
   on `/esitys/` when read were concerts and performances, one of them titled
@@ -571,6 +572,46 @@ schedules share one WordPress page. One provider, two venues, one request.
 Live as `scripts/providers/kuvakukko.py`, one provider, two venues, cloud half. Committed
 2026-09-15 and **not yet published**. Next step: decide whether "Hopeatähti-sarja" belongs
 in `strands.EVENT_PREFIXES`.
+
+---
+
+## Kino Kirkkonummi (2026-09-15)
+
+**Findings** (kinokirkkonummi.fi, read as a visitor 2026-09-15)
+
+WordPress built in Elementor. The whole cinema is one page and there is no semantic class
+for a screening: a film title sits in `<p class="elementor-heading-title">` and its
+screenings in following `<span class="elementor-icon-list-text">` items, so the parser
+walks headings and items in document order and keeps the last heading as the current film.
+
+- **Everything is published twice**, once for desktop and once for mobile: 21 headings and
+  46 list items for 6 films. 11 real screenings on the day read. A parser that trusted the
+  count would double the whole programme.
+- **A list item is a screening only if it reads `D.M. Weekday kloHH.MM`.** The same element
+  carries cast lists, directors, "vain tämä näytös", the street address and the phone
+  number, and none of them match.
+- **"Tulossa 25.9. alkaen" is a release date, not a screening**, and it is excluded three
+  times over: the row must start with the date, carry a weekday, and carry a time. Relaxing
+  any one of those still excludes it; only relaxing all three admits it. `tulossa` also
+  appears as a heading above films that *do* have screenings, so it is not usable as a
+  marker either way.
+- **No year, but every row carries a weekday**, which determines it.
+- The time is written `klo18.00`: no space, minutes after a dot.
+- **No per-film page and no booking host.** The site is one page and tickets are reserved
+  by phone, so a showtime opens that page and the registry entry is `book="list"`, the mode
+  that exists for exactly this. The page names two seat counts, 112 and 68, but never says
+  which screening uses which, so no auditorium is published.
+
+**Inferences and open questions**
+
+- No price, runtime or age limit is published per film, so those stay empty and the TMDB
+  pass fills what it can.
+- Three to five screenings a week is a small programme; nothing here depends on its size.
+
+**Status and next step**
+
+Live as `scripts/providers/kirkkonummi.py`, one provider, one venue, cloud half. Committed
+2026-09-15 and **not yet published**. No next step.
 
 ---
 

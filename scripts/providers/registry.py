@@ -350,6 +350,15 @@ PROVIDERS = [
     # `accent_check.py --search kuvakukko`; Nilsiä holds no other chain.
     dict(id="kuvakukko", label="Kuvakukko", host="kuvakukko.fi", accent="#7A3FB8",
          book="door", module="kuvakukko", where="cloud"),
+
+    # Kino Kirkkonummi (2026-09-15). Deferred earlier the same day as too fragile to
+    # parse; that was a maintenance judgement and the page did not bear it out, so it is
+    # implemented. `book="list"` is exactly this case: the site is a single page with no
+    # per-film page and no booking host, so a showtime opens the programme page, which is
+    # what that mode means. Kirkkonummi holds no other chain and is not in a REGIONS area,
+    # so the accent enters no shared view.
+    dict(id="kirkkonummi", label="Kino Kirkkonummi", host="kinokirkkonummi.fi",
+         accent="#BB6688", book="list", module="kirkkonummi", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

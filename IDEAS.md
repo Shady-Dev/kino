@@ -27,7 +27,7 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-51 providers, 96 venues, 65 cities declared as of 2026-09-15. Ten venues are committed
+52 providers, 97 venues, 66 cities declared as of 2026-09-15. Eleven venues are committed
 and unpublished: no run has fetched any of them. Check for an existing platform first. What each
 platform publishes, and the 2026-09-15 classification of the nine candidates that were on
 this list, is in
@@ -203,7 +203,7 @@ cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 51 / 96 / 65 |
+| providers / venues / cities (declared) | 52 / 97 / 66 |
 | venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
@@ -214,12 +214,12 @@ cloud run publishes `data/venues-isohannu.json`:
 | mirrored poster files | 1041 |
 | `sw.js` CACHE | `leffavuoro-v158` |
 
-Ten venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas (Akaa,
-Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino Vaakuna
-(Lohja), Kino Kuvakukko (Kuopio) and Kino Manttu (Nilsiä). Hyvinkää and Kuopio were
-already covered, so the first run that fetches them adds eight cities and ten venues,
-which would take the pages to 108 per language and the sitemap to 217 if every one
-publishes. Those are predictions, not measurements, and are
+Eleven venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas
+(Akaa, Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino
+Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä) and Kino Kirkkonummi.
+Hyvinkää and Kuopio were already covered, so the first run that fetches them adds nine
+cities and eleven venues, which would take the pages to 109 per language and the sitemap
+to 219 if every one publishes. Those are predictions, not measurements, and are
 the reason README's page sentence still reads 86 venues: it describes the committed
 pages, which have not moved.
 
