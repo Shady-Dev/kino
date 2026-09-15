@@ -63,8 +63,19 @@ prose but fills no field. That one is the override list's first and only entry.
 
 ## The two listing templates
 
-Both wrap each screening in a block whose class is exactly `kinola-event`, so the blocks
-are found by that token and sliced between occurrences rather than by matching tags.
+Both wrap each screening in a block carrying the class **token** `kinola-event`, so the
+blocks are found by that token and sliced between occurrences rather than by matching tags.
+A token, not a whole attribute: `class="kinola-event featured"` is the same block, and
+matching the attribute exactly would hide that screening with nothing to show for it.
+Neither the longer names inside the block (`kinola-event-title`, `-date`, `-venue`,
+`-tickets-link`) nor the container around them (`kinola-events`) is the token.
+
+**A block the listing marks as a screening must produce a row.** One that cannot be read
+raises `ListingRowError` and fails the site, which keeps the previous files. Skipping it
+published a schedule with a screening missing from it and from the omission report, which
+counts only what the classification policy withheld -- so nothing anywhere said a screening
+had been dropped, and with every row malformed the site looked like a cinema with nothing
+on. Parsing failures and policy omissions are different claims and are kept apart.
 
     kilta   <li class="kinola-event"> .time "20:00", .date "TI 15.9.2026",
             a.kinola-event-title -> /film/{slug}/, .movie-subtitle (a strand, not a
@@ -103,6 +114,23 @@ is a `<dt>`/`<dd>` pair or a `<strong>` followed by text, and both land in one d
 - Kilta's poster is the page's `og:image`; Laika's comes from the listing row.
 - `LANG` is imported from `gilda.py`, which already maps the Finnish language names these
   pages use, so a code cannot drift between two readers of the same vocabulary.
+
+## What counts as an empty programme
+
+Zero parsed rows is never the evidence -- `common.EmptyProgramme` says why. The evidence is
+what the page carries that the row parser does not read, and it was measured as a visitor on
+2026-09-15 across all three tenants; the reading is in `docs/research/kinola.md`.
+
+    kinokilta.fi/naytokset/   57 blocks, a `kinola-events` container, no empty-state text
+    kinolaika.fi/ohjelmisto/  47 blocks, a `kinola-events` container, no empty-state text
+    kinokonepaja.fi           0 blocks, no `kinola-events` container at all, and
+                              "Ei tulevia tapahtumia." where the list would be
+
+So an empty programme is the filter widget rendered, **no** event container, and that text
+after the widget. One tenant is the whole sample of the empty state, so the rule is the
+conservative one and all three conditions are required: a container that rendered and held
+no readable row is a markup change rather than a quiet week, and a page that is not this
+listing is neither. Anything short of all three fails the site and the previous files stand.
 
 ## Requests
 
@@ -150,7 +178,21 @@ FILM, NON_FILM, UNRESOLVED = "film", "non-film", "unresolved"
 # How an override stands against the page as it is now.
 ACTIVE, REDUNDANT, UNAVAILABLE = "active", "redundant", "evidence-unavailable"
 
-EVENT_RE = re.compile(r'class=["\']kinola-event["\']')
+# The class attribute carrying `kinola-event` as a token. The lookarounds are the whole
+# point: without the trailing one this matches `kinola-event-title` and cuts every block
+# at its own children, and without a token match at all -- which is what
+# `class="kinola-event"` was -- a block carrying a second class is not seen, and its
+# screening disappears with nothing in the log or the omission report to say so. Measured
+# 2026-09-15 on both live listings: 57 blocks at Kilta and 47 at Laika, every one of them
+# with that class alone, so this is hardening and not a repair of anything live.
+EVENT_RE = re.compile(r'(?<![-\w])class=["\'][^"\']*(?<![-\w])kinola-event(?![-\w])')
+# The container the platform wraps those blocks in, and the widget that renders either
+# them or its empty state. Read as tokens for the same reason.
+EVENTS_BOX_RE = re.compile(r'(?<![-\w])class=["\'][^"\']*(?<![-\w])kinola-events(?![-\w])')
+FILTERS_MARKER = "kinola-filters"
+# The platform's own words when a tenant has nothing on. Not a phrase this parser invented:
+# see the module docstring and docs/research/kinola.md.
+EMPTY_STATE = "ei tulevia tapahtumia"
 TITLE_RE = re.compile(r'<a[^>]*class=["\']kinola-event-title["\'][^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>',
                       re.S | re.I)
 SLUG_RE = re.compile(r'/film/([^/?#"\']+)', re.I)
@@ -186,12 +228,45 @@ def _one(pattern, cls, block):
     return _txt(m.group(1)) if m else ""
 
 
-def blocks(page):
-    """-> [html] one per screening, sliced between `class="kinola-event"` occurrences.
+class ListingRowError(RuntimeError):
+    """A block the listing marks as a screening and this parser could not read.
 
-    The class token is matched exactly: `kinola-event-title`, `-date`, `-venue` and
-    `-tickets-link` all contain it as a prefix, so a substring match would cut a block
-    into pieces at its own children.
+    Neither an empty programme nor a policy omission, and not something to skip. The row
+    is *there*: dropping it publishes a schedule one screening short, and the omission
+    report cannot say so either, because that report counts what the classification policy
+    withheld and this was never classified. With every row malformed the site then looked
+    like a cinema with nothing on and the run stayed green.
+
+    A RuntimeError, so `run.py` treats it as any other parse failure: the site fails, its
+    files are left as they were, and the other cinema on this module still publishes.
+    """
+
+
+def _row_fault(site, n, field, value="", title=""):
+    """The message a ListingRowError carries. -> ListingRowError.
+
+    Names the field and quotes the short text it was read from -- a date or a time, never
+    the block -- because a committed log in a public repo may not carry a third party's
+    markup. `n` is the block's place in the listing, which is what makes the row findable
+    on the page without one.
+    """
+    seen = re.sub(r"\s+", " ", value or "").strip()[:60]
+    return ListingRowError(
+        f"{site['provider']}: screening block {n + 1} of the listing has no readable "
+        f"{field}" + (f" for {title!r}" if title else "") +
+        (f" (read {seen!r})" if seen else "") +
+        ". The listing marks it as a screening, so skipping it would drop a screening "
+        "from the schedule and from the omission report alike; failing keeps the last "
+        "good data")
+
+
+def blocks(page):
+    """-> [html] one per screening, sliced between `kinola-event` class tokens.
+
+    A token and not the whole attribute: a block carrying a second class is the same
+    block. Not a substring either, since `kinola-event-title`, `-date`, `-venue` and
+    `-tickets-link` all start with it and would cut a block into pieces at its own
+    children, and `kinola-events` is the container around the lot. See EVENT_RE.
     """
     starts = [page.rfind("<", 0, m.start()) for m in EVENT_RE.finditer(page)]
     starts = [i for i in starts if i >= 0]
@@ -223,19 +298,31 @@ def _destination(block, base, film_url):
 
 
 def events_kilta(page, site):
-    """-> [{slug, title, film_url, start, url, soldOut, method, len}]"""
+    """-> [{slug, title, film_url, start, url, soldOut, method, len}]
+
+    Every block yields a row or raises: see ListingRowError. A missing film slug counts as
+    unreadable too, because the film page is where the classification lives, and a row with
+    no page to read is a parse failure being reported as an unresolved classification.
+    """
     out = []
-    for b in blocks(page):
+    for n, b in enumerate(blocks(page)):
         title, slug, film_url = _title_and_slug(b, site["base"])
-        d = KILTA_DATE_RE.search(_one(DIV_CLASS_RE, "date", b))
-        t = KILTA_TIME_RE.search(_one(DIV_CLASS_RE, "time", b))
-        if not (title and d and t):
-            continue
+        dtxt, ttxt = _one(DIV_CLASS_RE, "date", b), _one(DIV_CLASS_RE, "time", b)
+        d = KILTA_DATE_RE.search(dtxt)
+        t = KILTA_TIME_RE.search(ttxt)
+        if not title:
+            raise _row_fault(site, n, "title link")
+        if not slug:
+            raise _row_fault(site, n, "film page link", title=title)
+        if not d:
+            raise _row_fault(site, n, "date", dtxt, title)
+        if not t:
+            raise _row_fault(site, n, "time", ttxt, title)
         try:
             start = datetime.datetime(int(d.group(3)), int(d.group(2)), int(d.group(1)),
                                       int(t.group(1)), int(t.group(2)), tzinfo=FI)
-        except ValueError:
-            continue
+        except ValueError as e:
+            raise _row_fault(site, n, "calendar date", f"{dtxt} {ttxt}", title) from e
         url, sold = _destination(b, site["base"], film_url)
         dur = MIN_RE.search(_one(DIV_CLASS_RE, "duration-info", b))
         out.append({"slug": slug, "title": title, "film_url": film_url,
@@ -246,17 +333,23 @@ def events_kilta(page, site):
 
 
 def events_laika(page, site):
+    """The same contract as events_kilta: a block yields a row or raises."""
     out = []
-    for b in blocks(page):
+    for n, b in enumerate(blocks(page)):
         title, slug, film_url = _title_and_slug(b, site["base"])
-        d = LAIKA_DATE_RE.search(_one(SPAN_CLASS_RE, "kinola-event-date", b))
-        if not (title and d):
-            continue
+        dtxt = _one(SPAN_CLASS_RE, "kinola-event-date", b)
+        d = LAIKA_DATE_RE.search(dtxt)
+        if not title:
+            raise _row_fault(site, n, "title link")
+        if not slug:
+            raise _row_fault(site, n, "film page link", title=title)
+        if not d:
+            raise _row_fault(site, n, "date", dtxt, title)
         try:
             start = datetime.datetime(int(d.group(3)), int(d.group(2)), int(d.group(1)),
                                       int(d.group(4)), int(d.group(5)), tzinfo=FI)
-        except ValueError:
-            continue
+        except ValueError as e:
+            raise _row_fault(site, n, "calendar date", dtxt, title) from e
         url, sold = _destination(b, site["base"], film_url)
         pm = POSTER_RE.search(b)
         src = SRC_RE.search(pm.group(0)) if pm else None
@@ -481,6 +574,31 @@ def parse(site, listing, pages, overrides=None):
     return {venue["id"]: shows}, om
 
 
+def empty_programme_evidence(page):
+    """-> "" when the page is positive evidence of an empty programme, else why it is not.
+
+    Every condition is something the row parser does **not** read, which is what
+    `common.EmptyProgramme` requires: "my parser found nothing" is the one thing that may
+    not be the evidence, because a markup change upstream produces exactly that while the
+    page is still full of films.
+
+    The three are the shape measured on 2026-09-15 -- see the module docstring. The empty
+    text is looked for after the filter widget rather than anywhere on the page, so a
+    cinema writing the same words in its own page copy above the listing does not silence a
+    parse that broke underneath it; that is the trap `test_empty_programme.py` already
+    records for eTiketti, whose empty phrase had to be scoped to its container.
+    """
+    i = page.lower().find(FILTERS_MARKER)
+    if i < 0:
+        return "the Kinola listing widget is not on the page at all"
+    if EVENTS_BOX_RE.search(page):
+        return ("the event container rendered and held no readable screening, which is a "
+                "markup change rather than a cinema with nothing on")
+    if EMPTY_STATE not in page[i:].lower():
+        return "the widget rendered neither an event list nor its empty state"
+    return ""
+
+
 def get(url, tries=3, timeout=30):
     return fetch(url, cache=True,
                  headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
@@ -490,15 +608,27 @@ def get(url, tries=3, timeout=30):
 def fetch_site(site, sleep=1.2):
     """Runner contract: one listing, then one film page per distinct film.
 
-    A listing with no screening block is `EmptyProgramme`: the Kinola template renders the
-    filters either way, so an empty event list is the cinema saying it has nothing on. A
-    listing that holds blocks while nothing publishes is **not**, because the film pages
-    then decided it, which is the policy working rather than a failure.
+    A listing with no screening block is `EmptyProgramme` **only** on the evidence
+    `empty_programme_evidence` asks for; short of it the site fails and keeps its files.
+    Zero blocks used to be the whole test, which read an unrelated page, a renamed row
+    class and a listing whose every row was malformed as a cinema with nothing on.
+
+    A listing that holds blocks while nothing publishes is a different case and is not an
+    empty programme either: the film pages decided it, which is the policy working. That
+    check is at the end of this function and stays where it is.
     """
-    listing = get(site["base"].rstrip("/") + site["listing"])
+    listing_url = site["base"].rstrip("/") + site["listing"]
+    listing = get(listing_url)
     rows = TEMPLATES[site["template"]](listing, site)
     if not rows:
-        raise EmptyProgramme(f"{site['base']}{site['listing']} lists no screening")
+        why = empty_programme_evidence(listing)
+        if why:
+            raise RuntimeError(
+                f"{listing_url}: no screening block, and no evidence of an empty "
+                f"programme -- {why}. Zero parsed rows is not evidence on its own, so "
+                f"this fails and the previous files stand")
+        raise EmptyProgramme(
+            f"{listing_url} renders the listing's empty state and no screening")
     slugs = budget_or_raise(sorted({e["slug"] for e in rows if e["slug"]}),
                             site["provider"])
     pages = {}
@@ -531,7 +661,7 @@ def fetch_site(site, sleep=1.2):
         print(f"[{pid}] override {slug}: {state}")
     if not shows:
         raise RuntimeError(
-            f"{site['base']}{site['listing']} lists {len(rows)} screening(s) and none "
+            f"{listing_url} lists {len(rows)} screening(s) and none "
             f"published. The listing is not empty, so this is a template or "
             f"classification failure rather than a cinema with nothing on")
     days = sorted({s["start"][:10] for s in shows})

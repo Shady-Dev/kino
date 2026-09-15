@@ -1646,3 +1646,68 @@ expecting zero rows.
   grounds for deletion, because an exclusion earns its keep exactly when a cinema that
   fills no field now fills a misleading one later and the entry turns `active` again.
   Nothing removes an entry automatically and no test requires one removed to pass.
+
+### Kinola's listing integrity: three ways a screening went missing quietly (2026-09-15)
+
+All three were reproduced against `656cb7e2` by driving `run.main(["kinola"])` with the
+listing served from fixtures, before anything was changed.
+
+**1. A screening block that could not be parsed was skipped.** `events_kilta` and
+`events_laika` both did `continue` on a missing field and again on a `ValueError` out of
+`datetime`. The block was a screening on the page and the row was gone from the schedule
+afterwards; the omission report could not name it either, because that report counts what
+the *classification policy* withheld and a row that never parsed was never classified. One
+good row beside one malformed one published a schedule one screening short, exit 0, 0
+failures. With every row malformed the site parsed to zero rows, which `fetch_site` then
+read as an empty programme: `no programme published`, exit 0, stale data preserved and
+nothing red.
+
+**2. Zero parsed rows was the whole evidence for an empty programme.** Unrelated HTML --
+any page that is not this listing -- produced the same exit 0 and the same line, with the
+previous `area-*.json` left ageing and not even a `venues-*.json` rewritten to mark the
+provider partial. That is exactly the inference `common.EmptyProgramme` forbids in writing:
+"my parser found nothing" is what a markup change upstream produces while the page is still
+full of films.
+
+**3. The row class was matched as a whole attribute.** `class="kinola-event"` and nothing
+else, so `class="kinola-event featured"` was not a block at all: not parsed, not published,
+not counted, and with every row like that the site read as a cinema with nothing on.
+
+**The fixes, at the narrowest layer that owns each.**
+
+- `EVENT_RE` matches `kinola-event` as a CSS class **token**, with lookarounds on both
+  sides so it neither takes a prefix (`kinola-event-title` and the other four children, and
+  `kinola-events`, the container) nor requires the attribute to hold nothing else.
+- A block that cannot be read raises `ListingRowError`, a `RuntimeError`, so `run.py` fails
+  that site the way it fails any parse error: the files are left as they were and the other
+  cinema on the module still publishes. A row whose title anchor names no `/film/{slug}/`
+  counts as unreadable too -- the film page carries the classification, so reporting such a
+  row as `unresolved` would dress a parse failure up as a policy omission.
+- `empty_programme_evidence` is the positive evidence, and every part of it is something
+  the row parser does not read: the filter widget rendered, **no** `kinola-events`
+  container, and `Ei tulevia tapahtumia.` *after* the widget. Short of all three the site
+  fails. The sentence is scoped to the page after the widget so a cinema writing the same
+  words in its own copy cannot silence a parse that broke underneath it, which is the trap
+  `test_empty_programme.py` already records for eTiketti.
+
+**The evidence, read as a visitor on 2026-09-15, one GET per site.** Kilta 57 blocks and
+Laika 47, both inside a `kinola-events` container, neither carrying the sentence; Konepaja
+zero blocks, no container at all, and the sentence in a bare `<div>` after the filter form.
+All three render the filter widget. The table is in
+[docs/research/kinola.md](../research/kinola.md).
+
+**What this does not establish.** One tenant in the empty state is the whole sample. Whether
+Kilta or Laika would render the container empty rather than omit it is unknown, so the rule
+requires all three conditions and fails conservatively if only some hold. Every one of the
+104 live blocks carries `kinola-event` alone, so the token fix is hardening and repairs
+nothing observed live; the two parsing fixes repair behaviour that was reachable from any
+markup change.
+
+**What did not change.** The classification policy, the override file and its precedence,
+the sold-out destination rule, `budget_or_raise`, and the 1.2 s pacing between film pages.
+The existing "lists N screening(s) and none published" check is a *classification* failure
+and stays where it was, separate from the parse failures above.
+
+Tests: `tests/test_kinola.py` 104, up from 82. 15 mutations, all 15 red, none void; the
+test that pinned the old skip (`a row with an unparseable date is skipped not fatal`) was
+replaced rather than kept, which is the one behaviour this entry reverses deliberately.

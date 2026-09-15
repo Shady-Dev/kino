@@ -56,6 +56,42 @@ stands and it has no `SITES` entry.
 
 ---
 
+## The listing's own shape: what an empty programme looks like
+
+**Findings** (read as a visitor, 2026-09-15, one GET each, nothing stored)
+
+| Site | `kinola-event` blocks | `kinola-events` container | `Ei tulevia tapahtumia.` |
+|---|---:|---|---|
+| kinokilta.fi/naytokset/ | 57 | yes | no |
+| kinolaika.fi/ohjelmisto/ | 47 | yes | no |
+| kinokonepaja.fi/naytokset/ | 0 | **no container at all** | yes, after the filter widget |
+
+- All three render the filter widget: `kinola-filters`, `kinola-filters-form`,
+  `kinola-film-filter`.
+- Konepaja's empty text sits in a bare `<div>` with no class of its own, immediately after
+  the filter form closes. Konepaja also renders a `kinola-film` / `kinola-films` grid,
+  which Kilta and Laika do not; that grid is the "tulossa" list of film pages and is not a
+  screening list.
+- **Every one of the 104 blocks on the two live listings carries `kinola-event` and no
+  other class.** So a block with a second class is not something either site does today.
+
+**Inferences and open questions**
+
+- The events shortcode appears to render either the `kinola-events` container or that
+  sentence, never both. That is an inference from one tenant in the empty state, which is
+  the whole sample there is, and it is why the adapter requires all three conditions rather
+  than the sentence alone.
+- Whether Kilta or Laika would render the container empty rather than omit it is **not
+  known**. If either does, the adapter fails that site rather than calling it empty, which
+  is the conservative direction: the previous files stand and a person reads the log.
+
+**Status and next step**
+
+Implemented 2026-09-15 as `kinola.empty_programme_evidence`, and the class token as
+`kinola.EVENT_RE`. Next step: none. If a Kilta or Laika listing ever fails with "the event
+container rendered and held no readable screening", that is the second observation of the
+empty state and this table gets a row.
+
 ## Films and other events
 
 **Findings** (kinokilta.fi and kinolaika.fi, sampled 2026-09-14)

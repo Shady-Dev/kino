@@ -20,6 +20,7 @@ import contextlib
 import io
 import json
 import pathlib
+import re
 import tempfile
 import unittest
 
@@ -83,11 +84,35 @@ def kilta_row_sold_out_anchor(slug, title):
             f'href="https://www.kinokilta.fi/checkout/dead">Loppuunmyyty</a></div></li>')
 
 
+FILTERS = ('<div class="kinola-filters"><form class="kinola-filters-form"><select '
+           'class="js-kinola-film-filter kinola-film-filter"><option value="all">'
+           'Kaikki elokuvat</option></select></form></div>')
+
+
 def listing(*rows):
-    return ('<html><body><div class="kinola-filters"><select '
-            'class="js-kinola-film-filter kinola-film-filter"><option value="all">'
-            'Kaikki elokuvat</option></select></div>'
-            '<div class="kinola-events">' + "".join(rows) + "</div></body></html>")
+    return ("<html><body>" + FILTERS + '<div class="kinola-events">'
+            + "".join(rows) + "</div></body></html>")
+
+
+def empty_listing():
+    """What the platform renders for a tenant with nothing on: the filter widget, **no**
+    `kinola-events` container at all, and its own words where the list would be. Read as a
+    visitor on kinokonepaja.fi 2026-09-15, the only tenant of the three in that state."""
+    return ("<html><body>" + FILTERS
+            + "<div> Ei tulevia tapahtumia. </div></body></html>")
+
+
+def with_classes(row, *extra):
+    """The same screening block carrying more classes. Neither live site does this today,
+    which is why only a fixture reaches it -- and why an attribute match hid the screening
+    with nothing in the log or the omission report to say one had gone."""
+    return row.replace('class="kinola-event"',
+                       'class="' + " ".join(("wp-block",) + extra + ("kinola-event",))
+                       + '"', 1)
+
+
+UNRELATED_HTML = ("<html><head><title>Kino</title></head><body><h1>Tervetuloa</h1>"
+                  "<p>Sivusto uudistuu.</p></body></html>")
 
 
 # ---------------------------------------------------------------- film-page fixtures
@@ -176,16 +201,33 @@ SYNOPSIS_MENTIONS_CONCERT = kilta_film(
 # ---------------------------------------------------------------- the templates
 
 class BlocksTest(unittest.TestCase):
-    def test_the_class_token_is_matched_exactly_not_as_a_prefix(self):
+    def test_the_class_token_is_not_matched_as_a_prefix(self):
         """Every block contains `kinola-event-title`, `-date`, `-venue` and
-        `-tickets-link`. A substring match would cut each block at its own children."""
+        `-tickets-link`, and the container around them is `kinola-events`. A substring
+        match would cut each block at its own children and count the container too."""
         page = listing(laika_row("a", "A"), laika_row("b", "B"))
         self.assertEqual(len(K.blocks(page)), 2)
         page = listing(kilta_row("a", "A"), kilta_row("b", "B"))
         self.assertEqual(len(K.blocks(page)), 2)
 
+    def test_a_block_carrying_more_classes_is_still_a_screening(self):
+        """A CSS class is a token among others. Matched as the whole attribute, this row
+        is invisible: not parsed, not published, not counted as an omission, and with
+        every row like it the site reads as a cinema with nothing on."""
+        for row in (laika_row, kilta_row):
+            with self.subTest(template=row.__name__):
+                page = listing(row("a", "A"), with_classes(row("b", "B"), "featured"))
+                self.assertEqual(len(K.blocks(page)), 2)
+
+    def test_a_longer_class_name_starting_with_the_token_is_not_a_block(self):
+        """`kinola-events` is the container and `kinola-eventti` is not this platform's
+        at all. Widening the match to a prefix is the other way to get this wrong."""
+        page = listing() + '<div class="kinola-eventti">x</div>'
+        self.assertEqual(K.blocks(page), [])
+
     def test_a_listing_with_no_event_block_yields_none(self):
         self.assertEqual(K.blocks(listing()), [])
+        self.assertEqual(K.blocks(empty_listing()), [])
 
 
 class KiltaListingTest(unittest.TestCase):
@@ -220,10 +262,13 @@ class KiltaListingTest(unittest.TestCase):
             "https://www.kinokilta.fi/checkout/"), self.rows[0]["url"])
         self.assertFalse(self.rows[0]["soldOut"])
 
-    def test_a_row_with_an_unparseable_date_is_skipped_not_fatal(self):
-        rows = K.events_kilta(listing(kilta_row("a", "A", date="TI 31.2.2026"),
-                                      kilta_row("b", "B")), KILTA)
-        self.assertEqual([r["slug"] for r in rows], ["b"])
+    def test_a_row_with_an_impossible_date_fails_the_site_rather_than_being_skipped(self):
+        """It used to be skipped, and `b` published alone: a schedule one screening short,
+        with nothing in the log and nothing in the omission report to say so. The rest is
+        in ListingIntegrityTest."""
+        with self.assertRaises(K.ListingRowError):
+            K.events_kilta(listing(kilta_row("a", "A", date="TI 31.2.2026"),
+                                   kilta_row("b", "B")), KILTA)
 
 
 class LaikaListingTest(unittest.TestCase):
@@ -262,6 +307,121 @@ class LaikaListingTest(unittest.TestCase):
     def test_a_row_with_no_poster_publishes_no_image_from_the_listing(self):
         rows = K.events_laika(listing(laika_row("a", "A", poster=False)), LAIKA)
         self.assertEqual(rows[0]["img"], "")
+
+
+# ---------------------------------------------------------------- listing integrity
+
+class ListingRowFailureTest(unittest.TestCase):
+    """A block the listing marks as a screening yields a row or fails the site.
+
+    Skipping it was silent twice over: the screening left the schedule, and the omission
+    report could not name it either, because that report counts what the *classification*
+    policy withheld and a row that never parsed was never classified. Parsing failures and
+    policy omissions are different claims.
+    """
+
+    def kilta(self, *rows):
+        return K.events_kilta(listing(*rows), KILTA)
+
+    def laika(self, *rows):
+        return K.events_laika(listing(*rows), LAIKA)
+
+    def test_a_block_with_no_title_link_fails(self):
+        for reader, row in ((self.kilta, kilta_row), (self.laika, laika_row)):
+            with self.subTest(reader=reader.__name__):
+                broken = re.sub(r'class="kinola-event-title"', 'class="x"',
+                                row("a", "A"))
+                with self.assertRaises(K.ListingRowError):
+                    reader(broken, row("b", "B"))
+
+    def test_a_block_whose_title_link_is_not_a_film_page_fails(self):
+        """The film page carries the classification. A row with no page to read cannot be
+        classified at all, so reporting it as `unresolved` would dress a parse failure up
+        as a policy omission."""
+        for reader, row in ((self.kilta, kilta_row), (self.laika, laika_row)):
+            with self.subTest(reader=reader.__name__):
+                broken = row("a", "A").replace("/film/a/", "/tapahtuma/a/")
+                self.assertNotIn("/film/a/", broken)
+                with self.assertRaises(K.ListingRowError):
+                    reader(broken, row("b", "B"))
+
+    def test_a_block_with_no_readable_date_fails(self):
+        with self.assertRaises(K.ListingRowError):
+            self.kilta(kilta_row("a", "A", date="lähiaikoina"), kilta_row("b", "B"))
+        with self.assertRaises(K.ListingRowError):
+            self.laika(laika_row("a", "A", date="lähiaikoina"), laika_row("b", "B"))
+
+    def test_a_kilta_block_with_no_readable_time_fails(self):
+        """Kilta alone splits the two: its date and time are separate elements."""
+        with self.assertRaises(K.ListingRowError):
+            self.kilta(kilta_row("a", "A", time="illalla"), kilta_row("b", "B"))
+
+    def test_an_impossible_calendar_date_fails_on_both_templates(self):
+        with self.assertRaises(K.ListingRowError):
+            self.kilta(kilta_row("a", "A", date="TI 31.2.2026"), kilta_row("b", "B"))
+        with self.assertRaises(K.ListingRowError):
+            self.laika(laika_row("a", "A", date="31/02/2026 14:00"),
+                       laika_row("b", "B"))
+
+    def test_one_bad_row_among_good_ones_fails_rather_than_publishing_the_rest(self):
+        """The partial-publication case: two readable rows either side of a malformed
+        one. Skipping produced a schedule that looked complete."""
+        with self.assertRaises(K.ListingRowError):
+            self.laika(laika_row("a", "A"),
+                       laika_row("b", "B", date="31/02/2026 14:00"),
+                       laika_row("c", "C", date="18/09/2026 20:00"))
+
+    def test_the_message_places_the_row_and_names_the_field_without_the_markup(self):
+        """The log is committed to a public repo, so it may quote the short field it read
+        and never the third party's block. See CLAUDE.md on raw dumps."""
+        with self.assertRaises(K.ListingRowError) as caught:
+            self.kilta(kilta_row("a", "A"), kilta_row("b", "Beta", date="TI 31.2.2026"))
+        msg = str(caught.exception)
+        self.assertIn("block 2", msg)
+        self.assertIn("kinokilta", msg)
+        self.assertIn("Beta", msg)
+        self.assertNotIn("<", msg)
+        self.assertNotIn("kinola-event", msg)
+
+    def test_it_is_a_runtime_error_so_the_runner_treats_it_as_a_parse_failure(self):
+        self.assertTrue(issubclass(K.ListingRowError, RuntimeError))
+        self.assertFalse(issubclass(K.ListingRowError, common.EmptyProgramme))
+
+
+class EmptyProgrammeEvidenceTest(unittest.TestCase):
+    """Zero parsed rows is never the evidence: `common.EmptyProgramme` says why, and every
+    condition here is something the row parser does not read.
+
+    Measured as a visitor 2026-09-15: kinokilta.fi 57 blocks and kinolaika.fi 47, both
+    inside a `kinola-events` container and neither carrying the empty text; kinokonepaja.fi
+    zero blocks, no container at all, and "Ei tulevia tapahtumia." after the filter widget.
+    """
+
+    def test_the_measured_empty_page_is_evidence(self):
+        self.assertEqual(K.empty_programme_evidence(empty_listing()), "")
+
+    def test_an_unrelated_page_is_not(self):
+        why = K.empty_programme_evidence(UNRELATED_HTML)
+        self.assertIn("not on the page", why)
+
+    def test_a_rendered_container_holding_no_readable_row_is_not(self):
+        """The parser-break shape: the widget and its container are both there, so the
+        listing rendered and this parser could not read what is in it."""
+        why = K.empty_programme_evidence(listing())
+        self.assertIn("markup change", why)
+
+    def test_the_empty_text_above_the_widget_is_not(self):
+        """Scoped to the page after the filter widget, so a cinema writing the same words
+        in its own page copy cannot silence a parse that broke underneath it. The same
+        trap `test_empty_programme.py` records for eTiketti's phrase."""
+        page = ("<html><body><p>Ei tulevia tapahtumia.</p>" + FILTERS
+                + "</body></html>")
+        self.assertIn("neither an event list nor its empty state",
+                      K.empty_programme_evidence(page))
+
+    def test_a_populated_listing_is_not_evidence_either(self):
+        page = listing(laika_row("a", "A"), laika_row("b", "B"))
+        self.assertNotEqual(K.empty_programme_evidence(page), "")
 
 
 # ---------------------------------------------------------------- the classifier
@@ -768,18 +928,103 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(sorted(films), sorted(set(films)))
         self.assertEqual(len(films), 4)
 
+    PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+            "horizon": "2026-09-01",
+            "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+
+    def with_previous(self, venue="laika-karkkila"):
+        """A venue that already published, so what happens to its file is observable."""
+        (run.OUT / f"area-{venue}.json").write_text(json.dumps(self.PREV))
+
+    def unchanged(self, venue="laika-karkkila"):
+        self.assertEqual(
+            json.loads((run.OUT / f"area-{venue}.json").read_text()), self.PREV,
+            "the previous file did not survive")
+
+    def laika(self, page):
+        return self.both(**{"https://www.kinolaika.fi/ohjelmisto/": page})
+
     def test_a_listing_with_no_screening_keeps_the_previous_file_and_stays_green(self):
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01",
-                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-laika-karkkila.json").write_text(json.dumps(prev))
-        self.serve(self.both(**{"https://www.kinolaika.fi/ohjelmisto/": listing()}))
+        """The platform's own empty state, as read on kinokonepaja.fi."""
+        self.with_previous()
+        self.serve(self.laika(empty_listing()))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertEqual(json.loads((run.OUT / "area-laika-karkkila.json").read_text()),
-                         prev)
+        self.unchanged()
         self.assertIn("no programme published", log)
+        self.assertIn("empty state", log)
         self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
+
+    def test_an_unrelated_page_fails_that_site_instead_of_reading_as_empty(self):
+        """It exited 0 and aged the data quietly: zero parsed rows was the whole test, and
+        an unrelated page parses to zero rows exactly like an empty listing does."""
+        self.with_previous()
+        self.serve(self.laika(UNRELATED_HTML))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertIn("no evidence of an empty programme", log)
+        self.assertNotIn("no programme published", log)
+        self.unchanged()
+        self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
+
+    def test_a_rendered_container_with_no_readable_row_fails_that_site(self):
+        """The row class changing upstream: the listing is there and nothing in it parses.
+        Reading that as a quiet week is the regression the whole rule exists to catch."""
+        self.with_previous()
+        self.serve(self.laika(listing()))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("markup change", log)
+        self.unchanged()
+
+    def test_a_listing_whose_every_row_is_malformed_fails_instead_of_reading_as_empty(self):
+        """Every row skipped left zero rows, which the old rule called an empty programme:
+        exit 0, stale data preserved, and no line anywhere saying a screening was lost."""
+        self.with_previous()
+        self.serve(self.laika(listing(
+            laika_row("a", "A", date="31/02/2026 14:00"),
+            laika_row("b", "B", date="31/02/2026 16:00"))))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertNotIn("no programme published", log)
+        self.unchanged()
+        self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
+
+    def test_one_malformed_row_fails_rather_than_publishing_a_partial_schedule(self):
+        """One good row and one bad one published the good one, exit 0, and the dropped
+        screening appeared in neither the schedule nor the omission report."""
+        self.with_previous()
+        self.serve(self.laika(listing(
+            laika_row("hetki", "Hetki ennen valoa"),
+            laika_row("bad", "Bad", date="31/02/2026 16:00"))))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("block 2", log)
+        self.unchanged()
+
+    def test_the_other_cinema_still_publishes_when_one_listing_fails(self):
+        """One site failing is one failure. Kilta's own files are written and fresh."""
+        self.serve(self.laika(UNRELATED_HTML))
+        self.assertEqual(self.main()[0], 1)
+        shows = json.loads((run.OUT / "area-kilta-turku.json").read_text())["shows"]
+        self.assertEqual(len(shows), 2)
+        self.assertTrue((run.OUT / "venues-kinokilta.json").exists())
+        self.assertFalse((run.OUT / "venues-kinolaika.json").exists())
+
+    def test_a_row_carrying_extra_classes_still_publishes(self):
+        """An attribute match hid it: not parsed, not published, not counted, and with
+        every row like it the site read as a cinema with nothing on."""
+        self.serve(self.laika(listing(
+            laika_row("hetki", "Hetki ennen valoa"),
+            with_classes(laika_row("hetki", "Hetki ennen valoa",
+                                   date="17/09/2026 16:00"), "featured"))))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = json.loads((run.OUT / "area-laika-karkkila.json").read_text())["shows"]
+        self.assertEqual(len(shows), 2)
+        self.assertIn("2 screening(s) listed", log)
 
     def test_a_listing_whose_rows_all_fail_to_classify_fails_the_site(self):
         """Blocks present and nothing published is a template or classification failure,
