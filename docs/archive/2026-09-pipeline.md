@@ -1146,3 +1146,26 @@ Published 2026-09-14: the local run at 23:12 UTC gave Finnkino's 35 showtimes th
 the cloud run at 23:18 the other 58. A cloud run alone could not have shown the first,
 which is why the check read show records on both halves rather than `run-enrich.log`.
 
+### A language marker in the title blocked the TMDB search, closed (2026-09-15)
+
+The fix `f3b61ee8` shipped on 2026-09-14 and could not be seen working for a day, because
+`refresh.due` skips an entry already checked today and every affected key was stamped with
+that date. Three runs went by skipping them, which reads exactly like a fix that does
+nothing. The first cloud run on a new UTC date, `3d9a63c6` at 05:21 UTC on 2026-09-15,
+searched them.
+Published outcome, counted from that snapshot rather than against an earlier figure,
+because screenings expire and appear between runs: **151 of 153** Kojootti vs. ACME
+showtimes carry 1204680, across 26 title-and-provider combinations and every marker shape
+the chains use: `(englanniksi)`, `ENGLANNIKSI`, `, englanniksi`, `(Dub)`, `(på svenska)`,
+`(suomeksi puhuttu)` and the `suomeksi` family that already worked.
+The two that do not are Gråben vs. ACME (på svenska) at Kino Marilyn, and they are not a
+regression. The run searched them, `c` advanced to 2026-09-15, the search returned 1204680
+as its only hit, and `x` stayed false because it is not an exact title: TMDB holds no
+Swedish title for the film. `run-enrich.log` lists it under "weak match, no exact title",
+so the trust gate withheld the id, which is the gate working. Not aliased: one weak hit is
+not identity evidence, and aliasing on it would be exactly the shortcut the gate exists to
+refuse.
+Left behind: `kojootti vs acme eng` and `... sub` are orphaned cache keys from before the
+eTiketti label strip. No show references them now, so nothing re-searches them and they age
+out on their own.
+

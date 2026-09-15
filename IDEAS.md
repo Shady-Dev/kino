@@ -25,19 +25,6 @@ contract change is explained here, never in `docs/research/`.
 
 ## Active work
 
-### 36 marker showtimes wait on a run past midnight UTC (opened 2026-09-14)
-
-Three of the four TMDB matching fixes are published and closed; see the archive. What is
-left is the daily retry: `refresh.due` skips an entry already checked today, and seven keys
-still read `c: 2026-09-14` with no id, so the 23:18 UTC run skipped them again rather than
-refusing them. Measured: six shapes over 36 showtimes match 1204680 exactly once searched.
-The seventh, `Gråben vs. ACME (på svenska)`, stays refused on purpose, because its only hit
-is not an exact title and one weak hit is not identity evidence to alias on.
-**Next action:** after the first run publishing past 00:00 UTC, read the show records for
-`tmdbId` 1204680, not `logs/run-enrich.log`; a title missing from that log was not searched,
-which is what a skip looks like too.
-Evidence: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
-
 ### Provider coverage, and what is next
 
 42 providers, 86 venues, 57 cities as of 2026-09-14. Check for an existing platform
