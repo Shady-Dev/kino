@@ -1377,3 +1377,42 @@ overlap is the property under test and a mock would encode the answer. 15 mutati
 red; one survived first -- releasing a site before the exception it died on is recorded,
 which a real run never reproduces because the coordinator is not scheduled inside those few
 bytecodes, so it is asserted directly on `read_host` instead of through the pool.
+
+### What the cloud run's slowdown was attributed to, corrected (2026-09-15)
+
+The 2026-09-15 session read two cloud runs and attributed the gap between them. The
+readings stand; the arithmetic on top of them did not, and it is corrected here rather than
+carried forward. The timings are Actions step durations, which is the only place they
+exist; everything in this repo's committed logs is unchanged by the correction.
+
+**The fetch step is about 56% of the increase, not about 90%.** Total 4.9 min to 10.5 min
+is 294 s to 630 s, +336 s. The fetch step 247 s to 435 s is +188 s. 188/336 = 56%. The
+other 148 s is somewhere else in the run -- enrichment, poster mirroring, page building,
+checkout, commit -- and was never attributed.
+
+**The 104 s between a 331 s reading and the 435 s one does not isolate Kinola.** The two
+runs differ in more than one provider, so the difference between them is the difference
+between the runs, not the cost of the module that happened to be added.
+
+**Kinola's own deliberate waiting is 48.0 s and 27.6 s, and those do not add.**
+`fetch_site` sleeps 1.2 s before every film page but the first, and `logs/run-kinola.log`
+records 41 pages for Kilta and 24 for Laika: 40 x 1.2 = 48.0 s and 23 x 1.2 = 27.6 s. The
+two sites are on different hosts, so `run.py` reads them in parallel and has since
+2026-09-01. Their sum, 75.6 s, is worker time and is not elapsed anything; the elapsed
+contribution of that sleeping is the larger of the two, about 48 s, and only when nothing
+else is queued behind them.
+
+**Conditional GETs do not shorten it.** See the entry in
+[2026-09-providers.md](2026-09-providers.md) for why: a 304 is still a request and the
+1.2 s pacing is not conditional on anything.
+
+**The enrichment and poster spikes are per batch of new films, not once and for all.** A
+run that meets a set of films it has not seen enriches and mirrors them; the next such run
+does it again for the next set. Calling them one-off reads as "this will not recur".
+
+**~70 s of the increase appeared before any new provider landed and is still
+unattributed.** Do not guess a cause for it.
+
+What follows from all of this is the entry above: the fetch step is the largest single
+piece of the increase and was being spent one module at a time. That is what `run_cloud.py`
+addresses, and the production figure for it is not measured either -- see `IDEAS.md`.

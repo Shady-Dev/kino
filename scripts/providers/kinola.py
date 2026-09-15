@@ -38,10 +38,20 @@ detection. A live act that fills those fields and has **no** recorded exclusion 
 as a film, and nothing here notices: the classifier sees a director and a genre and has no
 further evidence to weigh. The fixture in `tests/test_kinola.py` proves the precedence
 holds once an exclusion exists; it does not prove, and cannot, that conflicting
-live-event evidence is found automatically. Closing that gap would mean reading a word out
-of a title or a synopsis, which the policy forbids and which would misfile every concert
-film. So a newly encountered case is caught by a person reading the run log, not by this
-module, and the remedy is one more scoped entry with its evidence.
+live-event evidence is found automatically.
+
+**And the run log does not close it either**, which this said it did until 2026-09-15. The
+log names what was *withheld* -- the confirmed non-films and the unresolved ones -- and the
+count of what published. It never names a published title, so an act wrongly included looks
+exactly like a film in it, and nobody reading the log sees anything to chase. It is noticed
+on the site or in the data, by someone who knows the programme. The remedy is still one
+scoped entry with its evidence.
+
+Reading a word out of a title or a synopsis stays forbidden: it would misfile every concert
+film, and the policy was adopted on that ground. What is *not* established is that keywords
+are the only route left. Nothing has been measured against another structural signal -- a
+ticket type, a venue field, a programme list the cinema itself publishes -- because none was
+looked for. Do not write that the alternative is keywords or nothing.
 
 **Revalidation, at run time and for every entry.** Each override is scored against the page
 as it stands now: `active` when it changes the classifier's verdict, `redundant` when the

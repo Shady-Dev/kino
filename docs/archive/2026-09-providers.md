@@ -1711,3 +1711,40 @@ and stays where it was, separate from the parse failures above.
 Tests: `tests/test_kinola.py` 104, up from 82. 15 mutations, all 15 red, none void; the
 test that pinned the old skip (`a row with an unparseable date is skipped not fatal`) was
 replaced rather than kept, which is the one behaviour this entry reverses deliberately.
+
+### Three Kinola claims narrowed, and one withdrawn (2026-09-15, later)
+
+Corrections to the two entries above. The entries themselves are left as they were written;
+what follows is what each of them may be read as saying and what it may not.
+
+**"42 cache entries written, so the next run revalidates rather than refetching those film
+pages" is withdrawn.** The figure is real and comes from `logs/run-kinola.log`; the
+inference does not follow from it. `42 cache entries written` counts what
+`common._write_slot` wrote to `.http-cache` on the runner's own disk. Whether any of it
+reaches the next run is a separate question about `actions/cache`, whose save step runs
+after a successful job -- and the run that wrote those entries **failed**, at the city-link
+gate. Nothing here establishes that the cache survived. The evidence that would is the next
+run's own `[run] http:` line reading a non-zero `revalidated (304)`; until one does, assume
+the pages are refetched.
+
+**And revalidating would not save the time it was quoted for.** A conditional GET is still
+a request: `common.fetch` sends `If-None-Match`, the origin answers 304, the round trip
+happens. `kinola.fetch_site` sleeps 1.2 s between film pages either way, because the sleep
+is pacing and not a download. So even perfect revalidation saves response bodies, not the
+deliberate waiting, which is where the time is.
+
+**"A newly encountered live act is caught by a person reading the run log" is wrong.** The
+log names what the policy *withheld* -- `confirmed non-film`, `unresolved`, and the titles
+of each -- and it counts what published. It never names a published title. An act wrongly
+included therefore reads as an ordinary film in the log and gives a reader nothing to
+chase; it is noticed on the site or in the data, by someone who knows the programme. The
+standing limitation is unchanged and is if anything larger than it was written.
+
+**"Closing that gap would mean reading a word out of a title or a synopsis" claims more
+than was measured.** That keywords would misfile every concert film is established, and the
+policy forbidding them stands. That keywords are the *only* route left is not: no other
+structural signal was looked for -- a ticket type, a venue field, a programme list the
+cinema publishes itself -- so nothing rules one out. The adopted policy does not change on
+this; what changes is that the alternative is now open rather than closed.
+
+Nothing here adds an override, changes the classifier, or relaxes the keyword rule.

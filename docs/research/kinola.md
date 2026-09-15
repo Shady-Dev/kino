@@ -176,10 +176,16 @@ has to satisfy, not a description of anything that exists.
   recorded exclusion outranks director and genre metadata, but a *newly encountered* live
   act carrying that metadata and no entry publishes as a film, and nothing in the adapter
   notices. The fixture proves the precedence holds once an entry exists; it does not prove
-  conflicting live-event evidence is found automatically, and no test claims it does. A new
-  case is caught by a person reading the run log. The remedy is one more scoped entry, never
-  a title or synopsis keyword, which the policy forbids and which would misfile every
-  concert film.
+  conflicting live-event evidence is found automatically, and no test claims it does. The
+  remedy is one more scoped entry, never a title or synopsis keyword, which the policy
+  forbids and which would misfile every concert film.
+  **Corrected 2026-09-15:** this line said a new case is caught by a person reading the run
+  log. It is not. The log names what was withheld and counts what published; it never names
+  a published title, so a wrongly included act reads as an ordinary film in it. It is
+  noticed on the site or in the data by someone who knows the programme. **Also corrected
+  the same day:** keywords being the only remaining route is an assertion, not a finding.
+  No other structural signal was looked for -- a ticket type, a venue field, a list the
+  cinema publishes itself -- so nothing establishes that there is none.
 - Never classify from a keyword in the title or the synopsis alone, in either direction.
 
 **Overrides**
