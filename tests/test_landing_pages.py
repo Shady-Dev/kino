@@ -900,7 +900,14 @@ class SnippetTest(GeneratedPagesTest):
             self.assertNotIn("Leffavuoro.", quotable, k)          # the wordmark
             intro = re.search(r'<p class="intro">(.*?)</p>', text, re.S).group(1)
             self.assertNotIn(text_of(intro)[:30], quotable, k)
-            h1 = text_of(re.search(r"<h1>(.*?)</h1>", text, re.S).group(1))
+            # `quotable` comes from HTMLParser.handle_data, which resolves entities,
+            # while `text_of` only strips tags. So the h1 is unescaped before the
+            # comparison, exactly as the film headings below already are. Without it the
+            # first venue whose name carries an `&` fails: Julia 1&2 published on
+            # 2026-09-15 and its h1 is `Julia 1&amp;2 Julia -- näytösajat` in the markup
+            # against `Julia 1&2 Julia -- näytösajat` in the text. The page is right and
+            # the comparison was not.
+            h1 = html.unescape(text_of(re.search(r"<h1>(.*?)</h1>", text, re.S).group(1)))
             self.assertIn(h1, quotable, k)
             for day in re.findall(r'<h2 class="day">(.*?)</h2>', text, re.S):
                 self.assertIn(text_of(day), quotable, k)
