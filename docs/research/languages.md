@@ -9,13 +9,20 @@ film links.
 per venue and a new per-show field. Finnish is the fallback title, not English, because the
 Finnish distributor title is what the ticket prints.
 
-**Open.** Two things. The Swedish interface strings are drafted rather than translated and
-still want a native Finland-Swedish reader, the contact line most of all. And the language
-codes are normalised at the adapters and the client but the committed data has not been
-re-measured since: the item stays open in [IDEAS.md](../../IDEAS.md) until no
-`data/area-*.json` carries `TU`, `MA` or `XX`, at which point `CODE_ALIAS`, `NO_SUBTITLES`
-and `LN_EXTRA` in `build_pages.py` go with their tests. Next step: grep the committed area
-files after the next local run.
+**Open.** One thing. The Swedish interface strings are drafted rather than translated and
+still want a native Finland-Swedish reader, the contact line most of all.
+
+**The language codes closed 2026-09-15.** Measured twice by parsing each `lang` value
+with `LANG_RE` and splitting compounds, not by grepping: at `bb409cc0` over 86
+`data/area-*.json` and 4,178 shows, then again at `887a7988` over 86 files and 4,262
+shows, after a cloud push landed. Same verdict both times: `TU`, `MA` and `XX` absent in
+both roles, no value failing `LANG_RE`, every code named. At `887a7988` the published set
+is AR, DA, DE, EN, ES, FI, FR, IT, JA, KO, LT, NO, SV, TR, all named in the client's `LN`
+and the generator's mirror; `NO` was not in the first measurement, and `ML` is absent from
+the data entirely. `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` are gone from
+`build_pages.py` with the assertions that pinned them; the adapter tests that keep the
+data clean stay. Record:
+[docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md).
 
 ---
 

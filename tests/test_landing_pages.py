@@ -307,8 +307,9 @@ class GeneratedPagesTest(unittest.TestCase):
 
     def test_every_code_in_the_committed_data_is_known(self):
         """The guarantee behind the test above, stated on the data rather than the output:
-        each language code the adapters currently publish resolves to a name, an alias
-        or the no-subtitles marker. A new code fails here first, by name."""
+        each language code the adapters currently publish has a name in `LN`. A new code
+        fails here first, by name. There is no alias layer any more: the TU/MA/XX
+        aliases were deleted 2026-09-15 once the data carried none of them."""
         seen = set()
         for p in (REAL_DATA).glob("area-*.json"):
             for s in json.loads(p.read_text(encoding="utf-8")).get("shows", []):
@@ -320,13 +321,7 @@ class GeneratedPagesTest(unittest.TestCase):
                     self.assertIsNotNone(m, (p.name, c))
                     seen.update(m.group(1).split("-"))
         self.assertTrue(seen)
-        known = set(bp.LN["fi"]) | set(bp.LN_EXTRA["fi"]) | set(bp.CODE_ALIAS) | bp.NO_SUBTITLES
-        self.assertEqual(seen - known, set())
-        # and the extras are exactly the ones this file documents, so a new one is a decision
-        self.assertEqual(set(bp.CODE_ALIAS), {"TU", "MA"})
-        self.assertEqual(bp.NO_SUBTITLES, {"XX"})
-        self.assertEqual(set(bp.LN_EXTRA["fi"]), {"LT", "ML"})
-        self.assertEqual(set(bp.LN_EXTRA["en"]), {"LT", "ML"})
+        self.assertEqual(seen - set(bp.LN["fi"]), set())
 
     def test_the_name_tables_are_the_clients(self):
         """Read out of index.html rather than retyped: `LN.fi` and `LN.en` there must equal
@@ -805,16 +800,15 @@ class StubShapeTest(unittest.TestCase):
             # a compound tag is two languages
             "FI-S, FI-SV-A, SV-S": (["suomi/ruotsi", "tekstitys: suomi/ruotsi"],
                                     ["Finnish/Swedish", "Finnish/Swedish subtitles"]),
-            # Nexxo's no-subtitles marker is an absent role
-            "FI-A, XX-S": (["suomi"], ["Finnish"]),
-            "XX-S": ([], []),
-            # Finnkino's own codes and the one ISO code the client lacks
-            "TU-A, FI-S, SV-S": (["turkki", "tekstitys: suomi/ruotsi"],
-                                 ["Turkish", "Finnish/Swedish subtitles"]),
-            "EN-S, MA-A": (["malajalam", "tekstitys: englanti"], ["Malayalam", "English subtitles"]),
+            # LT is in LN, so it renders as a word like any other code. The TU and MA
+            # cases that stood here went with CODE_ALIAS on 2026-09-15 and are now the
+            # unmapped case below; the two XX ones went with NO_SUBTITLES, which was a
+            # rule of its own, so that case carries the S role now.
             "LT-A, FI-S": (["liettua", "tekstitys: suomi"], ["Lithuanian", "Finnish subtitles"]),
-            # a code nobody has mapped stays visible rather than vanishing
-            "ZZ-A, FI-S": (["ZZ", "tekstitys: suomi"], ["ZZ", "Finnish subtitles"]),
+            # a code nobody has mapped stays visible rather than vanishing, in either
+            # role. Nothing suppresses a subtitle code any more, so the S half has to
+            # be pinned here: it is what the deleted XX cases used to hold.
+            "ZZ-A, YY-S": (["ZZ", "tekstitys: YY"], ["ZZ", "YY subtitles"]),
             "": ([], []),
         }
         for codes, (fi, en) in cases.items():

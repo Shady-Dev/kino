@@ -367,16 +367,56 @@ files plus five frontend edits; all fixed:
       47 of 47, TMDB id on 39; language codes DA, EN, ES, FI, FR, IT, NO, SV, TR, every one
       the client names. Counts: providers 33, venues 75, canonical pages 170, sitemap 171.
       Deferred: seat counts on screen; credits.
-- [ ] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99).** Four
-      codes in the data were not in the client's name table: `TU-A` 62 rows and `MA-A` 3
-      rows (Finnkino's Turkish and Malayalam), `XX-S` 46 rows (Nexxo's "no subtitles"),
-      `LT-A` 1 row (Lithuanian). `fetch_data.lang_tag` maps through `FINNKINO_LANG`
-      (`SE`→`SV`, `TU`→`TR`, `MA`→`ML`), never touching the role letter; `nexxo._lang`
-      drops `XX` from the subtitle role; the client's `LN` gains `LT` and `ML` in all three
-      languages, and the generator's mirror too. Still open until a re-measure of
-      data/area-*.json finds no `TU`, `MA` or `XX`, when `CODE_ALIAS`, `NO_SUBTITLES` and
-      `LN_EXTRA` in `build_pages.py` go with their tests. After the 2026-09-02 cloud run
-      `XX` was gone; `TU-A` and `MA-A` await a local run. `tests/test_lang_normalization.py`.
+- [x] **Language codes normalised end to end (code landed 2026-09-02, sw.js v99; closed
+      2026-09-15).** Four codes in the data were not in the client's name table: `TU-A` 62
+      rows and `MA-A` 3 rows (Finnkino's Turkish and Malayalam), `XX-S` 46 rows (Nexxo's
+      "no subtitles"), `LT-A` 1 row (Lithuanian). `fetch_data.lang_tag` maps through
+      `FINNKINO_LANG` (`SE`→`SV`, `TU`→`TR`, `MA`→`ML`), never touching the role letter;
+      `nexxo._lang` drops `XX` from the subtitle role; the client's `LN` gains `LT` and
+      `ML` in all three languages, and the generator's mirror too. The landing pages kept
+      `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` meanwhile, so no page showed a raw code
+      while the adapters turned the committed data over. After the 2026-09-02 cloud run
+      `XX` was gone; `TU-A` and `MA-A` waited on a local run. **Closed 2026-09-15.**
+      Measured twice, parsing each `lang` value with `LANG_RE` and splitting compounds
+      rather than grepping: first at `bb409cc0` over 86 area files and 4,178 shows, then
+      again at `887a7988` after a cloud push landed under the rebase, over 86 files and
+      4,262 shows. Same verdict both times: `TU`, `MA` and `XX` absent in both roles, no
+      value failing `LANG_RE`, and no code without a name in `LN`. At `887a7988` the
+      published set is AR, DA, DE, EN, ES, FI, FR, IT, JA, KO, LT, NO, SV, TR; `NO` did
+      not appear in the first measurement and is already named in `LN`, `ML` is absent
+      from the data entirely, and `LT` carries three rows. All three constants deleted
+      from `build_pages.py`; `lang_parts` is now one lookup,
+      `LN[lang].get(x) or x`, so an unmapped code renders as itself and is
+      visible on the page rather than lost. That is exactly the client's rule: `langTxt`
+      in `index.html` reads `LN[state.lang][x] || x` and never had an alias
+      layer, so while the three constants stood the generator was the more forgiving of
+      the two and a page said "turkki" where the app said "TU". They agree again. Tests
+      narrowed, not dropped wholesale: `GeneratorAliasTest` went, and so did the four
+      constant pins in `test_landing_pages.py` and the four TU/MA/XX cases in
+      `StubShapeTest`. Those four were not one kind. `TU-A` and `MA-A` now pass through
+      exactly as the unmapped-code case does, so they were duplicates of it. The two `XX`
+      ones were not: they pinned suppression of the subtitle role, which that case never
+      pinned, and deleting `NO_SUBTITLES` removed the rule rather than a duplicate.
+      Measured on both implementations: an `XX-S` tag rendered nothing at all and now
+      renders the code, so a fi page that said only "suomi" would now add "tekstitys: XX".
+      That is safe only because no committed area file carries `XX` and `nexxo._lang`
+      still drops it at the adapter, and it is fail-visible rather than silent. So the
+      unmapped-code case was widened from `ZZ-A, FI-S` to `ZZ-A, YY-S` to hold
+      the S role the `XX` cases used to hold. The committed-data coverage check stays with
+      `known` rebuilt from `bp.LN` alone. Preserved deliberately: `FinnkinoLangTagTest`
+      (TU/MA at the adapter), `NexxoLangTest` (XX in the subtitle role) and
+      `NameTableTest` (LT/ML rendering), because the adapter fixes are what keep the data
+      clean and deleting their tests would remove the reason the aliases could go.
+      Break-verified, five mutations on `build_pages.py`, none void: dropping `LT` from
+      `LN` reddens the coverage check, the client-mirror check and both rendering tests;
+      dropping `TR` reddens the coverage check and the client-mirror check; dropping `ML`
+      reddens the client-mirror check and the generator rendering test; making an unmapped
+      code vanish in both roles reddens the case table; and reinstating suppression for
+      the subtitle role alone reddens it too, which is what verifies the widened case
+      rather than assuming it. Source restored byte-identical. Suite 1,574 tests OK, 5
+      Pillow skips. Regenerating twice with `--date recorded`: 0 files written, 201
+      unchanged, so no generated page changed. `tests/test_lang_normalization.py`,
+      `tests/test_landing_pages.py`.
 - [ ] Move the local fetch off the laptop onto an always-on box on the same network.
       Cloud VMs are not an option for the eight providers that block datacenter IPs
       (Finnkino, Kino Akseli, Kino Engel, Joutsan Kino, Savon Kinot since 2026-09-04,

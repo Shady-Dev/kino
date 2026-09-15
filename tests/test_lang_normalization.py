@@ -2,7 +2,8 @@
 defect somewhere else (measured 2026-09-02): `TU` and `MA` are Finnkino's own vocabulary
 for Turkish and Malayalam, `XX` is Nexxo's "no subtitles", `LT` is Lithuanian and simply
 missing. The app showed all four raw; the landing pages aliased them. These tests pin the
-fixes at their sources and the aliases that stay until the committed data has turned over.
+fixes at their sources. The landing-page aliases that covered the data meanwhile were
+deleted on 2026-09-15, once no committed `data/area-*.json` carried TU, MA or XX.
 
 Provider modules are imported inside the tests rather than at module level: they bind
 `common.EmptyProgramme` at import time and `test_common_fetch` reloads `common`, so a
@@ -147,40 +148,6 @@ class NameTableTest(unittest.TestCase):
         self.assertEqual(bp.lang_parts("LT-A, FI-S", "en"), ["Lithuanian", "Finnish subtitles"])
         self.assertEqual(bp.lang_parts("ML-A, EN-S", "fi"), ["malajalam", "tekstitys: englanti"])
         self.assertEqual(bp.lang_parts("ML-A, EN-S", "en"), ["Malayalam", "English subtitles"])
-
-
-class GeneratorAliasTest(unittest.TestCase):
-    """The landing-page aliases stay, unchanged, until the committed data holds none of
-    TU, MA or XX. Their removal is a re-measure and a decision, written in IDEAS."""
-
-    def test_the_alias_set_is_exactly_what_it_was(self):
-        import build_pages as bp
-        self.assertEqual(bp.CODE_ALIAS, {"TU": "TR", "MA": "ML"})
-        self.assertEqual(bp.NO_SUBTITLES, {"XX"})
-        self.assertEqual(bp.LN_EXTRA, {"fi": {"LT": "liettua", "ML": "malajalam"},
-                                       "en": {"LT": "Lithuanian", "ML": "Malayalam"}})
-
-    def test_the_aliases_agree_with_the_client(self):
-        """An alias target has to be a code the client names, and an extra name has to
-        be the client's own, or the two surfaces would call one language two things."""
-        import build_pages as bp
-        t = client_tables()
-        for lang in ("fi", "en"):
-            for code, name in bp.LN_EXTRA[lang].items():
-                with self.subTest(lang=lang, code=code):
-                    self.assertEqual(name, t[lang][code])
-        for src, dst in bp.CODE_ALIAS.items():
-            with self.subTest(src=src):
-                self.assertIn(dst, t["fi"])
-                self.assertIn(dst, t["en"])
-
-    def test_legacy_codes_still_in_the_data_render_as_words(self):
-        """The four shapes the committed data carries on 2026-09-02."""
-        import build_pages as bp
-        self.assertEqual(bp.lang_parts("FI-S, SV-S, TU-A", "fi"), ["turkki", "tekstitys: suomi/ruotsi"])
-        self.assertEqual(bp.lang_parts("EN-S, MA-A", "en"), ["Malayalam", "English subtitles"])
-        self.assertEqual(bp.lang_parts("FI-A, XX-S", "fi"), ["suomi"])
-        self.assertEqual(bp.lang_parts("XX-S", "en"), [])
 
 
 if __name__ == "__main__":

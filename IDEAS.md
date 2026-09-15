@@ -44,17 +44,6 @@ is a `SITES` entry, not a parser. What each platform publishes is in
   other non-Finnish Vista users are untested. Platform adapters first; a bespoke site only
   when a cinema is on none.
 
-### Language codes normalised end to end
-
-The adapter and client fixes landed 2026-09-02 (sw.js v99). `fetch_data.lang_tag` maps
-through `FINNKINO_LANG`, `nexxo._lang` drops `XX` from the subtitle role, and the client's
-`LN` plus the generator's mirror gained `LT` and `ML`. After the 2026-09-02 cloud run `XX`
-was gone; `TU-A` and `MA-A` were still awaiting a local run.
-**Next action:** grep the committed `data/area-*.json` after a local run. When none carries
-`TU`, `MA` or `XX`, delete `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` from
-`build_pages.py` with their tests. Evidence:
-[docs/research/languages.md](docs/research/languages.md).
-
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino

@@ -217,24 +217,14 @@ LN = {
            "ZH": "Chinese", "KO": "Korean", "HI": "Hindi", "TR": "Turkish", "KA": "Georgian",
            "TA": "Tamil", "LT": "Lithuanian", "ML": "Malayalam"},
 }
-# Codes the committed data carried on 2026-09-02 that the client's table did not, each a
-# defect somewhere else and named here so a page never showed a raw code meanwhile. The
-# fixes landed the same day -- fetch_data.lang_tag maps TU and MA, nexxo._lang drops XX,
-# LT and ML are in the client's LN and mirrored above -- but the committed data turns over
-# only as the adapters run again, Finnkino from an ordinary connection, so these stay
-# exactly as they are until a re-measure of data/area-*.json finds no TU, MA or XX:
-#   TU, MA -- Finnkino's own vocabulary for Turkish and Malayalam ("Keltaiset kirjeet",
-#             "I'm Game"), read as TR and ML here.
-#   XX     -- Nexxo's "no subtitles" on dubbed films. Not a language: the subtitle role
-#             is simply absent, so it renders nothing.
-#   LT, ML -- now in LN above, which is consulted first; kept so the set goes in one step.
-# A code in none of these tables still renders, as itself, so a new one is visible on
+# A code this table does not name still renders, as itself, so a new one is visible on
 # the page rather than lost. `tests/test_landing_pages.py` asserts every code in the
-# committed data is covered, and `tests/test_lang_normalization.py` pins this set.
-CODE_ALIAS = {"TU": "TR", "MA": "ML"}
-NO_SUBTITLES = {"XX"}
-LN_EXTRA = {"fi": {"LT": "liettua", "ML": "malajalam"},
-            "en": {"LT": "Lithuanian", "ML": "Malayalam"}}
+# committed data resolves here.
+# `CODE_ALIAS` (TU, MA), `NO_SUBTITLES` (XX) and `LN_EXTRA` (LT, ML) stood here from
+# 2026-09-02 until 2026-09-15, covering codes the adapters were still publishing while
+# their fixes turned the committed data over. All three were deleted once no
+# `data/area-*.json` carried TU, MA or XX; LT and ML are in `LN` above. Record in
+# docs/archive/2026-09-pipeline.md.
 LANG_RE = re.compile(r"^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$")
 
 
@@ -253,10 +243,7 @@ def lang_parts(codes, lang):
             by["A"].append(c)          # not a tag this app knows: shown rather than lost
             continue
         for x in m.group(1).split("-"):
-            x = CODE_ALIAS.get(x, x)
-            if m.group(2) == "S" and x in NO_SUBTITLES:
-                continue
-            name = LN[lang].get(x) or LN_EXTRA[lang].get(x) or x
+            name = LN[lang].get(x) or x
             if name not in by[m.group(2)]:
                 by[m.group(2)].append(name)
     out = []
