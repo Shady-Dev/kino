@@ -293,6 +293,13 @@
    "host": "laitilankino.fi",
    "accent": "#3C7872",
    "book": "reserve"
+  },
+  {
+   "id": "isohannu",
+   "label": "Iso-Hannu",
+   "host": "isohannu.fi",
+   "accent": "#FF4466",
+   "book": "buy"
   }
  ]
 }

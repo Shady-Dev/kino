@@ -260,6 +260,24 @@ PROVIDERS = [
          book="reserve", module="cinemahouse", where="cloud"),
     dict(id="laitilankino", label="Laitilan Kino", host="laitilankino.fi",
          accent="#3C7872", book="reserve", module="cinemahouse", where="cloud"),
+
+    # Iso-Hannu, Rauma (2026-09-15). Its own PHP, on none of the platforms already read
+    # here, so it is the one parser in this batch: scripts/providers/isohannu.py.
+    # `book="buy"`: the per-screening link is the cinema's own ticket shop and the button
+    # it sits on reads "Osta liput". `where="cloud"`: www.isohannu.fi answers Apache with
+    # no Cloudflare and no challenge, so it starts on the cloud half like every other
+    # provider that shows no evidence of the datacenter block.
+    # Rauma is in no REGIONS area and holds no other chain, so this accent enters no
+    # shared view and `accent_check.py --search isohannu` answers "unconstrained. Nothing
+    # to search". Measured against the whole set anyway, with accent_check's own dE:
+    # L* 58.4, inside the set's 38-60 band, and 9.2 dE00 from its nearest accent on the
+    # weakest of the three models (Kino Akseli), 14.5 in normal vision from Korjaamo Kino.
+    # 14.4 is not reachable globally here -- a sweep of the band against all 42 existing
+    # accents tops out at 9.2 -- which is why the rule binds shared views rather than the
+    # whole set. It introduces no new pair anywhere: the worst pairs the full run prints
+    # are the established ones it already listed.
+    dict(id="isohannu", label="Iso-Hannu", host="isohannu.fi", accent="#FF4466",
+         book="buy", module="isohannu", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

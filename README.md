@@ -6,22 +6,22 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 86 venues in 57 cities across 42 providers: Finnkino, BioRex,
+Showtimes for 87 venues in 58 cities across 43 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
 Bio Vuoksi, Kino Iiris, K-Kino, Joutsan Kino, Bio Grani, Kino Aurora, Kino
 Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
 Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine,
-Elokuvateatteri Star, Kino Piispanristi, Kino Lumo and Laitilan Kino. Films
-with posters, TMDB ratings, age limits, runtimes, genres, languages, plus ticket
-prices and sold-out marks where the cinema publishes them. Tapping a showtime
+Elokuvateatteri Star, Kino Piispanristi, Kino Lumo, Laitilan Kino and Iso-Hannu.
+Films with posters, TMDB ratings, age limits, runtimes, genres, languages, plus
+ticket prices and sold-out marks where the cinema publishes them. Tapping a showtime
 opens that cinema's own booking page, or the ticket shop where the screening is
 included in a general admission ticket (Heureka's planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 57 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 58 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -55,6 +55,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino Tapiola | 1 | 1 | none | GitHub Actions |
 | Kino Regina | 1 | 1 | none | Local |
 | Cinemahouse (cinema-reservations) | 3 | 3 | none | GitHub Actions |
+| Iso-Hannu | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -253,7 +254,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 42 providers listed at the
+Schedule data belongs to the respective cinemas, the 43 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

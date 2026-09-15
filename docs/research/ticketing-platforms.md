@@ -273,6 +273,70 @@ now. KuvaTähti and Kulttuurimylly stay unread. Next step: none open.
 
 ---
 
+## The 2026-09-15 candidate batch: nine names, one cinema
+
+**Findings** (each host read once as a visitor, 2026-09-15)
+
+The nine candidates `IDEAS.md` carried. Classified by fingerprinting the host and then
+verifying against the endpoint an adapter would need, never on the fingerprint alone.
+
+- **Bio Salo, Bio Stara, Bio Jukola** run `nexxo-scope` and answer `public_api.php` with
+  `{"shows": []}` at every locationid 1-5, `days=60`, `upcoming=0` and `upcoming=1` alike.
+  Their sites render no `/ohjelmisto` and no clock time anywhere; the only programme-ish
+  link is `/tilausnaytokset/`, which is group hire. The 2026-08-30 reading that they are
+  permanently empty therefore still held sixteen days later. Each also carries a Johku
+  fingerprint the 2026-08-30 note did not record, so the shop is Johku while the
+  (empty) programme is Nexxo.
+- **Kino Kaustinen** is a real eTiketti tenant: `etiketti.app` on the page, the
+  `/elokuvat/ohjelmistossa` listing served, `/salikartta?id=` answering with eTiketti's
+  own "Linkki vanhentunut" and a "Powered by eTiketti" footer. Its id space is its own,
+  not Bio Rex Kokkola's: `/elokuvat/3216` is "The Odyssey" on biorex.org and a 404 here,
+  and 3168 is a different film on each, so the two would not double-publish. **It has no
+  screenings.** The listing renders "Ei ohjelmistoa saatavilla", the front page
+  "Ohjelmistossamme ei ole näytöksiä tällä hetkellä", and `etiketti._classify_no_films`
+  run against the live listing raises `EmptyProgramme`, which is the sanctioned path. Its
+  `/ohjelmisto` page states a Monday update adding the next Fri-Thu week; none was
+  published for the week this was read. `/elokuvat/tulossa` does list coming films, so
+  the cinema is alive rather than closed.
+- **Iso-Hannu**, Rauma, is on none of the platforms here and got the batch's one parser.
+  See `scripts/providers/isohannu.py`.
+- **Kino Kirkkonummi** is WordPress with Elementor. Its showtimes are hand-authored
+  `elementor-icon-list` text ("20.9. Sunnuntai klo18.00"): no year, no room, no booking
+  host among its outbound links, and no semantic class around the time. Parseable only by
+  reading page-builder markup that carries no contract.
+- **Teatteri Union** is WHS's stage, not a cinema. Its own words: a programme of
+  "visuaalista teatteria, eläviä kuvia ja poikkitaiteellisia esityksiä". The four events
+  on `/esitys/` when read were concerts and performances, one of them titled
+  *elokuvaton*. `/ohjelmisto/` renders nothing server-side.
+- **Kino Julia** is not an operating cinema. `turunleffat.biokuva.fi` is a local cinema
+  history archive; its `/elokuvateatteri/julia/` is prose about a 1980s Eerikinkatu build.
+- **Kino Diana** has closed. `kinodiana.fi` is 2.4 kB whose entire visible text is "Kino
+  Diana www.kinopiispanristi.fi www.kinodiana.fi". Its audience moved to Kino
+  Piispanristi and Kino Lumo, both already providers here.
+- **Eventio** is confirmed as the platform behind `kauppa.kavi.fi`, which carries the
+  fingerprint. That is a shop rather than a listing, and shops are not inventoried here;
+  Kino Regina, the cinema behind it, is already read from its own WordPress. No cinema
+  reachable through Eventio that this repo does not already carry was found.
+
+**Inferences and open questions**
+
+- A name on a candidate list is not a cinema. Three of these nine were a closed cinema, a
+  history page and a theatre company, and no amount of adapter work would have changed
+  that. Classify before estimating.
+- An empty platform API is not proof of an empty cinema: Bio Säde's schedule lives on
+  another host. Here the sites' own pages agreed with their APIs, which is what settled it.
+- Whether Kaustinen's silence is a seasonal break or a longer pause is not established.
+  Nothing here tests it, and its own pages say only what is quoted above.
+
+**Status and next step**
+
+Iso-Hannu is live. Kino Kaustinen is one `SITES` entry away and is held only by having no
+screening to verify a ticket destination against, which is the rule six dead Nexxo links
+bought. Next step: re-read `kinokaustinen.fi/elokuvat/ohjelmistossa` on a later Monday and
+add it when it lists a film.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)

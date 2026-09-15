@@ -1039,3 +1039,51 @@ them pinned on the function because `parse_movie` cannot reach the empty-result 
 Published 2026-09-14 on the 23:18 UTC cloud run: no ENG, SUB or DUB title is left in the
 data and all 10 showtimes carry 1204680.
 
+
+### Iso-Hannu, Rauma: the batch's one cinema out of nine candidates (2026-09-15)
+
+Nine candidates were on the list. Eight are not cinemas this repo can or should add, and
+the reasons are in [ticketing-platforms.md](../research/ticketing-platforms.md) under the
+2026-09-15 batch: Bio Salo, Bio Stara and Bio Jukola still answer Nexxo with `{"shows":
+[]}` at every locationid and `days=60`, current and upcoming alike; Kino Diana has closed
+and points at Kino Piispanristi, already a provider; Kino Julia is a page in a cinema
+history archive; Teatteri Union is WHS's stage, programming "visuaalista teatteria,
+eläviä kuvia ja poikkitaiteellisia esityksiä"; Kino Kirkkonummi hand-authors its times in
+Elementor widgets with no year, no room and no booking host; Eventio is confirmed as the
+platform behind KAVI's shop, which is a shop rather than a listing. Kino Kaustinen is the
+near miss and stays open: a real eTiketti tenant with its own id space, but it publishes
+no screening, so there is no ticket destination to fetch and check.
+
+Iso-Hannu is the one that became a provider, and the one parser in the batch: its site is
+its own PHP and carries none of the platform fingerprints already read here.
+
+- **The whole programme is one request.** `<div id="showtable">` on the front page holds a
+  `<h3 class="showtable-title">` per day with the year in the date, then one
+  `div.showtable-container` per hall. 66 screenings over 7 days and 3 halls when read,
+  from 14 films. The film pages add runtime, age limit, genre, spoken language and a
+  poster, one per film rather than per screening.
+- **The row's anchor carries the film id** and that id is the film, not the run: it
+  recurs across days and halls, so it is the `eventId` and no title normalisation is
+  needed to fold a film's screenings together.
+- **Hall is per container, not per day.** Parsing rows flat would file every screening
+  under the day's first hall; `test_a_row_belongs_to_the_hall_whose_container_holds_it`
+  pins it and the mutation that flattens it turns three tests red.
+- **The ticket link is written `http://` on a host that answers `https://`** (checked
+  2026-09-15, 200), so it is upgraded. `book="buy"`: the button reads "Osta liput".
+- **The age limit is written `K12`.** Every other provider here publishes `K-12` and the
+  committed data holds only `K-7`, `K-12`, `K-16`, `K-18` and `S`, and the stub prints
+  `rating` verbatim, so it is normalised. Subtitles are not published at all, so `lang`
+  carries the spoken language only and no `-S` role is invented.
+- Accent `#FF4466`. Rauma is in no REGIONS area and holds no other chain, so it enters no
+  shared view and `accent_check.py --search isohannu` says there is nothing to search.
+  Measured anyway with the script's own dE: L* 58.4, inside the set's 38-60 band, 9.2
+  dE00 from its nearest accent on the weakest of the three models. A sweep of the band
+  against all 42 existing accents tops out at 9.2, so 14.4 is not reachable globally,
+  which is why the rule binds shared views rather than the whole set.
+- `where="cloud"`: www.isohannu.fi answers Apache with no Cloudflare and no challenge.
+- Tests: `tests/test_isohannu.py`, 20 tests, plus a sample in `test_show_contract.py`.
+  Eight mutations, all red, none void. The fixture carries two days and three halls
+  because the parser walks them as nested loops and one of each would enter neither.
+- **Not yet published.** No run has fetched it, so `data/venues-isohannu.json` does not
+  exist and the committed pages still count 86 venues. The first cloud run adds Rauma as
+  the 58th city, takes the pages to 99 per language and the sitemap to 199.

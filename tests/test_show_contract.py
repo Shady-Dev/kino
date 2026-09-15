@@ -31,6 +31,7 @@ import run
 import test_cinemahouse as C
 import test_etiketti_templates as E
 import test_gilda_duplicates as G
+import test_isohannu as I
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -178,12 +179,20 @@ def sample_kinoakseli():
     return ka.parse(page, today=TODAY), "kinoakseli", [ka.VENUE["id"]]
 
 
+def sample_isohannu():
+    """Through `parse`, which is the whole read: the film pages only fold metadata onto
+    rows this already produced, so the contract is met or missed here."""
+    site = I.SITE
+    return (mod("isohannu").parse(I.PAGE), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
     "gilda": sample_gilda, "heureka": sample_heureka, "etiketti": sample_etiketti,
     "biorex": sample_biorex, "engel": sample_engel, "kinoakseli": sample_kinoakseli,
-    "cinemahouse": sample_cinemahouse,
+    "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu,
 }
 
 

@@ -27,22 +27,22 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-42 providers, 86 venues, 57 cities as of 2026-09-14. Check for an existing platform
-first: a cinema on Vista, MyCloudCinema, Nexxo, eTiketti, Johku or `cinema-reservations`
-is a `SITES` entry, not a parser. What each platform publishes is in
+43 providers, 87 venues, 58 cities declared as of 2026-09-15. Check for an existing
+platform first: a cinema on Vista, MyCloudCinema, Nexxo, eTiketti, Johku or
+`cinema-reservations` is a `SITES` entry, not a parser. What each platform publishes, and
+the 2026-09-15 classification of the nine candidates that were on this list, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Unstarted candidates:** the Nexxo timetable sites (Bio-Salo, Stara, Jukola),
-  Kaustinen, Union, Iso-Hannu, Julia, Kirkkonummi, Diana. **Next action:** probe as a
-  visitor and classify by platform before writing anything.
-- **Cinemahouse is now a platform** (three cinemas, 2026-09-14), so a fourth
-  `cinema-reservations` site is a `SITES` entry.
-- **Eventio** is a ticketing platform with cinema customers and is unprobed. It surfaced
-  as KAVI's shop under Kino Regina. **Next action:** probe one customer site.
-- **Complete:** eTiketti (twenty), Nexxo (eight), the Korttelikinot, Vista's one Finnish
-  site, and the two parser-shaped leftovers, Cinema Niagara and Kino Metso. Cinamon and
-  other non-Finnish Vista users are untested. Platform adapters first; a bespoke site only
-  when a cinema is on none.
+- **Kino Kaustinen** is a real eTiketti tenant that currently publishes no screening, so
+  no ticket destination can be fetched and checked. **Next action:** re-read its listing
+  on a later Monday and add the `SITES` entry when it lists a film.
+- **The other seven candidates are closed**, each for a reason recorded in the research
+  file: three permanently empty Nexxo hosts, a closed cinema, a history page, a stage and
+  a page-builder site with no booking host. Eventio is a shop, not a listing, and yields
+  no cinema this repo does not already carry.
+- **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), the Korttelikinot,
+  Vista's one Finnish site, and the parser-shaped ones, Cinema Niagara, Kino Metso and
+  now Iso-Hannu. Cinamon and other non-Finnish Vista users are untested.
 
 ### Move the local fetch off the laptop
 
@@ -196,20 +196,32 @@ on every provider change, because carried-over counts have been wrong repeatedly
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`, after a local run and
-the cloud run it dispatched:
+Latest, measured 2026-09-15 with data at `887a7988`, adding Iso-Hannu. The venue and
+city figures are what the registry and the adapters **declare**; the page and sitemap
+figures are what is **committed**, and the two disagree by one venue until the first
+cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities | 42 / 86 / 57 |
+| providers / venues / cities (declared) | 43 / 87 / 58 |
+| venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12 |
 | generated pages per language | 98 |
 | sitemap URLs | 197 |
-| poster references (shows / films-extra) | 4193 (3940 / 253) |
+| poster references (shows / films-extra) | 4293 (4033 / 260) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1029 |
-| `sw.js` CACHE | `leffavuoro-v157` |
+| mirrored poster files | 1041 |
+| `sw.js` CACHE | `leffavuoro-v158` |
+
+Rauma becomes the 58th city and Iso-Hannu the 87th venue on that run, which takes the
+pages to 99 per language and the sitemap to 199. Those three are the numbers to re-measure
+next, and they are the reason README's page sentence still reads 86 venues: it describes
+the committed pages, which have not moved yet.
+
+Earlier, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`: 42 / 86 / 57,
+98 pages per language, 197 sitemap URLs, 4193 poster references (3940 / 253) over 1029
+files, `sw.js` `leffavuoro-v157`.
 
 Two README numbers were wrong when this pass measured them and are corrected with it: the
 adapter table said eTiketti served 29 venues against 30 in the venue files, and the cadence
