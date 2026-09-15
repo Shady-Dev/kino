@@ -45,9 +45,20 @@ def day(title, *halls):
     return f'<h3 class="showtable-title">{title}</h3>{"".join(halls)}'
 
 
-def page(*days):
+TARIFF = ("<h2>LIPUT</h2><p>Ma-to 13,50 \u20ac</p><p>Pe-su ja arkipyh\u00e4 14,50 \u20ac</p>"
+          "<p>Meill\u00e4 k\u00e4y my\u00f6s Smartum.</p>"
+          "<h2>ALENNUKSET</h2><p>Opiskelijat, el\u00e4kel\u00e4iset ja alle 12v lapset "
+          "liput 13,50 \u20ac/kpl (korttia n\u00e4ytt\u00e4m\u00e4ll\u00e4).</p>"
+          "<p>Tiistaisin liput S-Etukorttia vilauttamalla 10,00 \u20ac saman p\u00e4iv\u00e4n "
+          "n\u00e4yt\u00f6ksiin</p>")
+
+
+def page(*days, tariff=TARIFF):
+    """The front page. The tariff block sits below the show table, and the discounts under
+    it are the amounts a price reader must not pick up instead."""
     return ('<html><body><div id="showtable">' + "".join(days) +
-            '</div><div id="footer">Elokuvateatteri Iso-Hannu</div></body></html>')
+            "</div>" + (tariff or "") +
+            '<div id="footer">Elokuvateatteri Iso-Hannu</div></body></html>')
 
 
 PAGE = page(
@@ -233,6 +244,74 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual(SITE["base"], BASE)
         self.assertEqual([v["city"] for v in SITE["venues"]], ["Rauma"])
         self.assertEqual(SITE["provider"], "isohannu")
+
+
+class PriceTest(unittest.TestCase):
+    """The house tariff, from the front page the adapter already fetches.
+
+    `LIPUT Ma-to 13,50 € Pe-su ja arkipyhä 14,50 €`, read as a visitor 2026-09-16. The
+    discounts printed under it all need a card shown at the counter, so the ordinary ticket
+    is the one figure that describes what a visitor pays without one -- and they are the
+    amounts a careless reader picks up instead.
+    """
+
+    def test_the_two_ordinary_amounts_are_read_as_a_pair(self):
+        self.assertEqual(isohannu.tariff(page()), (13.5, 14.5))
+
+    def test_the_discount_amounts_below_are_not_the_tariff(self):
+        """13,50 appears again under ALENNUKSET and 10,00 for the Tuesday card offer."""
+        self.assertEqual(isohannu.tariff(page()), (13.5, 14.5))
+
+    def test_a_page_with_the_discounts_and_no_tariff_block_reads_nothing(self):
+        """The anchor is `LIPUT Ma-to ... Pe-su ...` and not "two amounts on the page". A
+        reader without it publishes the card-only 13,50 and 10,00 as the house tariff."""
+        # Trimmed to the two sentences that matter, so the amounts sit as close together
+        # as a loose reader would need them: the point is that no LIPUT block is present.
+        discounts = ("<h2>ALENNUKSET</h2><p>Opiskelijat ja el\u00e4kel\u00e4iset 13,50 \u20ac.</p>"
+                     "<p>S-Etukortilla 10,00 \u20ac.</p>")
+        self.assertEqual(isohannu.tariff(page(tariff=discounts)), (None, None))
+
+    def test_a_page_with_no_tariff_block_publishes_no_price(self):
+        one_day = day("Tiistai 15.09.2026",
+                      hall("Sali 1", row("2190", "18:00", "HETKI ENNEN VALOA", "121274")))
+        self.assertEqual(isohannu.tariff(page(one_day, tariff="")), (None, None))
+        shows = isohannu.parse(page(one_day, tariff=""))
+        self.assertEqual({s["price"] for s in shows}, {""})
+
+    def test_monday_to_thursday_is_the_cheaper_one_and_friday_to_sunday_the_dearer(self):
+        import datetime
+        for day_, want in ((14, "13.5\u20ac"), (15, "13.5\u20ac"), (16, "13.5\u20ac"),
+                           (17, "13.5\u20ac"), (18, "14.5\u20ac"), (19, "14.5\u20ac"),
+                           (20, "14.5\u20ac")):
+            with self.subTest(day=day_):
+                when = datetime.datetime(2026, 9, day_, 18, 0, tzinfo=isohannu.FI)
+                self.assertEqual(isohannu.price_of(13.5, 14.5, when), want)
+
+    def test_no_tariff_means_no_price_rather_than_a_blank_amount(self):
+        import datetime
+        when = datetime.datetime(2026, 9, 16, 18, 0, tzinfo=isohannu.FI)
+        self.assertEqual(isohannu.price_of(None, None, when), "")
+
+    def test_every_screening_carries_the_price_its_own_day_charges(self):
+        import datetime
+        shows = isohannu.parse(PAGE)
+        self.assertTrue(shows)
+        by_day = {}
+        for s in shows:
+            by_day.setdefault(s["start"][:10], set()).add(s["price"])
+        for iso, prices in by_day.items():
+            with self.subTest(day=iso):
+                want = ("13.5\u20ac" if datetime.date.fromisoformat(iso).weekday() <= 3
+                        else "14.5\u20ac")
+                self.assertEqual(prices, {want})
+        common.check_shows({isohannu.VENUE["id"]: shows}, "isohannu",
+                           {isohannu.VENUE["id"]})
+
+    def test_the_cents_are_dropped_only_when_they_are_zero(self):
+        import datetime
+        when = datetime.datetime(2026, 9, 16, 18, 0, tzinfo=isohannu.FI)
+        self.assertEqual(isohannu.price_of(13.0, 14.0, when), "13\u20ac")
+        self.assertEqual(isohannu.price_of(13.5, 14.5, when), "13.5\u20ac")
 
 
 if __name__ == "__main__":

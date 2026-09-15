@@ -115,6 +115,8 @@ raw was written to the repo.
 
 **Status and next step**
 
-Implemented 2026-09-16: TMB's four (from `?hinnat=`) and Kino Kirkkonummi (per film, no
-extra request). Next: Iso-Hannu, then Kino Manttu, both from pages already fetched; then
-decide whether Kuvakukko's and Bio-Kaari's `/liput/` pages are worth a request each.
+Implemented 2026-09-16: TMB's four (from `?hinnat=`), Kino Kirkkonummi (per film) and
+Iso-Hannu (the house tariff by weekday), the last two from pages already fetched and at no
+extra request. Next: Kino Manttu, whose price is in the listing text the adapter already
+reads; then decide whether Kuvakukko's and Bio-Kaari's `/liput/` pages are worth a request
+each. Bio Savoy, Cine Mäntsälä and Kinola have no readable price and are not pending work.

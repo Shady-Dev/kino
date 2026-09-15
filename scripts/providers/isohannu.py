@@ -78,6 +78,19 @@ FIELD_RE = {
 POSTER_RE = re.compile(r'(https://lipunmyynti\.isohannu\.fi/images/posters/[^"\'\s>]+)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
+# The house tariff, in the front page's own `LIPUT` block, so reading it costs no request:
+#
+#     LIPUT  Ma-to 13,50 €  Pe-su ja arkipyhä 14,50 €
+#
+# Read as a visitor 2026-09-16. Two amounts and the days each covers, in that order, so the
+# pair is read as a pair rather than by matching the Finnish day names, which the page
+# writes as ranges. The discounts printed beside it -- student, pensioner, under-12, and
+# S-Etukortti Tuesdays at 10,00 € -- all need a card shown at the counter, so the ordinary
+# ticket is the one figure that describes what a visitor pays without one.
+TARIFF_RE = re.compile(
+    r"LIPUT\s+Ma-?to\s*(\d{1,3}[.,]\d{2})\s*\u20ac\s*Pe-?su[^\d]{0,30}?(\d{1,3}[.,]\d{2})\s*\u20ac",
+    re.I)
+
 # `Puhekieli` is a Finnish language name; the codes are the app's own tags. A name this
 # table does not carry yields no tag rather than a guess, the way tapiola.py does it.
 LANGS = {"suomi": "FI", "ruotsi": "SV", "englanti": "EN", "saksa": "DE", "ranska": "FR",
@@ -110,6 +123,7 @@ def parse(page):
                            "page this parser reads, so it is a fetch or template failure "
                            "rather than a cinema with nothing on")
     shows, seen = [], set()
+    cheap, dear = tariff(page)
     days = list(DAY_RE.finditer(page))
     for i, d in enumerate(days):
         day, month, year = (int(x) for x in d.groups())
@@ -155,7 +169,8 @@ def parse(page):
                     "img": "",
                     "lang": "",
                     "soldOut": False,
-                    "price": "",
+                    "price": price_of(cheap, dear,
+                                      datetime.datetime.fromisoformat(start)),
                     "provider": "isohannu",
                     "venue": VENUE["id"],
                 })
@@ -163,6 +178,32 @@ def parse(page):
         raise EmptyProgramme(f"{BASE} renders its show table with no screening in it")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
+
+
+def tariff(page):
+    """The two ordinary ticket prices. -> (Mon-Thu, Fri-Sun), or (None, None).
+
+    Both or neither: the block states the cheaper amount and the days it covers before the
+    dearer one, and half a tariff cannot say which days an amount belongs to.
+    """
+    m = TARIFF_RE.search(_txt(page))
+    if not m:
+        return None, None
+    return tuple(float(g.replace(",", ".")) for g in m.groups())
+
+
+def price_of(cheap, dear, start):
+    """One screening's price. -> "13.5\u20ac", or "" when the block was not read.
+
+    Monday to Thursday is the cheaper one and Friday to Sunday the dearer, which is what
+    the page says. It also charges the dearer on an *arkipyhä*, a weekday public holiday,
+    and which days those are is a calendar this repo does not carry -- so a screening on one
+    publishes 0.50 low. Stated rather than guessed, and it understates rather than over.
+    """
+    if cheap is None:
+        return ""
+    v = cheap if start.weekday() <= 3 else dear
+    return f"{v:.2f}".rstrip("0").rstrip(".") + "\u20ac"
 
 
 def details(page):
