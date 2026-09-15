@@ -188,17 +188,17 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-14, twelfth pass)
+## Documentation state (2026-09-15, thirteenth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, measured 2026-09-15 with data at `887a7988`, adding Iso-Hannu. The venue and
+Latest, re-measured 2026-09-15 at `479940c6` with data still at `887a7988`. The venue and
 city figures are what the registry and the adapters **declare**; the page and sitemap
-figures are what is **committed**, and the two disagree by one venue until the first
-cloud run publishes `data/venues-isohannu.json`:
+figures are what is **committed**, and the two disagree by twelve venues until a run
+fetches them:
 
 | | |
 |---|---:|
@@ -211,16 +211,22 @@ cloud run publishes `data/venues-isohannu.json`:
 | poster references (shows / films-extra) | 4293 (4033 / 260) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1041 |
-| `sw.js` CACHE | `leffavuoro-v158` |
+| `sw.js` CACHE | `leffavuoro-v165` |
 
-Eleven venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas
+Twelve venues are declared and unpublished: Iso-Hannu (Rauma), the four TMB cinemas
 (Akaa, Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino
-Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä) and Kino Kirkkonummi.
-Hyvinkää and Kuopio were already covered, so the first run that fetches them adds nine
-cities and eleven venues, which would take the pages to 109 per language and the sitemap
-to 219 if every one publishes. Those are predictions, not measurements, and are
-the reason README's page sentence still reads 86 venues: it describes the committed
-pages, which have not moved.
+Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä), Kino Kirkkonummi and Bio
+Savoy (Mariehamn). Hyvinkää and Kuopio were already covered, so the first run that fetches
+them adds ten cities and twelve venues; Hyvinkää and Kuopio would each reach two venues
+and gain a city page, taking the pages to 112 per language and the sitemap to 225 if every
+one publishes. Those are predictions, not measurements, and are the reason README's page
+sentence still reads 86 venues: it describes the committed pages, which have not moved.
+
+**Why none of them has published.** The last cloud run was created 2026-09-15 07:55 UTC on
+`bb409cc0` and committed `887a7988`; all twelve landed on `main` between 08:46 and 11:22
+UTC, so no run has yet existed on code that declares any of them. The 02:30 and 10:30 cron
+slots created no run at all. Scheduled execution is best-effort, as CLAUDE.md says under
+"Access and ethics".
 
 Earlier, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`: 42 / 86 / 57,
 98 pages per language, 197 sitemap URLs, 4193 poster references (3940 / 253) over 1029
