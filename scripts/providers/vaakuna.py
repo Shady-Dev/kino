@@ -49,6 +49,12 @@ VENUE = {"id": "vaakuna-lohja", "name": "Kino Vaakuna", "short": "Kino Vaakuna",
 
 SITES = [{"provider": "vaakuna", "label": "Kino Vaakuna", "base": BASE, "venues": [VENUE]}]
 
+# The horizon this source was measured at on 2026-09-15: 10 dates, +0 to +9 days. 30
+# behind and 60 ahead is several times that and far short of the 365 a mistyped weekday
+# would need. A screening this cinema ever publishes further out than 60 days is dropped
+# and named in the log rather than placed on a date it may not mean.
+WINDOW = (30, 60)
+
 CONTAINER_RE = re.compile(r'class="MovieCard', re.I)
 CARD_RE = re.compile(r'<div class="MovieCard\b(.*?)(?=<div class="MovieCard\b|</main>|\Z)',
                      re.S | re.I)
@@ -107,7 +113,7 @@ def parse(page, today=None):
             # The row prints a weekday ("Ti 15.09."). It picks out exactly one candidate
             # year, so it is used instead of the nearest-occurrence fallback, and a
             # weekday matching none of them leaves the row unresolved rather than placed.
-            year = resolve_year(day, month, today, weekday_index(wd))
+            year = resolve_year(day, month, today, weekday_index(wd), WINDOW)
             if year is None:
                 unplaced.append(f"{wd} {day:02d}.{month:02d}.")
                 continue

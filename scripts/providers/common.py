@@ -523,12 +523,19 @@ def write_text_atomic(path, text):
 def write_json(path, obj, **dumps_kw):
     write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))
 
-# How far from today a resolved date may fall. Wider than any programme these cinemas
-# publish, tight enough that a mistyped weekday cannot put a screening a year out. Asymmetric
-# on purpose: a stale row in the past is hidden by the client, a phantom row in the future is
-# shown.
-MAX_AHEAD = 300
-MAX_BEHIND = 180
+# The publication horizon a source is allowed to reach, as (days behind, days ahead).
+# There is no universal right answer, so each caller passes its own and records what it
+# measured. This default is the one the three sources using this helper were measured at on
+# 2026-09-15: Kino Vaakuna +0..+9, Kino Kuvakukko +0..+9, Kino Manttu -4..-2, Kino
+# Kirkkonummi -1..+9. Every one of them publishes about a week either side, so 30 back and
+# 60 ahead is several times their observed span and still nowhere near the 365 a weekday
+# slip needs.
+#
+# What this cannot do is tell a genuine far-future screening from a mistaken one. A cinema
+# announcing a Christmas gala in October would fall outside and be dropped, named in the
+# adapter's log rather than published on a date it might not mean. That is the trade this
+# makes, and it is the reason the window is a caller's argument and not a constant here.
+DEFAULT_WINDOW = (30, 60)
 
 # Finnish weekday names as the cinema sites write them, full and abbreviated, keyed on the
 # first two letters because that is unambiguous across all seven.
@@ -541,67 +548,57 @@ def weekday_index(name):
     return FI_WEEKDAYS.get(key)
 
 
-def resolve_year(day, month, today, weekday=None):
+def resolve_year(day, month, today, weekday=None, window=DEFAULT_WINDOW):
     """A `DD.MM.` with no year -> the year it means. -> int, or None.
 
-    **A weekday selects uniquely within the assumed window. It does not establish the
-    intended date.** Inside Y-1, Y, Y+1 exactly one candidate can carry a given weekday:
-    consecutive years shift it by one or two days and the whole window by two or three,
-    never zero, checked over 2000-2100 across 4,800 windows. That makes the selection
-    unambiguous *given the window*. It does not make it true. A page left up for four years,
-    or one with a mistyped weekday, is still resolved to one of these three, and neither
-    this function nor the caller can tell that from the page.
+    **Select first, then bound.** The intended candidate is chosen under one rule, and only
+    then accepted or refused. It is never swapped for a different year because the first
+    choice fell outside the window. That was a real bug on 2026-09-15: `18.3.` read on 15
+    September resolved to *next* March, 184 days ahead, because the nearer occurrence 181
+    days back had already been filtered out before the choice was made. The nearest
+    occurrence is the answer or there is no answer.
 
-    So the answer is bounded as well as selected. A candidate further than `MAX_BEHIND`
-    days back or `MAX_AHEAD` days forward is refused and returns None, because the failure
-    that matters is a wrong weekday quietly producing a screening roughly a year out, where
-    nothing downstream filters it: a stale row in the past is harmless and the client hides
-    it, while a phantom row in the future is shown to readers. The bounds are deliberately
-    wider than anything these cinemas publish (the widest seen on 2026-09-15 was 88 days
-    ahead) and far tighter than the 365 a weekday slip would need.
+    **With a weekday**, exactly one of the three candidate years can carry it: the same day
+    and month falls on a different weekday in each, checked over 2000-2100 across 4,800
+    windows with none where two coincide. That makes the selection unambiguous *given the
+    window*; it does not establish the intended date. A page left up for years, or one with
+    a mistyped weekday, still selects one of the three and nothing on the page says so.
 
-    A weekday matching **no** candidate year returns None for the same reason: the page is
-    contradicting itself, which is a slip or a template change, and `tmb.py` already makes
-    that choice. Only three of the seven weekdays can be right for any given day and month.
+    **Without one**, the nearest occurrence wins, ties going to the future. "Next
+    occurrence" is the rule that suggests itself and is wrong where it matters: on 2 January
+    a page still showing `28.12.` means five days ago, not in eleven months.
 
-    Without a weekday it falls back to nearest occurrence, described below, and that is
-    bounded too.
+    **Then the window decides.** `window` is `(days behind, days ahead)` and the selected
+    date must fall inside it or this returns None and the caller skips the row. This is what
+    stops a stale listing with a wrong weekday becoming a far-future screening: `Ti 1.6.`
+    read on 2026-09-15 selects 2027, because 1 June 2027 is the Tuesday, 259 days ahead,
+    and 259 is far outside the horizon any of these cinemas publishes at. A stale row placed
+    in the past is harmless, since the client hides past screenings; a phantom row in the
+    future is shown to readers.
 
-    Several small cinemas publish a day and a month and no year at all (Kino Vaakuna,
-    Kino Kirkkonummi, Kuvakukko). The year is missing rather than abbreviated, so it has
-    to be resolved, and every way of doing that is a guess about which occurrence is
-    meant. This is the narrowest one that survives the case the naive rules fail on.
-
-    **Nearest occurrence, ties to the future.** The candidates are the same day and month
-    in `today.year - 1`, `today.year` and `today.year + 1`, and the one closest to `today`
-    wins. That bounds the answer to about six months either side of today, which is the
-    point: a rule that only ever looks forward turns a stale row into a date a year out.
-    On 2 January a page still showing `28.12.` means five days ago, not in eleven months;
-    on 28 December a page showing `05.01.` means in eight days, not eleven months back.
-    Both fall out of "nearest" without a special case.
-
-    A date in the past is not discarded here. The caller publishes it and the client
-    filters past screenings already, which is the honest division: this function answers
-    which year, not whether to show it.
-
-    Returns None when no candidate year holds that day and month at all, which is 29.02.
-    in a three-year window with no leap year in it. The caller skips such a row rather
-    than moving it to a date the page did not publish.
+    Returns None when no candidate year holds that day and month at all, which is 29.02. in
+    a three-year window with no leap year in it.
     """
-    best = None
+    candidates = []
     for year in (today.year - 1, today.year, today.year + 1):
         try:
-            when = datetime.date(year, month, day)
+            candidates.append((year, datetime.date(year, month, day)))
         except ValueError:
             continue
-        if not -MAX_BEHIND <= (when - today).days <= MAX_AHEAD:
-            continue                     # implausible; see the bound above
-        if weekday is not None:
-            if when.weekday() == weekday:
-                return year
-            continue
+    if not candidates:
+        return None
+    if weekday is not None:
+        matching = [c for c in candidates if c[1].weekday() == weekday]
+        if not matching:
+            return None          # the page contradicts itself: a slip or a template change
+        year, when = matching[0]
+    else:
         # Ties go to the future: a date equally far either way is the coming one.
-        key = (abs((when - today).days), 0 if when >= today else 1)
-        if best is None or key < best[0]:
-            best = (key, year)
-    return best[1] if best else None
+        year, when = min(candidates,
+                         key=lambda c: (abs((c[1] - today).days),
+                                        0 if c[1] >= today else 1))
+    if window is not None:
+        behind, ahead = window
+        if not -behind <= (when - today).days <= ahead:
+            return None          # selected, then refused; never replaced by another year
+    return year

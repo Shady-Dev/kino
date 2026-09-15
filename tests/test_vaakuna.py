@@ -184,7 +184,50 @@ class ResolveYearTest(unittest.TestCase):
 
     def test_a_date_in_the_same_year_is_that_year(self):
         self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15)), 2026)
-        self.assertEqual(common.resolve_year(1, 7, datetime.date(2026, 9, 15)), 2026)
+        # 1 July is 76 days back, outside the default window but correctly *selected*:
+        # without a window it resolves, with one it is refused rather than moved.
+        self.assertEqual(common.resolve_year(1, 7, datetime.date(2026, 9, 15),
+                                             window=None), 2026)
+        self.assertIsNone(common.resolve_year(1, 7, datetime.date(2026, 9, 15)))
+
+    def test_the_window_refuses_a_candidate_it_never_replaces_it(self):
+        """Reported 2026-09-15 and fixed here. `18.3.` read on 15 September has its nearest
+        occurrence 181 days back; the old code filtered that out *before* choosing and
+        returned next March, 184 days ahead, which the documented nearest-occurrence rule
+        never says. Selection happens first now, so the answer is that year or nothing."""
+        today = datetime.date(2026, 9, 15)
+        self.assertEqual(common.resolve_year(18, 3, today, window=None), 2026,
+                         "the rule selects the nearer past occurrence")
+        self.assertIsNone(common.resolve_year(18, 3, today),
+                          "and the window refuses it rather than substituting 2027")
+
+    def test_the_order_is_select_then_bound_shown_at_the_width_it_matters(self):
+        """The ordering is only observable once the window is wide enough for a
+        non-nearest candidate to fall inside it, which needs about 183 days: below that,
+        anything within the window is necessarily the nearest, because the other candidates
+        are 365 days from it. The bug was reported at (180, 300), so it is pinned there.
+
+        `18.3.` read on 15 September: nearest is 2026, 181 days back, just outside 180.
+        Selecting first gives that year and then refuses it. Filtering first discards it and
+        leaves 2027, 184 days ahead, which the nearest-occurrence rule never says."""
+        today = datetime.date(2026, 9, 15)
+        self.assertIsNone(common.resolve_year(18, 3, today, window=(180, 300)))
+        self.assertEqual(common.resolve_year(18, 3, today, window=(182, 300)), 2026,
+                         "one day wider and the nearest occurrence itself is admitted")
+
+    def test_a_stale_listing_with_a_wrong_weekday_cannot_reach_far_into_the_future(self):
+        """Also reported. `Ti 1.6.` read on 15 September selects 2027, because 1 June 2027
+        is the Tuesday, 259 days ahead. No source here publishes near that far, so it is
+        refused. This is the failure the window exists for."""
+        today = datetime.date(2026, 9, 15)
+        self.assertEqual(common.resolve_year(1, 6, today, common.weekday_index("Ti"),
+                                             window=None), 2027)
+        self.assertIsNone(common.resolve_year(1, 6, today, common.weekday_index("Ti")))
+
+    def test_the_window_is_the_callers_and_each_adapter_measured_its_own(self):
+        import kirkkonummi, kuvakukko, vaakuna as vk
+        for mod in (vk, kuvakukko, kirkkonummi):
+            self.assertEqual(mod.WINDOW, (30, 60), mod.__name__)
 
     def test_a_tie_goes_to_the_future(self):
         """A real tie, not an approximate one. It needs a leap year to be reachable at
@@ -192,7 +235,11 @@ class ResolveYearTest(unittest.TestCase):
         2028-03-01, and the coming one is the one meant. The first case written here was
         181 against 184 days, which is not a tie, and the mutation that flips the
         tie-break scored VOID against it."""
-        self.assertEqual(common.resolve_year(1, 3, datetime.date(2027, 8, 31)), 2028)
+        self.assertEqual(common.resolve_year(1, 3, datetime.date(2027, 8, 31),
+                                             window=None), 2028)
+        # With the default window the same date is 183 days out and refused. Selection and
+        # plausibility are separate questions and this pins both answers.
+        self.assertIsNone(common.resolve_year(1, 3, datetime.date(2027, 8, 31)))
 
     def test_a_weekday_selects_uniquely_within_the_window(self):
         """At most one candidate year can carry a given weekday. That makes the selection
@@ -212,15 +259,20 @@ class ResolveYearTest(unittest.TestCase):
             self.assertIsNone(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
                                                   common.weekday_index(wd)), wd)
 
-    def test_the_bound_is_wide_enough_for_a_real_programme(self):
-        """The widest programme seen on 2026-09-15 reached 88 days ahead."""
+    def test_the_window_is_wide_enough_for_what_these_sources_publish(self):
+        """Measured live on 2026-09-15: Vaakuna +0..+9, Kuvakukko +0..+9, Manttu -4..-2,
+        Kirkkonummi -1..+9. The window is several times that span in both directions."""
         today = datetime.date(2026, 9, 15)
-        far = today + datetime.timedelta(days=200)
-        self.assertEqual(common.resolve_year(far.day, far.month, today,
-                                             far.weekday()), far.year)
-        stale = today - datetime.timedelta(days=120)
-        self.assertEqual(common.resolve_year(stale.day, stale.month, today,
-                                             stale.weekday()), stale.year)
+        for offset in (-20, -4, 0, 9, 45, 59):
+            when = today + datetime.timedelta(days=offset)
+            self.assertEqual(
+                common.resolve_year(when.day, when.month, today, when.weekday()),
+                when.year, f"{offset:+d} days should resolve")
+        for offset in (-40, 75, 200):
+            when = today + datetime.timedelta(days=offset)
+            self.assertIsNone(
+                common.resolve_year(when.day, when.month, today, when.weekday()),
+                f"{offset:+d} days is outside what these cinemas publish")
 
     def test_a_weekday_no_candidate_year_can_satisfy_resolves_to_nothing(self):
         for wd in ("Torstai", "Perjantai", "Lauantai", "Sunnuntai"):

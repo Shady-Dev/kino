@@ -59,6 +59,10 @@ VENUE = {"id": "kirkkonummi", "name": "Kino Kirkkonummi", "short": "Kino Kirkkon
 SITES = [{"provider": "kirkkonummi", "label": "Kino Kirkkonummi", "base": BASE,
           "venues": [VENUE]}]
 
+# The horizon this source was measured at on 2026-09-15: 8 dates, -1 to +9 days. 30 behind
+# and 60 ahead is several times that and far short of the 365 a mistyped weekday would need.
+WINDOW = (30, 60)
+
 CONTAINER_RE = re.compile(r'elementor-icon-list-text', re.I)
 HEAD_RE = re.compile(r'<p class="elementor-heading-title[^"]*">(.*?)</p>', re.S | re.I)
 ITEM_RE = re.compile(r'<span class="elementor-icon-list-text">(.*?)</span>', re.S | re.I)
@@ -102,7 +106,7 @@ def parse(page, today=None):
             continue                # cast, director, a note, an address, or "Tulossa 25.9."
         day, month, wd, hh, mm = (m.group(1), m.group(2), m.group(3), m.group(4), m.group(5))
         day, month = int(day), int(month)
-        year = resolve_year(day, month, today, weekday_index(wd))
+        year = resolve_year(day, month, today, weekday_index(wd), WINDOW)
         if year is None:
             unplaced.append(f"{wd} {day}.{month}.")
             continue

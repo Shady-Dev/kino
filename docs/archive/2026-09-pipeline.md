@@ -1244,3 +1244,49 @@ asserted the unbounded behaviour were rewritten. Four mutations on the bound, al
 removing it, widening it past a year, tightening it below a real programme, and ignoring
 the weekday. The "too tight" mutation matters as much as "too wide": a bound that rejects
 legitimate dates is the other way to get this wrong.
+
+### The year helper resolved dates the documented rule never says (2026-09-15)
+
+Two defects in `common.resolve_year`, both found by the maintainer against the committed
+`3fa55a3b` with today = 2026-09-15, and both reproduced here before anything was changed.
+
+**`resolve_year(18, 3, today)` returned 2027, 184 days ahead.** The nearest occurrence is
+2026-03-18, 181 days back. The bound filtered candidates *before* the choice was made, so
+the nearest was discarded and the next one substituted. That is not the nearest-occurrence
+rule this function documents; it is a different rule nobody wrote down.
+
+**`resolve_year(1, 6, today, weekday=Ti)` returned 2027, 259 days ahead.** 1 June is a
+Monday in 2026 and a Tuesday in 2027, so a stale June listing carrying the wrong weekday
+selected next year, and `MAX_AHEAD = 300` admitted it. The bound did not prevent the
+failure it was added for.
+
+**Fix, in order.** Selection happens first, under one rule: the weekday picks the single
+candidate that can carry it, or nearest-occurrence wins with ties to the future. Only then
+is the selected date accepted or refused against the window. It is never exchanged for
+another year.
+
+**The window is the caller's, and each source's is measured.** Read live on 2026-09-15:
+Kino Vaakuna +0..+9 days over 10 dates, Kino Kuvakukko +0..+9 over 9, Kino Manttu -4..-2
+(its fortnightly weekend already past), Kino Kirkkonummi -1..+9 over 8. All three adapters
+pass `(30, 60)`, several times the observed span in both directions and far short of the
+365 a weekday slip needs. `MAX_AHEAD`/`MAX_BEHIND` are gone; a single constant chosen to
+make examples pass was the wrong shape for this.
+
+**What this does not settle.** The window cannot tell a genuine far-future screening from a
+mistaken one. A cinema announcing a Christmas gala in October would fall outside it and be
+dropped, named in the adapter's log rather than published on a date it may not mean. If any
+of these three starts publishing further ahead, the log says so and the number moves with
+new evidence.
+
+**A property worth recording**, found by a mutation that scored VOID: at a window narrower
+than about 183 days, filtering before selecting and selecting before filtering are
+*equivalent*, because anything inside the window is necessarily the nearest candidate, the
+others being 365 days away. So the ordering defect is unreachable at (30, 60) and was only
+ever reachable at the (180, 300) it shipped with. The test pins the ordering at (180, 300)
+for that reason; testing it at the production window would prove nothing.
+
+Tests: `tests/test_vaakuna.py::ResolveYearTest` gained both reported cases, the ordering
+case, and the span check against what these sources actually publish. Seven mutations, all
+red: reintroducing the filter-before-select bug, ignoring the window, widening it past a
+year, tightening it below a real programme, turning nearest into next-occurrence, ignoring
+the weekday, and dropping an adapter's window argument.

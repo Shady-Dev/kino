@@ -71,6 +71,11 @@ EMPTY_VENUES_CONFIRMED = True
 
 # A heading is present with no day paragraph under it only when that cinema has nothing
 # on; a page with no heading at all is a changed template.
+# The horizon these two were measured at on 2026-09-15: Kuvakukko 9 dates at +0 to +9,
+# Manttu 3 dates at -4 to -2, its fortnightly weekend already past. 30 behind and 60 ahead
+# covers both with room and stays far short of the 365 a mistyped weekday would need.
+WINDOW = (30, 60)
+
 CONTAINER_RE = re.compile(r'<h2[^>]*>[^<]*esitysaikataulu', re.I)
 HEADING_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.S | re.I)
 PARA_RE = re.compile(r'<p[^>]*class="[^"]*wp-block-paragraph[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
@@ -125,7 +130,7 @@ def parse(page, site=None, today=None):
             if not d:
                 continue                    # an address, a price list, opening hours
             wd, day, month = d.group(1), int(d.group(2)), int(d.group(3))
-            year = resolve_year(day, month, today, weekday_index(wd))
+            year = resolve_year(day, month, today, weekday_index(wd), WINDOW)
             if year is None:
                 unplaced.append(f"{wd} {day}.{month}.")
                 continue
