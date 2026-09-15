@@ -27,14 +27,14 @@
 [biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 11 showtimes, 3 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 15 showtimes, 4 dates
+[kinoiiris] Kino Iiris: 38 showtimes, 10 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 13
 [kkino] K-Kino: 13 showtimes, 7 dates
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
-[niagara] synopses merged: 0
-[niagara] Cinema Niagara: 20 showtimes, 7 dates
-[run] http: 0 revalidated (304), 185 full, 185 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 20 venues, 708 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] synopses merged: 4
+[niagara] Cinema Niagara: 53 showtimes, 15 dates
+[run] http: 0 revalidated (304), 193 full, 193 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 20 venues, 764 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
