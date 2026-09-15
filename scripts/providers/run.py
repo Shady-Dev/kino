@@ -747,12 +747,16 @@ class Tally:
                   f"{throttle['waited']:.0f}s waited, {throttle['refused']} not retried "
                   f"(asked for longer than a run can wait)")
 
-        # What was actually read, not what the sites declare. Four adapters fetch a URL out
-        # of a page, so the two can differ, and a host appearing here that no site names in
-        # `base` or `reads` is the thing to act on: it is being serialised by the runtime
+        # What requests were aimed at, not what the sites declare. Four adapters fetch a URL
+        # out of a page, so the two can differ, and a host appearing here that no site names
+        # in `base` or `reads` is the thing to act on: it is being serialised by the runtime
         # claim rather than by the grouping. See common.reading.
+        #
+        # Attempted, not reached: the host is recorded when the request goes out, so a
+        # refused connection or a 403 counts the same as a body. This line is evidence about
+        # where a module aimed, which is the question `reads` answers.
         if hosts:
-            print(f"[run] hosts: {len(hosts)} read -- {', '.join(sorted(hosts))}")
+            print(f"[run] hosts: {len(hosts)} attempted -- {', '.join(sorted(hosts))}")
 
         # Named, not counted. A venue that kept its previous data is not a failure the run
         # can act on -- at this layer an empty parse and a cinema with nothing on today are
@@ -813,7 +817,7 @@ def main(argv) -> int:
         for label, result, error in run_sites(mod, sites, now):
             tally.site(mod, sites, label, result, error)
 
-    tally.report(common.cache_stats(), common.throttle_stats(), common.hosts_read())
+    tally.report(common.cache_stats(), common.throttle_stats(), common.hosts_attempted())
     return tally.code()
 
 

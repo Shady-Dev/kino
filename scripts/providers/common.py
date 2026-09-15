@@ -76,9 +76,11 @@ _lock = threading.Lock()
 _scopes = threading.local()
 _scope_stats = {}
 _scope_throttle = {}
-# Every host a scope actually requested. The grouping in run.py serialises the hosts a site
-# *declares*; this is what it turned out to read, and a module's committed log carries it,
-# so a shared upstream shows up in the record instead of being assumed away.
+# Every host a scope issued a request to. The grouping in run.py serialises the hosts a site
+# *declares*; this is what it turned out to aim at, and a module's committed log carries it,
+# so a shared upstream shows up in the record instead of being assumed away. Aimed at rather
+# than reached: the entry is made before the response, so it says nothing about the server
+# having answered.
 _scope_hosts = {}
 _hosts_all = set()
 
@@ -129,8 +131,14 @@ def reset_accounting():
         _host_cv.notify_all()
 
 
-def hosts_read(scope=None):
-    """Every host requested, by this scope or by the process. -> set of netlocs."""
+def hosts_attempted(scope=None):
+    """Every host a request was issued to, by this scope or by the process. -> {netloc}.
+
+    Attempted and not reached: a host lands here once its claim is held and the request is
+    about to go out, so it counts a DNS failure, a refused connection and a 403 alike. What
+    it is evidence of is which hosts a module's fetches were aimed at, which is what the
+    declarations in `base` and `reads` are checked against.
+    """
     with _lock:
         return set(_hosts_all if scope is None else (_scope_hosts.get(scope) or ()))
 
@@ -156,9 +164,11 @@ def hosts_read(scope=None):
 # previous files, the health line ages, the log names the site, and everything else in the
 # run still publishes -- so there is nothing new to reason about.
 #
-# It does not deadlock. Two adapters holding each other's hosts both give up after the
-# ceiling, release what they held on the way out, and fail; the next run tries again. That
-# is bounded, unlike waiting forever, and visible, unlike going ahead.
+# It does not deadlock. Two adapters holding each other's hosts wait at most one ceiling:
+# whichever gives up first releases what it held on the way out, which usually lets the
+# other claim what it was waiting for and finish. So one site fails, not necessarily both,
+# and both fail only if they time out together. Bounded either way, unlike waiting forever,
+# and visible, unlike going ahead.
 HOST_CLAIM_WAIT = float(os.environ.get("KINO_HOST_CLAIM_WAIT") or 60)
 _host_cv = threading.Condition()
 _host_owner = {}
@@ -210,8 +220,8 @@ def _claim(url):
     """Hold `url`'s host for this site until its fetch ends. -> the host, or "".
 
     Raises HostBusy, before anything is sent, when another site still holds it after
-    HOST_CLAIM_WAIT. The host is recorded as read only once the claim is held, so the log's
-    account of what a module read stays an account of requests it actually made.
+    HOST_CLAIM_WAIT. The host is recorded only once the claim is held, so a host a site was
+    refused never appears in the log as one it read from.
     """
     host = urllib.parse.urlsplit(url).netloc
     owner = getattr(_scopes, "owner", None)

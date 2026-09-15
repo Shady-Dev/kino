@@ -303,7 +303,7 @@ def run_module(m, rec, fh, done, fatal, now, half, peak):
                 it.published = True
                 m.tally.site(it.mod, m.sites, it.label, it.result, it.error)
         m.tally.report(common.cache_stats(m.name), common.throttle_stats(m.name),
-                       common.hosts_read(m.name))
+                       common.hosts_attempted(m.name))
         line = timing_line(m)
         if line:
             print(line)

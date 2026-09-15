@@ -198,7 +198,8 @@ long as that site keeps reading it, so an undeclared shared host is read by one
 site at a time. Past `KINO_HOST_CLAIM_WAIT` the site **fails before sending the
 request**, keeping its previous data like any other fetch failure, and names the
 two sites that collided; the remedy is to add the host to `reads`. Every
-module's log ends with the hosts it read.
+module's log ends with the hosts its requests were aimed at, which is not the
+same as the hosts that answered.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
 eTiketti or Vista with its public XML services open needs a `SITES` entry

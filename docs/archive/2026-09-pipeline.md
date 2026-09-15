@@ -1401,14 +1401,19 @@ new. Three things carry it now.
   line does not make two concurrent requests at one cinema's server acceptable. Failing is
   what the rest of the pipeline already does with a site it cannot read properly, so there
   is nothing new to reason about, and it does not deadlock either: two adapters holding each
-  other's hosts both give up at the ceiling, release on the way out and fail, which is
-  bounded where waiting is not and visible where proceeding is not. An adapter that catches
+  other's hosts wait at most one ceiling, and whichever gives up first releases on the way
+  out, which usually lets the other claim what it was waiting for and finish. One of them
+  fails, not necessarily both -- both only if they time out together. Bounded either way,
+  where waiting is not, and visible, where proceeding is not. An adapter that catches
   broadly around its own fetches would have turned a refusal into a partial publish, so the
   refusal is recorded when raised and re-raised when the site's fetch ends, whatever the
   adapter did with the exception.
 
-Every module's log now ends with the hosts it actually read, so a collision appears in the
-committed record instead of being argued about.
+Every module's log now ends with the hosts its requests were aimed at, so a collision
+appears in the committed record instead of being argued about. **Attempted, not reached:**
+the host is recorded when the request goes out, so a refused connection counts the same as a
+body, and the line is evidence about where a module aimed rather than about what answered.
+That is the question `reads` has to answer, so it is the right one to record.
 
 **BioRex and Cinema Orion now name their host.** Neither carried a `base` and neither reads
 one; both build every URL from a module constant, verified before the key was added. Left

@@ -379,9 +379,9 @@ class PerModuleLogTest(CloudTestCase):
         self.assertIn("queue wait", line)
         self.assertIn("wall", line)
 
-    def test_each_log_names_the_hosts_that_module_actually_read(self):
-        """Declared hosts and read hosts can differ -- four adapters fetch a URL out of a
-        page -- so the log carries what was read. Per module, like the counters."""
+    def test_each_log_names_the_hosts_that_module_aimed_a_request_at(self):
+        """Declared hosts and attempted hosts can differ -- four adapters fetch a URL out of
+        a page -- so the log carries what was attempted. Per module, like the counters."""
         h = self.hosts(3, delay=0)
         mods = [module("mod_a", P.site("a0", h.base(0)), requests=1),
                 module("mod_b", P.site("b0", h.base(1)), P.site("b1", h.base(2)),
@@ -389,10 +389,10 @@ class PerModuleLogTest(CloudTestCase):
         _, logs = self.cloud(mods)
         line_a = next(l for l in logs["mod_a"].splitlines() if l.startswith("[run] hosts:"))
         line_b = next(l for l in logs["mod_b"].splitlines() if l.startswith("[run] hosts:"))
-        self.assertIn("1 read", line_a)
+        self.assertIn("1 attempted", line_a)
         self.assertIn(h.servers[0].netloc, line_a)
         self.assertNotIn(h.servers[1].netloc, line_a)
-        self.assertIn("2 read", line_b)
+        self.assertIn("2 attempted", line_b)
         for n in (1, 2):
             self.assertIn(h.servers[n].netloc, line_b)
 
@@ -740,7 +740,7 @@ class PageDerivedHostTest(CloudTestCase):
         h = self.hosts(1, delay=0)
         common.fetch(f"{h.base(0)}/plain/p0", cache=True)
         self.assertEqual(common._host_owner, {})
-        self.assertIn(h.servers[0].netloc, common.hosts_read())
+        self.assertIn(h.servers[0].netloc, common.hosts_attempted())
 
 
 # --- films-extra.json is one file for the whole run ------------------------------------
