@@ -30,7 +30,16 @@ VENUES = [
 
 # One platform, one site: a single set of requests covers every venue, so the runner's
 # site list is just VENUES. See run.py for the contract.
-SITES = [{"provider": "biorex", "label": "BioRex", "venues": VENUES}]
+#
+# `base` names the host this site is read from, which is the runner's pacing key. Nothing
+# in this module reads it -- fetch_venue builds every URL from BASE above -- and it was
+# absent until 2026-09-15, when `run_cloud.py` started grouping hosts across modules: a
+# site with no `base` shares one group with every other base-less site, and BioRex and
+# Cinema Orion, the two heaviest single-site modules, would have been read one after the
+# other for no reason. Verified before it was written: the three requests fetch_venue
+# makes are BASE + a literal path, all on biorex.fi. The film pages are a href the ajax
+# fragment carried and are not bounded by this, which was as true of the per-module pool.
+SITES = [{"provider": "biorex", "label": "BioRex", "base": BASE, "venues": VENUES}]
 
 # Note: the wrapper class carries a trailing space -> 'showtime-item '
 ITEM_RE = re.compile(r'<div class="showtime-item\s*">(.*?)(?=<div class="showtime-item\s*">|\Z)', re.S)

@@ -154,7 +154,10 @@ written instruction that names `DESIGN.md`, in one commit with the dated IDEAS e
 ## Pipeline changes (`scripts/**`)
 
 - After the commit, dispatch the cloud workflow, then verify against the **committed**
-  `logs/run-*.log` files. Do not read the Actions logs.
+  `logs/run-*.log` files. Do not read the Actions logs. The cloud half runs
+  `scripts/providers/run_cloud.py --where cloud`, one process and one pool over every cloud
+  module; it writes the same per-module log plus `logs/run-cloud.log` for the run itself.
+  The local half still calls `run.py --where local`, and so does exercising one adapter.
 - Page changes show up in `logs/run-pages.log`, poster mirroring in
   `logs/run-posters.log`.
 - **Both halves write into `logs/`.** The cloud half does because `biorex.yml` says so;
@@ -195,9 +198,13 @@ provider missing from it loses its venues, not just its label.
   serialises the sites that share one, keyed on `urlsplit(site["base"]).netloc`, so the
   sleep inside `fetch_site` still describes what a host sees. Two entries against one
   server must both name it in `base`: Bio Säde's data comes from kinohirvi.fi and only its
-  ticket links go to biosade.fi, which is what `site` is for. A site with no `base` shares
-  one group with every other base-less site of its module and is read in series with them,
-  so a module with more than one site should name the host it reads.
+  ticket links go to biosade.fi, which is what `site` is for. On the cloud half that
+  grouping is global -- `run_cloud.py` pools every module's sites at once -- so a site with
+  no `base` shares one conservative group with every other base-less site **in the half**,
+  not just in its module. Always name the host the site is read from. If a new cloud site
+  lands on a registrable domain another module already reads,
+  `tests/test_cloud_pool.py` fails: decide whether it is one upstream, and record the answer
+  in `run_cloud.SHARED_UPSTREAMS` rather than widening the test.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.

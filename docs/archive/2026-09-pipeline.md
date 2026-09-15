@@ -1290,3 +1290,90 @@ case, and the span check against what these sources actually publish. Seven muta
 red: reintroducing the filter-before-select bug, ignoring the window, widening it past a
 year, tightening it below a real programme, turning nearest into next-occurrence, ignoring
 the weekday, and dropping an adapter's window argument.
+
+### One pool across every cloud module, not one per module (2026-09-15)
+
+`biorex.yml` ran `run.py "$m"` once per cloud module, in a shell loop. Each of those
+processes pooled *its own* sites by host, so 2026-09-01's win stopped at the module
+boundary: eTiketti's twenty sites all finished before BioRex's first request, however many
+of the other 25 hosts were idle. `scripts/providers/run_cloud.py` is the same host-keyed
+pool, once, over all 48 cloud sites.
+
+**Not by backgrounding the module commands**, which is the obvious version and is wrong.
+They share `data/films-extra.json` and `synmerge`'s lock is a `threading.Lock`: across
+processes it does nothing, so two merges would each write back a document built from what
+they read and the second would drop the first's synopses silently. Separate processes also
+each hold their own claim table and their own stdout, so the synopsis precedence and the
+per-module log would both come apart.
+
+**The shape.** Modules come from the registry in its order, sites from `run.sites_for`, so
+routing is unchanged. Work items keep module order, site order, provider and host. They are
+grouped by host **across modules**, so one host is one thread whether its sites belong to
+one module or two. One ceiling, `MAX_HOSTS`, for the whole run; this replaces `run_sites`
+rather than wrapping it, so there is no inner pool to multiply. Workers fetch and parse.
+The coordinator publishes on one thread, in module order and then site order, which is the
+order the per-module processes published in: `run_site` split into a fetch and
+`run.publish_site`, which is the contract check, the strand split, the synopsis merge, the
+enrichment carry-forward, the stale/pending/unverified decision and the file writes.
+`synmerge.reset()` at each module boundary, as `run_sites` does.
+
+**What had to be kept, and how.**
+
+- *The Retry-After budget was per module*, because a module was a process.
+  `common.accounting(name)` is a thread-local scope: `_stats` and `_throttle` are charged
+  to the process and to the scope, the budget ceiling reads the scope's figure when there
+  is one, and `run-{module}.log` reports the scope. `_diag_seen` is keyed by scope too, so
+  a host refusing two modules names itself in both logs instead of only the first.
+- *The committed log.* One `Recorder`, installed once rather than per module: a worker's
+  output is captured per site and replayed whole into its module's file when its turn
+  comes, and the coordinator's own lines go to the same file through a thread-local sink.
+  Both streams land in one file, which is what `> run-$m.log 2>&1` did to them. Each log
+  keeps its summary line and its `exit=N`; `check_runs.py` is unchanged.
+- *Bounded buffers.* A global pool fetches ahead of the publication order, so results and
+  captured text pile up behind the slowest early site. Capture is capped per site at 1 MiB
+  (`KINO_MAX_CAPTURE`) and says so when it trims; `logs/run-cloud.log` reports the peak
+  number of fetched-but-unpublished sites and bytes held. No response body is ever written
+  anywhere but the existing validator cache.
+- *Cancellation.* `shutdown(wait=True, cancel_futures=True)`, and a `SystemExit` out of
+  adapter code is recorded and re-raised on the coordinator thread, as in `run_sites`. A
+  module the run never reached has the abort and `exit=1` appended to its log, so a fatal
+  cannot leave a previous `exit=0` standing and read as a success.
+
+**The host audit, done before the overlap was enabled.** Every cloud adapter was read for
+the hosts it can request, its module-level mutable state, its threads and its writes. None
+uses threads. None mutates module-level state during a fetch; the only shared state is
+`common`'s counters and `synmerge`'s claim table, both locked, and the latter now only
+touched from the publication thread. The cross-module imports are constants
+(`heureka` <- `etiketti.LANG_NAMES`, `cinemantsala` and `kinola` <- `gilda`). `prices.py`
+writes `data/prices-{provider}.json` from the fetch, which is one writer per file and was
+already concurrent inside a module.
+
+**No two cloud sites of different modules share a registrable domain**, measured
+2026-09-15; the pairs that do share a host (kinoaurora.fi twice, kinohirvi.fi twice) are
+both inside `nexxo` and already share a `base`. `tests/test_cloud_pool.py` asserts that over
+the live registry, so a provider landing on another module's domain fails a test rather
+than quietly doubling the rate at one server, and `run_cloud.SHARED_UPSTREAMS` is where a
+verified conflict `base` cannot express would go. It is empty.
+
+**What that audit does not establish.** A secondary URL read out of a page is whatever href
+the page carried: BioRex's film pages come from the ajax fragment, Tapiola's and
+Cinemahouse's from links, Kinola's from the listing. No static reading bounds those hosts.
+That was as true of the per-module pool and nothing here changes it.
+
+**BioRex and Cinema Orion now name their host.** Neither carried a `base` and neither reads
+one; both build every URL from a module constant, verified before the key was added. Left
+alone they would have shared the conservative base-less group with each other -- the two
+heaviest single-site modules read one after the other for no reason. No cloud site is
+base-less now, and a test says so.
+
+**Measured: nothing in production.** The fixtures show two modules on different hosts
+overlapping, one host never overlapping across modules, the ceiling holding, and one worker
+and eight writing identical files and identical logs. That is equivalence and isolation, not
+a speedup: a localhost server with a 50 ms delay is not eTiketti. The production figure
+waits for an ordinary scheduled run, and the open item is in `IDEAS.md`.
+
+Tests: `tests/test_cloud_pool.py`, 42, reusing `test_run_pool`'s local HTTP servers because
+overlap is the property under test and a mock would encode the answer. 15 mutations, all
+red; one survived first -- releasing a site before the exception it died on is recorded,
+which a real run never reproduces because the coordinator is not scheduled inside those few
+bytecodes, so it is asserted directly on `read_host` instead of through the pool.

@@ -58,6 +58,14 @@ it, are in [CLAUDE.md](../CLAUDE.md) under "Adding a provider"; they are not rep
 One adapter serves many providers, because most small cinemas run one of a few ticketing
 platforms.
 
+`scripts/providers/run_cloud.py` is what the cloud workflow runs: the same host-keyed pool,
+once, over every cloud module's sites rather than once per module. Workers fetch; the
+coordinator publishes on one thread in module order and then site order, because
+`films-extra.json` is one file for the whole run and the site that wins a synopsis has to be
+the earlier one rather than whichever host answered first. It writes the same
+`logs/run-{module}.log` per module. The local half keeps calling `run.py --where local`, and
+so does anyone exercising one adapter by hand.
+
 Every adapter is held to one show shape at the boundary: `common.Show` names the keys and
 `common.check_shows` is the runtime rule `run_site` applies to what `fetch_site` returned
 *before any write*, so a missing key or a show filed under the wrong venue fails that site
@@ -79,7 +87,7 @@ list is in [README.md](../README.md) under "Data shape"; the structural points a
 
 ## The order of a run
 
-    fetch (per site, paced per host)
+    fetch (per site, paced per host; on the cloud half one pool across every module)
       -> one show shape, checked at the boundary
       -> enrich_tmdb.py      ratings, trailers, synopses, posters a provider lacks
       -> mirror_posters.py   every remote poster copied under data/posters/

@@ -41,6 +41,7 @@ the other. Pacing inside an adapter's fetch_site is what a cinema experiences an
 untouched. See host_groups and MAX_HOSTS.
 """
 import concurrent.futures
+import contextlib
 import datetime
 import importlib
 import json
@@ -133,7 +134,22 @@ def enrichment_of(path):
 
 
 def run_site(mod, site, now, order=0):
-    """Fetch and write one site. -> (venues_written, showtimes). Raises on fetch failure.
+    """Fetch and write one site. -> publish_site's tuple. Raises on a fetch failure.
+
+    Two steps rather than one since 2026-09-15, because `run_cloud.py` fetches on a pool
+    thread and publishes on a single thread in a fixed order: films-extra.json is one file
+    for the whole run and the site that wins a synopsis has to be the earlier one in SITES
+    order, not whichever host answered first. Nothing else changed: this is still the whole
+    of one site for every caller that fetches it itself.
+    """
+    return publish_site(mod, site, mod.fetch_site(site), now, order)
+
+
+def publish_site(mod, site, per_venue, now, order=0):
+    """Check, merge and write what one site's fetch returned.
+
+    -> (venues_written, showtimes, stale, unverified, pending). Raises if the adapter's
+    result does not meet the contract, which is a site failure like a parse error.
 
     `order` is the site's index in the module's SITES, and only synmerge uses it: two
     sites publishing different synopses for one film are decided by SITES order rather
@@ -141,7 +157,6 @@ def run_site(mod, site, now, order=0):
     at 0.
     """
     label = site.get("provider") or mod.__name__
-    per_venue = mod.fetch_site(site)
     # Every show is checked against common.Show before a byte is written. An adapter
     # that drops a key or changes a type fails its site here, like a parse error, rather
     # than publishing a file the client reads by key.
@@ -312,6 +327,13 @@ def host_groups(sites):
     return list(groups.values())
 
 
+# How much of one site's output is held while the pool runs. A pool keeps every
+# unreplayed site's block in memory at once, so without a bound an adapter that prints per
+# row decides how much memory a run takes. 1 MiB a site is two orders of magnitude past the
+# largest committed provider log, and what it drops it says it dropped.
+MAX_CAPTURE = int(os.environ.get("KINO_MAX_CAPTURE") or 1_048_576)
+
+
 class _Buffer:
     """One captured stream: quacks like the real one and files its writes with `rec`."""
 
@@ -358,9 +380,27 @@ class Recorder:
     def remove(self):
         sys.stdout, sys.stderr = self.out.real, self.err.real
 
+    @contextlib.contextmanager
+    def sink(self, fh):
+        """Send this thread's writes straight into `fh` until the context ends.
+
+        The coordinator's half of the same mechanism: a worker's output is collected and
+        replayed, and the coordinator's own lines -- the publish step's, the summary's --
+        are written where that module's log is. One install of `sys.stdout`, not one per
+        module, because two threads swapping the interpreter's streams between them is a
+        race with nothing to gain.
+        """
+        prev = getattr(self._local, "fh", None)
+        self._local.fh = fh
+        try:
+            yield
+        finally:
+            self._local.fh = prev
+
     def capture(self):
         """Start collecting this thread's writes. -> the list they land in."""
         self._local.chunks = chunks = []
+        self._local.size = 0
         return chunks
 
     def release(self):
@@ -369,9 +409,31 @@ class Recorder:
     def write(self, buf, text):
         chunks = getattr(self._local, "chunks", None)
         if chunks is None:
-            return buf.real.write(text)
+            fh = getattr(self._local, "fh", None)
+            return fh.write(text) if fh is not None else buf.real.write(text)
+        # Bounded, because a pool holds every unreplayed site's output at once and an
+        # adapter printing per row would otherwise decide how much memory a run takes.
+        # No real block comes near this: the largest committed provider log is a few kB.
+        # Truncation is announced rather than silent, and the cap is per site.
+        size = self._local.size + len(text)
+        if size > MAX_CAPTURE:
+            if self._local.size <= MAX_CAPTURE:
+                chunks.append((buf, f"[run] output past the {MAX_CAPTURE}-byte capture "
+                                    f"cap for this site; the rest is not in this log\n"))
+            self._local.size = size
+            return len(text)
+        self._local.size = size
         chunks.append((buf, text))
         return len(text)
+
+    def replay_into(self, chunks, fh):
+        """One site's captured output into an open log file, in the order it was written.
+
+        Both streams land in one file, which is what `> run-$m.log 2>&1` does to them, so
+        there is nothing to interleave and none of `replay`'s flushing is needed.
+        """
+        for _, text in chunks:
+            fh.write(text)
 
     def replay(self, chunks):
         """Write one site's captured output back out, in the order it was written.
@@ -555,6 +617,110 @@ def summary_line(names, venues, shows, partial, pendings, empty, failures):
             f"{len(empty)} with no programme, {failures} failures")
 
 
+class Tally:
+    """One log's outcome: every site's verdict, the closing lines, and the exit code.
+
+    `main` counts a whole invocation with one of these and `run_cloud` counts one module
+    with one, because the two now write the same kind of file -- `logs/run-{module}.log`,
+    read by `check_runs.py` and by a person -- and its vocabulary and its exit rule must
+    not drift apart depending on which of them produced it.
+    """
+
+    def __init__(self, names):
+        self.names = list(names)
+        self.venues = self.shows = self.failures = 0
+        self.partial = []       # (provider, stale ids, unverified ids)
+        self.pendings = []      # (provider, [venue ids]) whose adapter confirmed no programme
+        self.empty = []         # sites whose listing loaded and had no films on it
+        self.skipped = []       # modules with no sites for this half, which is not a problem
+
+    def unusable(self, name, error):
+        """A module that could not be imported, or that has no SITES."""
+        print(f"[{name}] unusable: {error}", file=sys.stderr)
+        self.failures += 1
+
+    def no_sites(self, name, half):
+        """Not a failure: the module's sites all belong to the other half. The cloud
+        workflow iterates every cloud module, so this is the normal answer for a module
+        whose only local site is fetched at home."""
+        print(f"[{name}] no sites for the {half} half")
+        self.skipped.append(name)
+
+    def site(self, mod, sites, label, result, error):
+        """Record one site, printing the run's own line about it inside its own block."""
+        if isinstance(error, common.EmptyProgramme):
+            # Not a failure, and deliberately still noisy: a cinema with nothing on
+            # is a fact worth seeing in the committed log, and one that stays empty
+            # for weeks is worth chasing even though no run went red over it.
+            print(f"[{label}] no programme published: {error}")
+            self.empty.append(label)
+            return
+        if error is not None:
+            print(f"[{label}] FAILED: {error}", file=sys.stderr)
+            self.failures += 1
+            return
+        v, s, stale, unverified, pending = result
+        self.venues += v
+        self.shows += s
+        if stale or unverified:
+            self.partial.append((label, stale, unverified))
+        if pending:
+            self.pendings.append((label, pending))
+        if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
+            self.failures += 1
+
+    def report(self, stats, throttle):
+        """The closing lines, in the order a committed log carries them."""
+        # Every request this run asked an upstream for, and how it was asked. Printed
+        # because the alternative is a claim: the pipeline says it revalidates where it can
+        # and never stores what an origin marks no-store, and this is the line that shows
+        # whether that is true on the day. `full` is not waste -- most origins here offer no
+        # validator at all, so there is nothing to revalidate with.
+        if stats["hit"] or stats["miss"]:
+            print(f"[run] http: {stats['hit']} revalidated (304), {stats['miss']} full, "
+                  f"{stats['nostore']} not stored (origin said no-store), "
+                  f"{stats['stored']} cache entries written")
+
+        # Silent on a normal run. When it does appear, it is a provider telling us the
+        # rate is wrong, which is worth seeing in the committed log rather than inferring
+        # from a failure four hours later.
+        if throttle["asked"]:
+            print(f"[run] throttled: {throttle['asked']} Retry-After responses, "
+                  f"{throttle['waited']:.0f}s waited, {throttle['refused']} not retried "
+                  f"(asked for longer than a run can wait)")
+
+        # Named, not counted. A venue that kept its previous data is not a failure the run
+        # can act on -- at this layer an empty parse and a cinema with nothing on today are
+        # the same signal, `[]`, so failing here would fire on every ordinary closure. What
+        # it must not do is disappear: the venue file is published with a `partial` status
+        # and the health line ages on the oldest venue, so the app stops claiming the
+        # provider is fresh, and this line puts the venue names in the committed log.
+        # Pending is neither a failure nor a partial state -- the adapter confirmed the
+        # programme is empty -- but a venue publishing nothing is a fact the committed log
+        # must state, or the summary line reads as if the venue did not exist.
+        for label, ids in self.pendings:
+            print(f"[run] pending: {label} has {len(ids)} venue(s) with no programme "
+                  f"yet: {', '.join(ids)}")
+        for label, ids, new_ids in self.partial:
+            if ids:
+                print(f"[run] partial: {label} kept previous data for "
+                      f"{len(ids)} venue(s): {', '.join(ids)}")
+            if new_ids:
+                print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
+                      f"never produced a showtime: {', '.join(new_ids)}")
+
+        print(summary_line(self.names, self.venues, self.shows, self.partial,
+                           self.pendings, self.empty, self.failures))
+
+    def code(self):
+        """`not venues` is still a failure, because a run that wrote nothing and cannot
+        say why is the case this whole check exists for. It stops being one only when every
+        site said so itself -- an empty listing, every venue confirmed empty, or no sites on
+        this half at all."""
+        return 1 if self.failures or (not self.venues and not self.empty
+                                      and not self.pendings and not self.skipped) else 0
+
+
 def main(argv) -> int:
     half = half_of(argv)
     names = (registry.modules(argv[argv.index("--where") + 1])
@@ -566,97 +732,24 @@ def main(argv) -> int:
 
     OUT.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
-    venues = shows = failures = 0
-    partial = []          # (provider, [venue ids]) for every site that kept old data
-    pendings = []         # (provider, [venue ids]) whose adapter confirmed no programme
-    empty = []            # sites whose listing loaded and had no films on it
-    skipped = []          # modules with no sites for this half, which is not a problem
+    tally = Tally(names)
 
     for name in names:
         try:
             mod = importlib.import_module(name)
             mod.SITES          # a module without it is unusable, and says so here
         except Exception as e:
-            print(f"[{name}] unusable: {e}", file=sys.stderr)
-            failures += 1
+            tally.unusable(name, e)
             continue
         sites = sites_for(mod, half)
         if not sites:
-            # Not a failure: the module's sites all belong to the other half. The cloud
-            # workflow iterates every cloud module, so this is the normal answer for a
-            # module whose only local site is fetched at home.
-            print(f"[{name}] no sites for the {half} half")
-            skipped.append(name)
+            tally.no_sites(name, half)
             continue
         for label, result, error in run_sites(mod, sites, now):
-            if isinstance(error, common.EmptyProgramme):
-                # Not a failure, and deliberately still noisy: a cinema with nothing on
-                # is a fact worth seeing in the committed log, and one that stays empty
-                # for weeks is worth chasing even though no run went red over it.
-                print(f"[{label}] no programme published: {error}")
-                empty.append(label)
-                continue
-            if error is not None:
-                print(f"[{label}] FAILED: {error}", file=sys.stderr)
-                failures += 1
-                continue
-            v, s, stale, unverified, pending = result
-            venues += v
-            shows += s
-            if stale or unverified:
-                partial.append((label, stale, unverified))
-            if pending:
-                pendings.append((label, pending))
-            if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
-                failures += 1
+            tally.site(mod, sites, label, result, error)
 
-    # Every request this run asked an upstream for, and how it was asked. Printed
-    # because the alternative is a claim: the pipeline says it revalidates where it can
-    # and never stores what an origin marks no-store, and this is the line that shows
-    # whether that is true on the day. `full` is not waste -- most origins here offer no
-    # validator at all, so there is nothing to revalidate with.
-    c = common.cache_stats()
-    if c["hit"] or c["miss"]:
-        print(f"[run] http: {c['hit']} revalidated (304), {c['miss']} full, "
-              f"{c['nostore']} not stored (origin said no-store), "
-              f"{c['stored']} cache entries written")
-
-    # Silent on a normal run. When it does appear, it is a provider telling us the
-    # rate is wrong, which is worth seeing in the committed log rather than inferring
-    # from a failure four hours later.
-    t = common.throttle_stats()
-    if t["asked"]:
-        print(f"[run] throttled: {t['asked']} Retry-After responses, "
-              f"{t['waited']:.0f}s waited, {t['refused']} not retried "
-              f"(asked for longer than a run can wait)")
-
-    # Named, not counted. A venue that kept its previous data is not a failure the run
-    # can act on -- at this layer an empty parse and a cinema with nothing on today are
-    # the same signal, `[]`, so failing here would fire on every ordinary closure. What
-    # it must not do is disappear: the venue file is published with a `partial` status
-    # and the health line ages on the oldest venue, so the app stops claiming the
-    # provider is fresh, and this line puts the venue names in the committed log.
-    # Pending is neither a failure nor a partial state -- the adapter confirmed the
-    # programme is empty -- but a venue publishing nothing is a fact the committed log
-    # must state, or the summary line reads as if the venue did not exist.
-    for label, ids in pendings:
-        print(f"[run] pending: {label} has {len(ids)} venue(s) with no programme "
-              f"yet: {', '.join(ids)}")
-    if partial:
-        for label, ids, new_ids in partial:
-            if ids:
-                print(f"[run] partial: {label} kept previous data for "
-                      f"{len(ids)} venue(s): {', '.join(ids)}")
-            if new_ids:
-                print(f"[run] partial: {label} has {len(new_ids)} venue(s) that have "
-                      f"never produced a showtime: {', '.join(new_ids)}")
-
-    print(summary_line(names, venues, shows, partial, pendings, empty, failures))
-    # `not venues` is still a failure, because a run that wrote nothing and cannot say
-    # why is the case this whole check exists for. It stops being one only when every
-    # site said so itself -- an empty listing, every venue confirmed empty, or no sites
-    # on this half at all.
-    return 1 if failures or (not venues and not empty and not pendings and not skipped) else 0
+    tally.report(common.cache_stats(), common.throttle_stats())
+    return tally.code()
 
 
 if __name__ == "__main__":

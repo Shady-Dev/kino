@@ -6,6 +6,7 @@ and a local http.py would shadow the stdlib package urllib.request imports.
 tries=3 with backoff*n sleeps: one transient 502 or connection reset no longer counts as
 a site failure, and the worst case is 3*backoff seconds of extra wait per request.
 """
+import contextlib
 import datetime
 import email.utils
 import hashlib
@@ -59,9 +60,69 @@ _stats = {"hit": 0, "miss": 0, "stored": 0, "nostore": 0}
 _lock = threading.Lock()
 
 
+# Per-module accounting, for a process that reads several modules at once.
+#
+# Until `run_cloud.py` the cloud half ran one process per module, so both of these were per
+# module by construction: `run-{module}.log` reported only that module's requests, and the
+# Retry-After budget below bounded that module alone. Putting every cloud module in one
+# process would combine them silently -- a module's committed log would carry requests
+# another module made, and one host throttling biorex would spend the patience etiketti has
+# left. Neither is a change anyone decided on, so a fetch runs inside a *scope* and is
+# charged to it as well as to the process.
+#
+# Thread-local, because a worker fetches one site at a time and each pool thread carries its
+# own. No scope is the single-module path, where the process totals already are the module's
+# and nothing here changes.
+_scopes = threading.local()
+_scope_stats = {}
+_scope_throttle = {}
+
+
+def _scope():
+    return getattr(_scopes, "name", None)
+
+
+def _box(counter):
+    """The current scope's copy of `counter`, or None outside a scope.
+
+    Identified by object, not by name: `_stats` and `_throttle` are module singletons that
+    nothing rebinds, and the alternative is a second argument at every call site.
+    """
+    return (_scope_stats if counter is _stats else _scope_throttle).get(_scope())
+
+
+@contextlib.contextmanager
+def accounting(name):
+    """Charge this thread's requests to `name` as well as to the process. -> context.
+
+    Nests: a scope is restored, not cleared, so a caller inside another caller's scope
+    leaves it as it found it.
+    """
+    with _lock:
+        _scope_stats.setdefault(name, {"hit": 0, "miss": 0, "stored": 0, "nostore": 0})
+        _scope_throttle.setdefault(name, {"asked": 0, "waited": 0.0, "refused": 0})
+    prev = _scope()
+    _scopes.name = name
+    try:
+        yield
+    finally:
+        _scopes.name = prev
+
+
+def reset_accounting():
+    """Forget every scope. For a caller that runs more than one run in one process."""
+    with _lock:
+        _scope_stats.clear()
+        _scope_throttle.clear()
+        _diag_seen.clear()
+
+
 def _bump(counter, key, by=1):
     with _lock:
         counter[key] += by
+        box = _box(counter)
+        if box is not None:
+            box[key] += by
 
 
 # A 429 or 503 with Retry-After is the only case where an upstream states its own
@@ -187,21 +248,32 @@ class EmptyProgramme(Exception):
     """
 
 
-def cache_stats():
-    """-> (304s, full bodies, entries written). Reset per run by the caller."""
+def cache_stats(scope=None):
+    """-> (304s, full bodies, entries written). Reset per run by the caller.
+
+    With `scope`, only what was fetched inside `accounting(scope)` -- which is what a
+    module's committed log has to report when one process read several modules.
+    """
     with _lock:
-        return dict(_stats)
+        return dict(_scope_stats.get(scope) or {"hit": 0, "miss": 0, "stored": 0,
+                                                "nostore": 0}
+                    if scope is not None else _stats)
 
 
-def throttle_stats():
+def throttle_stats(scope=None):
     """-> how often an upstream asked us to slow down, and what that cost.
 
     `asked` counts Retry-After responses, `waited` the seconds sat out,
     `refused` the ones whose ask was past a ceiling and so were not retried at all.
     All zero on a normal run, which is why run.py prints the line only when it is not.
+
+    With `scope`, that module's share. The budget below is charged against the same figure,
+    so a module's log reports the budget it actually spent.
     """
     with _lock:
-        return dict(_throttle)
+        return dict(_scope_throttle.get(scope) or {"asked": 0, "waited": 0.0,
+                                                   "refused": 0}
+                    if scope is not None else _throttle)
 
 
 def _retry_after(value):
@@ -270,7 +342,10 @@ def _log_refusal(e, url, attempts):
     if not hint:
         return
     host = urllib.parse.urlsplit(url).netloc
-    key = (host, e.code, (e.headers.get("Server") or "").strip(),
+    # Scoped, so one host refusing two modules names itself in both their logs. Without
+    # it the second module's log is silent about a refusal it suffered, because the line
+    # was printed into the first module's.
+    key = (_scope(), host, e.code, (e.headers.get("Server") or "").strip(),
            bool((e.headers.get("CF-Ray") or "").strip()))
     with _lock:
         if key in _diag_seen:
@@ -430,13 +505,25 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                 # did too, since the last attempt never slept.
                 sleeping = n + 1 < tries
                 with _lock:
+                    # Charged to the scope as well, and the ceiling is read from whichever
+                    # of the two is in force: RETRY_AFTER_BUDGET bounds one module's run,
+                    # which is what it bounded when each module was its own process. A
+                    # coordinator reading twenty modules must not let the first one to be
+                    # throttled spend the budget the other nineteen have not touched.
+                    box = _scope_throttle.get(_scope())
                     _throttle["asked"] += 1
-                    over = (wait > RETRY_AFTER_MAX
-                            or _throttle["waited"] + wait > RETRY_AFTER_BUDGET)
+                    if box is not None:
+                        box["asked"] += 1
+                    spent = _throttle["waited"] if box is None else box["waited"]
+                    over = wait > RETRY_AFTER_MAX or spent + wait > RETRY_AFTER_BUDGET
                     if over:
                         _throttle["refused"] += 1
+                        if box is not None:
+                            box["refused"] += 1
                     elif sleeping:
                         _throttle["waited"] += wait
+                        if box is not None:
+                            box["waited"] += wait
                 if over:
                     _log_refusal(e, url, n + 1)
                     raise

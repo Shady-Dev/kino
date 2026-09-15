@@ -105,7 +105,8 @@ ticketing platform publishes and how it was read, are under
 
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
     scripts/providers/registry.py    single source of truth for every provider
-    scripts/providers/run.py         generic runner for every adapter
+    scripts/providers/run.py         generic runner for one adapter, or a list of them
+    scripts/providers/run_cloud.py   one pool over every cloud module; what the workflow runs
     scripts/providers/{name}.py      one adapter per provider or platform
     scripts/providers/common.py      shared fetch with retry, atomic writes
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
@@ -173,18 +174,21 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 Then `python3 scripts/build_providers.py --sync-index`, which writes
 `data/providers.json` and the client's offline fallback list from the same registry;
 bump `CACHE` in `sw.js` with it, since that touches `index.html`. Nothing else needs
-editing. The workflow loops over `registry.py --cloud` and
-the client reads `data/providers.json`. One module can serve several providers,
+editing. The workflow runs `run_cloud.py --where cloud`, whose module list comes from
+the registry, and the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.
 
-`base` is the host the adapter reads, and it is optional. `run.py` paces on it:
-sites on different hosts are read at the same time, sites sharing a host one
-after the other, and every site in a module without a `base` is grouped together
-and read one at a time. A module with more than one site should name the host it
-reads, or its sites gain nothing from the pool. Two entries against the same
-server must both name it, or they are read at twice the rate their adapter paces
-for. The host a visitor is sent to can differ and belongs in `site`.
+`base` is the host the adapter reads, and it is the pacing key. Sites on
+different hosts are read at the same time, sites sharing a host one after the
+other, and every site without a `base` is grouped together and read one at a
+time. On the cloud half that grouping is global: `run_cloud.py` reads every
+module through one pool, so two modules reaching one host are still read one
+after the other, and a site with no `base` shares its conservative group with
+every other one in the half. So name the host, or the site gains nothing from
+the pool and drags others into its group. Two entries against the same server
+must both name it, or they are read at twice the rate their adapter paces for.
+The host a visitor is sent to can differ and belongs in `site`.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
 eTiketti or Vista with its public XML services open needs a `SITES` entry
@@ -196,6 +200,7 @@ links because one site's path was copied onto all of them.
 
     python3 scripts/providers/run.py biorex
     python3 scripts/providers/run.py --where cloud
+    python3 scripts/providers/run_cloud.py --where cloud   # what the workflow runs
     python3 -m unittest discover -s tests
 
 ## Indexable pages

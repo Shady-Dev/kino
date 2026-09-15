@@ -50,7 +50,14 @@ VENUE = {"id": "or-helsinki", "provider": "orion", "name": "Cinema Orion",
          "short": "Cinema Orion", "city": "Helsinki"}
 
 # Single screen, so one site with one venue. See run.py for the contract.
-SITES = [{"provider": "orion", "label": "Cinema Orion", "venues": [VENUE]}]
+#
+# `base` names the host this site is read from, which is the runner's pacing key. Nothing
+# here reads it -- fetch_site reads URL above and nothing else -- and it was absent until
+# 2026-09-15, when `run_cloud.py` started grouping hosts across modules and every base-less
+# site landed in one shared group. One request, to cinemaorion.fi, verified before this was
+# written.
+SITES = [{"provider": "orion", "label": "Cinema Orion", "base": URL,
+          "venues": [VENUE]}]
 
 # <h3><span>Torstai</span> 27.08.</h3> then <table class="kinola-day">...
 BLOCK_RE = re.compile(r'<h3\b[^>]*>(?P<head>.*?)</h3>'

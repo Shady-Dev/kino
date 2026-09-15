@@ -44,25 +44,28 @@ jobs:
         run: |
           python3 scripts/build_providers.py
           python3 scripts/build_regions.py
-      # One loop over every cloud provider; the module list comes from the registry, so
-      # adding a provider needs no edit here. Logs are per module (logs/run-{module}.log)
-      # and committed: read those, not the Actions logs. `mkdir -p logs` because a fresh
-      # checkout has the directory but a redirect into a missing one is a hard failure,
-      # and this step is the first writer in the run.
+      # One process over every cloud provider. It was a shell loop running run.py once per
+      # module, which meant no two modules ever overlapped however many hosts were idle;
+      # run_cloud.py is the same host-keyed pool, once, across the lot. The module list
+      # still comes from the registry, so adding a provider needs no edit here, and it
+      # still writes logs/run-{module}.log per module with the same summary and exit=N --
+      # read those, not the Actions logs. logs/run-cloud.log is the run's own record.
+      #
+      # Not several background `run.py` commands: they share data/films-extra.json and the
+      # lock in synmerge is a threading.Lock, which does nothing across processes.
+      #
+      # `mkdir -p logs` because a fresh checkout has the directory but this step is the
+      # first writer in the run, and the tail loop below reads it either way.
       - name: Fetch cloud providers
         run: |
           set +e
           mkdir -p logs
-          fail=0
-          for m in $(python3 scripts/providers/registry.py --cloud); do
-            python3 scripts/providers/run.py "$m" > "logs/run-$m.log" 2>&1
-            code=$?
-            echo "exit=$code" >> "logs/run-$m.log"
-            [ "$code" = 0 ] || fail=1
-            echo "--- $m (exit=$code)"
-            tail -6 "logs/run-$m.log"
+          python3 scripts/providers/run_cloud.py --where cloud
+          echo "$?" > "$RUNNER_TEMP/provfail"
+          for f in logs/run-*.log; do
+            echo "--- $f"
+            tail -6 "$f"
           done
-          echo "$fail" > "$RUNNER_TEMP/provfail"
       - name: Enrich with TMDB
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
