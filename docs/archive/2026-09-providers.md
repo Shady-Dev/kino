@@ -1723,9 +1723,15 @@ inference does not follow from it. `42 cache entries written` counts what
 `common._write_slot` wrote to `.http-cache` on the runner's own disk. Whether any of it
 reaches the next run is a separate question about `actions/cache`, whose save step runs
 after a successful job -- and the run that wrote those entries **failed**, at the city-link
-gate. Nothing here establishes that the cache survived. The evidence that would is the next
-run's own `[run] http:` line reading a non-zero `revalidated (304)`; until one does, assume
-the pages are refetched.
+gate. Nothing here establishes that the cache survived. Until something does, assume the
+pages are refetched.
+
+A later `[run] http:` line reading a non-zero `revalidated (304)` is weaker evidence than
+it looks, and weaker than this first said: the counter is per module and per run, so it
+proves *some* entry was reused, not that these 42 were. What would settle it for these is
+`0 revalidated` against a run that reads the same film pages again -- Kinola's log names how
+many pages it read -- or a count that matches them. The counter as it stands cannot tell one
+entry from another.
 
 **And revalidating would not save the time it was quoted for.** A conditional GET is still
 a request: `common.fetch` sends `If-None-Match`, the origin answers 304, the round trip

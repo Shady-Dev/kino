@@ -36,6 +36,11 @@ SITE = {"provider": "riviera", "label": "Riviera",
         # {tickets}{id}. Publishing that URL is what a click does, one request per run
         # and none per screening.
         "tickets": "https://tickets.rivieracinemas.fi/websales/show/",
+        # `prices.run` GETs those ticket pages, up to FETCH_MAX a run, so this site reads a
+        # second host and the runner has to know: `base` alone would let another site on
+        # tickets.rivieracinemas.fi be read at the same time. The only declared secondary
+        # host in the registry as of 2026-09-15.
+        "reads": ("tickets.rivieracinemas.fi",),
         # `area` is ignored by their backend (1040 all / 1024 Kallio / 1039 Punavuori),
         # which is why venues carry a `match` against the location field instead.
         "area": "1040",

@@ -205,6 +205,14 @@ provider missing from it loses its venues, not just its label.
   lands on a registrable domain another module already reads,
   `tests/test_cloud_pool.py` fails: decide whether it is one upstream, and record the answer
   in `run_cloud.SHARED_UPSTREAMS` rather than widening the test.
+- **`reads` names every *other* host the adapter requests**, a ticket API on its own
+  subdomain being the case that exists (Riviera's `tickets.rivieracinemas.fi`). Grouping is
+  over `base` plus `reads`, as connected components, so two sites touching one server are
+  read one after the other whichever field named it. A differing `base` is not evidence of
+  an independent upstream; check where the requests actually go. A URL read out of a page
+  cannot be declared, and `common.reading` claims whatever host a request reaches for the
+  life of that site's fetch -- one site at a time, but not one rate, so a `[http] ... at
+  once` line in a log is a `reads` entry waiting to be written.
 - **Check for an existing platform first.** A cinema running Vista, MyCloudCinema, Nexxo,
   eTiketti or Johku is a `SITES` entry against an existing adapter. Write a parser only if
   it runs on none of them.

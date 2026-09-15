@@ -179,16 +179,25 @@ the registry, and the client reads `data/providers.json`. One module can serve s
 which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.
 
-`base` is the host the adapter reads, and it is the pacing key. Sites on
-different hosts are read at the same time, sites sharing a host one after the
-other, and every site without a `base` is grouped together and read one at a
-time. On the cloud half that grouping is global: `run_cloud.py` reads every
+`base` is the host the adapter reads, and it is the pacing key; `reads` names
+any further host it requests, such as a ticket API on its own subdomain. Sites
+are grouped so that no two groups read a host in common: sites on different
+hosts are read at the same time, sites sharing one -- through `base` or through
+`reads` -- one after the other, and every site without a `base` is grouped
+together and read one at a time. On the cloud half that grouping is global: `run_cloud.py` reads every
 module through one pool, so two modules reaching one host are still read one
 after the other, and a site with no `base` shares its conservative group with
 every other one in the half. So name the host, or the site gains nothing from
 the pool and drags others into its group. Two entries against the same server
 must both name it, or they are read at twice the rate their adapter paces for.
 The host a visitor is sent to can differ and belongs in `site`.
+
+A URL read out of a page cannot be declared in advance, and four adapters fetch
+one. `common.reading` claims whatever host a request actually goes to for as
+long as that site keeps reading it, so an undeclared shared host is still read
+by one site at a time; past `KINO_HOST_CLAIM_WAIT` the request goes ahead with a
+line in the log naming both sites, which is the signal to add the host to
+`reads`. Every module's log ends with the hosts it read.
 
 **Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
 eTiketti or Vista with its public XML services open needs a `SITES` entry

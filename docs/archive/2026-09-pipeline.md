@@ -1339,6 +1339,16 @@ enrichment carry-forward, the stale/pending/unverified decision and the file wri
   module the run never reached has the abort and `exit=1` appended to its log, so a fatal
   cannot leave a previous `exit=0` standing and read as a success.
 
+**Buffered results: measured, 2026-09-15.** Ordered publication lets the pool fetch ahead,
+so a slow early module leaves later modules' schedules waiting in memory. The worst case is
+every site fetched and none published, and that is the whole cloud half at once: the 48
+sites' committed schedules are 1.83 MB of JSON over 71 venue files and 3,312 showtimes,
+which held as the Python dicts a fetch returns is **5.45 MB**, plus at most 1.72 MB of
+`_syn` that `strip_helpers` removes at publication and about as much again in duplication
+across venues -- **under 10 MB**. Captured log text is capped separately at 1 MiB a site.
+`logs/run-cloud.log` reports the peak actually held each run, so the figure is checked
+rather than asserted once.
+
 **The host audit, done before the overlap was enabled.** Every cloud adapter was read for
 the hosts it can request, its module-level mutable state, its threads and its writes. None
 uses threads. None mutates module-level state during a fetch; the only shared state is
@@ -1355,10 +1365,33 @@ the live registry, so a provider landing on another module's domain fails a test
 than quietly doubling the rate at one server, and `run_cloud.SHARED_UPSTREAMS` is where a
 verified conflict `base` cannot express would go. It is empty.
 
-**What that audit does not establish.** A secondary URL read out of a page is whatever href
-the page carried: BioRex's film pages come from the ajax fragment, Tapiola's and
-Cinemahouse's from links, Kinola's from the listing. No static reading bounds those hosts.
-That was as true of the per-module pool and nothing here changes it.
+**Secondary hosts, and the correction this entry needed.** It first said a page-derived URL
+was "as true of the per-module pool, and nothing here changes it". That is wrong in the
+direction that matters: while each module was its own process only sites of *one* module
+could collide on such a host, and the coordinator overlaps every module, so the exposure is
+new. Three things carry it now.
+
+- **Declared.** A site names every host it knows it reads: `base`, plus `reads` for any
+  other. `run.hosts_of` folds them together and `run.group_indices` makes the groups the
+  connected components of sites and hosts, so a site naming two hosts joins every site
+  naming either. One declaration exists today, Riviera's `tickets.rivieracinemas.fi`, which
+  `prices.run` GETs and which `base` does not name.
+- **Verified.** The four page-derived readers were read as a visitor on 2026-09-15 and every
+  destination names the site's own host: BioRex 197 `movieUrl`s all on biorex.fi (read
+  through `fetch_venue` with the film-page loop capped to none), Cinemahouse 21, 18 and 13
+  tile links each on its own host, Tapiola 27 row hrefs all absolute and all
+  www.kinotapiola.fi, Kinola 57 and 47 title hrefs on their own hosts. That is a third
+  party's markup answering on one day, not a property of the code.
+- **Claimed at run time.** `common.reading` claims whatever host a fetch actually goes to,
+  for as long as that site keeps reading it, so an undeclared shared host is read by one
+  site at a time whatever the href said. **A bound and not a rate limit**: past
+  `HOST_CLAIM_WAIT`, 60 s by default, the request goes ahead and one line names both sites,
+  because two adapters reading each other's hosts in opposite orders would otherwise
+  deadlock the run. That line is the signal to declare the host in `reads`, which turns the
+  bound into the grouping's rate guarantee.
+
+Every module's log now ends with the hosts it actually read, so a collision appears in the
+committed record instead of being argued about.
 
 **BioRex and Cinema Orion now name their host.** Neither carried a `base` and neither reads
 one; both build every URL from a module constant, verified before the key was added. Left
@@ -1372,11 +1405,14 @@ and eight writing identical files and identical logs. That is equivalence and is
 a speedup: a localhost server with a 50 ms delay is not eTiketti. The production figure
 waits for an ordinary scheduled run, and the open item is in `IDEAS.md`.
 
-Tests: `tests/test_cloud_pool.py`, 42, reusing `test_run_pool`'s local HTTP servers because
-overlap is the property under test and a mock would encode the answer. 15 mutations, all
-red; one survived first -- releasing a site before the exception it died on is recorded,
-which a real run never reproduces because the coordinator is not scheduled inside those few
-bytecodes, so it is asserted directly on `read_host` instead of through the pool.
+Tests: `tests/test_cloud_pool.py`, 53, reusing `test_run_pool`'s local HTTP servers because
+overlap is the property under test and a mock would encode the answer. Two modules on one
+undeclared host are shown not to overlap on it while overlapping on the hosts they do
+declare, which is the control that keeps the first assertion meaningful, and the ceiling is
+shown to give up and say so rather than wait forever. 25 mutations, all red; one survived
+first -- releasing a site before the exception it died on is recorded, which a real run
+never reproduces because the coordinator is not scheduled inside those few bytecodes, so it
+is asserted directly on `read_host` instead of through the pool.
 
 ### What the cloud run's slowdown was attributed to, corrected (2026-09-15)
 

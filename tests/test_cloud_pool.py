@@ -55,9 +55,15 @@ def concurrency(log):
     return peak
 
 
-def without_timing(text):
-    """A module log with the lines that cannot be equal between two runs removed."""
-    return "\n".join(l for l in text.splitlines() if not l.startswith("[run] timing:"))
+# The two lines that cannot be equal between two runs of the same fixture: durations, and
+# the hosts, which here are 127.0.0.1 on whatever ports the servers were given. Both are
+# asserted on directly elsewhere in this file rather than being dropped and forgotten.
+VARIABLE = ("[run] timing:", "[run] hosts:")
+
+
+def comparable(text):
+    """A module log with those lines removed."""
+    return "\n".join(l for l in text.splitlines() if not l.startswith(VARIABLE))
 
 
 class CloudTestCase(P.PoolTestCase):
@@ -180,6 +186,29 @@ class GroupingTest(unittest.TestCase):
         self.assertEqual([i.order for i in items], [0, 1, 0])
         self.assertEqual([i.index for i in items], [0, 1, 2])
 
+    def test_a_declared_secondary_host_joins_the_sites_that_read_it(self):
+        """A differing `base` does not prove two upstreams independent. A site that says
+        which other host it reads has to be serialised against whoever else reads it, and
+        the groups are the connected components rather than one key per site."""
+        items = self.two(("a", [("a0", "https://one.test"), ("a1", "https://two.test")]),
+                         ("b", [("b0", "https://three.test")]))
+        items[1].site["reads"] = ("three.test",)
+        groups = run_cloud.host_groups(items)
+        self.assertEqual([[i.label for i in g] for g in groups], [["a0"], ["a1", "b0"]])
+
+    def test_a_secondary_host_may_be_written_as_a_url_or_as_a_bare_host(self):
+        for form in ("three.test", "https://three.test/websales/show/"):
+            with self.subTest(form=form):
+                self.assertIn("three.test",
+                              run.hosts_of({"base": "https://two.test", "reads": (form,)}))
+
+    def test_two_declared_hosts_merge_two_groups_that_were_already_apart(self):
+        """The case a one-key-per-site grouping cannot express: the joining site arrives
+        after both groups exist, so they have to be merged rather than chosen between."""
+        at = run.group_indices([("one.test",), ("two.test",), ("one.test", "two.test")])
+        self.assertEqual(len(set(at)), 1)
+        self.assertEqual(run.group_indices([("one.test",), ("two.test",)]), [0, 1])
+
     def test_a_site_with_no_base_shares_a_group_rather_than_being_assumed_alone(self):
         """Unknown has to mean "read these one at a time". Treating an unknown host as its
         own would put two requests at one server at once."""
@@ -252,6 +281,20 @@ class LiveSelectionTest(unittest.TestCase):
         self.assertEqual(shared, {},
                          "two modules read one registrable domain; verify whether it is "
                          "one upstream and record the answer in run_cloud.SHARED_UPSTREAMS")
+
+    def test_riviera_declares_the_ticket_host_its_price_pass_reads(self):
+        """The one secondary host in the registry: prices.run GETs ticket pages on
+        tickets.rivieracinemas.fi, which `base` does not name."""
+        import riviera
+        self.assertIn("tickets.rivieracinemas.fi", run.hosts_of(riviera.SITES[0]))
+        self.assertIn("www.rivieracinemas.fi", run.hosts_of(riviera.SITES[0]))
+
+    def test_every_declared_host_is_one_a_module_could_reach(self):
+        """`reads` is a claim about requests, so it may not name a host no adapter uses."""
+        for it in self.cloud_items():
+            for host in run.hosts_of(it.site):
+                with self.subTest(provider=it.label, host=host):
+                    self.assertRegex(host, r"^[a-z0-9.-]+$")
 
     def test_the_two_single_site_modules_name_the_host_they_read(self):
         """BioRex and Cinema Orion carried no `base` until the global pool made every
@@ -335,6 +378,23 @@ class PerModuleLogTest(CloudTestCase):
         self.assertIn("added up across workers that overlap", line)
         self.assertIn("queue wait", line)
         self.assertIn("wall", line)
+
+    def test_each_log_names_the_hosts_that_module_actually_read(self):
+        """Declared hosts and read hosts can differ -- four adapters fetch a URL out of a
+        page -- so the log carries what was read. Per module, like the counters."""
+        h = self.hosts(3, delay=0)
+        mods = [module("mod_a", P.site("a0", h.base(0)), requests=1),
+                module("mod_b", P.site("b0", h.base(1)), P.site("b1", h.base(2)),
+                       requests=1)]
+        _, logs = self.cloud(mods)
+        line_a = next(l for l in logs["mod_a"].splitlines() if l.startswith("[run] hosts:"))
+        line_b = next(l for l in logs["mod_b"].splitlines() if l.startswith("[run] hosts:"))
+        self.assertIn("1 read", line_a)
+        self.assertIn(h.servers[0].netloc, line_a)
+        self.assertNotIn(h.servers[1].netloc, line_a)
+        self.assertIn("2 read", line_b)
+        for n in (1, 2):
+            self.assertIn(h.servers[n].netloc, line_b)
 
     def test_the_runs_own_log_accounts_for_what_it_held(self):
         """A global pool fetches ahead of the publication order, so results pile up behind
@@ -539,6 +599,95 @@ class FatalTest(CloudTestCase):
         self.assertEqual(leftover, [], "a pool thread outlived the run")
 
 
+# --- a host nobody declared is still read by one site at a time ------------------------
+
+class PageDerivedHostTest(CloudTestCase):
+    """Four adapters fetch a URL read out of a page and none checks its host.
+
+    BioRex's film pages come from an href in an ajax fragment, Cinemahouse's from a tile
+    link, Tapiola's and Kinola's from their listings. Read as a visitor on 2026-09-15 every
+    one names the site's own host, but that is markup answering today. While each module was
+    its own process only sites of one module could collide; the coordinator overlaps every
+    module, so the collision this guards is new.
+
+    `common.reading` claims whatever host a fetch actually goes to, for as long as that site
+    keeps reading it. A bound, not a rate limit -- see the ceiling test below.
+    """
+
+    class Wandering(P.PoolMod):
+        """Fetches its own host, then one neither site declares."""
+        elsewhere = ""
+        extra = 1
+
+        def fetch_site(self, site):
+            prov = site["provider"]
+            common.fetch(f"{site['base']}/{prov}/own", cache=True)
+            for n in range(self.extra):
+                common.fetch(f"{self.elsewhere}/{prov}/page{n}", cache=True)
+            out = {v["id"]: [P.show(f"{prov} film")] for v in site["venues"]}
+            for vid, shows in out.items():
+                for s in shows:
+                    s.update(venue=vid, provider=prov)
+            return out
+
+    def spans_on(self, h, index, provider):
+        """Every request one site made to one server. -> [(start, end)]."""
+        with h.lock:
+            return [(a, b) for netloc, path, a, b in h.log
+                    if netloc == h.servers[index].netloc
+                    and path.startswith(f"/{provider}/")]
+
+    def build(self, h, **kw):
+        a = self.Wandering([P.site("a0", h.base(0))], elsewhere=h.base(2), **kw)
+        a.__name__ = "mod_a"
+        b = self.Wandering([P.site("b0", h.base(1))], elsewhere=h.base(2), **kw)
+        b.__name__ = "mod_b"
+        return [a, b]
+
+    def test_the_two_modules_do_overlap_on_the_hosts_they_declare(self):
+        """The control. Without it the next test would pass on a run that never pools."""
+        h = self.hosts(3, delay=0.05)
+        self.cloud(self.build(h))
+        self.assertTrue(P.overlap(self.spans_on(h, 0, "a0"), self.spans_on(h, 1, "b0")))
+
+    def test_a_host_neither_site_declares_is_still_read_by_one_at_a_time(self):
+        h = self.hosts(3, delay=0.05)
+        self.cloud(self.build(h))
+        self.assertFalse(P.overlap(self.spans_on(h, 2, "a0"), self.spans_on(h, 2, "b0")),
+                         "two modules read one undeclared host at the same time")
+
+    def test_the_wait_is_bounded_and_says_so_rather_than_deadlocking(self):
+        """Two adapters reading each other's hosts in opposite orders would deadlock a run
+        that waited forever, which is worse than reading one server twice in a minute. So
+        the claim gives up, goes ahead, and names both sites in the module's own log."""
+        saved = common.HOST_CLAIM_WAIT
+        common.HOST_CLAIM_WAIT = 0.05
+        self.addCleanup(lambda: setattr(common, "HOST_CLAIM_WAIT", saved))
+        h = self.hosts(3, delay=0.25)
+        code, logs = self.cloud(self.build(h, extra=3))
+        self.assertEqual(code, 0)
+        said = [l for text in logs.values() for l in text.splitlines()
+                if "at once: waited" in l]
+        self.assertTrue(said, "nothing named the shared host")
+        self.assertIn("`reads`", said[0])
+
+    def test_every_claim_is_released_when_its_site_finishes(self):
+        """Held for the life of one site's fetch and no longer. A claim that outlived its
+        site would make every later site wait out the ceiling on that host."""
+        h = self.hosts(3, delay=0)
+        code, _ = self.cloud(self.build(h))
+        self.assertEqual(code, 0)
+        self.assertEqual(common._host_owner, {}, "a site kept a host after it finished")
+
+    def test_nothing_is_claimed_outside_a_site_fetch(self):
+        """`enrich_tmdb` and `mirror_posters` run in their own processes and an adapter is
+        exercised by hand; none of them is a site, and none of them waits for one."""
+        h = self.hosts(1, delay=0)
+        common.fetch(f"{h.base(0)}/plain/p0", cache=True)
+        self.assertEqual(common._host_owner, {})
+        self.assertIn(h.servers[0].netloc, common.hosts_read())
+
+
 # --- films-extra.json is one file for the whole run ------------------------------------
 
 class SynopsisTest(CloudTestCase):
@@ -643,7 +792,7 @@ class EquivalenceTest(CloudTestCase):
             run.OUT, run_cloud.LOGS = saved_out, saved_logs
         files = {f.name: f.read_text(encoding="utf-8") for f in sorted(out.glob("*.json"))}
         raw = logs_of(logs)
-        return files, {k: without_timing(v) for k, v in raw.items()}, raw
+        return files, {k: comparable(v) for k, v in raw.items()}, raw
 
     def test_one_worker_and_eight_write_the_same_files_and_say_the_same_thing(self):
         one_files, one_logs, _ = self.run_with(1)

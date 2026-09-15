@@ -308,11 +308,65 @@ def host_of(site):
     return urllib.parse.urlsplit(site.get("base") or "").netloc
 
 
-def host_groups(sites):
-    """Sites grouped by the host they are read from. -> [[(index, site), ...], ...].
+def hosts_of(site):
+    """Every host a site is read from. -> (netloc, ...), empty when the adapter holds them.
 
-    Groups in the order their host is first seen and members in SITES order, so a run
-    reads the same way every time.
+    `base` is the schedule's host. `reads` names any further one the adapter requests -- a
+    ticket API on its own subdomain is the case that exists today, Riviera's
+    tickets.rivieracinemas.fi -- because two sites that touch one server have to be read one
+    after the other whether or not that server is the one their `base` names. An entry may
+    be a URL or a bare host.
+
+    What it cannot name is a URL read out of a page: four adapters fetch one and none of
+    them checks its host. `common.reading` is the guard for those; see the comment on
+    `common.HOST_CLAIM_WAIT`.
+    """
+    out = []
+    for url in (site.get("base") or "", *(site.get("reads") or ())):
+        netloc = urllib.parse.urlsplit(url if "//" in url else "//" + url).netloc
+        if netloc and netloc not in out:
+            out.append(netloc)
+    return tuple(out)
+
+
+def group_indices(host_sets):
+    """Which group each member belongs to. -> [int], numbered in first-seen order.
+
+    The groups are the connected components of members and the hosts they name: a member
+    reading two hosts joins every member reading either. Grouping on one key per member was
+    enough while a site had one host, and stops being enough the moment it has two -- the
+    property that has to hold is "no two groups read a host in common", not "one key each".
+
+    An empty host set is its own key, "", shared by every member with one, which is the
+    conservative answer for an adapter that keeps its host to itself.
+    """
+    owner, at, nxt = {}, [], 0
+    for hosts in host_sets:
+        hosts = tuple(hosts) or ("",)
+        joined = sorted({owner[h] for h in hosts if h in owner})
+        if joined:
+            g = joined[0]
+            for other in joined[1:]:
+                for h, o in list(owner.items()):
+                    if o == other:
+                        owner[h] = g
+                at[:] = [g if v == other else v for v in at]
+        else:
+            g, nxt = nxt, nxt + 1
+        for h in hosts:
+            owner[h] = g
+        at.append(g)
+    order = {}
+    for g in at:
+        order.setdefault(g, len(order))
+    return [order[g] for g in at]
+
+
+def host_groups(sites):
+    """Sites grouped so that no two groups read a host in common.
+
+    -> [[(index, site), ...], ...], groups in the order their first member appears and
+    members in SITES order, so a run reads the same way every time.
 
     This is the unit the pool works in, and the host is the key rather than the site
     because the data says so today, not hypothetically: kinoaurora.fi serves both
@@ -321,10 +375,11 @@ def host_groups(sites):
     server at twice the rate its adapter paces for -- which is the courtesy the whole
     access story rests on. One thread per host is what keeps that pacing accurate.
     """
+    at = group_indices([hosts_of(s) for s in sites])
     groups = {}
-    for i, site in enumerate(sites):
-        groups.setdefault(host_of(site), []).append((i, site))
-    return list(groups.values())
+    for i, (site, g) in enumerate(zip(sites, at)):
+        groups.setdefault(g, []).append((i, site))
+    return [groups[g] for g in sorted(groups)]
 
 
 # How much of one site's output is held while the pool runs. A pool keeps every
@@ -501,7 +556,10 @@ def run_sites(mod, sites, now, workers=None):
                 chunks = []
                 try:
                     chunks = rec.capture()
-                    slots[i] = (label, run_site(mod, site, now, i), None, chunks)
+                    # Claims every host this site turns out to read, page-derived ones
+                    # included, and releases them when it is done. See common.reading.
+                    with common.reading(label):
+                        slots[i] = (label, run_site(mod, site, now, i), None, chunks)
                 except Exception as e:
                     slots[i] = (label, None, e, chunks)
                 finally:
@@ -669,7 +727,7 @@ class Tally:
         if not v and not confirmed_empty_site(site_of(mod, sites, label), pending):
             self.failures += 1
 
-    def report(self, stats, throttle):
+    def report(self, stats, throttle, hosts=()):
         """The closing lines, in the order a committed log carries them."""
         # Every request this run asked an upstream for, and how it was asked. Printed
         # because the alternative is a claim: the pipeline says it revalidates where it can
@@ -688,6 +746,13 @@ class Tally:
             print(f"[run] throttled: {throttle['asked']} Retry-After responses, "
                   f"{throttle['waited']:.0f}s waited, {throttle['refused']} not retried "
                   f"(asked for longer than a run can wait)")
+
+        # What was actually read, not what the sites declare. Four adapters fetch a URL out
+        # of a page, so the two can differ, and a host appearing here that no site names in
+        # `base` or `reads` is the thing to act on: it is being serialised by the runtime
+        # claim rather than by the grouping. See common.reading.
+        if hosts:
+            print(f"[run] hosts: {len(hosts)} read -- {', '.join(sorted(hosts))}")
 
         # Named, not counted. A venue that kept its previous data is not a failure the run
         # can act on -- at this layer an empty parse and a cinema with nothing on today are
@@ -748,7 +813,7 @@ def main(argv) -> int:
         for label, result, error in run_sites(mod, sites, now):
             tally.site(mod, sites, label, result, error)
 
-    tally.report(common.cache_stats(), common.throttle_stats())
+    tally.report(common.cache_stats(), common.throttle_stats(), common.hosts_read())
     return tally.code()
 
 

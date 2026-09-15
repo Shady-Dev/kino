@@ -73,8 +73,8 @@ LOGS = pathlib.Path("logs")
 # equivalence tests run against.
 MAX_HOSTS = run.MAX_HOSTS
 
-# Hosts verified to be one upstream under two `base` values, mapped onto a shared group
-# key so their sites are read one after the other.
+# Two hosts verified to be one upstream, mapped onto a shared group key so the sites that
+# read them are read one after the other.
 #
 # Empty, and that is a measurement rather than an assumption: on 2026-09-15 no two cloud
 # sites of *different* modules shared a registrable domain, and every same-module pair that
@@ -82,10 +82,11 @@ MAX_HOSTS = run.MAX_HOSTS
 # `tests/test_cloud_pool.py` asserts that over the live registry, so a provider landing on
 # another module's domain fails a test instead of quietly doubling the rate at one server.
 #
-# An entry here is a finding with a source, never a guess: `base` is the host a site is
-# read from, and a page-derived secondary URL -- BioRex's film pages, Tapiola's and
-# Cinemahouse's links, Kinola's film pages -- is whatever href the page carried, which no
-# static reading can bound. That was true of the per-module pool too and is unchanged here.
+# An entry here is a finding with a source, never a guess. Two other things carry the rest
+# of this question, because a differing `base` does not by itself prove two upstreams
+# independent: a site declares every host it knows it reads in `reads`, which
+# `run.hosts_of` folds into the grouping, and `common.reading` claims whatever host a fetch
+# actually goes to, which is the only thing that can cover a URL read out of a page.
 SHARED_UPSTREAMS = {}
 
 
@@ -110,9 +111,13 @@ class Site:
         self.queued = self.started = self.finished = None
 
     @property
-    def key(self):
-        """The group this site is read in. -> the host, or a verified shared upstream."""
-        return SHARED_UPSTREAMS.get(self.host, self.host)
+    def hosts(self):
+        """Every host this site declares, with verified shared upstreams folded in.
+
+        -> (netloc, ...). The grouping is over these, so a site naming two hosts joins
+        every site naming either.
+        """
+        return tuple(SHARED_UPSTREAMS.get(h, h) for h in run.hosts_of(self.site))
 
 
 class Module:
@@ -163,21 +168,25 @@ def work_items(mods):
 
 
 def host_groups(items):
-    """Work items grouped by the host they are read from, across every module.
+    """Work items grouped so that no two groups declare a host in common, across modules.
 
-    -> [[Site, ...], ...], groups in the order their host is first seen and members in
+    -> [[Site, ...], ...], groups in the order their first member appears and members in
     publication order, so a run reads the same way every time.
 
     The key is the host and not the site, and not the module either: `kinoaurora.fi` serves
     two of Nexxo's sites today, and if two modules ever reach one server the same rule has
-    to hold across them. A site with no `base` answers "" and shares one group with every
-    other such site, which reads them one at a time rather than assuming they are different
-    cinemas. There are none in the cloud half as of 2026-09-15.
+    to hold across them. A site declaring two hosts joins every site declaring either --
+    the groups are connected components, see `run.group_indices` -- so `reads` is enough to
+    serialise a secondary upstream without inventing a second key for it. A site with no
+    `base` answers "" and shares one group with every other such site, which reads them one
+    at a time rather than assuming they are different cinemas; there are none in the cloud
+    half as of 2026-09-15.
     """
+    at = run.group_indices([it.hosts for it in items])
     groups = {}
-    for it in items:
-        groups.setdefault(it.key, []).append(it)
-    return list(groups.values())
+    for it, g in zip(items, at):
+        groups.setdefault(g, []).append(it)
+    return [groups[g] for g in sorted(groups)]
 
 
 def read_host(group, rec, done, fatal):
@@ -205,7 +214,10 @@ def read_host(group, rec, done, fatal):
             try:
                 it.chunks = rec.capture()
                 it.started = time.monotonic()
-                with common.accounting(it.module.name):
+                # `accounting` charges the requests to this module; `reading` claims every
+                # host they turn out to go to, page-derived ones included, and releases
+                # them when this site is done.
+                with common.accounting(it.module.name), common.reading(it.label):
                     it.per_venue = it.mod.fetch_site(it.site)
                 it.settled = True
             except Exception as e:
@@ -290,7 +302,8 @@ def run_module(m, rec, fh, done, fatal, now, half, peak):
                 publish(it, now)
                 it.published = True
                 m.tally.site(it.mod, m.sites, it.label, it.result, it.error)
-        m.tally.report(common.cache_stats(m.name), common.throttle_stats(m.name))
+        m.tally.report(common.cache_stats(m.name), common.throttle_stats(m.name),
+                       common.hosts_read(m.name))
         line = timing_line(m)
         if line:
             print(line)
@@ -302,9 +315,22 @@ def run_module(m, rec, fh, done, fatal, now, half, peak):
 class Held:
     """How much a run holds while it waits for an earlier site to be published.
 
-    Accounted rather than assumed: a global pool fetches ahead of the publication order, so
-    results and captured log text pile up behind the slowest early site. Sampled at every
-    publication, which is when the queue is longest.
+    A global pool fetches ahead of the publication order, so results and captured log text
+    pile up behind the slowest early module. The worst case is every site fetched and none
+    published, and that is the whole half at once -- there is no smaller bound, because
+    blocking a worker until a permit frees can deadlock: the site the coordinator is waiting
+    for may be the one that cannot get a permit.
+
+    **Measured instead, 2026-09-15.** The 48 cloud sites' committed schedules are 1.83 MB of
+    JSON over 71 venue files and 3,312 showtimes; held as the Python dicts a fetch returns
+    that is 5.45 MB, plus at most 1.72 MB of `_syn` that `strip_helpers` drops at
+    publication and about as much again in duplication across venues. Under 10 MB, against
+    a runner with 16 GB. Captured log text is capped separately, per site, by
+    `run.MAX_CAPTURE`.
+
+    Sampled at every publication, which is when the queue is longest, and reported in
+    `logs/run-cloud.log` so the figure above is checked on every run rather than asserted
+    once.
     """
 
     def __init__(self, items):

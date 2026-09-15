@@ -76,6 +76,11 @@ _lock = threading.Lock()
 _scopes = threading.local()
 _scope_stats = {}
 _scope_throttle = {}
+# Every host a scope actually requested. The grouping in run.py serialises the hosts a site
+# *declares*; this is what it turned out to read, and a module's committed log carries it,
+# so a shared upstream shows up in the record instead of being assumed away.
+_scope_hosts = {}
+_hosts_all = set()
 
 
 def _scope():
@@ -101,6 +106,7 @@ def accounting(name):
     with _lock:
         _scope_stats.setdefault(name, {"hit": 0, "miss": 0, "stored": 0, "nostore": 0})
         _scope_throttle.setdefault(name, {"asked": 0, "waited": 0.0, "refused": 0})
+        _scope_hosts.setdefault(name, set())
     prev = _scope()
     _scopes.name = name
     try:
@@ -114,7 +120,98 @@ def reset_accounting():
     with _lock:
         _scope_stats.clear()
         _scope_throttle.clear()
+        _scope_hosts.clear()
+        _hosts_all.clear()
         _diag_seen.clear()
+    with _host_cv:
+        _host_owner.clear()
+        _host_cv.notify_all()
+
+
+def hosts_read(scope=None):
+    """Every host requested, by this scope or by the process. -> set of netlocs."""
+    with _lock:
+        return set(_hosts_all if scope is None else (_scope_hosts.get(scope) or ()))
+
+
+# One site at a time per host, whatever URL led there.
+#
+# `run.host_groups` serialises the hosts a site **declares** -- its `base` and any `reads`.
+# It cannot cover a URL read out of a page, and four adapters fetch one: BioRex's film pages
+# come from an href in an ajax fragment, Cinemahouse's from a tile link, Tapiola's and
+# Kinola's from their listings, and none of the four is checked against a host anywhere.
+# Read as a visitor on 2026-09-15 they all name the site's own host -- 197, 21/18/13, 27 and
+# 57/47 hrefs, every one of them -- but that is a third party's markup answering today, not
+# a property of this code. It mattered less while each module was its own process, because
+# only sites of one module could overlap; the coordinator overlaps every module.
+#
+# So a fetch claims the host it is about to read, for as long as that site keeps reading it,
+# and a second site waits. **A bound and not a rate limit**: past HOST_CLAIM_WAIT the
+# request goes anyway, with one line naming both sites, because a pipeline that deadlocks on
+# two adapters reading each other's hosts in opposite orders would be worse than one that
+# reads a shared server twice inside a minute. That line is the signal to declare the host
+# in the site's `reads`, which turns this bound into the rate guarantee grouping gives.
+HOST_CLAIM_WAIT = float(os.environ.get("KINO_HOST_CLAIM_WAIT") or 60)
+_host_cv = threading.Condition()
+_host_owner = {}
+
+
+@contextlib.contextmanager
+def reading(label):
+    """Claim hosts for one site's fetch, and release them all when it ends. -> context.
+
+    `label` is the site's provider id, which is unique. Anything fetched outside one of
+    these -- `enrich_tmdb`, `mirror_posters`, an adapter run by hand -- claims nothing and
+    waits for nothing, so this changes only a run that reads sites concurrently.
+    """
+    prev = getattr(_scopes, "owner", None)
+    _scopes.owner = label
+    try:
+        yield
+    finally:
+        _scopes.owner = prev
+        with _host_cv:
+            for h in [h for h, o in _host_owner.items() if o == label]:
+                del _host_owner[h]
+            _host_cv.notify_all()
+
+
+def _claim(url):
+    """Hold `url`'s host for this site until its fetch ends. -> the host, or "".
+
+    Records the host either way: the log's account of what a module read must not depend on
+    whether anything was contended.
+    """
+    host = urllib.parse.urlsplit(url).netloc
+    if host:
+        with _lock:
+            _hosts_all.add(host)
+            box = _scope_hosts.get(_scope())
+            if box is not None:
+                box.add(host)
+    owner = getattr(_scopes, "owner", None)
+    if owner is None or not host:
+        return host
+    with _host_cv:
+        if _host_owner.get(host, owner) == owner:
+            _host_owner[host] = owner
+            return host
+        held = _host_owner[host]
+        if _host_cv.wait_for(lambda: _host_owner.get(host, owner) == owner,
+                             HOST_CLAIM_WAIT):
+            _host_owner[host] = owner
+            return host
+    # Said once per host and scope, like a refusal: this is a finding about the site's
+    # declarations, not an event that repeats usefully.
+    key = ("shared-host", _scope(), host)
+    with _lock:
+        if key in _diag_seen:
+            return host
+        _diag_seen.add(key)
+    print(f"[http] {host} is read by {owner} and {held} at once: waited "
+          f"{HOST_CLAIM_WAIT:.0f}s and went ahead. Name it in one of their `reads` so "
+          f"the two sites are read one after the other")
+    return host
 
 
 def _bump(counter, key, by=1):
@@ -445,6 +542,9 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     if data is not None:
         cache = False
     limit = MAX_BODY if max_bytes is None else max_bytes
+    # Before the first attempt and not per attempt: every retry goes to the same host, and
+    # the claim is held until this site stops reading it either way.
+    _claim(url)
     slot = _slot(url) if cache else None
     meta, cached_body = _read_slot(slot) if cache else (None, None)
 
