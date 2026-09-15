@@ -231,10 +231,14 @@ def _claim(url):
             if held is not None and held != owner:
                 if not _host_cv.wait_for(
                         lambda: _host_owner.get(host, owner) == owner, HOST_CLAIM_WAIT):
-                    why = (f"{host} is read by {owner} and {held} at once; waited "
-                           f"{HOST_CLAIM_WAIT:.0f}s for it and sent nothing. Name it in "
+                    # Says what happened, which is that nothing was sent: the two sites
+                    # wanted this host at the same time and this one was refused it. An
+                    # earlier draft read "is read by X and Y at once", which described the
+                    # overlap the refusal exists to prevent.
+                    why = (f"{host} refused to {owner}: {held} was still reading it after "
+                           f"{HOST_CLAIM_WAIT:.0f}s, so no request was sent. Name it in "
                            f"one of their `reads` so the two sites are read one after the "
-                           f"other")
+                           f"other instead of racing for it")
                     with _lock:
                         _host_refused[owner] = why
                     raise HostBusy(why)

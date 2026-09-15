@@ -67,9 +67,11 @@ host audit and what the audit does not establish are in
 **Nothing in production is measured.** The fixtures show the overlap, the ceiling and one
 worker and eight writing identical files; a localhost server with a 50 ms delay says
 nothing about what a real run costs.
-**Next action:** after the first ordinary scheduled run carrying this code, read
-`logs/run-cloud.log` for the wall figure and each `logs/run-*.log` for its timing line, and
-write the comparison up in the archive entry. No dispatch: let a cron slot do it.
+**Next action:** after the first ordinary scheduled run carrying this code, compare each
+module's `[run] timing:` line and `logs/run-cloud.log` against the **fetch step**, 247 s to
+435 s, allowing for step overhead. Not against 4.9 and 10.5 minutes: those are whole
+workflow durations and include enrichment, posters, pages and the commit. Write the
+comparison up in the archive entry. No dispatch: let a cron slot do it.
 
 ### Move the local fetch off the laptop
 

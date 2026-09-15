@@ -696,7 +696,10 @@ class PageDerivedHostTest(CloudTestCase):
         h, code, logs = self.contended()
         self.assertEqual(code, 1)
         self.assertIn("[b0] FAILED:", logs["mod_b"])
-        self.assertIn("sent nothing", logs["mod_b"])
+        # The line says what happened -- a request withheld -- and not that two went out.
+        self.assertIn("refused to b0", logs["mod_b"])
+        self.assertIn("no request was sent", logs["mod_b"])
+        self.assertNotIn("at once", logs["mod_b"])
         self.assertIn("`reads`", logs["mod_b"])
         self.assertEqual(json.loads((self.out / "area-b0-0.json").read_text()), self.PREV)
         self.assertFalse((self.out / "venues-b0.json").exists())
