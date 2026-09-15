@@ -20,10 +20,11 @@ Five things that shape the parser:
 - **A paragraph is a day**, and only if it opens with a weekday and a date. The same
   element type carries the addresses, the prices and the opening hours, and those simply
   do not match, so no list of things to exclude is needed.
-- **The date has no year but the day has a weekday**, `Tiistai 15.9.`, and that determines
-  the year: the same day and month falls on a different weekday in each candidate year, so
-  exactly one can match. `common.resolve_year` does it. A weekday matching none of them
-  leaves the row unplaced and counted rather than moved to a date the page did not mean.
+- **The date has no year but the day has a weekday**, `Tiistai 15.9.`, which selects one
+  candidate year unambiguously: the same day and month falls on a different weekday in each
+  of them. That is a selection, not proof of the intended date, so `common.resolve_year`
+  also bounds how far the answer may fall from today. A weekday matching none of them, or
+  one selecting a date roughly a year away, leaves the row unplaced and counted.
 - **Manttu publishes every other weekend**, so its section is routinely a schedule that has
   already passed. That is correct output, not staleness to correct: the weekday places the
   rows in the past where they belong and the client filters them. Nothing here treats a

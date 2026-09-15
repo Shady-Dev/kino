@@ -27,9 +27,10 @@ heading as the current film. Four things about this page decide the rest:
   and no time at all, so the same rule drops it. The word `tulossa` also appears as a
   decorative heading above several films that *do* have screenings, so it is not usable as
   a marker either way; only the shape of the row decides.
-- **No year, but every row carries a weekday**, and that determines the year rather than
-  guessing it. See `common.resolve_year`. A weekday matching no candidate year leaves the
-  row unplaced and counted.
+- **No year, but every row carries a weekday**, which selects one candidate year
+  unambiguously. It does not prove the cinema meant that date, so `common.resolve_year`
+  also bounds how far the answer may fall from today. A weekday matching no candidate, or
+  one selecting a date roughly a year away, leaves the row unplaced and counted.
 
 The time is written `klo18.00`, with no space and a dot for minutes.
 

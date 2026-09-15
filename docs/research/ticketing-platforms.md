@@ -491,7 +491,16 @@ Vaakuna (`Ti 15.09.   klo 18:40`), Kino Kirkkonummi (`20.9. Sunnuntai klo18.00`)
 Kuvakukko/Kino Manttu (`Tiistai 15.9.` headings with `Klo 13:` rows). It is one problem,
 not three, and it is solved once in `common.resolve_year`.
 
-**The rule: nearest occurrence, ties to the future.** Candidates are the same day and
+**Narrowed 2026-09-15.** A published weekday **selects uniquely within the assumed
+three-year window** and nothing more: it does not independently establish the intended
+date. A page left up for years, or one with a mistyped weekday, still resolves to one of
+the three, and neither the helper nor the caller can see that from the page. So the answer
+is bounded as well as selected: a candidate more than 300 days ahead or 180 days behind is
+refused. The asymmetry is the point. A stale row in the past is hidden by the client; a
+phantom row a year ahead is shown to readers, and that is exactly what a wrong weekday
+produces. The widest real programme seen on 2026-09-15 reached 88 days ahead.
+
+**The fallback: nearest occurrence, ties to the future.** Candidates are the same day and
 month in last year, this year and next; the one closest to today wins. The obvious rule,
 "next occurrence", is wrong in a way that matters: on 2 January a page still showing
 `28.12.` means five days ago, and a forward-only rule publishes it eleven months out,

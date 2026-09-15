@@ -111,12 +111,25 @@ class ProgrammeTest(unittest.TestCase):
 
 
 class YearTest(unittest.TestCase):
-    def test_the_weekday_decides_the_year(self):
-        for wd, want in (("Maanantai", "2025-09-15"), ("Tiistai", "2026-09-15"),
-                         ("Keskiviikko", "2027-09-15")):
-            out = kirkkonummi.parse(
-                page(head("A") + item(f"15.9. {wd} klo19.00"), twice=False), today=TODAY)
-            self.assertEqual(out[0]["start"][:10], want, wd)
+    def _weekday_case(self, wd, want):
+        """Parse a one-row page for `15.9. wd`; `want` is the date, or None for a row the
+        bound refuses, which leaves the page with no screening at all."""
+        body = page(head("A") + item(f"15.9. {wd} klo19.00"), twice=False)
+        if want is None:
+            with self.assertRaises(common.EmptyProgramme, msg=wd):
+                kirkkonummi.parse(body, today=TODAY)
+            return
+        out = kirkkonummi.parse(body, today=TODAY)
+        self.assertEqual(out[0]["start"][:10], want, wd)
+
+    def test_a_weekday_that_would_place_a_row_a_year_out_is_refused(self):
+        """15.9. is a Monday in 2025, a Tuesday in 2026 and a Wednesday in 2027. Read on
+        2026-09-15 only the Tuesday is inside the plausibility bound; the other two are a
+        year away, which is what a mistyped weekday produces."""
+        self._weekday_case("Tiistai", "2026-09-15")
+        for wd in ("Maanantai", "Keskiviikko"):
+            self._weekday_case(wd, None)
+
 
     def test_a_weekday_no_candidate_year_can_satisfy_is_skipped(self):
         out = kirkkonummi.parse(

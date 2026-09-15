@@ -523,6 +523,13 @@ def write_text_atomic(path, text):
 def write_json(path, obj, **dumps_kw):
     write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))
 
+# How far from today a resolved date may fall. Wider than any programme these cinemas
+# publish, tight enough that a mistyped weekday cannot put a screening a year out. Asymmetric
+# on purpose: a stale row in the past is hidden by the client, a phantom row in the future is
+# shown.
+MAX_AHEAD = 300
+MAX_BEHIND = 180
+
 # Finnish weekday names as the cinema sites write them, full and abbreviated, keyed on the
 # first two letters because that is unambiguous across all seven.
 FI_WEEKDAYS = {"ma": 0, "ti": 1, "ke": 2, "to": 3, "pe": 4, "la": 5, "su": 6}
@@ -537,19 +544,28 @@ def weekday_index(name):
 def resolve_year(day, month, today, weekday=None):
     """A `DD.MM.` with no year -> the year it means. -> int, or None.
 
-    **With a weekday, this determines the year rather than guessing it.** A published
-    weekday picks out exactly one of the three candidate years: the same day and month in
-    consecutive years falls 365 or 366 days apart, so the weekday shifts by one or two,
-    and across the whole window Y-1 to Y+1 it shifts by two or three. Never zero. Checked
-    over 2000-2100, 4,800 windows, no window where two candidates share a weekday. So when
-    the page prints one, it is evidence and not a hint.
+    **A weekday selects uniquely within the assumed window. It does not establish the
+    intended date.** Inside Y-1, Y, Y+1 exactly one candidate can carry a given weekday:
+    consecutive years shift it by one or two days and the whole window by two or three,
+    never zero, checked over 2000-2100 across 4,800 windows. That makes the selection
+    unambiguous *given the window*. It does not make it true. A page left up for four years,
+    or one with a mistyped weekday, is still resolved to one of these three, and neither
+    this function nor the caller can tell that from the page.
 
-    A weekday that matches **no** candidate year is not resolved and returns None. The page
-    is then contradicting itself, which is a publishing slip or a template change, and
-    skipping the row is the same choice `tmb.py` makes for the same reason: a date the page
-    did not mean is worse than a row not shown.
+    So the answer is bounded as well as selected. A candidate further than `MAX_BEHIND`
+    days back or `MAX_AHEAD` days forward is refused and returns None, because the failure
+    that matters is a wrong weekday quietly producing a screening roughly a year out, where
+    nothing downstream filters it: a stale row in the past is harmless and the client hides
+    it, while a phantom row in the future is shown to readers. The bounds are deliberately
+    wider than anything these cinemas publish (the widest seen on 2026-09-15 was 88 days
+    ahead) and far tighter than the 365 a weekday slip would need.
 
-    Without a weekday it falls back to nearest occurrence, described below.
+    A weekday matching **no** candidate year returns None for the same reason: the page is
+    contradicting itself, which is a slip or a template change, and `tmb.py` already makes
+    that choice. Only three of the seven weekdays can be right for any given day and month.
+
+    Without a weekday it falls back to nearest occurrence, described below, and that is
+    bounded too.
 
     Several small cinemas publish a day and a month and no year at all (Kino Vaakuna,
     Kino Kirkkonummi, Kuvakukko). The year is missing rather than abbreviated, so it has
@@ -578,6 +594,8 @@ def resolve_year(day, month, today, weekday=None):
             when = datetime.date(year, month, day)
         except ValueError:
             continue
+        if not -MAX_BEHIND <= (when - today).days <= MAX_AHEAD:
+            continue                     # implausible; see the bound above
         if weekday is not None:
             if when.weekday() == weekday:
                 return year

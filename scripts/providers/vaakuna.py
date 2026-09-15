@@ -16,13 +16,13 @@ poster, the ticket price, the runtime, an age limit and a table of screenings.
 Three things that shape the parser:
 
 - **No year is published, but a weekday is.** The rows read `Ti 15.09.   klo 18:40`, and
-  that `Ti` determines the year rather than hinting at it: the same day and month falls on
-  a different weekday in each of last year, this year and next, so exactly one candidate
-  can match. `common.resolve_year` is given the weekday and returns that year. A weekday
-  matching none of the three means the page contradicts itself, and the row is skipped and
-  counted rather than placed on a date the cinema did not mean. The nearest-occurrence
-  fallback in that function is for sources that print no weekday at all; this one always
-  does.
+  that `Ti` **selects** the year: the same day and month falls on a different weekday in
+  each of last year, this year and next, so exactly one candidate can match. That makes the
+  choice unambiguous given the window; it does not prove the cinema meant that date, so
+  `common.resolve_year` also refuses a candidate too far from today. A weekday matching
+  none of the three, or one selecting a date roughly a year away, leaves the row skipped
+  and counted rather than placed. The nearest-occurrence fallback in that function is for
+  sources that print no weekday at all; this one always does.
 - **The age limit is an image whose filename is the number**, `icon/16.png`, so it is read
   rather than inferred: `16` becomes `K-16`. A filename that is not a number yields no
   rating.

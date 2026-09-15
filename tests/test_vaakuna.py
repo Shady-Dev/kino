@@ -121,14 +121,17 @@ class YearTest(unittest.TestCase):
                             today=datetime.date(2026, 1, 2))
         self.assertEqual(out[0]["start"][:10], "2025-12-28")
 
-    def test_the_weekday_decides_the_year_and_overrides_nearest(self):
+    def test_a_weekday_that_would_place_a_row_a_year_out_is_refused(self):
         """15.09. is a Monday in 2025, a Tuesday in 2026 and a Wednesday in 2027. Read on
-        2026-09-15, nearest would say 2026 for all three; the weekday says otherwise, and
-        it is the page's own statement."""
-        for wd, want in (("Ma", "2025-09-15"), ("Ti", "2026-09-15"), ("Ke", "2027-09-15")):
-            out = vaakuna.parse(page(card("a", "A", [f"{wd} 15.09.   klo 19:00"])),
-                                today=TODAY)
-            self.assertEqual(out[0]["start"][:10], want, wd)
+        2026-09-15 only the Tuesday is within the plausibility bound; `Ma` and `Ke` select
+        a candidate roughly a year away, which is what a mistyped weekday looks like, and
+        those rows are dropped rather than published as phantom screenings."""
+        out = vaakuna.parse(page(card("a", "A", ["Ti 15.09.   klo 19:00"])), today=TODAY)
+        self.assertEqual(out[0]["start"][:10], "2026-09-15")
+        for wd in ("Ma", "Ke"):
+            with self.assertRaises(common.EmptyProgramme):
+                vaakuna.parse(page(card("a", "A", [f"{wd} 15.09.   klo 19:00"])),
+                              today=TODAY)
 
     def test_a_weekday_matching_no_candidate_year_is_skipped(self):
         """Only three of the seven weekdays can be right for a given day and month. A
@@ -191,15 +194,33 @@ class ResolveYearTest(unittest.TestCase):
         tie-break scored VOID against it."""
         self.assertEqual(common.resolve_year(1, 3, datetime.date(2027, 8, 31)), 2028)
 
-    def test_a_weekday_determines_the_year_rather_than_inferring_it(self):
-        """The same day and month falls on a different weekday in each candidate year, so
-        at most one can match. Checked over 2000-2100: no window where two share one."""
-        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
-                                             common.weekday_index("Maanantai")), 2025)
+    def test_a_weekday_selects_uniquely_within_the_window(self):
+        """At most one candidate year can carry a given weekday. That makes the selection
+        unambiguous given the window; it does not make it the intended date, which is why
+        the bound below exists."""
         self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
                                              common.weekday_index("Tiistai")), 2026)
-        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
-                                             common.weekday_index("Keskiviikko")), 2027)
+        # A weekday naming a candidate inside the bound still selects it.
+        self.assertEqual(common.resolve_year(5, 1, datetime.date(2026, 12, 28),
+                                             common.weekday_index("Tiistai")), 2027)
+
+    def test_a_candidate_outside_the_plausibility_bound_is_refused(self):
+        """`Ma 15.09.` read on 2026-09-15 selects 2025, a year behind, and `Ke` selects
+        2027, a year ahead. Both are what a mistyped weekday produces, and a phantom
+        screening a year out is the one the client would not hide."""
+        for wd in ("Maanantai", "Keskiviikko"):
+            self.assertIsNone(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
+                                                  common.weekday_index(wd)), wd)
+
+    def test_the_bound_is_wide_enough_for_a_real_programme(self):
+        """The widest programme seen on 2026-09-15 reached 88 days ahead."""
+        today = datetime.date(2026, 9, 15)
+        far = today + datetime.timedelta(days=200)
+        self.assertEqual(common.resolve_year(far.day, far.month, today,
+                                             far.weekday()), far.year)
+        stale = today - datetime.timedelta(days=120)
+        self.assertEqual(common.resolve_year(stale.day, stale.month, today,
+                                             stale.weekday()), stale.year)
 
     def test_a_weekday_no_candidate_year_can_satisfy_resolves_to_nothing(self):
         for wd in ("Torstai", "Perjantai", "Lauantai", "Sunnuntai"):

@@ -1209,3 +1209,38 @@ Left behind: `kojootti vs acme eng` and `... sub` are orphaned cache keys from b
 eTiketti label strip. No show references them now, so nothing re-searches them and they age
 out on their own.
 
+
+### The year helper's claim was too strong, and its answer was unbounded (2026-09-15)
+
+`common.resolve_year` was added earlier the same day and documented as a weekday
+"determining" the year. Two corrections, both from the maintainer.
+
+**The claim.** A published weekday **selects uniquely within the assumed three-year
+window**; it does not independently establish the intended date. The uniqueness is real and
+measured, 4,800 windows over 2000-2100 with no window where two candidates share a weekday.
+What that buys is an unambiguous choice *given the window*, and nothing more. A page left up
+for four years, or one with a mistyped weekday, still resolves to one of the three, and
+neither the helper nor its caller can see that from the page. The wording is narrowed in
+`common.py` and in all three adapters that use it.
+
+**The bound.** The answer is now refused when it falls more than `MAX_AHEAD = 300` days
+ahead or `MAX_BEHIND = 180` days behind. The failure this closes is specific: a wrong
+weekday selects a candidate roughly 365 days away, and a phantom screening a year in the
+future is shown to readers, while a stale row in the past is hidden by the client. That
+asymmetry is why the bounds are asymmetric. They are wider than any programme these cinemas
+publish -- the widest seen on 2026-09-15 reached 88 days ahead -- and far tighter than the
+365 a weekday slip needs.
+
+Concretely, read on 2026-09-15: `Ti 15.09.` resolves to 2026 and is published, while
+`Ma 15.09.` and `Ke 15.09.` select 2025 and 2027, are refused, and leave the row skipped
+and counted. Only three of the seven weekdays can be right for any day and month, and now
+only one of those three is plausible.
+
+Bio Savoy, added the same day, uses none of this: its rows carry a full ISO instant with an
+offset, so nothing is resolved for it at all.
+
+Tests: `tests/test_vaakuna.py` gained the bound cases and the three adapter tests that
+asserted the unbounded behaviour were rewritten. Four mutations on the bound, all red:
+removing it, widening it past a year, tightening it below a real programme, and ignoring
+the weekday. The "too tight" mutation matters as much as "too wide": a bound that rejects
+legitimate dates is the other way to get this wrong.
