@@ -27,11 +27,12 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-54 providers, 99 venues, 68 cities declared as of 2026-09-15. Committed and unpublished:
-13 venues across 12 providers on 9 adapters, and no run has fetched any of them. The three
-counts differ and are not interchangeable: Kuvakukko is one provider with two venues, and
-TMB is one adapter serving four providers. Check for an existing platform first. Every
-candidate assessed on 2026-09-15, with its evidence, is in
+54 providers, 99 venues, 68 cities, declared and committed alike as of 2026-09-15:
+`d216607b` published the 13 venues that had been waiting, across 12 providers on 9
+adapters. Nothing is unpublished. That run still **failed**, at the city-link gate and not
+on any provider; the record is in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md). Check for an
+existing platform first. Every candidate assessed on 2026-09-15, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
@@ -46,7 +47,7 @@ candidate assessed on 2026-09-15, with its evidence, is in
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino
-Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 86
+Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 99
 venues ride on one machine. Cloud VMs cannot replace it and the MovieXchange credential
 route is closed, so there is no way off the laptop that keeps the coverage.
 **Next action:** an always-on box on the same network. Nothing in this repo changes; the
@@ -188,43 +189,43 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-15, fourteenth pass)
+## Documentation state (2026-09-15, fifteenth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-15 with Cine Mäntsälä added and data still at `887a7988`. The
-venue and city figures are what the registry and the adapters **declare**; the page and
-sitemap figures are what is **committed**, and the two disagree by thirteen venues until a
-run fetches them:
+Latest, re-measured 2026-09-15 with data at `d216607b`, the run that published the
+thirteen waiting venues. Declared and committed now agree for the first time since the
+week's additions began, so there is no gap to state:
 
 | | |
 |---|---:|
 | providers / venues / cities (declared) | 54 / 99 / 68 |
-| venues in committed data | 86 |
+| venues in committed data | 99 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 98 |
-| sitemap URLs | 197 |
-| poster references (shows / films-extra) | 4293 (4033 / 260) |
+| generated pages per language | 113 |
+| sitemap URLs | 227 |
+| poster references (shows / films-extra) | 6322 (6046 / 276) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1041 |
-| `sw.js` CACHE | `leffavuoro-v166` |
+| mirrored poster files | 1122 |
+| `sw.js` CACHE | `leffavuoro-v167` |
 
-Declared and unpublished, measured at this tree: **13 venues, 12 providers, 9 adapters**.
-Kuvakukko is one provider with two venues and TMB one adapter with four providers, so the
-three figures are kept apart rather than restated as one. The venues are Iso-Hannu (Rauma),
-the four TMB cinemas (Akaa, Valkeakoski, Pieksämäki, Heinola), Julia 1&2 (Hyvinkää),
-Bio-Kaari (Forssa), Kino Vaakuna (Lohja), Kino Kuvakukko (Kuopio), Kino Manttu (Nilsiä),
-Kino Kirkkonummi, Bio Savoy (Mariehamn) and Cine Mäntsälä (Mäntsälä). Hyvinkää and Kuopio
-were already covered,
-so the first run that fetches them adds eleven cities and thirteen venues; Hyvinkää and
-Kuopio would each reach two venues and gain a city page, taking the pages to 113 per
-language and the sitemap to 227 if every one publishes. Those are predictions, not
-measurements, and are the reason README's page sentence still reads 86 venues: it describes
-the committed pages, which have not moved.
+Nothing is declared and unpublished. **13 venues, 12 providers, 9 adapters** published in
+`d216607b`: Iso-Hannu (Rauma), the four TMB cinemas (Akaa, Valkeakoski, Pieksämäki,
+Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino Vaakuna (Lohja), Kino Kuvakukko
+(Kuopio), Kino Manttu (Nilsiä), Kino Kirkkonummi, Bio Savoy (Mariehamn) and Cine Mäntsälä
+(Mäntsälä). The three figures stay apart because Kuvakukko is one provider with two venues
+and TMB one adapter with four providers. Eleven new cities; Hyvinkää and Kuopio were
+already covered and each reached two venues, which gave them a combined city page and left
+`index.html`'s chooser stale, the gate that failed the run.
+
+The predictions this section carried before that run were right: 113 pages per language
+and 227 sitemap URLs, both measured after it. They are recorded as having held because the
+per-provider entries in the archive each predicted their own increment and were wrong for
+the opposite reason, all thirteen having landed at once.
 
 **Why none of them has published.** The last cloud run was created 2026-09-15 07:55 UTC on
 `bb409cc0` and committed `887a7988`; all twelve landed on `main` between 08:46 and 11:22

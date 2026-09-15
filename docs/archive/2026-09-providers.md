@@ -1084,9 +1084,10 @@ its own PHP and carries none of the platform fingerprints already read here.
 - Tests: `tests/test_isohannu.py`, 20 tests, plus a sample in `test_show_contract.py`.
   Eight mutations, all red, none void. The fixture carries two days and three halls
   because the parser walks them as nested loops and one of each would enter neither.
-- **Not yet published.** No run has fetched it, so `data/venues-isohannu.json` does not
-  exist and the committed pages still count 86 venues. The first cloud run adds Rauma as
-  the 58th city, takes the pages to 99 per language and the sitemap to 199.
+- **Published 2026-09-15** in `d216607b`: 66 showtimes over 7 dates, Rauma a new city.
+  The run's own outcome is in "The thirteen venues published, and the run still failed".
+  This line predicted 99 pages and 199 sitemap URLs on the assumption that Iso-Hannu
+  published alone; thirteen venues landed in one run instead.
 
 ### TMB Cinema: four cinemas, one adapter, four new towns (2026-09-15)
 
@@ -1128,9 +1129,9 @@ towns that carried no cinema here before. The probe evidence is in
 - Measured live before committing: 23 screenings at Toijala and Sampo, 32 at Mania and
   Elo, 7 and 8 films, 12 dates each out to 2026-11-07, and the contract check passes for
   all four.
-- **Not yet published.** No run has fetched them, so there is no `logs/run-tmb.log` and no
-  venue file. Declared counts move to 47 providers, 91 venues, 62 cities; the committed
-  data still holds 86 venues.
+- **Published 2026-09-15** in `d216607b`: Kino-Toijala 22 and Kino-Sampo 22 showtimes,
+  KinoMania 29 and Elo 29, each over 12 dates to 2026-11-07. `logs/run-tmb.log` reads
+  `exit=0` and `4 venues, 102 showtimes`. Four new towns.
 
 ### Julia 1&2, Hyvinkää, and the identity the last batch got wrong (2026-09-15)
 
@@ -1174,8 +1175,9 @@ one request.
 - Measured live before committing: 4 screenings, 2 films, 2 dates, both halls, price
   `14€ / 12€`, ratings K-7 and K-12, runtimes 87 and 87 (the cinema's own figures; TMB's
   pages independently give 87 for both films).
-- **Not yet published.** No run has fetched it. Declared counts move to 48 providers, 92
-  venues, 62 cities; Hyvinkää was already covered, so no new town.
+- **Published 2026-09-15** in `d216607b`: 4 showtimes over 2 dates. Hyvinkää was already
+  covered by Kino Akseli, so it gained a combined city page rather than a new town, which
+  is half of why `index.html` needed its chooser resynchronised.
 
 ### Bio-Kaari, Forssa: a MyCloudCinema cinema that still needed its own parser (2026-09-15)
 
@@ -1206,7 +1208,7 @@ venue. Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
   red, none void.
 - Measured live before committing: 15 screenings, 3 films, 10 dates, 15 distinct ticket
   ids, and the film pages filling rating, runtime and genre for all 15.
-- **Not yet published.** Declared counts move to 49 providers, 93 venues, 63 cities.
+- **Published 2026-09-15** in `d216607b`: 15 showtimes over 10 dates to 2026-09-24.
 
 ### Kino Vaakuna, Lohja, and a shared rule for pages that publish no year (2026-09-15)
 
@@ -1236,7 +1238,8 @@ a month and no year at all.
   mutations, all red, none void after the tie case was fixed.
 - Measured live before committing: 19 screenings, 8 films, 8 dates, prices and runtimes on
   all of them and ratings on all but the one the site does not rate.
-- **Not yet published.** Declared counts move to 50 providers, 94 venues, 64 cities.
+- **Published 2026-09-15** in `d216607b`: 30 showtimes over 10 dates to 2026-09-24, inside
+  the +0..+9 span the `(30, 60)` window was measured at.
 
 ### Kuvakukko and Kino Manttu: two venues on one page (2026-09-15)
 
@@ -1269,7 +1272,11 @@ Kuopio's two municipal cinemas, added as one provider with two venues,
   red, none void once the anchoring mutation was written to break both guards.
 - Measured live before committing: 36 screenings at Kuvakukko over 9 dates, 9 at Manttu
   over 3, and the contract check passes for both.
-- **Not yet published.** Declared counts move to 51 providers, 96 venues, 65 cities.
+- **Published 2026-09-15** in `d216607b`: Kuvakukko 36 showtimes over 9 dates, Manttu 9
+  over 3. Manttu's are 2026-09-11 to 09-13, all in the past, which is the fortnightly
+  weekend this entry recorded as already over and which the window's 30 days behind
+  deliberately admit. Kuopio was already covered by Finnkino, so it gained a combined
+  city page.
 
 ### Kino Kirkkonummi, and reversing a deferral made on maintenance grounds (2026-09-15)
 
@@ -1304,7 +1311,7 @@ there are three to five a week. Kirkkonummi is a new town.
   all red, none void.
 - Measured live before committing: 11 screenings, 5 films, 8 dates, the release-only film
   correctly absent.
-- **Not yet published.** Declared counts move to 52 providers, 97 venues, 66 cities.
+- **Published 2026-09-15** in `d216607b`: 11 showtimes over 7 dates to 2026-09-24.
 
 ### Bio Savoy, Mariehamn: Åland, and a source that infers nothing (2026-09-15)
 
@@ -1339,7 +1346,8 @@ Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
   red, none void once the share-block mutation was aimed at `HALL_RE` itself.
 - Measured live before committing: 12 screenings, 10 films, 3 dates, both halls, and the
   destination fetched at 200 over http.
-- **Not yet published.** Declared counts move to 53 providers, 98 venues, 67 cities.
+- **Published 2026-09-15** in `d216607b`: 43 showtimes over 10 dates to 2026-09-24, both
+  halls, every URL http as recorded. Åland is covered.
 
 ### Cine Mäntsälä: MyCloudCinema read through the visitor's own requests (2026-09-15)
 
@@ -1411,4 +1419,52 @@ investigation that unblocked it, including what was tried first and why it was w
 - Measured live before committing: 17 dates, 9 windows, 50 screenings to 2026-12-22, both
   screens, `check_shows` clean, 50 distinct booking URLs, and offsets `+03:00` and `+02:00`
   both present in one run, which is the DST conversion exercised by real data.
-- **Not yet published.** Declared counts move to 54 providers, 99 venues, 68 cities.
+- **Published 2026-09-15** in `d216607b`: 50 showtimes over 17 dates to 2026-12-22, both
+  screens, offsets `+03:00` and `+02:00` both present. Nine windows, no duplicate
+  dropped, so the greedy cover met each date exactly once on this programme.
+
+### The thirteen venues published, and the run still failed (2026-09-15)
+
+One record for the run that published the whole week's additions, because the nine entries
+above each predicted its own increment and all thirteen venues landed together.
+
+**The run.** Cloud run `34983009141`, created 14:38:29Z on revision `437aa533`, data
+committed as `d216607b` at 14:48 UTC, 344 files. Its event was `workflow_dispatch`, from
+the wrapper outside this repo after its own push, not the schedule: of the four cron slots
+that day only 07:55 fired, and that one predated every provider added here.
+
+**It failed, and that is the record.** `build_pages.py` returned 3 at the final gate
+because `index.html`'s generated city-links block was two links short of the city pages
+the same run had just created: Hyvinkää and Kuopio became multi-venue cities. That is the
+designed handoff rather than a fault, since the workflow stages `data logs teatteri
+kaupunki en sitemap.xml` and never `index.html`, which carries a service-worker bump. The
+pages themselves were written and committed first, 127 of them, so the failure is the
+notification and not a lost publish. Do not read this run as a success.
+
+**Everything else was green**, from the committed logs and not the Actions logs: nine new
+module logs at `exit=0` with `0 failures`, `0 stale`, `0 unverified` and `0 pending` each,
+`run-enrich.log` `exit=0`, `run-posters.log` `exit=0` with 70 posters downloaded and none
+failed.
+
+| verified after the run | |
+|---|---|
+| showtimes across the thirteen | 366 |
+| provider, venue, theatre and city metadata | matches the registry on all thirteen |
+| ticket destinations sampled, one per venue | 13 of 13 answer 200 |
+| rated / with a poster | 338 / 325 |
+| off-origin poster references, whole repo | 0 |
+| theatre pages, fi and en, each once in the sitemap | 13 of 13 |
+| new combined city pages | Hyvinkää and Kuopio, fi and en |
+| declared and committed | 54 providers, 99 venues, 68 cities, both |
+| pages per language / sitemap URLs | 113 / 227 |
+
+**Two things the publish exposed.** `index.html`'s chooser, fixed in `9b94e89b` under an
+explicit narrow exception to the freeze on that file. And the snippet test's h1
+comparison, which compared escaped markup with unescaped text and so went red on the first
+venue name carrying an `&`, Julia 1&2; fixed in `80bc1c76`, page unchanged because
+`&amp;` was already right.
+
+**One judgement published as read.** Cine Mäntsälä lists *Practical Magic* as K-12 on three
+dates and K-18 on its "Leffa & viini-näytös". That is the cinema's own per-screening value,
+a licensed-screening door policy, and `enrich_tmdb` names it as a rating disagreement
+rather than overwriting either.
