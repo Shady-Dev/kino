@@ -1587,7 +1587,19 @@ expecting zero rows.
   header that no fixture could distinguish, no repeated row, a film-page failure whose
   site had nothing else to publish, and a budget refusal that a cap would also have
   failed. The fixtures were rewritten, not the assertions.
-- **Not yet published.** Declared counts move to 56 providers, 101 venues, 69 cities.
+- **Published 2026-09-15** in `87437a3f`: Kilta 57 showtimes over 28 dates to 2026-12-16,
+  Laika 35 over 10. `logs/run-kinola.log` reads `exit=0`, `2 venues, 92 showtimes,
+  0 failures`, and 67 requests with 42 cache entries written, so the next run revalidates
+  rather than refetching those film pages.
+  **The run itself failed**, at the city-link gate and not on any provider: Turku reached
+  two venues, gained a city page, and left the chooser block in `index.html` one link
+  short, so `build_pages.py` returned 3 after the data had already been committed. The
+  chooser was synchronised in `56723020`. Venue publication, the gate failure and the
+  repair are three separate facts and are recorded as three.
+  From that run's own log rather than the earlier measurement: Kilta omitted nothing,
+  Laika omitted 11 unresolved films over 12 screenings and no confirmed non-films, and the
+  Fox override reported `active`. Counts after it: 56 providers, 101 venues, 69 cities,
+  116 pages per language, 233 sitemap URLs.
 
 **Completed the same day: the two safeguards the first pass only half-built.**
 

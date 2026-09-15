@@ -207,7 +207,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-113 per language, 227 sitemap URLs: 99 venues plus the fourteen cities with more
+116 per language, 233 sitemap URLs: 101 venues plus the fifteen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
