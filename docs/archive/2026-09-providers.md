@@ -1619,3 +1619,18 @@ expecting zero rows.
 - Tests: 82 in the file, up from 72. Ten further mutations, all red; one was void first
   because `parse` never separates a vanished event from an unread page, so the `listed`
   parameter was only reachable from a direct call and is now tested there.
+
+**Two claims narrowed the same day, before either could be read as more than it is.**
+
+- **Precedence is not detection.** A recorded, evidence-backed exclusion outranks director
+  and genre metadata; that is built and tested. A *newly encountered* live act carrying
+  that metadata and no entry publishes as a film and nothing in the adapter notices. The
+  new fixture proves the precedence holds once an entry exists, not that conflicting
+  live-event evidence is found automatically, and no test claims otherwise. A new case is
+  caught by a person reading the run log, and the remedy is one more scoped entry. Not a
+  title or synopsis keyword: the policy forbids it and it would misfile every concert film.
+- **`redundant` is about the decision, not the evidence.** It says an entry changes no
+  publication decision today. It does not say the evidence was wrong, and it is not
+  grounds for deletion, because an exclusion earns its keep exactly when a cinema that
+  fills no field now fills a misleading one later and the entry turns `active` again.
+  Nothing removes an entry automatically and no test requires one removed to pass.

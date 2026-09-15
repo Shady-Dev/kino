@@ -33,6 +33,16 @@ identifies a gig by itself, and this module does not pretend otherwise.
 `Ohjaus` or `Lajityyppi` would otherwise publish, and that is exactly the case an exclusion
 exists for, so the override is consulted before the labels are looked at rather than after.
 
+**The limitation this leaves, stated rather than papered over.** Precedence is not
+detection. A live act that fills those fields and has **no** recorded exclusion publishes
+as a film, and nothing here notices: the classifier sees a director and a genre and has no
+further evidence to weigh. The fixture in `tests/test_kinola.py` proves the precedence
+holds once an exclusion exists; it does not prove, and cannot, that conflicting
+live-event evidence is found automatically. Closing that gap would mean reading a word out
+of a title or a synopsis, which the policy forbids and which would misfile every concert
+film. So a newly encountered case is caught by a person reading the run log, not by this
+module, and the remedy is one more scoped entry with its evidence.
+
 **Revalidation, at run time and for every entry.** Each override is scored against the page
 as it stands now: `active` when it changes the classifier's verdict, `redundant` when the
 classifier already reaches the same outcome, and `evidence-unavailable` when the event is
@@ -379,11 +389,17 @@ def classify(provider, slug, facts, overrides):
 def override_state(entry, default, listed, page_read):
     """-> ACTIVE, REDUNDANT or UNAVAILABLE for one override, against the page as it is.
 
-    Redundancy is a statement about the decision: an `include` is redundant once the page
-    classifies as a film on its own, and an `exclude` is redundant once it does not. An
-    entry whose event is not in the listing, or whose page was not read, is neither active
-    nor redundant: the evidence for it is simply unavailable this run, and dropping it on
-    that basis would delete a still-needed override the first time a film went off
+    Redundancy is a statement about the decision **and about nothing else**: an `include`
+    is redundant once the page classifies as a film on its own, and an `exclude` once it
+    does not. It does not mean the entry's evidence was wrong, and it is not a licence to
+    delete. An exclusion is worth keeping precisely because a cinema that fills no field
+    today may fill a misleading one tomorrow, at which point the same entry goes back to
+    `active` and is the only thing withholding a gig. Nothing here removes an entry, and
+    no test requires one to be removed to pass.
+
+    An entry whose event is not in the listing, or whose page was not read, is neither
+    active nor redundant: the evidence for it is simply unavailable this run, and dropping
+    it on that basis would delete a still-needed override the first time a film went off
     programme.
     """
     if not listed or not page_read:

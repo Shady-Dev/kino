@@ -326,8 +326,15 @@ class ClassifyTest(unittest.TestCase):
         self.assertEqual(self.one(SYNOPSIS_MENTIONS_CONCERT), (True, K.FILM))
 
     def test_a_billed_live_act_that_fills_the_generic_fields_publishes_by_default(self):
-        """The gap the precedence exists to close. Nothing at run time separates this page
-        from a film: it names a director and a genre like any other."""
+        """The standing limitation, kept executable rather than only written down.
+
+        Nothing at run time separates this page from a film: it names a director and a
+        genre like any other. So a live act of this shape with **no** recorded exclusion
+        publishes, and the next test shows an exclusion is what withholds it. Precedence
+        is not detection, and the pair of tests proves the first and not the second. The
+        only alternative would be reading a word out of a title or a synopsis, which the
+        policy forbids and which would misfile every concert film.
+        """
         facts = K.film_facts(LIVE_ACT_WITH_METADATA)
         self.assertEqual(facts["labels"].get("ohjaaja"), "Arppa")
         self.assertEqual(facts["genres"], "Konsertti")

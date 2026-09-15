@@ -136,6 +136,14 @@ has to satisfy, not a description of anything that exists.
   labels, and the case is covered by a fixture of a billed live act whose page fills
   `Ohjaus` and `Lajityyppi`, which publishes without one. The three states are `film` and
   `unresolved`, both runtime verdicts, and `non-film`, which only an exclusion asserts.
+- **Known limitation, and it is not going away by itself: precedence is not detection.** A
+  recorded exclusion outranks director and genre metadata, but a *newly encountered* live
+  act carrying that metadata and no entry publishes as a film, and nothing in the adapter
+  notices. The fixture proves the precedence holds once an entry exists; it does not prove
+  conflicting live-event evidence is found automatically, and no test claims it does. A new
+  case is caught by a person reading the run log. The remedy is one more scoped entry, never
+  a title or synopsis keyword, which the policy forbids and which would misfile every
+  concert film.
 - Never classify from a keyword in the title or the synopsis alone, in either direction.
 
 **Overrides**
@@ -158,6 +166,12 @@ has to satisfy, not a description of anything that exists.
   `active`, `redundant` or `evidence-unavailable` and logging one line each. It replaced a
   first attempt that lived in the test file and could only prove decision semantics
   against a fixed fixture, not that an entry is still needed as its source page changes.
+- **Necessity and validity are separate questions.** `redundant` says the entry changes no
+  publication decision *today*. It does not say its evidence was wrong, and it is not
+  grounds for deletion: an exclusion earns its keep precisely when a cinema that fills no
+  field now fills a misleading one later, at which point the same entry turns `active`
+  again and is the only thing withholding a gig. Nothing removes an entry automatically,
+  and no test requires one removed in order to pass.
 - *A Fox Under a Pink Moon* is a known candidate for an inclusion override if the
   validated predicate still leaves it unresolved. Its identity and its source page are
   verified before an entry is written, not assumed from this file.
