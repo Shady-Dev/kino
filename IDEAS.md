@@ -44,6 +44,20 @@ existing platform first. Every candidate assessed on 2026-09-15, with its eviden
   MyCloudCinema's two readers, the Korttelikinot, Vista's one Finnish site, and the
   parser-shaped ones.
 
+### Kinola: policy adopted, implementation not started
+
+Kilta and Laika publish films and concerts through one WordPress post type, so the film
+page is the only evidence there is. The publication policy was decided 2026-09-15:
+publish positively identified films including concert films, omit explicit live events
+and unresolved rows alike, never classify from a keyword, and allow evidence-backed
+force-include and force-exclude overrides applied before the classifier. The dated record
+is in [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md); the findings
+and the build requirements are in [docs/research/kinola.md](docs/research/kinola.md).
+**Next action:** validate the structured-metadata predicate and the three templates
+against the fixtures and the pages as they stand, measure what the policy omits as both
+unique events and screening counts, then write the adapter only when that is asked for.
+Konepaja stays out until its programme is re-read, and `orion.py` is not touched.
+
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino
@@ -96,15 +110,6 @@ generated artwork, a cropped 16:9 still. Full entry:
 
 
 ## Blocked
-
-### Kinola: whether to publish a row the film page cannot classify
-
-Three cinemas (Kilta, Laika, Konepaja). The three templates, the film-versus-concert rule,
-the sample it rests on and the four required fixtures are in
-[docs/research/kinola.md](docs/research/kinola.md).
-Open, and the maintainer's to decide: include the unclassifiable rows and some live events
-show as films; omit them and thin-metadata films vanish. A per-title override covers
-either. **Next action:** ask before writing the adapter. This blocks only Kinola.
 
 ### Finnkino prices
 

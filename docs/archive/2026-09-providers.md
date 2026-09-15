@@ -1468,3 +1468,57 @@ venue name carrying an `&`, Julia 1&2; fixed in `80bc1c76`, page unchanged becau
 dates and K-18 on its "Leffa & viini-näytös". That is the cinema's own per-screening value,
 a licensed-screening door policy, and `enrich_tmdb` names it as a rating disagreement
 rather than overwriting either.
+
+### Kinola: the publication policy, adopted (2026-09-15)
+
+Kilta and Laika publish concerts and films through one WordPress `film` post type, with no
+taxonomy, tag, JSON-LD, `og:type`, REST type or filter separating them, and Laika's own
+filter lists its concerts under "Kaikki elokuvat". The film page is the only evidence
+there is. Whether to publish a row that page cannot resolve had been open since
+2026-09-14 and blocked the adapter. The findings are in
+[docs/research/kinola.md](../research/kinola.md) and are unchanged by this record.
+
+**Adopted.** Accuracy over coverage:
+
+- Publish positively identified films, concert films included.
+- Omit explicitly identified live events **and** unresolved entries. Both omit, so the
+  only classification that has to be right is "this is a film".
+- Never classify from a keyword in the title or synopsis alone, in either direction.
+- Support evidence-backed force-include and force-exclude overrides, applied **before**
+  the default classifier.
+- Explicit event-level evidence of a live act prevents automatic inclusion even where
+  generic metadata is present.
+
+**The cost, accepted rather than discovered later.** A sparsely described film is missing
+until an override is verified for it. How much is missing is not yet known: the sample
+counted pages and rows but never the screenings behind an unresolved page, so measuring
+omissions in both unique events and screening counts is a requirement of the build.
+
+**Three corrections this decision makes to the proposal it accepted.** Recorded because
+each was wrong in a way that reads plausible, which is how the first two got written down.
+
+1. **An age classification is not film evidence.** The rule drafted on 2026-09-14 listed
+   "a classification" as a sufficient structured signal. Live events carry one: the seven
+   sampled Laika non-films read "Not rated" or K-18. The same file's first fixture is *A
+   Fox Under a Pink Moon*, 76 min, K-16, `Tekstitys` only, called unresolved. A rule
+   cannot count K-16 as film evidence and call that page unresolved in the same document.
+2. **The classifier itself carries risk.** The predicate rests on seven sampled non-films,
+   which supports a hypothesis and guarantees nothing about pages not yet written. The
+   presence of a field such as `Lajityyppi` is therefore not automatically sufficient, and
+   the exact predicate is an implementation detail to validate against the fixtures and
+   the current pages rather than a value settled here.
+3. **An override has to be able to change the decision.** The guard proposed alongside the
+   policy would have rejected any override whose page already classifies, which would
+   forbid exactly the force-exclude the policy needs: an event is worth an override
+   *because* the default wrongly includes it. The guard identifies a **redundant**
+   override, one that does not change the default decision. An event that has left the
+   programme or a page that cannot be read does not by itself prove redundancy.
+
+**What this does and does not unblock.** The decision is closed; the adapter is not
+started, and nothing here is implemented. The requirements it has to satisfy are recorded
+in the research file under "Build requirements": override scope and provenance, the
+omission measurement, sold-out rows keeping the film-page href read from the source, the
+four fixtures plus conflicting metadata and both override directions, one adapter for
+Kilta and Laika with a handler per template, and `orion.py` left alone. Konepaja stays
+out: it listed no event on 2026-09-14 and that reading is dated, so it is re-read before
+it is carried forward, the same way Kino Kaustinen waits.
