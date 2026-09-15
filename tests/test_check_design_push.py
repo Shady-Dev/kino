@@ -5,6 +5,8 @@ which no ref carried any more, and the step's `git diff before sha` died with ex
 (run 34773073208). These tests build small repositories with real git so the object
 lookups, the merge base and the diff are git's own, not a mock's idea of them.
 """
+import contextlib
+import io
 import pathlib
 import subprocess
 import tempfile
@@ -158,6 +160,117 @@ class ForcePushedBranchTest(unittest.TestCase):
         self.assertEqual(cdp.verdict(cdp.changed_files(before, after, self.repo)),
                          (True, "design contract untouched"))
         self.assertEqual(self.run_check(before, after), 1)
+
+
+class CreatedRefAlreadyOnBaseTest(unittest.TestCase):
+    """The branch-then-fast-forward delivery routine, measured on CI 2026-09-15.
+
+    The branch is pushed, `main` is fast-forwarded to the same commit seconds later, and
+    the branch job then reads `origin/main` *after* it moved: on run 34948823166 the
+    failing step started at 08:46:48Z and the main push had landed at 08:46:45Z. `before`
+    is all zeros, the merge base is the pushed commit itself, and the check exited 2 for a
+    commit its own main run passed.
+
+    Two different states produced that one error line, so the annotation could not say
+    which: the base already holding `after`, and the base ref not resolving at all. Both
+    are pinned here, separately, because telling them apart is half the fix.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        root = pathlib.Path(self.tmp.name)
+        self.up = root / "up"
+        self.up.mkdir()
+        git(self.up, "init", "-q", "-b", "main")
+        self.a = commit(self.up, "A", **{"DESIGN.md": "v1\n", "IDEAS.md": "notes\n",
+                                         "index.html": "x\n"})
+        self.b = commit(self.up, "B", **{"index.html": "y\n"})
+        self.work = root / "work"
+        git(root, "clone", "-q", str(self.up), str(self.work))
+        self.log = []
+
+    def run_check(self, before, after, base="origin/main"):
+        return cdp.main([before, after, "--base", base, "--repo", str(self.work)])
+
+    def out(self, before, after, base="origin/main"):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = cdp.main([before, after, "--base", base, "--repo", str(self.work)])
+        return code, buf.getvalue()
+
+    def test_a_created_ref_at_a_commit_the_base_already_holds_passes(self):
+        """The observed failure, and the whole point of the change: exit 0, not 2."""
+        code, text = self.out("0" * 40, self.b)
+        self.assertEqual(code, 0, text)
+        self.assertIn("already holds", text)
+        self.assertNotIn("::error::", text)
+
+    def test_that_case_is_not_a_hole_in_the_gate_but_it_is_the_base_push_that_holds_it(self):
+        """A created ref at a commit already on the base passes even when that commit
+        changes DESIGN.md with no entry, because its range against the base is empty. The
+        gate is not lost: the push that put the commit on the base had a readable `before`
+        and an exact range, and that is the run that fails."""
+        bad = commit(self.up, "D", **{"DESIGN.md": "v9\n"})
+        git(self.work, "fetch", "-q", "origin")
+        self.assertEqual(self.run_check("0" * 40, bad), 0)
+        # the same commit pushed to the base branch itself, with a readable before:
+        self.assertEqual(self.run_check(self.b, bad), 1,
+                         "the base branch's own push is where this is caught")
+
+    def test_the_base_may_be_ahead_of_the_pushed_commit_not_only_equal_to_it(self):
+        """`main` holding `after` is not the same as `main` pointing at it. A cloud data
+        commit landing between the branch push and the branch job leaves the base strictly
+        ahead, and the question is still "does the base already hold this commit". Pinned
+        separately because with the base tip *equal* to the commit both argument orders of
+        the ancestor test agree, so an inverted test passes on that fixture alone."""
+        commit(self.up, "later", **{"index.html": "z\n"})
+        git(self.work, "fetch", "-q", "origin")
+        self.assertNotEqual(git(self.work, "rev-parse", "origin/main"), self.b)
+        self.assertIs(cdp.base_contains(self.work, "origin/main", self.b), True)
+        code, text = self.out("0" * 40, self.b)
+        self.assertEqual(code, 0, text)
+        self.assertIn("already holds", text)
+
+    def test_a_commit_the_base_does_not_hold_is_not_reported_as_held(self):
+        """The mirror, and the other half of what an inverted ancestor test would break:
+        a branch commit the base has never seen must not read as "already holds"."""
+        git(self.work, "checkout", "-q", "-b", "feature", self.b)
+        ahead = commit(self.work, "ahead", **{"index.html": "w\n"})
+        self.assertIs(cdp.base_contains(self.work, "origin/main", ahead), False)
+
+    def test_an_unresolvable_base_ref_is_told_apart_from_a_base_that_holds_the_commit(self):
+        git(self.work, "update-ref", "-d", "refs/remotes/origin/main")
+        git(self.work, "update-ref", "-d", "refs/remotes/origin/HEAD")
+        code, text = self.out("0" * 40, self.b)
+        self.assertEqual(code, 2)
+        self.assertIn("does not resolve", text)
+        self.assertNotIn("already holds", text)
+
+    def test_an_unreachable_before_on_the_base_branch_still_fails_loudly(self):
+        """The guard this change must not weaken. `before` is not zeros, so nothing says
+        the ref was created, and a push to the base branch itself has no range to recover:
+        guessing "nothing changed" there would hide a contract change that just landed."""
+        code, text = self.out(MISSING, self.b)
+        self.assertEqual(code, 2)
+        self.assertIn("the merge base is the pushed commit itself", text)
+
+    def test_unrelated_histories_get_their_own_line(self):
+        git(self.work, "checkout", "-q", "--orphan", "lonely")
+        git(self.work, "rm", "-rqf", ".")
+        other = commit(self.work, "unrelated", **{"readme": "z\n"})
+        code, text = self.out("0" * 40, other)
+        self.assertEqual(code, 2)
+        self.assertIn("no usable merge base", text)
+
+    def test_base_contains_separates_no_from_cannot_tell(self):
+        self.assertIs(cdp.base_contains(self.work, "origin/main", self.b), True)
+        git(self.work, "checkout", "-q", "--orphan", "lonely")
+        git(self.work, "rm", "-rqf", ".")
+        other = commit(self.work, "unrelated", **{"readme": "z\n"})
+        self.assertIs(cdp.base_contains(self.work, "origin/main", other), False)
+        self.assertIsNone(cdp.base_contains(self.work, "origin/nope", self.b),
+                          "a ref that does not resolve is not the same answer as \"no\"")
 
 
 class WorkflowWiringTest(unittest.TestCase):

@@ -18,8 +18,18 @@ all-zero `before`. The range is recovered in this order:
    when it is an ancestor of `after`: that range is exactly the push;
 2. otherwise the merge base of the base branch and `after`, which is every commit the
    push put on the branch that main does not have: a superset of the push, never less;
-3. otherwise exit 2 and say so. A push to the base branch itself with an unreachable
-   `before` has no range to recover, and guessing one would hide a contract change.
+3. otherwise the three states that used to share one error line are told apart, because
+   the annotation on a red run is all there is to read (2026-09-15):
+   * the base ref does not resolve here, so there is no base branch to recover against;
+   * the base branch already holds `after`. For a **created ref** that is benign and
+     exits 0: a new ref at a commit the base already has adds no commit anywhere, its
+     range against the base is empty, and the push that put the commit on the base
+     carried the gate with a readable `before`. This is the branch-then-fast-forward
+     delivery routine, where the branch job reads `origin/main` a moment after main has
+     advanced to the same commit. For an unreachable `before` it stays exit 2: a push to
+     the base branch itself has no range to recover and guessing one would hide a
+     contract change;
+   * no usable merge base at all, which is exit 2 for the same reason.
 
 The entry has to be in the same commit as the contract change, not merely somewhere in
 the range. The merge-base fallback is a superset of the push, and read as one range an
@@ -27,8 +37,9 @@ the range. The merge-base fallback is a superset of the push, and read as one ra
 Per commit it cannot, and CLAUDE.md asks for the same commit anyway. The net diff still
 gates: a push that changes a contract file and takes it back has nothing to explain.
 
-Exit 0 when the contract is untouched or the IDEAS entry is present, 1 on a violation,
-2 when the range cannot be determined.
+Exit 0 when the contract is untouched, when the IDEAS entry is present, or when a created
+ref points at a commit the base branch already holds; 1 on a violation; 2 when the range
+cannot be determined.
 """
 import argparse
 import pathlib
@@ -88,6 +99,19 @@ def _resolve(repo, rev):
     return r.stdout.strip() if r.returncode == 0 else None
 
 
+def base_contains(repo, base_ref, rev):
+    """Does `base_ref` already hold `rev`? -> True / False, or None when `base_ref` does
+    not resolve here, which is a different answer from "no" and used to read as one.
+
+    `push_base` returning None says only that no range was found. Three different states
+    produce that, and until 2026-09-15 they shared one error line, so the annotation on a
+    red run could not say which had happened. This is what separates them.
+    """
+    if _resolve(repo, base_ref) is None:
+        return None
+    return is_ancestor(repo, rev, base_ref)
+
+
 def entryless_commits(base, after, repo):
     """Commits in base..after that change a contract file and not IDEAS.md. -> [sha]"""
     with_entry = set(_log(base, after, repo, (ENTRY,)))
@@ -130,8 +154,29 @@ def main(argv=None):
     repo = pathlib.Path(args.repo)
     base = push_base(args.before, args.after, args.base, repo)
     if base is None:
+        created = not args.before or set(args.before) == {"0"}
+        contains = base_contains(repo, args.base, args.after)
+        if contains is None:
+            print(f"::error::cannot determine the push range for {args.after[:10]}: "
+                  f"{args.base} does not resolve in this checkout, so there is no base "
+                  f"branch to recover a range against")
+            return 2
+        if contains:
+            if created:
+                # A created ref pointing at a commit the base branch already holds adds no
+                # commit anywhere, so its range against the base is empty and there is
+                # nothing for it to explain. The commit's own arrival on the base branch is
+                # what carries the gate, and that push had a readable `before`.
+                print(f"{args.base} already holds {args.after[:10]}: a created ref at a "
+                      f"commit it already has adds nothing to explain")
+                return 0
+            print(f"::error::cannot determine the push range for {args.after[:10]}: "
+                  f"before {args.before[:10]} is unreachable and {args.base} already holds "
+                  f"{args.after[:10]}, so the merge base is the pushed commit itself")
+            return 2
         print(f"::error::cannot determine the push range for {args.after[:10]}: "
-              f"before {args.before[:10]} is unreachable and {args.base} gives no merge base")
+              f"before {args.before[:10]} is unreachable and {args.base} shares no usable "
+              f"merge base with it")
         return 2
     ok, message = verdict(changed_files(base, args.after, repo),
                           entryless_commits(base, args.after, repo))
