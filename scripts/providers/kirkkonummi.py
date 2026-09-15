@@ -73,12 +73,48 @@ SHOW_RE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö]{2,12})\s*klo\
 # title, so it must not become one; the two seat counts belong to the auditoriums and sit
 # in the footer.
 NOT_A_TITLE = re.compile(r'^(?:tulossa|elokuvateatteri|\d+\s*paikkaa)$', re.I)
+# `<div>Liput 14,50</div>` in the film's own block, beside `Kesto` and `Ikäraja`. Per film
+# and not per cinema: 14,50 and 15,50 both appear on the page read 2026-09-16, so a single
+# house price would be wrong for some of the programme. No currency symbol is printed.
+PRICE_RE = re.compile(r'Liput\s*(\d{1,3}[.,]\d{2})', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
 def _txt(s):
     return re.sub(r"\s+", " ", html_mod.unescape(TAGS_RE.sub(" ", s or ""))
                   .replace("\xa0", " ")).strip()
+
+
+def prices_by_title(page):
+    """The price each film's block states. -> {title: "14.5\u20ac"}.
+
+    Keyed on the heading above it rather than on its position relative to the screening
+    list, because the block prints the two in either order. The first price under a heading
+    wins, so a later mention in prose cannot displace the film's own.
+
+    A film whose block states none is simply absent, and its screenings publish no price:
+    this is what the page says, and there is no house price to fall back on.
+
+    What this cannot do is bound a price to its film's block, because nothing in the markup
+    delimits one. A `Liput NN,NN` in the page's own furniture therefore attaches to the
+    heading above it, and the page emits the whole programme twice, so one between the two
+    copies would attach to the first copy's last film. `setdefault` limits that to a film
+    that stated no price of its own, and the page read 2026-09-16 carried three such lines
+    and all three were inside a film's block.
+    """
+    heads = [(m.start(), _txt(m.group(1))) for m in HEAD_RE.finditer(page)]
+    out = {}
+    for m in PRICE_RE.finditer(page):
+        # The nearest heading of **any** kind. Skipping a `tulossa` label to reach the film
+        # title above it would put one film's amount on another's screenings, so a price
+        # under the label keys on the label -- and `parse` looks up film titles only, so
+        # that entry is never read. Filtering it out here instead would be a branch nothing
+        # can observe.
+        prior = [t for pos, t in heads if pos < m.start()]
+        if prior and prior[-1]:
+            amount = float(m.group(1).replace(",", "."))
+            out.setdefault(prior[-1], f"{amount:.2f}".rstrip("0").rstrip(".") + "\u20ac")
+    return out
 
 
 def parse(page, today=None):
@@ -90,6 +126,7 @@ def parse(page, today=None):
             f"parser reads. Treating it as a fetch or template failure rather than a "
             f"cinema with nothing on")
     today = today or datetime.datetime.now(FI).date()
+    prices = prices_by_title(page)
     # Headings and list items interleaved in document order: the heading above an item is
     # the film it belongs to.
     stream = sorted([(m.start(), "head", m.group(1)) for m in HEAD_RE.finditer(page)] +
@@ -134,7 +171,7 @@ def parse(page, today=None):
             "img": "",
             "lang": "",
             "soldOut": False,
-            "price": "",
+            "price": prices.get(title, ""),
             "provider": "kirkkonummi",
             "venue": VENUE["id"],
         })

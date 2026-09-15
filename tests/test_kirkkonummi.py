@@ -30,6 +30,12 @@ def item(text):
             f'<span class="elementor-icon-list-text">{text}</span></li></ul>')
 
 
+def facts(*lines):
+    """The film's own detail block: `Kesto`, `Ikäraja`, `Liput 14,50`. No semantic class
+    on any of them, and the page prints it either side of the screening list."""
+    return "".join(f"<div>{l}</div>" for l in lines)
+
+
 def block():
     """One copy of the programme. The page emits this twice."""
     return "".join([
@@ -38,14 +44,18 @@ def block():
         item("Pihla Viitala, Aku Sipola, Jenni Vartiainen"),
         head("tulossa"), head("Myrskyn Ikkuna"),
         item("Andrew Scott, Brendan Fraser, Kerry Condon"),
+        facts("Kesto 1h 40min", "Ikäraja 12", "Liput 14,50"),
         item("20.9. Sunnuntai klo18.00"),
         item("22.9. Tiistai klo19.00"),
         head("Päivien Lumo"),
         item("Ohjaus Karin Pennanen"),
+        # The other order: this film states its price after the screening list.
         item("21.9. Maanantai klo19.00"),
+        facts("Kesto 1h 28min", "Liput 14,50"),
         item("vain tämä näytös"),
         head("HETKI ENNEN VALOA"),
         item("Ohjaus Klaus Härö"),
+        facts("Kesto 1h 27min Ikäraja 7", "Liput 15,50"),
         item("14.9. Maanantai klo19.00"),
         item("16.9. Keskiviikko klo19.00"),
     ])
@@ -169,6 +179,85 @@ class SiteTest(unittest.TestCase):
     def test_one_venue_in_kirkkonummi(self):
         self.assertEqual([v["city"] for v in kirkkonummi.SITES[0]["venues"]],
                          ["Kirkkonummi"])
+
+
+class PriceTest(unittest.TestCase):
+    """Each film's block states its own price, in the page the adapter already fetches.
+
+    Per film and not per cinema: 14,50 and 15,50 both appear on the page read 2026-09-16,
+    so a single house price would be wrong for part of the programme. No extra request.
+    """
+
+    def setUp(self):
+        self.shows = kirkkonummi.parse(page(), TODAY)
+        self.by_title = {}
+        for s in self.shows:
+            self.by_title.setdefault(s["title"], set()).add(s["price"])
+
+    def test_each_film_carries_the_price_its_own_block_states(self):
+        self.assertEqual(self.by_title["Myrskyn Ikkuna"], {"14.5\u20ac"})
+        self.assertEqual(self.by_title["HETKI ENNEN VALOA"], {"15.5\u20ac"})
+
+    def test_a_price_after_the_screening_list_belongs_to_the_same_film(self):
+        """The block prints the two in either order, so position relative to the list
+        cannot be what ties them together."""
+        self.assertEqual(self.by_title["Päivien Lumo"], {"14.5\u20ac"})
+
+    def test_every_screening_of_a_film_carries_it(self):
+        for title, prices in self.by_title.items():
+            with self.subTest(title=title):
+                self.assertEqual(len(prices), 1)
+
+    def test_a_film_whose_block_states_none_publishes_none(self):
+        """There is no house price to fall back on, and inventing one from the film beside
+        it is how a reader is told the wrong amount."""
+        body = (head("Ei Hintaa") + item("Ohjaus Joku") +
+                item("20.9. Sunnuntai klo18.00") +
+                head("HETKI ENNEN VALOA") + facts("Liput 15,50") +
+                item("21.9. Maanantai klo19.00"))
+        shows = kirkkonummi.parse(page(body), TODAY)
+        got = {s["title"]: s["price"] for s in shows}
+        self.assertEqual(got["Ei Hintaa"], "")
+        self.assertEqual(got["HETKI ENNEN VALOA"], "15.5\u20ac")
+
+    def test_the_first_price_under_a_heading_wins(self):
+        """A later mention in prose cannot displace the film's own."""
+        body = (head("Yksi") + facts("Liput 12,00") +
+                item("Liput 99,00 ei tarkoita tätä") +
+                item("20.9. Sunnuntai klo18.00"))
+        shows = kirkkonummi.parse(page(body), TODAY)
+        self.assertEqual({s["price"] for s in shows}, {"12\u20ac"})
+
+    def test_a_price_above_every_film_title_is_not_attached_to_one(self):
+        """`prices_by_title` needs a film heading before it; a price in the page's own
+        furniture belongs to no film. One copy of the programme here, because the page
+        emits two and a stray price in the second falls after the first copy's last
+        heading -- which is the limitation the function's docstring states."""
+        body = (facts("Liput 9,00") + head("Yksi") +
+                item("20.9. Sunnuntai klo18.00"))
+        shows = kirkkonummi.parse(page(body, twice=False), TODAY)
+        self.assertEqual({s["price"] for s in shows}, {""})
+
+    def test_a_price_under_a_tulossa_label_belongs_to_no_film(self):
+        """`tulossa` sits above a coming film's title. A price between the label and that
+        title is under neither: attaching it to the film *above* the label would put one
+        film's amount on another's screenings, which is worse than publishing none."""
+        body = (head("Yksi") + item("20.9. Sunnuntai klo18.00") +
+                head("tulossa") + facts("Liput 9,00") +
+                head("Kaksi") + item("21.9. Maanantai klo19.00"))
+        got = {s["title"]: s["price"] for s in kirkkonummi.parse(page(body, twice=False),
+                                                                TODAY)}
+        self.assertEqual(got, {"Yksi": "", "Kaksi": ""})
+
+    def test_the_cents_are_dropped_only_when_they_are_zero(self):
+        self.assertEqual(kirkkonummi.prices_by_title(
+            head("A") + facts("Liput 14,00")), {"A": "14\u20ac"})
+        self.assertEqual(kirkkonummi.prices_by_title(
+            head("A") + facts("Liput 14,50")), {"A": "14.5\u20ac"})
+
+    def test_every_show_still_meets_the_contract(self):
+        common.check_shows({kirkkonummi.VENUE["id"]: self.shows}, "kirkkonummi",
+                           {kirkkonummi.VENUE["id"]})
 
 
 if __name__ == "__main__":

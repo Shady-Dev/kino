@@ -75,3 +75,46 @@ The only route left is the seat-selection flow, which the access rule forbids: b
 the repo's own rule, not by difficulty. Open on one possibility: a visitor-facing price
 page, not probed. The probe was one `/sites`, two programme reads and four 404s; nothing
 raw was written to the repo.
+
+## The providers added 2026-09-14/15, surveyed for a price (2026-09-16)
+
+**Findings.** Committed data at `0b4a167f`, then each site read as a visitor, once.
+
+| Provider | Price in the data | Where a price is stated | Cost to read it |
+|---|---|---|---|
+| Kino-Toijala, -Sampo, KinoMania, Elo | none | `?hinnat=N`, linked from the list view | one request per venue |
+| Kino Kirkkonummi | none | `<div>Liput 14,50</div>` in each film's block | none, already fetched |
+| Iso-Hannu | none | `LIPUT Ma-to 13,50 € Pe-su ja arkipyhä 14,50 €` on the front page | none, already fetched |
+| Kino Manttu | none | `Kino Mantun liput: 11 € / 9 €` in the listing text | none, already fetched |
+| Kino Kuvakukko | none | a `/liput/` page | one request |
+| Bio-Kaari | none | a `/liput/` page, rules by film, day, length and 2D/3D | one request |
+| Bio Savoy | none | **no ticket table found**; the amounts on the page are gift cards | unknown |
+| Kino Kilta, Kino Laika | none | only behind the Kinola checkout | forbidden |
+| Cine Mäntsälä | none | not located on the site | unknown |
+| Julia, Kino Vaakuna | published | already read | — |
+
+- **Kirkkonummi states a price per film, not per house**: 14,50 and 15,50 both appear on
+  the page read 2026-09-16, so one house figure would be wrong for part of the programme.
+  The block prints it either side of the screening list.
+- **Iso-Hannu's rule is by weekday**: Mon–Thu 13,50 €, Fri–Sun and weekday public holidays
+  14,50 €. The discounts beside it (student, pensioner, under-12, S-Etukortti Tuesdays at
+  10,00 €) all require a card at the counter, so the ordinary ticket is the one figure that
+  describes what a visitor pays without one.
+- **Bio Savoy publishes gift-card denominations, not a tariff**: "13€ (barnfilmer) och 15€"
+  is what a gift card may be bought for, and 135€ buys ten tickets. Reading a ticket price
+  out of that is an inference, not a finding.
+- **Bio-Kaari's page states rules rather than a table**: the price varies by film, by day,
+  by running length and by 2D/3D. Not reducible to one amount per screening from the
+  listing alone.
+
+**Inferences and open questions**
+
+- Kinola's price sits behind the checkout, which this repo does not call. Nothing to do.
+- Cine Mäntsälä and Bio Savoy need a second look at pages not yet read; neither was found
+  from the page the adapter already fetches.
+
+**Status and next step**
+
+Implemented 2026-09-16: TMB's four (from `?hinnat=`) and Kino Kirkkonummi (per film, no
+extra request). Next: Iso-Hannu, then Kino Manttu, both from pages already fetched; then
+decide whether Kuvakukko's and Bio-Kaari's `/liput/` pages are worth a request each.
