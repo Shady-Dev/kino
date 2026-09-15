@@ -313,10 +313,20 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
 - **Kino Diana** has closed. `kinodiana.fi` is 2.4 kB whose entire visible text is "Kino
   Diana www.kinopiispanristi.fi www.kinodiana.fi". Its audience moved to Kino
   Piispanristi and Kino Lumo, both already providers here.
-- **Eventio** is confirmed as the platform behind `kauppa.kavi.fi`, which carries the
-  fingerprint. That is a shop rather than a listing, and shops are not inventoried here;
-  Kino Regina, the cinema behind it, is already read from its own WordPress. No cinema
-  reachable through Eventio that this repo does not already carry was found.
+- **Eventio** powers `kauppa.kavi.fi`, evidenced on the page itself rather than by a
+  string match: a `powered-by-eventio.png` badge linking to `https://www.eventio.fi/`.
+  That is a shop rather than a listing, and shops are not inventoried here; Kino Regina,
+  the cinema behind it, is already read from its own WordPress.
+  **The vendor has split, which is why its site looks wrong for the product.** eventio.fi
+  is Eventio Group Oy and now sells bingo and fundraising; its own front page states it
+  sold the ticketing software business ("lipunmyyntiohjelmiston liiketoimintansa") to
+  Eventio Oy to concentrate on "bingo- ja arpaliiketoimintaan". The badge still points at
+  the seller. So the vendor site carries no customer list worth reading, and reading it as
+  "a fundraising company, not a ticketing platform" is the wrong conclusion: it was both,
+  and the ticketing half moved.
+  **Not established:** whether the platform has other Finnish cinema customers. No sweep
+  was run, and eventio.fi is no longer where one would look. That is what a next probe
+  would need, and it is the only reason Eventio is not closed.
 
 **Inferences and open questions**
 
@@ -374,12 +384,15 @@ not among the hosts probed at all.
   event cinema and festivals; elokuviin.com includes festivals; kinossa.fi exists. "Suomen
   kattavin" is not a defensible claim against 225 directory entries and two services
   claiming full coverage.
-- **Eventio** is a ticketing platform with cinema customers and is unprobed. Kino Regina's
-  film pages carry an Eventio `events.json` URL with the page's key, so KAVI's shop runs on
-  it.
+- **Eventio** is a ticketing platform with cinema customers and was unprobed when this
+  sweep was written. Kino Regina's film pages carry an Eventio `events.json` URL with the
+  page's key, so KAVI's shop runs on it. Probed 2026-09-15; see the batch section above,
+  which supersedes the next step this section used to set.
 
 **Status and next step**
 
 The eTiketti and Nexxo sweeps both landed (2026-08-30). The open candidate list lives in
-`IDEAS.md` under "Provider coverage, and what is next", which is the status index. Next
-step: probe Eventio, and re-read Kulttuurimylly when its programme resumes.
+`IDEAS.md` under "Provider coverage, and what is next", which is the status index. Eventio
+was probed on 2026-09-15 and the finding is in the batch section above, so the next step
+this section used to set is done. What is left here: a customer sweep for Eventio if
+anyone wants one, and re-reading Kulttuurimylly when its programme resumes.

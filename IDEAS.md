@@ -27,19 +27,19 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-43 providers, 87 venues, 58 cities declared as of 2026-09-15. Check for an existing
-platform first: a cinema on Vista, MyCloudCinema, Nexxo, eTiketti, Johku or
-`cinema-reservations` is a `SITES` entry, not a parser. What each platform publishes, and
-the 2026-09-15 classification of the nine candidates that were on this list, is in
+43 providers, 87 venues, 58 cities declared as of 2026-09-15. Iso-Hannu is committed but
+not yet published: no run has fetched it. Check for an existing platform first. What each
+platform publishes, and the 2026-09-15 classification of the nine candidates that were on
+this list, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Kino Kaustinen** is a real eTiketti tenant that currently publishes no screening, so
-  no ticket destination can be fetched and checked. **Next action:** re-read its listing
-  on a later Monday and add the `SITES` entry when it lists a film.
-- **The other seven candidates are closed**, each for a reason recorded in the research
-  file: three permanently empty Nexxo hosts, a closed cinema, a history page, a stage and
-  a page-builder site with no booking host. Eventio is a shop, not a listing, and yields
-  no cinema this repo does not already carry.
+- **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
+  destination can be checked. **Next action:** re-read its listing on a later Monday.
+- **Eventio is not closed.** It powers KAVI's shop, but whether it has other Finnish
+  cinema customers was never swept and its vendor site is no longer where one would look.
+  **Next action:** a customer sweep, if anyone wants one.
+- **Six candidates are closed**, each with its reason in the research file: three empty
+  Nexxo hosts, a closed cinema, a history page, a stage, a page-builder site.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), the Korttelikinot,
   Vista's one Finnish site, and the parser-shaped ones, Cinema Niagara, Kino Metso and
   now Iso-Hannu. Cinamon and other non-Finnish Vista users are untested.
