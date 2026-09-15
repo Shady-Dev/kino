@@ -1305,3 +1305,38 @@ there are three to five a week. Kirkkonummi is a new town.
 - Measured live before committing: 11 screenings, 5 films, 8 dates, the release-only film
   correctly absent.
 - **Not yet published.** Declared counts move to 52 providers, 97 venues, 66 cities.
+
+### Bio Savoy, Mariehamn: Åland, and a source that infers nothing (2026-09-15)
+
+Added as `scripts/providers/biosavoy.py`, one provider, one venue. Åland was uncovered.
+Evidence in [ticketing-platforms.md](../research/ticketing-platforms.md).
+
+- **The only source added this week that needs no inference.** Every row carries a full ISO
+  instant with its offset in a `content` attribute, put there by Drupal's date field, so
+  there is no year to resolve, no weekday to verify and no timezone to assume.
+  `common.resolve_year` is not used here. A row whose datetime carries no offset is skipped
+  rather than given an assumed zone.
+- **Two halls come from the block titles**, `Filmvisningar - Sal 1` and `- Sal 2`, and not
+  from anything on the row. A third block on the page, `Dela`, carries the same class and
+  only its title tells it apart, so a row inside it must not become a screening; the test
+  puts one there to prove it.
+- **The site is http only and the published URLs are http.** Port 443 is refused on both
+  `biosavoy.ax` and `www.biosavoy.ax`, and `http://biosavoy.ax/` redirects to
+  `http://www.biosavoy.ax/`. Publishing https would hand the reader a link that cannot
+  connect; `safeUrl()` accepts http and no rule here forbids it. The mutation that
+  "upgrades" the scheme turns a test red. If this is ever to change it changes at the
+  cinema.
+- The site publishes no poster, age limit or runtime, so there is nothing site-specific to
+  mirror and the ordinary TMDB and `mirror_posters.py` passes cover artwork.
+- `book="door"`: bookings by telephone only, and only until the day before.
+- **The city is keyed `Mariehamn`**, its only official name: Åland's sole official language
+  is Swedish. Every other city key here is Finnish because `CITY_SV` in `index.html`
+  translates them, and that table cannot gain an entry without editing a file this project
+  keeps frozen, so a Finnish exonym would show untranslated in the Swedish interface.
+- Accent `#7766FF`, unconstrained. The first choice, `#0C6B8F`, measured 2.2 dE00 from
+  Kino-Toijala and was rejected on that alone.
+- Tests: `tests/test_biosavoy.py`, 16 tests, plus a contract sample. Eight mutations, all
+  red, none void once the share-block mutation was aimed at `HALL_RE` itself.
+- Measured live before committing: 12 screenings, 10 films, 3 dates, both halls, and the
+  destination fetched at 200 over http.
+- **Not yet published.** Declared counts move to 53 providers, 98 venues, 67 cities.

@@ -363,6 +363,13 @@
    "host": "kinokirkkonummi.fi",
    "accent": "#BB6688",
    "book": "list"
+  },
+  {
+   "id": "biosavoy",
+   "label": "Bio Savoy",
+   "host": "biosavoy.ax",
+   "accent": "#7766FF",
+   "book": "door"
   }
  ]
 }

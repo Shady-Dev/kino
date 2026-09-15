@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 97 venues in 66 cities across 52 providers: Finnkino, BioRex,
+Showtimes for 98 venues in 67 cities across 53 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -15,7 +15,7 @@ Hirvi, Bio Säde, Kino Marilyn, Kino Olympia, Järvelän Kino, Kino Metso,
 Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine,
 Elokuvateatteri Star, Kino Piispanristi, Kino Lumo, Laitilan Kino, Iso-Hannu,
 Kino-Toijala, Kino-Sampo, KinoMania, Elokuvateatteri Elo, Julia 1&2, Bio-Kaari,
-Kino Vaakuna, Kuvakukko and Kino Kirkkonummi. Films with posters,
+Kino Vaakuna, Kuvakukko, Kino Kirkkonummi and Bio Savoy. Films with posters,
 TMDB ratings, age limits, runtimes, genres, languages, plus ticket prices and
 sold-out marks where the cinema publishes them. Tapping a showtime opens that
 cinema's own booking page, its programme page where the cinema takes seat
@@ -65,6 +65,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino Vaakuna | 1 | 1 | none | GitHub Actions |
 | Kuvakukko | 1 | 2 | none | GitHub Actions |
 | Kino Kirkkonummi | 1 | 1 | none | GitHub Actions |
+| Bio Savoy | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -263,7 +264,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 52 providers listed at the
+Schedule data belongs to the respective cinemas, the 53 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

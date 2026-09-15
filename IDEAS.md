@@ -27,18 +27,18 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-52 providers, 97 venues, 66 cities declared as of 2026-09-15. Eleven venues are committed
-and unpublished: no run has fetched any of them. Check for an existing platform first. What
-each platform publishes, and every candidate assessed on 2026-09-15, is in
+53 providers, 98 venues, 67 cities declared as of 2026-09-15. Twelve venues are committed
+and unpublished: no run has fetched any of them. Check for an existing platform first.
+Every candidate assessed on 2026-09-15, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Bio Savoy, Mariehamn, is ready.** Åland is uncovered and the site publishes a full ISO
-  datetime per screening, so nothing is inferred. It is **http only**, which is the thing
-  to decide first. **Next action:** add it, or say no to the http links.
-- **Cine Mäntsälä:** one probe of the MyCloudCinema surface `gilda.py` reads would settle
-  it. **Sun Kino's four venues are blocked**, the schedule comes from Johku client-side and
-  needs the widget key this repo has declined twice.
-- **Eventio is not closed:** it powers KAVI's shop, but no customer sweep was ever run.
+- **Cine Mäntsälä is implementable** through the request its own page makes,
+  `/webservices/structured_data/get?cinema_id=1`, which returned today's four screenings
+  only. **Next action:** establish whether a longer window is reachable before adding a
+  one-day provider.
+- **Sun Kino's four venues are blocked**, on evidence: the bundle carries
+  `/api/auth/widget-session` and `X-ApiKey`, and the public `allproducts.json` answers 403.
+- **Eventio is not closed:** no customer sweep was ever run.
 - **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. **Next action:** re-read its listing on a later Monday.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), TMB (four), the
@@ -203,7 +203,7 @@ cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 52 / 97 / 66 |
+| providers / venues / cities (declared) | 53 / 98 / 67 |
 | venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |

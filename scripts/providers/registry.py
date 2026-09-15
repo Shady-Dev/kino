@@ -359,6 +359,18 @@ PROVIDERS = [
     # so the accent enters no shared view.
     dict(id="kirkkonummi", label="Kino Kirkkonummi", host="kinokirkkonummi.fi",
          accent="#BB6688", book="list", module="kirkkonummi", where="cloud"),
+
+    # Bio Savoy, Mariehamn (2026-09-15). Åland, which nothing here covered. The one source
+    # in this batch that infers nothing: every row carries a full ISO instant with its
+    # offset, so `common.resolve_year` is not used and must not be.
+    # **http only.** Port 443 is refused on both biosavoy.ax and www.biosavoy.ax, so every
+    # published URL is http. That is the verified destination rather than an oversight;
+    # inventing https would hand the reader a link that cannot connect, and `safeUrl()`
+    # accepts http. `book="door"`: bookings are by telephone only.
+    # Mariehamn is keyed under its own and only official name; see the module docstring for
+    # why the Finnish exonym would be the wrong key here.
+    dict(id="biosavoy", label="Bio Savoy", host="biosavoy.ax", accent="#7766FF",
+         book="door", module="biosavoy", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

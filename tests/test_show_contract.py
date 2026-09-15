@@ -38,6 +38,7 @@ import test_biokaari as BK
 import test_vaakuna as V
 import test_kuvakukko as KK
 import test_kirkkonummi as KN
+import test_biosavoy as BS
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -201,6 +202,13 @@ def sample_tmb():
             [v["id"] for v in site["venues"]])
 
 
+def sample_biosavoy():
+    """No `today`: this source publishes a full instant per row."""
+    site = BS.biosavoy.SITES[0]
+    return (mod("biosavoy").parse(BS.LISTING), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 def sample_kirkkonummi():
     """`today` pinned: the page publishes no year."""
     site = KN.kirkkonummi.SITES[0]
@@ -245,7 +253,7 @@ SAMPLES = {
     "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu, "tmb": sample_tmb,
     "julia": sample_julia, "biokaari": sample_biokaari,
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
-    "kirkkonummi": sample_kirkkonummi,
+    "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
 }
 
 

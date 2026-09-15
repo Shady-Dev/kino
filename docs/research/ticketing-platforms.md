@@ -620,7 +620,7 @@ Live as `scripts/providers/kirkkonummi.py`, one provider, one venue, cloud half.
 Read as a visitor. None is implemented; what separates them is whether anything was
 demonstrated or merely not tried.
 
-### Sun Kino group, elokuviin.info: a demonstrated blocker
+### Sun Kino group, elokuviin.info: blocked, re-established on direct evidence
 
 Four venues on one site, Kino Kyntäjä (Alavus), Y-Kino (Kauhava), Sun Kino (Ähtäri) and
 Alareksi (Alajärvi), which would be an attractive single integration.
@@ -628,22 +628,44 @@ Alareksi (Alajärvi), which would be an attractive single integration.
 - `urllib` reports HTTP 103 for this host. That is the Cloudflare Early Hints interim
   response this file already records under Johku, a limitation of the reader and **not** a
   block: `curl` reads through it and returns 200 with 163 kB.
-- The page is a Nuxt app. Its `__NUXT` blob is 132 kB and carries all four venue names and
-  **85 references to johku.com**, and **zero `showschedule` keys**. So the schedule is not
-  server-rendered: it is fetched client-side from Johku.
-- That is the route this repo has already declined twice, for KuvaTähti and Kulttuurimylly:
-  Johku's show list is reachable only with the widget's `X-ApiKey`, which is the line
-  "Access and ethics" draws. **Blocked, and demonstrated so**, not merely untried. It would
-  need Johku or the cinemas to offer a feed.
+- **Corrected 2026-09-15.** The first reading of this rested on the *absence* of
+  `showschedule` keys on the home page, which establishes nothing: a key can be named
+  anything. Re-done properly by reading the site's own public code and its own endpoints.
+- Per-venue schedule pages exist, `/fi_FI/naytosajat/sun-kino-ahtari` and one each for the
+  other three. All render the venue name and **zero times, zero dates** server-side, so the
+  schedule is client-side. That still says nothing about *what* the client fetches.
+- The evidence is in the site's own Nuxt bundle, `/_nuxt/DNEBalWQ.js`, 821 kB: it contains
+  `/api/auth/widget-session`, `X-ApiKey` and `/allproducts.json?details=true&version=`.
+  Those are the three things `docs/research` already records for KuvaTähti.
+- And the public endpoint answers for itself: `johku.com/elokuviin/allproducts.json?
+  details=true` returns **403** with `"Et ole kirjautunut sisään tai kirjautumisesi on
+  vanhentunut."` No session was sought and none should be.
+- So: **blocked**, on the route "Access and ethics" draws a line at, and now shown by the
+  vendor's own response rather than by an absent key. It would need Johku or the cinemas to
+  offer a feed. What is *not* established is whether any subset of the programme is
+  reachable unauthenticated; the Engel investigation found `allproducts.json` carries only
+  the next show per product even when it answers, which is not a programme.
 
-### Cine Mäntsälä, mantsala.cine.fi: an untested lead
+### Cine Mäntsälä, mantsala.cine.fi: implementable, through its own page's request
 
-- 3.6 kB of shell, one `mycloudcinema` reference, Stripe and Checkout.com scripts, and no
-  screening, date or programme link in the HTML at all. The programme is client-rendered.
-- **Not established:** whether the MyCloudCinema surface `gilda.py` reads answers for this
-  customer. That is one request against a documented endpoint and it was not made here, so
-  this is a lead rather than a blocker. Cine is already a provider in this repo, and
-  Mäntsälä is a venue it does not carry.
+**Established 2026-09-15 by reading the page's own code**, not by guessing a Gilda
+endpoint on another host. The 3.6 kB shell carries one inline script:
+
+    var jsonURL='/webservices/structured_data/get?cinema_id=1&url=https://mantsala.cine.fi';
+    $.getJSON(jsonURL, function(data){ ...append as application/ld+json... });
+
+That is the page's own public request, fetched to inject JSON-LD. It answers 200 with a
+list of screenings: `location.name`, `name`, `startDate`, `endDate`, poster and still
+`image` URLs, and an `offers.url` of `https://mantsala.cine.fi/#/book/{id}`.
+
+- **The window is the open question.** It returned **four entries, all on the day read**.
+  Whether a longer window is reachable through the same endpoint is not established, and a
+  provider that can only ever show today is a poor one. That is the thing to settle before
+  adding it.
+- `startDate` is a local ISO time with **no offset**, unlike Bio Savoy's, so a zone would
+  have to be assumed. Europe/Helsinki is the obvious one and Mäntsälä is in it, but it is
+  an assumption and should be written down as one.
+- Cine is already a provider here and Mäntsälä is a venue it does not carry.
 
 ### Bio Savoy, Mariehamn: ready, and the cleanest source in the batch
 
