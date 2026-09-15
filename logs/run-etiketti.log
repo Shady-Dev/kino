@@ -1,33 +1,33 @@
 [kotkanleffat] synopses merged: 0
-[kotkanleffat] Kinopalatsi Kotka: 22 showtimes, 10 dates
-[kotkanleffat] Trio 123: 85 showtimes, 10 dates
+[kotkanleffat] Kinopalatsi Kotka: 21 showtimes, 9 dates
+[kotkanleffat] Trio 123: 82 showtimes, 9 dates
 [biorexkokkola] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 42 showtimes, 12 dates
+[biorexkokkola] Bio Rex Kokkola: 40 showtimes, 11 dates
 [kinopirtti] synopses merged: 0
-[kinopirtti] Kinopirtti: 90 showtimes, 13 dates
+[kinopirtti] Kinopirtti: 87 showtimes, 12 dates
 [leffabuumi] synopses merged: 0
-[leffabuumi] Kinolinna: 65 showtimes, 10 dates
+[leffabuumi] Kinolinna: 63 showtimes, 9 dates
 [leffabuumi] Kino Ritz: 12 showtimes, 9 dates
 [leffabuumi] Kino Saimaa: 4 showtimes, 3 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123jarvenpaa] Studio 123 Järvenpää: 53 showtimes, 9 dates
 [studio123kouvola] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 57 showtimes, 10 dates
+[studio123kouvola] Studio 123 Kouvola: 56 showtimes, 9 dates
 [ihmekompleksi] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 26 showtimes, 10 dates
 [kino123] synopses merged: 0
-[kino123] Kino 123: 82 showtimes, 10 dates
+[kino123] Kino 123: 79 showtimes, 9 dates
 [kinotar] synopses merged: 0
-[kinotar] Kinotar 123: 31 showtimes, 9 dates
+[kinotar] Kinotar 123: 29 showtimes, 8 dates
 [kinojuha] synopses merged: 0
-[kinojuha] Kino Juha: 15 showtimes, 8 dates
+[kinojuha] Kino Juha: 14 showtimes, 7 dates
 [kinojuha] VIP-Sali: 14 showtimes, 8 dates
 [biogrand] synopses merged: 0
-[biogrand] Bio Grand: 27 showtimes, 10 dates
-[biovuoksi] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 9 showtimes, 3 dates
+[biogrand] Bio Grand: 26 showtimes, 9 dates
+[biovuoksi] synopses merged: 2
+[biovuoksi] Bio Vuoksi: 31 showtimes, 10 dates
 [kinoiiris] synopses merged: 0
-[kinoiiris] Kino Iiris: 35 showtimes, 10 dates
+[kinoiiris] Kino Iiris: 34 showtimes, 9 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 13
 [kkino] K-Kino: 13 showtimes, 7 dates
@@ -35,6 +35,6 @@
 [biograni] Bio Grani: 7 showtimes, 4 dates
 [niagara] synopses merged: 0
 [niagara] Cinema Niagara: 49 showtimes, 15 dates
-[run] http: 0 revalidated (304), 196 full, 196 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 20 venues, 738 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 199 full, 199 not stored (origin said no-store), 0 cache entries written
+[run] etiketti: 20 venues, 740 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
