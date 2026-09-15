@@ -32,10 +32,9 @@ and unpublished: no run has fetched any of them. Check for an existing platform 
 Every candidate assessed on 2026-09-15, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Cine Mäntsälä** reads through its own page's `structured_data/get` request. Two reads
-  on 2026-09-15 returned the same four screenings, both dated that day, which is consistent
-  with a today-only feed but does not prove one. Its timestamps carry no offset and the
-  site declares no zone. **Next action:** read the feed on a different day.
+- **Cine Mäntsälä** is implementable, and its JSON-LD feed is the wrong source: it carries
+  today only, and its naive times are UTC, three hours early. Read the `show_times/`
+  requests the page itself makes. **Next action:** add the provider.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.

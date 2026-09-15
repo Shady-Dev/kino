@@ -673,28 +673,59 @@ That is the page's own public request, fetched to inject JSON-LD. It answers 200
 list of screenings: `location.name`, `name`, `startDate`, `endDate`, poster and still
 `image` URLs, and an `offers.url` of `https://mantsala.cine.fi/#/book/{id}`.
 
-**Coverage: narrowed, still not settled.** Read twice on 2026-09-15, some hours apart. Both
-reads returned **exactly four entries, the same four booking ids, all dated that day**. That
-is consistent with a today-only feed and does not prove one: both reads fell on the same
-day, so "today only" and "currently showing" are indistinguishable from here. What would
-settle it is a read on a different day, or a parameter; `structured_data/get` takes
-`cinema_id` and `url` and nothing else that was found.
+**Coverage settled 2026-09-15, and the JSON-LD is the wrong source.** Two earlier reads
+the same day left "today only" and "currently showing" indistinguishable, because both fell
+on one day. Comparing the feed with the requests the page itself makes settles it without
+waiting for another day. All read 2026-09-15 at 11:41 UTC:
 
-**What the visitor sees was checked, and it is not a fuller page.** The SPA bundle names
-`/show-list` and `/widgets/show-list`. `/widgets/show-list` serves 6 kB of Angular template
-with `{{movie.show_time | date:'HH:mm'}}` bindings and **no data at all**, so the visitor's
-programme is fetched by the app from an API this investigation did not identify without
-guessing, which it did not do. The bundle also names
+| request | screenings |
+|---|---|
+| `structured_data/get` | 4, all 2026-09-15, booking ids 13391-13394 |
+| `show_times/getShowTimes?date=2026-09-15` | the same 4, same `show_time_id` values |
+| `show_times/getShowTimesDays?date=2026-09-15&number_of_days=7` | 37 over 6 dates |
+| `show_times/getShowDates` | 17 dates, 2026-09-15 to 2026-12-22 |
+
+The feed is the same day-scoped query rendered as JSON-LD. It carries 4 of the 37
+screenings a visitor reaches this week, and one of the 17 dates the cinema publishes.
+
+**The visitor's own loading requests, read from the page's network activity.** Three, all
+under `/webservices/show_times/` on the site's own host, all answering 200 to a plain
+client with no key and no session: `getShowDates?cinema_id=1` for the date list,
+`getShowTimesDays?cinema_id=1&date=&number_of_days=` for a window, and
+`getShowTimes?cinema_id=1&date=` for one date. The page also calls `getPlayingNow`,
+`getComingSoon` and `getPremieres`, which are film-level. `number_of_days` behaves as a
+cap of 7: 7, 14 and 120 from 2026-09-15 each returned the same 37 rows over 09-15 to
+09-20, while a 7-day window from 2026-12-01 returned 12-01 and 12-05. A full programme
+therefore means walking `getShowDates` or paging the window in sevens. The `ts=` the page
+appends is a cache-buster and is not required. The bundle also names
 `webservices/authorisationrequests/managerLogin`; that is an administrative route and was
 not touched.
 
-**Timezone: no source evidence.** `startDate` is `2026-09-15T13:45`, naive. Nothing on the
-site declares a zone: searching the page for `timezone`, `Helsinki`, `EET` or an offset
-returns only `evästeet` and `stylesheet`. The platform does model zones internally, the
-bundle carries `utcOffset` and `timeZone` fields, but the JSON-LD omits them. So reading
-these as Europe/Helsinki would rest on the cinema's location and on schema.org's convention
-that a local time is local to the venue, not on anything the source says. That is an
-assumption, and it should be written down as one rather than made silently.
+**Timezone: source evidence, and the JSON-LD is three hours early.** `show_time` is
+`2026-09-15T13:45:00.000Z` and the site's own booking anchor for that id renders `16.45`,
+so the Z is a real UTC instant which the app converts for the reader. The JSON-LD
+`startDate` for the same screening is `2026-09-15T13:45`: the same instant with the Z
+dropped, so reading it as a local time publishes every showtime three hours early.
+Independent of any browser, `getShowDates` gives each show date as the preceding
+`21:00:00.000Z` through 2026-10-19 and `22:00:00.000Z` from 2026-11-02, tracking Finland's
+2026-10-25 DST change exactly, so the platform stores Europe/Helsinki and serves UTC. That
+mapping was checked three ways: the window's first business date, `getShowTimes` on
+2026-10-06 (one screening), and the window from 2026-12-01. One trap in the same payload:
+`business_date` is the local date stamped `T00:00:00.000Z`, which is not a UTC instant and
+disagrees with `getShowDates` by one day.
+
+**Ticket destination, read and not constructed.** The rendered page emits `#/book/{id}`
+anchors and `#/movie/{movie_id}` film links, and for all four of that day's screenings the
+`{id}` in the emitted href equals the API's `show_time_id`; absolute form
+`https://mantsala.cine.fi/#/book/13394`. Each row carries `bookable`, `allow_purchases`,
+`allow_reservations` and `sold_out`, plus `rating_name`, `running_time`, `audio_lang`,
+`subtitle_lang`, `screen_name` and `premiere`.
+
+**What is still unknown.** Whether `getShowDates` is the whole programme. It is the list
+the app itself offers, which is the visitor standard this repo reads to, but nothing found
+declares a horizon. The host serves no `robots.txt`: that path answers 200 with the SPA's
+own not-found screen, the soft-404 shape that would have reported ten false hits in the
+Vista sweep.
 
 - Cine is already a provider here and Mäntsälä is a venue it does not carry.
 
@@ -718,10 +749,11 @@ which is worse for a reader than everything else here. Worth a decision before a
 
 **Status and next step**
 
-Sun Kino is blocked on the Johku key. Cine Mäntsälä needs one probe of the MyCloudCinema
-endpoint. Bio Savoy is implementable now and is the highest-value of the three: a new
-autonomous region, a source that needs no date inference, and Swedish-language content for
-an interface that already has a Swedish mode.
+Sun Kino is blocked on the Johku key. Bio Savoy was the highest-value of the three, for a
+new autonomous region, a source that needs no date inference and Swedish-language content
+for an interface that already has a Swedish mode; it was added on 2026-09-15 in `aec9ff4d`.
+Cine Mäntsälä's source question is answered as of 2026-09-15: read `show_times/`, never the
+JSON-LD. **Next action:** add the provider, one venue in Mäntsälä on a new adapter.
 
 ---
 
