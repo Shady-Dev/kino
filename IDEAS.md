@@ -28,21 +28,21 @@ contract change is explained here, never in `docs/research/`.
 ### Provider coverage, and what is next
 
 52 providers, 97 venues, 66 cities declared as of 2026-09-15. Eleven venues are committed
-and unpublished: no run has fetched any of them. Check for an existing platform first. What each
-platform publishes, and the 2026-09-15 classification of the nine candidates that were on
-this list, is in
+and unpublished: no run has fetched any of them. Check for an existing platform first. What
+each platform publishes, and every candidate assessed on 2026-09-15, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
+- **Bio Savoy, Mariehamn, is ready.** Åland is uncovered and the site publishes a full ISO
+  datetime per screening, so nothing is inferred. It is **http only**, which is the thing
+  to decide first. **Next action:** add it, or say no to the http links.
+- **Cine Mäntsälä:** one probe of the MyCloudCinema surface `gilda.py` reads would settle
+  it. **Sun Kino's four venues are blocked**, the schedule comes from Johku client-side and
+  needs the widget key this repo has declined twice.
+- **Eventio is not closed:** it powers KAVI's shop, but no customer sweep was ever run.
 - **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. **Next action:** re-read its listing on a later Monday.
-- **Eventio is not closed.** It powers KAVI's shop, but whether it has other Finnish
-  cinema customers was never swept and its vendor site is no longer where one would look.
-  **Next action:** a customer sweep, if anyone wants one.
-- **Six candidates are closed**, each with its reason in the research file: three empty
-  Nexxo hosts, a closed cinema, a history page, a stage, a page-builder site.
-- **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), the Korttelikinot,
-  Vista's one Finnish site, and the parser-shaped ones, Cinema Niagara, Kino Metso and
-  now Iso-Hannu. Cinamon and other non-Finnish Vista users are untested.
+- **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), TMB (four), the
+  Korttelikinot, Vista's one Finnish site, and the parser-shaped ones.
 
 ### Move the local fetch off the laptop
 
