@@ -1,38 +1,40 @@
-[kinoset] Kino 1-2 (Huittinen): 15 showtimes
-[kinoset] Kinema (Loimaa): 12 showtimes
-[kinoset] Bio (Sastamala): 12 showtimes
+[kinoset] Kino 1-2 (Huittinen): 13 showtimes
+[kinoset] Kinema (Loimaa): 11 showtimes
+[kinoset] Bio (Sastamala): 11 showtimes
 [kinoset] synopses merged: 0
-[kinoset] Kino 1-2: 15 showtimes, 7 dates
-[kinoset] Kinema: 12 showtimes, 7 dates
-[kinoset] Bio: 12 showtimes, 7 dates
-[kinoaurora] Kino Aurora (Jyväskylä): 8 showtimes
+[kinoset] Kino 1-2: 13 showtimes, 6 dates
+[kinoset] Kinema: 11 showtimes, 6 dates
+[kinoset] Bio: 11 showtimes, 6 dates
+[kinoaurora] Kino Aurora (Jyväskylä): 6 showtimes
 [kinoaurora] synopses merged: 0
-[kinoaurora] Kino Aurora: 8 showtimes, 4 dates
-[kinohirvi] Kino Hirvi (Äänekoski): 10 showtimes
+[kinoaurora] Kino Aurora: 6 showtimes, 3 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 16 showtimes
 [kinohirvi] synopses merged: 0
-[kinohirvi] Kino Hirvi: 10 showtimes, 3 dates
-[biosade] Bio Säde (Mänttä): 6 showtimes
+[kinohirvi] Kino Hirvi: 16 showtimes, 3 dates
+[biosade] Bio Säde (Mänttä): 14 showtimes
 [biosade] synopses merged: 0
-[biosade] Bio Säde: 6 showtimes, 3 dates
-[kinomarilyn] Kino Marilyn (Loviisa): 45 showtimes
+[biosade] Bio Säde: 14 showtimes, 4 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 41 showtimes
 [kinomarilyn] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 45 showtimes, 12 dates
+[kinomarilyn] Kino Marilyn: 41 showtimes, 12 dates
 [kinoolympia] Kino Olympia (Hanko): 15 showtimes
 [kinoolympia] synopses merged: 0
 [kinoolympia] Kino Olympia: 15 showtimes, 7 dates
 [jarvelankino] Järvelän Kino (Järvelä): 8 showtimes
 [jarvelankino] synopses merged: 0
 [jarvelankino] Järvelän Kino: 8 showtimes, 6 dates
-[kinometso] Muurame (Muurame): 0 showtimes
+[kinometso] Muurame (Muurame): 2 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
 [kinometso] Vaajakoski (Jyväskylä): 3 showtimes
 [kinometso] synopses merged: 0
-[kinometso] Muurame: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[kinometso] Muurame: 2 showtimes, 1 dates
 [kinometso] Petäjävesi: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: 3 showtimes, 1 dates
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
-[run] pending: kinometso has 3 venue(s) with no programme yet: km-muurame, km-petajavesi, km-tikkakoski
-[run] nexxo: 10 venues, 134 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
+[run] pending: kinometso has 2 venue(s) with no programme yet: km-petajavesi, km-tikkakoski
+[run] nexxo: 11 venues, 140 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 38.8s of fetching added up across workers that overlap, longest site 11.3s, longest queue wait 0.0s, 11.3s wall from this module's first fetch starting to its last ending
 exit=0

@@ -1,16 +1,18 @@
 [kinokilta] 57 screening(s) listed, 41 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [kinokilta] Kino Kilta: 57 showtimes, 28 dates
-[kinokilta] synopses merged: 32
+[kinokilta] synopses merged: 0
 [kinokilta] Kino Kilta: 57 showtimes, 28 dates
 [kinolaika] 47 screening(s) listed, 24 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 11 unresolved over 12
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Knipi - Sivellinvetoja, Livemusavisa, Mariska - Laulan, kirjoitan, Tuure Kilpeläinen, Valimo, Bico & These Boots, Ykspihlajan Kino-Orkesteri
 [kinolaika] override a-fox-under-a-pink-moon: active
 [kinolaika] Kino Laika: 35 showtimes, 10 dates
-[kinolaika] synopses merged: 1
+[kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
 [kinolaika] Kino Laika: 35 showtimes, 10 dates
 [run] http: 0 revalidated (304), 67 full, 0 not stored (origin said no-store), 42 cache entries written
+[run] hosts: 2 attempted -- www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 2 venues, 92 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 2 site(s), 143.9s of fetching added up across workers that overlap, longest site 90.2s, longest queue wait 85.4s, 90.2s wall from this module's first fetch starting to its last ending
 exit=0

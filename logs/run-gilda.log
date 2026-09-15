@@ -5,5 +5,7 @@
 [gilda] Gilda Kamppi: 113 showtimes, 21 dates
 [gilda] Bio Rex Lasipalatsi: 5 showtimes, 5 dates
 [run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 1 attempted -- www.gilda.fi
 [run] gilda: 2 venues, 118 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 8.7s of fetching added up across workers that overlap, longest site 8.7s, longest queue wait 47.6s, 8.7s wall from this module's first fetch starting to its last ending
 exit=0

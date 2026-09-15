@@ -14,17 +14,17 @@
 [studio123kouvola] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 56 showtimes, 9 dates
 [ihmekompleksi] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 26 showtimes, 10 dates
+[ihmekompleksi] Ihme Kompleksi: 25 showtimes, 9 dates
 [kino123] synopses merged: 0
 [kino123] Kino 123: 79 showtimes, 9 dates
 [kinotar] synopses merged: 0
 [kinotar] Kinotar 123: 29 showtimes, 8 dates
 [kinojuha] synopses merged: 0
 [kinojuha] Kino Juha: 14 showtimes, 7 dates
-[kinojuha] VIP-Sali: 14 showtimes, 8 dates
+[kinojuha] VIP-Sali: 13 showtimes, 7 dates
 [biogrand] synopses merged: 0
 [biogrand] Bio Grand: 26 showtimes, 9 dates
-[biovuoksi] synopses merged: 2
+[biovuoksi] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 31 showtimes, 10 dates
 [kinoiiris] synopses merged: 0
 [kinoiiris] Kino Iiris: 34 showtimes, 9 dates
@@ -34,7 +34,9 @@
 [biograni] synopses merged: 0
 [biograni] Bio Grani: 7 showtimes, 4 dates
 [niagara] synopses merged: 0
-[niagara] Cinema Niagara: 49 showtimes, 15 dates
-[run] http: 0 revalidated (304), 199 full, 199 not stored (origin said no-store), 0 cache entries written
-[run] etiketti: 20 venues, 740 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[niagara] Cinema Niagara: 48 showtimes, 14 dates
+[run] http: 0 revalidated (304), 198 full, 198 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
+[run] etiketti: 20 venues, 737 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 388.5s of fetching added up across workers that overlap, longest site 52.7s, longest queue wait 46.2s, 99.0s wall from this module's first fetch starting to its last ending
 exit=0
