@@ -528,6 +528,52 @@ own. Next step: Kuvakukko/Kino Manttu and Kino Kirkkonummi, both of which reuse 
 
 ---
 
+## Kuvakukko and Kino Manttu (2026-09-15)
+
+**Findings** (kuvakukko.fi, read as a visitor 2026-09-15)
+
+The city of Kuopio's two cinemas, Kino Kuvakukko in Kuopio and Nilsiän Kino Manttu, whose
+schedules share one WordPress page. One provider, two venues, one request.
+
+- **Two `<h2>` headings are the venue boundary**, "Kino Kuvakukon esitysaikataulu" and
+  "Nilsiän Kino Mantun esitysaikataulu". Reading the page without them files Nilsiä's
+  weekend under Kuopio, and nothing downstream would notice.
+- **A paragraph is a day only if it opens with a weekday and a date.** The same element
+  type carries addresses, prices and notices, so the pattern is anchored to the start.
+  That anchoring turns out to be enforced twice, by the `^` in the pattern and by
+  `re.match`, so no single edit defeats it: the mutation that tried scored VOID until it
+  changed both.
+- **No year, but a weekday**, `Tiistai 15.9.`, which determines the year. See the year
+  section above.
+- **Manttu publishes every other weekend**, so its section is routinely already past: on
+  the day read it showed 11.–13.9. against Kuvakukko's 15.–24.9. That is correct output.
+  A rule that pushed past dates forward would have moved Manttu's whole weekend a year.
+- The time is written `Klo 13:` and `Klo 17.30:`, hours alone or hours and minutes.
+- Some rows link to a third party (isak.fi for the Hopeatähti series, hyvätkuvat.fi for a
+  club). A showtime opens this cinema's own page instead, the programme page when the row
+  has no page of its own here.
+- Titles carry strand prefixes, "Hopeatähti-sarja: Laula minulle Arja". They are published
+  verbatim; `run.py` splits the prefixes `strands.EVENT_PREFIXES` names and that list is
+  exact on purpose. **"Hopeatähti-sarja" is not in it**, so that title reaches TMDB whole
+  and will not match. Adding it is a one-line change to a shared list and is its own
+  decision, not made here.
+- `book="door"` for both: "Lipunmyynti vain Kuvakukossa", and for Manttu "Ei
+  ennakkovarauksia ... Maksuvälineenä käy vain käteinen."
+
+**Inferences and open questions**
+
+- 36 screenings at Kuvakukko and 9 at Manttu when read. Whether Manttu's cadence is exactly
+  fortnightly is stated by the page, not measured here.
+- No price is published per screening, only per venue in prose, so `price` stays empty.
+
+**Status and next step**
+
+Live as `scripts/providers/kuvakukko.py`, one provider, two venues, cloud half. Committed
+2026-09-15 and **not yet published**. Next step: decide whether "Hopeatähti-sarja" belongs
+in `strands.EVENT_PREFIXES`.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)

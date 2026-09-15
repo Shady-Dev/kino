@@ -1237,3 +1237,36 @@ a month and no year at all.
 - Measured live before committing: 19 screenings, 8 films, 8 dates, prices and runtimes on
   all of them and ratings on all but the one the site does not rate.
 - **Not yet published.** Declared counts move to 50 providers, 94 venues, 64 cities.
+
+### Kuvakukko and Kino Manttu: two venues on one page (2026-09-15)
+
+Kuopio's two municipal cinemas, added as one provider with two venues,
+`scripts/providers/kuvakukko.py`. Nilsiä is a new town; Kuopio already had Finnkino.
+
+- **The two `<h2>` headings are the venue boundary.** Without them Nilsiä's weekend is
+  filed under Kuopio and nothing downstream catches it; the mutation that ignores the
+  boundary turns three tests red.
+- **A day paragraph must open with a weekday and a date.** Addresses, price lists and
+  closure notices use the same element. The anchoring is enforced twice, by `^` in the
+  pattern and by `re.match`, which is why the mutation attacking it scored **VOID** twice
+  before it was written to defeat both: neither edit alone changes any output. The test
+  that pins it is a closure notice carrying a weekday, a date and something shaped exactly
+  like a screening row.
+- **Manttu's schedule is routinely already past**, because it plays every other weekend:
+  11.–13.9. against Kuvakukko's 15.–24.9. on the day read. The weekday places those rows
+  in the past, which is correct, and the client filters them. A forward-only year rule
+  would have moved the whole weekend a year ahead.
+- Rows linking to a third party (isak.fi, hyvätkuvat.fi) publish this cinema's own
+  programme page instead.
+- Titles keep their strand prefix. **"Hopeatähti-sarja" is not in
+  `strands.EVENT_PREFIXES`**, so that one title will not match TMDB. Adding it is a change
+  to a shared list every provider reads and is left as its own decision.
+- `book="door"` for both venues; the page states there is no advance sale at either.
+- Accent `#7A3FB8`, constrained by Finnkino in Kuopio and measuring 46.9 against it on the
+  weakest model, far above the 14.4 floor. The pinned shared-view pair total in
+  `tests/test_accent_check.py` moves 145 to 146; the twelve below the floor are unchanged.
+- Tests: `tests/test_kuvakukko.py`, 18 tests, plus a contract sample. Nine mutations, all
+  red, none void once the anchoring mutation was written to break both guards.
+- Measured live before committing: 36 screenings at Kuvakukko over 9 dates, 9 at Manttu
+  over 3, and the contract check passes for both.
+- **Not yet published.** Declared counts move to 51 providers, 96 venues, 65 cities.

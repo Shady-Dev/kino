@@ -15,12 +15,14 @@ poster, the ticket price, the runtime, an age limit and a table of screenings.
 
 Three things that shape the parser:
 
-- **No year is published anywhere.** The screening rows read `Ti 15.09.   klo 18:40`, so
-  the year has to be resolved, and `common.resolve_year` does it: the nearest occurrence
-  among last year, this year and next, ties going to the future. That bounds the answer to
-  about six months either side of today, which is what stops a stale December row on a
-  January page from being published eleven months out. A day and month that name no real
-  date in the window is skipped rather than moved.
+- **No year is published, but a weekday is.** The rows read `Ti 15.09.   klo 18:40`, and
+  that `Ti` determines the year rather than hinting at it: the same day and month falls on
+  a different weekday in each of last year, this year and next, so exactly one candidate
+  can match. `common.resolve_year` is given the weekday and returns that year. A weekday
+  matching none of the three means the page contradicts itself, and the row is skipped and
+  counted rather than placed on a date the cinema did not mean. The nearest-occurrence
+  fallback in that function is for sources that print no weekday at all; this one always
+  does.
 - **The age limit is an image whose filename is the number**, `icon/16.png`, so it is read
   rather than inferred: `16` becomes `K-16`. A filename that is not a number yields no
   rating.
@@ -35,7 +37,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch, resolve_year
+from common import EmptyProgramme, fetch, resolve_year, weekday_index
 
 BASE = "https://www.kinovaakuna.fi"
 LISTING = BASE + "/etusivu.html"
@@ -56,7 +58,7 @@ PRICE_RE = re.compile(r'Liput:\s*([^<]{1,60})', re.I)
 KESTO_RE = re.compile(r'Kesto:\s*(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
 AGE_RE = re.compile(r'Ik(?:&auml;|ä)raja:\s*<img[^>]*/icon/([^."/]+)\.png', re.I)
 POSTER_RE = re.compile(r'<img[^>]*class="[^"]*MovieCard__Poster[^"]*"[^>]*src="([^"]+)"', re.I)
-SHOW_RE = re.compile(r'<td[^>]*>\s*(?:[A-ZÄÖ][a-zäö]{1,2})?\s*(\d{1,2})\.(\d{1,2})\.\s*'
+SHOW_RE = re.compile(r'<td[^>]*>\s*([A-Za-zÄÖäö]{2,12})?\s*(\d{1,2})\.(\d{1,2})\.\s*'
                      r'klo\s*(\d{1,2})[:.](\d{2})', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
@@ -83,7 +85,7 @@ def parse(page, today=None):
             f"parser reads. Treating it as a fetch or template failure rather than a "
             f"cinema with nothing on")
     today = today or datetime.datetime.now(FI).date()
-    shows, seen = [], set()
+    shows, seen, unplaced = [], set(), []
     for block in CARD_RE.findall(page):
         slug = SLUG_RE.search(block)
         t = TITLE_RE.search(block)
@@ -100,10 +102,14 @@ def parse(page, today=None):
         rating = _rating(m.group(1)) if m else ""
         m = POSTER_RE.search(block)
         img = m.group(1) if m else ""
-        for day, month, hh, mm in SHOW_RE.findall(block):
+        for wd, day, month, hh, mm in SHOW_RE.findall(block):
             day, month = int(day), int(month)
-            year = resolve_year(day, month, today)
+            # The row prints a weekday ("Ti 15.09."). It picks out exactly one candidate
+            # year, so it is used instead of the nearest-occurrence fallback, and a
+            # weekday matching none of them leaves the row unresolved rather than placed.
+            year = resolve_year(day, month, today, weekday_index(wd))
             if year is None:
+                unplaced.append(f"{wd} {day:02d}.{month:02d}.")
                 continue
             try:
                 start = datetime.datetime(year, month, day, int(hh), int(mm), tzinfo=FI)
@@ -132,6 +138,9 @@ def parse(page, today=None):
                 "provider": "vaakuna",
                 "venue": VENUE["id"],
             })
+    if unplaced:
+        print(f"[vaakuna] {len(unplaced)} row(s) whose weekday matches no candidate year, "
+              f"skipped: {', '.join(unplaced[:5])}")
     if not shows:
         raise EmptyProgramme(f"{LISTING} renders film cards with no screening in them")
     shows.sort(key=lambda s: s["start"])

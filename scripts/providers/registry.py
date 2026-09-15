@@ -339,6 +339,17 @@ PROVIDERS = [
     # shared view; measured at 6.1 dE00 from its nearest on the weakest of three models.
     dict(id="vaakuna", label="Kino Vaakuna", host="kinovaakuna.fi", accent="#CC4477",
          book="reserve", module="vaakuna", where="cloud"),
+
+    # Kuvakukko, 2026-09-15: Kino Kuvakukko (Kuopio) and Nilsiän Kino Manttu, the city of
+    # Kuopio's two cinemas, whose schedules share one page. One provider with two venues,
+    # the shape Kino Metso and Savon Kinot already use for an operator whose venues share
+    # a source.
+    # `book="door"`: the page says "Lipunmyynti vain Kuvakukossa" and, for Manttu, "Ei
+    # ennakkovarauksia ... Maksuvälineenä käy vain käteinen". No online sale exists.
+    # Kuopio already holds Finnkino, so this accent is constrained and was chosen with
+    # `accent_check.py --search kuvakukko`; Nilsiä holds no other chain.
+    dict(id="kuvakukko", label="Kuvakukko", host="kuvakukko.fi", accent="#7A3FB8",
+         book="door", module="kuvakukko", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

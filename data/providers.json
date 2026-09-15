@@ -349,6 +349,13 @@
    "host": "kinovaakuna.fi",
    "accent": "#CC4477",
    "book": "reserve"
+  },
+  {
+   "id": "kuvakukko",
+   "label": "Kuvakukko",
+   "host": "kuvakukko.fi",
+   "accent": "#7A3FB8",
+   "book": "door"
   }
  ]
 }

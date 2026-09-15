@@ -107,17 +107,42 @@ class YearTest(unittest.TestCase):
         self.assertEqual(out[0]["start"][:10], "2026-09-23")
 
     def test_a_january_row_read_in_december_rolls_forward(self):
-        out = vaakuna.parse(page(card("a", "A", ["Ma 05.01.   klo 19:00"])),
+        """2027-01-05 is a Tuesday and 2026-01-05 is a Monday, so `Ti` settles it."""
+        out = vaakuna.parse(page(card("a", "A", ["Ti 05.01.   klo 19:00"])),
                             today=datetime.date(2026, 12, 28))
         self.assertEqual(out[0]["start"][:10], "2027-01-05")
 
     def test_a_december_row_read_in_january_stays_in_the_past(self):
         """The case a next-occurrence rule gets wrong: on 2 January a page still showing
-        28.12. means five days ago, not in eleven months. The client filters past
-        screenings; publishing one a year out would not be filtered."""
+        28.12. means five days ago, not in eleven months. 2025-12-28 is a Sunday and
+        2026-12-28 is a Monday, so the published `Su` says which, without relying on the
+        nearest-occurrence tie-break at all."""
         out = vaakuna.parse(page(card("a", "A", ["Su 28.12.   klo 19:00"])),
                             today=datetime.date(2026, 1, 2))
         self.assertEqual(out[0]["start"][:10], "2025-12-28")
+
+    def test_the_weekday_decides_the_year_and_overrides_nearest(self):
+        """15.09. is a Monday in 2025, a Tuesday in 2026 and a Wednesday in 2027. Read on
+        2026-09-15, nearest would say 2026 for all three; the weekday says otherwise, and
+        it is the page's own statement."""
+        for wd, want in (("Ma", "2025-09-15"), ("Ti", "2026-09-15"), ("Ke", "2027-09-15")):
+            out = vaakuna.parse(page(card("a", "A", [f"{wd} 15.09.   klo 19:00"])),
+                                today=TODAY)
+            self.assertEqual(out[0]["start"][:10], want, wd)
+
+    def test_a_weekday_matching_no_candidate_year_is_skipped(self):
+        """Only three of the seven weekdays can be right for a given day and month. A
+        page printing one of the other four contradicts itself, and the row is not
+        placed."""
+        out = vaakuna.parse(page(card("a", "A", ["To 15.09.   klo 19:00",
+                                                 "Ti 15.09.   klo 20:00"])), today=TODAY)
+        self.assertEqual([s["start"][11:16] for s in out], ["20:00"])
+
+    def test_a_stale_row_from_before_today_is_still_placed_correctly(self):
+        """Manttu-style: a schedule left up after its weekend. 2026-09-12 is a Saturday,
+        so `La 12.09.` read on the 15th is four days ago, not next year."""
+        out = vaakuna.parse(page(card("a", "A", ["La 12.09.   klo 19:00"])), today=TODAY)
+        self.assertEqual(out[0]["start"][:10], "2026-09-12")
 
     def test_a_day_and_month_that_name_no_date_in_the_window_are_skipped(self):
         out = vaakuna.parse(page(card("a", "A", ["To 29.02.   klo 19:00",
@@ -165,6 +190,35 @@ class ResolveYearTest(unittest.TestCase):
         181 against 184 days, which is not a tie, and the mutation that flips the
         tie-break scored VOID against it."""
         self.assertEqual(common.resolve_year(1, 3, datetime.date(2027, 8, 31)), 2028)
+
+    def test_a_weekday_determines_the_year_rather_than_inferring_it(self):
+        """The same day and month falls on a different weekday in each candidate year, so
+        at most one can match. Checked over 2000-2100: no window where two share one."""
+        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
+                                             common.weekday_index("Maanantai")), 2025)
+        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
+                                             common.weekday_index("Tiistai")), 2026)
+        self.assertEqual(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
+                                             common.weekday_index("Keskiviikko")), 2027)
+
+    def test_a_weekday_no_candidate_year_can_satisfy_resolves_to_nothing(self):
+        for wd in ("Torstai", "Perjantai", "Lauantai", "Sunnuntai"):
+            self.assertIsNone(common.resolve_year(15, 9, datetime.date(2026, 9, 15),
+                                                  common.weekday_index(wd)), wd)
+
+    def test_weekday_index_reads_full_names_and_abbreviations(self):
+        self.assertEqual(common.weekday_index("Tiistai"), 1)
+        self.assertEqual(common.weekday_index("ti"), 1)
+        self.assertEqual(common.weekday_index("TI"), 1)
+        self.assertEqual(common.weekday_index("Sunnuntai"), 6)
+        self.assertIsNone(common.weekday_index("xx"))
+        self.assertIsNone(common.weekday_index(""))
+        self.assertIsNone(common.weekday_index(None))
+
+    def test_an_unreadable_weekday_falls_back_to_nearest(self):
+        """A row with no weekday, or one this table does not know, still resolves."""
+        self.assertEqual(common.resolve_year(28, 12, datetime.date(2026, 1, 2),
+                                             common.weekday_index("xx")), 2025)
 
     def test_no_candidate_year_holds_the_date(self):
         self.assertIsNone(common.resolve_year(29, 2, datetime.date(2026, 9, 15)))
