@@ -278,6 +278,33 @@ PROVIDERS = [
     # are the established ones it already listed.
     dict(id="isohannu", label="Iso-Hannu", host="isohannu.fi", accent="#FF4466",
          book="buy", module="isohannu", where="cloud"),
+
+    # TMB Cinema Oy, 2026-09-15: four cinemas, one operator, one adapter
+    # (scripts/providers/tmb.py). Four providers rather than one, because each carries its
+    # own public brand and its own host, and `host` is the source line a reader sees in
+    # the footer: "TMB Cinema" would name none of them. They are four cinemas and not one
+    # mirrored four times -- the booking id differs per site for the same film at the same
+    # minute, and the screen counts differ -- and the adapter docstring holds that
+    # evidence.
+    # `book="reserve"`: the showtime links to the public film page, not to the `?varaa=`
+    # seat-reservation action, which this repo does not call and therefore could never
+    # check before publishing. `where="cloud"`: all four answer Apache with no Cloudflare
+    # and no challenge.
+    # Akaa, Valkeakoski, Pieksämäki and Heinola hold no other chain and none is in a
+    # REGIONS area, so these four accents enter no shared view and `accent_check.py
+    # --search` says there is nothing to search for each. Measured against the whole set
+    # anyway with accent_check's own dE: each is at least 6.3 dE00 from all 43 existing
+    # accents on the weakest of the three models, and at least 18.4 from the other three
+    # here. With 43 accents already in the 38-60 L* band, 6.3 is near the best available
+    # globally, which is why the 14.4 rule binds shared views rather than the whole set.
+    dict(id="kinotoijala", label="Kino-Toijala", host="toijalan-kino.info",
+         accent="#555588", book="reserve", module="tmb", where="cloud"),
+    dict(id="kinosampo", label="Kino-Sampo", host="kinosampo.info", accent="#336633",
+         book="reserve", module="tmb", where="cloud"),
+    dict(id="kinomania", label="KinoMania", host="kino-mania.info", accent="#EE0055",
+         book="reserve", module="tmb", where="cloud"),
+    dict(id="kinoelo", label="Elokuvateatteri Elo", host="elokuvat-elo.info",
+         accent="#AA77AA", book="reserve", module="tmb", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

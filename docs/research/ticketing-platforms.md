@@ -347,6 +347,56 @@ add it when it lists a film.
 
 ---
 
+## TMB Cinema: four cinemas on one template (2026-09-15)
+
+**Findings** (all four sites read as a visitor, 2026-09-15)
+
+TMB Cinema Oy runs Kino-Toijala (Akaa), Kino-Sampo (Valkeakoski), KinoMania (Pieksämäki)
+and Elokuvateatteri Elo (Heinola). Four sites, one template, footer "Mediapalvelu W3D".
+
+- **Not an existing platform.** `/elokuvat/ohjelmistossa` answers 200 with zero film links
+  on all four, so they are not eTiketti tenants despite carrying
+  `cdn.etiketti.app/studio123/...` image URLs: those are syndicated opera posters, which
+  is a fingerprint of a shared poster source and not of a tenancy. Counting the films, not
+  the 200s, again.
+- **Four cinemas, not one mirrored four times.** This had to be settled first, because the
+  schedules coincide: Toijala and Sampo published an identical set of 23 screenings, and
+  Mania and Elo an identical set of 32. The booking id separates them. For the same film
+  at the same minute `?varaa=` is 21001 at Toijala, 21006 at Sampo, 21012 at Elo and 21015
+  at Mania: four rows in the operator's system. The screen counts differ too, which a
+  mirror could not do: Mania and Elo print `, sali 1` / `, sali 2`, the other two print no
+  auditorium.
+- **`{base}/?lista=1` is the whole published programme**, one request per venue: a
+  `<small>` with weekday, full date including the year, time and the optional hall, then
+  the title in `<h2><a href="?ohjelmisto=N">`, then the age limit as an image filename.
+  12 dates out to 2026-11-07 when read. Every row in this view is a timed screening; the
+  coming-soon entries are in the default grid view and are not read.
+- **The age limit is only an image.** The film page states it in no text at all.
+  `ikaraja_2`, `_3` and `_4` were checked against this repo's own committed ratings for
+  five films other providers also carry and agree: K-7, K-12 twice, K-16 twice.
+  `ikaraja_1` appears only on opera events, which no provider here rates, so it is left
+  unmapped. The sequence looks like S, K-7, K-12, K-16, but a classification is not
+  something to infer from a filename's ordinal.
+- **The film page carries a per-screening price and a runtime**, and this adapter reads
+  neither. That would be one request per film per venue, about 68 a run against a third
+  party, for fields the card does without. A deliberate omission rather than an oversight.
+
+**Inferences and open questions**
+
+- Whether the four ever diverge in programme is not established; on the day read they ran
+  in two identical pairs. Nothing here depends on it, since each venue is read from its
+  own host.
+- `Leffa & Kaffe` is a labelled screening group on the film page and does not appear in
+  the list view, so no strand label is published. Reading it would need the film pages.
+
+**Status and next step**
+
+Live as `scripts/providers/tmb.py`, four providers, four venues, cloud half. Committed
+2026-09-15 and **not yet published**: no run has fetched them. Next step: verify from the
+committed logs and show records after a scheduled run.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)

@@ -1087,3 +1087,47 @@ its own PHP and carries none of the platform fingerprints already read here.
 - **Not yet published.** No run has fetched it, so `data/venues-isohannu.json` does not
   exist and the committed pages still count 86 venues. The first cloud run adds Rauma as
   the 58th city, takes the pages to 99 per language and the sitemap to 199.
+
+### TMB Cinema: four cinemas, one adapter, four new towns (2026-09-15)
+
+Kino-Toijala (Akaa), Kino-Sampo (Valkeakoski), KinoMania (Pieksämäki) and Elokuvateatteri
+Elo (Heinola), added as four providers on one module, `scripts/providers/tmb.py`. Four
+towns that carried no cinema here before. The probe evidence is in
+[ticketing-platforms.md](../research/ticketing-platforms.md) under the TMB section.
+
+- **The question that had to be answered first was whether they are one site or four.**
+  Their schedules coincide exactly, in two identical pairs, which is what a mirrored
+  deployment looks like and is the trap `ksek.fi`/`kinoaurora.fi` set on 2026-08-30. They
+  are four: the `?varaa=` booking id differs per host for the same film at the same
+  minute, and Mania and Elo publish two halls where Toijala and Sampo publish none.
+- **Four providers rather than one.** Each has its own brand and host, and `host` is the
+  source line the footer shows; one "TMB Cinema" entry would name none of them and could
+  carry only one of the four hosts.
+- **The showtime links to `?ohjelmisto={id}`, the public film page, not to `?varaa=`.**
+  The latter is the seat-reservation action, which this repo does not call, so a link
+  there could never be checked before publishing: that is exactly how six Nexxo sites
+  shipped dead ticket links on 2026-08-31. `book="reserve"` accordingly. All four
+  destinations were fetched and answer 200 with the screening block.
+- **No age limit is inferred.** The rating exists only as an image filename and the film
+  page states it in no text. `ikaraja_2/_3/_4` were checked against this repo's own
+  committed ratings for five films other providers carry and agree (K-7, K-12 twice, K-16
+  twice). `ikaraja_1` occurs only on opera events, which nothing here rates, so it is
+  unmapped and those rows publish no rating. The mutation that "completes" the table with
+  S and K-18 turns a test red.
+- A published weekday that contradicts its own date is skipped and counted. The date is
+  complete without it, so the weekday's only job is to notice the template moving a field.
+- Accents `#555588`, `#336633`, `#EE0055`, `#AA77AA`. All four towns hold no other chain
+  and none is in a REGIONS area, so none of these enters a shared view and
+  `accent_check.py --search` says there is nothing to search. Measured against the whole
+  set anyway: each at least 6.3 dE00 from all 43 existing accents on the weakest of three
+  models, and at least 18.4 from the other three added here. A sweep of the L* band tops
+  out near that, which is why the 14.4 rule binds shared views and not the whole set.
+- Tests: `tests/test_tmb.py`, 17 tests, plus a sample in `test_show_contract.py` built on
+  the two-screen fixture because the single-screen one never enters the auditorium branch.
+  Eight mutations, all red, none void.
+- Measured live before committing: 23 screenings at Toijala and Sampo, 32 at Mania and
+  Elo, 7 and 8 films, 12 dates each out to 2026-11-07, and the contract check passes for
+  all four.
+- **Not yet published.** No run has fetched them, so there is no `logs/run-tmb.log` and no
+  venue file. Declared counts move to 47 providers, 91 venues, 62 cities; the committed
+  data still holds 86 venues.

@@ -27,8 +27,8 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-43 providers, 87 venues, 58 cities declared as of 2026-09-15. Iso-Hannu is committed but
-not yet published: no run has fetched it. Check for an existing platform first. What each
+47 providers, 91 venues, 62 cities declared as of 2026-09-15. Iso-Hannu and the four TMB
+cinemas are committed but not yet published: no run has fetched them. Check for an existing platform first. What each
 platform publishes, and the 2026-09-15 classification of the nine candidates that were on
 this list, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
@@ -203,10 +203,10 @@ cloud run publishes `data/venues-isohannu.json`:
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 43 / 87 / 58 |
+| providers / venues / cities (declared) | 47 / 91 / 62 |
 | venues in committed data | 86 |
 | local providers (venues) | 8 (30) |
-| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12 |
+| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
 | generated pages per language | 98 |
 | sitemap URLs | 197 |
 | poster references (shows / films-extra) | 4293 (4033 / 260) |
@@ -214,10 +214,12 @@ cloud run publishes `data/venues-isohannu.json`:
 | mirrored poster files | 1041 |
 | `sw.js` CACHE | `leffavuoro-v158` |
 
-Rauma becomes the 58th city and Iso-Hannu the 87th venue on that run, which takes the
-pages to 99 per language and the sitemap to 199. Those three are the numbers to re-measure
-next, and they are the reason README's page sentence still reads 86 venues: it describes
-the committed pages, which have not moved yet.
+Five venues are declared and unpublished: Iso-Hannu (Rauma) and the four TMB cinemas
+(Akaa, Valkeakoski, Pieksämäki, Heinola). The first run that fetches them adds five
+cities and five venues, which would take the pages to 103 per language and the sitemap to
+207 if every one publishes a programme. Those are predictions, not measurements, and are
+the reason README's page sentence still reads 86 venues: it describes the committed
+pages, which have not moved.
 
 Earlier, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`: 42 / 86 / 57,
 98 pages per language, 197 sitemap URLs, 4193 poster references (3940 / 253) over 1029

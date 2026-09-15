@@ -32,6 +32,7 @@ import test_cinemahouse as C
 import test_etiketti_templates as E
 import test_gilda_duplicates as G
 import test_isohannu as I
+import test_tmb as T
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -187,12 +188,20 @@ def sample_isohannu():
             [v["id"] for v in site["venues"]])
 
 
+def sample_tmb():
+    """The two-screen fixture: it exercises the auditorium branch the single-screen sites
+    never enter, and `parse` is the whole read."""
+    site = T.MANIA
+    return (mod("tmb").parse(T.TWO_SCREEN, site, site["venues"][0]), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
     "gilda": sample_gilda, "heureka": sample_heureka, "etiketti": sample_etiketti,
     "biorex": sample_biorex, "engel": sample_engel, "kinoakseli": sample_kinoakseli,
-    "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu,
+    "cinemahouse": sample_cinemahouse, "isohannu": sample_isohannu, "tmb": sample_tmb,
 }
 
 
