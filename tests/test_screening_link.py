@@ -121,6 +121,8 @@ class SheetPlumbingTest(unittest.TestCase):
         self.assertIn("el.classList.add('pick');", body)
         self.assertIn('data-i="${s._i}"', body)
         self.assertIn("s._vid = s._vid || s.venue || state.area;", body, "every screening in the sheet knows its venue")
+        self.assertIn("let h = el.closest('.stubs');", body,
+                      "from the day's box: the stub's own siblings are the other tickets")
         self.assertIn("body.scrollTop = h.getBoundingClientRect().top - body.getBoundingClientRect().top", body)
         self.assertIn(".stub.pick{border-color:var(--accent)", HTML)
 

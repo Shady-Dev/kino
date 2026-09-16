@@ -3721,7 +3721,12 @@
       const el = hit && sheetEl.querySelector(`.stubs:not([hidden]) .stub[data-i="${hit._i}"]`);
       if(el){
         el.classList.add('pick');
-        let h = el.parentElement;
+        // From the stub's own `.stubs` box, not from the stub: the day's <h3> is that
+        // box's previous sibling, while the stub's siblings are the other tickets of the
+        // same day. Walking from the stub ran out of siblings inside its own box and
+        // never reached an <h3>, so every #m=&d= link marked a ticket and left it where
+        // it was -- 87 px below the body on a short phone, in the browser test below.
+        let h = el.closest('.stubs');
         while(h && h.tagName !== 'H3') h = h.previousElementSibling;
         const body = sheetEl.querySelector('.sheet-body');
         if(h && body) body.scrollTop = h.getBoundingClientRect().top - body.getBoundingClientRect().top - 6;

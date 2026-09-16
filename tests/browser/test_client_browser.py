@@ -213,5 +213,51 @@ class DelayedVenues(Browser):
         self.assertGreater(opened, served["/data/venues-orion.json"])
 
 
+class ShareLink(Browser):
+    """A `#m=&d=` link marks a ticket. The reader has to be able to see it.
+
+    Short viewport on purpose: the sheet has to overflow before "scrolled to" can mean
+    anything. The film picked is the fixture's only one with a day far enough down the
+    body to fall outside it -- Hetki ennen valoa, 17.9. and 23.9.
+    """
+
+    viewport = {"width": 375, "height": 320}
+    touch = True
+
+    def sheet_box(self):
+        return self.page.evaluate("""() => {
+            const body = document.querySelector('.sheet-body');
+            const pick = document.querySelector('.sheet-body .stub.pick');
+            if(!body || !pick) return null;
+            const b = body.getBoundingClientRect(), p = pick.getBoundingClientRect();
+            return {top: b.top, bottom: b.bottom, pickTop: p.top, pickBottom: p.bottom,
+                    scrollTop: body.scrollTop, scrollable: body.scrollHeight > body.clientHeight};
+        }""")
+
+    def test_a_link_to_a_later_day_leaves_its_ticket_in_view(self):
+        self.pick_orion()
+        self.page.evaluate("location.hash = 'm=hetki-ennen-valoa&d=2026-09-23'")
+        expect(self.page.locator(".sheet-body .stub.pick")).to_have_count(1)
+        box = self.sheet_box()
+        self.assertTrue(box and box["scrollable"],
+                        "the sheet has to overflow or this proves nothing")
+        self.assertGreater(box["pickTop"], box["top"] - 1,
+                           "the marked ticket sits above the top of the body")
+        self.assertLess(box["pickBottom"], box["bottom"],
+                        f"the marked ticket is below the body's bottom edge by "
+                        f"{box['pickBottom'] - box['bottom']:.0f}px: marked and left off "
+                        f"screen, which is what a share link did before this was fixed")
+
+    def test_a_link_to_the_first_day_also_leaves_its_ticket_in_view(self):
+        """The counterweight. At this height the synopsis pushes even the first day past
+        the fold, so both days need the scroll and neither may end up off screen."""
+        self.pick_orion()
+        self.page.evaluate("location.hash = 'm=hetki-ennen-valoa&d=2026-09-17'")
+        expect(self.page.locator(".sheet-body .stub.pick")).to_have_count(1)
+        box = self.sheet_box()
+        self.assertGreater(box["pickTop"], box["top"] - 1)
+        self.assertLess(box["pickBottom"], box["bottom"] + 1)
+
+
 if __name__ == "__main__":
     unittest.main()

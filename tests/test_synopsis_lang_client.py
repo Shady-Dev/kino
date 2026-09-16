@@ -11,6 +11,7 @@ and stay verified live.
 """
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import unittest
@@ -48,9 +49,16 @@ class MarkerTest(unittest.TestCase):
         self.assertEqual(HTML.count("synFor(f.s, lang)"), 1)
         self.assertNotIn("f.s.fi || f.s.en", HTML)
 
-    def test_the_service_worker_version_moved_with_the_client(self):
+    def test_the_service_worker_version_is_past_the_one_this_change_shipped(self):
+        """A floor, not an equality. The bump that had to happen with the Swedish
+        selection was to v170 and the history records it; pinning that exact string made
+        the next client change fail a test about synopses, which is a test asserting the
+        date rather than the rule. Every later commit that touches `index.html` bumps it
+        again, and CLAUDE.md is where that rule lives."""
         sw = (_ctx.ROOT / "sw.js").read_text(encoding="utf-8")
-        self.assertIn("const CACHE = 'leffavuoro-v170';", sw)
+        m = re.search(r"const CACHE = 'leffavuoro-v(\d+)';", sw)
+        self.assertTrue(m, "sw.js states no CACHE version")
+        self.assertGreaterEqual(int(m.group(1)), 170)
 
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
