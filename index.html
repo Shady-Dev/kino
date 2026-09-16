@@ -3585,6 +3585,24 @@
   }
   function setInert(el, on){ if(el) el.inert = on; }
   function sheetKeydown(e){ if(e.key === 'Escape'){ e.preventDefault(); closeSheet(); } }
+  // --- synopsis language: pure, extracted verbatim by tests/synopsis_lang_harness.js ---
+  // Which text a reader is shown. Swedish is its own slot from 2026-09-16: Bio Savoy
+  // publishes a native Swedish synopsis and synmerge files it under `sv`, where before
+  // every provider synopsis was Finnish by assumption.
+  //
+  // sv falls back to fi and then en, which is exactly what a Swedish reader saw while no
+  // Swedish text existed, so nothing changes for a film that has none. fi and en are
+  // untouched: TMDB has a Finnish overview for only some films, so each falls back to the
+  // other rather than showing nothing.
+  function synFor(s, lang){
+    if(!s) return '';
+    const order = lang === 'en' ? ['en','fi']
+                : lang === 'sv' ? ['sv','fi','en']
+                : ['fi','en'];
+    for(const k of order){ if(s[k]) return s[k]; }
+    return '';
+  }
+  // --- end synopsis language ---
   async function showSheet(fid, want){
     await ensureFilms();
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
@@ -3607,9 +3625,7 @@
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o||sample.original)
                                : (f.t&&f.t.fi)) || sample.title || '';
-    // TMDB has a Finnish overview for only some films, so fall back either way rather
-    // than showing nothing.
-    const syn = (f.s && (lang==='en' ? (f.s.en || f.s.fi) : (f.s.fi || f.s.en))) || '';
+    const syn = synFor(f.s, lang);
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
     // No folded price here either: each stub below carries its own.

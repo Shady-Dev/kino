@@ -151,6 +151,14 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 
 **App and client**
 
+- A Swedish synopsis from TMDB. `enrich_tmdb` fetches `fi-FI` and `en-US` overviews and
+  breaks out of the loop once Finnish answers, so adding `sv-SE` would be a third request
+  per film per run and a restructure of that loop. Out of scope on 2026-09-16 by the
+  maintainer's instruction; the slot exists and Bio Savoy fills it, so this would only
+  widen the coverage.
+- Swedish generated pages. `build_pages.py` builds `fi` and `en`; the Swedish link sends a
+  reader to the app on purpose, and `L` carries no Swedish page copy. Unchanged.
+
 - Sparse-date dimming in the date picker: `<input type="date">` cannot disable individual
   days without a custom picker.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The

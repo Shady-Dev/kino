@@ -134,6 +134,8 @@ Every provider writes the same thing, so the client has no per-provider code.
     data/venues-{provider}.json  {generated, oldest, status, stale[], unverified[],
                                   provider, venues[{id,name,short,city}]}
     data/films-extra.json        title-keyed synopses, posters, trailers
+                                 a synopsis is keyed by language: fi, en, and sv
+                                 where a cinema publishes one (Bio Savoy, Åland)
     data/tmdb-genres.json        {fi,sv,en} genre id -> name, for rendering `gids`
     data/areas.json              Finnkino venue list (legacy shape, numeric ids)
 

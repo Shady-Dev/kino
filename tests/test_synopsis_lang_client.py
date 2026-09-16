@@ -1,0 +1,106 @@
+"""Which synopsis a reader is shown, per interface language.
+
+`index.html` is frozen; the maintainer authorised this one exception on 2026-09-16, for the
+Swedish selection and nothing else. So what the change may and may not do is worth pinning:
+Swedish gains a slot of its own and falls back the way it always did, and Finnish and
+English are unchanged.
+
+Driven through tests/synopsis_lang_harness.js, which extracts `synFor` verbatim from
+index.html between its markers. The clamp, the expand button and `esc()` are DOM plumbing
+and stay verified live.
+"""
+import json
+import pathlib
+import shutil
+import subprocess
+import unittest
+
+import _ctx
+
+
+HARNESS = pathlib.Path(__file__).resolve().parent / "synopsis_lang_harness.js"
+HTML = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
+FI, SV, EN = "Suomeksi.", "På svenska.", "In English."
+
+
+class MarkerTest(unittest.TestCase):
+    """The markers are the seam, and nothing else in the repo guards one.
+
+    A renamed marker makes the harness exit 2, which the tests below would report as a
+    failure -- but only if they run. This asserts the seam directly so a rename is a failing
+    test rather than a quiet hole.
+    """
+
+    def test_the_block_is_there_and_named_after_its_harness(self):
+        self.assertIn("// --- synopsis language: pure, extracted verbatim by "
+                      "tests/synopsis_lang_harness.js ---", HTML)
+        self.assertIn("// --- end synopsis language ---", HTML)
+
+    def test_the_selection_lives_inside_the_block(self):
+        a = HTML.index("// --- synopsis language:")
+        b = HTML.index("// --- end synopsis language ---")
+        block = HTML[a:b]
+        self.assertIn("function synFor(s, lang){", block)
+        self.assertIn("['sv','fi','en']", block)
+
+    def test_the_sheet_reads_the_synopsis_through_it_and_nowhere_else(self):
+        """One call site. A second copy of the ternary is how the two would drift."""
+        self.assertEqual(HTML.count("synFor(f.s, lang)"), 1)
+        self.assertNotIn("f.s.fi || f.s.en", HTML)
+
+    def test_the_service_worker_version_moved_with_the_client(self):
+        sw = (_ctx.ROOT / "sw.js").read_text(encoding="utf-8")
+        self.assertIn("const CACHE = 'leffavuoro-v170';", sw)
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class SelectionTest(unittest.TestCase):
+    """The real function, on every shape a films-extra entry's `s` map can take."""
+
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True)
+        if out.returncode != 0:
+            raise AssertionError(f"harness failed ({out.returncode}): {out.stderr}")
+        cls.got = json.loads(out.stdout)
+
+    def case(self, name):
+        return self.got[name]
+
+    def test_the_block_runs_without_anything_outside_itself(self):
+        self.assertTrue(self.got["__ran"])
+
+    def test_a_swedish_reader_takes_the_swedish_text_first(self):
+        self.assertEqual(self.case("all")["sv"], SV)
+        self.assertEqual(self.case("sv_only")["sv"], SV)
+        self.assertEqual(self.case("sv_and_en")["sv"], SV)
+
+    def test_a_swedish_reader_falls_back_to_finnish_then_english(self):
+        """Which is exactly what they saw while no Swedish text existed, so a film without
+        one reads the same as it did yesterday."""
+        self.assertEqual(self.case("fi_en")["sv"], FI)
+        self.assertEqual(self.case("fi_only")["sv"], FI)
+        self.assertEqual(self.case("en_only")["sv"], EN)
+
+    def test_finnish_is_unchanged_by_the_swedish_slot(self):
+        self.assertEqual(self.case("all")["fi"], FI)
+        self.assertEqual(self.case("fi_en")["fi"], FI)
+        self.assertEqual(self.case("en_only")["fi"], EN)
+        self.assertEqual(self.case("sv_only")["fi"], "",
+                         "a Finnish reader is never shown the Swedish text")
+        self.assertEqual(self.case("sv_and_en")["fi"], EN)
+
+    def test_english_is_unchanged_by_the_swedish_slot(self):
+        self.assertEqual(self.case("all")["en"], EN)
+        self.assertEqual(self.case("fi_only")["en"], FI)
+        self.assertEqual(self.case("sv_only")["en"], "",
+                         "an English reader is never shown the Swedish text")
+
+    def test_nothing_to_show_is_an_empty_string_in_every_language(self):
+        for name in ("empty", "none", "undef"):
+            with self.subTest(case=name):
+                self.assertEqual(set(self.case(name).values()), {""})
+
+
+if __name__ == "__main__":
+    unittest.main()

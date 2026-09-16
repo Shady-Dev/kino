@@ -245,6 +245,11 @@ provider missing from it loses its venues, not just its label.
   to Thursday open. Documenting that a figure is sometimes 0.50 out is not a substitute; the
   reader does not read the docstring. A labelled house tariff instead of a per-screening
   amount is a different field and needs the maintainer's decision.
+- **A synopsis declares its language.** `_syn` as a bare string means Finnish and always
+  has; an adapter publishing anything else writes `{"sv": ...}` and `synmerge` files it in
+  that slot. The slot is keyed by normalised title and read by every chain showing the film,
+  so an undeclared Swedish blurb is served as Finnish everywhere. Only `fi`, `sv` and `en`
+  are accepted, because those are what the client offers.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 
