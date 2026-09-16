@@ -121,6 +121,22 @@ generated artwork, a cropped 16:9 still. Full entry:
   stored credential and nothing to rotate; this item covers the rest.
 
 
+### The client is edited when the maintainer asks, and not otherwise
+
+The instruction of 2026-09-14 was that `index.html` is frozen. It was read as standing
+until lifted, and for two days nothing touched the file but two generated blocks. It has
+since been read the other way, by the maintainer, five times: the Swedish synopsis
+selection on 2026-09-16, and on 2026-09-17 the shared-link scroll, the focus a background
+refresh took, the freshness a selection claimed and the sheet a history step left over
+another venue -- each asked for in the maintainer's own words, each landing with its
+`sw.js` bump.
+
+So the freeze is not a wall around the file; it is the rule that this repo does not decide
+on its own to edit the client. An audit finding is not an authorisation, and neither is a
+bug being real. What did not move, and is a separate instruction repeated on 2026-09-17:
+**no design changes.** `DESIGN.md` and `tests/test_design_contract.py` change only on
+explicit written instruction naming the file, and none of the five touched either.
+
 ## Blocked
 
 ### Finnkino prices
@@ -161,9 +177,11 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The
   resume and rollover refreshes cover everything else.
 - `aria-busy` on the picker trigger until the venue lists arrive. It is the honest ready
-  signal and a two-line client change; `index.html` is frozen by the maintainer's
-  instruction of 2026-09-14, so it stays a proposal. The browser tests click until the
-  picker opens instead.
+  signal and a two-line client change, and it stays a proposal because nobody has asked
+  for it. The 2026-09-14 freeze is no longer the reason: on 2026-09-16 and 2026-09-17 the
+  maintainer authorised named client fixes and `index.html` changed five times. What the
+  freeze still means is written under "The client is edited when the maintainer asks"
+  below. The browser tests click until the picker opens instead.
 - `safeUrl` still accepts a scheme-less URL, so the next provider publishing a bare path
   repeats Cinema Orion's 2026-09-06 fault. Whether the client should reject one or resolve
   it against the provider host is a separate change.

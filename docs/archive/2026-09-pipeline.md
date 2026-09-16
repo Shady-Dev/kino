@@ -1653,3 +1653,22 @@ mutations, all red: the title uncut, uncollapsed and unescaped, a page with no t
 reporting nothing, and the guard naming a cause again. Two tests that pinned the string
 "screening template changed" now assert the failure and its evidence instead, which is the
 distinction that let the wrong claim stand.
+
+### Each area file is read once per build (2026-09-17)
+
+`build_pages.load_shows` parsed a venue's `area-{id}.json` for the venue's own page and
+again for its city's, where the city has more than one venue: 47 of 101 venues on the day
+this was written, 148 calls over 101 files. It is cached now, keyed by the file's path,
+mtime and size rather than by the venue id, because the tests build from temp roots and
+from data they rewrite between builds, and a key on the id alone hands the second build the
+first one's schedule.
+
+**Measured before it was changed, and it is not a speedup worth the name**: the whole build
+runs in about 0.19 s and this is a fraction of it. The reason to keep it is that the second
+read is waste, not that it was slow; the commit message says the same so nobody reads a
+performance claim into it later.
+
+Callers must not mutate what they get back, and none does: the city pass copies every show
+it keeps and `group_by_day` only sorts and groups. Tests: one read per file, a rewritten
+file read again, and a missing file not cached as empty, in `tests/test_landing_pages.py`.
+Three mutations, all red -- no cache, keyed by the venue id, and keyed without the mtime.
