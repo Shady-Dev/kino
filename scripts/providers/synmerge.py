@@ -1,10 +1,21 @@
-"""Shared helper: merge provider-supplied Finnish synopses into films-extra.json.
+"""Shared helper: merge provider-supplied synopses into films-extra.json.
 
 Providers run before the TMDB pass and their own text is better, so this only ever
 fills an empty slot — it never clobbers.
+
+**A synopsis carries a language since 2026-09-16.** `_syn` is either the bare string every
+adapter published before that, which is Finnish, or a `{lang: text}` mapping for an adapter
+that knows what it is publishing. Bio Savoy is the first: Åland's only official language is
+Swedish and its film pages carry a native Swedish blurb, which put into the Finnish slot
+would be served as Finnish to every cinema showing that film, because the slot is keyed by
+normalised title and shared across chains.
+
+Each language is merged **on its own**. A Swedish text from site 3 does not settle the
+Finnish slot, and a Finnish text already in the file does not stop a Swedish one arriving:
+the fill-if-empty rule and the SITES-order tie-break below both apply per language.
 """
 import html as html_mod
-import json, pathlib, re, threading
+import json, pathlib, re, sys, threading
 
 import common
 
@@ -55,7 +66,40 @@ def drop_notes_html(desc, names=()):
 # call site so a second caller cannot reintroduce the race by not knowing about it.
 _lock = threading.Lock()
 
-# Which site supplied each synopsis this run, by its index in the module's SITES.
+# The languages a slot may be written for: what `index.html` offers a reader, and nothing
+# else. An adapter naming anything outside this is a typo or an unconsidered language, and a
+# junk slot in a file every chain reads is worse than a missing synopsis, so it is dropped
+# and said out loud once per run.
+LANGS = ("fi", "sv", "en")
+# What a bare `_syn` string means. Every adapter published one before 2026-09-16 and most
+# still do, so this is the compatibility contract rather than a default to tidy away.
+LEGACY_LANG = "fi"
+_unknown = set()
+
+
+def texts(value):
+    """An adapter's `_syn` -> {lang: text}, empty strings dropped.
+
+    A string is Finnish, which is what it has always been. A mapping is read as the adapter
+    declared it.
+    """
+    if isinstance(value, dict):
+        out = {}
+        for lang, text in value.items():
+            lang, text = str(lang).strip().lower(), (text or "").strip()
+            if not text:
+                continue
+            if lang not in LANGS:
+                _unknown.add(lang)
+                continue
+            out[lang] = text
+        return out
+    text = (value or "").strip()
+    return {LEGACY_LANG: text} if text else {}
+
+
+# Which site supplied each synopsis this run, by its index in the module's SITES, per
+# language: a site that wins the Swedish slot has said nothing about the Finnish one.
 #
 # The lock alone only stops a lost write. It does not decide *whose* text lands when two
 # sites publish different `_syn` for the same normalised title -- two chains showing the
@@ -82,6 +126,7 @@ def reset():
     """
     with _lock:
         _claimed.clear()
+        _unknown.clear()
 
 
 def norm(t):
@@ -111,33 +156,43 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
             doc = {}
         films = doc.get("films") or {}
         added = skipped = 0
+        per_lang = {}
         for shows in per_venue.values():
             for s in shows:
-                syn = (s.get("_syn") or "").strip()
-                if not syn:
-                    continue
-                if is_note(syn):
-                    # Never into the shared slot: see PRICE_RE. Left empty for TMDB.
-                    skipped += 1
-                    continue
-                key = norm(s["title"])
-                e = films.setdefault(key,
-                                     {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
-                e.setdefault("s", {"fi": "", "en": ""})
-                if e["s"].get("fi"):
-                    claimed = _claimed.get(key)
-                    # Text from before this run, or from a site at least as early as
-                    # this one. Either way it stands.
-                    if claimed is None or order >= claimed:
+                for lang, syn in texts(s.get("_syn")).items():
+                    if is_note(syn):
+                        # Never into the shared slot: see PRICE_RE. Left empty for TMDB.
+                        skipped += 1
                         continue
-                e["s"]["fi"] = syn
-                _claimed[key] = order
-                added += 1
+                    key = norm(s["title"])
+                    e = films.setdefault(key,
+                                         {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
+                    e.setdefault("s", {"fi": "", "en": ""})
+                    # Per language: a Finnish text in the file says nothing about whether
+                    # the Swedish slot is spoken for, and the other way round.
+                    if e["s"].get(lang):
+                        claimed = _claimed.get((lang, key))
+                        # Text from before this run, or from a site at least as early as
+                        # this one. Either way it stands.
+                        if claimed is None or order >= claimed:
+                            continue
+                    # A language slot is created only when there is text for it. An entry
+                    # with no `sv` key is the normal case and every reader handles it.
+                    e["s"][lang] = syn
+                    _claimed[(lang, key)] = order
+                    per_lang[lang] = per_lang.get(lang, 0) + 1
+                    added += 1
         doc["films"] = films
         common.write_json(path, doc)
     print(f"[{label}] synopses merged: {added}")
+    if len(per_lang) > 1 or set(per_lang) - {LEGACY_LANG}:
+        print(f"[{label}] synopses by language: "
+              + ", ".join(f"{k} {per_lang[k]}" for k in sorted(per_lang)))
     if skipped:
         print(f"[{label}] synopses skipped as screening notes (price): {skipped}")
+    if _unknown:
+        print(f"[{label}] synopses in a language nothing reads, dropped: "
+              f"{', '.join(sorted(_unknown))}", file=sys.stderr)
 
 
 def repair_from_twin(films: dict, extra: dict) -> int:
