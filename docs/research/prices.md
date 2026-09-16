@@ -88,9 +88,9 @@ raw was written to the repo.
 | Kino Manttu | `Kino Mantun liput: 11 € / 9 €` in the listing text | none, already fetched |
 | Kino Kuvakukko | a `/liput/` page | one request |
 | Bio-Kaari | a `/liput/` page, rules by film, day, length and 2D/3D | one request |
-| Bio Savoy | not located on the front page | not established |
+| Bio Savoy | `Pris: 15 €`, a labelled field on each `/film/{slug}` page | one request per film |
 | Kino Kilta, Kino Laika | only behind the Kinola checkout | forbidden |
-| Cine Mäntsälä | not located; only the front page was read | not established |
+| Cine Mäntsälä | a "Liput" content page in the app's own content API | one request per venue |
 | Julia, Kino Vaakuna | already read | — |
 
 - **TMB states a tariff and no screening can be priced from it.** 2D and 3D differ by 2.50
@@ -106,20 +106,46 @@ raw was written to the repo.
   because the same line puts an *arkipyhä* on the dearer tariff. The discounts beside it --
   student, pensioner, under-12, S-Etukortti Tuesdays at 10,00 € -- all need a card at the
   counter, so they describe no ordinary ticket.
-- **Bio Savoy's front page shows gift-card denominations, not a tariff**: "13€ (barnfilmer)
-  och 15€" is what a gift card may be bought for, and 135€ buys ten tickets. A ticket price
-  read out of that would be an inference.
+- **Bio Savoy states a price per film, in a labelled field.** Each `/film/{slug}` page
+  carries `<section class="field field-name-field-price">` with `<h2>Pris:</h2>` and the
+  amount: *Uprising* 15 €, *Practical Magic 2* 15 €, *Dog Stars* 15 €, *Marsupilami* 13 €,
+  read 2026-09-16. That matches what `/om-oss` says the two gift-card denominations are
+  for, "13€ (barnfilmer samt filmer med svenskt tal)", but the field is the film's own
+  statement rather than a rule to apply. The front page, which is all the adapter fetches,
+  carries only the gift-card sentence: "13€ (barnfilmer) och 15€", and 135€ for ten
+  tickets. A ticket price read out of *that* would be an inference; the field is not.
 - **Bio-Kaari's page states rules rather than a table**: the price varies by film, by day,
   by running length and by 2D/3D.
 
 **Inferences and open questions**
 
 - Kinola's price sits behind the checkout, which this repo does not call. Closed.
-- **Cine Mäntsälä and Bio Savoy are unfinished research, not closed questions.** Only the
-  page each adapter already fetches was read. Cine Mäntsälä runs MyCloudCinema, whose
-  `show_times/` payload the adapter reads and which was not inspected for a price field, and
-  neither site's own `/liput/`-style pages were looked for. Nothing here says they have no
-  price; it says nobody has looked.
+- **Cine Mäntsälä publishes a tariff, and it settles no screening.** Corrected: the first
+  pass said "not located", which was a failure to look rather than a finding. The schedule
+  payload carries no price -- 53 keys over 41 rows, no `€` anywhere in the body -- but the
+  site is an AngularJS app whose own content API serves its pages, and
+  `webservices/content/getContent` with `content_id=10` returns the one titled `Liput`. The
+  route came from the app's own bundle, which names `content/getContent` beside the
+  `show_times/` calls the adapter already uses.
+
+      Arkipäivät (ma–to)                     12,50 €   ·  3D 13,50 €
+      Viikonloppu (pe–su) sekä arkipyhät     14,50 €   ·  3D 15,50 €
+      Lapset (11v ja alle), opiskelijat, eläkeläiset  −1 €
+
+  Unlike TMB, **3D is readable**: the schedule payload carries `version_3d` per screening,
+  along with `premiere`, `running_time` and `rating`. What still settles nothing is the rest
+  of the page. *Arkipyhä* shares the weekend tariff and no calendar here knows those days.
+  Premieres that open Wednesday rather than Friday are priced as a weekend, and what the
+  payload's `premiere` flag means was not established. And the page states its own escape:
+  "Erikoiselokuvat, kestoltaan pitkät elokuvat tai muuten esitysoikeuksiltaan erityiselokuvat
+  hinnoitellaan erikseen. **Hinta kannattaa tarkistaa elokuvan näytösajan yhteydessä.**" The
+  cinema is saying the tariff is not authoritative for a given screening, with no threshold
+  for "long" and no marker for "special". Event cinema is priced per event.
+
+  So a Saturday 2D ordinary film is 14,50 € *unless it is one of those*, and nothing in what
+  this repo may read says which. Under the rule on `common.Show` that publishes nothing.
+  It is the clearest candidate so far for a labelled house tariff, which is a different
+  field and the maintainer's decision.
 - Whether a labelled house tariff should be published where a per-screening price cannot be
   is a product question. The `price` field is a per-screening claim, so that would be a
   different field.
@@ -132,7 +158,18 @@ blank. Implemented the same day: Kino Kirkkonummi publishes its per-film amount 
 any film whose association is ambiguous; Iso-Hannu publishes Friday to Sunday and blanks
 Monday to Thursday; TMB publishes nothing and no longer fetches the price page.
 
-Next: read Cine Mäntsälä's `show_times/` payload and its site for a price, and Bio Savoy's
-other pages, before either is called closed. Kino Manttu's amount is in the listing text
-already fetched and is the cheapest remaining, but it is `11 € / 9 €` with no statement of
-which ticket each is, so what it settles has to be established first.
+Cine Mäntsälä and Bio Savoy were finished on 2026-09-16 and the table above is corrected.
+Neither is implemented.
+
+- **Bio Savoy is ready to implement and is a cost decision.** The field is exact, per film,
+  and labelled, which is the strongest shape any of these have -- stronger than a rule,
+  because there is nothing to derive. The adapter makes one request today, for the front
+  page; reading the field would add one per distinct film, about thirteen. That changes the
+  request profile at a single-screen cinema by an order of magnitude, so it is the
+  maintainer's call rather than an obvious yes.
+- **Cine Mäntsälä needs no further research.** The tariff is readable at one request per
+  venue and settles no screening; nothing more is pending unless a house tariff is wanted.
+- Kino Manttu's amount is in the listing text already fetched and is the cheapest remaining,
+  but it is `11 € / 9 €` with no statement of which ticket each is, so what it settles has
+  to be established first.
+- Kino Kuvakukko's and Bio-Kaari's `/liput/` pages are still unread.

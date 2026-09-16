@@ -38,6 +38,17 @@ language is Swedish. Every other city key here is a Finnish name because `CITY_S
 `index.html` translates them for the Swedish interface, and that table cannot gain an entry
 without editing a file this project keeps frozen. Keying the Finnish exonym would therefore
 show it untranslated in Swedish, which is the wrong way round for Åland.
+
+
+**The price is on the film page and is not read.** Each `/film/{slug}` carries a labelled
+field, `<section class="field field-name-field-price">` with `Pris:` and the amount: 15 € for
+most, 13 € for a children's film, read 2026-09-16. It is the film's own statement rather than
+a rule, so it would settle each screening exactly -- the strongest shape of the three surveyed
+that day. It is not implemented because this adapter makes **one** request, for the front
+page, and reading the field costs one per distinct film, about thirteen. That is a change to
+what a single-screen cinema is asked for, and the maintainer's call. The front page carries
+only the gift-card sentence, "13€ (barnfilmer) och 15€", which is not a tariff.
+See `docs/research/prices.md`.
 """
 import datetime
 import html as html_mod

@@ -10,6 +10,16 @@ MyCloudCinema's own `/webservices/show_times/` endpoints, one date window at a t
 row shape is the platform's and is shared, which is why `FORMATS` and `LANG` are imported
 from that module rather than copied; the fetch is not.
 
+**The price is published and no screening can carry one.** `webservices/content/getContent`
+with `content_id=10` returns the site's own `Liput` page: ma–to 12,50 € (3D 13,50), pe–su and
+arkipyhät 14,50 € (3D 15,50), −1 € for children, students and pensioners. 3D is readable here,
+unlike TMB -- the schedule rows carry `version_3d` -- but three things are not: an *arkipyhä*
+shares the weekend price and no calendar here knows those days; a Wednesday premiere is priced
+as a weekend and what `premiere` means was not established; and the page states its own escape,
+that special or long films are priced separately and the price should be checked at the
+screening. So the tariff settles nothing per screening and `price` stays empty. See
+`common.Show` for the rule and `docs/research/prices.md` for the reading.
+
 **Not the JSON-LD feed the page also injects.** `/webservices/structured_data/get` carries
 today only (4 of the 37 screenings this week when measured) and drops the `Z` off a UTC
 instant, so reading it as a local time publishes every showtime three hours early.
