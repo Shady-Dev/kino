@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- korjaamokino.fi
 [run] vista: 1 venues, 3 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 2.6s of fetching added up across workers that overlap, longest site 2.6s, longest queue wait 49.3s, 2.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 2.6s of fetching added up across workers that overlap, longest site 2.6s, longest queue wait 51.2s, 2.6s wall from this module's first fetch starting to its last ending
 exit=0
