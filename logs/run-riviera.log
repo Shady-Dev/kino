@@ -5,5 +5,5 @@
 [riviera] Riviera Punavuori: 63 showtimes, 23 dates
 [run] hosts: 1 attempted -- www.rivieracinemas.fi
 [run] riviera: 2 venues, 91 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.9s of fetching added up across workers that overlap, longest site 1.9s, longest queue wait 44.2s, 1.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.8s of fetching added up across workers that overlap, longest site 1.8s, longest queue wait 46.4s, 1.8s wall from this module's first fetch starting to its last ending
 exit=0
