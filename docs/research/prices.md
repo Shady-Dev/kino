@@ -175,7 +175,60 @@ Neither is implemented.
   an unread page, or a film past the budget.
 - **Cine Mäntsälä needs no further research.** The tariff is readable at one request per
   venue and settles no screening; nothing more is pending unless a house tariff is wanted.
-- Kino Manttu's amount is in the listing text already fetched and is the cheapest remaining,
-  but it is `11 € / 9 €` with no statement of which ticket each is, so what it settles has
-  to be established first.
-- Kino Kuvakukko's and Bio-Kaari's `/liput/` pages are still unread.
+- Kino Manttu, Kino Kuvakukko and Bio-Kaari were read on 2026-09-16 and are below. Nothing
+  in this file is now unread.
+
+
+## The three sources left unread, read (2026-09-16)
+
+**Findings.** Each page read once as an ordinary visitor, `Leffavuoro/1.0`, nothing kept.
+
+**Kuvakukko's `/liput/` states both venues' prices and states no condition.**
+`https://www.kuvakukko.fi/liput/`, 200, 56 kB. Under `Kino Kuvakukko liput`:
+
+    Liput: 11,50 € / 9,50 € (alle 12-vuotiaat, opiskelijat, eläkeläiset, varusmiehet,
+    työttömät). Sarjaliput (kuusi näytöstä) 57,50 € / 47,50 €. Lahjalippu 11,50 €.
+
+and under `Kino Manttu liput`, `Liput: 11 € / 9 €` with the same list in the parenthesis.
+Neither line turns on a day, a format, a running length or a kind of film, and neither
+carries an escape clause of the sort Cine Mäntsälä's page prints. The series ticket and the
+gift ticket are other products, not conditions on one admission.
+
+**That answers what `11 € / 9 €` settles.** The programme page the adapter already fetches
+carries Manttu's line in full -- `Kino Mantun liput: 11 € / 9 € (opiskelijat, eläkeläiset,
+varusmiehet, työttömät, lapset alle 12v)` -- so the parenthesis names who the second figure
+is for and the first is the ordinary admission. Two statements on the cinema's own site
+agree. Kuvakukko's own amount is **not** on that page: only `/liput/` carries it, which is
+one request a run for both venues, since both cinemas are the city of Kuopio's and share
+the host.
+
+**What is not settled is a strand screening.** The listing carried
+`Hopeatähti-sarja: Laula minulle Arja`, linked to `isak.fi` rather than to this site, and a
+`KUVIn aluesarja` mention. Nothing on either page says whether a series screening run with
+an outside organiser is sold at the house price. The house statement names no exception,
+which is not the same as excluding one.
+
+**Bio-Kaari's `/liput/` settles no screening**, `https://www.bio-kaari.fi/liput/`, 200,
+191 kB. The tariff is 2D 14 € at the weekend and on public holidays, 2D 13 € on a weekday,
+3D one euro dearer, `Korotettu lipunhinta normaalia pidempiin elokuviin. Korotus 1-2 €`,
+children's films 12 €, and Event Cinema priced separately. Four separate reasons a row
+cannot be settled, and they do not cancel out at the weekend the way Iso-Hannu's do:
+*pyhinä* shares the weekend rate and no calendar here knows those days, the length
+surcharge states neither a threshold nor a single amount, "lasten elokuvat" is not defined
+in anything readable, and the format is not published at all.
+
+**Bio-Kaari's own pages carry no amount either.** The weekly posts titled
+`Elokuvat, näytösajat ja hinnat …` publish the week as a JPG
+(`2026_09_11_Bio-Kaari_viikko-ohjelma_nettiin.jpg`); their HTML contains no `€` at all. The
+`/tapahtuma/?event={id}` page the adapter already fetches contains no `€` and no 2D or 3D
+string, only `Osta lippu`. The showtime link goes to
+`bio-kaari.azurewebsites.net/websales/show/{id}/`, which is the sales flow and is not
+called.
+
+**Status.** Bio-Kaari is closed: there is no readable per-screening price and the tariff
+settles nothing. Kuvakukko and Manttu are research finished and **not implemented**: the
+amounts are unconditional and stated twice for Manttu, so the question left is not what the
+page says but whether an unconditional house tariff read off a `/liput/` page is a
+per-screening price under the rule, and what to do with a strand row the tariff does not
+mention. That is the maintainer's call, the same one Cine Mäntsälä's entry above leaves
+open.
