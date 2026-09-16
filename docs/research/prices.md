@@ -88,7 +88,7 @@ raw was written to the repo.
 | Kino Manttu | `Kino Mantun liput: 11 € / 9 €` in the listing text | none, already fetched |
 | Kino Kuvakukko | a `/liput/` page | one request |
 | Bio-Kaari | a `/liput/` page, rules by film, day, length and 2D/3D | one request |
-| Bio Savoy | `Pris: 15 €`, a labelled field on each `/film/{slug}` page | one request per film |
+| Bio Savoy | `Pris: 15 €`, a labelled field on each `/film/{slug}` page | one request per distinct film |
 | Kino Kilta, Kino Laika | only behind the Kinola checkout | forbidden |
 | Cine Mäntsälä | a "Liput" content page in the app's own content API | one request per venue |
 | Julia, Kino Vaakuna | already read | — |
@@ -161,12 +161,18 @@ Monday to Thursday; TMB publishes nothing and no longer fetches the price page.
 Cine Mäntsälä and Bio Savoy were finished on 2026-09-16 and the table above is corrected.
 Neither is implemented.
 
-- **Bio Savoy is ready to implement and is a cost decision.** The field is exact, per film,
-  and labelled, which is the strongest shape any of these have -- stronger than a rule,
-  because there is nothing to derive. The adapter makes one request today, for the front
-  page; reading the field would add one per distinct film, about thirteen. That changes the
-  request profile at a single-screen cinema by an order of magnitude, so it is the
-  maintainer's call rather than an obvious yes.
+- **Bio Savoy is implemented**, 2026-09-16, on the maintainer's instruction. Thirteen
+  public-page requests is a modest absolute workload and the order-of-magnitude framing was
+  not a reason to hold it. One request per *distinct* film, paced 1.5 s, cached, and bounded
+  by `common.capped`; a film past the cap or whose page will not answer keeps its screenings
+  and loses only the amount.
+  **Coverage was established, not sampled**: all thirteen films were read on 2026-09-16 and
+  every one carried the field with a single amount -- 15 €, and 13 € for the two children's
+  films, which is what `/om-oss` says the cheaper gift card is for. No page carried a second
+  amount or any per-screening note, so no screening-specific exception was found. That says
+  the field is single-valued today and not that it always will be, so the reader publishes
+  nothing whenever it cannot be sure: no field, no readable amount, two different amounts,
+  an unread page, or a film past the budget.
 - **Cine Mäntsälä needs no further research.** The tariff is readable at one request per
   venue and settles no screening; nothing more is pending unless a house tariff is wanted.
 - Kino Manttu's amount is in the listing text already fetched and is the cheapest remaining,

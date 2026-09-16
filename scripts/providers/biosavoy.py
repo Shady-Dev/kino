@@ -40,22 +40,40 @@ without editing a file this project keeps frozen. Keying the Finnish exonym woul
 show it untranslated in Swedish, which is the wrong way round for Åland.
 
 
-**The price is on the film page and is not read.** Each `/film/{slug}` carries a labelled
-field, `<section class="field field-name-field-price">` with `Pris:` and the amount: 15 € for
-most, 13 € for a children's film, read 2026-09-16. It is the film's own statement rather than
-a rule, so it would settle each screening exactly -- the strongest shape of the three surveyed
-that day. It is not implemented because this adapter makes **one** request, for the front
-page, and reading the field costs one per distinct film, about thirteen. That is a change to
-what a single-screen cinema is asked for, and the maintainer's call. The front page carries
-only the gift-card sentence, "13€ (barnfilmer) och 15€", which is not a tariff.
+## The price, from each film's own page
+
+Each `/film/{slug}` carries a labelled field:
+
+    <section class="field field-name-field-price"><h2 class="field-label">Pris:</h2>
+      <ul class="field-items"><li class="field-item even">15 €</li></ul></section>
+
+The film's own statement, not a rule to derive, which is why it can be published where TMB's
+and Cine Mäntsälä's tariffs cannot: there is nothing to work out about the day, the format or
+the length. Surveyed across **all thirteen** films on 2026-09-16, not a sample: every one
+carried the field, every one held a single amount, 15 € except two children's films at 13 €,
+and no page carried a second amount or any per-screening note. That agrees with what
+`/om-oss` says the two gift-card denominations are for, "13€ (barnfilmer samt filmer med
+svenskt tal)".
+
+**What that establishes is the field, not a guarantee.** Thirteen pages on one day say the
+field exists and is single-valued today; they cannot say it always will be. So the reader
+publishes nothing rather than something whenever it cannot be sure: no field, more than one
+distinct amount under it, a page that did not answer, or a film past the request budget. A
+screening whose film was not read keeps an empty `price` and the rest of the schedule is
+unaffected.
+
+**One request per distinct film**, paced, cached and budgeted -- thirteen today against the
+one this adapter used to make. The front page carries only the gift-card sentence, "13€
+(barnfilmer) och 15€" and 135 € for ten tickets, which is not a tariff and is not read.
 See `docs/research/prices.md`.
 """
 import datetime
 import html as html_mod
 import re
 import sys
+import time
 
-from common import EmptyProgramme, fetch
+from common import EmptyProgramme, capped, fetch
 
 BASE = "http://www.biosavoy.ax"
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -72,6 +90,12 @@ HALL_RE = re.compile(r'Filmvisningar\s*-\s*(.+?)\s*$', re.I)
 ROW_RE = re.compile(r'<a href="(/film/[^"]+)">\s*<span class="date-display-single"[^>]*'
                     r'content="([^"]+)"[^>]*>[^<]*</span>\s*-\s*([^<]+)</a>', re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
+# The film page's labelled price field. Every `field-item` under it is captured, so a second
+# one is seen rather than silently ignored: two different amounts mean the page no longer
+# says one thing and nothing is published for that film.
+PRICE_BLOCK_RE = re.compile(r'field-name-field-price(.*?)</section>', re.S | re.I)
+PRICE_ITEM_RE = re.compile(r'<li[^>]*class="field-item[^"]*"[^>]*>(.*?)</li>', re.S | re.I)
+AMOUNT_RE = re.compile(r'(\d{1,3}(?:[.,]\d{1,2})?)\s*\u20ac')
 
 
 def _txt(s):
@@ -133,18 +157,72 @@ def parse(page):
     return shows
 
 
-def get_page():
-    return fetch(BASE + "/", cache=True,
+def film_price(page):
+    """The film's own price. -> "15\u20ac", or "" when the page does not say one thing.
+
+    Empty for a page with no price field, for one whose field holds no readable amount, and
+    for one holding two different amounts -- there the page has stopped saying a single
+    thing and picking either would publish the doubt. The same amount twice is not two
+    things.
+    """
+    block = PRICE_BLOCK_RE.search(page)
+    if not block:
+        return ""
+    amounts = set()
+    for item in PRICE_ITEM_RE.findall(block.group(1)):
+        m = AMOUNT_RE.search(_txt(item))
+        if m:
+            amounts.add(float(m.group(1).replace(",", ".")))
+    if len(amounts) != 1:
+        return ""
+    return f"{amounts.pop():.2f}".rstrip("0").rstrip(".") + "\u20ac"
+
+
+def get(url):
+    return fetch(url, cache=True,
                  headers={"user-agent": UA, "accept-language": "sv-AX,sv;q=0.9"},
                  timeout=30).decode("utf-8", "replace")
 
 
-def fetch_site(site=SITES[0]):
-    """Runner contract: one page, one venue."""
+def get_page():
+    return get(BASE + "/")
+
+
+def film_prices(slugs, sleep=1.5, get=None):
+    """{slug: price} for the films whose page said one thing. -> dict.
+
+    One request per **distinct** film, paced and cached, and bounded by the shared page
+    budget -- `capped`, not `budget_or_raise`, because these pages carry no showtime: a film
+    past the cap loses its price and keeps its screenings, which is the right way round.
+
+    A page that will not answer costs that film's price and nothing else. The schedule is
+    already parsed by the time this runs, and a cinema's whole programme must not go stale
+    because one film page 500s.
+    """
+    get = get or globals()["get"]
+    out = {}
+    for n, slug in enumerate(capped(slugs, "biosavoy")):
+        if n:
+            time.sleep(sleep)
+        try:
+            out[slug] = film_price(get(f"{BASE}/film/{slug}"))
+        except Exception as e:
+            print(f"[biosavoy] film page {slug}: {type(e).__name__}: {e}", file=sys.stderr)
+    # Films whose page said nothing are in here as "", which is what the caller publishes
+    # for them anyway. Filtering them out would be a branch nothing can observe.
+    return out
+
+
+def fetch_site(site=SITES[0], sleep=1.5):
+    """Runner contract: the front page, then one film page per distinct film."""
     shows = parse(get_page())
+    prices = film_prices(sorted({s["eventId"] for s in shows}), sleep=sleep)
+    for s in shows:
+        s["price"] = prices.get(s["eventId"], "")
     print(f"[biosavoy] {len(shows)} showtimes, {len({s['eventId'] for s in shows})} films, "
           f"{len({s['start'][:10] for s in shows})} dates, "
-          f"halls {sorted({s['aud'] for s in shows})}")
+          f"halls {sorted({s['aud'] for s in shows})}, "
+          f"{sum(1 for s in shows if s['price'])} priced")
     return {VENUE["id"]: shows}
 
 

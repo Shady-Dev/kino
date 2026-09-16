@@ -9,6 +9,8 @@ Both halls are in the fixture because the hall comes from the block title and no
 the row, so a single-block fixture would never show it being lost. The `content` attribute
 and the visible clock deliberately disagree in one row: the attribute is the one to read.
 """
+import contextlib
+import io
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -55,6 +57,21 @@ LISTING = page(
           row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00", shown="18.15"),
           row("spa-weekend", "SPA WEEKEND", "2026-09-16T20:20:00+03:00")),
 )
+
+
+def film_page(price="15 \u20ac", extra=None, field=True):
+    """A `/film/{slug}` page. The price is a labelled Drupal field; `extra` adds a second
+    `field-item` under it, which is what makes the page stop saying one thing."""
+    items = "".join(f'<li class="field-item even">{v}</li>'
+                    for v in ([price] if price is not None else [])
+                    + ([extra] if extra is not None else []))
+    block = ('<section class="field field-name-field-price field-type-taxonomy-term-reference '
+             'field-label-inline clearfix view-mode-full"><h2 class="field-label">Pris:&nbsp;'
+             f'</h2><ul class="field-items">{items}</ul></section>') if field else ""
+    return ('<html><body><section class="field field-name-field-genre"><ul class="field-items">'
+            '<li class="field-item even">Drama</li></ul></section>' + block +
+            '<section class="field field-name-field-speltid"><ul class="field-items">'
+            '<li class="field-item even">2h 7min</li></ul></section></body></html>')
 
 
 class ScheduleTest(unittest.TestCase):
@@ -158,6 +175,151 @@ class SiteTest(unittest.TestCase):
 
     def test_the_base_is_http(self):
         self.assertTrue(biosavoy.BASE.startswith("http://"))
+
+
+class PriceTest(unittest.TestCase):
+    """Each film states its own price in a labelled field, so there is nothing to derive.
+
+    Surveyed across all thirteen films on 2026-09-16, not sampled: every one carried the
+    field with a single amount, 15 € but 13 € for the two children's films. That says the
+    field exists and is single-valued today, not that it always will be, so anything short
+    of one readable amount publishes nothing.
+    """
+
+    def test_the_labelled_field_is_what_is_read(self):
+        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac")), "15\u20ac")
+        self.assertEqual(biosavoy.film_price(film_page("13 \u20ac")), "13\u20ac")
+
+    def test_a_page_with_no_price_field_publishes_nothing(self):
+        self.assertEqual(biosavoy.film_price(film_page(field=False)), "")
+
+    def test_a_field_with_no_readable_amount_publishes_nothing(self):
+        self.assertEqual(biosavoy.film_price(film_page("fri entré")), "")
+
+    def test_two_different_amounts_publish_neither(self):
+        """The page has stopped saying one thing, and picking either publishes the doubt."""
+        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac", extra="13 \u20ac")), "")
+
+    def test_the_same_amount_twice_is_not_two_things(self):
+        self.assertEqual(biosavoy.film_price(film_page("15 \u20ac", extra="15 \u20ac")),
+                         "15\u20ac")
+
+    def test_another_field_on_the_page_is_not_the_price(self):
+        """`field-name-field-genre` and `-speltid` carry `field-item` too, so the block is
+        bounded to the price section rather than searched page-wide."""
+        page = film_page(field=False).replace("Drama", "12 \u20ac")
+        self.assertEqual(biosavoy.film_price(page), "")
+
+    def test_the_cents_are_dropped_only_when_they_are_zero(self):
+        self.assertEqual(biosavoy.film_price(film_page("15,00 \u20ac")), "15\u20ac")
+        self.assertEqual(biosavoy.film_price(film_page("13,50 \u20ac")), "13.5\u20ac")
+
+
+class PriceThroughFetchTest(unittest.TestCase):
+    """One request per distinct film, paced, and a failure costing that film alone."""
+
+    def serve(self, pages):
+        self.calls = []
+
+        def get(url):
+            self.calls.append(url)
+            body = pages.get(url)
+            if isinstance(body, Exception):
+                raise body
+            if body is None:
+                raise RuntimeError(f"unexpected fetch {url}")
+            return body
+        self.slept = []
+        real_get, real_sleep = biosavoy.get, biosavoy.time.sleep
+        biosavoy.get = get
+        biosavoy.time.sleep = self.slept.append
+        self.addCleanup(lambda: setattr(biosavoy, "get", real_get))
+        self.addCleanup(lambda: setattr(biosavoy.time, "sleep", real_sleep))
+
+    # One film with two screenings, so "once per distinct film" is not the same number as
+    # "once per screening". LISTING has four rows and four films; this has five and four.
+    LISTING_REPEAT = page(
+        block("Sal 1",
+              row("dog-stars", "THE DOG STARS", "2026-09-15T18:00:00+03:00"),
+              row("uprising", "THE UPRISING", "2026-09-15T20:15:00+03:00")),
+        block("Sal 2",
+              row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00"),
+              row("spa-weekend", "SPA WEEKEND", "2026-09-16T20:20:00+03:00"),
+              row("marsupilami", "MARSUPILAMI", "2026-09-17T16:00:00+03:00")),
+    )
+
+    def run_site(self, **over):
+        pages = {f"{BASE}/": self.LISTING_REPEAT,
+                 f"{BASE}/film/dog-stars": film_page("15 \u20ac"),
+                 f"{BASE}/film/uprising": film_page("15 \u20ac"),
+                 f"{BASE}/film/marsupilami": film_page("13 \u20ac"),
+                 f"{BASE}/film/spa-weekend": film_page("15 \u20ac")}
+        pages.update(over)
+        self.serve(pages)
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            data = biosavoy.fetch_site()
+        return data["savoy-mariehamn"], out.getvalue() + err.getvalue()
+
+    def test_one_request_per_distinct_film_and_none_repeated(self):
+        """Five screenings over four films, so reading per screening is one request more
+        and asks a cinema twice for a page it already answered."""
+        shows, log = self.run_site()
+        films = [c for c in self.calls if "/film/" in c]
+        self.assertEqual(len(shows), 5)
+        self.assertEqual(len({s["eventId"] for s in shows}), 4)
+        self.assertEqual(sorted(films), sorted(set(films)), "a film page was read twice")
+        self.assertEqual(len(films), 4)
+        self.assertEqual(self.calls[0], f"{BASE}/")
+
+    def test_the_film_pages_are_paced_one_sleep_apart(self):
+        """What a cinema's server experiences between two of its pages. Four films, so
+        three waits: the first page is not made to wait for nothing."""
+        self.run_site()
+        self.assertEqual(len([c for c in self.calls if "/film/" in c]), 4)
+        self.assertEqual(len(self.slept), 3)
+        self.assertTrue(all(s > 0 for s in self.slept), self.slept)
+
+    def test_every_screening_carries_its_own_films_price(self):
+        shows, log = self.run_site()
+        got = {s["title"]: s["price"] for s in shows}
+        self.assertEqual(got["MARSUPILAMI"], "13\u20ac")
+        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
+        self.assertIn("5 priced", log)
+        common.check_shows({"savoy-mariehamn": shows}, "biosavoy", {"savoy-mariehamn"})
+
+    def test_a_film_page_that_refuses_costs_that_film_and_not_the_schedule(self):
+        """The schedule is already parsed by the time the pages are read. A cinema's whole
+        programme must not go stale because one film page 500s."""
+        shows, log = self.run_site(**{
+            f"{BASE}/film/marsupilami": RuntimeError("HTTP Error 500")})
+        got = {s["title"]: s["price"] for s in shows}
+        self.assertEqual(got["MARSUPILAMI"], "")
+        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
+        self.assertEqual(len(shows), 5)
+        self.assertIn("film page marsupilami", log)
+
+    def test_a_film_whose_page_says_nothing_publishes_nothing(self):
+        shows, _ = self.run_site(**{f"{BASE}/film/uprising": film_page(field=False)})
+        got = {s["title"]: s["price"] for s in shows}
+        self.assertEqual(got["THE UPRISING"], "")
+        self.assertEqual(got["THE DOG STARS"], "15\u20ac")
+
+    def test_the_film_pages_are_bounded_by_the_shared_budget(self):
+        """`capped`, not `budget_or_raise`: these pages carry no showtime, so a film past
+        the cap loses its price and keeps its screenings."""
+        saved = common.PAGE_BUDGET
+        common.PAGE_BUDGET = 2
+        self.addCleanup(lambda: setattr(common, "PAGE_BUDGET", saved))
+        shows, log = self.run_site()
+        self.assertEqual(len([c for c in self.calls if "/film/" in c]), 2)
+        self.assertEqual(len(shows), 5, "the schedule is untouched by the cap")
+        self.assertIn("page budget", log)
+        # The two films the cap reached, in slug order: dog-stars once and marsupilami
+        # twice. The two it did not keep their screenings and lose only the amount.
+        self.assertEqual(sum(1 for s in shows if s["price"]), 3)
+        self.assertEqual({s["title"] for s in shows if not s["price"]},
+                         {"SPA WEEKEND", "THE UPRISING"})
 
 
 if __name__ == "__main__":
