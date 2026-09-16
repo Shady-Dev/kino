@@ -66,6 +66,27 @@ unaffected.
 one this adapter used to make. The front page carries only the gift-card sentence, "13€
 (barnfilmer) och 15€" and 135 € for ten tickets, which is not a tariff and is not read.
 See `docs/research/prices.md`.
+
+## What else that page carries, and is now read
+
+The page is fetched for the price, so these cost nothing more. All read 2026-09-16 across
+all thirteen films.
+
+    field-name-body               the synopsis, in Swedish, 358 to 985 characters
+    field-name-field-movie-length "2h 7min", "01h 58min" -- and "XXh 00min" on one film
+    field-name-field-movie-age    "Tillåten från 12 år"
+
+- **The synopsis is declared Swedish.** `_syn` is published as `{"sv": ...}`, which
+  `synmerge` puts in its own slot. Åland's only official language is Swedish, and this text
+  in the Finnish slot would be served as Finnish to every chain showing the same film.
+- **The runtime is only read where it is a runtime.** `one-night-only` published
+  `XXh 00min` on the day this was written -- a placeholder, not a duration -- so the hours
+  must be digits or nothing is published. A film card with a wrong runtime is worse than one
+  with none.
+- **The age limit is the cinema's own**, `Tillåten från N år` -> `K-N`, and it beats the
+  shared classification pass: `enrich_tmdb` refuses to replace a rating a cinema published
+  (`enrich_tmdb.py:521`). Any other wording publishes nothing rather than a guess, which is
+  the rule `tmb.py` already follows for its age images.
 """
 import datetime
 import html as html_mod
@@ -96,6 +117,19 @@ TAGS_RE = re.compile(r"<[^>]+>")
 PRICE_BLOCK_RE = re.compile(r'field-name-field-price(.*?)</section>', re.S | re.I)
 PRICE_ITEM_RE = re.compile(r'<li[^>]*class="field-item[^"]*"[^>]*>(.*?)</li>', re.S | re.I)
 AMOUNT_RE = re.compile(r'(\d{1,3}(?:[.,]\d{1,2})?)\s*\u20ac')
+# The other labelled fields on the same page. `field-item` is the Drupal wrapper every field
+# uses, so each is read from inside its own section and never page-wide.
+FIELD_RE = {name: re.compile(r'field-name-' + name + r'\b(.*?)</section>', re.S | re.I)
+            for name in ("body", "field-movie-length", "field-movie-age")}
+ITEM_RE = re.compile(r'<(?:li|div)[^>]*class="field-item[^"]*"[^>]*>(.*?)</(?:li|div)>',
+                     re.S | re.I)
+# "2h 7min", "01h 58min". The hours must be digits: `one-night-only` published "XXh 00min"
+# on 2026-09-16, a placeholder the cinema had not filled in, and 0 minutes on a card reads
+# as a fact rather than as a gap.
+LENGTH_RE = re.compile(r'(\d{1,2})\s*h\s*(\d{1,3})\s*min', re.I)
+# "Tillåten från 12 år". Only this wording; anything else publishes no rating rather than a
+# guess, the way tmb.py refuses to read an age out of an image's ordinal.
+AGE_RE = re.compile(r'Till\u00e5ten\s+fr\u00e5n\s+(\d{1,2})\s*\u00e5r', re.I)
 
 
 def _txt(s):
@@ -157,6 +191,29 @@ def parse(page):
     return shows
 
 
+def _field(page, name):
+    """The text of one labelled field's items, joined. -> str, "" when the field is absent."""
+    m = FIELD_RE[name].search(page)
+    if not m:
+        return ""
+    parts = [_txt(x) for x in ITEM_RE.findall(m.group(1))]
+    return " ".join(x for x in parts if x)
+
+
+def film_facts(page):
+    """-> {"price", "len", "rating", "syn"} for one film page, each "" where the page does
+    not say it plainly.
+
+    `syn` is Swedish and is published as such; see the module docstring.
+    """
+    length = LENGTH_RE.search(_field(page, "field-movie-length"))
+    age = AGE_RE.search(_field(page, "field-movie-age"))
+    return {"price": film_price(page),
+            "len": str(int(length.group(1)) * 60 + int(length.group(2))) if length else "",
+            "rating": f"K-{int(age.group(1))}" if age else "",
+            "syn": _field(page, "body")}
+
+
 def film_price(page):
     """The film's own price. -> "15\u20ac", or "" when the page does not say one thing.
 
@@ -188,8 +245,8 @@ def get_page():
     return get(BASE + "/")
 
 
-def film_prices(slugs, sleep=1.5, get=None):
-    """{slug: price} for the films whose page said one thing. -> dict.
+def film_facts_by_slug(slugs, sleep=1.5, get=None):
+    """{slug: facts} for every film page that answered. -> dict.
 
     One request per **distinct** film, paced and cached, and bounded by the shared page
     budget -- `capped`, not `budget_or_raise`, because these pages carry no showtime: a film
@@ -205,24 +262,35 @@ def film_prices(slugs, sleep=1.5, get=None):
         if n:
             time.sleep(sleep)
         try:
-            out[slug] = film_price(get(f"{BASE}/film/{slug}"))
+            out[slug] = film_facts(get(f"{BASE}/film/{slug}"))
         except Exception as e:
             print(f"[biosavoy] film page {slug}: {type(e).__name__}: {e}", file=sys.stderr)
-    # Films whose page said nothing are in here as "", which is what the caller publishes
-    # for them anyway. Filtering them out would be a branch nothing can observe.
+    # A film whose page said nothing is in here with empty fields, which is what the caller
+    # publishes for it anyway. Filtering it out would be a branch nothing can observe.
     return out
+
+
+BLANK = {"price": "", "len": "", "rating": "", "syn": ""}
 
 
 def fetch_site(site=SITES[0], sleep=1.5):
     """Runner contract: the front page, then one film page per distinct film."""
     shows = parse(get_page())
-    prices = film_prices(sorted({s["eventId"] for s in shows}), sleep=sleep)
+    facts = film_facts_by_slug(sorted({s["eventId"] for s in shows}), sleep=sleep)
     for s in shows:
-        s["price"] = prices.get(s["eventId"], "")
+        f = facts.get(s["eventId"]) or BLANK
+        s["price"], s["len"], s["rating"] = f["price"], f["len"], f["rating"]
+        if f["syn"]:
+            # Declared, not assumed: synmerge would otherwise file it as Finnish and every
+            # chain showing this film would serve Swedish prose to Finnish readers.
+            s["_syn"] = {"sv": f["syn"]}
     print(f"[biosavoy] {len(shows)} showtimes, {len({s['eventId'] for s in shows})} films, "
           f"{len({s['start'][:10] for s in shows})} dates, "
           f"halls {sorted({s['aud'] for s in shows})}, "
-          f"{sum(1 for s in shows if s['price'])} priced")
+          f"{sum(1 for s in shows if s['price'])} priced, "
+          f"{sum(1 for s in shows if s['len'])} timed, "
+          f"{sum(1 for s in shows if s['rating'])} rated, "
+          f"{sum(1 for s in shows if s.get('_syn'))} with a Swedish synopsis")
     return {VENUE["id"]: shows}
 
 

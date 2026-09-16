@@ -11,11 +11,16 @@ and the visible clock deliberately disagree in one row: the attribute is the one
 """
 import contextlib
 import io
+import json
+import pathlib
+import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
 import biosavoy
 import common
+import enrich_tmdb
+import synmerge
 
 BASE = "http://www.biosavoy.ax"
 
@@ -59,7 +64,9 @@ LISTING = page(
 )
 
 
-def film_page(price="15 \u20ac", extra=None, field=True):
+def film_page(price="15 \u20ac", extra=None, field=True, length="2h 7min",
+              age="Till\u00e5ten fr\u00e5n 12 \u00e5r", body="Andrew Garfield spelar den "
+              "mytomspunne ledaren f\u00f6r det stora upproret."):
     """A `/film/{slug}` page. The price is a labelled Drupal field; `extra` adds a second
     `field-item` under it, which is what makes the page stop saying one thing."""
     items = "".join(f'<li class="field-item even">{v}</li>'
@@ -68,10 +75,21 @@ def film_page(price="15 \u20ac", extra=None, field=True):
     block = ('<section class="field field-name-field-price field-type-taxonomy-term-reference '
              'field-label-inline clearfix view-mode-full"><h2 class="field-label">Pris:&nbsp;'
              f'</h2><ul class="field-items">{items}</ul></section>') if field else ""
-    return ('<html><body><section class="field field-name-field-genre"><ul class="field-items">'
-            '<li class="field-item even">Drama</li></ul></section>' + block +
-            '<section class="field field-name-field-speltid"><ul class="field-items">'
-            '<li class="field-item even">2h 7min</li></ul></section></body></html>')
+    def sect(name, value, tag="li"):
+        if value is None:
+            return ""
+        return (f'<section class="field field-name-{name} field-label-inline clearfix '
+                f'view-mode-full"><ul class="field-items">'
+                f'<{tag} class="field-item even">{value}</{tag}></ul></section>')
+
+    return ('<html><body>'
+            # A decoy: the genre field wraps its value in `field-item` like every other,
+            # so a page-wide read picks it up instead of the field it wants.
+            + sect("field-genre", "Drama") + block
+            + sect("field-movie-length", length)
+            + sect("field-movie-age", age)
+            + sect("body", f"<p>{body}</p>" if body else None, tag="div")
+            + "</body></html>")
 
 
 class ScheduleTest(unittest.TestCase):
@@ -320,6 +338,163 @@ class PriceThroughFetchTest(unittest.TestCase):
         self.assertEqual(sum(1 for s in shows if s["price"]), 3)
         self.assertEqual({s["title"] for s in shows if not s["price"]},
                          {"SPA WEEKEND", "THE UPRISING"})
+
+
+class FilmFactsTest(unittest.TestCase):
+    """The runtime, the age limit and the Swedish synopsis, off the page fetched anyway."""
+
+    def facts(self, **kw):
+        return biosavoy.film_facts(film_page(**kw))
+
+    def test_the_runtime_becomes_minutes(self):
+        self.assertEqual(self.facts(length="2h 7min")["len"], "127")
+        self.assertEqual(self.facts(length="01h 58min")["len"], "118")
+        self.assertEqual(self.facts(length="1h 30min")["len"], "90")
+
+    def test_a_placeholder_runtime_publishes_nothing(self):
+        """`one-night-only` published `XXh 00min` on 2026-09-16: the cinema had not filled
+        it in. A card reading 0 min states a fact that is not one."""
+        self.assertEqual(self.facts(length="XXh 00min")["len"], "")
+
+    def test_a_missing_runtime_field_publishes_nothing(self):
+        self.assertEqual(self.facts(length=None)["len"], "")
+
+    def test_the_age_limit_is_read_from_the_cinemas_own_wording(self):
+        for text, want in (("Till\u00e5ten fr\u00e5n 7 \u00e5r", "K-7"),
+                           ("Till\u00e5ten fr\u00e5n 12 \u00e5r", "K-12"),
+                           ("Till\u00e5ten fr\u00e5n 16 \u00e5r", "K-16")):
+            with self.subTest(text=text):
+                self.assertEqual(self.facts(age=text)["rating"], want)
+
+    def test_any_other_age_wording_publishes_nothing_rather_than_a_guess(self):
+        """The rule tmb.py already follows for its age images: a classification inferred
+        from a shape is worse than none, and the shared pass can still fill a blank."""
+        for text in ("Barntillåten", "Till\u00e5ten f\u00f6r alla", "", None,
+                     # A bare number, and a label without the statement: the wording is
+                     # what says this is an age limit, and a digit on its own does not.
+                     "12", "\u00c5ldersgr\u00e4ns 12",
+                     # Defensive: not a wording this site uses, and the one that would cost
+                     # most if `från N` alone were the rule. A recommendation is not a limit.
+                     "Rekommenderas fr\u00e5n 7 \u00e5r"):
+            with self.subTest(text=text):
+                self.assertEqual(self.facts(age=text)["rating"], "")
+
+    def test_the_synopsis_is_the_body_field_and_not_another_one(self):
+        f = self.facts(body="En mening p\u00e5 svenska om filmen.")
+        self.assertEqual(f["syn"], "En mening p\u00e5 svenska om filmen.")
+        self.assertNotIn("Drama", f["syn"])
+
+    def test_a_page_with_no_body_publishes_no_synopsis(self):
+        self.assertEqual(self.facts(body=None)["syn"], "")
+
+    def test_each_field_is_read_from_its_own_section(self):
+        """Every Drupal field wraps its value in `field-item`, so a page-wide read of any
+        one of them finds whichever field happens to come first."""
+        f = self.facts(length="2h 7min", age="Till\u00e5ten fr\u00e5n 16 \u00e5r")
+        self.assertEqual((f["len"], f["rating"], f["price"]), ("127", "K-16", "15\u20ac"))
+
+
+class SwedishSynopsisTest(unittest.TestCase):
+    """Åland's only official language is Swedish, and the slot is shared across chains."""
+
+    def run_site(self, **over):
+        pages = {f"{BASE}/": PriceThroughFetchTest.LISTING_REPEAT,
+                 f"{BASE}/film/dog-stars": film_page(body="Om h\u00f6sten och hundarna."),
+                 f"{BASE}/film/uprising": film_page(body="Om upproret."),
+                 f"{BASE}/film/marsupilami": film_page(body=None),
+                 f"{BASE}/film/spa-weekend": film_page(body="Om en spahelg.")}
+        pages.update(over)
+        calls = []
+
+        def get(url):
+            calls.append(url)
+            body = pages.get(url)
+            if isinstance(body, Exception):
+                raise body
+            if body is None:
+                raise RuntimeError(f"unexpected fetch {url}")
+            return body
+        real_get, real_sleep = biosavoy.get, biosavoy.time.sleep
+        biosavoy.get, biosavoy.time.sleep = get, lambda s: None
+        self.addCleanup(lambda: setattr(biosavoy, "get", real_get))
+        self.addCleanup(lambda: setattr(biosavoy.time, "sleep", real_sleep))
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            data = biosavoy.fetch_site()
+        return data["savoy-mariehamn"], out.getvalue() + err.getvalue()
+
+    def test_the_synopsis_is_published_declared_as_swedish(self):
+        """A bare string would be filed as Finnish by synmerge and served as Finnish to
+        every chain showing the same film."""
+        shows, log = self.run_site()
+        syn = {s["title"]: s.get("_syn") for s in shows}
+        self.assertEqual(syn["THE DOG STARS"], {"sv": "Om h\u00f6sten och hundarna."})
+        self.assertIn("Swedish synopsis", log)
+
+    def test_the_runtime_and_the_age_limit_reach_every_screening(self):
+        """Not only the price: the same page carries both, and both are per film, so every
+        screening of a film gets the same pair."""
+        shows, log = self.run_site()
+        got = {}
+        for s in shows:
+            got.setdefault(s["title"], set()).add((s["len"], s["rating"]))
+        for title, pairs in got.items():
+            with self.subTest(title=title):
+                self.assertEqual(pairs, {("127", "K-12")})
+        self.assertIn("timed", log)
+        self.assertIn("rated", log)
+
+    def test_a_film_with_no_body_carries_no_synopsis_key_at_all(self):
+        shows, _ = self.run_site()
+        marsu = next(s for s in shows if s["title"] == "MARSUPILAMI")
+        self.assertNotIn("_syn", marsu)
+
+    def test_what_synmerge_does_with_it_lands_in_the_swedish_slot(self):
+        """The end of the path, through the real helper rather than a restatement."""
+        shows, _ = self.run_site()
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        out = pathlib.Path(tmp.name)
+        synmerge.reset()
+        self.addCleanup(synmerge.reset)
+        with contextlib.redirect_stdout(io.StringIO()):
+            synmerge.merge(out, {"savoy-mariehamn": shows}, "biosavoy", 0)
+        films = json.loads((out / "films-extra.json").read_text())["films"]
+        entry = films[synmerge.norm("THE DOG STARS")]["s"]
+        self.assertEqual(entry["sv"], "Om h\u00f6sten och hundarna.")
+        self.assertEqual(entry["fi"], "")
+
+    def test_every_show_still_meets_the_contract_with_the_helper_stripped(self):
+        shows, _ = self.run_site()
+        synmerge.strip_helpers(shows)
+        common.check_shows({"savoy-mariehamn": shows}, "biosavoy", {"savoy-mariehamn"})
+
+
+class RatingPrecedenceTest(unittest.TestCase):
+    """The cinema's own age limit outranks the shared classification pass.
+
+    That pass fills a blank rating from another chain showing the same film. Bio Savoy now
+    states its own, and a borrowed one must not replace it -- the two disagree in the normal
+    case, because one is the Åland cinema's and the other is whatever chain matched first.
+    """
+
+    TABLE = {7: {"rating": "K-16", "runtimes": {127}}}
+
+    def test_a_rating_the_cinema_published_is_never_replaced(self):
+        show = {"rating": "K-12", "tmdbId": 7, "len": "127"}
+        self.assertIsNone(enrich_tmdb.borrowed_rating(show, self.TABLE))
+
+    def test_a_blank_rating_may_still_be_filled(self):
+        show = {"rating": "", "tmdbId": 7, "len": "127"}
+        self.assertEqual(enrich_tmdb.borrowed_rating(show, self.TABLE), "K-16")
+
+    def test_bio_savoy_now_publishes_one_so_the_pass_has_nothing_to_do(self):
+        shows = [dict(s) for s in biosavoy.parse(LISTING)]
+        for s in shows:
+            s["rating"] = "K-12"
+            with self.subTest(title=s["title"]):
+                self.assertIsNone(enrich_tmdb.borrowed_rating({**s, "tmdbId": 7},
+                                                              self.TABLE))
 
 
 if __name__ == "__main__":
