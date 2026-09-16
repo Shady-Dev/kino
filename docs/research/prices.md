@@ -9,9 +9,11 @@ against the public ticket page a showtime already links to, sequential, 1 s apar
 40 pages a run, re-read after 48 h. Riviera, Kino Regina and Korjaamo Kino use it. Coverage
 was 907 of 3773 showtimes priced when last measured on 2026-09-13.
 
-**Open.** The one route not looked at is a visitor-facing *price page*, which would be
-ordinary content rather than a booking endpoint. Next step: check whether Finnkino or
-BioRex publishes one before treating either as blocked.
+**Deferred, 2026-09-16.** The one route not looked at is a visitor-facing *price page*,
+which would be ordinary content rather than a booking endpoint. The maintainer deferred it
+for Finnkino and BioRex on the grounds that neither is easily done. It is not probed, and
+the dated entries below that call it "not looked at" are unchanged records of the day they
+were written rather than a next action.
 
 **Decided against.** Kino Engel's prices sit behind the Johku widget's API key; a headless
 render was measured at about 6 s a page and deferred by the maintainer on 2026-09-13.

@@ -117,9 +117,9 @@ already reads carries no price field anywhere, scanning it for any key containin
 amount, cost, ticket, fee, tariff or currency returns zero matches, and the obvious
 ticket-type paths answer 404. The only route left is the seat-selection flow, which this
 repo does not call or inventory.
-**Open on one possibility:** a visitor-facing price *page* would be ordinary content and a
-legitimate source. Not probed. Evidence:
-[docs/research/prices.md](docs/research/prices.md).
+The one route left open, a visitor-facing price *page*, is **deferred** by the maintainer
+on 2026-09-16 for Finnkino and BioRex alike: neither is easily done. Nothing is probed and
+nothing is scheduled. Evidence: [docs/research/prices.md](docs/research/prices.md).
 
 ### Kino Engel prices
 
