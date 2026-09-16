@@ -2758,7 +2758,10 @@
       // another pick. The payload stays cached for the next visit; nothing is drawn.
       if(seq !== loadSeq) return;
       const cache = jsonCache[area];
-      if(cache.generated) state.generated = cache.generated;
+      // Always, not only when the payload has one: a combined city whose every part
+      // failed carries no timestamp, and keeping the last area's made the footer and the
+      // stale banner state that cinema's freshness about this one.
+      state.generated = cache.generated || '';
       state.genProvider = cache.oldest || (venueIndex[state.area] || {}).provider || '';
       state.dates = Array.isArray(cache.dates) ? cache.dates : null;
       state.horizon = cache.horizon || '';
@@ -2820,7 +2823,17 @@
       }
     }
     const staleEl = document.querySelector('#stale');
-    if(!staleEl || !state.generated) return;
+    if(!staleEl) return;
+    if(!state.generated){
+      // Nothing is known about this selection's freshness, so nothing is claimed. The
+      // previous area's banner and credit line would otherwise stay on screen, and both
+      // read as statements about what is in front of the reader now.
+      staleEl.style.display = 'none';
+      const noStamp = document.querySelector('#credit');
+      if(noStamp) noStamp.textContent = '';
+      renderContact();
+      return;
+    }
     const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
     if(ageH > STALE_H){
       // Name the provider: every source runs on its own schedule. In a combined city
