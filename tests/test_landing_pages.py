@@ -29,6 +29,7 @@ import contextlib
 import html
 import io
 import json
+import os
 import pathlib
 import ast
 import random
@@ -920,6 +921,56 @@ class SnippetTest(GeneratedPagesTest):
         for k, text in self.canonical.items():
             m = re.search(r'<meta name="description" content="([^"]+)">', text)
             self.assertTrue(m and m.group(1).strip(), k)
+
+
+class ShowCacheTest(unittest.TestCase):
+    """`load_shows` reads each area file once, and never serves a stale one."""
+
+    def setUp(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import build_pages
+        self.B = build_pages
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.dir = pathlib.Path(self.tmp.name)
+        saved = build_pages.DATA
+        build_pages.DATA = self.dir
+        self.addCleanup(lambda: setattr(build_pages, "DATA", saved))
+        build_pages._SHOWS.clear()
+
+    def write(self, title, generated="2026-09-17"):
+        (self.dir / "area-zz.json").write_text(json.dumps({
+            "generated": generated,
+            "shows": [{"eventId": "1", "title": title, "start": "2026-09-17T18:00:00+03:00"}],
+        }))
+
+    def test_the_second_read_of_one_file_does_not_touch_the_disk(self):
+        self.write("First")
+        reads = []
+        real = pathlib.Path.read_text
+        pathlib.Path.read_text = lambda s, *a, **k: (reads.append(str(s)), real(s, *a, **k))[1]
+        self.addCleanup(lambda: setattr(pathlib.Path, "read_text", real))
+        a = self.B.load_shows("zz")
+        b = self.B.load_shows("zz")
+        self.assertEqual(a, b)
+        self.assertEqual(len(reads), 1, "the file was parsed twice")
+
+    def test_a_file_rewritten_between_builds_is_read_again(self):
+        """The error this prevents: a cache keyed on the venue id handing a later build
+        the earlier one's schedule. The tests rebuild from data they rewrite, and so does
+        a regeneration after a run."""
+        self.write("First")
+        self.assertEqual(self.B.load_shows("zz")[0]["title"], "First")
+        self.write("Second", generated="2026-09-18")
+        os.utime(self.dir / "area-zz.json", ns=(10 ** 18, 10 ** 18))
+        self.assertEqual(self.B.load_shows("zz")[0]["title"], "Second")
+
+    def test_a_missing_file_is_no_shows_and_is_not_cached_as_one(self):
+        self.assertEqual(self.B.load_shows("nope"), [])
+        self.write("Late")
+        self.assertEqual(self.B.load_shows("nope"), [])
+        self.assertEqual(self.B.load_shows("zz")[0]["title"], "Late")
 
 
 class ReadmeCountsTest(unittest.TestCase):

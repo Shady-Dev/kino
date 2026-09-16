@@ -487,11 +487,27 @@ def load_venues():
     return out
 
 
+# A venue in a multi-venue city is read twice, once for its own page and once for the
+# city's: 47 of 101 venues on 2026-09-17. The saving is small -- the whole build is about
+# 0.19 s and this is a fraction of it -- so the reason to keep the cache is that the second
+# read is pure waste, not that it was slow. Keyed by the file's identity rather than the
+# venue id: the tests build from temp roots and from data they rewrite between builds, and
+# a cache keyed on the id alone would hand the second build the first one's schedule.
+_SHOWS = {}
+
+
 def load_shows(vid):
     p = DATA / f"area-{vid}.json"
     if not p.exists():
         return []
-    return json.loads(p.read_text()).get("shows", [])
+    st = p.stat()
+    key = (str(p), st.st_mtime_ns, st.st_size)
+    hit = _SHOWS.get(key)
+    if hit is None:
+        hit = _SHOWS[key] = json.loads(p.read_text()).get("shows", [])
+    # The caller must not mutate it, and none does: the city pass copies every show it
+    # keeps (`{**s, "venueLabel": ...}`) and `group_by_day` only sorts and groups.
+    return hit
 
 
 def duration(minutes):
