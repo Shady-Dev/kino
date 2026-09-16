@@ -1,8 +1,8 @@
-[julia] 4 showtimes, 2 films, 2 dates
+[julia] 2 showtimes, 2 films, 1 dates
 [julia] synopses merged: 0
-[julia] Julia 1&2: 4 showtimes, 2 dates
+[julia] Julia 1&2: 2 showtimes, 1 dates
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- juliaelokuvat.fi
-[run] julia: 1 venues, 4 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 4.0s of fetching added up across workers that overlap, longest site 4.0s, longest queue wait 69.5s, 4.0s wall from this module's first fetch starting to its last ending
+[run] julia: 1 venues, 2 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 3.6s of fetching added up across workers that overlap, longest site 3.6s, longest queue wait 63.7s, 3.6s wall from this module's first fetch starting to its last ending
 exit=0

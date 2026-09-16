@@ -11,8 +11,8 @@
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
 [kinolaika] Kino Laika: 35 showtimes, 10 dates
-[run] http: 0 revalidated (304), 67 full, 0 not stored (origin said no-store), 42 cache entries written
+[run] http: 41 revalidated (304), 26 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 2 attempted -- www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 2 venues, 92 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 143.9s of fetching added up across workers that overlap, longest site 90.2s, longest queue wait 85.4s, 90.2s wall from this module's first fetch starting to its last ending
+[run] timing: 2 site(s), 118.9s of fetching added up across workers that overlap, longest site 67.7s, longest queue wait 89.6s, 67.7s wall from this module's first fetch starting to its last ending
 exit=0

@@ -27,5 +27,5 @@
 [run] http: 0 revalidated (304), 31 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
 [run] biorex: 12 venues, 1234 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 104.9s of fetching added up across workers that overlap, longest site 104.9s, longest queue wait 0.0s, 104.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 94.6s of fetching added up across workers that overlap, longest site 94.6s, longest queue wait 0.0s, 94.6s wall from this module's first fetch starting to its last ending
 exit=0
