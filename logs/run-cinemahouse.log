@@ -1,10 +1,16 @@
-[kinopiispanristi] FAILED: no cr-movies-filter-select on the page: the template changed
-[kinolumo] FAILED: no cr-movies-filter-select on the page: the template changed
+[kinopiispanristi] film pages: 20 with a synopsis, 0 without, 20 films
+[kinopiispanristi] strand prefix split off 1 showtimes
+[kinopiispanristi] synopses merged: 0
+[kinopiispanristi] Kino Piispanristi: 141 showtimes, 10 dates
+[kinolumo] film pages: 16 with a synopsis, 0 without, 16 films
+[kinolumo] strand prefix split off 1 showtimes
+[kinolumo] synopses merged: 0
+[kinolumo] Kino Lumo: 59 showtimes, 10 dates
 [laitilankino] film pages: 13 with a synopsis, 0 without, 13 films
 [laitilankino] synopses merged: 0
 [laitilankino] Laitilan Kino: 25 showtimes, 13 dates
-[run] http: 0 revalidated (304), 16 full, 2 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 52 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 1 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
-[run] timing: 3 site(s), 26.6s of fetching added up across workers that overlap, longest site 24.6s, longest queue wait 70.4s, 25.6s wall from this module's first fetch starting to its last ending
-exit=1
+[run] cinemahouse: 3 venues, 225 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 94.2s of fetching added up across workers that overlap, longest site 38.9s, longest queue wait 56.1s, 38.9s wall from this module's first fetch starting to its last ending
+exit=0
