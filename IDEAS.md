@@ -57,22 +57,6 @@ measurements: [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers
 **Next action:** nothing here. Kino Konepaja gets a `SITES` entry when it lists a
 screening: re-read 2026-09-15, its event list still says "Ei tulevia tapahtumia."
 
-### Cloud fetch: one pool across the modules, and the production figure
-
-The cloud workflow ran `run.py` once per module, so two modules never overlapped however
-many hosts sat idle. `run_cloud.py` is the same host-keyed pool over all 48 cloud sites in
-one process, publishing in module and then SITES order. Built 2026-09-15; the record, the
-host audit and what the audit does not establish are in
-[docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md).
-**Nothing in production is measured.** The fixtures show the overlap, the ceiling and one
-worker and eight writing identical files; a localhost server with a 50 ms delay says
-nothing about what a real run costs.
-**Next action:** after the first ordinary scheduled run carrying this code, compare each
-module's `[run] timing:` line and `logs/run-cloud.log` against the **fetch step**, 247 s to
-435 s, allowing for step overhead. Not against 4.9 and 10.5 minutes: those are whole
-workflow durations and include enrichment, posters, pages and the commit. Write the
-comparison up in the archive entry. No dispatch: let a cron slot do it.
-
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino

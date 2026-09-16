@@ -1479,3 +1479,60 @@ unattributed.** Do not guess a cause for it.
 What follows from all of this is the entry above: the fetch step is the largest single
 piece of the increase and was being spent one module at a time. That is what `run_cloud.py`
 addresses, and the production figure for it is not measured either -- see `IDEAS.md`.
+
+### The cloud pool, measured in production (2026-09-16)
+
+The open item this closes asked for one thing: the coordinator's cost on an ordinary
+scheduled run, against the **fetch step** it replaced, 247 s and 435 s. Two runs now carry
+`run_cloud.py` and both are green. The figures are from the committed logs, not from
+Actions.
+
+| | `0b4a167f`, committed 23:18 UTC | `e9b4e85d`, committed 00:39 UTC |
+|---|---:|---:|
+| wall | 175.6 s | 147.5 s |
+| fetching summed across overlapping workers | 926.0 s | 863.4 s |
+| sites fetched | 48 | 48 |
+| peak sites fetched and unpublished | 45 | 43 |
+| peak captured log held | 2,370 B | 2,229 B |
+
+Both read 20 modules, 48 sites, 46 host groups, pool of 8.
+
+**The two measurements are not the same measurement, and the comparison has to say so.**
+247 s and 435 s are Actions *step* durations for a shell loop that started twenty Python
+processes. `[cloud] … wall` is measured inside one process, from after the registry is read
+and the host groups are built to after the last module is published, so it excludes the
+interpreter's own startup and the imports, and the step around it is higher than 147.5 s by
+however much that is. Nothing here measures that overhead. What can be said without it: the
+step was 247 s at its cheapest reading and the work inside the process is now 147.5 s and
+175.6 s, so the gap against the cheaper baseline is about 70–100 s and against the dearer
+one about 260–290 s, on a sample of two runs of each.
+
+**5.3 and 5.9 are not a speedup.** 926.0/175.6 and 863.4/147.5 are the average amount of
+overlapping fetch work per second of wall. They are not a ratio against anything that was
+ever run: the per-module processes already overlapped the sites *inside* a module, sixteen
+of them in eTiketti alone, so no sequential 926 s run exists to divide by. The figure says
+how much concurrency the pool sustained, and nothing about what it saved.
+
+**The queue waits are contention for slots, and they are not an argument for more slots.**
+46 host groups against a pool of 8, so 38 of them wait for a slot at the start. What the
+logs report is one number per module, that module's longest wait, and on the later run
+those run from 0.0 s -- BioRex and Nexxo, which are among the eight that start immediately
+-- to 89.6 s for Kinola. No per-site distribution was recorded, so "most sites wait about a
+minute" is not a claim these logs support. What the run's own length is set by is
+fetching, not by waiting -- BioRex is one site at 94.6 s, eTiketti's sixteen span 92.7 s --
+and the eight workers are eight cinemas' servers being read at once. Raising `MAX_HOSTS`
+buys wall time by adding simultaneous load on unrelated third parties, which is the thing
+the pacing exists to limit. It stays at 8.
+
+**The buffering estimate was close to the actual case.** The 2026-09-15 entry called the
+worst case "every site fetched and none published" and sized today's programme at about
+10 MB. The runs held 43 and 45 of 48 sites, so the worst case is roughly the ordinary case
+and the estimate stands as written. The captured log is the part that is bounded, and the
+run held 2,229 and 2,370 bytes of it in total across every waiting site -- the 1 MiB cap is
+per site and applies to the largest single capture, which these totals put an upper bound
+on rather than measure, so nothing came within reach of trimming.
+
+**What two runs do not establish.** They differ by 28.1 s and they read different
+programmes, so the difference between them is the difference between the runs, not a
+measurement of variance. Neither is compared against a per-module run of the same day,
+because the code that would produce one is gone.
