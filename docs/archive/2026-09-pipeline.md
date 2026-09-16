@@ -1544,3 +1544,29 @@ between the other two, so three runs now span 147.5 s to 175.6 s. That is still 
 samples of a run whose programme changes under it, not a variance; what it does settle is
 that the first two were not a lucky pair, and the 247 s reading of the old fetch step stays
 the nearest thing to a baseline.
+
+### An opera relay's season is the part the title cannot show (2026-09-16)
+
+Kino Tapiola's `The Royal Opera: Carmen`, one screening on 2026-12-13, shipped an initials
+tile and no synopsis. TMDB registers the event as `Royal Ballet & Opera 2026/27: Carmen`,
+so the exact-title rule refused it and `data/tmdb-titles.json` kept the weak match 1702759
+with `x:false`. That is the gate working, and the alias file is the documented way out.
+
+Aliased: `the royal opera carmen` -> `1702759`, the id read off `/movie/1702759`. The
+record is the 2026/27 season, the opera the cinema names, first released 2026-11-10 in
+Germany, and Tapiola relays it five weeks later.
+
+**Only Carmen, and Tosca is the reason.** The cinema publishes three more of these, and the
+same weak search found an id for each. `The Royal Opera: Tosca` is relayed 2027-06-06, and
+its weak match, 1482356, is the **2025/26** season record, 3h30, released 2025-10-01 -- the
+right opera, the right house, the wrong year's production, which is a wrong poster on the
+row rather than a missing one. A relay's title carries the work and the company; the season
+is what separates two records, and only the date shows it. `Cosi fan Tutte` (1702775,
+released 2027-02-23, relayed 2027-04-04) and `Götterdämmerung` (1702769, released
+2027-02-03, relayed 2027-02-28) are 2026/27 records whose dates fit, and they are left
+unaliased because they were not asked for, not because the evidence failed.
+
+Tests: `tests/test_tmdb_matching.py` gains one, pinning the id, the norm key and Tosca's
+absence. Four mutations, all red: the alias dropped, the id swapped for the 2025/26 Tosca
+record, Tosca aliased to it, and the key written as the published title rather than its
+norm.

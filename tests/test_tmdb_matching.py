@@ -451,6 +451,17 @@ class AliasFileTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.norm(published), "myrskyn ikkuna")
 
 
+    def test_the_carmen_alias_pins_the_season_the_cinema_relays(self):
+        """An opera relay's TMDB record is per season, so the id is the part that can be
+        wrong while the title looks right. The error this prevents: the 2025/26 Tosca
+        record, which the same weak search found for a 2027 relay, being written here."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc["the royal opera carmen"], "1702759")
+        self.assertEqual(enrich_tmdb.norm("The Royal Opera: Carmen"),
+                         "the royal opera carmen")
+        self.assertNotIn("the royal opera tosca", doc)
+
+
 class FixedDate(datetime.date):
     @classmethod
     def today(cls):
