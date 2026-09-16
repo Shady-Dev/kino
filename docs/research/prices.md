@@ -84,7 +84,7 @@ raw was written to the repo.
 
 | Provider | Where a price is stated | Cost to read it |
 |---|---|---|
-| Kino-Toijala, -Sampo, KinoMania, Elo | `?hinnat=N`, linked from the list view | one request per venue |
+| Kino-Toijala, -Sampo, KinoMania, Elo | under each screening on the `?ohjelmisto=` film page; the `?hinnat=N` tariff prices nothing | one request per distinct film, already made for the runtime |
 | Kino Kirkkonummi | `<div>Liput 14,50</div>` in each film's block | none, already fetched |
 | Iso-Hannu | `LIPUT Ma-to 13,50 € Pe-su ja arkipyhä 14,50 €` on the front page | none, already fetched |
 | Kino Manttu | `Kino Mantun liput: 11 € / 9 €` in the listing text | none, already fetched |
@@ -240,3 +240,20 @@ outside organisers' rows -- one Hopeatähti series screening, one Hyvät Kuvat f
 screening and two Vilimit festival screenings, all four linking to isak.fi or
 hyvätkuvat.fi. The record is in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md).
+
+## TMB is priced after all, from the screening and not the tariff (2026-09-16)
+
+The entry above says no TMB screening can be priced, and it is right about the tariff: 2D
+against 3D is unreadable and *arkipyhä* needs a calendar. Both questions turned out to be
+the wrong ones. The film page, which this adapter began reading the same day for the
+runtime, prints `Hinta:` under **each screening** -- `14.45€ / 12.45€ / 11.45€` on a
+Wednesday and `14.95€ / 12.95€ / 11.95€` on the Sunday of the same film, read 2026-09-16.
+The operator has already applied its own tariff, so the format and the +0.50 the maintainer
+confirmed for weekends and public holidays are both in the figure.
+
+The first of the three is the ordinary admission: `?hinnat=2` prints Aikuinen 14.45,
+Eläkeläinen 12.45, Lapsi 11.45 in that order, read the same day, and the film page prints
+the same three numbers in the same order.
+
+Published on the maintainer's instruction 2026-09-16, at no extra request: the page was
+already being fetched. The tariff page is read by nothing.

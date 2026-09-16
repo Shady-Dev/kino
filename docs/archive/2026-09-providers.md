@@ -1909,3 +1909,31 @@ is gone; what replaces it asserts the order and that a repeated film is fetched 
 mutations, all red: a page per showtime instead of per film, the budget dropped, no
 duration becoming a `0`, hours-only runtimes ignored, an empty synopsis published as a
 `_syn`, a failing film page failing the site, and the runtime and genre fields swapped.
+
+### TMB's price comes back, from the screening's own line (2026-09-16, later)
+
+Withdrawn that morning, published again that evening, and the two are not the same claim.
+What was withdrawn was the **tariff**: 14.45 € plus 0.50 at weekends, applied to rows whose
+format nothing states and whose *arkipyhä* status no calendar here knows. What is published
+now is the `Hinta:` line the film page prints under each screening, which the adapter began
+fetching hours earlier for the runtime. The operator has applied its own tariff there, so
+the two gaps that sank the first attempt are not questions any more: the Sunday row reads
+14.95 € where the same film's Wednesday reads 14.45 €, and the maintainer confirmed the
++0.50 covers weekends and public holidays alike.
+
+The first of the three figures is the ordinary admission, and that is read rather than
+assumed: `?hinnat=2` prints Aikuinen 14.45, Eläkeläinen 12.45 and Lapsi 11.45 in that
+order, and the film page prints those three numbers in that order. The other two need a
+card at the counter. The tariff page is still fetched by nothing, and the price costs no
+request that was not already being made.
+
+Keyed by the screening's own minute, so neither page's ordering matters and a screening the
+film page does not list stays unpriced. Two amounts under one screening publish neither:
+only the next date delimits a block, so a row the parser cannot read would otherwise leave
+its amount attached to the screening above it.
+
+Tests: `tests/test_tmb.py`, 36. Eight mutations, all red: a concession published as the
+price, two amounts for one minute keeping the last, a block holding two amounts taking the
+first, a block running past the next screening, the price keyed by the day rather than the
+minute, an unlisted screening taking some other row's amount, and the amount losing its
+cents.

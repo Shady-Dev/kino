@@ -49,7 +49,7 @@ Three things this parser deliberately does not do:
   `common.capped`; the schedule is parsed from the list view first, so a film page that
   will not answer costs that film its metadata and never a cinema its programme.
 
-## The price is on the site, and is not published
+## The price comes from the screening's own line, not from the tariff
 
 The operator states a tariff, and each list view links it in its own nav -- `?hinnat=2` at
 Toijala, `3` at Sampo, `4` at Mania, `1` at Elo. Read as a visitor 2026-09-16; all four say
@@ -81,14 +81,23 @@ arkipyhä gap on weekdays and make Saturday and Sunday exact; or a maintainer's 
 publish a labelled house tariff, which is a different field and a different product
 question. Neither is assumed here. The finding is in `docs/research/prices.md`.
 
-**And a third thing exists, found 2026-09-16 when the film page was first read: that page
-states an amount per screening**, `Hinta: 14.45€ / 12.45€ / 11.45€` under each date, with
-the Saturday row reading 14.95 where the weekday reads 14.45. That is not the tariff needing
-to be applied; it is the operator stating what that screening costs, which is what the rule
-asks for, and the three figures are the tariff page's Aikuinen / Eläkeläinen / Lapsi in its
-own order. `film_facts` does not read it and no show carries it. Publishing it is a decision
-the maintainer has not made, and reading the page for a runtime is not a way to make it
-quietly; a test pins that the parser returns the three metadata fields and nothing else.
+**A third thing settles it, found 2026-09-16 when the film page was first read: that page
+states an amount per screening.** `Hinta: 14.45€ / 12.45€ / 11.45€` sits under each date,
+and the Sunday row reads 14.95 where the Wednesday reads 14.45. Neither question above has
+to be answered for that figure to be right: the operator has applied its own tariff, the
+format is whatever it was, and the +0.50 the maintainer confirmed for weekends and public
+holidays is already in the printed number. `screening_prices` reads it, keyed by the
+screening's own minute, and `fetch_site` gives each row the amount printed under it and
+nothing else -- a screening the film page does not list stays unpriced.
+
+The first of the three figures is the ordinary admission: `?hinnat=` prints Aikuinen 14.45,
+Eläkeläinen 12.45 and Lapsi 11.45 in that order, read 2026-09-16, and the film page prints
+those three numbers in that order. The other two need a card at the counter, so they
+describe no ordinary ticket. The tariff page itself is still fetched by nothing.
+
+Two amounts under one screening publish neither: nothing in the markup delimits a block but
+the next date, so a row this parser cannot read would otherwise leave its price attached to
+the screening above it.
 
 
 A list view whose container is present with no screening row is a confirmed empty
@@ -147,6 +156,16 @@ WEEKDAYS = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")
 # for Kesto, Kuvaus, Lajityyppi, Ohjaus and Näyttelijät alike. Reading the labels rather
 # than positions means a field the operator adds or drops changes nothing here.
 INFO_RE = re.compile(r'<p class="info">\s*([^:<]{2,24}):\s*<b>(.*?)</b>\s*</p>', re.S | re.I)
+# The film page's own screening list, `<p id="shows">`, one block per screening: the full
+# date, the time, the booking button, then `Hinta:` for that screening. A block runs to the
+# next date or to the end of the list, which is what keeps one screening's amount off the
+# next one.
+SHOW_RE = re.compile(
+    r"[A-Z\u00c4\u00d6]{2}(?:&nbsp;|\s)(\d{1,2})\.(\d{1,2})\.(\d{4})\s*klo(?:&nbsp;|\s)"
+    r"(\d{1,2}):(\d{2})(.*?)(?="
+    r"[A-Z\u00c4\u00d6]{2}(?:&nbsp;|\s)\d{1,2}\.\d{1,2}\.\d{4}\s*klo|</p>|\Z)",
+    re.S | re.I)
+HINTA_RE = re.compile(r"Hinta:\s*([\d]{1,3}[.,]\d{2})\s*\u20ac", re.I)
 HOURS_RE = re.compile(r"(\d{1,2})\s*tuntia", re.I)
 MINS_RE = re.compile(r"(\d{1,3})\s*minuuttia", re.I)
 
@@ -227,15 +246,59 @@ def minutes(raw):
     return str(total) if total else ""
 
 
+def screening_prices(page):
+    """The film page's own screening list -> {"2026-09-16T17:30": "14.45\u20ac"}.
+
+    **This is the operator stating what a screening costs, not a tariff to apply.** The
+    tariff cannot price a row here: 2D and 3D differ by 2.50 with no marker on any row, and
+    the weekend surcharge covers weekday public holidays, which no calendar here knows.
+    This line settles both by not needing either -- it is printed under the screening, and
+    the surcharge is already in it. Measured 2026-09-16: the same film reads
+    `14.45\u20ac / 12.45\u20ac / 11.45\u20ac` on a Wednesday and `14.95\u20ac / ...` on the
+    Sunday.
+
+    The first figure is the ordinary admission. `?hinnat=` states the three in one order --
+    Aikuinen 14.45, Eläkeläinen 12.45, Lapsi 11.45 -- and the film page prints those three
+    numbers in that order, so the first is read and the other two are the concessions a
+    counter checks a card for.
+
+    Keyed by the screening's own minute, so it reaches the list view's rows without
+    depending on the order of either page. Two rows claiming one minute with **different**
+    amounts settle nothing and publish nothing; the same amount twice is not a conflict.
+    """
+    out, refused = {}, set()
+    for day, month, year, hh, mm, tail in SHOW_RE.findall(page):
+        found = HINTA_RE.findall(tail)
+        if len(found) != 1:
+            continue
+        try:
+            key = datetime.datetime(int(year), int(month), int(day), int(hh),
+                                    int(mm)).strftime("%Y-%m-%dT%H:%M")
+        except ValueError:
+            continue
+        amount = _amount(found[0])
+        if key in out and out[key] != amount:
+            refused.add(key)
+        out[key] = amount
+    for key in refused:
+        del out[key]
+    return out
+
+
+def _amount(raw):
+    return f"{float(raw.replace(',', '.')):.2f}".rstrip("0").rstrip(".") + "\u20ac"
+
+
 def film_facts(page):
-    """One `?ohjelmisto=` page -> {len, syn, genres}, empty for whatever it omits."""
+    """One `?ohjelmisto=` page -> {len, syn, genres, prices}, empty for what it omits."""
     info = {_txt(k).lower(): _txt(v) for k, v in INFO_RE.findall(page)}
     return {"len": minutes(info.get("kesto", "")),
             "syn": info.get("kuvaus", ""),
-            "genres": info.get("lajityyppi", "")}
+            "genres": info.get("lajityyppi", ""),
+            "prices": screening_prices(page)}
 
 
-BLANK = {"len": "", "syn": "", "genres": ""}
+BLANK = {"len": "", "syn": "", "genres": "", "prices": {}}
 
 
 def film_facts_by_id(site, ids, sleep=1.2, get=None):
@@ -280,12 +343,14 @@ def fetch_site(site, sleep=1.2):
     for s in shows:
         f = facts.get(s["eventId"]) or BLANK
         s["len"], s["genres"] = f["len"], f["genres"]
+        s["price"] = f["prices"].get(s["start"][:16], "")
         if f["syn"]:
             # A bare string is Finnish, which is what this operator writes.
             s["_syn"] = f["syn"]
     print(f"[tmb] {site['provider']}: {len(shows)} showtimes, "
           f"{len({s['eventId'] for s in shows})} films, "
           f"{len({s['start'][:10] for s in shows})} dates, "
+          f"{sum(1 for s in shows if s['price'])} priced, "
           f"{sum(1 for s in shows if s['len'])} timed, "
           f"{sum(1 for s in shows if s['genres'])} with a genre, "
           f"{sum(1 for s in shows if s.get('_syn'))} with a synopsis")

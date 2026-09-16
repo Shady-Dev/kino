@@ -159,11 +159,14 @@ class PriceTest(unittest.TestCase):
 
     2D and 3D differ by 2.50 and no row says which it is; the surcharge covers weekday
     public holidays as well as the weekend and no calendar here knows which days those are.
-    So the applicability of every amount to every screening is unestablished, and the rule
-    in `common.Show` is that nothing is published rather than something nearly right.
+    So the applicability of every tariff amount to every screening is unestablished, and
+    the rule in `common.Show` is that nothing is published rather than something nearly
+    right. What *is* published, since 2026-09-16, is the amount the film page prints under
+    each screening, which needs neither of those questions answered; `ScreeningPriceTest`
+    covers it.
     """
 
-    def test_no_screening_carries_a_price(self):
+    def test_the_list_view_alone_prices_no_screening(self):
         for site, body in ((TOIJALA, SINGLE), (MANIA, TWO_SCREEN)):
             with self.subTest(provider=site["provider"]):
                 shows = tmb.parse(body, site, site["venues"][0])
@@ -176,24 +179,37 @@ class PriceTest(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertFalse(hasattr(tmb, name))
 
-    def test_the_film_page_price_is_read_by_nothing(self):
-        """The film page states an amount per screening and this adapter does not take it.
-        Publishing it is a decision the maintainer has not made; reading the page for the
-        runtime does not quietly make it."""
-        self.assertEqual(set(tmb.film_facts(FILM_PAGE)), {"len", "syn", "genres"})
-        self.assertNotIn("14.45", str(tmb.film_facts(FILM_PAGE)))
+    def test_the_tariff_is_still_read_by_nothing(self):
+        """What is published comes from the screening's own line on the film page. The
+        `?hinnat=` tariff is not fetched, parsed or applied, and it still could not be:
+        the format of a row is unknown and a weekday public holiday is unknowable."""
+        for name in ("price_url", "price_tiers", "price_of", "TIER_RE", "PRICE_LINK_RE"):
+            with self.subTest(name=name):
+                self.assertFalse(hasattr(tmb, name))
+
+
+def show_block(date, time_, hinta="14.45€ / 12.45€ / 11.45€", wd="KE"):
+    """One screening on the film page: the date, the booking button, then its own price.
+    The booking link is `?varaa=`, which this adapter never follows or publishes."""
+    price = (f'<br><span style="font-size: 0.75em;">Hinta: {hinta}</span>'
+             if hinta is not None else "")
+    return (f'{wd}&nbsp;{date} klo&nbsp;{time_}&nbsp;'
+            f'<a href="?varaa=21009" class="button icon fa-arrow-circle-right">Liput</a>'
+            f'{price}<br style="clear: both;"><br>')
 
 
 def film_page(kesto="1 tuntia 27 minuuttia", kuvaus="Klaus Härön uutuuselokuva.",
-              laji="kotimainen", extra=""):
-    """A `?ohjelmisto=` page. Every field is the same shape, which is what the parser reads:
-    `<p class="info">Label: <b>value</b></p>`. The price sits among them on the real page
-    and is deliberately not parsed."""
+              laji="kotimainen", extra="", shows=None):
+    """A `?ohjelmisto=` page: the film's own screening list, then its metadata. Every
+    metadata field is the same shape, `<p class="info">Label: <b>value</b></p>`, which is
+    what the parser reads rather than positions."""
     rows = []
     for label, value in (("Kesto", kesto), ("Kuvaus", kuvaus), ("Lajityyppi", laji)):
         if value is not None:
             rows.append(f'<p class="info">{label}: <b>{value}</b></p>')
-    return ('<html><body><section><p class="info">Hinta: <b>14.45€ / 12.45€ / 11.45€</b></p>'
+    blocks = ("".join(shows) if shows is not None
+              else show_block("15.09.2026", "14:00") + show_block("16.09.2026", "17:30"))
+    return ('<html><body><section><h3>Näytökset</h3><p id="shows">' + blocks + '</p>'
             '</section><div id="content" class="inner">' + "".join(rows) + extra
             + '<p class="info">Ohjaus: <b>Klaus Härö</b></p></div></body></html>')
 
@@ -272,6 +288,79 @@ class FetchTest(FetchHarness):
         shows, calls = self.drive(SINGLE, {f: film_page() for f in ("842", "833", "834")})
         self.assertEqual(len(calls), 2)
         self.assertEqual(len(shows), 4)
+
+
+class ScreeningPriceTest(FetchHarness):
+    """The amount the film page prints under each screening, and only that."""
+
+    def test_each_screening_carries_the_amount_printed_under_it(self):
+        """The error this prevents: one screening's amount reaching another's row. The
+        weekend surcharge is why they differ, and it is already in the printed figure."""
+        page = film_page(shows=[show_block("15.09.2026", "14:00"),
+                                show_block("16.09.2026", "17:30",
+                                           hinta="14.95€ / 12.95€ / 11.95€")])
+        self.assertEqual(tmb.screening_prices(page),
+                         {"2026-09-15T14:00": "14.45€", "2026-09-16T17:30": "14.95€"})
+
+    def test_the_ordinary_admission_is_the_first_of_the_three(self):
+        """`?hinnat=` prints Aikuinen 14.45, Eläkeläinen 12.45, Lapsi 11.45 in that order,
+        read 2026-09-16, and the film page prints the same three in the same order. The
+        error this prevents: publishing a concession as the price of a ticket."""
+        prices = tmb.screening_prices(film_page(shows=[show_block("15.09.2026", "14:00")]))
+        self.assertEqual(prices, {"2026-09-15T14:00": "14.45€"})
+
+    def test_a_screening_with_no_amount_under_it_is_not_priced(self):
+        page = film_page(shows=[show_block("15.09.2026", "14:00", hinta=None),
+                                show_block("16.09.2026", "17:30")])
+        self.assertEqual(tmb.screening_prices(page), {"2026-09-16T17:30": "14.45€"})
+
+    def test_one_minute_claimed_twice_with_two_amounts_publishes_neither(self):
+        """Nothing in the markup delimits a screening but the next date, so a page that
+        states two amounts for one minute has not settled which a ticket costs."""
+        page = film_page(shows=[show_block("15.09.2026", "14:00"),
+                                show_block("15.09.2026", "14:00",
+                                           hinta="16.95€ / 15.95€ / 13.95€"),
+                                show_block("16.09.2026", "17:30")])
+        self.assertEqual(tmb.screening_prices(page), {"2026-09-16T17:30": "14.45€"})
+
+    def test_a_block_holding_two_amounts_prices_nothing(self):
+        """A screening block ends at the next date, so a row this parser cannot read leaves
+        its own `Hinta` inside the block above it. Two amounts under one screening is then
+        exactly the doubt the rule is about, whether the operator printed them that way or
+        a template change put them there."""
+        page = film_page(shows=[
+            show_block("15.09.2026", "14:00",
+                       hinta=("14.45€ / 12.45€ / 11.45€</span><br>"
+                              "<span>Hinta: 16.95€ / 15.95€ / 13.95€")),
+            show_block("16.09.2026", "17:30")])
+        self.assertEqual(tmb.screening_prices(page), {"2026-09-16T17:30": "14.45€"})
+
+    def test_the_same_amount_stated_twice_is_not_a_conflict(self):
+        page = film_page(shows=[show_block("15.09.2026", "14:00"),
+                                show_block("15.09.2026", "14:00")])
+        self.assertEqual(tmb.screening_prices(page), {"2026-09-15T14:00": "14.45€"})
+
+    def test_the_price_reaches_the_showtime_it_belongs_to(self):
+        """Both of the film's screenings are in the list view; only one is dear."""
+        shows, _ = self.drive(SINGLE, {"842": film_page(shows=[
+            show_block("15.09.2026", "14:00"),
+            show_block("16.09.2026", "17:30", hinta="14.95€ / 12.95€ / 11.95€")])})
+        by_start = {s["start"][:16]: s["price"] for s in shows}
+        self.assertEqual(by_start["2026-09-15T14:00"], "14.45€")
+        self.assertEqual(by_start["2026-09-16T17:30"], "14.95€")
+
+    def test_a_screening_the_film_page_does_not_list_stays_unpriced(self):
+        """The list view is the schedule; the film page only prices what it prints."""
+        shows, _ = self.drive(SINGLE, {"842": film_page(shows=[
+            show_block("15.09.2026", "14:00")])})
+        by_start = {s["start"][:16]: s["price"] for s in shows}
+        self.assertEqual(by_start["2026-09-15T14:00"], "14.45€")
+        self.assertEqual(by_start["2026-09-16T17:30"], "")
+        self.assertEqual(by_start["2026-09-15T18:00"], "")
+
+    def test_a_film_page_that_will_not_answer_prices_nothing(self):
+        shows, _ = self.drive(SINGLE, {"842": film_page()})
+        self.assertEqual({s["price"] for s in shows if s["eventId"] != "842"}, {""})
 
 
 class MinutesTest(unittest.TestCase):
