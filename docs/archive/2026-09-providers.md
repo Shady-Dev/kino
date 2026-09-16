@@ -1842,6 +1842,14 @@ would not be.
 
 Live at the time: Kuopio 32 of 36 rows at 11,50 €, Nilsiä 9 of 9 at 11 €.
 
+**Published in `c796413c`, 05:16 UTC, and the committed data says the same thing.**
+`logs/run-kuvakukko.log` reads `kk-kuopio: 36 showtimes, 9 dates, 32 priced (tariff 11.5€)`
+and `kk-nilsia: 9 showtimes, 3 dates, 9 priced (tariff 11€)`, and `data/area-kk-kuopio.json`
+carries 32 rows at `11.5€` against 4 blank while `data/area-kk-nilsia.json` carries 9 at
+`11€`. The four blanks are the outside organisers' rows, unchanged from the reading above.
+That is one run agreeing with one local parse of the same pages hours earlier, not evidence
+about a week of programmes.
+
 **Bio-Kaari is closed, and it is the counter-example.** Its `/liput/` prices 2D at 14 €
 `viikonloppuisin ja pyhinä` and 13 € on a weekday, 3D a euro dearer, children's films at
 12 €, and adds `Korotettu lipunhinta normaalia pidempiin elokuviin. Korotus 1-2 €`. Four

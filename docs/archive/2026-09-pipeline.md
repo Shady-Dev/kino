@@ -1536,3 +1536,11 @@ on rather than measure, so nothing came within reach of trimming.
 programmes, so the difference between them is the difference between the runs, not a
 measurement of variance. Neither is compared against a per-module run of the same day,
 because the code that would produce one is gone.
+
+**A third run, 2026-09-16, and it is the first this entry was not written from.**
+`c796413c`, committed 05:16 UTC: 158.0 s wall, 928.8 s of fetching summed across
+overlapping workers, 48 sites, peak 45 held and 2,465 bytes of captured log. It falls
+between the other two, so three runs now span 147.5 s to 175.6 s. That is still three
+samples of a run whose programme changes under it, not a variance; what it does settle is
+that the first two were not a lucky pair, and the 247 s reading of the old fetch step stays
+the nearest thing to a baseline.
