@@ -113,7 +113,7 @@ class SheetPlumbingTest(unittest.TestCase):
         self.assertNotIn("location.hash = 'm=' +", HTML)
 
     def test_the_target_ticket_is_marked_and_its_day_scrolled_to(self):
-        body = re.search(r"async function showSheet\(fid, want\)\{.*?\n  \}\n", HTML, re.S).group(0)
+        body = re.search(r"async function showSheet\(fid, want, keepFocus\)\{.*?\n  \}\n", HTML, re.S).group(0)
         self.assertIn("if(want && (want.day || want.start)){", body, "a plain film link changes nothing")
         self.assertIn("screeningTarget(all, want, now, fiDate)", body)
         self.assertIn('.stubs:not([hidden]) .stub[data-i="${hit._i}"]', body, "by index: two cinemas can share a start")
@@ -126,10 +126,39 @@ class SheetPlumbingTest(unittest.TestCase):
         self.assertIn("body.scrollTop = h.getBoundingClientRect().top - body.getBoundingClientRect().top", body)
         self.assertIn(".stub.pick{border-color:var(--accent)", HTML)
 
-    def test_a_metadata_refresh_redraws_without_moving_the_mark_or_the_scroll(self):
+    def test_a_metadata_refresh_redraws_without_moving_the_mark_the_scroll_or_the_focus(self):
+        """Structure, not behaviour, and deliberately: this path is entered from the
+        service worker's `{fresh}` message, and `tests/browser` blocks service workers, so
+        the browser suite covers the counterweight (a sheet the reader opens takes the
+        keyboard) and this covers the wiring. A live test would need a hook in
+        `index.html`, which is the maintainer's to grant."""
         fn = re.search(r"async function refreshOpenSheet\(\)\{.*?\n  \}\n", HTML, re.S).group(0)
-        self.assertIn("await showSheet(want.fid, want);", fn, "the mark is redrawn")
-        self.assertLess(fn.index("await showSheet("), fn.index("nb.scrollTop = y"), "then the scroll is put back")
+        self.assertIn("await showSheet(want.fid, want, true);", fn,
+                      "the mark is redrawn and the focus flag is passed")
+        self.assertLess(fn.index("await showSheet("), fn.index("nb.scrollTop = y"),
+                        "then the scroll is put back")
+        self.assertLess(fn.index("const key = sheetFocusKey"), fn.index("await showSheet("),
+                        "focus is noted before the redraw destroys the control")
+        self.assertLess(fn.index("nb.scrollTop = y"), fn.index("back.focus()"),
+                        "and restored after")
+
+    def test_only_the_refresh_path_keeps_the_reader_s_focus(self):
+        """`keepFocus` is a parameter rather than a test of whether the sheet is already
+        open, because a reader following a link to another film from an open sheet is
+        opening a sheet and must get the keyboard. One caller passes it."""
+        self.assertIn("async function showSheet(fid, want, keepFocus){", HTML)
+        self.assertIn("if(closeBtn && !keepFocus) closeBtn.focus();", HTML)
+        self.assertEqual(len(re.findall(r"showSheet\([^)]*,\s*true\)", HTML)), 1)
+
+    def test_the_focus_key_survives_the_redraw_by_naming_the_control(self):
+        """The markup is rebuilt, so the element is gone: what is kept is what finds it
+        again. A control the redraw dropped simply is not found, and focus stays put."""
+        fn = re.search(r"function sheetFocusKey\(el\)\{.*?\n  \}\n", HTML, re.S).group(0)
+        self.assertIn("if(!el || !sheetEl.contains(el)) return '';", fn,
+                      "focus outside the sheet is not the sheet's to move")
+        self.assertIn("'.sheet-close'", fn)
+        self.assertIn('data-i="${el.dataset.i}"', fn)
+        self.assertIn('[data-pastday="${el.dataset.pastday}"]', fn)
 
 
 if __name__ == "__main__":

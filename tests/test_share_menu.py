@@ -31,7 +31,7 @@ def strings(lang):
 
 
 def sheet_stub():
-    body = re.search(r"async function showSheet\(fid, want\)\{.*?\n  \}\n", HTML, re.S).group(0)
+    body = re.search(r"async function showSheet\(fid, want, keepFocus\)\{.*?\n  \}\n", HTML, re.S).group(0)
     return re.search(r"const stub = s => \{.*?\n    \};", body, re.S).group(0)
 
 

@@ -259,5 +259,37 @@ class ShareLink(Browser):
         self.assertLess(box["pickBottom"], box["bottom"] + 1)
 
 
+class SheetRefresh(Browser):
+    """A background refresh redraws an open sheet. It must not move the reader."""
+
+    def open_sheet(self):
+        self.pick_orion()
+        self.page.evaluate("location.hash = 'm=hetki-ennen-valoa&d=2026-09-17'")
+        expect(self.page.locator(".sheet-body .stub.pick")).to_have_count(1)
+
+    def focused(self):
+        return self.page.evaluate(
+            "() => { const a = document.activeElement;"
+            " return a ? (a.className || '') + '|' + (a.dataset.i || '') : ''; }")
+
+    def test_following_a_link_to_another_film_still_focuses_the_close_button(self):
+        """The path `keepFocus` must not reach: the reader asked for this sheet, so the
+        keyboard goes into it. Only `refreshOpenSheet` passes the flag, and that path is
+        driven by a service-worker message this context blocks -- it is covered in
+        tests/test_screening_link.py instead, which is stated there rather than implied."""
+        self.open_sheet()
+        self.page.evaluate("location.hash = 'm=autofiktio'")
+        expect(self.page.locator(".sheet-body")).to_be_visible()
+        self.assertIn("sheet-close", self.focused())
+
+    def test_opening_the_sheet_still_focuses_the_close_button(self):
+        """The counterweight: a sheet the reader opens takes focus, as it always has, or
+        the keyboard is left behind the page."""
+        self.pick_orion()
+        self.page.locator("article.movie").first.click()
+        expect(self.page.locator(".sheet-body")).to_be_visible()
+        self.assertIn("sheet-close", self.focused())
+
+
 if __name__ == "__main__":
     unittest.main()

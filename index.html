@@ -3603,7 +3603,10 @@
     return '';
   }
   // --- end synopsis language ---
-  async function showSheet(fid, want){
+  // `keepFocus` is passed by one caller, `refreshOpenSheet`. Inferring it from the sheet
+  // already being open would be wrong: a reader following a link to another film from an
+  // open sheet is opening a sheet and should get the keyboard, exactly as before.
+  async function showSheet(fid, want, keepFocus){
     await ensureFilms();
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start), startIso:s.start}))
@@ -3758,7 +3761,7 @@
     BEHIND().forEach(el => setInert(el, true));
     document.addEventListener('keydown', sheetKeydown);
     const closeBtn = sheetEl.querySelector('.sheet-close');
-    if(closeBtn) closeBtn.focus();
+    if(closeBtn && !keepFocus) closeBtn.focus();
   }
   // Setting location.hash = '' counts as navigating to the top of the document, which
   // scrolled the list back up. Strip the fragment without navigating instead.
@@ -3966,14 +3969,31 @@
   // films-extra.json changed under the page. The sheet is the only reader of that file.
   // An open sheet is redrawn for the same film with its scroll position kept. A closed
   // one is left alone. Cinema, day, filters and the fragment are not touched.
+  // Where focus was inside the sheet, as something that survives the redraw. The markup
+  // is rebuilt, so the element itself is gone and only what identifies it can be kept.
+  function sheetFocusKey(el){
+    if(!el || !sheetEl.contains(el)) return '';
+    if(el.classList.contains('sheet-close')) return '.sheet-close';
+    if(el.dataset && el.dataset.i) return `${el.tagName.toLowerCase()}[data-i="${el.dataset.i}"]`;
+    if(el.dataset && el.dataset.pastday) return `[data-pastday="${el.dataset.pastday}"]`;
+    return '';
+  }
   async function refreshOpenSheet(){
     const want = parseSheetHash(location.hash);
     if(!want || sheetEl.inert) return;
     const body = sheetEl.querySelector('.sheet-body');
     const y = body ? body.scrollTop : 0;
-    await showSheet(want.fid, want);      // the mark stays; the scroll is put back below
+    // Focus, like the scroll, is the reader's position in the sheet. `showSheet` leaves
+    // it alone while the sheet is open; what it cannot do is keep a control the redraw
+    // replaced, so the one that was focused is found again here by what named it.
+    const key = sheetFocusKey(document.activeElement);
+    await showSheet(want.fid, want, true);  // the mark stays; scroll and focus below
     const nb = sheetEl.querySelector('.sheet-body');
     if(nb) nb.scrollTop = y;
+    if(key){
+      const back = sheetEl.querySelector(key);
+      if(back) back.focus();
+    }
   }
   window.addEventListener('hashchange', syncSheet);
   matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });

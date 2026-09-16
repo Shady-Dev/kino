@@ -41,7 +41,7 @@ class DirectLoadOpensSheetTest(unittest.TestCase):
     def test_show_sheet_reads_the_loaded_schedule(self):
         """Why the call sits after the load: the sheet lists the film's screenings from
         the schedule cache, so a sync before it would open an empty sheet."""
-        body = re.search(r"async function showSheet\(fid, want\)\{.*?\n  \}\n", HTML, re.S).group(0)
+        body = re.search(r"async function showSheet\(fid, want, keepFocus\)\{.*?\n  \}\n", HTML, re.S).group(0)
         self.assertIn("jsonCache[state.area]", body)
 
 
