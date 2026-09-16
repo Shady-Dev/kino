@@ -53,11 +53,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     delay = {}
 
     def do_GET(self):
+        self.nostore = False
         for suffix, secs in self.delay.items():
             if self.path.endswith(suffix):
+                # A delayed file is also uncacheable, or the browser answers the second
+                # request from its own HTTP cache and the delay describes nothing. That is
+                # what makes a cold load reproducible here at all.
+                self.nostore = True
                 time.sleep(secs)
         self.server.served.append((self.path, time.monotonic()))
         super().do_GET()
+
+    def end_headers(self):
+        if getattr(self, "nostore", False):
+            self.send_header("Cache-Control", "no-store")
+        super().end_headers()
 
     def translate_path(self, path):
         rel = path.split("?", 1)[0].split("#", 1)[0].lstrip("/")
@@ -289,6 +299,137 @@ class SheetRefresh(Browser):
         self.page.locator("article.movie").first.click()
         expect(self.page.locator(".sheet-body")).to_be_visible()
         self.assertIn("sheet-close", self.focused())
+
+
+class HistoryAcrossVenues(Browser):
+    """Back and Forward across venues and home, with the movie sheet open.
+
+    The sheet is modal: it marks everything behind it inert. A traversal that changes
+    `?area=` and `#m=` in one step fires `popstate` and no `hashchange`, and `hashchange`
+    was the only thing that closed the sheet from the URL, so what stayed on screen was
+    another cinema's film, with that cinema's ticket links, over a page nothing could
+    reach. The fixture carries a second venue for exactly this: Promenadi Pori shows a
+    film no other venue in it does.
+    """
+
+    def pick_promenadi(self):
+        vq = self.open_picker(); vq.fill("promenadi")
+        rows = self.page.locator("#vlist .vrow")
+        expect(rows).to_have_count(1)
+        vq.press("Enter")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+
+    def open_first_film(self):
+        self.page.locator("article.movie").first.click()
+        expect(self.page.locator(".sheet-body")).to_be_visible()
+
+    def state(self):
+        return self.page.evaluate("""() => ({
+            hidden: document.getElementById('sheet').inert === true,
+            behindInert: !!document.querySelector('main').inert
+                      || !!document.querySelector('header').inert,
+            title: (document.querySelector('#sheetTitle') || {}).textContent || '',
+            url: location.search + location.hash,
+            venue: document.querySelector('#areaSelect .vlbl').textContent,
+            focus: (document.activeElement && document.activeElement.className) || '',
+        })""")
+
+    def test_back_across_a_venue_change_closes_the_other_cinema_s_sheet(self):
+        self.pick_orion()
+        self.pick_promenadi()
+        self.open_first_film()
+        before = self.state()
+        self.assertFalse(before["hidden"], "the sheet should be open at this point")
+        self.assertIn("Porin", before["title"])
+        self.page.go_back()          # ?area=1004 without the fragment
+        self.page.go_back()          # ?area=or-helsinki
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        after = self.state()
+        self.assertTrue(after["hidden"],
+                        f"the sheet is still open showing {after['title']!r} while the "
+                        f"page shows {after['venue']!r}")
+        self.assertFalse(after["behindInert"],
+                         "the page behind the sheet is still inert and cannot be used")
+
+    def test_one_traversal_over_both_the_area_and_the_fragment(self):
+        """`history.go(-2)` crosses the fragment and the area in a single step, which is
+        the case that fires no hashchange at all."""
+        self.pick_orion()
+        self.pick_promenadi()
+        self.open_first_film()
+        self.page.evaluate("history.go(-2)")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        after = self.state()
+        self.assertTrue(after["hidden"], f"sheet still showing {after['title']!r}")
+        self.assertFalse(after["behindInert"])
+        self.assertEqual(after["url"], "?area=or-helsinki")
+
+    def test_back_to_the_chooser_closes_the_sheet_too(self):
+        """Home clears the selection, and `syncSheet` returns early without one, so even
+        a later hashchange could not close it."""
+        self.pick_orion()
+        self.open_first_film()
+        self.page.evaluate("history.go(-2)")
+        expect(self.page.locator("#homeMore")).to_be_visible()
+        after = self.state()
+        self.assertTrue(after["hidden"], f"sheet still showing {after['title']!r} on the chooser")
+        self.assertFalse(after["behindInert"])
+
+    def test_the_wrong_film_is_gone_before_the_new_schedule_arrives(self):
+        """Closing after the load would leave a window where the previous cinema's film
+        and its ticket links sit over the incoming venue's page, inert behind them.
+
+        The reload is what makes that window real: a traversal alone refetches nothing,
+        because the venue being returned to is already in `jsonCache`. After a reload the
+        history is intact and the cache is empty, so Back does fetch -- and the fixture
+        answers that one file a second late.
+        """
+        Handler.delay["area-or-helsinki.json"] = 1.0
+        self.addCleanup(Handler.delay.clear)
+        self.pick_orion()           # answered late, and uncacheable, from here on
+        self.pick_promenadi()
+        self.open_first_film()
+        self.page.reload()
+        expect(self.page.locator("#sheetTitle")).to_have_text("Porin oma elokuva")
+        self.page.evaluate("history.go(-2)")
+        # Read while Orion's schedule is still in flight: the label changes before the
+        # load, so it is no evidence either way, and the file takes a second to answer.
+        mid = self.state()
+        self.assertIn("Cinema Orion", mid["venue"])
+        self.assertTrue(mid["hidden"],
+                        f"mid-load the sheet still showed {mid['title']!r}")
+        self.assertFalse(mid["behindInert"], "mid-load the page behind was still inert")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+
+    def test_forward_into_a_sheet_entry_shows_that_venue_s_film(self):
+        """Forward is the same reconciliation the other way: the entry names an area and a
+        film, and the film shown has to be that area's."""
+        self.pick_orion()
+        self.pick_promenadi()
+        self.open_first_film()
+        self.page.evaluate("history.go(-2)")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        self.page.evaluate("history.go(2)")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
+        after = self.state()
+        self.assertFalse(after["hidden"], "the entry names a film; the sheet belongs open")
+        self.assertIn("Porin", after["title"])
+
+    def test_closing_the_sheet_puts_focus_back_on_the_card(self):
+        """The counterweight to all of the above: an ordinary close still returns the
+        keyboard to what opened the sheet, so the traversal fix cannot be a blanket
+        hideSheet that drops focus to the document."""
+        self.pick_orion()
+        self.open_first_film()
+        opened = self.state()
+        self.assertFalse(opened["hidden"])
+        self.page.keyboard.press("Escape")
+        closed = self.state()
+        self.assertTrue(closed["hidden"], "Escape no longer closes the sheet")
+        self.assertFalse(closed["behindInert"])
+        self.assertNotEqual(closed["focus"], "",
+                            "focus fell to the document instead of the card")
 
 
 if __name__ == "__main__":

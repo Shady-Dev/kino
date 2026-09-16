@@ -63,6 +63,10 @@ const PRELUDE = `
   const syncFav = () => calls.push('syncFav');
   const syncVenueBtn = () => calls.push('syncVenueBtn');
   const syncSheet = () => calls.push('syncSheet');
+  // The movie sheet is modal, and onPopState closes it: a traversal that changes the
+  // area and the fragment at once fires popstate and no hashchange, so this is the
+  // only thing that reconciles it with the URL. Logged, so the order is visible.
+  const hideSheet = () => calls.push('hideSheet');
   const setListStatus = () => {};
   const main = { innerHTML: '' };
   const L = { fi: { loadingSchedule: 'Ladataan', homeUnknown: 'EI LÖYTYNYT' } };

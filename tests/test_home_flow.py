@@ -96,9 +96,30 @@ class HomeFlowTest(unittest.TestCase):
         self.assertIn("renderHome EI LÖYTYNYT", s["calls"])
 
     def test_a_hash_only_step_changes_nothing(self):
+        """`hashchange` fires for this one and owns the fragment. Reconciling the sheet
+        here as well would redraw it twice for one step."""
         s = self.o["popstate_hash_only"]
         self.assertEqual(s["calls"], [])
         self.assertEqual(s["area"], "v1")
+
+    def test_a_step_to_another_venue_closes_the_sheet_before_loading(self):
+        """The sheet is modal and belongs to the venue being left. A traversal that
+        changes the area and the fragment together fires no hashchange, so this is the
+        only thing that closes it -- and it happens before the new schedule is asked for,
+        so the wrong cinema's film is never on screen beside the right one's page."""
+        s = self.o["forward_to_area"]
+        self.assertIn("hideSheet", s["calls"])
+        self.assertLess(s["calls"].index("hideSheet"), s["calls"].index("class+scoped"),
+                        "closed before the new venue is selected")
+        self.assertEqual(s["calls"][-1], "syncSheet",
+                         "and the entry's own fragment is honoured once its shows are in")
+
+    def test_a_step_back_to_the_chooser_closes_the_sheet(self):
+        """Home clears the selection, after which `syncSheet` returns early and no later
+        hashchange could close it either."""
+        for key in ("back_to_home", "back_to_home_with_fav"):
+            with self.subTest(step=key):
+                self.assertIn("hideSheet", self.o[key]["calls"])
 
     # 9. a film link without a location waits, then opens in the chosen scope
     def test_a_film_link_without_a_location_opens_after_the_pick(self):

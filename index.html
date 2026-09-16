@@ -2481,15 +2481,32 @@
   // none is what a visit to `/` is: the favourite when one is stored, else the chooser
   // (the same startupArea() decision, and the URL stays `/` as on that visit). A
   // hash-only step (the film sheet) fires this too and changes nothing.
+  // The sheet is modal: everything behind it is inert while it is open. `hashchange` was
+  // the only thing that closed it from the URL, and a traversal that changes `?area=` and
+  // `#m=` in one step fires `popstate` alone -- so Back across a venue left the previous
+  // cinema's film and its ticket links on screen over a page nothing could reach, and
+  // Back to the chooser left it there with no way for a later hashchange to clear it.
+  // Every branch below now says what happens to the sheet.
   function onPopState(){
     let id = '';
     try { id = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
     if(!id) id = startupArea('', prefs.get(), knownArea).area || '';
     if(id && knownArea(id)){
-      if(id !== state.area) selectVenue(id, { keepUrl: true });
+      if(id !== state.area){
+        // The open sheet is the venue being left. It is closed before the load rather
+        // than after, so the wrong film is never on screen beside the right schedule,
+        // and reopened from the fragment once the new venue's shows are in -- where the
+        // film is resolved against that venue's data and says so when it has none.
+        hideSheet();
+        return selectVenue(id, { keepUrl: true })
+          .then(() => { if(state.area === id) syncSheet(); });
+      }
+      // Same venue: the fragment alone changed, which fires `hashchange` as well, and
+      // that is what owns the fragment. Doing it here too would redraw the sheet twice.
       return;
     }
     if(!id && !document.documentElement.classList.contains('scoped') && !state.area) return;
+    hideSheet();
     showHome(id ? L[state.lang].homeUnknown : '');
   }
   // What a boot that fails before any location is on screen shows: the chooser, so
