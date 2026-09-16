@@ -8,11 +8,13 @@ a site failure, and the worst case is 3*backoff seconds of extra wait per reques
 """
 import contextlib
 import datetime
+import html as html_mod
 import email.utils
 import hashlib
 import json
 import os
 import pathlib
+import re
 import threading
 import time
 import typing
@@ -83,6 +85,35 @@ _scope_throttle = {}
 # having answered.
 _scope_hosts = {}
 _hosts_all = set()
+
+
+_TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
+
+
+def served(page, limit=70):
+    """What the reader was actually handed, for a guard that could not parse it. -> str.
+
+    **A missing marker says the marker is missing and nothing else.** A guard that reports
+    "the template changed" has named one of at least three causes: the site changed its
+    markup, or the reader was handed a challenge, an error page or a holding page instead
+    of the programme. On 2026-09-16 four modules over seven independent domains failed
+    within one run and every one of those sites served its real page, marker included, to
+    an ordinary connection minutes later -- so the reading side was the cause and not one
+    log said so, because none of them recorded what arrived.
+
+    Two facts separate the cases and neither is a raw dump, which this repo never keeps: the
+    size of what came back and what the document calls itself. A cinema's programme is tens
+    of kilobytes and titled after the cinema; a challenge is a couple of kilobytes and
+    titled "Just a moment...". The title is a third party's text, so it is unescaped,
+    collapsed to one line and cut to `limit` before it goes anywhere near a committed log.
+    """
+    page = page or ""
+    m = _TITLE_RE.search(page)
+    if not m:
+        return f"{len(page)} B served, no <title>"
+    title = html_mod.unescape(m.group(1))
+    title = " ".join(title.split())[:limit]
+    return f'{len(page)} B served, titled "{title}"' if title else f"{len(page)} B served"
 
 
 def _scope():

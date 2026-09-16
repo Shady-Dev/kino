@@ -110,7 +110,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch
+from common import EmptyProgramme, capped, fetch, served
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -181,9 +181,9 @@ def parse(page, site, venue):
     """`{base}/?lista=1` -> [show] for the one venue the site serves."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
-            f"{site['base']}: no 'Valkokankaalla' programme container in the response, so "
-            f"this is not the list view this parser reads. Treating it as a fetch or "
-            f"template failure rather than a cinema with nothing on")
+            f"{site['base']}: no 'Valkokankaalla' programme container in the response "
+            f"({served(page)}), so this is not the list view this parser reads. Treating "
+            f"it as a fetch or template failure rather than a cinema with nothing on")
     shows, seen, wrong_day = [], set(), 0
     for m in ROW_RE.finditer(page):
         wd, day, month, year, hh, mm, tail, fid, title = m.groups()

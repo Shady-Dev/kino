@@ -330,22 +330,61 @@ class YearTest(unittest.TestCase):
                          "2026-09-24T13:00:00+03:00")
 
 
+class ServedTest(unittest.TestCase):
+    """`common.served`: the two facts a guard can state without keeping a raw page."""
+
+    def test_it_separates_a_programme_from_a_challenge(self):
+        real = '<html><head><title>Kino Piispanristi</title></head>' + "x" * 170000
+        block = '<html><head><title>Just a moment...</title></head>' + "y" * 1100
+        self.assertEqual(common.served(real),
+                         '170051 B served, titled "Kino Piispanristi"')
+        self.assertEqual(common.served(block), '1150 B served, titled "Just a moment..."')
+
+    def test_a_page_with_no_title_still_reports_its_size(self):
+        self.assertEqual(common.served("<html><body>x</body></html>"),
+                         "27 B served, no <title>")
+        self.assertEqual(common.served(""), "0 B served, no <title>")
+
+    def test_a_third_party_title_is_unescaped_collapsed_and_cut(self):
+        """It goes into a committed log in a public repo, so it is one line and bounded.
+        Never the body: this repo keeps no raw probe dump."""
+        page = "<title>\n  Kino &amp; Kahvi   \n  Oy\n</title>"
+        self.assertEqual(common.served(page), '43 B served, titled "Kino & Kahvi Oy"')
+        self.assertEqual(common.served("<title>" + "a" * 200 + "</title>", limit=12),
+                         "215 B served, titled \"" + "a" * 12 + '"')
+
+
 class EmptyProgrammeTest(unittest.TestCase):
     def test_no_day_and_no_film_is_a_confirmed_empty_programme(self):
         with self.assertRaises(common.EmptyProgramme):
             ch.parse(EMPTY_PAGE, LAITILA)
 
     def test_a_page_that_still_lists_a_film_fails(self):
-        with self.assertRaisesRegex(RuntimeError, "screening template changed"):
+        with self.assertRaisesRegex(RuntimeError, "no screening row parsed"):
             ch.parse(FILMS_BUT_NO_ROWS, PIISPANRISTI)
 
     def test_a_page_that_still_offers_a_day_fails(self):
-        with self.assertRaisesRegex(RuntimeError, "screening template changed"):
+        with self.assertRaisesRegex(RuntimeError, "no screening row parsed"):
             ch.parse(DAY_BUT_NO_ROWS, PIISPANRISTI)
 
-    def test_a_missing_filter_is_a_changed_template_not_an_empty_cinema(self):
-        with self.assertRaisesRegex(RuntimeError, "cr-movies-filter-select"):
+    def test_a_missing_filter_is_a_failure_not_an_empty_cinema(self):
+        """It is a failure whatever caused it, and the message does not pick one: on
+        2026-09-16 every guard of this shape said "the template changed" while the sites
+        were serving their real pages to an ordinary connection."""
+        with self.assertRaises(RuntimeError) as cm:
             ch.parse(NO_FILTER, PIISPANRISTI)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("cr-movies-filter-select", str(cm.exception))
+        self.assertNotIn("the template changed", str(cm.exception))
+
+    def test_every_failure_says_what_was_served(self):
+        """The evidence that separates a changed template from a page this reader was
+        handed instead: how much came back and what the document calls itself."""
+        for page in (NO_FILTER, FILMS_BUT_NO_ROWS, DAY_BUT_NO_ROWS):
+            with self.subTest(page=page[:40]):
+                with self.assertRaises(RuntimeError) as cm:
+                    ch.parse(page, PIISPANRISTI)
+                self.assertRegex(str(cm.exception), r"\d+ B served")
 
     def test_rows_that_all_fail_to_parse_fail_the_site(self):
         """Rows found and none readable is the same class of fault as a missing row

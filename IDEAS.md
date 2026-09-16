@@ -57,6 +57,19 @@ measurements: [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers
 **Next action:** nothing here. Kino Konepaja gets a `SITES` entry when it lists a
 screening: re-read 2026-09-15, its event list still says "Ei tulevia tapahtumia."
 
+### Seven venues the runner cannot read, and the logs blamed the cinemas
+
+In the 17:17 UTC run of 2026-09-16, `cinemahouse`, `tmb`, `kirkkonummi` and `nexxo` failed
+together over seven domains after two green runs the same day. Nexxo's log shows 403s;
+every one of those hosts served its real page to an ordinary connection minutes later. The
+guards now record what was served (`common.served`), so the next occurrence is diagnosable
+rather than argued about; the record is in
+[docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md).
+**Next action:** the maintainer's, on one run's evidence. Either it clears by itself, as
+the Nexxo timeout of 2026-09-14 and the Kino Kilta 500 of this morning both did, or these
+providers move to `where="local"` the way Cine and Star did on 2026-09-08 -- which adds
+about a dozen venues to the laptop and makes the item below worse.
+
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino

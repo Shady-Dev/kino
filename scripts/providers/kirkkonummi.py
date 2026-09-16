@@ -46,7 +46,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, fetch, resolve_year, weekday_index
+from common import EmptyProgramme, fetch, resolve_year, served, weekday_index
 
 BASE = "https://kinokirkkonummi.fi"
 LISTING = BASE + "/"
@@ -127,9 +127,9 @@ def parse(page, today=None):
     when the lists are there with no screening row in them."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
-            f"{LISTING}: no icon list on the page, so this is not the programme this "
-            f"parser reads. Treating it as a fetch or template failure rather than a "
-            f"cinema with nothing on")
+            f"{LISTING}: no icon list on the page ({served(page)}), so this is not the "
+            f"programme this parser reads. Treating it as a fetch or template failure "
+            f"rather than a cinema with nothing on")
     today = today or datetime.datetime.now(FI).date()
     prices = prices_by_title(page)
     # Headings and list items interleaved in document order: the heading above an item is

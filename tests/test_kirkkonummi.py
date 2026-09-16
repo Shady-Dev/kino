@@ -169,6 +169,15 @@ class EmptyAndBrokenTest(unittest.TestCase):
             kirkkonummi.parse("<html><body><p>Tervetuloa</p></body></html>", today=TODAY)
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
 
+    def test_the_failure_states_what_was_served(self):
+        """This site failed that way on 2026-09-16 and served its real programme, icon
+        list included, to an ordinary connection minutes later. What came back is the
+        evidence that separates the two, and no log carried it."""
+        with self.assertRaises(RuntimeError) as cm:
+            kirkkonummi.parse("<html><head><title>Just a moment...</title></head></html>",
+                              today=TODAY)
+        self.assertIn('titled "Just a moment..."', str(cm.exception))
+
     def test_a_screening_before_any_heading_is_ignored(self):
         with self.assertRaises(common.EmptyProgramme):
             kirkkonummi.parse(page(item("20.9. Sunnuntai klo18.00"), twice=False),

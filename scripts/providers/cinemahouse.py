@@ -54,7 +54,7 @@ from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, capped, fetch
+from common import EmptyProgramme, capped, fetch, served
 from strands import split as split_strand
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -386,7 +386,10 @@ def parse(page, site, today=None):
     failing, because it is what a markup change upstream looks like.
     """
     if not FILTER_RE.search(page):
-        raise RuntimeError("no cr-movies-filter-select on the page: the template changed")
+        raise RuntimeError(
+            f"no cr-movies-filter-select on the page ({served(page)}), so this is not the "
+            f"programme this parser reads. Treating it as a fetch or template failure "
+            f"rather than a cinema with nothing on")
     films = parse_films(page)
     rows = parse_screenings(page)
     if not rows:
@@ -394,13 +397,14 @@ def parse(page, site, today=None):
         if films or days:
             raise RuntimeError(
                 f"no screening row parsed while the page offers {len(days)} day(s) and "
-                f"{len(films)} film(s): the screening template changed")
+                f"{len(films)} film(s) ({served(page)}): a page that lists films and "
+                f"yields no screening is the broken case, whatever produced it")
         raise EmptyProgramme(f"{site['label']}: the filter offers no day and the "
                              f"programme lists no film")
     shows = normalise(rows, films, site, today)
     if not shows:
-        raise RuntimeError(f"{len(rows)} screening row(s) and none parsed: "
-                           f"the row template changed")
+        raise RuntimeError(f"{len(rows)} screening row(s) and none parsed "
+                           f"({served(page)}): the rows are there and their shape is not")
     return shows
 
 

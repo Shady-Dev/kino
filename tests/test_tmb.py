@@ -149,9 +149,18 @@ class GuardTest(unittest.TestCase):
 
     def test_a_page_without_the_container_is_a_failure_not_an_empty_programme(self):
         with self.assertRaises(RuntimeError) as cm:
-            tmb.parse("<html><body><p>Tervetuloa</p></body></html>",
+            tmb.parse("<html><head><title>Just a moment...</title></head><body></body></html>",
                       TOIJALA, TOIJALA["venues"][0])
         self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_the_failure_states_what_was_served(self):
+        """All four of these sites failed on 2026-09-16 with "no 'Valkokankaalla'
+        container" while serving their real list view to an ordinary connection minutes
+        later. The size and the title are what tell those two apart next time."""
+        with self.assertRaises(RuntimeError) as cm:
+            tmb.parse("<html><head><title>Just a moment...</title></head><body></body></html>",
+                      TOIJALA, TOIJALA["venues"][0])
+        self.assertIn('titled "Just a moment..."', str(cm.exception))
 
 
 class PriceTest(unittest.TestCase):

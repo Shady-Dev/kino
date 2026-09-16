@@ -1610,3 +1610,46 @@ must *not* churn a good entry every run, the search-string alias that must not u
 exact one, and all three published spellings pinned to the sequel. Five mutations, all
 red: the old weak-only rule, every alias dropping its entry, a search-string alias
 unseating an exact entry, the Kino Tar spelling left out, and the alias pointed at 6435.
+
+### A guard says what it observed, not what it thinks caused it (2026-09-16)
+
+Four cloud modules failed in the 17:17 UTC run -- `cinemahouse`, `tmb`, `kirkkonummi` and
+`nexxo` -- across seven independent domains, having all been green at 11:16 and 15:10.
+Only Nexxo's log named a cause anyone could act on: `403 from kinoset.fi`, `403 from
+kinohirvi.fi`, `403 from kino-olympia.fi`, openresty and Apache. The other three said the
+template had changed, `cinemahouse` most flatly: "no cr-movies-filter-select on the page:
+the template changed".
+
+**Seven simultaneous template changes across seven unrelated operators is not what
+happened.** Every one of those hosts was read from an ordinary connection minutes later and
+served its real page with the marker present: toijalan-kino.info 23,187 B with
+`Valkokankaalla`, kinosampo.info 22,945 B, kinokirkkonummi.fi 268,581 B with its icon list,
+www.kinopiispanristi.fi 176,986 B with `cr-movies-filter-select`, kinoset.fi 40,415 B. So
+the parsers are right, the templates are unchanged, and the reading side is the cause --
+which is CLAUDE.md's standing rule about datacenter addresses, arriving as a failure that
+blamed the cinemas instead.
+
+**A missing marker says the marker is missing.** It cannot distinguish a changed template
+from a challenge page, an error page or a holding page, and none of these guards recorded
+what arrived, so the run left no evidence to tell them apart. `common.served` returns the
+two facts that do, without keeping anything: how many bytes came back and what the document
+calls itself. A programme is tens of kilobytes titled after the cinema; a challenge is
+about a kilobyte titled "Just a moment...". The title is a third party's text going into a
+committed log in a public repo, so it is unescaped, collapsed to one line and cut to 70
+characters -- never the body, which this repo does not keep.
+
+The three adapters that failed this way now state it, and `cinemahouse`'s three messages
+lost the cause they asserted. The wording the others already used -- "treating it as a
+fetch or template failure rather than a cinema with nothing on" -- was honest and is kept;
+it just never said what was served.
+
+**What this does not do.** It does not stop the failure, and it should not: a site that
+cannot be read fails, keeps its previous data and is named in the log, which is what
+happened. It also does not decide whether those providers belong on the local half. That is
+one run's evidence and a maintainer's call, and it is in `IDEAS.md`.
+
+Tests: `tests/test_cinemahouse.py` 47, `test_tmb.py` 37, `test_kirkkonummi.py`. Five
+mutations, all red: the title uncut, uncollapsed and unescaped, a page with no title
+reporting nothing, and the guard naming a cause again. Two tests that pinned the string
+"screening template changed" now assert the failure and its evidence instead, which is the
+distinction that let the wrong claim stand.
