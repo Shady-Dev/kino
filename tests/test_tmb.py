@@ -176,21 +176,118 @@ class PriceTest(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertFalse(hasattr(tmb, name))
 
-    def test_one_request_per_venue_and_no_more(self):
+    def test_the_film_page_price_is_read_by_nothing(self):
+        """The film page states an amount per screening and this adapter does not take it.
+        Publishing it is a decision the maintainer has not made; reading the page for the
+        runtime does not quietly make it."""
+        self.assertEqual(set(tmb.film_facts(FILM_PAGE)), {"len", "syn", "genres"})
+        self.assertNotIn("14.45", str(tmb.film_facts(FILM_PAGE)))
+
+
+def film_page(kesto="1 tuntia 27 minuuttia", kuvaus="Klaus Härön uutuuselokuva.",
+              laji="kotimainen", extra=""):
+    """A `?ohjelmisto=` page. Every field is the same shape, which is what the parser reads:
+    `<p class="info">Label: <b>value</b></p>`. The price sits among them on the real page
+    and is deliberately not parsed."""
+    rows = []
+    for label, value in (("Kesto", kesto), ("Kuvaus", kuvaus), ("Lajityyppi", laji)):
+        if value is not None:
+            rows.append(f'<p class="info">{label}: <b>{value}</b></p>')
+    return ('<html><body><section><p class="info">Hinta: <b>14.45€ / 12.45€ / 11.45€</b></p>'
+            '</section><div id="content" class="inner">' + "".join(rows) + extra
+            + '<p class="info">Ohjaus: <b>Klaus Härö</b></p></div></body></html>')
+
+
+FILM_PAGE = film_page()
+
+
+class FetchHarness(unittest.TestCase):
+    """Drives `fetch_site` against fixture pages, counting what it asked for."""
+
+    def drive(self, listing, pages, site=TOIJALA, sleep=0):
+        """-> (shows, the urls requested, in order)."""
         calls = []
 
         def get(url):
             calls.append(url)
-            return SINGLE
+            if "lista=1" in url:
+                return listing
+            fid = url.rsplit("=", 1)[1]
+            if fid not in pages:
+                raise OSError(f"no page for {fid}")
+            return pages[fid]
         real = tmb.get
         tmb.get = get
         self.addCleanup(lambda: setattr(tmb, "get", real))
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            shows = tmb.fetch_site(TOIJALA)["tmb-toijala"]
-        self.assertEqual(calls, ["https://toijalan-kino.info/?lista=1"])
-        self.assertEqual({s["price"] for s in shows}, {""})
+            data = tmb.fetch_site(site, sleep=sleep)
+        return data[site["venues"][0]["id"]], calls
+
+
+class FetchTest(FetchHarness):
+    """`fetch_site`: the list view, then one page per distinct film."""
+
+    def test_the_list_view_comes_first_and_then_one_page_per_distinct_film(self):
+        """Three films over four rows: the repeated film is fetched once, not twice."""
+        shows, calls = self.drive(SINGLE, {f: film_page() for f in ("842", "833", "834")})
+        self.assertEqual(calls[0], "https://toijalan-kino.info/?lista=1")
+        self.assertEqual(sorted(calls[1:]),
+                         [f"https://toijalan-kino.info/?ohjelmisto={f}"
+                          for f in ("833", "834", "842")])
+        self.assertEqual(len(shows), 4)
         common.check_shows({"tmb-toijala": shows}, "kinotoijala", {"tmb-toijala"})
+
+    def test_the_runtime_the_synopsis_and_the_genre_reach_every_screening_of_a_film(self):
+        """Two of the four rows are the same film, and both carry what its page said."""
+        shows, _ = self.drive(SINGLE, {"842": film_page(kesto="2 tuntia", laji="draama",
+                                                      kuvaus="Kahden naisen kohtaaminen.")})
+        hetki = [s for s in shows if s["eventId"] == "842"]
+        self.assertEqual(len(hetki), 2)
+        for s in hetki:
+            self.assertEqual((s["len"], s["genres"]), ("120", "draama"))
+            self.assertEqual(s["_syn"], "Kahden naisen kohtaaminen.")
+
+    def test_a_film_page_that_will_not_answer_costs_that_film_its_metadata_only(self):
+        """The schedule is parsed before this runs. The error this prevents: one 500 on a
+        film page taking a cinema's whole programme with it."""
+        shows, _ = self.drive(SINGLE, {"842": film_page()})
+        by_id = {s["eventId"]: s for s in shows}
+        self.assertEqual(by_id["842"]["len"], "87")
+        self.assertEqual((by_id["833"]["len"], by_id["833"]["genres"]), ("", ""))
+        self.assertNotIn("_syn", by_id["833"])
+        self.assertEqual(len(shows), 4)
+
+    def test_a_page_stating_no_duration_publishes_no_runtime(self):
+        shows, _ = self.drive(SINGLE, {"842": film_page(kesto="ei tiedossa", kuvaus=None)})
+        s = next(x for x in shows if x["eventId"] == "842")
+        self.assertEqual(s["len"], "")
+        self.assertNotIn("_syn", s)
+
+    def test_the_budget_bounds_the_film_pages(self):
+        """`capped`, so a film past the ceiling loses metadata and keeps its showtimes."""
+        real = common.PAGE_BUDGET
+        common.PAGE_BUDGET = 1
+        self.addCleanup(lambda: setattr(common, "PAGE_BUDGET", real))
+        shows, calls = self.drive(SINGLE, {f: film_page() for f in ("842", "833", "834")})
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(len(shows), 4)
+
+
+class MinutesTest(unittest.TestCase):
+    """`Kesto` as the operator writes it."""
+
+    def test_hours_and_minutes_both_count(self):
+        self.assertEqual(tmb.minutes("1 tuntia 27 minuuttia"), "87")
+        self.assertEqual(tmb.minutes("2 tuntia"), "120")
+        self.assertEqual(tmb.minutes("95 minuuttia"), "95")
+
+    def test_a_text_with_no_duration_in_it_yields_nothing(self):
+        """Not "0": a zero would render as a runtime and Bio Savoy's `XXh 00min` is the
+        standing example of a placeholder published as though it were a fact."""
+        for raw in ("", "ei tiedossa", "0 tuntia", "0 tuntia 0 minuuttia"):
+            with self.subTest(raw=raw):
+                self.assertEqual(tmb.minutes(raw), "")
 
 
 class SitesTest(unittest.TestCase):

@@ -40,10 +40,14 @@ Three things this parser deliberately does not do:
   provider here rates, so it is **not** mapped: a sequence that looks like S, K-7, K-12,
   K-16 is a guess, and a wrong classification is worse than none. An unmapped image
   yields no rating and the TMDB pass fills what it can.
-- **It does not read the film page.** That page carries a runtime and a per-screening
-  price, and reading it would cost one request per film per venue, about 68 a run against
-  a third party. The runtime stays unpublished for that reason; the price no longer has
-  to, see below.
+- **It reads the film page, since 2026-09-16.** It did not until then, and the reason
+  recorded here was the cost: one request per distinct film per venue, about 68 a run
+  against a third party, for a runtime. The maintainer asked for the runtime that day, so
+  the trade was theirs to make and it is made. The page also carries a Finnish synopsis and
+  a genre, which cost nothing once the page is fetched, and they are published too.
+  `film_facts_by_id` fetches one page per **distinct** film, paced, cached and bounded by
+  `common.capped`; the schedule is parsed from the list view first, so a film page that
+  will not answer costs that film its metadata and never a cinema its programme.
 
 ## The price is on the site, and is not published
 
@@ -77,6 +81,15 @@ arkipyhä gap on weekdays and make Saturday and Sunday exact; or a maintainer's 
 publish a labelled house tariff, which is a different field and a different product
 question. Neither is assumed here. The finding is in `docs/research/prices.md`.
 
+**And a third thing exists, found 2026-09-16 when the film page was first read: that page
+states an amount per screening**, `Hinta: 14.45€ / 12.45€ / 11.45€` under each date, with
+the Saturday row reading 14.95 where the weekday reads 14.45. That is not the tariff needing
+to be applied; it is the operator stating what that screening costs, which is what the rule
+asks for, and the three figures are the tariff page's Aikuinen / Eläkeläinen / Lapsi in its
+own order. `film_facts` does not read it and no show carries it. Publishing it is a decision
+the maintainer has not made, and reading the page for a runtime is not a way to make it
+quietly; a test pins that the parser returns the three metadata fields and nothing else.
+
 
 A list view whose container is present with no screening row is a confirmed empty
 programme; a page without the container is a template change and fails the venue.
@@ -88,7 +101,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch
+from common import EmptyProgramme, capped, fetch
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -129,6 +142,13 @@ AGE = {"2": "K-7", "3": "K-12", "4": "K-16"}
 # the date is complete on its own -- but a row whose weekday contradicts its date means
 # the template moved fields around, and that is worth counting rather than publishing.
 WEEKDAYS = ("MA", "TI", "KE", "TO", "PE", "LA", "SU")
+
+# The film page states its metadata as one shape, `<p class="info">Label: <b>value</b></p>`,
+# for Kesto, Kuvaus, Lajityyppi, Ohjaus and Näyttelijät alike. Reading the labels rather
+# than positions means a field the operator adds or drops changes nothing here.
+INFO_RE = re.compile(r'<p class="info">\s*([^:<]{2,24}):\s*<b>(.*?)</b>\s*</p>', re.S | re.I)
+HOURS_RE = re.compile(r"(\d{1,2})\s*tuntia", re.I)
+MINS_RE = re.compile(r"(\d{1,3})\s*minuuttia", re.I)
 
 TAGS_RE = re.compile(r"<[^>]+>")
 
@@ -195,6 +215,53 @@ def parse(page, site, venue):
     return shows
 
 
+def minutes(raw):
+    """`Kesto` as the page writes it -> "87", or "" when it says no duration.
+
+    "1 tuntia 27 minuuttia" and "2 tuntia" are both published; the hours part is there
+    alone often enough that requiring minutes would drop half the films. A text with
+    neither unit, or one adding to zero, yields nothing rather than a "0".
+    """
+    h, m = HOURS_RE.search(raw or ""), MINS_RE.search(raw or "")
+    total = (int(h.group(1)) * 60 if h else 0) + (int(m.group(1)) if m else 0)
+    return str(total) if total else ""
+
+
+def film_facts(page):
+    """One `?ohjelmisto=` page -> {len, syn, genres}, empty for whatever it omits."""
+    info = {_txt(k).lower(): _txt(v) for k, v in INFO_RE.findall(page)}
+    return {"len": minutes(info.get("kesto", "")),
+            "syn": info.get("kuvaus", ""),
+            "genres": info.get("lajityyppi", "")}
+
+
+BLANK = {"len": "", "syn": "", "genres": ""}
+
+
+def film_facts_by_id(site, ids, sleep=1.2, get=None):
+    """{film id: facts} for every film page that answered. -> dict.
+
+    One request per **distinct** film, paced and cached, and bounded by the shared page
+    budget. `capped`, not `budget_or_raise`: these pages carry no screening, so a film past
+    the cap loses its runtime and keeps its showtimes, which is the right way round.
+
+    A page that will not answer costs that film's metadata and nothing else. The schedule
+    is parsed from the list view before this runs, so no cinema's programme goes stale
+    because one film page 500s.
+    """
+    get = get or globals()["get"]
+    out = {}
+    for n, fid in enumerate(capped(ids, "tmb")):
+        if n:
+            time.sleep(sleep)
+        try:
+            out[fid] = film_facts(get(f"{site['base']}/?ohjelmisto={fid}"))
+        except Exception as e:
+            print(f"[tmb] {site['provider']} film page {fid}: {type(e).__name__}: {e}",
+                  file=sys.stderr)
+    return out
+
+
 def get(url):
     return fetch(url, cache=True,
                  headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
@@ -205,13 +272,23 @@ def get_list(site):
     return get(site["base"] + "/?lista=1")
 
 
-def fetch_site(site):
-    """Runner contract: one list view, one venue."""
+def fetch_site(site, sleep=1.2):
+    """Runner contract: one list view, then one film page per distinct film."""
     venue = site["venues"][0]
     shows = parse(get_list(site), site, venue)
+    facts = film_facts_by_id(site, sorted({s["eventId"] for s in shows}), sleep=sleep)
+    for s in shows:
+        f = facts.get(s["eventId"]) or BLANK
+        s["len"], s["genres"] = f["len"], f["genres"]
+        if f["syn"]:
+            # A bare string is Finnish, which is what this operator writes.
+            s["_syn"] = f["syn"]
     print(f"[tmb] {site['provider']}: {len(shows)} showtimes, "
           f"{len({s['eventId'] for s in shows})} films, "
-          f"{len({s['start'][:10] for s in shows})} dates")
+          f"{len({s['start'][:10] for s in shows})} dates, "
+          f"{sum(1 for s in shows if s['len'])} timed, "
+          f"{sum(1 for s in shows if s['genres'])} with a genre, "
+          f"{sum(1 for s in shows if s.get('_syn'))} with a synopsis")
     return {venue["id"]: shows}
 
 

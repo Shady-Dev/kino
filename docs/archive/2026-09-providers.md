@@ -1872,3 +1872,40 @@ running to the end of the day's paragraph, and a failed `/liput/` failing the si
 last row-boundary mutation survived its first test and the test was wrong, not the code:
 it put the amount on the *earlier* row, where a tail that overruns cannot be seen. The
 fixture now puts it on the later one, which is the direction an overrunning tail leaks.
+
+### TMB reads the film page after all, for the runtime (2026-09-16)
+
+The adapter shipped on 2026-09-15 with the film page deliberately unread, and the reason
+written into its docstring: one request per distinct film per venue, about 68 a run against
+a third party, to publish a runtime. The maintainer looked at Kino-Toijala on the site,
+found the rows carrying no length, and asked for it. That makes the trade theirs, and the
+entry above is superseded rather than corrected: the cost figure was right and the decision
+about whether it was worth paying was not mine.
+
+**The page gives three fields for that one request.** `Kesto`, `Kuvaus` and `Lajityyppi`,
+all in one shape -- `<p class="info">Label: <b>value</b></p>` -- so the parser reads labels
+rather than positions and a field the operator adds or drops changes nothing. Measured on
+two live pages 2026-09-16: `1 tuntia 27 minuuttia` -> 87 and `2 tuntia` -> 120, with genre
+`kotimainen` and `fantasia`, and a Finnish synopsis on both. A text stating no duration
+publishes no runtime rather than a `0`, which is Bio Savoy's `XXh 00min` lesson applied
+before it could happen here.
+
+`film_facts_by_id` is Bio Savoy's shape: one page per **distinct** film, paced 1.2 s,
+cached, and bounded by `common.capped` rather than `budget_or_raise`, because these pages
+carry no screening. The list view is parsed before any of them is asked for, so a film page
+that 500s costs that film its metadata and never a cinema its programme.
+
+**What was also on that page, and is not published.** Each screening on it carries its own
+`Hinta: 14.45€ / 12.45€ / 11.45€`, and the Saturday row reads 14.95 where the weekday reads
+14.45. That is the operator stating what a given screening costs rather than a tariff
+waiting to be applied, so it is not the thing withdrawn hours earlier the same day, and it
+would satisfy the rule the withdrawal was made under. It is still a decision the maintainer
+has not made, and reading the page for a runtime is not a way to make it quietly. A test
+pins that `film_facts` returns the three metadata fields and no amount.
+
+Tests: `tests/test_tmb.py`, 27, of which 7 are new plus a rewritten one. The test that
+pinned "one request per venue and no more" pinned the decision this entry reverses, so it
+is gone; what replaces it asserts the order and that a repeated film is fetched once. Seven
+mutations, all red: a page per showtime instead of per film, the budget dropped, no
+duration becoming a `0`, hours-only runtimes ignored, an empty synopsis published as a
+`_syn`, a failing film page failing the site, and the runtime and genre fields swapped.
