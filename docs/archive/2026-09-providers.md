@@ -1797,3 +1797,70 @@ Tests: `test_tmb.py` 20, `test_isohannu.py` 29, `test_kirkkonummi.py` 27. Four m
 across the three, all red: an ambiguous association publishing one of its amounts, Monday
 to Thursday publishing the cheaper figure again, the weekend publishing the weekday figure,
 and TMB publishing anything at all.
+
+### Kuvakukko and Manttu publish their tariff, and four rows do not (2026-09-16)
+
+The three price sources `docs/research/prices.md` still listed as unread were read that
+day. Bio-Kaari's is closed. Kuvakukko's settles both its cinemas, and the maintainer's
+instruction on it is the one implemented here: publish the venue's tariff where its
+applicability is established, leave an externally sold or otherwise ambiguous screening
+unpriced, do not infer applicability from an on-site link alone, honour an explicit
+screening-specific price or exception, fetch the page once a run, and blank the amount
+where the source is unavailable or ambiguous.
+
+**Why this tariff settles a screening where Cine Mäntsälä's does not.** `/liput/` states
+`Liput: 11,50 € / 9,50 €` under `Kino Kuvakukko liput` and `Liput: 11 € / 9 €` under
+`Kino Manttu liput`, and makes neither figure depend on a day, a format, a running length
+or a kind of film. There is no *arkipyhä* clause to check against a calendar, no 2D/3D
+difference to find a marker for, and neither block prints the "hinnoitellaan erikseen"
+escape Mäntsälä's page does. Nothing about the row is left to read, which is the test the
+rule states.
+
+**What established that `11 € / 9 €` is ordinary and concession.** The programme page the
+adapter already fetches carries Manttu's line in full, with the parenthesis naming who the
+second figure is for: students, pensioners, conscripts, the unemployed and under-12s. Two
+statements on the cinema's own site, and the question `IDEAS.md` and the research file had
+left open since 2026-09-15 is answered by the second one rather than by a convention.
+
+**The two ways the tariff is taken back.**
+
+- *An outside organiser's screening.* A series, a film club or a festival billed under its
+  own name is sold by whoever runs it, and the house statement does not reach it. Both
+  signals are read, the label on the row and a destination that leaves this site, because a
+  label can link here and an outside sale can go unlabelled. On the day it was written the
+  two agreed exactly: four Kuopio rows, `Hopeatähti-sarja: Laula minulle Arja`,
+  `Hyvät Kuvat-kerho: Perfect Blue` and two `Vilimit-festivaali:` rows, each labelled and
+  each linking to isak.fi or hyvätkuvat.fi.
+- *A row stating its own amount*, which outranks the tariff because it is the more specific
+  statement. No row does today. Two amounts on one row publish neither.
+
+**An on-site link is not evidence the tariff applies**, and the code does not treat it as
+any. What leaves the house statement standing is the absence of both signals, which is why
+an unlinked ordinary row -- `Klo 15: Autofiktio (viimeinen näytös)`, printed without a page
+because the film is ending -- is priced, and a series row that happens to have a page here
+would not be.
+
+Live at the time: Kuopio 32 of 36 rows at 11,50 €, Nilsiä 9 of 9 at 11 €.
+
+**Bio-Kaari is closed, and it is the counter-example.** Its `/liput/` prices 2D at 14 €
+`viikonloppuisin ja pyhinä` and 13 € on a weekday, 3D a euro dearer, children's films at
+12 €, and adds `Korotettu lipunhinta normaalia pidempiin elokuviin. Korotus 1-2 €`. Four
+conditions, none readable: *pyhinä* needs a calendar, the surcharge states neither a
+threshold nor a single amount, "lasten elokuvat" is not defined anywhere machine-readable,
+and the format is not published at all. Unlike Iso-Hannu's, the weekend does not survive
+either, because the length surcharge and the children's rate can both land on a weekend
+row. Its own pages carry no amount to fall back on: the weekly `Elokuvat, näytösajat ja
+hinnat` posts publish the week as a JPG, and the `/tapahtuma/?event={id}` page the adapter
+already fetches contains no `€` at all. The showtime link goes to the websales flow, which
+is not called.
+
+Tests: `tests/test_kuvakukko.py`, 35, of which 17 are new. Twelve mutations, all red:
+two tariff statements under one heading publishing the first, a disclaimer being ignored,
+one cinema named under two headings with the last winning, an organiser's label ignored, an
+off-site destination ignored, an on-site link being *required* rather than an off-site one
+being disqualifying, two amounts on a row taking the first, the tariff outranking the row,
+the amount keeping its trailing zero, the tariff never reaching the show, a row's own text
+running to the end of the day's paragraph, and a failed `/liput/` failing the site. The
+last row-boundary mutation survived its first test and the test was wrong, not the code:
+it put the amount on the *earlier* row, where a tail that overruns cannot be seen. The
+fixture now puts it on the later one, which is the direction an overrunning tail leaks.

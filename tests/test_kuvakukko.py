@@ -199,6 +199,175 @@ class EmptyAndBrokenTest(unittest.TestCase):
         self.assertEqual(len(per["kk-kuopio"]), 1)
 
 
+def price_block(heading, *paragraphs):
+    return (f'<h2 class="wp-block-heading">{heading}</h2>'
+            + "".join(f'<p class="wp-block-paragraph">{x}</p>' for x in paragraphs))
+
+
+KUOPIO_TARIFF = ("<strong>Liput:</strong> 11,50 &euro; / 9,50 &euro; (alle 12-vuotiaat, "
+                 "opiskelijat, el&auml;kel&auml;iset, varusmiehet, ty&ouml;tt&ouml;m&auml;t). "
+                 "Sarjaliput (kuusi n&auml;yt&ouml;st&auml;) 57,50 &euro; / 47,50 &euro;. "
+                 "Lahjalippu 11,50 &euro;.")
+NILSIA_TARIFF = ("Liput: 11 &euro; / 9 &euro; (alle 12-vuotiaat, opiskelijat, "
+                 "el&auml;kel&auml;iset, varusmiehet, ty&ouml;tt&ouml;m&auml;t).")
+
+
+def price_page(kuopio=KUOPIO_TARIFF, nilsia=NILSIA_TARIFF, footer=True):
+    """`kuvakukko.fi/liput/` as read 2026-09-16: a block per cinema, and a third heading
+    that names a cinema again in the footer's contact card and states no price."""
+    return ("<html><body>"
+            + price_block("Kino Kuvakukko liput", kuopio,
+                          "Lipunmyynti vain Kuvakukossa (Vuorikatu 27, Kuopio).")
+            + price_block("Kino Manttu liput", nilsia, "Maksuv&auml;line: vain k&auml;teinen.")
+            + (price_block("Kino Kuvakukko", "Vuorikatu 27, 70100 KUOPIO",
+                           "Puh. 044 718 2470") if footer else "")
+            + "</body></html>")
+
+
+class TariffTest(unittest.TestCase):
+    """`/liput/` states one ordinary admission per cinema and no condition on it."""
+
+    def test_both_cinemas_are_read_and_the_ordinary_ticket_is_the_first_amount(self):
+        """The error this prevents: publishing 9,50 (a concession), 57,50 (a six-show
+        series ticket) or 47,50, all of which are on the same line as the answer."""
+        self.assertEqual(kuvakukko.tariff(price_page()),
+                         {"kk-kuopio": "11.5\u20ac", "kk-nilsia": "11\u20ac"})
+
+    def test_the_footer_naming_a_cinema_again_does_not_take_its_price_away(self):
+        """The real page has three headings and the third is the contact card. It states
+        no amount, so it is not a second, disagreeing answer about the same cinema."""
+        self.assertEqual(kuvakukko.tariff(price_page(footer=False)),
+                         kuvakukko.tariff(price_page()))
+
+    def test_two_statements_under_one_heading_settle_nothing(self):
+        """Which admission a ticket is, is exactly what is then in doubt."""
+        two = KUOPIO_TARIFF + " Liput: 13,00 &euro; / 11,00 &euro;."
+        self.assertNotIn("kk-kuopio", kuvakukko.tariff(price_page(kuopio=two)))
+        self.assertIn("kk-nilsia", kuvakukko.tariff(price_page(kuopio=two)))
+
+    def test_one_cinema_named_twice_with_two_amounts_settles_nothing(self):
+        """The footer names a cinema a second time. It prints no price today; if it ever
+        prints a different one, the page disagrees with itself and neither figure is the
+        admission."""
+        page = ("<html><body>"
+                + price_block("Kino Kuvakukko liput", KUOPIO_TARIFF)
+                + price_block("Kino Kuvakukko", "Liput: 13,00 &euro; / 11,00 &euro;.")
+                + "</body></html>")
+        self.assertEqual(kuvakukko.tariff(page), {})
+
+    def test_a_block_disclaiming_its_own_tariff_publishes_nothing(self):
+        """A cinema saying the price is set separately has said the tariff does not settle
+        a screening, which is the whole rule."""
+        said = KUOPIO_TARIFF + " Erikoisn&auml;yt&ouml;kset hinnoitellaan erikseen."
+        self.assertNotIn("kk-kuopio", kuvakukko.tariff(price_page(kuopio=said)))
+
+    def test_a_page_with_no_tariff_names_nobody(self):
+        self.assertEqual(kuvakukko.tariff("<html><body>Liput</body></html>"), {})
+
+    def test_the_tariff_page_failing_leaves_the_amounts_empty(self):
+        """The schedule is the thing a reader needs; the price is not worth a site."""
+        real, kuvakukko._get = kuvakukko._get, _raise
+        try:
+            self.assertEqual(kuvakukko.get_prices(), {})
+        finally:
+            kuvakukko._get = real
+
+
+def _raise(url):
+    raise OSError("down")
+
+
+class PriceTest(unittest.TestCase):
+    """Which screenings the tariff settles, and which it does not reach."""
+
+    def setUp(self):
+        self.per = kuvakukko.parse(LISTING_PAGE, today=TODAY,
+                                   prices=kuvakukko.tariff(price_page()))
+        self.by_title = {(s["venue"], s["title"]): s
+                         for v in self.per.values() for s in v}
+
+    def test_an_ordinary_screening_carries_the_cinema_s_own_tariff(self):
+        """Keyed by venue as well as title: the two cinemas show the same films, at
+        different prices, which is the whole reason the tariff is read per heading."""
+        self.assertEqual(self.by_title[("kk-kuopio", "Hetki ennen valoa")]["price"],
+                         "11.5\u20ac")
+        self.assertEqual(self.by_title[("kk-nilsia", "Hetki ennen valoa")]["price"],
+                         "11\u20ac")
+
+    def test_each_cinema_gets_its_own_amount(self):
+        """Nilsiä is 11 € and Kuopio 11,50 €; one page states both."""
+        self.assertEqual({s["price"] for s in self.per["kk-kuopio"] if s["price"]},
+                         {"11.5\u20ac"})
+        self.assertEqual({s["price"] for s in self.per["kk-nilsia"]}, {"11\u20ac"})
+
+    def test_an_outside_organiser_s_screening_is_not_priced_by_this_tariff(self):
+        """The Hopeatähti row is a series billed under its own name and sold on isak.fi.
+        The house statement does not reach it, so it publishes no amount."""
+        self.assertEqual(
+            self.by_title[("kk-kuopio", "Hopeatähti-sarja: Laula minulle Arja")]["price"], "")
+
+    def test_the_label_is_read_even_when_the_series_links_to_this_site(self):
+        """An on-site link is not evidence the tariff applies. The error this prevents:
+        a film club's screening priced as an ordinary one because it happens to have a
+        page here."""
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.",
+                                  row("19", "Hyvät Kuvat-kerho: Perfect Blue",
+                                      f"{BASE}/ohjelmisto/perfect-blue/"))]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual(per["kk-kuopio"][0]["price"], "")
+
+    def test_an_unlabelled_screening_sold_elsewhere_is_not_priced_either(self):
+        """A destination that leaves this site is the other half of the evidence, and it
+        stands on its own: an outside sale need not be labelled."""
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.",
+                                  row("19", "Aavesoturi (1987)",
+                                      "https://isak.fi/vilimit/"))]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual(per["kk-kuopio"][0]["price"], "")
+
+    def test_a_row_with_no_link_at_all_is_an_ordinary_screening(self):
+        """The cinema prints a row without a page when a film is ending. Withholding here
+        would be inferring from the *absence* of an on-site link, which says nothing."""
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.", row("15", "Autofiktio (viimeinen näytös)"))]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual(per["kk-kuopio"][0]["price"], "11.5\u20ac")
+
+    def test_a_row_stating_its_own_price_outranks_the_tariff(self):
+        """A screening-specific amount is the more specific statement."""
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.",
+                                  row("19", "Ooppera") + " 25 &euro;")]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual(per["kk-kuopio"][0]["price"], "25\u20ac")
+
+    def test_a_row_stating_two_amounts_publishes_neither(self):
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.",
+                                  row("19", "Ooppera") + " 25 &euro; / 20 &euro;")]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual(per["kk-kuopio"][0]["price"], "")
+
+    def test_one_row_s_own_amount_stays_on_that_row(self):
+        """The error this prevents: an amount printed on a later row reaching back to an
+        earlier one, which is the shape Kirkkonummi's ambiguity had. A row's own text ends
+        where the next row starts, so the 17:00 screening is an ordinary one."""
+        per = kuvakukko.parse(
+            page(kuopio_days=[day("Tiistai 15.9.",
+                                  row("17", "Hetki ennen valoa", f"{BASE}/x/"),
+                                  row("19", "Ooppera", f"{BASE}/y/") + " 25 &euro;")]),
+            today=TODAY, prices={"kk-kuopio": "11.5\u20ac"})
+        self.assertEqual([s["price"] for s in per["kk-kuopio"]], ["11.5\u20ac", "25\u20ac"])
+
+    def test_no_tariff_read_means_no_amount_anywhere(self):
+        """A `/liput/` that will not answer leaves 45 showtimes standing and unpriced."""
+        per = kuvakukko.parse(LISTING_PAGE, today=TODAY, prices={})
+        self.assertEqual({s["price"] for v in per.values() for s in v}, {""})
+        self.assertEqual(sum(len(v) for v in per.values()), 7)
+
+
 class SiteTest(unittest.TestCase):
     def test_one_provider_two_venues_two_towns(self):
         site = kuvakukko.SITES[0]

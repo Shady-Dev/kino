@@ -36,6 +36,18 @@ Titles are published verbatim, including a strand prefix like "Hopeatähti-sarja
 central pass in `run.py` splits the prefixes `strands.EVENT_PREFIXES` names, and that list
 is exact on purpose; adding a name to it is its own decision and is not made here.
 
+**The price comes from `/liput/`, one request a run for both cinemas.** That page states
+one ordinary admission per cinema -- 11,50 € in Kuopio, 11 € in Nilsiä, read 2026-09-16 --
+and makes neither depend on a day, a format, a running length or a kind of film, so an
+ordinary screening of the cinema's own is settled by it. The programme page states Manttu's
+line as well, with the concession groups named, which is what establishes that the first of
+`11 € / 9 €` is the ordinary ticket.
+
+Two things take the tariff back, and `price_of` says why in full: a screening billed by an
+outside organiser, which the label on the row or a destination off this site is evidence
+of, and a row that states its own amount, which outranks the house statement. An on-site
+link establishes nothing on its own and is not read as though it did.
+
 `book="door"` for both: the page states "Lipunmyynti vain Kuvakukossa" and, for Manttu,
 "Ei ennakkovarauksia, lipunmyynti vain Mantulla. Maksuvälineenä käy vain käteinen." There
 is no online sale to link to, so a showtime opens the film's own page on this site when it
@@ -76,6 +88,23 @@ EMPTY_VENUES_CONFIRMED = True
 # covers both with room and stays far short of the 365 a mistyped weekday would need.
 WINDOW = (30, 60)
 
+# `/liput/` states one ordinary admission per cinema, "Liput: 11,50 € / 9,50 €", and the
+# parenthesis after it names who the second figure is for. Nothing on the page makes either
+# amount depend on a day, a format, a running length or a kind of film, and neither block
+# prints the escape clause other cinemas do, so the first amount is what an ordinary ticket
+# to that cinema costs. `Sarjaliput` and `Lahjalippu` state no colon and are other products.
+PRICES = BASE + "/liput/"
+TARIFF_RE = re.compile(r"liput:\s*(\d{1,3}(?:[.,]\d{1,2})?)\s*\u20ac", re.I)
+AMOUNT_RE = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)\s*\u20ac")
+# A cinema saying its own tariff is not the last word: read 2026-09-16, neither block says
+# anything of the sort, and if one starts to, that venue publishes nothing rather than an
+# amount the page has just disclaimed.
+EXCEPTION_RE = re.compile(r"erikseen|poikkeu|erikoisn\u00e4yt|vaihtelee|riippuu", re.I)
+# An outside organiser's screening. Read 2026-09-16, four Kuopio rows carry one of these
+# labels and all four link to isak.fi or hyvätkuvat.fi rather than to this site.
+ORGANISER_RE = re.compile(r"^[^:]{0,40}(?:sarja|kerho|festivaali|klubi|seura|yhdistys)"
+                          r"[^:]{0,12}:", re.I)
+
 CONTAINER_RE = re.compile(r'<h2[^>]*>[^<]*esitysaikataulu', re.I)
 HEADING_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.S | re.I)
 PARA_RE = re.compile(r'<p[^>]*class="[^"]*wp-block-paragraph[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
@@ -109,10 +138,83 @@ def _venue_for(heading):
     return None
 
 
-def parse(page, site=None, today=None):
+def tariff(page):
+    """`/liput/` -> {venue_id: "11.5\u20ac"}. A venue the page does not settle is absent.
+
+    Both cinemas are the city of Kuopio's and both tariffs are on this one page, under a
+    heading naming the cinema. The amount is published only where the page says one thing:
+    a venue with no `Liput:` statement, with two of them, or whose block also disclaims the
+    tariff is left out, and its screenings publish nothing. The page's third heading is the
+    footer's contact block, which names a cinema and states no price; requiring exactly one
+    statement is what keeps it from being read as a second, priceless answer.
+    """
+    stated = {}
+    for heading, body in _sections(page):
+        venue = next((v for v in VENUES if v["short"].lower() in heading.lower()), None)
+        if venue is None:
+            continue
+        text = _txt(body)
+        found = TARIFF_RE.findall(text)
+        if not found:
+            continue
+        stated.setdefault(venue["id"], []).append((found, EXCEPTION_RE.search(text)))
+    out = {}
+    for vid, blocks in stated.items():
+        if len(blocks) != 1:
+            continue
+        found, disclaimed = blocks[0]
+        if len(found) != 1 or disclaimed:
+            continue
+        out[vid] = _amount(found[0])
+    return out
+
+
+def _amount(raw):
+    return f"{float(raw.replace(',', '.')):.2f}".rstrip("0").rstrip(".") + "\u20ac"
+
+
+def price_of(title, href, tail, house):
+    """One row's price. -> "11.5\u20ac" or "".
+
+    The cinema's tariff settles an ordinary screening of its own: it names no day, format,
+    length or kind of film, so there is nothing about the row left to read. Two things take
+    it back.
+
+    **An outside organiser's screening is not priced by this tariff.** A film society, a
+    festival or a series billed under its own name is sold by whoever runs it, and the
+    house statement does not reach it. The evidence is either the label on the row or a
+    destination that leaves this site; both are read, because a label can link here and an
+    outside sale can go unlabelled. An on-site link on its own establishes nothing and is
+    not treated as evidence that the tariff applies -- it is the absence of the two signals
+    that leaves the house statement standing, which is why an unlinked ordinary row is
+    priced and a linked series row is not.
+
+    **A row stating its own amount outranks the tariff**, because a screening-specific
+    price is the more specific statement. Two amounts on one row settle nothing and publish
+    nothing: which one an admission costs is exactly what is then in doubt.
+    """
+    # An unlinked row is captured whole -- `Klo 19: Ooppera 25 €` has no tag to stop the
+    # title at -- so the row's own amount is read out of the title and what follows it
+    # together. The title is still published verbatim; this only reads it.
+    own = AMOUNT_RE.findall(f"{title} {tail}")
+    if own:
+        return _amount(own[0]) if len(own) == 1 else ""
+    if ORGANISER_RE.match(title):
+        return ""
+    if href and not href.startswith(BASE):
+        return ""
+    return house
+
+
+def parse(page, site=None, today=None, prices=None):
     """The shared page -> {venue_id: [show]}. Raises when no schedule heading is present,
-    and `EmptyProgramme` when the headings are there with no screening under them."""
+    and `EmptyProgramme` when the headings are there with no screening under them.
+
+    `prices` is `tariff()`'s answer, or nothing: a venue it does not name publishes no
+    amount, which is what an unreadable or ambiguous `/liput/` leaves behind.
+    """
     site = site or SITES[0]
+    prices = prices or {}
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{LISTING}: no 'esitysaikataulu' heading on the page, so this is not the "
@@ -134,10 +236,17 @@ def parse(page, site=None, today=None):
             if year is None:
                 unplaced.append(f"{wd} {day}.{month}.")
                 continue
-            for hh, mm, href, linked, plain in ROW_RE.findall(para):
+            rows = list(ROW_RE.finditer(para))
+            for i, row in enumerate(rows):
+                hh, mm, href, linked, plain = row.groups()
                 title = _txt(linked or plain)
                 if not title:
                     continue
+                # What the page prints after this row and before the next one. A row that
+                # states its own amount is the only place a screening-specific price can
+                # appear here, and `price_of` prefers it to the house tariff.
+                stop = rows[i + 1].start() if i + 1 < len(rows) else len(para)
+                tail = _txt(para[row.end():stop])
                 try:
                     start = datetime.datetime(year, month, day, int(hh), int(mm or 0),
                                               tzinfo=FI)
@@ -168,7 +277,7 @@ def parse(page, site=None, today=None):
                     "img": "",
                     "lang": "",
                     "soldOut": False,
-                    "price": "",
+                    "price": price_of(title, href, tail, prices.get(venue["id"], "")),
                     "provider": site["provider"],
                     "venue": venue["id"],
                 })
@@ -182,10 +291,28 @@ def parse(page, site=None, today=None):
     return per_venue
 
 
-def get_listing():
-    return fetch(LISTING, cache=True,
+def _get(url):
+    return fetch(url, cache=True,
                  headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
                  timeout=30).decode("utf-8", "replace")
+
+
+def get_listing():
+    return _get(LISTING)
+
+
+def get_prices():
+    """The tariff page, once a run, for both venues. -> {venue_id: amount}, or {}.
+
+    A price is the one thing here a reader can do without, so this never fails the site:
+    the schedule is already parsed when it is asked for, and a page that will not answer
+    leaves the amounts empty rather than taking 45 showtimes down with it.
+    """
+    try:
+        return tariff(_get(PRICES))
+    except Exception as e:
+        print(f"[kuvakukko] {PRICES}: not read, so no prices this run: {e!r}")
+        return {}
 
 
 def fetch_site(site=SITES[0]):
@@ -195,10 +322,14 @@ def fetch_site(site=SITES[0]):
     both schedules are on the same page, so one cinema being between programmes is
     positive evidence, while both being empty already raised `EmptyProgramme` above.
     """
-    per_venue = parse(get_listing(), site)
+    page = get_listing()
+    prices = get_prices()
+    per_venue = parse(page, site, prices=prices)
     for vid, shows in per_venue.items():
         print(f"[kuvakukko] {vid}: {len(shows)} showtimes, "
-              f"{len({s['start'][:10] for s in shows})} dates")
+              f"{len({s['start'][:10] for s in shows})} dates, "
+              f"{sum(1 for s in shows if s['price'])} priced "
+              f"(tariff {prices.get(vid) or 'not read'})")
     return per_venue
 
 

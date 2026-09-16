@@ -226,9 +226,15 @@ string, only `Osta lippu`. The showtime link goes to
 called.
 
 **Status.** Bio-Kaari is closed: there is no readable per-screening price and the tariff
-settles nothing. Kuvakukko and Manttu are research finished and **not implemented**: the
-amounts are unconditional and stated twice for Manttu, so the question left is not what the
-page says but whether an unconditional house tariff read off a `/liput/` page is a
-per-screening price under the rule, and what to do with a strand row the tariff does not
-mention. That is the maintainer's call, the same one Cine Mäntsälä's entry above leaves
-open.
+settles nothing.
+
+**Kuvakukko and Manttu are implemented**, 2026-09-16, on the maintainer's instruction:
+publish the venue's tariff where its applicability is established, leave an externally sold
+or otherwise ambiguous screening unpriced, do not infer applicability from an on-site link
+alone, honour an explicit screening-specific price or exception, fetch `/liput/` once a run,
+and leave the amount blank where the source is unavailable or ambiguous. Live at the time of
+writing: Kuopio 32 of 36 rows at 11,50 €, Nilsiä 9 of 9 at 11 €. The four blanks are the
+outside organisers' rows -- one Hopeatähti series screening, one Hyvät Kuvat film club
+screening and two Vilimit festival screenings, all four linking to isak.fi or
+hyvätkuvat.fi. The record is in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md).
