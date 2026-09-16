@@ -400,6 +400,46 @@ class MainPathTest(MainHarness):
         self.assertEqual(self.searches, [])
         self.assertNotIn("re-judging", out)
 
+    def test_an_alias_id_replaces_an_exact_match_it_disagrees_with(self):
+        """The error this prevents: 256 showtimes keeping the 1998 Practical Magic because
+        the 2026 sequel's Finnish title is what TMDB registers for the original, so the
+        wrong id was written with x:True and a complete entry is skipped before the alias
+        is read."""
+        self.shows({"title": "Practical Magic: Lumotut sisaret", "year": "2026"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"practical magic lumotut sisaret": "1302904"}))
+        self.cache_write({"practical magic lumotut sisaret": {
+            "r": 6.8, "n": 1853, "v": "k", "x": True, "g": [14], "i": 6435,
+            "c": self.today, "fi": "", "en": "", "p": "/old.jpg"}})
+        out = self.run_main({})
+        self.assertEqual(self.cache()["practical magic lumotut sisaret"]["i"], 1302904)
+        self.assertIn("an alias replaces", out)
+
+    def test_an_alias_id_that_agrees_leaves_the_entry_and_the_budget_alone(self):
+        """The counterweight: an alias naming the id already held is not a reason to throw
+        the entry away and spend a request re-fetching it every run."""
+        self.shows({"title": "Kummisetä osa II", "year": "1974"})
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"kummisetä osa ii": "240"}))
+        self.cache_write({"kummisetä osa ii": {
+            "r": 8.5, "n": 12000, "v": "k", "x": True, "g": [18], "i": 240,
+            "c": self.today, "fi": "", "en": "", "p": ""}})
+        out = self.run_main({})
+        self.assertEqual(self.cache()["kummisetä osa ii"]["i"], 240)
+        self.assertNotIn("an alias replaces", out)
+
+    def test_a_search_string_alias_does_not_unseat_an_exact_entry(self):
+        """A replacement query is a better way to ask, not a verdict on which film it is,
+        and there is no id in it to disagree with the one the matcher settled on."""
+        self.shows({"title": "Autot (uudelleenjulkaisu)", "year": "2026"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"autot uudelleenjulkaisu": "Cars"}))
+        self.cache_write({"autot uudelleenjulkaisu": {
+            "r": 7.0, "n": 19000, "v": "k", "x": True, "g": [16], "i": 920,
+            "c": self.today, "fi": "", "en": "", "p": ""}})
+        out = self.run_main({})
+        self.assertEqual(self.cache()["autot uudelleenjulkaisu"]["i"], 920)
+        self.assertNotIn("an alias replaces", out)
+
     def test_an_alias_search_string_is_never_filtered_by_the_year(self):
         self.shows({"title": "Autot (uudelleenjulkaisu)", "year": "2026"})
         (self.dir / "tmdb-aliases.json").write_text(json.dumps({"autot uudelleenjulkaisu": "Cars"}))
@@ -450,6 +490,17 @@ class AliasFileTest(unittest.TestCase):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.norm(published), "myrskyn ikkuna")
 
+
+    def test_both_practical_magic_spellings_point_at_the_sequel(self):
+        """Kino Tar appends its strand to the title as a suffix and `run.py` splits only
+        prefixes, so that spelling normalises to its own key and needs its own entry. The
+        error this prevents: one of the two silently keeping the 1998 film."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        for published in ("Practical Magic: Lumotut sisaret",
+                          "PRACTICAL MAGIC: LUMOTUT SISARET",
+                          "Practical Magic: Lumotut sisaret (K18-anniskelunäytös)"):
+            with self.subTest(published=published):
+                self.assertEqual(doc[enrich_tmdb.norm(published)], "1302904")
 
     def test_the_carmen_alias_pins_the_season_the_cinema_relays(self):
         """An opera relay's TMDB record is per season, so the id is the part that can be

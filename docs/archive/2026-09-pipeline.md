@@ -1570,3 +1570,43 @@ Tests: `tests/test_tmdb_matching.py` gains one, pinning the id, the norm key and
 absence. Four mutations, all red: the alias dropped, the id swapped for the 2025/26 Tosca
 record, Tosca aliased to it, and the key written as the published title rather than its
 norm.
+
+### An exact title match put the 1998 film on 256 showtimes (2026-09-16)
+
+`Practical Magic: Lumotut sisaret` is how thirty-two providers publish the 2026 sequel,
+and it is also the title TMDB holds for the 1998 original, 6435. The matcher did not fail:
+it found an exact title and wrote the id with `x: True`, which is the strongest verdict it
+has. 256 showtimes across 46 venue files then carried 1998's poster, its 6.8 from 1853
+votes and its trailer, on a run of screenings from 2026-09-15 to 2026-10-01 that publishes
+129 or 130 minutes where it publishes a runtime at all.
+
+**What settles the identity is not a judgement about which film a cinema meant.** Two
+chains publish the title with a `2` in it -- Bio Savoy's `PRACTICAL MAGIC 2` and Kino
+Akseli's `Practical Magic 2: Lumotut sisaret` -- and both matched 1302904 from the start,
+on the same data, with no alias. The records read off TMDB: 1302904 is *Practical Magic 2*
+(2026), 2h10, released 2026-09-11 in Finland, five days before the screening that surfaced
+this; 6435 is *Practical Magic* (1998), 1h44, released here in February 1999.
+
+**An alias could not have fixed it, which is the part worth keeping.** `main` dropped an
+aliased entry only when it was **not** exact, on the reasoning that an alias exists because
+the search could not settle a title. That reasoning holds for a weak match and fails for
+this one: a Finnish distributor title that is another film's registered title produces a
+confident wrong answer, and the entry would have been skipped before the alias was read.
+`alias_supersedes` now also replaces an exact entry whose id disagrees with a bare-id
+alias. A search-string alias still leaves an exact entry alone: a better query is not a
+verdict about which film it is, and there is no id in it to disagree with.
+
+Aliased: `practical magic lumotut sisaret` and
+`practical magic lumotut sisaret k18 anniskelunäytös` to `1302904`. The second is Kino
+Tar's, which appends its strand as a *suffix*; `run.py` splits prefixes only, so that
+spelling normalises to its own key.
+
+**The cost, stated rather than discovered later:** a repertory screening of the 1998 film
+published under the bare Finnish title would now take the sequel's id. Nothing in the data
+does that today, and the alternative is 256 rows that are wrong now.
+
+Tests: `tests/test_tmdb_matching.py` gains four -- the override, the agreeing alias that
+must *not* churn a good entry every run, the search-string alias that must not unseat an
+exact one, and all three published spellings pinned to the sequel. Five mutations, all
+red: the old weak-only rule, every alias dropping its entry, a search-string alias
+unseating an exact entry, the Kino Tar spelling left out, and the alias pointed at 6435.

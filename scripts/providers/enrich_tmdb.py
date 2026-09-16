@@ -275,6 +275,33 @@ def pick(hits, query, year=None, original=None):
     return tier[0], len({h.get("id") for h in tier}) == 1
 
 
+def alias_supersedes(alias, entry):
+    """Does a hand-written alias replace what the cache already holds?
+
+    An alias is a hand decision with its evidence written beside it, so it outranks
+    whatever the search arrived at. Two cases, and the second is why this is a function.
+
+    - *A weak entry.* The original case: an alias exists precisely because the search could
+      not settle the title, and a complete entry would otherwise be skipped before the
+      alias was ever read.
+    - *An exact entry whose id disagrees.* An exact title match is not proof of the right
+      film. A Finnish distributor title can be another film's registered one:
+      `Practical Magic: Lumotut sisaret` is how thirty-two providers published the 2026
+      sequel and is also what TMDB holds for the 1998 original, so 256 showtimes carried
+      1998's poster, score and trailer with `x: True` against them. Nothing automatic can
+      see that; the alias is the correction, and it has to be able to reach an entry the
+      matcher was sure of.
+
+    A search-string alias cannot be compared with an id, so an exact entry stands: the
+    string is a better query, not a verdict on a film.
+    """
+    if not alias:
+        return False
+    if not isinstance(entry, dict) or not entry.get("x"):
+        return True
+    return str(alias).isdigit() and entry.get("i") != int(alias)
+
+
 def load_aliases():
     try:
         return {k: v for k, v in json.loads(ALIAS_FILE.read_text()).items()
@@ -632,13 +659,13 @@ def main() -> int:
     # A complete entry is skipped outright, so an alias written for a weak match would
     # never be consulted: "autot re release" kept pointing at Cars 3 with an alias for
     # Cars sitting in the file. An alias plus a non-exact entry means the entry is the
-    # thing the alias exists to replace.
-    overridden = [k for k, v in cache.items()
-                  if aliases.get(k) and not (isinstance(v, dict) and v.get("x"))]
+    # thing the alias exists to replace, and so does an alias id that disagrees with an
+    # exact one: see `alias_supersedes`.
+    overridden = [k for k, v in cache.items() if alias_supersedes(aliases.get(k), v)]
     for k in overridden:
         del cache[k]
     if overridden:
-        print(f"[enrich] dropped {len(overridden)} weak entries that now have an alias: "
+        print(f"[enrich] dropped {len(overridden)} entries an alias replaces: "
               + " | ".join(sorted(overridden)))
 
     # One request per UI language per run, not per film. Written for the client to render
