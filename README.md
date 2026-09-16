@@ -25,7 +25,7 @@ planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 62 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 69 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds

@@ -922,5 +922,52 @@ class SnippetTest(GeneratedPagesTest):
             self.assertTrue(m and m.group(1).strip(), k)
 
 
+class ReadmeCountsTest(unittest.TestCase):
+    """The three counts README's first paragraph states, measured rather than trusted.
+
+    CLAUDE.md names the city count among the figures that have been wrong before, and it
+    was wrong again on 2026-09-16: the opening line said 69 cities and the paragraph about
+    the picker still said 62, a number true some days earlier. `advertised()` above pins
+    the page and sitemap figures and nothing pinned these, which is why only one of the two
+    copies moved.
+    """
+
+    README = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    def measured(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts"))
+        sys.path.insert(0, str(ROOT / "scripts" / "providers"))
+        import build_pages
+        import registry
+        venues = build_pages.load_venues()
+        cities = {build_pages.city_of(v) for v in venues}
+        return len(registry.PROVIDERS), len(venues), len(cities)
+
+    def test_the_opening_line_counts_the_committed_venues(self):
+        providers, venues, cities = self.measured()
+        m = re.search(r"Showtimes for (\d+) venues in (\d+) cities across (\d+) providers",
+                      self.README)
+        self.assertTrue(m, "README's opening sentence changed shape")
+        self.assertEqual((int(m.group(1)), int(m.group(2)), int(m.group(3))),
+                         (venues, cities, providers))
+
+    def test_the_picker_paragraph_states_the_same_city_count(self):
+        """The second copy is the one that went stale. It describes the picker, which
+        lists every city with a venue, so it is the same number as the opening line."""
+        _, _, cities = self.measured()
+        m = re.search(r"the picker switches between\s+its (\d+) cities", self.README)
+        self.assertTrue(m, "README's picker sentence changed shape")
+        self.assertEqual(int(m.group(1)), cities)
+
+    def test_the_region_count_matches_the_registry(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts" / "providers"))
+        import registry
+        for m in re.finditer(r"(\d+) regions", self.README):
+            with self.subTest(said=m.group(1)):
+                self.assertEqual(int(m.group(1)), len(registry.REGIONS))
+
+
 if __name__ == "__main__":
     unittest.main()
