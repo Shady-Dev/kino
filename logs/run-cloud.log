@@ -18,7 +18,7 @@
 [cloud] kirkkonummi: exit=0
 [cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
-[cloud] kinola: exit=1
-[cloud] 124.9s wall, 771.6s of fetching added up across workers that overlap, 48 site(s) fetched
-[cloud] held at most 38 fetched site(s) and 1920 byte(s) of captured log waiting for publication
-exit=1
+[cloud] kinola: exit=0
+[cloud] 163.6s wall, 871.5s of fetching added up across workers that overlap, 48 site(s) fetched
+[cloud] held at most 31 fetched site(s) and 1600 byte(s) of captured log waiting for publication
+exit=0
