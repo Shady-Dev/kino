@@ -10,5 +10,5 @@
 [enrich] year mismatch, exact title refused (1): Tartuffe (1925) -> Tartuffe (1978)
 [enrich] several films match the title and year, none trusted (2): Casablanca (1942) -> Casablanca (1943) | Intermezzo (1936) -> Intermezzo (1936)
 [enrich] rating held back, under 25 votes (13): A Fox Under a Pink Moon (8.2 / 5 votes) | Beginnings (Begyndelser) (6.8 / 16 votes) | Berliinin sankari (6.6 / 19 votes) | Black Magic Rites (4.0 / 9 votes) | Klassikkoelokuva: Solaris (7.4 / 14 votes) | Montreal, My Beautiful (6.7 / 7 votes) | Ooppera: Don Giovanni (Vicenza festivaali / Mozart) (4.5 / 2 votes) | Ooppera: Madama Butterfly (Bregenz festival / Puccini) (4.5 / 2 votes) | R&A: Mouse (6.4 / 23 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes) | Svecias – The Visitor (5.0 / 1 votes) | Tartuffe (7.0 / 1 votes) | The Last Paradise on Earth (7.3 / 3 votes)
-[enrich] 351 titles, 40 new, 0 re-checks, 216 with rating, 334 with synopsis, 330 with poster, 300 mergeable by id, 14 files updated
+[enrich] 350 titles, 36 new, 0 re-checks, 216 with rating, 334 with synopsis, 330 with poster, 300 mergeable by id, 12 files updated
 exit=0

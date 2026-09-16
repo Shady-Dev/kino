@@ -2,8 +2,8 @@
 [cinemantsala] Cine Mäntsälä: 64 showtimes, 18 dates
 [cinemantsala] synopses merged: 0
 [cinemantsala] Cine Mäntsälä: 64 showtimes, 18 dates
-[run] http: 9 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] http: 8 revalidated (304), 2 full, 0 not stored (origin said no-store), 2 cache entries written
 [run] hosts: 1 attempted -- mantsala.cine.fi
 [run] cinemantsala: 1 venues, 64 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 18.5s of fetching added up across workers that overlap, longest site 18.5s, longest queue wait 92.6s, 18.5s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 18.7s of fetching added up across workers that overlap, longest site 18.7s, longest queue wait 81.5s, 18.7s wall from this module's first fetch starting to its last ending
 exit=0
