@@ -1755,3 +1755,45 @@ cinema publishes itself -- so nothing rules one out. The adopted policy does not
 this; what changes is that the alternative is now open rather than closed.
 
 Nothing here adds an override, changes the classifier, or relaxes the keyword rule.
+
+### A price is published only where it is established (2026-09-16)
+
+Three adapters gained a price that morning and two of them were wrong within hours. The
+rule the maintainer stated, now in `CLAUDE.md` and on `common.Show`: an exact amount only
+where its applicability to *that screening* is established, otherwise nothing. A note in a
+docstring saying the figure is sometimes 0.50 or 2.50 out does not make it right, and the
+reader does not read the docstring.
+
+**TMB withdrawn entirely.** Its tariff is real and one request per venue away, but two
+things sit between it and a screening and neither is readable: 2D and 3D differ by 2.50 with
+no marker on any row, and the `+0.50` covers weekday public holidays as well as the weekend.
+Together they leave no screening settled, weekend rows included. The price page fetch went
+with the field -- there is no point asking a cinema for a page nothing publishes -- and what
+the page holds is recorded in the module docstring and `docs/research/prices.md` so the
+finding survives the withdrawal.
+
+**Iso-Hannu narrowed to the part its tariff settles.** `Pe-su ja arkipyhä 14,50 €` fixes
+Friday, Saturday and Sunday whatever else the day is, so those publish. `Ma-to 13,50 €`
+does not fix a weekday, because the same line puts an *arkipyhä* on the dearer tariff, so
+those publish nothing. Both amounts are still read, because a block stating one cannot say
+which days it covers. Live at the time: 67 showtimes, 37 priced where it was 67.
+
+**Kirkkonummi tightened on ambiguity rather than on the rule.** Its amount is attached to a
+film rather than derived from a rule, which is why it survived: 14,50 and 15,50 both appear
+on the page and each belongs to its own film. What changed is that a heading with two
+*different* amounts under it now publishes neither, where it used to take the first. Nothing
+in the markup delimits a film's block, so a stray `Liput NN,NN` attaches to the heading
+above it; where that happens the association is what is in doubt, and taking the first
+publishes the doubt. The same amount twice is not ambiguous, which is what the page's
+duplicated programme produces for every real film.
+
+**Corrected in the same pass:** "not located" was written as though it settled something for
+Cine Mäntsälä and Bio Savoy. It does not. Only the page each adapter already fetches was
+read; Cine Mäntsälä's MyCloudCinema `show_times/` payload was never inspected for a price
+field and neither site's own ticket pages were looked for. They are unfinished research and
+are recorded as such.
+
+Tests: `test_tmb.py` 20, `test_isohannu.py` 29, `test_kirkkonummi.py` 27. Four mutations
+across the three, all red: an ambiguous association publishing one of its amounts, Monday
+to Thursday publishing the cheaper figure again, the weekend publishing the weekday figure,
+and TMB publishing anything at all.

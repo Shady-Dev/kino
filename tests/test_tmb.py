@@ -13,7 +13,6 @@ weekday guard, which is the only thing that notices the template moving a field;
 refusal to link to the booking action.
 """
 import contextlib
-import datetime
 import io
 import unittest
 
@@ -34,31 +33,15 @@ def row(wd, date, time_, fid, title, ika="3", sali=None):
             f'\t\t\t\tsrc="/files/images/ikaraja_{ika}.png" alt="Ikäraja"></td>')
 
 
-def page(*rows, hinnat=None):
-    """The list view. `hinnat` adds the nav link to the site's price page, which the four
-    sites number differently and which the adapter reads rather than writes down."""
-    nav = f'<nav><a href="?hinnat={hinnat}">Hinnasto</a></nav>' if hinnat else ""
+def page(*rows):
+    """The list view. The `<title>` names 3D films and no row does, which is the whole
+    reason no screening can be priced: the format of each one is unknown."""
     return ('<html><head><title>Kino-Toijala :: elokuvat, 3D-elokuvat</title></head><body>'
-            + nav + '<h2>Valkokankaalla...</h2><div class="container"><div class="row">'
+            '<nav><a href="?hinnat=2">Hinnasto</a></nav>'
+            '<h2>Valkokankaalla...</h2><div class="container"><div class="row">'
             '<div class="12u"><section class="box feature"><table width="100%">'
             + "".join(rows) +
             '</table></section></div></div></div></body></html>')
-
-
-def price_page(adult="14.45", senior="12.45", child="11.45", surcharge="+0.50 \u20ac",
-               three_d=True):
-    """The `?hinnat=N` page, as read on 2026-09-16. The 3D block sits immediately under the
-    2D one at 2.50 more, which is what an unbounded search would publish."""
-    tail = ('<h3>3D</h3><ul><li>Aikuinen <span>16.95 \u20ac</span></li>'
-            '<li>El\u00e4kel\u00e4inen <span>15.95 \u20ac</span></li>'
-            '<li>Lapsi <span>13.95 \u20ac</span></li></ul>' if three_d else "")
-    rows = "".join(f'<li>{k} <span>{v} \u20ac</span></li>' for k, v in
-                   (("Aikuinen", adult), ("El\u00e4kel\u00e4inen", senior),
-                    ("Lapsi", child)) if v is not None)
-    return ('<html><head><title>Kino-Toijala :: elokuvat, 3D-elokuvat</title></head><body>'
-            '<h1>Hinnasto</h1><h2>Liput</h2><h3>2D</h3><ul>' + rows + "</ul>"
-            + (f"<p>LA, SU ja arkipyh\u00e4t {surcharge}</p>" if surcharge else "")
-            + tail + "<p>Hinnat sis. alv 13.5%</p></body></html>")
 
 
 SINGLE = page(
@@ -172,135 +155,42 @@ class GuardTest(unittest.TestCase):
 
 
 class PriceTest(unittest.TestCase):
-    """The price comes from the operator's own price page, one request per venue.
+    """The tariff is on the site and no screening is priced from it.
 
-    The film page carries an exact per-screening price and is not read: that would be one
-    request per film per venue. The price page is linked from the list view already in
-    hand, so the whole cost is one more request. Read as a visitor 2026-09-16.
+    2D and 3D differ by 2.50 and no row says which it is; the surcharge covers weekday
+    public holidays as well as the weekend and no calendar here knows which days those are.
+    So the applicability of every amount to every screening is unestablished, and the rule
+    in `common.Show` is that nothing is published rather than something nearly right.
     """
 
-    def test_the_two_d_block_is_what_is_read_and_not_the_three_d_one(self):
-        """They sit one under the other and differ by 2.50. An unbounded search publishes
-        the 3D tiers on every screening."""
-        tiers, surcharge = tmb.price_tiers(price_page())
-        self.assertEqual(tiers, [14.45, 12.45, 11.45])
-        self.assertEqual(surcharge, 0.5)
+    def test_no_screening_carries_a_price(self):
+        for site, body in ((TOIJALA, SINGLE), (MANIA, TWO_SCREEN)):
+            with self.subTest(provider=site["provider"]):
+                shows = tmb.parse(body, site, site["venues"][0])
+                self.assertEqual({s["price"] for s in shows}, {""})
 
-    def test_the_title_naming_three_d_films_does_not_bound_the_block(self):
-        """`<title>Kino-Toijala :: elokuvat, 3D-elokuvat</title>` comes before the table,
-        so a search that stopped at the first `3D` on the page would find nothing."""
-        self.assertIn("3D-elokuvat", price_page())
-        self.assertEqual(tmb.price_tiers(price_page())[0], [14.45, 12.45, 11.45])
+    def test_the_adapter_reads_the_price_page_from_nowhere(self):
+        """It was published for a few hours on 2026-09-16 and withdrawn. The request went
+        with it: there is no point asking a cinema for a page nothing publishes."""
+        for name in ("price_url", "price_tiers", "price_of", "TIER_RE", "PRICE_LINK_RE"):
+            with self.subTest(name=name):
+                self.assertFalse(hasattr(tmb, name))
 
-    def test_a_table_missing_a_tier_publishes_nothing_rather_than_a_guess(self):
-        """Which tier a lone amount belongs to is not knowable from the amount."""
-        self.assertEqual(tmb.price_tiers(price_page(child=None)), ([], 0.0))
-
-    def test_a_page_that_is_not_the_price_page_publishes_nothing(self):
-        self.assertEqual(tmb.price_tiers("<html><body><p>Tervetuloa</p></body></html>"),
-                         ([], 0.0))
-
-    def test_a_table_with_no_surcharge_line_is_still_a_table(self):
-        tiers, surcharge = tmb.price_tiers(price_page(surcharge=""))
-        self.assertEqual((tiers, surcharge), ([14.45, 12.45, 11.45], 0.0))
-
-    def test_the_weekend_surcharge_is_applied_and_the_weekday_price_is_not(self):
-        """The page states it and the film page confirms it: a Sunday row reads
-        14.95 / 12.95 / 11.95 where the Wednesday beside it reads 14.45 / 12.45 / 11.45."""
-        tiers, surcharge = tmb.price_tiers(price_page())
-        for day, want in ((16, "14.45\u20ac / 12.45\u20ac / 11.45\u20ac"),      # Wednesday
-                          (19, "14.95\u20ac / 12.95\u20ac / 11.95\u20ac"),      # Saturday
-                          (20, "14.95\u20ac / 12.95\u20ac / 11.95\u20ac")):     # Sunday
-            with self.subTest(day=day):
-                when = datetime.datetime(2026, 9, day, 17, 30, tzinfo=tmb.FI)
-                self.assertEqual(tmb.price_of(tiers, surcharge, when), want)
-
-    def test_an_amount_with_no_cents_loses_its_zeros(self):
-        """`14€ / 12€`, the shape julia.py already publishes and price_label reads."""
-        tiers, surcharge = tmb.price_tiers(price_page(adult="14.00", senior="12.00",
-                                                      child="11.00", surcharge=""))
-        when = datetime.datetime(2026, 9, 16, 17, 30, tzinfo=tmb.FI)
-        self.assertEqual(tmb.price_of(tiers, surcharge, when),
-                         "14\u20ac / 12\u20ac / 11\u20ac")
-
-    def test_no_table_means_no_price_rather_than_a_blank_amount(self):
-        when = datetime.datetime(2026, 9, 16, 17, 30, tzinfo=tmb.FI)
-        self.assertEqual(tmb.price_of([], 0.0, when), "")
-
-    def test_the_price_page_link_is_read_from_the_list_view(self):
-        """The four sites number it 2, 3, 4 and 1. A number copied from one onto another is
-        how six Nexxo ticket links once shipped dead."""
-        self.assertEqual(tmb.price_url(page(hinnat=3), "https://kinosampo.info"),
-                         "https://kinosampo.info/?hinnat=3")
-        self.assertEqual(tmb.price_url(page(hinnat=1), "https://elokuvat-elo.info"),
-                         "https://elokuvat-elo.info/?hinnat=1")
-
-    def test_a_list_view_linking_no_price_page_asks_for_none(self):
-        self.assertEqual(tmb.price_url(page(), "https://toijalan-kino.info"), "")
-
-
-class PriceThroughFetchTest(unittest.TestCase):
-    """One list view, then one price page, and every screening carries what it says."""
-
-    LIST = page(row("KE", "16.09.2026", "17:30", "842", "Hetki ennen valoa", ika="2"),
-                row("LA", "19.09.2026", "14:00", "833", "Presidentin kyyditys", ika="3"),
-                hinnat=2)
-
-    def serve(self, pages):
-        self.calls = []
+    def test_one_request_per_venue_and_no_more(self):
+        calls = []
 
         def get(url):
-            self.calls.append(url)
-            body = pages.get(url)
-            if isinstance(body, Exception):
-                raise body
-            if body is None:
-                raise RuntimeError(f"unexpected fetch {url}")
-            return body
-        real_get, real_sleep = tmb.get, tmb.time.sleep
+            calls.append(url)
+            return SINGLE
+        real = tmb.get
         tmb.get = get
-        tmb.time.sleep = lambda s: None
-        self.addCleanup(lambda: setattr(tmb, "get", real_get))
-        self.addCleanup(lambda: setattr(tmb.time, "sleep", real_sleep))
-
-    def run_site(self, **over):
-        pages = {"https://toijalan-kino.info/?lista=1": self.LIST,
-                 "https://toijalan-kino.info/?hinnat=2": price_page()}
-        pages.update(over)
-        self.serve(pages)
+        self.addCleanup(lambda: setattr(tmb, "get", real))
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            data = tmb.fetch_site(TOIJALA)
-        return data["tmb-toijala"], out.getvalue() + err.getvalue()
-
-    def test_one_extra_request_per_venue_and_every_screening_priced(self):
-        shows, log = self.run_site()
-        self.assertEqual(self.calls, ["https://toijalan-kino.info/?lista=1",
-                                      "https://toijalan-kino.info/?hinnat=2"])
-        self.assertEqual([s["price"] for s in shows],
-                         ["14.45\u20ac / 12.45\u20ac / 11.45\u20ac",
-                          "14.95\u20ac / 12.95\u20ac / 11.95\u20ac"])
-        self.assertIn("2 priced", log)
+            shows = tmb.fetch_site(TOIJALA)["tmb-toijala"]
+        self.assertEqual(calls, ["https://toijalan-kino.info/?lista=1"])
+        self.assertEqual({s["price"] for s in shows}, {""})
         common.check_shows({"tmb-toijala": shows}, "kinotoijala", {"tmb-toijala"})
-
-    def test_a_price_page_that_refuses_costs_the_prices_and_not_the_schedule(self):
-        """A missing price is metadata; the schedule is why the venue exists."""
-        shows, log = self.run_site(**{
-            "https://toijalan-kino.info/?hinnat=2": RuntimeError("HTTP Error 503")})
-        self.assertEqual([s["price"] for s in shows], ["", ""])
-        self.assertEqual(len(shows), 2)
-        self.assertIn("publishing without prices", log)
-        self.assertIn("0 priced", log)
-        common.check_shows({"tmb-toijala": shows}, "kinotoijala", {"tmb-toijala"})
-
-    def test_a_list_view_with_no_price_link_asks_for_nothing_more(self):
-        shows, log = self.run_site(**{
-            "https://toijalan-kino.info/?lista=1": page(
-                row("KE", "16.09.2026", "17:30", "842", "Hetki ennen valoa", ika="2"),
-                row("TO", "17.09.2026", "18:00", "842", "Hetki ennen valoa", ika="2"))})
-        self.assertEqual(self.calls, ["https://toijalan-kino.info/?lista=1"])
-        self.assertEqual([s["price"] for s in shows], ["", ""])
-        self.assertIn("links none", log)
 
 
 class SitesTest(unittest.TestCase):

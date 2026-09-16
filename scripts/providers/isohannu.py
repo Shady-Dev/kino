@@ -87,6 +87,13 @@ TAGS_RE = re.compile(r"<[^>]+>")
 # writes as ranges. The discounts printed beside it -- student, pensioner, under-12, and
 # S-Etukortti Tuesdays at 10,00 € -- all need a card shown at the counter, so the ordinary
 # ticket is the one figure that describes what a visitor pays without one.
+#
+# **Only Friday to Sunday is published.** The dearer tariff covers `Pe-su ja arkipyhä`, so
+# a Friday, Saturday or Sunday screening is 14,50 whatever else the day is -- established.
+# A Monday-to-Thursday screening is 13,50 *unless* the day is an arkipyhä, a weekday public
+# holiday, and which days those are is a calendar this repo does not carry. So those publish
+# nothing. Both amounts are still read, because a block that states only one cannot say
+# which days either covers; see `tariff`.
 TARIFF_RE = re.compile(
     r"LIPUT\s+Ma-?to\s*(\d{1,3}[.,]\d{2})\s*\u20ac\s*Pe-?su[^\d]{0,30}?(\d{1,3}[.,]\d{2})\s*\u20ac",
     re.I)
@@ -183,8 +190,10 @@ def parse(page):
 def tariff(page):
     """The two ordinary ticket prices. -> (Mon-Thu, Fri-Sun), or (None, None).
 
-    Both or neither: the block states the cheaper amount and the days it covers before the
-    dearer one, and half a tariff cannot say which days an amount belongs to.
+    Both or neither. The block states the cheaper amount and the days it covers before the
+    dearer one, and half a tariff cannot say which days an amount belongs to -- an
+    unanchored reader that found one amount could not tell `Ma-to 13,50` from a discount.
+    Only the second is published; `price_of` says why.
     """
     m = TARIFF_RE.search(_txt(page))
     if not m:
@@ -193,17 +202,23 @@ def tariff(page):
 
 
 def price_of(cheap, dear, start):
-    """One screening's price. -> "13.5\u20ac", or "" when the block was not read.
+    """One screening's price, where the tariff settles it. -> "14.5\u20ac" or "".
 
-    Monday to Thursday is the cheaper one and Friday to Sunday the dearer, which is what
-    the page says. It also charges the dearer on an *arkipyhä*, a weekday public holiday,
-    and which days those are is a calendar this repo does not carry -- so a screening on one
-    publishes 0.50 low. Stated rather than guessed, and it understates rather than over.
+    `Pe-su ja arkipyhä 14,50 €` covers Friday, Saturday and Sunday outright, so a screening
+    on one of those is that amount and nothing about the day can change it.
+
+    `Ma-to 13,50 €` does not settle a Monday-to-Thursday screening, because the same line
+    puts an *arkipyhä* -- a weekday public holiday -- on the dearer tariff, and no calendar
+    here knows which days those are. Such a screening is 13,50 or 14,50 and this cannot say
+    which, so it publishes neither. Guessing the common case would put a wrong amount in
+    front of a reader on the days a cinema is busiest, and a note that it is sometimes 0.50
+    out is not the same as it being right.
+
+    `cheap` is read and not published: see `tariff`.
     """
-    if cheap is None:
+    if dear is None or start.weekday() <= 3:
         return ""
-    v = cheap if start.weekday() <= 3 else dear
-    return f"{v:.2f}".rstrip("0").rstrip(".") + "\u20ac"
+    return f"{dear:.2f}".rstrip("0").rstrip(".") + "\u20ac"
 
 
 def details(page):

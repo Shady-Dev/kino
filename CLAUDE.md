@@ -237,6 +237,14 @@ provider missing from it loses its venues, not just its label.
   accent enters where that is reachable, and never lower an existing regional minimum
   without recording why in `IDEAS.md`. Colour stays supplementary: both views also print
   venue names and a chain legend.
+- **A price is published only where it is established for that screening.** A tariff that
+  turns on something the adapter cannot read -- 2D against 3D with no marker on the row, an
+  *arkipyhä* with no calendar to check -- settles no amount, and `price` stays empty for the
+  screenings it does not settle. Publish the part it does settle and leave the rest blank:
+  Iso-Hannu's `Pe-su ja arkipyhä 14,50 €` fixes Friday to Sunday outright and leaves Monday
+  to Thursday open. Documenting that a figure is sometimes 0.50 out is not a substitute; the
+  reader does not read the docstring. A labelled house tariff instead of a per-screening
+  amount is a different field and needs the maintainer's decision.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
 

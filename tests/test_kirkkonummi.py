@@ -220,13 +220,21 @@ class PriceTest(unittest.TestCase):
         self.assertEqual(got["Ei Hintaa"], "")
         self.assertEqual(got["HETKI ENNEN VALOA"], "15.5\u20ac")
 
-    def test_the_first_price_under_a_heading_wins(self):
-        """A later mention in prose cannot displace the film's own."""
+    def test_two_different_amounts_under_one_heading_publish_neither(self):
+        """The association is what is in doubt, so taking the first would publish an
+        amount whose applicability to this film is exactly what is unestablished."""
         body = (head("Yksi") + facts("Liput 12,00") +
                 item("Liput 99,00 ei tarkoita tätä") +
                 item("20.9. Sunnuntai klo18.00"))
         shows = kirkkonummi.parse(page(body), TODAY)
-        self.assertEqual({s["price"] for s in shows}, {"12\u20ac"})
+        self.assertEqual({s["price"] for s in shows}, {""})
+
+    def test_the_same_amount_twice_is_not_ambiguous(self):
+        """Which is what the page produces for every real film: it emits the whole
+        programme twice, so each price is found once per copy."""
+        body = head("Yksi") + facts("Liput 12,00") + item("20.9. Sunnuntai klo18.00")
+        self.assertEqual({s["price"] for s in kirkkonummi.parse(page(body), TODAY)},
+                         {"12\u20ac"})
 
     def test_a_price_above_every_film_title_is_not_attached_to_one(self):
         """`prices_by_title` needs a film heading before it; a price in the page's own

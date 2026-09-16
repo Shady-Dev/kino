@@ -278,21 +278,33 @@ class PriceTest(unittest.TestCase):
         shows = isohannu.parse(page(one_day, tariff=""))
         self.assertEqual({s["price"] for s in shows}, {""})
 
-    def test_monday_to_thursday_is_the_cheaper_one_and_friday_to_sunday_the_dearer(self):
+    def test_friday_to_sunday_is_published_and_monday_to_thursday_is_not(self):
+        """`Pe-su ja arkipyhä 14,50 €` settles a Friday, Saturday or Sunday screening
+        outright. `Ma-to 13,50 €` does not settle a weekday one, because the same line puts
+        a weekday public holiday on the dearer tariff and no calendar here knows which days
+        those are. 13,50 on such a day would be wrong, and a note saying so is not the same
+        as being right."""
         import datetime
-        for day_, want in ((14, "13.5\u20ac"), (15, "13.5\u20ac"), (16, "13.5\u20ac"),
-                           (17, "13.5\u20ac"), (18, "14.5\u20ac"), (19, "14.5\u20ac"),
-                           (20, "14.5\u20ac")):
+        for day_, want in ((14, ""), (15, ""), (16, ""), (17, ""),
+                           (18, "14.5\u20ac"), (19, "14.5\u20ac"), (20, "14.5\u20ac")):
             with self.subTest(day=day_):
                 when = datetime.datetime(2026, 9, day_, 18, 0, tzinfo=isohannu.FI)
                 self.assertEqual(isohannu.price_of(13.5, 14.5, when), want)
 
+    def test_the_cheaper_amount_is_read_and_never_published(self):
+        """Read because a block stating one amount cannot say which days it covers;
+        unpublished because the days it covers are not all knowable."""
+        import datetime
+        self.assertEqual(isohannu.tariff(page())[0], 13.5)
+        when = datetime.datetime(2026, 9, 16, 18, 0, tzinfo=isohannu.FI)
+        self.assertNotIn("13", isohannu.price_of(13.5, 14.5, when))
+
     def test_no_tariff_means_no_price_rather_than_a_blank_amount(self):
         import datetime
-        when = datetime.datetime(2026, 9, 16, 18, 0, tzinfo=isohannu.FI)
+        when = datetime.datetime(2026, 9, 19, 18, 0, tzinfo=isohannu.FI)   # a Saturday
         self.assertEqual(isohannu.price_of(None, None, when), "")
 
-    def test_every_screening_carries_the_price_its_own_day_charges(self):
+    def test_every_screening_carries_what_its_own_day_settles(self):
         import datetime
         shows = isohannu.parse(PAGE)
         self.assertTrue(shows)
@@ -301,17 +313,16 @@ class PriceTest(unittest.TestCase):
             by_day.setdefault(s["start"][:10], set()).add(s["price"])
         for iso, prices in by_day.items():
             with self.subTest(day=iso):
-                want = ("13.5\u20ac" if datetime.date.fromisoformat(iso).weekday() <= 3
-                        else "14.5\u20ac")
-                self.assertEqual(prices, {want})
+                weekday = datetime.date.fromisoformat(iso).weekday()
+                self.assertEqual(prices, {"" if weekday <= 3 else "14.5\u20ac"})
         common.check_shows({isohannu.VENUE["id"]: shows}, "isohannu",
                            {isohannu.VENUE["id"]})
 
     def test_the_cents_are_dropped_only_when_they_are_zero(self):
         import datetime
-        when = datetime.datetime(2026, 9, 16, 18, 0, tzinfo=isohannu.FI)
-        self.assertEqual(isohannu.price_of(13.0, 14.0, when), "13\u20ac")
-        self.assertEqual(isohannu.price_of(13.5, 14.5, when), "13.5\u20ac")
+        when = datetime.datetime(2026, 9, 19, 18, 0, tzinfo=isohannu.FI)   # a Saturday
+        self.assertEqual(isohannu.price_of(13.0, 14.0, when), "14\u20ac")
+        self.assertEqual(isohannu.price_of(13.5, 14.5, when), "14.5\u20ac")
 
 
 if __name__ == "__main__":

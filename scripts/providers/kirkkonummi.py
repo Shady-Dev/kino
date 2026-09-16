@@ -95,15 +95,19 @@ def prices_by_title(page):
     A film whose block states none is simply absent, and its screenings publish no price:
     this is what the page says, and there is no house price to fall back on.
 
-    What this cannot do is bound a price to its film's block, because nothing in the markup
-    delimits one. A `Liput NN,NN` in the page's own furniture therefore attaches to the
+    **A heading with two different amounts under it is absent too.** Nothing in the markup
+    delimits a film's block, so a `Liput NN,NN` in the page's own furniture attaches to the
     heading above it, and the page emits the whole programme twice, so one between the two
-    copies would attach to the first copy's last film. `setdefault` limits that to a film
-    that stated no price of its own, and the page read 2026-09-16 carried three such lines
-    and all three were inside a film's block.
+    copies lands under the first copy's last film. Where that happens the association is
+    ambiguous and neither amount is published -- taking the first would publish an amount
+    whose applicability to that film is exactly what is in doubt. The same amount twice is
+    not ambiguous, which is what the duplicated programme produces for every real film.
+
+    The page read 2026-09-16 carried three such lines and all three were inside a film's
+    block.
     """
     heads = [(m.start(), _txt(m.group(1))) for m in HEAD_RE.finditer(page)]
-    out = {}
+    seen = {}
     for m in PRICE_RE.finditer(page):
         # The nearest heading of **any** kind. Skipping a `tulossa` label to reach the film
         # title above it would put one film's amount on another's screenings, so a price
@@ -113,8 +117,9 @@ def prices_by_title(page):
         prior = [t for pos, t in heads if pos < m.start()]
         if prior and prior[-1]:
             amount = float(m.group(1).replace(",", "."))
-            out.setdefault(prior[-1], f"{amount:.2f}".rstrip("0").rstrip(".") + "\u20ac")
-    return out
+            seen.setdefault(prior[-1], set()).add(amount)
+    return {title: f"{v.pop():.2f}".rstrip("0").rstrip(".") + "\u20ac"
+            for title, amounts in seen.items() for v in [set(amounts)] if len(v) == 1}
 
 
 def parse(page, today=None):

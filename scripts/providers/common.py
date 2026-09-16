@@ -315,6 +315,14 @@ class Show(typing.TypedDict):
     img: str
     lang: str
     soldOut: bool
+    # A price is published only where its applicability to *this screening* is
+    # established. A tariff that depends on something the adapter cannot read -- 2D against
+    # 3D with no marker on the row, a weekday public holiday with no calendar to check --
+    # settles no amount for that screening, and the field stays empty. A note in a docstring
+    # saying the figure is sometimes 0.50 or 2.50 out does not make the figure right, and it
+    # is not the reader who reads the docstring. Stated by the maintainer 2026-09-16, after
+    # TMB and Iso-Hannu shipped amounts that were nearly right; the record is in
+    # docs/archive/2026-09-providers.md.
     price: str          # "8€", "alkaen 10€", "Vapaa pääsy", or ""
     provider: str       # registry id
     venue: str          # a venue id the site's registry entry lists
