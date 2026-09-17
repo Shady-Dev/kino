@@ -1,9 +1,9 @@
 [engel] 3 date(s) listed with no time anywhere, skipped: 10-02, 10-11, 10-18 -- La Grazia | Rose | BARNSÖNDAGAR: Bortglömda ön | BARNSÖNDAGAR: Lilla spöket Laban busar v
-[engel] film pages: 13 parsed, 0 with nothing usable, 31/31 showtimes rated
+[engel] film pages: 12 parsed, 0 with nothing usable, 25/25 showtimes rated
 [engel] strand prefix split off 1 showtimes
 [engel] synopses merged: 0
-[engel] Kino Engel: 31 showtimes, 6 dates
-[run] http: 0 revalidated (304), 14 full, 0 not stored (origin said no-store), 0 cache entries written
+[engel] Kino Engel: 25 showtimes, 5 dates
+[run] http: 0 revalidated (304), 13 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 31 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

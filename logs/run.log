@@ -1,19 +1,22 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-17: 418 showtimes
 [schedule] 2026-09-18: 408 showtimes
 [schedule] 2026-09-19: 438 showtimes
 [schedule] 2026-09-20: 417 showtimes
 [schedule] 2026-09-21: 338 showtimes
 [schedule] 2026-09-22: 335 showtimes
 [schedule] 2026-09-23: 332 showtimes
+[schedule] 2026-09-24: 310 showtimes
 [tmdb] dropped 2 entries matched by the old picker
-[tmdb] no TMDB match (1): Ooppera: 20 Years of the Met in Cinemas
+[tmdb] no TMDB match (2): Ooppera: 20 Years of the Met in Cinemas | Salatut elämät 5000 -erikoisnäytös
 [tmdb] weak match, no exact title (2): Lyhyt rakkaustarina -> Breve storia d'amore | NCT 127 5TH TOUR ‘NEO CITY : SEOUL - THE -> NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS
-[tmdb] 2 new lookups, 0 re-checks, cache 71, 65 mergeable by id
+[tmdb] rating held back, under 25 votes (1): Bamse ja meren salaisuus (6.4 / 8 votes)
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 20 deferred (budget 12)
+[tmdb] 3 new lookups, 17 re-checks, cache 72, 65 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 51 film entries
-[attrs] dropped, neither format nor language (7): Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
-[schedule] 17 venue files written, 0 kept as-is
+[films] 52 film entries
+[attrs] dropped, neither format nor language (7): Erikois | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[schedule] 1103: no shows, keeping previous file
+[schedule] 16 venue files written, 1 kept as-is
 done
 exit=0
