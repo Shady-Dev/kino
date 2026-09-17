@@ -19,6 +19,6 @@
 [cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
 [cloud] kinola: exit=0
-[cloud] 156.5s wall, 856.6s of fetching added up across workers that overlap, 48 site(s) fetched
-[cloud] held at most 30 fetched site(s) and 1518 byte(s) of captured log waiting for publication
+[cloud] 180.4s wall, 972.5s of fetching added up across workers that overlap, 48 site(s) fetched
+[cloud] held at most 41 fetched site(s) and 2231 byte(s) of captured log waiting for publication
 exit=0
