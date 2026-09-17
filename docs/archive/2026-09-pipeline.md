@@ -1497,7 +1497,7 @@ Actions.
 
 Both read 20 modules, 48 sites, 46 host groups, pool of 8.
 
-**The two measurements are not the same measurement, and the comparison has to say so.**
+**The two figures measure different things.**
 247 s and 435 s are Actions *step* durations for a shell loop that started twenty Python
 processes. `[cloud] … wall` is measured inside one process, from after the registry is read
 and the host groups are built to after the last module is published, so it excludes the
@@ -1507,20 +1507,20 @@ step was 247 s at its cheapest reading and the work inside the process is now 14
 175.6 s, so the gap against the cheaper baseline is about 70–100 s and against the dearer
 one about 260–290 s, on a sample of two runs of each.
 
-**5.3 and 5.9 are not a speedup.** 926.0/175.6 and 863.4/147.5 are the average amount of
+**What 5.3 and 5.9 are.** 926.0/175.6 and 863.4/147.5 are the average amount of
 overlapping fetch work per second of wall. They are not a ratio against anything that was
 ever run: the per-module processes already overlapped the sites *inside* a module, sixteen
 of them in eTiketti alone, so no sequential 926 s run exists to divide by. The figure says
 how much concurrency the pool sustained, and nothing about what it saved.
 
-**The queue waits are contention for slots, and they are not an argument for more slots.**
+**The queue waits show contention for slots.**
 46 host groups against a pool of 8, so 38 of them wait for a slot at the start. What the
 logs report is one number per module, that module's longest wait, and on the later run
 those run from 0.0 s -- BioRex and Nexxo, which are among the eight that start immediately
 -- to 89.6 s for Kinola. No per-site distribution was recorded, so "most sites wait about a
-minute" is not a claim these logs support. What the run's own length is set by is
-fetching, not by waiting -- BioRex is one site at 94.6 s, eTiketti's sixteen span 92.7 s --
-and the eight workers are eight cinemas' servers being read at once. Raising `MAX_HOSTS`
+minute" is not a claim these logs support. Fetching sets the run's length: BioRex is one
+site at 94.6 s and eTiketti's sixteen span 92.7 s, while the eight workers are eight
+cinemas' servers read at once. Raising `MAX_HOSTS`
 buys wall time by adding simultaneous load on unrelated third parties, which is the thing
 the pacing exists to limit. It stays at 8.
 
@@ -1532,18 +1532,17 @@ run held 2,229 and 2,370 bytes of it in total across every waiting site -- the 1
 per site and applies to the largest single capture, which these totals put an upper bound
 on rather than measure, so nothing came within reach of trimming.
 
-**What two runs do not establish.** They differ by 28.1 s and they read different
-programmes, so the difference between them is the difference between the runs, not a
-measurement of variance. Neither is compared against a per-module run of the same day,
+**What two runs leave open.** They differ by 28.1 s and read different programmes, so what
+separates them is the programme and the moment. Neither figure measures variance. Neither is compared against a per-module run of the same day,
 because the code that would produce one is gone.
 
-**A third run, 2026-09-16, and it is the first this entry was not written from.**
+**A third run, 2026-09-16, the first not used to write this entry.**
 `c796413c`, committed 05:16 UTC: 158.0 s wall, 928.8 s of fetching summed across
 overlapping workers, 48 sites, peak 45 held and 2,465 bytes of captured log. It falls
 between the other two, so three runs now span 147.5 s to 175.6 s. That is still three
-samples of a run whose programme changes under it, not a variance; what it does settle is
-that the first two were not a lucky pair, and the 247 s reading of the old fetch step stays
-the nearest thing to a baseline.
+samples of a run whose programme changes under it. It settles that the first two were not
+a lucky pair. The 247 s reading of the old fetch step stays the nearest thing to a
+baseline.
 
 ### An opera relay's season is the part the title cannot show (2026-09-16)
 
@@ -1556,15 +1555,15 @@ Aliased: `the royal opera carmen` -> `1702759`, the id read off `/movie/1702759`
 record is the 2026/27 season, the opera the cinema names, first released 2026-11-10 in
 Germany, and Tapiola relays it five weeks later.
 
-**Only Carmen, and Tosca is the reason.** The cinema publishes three more of these, and the
+**Only Carmen. Tosca shows why.** The cinema publishes three more of these, and the
 same weak search found an id for each. `The Royal Opera: Tosca` is relayed 2027-06-06, and
 its weak match, 1482356, is the **2025/26** season record, 3h30, released 2025-10-01 -- the
 right opera, the right house, the wrong year's production, which is a wrong poster on the
-row rather than a missing one. A relay's title carries the work and the company; the season
-is what separates two records, and only the date shows it. `Cosi fan Tutte` (1702775,
+row where there had been a missing one. A relay's title carries the work and the company.
+The season separates two records, and only the date shows the season. `Cosi fan Tutte` (1702775,
 released 2027-02-23, relayed 2027-04-04) and `Götterdämmerung` (1702769, released
 2027-02-03, relayed 2027-02-28) are 2026/27 records whose dates fit, and they are left
-unaliased because they were not asked for, not because the evidence failed.
+unaliased because nobody asked for them. The evidence for them held.
 
 Tests: `tests/test_tmdb_matching.py` gains one, pinning the id, the norm key and Tosca's
 absence. Four mutations, all red: the alias dropped, the id swapped for the 2025/26 Tosca
@@ -1580,28 +1579,28 @@ has. 256 showtimes across 46 venue files then carried 1998's poster, its 6.8 fro
 votes and its trailer, on a run of screenings from 2026-09-15 to 2026-10-01 that publishes
 129 or 130 minutes where it publishes a runtime at all.
 
-**What settles the identity is not a judgement about which film a cinema meant.** Two
+**What settles the identity.** Two
 chains publish the title with a `2` in it -- Bio Savoy's `PRACTICAL MAGIC 2` and Kino
 Akseli's `Practical Magic 2: Lumotut sisaret` -- and both matched 1302904 from the start,
 on the same data, with no alias. The records read off TMDB: 1302904 is *Practical Magic 2*
 (2026), 2h10, released 2026-09-11 in Finland, five days before the screening that surfaced
 this; 6435 is *Practical Magic* (1998), 1h44, released here in February 1999.
 
-**An alias could not have fixed it, which is the part worth keeping.** `main` dropped an
+**An alias alone could not have fixed it.** `main` dropped an
 aliased entry only when it was **not** exact, on the reasoning that an alias exists because
 the search could not settle a title. That reasoning holds for a weak match and fails for
 this one: a Finnish distributor title that is another film's registered title produces a
 confident wrong answer, and the entry would have been skipped before the alias was read.
 `alias_supersedes` now also replaces an exact entry whose id disagrees with a bare-id
-alias. A search-string alias still leaves an exact entry alone: a better query is not a
-verdict about which film it is, and there is no id in it to disagree with.
+alias. A search-string alias still leaves an exact entry alone: it is a better query, with
+no id in it to disagree with the matcher's.
 
 Aliased: `practical magic lumotut sisaret` and
 `practical magic lumotut sisaret k18 anniskelunäytös` to `1302904`. The second is Kino
 Tar's, which appends its strand as a *suffix*; `run.py` splits prefixes only, so that
 spelling normalises to its own key.
 
-**The cost, stated rather than discovered later:** a repertory screening of the 1998 film
+**The cost:** a repertory screening of the 1998 film
 published under the bare Finnish title would now take the sequel's id. Nothing in the data
 does that today, and the alternative is 256 rows that are wrong now.
 
@@ -1611,7 +1610,7 @@ exact one, and all three published spellings pinned to the sequel. Five mutation
 red: the old weak-only rule, every alias dropping its entry, a search-string alias
 unseating an exact entry, the Kino Tar spelling left out, and the alias pointed at 6435.
 
-### A guard says what it observed, not what it thinks caused it (2026-09-16)
+### A guard states what it observed (2026-09-16)
 
 Four cloud modules failed in the 17:17 UTC run -- `cinemahouse`, `tmb`, `kirkkonummi` and
 `nexxo` -- across seven independent domains, having all been green at 11:16 and 15:10.
@@ -1620,8 +1619,7 @@ kinohirvi.fi`, `403 from kino-olympia.fi`, openresty and Apache. The other three
 template had changed, `cinemahouse` most flatly: "no cr-movies-filter-select on the page:
 the template changed".
 
-**Seven simultaneous template changes across seven unrelated operators is not what
-happened.** Every one of those hosts was read from an ordinary connection minutes later and
+**Seven operators did not change their templates in one afternoon.** Every one of those hosts was read from an ordinary connection minutes later and
 served its real page with the marker present: toijalan-kino.info 23,187 B with
 `Valkokankaalla`, kinosampo.info 22,945 B, kinokirkkonummi.fi 268,581 B with its icon list,
 www.kinopiispanristi.fi 176,986 B with `cr-movies-filter-select`, kinoset.fi 40,415 B. So
@@ -1644,7 +1642,7 @@ fetch or template failure rather than a cinema with nothing on" -- was honest an
 it just never said what was served.
 
 **What this does not do.** It does not stop the failure, and it should not: a site that
-cannot be read fails, keeps its previous data and is named in the log, which is what
+cannot be read fails, keeps its previous data and is named in the log. That is what
 happened. It also does not decide whether those providers belong on the local half. That is
 one run's evidence and a maintainer's call, and it is in `IDEAS.md`.
 
@@ -1663,10 +1661,9 @@ mtime and size rather than by the venue id, because the tests build from temp ro
 from data they rewrite between builds, and a key on the id alone hands the second build the
 first one's schedule.
 
-**Measured before it was changed, and it is not a speedup worth the name**: the whole build
-runs in about 0.19 s and this is a fraction of it. The reason to keep it is that the second
-read is waste, not that it was slow; the commit message says the same so nobody reads a
-performance claim into it later.
+**Measured before it was changed.** The whole build runs in about 0.19 s and this is a
+fraction of that, so it is no speedup. It is kept because the second read is waste. The
+commit message says the same, so no performance claim is read into it later.
 
 Callers must not mutate what they get back, and none does: the city pass copies every show
 it keeps and `group_by_day` only sorts and groups. Tests: one read per file, a rewritten

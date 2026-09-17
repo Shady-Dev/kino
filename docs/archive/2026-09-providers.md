@@ -1808,7 +1808,7 @@ unpriced, do not infer applicability from an on-site link alone, honour an expli
 screening-specific price or exception, fetch the page once a run, and blank the amount
 where the source is unavailable or ambiguous.
 
-**Why this tariff settles a screening where Cine Mäntsälä's does not.** `/liput/` states
+**Why this tariff settles a screening.** `/liput/` states
 `Liput: 11,50 € / 9,50 €` under `Kino Kuvakukko liput` and `Liput: 11 € / 9 €` under
 `Kino Manttu liput`, and makes neither figure depend on a day, a format, a running length
 or a kind of film. There is no *arkipyhä* clause to check against a calendar, no 2D/3D
@@ -1820,7 +1820,7 @@ rule states.
 adapter already fetches carries Manttu's line in full, with the parenthesis naming who the
 second figure is for: students, pensioners, conscripts, the unemployed and under-12s. Two
 statements on the cinema's own site, and the question `IDEAS.md` and the research file had
-left open since 2026-09-15 is answered by the second one rather than by a convention.
+left open since 2026-09-15 is answered by the page itself, not by a reading convention.
 
 **The two ways the tariff is taken back.**
 
@@ -1834,8 +1834,8 @@ left open since 2026-09-15 is answered by the second one rather than by a conven
 - *A row stating its own amount*, which outranks the tariff because it is the more specific
   statement. No row does today. Two amounts on one row publish neither.
 
-**An on-site link is not evidence the tariff applies**, and the code does not treat it as
-any. What leaves the house statement standing is the absence of both signals, which is why
+**An on-site link is not evidence that the tariff applies**, and the code does not treat
+it as any. The house statement stands where neither signal is present, so
 an unlinked ordinary row -- `Klo 15: Autofiktio (viimeinen näytös)`, printed without a page
 because the film is ending -- is priced, and a series row that happens to have a page here
 would not be.
@@ -1847,10 +1847,10 @@ Live at the time: Kuopio 32 of 36 rows at 11,50 €, Nilsiä 9 of 9 at 11 €.
 and `kk-nilsia: 9 showtimes, 3 dates, 9 priced (tariff 11€)`, and `data/area-kk-kuopio.json`
 carries 32 rows at `11.5€` against 4 blank while `data/area-kk-nilsia.json` carries 9 at
 `11€`. The four blanks are the outside organisers' rows, unchanged from the reading above.
-That is one run agreeing with one local parse of the same pages hours earlier, not evidence
-about a week of programmes.
+That is one run agreeing with one local parse of the same pages hours earlier. It says
+nothing about a week of programmes.
 
-**Bio-Kaari is closed, and it is the counter-example.** Its `/liput/` prices 2D at 14 €
+**Bio-Kaari is closed.** Its `/liput/` prices 2D at 14 €
 `viikonloppuisin ja pyhinä` and 13 € on a weekday, 3D a euro dearer, children's films at
 12 €, and adds `Korotettu lipunhinta normaalia pidempiin elokuviin. Korotus 1-2 €`. Four
 conditions, none readable: *pyhinä* needs a calendar, the surcharge states neither a
@@ -1869,9 +1869,9 @@ off-site destination ignored, an on-site link being *required* rather than an of
 being disqualifying, two amounts on a row taking the first, the tariff outranking the row,
 the amount keeping its trailing zero, the tariff never reaching the show, a row's own text
 running to the end of the day's paragraph, and a failed `/liput/` failing the site. The
-last row-boundary mutation survived its first test and the test was wrong, not the code:
-it put the amount on the *earlier* row, where a tail that overruns cannot be seen. The
-fixture now puts it on the later one, which is the direction an overrunning tail leaks.
+last row-boundary mutation survived its first test. The test was at fault: it put the
+amount on the earlier row, where an overrunning tail cannot be seen. The fixture puts it on
+the later row now, which is the direction such a tail leaks.
 
 ### TMB reads the film page after all, for the runtime (2026-09-16)
 
@@ -1879,15 +1879,15 @@ The adapter shipped on 2026-09-15 with the film page deliberately unread, and th
 written into its docstring: one request per distinct film per venue, about 68 a run against
 a third party, to publish a runtime. The maintainer looked at Kino-Toijala on the site,
 found the rows carrying no length, and asked for it. That makes the trade theirs, and the
-entry above is superseded rather than corrected: the cost figure was right and the decision
-about whether it was worth paying was not mine.
+entry above is superseded. Its cost figure was right; whether that cost was worth paying
+was never mine to decide.
 
 **The page gives three fields for that one request.** `Kesto`, `Kuvaus` and `Lajityyppi`,
 all in one shape -- `<p class="info">Label: <b>value</b></p>` -- so the parser reads labels
-rather than positions and a field the operator adds or drops changes nothing. Measured on
+instead of positions, so a field the operator adds or drops changes nothing. Measured on
 two live pages 2026-09-16: `1 tuntia 27 minuuttia` -> 87 and `2 tuntia` -> 120, with genre
 `kotimainen` and `fantasia`, and a Finnish synopsis on both. A text stating no duration
-publishes no runtime rather than a `0`, which is Bio Savoy's `XXh 00min` lesson applied
+publishes no runtime instead of a `0`. That is Bio Savoy's `XXh 00min` lesson, applied
 before it could happen here.
 
 `film_facts_by_id` is Bio Savoy's shape: one page per **distinct** film, paced 1.2 s,
