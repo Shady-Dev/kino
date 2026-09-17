@@ -114,6 +114,24 @@ class HomeFlowTest(unittest.TestCase):
         self.assertEqual(s["calls"][-1], "syncSheet",
                          "and the entry's own fragment is honoured once its shows are in")
 
+    def test_a_slow_venue_load_does_not_reopen_a_sheet_the_reader_left(self):
+        """`.then(() => { if(state.area === id) syncSheet(); })`. The fetch for the entry
+        being travelled to lands after the reader has gone back to the chooser, and the
+        entry's own `#m=` would otherwise open that venue's film over the chooser -- with
+        the sheet modal, over a page it has no business covering."""
+        s = self.o["stale_sheet_after_move"]
+        self.assertIn("hideSheet", s["calls"], "the traversal closed the old sheet")
+        self.assertNotIn("syncSheet", s["calls"],
+                         "a load that landed after the reader moved on reopened a sheet")
+        self.assertEqual(s["area"], "")
+
+    def test_the_same_load_arriving_in_time_is_honoured(self):
+        """The counterweight: the guard must not cost the ordinary case, or Forward into
+        a sheet entry would stop opening anything."""
+        s = self.o["sheet_after_arrival"]
+        self.assertEqual(s["calls"][-1], "syncSheet")
+        self.assertEqual(s["area"], "v2")
+
     def test_a_step_back_to_the_chooser_closes_the_sheet(self):
         """Home clears the selection, after which `syncSheet` returns early and no later
         hashchange could close it either."""

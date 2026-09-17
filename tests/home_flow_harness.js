@@ -173,6 +173,26 @@ const out = { today };
   await new Promise(r => setTimeout(r, 0));
   out.forward_to_area = snap();
 
+  // a traversal whose venue file is slow, with the reader gone before it lands: the
+  // entry's fragment must not reopen a sheet over wherever they are now
+  let releaseSlow;
+  const slowV2 = new Promise(r => { releaseSlow = r; });
+  api.reset(scoped('v1'), { fav: '' },
+            { 'data/area-v2.json': () => slowV2.then(() => v2) },
+            'https://leffavuoro.fi/?area=v2#m=e', true);
+  const travelling = api.onPopState();
+  await Promise.resolve();               // the fetch is in flight
+  api.showHome();                        // and the reader goes back to the chooser
+  releaseSlow();
+  await travelling;
+  out.stale_sheet_after_move = snap();
+
+  // the same load landing while the reader is still on the venue it named: honoured
+  api.reset(scoped('v1'), { fav: '' }, { 'data/area-v2.json': v2 },
+            'https://leffavuoro.fi/?area=v2#m=e', true);
+  await api.onPopState();
+  out.sheet_after_arrival = snap();
+
   // a history entry naming a location the list does not have: the chooser, with the note
   api.reset(scoped('v1'), { fav: '' }, {}, 'https://leffavuoro.fi/?area=zz', true);
   api.onPopState();
