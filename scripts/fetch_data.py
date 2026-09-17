@@ -420,6 +420,32 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
             "settled": len(settled), "deferred": deferred}
 
 
+def has_future_shows(path, today_iso):
+    """Does the committed area file still describe a day that has not passed?
+
+    The question is whether keeping it protects anything. `dates` lists the days the file
+    holds screenings for, so the last of them is the file's own horizon; `horizon` carries
+    the same value and is read as a fallback for a file written before `dates` existed.
+    Today counts as ahead, because a day is not over while it is running.
+
+    An unreadable file answers True. It cannot be shown to be spent, and replacing what
+    could not be read would turn a disk fault into deleted schedule data.
+    """
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return True
+    if not isinstance(doc, dict):
+        return True
+    dates = doc.get("dates")
+    if isinstance(dates, list) and dates:
+        return max(str(d) for d in dates) >= today_iso
+    horizon = doc.get("horizon")
+    if isinstance(horizon, str) and horizon:
+        return horizon >= today_iso
+    return False
+
+
 def main() -> int:
     out = pathlib.Path("data"); out.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
@@ -681,16 +707,29 @@ def main() -> int:
     common.write_json(out / "areas.json", {"generated": now, "areas": sites})
 
     written = kept = 0
+    today_iso = datetime.date.today().isoformat()
     for sid, shows in per_site.items():
         path = out / f"area-{sid}.json"
         # A partial OCAPI response must not blank 17 venues, so an empty result keeps
         # whatever is already committed (same rule as run.py for every other provider).
         # A venue with no file yet still gets one: areas.json lists every site
         # regardless of shows, so the picker would otherwise link to a 404.
-        if not shows and path.exists():
+        #
+        # Only while the kept file still describes a day that has not passed. A file whose
+        # last day is behind us protects nothing: every screening in it has been and gone,
+        # and keeping it freezes `generated` for as long as the venue stays out of the
+        # feed. The client ages a combined city view on its oldest part, so one frozen
+        # venue puts a stale banner on every reader of that city and the hours in it climb
+        # without bound. Maxim Helsinki, site 1103, did this on 2026-09-18: a normal
+        # six-screening day on the 17th, absent from all seven business dates the next
+        # run asked for, and the file stuck at 07:08:33Z while the other sixteen moved on.
+        if not shows and path.exists() and has_future_shows(path, today_iso):
             print(f"[schedule] {sid}: no shows, keeping previous file", file=sys.stderr)
             kept += 1
             continue
+        if not shows and path.exists():
+            print(f"[schedule] {sid}: no shows and nothing left ahead in the kept file, "
+                  f"publishing it empty", file=sys.stderr)
         # Dates present, so the UI can tell "no shows" apart from
         # "schedule not published yet" instead of showing one message for both.
         day_list = sorted({s["start"][:10] for s in shows if s.get("start")})
