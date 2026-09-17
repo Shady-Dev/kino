@@ -1669,3 +1669,30 @@ Callers must not mutate what they get back, and none does: the city pass copies 
 it keeps and `group_by_day` only sorts and groups. Tests: one read per file, a rewritten
 file read again, and a missing file not cached as empty, in `tests/test_landing_pages.py`.
 Three mutations, all red -- no cache, keyed by the venue id, and keyed without the mtime.
+
+### The city-link check reuses the build's venue list (2026-09-17)
+
+The second half of the same waste the entry above removed. `main` ends a build by checking
+`index.html`'s city links against the data, and `sync_home` called `home_cities()` with no
+argument, which called `load_venues()`. So a process holding all 101 venues in memory read
+them again from disk: `data/areas.json` and 55 `venues-*.json`, 18,326 bytes, measured on
+the day this was written.
+
+`sync_home` takes a `venues` argument now and main passes the list it built at the top.
+`--home` passes none and still reads the files, because it is a separate invocation with
+nothing loaded.
+
+**Why the two lists agree.** `home_cities` calls `city_of` on each venue, and main has
+already written `city_of(v)` into `v["city"]` by the time it checks. `city_of` returns
+`v["city"]` when that key is set, so a second reading gives what the first one wrote. The
+other two keys main adds, `label` and `slug`, are not read by `home_cities`, whose slug is
+the city's own.
+
+No speedup is claimed and none was measured. The whole build is about 0.19 s. The reason
+is that the second read is waste, the same reason recorded for the area-file cache.
+
+Tests: three in `tests/test_landing_pages.py` -- a whole build loads the venues once,
+`--home` on its own still loads them, and the list main holds names the same cities as a
+fresh read. Four mutations, all red: `sync_home` ignoring its argument, main not passing
+one, `home_cities` reloading unconditionally, and `city_of` made non-idempotent, which
+reds the third test and four older count tests with it.
