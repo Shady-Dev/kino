@@ -1099,7 +1099,7 @@ def main(today=None) -> int:
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")
-    stale_home = sync_home(write=False)
+    stale_home = sync_home(write=False, venues=venues)
     if stale_home:
         print("[pages] index.html city links stale: run build_pages.py --home")
     if _unmirrored_hosts:
@@ -1160,11 +1160,18 @@ def home_block(html, links=None):
     return html[:a] + links + html[b:], current
 
 
-def sync_home(write):
+def sync_home(write, venues=None):
     """Compare index.html's city links with the data; rewrite them when `write`.
-    -> True when they differed."""
+    -> True when they differed.
+
+    `venues` is the list the caller already holds. main() checks the links at the end of a
+    build with every venue in memory, and reloading them there read 56 files a second time:
+    `data/areas.json` and 55 `venues-*.json` on 2026-09-17. The cities come out the same,
+    because `city_of` returns `v["city"]` once that key is set and main sets it to
+    `city_of(v)`. `--home` runs on its own with nothing loaded, so it passes none and the
+    files are read."""
     html = INDEX.read_text(encoding="utf-8")
-    links = home_links_html(home_cities())
+    links = home_links_html(home_cities(venues))
     new, current = home_block(html, links)
     if current == links:
         return False

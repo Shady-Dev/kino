@@ -973,6 +973,75 @@ class ShowCacheTest(unittest.TestCase):
         self.assertEqual(self.B.load_shows("zz")[0]["title"], "Late")
 
 
+class HomeLinkVenuesTest(unittest.TestCase):
+    """main() checks the homepage's city links against the venue list it already holds.
+
+    `sync_home` called `home_cities()` with no argument, so the last step of a build that
+    had every venue in memory reloaded them from disk: `data/areas.json` and 55
+    `venues-*.json` on 2026-09-17. `--home` still reads them, because it runs on its own
+    with nothing loaded.
+
+    No speedup is claimed. The whole build is about 0.19 s and this is a fraction of it.
+    The second read is waste, and that is the reason it is gone, the same reason given for
+    the area-file cache above.
+    """
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        root = pathlib.Path(self.tmp.name)
+        (root / "data").mkdir()
+        for f in REAL_DATA.glob("*.json"):
+            shutil.copy2(f, root / "data" / f.name)
+        # Read before ROOT moves: the day the committed data was built for lives in the
+        # real sitemap, and the temp root has none until this build writes one.
+        self.today = bp.recorded_date()
+        saved = (bp.ROOT, bp.DATA)
+        bp.ROOT, bp.DATA = root, root / "data"
+        self.addCleanup(lambda: setattr(bp, "DATA", saved[1]))
+        self.addCleanup(lambda: setattr(bp, "ROOT", saved[0]))
+        bp._SHOWS.clear()
+        bp._unmirrored_hosts.clear()
+
+    def counted(self):
+        """-> the list of calls, with `load_venues` wrapped to append to it."""
+        calls = []
+        real = bp.load_venues
+
+        def wrapper():
+            calls.append(1)
+            return real()
+
+        bp.load_venues = wrapper
+        self.addCleanup(lambda: setattr(bp, "load_venues", real))
+        return calls
+
+    def test_a_whole_build_loads_the_venues_once(self):
+        calls = self.counted()
+        with contextlib.redirect_stdout(io.StringIO()):
+            bp.main(today=self.today)
+        self.assertEqual(len(calls), 1,
+                         "the venue files were read again for the city-link check")
+
+    def test_home_on_its_own_still_loads_them(self):
+        """`--home` is a separate invocation with nothing in memory, so it must read."""
+        calls = self.counted()
+        bp.sync_home(write=False)
+        self.assertEqual(len(calls), 1)
+
+    def test_the_list_main_holds_names_the_same_cities_as_a_fresh_read(self):
+        """main() fills `city` on every venue before the check, and `city_of` returns that
+        key once it is set, so reading a venue's city a second time gives what the first
+        reading wrote. That is what lets main hand its own list over.
+        """
+        fresh = bp.home_cities(bp.load_venues())
+        as_main_sees_it = bp.load_venues()
+        for v in as_main_sees_it:
+            v["city"] = bp.city_of(v)
+        self.assertEqual(bp.home_cities(as_main_sees_it), fresh)
+        self.assertTrue(fresh, "the committed data has no multi-venue city to compare")
+
+
 class ReadmeCountsTest(unittest.TestCase):
     """The three counts README's first paragraph states, measured rather than trusted.
 
