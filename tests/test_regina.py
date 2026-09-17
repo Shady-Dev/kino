@@ -7,9 +7,11 @@ window's first day, and a film page whose age limit is an image, whose Teemat ce
 the cinema's series and whose Kuvaus separates the synopsis from an essay with "***".
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
+import shutil
 import tempfile
 import types
 import unittest
@@ -491,16 +493,49 @@ class RegistryAndPagesTest(unittest.TestCase):
         self.assertEqual(bp.label_of({**VENUE, "provider": "regina"}, {"regina": "Kino Regina"}), "Kino Regina")
 
     def test_the_committed_page_follows_the_theatre_template(self):
+        """The parts of the template a day with no screening still has."""
         fi = (ROOT / "teatteri" / "kino-regina-helsinki" / "index.html").read_text(encoding="utf-8")
-        en = (ROOT / "en" / "theatre" / "kino-regina-helsinki" / "index.html").read_text(encoding="utf-8")
         orion = (ROOT / "teatteri" / "cinema-orion-helsinki" / "index.html").read_text(encoding="utf-8")
-        for page in (fi, en):
-            self.assertIn('href="https://kauppa.kavi.fi/fi/events/pwdg/event_buybox/show/', page)
-        for marker in ('class="langseg"', 'class="cta"', '<h2 class="day">', '<p class="intro">',
-                       'class="stub"', '<ul class="times">'):
+        for marker in ('class="langseg"', 'class="cta"', '<p class="intro">'):
             self.assertIn(marker, fi)
             self.assertIn(marker, orion)
         self.assertEqual(fi.count("<style"), orion.count("<style"))
+
+    def test_a_page_built_for_a_day_it_screens_carries_the_stubs_and_the_kavi_links(self):
+        """The screening half of the template, on a day the committed data names.
+
+        This used to read the committed page, which tied it to the day the suite runs.
+        Kino Regina is the film archive's cinema and programmes in blocks: on 2026-09-18
+        its next screening was 2026-09-30, twelve days past the window a landing page
+        renders, so the page correctly said nothing was on and the ticket-link and stub
+        assertions went red with nothing wrong anywhere. The day is read from `dates[0]`
+        now, so there is always a screening on the page under test.
+        """
+        dates = json.loads((ROOT / "data" / "area-regina-helsinki.json")
+                           .read_text(encoding="utf-8"))["dates"]
+        self.assertTrue(dates, "Kino Regina publishes no date at all")
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = pathlib.Path(tmp.name)
+        (root / "data").mkdir()
+        for f in (ROOT / "data").glob("*.json"):
+            shutil.copy2(f, root / "data" / f.name)
+        saved = (bp.ROOT, bp.DATA)
+        bp.ROOT, bp.DATA = root, root / "data"
+        self.addCleanup(lambda: setattr(bp, "DATA", saved[1]))
+        self.addCleanup(lambda: setattr(bp, "ROOT", saved[0]))
+        bp._SHOWS.clear()
+        bp._unmirrored_hosts.clear()
+        with contextlib.redirect_stdout(io.StringIO()):
+            bp.main(today=datetime.date.fromisoformat(dates[0]))
+
+        fi = (root / "teatteri" / "kino-regina-helsinki" / "index.html").read_text(encoding="utf-8")
+        en = (root / "en" / "theatre" / "kino-regina-helsinki" / "index.html").read_text(encoding="utf-8")
+        for page in (fi, en):
+            self.assertIn('href="https://kauppa.kavi.fi/fi/events/pwdg/event_buybox/show/', page)
+            for marker in ('<h2 class="day">', 'class="stub"', '<ul class="times">'):
+                self.assertIn(marker, page)
 
     def test_the_helsinki_city_page_lists_the_cinema(self):
         city = (ROOT / "kaupunki" / "helsinki" / "index.html").read_text(encoding="utf-8")
