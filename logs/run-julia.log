@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- juliaelokuvat.fi
 [run] julia: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 3.5s of fetching added up across workers that overlap, longest site 3.5s, longest queue wait 87.8s, 3.5s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 3.2s of fetching added up across workers that overlap, longest site 3.2s, longest queue wait 74.1s, 3.2s wall from this module's first fetch starting to its last ending
 exit=0
