@@ -3810,7 +3810,13 @@
     sheetEl.style.transform = '';
     if(overlayEl) overlayEl.style.opacity = '';
     document.removeEventListener('keydown', sheetKeydown);
-    BEHIND().forEach(el => setInert(el, false));
+    // Only what this modal set. The month picker, the venue picker and the sheet all
+    // drive the one `inert` flag on everything behind them, so clearing it when the sheet
+    // was not the thing holding it hands the page back from under whichever picker is
+    // open -- a dialog over a tabbable page whose own keydown handler still takes Escape
+    // and the arrows. `onPopState` calls this on every traversal, which is how a Back
+    // pressed with the picker open began doing exactly that.
+    if(wasOpen) BEHIND().forEach(el => setInert(el, false));
     sheetEl.inert = true;
     sheetEl.setAttribute('aria-hidden', 'true');
     // Back to the control that opened it, but only if it is still on the page: the list

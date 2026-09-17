@@ -432,5 +432,57 @@ class HistoryAcrossVenues(Browser):
                             "focus fell to the document instead of the card")
 
 
+class PickersStayModal(Browser):
+    """Three modals drive one `inert` flag on the page behind them.
+
+    The month picker, the venue picker and the movie sheet all call
+    `BEHIND().forEach(el => setInert(el, ...))`, so whichever closes last decides what the
+    page behind is. `hideSheet` clears that flag whether or not the sheet was the thing
+    that set it, and `onPopState` calls `hideSheet` on every traversal, so a Back pressed
+    with a picker open left a `role="dialog" aria-modal="true"` over a fully tabbable page
+    whose keydown handler still swallowed Escape and the arrows.
+    """
+
+    def behind(self):
+        return self.page.evaluate("""() => ({
+            main: !!document.querySelector('main').inert,
+            header: !!document.querySelector('header').inert,
+            venueOpen: document.querySelector('#vwrap').classList.contains('open'),
+            calOpen: !!document.querySelector('.calwrap, #calwrap'),
+        })""")
+
+    def test_back_with_the_venue_picker_open_leaves_it_modal(self):
+        self.pick_orion()
+        self.open_picker()
+        opened = self.behind()
+        self.assertTrue(opened["venueOpen"] and opened["main"] and opened["header"],
+                        "the picker should be open over an inert page")
+        self.page.go_back()
+        after = self.behind()
+        if after["venueOpen"]:
+            self.assertTrue(after["main"] and after["header"],
+                            "the picker is still open and the page behind it is not inert")
+        else:
+            self.assertFalse(after["main"] or after["header"],
+                             "the picker closed and left the page inert")
+
+    def test_closing_the_venue_picker_after_a_traversal_still_clears_inert(self):
+        """The counterweight: whatever the fix does, the ordinary close must still hand
+        the page back."""
+        self.pick_orion()
+        self.open_picker()
+        self.page.go_back()
+        self.page.keyboard.press("Escape")
+        expect(self.page.locator("#vwrap")).not_to_have_class("vwrap open")
+        after = self.behind()
+        self.assertFalse(after["main"] or after["header"])
+
+    def test_a_traversal_with_no_modal_open_leaves_the_page_alone(self):
+        self.pick_orion()
+        self.page.go_back()
+        after = self.behind()
+        self.assertFalse(after["main"] or after["header"])
+
+
 if __name__ == "__main__":
     unittest.main()
