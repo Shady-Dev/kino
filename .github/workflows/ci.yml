@@ -61,6 +61,14 @@ jobs:
         if: github.event_name == 'push'
         run: python3 scripts/check_design_push.py "${{ github.event.before }}" "${{ github.sha }}"
 
+      # The same range, asked a different question: a commit that touches index.html bumps
+      # CACHE in sw.js, so the old page cannot come back as the offline fallback. The rule
+      # was prose in CLAUDE.md alone and two of the last 120 such commits missed it. The
+      # range logic is the design gate's, imported rather than restated.
+      - name: An index.html change carries its CACHE bump
+        if: github.event_name == 'push'
+        run: python3 scripts/check_cache_bump.py "${{ github.event.before }}" "${{ github.sha }}"
+
       # The generators are functions of the committed data, and the committed pages must
       # regenerate byte-identical. Red means one of two things: a generator change without
       # regenerated output (run both scripts and commit), or committed data whose pages

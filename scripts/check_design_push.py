@@ -63,35 +63,77 @@ def is_ancestor(repo, rev, tip):
     return _git(repo, "merge-base", "--is-ancestor", rev, tip).returncode == 0
 
 
-def push_base(before, after, base_ref, repo, log=print):
-    """The commit to diff `after` against -> sha, or None when no range can be found."""
+def push_base(before, after, base_ref, repo, log=print, tag="design"):
+    """The commit to diff `after` against -> sha, or None when no range can be found.
+
+    `tag` only names the gate in the log lines. `scripts/check_cache_bump.py` runs the
+    same range recovery against the same push and would otherwise print `[design]`.
+    """
     if before and set(before) != {"0"}:
         readable = has_commit(repo, before)
         if not readable and _git(repo, "remote", "get-url", "origin").returncode == 0:
             _git(repo, "fetch", "--quiet", "origin", before)
             readable = has_commit(repo, before)
             if readable:
-                log(f"[design] before {before[:10]} fetched by sha")
+                log(f"[{tag}] before {before[:10]} fetched by sha")
         if readable:
             if is_ancestor(repo, before, after):
                 return before
             # Readable but replaced: the range would carry whatever the dropped commits
             # touched, in either direction. It reports a contract change the push does not
             # make, and it accepts an IDEAS entry that only the dropped tip had.
-            log(f"[design] before {before[:10]} is not an ancestor of {after[:10]} "
+            log(f"[{tag}] before {before[:10]} is not an ancestor of {after[:10]} "
                 f"(force-pushed branch)")
         else:
-            log(f"[design] before {before[:10]} is not reachable (rewritten branch)")
+            log(f"[{tag}] before {before[:10]} is not reachable (rewritten branch)")
     else:
-        log("[design] before is all zeros (created ref)")
+        log(f"[{tag}] before is all zeros (created ref)")
     mb = _git(repo, "merge-base", base_ref, after)
     if mb.returncode == 0:
         base = mb.stdout.strip()
         if base and not _git(repo, "rev-parse", "--verify", "--quiet",
                              f"{base}^{{commit}}").returncode and base != _resolve(repo, after):
-            log(f"[design] comparing against merge base {base[:10]} with {base_ref}")
+            log(f"[{tag}] comparing against merge base {base[:10]} with {base_ref}")
             return base
     return None
+
+
+def resolve_base(before, after, base_ref, repo, tag="design"):
+    """`push_base`, plus what the caller returns when it finds nothing -> (base, code).
+
+    Exactly one of the pair is None. A base means the range was recovered; a code is the
+    exit status to return, 0 for the benign created ref and 2 for a range that cannot be
+    determined. The three states that produce "no base" are told apart here, once, rather
+    than in each gate: the annotation on a red run is all there is to read, and a second
+    gate restating this is a second place for the three to collapse back into one line.
+    """
+    base = push_base(before, after, base_ref, repo, tag=tag)
+    if base is not None:
+        return base, None
+    created = not before or set(before) == {"0"}
+    contains = base_contains(repo, base_ref, after)
+    if contains is None:
+        print(f"::error::cannot determine the push range for {after[:10]}: "
+              f"{base_ref} does not resolve in this checkout, so there is no base "
+              f"branch to recover a range against")
+        return None, 2
+    if contains:
+        if created:
+            # A created ref pointing at a commit the base branch already holds adds no
+            # commit anywhere, so its range against the base is empty and there is
+            # nothing for it to explain. The commit's own arrival on the base branch is
+            # what carries the gate, and that push had a readable `before`.
+            print(f"{base_ref} already holds {after[:10]}: a created ref at a "
+                  f"commit it already has adds nothing to explain")
+            return None, 0
+        print(f"::error::cannot determine the push range for {after[:10]}: "
+              f"before {before[:10]} is unreachable and {base_ref} already holds "
+              f"{after[:10]}, so the merge base is the pushed commit itself")
+        return None, 2
+    print(f"::error::cannot determine the push range for {after[:10]}: "
+          f"before {before[:10]} is unreachable and {base_ref} shares no usable "
+          f"merge base with it")
+    return None, 2
 
 
 def _resolve(repo, rev):
@@ -152,32 +194,9 @@ def main(argv=None):
     ap.add_argument("--repo", default=str(ROOT), help="the repository to read (default: this one)")
     args = ap.parse_args(argv)
     repo = pathlib.Path(args.repo)
-    base = push_base(args.before, args.after, args.base, repo)
+    base, code = resolve_base(args.before, args.after, args.base, repo)
     if base is None:
-        created = not args.before or set(args.before) == {"0"}
-        contains = base_contains(repo, args.base, args.after)
-        if contains is None:
-            print(f"::error::cannot determine the push range for {args.after[:10]}: "
-                  f"{args.base} does not resolve in this checkout, so there is no base "
-                  f"branch to recover a range against")
-            return 2
-        if contains:
-            if created:
-                # A created ref pointing at a commit the base branch already holds adds no
-                # commit anywhere, so its range against the base is empty and there is
-                # nothing for it to explain. The commit's own arrival on the base branch is
-                # what carries the gate, and that push had a readable `before`.
-                print(f"{args.base} already holds {args.after[:10]}: a created ref at a "
-                      f"commit it already has adds nothing to explain")
-                return 0
-            print(f"::error::cannot determine the push range for {args.after[:10]}: "
-                  f"before {args.before[:10]} is unreachable and {args.base} already holds "
-                  f"{args.after[:10]}, so the merge base is the pushed commit itself")
-            return 2
-        print(f"::error::cannot determine the push range for {args.after[:10]}: "
-              f"before {args.before[:10]} is unreachable and {args.base} shares no usable "
-              f"merge base with it")
-        return 2
+        return code
     ok, message = verdict(changed_files(base, args.after, repo),
                           entryless_commits(base, args.after, repo))
     if not ok:
