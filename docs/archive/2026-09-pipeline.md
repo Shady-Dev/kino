@@ -1696,3 +1696,24 @@ Tests: three in `tests/test_landing_pages.py` -- a whole build loads the venues 
 fresh read. Four mutations, all red: `sync_home` ignoring its argument, main not passing
 one, `home_cities` reloading unconditionally, and `city_of` made non-idempotent, which
 reds the third test and four older count tests with it.
+
+### Seven venues the runner could not read, and it cleared by itself (2026-09-19)
+
+Moved out of `IDEAS.md` with its heading, once there was more than one run's evidence.
+
+The 17:17 UTC run of 2026-09-16 failed `cinemahouse`, `tmb`, `kirkkonummi` and `nexxo`
+together over seven domains, after two green runs the same day; every one of those hosts
+served its real page to an ordinary connection minutes later. The entry left the maintainer
+two ways out: either it clears by itself, as the Nexxo timeout of 2026-09-14 did, or the
+four move to `where="local"` and take about a dozen venues onto the laptop.
+
+**It cleared.** Measured 2026-09-19 over the committed logs, which is the only record this
+repo keeps: each of the four has 15 logs since 2026-09-16 17:00, of which exactly one is
+non-zero, the 17:17 run itself, and the 13 runs after it all end `exit=0`. Nothing was
+changed for them. The 403s were `Server: openresty` at the origin on kinoset.fi, so the
+reading stays what the guard entry above says: a refusal that names the layer, on an
+address the origin declined that afternoon.
+
+What the episode did leave behind is `common.served`, which records how many bytes came
+back and what the document calls itself, so a missing marker can no longer be reported as
+a changed template. That is the entry "A guard states what it observed" and it stands.

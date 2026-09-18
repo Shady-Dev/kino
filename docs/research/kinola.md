@@ -1,8 +1,9 @@
 # Kinola: three templates, and telling a film from a concert
 
 Research notes moved out of `IDEAS.md` on 2026-09-14, when nothing here was built.
-**The adapter shipped on 2026-09-15**, `scripts/providers/kinola.py`, for Kilta and Laika;
-Konepaja still has no registry entry. What it decided and what it measured are in
+**The adapter shipped on 2026-09-15**, `scripts/providers/kinola.py`, for Kilta and Laika,
+and took Kino Myyri as a third tenant on 2026-09-18; Konepaja still has no registry entry,
+re-read 2026-09-19. What it decided and what it measured are in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md) under "Kino Kilta and
 Kino Laika: the Kinola adapter, under the adopted policy". The findings below are as they
 were read and are not updated by it.

@@ -10,9 +10,11 @@ the weakest of normal vision and both deuteranope models, clear 14.4 ΔE00 in ev
 new accent enters where that is reachable, and never lower an existing regional minimum
 without recording why. `FLOOR = 14.4` is that policy threshold, not a measurement.
 
-**Open.** Twelve established region pairs sit below 14.4 and none is recoloured; the list is
-in the entry below. Next step: nothing, unless a new provider lands in one of those regions,
-which is when the pair has to be re-measured.
+**Open.** Fourteen established region pairs sit below 14.4 and none is recoloured, of 170
+shared-view pairs measured 2026-09-19; the twelve the entry below lists are the twelve that
+were below on 2026-09-07, and `tests/test_accent_check.py` holds the current totals. Next
+step: nothing, unless a new provider lands in one of those regions, which is when the pair
+has to be re-measured.
 
 ---
 
@@ -44,7 +46,8 @@ its own step 6 grid `--search` returns `#BA7E8A` first.
 A combined-city pair holds a strict 14.4 dE00 minimum across normal vision and both
 deuteranope models, and the worst is exactly that, Finnkino against Cinema Orion. Region
 pairs are measured on the same scale because a region row is one result view, but twelve
-of the 139 pairs sit below 14.4 and every one is an established colour: Bio Grand and
+of the 139 pairs sat below 14.4 on the day this was written and every one is an
+established colour: Bio Grand and
 BioRex at 4.479 in Pääkaupunkiseutu, BioRex and Kinopirtti at 5.7 in Meri-Lappi, Bio Grani
 and Kino Regina at 6.8, Heureka and Kino Regina at 7.1, Bio Grani and Gilda at 14.093, and
 seven more. None is recoloured here. Bio Grani and Gilda is the pair a deutan-only count

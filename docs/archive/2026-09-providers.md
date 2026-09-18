@@ -2107,3 +2107,34 @@ Helsinki's eight chains, 0 of 226,580 swept, best reachable 12.2. That would be 
 exception the city rule has ever taken, so it stays a policy question about a full city and
 keeps its own `IDEAS.md` entry. Evidence:
 [docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).
+
+### Kinotour, and the towns it visits that this repo does not list (2026-09-18)
+
+Moved out of `IDEAS.md` on 2026-09-19, with its heading, once the runner had read it.
+
+`kinotour.py`: one request to `kinotour.fi/varaa-liput-elokuvatapahtumiin/`, which renders
+the whole programme as one Events Manager table, one row per screening. Three new cities,
+Kyrö, Naantali and Lieto.
+
+- **A town this repository does not declare is counted and named, never dropped in silence
+  and never a failure.** A touring operator visits a new town as a matter of course: its
+  own `/locations/` list ran to Karkkila, Ikaalinen and Piispanristi as well as the three
+  on the programme. Failing the site on one, the way `johku.py` fails on an undeclared
+  hall, would turn the routine case into breakage, so the run log carries a line per run
+  until someone adds the town to `SITES`. Same shape CLAUDE.md gives `reads`.
+- **The venue is keyed on the town, not the hall.** `Kyrö kurkisali, Kyrö` is hall then
+  town, and the hall is what changes while the tour keeps coming back.
+- **Only a rating-shaped tail comes off the title**, because `Ryhmä Hau, Dinoelokuva, K7`
+  is a title with a comma in it.
+- **The time is the one with a colon.** The cell flattens to `su 27.09.2026 14:00`, and a
+  dot-tolerant pattern read the 27.09 of the date as 27:09 and raised on the hour.
+- `EMPTY_VENUES_CONFIRMED` is set: the table is the whole published programme, so a
+  declared town it does not mention is known empty and gets a fresh empty file instead of
+  ageing its last visit.
+
+**Verified on the runner** in the dispatch that committed `f7b77ff71` at 21:33 UTC on
+2026-09-18: `logs/run-kinotour.log` reads `exit=0`, `3 venues, 10 showtimes, 0 stale, 0
+unverified, 0 pending, 0 with no programme, 0 failures`, one host attempted. Kyrö 3 over
+1 date, Naantali 3 over 1, Lieto 4 over 2. **The undeclared-town path has not fired in
+production yet**, and neither has the confirmed-empty one: every row that run named one of
+the three declared towns. Both are covered by fixture only until a tour reaches a fourth.

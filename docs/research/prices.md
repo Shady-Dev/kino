@@ -6,8 +6,12 @@ booking, payment and administrative endpoints are never called and not inventori
 
 **Status.** The shared step is `scripts/providers/prices.py`: one GET per screening id
 against the public ticket page a showtime already links to, sequential, 1 s apart, at most
-40 pages a run, re-read after 48 h. Riviera, Kino Regina and Korjaamo Kino use it. Coverage
-was 907 of 3773 showtimes priced when last measured on 2026-09-13.
+40 pages a run, re-read after 48 h. Riviera, Kino Regina and Korjaamo Kino use it.
+Coverage, re-measured 2026-09-19 over the committed `data/area-*.json`: **1,584 of 5,371**
+showtimes carry a price, 29.5 %, against 907 of 3,773 on 2026-09-13. Sixteen providers
+publish none at all, and two of them are most of the gap: Finnkino 2,241 unpriced showtimes
+and BioRex 921, both of which keep their prices inside a booking flow this repo does not
+call.
 
 **Deferred, 2026-09-16.** The one route not looked at is a visitor-facing *price page*,
 which would be ordinary content rather than a booking endpoint. The maintainer deferred it

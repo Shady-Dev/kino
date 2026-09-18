@@ -16,14 +16,15 @@ Fields:
           pairs hold it without exception, the worst being exactly 14.4 (Finnkino/Cinema
           Orion); a search over the same L* band reaches 19.5 and
           docs/research/accent-colour.md says why it is not applied. Region pairs do not
-          all hold it: 12 of the 139 pairs are below, worst 4.5 (Bio Grand/BioRex in
-          Pääkaupunkiseutu), and all 12 are established colours that file lists. Score on
+          all hold it: 14 of the 170 pairs are below, worst 4.479 (Bio Grand/BioRex in
+          Pääkaupunkiseutu), and all 14 are established colours that file lists. Score on
           the weakest of the three models: Bio Grani and Gilda are 19.9 apart to a
           deuteranope and 14.1 to everyone else. A new or changed accent clears 14.4 in
           every view it enters where that is reachable, and must not lower an existing
-          regional minimum without the reason recorded in IDEAS.md. Measured 2026-09-07:
-          8 cities hold more than one chain (Helsinki eight, Jyväskylä and Vantaa three,
-          Espoo, Kouvola, Lahti, Oulu and Tampere two) and 11 of the 14 regions do. Run
+          regional minimum without the reason recorded in IDEAS.md. Measured 2026-09-19:
+          12 cities hold more than one chain (Helsinki eight, Jyväskylä and Vantaa three,
+          Espoo, Hyvinkää, Kouvola, Kuopio, Lahti, Oulu, Tampere, Turku and Vaasa two)
+          and 12 of the 14 regions do, giving 46 city pairs and 124 region pairs. Run
           `python3 scripts/accent_check.py` before changing one: it prints every
           shared-view pair in CIEDE2000 under two deuteranope models, and `--search {id}`
           ranks replacements on their weakest model. Do not quote a figure no script

@@ -157,8 +157,8 @@ than compared to the whole of it: Leffabuumi prints "Mikkeli Kinolinna" against 
 
 **Status and next step**
 
-Live as `scripts/providers/etiketti.py`, twenty providers and twenty-nine venues, four of
-them on the local half. No next step.
+Live as `scripts/providers/etiketti.py`, twenty providers and thirty venues, four of them
+on the local half. No next step.
 
 ---
 
@@ -426,13 +426,17 @@ and Elokuvateatteri Elo (Heinola). Four sites, one template, footer "Mediapalvel
 
 **Status and next step**
 
-Prices implemented 2026-09-16 on the maintainer's instruction, from the price page and not
-from the film page; the runtime is still not read. Next step: none. If a row ever carries a
-3D marker, that is the signal to split the two tables.
+Live as `scripts/providers/tmb.py`, four providers, four venues, cloud half, published in
+`d216607b` on 2026-09-15. Re-checked 2026-09-19: `logs/run-tmb.log` reads `exit=0`, and
+Toijala and Sampo carry 16 showtimes each against Mania's and Elo's 22, every one of them
+with a runtime and a price.
 
-Live as `scripts/providers/tmb.py`, four providers, four venues, cloud half. Committed
-2026-09-15 and **not yet published**: no run has fetched them. Next step: verify from the
-committed logs and show records after a scheduled run.
+The price and the runtime both come from the **film page**, on the maintainer's
+instruction of 2026-09-16, and the tariff page this section measured is read by nothing:
+the operator prints `Hinta:` under each screening with its own tariff already applied, so
+the 2D/3D question and the *arkipyhä* question that sank the tariff reading are not
+questions there. Next step: none. If a list-view row ever carries a 3D marker, that is the
+signal to split the two tables.
 
 ---
 
@@ -464,9 +468,9 @@ an earlier entry in this file closed; see the correction in the batch section ab
 
 **Status and next step**
 
-Live as `scripts/providers/julia.py`, one provider, one venue, cloud half. Committed
-2026-09-15 and **not yet published**. Next step: verify from the committed logs and show
-records after a scheduled run.
+Live as `scripts/providers/julia.py`, one provider, one venue, cloud half. Published in
+`d216607b` on 2026-09-15; `logs/run-julia.log` reads `exit=0` and the venue carried 12
+showtimes when this was re-checked on 2026-09-19. No next step.
 
 ---
 
@@ -509,9 +513,9 @@ whole programme server-side.
 
 **Status and next step**
 
-Live as `scripts/providers/biokaari.py`, one provider, one venue, cloud half. Committed
-2026-09-15 and **not yet published**. Next step: verify from the committed logs and show
-records after a scheduled run.
+Live as `scripts/providers/biokaari.py`, one provider, one venue, cloud half. Published in
+`d216607b` on 2026-09-15; `logs/run-biokaari.log` reads `exit=0` and the venue carried 8
+showtimes when this was re-checked on 2026-09-19. No next step.
 
 ---
 
@@ -565,9 +569,10 @@ One `div.MovieCard` per film on the front page with the film-page link, poster, 
 
 **Status and next step**
 
-`scripts/providers/vaakuna.py` is live, one provider, one venue, cloud half, committed
-2026-09-15 and **not yet published**. `common.resolve_year` is shared and tested on its
-own. Next step: Kuvakukko/Kino Manttu and Kino Kirkkonummi, both of which reuse it.
+`scripts/providers/vaakuna.py` is live, one provider, one venue, cloud half, published in
+`d216607b` on 2026-09-15; `logs/run-vaakuna.log` reads `exit=0` and the venue carried 24
+showtimes when this was re-checked on 2026-09-19. `common.resolve_year` is shared and
+tested on its own, and Kuvakukko and Kino Kirkkonummi both reuse it. No next step.
 
 ---
 
@@ -611,9 +616,10 @@ schedules share one WordPress page. One provider, two venues, one request.
 
 **Status and next step**
 
-Live as `scripts/providers/kuvakukko.py`, one provider, two venues, cloud half. Committed
-2026-09-15 and **not yet published**. Next step: decide whether "Hopeatähti-sarja" belongs
-in `strands.EVENT_PREFIXES`.
+Live as `scripts/providers/kuvakukko.py`, one provider, two venues, cloud half. Published
+in `d216607b` on 2026-09-15; `logs/run-kuvakukko.log` reads `exit=0` and the two venues
+carried 33 showtimes between them when this was re-checked on 2026-09-19. Next step:
+decide whether "Hopeatähti-sarja" belongs in `strands.EVENT_PREFIXES`.
 
 ---
 
@@ -652,8 +658,9 @@ walks headings and items in document order and keeps the last heading as the cur
 
 **Status and next step**
 
-Live as `scripts/providers/kirkkonummi.py`, one provider, one venue, cloud half. Committed
-2026-09-15 and **not yet published**. No next step.
+Live as `scripts/providers/kirkkonummi.py`, one provider, one venue, cloud half. Published
+in `d216607b` on 2026-09-15; `logs/run-kirkkonummi.log` reads `exit=0` and the venue
+carried 10 showtimes over 5 dates when this was re-checked on 2026-09-19. No next step.
 
 ---
 
@@ -845,7 +852,10 @@ Row shape, inside a day group:
 
 **Status and next step**
 
-Four sites, one reader. Not implemented when this was written.
+Live as `scripts/providers/johku.py`, four providers, four venues, cloud half, published
+2026-09-18 and verified on the runner in the dispatch that committed `ca17dc58`. No next
+step. `kuvatahti.fi` runs the same storefront and renders no `data-showtime`; why is not
+established.
 
 ---
 
@@ -989,8 +999,12 @@ probed this way.
 
 **Status and next step**
 
-Kino Myyri was implemented 2026-09-18 as a third tenant on `kinola.py`. The four Johku
-sites are next; the rest wait.
+Twelve of the thirty-two are built. Kino Myyri went in on 2026-09-18 as a third tenant on
+`kinola.py`, with the four Johku storefronts, Ritz Vaasa, Kino Hamina and Kinotour; Marita,
+Lieksan Kino, Navettakino and Pyhäsalmen VPK followed on 2026-09-19, each with a section of
+its own below. Kino Helios is declined on the accent. Three of the server-rendered ones are
+unbuilt: Bio Pallas, Alatalo-kiertue and Bio Huvimylly, the last of which would be a local
+site. The eight browser-only and the eight with nothing wait.
 
 ---
 

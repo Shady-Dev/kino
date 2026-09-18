@@ -27,19 +27,20 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-66 providers, 113 venues, 79 cities declared, measured 2026-09-19; 112 venues and 78
-cities are committed, Marita being the one not yet published. Check for an existing platform first. Every candidate assessed on
-2026-09-15 and 2026-09-18, with its evidence, is in
+69 providers, 116 venues, 82 cities, declared and committed alike, measured 2026-09-19.
+Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, eight built. Kino Helios is priced and declined for
-  now, seven of the rest server-render to a plain fetch, eight need a browser, eight have
-  nothing. **Next action:** Bio Pallas.
-- **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
-  required). Whether any *other* public source exists for those four cinemas is untested.
-- **Eventio is not closed:** no customer sweep was ever run.
-- **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
-  destination can be checked. **Next action:** re-read its listing on a later Monday.
+- **Thirty-two triaged 2026-09-18**, twelve built: Kino Myyri, four Johku storefronts,
+  Ritz Vaasa, Kino Hamina, Kinotour and the four of 2026-09-19. Kino Helios is priced and
+  declined, eight need a browser, eight have nothing, three server-render and are unbuilt.
+  **Next action:** Bio Pallas, then Alatalo-kiertue. Bio Huvimylly is the third and would
+  be local: runner 403 against an ordinary connection's 200.
+- **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
+  public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
+- **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
+  destination can be checked. Re-read 2026-09-19: "Ei ohjelmistoa saatavilla."
+  **Next action:** re-read on a later Monday.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
@@ -59,17 +60,6 @@ Built 2026-09-19.
   from the cinema's own page.
 - **Next action:** read the four run logs; the local snapshot carries no TMDB field yet.
 
-### Kinotour, and the towns it visits that this repo does not list
-
-`kinotour.py`, added 2026-09-18: 10 screenings in Kyrö, Naantali and Lieto, three new
-cities, one request. A touring operator's venue set moves, so an undeclared town is counted
-and named in the run log every run rather than failing the site, which is the shape
-CLAUDE.md gives `reads`. `EMPTY_VENUES_CONFIRMED` is set: the table is the whole published
-programme, so a declared town it does not mention is known empty and gets a fresh empty
-file instead of ageing its last visit.
-**Next action:** read the run log. Its own `/locations/` list reaches Karkkila, Ikaalinen
-and Piispanristi, so towns will turn up; each one is a `SITES` entry away.
-
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 
 No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
@@ -84,7 +74,8 @@ be decided under the pressure of wanting one particular cinema.
 ### Kino Konepaja has no programme to read
 
 A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
-one. Re-read 2026-09-15: its event list says "Ei tulevia tapahtumia."
+one. Re-read 2026-09-19: its event list still says "Ei tulevia tapahtumia." The 40
+`kinola-event` matches on that page are its coming-soon grid, not a programme.
 The adopted classifier and the three tenants that do publish are recorded in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 **Next action:** re-read the listing.
@@ -98,23 +89,10 @@ is in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 **Next action:** the maintainer's. It is its own change, and the phone fault that forced
 the two-engine job was in a generated page rather than in the client.
 
-### Seven venues the runner cannot read
-
-In the 17:17 UTC run of 2026-09-16, `cinemahouse`, `tmb`, `kirkkonummi` and `nexxo` failed
-together over seven domains after two green runs the same day. Nexxo's log shows 403s, and
-every one of those hosts served its real page to an ordinary connection minutes later. The
-guards now record what was served (`common.served`), so the next occurrence can be
-diagnosed from the log; the record is in
-[docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md).
-**Next action:** the maintainer's, on one run's evidence. Either it clears by itself, as
-the Nexxo timeout of 2026-09-14 and the Kino Kilta 500 of the same morning did, or these
-providers move to `where="local"` as Cine and Star did on 2026-09-08. That adds about a
-dozen venues to the laptop and makes the item below worse.
-
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino
-Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 101
+Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116
 venues ride on one machine. Cloud VMs cannot replace it and the MovieXchange credential
 route is closed, so there is no way off the laptop that keeps the coverage.
 **Next action:** an always-on box on the same network. Nothing in this repo changes; the
@@ -311,12 +289,6 @@ The predictions this section carried before that run were right: 113 pages per l
 and 227 sitemap URLs, both measured after it. They are recorded as having held because the
 per-provider entries in the archive each predicted their own increment and were wrong for
 the opposite reason, all thirteen having landed at once.
-
-**Why none of them has published.** The last cloud run was created 2026-09-15 07:55 UTC on
-`bb409cc0` and committed `887a7988`; all twelve landed on `main` between 08:46 and 11:22
-UTC, so no run has yet existed on code that declares any of them. The 02:30 and 10:30 cron
-slots created no run at all. Scheduled execution is best-effort, as CLAUDE.md says under
-"Access and ethics".
 
 Earlier, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`: 42 / 86 / 57,
 98 pages per language, 197 sitemap URLs, 4193 poster references (3940 / 253) over 1029
