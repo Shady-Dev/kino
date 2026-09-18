@@ -1,4 +1,4 @@
-"""Kino Kilta and Kino Laika: the policy, the two templates, and the overrides.
+"""Kino Kilta, Kino Laika and Kino Myyri: the policy, the templates, the overrides.
 
 The fixtures are the markup as read on 2026-09-15, reduced to the smallest shape that
 still exercises each rule. Two screenings minimum everywhere there is a loop or an index.
@@ -15,8 +15,11 @@ What the fixtures exist to prove, each one a rule that reads plausible and is wr
   not reject an override whose page already classifies as a film.
 - **A sold-out row keeps its screening.** Every sold-out row on the live listing that day
   was a live act, so only a fixture can show a sold-out *film* surviving.
+- **Myyri's row prints no year**, so the weekday selects it. Its fixtures are built from a
+  date, which is what keeps a runner test deterministic across a year boundary.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
@@ -32,6 +35,8 @@ import run
 
 KILTA = next(s for s in K.SITES if s["provider"] == "kinokilta")
 LAIKA = next(s for s in K.SITES if s["provider"] == "kinolaika")
+MYYRI = next(s for s in K.SITES if s["provider"] == "kinomyyri")
+FI_WD = ("ma", "ti", "ke", "to", "pe", "la", "su")
 
 
 # ---------------------------------------------------------------- listing fixtures
@@ -66,6 +71,25 @@ def laika_row(slug, title, date="16/09/2026 14:00", sold=False,
             f'<a class="kinola-event-title" href="https://www.kinolaika.fi/film/{slug}/">'
             f'<strong>{title}</strong></a><br>'
             f'<span class="kinola-event-venue">Kino Laika</span><br>'
+            f'<span class="kinola-event-date">{date}</span></p>{ticket}</div></div>')
+
+
+def myyri_row(slug, title, when, time="19:30", sold=False, poster=True,
+              checkout="2e4097de-cb51-4d0a-9fc6-28b1fd66ca38", date=None):
+    """`when` is a date; the row prints its weekday, day and month and no year."""
+    date = date if date is not None else f"{FI_WD[when.weekday()]} {when.day}.{when.month}. klo {time}"
+    img = (f'<img decoding="async" src="https://media.kinola.ee/storage/myyri.kinola.ee/'
+           f'3786/{slug}_poster.jpg?width=1000&quality=85" width="100px" height="150px" '
+           f'style="float: left;" class="kinola-event-poster"/>' if poster else "")
+    ticket = ('<p><span class="kinola-event-tickets-link-sold-out">Loppuunmyyty</span></p>'
+              if sold else
+              f'<p><a class="kinola-event-tickets-link" '
+              f'href="https://kinomyyri.fi/checkout/{checkout}">Osta lippu</a></p>')
+    return (f'<div class="kinola-event" style="padding: 10px 20px;">{img}'
+            f'<div class="kinola-event-details"><p>'
+            f'<a class="kinola-event-title" href="https://kinomyyri.fi/film/{slug}/">'
+            f'<strong>{title}</strong></a><br>'
+            f'<span class="kinola-event-venue">Kino Myyri</span><br>'
             f'<span class="kinola-event-date">{date}</span></p>{ticket}</div></div>')
 
 
@@ -156,6 +180,35 @@ def laika_film(director="Klaus Härö", lang="suomi", subs="", head="87 min <br>
         parts.append(f"<strong>Tekstitys</strong> <br> {subs} <br><br>")
     return ("<html><body><div class='film'>" + "".join(parts) +
             f"<p>{syn}</p></div></body></html>")
+
+
+SYN_EN_TEXT = ("A grieving boy seeks God to meet his departed mother, and in finding the "
+               "divine, learns to serve humanity with miracles of love and food.")
+SYN_FI_TEXT = ("Pedro Almodóvarin melodraama kertoo elokuvantekijästä, joka ammentaa "
+               "läheistensä tragedioista, ja siitä mitä hänen ystävilleen tapahtuu.")
+# Long enough to be read as a synopsis, and carrying no function word of any of the three
+# languages, so `syn_language` refuses it.
+SYN_NO_LANGUAGE = ("Hanuman Ansh 2026. Mumbai, Chennai, Kolkata, Delhi, Pune, Jaipur, "
+                   "Lucknow, Kanpur, Nagpur, Indore, Bhopal, Patna, Surat, Kochi.")
+
+
+def myyri_film(director="Vishal Chaturvedi", lang="hindi", subs="englanti",
+               rating="K-7", kesto="2 h 30 min", syn=None):
+    """Myyri's page: a synopsis paragraph, `<strong>Label</strong><br>value` pairs, and
+    the rating and runtime in their own block. `Kesto` prints hours and minutes."""
+    syn = SYN_EN_TEXT if syn is None else syn
+    parts = ["<strong> Hanuman Ansh </strong><br><em> Hanuman Ansh </em><br> Intia <br>"]
+    if director:
+        parts.append(f"<strong> Ohjaus </strong><br> {director} <br><br>")
+    if lang:
+        parts.append(f"<strong> Kieli </strong><br> {lang} <br><br>")
+    if subs:
+        parts.append(f"<strong> Tekstitys </strong><br> {subs} <br><br>")
+    top = (f'<div class="myyri-film-top-meta"><strong>Ikäraja</strong><br> {rating} <br>'
+           f'<br><strong>Kesto</strong><br> {kesto} <br></div>' if rating or kesto else "")
+    body = f'<p>{syn}</p><br><hr><br>' + "".join(parts) if syn else "".join(parts)
+    return ('<html><body><section class="kinola-film-meta">' + body
+            + "</section>" + top + "</body></html>")
 
 
 LIVE_ACT = laika_film(director="", lang="", head="130 min <br><br> K-18",
@@ -310,6 +363,78 @@ class LaikaListingTest(unittest.TestCase):
 
 
 # ---------------------------------------------------------------- listing integrity
+
+class MyyriListingTest(unittest.TestCase):
+    """The row prints no year, so the weekday selects it and the film page is the link."""
+
+    TODAY = datetime.date(2026, 9, 18)          # a Friday
+
+    def rows(self, *rows, today=None):
+        return K.events_myyri(listing(*rows), MYYRI, today or self.TODAY)
+
+    def test_the_weekday_selects_the_year(self):
+        rows = self.rows(
+            myyri_row("hanuman", "Hanuman Ansh", datetime.date(2026, 9, 18)),
+            myyri_row("father", "Father Mother Sister Brother", datetime.date(2026, 9, 19),
+                      time="12:00"))
+        self.assertEqual([r["start"] for r in rows],
+                         ["2026-09-18T19:30:00+03:00", "2026-09-19T12:00:00+03:00"])
+
+    def test_a_january_row_read_in_december_lands_next_year(self):
+        [row] = self.rows(myyri_row("a", "A", None, date="pe 8.1. klo 18:00"),
+                          today=datetime.date(2026, 12, 20))
+        self.assertEqual(row["start"], "2027-01-08T18:00:00+02:00")
+
+    def test_a_weekday_no_candidate_year_carries_fails_the_site(self):
+        """`ma 18.9.` is a Monday on none of the three candidate years."""
+        with self.assertRaises(K.ListingRowError) as e:
+            self.rows(myyri_row("a", "A", None, date="ma 18.9. klo 19:30"))
+        self.assertIn("year the weekday and date agree on", str(e.exception))
+
+    def test_a_date_outside_the_window_fails_the_site(self):
+        with self.assertRaises(K.ListingRowError):
+            self.rows(myyri_row("a", "A", None, date="ti 1.6. klo 19:30"))
+
+    def test_the_screening_links_to_the_film_page_and_never_to_checkout(self):
+        rows = self.rows(myyri_row("hanuman", "Hanuman Ansh", self.TODAY),
+                         myyri_row("father", "F", self.TODAY, time="12:00", sold=True))
+        self.assertEqual([r["url"] for r in rows],
+                         ["https://kinomyyri.fi/film/hanuman/",
+                          "https://kinomyyri.fi/film/father/"])
+        self.assertNotIn("checkout", " ".join(r["url"] for r in rows))
+        self.assertEqual([r["soldOut"] for r in rows], [False, True])
+
+    def test_the_poster_comes_off_the_row(self):
+        [a, b] = self.rows(myyri_row("hanuman", "A", self.TODAY),
+                           myyri_row("father", "B", self.TODAY, time="12:00", poster=False))
+        self.assertTrue(a["img"].startswith("https://media.kinola.ee/storage/myyri"))
+        self.assertEqual(b["img"], "")
+
+    def test_a_row_with_no_readable_date_fails_the_site(self):
+        with self.assertRaises(K.ListingRowError):
+            self.rows(myyri_row("a", "A", None, date="pian"))
+
+
+class MinutesTest(unittest.TestCase):
+    def test_hours_and_minutes_and_the_bare_form(self):
+        for text, want in (("2 h 30 min", "150"), ("1 h 27 min", "87"),
+                           ("106 min", "106"), ("Kesto 1 h 0 min", "60"),
+                           ("", ""), ("ei tiedossa", "")):
+            with self.subTest(text=text):
+                self.assertEqual(K._minutes(text), want)
+
+
+class SynValueTest(unittest.TestCase):
+    def test_a_site_that_does_not_declare_keeps_the_bare_string(self):
+        self.assertEqual(K.syn_value(LAIKA, SYN_FI_TEXT), SYN_FI_TEXT)
+
+    def test_a_declaring_site_keys_the_text_by_language(self):
+        self.assertEqual(K.syn_value(MYYRI, SYN_EN_TEXT), {"en": SYN_EN_TEXT})
+        self.assertEqual(K.syn_value(MYYRI, SYN_FI_TEXT), {"fi": SYN_FI_TEXT})
+
+    def test_an_unplaceable_text_is_withheld(self):
+        self.assertEqual(K.syn_value(MYYRI, "Hanuman Ansh"), "")
+
 
 class ListingRowFailureTest(unittest.TestCase):
     """A block the listing marks as a screening yields a row or fails the site.
@@ -901,9 +1026,19 @@ class RunnerTest(unittest.TestCase):
                 laika_row("arppa", "Arppa", date="30/10/2026 19:00", sold=True)),
             "https://www.kinolaika.fi/film/hetki/": laika_film(),
             "https://www.kinolaika.fi/film/arppa/": LIVE_ACT,
+            "https://kinomyyri.fi/ohjelmisto/": listing(
+                myyri_row("hanuman", "Hanuman Ansh", self.soon(1)),
+                myyri_row("autofiktio", "Autofiktio", self.soon(2), time="17:00")),
+            "https://kinomyyri.fi/film/hanuman/": myyri_film(),
+            "https://kinomyyri.fi/film/autofiktio/": myyri_film(syn=SYN_FI_TEXT),
         }
         pages.update(over)
         return pages
+
+    @staticmethod
+    def soon(days):
+        """A date inside Myyri's window, so its rows place against the real clock."""
+        return datetime.datetime.now(K.FI).date() + datetime.timedelta(days=days)
 
     def test_a_full_run_publishes_both_venues_and_omits_the_live_act(self):
         self.serve(self.both())
@@ -926,7 +1061,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.main()[0], 0)
         films = [c for c in self.calls if "/film/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 4)
+        self.assertEqual(len(films), 6)
 
     PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
             "horizon": "2026-09-01",
@@ -1080,16 +1215,72 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([c for c in self.calls if "kinolaika.fi/film/" in c], [])
         self.assertFalse((run.OUT / "area-laika-karkkila.json").exists())
 
+    def myyri(self, page):
+        return self.both(**{"https://kinomyyri.fi/ohjelmisto/": page})
+
+    def test_myyri_publishes_and_links_to_the_film_page(self):
+        self.serve(self.both())
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = json.loads((run.OUT / "area-myyri-vantaa.json").read_text())["shows"]
+        self.assertEqual([s["title"] for s in shows], ["Hanuman Ansh", "Autofiktio"])
+        self.assertEqual([s["url"] for s in shows],
+                         ["https://kinomyyri.fi/film/hanuman/",
+                          "https://kinomyyri.fi/film/autofiktio/"])
+        self.assertEqual({s["price"] for s in shows}, {""})
+        self.assertEqual({s["len"] for s in shows}, {"150"})
+        self.assertTrue(all(s["img"].startswith("https://media.kinola.ee/")
+                            for s in shows))
+        self.assertEqual([c for c in self.calls if "checkout" in c], [])
+
+    def test_the_synopsis_is_published_under_the_language_it_is_written_in(self):
+        self.serve(self.both())
+        self.assertEqual(self.main()[0], 0)
+        films = json.loads((run.OUT / "films-extra.json").read_text())["films"]
+        self.assertEqual(films["hanuman ansh"]["s"].get("en"), SYN_EN_TEXT)
+        self.assertEqual(films["hanuman ansh"]["s"].get("fi", ""), "")
+        self.assertEqual(films["autofiktio"]["s"].get("fi"), SYN_FI_TEXT)
+
+    def test_a_synopsis_in_no_settled_language_is_withheld_and_counted(self):
+        self.serve(self.both(**{
+            "https://kinomyyri.fi/film/hanuman/": myyri_film(syn=SYN_NO_LANGUAGE)}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertIn("synopsis/synopses withheld", log)
+        shows = json.loads((run.OUT / "area-myyri-vantaa.json").read_text())["shows"]
+        self.assertEqual(len(shows), 2)
+
+    def test_myyri_empty_listing_keeps_the_previous_file_and_stays_green(self):
+        self.with_previous("myyri-vantaa")
+        self.serve(self.myyri(empty_listing()))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.unchanged("myyri-vantaa")
+        self.assertIn("no programme published", log)
+
+    def test_a_myyri_row_that_cannot_be_placed_fails_that_site_only(self):
+        self.with_previous("myyri-vantaa")
+        self.serve(self.myyri(listing(
+            myyri_row("hanuman", "Hanuman Ansh", self.soon(1)),
+            myyri_row("a", "A", None, date="ma 18.9. klo 19:30"))))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("block 2", log)
+        self.unchanged("myyri-vantaa")
+        self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
+
 
 # ---------------------------------------------------------------- registry and sites
 
 class RegistryTest(unittest.TestCase):
-    def test_the_two_registry_entries(self):
+    def test_the_three_registry_entries(self):
         for pid, label, host, accent, venue, city in (
                 ("kinokilta", "Kino Kilta", "kinokilta.fi", "#1D6F8B", "kilta-turku",
                  "Turku"),
                 ("kinolaika", "Kino Laika", "kinolaika.fi", "#9A3412", "laika-karkkila",
-                 "Karkkila")):
+                 "Karkkila"),
+                ("kinomyyri", "Kino Myyri", "kinomyyri.fi", "#807CFC", "myyri-vantaa",
+                 "Vantaa")):
             with self.subTest(provider=pid):
                 p = registry.by_id(pid)
                 self.assertEqual((p["label"], p["host"], p["accent"], p["book"],
@@ -1110,8 +1301,9 @@ class RegistryTest(unittest.TestCase):
 
     def test_each_site_names_the_host_it_reads_and_they_are_paced_apart(self):
         self.assertEqual([s["base"] for s in K.SITES],
-                         ["https://www.kinokilta.fi", "https://www.kinolaika.fi"])
-        self.assertEqual(len(run.host_groups(K.SITES)), 2)
+                         ["https://www.kinokilta.fi", "https://www.kinolaika.fi",
+                          "https://kinomyyri.fi"])
+        self.assertEqual(len(run.host_groups(K.SITES)), 3)
 
     def test_orion_still_reads_the_third_template_and_is_untouched(self):
         """One platform, two modules. Orion's own table is not this module's business."""
@@ -1119,8 +1311,9 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual(registry.by_id("orion")["module"], "orion")
         self.assertEqual(orion.parse(listing(kilta_row("a", "A"))), [])
 
-    def test_both_providers_share_the_one_module(self):
-        mods = {registry.by_id(p)["module"] for p in ("kinokilta", "kinolaika")}
+    def test_all_three_providers_share_the_one_module(self):
+        mods = {registry.by_id(p)["module"]
+                for p in ("kinokilta", "kinolaika", "kinomyyri")}
         self.assertEqual(mods, {"kinola"})
 
 

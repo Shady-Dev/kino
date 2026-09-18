@@ -513,7 +513,9 @@ class AdmissionModeTest(unittest.TestCase):
         self.assertIn("Heurekan planetaario", city)
         self.assertIn("chain-heureka", city)
         self.assertIn('class="times grid"', city)
-        self.assertIn("3 teatteria", city)
+        # Four since 2026-09-18, when Kino Myyri joined Bio Grand, Finnkino Flamingo and
+        # the planetarium in Vantaa.
+        self.assertIn("4 teatteria", city)
 
 
 if __name__ == "__main__":

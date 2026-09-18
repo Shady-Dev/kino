@@ -1,4 +1,5 @@
-"""Kino Kilta (Turku) and Kino Laika (Karkkila), both on Kinola. Stdlib only.
+"""Kino Kilta (Turku), Kino Laika (Karkkila) and Kino Myyri (Vantaa), on Kinola.
+Stdlib only.
 
 Kinola is the platform behind Cinema Orion's ticketing too, and `orion.py` reads its third
 front-end template, a `table.kinola-day`. Neither site here renders that table, so
@@ -71,7 +72,7 @@ Boots, Dave Lindholm & Pepe Ahlqvist, 50 vuotta rokkia Karkkilasta, a festival b
 and one is a genuine film, *A Fox Under a Pink Moon*, whose page names its director in
 prose but fills no field. That one is the override list's first and only entry.
 
-## The two listing templates
+## The three listing templates
 
 Both wrap each screening in a block carrying the class **token** `kinola-event`, so the
 blocks are found by that token and sliced between occurrences rather than by matching tags.
@@ -94,9 +95,23 @@ on. Parsing failures and policy omissions are different claims and are kept apar
             a.kinola-event-title -> /film/{slug}/, .kinola-event-venue,
             .kinola-event-date "16/09/2026 14:00", a.kinola-event-tickets-link or
             span.kinola-event-tickets-link-sold-out
+    myyri   the laika block, with .kinola-event-date reading "pe 18.9. klo 19:30" and
+            a.kinola-event-tickets-link pointing at /checkout/{uuid}
 
-**Both dates carry their year**, so nothing infers one and `common.resolve_year` is not
-used. Kilta writes `D.M.YYYY` after a weekday abbreviation, Laika `DD/MM/YYYY HH:MM`.
+**Kilta and Laika print their year**, `D.M.YYYY` after a weekday and `DD/MM/YYYY HH:MM`.
+Myyri prints the weekday, day and month, which `common.resolve_year` resolves; a row it
+cannot place raises.
+
+**Myyri's ticket link is not published.** `/checkout/{uuid}` is a booking endpoint, so the
+showtime opens the film page, where each screening carries its own buy button. Read
+2026-09-18: 26 screenings over 15 films, none sold out, so the sold-out branch is covered
+by fixture.
+
+**Myyri's synopsis declares its language.** Its film pages carry Finnish for some films and
+English for others, and the slot is keyed by normalised title and read by every chain
+showing the film. `syn_value` places the text with `common.syn_language` and withholds it
+when no language is settled. Kilta and Laika keep the bare string; whether those two carry
+anything but Finnish was not measured.
 
 **A sold-out row keeps its screening.** Laika drops the checkout anchor and renders
 `<span class="kinola-event-tickets-link-sold-out">Loppuunmyyty</span>` instead, so the
@@ -159,7 +174,8 @@ import time
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, budget_or_raise, fetch
+from common import (EmptyProgramme, budget_or_raise, fetch, resolve_year,
+                    syn_language, weekday_index)
 from gilda import LANG
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -176,7 +192,19 @@ SITES = [
      "listing": "/ohjelmisto/", "template": "laika",
      "venues": [{"id": "laika-karkkila", "name": "Kino Laika", "short": "Kino Laika",
                  "city": "Karkkila"}]},
+    # Added 2026-09-18. Differences from Laika are in `events_myyri`: no year on the row,
+    # and a checkout ticket link this repo does not publish. `declare_syn` makes the
+    # synopsis carry a language, because this site's film pages are not all Finnish.
+    {"provider": "kinomyyri", "label": "Kino Myyri", "base": "https://kinomyyri.fi",
+     "listing": "/ohjelmisto/", "template": "myyri", "declare_syn": True,
+     "venues": [{"id": "myyri-vantaa", "name": "Kino Myyri", "short": "Kino Myyri",
+                 "city": "Vantaa"}]},
 ]
+
+# `resolve_year`'s (behind, ahead) for Myyri. Its listing reached 42 days ahead on
+# 2026-09-18; 120 leaves room for a season announcement and still refuses a year-away
+# placement from a mistyped weekday.
+MYYRI_WINDOW = (30, 120)
 
 # The label whose presence is film evidence. Not the runtime and not the classification:
 # see the module docstring, Laika's live acts carry both.
@@ -216,7 +244,15 @@ SRC_RE = re.compile(r'(?:data-)?src=["\']([^"\']+)["\']', re.I)
 KILTA_DATE_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.(\d{4})')
 KILTA_TIME_RE = re.compile(r'(\d{1,2})[:.](\d{2})')
 LAIKA_DATE_RE = re.compile(r'(\d{1,2})/(\d{1,2})/(\d{4})\s+(\d{1,2})[:.](\d{2})')
+# `pe 18.9. klo 19:30`. The row prints no year and the weekday selects it: see
+# `resolve_year`, which returns None when no candidate carries that weekday.
+MYYRI_DATE_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s*'
+                           r'klo\s*(\d{1,2})[:.](\d{2})', re.I)
 MIN_RE = re.compile(r'(\d{1,3})\s*min\b', re.I)
+# `2 h 30 min` on Myyri's pages, `106 min` on the other two. `MIN_RE` alone takes the 30
+# out of the first and publishes a 150 minute film as 30. Checked against the committed
+# data 2026-09-18: Kilta and Laika runtimes are all 76 to 145, so neither moves.
+HM_RE = re.compile(r'(\d{1,2})\s*h\s*(\d{1,2})\s*min\b', re.I)
 DT_DD_RE = re.compile(r'<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>', re.S | re.I)
 STRONG_RE = re.compile(r'<strong[^>]*>\s*([A-Za-zÄÖÅäöå]{3,20})\s*</strong>\s*(?:<br\s*/?>)?'
                        r'(.*?)(?=<strong|<br\s*/?>\s*<br|<p[\s>]|</div>|$)', re.S | re.I)
@@ -231,6 +267,15 @@ TAGS_RE = re.compile(r"<[^>]+>")
 def _txt(s):
     return re.sub(r"\s+", " ", html_mod.unescape(TAGS_RE.sub(" ", s or ""))
                   .replace("\xa0", " ")).strip()
+
+
+def _minutes(text):
+    """`2 h 30 min` or `106 min` -> "150" / "106". -> str, "" when neither shape is there."""
+    m = HM_RE.search(text or "")
+    if m:
+        return str(int(m.group(1)) * 60 + int(m.group(2)))
+    m = MIN_RE.search(text or "")
+    return m.group(1) if m else ""
 
 
 def _one(pattern, cls, block):
@@ -334,11 +379,11 @@ def events_kilta(page, site):
         except ValueError as e:
             raise _row_fault(site, n, "calendar date", f"{dtxt} {ttxt}", title) from e
         url, sold = _destination(b, site["base"], film_url)
-        dur = MIN_RE.search(_one(DIV_CLASS_RE, "duration-info", b))
+        dur = _minutes(_one(DIV_CLASS_RE, "duration-info", b))
         out.append({"slug": slug, "title": title, "film_url": film_url,
                     "start": start.isoformat(), "url": url, "soldOut": sold,
                     "method": _one(DIV_CLASS_RE, "movie-subtitle", b),
-                    "len": dur.group(1) if dur else "", "img": ""})
+                    "len": dur, "img": ""})
     return out
 
 
@@ -371,7 +416,63 @@ def events_laika(page, site):
     return out
 
 
-TEMPLATES = {"kilta": events_kilta, "laika": events_laika}
+def events_myyri(page, site, today=None):
+    """The same contract as the other two: a block yields a row or raises.
+
+    The row prints no year, so the weekday selects it through `resolve_year`. A weekday no
+    candidate year carries, or a date outside `MYYRI_WINDOW`, raises: a block this parser
+    cannot place is a screening it would otherwise drop.
+
+    The ticket link is `/checkout/{uuid}`, a booking endpoint, which "Access and ethics"
+    in CLAUDE.md keeps this repo out of. The showtime opens the film page, which is public
+    and carries each screening's own buy button. The sold-out marker is still read.
+    """
+    today = today or datetime.datetime.now(FI).date()
+    out = []
+    for n, b in enumerate(blocks(page)):
+        title, slug, film_url = _title_and_slug(b, site["base"])
+        dtxt = _one(SPAN_CLASS_RE, "kinola-event-date", b)
+        d = MYYRI_DATE_RE.search(dtxt)
+        if not title:
+            raise _row_fault(site, n, "title link")
+        if not slug:
+            raise _row_fault(site, n, "film page link", title=title)
+        if not d:
+            raise _row_fault(site, n, "date", dtxt, title)
+        day, month = int(d.group(2)), int(d.group(3))
+        year = resolve_year(day, month, today, weekday_index(d.group(1)), MYYRI_WINDOW)
+        if year is None:
+            raise _row_fault(site, n, "year the weekday and date agree on", dtxt, title)
+        try:
+            start = datetime.datetime(year, month, day,
+                                      int(d.group(4)), int(d.group(5)), tzinfo=FI)
+        except ValueError as e:
+            raise _row_fault(site, n, "calendar date", dtxt, title) from e
+        pm = POSTER_RE.search(b)
+        src = SRC_RE.search(pm.group(0)) if pm else None
+        out.append({"slug": slug, "title": title, "film_url": film_url,
+                    "start": start.isoformat(), "url": film_url,
+                    "soldOut": bool(SOLD_OUT_RE.search(b)),
+                    "method": "", "len": "",
+                    "img": urljoin(site["base"], html_mod.unescape(src.group(1)))
+                           if src else ""})
+    return out
+
+
+TEMPLATES = {"kilta": events_kilta, "laika": events_laika, "myyri": events_myyri}
+
+
+def syn_value(site, text):
+    """What `_syn` carries for one site. -> str, {lang: str}, or "" to publish none.
+
+    A site without `declare_syn` keeps the bare string, which `synmerge` reads as Finnish:
+    Kilta and Laika. A site with it has the text placed by `common.syn_language`, and an
+    unplaceable one is withheld.
+    """
+    if not site.get("declare_syn"):
+        return text
+    lang = syn_language(text)
+    return {lang: text} if lang else ""
 
 
 def labels(page):
@@ -432,7 +533,7 @@ def film_facts(page):
     """-> {labels, rating, len, genres, img, syn} for one film page."""
     facts = labels(page)
     head = _head(page)
-    dur = MIN_RE.search(facts.get("kesto", "")) or MIN_RE.search(head)
+    dur = _minutes(facts.get("kesto", "")) or _minutes(head)
     og = OG_IMAGE_RE.search(page)
     syn = ""
     for p in SYN_RE.findall(page):
@@ -441,7 +542,7 @@ def film_facts(page):
             syn = t
             break
     return {"labels": facts, "rating": _rating(page, head),
-            "len": dur.group(1) if dur else "",
+            "len": dur,
             "genres": facts.get("lajityyppi", ""),
             "img": (og.group(1) or og.group(2)) if og else "",
             "syn": syn, "lang": _lang(facts)}
@@ -530,7 +631,10 @@ def parse(site, listing, pages, overrides=None):
     listed = {e["slug"] for e in rows if e["slug"]}
     shows, seen = [], set()
     om = {"non_film_films": set(), "non_film_shows": 0,
-          "unresolved_films": set(), "unresolved_shows": 0, "overrides": {}}
+          "unresolved_films": set(), "unresolved_shows": 0, "overrides": {},
+          # Films whose blurb this run would not place in a language. The screening
+          # publishes; only the synopsis is withheld, and the count is printed.
+          "syn_unplaced": set()}
     # Every entry for this provider, not only the ones the listing happens to hold, so an
     # override whose film has left the programme is reported rather than silently ignored.
     for (pid, slug), entry in sorted(overrides.items()):
@@ -578,7 +682,11 @@ def parse(site, listing, pages, overrides=None):
             "venue": venue["id"],
         }
         if facts["syn"]:
-            row["_syn"] = facts["syn"]
+            syn = syn_value(site, facts["syn"])
+            if syn:
+                row["_syn"] = syn
+            else:
+                om["syn_unplaced"].add(e["title"])
         shows.append(row)
     shows.sort(key=lambda s: s["start"])
     return {venue["id"]: shows}, om
@@ -669,6 +777,9 @@ def fetch_site(site, sleep=1.2):
         print(f"[{pid}] unresolved: {', '.join(sorted(om['unresolved_films'])[:12])}")
     for slug, state in sorted(om["overrides"].items()):
         print(f"[{pid}] override {slug}: {state}")
+    if om["syn_unplaced"]:
+        print(f"[{pid}] {len(om['syn_unplaced'])} synopsis/synopses withheld, no language "
+              f"settled: {', '.join(sorted(om['syn_unplaced'])[:8])}")
     if not shows:
         raise RuntimeError(
             f"{listing_url} lists {len(rows)} screening(s) and none "

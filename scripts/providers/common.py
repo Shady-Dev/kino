@@ -866,3 +866,44 @@ def resolve_year(day, month, today, weekday=None, window=DEFAULT_WINDOW):
         if not -behind <= (when - today).days <= ahead:
             return None          # selected, then refused; never replaced by another year
     return year
+
+
+# The languages a synopsis slot may be written for; `synmerge.LANGS` is the same list.
+SYN_LANGS = ("fi", "sv", "en")
+
+# Function words that occur in one of the three and not in the others, matched as whole
+# words. Content words are useless: a Finnish blurb about an English film quotes English
+# titles and names. The lists are disjoint, so "on" (fi and en) is in neither.
+SYN_MARKERS = {
+    "fi": ("ja", "ei", "että", "sekä", "kun", "joka", "jonka", "jossa", "jotka",
+           "jolloin", "koska", "mutta", "myös", "hän", "hänen", "heidän", "ovat", "kuin",
+           "vaan", "vai", "niin", "sen", "tai", "ennen", "vielä", "sitä", "siitä"),
+    "sv": ("och", "att", "som", "den", "det", "är", "för", "med", "han", "hon", "inte",
+           "sig", "sina", "från", "efter", "av", "till", "om", "har", "eller", "också",
+           "sedan", "sin", "sitt"),
+    "en": ("the", "and", "of", "to", "in", "is", "with", "his", "her", "from", "that",
+           "their", "who", "when", "into", "but", "they", "which", "was", "are"),
+}
+
+_WORD_RE = re.compile(r"[^\W\d_]+", re.UNICODE)
+
+
+def syn_language(text, least=3, margin=2):
+    """Which of SYN_LANGS a synopsis is in. -> "fi", "sv", "en", or "".
+
+    The slot in films-extra.json is keyed by normalised title and read by every chain
+    showing the film, so a text filed under the wrong language is served that way
+    everywhere. CLAUDE.md states the rule under "Adding a provider"; this is how an adapter
+    reading a mixed site obeys it.
+
+    "" means too short or too even to place, and the caller publishes no synopsis. The
+    winner needs `least` markers and `margin` times the runner-up.
+    """
+    words = [w.lower() for w in _WORD_RE.findall(text or "")]
+    counts = {lang: sum(1 for w in words if w in set(marks))
+              for lang, marks in SYN_MARKERS.items()}
+    ranked = sorted(counts.items(), key=lambda kv: -kv[1])
+    (best, top), (_, second) = ranked[0], ranked[1]
+    if top < least or top < margin * second:
+        return ""
+    return best

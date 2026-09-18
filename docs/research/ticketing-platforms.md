@@ -972,7 +972,8 @@ probed this way.
 
 **Status and next step**
 
-Nothing implemented. The ranked order was put to the maintainer on 2026-09-18.
+Kino Myyri was implemented 2026-09-18 as a third tenant on `kinola.py`. The four Johku
+sites are next; the rest wait.
 
 ---
 

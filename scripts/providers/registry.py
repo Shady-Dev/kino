@@ -404,6 +404,14 @@ PROVIDERS = [
          book="buy", module="kinola", where="cloud"),
     dict(id="kinolaika", label="Kino Laika", host="kinolaika.fi", accent="#9A3412",
          book="buy", module="kinola", where="cloud"),
+    # Vantaa's fourth chain and Pääkaupunkiseutu's thirteenth. Measured 2026-09-18 with
+    # accent_check.py: the Vantaa view clears the floor at 14.6 dE00 (Bio Grand, 17.9 to
+    # normal vision), and the region does not, at 10.1 (Kino Engel, 15.0 normal) and 10.8
+    # (BioRex). Of the 19 colours in the L* band that clear 14.4 in Vantaa and reach 10.0
+    # in the region, this one has the highest worst normal-vision pair. The regional
+    # minimum is unchanged at 4.5 (Bio Grand/BioRex). Reason recorded in IDEAS.md.
+    dict(id="kinomyyri", label="Kino Myyri", host="kinomyyri.fi", accent="#807CFC",
+         book="buy", module="kinola", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

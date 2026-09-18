@@ -44,6 +44,21 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
   MyCloudCinema's two readers, the Korttelikinot, Vista's one Finnish site, and the
   parser-shaped ones.
 
+### Kino Myyri: a third Kinola tenant, and an accent below the floor
+
+Added 2026-09-18 as `kinomyyri` on `kinola.py`, cloud half. 26 screenings listed and 23
+published; the three omitted are two private hires and one dub whose page carries no
+labelled field. The screening links to the film page, because the row's ticket link is a
+checkout endpoint.
+**The accent clears the floor in Vantaa and not in the region.** 14.6 dE00 against Bio
+Grand in the city, 10.1 against Kino Engel and 10.8 against BioRex in Pääkaupunkiseutu,
+which the registry rule allows with the reason recorded here: 19 colours in the L* band
+clear 14.4 in Vantaa, none of them reaches the floor against the region's twelve chains,
+and this one has the highest worst normal-vision pair of the 19. The regional minimum is
+unchanged at 4.5, and the pairs below the floor go from 12 of 148 to 17 of 163.
+**Next action:** verify it on the runner before publishing. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+
 ### Kinola: published, and Konepaja still has no programme
 
 Kino Kilta and Kino Laika ship as `kinola.py` under the policy adopted 2026-09-15. The
@@ -233,16 +248,16 @@ again and was already correct.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 56 / 101 / 69 |
-| venues in committed data | 101 |
+| providers / venues / cities (declared) | 57 / 102 / 69 |
+| venues in committed data | 102 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 116 |
-| sitemap URLs | 233 |
-| poster references (shows / films-extra) | 5647 (5344 / 303) |
+| generated pages per language | 117 |
+| sitemap URLs | 235 |
+| poster references (shows / films-extra) | 5623 (5320 / 303) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1244 |
-| `sw.js` CACHE | `leffavuoro-v175` |
+| mirrored poster files | 1256 |
+| `sw.js` CACHE | `leffavuoro-v176` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and
