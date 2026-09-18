@@ -39,7 +39,7 @@ import datetime, html as html_mod, re, sys, unicodedata
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import fetch, resolve_year, weekday_index
 from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
@@ -59,6 +59,10 @@ VENUE = {"id": "or-helsinki", "provider": "orion", "name": "Cinema Orion",
 SITES = [{"provider": "orion", "label": "Cinema Orion", "base": URL,
           "venues": [VENUE]}]
 
+# `resolve_year`'s (behind, ahead). The committed programme reached -1 to +29 days on
+# 2026-09-19 and this cinema publishes about eleven dates at a time, so 120 is headroom.
+WINDOW = (30, 120)
+
 # <h3><span>Torstai</span> 27.08.</h3> then <table class="kinola-day">...
 BLOCK_RE = re.compile(r'<h3\b[^>]*>(?P<head>.*?)</h3>'
                       r'|<table\b[^>]*class=["\'][^"\']*kinola-day[^"\']*["\'][^>]*>'
@@ -74,7 +78,9 @@ SLUG_URL_RE = re.compile(r'/elokuv[au]t?/([^/?#"\']+)', re.I)
 # whatever tag comes next rather than at a </span> that may not exist.
 DESCR_RE = re.compile(r'<span[^>]*class=["\'][^"\']*descrption[^"\']*["\'][^>]*>'
                       r'(.*?)(?:</span>|<span\b[^>]*>|</a>|$)', re.S | re.I)
-DATE_RE = re.compile(r'(\d{1,2})\.(\d{1,2})\.')
+# The live date cell reads `Torstai 27.08.`; the day heading above the table carries
+# the same shape. The weekday is optional because the cell has been seen without one.
+DATE_RE = re.compile(r'(?:([A-Za-zÄÖÅäöå]{2,})\s+)?(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'(\d{1,2})[:.](\d{2})')
 EUR_RE = re.compile(r'(\d+(?:[.,]\d+)?)\s*(?:€|eur\b)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
@@ -132,17 +138,19 @@ def _film(cell_html):
     return title, blurb, (sm.group(1) if sm else "")
 
 
-def _iso(day, month, hh, mm, today=None):
-    """The table carries no year: pick the one that keeps the date near today."""
+def _iso(day, month, hh, mm, today=None, weekday=None):
+    """The table carries no year -> an ISO start, or "" when the date cannot be placed.
+
+    `common.resolve_year` selects the year and then bounds it. The private loop this
+    replaced took the first candidate inside a window rather than the nearest one, so a
+    row 46 or more days stale resolved to next year: `1.8.` read on 2026-09-19 published
+    as 2027-08-01. Where the cell or the heading prints a weekday it selects the year.
+    """
     today = today or datetime.datetime.now(FI).date()
-    for year in (today.year, today.year + 1, today.year - 1):
-        try:
-            d = datetime.date(year, month, day)
-        except ValueError:
-            continue
-        if -45 <= (d - today).days <= 320:
-            return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
-    return ""
+    year = resolve_year(day, month, today, weekday, WINDOW)
+    if year is None:
+        return ""
+    return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
 
 
 def _cells(row):
@@ -156,7 +164,7 @@ def _cells(row):
 
 
 def parse(page, today=None):
-    shows, heading = [], ""
+    shows, heading, unplaced = [], "", []
     for m in BLOCK_RE.finditer(page):
         if m.group("head") is not None:
             heading = _txt(m.group("head"))
@@ -171,9 +179,13 @@ def parse(page, today=None):
             dm = DATE_RE.search(_txt(cells.get("date", ("", ""))[1])) or DATE_RE.search(heading)
             if not title or not tm or not dm:
                 continue
-            start = _iso(int(dm.group(1)), int(dm.group(2)),
-                         int(tm.group(1)), int(tm.group(2)), today)
+            # The weekday comes from whichever text supplied the date, never from the
+            # other one: the heading and a cell could disagree if the markup moved.
+            start = _iso(int(dm.group(2)), int(dm.group(3)),
+                         int(tm.group(1)), int(tm.group(2)), today,
+                         weekday_index(dm.group(1)) if dm.group(1) else None)
             if not start:
+                unplaced.append(f"{dm.group(0).strip()} {title[:28]}")
                 continue
             price_attrs, price_html = cells.get("price", ("", ""))
             bd = TITLE_ATTR_RE.search(price_attrs)
@@ -198,6 +210,9 @@ def parse(page, today=None):
                 "venue": VENUE["id"],
                 "_syn": blurb,
             })
+    if unplaced:
+        print(f"[orion] {len(unplaced)} row(s) whose date no candidate year places inside "
+              f"the window, skipped: {', '.join(unplaced[:5])}")
     shows.sort(key=lambda s: s["start"])
     return shows
 

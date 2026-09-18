@@ -9,6 +9,8 @@ once, and mixes the link shapes one page really carries: a site-relative path, a
 festival's own absolute box office, a protocol-relative host and a free-admission row
 with no link at all.
 """
+import contextlib
+import io
 import unittest
 from urllib.parse import urlsplit
 
@@ -96,6 +98,52 @@ class OrionTicketUrlTest(unittest.TestCase):
                 parts = urlsplit(s["url"])
                 self.assertIn(parts.scheme, ("http", "https"))
                 self.assertTrue(parts.netloc, f"no host in {s['url']!r}")
+
+
+class YearTest(unittest.TestCase):
+    """The table prints no year. Before 2026-09-19 a private loop took the first candidate
+    year inside a -45..+320 window rather than the nearest one, so `1.8.` read on
+    2026-09-19 published as 2027-08-01. Two rows in every fixture: the skip is a
+    `continue` inside the row loop."""
+
+    def parse(self, page, today=TODAY):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = orion.parse(page, today=today)
+        return shows, out.getvalue()
+
+    def test_a_stale_row_is_skipped_and_the_current_one_keeps_its_date(self):
+        shows, log = self.parse(page(
+            ("04.09.", [row("Troija", "19:00", "Perjantai 04.09.", link("/checkout/a"))]),
+            ("01.08.", [row("Vanha", "18:00", "Lauantai 01.08.", link("/checkout/b"))])))
+        self.assertEqual([s["title"] for s in shows], ["Troija"])
+        self.assertIn("1 row(s) whose date no candidate year places", log)
+        self.assertIn("Lauantai 01.08.", log)
+
+    def test_the_cells_weekday_selects_the_year(self):
+        """4 September 2026 is a Friday, so a cell calling it Thursday selects 2025 and
+        the window refuses it."""
+        shows, _ = self.parse(page(
+            ("04.09.", [row("Oikea", "19:00", "Perjantai 04.09.", link("/checkout/a")),
+                        row("Vaara", "21:00", "Torstai 04.09.", link("/checkout/b"))])))
+        self.assertEqual([s["title"] for s in shows], ["Oikea"])
+
+    def test_a_cell_with_no_weekday_falls_back_to_the_nearest_occurrence(self):
+        """The fixture the rest of this file uses prints a bare date, and the live page
+        prints `Perjantai 18.09.`; both have to work."""
+        shows, _ = self.parse(page(
+            ("04.09.", [row("A", "19:00", "04.09.", link("/checkout/a")),
+                        row("B", "21:00", "05.09.", link("/checkout/b"))])))
+        self.assertEqual([s["start"][:10] for s in shows], ["2026-09-04", "2026-09-05"])
+
+    def test_the_window_is_measured_from_what_the_cinema_publishes(self):
+        """The committed programme reached -1 to +29 days on 2026-09-19."""
+        self.assertEqual(orion.WINDOW, (30, 120))
+        for days, published in ((100, True), (150, False)):
+            with self.subTest(days=days):
+                d = TODAY + __import__("datetime").timedelta(days=days)
+                got = orion._iso(d.day, d.month, 18, 0, TODAY, d.weekday())
+                self.assertEqual(got[:10], d.isoformat() if published else "")
 
 
 if __name__ == "__main__":
