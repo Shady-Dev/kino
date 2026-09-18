@@ -357,6 +357,21 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([s["title"] for s in shows], ["A", "B"])
         self.assertEqual(shows[0]["genres"], "")
 
+    def test_the_hall_hire_page_is_never_fetched(self):
+        """It is dropped before the film pages are chosen, so the request is not made."""
+        self.serve(self.all_four(**{
+            "https://kinokulma.fi/": listing(group(
+                "Perjantai 19.9.2026",
+                row("a", "A", "2026-09-19T14:30:00.000Z", "17.30", loc="Kulmasali",
+                    product="1", category="ohjelmisto"),
+                row("sali", "Salivaraus", "2026-09-19T20:00:00.000Z", "23.00",
+                    loc="Kulmasali", product="94",
+                    path="/fi_FI/products/94-kinokulma-salivaraus")))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([c for c in self.calls if "/products/" in c], [])
+        self.assertIn("hall-hire", log)
+
     def test_one_film_page_per_distinct_product(self):
         self.serve(self.all_four())
         self.assertEqual(self.main()[0], 0)

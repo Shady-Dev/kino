@@ -896,6 +896,9 @@ FI_ENDINGS = ("ssa", "ssä", "sta", "stä", "lla", "llä", "lle", "ksi", "aan", 
 # vista, unseen) do not reach the count.
 FI_ENDING_MIN = 8
 
+# Frozen once: the scoring loop asked for a set per word per language before this.
+_SYN_SETS = {lang: frozenset(marks) for lang, marks in SYN_MARKERS.items()}
+
 _WORD_RE = re.compile(r"[^\W\d_]+", re.UNICODE)
 
 
@@ -912,8 +915,8 @@ def syn_language(text, least=3, margin=2):
     route, `FI_ENDINGS`, and it opens only when Swedish and English both score nothing.
     """
     words = [w.lower() for w in _WORD_RE.findall(text or "")]
-    counts = {lang: sum(1 for w in words if w in set(marks))
-              for lang, marks in SYN_MARKERS.items()}
+    counts = {lang: sum(1 for w in words if w in marks)
+              for lang, marks in _SYN_SETS.items()}
     ranked = sorted(counts.items(), key=lambda kv: -kv[1])
     (best, top), (_, second) = ranked[0], ranked[1]
     if top >= least and top >= margin * second:

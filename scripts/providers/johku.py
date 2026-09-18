@@ -365,7 +365,11 @@ def fetch_site(site, sleep=1.2):
             f"this as, and the previous files stand")
     pid = site["provider"]
     pages = {}
-    for n, r in enumerate(capped(sorted({(r["product"], r["url"]) for r in listed}), pid)):
+    # The hall-hire rows are dropped before the film pages are chosen: their product page
+    # is never read, so the request is not made at all.
+    wanted = sorted({(r["product"], r["url"]) for r in listed
+                     if PRODUCT_PATH not in r["url"]})
+    for n, r in enumerate(capped(wanted, pid)):
         if n:
             time.sleep(sleep)
         product, url = r

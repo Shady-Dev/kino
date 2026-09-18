@@ -54,6 +54,11 @@ reading a WordPress site with the widget embedded.
 nothing costs the row its genres and synopsis and not its place, on the maintainer's
 instruction of 2026-09-18. Opera, ballet, a memorial screening and a stand-up show publish
 under that rule, which is a decision to revisit if the stand-up shows up wrong.
+**Open, and a reader's question rather than a colour one:** none of the four towns is in
+`REGIONS`, so no region row holds them. Nummela is in Keski-Uusimaa and is a locality of
+Vihti, so Kino Akseli appears in that row and Vihdin Kino, 10 km away, does not. Vihdin
+Kino's accent already clears the floor against that region's six chains, so adding Vihti
+is a placement decision with no colour cost.
 **Next action:** verify the four on the runner before publishing. Prices stay empty (the
 tariff pages state bands) and artwork stays empty (the storefront's is landscape).
 
@@ -267,7 +272,7 @@ again and was already correct.
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
 | generated pages per language | 121 |
 | sitemap URLs | 243 |
-| poster references (shows / films-extra) | 5623 (5320 / 303) |
+| poster references (shows / films-extra) | 5317 (5014 / 303) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1257 |
 | `sw.js` CACHE | `leffavuoro-v177` |

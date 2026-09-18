@@ -412,15 +412,22 @@ PROVIDERS = [
     # minimum is unchanged at 4.5 (Bio Grand/BioRex). Reason recorded in IDEAS.md.
     dict(id="kinomyyri", label="Kino Myyri", host="kinomyyri.fi", accent="#807CFC",
          book="buy", module="kinola", where="cloud"),
-    # Four Johku storefronts, 2026-09-18. Each is alone in its town and in its region, so
-    # no accent here shares a view with another chain and all four are unconstrained.
+    # Four Johku storefronts, 2026-09-18. Each is alone in its town, and none of Lapua,
+    # Vihti, Tammisaari and Oulainen appears in REGIONS at all, so no region row holds
+    # them either. That second half is a gap in the table rather than geography, and one
+    # of the four has a plausible entry: Nummela, which Keski-Uusimaa lists, is a locality
+    # of Vihti, 10 km from Vihdin Kino. So Vihdin Kino's accent is chosen against that
+    # region's six chains as though it were already in it: 14.9 dE00 on the weakest model
+    # and 20.6 to normal vision, the binding pairs being BioRex and Studio 123 Järvenpää.
+    # Whether Vihti belongs in Keski-Uusimaa is a separate question and is in IDEAS.md.
+    # The other three are unconstrained today and their accents are not pre-fitted.
     # "Bio Marilyn" and not "Bio Marilyn Lapua": the label and the venue name have to
     # match or `build_pages.label_of` concatenates them, which made the page slug read
     # bio-marilyn-lapua-bio-marilyn-lapua. Kino Marilyn in Loviisa keeps its own first
     # word and its own city, so the two do not read as one chain.
     dict(id="biomarilyn", label="Bio Marilyn", host="biomarilyn.com",
          accent="#B03A6A", book="buy", module="johku", where="cloud"),
-    dict(id="vihdinkino", label="Vihdin Kino", host="vihdinkino.fi", accent="#1F7A5C",
+    dict(id="vihdinkino", label="Vihdin Kino", host="vihdinkino.fi", accent="#AC7CD4",
          book="buy", module="johku", where="cloud"),
     dict(id="bioforum", label="Bio Forum", host="bioforum.fi", accent="#8C5A00",
          book="buy", module="johku", where="cloud"),
