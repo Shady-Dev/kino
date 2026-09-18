@@ -95,16 +95,18 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub:hover .aud{color:var(--bg);opacity:.75}
 .also{margin-top:24px}
 .also h2{font-size:.95rem;font-weight:800;margin-bottom:10px}
-.also ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-.vchip{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:7px;background:var(--surface);text-decoration:none;font-size:.85rem;font-weight:600;box-shadow:var(--shadow)}
-.vchip[class*="chain-"]{border-left:3px solid var(--chain,var(--line))}
-.vchip:hover{border-color:var(--muted)}
+.also ul{list-style:none;display:flex;flex-wrap:wrap;gap:0 20px}
+.vchip{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 2px;color:inherit;font-size:.85rem;font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:var(--line)}
+.vchip[class*="chain-"]{padding-left:13px}
+.vchip[class*="chain-"]::before{content:"";position:absolute;left:0;top:50%;width:3px;height:1em;margin-top:-.5em;border-radius:2px;background:var(--chain,var(--line))}
+.vchip:hover{text-decoration-color:var(--ink)}
+.vchip:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;flex-direction:column;gap:6px}
 footer a{color:inherit}
 footer .statuslink a{color:var(--accent-text);font-weight:700;text-decoration:none;display:inline-block;padding:6px 0;min-height:34px}
 footer .statuslink a:hover{text-decoration:underline}
 @media(min-width:561px){.cta{width:fit-content;padding:0 18px}}
-@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.poster{flex-basis:72px;width:72px;height:104px}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
+@media(max-width:560px){.wrap{padding:0 14px 28px}.logo{font-size:.82rem;letter-spacing:.08em}h1{font-size:1.3rem}.film{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 18px}.info{display:contents}.poster{grid-column:1;grid-row:1/-2;width:72px;height:104px}.info>*{grid-column:2}.times{grid-column:1/-1}h3{font-size:1.02rem}.syn{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}}
 @media(max-width:360px){.bar{gap:8px}.logo{font-size:.6rem;letter-spacing:.02em}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .chain-biorex{--chain:#1273D4}.chain-julia{--chain:#12664E}</style>

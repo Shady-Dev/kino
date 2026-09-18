@@ -88,19 +88,6 @@ clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold
 recipient are machine-specific and live in the wrapper outside this repo, so this item
 cannot close here.
 
-### Landing pages: two open items
-
-Both recorded 2026-09-02, neither built. The pages are `scripts/build_pages.py` alone.
-
-1. **The screening list could span the full film width on narrow phones.** At 320 px the
-   list stays inside the 206 px information column beside the poster even after the poster
-   has ended, so a city stub wraps to three lines while the 72 px poster column below the
-   poster sits empty. Structural, so it is its own change, and it has to be measured on
-   films with and without a synopsis, since the list's starting height differs.
-2. **The city cinema links read as a passive colour key.** They are links to the theatre
-   pages. A restrained link affordance would fix it; large primary-style buttons would
-   compete with the one CTA on the page.
-
 ### Heureka's missing posters wait for written permission
 
 Three of four planetarium films render initials tiles. No weak match, so no wrong poster
