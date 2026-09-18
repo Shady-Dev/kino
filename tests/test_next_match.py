@@ -86,7 +86,7 @@ class WiringTest(unittest.TestCase):
         self.assertNotIn("state.shows", body)          # the day-narrowed list is not the source
 
     def test_the_action_reuses_the_date_path_and_the_button_style(self):
-        self.assertRegex(HTML, r'<button class="nextday" data-goto="\$\{hit\.iso\}">\$\{esc\(hit\.label\)\}</button>')
+        self.assertRegex(HTML, r'<button class="nextday" data-goto="\$\{esc\(hit\.iso\)\}">\$\{esc\(hit\.label\)\}</button>')
         handler = HTML[HTML.index("const goto = e.target.closest('[data-goto]');"):]
         handler = handler[:handler.index("return;")]
         self.assertIn("selectDay(iso)", handler)

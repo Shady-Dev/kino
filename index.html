@@ -1658,10 +1658,6 @@
   // AGPL section 13 makes a network-deployed modified version offer its source. Not an
   // obligation on the original; this is the example a forker needs, and the licence's
   // how-to-apply text suggests it for a web application.
-  function ageHours(iso){
-    const t = iso ? new Date(iso).getTime() : NaN;
-    return isNaN(t) ? null : (Date.now() - t) / 36e5;
-  }
   // The provider health model and its footer list moved to status/index.html on
   // 2026-09-07: one page owns that question now, and healthState lives there. What the
   // schedule still answers for itself is beside the schedule, in renderStatus().
@@ -1934,8 +1930,18 @@
     }
     let el = document.getElementById('chainpal');
     if(!el){ el = document.createElement('style'); el.id = 'chainpal'; document.head.appendChild(el); }
-    el.textContent = PROVIDERS.filter(p => p && p.id && p.accent)
-      .map(p => `.chain-${p.id}{--chain:${p.accent}}`).join('');
+    // A <style> is the one interpolation esc() cannot help with: it escapes for HTML, and
+    // inside a stylesheet a stray `}` in an id or an accent ends the rule and starts
+    // whatever follows it. data/providers.json is generated from registry.py and served
+    // from this origin, so nothing today is the wrong shape; the shape is checked anyway,
+    // because the file is the one input to this that is not a string literal in the page.
+    el.textContent = PROVIDERS.filter(p => {
+      if(!p || !p.id || !p.accent) return false;
+      if(/^[a-z0-9-]+$/.test(p.id) && /^#[0-9a-f]{6}$/i.test(p.accent)) return true;
+      console.warn('provider left out of the accent rules, id or accent is not the '
+                   + 'shape this writes into CSS:', p.id, p.accent);
+      return false;
+    }).map(p => `.chain-${p.id}{--chain:${p.accent}}`).join('');
   }
   applyProviders(null);
   async function loadProviders(){
@@ -3235,7 +3241,7 @@
   }
   function nextMatchLink(){
     const hit = nextMatchInfo();
-    return hit ? `<button class="nextday" data-goto="${hit.iso}">${esc(hit.label)}</button>` : '';
+    return hit ? `<button class="nextday" data-goto="${esc(hit.iso)}">${esc(hit.label)}</button>` : '';
   }
   // --- emptyContext: pure, extracted verbatim by tests/empty_context_harness.js ---
   // What emptied the list, as text: the search as typed and the labels of the filters
@@ -3354,7 +3360,7 @@
     const today = fiToday();
     const next = (state.dates || []).find(d => d > state.dateStr && d >= today);
     if(!next) return '';
-    return `<button class="nextday" data-goto="${next}">${L[state.lang].nextShows}`
+    return `<button class="nextday" data-goto="${esc(next)}">${L[state.lang].nextShows}`
       + ` &rarr; ${fiDay[dowOf(next)]} ${dmOf(next)}</button>`;
   }
 
@@ -3365,7 +3371,6 @@
   // auditorium is 18+ even when the film is K-12, and one film at one venue can have
   // both kinds on the same day.
   const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
-  const ageChip = s => ageOf(s) ? `<span class="agelim">${esc(ageOf(s))}</span>` : '';
   // Glyphs for the two tags that repeat on every stub. Everything else stays a word:
   // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
   // each would need its own legend entry to say less than the word does.
@@ -3411,7 +3416,7 @@
 
   const premiereChip = m => {
     const d = premiereOf(m);
-    return d ? `<span class="fmt prem">${L[state.lang].premiere} ${d}</span>` : '';
+    return d ? `<span class="fmt prem">${L[state.lang].premiere} ${esc(d)}</span>` : '';
   };
   const glyphOf = tag => {
     const g = GLYPH[(tag || '').toLowerCase()];
