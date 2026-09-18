@@ -456,12 +456,18 @@ FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
 # named here that has no venue.
 #
 # The rule: two or more cinema cities, and every pair inside the area close enough that
-# a cinema in one town can replace one in another. `km` is the longest hop inside
-# the area, and every figure is an estimate rather than a measured road distance, so it
-# documents the intent of the cut and is not published to the client. Cities excluded on
-# distance stay ordinary city rows: Sastamala is 70 km from Kangasala, Jamsa 95 from
-# Aanekoski, Loimaa 65 from Turku, Kuopio 75 from Varkaus, Savonlinna 105 from Mikkeli,
-# Kitee 75 from Joensuu, Vaasa 95 from Kokkola and Rovaniemi 115 from Kemi.
+# a cinema in one town can replace one in another. Cities excluded on distance stay
+# ordinary city rows, among them Sastamala against Kangasala, Jamsa against Aanekoski,
+# Loimaa against Turku, Kuopio against Varkaus, Savonlinna against Mikkeli, Kitee against
+# Joensuu, Vaasa against Kokkola and Rovaniemi against Kemi.
+#
+# **There is no distance field.** Each row carried a `km`, described as the longest hop
+# inside the area and as an estimate. It was deleted on 2026-09-18 after one of the
+# figures was measured and fitted neither of the two metrics the others fit: nothing
+# read it, `regions()` never published it, and a number nobody consumes and nobody
+# measures is a claim waiting to go stale. A radius, if one is ever needed, gets measured
+# once on one stated metric with the source recorded. The record is in
+# docs/archive/2026-09-providers.md.
 #
 # A city belongs to at most one area, so the areas never overlap and no cinema is
 # reachable through two of them. Names are nominative and never inflected.
@@ -476,53 +482,44 @@ FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
 # keeps the Finnish stem. A native reader should check the coined -regionen forms.
 REGIONS = [
     dict(name="Pääkaupunkiseutu", sv="Huvudstadsregionen", en="Capital region",
-         cities=["Helsinki", "Espoo", "Vantaa", "Kauniainen"], km=20),
+         cities=["Helsinki", "Espoo", "Vantaa", "Kauniainen"]),
     # Vihti added 2026-09-18, on the maintainer's decision. Nummela was already here and
-    # Nummela is a locality of Vihti municipality, 12 km by road from Vihdin Kino, so a
-    # reader opening this row got Kino Akseli and not the other cinema in the same
-    # municipality. Vihdin Kino's accent clears the floor in the row it now enters: 14.9
-    # dE00 on the weakest model against BioRex, 26.0 to normal vision.
-    #
-    # `km` is left at 45 and is not asserted to be right. Measured 2026-09-18, this row's
-    # longest hop is Nummela to Kerava at 64.7 km by road and Nummela to Järvenpää at 45.2
-    # in a straight line; adding Vihti makes the road maximum Vihti to Kerava at 73.8 and
-    # leaves the straight-line maximum where it was. Which of the two `km` states is not
-    # settled: Itä-Uusimaa's 65 matches Sipoo to Loviisa by road (64.1, straight 53.3)
-    # while this row's 45 matches a straight line. The figures are in the archive entry.
+    # Nummela is a locality of Vihti municipality, a dozen kilometres by road from Vihdin
+    # Kino, so a reader opening this row got Kino Akseli and not the other cinema in the
+    # same municipality. Vihdin Kino's accent clears the floor in the row it now enters:
+    # 14.9 dE00 on the weakest model against BioRex, 26.0 to normal vision.
     #
     # Vihti is conventionally Länsi-Uusimaa, and a row of that name would also pick up
     # Karkkila and Tammisaari. These rows are commuting areas rather than maakunnat, so
     # that is its own decision with its own accent measurements and it did not block this.
     dict(name="Keski-Uusimaa", sv="Mellersta Nyland", en="Central Uusimaa",
-         cities=["Järvenpää", "Nurmijärvi", "Hyvinkää", "Kerava", "Nummela", "Vihti"],
-         km=45),
-    # Kerava does not widen Keski-Uusimaa: its longest hop stays Hyvinkää to Nummela.
-    # Sipoo widens Itä-Uusimaa to Sipoo-Loviisa, the longest hop of any area here.
-    # Kept because Sipoo's nearest cinema city is Porvoo, about a quarter of that.
+         cities=["Järvenpää", "Nurmijärvi", "Hyvinkää", "Kerava", "Nummela", "Vihti"]),
+    # Sipoo stretches Itä-Uusimaa further than any other area is stretched, and is kept
+    # because the cinema city it is nearest to is Porvoo rather than Loviisa.
     dict(name="Itä-Uusimaa", sv="Östra Nyland", en="Eastern Uusimaa",
-         cities=["Porvoo", "Sipoo", "Loviisa"], km=65),
+         cities=["Porvoo", "Sipoo", "Loviisa"]),
     dict(name="Hämeenlinnan seutu", sv="Tavastehusregionen", en="Hämeenlinna region",
-         cities=["Hämeenlinna", "Riihimäki"], km=35),
+         cities=["Hämeenlinna", "Riihimäki"]),
     dict(name="Lahden seutu", sv="Lahtisregionen", en="Lahti region",
-         cities=["Lahti", "Järvelä"], km=30),
+         cities=["Lahti", "Järvelä"]),
     dict(name="Kymenlaakso", sv="Kymmenedalen", en="Kymenlaakso",
-         cities=["Kotka", "Kouvola"], km=55),
+         cities=["Kotka", "Kouvola"]),
     dict(name="Lappeenrannan seutu", sv="Villmanstrandsregionen", en="Lappeenranta region",
-         cities=["Lappeenranta", "Imatra"], km=35),
+         cities=["Lappeenranta", "Imatra"]),
     dict(name="Mikkelin seutu", sv="S:t Michelsregionen", en="Mikkeli region",
-         cities=["Mikkeli", "Puumala"], km=60),
+         cities=["Mikkeli", "Puumala"]),
     dict(name="Tampereen seutu", sv="Tammerforsregionen", en="Tampere region",
-         cities=["Tampere", "Kangasala"], km=20),
+         cities=["Tampere", "Kangasala"]),
     dict(name="Porin seutu", sv="Björneborgsregionen", en="Pori region",
-         cities=["Pori", "Kankaanpää", "Huittinen"], km=60),
+         cities=["Pori", "Kankaanpää", "Huittinen"]),
     dict(name="Turun seutu", sv="Åboregionen", en="Turku region",
-         cities=["Turku", "Raisio"], km=10),
+         cities=["Turku", "Raisio"]),
     dict(name="Jyväskylän seutu", sv="Jyväskyläregionen", en="Jyväskylä region",
-         cities=["Jyväskylä", "Muurame", "Petäjävesi", "Äänekoski"], km=40),
+         cities=["Jyväskylä", "Muurame", "Petäjävesi", "Äänekoski"]),
     dict(name="Kokkolan seutu", sv="Karlebyregionen", en="Kokkola region",
-         cities=["Kokkola", "Pietarsaari"], km=60),
+         cities=["Kokkola", "Pietarsaari"]),
     dict(name="Meri-Lappi", sv="Havslappland", en="Sea Lapland",
-         cities=["Kemi", "Tornio"], km=25),
+         cities=["Kemi", "Tornio"]),
 ]
 
 REGION_KEYS = ("name", "sv", "en", "cities")

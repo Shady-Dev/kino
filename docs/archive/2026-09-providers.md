@@ -2053,13 +2053,22 @@ So the claim was wrong twice over: the longest hop was not the pair named, under
 metric, and Vihti moves the road maximum from 64.7 to 73.8 while leaving the straight-line
 maximum at Nummela to Järvenpää, 45.2.
 
-**Which metric `km` states is unsettled, and this entry does not settle it.** Itä-Uusimaa's
-65 matches Sipoo to Loviisa by road (64.1; straight 53.3) and Kymenlaakso's 55 matches Kotka
-to Kouvola by road (56.6; straight 46.5), while this row's 45 matches a straight line and
-not its road distance. One of those readings is wrong, and correcting it means deciding the
-metric for all fourteen rows, which is the maintainer's. Severity is low: `build_regions.py`
-drops `km`, `data/regions.json` carries no such key, `index.html` never reads it and no test
-does, so it is documentation and nothing else.
+**Which metric `km` stated was never settled, and the field was deleted instead.**
+Itä-Uusimaa's 65 matches Sipoo to Loviisa by road (64.1; straight 53.3) and Kymenlaakso's
+55 matches Kotka to Kouvola by road (56.6; straight 46.5), while Keski-Uusimaa's 45 matches
+a straight line and not its road distance of 63.5. At least one of those readings was
+wrong.
+
+Re-measuring all fourteen was declined on 2026-09-18 because it buys nothing: nobody
+consumes the field. `build_regions.py` never mentions it, `REGION_KEYS` leaves it out of
+`data/regions.json`, `index.html` has no match for it and no test read it. It was a comment
+written in dict syntax, and a number nobody consumes and nobody measures is a claim waiting
+to go stale, which this repository has already paid for five times in its counts. So the
+field is gone and the reasoning it annotated stays in prose: Sipoo still stretches its area
+furthest and is still kept because the cinema city it is nearest to is Porvoo. The two
+sentences that leaned on a figure lost the comparison rather than keeping an unsourced one.
+A radius, if one is ever genuinely needed, gets measured once on one stated metric with the
+source recorded.
 
 Tests: `tests/test_tribe.py`, 21. Eleven mutations, all red: trusting the category filter,
 reading only the first page, ignoring the UTC stamp, reading the local stamp as UTC,

@@ -209,6 +209,11 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 
 **Ops and pages**
 
+- A distance figure on the region rows. `km` was deleted on 2026-09-18 rather than
+  re-measured: nothing read it, it was never published, and the one figure that was
+  measured fitted neither metric the others fitted. A radius, if one is ever wanted, gets
+  measured once on one stated metric with its source. The record is in
+  [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 - Rewriting the history to drop the `Co-Authored-By` lines an earlier tooling default
   added. Measured and declined 2026-09-18: the practice already stopped, the line is
   cosmetic attribution rather than a name or a secret, and a rewrite would falsify every

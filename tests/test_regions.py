@@ -148,10 +148,11 @@ class RegionsTest(unittest.TestCase):
         self.assertEqual(body["regions"], registry.regions())
 
     def test_the_published_file_carries_only_what_the_client_reads(self):
-        """`km` documents the cut for a reader of the registry. It is not published: the
-        figures are estimates, and an estimate in data/ reads as measured."""
+        """The registry row and the published one are the same four keys since the `km`
+        field was deleted on 2026-09-18. Nothing may reach data/ that the client does not
+        read: a figure there reads as measured whether or not anyone measured it."""
         body = json.loads((DATA / "regions.json").read_text(encoding="utf-8"))
-        for r in body["regions"] + registry.regions():
+        for r in body["regions"] + registry.regions() + registry.REGIONS:
             self.assertEqual(sorted(r), ["cities", "en", "name", "sv"])
 
     def test_every_area_is_named_in_three_languages(self):
