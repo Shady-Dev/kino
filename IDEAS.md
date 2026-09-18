@@ -57,6 +57,20 @@ measurements: [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers
 **Next action:** nothing here. Kino Konepaja gets a `SITES` entry when it lists a
 screening: re-read 2026-09-15, its event list still says "Ei tulevia tapahtumia."
 
+### Browser checks name their engines, and CI runs two
+
+Promoted into [CLAUDE.md](CLAUDE.md) under "Testing" on 2026-09-18, which this entry
+records because a finding becomes a rule only with one. The landing pages' layout check
+runs as the `pages-layout` job in Chromium and WebKit and both must pass, and any claim of
+browser verification has to say which engines and widths it covers.
+**Why:** the phone layout shipped correct in Chromium and broken in WebKit, green through
+the unit suite, the design contract and a Chromium-only browser check, and a reader found
+it on their phone. The record is in
+[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** none here. Whether `tests/browser/test_client_browser.py` should also run
+in WebKit is open; it drives `index.html` and has only ever run in Chromium, so that is its
+own change.
+
 ### Seven venues the runner cannot read
 
 In the 17:17 UTC run of 2026-09-16, `cinemahouse`, `tmb`, `kirkkonummi` and `nexxo` failed

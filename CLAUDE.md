@@ -318,6 +318,21 @@ zip in `tests/browser/out/` (`playwright show-trace`). The page exposes no DOM s
 "venue lists loaded", so the tests click the trigger until the picker opens; do not add a
 sleep, and do not change `index.html` to add a marker without the maintainer's word.
 
+`tests/browser/test_pages_layout.py` covers the generated pages instead of the app: where
+a film's poster, header and ticket list are drawn, at eight widths, over four fixture films
+including one with no poster and one that is a title and nothing else. CI runs it as the
+`pages-layout` job in **Chromium and WebKit**, and both have to pass. `KINO_BROWSER_ENGINE`
+picks the engine locally, default chromium.
+
+**Name the engines whenever you claim browser verification.** One engine is not a check. On
+2026-09-18 the phone layout of the landing pages shipped correct in Chromium and broken in
+WebKit -- `grid-row:1/-2` counts back from the explicit grid and the rule declared no
+explicit rows -- and every landing page served an iPhone its metadata and synopsis below
+the poster. The unit suite reads markup, the design contract reads numbers out of the CSS,
+and the browser check written that day drove Chromium alone, so three layers were green.
+It was found by a reader looking at their phone. "Verified in a browser" names nothing a
+reviewer can check; write which engines, and at which widths.
+
 `.github/workflows/ci.yml` runs the suite, `check_inline_js.py` and a regeneration-drift
 check on every push that touches `index.html`, `sw.js`, `scripts/**` or `tests/**`. It
 fails on a **skipped** test as well as a failing one: every dependency is installed on the
