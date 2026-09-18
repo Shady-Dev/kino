@@ -487,6 +487,16 @@ PROVIDERS = [
     # Kuvakukko, which is as far as the band reaches with 66 accents in it.
     dict(id="lieksankino", label="Lieksan Kino", host="lieksanelokuvat.net",
          accent="#2A5A9C", book="door", module="lieksa", where="cloud"),
+    # Navettakino, 2026-09-19. A cinema in a cowshed, weekends only and irregular, which
+    # is why its adapter confirms an empty weekend instead of ageing the last one.
+    # `book="door"`: "Lippukassa avataan 30 minuuttia ennen ensimmäistä näytöstä."
+    # Konnevesi holds no other chain and sits in no REGIONS area. Fitted to the row a
+    # Keski-Suomi extension would create, where its neighbours are Kino Hirvi, Kino Metso,
+    # Kino Aurora and Finnkino: 16.4 dE00 on the weakest model against that set. A purer
+    # magenta measured 18.9 there and was passed over for this one at saturation 0.60,
+    # which costs 2.5 dE00 against the set and nothing against the floor.
+    dict(id="navettakino", label="Navettakino", host="navettakino.fi",
+         accent="#E45CC0", book="door", module="navetta", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

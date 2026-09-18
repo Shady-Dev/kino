@@ -468,6 +468,13 @@
    "host": "lieksanelokuvat.net",
    "accent": "#2A5A9C",
    "book": "door"
+  },
+  {
+   "id": "navettakino",
+   "label": "Navettakino",
+   "host": "navettakino.fi",
+   "accent": "#E45CC0",
+   "book": "door"
   }
  ]
 }

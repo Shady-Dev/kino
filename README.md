@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 112 venues in 78 cities across 67 providers: Finnkino, BioRex,
+Showtimes for 112 venues in 78 cities across 68 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -17,8 +17,8 @@ Elokuvateatteri Star, Kino Piispanristi, Kino Lumo, Laitilan Kino, Iso-Hannu,
 Kino-Toijala, Kino-Sampo, KinoMania, Elokuvateatteri Elo, Julia 1&2, Bio-Kaari,
 Kino Vaakuna, Kuvakukko, Kino Kirkkonummi, Bio Savoy, Cine Mäntsälä, Kino Kilta,
 Kino Laika, Kino Myyri, Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Ritz Vaasa,
-Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita and Lieksan Kino.
-Films with posters, TMDB ratings, age limits, runtimes, genres,
+Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita, Lieksan Kino and
+Navettakino. Films with posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
 page where the cinema takes seat reservations rather than payment, or the ticket
@@ -77,6 +77,7 @@ small cinemas run one of a few ticketing platforms:
 | Kinotour | 1 | 3 | none | GitHub Actions |
 | Elokuvateatteri Marita | 1 | 1 | none | GitHub Actions |
 | Lieksan Kino | 1 | 1 | none | GitHub Actions |
+| Navettakino | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -293,7 +294,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 67 providers listed at the
+Schedule data belongs to the respective cinemas, the 68 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

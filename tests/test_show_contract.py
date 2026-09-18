@@ -46,6 +46,7 @@ import test_kinola as KL
 import test_kinotour as KT
 import test_lieksa as LK
 import test_marita as MA
+import test_navetta as NV
 import test_tribe as TR
 import test_heureka as H
 import test_nexxo_rooms as N
@@ -338,6 +339,14 @@ def sample_marita():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_navetta():
+    """Two screenings against a shelf of three blocks, so the block that must publish
+    nothing is in the sample beside the two that must."""
+    site = NV.SITE
+    out, _ = mod("navetta").rows(site, NV.TWO, NV.TODAY)
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -362,7 +371,7 @@ SAMPLES = {
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
     "kinotour": sample_kinotour, "marita": sample_marita,
-    "lieksa": sample_lieksa,
+    "lieksa": sample_lieksa, "navetta": sample_navetta,
 }
 
 

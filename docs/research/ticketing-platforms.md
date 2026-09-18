@@ -1126,6 +1126,50 @@ Live as `scripts/providers/lieksa.py`, one provider, one venue, cloud half. Next
 verify from the committed log after a run.
 
 
+## Navettakino, Konnevesi (2026-09-19)
+
+**Findings** (navettakino.fi read as a visitor)
+
+WordPress block editor, no page builder and no ticketing platform. The front page is the
+programme page, and the programme is prose inside `entry-content`:
+
+    <p><strong>Tulevan viikolopun näytökset</strong></p>
+    <p>Hetki ennen valoa<br>su 20.9 klo 15:00</p>
+    <p>Presidentin kyyditys<br>su 20.9 klo 17:00</p>
+    <p><br><br></p>
+    <p><strong>Hetki ennen valoa</strong></p>  <figure>...719x1024 poster...</figure>
+    <p>Klaus Härön uutuuselokuva ...</p>
+    <p>K7, 87 min, liput 10 €</p>
+
+- **The weekend list and the film blocks are different things.** Three blocks and two
+  screenings on the day read: Ryhmä Hau had a block and no showing.
+- **The editor's markup is not reliable and the paragraph text is.** One film heading
+  closes its `<strong>` before the last letter, `Presidentin kyydity</strong>s`.
+- The date prints no year and no dot after the month, `su 20.9 klo 15:00`.
+- The metadata line varies in order: `K7, 87 min, liput 10 €`, `Kesto 1 h 27 min, K12,
+  liput 10 €`, `Kesto 1 h 29 min, K7, liput 10 €`.
+- Posters are portrait with the dimensions in the tag, 700x1000 to 719x1024.
+- No online sale: "Lippukassa avataan 30 minuuttia ennen ensimmäistä näytöstä." No
+  `varaa`, `osta` or booking link on the programme page.
+- **The page states its own emptiness rule**: "Meillä on näytöksiä pääsääntöisesti vain
+  viikonloppuisin, mutta toiminta on hieman epäsäännöllistä. Esitysajat ilmestyvät tälle
+  sivulle aina alkuviikosta, mikäli viikonlopulle on näytöksiä tulossa."
+
+**Inferences and open questions**
+
+- The Wayback captures stop in 2024 on an older template and the two 2026 ones are the
+  host's own challenge page, so what the page looks like with no screenings is not known.
+  The adapter therefore confirms an empty weekend only from the heading rendering with
+  nothing under it, and raises when the heading itself is gone.
+- A runner read this host cleanly in the 2026-09-18 reachability pass, so `where="cloud"`
+  is provisional on the first committed run as always.
+
+**Status and next step**
+
+Live as `scripts/providers/navetta.py`, one provider, one venue, cloud half. Next step:
+verify from the committed log after a run.
+
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)
