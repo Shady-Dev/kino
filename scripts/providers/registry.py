@@ -433,6 +433,18 @@ PROVIDERS = [
          book="buy", module="johku", where="cloud"),
     dict(id="kinokulma", label="Kinokulma", host="kinokulma.fi", accent="#5A4FCF",
          book="buy", module="johku", where="cloud"),
+    # Two cinemas on The Events Calendar, 2026-09-18. "Ritz Vaasa" spells the town: Kino
+    # Ritz is a Leffabuumi venue in Mikkeli and the two share a name and nothing else.
+    #
+    # Vaasa holds BioRex and no region row holds the city, so that pair is the whole
+    # constraint: 29.1 dE00 on the weakest model, 38.6 to normal vision. Muhos shares its
+    # city with nobody and sits in no region, so nothing binds Tähti Kino today; its
+    # accent is fitted to the row a future Oulun seutu would create, against
+    # Elokuvateatteri Star and Finnkino, at 18.4, and kept 17.8 from Ritz Vaasa's.
+    dict(id="ritzvaasa", label="Ritz Vaasa", host="ritz.fi", accent="#DC689C",
+         book="buy", module="tribe", where="cloud"),
+    dict(id="tahtikino", label="Tähti Kino", host="muhos.fi", accent="#15803D",
+         book="buy", module="tribe", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

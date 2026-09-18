@@ -426,6 +426,20 @@
    "host": "kinokulma.fi",
    "accent": "#5A4FCF",
    "book": "buy"
+  },
+  {
+   "id": "ritzvaasa",
+   "label": "Ritz Vaasa",
+   "host": "ritz.fi",
+   "accent": "#DC689C",
+   "book": "buy"
+  },
+  {
+   "id": "tahtikino",
+   "label": "Tähti Kino",
+   "host": "muhos.fi",
+   "accent": "#15803D",
+   "book": "buy"
   }
  ]
 }

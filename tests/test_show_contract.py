@@ -42,6 +42,7 @@ import test_biosavoy as BS
 import test_cinemantsala as CM
 import test_johku as JK
 import test_kinola as KL
+import test_tribe as TR
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -293,6 +294,18 @@ def sample_julia():
             [v["id"] for v in site["venues"]])
 
 
+def sample_tribe():
+    """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
+    sample, so the two fields that must stay empty are exercised here as well."""
+    site = TR.RITZ
+    out = mod("tribe").parse(site, [
+        TR.event(1, "Donnie Darko", "2026-09-27 17:00:00", "2026-09-27 14:00:00",
+                 image=TR.POSTER),
+        TR.event(2, "Blue Baby", "2026-09-29 19:30:00", "2026-09-29 16:30:00",
+                 cost="10€ – 12€", values=("10", "12"), image=TR.CALENDAR_IMG)])[0]
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
@@ -303,7 +316,7 @@ SAMPLES = {
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
-    "johku": sample_johku,
+    "johku": sample_johku, "tribe": sample_tribe,
 }
 
 

@@ -307,7 +307,8 @@ class ReportRankingTest(unittest.TestCase):
         # Kuvakukko joined Kuopio beside Finnkino (+1), then Kino Kilta joined Turku and
         # Turun seutu beside Finnkino (+2) while Kino Laika, alone in Karkkila and in no
         # region, added none. 148 until 2026-09-18, when Kino Myyri joined Vantaa and
-        # Pääkaupunkiseutu (+15).
+        # Pääkaupunkiseutu (+15) and Ritz Vaasa joined Vaasa beside BioRex (+1). Tähti
+        # Kino added none: Muhos holds no other chain and no region row holds Muhos.
         #
         # Twelve was the count of pairs below the floor and had to stay twelve. Kino Myyri
         # is the first accent to raise it, to fourteen: no colour in the L* band clears
@@ -315,9 +316,9 @@ class ReportRankingTest(unittest.TestCase):
         # pairs sit at 10.1 and 10.8, and the registry entry and the IDEAS entry both
         # record why. The city floor is untouched, which is the invariant the test above
         # holds, and the regional minimum is still 4.5.
-        self.assertEqual(len(rows), 163)
+        self.assertEqual(len(rows), 164)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 14)
-        self.assertIn(f"14 of 163 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"14 of 164 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

@@ -27,14 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-61 providers, 106 venues, 73 cities, declared and committed alike, measured 2026-09-18.
+63 providers, 108 venues, 74 cities, declared and committed alike, measured 2026-09-18.
 Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, five published the same day in `f360a09c` and
-  recorded in the archive. Kino Helios waits on a runner test of its POST service, ten
-  server-render to a plain fetch, eight need a browser, eight have nothing.
+- **Thirty-two triaged 2026-09-18**, five published in `f360a09c` and recorded in the
+  archive, two more built here. Kino Helios waits on a runner test of its POST service,
+  nine server-render to a plain fetch, eight need a browser, eight have nothing.
   **Next action:** the bespoke parsers, as a separate phase.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
@@ -43,6 +43,19 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
   destination can be checked. **Next action:** re-read its listing on a later Monday.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
+
+### Ritz Vaasa and Tähti Kino, on The Events Calendar
+
+`tribe.py`, added 2026-09-18: 6 screenings at Ritz Vaasa, a second venue in that city, and
+3 at Tähti Kino, which is a new one in Muhos. The plugin's REST route is public and the
+film category filters it server side, declared per site by its numeric id.
+**A sweep sized the platform before it was built:** 148 directory hosts, 4 answered, 2
+usable. Iobio in Inkoo is the third and is left out, because its films carry no category of
+their own and are marked only by an "IoBio:" title prefix, with each screening duplicated
+across a Finnish and a Swedish calendar. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** verify both on the runner before publishing. Whether Iobio is worth a
+title-prefix exception is the maintainer's.
 
 ### Kinola: published, and Konepaja still has no programme
 
@@ -233,16 +246,16 @@ again and was already correct.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 61 / 106 / 73 |
-| venues in committed data | 106 |
+| providers / venues / cities (declared) | 63 / 108 / 74 |
+| venues in committed data | 108 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 121 |
-| sitemap URLs | 243 |
-| poster references (shows / films-extra) | 5317 (5014 / 303) |
+| generated pages per language | 124 |
+| sitemap URLs | 249 |
+| poster references (shows / films-extra) | 5363 (5047 / 316) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1257 |
-| `sw.js` CACHE | `leffavuoro-v177` |
+| mirrored poster files | 1263 |
+| `sw.js` CACHE | `leffavuoro-v178` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and

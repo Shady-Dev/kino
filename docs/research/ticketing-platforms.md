@@ -977,6 +977,57 @@ sites are next; the rest wait.
 
 ---
 
+## The Events Calendar, and the sweep that sized it (2026-09-18)
+
+**Findings** (148 hosts swept once each, 2026-09-18)
+
+Ritz Vaasa runs the WordPress plugin The Events Calendar, whose REST route is public:
+
+    GET {base}/?rest_route=/tribe/events/v1/events&per_page=50&start_date=YYYY-MM-DD
+        &categories={id}
+
+`?rest_route=` rather than `/wp-json/`, since Ritz serves its REST under a language prefix.
+One request per page, `total_pages` says how many, and `categories={id}` filters server
+side. The category object carries `id`, `slug` and `taxonomy: tribe_events_cat`, and the id
+is what a site declares here because the name is display text.
+
+The sweep took the Filmikamari directory's 152 hosts, dropped four aggregators, and asked
+each one for that route. **Four answered, two are usable cinemas.**
+
+    ritz.fi              56 events   category Kino 19        6 film events
+    muhos.fi             35 events   category Elokuvat 106   3 film events
+    www.inkoo.fi        147 events   no film category
+    www.teatteriunion.fi 26 events   the theatre company closed on 2026-09-15
+
+- **Ritz Vaasa**: film artwork is portrait (1500x2138, 1080x1592) against 1200x800 for
+  concerts. `cost_details.values` has one entry on a fixed price and two on a band
+  ("10€ – 12€"), which is the structural answer to what settles a screening. One screening
+  reads `Free` with `values: ["0"]`.
+- **Tähti Kino**, Muhos: every film carries the same 768x470 `Tapahtumakalenteri.png`, so
+  no poster is publishable there, and `cost` is a single amount ("11 €", "13 €").
+- Both give `start_date` local, `timezone: Europe/Helsinki` and `utc_start_date`.
+
+**Iobio, Inkoo, is unresolved and not implemented.** Its films sit in the generic
+`Tapahtumakalenteri` and `Evenemangskalender` categories with no film category of their
+own, and the same screening appears once under each, so a reader would have to deduplicate
+across the two languages. The only thing marking a row as a film is the "IoBio:" prefix in
+its title, and classifying on a word in a title is what the Kinola policy adopted on
+2026-09-15 forbids. Two screenings were listed on the day this was read, 20.9. and 31.10.
+
+**Inferences and open questions**
+
+- 4 of 148 is a thin platform. It is worth one reader for two cinemas and is not an
+  eTiketti-scale sweep.
+- Whether Iobio has another source, or whether the maintainer wants a title-prefix
+  exception for it, is open. Nothing here tests it.
+
+**Status and next step**
+
+Live as `scripts/providers/tribe.py`, two sites, cloud half. Next step: none open, beyond
+the Iobio question.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)
