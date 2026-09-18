@@ -60,6 +60,11 @@ import synmerge            # noqa: E402
 
 OUT = pathlib.Path("data")
 
+# One string, because two copies of it drifted: main() printed it for an empty
+# module list and half_of() had none to print at all.
+USAGE = ("usage: run.py <module>... [--half cloud|local|all] | "
+         "run.py --where cloud|local")
+
 
 def previous(path):
     """What is already committed for a venue. -> (generated, show count).
@@ -623,7 +628,14 @@ def half_of(argv):
     """
     for flag in ("--half", "--where"):
         if flag in argv:
-            return argv[argv.index(flag) + 1]
+            i = argv.index(flag) + 1
+            if i >= len(argv):
+                # `run.py --where` with the value lost to a shell variable that expanded
+                # to nothing used to be an IndexError and a traceback, which reads as a
+                # broken runner rather than as a mistyped command.
+                print(f"{USAGE}\n{flag} needs a value", file=sys.stderr)
+                raise SystemExit(2)
+            return argv[i]
     return "cloud" if os.environ.get("GITHUB_ACTIONS") else "all"
 
 
@@ -639,20 +651,40 @@ def module_names(argv):
     return [a for i, a in enumerate(argv) if not a.startswith("-") and i not in skip]
 
 
+class UnregisteredProvider(Exception):
+    """A SITES entry naming a provider the registry does not have."""
+
+
 def sites_for(mod, half):
     """The sites in this module that belong to `half`, in SITES order.
 
-    A site whose provider has no registry entry is kept rather than dropped: that is a
-    misconfiguration, and tests/test_registry_sites.py is where it should be reported,
-    not here by silently fetching nothing.
+    A site whose provider has no registry entry was kept here until 2026-09-19, on the
+    argument that tests/test_registry_sites.py is where a misconfiguration should be
+    reported. It is, and it still is; what that left behind was the *consequence* when
+    one gets past the suite. `p is None` matched on both halves, so the site was fetched
+    twice a run by two processes writing the same `data/venues-{provider}.json`, which is
+    the exact failure per-site routing exists to prevent. Reversed on the maintainer's
+    instruction: name the provider and fail.
+
+    Raising rather than dropping, because a site fetched by nobody is the quiet half of
+    the same fault. The module is the blast radius: both callers now count this the way
+    they count a module that will not import, so one bad entry costs its own adapter's
+    log and the run's exit code, not every other module's fetch.
     """
     if half == "all":
         return list(mod.SITES)
-    out = []
+    out, orphans = [], []
     for site in mod.SITES:
-        p = registry.by_id(site.get("provider") or "")
-        if p is None or p.get("where") == half:
+        pid = site.get("provider") or ""
+        p = registry.by_id(pid)
+        if p is None:
+            orphans.append(pid or "<no provider id>")
+        elif p.get("where") == half:
             out.append(site)
+    if orphans:
+        raise UnregisteredProvider(
+            f"{', '.join(sorted(set(orphans)))} has no entry in registry.py, so it "
+            f"belongs to no half and would be fetched on both")
     return out
 
 
@@ -795,8 +827,7 @@ def main(argv) -> int:
     names = (registry.modules(argv[argv.index("--where") + 1])
              if "--where" in argv else module_names(argv))
     if not names:
-        print("usage: run.py <module>... [--half cloud|local|all] | "
-              "run.py --where cloud|local", file=sys.stderr)
+        print(USAGE, file=sys.stderr)
         return 2
 
     OUT.mkdir(exist_ok=True)
@@ -807,10 +838,10 @@ def main(argv) -> int:
         try:
             mod = importlib.import_module(name)
             mod.SITES          # a module without it is unusable, and says so here
+            sites = sites_for(mod, half)
         except Exception as e:
             tally.unusable(name, e)
             continue
-        sites = sites_for(mod, half)
         if not sites:
             tally.no_sites(name, half)
             continue

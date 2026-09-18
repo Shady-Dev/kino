@@ -971,6 +971,42 @@ class RoutingTest(CloudTestCase):
         self.assertEqual([s["provider"] for s in cloud.sites], ["kotkanleffat"])
         self.assertEqual([s["provider"] for s in local.sites], ["joutsankino"])
 
+    def test_a_site_with_no_registry_entry_costs_its_module_and_not_the_pool(self):
+        """`run.sites_for` raises for a provider the registry does not have, so that a
+        misconfiguration cannot be fetched by both halves onto one venue file. It is
+        called inside collect()'s try, which keeps the blast radius at one module: that
+        module carries the error into its own log and into the run's exit code, and every
+        other module still fetches."""
+        class Orphan:
+            __name__ = "orphanmod"
+            SITES = [{"provider": "nosuchprovider", "venues": []}]
+
+        class Fine:
+            __name__ = "finemod"
+            SITES = [{"provider": "kotkanleffat", "venues": []}]   # cloud in the registry
+
+        mods = {"orphanmod": Orphan, "finemod": Fine}
+        real = importlib.import_module
+        importlib.import_module = lambda n: mods.get(n) or real(n)
+        self.addCleanup(lambda: setattr(importlib, "import_module", real))
+        bad, good = run_cloud.collect(["orphanmod", "finemod"], "cloud")
+        self.assertIsInstance(bad.error, run.UnregisteredProvider)
+        self.assertIn("nosuchprovider", str(bad.error))
+        self.assertEqual(bad.sites, [])
+        self.assertEqual([s["provider"] for s in good.sites], ["kotkanleffat"])
+
+    def test_run_py_reports_the_same_misconfiguration_instead_of_a_traceback(self):
+        """The other caller. `poolmod`'s fake providers have no registry entry, so any
+        half but "all" reaches the same raise, and main() has to count it as an unusable
+        module rather than die with it."""
+        h = self.hosts(1, delay=0)
+        mod = P.PoolMod([P.site("p0", h.base(0))], requests=1)
+        code, text = self.main(mod, argv=("poolmod", "--half", "cloud"))
+        self.assertEqual(code, 1)
+        self.assertIn("[poolmod] unusable:", text)
+        self.assertIn("no entry in registry.py", text)
+        self.assertFalse((self.out / "venues-p0.json").exists())
+
     def test_run_py_still_runs_one_module_on_its_own(self):
         """The single-module CLI is what exercises an adapter by hand and what the local
         wrapper calls. The split into fetch and publish must not have moved it."""

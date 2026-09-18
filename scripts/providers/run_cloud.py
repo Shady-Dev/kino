@@ -150,10 +150,11 @@ def collect(names, half):
         try:
             m.mod = importlib.import_module(name)
             m.mod.SITES        # a module without it is unusable, and says so in its log
+            # Inside the try: a SITES entry with no registry entry raises here, and one
+            # module's misconfiguration must cost that module's log, not the pool.
+            m.sites = run.sites_for(m.mod, half)
         except Exception as e:
             m.error = e
-        else:
-            m.sites = run.sites_for(m.mod, half)
         mods.append(m)
     return mods
 

@@ -5,7 +5,9 @@ of them local, with two writers racing on the same files. Asserted against the l
 registry: the halves are disjoint, so every data/venues-{provider}.json has one writer,
 and complete, so routing cannot drop a cinema.
 """
+import contextlib
 import importlib
+import io
 import os
 import unittest
 
@@ -15,11 +17,17 @@ import run
 
 
 class FakeMod:
+    __name__ = "fakemod"
     SITES = [
         {"provider": "kotkanleffat", "venues": []},        # cloud in the registry
         {"provider": "joutsankino", "venues": []},         # local in the registry
-        {"provider": "nosuchprovider", "venues": []},      # no registry entry at all
     ]
+
+
+class OrphanMod:
+    """One site whose provider the registry does not have, beside two it does."""
+    __name__ = "orphanmod"
+    SITES = FakeMod.SITES + [{"provider": "nosuchprovider", "venues": []}]
 
 
 def ids(sites):
@@ -37,14 +45,35 @@ class SitesForTest(unittest.TestCase):
         self.assertNotIn("kotkanleffat", got)
 
     def test_all_keeps_every_site(self):
-        self.assertEqual(len(run.sites_for(FakeMod, "all")), 3)
+        self.assertEqual(len(run.sites_for(FakeMod, "all")), 2)
 
-    def test_an_unregistered_provider_is_kept_not_dropped(self):
-        """Dropping it would turn a misconfiguration into a cinema that silently stops
-        being fetched. test_registry_sites.py is what reports it."""
+    def test_an_unregistered_provider_fails_the_module_and_names_itself(self):
+        """Kept on both halves until 2026-09-19, on the argument that
+        test_registry_sites.py is where a misconfiguration is reported. It is; what that
+        left was the consequence when one gets past the suite, which is the two halves
+        writing the same data/venues-{provider}.json in the same run.
+        """
         for half in ("cloud", "local"):
             with self.subTest(half=half):
-                self.assertIn("nosuchprovider", ids(run.sites_for(FakeMod, half)))
+                with self.assertRaises(run.UnregisteredProvider) as cm:
+                    run.sites_for(OrphanMod, half)
+                self.assertIn("nosuchprovider", str(cm.exception))
+
+    def test_a_site_with_no_provider_id_at_all_is_reported_too(self):
+        """`site.get("provider") or ""` reaches registry.by_id("") -> None by the same
+        route, and an empty name in the message says nothing."""
+        class Nameless:
+            __name__ = "nameless"
+            SITES = [{"venues": []}, {"provider": "kotkanleffat", "venues": []}]
+        with self.assertRaises(run.UnregisteredProvider) as cm:
+            run.sites_for(Nameless, "cloud")
+        self.assertIn("<no provider id>", str(cm.exception))
+
+    def test_all_does_not_raise_because_there_is_no_second_writer(self):
+        """`--where all` is one process fetching everything, which is how an adapter is
+        exercised by hand. There is no half for the entry to be in both of, and the
+        suite still reports it."""
+        self.assertEqual(len(run.sites_for(OrphanMod, "all")), 3)
 
 
 class HalfOfTest(unittest.TestCase):
@@ -84,6 +113,23 @@ class ArgvTest(unittest.TestCase):
 
     def test_several_modules_still_come_through(self):
         self.assertEqual(run.module_names(["etiketti", "nexxo"]), ["etiketti", "nexxo"])
+
+    def test_a_trailing_flag_prints_usage_instead_of_an_index_error(self):
+        """`--where` with its value lost to a shell variable that expanded to nothing was
+        an IndexError and a traceback, which reads as a broken runner rather than as a
+        mistyped command."""
+        for argv in (["--where"], ["etiketti", "--half"]):
+            with self.subTest(argv=argv):
+                err = io.StringIO()
+                with contextlib.redirect_stderr(err), self.assertRaises(SystemExit) as cm:
+                    run.half_of(argv)
+                self.assertEqual(cm.exception.code, 2)
+                self.assertIn("usage: run.py", err.getvalue())
+                self.assertIn("needs a value", err.getvalue())
+
+    def test_the_two_places_that_print_usage_print_the_same_string(self):
+        self.assertIn("--where cloud|local", run.USAGE)
+        self.assertEqual(run.USAGE.count("usage: run.py"), 1)
 
 
 class LiveRegistryTest(unittest.TestCase):
