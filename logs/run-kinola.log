@@ -1,18 +1,18 @@
-[kinokilta] 55 screening(s) listed, 40 film page(s) read
+[kinokilta] 54 screening(s) listed, 40 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[kinokilta] Kino Kilta: 55 showtimes, 27 dates
+[kinokilta] Kino Kilta: 54 showtimes, 27 dates
 [kinokilta] synopses merged: 0
-[kinokilta] Kino Kilta: 55 showtimes, 27 dates
-[kinolaika] 56 screening(s) listed, 39 film page(s) read
+[kinokilta] Kino Kilta: 54 showtimes, 27 dates
+[kinolaika] 53 screening(s) listed, 39 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 20 unresolved over 21
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, Amongst the Birds, Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Kana, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1), Kotimaiset lyhytelokuvat (2), Late Fame, Livemusavisa
 [kinolaika] override a-fox-under-a-pink-moon: active
-[kinolaika] Kino Laika: 35 showtimes, 11 dates
+[kinolaika] Kino Laika: 32 showtimes, 10 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
-[kinolaika] Kino Laika: 35 showtimes, 11 dates
-[run] http: 40 revalidated (304), 41 full, 0 not stored (origin said no-store), 1 cache entries written
+[kinolaika] Kino Laika: 32 showtimes, 10 dates
+[run] http: 0 revalidated (304), 81 full, 0 not stored (origin said no-store), 41 cache entries written
 [run] hosts: 2 attempted -- www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 2 venues, 90 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 140.1s of fetching added up across workers that overlap, longest site 76.0s, longest queue wait 81.3s, 76.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 2 venues, 86 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 2 site(s), 183.7s of fetching added up across workers that overlap, longest site 97.2s, longest queue wait 92.3s, 97.2s wall from this module's first fetch starting to its last ending
 exit=0

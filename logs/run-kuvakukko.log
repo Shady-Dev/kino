@@ -1,10 +1,10 @@
-[kuvakukko] kk-kuopio: 28 showtimes, 7 dates, 25 priced (tariff 11.5€)
+[kuvakukko] kk-kuopio: 24 showtimes, 7 dates, 22 priced (tariff 11.5€)
 [kuvakukko] kk-nilsia: 9 showtimes, 3 dates, 9 priced (tariff 11€)
 [kuvakukko] synopses merged: 0
-[kuvakukko] Kino Kuvakukko: 28 showtimes, 7 dates
+[kuvakukko] Kino Kuvakukko: 24 showtimes, 7 dates
 [kuvakukko] Kino Manttu: 9 showtimes, 3 dates
 [run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 2 cache entries written
 [run] hosts: 1 attempted -- www.kuvakukko.fi
-[run] kuvakukko: 2 venues, 37 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 3.0s of fetching added up across workers that overlap, longest site 3.0s, longest queue wait 77.9s, 3.0s wall from this module's first fetch starting to its last ending
+[run] kuvakukko: 2 venues, 33 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 3.5s of fetching added up across workers that overlap, longest site 3.5s, longest queue wait 86.7s, 3.5s wall from this module's first fetch starting to its last ending
 exit=0
