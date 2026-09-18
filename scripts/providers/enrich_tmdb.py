@@ -72,11 +72,23 @@ from strands import EVENT_PREFIXES  # noqa: E402
 # `(på svenska)` at two and `(suomeksi puhuttu)` at one, 32 showtimes and five distinct
 # titles in all, every one of them cached unmatched. A marker names the audio, never the
 # film, so it belongs off the search string exactly as `suomeksi` already was.
+# 2026-09-19: `(Puhumme suomea!)` is TMB's spelling of the same claim, on all four of its
+# cinemas at once -- 16 showtimes of Kojootti vs ACME across Toijala, Sampo, Mania and Elo,
+# every one unmatched, while the chains spelling it `(suomeksi)` matched 1204680 from the
+# first run. The exclamation mark is the operator's and is matched with the rest.
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu)?|englanniksi|p[åa]\s+svenska"
-    r"|dubattu|dub\.?|orig\.?|re-?release"
+    r"|puhumme\s+suomea!?|dubattu|dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
 TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|englanniksi|dubattu)\b\s*$", re.I)
+
+# A calendar names events, not films. Tähti Kino's three rows on 2026-09-19 read
+# "Hetki ennen valoa -elokuvanäytös", "Presidentin kyyditys -elokuvan näytös" and
+# "Ryhmä Hau: Dinoelokuva -elokuvanäytös", all three unmatched, while every chain
+# publishing the bare titles matched. The words say "film screening", which the event's
+# own category already establishes, so they are noise on the search string. Anchored to
+# the end and requiring the dash, so a film actually called that keeps its name.
+EVENT_NOUN = re.compile(r"\s*[-–]\s*elokuva(?:n\s+)?n[äa]yt[öo]s\s*$", re.I)
 
 # A strand can sit in a trailing parenthesis instead of in front of a colon. The content
 # is matched against the one shared list in strands.py rather than against a pattern, so
@@ -102,6 +114,7 @@ def clean(title):
     m = PAREN_STRAND.search(t)
     if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
         t = t[:m.start()].strip()
+    t = EVENT_NOUN.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", t))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 

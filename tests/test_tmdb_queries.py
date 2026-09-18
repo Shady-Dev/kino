@@ -131,6 +131,54 @@ class AudioMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.norm(en), "kojootti vs acme englanniksi")
 
 
+class ScreeningMarkerTest(unittest.TestCase):
+    """Two more spellings of "this is a film screening", both found on the live site on
+    2026-09-19 as cards with an initials tile and no score.
+
+    Neither changes the published title: `clean` touches the search string only, and
+    `norm` keys the cache, `films-extra.json` and `normTitle()` on what the cinema wrote.
+    """
+
+    def test_tmb_spells_the_finnish_marker_as_a_sentence(self):
+        """16 showtimes across Toijala, Sampo, Mania and Elo, every one unmatched, while
+        the chains writing `(suomeksi)` matched 1204680 from the first run."""
+        self.assertEqual(enrich_tmdb.clean("Kojootti vs ACME (Puhumme suomea!)"),
+                         "Kojootti vs ACME")
+        self.assertEqual(enrich_tmdb.clean("Kojootti vs ACME (Puhumme suomea)"),
+                         "Kojootti vs ACME")
+
+    def test_a_calendar_names_the_event_and_the_noun_comes_off(self):
+        """Tähti Kino's three rows on 2026-09-19, in both spellings the same page used."""
+        for published, want in (
+                ("Hetki ennen valoa -elokuvanäytös", "Hetki ennen valoa"),
+                ("Presidentin kyyditys -elokuvan näytös", "Presidentin kyyditys"),
+                ("Ryhmä Hau: Dinoelokuva -elokuvanäytös", "Ryhmä Hau: Dinoelokuva")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), want)
+
+    def test_the_published_title_is_not_touched(self):
+        """The key has to stay what the cinema wrote, or the cache and the client part."""
+        for published in ("Kojootti vs ACME (Puhumme suomea!)",
+                          "Hetki ennen valoa -elokuvanäytös"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.norm(published),
+                                 enrich_tmdb.norm(published.lower()))
+                self.assertIn("elokuvan" if "elokuvan" in published.lower() else "puhumme",
+                              enrich_tmdb.norm(published))
+
+    def test_a_film_whose_own_name_is_the_noun_keeps_it(self):
+        """Anchored to the end and requiring the dash: nothing else is a marker."""
+        self.assertEqual(enrich_tmdb.clean("Elokuvanäytös"), "Elokuvanäytös")
+        self.assertEqual(enrich_tmdb.clean("Kesän viimeinen elokuvanäytös"),
+                         "Kesän viimeinen elokuvanäytös")
+
+    def test_an_opera_relay_keeps_its_parenthesis(self):
+        """TMB's two opera rows are correctly unmatched and must stay as published: the
+        parenthesis names the festival and the composer, not the audio."""
+        t = "Ooppera: Don Giovanni (Vicenza festivaali / Mozart)"
+        self.assertEqual(enrich_tmdb.clean(t), t)
+
+
 class ParenthesisedStrandTest(unittest.TestCase):
     """A strand can sit in a trailing parenthesis instead of in front of a colon.
 
