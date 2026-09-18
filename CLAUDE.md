@@ -252,6 +252,16 @@ provider missing from it loses its venues, not just its label.
   are accepted, because those are what the client offers.
 - Check field-presence assumptions in the client as well as in the parser. Every frontend
   bug on the day multi-provider landed came from a field only Finnkino populated.
+- **Check the published result against the cinema's own page before calling it done.** Not
+  the parse and not the run log: the committed `data/area-*.json` and what the client draws
+  from it, beside the cinema's own programme. Same films, same dates and times, a poster on
+  every card, and the ticket link landing on that screening. This is the adapter author's
+  job, not the maintainer's: on 2026-09-19 four new cinemas shipped 19 showtimes drawn as
+  initials tiles, and it was found by the maintainer looking at the site. An initials tile
+  is the TMDB pass failing to match a title, which is a marker the adapter published --
+  `(Puhumme suomea!)`, `-elokuvanäytös` -- and it is fixed in `enrich_tmdb.clean`, on the
+  search string, because the published title is a key. A provider commit that has not been
+  looked at is not finished, and saying "the run exited 0" is not the same claim.
 
 ## Hard rules
 
