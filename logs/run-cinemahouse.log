@@ -8,9 +8,9 @@
 [kinolumo] Kino Lumo: 47 showtimes, 8 dates
 [laitilankino] film pages: 13 with a synopsis, 0 without, 13 films
 [laitilankino] synopses merged: 0
-[laitilankino] Laitilan Kino: 24 showtimes, 13 dates
+[laitilankino] Laitilan Kino: 23 showtimes, 12 dates
 [run] http: 0 revalidated (304), 49 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 3 venues, 182 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 95.4s of fetching added up across workers that overlap, longest site 37.9s, longest queue wait 50.3s, 37.9s wall from this module's first fetch starting to its last ending
+[run] cinemahouse: 3 venues, 181 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 81.2s of fetching added up across workers that overlap, longest site 31.9s, longest queue wait 46.2s, 31.9s wall from this module's first fetch starting to its last ending
 exit=0
