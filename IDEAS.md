@@ -44,19 +44,6 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
-### Ritz Vaasa and Tähti Kino, on The Events Calendar
-
-`tribe.py`, added 2026-09-18: 6 screenings at Ritz Vaasa, a second venue in that city, and
-3 at Tähti Kino, which is a new one in Muhos. The plugin's REST route is public and the
-film category filters it server side, declared per site by its numeric id.
-**A sweep sized the platform before it was built:** 148 directory hosts, 4 answered, 2
-usable. Iobio in Inkoo is the third and is left out, because its films carry no category of
-their own and are marked only by an "IoBio:" title prefix, with each screening duplicated
-across a Finnish and a Swedish calendar. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** verify both on the runner before publishing. Whether Iobio is worth a
-title-prefix exception is the maintainer's.
-
 ### Kinola: published, and Konepaja still has no programme
 
 Kino Kilta and Kino Laika ship as `kinola.py` under the policy adopted 2026-09-15. The
@@ -147,6 +134,18 @@ repo does not call or inventory.
 The one route left open, a visitor-facing price *page*, is **deferred** by the maintainer
 on 2026-09-16 for Finnkino and BioRex alike: neither is easily done. Nothing is probed and
 nothing is scheduled. Evidence: [docs/research/prices.md](docs/research/prices.md).
+
+### Iobio, Inkoo: readable only through two exceptions
+
+The third host on The Events Calendar, and the one `tribe.py` does not read. Its films
+carry no category of their own and are marked by an "IoBio:" title prefix, with each
+screening duplicated across a Finnish and a Swedish calendar. Both exceptions are ones this
+repo has written against: a word in a title is not a classifier, and a bilingual dedup has
+to pick a canonical row, which double-publishes in one direction and drops a screening in
+the other with nothing in a count to show it.
+**What would change it:** Iobio publishing a film category of its own, or one calendar
+rather than two. Then it is an ordinary `SITES` entry. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Kino Engel prices
 

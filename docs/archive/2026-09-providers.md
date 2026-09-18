@@ -1989,3 +1989,83 @@ VOIDs were investigated: one removed a redundant empty-input guard, two were cov
 tests. `tests/test_landing_pages.py` now skips the film title in its euro check, as it
 already skipped the synopsis, because Bio Marilyn names three screenings "(5€)" and a title
 publishes verbatim.
+
+### Ritz Vaasa and Tähti Kino, and Vihti joining Keski-Uusimaa (2026-09-18)
+
+`tribe.py` reads The Events Calendar, a WordPress plugin whose REST route is public:
+`{base}/?rest_route=/tribe/events/v1/events&per_page=50&start_date=...&categories={id}`.
+Published in `d17d65da`, verified on the runner by the dispatch that committed `8ef45c0e`:
+`run-tribe.log` exit=0, Ritz Vaasa 6 showtimes over 4 dates and Tähti Kino 3 over 1, the
+same counts the local snapshot carried.
+
+**A sweep sized the platform before any of it was built.** 148 of the Filmikamari
+directory's 152 hosts, one request each, four aggregators dropped. Four answered the route
+and two are cinemas: ritz.fi with 56 events under category `Kino` (id 19) and muhos.fi with
+35 under `Elokuvat` (id 106). The category is declared per site by its numeric id, because
+the display name moves with the site's language, and the parser checks that every event
+came back carrying it, so a filter the server ignored fails the site instead of publishing
+a council meeting.
+
+What the two sites settle differently: Ritz publishes portrait film artwork (1500x2138,
+1080x1592) and Muhos the same 768x470 calendar illustration on every film, so only Ritz
+carries posters and the TMDB pass fills the rest. `cost_details.values` decides the price,
+one value publishing and two being a band, which left 4 of Ritz's 6 priced and all 3 of
+Muhos'.
+
+**Iobio, Inkoo, is the third host and is not read.** Its films carry no category of their
+own, sit in the generic `Tapahtumakalenteri` and `Evenemangskalender` rows, and are marked
+only by an "IoBio:" prefix in the title, with each screening appearing once under each
+language. Two screenings were listed when it was read. Both exceptions are ones this
+repository has already written against: `johku.py` separates hall hire by a path because
+"no word in a title is read", and the Kinola classifier decides on labelled evidence for
+the same reason. A bilingual dedup has to pick a canonical row across two calendars, and
+getting it wrong publishes twice in one direction and drops a screening in the other, with
+nothing in a count to show either. It becomes an ordinary adapter the day Iobio publishes a
+film category of its own or a single calendar.
+
+**Vihti joined Keski-Uusimaa the same day.** The row already held Nummela, which is a
+locality of Vihti municipality 10 km from Vihdin Kino, so a reader opening that row saw
+Kino Akseli and not the other cinema in the same municipality. The longest hop in the area
+is unchanged at Hyvinkää to Nummela, so `km` stays 45, and Vihdin Kino's accent clears the
+floor in the row it now enters: 14.9 dE00 on the weakest model against BioRex and 26.0 to
+normal vision, with none of its six new pairs below 14.4. The shared-view total went 164 to
+170 and the count below the floor stayed 14.
+
+Vihti is conventionally Länsi-Uusimaa, and a row of that name would also pick up Karkkila
+and Tammisaari. These rows are commuting areas rather than maakunnat, so that is its own
+decision with its own accent measurements, and it was not allowed to block this one.
+
+**The `km` field was left at 45 and is not asserted to be right.** The first version of the
+registry comment claimed the longest hop stays Hyvinkää to Nummela; a review asked for that
+to be measured rather than repeated. Distances between the row's towns, measured 2026-09-18
+through a public geocoder and router, in kilometres:
+
+    pair                    road    straight
+    Vihti - Kerava          73.8     42.7
+    Nummela - Kerava        64.7     43.9
+    Nummela - Järvenpää     63.5     45.2
+    Vihti - Järvenpää       58.1     42.3
+    Nummela - Hyvinkää      51.8     44.9
+    Vihti - Hyvinkää        46.3     37.8
+    Vihti - Nummela         11.8      9.8
+
+So the claim was wrong twice over: the longest hop was not the pair named, under either
+metric, and Vihti moves the road maximum from 64.7 to 73.8 while leaving the straight-line
+maximum at Nummela to Järvenpää, 45.2.
+
+**Which metric `km` states is unsettled, and this entry does not settle it.** Itä-Uusimaa's
+65 matches Sipoo to Loviisa by road (64.1; straight 53.3) and Kymenlaakso's 55 matches Kotka
+to Kouvola by road (56.6; straight 46.5), while this row's 45 matches a straight line and
+not its road distance. One of those readings is wrong, and correcting it means deciding the
+metric for all fourteen rows, which is the maintainer's. Severity is low: `build_regions.py`
+drops `km`, `data/regions.json` carries no such key, `index.html` never reads it and no test
+does, so it is documentation and nothing else.
+
+Tests: `tests/test_tribe.py`, 21. Eleven mutations, all red: trusting the category filter,
+reading only the first page, ignoring the UTC stamp, reading the local stamp as UTC,
+publishing a band as a price, publishing any image as a poster, dropping the width floor,
+publishing an all-day event, filing an unplaceable synopsis as Finnish, treating every
+empty answer as an empty programme, and accepting a renamed category. A twelfth, a guard on
+the `timezone` field, went VOID and the guard was deleted: a zone with another offset
+already fails the stamp comparison.
+

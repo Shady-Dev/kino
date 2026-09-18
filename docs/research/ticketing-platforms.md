@@ -1023,8 +1023,10 @@ its title, and classifying on a word in a title is what the Kinola policy adopte
 
 **Status and next step**
 
-Live as `scripts/providers/tribe.py`, two sites, cloud half. Next step: none open, beyond
-the Iobio question.
+Live as `scripts/providers/tribe.py`, two sites, cloud half, verified on the runner in the
+dispatch that committed `8ef45c0e`. Iobio was declined on 2026-09-18 and the entry in
+`IDEAS.md` names what would reopen it: a film category of its own, or one calendar rather
+than two.
 
 ---
 

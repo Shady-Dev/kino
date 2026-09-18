@@ -477,8 +477,24 @@ FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
 REGIONS = [
     dict(name="Pääkaupunkiseutu", sv="Huvudstadsregionen", en="Capital region",
          cities=["Helsinki", "Espoo", "Vantaa", "Kauniainen"], km=20),
+    # Vihti added 2026-09-18, on the maintainer's decision. Nummela was already here and
+    # Nummela is a locality of Vihti municipality, 12 km by road from Vihdin Kino, so a
+    # reader opening this row got Kino Akseli and not the other cinema in the same
+    # municipality. Vihdin Kino's accent clears the floor in the row it now enters: 14.9
+    # dE00 on the weakest model against BioRex, 26.0 to normal vision.
+    #
+    # `km` is left at 45 and is not asserted to be right. Measured 2026-09-18, this row's
+    # longest hop is Nummela to Kerava at 64.7 km by road and Nummela to Järvenpää at 45.2
+    # in a straight line; adding Vihti makes the road maximum Vihti to Kerava at 73.8 and
+    # leaves the straight-line maximum where it was. Which of the two `km` states is not
+    # settled: Itä-Uusimaa's 65 matches Sipoo to Loviisa by road (64.1, straight 53.3)
+    # while this row's 45 matches a straight line. The figures are in the archive entry.
+    #
+    # Vihti is conventionally Länsi-Uusimaa, and a row of that name would also pick up
+    # Karkkila and Tammisaari. These rows are commuting areas rather than maakunnat, so
+    # that is its own decision with its own accent measurements and it did not block this.
     dict(name="Keski-Uusimaa", sv="Mellersta Nyland", en="Central Uusimaa",
-         cities=["Järvenpää", "Nurmijärvi", "Hyvinkää", "Kerava", "Nummela"],
+         cities=["Järvenpää", "Nurmijärvi", "Hyvinkää", "Kerava", "Nummela", "Vihti"],
          km=45),
     # Kerava does not widen Keski-Uusimaa: its longest hop stays Hyvinkää to Nummela.
     # Sipoo widens Itä-Uusimaa to Sipoo-Loviisa, the longest hop of any area here.
