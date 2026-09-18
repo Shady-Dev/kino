@@ -8,12 +8,12 @@
 [joutsankino] synopses merged: 0
 [joutsankino] Joutsan Kino: 6 showtimes, 5 dates
 [cine] synopses merged: 0
-[cine] Cine Keuda-Talo: 9 showtimes, 3 dates
+[cine] Cine Keuda-Talo: 7 showtimes, 3 dates
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [star] synopses merged: 0
-[star] Elokuvateatteri Star: 114 showtimes, 9 dates
-[run] http: 0 revalidated (304), 61 full, 61 not stored (origin said no-store), 0 cache entries written
+[star] Elokuvateatteri Star: 106 showtimes, 9 dates
+[run] http: 0 revalidated (304), 60 full, 60 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 9 venues, 272 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 9 venues, 262 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
