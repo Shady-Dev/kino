@@ -57,7 +57,7 @@ Built 2026-09-19.
   weekend is confirmed and a missing heading raises.
 - **Pyhäsalmen VPK**: 6 screenings from the My Calendar REST route, category by id, price
   from the cinema's own page.
-- **Next action:** read the four run logs; the pages go to 132 per language, sitemap 265.
+- **Next action:** read the four run logs; the local snapshot carries no TMDB field yet.
 
 ### Kinotour, and the towns it visits that this repo does not list
 
@@ -273,27 +273,27 @@ on every provider change, because carried-over counts have been wrong repeatedly
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-19 with data at `ade246db5`. Declared and committed differ by
-four registered cinemas whose venue files wait for a run. README states the committed
-figures, which is what `test_landing_pages.ReadmeCountsTest` measures it against, so its
-opening line and its picker sentence stay at 112 and 78 until that run lands. Two rows
-below moved with this pass, the poster references and the service-worker version.
+Latest, re-measured 2026-09-19 after the day's four cinemas were fetched and their
+snapshot committed. Declared and committed agree. Their four adapter commits carried no
+data, which every other cloud provider added this week had shipped in its own; caught
+before the push, so the four `venues-*.json` the client asks for existed before the
+provider list naming them went live.
 
 | | |
 |---|---:|
 | providers / venues / cities (declared) | 69 / 116 / 82 |
-| venues in committed data | 112 |
+| venues in committed data | 116 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 128 |
-| sitemap URLs | 257 |
-| poster references (shows / films-extra) | 5371 (5054 / 317) |
+| generated pages per language | 132 |
+| sitemap URLs | 265 |
+| poster references (shows / films-extra) | 5378 (5061 / 317) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1269 |
+| mirrored poster files | 1279 |
 | `sw.js` CACHE | `leffavuoro-v184` |
 
-Declared and unpublished: Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK, whose
-first run takes the pages to 132 per language and the sitemap to 265. Kino Kilta and Kino
+Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
+took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino
 Laika published in `87437a3f`, which took the pages to 116 per language and the sitemap to
 233, both as predicted, and gave Turku a combined city page. That run **failed** at the
 city-link gate all the same, and the chooser was synchronised afterwards in `56723020`.

@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 112 venues in 78 cities across 69 providers: Finnkino, BioRex,
+Showtimes for 116 venues in 82 cities across 69 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -27,7 +27,7 @@ planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 78 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 82 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -235,7 +235,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-128 per language, 257 sitemap URLs: 112 venues plus the sixteen cities with more
+132 per language, 265 sitemap URLs: 116 venues plus the sixteen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
