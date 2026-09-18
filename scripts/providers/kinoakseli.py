@@ -9,7 +9,7 @@ sold at the door), no auditorium, and dates carry no year.
 import datetime, html as html_mod, json, re, sys
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import fetch, resolve_year, weekday_index
 
 URL = "https://kinoakseli.fi/"
 FI = ZoneInfo("Europe/Helsinki")
@@ -20,6 +20,11 @@ VENUE = {"id": "ka-nummela", "provider": "kinoakseli", "providerId": "1",
 
 # Single screen, so one site with one venue. See run.py for the contract.
 SITES = [{"provider": "kinoakseli", "label": "Kino Akseli", "venues": [VENUE]}]
+
+# `resolve_year`'s (behind, ahead). This cinema publishes about three days at a time, and
+# the committed programme spanned -1 to +1 day on 2026-09-19, so 60 ahead is twenty times
+# the widest span seen and far short of the 365 a wrong weekday would need.
+WINDOW = (30, 60)
 
 HEAD_RE = re.compile(r'<h2[^>]*class="elementor-heading-title[^"]*"[^>]*>\s*'
                      r'<a href="(https://kinoakseli\.fi/elokuva-[^"]+)"[^>]*>(.*?)</a>', re.S)
@@ -50,21 +55,24 @@ def _biggest(srcset):
     return best
 
 
-def _iso(day, month, hh, mm, today=None):
-    """No year on the page: pick the one that keeps the date near today."""
+def _iso(day, month, hh, mm, today=None, weekday=None):
+    """`Pe 28.08. klo 19:00` -> an ISO start, or "" when the row cannot be placed.
+
+    `common.resolve_year` selects the year and then bounds it. The private loop this
+    replaced took the first candidate inside a window rather than the nearest one, so a
+    row 46 or more days stale resolved to next year: `1.8.` read on 2026-09-19 published
+    as 2027-08-01. Every row here prints its weekday, which selects the year outright.
+    """
     today = today or datetime.datetime.now(FI).date()
-    for year in (today.year, today.year + 1, today.year - 1):
-        try:
-            d = datetime.date(year, month, day)
-        except ValueError:
-            continue
-        if -45 <= (d - today).days <= 320:
-            return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
-    return ""
+    year = resolve_year(day, month, today, weekday, WINDOW)
+    if year is None:
+        return ""
+    return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
 
 
 def parse(page, today=None):
     shows = []
+    unplaced = []
     heads = list(HEAD_RE.finditer(page))
     for n, m in enumerate(heads):
         url, title = m.group(1), _txt(m.group(2))
@@ -90,9 +98,11 @@ def parse(page, today=None):
             if g and not any(k in g for k in ("Ikäraja", "Liput", "Näytösajat", "Kesto")):
                 genres = g
         for sm in SHOW_RE.finditer(block.group(1)):
-            _, day, month, hh, mm, dub = sm.groups()
-            start = _iso(int(day), int(month), int(hh), int(mm), today)
+            wd, day, month, hh, mm, dub = sm.groups()
+            start = _iso(int(day), int(month), int(hh), int(mm), today,
+                         weekday_index(wd))
             if not start:
+                unplaced.append(f"{wd} {day}.{month}.")
                 continue
             shows.append({
                 "eventId": url.rstrip("/").rsplit("/", 1)[-1],
@@ -113,6 +123,9 @@ def parse(page, today=None):
                 "provider": "kinoakseli",
                 "venue": VENUE["id"],
             })
+    if unplaced:
+        print(f"[kinoakseli] {len(unplaced)} row(s) whose weekday matches no candidate "
+              f"year inside the window, skipped: {', '.join(unplaced[:5])}")
     shows.sort(key=lambda s: s["start"])
     return shows
 

@@ -193,9 +193,12 @@ def sample_engel():
 
 def sample_kinoakseli():
     ka = mod("kinoakseli")
+    # 5 September 2026 is a Saturday and 6 September a Sunday. `kinoakseli.parse`
+    # selects the year from the row's weekday since 2026-09-19, so a fixture weekday
+    # that contradicts its own date would skip the row.
     page = ('<p>Draama</p><p>Ikäraja : 12</p><p>Liput : 9€</p>'
             '<h2 class="elementor-heading-title x"><a href="https://kinoakseli.fi/elokuva-autofiktio/">'
-            'Autofiktio</a></h2><p>Näytösajat Pe 5.9. klo 18:00, La 6.9. klo 20:00 (dub.)</p>')
+            'Autofiktio</a></h2><p>Näytösajat La 5.9. klo 18:00, Su 6.9. klo 20:00 (dub.)</p>')
     return ka.parse(page, today=TODAY), "kinoakseli", [ka.VENUE["id"]]
 
 
