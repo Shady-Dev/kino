@@ -27,14 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-65 providers, 112 venues, 78 cities, declared and committed alike, measured 2026-09-18.
-Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
+66 providers, 113 venues, 79 cities declared, measured 2026-09-19; 112 venues and 78
+cities are committed, Marita being the one not yet published. Check for an existing platform first. Every candidate assessed on
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Thirty-two triaged 2026-09-18**, eight built. Kino Helios is priced and declined for
   now, seven of the rest server-render to a plain fetch, eight need a browser, eight have
-  nothing. **Next action:** the four small ones, then Bio Pallas.
+  nothing. **Next action:** the three small ones left, then Bio Pallas.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
@@ -43,18 +43,18 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
-### Kino Hamina, and the Helsinki feed that priced itself out
+### The four small cinemas, one commit each
 
-`hamina.py`, added 2026-09-18: 14 screenings over 5 films on one page, a new city.
-`book="door"`, because the page says "Ei ennakkovarauksia" in its own words, so a showtime
-opens the programme page and no ticket host is invented. The film's `Liput:` line is that
-film's price and a screening line overrides it; a range there settles nothing.
-**Kino Helios is not built, and the feed was assessed before deciding.** One accent buys
-one venue: over 2026-09-18 to 12-31 the service carried 94 film rows across seven houses,
-and only Malmitalo has a standing cinema brand, 37 rows of which 26 are `Kino Helios` with
-a ticket link. The rest is festival programming and one-off children's events.
-**Next action:** none. Adding it needs the first exception to the combined-city accent
-floor, and the entry below says why that is a policy question rather than this one's.
+Four bespoke parsers for towns that carried no cinema here, accents measured together
+first: Marita `#849666`, Lieksan elokuvat `#2A5A9C`, Navettakino `#E45CC0`, Pyhäsalmen VPK
+`#725466`, worst pair among them 18.9 dE00 and each clear of its own insurance set.
+- **Marita, Outokumpu**, `marita.py`, added 2026-09-19: 3 screenings, one request plus one
+  film page per distinct film. `book="door"`, the site selling no ticket anywhere.
+  `EMPTY_VENUES_CONFIRMED` on the site's own "Ei tulevia näytösaikoja", which three of ten
+  captures over eleven months carry. **Next action:** read the run log; the pages go to
+  129 per language and the sitemap to 259.
+- **The other three:** not built. Evidence in
+  [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 ### Kinotour, and the towns it visits that this repo does not list
 
@@ -263,34 +263,34 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-18, eighteenth pass)
+## Documentation state (2026-09-19, nineteenth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-18 with data at `17cadbac`. Declared and committed agree.
-Three rows below had gone stale since the 2026-09-15 pass: the poster references, the
-mirrored file count and the service-worker version. Two counts in the prose above were a
-batch behind as well, in "Provider coverage" and in "Move the local fetch off the laptop",
-which is the failure this section exists to catch. Every figure README states was measured
-again and was already correct.
+Latest, re-measured 2026-09-19 with data at `ade246db5`. Declared and committed differ by
+one: Marita is registered and its venue file waits for a run. README states the committed
+figures, which is what `test_landing_pages.ReadmeCountsTest` measures it against, so its
+opening line and its picker sentence stay at 112 and 78 until that run lands. Two rows
+below moved with this pass, the poster references and the service-worker version.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 65 / 112 / 78 |
+| providers / venues / cities (declared) | 66 / 113 / 79 |
 | venues in committed data | 112 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
 | generated pages per language | 128 |
 | sitemap URLs | 257 |
-| poster references (shows / films-extra) | 5373 (5056 / 317) |
+| poster references (shows / films-extra) | 5371 (5054 / 317) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1269 |
-| `sw.js` CACHE | `leffavuoro-v180` |
+| `sw.js` CACHE | `leffavuoro-v181` |
 
-Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
+Declared and unpublished: Elokuvateatteri Marita, whose first run takes the pages to 129
+per language and the sitemap to 259. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and
 gave Turku a combined city page. That run **failed** at the city-link gate all the same,
 and the chooser was synchronised afterwards in `56723020`.

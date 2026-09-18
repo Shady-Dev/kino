@@ -454,6 +454,13 @@
    "host": "kinotour.fi",
    "accent": "#B0507C",
    "book": "buy"
+  },
+  {
+   "id": "marita",
+   "label": "Elokuvateatteri Marita",
+   "host": "elokuvateatterimarita.fi",
+   "accent": "#849666",
+   "book": "door"
   }
  ]
 }

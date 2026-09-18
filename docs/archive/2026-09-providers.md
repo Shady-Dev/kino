@@ -2078,3 +2078,32 @@ empty answer as an empty programme, and accepting a renamed category. A twelfth,
 the `timezone` field, went VOID and the guard was deleted: a zone with another offset
 already fails the stamp comparison.
 
+
+### Kino Hamina, and the Helsinki feed that priced itself out (2026-09-18)
+
+Moved out of `IDEAS.md` on 2026-09-19, with its heading, once the cinema had published and
+the only open half had an entry of its own.
+
+`hamina.py`: 14 screenings over 5 films on one page, one request, a new city. `book="door"`
+because the page says "Ei ennakkovarauksia. Lipunmyynti alkaa n. 30min ennen elokuvan
+alkamista!" in its own words, so a showtime opens the programme page and no ticket host is
+invented. The film's `Liput:` line is that film's price and a screening line carrying
+`| Liput 8€` overrides it for that showing; a range or an "alkaen" figure there settles
+nothing. `OG` and `DUB` are the page's own legend and become `FI-S` and `FI-A`. A block
+whose second paragraph holds no readable line is a film with nothing scheduled, counted
+and left out, and a line the weekday cannot place raises rather than disappearing.
+
+**Published 2026-09-18** in the run that committed `ade246db5`: `logs/run-hamina.log` reads
+`exit=0`, `1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 failures`, 14
+showtimes over 5 dates, one host attempted, `www.hamina.fi`.
+
+**Kino Helios is not built, and the feed was assessed before deciding rather than after.**
+One accent buys one venue: over 2026-09-18 to 12-31 the Kulke events service carried 725
+events, 94 of them type 29 across seven houses, and only Malmitalo has a standing cinema
+brand, 37 rows of which 26 are `Kino Helios` with a ticket link. The rest is festival
+programming, a children's week and a three-row free-Monday series. Declined on the accent
+rather than on the reading: no colour in the L* band clears the combined-city floor against
+Helsinki's eight chains, 0 of 226,580 swept, best reachable 12.2. That would be the first
+exception the city rule has ever taken, so it stays a policy question about a full city and
+keeps its own `IDEAS.md` entry. Evidence:
+[docs/research/ticketing-platforms.md](../research/ticketing-platforms.md).

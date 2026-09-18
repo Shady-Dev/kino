@@ -466,6 +466,17 @@ PROVIDERS = [
     # equally distant teal so that two cinemas added the same day do not read alike.
     dict(id="kinotour", label="Kinotour", host="kinotour.fi", accent="#B0507C",
          book="buy", module="kinotour", where="cloud"),
+    # Elokuvateatteri Marita, 2026-09-19. `book="door"` because the site carries no
+    # `liput`, `varaa`, `osta` or `lipunmyynti` anywhere, so there is no ticket host to
+    # link to and none is invented; a showtime opens the film's own page.
+    # Outokumpu holds no other chain and sits in no REGIONS area, so nothing binds this
+    # accent today. Fitted to the row a North Karelia extension would create, where its
+    # only neighbour is Savon Kinot in Joensuu and Kitee: 31.4 dE00 on the weakest model
+    # against it. Chosen for global distinctness rather than local room, since 14.4 is
+    # unreachable against 66 accents already in the band: 5.3 from its nearest anywhere,
+    # KinoMania, and 31.8 to 46.6 from the three cinemas added beside it the same day.
+    dict(id="marita", label="Elokuvateatteri Marita", host="elokuvateatterimarita.fi",
+         accent="#849666", book="door", module="marita", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

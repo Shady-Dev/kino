@@ -44,6 +44,7 @@ import test_hamina as HM
 import test_johku as JK
 import test_kinola as KL
 import test_kinotour as KT
+import test_marita as MA
 import test_tribe as TR
 import test_heureka as H
 import test_nexxo_rooms as N
@@ -316,6 +317,18 @@ def sample_kinotour():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_marita():
+    """Two films over three screenings, one of them priced by a band, so the row that must
+    publish no amount is in the sample beside the two that must."""
+    site = MA.SITE
+    out, _ = mod("marita").rows(site, MA.page(
+        MA.row("19.09.2026", "17.00", "Hetki ennen valoa"),
+        MA.row("20.09.2026", "14.00", "Hetki ennen valoa"),
+        MA.row("20.09.2026", "16.00", "Minemare", url=MA.OTHER, price="Hinta: 10/8 €",
+               age="16")))
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -339,7 +352,7 @@ SAMPLES = {
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
-    "kinotour": sample_kinotour,
+    "kinotour": sample_kinotour, "marita": sample_marita,
 }
 
 

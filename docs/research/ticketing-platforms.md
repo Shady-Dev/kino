@@ -1047,6 +1047,48 @@ than two.
 
 ---
 
+## Elokuvateatteri Marita, Outokumpu (2026-09-19)
+
+**Findings** (elokuvateatterimarita.fi read as a visitor, plus ten Wayback captures of the
+same page between 2025-05-29 and 2026-05-15)
+
+WordPress on a theme of its own, no platform fingerprint. The front page renders the whole
+programme in a `show-times` module, one `movie-info` block per screening with the film
+page's href, a portrait poster with its dimensions in the tag, `Hinta:`, `Kieli:`, an
+`age-img` and its content descriptors, and the date with its year beside `klo 17.00`.
+`/naytokset/` renders the same module and the same rows.
+
+- **`Kieli` is the spoken language.** The captures carry `Englanti` on *Five Nights At
+  Freddy's 2*, *Sydäntalvi* and *Michael*, the lowercase `saksa` on one festival screening,
+  and `Suomi` on Finnish films and on the dubbed prints of *Zootropolis 2* and *The Super
+  Mario Galaxy Movie*. No subtitle field exists anywhere on the site.
+- **The labels directory holds ratings and descriptors together**: `7`, `12`, `16`, `18`
+  and `s` on `age-img`, `a`, `v`, `p` and `x` on `label-img`. The second set is KAVI's
+  content descriptors, which this app does not render.
+- **A price is per screening and not always one amount.** `Hinta: 10 €` is the ordinary
+  case; the festival rows of 2025-09-13 read `Hinta: 10/8 €` and one row of 2026-05-16
+  carried no price element at all.
+- **An empty programme has a sentence.** Three captures, 2025-10-12, 2026-02-09 and
+  2026-04-14, render the module with no `show-times-movies` container and the words `Ei
+  tulevia näytösaikoja` in its place.
+- The film page adds `Kesto`, `Lajityyppi`, `Ikäraja` as `K-7 (4)` and a Finnish synopsis
+  under `Kuvaus`. No `liput`, `varaa`, `osta` or `lipunmyynti` string exists on the
+  programme or the contact page, and `wp-json` exposes no custom post type for films or
+  screenings.
+
+**Inferences and open questions**
+
+- Two films printing `1 h 27 min` on the same day is the pages' own figure, checked
+  against both.
+- Whether the cinema ever prints two languages in one cell is not established; the reader
+  publishes nothing for a cell it cannot place in one.
+
+**Status and next step**
+
+Live as `scripts/providers/marita.py`, one provider, one venue, cloud half. Next step:
+verify from the committed log after a run.
+
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)
