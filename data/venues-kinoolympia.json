@@ -1,1 +1,1 @@
-{"generated": "2026-09-18T22:34:21+00:00", "oldest": "2026-09-18T22:34:21+00:00", "status": "ok", "stale": [], "unverified": [], "pending": [], "provider": "kinoolympia", "venues": [{"id": "ol-hanko", "name": "Kino Olympia", "short": "Kino Olympia", "city": "Hanko"}]}
+{"generated": "2026-09-18T23:12:58+00:00", "oldest": "2026-09-18T22:34:21+00:00", "status": "partial", "stale": ["ol-hanko"], "unverified": [], "pending": [], "provider": "kinoolympia", "venues": [{"id": "ol-hanko", "name": "Kino Olympia", "short": "Kino Olympia", "city": "Hanko"}]}
