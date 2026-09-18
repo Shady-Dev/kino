@@ -5,24 +5,24 @@
 [kinoset] Kino 1-2: 9 showtimes, 4 dates
 [kinoset] Kinema: 7 showtimes, 4 dates
 [kinoset] Bio: 7 showtimes, 4 dates
-[kinoaurora] Kino Aurora (Jyväskylä): 23 showtimes
+[kinoaurora] Kino Aurora (Jyväskylä): 21 showtimes
 [kinoaurora] synopses merged: 0
-[kinoaurora] Kino Aurora: 23 showtimes, 7 dates
-[kinohirvi] Kino Hirvi (Äänekoski): 25 showtimes
+[kinoaurora] Kino Aurora: 21 showtimes, 6 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 21 showtimes
 [kinohirvi] synopses merged: 0
-[kinohirvi] Kino Hirvi: 25 showtimes, 5 dates
-[biosade] Bio Säde (Mänttä): 16 showtimes
+[kinohirvi] Kino Hirvi: 21 showtimes, 4 dates
+[biosade] Bio Säde (Mänttä): 14 showtimes
 [biosade] synopses merged: 0
-[biosade] Bio Säde: 16 showtimes, 5 dates
-[kinomarilyn] Kino Marilyn (Loviisa): 34 showtimes
+[biosade] Bio Säde: 14 showtimes, 4 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 31 showtimes
 [kinomarilyn] synopses merged: 0
-[kinomarilyn] Kino Marilyn: 34 showtimes, 10 dates
-[kinoolympia] Kino Olympia (Hanko): 11 showtimes
+[kinomarilyn] Kino Marilyn: 31 showtimes, 9 dates
+[kinoolympia] Kino Olympia (Hanko): 9 showtimes
 [kinoolympia] synopses merged: 0
-[kinoolympia] Kino Olympia: 11 showtimes, 5 dates
-[jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
+[kinoolympia] Kino Olympia: 9 showtimes, 4 dates
+[jarvelankino] Järvelän Kino (Järvelä): 6 showtimes
 [jarvelankino] synopses merged: 0
-[jarvelankino] Järvelän Kino: 7 showtimes, 5 dates
+[jarvelankino] Järvelän Kino: 6 showtimes, 4 dates
 [kinometso] Muurame (Muurame): 6 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
 [kinometso] Tikkakoski (Jyväskylä): 0 showtimes
@@ -35,6 +35,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 2 venue(s) with no programme yet: km-petajavesi, km-tikkakoski
-[run] nexxo: 11 venues, 148 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 35.7s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
+[run] nexxo: 11 venues, 134 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 36.9s of fetching added up across workers that overlap, longest site 10.6s, longest queue wait 0.0s, 10.6s wall from this module's first fetch starting to its last ending
 exit=0
