@@ -497,6 +497,17 @@ PROVIDERS = [
     # which costs 2.5 dE00 against the set and nothing against the floor.
     dict(id="navettakino", label="Navettakino", host="navettakino.fi",
          accent="#E45CC0", book="door", module="navetta", where="cloud"),
+    # Pyhäsalmen VPK, 2026-09-19. A volunteer fire brigade's cinema, read through the My
+    # Calendar plugin's public REST route. `book="door"`: tickets at the door, reservations
+    # by telephone, and the plugin's own event pages carry permalinks this endpoint does
+    # not give. The city is the municipality, Pyhäjärvi, where the postal town is
+    # Pyhäsalmi, which the label carries.
+    # Pyhäjärvi holds no other chain and sits in no REGIONS area. Fitted to the row a
+    # Pohjois-Savo extension would create, against Kuvakukko, Savon Kinot and Finnkino:
+    # 17.6 dE00 on the weakest model against that set, and 18.9 from Lieksan Kino, the
+    # nearest of the three added beside it the same day.
+    dict(id="pyhasalmenvpk", label="Pyhäsalmen VPK", host="pyhasalmenvpk.fi",
+         accent="#725466", book="door", module="vpk", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

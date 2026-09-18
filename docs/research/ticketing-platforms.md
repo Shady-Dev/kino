@@ -952,7 +952,7 @@ Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista"
     Marita             elokuvateatterimarita.fi        3 rows, 10 EUR, portrait posters
     Lieksan Kino       lieksanelokuvat.net             7 rows, 12 to 13 EUR
     Navettakino        navettakino.fi                  2 rows, 10 EUR
-    Pyhasalmen VPK     pyhasalmenvpk.fi                5 rows, 12 EUR
+    Pyhasalmen VPK     pyhasalmenvpk.fi                5 rows, 12 EUR, My Calendar
     Alatalo-kiertue    moviecompanyalatalo.fi          13 rows, touring Kemijarvi
 
 - Kinotour names venue and town on every row: Kyro, Naantali and Lieto on the day read. A
@@ -1168,6 +1168,50 @@ programme page, and the programme is prose inside `entry-content`:
 
 Live as `scripts/providers/navetta.py`, one provider, one venue, cloud half. Next step:
 verify from the committed log after a run.
+
+
+## Pyhäsalmen VPK, and the My Calendar plugin (2026-09-19)
+
+**Findings** (pyhasalmenvpk.fi read as a visitor)
+
+A volunteer fire brigade running a cinema since 1944, on WordPress with the My Calendar
+plugin. The plugin registers a public REST namespace, `my-calendar/v1`, with one route:
+
+    GET /wp-json/my-calendar/v1/events?from=YYYY-MM-DD&to=YYYY-MM-DD&category=1
+    -> {"2026-09-25": [{occur_id, occur_begin, ts_occur_begin, event_title,
+                        category_id, category_name, event_image, event_desc, ...}]}
+
+- **Categories are real and declared.** `category_id` 1 is `Elokuvat`, and the route takes
+  either the id or the name. 57 occurrences between 2026-01-02 and 2026-11-07 all carry
+  it, and the room-booking page renders a calendar of its own.
+- **An empty answer is ambiguous.** The route answers a bare `[]` to a quiet window, to
+  `category=2` and to `category=999` alike, so an empty window says nothing about whether
+  the category still exists.
+- **The time is stated twice**: `occur_begin` as a local clock and `ts_occur_begin` as a
+  Unix instant, and the two agree through Europe/Helsinki.
+- **`occur_end` is always one hour after `occur_begin`**, the plugin's default rather than
+  a runtime. No rating anywhere in the payload.
+- `event_image` is a full-size upload with no dimensions in the payload; four measured run
+  from 188x268 to 1000x1250. `event_desc` was empty on 56 of the 57.
+- **Each event has a page** under `/mc-events/{slug}`, but the permalinks appear only in
+  the calendar page's JSON-LD and carry numeric suffixes (`marsupilami-3`). The post type
+  is not exposed in `wp/v2`, so the endpoint cannot give them.
+- The cinema's own page states one price, `Elokuvalipun hinta: 12 euroa`, with no
+  condition on the day, the format or the film, and says tickets are sold at the door
+  30 minutes before and reserved by telephone.
+- The programme has an eight-week gap, 2026-05-29 to 07-25.
+
+**Inferences and open questions**
+
+- 4 hosts on The Events Calendar and 1 here is not a platform sweep. Whether other Finnish
+  cinemas run My Calendar is untested, and the route is cheap to ask.
+- Whether the room bookings share this calendar under another category was not
+  established; `category=2` answered empty for the window read.
+
+**Status and next step**
+
+Live as `scripts/providers/vpk.py`, one provider, one venue, cloud half. Next step: verify
+from the committed log after a run.
 
 
 ## Which platforms exist: the directory and domain sweeps

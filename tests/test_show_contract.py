@@ -48,6 +48,7 @@ import test_lieksa as LK
 import test_marita as MA
 import test_navetta as NV
 import test_tribe as TR
+import test_vpk as VK
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -347,6 +348,13 @@ def sample_navetta():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_vpk():
+    """Two occurrences in the declared category, priced from the cinema's own page."""
+    site = VK.SITE
+    return (mod("vpk").parse(site, VK.TWO, "12€"), site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -371,7 +379,7 @@ SAMPLES = {
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
     "kinotour": sample_kinotour, "marita": sample_marita,
-    "lieksa": sample_lieksa, "navetta": sample_navetta,
+    "lieksa": sample_lieksa, "navetta": sample_navetta, "vpk": sample_vpk,
 }
 
 

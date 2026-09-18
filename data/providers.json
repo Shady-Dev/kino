@@ -475,6 +475,13 @@
    "host": "navettakino.fi",
    "accent": "#E45CC0",
    "book": "door"
+  },
+  {
+   "id": "pyhasalmenvpk",
+   "label": "Pyhäsalmen VPK",
+   "host": "pyhasalmenvpk.fi",
+   "accent": "#725466",
+   "book": "door"
   }
  ]
 }
