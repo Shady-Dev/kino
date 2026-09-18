@@ -7,6 +7,7 @@ import common    # noqa: E402  shared atomic writers, see providers/common.py
 import strands   # noqa: E402  shared strand list, see providers/strands.py
 import synmerge  # noqa: E402  shared synopsis helpers, see providers/synmerge.py
 import refresh   # noqa: E402  shared rating-refresh schedule, see providers/refresh.py
+import enrich_tmdb  # noqa: E402  the title key, so this file keeps no fourth copy
 
 DIGITAL_API = "https://digital-api.finnkino.fi/WSVistaWebClient/ocapi/v1"
 JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}")
@@ -56,10 +57,14 @@ def load_aliases():
         return {}
 
 
-def _tnorm(x):
-    """Title comparison key. Must behave like enrich_tmdb.norm()."""
-    x = re.sub(r"[^\w\s]", " ", (x or "").lower().strip(), flags=re.UNICODE)
-    return re.sub(r"\s+", " ", x).strip()
+# The title key, imported rather than restated. This file kept a fourth copy that said
+# it "must behave like enrich_tmdb.norm()" and did not: it left `_` in, because Python's
+# \w counts the underscore as a word character while the client's \p{L}\p{N} does not.
+# `Dyyni: Osa_kolme` keyed as `dyyni osa_kolme` here and `dyyni osa kolme` everywhere
+# else, so an alias or a cache entry written by one pass was unreachable from the other.
+# Three implementations have to agree (enrich_tmdb.norm, synmerge.norm, normTitle in
+# index.html); a fourth that only claims to is worse than none.
+_tnorm = enrich_tmdb.norm
 
 
 # Search noise in brackets, and a bare year. Same vocabulary as
