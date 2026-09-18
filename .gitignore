@@ -23,5 +23,12 @@ AGENTS.md
 # exists to keep out of a public repo. Restored between Actions runs by actions/cache.
 .http-cache/
 
+# The venv the browser suites run from; CLAUDE.md tells you to make one in the checkout.
+# Python writes a .gitignore inside a venv that hides its own contents, so this has not
+# been needed, but that is the venv's doing and not this repo's: an older Python, or a
+# venv named venv/, would land in `git status` and in a regeneration check's verdict.
+.venv/
+venv/
+
 # Playwright failure artefacts from tests/browser (a PNG and a trace zip per failure)
 tests/browser/out/
