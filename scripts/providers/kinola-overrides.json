@@ -51,6 +51,14 @@
       "reason": "A documentary screening whose page fills no metadata field, so the classifier leaves it unresolved.",
       "evidence": "kinolaika.fi/film/a-fox-under-a-pink-moon/ names it in prose: \"Esitettavana elokuvana on Mehrdad Oskouen dokumenttielokuva A Fox Under A Pink Moon (2025)\", with 76 min, K-16 and English subtitles beside it. Director, form and year are all stated; only the labelled fields are missing.",
       "verified": "2026-09-15"
+    },
+    {
+      "provider": "kinomyyri",
+      "slug": "kojootti-vs-acme-dub",
+      "action": "include",
+      "reason": "The dubbed print of a film the same listing publishes undubbed. Its page fills no labelled director or genre, so the classifier leaves it unresolved.",
+      "evidence": "kinomyyri.fi/film/kojootti-vs-acme-dub/ carries the distributor's Finnish synopsis in full, Ikaraja K-7, Kesto 1 h 44 min and a language label, and the same listing carries /film/kojootti-vs-acme/ as \"Kojootti vs. ACME (orig)\", which classifies as a film on its own. Only the labelled fields are missing.",
+      "verified": "2026-09-18"
     }
   ]
 }

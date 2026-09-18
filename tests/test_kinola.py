@@ -793,6 +793,15 @@ class ShippedOverridesTest(unittest.TestCase):
                          ("kinolaika", "include"))
         self.assertIn("dokumenttielokuva", entry["evidence"])
 
+    def test_the_dubbed_print_is_the_second_inclusion(self):
+        """Kino Myyri publishes the dub and the original from one listing, and only the
+        original fills a labelled field."""
+        entry = next(r for r in self.doc["overrides"]
+                     if r["slug"] == "kojootti-vs-acme-dub")
+        self.assertEqual((entry["provider"], entry["action"]),
+                         ("kinomyyri", "include"))
+        self.assertIn("kojootti-vs-acme", entry["evidence"])
+
     def test_whether_an_entry_is_still_needed_is_not_asserted_here(self):
         """Deliberately absent. Whether a shipped override still changes the decision
         depends on the source page as it stands, which only a run can see, so

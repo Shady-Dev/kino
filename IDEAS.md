@@ -269,7 +269,7 @@ again and was already correct.
 | sitemap URLs | 243 |
 | poster references (shows / films-extra) | 5623 (5320 / 303) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1256 |
+| mirrored poster files | 1257 |
 | `sw.js` CACHE | `leffavuoro-v177` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
