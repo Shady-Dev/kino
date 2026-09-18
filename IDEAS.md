@@ -32,9 +32,9 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18.** **Next action:** the maintainer's ranking. Kino Myyri
-  is a Kinola tenant, four Johku storefronts share one reader, Kino Helios comes off a city
-  service, ten server-render to a plain fetch, eight need a browser, eight have nothing.
+- **Thirty-two triaged 2026-09-18.** Five are built. Kino Helios waits on a runner test of
+  its POST service, ten server-render to a plain fetch, eight need a browser, eight have
+  nothing. **Next action:** the bespoke parsers, as a separate phase.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
@@ -43,6 +43,19 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
 - **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), TMB (four),
   MyCloudCinema's two readers, the Korttelikinot, Vista's one Finnish site, and the
   parser-shaped ones.
+
+### Four Johku storefronts, and what a listing holds besides films
+
+`johku.py`, added 2026-09-18: Bio Marilyn Lapua, Vihdin Kino, Bio Forum (Tammisaari) and
+Kinokulma (Oulainen), 66 showtimes over four new cities. The storefront renders the
+programme server-side, which the 2026-09-05 entry concluded it does not; that entry was
+reading a WordPress site with the widget embedded.
+**Only hall hire is left out**, by its `/fi_FI/products/` path. A film page that answers
+nothing costs the row its genres and synopsis and not its place, on the maintainer's
+instruction of 2026-09-18. Opera, ballet, a memorial screening and a stand-up show publish
+under that rule, which is a decision to revisit if the stand-up shows up wrong.
+**Next action:** verify the four on the runner before publishing. Prices stay empty (the
+tariff pages state bands) and artwork stays empty (the storefront's is landscape).
 
 ### Kino Myyri: a third Kinola tenant, and an accent below the floor
 
@@ -248,16 +261,16 @@ again and was already correct.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 57 / 102 / 69 |
-| venues in committed data | 102 |
+| providers / venues / cities (declared) | 61 / 106 / 73 |
+| venues in committed data | 106 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 117 |
-| sitemap URLs | 235 |
+| generated pages per language | 121 |
+| sitemap URLs | 243 |
 | poster references (shows / films-extra) | 5623 (5320 / 303) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1256 |
-| `sw.js` CACHE | `leffavuoro-v176` |
+| `sw.js` CACHE | `leffavuoro-v177` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and

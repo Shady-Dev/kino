@@ -885,6 +885,17 @@ SYN_MARKERS = {
            "their", "who", "when", "into", "but", "they", "which", "was", "are"),
 }
 
+# Case endings that no ordinary English or Swedish word of this length carries. Used only
+# when neither of those two scored a single function word, because a short Finnish sentence
+# can avoid every word in the list above: "Kilpa-auto Salama McQueen on matkalla
+# Kaliforniaan ottamaan osaa suureen Piston Cup -kisaan" scores zero markers in all three
+# languages and is plainly Finnish.
+FI_ENDINGS = ("ssa", "ssä", "sta", "stä", "lla", "llä", "lle", "ksi", "aan", "ään",
+              "jen", "ista", "istä", "ille", "oita", "öitä", "tta", "ttä")
+# Long enough that the English and Swedish words sharing these endings (umbrella, vanilla,
+# vista, unseen) do not reach the count.
+FI_ENDING_MIN = 8
+
 _WORD_RE = re.compile(r"[^\W\d_]+", re.UNICODE)
 
 
@@ -897,13 +908,18 @@ def syn_language(text, least=3, margin=2):
     reading a mixed site obeys it.
 
     "" means too short or too even to place, and the caller publishes no synopsis. The
-    winner needs `least` markers and `margin` times the runner-up.
+    winner needs `least` markers and `margin` times the runner-up. Finnish has a second
+    route, `FI_ENDINGS`, and it opens only when Swedish and English both score nothing.
     """
     words = [w.lower() for w in _WORD_RE.findall(text or "")]
     counts = {lang: sum(1 for w in words if w in set(marks))
               for lang, marks in SYN_MARKERS.items()}
     ranked = sorted(counts.items(), key=lambda kv: -kv[1])
     (best, top), (_, second) = ranked[0], ranked[1]
-    if top < least or top < margin * second:
+    if top >= least and top >= margin * second:
+        return best
+    if counts["sv"] or counts["en"]:
         return ""
-    return best
+    endings = sum(1 for w in words
+                  if len(w) >= FI_ENDING_MIN and w.endswith(FI_ENDINGS))
+    return "fi" if endings >= least else ""

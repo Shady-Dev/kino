@@ -398,6 +398,34 @@
    "host": "kinomyyri.fi",
    "accent": "#807CFC",
    "book": "buy"
+  },
+  {
+   "id": "biomarilyn",
+   "label": "Bio Marilyn",
+   "host": "biomarilyn.com",
+   "accent": "#B03A6A",
+   "book": "buy"
+  },
+  {
+   "id": "vihdinkino",
+   "label": "Vihdin Kino",
+   "host": "vihdinkino.fi",
+   "accent": "#1F7A5C",
+   "book": "buy"
+  },
+  {
+   "id": "bioforum",
+   "label": "Bio Forum",
+   "host": "bioforum.fi",
+   "accent": "#8C5A00",
+   "book": "buy"
+  },
+  {
+   "id": "kinokulma",
+   "label": "Kinokulma",
+   "host": "kinokulma.fi",
+   "accent": "#5A4FCF",
+   "book": "buy"
   }
  ]
 }

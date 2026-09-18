@@ -412,6 +412,20 @@ PROVIDERS = [
     # minimum is unchanged at 4.5 (Bio Grand/BioRex). Reason recorded in IDEAS.md.
     dict(id="kinomyyri", label="Kino Myyri", host="kinomyyri.fi", accent="#807CFC",
          book="buy", module="kinola", where="cloud"),
+    # Four Johku storefronts, 2026-09-18. Each is alone in its town and in its region, so
+    # no accent here shares a view with another chain and all four are unconstrained.
+    # "Bio Marilyn" and not "Bio Marilyn Lapua": the label and the venue name have to
+    # match or `build_pages.label_of` concatenates them, which made the page slug read
+    # bio-marilyn-lapua-bio-marilyn-lapua. Kino Marilyn in Loviisa keeps its own first
+    # word and its own city, so the two do not read as one chain.
+    dict(id="biomarilyn", label="Bio Marilyn", host="biomarilyn.com",
+         accent="#B03A6A", book="buy", module="johku", where="cloud"),
+    dict(id="vihdinkino", label="Vihdin Kino", host="vihdinkino.fi", accent="#1F7A5C",
+         book="buy", module="johku", where="cloud"),
+    dict(id="bioforum", label="Bio Forum", host="bioforum.fi", accent="#8C5A00",
+         book="buy", module="johku", where="cloud"),
+    dict(id="kinokulma", label="Kinokulma", host="kinokulma.fi", accent="#5A4FCF",
+         book="buy", module="johku", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

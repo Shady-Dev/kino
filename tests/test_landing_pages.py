@@ -358,6 +358,12 @@ class GeneratedPagesTest(unittest.TestCase):
                 # senior-screening blurb); it is not a label and is left out of the check.
                 stripped = re.sub(r'<p class="syn">.*?</p>', "", body, flags=re.S)
                 stripped = re.sub(r'<span class="price">[^<]*</span>', "", stripped)
+                # The film title is the cinema's own text and is published verbatim, which
+                # CLAUDE.md requires because it is the key for normTitle, films-extra and
+                # the TMDB aliases. Bio Marilyn Lapua names its cheap screenings
+                # "Autot 20v Juhlajulkaisu (5€)" and two others the same way, read
+                # 2026-09-18. The label check above still holds.
+                stripped = re.sub(r"<h3>.*?</h3>", "", stripped, flags=re.S)
                 self.assertNotIn("\u20ac", stripped, k)
                 for li in re.findall(r"<li>(.*?)</li>", body, re.S):
                     self.assertLessEqual(li.count('class="price"'), 1)

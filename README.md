@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 102 venues in 69 cities across 57 providers: Finnkino, BioRex,
+Showtimes for 106 venues in 73 cities across 61 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -16,7 +16,7 @@ Cinema Niagara, Heureka, Korjaamo Kino, Kino Tapiola, Kino Regina, Cine,
 Elokuvateatteri Star, Kino Piispanristi, Kino Lumo, Laitilan Kino, Iso-Hannu,
 Kino-Toijala, Kino-Sampo, KinoMania, Elokuvateatteri Elo, Julia 1&2, Bio-Kaari,
 Kino Vaakuna, Kuvakukko, Kino Kirkkonummi, Bio Savoy, Cine Mäntsälä, Kino Kilta,
-Kino Laika and Kino Myyri. Films with posters, TMDB ratings, age limits, runtimes, genres,
+Kino Laika, Kino Myyri, Bio Marilyn, Vihdin Kino, Bio Forum and Kinokulma. Films with posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
 page where the cinema takes seat reservations rather than payment, or the ticket
@@ -25,7 +25,7 @@ planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 69 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 73 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -69,6 +69,7 @@ small cinemas run one of a few ticketing platforms:
 | Bio Savoy | 1 | 1 | none | GitHub Actions |
 | Cine Mäntsälä (MyCloudCinema) | 1 | 1 | none | GitHub Actions |
 | Kinola (Kilta, Laika, Myyri) | 3 | 3 | none | GitHub Actions |
+| Johku storefront | 4 | 4 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -225,7 +226,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-117 per language, 235 sitemap URLs: 102 venues plus the fifteen cities with more
+121 per language, 243 sitemap URLs: 106 venues plus the fifteen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -285,7 +286,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 57 providers listed at the
+Schedule data belongs to the respective cinemas, the 61 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

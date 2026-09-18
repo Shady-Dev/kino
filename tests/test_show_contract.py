@@ -40,6 +40,7 @@ import test_kuvakukko as KK
 import test_kirkkonummi as KN
 import test_biosavoy as BS
 import test_cinemantsala as CM
+import test_johku as JK
 import test_kinola as KL
 import test_heureka as H
 import test_nexxo_rooms as N
@@ -238,6 +239,24 @@ def sample_kinola():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_johku():
+    """Bio Marilyn: a coming-soon row with no time and a hall hire in the same day group,
+    so the sample carries both of the shapes that must not reach a venue file."""
+    site = JK.MARILYN
+    out = mod("johku").parse(
+        site,
+        JK.listing(JK.group(
+            "Perjantai 19.9.2026",
+            JK.row("hetki", "Hetki ennen valoa", "2026-09-19T14:30:00.000Z", "17.30"),
+            JK.row("filmen", "Filmen", "2026-09-19T16:15:00.000Z", "19.15",
+                   product="1039"),
+            JK.row("digger", "Digger", "", "", timed=False, category="tulossa"),
+            JK.row("sali", "Salivaraus", "2026-09-19T20:00:00.000Z", "23.00",
+                   product="94", path="/fi_FI/products/94-sali"))),
+        {"1038": JK.film(), "1039": JK.film(syn=JK.SYN_SV)})[0]
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_kirkkonummi():
     """`today` pinned: the page publishes no year."""
     site = KN.kirkkonummi.SITES[0]
@@ -284,6 +303,7 @@ SAMPLES = {
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
+    "johku": sample_johku,
 }
 
 

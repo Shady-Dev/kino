@@ -28,6 +28,10 @@ EN_WITH_FINNISH_NAMES = ("The film follows Klaus Härö and Laura Birn in a hosp
                          "is running out of time, and the choices they are left with.")
 NO_FUNCTION_WORDS = ("Hanuman Ansh 2026. Mumbai, Chennai, Kolkata, Delhi, Pune, Jaipur, "
                      "Lucknow, Kanpur, Nagpur, Indore, Bhopal, Patna, Surat, Kochi.")
+# Finnish that uses none of the marker words. Read on biomarilyn.com 2026-09-18.
+FI_BY_ENDINGS = ("Kilpa-auto Salama McQueen on matkalla Kaliforniaan ottamaan osaa "
+                 "suureen Piston Cup -kisaan. Se eksyy valtatie 66:n varrella olevaan "
+                 "uinuvaan Syylari Cityyn.")
 
 
 class SynLanguageTest(unittest.TestCase):
@@ -50,6 +54,23 @@ class SynLanguageTest(unittest.TestCase):
         under it, which is what `margin` is for."""
         self.assertEqual(common.syn_language("Ja kun hän the and of"), "")
         self.assertEqual(common.syn_language(EN + " Ja kun."), "en")
+
+    def test_finnish_case_endings_carry_a_text_with_no_marker_word(self):
+        """Three quarters of one cinema's blurbs were refused on markers alone."""
+        self.assertEqual(common.syn_language(FI_BY_ENDINGS), "fi")
+
+    def test_a_short_word_with_the_same_ending_does_not_count(self):
+        """vista, pasta and villa end like a Finnish case and are not evidence of one."""
+        self.assertEqual(common.syn_language("Vista pasta villa. Vista pasta villa."), "")
+
+    def test_one_or_two_endings_are_not_enough(self):
+        self.assertEqual(common.syn_language("Kaliforniaan. Kunnioittamaan."), "")
+
+    def test_one_swedish_or_english_marker_closes_the_endings_route(self):
+        """The fallback is for a text with no function word of either, which no real
+        sentence in them is."""
+        self.assertEqual(common.syn_language(FI_BY_ENDINGS + " and"), "")
+        self.assertEqual(common.syn_language(FI_BY_ENDINGS + " och"), "")
 
     def test_the_thresholds_are_the_caller_s_to_set(self):
         self.assertEqual(common.syn_language("Ei ja tai", least=3, margin=2), "fi")
