@@ -16,10 +16,11 @@
 [kinomyyri] unresolved: Yksityisnäytös, Yksityistilaisuus
 [kinomyyri] override kojootti-vs-acme-dub: active
 [kinomyyri] Kino Myyri: 23 showtimes, 10 dates
-[kinomyyri] synopses merged: 0
+[kinomyyri] synopses merged: 1
+[kinomyyri] synopses by language: en 1
 [kinomyyri] Kino Myyri: 23 showtimes, 10 dates
 [run] http: 37 revalidated (304), 56 full, 16 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 3 venues, 106 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 179.5s of fetching added up across workers that overlap, longest site 81.6s, longest queue wait 85.9s, 82.3s wall from this module's first fetch starting to its last ending
+[run] timing: 3 site(s), 177.1s of fetching added up across workers that overlap, longest site 81.6s, longest queue wait 90.4s, 82.8s wall from this module's first fetch starting to its last ending
 exit=0
