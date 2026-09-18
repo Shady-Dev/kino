@@ -27,14 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-56 providers, 101 venues, 69 cities, declared and committed alike, measured 2026-09-18:
-`d216607b` published the 13 venues that had been waiting, across 12 providers on 9
-adapters. Nothing is unpublished. That run still **failed**, at the city-link gate and not
-on any provider; the record is in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md). Check for an
-existing platform first. Every candidate assessed on 2026-09-15, with its evidence, is in
+56 providers, 101 venues, 69 cities, declared and committed alike, measured 2026-09-18.
+Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
+2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
+- **Thirty-two triaged 2026-09-18.** **Next action:** the maintainer's ranking. Kino Myyri
+  is a Kinola tenant, four Johku storefronts share one reader, Kino Helios comes off a city
+  service, ten server-render to a plain fetch, eight need a browser, eight have nothing.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.

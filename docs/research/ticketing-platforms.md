@@ -796,6 +796,186 @@ waiting on anything.
 
 ---
 
+## Johku storefront (2026-09-18)
+
+**Findings** (four storefronts read as a visitor, 2026-09-18)
+
+The Johku section above concluded the show list needs the widget's `X-ApiKey`. That holds
+for a WordPress site with the widget embedded (Kino Engel, Kino Tapiola). A cinema whose
+whole site is a Johku storefront server-renders the programme on its front page:
+
+    biomarilyn.com   15 timed rows, 18.9. to 14.12.   location "Bio Marilyn"    Lapua
+    vihdinkino.fi    12 timed rows, 19.9. to 24.9.    location "Vihdin Kino"    Vihti
+    bioforum.fi      15 timed rows, 18.9. to 24.9.    location "Bio Forum"      Tammisaari
+    kinokulma.fi     29 timed rows, 18.9. to 21.11.   location "Kulmasali"      Oulainen
+
+Row shape, inside a day group:
+
+    <div class="showgroup"><h3 class="daytitle">Lauantai 19.9.2026</h3>
+      <a href="/fi_FI/{category}/{slug}" class="js-grid-item js-grid-show" data-product="1038">
+        <span class="showrating rating-icon rating-12">K-12</span>
+        <h3 class="grid-content-title" data-name="...">...</h3>
+        <span class="showlocation" data-location="Bio Marilyn">Bio Marilyn</span>
+        <span class="showtime" data-showtime="2026-09-19T14:30:00.000Z">klo 17.30</span>
+        <span class="showduration">1 h 27 min</span>
+
+- `data-showtime` is a UTC instant. All 71 rows converted through `Europe/Helsinki` to the
+  clock printed beside them.
+- The day group carries the year.
+- Rating classes seen: `rating-7`, `-12`, `-16`, `-18`, `-s`, `-unknown`.
+- The category path is per tenant: `/fi_FI/nyt-ohjelmistossa/`, `/fi_FI/naytokset/`,
+  `/fi_FI/ohjelmisto/`, and at Kinokulma the bare `/fi_FI/{slug}`.
+- A grid item inside a day group with no `data-showtime` is a coming-soon entry. Bio
+  Marilyn had 14 of them; the other three sites had none.
+- Film page answers 200 and carries `Kesto NN min`, `Luokittelu`, `Alkuperainen nimi`,
+  `Ohjaaja`, cast and a synopsis under `Kuvaus`.
+- No price anywhere. Vihdin Kino's `Liput` page states bands: normal 13 to 15, family 10
+  to 13, weekday matinee 11 to 13, specials priced separately. Bio Forum's info page lists
+  none.
+- Artwork is landscape. `og:image` measured 2048x1365 (Vihti), 2048x1152 (Lapua),
+  2048x857 (Oulainen); grid thumbnails are 3:2 crops.
+- Tammisaari publishes Swedish titles.
+
+**Inferences and open questions**
+
+- The 2026-09-05 reading was of a WordPress site with the widget embedded. Read a Johku
+  cinema's own front page before classifying it.
+- `kuvatahti.fi` matches the old finding: same storefront, `/fi_FI/naytosajat` names both
+  venues, neither page carries a `data-showtime`. Cause not established.
+
+**Status and next step**
+
+Four sites, one reader. Not implemented when this was written.
+
+---
+
+## Helsinki culture centres: one events service (2026-09-18)
+
+**Findings** (malmitalo.fi and caisa.fi, read as a visitor 2026-09-18)
+
+Kino Helios (Malmitalo) and Kino Caisa (Caisa) run the same application,
+`prime_product_resurssivaraus/kulke`. The programme comes from one service, spelled out in
+`EventCalendar/app/services/events.service.js`:
+
+    POST https://{house}/services/Resurssivaraus/EventCalendarService.svc/GetEvents
+         {"StartTime": "2026-09-18", "EndTime": "2026-10-20", "Language": "fi"}
+    ->   {"EventData": "<JSON string of every house's events>"}
+
+- No auth, no cookie, no key. 326 events for a month, 725 for three and a half.
+- `eventLocation` is the house (41 Kanneltalo, 42 Malmitalo, 44 Stoa, 45 Vuotalo,
+  46 Annantalo, 47 Caisa, 49 Savoy). `mainEventType` 29 is film. Either host answers for
+  all houses.
+- Per event: `title` with the age rating in brackets, `subtitle` with the cinema brand,
+  `description` as a short Finnish synopsis, `start`/`end` as epoch ms, `timeSpanToShow`,
+  `specificLocation`, `ticketLink` to lippu.fi.
+- Kino Helios: 25 events in the month read, 8 films, 25 with a ticket link, all in
+  `Malmitalon Pieni sali`.
+- Kino Caisa: one type 29 row with that subtitle to the end of the year, the Cinemaissi
+  festival 14. to 18.10., a date range with no screening time.
+- Type 29 also holds school screenings (`Pulpettikino`), the Rakkautta & Anarkiaa festival
+  and free Monday screenings. `subtitle` is the only labelled signal for Kino Helios.
+- `priceinfo` is null on every Malmitalo film event. The Kino Helios page states "alkaen
+  9 EUR" and "alkaen 7 EUR" for children's films.
+- `Embeds/EventPic_{masterID}.jpg` measured 1080x648 on three tested.
+
+**Inferences and open questions**
+
+- The service is a POST, so the datacenter probe used elsewhere here cannot exercise it.
+  Only a runner settles it.
+- Cinema Vuotalo and the Savoy screenings are in the same feed, not assessed.
+
+**Status and next step**
+
+Deferred by the maintainer 2026-09-18 until the POST is tested from a runner.
+
+---
+
+## The 2026-09-18 candidate batch: thirty-two names
+
+**Findings** (each host read once or twice as a visitor, 2026-09-18)
+
+Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista", edited
+2025-07-18, plus five towns with no entry on it. Identity confirmed against
+`nytleffaan.fi/elokuvateatterit/`, which carries 225 cinemas with address and site.
+
+**Closed on identity, no endpoint called.**
+
+- **Bio Marilyn Hameenlinna** and **Bio Marilyn Seinajoki**: sold to Bio Rex Cinemas 2016;
+  Hameenlinna closed early 2017 and moved to BioRex Verkatehdas, Seinajoki ran as Bio Rex
+  Marilyn to December 2021 and was replaced by BioRex Seinajoki. Both already covered here
+  under their BioRex names. Lapua is the operating Bio Marilyn.
+- **Davvenasti**, Utsjoki: `davvenasti.fi` and `www.davvenasti.fi` have no A record.
+- **Kino Sampo, Riihimaki**: a film society. News posts, seasonal series of five films,
+  schedule in prose ("Naytokset ovat paasaantoisesti sunnuntaisin klo 18.00. Liput 6 EUR
+  jasenet ja 8 EUR ei-jasenet"). No listing.
+- **Kampus Kino**, Jyvaskyla: directory entry points at Facebook; `ilokivi.fi` carries no
+  film listing.
+- **Kinoset Somero** is Bio Jukola, and the directory gives Kinoset's own contact address.
+  `kinoset.fi`'s `public_api.php` answers 0 shows at locationid 4, 5 and 6; 1, 2 and 3 are
+  the published Huittinen, Loimaa and Sastamala venues.
+- **Paimion Kino** is historical. Paimio's cinema is Bio Stara, re-read after paimio.fi
+  announced an autumn 2026 series there: no clock time on the site, Nexxo endpoint empty.
+
+**On a platform already read.**
+
+- **Kino Myyri**, Vantaa (`kinomyyri.fi`, linked from `myyrikino.fi`): Kinola. Its
+  `/ohjelmisto/` renders `kinola-event` blocks with `media.kinola.ee` posters,
+  `kinola-event-title` to `/film/{slug}/`, `-venue`, `-date`, `-tickets-link`. Film pages
+  carry `Ohjaus`, `Ikaraja`, `Kesto`. Two differences from Laika: the date reads
+  "pe 18.9. klo 19:30" with no year, and the ticket link is `/checkout/{uuid}`. No price on
+  the listing or the film page. One film page carried an English synopsis.
+
+**Own parser, server-rendered to a plain fetch.**
+
+    Kino Hamina        hamina.fi          WordPress    14 rows, K rating, 8/10/11 EUR
+    Ritz Vaasa         ritz.fi            Elementor    12 rows, 10 to 12 EUR band
+    Bio Pallas         biopallas.com      Wix          19 rows, bilingual, 12 or 13 EUR
+    Bio Huvimylly      huvimylly.com      WordPress    4 rows, portrait posters
+    Kinotour           kinotour.fi        Events Mgr   19 rows: date, time, film, venue
+    Marita             elokuvateatterimarita.fi        3 rows, 10 EUR, portrait posters
+    Lieksan elokuvat   lieksanelokuvat.net             7 rows, 12 to 13 EUR
+    Navettakino        navettakino.fi                  2 rows, 10 EUR
+    Pyhasalmen VPK     pyhasalmenvpk.fi                5 rows, 12 EUR
+    Alatalo-kiertue    moviecompanyalatalo.fi          13 rows, touring Kemijarvi
+
+- Kinotour names venue and town on every row: Kyro, Naantali and Lieto on the day read. A
+  touring venue set moves and this repo declares venues in the registry.
+- Bio Pallas takes reservations by phone and Facebook Messenger. No ticket URL per row.
+- Kino Hamina, Marita, Navettakino and Huvimylly publish portrait posters on their hosts.
+
+**Browser only.**
+
+- **Kino-Huovi**, Harjavalta: Duda site served as a JSON document; two screenings in prose
+  with no year ("19.9. LA klo 18.00", "20.-21.9. SU ja MA klo 18.00").
+- **Kino Akustiikka**, Ylivieska: town event system renders client-side.
+- **Kino Kuusamotalo**: front page names one film, one post per film.
+- **Lapinsuu**, Sodankyla: Webnode; the programme path its own navigation gives answers 404.
+- **Rekolan Kino**, Vantaa: `popupkino.fi` publishes occasional screenings as one page or
+  Facebook event each.
+- **Kuvala**, Uusikaupunki: KuvaTahti storefront, above.
+- **Kino K13**, Helsinki: `ses.fi` publishes festival weeks in prose ("ma 5.10. klo 18:
+  LUVATTU MAA").
+- **Juvan Kino**: municipal cinema paths 404, events page renders client-side.
+
+**Runner reachability, 2026-09-18.** A non-residential fetcher read every readable
+candidate's real page except **huvimylly.com**, which answered it 403 and an ordinary
+connection 200, with `Server: Apache` and no `CF-Ray`. Cine and Star answered the same way
+on 2026-09-08: the refusal is at the origin. The Helsinki service is a POST and was not
+probed this way.
+
+**Inferences and open questions**
+
+- Three of the thirty-two were covered under another name, closed, or unreachable at DNS,
+  so identity decided them before any endpoint was called.
+- A cinema running a shop platform and a cinema embedding that shop's widget are two
+  cases. The 2026-09-05 entry measured the second and closed Johku on it.
+
+**Status and next step**
+
+Nothing implemented. The ranked order was put to the maintainer on 2026-09-18.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)
