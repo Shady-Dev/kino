@@ -181,9 +181,12 @@ def sample_biorex():
 
 def sample_engel():
     en = mod("engel")
-    page = ('<a href="/elokuva/autofiktio/"><span>Pe 05.09.</span><span>klo 21:30</span>'
+    # The weekdays are the ones 2026 actually carries: 5 September is a Saturday and
+    # 6 September a Sunday. `engel.parse` selects the year from them since 2026-09-19,
+    # so a fixture weekday that contradicts its own date would skip the row.
+    page = ('<a href="/elokuva/autofiktio/"><span>La 05.09.</span><span>klo 21:30</span>'
             '<h3>Autofiktio</h3>Osta liput</a>'
-            '<a href="/elokuva/troija/"><span>La 06.09.</span><span>klo 19:00</span>'
+            '<a href="/elokuva/troija/"><span>Su 06.09.</span><span>klo 19:00</span>'
             '<h3>Troija</h3>Osta liput</a>')
     return en.parse(page, today=TODAY), "engel", [en.VENUE["id"]]
 

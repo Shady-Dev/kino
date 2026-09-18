@@ -28,7 +28,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch
+from common import capped, fetch, resolve_year, weekday_index
 
 BASE = "https://kinoengel.fi"
 URL = BASE + "/"
@@ -42,6 +42,10 @@ SITES = [{"provider": "engel", "label": "Kino Engel", "venues": [VENUE]}]
 
 # The outdoor screen. Slug prefix is the reliable signal; the visible title carries
 # "KESÄKINO:" too, but the slug is ascii-folded and cannot be affected by a typo.
+# `resolve_year`'s (behind, ahead). The committed programme reached +9 to +15 days on
+# 2026-09-19 and this cinema publishes a week or two at a time, so 120 is headroom.
+WINDOW = (30, 120)
+
 OUTDOOR_SLUG = "kesakino-"
 OUTDOOR_AUD = "KesäKino"
 
@@ -52,7 +56,7 @@ OUTDOOR_AUD = "KesäKino"
 Q = r'["\']'
 ANCHOR_RE = re.compile(r'<a\b[^>]*href=["\'](?:https?://kinoengel\.fi)?(/elokuva/([^"\'/]+)/?)["\'][^>]*>'
                        r'(.*?)</a>', re.S | re.I)
-DATE_RE = re.compile(r'(?:Ma|Ti|Ke|To|Pe|La|Su)\s*(\d{1,2})\.(\d{1,2})\.')
+DATE_RE = re.compile(r'(Ma|Ti|Ke|To|Pe|La|Su)\s*(\d{1,2})\.(\d{1,2})\.')
 TIME_RE = re.compile(r'klo\s*(\d{1,2})[:.](\d{2})')
 IMG_RE = re.compile(r'<img\b[^>]*>', re.I)
 SRCSET_RE = re.compile(r'srcset=["\']([^"\']+)["\']')
@@ -104,17 +108,19 @@ def _poster(block):
     return "" if url.startswith("data:") else url
 
 
-def _iso(day, month, hh, mm, today=None):
-    """The rows carry no year, same as Kino Akseli. Pick the one nearest today."""
+def _iso(day, month, hh, mm, today=None, weekday=None):
+    """A row's `La 29.08.` plus its clock -> an ISO start, or "" when it cannot be placed.
+
+    `common.resolve_year` selects the year and then bounds it. The private loop this
+    replaced took the first candidate inside a window rather than the nearest one, so a
+    row 46 or more days stale resolved to next year: `1.8.` read on 2026-09-19 published
+    as 2027-08-01. The weekday the row prints selects the year outright.
+    """
     today = today or datetime.datetime.now(FI).date()
-    for year in (today.year, today.year + 1, today.year - 1):
-        try:
-            d = datetime.date(year, month, day)
-        except ValueError:
-            continue
-        if -45 <= (d - today).days <= 320:
-            return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
-    return ""
+    year = resolve_year(day, month, today, weekday, WINDOW)
+    if year is None:
+        return ""
+    return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
 
 
 def _title(block):
@@ -135,6 +141,7 @@ def _strip_outdoor(title):
 def parse(page, today=None):
     shows = []
     coming = []
+    unplaced = []
     for m in ANCHOR_RE.finditer(page):
         href, slug, block = m.group(1), m.group(2), m.group(3)
         d = DATE_RE.search(block)
@@ -158,9 +165,11 @@ def parse(page, today=None):
                 coming.append((f"{int(cd.group(2)):02d}-{int(cd.group(1)):02d}",
                                _title(block)[:40]))
             continue
-        start = _iso(int(d.group(1)), int(d.group(2)),
-                     int(t.group(1)), int(t.group(2)), today)
+        start = _iso(int(d.group(2)), int(d.group(3)),
+                     int(t.group(1)), int(t.group(2)), today,
+                     weekday_index(d.group(1)))
         if not start:
+            unplaced.append(f"{d.group(1)} {d.group(2)}.{d.group(3)}.")
             continue
         outdoor = slug.lower().startswith(OUTDOOR_SLUG)
         title = _title(block)
@@ -200,6 +209,9 @@ def parse(page, today=None):
     out.sort(key=lambda s: s["start"])
     # Only the dates no timed row covers. Everything else is the second listing
     # repeating a screening this parse already has.
+    if unplaced:
+        print(f"[engel] {len(unplaced)} row(s) whose weekday matches no candidate year "
+              f"inside the window, skipped: {', '.join(unplaced[:5])}")
     have = {s["start"][5:10] for s in out}
     orphan = sorted({(md, t) for md, t in coming if md not in have})
     if orphan:
