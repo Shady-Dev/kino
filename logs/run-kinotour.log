@@ -6,8 +6,8 @@
 [kinotour] Kurkisali: 3 showtimes, 1 dates
 [kinotour] Kristoffersali: 3 showtimes, 1 dates
 [kinotour] Valtuustosali: 4 showtimes, 2 dates
-[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
 [run] kinotour: 3 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 106.1s, 0.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 107.2s, 1.1s wall from this module's first fetch starting to its last ending
 exit=0
