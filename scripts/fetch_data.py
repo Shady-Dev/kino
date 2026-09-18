@@ -1,6 +1,5 @@
 """Fetch Finnkino schedule via digital-api (Vista OCAPI) and write JSON into data/."""
 import datetime, gzip, json, os, re, sys, time, pathlib
-import urllib.request
 import urllib.parse
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
@@ -138,10 +137,25 @@ THEATER_SLUGS = {
     "Tennispalatsi Helsinki": "finnkino-tennispalatsi",
 }
 
-def http_get(url, headers, timeout=25):
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        raw = r.read()
+def http_get(url, headers, timeout=25, tries=3, backoff=5):
+    """Every request this script makes, through the shared fetcher. -> bytes.
+
+    It used to be a bare `urlopen().read()`: no retry, no body cap, no `Retry-After`,
+    and none of the refusal diagnostics the rest of the pipeline prints. That covered
+    the Finnkino API, the poster downloads and the TMDB calls alike, so a transient 502
+    on one business date failed the whole seven-day fetch and a TMDB 429 was answered
+    immediately with two more requests.
+
+    `common.fetch` supplies all four, and `tries`/`backoff` pass straight through to it
+    so a caller can tune the wait without reaching around this function.
+
+    Two things stay here. The gunzip is this script's:
+    `common.fetch` returns the body as served, and Finnkino has been seen answering
+    gzip. And `cache` stays off, because none of these endpoints sends a validator and a
+    POST-like token page is not addressed by its URL alone.
+    """
+    raw = common.fetch(url, headers=headers, timeout=timeout,
+                       tries=tries, backoff=backoff)
     if raw[:2] == b"\x1f\x8b":
         raw = gzip.decompress(raw)
     return raw
