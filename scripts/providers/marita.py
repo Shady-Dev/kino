@@ -70,7 +70,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, check_shows, fetch, served
+from common import capped, check_shows, fetch, get_text, served
 from etiketti import lang_codes
 from synmerge import norm
 
@@ -256,9 +256,8 @@ def rows(site, page):
 
 
 def get(url, tries=3, timeout=30):
-    return fetch(url, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 tries=tries, timeout=timeout).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
 def enrich(shows, sleep=None, fetch_page=None):

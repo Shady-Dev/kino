@@ -174,7 +174,7 @@ import time
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import (EmptyProgramme, budget_or_raise, fetch, resolve_year,
+from common import (EmptyProgramme, budget_or_raise, fetch, get_text, resolve_year,
                     syn_language, weekday_index)
 from gilda import LANG
 
@@ -718,9 +718,8 @@ def empty_programme_evidence(page):
 
 
 def get(url, tries=3, timeout=30):
-    return fetch(url, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 tries=tries, timeout=timeout).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
 def fetch_site(site, sleep=1.2):

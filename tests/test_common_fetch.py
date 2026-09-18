@@ -413,5 +413,97 @@ class FetchTest(unittest.TestCase):
         self.assertEqual(self.srv.hits["/r"], 1)
 
 
+class GetTextTest(unittest.TestCase):
+    """`common.get_text`: the body seven adapters had written out identically.
+
+    Against the same local server as the rest of this file, because what it adds to
+    `fetch` is a set of defaults and a decode, and both are observable.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        cls.srv.script, cls.srv.hits = {}, {}
+        cls.url = f"http://127.0.0.1:{cls.srv.server_address[1]}"
+        cls.thread = threading.Thread(target=cls.srv.serve_forever, daemon=True)
+        cls.thread.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.srv.shutdown()
+        cls.srv.server_close()
+
+    def setUp(self):
+        self.srv.script.clear()
+        self.srv.hits.clear()
+        self.srv.banner = "TestHTTP"
+        sink = contextlib.redirect_stdout(io.StringIO())
+        sink.__enter__()
+        self.addCleanup(sink.__exit__, None, None, None)
+
+    def test_it_returns_the_page_as_text(self):
+        self.srv.script["/p"] = [(200, {}, "<h1>Näytökset</h1>".encode("utf-8"))]
+        self.assertEqual(common.get_text(self.url + "/p"), "<h1>Näytökset</h1>")
+
+    def test_one_bad_byte_costs_a_character_and_not_the_page(self):
+        self.srv.script["/bad"] = [(200, {}, b"<h1>N\xff\xfeytokset</h1>")]
+        got = common.get_text(self.url + "/bad")
+        self.assertTrue(got.startswith("<h1>N"))
+        self.assertIn("\ufffd", got)
+
+    def test_the_defaults_are_the_ones_the_seven_wrappers_had(self):
+        seen = {}
+        def fake(url, **kw):
+            seen.update(kw)
+            return b"ok"
+        common.get_text("http://example.invalid/x", fetcher=fake)
+        self.assertIs(seen["cache"], True)
+        self.assertEqual(seen["timeout"], 30)
+        self.assertEqual(seen["headers"], common.TEXT_HEADERS)
+
+    def test_a_caller_can_override_any_of_them(self):
+        seen = {}
+        def fake(url, **kw):
+            seen.update(kw)
+            return b"ok"
+        common.get_text("http://example.invalid/x", fetcher=fake, cache=False,
+                        timeout=45, headers={"accept": "application/json"}, tries=1)
+        self.assertEqual((seen["cache"], seen["timeout"], seen["tries"]), (False, 45, 1))
+        self.assertEqual(seen["headers"], {"accept": "application/json"})
+
+    def test_the_fetcher_is_the_seam_the_adapter_tests_stub(self):
+        """Each adapter passes its own module-level `fetch`, which its tests replace with
+        a fixture. Reaching `common.fetch` here would make every one of those a no-op."""
+        called = []
+        common.get_text("http://example.invalid/x",
+                        fetcher=lambda url, **kw: called.append(url) or b"fixture")
+        self.assertEqual(called, ["http://example.invalid/x"])
+
+    def test_a_refusal_propagates_rather_than_coming_back_as_an_empty_page(self):
+        """The error path, tripped: an adapter that got "" for a 500 would read it as a
+        cinema with nothing on."""
+        self.srv.script["/gone"] = [(500, {}, b"boom")]
+        with self.assertRaises(urllib.error.HTTPError):
+            common.get_text(self.url + "/gone", tries=1)
+
+    def test_an_oversize_body_is_refused_here_too(self):
+        c = self.reload_common(KINO_MAX_BODY=500)
+        self.srv.script["/huge"] = [(200, {}, b"x" * 2000)]
+        with self.assertRaises(c.BodyTooLarge):
+            c.get_text(self.url + "/huge")
+
+    def reload_common(self, **env):
+        for k in ("KINO_MAX_BODY",):
+            os.environ.pop(k, None)
+        os.environ.update({k: str(v) for k, v in env.items()})
+        os.environ["KINO_HTTP_CACHE"] = os.path.join(
+            os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
+        mod = importlib.reload(common)
+        mod.EmptyProgramme = EMPTY_PROGRAMME
+        self.addCleanup(lambda: setattr(importlib.reload(common), "EmptyProgramme",
+                                        EMPTY_PROGRAMME))
+        return mod
+
+
 if __name__ == "__main__":
     unittest.main()

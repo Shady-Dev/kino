@@ -69,7 +69,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import check_shows, fetch, resolve_year, served, weekday_index
+from common import check_shows, fetch, get_text, resolve_year, served, weekday_index
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -225,9 +225,8 @@ def rows(site, page, today=None):
 
 
 def get(url, tries=3, timeout=30):
-    return fetch(url, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 tries=tries, timeout=timeout).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
 def fetch_site(site, today=None):

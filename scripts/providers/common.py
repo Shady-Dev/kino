@@ -729,6 +729,32 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
 # cap simply shows without runtime, genres or synopsis until the next run. That is the
 # right way round, and it is logged loudly because a cap that trims silently would read
 # as complete data.
+# What a server-rendered Finnish page is asked for. Seven adapters had written this out
+# identically -- hamina, kinola, kinotour, lieksa, marita, navetta and vpk -- and the copies
+# were byte for byte the same, which is the only kind worth folding together. Twelve other
+# wrappers differ in a header, a timeout or an accept, and each difference is deliberate for
+# that host, so none of them was harmonised into this.
+TEXT_HEADERS = {"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
+
+
+def get_text(url, fetcher=None, **kw):
+    """One server-rendered page, decoded. -> str.
+
+    `cache=True`, the Finnish page headers and a 30 s timeout, all overridable through
+    `kw`, and the body decoded as UTF-8 with replacement so one bad byte costs a character
+    rather than the page.
+
+    `fetcher` is the seam the adapters' tests already use. Each of them stubs its own
+    module-level `fetch` to serve a fixture, so a wrapper that let this function reach
+    `common.fetch` directly would turn every one of those stubs into a no-op and the tests
+    would quietly start talking to the internet. The wrapper passes its own `fetch` in.
+    """
+    kw.setdefault("cache", True)
+    kw.setdefault("headers", dict(TEXT_HEADERS))
+    kw.setdefault("timeout", 30)
+    return (fetcher or fetch)(url, **kw).decode("utf-8", "replace")
+
+
 PAGE_BUDGET = int(os.environ.get("KINO_PAGE_BUDGET") or 120)
 
 
