@@ -1228,6 +1228,36 @@ Live as `scripts/providers/vpk.py`, one provider, one venue, cloud half. Next st
 from the committed log after a run.
 
 
+## Kinotour's towns are more than the three declared (2026-09-19)
+
+**Findings** (read once as a visitor from an ordinary connection, 2026-09-19)
+
+- `www.kinotour.fi/locations/` answers 200, 55 kB, titled "Tapahtumapaikat". Its location
+  links give slugs, and the ones on the first page alone are `askaisten-koulu`,
+  `aurasali`, `drive-in-piispanristi`, `himolan-teatteri`, `holiday-club-caribia` (twice),
+  `ikaalisten-tori`, `karkkilasali` (twice) and `kauppakeskus-mylly`. A `page` slug among
+  them says the directory is paginated, so this is a floor and not the whole set.
+- The registry declares three: Kyrö, Naantali and Lieto. Karkkila, Ikaalinen and
+  Piispanristi are therefore towns this repository does not list.
+- `/varaa-liput-elokuvatapahtumiin/`, the booking table the adapter reads, answered the
+  same ordinary connection 200 with 11 `<tr>` rows on the same read.
+
+**Inferences and open questions**
+
+- A touring operator's location directory is not its programme. A town appears there
+  whether or not it has a screening in the window, so adding a venue off this list alone
+  would declare venues that publish nothing and sit unverified.
+- `rows()` already counts the towns it cannot place, in `report["undeclared"]`, and the
+  run prints them. That is the evidence a venue should be declared on, because it says the
+  town has a screening *and* gives the string the row prints.
+
+**Status and next step**
+
+Not built. Declare a venue when `run-kinotour.log` names its town in the undeclared count,
+not from the directory. No probe of the remaining pages of `/locations/` was made.
+
+---
+
 ## Which platforms exist: the directory and domain sweeps
 
 **Findings** (nytleffaan.fi, probed 2026-08-29; Vista domain sweeps 2026-08-27 and -29)

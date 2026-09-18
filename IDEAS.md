@@ -34,8 +34,8 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Thirty-two triaged 2026-09-18**, twelve built: Kino Myyri, four Johku storefronts,
   Ritz Vaasa, Kino Hamina, Kinotour and the four of 2026-09-19. Kino Helios is priced and
   declined, eight need a browser, eight have nothing, three server-render and are unbuilt.
-  **Next action:** Bio Pallas, then Alatalo-kiertue. Bio Huvimylly is the third and would
-  be local: runner 403 against an ordinary connection's 200.
+  **Next action:** Bio Pallas, then Bio Huvimylly (local: runner 403 against an ordinary
+  connection's 200), then Alatalo-kiertue, then Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
