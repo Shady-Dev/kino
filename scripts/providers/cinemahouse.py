@@ -54,7 +54,7 @@ from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, capped, fetch, served
+from common import EmptyProgramme, capped, fetch, resolve_year, served
 from strands import split as split_strand
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -128,6 +128,10 @@ IMG_SRC_RE = re.compile(r"<img\b[^>]*?(?:^|\s)src\s*=\s*\"([^\"]+)\"", re.I)
 # separator. Both halves are the plugin's, so the separator is the split point rather
 # than a guess about where a room name starts.
 WHEN_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.\s*(\d{1,2})[:.](\d{2})")
+# `resolve_year`'s (behind, ahead). The three sites' committed programmes reached +89
+# days on 2026-09-19, Laitila publishing fortnightly to mid-December, so 180 is twice
+# the widest span seen and half the 365 a year's slip would need.
+WINDOW = (30, 180)
 SEPARATOR = "\u00b7"
 FREE_RE = re.compile(r"(\d+)\s*/\s*(\d+)")
 EUR_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*(?:\u20ac|eur\b)", re.I)
@@ -160,20 +164,21 @@ def _txt(s):
 
 
 def _iso(day, month, hh, mm, today=None):
-    """The rows carry no year: pick the one that keeps the date near today.
+    """`15.9.` plus a clock -> an ISO start, or "" when the date cannot be placed.
 
-    The same window `orion._iso` uses. Never the current year: Laitila publishes into
-    December and a January row read in December belongs to the next year.
+    `common.resolve_year` picks the nearest occurrence and then bounds it. These rows
+    print no weekday, so nearest is the whole rule: a January row read in December is
+    next January because that is nearer than the one eleven months back.
+
+    The private loop this replaced took the first candidate inside a -45..+320 window
+    rather than the nearest one, and tried the current year first, so a row 46 or more
+    days stale skipped to next year: `1.8.` read on 2026-09-19 published as 2027-08-01.
     """
     today = today or datetime.datetime.now(FI).date()
-    for year in (today.year, today.year + 1, today.year - 1):
-        try:
-            d = datetime.date(year, month, day)
-        except ValueError:
-            continue
-        if -45 <= (d - today).days <= 320:
-            return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
-    return ""
+    year = resolve_year(day, month, today, None, WINDOW)
+    if year is None:
+        return ""
+    return datetime.datetime(year, month, day, hh, mm, tzinfo=FI).isoformat()
 
 
 def _price(cell):
@@ -372,7 +377,8 @@ def normalise(rows, films, site, today=None):
             "movieUrl": film.get("url", ""),
         })
     if skipped:
-        print(f"[{site['provider']}] {skipped} screening row(s) with no readable date")
+        print(f"[{site['provider']}] {skipped} screening row(s) with no readable date, "
+              f"or none a candidate year places inside the window, skipped")
     out.sort(key=lambda s: s["start"])
     return out
 

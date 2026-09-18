@@ -321,6 +321,29 @@ class YearTest(unittest.TestCase):
                          "2027-01-15")
         self.assertEqual(ch._iso(31, 2, 13, 0, today=TODAY), "")
 
+    def test_a_stale_row_is_skipped_and_the_current_one_keeps_its_date(self):
+        """Before 2026-09-19 a private loop took the first candidate year inside a
+        -45..+320 window and tried the current year first, so `1.8.` read on 2026-09-19
+        published as 2027-08-01. Two rows, because the skip is a `continue` in the loop."""
+        rows = (row(PR, "Hetki ennen valoa", "15.9. 13:00", sid="1"),
+                row(PR, "Vanha", "1.8. 18:00", sid="2"))
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            shows = ch.parse(page(days=("2026-09-15",),
+                                  tiles=[tile(PR, "Hetki ennen valoa", "hetki-ennen-valoa")],
+                                  rows=rows), PIISPANRISTI, today=TODAY)
+        self.assertEqual([s["start"][:10] for s in shows], ["2026-09-15"])
+        self.assertIn("1 screening row(s)", out.getvalue())
+        self.assertIn("inside the window", out.getvalue())
+
+    def test_the_window_is_measured_from_what_the_three_sites_publish(self):
+        """They reached +89 days on 2026-09-19, Laitila publishing to mid-December."""
+        self.assertEqual(ch.WINDOW, (30, 180))
+        for days, published in ((120, True), (200, False)):
+            with self.subTest(days=days):
+                d = TODAY + datetime.timedelta(days=days)
+                got = ch._iso(d.day, d.month, 18, 0, TODAY)
+                self.assertEqual(got[:10], d.isoformat() if published else "")
+
     def test_winter_time_is_the_zone_and_not_a_fixed_offset(self):
         """Laitilan Kino's own JSON-LD stamps a 13:00 Helsinki screening +00:00; the
         rendered clock is what a visitor reads and what is parsed."""
