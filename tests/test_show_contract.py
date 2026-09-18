@@ -44,6 +44,7 @@ import test_hamina as HM
 import test_johku as JK
 import test_kinola as KL
 import test_kinotour as KT
+import test_lieksa as LK
 import test_marita as MA
 import test_tribe as TR
 import test_heureka as H
@@ -317,6 +318,14 @@ def sample_kinotour():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_lieksa():
+    """Two films in the programme section and one in the coming-soon one, so the sample
+    carries the article that must not reach a venue file as well as those that must."""
+    site = LK.SITE
+    out, _ = mod("lieksa").rows(site, LK.TWO, LK.TODAY)
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_marita():
     """Two films over three screenings, one of them priced by a band, so the row that must
     publish no amount is in the sample beside the two that must."""
@@ -353,6 +362,7 @@ SAMPLES = {
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
     "kinotour": sample_kinotour, "marita": sample_marita,
+    "lieksa": sample_lieksa,
 }
 
 

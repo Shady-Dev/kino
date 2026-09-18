@@ -950,7 +950,7 @@ Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista"
     Bio Huvimylly      huvimylly.com      WordPress    4 rows, portrait posters
     Kinotour           kinotour.fi        Events Mgr   19 rows: date, time, film, venue
     Marita             elokuvateatterimarita.fi        3 rows, 10 EUR, portrait posters
-    Lieksan elokuvat   lieksanelokuvat.net             7 rows, 12 to 13 EUR
+    Lieksan Kino       lieksanelokuvat.net             7 rows, 12 to 13 EUR
     Navettakino        navettakino.fi                  2 rows, 10 EUR
     Pyhasalmen VPK     pyhasalmenvpk.fi                5 rows, 12 EUR
     Alatalo-kiertue    moviecompanyalatalo.fi          13 rows, touring Kemijarvi
@@ -1086,6 +1086,43 @@ page's href, a portrait poster with its dimensions in the tag, `Hinta:`, `Kieli:
 **Status and next step**
 
 Live as `scripts/providers/marita.py`, one provider, one venue, cloud half. Next step:
+verify from the committed log after a run.
+
+
+## Lieksan Kino (2026-09-19)
+
+**Findings** (lieksanelokuvat.net read as a visitor)
+
+Hand-written HTML, no platform fingerprint and no WordPress. Five `<section>` elements
+carry the page, and `section-b`, "Elokuvissa nyt", is the programme: one `article.entry`
+per film with `<h3>` title in capitals, an `entry-text` synopsis, and a `<side>` holding
+`Liput:`, `Kesto:`, a `rating-icon-{7,12,16,18,s}.svg` and a `showtimes` list of
+`<li><p>Su 20.09. 15.00</p><p></p><p></p></li>`. 7 screenings over 4 films when read.
+
+- **`section-c`, "Tulossa esitettäväksi", renders the same article markup** for five films
+  with no `<side>` and no screening row, so the section is the only boundary between the
+  programme and the coming-soon list.
+- **The screening line prints no year**, and each line carries two further empty `<p>`
+  elements whose purpose is not established; all seven were empty.
+- Prices are per film, 12, 11, 13 and 13 euro. Two other figures on the page are different
+  products: an advance-ticket voucher (1 for 13 €, 5 for 60 €) bought from the cinema by
+  phone, and a PAM members' five euro discount.
+- **Every film image is portrait**, 512x724 to 512x768 measured on all nine films across
+  both sections, on the site's own host. The dimensions are not in the markup. The two
+  landscape images on the page, 512x342 and 512x512, are in the notices section.
+- No ticket sale, no per-film page and no booking host: "Liput ovat ostettavissa Lieksan
+  kulttuurikeskuksen aulasta noin 30 minuuttia ennen näytöksen alkua."
+- No language and no genre anywhere on the site.
+
+**Inferences and open questions**
+
+- The Wayback captures of this domain stop in 2021 on an older design, so nothing shows
+  what an emptied programme looks like on this template.
+- What the two empty `<p>` elements are for is unknown; the parser ignores them.
+
+**Status and next step**
+
+Live as `scripts/providers/lieksa.py`, one provider, one venue, cloud half. Next step:
 verify from the committed log after a run.
 
 

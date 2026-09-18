@@ -461,6 +461,13 @@
    "host": "elokuvateatterimarita.fi",
    "accent": "#849666",
    "book": "door"
+  },
+  {
+   "id": "lieksankino",
+   "label": "Lieksan Kino",
+   "host": "lieksanelokuvat.net",
+   "accent": "#2A5A9C",
+   "book": "door"
   }
  ]
 }

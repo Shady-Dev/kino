@@ -34,7 +34,7 @@ cities are committed, Marita being the one not yet published. Check for an exist
 
 - **Thirty-two triaged 2026-09-18**, eight built. Kino Helios is priced and declined for
   now, seven of the rest server-render to a plain fetch, eight need a browser, eight have
-  nothing. **Next action:** the three small ones left, then Bio Pallas.
+  nothing. **Next action:** the two small ones left, then Bio Pallas.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
@@ -45,16 +45,16 @@ cities are committed, Marita being the one not yet published. Check for an exist
 
 ### The four small cinemas, one commit each
 
-Four bespoke parsers for towns that carried no cinema here, accents measured together
-first: Marita `#849666`, Lieksan elokuvat `#2A5A9C`, Navettakino `#E45CC0`, Pyhäsalmen VPK
-`#725466`, worst pair among them 18.9 dE00 and each clear of its own insurance set.
-- **Marita, Outokumpu**, `marita.py`, added 2026-09-19: 3 screenings, one request plus one
-  film page per distinct film. `book="door"`, the site selling no ticket anywhere.
-  `EMPTY_VENUES_CONFIRMED` on the site's own "Ei tulevia näytösaikoja", which three of ten
-  captures over eleven months carry. **Next action:** read the run log; the pages go to
-  129 per language and the sitemap to 259.
-- **The other three:** not built. Evidence in
-  [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+Towns that carried no cinema here, one bespoke parser and one commit each, accents
+measured together first: Marita `#849666`, Lieksan Kino `#2A5A9C`, Navettakino `#E45CC0`,
+Pyhäsalmen VPK `#725466`, worst pair among them 18.9 dE00.
+- **Marita, Outokumpu**, `marita.py`, 2026-09-19: 3 screenings, one request plus a film
+  page per film, `book="door"`, `EMPTY_VENUES_CONFIRMED` on the site's own "Ei tulevia
+  näytösaikoja" that three of ten captures carry.
+- **Lieksan Kino**, `lieksa.py`, 2026-09-19: 7 screenings over 4 films, one request,
+  `book="door"`, zero rows failing since no capture of this template is empty.
+- **Next action:** read both run logs; the two take the pages to 130 per language and the
+  sitemap to 261. Navettakino and Pyhäsalmen VPK are not built.
 
 ### Kinotour, and the towns it visits that this repo does not list
 
@@ -271,14 +271,14 @@ count, the poster count, the page rewrite frequency, the venue and provider coun
 once a count stated twice in one file where only one copy moved.
 
 Latest, re-measured 2026-09-19 with data at `ade246db5`. Declared and committed differ by
-one: Marita is registered and its venue file waits for a run. README states the committed
+two: Marita and Lieksan Kino are registered and their venue files wait for a run. README states the committed
 figures, which is what `test_landing_pages.ReadmeCountsTest` measures it against, so its
 opening line and its picker sentence stay at 112 and 78 until that run lands. Two rows
 below moved with this pass, the poster references and the service-worker version.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 66 / 113 / 79 |
+| providers / venues / cities (declared) | 67 / 114 / 80 |
 | venues in committed data | 112 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
@@ -287,10 +287,10 @@ below moved with this pass, the poster references and the service-worker version
 | poster references (shows / films-extra) | 5371 (5054 / 317) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1269 |
-| `sw.js` CACHE | `leffavuoro-v181` |
+| `sw.js` CACHE | `leffavuoro-v182` |
 
-Declared and unpublished: Elokuvateatteri Marita, whose first run takes the pages to 129
-per language and the sitemap to 259. Kino Kilta and Kino Laika published in `87437a3f`,
+Declared and unpublished: Elokuvateatteri Marita and Lieksan Kino, whose first run takes
+the pages to 130 per language and the sitemap to 261. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and
 gave Turku a combined city page. That run **failed** at the city-link gate all the same,
 and the chooser was synchronised afterwards in `56723020`.

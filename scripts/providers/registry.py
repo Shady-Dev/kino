@@ -477,6 +477,16 @@ PROVIDERS = [
     # KinoMania, and 31.8 to 46.6 from the three cinemas added beside it the same day.
     dict(id="marita", label="Elokuvateatteri Marita", host="elokuvateatterimarita.fi",
          accent="#849666", book="door", module="marita", where="cloud"),
+    # Lieksan Kino, 2026-09-19. `book="door"` in the page's own words: "Liput ovat
+    # ostettavissa Lieksan kulttuurikeskuksen aulasta noin 30 minuuttia ennen näytöksen
+    # alkua." The advance ticket it sells by phone is a voucher, not an online sale.
+    # Lieksa holds no other chain and sits in no REGIONS area. Same North Karelia frame as
+    # Marita, so the two were measured together: 16.3 dE00 on the weakest model against
+    # Savon Kinot, the only chain either would meet, and 46.6 from Marita, which is the
+    # pair most likely to share a future row. 4.3 from its nearest accent anywhere,
+    # Kuvakukko, which is as far as the band reaches with 66 accents in it.
+    dict(id="lieksankino", label="Lieksan Kino", host="lieksanelokuvat.net",
+         accent="#2A5A9C", book="door", module="lieksa", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
