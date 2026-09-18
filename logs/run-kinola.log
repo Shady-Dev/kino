@@ -1,8 +1,8 @@
-[kinokilta] 52 screening(s) listed, 38 film page(s) read
+[kinokilta] 51 screening(s) listed, 37 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[kinokilta] Kino Kilta: 52 showtimes, 27 dates
+[kinokilta] Kino Kilta: 51 showtimes, 26 dates
 [kinokilta] synopses merged: 0
-[kinokilta] Kino Kilta: 52 showtimes, 27 dates
+[kinokilta] Kino Kilta: 51 showtimes, 26 dates
 [kinolaika] 52 screening(s) listed, 38 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 19 unresolved over 20
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, Amongst the Birds, Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Kana, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1), Kotimaiset lyhytelokuvat (2), Late Fame, Livemusavisa
@@ -11,8 +11,15 @@
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
 [kinolaika] Kino Laika: 32 showtimes, 10 dates
-[run] http: 38 revalidated (304), 40 full, 0 not stored (origin said no-store), 1 cache entries written
-[run] hosts: 2 attempted -- www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 2 venues, 84 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 131.1s of fetching added up across workers that overlap, longest site 71.7s, longest queue wait 80.8s, 72.4s wall from this module's first fetch starting to its last ending
+[kinomyyri] 25 screening(s) listed, 15 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 2
+[kinomyyri] unresolved: Yksityisnäytös, Yksityistilaisuus
+[kinomyyri] override kojootti-vs-acme-dub: active
+[kinomyyri] Kino Myyri: 23 showtimes, 10 dates
+[kinomyyri] synopses merged: 0
+[kinomyyri] Kino Myyri: 23 showtimes, 10 dates
+[run] http: 37 revalidated (304), 56 full, 16 not stored (origin said no-store), 1 cache entries written
+[run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
+[run] kinola: 3 venues, 106 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 179.5s of fetching added up across workers that overlap, longest site 81.6s, longest queue wait 85.9s, 82.3s wall from this module's first fetch starting to its last ending
 exit=0
