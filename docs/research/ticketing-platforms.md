@@ -882,11 +882,28 @@ Kino Helios (Malmitalo) and Kino Caisa (Caisa) run the same application,
 
 - The service is a POST, so the datacenter probe used elsewhere here cannot exercise it.
   Only a runner settles it.
-- Cinema Vuotalo and the Savoy screenings are in the same feed, not assessed.
+- The whole feed was assessed on 2026-09-18, over 2026-09-18 to 12-31: 725 events, 94 of
+  type 29, across seven houses.
+
+      42 Malmitalo    37 rows, 37 timed, 26 ticket links   Kino Helios 26, Doc Helios 1
+      49 Savoy        20 rows, 20 timed, 20 ticket links   all Rakkautta & Anarkiaa
+      45 Vuotalo      18 rows, 18 timed,  7 ticket links   festival tie-ins, one Muumi day
+      44 Stoa          8 rows,  8 timed,  0 ticket links   festival, Barnens Estrad
+      46 Annantalo     7 rows,  7 timed,  0 ticket links   the autumn-break children's week
+      41 Kanneltalo    3 rows,  3 timed,  0 ticket links   Kino Kuutamo, free Mondays
+      47 Caisa         1 row,   0 timed,  0 ticket links   Cinemaissi, a date range
+
+  One accent buys one venue. Malmitalo is the only house with a standing cinema brand and
+  regular ticketed screenings; the rest is festival programming, a children's week and a
+  three-row free-Monday series.
 
 **Status and next step**
 
-Deferred by the maintainer 2026-09-18 until the POST is tested from a runner.
+Not built. Declined 2026-09-18 on the accent rather than on the reading: no colour in the
+L* band clears the combined-city floor against Helsinki's eight chains, 0 of 226,580 swept,
+best reachable 12.2. That would be the first exception the city rule has ever taken, and it
+is recorded in `IDEAS.md` as a policy question about a full city rather than as this
+cinema's.
 
 ---
 

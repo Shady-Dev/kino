@@ -440,6 +440,13 @@
    "host": "muhos.fi",
    "accent": "#15803D",
    "book": "buy"
+  },
+  {
+   "id": "kinohamina",
+   "label": "Kino Hamina",
+   "host": "hamina.fi",
+   "accent": "#0C9C88",
+   "book": "door"
   }
  ]
 }

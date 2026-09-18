@@ -445,6 +445,16 @@ PROVIDERS = [
          book="buy", module="tribe", where="cloud"),
     dict(id="tahtikino", label="Tähti Kino", host="muhos.fi", accent="#15803D",
          book="buy", module="tribe", where="cloud"),
+    # Kino Hamina, 2026-09-18. `book="door"` because the page says so in its own words:
+    # "Ei ennakkovarauksia. Lipunmyynti alkaa n. 30min ennen elokuvan alkamista!", so there
+    # is no ticket host to link to and none is invented. Same as Julia 1&2.
+    # Hamina holds no other chain and sits in no REGIONS area, so nothing constrains this
+    # accent today. Chosen against the row a Kymenlaakso extension would create, since
+    # Hamina's nearest cinema city is Kotka: 21.2 dE00 on the weakest model against Kotkan
+    # Leffat, 30.5 against Kino 123, 33.9 against Studio 123 Kouvola, and 28.8 from
+    # Finnkino's orange, of 36,536 colours in the L* band that clear the floor there.
+    dict(id="kinohamina", label="Kino Hamina", host="hamina.fi", accent="#0C9C88",
+         book="door", module="hamina", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

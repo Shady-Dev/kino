@@ -40,6 +40,7 @@ import test_kuvakukko as KK
 import test_kirkkonummi as KN
 import test_biosavoy as BS
 import test_cinemantsala as CM
+import test_hamina as HM
 import test_johku as JK
 import test_kinola as KL
 import test_tribe as TR
@@ -240,6 +241,15 @@ def sample_kinola():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_hamina():
+    """`today` pinned: the page prints a weekday and no year. One film with a line-level
+    price override and one with none, so both price paths are in the sample."""
+    site = HM.SITE
+    shows, _ = mod("hamina").rows(site, HM.TWO, HM.TODAY)
+    return ({site["venues"][0]["id"]: shows}, site["provider"],
+            [v["id"] for v in site["venues"]])
+
+
 def sample_johku():
     """Bio Marilyn: a coming-soon row with no time and a hall hire in the same day group,
     so the sample carries both of the shapes that must not reach a venue file."""
@@ -316,7 +326,7 @@ SAMPLES = {
     "vaakuna": sample_vaakuna, "kuvakukko": sample_kuvakukko,
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
-    "johku": sample_johku, "tribe": sample_tribe,
+    "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
 }
 
 

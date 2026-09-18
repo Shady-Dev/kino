@@ -27,15 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-63 providers, 108 venues, 74 cities, declared and committed alike, measured 2026-09-18.
+64 providers, 109 venues, 75 cities, declared and committed alike, measured 2026-09-18.
 Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, five published in `f360a09c` and recorded in the
-  archive, two more built here. Kino Helios waits on a runner test of its POST service,
-  nine server-render to a plain fetch, eight need a browser, eight have nothing.
-  **Next action:** the bespoke parsers, as a separate phase.
+- **Thirty-two triaged 2026-09-18**, eight built. Kino Helios is priced and declined for
+  now, eight of the rest server-render to a plain fetch, eight need a browser, eight have
+  nothing. **Next action:** Kinotour, then the four small ones.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
@@ -43,6 +42,30 @@ Nothing is unpublished. Check for an existing platform first. Every candidate as
   destination can be checked. **Next action:** re-read its listing on a later Monday.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
+
+### Kino Hamina, and the Helsinki feed that priced itself out
+
+`hamina.py`, added 2026-09-18: 14 screenings over 5 films on one page, a new city.
+`book="door"`, because the page says "Ei ennakkovarauksia" in its own words, so a showtime
+opens the programme page and no ticket host is invented. The film's `Liput:` line is that
+film's price and a screening line overrides it; a range there settles nothing.
+**Kino Helios is not built, and the feed was assessed before deciding.** One accent buys
+one venue: over 2026-09-18 to 12-31 the service carried 94 film rows across seven houses,
+and only Malmitalo has a standing cinema brand, 37 rows of which 26 are `Kino Helios` with
+a ticket link. The rest is festival programming and one-off children's events.
+**Next action:** none. Adding it needs the first exception to the combined-city accent
+floor, and the entry below says why that is a policy question rather than this one's.
+
+### Helsinki is full at eight chains, and the next cinema there raises it again
+
+No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
+2026-09-18, best reachable 12.2. The city floor has never been broken, and
+`test_every_combined_city_pair_clears_the_floor` enforces it per pair.
+**Why this is not a per-provider decision:** it recurs with the next Helsinki cinema
+whichever one it is, and CLAUDE.md already treats colour as supplementary, printing venue
+names and a chain legend beside it.
+**Next action:** the maintainer's, on what the city view does when a city is full. Not to
+be decided under the pressure of wanting one particular cinema.
 
 ### Kinola: published, and Konepaja still has no programme
 
@@ -255,16 +278,16 @@ again and was already correct.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 63 / 108 / 74 |
-| venues in committed data | 108 |
+| providers / venues / cities (declared) | 64 / 109 / 75 |
+| venues in committed data | 109 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 124 |
-| sitemap URLs | 249 |
-| poster references (shows / films-extra) | 5363 (5047 / 316) |
+| generated pages per language | 125 |
+| sitemap URLs | 251 |
+| poster references (shows / films-extra) | 5373 (5056 / 317) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1263 |
-| `sw.js` CACHE | `leffavuoro-v178` |
+| mirrored poster files | 1269 |
+| `sw.js` CACHE | `leffavuoro-v179` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and
