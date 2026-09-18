@@ -1937,3 +1937,55 @@ price, two amounts for one minute keeping the last, a block holding two amounts 
 first, a block running past the next screening, the price keyed by the day rather than the
 minute, an unlisted screening taking some other row's amount, and the amount losing its
 cents.
+
+### Kino Myyri, and four Johku storefronts, published (2026-09-18)
+
+Five cinemas in one push, `f360a09c`, verified on the runner by the dispatch that
+committed `ca17dc58` at 18:17:30 UTC.
+
+**Kino Myyri**, Vantaa, is a third tenant on `kinola.py`. Its row prints no year, so the
+weekday selects it through `common.resolve_year` inside a 30/120 day window, and a row that
+cannot be placed raises. Its ticket link is `/checkout/{uuid}`, a booking endpoint, so the
+showtime opens the film page instead. 25 screenings listed, 23 published; the two left are
+Yksityisnäytös and Yksityistilaisuus, which the site's own pages describe as the products
+it books private events with. A dubbed print carried no labelled director or genre and is
+included by an override entry rather than dropped.
+
+**The four Johku storefronts** are Bio Marilyn (Lapua), Vihdin Kino (Vihti), Bio Forum
+(Tammisaari) and Kinokulma (Oulainen), 66 showtimes over four new cities. The 2026-09-05
+Johku entry concluded the show list needs the widget's API key; it was reading a WordPress
+site with the widget embedded, and a cinema whose whole site is the storefront renders the
+programme server-side. `data-showtime` is a UTC instant and the clock printed beside it is
+read as well, so a row where the two disagree fails the site. A day group is sliced by
+counting its own divs, because the coming-soon shelf that follows the last group renders
+the same item markup. Cloudflare answers these hosts with 103 Early Hints, which
+`http.client` reports as the final status, so the module reads through it with its own
+response class. That worked on the runner as well: 39 full fetches, no refusal.
+
+**What is left out, and what is not.** A grid item with no time is a coming-soon entry (14
+at Bio Marilyn), and a row under `/fi_FI/products/` is hall hire (2 at Kinokulma). Nothing
+else. A film page that answers nothing costs its row the genres and the synopsis and not
+its place, on the maintainer's instruction of 2026-09-18, so opera, ballet, a memorial
+screening and a stand-up show publish. Prices stay empty, because the tariff pages state
+bands. Artwork stays empty for the four, because the storefront's images are landscape
+banners, 2048x1365 and 2048x857 on the two measured; Kino Myyri's own 2:3 posters publish.
+
+**A synopsis declares its language now that a site publishes more than one.**
+`common.syn_language` scores disjoint function words across fi, sv and en, with a Finnish
+route through case endings that opens only when Swedish and English score nothing. Three of
+twelve Finnish blurbs at one cinema were refused without it. Four texts across the five
+cinemas settle no language and are withheld rather than filed.
+
+**Accents.** Kino Myyri is #807CFC: 14.6 dE00 against Bio Grand in Vantaa, and 10.1 against
+Kino Engel in Pääkaupunkiseutu, where no colour in the L* band clears the floor against
+twelve chains. Pairs below the floor went from 12 of 148 to 14 of 163 and the regional
+minimum is unchanged at 4.5. Vihdin Kino is #AC7CD4, chosen against Keski-Uusimaa's six
+chains although Vihti is in no region row, because Nummela is a locality of Vihti and is in
+that row: 14.9 on the weakest model, 20.6 to normal vision.
+
+Tests: `tests/test_kinola.py` 130, `tests/test_johku.py` 30, `tests/test_syn_language.py`
+11, plus a Johku sample in `tests/test_show_contract.py`. 34 mutations, all red after three
+VOIDs were investigated: one removed a redundant empty-input guard, two were covered by new
+tests. `tests/test_landing_pages.py` now skips the film title in its euro check, as it
+already skipped the synopsis, because Bio Marilyn names three screenings "(5€)" and a title
+publishes verbatim.

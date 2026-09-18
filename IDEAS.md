@@ -27,55 +27,22 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-56 providers, 101 venues, 69 cities, declared and committed alike, measured 2026-09-18.
+61 providers, 106 venues, 73 cities, declared and committed alike, measured 2026-09-18.
 Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18.** Five are built. Kino Helios waits on a runner test of
-  its POST service, ten server-render to a plain fetch, eight need a browser, eight have
-  nothing. **Next action:** the bespoke parsers, as a separate phase.
+- **Thirty-two triaged 2026-09-18**, five published the same day in `f360a09c` and
+  recorded in the archive. Kino Helios waits on a runner test of its POST service, ten
+  server-render to a plain fetch, eight need a browser, eight have nothing.
+  **Next action:** the bespoke parsers, as a separate phase.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
 - **Kino Kaustinen** is a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. **Next action:** re-read its listing on a later Monday.
-- **Complete:** eTiketti (twenty), Nexxo (eight), Cinemahouse (three), TMB (four),
-  MyCloudCinema's two readers, the Korttelikinot, Vista's one Finnish site, and the
-  parser-shaped ones.
-
-### Four Johku storefronts, and what a listing holds besides films
-
-`johku.py`, added 2026-09-18: Bio Marilyn Lapua, Vihdin Kino, Bio Forum (Tammisaari) and
-Kinokulma (Oulainen), 66 showtimes over four new cities. The storefront renders the
-programme server-side, which the 2026-09-05 entry concluded it does not; that entry was
-reading a WordPress site with the widget embedded.
-**Only hall hire is left out**, by its `/fi_FI/products/` path. A film page that answers
-nothing costs the row its genres and synopsis and not its place, on the maintainer's
-instruction of 2026-09-18. Opera, ballet, a memorial screening and a stand-up show publish
-under that rule, which is a decision to revisit if the stand-up shows up wrong.
-**Open, and a reader's question rather than a colour one:** none of the four towns is in
-`REGIONS`, so no region row holds them. Nummela is in Keski-Uusimaa and is a locality of
-Vihti, so Kino Akseli appears in that row and Vihdin Kino, 10 km away, does not. Vihdin
-Kino's accent already clears the floor against that region's six chains, so adding Vihti
-is a placement decision with no colour cost.
-**Next action:** verify the four on the runner before publishing. Prices stay empty (the
-tariff pages state bands) and artwork stays empty (the storefront's is landscape).
-
-### Kino Myyri: a third Kinola tenant, and an accent below the floor
-
-Added 2026-09-18 as `kinomyyri` on `kinola.py`, cloud half. 26 screenings listed and 23
-published; the three omitted are two private hires and one dub whose page carries no
-labelled field. The screening links to the film page, because the row's ticket link is a
-checkout endpoint.
-**The accent clears the floor in Vantaa and not in the region.** 14.6 dE00 against Bio
-Grand in the city, 10.1 against Kino Engel and 10.8 against BioRex in Pääkaupunkiseutu,
-which the registry rule allows with the reason recorded here: 19 colours in the L* band
-clear 14.4 in Vantaa, none of them reaches the floor against the region's twelve chains,
-and this one has the highest worst normal-vision pair of the 19. The regional minimum is
-unchanged at 4.5, and the pairs below the floor go from 12 of 148 to 17 of 163.
-**Next action:** verify it on the runner before publishing. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
+  Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
 ### Kinola: published, and Konepaja still has no programme
 
