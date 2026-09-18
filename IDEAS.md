@@ -27,7 +27,7 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-54 providers, 99 venues, 68 cities, declared and committed alike as of 2026-09-15:
+56 providers, 101 venues, 69 cities, declared and committed alike, measured 2026-09-18:
 `d216607b` published the 13 venues that had been waiting, across 12 providers on 9
 adapters. Nothing is unpublished. That run still **failed**, at the city-link gate and not
 on any provider; the record is in
@@ -73,7 +73,7 @@ dozen venues to the laptop and makes the item below worse.
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino
-Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 99
+Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 101
 venues ride on one machine. Cloud VMs cannot replace it and the MovieXchange credential
 route is closed, so there is no way off the laptop that keeps the coverage.
 **Next action:** an always-on box on the same network. Nothing in this repo changes; the
@@ -216,15 +216,19 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-15, seventeenth pass)
+## Documentation state (2026-09-18, eighteenth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-15 with data at `87437a3f`, the run that published Kino Kilta
-and Kino Laika. Declared and committed agree again:
+Latest, re-measured 2026-09-18 with data at `17cadbac`. Declared and committed agree.
+Three rows below had gone stale since the 2026-09-15 pass: the poster references, the
+mirrored file count and the service-worker version. Two counts in the prose above were a
+batch behind as well, in "Provider coverage" and in "Move the local fetch off the laptop",
+which is the failure this section exists to catch. Every figure README states was measured
+again and was already correct.
 
 | | |
 |---|---:|
@@ -234,10 +238,10 @@ and Kino Laika. Declared and committed agree again:
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
 | generated pages per language | 116 |
 | sitemap URLs | 233 |
-| poster references (shows / films-extra) | 6256 (5965 / 291) |
+| poster references (shows / films-extra) | 5647 (5344 / 303) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1195 |
-| `sw.js` CACHE | `leffavuoro-v169` |
+| mirrored poster files | 1244 |
+| `sw.js` CACHE | `leffavuoro-v175` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and
