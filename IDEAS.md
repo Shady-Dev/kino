@@ -27,14 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-64 providers, 109 venues, 75 cities, declared and committed alike, measured 2026-09-18.
+65 providers, 112 venues, 78 cities, declared and committed alike, measured 2026-09-18.
 Nothing is unpublished. Check for an existing platform first. Every candidate assessed on
 2026-09-15 and 2026-09-18, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Thirty-two triaged 2026-09-18**, eight built. Kino Helios is priced and declined for
-  now, eight of the rest server-render to a plain fetch, eight need a browser, eight have
-  nothing. **Next action:** Kinotour, then the four small ones.
+  now, seven of the rest server-render to a plain fetch, eight need a browser, eight have
+  nothing. **Next action:** the four small ones, then Bio Pallas.
 - **Sun Kino:** the `allproducts.json` endpoint is demonstrably closed (403, session
   required). Whether any *other* public source exists for those four cinemas is untested.
 - **Eventio is not closed:** no customer sweep was ever run.
@@ -56,6 +56,17 @@ a ticket link. The rest is festival programming and one-off children's events.
 **Next action:** none. Adding it needs the first exception to the combined-city accent
 floor, and the entry below says why that is a policy question rather than this one's.
 
+### Kinotour, and the towns it visits that this repo does not list
+
+`kinotour.py`, added 2026-09-18: 10 screenings in Kyrö, Naantali and Lieto, three new
+cities, one request. A touring operator's venue set moves, so an undeclared town is counted
+and named in the run log every run rather than failing the site, which is the shape
+CLAUDE.md gives `reads`. `EMPTY_VENUES_CONFIRMED` is set: the table is the whole published
+programme, so a declared town it does not mention is known empty and gets a fresh empty
+file instead of ageing its last visit.
+**Next action:** read the run log. Its own `/locations/` list reaches Karkkila, Ikaalinen
+and Piispanristi, so towns will turn up; each one is a `SITES` entry away.
+
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 
 No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
@@ -67,32 +78,22 @@ names and a chain legend beside it.
 **Next action:** the maintainer's, on what the city view does when a city is full. Not to
 be decided under the pressure of wanting one particular cinema.
 
-### Kinola: published, and Konepaja still has no programme
+### Kino Konepaja has no programme to read
 
-Kino Kilta and Kino Laika ship as `kinola.py` under the policy adopted 2026-09-15. The
-classifier is the labelled director or genre field and nothing else: validated over 65
-film pages, 53 publish and 12 carry no field, of which eleven are billed live acts and one
-is a film, *A Fox Under a Pink Moon*, which is the override list's only entry. A runtime
-and an age classification are not evidence, because Laika's live acts carry both. Omitted
-on the day it was written, 11 films over 12 of 105 screenings, none force-excluded.
-Published 2026-09-15 in `87437a3f`, 92 showtimes across the two venues. Decisions and
-measurements: [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** nothing here. Kino Konepaja gets a `SITES` entry when it lists a
-screening: re-read 2026-09-15, its event list still says "Ei tulevia tapahtumia."
+A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
+one. Re-read 2026-09-15: its event list says "Ei tulevia tapahtumia."
+The adopted classifier and the three tenants that do publish are recorded in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** re-read the listing.
 
-### Browser checks name their engines, and CI runs two
+### Should the client's browser suite run in WebKit too
 
-Promoted into [CLAUDE.md](CLAUDE.md) under "Testing" on 2026-09-18, which this entry
-records because a finding becomes a rule only with one. The landing pages' layout check
-runs as the `pages-layout` job in Chromium and WebKit and both must pass, and any claim of
-browser verification has to say which engines and widths it covers.
-**Why:** the phone layout shipped correct in Chromium and broken in WebKit, green through
-the unit suite, the design contract and a Chromium-only browser check, and a reader found
-it on their phone. The record is in
-[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** none here. Whether `tests/browser/test_client_browser.py` should also run
-in WebKit is open; it drives `index.html` and has only ever run in Chromium, so that is its
-own change.
+`tests/browser/test_client_browser.py` drives `index.html` and has only ever run in
+Chromium, while the landing pages' check runs in both engines since 2026-09-18. The rule
+that a browser claim names its engines is in [CLAUDE.md](CLAUDE.md) and the record of why
+is in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
+**Next action:** the maintainer's. It is its own change, and the phone fault that forced
+the two-engine job was in a generated page rather than in the client.
 
 ### Seven venues the runner cannot read
 
@@ -278,16 +279,16 @@ again and was already correct.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 64 / 109 / 75 |
-| venues in committed data | 109 |
+| providers / venues / cities (declared) | 65 / 112 / 78 |
+| venues in committed data | 112 |
 | local providers (venues) | 8 (30) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 125 |
-| sitemap URLs | 251 |
+| generated pages per language | 128 |
+| sitemap URLs | 257 |
 | poster references (shows / films-extra) | 5373 (5056 / 317) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1269 |
-| `sw.js` CACHE | `leffavuoro-v179` |
+| `sw.js` CACHE | `leffavuoro-v180` |
 
 Nothing is declared and unpublished. Kino Kilta and Kino Laika published in `87437a3f`,
 which took the pages to 116 per language and the sitemap to 233, both as predicted, and

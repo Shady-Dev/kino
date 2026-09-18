@@ -43,6 +43,7 @@ import test_cinemantsala as CM
 import test_hamina as HM
 import test_johku as JK
 import test_kinola as KL
+import test_kinotour as KT
 import test_tribe as TR
 import test_heureka as H
 import test_nexxo_rooms as N
@@ -304,6 +305,17 @@ def sample_julia():
             [v["id"] for v in site["venues"]])
 
 
+def sample_kinotour():
+    """One declared town and one this repo does not list, so the sample carries the row
+    that must not reach a venue file as well as the one that must."""
+    site = KT.SITE
+    out, _ = mod("kinotour").rows(site, KT.table(
+        KT.DECLARED, KT.UNDECLARED,
+        KT.row("su 20.09.2026", "13:00", "Ryhmä Hau, Dinoelokuva, K7",
+               "Lieto valtuustosali, Lieto")))
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -327,6 +339,7 @@ SAMPLES = {
     "kirkkonummi": sample_kirkkonummi, "biosavoy": sample_biosavoy,
     "cinemantsala": sample_cinemantsala, "kinola": sample_kinola,
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
+    "kinotour": sample_kinotour,
 }
 
 

@@ -455,6 +455,17 @@ PROVIDERS = [
     # Finnkino's orange, of 36,536 colours in the L* band that clear the floor there.
     dict(id="kinohamina", label="Kino Hamina", host="hamina.fi", accent="#0C9C88",
          book="door", module="hamina", where="cloud"),
+    # Kinotour, 2026-09-18. A touring operator, so its venues are towns and the set grows
+    # by observation; the adapter names an undeclared town in the run log every run rather
+    # than failing on it.
+    # None of the three towns it publishes today holds another chain or sits in a region
+    # row, so nothing binds this accent now. It is fitted to the towns its own /locations/
+    # list shows it visits, which do: Turku (Kino Kilta, Finnkino), Karkkila (Kino Laika)
+    # and Piispanristi (Kino Piispanristi). 16.8 dE00 on the weakest model against that
+    # set, of the 18,854 colours in the band that clear the floor there. Picked over an
+    # equally distant teal so that two cinemas added the same day do not read alike.
+    dict(id="kinotour", label="Kinotour", host="kinotour.fi", accent="#B0507C",
+         book="buy", module="kinotour", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

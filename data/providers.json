@@ -447,6 +447,13 @@
    "host": "hamina.fi",
    "accent": "#0C9C88",
    "book": "door"
+  },
+  {
+   "id": "kinotour",
+   "label": "Kinotour",
+   "host": "kinotour.fi",
+   "accent": "#B0507C",
+   "book": "buy"
   }
  ]
 }
