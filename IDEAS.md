@@ -229,6 +229,14 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Pruning a poster once its film stops screening. A few MB a year.
 - Closing the window where SITES and the venue files disagree: comparing them directly
   fails every provider addition until the pipeline has run.
+- A cross-host redirect escapes the host claim. `common._claim` claims the request's host
+  before sending and `urlopen` follows redirects, so the target is read unpaced and
+  outside `hosts_attempted`. Swept 2026-09-19 over all 31 committed provider logs: every
+  hostname they name is its module's own `base` or `reads`, and none carries a `refused
+  to` line. The claim is taken before the request, so a redirect's target would not show
+  up there either way, which makes this no evidence rather than a proof. Two sites name
+  no `base` at all, Kino Engel and Kino Akseli; both are local-half, where the cloud
+  pool's base-less group does not apply.
 
 **Ops and pages**
 
