@@ -478,14 +478,33 @@ def label_of(v, chains):
 
 
 def load_venues():
+    """Every venue this build has pages for. -> [venue].
+
+    Registered providers only. The glob used to take whatever `venues-*.json` was on
+    disk, so removing a provider from the registry -- the documented way to drop a cinema,
+    one entry -- left its venue file behind and this kept building its pages from it. The
+    registry is the source of truth and `data/providers.json` is generated from it, which
+    is the same list the client reads, so an unregistered file is data with no owner.
+    Named in the log rather than dropped in silence: the file is still on disk and the
+    reason its pages stopped appearing has to be findable.
+    """
     out = []
     areas = json.loads((DATA / "areas.json").read_text())
     for a in areas.get("areas", []):
         out.append({**a, "provider": "finnkino"})
+    known = {p["id"] for p in
+             json.loads((DATA / "providers.json").read_text())["providers"]}
+    orphans = []
     for f in sorted(DATA.glob("venues-*.json")):
         d = json.loads(f.read_text())
+        if d["provider"] not in known:
+            orphans.append(f.name)
+            continue
         for v in d.get("venues", []):
             out.append({**v, "provider": d["provider"]})
+    if orphans:
+        print(f"[pages] {len(orphans)} venue file(s) for providers the registry does not "
+              f"list, skipped: {', '.join(orphans)}")
     return out
 
 
@@ -888,6 +907,64 @@ def redirect_page(lang, to_path, label):
             f'</body>\n</html>\n')
 
 
+# The four prefixes this generator owns outright. Nothing else under ROOT is ever
+# removed, and these are removed only after the whole set has been written.
+PAGE_ROOTS = ("teatteri", "kaupunki", "en/theatre", "en/city")
+# A build that suddenly owns far fewer pages is a broken input, not a removal: a
+# `venues-*.json` that failed to parse, a providers.json truncated mid-write. Removing a
+# provider is one entry and a handful of directories, so a prune this large is refused
+# and named instead of performed.
+PRUNE_CEILING = 0.25
+
+
+def prune_obsolete(staged, stats):
+    """Name the generator-owned page directories this build no longer produces. -> [name].
+
+    **Report only. Nothing is deleted.** Removing them would make indexed URLs answer 404,
+    and this file already has redirect machinery for a page that moved
+    (`LEGACY_VENUE_SLUGS`, `redirect_page`) which a removal should route through instead.
+    What that costs a search engine is the kind of change the SEO record says to measure
+    before making, so the deletion waits on the maintainer and on a redirect destination
+    for each case: a venue page whose provider is gone has none obvious, and a city page
+    that fell to one venue has the surviving venue.
+
+    `data/venues-{id}.json` for a provider the registry has dropped is skipped by
+    `load_venues`, which stops its pages being rebuilt; without this they stayed published
+    for ever, so the documented "remove one registry entry" left orphan venue and city
+    pages serving a cinema this app no longer lists. A city falling from two venues to one
+    loses its combined page the same way.
+
+    Run after the flush, never before: "not in the staged set" means "obsolete" only once
+    every page that *is* in the set has been written. The legacy redirect stubs are staged
+    like any other page while their venue exists, so they never appear here.
+    """
+    keep = {Path(path).resolve() for path, _ in staged}
+    owned, gone = [], []
+    for prefix in PAGE_ROOTS:
+        base = ROOT / prefix
+        if not base.is_dir():
+            continue
+        for d in sorted(base.iterdir()):
+            idx = d / "index.html"
+            if not d.is_dir() or not idx.is_file():
+                continue
+            owned.append(d)
+            if idx.resolve() not in keep:
+                gone.append((f"{prefix}/{d.name}", d, idx))
+    if not gone:
+        return []
+    names = [n for n, _, _ in gone]
+    if owned and len(gone) / len(owned) > PRUNE_CEILING:
+        print(f"[pages] {len(gone)} of {len(owned)} page directories are not in this "
+              f"build, which is too many to be a removal; reporting nothing. Check "
+              f"data/providers.json and the venue files.", file=sys.stderr)
+        return []
+    stats["obsolete"] = len(gone)
+    print(f"[pages] {len(gone)} page directory(ies) no longer built and still published: "
+          + ", ".join(names) + ". Not removed: a redirect has to be decided for each")
+    return names
+
+
 def write_if_changed(path, text, stats):
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists() and path.read_text(encoding="utf-8") == text:
@@ -1098,6 +1175,7 @@ def main(today=None) -> int:
     # build stages no page changes, the run's fresh schedule data still publishes.
     for path, text in pages:
         write_if_changed(path, text, stats)
+    prune_obsolete(pages, stats)
 
     print(f"[pages] {len(venues)} venues, {len(multi)} multi-venue cities "
           f"({', '.join(sorted(multi))})")

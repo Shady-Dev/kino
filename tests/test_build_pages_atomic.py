@@ -26,7 +26,9 @@ import build_pages as bp
 REAL_DATA = _ctx.ROOT / "data"
 
 
-class PartialBuildTest(unittest.TestCase):
+class BuildHarness(unittest.TestCase):
+    """Temp tree, the real data, and a build pinned to the committed day."""
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
@@ -118,7 +120,9 @@ class PartialBuildTest(unittest.TestCase):
             n += 1
         return n
 
-    # -- the baseline the rest depends on ------------------------------------------------
+
+class PartialBuildTest(BuildHarness):
+    # -- the baseline the rest depends on --------------------------------------------
 
     def test_a_clean_build_writes_the_whole_set(self):
         self.assertIsNone(self.build())
@@ -229,3 +233,106 @@ class PartialBuildTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ObsoletePageTest(BuildHarness):
+    """Removing a provider has to stop building its pages, and say what is left behind.
+
+    `load_venues` globbed every `venues-*.json` on disk, so the documented way to drop a
+    cinema -- one registry entry -- left the file behind and the generator kept building
+    from it. Restricting the input fixes that. The pages already on disk are *reported*
+    and not deleted: they are indexed URLs, and removing them without a redirect turns
+    each into a 404, which is a decision with evidence behind it rather than a cleanup.
+    """
+
+    def dirs(self, prefix):
+        base = self.root / prefix
+        return sorted(d.name for d in base.iterdir() if (d / "index.html").is_file()) \
+            if base.is_dir() else []
+
+    def build_out(self):
+        out = io.StringIO()
+        err = io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            bp.main(today=self.today)
+        return out.getvalue() + err.getvalue()
+
+    def drop_provider(self, pid):
+        """Remove it from providers.json and leave its venue file on disk, which is what
+        the registry edit actually produces."""
+        f = self.root / "data" / "providers.json"
+        d = json.loads(f.read_text(encoding="utf-8"))
+        d["providers"] = [p for p in d["providers"] if p["id"] != pid]
+        f.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+
+    def venue_ids_of(self, pid):
+        d = json.loads((self.root / "data" / f"venues-{pid}.json").read_text(encoding="utf-8"))
+        return [v["id"] for v in d["venues"]]
+
+    def test_a_removed_providers_pages_stop_being_built(self):
+        self.assertIsNone(self.build())
+        before = self.dirs("teatteri")
+        ids = set(self.venue_ids_of("kinotour"))
+        mine = [d for d in before if any(d.endswith(i.split("-", 1)[1]) for i in ids)]
+        self.assertTrue(mine, "the fixture no longer has this provider's pages")
+
+        self.drop_provider("kinotour")
+        log = self.build_out()
+        # Still on disk, and named.
+        self.assertEqual(self.dirs("teatteri"), before)
+        for d in mine:
+            self.assertIn(f"teatteri/{d}", log)
+        self.assertIn("no longer built and still published", log)
+        self.assertIn("Not removed", log)
+
+    def test_the_removed_providers_pages_leave_the_sitemap(self):
+        """The sitemap is built from the staged set, so a page that stopped being built
+        stops being advertised even while the file is still served."""
+        self.assertIsNone(self.build())
+        sm = (self.root / "sitemap.xml").read_text(encoding="utf-8")
+        ids = self.venue_ids_of("kinotour")
+        self.assertTrue(any(i.split("-", 1)[1] in sm for i in ids))
+        self.drop_provider("kinotour")
+        self.build_out()
+        sm = (self.root / "sitemap.xml").read_text(encoding="utf-8")
+        for i in ids:
+            self.assertNotIn(i.split("-", 1)[1], sm)
+
+    def test_the_removed_providers_venue_file_is_named_rather_than_read(self):
+        self.drop_provider("kinotour")
+        log = self.build_out()
+        self.assertIn("venues-kinotour.json", log)
+        self.assertIn("the registry does not list", log)
+
+    def test_a_city_falling_to_one_venue_loses_its_combined_page_from_the_build(self):
+        """The app offers a combined view only above one venue. Nurmijärvi is Kino Juha's
+        two halls, so dropping one takes the city from two venues to one."""
+        self.assertIsNone(self.build())
+        self.assertIn("nurmijarvi", self.dirs("kaupunki"))
+        f = self.root / "data" / "venues-kinojuha.json"
+        d = json.loads(f.read_text(encoding="utf-8"))
+        d["venues"] = d["venues"][:1]
+        f.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        log = self.build_out()
+        self.assertIn("kaupunki/nurmijarvi", log)
+        self.assertNotIn("/kaupunki/nurmijarvi/", (self.root / "sitemap.xml").read_text(encoding="utf-8"))
+
+    def test_the_legacy_redirects_are_never_reported_obsolete(self):
+        """They are staged like any other page while their venue exists."""
+        self.assertIsNone(self.build())
+        log = self.build_out()
+        for old_slug in bp.LEGACY_VENUE_SLUGS:
+            with self.subTest(slug=old_slug):
+                self.assertNotIn(f"teatteri/{old_slug}", log)
+                self.assertTrue((self.root / "teatteri" / old_slug / "index.html").is_file())
+
+    def test_an_implausibly_large_set_is_refused_and_named(self):
+        """A truncated providers.json is a broken input, not a removal of everything."""
+        self.assertIsNone(self.build())
+        f = self.root / "data" / "providers.json"
+        d = json.loads(f.read_text(encoding="utf-8"))
+        d["providers"] = d["providers"][:2]
+        f.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        log = self.build_out()
+        self.assertIn("too many to be a removal", log)
+        self.assertNotIn("no longer built and still published", log)
