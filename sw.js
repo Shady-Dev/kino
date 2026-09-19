@@ -5,11 +5,36 @@
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
 const CACHE = 'leffavuoro-v189';
 
+// This app's own caches and nothing else. The sweep below used to delete every key it
+// did not recognise, which on a shared origin is somebody else's storage.
+const OWNED = /^leffavuoro-v(\d+)$/;
+const versionOf = k => { const m = OWNED.exec(k); return m ? Number(m[1]) : -1; };
+// What survives a version bump: the schedule JSON and the mirrored posters, both under
+// /data/. Never the app shell. Dropping the old cache wholesale also threw away data the
+// new worker had no copy of -- it activates empty, because the navigation that discovered
+// the update was served by the *old* worker and network-first -- so an update left the
+// next offline launch with no schedule at all. Carrying /data/ over fixes that without
+// touching the rule the delete was there for: the shell is not migrated, so an old
+// index.html still cannot come back as the offline fallback.
+const MIGRATES = p => p.startsWith('/data/');
+
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil((async () => {
-  // Drop caches from previous versions so an old index.html cannot come back offline.
   const keys = await caches.keys();
-  await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+  const old = keys.filter(k => k !== CACHE && OWNED.test(k))
+                  .sort((a, b) => versionOf(b) - versionOf(a));   // newest first
+  const target = await caches.open(CACHE);
+  for (const key of old) {
+    const prev = await caches.open(key);
+    for (const req of await prev.keys()) {
+      const url = new URL(req.url, location.origin);
+      if (url.origin !== location.origin || !MIGRATES(url.pathname)) continue;
+      if (await target.match(req)) continue;
+      const res = await prev.match(req);
+      if (res) await target.put(req, res);
+    }
+  }
+  await Promise.all(old.map(k => caches.delete(k)));
   await clients.claim();
 })()));
 

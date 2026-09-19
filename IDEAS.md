@@ -106,6 +106,19 @@ valid image type and verified dimensions. Declined regardless: a weak TMDB match
 generated artwork, a cropped 16:9 still. Full entry:
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 
+### The app shell is still missing offline right after an update
+
+A worker activates with an empty cache: the navigation that discovered the update was
+served by the old worker and network-first, so nothing wrote the new one. `sw.js` now
+carries `/data/` across a version bump, so the schedule and the posters survive, and
+deliberately does not carry `index.html`: the delete exists so an old shell cannot come
+back as the offline fallback, and that rule is unchanged. The cost is that a reader who
+updates and closes the tab has no page to launch offline until one online load. The
+record is in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** the maintainer's, on whether the shell should be precached on install
+instead, which is the fix that needs neither the old copy nor an online load. Nothing is
+blocked on it; before this change the schedule went too.
+
 ### Two small ones
 
 - **README workflow badge.** Not built.

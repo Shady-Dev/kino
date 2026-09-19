@@ -72,5 +72,73 @@ class ServiceWorkerCacheTest(unittest.TestCase):
         self.assertFalse(self.results["not_get"]["intercepted"])
 
 
+ACTIVATE = pathlib.Path(__file__).resolve().parent / "sw_activate_harness.js"
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class ServiceWorkerActivationTest(unittest.TestCase):
+    """What a new worker does with the previous version's cache before deleting it.
+
+    A worker activates with an empty cache of its own: the navigation that discovered the
+    update was served by the old worker, network-first, so nothing had written the new
+    one. Deleting the old cache there left an app that had just updated with no shell, no
+    schedule and no posters, and a reader who closed the tab got nothing on the next
+    offline launch. The sweep also deleted every key it did not recognise, which on a
+    shared origin is another tool's storage.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(ACTIVATE)], capture_output=True, text=True,
+                             cwd=str(_ctx.ROOT), timeout=120)
+        if out.returncode:
+            raise AssertionError(f"harness failed: {out.stderr}")
+        cls.r = json.loads(out.stdout)
+        # The harness prints this instead of hanging or dying, so a mutation that breaks
+        # activate is a red test rather than a harness that "failed to run".
+        if "error" in cls.r:
+            raise AssertionError(f"harness error: {cls.r['error']}")
+
+    def test_the_schedule_and_the_posters_survive_the_upgrade(self):
+        c = self.r["migrates_the_previous_version"]
+        self.assertEqual(c["current"], [
+            "https://leffavuoro.fi/data/area-1111.json",
+            "https://leffavuoro.fi/data/posters/a.jpg"])
+        self.assertEqual(c["deleted"], ["leffavuoro-v188"])
+
+    def test_the_shell_is_not_migrated(self):
+        """The rule the delete was written for stands: an old index.html must not come
+        back as the offline fallback. Only /data/ crosses a version bump."""
+        self.assertNotIn("https://leffavuoro.fi/",
+                         self.r["migrates_the_previous_version"]["current"])
+
+    def test_nothing_outside_data_crosses_a_version_bump(self):
+        c = self.r["two_version_jump_prefers_the_newer"]
+        self.assertNotIn("https://leffavuoro.fi/old.json", c["current"])
+
+    def test_an_entry_this_version_already_holds_is_not_overwritten(self):
+        c = self.r["keeps_what_this_version_already_has"]
+        self.assertEqual(c["from"]["https://leffavuoro.fi/"], "leffavuoro-v189")
+        self.assertEqual(c["from"]["https://leffavuoro.fi/data/area-1111.json"],
+                         "leffavuoro-v188")
+
+    def test_only_this_apps_caches_are_deleted(self):
+        c = self.r["leaves_a_foreign_cache_alone"]
+        self.assertIn("some-other-app", c["surviving"])
+        self.assertEqual(c["deleted"], ["leffavuoro-v188"])
+
+    def test_a_two_version_jump_carries_both_and_drops_both(self):
+        c = self.r["two_version_jump_prefers_the_newer"]
+        self.assertEqual(c["surviving"], ["leffavuoro-v189"])
+        self.assertEqual(c["deleted"], ["leffavuoro-v187", "leffavuoro-v188"])
+        self.assertIn("https://leffavuoro.fi/data/area-1111.json", c["current"])
+        self.assertEqual(c["from"]["https://leffavuoro.fi/data/area-1111.json"],
+                         "leffavuoro-v188", "the newer of the two is preferred")
+
+    def test_a_first_install_with_nothing_to_migrate_does_not_fail(self):
+        self.assertEqual(self.r["nothing_to_migrate"]["current"], [])
+        self.assertEqual(self.r["nothing_to_migrate"]["deleted"], [])
+
+
 if __name__ == "__main__":
     unittest.main()
