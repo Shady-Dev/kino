@@ -1,6 +1,8 @@
-[pyhasalmenvpk] FAILED: pyhasalmenvpk: https://www.pyhasalmenvpk.fi/wp-json/my-calendar/v1/events?from=2026-09-19&to=2027-03-18&category=1 did not answer JSON (12172 B served, titled "One moment, please...")
-[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[pyhasalmenvpk] Pyhäsalmen VPK, Pyhäjärvi: 6 showtimes, 6 dates, 3 film(s), priced 12€
+[pyhasalmenvpk] synopses merged: 0
+[pyhasalmenvpk] Pyhäsalmen VPK: 6 showtimes, 6 dates
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.pyhasalmenvpk.fi
-[run] vpk: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 116.5s, 0.8s wall from this module's first fetch starting to its last ending
-exit=1
+[run] vpk: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 3.6s of fetching added up across workers that overlap, longest site 3.6s, longest queue wait 130.7s, 3.6s wall from this module's first fetch starting to its last ending
+exit=0

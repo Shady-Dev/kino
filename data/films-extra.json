@@ -2877,7 +2877,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -2940,7 +2939,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -3020,7 +3018,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -3163,7 +3160,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -4073,8 +4069,7 @@
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vihdinkino"
+    "studio123jarvenpaa"
    ],
    "r": 8.0,
    "s": {
