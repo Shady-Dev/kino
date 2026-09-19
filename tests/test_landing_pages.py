@@ -406,17 +406,32 @@ class GeneratedPagesTest(unittest.TestCase):
             self.assertEqual(expected["__from"][lang], bp.L[lang]["from"])
 
     def test_a_city_page_names_the_cinema_on_every_showtime(self):
+        labels = {v["label"] for v in self.venues}
+        by_city = {}
+        for v in self.venues:
+            by_city.setdefault(bp.slug(bp.city_of(v)), []).append(v)
+        checked = 0
         for k, text in self.canonical.items():
             if not (k.startswith("/kaupunki/") or k.startswith("/en/city/")):
                 continue
+            # Only shows inside the page's own window count, the rule the venue pages
+            # above already get. Nurmijärvi's two cinemas had nothing inside CITY_DAYS
+            # on 2026-09-19 and its page was right to carry no stubs; asserting per page
+            # turned a quiet city into a red suite.
+            city = by_city.get(k.rstrip("/").rsplit("/", 1)[-1], [])
+            merged = [s for v in city for s in bp.load_shows(v["id"])]
+            if not bp.group_by_day(merged, self.today, bp.CITY_DAYS):
+                continue
             with self.subTest(path=k):
-                labels = {v["label"] for v in self.venues}
                 stubs = STUB_RE.findall(text)
                 self.assertTrue(stubs, k)
+                checked += 1
                 for st in stubs:
                     m = re.search(r"<span class=v>(.*?)</span>", st)
                     self.assertIsNotNone(m, (k, text_of(st)))
                     self.assertIn(html.unescape(m.group(1)), labels, (k, text_of(st)))
+        # So a window that emptied every city page cannot pass this vacuously.
+        self.assertGreater(checked, 0)
 
     def test_no_stub_has_a_leading_trailing_or_doubled_separator(self):
         for k, text in self.canonical.items():
