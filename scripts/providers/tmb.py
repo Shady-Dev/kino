@@ -110,10 +110,9 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch, served
+from common import EmptyProgramme, capped, fetch, get_text, served
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "kinotoijala", "label": "Kino-Toijala", "base": "https://toijalan-kino.info",
@@ -326,9 +325,8 @@ def film_facts_by_id(site, ids, sleep=1.2, get=None):
 
 
 def get(url):
-    return fetch(url, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(url, fetcher=fetch)
 
 
 def get_list(site):

@@ -28,12 +28,11 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch, resolve_year, weekday_index
+from common import capped, fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://kinoengel.fi"
 URL = BASE + "/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "engel-helsinki", "provider": "engel", "providerId": "1",
          "name": "Kino Engel", "short": "Kino Engel", "city": "Helsinki"}
@@ -323,10 +322,7 @@ def details(page):
 
 def enrich(shows, get=None):
     """One film page per distinct film, folded onto its showtimes."""
-    get = get or (lambda u: fetch(u, cache=True, headers={"user-agent": UA,
-                                              "accept-language": "fi-FI,fi;q=0.9"},
-                                  tries=2, backoff=3, timeout=20
-                                  ).decode("utf-8", "replace"))
+    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
     by_url = {}
     for s in shows:
         by_url.setdefault(s["url"], []).append(s)
@@ -355,9 +351,7 @@ def enrich(shows, get=None):
 
 
 def fetch_page():
-    page = fetch(URL, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    page = get_text(URL, fetcher=fetch)
     if len(page) < 20000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")
     return enrich(parse(page))

@@ -37,12 +37,11 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch, resolve_year, weekday_index
+from common import EmptyProgramme, fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://www.kinovaakuna.fi"
 LISTING = BASE + "/etusivu.html"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "vaakuna-lohja", "name": "Kino Vaakuna", "short": "Kino Vaakuna",
          "city": "Lohja"}
@@ -154,9 +153,8 @@ def parse(page, today=None):
 
 
 def get_listing():
-    return fetch(LISTING, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(LISTING, fetcher=fetch)
 
 
 def fetch_site(site=SITES[0]):

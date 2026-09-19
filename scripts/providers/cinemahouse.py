@@ -54,11 +54,10 @@ from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, capped, fetch, resolve_year, served
+from common import EmptyProgramme, capped, fetch, get_text, resolve_year, served
 from strands import split as split_strand
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 # `base` is the host read and the key run.py paces on; each site is its own host, so the
 # three are read at the same time and each one request at a time. `notes` are the stems
@@ -420,9 +419,7 @@ def get(url):
     """One page. `cache=True` is the correct way to ask and costs nothing here: measured
     2026-09-14, all three origins answer LiteSpeed with no ETag and no Last-Modified, so
     `common.fetch` writes no cache entry for them."""
-    return fetch(url, cache=True, timeout=30,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
-                 ).decode("utf-8", "replace")
+    return get_text(url, fetcher=fetch)
 
 
 def enrich(shows, site, get=get, sleep=1.0):

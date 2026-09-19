@@ -209,6 +209,12 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 
 - Routing `enrich_tmdb.py` through `common.fetch`. It uses a bare `urlopen` with no retry,
   so a TMDB 429 skips that title.
+- Bio Savoy's `accept-language: sv-AX,sv;q=0.9` and eTiketti's extra `accept` header. Both
+  were left in place on 2026-09-19 when the twelve accidental page getters were folded
+  into `common.get_text`: each has an obvious story and neither has a probe showing the
+  host's response varies on it, and settling that is a read per host rather than a
+  refactor. Measured per adapter in
+  [docs/research/adapter-http.md](docs/research/adapter-http.md).
 - `api()` in `fetch_data.py` has no retry, unlike `common.fetch`.
 - A dataclass for the fetch result. `run.py` already models it.
 - A single shared TMDB pass. The two stay separate and agree on the rules, so the same

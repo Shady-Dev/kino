@@ -73,7 +73,6 @@ from common import check_shows, fetch, get_text, resolve_year, served, weekday_i
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "lieksankino", "label": "Lieksan Kino",

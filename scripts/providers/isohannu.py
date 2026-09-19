@@ -44,11 +44,10 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch
+from common import EmptyProgramme, capped, fetch, get_text
 
 BASE = "https://www.isohannu.fi"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "ih-rauma", "name": "Iso-Hannu", "short": "Iso-Hannu", "city": "Rauma"}
 
@@ -251,10 +250,7 @@ def details(page):
 
 def enrich(shows, get=None, sleep=1.2):
     """One film page per distinct film id, folded onto every screening of it."""
-    get = get or (lambda u: fetch(u, cache=True,
-                                  headers={"user-agent": UA,
-                                           "accept-language": "fi-FI,fi;q=0.9"},
-                                  tries=2, backoff=3, timeout=20).decode("utf-8", "replace"))
+    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
     by_film = {}
     for s in shows:
         by_film.setdefault(s["eventId"], []).append(s)
@@ -284,9 +280,8 @@ def enrich(shows, get=None, sleep=1.2):
 
 
 def get_page():
-    return fetch(BASE + "/", cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(BASE + "/", fetcher=fetch)
 
 
 def fetch_site(site=SITES[0]):

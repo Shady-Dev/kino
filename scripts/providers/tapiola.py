@@ -34,12 +34,11 @@ import time
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import capped, fetch
+from common import capped, fetch, get_text
 
 BASE = "https://www.kinotapiola.fi"
 LISTING = BASE + "/elokuvat/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "tapiola-espoo", "provider": "tapiola", "providerId": "1",
          "name": "Kino Tapiola", "short": "Kino Tapiola", "city": "Espoo"}
@@ -180,10 +179,7 @@ def details(page):
 
 def enrich(shows, get=None):
     """One film page per distinct film, folded onto every run of it."""
-    get = get or (lambda u: fetch(u, cache=True, headers={"user-agent": UA,
-                                              "accept-language": "fi-FI,fi;q=0.9"},
-                                  tries=2, backoff=3, timeout=20
-                                  ).decode("utf-8", "replace"))
+    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
     by_film = {}
     for s in shows:
         by_film.setdefault(s["eventId"], []).append(s)
@@ -214,9 +210,8 @@ def enrich(shows, get=None):
 
 
 def get_listing():
-    return fetch(LISTING, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(LISTING, fetcher=fetch)
 
 
 def fetch_site(site=SITES[0]):

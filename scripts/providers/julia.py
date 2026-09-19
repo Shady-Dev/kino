@@ -40,12 +40,11 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch
+from common import EmptyProgramme, fetch, get_text
 
 BASE = "https://juliaelokuvat.fi"
 LISTING = BASE + "/ohjelmisto/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "julia-hyvinkaa", "name": "Julia 1&2", "short": "Julia", "city": "Hyvinkää"}
 
@@ -159,9 +158,8 @@ def parse(page):
 
 
 def get_listing():
-    return fetch(LISTING, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(LISTING, fetcher=fetch)
 
 
 def fetch_site(site=SITES[0]):

@@ -47,7 +47,6 @@ from common import check_shows, fetch, get_text
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 # The towns read off the programme on 2026-09-18. The operator's own locations list is
 # longer and reaches outside this region, so the set grows by observation: a town that

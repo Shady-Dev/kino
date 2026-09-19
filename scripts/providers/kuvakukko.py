@@ -60,12 +60,11 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, fetch, resolve_year, weekday_index
+from common import EmptyProgramme, fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://www.kuvakukko.fi"
 LISTING = BASE + "/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUES = [
     {"id": "kk-kuopio", "match": "kuvakuk", "name": "Kino Kuvakukko",
@@ -292,9 +291,8 @@ def parse(page, site=None, today=None, prices=None):
 
 
 def _get(url):
-    return fetch(url, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(url, fetcher=fetch)
 
 
 def get_listing():

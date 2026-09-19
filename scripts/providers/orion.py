@@ -39,12 +39,11 @@ import datetime, html as html_mod, re, sys, unicodedata
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import fetch, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, weekday_index
 from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "or-helsinki", "provider": "orion", "name": "Cinema Orion",
          "short": "Cinema Orion", "city": "Helsinki"}
@@ -218,9 +217,7 @@ def parse(page, today=None):
 
 
 def fetch_page():
-    page = fetch(URL, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
-                 ).decode("utf-8", "replace")
+    page = get_text(URL, fetcher=fetch)
     if "kinola-day" not in page:
         raise RuntimeError("no kinola-day table on the page (markup changed?)")
     return parse(page)

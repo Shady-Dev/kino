@@ -75,7 +75,6 @@ from etiketti import lang_codes
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "marita", "label": "Elokuvateatteri Marita",

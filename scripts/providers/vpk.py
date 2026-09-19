@@ -64,7 +64,6 @@ from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
 UTC = datetime.timezone.utc
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "pyhasalmenvpk", "label": "Pyhäsalmen VPK",

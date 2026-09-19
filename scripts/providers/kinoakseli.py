@@ -9,11 +9,10 @@ sold at the door), no auditorium, and dates carry no year.
 import datetime, html as html_mod, json, re, sys
 from zoneinfo import ZoneInfo
 
-from common import fetch, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, weekday_index
 
 URL = "https://kinoakseli.fi/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "ka-nummela", "provider": "kinoakseli", "providerId": "1",
          "name": "Kino Akseli", "short": "Kino Akseli", "city": "Nummela"}
@@ -137,9 +136,7 @@ def parse(page, today=None):
 
 
 def fetch_page():
-    page = fetch(URL, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
-                 ).decode("utf-8", "replace")
+    page = get_text(URL, fetcher=fetch)
     if len(page) < 5000 or "sgcaptcha" in page:
         raise RuntimeError("challenged (needs a residential IP)")
     return parse(page)

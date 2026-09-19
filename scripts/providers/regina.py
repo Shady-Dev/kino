@@ -64,7 +64,7 @@ import time
 from zoneinfo import ZoneInfo
 
 import prices
-from common import capped, fetch
+from common import capped, fetch, get_text
 
 BASE = "https://kinoregina.fi"
 SCHEDULE = BASE + "/wp-content/themes/kinoregina2/assets/functions/getShowtimesMoviesV2.php"
@@ -336,8 +336,7 @@ def details(page, title=None):
 
 def enrich(shows, get=None):
     """One film page per film, folded onto every showtime of it."""
-    get = get or (lambda u: fetch(u, cache=True, headers=HEADERS, tries=2, backoff=3,
-                                  timeout=20).decode("utf-8", "replace"))
+    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
     by_film = {}
     for s in shows:
         by_film.setdefault(s["eventId"], []).append(s)

@@ -46,12 +46,11 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, fetch, resolve_year, served, weekday_index
+from common import EmptyProgramme, fetch, get_text, resolve_year, served, weekday_index
 
 BASE = "https://kinokirkkonummi.fi"
 LISTING = BASE + "/"
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 VENUE = {"id": "kirkkonummi", "name": "Kino Kirkkonummi", "short": "Kino Kirkkonummi",
          "city": "Kirkkonummi"}
@@ -190,9 +189,8 @@ def parse(page, today=None):
 
 
 def get_listing():
-    return fetch(LISTING, cache=True,
-                 headers={"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"},
-                 timeout=30).decode("utf-8", "replace")
+    """`common.get_text` with this module's own `fetch`, which its tests stub."""
+    return get_text(LISTING, fetcher=fetch)
 
 
 def fetch_site(site=SITES[0]):

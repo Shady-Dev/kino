@@ -179,7 +179,6 @@ from common import (EmptyProgramme, budget_or_raise, fetch, get_text, resolve_ye
 from gilda import LANG
 
 FI = ZoneInfo("Europe/Helsinki")
-UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 OVERRIDE_FILE = pathlib.Path(__file__).resolve().parent / "kinola-overrides.json"
 
