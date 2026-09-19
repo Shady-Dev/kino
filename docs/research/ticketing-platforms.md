@@ -330,9 +330,17 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
   the seller. So the vendor site carries no customer list worth reading, and reading it as
   "a fundraising company, not a ticketing platform" is the wrong conclusion: it was both,
   and the ticketing half moved.
-  **Not established:** whether the platform has other Finnish cinema customers. No sweep
-  was run, and eventio.fi is no longer where one would look. That is what a next probe
-  would need, and it is the only reason Eventio is not closed.
+  **Superseded 2026-09-19, read from the pages themselves.** The ticketing half did not
+  move to another Eventio: eventio.fi now states "Evention lipunmyyntipalvelut on nyt osa
+  Livetoa", so it is part of **Liveto**. eventio.fi is still Eventio Group Oy, bingo and
+  fundraising, and `www.eventio.com` is a CNAME to `www.eventio.fi`, which is why the .com
+  name fails TLS and looks dead. The product is served from the **eventio.com apex**, on
+  AWS eu-west-1.
+  **The endpoint is `https://ws-api.eventio.com/v1/{key}/events.json?custom.EKID={id}`**,
+  200 JSON, 5.7 kB for one film: dated screenings, per-ticket-type prices and names,
+  availability, and a `urls.buybox` into the tenant's shop. The key is the tenant's and
+  the EKID is the cinema's own film id. It is read as a visitor's browser reads it; the
+  buybox is a booking endpoint and is neither called nor inventoried.
 
 **Inferences and open questions**
 
@@ -1350,3 +1358,25 @@ The eTiketti and Nexxo sweeps both landed (2026-08-30). The open candidate list 
 was probed on 2026-09-15 and the finding is in the batch section above, so the next step
 this section used to set is done. What is left here: a customer sweep for Eventio if
 anyone wants one, and re-reading Kulttuurimylly when its programme resumes.
+
+**The customer sweep was attempted on 2026-09-19 and it is not a fingerprint sweep.** The
+marker is a `data-url` attribute on each rendered screening, emitted by the cinema's own
+theme, so it exists only on a page that lists screenings. On Kino Regina that is the film
+page, one level below the listing: its homepage carries nothing and its
+`/ohjelmisto/elokuvat/` listing carries nothing.
+
+Two passes were run and both were blind, which a control caught rather than a reviewer:
+
+| pass | reach | result | control on kinoregina.fi |
+|---|---|---|---|
+| homepage only | 103 hosts, 97 answered | 0 hits | **miss** |
+| homepage + one programme link | 103 hosts, 91 answered | 0 hits | **miss**, the picker took a JPG |
+| homepage + listing + one film page | 17 uncovered hosts | 0 hits | **hit** |
+
+The third pass finds Regina, so it works. It still establishes almost nothing about the
+other seventeen: fifteen of them stopped after one request because their homepage offers
+no programme link a plain fetch can recognise, which is the same property that already put
+most of them on the browser-only list. **What a real sweep costs is per-site path
+discovery, not a pattern**, and that is why "no sweep was run" stood for so long. Anyone
+picking this up should keep the control in the run and print the per-host request count;
+without both, a zero reads as an answer when it is a failure to ask.

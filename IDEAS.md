@@ -36,8 +36,8 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   Huvimylly and Movie Company Alatalo. Kino Helios is priced and declined, eight need a
   browser, eight have nothing. **Next action:** none left here, and Kinotour has never
   named a town outside its three in any committed log.
-- **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
-  public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
+- **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
+  **Eventio:** vendor settled 2026-09-19; its sweep needs per-site path discovery.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. Re-read 2026-09-19: "Ei ohjelmistoa saatavilla."
   **Next action:** re-read on a later Monday.
