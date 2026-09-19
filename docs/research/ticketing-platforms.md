@@ -1023,6 +1023,60 @@ a row count, which is what a sweep produces.
 
 ---
 
+## The five from the nytleffaan diff (2026-09-19)
+
+**Findings**, each read as an ordinary visitor on 2026-09-19.
+
+| cinema | town | platform | outcome |
+|---|---|---|---|
+| Cinema Sheryl | Espoo | Kinola | built, fourth tenant |
+| Haapamäen Elokuvat | Haapamäki | Johku | built, fifth storefront |
+| Elävienkuvien teatteri | Forssa | none, own Foxy CMS | built, own parser |
+| Bio-Salo | Salo | Nexxo | **publishes nothing** |
+| Bio Sydväst | Parainen | none | **publishes nothing dated** |
+
+Three are in `docs/archive/2026-09-providers.md`, one section each. The two that are not
+built are here, because neither is a decision about an adapter.
+
+**Bio-Salo is a real Nexxo tenant whose public API is empty.** biosalo.fi carries
+`nexxo-scope` and its config names
+`https://biosalo.fi/wp-content/plugins/nexxo-scope/public_api.php`, which is the endpoint
+`nexxo.py` reads. Asked for `action=exportdailyshows` with `days=21&lang=fi` at
+`locationid` 0 through 6, and with `upcoming=1` as well, it answered `{"shows":[]}` every
+time. The pages agree: `/elokuva/` and the front page render the plugin's chrome -- the
+labels `Ikäraja`, `Kesto`, `Liput`, `Esitykset` and the whole reservation dialog -- and not
+one film, because the films are injected from that API. So this is not a parser problem and
+not a missing `locationid`; the cinema is publishing no screening through the platform
+today. **When it does, it is one `SITES` entry** against the existing adapter, with the
+`locationid` discovered by asking rather than assumed, which is the rule the 2026-08-30
+sweep's six dead ticket links wrote.
+
+**Bio Sydväst publishes a rhythm, not a programme.** Parainen's cinema is municipal and
+touring, and `pargas.fi/fi/biosydvast` and `pargas.fi/fi/-/bio` describe it in prose: every
+other Friday at 18.00 in Houtskari, every other Sunday at 15.00 in Parainen, and four more
+of the same shape across Nauvo, Korppoo and Iniö. Six such sentences and, on both pages,
+**not one dated screening**: 602 and 558 text lines, zero carrying a date or a clock time
+beside a film. The page itself says the programme goes out in the local paper, on Facebook
+and on posters. That is the Kino Sampo Riihimäki case, a schedule in prose, and there is
+nothing here for an adapter to read.
+
+**Inferences and open questions**
+
+- Three of the five ran on a platform this repo already reads, which is the sweep result
+  the "check for an existing platform first" rule predicts and the reason two of the three
+  cost a `SITES` entry each.
+- Whether Bio-Salo's silence is a pause or a configuration is not established. The API
+  answers in schema at every id, which is what an empty tenant and a mis-keyed one both
+  look like from outside.
+
+**Status and next step**
+
+Re-read Bio-Salo's endpoint when someone is next in the area of this file; one request at
+`locationid=1` settles it. Bio Sydväst needs the municipality to publish dates in a page
+rather than in prose, and nothing here tests for that.
+
+---
+
 ## The Events Calendar, and the sweep that sized it (2026-09-18)
 
 **Findings** (148 hosts swept once each, 2026-09-18)
