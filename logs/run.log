@@ -1,16 +1,20 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-19: 69 showtimes
 [schedule] 2026-09-20: 407 showtimes
 [schedule] 2026-09-21: 332 showtimes
 [schedule] 2026-09-22: 335 showtimes
 [schedule] 2026-09-23: 332 showtimes
 [schedule] 2026-09-24: 310 showtimes
 [schedule] 2026-09-25: 32 showtimes
+[schedule] 2026-09-26: 18 showtimes
 [tmdb] dropped 1 entries matched by the old picker
-[tmdb] no TMDB match (2): Ooppera: 20 Years of the Met in Cinemas | Salatut elämät 5000 -erikoisnäytös
+[tmdb] dropped 1 weak entries that now have an alias
+[http] 404 from api.themoviedb.org, gave up after 3 attempt(s) -- Server: openresty
+[tmdb-videos] Avengers: Endgame Encore: HTTP Error 404: Not Found
+[tmdb] no TMDB match (1): Salatut elämät 5000 -erikoisnäytös
 [tmdb] weak match, no exact title (1): NCT 127 5TH TOUR ‘NEO CITY : SEOUL - THE -> NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS
-[tmdb] 1 new lookups, 0 re-checks, cache 74, 68 mergeable by id
+[tmdb] rating held back, under 25 votes (1): Avengers: Endgame Encore (10.0 / 1 votes)
+[tmdb] 2 new lookups, 8 re-checks, cache 74, 69 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 53 film entries
 [attrs] dropped, neither format nor language (8): Erikois | IV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
