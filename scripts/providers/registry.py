@@ -541,6 +541,25 @@ PROVIDERS = [
     # 14.4 floor although no view puts them side by side.
     dict(id="huvimylly", label="Elokuvateatteri Huvimylly", host="huvimylly.com",
          accent="#CC60A0", book="door", module="huvimylly", where="local"),
+    # Movie Company Alatalo, 2026-09-19. A touring operator, five towns, and the same
+    # person who types huvimylly.com: both pages carry the same contact address and Raahe
+    # is a venue this operator programmes. `book="door"`: "Liput elokuviin vain10-€
+    # (Käteismaksu)" and no booking URL anywhere on the site. `host` is the site's own
+    # domain although it serves http only; 443 refused the connection on 2026-09-19.
+    # Cloud: the 2026-09-18 sweep read this host from a non-residential address, and the
+    # runner log settles it the way Bio Pallas's did.
+    # None of the five towns holds another chain or sits in a REGIONS area, so the accent
+    # enters no shared view today and was fitted to the rows an extension would create:
+    # Pohjois-Pohjanmaa (Finnkino and Star in Oulu, Huvimylly in Raahe, Kinokulma in
+    # Oulainen, Tähti Kino in Muhos, Pyhäsalmen VPK) 14.8 dE00 on the weakest model,
+    # Ylä-Savo (Savon Kinot, Finnkino and Kuvakukko) 19.7, Keski-Pohjanmaa (Bio Rex
+    # Kokkola) 21.6, Lappi (BioRex in Rovaniemi, Kinopirtti in Kemi) 34.6. The binding
+    # pair is Tähti Kino at 14.8, and Huvimylly itself is 16.9 away. 4.1 from its nearest
+    # accent anywhere, Korjaamo Kino: the band is crowded at 71 accents and the median
+    # nearest-neighbour distance in the set is 2.8, with 45 of the 71 below 4.1. Nothing
+    # in the band clears 14.4 in all four rows and reaches 5.0 anywhere.
+    dict(id="alatalo", label="Movie Company Alatalo", host="moviecompanyalatalo.fi",
+         accent="#6C9678", book="door", module="alatalo", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

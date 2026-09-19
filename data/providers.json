@@ -496,6 +496,13 @@
    "host": "huvimylly.com",
    "accent": "#CC60A0",
    "book": "door"
+  },
+  {
+   "id": "alatalo",
+   "label": "Movie Company Alatalo",
+   "host": "moviecompanyalatalo.fi",
+   "accent": "#6C9678",
+   "book": "door"
   }
  ]
 }

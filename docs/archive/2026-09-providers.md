@@ -2332,3 +2332,52 @@ provider item is where a carried-over count has gone wrong before: 71 providers,
 venues, 84 cities from `build_pages.load_venues()` and `city_of()`, 118 `data/area-*.json`
 files, 9 `where="local"` providers over 31 venues. All unchanged, so nothing in "Provider
 coverage" was rewritten but the Huvimylly clause.
+
+### Movie Company Alatalo: one page, five towns, and Huvimylly's own operator (2026-09-19)
+
+moviecompanyalatalo.fi, a touring operator: Pudasjärvi Pohjantähti, Haapajärvi
+Teatterisali, Kiuruvesi Kiurusali, Toholampi Toholampisali, Kemijärvi Kulttuurikeskus.
+Five new cities. Read over the live page and eleven Wayback captures, 2023-03 to 2026-06.
+
+- **The same person types huvimylly.com**, which carries the same contact address, so the
+  line grammar is one grammar and `alatalo.py` imports `RATING_RE`, `TIME_RE`, `STRIP` and
+  `WEEKDAY_WORD` from `huvimylly.py` rather than copying them. The precedent for an adapter
+  importing another's tables is `from gilda import FORMATS, LANG`.
+- **The grey background span on four of the five headings is not the marker.** Toholampi
+  never carries it and Haapajärvi lost it in 2024-12, so a parser keyed on it would have
+  filed two towns' screenings under the town above. The venue is keyed on the town name.
+- **An unrecognised heading clears the venue.** Kinotour reads the town out of each row, so
+  an undeclared one costs only its own rows; here the rows follow the heading, so the
+  alternative is publishing them under the wrong town. The cost is false positives: `Suomen
+  Ensi-ilta` took two rows in the 2023-12 capture, against seven that `Ylivieska
+  Akustiikka` in the same capture would otherwise have misfiled under Kiuruvesi.
+- **Only a place-name-shaped first word reaches the log**, one alphabetic word of 4 to 20
+  characters with a capital initial. The page's header carries the operator's private
+  address and mobile, and no line's text leaves the parse.
+- **Four widenings over `huvimylly.py`**, each against a line this page carries: a bare
+  `k?` closes a title (2 of the live page's 13 rows), a leading time with a marker and no
+  `Klo` is a row, `Kl` reads as `Klo`, and a year may be glued on with a dot. The guard
+  that refuses `7.12024` still holds. A fifth difference is a softening: a row with no date
+  heading is counted rather than raised, because the 2024-08 capture heads Pudasjärvi
+  `Maanantaina 9.` with the month left off and raising would cost four other towns.
+- **Empty has positive evidence and is seasonal.** 2025-08 lists all five towns under
+  `ELOKUVAT JATKUU SYYSKUUSSA`; 2025-04 lists all five with nothing under them. Town
+  headings and no `Klo` line raises `common.EmptyProgramme`; no town heading at all fails.
+- **http only.** 443 refused the connection on 2026-09-19 and the apex has no A record.
+  The only `http://` base in the repository. Ticket link is the page: cash at the door.
+- **No poster**: the images are hand-named, sit outside the rows and match no capture's
+  order. TMDB supplies them, and two aliases were needed for the operator's own typos,
+  `Saapasajalkakissa` and `Kero se kaikille`, each verified off `/movie/{id}`.
+
+**Accent `#6C9678`.** None of the five towns holds another chain or sits in a REGIONS area,
+so it enters no shared view today and was fitted to the rows an extension would create:
+Pohjois-Pohjanmaa 14.8 dE00 on the weakest model, Ylä-Savo 19.7, Keski-Pohjanmaa 21.6,
+Lappi 34.6. Binding pair Tähti Kino at 14.8; Huvimylly itself 16.9 away. 4.1 from its
+nearest accent anywhere, Korjaamo Kino, against a median nearest-neighbour distance of 2.8
+across the 71 existing accents, 45 of which sit below 4.1. Nothing in the L* 38-60 band
+clears 14.4 in all four rows and reaches 5.0 anywhere.
+
+**First run, from an ordinary connection:** 13 showtimes in 4 town headings, Toholampi
+confirmed empty, all priced 10 €, 2 placeholder lines left out. Every row carries a TMDB id
+and a mirrored poster. `where="cloud"` on the 2026-09-18 sweep, which read this host from a
+non-residential address; the runner log settles it the way Bio Pallas's did.

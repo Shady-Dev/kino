@@ -999,12 +999,19 @@ probed this way.
 
 **Status and next step**
 
-Twelve of the thirty-two are built. Kino Myyri went in on 2026-09-18 as a third tenant on
+Fifteen of the thirty-two are built. Kino Myyri went in on 2026-09-18 as a third tenant on
 `kinola.py`, with the four Johku storefronts, Ritz Vaasa, Kino Hamina and Kinotour; Marita,
 Lieksan Kino, Navettakino and Pyhäsalmen VPK followed on 2026-09-19, each with a section of
-its own below. Kino Helios is declined on the accent. Three of the server-rendered ones are
-unbuilt: Bio Pallas, Alatalo-kiertue and Bio Huvimylly, the last of which would be a local
-site. The eight browser-only and the eight with nothing wait.
+its own below, and Bio Pallas, Bio Huvimylly and Alatalo-kiertue closed the server-rendered
+list the same day. Kino Helios is declined on the accent. The eight browser-only and the
+eight with nothing wait.
+
+**Alatalo turned out to be five cinemas, not one.** The sweep row reads "13 rows, touring
+Kemijarvi" and counted the rows without reading the headings above them: the page carries
+Pudasjärvi, Haapajärvi, Kiuruvesi, Toholampi and Kemijärvi, and 2024 captures add a sixth,
+Haapavesi. It is also the same operator as Bio Huvimylly, which the sweep listed as an
+unrelated candidate: both pages carry the same operator's own address. Neither is visible from
+a row count, which is what a sweep produces.
 
 ---
 

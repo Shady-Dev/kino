@@ -1255,10 +1255,20 @@
    },
    "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY"
   },
+  "kero se kaikille": {
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
   "kerro kaikille": {
    "img": "data/posters/133d5c0758982817.jpg",
    "kr": "K-12",
    "krs": [
+    "alatalo",
     "cine",
     "cinemantsala",
     "huvimylly",
@@ -1821,6 +1831,10 @@
   },
   "lapin sota": {
    "img": "data/posters/c15d678a31ae397e.jpg",
+   "kr": "K-6",
+   "krs": [
+    "alatalo"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -1830,6 +1844,10 @@
   },
   "lapin sota kahvi ja kino": {
    "img": "data/posters/c15d678a31ae397e.jpg",
+   "kr": "K-6",
+   "krs": [
+    "alatalo"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -2740,6 +2758,10 @@
   },
   "pikkuli ja tähtipeura": {
    "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -2758,6 +2780,12 @@
   },
   "pirjo": {
    "img": "data/posters/a8cdd21dca604433.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "huvimylly",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3259,6 +3287,7 @@
    "img": "data/posters/3630a8c5eeb607ff.jpg",
    "kr": "K-12",
    "krs": [
+    "alatalo",
     "biograni",
     "biorex",
     "biorexkokkola",
@@ -3523,6 +3552,15 @@
     "fi": "Hirmuisten röllien heimo rantautuu uuteen maahan, lempeiden menninkäisten asuttamaan kylään. Menninkäiset pelästyvät remuavaa joukkoa ja pakenevat metsään. Urhea Milli uskaltautuu röllien asuttamaan kylään ja ystävystyy Röllin, rölleistä kilteimmän, kanssa.Mutta muut röllit yrittävät kaikin keinoin estää heidän ystävyytensä. Monenmoista jännitystä riittää ennen kuin röllit ja menninkäiset oppivat elämään sovussa toistensa kanssa."
    },
    "tr": ""
+  },
+  "saapasajalkakissa unohdettu saari": {
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 0,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
   },
   "saapasjalkakissa unohdettu saari": {
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",

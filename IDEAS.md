@@ -27,15 +27,15 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-71 providers, 118 venues, 84 cities, declared and committed alike, measured 2026-09-19.
+72 providers, 123 venues, 89 cities, declared and committed alike, measured 2026-09-19.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, fourteen built: Kino Myyri, four Johku storefronts,
-  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas and Elokuvateatteri
-  Huvimylly, each green on its own log. Kino Helios is priced and declined, eight need a
-  browser, eight have nothing, one server-renders and is unbuilt.
-  **Next action:** Alatalo-kiertue, then Kinotour's towns as its log names them.
+- **Thirty-two triaged 2026-09-18**, fifteen built: Kino Myyri, four Johku storefronts,
+  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas, Elokuvateatteri
+  Huvimylly and Movie Company Alatalo, five towns on one page. Kino Helios is priced and
+  declined, eight need a browser, eight have nothing, none server-renders unbuilt.
+  **Next action:** Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
@@ -262,16 +262,16 @@ a change.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 71 / 118 / 84 |
-| venues in committed data | 118 |
+| providers / venues / cities (declared) | 72 / 123 / 89 |
+| venues in committed data | 123 |
 | local providers (venues) | 9 (31) |
-| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 4 |
-| generated pages per language | 134 |
-| sitemap URLs | 269 |
-| poster references (shows / films-extra) | 5228 (4878 / 350) |
+| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Alatalo 5 |
+| generated pages per language | 139 |
+| sitemap URLs | 279 |
+| poster references (shows / films-extra) | 4688 (4309 / 379) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1310 |
-| `sw.js` CACHE | `leffavuoro-v187` |
+| mirrored poster files | 1329 |
+| `sw.js` CACHE | `leffavuoro-v188` |
 
 Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
 took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino
