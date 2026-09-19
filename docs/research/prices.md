@@ -282,6 +282,20 @@ tariff. Whoever wrote that line read the listing table, or read the word "bookin
 stopped. Ten showtimes went unpriced for a day over one wrong sentence, which is the case
 for checking a negative claim about a page against the page.
 
+**The price reads survive a runner pass.** They had only ever run from an ordinary
+connection, and kinotour was one of the nine modules the runner was being challenged on
+when they were written, so the cloud half had never executed them. It has now.
+`logs/run-kinotour.log` at `1327b328c`, the commit run 35457381191 produced on
+2026-09-19 at 17:16:13Z:
+
+    [kinotour] prices: 10 event page(s) read, 10 of 10 row(s) priced, 0 page(s) that did not answer
+
+Ten event pages, ten rows priced, none that failed to answer, and `exit=0` for the module.
+The amounts landed in the committed data: 9 EUR and 11 EUR across
+`data/area-kinotour-kyro.json` (3 shows), `-naantali.json` (3) and `-lieto.json` (4). The
+per-row request cost is therefore paid on the cloud half at the same shape it was measured
+at locally, one request per distinct event page.
+
 **Kino Myyri is a correct absence and simply post-dates the survey.** It joined on
 2026-09-18, and like its two Kinola siblings its prices sit behind the checkout, which this
 repo does not call. `/ohjelmisto/` was read on 2026-09-19 and carries no euro amount at all.
