@@ -37,7 +37,7 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   **Next action:** none from this list. Bio-Salo and
   Bio Sydväst publish nothing readable and are recorded in the research file.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
-  **Eventio:** vendor settled 2026-09-19; its sweep needs per-site path discovery.
+  **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
   destination can be checked. Re-read 2026-09-19: "Ei ohjelmistoa saatavilla."
   **Next action:** re-read on a later Monday.

@@ -341,6 +341,18 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
   availability, and a `urls.buybox` into the tenant's shop. The key is the tenant's and
   the EKID is the cinema's own film id. It is read as a visitor's browser reads it; the
   buybox is a booking endpoint and is neither called nor inventoried.
+  **The per-site path discovery this left open has an empty set, checked 2026-09-19.** One
+  Eventio tenant is known anywhere in this repository and it is `kauppa.kavi.fi`, the shop
+  behind **Kino Regina**, which is already a provider read from its own WordPress by
+  `regina.py`. There is therefore no Eventio cinema "without a path" to find a key and an
+  EKID for, and no Eventio adapter is written: a second reader of the one cinema already
+  covered would be a duplicate provider on one venue, which is the thing per-site routing
+  exists to prevent. The customer sweep that would find a second tenant is the one the
+  section below records as not working, and the three passes it took to establish that.
+  **Observed and not acted on:** `regina.py` takes its prices by parsing the `Peruslippu`
+  row out of each shop page, while `events.json` returns every ticket type with its own
+  name, amount and availability in one request. That is a change to a working provider and
+  not this item, so it is written down rather than made.
 
 **Inferences and open questions**
 
@@ -1411,7 +1423,9 @@ The eTiketti and Nexxo sweeps both landed (2026-08-30). The open candidate list 
 `IDEAS.md` under "Provider coverage, and what is next", which is the status index. Eventio
 was probed on 2026-09-15 and the finding is in the batch section above, so the next step
 this section used to set is done. What is left here: a customer sweep for Eventio if
-anyone wants one, and re-reading Kulttuurimylly when its programme resumes.
+anyone wants one, and re-reading Kulttuurimylly when its programme resumes. The Eventio
+sweep is answered above as far as it can be: the vendor is settled and the per-site set is
+empty.
 
 **The customer sweep was attempted on 2026-09-19 and it is not a fingerprint sweep.** The
 marker is a `data-url` attribute on each rendered screening, emitted by the cinema's own
