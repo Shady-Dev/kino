@@ -27,7 +27,7 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-69 providers, 116 venues, 82 cities, declared and committed alike, measured 2026-09-19.
+71 providers, 118 venues, 84 cities, declared and committed alike, measured 2026-09-19.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
@@ -372,6 +372,7 @@ out of this file and each entry kept its heading.
 | [docs/research/languages.md](docs/research/languages.md) | which providers publish which languages, and the language-code measurement |
 | [docs/research/seo-and-search.md](docs/research/seo-and-search.md) | the Search Console baseline and what the pages rank for |
 | [docs/research/publication-rhythm.md](docs/research/publication-rhythm.md) | when cinemas publish, measured and as Finnkino states it |
+| [docs/research/runner-challenges.md](docs/research/runner-challenges.md) | why a cloud run can fail on many unrelated cinemas at once, and what it costs |
 
 **Accepted rules** were not moved into either. They were already in
 [CLAUDE.md](CLAUDE.md) and [DESIGN.md](DESIGN.md), which are authoritative, and the
