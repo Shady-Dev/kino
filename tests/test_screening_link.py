@@ -105,7 +105,9 @@ class SheetPlumbingTest(unittest.TestCase):
 
     def test_both_hash_readers_use_the_parser_and_the_old_regex_is_gone(self):
         self.assertNotIn("location.hash.match(/m=(.+)$/)", HTML)
-        self.assertEqual(HTML.count("parseSheetHash(location.hash)"), 2)   # syncSheet, refreshOpenSheet
+        # syncSheet, refreshOpenSheet, and twice in showSheet's own guard: the film it
+        # was opened for, and the film the fragment names once an await has resolved.
+        self.assertEqual(HTML.count("parseSheetHash(location.hash)"), 4)
         self.assertIn("if(want) showSheet(want.fid, want);", HTML)
 
     def test_a_card_click_builds_the_fragment_with_the_same_function(self):

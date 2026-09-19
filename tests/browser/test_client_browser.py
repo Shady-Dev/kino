@@ -53,8 +53,15 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     delay = {}
 
     def do_GET(self):
+        # Logged before the delay below, unlike `served`, which is logged after it. A race
+        # test has to know the request is in flight, not that it has finished.
+        self.server.requested.append(self.path)
         self.nostore = False
-        for suffix, secs in self.delay.items():
+        # A snapshot: the handler runs on the server thread while a test's own thread
+        # sets or clears this, and iterating the live dict raised "dictionary changed
+        # size during iteration" out of the server loop. The traceback printed, the
+        # request still completed and the suite stayed green, so it read as noise.
+        for suffix, secs in list(self.delay.items()):
             if self.path.endswith(suffix):
                 # A delayed file is also uncacheable, or the browser answers the second
                 # request from its own HTTP cache and the delay describes nothing. That is
@@ -85,6 +92,7 @@ class Browser(unittest.TestCase):
     def setUpClass(cls):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.served = []
+        cls.srv.requested = []
         threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
@@ -492,3 +500,89 @@ class PickersStayModal(Browser):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AsyncRaces(Browser):
+    """Two awaits with no identity guard let a stale reply win.
+
+    `showSheet` awaited `ensureFilms()` and then `extra.ensure()` and checked nothing in
+    between, so closing the sheet or opening another film while the metadata loaded let
+    the first call run to the end: it reopened a dialog the reader had dismissed, or drew
+    film A over film B. `loadSchedule` already numbered its loads; what it did not do was
+    read the day it was loading for before the await.
+
+    The server's per-path `delay` is the deferred promise here: `films.json` is fetched
+    only by `showSheet`, so delaying it holds both calls open at a point the test controls,
+    without a sleep in the page or a stub over the app's own code.
+    """
+
+    def slow(self, suffix, secs=1.5):
+        self.srv.requested.clear()
+        Handler.delay = {suffix: secs}
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+
+    def wait_in_flight(self, suffix, timeout=10):
+        """Block until the delayed request has reached the server. `requested` is logged
+        before the sleep, so this is the moment the page is inside the await and the race
+        window is open -- a condition, not a guess at how long the page needs."""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            if any(p.endswith(suffix) for p in self.srv.requested):
+                return
+            time.sleep(0.02)
+        raise AssertionError(f"{suffix} was never requested; the race never opened")
+
+    def sheet_open(self):
+        return self.page.evaluate("() => document.body.classList.contains('sheet-open')")
+
+    def test_closing_the_sheet_while_its_metadata_loads_leaves_it_closed(self):
+        self.pick_orion()
+        self.slow("films.json")
+        # Two separate evaluates on purpose. `syncSheet` reads `location.hash` when the
+        # event fires, not the value that caused it, so two assignments in one task are
+        # both answered with the final hash and the first sheet never opens at all -- the
+        # first version of this test raced nothing and passed against the unguarded code.
+        self.page.evaluate("() => { location.hash = 'm=autofiktio'; }")
+        self.wait_in_flight("films.json")
+        self.page.evaluate("() => { location.hash = ''; }")
+        self.page.wait_for_timeout(2500)          # past the delay, so the reply has landed
+        self.assertFalse(self.sheet_open(), "a dismissed sheet was reopened by a stale load")
+
+    def test_a_slow_venue_load_does_not_render_over_a_newer_pick(self):
+        """Promenadi Pori is held open while the reader goes back to Orion, whose payload
+        is already in `jsonCache` and renders at once."""
+        self.pick_orion()
+        first = self.page.locator("a.stub").first.get_attribute("href")
+        self.slow("area-1004.json")
+        vq = self.open_picker()
+        vq.fill("promenadi")
+        rows = self.page.locator("#vlist .vrow")
+        expect(rows).to_have_count(1)
+        vq.press("Enter")
+        # Straight back to Orion while Pori is still in flight.
+        vq2 = self.open_picker()
+        vq2.fill("orion")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq2.press("Enter")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        self.page.wait_for_timeout(2500)          # Pori's reply lands here
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        self.assertEqual(self.page.locator("a.stub").first.get_attribute("href"), first,
+                         "a stale venue load rendered over the newer pick")
+
+    def test_a_slow_failing_load_does_not_cover_a_newer_selection(self):
+        """The failure path needs the same guard: an error screen drawn for an abandoned
+        selection replaces a schedule the reader is looking at."""
+        self.pick_orion()
+        self.slow("area-1004.json")
+        vq = self.open_picker()
+        vq.fill("promenadi")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq.press("Enter")
+        vq2 = self.open_picker()
+        vq2.fill("orion")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq2.press("Enter")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.wait_for_timeout(2500)
+        expect(self.page.locator("a.stub").first).to_be_visible()

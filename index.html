@@ -3658,8 +3658,26 @@
   // `keepFocus` is passed by one caller, `refreshOpenSheet`. Inferring it from the sheet
   // already being open would be wrong: a reader following a link to another film from an
   // open sheet is opening a sheet and should get the keyboard, exactly as before.
+  // Two awaits below and, until 2026-09-19, no identity guard on either. Closing the
+  // sheet or opening another film while the metadata loaded let the first call run to the
+  // end and reopen the dialog the reader had just dismissed, or draw film A over film B.
+  // `sheetSeq` numbers every open; `hideSheet` bumps it, so a close invalidates whatever
+  // is in flight. The requested fragment is checked as well, because the hash is the
+  // sheet's identity and `onPopState` can change it without either function running.
+  let sheetSeq = 0;
   async function showSheet(fid, want, keepFocus){
+    const seq = ++sheetSeq;
+    // Only when the call came from a fragment: a hash-less open has no identity to check
+    // against and must not be aborted by this.
+    const openedFor = (parseSheetHash(location.hash) || {}).fid || null;
+    const superseded = () => {
+      if(seq !== sheetSeq) return true;
+      if(!openedFor) return false;
+      const now = parseSheetHash(location.hash);
+      return !now || now.fid !== openedFor;
+    };
     await ensureFilms();
+    if(superseded()) return;
     const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start), startIso:s.start}))
       .sort((a,b) => a.start - b.start);
@@ -3674,6 +3692,7 @@
     let f = films[fid] || films[native] || {};
     if(!f.s && sample.title){
       const ex = await extra.ensure();
+      if(superseded()) return;
       const hit = ex[normTitle(sample.title)];
       if(hit) f = { ...f, s: hit.s, tr: f.tr || hit.tr };
     }
@@ -3826,6 +3845,10 @@
 
   function hideSheet(){
     closeStubMenu(false);
+    // Invalidate any open still loading its metadata, or it reopens the dialog over a
+    // reader who has just closed it. After closeStubMenu, which test_share_menu pins as
+    // the first thing this function does; both are synchronous and the order is free.
+    sheetSeq++;
     const wasOpen = document.body.classList.contains('sheet-open');
     document.body.classList.remove('sheet-open');
     sheetEl.classList.remove('dragging');
