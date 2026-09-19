@@ -575,6 +575,19 @@ PROVIDERS = [
     # anywhere, Savon Kinot, which shares no view with Espoo. L* 51.3, saturation 0.51.
     dict(id="sheryl", label="Cinema Sheryl", host="sheryl.fi",
          accent="#9E60C2", book="buy", module="kinola", where="local"),
+    # Haapamäen Elokuvat, 2026-09-19. The village cinema in Haapamäki, Keuruu, run by
+    # volunteers for the HPP sports club, and the fifth Johku storefront. `book="buy"`:
+    # every row links to its own product page in the storefront, as the other four do.
+    # Local until a committed run log proves otherwise, per the instruction of the day.
+    # Haapamäki holds no other chain and sits in no REGIONS area. Fitted to the row a
+    # Keski-Suomi extension would create, against Finnkino and Kino Aurora in Jyväskylä,
+    # Kino Metso, Kino Hirvi in Äänekoski and Kinotar in Jämsä: 18.4 dE00 on the weakest
+    # of the three models. 4.9 from its nearest accent anywhere, Kino Piispanristi in
+    # Kaarina, which shares no view with it. L* 60.0, saturation 0.73; the colours that
+    # scored better in the row all sit above 0.95, which is the saturation Elokuvateatteri
+    # Huvimylly's entry records passing over.
+    dict(id="haapamaki", label="Haapamäen Elokuvat", host="haapamaenelokuvat.fi",
+         accent="#E644FE", book="buy", module="johku", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

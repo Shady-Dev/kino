@@ -284,13 +284,16 @@ class RunnerTest(unittest.TestCase):
             return body.encode("utf-8")
         J.fetch = fetch
 
-    def main(self):
+    def main(self, half="all"):
+        """`--half all` explicitly: Haapamäen Elokuvat is local and the other four are
+        cloud, so without it this would run five sites on a laptop and four on Actions,
+        where `half_of` reads GITHUB_ACTIONS. The fixture serves every site either way."""
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main(["johku"])
+            code = run.main(["johku", "--half", half])
         return code, out.getvalue() + err.getvalue()
 
-    def all_four(self, **over):
+    def all_sites(self, **over):
         pages = {}
         for site in J.SITES:
             loc = site["venues"][0]["loc"]
@@ -306,8 +309,8 @@ class RunnerTest(unittest.TestCase):
         pages.update(over)
         return pages
 
-    def test_all_four_publish(self):
-        self.serve(self.all_four())
+    def test_all_sites_publish(self):
+        self.serve(self.all_sites())
         code, log = self.main()
         self.assertEqual(code, 0, log)
         for site in J.SITES:
@@ -323,7 +326,7 @@ class RunnerTest(unittest.TestCase):
                 "horizon": "2026-09-01",
                 "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
         (run.OUT / "area-kinokulma-oulainen.json").write_text(json.dumps(prev))
-        self.serve(self.all_four(**{"https://kinokulma.fi/": "<html><body></body></html>"}))
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": "<html><body></body></html>"}))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("no evidence of one", log)
@@ -333,7 +336,7 @@ class RunnerTest(unittest.TestCase):
         self.assertTrue((run.OUT / "area-bioforum-tammisaari.json").exists())
 
     def test_a_listing_of_nothing_but_hall_hire_fails_that_site(self):
-        self.serve(self.all_four(**{
+        self.serve(self.all_sites(**{
             "https://bioforum.fi/": listing(group(
                 "Perjantai 19.9.2026",
                 row("a", "Salivaraus", "2026-09-19T14:30:00.000Z", "17.30",
@@ -348,7 +351,7 @@ class RunnerTest(unittest.TestCase):
 
     def test_a_film_page_that_fails_still_publishes_its_screenings(self):
         """The page carries metadata, not the decision to publish."""
-        self.serve(self.all_four(**{
+        self.serve(self.all_sites(**{
             "https://vihdinkino.fi/fi_FI/ohjelmisto/a": RuntimeError("HTTP Error 503")}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
@@ -359,7 +362,7 @@ class RunnerTest(unittest.TestCase):
 
     def test_the_hall_hire_page_is_never_fetched(self):
         """It is dropped before the film pages are chosen, so the request is not made."""
-        self.serve(self.all_four(**{
+        self.serve(self.all_sites(**{
             "https://kinokulma.fi/": listing(group(
                 "Perjantai 19.9.2026",
                 row("a", "A", "2026-09-19T14:30:00.000Z", "17.30", loc="Kulmasali",
@@ -373,11 +376,11 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("hall-hire", log)
 
     def test_one_film_page_per_distinct_product(self):
-        self.serve(self.all_four())
+        self.serve(self.all_sites())
         self.assertEqual(self.main()[0], 0)
         films = [c for c in self.calls if "/fi_FI/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 8)
+        self.assertEqual(len(films), 10)      # five storefronts, two films each
 
 
 class RegistryTest(unittest.TestCase):
@@ -414,8 +417,9 @@ class RegistryTest(unittest.TestCase):
     def test_each_site_names_the_host_it_reads_and_they_are_paced_apart(self):
         self.assertEqual([s["base"] for s in J.SITES],
                          ["https://www.biomarilyn.com", "https://vihdinkino.fi",
-                          "https://bioforum.fi", "https://kinokulma.fi"])
-        self.assertEqual(len(run.host_groups(J.SITES)), 4)
+                          "https://bioforum.fi", "https://kinokulma.fi",
+                          "https://haapamaenelokuvat.fi"])
+        self.assertEqual(len(run.host_groups(J.SITES)), 5)
 
     def test_kino_engel_and_kino_tapiola_stay_on_their_own_modules(self):
         """The widget is not the storefront; those two keep their own parsers."""

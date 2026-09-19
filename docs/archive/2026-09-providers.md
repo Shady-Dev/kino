@@ -2426,3 +2426,37 @@ unresolved, 0 failures. Checked against the cinema's own front page the same min
 same ten rows, same titles, same times, a mirrored poster and a TMDB id on every one.
 `where="local"` on the instruction of the day, to be revisited if a committed runner log
 proves otherwise; the three other Kinola tenants stay cloud and routing is per site.
+
+### Haapamäen Elokuvat: the fifth Johku storefront (2026-09-19)
+
+haapamaenelokuvat.fi, the village cinema in Haapamäki, run by volunteers for the HPP
+sports club, 120 seats. Second of the five from the nytleffaan diff and the cheapest of
+them: an existing platform, an existing parser, one `SITES` entry and one registry line.
+
+- **The storefront is `hpmenelokuvat` on cdn.johku.com** and the listing is the same
+  `showgroup` / `daytitle` / `js-grid-show` markup the other four serve, eight day groups
+  when read. Nothing in `johku.py` changed.
+- **`loc` is `Sali 1`**, the hall the rows carry in `data-location`.
+- **The town is Haapamäki, not Keuruu.** The cinema names itself after the village and
+  publishes that address; Keuruu is the municipality it belongs to and is not what a
+  reader looking for this cinema types. Same call Kinotour's entry records for Kyrö.
+- **No price**, like the other four: the Johku widget takes its amounts from an API that
+  needs the widget's key, which is the Kino Engel deferral.
+
+**Accent `#E644FE`.** Haapamäki holds no other chain and sits in no REGIONS area. Fitted
+to the row a Keski-Suomi extension would create, against Finnkino and Kino Aurora in
+Jyväskylä, Kino Metso across its three towns, Kino Hirvi in Äänekoski and Kinotar 123 in
+Jämsä: 18.4 dE00 on the weakest of the three models. 4.9 from its nearest accent anywhere,
+Kino Piispanristi in Kaarina, which shares no view with it. L* 60.0, saturation 0.73;
+everything that scored better in the row sat above 0.95, which is the saturation
+Elokuvateatteri Huvimylly's entry records passing over.
+
+**First run, from an ordinary connection:** 11 showtimes over 8 dates, 5 film pages read, 0
+failures, first try. Checked against the cinema's own front page the same minute: the same
+rows, same dates, same times, same hall.
+
+**The test harness needed pinning, not the adapter.** `tests/test_johku.py` ran
+`run.main(["johku"])` with no half, which is "all" on a laptop and "cloud" on Actions; with
+four cloud sites and one local that is five sites here and four there, and the film-page
+count would have differed between them. It now passes `--half all` explicitly, which is
+the trap CLAUDE.md records under "Pipeline changes".

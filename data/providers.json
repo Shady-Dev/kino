@@ -510,6 +510,13 @@
    "host": "sheryl.fi",
    "accent": "#9E60C2",
    "book": "buy"
+  },
+  {
+   "id": "haapamaki",
+   "label": "Haapamäen Elokuvat",
+   "host": "haapamaenelokuvat.fi",
+   "accent": "#E644FE",
+   "book": "buy"
   }
  ]
 }

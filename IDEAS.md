@@ -27,14 +27,14 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-73 providers, 124 venues, 89 cities, declared and committed alike, measured 2026-09-19.
+74 providers, 125 venues, 90 cities, declared and committed alike, measured 2026-09-19.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Thirty-two triaged 2026-09-18** and a later five from the nytleffaan diff. Built
   since: Bio Pallas, Elokuvateatteri Huvimylly, Movie Company Alatalo and Cinema Sheryl.
   Kino Helios is priced and declined, eight need a browser, eight have nothing.
-  **Next action:** Haapamäen Elokuvat, then Forssan Elävienkuvien teatteri; Bio-Salo and
+  **Next action:** Forssan Elävienkuvien teatteri; Bio-Salo and
   Bio Sydväst publish nothing readable and are recorded in the research file.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** vendor settled 2026-09-19; its sweep needs per-site path discovery.
@@ -275,16 +275,16 @@ a change.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 73 / 124 / 89 |
-| venues in committed data | 124 |
-| local providers (venues) | 10 (32) |
+| providers / venues / cities (declared) | 74 / 125 / 90 |
+| venues in committed data | 125 |
+| local providers (venues) | 11 (33) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Alatalo 5 |
-| generated pages per language | 140 |
-| sitemap URLs | 281 |
-| poster references (shows / films-extra) | 4702 (4320 / 382) |
+| generated pages per language | 141 |
+| sitemap URLs | 283 |
+| poster references (shows / films-extra) | 4713 (4331 / 382) |
 | off-origin poster references | 0 |
 | mirrored poster files | 1336 |
-| `sw.js` CACHE | `leffavuoro-v191` |
+| `sw.js` CACHE | `leffavuoro-v192` |
 
 Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
 took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino
