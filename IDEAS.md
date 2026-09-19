@@ -31,10 +31,10 @@ contract change is explained here, never in `docs/research/`.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, twelve built: Kino Myyri, four Johku storefronts,
-  Ritz Vaasa, Kino Hamina, Kinotour and the four of 2026-09-19. Kino Helios is priced and
-  declined, eight need a browser, eight have nothing, three server-render and are unbuilt.
-  **Next action:** Bio Pallas, then Bio Huvimylly (local: runner 403 against an ordinary
+- **Thirty-two triaged 2026-09-18**, thirteen built: Kino Myyri, four Johku storefronts,
+  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19 and Bio Pallas. Kino Helios is
+  priced and declined, eight need a browser, eight have nothing, two server-render and are
+  unbuilt. **Next action:** Bio Huvimylly (local: runner 403 against an ordinary
   connection's 200), then Alatalo-kiertue, then Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
@@ -57,6 +57,19 @@ match publishes unchecked. Evidence:
 [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
 **Next action:** the maintainer's, on whether a second search language is worth the
 re-judging pass it would force. The hand aliases work and nothing is blocked on it.
+
+### Bio Pallas is cloud, unsettled
+
+Karjaa's 1923 funkis cinema, built 2026-09-19. Wix, server-rendered, one request, thirteen
+screenings over six days; `book="door"` because the site takes reservations by telephone
+and Messenger only. Accent `#546C78`, 18.6 dE00 against the Lansi-Uusimaa set it would
+meet and 4.7 from its nearest anywhere. Nothing keys on a Wix component id, because those
+change on every page edit. The record is in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** read `logs/run-pallas.log` from the first cloud run. `where="cloud"` is
+provisional: the site was read from an ordinary connection only, nothing here has been
+read from the runner, and a 403 or a challenge in that log flips it to local in its own
+commit. Until that log exists, do not write that the site is reachable from the runner.
 
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 

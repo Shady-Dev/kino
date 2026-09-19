@@ -2170,3 +2170,62 @@ showtime of all four now carries both a `tmdbId` and an `img`: Marita 3/3, Lieks
 Neither of the two paths that only a later programme can exercise has fired in production:
 Marita's confirmed-empty answer and Navettakino's missing-heading raise are covered by
 fixture only.
+
+### Bio Pallas, Karjaa: a Wix page whose structure is its document order (2026-09-19)
+
+biopallas.com, a 1923 funkis cinema in Karjaa, in the municipality of Raasepori. Probed as
+a visitor on 2026-09-19: the apex 301s to www, www answers 200, `server: Pepyaka` behind
+Fastly, no CF-Ray and no challenge on any of twelve requests.
+
+- **The programme is the front page and there is no second request.** `<title>Ohjelmisto/
+  Program</title>`, and `pages-sitemap.xml` lists three URLs in all, the root and two
+  standing pages. No film page, so no synopsis and no runtime beyond the one line the row
+  carries.
+- **Server-rendered, checked rather than assumed.** Wix often keeps content in a payload,
+  so all 60 `<script>` blocks were grepped for the day's titles and none carries one. The
+  only `/_api/` strings are Wix platform infrastructure. The titles are in the markup and
+  nowhere else, which is what makes the site buildable under the visitor's-public-interface
+  rule.
+- **Nothing keys on a component id.** The `comp-` prefix changes on every page edit, and
+  the `__item-` ids repeat across days. What is stable is the order of the rich-text
+  elements and the images, so a row is the block holding both a date and a `Klo` time, its
+  title is the block before, its price the block after, its poster the last image before
+  its title.
+- **The coming-soon block is excluded by shape, not by its heading.** Its five entries
+  carry a title and a bare date in separate blocks, with no time, so requiring the date and
+  the time together drops them and a renamed heading cannot let them back in.
+- **One amount settles a price.** Ten rows read `13€`, two matinees read `12€ med
+  kaffeserv./kahvitarjoilulla`, which is one amount with a description of what it includes,
+  and the touring concert reads `22/25€`, which is two with nothing on the row to choose
+  between them and publishes none. The site states no house tariff at all.
+- **The poster is checked for shape on every run.** The `<img>` carries no `src`;
+  `<wow-image data-image-info>` holds escaped JSON whose `imageData.uri` names the file on
+  static.wixstatic.com, with its own width and height beside it. Every poster measured
+  across six readings is portrait and the page's one landscape image is its hero, outside
+  every row.
+- **`book="door"`,** in the site's own words: reservations by telephone and Facebook
+  Messenger, and no film row carries a ticket URL. The one row that does is the 23.9
+  concert, whose link goes to a third party's shop belonging to a separate organiser; it
+  was not fetched and is not published, because this repo does not call a booking endpoint.
+- **Zero rows fails the site.** Six readings over fourteen months all rendered a programme.
+  The site does write a per-day closure block, in four different spellings across the
+  captures, which is evidence about a day rather than about the programme, so it cannot
+  carry an `EmptyProgramme` gate. A closed day is counted and named in the log.
+
+**Accent `#546C78`.** Karjaa holds no other chain and sits in no REGIONS area, so nothing
+binds it today. Fitted to the row a Lansi-Uusimaa extension would create, against Bio Forum
+in the same municipality, Kino Laika, Kino Olympia, Kino Akseli, Vihdin Kino and Kino
+Vaakuna: 18.6 dE00 on the weakest model, 21.1 to normal vision. 4.7 from its nearest accent
+anywhere, Bio Säde and Laitilan Kino, which is as far as the L* 38 to 60 band reaches with
+70 accents in it. The colours that scored better inside the row all sat on top of Kino
+Tapiola.
+
+**Verified against the cinema's own page**, not against the run log: thirteen screenings
+over six days, the same four titles, the same times and the same prices the page prints,
+and a poster on all thirteen. Twelve of the thirteen carry a `tmdbId` after enrichment; the
+thirteenth is the concert, for which TMDB holds no record and none was forced.
+
+**Routing is unsettled.** `where="cloud"` is provisional. The site was read from an
+ordinary connection only, nothing here has been read from the GitHub runner, and the first
+committed `logs/run-pallas.log` is what settles it. A 403 or a challenge body there flips
+the entry to local in its own commit.

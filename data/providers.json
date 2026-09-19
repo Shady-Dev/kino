@@ -482,6 +482,13 @@
    "host": "pyhasalmenvpk.fi",
    "accent": "#725466",
    "book": "door"
+  },
+  {
+   "id": "biopallas",
+   "label": "Bio Pallas",
+   "host": "biopallas.com",
+   "accent": "#546C78",
+   "book": "door"
   }
  ]
 }

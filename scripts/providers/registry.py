@@ -509,6 +509,19 @@ PROVIDERS = [
     # nearest of the three added beside it the same day.
     dict(id="pyhasalmenvpk", label="Pyhäsalmen VPK", host="pyhasalmenvpk.fi",
          accent="#725466", book="door", module="vpk", where="cloud"),
+    # Bio Pallas, 2026-09-19. A 1923 funkis cinema in Karjaa, in the municipality of
+    # Raasepori, on a Wix front page that is its whole programme. `book="door"` in the
+    # site's own words: "Paikkavaraukset vain Facebook mesengerillä tai soittamalla
+    # numeroon", and no film row carries a ticket URL of any kind.
+    # Karjaa holds no other chain and sits in no REGIONS area, so nothing binds this
+    # accent today. Fitted to the row a Länsi-Uusimaa extension would create, where its
+    # neighbours would be Bio Forum in the same municipality, Kino Laika, Kino Olympia,
+    # Kino Akseli, Vihdin Kino and Kino Vaakuna: 18.6 dE00 on the weakest model against
+    # that set, 21.1 to normal vision. 4.7 from its nearest accent anywhere, Bio Säde and
+    # Laitilan Kino, which is as far as the L* 38 to 60 band reaches with 69 accents in
+    # it; the colours that score better inside the row sit on top of Kino Tapiola.
+    dict(id="biopallas", label="Bio Pallas", host="biopallas.com",
+         accent="#546C78", book="door", module="pallas", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

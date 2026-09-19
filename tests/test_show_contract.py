@@ -49,6 +49,7 @@ import test_marita as MA
 import test_navetta as NV
 import test_tribe as TR
 import test_vpk as VK
+import test_pallas as PL
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -361,6 +362,20 @@ def sample_vpk():
             [v["id"] for v in site["venues"]])
 
 
+def sample_pallas():
+    """Three rows: one priced outright, one whose block names two amounts and must publish
+    none, and one whose image is the page's landscape hero and must publish no poster."""
+    site = PL.SITE
+    out, _ = mod("pallas").rows(site, PL.page(
+        PL.heading(PL.SAT),
+        PL.row(PL.SAT, "18.00", "Myrskyn ikkuna"),
+        PL.row(PL.SAT, "19.00", "Orchestra Nazionale della Luna", meta=None,
+               price="22/25€"),
+        PL.row(PL.SAT, "20.00", "Resident Evil", meta="1h 34min -K16-",
+               poster=PL.image(PL.HERO, 3704, 2248))), PL.TODAY)
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -386,6 +401,7 @@ SAMPLES = {
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
     "kinotour": sample_kinotour, "marita": sample_marita,
     "lieksa": sample_lieksa, "navetta": sample_navetta, "vpk": sample_vpk,
+    "pallas": sample_pallas,
 }
 
 
