@@ -169,5 +169,63 @@ class LiveRegistryTest(unittest.TestCase):
                 self.assertNotIn(pid, ids(run.sites_for(etiketti, "cloud")))
 
 
+class HalfValueTest(unittest.TestCase):
+    """A half this pipeline does not have is a usage error, not an empty run.
+
+    `run.py biorex --half typo` matched no site's `where`, printed "no sites for the typo
+    half" and exited 0. A scheduled caller cannot tell that from a provider that really
+    has nothing on this half, so a typo in the wrapper would read as a quiet success
+    indefinitely. Reproduced on 2026-09-19 before the check was added.
+    """
+
+    def half(self, argv):
+        """-> ("value", None) or (None, exit_code), with the usage text swallowed."""
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            try:
+                return run.half_of(argv), None, err.getvalue()
+            except SystemExit as e:
+                return None, e.code, err.getvalue()
+
+    def test_every_real_half_is_accepted(self):
+        for value in ("cloud", "local", "all"):
+            with self.subTest(value=value):
+                got, code, _ = self.half(["biorex", "--half", value])
+                self.assertEqual((got, code), (value, None))
+
+    def test_where_accepts_the_two_halves_it_selects_modules_for(self):
+        for value in ("cloud", "local"):
+            with self.subTest(value=value):
+                got, code, _ = self.half(["--where", value])
+                self.assertEqual((got, code), (value, None))
+
+    def test_an_unknown_half_is_a_usage_error(self):
+        got, code, err = self.half(["biorex", "--half", "typo"])
+        self.assertIsNone(got)
+        self.assertEqual(code, 2)
+        self.assertIn("cloud|local|all", err)
+        self.assertIn("typo", err)
+
+    def test_where_rejects_all_because_it_selects_modules(self):
+        """USAGE has always said `--where cloud|local`: `registry.modules("all")` matches
+        no provider's `where` and would return nothing."""
+        got, code, err = self.half(["--where", "all"])
+        self.assertIsNone(got)
+        self.assertEqual(code, 2)
+        self.assertIn("cloud|local", err)
+
+    def test_a_missing_value_is_still_a_usage_error(self):
+        for flag in ("--half", "--where"):
+            with self.subTest(flag=flag):
+                got, code, err = self.half(["biorex", flag])
+                self.assertIsNone(got)
+                self.assertEqual(code, 2)
+                self.assertIn("needs a value", err)
+
+    def test_the_usage_line_names_both_flags_and_their_values(self):
+        self.assertIn("--half cloud|local|all", run.USAGE)
+        self.assertIn("--where cloud|local", run.USAGE)
+
+
 if __name__ == "__main__":
     unittest.main()

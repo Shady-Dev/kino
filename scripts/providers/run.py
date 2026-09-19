@@ -62,6 +62,8 @@ OUT = pathlib.Path("data")
 
 # One string, because two copies of it drifted: main() printed it for an empty
 # module list and half_of() had none to print at all.
+HALVES = ("cloud", "local", "all")
+WHERES = ("cloud", "local")
 USAGE = ("usage: run.py <module>... [--half cloud|local|all] | "
          "run.py --where cloud|local")
 
@@ -662,7 +664,20 @@ def half_of(argv):
                 # broken runner rather than as a mistyped command.
                 print(f"{USAGE}\n{flag} needs a value", file=sys.stderr)
                 raise SystemExit(2)
-            return argv[i]
+            value = argv[i]
+            # A value that is not a half matches no site's `where`, so `run.py biorex
+            # --half typo` used to print "no sites for the typo half" and exit 0. A
+            # scheduled caller cannot tell that from a provider that legitimately has
+            # nothing on this half, so a typo in the wrapper would look like a quiet,
+            # successful run forever. `--where` takes the two real halves only, which is
+            # what USAGE has always said: it selects the modules to import and "all" is
+            # not a value `registry.modules` can answer.
+            allowed = HALVES if flag == "--half" else WHERES
+            if value not in allowed:
+                print(f"{USAGE}\n{flag} takes {'|'.join(allowed)}, not {value!r}",
+                      file=sys.stderr)
+                raise SystemExit(2)
+            return value
     return "cloud" if os.environ.get("GITHUB_ACTIONS") else "all"
 
 
