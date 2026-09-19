@@ -172,66 +172,93 @@ def publish_site(mod, site, per_venue, now, order=0):
     split = sum(bool(strands.apply(s)) for shows in per_venue.values() for s in shows)
     if split:
         print(f"[{label}] strand prefix split off {split} showtimes")
-    synmerge.merge(OUT, per_venue, label, order)
 
+    # Nothing this site owns is published until all of it has serialized. `check_shows`
+    # above is contract validation and catches a malformed venue before any write, but it
+    # is not atomicity: anything that raises after it -- a corrupt previous file under
+    # `enrichment_of`, a full disk under the write itself -- used to leave the earlier
+    # venues on the new fetch, films-extra.json updated, and the rest of the site on the
+    # previous one, which the workflow then committed despite the site having failed.
+    # Measured 2026-09-19 with a write failure on the second of two venues: the first
+    # venue's file and films-extra.json both changed. So the venue payloads are built and
+    # staged first, films-extra is merged only once they all exist, and the live files
+    # move afterwards.
+    # `strip_helpers` drops `_syn` from every show as each venue is serialized, and
+    # `synmerge.merge` now runs after that, so it is handed a projection of the two fields
+    # it reads taken before the loop rather than the live shows. Missing this ordering
+    # emptied films-extra.json for every site and three synopsis tests caught it.
+    syn_input = {vid: [{"title": sh.get("title"), "_syn": sh.get("_syn")} for sh in shows]
+                 for vid, shows in per_venue.items()}
     live = total = 0
+    staged = []           # (tmp, path) per venue; nothing is live until commit_staged
     stale = []            # kept its previous file: the data is real, just older
     unverified = []       # never any data, emptiness unconfirmed: parse rot looks the same
     pending = []          # the adapter confirmed the venue empty: no programme at the moment
-    for v in site["venues"]:
-        shows = per_venue.get(v["id"]) or []
-        path = OUT / f"area-{v['id']}.json"
-        prev_gen, prev_shows = previous(path)
-        confirmed = getattr(mod, "EMPTY_VENUES_CONFIRMED", False) and v["id"] in per_venue
-        if not shows and confirmed:
-            # Positive evidence: the module promises that a venue it reported with an
-            # empty list is *known* empty -- the upstream answered in schema and listed
-            # nothing. Whether the venue had data before does not change that. A touring
-            # cinema's town is empty between visits, and keeping its last, past show
-            # marked stale for weeks said "not updated" about a programme that had ended.
-            # The empty file is stamped fresh so it cannot drag `oldest` down.
-            pending.append(v["id"])
-            print(f"[{label}] {v['name']}: no programme at the moment (adapter confirmed "
-                  f"the venue empty); publishing an empty file", file=sys.stderr)
-        elif not shows and prev_shows:
-            stale.append(v["id"])
-            print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
-                  f"from {prev_gen or 'an unknown time'}", file=sys.stderr)
-            continue
-        elif not shows:
-            # Never produced a showtime and nobody vouches for the emptiness: "added
-            # before its programme is published" and "a parse that has never worked" are
-            # not distinguishable here, so it is recorded rather than judged and must not
-            # read as healthy. It still gets the empty file, so the picker does not link
-            # to a 404, stamped fresh so a venue with no data cannot drag `oldest` down.
-            unverified.append(v["id"])
-            print(f"[{label}] {v['name']}: no showtimes and none previously; "
-                  f"publishing an empty file", file=sys.stderr)
-        shows.sort(key=lambda s: s["start"])
-        synmerge.strip_helpers(shows)
-        # Read before the write, so a venue keeps its ratings, trailers and genre ids
-        # rather than losing them for however long it takes the next enrichment pass to
-        # run. Never overrides what the adapter itself produced.
-        carried = enrichment_of(path)
-        for sh in shows:
-            for field, val in (carried.get(synmerge.norm(sh.get("title"))) or {}).items():
-                if field == "img":
-                    if not sh.get("img"):
-                        sh["img"] = val         # the adapter published none; the mirrored poster stays
-                        # ...marked as the TMDB pass's, so that pass can replace it when
-                        # the film's match changes and drop it when the match is not
-                        # trusted. A poster the adapter publishes carries no mark.
-                        sh["isrc"] = "tmdb"
-                else:
-                    sh.setdefault(field, val)
-        days = sorted({s["start"][:10] for s in shows if s.get("start")})
-        common.write_json(path,
-            {"generated": now, "dates": days, "horizon": days[-1] if days else "",
-             "shows": shows})
-        if shows:
-            live += 1
-            total += len(shows)
-            print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
+    try:
+        for v in site["venues"]:
+            shows = per_venue.get(v["id"]) or []
+            path = OUT / f"area-{v['id']}.json"
+            prev_gen, prev_shows = previous(path)
+            confirmed = getattr(mod, "EMPTY_VENUES_CONFIRMED", False) and v["id"] in per_venue
+            if not shows and confirmed:
+                # Positive evidence: the module promises that a venue it reported with an
+                # empty list is *known* empty -- the upstream answered in schema and listed
+                # nothing. Whether the venue had data before does not change that. A touring
+                # cinema's town is empty between visits, and keeping its last, past show
+                # marked stale for weeks said "not updated" about a programme that had ended.
+                # The empty file is stamped fresh so it cannot drag `oldest` down.
+                pending.append(v["id"])
+                print(f"[{label}] {v['name']}: no programme at the moment (adapter confirmed "
+                      f"the venue empty); publishing an empty file", file=sys.stderr)
+            elif not shows and prev_shows:
+                stale.append(v["id"])
+                print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
+                      f"from {prev_gen or 'an unknown time'}", file=sys.stderr)
+                continue
+            elif not shows:
+                # Never produced a showtime and nobody vouches for the emptiness: "added
+                # before its programme is published" and "a parse that has never worked" are
+                # not distinguishable here, so it is recorded rather than judged and must not
+                # read as healthy. It still gets the empty file, so the picker does not link
+                # to a 404, stamped fresh so a venue with no data cannot drag `oldest` down.
+                unverified.append(v["id"])
+                print(f"[{label}] {v['name']}: no showtimes and none previously; "
+                      f"publishing an empty file", file=sys.stderr)
+            shows.sort(key=lambda s: s["start"])
+            synmerge.strip_helpers(shows)
+            # Read before the write, so a venue keeps its ratings, trailers and genre ids
+            # rather than losing them for however long it takes the next enrichment pass to
+            # run. Never overrides what the adapter itself produced.
+            carried = enrichment_of(path)
+            for sh in shows:
+                for field, val in (carried.get(synmerge.norm(sh.get("title"))) or {}).items():
+                    if field == "img":
+                        if not sh.get("img"):
+                            sh["img"] = val         # the adapter published none; the mirrored poster stays
+                            # ...marked as the TMDB pass's, so that pass can replace it when
+                            # the film's match changes and drop it when the match is not
+                            # trusted. A poster the adapter publishes carries no mark.
+                            sh["isrc"] = "tmdb"
+                    else:
+                        sh.setdefault(field, val)
+            days = sorted({s["start"][:10] for s in shows if s.get("start")})
+            staged.append(common.stage_json(path,
+                {"generated": now, "dates": days, "horizon": days[-1] if days else "",
+                 "shows": shows}))
+            if shows:
+                live += 1
+                total += len(shows)
+                print(f"[{label}] {v['name']}: {len(shows)} showtimes, {len(days)} dates")
+        # Every venue's bytes exist as a .tmp and none of them is live yet, so this is the
+        # first point at which publishing anything is safe. films-extra goes first: it holds
+        # the cross-site lock and the claim bookkeeping that decides which site owns a
+        # synopsis, and staging that as well would hand a later site a claim whose text an
+        # earlier failure had discarded.
+        synmerge.merge(OUT, syn_input, label, order)
+        common.commit_staged(staged)
+    except BaseException:
+        common.discard_staged(staged)
+        raise
 
     # Every venue, not just the fresh ones — see the module docstring. Written whatever
     # the outcome, because this file is the site's health record and a site with no live

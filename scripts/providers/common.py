@@ -814,6 +814,35 @@ def write_json(path, obj, **dumps_kw):
     write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))
 
 
+# `write_text_atomic` makes one file atomic. A site owns several -- one per venue plus its
+# provider file -- and publishing them one at a time means a failure partway leaves some
+# venues on the new fetch and the rest on the previous one, under a provider file that
+# describes neither. Staging splits the two halves of that write: everything that can fail
+# on content or on space happens while only `.tmp` siblings exist, and the live files move
+# in a burst of renames afterwards. `.tmp` is already gitignored, for the reason above.
+def stage_json(path, obj, **dumps_kw):
+    """Write `path`'s .tmp sibling and nothing else. -> (tmp, path) for commit_staged."""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(obj, ensure_ascii=False, **dumps_kw), encoding="utf-8")
+    return tmp, path
+
+
+def commit_staged(staged):
+    """Rename every staged .tmp over its target. -> the number of files published."""
+    for tmp, path in staged:
+        os.replace(tmp, path)
+    return len(staged)
+
+
+def discard_staged(staged):
+    """Remove staged .tmp files after a failure, so none is left for the next run."""
+    for tmp, _ in staged:
+        try:
+            tmp.unlink()
+        except FileNotFoundError:
+            pass
+
+
 # data/films-extra.json is one file for the whole run, written by three passes and
 # rewritten by both halves within the few minutes that separate their commits. Emitted as
 # one line it cannot content-merge: a local push landing mid-run fails `pull --rebase` on

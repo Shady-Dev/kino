@@ -6,6 +6,7 @@ line called the chain current. Three venues, not two: with one good and one bad,
 venue's state" and "any venue's state" give the same answer.
 """
 import contextlib
+import hashlib
 import io
 import json
 import pathlib
@@ -650,3 +651,81 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
                           "fc-c": [show("C", "2026-08-30T20:00:00+03:00")]})
         live, _, _, _, _ = self.run_site(mod)
         self.assertEqual(live, 3)
+
+
+class PublishAtomicityTest(RunSiteHarness):
+    """A site that fails publishes nothing, not the venues it reached before failing.
+
+    `check_shows` runs first and catches a malformed venue before any write, which is
+    contract validation rather than atomicity: anything raising after it used to leave the
+    earlier venues on the new fetch and films-extra.json rewritten, while the workflow
+    committed the lot despite the site's failure. Measured on 2026-09-19 with a write
+    failure on the second of two venues: `area-fc-a.json` and `films-extra.json` both
+    changed. Both failure modes are pinned here, and the second is the one the ordering
+    exists for.
+    """
+
+    def digests(self):
+        return {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in sorted(self.out.glob("*.json"))}
+
+    def seed_all(self):
+        for vid in ("fc-a", "fc-b", "fc-c"):
+            self.seed_previous(vid)
+        (self.out / "films-extra.json").write_text(
+            json.dumps({"films": {"yesterday's film": {"s": {"fi": "seed"}, "r": 0,
+                                                       "tr": ""}}}), encoding="utf-8")
+        return self.digests()
+
+    def good(self):
+        return {"fc-a": [show("A Film", "2026-08-30T18:00:00+03:00")],
+                "fc-b": [show("B Film", "2026-08-30T19:00:00+03:00")],
+                "fc-c": [show("C Film", "2026-08-30T20:00:00+03:00")]}
+
+    def test_a_malformed_second_venue_leaves_every_file_byte_identical(self):
+        before = self.seed_all()
+        per_venue = self.good()
+        per_venue["fc-b"][0]["start"] = None          # fails common.Show
+        with self.assertRaises(RuntimeError):
+            self.run_site(FakeModule(per_venue))
+        self.assertEqual(self.digests(), before)
+
+    def test_a_write_failure_on_the_second_venue_leaves_every_file_byte_identical(self):
+        """The case `check_shows` cannot reach: the contract holds and the disk does not."""
+        before = self.seed_all()
+        real = common.stage_json
+
+        def flaky(path, obj, **kw):
+            if path.name == "area-fc-b.json":
+                raise OSError("no space left on device")
+            return real(path, obj, **kw)
+
+        common.stage_json = flaky
+        self.addCleanup(lambda: setattr(common, "stage_json", real))
+        with self.assertRaises(OSError):
+            self.run_site(FakeModule(self.good()))
+        self.assertEqual(self.digests(), before)
+
+    def test_a_failed_site_leaves_no_staged_temp_behind(self):
+        """`.tmp` is gitignored, but a leftover would be read as this run's output by the
+        next one's `previous()` if the name ever stopped matching."""
+        self.seed_all()
+        per_venue = self.good()
+        per_venue["fc-c"][0]["start"] = None
+        with self.assertRaises(RuntimeError):
+            self.run_site(FakeModule(per_venue))
+        self.assertEqual(sorted(p.name for p in self.out.glob("*.tmp")), [])
+
+    def test_the_successful_path_still_publishes_every_venue_and_the_synopses(self):
+        """The reordering moved `synmerge.merge` after the venue loop, and `strip_helpers`
+        removes `_syn` in that loop, so merge is handed a projection taken before it.
+        Getting that wrong emptied films-extra.json for every site."""
+        self.seed_all()
+        per_venue = self.good()
+        per_venue["fc-a"][0]["_syn"] = "Alpha's own blurb"
+        self.run_site(FakeModule(per_venue))
+        for vid in ("fc-a", "fc-b", "fc-c"):
+            self.assertEqual(len(self.area(vid)["shows"]), 1, vid)
+        films = json.loads((self.out / "films-extra.json").read_text(encoding="utf-8"))
+        self.assertEqual(films["films"]["a film"]["s"]["fi"], "Alpha's own blurb")
+        self.assertEqual(sorted(p.name for p in self.out.glob("*.tmp")), [])
