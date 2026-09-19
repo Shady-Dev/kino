@@ -32,10 +32,10 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Thirty-two triaged 2026-09-18**, fourteen built: Kino Myyri, four Johku storefronts,
-  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas and Elokuvateatteri
-  Huvimylly. Kino Helios is
-  priced and declined, eight need a browser, eight have nothing, one server-renders and is
-  unbuilt. **Next action:** Alatalo-kiertue, then Kinotour's towns as its log names them.
+  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas (settled cloud on
+  its first runner log) and Elokuvateatteri Huvimylly. Kino Helios is priced and declined,
+  eight need a browser, eight have nothing, one server-renders and is unbuilt.
+  **Next action:** Alatalo-kiertue, then Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
@@ -66,16 +66,6 @@ gets 200. The record is in
 that names its modules and nothing in here can add to it, so the venue ages after the
 snapshot until the block exists. It needs
 `python3 scripts/providers/run.py --where local huvimylly`.
-
-### Bio Pallas is cloud, unsettled
-
-Karjaa's 1923 funkis cinema, built 2026-09-19. Wix, server-rendered, one request,
-thirteen screenings over six days, `book="door"`. The record is in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** read `logs/run-pallas.log` from the first cloud run. `where="cloud"` is
-provisional: the site was read from an ordinary connection only, nothing here has been read
-from the runner, and a 403 or a challenge in that log flips it to local in its own commit.
-Until that log exists, do not write that the site is reachable from the runner.
 
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 

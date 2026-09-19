@@ -2225,10 +2225,19 @@ over six days, the same four titles, the same times and the same prices the page
 and a poster on all thirteen. Twelve of the thirteen carry a `tmdbId` after enrichment; the
 thirteenth is the concert, for which TMDB holds no record and none was forced.
 
-**Routing is unsettled.** `where="cloud"` is provisional. The site was read from an
-ordinary connection only, nothing here has been read from the GitHub runner, and the first
-committed `logs/run-pallas.log` is what settles it. A 403 or a challenge body there flips
-the entry to local in its own commit.
+**Routing settled cloud, 2026-09-19.** The first committed `logs/run-pallas.log`, from the
+dispatch that commited `1ac89b049` at 12:52 UTC: `exit=0`, `1 venues, 13 showtimes, 0
+stale, 0 unverified, 0 pending, 0 with no programme, 0 failures`, one host attempted,
+1.8 s of fetching. No 403 and no challenge body, so the runner reads `www.biopallas.com`
+as an ordinary visitor does and `where="cloud"` stands as written rather than as a guess.
+
+Worth recording beside it: **that same run was challenged on twelve other domains.** Seven
+modules failed together with a 12 kB interstitial titled "One moment, please..."
+(cinemahouse, kirkkonummi, kinotour, lieksa, navetta, tmb, vpk) and Nexxo with plain 403s,
+while Bio Pallas on the same run came back clean. Read from an ordinary connection minutes
+later, all six hosts checked served their real pages. That is the reading side, the same
+pattern `common.served()`'s docstring records from 2026-09-16, and it is why this entry
+reports what the log says about *this* host rather than about the run.
 
 ### Elokuvateatteri Huvimylly, Raahe: a programme typed freehand (2026-09-19)
 
