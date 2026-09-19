@@ -64,15 +64,6 @@ The adopted classifier and the three tenants that do publish are recorded in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 **Next action:** re-read the listing.
 
-### Should the client's browser suite run in WebKit too
-
-`tests/browser/test_client_browser.py` drives `index.html` and has only ever run in
-Chromium, while the landing pages' check runs in both engines since 2026-09-18. The rule
-that a browser claim names its engines is in [CLAUDE.md](CLAUDE.md) and the record of why
-is in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
-**Next action:** the maintainer's. It is its own change, and the phone fault that forced
-the two-engine job was in a generated page rather than in the client.
-
 ### Move the local fetch off the laptop
 
 Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino

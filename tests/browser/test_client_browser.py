@@ -88,12 +88,18 @@ class Browser(unittest.TestCase):
         threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
-        # Playwright's own pinned Chromium by default, the one `playwright install chromium`
-        # fetched for this Playwright version, so the engine under test is the same on
-        # every machine and on the runner. KINO_BROWSER_CHANNEL=chrome drives the Chrome
-        # already installed instead, which skips the download for a quick local run.
-        channel = os.environ.get("KINO_BROWSER_CHANNEL") or None
-        cls.browser = cls.pw.chromium.launch(channel=channel, headless=True)
+        # KINO_BROWSER_ENGINE picks the engine, default chromium, the same way
+        # test_pages_layout.py does. Playwright's own pinned build for that engine, the one
+        # `playwright install <engine>` fetched for this Playwright version, so what is
+        # under test is decided by the pin rather than by the machine.
+        # KINO_BROWSER_CHANNEL=chrome drives the Chrome already installed instead, which
+        # skips the download for a quick local run; it is a Chromium option and is
+        # suppressed outright on any other engine rather than handed to a launcher that
+        # would reject it.
+        engine = os.environ.get("KINO_BROWSER_ENGINE", "chromium")
+        launcher = getattr(cls.pw, engine)
+        channel = os.environ.get("KINO_BROWSER_CHANNEL") if engine == "chromium" else None
+        cls.browser = launcher.launch(channel=channel or None, headless=True)
 
     @classmethod
     def tearDownClass(cls):

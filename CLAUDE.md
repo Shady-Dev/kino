@@ -315,13 +315,17 @@ If a cinema would rather not be included, removing it is one registry entry.
 Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
 under `scripts/`.
 
-`tests/browser/` is a second suite, not discovered by the line above: six Playwright tests
-that drive the venue picker and the ticket links in a real engine against fixture data
-and a pinned clock. CI runs it as the `browser` job on Playwright's own Chromium. Locally:
+`tests/browser/` is a second suite, not discovered by the line above: 20 Playwright tests
+in `test_client_browser.py` that drive the venue picker and the ticket links in a real
+engine against fixture data and a pinned clock, plus the 11 in `test_pages_layout.py`
+below, which the same discovery picks up. CI runs the directory as the `browser` job in
+**Chromium and WebKit** since 2026-09-19, and `KINO_BROWSER_ENGINE` picks the engine
+locally in both files, default chromium. Locally:
 
     python3 -m venv .venv && .venv/bin/pip install playwright==1.62.0
-    .venv/bin/python -m playwright install chromium      # or KINO_BROWSER_CHANNEL=chrome
+    .venv/bin/python -m playwright install chromium webkit   # or KINO_BROWSER_CHANNEL=chrome
     .venv/bin/python -m unittest discover -s tests/browser
+    KINO_BROWSER_ENGINE=webkit .venv/bin/python -m unittest discover -s tests/browser
 
 Run it for a change to the picker, the stubs or boot. A failure leaves a PNG and a trace
 zip in `tests/browser/out/` (`playwright show-trace`). The page exposes no DOM signal for
@@ -332,7 +336,7 @@ sleep, and do not change `index.html` to add a marker without the maintainer's w
 a film's poster, header and ticket list are drawn, at eight widths, over four fixture films
 including one with no poster and one that is a title and nothing else. CI runs it as the
 `pages-layout` job in **Chromium and WebKit**, and either engine failing turns the Checks
-run red. `KINO_BROWSER_ENGINE` picks the engine locally, default chromium.
+run red.
 
 Red is a verdict, not a gate: `main` carries no branch protection and no ruleset, and
 required status checks gate a pull request merge, which this repository does not use. The

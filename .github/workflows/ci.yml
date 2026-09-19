@@ -145,13 +145,30 @@ jobs:
   # a browser-side failure and a pipeline failure read as two verdicts, and so the unit
   # job stays dependency-light.
   #
-  # Playwright is pinned exactly and drives its own Chromium, the build `playwright
-  # install chromium` fetches for that Playwright version, so the engine under test is
-  # decided by the pin and not by whichever Chrome the runner image ships that week (152
-  # on ubuntu-24.04 as of 2026-09-14). The ~170 MB download is cached by Playwright
-  # version; `--with-deps` installs the shared libraries Chromium needs on the image.
+  # Playwright is pinned exactly and drives its own build of each engine, the one
+  # `playwright install <engine>` fetches for that Playwright version, so what is under
+  # test is decided by the pin and not by whichever browser the runner image ships that
+  # week (Chrome 152 on ubuntu-24.04 as of 2026-09-14). The download is cached by
+  # Playwright version and engine; `--with-deps` installs the shared libraries the engine
+  # needs on the image.
+  #
+  # Two engines since 2026-09-19, on the maintainer's instruction, which reverses the
+  # 2026-09-18 decision recorded in docs/archive/2026-09-ops.md to leave this job in
+  # Chromium alone. That decision's reason was that extending it was a change of its own
+  # with its own failures to read; this is that change, and both engines were run against
+  # it first: 20 tests, green in each.
+  #
+  # `discover` still takes no `-p`, so each leg runs test_pages_layout.py as well and the
+  # layout checks now run four times rather than twice. That duplication is the price of
+  # the property the same record names: a new file in tests/browser is never missed by
+  # the discovery. It costs about three seconds a leg.
   browser:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    name: browser (${{ matrix.engine }})
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
@@ -159,25 +176,28 @@ jobs:
         run: python3 -m pip install --quiet --disable-pip-version-check playwright==1.62.0
 
       # actions/cache v6.1.0, the pin biorex.yml already carries. Keyed on the Playwright
-      # version because that is what decides which Chromium build gets downloaded.
+      # version and the engine: the pin decides which build is downloaded, and the two
+      # engines are different downloads.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-chromium-1.62.0
+          key: playwright-${{ matrix.engine }}-1.62.0
 
-      - name: Install Playwright's Chromium
-        run: python3 -m playwright install --with-deps chromium
+      - name: Install Playwright's ${{ matrix.engine }}
+        run: python3 -m playwright install --with-deps ${{ matrix.engine }}
 
       - name: Browser suite
+        env:
+          KINO_BROWSER_ENGINE: ${{ matrix.engine }}
         run: |
           set +e
           python3 -m unittest discover -s tests/browser -v > "$RUNNER_TEMP/browser.log" 2>&1
           rc=$?
           set -e
           tail -40 "$RUNNER_TEMP/browser.log"
-          awk '/^(FAIL|ERROR): / { print "::error::" $0 }' "$RUNNER_TEMP/browser.log"
+          awk '/^(FAIL|ERROR): / { print "::error::${{ matrix.engine }}: " $0 }' "$RUNNER_TEMP/browser.log"
           if [ "$rc" != 0 ]; then
-            echo "::error::the browser suite failed (exit $rc)"
+            echo "::error::the browser suite failed in ${{ matrix.engine }} (exit $rc)"
             exit 1
           fi
 
@@ -186,13 +206,13 @@ jobs:
       - if: failure()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
-          name: browser-failures
+          name: browser-failures-${{ matrix.engine }}
           path: tests/browser/out/
           if-no-files-found: ignore
 
   # The generated pages' layout, in both engines. Its own job and its own matrix rather
-  # than a second engine on the job above, because that one drives index.html and has
-  # only ever run in Chromium; putting it in WebKit unasked would be a different change.
+  # than a second engine on the job above, so a fault in a generated page and a fault in
+  # the client read as two verdicts. Both jobs run both engines since 2026-09-19.
   #
   # Why two engines at all: on 2026-09-18 the phone layout shipped correct in Chromium and
   # broken in WebKit. `grid-row:1/-2` counts back from the explicit grid, the rule declared
