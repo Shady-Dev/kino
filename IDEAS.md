@@ -44,22 +44,6 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
-### The four small cinemas, one commit each
-
-Four towns that carried no cinema here, one bespoke parser and one commit each, all four
-accents measured together first: Marita `#849666`, Lieksan Kino `#2A5A9C`, Navettakino
-`#E45CC0`, Pyhäsalmen VPK `#725466`, worst pair among them 18.9 dE00, all `book="door"`.
-Built 2026-09-19.
-- **Marita**, Outokumpu: 3 screenings, one request plus a film page per film; empty
-  confirmed on the site's own "Ei tulevia näytösaikoja".
-- **Lieksan Kino**: 7 screenings over 4 films, one request; zero rows fail, no capture of
-  this template being empty.
-- **Navettakino**: 2 screenings, a weekend list in prose over a shelf of blocks; an empty
-  weekend is confirmed and a missing heading raises.
-- **Pyhäsalmen VPK**: 6 screenings from the My Calendar REST route, category by id, price
-  from the cinema's own page.
-- **Next action:** read the four run logs; the local snapshot carries no TMDB field yet.
-
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 
 No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
@@ -273,10 +257,10 @@ provider list naming them went live.
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
 | generated pages per language | 132 |
 | sitemap URLs | 265 |
-| poster references (shows / films-extra) | 5378 (5061 / 317) |
+| poster references (shows / films-extra) | 5339 (5017 / 322) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1279 |
-| `sw.js` CACHE | `leffavuoro-v184` |
+| mirrored poster files | 1283 |
+| `sw.js` CACHE | `leffavuoro-v185` |
 
 Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
 took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino

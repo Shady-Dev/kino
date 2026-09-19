@@ -2138,3 +2138,35 @@ unverified, 0 pending, 0 with no programme, 0 failures`, one host attempted. Kyr
 1 date, Naantali 3 over 1, Lieto 4 over 2. **The undeclared-town path has not fired in
 production yet**, and neither has the confirmed-empty one: every row that run named one of
 the three declared towns. Both are covered by fixture only until a tour reaches a fourth.
+
+### The four small cinemas, one commit each (2026-09-19)
+
+Moved out of `IDEAS.md` on 2026-09-19, with its heading, once the four run logs had been
+read and the enriched snapshot measured.
+
+Four towns that carried no cinema here, one bespoke parser and one commit each, all four
+accents measured together first: Marita `#849666`, Lieksan Kino `#2A5A9C`, Navettakino
+`#E45CC0`, Pyhäsalmen VPK `#725466`, worst pair among them 18.9 dE00, all `book="door"`.
+Built 2026-09-19.
+
+- **Marita**, Outokumpu: 3 screenings, one request plus a film page per film; empty
+  confirmed on the site's own "Ei tulevia näytösaikoja".
+- **Lieksan Kino**: 7 screenings over 4 films, one request; zero rows fail, no capture of
+  this template being empty.
+- **Navettakino**: 2 screenings, a weekend list in prose over a shelf of blocks; an empty
+  weekend is confirmed and a missing heading raises.
+- **Pyhäsalmen VPK**: 6 screenings from the My Calendar REST route, category by id, price
+  from the cinema's own page.
+
+**What closed it.** The entry's next action was to read the four run logs, because the
+local snapshot the adapters shipped with carried no TMDB field yet. All four logs read
+`exit=0` with one venue, one host attempted and no failure: `run-marita.log` 3 showtimes
+over 2 dates and 2 films with 2 film pages read, `run-lieksa.log` 7 over 3 dates and 4
+films, `run-navetta.log` 2 over 1 date and 2 films, `run-vpk.log` 6 over 6 dates and 3
+films priced 12 €. Measured in the committed `data/area-*.json` at `73a075acc`, every
+showtime of all four now carries both a `tmdbId` and an `img`: Marita 3/3, Lieksan Kino
+7/7, Navettakino 2/2, Pyhäsalmen VPK 6/6. Nothing in the four renders an initials tile.
+
+Neither of the two paths that only a later programme can exercise has fired in production:
+Marita's confirmed-empty answer and Navettakino's missing-heading raise are covered by
+fixture only.
