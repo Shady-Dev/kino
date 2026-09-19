@@ -588,6 +588,18 @@ PROVIDERS = [
     # Huvimylly's entry records passing over.
     dict(id="haapamaki", label="Haapamäen Elokuvat", host="haapamaenelokuvat.fi",
          accent="#E644FE", book="buy", module="johku", where="local"),
+    # Forssan Elävienkuvien teatteri, 2026-09-19. Finland's oldest operating countryside
+    # cinema, 1906, 77 seats, on its own Foxy CMS and on none of the platforms. `book="buy"`:
+    # each row links to the cinema's own `lipunvaraus/` seat picker for that screening.
+    # Local until a committed run log proves otherwise, per the instruction of the day.
+    # Forssa already holds Bio-Kaari, so this enters that city view: 39.5 dE00 apart on
+    # the weakest of the three models, far clear of the 14.4 floor. Forssa sits in no
+    # REGIONS area, so that view is the only one it enters. 5.9 from its nearest accent
+    # anywhere, Studio 123 Järvenpää, with Savon Kinot the nearest teal at 6.1 and sharing
+    # no view with it. L* 53.4, saturation 0.68.
+    dict(id="elavienkuvien", label="Elävienkuvien teatteri",
+         host="elavienkuvienteatteri.fi", accent="#2E8C92", book="buy",
+         module="elavienkuvien", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

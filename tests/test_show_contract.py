@@ -52,6 +52,7 @@ import test_vpk as VK
 import test_pallas as PL
 import test_huvimylly as HV
 import test_alatalo as AL
+import test_elavienkuvien as EK
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -415,6 +416,21 @@ def sample_alatalo():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_elavienkuvien():
+    """Two films, one of them with a screening whose clock time is not set yet, so the
+    row that must not reach a venue file is exercised beside the two that must."""
+    site = EK.SITE
+    out = EK.E.shows_of(site, {"slug": "ohjelmisto/a/",
+                               "url": f"{EK.BASE}/ohjelmisto/a/", "img": "p.jpg"},
+                        EK.film_page(title="Film A"))
+    out += EK.E.shows_of(site, {"slug": "ohjelmisto/b/",
+                                "url": f"{EK.BASE}/ohjelmisto/b/", "img": "q.jpg"},
+                         EK.film_page(title="Film B", age="7",
+                                      rows=("ti 22.9.2026 klo 19:30 | 13€ / 11€",
+                                            "pe 2.10.2026")))
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
@@ -429,7 +445,7 @@ SAMPLES = {
     "kinotour": sample_kinotour, "marita": sample_marita,
     "lieksa": sample_lieksa, "navetta": sample_navetta, "vpk": sample_vpk,
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
-    "alatalo": sample_alatalo,
+    "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
 }
 
 

@@ -2460,3 +2460,49 @@ rows, same dates, same times, same hall.
 four cloud sites and one local that is five sites here and four there, and the film-page
 count would have differed between them. It now passes `--half all` explicitly, which is
 the trap CLAUDE.md records under "Pipeline changes".
+
+### Forssan Elävienkuvien teatteri: a listing of films, a page of screenings each (2026-09-19)
+
+elavienkuvienteatteri.fi, Finland's oldest operating countryside cinema, 1906, 77 seats.
+Third of the five from the nytleffaan diff and the only one of them that runs on no
+platform: its own Foxy CMS, server-rendered, so a plain fetch is the whole of it.
+`scripts/providers/elavienkuvien.py`, one listing request plus one film page per film.
+
+- **The sub-navigation shares the film links' path space.** `ohjelmisto/` holds
+  `erikoisnaytokset/`, `esityskalenteri/` and `mykkaelokuvafestivaalit/` beside the twelve
+  films. The listing is sliced to `movielifts` and the rows are read from `lift` blocks, so
+  the three nav pages are never fetched; matching the path across the document would have
+  fetched them and published whatever they parsed to.
+- **The poster is the listing's, not the film page's.** Both exist and only one is a
+  poster: measured that day, `{slug}-list.jpg` on the listing is 316x474 portrait and
+  `{slug}.jpg` on the film page is an 835x369 banner. Publishing the film page's would put
+  a cropped landscape still where every other chain has a poster.
+- **An unscoped image search took the age-limit icon.** A lift with no poster fell through
+  to `agelimit_12.png` in the same block, which would have published an icon as a poster.
+  Caught by the test written for the missing-poster case, not by reading the code.
+- **The screening line carries its own year**, `su 20.9.2026 klo 17:00`, so nothing is
+  inferred and the printed weekday is not read at all.
+- **A date with no clock time is left out and counted.** Six of the thirty on the day this
+  was written: `pe 2.10.2026` and nothing after it, a film announced for a day before its
+  time is set. Raising on one would cost the other eleven films their schedule every time
+  the cinema announces a date early; inventing a midnight would publish a screening that
+  does not exist. eTiketti's reader makes the same call.
+- **The rating is the age image's file name and nothing else**: `agelimit_12.png`, no alt,
+  no title, no text beside it. `kinola.py` records the opposite case, where Kilta's file
+  name disagreed with its own alt; here there is no second source on the page, so it is
+  corroborated against other chains instead and every value matched. `agelimit_notset` is
+  the site's own "no rating" and produces none.
+- **Two amounts and no price.** Every row ends `13€ / 11€`, adult and reduced, and the row
+  settles neither.
+
+**Accent `#2E8C92`.** Forssa already held Bio-Kaari, so this creates the combined city view
+and its accent must clear the floor in it: 39.5 dE00 apart on the weakest of the three
+models. Forssa is in no REGIONS area, so that is the only view it enters, which takes the
+repository count from 185 pairs to 186 with none added below the floor. 5.9 from its
+nearest accent anywhere, Studio 123 Järvenpää, with Savon Kinot the nearest teal at 6.1 and
+sharing no view with it. L* 53.4, saturation 0.68.
+
+**First run, from an ordinary connection:** 12 films listed, 24 screenings over 12 dates, 6
+rows left out for having no clock time, 0 failures. Every row carries a TMDB id and a
+mirrored poster. Checked against the cinema's own film pages: Hetki ennen valoa on 22.9 at
+17:30 and 24.9 at 17:30, and Lapin Sota's lone `pe 23.10.2026` correctly withheld.

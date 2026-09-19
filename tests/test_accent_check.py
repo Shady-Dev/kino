@@ -326,9 +326,13 @@ class ReportRankingTest(unittest.TestCase):
         # colour in the L* band clears 14.4 against that row. Its two Espoo pairs are 19.8
         # and 42.0, so the city floor is untouched, and the regional minimum is still the
         # 4.479 of Bio Grand against BioRex, which this accent does not lower.
-        self.assertEqual(len(rows), 185)
+        #
+        # 186 from the same day: Elävienkuvien teatteri joined Forssa beside Bio-Kaari
+        # (+1), 39.5 apart and well clear, and Haapamäen Elokuvat added none, Haapamäki
+        # holding no other chain and no region row.
+        self.assertEqual(len(rows), 186)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 18)
-        self.assertIn(f"18 of 185 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"18 of 186 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the
