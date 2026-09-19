@@ -145,3 +145,33 @@ The lesson worth keeping is about verification rather than matching: for a day t
 indistinguishable from a broken one, because a skipped entry and a failed one look the same
 in the cache and both are simply absent from the log. What separated them was the cache
 date against the run's date, plus the log's own weak-match and no-match lists.
+
+## The four largest unmatched rows, measured 2026-09-19
+
+247 showtimes over 77 titles carried no `tmdbId` at this tree. The four largest, searched
+once each against `search/movie` and `search/tv` in `fi-FI`:
+
+| title | rows | provider | movie hits | tv hits |
+|---|---:|---|---:|---:|
+| Asteroid Quest | 64 | Heureka | 0 | 0 |
+| The Stellars - Tähtijengi | 50 | Heureka | 0 | 0 |
+| Salatut elämät 5000 -erikoisnäytös | 32 | Finnkino | 0 | series 14610 |
+| Ooppera: 20 Years of the Met in Cinemas | 14 | Finnkino | 1703617 | 0 |
+
+Three are real absences and one is an alias.
+
+- **The two Heureka rows are planetarium shows**, and TMDB holds no record of either under
+  its own name or under `Tähtijengi`. Nothing to alias, which is the state the Heureka
+  poster entry in `IDEAS.md` already describes: no weak match, so no wrong poster.
+- **`Salatut elämät 5000 -erikoisnäytös`** is an episode of a television series screened in
+  cinemas. TMDB holds the series, 14610, and no film. This repository matches
+  `/movie/{id}`, so a series id would be the wrong kind of record and none is written.
+- **The Met gala is a real film record** with a poster, registered with the number spelled
+  out, which is why a search on the published title finds nothing. Aliased to 1703617.
+  It is a Finnkino row, so `fetch_data.py` applies it on the next local run rather than
+  `enrich_tmdb.py` on a cloud one.
+
+**Method note.** The worklist in `run-enrich.log` and the set of showtimes carrying no
+`tmdbId` are not the same set: the Met row was never in the log's "no TMDB match" list,
+because the log is written by the cloud pass and the row belongs to the local one. Count
+rows out of `data/area-*.json` when sizing this work, not out of the log.
