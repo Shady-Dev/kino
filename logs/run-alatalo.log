@@ -1,0 +1,20 @@
+[alatalo] 13 screening(s) in 4 town heading(s) read
+[alatalo] 2 screening line(s) whose time, title or date this parser could not place, left out
+[alatalo] 8 line(s) that are neither a town heading, a date heading nor a screening, left out
+[alatalo] Pohjantähti, Pudasjärvi: 2 showtimes, 1 dates, priced 10€
+[alatalo] Teatterisali, Haapajärvi: 3 showtimes, 1 dates, priced 10€
+[alatalo] Kiurusali, Kiuruvesi: 6 showtimes, 2 dates, priced 10€
+[alatalo] Toholampisali, Toholampi: 0 showtimes, 0 dates
+[alatalo] Kulttuurikeskus, Kemijärvi: 2 showtimes, 1 dates, priced 10€
+[alatalo] Pohjantähti: 2 showtimes, 1 dates
+[alatalo] Teatterisali: 3 showtimes, 1 dates
+[alatalo] Kiurusali: 6 showtimes, 2 dates
+[alatalo] Toholampisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[alatalo] Kulttuurikeskus: 2 showtimes, 1 dates
+[alatalo] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 1 attempted -- www.moviecompanyalatalo.fi
+[run] pending: alatalo has 1 venue(s) with no programme yet: alatalo-toholampi
+[run] alatalo: 4 venues, 13 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 113.1s, 1.0s wall from this module's first fetch starting to its last ending
+exit=0

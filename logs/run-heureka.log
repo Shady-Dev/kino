@@ -1,6 +1,6 @@
-[heureka] synopses merged: 0
 [heureka] Heurekan planetaario: 191 showtimes, 21 dates
+[heureka] synopses merged: 0
 [run] hosts: 1 attempted -- www.heureka.fi
 [run] heureka: 1 venues, 191 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 6.5s of fetching added up across workers that overlap, longest site 6.5s, longest queue wait 44.1s, 6.5s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 7.0s of fetching added up across workers that overlap, longest site 7.0s, longest queue wait 44.2s, 7.0s wall from this module's first fetch starting to its last ending
 exit=0

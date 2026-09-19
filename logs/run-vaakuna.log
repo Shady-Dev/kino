@@ -1,8 +1,8 @@
-[vaakuna] 16 showtimes, 6 films, 6 dates
+[vaakuna] 15 showtimes, 6 films, 5 dates
+[vaakuna] Kino Vaakuna: 15 showtimes, 5 dates
 [vaakuna] synopses merged: 0
-[vaakuna] Kino Vaakuna: 16 showtimes, 6 dates
-[run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- www.kinovaakuna.fi
-[run] vaakuna: 1 venues, 16 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 79.6s, 1.1s wall from this module's first fetch starting to its last ending
+[run] vaakuna: 1 venues, 15 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.2s of fetching added up across workers that overlap, longest site 1.2s, longest queue wait 78.3s, 1.2s wall from this module's first fetch starting to its last ending
 exit=0

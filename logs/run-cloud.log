@@ -1,4 +1,4 @@
-[cloud] 29 module(s), 62 site(s), 60 host group(s), pool of 8
+[cloud] 30 module(s), 63 site(s), 61 host group(s), pool of 8
 [cloud] biorex: exit=0
 [cloud] nexxo: exit=0
 [cloud] etiketti: exit=0
@@ -28,6 +28,7 @@
 [cloud] navetta: exit=0
 [cloud] vpk: exit=0
 [cloud] pallas: exit=0
-[cloud] 158.2s wall, 978.6s of fetching added up across workers that overlap, 62 site(s) fetched
-[cloud] held at most 44 fetched site(s) and 3217 byte(s) of captured log waiting for publication
+[cloud] alatalo: exit=0
+[cloud] 161.0s wall, 1012.8s of fetching added up across workers that overlap, 63 site(s) fetched
+[cloud] held at most 43 fetched site(s) and 3626 byte(s) of captured log waiting for publication
 exit=0

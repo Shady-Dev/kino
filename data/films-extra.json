@@ -1988,8 +1988,7 @@
     "kinoaurora",
     "kinolaika",
     "kinoolympia",
-    "savonkinot",
-    "tapiola"
+    "savonkinot"
    ],
    "r": 6.2,
    "s": {
@@ -2274,7 +2273,6 @@
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
-    "kinoolympia",
     "kinopirtti",
     "kinotar",
     "lieksankino",
@@ -2925,7 +2923,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -2987,7 +2984,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -3066,7 +3062,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -3208,7 +3203,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -3503,12 +3497,10 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "cinemantsala",
     "isohannu",
     "joutsankino",
     "kino123",
-    "kinohirvi",
     "kinolumo",
     "kinometso",
     "kinopiispanristi",
@@ -4064,8 +4056,7 @@
     "kinokilta",
     "kinolaika",
     "kinoolympia",
-    "star",
-    "tapiola"
+    "star"
    ],
    "r": 7.3,
    "s": {
