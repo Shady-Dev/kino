@@ -450,6 +450,34 @@ def reconsider(facts, cache, aliases, budget=None):
     up where it left off. Weak entries are dropped on every load anyway, and a key with
     an alias is a hand decision and is left alone. An unmatched title whose evidence has
     not changed keeps its daily retry and nothing else.
+
+    **`q` is the evidence this side owns, and it is checked first.** A strand added to
+    strands.py changes `clean()` for a title the cinema has not touched, so `o` and `y`
+    are identical and the entry would keep its daily retry: the strand would not apply
+    until tomorrow. That cost a hand edit of three cache entries on 2026-09-19. The
+    comparison sits *above* the `("", "")` guard on purpose, because the guard reads "the
+    cinema published no evidence, so none of it can have changed" and one of those three,
+    `Kino Iglu: Tokyo Story`, has neither an original title nor a year; checked after the
+    guard this would miss exactly the case it was written for.
+
+    It compares `norm(clean(title))` rather than the cleaned string, because one key is
+    reached by several spellings and `gather()` keeps whichever show it met first. A bare
+    comparison re-judges 26 settled matches every pass on the committed data; normalised,
+    none.
+
+    **`q` carries no year and must not be made to.** `clean()` strips a trailing `(1996)`
+    from the search string, so `q` is `trainspotting` while the year lives in `y` alone.
+    That separation is the point: a cinema correcting 1987 to 1988 is the cinema's
+    evidence moving and `y` is what should notice it. Putting the year back into `q` would
+    trip both comparisons on one change and re-judge the entry twice for nothing.
+
+    A missing `q` reads as unknown and re-judges nothing, so the entries written before
+    this field existed are not all re-searched in one pass. An entry with `x` set and a
+    changed `q` **is** re-judged, which re-searches a match that was good: that is what a
+    changed `o` or `y` already does, and the alternative is a strand that never reaches
+    the titles it was added for. The risk it carries is the strand's own, not this
+    function's: a prefix stripped off a title can widen the search onto a different film,
+    which is why strands.py records what was measured and refused.
     """
     budget = RECONSIDER_BUDGET if budget is None else budget
     due = []
@@ -459,6 +487,10 @@ def reconsider(facts, cache, aliases, budget=None):
             continue
         if c.get("i") and not c.get("x"):
             continue                          # weak: dropped on load, not this list
+        was_q = c.get("q")
+        if was_q is not None and was_q != norm(clean(f.get("t") or k)):
+            due.append(k)                     # the search string changed on our side
+            continue
         now = (norm(f.get("o")), f.get("y") or "")
         if now == ("", ""):
             continue
@@ -879,11 +911,24 @@ def main() -> int:
             attempt = today if mid else ((c.get("a") or "") if isinstance(c, dict) else "")
             # `o` and `y` are the evidence the id was judged on, so reconsider() can
             # tell a match made before the cinema published them from one made after.
+            # `q` is the *search string* it was judged on, normalised: the evidence
+            # this side owns. A strand added to strands.py changes clean() for a title
+            # the cinema has not touched, and without this the entry keeps its daily
+            # retry and the new strand does not apply until tomorrow.
+            #
+            # norm() around it, not the bare cleaned string, and that is load-bearing.
+            # One cache key can be reached by several spellings -- 34 keys in the
+            # committed data, "HETKI ENNEN VALOA" beside "Hetki ennen valoa" -- and
+            # gather() keeps whichever show it met first, so a bare comparison flips on
+            # 26 of them every pass and re-judges settled matches for ever. Measured
+            # 2026-09-19 before this was written. Normalising compares what the search
+            # would actually ask for, which is the question.
             fact = facts.get(k) or {"o": "", "y": ""}
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
                         "g": gids, "i": mid or "", "c": stamp, "a": attempt,
                         "fi": syn_fi, "en": syn_en, "p": poster,
-                        "o": norm(fact["o"]), "y": fact["y"]}
+                        "o": norm(fact["o"]), "y": fact["y"],
+                        "q": norm(clean(display or k))}
             replaced = True
             if detail_ok and k in refreshes:
                 settled.add(k)

@@ -19,6 +19,7 @@ import pathlib
 import tempfile
 import types
 import unittest
+from unittest import mock
 import urllib.parse
 
 import _ctx                                                # noqa: F401
@@ -216,6 +217,53 @@ class ReconsiderTest(unittest.TestCase):
         facts = {"n": {"t": "n", "o": "All Night Long", "y": ""}}
         self.assertEqual(enrich_tmdb.reconsider(facts, legacy, {}), (["n"], 0))
 
+    def test_a_changed_search_string_re_judges_the_same_day(self):
+        """The gap a strand addition falls into. `o` and `y` are the cinema's evidence and
+        do not move when strands.py does, so without `q` the entry keeps its daily retry
+        and the new strand does not apply until tomorrow."""
+        title = "Vilimit-festivaali: Aavesoturi (1987)"      # no strand strips this one
+        facts = {"v": {"t": title, "o": "", "y": "1987"}}
+        cache = {"v": self.entry("", x=False, y="1987",
+                                 q=enrich_tmdb.norm(enrich_tmdb.clean(title)))}
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
+        # what adding "vilimit-festivaali" to strands.py would do to clean()
+        with mock.patch.object(enrich_tmdb, "clean", lambda s: "Aavesoturi"):
+            self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), (["v"], 0))
+
+    def test_the_search_string_is_checked_above_the_no_evidence_guard(self):
+        """`Kino Iglu: Tokyo Story` carries neither an original title nor a year, so the
+        ("", "") guard returns early. Checked after it, the whole field would miss the
+        case it was added for; it is checked before."""
+        title = "Kino Iglu: Tokyo Story"
+        facts = {"k": {"t": title, "o": "", "y": ""}}          # no original, no year
+        self.assertEqual((enrich_tmdb.norm(facts["k"]["o"]), facts["k"]["y"]), ("", ""))
+        cache = {"k": self.entry(18148, q=enrich_tmdb.norm(enrich_tmdb.clean(title)))}
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
+        with mock.patch.object(enrich_tmdb, "clean", lambda s: "something else"):
+            self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), (["k"], 0))
+
+    def test_the_search_string_carries_no_year_so_the_year_signal_stays_in_y(self):
+        """clean() strips a trailing year, so q is the title alone and y is the year. Put
+        the year back into q and a cinema correcting it would trip both comparisons and
+        re-judge the entry twice for one change."""
+        for title in ("Trainspotting (1996)", "Vilimit-festivaali: Aavesoturi (1987)"):
+            with self.subTest(title=title):
+                q = enrich_tmdb.norm(enrich_tmdb.clean(title))
+                self.assertNotIn(enrich_tmdb.published_year({"title": title}), q)
+
+    def test_an_entry_written_before_q_existed_re_judges_nothing(self):
+        """532 entries carried no `q` when it was added. Reading a missing one as unknown
+        is what stops the pass that introduces it re-searching all of them."""
+        legacy = {"n": {"r": 0, "n": 0, "v": "", "x": False, "g": [], "i": "",
+                        "c": "2026-09-13", "fi": "", "en": "", "p": "", "o": "", "y": ""}}
+        facts = {"n": {"t": "Anything At All", "o": "", "y": ""}}
+        self.assertEqual(enrich_tmdb.reconsider(facts, legacy, {}), ([], 0))
+
+    def test_an_alias_still_wins_over_a_changed_search_string(self):
+        cache = {"a": self.entry(240, q="old")}
+        facts = {"a": {"t": "new", "o": "", "y": ""}}
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {"a": "240"}), ([], 0))
+
     def test_an_unmatched_entry_judged_on_the_same_evidence_is_left_to_its_daily_retry(self):
         cache = {"n": self.entry("", x=False, o="all night long", y="1962")}
         facts = {"n": {"t": "n", "o": "All Night Long", "y": "1962"}}
@@ -314,6 +362,41 @@ class MainPathTest(MainHarness):
         self.assertEqual((e["i"], e["x"]), (37038, True))
         self.assertEqual(self.searches[:2], [("Rakasta tai tuhoudu", ""), ("All Night Long", "")])
         self.assertEqual((e["o"], e["y"]), ("all night long", ""), "the evidence used is recorded")
+
+    def test_the_entry_records_the_search_string_it_was_judged_on(self):
+        """`q` is what makes reconsider() notice a strand added on our side. A run that
+        does not write it leaves the field dead and the comparison can never fire."""
+        self.shows({"title": "Vauvakino: All Night Long", "year": "1962"})
+        self.run_main({("All Night Long", "1962"): [ALL_NIGHT_1962]})
+        e = self.cache()["vauvakino all night long"]
+        self.assertEqual(e["q"], "all night long", "the cleaned string, normalised")
+        self.assertEqual(enrich_tmdb.norm(enrich_tmdb.clean("Vauvakino: All Night Long")),
+                         e["q"])
+
+    def test_one_key_reached_by_two_spellings_does_not_re_judge_every_pass(self):
+        """34 keys in the committed data are reached by more than one spelling, and
+        gather() keeps whichever show it met first. Comparing the bare cleaned string
+        re-judged 26 settled matches on every pass; normalised, the spelling cannot
+        move the comparison."""
+        self.shows({"title": "ALL NIGHT LONG", "year": "1962"})
+        self.run_main({("ALL NIGHT LONG", "1962"): [ALL_NIGHT_1962]})
+        cache = self.cache()
+        for spelling in ("All Night Long", "all night long", "ALL NIGHT LONG"):
+            with self.subTest(spelling=spelling):
+                facts = enrich_tmdb.gather([{"title": spelling, "year": "1962"}])
+                self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
+
+    def test_a_strand_added_after_the_match_re_judges_it_on_the_next_pass(self):
+        """The round trip the field exists for: judged under one strand list, re-judged
+        under the next without waiting a day, and left alone when nothing moved."""
+        self.shows({"title": "Vauvakino: All Night Long", "year": "1962"})
+        self.run_main({("All Night Long", "1962"): [ALL_NIGHT_1962]})
+        cache = self.cache()
+        facts = enrich_tmdb.gather([{"title": "Vauvakino: All Night Long", "year": "1962"}])
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
+        with mock.patch.object(enrich_tmdb, "clean", lambda s: "Something Else"):
+            self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}),
+                             (["vauvakino all night long"], 0))
 
     # 2. duplicate candidates are searched once
     def test_an_original_equal_to_the_title_costs_no_second_search(self):
