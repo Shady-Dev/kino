@@ -759,8 +759,9 @@ def main() -> int:
     # was published is judged again now that it is. Bounded per run, aliases excluded.
     rejudge, held = reconsider(facts, cache, aliases)
     matched = sum(1 for k in rejudge if (cache.get(k) or {}).get("i"))
-    for k in rejudge:
-        del cache[k]
+    # Kept, not discarded: the entry comes out so the search runs clean, and goes back if
+    # that search raises. See the restore in the per-title handler for why.
+    rejudged = {k: cache.pop(k) for k in rejudge}
     if rejudge or held:
         print(f"[enrich] re-judging {len(rejudge)} title(s) on new title or year evidence "
               f"({matched} exact match(es), {len(rejudge) - matched} unmatched), "
@@ -956,6 +957,21 @@ def main() -> int:
             # *after* the write cannot put the old entry back over a good one.
             if k in refreshes and isinstance(c, dict) and not replaced:
                 cache[k] = {**c, "a": today}
+            # A re-judged entry was deleted before its search so the search would not read
+            # the judgement it is replacing. If that search raised -- a TMDB 429, a
+            # timeout -- the key is simply absent, and an absent key is not a neutral
+            # state: `trusted(None)` is False, so the pass below strips the id, the
+            # poster, the rating and the trailer off every showtime of that film and it
+            # renders an initials tile until a later run succeeds. Putting the old
+            # judgement back keeps it published; `reconsider()` sees the same differing
+            # evidence next run and tries again, so nothing is lost but a day.
+            #
+            # **Only this drop site is restored.** The old-picker sweep and the alias
+            # override above remove a judgement that is *known wrong*, and putting one of
+            # those back after a failed search would republish the wrong film for a run.
+            # Unpublishing is the safer failure there and is left alone.
+            if k in rejudged and not replaced:
+                cache[k] = rejudged[k]
 
     flush(cache, today)
 

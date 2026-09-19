@@ -16,6 +16,7 @@ metadata.
 import contextlib
 import io
 import json
+import types
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -265,6 +266,100 @@ class PropagationTest(TrustHarness):
         self.shows(regina(), regina(provider="orion", venue="orion"))
         self.weak_naisen_kasvot()
         self.assertTrue(all("tmdbId" not in s for s in self.area()["shows"]))
+
+
+class FailedRejudgeTest(TrustHarness):
+    """A re-judge whose search fails must not unpublish the film for the run.
+
+    `reconsider()` deletes an entry before re-searching it, so the search cannot read the
+    judgement it is replacing. If that search raises -- a TMDB 429, a timeout -- the key is
+    simply gone, and an absent key is not neutral: `trusted(None)` is False, so every
+    showtime of that film loses its id, poster, rating and trailer and renders an initials
+    tile until a later run succeeds. The hole predates the `q` trigger; `q` widened it,
+    because a strand addition now puts titles through the same window.
+    """
+
+    def seeded(self):
+        """A published exact match, then shows carrying evidence that differs from it."""
+        self.shows(regina(year="", original=""))
+        self.run_main({("Naisen kasvot", ""): [hit(76848, "Naisen kasvot", 1938)]},
+                      detail={76848: RIGHT}, videos={76848: RIGHT["v"]})
+        e = self.cache()["naisen kasvot"]
+        self.assertEqual((e["i"], e["x"]), (76848, True), "seeded as a published match")
+        self.shows(regina())          # the cinema now publishes an original and a year
+        return e
+
+    def run_failing(self):
+        """Every search raises; detail requests still answer."""
+        def fake_get(url, headers, timeout=25):
+            if "/genre/movie/list" in url:
+                return {"genres": [{"id": 18, "name": "Draama"}]}
+            if "/search/movie" in url:
+                raise RuntimeError("HTTP Error 429: Too Many Requests")
+            if url.endswith("/videos"):
+                return {"results": []}
+            return {"overview": "x", "vote_count": 300, "vote_average": 6.8,
+                    "genres": [{"id": 18}], "poster_path": "/76848.jpg"}
+        real = enrich_tmdb.get
+        enrich_tmdb.get = fake_get
+        self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            self.assertEqual(enrich_tmdb.main(), 0)
+        return buf.getvalue()
+
+    def test_a_failed_re_search_keeps_the_entry_and_the_film_published(self):
+        before = self.seeded()
+        self.run_failing()
+        self.assertEqual(self.cache().get("naisen kasvot"), before,
+                         "the old judgement is put back verbatim")
+        self.assertEqual(self.area()["shows"][0]["tmdbId"], 76848,
+                         "the film is still published")
+
+    def test_the_entry_is_re_judged_again_on_the_next_run(self):
+        """Restoring must not settle it: the evidence still differs, so the next run
+        tries again rather than keeping a judgement made without it."""
+        self.seeded()
+        self.run_failing()
+        cache = self.cache()
+        facts = enrich_tmdb.gather([regina()])
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), (["naisen kasvot"], 0))
+
+
+    def test_a_raise_after_the_write_does_not_put_the_old_entry_back(self):
+        """The `replaced` guard. The search succeeds and the new judgement is written,
+        then something after the write raises; the restore must not overwrite a good
+        entry with the one it replaced."""
+        self.seeded()
+        boom = types.SimpleNamespace(sleep=lambda *_: (_ for _ in ()).throw(
+            RuntimeError("after the write")))
+        real_time = enrich_tmdb.time
+        enrich_tmdb.time = boom
+        self.addCleanup(lambda: setattr(enrich_tmdb, "time", real_time))
+        self.run_main({("Naisen kasvot", "1938"): [hit(76848, "Naisen kasvot", 1938)],
+                       ("En kvinnas ansikte", "1938"): [hit(76848, "Naisen kasvot", 1938)]},
+                      detail={76848: RIGHT}, videos={76848: RIGHT["v"]})
+        e = self.cache()["naisen kasvot"]
+        self.assertEqual((e["i"], e["x"]), (76848, True))
+        self.assertEqual(e["y"], "1938", "the new judgement stands, not the restored one")
+
+    def test_an_alias_override_whose_search_fails_is_not_put_back(self):
+        """The distinction the restore is scoped on. An entry an alias supersedes is
+        *known wrong*; republishing it after a failed search would put the wrong film on
+        the row for a run, so that drop site is deliberately not restored.
+
+        The alias is a replacement *search string* rather than a bare id, because an id
+        alias skips the search outright and so can never fail this way."""
+        self.shows(regina(year="", original=""))
+        self.run_main({("Naisen kasvot", ""): [OBSESSION]},
+                      detail={4780: WRONG}, videos={4780: WRONG["v"]})
+        self.assertEqual(self.cache()["naisen kasvot"]["i"], 4780)
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"naisen kasvot": "En kvinnas ansikte"}), encoding="utf-8")
+        self.run_failing()
+        self.assertNotIn("naisen kasvot", self.cache(), "the wrong id does not come back")
+        self.assertNotIn("tmdbId", self.area()["shows"][0],
+                         "unpublished rather than republished wrong")
 
 
 class PosterProvenanceTest(TrustHarness):
