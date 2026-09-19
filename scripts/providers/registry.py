@@ -522,6 +522,25 @@ PROVIDERS = [
     # it; the colours that score better inside the row sit on top of Kino Tapiola.
     dict(id="biopallas", label="Bio Pallas", host="biopallas.com",
          accent="#546C78", book="door", module="pallas", where="cloud"),
+    # Elokuvateatteri Huvimylly, 2026-09-19. Raahe's cinema, in the Tapahtumatalo hall,
+    # programmed onto one hand-typed WordPress page. `book="door"`: "Elokuvalippuja voi
+    # varata ja ostaa suoraan Raahesalin lipunmyynnistä", and tickets at the door half an
+    # hour before the first screening. The label is the name the site gives itself eight
+    # times on its own front page; "Bio Huvimylly" is the nytleffaan.fi directory's name.
+    # Local, on the 2026-09-18 evidence: a non-residential address was served 403 with
+    # `Server: Apache` and no `CF-Ray` where an ordinary connection gets 200. The runner
+    # itself has never tried, and routing local on a 403 needs no runner evidence.
+    # Raahe holds no other chain and sits in no REGIONS area. Fitted to the row a
+    # Pohjois-Pohjanmaa extension would create, against Elokuvateatteri Star and Finnkino
+    # in Oulu, Bio Rex Kokkola and Pyhäsalmen VPK: 18.9 dE00 on the weakest model against
+    # that set, 21.5 to normal vision. 4.8 from its nearest accent anywhere,
+    # Elokuvateatteri Elo. A fully saturated magenta scored 19.5 in the row and 5.7
+    # anywhere and was passed over at saturation 0.94, the same call Navettakino's entry
+    # records making at 0.60; this one is 0.53. Measured against Bio Pallas above on the
+    # same pass, the two being the day's only additions: 14.8 dE00 apart, which clears the
+    # 14.4 floor although no view puts them side by side.
+    dict(id="huvimylly", label="Elokuvateatteri Huvimylly", host="huvimylly.com",
+         accent="#CC60A0", book="door", module="huvimylly", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

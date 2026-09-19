@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 117 venues in 83 cities across 70 providers: Finnkino, BioRex,
+Showtimes for 118 venues in 84 cities across 71 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -18,7 +18,8 @@ Kino-Toijala, Kino-Sampo, KinoMania, Elokuvateatteri Elo, Julia 1&2, Bio-Kaari,
 Kino Vaakuna, Kuvakukko, Kino Kirkkonummi, Bio Savoy, Cine Mäntsälä, Kino Kilta,
 Kino Laika, Kino Myyri, Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Ritz Vaasa,
 Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita, Lieksan Kino,
-Navettakino, Pyhäsalmen VPK and Bio Pallas. Films with posters, TMDB ratings, age limits, runtimes, genres,
+Navettakino, Pyhäsalmen VPK, Bio Pallas and Elokuvateatteri Huvimylly. Films with
+posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
 page where the cinema takes seat reservations rather than payment, or the ticket
@@ -27,7 +28,7 @@ planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 83 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 84 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -61,6 +62,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino Tapiola | 1 | 1 | none | GitHub Actions |
 | Kino Regina | 1 | 1 | none | Local |
 | Bio Pallas | 1 | 1 | none | GitHub Actions |
+| Elokuvateatteri Huvimylly | 1 | 1 | none | Local |
 | Cinemahouse (cinema-reservations) | 3 | 3 | none | GitHub Actions |
 | Iso-Hannu | 1 | 1 | none | GitHub Actions |
 | TMB Cinema | 4 | 4 | none | GitHub Actions |
@@ -236,7 +238,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-133 per language, 267 sitemap URLs: 117 venues plus the sixteen cities with more
+134 per language, 269 sitemap URLs: 118 venues plus the sixteen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -296,7 +298,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 70 providers listed at the
+Schedule data belongs to the respective cinemas, the 71 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.
@@ -309,7 +311,7 @@ browsing it, reloading it or leaving it open reaches no cinema: the client has n
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
-collection run. Under the normal configured cadence the eight local providers are
+collection run. Under the normal configured cadence the nine local providers are
 read four times a day, and the cloud providers usually up to eight, since runs
 are queued rather than merged. **Those figures describe the typical cadence and
 the configuration does not enforce them.** Scheduled execution is best-effort

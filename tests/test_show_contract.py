@@ -50,6 +50,7 @@ import test_navetta as NV
 import test_tribe as TR
 import test_vpk as VK
 import test_pallas as PL
+import test_huvimylly as HV
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -376,6 +377,19 @@ def sample_pallas():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_huvimylly():
+    """Three screenings over two headings, one of them a title split across two items, so
+    the continuation rule is exercised beside two rows that close their own titles."""
+    site = HV.SITE
+    a = HV.TODAY + datetime.timedelta(days=3)
+    b = HV.TODAY + datetime.timedelta(days=4)
+    out, _ = mod("huvimylly").rows(site, mod("huvimylly").items(HV.payload(
+        HV.head(a), "Klo 14.00 Pirjo -s-", "Klo 18.00 Kerro se kaikille -k12/9-",
+        HV.head(b), "Klo 15.00 Dome Karukosken", "Rakkautta ja virtahepoja -k12/9-")),
+        HV.TODAY)
+    return (out, site["provider"], [v["id"] for v in site["venues"]])
+
+
 def sample_tribe():
     """Ritz Vaasa: a band price, a portrait poster and a calendar illustration in one
     sample, so the two fields that must stay empty are exercised here as well."""
@@ -401,7 +415,7 @@ SAMPLES = {
     "johku": sample_johku, "tribe": sample_tribe, "hamina": sample_hamina,
     "kinotour": sample_kinotour, "marita": sample_marita,
     "lieksa": sample_lieksa, "navetta": sample_navetta, "vpk": sample_vpk,
-    "pallas": sample_pallas,
+    "pallas": sample_pallas, "huvimylly": sample_huvimylly,
 }
 
 

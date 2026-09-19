@@ -2229,3 +2229,81 @@ thirteenth is the concert, for which TMDB holds no record and none was forced.
 ordinary connection only, nothing here has been read from the GitHub runner, and the first
 committed `logs/run-pallas.log` is what settles it. A 403 or a challenge body there flips
 the entry to local in its own commit.
+
+### Elokuvateatteri Huvimylly, Raahe: a programme typed freehand (2026-09-19)
+
+huvimylly.com, the cinema in the Tapahtumatalo hall in Raahe. The site names itself
+Elokuvateatteri Huvimylly eight times on its own front page and in its `<title>`; "Bio
+Huvimylly" is what the nytleffaan.fi directory calls it, and that directory separately
+lists the same street address as "Raahesali", which is the hall rather than the operator.
+The cinema's own name is the one published.
+
+- **The route was chosen after checking for a screenings API and finding none.**
+  `/wp-json/` lists no plugin namespace holding events, `/wp/v2/types` has only the core
+  types plus `elementor_library`, and `/wp/v2/posts` is empty. The programme is typed by
+  hand into one page, so the adapter reads
+  `/wp-json/wp/v2/pages?slug=etusivu&_fields=id,modified_gmt,content`: the same markup as
+  the front page at a tenth of the transfer, 4 kB against 45 kB, with `modified_gmt`
+  besides. Neither the page nor the route carries an ETag or a Last-Modified, so there is
+  no conditional request to make.
+- **The rating marker is what closes a title, not the line break.** A title can run across
+  two list items, and a free-text note sits in the same position; the captures carry both.
+  So a `Klo` line carrying a marker is complete, a `Klo` line without one takes the next
+  item only if that one carries a marker, and otherwise the row is left out. Guessing
+  would publish `elokuvan jälkeen ilmainen pullakahvitarjoilu` as part of a film title,
+  and the title is the key for `normTitle()`, `films-extra.json` and `tmdb-aliases.json`.
+- **The marker is anchored to the end of the line, and that was a failing case rather than
+  taste.** An unanchored pattern read the final `s` of `Koiramies-k7/4-` as an S rating and
+  published the title as "Koiramie". Twelve marker shapes from the captures are read,
+  including `-k 16/13` with no closing dash and `-k?`, which closes a title and states that
+  the rating is unknown.
+- **A line that cannot be placed is left out and counted, and the site fails when more fail
+  than succeed.** The captures hold `Klo?`, a dotless `Klo 1900`, a placeholder row reading
+  `elokuva avoin` and a row with no title at all. Raising on each was the first design and
+  was rejected on the measurement: one capture carries four placeholder rows at once, so an
+  operator's ordinary week would fail the whole site and age every other row with it. The
+  guard that stays loud is the ratio: unplaceable lines outnumbering distinct start times
+  means the template moved.
+- **The anchoring on the heading pattern is load-bearing twice.** It rejects
+  `Sunnuntaina  7.12024-`, where a year is typed straight onto the month, and it rejects
+  `Paddington seikkailee 24.1 alkaen`, which without it would be read as a heading on the
+  weekday "seikkailee" and would place a phantom screening. A lookahead that tried to do
+  the same job could not be made to fail on its own and was removed.
+- **The price is the standing line and it settles every row.** `Liput  vain 10-€` carries
+  no weekday, hall, age or format condition and no row states a price of its own. It is
+  parsed from that line each run rather than hardcoded, and a line naming two amounts
+  publishes none. The gift tickets and the five-ticket book on another page are separate
+  products and are not read.
+- **No poster is published from this site.** The four images sit in their own list items
+  with no alt text, no link and no title, and their order is not the rows' order: the
+  2026-02-17 capture runs `vin`, `lm`, `humiseva-harju`, `kaija`, `otso` against rows
+  Vinski 2, Kaija Koo, Luottomies, Humiseva Harju, Otso Karu. The filenames are
+  hand-abbreviated, the counts disagree with the row counts in both directions across the
+  captures, and two captures use a landscape still. The TMDB pass supplies them instead,
+  and all four rows carry one.
+- **The page's first item carries the operator's private email address.** It is read only
+  for the price amount, and the parse carries no line's text out with it: the report counts
+  what it could not use rather than keeping it, so there is no field a later change could
+  print. `tests/test_contact_address.py` refuses any address in any tracked file.
+
+**Accent `#CC60A0`.** Raahe holds no other chain and sits in no REGIONS area. Fitted to the
+row a Pohjois-Pohjanmaa extension would create, against Elokuvateatteri Star and Finnkino in
+Oulu, Bio Rex Kokkola and Pyhäsalmen VPK: 18.9 dE00 on the weakest model, 21.5 to normal
+vision, and 4.8 from its nearest accent anywhere, Elokuvateatteri Elo. A fully saturated
+magenta scored 19.5 and 5.7 and was passed over at saturation 0.94, the same call
+Navettakino's entry records making at 0.60. Measured against Bio Pallas on the same pass,
+the day's only other addition: 14.8 dE00 apart.
+
+**Four titles, four aliases, and the reason each is one cinema's wording.** The cinema
+writes a film's name the way it would say it, so none of these is a marker a shared cleaner
+should strip: `Dome Karukosken Rakkautta ja virtahepoja` carries the director's name in the
+genitive, which is what TMDB's own record names as the director; `Kerro se kaikille` is one
+word longer than the `Kerro kaikille` five rows at other chains publish; `Pirjo` is the
+short form of the `Pirjo i Sverige` Laitilan Kino publishes; and the 14.00 line reads
+`Saapasjalkakissa` then `unohdettu saari`, where the cinema's own poster for that slot is
+named unohdettu-saari and TMDB registers FI "Unohdettu saari" on 1465063.
+
+**Local, and it cannot run yet.** The 403 to a non-residential address is the evidence, and
+routing local on a 403 needs no runner evidence. What it does need is a block in the wrapper
+outside this repository, which nothing in here can add: until it exists the venue ages after
+the snapshot committed with the adapter.

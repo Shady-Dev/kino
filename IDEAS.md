@@ -31,11 +31,11 @@ contract change is explained here, never in `docs/research/`.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, thirteen built: Kino Myyri, four Johku storefronts,
-  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19 and Bio Pallas. Kino Helios is
-  priced and declined, eight need a browser, eight have nothing, two server-render and are
-  unbuilt. **Next action:** Bio Huvimylly (local: runner 403 against an ordinary
-  connection's 200), then Alatalo-kiertue, then Kinotour's towns as its log names them.
+- **Thirty-two triaged 2026-09-18**, fourteen built: Kino Myyri, four Johku storefronts,
+  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas and Elokuvateatteri
+  Huvimylly. Kino Helios is
+  priced and declined, eight need a browser, eight have nothing, one server-renders and is
+  unbuilt. **Next action:** Alatalo-kiertue, then Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
 - **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
@@ -46,30 +46,36 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 
 ### The fi-FI search hides TMDB's English title
 
-`enrich_tmdb.search` runs with `language=fi-FI`, and where TMDB holds no Finnish
-translation the response's `title` falls back to the **original** title rather than the
-English one, so a cinema publishing TMDB's own English title can never match exactly.
-That is most of one run's weak list, and 24 keys were aliased by hand on 2026-09-19
-instead. Comparing the en-US title as a third string in `pick()` would settle ten of the
-36 weak entries with no alias, but one of the ten flips to a *different* id than the
-weak candidate, `black magic rites` to 59912 against the cached 331647, and an exact
-match publishes unchecked. Evidence:
-[docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
+`search` runs with `language=fi-FI`, and where TMDB holds no Finnish translation the
+response's `title` falls back to the **original** title rather than the English one, so a
+cinema publishing TMDB's own English title can never match exactly. That was most of one
+run's weak list, aliased by hand instead on 2026-09-19. Comparing the en-US title in
+`pick()` would settle ten of the 36 weak entries with no alias, but one flips to a
+*different* id than the cached candidate and an exact match publishes unchecked.
+Evidence: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
 **Next action:** the maintainer's, on whether a second search language is worth the
-re-judging pass it would force. The hand aliases work and nothing is blocked on it.
+re-judging pass it would force. Nothing is blocked on it.
+
+### Elokuvateatteri Huvimylly waits on a wrapper block
+
+Raahe's cinema, built 2026-09-19, `where="local"` on the 2026-09-18 evidence: a 403 with
+`Server: Apache` and no `CF-Ray` to a non-residential address where an ordinary connection
+gets 200. The record is in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** the maintainer's, outside this repo. The local half runs from a wrapper
+that names its modules and nothing in here can add to it, so the venue ages after the
+snapshot until the block exists. It needs
+`python3 scripts/providers/run.py --where local huvimylly`.
 
 ### Bio Pallas is cloud, unsettled
 
-Karjaa's 1923 funkis cinema, built 2026-09-19. Wix, server-rendered, one request, thirteen
-screenings over six days; `book="door"` because the site takes reservations by telephone
-and Messenger only. Accent `#546C78`, 18.6 dE00 against the Lansi-Uusimaa set it would
-meet and 4.7 from its nearest anywhere. Nothing keys on a Wix component id, because those
-change on every page edit. The record is in
+Karjaa's 1923 funkis cinema, built 2026-09-19. Wix, server-rendered, one request,
+thirteen screenings over six days, `book="door"`. The record is in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 **Next action:** read `logs/run-pallas.log` from the first cloud run. `where="cloud"` is
-provisional: the site was read from an ordinary connection only, nothing here has been
-read from the runner, and a 403 or a challenge in that log flips it to local in its own
-commit. Until that log exists, do not write that the site is reachable from the runner.
+provisional: the site was read from an ordinary connection only, nothing here has been read
+from the runner, and a 403 or a challenge in that log flips it to local in its own commit.
+Until that log exists, do not write that the site is reachable from the runner.
 
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 

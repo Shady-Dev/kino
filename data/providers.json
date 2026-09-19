@@ -489,6 +489,13 @@
    "host": "biopallas.com",
    "accent": "#546C78",
    "book": "door"
+  },
+  {
+   "id": "huvimylly",
+   "label": "Elokuvateatteri Huvimylly",
+   "host": "huvimylly.com",
+   "accent": "#CC60A0",
+   "book": "door"
   }
  ]
 }
