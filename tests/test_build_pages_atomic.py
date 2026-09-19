@@ -37,6 +37,9 @@ class PartialBuildTest(unittest.TestCase):
         for p in REAL_DATA.glob("*.json"):
             shutil.copy2(p, self.root / "data" / p.name)
 
+        # Read while ROOT is still the checkout: the temp tree has no sitemap.xml until
+        # the first build writes one, and this is the day that build must use.
+        self.today = bp.recorded_date()
         for name in ("ROOT", "DATA"):
             self.addCleanup(setattr, bp, name, getattr(bp, name))
         bp.ROOT, bp.DATA = self.root, self.root / "data"
@@ -82,7 +85,12 @@ class PartialBuildTest(unittest.TestCase):
             bp.page = exploding
         with contextlib.redirect_stdout(io.StringIO()):
             try:
-                bp.main()
+                # The day the committed sitemap was built for, never the wall clock. The
+                # fixture is a snapshot of `data/`, so a checkout whose data has aged past
+                # today renders pages with no showtimes on them and the comparisons below
+                # start describing the calendar instead of the write ordering. Live
+                # freshness is `check_staleness.py`'s job, not this file's.
+                bp.main(today=self.today)
             except Exception as e:
                 return e
         return None
