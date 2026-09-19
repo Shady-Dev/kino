@@ -273,24 +273,26 @@ on every provider change, because carried-over counts have been wrong repeatedly
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-19 after the day's four cinemas were fetched and their
-snapshot committed. Declared and committed agree. Their four adapter commits carried no
-data, which every other cloud provider added this week had shipped in its own; caught
-before the push, so the four `venues-*.json` the client asks for existed before the
-provider list naming them went live.
+Latest, re-measured 2026-09-19 on the rebased tree, after Bio Pallas and Elokuvateatteri
+Huvimylly were fetched and their snapshot committed. Declared and committed agree. The
+poster figures and the mirrored file count move with every run and are the two rows in
+this table that go stale without anything being wrong: they were measured against the
+data as of this push and the cloud half rewrites them several times a day. Johku replaces
+TMB in the largest-adapter row on a tie at four venues, which is a reordering rather than
+a change.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 69 / 116 / 82 |
-| venues in committed data | 116 |
-| local providers (venues) | 8 (30) |
-| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, TMB 4 |
-| generated pages per language | 132 |
-| sitemap URLs | 265 |
-| poster references (shows / films-extra) | 5339 (5017 / 322) |
+| providers / venues / cities (declared) | 71 / 118 / 84 |
+| venues in committed data | 118 |
+| local providers (venues) | 9 (31) |
+| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 4 |
+| generated pages per language | 134 |
+| sitemap URLs | 269 |
+| poster references (shows / films-extra) | 5228 (4878 / 350) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1283 |
-| `sw.js` CACHE | `leffavuoro-v185` |
+| mirrored poster files | 1310 |
+| `sw.js` CACHE | `leffavuoro-v187` |
 
 Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
 took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino
