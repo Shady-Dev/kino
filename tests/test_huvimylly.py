@@ -311,7 +311,11 @@ class RunnerTest(unittest.TestCase):
     def main(self):
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main(["huvimylly"])
+            # --half all: on Actions run.py derives "cloud" from GITHUB_ACTIONS and
+            # this module is local, so it would have no sites there and the three
+            # tests below would pass locally and fail on the runner, which is what
+            # they did on 5dd5080cb. test_regina.py carries the same line.
+            code = run.main(["huvimylly", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
     def soon(self, days):

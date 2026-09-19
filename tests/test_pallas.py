@@ -294,7 +294,11 @@ class RunnerTest(unittest.TestCase):
     def main(self):
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main(["pallas"])
+            # --half all, the line test_regina.py carries: on Actions run.py derives
+            # "cloud" from GITHUB_ACTIONS. This module is cloud today, so it would
+            # pass either way, but its routing is explicitly unsettled until the
+            # first runner log and a flip to local must not turn these red.
+            code = run.main(["pallas", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
     def soon(self, days):
