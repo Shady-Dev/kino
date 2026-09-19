@@ -56,6 +56,27 @@ EVENT_PREFIXES = (
     # sota (Kahvi ja Kino)". enrich_tmdb.clean() reads this same list in both positions,
     # so a strand listed once is taken off the search string wherever the cinema puts it.
     "kahvi ja kino",
+    # 2026-09-19, three from one run's no-match and weak lists. All three are programme
+    # names a cinema puts in front of the film, and each was checked against every
+    # published title in the committed data: exactly one title carries each, and no TMDB
+    # film begins with any of them.
+    #   * "kuukauden pohjoismainen" and "nordic film of the month" are the Finnish and
+    #     English spellings of one monthly Nordic series, at Kino Iiris and Ritz Vaasa.
+    #     The English one resolves on its own once the prefix is off: "Alt Skal Bort"
+    #     matches 1401113 exactly. The Finnish one needs the alias as well, because TMDB
+    #     holds no Finnish or English title for the Faroese film behind it.
+    #   * "star house movie" is Elokuvateatteri Star's own house prefix, and splitting it
+    #     merges nine showtimes onto 1753057, the id the same film already carries at
+    #     Savon Kinot under its bare title.
+    # What was measured and REFUSED on the same pass, recorded so it is not re-proposed:
+    # "klassikkoelokuva", "ooppera", "baletti", "konsertti" and "r&a". The first would
+    # leave the search string "Solaris", which pick() resolves to Soderbergh's 2002 record
+    # 2103 as an exact match, so it would publish the wrong film instead of an initials
+    # tile; that row is aliased instead. The three relay words are registered ON TMDB's own
+    # Finnish titles ("Ooppera: Idomeneo"), so stripping one turns working matches into
+    # misses. "r&a" would split 29 Rakkautta & Anarkiaa titles whose bare names are generic
+    # enough to match the wrong film by popularity, with no published year to disambiguate.
+    "kuukauden pohjoismainen", "nordic film of the month", "star house movie",
 )
 
 

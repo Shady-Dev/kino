@@ -502,15 +502,54 @@ class AliasFileTest(unittest.TestCase):
             with self.subTest(published=published):
                 self.assertEqual(doc[enrich_tmdb.norm(published)], "1302904")
 
-    def test_the_carmen_alias_pins_the_season_the_cinema_relays(self):
+    def test_every_royal_opera_alias_pins_the_season_the_cinema_relays(self):
         """An opera relay's TMDB record is per season, so the id is the part that can be
         wrong while the title looks right. The error this prevents: the 2025/26 Tosca
-        record, which the same weak search found for a 2027 relay, being written here."""
+        record, 1482356, which the weak search found for a 2027 relay, being written here.
+        All four are 2026/27 records, which is what Kino Tapiola relays; the id is
+        asserted rather than merely present, because a present-but-wrong id publishes."""
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
-        self.assertEqual(doc["the royal opera carmen"], "1702759")
-        self.assertEqual(enrich_tmdb.norm("The Royal Opera: Carmen"),
-                         "the royal opera carmen")
-        self.assertNotIn("the royal opera tosca", doc)
+        for published, tmdb_id in (("The Royal Opera: Carmen", "1702759"),
+                                   ("The Royal Opera: Götterdämmerung", "1702769"),
+                                   ("The Royal Opera: Cosi fan Tutte", "1702775"),
+                                   ("The Royal Opera: Tosca", "1702784")):
+            with self.subTest(published=published):
+                self.assertEqual(doc[enrich_tmdb.norm(published)], tmdb_id)
+        self.assertNotIn("1482356", doc.values())
+
+
+    def test_the_largest_2026_09_19_alias_is_pinned(self):
+        """39 showtimes over 17 venues, the largest single row in that batch, and the one
+        the maintainer reported. Two independent sources say 1299382: TMDB's own record
+        registers FI "Lyhyt rakkaustarina" in alternative_titles, and Bio Forum Tammisaari
+        publishes the title with the Italian original attached, which matched on its own
+        and already carries the id in the committed data."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc["lyhyt rakkaustarina"], "1299382")
+        self.assertEqual(enrich_tmdb.norm("Lyhyt rakkaustarina"), "lyhyt rakkaustarina")
+
+    def test_no_alias_points_at_a_candidate_the_log_named_wrong(self):
+        """The failure this file exists to prevent, in the one direction a reviewer cannot
+        see by reading: an id that looks settled because the search returned it. Each of
+        these was the weak candidate for a row worked on 2026-09-19 and each is a
+        different film, checked against /movie/{id}. Writing one would put a wrong poster
+        on a row, which is worse than the blank tile it replaces."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        wrong = {
+            "1080916": "Titanic: 25 Years Later, not Tarkovsky's Solaris",
+            "446700": "the Bolshoi's A Hero of Our Time, not Neumeier's Nutcracker",
+            "67572": "Disney's The Band Concert, not Il Volo",
+            "444446": "the Met's Idomeneo, not Don Giovanni or Madama Butterfly",
+            "967969": "Council House Movie Star, not Ortotopologian loputtomat alkeet",
+            "893723": "PAW Patrol: The Mighty Movie, not The Dino Movie",
+            "331647": "Fratter's 2001 Abraxas, not Polselli's 1973 Black Magic Rites",
+            "219580": "a Tom and Jerry short, not the 2026 Mouse",
+            "1482356": "the 2025/26 Tosca, not the 2026/27 one the cinema relays",
+            "1769545": "deleted from TMDB; /movie/1769545 answers status_code 34",
+        }
+        for tmdb_id, why in wrong.items():
+            with self.subTest(tmdb_id=tmdb_id):
+                self.assertNotIn(tmdb_id, doc.values(), why)
 
 
 class FixedDate(datetime.date):

@@ -237,14 +237,44 @@ class AliasTest(unittest.TestCase):
     """The two cases the cleaned search still cannot settle, 2026-09-14."""
 
     def test_the_aliases_are_keyed_by_the_published_title(self):
+        """The Avengers id moved from 1769545 to 299534 on 2026-09-19: TMDB deleted
+        1769545 and /movie/1769545 answers status_code 34, which is the 404 line
+        run-enrich.log carries, while 299534 registers the encore on its own
+        alternative_titles. 64 committed showtimes were on the dead id. No alias in this
+        file may point at it again."""
         import json
         import pathlib
         aliases = json.loads((pathlib.Path(enrich_tmdb.__file__).parent
                               / "tmdb-aliases.json").read_text(encoding="utf-8"))
         for published, tmdb_id in (("Matka Piemonteen (Kahvi ja Kino)", "1545391"),
-                                   ("Avengers: Endgame Re-release (encore)", "1769545")):
+                                   ("Avengers: Endgame Re-release (encore)", "299534"),
+                                   ("Avengers: Endgame Encore (re-release)", "299534"),
+                                   ("AVENGERS: ENDGAME ENCORE (Re-release 2026)", "299534")):
             with self.subTest(published=published):
                 self.assertEqual(aliases.get(enrich_tmdb.norm(published)), tmdb_id)
+        self.assertNotIn("1769545", aliases.values())
+
+    def test_the_three_strands_added_on_2026_09_19_split_and_the_refused_ones_do_not(self):
+        """Three programme names went into the shared list and five words were measured
+        and refused on the same pass. The refusals are the half worth pinning: splitting
+        "Klassikkoelokuva" leaves "Solaris", which pick() resolves to Soderbergh's 2002
+        record as an *exact* match, so the row would publish the wrong film rather than an
+        initials tile; and "Ooppera", "Baletti" and "Konsertti" are part of TMDB's own
+        registered Finnish relay titles, so stripping one turns a working match into a
+        miss. Asserted through queries(), which is where clean() reads the same list."""
+        for published, first in (
+                ("KUUKAUDEN POHJOISMAINEN: The Last Paradise on Earth",
+                 "The Last Paradise on Earth"),
+                ("Nordic Film of the Month: Alt Skal Bort (2025)", "Alt Skal Bort"),
+                ("Star House Movie: Ortotopologian loputtomat alkeet",
+                 "Ortotopologian loputtomat alkeet")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.queries(published)[0], first)
+        for published in ("Klassikkoelokuva: Solaris", "Ooppera: Idomeneo",
+                          "Baletti: Aikamme sankari", "Konsertti: Il Volo",
+                          "R&A: Mouse"):
+            with self.subTest(refused=published):
+                self.assertEqual(enrich_tmdb.queries(published)[0], published)
 
     def test_an_alias_is_tried_before_the_cleaned_title(self):
         """A bare id skips the search outright; a replacement string goes first."""

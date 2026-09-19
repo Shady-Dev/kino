@@ -104,6 +104,43 @@ film. That is the trust gate working and not a defect to fix; it would take a re
 Swedish alternative title on TMDB, which is not ours to add. Deliberately not aliased,
 since one weak hit is not identity evidence.
 
+## The fi-FI response substitutes the original title, measured 2026-09-19
+
+Read against the live API with the pipeline's own `search()` and `pick()`. `language=fi-FI`
+localises the response, and where TMDB holds no Finnish translation the response's `title`
+comes back as the **original** title, not as the English one. So a cinema publishing
+TMDB's own English title fails the exact test just as a Finnish distributor title does.
+
+| published | fi-FI `title` | en-US `title` |
+|---|---|---|
+| The Time That Remains | الزمن الباقي | The Time That Remains |
+| Tiger on the Beat | 老虎出更 | Tiger on the Beat |
+| Faust | Faust - Eine deutsche Volkssage | Faust |
+| Berliinin sankari (original Berlin Hero) | Der Held vom Bahnhof Friedrichstraße | Berlin Hero |
+
+This is most of the 33-entry weak list of the run committed at `73a075acc`. Twenty-four
+keys were aliased by hand on 2026-09-19 rather than changing the search, and the reasoning
+per id is in `scripts/providers/tmdb-aliases.json`'s own comments.
+
+**What comparing the en-US title in `pick()` would do**, measured over all 36 weak cache
+entries by replaying the searches: ten become exact with no alias. It is not free. One of
+the ten becomes exact on a *different* id than the weak candidate, `black magic rites` on
+59912 where the cache holds 331647, and an exact match is trusted and publishes, so the
+change would ship an unchecked id. 59912 is in fact the right film, which is the point:
+nothing in the mechanism checked it. Open in [IDEAS.md](../../IDEAS.md).
+
+## The Gråben refusal stands, and a sibling key does not fall under it
+
+Re-read 2026-09-19. TMDB still registers no Swedish title for 1204680, so the premise of
+the 2026-09-14 refusal holds and `gråben vs acme på svenska` is still not aliased.
+
+What is new is a second key at a different cinema. Bio Savoy Mariehamn publishes the film
+as `GRÅBEN vs ACME (COYOTE vs ACME)`, and its own film page carries the IMDb id
+`tt1756855`, which `/find?external_source=imdb_id` resolves to 1204680 and to nothing
+else. That is identity evidence from the cinema rather than from a weak hit, which is the
+one thing the refusal says is missing, so that key is aliased and the `(på svenska)` one
+is not. The two are different keys and the distinction is the evidence, not the spelling.
+
 The lesson worth keeping is about verification rather than matching: for a day the fix was
 indistinguishable from a broken one, because a skipped entry and a failed one look the same
 in the cache and both are simply absent from the log. What separated them was the cache
