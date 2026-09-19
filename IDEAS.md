@@ -32,9 +32,9 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 - **Thirty-two triaged 2026-09-18**, fourteen built: Kino Myyri, four Johku storefronts,
-  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas (settled cloud on
-  its first runner log) and Elokuvateatteri Huvimylly. Kino Helios is priced and declined,
-  eight need a browser, eight have nothing, one server-renders and is unbuilt.
+  Ritz Vaasa, Kino Hamina, Kinotour, the four of 2026-09-19, Bio Pallas and Elokuvateatteri
+  Huvimylly, each green on its own log. Kino Helios is priced and declined, eight need a
+  browser, eight have nothing, one server-renders and is unbuilt.
   **Next action:** Alatalo-kiertue, then Kinotour's towns as its log names them.
 - **Sun Kino:** `allproducts.json` is closed (403, session required); whether any *other*
   public source exists for those four cinemas is untested. **Eventio:** no sweep was run.
@@ -55,17 +55,6 @@ run's weak list, aliased by hand instead on 2026-09-19. Comparing the en-US titl
 Evidence: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
 **Next action:** the maintainer's, on whether a second search language is worth the
 re-judging pass it would force. Nothing is blocked on it.
-
-### Elokuvateatteri Huvimylly waits on a wrapper block
-
-Raahe's cinema, built 2026-09-19, `where="local"` on the 2026-09-18 evidence: a 403 with
-`Server: Apache` and no `CF-Ray` to a non-residential address where an ordinary connection
-gets 200. The record is in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** the maintainer's, outside this repo. The local half runs from a wrapper
-that names its modules and nothing in here can add to it, so the venue ages after the
-snapshot until the block exists. It needs
-`python3 scripts/providers/run.py --where local huvimylly`.
 
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 

@@ -2316,3 +2316,19 @@ named unohdettu-saari and TMDB registers FI "Unohdettu saari" on 1465063.
 routing local on a 403 needs no runner evidence. What it does need is a block in the wrapper
 outside this repository, which nothing in here can add: until it exists the venue ages after
 the snapshot committed with the adapter.
+
+### The Huvimylly wrapper block landed, and the entry closed (2026-09-19, later)
+
+The preceding record ends "it cannot run yet". It can. The local half's wrapper outside
+this repository gained a `huvimylly` block the same day, and the run it produced was
+committed by `kino-local` in `f1803a9f2` at 15:48 +0300: `logs/run-huvimylly.log` reads
+`exit=0`, 4 showtimes over 1 date, 4 films, all priced 10€, one host attempted
+(`www.huvimylly.com`), one full fetch and no failures. `data/area-huvimylly-raahe.json`
+carries those four rows. The venue no longer ages after its snapshot, so the `IDEAS.md`
+entry "Elokuvateatteri Huvimylly waits on a wrapper block" is closed and removed there.
+
+The counts were re-measured on the same tree before the entry came out, because closing a
+provider item is where a carried-over count has gone wrong before: 71 providers, 118
+venues, 84 cities from `build_pages.load_venues()` and `city_of()`, 118 `data/area-*.json`
+files, 9 `where="local"` providers over 31 venues. All unchanged, so nothing in "Provider
+coverage" was rewritten but the Huvimylly clause.
