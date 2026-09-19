@@ -1262,6 +1262,7 @@
     "cine",
     "cinemantsala",
     "huvimylly",
+    "korjaamo",
     "laitilankino"
    ],
    "r": 0,
@@ -2595,6 +2596,15 @@
    },
    "tr": ""
   },
+  "paholainen pukeutuu pradaan 2006": {
+   "img": "data/posters/423a0c1d4cba03fb.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Toimittajan urasta haaveileva Andrea päätyy avustajaksi Runway-muotilehteen, jota palvottu ja pelottava Miranda Priestly johtaa rautaisin ottein. Andrean idealismi karisee nopeasti, kun hän yrittää selvitä pomon antamista tehtävistä, jotka tuntuvat välillä mahdottomilta. Mutta muodin edelläkävijöillä on myös etuja, joista tavikset voivat vain haaveilla."
+   },
+   "tr": "https://www.youtube.com/watch?v=t4isatjZ0BM"
+  },
   "paholaiset": {
    "r": 0,
    "s": {
@@ -3588,6 +3598,15 @@
    },
    "tr": ""
   },
+  "sex and the city 2008": {
+   "img": "data/posters/a2281611b29bf553.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "Aivan liian kauan Carrie Bradshaw (Sarah Jessica Parker) on etsinyt rakkautta täysin vääristä paikoista... mutta juuri oikeissa kengissä. Hartaasti odotettu elokuva tapaus tuo vihdoin Carrien, Samanthan (Kim Cattrall), Charlotten (Kristin Davis) ja Mirandan (Cynthia Nixon) jälleen luoksemme, neljä vuotta hittisarjan päättymisen jälkeen. Heidän jatkaessaan pujotteluauran, ihmis suhteiden, äitiyden ja Manhattanin riento jen välillä, tytöt ymmärtävät - paremmin kuin koskaan - että todellinen ystävyys ei mene koskaan pois muodista. ”Terävä, pureva ja hillittömän hauska, Sex and the City on rakkauskirje jota fanit ovat odottaneet” (Rossiter Drake, San Francisco Examiner)."
+   },
+   "tr": "https://www.youtube.com/watch?v=8lofhd7Ubnk"
+  },
   "she killed in ecstasy": {
    "img": "data/posters/031404b6fd4e654d.jpg",
    "r": 5.1,
@@ -3868,6 +3887,15 @@
     "fi": "Vastuullisuusjohtamisen asiantuntija Tiina Taipale ja tutkiva toimittaja Paavo Teittinen keskustelevat työn kestävämmästä tulevaisuudesta. Ketä työ palvelee? Ketkä mahdollistavat elintasomme? Millaista on kestävä työ? Keskustelua moderoi kirjastonhoitaja Heini Strand. Keskustelun jälkeen nähdään visuaalisesti vaikuttava dokumentti Machines (2016), joka kuvaa tekstiilitehtaan työoloja Intiassa. Keskustelu klo 18–19, elokuvanäytös Machines klo 19–20.15 • O: Rahul Jain • K7 • suom.tekstit/svensk text"
    },
    "tr": ""
+  },
+  "tekijätorstai kerro kaikille": {
+   "img": "data/posters/133d5c0758982817.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
   "tekijätorstai tytöt tytöt tytöt keskustelu": {
    "img": "data/posters/26bcd92f91926027.jpg",
@@ -4263,6 +4291,15 @@
     "fi": "Kahden siskoksen pyörittämä ompelimo palvelee 1970-luvun Roomassa kulttuurin kermaa. Ateljeen käytävillä kohtaavat leiskuvat elokuva- ja teatteridiivat, ja naisvaltainen ompelijatiimi puurtaa väsymättä puvustajien visioita todeksi. Kun Oscar-palkittu pukusuunnittelija Bianca Vega (Vanessa Scalera, Syyttäjä Imma Tataranni) tilaa puvustuksen uuteen elokuvaan, ompelimon jo valmiiksi tähtiloiston täyteinen arki mullistuu. Kotimaissaan Italiassa ja Turkissa moninkertaisesti palkitun ohjaaja Ferzan Özpetekin Timantit on säkenöivä rakkaudentunnustus naisille ja elokuvan taialle. Upea ensemble on täynnä vahvoja naisrooleja, joista jokaisella on oma tarinansa ja tragediansa kerrottavanaan – tai kätkettävänään. Luova Eurooppa -ohjelman - MEDIA -tuella."
    },
    "tr": "https://www.youtube.com/watch?v=BuzzzII3LcU"
+  },
+  "tokyo story": {
+   "img": "data/posters/7e6002db6c6ee747.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Ikääntyneet vanhemmat Shukichi (Chishu Ryu) ja Tomi Hirayama (Chieko Higashiyama) lähtevät käymään kiireisten lastensa luona Tokiossa ja Osakassa. Päästyään perille Tokioon pariskunta huomaa, ettei lapsilla ole aikaa heille, koska heillä on oma elämä, työ ja perhe, joiden välillä heidän on vaikea tasapainotella."
+   },
+   "tr": "https://www.youtube.com/watch?v=xqO0d3328Do"
   },
   "tommy": {
    "img": "data/posters/3b459542135290b3.jpg",

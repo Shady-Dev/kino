@@ -1,6 +1,6 @@
-[lieksankino] FAILED: https://www.lieksanelokuvat.net/: no screening line in the programme section (12134 B served, titled "One moment, please..."). No emptied programme has been seen on this template, so there is no evidence of one to read this as, and the previous files stand
+[lieksankino] FAILED: https://www.lieksanelokuvat.net/: no screening line in the programme section (12184 B served, titled "One moment, please..."). No emptied programme has been seen on this template, so there is no evidence of one to read this as, and the previous files stand
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.lieksanelokuvat.net
 [run] lieksa: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 103.7s, 0.8s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 114.8s, 1.0s wall from this module's first fetch starting to its last ending
 exit=1

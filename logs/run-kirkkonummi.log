@@ -1,6 +1,6 @@
-[kirkkonummi] FAILED: https://kinokirkkonummi.fi/: no icon list on the page (12095 B served, titled "One moment, please..."), so this is not the programme this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kirkkonummi] FAILED: https://kinokirkkonummi.fi/: no icon list on the page (12150 B served, titled "One moment, please..."), so this is not the programme this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinokirkkonummi.fi
 [run] kirkkonummi: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.6s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 69.7s, 0.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 73.6s, 0.9s wall from this module's first fetch starting to its last ending
 exit=1

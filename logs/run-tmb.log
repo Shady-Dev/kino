@@ -1,9 +1,9 @@
-[kinotoijala] FAILED: https://toijalan-kino.info: no 'Valkokankaalla' programme container in the response (12205 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
-[kinosampo] FAILED: https://kinosampo.info: no 'Valkokankaalla' programme container in the response (12201 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
-[kinomania] FAILED: https://kino-mania.info: no 'Valkokankaalla' programme container in the response (12120 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
-[kinoelo] FAILED: https://elokuvat-elo.info: no 'Valkokankaalla' programme container in the response (12122 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinotoijala] FAILED: https://toijalan-kino.info: no 'Valkokankaalla' programme container in the response (12143 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinosampo] FAILED: https://kinosampo.info: no 'Valkokankaalla' programme container in the response (12139 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinomania] FAILED: https://kino-mania.info: no 'Valkokankaalla' programme container in the response (12135 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[kinoelo] FAILED: https://elokuvat-elo.info: no 'Valkokankaalla' programme container in the response (12137 B served, titled "One moment, please..."), so this is not the list view this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
 [run] http: 0 revalidated (304), 4 full, 4 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
 [run] tmb: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
-[run] timing: 4 site(s), 2.1s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 65.7s, 2.1s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 3.4s of fetching added up across workers that overlap, longest site 1.2s, longest queue wait 69.0s, 1.9s wall from this module's first fetch starting to its last ending
 exit=1

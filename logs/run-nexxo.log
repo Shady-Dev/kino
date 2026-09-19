@@ -43,5 +43,5 @@
 [run] partial: biosade kept previous data for 1 venue(s): sa-mantta
 [run] partial: kinoolympia kept previous data for 1 venue(s): ol-hanko
 [run] nexxo: 5 venues, 69 showtimes, 6 stale, 0 unverified, 2 pending, 0 with no programme, 4 failures
-[run] timing: 8 site(s), 146.9s of fetching added up across workers that overlap, longest site 66.1s, longest queue wait 0.0s, 66.1s wall from this module's first fetch starting to its last ending
+[run] timing: 8 site(s), 149.6s of fetching added up across workers that overlap, longest site 67.3s, longest queue wait 0.0s, 67.3s wall from this module's first fetch starting to its last ending
 exit=1

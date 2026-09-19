@@ -28,6 +28,6 @@
 [cloud] navetta: exit=1
 [cloud] vpk: exit=1
 [cloud] pallas: exit=0
-[cloud] 150.4s wall, 940.4s of fetching added up across workers that overlap, 62 site(s) fetched
-[cloud] held at most 40 fetched site(s) and 2752 byte(s) of captured log waiting for publication
+[cloud] 170.5s wall, 1062.0s of fetching added up across workers that overlap, 62 site(s) fetched
+[cloud] held at most 46 fetched site(s) and 2752 byte(s) of captured log waiting for publication
 exit=1
