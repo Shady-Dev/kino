@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://leffavuoro.fi/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/espoo/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/city/forssa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/helsinki/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/hyvinkaa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/city/jyvaskyla/</loc><lastmod>2026-09-20</lastmod></url>
@@ -44,6 +45,8 @@
   <url><loc>https://leffavuoro.fi/en/theatre/cine-nikkila-sipoo/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/cinema-niagara-tampere/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/cinema-orion-helsinki/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/theatre/cinema-sheryl-espoo/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/en/theatre/elavienkuvien-teatteri-forssa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/elokuvateatteri-elo-elo-heinola/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/elokuvateatteri-huvimylly-raahe/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/elokuvateatteri-marita-outokumpu/</loc><lastmod>2026-09-20</lastmod></url>
@@ -142,6 +145,7 @@
   <url><loc>https://leffavuoro.fi/en/theatre/tahti-kino-muhos/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/en/theatre/vihdin-kino-vihti/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/espoo/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/kaupunki/forssa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/helsinki/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/hyvinkaa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/kaupunki/jyvaskyla/</loc><lastmod>2026-09-20</lastmod></url>
@@ -184,6 +188,8 @@
   <url><loc>https://leffavuoro.fi/teatteri/cine-nikkila-sipoo/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/cinema-niagara-tampere/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/cinema-orion-helsinki/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/teatteri/cinema-sheryl-espoo/</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://leffavuoro.fi/teatteri/elavienkuvien-teatteri-forssa/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/elokuvateatteri-elo-elo-heinola/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/elokuvateatteri-huvimylly-raahe/</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://leffavuoro.fi/teatteri/elokuvateatteri-marita-outokumpu/</loc><lastmod>2026-09-20</lastmod></url>

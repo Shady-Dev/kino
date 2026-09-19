@@ -281,9 +281,9 @@ a change.
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Alatalo 5 |
 | generated pages per language | 143 |
 | sitemap URLs | 287 |
-| poster references (shows / films-extra) | 4737 (4355 / 382) |
+| poster references (shows / films-extra) | 4633 (4251 / 382) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1342 |
+| mirrored poster files | 1343 |
 | `sw.js` CACHE | `leffavuoro-v193` |
 
 Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
