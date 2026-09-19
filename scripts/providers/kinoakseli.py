@@ -19,7 +19,13 @@ VENUE = {"id": "ka-nummela", "provider": "kinoakseli", "providerId": "1",
          "name": "Kino Akseli", "short": "Kino Akseli", "city": "Nummela"}
 
 # Single screen, so one site with one venue. See run.py for the contract.
-SITES = [{"provider": "kinoakseli", "label": "Kino Akseli", "venues": [VENUE]}]
+#
+# `base` names the host this site is read from, which is the runner's pacing key.
+# Nothing here reads it: fetch_site reads URL above and nothing else, and the
+# committed run log records one host attempted, kinoakseli.fi. Added 2026-09-19 with
+# Kino Engel's, the only two sites a sweep of the committed logs found declaring none.
+SITES = [{"provider": "kinoakseli", "label": "Kino Akseli", "base": URL,
+          "venues": [VENUE]}]
 
 # `resolve_year`'s (behind, ahead). This cinema publishes about three days at a time, and
 # the committed programme spanned -1 to +1 day on 2026-09-19, so 60 ahead is twenty times

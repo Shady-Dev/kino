@@ -9,6 +9,7 @@ whose module does not serve it is a chain in the picker that no fetch fills.
 """
 import importlib
 import unittest
+from urllib.parse import urlsplit
 
 import _ctx                                                # noqa: F401
 import registry
@@ -73,6 +74,24 @@ class RegistrySitesTest(unittest.TestCase):
                             f"venue id {v['id']!r} is used by {site['provider']} in "
                             f"{name}.py and already by {seen.get(v['id'])}")
                     seen[v["id"]] = f"{site['provider']} in {name}.py"
+
+    def test_every_site_names_the_host_it_is_read_from(self):
+        """`base` is the runner's pacing key: `run.py` serialises the sites sharing one
+        and `run_cloud.py` groups them across modules, so a site declaring none joins one
+        conservative group with every other base-less site in its half. CLAUDE.md states
+        the rule, and it was prose alone until 2026-09-19, when a sweep of the hosts the
+        committed logs name found Kino Engel and Kino Akseli declaring none. Both are
+        local-half, where that shared group does not apply, which is why nothing failed
+        and why nothing would have said so."""
+        for name in registry.modules():
+            mod = importlib.import_module(name)
+            for site in mod.SITES:
+                with self.subTest(module=name, provider=site.get("provider")):
+                    host = urlsplit((site.get("base") or "").strip()).netloc
+                    self.assertTrue(
+                        host,
+                        f"{name}.py's site {site.get('provider')!r} declares no usable "
+                        f"`base`, so the runner cannot pace the host it reads")
 
 
 if __name__ == "__main__":

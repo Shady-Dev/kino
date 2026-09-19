@@ -38,7 +38,15 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 VENUE = {"id": "engel-helsinki", "provider": "engel", "providerId": "1",
          "name": "Kino Engel", "short": "Kino Engel", "city": "Helsinki"}
 
-SITES = [{"provider": "engel", "label": "Kino Engel", "venues": [VENUE]}]
+# `base` names the host this site is read from, which is the runner's pacing key.
+# Nothing in this module reads it: fetch_site reads URL above and nothing else, and
+# the committed run log records one host attempted, kinoengel.fi. It was absent until
+# 2026-09-19, when a sweep of every host the committed logs name found this site and
+# Kino Akseli as the only two declaring none. Both are local-half, so the cloud pool's
+# one shared group for base-less sites never reached them; CLAUDE.md asks for the host
+# to be named either way.
+SITES = [{"provider": "engel", "label": "Kino Engel", "base": BASE,
+          "venues": [VENUE]}]
 
 # The outdoor screen. Slug prefix is the reliable signal; the visible title carries
 # "KESÄKINO:" too, but the slug is ascii-folded and cannot be affected by a typo.
