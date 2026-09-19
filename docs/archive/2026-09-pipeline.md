@@ -1754,3 +1754,33 @@ by it: `build_pages.py` reads the file's content, and the content did not move.
 stages it with the rest of `data/` and, on a conflict in it, refuses to resolve one
 unattended rather than picking a side, which would drop a synopsis. That behaviour is
 still correct and needed no change; one key per line only makes the conflict rarer.
+
+### The fi-FI search hides TMDB's English title, and one en-US search settles it (2026-09-19)
+
+Closed. `search` runs with `language=fi-FI` so `pick()` can compare TMDB's Finnish title
+against the Finnish one a cinema publishes, which is what made "Autofiktio", "Kuopus" and
+"Kummisetä osa II" match at all. The cost is the mirror case: where TMDB holds no Finnish
+translation the response falls back to the **original** title, so a cinema publishing
+TMDB's own English title can never match exactly. Measured over the 36 weak cache entries
+of `73a075acc`, ten would become exact with an en-US comparison. Evidence:
+[docs/research/tmdb-matching.md](../research/tmdb-matching.md).
+
+**Decided by the maintainer, with bounds.** A second search in en-US runs only for a title
+the fi-FI pass left unmatched or weak, which is the only state it can improve. An exact
+en-US match fills an empty or weak slot. It never replaces a cached id, and structurally
+cannot: the whole branch sits inside `if not mid`. A candidate whose id disagrees with the
+weak one is logged to stderr and left for the alias file rather than published, which is
+the `black magic rites` case the research file records, where an exact en-US match lands on
+a different id than the cache holds and an exact match is trusted. No re-judging pass is
+added. One request per title, counted in the log.
+
+**What it settled on the day it shipped: nothing, and that is the expected number.** The
+committed weak list went 5 to 5, with 5 asked, 0 settled and 0 disagreeing. The ten cases
+the decision was measured on had been aliased by hand the night before, 24 keys in
+`tmdb-aliases.json`, so the work this would have done was already done. What the change
+buys is the next one: a title published under TMDB's English title now settles without an
+alias, and one that would settle on a different id is named instead of shipped.
+
+Covered by `EnglishSecondSearchTest`: the settle, the one-request budget, that an exact
+fi-FI match never reaches it, the disagreement being named and not published, an empty slot
+filled, and the counter appearing whatever it found. Four mutations go red.

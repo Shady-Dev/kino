@@ -419,10 +419,15 @@ def plausible(hit_year, year):
     return abs(int(hit_year) - int(year)) <= YEAR_TOL
 
 
-def search(cand, year, headers):
+def search(cand, year, headers, lang="fi-FI"):
     """One search request. -> hits. `year` filters on TMDB's primary release year
-    (documented as a string parameter on /3/search/movie); "" sends no filter."""
-    url = ("https://api.themoviedb.org/3/search/movie?language=fi-FI&query="
+    (documented as a string parameter on /3/search/movie); "" sends no filter.
+
+    `lang` only localizes the response's `title`; it does not widen which titles TMDB
+    searches. That is the whole point of the en-US second pass below: the same hits come
+    back either way and only the string they are compared against changes.
+    """
+    url = (f"https://api.themoviedb.org/3/search/movie?language={lang}&query="
            + urllib.parse.quote(cand))
     if year:
         url += f"&primary_release_year={year}"
@@ -771,6 +776,8 @@ def main() -> int:
     settled = set()          # scheduled refreshes that came back with rating/vote data
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
+    en_tried = 0             # en-US second searches, one per title the fi-FI pass missed
+    en_settled, en_differs = [], []
     offyear = []             # exact titles refused on the published year
     ties = []                # several films of that title and year; none trusted
     for k, display in sorted(titles.items()):
@@ -826,6 +833,37 @@ def main() -> int:
                         fallback = hit
                     time.sleep(0.2)
                 else:
+                    # **One en-US search, and only here.** The fi-FI pass matched no
+                    # candidate exactly, which is the only state this can improve.
+                    # `language` decides what `title` comes back as, so a cinema that
+                    # publishes TMDB's own English title can never match under fi-FI where
+                    # TMDB holds no Finnish one. Decided 2026-09-19 with these bounds: it
+                    # fills an empty or weak slot, it never replaces a cached id -- this
+                    # whole branch is inside `if not mid`, so there is none to replace --
+                    # and an id that disagrees with the weak candidate is named for the
+                    # alias file rather than published. One request per title, counted.
+                    en_cand = queries(display or k, alias, fact["o"])[0]
+                    try:
+                        en_hits = search(en_cand, fact["y"], th, lang="en-US")
+                    except Exception:
+                        en_hits = []
+                    en_tried += 1
+                    en_hit, en_exact = (pick(en_hits, en_cand, fact["y"], fact["o"])
+                                        if en_hits else (None, False))
+                    if en_exact and en_hit:
+                        if fallback is None or fallback.get("id") == en_hit.get("id"):
+                            mid = en_hit.get("id")
+                            poster = en_hit.get("poster_path") or poster
+                            exact_id = True
+                            en_settled.append(f"{display or k} -> {en_hit.get('title')}")
+                            fallback = None          # settled, so not a weak entry
+                        else:
+                            # Two defensible ids and nothing automatic to choose between
+                            # them. The weak one stands and the disagreement is named.
+                            en_differs.append(
+                                f"{display or k}: fi-FI {fallback.get('title')} "
+                                f"({fallback.get('id')}) vs en-US {en_hit.get('title')} "
+                                f"({en_hit.get('id')})")
                     if fallback is not None:
                         mid = fallback.get("id")
                         poster = fallback.get("poster_path") or poster
@@ -1088,6 +1126,16 @@ def main() -> int:
     # reading, not for acting on automatically.
     if weak:
         print(f"[enrich] weak match, no exact title ({len(weak)}): " + " | ".join(sorted(weak)))
+    if en_tried:
+        print(f"[enrich] en-US second search: {en_tried} title(s) asked, "
+              f"{len(en_settled)} settled, {len(en_differs)} disagreed with the fi-FI "
+              f"candidate and were left for the alias file")
+    if en_settled:
+        print(f"[enrich] settled on the English title ({len(en_settled)}): "
+              + " | ".join(sorted(en_settled)))
+    if en_differs:
+        print(f"[enrich] en-US names a different film ({len(en_differs)}): "
+              + " | ".join(sorted(en_differs)), file=sys.stderr)
     if offyear:
         print(f"[enrich] year mismatch, exact title refused ({len(offyear)}): "
               + " | ".join(sorted(offyear)))

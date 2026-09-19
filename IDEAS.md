@@ -44,18 +44,6 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
-### The fi-FI search hides TMDB's English title
-
-`search` runs with `language=fi-FI`, and where TMDB holds no Finnish translation the
-response's `title` falls back to the **original** title rather than the English one, so a
-cinema publishing TMDB's own English title can never match exactly. That was most of one
-run's weak list, aliased by hand instead on 2026-09-19. Comparing the en-US title in
-`pick()` would settle ten of the 36 weak entries with no alias, but one flips to a
-*different* id than the cached candidate and an exact match publishes unchecked.
-Evidence: [docs/research/tmdb-matching.md](docs/research/tmdb-matching.md).
-**Next action:** the maintainer's, on whether a second search language is worth the
-re-judging pass it would force. Nothing is blocked on it.
-
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 
 No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on

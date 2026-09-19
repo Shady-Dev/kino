@@ -127,7 +127,16 @@ entries by replaying the searches: ten become exact with no alias. It is not fre
 the ten becomes exact on a *different* id than the weak candidate, `black magic rites` on
 59912 where the cache holds 331647, and an exact match is trusted and publishes, so the
 change would ship an unchecked id. 59912 is in fact the right film, which is the point:
-nothing in the mechanism checked it. Open in [IDEAS.md](../../IDEAS.md).
+nothing in the mechanism checked it.
+
+**Shipped 2026-09-19 with that case as its bound.** The second search runs only where the
+fi-FI pass matched nothing exactly, fills an empty or weak slot, and never replaces a
+cached id. An exact en-US hit on a *different* id than the weak candidate is written to
+stderr and left for the alias file rather than published, so `black magic rites` is named
+and not shipped. Measured on the committed weak list the day it went in: 5 titles asked, 0
+settled, 0 disagreed, the weak list unchanged at 5, because the ten cases above were
+aliased by hand the night before. The record is in
+[docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md).
 
 ## The Gråben refusal stands, and a sibling key does not fall under it
 

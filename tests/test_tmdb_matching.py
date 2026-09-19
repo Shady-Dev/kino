@@ -329,13 +329,25 @@ class MainHarness(unittest.TestCase):
     def cache(self):
         return json.loads((self.dir / "tmdb-titles.json").read_text(encoding="utf-8"))
 
-    def run_main(self, table):
+    def run_main(self, table, en=None):
+        """`table` answers the fi-FI searches, `en` the en-US second pass.
+
+        The language is part of the dispatch because that is the only thing the second
+        pass changes: TMDB searches the same titles either way and answers `title` in the
+        language asked for. An en-US search is recorded as a three-tuple so a test can
+        tell the two passes apart, and so the ones written before this pass existed keep
+        asserting what they did.
+        """
         def fake_get(url, headers, timeout=25):
             if "/genre/movie/list" in url:
                 return {"genres": [{"id": 18, "name": "Draama"}]}
             if "/search/movie" in url:
                 q = urllib.parse.parse_qs(urllib.parse.urlsplit(url).query)
                 key = (q["query"][0], (q.get("primary_release_year") or [""])[0])
+                lang = (q.get("language") or ["fi-FI"])[0]
+                if lang == "en-US":
+                    self.searches.append(key + ("en-US",))
+                    return {"results": (en or {}).get(key, [])}
                 self.searches.append(key)
                 return {"results": table.get(key, [])}
             if url.endswith("/videos"):
@@ -345,11 +357,13 @@ class MainHarness(unittest.TestCase):
         real = enrich_tmdb.get
         enrich_tmdb.get = fake_get
         self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
-        buf = io.StringIO()
-        with contextlib.redirect_stdout(buf):
+        # Both streams: this pass writes its warnings to stderr, and a test that only
+        # read stdout could assert a warning was absent while it was being printed.
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
             code = enrich_tmdb.main()
         self.assertEqual(code, 0)
-        return buf.getvalue()
+        return out.getvalue() + err.getvalue()
 
 
 class MainPathTest(MainHarness):
@@ -720,6 +734,77 @@ class SameDayReconsiderTest(MainHarness):
         out = self.run_main({})
         self.assertEqual(self.searches, [])
         self.assertNotIn("re-judging", out)
+
+
+class EnglishSecondSearchTest(MainHarness):
+    """One en-US search, only for a title the fi-FI pass could not match exactly.
+
+    `language` decides what TMDB answers `title` as; it does not widen which titles are
+    searched. So a cinema publishing TMDB's own English title can never match under
+    fi-FI where TMDB holds no Finnish one, and the same hits settle under en-US. Decided
+    2026-09-19 with the bounds these tests pin: it fills an empty or weak slot, it never
+    replaces a cached id, an id that disagrees with the weak candidate is named for the
+    alias file rather than published, and it costs one request per title.
+    """
+
+    def test_a_title_the_finnish_pass_missed_settles_on_the_english_one(self):
+        self.shows({"title": "The Time That Remains"})
+        log = self.run_main(
+            {("The Time That Remains", ""): [hit(25943, "\u0627\u0644\u0632\u0645\u0646 \u0627\u0644\u0628\u0627\u0642\u064a", 2009)]},
+            en={("The Time That Remains", ""): [hit(25943, "The Time That Remains", 2009)]})
+        e = self.cache()["the time that remains"]
+        self.assertEqual((e["i"], e["x"]), (25943, True))
+        self.assertIn("settled on the English title (1)", log)
+
+    def test_it_costs_one_request_and_only_after_the_finnish_pass_failed(self):
+        self.shows({"title": "The Time That Remains"})
+        self.run_main(
+            {("The Time That Remains", ""): [hit(25943, "\u0627\u0644\u0632\u0645\u0646", 2009)]},
+            en={("The Time That Remains", ""): [hit(25943, "The Time That Remains", 2009)]})
+        en_calls = [c for c in self.searches if len(c) == 3]
+        self.assertEqual(en_calls, [("The Time That Remains", "", "en-US")])
+
+    def test_an_exact_finnish_match_never_reaches_the_english_pass(self):
+        self.shows({"title": "Kuopus"})
+        self.run_main({("Kuopus", ""): [hit(1, "Kuopus", 2026)]})
+        self.assertEqual([c for c in self.searches if len(c) == 3], [])
+
+    def test_an_english_id_that_disagrees_is_named_and_not_published(self):
+        """The `black magic rites` case the research file records: an exact en-US match on
+        a *different* id than the weak candidate. An exact match is trusted and publishes,
+        so this one must not be taken automatically."""
+        self.shows({"title": "Black Magic Rites"})
+        log = self.run_main(
+            {("Black Magic Rites", ""): [hit(331647, "Riti, magie nere", 1973)]},
+            en={("Black Magic Rites", ""): [hit(59912, "Black Magic Rites", 1973)]})
+        e = self.cache()["black magic rites"]
+        self.assertEqual((e["i"], e["x"]), (331647, False), "the weak candidate stands")
+        self.assertIn("en-US names a different film", log)
+        self.assertIn("59912", log)
+
+    def test_an_empty_slot_is_filled_when_the_finnish_pass_found_nothing_at_all(self):
+        self.shows({"title": "Tiger on the Beat"})
+        log = self.run_main(
+            {("Tiger on the Beat", ""): []},
+            en={("Tiger on the Beat", ""): [hit(42, "Tiger on the Beat", 1988)]})
+        e = self.cache()["tiger on the beat"]
+        self.assertEqual((e["i"], e["x"]), (42, True))
+        self.assertIn("1 settled", log)
+
+    def test_no_english_match_leaves_the_weak_candidate_exactly_as_it_was(self):
+        self.shows({"title": "Ooppera: Don Giovanni"})
+        log = self.run_main(
+            {("Ooppera: Don Giovanni", ""): [hit(444446, "Ooppera: Idomeneo", 2026)]},
+            en={})
+        e = self.cache()["ooppera don giovanni"]
+        self.assertEqual((e["i"], e["x"]), (444446, False))
+        self.assertIn("weak match, no exact title (1)", log)
+        self.assertIn("0 settled", log)
+
+    def test_the_pass_is_counted_in_the_log_whatever_it_found(self):
+        self.shows({"title": "Ooppera: Don Giovanni"})
+        log = self.run_main({("Ooppera: Don Giovanni", ""): [hit(1, "Muu", 2026)]}, en={})
+        self.assertIn("en-US second search: 1 title(s) asked", log)
 
 
 if __name__ == "__main__":
