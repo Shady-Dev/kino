@@ -497,6 +497,15 @@
    },
    "tr": ""
   },
+  "chungking express": {
+   "img": "data/posters/1dea09ce4e9f3f4b.jpg",
+   "r": 8.0,
+   "s": {
+    "en": "",
+    "fi": "Chungking Express alkaa hysteerisen nopeilla, villisti kieppuvilla kuvilla. Blondiperuukkiin ja aurinkolaseihin naamioitunut kaunotar piilottaa heroiinia pakistanilaisten palkkakuriirien matkatavaroihin pahamaineisen Chungking Mansionin sokkeloissa, ja joutuu petoksen uhriksi. Samaan aikaan toisaalla: tyttöystävän hylkäämä Poliisi-223 polttaa murtunutta sydäntä molemmista päistä. Hän päättää rakastua ensimmäiseen naiseen joka astuu ovesta... Ja vielä: pikanuudelitiskin Faye iskee silmänsä toiseen poliisiin..."
+   },
+   "tr": "https://www.youtube.com/watch?v=P9Mxf_6pVA0"
+  },
   "colours of time": {
    "img": "data/posters/fc2c3c2a6ec52a3b.jpg",
    "r": 7.4,
@@ -855,6 +864,15 @@
     "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=YpGhCA2X3gU"
+  },
+  "happy together": {
+   "img": "data/posters/da46c880a093700a.jpg",
+   "r": 5.9,
+   "s": {
+    "en": "Christopher is an ambitious college freshman, striving to become a writer. Through a computer fault he's assigned the same room as Alex, a real party freak and... a girl! He's annoyed and tries to get a different room as soon as possible, but when he learns to know her, he also starts to like her. She not only improves his sexual life, but also his writing skills",
+    "fi": ""
+   },
+   "tr": ""
   },
   "heart of the beast": {
    "img": "data/posters/980bb19ce751c44c.jpg",
@@ -3371,6 +3389,7 @@
     "laitilankino",
     "leffabuumi",
     "savonkinot",
+    "sheryl",
     "star",
     "studio123jarvenpaa",
     "vaakuna"
@@ -3754,6 +3773,7 @@
     "kinopirtti",
     "leffabuumi",
     "savonkinot",
+    "sheryl",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
@@ -3841,7 +3861,8 @@
    "kr": "S",
    "krs": [
     "engel",
-    "kinomarilyn"
+    "kinomarilyn",
+    "sheryl"
    ],
    "r": 0,
    "s": {
@@ -4703,5 +4724,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-19"
+ "generated": "2026-09-20"
 }

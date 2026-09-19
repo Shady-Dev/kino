@@ -503,6 +503,13 @@
    "host": "moviecompanyalatalo.fi",
    "accent": "#6C9678",
    "book": "door"
+  },
+  {
+   "id": "sheryl",
+   "label": "Cinema Sheryl",
+   "host": "sheryl.fi",
+   "accent": "#9E60C2",
+   "book": "buy"
   }
  ]
 }

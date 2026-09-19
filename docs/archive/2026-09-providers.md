@@ -2381,3 +2381,48 @@ clears 14.4 in all four rows and reaches 5.0 anywhere.
 confirmed empty, all priced 10 €, 2 placeholder lines left out. Every row carries a TMDB id
 and a mirrored poster. `where="cloud"` on the 2026-09-18 sweep, which read this host from a
 non-residential address; the runner log settles it the way Bio Pallas's did.
+
+### Cinema Sheryl, Espoo: the fourth Kinola tenant, in two languages (2026-09-19)
+
+sheryl.fi, a student-run cinema in the Marsio building on the Aalto campus in Otaniemi.
+First of the five from the nytleffaan diff. An existing platform, so a `SITES` entry and a
+template rather than a parser.
+
+- **`listing: "/"`.** Its `/ohjelmisto/` answers 404 and the front page is where the
+  `kinola-event` blocks are, 71 of them when read.
+- **The listing localises and the film page does not.** With the Finnish header
+  `common.TEXT_HEADERS` always sends, the rows read `su, 20.09 15:00`; with no
+  accept-language at all they read `Sun, 20.09 15:00`. The first probe of this site used
+  curl without the header and saw English, the first real fetch saw Finnish and failed on
+  it, and that is how the negotiation was found. The pattern reads both: it costs one
+  alternation, and a site that answers in two languages can answer in either.
+  `_sheryl_weekday` tries `common.weekday_index` first, which places `su` and `ti`
+  whichever language they came from, and the English map covers the other five.
+- **The film page is in English whatever the listing said**: `<strong>Director</strong>`,
+  `Cast`, `Language`, `Subtitles`, in Laika's shape. `FILM_LABELS` was Finnish only, so
+  every one of the ten screenings classified `unresolved` and the site published nothing.
+  Adding `director` and `genre` is the same evidence in another language, not a widening
+  of the policy: `default_state` still never returns `non-film`.
+- **`_events_no_year` is now shared with Myyri** rather than copied a fourth time. Both
+  print no year and let the weekday select it; only the date pattern and the weekday
+  language differ.
+- **The ticket link is `/checkout/{uuid}`**, the same booking endpoint Myyri has, so the
+  showtime opens the film page. `Access and ethics` keeps this repo out of it.
+- Not read: `_lang` maps Finnish language names, and this tenant writes `Cantonese` and
+  `English`, so its rows carry no language tag. The synopsis is English and `syn_language`
+  files it there; one of the five film pages settled no language and was withheld.
+
+**Accent `#9E60C2`.** Espoo already held Finnkino and Kino Tapiola: 42.0 and 19.8 dE00 on
+the weakest of the three models, both clear of the 14.4 floor. Pääkaupunkiseutu is the
+crowded row where 14.4 is reachable for nothing -- its own minimum is 4.479, Bio Grand
+against BioRex -- so the binding rule there is not lowering it, and this sits 8.19 from its
+nearest in that row. Four of its fifteen new region pairs fall below the floor, which takes
+the repository count from 14 of 170 to 18 of 185, for the reason Kino Myyri's entry already
+records. 5.5 from its nearest accent anywhere, Savon Kinot, which shares no view with
+Espoo. L* 51.3, saturation 0.51.
+
+**First run, from an ordinary connection:** 10 showtimes over 4 dates, 5 film pages read, 0
+unresolved, 0 failures. Checked against the cinema's own front page the same minute: the
+same ten rows, same titles, same times, a mirrored poster and a TMDB id on every one.
+`where="local"` on the instruction of the day, to be revisited if a committed runner log
+proves otherwise; the three other Kinola tenants stay cloud and routing is per site.

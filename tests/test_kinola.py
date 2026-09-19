@@ -113,6 +113,49 @@ FILTERS = ('<div class="kinola-filters"><form class="kinola-filters-form"><selec
            'Kaikki elokuvat</option></select></form></div>')
 
 
+SHERYL = next(s for s in K.SITES if s["provider"] == "sheryl")
+EN_WD = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+
+
+def sheryl_row(slug, title, when, time="15:00", poster=True, date=None, lang="fi"):
+    """Sheryl's block is Myyri's with a different date string and a `-buy` ticket class.
+
+    `lang` picks which of the two the site serves: it localises the weekday to whatever
+    `accept-language` asks for, and the pipeline always asks for Finnish.
+    """
+    if date is None:
+        wd = (FI_WD if lang == "fi" else EN_WD)[when.weekday()]
+        date = f"{wd}, {when.day:02d}.{when.month:02d} {time}"
+    img = (f'<a href="https://sheryl.fi/film/{slug}/"><img decoding="async" '
+           f'class="kinola-event-poster" src="https://media.kinola.ee/storage/'
+           f'sheryl.kinola.ee/891/{slug}_poster.jpg?width=1000&quality=85" /></a>'
+           if poster else "")
+    return (f'<div class="kinola-event kinola-thumbnail">{img}'
+            f'<div class="kinola-event-details">'
+            f'<span class="kinola-event-date">{date}</span>'
+            f'<a class="kinola-event-title" href="https://sheryl.fi/film/{slug}/">'
+            f'{title}</a>'
+            f'<span class="kinola-event-tickets"><a class="kinola-event-tickets-link-buy" '
+            f'href="https://sheryl.fi/checkout/0112a866-2646-4310-b698-a6e5b1b84666">'
+            f'Buy</a></span></div></div>')
+
+
+def sheryl_film(director="Wong Kar-wai", rating="K-12", syn=None):
+    """Sheryl's film page: Laika's `<strong>Label</strong><br>value` shape with the labels
+    in English, which is what the site serves whatever language the listing came back in.
+    Read 2026-09-19 on sheryl.fi/film/chungking-express-2/."""
+    syn = SYN_EN_TEXT if syn is None else syn
+    parts = [f"<p>{syn}</p>", "<strong>Chungking Express</strong><br>"]
+    if director:
+        parts.append(f"<strong> Director </strong><br> {director} <br><br>")
+    parts.append("<strong> Cast </strong><br> Brigitte Lin <br><br>")
+    parts.append("<strong> Language </strong><br> Cantonese <br><br>")
+    head = f"102 min <br><br> {rating}" if rating else "102 min"
+    return ('<html><body><section class="kinola-film-meta">'
+            + f'<div class="film-head">{head}</div>' + "".join(parts)
+            + "</section></body></html>")
+
+
 def listing(*rows):
     return ("<html><body>" + FILTERS + '<div class="kinola-events">'
             + "".join(rows) + "</div></body></html>")
@@ -1017,10 +1060,15 @@ class RunnerTest(unittest.TestCase):
             return body.encode("utf-8")
         K.fetch = fetch
 
-    def main(self, which="kinola"):
+    def main(self, which="kinola", half="cloud"):
+        """`--half cloud` by default: the three tenants these tests were written for are
+        cloud and Cinema Sheryl is local, so without it every test here would also fetch
+        sheryl.fi and the stub would raise on a URL it was never given. Explicit rather
+        than inherited from the environment, which decides the half differently on Actions
+        than on a laptop."""
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main([which])
+            code = run.main([which, "--half", half])
         return code, out.getvalue() + err.getvalue()
 
     def both(self, **over):
@@ -1242,6 +1290,28 @@ class RunnerTest(unittest.TestCase):
                             for s in shows))
         self.assertEqual([c for c in self.calls if "checkout" in c], [])
 
+    def test_sheryl_publishes_on_the_local_half(self):
+        """The fourth tenant is the only local one, so it is the half these three are not
+        run on. `--half local` is what the wrapper outside this repository passes."""
+        pages = {
+            "https://sheryl.fi/": listing(
+                sheryl_row("chungking", "Chungking Express", self.soon(1)),
+                sheryl_row("resident-evil", "Resident Evil", self.soon(2), time="19:00")),
+            "https://sheryl.fi/film/chungking/": sheryl_film(),
+            "https://sheryl.fi/film/resident-evil/": sheryl_film(director="Zach Cregger"),
+        }
+        self.serve(pages)
+        code, log = self.main(half="local")
+        self.assertEqual(code, 0, log)
+        shows = json.loads((run.OUT / "area-sheryl-espoo.json").read_text())["shows"]
+        self.assertEqual([s["title"] for s in shows],
+                         ["Chungking Express", "Resident Evil"])
+        self.assertEqual([s["url"] for s in shows],
+                         ["https://sheryl.fi/film/chungking/",
+                          "https://sheryl.fi/film/resident-evil/"])
+        self.assertEqual([c for c in self.calls if "checkout" in c], [])
+        self.assertNotIn("kinokilta.fi", " ".join(self.calls))
+
     def test_the_synopsis_is_published_under_the_language_it_is_written_in(self):
         self.serve(self.both())
         self.assertEqual(self.main()[0], 0)
@@ -1311,8 +1381,10 @@ class RegistryTest(unittest.TestCase):
     def test_each_site_names_the_host_it_reads_and_they_are_paced_apart(self):
         self.assertEqual([s["base"] for s in K.SITES],
                          ["https://www.kinokilta.fi", "https://www.kinolaika.fi",
-                          "https://kinomyyri.fi"])
-        self.assertEqual(len(run.host_groups(K.SITES)), 3)
+                          "https://kinomyyri.fi", "https://sheryl.fi"])
+        # Four hosts, four groups: every tenant is its own WordPress, so nothing here
+        # shares a server and the pacing is per site.
+        self.assertEqual(len(run.host_groups(K.SITES)), 4)
 
     def test_orion_still_reads_the_third_template_and_is_untouched(self):
         """One platform, two modules. Orion's own table is not this module's business."""
@@ -1324,6 +1396,94 @@ class RegistryTest(unittest.TestCase):
         mods = {registry.by_id(p)["module"]
                 for p in ("kinokilta", "kinolaika", "kinomyyri")}
         self.assertEqual(mods, {"kinola"})
+
+
+class SherylTemplateTest(unittest.TestCase):
+    """The fourth tenant: the same block as Myyri, a different date string, and a film
+    page whose labels are in English.
+
+    The site localises its listing to whatever `accept-language` asks for. Read
+    2026-09-19: the Finnish header `common.TEXT_HEADERS` always sends gives `su, 20.09
+    15:00`, no header gives `Sun, 20.09 15:00`. The pipeline only ever sees the first; the
+    second is read too, and both are pinned here because both were served.
+    """
+
+    TODAY = datetime.date(2026, 9, 19)
+
+    def rows(self, *rows, today=None):
+        return K.events_sheryl(listing(*rows), SHERYL, today or self.TODAY)
+
+    def test_the_finnish_weekday_the_pipeline_asks_for_places_the_row(self):
+        [row] = self.rows(sheryl_row("chungking", "Chungking Express",
+                                     datetime.date(2026, 9, 20)))
+        self.assertEqual(row["start"], "2026-09-20T15:00:00+03:00")
+        self.assertEqual(row["title"], "Chungking Express")
+
+    def test_the_english_weekday_places_the_same_row(self):
+        [row] = self.rows(sheryl_row("chungking", "Chungking Express",
+                                     datetime.date(2026, 9, 20), lang="en"))
+        self.assertEqual(row["start"], "2026-09-20T15:00:00+03:00")
+
+    def test_every_weekday_of_the_week_resolves_in_both_languages(self):
+        """`weekday_index` answers for `su` and `ti` whichever language they came from and
+        None for the other five English ones, which is what the English map is for."""
+        for i in range(7):
+            when = datetime.date(2026, 9, 21) + datetime.timedelta(days=i)
+            for lang in ("fi", "en"):
+                with self.subTest(day=when.isoformat(), lang=lang):
+                    [row] = self.rows(sheryl_row("a", "A", when, lang=lang),
+                                      today=datetime.date(2026, 9, 19))
+                    self.assertEqual(row["start"][:10], when.isoformat())
+
+    def test_an_english_weekday_is_read_and_not_merely_ignored(self):
+        """The fallback has to be doing work, not sitting unused beside dates the nearest
+        occurrence would have placed anyway.
+
+        `01.01` read on 2026-09-19 has exactly one candidate inside the window, 2027-01-01,
+        a Friday 104 days out. `Sat` belongs to 2028, 469 days out and outside it, so a
+        parser that reads the English name raises and one that drops it to None takes the
+        nearest occurrence and publishes the wrong year. `Fri` is the control.
+        """
+        [row] = self.rows(sheryl_row("a", "A", None, date="Fri, 01.01 18:00"))
+        self.assertEqual(row["start"][:10], "2027-01-01")
+        with self.assertRaises(K.ListingRowError):
+            self.rows(sheryl_row("a", "A", None, date="Sat, 01.01 18:00"))
+
+    def test_a_weekday_that_fits_no_candidate_year_raises(self):
+        with self.assertRaises(K.ListingRowError):
+            self.rows(sheryl_row("a", "A", None, date="ma, 20.09 15:00"))
+
+    def test_a_date_this_parser_cannot_read_raises_rather_than_dropping_a_screening(self):
+        with self.assertRaises(K.ListingRowError):
+            self.rows(sheryl_row("a", "A", None, date="joskus ensi viikolla"))
+
+    def test_the_showtime_opens_the_film_page_and_never_the_checkout(self):
+        [row] = self.rows(sheryl_row("chungking", "C", datetime.date(2026, 9, 20)))
+        self.assertEqual(row["url"], "https://sheryl.fi/film/chungking/")
+        self.assertNotIn("checkout", row["url"])
+
+    def test_the_listing_poster_is_read(self):
+        [a, b] = self.rows(sheryl_row("a", "A", datetime.date(2026, 9, 20)),
+                           sheryl_row("b", "B", datetime.date(2026, 9, 20), time="17:00",
+                                      poster=False))
+        self.assertTrue(a["img"].startswith("https://media.kinola.ee/storage/sheryl"))
+        self.assertEqual(b["img"], "")
+
+
+class SherylClassifierTest(unittest.TestCase):
+    """An English `Director` is the same evidence as a Finnish `Ohjaus`."""
+
+    def test_an_english_director_label_classifies_the_page_as_a_film(self):
+        facts = K.film_facts(sheryl_film())
+        self.assertEqual(K.default_state(facts), K.FILM)
+
+    def test_a_page_with_no_director_or_genre_stays_unresolved(self):
+        """Never `non-film`: this module does not identify a live act by itself."""
+        facts = K.film_facts(sheryl_film(director=""))
+        self.assertEqual(K.default_state(facts), K.UNRESOLVED)
+
+    def test_the_finnish_vocabulary_still_classifies(self):
+        self.assertEqual(K.default_state(K.film_facts(laika_film())), K.FILM)
 
 
 if __name__ == "__main__":

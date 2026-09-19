@@ -560,6 +560,21 @@ PROVIDERS = [
     # in the band clears 14.4 in all four rows and reaches 5.0 anywhere.
     dict(id="alatalo", label="Movie Company Alatalo", host="moviecompanyalatalo.fi",
          accent="#6C9678", book="door", module="alatalo", where="cloud"),
+    # Cinema Sheryl, 2026-09-19. A student-run cinema on the Aalto campus in Otaniemi and
+    # the fourth tenant on `kinola.py`; the plugin runs in English there, which is the only
+    # thing its template reads differently. `book="buy"`: every screening links to its film
+    # page, which carries the buy button, the same call Kino Myyri's `/checkout/{uuid}`
+    # got. Local until a committed run log proves otherwise, per the instruction of the
+    # day; the three other Kinola tenants are cloud and routing is per site.
+    # Espoo already holds Finnkino and Kino Tapiola, so this enters that city view and the
+    # Pääkaupunkiseutu row. Measured: 42.0 dE00 against Finnkino and 19.8 against Kino
+    # Tapiola on the weakest of the three models, both clear of 14.4. Pääkaupunkiseutu is
+    # the crowded row and 14.4 is not reachable in it for any colour -- its own minimum is
+    # 4.479, Bio Grand against BioRex -- so the binding rule there is not lowering it: this
+    # sits 8.19 from its nearest in that row, well above. 5.5 from its nearest accent
+    # anywhere, Savon Kinot, which shares no view with Espoo. L* 51.3, saturation 0.51.
+    dict(id="sheryl", label="Cinema Sheryl", host="sheryl.fi",
+         accent="#9E60C2", book="buy", module="kinola", where="local"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 123 venues in 89 cities across 72 providers: Finnkino, BioRex,
+Showtimes for 124 venues in 89 cities across 73 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -18,8 +18,8 @@ Kino-Toijala, Kino-Sampo, KinoMania, Elokuvateatteri Elo, Julia 1&2, Bio-Kaari,
 Kino Vaakuna, Kuvakukko, Kino Kirkkonummi, Bio Savoy, Cine Mäntsälä, Kino Kilta,
 Kino Laika, Kino Myyri, Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Ritz Vaasa,
 Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita, Lieksan Kino,
-Navettakino, Pyhäsalmen VPK, Bio Pallas, Elokuvateatteri Huvimylly and Movie
-Company Alatalo. Films with posters, TMDB ratings, age limits, runtimes, genres,
+Navettakino, Pyhäsalmen VPK, Bio Pallas, Elokuvateatteri Huvimylly, Movie Company
+Alatalo and Cinema Sheryl. Films with posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
 page where the cinema takes seat reservations rather than payment, or the ticket
@@ -74,7 +74,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino Kirkkonummi | 1 | 1 | none | GitHub Actions |
 | Bio Savoy | 1 | 1 | none | GitHub Actions |
 | Cine Mäntsälä (MyCloudCinema) | 1 | 1 | none | GitHub Actions |
-| Kinola (Kilta, Laika, Myyri) | 3 | 3 | none | GitHub Actions |
+| Kinola (Kilta, Laika, Myyri, Sheryl) | 4 | 4 | none | GitHub Actions; Sheryl local |
 | Johku storefront | 4 | 4 | none | GitHub Actions |
 | The Events Calendar | 2 | 2 | none | GitHub Actions |
 | Kino Hamina | 1 | 1 | none | GitHub Actions |
@@ -239,7 +239,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-139 per language, 279 sitemap URLs: 123 venues plus the sixteen cities with more
+140 per language, 281 sitemap URLs: 124 venues plus the sixteen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -299,7 +299,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 72 providers listed at the
+Schedule data belongs to the respective cinemas, the 73 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

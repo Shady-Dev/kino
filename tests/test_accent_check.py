@@ -318,9 +318,17 @@ class ReportRankingTest(unittest.TestCase):
         # pairs sit at 10.1 and 10.8, and the registry entry and the IDEAS entry both
         # record why. The city floor is untouched, which is the invariant the test above
         # holds, and the regional minimum is still 4.5.
-        self.assertEqual(len(rows), 170)
-        self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 14)
-        self.assertIn(f"14 of 170 pairs are below {A.FLOOR}", self.report())
+        #
+        # 185 from 2026-09-19: Cinema Sheryl joined Espoo beside Finnkino and Kino Tapiola
+        # and Pääkaupunkiseutu beside eleven more (+15). Four of the fifteen are below the
+        # floor and all four are in that region -- Kino Myyri 8.2, Kino Engel 8.3, BioRex
+        # 8.3, Bio Grand 9.0 -- for the reason Myyri's entry above already records: no
+        # colour in the L* band clears 14.4 against that row. Its two Espoo pairs are 19.8
+        # and 42.0, so the city floor is untouched, and the regional minimum is still the
+        # 4.479 of Bio Grand against BioRex, which this accent does not lower.
+        self.assertEqual(len(rows), 185)
+        self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 18)
+        self.assertIn(f"18 of 185 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

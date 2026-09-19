@@ -198,6 +198,15 @@ SITES = [
      "listing": "/ohjelmisto/", "template": "myyri", "declare_syn": True,
      "venues": [{"id": "myyri-vantaa", "name": "Kino Myyri", "short": "Kino Myyri",
                  "city": "Vantaa"}]},
+    # Added 2026-09-19. A student-run cinema on the Aalto campus in Otaniemi, and the
+    # fourth tenant of this platform. `listing: "/"`: its `/ohjelmisto/` answers 404 and
+    # the front page is where the `kinola-event` blocks are, 71 of them when read. The
+    # plugin runs in English here, which is what `sheryl` template reads; everything else
+    # is Myyri's, including the `/checkout/{uuid}` link this repo does not publish.
+    {"provider": "sheryl", "label": "Cinema Sheryl", "base": "https://sheryl.fi",
+     "listing": "/", "template": "sheryl", "declare_syn": True,
+     "venues": [{"id": "sheryl-espoo", "name": "Cinema Sheryl", "short": "Cinema Sheryl",
+                 "city": "Espoo"}]},
 ]
 
 # `resolve_year`'s (behind, ahead) for Myyri. Its listing reached 42 days ahead on
@@ -207,7 +216,12 @@ MYYRI_WINDOW = (30, 120)
 
 # The label whose presence is film evidence. Not the runtime and not the classification:
 # see the module docstring, Laika's live acts carry both.
-FILM_LABELS = ("ohjaaja", "ohjaus", "lajityyppi")
+# The labels whose presence makes a page a film. English ones because Cinema Sheryl's
+# film pages are written in English -- `Director`, `Cast`, `Language`, `Subtitles` -- while
+# its listing localises to whatever `accept-language` asks for. `labels()` lowercases the
+# key and already reads the `<strong>` shape those pages use, so the vocabulary is the only
+# thing that had to grow. Read 2026-09-19 on sheryl.fi/film/chungking-express-2/.
+FILM_LABELS = ("ohjaaja", "ohjaus", "lajityyppi", "director", "genre")
 
 # The policy's three states. NON_FILM is never a runtime verdict; it is what an
 # evidence-backed exclusion asserts.
@@ -247,6 +261,29 @@ LAIKA_DATE_RE = re.compile(r'(\d{1,2})/(\d{1,2})/(\d{4})\s+(\d{1,2})[:.](\d{2})'
 # `resolve_year`, which returns None when no candidate carries that weekday.
 MYYRI_DATE_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s*'
                            r'klo\s*(\d{1,2})[:.](\d{2})', re.I)
+# `su, 20.09 15:00`. Myyri's "no year, the weekday selects it" shape with a comma, no
+# trailing dot on the month and no `klo`.
+#
+# **This site answers in two languages and the weekday is the part that changes.** Read
+# 2026-09-19: with `accept-language: fi-FI,fi;q=0.9`, the header `common.TEXT_HEADERS`
+# always sends, the rows read `su, 20.09 15:00`; with no such header they read
+# `Sun, 20.09 15:00`. The pipeline therefore only ever sees the Finnish form, and the
+# English one is read as well because it costs one alternation and the first probe of this
+# site saw it. Longer alternatives first: `su` is a prefix of `sun`.
+SHERYL_DATE_RE = re.compile(r'\b(mon|tue|wed|thu|fri|sat|sun|ma|ti|ke|to|pe|la|su),\s*'
+                            r'(\d{1,2})\.(\d{1,2})\s+(\d{1,2})[:.](\d{2})', re.I)
+EN_WEEKDAYS = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
+
+
+def _sheryl_weekday(name):
+    """Finnish first, then English. -> index, or None.
+
+    `common.weekday_index` reads the first two characters against the Finnish names, so it
+    answers for `su` and `ti` whichever language they came from, and None for `mon`, `wed`,
+    `thu`, `fri` and `sat`, which the English map then places.
+    """
+    fi = weekday_index(name)
+    return fi if fi is not None else EN_WEEKDAYS.get((name or "").strip().lower()[:3])
 MIN_RE = re.compile(r'(\d{1,3})\s*min\b', re.I)
 # `2 h 30 min` on Myyri's pages, `106 min` on the other two. `MIN_RE` alone takes the 30
 # out of the first and publishes a 150 minute film as 30. Checked against the committed
@@ -415,23 +452,25 @@ def events_laika(page, site):
     return out
 
 
-def events_myyri(page, site, today=None):
-    """The same contract as the other two: a block yields a row or raises.
+def _events_no_year(page, site, today, date_re, weekday):
+    """The body Myyri and Sheryl share: a block yields a row or raises.
 
-    The row prints no year, so the weekday selects it through `resolve_year`. A weekday no
-    candidate year carries, or a date outside `MYYRI_WINDOW`, raises: a block this parser
-    cannot place is a screening it would otherwise drop.
+    Neither row prints a year, so the weekday selects it through `resolve_year`. A weekday
+    no candidate year carries, or a date outside `MYYRI_WINDOW`, raises: a block this
+    parser cannot place is a screening it would otherwise drop.
 
-    The ticket link is `/checkout/{uuid}`, a booking endpoint, which "Access and ethics"
-    in CLAUDE.md keeps this repo out of. The showtime opens the film page, which is public
-    and carries each screening's own buy button. The sold-out marker is still read.
+    Both ticket links are `/checkout/{uuid}`, a booking endpoint, which "Access and
+    ethics" in CLAUDE.md keeps this repo out of. The showtime opens the film page, which
+    is public and carries each screening's own buy button. The sold-out marker is still
+    read. `weekday` maps the row's own weekday name to an index, because the two templates
+    print it in different languages.
     """
     today = today or datetime.datetime.now(FI).date()
     out = []
     for n, b in enumerate(blocks(page)):
         title, slug, film_url = _title_and_slug(b, site["base"])
         dtxt = _one(SPAN_CLASS_RE, "kinola-event-date", b)
-        d = MYYRI_DATE_RE.search(dtxt)
+        d = date_re.search(dtxt)
         if not title:
             raise _row_fault(site, n, "title link")
         if not slug:
@@ -439,7 +478,7 @@ def events_myyri(page, site, today=None):
         if not d:
             raise _row_fault(site, n, "date", dtxt, title)
         day, month = int(d.group(2)), int(d.group(3))
-        year = resolve_year(day, month, today, weekday_index(d.group(1)), MYYRI_WINDOW)
+        year = resolve_year(day, month, today, weekday(d.group(1)), MYYRI_WINDOW)
         if year is None:
             raise _row_fault(site, n, "year the weekday and date agree on", dtxt, title)
         try:
@@ -458,7 +497,16 @@ def events_myyri(page, site, today=None):
     return out
 
 
-TEMPLATES = {"kilta": events_kilta, "laika": events_laika, "myyri": events_myyri}
+def events_myyri(page, site, today=None):
+    return _events_no_year(page, site, today, MYYRI_DATE_RE, weekday_index)
+
+
+def events_sheryl(page, site, today=None):
+    return _events_no_year(page, site, today, SHERYL_DATE_RE, _sheryl_weekday)
+
+
+TEMPLATES = {"kilta": events_kilta, "laika": events_laika, "myyri": events_myyri,
+             "sheryl": events_sheryl}
 
 
 def syn_value(site, text):

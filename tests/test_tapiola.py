@@ -354,7 +354,9 @@ class RegistryAndPagesTest(unittest.TestCase):
         city = (ROOT / "kaupunki" / "espoo" / "index.html").read_text(encoding="utf-8")
         self.assertIn("Kino Tapiola", city)
         self.assertIn("chain-tapiola", city)
-        self.assertIn("3 teatteria", city)
+        # Four from 2026-09-19, when Cinema Sheryl joined Otaniemi beside the two
+        # Finnkinos and this one.
+        self.assertIn("4 teatteria", city)
 
 
 if __name__ == "__main__":
