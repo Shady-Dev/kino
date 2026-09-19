@@ -21,5 +21,5 @@
 [run] http: 0 revalidated (304), 37 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
 [run] johku: 4 venues, 54 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 96.6s of fetching added up across workers that overlap, longest site 34.3s, longest queue wait 112.7s, 39.1s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 87.2s of fetching added up across workers that overlap, longest site 31.7s, longest queue wait 93.8s, 31.7s wall from this module's first fetch starting to its last ending
 exit=0
