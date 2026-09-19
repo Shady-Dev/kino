@@ -1228,6 +1228,42 @@ Live as `scripts/providers/vpk.py`, one provider, one venue, cloud half. Next st
 from the committed log after a run.
 
 
+## Why Huvimylly's own poster images are not published (2026-09-19)
+
+Read 2026-09-19 off the live page and eleven Wayback captures of huvimylly.com between
+2023-05-28 and 2026-04-11. Written down because the decision looks like a gap and is not
+one, and because the obvious "fix" is the thing that would break it.
+
+**What the site gives.** The posters sit in their own `<li>` after all the screening rows,
+`alt=""` on every one, no link, no title, and no attribute tying an image to a row. The
+`src` is `http://` while the `srcset` entries are `https://`. Full sizes on 2026-09-19 were
+800x1143, 800x1142, 800x1200 and 800x1131, all portrait.
+
+**Why position cannot pair them.** On 2026-09-19 the four happen to fall in row order with
+filename slugs that match. On the 2026-02-17 capture they do not: the images run `vin`,
+`lm`, `humiseva-harju`, `kaija`, `otso` against rows Vinski 2, Kaija Koo, Luottomies,
+Humiseva Harju, Otso Karu. The filenames are hand-abbreviated and key back to nothing
+(`lm` for Luottomies, `vin` for Vinski). Across the eleven captures the image count
+disagrees with the row count in both directions, and twice a landscape still is used as a
+poster (`mission-300x169.jpg`, `ohjus.jpg` at 300x168).
+
+**What is published instead, measured on the live site 2026-09-19 after the first run.**
+All four showtimes carry a mirrored portrait poster from the shared TMDB pass:
+`data/posters/{9bcaf7ef167a0f8f,3630a8c5eeb607ff,a8cdd21dca604433,133d5c0758982817}.jpg`,
+each 342x513, each answering 200 from this origin, 0 off-origin references. **There is no
+initials tile on this cinema**, which is worth stating plainly because a "no poster from
+the site" decision reads as if there were.
+
+**The trap this section exists for.** The way to lose this is to pair the site's images to
+the rows by position, which looks right on any single reading and puts another film's
+poster on a row on the next one. That is the same failure class as a weak TMDB match and
+is worse than a blank tile. If the cinema ever gives its images an `alt`, a link or a
+title, the pairing becomes readable and the decision can be revisited on that evidence.
+
+**Status.** Settled, not open. The adapter's docstring and the dated record in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md) carry the same call;
+this is where the measurement behind it lives.
+
 ## Kinotour's towns are more than the three declared (2026-09-19)
 
 **Findings** (read once as a visitor from an ordinary connection, 2026-09-19)
