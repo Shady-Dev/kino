@@ -611,7 +611,7 @@ def merge_extra(cache, today):
             e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
         if not e.get("tr") and c.get("v"):
             e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
-    common.write_json(EXTRA, {"generated": today, "films": films})
+    common.write_films_extra(EXTRA, {"generated": today, "films": films})
 
 
 def merge_shared(shared, today):
@@ -636,7 +636,7 @@ def merge_shared(shared, today):
     for k, v in shared.items():
         e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
         e["kr"], e["krs"] = v["kr"], v["krs"]
-    common.write_json(EXTRA, {"generated": today, "films": films})
+    common.write_films_extra(EXTRA, {"generated": today, "films": films})
 
 
 def flush(cache, today):

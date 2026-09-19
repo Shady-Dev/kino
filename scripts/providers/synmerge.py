@@ -183,7 +183,7 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
                     per_lang[lang] = per_lang.get(lang, 0) + 1
                     added += 1
         doc["films"] = films
-        common.write_json(path, doc)
+        common.write_films_extra(path, doc)
     print(f"[{label}] synopses merged: {added}")
     if len(per_lang) > 1 or set(per_lang) - {LEGACY_LANG}:
         print(f"[{label}] synopses by language: "

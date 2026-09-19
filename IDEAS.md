@@ -60,24 +60,6 @@ Built 2026-09-19.
   from the cinema's own page.
 - **Next action:** read the four run logs; the local snapshot carries no TMDB field yet.
 
-### films-extra.json is one line, and both halves rewrite it
-
-`biorex.yml` pushes with `pull --rebase` and three retries, deliberately without
-`-X theirs`. `data/films-extra.json` is 333 kB on one line, written by three writers and
-rewritten by both halves; a one-line file cannot content-merge, so a local push landing
-mid-run fails all three attempts identically and the cloud run's whole commit is lost.
-**Measured 2026-09-19, no occurrence found.** Of 27 recorded failures of the fetch
-workflow, 24 were the provider gate, which runs after the commit, and three the commit
-step: 2026-08-26 and twice on 2026-08-30, all before `ref: main` and `rebase --abort`
-landed on 2026-08-31. None since. No committed `run-cloud.log` carries "could not push",
-which is weak evidence: a run dying at the push commits no log. The exposure is real, the
-local half committing three to five minutes before each cloud commit by design.
-**Candidate fix, not implemented:** emit the file with `indent=1, sort_keys=True` in all
-three writers in one commit, so unrelated keys rebase cleanly, with a test that the three
-agree byte for byte. Cost: the file grows and `write_if_changed` must stay deterministic.
-**Next action:** the maintainer's. It changes what both halves publish and the wrapper
-outside this repo may assume the shape.
-
 ### Helsinki is full at eight chains, and the next cinema there raises it again
 
 No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on

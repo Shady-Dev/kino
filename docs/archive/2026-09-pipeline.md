@@ -1717,3 +1717,40 @@ address the origin declined that afternoon.
 What the episode did leave behind is `common.served`, which records how many bytes came
 back and what the document calls itself, so a missing marker can no longer be reported as
 a changed template. That is the entry "A guard states what it observed" and it stands.
+
+---
+
+## films-extra.json is one line, and both halves rewrite it
+**Built 2026-09-19.** `biorex.yml` pushes with `pull --rebase` and three retries,
+deliberately without `-X theirs`. `data/films-extra.json` was 346 kB on one line, written
+by three passes and rewritten by both halves within the few minutes that separate their
+commits; a one-line file cannot content-merge, so a local push landing mid-run fails all
+three attempts identically and the cloud run's whole commit is lost with it.
+
+Measured 2026-09-19 before the change, and **no occurrence was found**. Of 27 recorded
+failures of the fetch workflow, 24 were the provider gate, which runs after the commit,
+and three the commit step: 2026-08-26 and twice on 2026-08-30, all before `ref: main` and
+`rebase --abort` landed on 2026-08-31. None since. No committed `run-cloud.log` carries
+"could not push", which is weak evidence on its own: a run dying at the push commits no
+log. The exposure was structural rather than observed, the local half committing three to
+five minutes before each cloud commit by design, and it recurs with every simultaneous
+pair of halves.
+
+**What was built.** One emitter, `common.write_films_extra`, with `indent=1`,
+`sort_keys=True`, `ensure_ascii=False` and a trailing newline, used by all three writers:
+`synmerge.merge`, `enrich_tmdb.merge_extra` and `merge_shared`, and `mirror_posters`. A
+shared function rather than three call sites passing the same keywords, because three
+copies of a keyword pair is the shape that drifts.
+`tests/test_films_extra_format.py` drives two of the three writers for real and compares
+their bytes with the emitter's, and holds the committed file to the same output, which is
+what catches the third.
+
+**Cost, measured.** 346 351 bytes on one line becomes 361 666 over 4370 lines, 4.4%
+larger. `sort_keys` makes the order a function of the content rather than of whichever
+pass wrote it last, so the emitter stays deterministic. The generated pages are unchanged
+by it: `build_pages.py` reads the file's content, and the content did not move.
+
+**What was checked outside this repo.** The local wrapper does not parse this file. It
+stages it with the rest of `data/` and, on a conflict in it, refuses to resolve one
+unattended rather than picking a side, which would drop a synopsis. That behaviour is
+still correct and needed no change; one key per line only makes the conflict rarer.

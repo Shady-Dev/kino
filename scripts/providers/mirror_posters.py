@@ -215,7 +215,7 @@ def main() -> int:
                     changed = True
                     rewritten += 1
         if changed:
-            common.write_json(extra_path, extra)
+            common.write_films_extra(extra_path, extra)
             files += 1
 
     total = sum(p.stat().st_size for p in POSTER_DIR.glob("*.jpg"))

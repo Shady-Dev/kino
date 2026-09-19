@@ -813,6 +813,32 @@ def write_text_atomic(path, text):
 def write_json(path, obj, **dumps_kw):
     write_text_atomic(path, json.dumps(obj, ensure_ascii=False, **dumps_kw))
 
+
+# data/films-extra.json is one file for the whole run, written by three passes and
+# rewritten by both halves within the few minutes that separate their commits. Emitted as
+# one line it cannot content-merge: a local push landing mid-run fails `pull --rebase` on
+# it, fails the same way all three attempts, and the cloud run's whole commit is lost. One
+# key per line lets git rebase unrelated keys cleanly, and `sort_keys` makes the order a
+# function of the content rather than of whichever pass wrote it last, so two halves that
+# added different films produce a diff git can reconcile instead of two whole-file
+# rewrites. Measured 2026-09-19: 346 kB on one line becomes 362 kB over 4370 lines, 4.4%.
+#
+# The trailing newline is for the same reader: without it every append rewrites the last
+# line and git reports "\ No newline at end of file" on both sides of it.
+FILMS_EXTRA_FORMAT = {"indent": 1, "sort_keys": True}
+
+
+def write_films_extra(path, doc):
+    """The one emitter for data/films-extra.json, used by all three of its writers.
+
+    A shared function rather than three call sites passing the same keywords: the point of
+    the format is that the three agree byte for byte, and three copies of a keyword pair
+    is exactly the shape that drifts. `tests/test_films_extra_format.py` asserts the
+    agreement rather than trusting it.
+    """
+    write_text_atomic(path, json.dumps(doc, ensure_ascii=False,
+                                       **FILMS_EXTRA_FORMAT) + "\n")
+
 # The publication horizon a source is allowed to reach, as (days behind, days ahead).
 # There is no universal right answer, so each caller passes its own and records what it
 # measured. This default is the one the three sources using this helper were measured at on
