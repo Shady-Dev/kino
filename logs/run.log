@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-19: 438 showtimes
+[schedule] 2026-09-19: 324 showtimes
 [schedule] 2026-09-20: 417 showtimes
 [schedule] 2026-09-21: 338 showtimes
 [schedule] 2026-09-22: 335 showtimes
@@ -9,10 +9,10 @@
 [schedule] 2026-09-25: 32 showtimes
 [tmdb] dropped 3 entries matched by the old picker
 [tmdb] no TMDB match (2): Ooppera: 20 Years of the Met in Cinemas | Salatut elämät 5000 -erikoisnäytös
-[tmdb] weak match, no exact title (3): Avengers: Endgame Encore -> Avengers: Endgame | Lyhyt rakkaustarina -> Breve storia d'amore | NCT 127 5TH TOUR ‘NEO CITY : SEOUL - THE -> NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS
-[tmdb] 3 new lookups, 0 re-checks, cache 74, 66 mergeable by id
+[tmdb] weak match, no exact title (2): Lyhyt rakkaustarina -> Breve storia d'amore | NCT 127 5TH TOUR ‘NEO CITY : SEOUL - THE -> NCT 127 5TH TOUR ‘NEO CITY  SEOUL - THE REDLINE’ in CINEMAS
+[tmdb] 3 new lookups, 0 re-checks, cache 74, 67 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 54 film entries
+[films] 53 film entries
 [attrs] dropped, neither format nor language (8): Erikois | IV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 1103: no shows and nothing left ahead in the kept file, publishing it empty
 [schedule] 17 venue files written, 0 kept as-is
