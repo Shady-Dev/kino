@@ -426,12 +426,13 @@
    "tr": "https://www.youtube.com/watch?v=xD6JMxOGBLQ"
   },
   "bussipysäkki": {
-   "r": 0,
+   "img": "data/posters/c3b53867b10435c0.jpg",
+   "r": 6.1,
    "s": {
-    "en": "",
+    "en": "Cowboys Beauregard Decker and Virgil Blessing attend a rodeo in Phoenix, where Decker falls in love with beautiful cafe singer Cherie. He wants to take Cherie back to his native Montana and marry her, but she dreams of traveling to Hollywood and becoming famous. When she resists his advances, Decker forces Cherie onto the bus back to Montana with him, but, when the bus makes an unscheduled stop due to bad weather, the tables are turned.",
     "fi": "Bussipysäkki"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=4Qi9C7w7LuM"
   },
   "by any means": {
    "img": "data/posters/efe1d1b934e3c490.jpg",
@@ -470,12 +471,13 @@
    "tr": "https://www.youtube.com/watch?v=zbdIXI1s3aU"
   },
   "casablanca": {
-   "r": 0,
+   "img": "data/posters/6912a768274c5267.jpg",
+   "r": 8.1,
    "s": {
     "en": "",
     "fi": "Täydellinen esimerkki studiokauden tarinankerronnasta ja Ingrid Bergmanin tähteyden kirkkaimmista hetkistä yhdistää sodan varjon, intohimon ja kohtalon huippuunsa hiottuun draamaan. Bergmanin Ilsa on yhtä aikaa arvoituksellinen ja syvästi inhimillinen rakkauden ja velvollisuuden ristipaineessa. Hänen ja Humphrey Bogartin välinen jännite luo ikonisia hetkiä, jotka tekevät tästä elokuvahistorian merkkipaalusta ikimuistoisen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=MF7JH_54d8c"
   },
   "casino royale": {
    "img": "data/posters/b0d1623bd56ac751.jpg",
@@ -1033,17 +1035,19 @@
    "tr": ""
   },
   "idän soturit": {
-   "r": 0,
+   "img": "data/posters/c38da6e4b42e62fd.jpg",
+   "r": 6.7,
    "s": {
-    "en": "",
+    "en": "While one tough woman with an invisible robe has stolen 18 babies for her powerful master, two other tough women and the cops try to stop her.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Idän soturit 東方三俠 KUVIn aluesarja tekee paluun kevään mittaisen tauon jälkeen!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=6u2lyRQIByY"
   },
   "ihmistenmetsästäjät": {
+   "img": "data/posters/de4551874efdd7fe.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "1945. Home Army soldier who hides in the village must decide if he wants to engage into dangerous situation to help group of Jewish runaways.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Ihmistenmetsästäjät Naganiacz KUVIn aluesarja tekee paluun kevään mittaisen tauon jälkeen!"
    },
    "tr": ""
@@ -1076,9 +1080,10 @@
    "tr": "https://www.youtube.com/watch?v=gXjurDkYnEM"
   },
   "intermezzo": {
-   "r": 0,
+   "img": "data/posters/6c11216877a2f03b.jpg",
+   "r": 5.9,
    "s": {
-    "en": "",
+    "en": "An intense love affair develops between a married concert violinist (Gösta Ekman) and his daughter's music teacher (Ingrid Bergman).",
     "fi": "Ingrid Bergmanin hienovaraisille katseille ja tukahdutetuille tunteille rakennettu läpimurtoelokuva kertoo pianistista ja hänen kohtalokkaasta rakkaudestaan nuoreen viulistiin. Helsinkiläissyntyinen Gustaf Molander tunnisti varhain Bergmanin poikkeuksellisen kyvyn yhdistää voima ja haavoittuvuus, jotka tekivät hänestä kansainvälisen ikonin."
    },
    "tr": ""
@@ -1283,6 +1288,15 @@
     "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
+  "kino iglu tokyo story": {
+   "img": "data/posters/7e6002db6c6ee747.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Ikääntyneet vanhemmat Shukichi (Chishu Ryu) ja Tomi Hirayama (Chieko Higashiyama) lähtevät käymään kiireisten lastensa luona Tokiossa ja Osakassa. Päästyään perille Tokioon pariskunta huomaa, ettei lapsilla ole aikaa heille, koska heillä on oma elämä, työ ja perhe, joiden välillä heidän on vaikea tasapainotella."
+   },
+   "tr": "https://www.youtube.com/watch?v=xqO0d3328Do"
   },
   "kinojuhlat avioliiton ilveilyä": {
    "r": 0,
@@ -1538,6 +1552,15 @@
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
+  },
+  "kojootti vs acme original": {
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
   },
@@ -1836,6 +1859,24 @@
    },
    "tr": ""
   },
+  "leffabrunssi paholainen pukeutuu pradaan 2006": {
+   "img": "data/posters/423a0c1d4cba03fb.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Toimittajan urasta haaveileva Andrea päätyy avustajaksi Runway-muotilehteen, jota palvottu ja pelottava Miranda Priestly johtaa rautaisin ottein. Andrean idealismi karisee nopeasti, kun hän yrittää selvitä pomon antamista tehtävistä, jotka tuntuvat välillä mahdottomilta. Mutta muodin edelläkävijöillä on myös etuja, joista tavikset voivat vain haaveilla."
+   },
+   "tr": "https://www.youtube.com/watch?v=t4isatjZ0BM"
+  },
+  "leffabrunssi sex and the city 2008": {
+   "img": "data/posters/a2281611b29bf553.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "Aivan liian kauan Carrie Bradshaw (Sarah Jessica Parker) on etsinyt rakkautta täysin vääristä paikoista... mutta juuri oikeissa kengissä. Hartaasti odotettu elokuva tapaus tuo vihdoin Carrien, Samanthan (Kim Cattrall), Charlotten (Kristin Davis) ja Mirandan (Cynthia Nixon) jälleen luoksemme, neljä vuotta hittisarjan päättymisen jälkeen. Heidän jatkaessaan pujotteluauran, ihmis suhteiden, äitiyden ja Manhattanin riento jen välillä, tytöt ymmärtävät - paremmin kuin koskaan - että todellinen ystävyys ei mene koskaan pois muodista. ”Terävä, pureva ja hillittömän hauska, Sex and the City on rakkauskirje jota fanit ovat odottaneet” (Rossiter Drake, San Francisco Examiner)."
+   },
+   "tr": "https://www.youtube.com/watch?v=8lofhd7Ubnk"
+  },
   "lex julia": {
    "img": "data/posters/c7eca1af3b9c6236.jpg",
    "r": 0,
@@ -1846,12 +1887,13 @@
    "tr": ""
   },
   "liekki ja nuoli": {
-   "r": 0,
+   "img": "data/posters/9eee39d3ad6bfd42.jpg",
+   "r": 6.3,
    "s": {
-    "en": "",
+    "en": "Dardo, a Robin Hood-like figure, and his loyal followers use a Roman ruin in Medieval Lombardy as their headquarters as they conduct an insurgency against their Hessian conquerors.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Liekki ja nuoli The Flame and the Arrow KUVIn aluesarja tekee paluun kevään mittaisen tauon jälkeen!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=dTXnQawQzOk"
   },
   "light sleeper": {
    "img": "data/posters/a2a10563795a3ccb.jpg",
@@ -2029,8 +2071,21 @@
    },
    "tr": "https://www.youtube.com/watch?v=8o6gkyinORg"
   },
+  "matka piemonteen": {
+   "img": "data/posters/e753668f77270e2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ"
+  },
   "matka piemonteen kahvi ja kino": {
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -2656,12 +2711,13 @@
    "tr": ""
   },
   "pieni kauhukauppa": {
-   "r": 0,
+   "img": "data/posters/072a7d436697204e.jpg",
+   "r": 7.0,
    "s": {
-    "en": "",
+    "en": "Seymour Krelborn is a nerdy orphan working at Mushnik's, a flower shop in urban Skid Row. He harbors a crush on fellow co-worker, Audrey Fulquard, and is berated by Mr. Mushnik daily. One day, Seymour finds a very mysterious unidentified plant which he calls Audrey II. The plant seems to have a craving for blood and soon begins to sing for its supper.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Pieni kauhukauppa Little Shop of Horrors Kino Kilta heittäytyy Åbo Svenska Teaterin kanssa musikaalin pyörteisiin syksyllä näyttämölle saapuvan Den Lilla Skräckaffarenin (Pieni kauhukauppa) myötä esittämällä Halloween-viikonloppuna nostalgisen kasariversion The Little Shop of Horrors -elokuvasta! Den Lilla Skräckaffaren nähdään Åbo Svenska Teaterin lavalla syksyllä 2026. Tutustu Den Lilla Skräckaffaren -teatterinäytökseen ja osta näytösliput täältä: https://abosvenskateater.fi/fi/ohjelmisto/den-lilla-skrackaffaren/ Laulava kasvi. Uskalias sankari. Suloinen tyttö. Häiriintynyt hammaslääkäri."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=HqX9g3Qwb5A"
   },
   "pikku kummitus lapanen": {
    "img": "data/posters/b2dfb18e3acd6735.jpg",
@@ -3472,9 +3528,10 @@
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
   },
   "saapasrasvaa": {
+   "img": "data/posters/c7981e1365b2ea4b.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Two orphans are forced by their abusive aunt to beg in the streets of Bombay. They take up shining shoes but are separated from each other.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Saapasrasvaa Boot Polish KUVIn aluesarja tekee paluun kevään mittaisen tauon jälkeen!"
    },
    "tr": ""
@@ -3782,9 +3839,10 @@
    "tr": "https://www.youtube.com/watch?v=UuyznqAILAM"
   },
   "tartuffe": {
-   "r": 0,
+   "img": "data/posters/e9f08a4d6d8370db.jpg",
+   "r": 7.2,
    "s": {
-    "en": "",
+    "en": "A young man shows his millionaire grandfather a film based on Molière's play \"Tartuffe\" in order to expose the old man's hypocritical governess who covets the young man's inheritance.",
     "fi": "Viimeisen miehen menestyksen jälkeen Murnau ja käsikirjoittaja Carl Mayer saivat Ufa-studiolta vapaat kädet. He tarttuivat Molièren näytelmään tehden siitä omanlaisensa version, jossa erityisesti lavastuksen yksityiskohtiin paneuduttiin äärimmäisen huolellisesti. Juonittelut ja vastajuonittelut varakkaan vanhan herran perinnöstä tämän aikuisen pojan ja taloudenhoitajan välillä kutovat verkon, joka on sekä komediallinen että ankara."
    },
    "tr": ""
@@ -4368,7 +4426,8 @@
    "tr": "https://www.youtube.com/watch?v=qnWSvSrb1-I"
   },
   "varjoja paratiisissa 40 vuotta juhlanäytös": {
-   "r": 0,
+   "img": "data/posters/62b157e67bc2049d.jpg",
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "Roskakuski Nikander (Matti Pellonpää) tapaa Valintatalon kassalla työskentelevän Ilonan (Kati Outinen) ja heidän välilleen kehittyy vähitellen ongelmainen rakkaustarina. Nikander on menettänyt omasta yrityksestä haaveilleen työtoverinsa (Esko Nikkari) ja löytää yöksi putkaan jouduttuaan uudeksi ystäväkseen Melartinin (Sakari Kuosmanen). Ilona saa ilman omaa syytään potkut työpaikaltaan ja varastaa hetkellisen kostonhimon vallitessa Valintatalon kassalippaan. Nikander ja Ilona matkustavat pois Helsingistä ja majoittuvat motelliin. Autiolla rannalla ujonoloinen roskakuski kerää viimein kaiken rohkeutensa ja kumartuu suutelemaan naistaan ensi kertaa. Heidän tiensä ajautuvat kuitenkin ennen pitkää uudelleen erilleen ja Ilona alkaa puolivillaisesti tapailla uuden työpaikkansa lipevää esimiestä. Nikander lääkitsee suruaan juomalla ja tulee välillä hakatuksikin mutta kerää lopulta rohkeutensa ja hakee Ilonan mukaansa. Harri Marstion tulkitseman Älä kiiruhda -kappaleen soidessa he matkustavat yhdessä laivalla Viroon, kohti uutta ja tuntematonta tulevaisuutta."
@@ -4394,12 +4453,18 @@
    "tr": "https://www.youtube.com/watch?v=_oBwwSXdO_E"
   },
   "verityn varjo": {
+   "img": "data/posters/4a690568fa372cff.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex",
+    "cine"
+   ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs"
   },
   "viimeinen mies": {
    "img": "data/posters/d63d52801d06f95a.jpg",
@@ -4409,6 +4474,15 @@
     "fi": "F. W. Murnaun ajaton mykkälassikko Viimeinen mies kertoo pikkuporvarillisen tarinan Emil Janningsin tulkitsemasta turhamaisesta hotelliportieerista. Asemansa ylpistämän miehen maailma romahtaa, kun komea virkaunivormu vaihtuu arvon alennuksen myötä vessavahdin vaaleaan pellavatakkiin."
    },
    "tr": "https://www.youtube.com/watch?v=bWB6Ufh4O98"
+  },
+  "vilimit festivaali yksinäinen susi mcquade 1983": {
+   "img": "data/posters/d4e089388aabc311.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "J.J. McQuade on harvasanainen Texas ranger, metsänvartija, joka antaa tekojensa puhua puolestaan. Lakia hän tulkitsee ilman opaskirjaa ja rangaistukset ovat ansaittuja – ainakin McQuaden mielestä. McQuade pyrkii pysäyttämään mahtavan rikollisjärjestön, joka myy armeijalta ryöstämiään aseita terroristeille ympäri maailmaa. Ajojahti vie McQuaden Meksikoon, jossa hän joutuu kasvokkain terroristijärjestön johtajan, Rawleyn, kanssa. Rawley kidnappaa McQuaden tyttären ja kuvittelee alhaisen tekonsa vaientavan yksinäisen suden. Rawley on väärässä. Hyvin väärässä."
+   },
+   "tr": "https://www.youtube.com/watch?v=EpXX9AoTIlg"
   },
   "vinokino departures": {
    "r": 0,
@@ -4485,9 +4559,10 @@
    "tr": "https://www.youtube.com/watch?v=vCcGYxy6PNA"
   },
   "vorosen perhe ja kyttäjahti": {
+   "img": "data/posters/d46d571a654d3536.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Ture's parents just never listen. Even though he's asked them hundreds of times to stop stealing, it'll take 20,000 volts to get their attention.",
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English Vorosen perhe ja kyttäjahti Knyckertz & snutjakten Marraskuun Kuukauden pohjoismainen elokuva"
    },
    "tr": ""

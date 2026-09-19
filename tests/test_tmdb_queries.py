@@ -276,6 +276,33 @@ class AliasTest(unittest.TestCase):
             with self.subTest(refused=published):
                 self.assertEqual(enrich_tmdb.queries(published)[0], published)
 
+    def test_the_two_standing_series_added_on_2026_09_19_split(self):
+        """Riviera's Leffabrunssi and Kino Laika's Kino Iglu are repeating programmes, so
+        the prefix comes off here. Kuvakukko's Vilimit-festivaali is one week a year and
+        is deliberately not in the list: its rows are aliased, and this pins that choice
+        so the festival is not added on a later pass."""
+        for published, first in (
+                ("Leffabrunssi: Paholainen pukeutuu Pradaan (2006)",
+                 "Paholainen pukeutuu Pradaan"),
+                ("Leffabrunssi: Sex and the City (2008)", "Sex and the City"),
+                ("Kino Iglu: Tokyo Story", "Tokyo Story")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.queries(published)[0], first)
+        self.assertEqual(enrich_tmdb.queries("Vilimit-festivaali: Aavesoturi (1987)")[0],
+                         "Vilimit-festivaali: Aavesoturi")
+
+    def test_the_year_survives_the_strand_and_the_cache_key_keeps_it(self):
+        """The half that stops two years of one title folding. The trailing year leaves
+        the *search string* through PAREN_NOISE but stays in the published year, which is
+        what separates The Devil Wears Prada from its 2026 sequel, and stays in norm(),
+        which is what keeps two such rows on separate cache keys."""
+        published = "Leffabrunssi: Paholainen pukeutuu Pradaan (2006)"
+        self.assertEqual(enrich_tmdb.published_year({"title": published}), "2006")
+        self.assertEqual(enrich_tmdb.norm(published),
+                         "leffabrunssi paholainen pukeutuu pradaan 2006")
+        self.assertNotEqual(enrich_tmdb.norm(published),
+                            enrich_tmdb.norm("Leffabrunssi: Paholainen pukeutuu Pradaan (2026)"))
+
     def test_an_alias_is_tried_before_the_cleaned_title(self):
         """A bare id skips the search outright; a replacement string goes first."""
         q = enrich_tmdb.queries("Matka Piemonteen (Kahvi ja Kino)", alias="Resan till Piemonte")

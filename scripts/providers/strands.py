@@ -77,6 +77,20 @@ EVENT_PREFIXES = (
     # misses. "r&a" would split 29 Rakkautta & Anarkiaa titles whose bare names are generic
     # enough to match the wrong film by popularity, with no published year to disambiguate.
     "kuukauden pohjoismainen", "nordic film of the month", "star house movie",
+    # 2026-09-19, two standing series rather than one festival's week. Riviera runs
+    # "Leffabrunssi:" and Kino Laika "Kino Iglu:" as repeating programmes, so a prefix
+    # here is the durable fix; Kuvakukko's "Vilimit-festivaali:" is one week a year and
+    # its two rows are aliased instead, which is the maintainer's call recorded here so
+    # the festival is not added on the next pass.
+    #
+    # Neither needs a year rule beside it. These cinemas write the year in a trailing
+    # parenthesis, "Leffabrunssi: Paholainen pukeutuu Pradaan (2006)", and PAREN_NOISE
+    # already strips a bare year from the search string while YEAR_IN_TITLE keeps reading
+    # it as the published year. So the search goes out as "Paholainen pukeutuu Pradaan"
+    # *with* 2006 attached, which is what tells pick() to take 350 rather than the 2026
+    # sequel 1314481 whose Finnish title differs only by a trailing 2. The year never
+    # leaves norm(), so two years of one title keep separate cache keys and cannot fold.
+    "leffabrunssi", "kino iglu",
 )
 
 
