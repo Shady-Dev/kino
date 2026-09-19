@@ -13,14 +13,14 @@
 [bioforum] Bio Forum: 14 showtimes, 6 dates
 [bioforum] synopses merged: 0
 [bioforum] Bio Forum: 14 showtimes, 6 dates
-[kinokulma] 27 screening(s) in day groups, 9 film page(s) read
+[kinokulma] 26 screening(s) in day groups, 9 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show
-[kinokulma] Kinokulma: 25 showtimes, 14 dates
+[kinokulma] Kinokulma: 24 showtimes, 14 dates
 [kinokulma] synopses merged: 0
-[kinokulma] Kinokulma: 25 showtimes, 14 dates
+[kinokulma] Kinokulma: 24 showtimes, 14 dates
 [run] http: 0 revalidated (304), 38 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 64 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 81.2s of fetching added up across workers that overlap, longest site 28.1s, longest queue wait 90.0s, 28.4s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 63 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 82.1s of fetching added up across workers that overlap, longest site 28.0s, longest queue wait 96.0s, 32.5s wall from this module's first fetch starting to its last ending
 exit=0
