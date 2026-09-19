@@ -28,10 +28,27 @@ What shapes the parser:
 - **Only a rating-shaped tail comes off the title.** `Ryhmä Hau, Dinoelokuva, K7` is a
   title with a comma in it, so cutting at the last comma would publish
   `Ryhmä Hau` and lose the rest. The tail has to look like `K7`, `K12` or `S`.
-- **No price is published.** The row carries none, and the event page carries a booking
-  form with no amount rendered anywhere on it, so nothing settles a screening.
-- **No poster, runtime, genre or language either.** The table is the whole of what this
-  site publishes in one request, and the shared enrichment fills what it can.
+- **The price is on the event page, one request per screening.** The table carries none.
+  Each row already links to its own `/events/{slug}/`, and that page renders Events
+  Manager's single-ticket block server-side:
+
+      <div class="em-tickets em-tickets-single">
+        <label>Hinta</label><strong>&euro;11,00</strong>
+
+  It is the amount for *that* screening, which is what the rule asks for, so it is
+  published. This adapter said the opposite until 2026-09-19 -- "the event page carries a
+  booking form with no amount rendered anywhere on it" -- and that was simply wrong;
+  whoever wrote it read the listing table or stopped at the word "booking". One request
+  per distinct event page is the same cost `marita.py` and `tmb.py` already pay for a
+  runtime.
+
+  A page that renders no amount, or more than one, publishes none: a screening with two
+  figures and nothing on the row to choose between them settles nothing. A page that
+  cannot be fetched at all costs that row its price and nothing else, because the
+  programme is already in hand and failing the whole site over a price would throw away
+  the schedule.
+- **No poster, runtime, genre or language.** The table is the whole of what this site
+  publishes in one request, and the shared enrichment fills what it can.
 
 **Zero rows fails the site.** No empty programme has been seen here, so there is no
 evidence of what one looks like: `common.EmptyProgramme` is for the case where that
@@ -67,6 +84,12 @@ SITES = [
 
 ROW_RE = re.compile(r"<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*</tr>", re.S | re.I)
 LINK_RE = re.compile(r'<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S | re.I)
+# Events Manager's single-ticket block on the event page. Anchored on the `Hinta` label
+# rather than on any euro sign in the document: the page also carries a newsletter box and
+# a map, and a bare amount pattern would read whatever those happen to print.
+PRICE_RE = re.compile(r"<label[^>]*>\s*Hinta\s*</label>\s*<strong[^>]*>(.*?)</strong>",
+                      re.S | re.I)
+AMOUNT_RE = re.compile(r"\u20ac\s*(\d{1,3})(?:[.,](\d{1,2}))?|(\d{1,3})(?:[.,](\d{1,2}))?\s*\u20ac")
 PLACE_RE = re.compile(r"<i>(.*?)</i>", re.S | re.I)
 DATE_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.(\d{4})", re.I)
 # A colon, and never a dot. The cell flattens to "su 27.09.2026 14:00", so the date is
@@ -110,6 +133,24 @@ def split_title(text):
     tail = m.group(1).upper().replace("-", "")
     rating = "S" if tail == "S" else f"K-{int(tail[1:])}"
     return text[:m.start()].strip(), rating
+
+
+def price_of(page):
+    """The amount Events Manager renders for one screening. -> "11\u20ac", or "".
+
+    One amount settles the row and anything else settles nothing, which is the shared
+    rule. Trailing zeros come off so 11,00 publishes as 11\u20ac, the shape `biosavoy.py`
+    already writes.
+    """
+    found = PRICE_RE.findall(page or "")
+    amounts = set()
+    for blob in found:
+        for m in AMOUNT_RE.finditer(_txt(blob)):
+            whole, cents = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+            amounts.add(f"{int(whole)}.{(cents or '0').ljust(2, '0')}")
+    if len(amounts) != 1:
+        return ""
+    return f"{float(amounts.pop()):.2f}".rstrip("0").rstrip(".") + "\u20ac"
 
 
 def rows(site, page):
@@ -176,6 +217,29 @@ def get(url, tries=3, timeout=30):
     return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
+def add_prices(per_venue, get=None):
+    """Read each distinct event page once and write its amount onto that row.
+
+    -> (pages read, rows priced, pages that failed). Never raises: the programme is
+    already parsed by this point, and failing the site over a price would throw away a
+    schedule that is in hand.
+    """
+    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
+    seen, failed, priced = {}, 0, 0
+    for shows in per_venue.values():
+        for s in shows:
+            u = s["url"]
+            if u not in seen:
+                try:
+                    seen[u] = price_of(get(u))
+                except Exception:
+                    seen[u] = ""
+                    failed += 1
+            s["price"] = seen[u]
+            priced += bool(seen[u])
+    return len(seen), priced, failed
+
+
 def fetch_site(site):
     pid = site["provider"]
     url = site["base"].rstrip("/") + site["listing"]
@@ -185,8 +249,11 @@ def fetch_site(site):
         raise RuntimeError(
             f"{url}: no screening row in the table. No empty programme has been seen here, "
             f"so there is no evidence of one to read this as, and the previous files stand")
+    pages, priced, failed = add_prices(per_venue)
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
     print(f"[{pid}] {published} screening(s) in {len(site['venues'])} declared town(s)")
+    print(f"[{pid}] prices: {pages} event page(s) read, {priced} of {published} row(s) "
+          f"priced, {failed} page(s) that did not answer")
     if report["undeclared"]:
         named = ", ".join(f"{t} ({n})" for t, n in sorted(report["undeclared"].items()))
         print(f"[{pid}] {sum(report['undeclared'].values())} screening(s) in "

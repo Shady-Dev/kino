@@ -261,3 +261,40 @@ the same three numbers in the same order.
 
 Published on the maintainer's instruction 2026-09-16, at no extra request: the page was
 already being fetched. The tariff page is read by nothing.
+
+## The three providers added after the 2026-09-16 survey (2026-09-19)
+
+That survey ran on the batch of 2026-09-14/15 and nothing since was checked, so these
+three stood unpriced with no record of whether that was a decision or an omission. Read as
+a visitor from an ordinary connection, once each.
+
+| Provider | Where a price is stated | Verdict |
+|---|---|---|
+| Kinotour | `<label>Hinta</label><strong>€11,00</strong>` on each `/events/{slug}/` page | **readable, now published** |
+| Kino Myyri | nowhere on `kinomyyri.fi/ohjelmisto/`; no euro amount in the whole response | correct absence |
+| Bio-Kaari | a `/liput/` page, amounts by film, day, length and 2D/3D | correct absence |
+
+**Kinotour was an omission, and the adapter said the opposite.** `kinotour.py` carried
+"the event page carries a booking form with no amount rendered anywhere on it, so nothing
+settles a screening" from the day it was written. The amount is there, server-rendered, in
+Events Manager's single-ticket block, and it is the amount for that screening rather than a
+tariff. Whoever wrote that line read the listing table, or read the word "booking" and
+stopped. Ten showtimes went unpriced for a day over one wrong sentence, which is the case
+for checking a negative claim about a page against the page.
+
+**Kino Myyri is a correct absence and simply post-dates the survey.** It joined on
+2026-09-18, and like its two Kinola siblings its prices sit behind the checkout, which this
+repo does not call. `/ohjelmisto/` was read on 2026-09-19 and carries no euro amount at all.
+
+**Bio-Kaari is a correct absence for the reason Cine Mäntsälä already records.** The
+`/liput/` page states 12 €, 13 €, 14 € and 7,50 € among others, conditioned on the film, the
+day, the running length and 2D against 3D. None of that is on the screening row, so no row
+settles an amount and `price` stays empty. It was in the 2026-09-16 table as "one request"
+but the adapter never carried a sentence saying why it was not taken; this is that sentence.
+
+**Coverage after this**, measured at `0409aa452` over the committed data: 1516 of 4956
+showtimes priced. The zeros that remain are all recorded decisions -- Finnkino and BioRex
+(booking flow only), Heureka (admission), Gilda and Kino Tapiola (probed 2026-09-13), the
+four Johku storefronts and Kino Engel (widget, bands only), Cine Mäntsälä and Bio-Kaari
+(tariff conditions the row does not settle), and the three Kinola tenants (behind the
+checkout).

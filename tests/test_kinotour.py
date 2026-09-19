@@ -135,6 +135,66 @@ class RowsTest(unittest.TestCase):
         self.assertEqual(s["eventId"], "hetki ennen valoa")
 
 
+def event_page(amount="&euro;11,00", block=True):
+    """The event page as Events Manager renders it, with the noise the real one carries."""
+    tickets = (f'<div class="em-tickets em-tickets-single"><p>'
+               f'<label>Hinta</label><strong>{amount}</strong></p></div>') if block else ""
+    return ('<html><body><p>Tilaa uutiskirje! 15 &euro; lahjakortti</p>'
+            '<section class="em-booking-form-section-tickets">' + tickets + "</section>"
+            '<div id="map">Map data &copy;2026</div></body></html>')
+
+
+class PriceTest(unittest.TestCase):
+    """The amount is the event page's own, and only one of them settles a row."""
+
+    def test_the_events_manager_block_is_read(self):
+        self.assertEqual(K.price_of(event_page()), "11\u20ac")
+
+    def test_a_trailing_zero_comes_off_and_a_real_decimal_stays(self):
+        self.assertEqual(K.price_of(event_page("&euro;7,50")), "7.5\u20ac")
+        self.assertEqual(K.price_of(event_page("&euro;9")), "9\u20ac")
+
+    def test_the_amount_is_read_either_side_of_the_euro_sign(self):
+        self.assertEqual(K.price_of(event_page("11,00 &euro;")), "11\u20ac")
+
+    def test_two_different_amounts_settle_nothing(self):
+        page = event_page().replace("</section>",
+                                    "<p><label>Hinta</label><strong>&euro;9,00</strong></p></section>")
+        self.assertEqual(K.price_of(page), "")
+
+    def test_the_same_amount_twice_is_still_one_amount(self):
+        page = event_page().replace("</section>",
+                                    "<p><label>Hinta</label><strong>11,00 &euro;</strong></p></section>")
+        self.assertEqual(K.price_of(page), "11\u20ac")
+
+    def test_a_page_with_no_block_publishes_nothing_and_ignores_other_euros(self):
+        """The page carries a newsletter box quoting a gift-card amount. Anchoring on the
+        Hinta label rather than on any euro sign is what keeps that out."""
+        self.assertEqual(K.price_of(event_page(block=False)), "")
+
+    def test_a_block_naming_no_amount_publishes_nothing(self):
+        self.assertEqual(K.price_of(event_page("Ilmainen")), "")
+
+    def test_each_event_page_is_read_once_however_many_rows_link_to_it(self):
+        per_venue = {"v": [{"url": "https://e/a", "price": ""},
+                           {"url": "https://e/a", "price": ""},
+                           {"url": "https://e/b", "price": ""}]}
+        seen = []
+        pages, priced, failed = K.add_prices(
+            per_venue, get=lambda u: seen.append(u) or event_page())
+        self.assertEqual((pages, priced, failed), (2, 3, 0))
+        self.assertEqual(seen, ["https://e/a", "https://e/b"], "one request per page")
+
+    def test_a_page_that_will_not_answer_costs_that_row_its_price_and_nothing_else(self):
+        """The programme is already parsed by then, so failing the site over a price would
+        throw away a schedule that is in hand."""
+        def boom(u):
+            raise RuntimeError("HTTP Error 503")
+        per_venue = {"v": [{"url": "https://e/a", "price": ""}]}
+        self.assertEqual(K.add_prices(per_venue, get=boom), (1, 0, 1))
+        self.assertEqual(per_venue["v"][0]["price"], "")
+
+
 class RunnerTest(unittest.TestCase):
     PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
             "horizon": "2026-09-01",
@@ -149,8 +209,14 @@ class RunnerTest(unittest.TestCase):
         self._fetch = K.fetch
         self.addCleanup(lambda: setattr(K, "fetch", self._fetch))
 
-    def serve(self, body):
+    def serve(self, body, event=None):
+        """`body` answers the listing; `event` answers every /events/ page, and an
+        Exception there is raised for those only."""
         def fetch(url, **kw):
+            if "/events/" in url and event is not None:
+                if isinstance(event, Exception):
+                    raise event
+                return event.encode("utf-8")
             if isinstance(body, Exception):
                 raise body
             return body.encode("utf-8")
@@ -171,6 +237,22 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("Karkkila (1)", log)
         self.assertIn("does not list", log)
         self.assertIn("0 failures", log)
+
+    def test_a_run_publishes_the_price_the_event_page_carries(self):
+        self.serve(table(DECLARED), event=event_page())
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        shows = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())["shows"]
+        self.assertEqual([s["price"] for s in shows], ["11\u20ac"])
+        self.assertIn("1 of 1 row(s) priced", log)
+
+    def test_an_event_page_that_fails_costs_the_price_and_not_the_schedule(self):
+        self.serve(table(DECLARED), event=RuntimeError("HTTP Error 503"))
+        code, log = self.main()
+        self.assertEqual(code, 0, f"the schedule still publishes: {log}")
+        shows = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())["shows"]
+        self.assertEqual([s["price"] for s in shows], [""])
+        self.assertIn("1 page(s) that did not answer", log)
 
     def test_a_table_of_nothing_but_undeclared_towns_empties_the_declared_ones(self):
         """The table is the whole programme, so a town it does not mention has nothing on.
