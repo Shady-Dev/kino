@@ -27,6 +27,21 @@ Both are `workflow_dispatch` of `biorex.yml`:
 `run-cloud.log` is the run's own tally, so eight modules failed and the ninth log is the
 aggregate.
 
+**A third run carried the same nine, and the fourth carried none.** Measured 2026-09-19
+the same way, from the committed logs:
+
+| run | started | event | commit | red logs |
+|---|---|---|---|---|
+| 35447253315 | 2026-09-19T13:57:01Z | `schedule` | `048ff5c5a` | the same nine |
+| 35457381191 | 2026-09-19T17:12:51Z | `workflow_dispatch` | `1327b328c` | none; all 33 logs that commit carries read `exit=0` |
+
+So the mode is intermittent at the run level rather than standing on the runner's address,
+which is the reading three consecutive runs over fourteen hours had made worth ruling out.
+Nothing in this repository accounts for the recovery: between `048ff5c5a` and `1327b328c`
+the only adapter touched was `kinotour.py`, in `2802cc150`, which adds a price read that
+runs after the listing is already parsed, so it explains neither kinotour's listing fetch
+nor cinemahouse, kirkkonummi, lieksa, navetta, nexxo, tmb and vpk going green alongside it.
+
 **What the failing hosts served, quoted from the logs.** The logs keep the response's byte
 count and its `<title>` only; the body is never kept and never committed, which
 CLAUDE.md's "Never commit a raw probe dump" requires. Nine hosts answered with a page of
@@ -110,6 +125,12 @@ one more was `cancelled`. Ids: 34868488107, 34894004566, 34983009141, 3499996930
 log-by-log for this section, so 8 in 50 is the rate at which a run fails, not the rate at
 which it fails **this way**, which is not established here.
 
+**Re-measured 2026-09-19T17:21Z**, one read of the run list, same method: over the 50 most
+recent runs, 2026-09-13T10:57:18Z to 2026-09-19T17:20:41Z, out of 285 in the workflow's
+history, **9 concluded `failure`**, one `cancelled` and one still running. Ids: the eight
+above plus 35447253315, the third same-nine run. The window slid by three hours and gained
+one failure.
+
 **What a failure costs, and it is not bad data.** `run.publish_site` compares each venue's
 parse against the file already on disk: a venue that returns nothing while a previous file
 exists is appended to `stale`, the previous file is kept untouched, and the provider file
@@ -147,7 +168,7 @@ a property of the cinema.
 
 **Next step: none**, unless the rate rises. What counts as a rise is the maintainer's
 decision and is deliberately not a number chosen here; the figure to re-measure against is
-the 8-in-50 above, taken the same way, one read of the run list.
+the 9-in-50 of 2026-09-19T17:21Z above, taken the same way, one read of the run list.
 
 **Not proposed, and it should not be:** keeping the challenge page in the log to identify
 the filter. A challenge page is a third party's content and CLAUDE.md forbids committing a
