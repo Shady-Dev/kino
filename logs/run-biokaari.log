@@ -5,5 +5,5 @@
 [run] http: 0 revalidated (304), 4 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.bio-kaari.fi
 [run] biokaari: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 8.8s of fetching added up across workers that overlap, longest site 8.8s, longest queue wait 82.6s, 8.8s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 8.4s of fetching added up across workers that overlap, longest site 8.4s, longest queue wait 85.7s, 8.4s wall from this module's first fetch starting to its last ending
 exit=0

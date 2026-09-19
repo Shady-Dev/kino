@@ -27,6 +27,6 @@
 [cloud] lieksa: exit=0
 [cloud] navetta: exit=0
 [cloud] vpk: exit=0
-[cloud] 177.4s wall, 1093.1s of fetching added up across workers that overlap, 61 site(s) fetched
-[cloud] held at most 46 fetched site(s) and 2931 byte(s) of captured log waiting for publication
+[cloud] 176.7s wall, 1097.3s of fetching added up across workers that overlap, 61 site(s) fetched
+[cloud] held at most 44 fetched site(s) and 2931 byte(s) of captured log waiting for publication
 exit=0
