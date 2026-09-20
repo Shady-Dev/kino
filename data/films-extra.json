@@ -878,6 +878,7 @@
    "img": "data/posters/980bb19ce751c44c.jpg",
    "kr": "K-12",
    "krs": [
+    "biokaari",
     "elavienkuvien",
     "haapamaki",
     "ihmekompleksi",
@@ -3348,6 +3349,7 @@
    "krs": [
     "alatalo",
     "biograni",
+    "biokaari",
     "biorex",
     "biorexkokkola",
     "elavienkuvien",
@@ -3560,8 +3562,6 @@
    "img": "data/posters/b7775ab25a7de6bc.jpg",
    "kr": "K-7",
    "krs": [
-    "biogrand",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "isohannu",
