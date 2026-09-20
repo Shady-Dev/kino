@@ -276,66 +276,42 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-19, nineteenth pass)
+## Documentation state (2026-09-21, twentieth pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-19 on the rebased tree, after Bio Pallas and Elokuvateatteri
-Huvimylly were fetched and their snapshot committed. Declared and committed agree. The
-poster figures and the mirrored file count move with every run and are the two rows in
-this table that go stale without anything being wrong: they were measured against the
-data as of this push and the cloud half rewrites them several times a day. Johku replaces
-TMB in the largest-adapter row on a tie at four venues, which is a reordering rather than
-a change.
+Latest, re-measured 2026-09-21 at `5de645e71`, with data and pages at `d12bbc386`. Declared
+and committed agree at 130 venues, so nothing is declared and unpublished. The poster
+figures and the mirrored file count move with every run and are the rows that go stale
+without anything being wrong: the cloud half rewrites them several times a day.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 75 / 126 / 90 |
-| venues in committed data | 126 |
+| providers / venues / cities (declared) | 79 / 130 / 94 |
+| venues in committed data | 130 |
 | local providers (venues) | 12 (34) |
-| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Alatalo 5 |
-| generated pages per language | 143 |
-| sitemap URLs | 287 |
-| poster references (shows / films-extra) | 4633 (4251 / 382) |
+| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 7 |
+| generated pages per language | 147 |
+| sitemap URLs | 295 |
+| poster references (shows / films-extra) | 4322 (3926 / 396) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1343 |
-| `sw.js` CACHE | `leffavuoro-v193` |
+| mirrored poster files | 1366 |
+| `sw.js` CACHE | `leffavuoro-v210` |
 
-Nothing is declared and unpublished. Marita, Lieksan Kino, Navettakino and Pyhäsalmen VPK
-took the pages to 132 per language and the sitemap to 265, as predicted. Kino Kilta and Kino
-Laika published in `87437a3f`, which took the pages to 116 per language and the sitemap to
-233, both as predicted, and gave Turku a combined city page. That run **failed** at the
-city-link gate all the same, and the chooser was synchronised afterwards in `56723020`.
+Pages per language is the sitemap's figure: 130 venue pages plus the 17 cities with more
+than one venue. Theatre directories on disk outnumber it by two, the Studio 123 redirect
+stubs from `737bf3138`, which are kept and deliberately left out of the sitemap.
 
-The batch before them is published. **13 venues, 12 providers, 9 adapters** landed in
-`d216607b`: Iso-Hannu (Rauma), the four TMB cinemas (Akaa, Valkeakoski, Pieksämäki,
-Heinola), Julia 1&2 (Hyvinkää), Bio-Kaari (Forssa), Kino Vaakuna (Lohja), Kino Kuvakukko
-(Kuopio), Kino Manttu (Nilsiä), Kino Kirkkonummi, Bio Savoy (Mariehamn) and Cine Mäntsälä
-(Mäntsälä). The three figures stay apart because Kuvakukko is one provider with two venues
-and TMB one adapter with four providers. Eleven new cities; Hyvinkää and Kuopio were
-already covered and each reached two venues, which gave them a combined city page and left
-`index.html`'s chooser stale, the gate that failed the run.
+README carries the same provider, venue, city, page and sitemap figures and was current
+when this pass measured it. Poster counts live here and not in README: they move with every
+run, and stating them there made the file wrong within hours twice on 2026-09-14. README
+carries the behaviour instead, which does not move.
 
-The predictions this section carried before that run were right: 113 pages per language
-and 227 sitemap URLs, both measured after it. They are recorded as having held because the
-per-provider entries in the archive each predicted their own increment and were wrong for
-the opposite reason, all thirteen having landed at once.
-
-Earlier, measured 2026-09-14 at `c3fe4915` with data at `3147f45e`: 42 / 86 / 57,
-98 pages per language, 197 sitemap URLs, 4193 poster references (3940 / 253) over 1029
-files, `sw.js` `leffavuoro-v157`.
-
-Two README numbers were wrong when this pass measured them and are corrected with it: the
-adapter table said eTiketti served 29 venues against 30 in the venue files, and the cadence
-paragraph said six local providers against the registry's eight. Both are registry-derived,
-which is the class of number this section exists to catch.
-
-Poster counts live here and not in README: they move with every run, and stating them
-there made the file wrong within hours twice on 2026-09-14. README carries the behaviour
-instead, which does not move.
+Earlier passes, and what each of them measured, are in
+[docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 
 Where each document's content belongs is a rule, and it is in
 [CLAUDE.md](CLAUDE.md) under "Where it goes".
