@@ -2691,7 +2691,13 @@
       const j = provFiles[i];
       if(!j) return;
       const vs = (j.venues || []).filter(v => v.id && v.name);
-      for(const v of vs) extra.push({ ...v, provider: prov });
+      // `pending` is run.py's word for a venue the adapter confirmed empty: the upstream
+      // answered and listed nothing, so the cinema has no programme rather than the fetch
+      // having failed. Read off the file already in hand; nothing extra is requested.
+      // A provider file written before the field existed simply has none, and every
+      // venue in it reads false, which is the old behaviour.
+      const pend = new Set(Array.isArray(j.pending) ? j.pending : []);
+      for(const v of vs) extra.push({ ...v, provider: prov, pending: pend.has(v.id) });
     });
     state.generated = data.generated;
     return areas.concat(extra);
@@ -3226,8 +3232,47 @@
     toggleChain(b.dataset.chain, all);
   });
 
+  // --- pendingNotice: pure, extracted verbatim by tests/pending_state_harness.js ---
+  // Whether this view is a cinema with no programme rather than a day that happens to be
+  // empty. The two look identical on screen and are different facts: a confirmed-empty
+  // venue has answered and listed nothing, so "Ei enää näytöksiä tänään" is wrong about
+  // it on every date, and before this it was what the reader got.
+  //
+  // `hasShows` is the loaded payload before any filter, so anything with a screening
+  // anywhere is not this case: a filter that matched nothing, a date past the horizon and
+  // an ordinary empty day all keep the messages they had. A venue that is stale keeps its
+  // previous programme and has shows; one that is `unverified` is empty too but is not in
+  // `pending`, which is the whole point of that distinction, so it keeps its own state.
+  //
+  // A combined city or region needs **every** member pending. One quiet cinema beside one
+  // that is playing is not a city with nothing on, and the screenings render as usual.
+  //
+  // ids: the venue ids in view, one for a single venue. pendingIds: those of them the
+  // provider file listed. hasShows: whether the payload carries any screening at all.
+  function pendingNotice(ids, pendingIds, hasShows){
+    if(hasShows) return false;
+    if(!Array.isArray(ids) || !ids.length) return false;
+    const p = new Set(pendingIds || []);
+    return ids.every(id => p.has(id));
+  }
+  // --- end pendingNotice ---
+
+  // The venue ids the current view covers: the members of a combined view, or the single
+  // venue the picker holds. An area the index does not know yields none, so the notice
+  // cannot fire on a view that is not resolved yet.
+  function viewVenueIds(){
+    const ids = groupIdsOf(state.area);
+    if(ids) return ids;
+    return venueIndex[state.area] ? [state.area] : [];
+  }
+
   function emptyMsg(){
     const t = L[state.lang];
+    // Ahead of the filter and date messages: they describe why *today* is empty, and this
+    // says the cinema has nothing on at all.
+    const ids = viewVenueIds();
+    if(pendingNotice(ids, ids.filter(id => (venueIndex[id] || {}).pending),
+                     (state.shows || []).length > 0)) return t.noProgYet;
     if(state.filter || state.fLang || state.fKids || state.fAnnis) return t.nomatch;
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
