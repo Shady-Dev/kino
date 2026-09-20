@@ -654,6 +654,15 @@ PROVIDERS = [
     # Järvenpää, which shares no view with it. L* 54.3, saturation 0.79.
     dict(id="kinoakustiikka", label="Kino Akustiikka", host="ylivieska.fi",
          accent="#988020", book="buy", module="localhub", where="cloud"),
+    # Added 2026-09-21. A Duda site whose front page is the programme, one blog card per
+    # film. On none of the platforms, so its own parser. `book="door"`: the site sells
+    # nothing online and names no ticket host, and its own text says to buy at the
+    # theatre.
+    # Harjavalta holds no other chain and no REGIONS area holds it, so the accent enters
+    # no shared view. 4.4 dE00 from its nearest accent anywhere, Bio Rex Kokkola, which
+    # shares no view with it. L* 42.9, saturation 0.57.
+    dict(id="kinohuovi", label="Kino-Huovi", host="kinohuovi.fi",
+         accent="#307060", book="door", module="kinohuovi", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

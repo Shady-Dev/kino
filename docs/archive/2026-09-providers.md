@@ -2731,3 +2731,47 @@ a price band published as an exact amount, the currency check dropped, the booki
 published as the runtime, the venue address unchecked, and an empty search no longer
 failing the site.
 
+## Kino-Huovi, Harjavalta (2026-09-21)
+
+On none of the platforms, so its own parser. A Duda site whose front page is the
+programme: one `postArticle` blog card per film, with the dates, weekdays, time, runtime
+and price in the card's `postDescription` text. First fetch published 5 showtimes over 5
+dates from 2 cards.
+
+What the design rests on:
+
+- **The card's own link is not a film key.** The card titled `RAKKAUTTA JA VIRTAHEPOJA` is
+  served at `/hetki ennen valoa`, the alias of the film that held the slot before it, so
+  two films share one alias. `eventId` is a slug of the published title instead, and the
+  title itself stays verbatim because it is what `normTitle()` keys on.
+- **A range expands only when the weekdays and the dates agree one for one.**
+  `25.-28.9. PE, LA, SU ja MA` is four screenings and the four weekdays are what prove the
+  four days. The count is checked as well as each day: with the count check gone, four
+  weekdays cycled over a longer range still line up and would publish, which is the
+  mutation that first survived and the test that was added for it.
+- **No date carries a year**, so `common.resolve_year` places each one from its weekday.
+- **One `klo` applies to every date on the card**, and a card carrying as many times as
+  dates pairs them in order. Any other count settles nothing and the card is left out.
+- **A card with no date publishes nothing.** `PRESIDENTIN KYYDITYS` was in exactly that
+  state when this cinema was first read on 2026-09-21 and carried `21.9. MA klo 18.00`
+  hours later, which is why the undated case has a fixture rather than a note.
+- **The runtime is the card's own `Kestoaika`**, written `n.1t30min.` and `n. 1t 40min.`.
+  The cinema qualifies it as approximate and that is the figure it publishes.
+- **The price is one bare amount or nothing.** `Liput 12€.` settles the screening.
+- **The poster is the card's `data-background-image`, and its shape cannot be read from the
+  URL.** Duda's CDN names the file `-1920w.jpg` and serves a resized variant; both live
+  cards measured portrait, 224x320 and 225x320, on 2026-09-21. This is the one field here
+  whose shape the parser cannot verify, unlike `matintupa.py` where the resizer writes the
+  dimensions into the filename.
+
+Accent `#307060`; 4.4 dE00 from its nearest accent anywhere, Bio Rex Kokkola; L* 42.9,
+saturation 0.57. Harjavalta holds no other chain and no `REGIONS` area holds it.
+`book="door"`: the site names no ticket host anywhere and its own text says to buy at the
+theatre.
+
+Tests: `tests/test_kinohuovi.py`, 26 tests, plus `sample_kinohuovi` in
+`tests/test_show_contract.py`. Nine mutations red, none void: the weekday count check
+dropped with the weekdays cycled, the year resolved without the weekday, any number of
+times paired with the dates, the price pattern unanchored, the runtime dropping its hours,
+the card link published unencoded, the month left unchecked, the film key taken from the
+title unslugged, and a zero-row parse no longer failing the site.

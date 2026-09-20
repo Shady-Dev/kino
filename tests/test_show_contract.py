@@ -55,6 +55,7 @@ import test_alatalo as AL
 import test_elavienkuvien as EK
 import test_matintupa as MT
 import test_kuusamotalo as KU
+import test_kinohuovi as KH
 import test_localhub as LH
 import test_heureka as H
 import test_nexxo_rooms as N
@@ -445,6 +446,13 @@ def sample_matintupa():
     return (out, MT.SITE["provider"], [v["id"] for v in MT.SITE["venues"]])
 
 
+def sample_kinohuovi():
+    """One card with a single date and one with a range, so the row that comes from an
+    expanded range is exercised beside the one that does not."""
+    out, _ = KH.K.rows(KH.SITE, KH.page(KH.card(), KH.RANGE), KH.TODAY)
+    return (out, KH.SITE["provider"], [v["id"] for v in KH.SITE["venues"]])
+
+
 def sample_localhub():
     """Two film pages, one carrying two dates and a sold-out one, so a row with a
     date-level flag is exercised beside the ordinary ones."""
@@ -485,7 +493,7 @@ SAMPLES = {
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
-    "localhub": sample_localhub,
+    "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
 }
 
 
