@@ -4,22 +4,22 @@
 [biomarilyn] Bio Marilyn: 12 showtimes, 9 dates
 [biomarilyn] Bio Marilyn: 12 showtimes, 9 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 9 screening(s) in day groups, 5 film page(s) read
-[vihdinkino] Vihdin Kino: 9 showtimes, 3 dates
-[vihdinkino] Vihdin Kino: 9 showtimes, 3 dates
+[vihdinkino] 8 screening(s) in day groups, 4 film page(s) read
+[vihdinkino] Vihdin Kino: 8 showtimes, 3 dates
+[vihdinkino] Vihdin Kino: 8 showtimes, 3 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 11 screening(s) in day groups, 7 film page(s) read
 [bioforum] Bio Forum: 11 showtimes, 5 dates
 [bioforum] Bio Forum: 11 showtimes, 5 dates
 [bioforum] synopses merged: 0
-[kinokulma] 24 screening(s) in day groups, 9 film page(s) read
+[kinokulma] 23 screening(s) in day groups, 9 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show
-[kinokulma] Kinokulma: 22 showtimes, 13 dates
-[kinokulma] Kinokulma: 22 showtimes, 13 dates
+[kinokulma] Kinokulma: 21 showtimes, 13 dates
+[kinokulma] Kinokulma: 21 showtimes, 13 dates
 [kinokulma] synopses merged: 0
-[run] http: 0 revalidated (304), 37 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 36 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 54 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 90.4s of fetching added up across workers that overlap, longest site 32.0s, longest queue wait 103.8s, 39.5s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 52 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 92.4s of fetching added up across workers that overlap, longest site 33.1s, longest queue wait 103.1s, 39.1s wall from this module's first fetch starting to its last ending
 exit=0
