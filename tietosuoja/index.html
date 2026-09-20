@@ -89,8 +89,12 @@ kuinka kauan niitä säilytetään.</p>
 Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
 <table>
   <tr><th>Tapahtuma</th><th>Mitä se kertoo</th><th>Mukana kulkevat tiedot</th></tr>
-  <tr><td><code>page_view</code></td><td>Sivulataus</td><td>Näkymän luokka:
-      <code>home</code>, <code>venue</code>, <code>city</code> tai <code>region</code></td></tr>
+  <tr><td><code>$pageview</code></td><td>Sivulataus</td><td>Näkymän luokka
+      (<code>home</code>, <code>venue</code>, <code>city</code>, <code>region</code>) ja
+      sitä vastaava keinotekoinen osoite, esimerkiksi
+      <code>https://leffavuoro.fi/app/city</code>. Osoite muodostetaan luokasta, eikä se
+      sisällä muuta; selaimen todellista osoitetta, polkua tai hakuparametreja ei
+      lähetetä.</td></tr>
   <tr><td><code>area_opened</code></td><td>Kaupunki tai alue avattiin</td>
       <td>Tyyppi (<code>city</code>/<code>region</code>) ja alueen nimi</td></tr>
   <tr><td><code>cinema_opened</code></td><td>Teatteri avattiin</td>
@@ -127,8 +131,10 @@ tilassa on kaikille lukijoille sama vakioarvo <code>$posthog_cookieless</code>.<
 
 <h2>Käsittelijä ja sijainti</h2>
 <p>Käsittelijä on PostHog, ja tiedot käsitellään sen <strong>EU Cloud</strong>
--ympäristössä. Vastaanottava osoite on <code>eu.i.posthog.com</code>, ja mittauskirjasto
-ladataan osoitteesta <code>eu-assets.i.posthog.com</code>.</p>
+-ympäristössä. Tapahtumat lähetetään osoitteeseen <code>eu.i.posthog.com</code>, ja
+mittauskirjasto ladataan osoitteesta <code>eu-assets.i.posthog.com</code>. Kirjasto on
+kiinnitetty versioon <code>1.434.2</code>, jotta tällä sivulla kuvattu ei muutu ilman,
+että sivu päivitetään.</p>
 
 <h2>Säilytysaika</h2>
 <p><strong>Yksi vuosi.</strong> Tämä on käytössä olevan PostHog-tilauksen (Free)
@@ -142,14 +148,23 @@ liity profilointia eikä mainontaa, eikä selaimeesi tallenneta tunnisteita. Do 
 -asetus estää mittauksen kokonaan.</p>
 
 <h2>Oikeutesi</h2>
-<p>Sinulla on tietosuoja-asetuksen mukaiset oikeudet: oikeus saada pääsy tietoihin,
-oikaista ja poistaa ne, rajoittaa käsittelyä, siirtää tiedot sekä
-<strong>vastustaa oikeutettuun etuun perustuvaa käsittelyä</strong>. Koska
+<p>Sinulla on oikeus saada pääsy tietoihin, oikaista ja poistaa ne, rajoittaa
+käsittelyä sekä <strong>vastustaa oikeutettuun etuun perustuvaa käsittelyä</strong>.
+Oikeus siirtää tiedot järjestelmästä toiseen (artikla 20) ei koske tätä käsittelyä, koska
+se ei perustu suostumukseen eikä sopimukseen vaan oikeutettuun etuun. Koska
 selaimeesi ei tallenneta tunnistetta, yksittäisiä tapahtumia ei yleensä voida yhdistää
 sinuun jälkikäteen, mikä voi rajoittaa pääsy- ja poisto-oikeuden toteuttamista
 käytännössä. Mittauksen voi estää itse Do Not Track -asetuksella tai
 mainos- ja seurantaestolla. Voit myös tehdä valituksen tietosuojavaltuutetun
 toimistolle.</p>
+
+<h2>Mitä mittaus kattaa</h2>
+<p>Mittaus on käytössä <strong>vain sovelluksessa</strong> osoitteessa leffavuoro.fi.
+Teatteri- ja kaupunkikohtaisia valmiiksi luotuja sivuja sekä palvelun tila -sivua ei
+mitata lainkaan, eivätkä ne lataa PostHogia.</p>
+<p>Mittaus käynnistyy vain, kun sivu on ladattu osoitteesta
+<code>https://leffavuoro.fi</code>. Kehitys- ja esikatseluympäristöissä PostHogia ei
+ladata eikä tapahtumia lähetetä lainkaan.</p>
 
 <h2>Muut ulkopuoliset pyynnöt</h2>
 <p>Elokuvajulisteet ja kirjasin tarjoillaan tästä samasta osoitteesta. Lippulinkit
@@ -179,10 +194,14 @@ sidvisning med en kategori, stad eller region öppnad, biograf öppnad, datum ä
 språk ändrat, sökning använd <em>som enbart ett ja</em> utan sökordet, och biljettlänk
 öppnad med kedjans identifierare. Sökord, filmtitlar, adresser med frågeparametrar och
 elementtext skickas aldrig.</p>
+<p><strong>Mätningen gäller endast den interaktiva appen</strong>; de färdigt
+genererade biograf- och stadssidorna och statussidan mäts inte alls. Mätningen startar
+bara på <code>https://leffavuoro.fi</code>.</p>
 <p><strong>Lagringstid:</strong> ett år. <strong>Rättslig grund:</strong> berättigat
-intresse, artikel 6.1 f. Du har rätt till tillgång, rättelse, radering, begränsning,
-dataportabilitet och att <strong>invända</strong> mot behandlingen, samt att klaga hos
-dataombudsmannen. Eftersom ingen identifierare lagras i din webbläsare kan enskilda
+intresse, artikel 6.1 f. Du har rätt till tillgång, rättelse, radering, begränsning och
+att <strong>invända</strong> mot behandlingen, samt att klaga hos dataombudsmannen.
+Rätten till dataportabilitet (artikel 20) gäller inte, eftersom behandlingen inte
+grundar sig på samtycke eller avtal. Eftersom ingen identifierare lagras i din webbläsare kan enskilda
 händelser i regel inte kopplas till dig i efterhand.</p>
 
 <h2 id="en">Privacy (English)</h2>
@@ -210,12 +229,19 @@ parameters and element text are never sent. Two technical fields travel with eac
 because the request cannot be built without them: the public project token and
 <code>distinct_id</code>, which in cookieless mode is the constant value
 <code>$posthog_cookieless</code>, identical for every reader.</p>
+<p><strong>Scope: the interactive app only.</strong> The generated cinema and city pages
+and the status page are not measured and do not load PostHog. Analytics initialises only
+when the page is served from <code>https://leffavuoro.fi</code>; development and preview
+environments load nothing and send nothing. The library is pinned to version
+<code>1.434.2</code>, so what this page describes cannot change without the page changing
+with it.</p>
 <p><strong>Retention:</strong> one year, the retention period of the PostHog plan in use.
 <strong>Legal basis:</strong> legitimate interest, GDPR Article 6(1)(f), in understanding
 which parts of the service are used. <strong>Your rights:</strong> access, rectification,
-erasure, restriction, portability and the right to <strong>object</strong> to processing
-based on legitimate interest, and to lodge a complaint with the Finnish Data Protection
-Ombudsman. Because no identifier is stored in your browser, individual events generally
+erasure, restriction and the right to <strong>object</strong> to processing based on
+legitimate interest, and to lodge a complaint with the Finnish Data Protection Ombudsman.
+The right to data portability (Article 20) does not apply here, because it covers
+processing based on consent or contract and this is based on legitimate interest. Because no identifier is stored in your browser, individual events generally
 cannot be linked back to you, which may limit access and erasure in practice. You can
 block the measurement yourself with Do Not Track or a tracker blocker.</p>
 

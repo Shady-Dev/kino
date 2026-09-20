@@ -53,14 +53,14 @@ The decision, its safeguards and what was measured are in
 **Next action:** written permission from Heureka's media contact, if its artwork is ever
 wanted. Nothing is blocked on it now.
 
-### Analytics: the origin makes one third-party request
+### Analytics: the origin uses one third-party service
 
 Shipped 2026-09-20 on the maintainer's instruction, superseding the "no third-party
 requests" property. PostHog EU Cloud, cookieless. PostHog gets the network IP and hashes
-it server-side, so the setup is not anonymous and the docs say so. No cookies, browser
-storage, person profiles, advertising, cross-site tracking or session recordings. Seven
-events, fixed properties, enforced in `before_send`. Notice at
-[/tietosuoja/](tietosuoja/); retention one year. Payload and record in
+it server-side, so it is not anonymous and the docs say so. No cookies, browser storage,
+person profiles, advertising, cross-site tracking or session recordings. Seven events,
+fixed properties, enforced in `before_send`. Bundle pinned to 1.434.2; runs only on
+https://leffavuoro.fi. Notice at [/tietosuoja/](tietosuoja/); retention one year. Record in
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 **Next action:** none.
 

@@ -48,6 +48,18 @@ try {
   vm.runInContext(source + '\n;globalThis.__fn = analyticsScrub;', sandbox, { filename: 'analyticsScrub' });
   const scrub = sandbox.__fn;
 
+  // The origin guard, sliced from its own markers and run in the same way.
+  const GS = '// --- phAllowedOrigin: pure, extracted verbatim by tests/analytics_harness.js ---';
+  const GE = '// --- end phAllowedOrigin ---';
+  const ga = HTML.indexOf(GS), gb = HTML.indexOf(GE);
+  if (ga === -1 || gb === -1 || gb < ga) bail('phAllowedOrigin markers not found in index.html');
+  const gsrc = HTML.slice(ga, gb);
+  if (!/function phAllowedOrigin\s*\(/.test(gsrc)) bail('marker block does not contain phAllowedOrigin');
+  const gbox = {};
+  vm.createContext(gbox);
+  vm.runInContext(gsrc + '\n;globalThis.__g = phAllowedOrigin;', gbox, { filename: 'phAllowedOrigin' });
+  const allowed = gbox.__g;
+
   const run = (event, properties, extra) => {
     const e = Object.assign({ event, properties: Object.assign({}, properties) }, extra || {});
     const r = scrub(e);
@@ -68,6 +80,25 @@ try {
 
   // The pair the SDK needs to build a request at all.
   out._mandatory = run('cinema_opened', { venue: 'v', token: 'phc_x', distinct_id: '$posthog_cookieless' });
+
+  // The origin guard, over every shape that must be refused.
+  out._origins = {};
+  for (const [name, proto, host] of [
+    ['prod_https', 'https:', 'leffavuoro.fi'],
+    ['prod_http', 'http:', 'leffavuoro.fi'],
+    ['localhost_http', 'http:', 'localhost'],
+    ['localhost_https', 'https:', 'localhost'],
+    ['loopback_v4', 'http:', '127.0.0.1'],
+    ['loopback_v6', 'http:', '[::1]'],
+    ['file_url', 'file:', ''],
+    ['gh_pages', 'https:', 'shady-dev.github.io'],
+    ['gh_preview', 'https:', 'kino-preview.github.io'],
+    ['www_prefix', 'https:', 'www.leffavuoro.fi'],
+    ['suffix_attack', 'https:', 'leffavuoro.fi.evil.example'],
+    ['prefix_attack', 'https:', 'notleffavuoro.fi'],
+    ['unrelated', 'https:', 'example.com'],
+    ['empty_host', 'https:', ''],
+  ]) out._origins[name] = allowed(proto, host);
 
   // $set / $set_once must not survive.
   const e = { event: 'cinema_opened', properties: { venue: 'v' }, $set: { a: 1 }, $set_once: { b: 2 } };

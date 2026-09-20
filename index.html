@@ -1480,16 +1480,25 @@
   /* ---------- analytics ---------- */
   // PostHog EU. Cookieless: no cookie, no browser storage, no person profile. PostHog
   // still gets the IP and hashes it server-side, so this is not anonymous. The only
-  // third-party request this origin makes; see IDEAS.md and /tietosuoja/.
+  // third-party service this origin uses, over two requests: the pinned bundle and the
+  // events. See IDEAS.md and /tietosuoja/.
   const PH_KEY  = 'phc_zTiDPrATqb3MbLoYZ25XKhkNpdR7GsdeofZL6rnd5GzV';
   const PH_HOST = 'https://eu.i.posthog.com';
+  // Pinned: the privacy contract below is measured against this bundle, and PostHog
+  // changing its default must not alter what leaves the page. The version segment is
+  // honoured (1.400.0 serves a different bundle, an unknown version 404s), checked
+  // 2026-09-20.
+  const PH_VERSION = '1.434.2';
 
   // --- analyticsScrub: pure, extracted verbatim by tests/analytics_harness.js ---
   // posthog-js before_send. An event not keyed here is dropped; a property not listed
   // for it is removed, including the 43 the library adds. $current_url is the one that
   // matters: the search query is in it. Values are internal ids only.
   const PH_ALLOW = {
-    page_view:        ['category'],
+    // $pageview so PostHog Web Analytics counts it. Only `category` is taken from the
+    // caller; $current_url is built below from the validated category and can never be
+    // supplied, so a caller or the SDK cannot smuggle a real URL through this event.
+    $pageview:        ['category'],
     area_opened:      ['kind', 'area'],
     cinema_opened:    ['venue'],
     date_changed:     ['offset_days'],
@@ -1497,6 +1506,11 @@
     search_used:      [],
     ticket_opened:    ['provider'],
   };
+  // The four views, and the synthetic address each maps to. Web Analytics needs a URL;
+  // this is the only one it ever gets.
+  const PH_CATEGORIES = ['home', 'venue', 'city', 'region'];
+  const PH_APP_BASE = 'https://leffavuoro.fi/app/';
+
   function analyticsScrub(event){
     if(!event || !Object.prototype.hasOwnProperty.call(PH_ALLOW, event.event)) return null;
     const keep = PH_ALLOW[event.event], src = event.properties || {}, out = {};
@@ -1508,6 +1522,12 @@
     // 2026-09-20). distinct_id in cookieless mode is the constant "$posthog_cookieless".
     for(const k of ['token', 'distinct_id'])
       if(src[k] !== undefined) out[k] = src[k];
+    // $pageview's URL is constructed here, never forwarded. An unknown category drops
+    // the event rather than guessing a view that was not on screen.
+    if(event.event === '$pageview'){
+      if(PH_CATEGORIES.indexOf(out.category) === -1) return null;
+      out.$current_url = PH_APP_BASE + out.category;
+    }
     event.properties = out;
     // Person properties. person_profiles:'never' already no-ops these; drop them anyway.
     delete event.$set;
@@ -1515,6 +1535,17 @@
     return event;
   }
   // --- end analyticsScrub ---
+
+  // --- phAllowedOrigin: pure, extracted verbatim by tests/analytics_harness.js ---
+  // Analytics runs on the production origin and nowhere else. A preview deploy, a local
+  // server, a loopback address, file:// or any fork's domain gets no bundle, no queue and
+  // no capture, so development cannot reach the project's data. Exact hostname, no
+  // suffix match: leffavuoro.fi.evil.example must not pass.
+  function phAllowedOrigin(protocol, hostname){
+    return protocol === 'https:' && hostname === 'leffavuoro.fi';
+  }
+  // --- end phAllowedOrigin ---
+  const phHere = () => phAllowedOrigin(location.protocol, location.hostname);
 
   // Checked before the bundle is fetched, so under DNT posthog sees nothing.
   // respect_dnt in the config covers signals that arrive later.
@@ -1524,10 +1555,11 @@
   let phOn = false, phQueue = [], phSeen = {}, phBooted = false;
 
   function phInit(){
-    if(phDNT()) return;
+    if(phDNT() || !phHere()) return;
     const sc = document.createElement('script');
     // PostHog's snippet derives the bundle host from the API host this way.
-    sc.src = PH_HOST.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js';
+    sc.src = PH_HOST.replace('.i.posthog.com', '-assets.i.posthog.com')
+           + '/static/' + PH_VERSION + '/array.js';
     sc.crossOrigin = 'anonymous';
     sc.async = true;
     sc.onload = () => {
@@ -1540,7 +1572,7 @@
           disable_persistence: true,
           respect_dnt: true,
           autocapture: false,            // no clicks, no element text
-          capture_pageview: false,       // page_view below is ours, and carries no URL
+          capture_pageview: false,       // $pageview below is ours, with a synthetic URL
           capture_pageleave: false,
           capture_dead_clicks: false,
           capture_heatmaps: false,
@@ -1571,7 +1603,8 @@
   // One event per distinct property signature: re-renders and restored state repeat
   // nothing.
   function track(name, props){
-    if(phDNT() || !Object.prototype.hasOwnProperty.call(PH_ALLOW, name)) return;
+    if(phDNT() || !phHere()) return;
+    if(!Object.prototype.hasOwnProperty.call(PH_ALLOW, name)) return;
     const sig = name + '|' + PH_ALLOW[name].map(k => String((props || {})[k] ?? '')).join('|');
     if(phSeen[name] === sig) return;
     phSeen[name] = sig;
@@ -1580,7 +1613,7 @@
   }
   // Repeatable on purpose, so not signature-deduped.
   function trackTicket(provider){
-    if(phDNT()) return;
+    if(phDNT() || !phHere()) return;
     if(phOn) phSend('ticket_opened', provider ? { provider } : {});
     else if(phQueue.length < 20) phQueue.push(['ticket_opened', provider ? { provider } : {}]);
   }
@@ -1596,7 +1629,8 @@
   function phPageView(){
     if(phBooted) return;
     phBooted = true;
-    track('page_view', { category: phCategory() });
+    // Only the category. The URL is the scrubber's to build.
+    track('$pageview', { category: phCategory() });
   }
 
   const FI_TZ = 'Europe/Helsinki';

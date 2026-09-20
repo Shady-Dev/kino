@@ -40,7 +40,7 @@ Venue, home theatre, day, language and theme live in `localStorage`.
 
 No cinema API is called at load time. A pipeline fetches ahead of time and
 commits static JSON, which GitHub Pages serves from the same origin: no CORS, no
-keys in the client, no third-party requests. Some providers block or challenge
+keys in the client, no third-party services beyond analytics. Some providers block or challenge
 datacenter addresses and can only be read from an ordinary connection, so the
 pipeline runs in two places; `scripts/providers/registry.py` marks each provider
 `where="local"` or `where="cloud"` and is the list, so this page does not carry a
@@ -277,11 +277,13 @@ no cinema anything.
 **Posters and the typeface are served from this origin.** `data/posters/` and
 `fonts/`, and every `<img>` carries `referrerpolicy="no-referrer"`.
 
-**One third-party request is made, for analytics.** Until 2026-09-20 this page
-made none, and that sentence was the claim this paragraph existed to carry. It
-is no longer true, on the maintainer's instruction: the app loads PostHog from
-`eu-assets.i.posthog.com` and sends events to **PostHog EU Cloud**
-(`eu.i.posthog.com`).
+**One third-party service is used, for analytics.** Until 2026-09-20 this page
+contacted none, and that sentence was the claim this paragraph existed to
+carry. It is no longer true, on the maintainer's instruction. Two separate
+requests are involved: the app loads the PostHog bundle from
+`eu-assets.i.posthog.com`, pinned to version 1.434.2 so a PostHog default
+change cannot alter what is measured here, and sends events to **PostHog EU
+Cloud** (`eu.i.posthog.com`).
 
 The setup is **cookieless, which is not the same as fully anonymous**. PostHog
 receives the **network IP address** and the headers the browser sends, and uses
@@ -296,9 +298,12 @@ carrying internal identifiers: a page view with a category, a city or region
 opened, a cinema opened, a date change as a day offset, a language change,
 search used as a yes/no fact **without the query**, and a ticket link opened
 with the chain's id. `analyticsScrub()` in `index.html` enforces both lists as
-posthog-js's `before_send`, so the library's own 43 properties -- `$current_url`
-among them, which carries the search query -- are stripped rather than trusted
-not to appear. Do Not Track stops it before the request: under DNT the bundle is
+posthog-js's `before_send`, so the library's own 43 properties are stripped
+rather than trusted not to appear. `$pageview` carries a synthetic
+`https://leffavuoro.fi/app/{category}` so Web Analytics can count it without the
+real URL, which holds the search query. Analytics initialises only on
+`https://leffavuoro.fi`: a dev server, a preview deploy, a loopback address or
+`file:` loads no bundle and sends nothing. Do Not Track stops it before the request: under DNT the bundle is
 not even fetched. The reader-facing version is [/tietosuoja/](tietosuoja/), in
 Finnish, Swedish and English, and it states the one-year retention.
 
