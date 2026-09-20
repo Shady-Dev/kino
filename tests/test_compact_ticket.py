@@ -111,7 +111,8 @@ class GeneratedCompactTicketTest(unittest.TestCase):
 
     def block(self, shows, with_venue=False, lang="fi"):
         import build_pages as bp
-        return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set())
+        return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set(),
+                             current_year=2026)
 
     @staticmethod
     def show(**kw):

@@ -41,6 +41,11 @@ import unittest
 from datetime import date, datetime, time, timedelta
 
 import _ctx
+
+# film_block takes the year the page is built for. These fixtures publish no
+# `oyear`, so the value only has to be a year; the rule itself is covered by
+# tests/test_release_year.py.
+YEAR_NOW = 2026
 import build_pages as bp
 
 
@@ -622,12 +627,14 @@ class StubShapeTest(unittest.TestCase):
         return base
 
     def aud_text(self, s, with_venue, lang="fi"):
-        html = bp.film_block(s["title"], [s], {}, {}, lang, bp.L[lang], with_venue, set())
+        html = bp.film_block(s["title"], [s], {}, {}, lang, bp.L[lang], with_venue, set(),
+                             current_year=YEAR_NOW)
         m = AUD_RE.search(html)
         return text_of(m.group(1)) if m else None
 
     def block(self, shows, with_venue, lang="fi"):
-        return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set())
+        return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set(),
+                             current_year=YEAR_NOW)
 
     def meta2_text(self, html):
         m = re.search(r'<div class="meta2">(.*?)</div>', html)
@@ -839,10 +846,12 @@ class StubShapeTest(unittest.TestCase):
                 self.assertEqual(bp.lang_parts(codes, "en"), en)
 
     def test_the_time_is_the_clock_and_the_stub_is_a_link_when_there_is_a_url(self):
-        html = bp.film_block("x", [self.show()], {}, {}, "fi", self.T, False, set())
+        html = bp.film_block("x", [self.show()], {}, {}, "fi", self.T, False, set(),
+                             current_year=YEAR_NOW)
         self.assertIn('<span class="time">16:00</span>', html)
         self.assertIn('<a class="stub" href="https://www.savonkinot.fi/salikartta?id=1" rel="nofollow noopener">', html)
-        html = bp.film_block("x", [self.show(url="")], {}, {}, "fi", self.T, False, set())
+        html = bp.film_block("x", [self.show(url="")], {}, {}, "fi", self.T, False, set(),
+                             current_year=YEAR_NOW)
         self.assertIn('<span class="stub">', html)
         self.assertNotIn("<a class=\"stub", html)
 
@@ -853,7 +862,8 @@ class StubShapeTest(unittest.TestCase):
         def render(order):
             days = bp.group_by_day(order, today)
             seen = set()
-            return "".join(bp.film_block(t_, sh, {}, {}, "fi", self.T, False, seen)
+            return "".join(bp.film_block(t_, sh, {}, {}, "fi", self.T, False, seen,
+                                          current_year=YEAR_NOW)
                            for iso in sorted(days)
                            for t_, sh in sorted(days[iso].items(),
                                                 key=lambda kv: (kv[1][0]["start"], kv[0])))

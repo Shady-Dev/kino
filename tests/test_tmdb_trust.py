@@ -427,7 +427,7 @@ class PlaceholderTest(TrustHarness):
         self.weak_naisen_kasvot()
         show = self.area()["shows"][0]
         html = build_pages.film_block(show["title"], [show], self.extra(), {"fi": {}}, "fi",
-                                      build_pages.L["fi"], False, set())
+                                      build_pages.L["fi"], False, set(), current_year=2026)
         self.assertIn('<div class="poster blank" aria-hidden="true"></div>', html)
         self.assertNotIn("<img", html)
         self.assertNotIn("4780", html)

@@ -156,7 +156,25 @@ def due(titles, cache, today, max_age=None, budget=None):
 TMDB_IMG = "https://image.tmdb.org/t/p/w342"
 # The show fields this pass writes. `img` is handled apart, because a cinema publishes
 # posters too.
-PUBLISHED = ("tmdb", "votes", "tr", "gids", "tmdbId")
+PUBLISHED = ("tmdb", "votes", "tr", "gids", "tmdbId", "oyear")
+
+# The film's own first release year, published as `oyear` and read by the client and by
+# build_pages to render "Carrie (1976)".
+#
+# **It is TMDB's `release_date` on an exact match and nothing else.** Three other years
+# are in reach here and every one of them is a different fact:
+#
+#   * `show["year"]` is the year *the cinema published*, which gather() collects as a
+#     search hint. Two adapters set it and it is not checked against anything.
+#   * Finnkino's `releaseDate`, which fetch_data.py reads, is the Finnish release. For a
+#     reissue that is the reissue's date, so it would print Carrie (2026).
+#   * The screening's own date, which is never the film's.
+#
+# A weak match's year is the wrong film's, so `oyear` is written only where `trusted()`
+# holds, the same gate `tmdbId` passes. Missing stays missing: no fallback, no inference,
+# and no year assembled out of a title. An entry cached before this field existed has no
+# `ry` and shows no year until the refresh re-reads it, which is correct rather than a
+# gap to paper over.
 
 
 def trusted(c):
@@ -887,6 +905,9 @@ def main() -> int:
             # still clears.
             syn_fi = (c.get("fi") or "") if isinstance(c, dict) else ""
             syn_en = (c.get("en") or "") if isinstance(c, dict) else ""
+            # Same seeding rule as the synopses: a detail request that fails leaves the
+            # year the entry already had rather than blanking it.
+            ry = (c.get("ry") or "") if isinstance(c, dict) else ""
             detail_ok = False
             if mid:
                 # Finnish overview when TMDB has one, English as the fallback.
@@ -898,6 +919,9 @@ def main() -> int:
                         continue
                     text = (d.get("overview") or "").strip()
                     poster = poster or (d.get("poster_path") or "")
+                    # release_date is the film's own first release and is the same in
+                    # both language responses, so this costs no request of its own.
+                    ry = release_year(d) or ry
                     # Both fields or neither. A response carrying only `vote_count` used
                     # to set the rating to 0 over the top of a real one and then stamp the
                     # entry as read; one carrying only `vote_average` was not noticed at
@@ -966,7 +990,7 @@ def main() -> int:
             cache[k] = {"r": shown, "n": votes, "v": yt, "x": bool(mid) and exact_id,
                         "g": gids, "i": mid or "", "c": stamp, "a": attempt,
                         "fi": syn_fi, "en": syn_en, "p": poster,
-                        "o": norm(fact["o"]), "y": fact["y"],
+                        "o": norm(fact["o"]), "y": fact["y"], "ry": ry,
                         "q": norm(clean(display or k))}
             replaced = True
             if detail_ok and k in refreshes:
@@ -1089,6 +1113,11 @@ def main() -> int:
             # for the family genre alone.
             if c.get("g") and s.get("gids") != c["g"]:
                 s["gids"] = c["g"]; changed = True
+            # The film's own release year. Same gate as `tmdbId` above, because a weak
+            # candidate's year belongs to a different film; see PUBLISHED for the three
+            # other years this must not be.
+            if c.get("x") and c.get("ry") and s.get("oyear") != c["ry"]:
+                s["oyear"] = c["ry"]; changed = True
             # A classification another chain published for the same film, filling a blank
             # only. `rsrc` is provenance: the UI shows a borrowed rating exactly like a
             # published one, and nothing else can tell them apart afterwards.

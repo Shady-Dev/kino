@@ -108,7 +108,8 @@ class GeneratedTicketTest(unittest.TestCase):
         show = {"title": "Autofiktio", "start": "2026-09-02T17:30:00+03:00", "price": None,
                 "aud": "Sali 7", "venueLabel": "Finnkino Plevna", "venueProvider": "finnkino",
                 "url": "https://www.finnkino.fi/x", "lang": "ES-A, FI-S, SV-S"}
-        html = bp.film_block("Autofiktio", [show], {}, {}, "fi", bp.L["fi"], True, set())
+        html = bp.film_block("Autofiktio", [show], {}, {}, "fi", bp.L["fi"], True, set(),
+                             current_year=2026)
         li = re.search(r"<li>(.*?)</li>", html, re.S).group(1)
         self.assertRegex(li, r'<span class="time">17:30</span><span class="aud">.*Finnkino Plevna.*Sali 7.*</span><span class="price"></span></a>$')
 

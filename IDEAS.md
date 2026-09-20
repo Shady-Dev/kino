@@ -53,6 +53,17 @@ The decision, its safeguards and what was measured are in
 **Next action:** written permission from Heureka's media contact, if its artwork is ever
 wanted. Nothing is blocked on it now.
 
+### A film's year on the card
+
+**The rule, shipped 2026-09-20.** A card and its sheet read "Carrie (1976)" when the film
+is at least two calendar years old, `oyear < currentYear - 1` in Europe/Helsinki, in
+parentheses and never after a middle dot. A title the cinema already dated keeps its own.
+**The year source.** `oyear`, from an exact TMDB match's `release_date` and nothing else.
+Not Finnkino's `releaseDate`, which is the *Finnish* release and prints this year for a
+reissue; not `show["year"]`, which is a search hint; not the screening's date. Missing
+stays missing. Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** none; coverage fills as the rating refresh re-reads entries.
+
 ### Credential hygiene and rotation
 
 Tracked in private notes outside this repo. The Finnkino token is fetched fresh at run
@@ -325,13 +336,6 @@ which is the class of number this section exists to catch.
 Poster counts live here and not in README: they move with every run, and stating them
 there made the file wrong within hours twice on 2026-09-14. README carries the behaviour
 instead, which does not move.
-
-Earlier passes, kept as a record of what was true on the day: Kino Regina 2026-09-05
-(37 / 79 / 52, 89 pages, 179 sitemap URLs, 5 local providers over 26 venues, 3900 poster
-references over 658 files), Tapiola (36 / 78 / 52), Korjaamo (35 / 77 / 52), Heureka
-(34 / 76 / 52), Kino Metso 2026-09-01 (32 / 74 / 52), the Nexxo sweep 2026-08-31
-(31 / 70 / 50), Bio Rex Kokkola 2026-08-30 (25 / 64 / 45). Counts inside a dated archive
-entry record that day and are left alone.
 
 Where each document's content belongs is a rule, and it is in
 [CLAUDE.md](CLAUDE.md) under "Where it goes".

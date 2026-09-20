@@ -621,7 +621,45 @@ def _part(cls, text):
     return f"<span class={cls}>{body}</span>"
 
 
-def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
+# A film's own first release year, published as `oyear` by enrich_tmdb from an exact
+# TMDB match. The heading shows it only for a film at least two calendar years old.
+FILM_YEAR_FLOOR = 1888          # Roundhay Garden Scene; below it, not a film year
+YEAR_RE = re.compile(r"^\d{4}$")
+# A published title that already ends in a year, which seven did on 2026-09-20. The
+# cinema has answered the question, so no second year is appended.
+TITLE_ENDS_IN_YEAR = re.compile(r"\(\s*\d{4}\s*\)\s*$")
+
+
+def film_title(title, shows, current_year):
+    """The heading a reader sees: "Carrie (1976)". -> str.
+
+    The same rule as `filmTitle()` in index.html, and the two are held to one shared
+    table by tests/test_release_year.py, because a page and the app showing different
+    titles for one film is the failure worth guarding here.
+
+    `current_year` is the year the page is built *for*, in Europe/Helsinki, so a rebuild
+    with --date recorded reproduces the committed markup instead of drifting on the day
+    it happens to run. Everything else about the rule is in that function's comment: the
+    year is the film's own and never the Finnish release or the screening's, anything
+    that is not four plain digits is absent, and a missing year stays missing.
+
+    The bare `title` remains the key for films-extra.json and the name in the JSON-LD.
+    Only the visible heading carries the year, and no image carries it at all.
+    """
+    if not title:
+        return title
+    if TITLE_ENDS_IN_YEAR.search(title):
+        return title
+    y = str(first(shows, "oyear") or "").strip()
+    if not YEAR_RE.match(y):
+        return title
+    n = int(y)
+    if n < FILM_YEAR_FLOOR or not n < current_year - 1:
+        return title
+    return f"{title} ({y})"
+
+
+def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year):
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
@@ -682,7 +720,8 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen):
     # The app's combined view stacks time over place in a grid; its single-venue view
     # keeps the row stub. A city page is the combined view, a theatre page is not.
     grid = " grid" if with_venue else ""
-    return (f'<article class="film">{poster}<div class="info"><h3>{esc(title)}</h3>'
+    return (f'<article class="film">{poster}<div class="info">'
+            f'<h3>{esc(film_title(title, shows, current_year))}</h3>'
             + (f'<div class="meta1">{"".join(meta1)}</div>' if meta1 else "")
             + (f'<div class="meta2">{"".join(meta2)}</div>' if meta2 else "")
             + (f'<p class="syn">{esc(syn)}</p>' if syn else "")
@@ -807,7 +846,8 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
         for title_, shows in sorted(days[iso].items(),
                                     key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,
-                                   with_venue=with_venue, syn_seen=syn_seen))
+                                   with_venue=with_venue, syn_seen=syn_seen,
+                                   current_year=today.year))
     self_path = path_fi if lang == "fi" else path_en
     # One link, one line. The intro already says the app carries the days ahead, so the
     # button says only what it does; a two-line version read as a hero panel and pushed

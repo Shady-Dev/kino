@@ -1479,6 +1479,46 @@
   const fiDate = d => fiDayFmt.format(d);            // Date -> 'YYYY-MM-DD' in Finland
   const fiTime = d => fiTimeFmt.format(d);           // Date -> 'HH:MM'  in Finland
   const fiToday = () => fiDate(new Date());
+  // Europe/Helsinki's calendar year, so the rule below does not change for a reader
+  // abroad and does not turn over at the wrong midnight.
+  const fiYear = () => Number(fiToday().slice(0, 4));
+
+  // --- filmTitle: pure, extracted verbatim by tests/film_title_harness.js ---
+  // "Carrie (1976)". The year is the film's own first release, published as `oyear` by
+  // enrich_tmdb from an exact TMDB match and from nothing else; PUBLISHED there names the
+  // three other years it must not be, the loudest of which is Finnkino's Finnish release
+  // date, which for a reissue would print this year.
+  //
+  // Shown only for a film at least two calendar years old, `oyear < currentYear - 1`: in
+  // 2026 that is 2024 and older, and 2025 and 2026 stay bare. A year tells a reader they
+  // are looking at a revival, and says nothing on a film that is simply out now, where it
+  // would be noise on almost every card. The boundary is a whole calendar year rather
+  // than a date so it does not move under the reader in December, and `currentYear` is
+  // passed in rather than read, which is what lets the tests fix a clock.
+  //
+  // Anything that is not four plain digits is absent, and so is a year no film can have.
+  // A missing year stays missing: nothing here estimates one. The separator is
+  // parentheses and never a middle dot, which the stub tags already own.
+  //
+  // A title that already ends in a year keeps it and gets no second one. Seven published
+  // titles did on 2026-09-20 -- "Trainspotting (1996)", "Twin Peaks: Kausi 1 (1990)" --
+  // and appending would have rendered "Trainspotting (1996) (1996)". The cinema has
+  // already answered the question this suffix exists to answer, so it is left to do so,
+  // whether or not its year agrees with TMDB's. Same pattern enrich_tmdb reads a
+  // published year with (YEAR_IN_TITLE).
+  function filmTitle(title, oyear, currentYear){
+    const t = title == null ? '' : String(title);
+    if(!t) return t;
+    if(/\(\s*\d{4}\s*\)\s*$/.test(t)) return t;
+    const y = String(oyear == null ? '' : oyear).trim();
+    if(!/^\d{4}$/.test(y)) return t;
+    const n = Number(y), now = Number(currentYear);
+    if(!Number.isFinite(now)) return t;
+    if(n < 1888) return t;              // before Roundhay Garden Scene: not a film year
+    if(!(n < now - 1)) return t;
+    return t + ' (' + y + ')';
+  }
+  // --- end filmTitle ---
   const addDays = (iso, n) => { const t = new Date(iso + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate()+n); return t.toISOString().slice(0,10); };
   const dowOf = iso => new Date(iso + 'T12:00:00Z').getUTCDay();
   const dmOf  = iso => { const [,m,d] = iso.split('-'); return `${+d}.${+m}.`; };
@@ -3516,6 +3556,10 @@
     const over = movies.filter(spent);
     const card = m => {
       const title = disp(m);
+      // The year never reaches `initials` below, which would make "Carrie (1976)" tile
+      // as "C1", and it never reaches a poster or a title card: those are images and
+      // carry no year at all.
+      const cardTitle = filmTitle(title, m.oyear, fiYear());
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
       const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
@@ -3593,7 +3637,7 @@
       return `<article class="movie" data-id="${esc(m.eventId)}">
                 ${poster}
                 <div class="info">
-                  <h2 class="title"><a class="tlink" href="#m=${encodeURIComponent(m.eventId)}">${esc(title)}</a></h2>
+                  <h2 class="title"><a class="tlink" href="#m=${encodeURIComponent(m.eventId)}">${esc(cardTitle)}</a></h2>
                   <div class="meta1">${meta1}</div>
                   ${meta2 ? `<div class="meta2">${meta2}</div>` : ''}
                   <div class="${stubClass}">${stubs}</div>
@@ -3703,6 +3747,9 @@
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o||sample.original)
                                : (f.t&&f.t.fi)) || sample.title || '';
+    // The heading matches the card. `sheetCtx.title` below stays bare: it is what the
+    // share text and the calendar file are built from, and neither is a place for it.
+    const shownTitle = filmTitle(title, sample.oyear, fiYear());
     const syn = synFor(f.s, lang);
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
@@ -3780,7 +3827,7 @@
       <div class="grab" aria-hidden="true"></div>
       <button class="sheet-close" type="button" aria-label="${esc(L[lang].aClose)}">✕</button>
       <div class="sheet-head">${poster}
-        <div><div class="sheet-title" id="sheetTitle">${esc(title)}</div>
+        <div><div class="sheet-title" id="sheetTitle">${esc(shownTitle)}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
           ${genresOf(sample) ? `<div class="meta2">${esc(genresOf(sample))}</div>` : ''}
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
