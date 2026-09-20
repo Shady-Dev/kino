@@ -27,15 +27,18 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-79 providers, 130 venues, 94 cities, declared and committed alike, measured 2026-09-20.
+81 providers, 132 venues, 96 cities, declared and committed alike, measured 2026-09-21.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18**, a later five from the nytleffaan diff and six on
-  2026-09-20. Built since: Bio Pallas, Huvimylly, Alatalo, Cinema Sheryl, Kino
-  Hannikainen, Kino Virta, Matin-Tupa and Kino Kuusamotalo. Kino Helios is priced and
-  declined, eight need a browser, eight have nothing. **Next action:** none from these.
-  Bio-Salo, Bio Sydväst and Kinoma publish nothing readable and are in the research file.
+- **Eight read 2026-09-21.** Built: Kino Akustiikka (Ylivieska), on the town's Localhub
+  calendar and the first tenant of `localhub.py`, and Kino-Huovi (Harjavalta), its own
+  parser. The other six are blocked below or in the entries above them, each with what it
+  waits on. **Next action:** none from these.
+- **Earlier batches:** thirty-two triaged 2026-09-18, five from the nytleffaan diff, six on
+  2026-09-20. Bio Pallas, Huvimylly, Alatalo, Cinema Sheryl, Kino Hannikainen, Kino Virta,
+  Matin-Tupa and Kino Kuusamotalo were built from them; eight need a browser and eight have
+  nothing. Bio-Salo, Bio Sydväst and Kinoma publish nothing readable.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (seven),
@@ -53,17 +56,6 @@ The decision, its safeguards and what was measured are in
 **Next action:** written permission from Heureka's media contact, if its artwork is ever
 wanted. Nothing is blocked on it now.
 
-### Analytics: the origin uses one third-party service
-
-Shipped 2026-09-20 on the maintainer's instruction, superseding the "no third-party
-requests" property. PostHog EU Cloud, cookieless. PostHog gets the network IP and hashes
-it server-side, so it is not anonymous and the docs say so. No cookies, browser storage,
-person profiles, advertising, cross-site tracking or session recordings. Seven events,
-fixed properties, enforced in `before_send`. Bundle pinned to 1.434.2; runs only on
-https://leffavuoro.fi. Notice at [/tietosuoja/](tietosuoja/); retention one year. Record in
-[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** none.
-
 ### Credential hygiene and rotation
 
 Tracked in private notes outside this repo. The Finnkino token is fetched fresh at run
@@ -73,17 +65,21 @@ this item covers the rest.
 
 ## Blocked
 
-### Helsinki is full at eight chains
+### Helsinki is full at eight chains, and two candidates now trigger it
 
-No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
-2026-09-18, best reachable 12.2, and `test_every_combined_city_pair_clears_the_floor`
-enforces it per pair.
+No colour in the L* band clears 14.4 dE00 against Helsinki's eight. Re-swept 2026-09-21
+over the whole cube: 0 of the 94,359 in-band colours clear it, best reachable 12.12
+(`#886098`, 12.1 against Gilda by `accent_check.py --candidate`).
+`test_every_combined_city_pair_clears_the_floor` holds the city view without exception.
 **Decided 2026-09-20 by the maintainer:** a full palette is **not** on its own a reason to
-reject a Helsinki cinema. Kino Helios was declined on exactly that ground and is
-reopenable on the maintainer's word.
-**Next action:** the maintainer's, on what the city view does when a city is full, and
-only when a real candidate triggers it. Not to be decided under the pressure of wanting
-one particular cinema.
+reject a Helsinki cinema.
+**Kino K13 and Kino Helios are the real candidates**, both read and parsed against live
+data on 2026-09-21 and neither registered: 4 timed rows on `ses.fi/kinok13/` and 22 exact
+Kino Helios rows from Malmitalo's event service. The data and the parse are settled; only
+the accent is not. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** the maintainer's, on what the city view does when a city is full. Nothing
+here lowers the floor, widens the L* band or edits that test to fit a candidate.
 
 ### Kino Konepaja has no programme to read
 
@@ -276,34 +272,35 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-21, twentieth pass)
+## Documentation state (2026-09-21, twenty-first pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-21 at `5de645e71`, with data and pages at `d12bbc386`. Declared
-and committed agree at 130 venues, so nothing is declared and unpublished. The poster
-figures and the mirrored file count move with every run and are the rows that go stale
-without anything being wrong: the cloud half rewrites them several times a day.
+Latest, re-measured 2026-09-21 after Kino Akustiikka and Kino-Huovi were fetched and their
+snapshot committed. The twentieth pass measured the same day, before that batch, and is
+superseded by this one. Declared and committed agree at 132 venues, so nothing is declared
+and unpublished. The poster figures and the mirrored file count move with every run and are
+the rows that go stale without anything being wrong.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 79 / 130 / 94 |
-| venues in committed data | 130 |
+| providers / venues / cities (declared) | 81 / 132 / 96 |
+| venues in committed data | 132 |
 | local providers (venues) | 12 (34) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 7 |
-| generated pages per language | 147 |
-| sitemap URLs | 295 |
-| poster references (shows / films-extra) | 4322 (3926 / 396) |
+| generated pages per language | 149 |
+| sitemap URLs | 299 |
+| poster references (shows / films-extra) | 4294 (3891 / 403) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1366 |
-| `sw.js` CACHE | `leffavuoro-v210` |
+| mirrored poster files | 1376 |
+| `sw.js` CACHE | `leffavuoro-v211` |
 
-Pages per language is the sitemap's figure: 130 venue pages plus the 17 cities with more
+Pages per language is the sitemap's figure: 132 venue pages plus the 17 cities with more
 than one venue. Theatre directories on disk outnumber it by two, the Studio 123 redirect
-stubs from `737bf3138`, which are kept and deliberately left out of the sitemap.
+stubs from `737bf3138`, kept and deliberately left out of the sitemap.
 
 README carries the same provider, venue, city, page and sitemap figures and was current
 when this pass measured it. Poster counts live here and not in README: they move with every

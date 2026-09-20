@@ -552,6 +552,20 @@
    "host": "kinokuusamotalo.fi",
    "accent": "#AA8844",
    "book": "door"
+  },
+  {
+   "id": "kinoakustiikka",
+   "label": "Kino Akustiikka",
+   "host": "ylivieska.fi",
+   "accent": "#988020",
+   "book": "buy"
+  },
+  {
+   "id": "kinohuovi",
+   "label": "Kino-Huovi",
+   "host": "kinohuovi.fi",
+   "accent": "#307060",
+   "book": "door"
   }
  ]
 }
