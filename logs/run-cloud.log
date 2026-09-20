@@ -29,6 +29,6 @@
 [cloud] vpk: exit=0
 [cloud] pallas: exit=0
 [cloud] alatalo: exit=0
-[cloud] 161.0s wall, 1012.8s of fetching added up across workers that overlap, 63 site(s) fetched
-[cloud] held at most 43 fetched site(s) and 3626 byte(s) of captured log waiting for publication
+[cloud] 149.5s wall, 911.9s of fetching added up across workers that overlap, 63 site(s) fetched
+[cloud] held at most 41 fetched site(s) and 3626 byte(s) of captured log waiting for publication
 exit=0
