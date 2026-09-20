@@ -615,6 +615,27 @@ class AliasFileTest(unittest.TestCase):
         self.assertNotIn("1482356", doc.values())
 
 
+    def test_every_royal_ballet_alias_pins_the_season_the_cinema_relays(self):
+        """The same per-season trap as the opera relays, found the other way round. These
+        two were never weak and never logged: both were written as EXACT matches to
+        265042, Czinner's 1960 documentary, so one id and one 1960 synopsis covered two
+        different 2026/27 ballets. No worklist would have shown it, which is why the ids
+        are asserted here rather than left to the search."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        for published, tmdb_id in (("The Royal Ballet: Pähkinänsärkijä", "1702761"),
+                                   ("The Royal Ballet: Joutsenlampi", "1702782")):
+            with self.subTest(published=published):
+                self.assertEqual(doc[enrich_tmdb.norm(published)], tmdb_id)
+        self.assertNotEqual(doc[enrich_tmdb.norm("The Royal Ballet: Pähkinänsärkijä")],
+                            doc[enrich_tmdb.norm("The Royal Ballet: Joutsenlampi")],
+                            "two different ballets must not share one id again")
+
+    def test_the_suleiman_relay_alias_is_the_feature_not_the_short(self):
+        """1387552 is a 7-minute short that shares the English title. The published row is
+        92 minutes and names Elia Suleiman, and 27744 is his 92-minute 2002 feature."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("Divine intervention")], "27744")
+
     def test_the_largest_2026_09_19_alias_is_pinned(self):
         """39 showtimes over 17 venues, the largest single row in that batch, and the one
         the maintainer reported. Two independent sources say 1299382: TMDB's own record
@@ -643,6 +664,8 @@ class AliasFileTest(unittest.TestCase):
             "219580": "a Tom and Jerry short, not the 2026 Mouse",
             "1482356": "the 2025/26 Tosca, not the 2026/27 one the cinema relays",
             "1769545": "deleted from TMDB; /movie/1769545 answers status_code 34",
+            "265042": "Czinner's 1960 Covent Garden documentary, not a 2026/27 relay",
+            "1387552": "Koudmani's 7-minute short, not Suleiman's Divine Intervention",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):
