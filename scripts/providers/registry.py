@@ -600,6 +600,15 @@ PROVIDERS = [
     dict(id="elavienkuvien", label="Elävienkuvien teatteri",
          host="elavienkuvienteatteri.fi", accent="#2E8C92", book="buy",
          module="elavienkuvien", where="local"),
+    # Kino Hannikainen, Nurmes, 2026-09-20. A Johku storefront on its own domain, the
+    # sixth. The cinema is in Nurmes-talo and the 250-seat hall is named after the
+    # composer Pekka Juhani Hannikainen; `loc` is the hall the rows carry.
+    # Nurmes holds no other chain and no REGIONS area holds Nurmes, so this accent enters
+    # no shared view and the floor binds nothing here. 4.2 dE00 from its nearest accent
+    # anywhere, Kino Piispanristi in Kaarina, which shares no view with it. L* 55.0,
+    # saturation 0.92.
+    dict(id="kinohannikainen", label="Kino Hannikainen", host="kinohannikainen.net",
+         accent="#1188DD", book="buy", module="johku", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

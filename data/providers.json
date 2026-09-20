@@ -524,6 +524,13 @@
    "host": "elavienkuvienteatteri.fi",
    "accent": "#2E8C92",
    "book": "buy"
+  },
+  {
+   "id": "kinohannikainen",
+   "label": "Kino Hannikainen",
+   "host": "kinohannikainen.net",
+   "accent": "#1188DD",
+   "book": "buy"
   }
  ]
 }

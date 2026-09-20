@@ -97,6 +97,15 @@ SITES = [
      "base": "https://haapamaenelokuvat.fi", "listing": "/",
      "venues": [{"id": "haapamaki-haapamaki", "name": "Haapamäen Elokuvat",
                  "short": "Haapamäen Elokuvat", "city": "Haapamäki", "loc": "Sali 1"}]},
+    # Added 2026-09-20, the sixth storefront. `kinohannikainen` on cdn.johku.com behind
+    # the cinema's own domain, and the root renders the same `showgroup`/`daytitle`/
+    # `js-grid-show` listing as the other five: read that day, eight rows over five day
+    # groups, every one `data-location="Hannikaisen sali"`.
+    {"provider": "kinohannikainen", "label": "Kino Hannikainen",
+     "base": "https://www.kinohannikainen.net", "listing": "/",
+     "venues": [{"id": "kinohannikainen-nurmes", "name": "Kino Hannikainen",
+                 "short": "Kino Hannikainen", "city": "Nurmes",
+                 "loc": "Hannikaisen sali"}]},
 ]
 
 GROUP_RE = re.compile(r'(?<![-\w])class=["\'][^"\']*(?<![-\w])showgroup(?![-\w])')

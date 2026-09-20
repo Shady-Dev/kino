@@ -380,16 +380,57 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.main()[0], 0)
         films = [c for c in self.calls if "/fi_FI/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 10)      # five storefronts, two films each
+        self.assertEqual(len(films), 12)      # six storefronts, two films each
+
+
+class KinoHannikainenTest(unittest.TestCase):
+    """The sixth storefront, Nurmes, added 2026-09-20.
+
+    Read that day: eight rows over five day groups, every one carrying
+    `data-location="Hannikaisen sali"`, which is the hall the registry declares and the
+    one the 250-seat auditorium in Nurmes-talo is named. The listing is served from the
+    cinema's own domain rather than from `johku.com`, so the site keeps a pacing group of
+    its own.
+    """
+
+    SITE = next(s for s in J.SITES if s["provider"] == "kinohannikainen")
+
+    def listing_(self):
+        return listing(group(
+            "Perjantai 2.10.2026",
+            row("rakkautta-ja-virtahepoja", "Rakkautta ja virtahepoja",
+                "2026-10-02T14:00:00.000Z", "17.00", loc="Hannikaisen sali",
+                product="1", category="ohjelmisto", dur="1 h 41 min"),
+            row("myrskyn-nbsp-ikkuna", "MYRSKYN IKKUNA",
+                "2026-10-02T16:30:00.000Z", "19.30", loc="Hannikaisen sali",
+                product="2", category="ohjelmisto", dur="1 h 40 min")))
+
+    def test_the_hall_the_rows_carry_is_the_declared_venue(self):
+        shows, _ = J.parse(self.SITE, self.listing_(), {})
+        self.assertEqual(list(shows), ["kinohannikainen-nurmes"])
+        rows_ = shows["kinohannikainen-nurmes"]
+        self.assertEqual([s["title"] for s in rows_],
+                         ["Rakkautta ja virtahepoja", "MYRSKYN IKKUNA"])
+        self.assertEqual([s["start"] for s in rows_],
+                         ["2026-10-02T17:00:00+03:00", "2026-10-02T19:30:00+03:00"])
+        self.assertEqual({s["theatre"] for s in rows_}, {"Kino Hannikainen"})
+
+    def test_the_listing_is_read_from_the_cinemas_own_domain(self):
+        """`johku.com` is the platform, not the host any site is read from. A base there
+        would share one pacing group with every other site on it."""
+        self.assertEqual(self.SITE["base"], "https://www.kinohannikainen.net")
+        self.assertNotIn("johku.com", self.SITE["base"])
+        self.assertNotIn("reads", self.SITE)
 
 
 class RegistryTest(unittest.TestCase):
-    def test_the_four_registry_entries(self):
+    def test_the_cloud_registry_entries(self):
         for pid, label, host, city in (
                 ("biomarilyn", "Bio Marilyn", "biomarilyn.com", "Lapua"),
                 ("vihdinkino", "Vihdin Kino", "vihdinkino.fi", "Vihti"),
                 ("bioforum", "Bio Forum", "bioforum.fi", "Tammisaari"),
-                ("kinokulma", "Kinokulma", "kinokulma.fi", "Oulainen")):
+                ("kinokulma", "Kinokulma", "kinokulma.fi", "Oulainen"),
+                ("kinohannikainen", "Kino Hannikainen", "kinohannikainen.net", "Nurmes")):
             with self.subTest(provider=pid):
                 p = registry.by_id(pid)
                 self.assertEqual((p["label"], p["host"], p["book"], p["module"],
@@ -418,8 +459,9 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual([s["base"] for s in J.SITES],
                          ["https://www.biomarilyn.com", "https://vihdinkino.fi",
                           "https://bioforum.fi", "https://kinokulma.fi",
-                          "https://haapamaenelokuvat.fi"])
-        self.assertEqual(len(run.host_groups(J.SITES)), 5)
+                          "https://haapamaenelokuvat.fi",
+                          "https://www.kinohannikainen.net"])
+        self.assertEqual(len(run.host_groups(J.SITES)), 6)
 
     def test_kino_engel_and_kino_tapiola_stay_on_their_own_modules(self):
         """The widget is not the storefront; those two keep their own parsers."""
