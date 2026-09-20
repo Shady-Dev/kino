@@ -1240,6 +1240,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0"
   },
+  "kaunis rietas onnellinen": {
+   "img": "data/posters/3d85b209db2832fe.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kaunis rietas onnellinen kertoo Kaija Koon matkasta itsevarmaksi ja rohkeaksi artistiksi. Elokuva on voimakas tarina yhdestä Suomen suurimmista artisteista, jonka musiikki on lohduttanut ja voimaannuttanut jo sukupolvien ajan. Pianistipuoliso Markku näkee hänen lahjansa kirkkaammin kuin kukaan muu. Menestys ei tule kuitenkaan ilman sisäistä taistelua. Isän menetyksen mukanaan tuoma suru pysäyttää Kaijan ja saa hänet luopumaan hetkellisesti unelmistaan. Kun yllättävä jättisuosio nostaa Kaijan supertähdeksi, hänen on kohdattava paitsi menestyksen varjot, myös löydettävä oma äänensä – jotta hänen on mahdollista nousta lavalle vapaampana kuin koskaan."
+   },
+   "tr": ""
+  },
   "kaupungin synty": {
    "img": "data/posters/8e0112db0ef203d7.jpg",
    "r": 0,
@@ -2317,6 +2326,7 @@
     "kinovirta",
     "leffabuumi",
     "lieksankino",
+    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -3047,6 +3057,7 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
+    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -3133,6 +3144,7 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
+    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -3273,6 +3285,7 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
+    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",

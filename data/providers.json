@@ -538,6 +538,13 @@
    "host": "kinovirta.johku.com",
    "accent": "#CC1188",
    "book": "buy"
+  },
+  {
+   "id": "matintupa",
+   "label": "Elokuvateatteri Matin-Tupa",
+   "host": "matin-tupa.fi",
+   "accent": "#448855",
+   "book": "door"
   }
  ]
 }

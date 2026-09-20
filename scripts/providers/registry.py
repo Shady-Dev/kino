@@ -619,6 +619,20 @@ PROVIDERS = [
     # with it. L* 45.7, saturation 0.92.
     dict(id="kinovirta", label="Kino Virta", host="kinovirta.johku.com",
          accent="#CC1188", book="buy", module="johku", where="cloud"),
+    # Elokuvateatteri Matin-Tupa, Ylistaro, 2026-09-20. Founded 1941, 201 seats, on none
+    # of the platforms: its programme is a server-rendered Toolset view on its own
+    # WordPress, so it gets its own parser. `book="door"`, because the box office opens 30
+    # minutes before the first screening and reservations are taken by telephone and
+    # email; the site sells nothing online.
+    # The town is the one the cinema gives as its address. Ylistaro has belonged to
+    # Seinäjoki since 2009, and filing it under Seinäjoki would put it in that city view
+    # beside BioRex, where this accent measures 8.3 dE00 on the weakest model, below the
+    # 14.4 floor. Nilsiä under Kuopio and Haapamäki under Keuruu are the same call already
+    # made. Ylistaro holds no other chain and no REGIONS area holds it, so the accent
+    # enters no shared view. 4.1 dE00 from its nearest accent anywhere, Bio Grani, which
+    # shares no view with it. L* 51.3, saturation 0.50.
+    dict(id="matintupa", label="Elokuvateatteri Matin-Tupa", host="matin-tupa.fi",
+         accent="#448855", book="door", module="matintupa", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
