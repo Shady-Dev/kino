@@ -1,10 +1,10 @@
-[sheryl] 9 screening(s) listed, 5 film page(s) read
+[sheryl] 7 screening(s) listed, 4 film page(s) read
 [sheryl] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [sheryl] 1 synopsis/synopses withheld, no language settled: Chungking Express
-[sheryl] Cinema Sheryl: 9 showtimes, 4 dates
-[sheryl] Cinema Sheryl: 9 showtimes, 4 dates
+[sheryl] Cinema Sheryl: 7 showtimes, 3 dates
+[sheryl] Cinema Sheryl: 7 showtimes, 3 dates
 [sheryl] synopses merged: 0
-[run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 5 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- sheryl.fi
-[run] kinola: 1 venues, 9 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] kinola: 1 venues, 7 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
