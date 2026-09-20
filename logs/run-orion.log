@@ -1,7 +1,7 @@
 [orion] Cinema Orion: 30 showtimes, 13 dates
 [orion] synopses merged: 0
-[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- cinemaorion.fi
 [run] orion: 1 venues, 30 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.6s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 39.9s, 0.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 43.9s, 0.9s wall from this module's first fetch starting to its last ending
 exit=0

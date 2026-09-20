@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotapiola.fi
 [run] tapiola: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 28.6s of fetching added up across workers that overlap, longest site 28.6s, longest queue wait 42.0s, 28.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 31.5s of fetching added up across workers that overlap, longest site 31.5s, longest queue wait 44.9s, 31.5s wall from this module's first fetch starting to its last ending
 exit=0

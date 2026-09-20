@@ -1,0 +1,8 @@
+[kinohuovi] Kino-Huovi, Harjavalta: 5 showtimes, 5 dates, 2 card(s)
+[kinohuovi] Kino-Huovi: 5 showtimes, 5 dates
+[kinohuovi] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 1 attempted -- www.kinohuovi.fi
+[run] kinohuovi: 1 venues, 5 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.3s of fetching added up across workers that overlap, longest site 1.3s, longest queue wait 123.5s, 1.3s wall from this module's first fetch starting to its last ending
+exit=0

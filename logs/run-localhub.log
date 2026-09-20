@@ -1,0 +1,9 @@
+[kinoakustiikka] Kino Akustiikka, Ylivieska: 10 showtimes, 5 dates, 13 of 13 page(s) are films
+[kinoakustiikka] 3 film page(s) with no date, the calendar's own parents
+[kinoakustiikka] Kino Akustiikka: 10 showtimes, 5 dates
+[kinoakustiikka] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[run] hosts: 1 attempted -- tapahtumat.ylivieska.fi
+[run] localhub: 1 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 122.4s, 1.1s wall from this module's first fetch starting to its last ending
+exit=0
