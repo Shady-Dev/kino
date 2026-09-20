@@ -1216,7 +1216,7 @@
          synMore:'Lue koko kuvaus', synLess:'Näytä vähemmän',
          nextShows:'Seuraavat näytökset',
          nextMatch:'Seuraava näytös', atTime:'klo',
-         shareScreening:'Jaa näytös', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
+         shareScreening:'Jaa näytös', reportWrong:'Ilmoita virheellisistä tiedoista', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
          addCalendar:'Lisää kalenteriin',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
@@ -1283,7 +1283,7 @@
          synMore:'Läs hela beskrivningen', synLess:'Visa mindre',
          nextShows:'Nästa föreställningar',
          nextMatch:'Nästa föreställning', atTime:'kl.',
-         shareScreening:'Dela visningen', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
+         shareScreening:'Dela visningen', reportWrong:'Rapportera felaktiga uppgifter', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
          addCalendar:'Lägg till i kalendern',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
@@ -1347,7 +1347,7 @@
          synMore:'Read full description', synLess:'Show less',
          nextShows:'Next screenings',
          nextMatch:'Next screening', atTime:'at',
-         shareScreening:'Share screening', aActions:'Screening actions', linkCopied:'Link copied',
+         shareScreening:'Share screening', reportWrong:'Report incorrect details', aActions:'Screening actions', linkCopied:'Link copied',
          addCalendar:'Add to calendar',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
@@ -4320,7 +4320,8 @@
     menu.className = 'tkmenu ' + menuSide(tk.getBoundingClientRect().right, window.innerWidth);
     menu.setAttribute('role', 'menu');
     menu.innerHTML = `<button type="button" role="menuitem" class="mi" data-act="share"><span>${esc(T.shareScreening)}</span><small>${esc(sub)}</small></button>`
-      + `<button type="button" role="menuitem" class="mi" data-act="cal"><span>${esc(T.addCalendar)}</span></button>`;
+      + `<button type="button" role="menuitem" class="mi" data-act="cal"><span>${esc(T.addCalendar)}</span></button>`
+      + `<button type="button" role="menuitem" class="mi" data-act="report"><span>${esc(T.reportWrong)}</span></button>`;
     tk.appendChild(menu);
     tk.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
@@ -4330,6 +4331,21 @@
     // The sheet body is the scroll container: a menu under the last row would sit
     // below its bottom edge until scrolled to.
     menu.scrollIntoView({ block: 'nearest' });
+  }
+  // The address lives once, in the status page's markup; the three copies that used to
+  // sit here and in build_pages.py went on 2026-09-07 and tests/test_contact_address.py
+  // keeps them gone. So the app links, and that page composes the draft from the
+  // screening on the query. Nothing is sent: the reader gets a draft in their own client.
+  function reportScreening(s){
+    const iso = fiDate(s.start);
+    const detail = [sheetCtx.title,
+                    [venueName(s), s.aud].filter(Boolean).join(' \u00b7 '),
+                    `${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`,
+                    screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid)
+                   ].join('\n');
+    const q = new URLSearchParams({ report: detail });
+    if(state.lang !== 'fi') q.set('lang', state.lang);
+    location.href = `/status/?${q}#contact`;
   }
   async function shareScreening(s){
     const T = L[state.lang];
@@ -4382,6 +4398,7 @@
       closeStubMenu(true);
       if(s && mi.dataset.act === 'share') shareScreening(s);
       if(s && mi.dataset.act === 'cal') calendarScreening(s);
+      if(s && mi.dataset.act === 'report') reportScreening(s);
       return;
     }
     if(openTk && !e.target.closest('.tkmenu')) closeStubMenu(false);

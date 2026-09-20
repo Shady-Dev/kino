@@ -294,6 +294,7 @@
       hUnknown:'Päivitystietoja ei saatu luettua.',
       contactTitle:'Yhteystiedot',
       contactLead:'Virhe näytösajoissa tai kysyttävää palvelusta?',
+      reportSubject:'Virheelliset näytöstiedot', reportIntro:'Mikä tieto on virheellinen?', reportReady:'Viestipohja on valmis: kerro vielä, mikä tieto on väärin, ja lähetä.',
       contactRemoval:'Teatterit voivat pyytää tietojensa korjaamista tai poistamista.',
       srcSum:'Tietolähteet ja lähdekoodi',
       srcData:'Näytösajat ovat elokuvateattereiden julkaisemasta ohjelmistosta. Elokuvien lisätietoja saadaan myös TMDB:stä.',
@@ -345,6 +346,7 @@
       hUnknown:'Uppdateringsuppgifterna kunde inte läsas.',
       contactTitle:'Kontaktuppgifter',
       contactLead:'Fel i föreställningstiderna eller frågor om tjänsten?',
+      reportSubject:'Felaktiga visningsuppgifter', reportIntro:'Vilken uppgift är fel?', reportReady:'Ett utkast är klart: berätta vad som är fel och skicka.',
       contactRemoval:'Biografer kan begära rättelse eller radering av sina uppgifter.',
       srcSum:'Datakällor och källkod',
       srcData:'Föreställningstiderna kommer från biografernas publicerade program. Filmuppgifter hämtas även från TMDB.',
@@ -396,6 +398,7 @@
       hUnknown:'Update information could not be read.',
       contactTitle:'Contact',
       contactLead:'An error in the showtimes, or a question about the service?',
+      reportSubject:'Incorrect screening details', reportIntro:'Which detail is wrong?', reportReady:'A draft is ready: say what is wrong and send it.',
       contactRemoval:'Cinemas can ask for their data to be corrected or removed.',
       srcSum:'Data sources and source code',
       srcData:'Showtimes come from the cinemas’ own published programmes. Film details also come from TMDB.',
@@ -850,6 +853,17 @@
       .map(([d, t]) => `<dt>${esc(d)}</dt><dd>${esc(t)}</dd>`).join('');
     $('contactTitle').textContent = T.contactTitle;
     $('contactLead').textContent = T.contactLead;
+    // A screening reported from the app arrives on the query. This page holds the one
+    // copy of the address, so the draft is composed here. The visible address and its
+    // plain mailto are unchanged when there is no report.
+    const rep = new URLSearchParams(location.search).get('report');
+    const mail = document.querySelector('#contact a[href^="mailto:"]');
+    if(rep && mail){
+      const to = mail.getAttribute('href').split('?')[0];
+      mail.setAttribute('href', to + '?subject=' + encodeURIComponent(T.reportSubject)
+                        + '&body=' + encodeURIComponent(T.reportIntro + '\n\n' + rep));
+      $('contactLead').textContent = T.reportReady;
+    }
     $('contactRemoval').textContent = T.contactRemoval;
     $('srcSum').textContent = T.srcSum;
     $('srcData').textContent = T.srcData;

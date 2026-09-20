@@ -136,6 +136,46 @@ class ShareMarkupTest(unittest.TestCase):
         apply = re.search(r"function applyLang\(\)\{.*?\n  \}\n", HTML, re.S).group(0)
         self.assertIn("if(document.body.classList.contains('sheet-open')) syncSheet();", apply)
 
+    def test_the_menu_carries_a_report_row_beside_share_and_calendar(self):
+        """Added 2026-09-20. Three rows, and the report one is last."""
+        acts = re.findall(r'data-act="(\w+)"', HTML)
+        self.assertEqual(acts, ["share", "cal", "report"], acts)
+        self.assertIn("if(s && mi.dataset.act === 'report') reportScreening(s);", HTML)
+
+    def test_the_report_row_links_to_the_status_page_and_carries_no_address(self):
+        """The app links, the status page holds the one copy: decided 2026-09-07 and
+        pinned by tests/test_contact_address.py. A mailto built here would be a fourth
+        copy to miss on a rotation."""
+        self.assertNotIn("mailto:", HTML)
+        self.assertNotIn("CONTACT", HTML)
+        self.assertIn("location.href = `/status/?${q}#contact`;", HTML)
+        self.assertIn("new URLSearchParams({ report: detail })", HTML)
+
+    def test_the_draft_names_the_screening_and_nothing_else(self):
+        """Film, cinema and room, day and time, and the screening's own link. No search
+        text, no filter state, no other browsing."""
+        fn = re.search(r"function reportScreening\(s\)\{(.*?)\n  \}", HTML, re.S).group(1)
+        self.assertIn("sheetCtx.title", fn)
+        self.assertIn("venueName(s)", fn)
+        self.assertIn("fiTime(s.start)", fn)
+        self.assertIn("screeningUrl(", fn)
+        for forbidden in ("state.filter", "document.referrer", "navigator.userAgent"):
+            self.assertNotIn(forbidden, fn)
+
+    def test_the_status_page_composes_the_draft_from_its_own_address(self):
+        status = (_ctx.ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        self.assertIn("new URLSearchParams(location.search).get('report')", status)
+        self.assertIn("'?subject=' + encodeURIComponent(T.reportSubject)", status)
+        self.assertEqual(len(re.findall(r"reportSubject:'", status)), 3)
+        self.assertEqual(len(re.findall(r"reportReady:'", status)), 3)
+
+    def test_the_report_label_is_in_all_three_languages(self):
+        self.assertEqual(len(re.findall(r"reportWrong:'", HTML)), 3)
+        for want in ("Ilmoita virheellisist\u00e4 tiedoista",
+                     "Rapportera felaktiga uppgifter",
+                     "Report incorrect details"):
+            self.assertIn(want, HTML)
+
     def test_the_service_worker_moved_with_the_page(self):
         sw = (_ctx.ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertGreaterEqual(int(re.search(r"leffavuoro-v(\d+)", sw).group(1)), 145)
