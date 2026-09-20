@@ -6,9 +6,12 @@
 [ritzvaasa] Ritz Vaasa: 6 showtimes, 4 dates
 [ritzvaasa] synopses merged: 0
 [ritzvaasa] synopses skipped as screening notes (price): 5
-[tahtikino] no programme published: https://muhos.fi: the category 'elokuvat' still exists and holds no upcoming event
+[tahtikino] Tähti Kino: no upcoming event in category 'elokuvat', which still exists; publishing the venue empty
+[tahtikino] Tähti Kino: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[tahtikino] synopses merged: 0
 [run] http: 0 revalidated (304), 3 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
-[run] tribe: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
-[run] timing: 2 site(s), 7.0s of fetching added up across workers that overlap, longest site 5.6s, longest queue wait 90.1s, 5.6s wall from this module's first fetch starting to its last ending
+[run] pending: tahtikino has 1 venue(s) with no programme yet: tahtikino-muhos
+[run] tribe: 1 venues, 6 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 2 site(s), 3.9s of fetching added up across workers that overlap, longest site 2.5s, longest queue wait 101.1s, 3.9s wall from this module's first fetch starting to its last ending
 exit=0
