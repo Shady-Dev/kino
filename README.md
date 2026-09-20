@@ -274,9 +274,33 @@ No accounts, cookies, analytics, tracking or ads. Preferences stay in
 `localStorage`. Schedule data is static JSON from this origin, so browsing tells
 no cinema anything.
 
-**A page load makes no third-party requests.** Posters are served from
-`data/posters/` on this origin, and the typeface from `fonts/`. Every `<img>`
-carries `referrerpolicy="no-referrer"`.
+**Posters and the typeface are served from this origin.** `data/posters/` and
+`fonts/`, and every `<img>` carries `referrerpolicy="no-referrer"`.
+
+**One third-party request is made, for analytics.** Until 2026-09-20 this page
+made none, and that sentence was the claim this paragraph existed to carry. It
+is no longer true, on the maintainer's instruction: the app loads PostHog from
+`eu-assets.i.posthog.com` and sends events to **PostHog EU Cloud**
+(`eu.i.posthog.com`).
+
+The setup is **cookieless, which is not the same as fully anonymous**. PostHog
+receives the **network IP address** and the headers the browser sends, and uses
+its cookieless mechanism to derive a privacy-preserving identifier server-side
+so it can count visitors without storing anything in the browser. **It is not
+claimed that no personal data is processed**: an IP address is personal data
+under the GDPR. What there is none of: cookies, browser-storage identifiers,
+person profiles, advertising, cross-site tracking and session recordings.
+
+Seven events are sent and nothing else, each with a fixed set of properties
+carrying internal identifiers: a page view with a category, a city or region
+opened, a cinema opened, a date change as a day offset, a language change,
+search used as a yes/no fact **without the query**, and a ticket link opened
+with the chain's id. `analyticsScrub()` in `index.html` enforces both lists as
+posthog-js's `before_send`, so the library's own 43 properties -- `$current_url`
+among them, which carries the search query -- are stripped rather than trusted
+not to appear. Do Not Track stops it before the request: under DNT the bundle is
+not even fetched. The reader-facing version is [/tietosuoja/](tietosuoja/), in
+Finnish, Swedish and English, and it states the one-year retention.
 
 `mirror_posters.py` runs over the whole of `data/` and rewrites every reference
 that still points at a cinema's own host, so **either half of the pipeline
@@ -293,7 +317,8 @@ because they move with every run.
 
 Until 2026-08-29 the typeface came from Google Fonts and about a third of the
 posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
-mirrored now.
+mirrored now, and between that date and 2026-09-20 the page made no third-party
+request at all.
 
 **Not every picture in `data/posters/` came from a cinema or from TMDB.** The
 files named `card-*.jpg` are Leffavuoro's own **title cards**: an abstract

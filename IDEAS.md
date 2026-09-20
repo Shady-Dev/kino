@@ -53,16 +53,16 @@ The decision, its safeguards and what was measured are in
 **Next action:** written permission from Heureka's media contact, if its artwork is ever
 wanted. Nothing is blocked on it now.
 
-### A film's year on the card
+### Analytics: the origin makes one third-party request
 
-**The rule, shipped 2026-09-20.** A card and its sheet read "Carrie (1976)" when the film
-is at least two calendar years old, `oyear < currentYear - 1` in Europe/Helsinki, in
-parentheses and never after a middle dot. A title the cinema already dated keeps its own.
-**The year source.** `oyear`, from an exact TMDB match's `release_date` and nothing else.
-Not Finnkino's `releaseDate`, which is the *Finnish* release and prints this year for a
-reissue; not `show["year"]`, which is a search hint; not the screening's date. Missing
-stays missing. Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** none; coverage fills as the rating refresh re-reads entries.
+Shipped 2026-09-20 on the maintainer's instruction, superseding the "no third-party
+requests" property. PostHog EU Cloud, cookieless. PostHog gets the network IP and hashes
+it server-side, so the setup is not anonymous and the docs say so. No cookies, browser
+storage, person profiles, advertising, cross-site tracking or session recordings. Seven
+events, fixed properties, enforced in `before_send`. Notice at
+[/tietosuoja/](tietosuoja/); retention one year. Payload and record in
+[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** none.
 
 ### Credential hygiene and rotation
 

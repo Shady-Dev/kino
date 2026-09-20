@@ -104,6 +104,10 @@ const EXPORT = `
 `;
 const sandbox = { Date, Array, Object, Set, Map, Promise, isNaN, console, URL, URLSearchParams, Intl };
 vm.createContext(sandbox);
+// selectVenue tracks the area it opens. Analytics is not what these tests are about,
+// so it is stubbed; tests/test_analytics_privacy.py covers the real one.
+sandbox.track = () => {};
+
 vm.runInContext(HELPERS + PRELUDE + ROUTING + QUERY + KNOWN + HOME + SEL + DAY + LOAD + EXPORT, sandbox, { filename: 'homeFlow' });
 const api = sandbox.__api;
 

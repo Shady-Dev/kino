@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F6F7F9">
+<meta name="robots" content="index,follow">
+<title>Tietosuoja – Leffavuoro</title>
+<meta name="description" content="Mitä Leffavuoro kerää, miksi ja kuinka kauan.">
+<link rel="canonical" href="https://leffavuoro.fi/tietosuoja/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  @font-face{font-family:'Archivo';font-style:normal;
+    font-weight:100 900;font-stretch:62% 125%;font-display:swap;
+    src:url(/fonts/archivo-latin-ext.woff2) format('woff2');
+    unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{font-family:'Archivo';font-style:normal;
+    font-weight:100 900;font-stretch:62% 125%;font-display:swap;
+    src:url(/fonts/archivo-latin.woff2) format('woff2');
+    unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  :root{
+    color-scheme:light dark;
+    --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
+    --line:#E3E6EB; --accent:#B8860B;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--bg); color:var(--ink);
+       font-family:'Archivo',system-ui,sans-serif; line-height:1.55;
+       -webkit-text-size-adjust:100%}
+  .bar{display:flex; align-items:center; gap:16px; padding:14px 16px;
+       border-bottom:1px solid var(--line); background:var(--surface)}
+  .logo{font-weight:800; letter-spacing:-.02em; text-decoration:none; color:var(--ink)}
+  .logo span{color:var(--accent)}
+  .bar a.back{margin-left:auto; color:var(--muted); font-size:.95rem}
+  main{max-width:46rem; margin:0 auto; padding:24px 16px 64px}
+  h1{font-size:1.8rem; letter-spacing:-.02em; margin:.6em 0 .2em}
+  h2{font-size:1.25rem; letter-spacing:-.01em; margin:2.2em 0 .4em; padding-top:1.2em;
+     border-top:1px solid var(--line)}
+  h3{font-size:1rem; margin:1.6em 0 .3em}
+  p,li{color:var(--ink)}
+  .lede{color:var(--muted)}
+  a{color:var(--accent)}
+  table{border-collapse:collapse; width:100%; margin:.8em 0; font-size:.94rem}
+  th,td{text-align:left; vertical-align:top; padding:.45em .6em; border-bottom:1px solid var(--line)}
+  th{color:var(--muted); font-weight:600}
+  code{font-size:.9em; background:var(--surface); padding:.1em .35em; border-radius:4px;
+       border:1px solid var(--line)}
+  .nav{display:flex; gap:12px; flex-wrap:wrap; margin:1.2em 0 0; font-size:.95rem}
+  footer{max-width:46rem; margin:0 auto; padding:0 16px 48px; color:var(--muted); font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a class="logo" href="/">Leffavuoro<span>.</span></a>
+  <a class="back" href="/">← Näytösaikoihin</a>
+</div>
+<main>
+
+<h1 id="fi">Tietosuoja</h1>
+<p class="lede">Leffavuoro kokoaa suomalaisten elokuvateattereiden näytösajat yhteen
+paikkaan. Tämä sivu kertoo, mitä käytöstä mitataan, miksi, minne tiedot menevät ja
+kuinka kauan niitä säilytetään.</p>
+
+<div class="nav"><a href="#fi">Suomeksi</a> · <a href="#sv">På svenska</a> · <a href="#en">In English</a></div>
+
+<h2>Lyhyesti</h2>
+<ul>
+  <li>Käytössä on <strong>evästeetön</strong> kävijämittaus. Se ei ole sama asia kuin
+      täysin anonyymi: katso kohta ”Mitä PostHog vastaanottaa”.</li>
+  <li><strong>Ei evästeitä</strong>, ei selaimen muistiin tallennettuja tunnisteita
+      (localStorage, sessionStorage), ei henkilöprofiileja, ei mainontaa, ei
+      sivustojen välistä seurantaa eikä istuntotallenteita.</li>
+  <li>Mittaustiedot käsitellään <strong>PostHog EU Cloudissa</strong> (EU-alue).</li>
+  <li><strong>Do Not Track</strong> -asetus estää mittauksen kokonaan: silloin selain ei
+      lähetä PostHogille mitään eikä lataa sen ohjelmakoodia.</li>
+  <li>Tapahtumia lähetetään vain alla olevasta luettelosta. Hakusanoja, elokuvien
+      nimiä, osoitteita tai muuta kirjoittamaasi ei lähetetä.</li>
+</ul>
+
+<h2>Rekisterinpitäjä</h2>
+<p>Leffavuoro on yksityishenkilön ylläpitämä harrastusprojekti. Yhteydenotot:
+<a href="/status/">palvelun tila ja yhteystiedot</a>.</p>
+
+<h2>Mitä mitataan</h2>
+<p>Tapahtumia on seitsemän, ja jokaisen mukana kulkevat kentät on rajattu erikseen.
+Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
+<table>
+  <tr><th>Tapahtuma</th><th>Mitä se kertoo</th><th>Mukana kulkevat tiedot</th></tr>
+  <tr><td><code>page_view</code></td><td>Sivulataus</td><td>Näkymän luokka:
+      <code>home</code>, <code>venue</code>, <code>city</code> tai <code>region</code></td></tr>
+  <tr><td><code>area_opened</code></td><td>Kaupunki tai alue avattiin</td>
+      <td>Tyyppi (<code>city</code>/<code>region</code>) ja alueen nimi</td></tr>
+  <tr><td><code>cinema_opened</code></td><td>Teatteri avattiin</td>
+      <td>Teatterin sisäinen tunniste, esimerkiksi <code>tahtikino-muhos</code></td></tr>
+  <tr><td><code>date_changed</code></td><td>Päivää vaihdettiin</td>
+      <td>Ero tähän päivään päivinä, ei päivämäärää</td></tr>
+  <tr><td><code>language_changed</code></td><td>Kieli vaihdettiin</td>
+      <td>Kielikoodi <code>fi</code>, <code>sv</code> tai <code>en</code></td></tr>
+  <tr><td><code>search_used</code></td><td>Hakukenttää käytettiin</td>
+      <td><strong>Ei mitään.</strong> Hakusanaa ei lähetetä.</td></tr>
+  <tr><td><code>ticket_opened</code></td><td>Lippulinkkiä klikattiin</td>
+      <td>Ketjun tunniste, esimerkiksi <code>finnkino</code>. Ei osoitetta.</td></tr>
+</table>
+
+<h3>Mitä ei lähetetä</h3>
+<p>Hakusanat, elokuvien nimet, sivun osoite tai sen hakuparametrit, viittaava sivu,
+selaimen käyttäjäagentti, näytön koko, aikavyöhyke, laitetyyppi eikä mikään klikatun
+elementin teksti. Mittauskirjasto liittää nämä tapahtumiin itse, ja ne poistetaan
+ennen lähetystä.</p>
+
+<h2>Mitä PostHog vastaanottaa</h2>
+<p>Tämä on syy siihen, että mittausta kutsutaan evästeettömäksi eikä anonyymiksi.
+Pyyntö kulkee verkon yli, joten PostHog vastaanottaa <strong>verkko-osoitteen (IP)</strong>
+ja selaimen lähettämät otsakkeet. PostHog muodostaa näistä palvelinpuolella
+<strong>yksityisyyttä suojaavan tunnisteen</strong>, jolla se laskee kävijämäärät ilman,
+että selaimeesi tallennetaan mitään. Tunniste vaihtuu säännöllisesti eikä sitä voi
+yhdistää sinuun tämän palvelun kautta.</p>
+<p><strong>Emme väitä, ettei henkilötietoja käsiteltäisi.</strong> IP-osoitetta pidetään
+tietosuoja-asetuksessa henkilötietona, ja sen käsittely tapahtuu tässä yhteydessä
+kuvatulla tavalla.</p>
+<p>Tapahtuman mukana kulkee lisäksi kaksi teknistä kenttää, joita ilman lähetys ei
+toimi: projektin julkinen tunniste ja <code>distinct_id</code>, joka evästeettömässä
+tilassa on kaikille lukijoille sama vakioarvo <code>$posthog_cookieless</code>.</p>
+
+<h2>Käsittelijä ja sijainti</h2>
+<p>Käsittelijä on PostHog, ja tiedot käsitellään sen <strong>EU Cloud</strong>
+-ympäristössä. Vastaanottava osoite on <code>eu.i.posthog.com</code>, ja mittauskirjasto
+ladataan osoitteesta <code>eu-assets.i.posthog.com</code>.</p>
+
+<h2>Säilytysaika</h2>
+<p><strong>Yksi vuosi.</strong> Tämä on käytössä olevan PostHog-tilauksen (Free)
+säilytysaika, jonka jälkeen tapahtumat poistuvat.</p>
+
+<h2>Käsittelyn peruste</h2>
+<p>Käsittely perustuu <strong>oikeutettuun etuun</strong> (yleinen tietosuoja-asetus
+6(1)(f)): sen selvittämiseen, mitkä palvelun osat ovat käytössä, jotta ylläpito voi
+kohdistaa työn oikein. Mittaus on rajattu edellä kuvattuun vähimmäismäärään, siihen ei
+liity profilointia eikä mainontaa, eikä selaimeesi tallenneta tunnisteita. Do Not Track
+-asetus estää mittauksen kokonaan.</p>
+
+<h2>Oikeutesi</h2>
+<p>Sinulla on tietosuoja-asetuksen mukaiset oikeudet: oikeus saada pääsy tietoihin,
+oikaista ja poistaa ne, rajoittaa käsittelyä, siirtää tiedot sekä
+<strong>vastustaa oikeutettuun etuun perustuvaa käsittelyä</strong>. Koska
+selaimeesi ei tallenneta tunnistetta, yksittäisiä tapahtumia ei yleensä voida yhdistää
+sinuun jälkikäteen, mikä voi rajoittaa pääsy- ja poisto-oikeuden toteuttamista
+käytännössä. Mittauksen voi estää itse Do Not Track -asetuksella tai
+mainos- ja seurantaestolla. Voit myös tehdä valituksen tietosuojavaltuutetun
+toimistolle.</p>
+
+<h2>Muut ulkopuoliset pyynnöt</h2>
+<p>Elokuvajulisteet ja kirjasin tarjoillaan tästä samasta osoitteesta. Lippulinkit
+vievät teatterin omalle sivustolle, jolloin siirryt kyseisen sivuston tietosuojakäytännön
+piiriin. Palvelu tallentaa selaimesi muistiin omat asetuksesi (valittu teatteri, kieli ja
+teema) avaimilla <code>kino-prefs</code> ja <code>kino-theme</code>; ne eivät ole
+tunnisteita eivätkä poistu tältä laitteelta.</p>
+
+<h2 id="sv">Dataskydd (svenska)</h2>
+<p class="lede">Leffavuoro samlar finländska biografers visningstider på ett ställe. Den
+här sidan beskriver vad som mäts, varför, vart uppgifterna går och hur länge de sparas.</p>
+<ul>
+  <li><strong>Kakfri</strong> besöksmätning. Det är inte detsamma som helt anonym.</li>
+  <li><strong>Inga kakor</strong>, inga identifierare i webbläsarens lagring, inga
+      personprofiler, ingen reklam, ingen spårning mellan webbplatser och inga
+      sessionsinspelningar.</li>
+  <li>Uppgifterna behandlas i <strong>PostHog EU Cloud</strong>.</li>
+  <li><strong>Do Not Track</strong> stoppar mätningen helt: då skickas ingenting.</li>
+</ul>
+<p><strong>Vad PostHog tar emot.</strong> Eftersom förfrågan går över nätet tar PostHog
+emot <strong>IP-adressen</strong> och webbläsarens rubriker, och bildar av dem en
+<strong>integritetsbevarande identifierare</strong> på serversidan för att räkna besökare
+utan att något lagras i din webbläsare. <strong>Vi påstår inte att inga personuppgifter
+behandlas</strong>: en IP-adress betraktas som personuppgift.</p>
+<p><strong>Händelserna</strong> är de sju som listas i den finska tabellen ovan:
+sidvisning med en kategori, stad eller region öppnad, biograf öppnad, datum ändrat,
+språk ändrat, sökning använd <em>som enbart ett ja</em> utan sökordet, och biljettlänk
+öppnad med kedjans identifierare. Sökord, filmtitlar, adresser med frågeparametrar och
+elementtext skickas aldrig.</p>
+<p><strong>Lagringstid:</strong> ett år. <strong>Rättslig grund:</strong> berättigat
+intresse, artikel 6.1 f. Du har rätt till tillgång, rättelse, radering, begränsning,
+dataportabilitet och att <strong>invända</strong> mot behandlingen, samt att klaga hos
+dataombudsmannen. Eftersom ingen identifierare lagras i din webbläsare kan enskilda
+händelser i regel inte kopplas till dig i efterhand.</p>
+
+<h2 id="en">Privacy (English)</h2>
+<p class="lede">Leffavuoro collects Finnish cinema showtimes in one place. This page
+describes what is measured, why, where it goes and how long it is kept.</p>
+<ul>
+  <li><strong>Cookieless</strong> analytics. That is not the same as fully anonymous.</li>
+  <li><strong>No cookies</strong>, no browser-storage identifiers, no person profiles, no
+      advertising, no cross-site tracking and no session recordings.</li>
+  <li>Processed in <strong>PostHog EU Cloud</strong>.</li>
+  <li><strong>Do Not Track</strong> stops it entirely: nothing is sent and the analytics
+      script is not even loaded.</li>
+</ul>
+<p><strong>What PostHog receives.</strong> The request travels over the network, so
+PostHog receives your <strong>network IP address</strong> and the headers your browser
+sends, and uses its cookieless mechanism to derive a <strong>privacy-preserving
+identifier</strong> server-side so it can count visitors without storing anything in your
+browser. <strong>We do not claim that no personal data is processed</strong>: an IP
+address is treated as personal data under the GDPR.</p>
+<p><strong>The events</strong> are the seven in the Finnish table above: a page view with
+a category, a city or region opened, a cinema opened, the date changed, the language
+changed, search used <em>as a yes/no fact only, never the query</em>, and a ticket link
+opened carrying the chain identifier. Search terms, film titles, URLs with query
+parameters and element text are never sent. Two technical fields travel with each event
+because the request cannot be built without them: the public project token and
+<code>distinct_id</code>, which in cookieless mode is the constant value
+<code>$posthog_cookieless</code>, identical for every reader.</p>
+<p><strong>Retention:</strong> one year, the retention period of the PostHog plan in use.
+<strong>Legal basis:</strong> legitimate interest, GDPR Article 6(1)(f), in understanding
+which parts of the service are used. <strong>Your rights:</strong> access, rectification,
+erasure, restriction, portability and the right to <strong>object</strong> to processing
+based on legitimate interest, and to lodge a complaint with the Finnish Data Protection
+Ombudsman. Because no identifier is stored in your browser, individual events generally
+cannot be linked back to you, which may limit access and erasure in practice. You can
+block the measurement yourself with Do Not Track or a tracker blocker.</p>
+
+</main>
+<footer>Leffavuoro · <a href="/">Näytösajat</a> · <a href="/status/">Palvelun tila</a></footer>
+</body>
+</html>

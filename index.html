@@ -1042,6 +1042,7 @@
   <div id="credit">Suomalaisten elokuvateatterien näytösajat</div>
   <div id="priceNote">Suuntaa-antava hinta. Lopullinen hinta teatterin lipunmyynnissä.</div>
   <div id="statusLink"><a href="/status/">Palvelun tila ja tiedot ↗</a></div>
+  <div id="privacyLink"><a href="/tietosuoja/">Tietosuoja ↗</a></div>
 </footer>
 
 <script>
@@ -1221,6 +1222,7 @@
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
          priceNote:'Suuntaa-antava hinta. Lopullinen hinta teatterin lipunmyynnissä.',
          statusLink:'Palvelun tila ja tiedot \u2197',
+         privacyLink:'Tietosuoja \u2197',
          partialOf:'Näytöstiedot eivät päivittyneet {n}/{m} teatterilta', unavailable:'ei saatavilla',
          partialCity:'Näytetään {n}/{m} teatteria.',
          partialMissing:'Ei saatu ladattua: {names}.',
@@ -1287,6 +1289,7 @@
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
          priceNote:'Riktpris. Slutligt pris i biografens biljettförsäljning.',
          statusLink:'Tjänstens status och information \u2197',
+         privacyLink:'Dataskydd \u2197',
          partialOf:'{n}/{m} biografer uppdaterades inte', unavailable:'ej tillgänglig',
          partialCity:'Visar {n}/{m} biografer.',
          partialMissing:'Kunde inte laddas: {names}.',
@@ -1350,6 +1353,7 @@
          contact:'For cinemas: enquiries and removal requests', source:'Source',
          priceNote:'Indicative price. Final price at the cinema\u2019s ticket checkout.',
          statusLink:'Service status and information \u2197',
+         privacyLink:'Privacy \u2197',
          partialOf:'{n}/{m} cinemas did not refresh', unavailable:'unavailable',
          partialCity:'Showing {n} of {m} cinemas.',
          partialMissing:'Could not load: {names}.',
@@ -1473,6 +1477,128 @@
     const e = REGIONS.find(x => x.name === r);
     return (e && e[state.lang]) || r;
   };
+  /* ---------- analytics ---------- */
+  // PostHog EU. Cookieless: no cookie, no browser storage, no person profile. PostHog
+  // still gets the IP and hashes it server-side, so this is not anonymous. The only
+  // third-party request this origin makes; see IDEAS.md and /tietosuoja/.
+  const PH_KEY  = 'phc_zTiDPrATqb3MbLoYZ25XKhkNpdR7GsdeofZL6rnd5GzV';
+  const PH_HOST = 'https://eu.i.posthog.com';
+
+  // --- analyticsScrub: pure, extracted verbatim by tests/analytics_harness.js ---
+  // posthog-js before_send. An event not keyed here is dropped; a property not listed
+  // for it is removed, including the 43 the library adds. $current_url is the one that
+  // matters: the search query is in it. Values are internal ids only.
+  const PH_ALLOW = {
+    page_view:        ['category'],
+    area_opened:      ['kind', 'area'],
+    cinema_opened:    ['venue'],
+    date_changed:     ['offset_days'],
+    language_changed: ['lang'],
+    search_used:      [],
+    ticket_opened:    ['provider'],
+  };
+  function analyticsScrub(event){
+    if(!event || !Object.prototype.hasOwnProperty.call(PH_ALLOW, event.event)) return null;
+    const keep = PH_ALLOW[event.event], src = event.properties || {}, out = {};
+    for(const k of keep){
+      const v = src[k];
+      if(v !== undefined && v !== null && v !== '') out[k] = v;
+    }
+    // Required: strip either and posthog-js builds no request at all (measured
+    // 2026-09-20). distinct_id in cookieless mode is the constant "$posthog_cookieless".
+    for(const k of ['token', 'distinct_id'])
+      if(src[k] !== undefined) out[k] = src[k];
+    event.properties = out;
+    // Person properties. person_profiles:'never' already no-ops these; drop them anyway.
+    delete event.$set;
+    delete event.$set_once;
+    return event;
+  }
+  // --- end analyticsScrub ---
+
+  // Checked before the bundle is fetched, so under DNT posthog sees nothing.
+  // respect_dnt in the config covers signals that arrive later.
+  const phDNT = () => navigator.doNotTrack === '1' || window.doNotTrack === '1'
+                   || navigator.msDoNotTrack === '1' || navigator.globalPrivacyControl === true;
+
+  let phOn = false, phQueue = [], phSeen = {}, phBooted = false;
+
+  function phInit(){
+    if(phDNT()) return;
+    const sc = document.createElement('script');
+    // PostHog's snippet derives the bundle host from the API host this way.
+    sc.src = PH_HOST.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js';
+    sc.crossOrigin = 'anonymous';
+    sc.async = true;
+    sc.onload = () => {
+      try{
+        window.posthog.init(PH_KEY, {
+          api_host: PH_HOST,
+          cookieless_mode: 'always',     // no cookie, no localStorage, no sessionStorage
+          person_profiles: 'never',      // no person profile, and identify() becomes a no-op
+          persistence: 'memory',
+          disable_persistence: true,
+          respect_dnt: true,
+          autocapture: false,            // no clicks, no element text
+          capture_pageview: false,       // page_view below is ours, and carries no URL
+          capture_pageleave: false,
+          capture_dead_clicks: false,
+          capture_heatmaps: false,
+          capture_performance: false,
+          capture_exceptions: false,
+          disable_session_recording: true,
+          disable_surveys: true,
+          enable_recording_console_log: false,
+          // No /decide call, so no feature flags, no surveys, no toolbar and no remote
+          // configuration: nothing about what this page collects can be turned on from
+          // outside this file.
+          advanced_disable_decide: true,
+          advanced_disable_feature_flags: true,
+          before_send: analyticsScrub,
+        });
+        phOn = true;
+        const q = phQueue; phQueue = [];
+        for(const [n, p] of q) phSend(n, p);
+      }catch(_){}
+    };
+    document.head.appendChild(sc);
+  }
+
+  function phSend(name, props){
+    try{ window.posthog.capture(name, props || {}); }catch(_){}
+  }
+
+  // One event per distinct property signature: re-renders and restored state repeat
+  // nothing.
+  function track(name, props){
+    if(phDNT() || !Object.prototype.hasOwnProperty.call(PH_ALLOW, name)) return;
+    const sig = name + '|' + PH_ALLOW[name].map(k => String((props || {})[k] ?? '')).join('|');
+    if(phSeen[name] === sig) return;
+    phSeen[name] = sig;
+    if(phOn) phSend(name, props);
+    else if(phQueue.length < 20) phQueue.push([name, props]);
+  }
+  // Repeatable on purpose, so not signature-deduped.
+  function trackTicket(provider){
+    if(phDNT()) return;
+    if(phOn) phSend('ticket_opened', provider ? { provider } : {});
+    else if(phQueue.length < 20) phQueue.push(['ticket_opened', provider ? { provider } : {}]);
+  }
+
+  // Page category from internal state, never the URL.
+  function phCategory(){
+    const a = state.area || '';
+    if(a.startsWith('city:'))   return 'city';
+    if(a.startsWith('region:')) return 'region';
+    return a ? 'venue' : 'home';
+  }
+  // Once per load, after the area is restored.
+  function phPageView(){
+    if(phBooted) return;
+    phBooted = true;
+    track('page_view', { category: phCategory() });
+  }
+
   const FI_TZ = 'Europe/Helsinki';
   const fiDayFmt  = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ });
   const fiTimeFmt = new Intl.DateTimeFormat('sv-SE', { timeZone: FI_TZ, hour:'2-digit', minute:'2-digit' });
@@ -2599,6 +2725,12 @@
     const o = opts || {};
     const fromHome = !state.area;
     state.area = id;
+    // Deduped on the id by track().
+    if(id.startsWith('city:') || id.startsWith('region:'))
+      track('area_opened', { kind: id.slice(0, id.indexOf(':')),
+                             area: id.slice(id.indexOf(':') + 1) });
+    else
+      track('cinema_opened', { venue: id });
     homeNote = '';
     document.documentElement.classList.add('scoped');
     // The URL says what is on screen: a reload lands on it, a share names it, and each
@@ -2713,11 +2845,20 @@
   }
 
   /* ---------- schedule ---------- */
+  // Delegated: provider id off the anchor, never the href.
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a.stub[href^="http"]');
+    if(a) trackTicket(a.dataset.prov || '');
+  }, true);
+
   const pad = n => String(n).padStart(2,'0');
 
   // Jump to a date and keep the chip row in sync, whether it is a chip or the picker.
   function selectDay(iso){
     state.dateStr = iso;
+    // Offset in days, never the date.
+    track('date_changed', { offset_days: Math.round(
+      (new Date(iso + 'T12:00:00Z') - new Date(fiToday() + 'T12:00:00Z')) / 864e5) });
     state.revealed.clear();
     prefs.set({ day: iso });
     [...daysEl.children].forEach(c => c.classList.remove('active'));
@@ -3002,6 +3143,9 @@
     // on the tickets are the providers' and the final price is the cinema's.
     const note = document.querySelector('#priceNote');
     if(note) note.textContent = L[state.lang].priceNote;
+    // Before the #statusLink early return. No query on the href.
+    const pv = document.querySelector('#privacyLink a');
+    if(pv) pv.textContent = L[state.lang].privacyLink;
     const el = document.querySelector('#statusLink');
     if(!el) return;
     const q = new URLSearchParams();
@@ -3164,7 +3308,7 @@
       const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');
       const own_price = priceLabel([s]);
       return `<div class="trow">
-        <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener">
+        <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}">
           <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
           <small>${[venue, room, ageGlyph(s), sold, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(tags), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
@@ -3268,8 +3412,7 @@
 
   function emptyMsg(){
     const t = L[state.lang];
-    // Ahead of the filter and date messages: they describe why *today* is empty, and this
-    // says the cinema has nothing on at all.
+    // Ahead of the filter and date messages.
     const ids = viewVenueIds();
     if(pendingNotice(ids, ids.filter(id => (venueIndex[id] || {}).pending),
                      (state.shows || []).length > 0)) return t.noProgYet;
@@ -3651,7 +3794,7 @@
         // The screening's own price, or an empty compartment. Never the film's: see the
         // meta2 note.
         const own_price = priceLabel([t]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
+        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
@@ -3706,7 +3849,12 @@
   let searchTimer = null;
   searchEl.oninput = () => {
     clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => { state.filter = searchEl.value; render(); }, 120);
+    searchTimer = setTimeout(() => {
+      state.filter = searchEl.value;
+      // No properties, so track() fires it once a load. The query is never sent.
+      if(state.filter.trim()) track('search_used');
+      render();
+    }, 120);
   };
 
   /* ---------- movie sheet ---------- */
@@ -3829,7 +3977,7 @@
         // The menu button sits beside the ticket, outside the anchor; a past screening
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
-        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
+        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
                   <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
@@ -4248,6 +4396,7 @@
     const b = e.target.closest('button[data-lang]');
     if(!b || b.dataset.lang === state.lang) return;
     state.lang = b.dataset.lang;
+    track('language_changed', { lang: state.lang });
     prefs.set({lang: state.lang});
     // Keep a deep-linked URL saying what the toggle shows, so a reload cannot put the
     // reader back in the language they just left.
@@ -4482,6 +4631,7 @@
                                 // transient unhandled-rejection the pre-start would log
       const regionsP = fetchJSON('data/regions.json');
       regionsP.catch(() => {});
+      phInit();
       await loadProviders();
       // Before loadAreas: buildAreaOptions folds the areas out of the venue list, so the
       // region file has to be here by then or the picker draws without them.
@@ -4494,6 +4644,7 @@
       fiDay = L[state.lang].days;
       searchEl.placeholder = searchHint();
       buildDays();
+      phPageView();
       if(!state.area){
         // No link, no favourite: the chooser. A link that named nothing the list has
         // says so in one line. Nothing is fetched beyond the venue lists.
