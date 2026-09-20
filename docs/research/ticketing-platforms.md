@@ -1528,3 +1528,106 @@ and a time. **What would change it** is the cinema bringing a site back up, or t
 municipal calendar carrying its screenings as events rather than as a venue profile.
 Neither is work in this repository, and no aggregator is read in their place: this repo
 reads each cinema through the same public interface its own site uses.
+
+## Eight cinemas, read 2026-09-21
+
+Two were built and are recorded in `docs/archive/2026-09-providers.md`: Kino Akustiikka
+(Ylivieska) on the town's Localhub calendar, and Kino-Huovi (Harjavalta) with its own
+parser. What the other six are, as measured that day, and what each one waits on.
+
+### Kuva-Tähti's two cinemas run Johku's client-rendered storefront
+
+**Kauttuan Kuva (Eura) and Kuvala (Uusikaupunki)**, one merchant, `johku.com/kuvatahti`.
+Not the storefront the seven built Johku cinemas use. Those render the programme
+server-side, in `showgroup` / `daytitle` / `js-grid-show` blocks that `johku.py` reads.
+This merchant's pages are a Nuxt application: `kuvatahti.fi` and `kuvatahti.johku.com`
+serve the same markup, and on both the whole visible page is 23 lines of chrome with no
+film, no date and no time. Five surfaces were read and none carries a dated row:
+the storefront root, `/fi_FI/naytosajat`, `/fi_FI/naytosajat/kauttuan-kuva`,
+`/fi_FI/naytosajat/kuvala`, and `/fi_FI/tulevia-elokuvia`, which renders an empty category.
+
+The `__NUXT_DATA__` payload, 1,471 entries on each cinema's page, holds the shop's own
+furniture, its payment methods and the word `showtimes`, and **not one date-like string**.
+So there is no last visible programme date to report: no surface this repository may read
+carries one at all. The rows the visitor sees are fetched by the widget afterwards, which
+is the `/api/auth/widget-session` and `X-ApiKey` flow the maintainer declined for Kino
+Engel on 2026-09-20. That decision is not reopened here and no key was copied, replayed or
+recorded; the token-shaped string in the page is deliberately not written down.
+
+**What would change it:** this merchant moving to the server-rendered storefront template,
+the cinemas publishing a feed, or the maintainer separately approving the widget flow.
+The first two make both cinemas an ordinary `johku.py` `SITES` entry.
+
+### Rekolan Kino, Vantaa, has no upcoming screening
+
+Its own Squarespace site at `rekolankino.fi/elokuvat` renders the programme server-side and
+the structure is readable: an `h4` per screening carrying the title and a Finnish date and
+time, a description, an image and an "Osta lippuja" button. Read 2026-09-21 it held five
+rows, `Pe, 18.9.` twice and `Su, 20.9.` three times, **every one of them in the past**, and
+nothing dated later anywhere on the page.
+
+A parser could be written against that shape, and it would return zero rows today. Zero
+rows has to fail the site, because the page still lists films and `common.EmptyProgramme`
+takes positive evidence of an empty listing rather than a parse that found nothing. So the
+adapter would fail every run from its first, and no published row could be checked against
+the cinema's own page, which is the step six dead Nexxo links bought.
+
+One finding for whoever picks it up: **the ticket buttons go to `myyri.kinola.ee`**, the
+Kinola storefront of Kino Myyri, already a provider here. Whether Rekola is a second venue
+of that tenant or a separate account on one storefront is not settled, and settling it
+decides whether this is a `kinola.py` `SITES` entry rather than a new parser.
+
+**What would change it:** the cinema publishing its next programme.
+
+### Juvan Kino publishes through a municipal calendar that has nothing on
+
+The cinema category of `juvantapahtumat.fi` is the first-party route and it is empty. Read
+2026-09-21, `/kategoriat/elokuvat` lists **"Elokuvat ( 0 tapahtumaa)"** in its own sidebar
+and renders "Valitussa kategoriassa ei ole tapahtumia", and the RSS twin,
+`?format=feed&type=rss`, is a 1,033-byte channel with a `lastBuildDate` and **no `item`
+element at all**. Eleven other categories on the same calendar do carry events, so the
+calendar itself is alive and the cinema's category is the empty one.
+
+The general JSON feed the municipality's own homepage consumes was not used: it carries
+unrelated events and exposes no clean per-row venue field, so it could not establish that a
+row is this cinema's. A title that looks like a film is not evidence of the organiser.
+
+**What would change it:** the municipality publishing the next programme in that category.
+The RSS carries enough for a row when it does.
+
+### Kino K13 and Kino Helios are readable, and blocked on the accent contract
+
+Both are in Helsinki, and both were parsed against live data before anything was written.
+
+**Kino K13**, `ses.fi/kinok13/`, renders its programme server-side in a
+`<section id=ohjelmisto>` whose free prose holds four timed rows for the Polish Film Weeks,
+`ma 5.10.` to `to 8.10.`, each `klo 18`, with a runtime and a Finnish rating sentence on
+three of the four and free admission stated for the block. The four Kinokka evenings on the
+same page carry a date and **no time**; the organiser page they link,
+`kaupunginosat.fi/skatta/ohjelmisto/`, was fetched and contains no `klo` anywhere, so
+nothing publicly fetchable settles those four and inventing a time is not an option. Two
+festival headings, `5.-9.10.2026 Puolan elokuvaviikot` and `6.-8.11.2026 Serbian
+elokuvapäivät`, are date ranges and not screenings.
+
+**Kino Helios**, the Malmitalo hall, answers a JSON `EventData` string at
+`malmitalo.fi/services/Resurssivaraus/EventCalendarService.svc/GetEvents`. Filtering it on
+`eventLocation == "42"`, `mainEventType == "29"` and `subtitle == "Kino Helios"` gave
+**exactly 22 rows** over 2026-09-23 to 2026-10-24, every one at `Malmitalon Pieni sali`,
+every one with a `lippu.fi` ticket link and a rating suffix in its title. The eleven other
+type-29 rows at that location are `Doc Helios`, `Yleisön suosikit` and blank-subtitle
+strands and are not this cinema. `end - start` is 120 minutes on 21 of the 22 rows and 300
+on one, so it is a booking slot and settles no runtime, and `priceinfo` is the string
+`None` on every row, so the house tariff is not a per-screening amount.
+
+**Neither can be registered.** Helsinki already holds eight chains, and a ninth accent has
+to clear 14.4 dE00 against all eight in the combined-city view that
+`tests/test_accent_check.py::test_every_combined_city_pair_clears_the_floor` holds without
+exception. Swept here at step 4 over the whole cube, 262,144 colours: **0 of the 94,359
+inside the L\* 38-60 band clear it**, and the best reachable is 12.12 (`#886098`), whose
+worst Helsinki pair `scripts/accent_check.py --candidate '#886098' --city Helsinki` prints
+as 12.1 against Gilda. Outside the band 70,460 colours clear it, all of them too light or
+too dark for the 3 px rule the band exists for.
+
+So the blocker is not the data and not the parse. It is the open maintainer decision
+already recorded in `IDEAS.md` under "Helsinki is full at eight chains": what the city view
+does when a city is full. Two real candidates now trigger it.

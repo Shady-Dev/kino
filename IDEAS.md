@@ -101,6 +101,31 @@ clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold
 recipient are machine-specific and live in the wrapper outside this repo, so this item
 cannot close here.
 
+### Kuva-Tähti's two cinemas need the Johku widget flow
+
+Kauttuan Kuva (Eura) and Kuvala (Uusikaupunki), one merchant on Johku's **client-rendered**
+storefront rather than the server-rendered one `johku.py` reads. Read 2026-09-21: five
+surfaces, including both cinema categories and `/fi_FI/tulevia-elokuvia`, render no film,
+no date and no time, and the `__NUXT_DATA__` payload holds no date-like string at all, so
+there is no last visible programme date to report. The rows arrive through
+`/api/auth/widget-session` and an `X-ApiKey`, the flow declined for Kino Engel on
+2026-09-20; no key was copied or recorded. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** re-read for the server-rendered template or a feed. Both become ordinary
+`johku.py` `SITES` entries if one appears.
+
+### Rekolan Kino and Juvan Kino wait for a programme
+
+Both read 2026-09-21. **Rekolan Kino** (Vantaa) renders its Squarespace programme
+server-side and held five rows, all in the past, the latest 20.9. A parser would return
+zero rows, which must fail the site while the page still lists films. Its ticket buttons go
+to `myyri.kinola.ee`, Kino Myyri's Kinola storefront, so whether this is a `kinola.py`
+`SITES` entry is unsettled and worth settling first. **Juvan Kino** publishes through
+`juvantapahtumat.fi`, whose cinema category states 0 events and whose RSS carries no item;
+eleven other categories on that calendar do carry events. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** re-read both listings later.
+
 ### Kino Kaustinen has no screening to verify against
 
 A real eTiketti tenant publishing none, so no ticket destination can be checked, which is
