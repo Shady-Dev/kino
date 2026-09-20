@@ -76,6 +76,16 @@ EVENT_PREFIXES = (
     # Finnish titles ("Ooppera: Idomeneo"), so stripping one turns working matches into
     # misses. "r&a" would split 29 Rakkautta & Anarkiaa titles whose bare names are generic
     # enough to match the wrong film by popularity, with no published year to disambiguate.
+    # 2026-09-20. The "r&a" refusal above still stands, and two things done that day do
+    # not touch it. First, two R&A rows at Cinema Orion were aliased one at a time in
+    # tmdb-aliases.json after reading the TMDB record -- director, original language,
+    # country, year, runtime -- rather than the title: an alias names one id for one
+    # published title and issues no search, so the popularity mis-resolution this refusal
+    # is about cannot arise. That is the same thing "r a mouse" did in this very pass.
+    # Second, index.html's fallback tile stopped counting the prefix toward its two
+    # letters, because the word split is on letters and all 30 R&A titles drew "RA". That
+    # is the tile and nothing else: the published title, the cache key, normTitle() and
+    # the merge key are untouched, so no title is matched differently because of it.
     "kuukauden pohjoismainen", "nordic film of the month", "star house movie",
     # 2026-09-19, two standing series rather than one festival's week. Riviera runs
     # "Leffabrunssi:" and Kino Laika "Kino Iglu:" as repeating programmes, so a prefix
