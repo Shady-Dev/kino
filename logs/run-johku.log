@@ -8,18 +8,18 @@
 [vihdinkino] Vihdin Kino: 5 showtimes, 3 dates
 [vihdinkino] Vihdin Kino: 5 showtimes, 3 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 29 screening(s) in day groups, 11 film page(s) read
-[bioforum] Bio Forum: 29 showtimes, 12 dates
-[bioforum] Bio Forum: 29 showtimes, 12 dates
-[bioforum] synopses merged: 1
-[kinokulma] 60 screening(s) in day groups, 19 film page(s) read
+[bioforum] 28 screening(s) in day groups, 10 film page(s) read
+[bioforum] Bio Forum: 28 showtimes, 12 dates
+[bioforum] Bio Forum: 28 showtimes, 12 dates
+[bioforum] synopses merged: 0
+[kinokulma] 72 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
-[kinokulma] 1 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show
-[kinokulma] Kinokulma: 58 showtimes, 32 dates
-[kinokulma] Kinokulma: 58 showtimes, 32 dates
-[kinokulma] synopses merged: 7
-[run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
+[kinokulma] Kinokulma: 70 showtimes, 43 dates
+[kinokulma] Kinokulma: 70 showtimes, 43 dates
+[kinokulma] synopses merged: 1
+[run] http: 0 revalidated (304), 47 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 101 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 109.3s of fetching added up across workers that overlap, longest site 49.8s, longest queue wait 90.0s, 55.2s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 112 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 113.1s of fetching added up across workers that overlap, longest site 55.1s, longest queue wait 89.8s, 60.9s wall from this module's first fetch starting to its last ending
 exit=0

@@ -2799,6 +2799,14 @@
    },
    "tr": ""
   },
+  "pikku kummitus lapanen keppostelee": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
+   },
+   "tr": ""
+  },
   "pikkuli ja tähtipeura": {
    "img": "data/posters/e4e4be88f3bfae06.jpg",
    "kr": "S",
@@ -2948,7 +2956,6 @@
     "kinotar",
     "kinotoijala",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -3022,7 +3029,6 @@
     "kinotar",
     "kinotoijala",
     "kinotour",
-    "kkino",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
@@ -3111,7 +3117,6 @@
     "kinotar",
     "kinotoijala",
     "kinotour",
-    "kkino",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
@@ -3254,7 +3259,6 @@
     "kinotar",
     "kinotoijala",
     "kinotour",
-    "kkino",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
@@ -3779,7 +3783,6 @@
    "img": "data/posters/45f3e2165fbd29bb.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biorex",
     "biorexkokkola",
     "gilda",
