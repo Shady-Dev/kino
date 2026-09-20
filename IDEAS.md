@@ -58,11 +58,13 @@ be decided under the pressure of wanting one particular cinema.
 ### Kino Konepaja has no programme to read
 
 A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
-one. Re-read 2026-09-19: its event list still says "Ei tulevia tapahtumia." The 40
-`kinola-event` matches on that page are its coming-soon grid, not a programme.
-The adopted classifier and the three tenants that do publish are recorded in
+one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
+still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
+cinema is shut and reopening soon. The silence has a stated cause for the first time.
+Evidence in [docs/research/kinola.md](docs/research/kinola.md); the classifier and the
+three tenants that do publish are in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** re-read the listing.
+**Next action:** re-read the listing, at the front page now.
 
 ### Move the local fetch off the laptop
 

@@ -55,6 +55,14 @@ a "tulossa" grid of 44 film links, so a count of `kinola-event` occurrences look
 programme, and its screening list says "Ei tulevia tapahtumia." The 2026-09-14 reading
 stands and it has no `SITES` entry.
 
+**Re-read 2026-09-20.** `kinokonepaja.fi/naytokset/` now answers 301 to the front page,
+which carries the same listing: one "Ei tulevia tapahtumia.", 40 `kinola-event` and 43
+`kinola-film` matches in the coming-soon grid, and still no `kinola-events` container. The
+site also states the cinema is shut and reopening shortly. That is the first stated reason
+for the silence; until now it was only an absence, and an absence does not distinguish a
+pause from a template this reader cannot parse. Still no `SITES` entry. The URL in the
+table below records what was read on 2026-09-15 and is left as it was.
+
 ---
 
 ## The listing's own shape: what an empty programme looks like
