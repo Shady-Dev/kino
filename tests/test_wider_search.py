@@ -83,7 +83,7 @@ class WiringTest(unittest.TestCase):
     """The DOM half, pinned at source level."""
 
     def test_the_action_order_is_next_screening_wider_then_clear(self):
-        self.assertIn("function emptyActions(){ return (nextMatchLink() || nextDayLink()) + widerLinks() + clearFiltersLink(); }", HTML)
+        self.assertIn("function emptyActions(){ return (nextMatchLink() || nextDayLink()) + widerLinks() + clearTimeLink() + clearFiltersLink(); }", HTML)
         self.assertIn("${L[state.lang].nomore}${emptyContext()}${nextMatchLink() || nextDayLink()}${widerLinks()}", HTML)
 
     def test_only_a_nonblank_search_gets_the_invitations(self):

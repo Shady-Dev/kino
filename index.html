@@ -856,6 +856,27 @@
   .seg button:first-child{border-radius:7px 0 0 7px}
   .seg button:last-child{border-radius:0 7px 7px 0}
 
+  /* Ajat's time restriction, above its list. The field takes the treatment #areaSelect
+     and .search already share and the reset is a .chip, so no new control style enters
+     the page. It wraps rather than overflowing at 320. */
+  .tbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 10px}
+  .tlbl{color:var(--muted); font-size:.78rem; font-weight:600}
+  /* 36 px to the eye like the chips and the segment, reaching the 44 px floor through the
+     same transparent extension. A select cannot carry a pseudo-element, so the wrapper
+     does. */
+  .tfield{position:relative; z-index:1; display:inline-flex}
+  .tfield::after{content:""; position:absolute; left:0; right:0; top:-4px; bottom:-4px}
+  /* appearance:none and an explicit height: WebKit ignores min-height on a menulist and
+     drew the select 19 px tall, half the floor, while Chromium honoured it (measured
+     2026-09-20 in both). The chevron is drawn beside it, the way #areaSelect does. */
+  .tinput{font:inherit; font-size:.78rem; font-weight:600; color:var(--ink);
+    background:var(--surface); border:1px solid var(--line); border-radius:7px;
+    appearance:none; -webkit-appearance:none;
+    padding:0 26px 0 8px; height:36px; box-sizing:border-box; cursor:pointer}
+  .tfield .tchev{position:absolute; right:8px; top:50%; margin-top:-7px; width:14px;
+    height:14px; color:var(--muted); pointer-events:none; display:inline-flex}
+  .tinput:hover{border-color:var(--muted)}
+  .tinput:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
   /* The ticket in this list is time and price only: 62 + 56 + 2 = 120 px by construction,
      no floor and no cap, so every row's title starts at one x. Until 2026-09-03 it carried
@@ -1080,6 +1101,8 @@
   const setListStatus = msg => { if(listStatusEl) listStatusEl.textContent = msg || ''; };
 
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies', sources:[],
+                minTime:'',      // Ajat's own time restriction. In memory: a reload starts from all times.
+                timeEmptied:false,   // the time restriction is what emptied the list
                 vview:'cities',   // which list the venue picker browses: cities or areas
                 fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
                 genProvider:'',  // whose data `generated` came from, for the stale banner
@@ -1208,7 +1231,7 @@
          vTheatres:'teatteria', aVenueView:'Selaa kaupunkeja tai alueita',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
-         soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet', staleSite:'Tarkista ohjelmisto: {host}', staleStatus:'Katso palvelun tila',
+         soldout:'loppuunmyyty', tFrom:'Alkaen', tAll:'Kaikki ajat', tFromA:'Näytä näytökset, jotka alkavat tähän aikaan tai sen jälkeen', tNone:'Valittuna aikana tai sen jälkeen ei ole näytöksiä.', staleOne:'näytöstiedot eivät ole päivittyneet', staleSite:'Tarkista ohjelmisto: {host}', staleStatus:'Katso palvelun tila',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
          searchCtx:'Hakusi: \u201d{query}\u201d', filtersCtx:'Suodattimet: {list}',
          widenTo:'Laajenna hakua: {area}', widenHelsinki:'Etsi Helsingistä',
@@ -1275,7 +1298,7 @@
          vTheatres:'biografer', aVenueView:'Bläddra bland städer eller områden',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
          allIn:'{city} – alla biografer', manySources:'flera källor',
-         soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats', staleSite:'Kontrollera programmet: {host}', staleStatus:'Se tjänstens status',
+         soldout:'slutsåld', tFrom:'Från', tAll:'Alla tider', tFromA:'Visa visningar som börjar vid denna tid eller senare', tNone:'Inga visningar vid eller efter den valda tiden.', staleOne:'tidtabellen har inte uppdaterats', staleSite:'Kontrollera programmet: {host}', staleStatus:'Se tjänstens status',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
          searchCtx:'Din sökning: \u201d{query}\u201d', filtersCtx:'Filter: {list}',
          widenTo:'Utöka sökningen: {area}', widenHelsinki:'Sök i Helsingfors',
@@ -1339,7 +1362,7 @@
          vTheatres:'cinemas', aVenueView:'Browse cities or areas',
          favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'{city} – all cinemas', manySources:'multiple sources',
-         soldout:'sold out', staleOne:'schedule has not refreshed', staleSite:'Check the programme: {host}', staleStatus:'See service status',
+         soldout:'sold out', tFrom:'From', tAll:'All times', tFromA:'Show screenings starting at or after this time', tNone:'No screenings at or after the selected time.', staleOne:'schedule has not refreshed', staleSite:'Check the programme: {host}', staleStatus:'See service status',
          nomatch:'No screenings match your filters on the selected date.',
          searchCtx:'Your search: \u201c{query}\u201d', filtersCtx:'Filters: {list}',
          widenTo:'Broaden search: {area}', widenHelsinki:'Search in Helsinki',
@@ -3395,13 +3418,85 @@
     return true;
   }
 
+  // --- startsAtOrAfter: pure, extracted verbatim by tests/time_filter_harness.js ---
+  // The Ajat view's time restriction. `clock` is fiTime(s.start), which formats through
+  // Europe/Helsinki, so the comparison is on Finland wall time whatever the reader's own
+  // zone is. Both sides are zero-padded 24-hour HH:MM, so a string compare is a time
+  // compare. Inclusive: a screening starting exactly at the chosen minute is shown, which
+  // is what "alkaen" says. No restriction means everything passes.
+  const startsAtOrAfter = (clock, min) => !min || String(clock || '') >= min;
+  // --- end startsAtOrAfter ---
+
+  // --- timeSlots: pure, extracted verbatim by tests/time_filter_harness.js ---
+  // Half-hour marks to choose from, not a free clock: the question is "after six", not
+  // "after 18:07", and a native select is one tap against a spinner's several. On today
+  // the list starts half an hour behind the clock, rounded down, so a screening that has
+  // just begun is still reachable; on another day there is no "now" to be behind and it
+  // starts at the day's first screening. It ends at the last screening's mark, so the
+  // list never offers a time with nothing after it.
+  const timeSlots = (clocks, nowClock) => {
+    const mins = s => Number(s.slice(0, 2)) * 60 + Number(s.slice(3, 5));
+    const ok = c => /^\d{2}:\d{2}$/.test(c);
+    const list = (clocks || []).filter(ok).map(mins);
+    if(!list.length) return [];
+    const floor30 = m => Math.floor(m / 30) * 30;
+    const earliest = floor30(Math.min.apply(null, list));
+    // Never behind the day's first screening: at 06:10 with nothing before 20:00, a list
+    // from 05:30 would be thirty marks that all mean "all times".
+    const first = (nowClock && ok(nowClock))
+      ? Math.max(floor30(Math.max(0, mins(nowClock) - 30)), earliest)
+      : earliest;
+    const last = floor30(Math.max.apply(null, list));
+    if(first > last) return [];
+    const out = [];
+    for(let m = first; m <= last; m += 30)
+      out.push(String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'));
+    return out;
+  };
+  // --- end timeSlots ---
+
+  // Ajat's own control, immediately above its list: one native select, so there is no
+  // widget to build and "all times" is its first option rather than a second button.
+  // No preset chips and no second header row -- the tools row is already full at 320 px.
+  function timeBar(){
+    const T = L[state.lang];
+    const slots = timeSlots(state.shows.map(s => fiTime(s.start)),
+                            state.dateStr === fiToday() ? fiTime(new Date()) : '');
+    if(!slots.length) return '';
+    // A value that is no longer on the list (the clock moved past it) still has to be
+    // selectable, or the control would silently show "all times" while filtering.
+    const opts = (slots.includes(state.minTime) || !state.minTime ? slots : [state.minTime].concat(slots))
+      .map(t => `<option value="${esc(t)}"${t === state.minTime ? ' selected' : ''}>${esc(t)}</option>`).join('');
+    return `<div class="tbar"><label class="tlbl" for="minTime">${esc(T.tFrom)}</label>`
+      + `<span class="tfield"><select class="tinput" id="minTime" aria-label="${esc(T.tFromA)}">`
+      + `<option value=""${state.minTime ? '' : ' selected'}>${esc(T.tAll)}</option>${opts}`
+      + `</select><span class="tchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>`;
+  }
+  // Delegated, because the bar is rebuilt with the list. Focus goes back to the field:
+  // the element the reader was in is gone after the redraw.
+  main.addEventListener('change', e => {
+    if(!e.target.closest || !e.target.closest('#minTime')) return;
+    state.minTime = e.target.value || '';
+    render();
+    const again = document.getElementById('minTime');
+    if(again) again.focus();
+  });
   function renderTimes(){
     const now = new Date();
-    const rows = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
+    const matched = state.shows.filter(passFilters).sort((a,b) => a.start - b.start);
+    // Applied here and not in passFilters: Leffat shares that function and must not see
+    // this restriction. Switching views leaves `state.minTime` alone, so coming back
+    // restores it.
+    const rows = matched.filter(s => startsAtOrAfter(fiTime(s.start), state.minTime));
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
+    const bar = state.shows.length ? timeBar() : '';
+    // Which message the empty state gets, decided in emptyMsg() like every other: a time
+    // restriction that emptied a list the other filters had filled says so, and offers to
+    // clear only itself.
+    state.timeEmptied = !rows.length && matched.length > 0;
     if(!rows.length){
       setListStatus(emptyStatus());
-      main.innerHTML = timesLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
+      main.innerHTML = timesLegend + bar + `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
       return;
     }
     // The ticket is time and price. The room, the venue in a combined view and the
@@ -3412,7 +3507,7 @@
     const multi = labelVenues(state.shows);
     const tinted = multi;
     setListStatus('');
-    main.innerHTML = rows.map(s => {
+    main.innerHTML = bar + rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
@@ -3480,6 +3575,7 @@
       return;
     }
     if(e.target.closest('[data-clearfilters]')){ clearFilters(); return; }
+    if(e.target.closest('[data-cleartime]')){ state.minTime = ''; render(); return; }
     const widen = e.target.closest('[data-widen]');
     if(widen){ widenTo(widen.dataset.widen); return; }
     const rev = e.target.closest('[data-reveal]');
@@ -3535,6 +3631,9 @@
     const ids = viewVenueIds();
     if(pendingNotice(ids, ids.filter(id => (venueIndex[id] || {}).pending),
                      (state.shows || []).length > 0)) return t.noProgYet;
+    // Ahead of the generic filter message: the time restriction is the one the reader
+    // just set, and it is the one the action below clears.
+    if(state.view === 'times' && state.minTime && state.timeEmptied) return t.tNone;
     if(state.filter || state.fLang || state.fKids || state.fAnnis) return t.nomatch;
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
@@ -3701,7 +3800,14 @@
   // that emptied it. With a search on, the next day that search finds something and the
   // clear action side by side; without one, never both, since a filter suppresses the
   // next-day link.
-  function emptyActions(){ return (nextMatchLink() || nextDayLink()) + widerLinks() + clearFiltersLink(); }
+  // Clears the time restriction and nothing else: the search and the chips are still
+  // doing what the reader asked for, and clearFiltersLink offers those separately.
+  function clearTimeLink(){
+    return (state.view === 'times' && state.minTime && state.timeEmptied)
+      ? `<button class="nextday" data-cleartime="1">${esc(L[state.lang].tAll)}</button>`
+      : '';
+  }
+  function emptyActions(){ return (nextMatchLink() || nextDayLink()) + widerLinks() + clearTimeLink() + clearFiltersLink(); }
   // The empty state's announcement: the message, then the suggestion if there is one.
   function emptyStatus(){
     const hit = nextMatchInfo();
