@@ -89,6 +89,15 @@ inside it.
 - **Verify a claim before documenting it.** The README asserted "no third-party requests"
   while the page loaded a webfont from Google and hot-linked posters from seven hosts.
 
+## Commit messages
+
+Conventional subject, `<area>: <what changed>`, stating the edit rather than arguing a
+point. Body at most 120 words: why the change was made, the constraints that bound it, and
+how it was verified, with break-verification on one line. Do not narrate the changed files
+or repeat the diff. Longer reasoning and measurements belong in `IDEAS.md` or
+`docs/archive/`; point at the entry instead of restating it. Commit as `Shady-Dev`, no
+`Co-Authored-By`.
+
 ## Agent execution
 
 - Before starting, briefly state what you will verify or change. During long work,
@@ -107,6 +116,9 @@ inside it.
   result and preserve surrounding work.
 - Batch independent reads and checks. Run dependent operations only after their
   prerequisites are known.
+- Bound every background poll. If one misses a completion it should have seen,
+  inspect the state it returned and switch to a direct status query rather than
+  leaving it sleeping: a silent poll and a running job look identical.
 - Re-measure repository and external state before relying on remembered counts,
   commits, workflow results, schedules, or generated data.
 - Scratch checks do not need to become permanent tests. Commit focused tests at
@@ -314,6 +326,14 @@ If a cinema would rather not be included, removing it is one registry entry.
 
 Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
 under `scripts/`.
+
+**Iterate with targeted files** (`-p "test_x.py"`), which cost seconds. Run the whole
+suite **exactly once**, immediately before the final push, after every commit in the batch
+is ready; where they apply, run the generators and the drift check first so generated
+output goes in the same push. A failure is fixed with targeted runs and then one more full
+suite. One commit per item still holds: several finished commits are pushed together after
+that single run. Thirteen full runs in one two-hour block on 2026-09-20 cost 21 minutes,
+19% of it, against six commits.
 
 `tests/browser/` is a second suite, not discovered by the line above: 20 Playwright tests
 in `test_client_browser.py` that drive the venue picker and the ticket links in a real
