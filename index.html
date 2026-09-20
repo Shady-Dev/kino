@@ -859,7 +859,10 @@
   /* Ajat's time restriction, above its list. The field takes the treatment #areaSelect
      and .search already share and the reset is a .chip, so no new control style enters
      the page. It wraps rather than overflowing at 320. */
-  .tbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 10px}
+  .tbar{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:0 0 10px}
+  /* The reveal is the same text-only link the cards and the sheet use, so it brings its
+     own 44 px of reach and needs no box of its own. */
+  .tbar .tpast{font-size:.78rem}
   .tlbl{color:var(--muted); font-size:.78rem; font-weight:600}
   /* 36 px to the eye like the chips and the segment, reaching the 44 px floor through the
      same transparent extension. A select cannot carry a pseudo-element, so the wrapper
@@ -1110,6 +1113,7 @@
   let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies', sources:[],
                 minTime:'',      // Ajat's own time restriction. In memory: a reload starts from all times.
                 timeEmptied:false,   // the time restriction is what emptied the list
+                showPast:false,      // Ajat's floor is now unless the reader lowers it
                 vview:'cities',   // which list the venue picker browses: cities or areas
                 fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
                 genProvider:'',  // whose data `generated` came from, for the stale banner
@@ -3465,11 +3469,19 @@
   // Ajat's own control, immediately above its list: one native select, so there is no
   // widget to build and "all times" is its first option rather than a second button.
   // No preset chips and no second header row -- the tools row is already full at 320 px.
-  function timeBar(){
+  function timeBar(goneCount){
     const T = L[state.lang];
     const slots = timeSlots(state.shows.map(s => fiTime(s.start)),
                             state.dateStr === fiToday() ? fiTime(new Date()) : '');
-    if(!slots.length) return '';
+    // The reveal lowers the floor to the start of the day. It is not offered while a mark
+    // is chosen: that mark is the floor, and it already admits what has started after it.
+    const reveal = (!state.minTime && goneCount)
+      ? `<button class="pastlink tpast" type="button" data-showpast aria-expanded="${state.showPast}">`
+        + esc(pastLabel(state.showPast, goneCount, T)) + '</button>'
+      : '';
+    // A day whose screenings have all started carries no marks but still has something to
+    // reveal, so the bar is drawn for either reason.
+    if(!slots.length) return reveal ? `<div class="tbar">${reveal}</div>` : '';
     // A value that is no longer on the list (the clock moved past it) still has to be
     // selectable, or the control would silently show "all times" while filtering.
     const opts = (slots.includes(state.minTime) || !state.minTime ? slots : [state.minTime].concat(slots))
@@ -3477,7 +3489,7 @@
     return `<div class="tbar"><label class="tlbl" for="minTime">${esc(T.tFrom)}</label>`
       + `<span class="tfield"><select class="tinput" id="minTime" aria-label="${esc(T.tFromA)}">`
       + `<option value=""${state.minTime ? '' : ' selected'}>${esc(T.tAll)}</option>${opts}`
-      + `</select><span class="tchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></div>`;
+      + `</select><span class="tchev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.2 7 9.2 11 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>${reveal}</div>`;
   }
   // Delegated, because the bar is rebuilt with the list. Focus goes back to the field:
   // the element the reader was in is gone after the redraw.
@@ -3494,9 +3506,17 @@
     // Applied here and not in passFilters: Leffat shares that function and must not see
     // this restriction. Switching views leaves `state.minTime` alone, so coming back
     // restores it.
-    const rows = matched.filter(s => startsAtOrAfter(fiTime(s.start), state.minTime));
+    // Ajat's floor. With no mark it is now, so the list opens on what a reader can still
+    // get to; 57% of a day's screenings had already started at 18:34 on 2026-09-20, and
+    // dimming them still left them to scroll past. The reveal lowers it to the start of
+    // the day. A chosen mark *is* the floor and overrides both: "alkaen 17:30" means from
+    // 17:30, including the screening that began at 17:45.
+    const gone = matched.filter(s => s.start < now);
+    const rows = state.minTime
+      ? matched.filter(s => startsAtOrAfter(fiTime(s.start), state.minTime))
+      : (state.showPast ? matched : matched.filter(s => s.start >= now));
     const timesLegend = labelVenues(state.shows) ? chainLegend(state.shows, 'top') : '';
-    const bar = state.shows.length ? timeBar() : '';
+    const bar = state.shows.length ? timeBar(gone.length) : '';
     // Which message the empty state gets, decided in emptyMsg() like every other: a time
     // restriction that emptied a list the other filters had filled says so, and offers to
     // clear only itself.
@@ -3583,6 +3603,13 @@
     }
     if(e.target.closest('[data-clearfilters]')){ clearFilters(); return; }
     if(e.target.closest('[data-cleartime]')){ state.minTime = ''; render(); return; }
+    if(e.target.closest('[data-showpast]')){
+      state.showPast = !state.showPast;
+      render();
+      const again = document.querySelector('[data-showpast]');
+      if(again) again.focus();
+      return;
+    }
     const widen = e.target.closest('[data-widen]');
     if(widen){ widenTo(widen.dataset.widen); return; }
     const rev = e.target.closest('[data-reveal]');

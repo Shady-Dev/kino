@@ -35,6 +35,8 @@ WRAPPED = ("esc(", "safeUrl(")
 INTERNAL = {
     # booleans and language codes the page owns
     "on", "open", "dir", "code", "code === state.lang", "r.current ? 'true' : 'false'",
+    # the Ajat floor's reveal, aria-expanded off a boolean this file sets
+    "state.showPast",
     # class strings this file builds out of its own literals
     "cls", "stubClass", "stubsCls",
     # generated dates and list indices: 'YYYY-MM-DD' from fiDate, integers from the render

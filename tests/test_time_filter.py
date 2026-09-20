@@ -108,9 +108,56 @@ class TimeSlotsTest(StartsAtOrAfterTest):
     def test_an_unreadable_clock_is_ignored_rather_than_guessed(self):
         self.assertEqual(self.slots["junk_ignored"], ["18:00"])
 
-    def test_the_bar_is_not_drawn_without_marks(self):
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
-        self.assertIn("if(!slots.length) return '';", bar)
+    def test_without_marks_the_bar_is_drawn_only_for_the_reveal(self):
+        """A day wholly in the past has no mark worth offering but does have a reveal."""
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
+        self.assertIn("if(!slots.length) return reveal ?", bar)
+        self.assertIn(": '';", bar)
+
+
+class AjatFloorTest(unittest.TestCase):
+    """Ajat's floor is now unless the reader lowers it or names one.
+
+    Reverses a 2026-09-01 entry that dropped a past-showtimes option because "past rows
+    are already handled" at 45% opacity with pointer-events:none. Dimming does not remove
+    the scroll: 257 of 449 of a day's screenings, 57%, had already started at 18:34 on
+    2026-09-20. The argument and the measurement are in docs/archive/2026-09-app.md.
+    """
+
+    def test_the_default_floor_is_now(self):
+        src = render_times_source()
+        self.assertIn("(state.showPast ? matched : matched.filter(s => s.start >= now))", src)
+        self.assertIn("showPast:false", HTML.replace(" ", ""))
+
+    def test_a_chosen_mark_is_the_floor_and_admits_what_started_after_it(self):
+        """"Alkaen 17:30" means from 17:30, including the screening that began at 17:45."""
+        src = render_times_source()
+        self.assertIn("const rows = state.minTime", src)
+        self.assertIn("? matched.filter(s => startsAtOrAfter(fiTime(s.start), state.minTime))", src)
+
+    def test_the_reveal_is_the_label_the_cards_and_the_sheet_use(self):
+        """No new string: pastLabel already has all three languages and both directions."""
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
+        self.assertIn("pastLabel(state.showPast, goneCount, T)", bar)
+        self.assertIn('class="pastlink tpast"', bar)
+        self.assertIn('aria-expanded="${state.showPast}"', bar)
+
+    def test_the_reveal_stands_down_while_a_mark_is_chosen(self):
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
+        self.assertIn("const reveal = (!state.minTime && goneCount)", bar)
+
+    def test_a_day_that_has_wholly_passed_still_offers_the_reveal(self):
+        """No marks left to choose, but something to reveal."""
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
+        self.assertIn("if(!slots.length) return reveal ? `<div class=\"tbar\">${reveal}</div>` : '';", bar)
+
+    def test_toggling_it_keeps_focus_on_it(self):
+        self.assertIn("if(e.target.closest('[data-showpast]')){", HTML)
+        self.assertIn("state.showPast = !state.showPast;", HTML)
+        self.assertIn("const again = document.querySelector('[data-showpast]');", HTML)
+
+    def test_the_reveal_is_memory_only_like_the_mark(self):
+        self.assertNotRegex(HTML, r"prefs\.set\(\{[^}]*showPast")
 
 
 class TimeFilterWiringTest(unittest.TestCase):
@@ -129,10 +176,12 @@ class TimeFilterWiringTest(unittest.TestCase):
         self.assertIn("startsAtOrAfter", render_times_source())
 
     def test_it_narrows_what_the_other_filters_already_matched(self):
-        """Combined, not instead of: the search and the chips run first."""
+        """Combined, not instead of: the search and the chips run first, and the floor
+        -- whether the mark or `now` -- narrows what they matched."""
         src = render_times_source()
         self.assertIn("const matched = state.shows.filter(passFilters)", src)
-        self.assertIn("const rows = matched.filter(s => startsAtOrAfter(", src)
+        self.assertIn("const gone = matched.filter(s => s.start < now);", src)
+        self.assertIn("matched.filter(s => startsAtOrAfter(fiTime(s.start), state.minTime))", src)
 
     def test_it_is_memory_only(self):
         """A browsing aid for one visit. kino-prefs keeps venue, theme and favourite."""
@@ -152,21 +201,21 @@ class TimeFilterWiringTest(unittest.TestCase):
         """Half-hour marks, not a free clock and not preset chips or a slider."""
         src = render_times_source()
         self.assertIn("main.innerHTML = bar + rows.map(s => {", src)
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn('<select class="tinput" id="minTime"', bar)
         self.assertNotIn('type="time"', bar)
         self.assertNotIn("range", bar)
         self.assertEqual(len(re.findall(r'id="minTime"', HTML)), 1)
 
     def test_all_times_is_the_first_option_not_a_second_button(self):
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn("<option value=\"\"", bar)
         self.assertIn("esc(T.tAll)", bar)
         self.assertNotIn("tclear", bar)
 
     def test_a_value_off_the_list_stays_selectable(self):
         """The clock moves; a mark chosen before it passed must not silently vanish."""
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn("slots.includes(state.minTime)", bar)
 
     def test_the_box_is_36_and_the_select_itself_owns_the_44_floor(self):
@@ -193,7 +242,7 @@ class TimeFilterWiringTest(unittest.TestCase):
 
     def test_appearance_none_brings_its_own_chevron(self):
         """Stripping the native control strips its arrow; #areaSelect's is reused."""
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn('class="tchev"', bar)
         self.assertIn('aria-hidden="true"', bar)
         self.assertIn("M3 5.2 7 9.2 11 5.2", bar, "the same path the venue button draws")
@@ -215,7 +264,7 @@ class TimeFilterWiringTest(unittest.TestCase):
                                                    HTML, re.S).group(0))
 
     def test_the_field_is_labelled_and_reachable(self):
-        bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
+        bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn('<label class="tlbl" for="minTime">', bar)
         self.assertIn('aria-label="${esc(T.tFromA)}"', bar)
         self.assertIn(".tfield:focus-within{outline:2px solid var(--accent)", HTML)
