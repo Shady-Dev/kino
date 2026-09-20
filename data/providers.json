@@ -545,6 +545,13 @@
    "host": "matin-tupa.fi",
    "accent": "#448855",
    "book": "door"
+  },
+  {
+   "id": "kuusamotalo",
+   "label": "Kino Kuusamotalo",
+   "host": "kinokuusamotalo.fi",
+   "accent": "#AA8844",
+   "book": "door"
   }
  ]
 }

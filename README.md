@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 129 venues in 93 cities across 78 providers: Finnkino, BioRex,
+Showtimes for 130 venues in 94 cities across 79 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -20,8 +20,8 @@ Kino Laika, Kino Myyri, Bio Marilyn, Vihdin Kino, Bio Forum, Kinokulma, Ritz Vaa
 Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita, Lieksan Kino,
 Navettakino, Pyhäsalmen VPK, Bio Pallas, Elokuvateatteri Huvimylly, Movie Company
 Alatalo, Cinema Sheryl, Haapamäen Elokuvat, Elävienkuvien teatteri, Kino
-Hannikainen, Kino Virta and Elokuvateatteri
-Matin-Tupa. Films with
+Hannikainen, Kino Virta, Elokuvateatteri
+Matin-Tupa and Kino Kuusamotalo. Films with
 posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
@@ -31,7 +31,7 @@ planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
-its 93 cities and those regions, so Pääkaupunkiseutu is one row rather than four
+its 94 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another, every pair inside it within about 60 km. The theatre picker is
 searchable, and "jarvela" finds Järvelä, "capital region" finds
@@ -88,6 +88,7 @@ small cinemas run one of a few ticketing platforms:
 | Pyhäsalmen VPK (My Calendar) | 1 | 1 | none | GitHub Actions |
 | Elävienkuvien teatteri | 1 | 1 | none | Local |
 | Elokuvateatteri Matin-Tupa | 1 | 1 | none | GitHub Actions |
+| Kino Kuusamotalo | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -245,7 +246,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-146 per language, 293 sitemap URLs: 129 venues plus the seventeen cities with more
+147 per language, 295 sitemap URLs: 130 venues plus the seventeen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -346,7 +347,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 78 providers listed at the
+Schedule data belongs to the respective cinemas, the 79 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

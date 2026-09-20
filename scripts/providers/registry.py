@@ -633,6 +633,17 @@ PROVIDERS = [
     # shares no view with it. L* 51.3, saturation 0.50.
     dict(id="matintupa", label="Elokuvateatteri Matin-Tupa", host="matin-tupa.fi",
          accent="#448855", book="door", module="matintupa", where="cloud"),
+    # Kino Kuusamotalo, Kuusamo, 2026-09-20. 520 seats in the Oulankasali hall of the
+    # town's culture house, run by its own operator on its own site. kuusamotalo.fi is
+    # the culture house and only links here; its programme block is a Flockler embed and
+    # names no film. On none of the platforms, so its own parser, over the WordPress
+    # posts route. `book="door"`: the site sells nothing online and the desk opens an
+    # hour before the screening.
+    # Kuusamo holds no other chain and no REGIONS area holds it, so the accent enters no
+    # shared view. 4.6 dE00 from its nearest accent anywhere, KinoMania in Pieksämäki,
+    # which shares no view with it. L* 58.6, saturation 0.60.
+    dict(id="kuusamotalo", label="Kino Kuusamotalo", host="kinokuusamotalo.fi",
+         accent="#AA8844", book="door", module="kuusamotalo", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
