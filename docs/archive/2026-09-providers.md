@@ -811,6 +811,54 @@ The route is written permission from Heureka's media contact. If it arrives, the
 implementation is the article's portrait `og:image` only, same-site source, a valid image
 type and verified dimensions; no "first portrait image" fallback. Declined regardless:
 weak TMDB matches, generated artwork, cropped 16:9 stills.
+**Superseded in part on 2026-09-20**, see the next entry: house-made title cards replace
+the initials tiles. Everything here about *Heureka's own* artwork still binds, and written
+permission is still the only route to publishing any of it.
+
+### House title cards supersede the generated-artwork decline (2026-09-20)
+The entry above declined "generated artwork" among the substitutes. The maintainer
+superseded that on 2026-09-20, naming IDEAS.md as the file to change. The old record is
+left standing and this one sits beside it, because its reasoning about Heureka's artwork
+is untouched.
+
+What ships. Three of the four planetarium films draw one of Leffavuoro's own title cards
+instead of a two-letter initials tile: Asteroid Quest, Metsän sydän and The Stellars -
+Tähtijengi, together 178 of the 248 showtimes the site was drawing without a poster.
+Recombination has a real TMDB poster (1157677) and is untouched.
+
+What a card is. `scripts/make_cards.py` draws an abstract background from a seed and sets
+the published title over it in Archivo, at 342x513 -- the 2:3 and the width
+`mirror_posters` already uses. Nothing is downloaded, nothing is a model's output and
+nothing derives from anyone's artwork: the image is geometry, gradients and noise this
+repository computes, which is why it is ours to publish. They are editorial illustrations
+and the documents say so in those words. None of them may be called a poster.
+
+The safeguards are the decision, not its decoration:
+- **Abstract only.** No representational figure, character, logo or lettering in the art
+  layer, and nothing in a named artist's or studio's manner. A theme enters as a palette
+  and a motif, never as a depiction of the film.
+- **Deterministic.** The bytes are a pure function of the title and a fixed seed, and
+  `make_cards.py --check` fails when a committed file differs from what the script draws.
+- **Keyed on the published title character for character**, in `heureka.py` and nowhere
+  else, so no other provider picks a card up by publishing the same title and a title
+  that moves on gets no card rather than the wrong one.
+- **`isrc` is not set**, so `enrich_tmdb` treats a card as the cinema's own and never
+  replaces it. The same rule makes a real poster, if permission ever arrives, a deletion
+  from the map and nothing more.
+
+Where they live: `data/posters/`, prefixed `card-`, not a directory of their own. The
+client loads an image only from `data/posters/` (`ASSET_DIR`) and `build_pages.py` drops
+any reference outside it. A card in `data/cards/` was silently refused by one guard and
+dropped by the other, which is how that was found, before it shipped rather than after.
+
+Measured. White type over the scrim is 17.9:1 at worst across the three, against WCAG
+AAA's 7:1. Verified in Chromium at 375 px, where the app draws a card at exactly 72x104,
+and at 1200 px, where it draws 92x132; the generated venue page draws 92x132 at both.
+
+Tests: the adapter map agrees with the generator's own list, every mapped file exists and
+is 342x513, an unmapped title keeps an empty `img`, and no show carries `isrc`. Six
+mutations. One survived the first dimension test -- mapping a title to a different
+existing 342x513 image -- and produced the map-agrees-with-generator test.
 
 ### A sibling cinema in the navigation still withholds the confirmation (2026-09-14)
 Cine's navigation names Cine Mäntsälä and Kiertuenäytökset, neither registered here

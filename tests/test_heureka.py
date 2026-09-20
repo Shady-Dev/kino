@@ -263,12 +263,70 @@ class ExpansionTest(unittest.TestCase):
         self.assertEqual(s["rating"], "")
         self.assertEqual(s["aud"], "")
         self.assertEqual(s["len"], "28")
-        self.assertEqual(s["img"], "")
+        self.assertEqual(s["img"], "data/posters/card-heureka-asteroid-quest.jpg")
         self.assertEqual((s["provider"], s["venue"], s["theatre"]),
                          ("heureka", "hk-vantaa", "Heurekan planetaario"))
         self.assertEqual(s["eventId"], "asteroid-quest")
         self.assertTrue(s["start"].endswith("+03:00"), s["start"])
         self.assertFalse(s["soldOut"])
+
+    def test_a_mapped_title_gets_its_title_card_and_nothing_else_does(self):
+        """The card is Leffavuoro's own illustration, not Heureka's artwork, and it is
+        keyed on the published title character for character. A film that is not in the
+        map keeps an empty `img` and draws an initials tile, which is the behaviour every
+        Heureka film had before 2026-09-20."""
+        by_title = {x["title"]: x for x in self.shows}
+        self.assertEqual(by_title["Asteroid Quest"]["img"],
+                         "data/posters/card-heureka-asteroid-quest.jpg")
+        fest = next(x for x in self.shows if x["title"].startswith("Aavistus"))
+        self.assertEqual(fest["img"], "")
+
+    def test_a_title_card_is_never_marked_as_tmdbs(self):
+        """enrich_tmdb reclaims a poster it marked `isrc: "tmdb"` and leaves anything else
+        as the cinema's own. Marking a card would let a later TMDB candidate replace it."""
+        for show in self.shows:
+            with self.subTest(title=show["title"]):
+                self.assertNotIn("isrc", show)
+
+    def test_every_card_in_the_map_exists_and_is_a_portrait_image(self):
+        """A mapping to a file that is not there publishes a broken image on every card.
+        Read as bytes rather than with Pillow, which the pipeline does not require: the
+        JPEG SOF segment carries the dimensions."""
+        import struct
+        mod = heureka()
+        root = pathlib.Path(__file__).resolve().parent.parent
+        self.assertTrue(mod.CARDS, "the map must not be empty while this test guards it")
+        for title, rel in mod.CARDS.items():
+            with self.subTest(title=title):
+                path = root / rel
+                self.assertTrue(path.exists(), f"{rel} is mapped and missing")
+                raw = path.read_bytes()
+                self.assertEqual(raw[:2], b"\xff\xd8", "not a JPEG")
+                i, w, h = 2, None, None
+                while i < len(raw) - 9:
+                    if raw[i] != 0xFF:
+                        i += 1
+                        continue
+                    marker = raw[i + 1]
+                    if marker in (0xC0, 0xC1, 0xC2):
+                        h, w = struct.unpack(">HH", raw[i + 5:i + 9])
+                        break
+                    if marker in (0xD8, 0x01) or 0xD0 <= marker <= 0xD7:
+                        i += 2
+                        continue
+                    i += 2 + struct.unpack(">H", raw[i + 2:i + 4])[0]
+                self.assertEqual((w, h), (342, 513), "cards are 2:3 at the mirrored width")
+
+    def test_the_adapter_map_and_the_generator_agree(self):
+        """The two lists have to name the same films and the same files, or the adapter
+        publishes a card the generator does not make and `make_cards.py --check` cannot
+        see it. Mapping a title to some other existing 342x513 image passes every other
+        check here, which is the gap this closes: a card is identified by the generator
+        that drew it, not by having plausible dimensions."""
+        import make_cards
+        mod = heureka()
+        drawn = {c["title"]: f"data/posters/{c['slug']}.jpg" for c in make_cards.CARDS}
+        self.assertEqual(mod.CARDS, drawn)
 
     def test_a_film_without_an_article_gets_a_slug_id(self):
         s = next(x for x in self.shows if x["title"].startswith("Aavistus"))

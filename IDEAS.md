@@ -41,17 +41,17 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
-### Heureka's missing posters wait for written permission
+### Heureka's own posters still wait for written permission
 
-Three of four planetarium films render initials tiles. No weak match, so no wrong poster
-is on the site. Heureka's own site carries portrait key visuals for two of them.
-Public availability is not permission to copy and redistribute, and Heureka's FAQ licenses
-none of its promotional artwork.
-**Next action:** written permission from Heureka's media contact. If it arrives, the
-accepted implementation is the article's portrait `og:image` only, same-site source, a
-valid image type and verified dimensions. Declined regardless: a weak TMDB match,
-generated artwork, a cropped 16:9 still. Full entry:
+The initials tiles are gone. Three planetarium films draw Leffavuoro's own title cards as
+of 2026-09-20: abstract art this repository generates, plus the published title, never a
+poster and never derived from anyone's artwork. **That supersedes the decline of generated
+artwork**; a weak TMDB match and a cropped 16:9 still stay declined. Heureka's *own*
+artwork is unchanged, licensed to nobody, and public availability is not permission.
+The decision, its safeguards and what was measured are in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** written permission from Heureka's media contact, if its artwork is ever
+wanted. Nothing is blocked on it now.
 
 ### Credential hygiene and rotation
 

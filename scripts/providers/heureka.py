@@ -31,8 +31,24 @@ renders as a passive pill; the rating chip is for classifications.
 Film pages. The blog article behind a calendar item gives Kesto, Ikäsuositus, the
 description and a "Kielivaihtoehdot" line (Finnish by default, English and Swedish
 through headphones). The synopsis is the description block only; the FAQ below it
-repeats the admission rules and quotes a school-group price. No poster: Heureka's images
-are 16:9 stills, which docs/archive/2026-09-providers.md declines for 2:3 tiles.
+repeats the admission rules and quotes a school-group price.
+
+Posters. **Nothing of Heureka's is published**, and that is unchanged: its images are
+16:9 stills, and its FAQ licenses none of its promotional artwork, so mirroring one would
+need written permission nobody has given. What changed on 2026-09-20 is what a reader
+sees instead of a two-letter initials tile. Three of the four films get one of
+Leffavuoro's own title cards, drawn by scripts/make_cards.py: an abstract background this
+repository generates from a seed, with the published title set over it in Archivo. They
+are editorial illustrations and must never be described as posters. `Recombination` has
+a real TMDB poster and is left alone.
+
+CARDS is keyed on the published title **character for character**, and a title that has
+moved on simply gets no card rather than the wrong one. The mapping lives here, in the
+one adapter it applies to, so no other provider can pick a card up by publishing the same
+title. `isrc` is deliberately not set: enrich_tmdb only reclaims a poster it marked as
+TMDB's, so an unmarked local path is treated as the cinema's own and never replaced. The
+files sit in data/posters/ because that is the only directory the client loads an image
+from and the only one build_pages.py will emit a reference to.
 
 Emptiness. A calendar that parsed with no planetarium film in the window reports the
 venue as an empty list, and EMPTY_VENUES_CONFIRMED lets run.py publish it as pending. A
@@ -63,6 +79,14 @@ AGE = "K-5"
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 HEADERS = {"user-agent": UA, "accept-language": "fi-FI,fi;q=0.9"}
+
+# Leffavuoro's own title cards, keyed on the published title exactly. See the module
+# docstring and docs/archive/2026-09-providers.md; regenerate with scripts/make_cards.py.
+CARDS = {
+    "Asteroid Quest": "data/posters/card-heureka-asteroid-quest.jpg",
+    "Metsän sydän": "data/posters/card-heureka-metsan-sydan.jpg",
+    "The Stellars - Tähtijengi": "data/posters/card-heureka-the-stellars.jpg",
+}
 
 # `short` is the full name, so labelOf() collapses the chain prefix instead of reading
 # "Heureka Heurekan planetaario"; Bio Rex Kokkola does the same.
@@ -245,9 +269,10 @@ def parse_calendar(page, today=None, days=DAYS):
                 if blog.startswith("/blogs/"):
                     blogs[blog] = eid
                 kesto = ev.get("kesto")
+                title = _txt(ev.get("nimi"))
                 shows.append({
                     "eventId": eid,
-                    "title": _txt(ev.get("nimi")),
+                    "title": title,
                     "original": "",
                     "len": str(kesto) if isinstance(kesto, int) and kesto > 0 else "",
                     "rating": "",
@@ -257,7 +282,7 @@ def parse_calendar(page, today=None, days=DAYS):
                     "aud": "",
                     "start": start,
                     "url": TICKETS,
-                    "img": "",
+                    "img": CARDS.get(title, ""),
                     "lang": "",
                     "soldOut": False,
                     "price": "",

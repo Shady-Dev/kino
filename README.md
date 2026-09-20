@@ -126,6 +126,7 @@ ticketing platform publishes and how it was read, are under
     scripts/providers/common.py      shared fetch with retry, atomic writes
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
     scripts/providers/mirror_posters.py  mirrors hot-linked posters same-origin
+    scripts/make_cards.py            draws this project's own title cards (by hand)
     scripts/build_providers.py       registry -> data/providers.json + the client's fallback
     scripts/build_pages.py           renders the indexable pages
     scripts/accent_check.py          chain accent separation, incl. deuteranope
@@ -294,6 +295,17 @@ Until 2026-08-29 the typeface came from Google Fonts and about a third of the
 posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
 mirrored now.
 
+**Not every picture in `data/posters/` came from a cinema or from TMDB.** The
+files named `card-*.jpg` are Leffavuoro's own **title cards**: an abstract
+background this repository generates from a seed, with the film's published title
+set over it in Archivo. They are editorial illustrations, never posters, and they
+are not derived from anyone's artwork. They exist for films that have no poster
+this site may publish -- Heureka's planetarium films, whose promotional artwork is
+licensed to nobody -- where the alternative is a two-letter initials tile.
+`scripts/make_cards.py` draws them and `--check` verifies the committed files
+against what it draws. Everything else in that directory is a cinema's or TMDB's,
+mirrored, and named by the sha1 of its source URL.
+
 Two things reach other hosts. Tapping a showtime or a trailer hands you to the
 cinema's booking page or to YouTube. GitHub Pages serves the site and logs
 requests, as any host would.
@@ -338,7 +350,9 @@ hosting a fork never performs.
 **The licence covers the code and nothing else here.** Not mine to relicense:
 
     data/area-*.json     showtimes, belonging to the cinemas listed above
-    data/posters/        poster art from the cinemas' own CDNs and TMDB
+    data/posters/*.jpg   poster art from the cinemas' own CDNs and TMDB,
+                         except data/posters/card-*.jpg, which are this
+                         project's own title cards and are covered by the licence
     fonts/archivo-*      Archivo, under the SIL Open Font Licence (fonts/OFL.txt)
 
 Forking the code carries no right to that material. Read the providers yourself,
