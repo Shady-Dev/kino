@@ -1,6 +1,6 @@
 [cloud] 30 module(s), 63 site(s), 61 host group(s), pool of 8
 [cloud] biorex: exit=0
-[cloud] nexxo: exit=0
+[cloud] nexxo: exit=1
 [cloud] etiketti: exit=0
 [cloud] riviera: exit=0
 [cloud] gilda: exit=0
@@ -29,6 +29,6 @@
 [cloud] vpk: exit=0
 [cloud] pallas: exit=0
 [cloud] alatalo: exit=0
-[cloud] 153.1s wall, 949.2s of fetching added up across workers that overlap, 63 site(s) fetched
-[cloud] held at most 41 fetched site(s) and 3753 byte(s) of captured log waiting for publication
-exit=0
+[cloud] 135.1s wall, 963.3s of fetching added up across workers that overlap, 63 site(s) fetched
+[cloud] held at most 45 fetched site(s) and 3976 byte(s) of captured log waiting for publication
+exit=1

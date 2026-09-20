@@ -1890,6 +1890,7 @@
    "img": "data/posters/614615622fcfd9d8.jpg",
    "kr": "S",
    "krs": [
+    "bioforum",
     "kinoaurora",
     "kinohirvi"
    ],
@@ -3679,6 +3680,15 @@
    "s": {
     "en": "",
     "fi": "Sisko tahtoisin jäädä on Kissan kuolemassa pääroolin tehneen Marja Pyykön pitkän elokuvan esikoisohjaus. Kotimaisen elokuvan perinne, myös nuorisoelokuvan saralla, on hyvin miehinen. Tähän maastoon Marja Pyykön ja Laura Suhosen käsikirjoittama Sisko tahtoisin jäädä toi vahvasti tyttöyteen kiinnittyvän näkökulman."
+   },
+   "tr": ""
+  },
+  "sjung för mig arja laula minulle arja": {
+   "img": "data/posters/614615622fcfd9d8.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivistista Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu."
    },
    "tr": ""
   },

@@ -4,22 +4,22 @@
 [biomarilyn] Bio Marilyn: 10 showtimes, 9 dates
 [biomarilyn] Bio Marilyn: 10 showtimes, 9 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 7 screening(s) in day groups, 3 film page(s) read
-[vihdinkino] Vihdin Kino: 7 showtimes, 3 dates
-[vihdinkino] Vihdin Kino: 7 showtimes, 3 dates
+[vihdinkino] 6 screening(s) in day groups, 3 film page(s) read
+[vihdinkino] Vihdin Kino: 6 showtimes, 3 dates
+[vihdinkino] Vihdin Kino: 6 showtimes, 3 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 11 screening(s) in day groups, 7 film page(s) read
-[bioforum] Bio Forum: 11 showtimes, 5 dates
-[bioforum] Bio Forum: 11 showtimes, 5 dates
-[bioforum] synopses merged: 0
+[bioforum] 17 screening(s) in day groups, 8 film page(s) read
+[bioforum] Bio Forum: 17 showtimes, 10 dates
+[bioforum] Bio Forum: 17 showtimes, 10 dates
+[bioforum] synopses merged: 1
 [kinokulma] 23 screening(s) in day groups, 9 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show
 [kinokulma] Kinokulma: 21 showtimes, 13 dates
 [kinokulma] Kinokulma: 21 showtimes, 13 dates
 [kinokulma] synopses merged: 0
-[run] http: 0 revalidated (304), 33 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 34 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 49 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 81.8s of fetching added up across workers that overlap, longest site 27.9s, longest queue wait 90.3s, 30.8s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 54 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 72.7s of fetching added up across workers that overlap, longest site 24.1s, longest queue wait 100.4s, 32.5s wall from this module's first fetch starting to its last ending
 exit=0
