@@ -638,8 +638,16 @@ schedules share one WordPress page. One provider, two venues, one request.
 
 Live as `scripts/providers/kuvakukko.py`, one provider, two venues, cloud half. Published
 in `d216607b` on 2026-09-15; `logs/run-kuvakukko.log` reads `exit=0` and the two venues
-carried 33 showtimes between them when this was re-checked on 2026-09-19. Next step:
-decide whether "Hopeatähti-sarja" belongs in `strands.EVENT_PREFIXES`.
+carried 33 showtimes between them when this was re-checked on 2026-09-19.
+
+**"Hopeatähti-sarja" stays out of `strands.EVENT_PREFIXES`, decided 2026-09-20.** Nothing
+published carries it. Zero of the 4,478 committed showtimes do, and zero titles on the
+programme page re-read that day: *Laula minulle Arja* is now published bare and links to
+the cinema's own page rather than to isak.fi, and the strand has a section of its own at
+`/ohjelmisto/hopeatahti/`. That list is exact because every entry was checked against a
+published title, and an entry with nothing behind it is a guess at the next spelling the
+cinema will use. If the prefix comes back it arrives in a no-match list with a title
+attached, which is when it gets added and how the other entries got there. No next step.
 
 ---
 
