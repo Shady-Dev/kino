@@ -89,6 +89,33 @@ _hosts_all = set()
 
 _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
 
+# Three response headers `served()` reports beside the size and the title, recorded per
+# thread by `fetch` as each response arrives. Names only, and these three: `Server` says
+# which stack answered, `CF-Ray` says a particular front door did, and `Retry-After` says
+# the refusal is timed rather than permanent. That is the evidence
+# docs/research/runner-challenges.md had to infer from a byte count and a title, where
+# three of the fourteen failing hosts were evidenced by a 403 with a `Server` header and
+# two by nothing at all. No body is kept, here or anywhere: a third party's page is not
+# committed to this repository.
+_REPORTED_HEADERS = ("Server", "CF-Ray", "Retry-After")
+_seen = threading.local()
+
+
+def _note_headers(headers):
+    """Remember the reported headers of the response this thread just had."""
+    got = {}
+    for name in _REPORTED_HEADERS:
+        v = headers.get(name) if headers is not None else None
+        if v:
+            got[name] = " ".join(str(v).split())[:60]
+    _seen.headers = got
+
+
+def _header_note():
+    """-> ", Server: x, CF-Ray: y" for what the last response carried, or ""."""
+    got = getattr(_seen, "headers", None) or {}
+    return "".join(f", {k}: {v}" for k, v in got.items())
+
 
 def served(page, limit=70):
     """What the reader was actually handed, for a guard that could not parse it. -> str.
@@ -106,14 +133,25 @@ def served(page, limit=70):
     of kilobytes and titled after the cinema; a challenge is a couple of kilobytes and
     titled "Just a moment...". The title is a third party's text, so it is unescaped,
     collapsed to one line and cut to `limit` before it goes anywhere near a committed log.
+
+    **And three response headers, from 2026-09-19**: `Server`, `CF-Ray` and `Retry-After`,
+    whichever of them the last response to this thread carried. They are the difference
+    between "something refused us" and a named refusal: `Server` says which stack answered,
+    `CF-Ray` says a particular front door did, and `Retry-After` says the refusal is timed
+    rather than permanent. The nine-host challenge in docs/research/runner-challenges.md
+    had to infer all of that from a byte count and a title, and two of its fourteen hosts
+    were evidenced by nothing at all. Values are printed as served, truncated, and no body
+    is kept.
     """
     page = page or ""
+    note = _header_note()
     m = _TITLE_RE.search(page)
     if not m:
-        return f"{len(page)} B served, no <title>"
+        return f"{len(page)} B served, no <title>{note}"
     title = html_mod.unescape(m.group(1))
     title = " ".join(title.split())[:limit]
-    return f'{len(page)} B served, titled "{title}"' if title else f"{len(page)} B served"
+    return (f'{len(page)} B served, titled "{title}"{note}' if title
+            else f"{len(page)} B served{note}")
 
 
 def _scope():
@@ -638,6 +676,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             req = urllib.request.Request(url, data=data, headers=hdrs)
             op = opener.open if opener is not None else urllib.request.urlopen
             with op(req, timeout=timeout) as r:
+                _note_headers(r.headers)
                 body = _read_capped(r, url, limit)
                 if cache:
                     _bump(_stats, "miss")
@@ -670,6 +709,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             # 429 and 503 are the two codes RFC 9110 lets carry Retry-After, and both
             # mean "not now" rather than "never". Wait the stated time instead of ours.
             hh = getattr(e, "headers", None)
+            _note_headers(hh)
             wait = (_retry_after(hh.get("Retry-After"))
                     if e.code in (429, 503) and hh is not None else None)
             if wait is not None:

@@ -413,6 +413,116 @@ class FetchTest(unittest.TestCase):
         self.assertEqual(self.srv.hits["/r"], 1)
 
 
+class ServedHeadersTest(unittest.TestCase):
+    """`served()` reports Server, CF-Ray and Retry-After beside the size and the title.
+
+    Against a real local server, because what is under test is partly urllib's: which of
+    these survive on an `HTTPError`, and what `headers.get` returns for a name the server
+    sent. A mock would encode the assumption this is meant to check.
+
+    The nine-host challenge in docs/research/runner-challenges.md had to infer the cause
+    from a byte count and a title alone, and two of its fourteen hosts were evidenced by
+    nothing at all. These three name it.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        cls.srv.script, cls.srv.hits = {}, {}
+        cls.url = f"http://127.0.0.1:{cls.srv.server_address[1]}"
+        cls.thread = threading.Thread(target=cls.srv.serve_forever, daemon=True)
+        cls.thread.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.srv.shutdown()
+        cls.srv.server_close()
+
+    def setUp(self):
+        self.srv.script.clear()
+        self.srv.hits.clear()
+        self.srv.banner = "TestHTTP"
+        common._seen.headers = {}
+        self.addCleanup(lambda: setattr(common._seen, "headers", {}))
+
+    def get(self, path, tries=1):
+        try:
+            return common.fetch(self.url + path, tries=tries, backoff=0).decode()
+        except Exception:
+            return ""
+
+    def test_a_challenge_page_names_the_stack_and_the_front_door(self):
+        self.srv.banner = "cloudflare"
+        body = b"<html><head><title>Just a moment...</title></head><body></body></html>"
+        self.srv.script["/c"] = [(200, {"CF-Ray": "8f2b1c0ddead1234-HEL"}, body)]
+        page = self.get("/c")
+        note = common.served(page)
+        self.assertIn("Just a moment...", note)
+        self.assertIn("Server: cloudflare", note)
+        self.assertIn("CF-Ray: 8f2b1c0ddead1234-HEL", note)
+
+    def test_a_403_keeps_its_server_header_through_the_httperror(self):
+        self.srv.banner = "openresty/1.31.1.1"
+        self.srv.script["/f"] = [(403, {}, b"<html><title>Forbidden</title></html>")]
+        self.get("/f")
+        self.assertIn("Server: openresty/1.31.1.1", common.served(""))
+
+    def test_a_timed_refusal_says_so(self):
+        self.srv.script["/r"] = [(503, {"Retry-After": "7"}, b"<html><title>Busy</title></html>")]
+        self.get("/r")
+        self.assertIn("Retry-After: 7", common.served(""))
+
+    def test_a_response_carrying_none_of_them_reads_as_it_always_did(self):
+        """`Server` is sent by every BaseHTTPRequestHandler response, so the one case with
+        no note at all is a `served()` call with no fetch behind it."""
+        common._seen.headers = {}
+        self.assertEqual(common.served("<html><title>Kino</title></html>"),
+                         '32 B served, titled "Kino"')
+        self.assertEqual(common.served(""), "0 B served, no <title>")
+
+    def test_the_note_describes_the_last_response_and_not_an_older_one(self):
+        self.srv.banner = "cloudflare"
+        self.srv.script["/a"] = [(200, {"CF-Ray": "aaaa-HEL"}, b"<html><title>A</title></html>")]
+        self.get("/a")
+        self.assertIn("CF-Ray: aaaa-HEL", common.served(""))
+        self.srv.banner = "nginx"
+        self.srv.script["/b"] = [(200, {}, b"<html><title>B</title></html>")]
+        self.get("/b")
+        note = common.served("")
+        self.assertIn("Server: nginx", note)
+        self.assertNotIn("CF-Ray", note)
+
+    def test_a_response_carrying_none_of_them_clears_the_previous_note(self):
+        """The note describes the last response, so an ordinary answer after a challenge
+        has to erase the challenge's headers rather than leave them standing over it.
+        `banner=""` is how a response with no usable `Server` is produced here, since
+        BaseHTTPRequestHandler sends the header on every response."""
+        self.srv.banner = "cloudflare"
+        self.srv.script["/x"] = [(200, {"CF-Ray": "cccc-HEL"}, b"<html><title>X</title></html>")]
+        self.get("/x")
+        self.assertIn("CF-Ray: cccc-HEL", common.served(""))
+        self.srv.banner = ""
+        self.srv.script["/y"] = [(200, {}, b"<html><title>Y</title></html>")]
+        self.get("/y")
+        self.assertEqual(common.served(""), "0 B served, no <title>")
+
+    def test_no_part_of_the_body_reaches_the_note(self):
+        """The rule this whole helper exists under: a third party's page is never kept."""
+        self.srv.banner = "cloudflare"
+        secret = b"<html><title>Just a moment...</title><body>SECRET-TOKEN-42</body></html>"
+        self.srv.script["/s"] = [(200, {"CF-Ray": "bbbb-HEL"}, secret)]
+        page = self.get("/s")
+        self.assertIn("SECRET-TOKEN-42", page, "the body did arrive")
+        self.assertNotIn("SECRET-TOKEN-42", common.served(page))
+
+    def test_a_long_header_value_is_cut(self):
+        self.srv.banner = "x" * 200
+        self.srv.script["/l"] = [(200, {}, b"<html><title>L</title></html>")]
+        self.get("/l")
+        note = common.served("")
+        self.assertLess(len(note), 120)
+
+
 class GetTextTest(unittest.TestCase):
     """`common.get_text`: the body seven adapters had written out identically.
 
