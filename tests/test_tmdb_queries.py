@@ -131,6 +131,67 @@ class AudioMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.norm(en), "kojootti vs acme englanniksi")
 
 
+class TerminalVersionMarkerTest(unittest.TestCase):
+    """Two more ways a cinema names which run of a film a screening is, measured
+    2026-09-20 in the committed data and both reaching TMDB with the marker attached.
+
+    TMB publishes "Kojootti vs ACME Orginaali äänillä" with no brackets and with the i
+    missing, on all four of its cinemas at once: 8 showtimes across Toijala, Sampo, Mania
+    and Elo, every one drawn as an initials tile, while every other spelling of that film
+    matched 1204680. "(eng)" and "(sub)" are the same claim in three letters and had sat
+    unmatched in the cache since 2026-09-14.
+
+    Both rules are anchored to the end of the title. "eng" and "sub" are ordinary
+    syllables, so a rule that fired anywhere would cut real words out of real names.
+    """
+
+    def test_the_unbracketed_original_audio_marker_comes_off(self):
+        """Both spellings, because the one in the data is the operator's."""
+        for published in ("Kojootti vs ACME Orginaali äänillä",
+                          "Kojootti vs ACME Originaali äänillä",
+                          "Kojootti vs ACME, orginaali äänillä",
+                          "Kojootti vs ACME ORGINAALI ääNILLä"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs ACME")
+
+    def test_the_three_letter_version_markers_come_off(self):
+        for published in ("Kojootti vs. ACME (eng)", "Kojootti vs. ACME (sub)",
+                          "Kojootti vs. ACME (ENG)", "Kojootti vs. ACME ( sub )"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
+
+    def test_a_marker_only_comes_off_at_the_end(self):
+        """The restriction that keeps the rule safe: a title carrying the same letters
+        anywhere else is left exactly as the cinema published it."""
+        for published in ("Subway", "Submarine", "English Patient", "Engel",
+                          "Kojootti vs. ACME (sub) osa 2",
+                          "Orginaali äänillä ja muita tarinoita"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), published)
+
+    def test_the_accepted_acme_spellings_still_clean_the_same_way(self):
+        """The variants that already matched 1204680, pinned so this rule cannot move
+        them. Every one has to reach the same search string as the bare title."""
+        for published in ("Kojootti vs. ACME (suomeksi)", "Kojootti vs. ACME (orig)",
+                          "Kojootti vs. ACME (englanniksi)", "Kojootti vs. ACME (Dub)",
+                          "Kojootti vs. ACME ENGLANNIKSI", "Kojootti vs. ACME, suomeksi",
+                          "Kojootti vs. ACME (suomeksi puhuttu)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
+        self.assertEqual(enrich_tmdb.clean("Gråben vs. ACME (på svenska)"),
+                         "Gråben vs. ACME")
+
+    def test_the_published_title_still_keys_the_entry(self):
+        """clean() touches the search string only. The three runs stay three cache
+        entries, or the cache and normTitle() in index.html part company."""
+        marked = "Kojootti vs ACME Orginaali äänillä"
+        self.assertEqual(enrich_tmdb.norm(marked),
+                         "kojootti vs acme orginaali äänillä")
+        self.assertNotEqual(enrich_tmdb.norm(marked), enrich_tmdb.norm("Kojootti vs ACME"))
+        self.assertNotEqual(enrich_tmdb.norm("Kojootti vs. ACME (eng)"),
+                            enrich_tmdb.norm("Kojootti vs. ACME (sub)"))
+
+
 class ScreeningMarkerTest(unittest.TestCase):
     """Two more spellings of "this is a film screening", both found on the live site on
     2026-09-19 as cards with an initials tile and no score.

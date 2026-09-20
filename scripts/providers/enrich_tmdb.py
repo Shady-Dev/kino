@@ -80,7 +80,19 @@ PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu)?|englanniksi|p[åa]\s+svenska"
     r"|puhumme\s+suomea!?|dubattu|dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
-TRAIL_NOISE = re.compile(r",?\s*\b(?:suomeksi|englanniksi|dubattu)\b\s*$", re.I)
+TRAIL_NOISE = re.compile(
+    r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
+    re.I)
+
+# Two terminal version markers still reaching TMDB, measured 2026-09-20 in the committed
+# data. TMB publishes "Kojootti vs ACME Orginaali äänillä" with no brackets and with
+# the operator's missing i, 8 showtimes across Toijala, Sampo, Mania and Elo, every one
+# an initials tile, while every other spelling of that film matched 1204680. "(eng)" and
+# "(sub)" name the audio run and the subtitled one in three letters, and had sat
+# unmatched in the cache since 2026-09-14. Both are anchored to the end: "eng" and
+# "sub" are ordinary syllables, and a rule that fired mid-title would cut real words
+# out of real names.
+TRAIL_VERSION = re.compile(r"\s*\(\s*(?:eng|sub)\s*\)\s*$", re.I)
 
 # A calendar names events, not films. Tähti Kino's three rows on 2026-09-19 read
 # "Hetki ennen valoa -elokuvanäytös", "Presidentin kyyditys -elokuvan näytös" and
@@ -115,7 +127,7 @@ def clean(title):
     if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
         t = t[:m.start()].strip()
     t = EVENT_NOUN.sub(" ", t)
-    t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", t))
+    t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 
 
