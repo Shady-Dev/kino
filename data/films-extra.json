@@ -1,9 +1,10 @@
 {
  "films": {
   "12 dicembre": {
+   "img": "data/posters/662a382d458dab28.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "On December 12th, 1969 a bomb went off at the Piazza Fontana in Milan that killed 16 people and injured 84. Railway worker and anarchist activist Giuseppe Pinelli was picked up, along with other anarchists, for questioning regarding the attack. He was held and interrogated for three days, longer than Italian law specified that people could be held without seeing a judge. Just before midnight on December 15, 1969 Pinelli was seen to fall to his death from a fourth floor window of the Milan police station. Although officially deemed a suicide, the reporter who watched the fall from the street maintained that he was pushed. Three police officers interrogating Pinelli were put under investigation in 1971 for murder but charges were dropped because of lack of evidence.",
     "fi": "Pier Paolo Pasolinin ideoima ja osittain ohjaama Italian räjähdysherkkien ”lyijyvuosien” taltiointi tutkii Milanon Piazza Fontanalla 12.12.1969 tapahtuneen tuhoisan pommi-iskun poliittista jälkipyykkiä. Radikaalivasemmistolaisen Lotta Continua -järjestön tuottama dokumentti näyttää syvästi kahtiajakautuneen kaupungin ja maan, jossa luotto viranomaisiin on kateissa."
    },
    "tr": ""
@@ -918,12 +919,13 @@
    "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4"
   },
   "hei me rokataan": {
-   "r": 0,
+   "img": "data/posters/8cc9ee9fb393ceba.jpg",
+   "r": 7.4,
    "s": {
     "en": "",
     "fi": "Rock-elokuvien kulttiklassikko, ja ehkä kaikkien aikojen kuuluisin mockumentary, seuraa brittiläisen heavy rock -yhtyeen Yhdysvaltain-kiertuetta, jolla vastaan tulevat pienenevät yleisöt, epäonniset lavasteet, loputtomat bändidraamat. Hulvaton satiiri sukeltaa rockmaailman kulisseihin, joissa ego, luovat erimielisyydet ja loputon itsensä vakavasti ottaminen johtavat toinen toistaan absurdeimpiin tilanteisiin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=_9leMez8sQ8"
   },
   "helaff short films 1": {
    "r": 0,
@@ -1151,12 +1153,13 @@
    "tr": ""
   },
   "intohimorikoksia": {
-   "r": 0,
+   "img": "data/posters/5e7af050ca0bd142.jpg",
+   "r": 6.3,
    "s": {
-    "en": "",
+    "en": "Fashion designer Joanna Crane leads a double life. By night she is China Blue, a prostitute who's attracted the attention of a sexually frustrated private detective, and a psychopathic priest in possession of a murderous sex toy.",
     "fi": "Kaksoiselämää viettävä muotisuunnittelija Joanna Crane (Kathleen Turner) on iltaisin China Blue, joka toteuttaa asiakkaidensa fetissejä ja mieltymyksiä vailla tunnesiteitä. Maanista saarnaajaa esittävä Anthony Perkins ei ole eroottisen trillerin ainoa yhteys Psykoon. ”Russell esittää kaiken houreisena näkynä, vimmaisena ja hysteerisenä valon, varjon ja värien oopperana”, Kansan Uutisten Osmo Peltonen kirjoitti."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=MA2RASz9RKE"
   },
   "it must be heaven": {
    "img": "data/posters/2078ab71ae729742.jpg",
@@ -2050,6 +2053,7 @@
    "tr": ""
   },
   "lumikuningatar": {
+   "img": "data/posters/399e87bc7bf8368b.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -2074,7 +2078,6 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinoolympia",
     "savonkinot"
    ],
    "r": 6.2,
@@ -2370,7 +2373,6 @@
     "niagara",
     "savonkinot",
     "star",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.7,
@@ -3264,7 +3266,8 @@
    "img": "data/posters/6bbde592472eb4e8.jpg",
    "kr": "S",
    "krs": [
-    "kinokilta"
+    "kinokilta",
+    "regina"
    ],
    "r": 0,
    "s": {
@@ -3968,12 +3971,13 @@
    "tr": "https://www.youtube.com/watch?v=DXk6VXs6jh4"
   },
   "suurkaupungin tyttö": {
-   "r": 0,
+   "img": "data/posters/37f6307086e71edc.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "A waitress from Chicago falls in love with a man from rural Minnesota and marries him, with the intent of living a better life - but life on the farm has its own challenges.",
     "fi": "Vaikka Murnau ei saanut toteuttaa visiotaan vapaana studion kontrollista, tuloksena syntyi silti elokuvahistoriaan jäänyt ja monien mielestä Auringonnousun tasoinen klassikko, joka on myös muunnelma samantapaisesta teemasta. Maalaispojan ja kaupunkilaistytön tarina asettaa vastakkain kaupungin ja maasedun, mutta osoittaa, ettei elo maallakaan ole pelkkää ruusuilla tanssimista. Erityisesti nuoren avioparin kisailu tuulessa lainehtivalla pellolla antaa lyyrisyydessään viitteitä Murnaun alkuperäisestä visiosta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Pop64E6uOD8"
   },
   "svecias the visitor": {
    "img": "data/posters/ab58860aa0b139c9.jpg",
@@ -4828,12 +4832,13 @@
    "tr": "https://www.youtube.com/watch?v=frg59VOungA"
   },
   "white riot": {
-   "r": 0,
+   "img": "data/posters/437f0d4985f6e86b.jpg",
+   "r": 6.1,
    "s": {
-    "en": "",
+    "en": "Exploring how punk influenced politics in late-1970s Britain, when a group of artists united to take on the National Front, armed only with a fanzine and a love of music.",
     "fi": "The Clashin Joe Strummer kaipasi valkoiselta valtaväestöltä samanlaista yhteiskunnallista kapinaa ja oman tilan ottoa kuin hän oli nähnyt tummaihoisen väestönosan harjoittavan 70-luvun Englannissa. Bändin kappale White Riot antoi nimen myös dokumentille, joka kertaa Rock Against Racism -liikkeen synnyn, kasvun ja huipentuman jättikonserttiin Lontoon Victoria Parkissa. Samalla se kasvaa aihettaan laajemmaksi kuvaukseksi 70-luvun Englannin konservatiivis-oikeistolaisesta ilmapiiristä. National Front -liikkeen suosion nousu sai vastavoiman RAR-liikkeestä DIY-hengestä. La 12.12. näytöksen saapuu alustamaan Punkmuseon Timo Kiippa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=794vlC_wKJQ"
   },
   "wild style": {
    "img": "data/posters/5f7dce735195f15b.jpg",

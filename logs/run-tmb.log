@@ -13,5 +13,5 @@
 [run] http: 0 revalidated (304), 48 full, 48 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
 [run] tmb: 4 venues, 120 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 79.1s of fetching added up across workers that overlap, longest site 19.9s, longest queue wait 70.0s, 38.8s wall from this module's first fetch starting to its last ending
+[run] timing: 4 site(s), 82.2s of fetching added up across workers that overlap, longest site 20.9s, longest queue wait 70.5s, 39.4s wall from this module's first fetch starting to its last ending
 exit=0

@@ -18,8 +18,16 @@
 [kinokulma] Kinokulma: 69 showtimes, 42 dates
 [kinokulma] Kinokulma: 69 showtimes, 42 dates
 [kinokulma] synopses merged: 0
-[run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 109 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 101.9s of fetching added up across workers that overlap, longest site 50.8s, longest queue wait 89.2s, 54.3s wall from this module's first fetch starting to its last ending
+[kinohannikainen] 8 screening(s) in day groups, 2 film page(s) read
+[kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
+[kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
+[kinohannikainen] synopses merged: 0
+[kinovirta] 4 screening(s) in day groups, 4 film page(s) read
+[kinovirta] Kino Virta: 4 showtimes, 2 dates
+[kinovirta] Kino Virta: 4 showtimes, 2 dates
+[kinovirta] synopses merged: 0
+[run] http: 0 revalidated (304), 54 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
+[run] johku: 6 venues, 121 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 114.3s of fetching added up across workers that overlap, longest site 49.1s, longest queue wait 91.0s, 53.8s wall from this module's first fetch starting to its last ending
 exit=0
