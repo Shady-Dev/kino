@@ -609,6 +609,16 @@ PROVIDERS = [
     # saturation 0.92.
     dict(id="kinohannikainen", label="Kino Hannikainen", host="kinohannikainen.net",
          accent="#1188DD", book="buy", module="johku", where="cloud"),
+    # Kino Virta, Kalajoki, 2026-09-20. The seventh Johku storefront and the only one
+    # served from the platform's own domain: virtasali.fi is the municipal hall's
+    # WordPress page and every one of its ticket buttons points at kinovirta.johku.com,
+    # which is what a showtime links to and what this reads. The hall is Virta-sali in
+    # Kauppa- ja kulttuurikeskus Merta; the cinema calls itself Kino Virta.
+    # Kalajoki holds no other chain and no REGIONS area holds it, so the accent enters no
+    # shared view. 4.1 dE00 from its nearest accent anywhere, Gilda, which shares no view
+    # with it. L* 45.7, saturation 0.92.
+    dict(id="kinovirta", label="Kino Virta", host="kinovirta.johku.com",
+         accent="#CC1188", book="buy", module="johku", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

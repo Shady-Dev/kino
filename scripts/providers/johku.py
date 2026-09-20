@@ -106,6 +106,13 @@ SITES = [
      "venues": [{"id": "kinohannikainen-nurmes", "name": "Kino Hannikainen",
                  "short": "Kino Hannikainen", "city": "Nurmes",
                  "loc": "Hannikaisen sali"}]},
+    # Added 2026-09-20, the seventh, and the one storefront read from johku.com itself:
+    # the cinema has no storefront domain of its own and virtasali.fi links here. Read
+    # that day, four rows over two day groups, `data-location="Virta-sali"`.
+    {"provider": "kinovirta", "label": "Kino Virta",
+     "base": "https://kinovirta.johku.com", "listing": "/",
+     "venues": [{"id": "kinovirta-kalajoki", "name": "Kino Virta",
+                 "short": "Kino Virta", "city": "Kalajoki", "loc": "Virta-sali"}]},
 ]
 
 GROUP_RE = re.compile(r'(?<![-\w])class=["\'][^"\']*(?<![-\w])showgroup(?![-\w])')
