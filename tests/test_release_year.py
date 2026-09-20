@@ -204,7 +204,11 @@ class NoYearInImagesTest(unittest.TestCase):
         card = html[start:html.index("</article>", start)]
         # The tile's letters come off `title`, the heading off `cardTitle`. If the tile
         # ever read the formatted string, "Carrie (1976)" would tile as "C1".
-        self.assertIn("const initials = (title.match(", card)
+        # Since 2026-09-20 the two letters are derived by tileInitials(), which takes the
+        # festival prefix off them and nothing else. What this pins is unchanged: the
+        # argument is `title`, never `cardTitle`.
+        self.assertIn("const initials = tileInitials(title);", card)
+        self.assertNotIn("tileInitials(cardTitle)", card)
         self.assertIn("const cardTitle = filmTitle(title, m.oyear, fiYear());", card)
         self.assertIn("${esc(cardTitle)}", card)
         self.assertNotIn("cardTitle.match(", card)

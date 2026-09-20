@@ -4011,6 +4011,25 @@
     // A film whose every screening has passed is not the same as one still to come. Rather
     // than dimming it in place, where it reads as a broken card, group them at the end
     // under one heading. Said once, not annotated on every card.
+  // --- tileInitials: pure, extracted verbatim by tests/tile_initials_harness.js ---
+  // The fallback tile's two letters. A festival prefix is not the film's name and it is
+  // the *first* thing in the title, so every title carrying one tiles identically: the
+  // word split is on letters, so "R&A: Dry Leaf" and "R&A: NOX" both give RA, and all 30
+  // Rakkautta & Anarkiaa rows drew one tile on 2026-09-20.
+  //
+  // Display only, and deliberately so. `strands.py` refuses an "r&a" prefix split because
+  // searching the *stripped* title would resolve one- and two-word names onto the wrong
+  // film by popularity. Nothing here reaches a search, a match or the displayed title:
+  // the prefix comes off the initials and off nothing else, so that refusal is untouched.
+  // The prefix must leave something behind, or the tile would read "?" instead.
+  const TILE_PREFIX = /^\s*r\s*&\s*a(?:\s+shorts)?\s*:\s*/i;
+  const tileInitials = title => {
+    const t = String(title || '');
+    const bare = t.replace(TILE_PREFIX, '');
+    const src = (bare.match(/\p{L}|\d/u) ? bare : t);
+    return (src.match(/\p{L}+|\d+/gu) || ['?']).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  };
+  // --- end tileInitials ---
     const spent = m => m.times.every(t => t.start < now);
     const live = movies.filter(m => !spent(m));
     const over = movies.filter(spent);
@@ -4021,7 +4040,7 @@
       // carry no year at all.
       const cardTitle = filmTitle(title, m.oyear, fiYear());
       const hue = [...m.title].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0, 7) % 360;
-      const initials = (title.match(/\p{L}+|\d+/gu) || ['?']).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+      const initials = tileInitials(title);
       const tile = `<div class="poster blank" style="background:linear-gradient(160deg,hsl(${hue} 45% 32%),hsl(${(hue+45)%360} 50% 16%));color:hsl(${hue} 75% 82%)">${initials}</div>`;
       const posterUrl = safeAssetUrl(m.img);
       const poster = posterUrl
