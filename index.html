@@ -705,6 +705,12 @@
      visitor cannot afford to have eaten by an ellipsis. */
   .stub .aud .loc{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
   .stub .aud .agelim{flex:0 0 auto}
+  /* A screening's own language, drawn only where the film's screenings disagree, so the
+     common case keeps the one-line ticket. It is the last flex item and takes a full row,
+     under the room name and inside the details compartment: the ticket keeps its three
+     parts and none of the geometry DESIGN.md pins moves. */
+  .stub .aud.twoline{flex-wrap:wrap; align-items:flex-start; max-width:200px}
+  .stub .slang{flex:1 0 100%; white-space:normal; line-height:1.25; overflow-wrap:anywhere}
   /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
      The dashed seam is its left border and the notches are its own pseudo-elements,
      centred on that border, so the perforation is anchored to the price wherever the
@@ -1413,6 +1419,22 @@
     if(by.S.length) out.push(LW[state.lang].S + ' ' + by.S.join('/'));
     return out.join(' · ');
   }
+  // --- langSplit: pure, extracted verbatim by tests/lang_split_harness.js ---
+  // Which screenings agree on a language. Shared goes once above the schedule, anything
+  // else goes on each ticket: the rule the card already applies to format tags.
+  // A screening that published nothing is not "the same as the others". One missing
+  // value makes the set differing, so a blank ticket stays blank instead of inheriting a
+  // neighbour's: 2.0% of (area, film) pairs in the committed data mix values, and
+  // Kojootti vs. ACME runs dubbed (FI-A) beside subtitled (EN-A, FI-S, SV-S) in one
+  // cinema on one day. Folding those to the first screening told half the readers the
+  // wrong thing.
+  const langSplit = list => {
+    const vals = (list || []).map(s => (s && s.lang) || '');
+    const first = vals.length ? vals[0] : '';
+    const same = vals.every(v => v === first);
+    return { shared: same ? first : '', perShow: !same };
+  };
+  // --- end langSplit ---
   // films.json is keyed by Finnkino's filmId. In a combined city view eventId is the
   // cross-chain merge key, so the id comes from the show's own _eid, as in showSheet().
   // Without it English mode fell back to the Finnish title in every combined view.
@@ -3752,11 +3774,14 @@
       if(!byEvent.has(s.eventId)) byEvent.set(s.eventId, { ...s, times:[] });
       const m = byEvent.get(s.eventId);
       Object.assign(m, filmFacts.get(s.eventId) || {});
-      // Per-screening, so still folded from what survived the filter.
-      if(!m.lang && s.lang) m.lang = s.lang;
+      // lang is not folded here: see the langSplit pass under `movies` below.
       m.times.push(s);
     }
     const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
+    // `{ ...s }` above copied the first screening's lang, which is what made a mixed film
+    // claim one language. Keep it on the film only where every surviving screening agrees;
+    // the others carry their own on the stub.
+    for(const m of movies) m.lang = langSplit(m.times).shared;
 
     if(!movies.length){
       setListStatus(emptyStatus());
@@ -3800,6 +3825,7 @@
       // share it: the A is where a reader looks for it, and folding it onto the card
       // made it vanish the moment the Anniskelu filter left only such screenings.
       const common = [...(tagSets[0] || [])].filter(f => !glyphOf(f) && tagSets.every(set => set.has(f)));
+      const langPer = langSplit(m.times).perShow;
       // Past times are hidden behind a compact stub rather than a global toggle: it costs
       // no header space and only appears on the cards that have any. If *every* time has
       // passed they stay visible, since an empty card would read as a bug.
@@ -3829,7 +3855,7 @@
         // meta2 note.
         const own_price = priceLabel([t]);
         return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}</span><span class="price">${esc(own_price)}</span>
+                  <span class="time">${clock}</span><span class="aud${(langPer && t.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}${(langPer && t.lang) ? `<span class="slang">${esc(langTxt(t.lang))}</span>` : ''}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -3998,6 +4024,15 @@
     }
     // Across venues, "Sali 7" alone says nothing about which cinema: label the venue and
     // tint by chain, exactly as the main list does.
+    // The sheet reads every screening of the film, filtered or not, so this is the set
+    // the reader is choosing between.
+    const lsplit = langSplit(all);
+    // Shared language belongs beside the genres, where the card carries it. Nothing is
+    // drawn when the screenings disagree: each stub says its own below.
+    const sheetMeta2 = [
+      genresOf(sample) ? `<span>${esc(genresOf(sample))}</span>` : '',
+      lsplit.shared ? `<span>${esc(langTxt(lsplit.shared))}</span>` : ''
+    ].filter(Boolean).join('');
     const multi = labelVenues(all);
     const stubsCls = multi ? 'stubs grid' : 'stubs';
     const stub = s => {
@@ -4012,7 +4047,7 @@
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
         return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
+                  <span class="time">${clock}</span><span class="aud${(lsplit.perShow && s.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${(lsplit.perShow && s.lang) ? `<span class="slang">${esc(langTxt(s.lang))}</span>` : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
     closeStubMenu(false);
@@ -4056,7 +4091,7 @@
       <div class="sheet-head">${poster}
         <div><div class="sheet-title" id="sheetTitle">${esc(shownTitle)}</div>
           <div class="meta1" style="margin-top:8px">${meta1}</div>
-          ${genresOf(sample) ? `<div class="meta2">${esc(genresOf(sample))}</div>` : ''}
+          ${sheetMeta2 ? `<div class="meta2">${sheetMeta2}</div>` : ''}
           ${safeUrl(f.tr || sample.tr) ? `<a class="trailer" href="${safeUrl(f.tr || sample.tr)}" target="_blank" rel="noopener">${L[lang].trailer}</a>` : ''}
         </div></div>
       <div class="sheet-body">${legend}

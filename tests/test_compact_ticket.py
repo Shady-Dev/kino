@@ -214,7 +214,14 @@ class TimeModeTicketTest(unittest.TestCase):
         self.assertIn("white-space:nowrap", rule(HTML, ".tinfo small .room"))
 
     def test_the_card_and_sheet_tickets_keep_the_room(self):
-        self.assertEqual(HTML.count('<span class="aud">'), 2)
+        # The class carries a modifier since v198: a screening's own language line is
+        # added to the compartment when a film's screenings disagree. Two ticket builders
+        # still, and the room is still in both -- which is what this pins.
+        auds = re.findall(r'<span class="aud[^"]*">(.*?)</span><span class="price"',
+                          HTML, re.S)
+        self.assertEqual(len(auds), 2, "the card ticket and the sheet ticket")
+        for body in auds:
+            self.assertIn('class="loc"', body)
         self.assertEqual(HTML.count('<span class="price">${esc(own_price)}</span>'), 3)
 
 
