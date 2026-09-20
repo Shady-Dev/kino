@@ -237,6 +237,58 @@ class DelayedVenues(Browser):
         self.assertGreater(opened, served["/data/venues-orion.json"])
 
 
+class TimeFilterHitTarget(Browser):
+    """The Ajat time control has to be clickable, which only a hit test shows.
+
+    v202 shipped it covered: a transparent `.tfield::after` meant to extend the hit area
+    sat over the select, so `elementFromPoint` at its centre returned the wrapper and a
+    real click did nothing, in Chromium and WebKit alike. Every pre-ship check had set the
+    value through `select_option`/`dispatchEvent`, which performs no hit test and so
+    passed. This drives the mouse.
+    """
+
+    viewport = {"width": 375, "height": 812}
+    touch = True
+
+    def open_ajat(self):
+        self.pick_orion()
+        self.page.locator("#segTimes").click()
+        expect(self.page.locator(".trow").first).to_be_visible()
+
+    def test_a_real_click_reaches_the_select(self):
+        self.open_ajat()
+        # Playwright hit-tests before clicking: an overlay fails this outright.
+        self.page.locator("#minTime").click(timeout=5000)
+        self.page.keyboard.press("Escape")
+        landed = self.page.evaluate("""() => {
+            const s = document.querySelector('#minTime');
+            const r = s.getBoundingClientRect();
+            return document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2) === s;
+        }""")
+        self.assertTrue(landed, "the centre of the control must hit the select itself")
+
+    def test_the_control_is_36_to_the_eye_and_44_to_the_finger(self):
+        self.open_ajat()
+        box = self.page.evaluate("""() => {
+            const s = document.querySelector('#minTime'), f = s.closest('.tfield');
+            return {hit: Math.round(s.getBoundingClientRect().height),
+                    seen: Math.round(f.getBoundingClientRect().height)};
+        }""")
+        self.assertEqual(box["seen"], 36)
+        self.assertEqual(box["hit"], 44, "Apple's floor, carried by the control itself")
+
+    def test_choosing_a_time_narrows_the_list(self):
+        self.open_ajat()
+        before = self.page.locator(".trow").count()
+        self.page.locator("#minTime").select_option("18:00")
+        expect(self.page.locator(".tbar")).to_be_visible()
+        times = self.page.evaluate("""() => [...document.querySelectorAll('.trow .time')]
+            .map(t => t.textContent.trim())""")
+        self.assertTrue(times, "the fixture must keep something at or after 18:00")
+        self.assertTrue(all(t >= "18:00" for t in times), times)
+        self.assertLess(len(times), before)
+
+
 class ShareLink(Browser):
     """A `#m=&d=` link marks a ticket. The reader has to be able to see it.
 

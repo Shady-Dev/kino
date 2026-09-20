@@ -169,18 +169,27 @@ class TimeFilterWiringTest(unittest.TestCase):
         bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn("slots.includes(state.minTime)", bar)
 
-    def test_the_field_is_36_to_the_eye_and_reaches_the_44_floor(self):
-        """The mechanism .chip and .seg already use, on a wrapper because a select
-        cannot carry a pseudo-element."""
+    def test_the_box_is_36_and_the_select_itself_owns_the_44_floor(self):
+        """The select carries the hit area, not a wrapper overlay. An ::after on the
+        wrapper covered it and ate every click in both engines (2026-09-20), and could
+        never have extended it: a wrapper's pseudo-element is not part of the select."""
         rule = re.search(r"\.tinput\{(.*?)\}", HTML, re.S).group(1).replace(" ", "")
+        box = re.search(r"\.tfield\{(.*?)\}", HTML, re.S).group(1).replace(" ", "")
         # `height`, not `min-height`: WebKit ignores min-height on a menulist and drew the
         # select 19 px, half the floor, while Chromium honoured it (both measured).
-        self.assertIn("height:36px", rule)
+        self.assertIn("height:44px", rule, "the control is the hit area")
+        self.assertIn("margin:-4px0", rule, "4 px past the box above and below")
         self.assertNotIn("min-height", rule)
         self.assertIn("appearance:none", rule)
         self.assertIn("-webkit-appearance:none", rule)
-        self.assertIn('.tfield::after{content:""', HTML)
-        self.assertIn("top:-4px; bottom:-4px", re.search(r"\.tfield::after\{(.*?)\}", HTML, re.S).group(1))
+        self.assertIn("background:transparent", rule)
+        self.assertIn("height:36px", box, "the wrapper draws what is seen")
+        self.assertNotIn(".tfield::after", HTML, "no overlay over the control")
+
+    def test_the_focus_ring_follows_the_control_into_the_wrapper(self):
+        """The select's own outline is suppressed, so the box has to show focus."""
+        self.assertIn(".tfield:focus-within{outline:2px solid var(--accent)", HTML)
+        self.assertIn(".tinput:focus{outline:none}", HTML)
 
     def test_appearance_none_brings_its_own_chevron(self):
         """Stripping the native control strips its arrow; #areaSelect's is reused."""
@@ -188,7 +197,8 @@ class TimeFilterWiringTest(unittest.TestCase):
         self.assertIn('class="tchev"', bar)
         self.assertIn('aria-hidden="true"', bar)
         self.assertIn("M3 5.2 7 9.2 11 5.2", bar, "the same path the venue button draws")
-        self.assertIn("pointer-events:none", re.search(r"\.tfield \.tchev\{(.*?)\}", HTML, re.S).group(1))
+        self.assertIn("pointer-events:none", re.search(r"\.tfield \.tchev\{(.*?)\}", HTML, re.S).group(1),
+                      "the chevron must not intercept the click either")
 
     def test_an_emptied_list_says_so_and_clears_only_the_time(self):
         """One empty path, so the list-status pairing rule keeps holding."""
@@ -208,7 +218,7 @@ class TimeFilterWiringTest(unittest.TestCase):
         bar = re.search(r"function timeBar\(\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn('<label class="tlbl" for="minTime">', bar)
         self.assertIn('aria-label="${esc(T.tFromA)}"', bar)
-        self.assertIn(".tinput:focus-visible{outline:2px solid var(--accent)", HTML)
+        self.assertIn(".tfield:focus-within{outline:2px solid var(--accent)", HTML)
 
     def test_all_three_languages_carry_every_string(self):
         for key in ("tFrom", "tAll", "tFromA", "tNone"):

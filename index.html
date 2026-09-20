@@ -864,19 +864,26 @@
   /* 36 px to the eye like the chips and the segment, reaching the 44 px floor through the
      same transparent extension. A select cannot carry a pseudo-element, so the wrapper
      does. */
-  .tfield{position:relative; z-index:1; display:inline-flex}
-  .tfield::after{content:""; position:absolute; left:0; right:0; top:-4px; bottom:-4px}
+  /* The box is 36 px to the eye, like the chips and the segment. The wrapper draws it;
+     the select sits on top, transparent and 44 px tall, 4 px past the box above and
+     below, so the control itself owns the whole hit area and reaches the floor.
+     The first version put a transparent ::after on the wrapper instead: it covered the
+     select and ate every click in both engines at both widths, and it could not have
+     extended the select's hit area anyway, since a wrapper's pseudo-element is not part
+     of it. Verified by hit-testing the centre of the control, not by setting its value. */
+  .tfield{position:relative; display:inline-flex; align-items:center; height:36px;
+    border:1px solid var(--line); border-radius:7px; background:var(--surface)}
+  .tfield:hover{border-color:var(--muted)}
+  .tfield:focus-within{outline:2px solid var(--accent); outline-offset:2px}
   /* appearance:none and an explicit height: WebKit ignores min-height on a menulist and
      drew the select 19 px tall, half the floor, while Chromium honoured it (measured
      2026-09-20 in both). The chevron is drawn beside it, the way #areaSelect does. */
   .tinput{font:inherit; font-size:.78rem; font-weight:600; color:var(--ink);
-    background:var(--surface); border:1px solid var(--line); border-radius:7px;
-    appearance:none; -webkit-appearance:none;
-    padding:0 26px 0 8px; height:36px; box-sizing:border-box; cursor:pointer}
+    appearance:none; -webkit-appearance:none; background:transparent; border:0;
+    height:44px; margin:-4px 0; padding:0 26px 0 8px; box-sizing:border-box; cursor:pointer}
+  .tinput:focus{outline:none}
   .tfield .tchev{position:absolute; right:8px; top:50%; margin-top:-7px; width:14px;
     height:14px; color:var(--muted); pointer-events:none; display:inline-flex}
-  .tinput:hover{border-color:var(--muted)}
-  .tinput:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   .trow{display:flex; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--line)}
   /* The ticket in this list is time and price only: 62 + 56 + 2 = 120 px by construction,
      no floor and no cap, so every row's title starts at one x. Until 2026-09-03 it carried
