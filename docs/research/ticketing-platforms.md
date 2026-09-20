@@ -1180,8 +1180,11 @@ page's href, a portrait poster with its dimensions in the tag, `Hinta:`, `Kieli:
 
 **Status and next step**
 
-Live as `scripts/providers/marita.py`, one provider, one venue, cloud half. Next step:
-verify from the committed log after a run.
+Live as `scripts/providers/marita.py`, one provider, one venue, cloud half. Verified
+2026-09-20 against the cinema's own page rather than only the log: `logs/run-marita.log`
+reads `exit=0`, and the 2 showtimes in the committed data, 20.09. at 14.00 and 16.00 for
+10 € each, are the two the site lists. Both carry a poster, and both per-film ticket
+links answer 200. No next step.
 
 
 ## Lieksan Kino (2026-09-19)
@@ -1217,8 +1220,11 @@ per film with `<h3>` title in capitals, an `entry-text` synopsis, and a `<side>`
 
 **Status and next step**
 
-Live as `scripts/providers/lieksa.py`, one provider, one venue, cloud half. Next step:
-verify from the committed log after a run.
+Live as `scripts/providers/lieksa.py`, one provider, one venue, cloud half. Verified
+2026-09-20 against the cinema's own page rather than only the log: `logs/run-lieksa.log`
+reads `exit=0`, and the 7 showtimes in the committed data, over 3 dates and 4 films at 11
+to 13 €, are the seven the site lists, each with a poster and a ticket link. No next
+step.
 
 
 ## Navettakino, Konnevesi (2026-09-19)
@@ -1261,8 +1267,11 @@ programme page, and the programme is prose inside `entry-content`:
 
 **Status and next step**
 
-Live as `scripts/providers/navetta.py`, one provider, one venue, cloud half. Next step:
-verify from the committed log after a run.
+Live as `scripts/providers/navetta.py`, one provider, one venue, cloud half. Verified
+2026-09-20 against the cinema's own page rather than only the log: `logs/run-navetta.log`
+reads `exit=0`, and the 2 showtimes in the committed data, su 20.9. at 15:00 and 17:00 for
+10 € each, are the two the site lists, both with a poster and a ticket link. No next
+step.
 
 
 ## Pyhäsalmen VPK, and the My Calendar plugin (2026-09-19)
@@ -1305,8 +1314,16 @@ plugin. The plugin registers a public REST namespace, `my-calendar/v1`, with one
 
 **Status and next step**
 
-Live as `scripts/providers/vpk.py`, one provider, one venue, cloud half. Next step: verify
-from the committed log after a run.
+Live as `scripts/providers/vpk.py`, one provider, one venue, cloud half. Verified
+2026-09-20 against the cinema's own calendar rather than only the log: `logs/run-vpk.log`
+reads `exit=0`, and the route this adapter reads returned the same 6 occurrences the
+committed data carries, 12 € each, every one with a poster and a ticket link. No next
+step.
+
+**The page is not the check, the route is.** `/pyhasalmen-vpkn-elokuvat` renders a My
+Calendar *upcoming* widget, and on 2026-09-20 it held five of those six: the 7.11. 14:00
+screening fell outside it while the route still returned it. Comparing published rows
+against that widget reports a row the cinema is in fact publishing.
 
 
 ## Why Huvimylly's own poster images are not published (2026-09-19)
