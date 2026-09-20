@@ -11,6 +11,24 @@ User-agent: *
 Allow: /
 Disallow: /data/
 Disallow: /logs/
+Disallow: /status/?
+
+# `/status/?` is crawl housekeeping, added 2026-09-20. Every generated theatre and city
+# page footers a link to the status page carrying the reader's selection and language,
+# `/status/?area=...&lang=fi|en`, which was 294 distinct URLs on the day this was written
+# against 295 sitemap URLs. None is in the sitemap and all of them answer with the same
+# page, and every one of them declares the bare `/status/` as its canonical. `?` is an
+# ordinary character in a robots path (only `*` and `$` are special) and the query string
+# is part of what a rule is matched against, so this prefix covers every parameterised form
+# and leaves `/status/` itself crawlable: its path carries no `?` at that position. It is
+# longer than `Allow: /`, so it wins the longest-match rule.
+#
+# It stops the crawl and nothing else. A blocked URL can still be indexed from its links,
+# and Google cannot read the canonical or the meta robots tag on a page it may not fetch,
+# so the consolidation those variants get today is given up in exchange. The slashless
+# `/status?` and `/status/index.html?` are deliberately outside this rule: nothing in the
+# tree links either, and `tests/test_robots.py` pins that absence rather than widening the
+# rule against a shape no page produces.
 
 # What the client reads, by file or by stable filename family. A longer Allow wins over
 # the shorter Disallow (longest match; on a tie Allow wins). Posters moved under /data/

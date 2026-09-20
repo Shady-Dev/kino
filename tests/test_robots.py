@@ -94,6 +94,18 @@ class MatcherTest(unittest.TestCase):
     def test_a_tie_goes_to_allow(self):
         self.assertTrue(allowed("/data/", "User-agent: *\nDisallow: /data/\nAllow: /data/\n"))
 
+    def test_a_question_mark_is_a_literal_and_not_a_quantifier(self):
+        """Google names two special characters in a path, `*` and a trailing `$`. A `?` is
+        an ordinary character, and the query string is part of what a rule is matched
+        against, so a rule ending in `?` covers exactly the parameterised forms. Pinned on
+        this fixed text rather than on the live file, because it is a property of the
+        matcher."""
+        text = "User-agent: *\nAllow: /\nDisallow: /a/?\n"
+        self.assertTrue(allowed("/a/", text))
+        self.assertTrue(allowed("/a/b", text))
+        self.assertFalse(allowed("/a/?", text))
+        self.assertFalse(allowed("/a/?x=1", text))
+
     def test_wildcard_and_end_anchor(self):
         text = "User-agent: *\nDisallow: /*.log$\n"
         self.assertFalse(allowed("/run-enrich.log", text))
@@ -207,6 +219,156 @@ class LanguageAndPagesTest(unittest.TestCase):
     def test_the_sitemap_declaration_is_intact(self):
         _, _, sitemaps = rules()
         self.assertEqual(sitemaps, ["https://leffavuoro.fi/sitemap.xml"])
+
+
+# The status page's utility URLs. `build_pages.py` footers one per generated page, carrying
+# the reader's selection and language; none is in the sitemap and all of them answer with
+# the same page. `Disallow: /status/?` stops the crawl of the parameterised forms and
+# leaves the bare page alone. See the note in robots.txt for what that does and does not
+# buy.
+STATUS_ANCHOR_RE = re.compile(r'href="(/status/[^"]*)"')
+PAGE_GLOBS = ("teatteri/*/index.html", "en/theatre/*/index.html",
+              "kaupunki/*/index.html", "en/city/*/index.html")
+
+
+def generated_status_anchors():
+    """Every /status/ href in the committed generated pages, read from the tree.
+
+    Derived rather than listed: the count moves with every provider added, and a list
+    would pin the day it was written instead of the property.
+    """
+    import html as html_mod
+    out = set()
+    for pattern in PAGE_GLOBS:
+        for page in ROOT.glob(pattern):
+            text = page.read_text(encoding="utf-8")
+            out.update(html_mod.unescape(h) for h in STATUS_ANCHOR_RE.findall(text))
+    return sorted(out)
+
+
+class StatusQueryTest(unittest.TestCase):
+    """`Disallow: /status/?`, added 2026-09-20."""
+
+    def test_the_bare_status_page_stays_crawlable(self):
+        """The rule needs a literal `?` where the bare path has nothing, so it does not
+        match. The page keeps the directives that make it worth crawling."""
+        self.assertTrue(allowed("/status/"))
+        self.assertIn('<meta name="robots" content="index,follow">', STATUS)
+        self.assertIn('<link rel="canonical" href="https://leffavuoro.fi/status/">', STATUS)
+
+    def test_every_parameter_shape_the_app_can_emit_is_blocked(self):
+        """The vocabulary is `area`, `lang` and `report`, in two orders: the footer and
+        `statusHref()` write area first, `reportScreening()` writes report first. An
+        unknown parameter and an empty query are covered by the same prefix."""
+        for path in ("/status/?area=br-vaasa",
+                     "/status/?lang=en",
+                     "/status/?area=br-vaasa&lang=en",
+                     "/status/?lang=en&area=br-vaasa",
+                     "/status/?area=regina-helsinki&lang=sv",
+                     "/status/?report=Kino%20Regina",
+                     "/status/?report=Kino%20Regina&lang=en",
+                     "/status/?unknown=1",
+                     "/status/?"):
+            with self.subTest(path=path):
+                self.assertFalse(allowed(path), path)
+
+    def test_an_encoded_value_does_not_bypass_the_rule(self):
+        """A regression pin, not a proof about encoding: the rule stops at the `?`, so
+        whatever follows is never examined. City areas carry `city:` as `city%3A` and
+        Finnish names carry their own escapes."""
+        for path in ("/status/?area=city%3AVaasa&lang=fi",
+                     "/status/?area=city%3AHyvink%C3%A4%C3%A4&lang=en",
+                     "/status/?report=Rakkautta%20ja%20virtahepoja%0AKino%20Virta"):
+            with self.subTest(path=path):
+                self.assertFalse(allowed(path), path)
+
+    def test_every_generated_parameterised_status_anchor_is_blocked(self):
+        """Read off the tree, so a provider added tomorrow is covered without an edit."""
+        anchors = generated_status_anchors()
+        self.assertGreaterEqual(len(anchors), 200, "measured 294 on 2026-09-20")
+        parameterised = [a for a in anchors if "?" in a]
+        self.assertEqual(len(parameterised), len(anchors),
+                         "a generated footer link with no query would be a template change")
+        for a in parameterised:
+            self.assertFalse(allowed(a), a)
+
+    def test_the_generator_writes_the_shape_the_rule_covers(self):
+        """The committed pages can lag the generator, so the template is pinned too: a
+        shape change would otherwise ship escaping URLs with this suite green."""
+        pages = (ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
+        self.assertIn('<a href="/status/?area=', pages)
+
+    def test_the_report_fragment_is_appended_after_the_query(self):
+        """`reportScreening()` navigates to `/status/?...#contact`. A fragment is not sent
+        to the server, so what a crawler would fetch is the part before it, and that part
+        is what the rule matches. Pinning the order in the source is the half this tree
+        controls."""
+        self.assertIn("location.href = `/status/?${q}#contact`;", INDEX)
+        self.assertFalse(allowed("/status/?report=x&lang=en"))
+
+    def test_the_runtime_link_is_bare_until_something_is_selected(self):
+        """`statusHref()` omits the query when no area is chosen and the language is
+        Finnish, which is the state a renderer boots into, so the crawlable link on `/`
+        is the bare one."""
+        self.assertIn("return `/status/${qs ? '?' + qs : ''}`;", INDEX)
+        self.assertIn('<div id="statusLink"><a href="/status/">', INDEX)
+
+    def test_the_shapes_left_outside_the_rule_have_no_producer(self):
+        """`/status?...` and `/status/index.html?...` are not covered, deliberately: the
+        rule is as narrow as the links that exist. That is safe only while nothing writes
+        them, so the absence is asserted rather than assumed. If this fails, the rule is
+        what has to change, not this test."""
+        self.assertTrue(allowed("/status?area=x"))
+        self.assertTrue(allowed("/status/index.html?area=x"))
+        sources = [INDEX, STATUS, (ROOT / "scripts" / "build_pages.py").read_text(
+            encoding="utf-8")]
+        sources += [p.read_text(encoding="utf-8")
+                    for pattern in PAGE_GLOBS for p in ROOT.glob(pattern)]
+        for text in sources:
+            self.assertNotIn("status/index.html?", text)
+            self.assertNotRegex(text, r'["\'(]/status\?')
+
+    def test_the_other_restrictions_and_the_sitemap_survive(self):
+        """The new line sits in the same group as the rest; nothing else moved."""
+        allow, disallow, sitemaps = rules()
+        self.assertIn("/status/?", disallow)
+        self.assertIn("/data/", disallow)
+        self.assertIn("/logs/", disallow)
+        self.assertIn("/", allow)
+        self.assertEqual(sitemaps, ["https://leffavuoro.fi/sitemap.xml"])
+        for path in ("/data/tmdb.json", "/logs/run.log"):
+            self.assertFalse(allowed(path), path)
+        for path in ("/data/providers.json", "/data/posters/x.jpg"):
+            self.assertTrue(allowed(path), path)
+
+
+class CrawlableSurfaceTest(unittest.TestCase):
+    """The two invariants that catch the next robots rule as well as this one."""
+
+    def test_every_sitemap_url_is_allowed(self):
+        xml = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        locs = re.findall(r"<loc>(.*?)</loc>", xml)
+        self.assertGreaterEqual(len(locs), 200, "measured 295 on 2026-09-20")
+        for loc in locs:
+            path = re.sub(r"^https?://[^/]+", "", loc)
+            self.assertTrue(allowed(path), loc)
+
+    def test_no_sitemap_url_is_a_status_url(self):
+        xml = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertNotIn("/status", xml)
+
+    def test_every_url_indexnow_would_submit_is_allowed(self):
+        """`indexnow.py` pushes changed pages under its own PAGE_DIRS. Submitting a URL
+        this file blocks would be asking Google to fetch what it is told not to."""
+        import indexnow
+        self.assertTrue(indexnow.PAGE_DIRS)
+        seen = 0
+        for d in indexnow.PAGE_DIRS:
+            for page in ROOT.glob(f"{d}*/index.html"):
+                seen += 1
+                self.assertTrue(allowed("/" + str(page.relative_to(ROOT).parent) + "/"),
+                                str(page))
+        self.assertGreaterEqual(seen, 200, "measured 298 on 2026-09-20")
 
 
 if __name__ == "__main__":

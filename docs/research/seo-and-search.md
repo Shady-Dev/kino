@@ -10,8 +10,10 @@ queued experiment is "ohjelmisto" in Finnish theatre-page titles and description
 subset against an unchanged control, measured over two to four weeks.
 
 **Decided.** No city pages for one-cinema towns: they would compete with the theatre pages
-that already rank. Crawl blocking and search-index removal are different things and neither
-is changed here. The snippet and structured-data work this rests on is in
+that already rank. Crawl blocking and search-index removal are different things: on
+2026-09-20 the first of the two changed, `Disallow: /status/?` closing the status page's
+294 parameterised utility URLs to crawlers, and the second did not. That record, and the
+snippet and structured-data work this rests on, are in
 [docs/archive/2026-09-ops.md](../archive/2026-09-ops.md).
 
 ---
