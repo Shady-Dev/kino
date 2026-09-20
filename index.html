@@ -878,6 +878,17 @@
     border:1px solid var(--line); background:var(--surface); color:var(--ink);
     border-radius:10px; font-size:.85rem;
   }
+  /* The banner's one action, styled as #statusLink's link out -- accent text, no box.
+     The 44 px of hit area come from .pastlink's mechanism, padding cancelled by an equal
+     negative margin, so the banner keeps the height it had. */
+  .staleact{
+    display:inline-flex; align-items:center; min-height:44px;
+    padding:13px 0; margin:-13px 0 -13px 10px;
+    color:var(--accent-text); font-weight:600; text-decoration:none;
+    overflow-wrap:anywhere;
+  }
+  .staleact:hover{text-decoration:underline}
+  .staleact:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
   @media (max-width:1100px){ #stale, #partial{margin:12px 20px 0} }
 
   footer{
@@ -1062,7 +1073,7 @@
   const listStatusEl = $('#listStatus');
   const setListStatus = msg => { if(listStatusEl) listStatusEl.textContent = msg || ''; };
 
-  let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies',
+  let state = { area:null, dateStr:'', shows:[], filter:'', lang:'fi', view:'movies', sources:[],
                 vview:'cities',   // which list the venue picker browses: cities or areas
                 fLang:false, fKids:false, fAnnis:false, dates:null, horizon:'', advanced:false,
                 genProvider:'',  // whose data `generated` came from, for the stale banner
@@ -1191,7 +1202,7 @@
          vTheatres:'teatteria', aVenueView:'Selaa kaupunkeja tai alueita',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
-         soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet',
+         soldout:'loppuunmyyty', staleOne:'näytöstiedot eivät ole päivittyneet', staleSite:'Tarkista ohjelmisto: {host}', staleStatus:'Katso palvelun tila',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
          searchCtx:'Hakusi: \u201d{query}\u201d', filtersCtx:'Suodattimet: {list}',
          widenTo:'Laajenna hakua: {area}', widenHelsinki:'Etsi Helsingistä',
@@ -1258,7 +1269,7 @@
          vTheatres:'biografer', aVenueView:'Bläddra bland städer eller områden',
          favCta:'Spara', favCtaLong:'Spara egen biograf',
          allIn:'{city} – alla biografer', manySources:'flera källor',
-         soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats',
+         soldout:'slutsåld', staleOne:'tidtabellen har inte uppdaterats', staleSite:'Kontrollera programmet: {host}', staleStatus:'Se tjänstens status',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
          searchCtx:'Din sökning: \u201d{query}\u201d', filtersCtx:'Filter: {list}',
          widenTo:'Utöka sökningen: {area}', widenHelsinki:'Sök i Helsingfors',
@@ -1322,7 +1333,7 @@
          vTheatres:'cinemas', aVenueView:'Browse cities or areas',
          favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'{city} – all cinemas', manySources:'multiple sources',
-         soldout:'sold out', staleOne:'schedule has not refreshed',
+         soldout:'sold out', staleOne:'schedule has not refreshed', staleSite:'Check the programme: {host}', staleStatus:'See service status',
          nomatch:'No screenings match your filters on the selected date.',
          searchCtx:'Your search: \u201c{query}\u201d', filtersCtx:'Filters: {list}',
          widenTo:'Broaden search: {area}', widenHelsinki:'Search in Helsinki',
@@ -1875,6 +1886,24 @@
   // Each provider updates on its own schedule, so show every source's age. A scraper that
   // silently stops is otherwise invisible unless you happen to pick one of its venues.
   const STALE_H = 8;
+  // --- staleNotice: pure, extracted verbatim by tests/stale_notice_harness.js ---
+  // Which providers behind this selection are late, oldest first. A combined city names
+  // every one of them: naming only the oldest read as "the rest are current", which is a
+  // claim this has no basis for. A part with no timestamp, or an unparseable one, is not
+  // called late -- unknown stays unknown. `only` is the single late provider, and it is
+  // what decides whether a cinema's own site can be offered: with two, neither is "the"
+  // affected cinema and the status page is the honest destination.
+  const staleNotice = (sources, nowMs, staleH) => {
+    const late = (sources || [])
+      .filter(s => s && s.generated)
+      .map(s => ({ provider: s.provider || '', ageH: (nowMs - Date.parse(s.generated)) / 36e5 }))
+      .filter(s => s.ageH > staleH)
+      .sort((a, b) => b.ageH - a.ageH);
+    if(!late.length) return null;
+    return { providers: late.map(s => s.provider), ageH: Math.round(late[0].ageH),
+             only: late.length === 1 ? late[0].provider : '' };
+  };
+  // --- end staleNotice ---
   // The route a cinema uses to ask a question or to be taken out. The pipeline's
   // User-Agent points every provider here, so the site has to answer. Plain text:
   // obfuscating it against scrapers also hides it from the reader it exists for.
@@ -2971,6 +3000,9 @@
     // so the view can say so; skipped silently, a city rendered a complete-looking
     // programme missing a whole cinema, and the health line is per provider, not venue.
     const missing = [];
+    // Per provider, its oldest part. The banner used to get only the single oldest,
+    // so a city whose second provider was also late said nothing about it.
+    const srcAge = new Map();
     let generated = '', oldest = '';
     parts.forEach((p, i) => {
       if(!p){
@@ -2987,6 +3019,8 @@
         generated = p.generated || '';
         oldest = v.provider || '';
       }
+      const pv = v.provider || '';
+      if(p.generated && (!srcAge.has(pv) || p.generated < srcAge.get(pv))) srcAge.set(pv, p.generated);
       (p.dates || []).forEach(d => dates.add(d));
       for(const s of (p.shows || [])){
         shows.push({ ...s, eventId: ctx.mergeKey(s.title), _eid: s.eventId, _vid: ids[i],
@@ -3001,7 +3035,8 @@
     // every member with its own timestamp, a missing one as `-`, so any member updating,
     // dropping out or coming back moves it. refreshKey() reads it.
     const stamp = ids.map((id, i) => `${id}@${parts[i] ? (parts[i].generated || '?') : '-'}`).join(' ');
-    return { generated, oldest, stamp, dates: list, horizon: list[list.length-1] || '', shows,
+    const sources = [...srcAge].map(([provider, generated]) => ({ provider, generated }));
+    return { generated, oldest, stamp, sources, dates: list, horizon: list[list.length-1] || '', shows,
              missing, expected: ids.length };
   }
 
@@ -3050,6 +3085,12 @@
       // stale banner state that cinema's freshness about this one.
       state.generated = cache.generated || '';
       state.genProvider = cache.oldest || (venueIndex[state.area] || {}).provider || '';
+      // One venue publishes no `sources`: its file is the single source, and the provider
+      // is the venue's own. Without a timestamp there is nothing to judge.
+      state.sources = Array.isArray(cache.sources) ? cache.sources
+        : (cache.generated
+           ? [{ provider: (venueIndex[state.area] || {}).provider || '', generated: cache.generated }]
+           : []);
       state.dates = Array.isArray(cache.dates) ? cache.dates : null;
       state.horizon = cache.horizon || '';
       state.missing = Array.isArray(cache.missing) ? cache.missing : [];
@@ -3121,14 +3162,26 @@
       renderContact();
       return;
     }
-    const ageH = (Date.now() - new Date(state.generated).getTime()) / 36e5;
-    if(ageH > STALE_H){
-      // Name the provider: every source runs on its own schedule. In a combined city
-      // view that is whichever part loadCity found oldest, not the venue key.
-      const prov = state.genProvider || (venueIndex[state.area] || {}).provider;
-      const nm = (SOURCE[prov] || SOURCE.finnkino)[0];
-      staleEl.textContent = `\u26a0 ${nm}: ${L[state.lang].staleOne} `
-        + `(${Math.round(ageH)} ${L[state.lang].hours})`;
+    const notice = staleNotice(state.sources, Date.now(), STALE_H);
+    if(notice){
+      const T = L[state.lang];
+      // Every late provider by name, each on its own schedule. In a combined city the
+      // ones not named here are inside the window.
+      const names = notice.providers.map(x => (SOURCE[x] || SOURCE.finnkino)[0]);
+      // The provider's own host, from the registry through providers.json. No programme
+      // path is built from it: a guessed path is what left six Nexxo ticket links dead.
+      // The site root is the cinema's own, and it is where its programme is.
+      const host = notice.only ? ((SOURCE[notice.only] || [])[1] || '') : '';
+      const siteHref = host ? safeUrl('https://' + host + '/') : '';
+      // No "reload": a refresh re-reads this origin's committed files and starts no
+      // collection at any cinema. The link leaves for the cinema, or for the page that
+      // says what ran and when.
+      const act = siteHref
+        ? `<a class="staleact" href="${siteHref}" target="_blank" rel="noopener">`
+          + `${esc(T.staleSite.replace('{host}', host))}</a>`
+        : `<a class="staleact" href="${esc(statusHref())}">${esc(T.staleStatus)}</a>`;
+      staleEl.innerHTML = `<span class="staletxt">\u26a0 ${esc(names.join(', '))}: `
+        + `${esc(T.staleOne)} (${notice.ageH} ${esc(T.hours)})</span>${act}`;
       staleEl.style.display = 'block';
     } else {
       staleEl.style.display = 'none';
@@ -3194,6 +3247,15 @@
   // /status/ can offer the way back to exactly this screen; neither is written to prefs
   // by following it. The Finnish label is in the static markup too, so a script that
   // failed to run still leaves a usable link.
+  // The status page with the current selection on it, for the footer link and for the
+  // stale banner when no single cinema can be named.
+  function statusHref(){
+    const q = new URLSearchParams();
+    if(state.area) q.set('area', state.area);
+    if(state.lang !== 'fi') q.set('lang', state.lang);
+    const qs = q.toString();
+    return `/status/${qs ? '?' + qs : ''}`;
+  }
   function renderContact(){
     // The price note is a fixed footer sentence in the reader's language; the amounts
     // on the tickets are the providers' and the final price is the cinema's.
@@ -3204,12 +3266,7 @@
     if(pv) pv.textContent = L[state.lang].privacyLink;
     const el = document.querySelector('#statusLink');
     if(!el) return;
-    const q = new URLSearchParams();
-    if(state.area) q.set('area', state.area);
-    if(state.lang !== 'fi') q.set('lang', state.lang);
-    const qs = q.toString();
-    el.innerHTML = `<a href="/status/${qs ? '?' + qs : ''}">`
-      + `${esc(L[state.lang].statusLink)}</a>`;
+    el.innerHTML = `<a href="${esc(statusHref())}">${esc(L[state.lang].statusLink)}</a>`;
   }
 
   /* ---------- render ---------- */

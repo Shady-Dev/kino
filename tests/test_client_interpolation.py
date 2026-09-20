@@ -43,6 +43,9 @@ INTERNAL = {
     "verb", "g[1]",
     # safeAssetUrl() results, which is the poster check rather than the link one
     "posterUrl", "sheetPoster",
+    # safeUrl() result: the stale banner's link to the late provider's own site,
+    # built from the registry host in data/providers.json
+    "siteHref",
 }
 
 

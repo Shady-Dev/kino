@@ -29,6 +29,7 @@ TEXT_RULES = (
     ".tmdb",
     "#statusLink a",
     '.fav[aria-pressed="true"]',
+    ".staleact",
 )
 
 # Accent as a non-text colour is fine at 3:1 and stays on --accent. The wordmark dot is a
