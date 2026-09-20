@@ -1083,9 +1083,11 @@ nothing here for an adapter to read.
 
 **Status and next step**
 
-Re-read Bio-Salo's endpoint when someone is next in the area of this file; one request at
-`locationid=1` settles it. Bio Sydväst needs the municipality to publish dates in a page
-rather than in prose, and nothing here tests for that.
+Re-read 2026-09-20, the one request at `locationid=1` this section asked for: HTTP 200,
+`{"shows":[]}`, 12 bytes. Nothing has changed and nothing is owed here. Bio-Salo publishes
+no screening through the platform, and the day it does it is one `SITES` entry with the
+`locationid` discovered by asking. Bio Sydväst needs the municipality to publish dates in
+a page rather than in prose, and nothing here tests for that.
 
 ---
 
