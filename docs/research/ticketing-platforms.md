@@ -368,8 +368,11 @@ verifying against the endpoint an adapter would need, never on the fingerprint a
 
 Iso-Hannu is live. Kino Kaustinen is one `SITES` entry away and is held only by having no
 screening to verify a ticket destination against, which is the rule six dead Nexxo links
-bought. Next step: re-read `kinokaustinen.fi/elokuvat/ohjelmistossa` on a later Monday and
-add it when it lists a film.
+bought. Re-read 2026-09-20: the page answers 200 and says "Ei ohjelmistoa saatavilla. Ei
+näytöksiä valitsemallasi päivämäärällä." Unchanged since 2026-09-19. Next step: re-read on
+a later Monday and add it when it lists a film. **Ask for that path without a trailing
+slash** -- `/elokuvat/ohjelmistossa/` answers 302 to `/404`, which reads like a dead site
+and is not one.
 
 ---
 
