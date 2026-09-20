@@ -1,5 +1,8 @@
-[biosavoy] FAILED: <urlopen error timed out>
+[biosavoy] 21 showtimes, 7 films, 5 dates, halls ['Sal 1', 'Sal 2'], 21 priced, 21 timed, 21 rated, 21 with a Swedish synopsis
+[biosavoy] Bio Savoy: 21 showtimes, 5 dates
+[biosavoy] synopses merged: 0
+[run] http: 8 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.biosavoy.ax
-[run] biosavoy: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 105.4s of fetching added up across workers that overlap, longest site 105.4s, longest queue wait 80.1s, 105.4s wall from this module's first fetch starting to its last ending
-exit=1
+[run] biosavoy: 1 venues, 21 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 12.0s of fetching added up across workers that overlap, longest site 12.0s, longest queue wait 78.3s, 12.0s wall from this module's first fetch starting to its last ending
+exit=0

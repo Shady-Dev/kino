@@ -9,5 +9,5 @@
 [enrich] weak match, no exact title (5): Gråben vs. ACME (på svenska) -> Kojootti vs. ACME | Konsertti - Mia Hafrén -> Mikki ja konsertti | Ooppera: Don Giovanni (Vicenza festivaali / Mozart ) -> Ooppera: Idomeneo | Ooppera: Madama Butterfly (Bregenz festival / Puccini) -> Ooppera: Idomeneo | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) -> Classic Albums: Stevie Wonder - Songs In The Key of Life
 [enrich] en-US second search: 5 title(s) asked, 0 settled, 0 disagreed with the fi-FI candidate and were left for the alias file
 [enrich] rating held back, under 25 votes (3): Ooppera: Don Giovanni (Vicenza festivaali / Mozart ) (4.5 / 2 votes) | Ooppera: Madama Butterfly (Bregenz festival / Puccini) (4.5 / 2 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.0 / 1 votes)
-[enrich] 357 titles, 5 new, 0 re-checks, 255 with rating, 390 with synopsis, 392 with poster, 390 mergeable by id, 46 files updated
+[enrich] 358 titles, 6 new, 0 re-checks, 255 with rating, 391 with synopsis, 393 with poster, 391 mergeable by id, 44 files updated
 exit=0

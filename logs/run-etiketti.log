@@ -1,4 +1,4 @@
-[kotkanleffat] Kinopalatsi Kotka: 10 showtimes, 5 dates
+[kotkanleffat] Kinopalatsi Kotka: 9 showtimes, 5 dates
 [kotkanleffat] Trio 123: 43 showtimes, 5 dates
 [kotkanleffat] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 26 showtimes, 7 dates
@@ -9,7 +9,7 @@
 [leffabuumi] Kino Ritz: 7 showtimes, 5 dates
 [leffabuumi] Kino Saimaa: 5 showtimes, 4 dates
 [leffabuumi] synopses merged: 0
-[studio123jarvenpaa] Studio 123 Järvenpää: 26 showtimes, 5 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 25 showtimes, 5 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 30 showtimes, 5 dates
 [studio123kouvola] synopses merged: 0
@@ -22,12 +22,12 @@
 [kinojuha] Kino Juha: 6 showtimes, 4 dates
 [kinojuha] VIP-Sali: 7 showtimes, 5 dates
 [kinojuha] synopses merged: 0
-[biogrand] Bio Grand: 14 showtimes, 5 dates
+[biogrand] Bio Grand: 13 showtimes, 5 dates
 [biogrand] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 17 showtimes, 6 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 17 showtimes, 5 dates
+[kinoiiris] Kino Iiris: 16 showtimes, 5 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 8 showtimes, 5 dates
 [kkino] synopses merged: 0
@@ -36,8 +36,8 @@
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 29 showtimes, 11 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 166 full, 166 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 165 full, 165 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 403 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 299.6s of fetching added up across workers that overlap, longest site 41.1s, longest queue wait 41.1s, 82.1s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 399 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 305.0s of fetching added up across workers that overlap, longest site 42.7s, longest queue wait 38.2s, 80.9s wall from this module's first fetch starting to its last ending
 exit=0

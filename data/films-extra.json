@@ -3313,6 +3313,7 @@
     "kinomarilyn",
     "kinometso",
     "kkino",
+    "korjaamo",
     "laitilankino",
     "leffabuumi",
     "tapiola"
@@ -3918,6 +3919,15 @@
     "fi": "Amanda Aaltonen kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
+  "tekijätorstai rakkautta ja virtahepoja": {
+   "img": "data/posters/3630a8c5eeb607ff.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
+   },
+   "tr": ""
   },
   "tekijätorstai tytöt tytöt tytöt keskustelu": {
    "img": "data/posters/26bcd92f91926027.jpg",
