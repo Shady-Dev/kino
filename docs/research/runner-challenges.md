@@ -158,6 +158,15 @@ behaviour that turned these logs red rather than letting them pass quietly.
   Three are evidenced by a 403 with a `Server` header. Two, Navettakino and Kinotour, are
   inferred from failing in the same run as the others and from nothing else.
 
+**The three headers are recorded but not yet observed on a challenge.** `served()` gained
+`Server`, `CF-Ray` and `Retry-After` on 2026-09-20 in `fb3c6beb7`. The first cloud run after
+it, 35478523891 at commit `3cd8e008a`, was green: 42 committed logs, all `exit=0`, 63 sites
+fetched, no challenge. The only header line that run committed is the **pre-existing** 403/404
+hint path, `[http] 404 from api.themoviedb.org, gave up after 3 attempt(s) -- Server: openresty`
+in `run.log`, which predates the change. So the recorder is deployed and unexercised, and the
+table above still rests on a byte count and a title. Compare from `3cd8e008a` when a run next
+goes red.
+
 ## Status and next step
 
 Accepted 2026-09-19 at the measured rate, as a known failure mode of reading the public web
