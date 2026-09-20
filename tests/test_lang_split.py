@@ -90,6 +90,24 @@ class LangSplitTest(unittest.TestCase):
         self.assertIn("const sheetMeta2 = [", HTML)
         self.assertIn("lsplit.shared ? `<span>${esc(langTxt(lsplit.shared))}</span>` : ''", HTML)
 
+    def test_the_glyph_centres_on_the_whole_compartment_not_its_first_row(self):
+        """Reported 2026-09-20: the Anniskelu A looked high on a ticket whose language
+        line made the compartment two rows. A flex item centres inside its own wrapped
+        row, so it sat 8 px above the ticket's middle in Chromium and WebKit alike at 390
+        and 1200. Taken out of the flow and centred on the compartment; measured 0 after."""
+        rule = re.search(r"\.stub \.aud\.twoline \.glyphs\{(.*?)\}", HTML, re.S).group(1)
+        flat = rule.replace(" ", "").replace("\n", "")
+        self.assertIn("position:absolute", flat)
+        self.assertIn("top:50%", flat)
+        self.assertIn("translateY(-50%)", flat)
+
+    def test_the_room_cannot_run_under_that_glyph(self):
+        """`.stubs.grid .stub .aud` sets padding at a higher specificity, so the
+        reservation has to be stated at that level too or it is simply ignored."""
+        self.assertIn(".stubs.grid .stub .aud.twoline{position:relative; padding-right:24px}",
+                      HTML)
+        self.assertIn(".stub .aud.twoline,\n", HTML)
+
     def test_it_reuses_the_existing_translation_helper(self):
         """No second language table: langTxt already localises fi, sv and en."""
         self.assertEqual(len(re.findall(r"const LW = \{", HTML)), 1)

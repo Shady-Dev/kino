@@ -717,6 +717,16 @@
      parts and none of the geometry DESIGN.md pins moves. */
   .stub .aud.twoline{flex-wrap:wrap; align-items:flex-start; max-width:200px}
   .stub .slang{flex:1 0 100%; white-space:normal; line-height:1.25; overflow-wrap:anywhere}
+  /* The language line makes the compartment two rows, and a flex item centres inside its
+     own row rather than the box: the Anniskelu glyph sat 8 px above the ticket's middle,
+     in both engines at 390 and 1200 (measured 2026-09-20). Out of the flow and centred on
+     the compartment instead; the padding keeps the text from running under it. */
+  /* Both selectors: `.stubs.grid .stub .aud` sets its own padding at a higher
+     specificity, so the reservation has to match it or the room runs under the glyph. */
+  .stub .aud.twoline,
+  .stubs.grid .stub .aud.twoline{position:relative; padding-right:24px}
+  .stub .aud.twoline .glyphs{position:absolute; right:4px; top:50%;
+    transform:translateY(-50%); margin:0; padding-top:0}
   /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
      The dashed seam is its left border and the notches are its own pseudo-elements,
      centred on that border, so the perforation is anchored to the price wherever the
