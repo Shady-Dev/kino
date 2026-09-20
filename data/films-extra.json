@@ -592,7 +592,7 @@
    "r": 0,
    "s": {
     "en": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
-    "fi": ""
+    "fi": "Maailman vaikutusvaltaisin mies ryhtyy kuumeiseen operaatioon todistaakseen olevansa ihmiskunnan pelastaja - ennen kuin hänen valloilleen päästämänsä katastrofi tuhoaa kaiken."
    },
    "tr": "https://www.youtube.com/watch?v=job8V254NAE"
   },
@@ -878,6 +878,7 @@
    "img": "data/posters/980bb19ce751c44c.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biokaari",
     "elavienkuvien",
     "haapamaki",
@@ -885,7 +886,8 @@
     "isohannu",
     "julia",
     "kinokulma",
-    "kkino"
+    "kkino",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -1294,6 +1296,7 @@
     "cine",
     "cinemantsala",
     "huvimylly",
+    "kinokulma",
     "korjaamo",
     "laitilankino"
    ],
@@ -2117,7 +2120,7 @@
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
-    "fi": ""
+    "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin?"
    },
    "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ"
   },
@@ -2628,6 +2631,15 @@
    },
    "tr": ""
   },
+  "original english coyoto vs acme": {
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
+  },
   "ortotopologian loputtomat alkeet": {
    "r": 0,
    "s": {
@@ -2635,6 +2647,15 @@
     "fi": "Ensi-iltapaikkakunnat: Joensuu, Savonlinna, Iisalmi, Varkaus ja Kitee || Elokuva on saanut innoituksensa 30 vuotta Oulun Yliopistossa vaikuttaneen Aapo Heikkilän värikkäästä elämästä. Opiskelijat alkoivat seurata kansakoulun kesken jättäneen ajattelijan kehittämän ortotopologian luentoja ja kutsuivat häntä dosentiksi. Dosentti Heikkilä kohtaa Helsingin Yliopiston matemaattisluonnontieteellisen tiedekunnan varadekaanin Osmo Pulkkisen. Dekaani on tullut ottamaan selvää, voiko hän päästää ortotopologiaa levittävän, luennoillaan viheltävistä ultrafilttereistä, pehmeistä planeetoista ja todellisuuden peilikuvaksi kääntävästä para-avaruudesta intoilevan Heikkilän luennoimaan myös omille opiskelijoilleen. Elokuva huipentuu osin koomisia piirteitä saavaan henkien mittelöön, jossa ovat vastakkain piinkova akateeminen tieteentekijä ja olevaisuuden ja maailmankaikkeuden salaisuudet teoriallaan selittävä teoreettisen fysiikan ja kosmologian Konsta Pylkkänen. Sydämen sivistys kohtaa akateemisen oppineisuuden. Markku Pölönen käsittelee fiktiossaan Aapo Heikkilää myötätunnolla ja lämpimällä huumorilla. Elokuva koskettaa katsojaa monella tavalla: se liikuttaa, naurattaa ja inspiroi ajattelemaan mukavia."
    },
    "tr": ""
+  },
+  "other mommy": {
+   "img": "data/posters/952438d819839253.jpg",
+   "r": 0,
+   "s": {
+    "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
+    "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään."
+   },
+   "tr": "https://www.youtube.com/watch?v=-mnTITqqiT0"
   },
   "paholainen pukeutuu pradaan 2006": {
    "img": "data/posters/423a0c1d4cba03fb.jpg",
@@ -2806,12 +2827,22 @@
    "krs": [
     "alatalo",
     "huvimylly",
+    "kinokulma",
     "laitilankino"
    ],
    "r": 0,
    "s": {
     "en": "",
     "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan."
+   },
+   "tr": ""
+  },
+  "pirjo i sverige": {
+   "img": "data/posters/a8cdd21dca604433.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin."
    },
    "tr": ""
   },
@@ -3295,6 +3326,7 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
+    "bioforum",
     "biograni",
     "biokaari",
     "biorex",
@@ -3317,6 +3349,7 @@
     "korjaamo",
     "laitilankino",
     "leffabuumi",
+    "lieksankino",
     "tapiola"
    ],
    "r": 0,
@@ -3804,6 +3837,15 @@
    },
    "tr": ""
   },
+  "street fighter": {
+   "img": "data/posters/2c34dcbef60ffbda.jpg",
+   "r": 0,
+   "s": {
+    "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
+    "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi."
+   },
+   "tr": "https://www.youtube.com/watch?v=U6sbm1OaJb8"
+  },
   "stromboli": {
    "img": "data/posters/51ebaae003d65faa.jpg",
    "r": 5.2,
@@ -3939,6 +3981,15 @@
    },
    "tr": ""
   },
+  "tekijätorstai tyttö sinä olet tähti": {
+   "img": "data/posters/4a313e46ae1be0f6.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "",
+    "fi": "Täydellisen perheen täydellinen tytär Nelli unelmoi laulajan urasta vaikka vanhemmat toivoisivat lapselleen lääkärin uraa. Nelli saa avukseen Sunen, hip hop-DJ:n, joka pelkää naisia, mutta on musiikkinsa suhteen ehdoton. Intohimo musiikkiin lähentää kuitenkin lahjakkaista nuoria toisiinsa enemmän kuin kummallakaan olisi tarkoitus - siinä kiitetyn rakkauskomedia lähtöasetelma."
+   },
+   "tr": "https://www.youtube.com/watch?v=gAYNH5y5Xmo"
+  },
   "tekijätorstai tytöt tytöt tytöt keskustelu": {
    "img": "data/posters/26bcd92f91926027.jpg",
    "r": 6.6,
@@ -4007,8 +4058,7 @@
    "krs": [
     "biorex",
     "kinolumo",
-    "kinopiispanristi",
-    "star"
+    "kinopiispanristi"
    ],
    "r": 6.9,
    "s": {
@@ -4345,6 +4395,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=QaFIq3dbu4U"
   },
+  "tony": {
+   "img": "data/posters/ef343d1fb55e5d1c.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "A 19-year-old Anthony Bourdain travels to Provincetown and stumbles into the chaotic world of a restaurant kitchen, setting off a summer that will shape the course of his life.",
+    "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
+   },
+   "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc"
+  },
   "toy story 5": {
    "img": "data/posters/61da1236c24613ee.jpg",
    "r": 8.2,
@@ -4461,6 +4520,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=RRUz45GVOAM"
   },
+  "unohdettu saari": {
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 0,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
+  },
   "uskottomuus": {
    "img": "data/posters/9818346f89097881.jpg",
    "r": 6.4,
@@ -4529,7 +4597,8 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "cine"
+    "cine",
+    "kinokulma"
    ],
    "r": 0,
    "s": {

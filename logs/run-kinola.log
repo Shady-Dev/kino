@@ -1,27 +1,27 @@
-[kinokilta] 44 screening(s) listed, 31 film page(s) read
+[kinokilta] 43 screening(s) listed, 30 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[kinokilta] Kino Kilta: 44 showtimes, 25 dates
-[kinokilta] Kino Kilta: 44 showtimes, 25 dates
+[kinokilta] Kino Kilta: 43 showtimes, 25 dates
+[kinokilta] Kino Kilta: 43 showtimes, 25 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 48 screening(s) listed, 37 film page(s) read
+[kinolaika] 46 screening(s) listed, 37 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 18 unresolved over 19
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, Amongst the Birds, Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Kana, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1), Kotimaiset lyhytelokuvat (2), Late Fame, Lyhyt elokuva rakkaudesta
 [kinolaika] override a-fox-under-a-pink-moon: active
-[kinolaika] Kino Laika: 29 showtimes, 9 dates
+[kinolaika] Kino Laika: 27 showtimes, 9 dates
 [kinolaika] strand prefix split off 1 showtimes
-[kinolaika] Kino Laika: 29 showtimes, 9 dates
+[kinolaika] Kino Laika: 27 showtimes, 9 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
-[kinomyyri] 25 screening(s) listed, 15 film page(s) read
+[kinomyyri] 24 screening(s) listed, 15 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 2
 [kinomyyri] unresolved: Yksityisnäytös, Yksityistilaisuus
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Teräsleidit – kuin viimeistä päivää
-[kinomyyri] Kino Myyri: 23 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 23 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 22 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[run] http: 32 revalidated (304), 54 full, 16 not stored (origin said no-store), 0 cache entries written
+[run] http: 30 revalidated (304), 55 full, 16 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 96 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 118.2s of fetching added up across workers that overlap, longest site 48.1s, longest queue wait 88.0s, 48.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 92 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 157.1s of fetching added up across workers that overlap, longest site 79.2s, longest queue wait 82.3s, 81.3s wall from this module's first fetch starting to its last ending
 exit=0
