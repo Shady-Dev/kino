@@ -82,5 +82,8 @@ the five `enrich()` default getters, which express exactly as
 constants came out with them. No adapter test changed and the suite stayed green, which is
 what "accidental" means here.
 
-**Next step:** the two unsettled headers. Nothing is blocked on them and neither is
-scheduled.
+**Next step: none scheduled.** The two unsettled headers are already deferred, and the
+record is the Deferred entry in [IDEAS.md](../../IDEAS.md): each has an obvious story,
+neither has a probe showing the host's response varies on it, and settling that is a read
+per host rather than a refactor. Left as an open "next step" here it reads as work waiting
+to be picked up, which is how a triage pass re-opens a decision that was already made.
