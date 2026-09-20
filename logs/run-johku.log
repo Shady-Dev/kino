@@ -4,22 +4,22 @@
 [biomarilyn] Bio Marilyn: 9 showtimes, 8 dates
 [biomarilyn] Bio Marilyn: 9 showtimes, 8 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 5 screening(s) in day groups, 3 film page(s) read
-[vihdinkino] Vihdin Kino: 5 showtimes, 3 dates
-[vihdinkino] Vihdin Kino: 5 showtimes, 3 dates
+[vihdinkino] 4 screening(s) in day groups, 2 film page(s) read
+[vihdinkino] Vihdin Kino: 4 showtimes, 2 dates
+[vihdinkino] Vihdin Kino: 4 showtimes, 2 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 28 screening(s) in day groups, 10 film page(s) read
-[bioforum] Bio Forum: 28 showtimes, 12 dates
-[bioforum] Bio Forum: 28 showtimes, 12 dates
+[bioforum] 27 screening(s) in day groups, 10 film page(s) read
+[bioforum] Bio Forum: 27 showtimes, 11 dates
+[bioforum] Bio Forum: 27 showtimes, 11 dates
 [bioforum] synopses merged: 0
-[kinokulma] 72 screening(s) in day groups, 21 film page(s) read
+[kinokulma] 71 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
-[kinokulma] Kinokulma: 70 showtimes, 43 dates
-[kinokulma] Kinokulma: 70 showtimes, 43 dates
-[kinokulma] synopses merged: 1
-[run] http: 0 revalidated (304), 47 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinokulma] Kinokulma: 69 showtimes, 42 dates
+[kinokulma] Kinokulma: 69 showtimes, 42 dates
+[kinokulma] synopses merged: 0
+[run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- bioforum.fi, kinokulma.fi, vihdinkino.fi, www.biomarilyn.com
-[run] johku: 4 venues, 112 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 113.1s of fetching added up across workers that overlap, longest site 55.1s, longest queue wait 89.8s, 60.9s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 109 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 103.9s of fetching added up across workers that overlap, longest site 50.8s, longest queue wait 88.0s, 53.6s wall from this module's first fetch starting to its last ending
 exit=0

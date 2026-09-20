@@ -885,8 +885,13 @@
     "ihmekompleksi",
     "isohannu",
     "julia",
+    "kinoelo",
     "kinokulma",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 0,
@@ -1582,6 +1587,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
   },
+  "kojootti vs acme orginaali äänillä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
+   },
+   "tr": ""
+  },
   "kojootti vs acme orig": {
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
    "r": 7.6,
@@ -2011,7 +2024,6 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinolaika",
     "kinoolympia",
     "savonkinot"
    ],
@@ -2292,7 +2304,6 @@
     "gilda",
     "ihmekompleksi",
     "jarvelankino",
-    "joutsankino",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -2301,6 +2312,7 @@
     "kinomyyri",
     "kinopirtti",
     "kinotar",
+    "leffabuumi",
     "lieksankino",
     "niagara",
     "savonkinot",
@@ -2994,7 +3006,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biokaari",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3032,14 +3043,12 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "navettakino",
     "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -3082,7 +3091,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biokaari",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3120,14 +3128,12 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "navettakino",
     "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -3224,7 +3230,6 @@
    "krs": [
     "biogrand",
     "biograni",
-    "biokaari",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3262,14 +3267,12 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "navettakino",
     "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -3367,11 +3370,15 @@
     "joutsankino",
     "julia",
     "kinoaurora",
+    "kinoelo",
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinomania",
     "kinomarilyn",
     "kinometso",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
     "korjaamo",
     "laitilankino",
@@ -3819,8 +3826,7 @@
     "sheryl",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
-    "vihdinkino"
+    "studio123kouvola"
    ],
    "r": 7.9,
    "s": {
@@ -3913,8 +3919,7 @@
    "kr": "S",
    "krs": [
     "engel",
-    "kinomarilyn",
-    "sheryl"
+    "kinomarilyn"
    ],
    "r": 0,
    "s": {
@@ -4015,6 +4020,15 @@
     "fi": "Täydellisen perheen täydellinen tytär Nelli unelmoi laulajan urasta vaikka vanhemmat toivoisivat lapselleen lääkärin uraa. Nelli saa avukseen Sunen, hip hop-DJ:n, joka pelkää naisia, mutta on musiikkinsa suhteen ehdoton. Intohimo musiikkiin lähentää kuitenkin lahjakkaista nuoria toisiinsa enemmän kuin kummallakaan olisi tarkoitus - siinä kiitetyn rakkauskomedia lähtöasetelma."
    },
    "tr": "https://www.youtube.com/watch?v=gAYNH5y5Xmo"
+  },
+  "tekijätorstai tytöt tytöt tytöt": {
+   "img": "data/posters/26bcd92f91926027.jpg",
+   "r": 6.6,
+   "s": {
+    "en": "",
+    "fi": "Mimmi ja Rönkkö ovat parhaat ystävät, ja tukevat toisiaan ehdoitta. He haluavat elämän olevan suurta seikkailua, täynnä intohimoa ja tunteita. Emma puolestaan on pyhittänyt elämänsä taitoluistelulle ja kulkee menestystä kohti kaiken muun sivuuttaen. Kun nämä kolme erilaista tyttöä tutustuvat, on luvassa lyhyt, mutta päätähuimaava ajanjakso, jolta ei ole paluuta entiseen. Ensirakkaus ja omien tunteiden etsintä vie jokaisen omalle, henkilökohtaiselle matkalleen. Yksi tytöistä etsii nautintoa ja kaksi heistä huomaa yhtäkkiä rakastuneensa toisiinsa. Kaikki mitä maailman mullistumiseen tarvitaan, on kolme perjantai-iltaa."
+   },
+   "tr": "https://www.youtube.com/watch?v=5mWXO3nehA8"
   },
   "tekijätorstai tytöt tytöt tytöt keskustelu": {
    "img": "data/posters/26bcd92f91926027.jpg",
