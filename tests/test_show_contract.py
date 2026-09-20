@@ -53,6 +53,8 @@ import test_pallas as PL
 import test_huvimylly as HV
 import test_alatalo as AL
 import test_elavienkuvien as EK
+import test_matintupa as MT
+import test_kuusamotalo as KU
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -431,6 +433,29 @@ def sample_elavienkuvien():
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 
+def sample_matintupa():
+    """Two film blocks, one priced and one whose ticket line states a condition, so the
+    row that publishes no price is exercised beside the rows that do."""
+    out, _ = MT.M.rows(MT.SITE, MT.page(
+        MT.block(),
+        MT.block(slug="neulekino", title="Kaunis Rietas Onnellinen", age="12",
+                 liput="14,00 €. Kts. lisätiedot", kesto="1 h 57 min",
+                 times=("to 24.9. klo 18.00", "pe 25.9. klo 18.00"))), MT.TODAY)
+    return (out, MT.SITE["provider"], [v["id"] for v in MT.SITE["venues"]])
+
+
+def sample_kuusamotalo():
+    """Two film posts and a notice, so the post that must not reach a venue file is
+    exercised beside the two that must."""
+    out, _ = KU.K.rows(KU.SITE, [
+        KU.post(),
+        KU.post(pid=15950, title="Rakkautta ja virtahepoja", rating="-K12-",
+                kesto="Kesto 1h 40min", times=("Pe 25.9. klo 19", "La 26.9. klo 19")),
+        KU.notice(),
+    ], KU.TODAY)
+    return (out, KU.SITE["provider"], [v["id"] for v in KU.SITE["venues"]])
+
+
 SAMPLES = {
     "orion": sample_orion, "nexxo": sample_nexxo, "regina": sample_regina,
     "riviera": sample_riviera, "tapiola": sample_tapiola, "vista": sample_vista,
@@ -446,6 +471,7 @@ SAMPLES = {
     "lieksa": sample_lieksa, "navetta": sample_navetta, "vpk": sample_vpk,
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
+    "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
 }
 
 
