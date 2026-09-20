@@ -226,7 +226,17 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("2 page(s) read", log)
         self.assertEqual(len([c for c in self.calls if "ritz.fi" in c and "page=" in c]), 2)
 
-    def test_an_empty_category_that_still_exists_is_an_empty_programme(self):
+    # -- the quiet week, which publishes rather than preserving ------------------------
+    #
+    # Until 2026-09-20 this branch raised EmptyProgramme, which kept the previous area
+    # file. Tähti Kino then read "Päivitys viivästynyt" for a cinema that simply had
+    # nothing on, and at 17 hours it was indistinguishable from a venue nobody could
+    # reach. These four hold the replacement: the evidence is positive, so it publishes.
+
+    def test_an_empty_category_that_still_exists_publishes_a_fresh_empty_venue(self):
+        """The previous programme is cleared rather than preserved, and the file is
+        rewritten so its timestamp moves. A stale timestamp is what made a quiet week
+        look like a failed fetch."""
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01",
                 "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
@@ -238,8 +248,56 @@ class RunnerTest(unittest.TestCase):
                 {"id": 19, "slug": "kino", "name": "Kino"}}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertIn("no programme published", log)
-        self.assertEqual(json.loads((run.OUT / "area-ritz-vaasa.json").read_text()), prev)
+        doc = json.loads((run.OUT / "area-ritz-vaasa.json").read_text())
+        self.assertEqual(doc["shows"], [], "the ended programme has to be cleared")
+        self.assertNotEqual(doc["generated"], prev["generated"],
+                            "a confirmed-empty venue is stamped fresh")
+        self.assertIn("no upcoming event in category", log)
+        self.assertNotIn("no programme published", log)
+
+    def test_a_quiet_week_is_pending_and_the_provider_stays_healthy(self):
+        """`pending` is the state that keeps the health line quiet and lets the client
+        say "Ei ohjelmistoa juuri nyt". `stale` and `unverified` both read as degraded."""
+        self.serve(self.both(**{
+            "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":
+                page([], total=0),
+            "ritz.fi/?rest_route=/tribe/events/v1/categories/19":
+                {"id": 19, "slug": "kino", "name": "Kino"}}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        prov = json.loads((run.OUT / "venues-ritzvaasa.json").read_text())
+        self.assertEqual(prov.get("pending"), ["ritz-vaasa"])
+        self.assertFalse(prov.get("stale"))
+        self.assertFalse(prov.get("unverified"))
+        self.assertEqual(prov.get("status"), "ok")
+        self.assertIn("1 pending", log)
+        self.assertIn("0 failures", log)
+
+    def test_the_venue_is_still_listed_so_the_picker_can_reach_it(self):
+        """Dropping the venue would leave its file unreachable behind a green health
+        line, which is the reason run.py always writes every venue."""
+        self.serve(self.both(**{
+            "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":
+                page([], total=0),
+            "ritz.fi/?rest_route=/tribe/events/v1/categories/19":
+                {"id": 19, "slug": "kino", "name": "Kino"}}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        prov = json.loads((run.OUT / "venues-ritzvaasa.json").read_text())
+        self.assertIn("ritz-vaasa", [v["id"] for v in prov["venues"]])
+
+    def test_one_site_going_quiet_leaves_the_other_alone(self):
+        """The flag is module-level and both sites share it, so the quiet one must not
+        touch the one that is publishing."""
+        self.serve(self.both(**{
+            "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":
+                page([], total=0),
+            "ritz.fi/?rest_route=/tribe/events/v1/categories/19":
+                {"id": 19, "slug": "kino", "name": "Kino"}}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        other = json.loads((run.OUT / "area-tahtikino-muhos.json").read_text())
+        self.assertTrue(other["shows"], "the publishing site keeps its programme")
 
     def test_an_empty_answer_from_a_renamed_category_fails_the_site(self):
         """Zero rows and a category that no longer answers is a configuration change."""
@@ -253,6 +311,31 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("renamed or deleted category", log)
         self.assertFalse((run.OUT / "area-ritz-vaasa.json").exists())
         self.assertTrue((run.OUT / "area-tahtikino-muhos.json").exists())
+
+    def test_a_category_endpoint_that_will_not_answer_fails_the_site(self):
+        """`category_exists` returns False on any error, so an unreadable or malformed
+        category answer is a failure and never a quiet week. The previous file is kept,
+        which is the whole point of failing rather than publishing an empty venue on no
+        evidence."""
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+                "horizon": "2026-09-01",
+                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        (run.OUT / "area-ritz-vaasa.json").write_text(json.dumps(prev))
+        for name, answer in (("http error", RuntimeError("HTTP Error 500")),
+                             ("not json", "<html>nope</html>"),
+                             ("no slug", {"id": 19}),
+                             ("wrong slug", {"id": 19, "slug": "tapahtumat"})):
+            with self.subTest(category=name):
+                self.serve(self.both(**{
+                    "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":
+                        page([], total=0),
+                    "ritz.fi/?rest_route=/tribe/events/v1/categories/19": answer}))
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertIn("renamed or deleted category", log)
+                self.assertEqual(
+                    json.loads((run.OUT / "area-ritz-vaasa.json").read_text()), prev,
+                    "a failed site keeps every file it owns")
 
     def test_a_route_that_answers_html_fails_that_site_only(self):
         self.serve(self.both(**{

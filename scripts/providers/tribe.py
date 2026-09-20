@@ -48,8 +48,19 @@ Two limits, stated rather than guarded:
 **An empty programme is confirmed against the category, not against zero rows.** Zero
 events from a filtered query is what a cinema with nothing on looks like *and* what a
 renamed or deleted category looks like. So when the answer is empty the category endpoint
-is read once: it answering with the configured slug is the positive evidence
-`common.EmptyProgramme` requires, and anything else fails the site.
+is read once, and only its answering with the configured slug is evidence of a quiet week.
+Anything else -- a missing, renamed, unreadable or malformed category, or an endpoint that
+will not answer -- fails the site, which keeps the previous files and names it in the log.
+
+**Confirmed empty publishes a fresh empty file, it does not raise.** Until 2026-09-20 the
+quiet-week branch raised `common.EmptyProgramme`, which keeps the venue's previous area
+file. That file then aged without its timestamp moving, so Tähti Kino read "Päivitys
+viivästynyt" on the status page for a cinema that simply had nothing on, and at 17 hours
+looked exactly like a venue nobody could reach. The evidence is positive, so it is
+published as such: the venue comes back explicitly with an empty list,
+`EMPTY_VENUES_CONFIRMED` lets run.py write a fresh empty file and record the venue as
+`pending`, the provider stays healthy, and the client says "Ei ohjelmistoa juuri nyt".
+Whichever site is quiet, the other is unaffected: each is its own site with its own venue.
 """
 import datetime
 import html as html_mod
@@ -59,7 +70,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, check_shows, fetch, syn_language
+from common import check_shows, fetch, syn_language
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -76,6 +87,11 @@ SITES = [
 ]
 
 PER_PAGE = 50
+
+# A venue this module reports with an empty list is *known* empty: the category endpoint
+# answered with the configured slug, which is the check below, and a category that is
+# missing, renamed or unreadable fails the site instead of reaching that branch.
+EMPTY_VENUES_CONFIRMED = True
 # A poster is portrait. Muhos' calendar illustration is 768x470 and Ritz's concert art
 # 1200x800, while its film artwork is 1500x2138 and 1080x1592.
 POSTER_MIN_RATIO = 1.2
@@ -237,7 +253,12 @@ def category_exists(site):
         doc = json.loads(get(url, tries=2))
     except Exception:
         return False
-    return doc.get("slug") == site["category"]["slug"]
+    # `isinstance` and not a bare `.get`: valid JSON that is not an object parses fine and
+    # then raises AttributeError out here, past the except, so the site failed with
+    # "'str' object has no attribute 'get'" instead of naming the category. It failed
+    # safely either way, which is why this was only visible once a test asked for the
+    # reason rather than the exit code.
+    return isinstance(doc, dict) and doc.get("slug") == site["category"]["slug"]
 
 
 def fetch_site(site, sleep=1.2, today=None):
@@ -253,9 +274,13 @@ def fetch_site(site, sleep=1.2, today=None):
         events += list(_page(site, start, n).get("events") or [])
     if not events:
         if category_exists(site):
-            raise EmptyProgramme(
-                f"{site['base']}: the category {site['category']['slug']!r} still exists "
-                f"and holds no upcoming event")
+            # A quiet week, evidenced by the category still answering under its own slug.
+            # Reported rather than raised, so run.py publishes a fresh empty file and marks
+            # the venue pending instead of letting the last programme age in place.
+            print(f"[{pid}] {site['venues'][0]['name']}: no upcoming event in category "
+                  f"{site['category']['slug']!r}, which still exists; publishing the venue "
+                  f"empty")
+            return {v["id"]: [] for v in site["venues"]}
         raise RuntimeError(
             f"{site['base']}: no event under category {site['category']['id']} and the "
             f"category itself did not answer with the slug {site['category']['slug']!r}, "
