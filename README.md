@@ -84,6 +84,7 @@ small cinemas run one of a few ticketing platforms:
 | Lieksan Kino | 1 | 1 | none | GitHub Actions |
 | Navettakino | 1 | 1 | none | GitHub Actions |
 | Pyhäsalmen VPK (My Calendar) | 1 | 1 | none | GitHub Actions |
+| Elävienkuvien teatteri | 1 | 1 | none | Local |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each

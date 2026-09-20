@@ -38,7 +38,7 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   Bio Sydväst publish nothing readable and are recorded in the research file.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
-- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
+- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (five),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
 ### Heureka's own posters still wait for written permission

@@ -1111,6 +1111,49 @@ class ReadmeCountsTest(unittest.TestCase):
         self.assertTrue(m, "README's picker sentence changed shape")
         self.assertEqual(int(m.group(1)), cities)
 
+    def adapter_table(self):
+        """The rows of README's adapter table, as (label, providers, venues)."""
+        body = self.README.split("| Adapter | Providers | Venues | Auth | Runs |")[1]
+        body = body.split("\n\n")[0]
+        rows = []
+        for line in body.strip().split("\n")[1:]:
+            if not line.startswith("|"):
+                continue
+            cells = [c.strip() for c in line.split("|")[1:-1]]
+            rows.append((cells[0], int(cells[1]), int(cells[2]), cells[4]))
+        return rows
+
+    def test_the_adapter_table_adds_up_to_the_registry(self):
+        """Nothing pinned this table, and it drifted: Elävienkuvien teatteri was named in
+        the prose from the day it was built and never given a row, so the table stood at
+        35 rows and 74 providers against 36 and 75 (found 2026-09-20). The opening line
+        was right the whole time, because that one *is* pinned, three tests above."""
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts" / "providers"))
+        import registry
+        rows = self.adapter_table()
+        providers, venues, _ = self.measured()
+        self.assertEqual(sum(r[1] for r in rows), providers,
+                         "the Providers column must add up to the registry")
+        self.assertEqual(sum(r[2] for r in rows), venues,
+                         "the Venues column must add up to the committed venues")
+        modules = {(p.get("module") or p.get("id")) for p in registry.PROVIDERS}
+        self.assertEqual(len(rows), len(modules),
+                         "one row per adapter module, so a new adapter cannot be omitted")
+
+    def test_every_local_adapter_says_so_in_the_runs_column(self):
+        """`where="local"` is the routing a reader needs: those cinemas ride on one
+        machine. A row that runs partly local names which site."""
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts" / "providers"))
+        import registry
+        local = {(p.get("module") or p.get("id")) for p in registry.PROVIDERS
+                 if p.get("where") == "local"}
+        said = sum(1 for r in self.adapter_table() if "local" in r[3].lower())
+        self.assertEqual(said, len(local),
+                         f"{len(local)} adapter modules have a local site; "
+                         f"{said} rows say so")
+
     def test_the_region_count_matches_the_registry(self):
         import sys
         sys.path.insert(0, str(ROOT / "scripts" / "providers"))
