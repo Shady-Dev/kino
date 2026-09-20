@@ -644,6 +644,16 @@ PROVIDERS = [
     # which shares no view with it. L* 58.6, saturation 0.60.
     dict(id="kuusamotalo", label="Kino Kuusamotalo", host="kinokuusamotalo.fi",
          accent="#AA8844", book="door", module="kuusamotalo", where="cloud"),
+    # Added 2026-09-21. Kino Akustiikka is the screen of Ylivieska's culture house and
+    # has no site of its own: the town's Localhub event calendar carries the dated
+    # screenings and `ylivieska.fi` carries the cinema. Read through the calendar's own
+    # public search, with no authentication and no cookie. `book="buy"`: every row links
+    # to the town's ticket shop, which sells the seat.
+    # Ylivieska holds no other chain and no REGIONS area holds it, so the accent enters
+    # no shared view. 4.5 dE00 from its nearest accent anywhere, Kino Akseli in
+    # Järvenpää, which shares no view with it. L* 54.3, saturation 0.79.
+    dict(id="kinoakustiikka", label="Kino Akustiikka", host="ylivieska.fi",
+         accent="#988020", book="buy", module="localhub", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

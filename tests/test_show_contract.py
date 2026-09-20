@@ -55,6 +55,7 @@ import test_alatalo as AL
 import test_elavienkuvien as EK
 import test_matintupa as MT
 import test_kuusamotalo as KU
+import test_localhub as LH
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -444,6 +445,18 @@ def sample_matintupa():
     return (out, MT.SITE["provider"], [v["id"] for v in MT.SITE["venues"]])
 
 
+def sample_localhub():
+    """Two film pages, one carrying two dates and a sold-out one, so a row with a
+    date-level flag is exercised beside the ordinary ones."""
+    out, _ = LH.L.rows(LH.SITE, LH.payload(
+        LH.page(dates=[LH.date(), LH.date("2026-10-04T10:00:00.000Z",
+                                          "2026-10-04T12:00:00.000Z", sold=True)]),
+        LH.page(pid="6a8e9b61600c7004a13930d4", name="Heart of the Beast",
+                ticket="https://verkkokauppa.ylivieska.fi/tuote/heart-of-the-beast")),
+        LH.TODAY)
+    return (out, LH.SITE["provider"], [v["id"] for v in LH.SITE["venues"]])
+
+
 def sample_kuusamotalo():
     """Two film posts and a notice, so the post that must not reach a venue file is
     exercised beside the two that must."""
@@ -472,6 +485,7 @@ SAMPLES = {
     "pallas": sample_pallas, "huvimylly": sample_huvimylly,
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
+    "localhub": sample_localhub,
 }
 
 

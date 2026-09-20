@@ -2684,3 +2684,50 @@ left uncounted, the price pattern unanchored, a synopsis published with no langu
 settled, a non-list answer accepted, the window dropped, and a row published under an
 undeclared venue id against the show contract.
 
+
+## Kino Akustiikka, Ylivieska (2026-09-21)
+
+The screen of the town's culture house, with no site of its own: `ylivieska.fi` carries the
+cinema and the town's Localhub event calendar carries the dated screenings. Read through
+the calendar's own visitor-facing search, one request, no authentication and no cookie.
+First fetch published 10 showtimes over 5 dates from 10 of 13 pages.
+
+`localhub.py` is named after the platform because the payload shape is the platform's
+rather than this town's, and a second municipality on it would be a `SITES` entry. One
+tenant has been read and nothing in that name is a claim about any other.
+
+What the design rests on:
+
+- **Two independent things agree before a page publishes**: `Movies / Cinema` in
+  `globalContentCategories`, and the search term in `hashtags`. The calendar is the whole
+  town's and the cinema shares its hall with concerts, so matching the venue is not enough.
+- **A page with no `event.dates` is the calendar's own parent** for a run. All three read
+  that day carried `isSoldOut` at event level and no date at all, so they are skipped on
+  the empty `dates` and not on the flag, which leaves the flag free to mean what it says on
+  a dated row.
+- **`start` is a UTC instant with a `Z`** and `event.timezone` is read rather than assumed.
+- **`end - start` is a booking slot, not a runtime.** Nine of the ten rows measured exactly
+  120 minutes and one 101, so `len` stays empty and the TMDB pass supplies the runtime.
+- **A cancelled screening is not published at all.** The show contract carries `soldOut`
+  and no cancelled state, so an ordinary row would misdescribe it. The count is logged.
+- **The ticket link is per date first, then per event.** All ten rows fell back to the
+  event's `verkkokauppa.ylivieska.fi/tuote/{slug}`; that shop and the calendar's own detail
+  page were both fetched and answered 200 before the entry was written.
+- **`imageDesktop` is a content hash, not a URL**, and no public pattern resolving one was
+  found, so `img` stays empty.
+- **An empty search is not evidence of an empty programme.** A reindex and a dark week look
+  the same from here, so zero rows fails the site and `common.EmptyProgramme` is not raised.
+
+Accent `#988020`; 4.5 dE00 from its nearest accent anywhere, Kino Akseli in Järvenpää;
+L* 54.3, saturation 0.79. Ylivieska holds no other chain and no `REGIONS` area holds it,
+so the accent enters no shared view and the 14.4 floor binds nothing here. `book="buy"`:
+every row links to the town's shop, which sells the seat.
+
+Tests: `tests/test_localhub.py`, 32 tests, plus `sample_localhub` in
+`tests/test_show_contract.py`. Eleven mutations red, none void: the hashtag check dropped,
+the category check dropped, the declared timezone ignored, the UTC instant published
+unconverted, a cancelled row published as an ordinary one, the sold-out fallback removed,
+a price band published as an exact amount, the currency check dropped, the booking slot
+published as the runtime, the venue address unchecked, and an empty search no longer
+failing the site.
+
