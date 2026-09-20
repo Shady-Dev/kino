@@ -109,12 +109,11 @@ record is in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 instead, which is the fix that needs neither the old copy nor an online load. Nothing is
 blocked on it; before this change the schedule went too.
 
-### Two small ones
+### Credential hygiene and rotation
 
-- **README workflow badge.** Not built.
-- **Credential hygiene and rotation.** Tracked in private notes outside this repo. The
-  Finnkino token is fetched fresh at run time and used within seconds, so there is no
-  stored credential and nothing to rotate; this item covers the rest.
+Tracked in private notes outside this repo. The Finnkino token is fetched fresh at run
+time and used within seconds, so there is no stored credential and nothing to rotate;
+this item covers the rest.
 
 
 ## Blocked
@@ -228,6 +227,14 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   cosmetic attribution rather than a name or a secret, and a rewrite would falsify every
   commit SHA the decision records cite. The figures are in
   [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
+- A README workflow badge. Measured and declined 2026-09-20. `ci.yml` runs only on a push
+  touching `index.html`, `sw.js`, `scripts/**` or `tests/**`, and this repository's
+  ordinary push is data or pages, which none of those cover. A badge would therefore show
+  the verdict from whenever code last changed, not the state of the repository, and it
+  would be doing that right now: the newest `ci.yml` run on `main` is the failure on
+  `fb3c6beb7`, whose cause was fixed in `165629c60` the same evening, and that fix touched
+  only `pages/**` so it could not turn the run green. Reversible in one commit if it is
+  wanted anyway.
 - A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
   gzipped delta per day (~390 kB worst case). It would move the traffic path behind
   Actions scheduling.
