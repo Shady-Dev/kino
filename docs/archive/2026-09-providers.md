@@ -2571,6 +2571,13 @@ accent anywhere, Kino Piispanristi in Kaarina; L* 55.0, saturation 0.92.
 `base` is the cinema's host rather than `johku.com`, which keeps its pacing group its own;
 a test pins that.
 
+Tests: `KinoHannikainenTest` in `tests/test_johku.py`, 2 tests, plus the updated base list
+and film-page count the new site moves. **Four mutations red, shared with the Kino Virta
+entry below**, because the two sites are pinned by the same assertions: swapping either
+site's declared hall reddens the hall test, and moving either site's `base` on or off
+`johku.com` reddens both the pacing-group test and the platform-domain test. The four are
+not four per entry; they are four across the pair.
+
 ## Kino Virta, Kalajoki (2026-09-20)
 
 Built as the seventh Johku storefront. The cinema has no storefront domain of its own:
@@ -2592,6 +2599,10 @@ than a copied `base`; a test pins that it is the only one.
 
 Accent `#CC1188`. Kalajoki holds no other chain and no `REGIONS` area holds it. 4.1 dE00
 from its nearest accent anywhere, Gilda; L* 45.7, saturation 0.92.
+
+Tests: `KinoVirtaTest` in `tests/test_johku.py`, 2 tests. **The same four mutations the
+Kino Hannikainen entry records**, not four more: `tests/test_johku.py` went to 34 tests
+covering both new sites, and two of the four mutations redden a test in each entry.
 
 ## Elokuvateatteri Matin-Tupa, Ylistaro (2026-09-20)
 
@@ -2630,6 +2641,12 @@ saturation 0.50. `book="door"`: the box office opens 30 minutes before the day's
 screening and reservations are taken by telephone and email, and the site sells nothing
 online.
 
+Tests: `tests/test_matintupa.py`, 21 tests, plus `sample_matintupa` in
+`tests/test_show_contract.py`. Eight mutations red, none void: a landscape file accepted as
+a poster, the price pattern unanchored, the weekday dropped from `resolve_year`, the window
+dropped, the hours ignored in the runtime, the rating blanked, an empty parse published
+instead of failing, and `soldOut` published as a string against the show contract.
+
 ## Kino Kuusamotalo, Kuusamo (2026-09-20)
 
 On none of the platforms, so its own parser, over `/wp-json/wp/v2/posts`. 520 seats in the
@@ -2659,4 +2676,11 @@ Accent `#AA8844`; 4.6 dE00 from its nearest accent anywhere, KinoMania in Pieks√
 L* 58.6, saturation 0.60. Kuusamo holds no other chain and no `REGIONS` area holds it.
 `book="door"`: the site sells nothing online and the desk opens an hour before the
 screening.
+
+Tests: `tests/test_kuusamotalo.py`, 22 tests, plus `sample_kuusamotalo` in
+`tests/test_show_contract.py`. Eight mutations red, none void: the category read instead of
+the `Esitysajat:` marker, the clock's minutes made mandatory, the dateless coming-soon line
+left uncounted, the price pattern unanchored, a synopsis published with no language
+settled, a non-list answer accepted, the window dropped, and a row published under an
+undeclared venue id against the show contract.
 
