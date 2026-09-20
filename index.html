@@ -602,6 +602,12 @@
     background:var(--bg); border-bottom:1px solid var(--line);
   }
   .sheet-body > .legend + .syn, .sheet-body > .legend + .sheet-days{margin-top:10px}
+  /* The one cue that the ticket menu exists. Muted and small like the other hints, and
+     it never repeats: a ticket-level label would say the same thing on every row. */
+  .menuhint{margin:14px 0 0; color:var(--muted); font-size:.78rem; line-height:1.45}
+  .sheet-body > .menuhint:first-child{margin-top:10px}
+  .hintdots{display:inline-flex; vertical-align:-3px}
+  .hintdots svg{width:14px; height:14px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
   .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
@@ -1217,7 +1223,7 @@
          nextShows:'Seuraavat näytökset',
          nextMatch:'Seuraava näytös', atTime:'klo',
          shareScreening:'Jaa näytös', reportWrong:'Ilmoita virheellisistä tiedoista', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
-         addCalendar:'Lisää kalenteriin',
+         addCalendar:'Lisää kalenteriin', menuHint:'Jaa näytös tai lisää se kalenteriin {dots}-valikosta.',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
          premiere:'Ensi-ilta', votes:'ääntä',
@@ -1284,7 +1290,7 @@
          nextShows:'Nästa föreställningar',
          nextMatch:'Nästa föreställning', atTime:'kl.',
          shareScreening:'Dela visningen', reportWrong:'Rapportera felaktiga uppgifter', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
-         addCalendar:'Lägg till i kalendern',
+         addCalendar:'Lägg till i kalendern', menuHint:'Dela visningen eller lägg till den i kalendern via {dots}-menyn.',
          alreadyShown:'Tidigare föreställningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna föreställning',
          premiere:'Premiär', votes:'röster',
@@ -1348,7 +1354,7 @@
          nextShows:'Next screenings',
          nextMatch:'Next screening', atTime:'at',
          shareScreening:'Share screening', reportWrong:'Report incorrect details', aActions:'Screening actions', linkCopied:'Link copied',
-         addCalendar:'Add to calendar',
+         addCalendar:'Add to calendar', menuHint:'Share a screening or add it to your calendar from its {dots} menu.',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
          premiere:'Premiere', votes:'votes',
@@ -4126,6 +4132,16 @@
         + grid(ahead);
     }).join('');
     const legend = multi ? chainLegend(all) : '';
+    // The actions live behind the dots and nothing said so. One line per sheet, beside
+    // the tickets rather than on them: a label on every ticket would repeat an
+    // instruction 50 times on a film with a long run. Drawn only where a ticket actually
+    // has a menu, which past screenings do not get. The glyph is the button's own DOTS,
+    // so it points at the control instead of describing it.
+    const hint = all.some(x => x.start >= now)
+      ? `<p class="menuhint">`
+        + esc(L[lang].menuHint).replace('{dots}', `<span class="hintdots">${DOTS}</span>`)
+        + `</p>`
+      : '';
     // A TMDB overview runs past 600 characters. Unclamped it filled a phone screen and
     // pushed every showtime below the fold, so it is clamped to four lines. Four lines
     // is short enough to lead the body without burying the first day, which putting it
@@ -4153,6 +4169,7 @@
         </div></div>
       <div class="sheet-body">${legend}
         ${synHtml}
+        ${days ? hint : ''}
         <div class="sheet-days">${body}</div>
       </div>`;
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;

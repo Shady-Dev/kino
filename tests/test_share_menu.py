@@ -176,6 +176,26 @@ class ShareMarkupTest(unittest.TestCase):
                      "Report incorrect details"):
             self.assertIn(want, HTML)
 
+    def test_one_cue_per_sheet_says_the_menu_exists(self):
+        """Added 2026-09-20. Beside the tickets, never on them: a ticket-level label
+        would repeat the same instruction on every row of a long run."""
+        self.assertEqual(len(re.findall(r'class="menuhint"', HTML)), 1)
+        self.assertIn("all.some(x => x.start >= now)", HTML,
+                      "no cue where every screening has gone and no ticket has a menu")
+        self.assertIn("${days ? hint : ''}", HTML, "no cue on a sheet with nothing in it")
+        self.assertNotIn('class="stub"', re.search(r'const hint = .*?: \'\';', HTML, re.S).group(0))
+
+    def test_the_cue_points_at_the_button_with_the_buttons_own_glyph(self):
+        self.assertIn("""replace('{dots}', `<span class="hintdots">${DOTS}</span>`)""", HTML)
+        self.assertEqual(len(re.findall(r"\.hintdots svg\{", HTML)), 1)
+
+    def test_the_cue_is_in_all_three_languages_and_each_names_both_actions(self):
+        self.assertEqual(len(re.findall(r"menuHint:'", HTML)), 3)
+        for want in ("Jaa n\u00e4yt\u00f6s tai lis\u00e4\u00e4 se kalenteriin {dots}-valikosta.",
+                     "Dela visningen eller l\u00e4gg till den i kalendern via {dots}-menyn.",
+                     "Share a screening or add it to your calendar from its {dots} menu."):
+            self.assertIn(want, HTML)
+
     def test_the_service_worker_moved_with_the_page(self):
         sw = (_ctx.ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertGreaterEqual(int(re.search(r"leffavuoro-v(\d+)", sw).group(1)), 145)
