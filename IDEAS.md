@@ -251,11 +251,11 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan
   Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116 venues ride on
   one machine, and no cloud VM keeps that coverage.
-- The stale red `ci.yml` verdict on `main`. Acknowledged, not fixed, and never to be
-  cleared with a no-op commit: the newest run is the failure on `fb3c6beb7`, whose cause
-  was 34 pages left stale by an `enrich_tmdb` run and was fixed in `165629c60`, a
-  `pages/**` commit outside the workflow's path filter. It clears on the next push that
-  touches `index.html`, `sw.js`, `scripts/**` or `tests/**`.
+- The stale red `ci.yml` verdict on `main`, cleared 2026-09-20 by `2b2d81102` and kept
+  for the mechanism. The failure was on `fb3c6beb7`, from 34 pages an `enrich_tmdb` run
+  left stale; the fix landed hours later in `165629c60`, a `pages/**` commit outside the
+  workflow's path filter, so it could not turn that run green. It stayed red until an
+  unrelated code push re-ran the workflow. No no-op commit was used, and none is to be.
 - A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
   gzipped delta per day (~390 kB worst case). It would move the traffic path behind
   Actions scheduling.
