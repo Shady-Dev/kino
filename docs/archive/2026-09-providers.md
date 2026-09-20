@@ -2554,3 +2554,109 @@ sharing no view with it. L* 53.4, saturation 0.68.
 rows left out for having no clock time, 0 failures. Every row carries a TMDB id and a
 mirrored poster. Checked against the cinema's own film pages: Hetki ennen valoa on 22.9 at
 17:30 and 24.9 at 17:30, and Lapin Sota's lone `pe 23.10.2026` correctly withheld.
+
+## Kino Hannikainen, Nurmes (2026-09-20)
+
+Built as the sixth Johku storefront: one `SITES` entry against `johku.py`, no parser.
+`www.kinohannikainen.net` is the storefront on the cinema's own domain, and its root
+renders the same `showgroup`/`daytitle`/`js-grid-show` listing as the other five. Read
+2026-09-20: eight rows over five day groups, every one `data-location="Hannikaisen sali"`,
+the 250-seat auditorium in Nurmes-talo named after the composer Pekka Juhani Hannikainen.
+First fetch published 8 showtimes over 5 dates with no failures.
+
+Accent `#1188DD`. Nurmes holds no other chain and no `REGIONS` area holds Nurmes, so the
+accent enters no shared view and the 14.4 floor binds nothing. 4.2 dE00 from its nearest
+accent anywhere, Kino Piispanristi in Kaarina; L* 55.0, saturation 0.92.
+
+`base` is the cinema's host rather than `johku.com`, which keeps its pacing group its own;
+a test pins that.
+
+## Kino Virta, Kalajoki (2026-09-20)
+
+Built as the seventh Johku storefront. The cinema has no storefront domain of its own:
+`virtasali.fi` is the municipal hall's WordPress page and every ticket button on it points
+at `kinovirta.johku.com`, which is what a showtime links to and what this reads. Read
+2026-09-20: four rows over two day groups, all `data-location="Virta-sali"`. The cinema
+names itself Kino Virta; Virta-sali is the hall, in Kauppa- ja kulttuurikeskus Merta.
+First fetch published 4 showtimes over 2 dates with no failures.
+
+**The 2026-09-05 sweep recorded this site as "no Johku" and was wrong.** That pass read
+the page for an embedded Johku *widget*, which it has none of; the storefront was one link
+away on a different host. The research file is corrected rather than rewritten, because
+the mistake is the reusable part: an embedded widget and a storefront are different
+things, and only one of them is visible in the page's own markup.
+
+This is the only site read from `johku.com` itself, so its pacing group is the platform
+host. A second site there would share it, which is correct and has to be deliberate rather
+than a copied `base`; a test pins that it is the only one.
+
+Accent `#CC1188`. Kalajoki holds no other chain and no `REGIONS` area holds it. 4.1 dE00
+from its nearest accent anywhere, Gilda; L* 45.7, saturation 0.92.
+
+## Elokuvateatteri Matin-Tupa, Ylistaro (2026-09-20)
+
+On none of the platforms, so its own parser. Founded 1941. The programme is a
+server-rendered Toolset view on the cinema's own WordPress, one `<div class="col-sm-6">`
+per film. A structured source was looked for first and there is none: `/wp-json/` lists
+340 routes and no namespace holding screenings, `/wp/v2/types` has the core types plus
+Kadence and Toolset furniture and no film type, `/wp/v2/posts` is a news feed whose newest
+entry is from August, and the `kategoria` taxonomy has `ohjelmistossa` at count 0.
+
+One request to `/ohjelmistossa/`, one row per `Esitysajat:` line. First fetch published 13
+showtimes over 7 dates across 4 films.
+
+What the design rests on:
+
+- **No date carries a year**, and the weekday is abbreviated to two letters, so
+  `common.resolve_year` places it with `common.weekday_index` selecting on the weekday.
+- **A price publishes only when the `Liput:` value is one bare amount.** Three films read
+  `14 €` or `13 €`; the fourth read `14,00 €. Kts. lisätiedot`, a Neulekino evening sold
+  with a 3,80 € serving and a members' discount the row does not state, so its rows publish
+  no price. Documenting that the figure is sometimes conditional is not a substitute.
+- **The poster is the cinema's own `alignleft` image and its dimensions are in the
+  filename**, because Toolset's resizer writes them there: 235x336 and 236x336 on the live
+  page. A landscape file is refused and the TMDB pass supplies a poster instead. Five were
+  mirrored on the first run.
+- **The rating is the KAVI icon's filename**, `ikaraja_12`, because the page prints no
+  rating text.
+
+**Ylistaro, not Seinäjoki.** Ylistaro has belonged to Seinäjoki since 2009, and the cinema
+gives Ylistaro as its own address. Filing it under Seinäjoki would also put this accent in
+that city view beside BioRex at 8.3 dE00 on the weakest of the three models, below the 14.4
+floor. Nilsiä under Kuopio and Haapamäki under Keuruu are the same call already made.
+
+Accent `#448855`; 4.1 dE00 from its nearest accent anywhere, Bio Grani; L* 51.3,
+saturation 0.50. `book="door"`: the box office opens 30 minutes before the day's first
+screening and reservations are taken by telephone and email, and the site sells nothing
+online.
+
+## Kino Kuusamotalo, Kuusamo (2026-09-20)
+
+On none of the platforms, so its own parser, over `/wp-json/wp/v2/posts`. 520 seats in the
+Oulankasali hall of the town's culture house, run by its own operator on its own site.
+`kuusamotalo.fi` is the culture house and only links to the cinema: its programme block is
+a Flockler embed and it names no film. First fetch published 8 showtimes over 6 dates from
+2 film posts of 5.
+
+What the design rests on:
+
+- **`Esitysajat:` is what makes a post a film, not its category.** Both notices on the site
+  sit in `nykyinen-ohjelmisto` beside the films, and one of them in `tuleva-ohjelmisto` as
+  well. They carry no `Esitysajat:` line, are counted and named in the log, and are left
+  out.
+- **No date carries a year** and the weekday is two letters, so `common.resolve_year`
+  places it. **The clock may omit its minutes**: `klo 15` and `klo 13.30` both appear.
+- **A dated line with no clock publishes nothing.** `Pirjo i Sverige` read that day was
+  `Pe 9.10. alkaen.` and carried no `Esitysajat:` line at all. Reading an hour out of such
+  a line would be inventing one.
+- **No poster is published from this site.** The featured images are the cinema's own
+  uploads at 160 px wide, 160x228 and 160x240 on the two films read, against the 342 px
+  `mirror_posters` downscales to and the client renders from. Nothing is upscaled, so
+  mirroring one would serve a blurred half-width image where the TMDB pass supplies a full
+  one.
+
+Accent `#AA8844`; 4.6 dE00 from its nearest accent anywhere, KinoMania in Pieksämäki;
+L* 58.6, saturation 0.60. Kuusamo holds no other chain and no `REGIONS` area holds it.
+`book="door"`: the site sells nothing online and the desk opens an hour before the
+screening.
+

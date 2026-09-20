@@ -27,18 +27,18 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-75 providers, 126 venues, 90 cities, declared and committed alike, measured 2026-09-19.
+79 providers, 130 venues, 94 cities, declared and committed alike, measured 2026-09-20.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Thirty-two triaged 2026-09-18** and a later five from the nytleffaan diff. Built
-  since: Bio Pallas, Elokuvateatteri Huvimylly, Movie Company Alatalo and Cinema Sheryl.
-  Kino Helios is priced and declined, eight need a browser, eight have nothing.
-  **Next action:** none from this list. Bio-Salo and
-  Bio Sydväst publish nothing readable and are recorded in the research file.
+- **Thirty-two triaged 2026-09-18**, a later five from the nytleffaan diff and six on
+  2026-09-20. Built since: Bio Pallas, Huvimylly, Alatalo, Cinema Sheryl, Kino
+  Hannikainen, Kino Virta, Matin-Tupa and Kino Kuusamotalo. Kino Helios is priced and
+  declined, eight need a browser, eight have nothing. **Next action:** none from these.
+  Bio-Salo, Bio Sydväst and Kinoma publish nothing readable and are in the research file.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
-- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (five),
+- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (seven),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 
 ### Heureka's own posters still wait for written permission

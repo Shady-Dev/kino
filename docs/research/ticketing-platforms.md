@@ -237,8 +237,12 @@ The sweep of the four known sites, read 2026-09-05:
 - **KuvaTähti** (Kuvala, Kauttuan Kuva): the storefront sits behind Cloudflare and loads
   showtimes client-side through `/api/auth/widget-session` and `X-ApiKey`, the route
   declined above. Both venues listed nothing during a maintenance break.
-- **Virtasali** (Kalajoki): WordPress, no Johku, a municipal culture hall with 0 of 12
-  events in `category-elokuvat`. Dropped.
+- **Virtasali** (Kalajoki): WordPress, a municipal culture hall with 0 of 12 events in
+  `category-elokuvat`. Dropped, and **that was wrong**: re-read 2026-09-20, every ticket
+  button on the page points at `kinovirta.johku.com`, a Johku storefront serving the
+  standard grid. The cinema calls itself Kino Virta and the hall is Virta-sali. Built
+  2026-09-20 as the seventh storefront. This entry read the page for a Johku *widget* and
+  found none; the storefront was a link away and was not followed.
 
 Two probe details worth keeping: Cloudflare answers the storefront with an HTTP 103 Early
 Hints interim response, which `urllib` reports as the final status while curl reads
@@ -1006,7 +1010,9 @@ Source list: the Finnish Wikipedia article "Luettelo Suomen elokuvateattereista"
 - **Kino-Huovi**, Harjavalta: Duda site served as a JSON document; two screenings in prose
   with no year ("19.9. LA klo 18.00", "20.-21.9. SU ja MA klo 18.00").
 - **Kino Akustiikka**, Ylivieska: town event system renders client-side.
-- **Kino Kuusamotalo**: front page names one film, one post per film.
+- **Kino Kuusamotalo**: front page names one film, one post per film. **Off this
+  list 2026-09-20**: the posts carry `Esitysajat:` with dated lines, and
+  `/wp-json/wp/v2/posts` serves the same content, so no browser is needed. Built.
 - **Lapinsuu**, Sodankyla: Webnode; the programme path its own navigation gives answers 404.
 - **Rekolan Kino**, Vantaa: `popupkino.fi` publishes occasional screenings as one page or
   Facebook event each.
@@ -1095,7 +1101,8 @@ nothing here for an adapter to read.
 **Status and next step**
 
 Re-read 2026-09-20, the one request at `locationid=1` this section asked for: HTTP 200,
-`{"shows":[]}`, 12 bytes. Nothing has changed and nothing is owed here. Bio-Salo publishes
+`{"shows":[]}`, 12 bytes. Asked again the same day at `locationid` 0 to 3, all four
+answered the same 12 bytes. Nothing has changed and nothing is owed here. Bio-Salo publishes
 no screening through the platform, and the day it does it is one `SITES` entry with the
 `locationid` discovered by asking. Bio Sydväst needs the municipality to publish dates in
 a page rather than in prose, and nothing here tests for that.
@@ -1478,3 +1485,46 @@ most of them on the browser-only list. **What a real sweep costs is per-site pat
 discovery, not a pattern**, and that is why "no sweep was run" stood for so long. Anyone
 picking this up should keep the control in the run and print the per-host request count;
 without both, a zero reads as an answer when it is a failure to ask.
+
+---
+
+## Six candidates, sized 2026-09-20
+
+**Findings**, each read as an ordinary visitor on 2026-09-20.
+
+| cinema | town | seats | platform | outcome |
+|---|---|---:|---|---|
+| Kino Hannikainen | Nurmes | 250 | Johku | built, sixth storefront |
+| Kino Virta | Kalajoki | 216 | Johku | built, seventh storefront |
+| Elokuvateatteri Matin-Tupa | Ylistaro | 201 | none, own WordPress | built, own parser |
+| Kino Kuusamotalo | Kuusamo | 520 | none, own WordPress | built, own parser |
+| Bio-Salo | Salo | 304 | Nexxo | **publishes nothing**, unchanged |
+| Kinoma | Hyvinkää | 225 | none reachable | **no published programme** |
+
+The four that were built have a section each in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md). Seat counts are the
+maintainer's brief and were not independently measured, except Kino Hannikainen's 250,
+which the storefront's own `og:description` states, and Kino Kuusamotalo's 520, which
+kuusamotalo.fi states.
+
+**Two of six ran on a platform this repo already reads**, which is the rule "check for an
+existing platform first" predicting itself again. Both cost one `SITES` entry. One of the
+two, Kino Virta, had already been looked at on 2026-09-05 and recorded as "no Johku": that
+pass read the page for an embedded widget, and the storefront was one link away on a
+different host.
+
+**Kinoma has no published programme this can read.** The cinema is listed by Hyvinkää's
+own event calendar, at `tapahtumat.hyvinkaa.fi`, and that listing is a venue profile: a
+description, an address, a phone number and links, and **not one dated screening**. Its
+"Kotisivut" button points at `kinoma.fi`, which does not serve HTTPS at all -- the TLS
+handshake is reset -- and over plain HTTP answers `302` to `https://showup.fi/varattu`, a
+hosting company's "this address is reserved" page. The second domain the directories give,
+`hyvleffat.fi`, answers `302` to `https://showup.fi/huoltokatko/?service=hyvleffat.fi`, the
+same company's maintenance-break page. Both resolve to one address, `95.216.9.239`. The
+operator address on the municipal listing, `mindfitmovies.com`, does not answer at all.
+
+So there is no source, not a parser problem: nothing the cinema publishes carries a date
+and a time. **What would change it** is the cinema bringing a site back up, or the
+municipal calendar carrying its screenings as events rather than as a venue profile.
+Neither is work in this repository, and no aggregator is read in their place: this repo
+reads each cinema through the same public interface its own site uses.
