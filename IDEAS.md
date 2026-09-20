@@ -38,51 +38,8 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   Bio Sydväst publish nothing readable and are recorded in the research file.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
-- **Kino Kaustinen**, a real eTiketti tenant publishing no screening, so no ticket
-  destination can be checked. Re-read 2026-09-20: "Ei ohjelmistoa saatavilla."
-  **Next action:** re-read on a later Monday.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (three), Johku (four),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
-
-### Helsinki is full at eight chains, and the next cinema there raises it again
-
-No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
-2026-09-18, best reachable 12.2. The city floor has never been broken, and
-`test_every_combined_city_pair_clears_the_floor` enforces it per pair.
-**Why this is not a per-provider decision:** it recurs with the next Helsinki cinema
-whichever one it is, and CLAUDE.md already treats colour as supplementary, printing venue
-names and a chain legend beside it.
-**Next action:** the maintainer's, on what the city view does when a city is full. Not to
-be decided under the pressure of wanting one particular cinema.
-
-### Kino Konepaja has no programme to read
-
-A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
-one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
-still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
-cinema is shut and reopening soon. The silence has a stated cause for the first time.
-Evidence in [docs/research/kinola.md](docs/research/kinola.md); the classifier and the
-three tenants that do publish are in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** re-read the listing, at the front page now.
-
-### Move the local fetch off the laptop
-
-Eight providers block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino
-Engel, Joutsan Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116
-venues ride on one machine. Cloud VMs cannot replace it and the MovieXchange credential
-route is closed, so there is no way off the laptop that keeps the coverage.
-**Next action:** an always-on box on the same network. Nothing in this repo changes; the
-wrapper outside it moves.
-
-### Staleness monitor: the ping
-
-The repo half is done, `scripts/check_staleness.py`: a pure function of a file and a
-clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold is
-`STALE_H` from `index.html` and a test fails if the two drift apart.
-**Next action:** the external ping that calls it. The schedule, the file location and the
-recipient are machine-specific and live in the wrapper outside this repo, so this item
-cannot close here.
 
 ### Heureka's missing posters wait for written permission
 
@@ -96,19 +53,6 @@ valid image type and verified dimensions. Declined regardless: a weak TMDB match
 generated artwork, a cropped 16:9 still. Full entry:
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 
-### The app shell is still missing offline right after an update
-
-A worker activates with an empty cache: the navigation that discovered the update was
-served by the old worker and network-first, so nothing wrote the new one. `sw.js` now
-carries `/data/` across a version bump, so the schedule and the posters survive, and
-deliberately does not carry `index.html`: the delete exists so an old shell cannot come
-back as the offline fallback, and that rule is unchanged. The cost is that a reader who
-updates and closes the tab has no page to launch offline until one online load. The
-record is in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** the maintainer's, on whether the shell should be precached on install
-instead, which is the fix that needs neither the old copy nor an online load. Nothing is
-blocked on it; before this change the schedule went too.
-
 ### Credential hygiene and rotation
 
 Tracked in private notes outside this repo. The Finnkino token is fetched fresh at run
@@ -117,6 +61,55 @@ this item covers the rest.
 
 
 ## Blocked
+
+### Helsinki is full at eight chains
+
+No colour in the L* band clears 14.4 dE00 against Helsinki's eight: 0 of 226,580 swept on
+2026-09-18, best reachable 12.2, and `test_every_combined_city_pair_clears_the_floor`
+enforces it per pair.
+**Decided 2026-09-20 by the maintainer:** a full palette is **not** on its own a reason to
+reject a Helsinki cinema. Kino Helios was declined on exactly that ground and is
+reopenable on the maintainer's word.
+**Next action:** the maintainer's, on what the city view does when a city is full, and
+only when a real candidate triggers it. Not to be decided under the pressure of wanting
+one particular cinema.
+
+### Kino Konepaja has no programme to read
+
+A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
+one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
+still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
+cinema is shut and reopening soon. The silence has a stated cause for the first time.
+Evidence in [docs/research/kinola.md](docs/research/kinola.md); the classifier and the
+three tenants that do publish are in
+[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
+**Next action:** re-read the listing, at the front page now.
+
+### Staleness monitor: the ping
+
+The repo half is done, `scripts/check_staleness.py`: a pure function of a file and a
+clock, answering "did a run happen", which `check_runs.py` cannot. Its threshold is
+`STALE_H` from `index.html` and a test fails if the two drift apart.
+**Next action:** the external ping that calls it. The schedule, the file location and the
+recipient are machine-specific and live in the wrapper outside this repo, so this item
+cannot close here.
+
+### Kino Kaustinen has no screening to verify against
+
+A real eTiketti tenant publishing none, so no ticket destination can be checked, which is
+the rule six dead Nexxo links bought. Re-read 2026-09-20: "Ei ohjelmistoa saatavilla."
+Blocked on the cinema's own programme, not on work here; it is one `SITES` entry the day
+it lists a film. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** re-read on a later Monday.
+
+### Search Console re-read
+
+The five-day baseline is too thin to change anything on, and the queued "ohjelmisto"
+experiment waits on it. Blocked twice over: the 2026-09-18 to 2026-10-02 window has not
+closed, and no Search Console access exists from here.
+**Next action:** read the same tables after 2026-10-02, once access exists. Evidence:
+[docs/research/seo-and-search.md](docs/research/seo-and-search.md).
 
 ### Finnkino prices
 
@@ -144,10 +137,10 @@ rather than two. Then it is an ordinary `SITES` entry. Evidence:
 ### Kino Engel prices
 
 The price rows are drawn by Johku's widget from an API that needs the widget's key. A
-headless render was measured on 2026-09-13 at about 6 s a page for roughly 15 pages a run,
-and deferred by the maintainer the same day: no more polling on the local half for now.
-`price` and `aud` stay empty for Engel. The options left are that headless render on the
-local half, or asking the cinema or Johku for a feed.
+headless render was measured on 2026-09-13 at about 6 s a page for roughly 15 pages a run.
+**Declined outright 2026-09-20 by the maintainer**, not merely deferred: no headless price
+extraction on the local half. `price` and `aud` stay empty for Engel, and the one route
+left open is the cinema or Johku publishing a feed.
 
 ## Deferred
 
@@ -163,6 +156,12 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Swedish generated pages. `build_pages.py` builds `fi` and `en`; the Swedish link sends a
   reader to the app on purpose, and `L` carries no Swedish page copy. Unchanged.
 
+- Precaching the app shell on install. **Declined 2026-09-20 by the maintainer**, and the
+  recorded cache-deletion design is preserved: `sw.js` carries `/data/` across a version
+  bump and deliberately does not carry `index.html`, so an old shell cannot come back as
+  the offline fallback. The cost accepted with it is that a reader who updates and closes
+  the tab has no page to launch offline until one online load. Record:
+  [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 - Sparse-date dimming in the date picker: `<input type="date">` cannot disable individual
   days without a custom picker.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The
@@ -235,6 +234,17 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   `fb3c6beb7`, whose cause was fixed in `165629c60` the same evening, and that fix touched
   only `pages/**` so it could not turn the run green. Reversible in one commit if it is
   wanted anyway.
+- Moving the local fetch off the laptop. **Decided 2026-09-20 by the maintainer:** local
+  fetching stays on the laptop, and replacing the infrastructure is outside this
+  repository. The constraint is unchanged and is why the item existed: eight providers
+  block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan
+  Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116 venues ride on
+  one machine, and no cloud VM keeps that coverage.
+- The stale red `ci.yml` verdict on `main`. Acknowledged, not fixed, and never to be
+  cleared with a no-op commit: the newest run is the failure on `fb3c6beb7`, whose cause
+  was 34 pages left stale by an `enrich_tmdb` run and was fixed in `165629c60`, a
+  `pages/**` commit outside the workflow's path filter. It clears on the next push that
+  touches `index.html`, `sw.js`, `scripts/**` or `tests/**`.
 - A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
   gzipped delta per day (~390 kB worst case). It would move the traffic path behind
   Actions scheduling.
