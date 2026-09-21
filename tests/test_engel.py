@@ -12,6 +12,7 @@ import contextlib
 import datetime
 import io
 import unittest
+import urllib.error
 
 import _ctx                                                # noqa: F401
 import engel as E
@@ -76,3 +77,125 @@ class YearTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FiveHundredTest(unittest.TestCase):
+    """The site answering 500 while still serving the programme.
+
+    Read 2026-09-21: `kinoengel.fi` began returning HTTP 500 on the listing and on every
+    film page while the bodies were intact, 126 kB that parses to 25 timed screenings.
+    `common.fetch` throws an error response's body away unread and still does; this
+    module asks for the 500's body back and then has to earn it. The tests below are the
+    three ways it can fail to.
+    """
+
+    PAGE = ("<html><body>" + "x" * E.MIN_BYTES
+            + row("a", "Ma 21.09.", "18:00", "Alpha")
+            + row("b", "Ti 22.09.", "20:15", "Beta") + "</body></html>")
+
+    def setUp(self):
+        self._get = E.get_text
+        self.addCleanup(lambda: setattr(E, "get_text", self._get))
+        self.calls = []
+
+    def serve(self, *answers):
+        """Each call returns the next answer; an Exception is raised instead."""
+        seq = list(answers)
+
+        def get_text(url, **kw):
+            self.calls.append((url, kw.get("keep_body_on", ())))
+            a = seq.pop(0) if len(seq) > 1 else seq[0]
+            if isinstance(a, Exception):
+                raise a
+            return a
+        E.get_text = get_text
+
+    @staticmethod
+    def http(code):
+        import urllib.error
+        return urllib.error.HTTPError("https://kinoengel.fi/", code, "err", {}, None)
+
+    def page_with(self, **kw):
+        return E.fetch_page()
+
+    def test_a_healthy_page_never_asks_for_an_error_body(self):
+        self.serve(self.PAGE)
+        with contextlib.redirect_stdout(io.StringIO()):
+            shows = E.fetch_page()
+        self.assertEqual(len(shows), 2)
+        # One listing read and one per film page, none of them asking for an error body.
+        self.assertEqual([k for _, k in self.calls], [(), (), ()])
+
+    def test_a_500_whose_body_is_the_programme_publishes_and_says_so(self):
+        self.serve(self.http(500), self.PAGE)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = E.fetch_page()
+        self.assertEqual(len(shows), 2)
+        self.assertEqual(self.calls[1][1], (500,), "the second call asks for the body")
+        self.assertIn("answered 500 and served the programme anyway", out.getvalue())
+
+    def test_a_500_with_a_short_body_fails_the_site(self):
+        """Short but carrying both markers, so the size floor is what refuses it."""
+        self.serve(self.http(500),
+                   '<html><a href="/elokuva/a/">Osta liput</a></html>')
+        with self.assertRaises(RuntimeError) as cm, contextlib.redirect_stdout(io.StringIO()):
+            E.fetch_page()
+        self.assertIn("not the programme", str(cm.exception))
+
+    def test_a_500_with_a_long_body_and_no_markers_fails_the_site(self):
+        self.serve(self.http(500), "<html>" + "x" * (E.MIN_BYTES + 10) + "</html>")
+        with self.assertRaises(RuntimeError) as cm, contextlib.redirect_stdout(io.StringIO()):
+            E.fetch_page()
+        self.assertIn("not the programme", str(cm.exception))
+
+    def test_a_500_that_looks_right_and_parses_to_nothing_fails_the_site(self):
+        """The broken-parse case. An empty programme is not what this proves."""
+        body = ("<html>" + "x" * E.MIN_BYTES
+                + '<a href="/elokuva/a/">Osta liput</a></html>')
+        self.serve(self.http(500), body)
+        with self.assertRaises(RuntimeError) as cm, contextlib.redirect_stdout(io.StringIO()):
+            E.fetch_page()
+        self.assertIn("broken parse", str(cm.exception))
+        self.assertIn("markers present", str(cm.exception))
+
+    def test_any_other_status_is_still_an_error(self):
+        """The body is served on the second call, so a reader that tolerated the status
+        would publish it. Only 500 may reach that second call."""
+        for code in (403, 404, 502, 503):
+            with self.subTest(code=code):
+                self.serve(self.http(code), self.PAGE)
+                with self.assertRaises(urllib.error.HTTPError) as cm:
+                    E.fetch_page()
+                self.assertEqual(cm.exception.code, code)
+                self.assertEqual([k for _, k in self.calls], [()],
+                                 "only a 500 may have its body asked for")
+                self.calls.clear()
+
+    def test_the_markers_are_not_what_the_parse_keys_on(self):
+        """A marker the parse used to find rows would prove nothing about the body."""
+        self.assertEqual(E.MARKERS, ("/elokuva/", "Osta liput"))
+        self.assertNotIn("Osta liput", E.ANCHOR_RE.pattern)
+
+    FILM = ('<html><label>Ikäraja</label><div class="contentratings">'
+            '<span class="rating K-12"><span>x</span></span></div>'
+            "<label>Kesto</label><span>1 h 47 min</span></html>")
+
+    def test_the_film_pages_go_through_the_same_tolerant_read(self):
+        """They answered 500 with their metadata intact on the same day the listing did.
+        Without the tolerant read every row publishes unrated."""
+        seq = [self.PAGE, self.http(500), self.FILM, self.http(500), self.FILM]
+
+        def get_text(url, **kw):
+            self.calls.append((url, kw.get("keep_body_on", ())))
+            a = seq.pop(0) if len(seq) > 1 else seq[0]
+            if isinstance(a, Exception):
+                raise a
+            return a
+        E.get_text = get_text
+        with contextlib.redirect_stdout(io.StringIO()):
+            shows = E.fetch_page()
+        self.assertEqual(len(shows), 2)
+        self.assertEqual(sorted({s["rating"] for s in shows}), ["K-12"])
+        self.assertIn((500,), [k for _, k in self.calls],
+                      "a film page that 500s is read through it")

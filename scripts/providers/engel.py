@@ -26,6 +26,7 @@ import html as html_mod
 import re
 import sys
 import time
+import urllib.error
 from zoneinfo import ZoneInfo
 
 from common import capped, fetch, get_text, resolve_year, weekday_index
@@ -322,7 +323,10 @@ def details(page):
 
 def enrich(shows, get=None):
     """One film page per distinct film, folded onto its showtimes."""
-    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
+    # The film pages answered 500 with their metadata intact on the day the listing did,
+    # and `details()` returning nothing is already the "no metadata" path below, so a body
+    # that is an error page after all costs a row its rating and nothing more.
+    get = get or tolerant_get
     by_url = {}
     for s in shows:
         by_url.setdefault(s["url"], []).append(s)
@@ -350,10 +354,80 @@ def enrich(shows, get=None):
     return shows
 
 
+# The smallest body that has ever carried this programme. The live page is 126 kB and the
+# challenge shell is 12 kB, so this separates them by an order of magnitude rather than a
+# margin.
+MIN_BYTES = 20000
+
+# Two markers the parse does not use to find its rows, so a body that has them and still
+# parses to nothing is a broken parse rather than an empty programme. `/elokuva/` is the
+# film-link path every row is built on and `Osta liput` is the buy label beside each time.
+MARKERS = ("/elokuva/", "Osta liput")
+
+
+def tolerant_get(url, tries=2, backoff=3, timeout=20):
+    """This site's pages, read through a 500 when the 500 still carries them.
+
+    `common.fetch` throws an error response's body away unread, which is the right
+    default everywhere else. Only 500 is tolerated, only here, and only after `usable`
+    has weighed the body; every other status still raises.
+    """
+    try:
+        return get_text(url, fetcher=fetch, tries=tries, backoff=backoff, timeout=timeout)
+    except urllib.error.HTTPError as e:
+        if e.code != 500:
+            raise
+        return get_text(url, fetcher=fetch, tries=1, timeout=timeout, keep_body_on=(500,))
+
+
+def usable(page):
+    """Is this body the programme? -> (bool, reason). Size, markers, then a real parse."""
+    if len(page) < MIN_BYTES or "sgcaptcha" in page:
+        return False, f"{len(page)} bytes, below the {MIN_BYTES}-byte floor or challenged"
+    missing = [m for m in MARKERS if m not in page]
+    if missing:
+        return False, f"{len(page)} bytes without {', '.join(missing)}"
+    return True, ""
+
+
 def fetch_page():
-    page = get_text(URL, fetcher=fetch)
-    if len(page) < 20000 or "sgcaptcha" in page:
-        raise RuntimeError("challenged (needs a residential IP)")
+    """One page, with one guarded retry when the site answers 500 but serves the schedule.
+
+    Read 2026-09-21: `kinoengel.fi` began answering **HTTP 500 with the complete
+    programme**, 126 kB that parses to 25 timed screenings over 5 dates, the same rows a
+    reader sees. `common.fetch` throws an error response's body away unread, which is the
+    right default and stays the default; this asks for the 500's body back and then has to
+    earn it, because an error page and a programme are not told apart by the status alone.
+
+    Three checks, and the row count is deliberately the last: a body that is big enough
+    and carries the markers the parse does not key on, and still yields no screening, is a
+    broken parse rather than a cinema with nothing on, and it fails the site the way a
+    refused fetch does. Only 500 is tolerated, only for this site, and the log says so on
+    every run so this cannot quietly become normal.
+    """
+    try:
+        page = get_text(URL, fetcher=fetch)
+    except urllib.error.HTTPError as e:
+        if e.code != 500:
+            raise
+        page = get_text(URL, fetcher=fetch, tries=1, keep_body_on=(500,))
+        ok, why = usable(page)
+        if not ok:
+            raise RuntimeError(f"{URL}: HTTP 500 and the body is not the programme "
+                               f"({why}); the previous file stands") from e
+        shows = enrich(parse(page))
+        if not shows:
+            raise RuntimeError(f"{URL}: HTTP 500 with a body that looks like the "
+                               f"programme ({len(page)} bytes, markers present) and no "
+                               f"screening parsed out of it, which is a broken parse "
+                               f"rather than an empty programme") from e
+        print(f"[engel] the site answered 500 and served the programme anyway: "
+              f"{len(page)} bytes, {len(shows)} showtimes. Published, because the body "
+              f"passed the size, marker and row checks; see fetch_page()")
+        return shows
+    ok, why = usable(page)
+    if not ok:
+        raise RuntimeError(f"challenged (needs a residential IP): {why}")
     return enrich(parse(page))
 
 

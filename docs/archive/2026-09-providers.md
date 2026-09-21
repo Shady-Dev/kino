@@ -2873,3 +2873,53 @@ the location and type filters dropped, the printed clock not cross-checked, the 
 published as UTC, the age suffix left on the title, the booking slot published as the
 runtime, the service's literal `None` reaching the fields, and an empty result no longer
 failing the site.
+
+## Kino Engel answers 500 and serves the programme anyway (2026-09-21)
+
+`kinoengel.fi` began returning **HTTP 500 on every page while the bodies stayed intact**.
+The run at 20:13 EEST failed the venue and kept the previous file, which is the designed
+behaviour; the cause was not the parser and not the markup.
+
+Measured from an ordinary connection that evening, three probes in a row, ~0.6 s each:
+
+- `/` returns 500 with 126,679 bytes. Parsing that body with the unchanged `engel.py`
+  gives **25 timed screenings over 12 films and 5 dates**, 25 with a poster, matching the
+  schedule a reader sees, plus 3 dates listed with no time anywhere and skipped as usual.
+- Every film page returns 500 with its metadata intact: `details()` reads the rating, the
+  original title, the runtime, the languages, the genres and the synopsis out of one.
+- The first failure in the ten recorded runs of `logs/run-engel.log`, 2026-09-15 to
+  2026-09-20, all of which are `exit=0`.
+
+**Why nothing saw the body.** `common.fetch` closes an `HTTPError` the moment it has one,
+and its comment said nothing ever wants the body. That is right: an error response is the
+server saying it failed, and reading on is how a pipeline publishes an error page as a
+programme.
+
+**The fix, and its limits.** `common.fetch` gained `keep_body_on`, a tuple of status codes
+whose body is handed back instead of raised. It defaults to empty, so every other caller
+is unchanged, and a body kept this way is never written to the cache slot. `engel.py` asks
+for it on 500 only, and then has to earn it:
+
+1. the body clears a 20,000-byte floor and carries no `sgcaptcha` marker;
+2. it carries `/elokuva/` and `Osta liput`, **neither of which the parse keys on** to find
+   its rows, so a body that has them and still parses to nothing is a broken parse rather
+   than a cinema with nothing on;
+3. the parse yields at least one screening.
+
+Failing 1 or 2 fails the site with the previous file kept. Failing 3 fails it as a broken
+parse, explicitly, because an empty programme is not what a 500 proves. Every tolerated
+500 prints a line naming the byte count and the row count, so this cannot become quiet.
+The film pages go through the same read, because without it all 25 rows publish unrated;
+a film page that is an error after all costs its row the metadata and nothing else, which
+is the path `enrich` already had.
+
+Only 500, only this site, and the default is untouched. A 403, 404, 502 or 503 still
+raises before any body is read.
+
+Tests: `tests/test_engel.py`, 13 in `FiveHundredTest`, and three in
+`tests/test_common_fetch.py` against the local HTTP server, because which exception a 500
+raises and whether the body survives the close are urllib's behaviour and not worth
+mocking. Seven mutations red, none void: any status tolerated, the size and marker checks
+removed, zero rows published, the markers emptied, the size floor removed, the film pages
+taken off the tolerant read, and `keep_body_on` ignored in `common.fetch`. Four of those
+seven were VOID on the first pass and the tests were strengthened until they were not.

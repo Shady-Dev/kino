@@ -88,6 +88,28 @@ class FetchTest(unittest.TestCase):
         sink.__enter__()
         self.addCleanup(sink.__exit__, None, None, None)
 
+    def test_an_error_body_is_thrown_away_unless_the_caller_asks_for_it(self):
+        """The default, and the one opt-in. `keep_body_on` exists for Kino Engel, whose
+        WordPress began answering 500 with the complete programme on 2026-09-21."""
+        self.srv.script["/boom"] = [(500, {}, b"the programme")]
+        with self.assertRaises(urllib.error.HTTPError) as cm:
+            common.fetch(self.url + "/boom", tries=1)
+        self.assertEqual(cm.exception.code, 500)
+        self.assertEqual(common.fetch(self.url + "/boom", tries=1, keep_body_on=(500,)),
+                         b"the programme")
+
+    def test_only_the_codes_the_caller_names_hand_their_body_back(self):
+        self.srv.script["/gone"] = [(404, {}, b"not this one")]
+        with self.assertRaises(urllib.error.HTTPError):
+            common.fetch(self.url + "/gone", tries=1, keep_body_on=(500,))
+
+    def test_a_kept_error_body_is_never_written_to_the_cache_slot(self):
+        """An error response is not a representation to revalidate later."""
+        self.srv.script["/boom2"] = [(500, {"ETag": '"v1"'}, b"the programme")]
+        common.fetch(self.url + "/boom2", tries=1, cache=True, keep_body_on=(500,))
+        self.srv.script["/boom2"] = [(200, {"ETag": '"v1"'}, b"fresh")]
+        self.assertEqual(common.fetch(self.url + "/boom2", tries=1, cache=True), b"fresh")
+
     def refusals(self, fn):
         """Run fn with stdout captured. -> (its return value, the [http] lines)."""
         buf = io.StringIO()

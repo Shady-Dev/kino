@@ -623,7 +623,7 @@ def _write_slot(path, meta, body):
 
 
 def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=None,
-          cache=False, max_bytes=None):
+          cache=False, max_bytes=None, keep_body_on=()):
     """GET (or POST when `data` is given) with retry. -> bytes.
 
     `max_bytes` caps the response body, MAX_BODY by default. Past it the read stops
@@ -635,6 +635,16 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     exception: a 429 or 503 carrying Retry-After is retried on the interval the
     upstream named, and is not retried at all when that interval is past
     RETRY_AFTER_MAX or would take the run past RETRY_AFTER_BUDGET.
+
+    `keep_body_on` is a tuple of status codes whose body is returned instead of raised,
+    and it is empty for every caller but one. An error response's body is normally thrown
+    away unread, which is right: a 500 means the server says it failed, and reading on is
+    how a pipeline publishes an error page as a programme. Kino Engel is the exception
+    that earned it -- on 2026-09-21 its WordPress began answering 500 while serving the
+    complete programme, 126 kB that parses to 25 screenings -- and `engel.py` asks for
+    the body only to validate it against its size, its markers and a non-empty parse
+    before using it. Nothing here relaxes the default, and a body kept this way is never
+    written to the cache slot.
 
     `cache=True` makes it a conditional GET: a stored ETag or Last-Modified goes back
     as If-None-Match / If-Modified-Since, and a 304 returns the stored body without
@@ -701,6 +711,16 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
             # logic below reads only those, and `raise last` hands the caller an
             # exception rather than a stream. close() is idempotent, so the paths that
             # re-raise this same object cost nothing.
+            # Asked for by the caller, and only ever by one. Read before the close,
+            # returned before the retry logic, and deliberately not cached: an error
+            # response is not a representation to revalidate later.
+            if e.code in keep_body_on:
+                try:
+                    body = _read_capped(e, url, max_bytes or MAX_BODY)
+                finally:
+                    e.close()
+                _note_headers(getattr(e, "headers", None))
+                return body
             e.close()
             if e.code == 304 and cached_body is not None:
                 _bump(_stats, "hit")
