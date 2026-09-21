@@ -10,9 +10,8 @@
 [tahtikino] Tähti Kino: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [tahtikino] synopses merged: 0
 [run] http: 0 revalidated (304), 3 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] throttled: 1 Retry-After responses, 0s waited, 0 not retried (asked for longer than a run can wait)
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
 [run] pending: tahtikino has 1 venue(s) with no programme yet: tahtikino-muhos
 [run] tribe: 1 venues, 6 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 4.6s of fetching added up across workers that overlap, longest site 2.9s, longest queue wait 109.6s, 4.6s wall from this module's first fetch starting to its last ending
+[run] timing: 2 site(s), 4.8s of fetching added up across workers that overlap, longest site 3.1s, longest queue wait 107.7s, 3.1s wall from this module's first fetch starting to its last ending
 exit=0

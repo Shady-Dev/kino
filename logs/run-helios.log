@@ -1,0 +1,7 @@
+[helios] Kino Helios, Helsinki: 22 showtimes, 13 dates, 22 of 692 event(s) are this cinema
+[helios] Kino Helios: 22 showtimes, 13 dates
+[helios] synopses merged: 0
+[run] hosts: 1 attempted -- www.malmitalo.fi
+[run] helios: 1 venues, 22 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 2.3s of fetching added up across workers that overlap, longest site 2.3s, longest queue wait 120.0s, 2.3s wall from this module's first fetch starting to its last ending
+exit=0

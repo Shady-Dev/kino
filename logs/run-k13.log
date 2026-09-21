@@ -1,0 +1,9 @@
+[k13] Kino K13, Helsinki: 4 showtimes, 4 dates, 6 block heading(s)
+[k13] 4 dated entry(ies) with no clock, which this parser will not invent
+[k13] Kino K13: 4 showtimes, 4 dates
+[k13] synopses merged: 0
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 1 attempted -- www.ses.fi
+[run] k13: 1 venues, 4 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 119.8s, 1.4s wall from this module's first fetch starting to its last ending
+exit=0

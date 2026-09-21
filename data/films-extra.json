@@ -4405,6 +4405,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=h3l1T8i2Ryg"
   },
+  "the love that remains ástin sem eftir er": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026! The Love That Remains on herkkävireinen kuvaus vuoden pituisesta ajanjaksosta perheessä, jossa vanhemmat yrittävät selviytyä erostaan. The Love That Remains kuvaa vastikään eronneiden Annan ja Magnúsin elämää vuoden ajan parin yrittäessä selviytyä työstä, seksistä ja monimutkaisista perhesuhteista, joihin kuuluvat teini-ikäinen tytär ja kaksospojat. Perhe-elämää kuvaavat kohtaukset vetävät puoleensa vanhoja totuuksia ja tunnesiteitä, jotka ovat muuttuneet mutta eivät täysin hävinneet. Lähde: Norden.org *** NORDISKA RÅDETS FILMPRISKANDIDAT 2026! Det vardagliga ställs mot det fantastiska i en film fylld av värme, humor och en rejäl dos berättarglädje. The Love That Remains fångar ömsint ett år i en familjs liv. Ett år där föräldrarna försöker navigera genom sin separation långsamt, men oundvikligen glider de isär. Med en blandning av lekfullhet och djup porträtterar filmen det bitterljuva i en kärlek som har bleknat, men där minnena fortfarande binder samman – allt mot en fond av årstidernas tysta förändring. Filmskaparen Hlynur Pálmason (Godland) för in både oväntad humor och känslomässig tyngd i denna visuellt slående, intima och samtidigt imponerande vidsträckta skildring av ett äktenskap i upplösning – mot en storslagen fond av årstidernas skiftningar. Källa: TriArt"
+   },
+   "tr": ""
+  },
   "the monk and the gun": {
    "img": "data/posters/a6159fc3eadab7c0.jpg",
    "r": 7.2,
@@ -4420,7 +4428,6 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "cinemantsala",
     "gilda",
     "isohannu",
     "kinojuha",
