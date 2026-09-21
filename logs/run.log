@@ -1,16 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-21: 290 showtimes
+[schedule] 2026-09-21: 64 showtimes
 [schedule] 2026-09-22: 332 showtimes
 [schedule] 2026-09-23: 329 showtimes
 [schedule] 2026-09-24: 313 showtimes
-[schedule] 2026-09-25: 31 showtimes
-[schedule] 2026-09-26: 16 showtimes
-[schedule] 2026-09-27: 28 showtimes
+[schedule] 2026-09-25: 48 showtimes
+[schedule] 2026-09-26: 38 showtimes
+[schedule] 2026-09-27: 45 showtimes
 [tmdb] no TMDB match (1): Salatut elämät 5000 -erikoisnäytös
-[tmdb] 0 new lookups, 0 re-checks, cache 73, 69 mergeable by id
+[tmdb] rating held back, under 25 votes (1): Heart of the Beast (7.7 / 12 votes)
+[tmdb] 2 new lookups, 0 re-checks, cache 75, 71 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 45 film entries
+[films] 47 film entries
 [attrs] dropped, neither format nor language (8): Erikois | IV | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 1103: no shows and nothing left ahead in the kept file, publishing it empty
 [schedule] 17 venue files written, 0 kept as-is
