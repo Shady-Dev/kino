@@ -281,33 +281,33 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-21, twenty-first pass)
+## Documentation state (2026-09-21, twenty-second pass)
 
 Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
 on every provider change, because carried-over counts have been wrong repeatedly: the city
 count, the poster count, the page rewrite frequency, the venue and provider counts, and
 once a count stated twice in one file where only one copy moved.
 
-Latest, re-measured 2026-09-21 after Kino Akustiikka and Kino-Huovi were fetched and their
-snapshot committed. The twentieth pass measured the same day, before that batch, and is
-superseded by this one. Declared and committed agree at 132 venues, so nothing is declared
-and unpublished. The poster figures and the mirrored file count move with every run and are
-the rows that go stale without anything being wrong.
+Latest, re-measured 2026-09-21 after Kino K13 and Kino Helios were fetched and their
+snapshot committed. Two earlier passes the same day are superseded by this one. Declared
+and committed agree at 134 venues, so nothing is declared and unpublished. The poster
+figures and the mirrored file count move with every run and are the rows that go stale
+without anything being wrong.
 
 | | |
 |---|---:|
-| providers / venues / cities (declared) | 81 / 132 / 96 |
-| venues in committed data | 132 |
+| providers / venues / cities (declared) | 83 / 134 / 96 |
+| venues in committed data | 134 |
 | local providers (venues) | 12 (34) |
 | venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 7 |
-| generated pages per language | 149 |
-| sitemap URLs | 299 |
-| poster references (shows / films-extra) | 4294 (3891 / 403) |
+| generated pages per language | 151 |
+| sitemap URLs | 303 |
+| poster references (shows / films-extra) | 4322 (3916 / 406) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1376 |
-| `sw.js` CACHE | `leffavuoro-v211` |
+| mirrored poster files | 1379 |
+| `sw.js` CACHE | `leffavuoro-v212` |
 
-Pages per language is the sitemap's figure: 132 venue pages plus the 17 cities with more
+Pages per language is the sitemap's figure: 134 venue pages plus the 17 cities with more
 than one venue. Theatre directories on disk outnumber it by two, the Studio 123 redirect
 stubs from `737bf3138`, kept and deliberately left out of the sitemap.
 

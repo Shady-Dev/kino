@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 132 venues in 96 cities across 81 providers: Finnkino, BioRex,
+Showtimes for 134 venues in 96 cities across 83 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -21,7 +21,8 @@ Tähti Kino, Kino Hamina, Kinotour, Elokuvateatteri Marita, Lieksan Kino,
 Navettakino, Pyhäsalmen VPK, Bio Pallas, Elokuvateatteri Huvimylly, Movie Company
 Alatalo, Cinema Sheryl, Haapamäen Elokuvat, Elävienkuvien teatteri, Kino
 Hannikainen, Kino Virta, Elokuvateatteri
-Matin-Tupa, Kino Kuusamotalo, Kino Akustiikka and Kino-Huovi. Films with
+Matin-Tupa, Kino Kuusamotalo, Kino Akustiikka, Kino-Huovi, Kino K13 and Kino
+Helios. Films with
 posters, TMDB ratings, age limits, runtimes, genres,
 languages, plus ticket prices and sold-out marks where the cinema publishes
 them. Tapping a showtime opens that cinema's own booking page, its programme
@@ -91,6 +92,8 @@ small cinemas run one of a few ticketing platforms:
 | Kino Kuusamotalo | 1 | 1 | none | GitHub Actions |
 | Localhub (Ylivieska) | 1 | 1 | none | GitHub Actions |
 | Kino-Huovi | 1 | 1 | none | GitHub Actions |
+| Kino K13 | 1 | 1 | none | GitHub Actions |
+| Kino Helios (Malmitalo) | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half four times a day, pushes, then triggers the
 cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -248,7 +251,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /en/city/{slug}/
 
-149 per language, 299 sitemap URLs: 132 venues plus the seventeen cities with more
+151 per language, 303 sitemap URLs: 134 venues plus the seventeen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
@@ -349,7 +352,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 81 providers listed at the
+Schedule data belongs to the respective cinemas, the 83 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

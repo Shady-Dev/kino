@@ -899,6 +899,7 @@
     "biokaari",
     "elavienkuvien",
     "haapamaki",
+    "helios",
     "ihmekompleksi",
     "isohannu",
     "julia",
@@ -1063,6 +1064,15 @@
     "fi": "Aidosti onnistuneita luovan hulluuden ääri-ilmentymiä sattuu valkokankaalla kohdalle tuskin edes kerran vuodessa. Sellaisia kuin Bennett Jonesin I Am a Knife with Legs (NV 2015), Steve Oramin Aaaaaaaah! (NV 2016) tai Peter Stricklandin useimmat ohjaukset. HUNDREDS OF BEAVERS solahtaa orgaanisesti samaan kapeaan lokeroon. Esikoisohjaaja Mike Cheslik ja tuottaja Ryland Brickson Cole Tews ovat hioneet mykistävää erikoisuuttaan neljän vuoden ajan. Toinen toistaan villimmillä oivalluksilla herkuttelevan käsikirjoituksen kaksikko on synnyttänyt yhdessä. Vaativan pääroolin näyttelee Tews. Ja kaikkensa antavalla antaumuksella näytteleekin. Tyylilaji on ennen muuta komedia, jossa Maantiekiitäjät-animaatioiden äärienerginen henki risteää South Park -kaksikko Trey Parkerin ja Matt Stonen hulvattoman Cannibal: The Musicalin kuvia kumartamattoman pidäkkeettömyyden kanssa. Tarinassa on kyse yksilön taistelusta luonnonvoimia vastaan. Näyttämönä toimii 1800-luvun Yhdysvaltojen pohjoisosien pakkaskurimus. Omenaviinakauppias Kayak (Tews) julistaa sodan majaville, kun ne tuhoavat hänen tislaamonsa. Mainettaan älykkäämpien ja läpeensä kierojen jyrsijöiden katkeroittamasta miehestä kuoriutuu sankarimetsästäjä, jonka on löydettävä tähtäimeensä tykkylumen kuorruttamien ikimetsien sadat ja taas sadat majavat. HUNDREDS OF BEAVERSin usein absurdit taiteelliset ratkaisut pakottavat katsojan haukkomaan henkeään. Samalla elokuva kohottaa kasvoille äimistyneen kestovirneen. Toteutus on yhtä aikaa sekä perinnetietoinen että äärimmäisen raikas."
    },
    "tr": "https://www.youtube.com/watch?v=Dm5XHpQZvek"
+  },
+  "hyvä talo": {
+   "img": "data/posters/bdbab05dd04763e3.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "When Gośka meets Grzesiek online, she's sure he's her Mr. Right. Grzesiek is crazy about her, showers her with flowers, and proposes in Venice, but soon enough, the picture perfect romance starts to crumble, revealing a darker side.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "häpeä": {
    "img": "data/posters/7be76776e956688d.jpg",
@@ -1865,6 +1875,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=aHntkAmfiNs"
   },
+  "kuoripojat": {
+   "img": "data/posters/c2c545949f40f7cf.jpg",
+   "r": 0,
+   "s": {
+    "en": "A group of teenage altar boys, frustrated by the indifferent attitude of adults and the Church towards social injustices, decides to implement their own unconventional plan for moral renewal of their neighbourhood. Armed with youthful rebellion and their personal interpretation of the Bible, they set up a wiretap… in the confessional.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=QRa-4A3D9Fg"
+  },
   "kuukauden pohjoismainen the last paradise on earth": {
    "r": 0,
    "s": {
@@ -2145,6 +2164,15 @@
     "fi": "Kun Tommin appiukko Johan määrätään sairaskohtauksen jälkeen pakkolepoon, perhe päättää lähteä lepolomalle Espanjan auringon alle. Johanilla on yksi ehto: hän haluaa autonsa mukaan. Tommi lupautuu ajamaan Johanin auton Espanjaan – yhdessä Juhiksen kanssa. Asiat eivät kuitenkaan mene aivan suunnitellusti, ja kun Johanin auto varastetaan, Tommi ja Juhis päättävät selvittää tilanteen omin avuin ja pian sankarimme syöksyvät taas kiihtyvällä vauhdilla katastrofista toiseen."
    },
    "tr": ""
+  },
+  "luvattu maa": {
+   "img": "data/posters/b17bc1b897088695.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Köyhä sotilas Ludvig Kahlen saapuu vuonna 1755 Jyllannin karuille nummille ainoana päämääränään seurata kuninkaan kehotusta viljellä maata ja saavuttaa siten vaurautta ja kunniaa. Kahlen saa kuitenkin nopeasti vihollisen. Armoton maanomistaja Frederik De Schinkel, joka on alueen ainoa hallitsija, uskoo, että nummi kuuluu hänelle eikä kuninkaalle. Kun De Schinkelin vaimo Ann Barbara karkaa rakastajansa kanssa, he löytävät turvapaikan Kahlenin luota.  De Schinkel tekee kaikkensa karkottaakseen Kahlenin pois ja saadakseen samalla julman koston. Kahlen ei taivu, vaan ryhtyy itsepäisesti epätasa-arvoiseen taisteluun ja vaarantaen sekä oman että läheistensä hengen - ihmisten, jotka ovat oppineet arvostamaan ja luottamaan hänen oikeudenmukaisuuteen."
+   },
+   "tr": "https://www.youtube.com/watch?v=c9U1E9cC5is"
   },
   "lyhyt rakkaustarina": {
    "img": "data/posters/7eff920a1bfc91f7.jpg",
@@ -2431,6 +2459,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "helios",
     "ihmekompleksi",
     "jarvelankino",
     "kinohannikainen",
@@ -3081,6 +3110,7 @@
     "biosavoy",
     "cinemantsala",
     "haapamaki",
+    "helios",
     "isohannu",
     "jarvelankino",
     "kino123",
@@ -3146,6 +3176,7 @@
     "elavienkuvien",
     "gilda",
     "haapamaki",
+    "helios",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -3233,6 +3264,7 @@
     "elavienkuvien",
     "gilda",
     "haapamaki",
+    "helios",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -3375,6 +3407,7 @@
     "elavienkuvien",
     "gilda",
     "haapamaki",
+    "helios",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -3502,6 +3535,7 @@
     "elavienkuvien",
     "gilda",
     "haapamaki",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
@@ -5027,5 +5061,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-20"
+ "generated": "2026-09-21"
 }

@@ -11,7 +11,7 @@
    "id": "biorex",
    "label": "BioRex",
    "host": "biorex.fi",
-   "accent": "#1273D4",
+   "accent": "#AC14FC",
    "book": "buy"
   },
   {
@@ -39,7 +39,7 @@
    "id": "gilda",
    "label": "Gilda",
    "host": "gilda.fi",
-   "accent": "#D62D8F",
+   "accent": "#A48C78",
    "book": "buy"
   },
   {
@@ -60,7 +60,7 @@
    "id": "engel",
    "label": "Kino Engel",
    "host": "kinoengel.fi",
-   "accent": "#B47ACC",
+   "accent": "#C4749C",
    "book": "buy"
   },
   {
@@ -256,7 +256,7 @@
    "id": "korjaamo",
    "label": "Korjaamo Kino",
    "host": "korjaamokino.fi",
-   "accent": "#C07E7E",
+   "accent": "#80709C",
    "book": "buy"
   },
   {
@@ -566,6 +566,20 @@
    "host": "kinohuovi.fi",
    "accent": "#307060",
    "book": "door"
+  },
+  {
+   "id": "k13",
+   "label": "Kino K13",
+   "host": "ses.fi",
+   "accent": "#185C98",
+   "book": "list"
+  },
+  {
+   "id": "helios",
+   "label": "Kino Helios",
+   "host": "malmitalo.fi",
+   "accent": "#FC24EC",
+   "book": "buy"
   }
  ]
 }
