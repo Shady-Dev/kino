@@ -2775,3 +2775,101 @@ dropped with the weekdays cycled, the year resolved without the weekday, any num
 times paired with the dates, the price pattern unanchored, the runtime dropping its hours,
 the card link published unencoded, the month left unchecked, the film key taken from the
 title unslugged, and a zero-row parse no longer failing the site.
+
+## Helsinki solved for ten chains, and the two cinemas it let in (2026-09-21)
+
+Kino K13 and Kino Helios were parsed against live data on 2026-09-21 and both were
+blocked, not by their data but by the accent floor: Helsinki held eight chains and no
+colour in the L* 38-60 band cleared 14.4 dE00 against them. The maintainer authorised a
+documented dense-city rule. The measurement said none was needed.
+
+**What was measured.** A vectorised CIEDE2000, validated against `accent_check.ciede2000`
+to 1.4e-14 over 45 probe pairs, swept the RGB cube at step 4: 262,144 colours, 94,359
+inside the band.
+
+- Holding all eight existing accents: **0 candidates clear 14.4**, best 12.12 (`#886098`,
+  12.1 against Gilda by `accent_check.py --candidate '#886098' --city Helsinki`).
+- Ten free colours in the band, nothing else fixed: **16.678**, so the band itself is not
+  the limit.
+- Moving only the six Helsinki-only chains: **12.788**, still short. Adding Finnkino to
+  the free set: 12.634. Adding BioRex instead: **15.057**.
+- Smallest set that clears the floor, searched deterministically over subsets in registry
+  order: **four accents** -- BioRex, Kino Engel, Gilda and Korjaamo Kino -- at **14.425**,
+  then 14.409 after a second pass that pushes the same six colours away from every other
+  accent in the registry. Finnkino, Cinema Orion, Kino Regina and Riviera keep theirs.
+
+**The palette.** BioRex `#1273D4` to `#AC14FC` (4.4 dE00 from its old colour), Kino Engel
+`#B47ACC` to `#C4749C` (12.8), Gilda `#D62D8F` to `#A48C78` (18.5), Korjaamo Kino
+`#C07E7E` to `#80709C` (22.7), Kino K13 `#185C98`, Kino Helios `#FC24EC`.
+
+**What it costs and what it does not.** Verified with the repo's own scalar
+`accent_check`: 66 city pairs, minimum 14.409, **none below the floor**; 166 region pairs,
+minimum 6.348, and **no region's minimum dropped** -- Pääkaupunkiseutu rose from 4.479 to
+6.348 and Meri-Lappi from 5.748 to 9.739. BioRex is the only moved chain that appears
+outside Helsinki, and its eleven other city views and six region rows were re-measured
+before the colour was accepted.
+
+**The rule that came out of it**, now in CLAUDE.md: a full city is re-solved as a whole,
+never excused. The floor stays 14.4 for every city, the L* band is unchanged, and
+`tests/test_accent_check.py::test_every_combined_city_pair_clears_the_floor` still holds
+without exception -- it now covers Helsinki's 45 pairs. Two tests were added rather than
+relaxed: one pins Helsinki as the densest city with its measured 14.409, and one asserts
+that accents under 4 dE00 apart never share a view, which is the property that makes a
+dense palette safe. Fifty pairs in this registry are that close, Kino Aurora and Kinokulma
+0.16 apart and Kino K13 and Lieksan Kino 0.63, and none of them shares a city or a region.
+
+Verified in the browser at 375 px and 1200 px in **Chromium and WebKit**, on the generated
+Helsinki city page: the legend lists all ten chains by name with a 3 px rule each carrying
+the new colours, all 60 stubs inspected name their cinema, and there is no horizontal
+overflow at 375 px. Colour is never the only identifier in that view.
+
+### Kino K13, Helsinki
+
+`ses.fi/kinok13/`, server-rendered prose inside `<section id=ohjelmisto>`. First fetch
+published 4 showtimes over 4 dates.
+
+- **Only a line with a weekday, a date and a clock publishes.** The four Kinokka evenings
+  carry a date and no time; the organiser page they link,
+  `kaupunginosat.fi/skatta/ohjelmisto/`, was fetched and contains no clock anywhere, so
+  nothing publicly fetchable settles them. They are counted in the log.
+- **A festival heading is a date range and a block boundary, never a row.** Free admission
+  is read from the block it is stated under and does not cross into the next one.
+- **No date carries a year**, so `common.resolve_year` places each row from its weekday.
+- `book="list"`: the screenings are free, there is no per-show booking URL, and a showtime
+  opens the programme section.
+- One of the four films, the STUDIO MUNKA shorts programme, has no TMDB record and draws
+  an initials tile. It is not a published marker, so `enrich_tmdb.clean` has no fix for it.
+
+Tests: `tests/test_k13.py`, 21 tests, plus `sample_k13` in `tests/test_show_contract.py`.
+Eight mutations red, none void: the heading branch no longer skipping a dated entry, a
+dated entry published at midnight, free admission leaking past its block, the year
+resolved without the weekday, the emitted rating blanked, the title keeping its
+description, the runtime not read, and a zero-row parse no longer failing the site.
+
+### Kino Helios, Helsinki
+
+One POST to `malmitalo.fi/services/Resurssivaraus/EventCalendarService.svc/GetEvents`,
+whose `EventData` is a JSON string holding the whole culture house. First fetch published
+22 showtimes over 13 dates from 22 of 692 events.
+
+- **Three fields pick the cinema out**, and all three are needed: `eventLocation == "42"`,
+  `mainEventType == "29"` and `subtitle == "Kino Helios"`. The location and type alone
+  answer 33 rows, of which 8 have a blank subtitle, 2 are `Yleisön suosikit` and one is
+  **`Doc Helios`**, a different strand of the same house.
+- **`/Date(ms)/` is a UTC instant** and `timeSpanToShow` states the same moment in
+  Helsinki. Both are read and a row where they disagree fails rather than publishing three
+  hours out.
+- **`end - start` is a booking slot**, 120 minutes on 21 of 22 rows and 300 on one, so
+  `len` stays empty.
+- **The age limit is a suffix on the title** and is read into `rating`, with the published
+  title left as the film's own: the same films screen at Iso-Hannu and Kino Akustiikka
+  without it, and a title carrying `(12)` would key as a different film in the combined
+  Helsinki view and lose its TMDB match. `enrich_tmdb.clean` is unchanged.
+- **No price.** `priceinfo` and `ticketinfo` are the literal string `None` on every row.
+
+Tests: `tests/test_helios.py`, 27 tests, plus `sample_helios` in
+`tests/test_show_contract.py`. Eight mutations red, none void: the subtitle filter dropped,
+the location and type filters dropped, the printed clock not cross-checked, the instant
+published as UTC, the age suffix left on the title, the booking slot published as the
+runtime, the service's literal `None` reaching the fields, and an empty result no longer
+failing the site.

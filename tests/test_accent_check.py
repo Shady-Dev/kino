@@ -5,6 +5,7 @@ checked. A colour tool whose own arithmetic is unverified is the same failure on
 down, so the CIEDE2000 implementation is pinned to Sharma, Wu & Dalal's published pairs
 here as well as in --selftest.
 """
+import collections
 import contextlib
 import io
 import unittest
@@ -267,10 +268,11 @@ class ReportRankingTest(unittest.TestCase):
     """The ordinary report and --all ranked and counted on the deuteranope minimum, so a
     pair whose normal-vision separation is the binding one sorted as though it were fine.
 
-    Bio Grani and Gilda are the real case: 19.942 apart to a deuteranope, 14.093 to
-    everyone else. Ranked on deutan it sits mid-table and is missing from the count of
-    pairs under the floor; ranked on the weakest model it leads, ahead of BioRex and
-    Studio 123 Järvenpää at 14.148, whose own binding model is deutan.
+    Kino Engel and Cinema Sheryl are the real case since the Helsinki palette was solved
+    for ten chains on 2026-09-21: 19.196 apart to a deuteranope, 16.598 to everyone else.
+    Ranked on deutan it sorts behind Finnkino and Kinoset, whose own binding model is
+    deutan at 16.616; ranked on the weakest model it leads them. The pair before this one
+    was Bio Grani and Gilda, and Gilda's accent moved in that solve.
     """
 
     ACCENTS = {p["id"]: p["accent"] for p in A.registry.PROVIDERS}
@@ -282,23 +284,23 @@ class ReportRankingTest(unittest.TestCase):
         return buf.getvalue()
 
     def test_the_two_pairs_measure_what_the_ranking_turns_on(self):
-        grani_gilda = A.dE(self.ACCENTS["biograni"], self.ACCENTS["gilda"])
-        rex_studio = A.dE(self.ACCENTS["biorex"], self.ACCENTS["studio123jarvenpaa"])
-        self.assertAlmostEqual(min(grani_gilda), 14.093, places=3)
-        self.assertAlmostEqual(min(grani_gilda[1:]), 19.942, places=3)
-        self.assertEqual(min(grani_gilda), grani_gilda[0], "normal vision has to bind")
-        self.assertAlmostEqual(min(rex_studio), 14.148, places=3)
-        self.assertAlmostEqual(min(rex_studio[1:]), 14.148, places=3)
-        self.assertLess(min(grani_gilda), min(rex_studio))
-        self.assertGreater(min(grani_gilda[1:]), min(rex_studio[1:]),
+        engel_sheryl = A.dE(self.ACCENTS["engel"], self.ACCENTS["sheryl"])
+        finnkino_kinoset = A.dE(self.ACCENTS["finnkino"], self.ACCENTS["kinoset"])
+        self.assertAlmostEqual(min(engel_sheryl), 16.598, places=3)
+        self.assertAlmostEqual(min(engel_sheryl[1:]), 19.196, places=3)
+        self.assertEqual(min(engel_sheryl), engel_sheryl[0], "normal vision has to bind")
+        self.assertAlmostEqual(min(finnkino_kinoset), 16.616, places=3)
+        self.assertAlmostEqual(min(finnkino_kinoset[1:]), 16.616, places=3)
+        self.assertLess(min(engel_sheryl), min(finnkino_kinoset))
+        self.assertGreater(min(engel_sheryl[1:]), min(finnkino_kinoset[1:]),
                            "the deutan figure has to disagree, or nothing is proved")
 
     def test_the_report_ranks_the_normal_bound_pair_first(self):
         out = self.report()
-        grani = out.index("Bio Grani      Gilda")
-        studio = out.index("BioRex         Studio 123 Järvenpää")
-        self.assertLess(grani, studio,
-                        "ranked on the deutan minimum, Bio Grani/Gilda sorts below")
+        engel = out.index("Kino Engel     Cinema Sheryl")
+        finnkino = out.index("Finnkino       Kinoset")
+        self.assertLess(engel, finnkino,
+                        "ranked on the deutan minimum, Kino Engel/Cinema Sheryl sorts below")
 
     def test_the_report_counts_every_pair_below_the_floor(self):
         rows = [A.separation(self.ACCENTS[a], self.ACCENTS[b])
@@ -330,9 +332,17 @@ class ReportRankingTest(unittest.TestCase):
         # 186 from the same day: Elävienkuvien teatteri joined Forssa beside Bio-Kaari
         # (+1), 39.5 apart and well clear, and Haapamäen Elokuvat added none, Haapamäki
         # holding no other chain and no region row.
-        self.assertEqual(len(rows), 186)
-        self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 18)
-        self.assertIn(f"18 of 186 pairs are below {A.FLOOR}", self.report())
+        # 232 from 2026-09-21: Kino Akustiikka and Kino-Huovi added none, each alone in
+        # its town and in no region, and Kino K13 and Kino Helios joined Helsinki beside
+        # eight and Pääkaupunkiseutu beside thirteen (+46). Two of the 46 are below the
+        # floor and both are in that region, which is where the palette's slack runs out;
+        # the city half of the rule holds without exception and the test below is what
+        # keeps it that way. Adding those two is also what moved four existing accents:
+        # with the eight Helsinki chains held, no colour in the L* band cleared 14.4
+        # against them, and the joint solve of all ten did. The record is in IDEAS.md.
+        self.assertEqual(len(rows), 232)
+        self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 20)
+        self.assertIn(f"20 of 232 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the
@@ -350,10 +360,48 @@ class ReportRankingTest(unittest.TestCase):
             with self.subTest(city=label, pair=(a, b)):
                 self.assertGreaterEqual(min(A.dE(self.ACCENTS[a], self.ACCENTS[b])), 14.4)
 
+    def test_helsinki_is_the_densest_city_and_still_clears_the_floor(self):
+        """The city that forced the joint solve of 2026-09-21.
+
+        Ten chains, 45 pairs, and the rule holds without an exception being written for
+        it. Held with the eight accents it had, the best colour in the L* 38-60 band
+        reached 12.12 against them and a ninth chain was impossible; moving four of the
+        eight -- BioRex, Kino Engel, Gilda and Korjaamo Kino -- lifted the whole city to
+        14.409. The figure is pinned because it is thin: the next Helsinki cinema has to
+        be solved the same way and cannot be waved through.
+        """
+        by_city = collections.Counter(
+            label for kind, label, _, _ in A.view_pairs() if kind == "city")
+        self.assertEqual(by_city.most_common(1)[0], ("Helsinki", 45))
+        pairs = [min(A.dE(self.ACCENTS[a], self.ACCENTS[b]))
+                 for kind, label, a, b in A.view_pairs()
+                 if kind == "city" and label == "Helsinki"]
+        self.assertEqual(len(pairs), 45)
+        self.assertAlmostEqual(min(pairs), 14.409, places=3)
+        self.assertGreaterEqual(min(pairs), 14.4)
+
+    def test_two_accents_that_look_alike_never_share_a_view(self):
+        """What makes a dense palette safe: it reuses colour only where nobody sees both.
+
+        Fifty pairs in this registry sit under 4 dE00, which is indistinguishable -- Kino
+        Aurora and Kinokulma are 0.16 apart, Kino K13 and Lieksan Kino 0.63. None of them
+        appears in one city or one region, so no reader is ever asked to tell them apart.
+        This is the guard on the reuse the floor leaves room for; without it a later
+        provider could put two of them in one town and nothing would say so.
+        """
+        shared = {frozenset((a, b)) for _, a, b in A.shared_view_pairs()}
+        ids = sorted(self.ACCENTS)
+        close = [(a, b) for i, a in enumerate(ids) for b in ids[i + 1:]
+                 if A.separation(self.ACCENTS[a], self.ACCENTS[b]) < 4.0]
+        self.assertGreater(len(close), 20, "the premise went away; re-read the palette")
+        for a, b in close:
+            with self.subTest(pair=(a, b)):
+                self.assertNotIn(frozenset((a, b)), shared)
+
     def test_the_worst_pair_summary_uses_the_same_score(self):
         worst = min(A.separation(self.ACCENTS[a], self.ACCENTS[b])
                     for _, a, b in A.shared_view_pairs())
-        self.assertAlmostEqual(worst, 4.479, places=3)
+        self.assertAlmostEqual(worst, 6.348, places=3)
         self.assertIn(f"worst shared-view pair: {worst:.1f} dE00 across the three models",
                       self.report())
 

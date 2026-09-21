@@ -241,14 +241,23 @@ provider missing from it loses its venues, not just its label.
   that no script produced: the figures first recorded for these were CIE76 mislabelled as
   ΔE, and `docs/research/accent-colour.md` carries the corrected ones. Two views list
   chains together, a combined city and a region row from `REGIONS`, and both are measured:
-  12 cities and 12 of the 14 regions as of 2026-09-19, so a site alone in its town is still
+  13 cities and 12 of the 14 regions as of 2026-09-21, so a site alone in its town is still
   constrained by its region. Combined-city pairs hold a strict 14.4 ΔE00 minimum across
-  all three models, the worst being 14.425. Region pairs are measured on the same scale,
-  but fourteen established ones sit below it, of 170 pairs in all. Score on the weakest of the three models: Bio Grani and Gilda are
-  19.9 apart to a deuteranope and 14.1 to everyone else. Clear 14.4 in every view a new
-  accent enters where that is reachable, and never lower an existing regional minimum
-  without recording why in `IDEAS.md`. Colour stays supplementary: both views also print
-  venue names and a chain legend.
+  all three models, the worst being 14.409 of 66 pairs. Region pairs are measured on the
+  same scale, but twenty established ones sit below it, of 166. Score on the weakest of
+  the three models: Kino Engel and Cinema Sheryl are 19.2 apart to a deuteranope and 16.6
+  to everyone else. Clear 14.4 in every view a new accent enters, and never lower an
+  existing regional minimum without recording why in `IDEAS.md`. Colour stays
+  supplementary: both views also print venue names and a chain legend.
+- **A full city is re-solved, not excused.** When a city holds so many chains that no
+  colour clears 14.4 against the ones already there, optimise that city's whole palette
+  jointly instead of lowering the floor, widening the L* band or writing an exception into
+  `tests/test_accent_check.py`. Helsinki reached ten chains on 2026-09-21: held at its
+  eight existing accents the best candidate reached 12.12, and moving four of them lifted
+  the city to 14.409 with every other city view still clearing 14.4 and no region minimum
+  lowered. The solve is deterministic and recorded in `docs/archive/2026-09-providers.md`.
+  A chain whose accent moves keeps every guarantee it had elsewhere, which is what makes
+  moving it cheaper than an exception.
 - **A price is published only where it is established for that screening.** A tariff that
   turns on something the adapter cannot read -- 2D against 3D with no marker on the row, an
   *arkipyhä* with no calendar to check -- settles no amount, and `price` stays empty for the

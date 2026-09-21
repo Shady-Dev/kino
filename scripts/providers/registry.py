@@ -13,18 +13,19 @@ Fields:
           the venue name and the chain legend too. Two views list chains together, a
           combined city and a region row from REGIONS, and both are measured. The scale
           is 14.4 ΔE00 across normal vision and both deuteranope models. Combined-city
-          pairs hold it without exception, the worst being exactly 14.4 (Finnkino/Cinema
-          Orion); a search over the same L* band reaches 19.5 and
-          docs/research/accent-colour.md says why it is not applied. Region pairs do not
-          all hold it: 14 of the 170 pairs are below, worst 4.479 (Bio Grand/BioRex in
-          Pääkaupunkiseutu), and all 14 are established colours that file lists. Score on
-          the weakest of the three models: Bio Grani and Gilda are 19.9 apart to a
-          deuteranope and 14.1 to everyone else. A new or changed accent clears 14.4 in
-          every view it enters where that is reachable, and must not lower an existing
-          regional minimum without the reason recorded in IDEAS.md. Measured 2026-09-19:
-          12 cities hold more than one chain (Helsinki eight, Jyväskylä and Vantaa three,
-          Espoo, Hyvinkää, Kouvola, Kuopio, Lahti, Oulu, Tampere, Turku and Vaasa two)
-          and 12 of the 14 regions do, giving 46 city pairs and 124 region pairs. Run
+          pairs hold it without exception, the worst being 14.409 (Kino Engel/Korjaamo
+          Kino in Helsinki). Region pairs do not all hold it: 20 of the 166 pairs are
+          below, worst 6.348 (Bio Grand/Kino K13 in Pääkaupunkiseutu), and all 20 are
+          established colours docs/research/accent-colour.md lists. Score on the weakest
+          of the three models: Kino Engel and Cinema Sheryl are 19.2 apart to a
+          deuteranope and 16.6 to everyone else. A new or changed accent clears 14.4 in
+          every view it enters, and must not lower an existing regional minimum without
+          the reason recorded in IDEAS.md. A city with no colour left is re-solved as a
+          whole rather than excused; CLAUDE.md states that rule and Helsinki is the case
+          it was written for. Measured 2026-09-21: 13 cities hold more than one chain
+          (Helsinki ten, Vantaa four, Espoo and Jyväskylä three, Forssa, Hyvinkää,
+          Kouvola, Kuopio, Lahti, Oulu, Tampere, Turku and Vaasa two) and 12 of the 14 regions do,
+          giving 66 city pairs and 166 region pairs. Run
           `python3 scripts/accent_check.py` before changing one: it prints every
           shared-view pair in CIEDE2000 under two deuteranope models, and `--search {id}`
           ranks replacements on their weakest model. Do not quote a figure no script
@@ -46,7 +47,11 @@ Fields:
 PROVIDERS = [
     dict(id="finnkino", label="Finnkino", host="finnkino.fi", accent="#E4551F",
          book="buy", module=None, where="local"),
-    dict(id="biorex", label="BioRex", host="biorex.fi", accent="#1273D4",
+    # Violet since 2026-09-21, not the blue it carried: Helsinki reached ten chains and
+    # no palette clears 14.4 there with this one held at #1273D4. The joint solve moved
+    # four accents and this is the only one outside Helsinki, 4.4 dE00 from its old
+    # colour. Its eleven other city views and six region rows were all re-measured.
+    dict(id="biorex", label="BioRex", host="biorex.fi", accent="#AC14FC",
          book="buy", module="biorex", where="cloud"),
     dict(id="kinoset", label="Kinoset", host="kinoset.fi", accent="#0E9B63",
          book="reserve", module="nexxo", where="cloud"),
@@ -59,7 +64,8 @@ PROVIDERS = [
     # there, while BioRex's blue is unconstrained in eleven other towns.
     dict(id="riviera", label="Riviera", host="rivieracinemas.fi", accent="#0C6464",
          book="buy", module="riviera", where="cloud"),
-    dict(id="gilda", label="Gilda", host="gilda.fi", accent="#D62D8F",
+    # Moved 2026-09-21 in the ten-chain Helsinki solve, 18.5 dE00 from its old colour.
+    dict(id="gilda", label="Gilda", host="gilda.fi", accent="#A48C78",
          book="buy", module="gilda", where="cloud"),
     # Moved off Vista on 2026-08-30: the /xml/ services 404 from every network and the
     # site now runs eTiketti. Accent, host and venue ids are unchanged on purpose -- the
@@ -72,7 +78,8 @@ PROVIDERS = [
          book="buy", module="etiketti", where="local"),
     dict(id="orion", label="Cinema Orion", host="cinemaorion.fi", accent="#4E7A16",
          book="buy", module="orion", where="cloud"),
-    dict(id="engel", label="Kino Engel", host="kinoengel.fi", accent="#B47ACC",
+    # Moved 2026-09-21 in the ten-chain Helsinki solve, 12.8 dE00 from its old colour.
+    dict(id="engel", label="Kino Engel", host="kinoengel.fi", accent="#C4749C",
          book="buy", module="engel", where="local"),
     # Not the BioRex chain above: an independent cinema in Kokkola that shares the
     # name, on biorex.org rather than biorex.fi. Same trap as Gilda's Bio Rex
@@ -205,7 +212,8 @@ PROVIDERS = [
     # two nearest; the other four sit above 23. L* 59.6, the top of the search band:
     # every darker rose tried (L* 49 to 55) fell to 13.8 to 14.4 deutan against Gilda.
     # Helsinki's worst pair stays Finnkino/Cinema Orion at 14.4.
-    dict(id="korjaamo", label="Korjaamo Kino", host="korjaamokino.fi", accent="#C07E7E",
+    # Moved 2026-09-21 in the ten-chain Helsinki solve, 22.7 dE00 from its old colour.
+    dict(id="korjaamo", label="Korjaamo Kino", host="korjaamokino.fi", accent="#80709C",
          book="buy", module="vista", where="cloud"),
     # Kino Tapiola, Espoo (2026-09-05): its own WordPress theme renders the programme
     # server-side, Johku sells the tickets through client-side embeds, so a showtime
@@ -663,6 +671,23 @@ PROVIDERS = [
     # shares no view with it. L* 42.9, saturation 0.57.
     dict(id="kinohuovi", label="Kino-Huovi", host="kinohuovi.fi",
          accent="#307060", book="door", module="kinohuovi", where="cloud"),
+    # Added 2026-09-21, the ninth and tenth chains in Helsinki. Adding them is what
+    # forced the joint solve above: with the eight existing accents held, the best colour
+    # in the L* band reached 12.12 against them, and moving four of the eight lifts the
+    # whole city to 14.409. Both were parsed against live data before either was written.
+    #
+    # Kino K13 is the Finnish Film Foundation's own screen on Katajanokka. `book="list"`:
+    # the screenings are free and there is no per-show booking URL, so a showtime opens
+    # the programme section, the mode Gilda already uses.
+    # 0.6 dE00 from Lieksan Kino, which shares no city and no region with it; 50 pairs in
+    # this palette sit under 4.0 dE00 and none of them share a view.
+    dict(id="k13", label="Kino K13", host="ses.fi", accent="#185C98",
+         book="list", module="k13", where="cloud"),
+    # Kino Helios is the Malmitalo hall's cinema strand, read from the culture house's own
+    # event calendar service. `book="buy"`: every row carries a lippu.fi ticket link.
+    # `Doc Helios` is a different strand of the same house and is filtered out by subtitle.
+    dict(id="helios", label="Kino Helios", host="malmitalo.fi", accent="#FC24EC",
+         book="buy", module="helios", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")

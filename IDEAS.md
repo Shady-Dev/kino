@@ -27,22 +27,22 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-81 providers, 132 venues, 96 cities, declared and committed alike, measured 2026-09-21.
+83 providers, 134 venues, 96 cities, declared and committed alike, measured 2026-09-21.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Eight read 2026-09-21.** Built: Kino Akustiikka (Ylivieska), on the town's Localhub
-  calendar and the first tenant of `localhub.py`, and Kino-Huovi (Harjavalta), its own
-  parser. The other six are blocked below or in the entries above them, each with what it
-  waits on. **Next action:** none from these.
+- **Eight read 2026-09-21, four built:** Kino Akustiikka (Ylivieska), Kino-Huovi
+  (Harjavalta), and Kino K13 and Kino Helios, which took Helsinki to ten chains and needed
+  its palette re-solved. Four existing accents moved and the 14.4 floor held; the rule and
+  the measurements are in [CLAUDE.md](CLAUDE.md) and
+  [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 - **Earlier batches:** thirty-two triaged 2026-09-18, five from the nytleffaan diff, six on
-  2026-09-20. Bio Pallas, Huvimylly, Alatalo, Cinema Sheryl, Kino Hannikainen, Kino Virta,
-  Matin-Tupa and Kino Kuusamotalo were built from them; eight need a browser and eight have
-  nothing. Bio-Salo, Bio Sydväst and Kinoma publish nothing readable.
+  2026-09-20; eight were built, eight need a browser and eight have nothing.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (seven),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
+- **Next action:** none from these.
 
 ### Heureka's own posters still wait for written permission
 
@@ -64,22 +64,6 @@ this item covers the rest.
 
 
 ## Blocked
-
-### Helsinki is full at eight chains, and two candidates now trigger it
-
-No colour in the L* band clears 14.4 dE00 against Helsinki's eight. Re-swept 2026-09-21
-over the whole cube: 0 of the 94,359 in-band colours clear it, best reachable 12.12
-(`#886098`, 12.1 against Gilda by `accent_check.py --candidate`).
-`test_every_combined_city_pair_clears_the_floor` holds the city view without exception.
-**Decided 2026-09-20 by the maintainer:** a full palette is **not** on its own a reason to
-reject a Helsinki cinema.
-**Kino K13 and Kino Helios are the real candidates**, both read and parsed against live
-data on 2026-09-21 and neither registered: 4 timed rows on `ses.fi/kinok13/` and 22 exact
-Kino Helios rows from Malmitalo's event service. The data and the parse are settled; only
-the accent is not. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** the maintainer's, on what the city view does when a city is full. Nothing
-here lowers the floor, widens the L* band or edits that test to fit a candidate.
 
 ### Kino Konepaja has no programme to read
 

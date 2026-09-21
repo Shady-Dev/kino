@@ -541,7 +541,9 @@ class RegistryAndPagesTest(unittest.TestCase):
         city = (ROOT / "kaupunki" / "helsinki" / "index.html").read_text(encoding="utf-8")
         self.assertIn("Kino Regina", city)
         self.assertIn("chain-regina", city)
-        self.assertIn("14 teatteria", city)
+        # 16 since 2026-09-21: Kino K13 and Kino Helios took Helsinki to ten chains
+        # over sixteen venues.
+        self.assertIn("16 teatteria", city)
 
 
 class FilmIdentityTest(unittest.TestCase):

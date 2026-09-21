@@ -57,6 +57,8 @@ import test_matintupa as MT
 import test_kuusamotalo as KU
 import test_kinohuovi as KH
 import test_localhub as LH
+import test_k13 as K13
+import test_helios as HE
 import test_heureka as H
 import test_nexxo_rooms as N
 import test_orion
@@ -446,6 +448,26 @@ def sample_matintupa():
     return (out, MT.SITE["provider"], [v["id"] for v in MT.SITE["venues"]])
 
 
+def sample_k13():
+    """A festival block with two timed rows beside a dated entry with no clock, so the
+    row that must not exist is exercised beside the two that must."""
+    out, _ = K13.K.rows(K13.SITE, K13.page(K13.KINOKKA, K13.KINOKKA_BODY, K13.FESTIVAL,
+                                           K13.FREE, K13.ROW1, K13.ROW2), K13.TODAY)
+    return (out, K13.SITE["provider"], [v["id"] for v in K13.SITE["venues"]])
+
+
+def sample_helios():
+    """Two Kino Helios rows beside a Doc Helios one, so the strand that must not publish
+    is exercised beside the two that must."""
+    out, _ = HE.H.rows(HE.SITE, [
+        HE.event(),
+        HE.event(subtitle="Doc Helios", title="Kappale kauneinta Suomea"),
+        HE.event(title="Myrskyn ikkuna (12)", start="2026-09-24T15:00",
+                 end="2026-09-24T17:00", master="792036"),
+    ], HE.TODAY)
+    return (out, HE.SITE["provider"], [v["id"] for v in HE.SITE["venues"]])
+
+
 def sample_kinohuovi():
     """One card with a single date and one with a range, so the row that comes from an
     expanded range is exercised beside the one that does not."""
@@ -494,6 +516,7 @@ SAMPLES = {
     "alatalo": sample_alatalo, "elavienkuvien": sample_elavienkuvien,
     "matintupa": sample_matintupa, "kuusamotalo": sample_kuusamotalo,
     "kinohuovi": sample_kinohuovi, "localhub": sample_localhub,
+    "k13": sample_k13, "helios": sample_helios,
 }
 
 
