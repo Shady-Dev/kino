@@ -102,9 +102,10 @@ there is no last visible programme date to report. The rows arrive through
 
 Both read 2026-09-21. **Rekolan Kino** (Vantaa) renders its Squarespace programme
 server-side and held five rows, all in the past, the latest 20.9. A parser would return
-zero rows, which must fail the site while the page still lists films. Its ticket buttons go
-to `myyri.kinola.ee`, Kino Myyri's Kinola storefront, so whether this is a `kinola.py`
-`SITES` entry is unsettled and worth settling first. **Juvan Kino** publishes through
+zero rows, which must fail the site while the page still lists films. Read-only follow-up
+2026-09-21: it sells through Kino Myyri's Kinola storefront, but Myyri's listing never
+names it and the storefront has no public programme, so a shared account is unsettled and
+it would need its own parser regardless. **Juvan Kino** publishes through
 `juvantapahtumat.fi`, whose cinema category states 0 events and whose RSS carries no item;
 eleven other categories on that calendar do carry events. Evidence:
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).

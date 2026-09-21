@@ -1631,3 +1631,25 @@ too dark for the 3 px rule the band exists for.
 So the blocker is not the data and not the parse. It is the open maintainer decision
 already recorded in `IDEAS.md` under "Helsinki is full at eight chains": what the city view
 does when a city is full. Two real candidates now trigger it.
+
+### Rekolan Kino and Kino Myyri: one ticketing host, and that is all it proves (2026-09-21)
+
+Read-only follow-up to the finding above, asked because a shared Kinola account would make
+Rekolan Kino a `kinola.py` `SITES` entry rather than a new parser. Measured that day:
+
+- **The ticket host is shared.** All five "Osta lippuja" buttons on `rekolankino.fi/elokuvat`
+  point at `myyri.kinola.ee/web/screening/{uuid}`, the same storefront host Kino Myyri sells
+  through.
+- **Kino Myyri's own listing does not carry Rekola.** `kinomyyri.fi/ohjelmisto/` mentions
+  "Rekola" zero times, names no hall anywhere, and the committed `area-myyri-vantaa.json`
+  has an empty `aud` on all 20 rows. Neither cinema's site names the other.
+- **The storefront has no public programme.** `myyri.kinola.ee/` is a Kinola login page,
+  and `/web/` answers 404. The only public surface is the per-screening page, which is
+  client-rendered and carries the single word "myyri" server-side.
+
+**So it is not settled**, and nothing publicly readable settles it: sharing a ticketing
+host is consistent with one account holding two venues and equally with two cinemas selling
+through one storefront. What is settled is the consequence. `kinola.py` reads each tenant's
+own WordPress `kinola-event` listing, and Rekolan Kino's site is Squarespace, so it would
+need its own parser even if the account were shared. Registration waits on the cinema
+publishing a programme either way, which is the blocker already recorded.
