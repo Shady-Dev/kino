@@ -8,6 +8,7 @@ the cinema's series and whose Kuvaus separates the synopsis from an essay with "
 """
 import contextlib
 import datetime
+import functools
 import io
 import json
 import pathlib
@@ -319,6 +320,18 @@ class DetailsTest(unittest.TestCase):
 
 
 class RunnerTest(unittest.TestCase):
+    """The whole run, with the first window's date injected rather than read off the clock.
+
+    The fixture names the later windows as literals, `2026-09-21` and `2026-10-07`, and
+    this test used to key the first one on the real date. On any day the clock reached one
+    of those literals the two keys collided, the later window's body replaced the first's,
+    and three tests failed with nothing in the diff to explain it. That is not a
+    hypothetical: it fired on 2026-09-21 and would have fired again on 2026-10-07.
+    `regina.fetch_site` takes `today` for exactly this, and `run.py` never passes one.
+    """
+
+    TODAY = datetime.date(2026, 9, 5)
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
@@ -326,8 +339,11 @@ class RunnerTest(unittest.TestCase):
         run.OUT = pathlib.Path(self.tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
         self._fetch, self._sleep = regina.fetch, regina.time.sleep
+        self._site = regina.fetch_site
         self.addCleanup(lambda: setattr(regina, "fetch", self._fetch))
         self.addCleanup(lambda: setattr(regina.time, "sleep", self._sleep))
+        self.addCleanup(lambda: setattr(regina, "fetch_site", self._site))
+        regina.fetch_site = functools.partial(self._site, today=self.TODAY)
         regina.time.sleep = lambda s: None
         self.calls = []
 
@@ -360,9 +376,13 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["regina", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
-    def today(self):
-        import datetime
-        return datetime.datetime.now(regina.FI).date().isoformat()
+    def test_the_pinned_date_is_not_one_the_fixture_already_names(self):
+        """The guard on the guard. If TODAY is ever set to a window the fixture names,
+        the two keys collide again and three tests fail with nothing saying why. This
+        fails first, and says why."""
+        named = {"2026-09-21", "2026-10-07", "2026-10-23"}
+        self.assertNotIn(self.TODAY.isoformat(), named,
+                         "TODAY collides with a window the fixture names as a literal")
 
     def films(self):
         return {f"{BASE}/elokuva/202769/": PLAIN, f"{BASE}/elokuva/1415167/": PERSEPOLIS,
@@ -370,7 +390,7 @@ class RunnerTest(unittest.TestCase):
                 f"{BASE}/elokuva/139011/": PLAIN}
 
     def test_a_full_run_publishes_the_venue_across_two_windows(self):
-        self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): WINDOW_1,
+        self.serve({(SCHEDULE, "getShowtimesMovies=2026-09-05"): WINDOW_1,
                     (SCHEDULE, "getShowtimesMovies=2026-09-21"): WINDOW_2,
                     (SCHEDULE, "getShowtimesMovies=2026-10-07"): WINDOW_EMPTY, **self.films()})
         code, log = self.main()
@@ -387,7 +407,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(venues["venues"], [{"id": "regina-helsinki", "name": "Kino Regina",
                                             "short": "Kino Regina", "city": "Helsinki"}])
         self.assertEqual((venues["status"], venues["pending"]), ("ok", []))
-        self.assertEqual(self.calls[:3], [(SCHEDULE, f"getShowtimesMovies={self.today()}"),
+        self.assertEqual(self.calls[:3], [(SCHEDULE, "getShowtimesMovies=2026-09-05"),
                                           (SCHEDULE, "getShowtimesMovies=2026-09-21"),
                                           (SCHEDULE, "getShowtimesMovies=2026-10-07")])
         tickets = [s["url"] for s in area["shows"] if s["url"].startswith(regina.TICKETS)]
@@ -413,7 +433,7 @@ class RunnerTest(unittest.TestCase):
         def fetch(url, data=None, **kw):
             key = (url, data.decode("ascii")) if data else url
             self.calls.append(key)
-            if key == (SCHEDULE, f"getShowtimesMovies={self.today()}") and queue:
+            if key == (SCHEDULE, "getShowtimesMovies=2026-09-05") and queue:
                 return queue.pop(0).encode("utf-8")
             page = rest.get(key)
             if isinstance(page, Exception):
@@ -432,7 +452,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         area = json.loads((run.OUT / "area-regina-helsinki.json").read_text())
         self.assertEqual(len(area["shows"]), 4)
-        self.assertEqual(self.calls[:3], [(SCHEDULE, f"getShowtimesMovies={self.today()}")] * 2
+        self.assertEqual(self.calls[:3], [(SCHEDULE, "getShowtimesMovies=2026-09-05")] * 2
                          + [(SCHEDULE, "getShowtimesMovies=2026-09-21")])
         self.assertIn("has no screenings: ", log)
         self.assertIn("asking once more", log)
@@ -461,7 +481,7 @@ class RunnerTest(unittest.TestCase):
         self.assertFalse(hasattr(regina, "EMPTY_VENUES_CONFIRMED"))
 
     def test_a_refused_schedule_fails_the_site(self):
-        self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): RuntimeError("HTTP Error 403: Forbidden")})
+        self.serve({(SCHEDULE, "getShowtimesMovies=2026-09-05"): RuntimeError("HTTP Error 403: Forbidden")})
         code, log = self.main()
         self.assertEqual(code, 1)
         self.assertIn("FAILED", log)
@@ -469,7 +489,7 @@ class RunnerTest(unittest.TestCase):
     def test_a_failing_film_page_costs_that_film_its_metadata_only(self):
         films = self.films()
         films[f"{BASE}/elokuva/1653971/"] = RuntimeError("HTTP Error 500")
-        self.serve({(SCHEDULE, f"getShowtimesMovies={self.today()}"): WINDOW_1,
+        self.serve({(SCHEDULE, "getShowtimesMovies=2026-09-05"): WINDOW_1,
                     (SCHEDULE, "getShowtimesMovies=2026-09-21"): WINDOW_EMPTY, **films})
         code, log = self.main()
         self.assertEqual(code, 0, log)

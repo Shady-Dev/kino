@@ -21,6 +21,12 @@ the investigations these decisions rest on under [docs/research/](../research/).
   again with the same byte count inside the same mtime second makes Python reuse the
   `__pycache__` bytecode compiled from the broken source. Clear `__pycache__` between the
   break and the restore, and re-read the final green on a cleared cache.
+  **It reaches further than the test pass.** On 2026-09-21 a hand-rolled mutation loop left
+  a stale cache behind, and the next ordinary `run.py k13` imported the mutant: the fetch
+  published 3 showtimes instead of 4, reproducibly, with the source on disk correct and
+  `git diff` empty. The same cache had made one surviving mutation read red. The mutation
+  runner now sets `PYTHONDONTWRITEBYTECODE=1` as well as sweeping, so no cache is written
+  at all; do not hand-roll the loop, which is what skipped the sweep.
 - `raw.githubusercontent.com` served a two-commit-stale `index.html` minutes after a push,
   and using it as the base for the next edit reverted the previous fix. Read repo files
   through the Contents API with `Accept: application/vnd.github.raw`.
@@ -76,3 +82,11 @@ the investigations these decisions rest on under [docs/research/](../research/).
 - Adapters carry a referer, three retries with backoff, and a pause between venues.
 - The film-list sort (`localeCompare` per comparison) measured identical to a cached
   `Intl.Collator`, about 0.01 ms per 45-title sort. Not worth touching.
+- A fixture that names absolute dates while the code under test reads the clock fails on
+  exactly the days the two coincide. `tests/test_regina.py` keyed the first schedule window
+  on the real date and named the next two as the literals `2026-09-21` and `2026-10-07`; on
+  2026-09-21 the first key and the second collided, one window's body replaced the other's
+  in the answer map, and three tests failed on `main` with nothing in the diff to explain
+  it. Fixed by giving `regina.fetch_site` the `today` seam every other adapter already has
+  and pinning it in the test, with a guard test that fails first if the pinned date is ever
+  one the fixture names.

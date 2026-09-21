@@ -458,10 +458,18 @@ def ordinary_price(page_html):
     return prices.one_amount(amounts) if amounts else ""
 
 
-def fetch_site(site=SITES[0], price_sleep=1.0, prices_path=None, now=None):
+def fetch_site(site=SITES[0], price_sleep=1.0, prices_path=None, now=None, today=None):
     """Runner contract: the schedule windows, one venue. An empty answer, asked twice, is
-    a failure and not an empty programme; the previous file stays."""
-    shows = parse_schedule("".join(fetch_schedule()))
+    a failure and not an empty programme; the previous file stays.
+
+    `today` is the first window's start, the seam every other adapter here carries.
+    `run.py` never passes one, so production reads the clock. It exists because the
+    runner tests could not otherwise pin the date: their fixture names the later windows
+    as literals, and on the two days a year the clock landed on one of those literals the
+    first key and a later key collided, one window's body replaced the other's, and three
+    tests failed on main for reasons nothing in the diff explained.
+    """
+    shows = parse_schedule("".join(fetch_schedule(today)))
     if not shows:
         raise RuntimeError("schedule answered twice with no screenings; nothing the site "
                            "publishes can confirm an empty programme, so the previous "
