@@ -1,5 +1,4 @@
-[http] 500 from kinoengel.fi, gave up after 3 attempt(s) -- Server: nginx
-[engel] FAILED: HTTP Error 500: Internal Server Error
+[engel] FAILED: Remote end closed connection without response
 [run] hosts: 1 attempted -- kinoengel.fi
 [run] engel: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
 exit=1
