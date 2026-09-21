@@ -301,6 +301,15 @@
    },
    "tr": ""
   },
+  "back to the beginning ozzy s final bow": {
+   "img": "data/posters/10a5b5a96bd42dfd.jpg",
+   "r": 0,
+   "s": {
+    "en": "A powerful return to roots, this concert captures Black Sabbath in peak form - reuniting to deliver classic hits with raw energy and legendary precision.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "backrooms": {
    "img": "data/posters/a5c34c76bcf4c27d.jpg",
    "r": 7.1,
@@ -913,13 +922,24 @@
    },
    "tr": ""
   },
+  "heart of beast": {
+   "img": "data/posters/980bb19ce751c44c.jpg",
+   "r": 0,
+   "s": {
+    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
+    "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
+   },
+   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4"
+  },
   "heart of the beast": {
    "img": "data/posters/980bb19ce751c44c.jpg",
    "kr": "K-12",
    "krs": [
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biopallas",
+    "biovuoksi",
     "elavienkuvien",
     "haapamaki",
     "helios",
@@ -929,9 +949,11 @@
     "kino123",
     "kinoelo",
     "kinokulma",
+    "kinolumo",
     "kinomania",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinotoijala",
     "kinovirta",
@@ -939,6 +961,7 @@
     "kotkanleffat",
     "leffabuumi",
     "lieksankino",
+    "matintupa",
     "studio123kouvola"
    ],
    "r": 0,
@@ -1666,11 +1689,13 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "laitilankino",
@@ -1695,6 +1720,15 @@
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
+  },
+  "kojootti vs acme dubattu": {
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin."
    },
    "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
   },
@@ -1801,11 +1835,13 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "laitilankino",
@@ -2686,6 +2722,42 @@
    },
    "tr": ""
   },
+  "nälkäpeli": {
+   "img": "data/posters/650671b50ab67ec2.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "",
+    "fi": "Elokuva perustuu kirjailija Suzanne Collinsin menestystrilogiaan Nälkäpeli (The Hunger Games). Luonnonkatastrofit, kuivuus, myrskyt, tulipalot ja tulvat nielivät suuren osan Pohjois-Amerikasta. Loput hävitti jäljelle jääneestä ruoasta käyty sota. Raunioista syntyi Panem. Sen kansalaiset nousivat kapinaan hallitsijoitaan vastaan, mutta hävisivät taistelun. Rangaistukseksi kehitettiin Nälkäpeli."
+   },
+   "tr": "https://www.youtube.com/watch?v=qoUT7q2iTbQ"
+  },
+  "nälkäpeli matkijanärhi osa 1": {
+   "img": "data/posters/ac3bfccadf504ed7.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "",
+    "fi": "AKaikki haluavat, että hän asettuisi kunnolla rooliin joka hänelle on suunniteltu. Katniss Everdeenistä tulee vastentahtoisesti vallankumouksen symboliksi. Matkijanärheksi. Ei riitä, että hän on jo aikaisemmin uhmannut Capitolia Nälkäpelissä ja luonut siten ihmisiä yhdistävän tekijän. Hänen täytyy nyt ryhtyä oikeaksi johtajaksi, vallankumouksen kasvoiksi, ääneksi ja ruumiillistumaksi. Useimmat vyöhykkeet ovat nyt avoimessa sodassa Capitolia vastaan, ja hänen on oltava se, jonka he uskovat johtavan heidät voittoon."
+   },
+   "tr": "https://www.youtube.com/watch?v=IXshQ5mv1K8"
+  },
+  "nälkäpeli matkijanärhi osa 2": {
+   "img": "data/posters/1389bf9bdb26c03a.jpg",
+   "r": 6.9,
+   "s": {
+    "en": "",
+    "fi": "Maailmanlaajuinen elokuvamenestys Nälkäpeli on saanut toden teolla koko maailman liekkeihin. Nälkäpeli – Matkijanärhi, osa 2 on elokuvasarjan odotettu päätösosa, jossa Katniss Everdeen (Jennifer Lawrence) ymmärtää, että pelissä ei ole enää pelkkä selviytyminen, vaan koko Panemin tulevaisuus. Panemin kansan käydessä täysimittaiseen sotaan Katnissin on kohdattava presidentti Snow (Donald Sutherland) lopullisessa välienselvittelyssä. Vapauttaakseen Panemin kansan Katniss käy taisteluun Capitolia vastaan yhdessä Vyöhyke 13 joukkojen kanssa. Heidän suunnitelmissaan on murhata presidentti Snow, jonka pakkomielle tuhota Katniss on kasvanut äärimmilleen. Kuolettavat ansat, viholliset ja moraaliset valinnat odottavat jälleen Katnissia, mutta tällä kertaa ne ovat haastavampia kuin yhdelläkään Nälkäpeli-areenoista."
+   },
+   "tr": "https://www.youtube.com/watch?v=SoKIqLEGhI0"
+  },
+  "nälkäpeli vihan liekit": {
+   "img": "data/posters/ed20cb50ae5fd7a9.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Katniss Everdeen ja Peeta Mellark jotuvat Nälkäpelin voittajina vuotuiselle voittajakiertueelle. Ennen kiertuetta presidentti Snow vierailee Katnissin luona. Vyöhykkeillä on alkanut kyteä kapina Capitolin valtaa vastaan ja Snow syyttää Katnissia kapinan lietsomisesta. Snow tietää, että Katnissin ja Peetan suhde ei ole aivan niin aito, kuin he antavat ymmärtää. Pian kiertueen jälkeen Presidentti Snow antaa ilmoituksen, että vanhojen Nälkäpelin voittajien täytyy kilpailla toisiaan vastaan 75. Nälkäpelin kunniaksi. Katniss ja Peeta joutuvat areenalle uudestaan. Kisaa edeltävänä iltana pidettävässä haastattelussa Katnissin stailaaja Cinna pukee Katnissin hääpukuun presidentin käskystä. Kesken haastattelun Katnissin puku alkaa palaa, ja se muuttuu matkijanärhen puvuksi. Cinna saa kärsiä liian rohkeasta asuvalinnastaan, sillä matkijanärhi on symboli meneillään olevalle kapinalle."
+   },
+   "tr": "https://www.youtube.com/watch?v=zoKj7TdJk98"
+  },
   "oasis don": {
    "img": "data/posters/491655e7a31303c9.jpg",
    "r": 0,
@@ -3133,7 +3205,7 @@
    "r": 6.1,
    "s": {
     "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
-    "fi": "",
+    "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa.",
     "sv": "Med Sandra Bullock och Nicole Kidman i huvudrollerna återvänder Practical Magic 2 till en värld badande i månljus, lekfullt kaos och uråldrig magi, där systrarna Owens tvingas möta en mörk förbannelse som hotar att förgöra deras familj en gång för alla – i ett magiskt, fartfyllt och underhållande bioäventyr du inte vill missa. PREMIÄR: 11.9 2026 Drama Fantasy Komedi Romantisk"
    },
    "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE"
@@ -3176,6 +3248,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -3215,6 +3288,7 @@
    "krs": [
     "biogrand",
     "biograni",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3303,6 +3377,7 @@
    "krs": [
     "biogrand",
     "biograni",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -3442,59 +3517,6 @@
   },
   "päiväkaffileffa presidentin kyyditys": {
    "img": "data/posters/b6832fef0c1dad14.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biograni",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "jarvelankino",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinohamina",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinokilta",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinoset",
-    "kinotar",
-    "kinotoijala",
-    "kinotour",
-    "kinovirta",
-    "kotkanleffat",
-    "laitilankino",
-    "leffabuumi",
-    "matintupa",
-    "navettakino",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3519,6 +3541,15 @@
     "fi": "Päätalo-elokuva kertoo kirvesmiehenä ja rakennusmestarina toimineen Kalle Päätalon palavasta halusta tulla kirjailijaksi ja pitkästä tiestä, joka johti Päätalon ensimmäisen romaanin syntyyn.  Liikaa raskasta työtä, liian vähän rakkautta avioliitossa ja liian vähän itseluottamusta estävät Kalle Päätaloa toteuttamasta elämänikäistä haavettaan; tulla kirjailijaksi. Kunnes hän löytää uuden rakkauden."
    },
    "tr": ""
+  },
+  "queen budapest": {
+   "img": "data/posters/fc3dc1b53e616386.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "On 27 July 1986, Queen performed the largest-ever stadium concert at the Népstadion in Budapest in front of 80,000 ecstatic fans. The concert was part of the famed Magic Tour, which was the last time the band toured with lead singer Freddie Mercury.",
+    "fi": "On July 27, 1986, Queen performed the largest-ever stadium concert at the Népstadion in Budapest in front of 80,000 ecstatic fans. The concert was part of the famed Magic Tour, which was the last time the band toured with lead singer Freddie Mercury. Now, this original concert film has been beautifully rescanned and remastered in 4K alongside a dynamic new audio mix, featuring many of Queen's favorite tracks— 'Bohemian Rhapsody,” 'Crazy Little Thing Called Love,' 'I Want To Break Free” and 'We Are The Champions.' With three years to go before the fall of the Berlin Wall, this was the first Western rock concert performed in a stadium behind the then Iron Curtain. It was of such significance to the Hungarian authorities and film industry that a group of the country’s top film cameramen and technicians were brought together to film it for posterity."
+   },
+   "tr": "https://www.youtube.com/watch?v=CnWgjtNWKXI"
   },
   "r a mouse": {
    "img": "data/posters/c2d2649939f08ee0.jpg",
@@ -3579,9 +3610,11 @@
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biovuoksi",
     "elavienkuvien",
     "gilda",
     "haapamaki",
@@ -3596,16 +3629,21 @@
     "kinoaurora",
     "kinoelo",
     "kinohannikainen",
+    "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinomarilyn",
     "kinometso",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "korjaamo",
     "kotkanleffat",
@@ -3613,8 +3651,10 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
+    "matintupa",
     "studio123kouvola",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -3689,7 +3729,8 @@
     "sheryl",
     "star",
     "studio123jarvenpaa",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -3738,7 +3779,8 @@
     "sheryl",
     "star",
     "studio123jarvenpaa",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 7.3,
    "s": {
@@ -4467,6 +4509,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=h3l1T8i2Ryg"
   },
+  "the lighthouse": {
+   "img": "data/posters/eb2b1d1591f5c2fc.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "",
+    "fi": "Hypnoottinen The Lighthouse kertoo kahdesta majakanvartijasta syrjäisellä ja mystisellä Uuden-Englannin saarella 1890-luvulla."
+   },
+   "tr": "https://www.youtube.com/watch?v=42_UHhpq530"
+  },
   "the love that remains ástin sem eftir er": {
    "r": 0,
    "s": {
@@ -4604,6 +4655,14 @@
   },
   "the secret reading club of kabul": {
    "img": "data/posters/8e47d51a8993f244.jpg",
+   "kr": "K-16",
+   "krs": [
+    "gilda",
+    "kinoaurora",
+    "kinoiiris",
+    "kinokilta",
+    "korjaamo"
+   ],
    "r": 0,
    "s": {
     "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
@@ -4842,6 +4901,15 @@
    },
    "tr": ""
   },
+  "twins of evil 1971": {
+   "img": "data/posters/fe24525776fc79c4.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "",
+    "fi": "Ihmisuhreja, murhia ja silmitöntä kauhutunnelmaa Karnsteinin suvun vampyyrien linnassa, josta kukaan sisään uskaltautunut ei ollut päässyt elävänä ulos..."
+   },
+   "tr": "https://www.youtube.com/watch?v=3_Ri5W6GmHU"
+  },
   "työmiehen päiväkirja": {
    "img": "data/posters/7b575030fbfff065.jpg",
    "r": 0,
@@ -4922,6 +4990,14 @@
     "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua."
    },
    "tr": "https://www.youtube.com/watch?v=0rXnpfzpk8s"
+  },
+  "vasenkätinen tyttö pennittömät": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Äiti ja kaksi tytärtä muuttavat väkeä kuhisevaan Taipeihin. Sisukas kolmikko ryhtyy pitämään nuudelikojua vilkkaalla yötorilla. Koju ei ehkä ole suurmenestys, mutta kolmikko pitää yhtä. Suurkaupungin vauhti ja vilinä lumoaa kolmikon nuorimmaisen. Isoisä moittii tyttöä vasemman käden käyttämisestä, se kun on vanhojen uskomusten mukaan ´paholaisen käsi´. Tyttö uskoo isoisää kirjaimellisesti. Perheen pitkään vaietut salaisuudet alkavat paljastua. Vasenkätisen tytön tuottaja, leikkaaja ja toinen käsikirjoittaja Sean Baker muistetaan Oscar –magneetti Anoran ohjauksesta. Tuottajana (mm. Florida Project) mainetta niittäneen Shih-Ching Tsoun esikoisohjaus tavoittaa Taipein neonvalojen kaleidoskoopin, elämän sirkuksen ja seikkailun. Vuonna 2016 syntynyt nuori tähti Nina Ye on vuoden hurmaavin läpimurto valkokankailla."
+   },
+   "tr": ""
   },
   "vauvakino la la land": {
    "img": "data/posters/b54b226a2460b60f.jpg",

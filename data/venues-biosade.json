@@ -1,1 +1,1 @@
-{"generated": "2026-09-21T11:14:35+00:00", "oldest": "2026-09-21T08:05:52+00:00", "status": "partial", "stale": ["sa-mantta"], "unverified": [], "pending": [], "provider": "biosade", "venues": [{"id": "sa-mantta", "name": "Bio Säde", "short": "Bio Säde", "city": "Mänttä"}]}
+{"generated": "2026-09-21T16:32:15+00:00", "oldest": "2026-09-21T16:32:15+00:00", "status": "ok", "stale": [], "unverified": [], "pending": [], "provider": "biosade", "venues": [{"id": "sa-mantta", "name": "Bio Säde", "short": "Bio Säde", "city": "Mänttä"}]}
