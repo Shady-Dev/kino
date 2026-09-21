@@ -204,6 +204,13 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 
 **Pipeline**
 
+- Counting how many consecutive runs Kino Engel's 500 fallback has been the only way in.
+  **Decided 2026-09-21 by the maintainer:** the fallback stays indefinitely, and no
+  persistent state is added to watch an incorrect upstream status code. It is narrowly
+  scoped, validated and fails closed when the body stops carrying the programme, and the
+  per-run log line is enough. Revisit only if Engel still answers 500 after a week, or if
+  the tolerated response starts losing metadata. Record:
+  [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 - Routing `enrich_tmdb.py` through `common.fetch`. It uses a bare `urlopen` with no retry,
   so a TMDB 429 skips that title.
 - Bio Savoy's `accept-language: sv-AX,sv;q=0.9` and eTiketti's extra `accept` header. Both
