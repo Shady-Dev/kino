@@ -10,5 +10,5 @@
 [run] http: 11 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
 [run] kinotour: 3 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 7.1s of fetching added up across workers that overlap, longest site 7.1s, longest queue wait 138.7s, 7.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 7.3s of fetching added up across workers that overlap, longest site 7.3s, longest queue wait 127.6s, 7.3s wall from this module's first fetch starting to its last ending
 exit=0

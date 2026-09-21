@@ -1,6 +1,6 @@
-[biorex] BioRex Tripla: 80 showtimes
-[biorex] BioRex Redi: 64 showtimes
-[biorex] BioRex Verkatehdas: 63 showtimes
+[biorex] BioRex Tripla: 75 showtimes
+[biorex] BioRex Redi: 62 showtimes
+[biorex] BioRex Verkatehdas: 61 showtimes
 [biorex] BioRex Sveitsi: 47 showtimes
 [biorex] BioRex Kajaani: 25 showtimes
 [biorex] BioRex Pietarsaari: 22 showtimes
@@ -11,9 +11,9 @@
 [biorex] BioRex Tornio: 33 showtimes
 [biorex] BioRex Vaasa: 49 showtimes
 [biorex] film pages: 33/33
-[biorex] BioRex Tripla: 80 showtimes, 15 dates
-[biorex] BioRex Redi: 64 showtimes, 15 dates
-[biorex] BioRex Verkatehdas: 63 showtimes, 15 dates
+[biorex] BioRex Tripla: 75 showtimes, 14 dates
+[biorex] BioRex Redi: 62 showtimes, 14 dates
+[biorex] BioRex Verkatehdas: 61 showtimes, 14 dates
 [biorex] BioRex Sveitsi: 47 showtimes, 14 dates
 [biorex] BioRex Kajaani: 25 showtimes, 12 dates
 [biorex] BioRex Pietarsaari: 22 showtimes, 12 dates
@@ -26,6 +26,6 @@
 [biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 33 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 533 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 102.7s of fetching added up across workers that overlap, longest site 102.7s, longest queue wait 0.0s, 102.7s wall from this module's first fetch starting to its last ending
+[run] biorex: 12 venues, 524 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 103.4s of fetching added up across workers that overlap, longest site 103.4s, longest queue wait 0.0s, 103.4s wall from this module's first fetch starting to its last ending
 exit=0

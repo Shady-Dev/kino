@@ -963,7 +963,10 @@
     "leffabuumi",
     "lieksankino",
     "matintupa",
-    "studio123kouvola"
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -1677,6 +1680,7 @@
     "biosade",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -1689,7 +1693,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -1823,6 +1826,7 @@
     "biosade",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -1835,7 +1839,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -2522,6 +2525,7 @@
     "biorex",
     "biosade",
     "biosavoy",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -3229,6 +3233,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "cine",
     "cinemantsala",
     "haapamaki",
     "helios",
@@ -3295,6 +3300,7 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -3384,6 +3390,7 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -3616,6 +3623,7 @@
     "biorex",
     "biorexkokkola",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -3655,8 +3663,10 @@
     "lieksankino",
     "matintupa",
     "star",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -5014,7 +5024,7 @@
   "verity verityn varjo": {
    "r": 0,
    "s": {
-    "en": "ABOUT CONTACT BOOK A MOVIE SERIAL TICKETS Telegram Instagram EN FI SV Verity (Verityn varjo) United States Rating K-12 Classifications vakivaltaa, ahdistusta Adapted from Colleen Hoover’s best-selling novel, this seductive, psychological thriller follows renowned author Verity Crawford (Anne Hathaway) and Lowen Ashleigh (Dakota Johnson), a struggling writer who relocates to the remote Crawford estate to ghostwrite for Verity. After Lowen uncovers what appears to be Verity’s chilling autobiographical notes, she wrestles with the disturbing and twisted confessions about Verity’s husband Jeremy (Josh Hartnett), and finds it hard to separate fiction from reality, manipulation from attraction, and opportunity from obsession. Verity (Verityn varjo) Verity United States 2026-10-02, 117 min Director Michael Showalter Cast Anne Hathaway, Dakota Johnson, Josh Hartnett, Asel Swango, Michael Abbott Jr., Daniel Echevarria Language English Subtitles Finnish, Swedish import PhotoSwipeLightbox from 'https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe-lightbox.esm.min.js'; const lightbox = new PhotoSwipeLightbox({ gallery: '#kinola-film-gallery', children: 'a', pswpModule: () => import('https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe.esm.min.js') }); lightbox.init(); Screenings All dates Fri, 2.10 Fri, 2.10 18:35",
+    "en": "",
     "fi": ""
    },
    "tr": ""
