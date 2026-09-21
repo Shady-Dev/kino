@@ -171,7 +171,10 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   maintainer's instruction; the slot exists and Bio Savoy fills it, so this would only
   widen the coverage.
 - Swedish generated pages. `build_pages.py` builds `fi` and `en`; the Swedish link sends a
-  reader to the app on purpose, and `L` carries no Swedish page copy. Unchanged.
+  reader to the app on purpose, and `L` carries no Swedish page copy. Swedish meta
+  descriptions were drafted on 2026-09-22 and left uncommitted: nothing reads them, and
+  the route pair, the hreflang and the counts are the work. Record:
+  [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 
 - Precaching the app shell on install. **Declined 2026-09-20 by the maintainer**, and the
   recorded cache-deletion design is preserved: `sw.js` carries `/data/` across a version

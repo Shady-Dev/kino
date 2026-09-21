@@ -95,9 +95,29 @@ L = {
         "city_title": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
         "venue_h1": "{venue} \u2013 n\u00e4yt\u00f6sajat",
         "city_h1": "Elokuvat ja n\u00e4yt\u00f6sajat \u2013 {city}",
-        "venue_desc": "{venue} ({city}): elokuvat, n\u00e4yt\u00f6sajat, ik\u00e4rajat ja liput "
-                      "l\u00e4hip\u00e4iville.",
-        "city_desc": "Kaikki elokuvateatterit ja n\u00e4yt\u00f6sajat \u2013 {city}: {venues}.",
+        # The snippet a search result shows, and the og:description with it. One opening
+        # sentence plus the ending the provider's booking mode settles, so the page never
+        # offers an action the cinema does not have: the old copy listed "liput" for every
+        # venue, which is wrong for door sales and for a screening included in admission.
+        "venue_desc": "Katso teatterin {venue} tulevat elokuvat ja n\u00e4yt\u00f6sajat "
+                      "paikkakunnalla {city}.",
+        "desc_buy": "Tarkista elokuvien tiedot ja siirry n\u00e4yt\u00f6sajasta ostamaan liput "
+                    "teatterin sivulta.",
+        "desc_reserve": "Tarkista elokuvien tiedot ja siirry n\u00e4yt\u00f6sajasta varaamaan "
+                        "paikat teatterin sivulta.",
+        "desc_list": "Tarkista elokuvien tiedot ja avaa n\u00e4yt\u00f6sajasta teatterin oma "
+                     "ohjelmisto.",
+        "desc_door": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s ik\u00e4rajat, kielet ja kestot. "
+                     "Liput myyd\u00e4\u00e4n teatterin ovelta.",
+        "desc_admission": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s elokuvien tiedot. "
+                          "N\u00e4yt\u00f6kset sis\u00e4ltyv\u00e4t p\u00e4\u00e4sylippuun.",
+        "desc_other": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s ik\u00e4rajat, kielet ja "
+                      "elokuvien kestot.",
+        # No cinema list: a ten-venue city spent the whole snippet on names, and the list
+        # went stale in the index whenever a venue was added or renamed.
+        "city_desc": "Mit\u00e4 elokuvia paikkakunnalla {city} esitet\u00e4\u00e4n "
+                     "l\u00e4hip\u00e4ivin\u00e4? Vertaa elokuvateatterien n\u00e4yt\u00f6saikoja, "
+                     "ik\u00e4rajoja, kieli\u00e4 ja saatavilla olevia lippulinkkej\u00e4.",
         "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} teatteria",
         # One sentence per booking mode, from the registry's `book` field. The old copy
@@ -144,9 +164,21 @@ L = {
         "city_title": "Films and showtimes \u2013 {city}",
         "venue_h1": "{venue} \u2013 showtimes",
         "city_h1": "Films and showtimes \u2013 {city}",
-        "venue_desc": "{venue} ({city}): films, times, age limits and tickets for the "
-                      "next few days.",
-        "city_desc": "Every cinema and showtime in one list \u2013 {city}: {venues}.",
+        "venue_desc": "See upcoming films and showtimes at {venue} in {city}.",
+        "desc_buy": "Check the film details, then choose a showtime to buy tickets on "
+                    "the cinema\u2019s website.",
+        "desc_reserve": "Check the film details, then choose a showtime to reserve seats "
+                        "on the cinema\u2019s website.",
+        "desc_list": "Check the film details, then choose a showtime to open the "
+                     "cinema\u2019s own programme.",
+        "desc_door": "You can also check age ratings, languages and runtimes. Tickets "
+                     "are sold at the cinema.",
+        "desc_admission": "You can also check the film details. Screenings are included "
+                          "with admission.",
+        "desc_other": "You can also check age ratings, languages and runtimes.",
+        "city_desc": "What\u2019s showing in {city} over the next few days? Compare cinema "
+                     "showtimes, age ratings, languages and available ticket links in "
+                     "one view.",
         "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} cinemas",
         "intro_buy": "See showtimes for the next few days. Choose a time to buy tickets "
@@ -183,6 +215,22 @@ L = {
 # ticket page, which is what every provider but two offers.
 def venue_intro(t, book, host):
     return t.get("intro_" + (book or "buy"), t["intro_buy"]).format(host=host)
+
+
+# The modes the description has an ending for. Unlike venue_intro, an unknown mode and a
+# missing one fall back to the ending that promises nothing beyond the page itself: a
+# description is what a search result quotes, so guessing "buy" there would advertise a
+# ticket link the next provider may not have.
+DESC_MODES = ("buy", "reserve", "list", "door", "admission")
+
+
+def venue_desc(t, venue, city, book):
+    end = t["desc_" + book] if book in DESC_MODES else t["desc_other"]
+    return t["venue_desc"].format(venue=venue, city=city) + " " + end
+
+
+def city_desc(t, city):
+    return t["city_desc"].format(city=city)
 
 
 def age_note(t, shows):
@@ -1106,7 +1154,7 @@ def main(today=None) -> int:
             text = page(
                 lang=lang, path_fi=p_fi, path_en=p_en,
                 title=t["venue_title"].format(venue=v["label"], city=v["city"]),
-                desc=t["venue_desc"].format(venue=v["label"], city=v["city"]),
+                desc=venue_desc(t, v["label"], v["city"], prov.get("book")),
                 h1=t["venue_h1"].format(venue=v["label"]),
                 sub=t["venue_sub"].format(city=v["city"], host=prov.get("host", "")),
                 intro=" ".join(x for x in (
@@ -1148,7 +1196,6 @@ def main(today=None) -> int:
                 merged.append({**s, "venueLabel": v["label"], "venueProvider": v["provider"]})
         days = group_by_day(merged, today, CITY_DAYS)
         p_fi, p_en = paths_city(c)
-        names = ", ".join(sorted(v["label"] for v in vs))
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
@@ -1172,7 +1219,7 @@ def main(today=None) -> int:
             text = page(
                 lang=lang, path_fi=p_fi, path_en=p_en,
                 title=t["city_title"].format(city=c),
-                desc=t["city_desc"].format(city=c, venues=names),
+                desc=city_desc(t, c),
                 h1=t["city_h1"].format(city=c),
                 sub=t["city_sub"].format(n=len(vs)),
                 intro=t["city_intro"].format(n=len(vs)),

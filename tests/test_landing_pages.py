@@ -12,7 +12,8 @@ committed data, plus a few synthetic shows for the label rule. They pin:
   client's `startupArea()`/`startupLang()` read;
 - a theatre page never repeats the cinema inside a showtime; a city page always names it;
   the room is verbatim; empty parts leave no separator behind;
-- the intro promises only what the registry's `book` mode offers;
+- the intro promises only what the registry's `book` mode offers, and so does the meta
+  description, which is one string shared with `og:description` and stays snippet-length;
 - the language codes render as words, from a table identical to the client's, and no
   raw code is left on any page built from the committed data;
 - the FI · SV · EN selector marks the page's language and links the other two;
@@ -68,6 +69,8 @@ CANON_RE = re.compile(r'<link rel="canonical" href="([^"]+)">')
 LANGSEG_RE = re.compile(r'<nav class="langseg"[^>]*>(.*?)</nav>', re.S)
 RAW_CODE_RE = re.compile(r"\b[A-Z]{2}(?:-[A-Z]{2})?-[AS]\b")
 HREFLANG_RE = re.compile(r'<link rel="alternate" hreflang="(fi|en)" href="([^"]+)">')
+DESC_RE = re.compile(r'<meta name="description" content="([^"]+)">')
+OG_DESC_RE = re.compile(r'<meta property="og:description" content="([^"]+)">')
 STUB_RE = re.compile(r'<li><(?:a|span) class="stub[^"]*"[^>]*>(.*?)</li>', re.S)
 
 
@@ -481,6 +484,78 @@ class GeneratedPagesTest(unittest.TestCase):
                 self.assertIn("kun linkki on saatavilla" if k.startswith("/kaupunki/")
                               else "where available", text)
 
+    def test_the_description_is_the_booking_modes_and_sits_in_both_meta_tags(self):
+        """One string for `meta name="description"` and `og:description`, built from the
+        registry's `book`. A search result is where a promise is quoted, so a door-sales
+        venue advertising a ticket link is the fault this pins."""
+        for v in self.venues:
+            k = f"/teatteri/{v['slug']}/"
+            prov = self.providers[v["provider"]]
+            for lang, path in (("fi", k), ("en", "/en/theatre" + k[len("/teatteri"):])):
+                with self.subTest(path=path):
+                    want = bp.esc(bp.venue_desc(bp.L[lang], v["label"], v["city"],
+                                                prov.get("book")))
+                    text = self.canonical[path]
+                    self.assertEqual(DESC_RE.search(text).group(1), want)
+                    self.assertEqual(OG_DESC_RE.search(text).group(1), want)
+
+    def test_kino_akseli_offers_no_link_and_kino_hovi_sells_tickets(self):
+        """The two ends of the rule by name. Kino Akseli publishes no ticket URL at all
+        and sells at the door; Kino-Hovi is a `buy` venue on savonkinot.fi."""
+        by_id = {v["id"]: v for v in self.venues}
+        cases = {
+            # "Samalta sivulta" is the page itself; "teatterin sivulta" is the promise.
+            ("ka-nummela", "fi"): (["ovelta"],
+                                   ["ostamaan", "varaamaan", "teatterin sivulta"]),
+            ("ka-nummela", "en"): (["sold at the cinema"],
+                                   ["buy tickets", "reserve seats", "website"]),
+            ("sk-kinohovi", "fi"): (["ostamaan liput teatterin sivulta"], ["ovelta"]),
+            ("sk-kinohovi", "en"): (["buy tickets"], ["sold at the cinema"]),
+        }
+        for (vid, lang), (present, absent) in cases.items():
+            v = by_id[vid]
+            path = (f"/teatteri/{v['slug']}/" if lang == "fi"
+                    else f"/en/theatre/{v['slug']}/")
+            desc = html.unescape(DESC_RE.search(self.canonical[path]).group(1))
+            with self.subTest(path=path):
+                for w in present:
+                    self.assertIn(w, desc)
+                for w in absent:
+                    self.assertNotIn(w, desc)
+
+    def test_a_city_description_names_no_cinema(self):
+        """The old copy listed every venue, which spent a ten-cinema city's whole snippet
+        on names and went stale in the index whenever one was added or renamed."""
+        by_city = {}
+        for v in self.venues:
+            by_city.setdefault(v["city"], []).append(v)
+        for c, vs in by_city.items():
+            if len(vs) < 2:
+                continue
+            for lang, path in (("fi", f"/kaupunki/{bp.slug(c)}/"),
+                               ("en", f"/en/city/{bp.slug(c)}/")):
+                with self.subTest(path=path):
+                    text = self.canonical[path]
+                    want = bp.esc(bp.city_desc(bp.L[lang], c))
+                    self.assertEqual(DESC_RE.search(text).group(1), want)
+                    self.assertEqual(OG_DESC_RE.search(text).group(1), want)
+                    # Not a second copy of the title either: a snippet that repeats the
+                    # heading tells a reader nothing the result already showed.
+                    self.assertNotEqual(want, re.search(r"<title>(.*?)</title>",
+                                                        text, re.S).group(1))
+                    for v in vs:
+                        self.assertNotIn(v["label"], html.unescape(want))
+
+    def test_every_description_stays_within_a_snippet_length(self):
+        """110-220 characters. The committed 134 venues and 17 cities measured 135 to 198
+        on 2026-09-21, so the bounds hold a longer cinema name without licensing a
+        paragraph or a bare fragment."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                desc = html.unescape(DESC_RE.search(text).group(1))
+                self.assertGreaterEqual(len(desc), 110, desc)
+                self.assertLessEqual(len(desc), 220, desc)
+
     # -- stability -------------------------------------------------------------------------
 
     def test_regenerating_writes_nothing(self):
@@ -610,6 +685,67 @@ class LateClockTest(GeneratedPagesTest):
 
     def test_the_clock_is_indeed_later_than_the_recorded_day(self):
         self.assertGreater(bp.datetime.now(bp.FI).date(), self.today)
+
+
+class DescriptionCopyTest(unittest.TestCase):
+    """`venue_desc` and `city_desc` away from the data: one ending per booking mode, a
+    neutral ending for a mode the table does not know, and escaping at both meta tags."""
+
+    # What each ending promises, per language. A door, admission or unknown mode must
+    # name none of them: the page cannot link a ticket it has no URL for.
+    PROMISES = {"fi": ("ostamaan", "varaamaan", "ohjelmisto", "teatterin sivulta"),
+                "en": ("buy tickets", "reserve seats", "own programme", "website")}
+
+    def test_each_booking_mode_gets_its_own_ending(self):
+        for lang in ("fi", "en"):
+            seen = {bp.venue_desc(bp.L[lang], "Kino V", "Kitee", b) for b in bp.DESC_MODES}
+            self.assertEqual(len(seen), len(bp.DESC_MODES), lang)
+            for d in seen:
+                self.assertTrue(d.startswith(
+                    bp.L[lang]["venue_desc"].format(venue="Kino V", city="Kitee") + " "), d)
+
+    def test_an_unknown_or_missing_mode_promises_nothing_beyond_the_page(self):
+        """venue_intro falls back to `buy`; a description must not. A provider added with
+        a mode nobody has written copy for would otherwise advertise a ticket link."""
+        for lang in ("fi", "en"):
+            t = bp.L[lang]
+            want = t["venue_desc"].format(venue="Kino V", city="Kitee") + " " + t["desc_other"]
+            for book in (None, "", "gift-card", "BUY", "desc_buy", "other"):
+                with self.subTest(lang=lang, book=book):
+                    self.assertEqual(bp.venue_desc(t, "Kino V", "Kitee", book), want)
+
+    def test_a_door_admission_or_unknown_venue_never_offers_a_link(self):
+        for lang, words in self.PROMISES.items():
+            for book in ("door", "admission", None):
+                d = bp.venue_desc(bp.L[lang], "Kino V", "Kitee", book)
+                for w in words:
+                    with self.subTest(lang=lang, book=book, word=w):
+                        self.assertNotIn(w, d)
+
+    def test_a_city_description_is_the_citys_and_carries_no_venue_slot(self):
+        for lang in ("fi", "en"):
+            d = bp.city_desc(bp.L[lang], "Kitee")
+            self.assertIn("Kitee", d)
+            self.assertNotIn("{", d)
+
+    def test_a_hostile_venue_name_is_escaped_in_both_meta_tags(self):
+        """The name is provider text and reaches two attributes. `"` closes an attribute
+        and `<` opens a tag, so both are checked on the rendered page rather than on the
+        string the builder returned."""
+        desc = bp.venue_desc(bp.L["fi"], 'Kino "A" & <b>B</b>', "Kitee", "buy")
+        text = bp.page(
+            lang="fi", path_fi="/teatteri/x/", path_en="/en/theatre/x/", title="T",
+            desc=desc, h1="H", sub="S", intro="I", days={}, today=date(2026, 9, 21),
+            t=bp.L["fi"], extra={}, gmap={}, city="Kitee", with_venue=False, legend="",
+            also="", og_image="/icon-512.png", app_href="/?area=x&lang=fi", area="x",
+            chain_css="")
+        both = [DESC_RE.search(text).group(1), OG_DESC_RE.search(text).group(1)]
+        self.assertEqual(both[0], both[1])
+        self.assertEqual(html.unescape(both[0]), desc)
+        for raw in ('"A"', "<b>", " & "):
+            self.assertNotIn(raw, both[0])
+        self.assertIn("&quot;A&quot;", both[0])
+        self.assertIn("&lt;b&gt;", both[0])
 
 
 class StubShapeTest(unittest.TestCase):
