@@ -11,7 +11,7 @@
 [bioforum] 27 screening(s) in day groups, 10 film page(s) read
 [bioforum] Bio Forum: 27 showtimes, 11 dates
 [bioforum] Bio Forum: 27 showtimes, 11 dates
-[bioforum] synopses merged: 0
+[bioforum] synopses merged: 1
 [kinokulma] 71 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
@@ -29,5 +29,5 @@
 [run] http: 0 revalidated (304), 54 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 6 venues, 121 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 129.7s of fetching added up across workers that overlap, longest site 55.9s, longest queue wait 98.6s, 60.5s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 126.9s of fetching added up across workers that overlap, longest site 54.5s, longest queue wait 108.2s, 55.8s wall from this module's first fetch starting to its last ending
 exit=0

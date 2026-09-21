@@ -1,7 +1,7 @@
-[kinokilta] 42 screening(s) listed, 30 film page(s) read
+[kinokilta] 52 screening(s) listed, 30 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[kinokilta] Kino Kilta: 42 showtimes, 24 dates
-[kinokilta] Kino Kilta: 42 showtimes, 24 dates
+[kinokilta] Kino Kilta: 52 showtimes, 26 dates
+[kinokilta] Kino Kilta: 52 showtimes, 26 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 45 screening(s) listed, 36 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 18 unresolved over 19
@@ -22,6 +22,6 @@
 [kinomyyri] synopses merged: 0
 [run] http: 30 revalidated (304), 54 full, 16 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 88 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 177.2s of fetching added up across workers that overlap, longest site 81.4s, longest queue wait 90.6s, 85.8s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 98 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 170.9s of fetching added up across workers that overlap, longest site 81.7s, longest queue wait 95.6s, 83.9s wall from this module's first fetch starting to its last ending
 exit=0

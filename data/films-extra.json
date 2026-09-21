@@ -267,6 +267,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
   },
+  "avengers endgame encore 2d": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Uudelleenjulkaisu. Normaali 2D-versio. Avengers: Endgame on suoraa jatkoa vuonna 2018 ilmestyneelle Avengers: Infinity War:ille, jossa galaktinen titaanilordi Thanos voitti Avengers-ryhmän, tuhosi puolet universumin asukkaista ja pakeni kaukaiselle planeetalle. Nyt jäljelle jääneet supersankarit joutuvat uransa vaikeimman haasteen äärelle pohtiessaan, miten jatkaa tästä eteenpäin. Muutama viikko on kulunut Thanoksen aiheuttamasta massahävityksestä. Tästä selvinneet ihmiset ovat hiljalleen alkaneet keräilemään voimiaan. Tony Stark eli Iron Man on alkanut miettimään omaa tulevaisuuttaan ja yrittää Nebula-kyborgin kanssa keksiä keinon päästä takaisin Maahan. Muut hyökkäyksestä selvinneet, Thor, Natasha Romanoff, Bruce Banner, ja Steve Rogers saavat rinnalleen takaisin Hawkeyen, Scott Langin ja Carol Denversin. Yhdessä he päättävät vielä kerran käydä taisteluun Thanosta vastaan hieman erikoisella tavalla, joka tulee vaatimaan isoja uhrauksia ja lujaa tahtoa. Mutta Thanoksella on myös omat suunnitelmat hävityksen jälkeen."
+   },
+   "tr": ""
+  },
   "avengers endgame encore re release": {
    "img": "data/posters/95f13d5557ef90fe.jpg",
    "r": 8.2,
@@ -903,14 +911,19 @@
     "ihmekompleksi",
     "isohannu",
     "julia",
+    "kino123",
     "kinoelo",
     "kinokulma",
     "kinomania",
+    "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "studio123kouvola"
    ],
    "r": 0,
    "s": {
@@ -1919,12 +1932,13 @@
    "tr": ""
   },
   "kätyrit ja monsterit suomeksi": {
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c"
   },
   "kätyrit monsterit": {
    "img": "data/posters/67059865db3405c0.jpg",
@@ -2477,6 +2491,7 @@
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
+    "kinoolympia",
     "kinopirtti",
     "kinotar",
     "kinovirta",
@@ -2538,6 +2553,15 @@
     "fi": "Muun muassa elokuvistaan Kissaihmiset (1942) ja Yö voodoo-saarella (1943) tunnettu ohjaaja Jacques Tourneur julkaisi vuonna 1957 oman varoituselokuvansa mustan magian vaaroista. Elegantti okkultistinen trilleri seuraa psykologi John Holdenia, joka tahtoo paljastaa okkultistikikkailija Karswellin huijaukset. Vaan onko Karswell huijari ensinkään? Ja miten käy pimeiden voimien kanssa leikkijöiden?"
    },
    "tr": "https://www.youtube.com/watch?v=-rwfiJpyFrI"
+  },
+  "nine to five dolly parton in memoriam juhlanäytös": {
+   "img": "data/posters/2b01ecb3fca547e4.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "Three female employees of a sexist, egotistical, lying, hypocritical bigot find a way to turn the tables on him.",
+    "fi": "Me rakastamme Dollya! Rakasta sinäkin, ja liity seuraamme Dolly Parton in Memoriam -juhlanäytökseen legendaarisen kasarikomedian Nine to Fiven ainoaan näytökseen Kinolla la 10.10. klo 20! Tulossa ainakin teemadrinkkejä ja -pukeutumista. Nine to Five Stuck in a dead-end job under a boss that she trained, Violet Newstead (Lily Tomlin) is at her wit’s end. But when the boss’ good-natured secretary (Dolly Parton) and a new hire (Jane Fonda) decide that they’ve had enough, too, their revenge fantasy becomes hilarious reality in a scheme that spins wildly out of control! Huom! Kysessä on kansainvälinen esityskopio, joten elokuvassa ei ole tekstitystä."
+   },
+   "tr": "https://www.youtube.com/watch?v=3R2WsyoS2FM"
   },
   "nirvanna the band the show the movie": {
    "img": "data/posters/5c8808ae5cbc5105.jpg",
@@ -2810,6 +2834,15 @@
     "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
    },
    "tr": ""
+  },
+  "original english coyote vs acme": {
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I"
   },
   "original english coyoto vs acme": {
    "img": "data/posters/e1a7880d02ca0644.jpg",
@@ -3547,8 +3580,10 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "joutsankino",
     "julia",
+    "kino123",
     "kinoaurora",
     "kinoelo",
     "kinohannikainen",
@@ -3558,14 +3593,18 @@
     "kinomania",
     "kinomarilyn",
     "kinometso",
+    "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
     "korjaamo",
+    "kotkanleffat",
     "kuusamotalo",
     "laitilankino",
     "leffabuumi",
     "lieksankino",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 0,
@@ -3627,6 +3666,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -3675,6 +3715,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",

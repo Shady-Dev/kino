@@ -17,11 +17,11 @@
 [kinomarilyn] Kino Marilyn (Loviisa): 22 showtimes
 [kinomarilyn] Kino Marilyn: 22 showtimes, 8 dates
 [kinomarilyn] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 4 showtimes
-[kinoolympia] Kino Olympia: 4 showtimes, 2 dates
+[kinoolympia] Kino Olympia (Hanko): 15 showtimes
+[kinoolympia] Kino Olympia: 15 showtimes, 7 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 4 showtimes
-[jarvelankino] Järvelän Kino: 4 showtimes, 4 dates
+[jarvelankino] Järvelän Kino (Järvelä): 7 showtimes
+[jarvelankino] Järvelän Kino: 7 showtimes, 5 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 6 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
@@ -35,6 +35,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-petajavesi, km-tikkakoski, km-vaajakoski
-[run] nexxo: 10 venues, 77 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 37.1s of fetching added up across workers that overlap, longest site 10.9s, longest queue wait 0.0s, 10.9s wall from this module's first fetch starting to its last ending
+[run] nexxo: 10 venues, 91 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 39.6s of fetching added up across workers that overlap, longest site 11.1s, longest queue wait 0.0s, 11.1s wall from this module's first fetch starting to its last ending
 exit=0

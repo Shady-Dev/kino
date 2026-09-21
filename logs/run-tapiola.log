@@ -1,8 +1,8 @@
-[tapiola] film pages: 14 parsed, 0 with nothing usable, 8/14 showtimes rated
-[tapiola] Kino Tapiola: 14 showtimes, 10 dates
-[tapiola] synopses merged: 0
-[run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written
+[tapiola] film pages: 15 parsed, 0 with nothing usable, 9/15 showtimes rated
+[tapiola] Kino Tapiola: 15 showtimes, 11 dates
+[tapiola] synopses merged: 1
+[run] http: 0 revalidated (304), 16 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotapiola.fi
-[run] tapiola: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 30.6s of fetching added up across workers that overlap, longest site 30.6s, longest queue wait 46.4s, 30.6s wall from this module's first fetch starting to its last ending
+[run] tapiola: 1 venues, 15 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 32.9s of fetching added up across workers that overlap, longest site 32.9s, longest queue wait 48.3s, 32.9s wall from this module's first fetch starting to its last ending
 exit=0
