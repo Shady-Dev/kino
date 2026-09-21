@@ -406,6 +406,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=zFzpkEo8Obo"
   },
+  "blade runner the final cut": {
+   "img": "data/posters/1834feaeb0affe77.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "On vuosi 2019. Eläkkeellä oleva poliisi Rick Deckard kutsutaan jahtaamaan geenimanipulaation tuloksena syntyneitä ihmisen näköisiä ja kaltaisia robotteja, replikantteja. Futuristiseen maailmaan ja Los Angelesiin sijoitettu monitasoinen trilleri ja tieteiselokuva pohtii monia kysymyksiä - kuten sitä, mitä on olla ihminen."
+   },
+   "tr": "https://www.youtube.com/watch?v=qoEyZoOTtss"
+  },
   "blue baby hetki ennen valoa": {
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
@@ -606,6 +615,11 @@
   },
   "digger": {
    "img": "data/posters/4f2ccb69b574d669.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinoaurora",
+    "kinokulma"
+   ],
    "r": 0,
    "s": {
     "en": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
@@ -905,6 +919,7 @@
    "krs": [
     "bioforum",
     "biokaari",
+    "biopallas",
     "elavienkuvien",
     "haapamaki",
     "helios",
@@ -919,6 +934,7 @@
     "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "leffabuumi",
@@ -1332,8 +1348,7 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinokilta",
-    "niagara"
+    "kinokilta"
    ],
    "r": 7.3,
    "s": {
@@ -2198,14 +2213,6 @@
   },
   "lyhyt rakkaustarina": {
    "img": "data/posters/7eff920a1bfc91f7.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "savonkinot"
-   ],
    "r": 6.2,
    "s": {
     "en": "Lea and Rocco meet by chance in a bar and an instant attraction ignites between them. From that moment, a secret affair begins, consisting of fleeting, clandestine meetings in a hotel room. However, as time passes, Lea's obsession with Rocco intensifies, leading her to intrude more and more into his life. The story soon takes an unexpected and unsettling turn.",
@@ -3569,8 +3576,10 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "elavienkuvien",
@@ -4416,6 +4425,10 @@
   },
   "the ice tower": {
    "img": "data/posters/f917d2a3ac3a14c2.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum"
+   ],
    "r": 5.8,
    "s": {
     "en": "Jeanne, a 15-year-old orphan, witnesses the shoot for a film adaptation of the fairy tale The Snow Queen, and she becomes fascinated by its star, Cristina, an actress who is just as mysterious and alluring as the Queen she is playing.",
@@ -4922,7 +4935,7 @@
   "verity verityn varjo": {
    "r": 0,
    "s": {
-    "en": "ABOUT CONTACT BOOK A MOVIE SERIAL TICKETS Telegram Instagram EN FI SV Verity (Verityn varjo) United States Rating K-12 Classifications vakivaltaa, ahdistusta Adapted from Colleen Hoover’s best-selling novel, this seductive, psychological thriller follows renowned author Verity Crawford (Anne Hathaway) and Lowen Ashleigh (Dakota Johnson), a struggling writer who relocates to the remote Crawford estate to ghostwrite for Verity. After Lowen uncovers what appears to be Verity’s chilling autobiographical notes, she wrestles with the disturbing and twisted confessions about Verity’s husband Jeremy (Josh Hartnett), and finds it hard to separate fiction from reality, manipulation from attraction, and opportunity from obsession. Verity (Verityn varjo) Verity United States 2026-10-02, 117 min Director Michael Showalter Cast Anne Hathaway, Dakota Johnson, Josh Hartnett, Asel Swango, Michael Abbott Jr., Daniel Echevarria Language English Subtitles Finnish, Swedish import PhotoSwipeLightbox from 'https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe-lightbox.esm.min.js'; const lightbox = new PhotoSwipeLightbox({ gallery: '#kinola-film-gallery', children: 'a', pswpModule: () => import('https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe.esm.min.js') }); lightbox.init(); Screenings All dates Fri, 2.10 Fri, 2.10 18:35",
+    "en": "",
     "fi": ""
    },
    "tr": ""
