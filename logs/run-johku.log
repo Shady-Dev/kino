@@ -3,7 +3,7 @@
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffileffa : Presidentin Kyyditys
 [biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
 [biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
-[biomarilyn] synopses merged: 1
+[biomarilyn] synopses merged: 0
 [vihdinkino] 15 screening(s) in day groups, 4 film page(s) read
 [vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
 [vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
@@ -25,9 +25,9 @@
 [kinovirta] 18 screening(s) in day groups, 9 film page(s) read
 [kinovirta] Kino Virta: 18 showtimes, 7 dates
 [kinovirta] Kino Virta: 18 showtimes, 7 dates
-[kinovirta] synopses merged: 2
+[kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 64 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 6 venues, 152 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 140.0s of fetching added up across workers that overlap, longest site 50.1s, longest queue wait 103.0s, 53.5s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 167.2s of fetching added up across workers that overlap, longest site 59.5s, longest queue wait 126.7s, 69.7s wall from this module's first fetch starting to its last ending
 exit=0

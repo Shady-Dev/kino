@@ -20,8 +20,8 @@
 [kinomyyri] Kino Myyri: 23 showtimes, 9 dates
 [kinomyyri] Kino Myyri: 23 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 87 full, 18 not stored (origin said no-store), 31 cache entries written
+[run] http: 30 revalidated (304), 57 full, 18 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
 [run] kinola: 3 venues, 100 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 158.0s of fetching added up across workers that overlap, longest site 70.9s, longest queue wait 89.3s, 73.5s wall from this module's first fetch starting to its last ending
+[run] timing: 3 site(s), 179.7s of fetching added up across workers that overlap, longest site 84.0s, longest queue wait 112.4s, 87.8s wall from this module's first fetch starting to its last ending
 exit=0
