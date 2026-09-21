@@ -344,7 +344,7 @@ suite. One commit per item still holds: several finished commits are pushed toge
 that single run. Thirteen full runs in one two-hour block on 2026-09-20 cost 21 minutes,
 19% of it, against six commits.
 
-`tests/browser/` is a second suite, not discovered by the line above: 20 Playwright tests
+`tests/browser/` is a second suite, not discovered by the line above: 26 Playwright tests
 in `test_client_browser.py` that drive the venue picker and the ticket links in a real
 engine against fixture data and a pinned clock, plus the 11 in `test_pages_layout.py`
 below, which the same discovery picks up. CI runs the directory as the `browser` job in
