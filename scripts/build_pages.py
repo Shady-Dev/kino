@@ -99,25 +99,28 @@ L = {
         # sentence plus the ending the provider's booking mode settles, so the page never
         # offers an action the cinema does not have: the old copy listed "liput" for every
         # venue, which is wrong for door sales and for a screening included in admission.
-        "venue_desc": "Katso teatterin {venue} tulevat elokuvat ja n\u00e4yt\u00f6sajat "
-                      "paikkakunnalla {city}.",
+        # The separator is the en dash the titles and the city links already use, and the
+        # names stay uninflected: a case ending glued onto a nominative is the tell.
+        "venue_desc": "{venue} \u2013 {city}: tulevat elokuvat ja n\u00e4yt\u00f6sajat.",
         "desc_buy": "Tarkista elokuvien tiedot ja siirry n\u00e4yt\u00f6sajasta ostamaan liput "
                     "teatterin sivulta.",
         "desc_reserve": "Tarkista elokuvien tiedot ja siirry n\u00e4yt\u00f6sajasta varaamaan "
                         "paikat teatterin sivulta.",
         "desc_list": "Tarkista elokuvien tiedot ja avaa n\u00e4yt\u00f6sajasta teatterin oma "
                      "ohjelmisto.",
-        "desc_door": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s ik\u00e4rajat, kielet ja kestot. "
-                     "Liput myyd\u00e4\u00e4n teatterin ovelta.",
-        "desc_admission": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s elokuvien tiedot. "
-                          "N\u00e4yt\u00f6kset sis\u00e4ltyv\u00e4t p\u00e4\u00e4sylippuun.",
+        # Claim first. Behind the filler sentence these two read "Liput myydään te" at a
+        # snippet cut: on all 21 door and admission pages the claim began past char 120.
+        "desc_door": "Liput myyd\u00e4\u00e4n teatterin ovelta. Samalta sivulta l\u00f6yd\u00e4t "
+                     "my\u00f6s ik\u00e4rajat, kielet ja kestot.",
+        "desc_admission": "N\u00e4yt\u00f6kset sis\u00e4ltyv\u00e4t p\u00e4\u00e4sylippuun. Samalta "
+                          "sivulta l\u00f6yd\u00e4t my\u00f6s elokuvien tiedot.",
         "desc_other": "Samalta sivulta l\u00f6yd\u00e4t my\u00f6s ik\u00e4rajat, kielet ja "
                       "elokuvien kestot.",
         # No cinema list: a ten-venue city spent the whole snippet on names, and the list
         # went stale in the index whenever a venue was added or renamed.
-        "city_desc": "Mit\u00e4 elokuvia paikkakunnalla {city} esitet\u00e4\u00e4n "
-                     "l\u00e4hip\u00e4ivin\u00e4? Vertaa elokuvateatterien n\u00e4yt\u00f6saikoja, "
-                     "ik\u00e4rajoja, kieli\u00e4 ja saatavilla olevia lippulinkkej\u00e4.",
+        "city_desc": "{city}: Mit\u00e4 elokuvia l\u00e4hip\u00e4ivin\u00e4 esitet\u00e4\u00e4n? Vertaa "
+                     "elokuvateatterien n\u00e4yt\u00f6saikoja, ik\u00e4rajoja, kieli\u00e4 ja "
+                     "saatavilla olevia lippulinkkej\u00e4.",
         "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} teatteria",
         # One sentence per booking mode, from the registry's `book` field. The old copy
@@ -171,10 +174,10 @@ L = {
                         "on the cinema\u2019s website.",
         "desc_list": "Check the film details, then choose a showtime to open the "
                      "cinema\u2019s own programme.",
-        "desc_door": "You can also check age ratings, languages and runtimes. Tickets "
-                     "are sold at the cinema.",
-        "desc_admission": "You can also check the film details. Screenings are included "
-                          "with admission.",
+        "desc_door": "Tickets are sold at the cinema. You can also check age ratings, "
+                     "languages and runtimes.",
+        "desc_admission": "Screenings are included with admission. You can also check "
+                          "the film details.",
         "desc_other": "You can also check age ratings, languages and runtimes.",
         "city_desc": "What\u2019s showing in {city} over the next few days? Compare cinema "
                      "showtimes, age ratings, languages and available ticket links in "

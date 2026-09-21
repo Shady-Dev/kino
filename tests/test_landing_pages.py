@@ -547,9 +547,12 @@ class GeneratedPagesTest(unittest.TestCase):
                         self.assertNotIn(v["label"], html.unescape(want))
 
     def test_every_description_stays_within_a_snippet_length(self):
-        """110-220 characters. The committed 134 venues and 17 cities measured 135 to 198
-        on 2026-09-21, so the bounds hold a longer cinema name without licensing a
-        paragraph or a bare fragment."""
+        """110-220 characters. Re-measured 2026-09-22 over the committed 134 venues and
+        17 multi-venue cities: fi venue 125-170, en venue 140-175, fi city and en city
+        both 135-141. The fi opening on its own runs 49 ("Kino Lumo", Salo) to 82
+        characters, so an ending dropped from any page falls through the floor here, and
+        the longest city name in the data reaches 143, so a city gaining a second venue
+        cannot breach the ceiling."""
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 desc = html.unescape(DESC_RE.search(text).group(1))
@@ -703,6 +706,23 @@ class DescriptionCopyTest(unittest.TestCase):
             for d in seen:
                 self.assertTrue(d.startswith(
                     bp.L[lang]["venue_desc"].format(venue="Kino V", city="Kitee") + " "), d)
+
+    def test_a_door_or_admission_ending_leads_with_its_claim(self):
+        """A snippet is cut long before the ending finishes. Behind the "you can also
+        check..." sentence these two claims began past char 120 on all 21 door and
+        admission pages, and at or past 155 on six of them, which cut "Liput myydään te".
+        The keyword, not the sentence, so a wording edit survives and a reorder does
+        not."""
+        claims = {("fi", "door"): "ovelta",
+                  ("fi", "admission"): "pääsylippuun",
+                  ("en", "door"): "sold at the cinema",
+                  ("en", "admission"): "included with admission"}
+        for (lang, book), word in claims.items():
+            with self.subTest(lang=lang, book=book):
+                t = bp.L[lang]
+                desc = bp.venue_desc(t, "Kino V", "Kitee", book)
+                ending = desc[len(t["venue_desc"].format(venue="Kino V", city="Kitee")) + 1:]
+                self.assertIn(word, ending.split(". ")[0])
 
     def test_an_unknown_or_missing_mode_promises_nothing_beyond_the_page(self):
         """venue_intro falls back to `buy`; a description must not. A provider added with
