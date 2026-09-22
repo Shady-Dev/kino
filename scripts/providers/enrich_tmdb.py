@@ -102,6 +102,50 @@ TRAIL_VERSION = re.compile(r"\s*\(\s*(?:eng|sub)\s*\)\s*$", re.I)
 # the end and requiring the dash, so a film actually called that keeps its name.
 EVENT_NOUN = re.compile(r"\s*[-–]\s*elokuva(?:n\s+)?n[äa]yt[öo]s\s*$", re.I)
 
+# A bare format token at the end of the title, with no brackets for PAREN_NOISE to find.
+# Measured 2026-09-23 over the committed data: exactly two titles carry one, and both are
+# decoration rather than a name. "Spider-Man: Brand New Day 2D" at Kino 123 and Trio 123
+# was the worse of the two: it matched 557, which is Spider-Man (2002), so the row carried
+# the wrong film's poster and rating while every other cinema's spelling matched 969681.
+# "Avengers: Endgame Encore 2D" at Kinopalatsi Kotka, 7 showtimes, was an initials tile.
+#
+# The client already reads these four as noise anywhere in a title -- `mergeKey` strips
+# them to fold a city page's cards -- so the search string is where they were still being
+# taken as part of the name. Anchored to the end and requiring a word in front, so a film
+# actually called "3D" keeps its name, and repeatable, because "... 2D IMAX" is one row
+# away and reads the same.
+#
+# The limit, recorded rather than guarded: a film whose name really ends in one, such as
+# the 2008 concert film "U2 3D", would be searched as "U2". Nothing in the committed data
+# is such a film, the client has read these tokens as noise for longer than this has, and
+# a match is still only taken on an exact title, so the failure needs a real film titled
+# exactly like the truncation. Revisit if one is ever published.
+TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
+
+# An event attached to the screening rather than to the film: the director in the room,
+# a book club after it, a discussion. The "+" says the event sits beside the title, and
+# the noun after it says which event. Measured 2026-09-23 over the committed data: three
+# rows carry one, "P\u00e4ivien lumo + tekij\u00e4vierailu" at Kino Tapiola, "Don Quijote
+# Barcelonassa (+leffalukupiiri)" and "Suomi radalla (+keskustelutilaisuus)" at Kino
+# Aurora, and all three were initials tiles. The bare "P\u00e4ivien lumo" already matched
+# 1563565 at Kino Laika, Kino Kilta and Kino Regina, so only the suffix was in the way.
+#
+# Each noun is named and the whole thing is anchored to the end, because "+" belongs to
+# real titles and a rule that ate everything after one would destroy them: "Romeo +
+# Juliet" matches 454 at Cinema Niagara today, and Kino Regina's double bill "Sylvi +
+# anna-liisa" is two works joined by it. Both keep every word under this.
+#
+# Refused, and why: "+ keskustelua" inside Kino Kuvakukko's "Vilimit-festivaali: Retkeily
+# kansallispuistossa ... visuaalinen luento + keskustelua, vapaa p\u00e4\u00e4sy)", because it is
+# not terminal and the row is a walk and a lecture rather than a film. A bare trailing
+# "+" with no noun, because nothing in the data has one and it would be a guess.
+# "keskustelutilaisuus" is here although it closes nothing today: "Suomi radalla" has no
+# TMDB record either way, and leaving the noise on its search string would be wrong even
+# where the answer does not change.
+TRAIL_EVENT = re.compile(
+    r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|leffalukupiiri|keskustelutilaisuus)\s*\)?\s*$",
+    re.I)
+
 # A strand can sit in a trailing parenthesis instead of in front of a colon. The content
 # is matched against the one shared list in strands.py rather than against a pattern, so
 # a parenthesis holding anything else -- an original title ("Beginnings (Begyndelser)"),
@@ -127,6 +171,8 @@ def clean(title):
     if m and m.group(1).lower() in EVENT_PREFIXES and t[:m.start()].strip():
         t = t[:m.start()].strip()
     t = EVENT_NOUN.sub(" ", t)
+    t = TRAIL_EVENT.sub(" ", t)
+    t = TRAIL_FORMAT.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 
@@ -506,13 +552,22 @@ def reconsider(facts, cache, aliases, budget=None):
     evidence moving and `y` is what should notice it. Putting the year back into `q` would
     trip both comparisons on one change and re-judge the entry twice for nothing.
 
-    A missing `q` reads as unknown and re-judges nothing, so the entries written before
-    this field existed are not all re-searched in one pass. An entry with `x` set and a
-    changed `q` **is** re-judged, which re-searches a match that was good: that is what a
-    changed `o` or `y` already does, and the alternative is a strand that never reaches
-    the titles it was added for. The risk it carries is the strand's own, not this
-    function's: a prefix stripped off a title can widen the search onto a different film,
-    which is why strands.py records what was measured and refused.
+    **A missing `q` now reads as due, which it did not until 2026-09-23.** It used to
+    re-judge nothing, so that the entries written before the field existed would not all
+    be re-searched in one pass. The budget above already prevents that, and reading it as
+    "unknown, leave it" froze an entry on whatever a long-gone cleaner decided: on
+    2026-09-23 `Spider-Man: Brand New Day 2D` at Kino 123 and Trio 123 still carried 557,
+    which is Spider-Man (2002), and no change to `clean()` could ever reach it because the
+    entry predates `q`. 262 of 609 entries were in that state. They drain at the budget's
+    rate, 25 a run in key order, and once an entry has been re-judged once it has a `q`
+    and behaves like every other.
+
+    An entry with `x` set and a changed `q` **is** re-judged, which re-searches a match
+    that was good: that is what a changed `o` or `y` already does, and the alternative is a
+    strand, or a cleaner rule, that never reaches the titles it was added for. The risk it
+    carries is the rule's own, not this function's: a prefix or a suffix stripped off a
+    title can widen the search onto a different film, which is why strands.py and the
+    trailing rules above record what was measured and refused.
     """
     budget = RECONSIDER_BUDGET if budget is None else budget
     due = []
@@ -522,9 +577,8 @@ def reconsider(facts, cache, aliases, budget=None):
             continue
         if c.get("i") and not c.get("x"):
             continue                          # weak: dropped on load, not this list
-        was_q = c.get("q")
-        if was_q is not None and was_q != norm(clean(f.get("t") or k)):
-            due.append(k)                     # the search string changed on our side
+        if c.get("q") != norm(clean(f.get("t") or k)):
+            due.append(k)                     # the search string changed, or is unknown
             continue
         now = (norm(f.get("o")), f.get("y") or "")
         if now == ("", ""):

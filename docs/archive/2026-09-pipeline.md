@@ -1803,3 +1803,45 @@ Found while establishing a baseline for the `FLOW_REVIEW.md` work, not by that r
 Break-verified with three mutations: the entry removed and the entry pointed at the wrong
 language, each turning `tests/test_lang_normalization.py` red, and the repaired rows put
 back, which turns `tests/test_landing_pages.py` red.
+
+### Two decorations on a title, and the cache entries no rule could reach (2026-09-23)
+Reported from the live site: "Päivien lumo + tekijävierailu" at Kino Tapiola drew an
+initials tile with no poster and no score, while the bare "Päivien lumo" matched 1563565
+at Kino Laika, Kino Kilta and Kino Regina. The suffix was the whole problem, and the same
+shape sat on two more rows at Kino Aurora.
+
+`clean()` gained two anchored rules on the search string, both naming what they strip:
+
+- `TRAIL_EVENT`, for an event attached to the screening rather than to the film:
+  `+ tekijävierailu`, `(+leffalukupiiri)`, `(+keskustelutilaisuus)`. Each noun is named
+  because "+" belongs to real titles. "Romeo + Juliet" holds 454 at Cinema Niagara and
+  Kino Regina's double bill "Sylvi + anna-liisa" is two works; both keep every word.
+- `TRAIL_FORMAT`, for a bare format token with no brackets. Two titles carried one, and
+  the second was the worse: "Spider-Man: Brand New Day 2D" at Kino 123 and Trio 123 held
+  **557**, Raimi's Spider-Man (2002), so seven showtimes carried the wrong film's poster
+  and rating while 39 other cinemas matched 969681. The client has read these four tokens
+  as noise in `mergeKey` for longer than the search string has.
+
+Neither reached the Spider-Man row on its own. Its cache entry predated `q`, the field
+`reconsider()` compares to notice that `clean()` moved, and a missing `q` read as
+"unknown, re-judge nothing". That reading froze the entry on whatever a long-gone cleaner
+decided, permanently and invisibly: 262 of 609 entries were in that state. A missing `q`
+now reads as due. The objection it answered, that the pass introducing `q` would
+re-search everything at once, is already answered by `RECONSIDER_BUDGET`: 25 a run in key
+order. The backlog drained over six local runs here and the entry came back 969681.
+
+Measured, before and after: showtimes with no `tmdbId` 274 -> 272, distinct titles 87 ->
+85, and one wrong id replaced by the right one. The weak-match list is unchanged at 12, so
+nothing was closed by accepting a weak candidate. "Suomi radalla (+keskustelutilaisuus)"
+and "Sylvi + anna-liisa" have no TMDB record either way and stay correct absences, as does
+"Avengers: Endgame Encore 2D" once its token is off.
+
+`tests/test_tmdb_matching.PublishedCoverageTest` is the standing guard, and it is the part
+worth keeping: over the committed data, no unmatched title may open with the whole cleaned
+search string of a title that did match. Both of these would have failed it before they
+were fixed, which is what the third test in that class asserts. It accuses only what it
+can prove, suggests no id, and its allowed list is empty. 557 joined the wrong-id table.
+
+Break-verified with six mutations: each rule removed, the format rule's word guard
+dropped, the event rule widened to eat everything after a "+", a missing `q` reading as
+unknown again, and a published row decorated and unmatched in the committed data.

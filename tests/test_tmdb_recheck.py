@@ -24,14 +24,21 @@ import refresh
 TODAY = "2026-09-01"
 
 
-def entry(day, trailer=True, **over):
+def entry(day, trailer=True, title=None, **over):
     """A complete cache entry as the current shape writes one.
 
     `a` is left out unless a test sets it: absent means never attempted, which is the
     state every entry written before this field existed is in.
+
+    `q` is the search string the entry was judged on, and it is written whenever the
+    caller names the title: without one, `reconsider()` treats the entry as judged by an
+    unknown cleaner and re-judges it, which is a different pass from the refresh these
+    tests drive. `tests/test_tmdb_matching.py` is where the missing case is covered.
     """
     e = {"r": 7.1, "n": 400, "v": "abc123" if trailer else "", "x": True,
          "g": [18], "i": 42, "c": day, "fi": "Suomeksi", "en": "In English", "p": "/a.jpg"}
+    if title is not None:
+        e["q"] = enrich_tmdb.norm(enrich_tmdb.clean(title))
     e.update(over)
     return e
 
@@ -242,10 +249,10 @@ class MainPathTest(unittest.TestCase):
                       {"title": "Other Film", "start": "2026-09-02T20:00:00+03:00"}],
         }), encoding="utf-8")
         self.write_cache({
-            "old film": entry(self.stale_day, i=self.ID),
+            "old film": entry(self.stale_day, i=self.ID, title="Old Film"),
             # A second entry, so the loop and the counters are exercised rather than a
             # single-item shortcut through them.
-            "other film": entry(self.today, i=99),
+            "other film": entry(self.today, i=99, title="Other Film"),
         })
         self.calls = []
 
@@ -406,7 +413,8 @@ class MainPathTest(unittest.TestCase):
         """
         stale = {enrich_tmdb.norm(f"T{i:02d}"):
                  entry((datetime.date.today()
-                        - datetime.timedelta(days=20 - i)).isoformat(), i=100 + i)
+                        - datetime.timedelta(days=20 - i)).isoformat(), i=100 + i,
+                       title=f"T{i:02d}")
                  for i in range(n)}
         self.write_cache(stale)
         (self.dir / "area-zz.json").write_text(json.dumps({

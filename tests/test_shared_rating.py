@@ -151,13 +151,18 @@ class RunTest(unittest.TestCase):
     # -- the tree --------------------------------------------------------------------------
 
     def cache(self, **extra):
-        """tmdb-titles.json: "yhteinen" is an exact match, "hatara" a weak one."""
+        """tmdb-titles.json: "yhteinen" is an exact match, "hatara" a weak one.
+
+        Each carries the search string it was judged on. Without one `reconsider()` reads
+        the entry as judged by an unknown cleaner and re-judges it, which turns these runs
+        into TMDB searches instead of the sharing pass they are about.
+        """
         blank = {"r": 0, "n": 0, "v": "", "g": [], "c": "", "fi": "", "en": "", "p": ""}
         # "tarkka" and "hatara" are the same film id under two titles, one matched
         # exactly and one weakly, so each side of the gate can be tested on its own.
-        c = {"yhteinen": {"x": True, "i": 77, **blank},
-             "tarkka": {"x": True, "i": 88, **blank},
-             "hatara": {"x": False, "i": 88, **blank}}
+        c = {"yhteinen": {"x": True, "i": 77, "q": "yhteinen", **blank},
+             "tarkka": {"x": True, "i": 88, "q": "tarkka", **blank},
+             "hatara": {"x": False, "i": 88, "q": "hatara", **blank}}
         c.update(extra)
         return c
 

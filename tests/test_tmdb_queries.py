@@ -240,6 +240,76 @@ class ScreeningMarkerTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.clean(t), t)
 
 
+class TrailingEventTest(unittest.TestCase):
+    """An event attached to the screening rather than to the film (2026-09-23).
+
+    "Päivien lumo + tekijävierailu" at Kino Tapiola was an initials tile while the bare
+    "Päivien lumo" matched 1563565 at Kino Laika, Kino Kilta and Kino Regina, so only the
+    suffix was in the way. The rule names each event noun, because "+" belongs to real
+    titles too.
+    """
+
+    def test_the_event_comes_off_the_search_string(self):
+        for published, want in (
+                ("Päivien lumo + tekijävierailu", "Päivien lumo"),
+                ("Don Quijote Barcelonassa (+leffalukupiiri)", "Don Quijote Barcelonassa"),
+                ("Suomi radalla (+keskustelutilaisuus)", "Suomi radalla")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), want)
+
+    def test_a_title_whose_own_name_holds_a_plus_keeps_every_word(self):
+        """The reason each noun is named. Both are in the committed data, and a rule that
+        ate everything after a "+" would destroy them."""
+        for t in ("Romeo + Juliet", "Sylvi + anna-liisa"):
+            with self.subTest(title=t):
+                self.assertEqual(enrich_tmdb.clean(t), t)
+
+    def test_an_event_that_is_not_terminal_is_left_alone(self):
+        """Kino Kuvakukko's walk-and-lecture row: the "+" is mid-sentence and the row is
+        not a film. Refused deliberately, and this says so."""
+        t = ("Vilimit-festivaali: Retkeily kansallispuistossa Olli Järvenkylän "
+             "visuaalinen luento + keskustelua, vapaa pääsy)")
+        self.assertEqual(enrich_tmdb.clean(t), t)
+
+    def test_the_published_title_is_not_touched(self):
+        self.assertIn("tekijävierailu", enrich_tmdb.norm("Päivien lumo + tekijävierailu"))
+
+
+class TrailingFormatTest(unittest.TestCase):
+    """A bare format token at the end, with no brackets for PAREN_NOISE (2026-09-23).
+
+    Two titles in the committed data carried one. "Spider-Man: Brand New Day 2D" at Kino
+    123 and Trio 123 was the worse: it held 557, which is Spider-Man (2002), so seven
+    showtimes carried the wrong film's poster while every other spelling matched 969681.
+    """
+
+    def test_the_token_comes_off_the_search_string(self):
+        for published, want in (
+                ("Spider-Man: Brand New Day 2D", "Spider-Man: Brand New Day"),
+                ("Avengers: Endgame Encore 2D", "Avengers: Endgame Encore"),
+                ("Avengers: Endgame Encore 2D IMAX", "Avengers: Endgame Encore")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), want)
+
+    def test_a_title_that_is_only_the_token_keeps_it(self):
+        """A word is required in front, so a film called "3D" is still searched for."""
+        self.assertEqual(enrich_tmdb.clean("3D"), "3D")
+        self.assertEqual(enrich_tmdb.clean("IMAX"), "IMAX")
+
+    def test_the_token_is_not_stripped_from_the_middle(self):
+        self.assertEqual(enrich_tmdb.clean("3D Sex and Zen"), "3D Sex and Zen")
+
+    def test_the_client_reads_the_same_four_tokens_as_noise(self):
+        """The rule is the client's, on the search string instead of on the card. If the
+        two lists drift the app folds a pair of cards the search still treats as two
+        films."""
+        client = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertIn(r"\b(?:2d|3d|imax|4k)\b", client)
+        for token in ("2d", "3d", "imax", "4k"):
+            with self.subTest(token=token):
+                self.assertIn(token, enrich_tmdb.TRAIL_FORMAT.pattern.lower())
+
+
 class ParenthesisedStrandTest(unittest.TestCase):
     """A strand can sit in a trailing parenthesis instead of in front of a colon.
 

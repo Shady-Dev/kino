@@ -172,10 +172,17 @@ class PickTest(unittest.TestCase):
 class ReconsiderTest(unittest.TestCase):
     """Which exact matches a pass judges again, and how many."""
 
-    def entry(self, mid, **over):
+    def entry(self, mid, title="a", **over):
+        """`q` defaults to the search string this title cleans to, because that is what
+        "judged on the same evidence" means from 2026-09-23: an entry without one is an
+        entry judged by a cleaner nobody can name, and it is re-judged. The cases that
+        are about a missing `q` pass `q=None` and say so."""
         e = {"r": 7.0, "n": 100, "v": "k", "x": True, "g": [18], "i": mid,
-             "c": "2026-09-01", "fi": "", "en": "", "p": "/p.jpg"}
+             "c": "2026-09-01", "fi": "", "en": "", "p": "/p.jpg",
+             "q": enrich_tmdb.norm(enrich_tmdb.clean(title))}
         e.update(over)
+        if e.get("q") is None:
+            e.pop("q")
         return e
 
     def facts(self, **years):
@@ -251,13 +258,37 @@ class ReconsiderTest(unittest.TestCase):
                 q = enrich_tmdb.norm(enrich_tmdb.clean(title))
                 self.assertNotIn(enrich_tmdb.published_year({"title": title}), q)
 
-    def test_an_entry_written_before_q_existed_re_judges_nothing(self):
-        """532 entries carried no `q` when it was added. Reading a missing one as unknown
-        is what stops the pass that introduces it re-searching all of them."""
+    def test_an_entry_written_before_q_existed_is_re_judged(self):
+        """Reversed 2026-09-23. It used to re-judge nothing, so the pass that introduced
+        `q` would not re-search all 532 entries at once; the budget above already prevents
+        that, and the cost of the old reading was an entry frozen on whatever a long-gone
+        cleaner decided. `Spider-Man: Brand New Day 2D` sat on 557, Spider-Man (2002), over
+        seven showtimes at Kino 123 and Trio 123, and no change to clean() could reach it.
+        262 of 609 entries were in that state."""
         legacy = {"n": {"r": 0, "n": 0, "v": "", "x": False, "g": [], "i": "",
                         "c": "2026-09-13", "fi": "", "en": "", "p": "", "o": "", "y": ""}}
         facts = {"n": {"t": "Anything At All", "o": "", "y": ""}}
-        self.assertEqual(enrich_tmdb.reconsider(facts, legacy, {}), ([], 0))
+        self.assertEqual(enrich_tmdb.reconsider(facts, legacy, {}), (["n"], 0))
+
+    def test_the_legacy_backlog_drains_at_the_budget_and_no_faster(self):
+        """The objection the old reading answered, answered by the ceiling instead: a pass
+        takes at most the budget and reports the rest, so the entries arrive over several
+        runs rather than as one re-fetch."""
+        legacy = {f"t{i:03d}": {"r": 0, "n": 0, "v": "", "x": True, "g": [], "i": 7,
+                                "c": "2026-09-13", "fi": "", "en": "", "p": ""}
+                  for i in range(120)}
+        facts = {k: {"t": k, "o": "", "y": ""} for k in legacy}
+        due, held = enrich_tmdb.reconsider(facts, legacy, {}, budget=25)
+        self.assertEqual((len(due), held), (25, 95))
+        self.assertEqual(due, sorted(legacy)[:25], "key order, so the next pass continues")
+
+    def test_an_entry_that_has_been_re_judged_once_behaves_like_any_other(self):
+        """The drain is one-way: the re-judge writes `q`, and the entry is then only due
+        when something actually moves."""
+        title = "Anything At All"
+        cache = {"n": self.entry(7, title=title)}
+        facts = {"n": {"t": title, "o": "", "y": ""}}
+        self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
 
     def test_an_alias_still_wins_over_a_changed_search_string(self):
         cache = {"a": self.entry(240, q="old")}
@@ -265,10 +296,11 @@ class ReconsiderTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.reconsider(facts, cache, {"a": "240"}), ([], 0))
 
     def test_an_unmatched_entry_judged_on_the_same_evidence_is_left_to_its_daily_retry(self):
-        cache = {"n": self.entry("", x=False, o="all night long", y="1962")}
+        cache = {"n": self.entry("", title="n", x=False, o="all night long", y="1962")}
         facts = {"n": {"t": "n", "o": "All Night Long", "y": "1962"}}
         self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}), ([], 0))
-        self.assertEqual(enrich_tmdb.reconsider(self.facts(n=""), {"n": self.entry("", x=False)}, {}),
+        self.assertEqual(enrich_tmdb.reconsider(self.facts(n=""),
+                                                {"n": self.entry("", title="n", x=False)}, {}),
                          ([], 0), "no evidence now: nothing to re-judge")
 
     def test_exact_and_unmatched_entries_share_one_budget_in_key_order(self):
@@ -666,10 +698,86 @@ class AliasFileTest(unittest.TestCase):
             "1769545": "deleted from TMDB; /movie/1769545 answers status_code 34",
             "265042": "Czinner's 1960 Covent Garden documentary, not a 2026/27 relay",
             "1387552": "Koudmani's 7-minute short, not Suleiman's Divine Intervention",
+            "557": "Raimi's 2002 Spider-Man, not Spider-Man: Brand New Day (969681)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):
                 self.assertNotIn(tmdb_id, doc.values(), why)
+
+
+class PublishedCoverageTest(unittest.TestCase):
+    """A standing check on what is published, not on the helpers (2026-09-23).
+
+    The defect this catches is the one a reader sees: a card drawn as an initials tile
+    because a cinema decorated a title that every other cinema publishes plainly. It was
+    found twice by eye and never by the suite -- "Päivien lumo + tekijävierailu" at Kino
+    Tapiola, reported from the live site, and "Spider-Man: Brand New Day 2D" at Kino 123
+    and Trio 123, which was worse because it carried a *wrong* film rather than none.
+
+    The rule is narrow on purpose, so it accuses only what it can prove: an unmatched
+    title whose cleaned search string *opens with* the whole cleaned search string of a
+    title that did match. The remainder is then decoration the cleaner does not know, and
+    the cleaner is where it is fixed. It does not compare loosely, does not suggest an id,
+    and never writes one.
+
+    `ALLOWED` is empty and should stay that way. An entry belongs there only when the two
+    are genuinely different films whose titles nest, and it carries the reason.
+    """
+
+    ALLOWED = {}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.matched, cls.unmatched = {}, {}
+        for f in sorted((_ctx.ROOT / "data").glob("area-*.json")):
+            try:
+                shows = json.loads(f.read_text(encoding="utf-8")).get("shows", [])
+            except json.JSONDecodeError:
+                continue
+            for s in shows:
+                t = s.get("title") or ""
+                if not t:
+                    continue
+                bag = cls.matched if s.get("tmdbId") else cls.unmatched
+                bag.setdefault(t, set()).add(s.get("theatre") or "")
+
+    def test_the_committed_data_has_both_kinds_to_compare(self):
+        """Without this the check below passes on an empty loop, which is how a guard
+        stops guarding without anyone noticing."""
+        self.assertGreater(len(self.matched), 50, "no matched titles in the committed data")
+        self.assertGreater(len(self.unmatched), 5, "no unmatched titles to check")
+
+    def test_no_unmatched_title_opens_with_a_title_that_matched(self):
+        keys = {}
+        for t in self.matched:
+            keys.setdefault(enrich_tmdb.norm(enrich_tmdb.clean(t)), t)
+        bad = []
+        for u, venues in sorted(self.unmatched.items()):
+            if u in self.ALLOWED:
+                continue
+            words = enrich_tmdb.norm(enrich_tmdb.clean(u)).split()
+            if not words:
+                continue
+            for key, matched_title in keys.items():
+                head = key.split()
+                if head and len(head) < len(words) and words[:len(head)] == head:
+                    bad.append(f"{u!r} at {sorted(v for v in venues if v)} draws no poster "
+                               f"while {matched_title!r} matched; "
+                               f"{' '.join(words[len(head):])!r} is decoration clean() "
+                               f"does not strip")
+                    break
+        self.assertEqual(bad, [])
+
+    def test_the_rule_would_have_caught_both_titles_it_was_written_for(self):
+        """On the strings as they were published, with the two rules that fix them off."""
+        keys = {enrich_tmdb.norm("Päivien lumo"), enrich_tmdb.norm("Spider-Man: Brand New Day")}
+        for published in ("Päivien lumo + tekijävierailu", "Spider-Man: Brand New Day 2D"):
+            with self.subTest(published=published):
+                words = enrich_tmdb.norm(published).split()   # norm alone: the old cleaning
+                self.assertTrue(
+                    any(words[:len(k.split())] == k.split() and len(k.split()) < len(words)
+                        for k in keys),
+                    "the check would not have seen it")
 
 
 class FixedDate(datetime.date):
@@ -691,9 +799,14 @@ class SameDayReconsiderTest(MainHarness):
         enrich_tmdb.datetime = types.SimpleNamespace(date=FixedDate)
         self.addCleanup(lambda: setattr(enrich_tmdb, "datetime", real))
 
-    def unmatched(self, day, **over):
+    def unmatched(self, day, title=None, **over):
+        """`q` is what the entry was judged on, defaulting to its own key's cleaning. An
+        entry without one is re-judged from 2026-09-23, which is a different case and the
+        callers that mean it pass `q=None`."""
         e = {"r": 0, "n": 0, "v": "", "x": False, "g": [], "i": "", "c": day, "a": "",
              "fi": "", "en": "", "p": ""}
+        if title is not None:
+            e["q"] = enrich_tmdb.norm(enrich_tmdb.clean(title))
         e.update(over)
         return e
 
@@ -723,8 +836,8 @@ class SameDayReconsiderTest(MainHarness):
 
     def test_an_unchanged_unmatched_title_keeps_its_daily_retry(self):
         self.shows({"title": "Bussipysäkki"})
-        self.cache_write({"bussipysäkki": self.unmatched("2026-09-12"),
-                          "other": self.unmatched(self.TODAY)})
+        self.cache_write({"bussipysäkki": self.unmatched("2026-09-12", "Bussipysäkki"),
+                          "other": self.unmatched(self.TODAY, "Other")})
         self.shows({"title": "Bussipysäkki"}, {"title": "Other"})
         out = self.run_main({})
         self.assertIn(("Bussipysäkki", ""), self.searches, "yesterday's miss is retried")
@@ -751,9 +864,11 @@ class SameDayReconsiderTest(MainHarness):
         (self.dir / "tmdb-aliases.json").write_text(json.dumps({"kummisetä osa ii": "240"}))
         self.cache_write({
             "kummisetä osa ii": {"r": 8.5, "n": 12000, "v": "k", "x": True, "g": [18], "i": 240,
-                                 "c": self.TODAY, "fi": "", "en": "", "p": ""},
+                                 "c": self.TODAY, "fi": "", "en": "", "p": "",
+                                 "q": "kummisetä osa ii"},
             "settled": {"r": 7.0, "n": 100, "v": "k", "x": True, "g": [18], "i": 5,
-                        "c": self.TODAY, "fi": "", "en": "", "p": "", "o": "", "y": "1990"}})
+                        "c": self.TODAY, "fi": "", "en": "", "p": "", "o": "", "y": "1990",
+                        "q": "settled"}})
         out = self.run_main({})
         self.assertEqual(self.searches, [])
         self.assertNotIn("re-judging", out)

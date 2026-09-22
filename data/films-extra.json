@@ -694,6 +694,15 @@
    },
    "tr": ""
   },
+  "don quijote barcelonassa leffalukupiiri": {
+   "img": "data/posters/a45e6bfaf6469991.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Lluc, kulttuuriin kiinnittynyt entinen akateemikko, ja Olli, Suomesta Barcelonan kaduille ajautunut mies, kohtaavat etsiessään suojaa samasta rappukäytävästä. Alkukohdat ovat vaatimattomat, mutta vähitellen heidän välilleen syntyy yhteys, joka ei rakennu säälistä vaan jaetusta ihmisyydestä."
+   },
+   "tr": ""
+  },
   "donnie darko 2001 25th anniversary director s cut": {
    "img": "data/posters/36eb35457f35b1fc.jpg",
    "r": 7.8,
@@ -2395,7 +2404,7 @@
   },
   "marsupilami": {
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.3,
+   "r": 6.4,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
@@ -2414,7 +2423,7 @@
   },
   "marsupilami suomeksi": {
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.3,
+   "r": 6.4,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari - vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla. Hulvaton koko perheen seikkailu Marsupilami saapuu suomeksi puhuttuna elokuvateattereihin 21. elokuuta 2026."
@@ -2557,8 +2566,8 @@
    "tr": "https://www.youtube.com/watch?v=ubvb4Oxy418"
   },
   "mutiny": {
-   "img": "data/posters/80fbbdad2d5e8a43.jpg",
-   "r": 6.5,
+   "img": "data/posters/d7d31f49a15249f9.jpg",
+   "r": 6.4,
    "s": {
     "en": "",
     "fi": "Entinen erikoisjoukkojen sotilas ja miljardöörin turvapäällikkö Cole Reed todistaa pomonsa kylmäverisen murhan. Hänet lavastetaan syylliseksi tekoon, jolloin hänen ainoaksi vaihtoehdokseen jää pako lakia ja todellisia tappajia karkuun. Jäljittäessään totuutta ja puhdistaakseen nimensä Reed nousee avoimella merellä seilaavalle rahtialukselle, jossa hän aloittaa yksinäisen ja väkivaltaisen taistelun palkkasotureita sekä korruptoituneita agentteja vastaan. Aluksella hänelle paljastuu, että kyseessä ei ole vain yksittäinen murha, vaan maailmanlaajuinen salaliitto, jonka lonkerot ulottuvat suuryrityksiin ja maiden hallituksiin asti. Saarrettuna ja takaa-ajettuna Reed joutuu käyttämään kaikkea ammattitaitoaan estääkseen suunnitelman, joka horjuttaisi kansainvälistä rauhaa.",
@@ -2567,8 +2576,8 @@
    "tr": "https://www.youtube.com/watch?v=2Iqvbe98Gb4"
   },
   "mutiny lavastettu syylliseksi": {
-   "img": "data/posters/80fbbdad2d5e8a43.jpg",
-   "r": 6.5,
+   "img": "data/posters/d7d31f49a15249f9.jpg",
+   "r": 6.4,
    "s": {
     "en": "",
     "fi": "Entinen erikoisjoukkojen sotilas ja miljardöörin turvapäällikkö Cole Reed todistaa pomonsa kylmäverisen murhan. Hänet lavastetaan syylliseksi tekoon, jolloin hänen ainoaksi vaihtoehdokseen jää pako lakia ja todellisia tappajia karkuun. Jäljittäessään totuutta ja puhdistaakseen nimensä Reed nousee avoimella merellä seilaavalle rahtialukselle, jossa hän aloittaa yksinäisen ja väkivaltaisen taistelun palkkasotureita sekä korruptoituneita agentteja vastaan. Aluksella hänelle paljastuu, että kyseessä ei ole vain yksittäinen murha, vaan maailmanlaajuinen salaliitto, jonka lonkerot ulottuvat suuryrityksiin ja maiden hallituksiin asti. Saarrettuna ja takaa-ajettuna Reed joutuu käyttämään kaikkea ammattitaitoaan estääkseen suunnitelman, joka horjuttaisi kansainvälistä rauhaa."
@@ -3549,9 +3558,10 @@
    "tr": ""
   },
   "päivien lumo tekijävierailu": {
+   "img": "data/posters/6bbde592472eb4e8.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
     "fi": "Paikalla keskustelemassa elokuvan jälkeen ohjaaja Karin Pennanen ja tuottaja Sonja Lindén! Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin:"
    },
    "tr": ""
@@ -4217,9 +4227,11 @@
     "biorexkokkola",
     "gilda",
     "isohannu",
+    "kino123",
     "kinolaika",
     "kinolumo",
     "kinopiispanristi",
+    "kotkanleffat",
     "leffabuumi",
     "savonkinot",
     "sheryl",
@@ -4908,7 +4920,7 @@
   },
   "toy story 5 dub": {
    "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.2,
+   "r": 8.4,
    "s": {
     "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
@@ -5320,5 +5332,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-22"
+ "generated": "2026-09-23"
 }
