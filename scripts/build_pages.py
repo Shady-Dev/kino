@@ -151,6 +151,7 @@ L = {
         "today": "T\u00e4n\u00e4\u00e4n", "tomorrow": "Huomenna",
         "days": ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
         "no_shows": "L\u00e4hip\u00e4iville ei ole julkaistu n\u00e4yt\u00f6ksi\u00e4.",
+        "next_show": "Seuraava n\u00e4yt\u00f6s: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",
@@ -207,6 +208,7 @@ L = {
         "today": "I dag", "tomorrow": "I morgon",
         "days": ["M\u00e5n", "Tis", "Ons", "Tors", "Fre", "L\u00f6r", "S\u00f6n"],
         "no_shows": "Inga f\u00f6rest\u00e4llningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
+        "next_show": "N\u00e4sta f\u00f6rest\u00e4llning: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Biografer \u2013 {city}",
         "city_link": "Alla biografer \u2013 {city}",
@@ -259,6 +261,7 @@ L = {
         "today": "Today", "tomorrow": "Tomorrow",
         "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         "no_shows": "No showtimes published for the next few days.",
+        "next_show": "Next screening: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Cinemas \u2013 {city}",
         "city_link": "All cinemas \u2013 {city}",
@@ -829,6 +832,21 @@ def group_by_day(shows, today, days=DAYS, merge=False):
 # --- end city fold ---
 
 
+def next_show_day(shows, today, days):
+    """The first date this venue or city has a screening on after the page's window. -> str
+
+    An empty page said only that nothing was published for the next few days, which is true
+    and unhelpful: the app already knew the cinema's next date and offered it, and the
+    landing page for the same cinema did not (FLOW_REVIEW.md, 2026-09-22). The data is the
+    same file the page is built from, so this costs a pass over shows already in memory.
+
+    Dates before the window are ignored by the comparison: `end` is at least `today`.
+    """
+    end = (today + timedelta(days=days - 1)).isoformat()
+    later = [d for d in ((s.get("start") or "")[:10] for s in shows) if d > end]
+    return min(later) if later else ""
+
+
 def day_label(iso, today, t):
     d = date.fromisoformat(iso)
     if d == today:
@@ -1144,7 +1162,8 @@ def lang_switch(lang, paths, t):
 
 
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
-         extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css):
+         extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
+         next_day=""):
     # One per published language plus x-default on the Finnish page, which is the one a
     # reader with no matching language gets.
     hreflangs = "\n".join(
@@ -1152,7 +1171,14 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
         + [f'<link rel="alternate" hreflang="x-default" href="{SITE}{paths["fi"]}">'])
     body, syn_seen = [], set()
     if not days:
-        body.append(f'<p class="intro"><span data-nosnippet>{esc(t["no_shows"])}</span></p>')
+        # The same sentence as before, plus the date the cinema does have something on,
+        # when it has one. Same element, same place: a reader is told where to go next
+        # rather than only that there is nothing here.
+        # `day_label` already ends in the date's own full stop, so the sentence adds none.
+        line = t["no_shows"]
+        if next_day:
+            line += " " + t["next_show"].format(when=day_label(next_day, today, t))
+        body.append(f'<p class="intro"><span data-nosnippet>{esc(line)}</span></p>')
     for iso in sorted(days):
         body.append(f'<h2 class="day">{esc(day_label(iso, today, t))}</h2>')
         for title_, shows in sorted(days[iso].items(),
@@ -1414,6 +1440,7 @@ def main(today=None) -> int:
     for v in venues:
         shows = load_shows(v["id"])
         days = group_by_day(shows, today)
+        next_day = next_show_day(shows, today, DAYS) if not days else ""
         paths = paths_venue(v)
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
@@ -1439,6 +1466,7 @@ def main(today=None) -> int:
                     if x),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"],
                 with_venue=False, legend="", also=also, og_image=og,
+                next_day=next_day,
                 # Deep link, so a reader arriving from search opens on this venue in this
                 # language instead of whatever the app last had selected. Both halves are
                 # decided by startupArea()/startupLang() in index.html.
@@ -1470,6 +1498,7 @@ def main(today=None) -> int:
                 # combined view.
                 merged.append({**s, "venueLabel": v["label"], "venueProvider": v["provider"]})
         days = group_by_day(merged, today, CITY_DAYS, merge=True)
+        next_day = next_show_day(merged, today, CITY_DAYS) if not days else ""
         paths = paths_city(c)
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
@@ -1500,6 +1529,7 @@ def main(today=None) -> int:
                 intro=t["city_intro"].format(n=len(vs)),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=c,
                 with_venue=True, legend=legend, also=also, og_image=og,
+                next_day=next_day,
                 app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
                 area="city:" + c, chain_css=chain_css)
             stage(ROOT / paths[lang].strip("/") / "index.html", text)

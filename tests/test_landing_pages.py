@@ -272,6 +272,51 @@ class GeneratedPagesTest(unittest.TestCase):
             with self.subTest(page=key):
                 self.assertEqual(langs, set(bp.LANGS))
 
+    def test_an_empty_page_offers_the_cinemas_next_known_date(self):
+        """The app already answered "nothing today, what about later" and the landing page
+        for the same cinema did not. `next_show_day` reads the same committed file the page
+        is built from, so the page can say it too."""
+        empty = [(k, v) for k, v in self.canonical.items()
+                 if bp.L[self.lang_of(k)]["no_shows"] in v]
+        self.assertTrue(empty, "no page in this build is empty; the fixture proves nothing")
+        offered = 0
+        for k, text in empty:
+            with self.subTest(path=k):
+                t = bp.L[self.lang_of(k)]
+                lead = t["next_show"].split("{")[0]
+                if lead not in text:
+                    continue
+                offered += 1
+                # No double stop: day_label ends in the date's own.
+                m = re.search(re.escape(lead) + r"([^<]*)", text)
+                self.assertIsNotNone(m)
+                self.assertNotIn("..", m.group(1))
+        self.assertGreater(offered, 0,
+                           "no empty page named a later date; the committed data has some")
+
+    def test_the_next_date_is_after_the_window_and_the_cinema_really_has_it(self):
+        """A one-item check would pass on an empty list, so this runs the helper over two
+        shapes: a venue with a screening past the window and one with none at all."""
+        today = self.today
+        end = today + timedelta(days=bp.DAYS - 1)
+        after = [{"start": (end + timedelta(days=2)).isoformat() + "T18:00:00+03:00"},
+                 {"start": (end + timedelta(days=5)).isoformat() + "T18:00:00+03:00"}]
+        inside = [{"start": today.isoformat() + "T18:00:00+03:00"},
+                  {"start": today.isoformat() + "T20:00:00+03:00"}]
+        self.assertEqual(bp.next_show_day(after, today, bp.DAYS),
+                         (end + timedelta(days=2)).isoformat())
+        # The day the window ends and the one after it: the boundary is the whole rule,
+        # and a fixture that only uses dates well past it cannot see it move.
+        edge = [{"start": end.isoformat() + "T18:00:00+03:00"},
+                {"start": (end + timedelta(days=1)).isoformat() + "T18:00:00+03:00"}]
+        self.assertEqual(bp.next_show_day(edge, today, bp.DAYS),
+                         (end + timedelta(days=1)).isoformat())
+        self.assertEqual(bp.next_show_day(inside, today, bp.DAYS), "")
+        self.assertEqual(bp.next_show_day([], today, bp.DAYS), "")
+        past = [{"start": (today - timedelta(days=3)).isoformat() + "T18:00:00+03:00"},
+                {"start": (today - timedelta(days=1)).isoformat() + "T18:00:00+03:00"}]
+        self.assertEqual(bp.next_show_day(past, today, bp.DAYS), "")
+
     def test_every_link_between_pages_stays_in_the_pages_language(self):
         """The cinema links on a city page and the city link on a cinema page. A Swedish
         city page listing Finnish cinema pages would drop the reader out of Swedish on the
