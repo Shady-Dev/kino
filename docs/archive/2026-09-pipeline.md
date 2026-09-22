@@ -1798,7 +1798,7 @@ table gains a code that is not ISO. The two committed rows were repaired by hand
 `fetch_data.py` cannot run on a runner and the data would otherwise carry `LI` until the
 next local run; the two pages that render them were regenerated in the same commit.
 
-Found while establishing a baseline for the `FLOW_REVIEW.md` work, not by that review.
+Found while establishing a baseline for the `docs/research/flow-review.md` work, not by that review.
 
 Break-verified with three mutations: the entry removed and the entry pointed at the wrong
 language, each turning `tests/test_lang_normalization.py` red, and the repaired rows put

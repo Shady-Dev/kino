@@ -3364,7 +3364,7 @@
     // Before the #statusLink early return. The privacy page is one document with a
     // section per language, so the fragment picks the reader's; `area` and `lang` are for
     // the way back, the same pair /status/ is given. It opened at the Finnish heading for
-    // every reader before this (FLOW_REVIEW.md, 2026-09-22).
+    // every reader before this (docs/research/flow-review.md, 2026-09-22).
     const pv = document.querySelector('#privacyLink a');
     if(pv){
       pv.textContent = L[state.lang].privacyLink;
@@ -4237,7 +4237,7 @@
   // other rather than showing nothing.
   //
   // A fallback used to be silent: the Swedish sheet drew Swedish controls around a Finnish
-  // synopsis with nothing saying so (FLOW_REVIEW.md, 2026-09-22). This answers with the
+  // synopsis with nothing saying so (docs/research/flow-review.md, 2026-09-22). This answers with the
   // slot the text came from as well as the text, so the sheet can say which language the
   // reader is about to read. One function and one order, because a second copy of the
   // fallback list is how the text and the label would come to disagree.

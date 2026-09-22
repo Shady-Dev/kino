@@ -837,7 +837,7 @@ def next_show_day(shows, today, days):
 
     An empty page said only that nothing was published for the next few days, which is true
     and unhelpful: the app already knew the cinema's next date and offered it, and the
-    landing page for the same cinema did not (FLOW_REVIEW.md, 2026-09-22). The data is the
+    landing page for the same cinema did not (docs/research/flow-review.md, 2026-09-22). The data is the
     same file the page is built from, so this costs a pass over shows already in memory.
 
     Dates before the window are ignored by the comparison: `end` is at least `today`.
@@ -1151,7 +1151,7 @@ def lang_switch(lang, paths, t):
     Swedish used to link to the app instead, because it had no page: `/en/city/helsinki/`
     plus SV gave `/?area=city%3AHelsinki&lang=sv`, which is a different kind of page with a
     different set of controls and a different span of days, and going back to EN left the
-    reader in the app (FLOW_REVIEW.md, 2026-09-22). Changing the language now changes the
+    reader in the app (docs/research/flow-review.md, 2026-09-22). Changing the language now changes the
     language. The pages carry an hreflang for all three."""
     def seg(code):
         if code == lang:
@@ -1189,7 +1189,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
     self_path = paths[lang]
     # The wordmark is the other way into the app, and it carries this page's language for
     # the same reason the CTA does. It was a bare "/", so an English page sent its reader
-    # to a Finnish app unless they had already stored English (FLOW_REVIEW.md, 2026-09-22).
+    # to a Finnish app unless they had already stored English (docs/research/flow-review.md, 2026-09-22).
     # `?lang=fi` on the Finnish pages too: startupLang() reads an explicit parameter before
     # a stored choice and does not overwrite the stored one, so the page a reader is
     # looking at decides the app they land in, whichever page it is.

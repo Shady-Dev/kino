@@ -3,7 +3,7 @@
 Reporting a screening opened `/status/?report=...&lang=en#contact` and nothing else, so
 "← To showtimes" was `/?lang=en`: the reader lost the cinema, the open film and the day
 they had been looking at, and the page had nothing to offer them but the chooser
-(FLOW_REVIEW.md, 2026-09-22).
+(docs/research/flow-review.md, 2026-09-22).
 
 The app now sends `area` and `back`, and the page prefers `back`, falls back to `area`,
 and writes the current language into whichever it uses so switching language here does not

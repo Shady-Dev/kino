@@ -3,7 +3,7 @@
 `/tietosuoja/` is one document with a section per language and three anchor links between
 them. The app linked to it as a bare `/tietosuoja/`, so an English reader arrived at the
 Finnish heading and the Finnish introduction, and every link out of the page was a bare
-`/`, so they left in whatever language they had stored (FLOW_REVIEW.md, 2026-09-22).
+`/`, so they left in whatever language they had stored (docs/research/flow-review.md, 2026-09-22).
 
 These pin the two halves: the app names the section and passes the way back, and the page
 rebuilds its three links out of what it was given.

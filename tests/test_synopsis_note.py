@@ -1,7 +1,7 @@
 """A synopsis that is not in the reader's language says so (2026-09-22).
 
 The Swedish sheet for "Hetki ennen valoa" drew Swedish controls, Swedish screening labels
-and a Finnish synopsis, with nothing marking the change of language (FLOW_REVIEW.md,
+and a Finnish synopsis, with nothing marking the change of language (docs/research/flow-review.md,
 2026-09-22). `synPick` already preferred Swedish where it existed; what was missing was the
 label for the case where it does not.
 
