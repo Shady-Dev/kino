@@ -1,8 +1,9 @@
-[biosavoy] 11 showtimes, 6 films, 3 dates, halls ['Sal 1', 'Sal 2'], 11 priced, 11 timed, 11 rated, 11 with a Swedish synopsis
-[biosavoy] Bio Savoy: 11 showtimes, 3 dates
-[biosavoy] synopses merged: 0
-[run] http: 7 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
+[biosavoy] 43 showtimes, 9 films, 10 dates, halls ['Sal 1', 'Sal 2'], 43 priced, 43 timed, 43 rated, 43 with a Swedish synopsis
+[biosavoy] Bio Savoy: 43 showtimes, 10 dates
+[biosavoy] synopses merged: 1
+[biosavoy] synopses by language: sv 1
+[run] http: 0 revalidated (304), 10 full, 0 not stored (origin said no-store), 10 cache entries written
 [run] hosts: 1 attempted -- www.biosavoy.ax
-[run] biosavoy: 1 venues, 11 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 10.1s of fetching added up across workers that overlap, longest site 10.1s, longest queue wait 94.1s, 10.1s wall from this module's first fetch starting to its last ending
+[run] biosavoy: 1 venues, 43 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 16.7s of fetching added up across workers that overlap, longest site 16.7s, longest queue wait 85.9s, 16.7s wall from this module's first fetch starting to its last ending
 exit=0

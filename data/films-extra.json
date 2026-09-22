@@ -72,6 +72,15 @@
    },
    "tr": "https://www.youtube.com/watch?v=sPkvliGQj54"
   },
+  "aamiainen tiffanylla": {
+   "img": "data/posters/7e8d1dddf162eaba.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "",
+    "fi": "Kissaelokuvapäivä! Iki-ihana klassikkoelokuva muistetaan erityisesti Audrey Hepburnin tyylistä, Moon River -nimikkokappaleesta ja tietysti elokuvahistorian ikonisimmasta kissahahmosta. Klubialennus."
+   },
+   "tr": "https://www.youtube.com/watch?v=KlZ4fYqjGJI"
+  },
   "agentti o s s 117 iskee": {
    "img": "data/posters/09af3901c9edd8af.jpg",
    "r": 6.1,
@@ -630,6 +639,7 @@
     "joutsankino",
     "kinoaurora",
     "kinokulma",
+    "korjaamo",
     "tapiola"
    ],
    "r": 0,
@@ -945,6 +955,7 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "biosavoy",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -960,6 +971,7 @@
     "kinokulma",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -982,7 +994,8 @@
    "r": 0,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
-    "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
+    "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
+    "sv": "Efter en omskakande flygolycka blir specialförbands-officeren James Belmont (Brad Pitt) och hans militära tjänstehund, Odin, strandsatta djupt inne i Alaskas vildmark. För att överleva tvingas de tillsammans in i en brutal kamp mot naturens krafter. En film av David Ayer (Fury, End of Watch, The Beekeeper). PREMIÄR: 25.9 2026 Action Äventyr Drama"
    },
    "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4"
   },
@@ -1131,6 +1144,15 @@
     "fi": "Aidosti onnistuneita luovan hulluuden ääri-ilmentymiä sattuu valkokankaalla kohdalle tuskin edes kerran vuodessa. Sellaisia kuin Bennett Jonesin I Am a Knife with Legs (NV 2015), Steve Oramin Aaaaaaaah! (NV 2016) tai Peter Stricklandin useimmat ohjaukset. HUNDREDS OF BEAVERS solahtaa orgaanisesti samaan kapeaan lokeroon. Esikoisohjaaja Mike Cheslik ja tuottaja Ryland Brickson Cole Tews ovat hioneet mykistävää erikoisuuttaan neljän vuoden ajan. Toinen toistaan villimmillä oivalluksilla herkuttelevan käsikirjoituksen kaksikko on synnyttänyt yhdessä. Vaativan pääroolin näyttelee Tews. Ja kaikkensa antavalla antaumuksella näytteleekin. Tyylilaji on ennen muuta komedia, jossa Maantiekiitäjät-animaatioiden äärienerginen henki risteää South Park -kaksikko Trey Parkerin ja Matt Stonen hulvattoman Cannibal: The Musicalin kuvia kumartamattoman pidäkkeettömyyden kanssa. Tarinassa on kyse yksilön taistelusta luonnonvoimia vastaan. Näyttämönä toimii 1800-luvun Yhdysvaltojen pohjoisosien pakkaskurimus. Omenaviinakauppias Kayak (Tews) julistaa sodan majaville, kun ne tuhoavat hänen tislaamonsa. Mainettaan älykkäämpien ja läpeensä kierojen jyrsijöiden katkeroittamasta miehestä kuoriutuu sankarimetsästäjä, jonka on löydettävä tähtäimeensä tykkylumen kuorruttamien ikimetsien sadat ja taas sadat majavat. HUNDREDS OF BEAVERSin usein absurdit taiteelliset ratkaisut pakottavat katsojan haukkomaan henkeään. Samalla elokuva kohottaa kasvoille äimistyneen kestovirneen. Toteutus on yhtä aikaa sekä perinnetietoinen että äärimmäisen raikas."
    },
    "tr": "https://www.youtube.com/watch?v=Dm5XHpQZvek"
+  },
+  "hytti nro 6": {
+   "img": "data/posters/3ff094252d89afe9.jpg",
+   "r": 7.0,
+   "s": {
+    "en": "",
+    "fi": "Cannesin elokuvajuhlien Grand Prix'lla palkittu Juho Kuosmasen elokuva Hytti nro 6 vie unohtumattomalle junamatkalle arktisten neuvostomaisemien halki. Sydänsurujaan Moskovasta Murmanskiin pakeneva Laura (Seidi Haarla) saa hyttikaverikseen kovapintaisen kaivostyöntekijän Ljohan (Juri Borisov). Lauran odotukset rauhoittavasta etsikkomatkasta karisevat kerta heitolla, kun Ljoha juo itsensä äänekkääseen humalaan heti ensimmäisenä iltana. Alun yhteentörmäyksen jälkeen eriparinen kaksikko alkaa kuitenkin löytää toisistaan jotakin yhteistä ja odottamatonta. Hienovaraisen huumorin värittämä kohtaaminen täyteen ahdetun junan erikoislaatuisessa maailmassa saa kummatkin matkaajat näkemään myös itsensä uusin silmin. Hymyilevä mies -elokuvallaan kansainväliseen menestykseen nousseen Kuosmasen lämmin ja vilpitön road movie on syntynyt Rosa Liksomin Finlandia-palkitun romaanin innoittamana."
+   },
+   "tr": "https://www.youtube.com/watch?v=itL_GpBalA4"
   },
   "hyvä talo": {
    "img": "data/posters/bdbab05dd04763e3.jpg",
@@ -1424,6 +1446,7 @@
     "cinemantsala",
     "huvimylly",
     "kinokulma",
+    "kinolaika",
     "korjaamo",
     "laitilankino"
    ],
@@ -1727,7 +1750,6 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1875,7 +1897,6 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -2143,8 +2164,21 @@
    },
    "tr": ""
   },
+  "lassie palaa kotiin": {
+   "img": "data/posters/253c5cbf791e5776.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "Lassie, elokuvahistorian kuuluisin koira palaa takaisin. Sydäntä lämmittävä hyvänmielen tarina pojan ja hänen koiransa erottamattomasta ystävyydestä. Perheen joutuessa luopumaan Lassiesta pojan sydän särkyy. Lassie ei kuitenkaan luovuta. Jännittävä ja vaiherikas seikkailu läpi koko maan yhdistää erottamattomat ystävykset uudelleen. Elokuva perustuu Eric Knightin suosittuun romaaniin Lassie palaa kotiin. Suomen elokuvasäätiön maahantuontituki 2021."
+   },
+   "tr": "https://www.youtube.com/watch?v=c1P44Qr6gyI"
+  },
   "late lammas elokuva hämäräpuuhissa": {
    "img": "data/posters/dc7855e0e8b1b388.jpg",
+   "kr": "K-7",
+   "krs": [
+    "kinolaika"
+   ],
    "r": 7.0,
    "s": {
     "en": "",
@@ -2578,6 +2612,7 @@
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
+    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
@@ -3014,6 +3049,14 @@
    },
    "tr": ""
   },
+  "pahuksen katti": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kissaelokuvapäivä! Hulvattoman agenttifilmin päähahmo, kaunis siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Klubialennus. 16 mm filmikopio."
+   },
+   "tr": ""
+  },
   "palatsin hiljaisuus": {
    "img": "data/posters/a5f8af9e337ce240.jpg",
    "r": 6.8,
@@ -3187,6 +3230,13 @@
   },
   "pirjo i sverige": {
    "img": "data/posters/a8cdd21dca604433.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "huvimylly",
+    "kinokulma",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3377,6 +3427,7 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
+    "marita",
     "matintupa",
     "navettakino",
     "niagara",
@@ -3423,61 +3474,6 @@
   },
   "presidentin kyyditys kidnappningen av presidenten": {
    "img": "data/posters/b6832fef0c1dad14.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biograni",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "jarvelankino",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinohamina",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinokilta",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinoset",
-    "kinotar",
-    "kinotoijala",
-    "kinotour",
-    "kinovirta",
-    "kotkanleffat",
-    "laitilankino",
-    "leffabuumi",
-    "matintupa",
-    "navettakino",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3546,11 +3542,6 @@
   },
   "päivien lumo": {
    "img": "data/posters/6bbde592472eb4e8.jpg",
-   "kr": "S",
-   "krs": [
-    "kinokilta",
-    "regina"
-   ],
    "r": 0,
    "s": {
     "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
@@ -3708,6 +3699,7 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
+    "marita",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -3772,8 +3764,10 @@
     "kinoakseli",
     "kinoelo",
     "kinohamina",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
+    "kinolaika",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -3823,8 +3817,10 @@
     "kinoakseli",
     "kinoelo",
     "kinohamina",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
+    "kinolaika",
     "kinolumo",
     "kinomania",
     "kinomarilyn",
@@ -3941,6 +3937,15 @@
    },
    "tr": ""
   },
+  "rose yksittäisnäytös": {
+   "img": "data/posters/abbaf8c90c0c135c.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
+    "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla. Luova Eurooppa -ohjelman - MEDIA -tuella."
+   },
+   "tr": "https://www.youtube.com/watch?v=80xR3G5eowo"
+  },
   "ryhmä hau dinoelokuva": {
    "img": "data/posters/f92b1f949aa0a64d.jpg",
    "r": 6.9,
@@ -4002,6 +4007,15 @@
     "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
+  },
+  "saapasjalkakissa": {
+   "img": "data/posters/15db02fea7f4a8e8.jpg",
+   "r": 6.6,
+   "s": {
+    "en": "",
+    "fi": "Kissaelokuvapäivä! Japanilaisen animaation klassikossa seikkailevasta saapasjalkakissa Perosta tulee kissayhteisön lainsuojaton, kun hän osoittaa armollisuutta hiiriä kohtaan. Klubialennus. 35 mm filmikopio."
+   },
+   "tr": "https://www.youtube.com/watch?v=Znuq-daWfLE"
   },
   "saapasjalkakissa unohdettu saari": {
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
@@ -4727,6 +4741,7 @@
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
+    "kinolaika",
     "korjaamo",
     "niagara"
    ],
@@ -4736,6 +4751,15 @@
     "fi": "Etusivu Näytökset Yhteystiedot ja aukioloajat Saapuminen ja saavutettavuus Info Tilavuokraus Lahjakortit Sarjaliput Erikoistapahtumat Tukijat ja kumppanit Tietosuojaseloste English The Secret Reading Club of Kabul The Secret Reading Club of Kabul Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa."
    },
    "tr": ""
+  },
+  "the shining": {
+   "img": "data/posters/583139fd78a2d1d8.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "",
+    "fi": "Mikä on maailman kauhein asia? Onko se hirviömäinen avaruusolento? Vai tappava kulkutauti? Vai pelko, että rakas ja turvallinen ihminen - ehkäpä perheenjäsen - osoittautuukin murhanhimoiseksi mielipuoleksi? Jack Torrance ottaa hoidettavakseen hienon, mutta eristyksissä olevan Overlook Hotellin talven ajaksi. Hänen mukanaan tulevat vaimo ja pieni poika. Torrance ei ole koskaan aiemmin ollut hotellissa - vai onko? Vastaus löytyy aavemaisesta mielipuolisuuden puuskasta."
+   },
+   "tr": "https://www.youtube.com/watch?v=jAE7dNurHR4"
   },
   "the social reckoning": {
    "img": "data/posters/251d00636adfb202.jpg",

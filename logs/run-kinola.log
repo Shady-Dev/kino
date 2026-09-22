@@ -1,27 +1,27 @@
-[kinokilta] 51 screening(s) listed, 30 film page(s) read
+[kinokilta] 49 screening(s) listed, 30 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[kinokilta] Kino Kilta: 51 showtimes, 26 dates
-[kinokilta] Kino Kilta: 51 showtimes, 26 dates
+[kinokilta] Kino Kilta: 49 showtimes, 26 dates
+[kinokilta] Kino Kilta: 49 showtimes, 26 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 46 screening(s) listed, 37 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 19 unresolved over 20
-[kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, Amongst the Birds, Antti Autio, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1), Kotimaiset lyhytelokuvat (2), Late Fame
+[kinolaika] 95 screening(s) listed, 52 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 23
+[kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja
 [kinolaika] override a-fox-under-a-pink-moon: active
-[kinolaika] Kino Laika: 26 showtimes, 8 dates
+[kinolaika] Kino Laika: 72 showtimes, 22 dates
 [kinolaika] strand prefix split off 1 showtimes
-[kinolaika] Kino Laika: 26 showtimes, 8 dates
-[kinolaika] synopses merged: 0
+[kinolaika] Kino Laika: 72 showtimes, 22 dates
+[kinolaika] synopses merged: 2
 [kinolaika] synopses skipped as screening notes (price): 1
-[kinomyyri] 34 screening(s) listed, 20 film page(s) read
+[kinomyyri] 33 screening(s) listed, 20 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinomyyri] unresolved: The Paradise, Yksityisnäytös, Yksityistilaisuus
 [kinomyyri] override kojootti-vs-acme-dub: active
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Teräsleidit – kuin viimeistä päivää
-[kinomyyri] Kino Myyri: 31 showtimes, 11 dates
-[kinomyyri] Kino Myyri: 31 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 30 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 30 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[run] http: 30 revalidated (304), 60 full, 21 not stored (origin said no-store), 1 cache entries written
+[run] http: 30 revalidated (304), 75 full, 21 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 108 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 148.1s of fetching added up across workers that overlap, longest site 69.8s, longest queue wait 97.7s, 71.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 151 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 191.9s of fetching added up across workers that overlap, longest site 96.7s, longest queue wait 94.9s, 97.4s wall from this module's first fetch starting to its last ending
 exit=0

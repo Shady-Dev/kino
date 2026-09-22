@@ -1,22 +1,22 @@
-[biomarilyn] 19 screening(s) in day groups, 11 film page(s) read
+[biomarilyn] 18 screening(s) in day groups, 11 film page(s) read
 [biomarilyn] 12 coming-soon entry/entries with no time, left out: Clayface, Digger, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa, Pikku Kummitus Lapanen Keppostelee, Pikkuli ja Tähtipeura
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffileffa : Presidentin Kyyditys
-[biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
-[biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
+[biomarilyn] Bio Marilyn: 18 showtimes, 12 dates
+[biomarilyn] Bio Marilyn: 18 showtimes, 12 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 15 screening(s) in day groups, 4 film page(s) read
 [vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
 [vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 25 screening(s) in day groups, 10 film page(s) read
-[bioforum] Bio Forum: 25 showtimes, 10 dates
-[bioforum] Bio Forum: 25 showtimes, 10 dates
+[bioforum] 24 screening(s) in day groups, 9 film page(s) read
+[bioforum] Bio Forum: 24 showtimes, 10 dates
+[bioforum] Bio Forum: 24 showtimes, 10 dates
 [bioforum] synopses merged: 0
-[kinokulma] 69 screening(s) in day groups, 21 film page(s) read
+[kinokulma] 68 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
-[kinokulma] Kinokulma: 67 showtimes, 41 dates
-[kinokulma] Kinokulma: 67 showtimes, 41 dates
+[kinokulma] Kinokulma: 66 showtimes, 40 dates
+[kinokulma] Kinokulma: 66 showtimes, 40 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 8 screening(s) in day groups, 2 film page(s) read
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
@@ -26,8 +26,8 @@
 [kinovirta] Kino Virta: 18 showtimes, 7 dates
 [kinovirta] Kino Virta: 18 showtimes, 7 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 64 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 63 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 152 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 182.9s of fetching added up across workers that overlap, longest site 62.1s, longest queue wait 109.8s, 66.9s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 149 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 136.7s of fetching added up across workers that overlap, longest site 50.6s, longest queue wait 110.3s, 55.7s wall from this module's first fetch starting to its last ending
 exit=0

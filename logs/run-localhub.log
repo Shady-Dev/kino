@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- tapahtumat.ylivieska.fi
 [run] localhub: 1 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 134.5s, 0.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.8s of fetching added up across workers that overlap, longest site 0.8s, longest queue wait 129.7s, 0.8s wall from this module's first fetch starting to its last ending
 exit=0
