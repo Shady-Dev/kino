@@ -5,7 +5,11 @@ Swedish selection and nothing else. So what the change may and may not do is wor
 Swedish gains a slot of its own and falls back the way it always did, and Finnish and
 English are unchanged.
 
-Driven through tests/synopsis_lang_harness.js, which extracts `synFor` verbatim from
+From 2026-09-22 the same block also answers *which* slot the text came from, so the sheet
+can label a synopsis that is not in the reader's language; `tests/test_synopsis_note.py`
+covers the label and this file still covers the choice.
+
+Driven through tests/synopsis_lang_harness.js, which extracts `synPick` verbatim from
 index.html between its markers. The clamp, the expand button and `esc()` are DOM plumbing
 and stay verified live.
 """
@@ -41,12 +45,14 @@ class MarkerTest(unittest.TestCase):
         a = HTML.index("// --- synopsis language:")
         b = HTML.index("// --- end synopsis language ---")
         block = HTML[a:b]
-        self.assertIn("function synFor(s, lang){", block)
+        self.assertIn("function synPick(s, lang){", block)
         self.assertIn("['sv','fi','en']", block)
 
     def test_the_sheet_reads_the_synopsis_through_it_and_nowhere_else(self):
-        """One call site. A second copy of the ternary is how the two would drift."""
-        self.assertEqual(HTML.count("synFor(f.s, lang)"), 1)
+        """One call site and one fallback order. A second copy of the ternary is how the
+        text and the label that names its language would come to disagree."""
+        self.assertEqual(HTML.count("synPick(f.s, lang)"), 1)
+        self.assertEqual(HTML.count("['sv','fi','en']"), 1)
         self.assertNotIn("f.s.fi || f.s.en", HTML)
 
     def test_the_service_worker_version_is_past_the_one_this_change_shipped(self):

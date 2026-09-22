@@ -616,6 +616,10 @@
   .syn.clamp{display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;
     overflow:hidden}
   .synmore{margin-top:-5px}   /* 8 px of gap after the 13 px the hit area takes back */
+  /* The note above a synopsis in another language. The muted token and the meta size the
+     sheet already uses, so it reads as a caption and not as part of the description. */
+  .synlang{margin-top:14px; font-size:.76rem; color:var(--muted)}
+  .synlang + .syn{margin-top:4px}
   .trailer{display:inline-block; margin-top:12px; color:var(--accent-text); font-weight:700;
     text-decoration:none; font-size:.88rem}
   .sheet-days{margin-top:6px}
@@ -1264,6 +1268,10 @@
          onlyDays:'Valittavissa ovat vain päivät, joille on näytöksiä.',
          showPast:'Näytä {n} aiempaa', showPastOne:'Näytä aiempi', hidePast:'Piilota aiemmat',
          synMore:'Lue koko kuvaus', synLess:'Näytä vähemmän',
+         // Written out per language rather than built from a name: "suomi" + "ksi"
+         // gives "suomiksi", and the three cases differ.
+         synIn:{ FI:'Kuvaus on suomeksi.', SV:'Kuvaus on ruotsiksi.',
+                 EN:'Kuvaus on englanniksi.' },
          nextShows:'Seuraavat näytökset',
          nextMatch:'Seuraava näytös', atTime:'klo',
          shareScreening:'Jaa näytös', reportWrong:'Ilmoita virheellisistä tiedoista', aActions:'Näytöksen toiminnot', linkCopied:'Linkki kopioitu',
@@ -1331,6 +1339,8 @@
          onlyDays:'Endast dagar med föreställningar kan väljas.',
          showPast:'Visa {n} tidigare', showPastOne:'Visa en tidigare', hidePast:'Dölj tidigare',
          synMore:'Läs hela beskrivningen', synLess:'Visa mindre',
+         synIn:{ FI:'Beskrivningen är på finska.', SV:'Beskrivningen är på svenska.',
+                 EN:'Beskrivningen är på engelska.' },
          nextShows:'Nästa föreställningar',
          nextMatch:'Nästa föreställning', atTime:'kl.',
          shareScreening:'Dela visningen', reportWrong:'Rapportera felaktiga uppgifter', aActions:'Åtgärder för visningen', linkCopied:'Länk kopierad',
@@ -1395,6 +1405,8 @@
          onlyDays:'Only days with screenings can be picked.',
          showPast:'Show {n} earlier', showPastOne:'Show 1 earlier', hidePast:'Hide earlier',
          synMore:'Read full description', synLess:'Show less',
+         synIn:{ FI:'Description in Finnish.', SV:'Description in Swedish.',
+                 EN:'Description in English.' },
          nextShows:'Next screenings',
          nextMatch:'Next screening', atTime:'at',
          shareScreening:'Share screening', reportWrong:'Report incorrect details', aActions:'Screening actions', linkCopied:'Link copied',
@@ -4223,13 +4235,19 @@
   // Swedish text existed, so nothing changes for a film that has none. fi and en are
   // untouched: TMDB has a Finnish overview for only some films, so each falls back to the
   // other rather than showing nothing.
-  function synFor(s, lang){
-    if(!s) return '';
+  //
+  // A fallback used to be silent: the Swedish sheet drew Swedish controls around a Finnish
+  // synopsis with nothing saying so (FLOW_REVIEW.md, 2026-09-22). This answers with the
+  // slot the text came from as well as the text, so the sheet can say which language the
+  // reader is about to read. One function and one order, because a second copy of the
+  // fallback list is how the text and the label would come to disagree.
+  function synPick(s, lang){
+    if(!s) return { text: '', from: '' };
     const order = lang === 'en' ? ['en','fi']
                 : lang === 'sv' ? ['sv','fi','en']
                 : ['fi','en'];
-    for(const k of order){ if(s[k]) return s[k]; }
-    return '';
+    for(const k of order){ if(s[k]) return { text: s[k], from: k }; }
+    return { text: '', from: '' };
   }
   // --- end synopsis language ---
   // `keepFocus` is passed by one caller, `refreshOpenSheet`. Inferring it from the sheet
@@ -4279,7 +4297,8 @@
     // The heading matches the card. `sheetCtx.title` below stays bare: it is what the
     // share text and the calendar file are built from, and neither is a place for it.
     const shownTitle = filmTitle(title, sample.oyear, fiYear());
-    const syn = synFor(f.s, lang);
+    const picked = synPick(f.s, lang);
+    const syn = picked.text;
     const fmts = (sample.method || '').split(' · ').filter(Boolean)
       .map(x => `<span class="fmt">${esc(x)}</span>`).join('');
     // No folded price here either: each stub below carries its own.
@@ -4361,8 +4380,18 @@
     // under the whole schedule did for a film with many future screenings. Short ones
     // are left alone: a toggle over two lines is not worth it.
     const synLong = syn.length > 260;
+    // Only when the text is not in the language the rest of the sheet is in. TMDB has a
+    // Finnish overview for some films and an English one for the rest, and `sv` is a slot
+    // one adapter fills, so a reader is often shown another language; they are told which
+    // rather than left to notice. The note is the cinemas' and TMDB's text unchanged --
+    // nothing is translated here -- and `lang` on the paragraph is the same fact for a
+    // screen reader and for hyphenation.
+    const synNote = (syn && picked.from && picked.from !== lang)
+      ? `<p class="synlang">${esc(L[lang].synIn[picked.from.toUpperCase()] || '')}</p>`
+      : '';
     const synHtml = syn
-      ? `<p class="syn${synLong ? ' clamp' : ''}">${esc(syn)}</p>`
+      ? synNote
+        + `<p class="syn${synLong ? ' clamp' : ''}" lang="${esc(picked.from)}">${esc(syn)}</p>`
         + (synLong ? `<button class="synmore" type="button" aria-expanded="false">`
                      + `${esc(L[lang].synMore)}</button>` : '')
       : '';

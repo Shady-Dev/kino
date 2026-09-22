@@ -1,7 +1,7 @@
 // Runs the real synopsis language selection out of index.html and prints one JSON line
 // of results. Driven by tests/test_synopsis_lang_client.py.
 //
-// synFor is pure by construction -- it reads one object and a language code, renders no
+// synPick is pure by construction -- it reads one object and a language code, renders no
 // DOM and touches no globals -- so it is extracted verbatim between its markers and run in
 // a bare vm context, the same technique tests/venue_picker_harness.js uses. What the sheet
 // does with the text afterwards (the clamp, the expand button, esc()) is DOM plumbing and
@@ -22,15 +22,15 @@ if (a === -1 || b === -1 || b < a) {
   process.exit(2);
 }
 const source = HTML.slice(a, b);
-if (!/function synFor\s*\(/.test(source)) {
-  console.error('marker block does not contain synFor');
+if (!/function synPick\s*\(/.test(source)) {
+  console.error('marker block does not contain synPick');
   process.exit(2);
 }
 
 const sandbox = {};
 vm.createContext(sandbox);
-vm.runInContext(source + '\n;globalThis.__syn = synFor;', sandbox, { filename: 'synFor' });
-const synFor = sandbox.__syn;
+vm.runInContext(source + '\n;globalThis.__syn = synPick;', sandbox, { filename: 'synPick' });
+const synPick = sandbox.__syn;
 
 const FI = 'Suomeksi.';
 const SV = 'På svenska.';
@@ -51,11 +51,13 @@ const CASES = {
   undef:      undefined,
 };
 
-const out = {};
+const out = { __from: {} };
 for (const [name, s] of Object.entries(CASES)) {
   out[name] = {};
   for (const lang of ['fi', 'sv', 'en']) {
-    out[name][lang] = synFor(s, lang);
+    const p = synPick(s, lang);
+    out[name][lang] = p.text;
+    (out.__from[name] = out.__from[name] || {})[lang] = p.from;
   }
 }
 
