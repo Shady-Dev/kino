@@ -7,13 +7,13 @@
 [savonkinot] synopses merged: 0
 [joutsankino] Joutsan Kino: 6 showtimes, 5 dates
 [joutsankino] synopses merged: 0
-[cine] Cine Keuda-Talo: 2 showtimes, 2 dates
+[cine] Cine Keuda-Talo: 12 showtimes, 3 dates
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
-[cine] synopses merged: 0
+[cine] synopses merged: 1
 [star] strand prefix split off 17 showtimes
 [star] Elokuvateatteri Star: 142 showtimes, 10 dates
 [star] synopses merged: 0
-[run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 71 full, 71 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 10 venues, 348 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 10 venues, 358 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

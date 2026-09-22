@@ -1,17 +1,21 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-22: 52 showtimes
 [schedule] 2026-09-23: 329 showtimes
 [schedule] 2026-09-24: 313 showtimes
 [schedule] 2026-09-25: 404 showtimes
 [schedule] 2026-09-26: 442 showtimes
 [schedule] 2026-09-27: 426 showtimes
 [schedule] 2026-09-28: 344 showtimes
+[schedule] 2026-09-29: 341 showtimes
+[http] 404 from api.themoviedb.org, gave up after 3 attempt(s) -- Server: openresty
+[tmdb-videos] Avengers: Endgame Encore: HTTP Error 404: Not Found
 [tmdb] no TMDB match (3): Mysteerinäytös | NT LIVE: All My Sons | Salatut elämät 5000 -erikoisnäytös
-[tmdb] 0 new lookups, 0 re-checks, cache 77, 71 mergeable by id
+[tmdb] rating held back, under 25 votes (2): Kapina (7.0 / 15 votes) | Keinolla millä hyvänsä (7.7 / 22 votes)
+[tmdb] rating refresh: 3 scheduled, 3 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 1 new lookups, 13 re-checks, cache 78, 72 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 52 film entries
-[attrs] dropped, neither format nor language (10): Ennakko | Erikois | IV | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[films] 53 film entries
+[attrs] dropped, neither format nor language (11): Ennakko | Erikois | IV | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0

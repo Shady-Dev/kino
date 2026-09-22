@@ -1,10 +1,4 @@
-[http] 500 from kinoengel.fi, gave up after 3 attempt(s) -- Server: nginx
-[engel] 3 date(s) listed with no time anywhere, skipped: 10-02, 10-11, 10-18 -- La Grazia | Rose | BARNSÖNDAGAR: Bortglömda ön | BARNSÖNDAGAR: Lilla spöket Laban busar v
-[engel] film pages: 12 parsed, 0 with nothing usable, 25/25 showtimes rated
-[engel] the site answered 500 and served the programme anyway: 126383 bytes, 25 showtimes. Published, because the body passed the size, marker and row checks; see fetch_page()
-[engel] strand prefix split off 1 showtimes
-[engel] Kino Engel: 25 showtimes, 5 dates
-[engel] synopses merged: 0
+[engel] FAILED: Remote end closed connection without response
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 25 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-exit=0
+[run] engel: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+exit=1
