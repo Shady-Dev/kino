@@ -863,12 +863,13 @@
    "tr": "https://www.youtube.com/watch?v=hH6sExna6sE"
   },
   "franz": {
-   "r": 0,
+   "img": "data/posters/b5646439a4d0fbf4.jpg",
+   "r": 6.2,
    "s": {
     "en": "",
     "fi": "Mestariohjaaja Agnieszka Hollandin elämäkertaelokuva Franz Kafkasta on kaleidoskooppinen mosaiikki, joka kertoo tšekkiläisen merkkikirjailijan koko elämäntarinan. Kafkan tyylille uskollinen kerronta avaa uusia näkökulmia kirjailijan teoksiin ja elämään, joka päättyi traagisen varhain vain 40-vuotiaana, ja juhlistaa Kafkan mittaamatonta vaikutusta moderniin kaunokirjallisuuteen. Luova Eurooppa -ohjelman - MEDIA -tuella. Suomen elokuvasäätiön maahantuontituki 2026."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=WFPrlEa294Q"
   },
   "free at heart": {
    "img": "data/posters/31f4f84b0d77ad6e.jpg",
@@ -974,6 +975,7 @@
     "biosade",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "haapamaki",
@@ -3352,7 +3354,6 @@
     "kinoakseli",
     "kinoelo",
     "kinohamina",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -3360,7 +3361,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinoset",
     "kinotar",
     "kinotoijala",
     "kinovirta",
@@ -3621,11 +3621,6 @@
   },
   "r a teenage sex and death at camp miasma": {
    "img": "data/posters/77005bdfb2895389.jpg",
-   "kr": "K-16",
-   "krs": [
-    "kinoaurora",
-    "kinokilta"
-   ],
    "r": 6.5,
    "s": {
     "en": "After years of slapdash sequels, the Camp Miasma franchise is handed over to an enthusiastic young director for resurrection. But when she visits the original’s star, a now-reclusive actress shrouded in mystery, the two women fall into a blood-soaked world of desire, fear, and delirium.",
@@ -5125,7 +5120,7 @@
   "verity verityn varjo": {
    "r": 0,
    "s": {
-    "en": "ABOUT CONTACT BOOK A MOVIE SERIAL TICKETS Telegram Instagram EN FI SV Verity (Verityn varjo) United States Rating K-12 Classifications vakivaltaa, ahdistusta Adapted from Colleen Hoover’s best-selling novel, this seductive, psychological thriller follows renowned author Verity Crawford (Anne Hathaway) and Lowen Ashleigh (Dakota Johnson), a struggling writer who relocates to the remote Crawford estate to ghostwrite for Verity. After Lowen uncovers what appears to be Verity’s chilling autobiographical notes, she wrestles with the disturbing and twisted confessions about Verity’s husband Jeremy (Josh Hartnett), and finds it hard to separate fiction from reality, manipulation from attraction, and opportunity from obsession. Verity (Verityn varjo) Verity United States 2026-10-02, 117 min Director Michael Showalter Cast Anne Hathaway, Dakota Johnson, Josh Hartnett, Asel Swango, Michael Abbott Jr., Daniel Echevarria Language English Subtitles Finnish, Swedish import PhotoSwipeLightbox from 'https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe-lightbox.esm.min.js'; const lightbox = new PhotoSwipeLightbox({ gallery: '#kinola-film-gallery', children: 'a', pswpModule: () => import('https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe.esm.min.js') }); lightbox.init(); Screenings All dates Fri, 2.10 Fri, 2.10 18:35",
+    "en": "",
     "fi": ""
    },
    "tr": ""
@@ -5340,5 +5335,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-23"
+ "generated": "2026-09-22"
 }
