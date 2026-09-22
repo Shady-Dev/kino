@@ -110,10 +110,16 @@ class FiveHundredTest(unittest.TestCase):
             return a
         E.get_text = get_text
 
-    @staticmethod
-    def http(code):
+    def http(self, code):
+        """An error response to serve. Closed at the end of the test: HTTPError with no
+        `fp` opens a tempfile for the body, and since 3.14 letting that be collected
+        raises ResourceWarning. ci.yml greps the suite log for that word and fails the
+        build, so five unclosed fixtures here would read as a leak in the pipeline.
+        Passing io.BytesIO() instead does not help; the warning is on the object."""
         import urllib.error
-        return urllib.error.HTTPError("https://kinoengel.fi/", code, "err", {}, None)
+        e = urllib.error.HTTPError("https://kinoengel.fi/", code, "err", {}, None)
+        self.addCleanup(e.close)
+        return e
 
     def page_with(self, **kw):
         return E.fetch_page()
