@@ -77,11 +77,17 @@ jobs:
       # The pages also depend on the day they were built for. `--date recorded` rebuilds
       # for the day the committed sitemap carries; a plain rebuild after midnight differed
       # in 173 of 183 files with nothing changed. Publishing (biorex.yml) uses the clock.
+      #
+      # build_counts.py belongs here because what it commits is a pure function of the
+      # tree. The two figures that move on a data run are printed by `--posters` and not
+      # committed; had they stayed in the file, this step would fail on the first push
+      # after any data run, since a data push does not match this workflow's path filter.
       - name: Generated output is reproducible
         run: |
           python3 scripts/build_providers.py
           python3 scripts/build_regions.py
           python3 scripts/build_pages.py --date recorded
+          python3 scripts/build_counts.py
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::regenerating changed committed output"
             git status --porcelain

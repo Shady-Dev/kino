@@ -27,15 +27,6 @@ Earlier hand-measured passes, and what each of them measured, are in
 | venues per adapter, largest 5 | `etiketti` 30, `Finnkino` 17, `nexxo` 13, `biorex` 12, `johku` 7 |
 | generated pages per language | 151 |
 | sitemap URLs | 303 |
-| `sw.js` CACHE | `leffavuoro-v216` |
-
-Poster figures, against the data snapshot of 2026-09-22T05:10:17+00:00. These move on every
-data run and a data run does not re-run this script, so they are behind the data beside them
-as often as not. Nothing is wrong when they are.
-
-| | |
-|---|---:|
-| poster references (shows / films-extra) | 5017 (4596 / 421) |
 | off-origin poster references | 0 |
-| mirrored poster files | 1467 |
+| `sw.js` CACHE | `leffavuoro-v216` |
 <!-- counts:end -->

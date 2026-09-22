@@ -10,18 +10,25 @@ rather than transcribed.
 
     python3 scripts/build_counts.py            # rewrite the block, report what moved
     python3 scripts/build_counts.py --check    # report only, write nothing
+    python3 scripts/build_counts.py --posters  # print the two uncommitted figures
 
 The city rule is `build_pages.city_of` over `build_pages.load_venues()`, reused rather
 than reimplemented: Finnkino's areas carry no `city` field and the city sits in the venue
 name, so a second implementation is a second place to get that wrong.
 
-**Two kinds of figure, and the difference matters.** The registry, venue, city, page,
-sitemap and CACHE figures move only when code or a provider changes. The three poster
-rows move on every data run, and a data run does not trigger `ci.yml` -- its path filter
-is `index.html`, `sw.js`, `scripts/**`, `tests/**` -- so a committed poster figure is
-routinely behind the data beside it. They carry the snapshot they were measured against
-for that reason. `tests/test_build_counts.py` pins the stable rows and deliberately does
-not pin the volatile ones.
+**What is committed is a pure function of the tree.** The registry, venue, city, page,
+sitemap, CACHE and off-origin figures move only when code, a provider or a poster
+reference changes, so `docs/counts.md` regenerates byte-identical and CI's
+regeneration-drift step can check it like any other generated file.
+
+Two figures are deliberately not committed: how many poster references exist and how many
+files back them. Both move on every data run, a data run does not re-run this script --
+`ci.yml`'s path filter is `index.html`, `sw.js`, `scripts/**`, `tests/**` -- and nothing
+reads them. `--posters` prints them and writes nothing.
+
+Off-origin references stay in the committed block. That figure is an invariant rather than
+a measurement: `safeAssetUrl` in the client refuses a poster outside `data/posters/`, and
+README's claim that a page load reaches no third party rests on it being 0.
 
 Run from the repo root.
 """
@@ -83,9 +90,8 @@ def counts():
     # Finnish and English carry the same set, and the front page is neither language's.
     pages_per_language = (urls - 1) // 2
 
-    total, in_shows, in_extra, off = _poster_refs()
+    off = _poster_refs()[3]
     cache = re.search(r"leffavuoro-v\d+", (ROOT / "sw.js").read_text(encoding="utf-8"))
-    generated = json.loads((DATA / "areas.json").read_text(encoding="utf-8"))["generated"]
 
     return {
         "providers": len(registry.PROVIDERS),
@@ -98,13 +104,27 @@ def counts():
         "per_adapter": sorted(per_adapter.items(), key=lambda kv: (-kv[1], kv[0])),
         "pages_per_language": pages_per_language,
         "sitemap_urls": urls,
+        "poster_refs_off_origin": off,
+        "cache": cache.group(0) if cache else "",
+    }
+
+
+def poster_figures():
+    """The two figures that are measured and not committed. -> dict.
+
+    They move on every data run, a data run does not re-run this script, and nothing in
+    the repo or the client reads them. Committing them would put a number in a generated
+    file that is behind the data beside it as often as not, and would make the drift step
+    fail on any push that followed a data run.
+    """
+    total, in_shows, in_extra, _ = _poster_refs()
+    return {
         "poster_refs": total,
         "poster_refs_shows": in_shows,
         "poster_refs_extra": in_extra,
-        "poster_refs_off_origin": off,
-        "mirrored_posters": sum(1 for _ in (DATA / "posters").iterdir() if _.is_file()),
-        "cache": cache.group(0) if cache else "",
-        "data_generated": generated,
+        "mirrored_posters": sum(1 for p in (DATA / "posters").iterdir() if p.is_file()),
+        "data_generated": json.loads(
+            (DATA / "areas.json").read_text(encoding="utf-8"))["generated"],
     }
 
 
@@ -123,20 +143,8 @@ def block(c):
         f"| venues per adapter, largest {TOP_ADAPTERS} | {largest} |",
         f"| generated pages per language | {c['pages_per_language']} |",
         f"| sitemap URLs | {c['sitemap_urls']} |",
-        f"| `sw.js` CACHE | `{c['cache']}` |",
-        "",
-        f"Poster figures, against the data snapshot of {c['data_generated']}. These move "
-        "on every",
-        "data run and a data run does not re-run this script, so they are behind the data "
-        "beside them",
-        "as often as not. Nothing is wrong when they are.",
-        "",
-        "| | |",
-        "|---|---:|",
-        f"| poster references (shows / films-extra) | {c['poster_refs']} "
-        f"({c['poster_refs_shows']} / {c['poster_refs_extra']}) |",
         f"| off-origin poster references | {c['poster_refs_off_origin']} |",
-        f"| mirrored poster files | {c['mirrored_posters']} |",
+        f"| `sw.js` CACHE | `{c['cache']}` |",
         "",
     ])
 
@@ -197,7 +205,17 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--check", action="store_true",
                     help="report what is stale and write nothing")
+    ap.add_argument("--posters", action="store_true",
+                    help="print the two figures that are not committed, and write nothing")
     args = ap.parse_args(argv)
+    if args.posters:
+        p = poster_figures()
+        print(f"[posters] measured against the data snapshot of {p['data_generated']}")
+        print(f"[posters] poster references: {p['poster_refs']} "
+              f"({p['poster_refs_shows']} in shows / {p['poster_refs_extra']} in "
+              f"films-extra)")
+        print(f"[posters] mirrored poster files: {p['mirrored_posters']}")
+        return 0
     c = counts()
     print(f"[counts] {c['providers']} providers, {c['venues']} venues, {c['cities']} "
           f"cities, {c['pages_per_language']} pages per language")

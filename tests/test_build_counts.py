@@ -6,11 +6,14 @@ one exists -- `registry.PROVIDERS` for providers, the venue files for venues, `<
 the sitemap -- rather than against the generator's own output, which would only assert
 that it agrees with itself.
 
-The poster rows are not pinned to a value. They move on every data run and `ci.yml` does
-not run on a data push, so a committed poster figure is behind the data beside it as often
-as not. The one poster fact that must hold is pinned: off-origin references are 0, which is
-what README's "no third-party requests on a page load" rests on.
+Off-origin references are pinned at 0. That one is an invariant rather than a measurement:
+`safeAssetUrl` refuses a poster outside `data/posters/`, and README's "no third-party
+requests on a page load" rests on it. The two figures that do move on a data run --
+how many references exist, how many files back them -- are not committed at all;
+`--posters` prints them, and this file checks that it prints them and writes nothing.
 """
+import contextlib
+import io
 import json
 import re
 import unittest
@@ -77,11 +80,16 @@ class FiguresTest(unittest.TestCase):
         self.assertRegex(self.c["cache"], r"^leffavuoro-v\d+$")
 
     def test_no_poster_reference_leaves_this_origin(self):
-        """The only poster figure with a required value. A page load reaching a third
-        party is the claim README makes, and this is what holds it up."""
+        """An invariant, not a measurement, which is why it sits in the committed block
+        and the moving figures do not. A page load reaching no third party is the claim
+        README makes, and `safeAssetUrl` is what holds it up in the client."""
         self.assertEqual(self.c["poster_refs_off_origin"], 0)
-        self.assertEqual(self.c["poster_refs"],
-                         self.c["poster_refs_shows"] + self.c["poster_refs_extra"])
+
+    def test_the_moving_figures_are_not_among_the_committed_ones(self):
+        """Committing them would put the drift step in CI at odds with any data run."""
+        for key in ("poster_refs", "poster_refs_shows", "poster_refs_extra",
+                    "mirrored_posters", "data_generated"):
+            self.assertNotIn(key, self.c, key)
 
     def test_the_largest_adapters_row_is_ordered_and_adds_up(self):
         per = self.c["per_adapter"]
@@ -101,8 +109,26 @@ class CommittedOutputTest(unittest.TestCase):
                     f"| cities | {c['cities']} |",
                     f"| generated pages per language | {c['pages_per_language']} |",
                     f"| sitemap URLs | {c['sitemap_urls']} |",
+                    f"| off-origin poster references | {c['poster_refs_off_origin']} |",
                     f"| `sw.js` CACHE | `{c['cache']}` |"):
             self.assertIn(row, text, "run scripts/build_counts.py")
+
+    def test_the_committed_block_regenerates_byte_identical(self):
+        """What CI's drift step asks. The suite asks whether the file on disk is current;
+        this asks whether writing it again changes anything, which is the property that
+        lets build_counts.py sit beside the other generators in that step."""
+        text = build_counts.COUNTS.read_text(encoding="utf-8")
+        self.assertEqual(build_counts.render(text, build_counts.block(build_counts.counts())),
+                         text, "run scripts/build_counts.py")
+
+    def test_no_moving_figure_reached_the_committed_file(self):
+        text = build_counts.COUNTS.read_text(encoding="utf-8")
+        block = text.split(build_counts.START)[1].split(build_counts.END)[0]
+        p = build_counts.poster_figures()
+        self.assertNotIn("mirrored poster files", block)
+        self.assertNotIn("poster references (shows", block)
+        self.assertNotIn(p["data_generated"], block, "no data snapshot in the block")
+        self.assertNotIn(str(p["mirrored_posters"]), block)
 
     def test_the_readme_prose_carries_the_same_figures(self):
         readme = build_counts.README.read_text(encoding="utf-8")
@@ -177,10 +203,8 @@ class BlockTest(unittest.TestCase):
         body = build_counts.block(c)
         for label in ("providers", "venues", "cities", "local providers (venues)",
                       "venues per adapter", "generated pages per language",
-                      "sitemap URLs", "`sw.js` CACHE", "poster references",
-                      "off-origin poster references", "mirrored poster files"):
+                      "sitemap URLs", "off-origin poster references", "`sw.js` CACHE"):
             self.assertIn(label, body, label)
-        self.assertIn(c["data_generated"], body, "the poster rows carry their snapshot")
 
     def test_the_largest_row_holds_the_top_adapters_in_order(self):
         c = build_counts.counts()
@@ -191,6 +215,52 @@ class BlockTest(unittest.TestCase):
         # floor is: more than one, or the row shows no shape at all.
         self.assertGreaterEqual(len(top), 3)
         self.assertEqual(named, ", ".join(f"`{name}` {n}" for name, n in top))
+
+
+class PosterFiguresTest(unittest.TestCase):
+    """The two figures that move, printed on demand and never written down."""
+
+    def test_they_are_measured_off_the_data(self):
+        p = build_counts.poster_figures()
+        self.assertEqual(p["poster_refs"],
+                         p["poster_refs_shows"] + p["poster_refs_extra"])
+        self.assertGreater(p["poster_refs_shows"], 0)
+        self.assertGreater(p["poster_refs_extra"], 0, "films-extra carries some too")
+        on_disk = sum(1 for f in (DATA / "posters").iterdir() if f.is_file())
+        self.assertEqual(p["mirrored_posters"], on_disk)
+        self.assertEqual(p["data_generated"], json.loads(
+            (DATA / "areas.json").read_text(encoding="utf-8"))["generated"])
+
+    def test_the_flag_prints_both_figures(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            rc = build_counts.main(["--posters"])
+        text = out.getvalue()
+        self.assertEqual(rc, 0)
+        p = build_counts.poster_figures()
+        self.assertIn(str(p["poster_refs"]), text)
+        self.assertIn(str(p["poster_refs_shows"]), text)
+        self.assertIn(str(p["poster_refs_extra"]), text)
+        self.assertIn(str(p["mirrored_posters"]), text)
+        self.assertIn(p["data_generated"], text)
+
+    def test_the_flag_writes_nothing(self):
+        """A reporting flag that rewrote the file would put the drift step and a data run
+        back in conflict, which is the whole reason these two are not committed."""
+        before = {f: f.read_bytes() for f in (build_counts.COUNTS, build_counts.README)}
+        with contextlib.redirect_stdout(io.StringIO()):
+            build_counts.main(["--posters"])
+        for f, body in before.items():
+            self.assertEqual(f.read_bytes(), body, f.name)
+
+    def test_the_flag_skips_the_stale_report_entirely(self):
+        """It reports on the data, not on whether the file is current, so it must not
+        print a stale line a reader would act on."""
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            build_counts.main(["--posters"])
+        self.assertNotIn("docs/counts.md", out.getvalue())
+        self.assertNotIn("stale", out.getvalue())
 
 
 if __name__ == "__main__":
