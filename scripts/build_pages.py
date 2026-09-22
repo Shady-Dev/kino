@@ -604,17 +604,163 @@ def genre_names(gids, genres, gmap, lang):
 
 # ---------------------------------------------------------------- rendering
 
-def group_by_day(shows, today, days=DAYS):
-    """{iso date: {film title: [show, ...]}} for the next `days` days, times ascending."""
+# --- city fold: the app's own film identity, ported ---
+# `mergeKey` and `mergeIds` out of index.html. A city page is the app's combined view
+# rendered ahead of time, so it has to answer "same film?" the same way; keyed on the raw
+# title it did not, and Helsinki drew "Keltaiset Kirjeet" and "Keltaiset kirjeet" as two
+# films on one day (7 such pairs across the committed city pages, 2026-09-22).
+#
+# Two signals, unioned, and neither is complete on its own -- the client's comment on
+# mergeIds has the cases. The title key merges chains that agree on the title; the TMDB id
+# merges chains that do not ("Coyote vs. Acme" at BioRex, "Kojootti vs. ACME" at Finnkino,
+# both 1204680). tests/test_city_merge.py reads the client's regexes and its union rule out
+# of index.html and fails if these drift from them.
+#
+# Venue pages keep grouping on the published title: a single provider's "(Dub)" and
+# "(Orig)" rows are two entries in its own programme and two cards in the app's
+# single-venue view, so merging them here would make the page disagree with the app in the
+# other direction.
+_MERGE_STRIP = (
+    re.compile(r"\((?:suomeksi|dubattu|dub|orig\.?)\)", re.I),
+    re.compile(r"\((?:re-?release|uudelleenjulkaisu|uusi\s+kopio)\)", re.I),
+    re.compile(r",?\s*\bsuomeksi\b", re.I),
+    re.compile(r"\b(?:2d|3d|imax|4k)\b", re.I),
+)
+
+
+def merge_key(title):
+    """The client's `mergeKey`. `norm` is its `normTitle`, already shared with
+    enrich_tmdb and synmerge."""
+    s = title or ""
+    for rx in _MERGE_STRIP:
+        s = rx.sub(" ", s)
+    return norm(s)
+
+
+def merge_roots(shows):
+    """{merge_key: root} after unioning each title key with its films' TMDB ids.
+
+    The client's `mergeIds`, as a union-find over the same two signals. Iteration order is
+    the caller's, and the root a group settles on is never rendered -- only the grouping
+    it produces is -- so a set's order cannot reach the page.
+    """
+    parent = {}
+
+    def find(k):
+        parent.setdefault(k, k)
+        while parent[k] != k:
+            parent[k] = parent[parent[k]]
+            k = parent[k]
+        return k
+
+    def union(a, b):
+        a, b = find(a), find(b)
+        if a != b:
+            parent[b] = a
+
+    for s in shows:
+        k = merge_key(s.get("title"))
+        find(k)
+        if s.get("tmdbId"):
+            union(k, f"tmdb:{s['tmdbId']}")
+    return {k: find(k) for k in list(parent)}
+
+
+# A qualifier hangs off the end of a title behind one of these: "Kojootti vs. ACME,
+# suomeksi", "Kojootti vs. ACME (englanniksi)", "Kojootti vs. ACME - Dub".
+QUALIFIER_CHARS = " ,;:([-\u2013\u2014"
+QUALIFIER_SEP = re.compile("[" + re.escape(QUALIFIER_CHARS) + "]+$")
+# Below this a shared opening is a coincidence rather than the film's name.
+SHARED_HEAD_MIN = 8
+
+
+def shared_head(titles):
+    """The film's name where every title in a merged group only adds a qualifier to it.
+    -> str, or "" when they do not share one.
+
+    Used where the TMDB id merged titles the title key did not, which is where a heading
+    can lie: Kouvola held "Kojootti vs. ACME (suomeksi)" and "... (englanniksi)" as one
+    card, and picking either spelling advertises one audio version for a card holding
+    both. The shared opening advertises neither, and it is the cinemas' own text -- no
+    word is translated, added or reworded.
+
+    The opening has to end at a word boundary in every title, so "Keltaiset Kirjeet" and
+    "Keltaiset kirjeet" could never become "Keltaiset"; that pair shares a title key
+    anyway and never reaches here. "Coyote vs. Acme" and "Kojootti vs. ACME" share
+    nothing, and fall back to the spelling count.
+    """
+    shortest = min(titles, key=len)
+    n = 0
+    while n < len(shortest) and all(t[n] == shortest[n] for t in titles):
+        n += 1
+    pre = QUALIFIER_SEP.sub("", shortest[:n])
+    if len(pre) < SHARED_HEAD_MIN:
+        return ""
+    for t in titles:
+        rest = t[len(pre):]
+        if rest and rest[0] not in QUALIFIER_CHARS:
+            return ""
+    return pre
+
+
+def merged_title(counts):
+    """The heading one merged card carries. `counts` is {title: screenings}. -> str
+
+    The spelling most of the screenings use, then the shortest, then codepoint order. The
+    first rule is the one that decides in practice: a capitalisation slip is one cinema's
+    and the other cinemas agree. The last two only have to be deterministic, because the
+    pages are compared byte for byte by CI's regeneration check.
+
+    `shared_head` comes first where it applies; see it for the case that needs it.
+
+    The app takes the first screening's title instead, which is load order and cannot be
+    reproduced here.
+    """
+    titles = list(counts)
+    if len(titles) > 1:
+        head = shared_head(titles)
+        if head:
+            return head
+    return sorted(titles, key=lambda t: (-counts[t], len(t), t))[0]
+
+
+def group_by_day(shows, today, days=DAYS, merge=False):
+    """{iso date: {film title: [show, ...]}} for the next `days` days, times ascending.
+
+    `merge` folds the cross-provider identity above, for the city pages. The heading is
+    chosen over the whole window, so a film does not change its spelling between today and
+    tomorrow on one page.
+    """
     window = {(today + timedelta(days=i)).isoformat() for i in range(days)}
+    inwin = [s for s in sorted(shows, key=lambda x: x.get("start") or "")
+             if (s.get("start") or "")[:10] in window]
+    if not merge:
+        days = {}
+        for s in inwin:
+            days.setdefault(s["start"][:10], {}).setdefault(s.get("title") or "?", []).append(s)
+        return days
+
+    roots = merge_roots(inwin)
+    spellings = {}
+    for s in inwin:
+        r = roots[merge_key(s.get("title"))]
+        t = s.get("title") or "?"
+        spellings.setdefault(r, {})
+        spellings[r][t] = spellings[r].get(t, 0) + 1
+    keys = {}
+    for s in inwin:
+        keys.setdefault(roots[merge_key(s.get("title"))], set()).add(merge_key(s.get("title")))
+    # One title key in the group means the titles already agree up to case, format and the
+    # markers mergeKey strips, so the spelling count decides and shared_head is not asked.
+    heads = {r: (merged_title(c) if len(keys[r]) > 1
+                 else sorted(c, key=lambda t: (-c[t], len(t), t))[0])
+             for r, c in spellings.items()}
     days = {}
-    for s in sorted(shows, key=lambda x: x.get("start") or ""):
-        start = s.get("start") or ""
-        d = start[:10]
-        if d not in window:
-            continue
-        days.setdefault(d, {}).setdefault(s.get("title") or "?", []).append(s)
+    for s in inwin:
+        head = heads[roots[merge_key(s.get("title"))]]
+        days.setdefault(s["start"][:10], {}).setdefault(head, []).append(s)
     return days
+# --- end city fold ---
 
 
 def day_label(iso, today, t):
@@ -639,7 +785,41 @@ def clip(text, n=200):
     return (cut[:sp] if sp > n * 0.6 else cut).rstrip(" ,.;:") + "\u2026"
 
 
-def stub_parts(s, with_venue, lang, own_lang=False):
+# --- stub tags: the app's, for the merged city card ---
+# `tagsOf` and `stubTags` out of index.html. A city card merges screenings that differ in
+# format, so the difference has to survive on the ticket: "Spider-Man: Brand New Day" and
+# "... 2D" are one card now, and LUXE, iSense, Prime and the dubbed/original marker are
+# what separates its rows.
+#
+# City pages only. A theatre page merges nothing, so every row already carries its
+# provider's own title and nothing is lost by leaving the tags off it.
+#
+# No glyph exception: the app keeps a tag it draws as a glyph (Anniskelu) on every stub
+# even when all of them share it, because the glyph is where a reader looks. These pages
+# draw no glyphs, so a shared tag folds onto the card like any other.
+def tags_of(s):
+    return [x for x in (s.get("method") or "").split(" · ") if x]
+
+
+def common_tags(shows):
+    """The format tags every screening of this film shares, in the first one's order."""
+    sets = [set(tags_of(s)) for s in shows]
+    out = []
+    for f in tags_of(shows[0] if shows else {}):
+        if f not in out and all(f in st for st in sets):
+            out.append(f)
+    return out
+
+
+def stub_tags(tags, aud):
+    """The app's `stubTags`: 2D is not worth a chip, and a tag the room name already says
+    would print twice. Substring containment, as in the client."""
+    a = (aud or "").lower()
+    return [t for t in tags if t and t.lower() != "2d" and t.lower() not in a]
+# --- end stub tags ---
+
+
+def stub_parts(s, with_venue, lang, own_lang=False, own_tags=()):
     """The showtime label, as (css class, text) pairs. The price is not a label part: it
     is its own element on the stub, see film_block.
 
@@ -652,13 +832,16 @@ def stub_parts(s, with_venue, lang, own_lang=False):
 
     Language belongs to the card when every screening of the film that day shares it,
     the app's rule; `own_lang` puts it on this screening when they differ, so nothing a
-    screening says differently is lost. The classes decide wrapping only: the cinema and
-    the language phrases may break at their spaces, the room stays on one line.
+    screening says differently is lost. `own_tags` is the same rule for the format: what
+    this screening has and the card cannot claim for all of them. The classes decide
+    wrapping only: the cinema and the language phrases may break at their spaces, the room
+    stays on one line.
     """
     parts = []
     if with_venue:
         parts.append(("v", s.get("venueLabel") or ""))
     parts.append(("a", s.get("aud") or ""))
+    parts += [("f", x) for x in (own_tags or [])]
     if own_lang:
         parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
     return [(c, t) for c, t in parts if t]
@@ -724,6 +907,10 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     langs = {s.get("lang") or "" for s in shows}
     shared_lang = lang_parts(next(iter(langs)), lang) if len(langs) == 1 else []
     own_lang = len(langs) > 1
+    # Format, only where a card can merge providers: see stub_tags. A format every
+    # screening shares says nothing that separates them and is not drawn at all, so a card
+    # looks exactly as it did unless the fold put differing screenings on it.
+    shared_tags = common_tags(shows) if with_venue else []
 
     meta1 = [score_ring(tmdb, first(shows, "votes"), t)]
     if rating:
@@ -755,7 +942,9 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     times = []
     for s in shows:
         clock = (s.get("start") or "")[11:16]
-        parts = stub_parts(s, with_venue, lang, own_lang=own_lang)
+        own_tags = (stub_tags([f for f in tags_of(s) if f not in shared_tags], s.get("aud"))
+                    if with_venue else [])
+        parts = stub_parts(s, with_venue, lang, own_lang=own_lang, own_tags=own_tags)
         aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
                if parts else "")
         # Always emitted, so the markup is one shape; an empty compartment (`:empty`) narrows
@@ -1197,7 +1386,7 @@ def main(today=None) -> int:
                 # shopping centres and "Kallio" a district. Same rule as the app's
                 # combined view.
                 merged.append({**s, "venueLabel": v["label"], "venueProvider": v["provider"]})
-        days = group_by_day(merged, today, CITY_DAYS)
+        days = group_by_day(merged, today, CITY_DAYS, merge=True)
         p_fi, p_en = paths_city(c)
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
