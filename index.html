@@ -1643,6 +1643,16 @@
     // PostHog's snippet derives the bundle host from the API host this way.
     sc.src = PH_HOST.replace('.i.posthog.com', '-assets.i.posthog.com')
            + '/static/' + PH_VERSION + '/array.js';
+    // PH_VERSION pins the URL, not the bytes behind it. Without this, whoever can change
+    // what that URL returns gets script execution on this origin, and analyticsScrub is no
+    // help: before_send belongs to the library being replaced. sha-384 over the 1.434.2
+    // bundle, 313282 bytes, measured from that URL on 2026-09-22. Re-measure it in the
+    // same commit as any PH_VERSION bump.
+    //
+    // Known cost: if PostHog rebuilds that path the hash stops matching, the script never
+    // runs, onload never fires, phOn stays false, and events queue to the 20-item cap and
+    // are dropped. Analytics stops with nothing on the page to show it.
+    sc.integrity = 'sha384-BmbtQMM1P8wo232drqi6RUQiNd0ZFk56bltD3yk2/94kez4jFURztoW+DlYzT2Ah';
     sc.crossOrigin = 'anonymous';
     sc.async = true;
     sc.onload = () => {

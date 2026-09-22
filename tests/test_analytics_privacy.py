@@ -274,6 +274,19 @@ class VersionPinTest(unittest.TestCase):
     def test_the_unpinned_path_is_not_used(self):
         self.assertNotIn("'/static/array.js'", self.html)
 
+    def test_the_bundle_is_pinned_by_its_bytes_and_not_only_its_url(self):
+        """The version pins the URL. Without integrity, whoever can change what that URL
+        returns has script execution here, and analyticsScrub cannot help: before_send
+        belongs to the library being replaced. Measured from the 1.434.2 bundle on
+        2026-09-22; re-measure in the same commit as any PH_VERSION bump."""
+        self.assertIn("sc.integrity = 'sha384-BmbtQMM1P8wo232drqi6RUQiNd0Z"
+                      "Fk56bltD3yk2/94kez4jFURztoW+DlYzT2Ah';", self.html)
+        # SRI on a cross-origin script is only enforced when the fetch is a CORS one.
+        self.assertIn("sc.crossOrigin = 'anonymous';", self.html)
+        i, c = self.html.index("sc.integrity ="), self.html.index("sc.crossOrigin =")
+        self.assertLess(abs(self.html.count("\n", min(i, c), max(i, c))), 3,
+                        "the two sit together on the one script element")
+
 
 class ConfigTest(unittest.TestCase):
     """The init options, read out of index.html."""

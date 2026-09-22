@@ -62,6 +62,13 @@ Tracked in private notes outside this repo. The Finnkino token is fetched fresh 
 time and used within seconds, so there is no stored credential and nothing to rotate;
 this item covers the rest.
 
+### The PostHog bundle is pinned by its hash
+
+`sc.integrity` holds the sha-384 of the 1.434.2 bundle, measured 2026-09-22. If that path
+is rebuilt the hash stops matching, the script never loads and analytics stops with it.
+Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** re-measure the hash in the same commit as any `PH_VERSION` bump.
+
 
 ## Blocked
 
