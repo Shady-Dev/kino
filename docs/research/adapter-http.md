@@ -64,6 +64,25 @@ byte-identical ones were never counted.
   the migration kept the loop's behaviour unchanged. So the header was carried over rather
   than chosen, and no probe shows the twenty eTiketti hosts varying on it.
 
+**Two providers are read over plain HTTP, because neither host serves TLS.** Probed
+2026-09-22 from an ordinary connection:
+
+| host | TCP/443 | plain HTTP | adapter |
+|---|---|---|---|
+| `www.biosavoy.ax` | refused, `curl: (7) ... port 443` | 200, 33850 bytes, no redirect | `biosavoy.py:99` |
+| `www.moviecompanyalatalo.fi` | refused, same | 200, 11683 bytes, no redirect | `alatalo.py:63` |
+
+Port 80 answers on both and port 443 does not, so there is no HTTPS endpoint to switch to
+and no redirect to follow. Both are `where='cloud'`, 6 venues between them (Bio Savoy 1,
+Alatalo 5), and they account for every `http://` ticket destination in the committed data:
+28 showtimes, 15 Savoy and 13 Alatalo, measured 2026-09-22. Both are `book='door'`, so no
+reader is sent to a payment form over cleartext.
+
+What that exposes: an on-path attacker controls what gets committed for those venues. What
+it does not: `esc()` and `safeUrl()` stop injected text becoming script, and `safeAssetUrl`
+stops it becoming an off-origin request. The rule this fed is in
+[CLAUDE.md](../../CLAUDE.md) under "Adding a provider".
+
 ## Inferences, marked as such
 
 - Folding the accidental twelve cannot be break-verified by re-inserting the old wrapper:

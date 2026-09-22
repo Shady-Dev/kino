@@ -206,6 +206,12 @@ provider missing from it loses its venues, not just its label.
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
   is generated from it, and the client derives every label, host, accent and footer verb.
 - An adapter exposes `SITES` and `fetch_site(site) -> {venue_id: [shows]}`.
+- **A cleartext `base` only where the host serves no TLS.** Bio Savoy and Alatalo are read
+  over `http://` because both refuse TCP/443 and answer 200 on port 80, probed 2026-09-22.
+  That is the whole of the exception: an `http://` base needs the probe written up in
+  `docs/research/adapter-http.md` with its date, and it comes out the day the host serves
+  HTTPS. Never downgrade a host that has TLS, and never follow a `https:` -> `http:`
+  redirect into one.
 - **A site's `base` is the pacing key.** `run.py` reads hosts concurrently and
   serialises the sites that share one, keyed on `urlsplit(site["base"]).netloc`, so the
   sleep inside `fetch_site` still describes what a host sees. Two entries against one

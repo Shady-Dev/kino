@@ -64,11 +64,16 @@ this item covers the rest.
 
 ### The PostHog bundle is pinned by its hash
 
-`sc.integrity` holds the sha-384 of the 1.434.2 bundle, measured 2026-09-22. If that path
-is rebuilt the hash stops matching, the script never loads and analytics stops with it.
-Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+`sc.integrity` holds the sha-384 of the 1.434.2 bundle, measured 2026-09-22. If that path is
+rebuilt the hash stops matching, the script never loads and analytics stops with it. Record:
+[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 **Next action:** re-measure the hash in the same commit as any `PH_VERSION` bump.
 
+### Two providers are read over plain HTTP
+
+Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a cleartext
+`base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
+**Next action:** re-probe when either host is next touched.
 
 ## Blocked
 
@@ -274,11 +279,6 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan
   Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116 venues ride on
   one machine, and no cloud VM keeps that coverage.
-- The stale red `ci.yml` verdict on `main`, cleared 2026-09-20 by `2b2d81102` and kept
-  for the mechanism. The failure was on `fb3c6beb7`, from 34 pages an `enrich_tmdb` run
-  left stale; the fix landed hours later in `165629c60`, a `pages/**` commit outside the
-  workflow's path filter, so it could not turn that run green. It stayed red until an
-  unrelated code push re-ran the workflow. No no-op commit was used, and none is to be.
 - A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
   gzipped delta per day (~390 kB worst case). It would move the traffic path behind
   Actions scheduling.
