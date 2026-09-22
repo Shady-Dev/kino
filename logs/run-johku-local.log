@@ -1,8 +1,8 @@
-[haapamaki] 9 screening(s) in day groups, 5 film page(s) read
-[haapamaki] Haapamäen Elokuvat: 9 showtimes, 7 dates
-[haapamaki] Haapamäen Elokuvat: 9 showtimes, 7 dates
+[haapamaki] 8 screening(s) in day groups, 4 film page(s) read
+[haapamaki] Haapamäen Elokuvat: 8 showtimes, 7 dates
+[haapamaki] Haapamäen Elokuvat: 8 showtimes, 7 dates
 [haapamaki] synopses merged: 0
-[run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 5 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- haapamaenelokuvat.fi
-[run] johku: 1 venues, 9 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] johku: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
