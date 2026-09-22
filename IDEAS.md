@@ -393,7 +393,7 @@ duplicate prose here is gone rather than copied. The one that used to live here 
 worth naming: "Access and ethics", now in `CLAUDE.md`, with the historical record of how
 each rule was arrived at in `docs/archive/2026-09-ops.md`.
 
-Two anchors that used to point inside this file and now point into the archive:
-"Seven backlog items closed without building them" and "The landing pages belong to the
-product" are both in
-[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+Two anchors that used to point inside this file and now point into the archive: "Seven
+backlog items closed without building them" and "The landing pages belong to the product".
+Both are in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md), with what that file
+records about the `index.html` freeze and what no file in this repo records.
