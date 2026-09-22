@@ -54,8 +54,8 @@
 </head>
 <body>
 <div class="bar">
-  <a class="logo" href="/">Leffavuoro<span>.</span></a>
-  <a class="back" href="/">← Näytösaikoihin</a>
+  <a class="logo" href="/" id="homeLink">Leffavuoro<span>.</span></a>
+  <a class="back" href="/" id="backLink">← Näytösaikoihin</a>
 </div>
 <main>
 
@@ -246,6 +246,50 @@ cannot be linked back to you, which may limit access and erasure in practice. Yo
 block the measurement yourself with Do Not Track or a tracker blocker.</p>
 
 </main>
-<footer>Leffavuoro · <a href="/">Näytösajat</a> · <a href="/status/">Palvelun tila</a></footer>
+<footer>Leffavuoro · <a href="/" id="footShowtimes">Näytösajat</a> · <a href="/status/" id="footStatus">Palvelun tila</a></footer>
+<script>
+/* The way back, in the reader's language.
+
+   This page is one document with a section per language, so the app links to `#fi`, `#sv`
+   or `#en` and the fragment does the choosing. What the fragment cannot do is the way
+   back: every link out of here was a bare "/", so a reader who arrived from an English app
+   left in whatever language they had stored (FLOW_REVIEW.md, 2026-09-22).
+
+   The same shape /status/ uses, and deliberately no more: `area` and `lang` off the query,
+   the stored choice next, `fi` last, and the three links out rebuilt from them. Nothing
+   here renders content and nothing rewrites the document's own language -- the page holds
+   all three at once, and `<html lang="fi">` still describes the first section a reader
+   without JavaScript lands on. */
+(function(){
+  var LANGS = ['fi', 'sv', 'en'];
+  var BACK = { fi: '\u2190 N\u00e4yt\u00f6saikoihin', sv: '\u2190 Till f\u00f6rest\u00e4llningstiderna',
+               en: '\u2190 To showtimes' };
+  var SHOWTIMES = { fi: 'N\u00e4yt\u00f6sajat', sv: 'F\u00f6rest\u00e4llningstider', en: 'Showtimes' };
+  var STATUS = { fi: 'Palvelun tila', sv: 'Tj\u00e4nstens status', en: 'Service status' };
+  var param = new URLSearchParams('');
+  try { param = new URLSearchParams(location.search); } catch(e){}
+  var stored = '';
+  try { stored = (JSON.parse(localStorage.getItem('kino-prefs') || '{}') || {}).lang || ''; }
+  catch(e){}
+  var asked = param.get('lang') || '';
+  var lang = LANGS.indexOf(asked) >= 0 ? asked
+           : (LANGS.indexOf(stored) >= 0 ? stored : LANGS[0]);
+  var area = param.get('area') || '';
+  var q = new URLSearchParams();
+  if(area) q.set('area', area);
+  q.set('lang', lang);
+  var home = '/?' + q.toString();
+  function set(id, href, text){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.setAttribute('href', href);
+    if(text) el.textContent = text;
+  }
+  set('homeLink', home, '');
+  set('backLink', home, BACK[lang]);
+  set('footShowtimes', home, SHOWTIMES[lang]);
+  set('footStatus', '/status/?' + q.toString(), STATUS[lang]);
+})();
+</script>
 </body>
 </html>

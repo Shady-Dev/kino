@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Syntax-check the client's JavaScript. -> 0 clean, 1 something is broken.
 
-    python3 scripts/check_inline_js.py              # index.html, status/index.html, sw.js
+    python3 scripts/check_inline_js.py              # index.html, status/index.html,
+                                                   # tietosuoja/index.html, sw.js
     python3 scripts/check_inline_js.py FILE [FILE]  # any .html or .js
 
 There is no build step, so nothing parses `index.html`'s script block before a browser
@@ -29,7 +30,7 @@ import sys
 import tempfile
 
 SCRIPT_RE = re.compile(r"<script([^>]*)>(.*?)</script>", re.S | re.I)
-DEFAULT = ["index.html", "status/index.html", "sw.js"]
+DEFAULT = ["index.html", "status/index.html", "tietosuoja/index.html", "sw.js"]
 
 
 def blocks(html):

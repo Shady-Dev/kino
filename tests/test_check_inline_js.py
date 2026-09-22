@@ -47,15 +47,18 @@ class CheckInlineJsTest(unittest.TestCase):
     # -- the file it exists for ----------------------------------------------------------
 
     def test_the_repos_own_client_passes(self):
-        """Run against index.html, status/index.html and sw.js themselves, not a fixture.
-        If this goes red the client is broken, which is the whole point."""
+        """Run against index.html, status/index.html, tietosuoja/index.html and sw.js
+        themselves, not a fixture. If this goes red the client is broken, which is the
+        whole point."""
         out = subprocess.run([sys.executable, str(SCRIPT)], capture_output=True,
                              text=True, cwd=str(_ctx.ROOT), timeout=120)
         self.assertEqual(out.returncode, 0, out.stderr)
-        # index.html's inline script and its WebSite JSON-LD, status/index.html, sw.js.
-        # index.html carries two inline scripts since 2026-09-13: the app and the <head>
-        # script that decides the first paint; status/index.html and sw.js make five.
-        self.assertIn("5 script(s) checked, 0 problem(s)", out.stdout)
+        # index.html's inline script and its WebSite JSON-LD, status/index.html,
+        # tietosuoja/index.html, sw.js. index.html carries two inline scripts since
+        # 2026-09-13: the app and the <head> script that decides the first paint;
+        # tietosuoja/index.html gained one on 2026-09-22, for the way back in the reader's
+        # language. Six.
+        self.assertIn("6 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 

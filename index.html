@@ -3329,6 +3329,14 @@
   // failed to run still leaves a usable link.
   // The status page with the current selection on it, for the footer link and for the
   // stale banner when no single cinema can be named.
+  // The privacy page, at the section this reader can read, with the way back on the query.
+  // Its own script turns `area` and `lang` into a return link the way /status/ does.
+  function privacyHref(){
+    const q = new URLSearchParams();
+    if(state.area) q.set('area', state.area);
+    q.set('lang', state.lang);
+    return `/tietosuoja/?${q}#${state.lang}`;
+  }
   function statusHref(){
     const q = new URLSearchParams();
     if(state.area) q.set('area', state.area);
@@ -3341,9 +3349,15 @@
     // on the tickets are the providers' and the final price is the cinema's.
     const note = document.querySelector('#priceNote');
     if(note) note.textContent = L[state.lang].priceNote;
-    // Before the #statusLink early return. No query on the href.
+    // Before the #statusLink early return. The privacy page is one document with a
+    // section per language, so the fragment picks the reader's; `area` and `lang` are for
+    // the way back, the same pair /status/ is given. It opened at the Finnish heading for
+    // every reader before this (FLOW_REVIEW.md, 2026-09-22).
     const pv = document.querySelector('#privacyLink a');
-    if(pv) pv.textContent = L[state.lang].privacyLink;
+    if(pv){
+      pv.textContent = L[state.lang].privacyLink;
+      pv.href = privacyHref();
+    }
     const el = document.querySelector('#statusLink');
     if(!el) return;
     el.innerHTML = `<a href="${esc(statusHref())}">${esc(L[state.lang].statusLink)}</a>`;
