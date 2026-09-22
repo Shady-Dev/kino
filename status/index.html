@@ -255,7 +255,8 @@
   const L = {
     fi: {
       title:'Palvelun tila', intro:'Näytösaikojen päivitykset ja tietojen ajantasaisuus.',
-      back:'← Näytösaikoihin', theme:'Vaihda teemaa', langGroup:'Kieli',
+      back:'← Näytösaikoihin', backScreening:'← Takaisin tähän näytökseen',
+      theme:'Vaihda teemaa', langGroup:'Kieli', footNav:'Lisätietoja',
       sources:'Tietolähteet', sourceCount:'{n} tietolähdettä', sourceCount1:'1 tietolähde',
       checked:'Tilanne tarkistettu {when}', checkFailed:'Tarkistus ei onnistunut',
       tz:'Ajat Suomen aikaa',
@@ -307,7 +308,8 @@
     },
     sv: {
       title:'Tjänstens status', intro:'Uppdateringar av föreställningstider och uppgifternas aktualitet.',
-      back:'← Till föreställningstiderna', theme:'Byt tema', langGroup:'Språk',
+      back:'← Till föreställningstiderna', backScreening:'← Tillbaka till föreställningen',
+      theme:'Byt tema', langGroup:'Språk', footNav:'Mer information',
       sources:'Datakällor', sourceCount:'{n} datakällor', sourceCount1:'1 datakälla',
       checked:'Kontrollerat {when}', checkFailed:'Kontrollen misslyckades',
       tz:'Tider i finsk tid',
@@ -359,7 +361,8 @@
     },
     en: {
       title:'Service status', intro:'Showtime updates and how current the data is.',
-      back:'← To showtimes', theme:'Switch theme', langGroup:'Language',
+      back:'← To showtimes', backScreening:'← Back to this screening',
+      theme:'Switch theme', langGroup:'Language', footNav:'More information',
       sources:'Data sources', sourceCount:'{n} data sources', sourceCount1:'1 data source',
       checked:'Checked {when}', checkFailed:'The check did not succeed',
       tz:'Times in Finnish time',
@@ -441,12 +444,54 @@
   let lang = LANGS.includes(askedLang) ? askedLang
            : (LANGS.includes(prefs.get().lang) ? prefs.get().lang : LANGS[0]);
 
-  function backHref(){
+  // The way back the app asks for when it sends one screening here rather than a cinema.
+  const backParam = param.get('back') || '';
+
+  // --- return link: pure, extracted verbatim by tests/return_href_harness.js ---
+  // Where "back to the showtimes" goes. No DOM: the area this page was opened from, the
+  // language the reader is looking at *now*, and the internal return URL the app supplies.
+  //
+  // Reporting a screening used to arrive with `report` and `lang` and nothing else, so the
+  // way back was the bare chooser and the reader lost the cinema and the open film they had
+  // been looking at (FLOW_REVIEW.md, 2026-09-22).
+  //
+  // `back` comes off the query, so it is followed only when it resolves to this origin, and
+  // it is rebuilt from the parts rather than passed through: another host, a scheme-relative
+  // "//elsewhere" and a `javascript:` URL all resolve to a different origin and are dropped,
+  // and the area link is used instead.
+  //
+  // `lang` is always written, into the return URL as well, and Finnish is no exception. A
+  // bare "/" let a stored choice decide instead of the page the reader was looking at, and a
+  // return URL still carrying the language they arrived in would undo the toggle on this
+  // page. startupLang() reads an explicit parameter first and leaves the stored one alone.
+  function internalPath(back, origin){
+    if(!back) return '';
+    try {
+      const u = new URL(back, origin);
+      return u.origin === origin ? u.pathname + u.search + u.hash : '';
+    } catch(e){ return ''; }
+  }
+  function returnHref(area, lang, langs, back, origin){
+    const l = langs.includes(lang) ? lang : langs[0];
+    const p = internalPath(back, origin);
+    if(p){
+      const u = new URL(p, origin);
+      u.searchParams.set('lang', l);
+      return u.pathname + u.search + u.hash;
+    }
     const q = new URLSearchParams();
-    if(areaParam) q.set('area', areaParam);
-    if(lang !== LANGS[0]) q.set('lang', lang);
-    const s = q.toString();
-    return '/' + (s ? '?' + s : '');
+    if(area) q.set('area', area);
+    q.set('lang', l);
+    return '/?' + q.toString();
+  }
+  // --- end return link ---
+
+  function backHref(){
+    return returnHref(areaParam, lang, LANGS, backParam, location.origin);
+  }
+  // The wordmark is Home, so it goes to the area and never to the one screening.
+  function homeHref(){
+    return returnHref(areaParam, lang, LANGS, '', location.origin);
   }
 
   /* ---------- time ---------- */
@@ -838,8 +883,9 @@
     $('pageTitle').textContent = T.title;
     $('pageIntro').textContent = T.intro;
     const back = $('backLink');
-    back.textContent = T.back; back.href = backHref();
-    $('homeLink').href = backHref();
+    back.textContent = internalPath(backParam, location.origin) ? T.backScreening : T.back;
+    back.href = backHref();
+    $('homeLink').href = homeHref();
     $('themeToggle').title = T.theme;
     $('themeToggle').setAttribute('aria-label', T.theme);
     $('langSeg').setAttribute('aria-label', T.langGroup);
@@ -870,8 +916,9 @@
     $('srcRepo').textContent = T.srcRepo;
     $('srcThird').textContent = T.srcThird;
     $('footCredit').textContent = T.footCredit;
+    $('footNav').setAttribute('aria-label', T.footNav);
     $('footNav').innerHTML =
-      `<a href="${esc(backHref())}">${esc(T.navShowtimes)}</a>`
+      `<a href="${esc(homeHref())}">${esc(T.navShowtimes)}</a>`
       + `<a href="#contact">${esc(T.navContact)}</a>`
       + `<a href="https://github.com/Shady-Dev/kino" rel="noopener">${esc(T.navSource)}</a>`;
     $('langSeg').innerHTML = LANGS.map(l =>

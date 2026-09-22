@@ -4554,12 +4554,20 @@
   // screening on the query. Nothing is sent: the reader gets a draft in their own client.
   function reportScreening(s){
     const iso = fiDate(s.start);
+    const url = screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid);
     const detail = [sheetCtx.title,
                     [venueName(s), s.aud].filter(Boolean).join(' \u00b7 '),
                     `${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`,
-                    screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid)
+                    url
                    ].join('\n');
     const q = new URLSearchParams({ report: detail });
+    // The way back, which used to be neither of these. /status/ could only offer the bare
+    // chooser, so reporting a screening cost the reader the cinema and the open film.
+    // `area` for the cinema, `back` for this exact screening; the page prefers `back` and
+    // falls back to `area`, and it follows `back` only because it resolves to this origin.
+    // Relative, so it stays same-origin whatever host the app is served from.
+    if(state.area) q.set('area', state.area);
+    q.set('back', url.slice(location.origin.length));
     if(state.lang !== 'fi') q.set('lang', state.lang);
     location.href = `/status/?${q}#contact`;
   }
