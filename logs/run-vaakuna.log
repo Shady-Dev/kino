@@ -5,5 +5,5 @@
 [run] http: 1 revalidated (304), 0 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinovaakuna.fi
 [run] vaakuna: 1 venues, 32 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.6s of fetching added up across workers that overlap, longest site 0.6s, longest queue wait 80.2s, 0.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 88.7s, 1.0s wall from this module's first fetch starting to its last ending
 exit=0

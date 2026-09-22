@@ -628,7 +628,8 @@
    "krs": [
     "joutsankino",
     "kinoaurora",
-    "kinokulma"
+    "kinokulma",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -940,6 +941,7 @@
     "biokaari",
     "biomarilyn",
     "biopallas",
+    "biorex",
     "biovuoksi",
     "cinemantsala",
     "elavienkuvien",
@@ -957,6 +959,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kkino",
@@ -1376,7 +1379,8 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinokilta"
+    "kinokilta",
+    "tapiola"
    ],
    "r": 7.3,
    "s": {
@@ -1718,6 +1722,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna"
    ],
    "r": 7.7,
@@ -1864,6 +1869,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna"
    ],
    "r": 7.6,
@@ -2566,6 +2572,7 @@
     "niagara",
     "savonkinot",
     "star",
+    "tapiola",
     "vaakuna"
    ],
    "r": 7.7,
@@ -3353,12 +3360,12 @@
     "laitilankino",
     "leffabuumi",
     "matintupa",
-    "navettakino",
     "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -3443,12 +3450,12 @@
     "laitilankino",
     "leffabuumi",
     "matintupa",
-    "navettakino",
     "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -3669,6 +3676,8 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinoset",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kkino",
@@ -3749,6 +3758,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinoset",
     "kinotar",
     "kinotoijala",
     "kinovirta",
@@ -3762,7 +3772,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 0,
+   "r": 7.3,
    "s": {
     "en": "Medical courier Bryan unwittingly finds himself fighting for survival as one fateful, horrifying night collapses around him in chaos.",
     "fi": "Visionäärisen ohjaajan Zach Creggerin (Weapons, Barbarian) mielestä syntyy jännittävä – ja kauhistuttava – uudelleentulkinta Resident Evil -elokuvasarjasta. Täysin uudessa tarinassa Resident Evil seuraa Bryania (Austin Abrams), lääkintälähettiä, joka huomaamattaan ajautuu toiminnantäyteiseen, tauottomaan selviytymiskamppailuun, kun yksi kohtalokas ja kammottava yö syöksyy hänen ympärillään kaaokseen.",
@@ -3799,6 +3809,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinoset",
     "kinotar",
     "kinotoijala",
     "kinovirta",
@@ -4519,8 +4530,10 @@
     "kinoaurora",
     "kinokilta",
     "kinolaika",
+    "kinomyyri",
     "kinoolympia",
-    "star"
+    "star",
+    "tapiola"
    ],
    "r": 7.3,
    "s": {
@@ -5198,6 +5211,15 @@
     "fi": "D. H. Lawrencen romaaniin kauniissa filmatisoinnissa kaksi pariskuntaa on loukussa sovinnaisuuden paineen ja boheemien houkutusten välissä. Alan Batesin ja Oliver Reedin poikapaini oli aikansa sensaatio. Merkkiteos nosti Ken Russellin ohjaajien eturiviin ja Oscar-gaalaan, jossa neljästä ehdokkuudesta heltisi pysti Glenda Jacksonille parhaasta naispääosasta."
    },
    "tr": "https://www.youtube.com/watch?v=Rn8EPZtnsrE"
+  },
+  "writing life annie ernaux through the eyes of high school students": {
+   "img": "data/posters/ecca1aca0d0e6a14.jpg",
+   "r": 0,
+   "s": {
+    "en": "A major figure in contemporary feminism and the first Frenchwoman to win the Nobel Prize for Literature, Annie Ernaux is seen by many as a source of individual and collective emancipation, blending the intimate with the universal. Filmmaker Claire Simon has devoted an original portrait to her, giving students and teachers a voice.",
+    "fi": "Matineanäytös, klubialennus alennusryhmille. Claire Simon kuvaa ainutlaatuisella tavalla Nobel-palkittua Annie Ernaux’ta ja kysyy kuinka hänen teoksiaan tulkitaan ja opetetaan."
+   },
+   "tr": ""
   },
   "your lovely smile": {
    "img": "data/posters/b5c18736352d361c.jpg",
