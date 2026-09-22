@@ -18,8 +18,8 @@ Three guards, each aimed at a real failure seen here:
 1. A whole-file ceiling, which is what catches the slow drift nobody notices.
 2. A per-entry ceiling, because the drift arrives one over-detailed entry at a time.
 3. No measurement tables inside an open-work entry. A table of probe results is evidence,
-   and evidence has its own directory. The two sections that legitimately carry a table,
-   the counts and the archive map, are named exceptions rather than a general escape.
+   and evidence has its own directory. One section legitimately carries a table, the
+   archive map, and it is a named exception rather than a general escape.
 
 If an entry genuinely needs more room, that is the signal it is not an open item any more.
 Write the record in `docs/archive/` or the evidence in `docs/research/` and leave a status
@@ -34,10 +34,13 @@ import _ctx
 
 IDEAS = _ctx.ROOT / "IDEAS.md"
 
-# Headroom over the 312 lines the file held when this was written. A cap that has to be
-# raised every month is not a cap; this one should be raised only when the number of open
-# items genuinely grows, and never to fit a longer entry.
-MAX_LINES = 400
+# Lowered from 400 on 2026-09-22, when the 41-line "Documentation state" section left for
+# the generated docs/counts.md and the file dropped to 370. 390 leaves 20 lines: about two
+# typical entries, or one at the MAX_ENTRY_BODY ceiling below. A cap that has to be raised
+# every month is not a cap; raise this only when the number of open items genuinely grows,
+# and never to fit a longer entry. The counts are no longer among them -- they are derived
+# now, so they cannot drift and cannot take space here.
+MAX_LINES = 390
 
 # The per-entry ceiling the maintainer stated. Entries here run 5 to 15 body lines; the two
 # that exceeded it were both a finished piece of work written up in place.
@@ -46,9 +49,10 @@ MAX_ENTRY_BODY = 15
 # Sections whose content is a list of open items, one `###` entry each.
 ITEM_SECTIONS = ("Active work", "Blocked", "Deferred")
 
-# The two sections a table belongs in: the measured counts, and the map of where the
-# history went. Named, so the exception cannot quietly widen.
-TABLE_SECTIONS = ("Documentation state", "Where the rest went")
+# The one section a table belongs in: the map of where the history went. "Documentation
+# state" was the other until 2026-09-22; its table is generated into docs/counts.md now,
+# and the exemption went with it. Named, so the exception cannot quietly widen.
+TABLE_SECTIONS = ("Where the rest went",)
 
 
 def sections():

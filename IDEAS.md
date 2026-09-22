@@ -299,43 +299,13 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
   cloaking. Spam by every engine's definition.
 
-## Documentation state (2026-09-21, twenty-second pass)
+## Documentation state
 
-Counts in README and here are re-measured against `data/`, the registry and `sitemap.xml`
-on every provider change, because carried-over counts have been wrong repeatedly: the city
-count, the poster count, the page rewrite frequency, the venue and provider counts, and
-once a count stated twice in one file where only one copy moved.
-
-Latest, re-measured 2026-09-21 after Kino K13 and Kino Helios were fetched and their
-snapshot committed. Two earlier passes the same day are superseded by this one. Declared
-and committed agree at 134 venues, so nothing is declared and unpublished. The poster
-figures and the mirrored file count move with every run and are the rows that go stale
-without anything being wrong.
-
-| | |
-|---|---:|
-| providers / venues / cities (declared) | 83 / 134 / 96 |
-| venues in committed data | 134 |
-| local providers (venues) | 12 (34) |
-| venues per adapter, largest | eTiketti 30, Finnkino 17, Nexxo 13, BioRex 12, Johku 7 |
-| generated pages per language | 151 |
-| sitemap URLs | 303 |
-| poster references (shows / films-extra) | 4322 (3916 / 406) |
-| off-origin poster references | 0 |
-| mirrored poster files | 1379 |
-| `sw.js` CACHE | `leffavuoro-v212` |
-
-Pages per language is the sitemap's figure: 134 venue pages plus the 17 cities with more
-than one venue. Theatre directories on disk outnumber it by two, the Studio 123 redirect
-stubs from `737bf3138`, kept and deliberately left out of the sitemap.
-
-README carries the same provider, venue, city, page and sitemap figures and was current
-when this pass measured it. Poster counts live here and not in README: they move with every
-run, and stating them there made the file wrong within hours twice on 2026-09-14. README
-carries the behaviour instead, which does not move.
-
-Earlier passes, and what each of them measured, are in
-[docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
+The counts are generated: [docs/counts.md](docs/counts.md), written by
+`python3 scripts/build_counts.py`, which also syncs the four figures README states in
+prose. They lived here and were re-measured by hand twenty-two times, and five of those
+passes shipped a wrong number, which is why they are derived now and not transcribed.
+Earlier passes are in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 
 Where each document's content belongs is a rule, and it is in
 [CLAUDE.md](CLAUDE.md) under "Where it goes".

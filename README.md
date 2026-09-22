@@ -326,9 +326,9 @@ for a later pass rather than stopping the run. Two independent guards cover that
 window rather than one: the client refuses a poster outside `data/posters/` and
 draws its placeholder tile, and `build_pages.py` leaves such a reference out of
 the generated markup. So an unmirrored poster is a missing picture, never a
-request to another host. Dated measurements of how many references exist and how
-many files back them live in IDEAS.md under "Documentation state", not here,
-because they move with every run.
+request to another host. How many references exist and how many files back them
+are generated into [docs/counts.md](docs/counts.md) and not stated here, because
+they move with every run.
 
 Until 2026-08-29 the typeface came from Google Fonts and about a third of the
 posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
