@@ -254,6 +254,16 @@ class GeneratedPagesTest(unittest.TestCase):
                     self.assertTrue(area.startswith("city:"), area)
                     self.assertEqual(bp.slug(area[5:]), k.rstrip("/").split("/")[-1])
 
+    def test_the_wordmark_carries_this_pages_language(self):
+        """Home from an English page used to open a Finnish app. The wordmark is a link
+        out of the page like the CTA, and it says the same thing about the language."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                m = re.search(r'<a class="logo" href="([^"]+)"', text)
+                self.assertIsNotNone(m, k)
+                self.assertEqual(html.unescape(m.group(1)),
+                                 "/?lang=" + ("en" if k.startswith("/en/") else "fi"))
+
     def test_the_parameters_are_the_ones_the_client_reads(self):
         """The link is only as good as the code at the other end. Both names are read out
         of index.html rather than assumed, so a rename on either side fails here."""

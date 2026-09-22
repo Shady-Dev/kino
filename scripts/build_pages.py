@@ -1089,6 +1089,12 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
                                    current_year=today.year))
     self_path = path_fi if lang == "fi" else path_en
+    # The wordmark is the other way into the app, and it carries this page's language for
+    # the same reason the CTA does. It was a bare "/", so an English page sent its reader
+    # to a Finnish app unless they had already stored English (FLOW_REVIEW.md, 2026-09-22).
+    # `?lang=fi` on the Finnish pages too: startupLang() reads an explicit parameter before
+    # a stored choice and does not overwrite the stored one, so the page a reader is
+    # looking at decides the app they land in, whichever page it is.
     # One link, one line. The intro already says the app carries the days ahead, so the
     # button says only what it does; a two-line version read as a hero panel and pushed
     # the first showtime 16 px further down a phone.
@@ -1124,7 +1130,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 </head>
 <body>
 <div class="wrap">
-<header><div class="bar" data-nosnippet><a class="logo" href="/">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
+<header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
 <main>
 <h1>{esc(h1)}</h1>
 <p class="sub">{esc(sub)}</p>
