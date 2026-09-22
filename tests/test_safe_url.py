@@ -171,5 +171,46 @@ class SafeAssetUrlTest(unittest.TestCase):
         self.assertEqual(self.r["asset_empty"]["out"], "")
 
 
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class SafeUrlRawTest(unittest.TestCase):
+    """`safeUrl` rejected bad schemes and HTML-escaped the result in one function. The
+    escaping is wrong for the calendar file: `icsFor` wrote into `URL:` and
+    `DESCRIPTION:`, where a calendar follows `&amp;` literally, and 21 of 4486 committed
+    ticket URLs carry an `&`. `safeUrlRaw` holds the scheme check and `safeUrl` is
+    `esc()` over it, so they share one answer about what a URL is."""
+
+    @classmethod
+    def setUpClass(cls):
+        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
+                             cwd=str(_ctx.ROOT), timeout=60)
+        if out.returncode:
+            raise AssertionError(f"harness failed: {out.stderr}")
+        cls.r = json.loads(out.stdout)
+
+    def test_it_returns_the_url_unescaped_where_safeurl_escapes(self):
+        for raw, html, ch, entity in (("raw_amp", "https_amp", "&", "&amp;"),
+                                      ("raw_apostrophe", "https_apostrophe", "'", "&#39;"),
+                                      ("raw_quote", "https_quote", '"', "&quot;")):
+            self.assertIn(ch, self.r[raw]["out"], raw)
+            self.assertNotIn(entity, self.r[raw]["out"], raw)
+            self.assertIn(entity, self.r[html]["out"], html)
+
+    def test_an_ordinary_ticket_url_comes_back_byte_for_byte(self):
+        self.assertEqual(self.r["raw_plain"]["out"],
+                         "https://www.finnkino.fi/liput/valitse-paikat/?showtimeId=1")
+        self.assertEqual(self.r["raw_amp"]["out"], "https://x.fi/a?b=1&c=2")
+
+    def test_it_accepts_exactly_what_safeurl_accepts(self):
+        """Same rules, so a scheme-less path still passes and every hostile spelling
+        still fails. Reversing the scheme-less decision is a separate item."""
+        self.assertTrue(self.r["raw_relative"]["accepted"])
+        self.assertTrue(self.r["raw_trailing_lf"]["accepted"], "trim() runs first here too")
+        for name in ("raw_js", "raw_js_lf", "raw_js_leading_nul", "raw_data_html"):
+            self.assertFalse(self.r[name]["accepted"], name)
+
+    def test_nothing_in_is_nothing_out(self):
+        self.assertEqual(self.r["raw_empty"]["out"], "")
+
+
 if __name__ == "__main__":
     unittest.main()

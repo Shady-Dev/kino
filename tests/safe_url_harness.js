@@ -28,7 +28,7 @@ if (a === -1 || b === -1 || b < a) {
   process.exit(2);
 }
 const source = HTML.slice(a, b);
-for (const name of ['safeUrl', 'safeAssetUrl', 'esc']) {
+for (const name of ['safeUrl', 'safeUrlRaw', 'safeAssetUrl', 'esc']) {
   if (!new RegExp('const ' + name + '\\s*=').test(source)) {
     console.error('marker block does not contain ' + name);
     process.exit(2);
@@ -37,10 +37,12 @@ for (const name of ['safeUrl', 'safeAssetUrl', 'esc']) {
 
 const sandbox = {};
 vm.createContext(sandbox);
-vm.runInContext(source + '\n;globalThis.__u = safeUrl; globalThis.__a = safeAssetUrl;',
+vm.runInContext(source + '\n;globalThis.__u = safeUrl; globalThis.__a = safeAssetUrl;'
+                + 'globalThis.__r = safeUrlRaw;',
                 sandbox, { filename: 'urlSinks' });
 const safeUrl = sandbox.__u;
 const safeAssetUrl = sandbox.__a;
+const safeUrlRaw = sandbox.__r;
 
 // Written as char codes so no literal control byte sits in this file, where an editor
 // would hide it and a diff would not show it.
@@ -81,6 +83,7 @@ const CASES = [
   ['https_upper',     'url', 'HTTPS://WWW.FINNKINO.FI/x'],
   ['https_amp',       'url', 'https://x.fi/a?b=1&c=2'],
   ['https_quote',     'url', 'https://x.fi/a?t="p"'],
+  ['https_apostrophe','url', "https://x.fi/lippu/o'brien?d=1"],
   // An adapter leaving a newline on the end must still work: trim() runs first, so the
   // control check never sees it. This is the case that decides reject-vs-strip.
   ['https_trailing_lf',   'url', 'https://x.fi/a' + LF],
@@ -91,6 +94,20 @@ const CASES = [
   ['blank',           'url', '   '],
   ['null',            'url', null],
   ['undefined',       'url', undefined],
+  // -- the raw sink: same rules, no HTML escaping, for the calendar file -------------
+  // Paired with the `https_*` cases above on the same inputs, so a test can assert the
+  // two differ only in the escaping.
+  ['raw_amp',         'raw', 'https://x.fi/a?b=1&c=2'],
+  ['raw_apostrophe',  'raw', "https://x.fi/lippu/o'brien?d=1"],
+  ['raw_quote',       'raw', 'https://x.fi/a?t="p"'],
+  ['raw_plain',       'raw', 'https://www.finnkino.fi/liput/valitse-paikat/?showtimeId=1'],
+  ['raw_relative',    'raw', 'teatteri/itis.html'],
+  ['raw_js',          'raw', 'javascript:alert(1)'],
+  ['raw_js_lf',       'raw', 'java' + LF + 'script:alert(1)'],
+  ['raw_js_leading_nul', 'raw', NUL + 'javascript:alert(1)'],
+  ['raw_data_html',   'raw', 'data:text/html,<img src=x onerror=alert(1)>'],
+  ['raw_trailing_lf', 'raw', 'https://x.fi/a' + LF],
+  ['raw_empty',       'raw', ''],
   // -- the poster sink: same control rule, and its own path allowlist ---------------
   ['asset_ok',            'asset', 'data/posters/tt1234.jpg'],
   ['asset_dot_slash',     'asset', './data/posters/tt1234.jpg'],
@@ -107,7 +124,8 @@ const CASES = [
 
 const out = {};
 for (const [name, which, raw] of CASES) {
-  const got = which === 'url' ? safeUrl(raw) : safeAssetUrl(raw);
+  const got = which === 'url' ? safeUrl(raw)
+            : which === 'raw' ? safeUrlRaw(raw) : safeAssetUrl(raw);
   const rec = { out: got, accepted: got !== '' };
   if (rec.accepted) {
     try {

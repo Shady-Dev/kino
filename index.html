@@ -2046,18 +2046,24 @@
   // normTitle(), films-extra.json and tmdb-aliases.
   const esc = v => String(v ?? '').replace(/[&<>"']/g,
     ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  // Same scheme check, no HTML escaping, for the one sink that is not HTML. icsFor puts
+  // a ticket URL in a calendar file, where the reader's calendar follows `&amp;`
+  // literally. 21 of 4486 committed ticket URLs carry an `&`, and those 21 shipped a
+  // booking link that does not resolve. Accept rules are safeUrl's, scheme-less included,
+  // so the two cannot drift apart on what counts as a URL.
+  const safeUrlRaw = u => {
+    u = String(u || '').trim();
+    if(!u) return '';
+    if(CTRL.test(u)) return '';
+    const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
+    return (!m || /^https?$/i.test(m[1])) ? u : '';
+  };
   // href/src values also come from provider JSON. esc() stops attribute breakout; this
   // rejects any scheme that is not http(s), so a booking URL cannot be javascript: or
   // data:. Scheme-less (repo-relative poster paths) stays allowed. Ticket and trailer
   // URLs are meant to leave this origin. A poster is not: an <img> is a request the
   // browser makes on its own, so posters have their own check below.
-  const safeUrl = u => {
-    u = String(u || '').trim();
-    if(!u) return '';
-    if(CTRL.test(u)) return '';
-    const m = u.match(/^([a-z][a-z0-9+.\-]*):/i);
-    return (!m || /^https?$/i.test(m[1])) ? esc(u) : '';
-  };
+  const safeUrl = u => esc(safeUrlRaw(u));
   // Same-origin and inside the mirror directory. A path allowlist rather than an origin
   // check: mirror_posters.py leaves a hot-linked URL in the data when a download fails,
   // so the privacy invariant has to hold in the client. Every poster reference in the
@@ -2732,7 +2738,9 @@
     const mins = parseInt(show.len, 10);
     const known = Number.isFinite(mins) && mins > 0;
     const end = new Date(start.getTime() + (known ? mins : 120) * 60000);
-    const url = safeUrl(show.url);
+    // Raw: this ends up in a calendar file, where esc() would leave `&amp;` for `&` and
+    // `&#39;` for an apostrophe.
+    const url = safeUrlRaw(show.url);
     const desc = [(show.method || '').split(' \u00b7 ').filter(Boolean).join(', '), url,
                   known ? '' : (ICS_ESTIMATED[lang] || ICS_ESTIMATED.fi)].filter(Boolean).join('\n');
     const where = [venue.label, show.aud || '', venue.city].filter(Boolean).join(', ');
@@ -2746,7 +2754,7 @@
       `SUMMARY:${icsText(show.title)}`,
       `LOCATION:${icsText(where)}`,
       desc ? `DESCRIPTION:${icsText(desc)}` : '',
-      url ? `URL:${url}` : '',
+      url ? `URL:${icsText(url)}` : '',
       'END:VEVENT', 'END:VCALENDAR'].filter(Boolean);
     return lines.map(icsFold).join('\r\n') + '\r\n';
   }

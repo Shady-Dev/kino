@@ -51,6 +51,9 @@ const base = {
   url: 'https://www.finnkino.fi/liput/valitse-paikat/?showtimeId=1004-5281',
 };
 const finnkino = { id: '1004', label: 'Finnkino Promenadi', city: 'Pori' };
+// Real shapes, kept next to each other so test_ics.py can assert the round trip.
+const AMP_URL = 'https://www.elavienkuvienteatteri.fi/lipunvaraus/?movieid=1383&date=2026-09-22&time=17:30';
+const APOS_URL = "https://x.fi/lippu/o'brien?d=1";
 const out = {};
 out.plain = icsFor(base, finnkino, 'fi', NOW);
 out.no_hall = icsFor({ ...base, aud: '' }, { id: 'kr-regina', label: 'Kino Regina', city: 'Helsinki' }, 'fi', NOW);
@@ -65,6 +68,13 @@ out.lone_cr = icsFor({ ...base, title: 'Elokuva\u000dDESCRIPTION:injected' }, fi
 out.c0 = icsFor({ ...base, title: 'Elo\u0007kuva\u0000loppu', aud: 'Sali\u001f3' }, finnkino, 'fi', NOW);
 out.long_title = icsFor({ ...base, title: 'Ääkkösiä '.repeat(12).trim() }, finnkino, 'fi', NOW);
 out.bad_url = icsFor({ ...base, url: 'javascript:alert(1)' }, finnkino, 'fi', NOW);
+// A ticket URL is not HTML. Both characters esc() rewrites and a calendar follows
+// literally: 21 of 4486 committed ticket URLs carry an `&`.
+out.amp_url = icsFor({ ...base, url: AMP_URL }, finnkino, 'fi', NOW);
+out.apostrophe_url = icsFor({ ...base, url: APOS_URL }, finnkino, 'fi', NOW);
+// The three characters icsText rewrites. No committed ticket URL carries one; this is
+// here so the escaping on the URL line is exercised rather than assumed.
+out.comma_url = icsFor({ ...base, url: 'https://x.fi/a?list=1,2;3' }, finnkino, 'fi', NOW);
 out.iso_start = icsFor({ ...base, start: '2026-11-01T18:00:00+02:00' }, finnkino, 'fi', NOW);   // winter time
 out.same_again = icsFor(base, finnkino, 'fi', new Date('2027-01-01T00:00:00Z'));
 
