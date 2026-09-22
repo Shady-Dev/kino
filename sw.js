@@ -3,7 +3,7 @@
 // Data JSON is served from cache at once and refreshed behind, because waiting on the
 // network is the largest launch cost on a slow connection and the page reports its
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
-const CACHE = 'leffavuoro-v212';
+const CACHE = 'leffavuoro-v213';
 
 // This app's own caches and nothing else. The sweep below used to delete every key it
 // did not recognise, which on a shared origin is somebody else's storage.

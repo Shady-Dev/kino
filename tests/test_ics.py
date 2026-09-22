@@ -77,6 +77,20 @@ class IcsTest(unittest.TestCase):
         self.assertEqual(prop(t, "LOCATION"), r"BioRex Tripla\, Sali 3\, Helsinki")
         self.assertTrue(prop(t, "DESCRIPTION").startswith(r"IMAX\, dubattu\n"))
 
+    def test_a_lone_carriage_return_is_escaped_and_cannot_open_a_property(self):
+        """A CR with no LF reached the file raw until 2026-09-22. The title is provider
+        text, so a parser that treats a bare CR as a line break reads a second property."""
+        t = self.o["lone_cr"]
+        self.assertEqual(prop(t, "SUMMARY"), r"Elokuva\nDESCRIPTION:injected")
+        self.assertNotRegex(t, r"\r(?!\n)", "no CR in the file stands on its own")
+
+    def test_the_rest_of_the_c0_range_is_dropped(self):
+        """3.3.11 has no escape for these, so they are dropped rather than emitted."""
+        t = self.o["c0"]
+        self.assertEqual(prop(t, "SUMMARY"), "Elokuvaloppu")
+        self.assertEqual(prop(t, "LOCATION"), r"Finnkino Promenadi\, Sali3\, Pori")
+        self.assertNotRegex(t, r"[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]")
+
     def test_lines_fold_at_75_octets_without_splitting_a_character(self):
         t = self.o["long_title"]
         lines = t.split("\r\n")

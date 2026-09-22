@@ -2686,9 +2686,13 @@
     'BEGIN:STANDARD', 'TZOFFSETFROM:+0300', 'TZOFFSETTO:+0200', 'TZNAME:EET',
     'DTSTART:19701025T040000', 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', 'END:STANDARD',
     'END:VTIMEZONE'];
-  // TEXT values: backslash, semicolon, comma and line breaks are escaped (3.3.11).
+  // TEXT values escape backslash, semicolon, comma and line breaks (3.3.11). Match all
+  // three line endings here. A bare CR that reaches the file is a line break to a lenient
+  // parser, and this value is a provider's film title, so "Elokuva\rDESCRIPTION:x" comes
+  // back out as a second property. 3.3.11 has no escape for the rest of C0, so strip it.
+  // The strip runs last, after the escapes above have produced their output.
   const icsText = v => String(v ?? '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,')
-    .replace(/\r?\n/g, '\\n');
+    .replace(/\r\n|\r|\n/g, '\\n').replace(/[\u0000-\u001F\u007F]/g, '');
   // Helsinki wall time as DATE-TIME: fiDate/fiTime are the page's own formatters.
   const icsLocal = d => fiDate(d).replace(/-/g, '') + 'T' + fiTime(d).replace(':', '') + '00';
   const icsUtc = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');

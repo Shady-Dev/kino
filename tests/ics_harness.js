@@ -59,6 +59,10 @@ out.no_len_sv = icsFor({ ...base, len: undefined }, finnkino, 'sv', NOW);
 out.no_len_en = icsFor({ ...base, len: '0' }, finnkino, 'en', NOW);
 out.punctuation = icsFor({ ...base, title: 'Mission: Impossible, Part; Two\\Three', method: 'IMAX · dubattu' },
                          { id: 'br-tripla', label: 'BioRex Tripla', city: 'Helsinki' }, 'fi', NOW);
+// Control characters a provider's title can carry. Written as escapes so the fixture
+// stays readable in a diff and no literal control byte enters this file.
+out.lone_cr = icsFor({ ...base, title: 'Elokuva\u000dDESCRIPTION:injected' }, finnkino, 'fi', NOW);
+out.c0 = icsFor({ ...base, title: 'Elo\u0007kuva\u0000loppu', aud: 'Sali\u001f3' }, finnkino, 'fi', NOW);
 out.long_title = icsFor({ ...base, title: 'Ääkkösiä '.repeat(12).trim() }, finnkino, 'fi', NOW);
 out.bad_url = icsFor({ ...base, url: 'javascript:alert(1)' }, finnkino, 'fi', NOW);
 out.iso_start = icsFor({ ...base, start: '2026-11-01T18:00:00+02:00' }, finnkino, 'fi', NOW);   // winter time
