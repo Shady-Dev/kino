@@ -2764,7 +2764,7 @@
       `SUMMARY:${icsText(show.title)}`,
       `LOCATION:${icsText(where)}`,
       desc ? `DESCRIPTION:${icsText(desc)}` : '',
-      url ? `URL:${icsText(url)}` : '',
+      url ? `URL:${url}` : '',
       'END:VEVENT', 'END:VCALENDAR'].filter(Boolean);
     return lines.map(icsFold).join('\r\n') + '\r\n';
   }

@@ -107,8 +107,8 @@ class IcsTest(unittest.TestCase):
 
     def test_the_ticket_link_reaches_the_calendar_file_unescaped(self):
         """safeUrl HTML-escapes, which an href needs and a calendar file does not: the
-        reader's calendar follows `&amp;` literally. icsFor takes safeUrlRaw and puts it
-        through icsText like every other value on a content line."""
+        reader's calendar follows `&amp;` literally. icsFor takes safeUrlRaw, writes it
+        bare into URL: and through icsText into DESCRIPTION:, which is a TEXT value."""
         amp = "https://www.elavienkuvienteatteri.fi/lipunvaraus/?movieid=1383&date=2026-09-22&time=17:30"
         t = self.o["amp_url"]
         self.assertEqual(prop(t, "URL"), amp, "URL round-trips the input exactly")
@@ -119,14 +119,13 @@ class IcsTest(unittest.TestCase):
         self.assertEqual(prop(a, "URL"), apos)
         self.assertNotIn("&#39;", a)
 
-    def test_the_url_line_is_escaped_like_every_other_content_line(self):
-        """The one place the round trip is not byte-exact, and the only characters it
-        touches are ones no ticket URL carries: 0 of 4486 committed URLs hold a comma,
-        semicolon or backslash, measured 2026-09-22. Defence only: safeUrlRaw already
-        refuses every control character, and nothing else here can break a line.
-        RFC 5545 types URL as URI rather than TEXT, so a strict reader would want the
-        comma bare; dropping icsText from this one line is that change."""
-        self.assertEqual(prop(self.o["comma_url"], "URL"), r"https://x.fi/a?list=1\,2\;3")
+    def test_the_url_line_carries_a_uri_and_not_escaped_text(self):
+        """3.8.4.6 types URL as URI, and the backslash escaping of 3.3.11 is TEXT only,
+        so `\\,` in a URI value is two literal characters and a strict reader gets a
+        corrupted link. `\\ ; ,` are all legal bare in a URI. Nothing can break the line
+        either: safeUrlRaw returns '' for any string holding a control character, so CR
+        and LF never reach here. LOCATION and DESCRIPTION are TEXT and keep icsText."""
+        self.assertEqual(prop(self.o["comma_url"], "URL"), "https://x.fi/a?list=1,2;3")
 
     def test_an_iso_start_in_winter_time_is_wall_time(self):
         t = self.o["iso_start"]
