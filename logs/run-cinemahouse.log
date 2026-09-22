@@ -12,5 +12,5 @@
 [run] http: 0 revalidated (304), 50 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
 [run] cinemahouse: 3 venues, 269 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 96.4s of fetching added up across workers that overlap, longest site 44.0s, longest queue wait 57.1s, 44.0s wall from this module's first fetch starting to its last ending
+[run] timing: 3 site(s), 87.3s of fetching added up across workers that overlap, longest site 40.1s, longest queue wait 51.8s, 40.1s wall from this module's first fetch starting to its last ending
 exit=0
