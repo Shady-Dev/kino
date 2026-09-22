@@ -35,7 +35,8 @@ ENDPOINT = "https://api.indexnow.org/IndexNow"
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # Only generated pages. data/ is the machine payload, the logs are build output, and
 # neither is a page a search engine should be told about.
-PAGE_DIRS = ("teatteri/", "kaupunki/", "en/theatre/", "en/city/")
+PAGE_DIRS = ("teatteri/", "kaupunki/", "sv/teatteri/", "sv/kaupunki/",
+             "en/theatre/", "en/city/")
 EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"   # git's canonical empty tree
 ZERO = "0" * 40
 

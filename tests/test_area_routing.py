@@ -131,9 +131,15 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertIsNone(self.r["stale_stored"]["area"])
 
     def test_city_links_point_at_the_pages_that_exist(self):
+        """All three now. Swedish used to open the app on the same area, because it had no
+        landing page; it has one from 2026-09-22 and the chooser links to it like the
+        others, so picking a city is the same step in every language."""
         self.assertEqual(self.h["fi"], "/kaupunki/jyvaskyla/")
+        self.assertEqual(self.h["sv"], "/sv/kaupunki/jyvaskyla/")
         self.assertEqual(self.h["en"], "/en/city/jyvaskyla/")
-        self.assertEqual(self.h["sv"], "/?area=city%3AJyv%C3%A4skyl%C3%A4&lang=sv")
+        for lang, href in self.h.items():
+            with self.subTest(lang=lang):
+                self.assertNotIn("?area=", href)
 
     def test_a_city_with_one_venue_is_not_a_valid_area(self):
         """`known()` only accepts a `city:` id where the city has more than one venue,

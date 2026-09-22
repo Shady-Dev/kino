@@ -2597,7 +2597,7 @@
   // with `?area=` and `lang=sv`.
   function homeCityHref(city, slug, lang){
     if(lang === 'en') return `/en/city/${slug}/`;
-    if(lang === 'sv') return `/?area=${encodeURIComponent('city:' + city)}&lang=sv`;
+    if(lang === 'sv') return `/sv/kaupunki/${slug}/`;
     return `/kaupunki/${slug}/`;
   }
   // -> which UI language a load starts in. `?lang=` is the second half of the deep link

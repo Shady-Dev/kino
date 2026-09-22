@@ -57,7 +57,8 @@ class LdJsonEscapingTest(unittest.TestCase):
         closers are the ones page() writes itself -- one per script element it emits,
         the JSON-LD block and the two theme scripts -- and the hostile title adds none."""
         html = bp.page(
-            lang="fi", path_fi="/teatteri/x/", path_en="/en/theatre/x/",
+            lang="fi", paths={"fi": "/teatteri/x/", "sv": "/sv/teatteri/x/",
+                              "en": "/en/theatre/x/"},
             title="X", desc="d", h1="h", sub="s", intro="i",
             days=days_with(HOSTILE), today=TODAY, t=bp.L["fi"], extra={},
             gmap={}, city="Helsinki", with_venue=False, legend="", also="",

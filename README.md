@@ -248,23 +248,24 @@ The app is one JS-rendered URL, so `build_pages.py` renders static pages from
 the same committed JSON at the end of every run, on the runner and on the
 local machine alike, so a schedule and the pages built from it land in one commit:
 
-    /teatteri/{slug}/     one venue        /en/theatre/{slug}/
-    /kaupunki/{slug}/     a whole city     /en/city/{slug}/
+    /teatteri/{slug}/     one venue        /sv/teatteri/{slug}/   /en/theatre/{slug}/
+    /kaupunki/{slug}/     a whole city     /sv/kaupunki/{slug}/   /en/city/{slug}/
 
-151 per language, 303 sitemap URLs: 134 venues plus the seventeen cities with more
+151 per language, 454 sitemap URLs: 134 venues plus the seventeen cities with more
 than one venue, and the front page. The 14 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
 duplicate its venue page and compete with it, so those get the city into the
 venue page's title and address instead.
 
-Each page carries real HTML showtimes, `hreflang` pairs, and
-`ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the
+Each page carries real HTML showtimes, an `hreflang` for each of the three
+languages, and `ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the
 ratings are TMDB's, and presenting another party's ratings as the page's own is
 against Google's guidelines, so it appears as credited text. Every page links
-into the app as `/?area={venueId}&lang={fi|en}`, so a reader lands on the
+into the app as `/?area={venueId}&lang={fi|sv|en}`, so a reader lands on the
 cinema or city they were reading about, in the language they were reading it
-in, and the app's saved favourite is left alone.
+in, and the app's saved favourite is left alone. The wordmark carries the
+language too.
 
 The pages share the app's design: wordmark, the same self-hosted Archivo,
 light and dark tokens following the OS, the FI · SV · EN selector and
@@ -272,8 +273,9 @@ ticket-shaped showtimes. The card is the app's card, and a price sits on the
 screening's ticket, never on the film. A theatre page's ticket ends in a 56 px
 price compartment, blank when the cinema publishes none; a city page's ticket
 puts a 64 px time compartment first, then cinema and room, with a colour rule
-per chain. Swedish has no static page, so its selector entry opens the app on
-the same area in Swedish. The theme toggle reads and writes the same
+per chain. All three languages carry the same page for the same cinema or
+city, so the selector changes the language and nothing else. The theme toggle
+reads and writes the same
 `kino-theme` key as the app; it is the only script on the page and renders
 nothing. Nothing volatile, so a page is rewritten only when its showtimes
 change.

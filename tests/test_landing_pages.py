@@ -5,9 +5,9 @@ wordmark, one CTA into the app carrying venue and language, ticket-shaped showti
 app's tokens in both themes. These tests read the pages the real `main()` writes from the
 committed data, plus a few synthetic shows for the label rule. They pin:
 
-- the four page families exist in the counts the sitemap advertises, and the four legacy
+- the six page families exist in the counts the sitemap advertises, and the legacy
   redirects are byte-identical to the committed ones;
-- every canonical page points at itself and carries its hreflang pair;
+- every canonical page points at itself and carries an hreflang for each language;
 - one CTA per page, in the page's language, whose `area` and `lang` are what the
   client's `startupArea()`/`startupLang()` read;
 - a theatre page never repeats the cinema inside a showtime; a city page always names it;
@@ -16,7 +16,8 @@ committed data, plus a few synthetic shows for the label rule. They pin:
   description, which is one string shared with `og:description` and stays snippet-length;
 - the language codes render as words, from a table identical to the client's, and no
   raw code is left on any page built from the committed data;
-- the FI · SV · EN selector marks the page's language and links the other two;
+- the FI · SV · EN selector marks the page's language and links the other two, each
+  to the same cinema or city rather than into the app;
 - the theme is the app's: the stored `kino-theme` wins before first paint, the OS decides
   otherwise, the toggle writes the same key, and no script renders content;
 - the card is the app's: film facts fold first-non-empty across the day's screenings,
@@ -52,7 +53,7 @@ import build_pages as bp
 
 ROOT = _ctx.ROOT
 REAL_DATA = ROOT / "data"
-REDIRECTS = 4
+REDIRECTS = len(bp.LEGACY_VENUE_SLUGS) * len(bp.LANGS)
 
 
 def advertised():
@@ -68,7 +69,7 @@ AUD_RE = re.compile(r'<span class="aud">(.*?)</span></span>', re.S)   # up to th
 CANON_RE = re.compile(r'<link rel="canonical" href="([^"]+)">')
 LANGSEG_RE = re.compile(r'<nav class="langseg"[^>]*>(.*?)</nav>', re.S)
 RAW_CODE_RE = re.compile(r"\b[A-Z]{2}(?:-[A-Z]{2})?-[AS]\b")
-HREFLANG_RE = re.compile(r'<link rel="alternate" hreflang="(fi|en)" href="([^"]+)">')
+HREFLANG_RE = re.compile(r'<link rel="alternate" hreflang="(fi|sv|en)" href="([^"]+)">')
 DESC_RE = re.compile(r'<meta name="description" content="([^"]+)">')
 OG_DESC_RE = re.compile(r'<meta property="og:description" content="([^"]+)">')
 STUB_RE = re.compile(r'<li><(?:a|span) class="stub[^"]*"[^>]*>(.*?)</li>', re.S)
@@ -98,7 +99,7 @@ class GeneratedPagesTest(unittest.TestCase):
         bp._unmirrored_hosts.clear()
         cls.first_run = cls.run_main()
         cls.pages = {}
-        for prefix in ("teatteri", "kaupunki", "en/theatre", "en/city"):
+        for prefix in bp.PAGE_ROOTS:
             for p in sorted((cls.root / prefix).glob("*/index.html")):
                 cls.pages["/" + str(p.relative_to(cls.root).parent) + "/"] = \
                     p.read_text(encoding="utf-8")
@@ -119,7 +120,7 @@ class GeneratedPagesTest(unittest.TestCase):
             seen.add(v["slug"])
             cls.venues.append(v)
         # One theatre page per venue and one city page per city with more than one venue,
-        # in each language. 75 venues and 10 such cities on 2026-09-02, which is 85.
+        # in each of bp.LANGS. 75 venues and 10 such cities on 2026-09-02, which is 85.
         by_city = {}
         for v in cls.venues:
             by_city.setdefault(v["city"], []).append(v)
@@ -137,6 +138,11 @@ class GeneratedPagesTest(unittest.TestCase):
             bp.main(today=cls.today)
         return buf.getvalue()
 
+    def lang_of(self, path):
+        """The language a canonical path is published in. Finnish is at the root."""
+        return ("sv" if path.startswith("/sv/")
+                else "en" if path.startswith("/en/") else "fi")
+
     def page_for(self, prefix, needle):
         hits = [k for k in self.canonical if k.startswith(prefix) and needle in k]
         self.assertEqual(len(hits), 1, f"{needle!r} under {prefix}: {hits}")
@@ -144,18 +150,24 @@ class GeneratedPagesTest(unittest.TestCase):
 
     # -- the set ---------------------------------------------------------------------------
 
-    def test_the_four_families_render_in_the_advertised_counts(self):
+    def test_the_six_families_render_in_the_advertised_counts(self):
         by_prefix = {}
         for k in self.canonical:
-            by_prefix[k.split("/")[1] if not k.startswith("/en/") else "en/" + k.split("/")[2]] = \
-                by_prefix.get(k.split("/")[1] if not k.startswith("/en/") else "en/" + k.split("/")[2], 0) + 1
-        fi = by_prefix["teatteri"] + by_prefix["kaupunki"]
-        en = by_prefix["en/theatre"] + by_prefix["en/city"]
-        self.assertEqual((fi, en), (self.per_lang, self.per_lang))
+            for family in bp.PAGE_ROOTS:
+                if k.startswith("/" + family + "/"):
+                    by_prefix[family] = by_prefix.get(family, 0) + 1
+                    break
+            else:
+                self.fail(f"{k} is under none of {bp.PAGE_ROOTS}")
+        for lang, families in (("fi", ("teatteri", "kaupunki")),
+                               ("sv", ("sv/teatteri", "sv/kaupunki")),
+                               ("en", ("en/theatre", "en/city"))):
+            with self.subTest(lang=lang):
+                self.assertEqual(sum(by_prefix.get(f, 0) for f in families), self.per_lang)
         self.assertEqual(len(self.redirects), REDIRECTS)
-        self.assertEqual(len(self.pages), 2 * self.per_lang + REDIRECTS)
-        for family in ("teatteri", "kaupunki", "en/theatre", "en/city"):
-            self.assertGreater(by_prefix[family], 0, family)
+        self.assertEqual(len(self.pages), len(bp.LANGS) * self.per_lang + REDIRECTS)
+        for family in bp.PAGE_ROOTS:
+            self.assertGreater(by_prefix.get(family, 0), 0, family)
 
     def test_the_readme_advertises_the_measured_counts(self):
         """`85 per language, 171 sitemap URLs` has to be what the data produces. The
@@ -163,13 +175,13 @@ class GeneratedPagesTest(unittest.TestCase):
         rule in CLAUDE.md was written; this makes the sixth impossible to commit."""
         per_lang, urls = advertised()
         self.assertEqual(per_lang, self.per_lang)
-        self.assertEqual(urls, 2 * self.per_lang + 1)
+        self.assertEqual(urls, len(bp.LANGS) * self.per_lang + 1)
 
     def test_the_sitemap_lists_exactly_the_canonical_pages(self):
         sm = (self.root / "sitemap.xml").read_text(encoding="utf-8")
         locs = set(re.findall(r"<loc>(.*?)</loc>", sm))
         self.assertEqual(locs, {bp.SITE + "/"} | {bp.SITE + k for k in self.canonical})
-        self.assertEqual(len(locs), 2 * self.per_lang + 1)
+        self.assertEqual(len(locs), len(bp.LANGS) * self.per_lang + 1)
 
     def test_the_legacy_redirects_are_untouched(self):
         for k, text in self.redirects.items():
@@ -178,46 +190,108 @@ class GeneratedPagesTest(unittest.TestCase):
                 self.assertEqual(text, committed)
                 self.assertNotIn('class="cta"', text)
 
-    def test_every_canonical_page_points_at_itself_and_its_pair(self):
+    def test_every_canonical_page_points_at_itself_and_its_alternates(self):
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 self.assertEqual(CANON_RE.search(text).group(1), bp.SITE + k)
                 head = text.split("</head>")[0]
-                pair = dict(HREFLANG_RE.findall(head))
-                self.assertEqual(set(pair), {"fi", "en"})
-                self.assertEqual(pair["fi" if not k.startswith("/en/") else "en"], bp.SITE + k)
-                self.assertNotIn('hreflang="sv"', head)      # no Swedish canonical exists
+                alts = dict(HREFLANG_RE.findall(head))
+                self.assertEqual(set(alts), set(bp.LANGS))
+                self.assertEqual(alts[self.lang_of(k)], bp.SITE + k)
+                # x-default is the Finnish page: the one a reader with no matching
+                # language gets.
+                xd = re.search(r'hreflang="x-default" href="([^"]+)"', head)
+                self.assertIsNotNone(xd, head)
+                self.assertEqual(xd.group(1), alts["fi"])
                 self.assertEqual(re.search(r'<html lang="(\w+)">', text).group(1),
-                                 "en" if k.startswith("/en/") else "fi")
+                                 self.lang_of(k))
 
     # -- the language selector ---------------------------------------------------------------
 
     def test_the_selector_marks_this_language_and_links_the_other_two(self):
         """FI · SV · EN on every page: the page's own language is a non-link marked
-        current, the other static language links to the pair page, and Swedish opens the
-        app on this page's area in Swedish, since no Swedish landing page exists."""
+        current, and the other two link to the same cinema or city in their language.
+
+        Swedish used to link into the app instead, because it had no page, so choosing SV
+        on a city page changed the kind of page as well as the language and choosing EN
+        again did not come back. Changing the language changes the language."""
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 segs = LANGSEG_RE.findall(text)
                 self.assertEqual(len(segs), 1)
                 seg = segs[0]
                 items = re.findall(r"<(a|span)([^>]*)>(FI|SV|EN)</(?:a|span)>", seg)
-                self.assertEqual([i[2] for i in items], ["FI", "SV", "EN"])
+                self.assertEqual([i[2] for i in items], [c.upper() for c in bp.LANGS])
                 cur = [i for i in items if 'aria-current="page"' in i[1]]
                 self.assertEqual(len(cur), 1)
                 self.assertEqual(cur[0][0], "span")
-                own = "EN" if k.startswith("/en/") else "FI"
-                self.assertEqual(cur[0][2], own)
-                pair = dict(HREFLANG_RE.findall(text.split("</head>")[0]))
-                other = "fi" if own == "EN" else "en"
-                m = re.search(rf'<a href="([^"]+)" hreflang="{other}">{other.upper()}</a>', seg)
-                self.assertIsNotNone(m, seg)
-                self.assertEqual(bp.SITE + m.group(1), pair[other])
-                sv = re.search(r'<a href="([^"]+)">SV</a>', seg)
-                self.assertIsNotNone(sv, seg)
-                area = html.unescape(CTA_RE.search(text).group(1)).split("area=")[1].split("&")[0]
-                self.assertEqual(html.unescape(sv.group(1)), f"/?area={area}&lang=sv")
-                self.assertNotIn("hreflang", sv.group(0))
+                self.assertEqual(cur[0][2], self.lang_of(k).upper())
+                alts = dict(HREFLANG_RE.findall(text.split("</head>")[0]))
+                for code in bp.LANGS:
+                    if code == self.lang_of(k):
+                        continue
+                    m = re.search(rf'<a href="([^"]+)" hreflang="{code}">{code.upper()}</a>',
+                                  seg)
+                    self.assertIsNotNone(m, seg)
+                    self.assertEqual(bp.SITE + html.unescape(m.group(1)), alts[code])
+                    self.assertIn(html.unescape(m.group(1)), self.canonical,
+                                  "the selector links a page this build did not write")
+
+    def test_the_selector_is_a_round_trip_over_the_same_cinema_or_city(self):
+        """The requirement the Swedish pages exist for: switching language changes the
+        language and nothing else, and switching back comes back.
+
+        Same kind of page, same cinema or city, and the page it lands on links to the one
+        it came from. A reader who tries SV and changes their mind is where they started.
+        """
+        def kind(path):
+            return "city" if ("/kaupunki/" in path or "/city/" in path) else "venue"
+
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                seg = LANGSEG_RE.findall(text)[0]
+                for href, code in re.findall(r'<a href="([^"]+)" hreflang="(\w+)">', seg):
+                    href = html.unescape(href)
+                    self.assertEqual(kind(href), kind(k), (k, href))
+                    self.assertEqual(href.rstrip("/").split("/")[-1],
+                                     k.rstrip("/").split("/")[-1], (k, href))
+                    other = LANGSEG_RE.findall(self.canonical[href])[0]
+                    back = re.search(rf'<a href="([^"]+)" hreflang="{self.lang_of(k)}">',
+                                     other)
+                    self.assertIsNotNone(back, other)
+                    self.assertEqual(html.unescape(back.group(1)), k)
+
+    def test_every_cinema_and_city_is_published_in_every_language(self):
+        """No page family is short a language, which is what made SV the odd one out."""
+        by_slug = {}
+        for k in self.canonical:
+            by_slug.setdefault((k.rstrip("/").split("/")[-1],
+                                "city" if ("/kaupunki/" in k or "/city/" in k) else "venue"),
+                               set()).add(self.lang_of(k))
+        for key, langs in sorted(by_slug.items()):
+            with self.subTest(page=key):
+                self.assertEqual(langs, set(bp.LANGS))
+
+    def test_every_link_between_pages_stays_in_the_pages_language(self):
+        """The cinema links on a city page and the city link on a cinema page. A Swedish
+        city page listing Finnish cinema pages would drop the reader out of Swedish on the
+        next click, which is the same fault the selector had."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                hrefs = [html.unescape(h) for h in
+                         re.findall(r'<a class="vchip[^"]*" href="([^"]+)"', text)]
+                self.assertTrue(hrefs or "/kaupunki/" not in k and "/city/" not in k, k)
+                for href in hrefs:
+                    self.assertIn(href, self.canonical, (k, href))
+                    self.assertEqual(self.lang_of(href), self.lang_of(k), (k, href))
+
+    def test_the_selector_never_sends_a_reader_into_the_app(self):
+        """The fault this replaced: SV was `/?area=...&lang=sv`, a different kind of page
+        with a different set of controls and a different span of days."""
+        for k, text in self.canonical.items():
+            with self.subTest(path=k):
+                seg = LANGSEG_RE.findall(text)[0]
+                self.assertNotIn("/?area=", html.unescape(seg))
 
     # -- the CTA ---------------------------------------------------------------------------
 
@@ -230,10 +304,7 @@ class GeneratedPagesTest(unittest.TestCase):
                 label = " ".join(text_of(ctas[0][1]).replace("\u2192", "").split())
                 # One line, one label: the intro already says the app carries the days
                 # ahead, so the button does not repeat it.
-                if k.startswith("/en/"):
-                    self.assertEqual(label, "See the full programme")
-                else:
-                    self.assertEqual(label, "Avaa koko ohjelmisto")
+                self.assertEqual(label, bp.L[self.lang_of(k)]["cta"])
                 for gone in (old, "nyt ja tulevina", "upcoming screenings", 'class="more"'):
                     self.assertNotIn(gone, text)
 
@@ -243,11 +314,11 @@ class GeneratedPagesTest(unittest.TestCase):
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 href = html.unescape(CTA_RE.search(text).group(1))
-                m = re.fullmatch(r"/\?area=([^&]+)&lang=(fi|en)", href)
+                m = re.fullmatch(r"/\?area=([^&]+)&lang=(fi|sv|en)", href)
                 self.assertIsNotNone(m, href)
                 area = bp.urllib.parse.unquote(m.group(1))
-                self.assertEqual(m.group(2), "en" if k.startswith("/en/") else "fi")
-                if "/theatre/" in k or k.startswith("/teatteri/"):
+                self.assertEqual(m.group(2), self.lang_of(k))
+                if "/theatre/" in k or "/teatteri/" in k:
                     self.assertIn(area, ids)
                     self.assertEqual(area, by_slug[k.rstrip("/").split("/")[-1]])
                 else:
@@ -261,8 +332,7 @@ class GeneratedPagesTest(unittest.TestCase):
             with self.subTest(path=k):
                 m = re.search(r'<a class="logo" href="([^"]+)"', text)
                 self.assertIsNotNone(m, k)
-                self.assertEqual(html.unescape(m.group(1)),
-                                 "/?lang=" + ("en" if k.startswith("/en/") else "fi"))
+                self.assertEqual(html.unescape(m.group(1)), "/?lang=" + self.lang_of(k))
 
     def test_the_parameters_are_the_ones_the_client_reads(self):
         """The link is only as good as the code at the other end. Both names are read out
@@ -394,7 +464,7 @@ class GeneratedPagesTest(unittest.TestCase):
                 lists = re.findall(r'<ul class="times( grid)?">', text)
                 if not lists:
                     continue          # nothing in the window; the count test covers it
-                city = k.startswith("/kaupunki/") or k.startswith("/en/city/")
+                city = "/kaupunki/" in k or "/city/" in k
                 self.assertEqual({bool(g) for g in lists}, {city})
 
     def test_the_price_label_is_the_clients(self):
@@ -630,10 +700,7 @@ class GeneratedPagesTest(unittest.TestCase):
             with self.subTest(path=k):
                 m = re.search(r'<button id="themeToggle" type="button" title="([^"]+)" aria-label="([^"]+)">', text)
                 self.assertIsNotNone(m)
-                if k.startswith("/en/"):
-                    self.assertEqual(m.group(2), "Switch between light and dark theme")
-                else:
-                    self.assertEqual(m.group(2), "Vaihda vaalean ja tumman teeman välillä")
+                self.assertEqual(m.group(2), bp.L[self.lang_of(k)]["a_theme"])
                 body_js = re.findall(r"<script>(.*?)</script>", text.split("</head>")[1], re.S)[0]
                 self.assertIn("localStorage.setItem('kino-theme',next)", body_js)
                 self.assertIn("theme-color", body_js)
@@ -764,7 +831,7 @@ class DescriptionCopyTest(unittest.TestCase):
         string the builder returned."""
         desc = bp.venue_desc(bp.L["fi"], 'Kino "A" & <b>B</b>', "Kitee", "buy")
         text = bp.page(
-            lang="fi", path_fi="/teatteri/x/", path_en="/en/theatre/x/", title="T",
+            lang="fi", paths={"fi": "/teatteri/x/", "sv": "/sv/teatteri/x/", "en": "/en/theatre/x/"}, title="T",
             desc=desc, h1="H", sub="S", intro="I", days={}, today=date(2026, 9, 21),
             t=bp.L["fi"], extra={}, gmap={}, city="Kitee", with_venue=False, legend="",
             also="", og_image="/icon-512.png", app_href="/?area=x&lang=fi", area="x",

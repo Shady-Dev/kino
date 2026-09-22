@@ -87,8 +87,8 @@ def counts():
 
     sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
     urls = sitemap.count("<loc>")
-    # Finnish and English carry the same set, and the front page is neither language's.
-    pages_per_language = (urls - 1) // 2
+    # Every language carries the same set, and the front page is none of their pages.
+    pages_per_language = (urls - 1) // len(build_pages.LANGS)
 
     off = _poster_refs()[3]
     cache = re.search(r"leffavuoro-v\d+", (ROOT / "sw.js").read_text(encoding="utf-8"))

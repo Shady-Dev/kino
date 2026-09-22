@@ -480,7 +480,8 @@ class NiagaraRegistryTest(unittest.TestCase):
         for lang in ("fi", "en"):
             with self.subTest(lang=lang):
                 html = bp.page(
-                    lang=lang, path_fi="/teatteri/x/", path_en="/en/theatre/x/",
+                    lang=lang, paths={"fi": "/teatteri/x/", "sv": "/sv/teatteri/x/",
+                          "en": "/en/theatre/x/"},
                     title="X", desc="d", h1="h", sub="s", intro="i", days=days, today=today,
                     t=bp.L[lang], extra={}, gmap={}, city="Tampere", with_venue=False,
                     legend="", also="", og_image="/icon-512.png", app_href="/", area="x",

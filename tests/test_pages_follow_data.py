@@ -70,12 +70,12 @@ class PagesFollowDataTest(unittest.TestCase):
         after = self.build()
         changed = sorted(str(k) for k in before if before[k] != after.get(k))
         self.assertTrue(changed, f"moving a screening at {vid} changed no page")
-        # Its own theatre pages in both languages, and possibly its city's pages.
-        own = [k for k in changed if re.search(r"^(teatteri|en/theatre)/", k)]
-        self.assertEqual(len(own), 2, changed)
+        # Its own theatre pages, one per published language, and possibly its city's.
+        own = [k for k in changed if re.search(r"^(sv/)?(teatteri|en/theatre)/", k)]
+        self.assertEqual(len(own), len(bp.LANGS), changed)
         city = json.loads(path.read_text(encoding="utf-8"))["shows"][i].get("theatre", "")
         for k in changed:
-            self.assertRegex(k, r"^(teatteri|en/theatre|kaupunki|en/city)/",
+            self.assertRegex(k, r"^(sv/)?(teatteri|kaupunki|en/theatre|en/city)/",
                              f"{k} moved for a screening at {vid}")
         self.assertEqual(before[pathlib.Path("sitemap.xml")], after[pathlib.Path("sitemap.xml")])
         # Unrelated theatre pages are byte-identical.

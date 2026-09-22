@@ -5,9 +5,9 @@ The app is a single JS-rendered URL, so the site was one entry in a search index
 pages come from the same committed JSON the app reads: one source of truth, no second
 fetcher.
 
-    /teatteri/{slug}/           fi, one venue        /en/theatre/{slug}/
-    /kaupunki/{slug}/           fi, a whole city     /en/city/{slug}/
-    /sitemap.xml                every page, both languages
+    /teatteri/{slug}/           fi, one venue        /sv/teatteri/{slug}/  /en/theatre/{slug}/
+    /kaupunki/{slug}/           fi, a whole city     /sv/kaupunki/{slug}/  /en/city/{slug}/
+    /sitemap.xml                every page, every language
 
 City pages exist only where a city has more than one venue, the app's own rule for its
 combined view. A city page for a one-venue city would duplicate the venue page, so those
@@ -76,6 +76,9 @@ def _unmirrored(img):
         host = img.split("/")[2] if "//" in img else img
         _unmirrored_hosts[host] = _unmirrored_hosts.get(host, 0) + 1
     return ""
+# Every language the pages are published in, in the order the selector shows them. The
+# app's own LANGS, and the client's `startupLang()` accepts each as `?lang=`.
+LANGS = ("fi", "sv", "en")
 DAYS = 4          # today plus three: enough to answer "what is on", small enough to commit
 CITY_DAYS = 2     # a ten-venue city at seven days was a 1.2 MB page
 LD_DAYS = 2       # markup for today and tomorrow only, see ld_json()
@@ -160,6 +163,62 @@ L = {
         "contact": "Elokuvateattereille: yhteydenotot ja poistopyynn\u00f6t",
         "source": "L\u00e4hdekoodi",
         "status_link": "Palvelun tila ja tiedot \u2197",
+    },
+    "sv": {
+        "lang": "sv", "locale": "sv_FI",
+        "venue_title": "{venue}, {city} \u2013 filmer och f\u00f6rest\u00e4llningstider",
+        "city_title": "Filmer och f\u00f6rest\u00e4llningstider \u2013 {city}",
+        "venue_h1": "{venue} \u2013 f\u00f6rest\u00e4llningstider",
+        "city_h1": "Filmer och f\u00f6rest\u00e4llningstider \u2013 {city}",
+        "venue_desc": "{venue} \u2013 {city}: kommande filmer och f\u00f6rest\u00e4llningstider.",
+        "desc_buy": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att k\u00f6pa "
+                    "biljetter p\u00e5 biografens webbplats.",
+        "desc_reserve": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att boka "
+                        "platser p\u00e5 biografens webbplats.",
+        "desc_list": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att \u00f6ppna "
+                     "biografens eget program.",
+        "desc_door": "Biljetterna s\u00e4ljs vid d\u00f6rren. P\u00e5 samma sida hittar du ocks\u00e5 "
+                     "\u00e5ldersgr\u00e4nser, spr\u00e5k och speltider.",
+        "desc_admission": "F\u00f6rest\u00e4llningarna ing\u00e5r i intr\u00e4desbiljetten. P\u00e5 samma "
+                          "sida hittar du ocks\u00e5 filmernas uppgifter.",
+        "desc_other": "P\u00e5 samma sida hittar du ocks\u00e5 \u00e5ldersgr\u00e4nser, spr\u00e5k och "
+                      "speltider.",
+        "city_desc": "{city}: vilka filmer visas de n\u00e4rmaste dagarna? J\u00e4mf\u00f6r "
+                     "biografernas f\u00f6rest\u00e4llningstider, \u00e5ldersgr\u00e4nser, spr\u00e5k och "
+                     "tillg\u00e4ngliga biljettl\u00e4nkar.",
+        "venue_sub": "{city} \u00b7 {host}",
+        "city_sub": "{n} biografer",
+        "intro_buy": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en tid "
+                     "kommer du till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
+        "intro_reserve": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en "
+                         "tid kommer du till platsbokningen p\u00e5 {host}.",
+        "intro_list": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en tid "
+                      "kommer du till biografens program p\u00e5 {host}.",
+        "intro_door": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Biljetterna "
+                      "s\u00e4ljs vid d\u00f6rren.",
+        "intro_admission": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. "
+                           "F\u00f6rest\u00e4llningarna ing\u00e5r i intr\u00e4desbiljetten, som s\u00e4ljs "
+                           "p\u00e5 {host}.",
+        "age_note": "\u00c5ldersgr\u00e4nsen f\u00f6r f\u00f6rest\u00e4llningarna \u00e4r {n} \u00e5r.",
+        "city_intro": "Se f\u00f6rest\u00e4llningstiderna fr\u00e5n {n} biografer f\u00f6r de n\u00e4rmaste "
+                      "dagarna. Fr\u00e5n en tid kommer du till biografens biljett- eller "
+                      "programsida n\u00e4r en l\u00e4nk finns.",
+        "cta": "\u00d6ppna hela programmet",
+        "today": "I dag", "tomorrow": "I morgon",
+        "days": ["M\u00e5n", "Tis", "Ons", "Tors", "Fre", "L\u00f6r", "S\u00f6n"],
+        "no_shows": "Inga f\u00f6rest\u00e4llningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
+        "mins": "min", "tmdb": "TMDB",
+        "venues_h": "Biografer \u2013 {city}",
+        "city_link": "Alla biografer \u2013 {city}",
+        "subs": "textning: {}", "lang_nav": "Spr\u00e5k",
+        "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
+        "from": "fr\u00e5n", "votes": "r\u00f6ster",
+        "sources": "F\u00f6rest\u00e4llningsuppgifter: varje biografs eget program. Betyg och "
+                   "beskrivningar: TMDB. Ett personligt hobbyprojekt, utan koppling "
+                   "till biograferna.",
+        "contact": "F\u00f6r biografer: kontakt och beg\u00e4ran om borttagning",
+        "source": "K\u00e4llkod",
+        "status_link": "Tj\u00e4nstens status och information \u2197",
     },
     "en": {
         "lang": "en", "locale": "en_GB",
@@ -261,6 +320,13 @@ LN = {
            "UK": "ukraina", "AR": "arabia", "JA": "japani", "ZH": "kiina", "KO": "korea",
            "HI": "hindi", "TR": "turkki", "KA": "georgia", "TA": "tamili", "LT": "liettua",
            "ML": "malajalam"},
+    "sv": {"FI": "finska", "EN": "engelska", "SV": "svenska", "ES": "spanska",
+           "DE": "tyska", "FR": "franska", "IT": "italienska", "RU": "ryska",
+           "ET": "estniska", "DA": "danska", "NO": "norska", "IS": "isl\u00e4ndska",
+           "NL": "nederl\u00e4ndska", "PL": "polska", "PT": "portugisiska",
+           "UK": "ukrainska", "AR": "arabiska", "JA": "japanska", "ZH": "kinesiska",
+           "KO": "koreanska", "HI": "hindi", "TR": "turkiska", "KA": "georgiska",
+           "TA": "tamil", "LT": "litauiska", "ML": "malayalam"},
     "en": {"FI": "Finnish", "EN": "English", "SV": "Swedish", "ES": "Spanish", "DE": "German",
            "FR": "French", "IT": "Italian", "RU": "Russian", "ET": "Estonian", "DA": "Danish",
            "NO": "Norwegian", "IS": "Icelandic", "NL": "Dutch", "PL": "Polish",
@@ -1060,24 +1126,30 @@ def ld_json(days, today, city, extra):
     return out
 
 
-def lang_switch(lang, path_fi, path_en, area, t):
+def lang_switch(lang, paths, t):
     """FI · SV · EN, the app's own selector. The page's language is a plain span marked
-    current; the other static language links to its page; Swedish has no static page
-    yet, so it opens the app on this area in Swedish -- `lang=sv` is accepted by the same
-    startupLang() the CTA relies on. No Swedish hreflang in <head>: there is no Swedish
-    canonical to point at."""
-    sv = "/?area=" + urllib.parse.quote(area) + "&lang=sv"
-    def seg(code, href):
+    current and the other two link to the same page in their language.
+
+    Swedish used to link to the app instead, because it had no page: `/en/city/helsinki/`
+    plus SV gave `/?area=city%3AHelsinki&lang=sv`, which is a different kind of page with a
+    different set of controls and a different span of days, and going back to EN left the
+    reader in the app (FLOW_REVIEW.md, 2026-09-22). Changing the language now changes the
+    language. The pages carry an hreflang for all three."""
+    def seg(code):
         if code == lang:
             return f'<span aria-current="page">{code.upper()}</span>'
-        hl = f' hreflang="{code}"' if code != "sv" else ""
-        return f'<a href="{esc(href)}"{hl}>{code.upper()}</a>'
+        return f'<a href="{esc(paths[code])}" hreflang="{code}">{code.upper()}</a>'
     return (f'<nav class="langseg" aria-label="{esc(t["lang_nav"])}">'
-            + seg("fi", path_fi) + seg("sv", sv) + seg("en", path_en) + "</nav>")
+            + "".join(seg(c) for c in LANGS) + "</nav>")
 
 
-def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
+def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css):
+    # One per published language plus x-default on the Finnish page, which is the one a
+    # reader with no matching language gets.
+    hreflangs = "\n".join(
+        [f'<link rel="alternate" hreflang="{c}" href="{SITE}{paths[c]}">' for c in LANGS]
+        + [f'<link rel="alternate" hreflang="x-default" href="{SITE}{paths["fi"]}">'])
     body, syn_seen = [], set()
     if not days:
         body.append(f'<p class="intro"><span data-nosnippet>{esc(t["no_shows"])}</span></p>')
@@ -1088,7 +1160,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
             body.append(film_block(title_, shows, extra, gmap, lang, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
                                    current_year=today.year))
-    self_path = path_fi if lang == "fi" else path_en
+    self_path = paths[lang]
     # The wordmark is the other way into the app, and it carries this page's language for
     # the same reason the CTA does. It was a bare "/", so an English page sent its reader
     # to a Finnish app unless they had already stored English (FLOW_REVIEW.md, 2026-09-22).
@@ -1112,9 +1184,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0D0E12">
 <script>{THEME_HEAD_JS}</script>
 <link rel="canonical" href="{SITE}{self_path}">
-<link rel="alternate" hreflang="fi" href="{SITE}{path_fi}">
-<link rel="alternate" hreflang="en" href="{SITE}{path_en}">
-<link rel="alternate" hreflang="x-default" href="{SITE}{path_fi}">
+{hreflangs}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Leffavuoro">
 <meta property="og:title" content="{esc(title)}">
@@ -1130,7 +1200,7 @@ def page(*, lang, path_fi, path_en, title, desc, h1, sub, intro, days, today, t,
 </head>
 <body>
 <div class="wrap">
-<header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a>{lang_switch(lang, path_fi, path_en, area, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
+<header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a>{lang_switch(lang, paths, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
 <main>
 <h1>{esc(h1)}</h1>
 <p class="sub">{esc(sub)}</p>
@@ -1179,8 +1249,10 @@ def redirect_page(lang, to_path, label):
     Nothing volatile in it, so `write_if_changed` keeps returning "kept" and these four
     files stop appearing in diffs.
     """
-    t = ("Sivu on siirtynyt" if lang == "fi" else "This page has moved")
-    go = ("Siirry teatterin sivulle" if lang == "fi" else "Go to the cinema's page")
+    t = {"fi": "Sivu on siirtynyt", "sv": "Sidan har flyttat",
+         "en": "This page has moved"}[lang]
+    go = {"fi": "Siirry teatterin sivulle", "sv": "G\u00e5 till biografens sida",
+          "en": "Go to the cinema's page"}[lang]
     return (f'<!doctype html>\n<html lang="{lang}">\n<head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">\n'
             f'<title>{esc(t)}: {esc(label)}</title>\n'
@@ -1195,7 +1267,8 @@ def redirect_page(lang, to_path, label):
 
 # The four prefixes this generator owns outright. Nothing else under ROOT is ever
 # removed, and these are removed only after the whole set has been written.
-PAGE_ROOTS = ("teatteri", "kaupunki", "en/theatre", "en/city")
+PAGE_ROOTS = ("teatteri", "kaupunki", "sv/teatteri", "sv/kaupunki",
+              "en/theatre", "en/city")
 # A build that suddenly owns far fewer pages is a broken input, not a removal: a
 # `venues-*.json` that failed to parse, a providers.json truncated mid-write. Removing a
 # provider is one entry and a handful of directories, so a prune this large is refused
@@ -1325,32 +1398,37 @@ def main(today=None) -> int:
     def stage(path, text):
         pages.append((path, text))
 
+    # {lang: path} for one venue or one city. Finnish sits at the root and the other two
+    # under their language, which is the pair already published for fi and en and the pair
+    # the Swedish entry in the archive named.
     def paths_venue(v):
-        return f"/teatteri/{v['slug']}/", f"/en/theatre/{v['slug']}/"
+        return {"fi": f"/teatteri/{v['slug']}/", "sv": f"/sv/teatteri/{v['slug']}/",
+                "en": f"/en/theatre/{v['slug']}/"}
 
     def paths_city(c):
-        s = slug(c)
-        return f"/kaupunki/{s}/", f"/en/city/{s}/"
+        t = slug(c)
+        return {"fi": f"/kaupunki/{t}/", "sv": f"/sv/kaupunki/{t}/",
+                "en": f"/en/city/{t}/"}
 
     # ---- venue pages
     for v in venues:
         shows = load_shows(v["id"])
         days = group_by_day(shows, today)
-        p_fi, p_en = paths_venue(v)
+        paths = paths_venue(v)
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
         og = f"/{first_poster}" if first_poster else "/icon-512.png"
         prov = providers.get(v["provider"], {})
-        for lang in ("fi", "en"):
+        for lang in LANGS:
             t = L[lang]
             also = ""
             if v["city"] in multi:
-                cp = paths_city(v["city"])[0 if lang == "fi" else 1]
+                cp = paths_city(v["city"])[lang]
                 also = (f'<nav class="also"><ul><li><a class="vchip" href="{esc(cp)}">'
                         f'{esc(t["city_link"].format(city=v["city"]))}</a></li></ul></nav>')
             text = page(
-                lang=lang, path_fi=p_fi, path_en=p_en,
+                lang=lang, paths=paths,
                 title=t["venue_title"].format(venue=v["label"], city=v["city"]),
                 desc=venue_desc(t, v["label"], v["city"], prov.get("book")),
                 h1=t["venue_h1"].format(venue=v["label"]),
@@ -1366,9 +1444,8 @@ def main(today=None) -> int:
                 # decided by startupArea()/startupLang() in index.html.
                 app_href="/?area=" + urllib.parse.quote(v["id"]) + "&lang=" + lang,
                 area=v["id"], chain_css="")
-            out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
-            stage(out, text)
-        urls += [p_fi, p_en]
+            stage(ROOT / paths[lang].strip("/") / "index.html", text)
+        urls += [paths[c] for c in LANGS]
 
     # ---- redirects for venue URLs that were public under an older slug. Written after
     # the venue pages so the destination exists, and deliberately not added to `urls`:
@@ -1378,10 +1455,10 @@ def main(today=None) -> int:
         v = by_id.get(vid)
         if v is None or v["slug"] == old_slug:
             continue          # venue gone, or the slug is current again -- nothing to do
-        for lang, prefix, dest in (("fi", "teatteri", paths_venue(v)[0]),
-                                   ("en", "en/theatre", paths_venue(v)[1])):
+        for lang, prefix in (("fi", "teatteri"), ("sv", "sv/teatteri"),
+                             ("en", "en/theatre")):
             out = ROOT / prefix / old_slug / "index.html"
-            stage(out, redirect_page(lang, dest, v["label"]))
+            stage(out, redirect_page(lang, paths_venue(v)[lang], v["label"]))
 
     # ---- city pages, only where the app offers a combined view
     for c, vs in multi.items():
@@ -1393,7 +1470,7 @@ def main(today=None) -> int:
                 # combined view.
                 merged.append({**s, "venueLabel": v["label"], "venueProvider": v["provider"]})
         days = group_by_day(merged, today, CITY_DAYS, merge=True)
-        p_fi, p_en = paths_city(c)
+        paths = paths_city(c)
         first_poster = next((s["img"] for iso in sorted(days)
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
@@ -1406,16 +1483,16 @@ def main(today=None) -> int:
         legend = ('<p class="legend">' + "".join(
             f'<span class="lg chain-{esc(k)}">{esc(chains.get(k, k))}</span>' for k in chain_ids)
             + "</p>")
-        for lang in ("fi", "en"):
+        for lang in LANGS:
             t = L[lang]
             chips = "".join(
                 f'<li><a class="vchip chain-{esc(v["provider"])}" '
-                f'href="{esc(paths_venue(v)[0 if lang == "fi" else 1])}">{esc(v["label"])}</a></li>'
+                f'href="{esc(paths_venue(v)[lang])}">{esc(v["label"])}</a></li>'
                 for v in sorted(vs, key=lambda x: x["label"]))
             also = (f'<nav class="also"><h2>{esc(t["venues_h"].format(city=c))}</h2>'
                     f"<ul>{chips}</ul></nav>")
             text = page(
-                lang=lang, path_fi=p_fi, path_en=p_en,
+                lang=lang, paths=paths,
                 title=t["city_title"].format(city=c),
                 desc=city_desc(t, c),
                 h1=t["city_h1"].format(city=c),
@@ -1425,9 +1502,8 @@ def main(today=None) -> int:
                 with_venue=True, legend=legend, also=also, og_image=og,
                 app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
                 area="city:" + c, chain_css=chain_css)
-            out = ROOT / (p_fi if lang == "fi" else p_en).strip("/") / "index.html"
-            stage(out, text)
-        urls += [p_fi, p_en]
+            stage(ROOT / paths[lang].strip("/") / "index.html", text)
+        urls += [paths[c] for c in LANGS]
 
     # ---- sitemap
     lastmod = today.isoformat()

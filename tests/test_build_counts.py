@@ -20,6 +20,7 @@ import unittest
 
 import _ctx                                                 # noqa: F401
 import build_counts
+import build_pages
 import registry
 
 
@@ -69,8 +70,9 @@ class FiguresTest(unittest.TestCase):
     def test_the_sitemap_figures_are_the_sitemap(self):
         sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
         self.assertEqual(self.c["sitemap_urls"], sitemap.count("<loc>"))
-        # fi and en carry the same set; the front page belongs to neither.
-        self.assertEqual(self.c["sitemap_urls"], self.c["pages_per_language"] * 2 + 1)
+        # Every language carries the same set; the front page belongs to none of them.
+        self.assertEqual(self.c["sitemap_urls"],
+                         self.c["pages_per_language"] * len(build_pages.LANGS) + 1)
         self.assertEqual(self.c["pages_per_language"],
                          self.c["venues"] + self.c["multi_venue_cities"])
 
@@ -161,13 +163,13 @@ class ReadmeRulesTest(unittest.TestCase):
              "the top of this page.\n")
 
     C = {"venues": 134, "cities": 96, "providers": 83, "pages_per_language": 151,
-         "sitemap_urls": 303, "multi_venue_cities": 17}
+         "sitemap_urls": 454, "multi_venue_cities": 17}
 
     def test_every_site_is_rewritten(self):
         out = build_counts.readme_text(self.PROSE, self.C)
         self.assertIn("Showtimes for 134 venues in 96 cities across 83 providers", out)
         self.assertIn("its 96 cities and those regions", out)
-        self.assertIn("151 per language, 303 sitemap URLs: 134 venues plus the "
+        self.assertIn("151 per language, 454 sitemap URLs: 134 venues plus the "
                       "seventeen cities", out)
         self.assertIn("the 83 providers listed at the", out)
         self.assertEqual(out.count("\n"), self.PROSE.count("\n"))
