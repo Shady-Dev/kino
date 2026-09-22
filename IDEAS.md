@@ -197,6 +197,12 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   the offline fallback. The cost accepted with it is that a reader who updates and closes
   the tab has no page to launch offline until one online load. Record:
   [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+- A "choose a cinema" shortcut at the top of a city page, and a general-feedback link
+  beside the screening report. Both came out of the 2026-09-22 flow review and both add or
+  move something a reader sees; the maintainer asked in the same session for no change to
+  the page's design, so they stay proposals. The cinema list is already on the page, at the
+  bottom; the report route is already there and stays separate from any feedback link.
+
 - Sparse-date dimming in the date picker: `<input type="date">` cannot disable individual
   days without a custom picker.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The
