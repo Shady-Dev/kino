@@ -1784,3 +1784,22 @@ alias, and one that would settle on a different id is named instead of shipped.
 Covered by `EnglishSecondSearchTest`: the settle, the one-request budget, that an exact
 fi-FI match never reaches it, the disagreement being named and not published, an empty slot
 filled, and the counter appearing whatever it found. Four mutations go red.
+
+### LI is Finnkino's fourth private language code (2026-09-22)
+`test_every_code_in_the_committed_data_is_known` was red on `main`: `data/area-1100.json`
+carried `EN-S, FI-S, LI-A` on the two "Sve\u010dias \u2013 The Visitor" rows at Kinopalatsi
+Helsinki, and `LI` is in no name table, so the app drew the bare code and the page's
+language phrase read "LI". ISO 639-1 `LI` is Limburgish; the film is Lithuanian, and
+Finnkino means `LT`.
+
+The same fix as `SE`, `TU` and `MA` before it, in the same place: one entry in
+`FINNKINO_LANG`, so `lang_tag()` maps it before anything downstream sees it and no name
+table gains a code that is not ISO. The two committed rows were repaired by hand, because
+`fetch_data.py` cannot run on a runner and the data would otherwise carry `LI` until the
+next local run; the two pages that render them were regenerated in the same commit.
+
+Found while establishing a baseline for the `FLOW_REVIEW.md` work, not by that review.
+
+Break-verified with three mutations: the entry removed and the entry pointed at the wrong
+language, each turning `tests/test_lang_normalization.py` red, and the repaired rows put
+back, which turns `tests/test_landing_pages.py` red.

@@ -5,6 +5,11 @@ missing. The app showed all four raw; the landing pages aliased them. These test
 fixes at their sources. The landing-page aliases that covered the data meanwhile were
 deleted on 2026-09-15, once no committed `data/area-*.json` carried TU, MA or XX.
 
+A fifth arrived on 2026-09-22: `LI`, Finnkino's own for Lithuanian, on the two
+"Sve\u010dias \u2013 The Visitor" rows at Kinopalatsi Helsinki. It reached the committed data
+and the app drew the raw code; the fix is one more entry in the same table, at the same
+source.
+
 Provider modules are imported inside the tests rather than at module level: they bind
 `common.EmptyProgramme` at import time and `test_common_fetch` reloads `common`, so a
 module-level import here would make the suite's result depend on file order.
@@ -46,6 +51,10 @@ class FinnkinoLangTagTest(unittest.TestCase):
         self.assertEqual(self.tag(".MA-A"), "ML-A")
         self.assertEqual(self.tag(".MA-S"), "ML-S")
 
+    def test_li_is_lithuanian_in_both_roles(self):
+        self.assertEqual(self.tag(".LI-A"), "LT-A")
+        self.assertEqual(self.tag(".LI-S"), "LT-S")
+
     def test_swedish_still_maps_and_a_compound_keeps_its_shape(self):
         self.assertEqual(self.tag(".FI-SE-A"), "FI-SV-A")
         self.assertEqual(self.tag(".TU-SE-S"), "TR-SV-S")
@@ -63,11 +72,12 @@ class FinnkinoLangTagTest(unittest.TestCase):
                 self.assertEqual(self.tag(f".{code}-A"), f"{code}-A")
                 self.assertEqual(self.tag(f".{code}-S"), f"{code}-S")
 
-    def test_the_map_is_exactly_these_three(self):
-        """Adding a fourth is a decision about Finnkino's vocabulary and gets written
+    def test_the_map_is_exactly_these_four(self):
+        """Adding a fifth is a decision about Finnkino's vocabulary and gets written
         here first."""
         import fetch_data
-        self.assertEqual(fetch_data.FINNKINO_LANG, {"SE": "SV", "TU": "TR", "MA": "ML"})
+        self.assertEqual(fetch_data.FINNKINO_LANG,
+                         {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT"})
 
 
 class NexxoLangTest(unittest.TestCase):

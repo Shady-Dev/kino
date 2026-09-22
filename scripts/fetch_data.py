@@ -204,9 +204,11 @@ def api(path, token):
 # Finnkino's language vocabulary where it departs from ISO 639-1. SE is ISO 3166 for
 # Sweden, the country; TU and MA are Finnkino's own for Turkish and Malayalam, measured
 # on 2026-09-02 as "Keltaiset kirjeet" (62 rows, tagged TR-A by every other chain that
-# screens it) and "I'm Game" (3 rows). Everything downstream is keyed by the ISO code:
+# screens it) and "I'm Game" (3 rows). LI is its own for Lithuanian, measured on
+# 2026-09-22 as "Sve\u010dias \u2013 The Visitor" at Kinopalatsi Helsinki (2 rows, spoken,
+# with FI and EN subtitles). Everything downstream is keyed by the ISO code:
 # the other adapters publish it and the client's name table knows only it.
-FINNKINO_LANG = {"SE": "SV", "TU": "TR", "MA": "ML"}
+FINNKINO_LANG = {"SE": "SV", "TU": "TR", "MA": "ML", "LI": "LT"}
 
 
 def lang_tag(lbl):
