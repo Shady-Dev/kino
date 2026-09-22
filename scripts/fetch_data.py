@@ -232,6 +232,36 @@ def loc(obj):
             break
     return {"fi": fi, "en": en}
 
+# A site id is upstream text, and it is the one filename component in this pipeline that
+# a third party writes: `area-{sid}.json` below. It also goes into a query string. Every
+# other provider's venue ids come from registry.py, and common.check_shows refuses a show
+# filed under a venue its site does not list; this path has neither guard, so the shape is
+# checked here instead.
+SITE_ID = re.compile(r"[A-Za-z0-9_-]{1,32}")
+
+
+def usable_sites(raw_sites):
+    """The sites with a name and an id this pipeline will write. -> (sites, dropped)."""
+    sites, dropped = [], []
+    for s in raw_sites:
+        if not isinstance(s, dict) or not s.get("id"):
+            continue
+        sid, name = str(s["id"]), t(s, "name", "text")
+        if not name:
+            continue
+        (sites if SITE_ID.fullmatch(sid) else dropped).append(
+            {"id": sid, "name": name})
+    return sites, dropped
+
+
+def site_query(sites):
+    """The siteIds query for /showtimes. -> str.
+
+    quote() cannot fire while SITE_ID holds, and is here so the two do not have to be
+    read together to know the query is safe."""
+    return "&".join("siteIds=" + urllib.parse.quote(s["id"], safe="") for s in sites)
+
+
 def t(obj, *keys):
     for k in keys:
         obj = obj.get(k, {}) if isinstance(obj, dict) else {}
@@ -472,8 +502,11 @@ def main() -> int:
 
     raw_sites = api("/sites", token)
     raw_sites = raw_sites.get("sites", raw_sites) if isinstance(raw_sites, dict) else raw_sites
-    sites = [{"id": str(s["id"]), "name": t(s, "name", "text")} for s in raw_sites
-             if s.get("id") and t(s, "name", "text")]
+    sites, dropped = usable_sites(raw_sites)
+    if dropped:
+        print("[sites] dropped, id is not [A-Za-z0-9_-]{1,32} "
+              f"({len(dropped)}): " + " | ".join(f"{d['id']!r} ({d['name']})"
+                                                 for d in sorted(dropped, key=lambda d: d["name"])))
     if not sites:
         print("ERROR: no sites", file=sys.stderr); return 1
     sites.sort(key=lambda s: s["name"])
@@ -482,7 +515,7 @@ def main() -> int:
     # age answers "when did Finnkino last refresh", so stamping it on a run that then
     # publishes no schedule would say the data is current while it is not.
 
-    qs = "&".join(f"siteIds={s['id']}" for s in sites)
+    qs = site_query(sites)
     per_site = {s["id"]: [] for s in sites}
     unknown_attrs = set()
     films_meta = {}
