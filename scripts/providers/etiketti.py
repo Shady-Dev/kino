@@ -23,11 +23,11 @@ run.py publish a fresh empty file for such a venue instead of keeping its last, 
 shows marked stale, but only on positive evidence from this read: the listing's own
 theatre navigation (`/teatterit/<slug>` links, which 6 of the 20 hosts render) names the
 venue with anchor text carrying its registered `match`, every film page was fetched and
-parsed, and every screening row matched a registered venue. A fetch that skipped a page, a
-page whose screening blocks all lacked a readable time, a row naming a place nobody
-registered, or a venue the navigation does not list leaves the venue out of the result,
-and run.py keeps the previous file. Cine Nikkilä's programme ended on 2026-09-13 and the
-provider read "not updated" for its past shows.
+produced at least one row, and every screening row matched a registered venue. A fetch
+that skipped a page, a page that produced no row (no block found, or every block without a
+readable time), a row naming a place nobody registered, or a venue the navigation does not
+list leaves the venue out of the result, and run.py keeps the previous file. Cine Nikkilä's
+programme ended on 2026-09-13 and the provider read "not updated" for its past shows.
 """
 import re
 import datetime, html as html_mod, json, re, time
@@ -613,7 +613,8 @@ def fetch_site(site, sleep=1.2):
     seen_shows = set()
     unclaimed = {}        # place text -> rows, named in the log below
     # Emptiness is confirmed only for a read with nothing unexplained: every film page
-    # fetched, every screening row taken by a registered venue. Either miss clears it.
+    # fetched and producing rows, every screening row taken by a registered venue. Any
+    # miss clears it.
     complete = True
     for path, mid in budget_or_raise(movies, site['provider']):
         try:
@@ -623,14 +624,17 @@ def fetch_site(site, sleep=1.2):
             complete = False
             continue
         rows, meta = parse_movie(page, site, path)
-        # Screening blocks on the page and not one of them readable. That is TIME_RE off
-        # the template, and it looks exactly like a film nobody is showing any more: every
+        # A film page that produced no row. Screening blocks with no readable time are
+        # TIME_RE off the template; no block at all is ITEM_RE off it, and the page names
+        # no empty state of its own (the hidden `no-results` phrase ships on populated
+        # pages too). Either looks exactly like a film nobody is showing any more: every
         # venue ends the read rowless and every venue the navigation names would be
         # published empty. nexxo.py raises on the same shape; here the read is only
         # disqualified, so the venues that did parse still publish their rows.
-        if meta["skipped"] and not rows:
-            print(f"[{site['provider']}] movie {mid}: {meta['skipped']} screening block(s), "
-                  f"none with a readable time; no venue of this site can be called empty")
+        if not rows:
+            print(f"[{site['provider']}] movie {mid}: no screening row "
+                  f"({meta['skipped']} block(s) without a readable time); "
+                  f"no venue of this site can be called empty")
             complete = False
         for r in rows:
             # One public screening, one show, whatever the markup repeats. The ticket id

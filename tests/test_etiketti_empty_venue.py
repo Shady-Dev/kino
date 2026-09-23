@@ -58,6 +58,10 @@ MANTSALA_FILM = film(item(17, "19.00", "MÄNTSÄLÄ", "CINE MÄNTSÄLÄ", 903))
 # TIME_RE reads, so this is the template moving under the parser: the blocks are still
 # there and not one of them produces a row.
 DRIFTED_FILM = KEUDA_FILM.replace(" klo 18.00", "")
+# Keuda's page with its screening blocks renamed off ITEM_RE: the two screenings are still
+# on the page, every word of them, and the parser sees no block at all, so nothing counts
+# as skipped either.
+BLOCKLESS_FILM = KEUDA_FILM.replace('<div class="item ', '<div class="screening-item ')
 
 
 class Stubbed(StubbedGet):
@@ -119,6 +123,26 @@ class ConfirmedEmptyTest(Stubbed):
         out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
                           "/elokuvat/13/hetki": DRIFTED_FILM})
         self.assertEqual(out, {}, "a drifted screening pattern confirms nothing")
+
+    def test_a_page_whose_blocks_the_parser_no_longer_finds_vouches_for_no_venue(self):
+        """The same drift one step earlier: the block pattern itself stops matching, so the
+        page yields no row and no skipped block. Both venues are named by the navigation,
+        and a film page that produced no row is no evidence that either has nothing on."""
+        self.assertEqual(load().parse_movie(BLOCKLESS_FILM, site(), "/elokuvat/13/hetki")[0], [],
+                         "fixture must defeat ITEM_RE, or it tests nothing")
+        self.assertIn("CINE KEUDA-TALO", BLOCKLESS_FILM)
+        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+                          "/elokuvat/13/hetki": BLOCKLESS_FILM})
+        self.assertEqual(out, {}, "a page with no block found confirms nothing")
+
+    def test_a_blockless_page_beside_a_readable_one_publishes_rows_and_confirms_nothing(self):
+        out, log = self.fetch_logged({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki",
+                                                                              "/elokuvat/21/myrsky"),
+                                      "/elokuvat/13/hetki": KEUDA_FILM,
+                                      "/elokuvat/21/myrsky": BLOCKLESS_FILM})
+        self.assertEqual(sorted(out), ["cine-keuda"])
+        self.assertEqual(len(out["cine-keuda"]), 2)
+        self.assertIn("movie 21: no screening row", log)
 
     def test_one_unreadable_block_beside_a_readable_one_is_not_drift(self):
         """Where the line sits, and why it is not "any skipped block": a page that still
@@ -256,6 +280,16 @@ class DriftedParseTest(RunSiteTest):
         self.assertEqual(doc["status"], "partial")
         self.assertEqual(sorted(doc["stale"]), ["cine-keuda", "cine-nikkila"])
         self.assertEqual(doc["oldest"], self.PREV["generated"])
+
+    def test_a_page_with_no_block_found_keeps_both_files_and_leaves_the_site_failing(self):
+        live, total, stale, unverified, pending = self.run_site(
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki"),
+             "/elokuvat/13/hetki": BLOCKLESS_FILM})
+        self.assertEqual((live, total, unverified, pending), (0, 0, [], []))
+        self.assertEqual(sorted(stale), ["cine-keuda", "cine-nikkila"])
+        self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
+        self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
+        self.assertFalse(self.run.confirmed_empty_site(site(), pending))
 
 
 if __name__ == "__main__":
