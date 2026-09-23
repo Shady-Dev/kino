@@ -356,6 +356,12 @@ class YearTest(unittest.TestCase):
 class ServedTest(unittest.TestCase):
     """`common.served`: the two facts a guard can state without keeping a raw page."""
 
+    def setUp(self):
+        # served() appends the headers of this thread's last fetch; an earlier test's
+        # local server leaves "Server: BaseHTTP/..." behind otherwise.
+        common._seen.headers = {}
+        self.addCleanup(lambda: setattr(common._seen, "headers", {}))
+
     def test_it_separates_a_programme_from_a_challenge(self):
         real = '<html><head><title>Kino Piispanristi</title></head>' + "x" * 170000
         block = '<html><head><title>Just a moment...</title></head>' + "y" * 1100
