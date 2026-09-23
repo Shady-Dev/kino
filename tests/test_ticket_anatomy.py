@@ -84,6 +84,37 @@ class ClientTicketTest(unittest.TestCase):
         self.assertIn("align-items:baseline", rule(HTML, ".meta2"))
 
 
+class PhoneCardTest(unittest.TestCase):
+    """At phone widths the tickets span the card under the poster and the details, as on
+    the generated pages (2026-09-23). Measured in Chromium and WebKit at 320, 393, 480
+    and 560: the list full width below the poster on every card, the details beside it
+    with their desktop spacing, no overlap and no overflow; at 561 the old layout. The
+    widest ticket in any view (369 px, Mikkeli) fits beside the poster only from 499 up."""
+
+    def phone(self):
+        """The phone block that sizes the card's poster."""
+        anchor = HTML.index("    .poster{flex-basis:72px; width:72px; height:104px}")
+        start = HTML.rindex("  @media (max-width:560px){", 0, anchor)
+        return HTML[start:HTML.index("\n  }\n", start)]
+
+    def test_the_card_becomes_two_columns_with_the_tickets_across_both(self):
+        css = self.phone()
+        self.assertIn(".movie{display:grid; grid-template-columns:72px minmax(0,1fr);", css)
+        self.assertIn("grid-template-rows:auto auto 1fr; gap:0 18px}", css)
+        self.assertIn(".movie > .info{display:contents}", css)
+        self.assertIn(".movie > .poster{grid-column:1; grid-row:1 / span 3}", css)
+        self.assertIn(".movie .title, .movie .meta1, .movie .meta2{grid-column:2; align-self:start}", css)
+        self.assertIn(".movie .stubs{grid-column:1 / span 2; margin-top:12px}", css)
+
+    def test_no_negative_grid_line(self):
+        """A negative line counts from the explicit grid in WebKit (2026-09-18)."""
+        self.assertNotRegex(self.phone(), r"grid-(?:row|column):[^;}]*-\d")
+
+    def test_the_generated_pages_switch_at_the_same_width(self):
+        gen = (_ctx.ROOT / "scripts" / "build_pages.py").read_text(encoding="utf-8")
+        self.assertRegex(gen, r"@media\(max-width:560px\)\{[^\n]*\.times\{clear:both\}")
+
+
 class GeneratedTicketTest(unittest.TestCase):
 
     def test_the_city_page_no_longer_hides_the_notches(self):

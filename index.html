@@ -997,6 +997,19 @@
   @media (max-width:560px){
     .poster{flex-basis:72px; width:72px; height:104px}
     .title{font-size:1.02rem}
+    /* The tickets span the card under the poster and the film's details, as on the
+       generated pages (their .film at this breakpoint). Beside a 72 px poster a ticket
+       got 190 px at 320 and its room and language took five lines, 136 px tall; the
+       widest ticket in any view needs 369 px (Mikkeli), which the side column holds only
+       from 499 up (2026-09-23). The poster spans the three detail rows and the last of
+       them takes the poster's extra height, so the details stay together. Positive
+       spans only: a negative line counts from the explicit grid in WebKit. */
+    .movie{display:grid; grid-template-columns:72px minmax(0,1fr);
+      grid-template-rows:auto auto 1fr; gap:0 18px}
+    .movie > .info{display:contents}
+    .movie > .poster{grid-column:1; grid-row:1 / span 3}
+    .movie .title, .movie .meta1, .movie .meta2{grid-column:2; align-self:start}
+    .movie .stubs{grid-column:1 / span 2; margin-top:12px}
     /* Venue picker and its star share one row; search gets the next. Setting the select to
        width:100% pushed the star onto a row of its own and wasted ~60px of height. */
     .controls{padding:10px 14px 8px; gap:8px}
