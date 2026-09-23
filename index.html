@@ -2183,14 +2183,20 @@
   // Swedish names for the cities we cover. Display only: cityGroups, the `city:` pref
   // value and the ?area= links on the generated pages are keyed by the Finnish name, so
   // translating the key would break every deep link. Cities with no established Swedish
-  // name keep the Finnish one.
+  // name keep the Finnish one. Municipalities from Kotus's list of 29.12.2022; Ekenäs and
+  // Karis, both parts of Raseborg, from Svenska ortnamn i Finland. Read 2026-09-23.
   const CITY_SV = {
-    Espoo:'Esbo', Helsinki:'Helsingfors', Hyvinkää:'Hyvinge', Hämeenlinna:'Tavastehus',
-    Iisalmi:'Idensalmi', Kajaani:'Kajana', Kerava:'Kervo', Kokkola:'Karleby',
-    Lahti:'Lahtis', Lappeenranta:'Villmanstrand', Oulu:'Uleåborg',
-    Pietarsaari:'Jakobstad', Pori:'Björneborg', Porvoo:'Borgå', Raisio:'Reso',
-    Savonlinna:'Nyslott', Sipoo:'Sibbo', Tampere:'Tammerfors', Tornio:'Torneå',
-    Turku:'Åbo', Vaasa:'Vasa', Vantaa:'Vanda'
+    Akaa:'Ackas', Espoo:'Esbo', Hamina:'Fredrikshamn', Hanko:'Hangö',
+    Helsinki:'Helsingfors', Huittinen:'Vittis', Hyvinkää:'Hyvinge',
+    Hämeenlinna:'Tavastehus', Iisalmi:'Idensalmi', Järvenpää:'Träskända',
+    Kaarina:'S:t Karins', Kajaani:'Kajana', Karjaa:'Karis', Karkkila:'Högfors',
+    Kauniainen:'Grankulla', Kerava:'Kervo', Kirkkonummi:'Kyrkslätt', Kitee:'Kides',
+    Kokkola:'Karleby', Lahti:'Lahtis', Laitila:'Letala', Lappeenranta:'Villmanstrand',
+    Lapua:'Lappo', Lieto:'Lundo', Lohja:'Lojo', Loviisa:'Lovisa', Mikkeli:'S:t Michel',
+    Naantali:'Nådendal', Oulu:'Uleåborg', Pietarsaari:'Jakobstad', Pori:'Björneborg',
+    Porvoo:'Borgå', Raahe:'Brahestad', Raisio:'Reso', Rauma:'Raumo', Savonlinna:'Nyslott',
+    Sipoo:'Sibbo', Tammisaari:'Ekenäs', Tampere:'Tammerfors', Tornio:'Torneå', Turku:'Åbo',
+    Vaasa:'Vasa', Vantaa:'Vanda', Vihti:'Vichtis'
   };
   const cityLabel = c => (state.lang === 'sv' && CITY_SV[c]) || c;
 
