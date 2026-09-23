@@ -994,6 +994,7 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "julia",
     "kino123",
     "kinoakseli",
@@ -3359,7 +3360,6 @@
    "img": "data/posters/1b75e3e44aca4810.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biorex",
     "biorexkokkola",
@@ -3430,7 +3430,6 @@
     "biovuoksi",
     "cine",
     "cinemantsala",
-    "elavienkuvien",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -3828,7 +3827,6 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
@@ -3881,7 +3879,6 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
@@ -4557,7 +4554,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "kinolumo",
     "kinopiispanristi"
    ],
    "r": 6.9,
@@ -4619,7 +4615,6 @@
     "kinolaika",
     "kinomyyri",
     "kinoolympia",
-    "star",
     "tapiola"
    ],
    "r": 7.3,
@@ -5164,7 +5159,7 @@
   "verity verityn varjo": {
    "r": 0,
    "s": {
-    "en": "ABOUT CONTACT BOOK A MOVIE SERIAL TICKETS Telegram Instagram EN FI SV Verity (Verityn varjo) United States Rating K-12 Classifications vakivaltaa, ahdistusta Adapted from Colleen Hoover’s best-selling novel, this seductive, psychological thriller follows renowned author Verity Crawford (Anne Hathaway) and Lowen Ashleigh (Dakota Johnson), a struggling writer who relocates to the remote Crawford estate to ghostwrite for Verity. After Lowen uncovers what appears to be Verity’s chilling autobiographical notes, she wrestles with the disturbing and twisted confessions about Verity’s husband Jeremy (Josh Hartnett), and finds it hard to separate fiction from reality, manipulation from attraction, and opportunity from obsession. Verity (Verityn varjo) Verity United States 2026-10-02, 117 min Director Michael Showalter Cast Anne Hathaway, Dakota Johnson, Josh Hartnett, Asel Swango, Michael Abbott Jr., Daniel Echevarria Language English Subtitles Finnish, Swedish import PhotoSwipeLightbox from 'https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe-lightbox.esm.min.js'; const lightbox = new PhotoSwipeLightbox({ gallery: '#kinola-film-gallery', children: 'a', pswpModule: () => import('https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe.esm.min.js') }); lightbox.init(); Screenings All dates Fri, 2.10 Fri, 2.10 18:35",
+    "en": "",
     "fi": ""
    },
    "tr": ""

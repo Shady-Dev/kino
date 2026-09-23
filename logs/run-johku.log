@@ -8,9 +8,9 @@
 [vihdinkino] Vihdin Kino: 13 showtimes, 6 dates
 [vihdinkino] Vihdin Kino: 13 showtimes, 6 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 21 screening(s) in day groups, 9 film page(s) read
-[bioforum] Bio Forum: 21 showtimes, 9 dates
-[bioforum] Bio Forum: 21 showtimes, 9 dates
+[bioforum] 20 screening(s) in day groups, 8 film page(s) read
+[bioforum] Bio Forum: 20 showtimes, 8 dates
+[bioforum] Bio Forum: 20 showtimes, 8 dates
 [bioforum] synopses merged: 0
 [kinokulma] 67 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
@@ -22,12 +22,12 @@
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 17 screening(s) in day groups, 9 film page(s) read
-[kinovirta] Kino Virta: 17 showtimes, 7 dates
-[kinovirta] Kino Virta: 17 showtimes, 7 dates
+[kinovirta] 16 screening(s) in day groups, 8 film page(s) read
+[kinovirta] Kino Virta: 16 showtimes, 6 dates
+[kinovirta] Kino Virta: 16 showtimes, 6 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 62 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 60 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 140 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 216.5s of fetching added up across workers that overlap, longest site 75.3s, longest queue wait 129.0s, 79.1s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 138 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 177.6s of fetching added up across workers that overlap, longest site 72.5s, longest queue wait 121.7s, 81.1s wall from this module's first fetch starting to its last ending
 exit=0

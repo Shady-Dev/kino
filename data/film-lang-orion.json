@@ -82,5 +82,47 @@
   "fields": {
    "lang": "FI-A, FI-S, SV-S"
   }
+ },
+ "saapasjalkakissa": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "SV-A, FI-S"
+  }
+ },
+ "siri-hustvedt-dance-around-the-self": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "EN-A, NO-A, FI-S"
+  }
+ },
+ "sopeutumaton": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "FI-A, EN-S"
+  }
+ },
+ "teenage-sex-and-death-at-camp-miasma": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "EN-A, FI-S"
+  }
+ },
+ "the-secret-reading-club-of-kabul": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "FI-S, SV-S"
+  }
+ },
+ "writing-life-annie-ernaux-through-the-eyes-of-high-school-students": {
+  "price": "",
+  "at": "2026-09-23T17:14:29+00:00",
+  "fields": {
+   "lang": "FR-A, FI-S, EN-S"
+  }
  }
 }
