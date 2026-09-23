@@ -65,7 +65,18 @@ def advertised():
     return int(m.group(1)), int(m.group(2))
 
 CTA_RE = re.compile(r'<a class="cta" href="([^"]+)">(.*?)</a>', re.S)
-AUD_RE = re.compile(r'<span class="aud">(.*?)</span></span>', re.S)   # up to the stub's end
+AUD_RE = re.compile(r'<span class="aud">(.*?)</span><span class="price">', re.S)
+LP_RE = re.compile(r'<span class="slang"><span class="lp">(.*?)</span></span>$', re.S)
+
+
+def split_aud(inner):
+    """A stub's label -> (the inline label, its language line or ""). The language is the
+    stub's own line, two parts in one `.lp` row (see build_pages.lang_line)."""
+    i = inner.find('<span class="slang">')
+    if i < 0:
+        return inner, ""
+    lp = LP_RE.search(inner[i:])
+    return inner[:i], " \u00b7 ".join(text_of(x) for x in re.findall(r"<span>(.*?)</span>", lp.group(1)))
 CANON_RE = re.compile(r'<link rel="canonical" href="([^"]+)">')
 LANGSEG_RE = re.compile(r'<nav class="langseg"[^>]*>(.*?)</nav>', re.S)
 RAW_CODE_RE = re.compile(r"\b[A-Z]{2}(?:-[A-Z]{2})?-[AS]\b")
@@ -908,7 +919,7 @@ class StubShapeTest(unittest.TestCase):
         html = bp.film_block(s["title"], [s], {}, {}, lang, bp.L[lang], with_venue, set(),
                              current_year=YEAR_NOW)
         m = AUD_RE.search(html)
-        return text_of(m.group(1)) if m else None
+        return text_of(split_aud(m.group(1))[0]) if m else None
 
     def block(self, shows, with_venue, lang="fi"):
         return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set(),
@@ -919,13 +930,17 @@ class StubShapeTest(unittest.TestCase):
         return [text_of(x) for x in re.findall(r"<span>(.*?)</span>", m.group(1))] if m else []
 
     def stub_texts(self, html):
-        return [text_of(a) for a in re.findall(r'<span class="aud">(.*?)</span></span>', html)]
+        return [text_of(split_aud(a)[0]) for a in AUD_RE.findall(html)]
+
+    def lang_texts(self, html):
+        return [split_aud(a)[1] for a in AUD_RE.findall(html)]
 
     def test_theatre_shape(self):
         s = self.show(lang="EN-A, FI-S, SV-S")
         self.assertEqual(self.aud_text(s, False), "Sali Tapio 4")
-        self.assertIn("englanti · tekstitys: suomi/ruotsi", self.meta2_text(self.block([s], False)))
-        self.assertIn("English · Finnish/Swedish subtitles", self.meta2_text(self.block([s], False, "en")))
+        self.assertEqual(self.lang_texts(self.block([s], False)), ["englanti · tekstitys: suomi/ruotsi"])
+        self.assertEqual(self.lang_texts(self.block([s], False, "en")),
+                         ["English · Finnish/Swedish subtitles"])
 
     def test_city_shape(self):
         s = self.show(lang="EN-A, FI-S, SV-S", venueLabel="Finnkino Tennispalatsi", aud="Sali 10")
@@ -933,12 +948,15 @@ class StubShapeTest(unittest.TestCase):
         self.assertIn('<ul class="times grid">', self.block([s], True))
         self.assertIn('<ul class="times">', self.block([s], False))
 
-    def test_shared_language_sits_on_the_card_once(self):
+    def test_a_shared_language_is_still_on_each_stub_and_never_on_the_card(self):
+        """One place for the language on every film (2026-09-23): on the stub, even when
+        every screening agrees, so a card never says it and the stubs say it too."""
         shows = [self.show(start="2026-09-02T16:00:00+03:00", aud="Sali Tapio 4"),
                  self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1")]
         html = self.block(shows, False)
-        self.assertEqual(self.meta2_text(html).count("tekstitys: suomi/ruotsi"), 1)
+        self.assertEqual(self.lang_texts(html), ["tekstitys: suomi/ruotsi"] * 2)
         self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
+        self.assertFalse(any("tekstitys" in m for m in self.meta2_text(html)))
 
     def test_a_differing_language_stays_on_its_screening(self):
         """Never the first screening's language for all of them: a dubbed 16:00 and a
@@ -946,9 +964,15 @@ class StubShapeTest(unittest.TestCase):
         shows = [self.show(start="2026-09-02T16:00:00+03:00", aud="Sali Tapio 4", lang="FI-A"),
                  self.show(start="2026-09-02T19:00:00+03:00", aud="Sali Tapio 1", lang="EN-A, FI-S, SV-S")]
         html = self.block(shows, False)
-        self.assertEqual(self.stub_texts(html),
-                         ["Sali Tapio 4 · suomi", "Sali Tapio 1 · englanti · tekstitys: suomi/ruotsi"])
+        self.assertEqual(self.stub_texts(html), ["Sali Tapio 4", "Sali Tapio 1"])
+        self.assertEqual(self.lang_texts(html), ["suomi", "englanti · tekstitys: suomi/ruotsi"])
         self.assertFalse(any("tekstitys" in m or m == "suomi" for m in self.meta2_text(html)))
+
+    def test_a_screening_with_no_language_has_no_language_line(self):
+        shows = [self.show(lang=""), self.show(lang="FI-A", start="2026-09-02T19:00:00+03:00")]
+        html = self.block(shows, False)
+        self.assertEqual(self.lang_texts(html), ["", "suomi"])
+        self.assertEqual(html.count('class="slang"'), 1)
 
     # -- price: the screening's, never the film's (2026-09-02) ----------------------------
 
@@ -1080,9 +1104,11 @@ class StubShapeTest(unittest.TestCase):
 
     def test_an_empty_room_leaves_no_separator(self):
         shows = [self.show(aud="", lang="FI-A"), self.show(aud="", lang="EN-A", start="2026-09-02T19:00:00+03:00")]
-        self.assertEqual(self.stub_texts(self.block(shows, False)), ["suomi", "englanti"])
+        self.assertEqual(self.stub_texts(self.block(shows, False)), ["", ""])
+        self.assertEqual(self.lang_texts(self.block(shows, False)), ["suomi", "englanti"])
         self.assertEqual(self.stub_texts(self.block(shows, True)),
-                         ["Savon Kinot Tapio · suomi", "Savon Kinot Tapio · englanti"])
+                         ["Savon Kinot Tapio", "Savon Kinot Tapio"])
+        self.assertNotIn(" · <span", self.block(shows, True))
 
     def test_nothing_but_the_time_leaves_no_details_cell(self):
         self.assertIsNone(self.aud_text(self.show(aud="", lang=""), False))

@@ -535,6 +535,10 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .aud{display:flex;align-items:center;flex:1 1 auto;min-width:0;padding:6px 12px 6px 10px;font-size:.72rem;line-height:1.3;color:var(--muted);position:relative}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
+.stub .aud .slang{flex:1 0 100%;overflow:hidden;min-width:0;line-height:1.25}
+.stub .aud .slang .lp{display:flex;flex-wrap:wrap;margin-left:-.9em}
+.stub .aud .slang .lp>span{position:relative;padding-left:.9em;min-width:0;overflow-wrap:anywhere}
+.stub .aud .slang .lp>span+span::before{content:"\\b7";position:absolute;left:.25em}
 .stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
 .stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
@@ -905,7 +909,7 @@ def stub_tags(tags, aud):
 # --- end stub tags ---
 
 
-def stub_parts(s, with_venue, lang, own_lang=False, own_tags=()):
+def stub_parts(s, with_venue, lang, own_tags=()):
     """The showtime label, as (css class, text) pairs. The price is not a label part: it
     is its own element on the stub, see film_block.
 
@@ -916,22 +920,30 @@ def stub_parts(s, with_venue, lang, own_lang=False, own_tags=()):
     SALI 1" means something and stays. Empty parts vanish, so no separator is ever
     leading, trailing or doubled.
 
-    Language belongs to the card when every screening of the film that day shares it,
-    the app's rule; `own_lang` puts it on this screening when they differ, so nothing a
-    screening says differently is lost. `own_tags` is the same rule for the format: what
-    this screening has and the card cannot claim for all of them. The classes decide
-    wrapping only: the cinema and the language phrases may break at their spaces, the room
-    stays on one line.
+    The language is not a label part: it is the stub's own line, see lang_line. `own_tags`
+    is what this screening's format has and the card cannot claim for all of them. The
+    classes decide wrapping only: the cinema may break at its spaces, the room stays on
+    one line.
     """
     parts = []
     if with_venue:
         parts.append(("v", s.get("venueLabel") or ""))
     parts.append(("a", s.get("aud") or ""))
     parts += [("f", x) for x in (own_tags or [])]
-    if own_lang:
-        parts += [("l", x) for x in lang_parts(s.get("lang"), lang,
-                                                 lead=not any(t for _, t in parts))]
     return [(c, t) for c, t in parts if t]
+
+
+def lang_line(s, lang):
+    """A screening's audio and subtitles as the stub's own line, the app's `slangHtml`:
+    two parts that share a line while they fit and take one each when they do not. ""
+    when the screening states no language, so the line is left out rather than guessed.
+    Every stub that has one carries it and the card never does (2026-09-23)."""
+    parts = lang_parts(s.get("lang"), lang)
+    if not parts:
+        return ""
+    return ('<span class="slang"><span class="lp">'
+            + "".join(f"<span>{esc(p).replace('/', '/<wbr>')}</span>" for p in parts)
+            + "</span></span>")
 
 
 def _part(cls, text):
@@ -984,16 +996,11 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
-    # Language shared by every screening of this film today -> on the card once.
-    # Otherwise each screening says its own, and the card says nothing it cannot say for
-    # all of them. Price never folds: `price_label(shows)` skipped unpriced screenings, so
+    # Language is each stub's own line (lang_line), never the card's. Price never folds: `price_label(shows)` skipped unpriced screenings, so
     # Autofiktio in Tampere carried "11€" at film level from Cinema Niagara's 16:15 while
     # Finnkino's 17:30 and 20:15 published none (2026-09-02). A price is the ticket's --
     # provider, time, format and ticket type differ -- so each stub prints its own or
     # nothing, even when every stub happens to agree.
-    langs = {s.get("lang") or "" for s in shows}
-    shared_lang = lang_parts(next(iter(langs)), lang) if len(langs) == 1 else []
-    own_lang = len(langs) > 1
     # Format, only where a card can merge providers: see stub_tags. A format every
     # screening shares says nothing that separates them and is not drawn at all, so a card
     # looks exactly as it did unless the fold put differing screenings on it.
@@ -1008,8 +1015,6 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
         meta2.append(f"<span>{esc(genres)}</span>")
     if length:
         meta2.append(f"<span>{esc(length)} {t['mins']}</span>")
-    if shared_lang:
-        meta2.append(f'<span>{esc(" \u00b7 ".join(shared_lang))}</span>')
 
     # A synopsis only on a film's first appearance: a four-day page repeats the same
     # title daily, and printing it each time both bloated the page and read like padding.
@@ -1031,9 +1036,9 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
         clock = (s.get("start") or "")[11:16]
         own_tags = (stub_tags([f for f in tags_of(s) if f not in shared_tags], s.get("aud"))
                     if with_venue else [])
-        parts = stub_parts(s, with_venue, lang, own_lang=own_lang, own_tags=own_tags)
-        aud = (f'<span class="aud">{" \u00b7 ".join(_part(c, x) for c, x in parts)}</span>'
-               if parts else "")
+        parts = stub_parts(s, with_venue, lang, own_tags=own_tags)
+        inline, line = " \u00b7 ".join(_part(c, x) for c, x in parts), lang_line(s, lang)
+        aud = f'<span class="aud">{inline}{line}</span>' if inline or line else ""
         # Always emitted, so the markup is one shape; an empty compartment (`:empty`) narrows
         # to a 16 px tail and keeps its seam and notches in both layouts (2026-09-13, v153).
         own_price = price_label([s], lang)

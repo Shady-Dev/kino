@@ -193,13 +193,16 @@ class SwedishSubtitleLabelTest(unittest.TestCase):
         self.assertEqual(bp.lang_parts("FI-S", "fi"), ["tekstitys: suomi"])
         self.assertEqual(bp.lang_parts("FI-S", "en"), ["Finnish subtitles"])
 
-    def test_a_ticket_line_says_it_after_the_room(self):
+    def test_a_ticket_s_own_language_line_opens_its_label(self):
+        """The language is the stub's own line (2026-09-23), so the label opens it."""
         import build_pages as bp
-        show = {"aud": "Sali 2", "lang": "FI-S, SV-S"}
-        self.assertEqual(bp.stub_parts(show, False, "sv", own_lang=True)[-1],
-                         ("l", "textning: finska/svenska"))
-        self.assertEqual(bp.stub_parts({"lang": "FI-S"}, False, "sv", own_lang=True),
-                         [("l", "Textning: finska")])
+        self.assertIn("<span>Textning: finska/<wbr>svenska</span>",
+                      bp.lang_line({"aud": "Sali 2", "lang": "FI-S, SV-S"}, "sv"))
+        self.assertIn("<span>engelska</span><span>textning: finska</span>",
+                      bp.lang_line({"lang": "EN-A, FI-S"}, "sv"))
+        self.assertEqual(bp.lang_line({"lang": ""}, "sv"), "")
+        self.assertEqual(bp.stub_parts({"aud": "Sali 2", "lang": "FI-S"}, False, "sv"),
+                         [("a", "Sali 2")])
 
     @unittest.skipIf(shutil.which("node") is None, "node not installed")
     def test_the_app_matches_the_generator(self):

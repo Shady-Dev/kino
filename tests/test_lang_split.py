@@ -1,81 +1,44 @@
-"""A screening's language is the screening's, not the film's (2026-09-20).
+"""A screening's language is the screening's, on its own ticket, everywhere (2026-09-23).
 
-The Helsinki card read "espanja · tekstitys: suomi/ruotsi" for Autofiktio while the film
-details beside the booking choices said nothing at all, and the card's value came from
-whichever screening `{ ...s }` copied first. Measured over the committed data that day:
-1469 (area, film) pairs, 73.3% agreeing on one non-empty value, 24.7% publishing none,
-and 2.0% disagreeing. Kojootti vs. ACME is the case that costs a reader something, running
-dubbed (FI-A) beside subtitled (EN-A, FI-S, SV-S) in one cinema on one day.
-
-`langSplit` decides it: agreement puts one line above the schedule, disagreement puts each
-screening's own on its ticket, and a screening that published nothing never inherits a
-neighbour's. It is sliced verbatim out of index.html by tests/lang_split_harness.js.
+From 2026-09-20 the app put a film's language once in its details row when every
+screening agreed and on each ticket when they did not, so one list showed it in two
+places depending on the film (Hetki ennen valoa split on a single Riviera screening with
+English subtitles beside the rest with Swedish). The maintainer asked for one place: each
+ticket carries its screening's audio and subtitles as its own line, the details rows never
+do, and a screening that states none shows none. A screening's value is still never
+borrowed from a neighbour. The generated pages follow the same rule (tests in
+test_landing_pages.py).
 """
-import json
-import pathlib
 import re
-import shutil
-import subprocess
 import unittest
 
 import _ctx
 
 
-HARNESS = pathlib.Path(__file__).resolve().parent / "lang_split_harness.js"
 HTML = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
 
 
-@unittest.skipIf(shutil.which("node") is None, "node not installed")
-class LangSplitTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
-                             cwd=str(_ctx.ROOT), timeout=60)
-        if out.returncode:
-            raise AssertionError(f"harness failed: {out.stderr}")
-        cls.r = json.loads(out.stdout)
+class LanguageLineTest(unittest.TestCase):
+    def test_every_ticket_draws_its_own_screening_s_language(self):
+        """The card's stub and the sheet's stub each draw it whenever the screening has one."""
+        self.assertIn("<span class=\"aud${t.lang ? ' twoline' : ''}\">", HTML)
+        self.assertIn("<span class=\"aud${s.lang ? ' twoline' : ''}\">", HTML)
+        self.assertIn("${t.lang ? slangHtml(t.lang) : ''}", HTML)          # the card's stub
+        self.assertIn("${s.lang ? slangHtml(s.lang) : ''}", HTML)          # the sheet's stub
+        self.assertEqual(len(re.findall(r'class="slang"', HTML)), 1, "one builder for both")
 
-    def test_no_case_threw(self):
-        threw = {k: v for k, v in self.r.items() if "threw" in v}
-        self.assertEqual(threw, {}, "langSplit must survive every shape the render path passes")
-
-    def test_agreement_is_shared_and_not_repeated(self):
-        for key, code in (("all_same", "FI-A"),
-                          ("all_same_three", "EN-A, FI-S, SV-S"),
-                          ("single_known", "ES-A, FI-S, SV-S")):
-            with self.subTest(key):
-                self.assertEqual(self.r[key], {"shared": code, "perShow": False})
-
-    def test_nothing_published_shows_nothing_anywhere(self):
-        for key in ("all_missing", "all_absent_key", "single_missing",
-                    "empty_list", "null_list", "undefined_list"):
-            with self.subTest(key):
-                self.assertEqual(self.r[key], {"shared": "", "perShow": False})
-
-    def test_differing_values_move_onto_each_screening(self):
-        self.assertEqual(self.r["mixed_values"], {"shared": "", "perShow": True})
-        self.assertEqual(self.r["spacing_differs"], {"shared": "", "perShow": True})
-
-    def test_a_missing_value_never_inherits_a_neighbours(self):
-        """The requirement the old fold broke, in both orders and for an absent key."""
-        for key in ("known_then_missing", "missing_then_known",
-                    "absent_key_then_known", "null_member"):
-            with self.subTest(key):
-                self.assertEqual(self.r[key], {"shared": "", "perShow": True},
-                                 "a screening that published nothing must stay unknown")
+    def test_the_details_rows_never_carry_it(self):
+        meta2 = re.search(r"const meta2 = \[(.*?)\]\.filter", HTML, re.S).group(1)
+        self.assertNotIn("langTxt", meta2)
+        self.assertIn("const sheetMeta2 = genresOf(sample) ?", HTML)
+        sheet = HTML[HTML.index("const sheetMeta2 ="):]
+        self.assertNotIn("langTxt", sheet[:sheet.index(";")])
+        self.assertNotIn("langSplit", HTML)
+        self.assertNotRegex(HTML, r"\bm\.lang\b")
 
     def test_the_card_no_longer_folds_lang_off_the_first_screening(self):
-        """The line this replaced read `if(!m.lang && s.lang) m.lang = s.lang;`."""
+        """The line the 2026-09-20 rule replaced read `if(!m.lang && s.lang) m.lang = s.lang;`."""
         self.assertNotIn("if(!m.lang && s.lang)", HTML)
-        self.assertIn("for(const m of movies) m.lang = langSplit(m.times).shared;", HTML)
-
-    def test_both_render_paths_ask_langSplit(self):
-        """The card and the sheet each draw the shared line and the per-screening one."""
-        self.assertIn("langSplit(m.times).perShow", HTML)
-        self.assertIn("const lsplit = langSplit(all);", HTML)
-        self.assertIn("? slangHtml(t.lang) : ''", HTML)          # the card's stub
-        self.assertIn("? slangHtml(s.lang) : ''", HTML)          # the sheet's stub
-        self.assertEqual(len(re.findall(r'class="slang"', HTML)), 1, "one builder for both")
 
     def test_the_language_line_is_the_last_item_in_its_compartment(self):
         """`.slang` takes a full row, so anything after it lands on a third line."""
@@ -89,10 +52,6 @@ class LangSplitTest(unittest.TestCase):
             self.assertGreater(body.index("slangHtml("), body.index("glyphRow"),
                                "the language line must follow the glyph row")
         self.assertEqual(seen, 2, "both stubs checked")
-
-    def test_the_shared_line_sits_with_the_genres_in_the_sheet_head(self):
-        self.assertIn("const sheetMeta2 = [", HTML)
-        self.assertIn("lsplit.shared ? `<span>${esc(langTxt(lsplit.shared))}</span>` : ''", HTML)
 
     def test_the_glyph_centres_on_the_whole_compartment_not_its_first_row(self):
         """Reported 2026-09-20: the Anniskelu A looked high on a ticket whose language
