@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.lieksanelokuvat.net
 [run] lieksa: 1 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.7s of fetching added up across workers that overlap, longest site 1.7s, longest queue wait 138.8s, 1.7s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.5s of fetching added up across workers that overlap, longest site 1.5s, longest queue wait 121.4s, 1.5s wall from this module's first fetch starting to its last ending
 exit=0

@@ -8,9 +8,9 @@
 [vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
 [vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 23 screening(s) in day groups, 9 film page(s) read
-[bioforum] Bio Forum: 23 showtimes, 9 dates
-[bioforum] Bio Forum: 23 showtimes, 9 dates
+[bioforum] 21 screening(s) in day groups, 9 film page(s) read
+[bioforum] Bio Forum: 21 showtimes, 9 dates
+[bioforum] Bio Forum: 21 showtimes, 9 dates
 [bioforum] synopses merged: 0
 [kinokulma] 68 screening(s) in day groups, 21 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
@@ -22,12 +22,12 @@
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 18 screening(s) in day groups, 9 film page(s) read
-[kinovirta] Kino Virta: 18 showtimes, 7 dates
-[kinovirta] Kino Virta: 18 showtimes, 7 dates
+[kinovirta] 17 screening(s) in day groups, 9 film page(s) read
+[kinovirta] Kino Virta: 17 showtimes, 7 dates
+[kinovirta] Kino Virta: 17 showtimes, 7 dates
 [kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 62 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 146 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 193.6s of fetching added up across workers that overlap, longest site 66.8s, longest queue wait 116.9s, 77.2s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 143 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 160.5s of fetching added up across workers that overlap, longest site 56.2s, longest queue wait 105.4s, 62.9s wall from this module's first fetch starting to its last ending
 exit=0

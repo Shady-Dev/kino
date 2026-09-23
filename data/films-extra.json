@@ -215,6 +215,17 @@
   },
   "autofiktio": {
    "img": "data/posters/64d23f46b5356d6f.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel",
+    "gilda",
+    "kinokilta",
+    "kinolaika",
+    "kinometso",
+    "niagara",
+    "star",
+    "tapiola"
+   ],
    "r": 6.3,
    "s": {
     "en": "In 2025 Spain, a celebrated film director struggles to write the screenplay for an autofictional film set in 2004 Spain about an unsuccessful movie director turned director of commercials who suffers a panic attack that forces her to take a break by visiting the Canary Islands, where she begins work on a new film.",
@@ -2650,7 +2661,6 @@
     "kinotar",
     "kinovirta",
     "leffabuumi",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -3757,6 +3767,15 @@
    },
    "tr": ""
   },
+  "rammstein live in mexico city": {
+   "img": "data/posters/91779224a3129903.jpg",
+   "r": 0,
+   "s": {
+    "en": "A three-night compilation that captures their spectacular October 2022 shows at the Foro Sol Stadium in Mexico City during the Stadium Tour era. This live has become the band's most massive and longest one of their entire career.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "recombination": {
    "img": "data/posters/7f670d972e6770fe.jpg",
    "r": 0,
@@ -4654,7 +4673,6 @@
     "biorexkokkola",
     "gilda",
     "isohannu",
-    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
@@ -5157,6 +5175,7 @@
    "krs": [
     "biorex",
     "cine",
+    "cinemantsala",
     "ihmekompleksi",
     "kinokulma",
     "star",
