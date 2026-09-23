@@ -1959,7 +1959,7 @@
     const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
     const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;   // Monday first
     const title = new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString(
-      { fi:'fi-FI', sv:'sv-FI', en:'en-GB' }[state.lang], { month:'long', year:'numeric', timeZone:'UTC' });
+      DATE_LOCALE[state.lang], { month:'long', year:'numeric', timeZone:'UTC' });
     const dow = [1,2,3,4,5,6,0].map(i => `<span class="cal-dow">${fiDay[i]}</span>`).join('');
     let cells = '';
     for(let i = 0; i < lead; i++) cells += '<span class="cal-day pad"></span>';
@@ -2197,6 +2197,8 @@
   // One collator per language, rebuilt on switch; sorting used to follow Finnish
   // collation in every language. Measured as free on a 45-title sort.
   const COLLATE = { fi:'fi', sv:'sv-FI', en:'en' };
+  // Dates shown to the reader: the calendar's month title and the footer's update time.
+  const DATE_LOCALE = { fi:'fi-FI', sv:'sv-FI', en:'en-GB' };
   let coll = new Intl.Collator(COLLATE.fi);
 
   // Finnkino names carry the city as the last word ("Plevna Tampere"); BioRex ships city
@@ -3325,7 +3327,7 @@
     const [src, host] = combined
       ? [L[state.lang].manySources, '']
       : (SOURCE[v.provider] || SOURCE.finnkino);
-    const stamp = t.toLocaleString('fi-FI',
+    const stamp = t.toLocaleString(DATE_LOCALE[state.lang],
       {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
     // book mode per provider: door = sold at the door, reserve = free seat
     // reservation rather than payment, admission = the screening is included in a
