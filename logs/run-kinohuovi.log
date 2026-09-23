@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinohuovi.fi
 [run] kinohuovi: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 142.0s, 1.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 120.2s, 1.1s wall from this module's first fetch starting to its last ending
 exit=0

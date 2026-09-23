@@ -1,8 +1,6 @@
-[kirkkonummi] 11 showtimes, 5 films, 8 dates
-[kirkkonummi] Kino Kirkkonummi: 11 showtimes, 8 dates
-[kirkkonummi] synopses merged: 0
-[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
+[kirkkonummi] FAILED: https://kinokirkkonummi.fi/: no icon list on the page (12124 B served, titled "One moment, please...", Server: openresty/1.31.1.1), so this is not the programme this parser reads. Treating it as a fetch or template failure rather than a cinema with nothing on
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinokirkkonummi.fi
-[run] kirkkonummi: 1 venues, 11 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 96.3s, 0.9s wall from this module's first fetch starting to its last ending
-exit=0
+[run] kirkkonummi: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 72.0s, 0.9s wall from this module's first fetch starting to its last ending
+exit=1
