@@ -37,7 +37,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch, get_text, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://www.kinovaakuna.fi"
 LISTING = BASE + "/etusivu.html"
@@ -83,7 +83,10 @@ def _rating(icon):
 
 def parse(page, today=None):
     """The front page -> [show]. `today` is the date the year is resolved against and
-    defaults to today in Helsinki; it is a parameter so the tests can pin it."""
+    defaults to today in Helsinki; it is a parameter so the tests can pin it.
+
+    Raises when no film card is present, and when the cards yield no screening. No empty
+    state is recorded for this site, so zero rows is never read as nothing on."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{LISTING}: no film card on the page, so this is not the programme this "
@@ -147,7 +150,10 @@ def parse(page, today=None):
         print(f"[vaakuna] {len(unplaced)} row(s) whose weekday matches no candidate year, "
               f"skipped: {', '.join(unplaced[:5])}")
     if not shows:
-        raise EmptyProgramme(f"{LISTING} renders film cards with no screening in them")
+        raise RuntimeError(
+            f"{LISTING}: film cards with no screening row this parser places "
+            f"({len(unplaced)} unplaced). No empty state is recorded for this site, so "
+            f"this is a template or format change rather than a cinema with nothing on")
     shows.sort(key=lambda s: s["start"])
     return shows
 

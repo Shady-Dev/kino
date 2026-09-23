@@ -129,9 +129,9 @@ class YearTest(unittest.TestCase):
         out = vaakuna.parse(page(card("a", "A", ["Ti 15.09.   klo 19:00"])), today=TODAY)
         self.assertEqual(out[0]["start"][:10], "2026-09-15")
         for wd in ("Ma", "Ke"):
-            with self.assertRaises(common.EmptyProgramme):
-                vaakuna.parse(page(card("a", "A", [f"{wd} 15.09.   klo 19:00"])),
-                              today=TODAY)
+            out = vaakuna.parse(page(card("a", "A", [f"{wd} 15.09.   klo 19:00",
+                                                     "Ke 16.09.   klo 20:00"])), today=TODAY)
+            self.assertEqual([s["start"][:16] for s in out], ["2026-09-16T20:00"], wd)
 
     def test_a_weekday_matching_no_candidate_year_is_skipped(self):
         """Only three of the seven weekdays can be right for a given day and month. A
@@ -159,9 +159,21 @@ class YearTest(unittest.TestCase):
 
 
 class EmptyAndBrokenTest(unittest.TestCase):
-    def test_cards_with_no_screening_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_cards_with_no_screening_is_a_failure(self):
+        """No empty state is recorded for this site, and a page rendering film cards is
+        not one, so zero rows fails rather than being read as nothing on."""
+        with self.assertRaises(RuntimeError) as cm:
             vaakuna.parse(page(card("a", "A", []), card("b", "B", [])), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_rows_in_a_format_the_parser_misses_are_a_failure(self):
+        """A year printed after the month, `Ti 15.09.2026`, does not match `SHOW_RE`. The
+        cards are still there, so this is a format change and must fail."""
+        with self.assertRaises(RuntimeError) as cm:
+            vaakuna.parse(page(
+                card("a", "A", ["Ti 15.09.2026   klo 18:40", "Ke 16.09.2026   klo 15:00"]),
+                card("b", "B", ["Pe 18.09.2026   klo 20:45"])), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
 
     def test_a_page_without_a_card_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
