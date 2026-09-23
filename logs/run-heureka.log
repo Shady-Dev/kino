@@ -2,5 +2,5 @@
 [heureka] synopses merged: 0
 [run] hosts: 1 attempted -- www.heureka.fi
 [run] heureka: 1 venues, 198 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 6.6s of fetching added up across workers that overlap, longest site 6.6s, longest queue wait 60.9s, 6.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 7.1s of fetching added up across workers that overlap, longest site 7.1s, longest queue wait 47.1s, 7.1s wall from this module's first fetch starting to its last ending
 exit=0
