@@ -75,6 +75,14 @@ class ClientTicketTest(unittest.TestCase):
         self.assertNotRegex(HTML, r"\.pastlink::(before|after)")
         self.assertNotIn('class="stub pastlink', HTML)
 
+    def test_on_the_meta_line_the_past_times_control_is_one_line_tall(self):
+        """Reported 2026-09-23: with the -13 px margins the button kept an 18 px box in a
+        14 px line, so a card carrying it had its genre row 2 px and its tickets 4 px
+        lower than a card without, in both engines. There it gives back all but one line
+        height, and the row aligns on the text's baseline."""
+        self.assertIn("margin-block:calc((1lh - 44px) / 2)", rule(HTML, ".meta2 .pastlink"))
+        self.assertIn("align-items:baseline", rule(HTML, ".meta2"))
+
 
 class GeneratedTicketTest(unittest.TestCase):
 

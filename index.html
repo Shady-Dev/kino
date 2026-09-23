@@ -478,8 +478,14 @@
   }
   .meta2{
     margin-top:5px; color:var(--muted); font-size:.8rem;
-    display:flex; flex-wrap:wrap; gap:4px 14px;
+    display:flex; flex-wrap:wrap; gap:4px 14px; align-items:baseline;
   }
+  /* On this line the past-times button takes back its whole 44 px, not just the padding:
+     the -13 px margins left an 18 px box in a 14 px line, so a card with the button sat
+     its genre row 2 px lower and its tickets 4 px lower than a card without (both engines,
+     2026-09-23). The hit area stays 44 px; `baseline` keeps the label on the text's line.
+     Where `lh` is not supported the rule is dropped and the old -13 px applies. */
+  .meta2 .pastlink{margin-block:calc((1lh - 44px) / 2)}
   .rating{
     display:inline-block; border:1px solid var(--line); border-radius:5px;
     padding:1px 7px; font-weight:700; font-size:.72rem; color:var(--ink);
