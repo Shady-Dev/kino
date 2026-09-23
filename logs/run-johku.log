@@ -4,9 +4,9 @@
 [biomarilyn] Bio Marilyn: 17 showtimes, 11 dates
 [biomarilyn] Bio Marilyn: 17 showtimes, 11 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 15 screening(s) in day groups, 4 film page(s) read
-[vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
-[vihdinkino] Vihdin Kino: 15 showtimes, 7 dates
+[vihdinkino] 14 screening(s) in day groups, 4 film page(s) read
+[vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
+[vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 23 screening(s) in day groups, 9 film page(s) read
 [bioforum] Bio Forum: 23 showtimes, 9 dates
@@ -28,6 +28,6 @@
 [kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 62 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 147 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 161.3s of fetching added up across workers that overlap, longest site 59.6s, longest queue wait 126.3s, 69.3s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 146 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 193.6s of fetching added up across workers that overlap, longest site 66.8s, longest queue wait 116.9s, 77.2s wall from this module's first fetch starting to its last ending
 exit=0

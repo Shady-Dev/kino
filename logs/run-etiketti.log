@@ -1,5 +1,5 @@
 [kotkanleffat] Kinopalatsi Kotka: 17 showtimes, 9 dates
-[kotkanleffat] Trio 123: 86 showtimes, 9 dates
+[kotkanleffat] Trio 123: 82 showtimes, 9 dates
 [kotkanleffat] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 41 showtimes, 9 dates
 [biorexkokkola] synopses merged: 0
@@ -24,20 +24,19 @@
 [kinojuha] synopses merged: 0
 [biogrand] Bio Grand: 25 showtimes, 9 dates
 [biogrand] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 34 showtimes, 8 dates
+[biovuoksi] Bio Vuoksi: 32 showtimes, 8 dates
 [biovuoksi] synopses merged: 0
-[kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 30 showtimes, 9 dates
+[kinoiiris] Kino Iiris: 28 showtimes, 9 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 13 showtimes, 9 dates
 [kkino] synopses merged: 0
 [kkino] synopses skipped as screening notes (price): 13
 [biograni] Bio Grani: 8 showtimes, 4 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 52 showtimes, 15 dates
+[niagara] Cinema Niagara: 50 showtimes, 15 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 198 full, 198 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 194 full, 194 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 739 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 383.6s of fetching added up across workers that overlap, longest site 60.8s, longest queue wait 45.3s, 106.1s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 729 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 359.6s of fetching added up across workers that overlap, longest site 56.9s, longest queue wait 45.4s, 102.3s wall from this module's first fetch starting to its last ending
 exit=0
