@@ -153,9 +153,26 @@ class FilmPageTest(unittest.TestCase):
 
 
 class EmptyAndBrokenTest(unittest.TestCase):
-    def test_day_containers_with_no_screening_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_day_containers_with_no_screening_fail_rather_than_empty_the_venue(self):
+        """No empty state is recorded for this plugin. Empty day containers are what a
+        renamed film-item class would also produce, so zero rows fails."""
+        with self.assertRaises(RuntimeError) as cm:
             biokaari.parse(page(day("15092026"), day("16092026")))
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_films_whose_screening_rows_the_parser_cannot_read_fail_the_site(self):
+        """Two days, two films, every time in a format SHOW_RE misses: the page is full of
+        films, so this is a template change and must not read as nothing on."""
+        with self.assertRaises(RuntimeError) as cm:
+            biokaari.parse(page(
+                day("15092026",
+                    item("31671", "Hetki ennen valoa", "2026", [("klo 17", "984056")]),
+                    item("31668", "Presidentin kyyditys", "2026", [("klo 19", "984055")])),
+                day("16092026",
+                    item("31671", "Hetki ennen valoa", "2026", [("klo 17", "984058")]),
+                    hidden=True)))
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("3 film item", str(cm.exception))
 
     def test_a_page_without_a_day_container_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:

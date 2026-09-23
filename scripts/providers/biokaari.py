@@ -55,7 +55,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch, get_text
+from common import capped, fetch, get_text, served
 
 BASE = "https://www.bio-kaari.fi"
 FI = ZoneInfo("Europe/Helsinki")
@@ -65,8 +65,9 @@ VENUE = {"id": "biokaari-forssa", "name": "Bio-Kaari", "short": "Bio-Kaari",
 
 SITES = [{"provider": "biokaari", "label": "Bio-Kaari", "base": BASE, "venues": [VENUE]}]
 
-# The day containers are the programme. Present with no screening means nothing is on;
-# absent means the plugin's markup changed.
+# The day containers are the programme. Absent means the plugin's markup changed. Present
+# with no screening is not evidence of nothing on either: no empty state has been read off
+# this site, so zero rows fails the site rather than raising `common.EmptyProgramme`.
 CONTAINER_RE = re.compile(r'<div class="searchResults"', re.I)
 DAY_RE = re.compile(r'<div class="searchResults" id="(\d{2})(\d{2})(\d{4})"[^>]*>', re.I)
 ITEM_RE = re.compile(r'<div class="searchItem">(.*?)<!--\s*tapahtuma loppuu\s*-->', re.S | re.I)
@@ -103,8 +104,8 @@ def _rating(raw):
 
 
 def parse(page):
-    """The front page -> [show]. Raises when no day container is present, and
-    `EmptyProgramme` when the containers hold no screening."""
+    """The front page -> [show]. Raises when no day container is present, and when the
+    containers yield no screening."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{BASE}: no day container on the page, so this is not the programme this "
@@ -161,7 +162,10 @@ def parse(page):
                     show["year"] = yr.group(1)
                 shows.append(show)
     if not shows:
-        raise EmptyProgramme(f"{BASE} renders its day containers with no screening in them")
+        raise RuntimeError(
+            f"{BASE}: no screening parsed from {len(days)} day container(s) and "
+            f"{len(ITEM_RE.findall(page))} film item(s) ({served(page)}). No empty state is "
+            f"known for this site, so this is a parse or template failure")
     shows.sort(key=lambda s: s["start"])
     return shows
 
