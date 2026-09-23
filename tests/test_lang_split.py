@@ -73,18 +73,22 @@ class LangSplitTest(unittest.TestCase):
         """The card and the sheet each draw the shared line and the per-screening one."""
         self.assertIn("langSplit(m.times).perShow", HTML)
         self.assertIn("const lsplit = langSplit(all);", HTML)
-        self.assertEqual(len(re.findall(r'class="slang"', HTML)), 2,
-                         "one per-screening language line on the card stub and one on the sheet stub")
+        self.assertIn("? slangHtml(t.lang) : ''", HTML)          # the card's stub
+        self.assertIn("? slangHtml(s.lang) : ''", HTML)          # the sheet's stub
+        self.assertEqual(len(re.findall(r'class="slang"', HTML)), 1, "one builder for both")
 
     def test_the_language_line_is_the_last_item_in_its_compartment(self):
         """`.slang` takes a full row, so anything after it lands on a third line."""
+        seen = 0
         for m in re.finditer(r'<span class="aud\$\{[^"]*?"[^>]*>(.*?)</span><span class="price"',
                              HTML, re.S):
             body = m.group(1)
-            if 'class="slang"' not in body:
+            if "slangHtml(" not in body:
                 continue
-            self.assertGreater(body.index('class="slang"'), body.index("glyphRow"),
+            seen += 1
+            self.assertGreater(body.index("slangHtml("), body.index("glyphRow"),
                                "the language line must follow the glyph row")
+        self.assertEqual(seen, 2, "both stubs checked")
 
     def test_the_shared_line_sits_with_the_genres_in_the_sheet_head(self):
         self.assertIn("const sheetMeta2 = [", HTML)
@@ -118,8 +122,22 @@ class LangSplitTest(unittest.TestCase):
     def test_it_reuses_the_existing_translation_helper(self):
         """No second language table: langTxt already localises fi, sv and en."""
         self.assertEqual(len(re.findall(r"const LW = \{", HTML)), 1)
-        self.assertIn("esc(langTxt(t.lang))", HTML)
-        self.assertIn("esc(langTxt(s.lang))", HTML)
+        self.assertIn("function langTxt(code, lead = true){ return langParts(code, lead).join(' · '); }",
+                      HTML)
+        self.assertIn("langParts(code).map(p => `<span>${esc(p)}</span>`)", HTML)
+
+    def test_a_narrow_ticket_breaks_between_the_spoken_and_the_subtitle_part(self):
+        """Asked for 2026-09-23: when the line does not fit, the spoken language keeps its
+        line and the subtitles take the next, with no dot left at either end. Measured
+        that day on Helsinki in Chromium and WebKit: at 393 px 6 of 10 card lines stack
+        and 4 fit on one, at 1200 all fit; the dot shows exactly when the parts share a
+        line. The dot is the later part's ::before, clipped when that part starts a line."""
+        self.assertIn(".stub .slang{overflow:hidden; min-width:0}", HTML)
+        self.assertIn(".stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-.9em}", HTML)
+        self.assertIn(".stub .slang .lp > span{position:relative; padding-left:.9em; min-width:0}",
+                      HTML)
+        self.assertIn(".stub .slang .lp > span + span::before{content:'\\b7'; position:absolute; "
+                      "left:.25em}", HTML)
 
 
 if __name__ == "__main__":

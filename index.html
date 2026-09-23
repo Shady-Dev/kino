@@ -736,6 +736,15 @@
      parts and none of the geometry DESIGN.md pins moves. */
   .stub .aud.twoline{flex-wrap:wrap; align-items:flex-start; max-width:200px}
   .stub .slang{flex:1 0 100%; white-space:normal; line-height:1.25; overflow-wrap:anywhere}
+  /* Its two parts, spoken language and subtitles, share a line with a dot between them
+     while they fit and take a line each when they do not, so a narrow ticket never
+     breaks "tekstitys:" from its languages (asked for 2026-09-23). The dot is the later
+     part's own ::before, drawn in the padding in front of it; a part that starts a line
+     sits .9em left of the line, where .slang clips its dot. */
+  .stub .slang{overflow:hidden; min-width:0}
+  .stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-.9em}
+  .stub .slang .lp > span{position:relative; padding-left:.9em; min-width:0}
+  .stub .slang .lp > span + span::before{content:'\b7'; position:absolute; left:.25em}
   /* The language line makes the compartment two rows, and a flex item centres inside its
      own row rather than the box: the Anniskelu glyph sat 8 px above the ticket's middle,
      in both engines at 390 and 1200 (measured 2026-09-20). The glyphs get a column of
@@ -1500,9 +1509,11 @@
   // "EN-A, FI-S, SE-S" reads "englanti · tekstitys: suomi/ruotsi": audio bare, subtitles
   // labelled, one entry per role rather than per language. The "/" matches how a single
   // multi-language code (FI-SE-S) has always rendered.
-  // `lead` is false where the text follows other parts of a line.
-  function langTxt(code, lead = true){
-    if(!code) return '';
+  // `lead` is false where the text follows other parts of a line. langParts keeps the
+  // spoken language and the subtitles apart for the ticket, which lays them out itself.
+  function langTxt(code, lead = true){ return langParts(code, lead).join(' · '); }
+  function langParts(code, lead = true){
+    if(!code) return [];
     const by = { A: [], S: [] };
     for(const c of code.split(/,\s*/)){
       const m = c.match(/^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$/);
@@ -1516,9 +1527,13 @@
     if(by.A.length) out.push(by.A.join('/'));
     const w = LW[state.lang];
     if(by.S.length) out.push(((lead && !out.length && w.S0) || w.S) + ' ' + by.S.join('/'));
-    return out.join(' · ');
+    return out;
   }
   // --- end langTxt ---
+  // A ticket's own language line: the spoken language and the subtitles as two parts, so
+  // a ticket too narrow for both gives each a line instead of breaking inside one.
+  const slangHtml = code => '<span class="slang"><span class="lp">'
+    + langParts(code).map(p => `<span>${esc(p)}</span>`).join('') + '</span></span>';
   // --- langSplit: pure, extracted verbatim by tests/lang_split_harness.js ---
   // Which screenings agree on a language. Shared goes once above the schedule, anything
   // else goes on each ticket: the rule the card already applies to format tags.
@@ -4198,7 +4213,7 @@
         // meta2 note.
         const own_price = priceLabel([t]);
         return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud${(langPer && t.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}${(langPer && t.lang) ? `<span class="slang">${esc(langTxt(t.lang))}</span>` : ''}</span><span class="price">${esc(own_price)}</span>
+                  <span class="time">${clock}</span><span class="aud${(langPer && t.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}${(langPer && t.lang) ? slangHtml(t.lang) : ''}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -4398,7 +4413,7 @@
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
         return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud${(lsplit.perShow && s.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${(lsplit.perShow && s.lang) ? `<span class="slang">${esc(langTxt(s.lang))}</span>` : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
+                  <span class="time">${clock}</span><span class="aud${(lsplit.perShow && s.lang) ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${(lsplit.perShow && s.lang) ? slangHtml(s.lang) : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
     closeStubMenu(false);
