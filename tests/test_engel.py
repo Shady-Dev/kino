@@ -10,11 +10,14 @@ Two rows minimum in every fixture, because the skip is a `continue` inside the l
 """
 import contextlib
 import datetime
+import http.client
+import http.server
 import io
+import threading
 import unittest
 import urllib.error
 
-import _ctx                                                # noqa: F401
+import _ctx
 import engel as E
 
 
@@ -205,3 +208,147 @@ class FiveHundredTest(unittest.TestCase):
         self.assertEqual(sorted({s["rating"] for s in shows}), ["K-12"])
         self.assertIn((500,), [k for _, k in self.calls],
                       "a film page that 500s is read through it")
+
+
+class DroppedConnectionTest(unittest.TestCase):
+    """The site's other failure since 2026-09-21: the connection closes with no response.
+
+    `http.client` raises RemoteDisconnected and `common.fetch` retries it like any other
+    exception, three attempts 5 s and 10 s apart. Four runs between 2026-09-22 and
+    2026-09-23 had all three fall inside one bad window, and the whole site failed.
+
+    There is no body to rescue the way the 500's body is rescued, so the only answer is to
+    wait longer, and the only question worth pinning is which errors get that patience and
+    which still fail at once.
+
+    The classification is partly urllib's, so the last two tests talk to a real socket: a
+    server that accepts and closes is the only honest way to produce the exception this is
+    about, and a stub would encode the assumption under test.
+    """
+
+    def test_a_closed_connection_is_recognised_raw_and_wrapped(self):
+        raw = http.client.RemoteDisconnected("Remote end closed connection without response")
+        self.assertTrue(E.dropped(raw))
+        self.assertTrue(E.dropped(urllib.error.URLError(raw)))
+        self.assertTrue(E.dropped(ConnectionResetError(54, "Connection reset by peer")))
+        self.assertTrue(E.dropped(urllib.error.URLError(ConnectionResetError(54, "reset"))))
+
+    def test_an_answer_is_never_a_dropped_connection(self):
+        """An HTTPError is a URLError too, and it is the 500 path's business, not this."""
+        e = urllib.error.HTTPError("https://kinoengel.fi/", 500, "err", {}, None)
+        self.addCleanup(e.close)
+        self.assertFalse(E.dropped(e))
+        self.assertFalse(E.dropped(urllib.error.URLError(TimeoutError("timed out"))))
+        self.assertFalse(E.dropped(RuntimeError("something else")))
+        # An HTTPError's `reason` is its status message, so the URLError branch below
+        # would read one. The guard is first for that reason, and this is the input that
+        # tells the two orderings apart: a 500 whose message is itself a socket error is
+        # still an answer, and still the 500 path's business.
+        odd = urllib.error.HTTPError("https://kinoengel.fi/", 500,
+                                     ConnectionResetError(54, "reset"), {}, None)
+        self.addCleanup(odd.close)
+        self.assertFalse(E.dropped(odd))
+
+    def test_the_patience_is_the_listings_and_not_the_film_pages(self):
+        """`enrich()` already counts a film-page failure and moves on, so a cinema showing
+        thirty films is not made to wait a minute a page for metadata it can do without."""
+        src = (_ctx.ROOT / "scripts" / "providers" / "engel.py").read_text(encoding="utf-8")
+        self.assertIn("page = patient_get(URL)", src)
+        self.assertEqual(src.count("patient_get("), 2, "one definition, one call site")
+        body = src[src.index("def tolerant_get"):src.index("def usable")]
+        self.assertNotIn("patient_get", body, "the film pages take the fast path")
+
+
+class DroppedConnectionSocketTest(unittest.TestCase):
+    """Against a real server, because which exception urllib raises is urllib's answer."""
+
+    PAGE = ("<html><body>" + "x" * E.MIN_BYTES
+            + row("a", "Ma 21.09.", "18:00", "Alpha")
+            + row("b", "Ti 22.09.", "20:15", "Beta") + "</body></html>").encode()
+
+    def serve(self, drops):
+        """A server that closes the connection on the first `drops` requests, then serves
+        the page. -> base url. Two rows in the page, as every fixture here has."""
+        page = self.PAGE
+        state = {"n": 0}
+
+        class H(http.server.BaseHTTPRequestHandler):
+            protocol_version = "HTTP/1.0"
+
+            def do_GET(self):
+                state["n"] += 1
+                if state["n"] <= drops:
+                    self.close_connection = True
+                    try:
+                        self.connection.close()
+                    except OSError:
+                        pass
+                    return
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(page)))
+                self.end_headers()
+                self.wfile.write(page)
+
+            def log_message(self, *a):
+                pass
+
+        srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), H)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
+        # Both, in this order: shutdown() stops the loop and server_close() releases the
+        # listening socket. Without the second the socket is collected later and raises
+        # ResourceWarning, which ci.yml greps the suite log for and fails the build on.
+        self.addCleanup(srv.server_close)
+        self.addCleanup(srv.shutdown)
+        self.state = state
+        return f"http://127.0.0.1:{srv.server_address[1]}/"
+
+    # The fixture page is 20 kB and `common.MAX_BODY` is read from the environment at
+    # import, which `tests/test_common_fetch.py` reloads down to 500 bytes and leaves
+    # there for whatever runs next. Every read here names its own cap, so these tests do
+    # not depend on which files ran before them.
+    CAP = 1 << 20
+
+    def setUp(self):
+        # The real schedule is 20 s and 40 s; the rule under test is that there is a
+        # second round at all, not how long it waits, and the suite must not sleep a
+        # minute to see it.
+        for name, value in (("PATIENT_BACKOFF", 0), ("PATIENT_TRIES", 3)):
+            saved = getattr(E, name)
+            setattr(E, name, value)
+            self.addCleanup(lambda n=name, v=saved: setattr(E, n, v))
+
+    def test_a_closed_connection_raises_what_dropped_recognises(self):
+        """The whole chain in one: a real socket close, through common.fetch, classified."""
+        url = self.serve(drops=99)
+        with self.assertRaises(Exception) as cm:
+            E.get_text(url, fetcher=E.fetch, tries=1, cache=False, max_bytes=self.CAP)
+        self.assertTrue(E.dropped(cm.exception),
+                        f"dropped() does not recognise {cm.exception!r}")
+
+    def test_a_short_window_is_ridden_out(self):
+        """Three attempts inside common.fetch, then three more: a window that swallows the
+        first round is survived by the second, which is the run that used to fail."""
+        url = self.serve(drops=4)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            page = E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+        self.assertIn("Osta liput", page)
+        self.assertEqual(self.state["n"], 5, "four refusals and one page")
+        self.assertIn("the connection was closed without a response", out.getvalue())
+
+    def test_a_site_that_is_really_gone_still_fails_closed(self):
+        """The patience is a longer wait, not a way to publish nothing."""
+        url = self.serve(drops=99)
+        with contextlib.redirect_stdout(io.StringIO()), self.assertRaises(Exception) as cm:
+            E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+        self.assertTrue(E.dropped(cm.exception))
+        self.assertEqual(self.state["n"], 6, "three attempts, then three more, then out")
+
+    def test_an_answer_gets_no_second_round(self):
+        """A page on the first attempt is one request, and nothing is retried."""
+        url = self.serve(drops=0)
+        with contextlib.redirect_stdout(io.StringIO()):
+            page = E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+        self.assertIn("Osta liput", page)
+        self.assertEqual(self.state["n"], 1)

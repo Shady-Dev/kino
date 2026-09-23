@@ -2923,3 +2923,38 @@ mocking. Seven mutations red, none void: any status tolerated, the size and mark
 removed, zero rows published, the markers emptied, the size floor removed, the film pages
 taken off the tolerant read, and `keep_body_on` ignored in `common.fetch`. Four of those
 seven were VOID on the first pass and the tests were strengthened until they were not.
+
+### Kino Engel's other failure: the connection closes with no response (2026-09-23)
+The 500 fallback added on 2026-09-21 recovers a body. This host has a second failure that
+has no body to recover: it accepts the connection and closes it without answering, which
+`http.client` raises as `RemoteDisconnected` and `urllib` sometimes hands on inside a
+`URLError`. `common.fetch` retries every exception, so the listing was already tried three
+times, 5 s and 10 s apart; on 2026-09-21 20:13, 2026-09-22 02:15 and 2026-09-23 02:15 all
+three attempts fell inside one bad window and the whole site failed. The committed data
+reached 17.3 h old against `STALE_H = 8`, so the app showed the stale banner on Kino Engel.
+
+Probed 2026-09-23 from an ordinary connection, six requests 4 s apart: six 200s, 126,219
+bytes each, 0.3 to 0.4 s. The host is healthy between the windows, so the windows are
+short.
+
+`patient_get` gives the listing three more attempts 20 s and 40 s apart when, and only
+when, the connection was closed on us: about a minute before the site is called down
+against the 15 s it had. It is a longer wait and nothing else. It still fails closed, it
+publishes no body it has not been given, and the 500 path below it is untouched: an
+`HTTPError` is an answer, it is excluded first, and the odd case of a 500 whose message is
+itself a socket error is pinned so the ordering cannot be rearranged by accident.
+
+The listing only. `enrich()` already counts a film-page failure and moves on, costing that
+row its metadata and nothing else, so a cinema showing thirty films is not made to wait a
+minute a page for metadata it can do without.
+
+Verified by running the adapter against the real site: 25 showtimes over 5 dates, 12 film
+pages parsed, 0 failures, and the module's committed log ends `exit=0` again. That run took
+the healthy path, so it exercised the ordinary read rather than the new one; the retry
+itself is covered against a local server that accepts and closes, which is the only honest
+way to raise the exception this is about.
+
+Break-verified with seven mutations of `engel.py`, each turning at least one test in
+`tests/test_engel.py` red: the listing back on the fast path, the second round removed, the
+`HTTPError` guard removed, only the raw exception recognised, a timeout treated as a closed
+connection, a healthy page forced into the second round, and the film pages made patient.

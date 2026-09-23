@@ -23,6 +23,7 @@ Parser notes:
 """
 import datetime
 import html as html_mod
+import http.client
 import re
 import sys
 import time
@@ -365,6 +366,57 @@ MIN_BYTES = 20000
 MARKERS = ("/elokuva/", "Osta liput")
 
 
+# The second way this host fails. Since 2026-09-21 it also accepts the connection and
+# closes it without sending a response, which `http.client` raises as RemoteDisconnected
+# and `urllib` sometimes hands on inside a URLError. `common.fetch` retries every
+# exception, so the listing was already tried three times, 5 s and 10 s apart, and on
+# 2026-09-22 02:15, 2026-09-23 02:15 and twice more all three attempts fell inside the
+# same bad window and the run failed.
+#
+# Nothing can be rescued here the way a 500's body is rescued below: a closed connection
+# carries no body to weigh. Waiting longer is the only lever. Probed 2026-09-23 from an
+# ordinary connection, six requests 4 s apart: six 200s, 126,219 bytes each, 0.3-0.4 s. The
+# host is healthy between the windows, so the windows are short and a slower second round
+# is likely to clear them.
+#
+# Three more attempts 20 s and 40 s apart, so the listing is given about a minute before
+# the site is called down, against the 15 s it had. It still fails closed: when the site is
+# really gone this reports the same failure a minute later, and the previous file stands.
+#
+# The listing only. `enrich()` already counts a film-page failure and moves on, costing
+# that row its metadata and nothing else, and a cinema showing 30 films would otherwise be
+# made to wait a minute per page for metadata it can do without.
+DROPPED = (http.client.RemoteDisconnected, ConnectionResetError)
+PATIENT_TRIES = 3
+PATIENT_BACKOFF = 20
+
+
+def dropped(e):
+    """Did the connection close without an answer, rather than the site answering? -> bool
+
+    An HTTPError is an answer and is never this, which matters because it is a URLError
+    too. A URLError's `reason` is where urllib puts the original socket error.
+    """
+    if isinstance(e, urllib.error.HTTPError):
+        return False
+    if isinstance(e, DROPPED):
+        return True
+    return isinstance(e, urllib.error.URLError) and isinstance(e.reason, DROPPED)
+
+
+def patient_get(url, **kw):
+    """`get_text`, with a slower second round when the connection was closed on us."""
+    try:
+        return get_text(url, fetcher=fetch, **kw)
+    except Exception as e:
+        if not dropped(e):
+            raise
+        print(f"[engel] {url}: the connection was closed without a response; "
+              f"{PATIENT_TRIES} more attempt(s), {PATIENT_BACKOFF}s apart")
+        kw = {**kw, "tries": PATIENT_TRIES, "backoff": PATIENT_BACKOFF}
+        return get_text(url, fetcher=fetch, **kw)
+
+
 def tolerant_get(url, tries=2, backoff=3, timeout=20):
     """This site's pages, read through a 500 when the 500 still carries them.
 
@@ -399,6 +451,10 @@ def fetch_page():
     right default and stays the default; this asks for the 500's body back and then has to
     earn it, because an error page and a programme are not told apart by the status alone.
 
+    A closed connection is the site's other failure since 2026-09-21 and is handled
+    before this, in `patient_get`: there is no body to weigh, so the only answer is to
+    wait longer before giving up. See the note above `DROPPED`.
+
     Three checks, and the row count is deliberately the last: a body that is big enough
     and carries the markers the parse does not key on, and still yields no screening, is a
     broken parse rather than a cinema with nothing on, and it fails the site the way a
@@ -406,7 +462,7 @@ def fetch_page():
     every run so this cannot quietly become normal.
     """
     try:
-        page = get_text(URL, fetcher=fetch)
+        page = patient_get(URL)
     except urllib.error.HTTPError as e:
         if e.code != 500:
             raise

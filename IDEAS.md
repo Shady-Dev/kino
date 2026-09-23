@@ -233,7 +233,8 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   persistent state is added to watch an incorrect upstream status code. It is narrowly
   scoped, validated and fails closed when the body stops carrying the programme, and the
   per-run log line is enough. Revisit only if Engel still answers 500 after a week, or if
-  the tolerated response starts losing metadata. Record:
+  the tolerated response starts losing metadata. The host's second failure, a connection
+  closed with no response, is a longer retry rather than a fallback and is separate:
   [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 - Routing `enrich_tmdb.py` through `common.fetch`. It uses a bare `urlopen` with no retry,
   so a TMDB 429 skips that title.
