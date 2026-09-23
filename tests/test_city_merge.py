@@ -197,8 +197,10 @@ class WhatTheScreeningKeeps(unittest.TestCase):
         h = self.render([show("F", lang="FI-A", aud="Sali 1"),
                          show("F", lang="EN-A, FI-S", aud="Sali 2",
                               start="2026-09-22T20:00:00+03:00")])
-        self.assertIn("<span class=l>suomi</span>", h)
-        self.assertIn("<span class=l>englanti</span>", h)
+        # Each screening keeps its own line on its ticket (2026-09-23).
+        self.assertIn('<span class="slang"><span class="lp"><span>suomi</span></span></span>', h)
+        self.assertIn('<span class="slang"><span class="lp"><span>englanti</span>'
+                      '<span>tekstitys: suomi</span></span></span>', h)
 
 
 class TheCommittedPages(unittest.TestCase):
