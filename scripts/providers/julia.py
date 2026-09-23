@@ -40,7 +40,7 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, fetch, get_text
+from common import fetch, get_text
 
 BASE = "https://juliaelokuvat.fi"
 LISTING = BASE + "/ohjelmisto/"
@@ -50,8 +50,8 @@ VENUE = {"id": "julia-hyvinkaa", "name": "Julia 1&2", "short": "Julia", "city": 
 
 SITES = [{"provider": "julia", "label": "Julia 1&2", "base": BASE, "venues": [VENUE]}]
 
-# The programme block is present with no film only when nothing is on; a page without it
-# is a changed template and must fail rather than publish an empty programme.
+# No empty state is recorded for this site. A page without a film block is a changed
+# template, and so is one whose film blocks yield no screening: both fail.
 CONTAINER_RE = re.compile(r'class="elokuva"', re.I)
 FILM_RE = re.compile(
     r'<div class="elokuva"[^>]*>(.*?)(?=<div class="elokuva"|</div>\s*</div>\s*</div>|\Z)',
@@ -97,7 +97,7 @@ def _minutes(raw):
 
 def parse(page):
     """`/ohjelmisto/` -> [show]. Raises when the programme container is missing, and
-    `EmptyProgramme` when it is present with no screening."""
+    when it is present with no screening row this parser reads."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{LISTING}: no film block on the page, so this is not the programme this "
@@ -152,7 +152,10 @@ def parse(page):
                 "venue": VENUE["id"],
             })
     if not shows:
-        raise EmptyProgramme(f"{LISTING} lists films but no screening")
+        raise RuntimeError(
+            f"{LISTING}: film blocks with no screening row this parser reads. No empty "
+            f"state is recorded for this site, so this is a template or format change "
+            f"rather than a cinema with nothing on")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
 
