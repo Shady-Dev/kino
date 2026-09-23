@@ -78,6 +78,12 @@ Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a 
 `base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
 **Next action:** re-probe when either host is next touched.
 
+### Thirteen sites go red when genuinely empty
+
+None has a recorded empty state, so zero rows fails the run instead of clearing data.
+List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states.md).
+**Next action:** when one fails with its own page showing nothing on, record that state.
+
 ## Blocked
 
 ### Kino Helios publishes no screening language this adapter can read
@@ -185,14 +191,6 @@ the other with nothing in a count to show it.
 **What would change it:** Iobio publishing a film category of its own, or one calendar
 rather than two. Then it is an ordinary `SITES` entry. Evidence:
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-
-### Kino Engel prices
-
-The price rows are drawn by Johku's widget from an API that needs the widget's key. A
-headless render was measured on 2026-09-13 at about 6 s a page for roughly 15 pages a run.
-**Declined outright 2026-09-20 by the maintainer**, not merely deferred: no headless price
-extraction on the local half. `price` and `aud` stay empty for Engel, and the one route
-left open is the cinema or Johku publishing a feed.
 
 ## Deferred
 

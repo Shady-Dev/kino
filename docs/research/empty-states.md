@@ -35,6 +35,10 @@ clears withdrawn screenings".
 - What these sites render with nothing on: Julia, Kino Vaakuna, Kino Kirkkonummi, the four
   TMB cinemas, Bio-Kaari, Bio Savoy, Iso-Hannu, Kino Tapiola, Kinotour, Kuvakukko. Heureka's
   paused calendar: ended runs left in place, or the planetarium items removed.
+- Three gaps left inside the rule, as follow-ups (decided 2026-09-24): a Nexxo town whose
+  room alone is renumbered while another town still matches is published empty; one
+  Alatalo or Kuvakukko venue whose format changes while the other venues parse is
+  published empty; Alatalo has no per-town digit check that would close its half.
 
 ## Implementation status
 

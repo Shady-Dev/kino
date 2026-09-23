@@ -2958,3 +2958,14 @@ Break-verified with seven mutations of `engel.py`, each turning at least one tes
 `tests/test_engel.py` red: the listing back on the fast path, the second round removed, the
 `HTTPError` guard removed, only the raw exception recognised, a timeout treated as a closed
 connection, a healthy page forced into the second round, and the film pages made patient.
+
+### Kino Engel prices
+
+The price rows are drawn by Johku's widget from an API that needs the widget's key. A
+headless render was measured on 2026-09-13 at about 6 s a page for roughly 15 pages a run.
+**Declined outright 2026-09-20 by the maintainer**, not merely deferred: no headless price
+extraction on the local half. `price` and `aud` stay empty for Engel, and the one route
+left open is the cinema or Johku publishing a feed.
+
+Moved from the Blocked section of `IDEAS.md` on 2026-09-24, verbatim above: it records a
+decision already taken, not work waiting on anything.
