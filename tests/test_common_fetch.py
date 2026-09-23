@@ -29,6 +29,42 @@ import common
 # from sys.modules did it for its own reasons, and deleting it turned the four red.
 EMPTY_PROGRAMME = common.EmptyProgramme
 
+# What `common` reads from the environment at import and these tests override.
+LIMITS = ("KINO_RETRY_AFTER_MAX", "KINO_RETRY_AFTER_BUDGET", "KINO_MAX_BODY")
+
+
+def fresh_common(test, **env):
+    """Reload `common` with the limits in env, and undo both when the test ends.
+
+    The reload is in place, so every module holding `fetch` sees the override. The cleanup
+    puts the environment back before it reloads: a reload with the override still set
+    re-reads it, which left KINO_MAX_BODY=500 in place for tests/test_engel.py.
+    KINO_HTTP_CACHE stays set: tests that pass `cache=True` without reloading rely on it
+    to keep out of the real validator cache.
+    """
+    saved = {k: os.environ.get(k) for k in LIMITS + tuple(env)}
+
+    def restore():
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        importlib.reload(common).EmptyProgramme = EMPTY_PROGRAMME
+
+    test.addCleanup(restore)
+    for k in LIMITS:
+        os.environ.pop(k, None)
+    os.environ.update({k: str(v) for k, v in env.items()})
+    os.environ["KINO_HTTP_CACHE"] = os.path.join(
+        os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
+    mod = importlib.reload(common)
+    # The counters are what this reload is for. The exception type is not: keep the
+    # class the adapters already hold, or an `except EmptyProgramme` elsewhere in the
+    # suite stops matching what this module now raises.
+    mod.EmptyProgramme = EMPTY_PROGRAMME
+    return mod
+
 
 class Handler(http.server.BaseHTTPRequestHandler):
     """Replays a scripted list of responses per path, then repeats the last one."""
@@ -120,18 +156,7 @@ class FetchTest(unittest.TestCase):
 
     def reload(self, **env):
         """Fresh module so the throttle counters start at zero, with env overrides."""
-        for k in ("KINO_RETRY_AFTER_MAX", "KINO_RETRY_AFTER_BUDGET", "KINO_MAX_BODY"):
-            os.environ.pop(k, None)
-        os.environ.update({k: str(v) for k, v in env.items()})
-        # Never let a test write into the real validator cache.
-        os.environ["KINO_HTTP_CACHE"] = os.path.join(
-            os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
-        mod = importlib.reload(common)
-        # The counters are what this reload is for. The exception type is not: keep the
-        # class the adapters already hold, or an `except EmptyProgramme` elsewhere in the
-        # suite stops matching what this module now raises.
-        mod.EmptyProgramme = EMPTY_PROGRAMME
-        return mod
+        return fresh_common(self, **env)
 
     # -- Retry-After is honoured -------------------------------------------------
 
@@ -625,16 +650,27 @@ class GetTextTest(unittest.TestCase):
             c.get_text(self.url + "/huge")
 
     def reload_common(self, **env):
-        for k in ("KINO_MAX_BODY",):
-            os.environ.pop(k, None)
-        os.environ.update({k: str(v) for k, v in env.items()})
-        os.environ["KINO_HTTP_CACHE"] = os.path.join(
-            os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
-        mod = importlib.reload(common)
-        mod.EmptyProgramme = EMPTY_PROGRAMME
-        self.addCleanup(lambda: setattr(importlib.reload(common), "EmptyProgramme",
-                                        EMPTY_PROGRAMME))
-        return mod
+        return fresh_common(self, **env)
+
+
+class OverrideScopeTest(unittest.TestCase):
+    """An override ends with the test that set it, whichever file runs next.
+
+    Each helper runs inside a throwaway test here, so the check does not depend on the
+    order files are loaded in.
+    """
+
+    def test_an_override_is_gone_once_its_test_ends(self):
+        before = (os.environ.get("KINO_MAX_BODY"), common.MAX_BODY)
+        for helper in (FetchTest.reload, GetTextTest.reload_common):
+            with self.subTest(helper=helper.__qualname__):
+                class Inner(unittest.TestCase):
+                    def runTest(inner):
+                        inner.assertEqual(helper(inner, KINO_MAX_BODY=500).MAX_BODY, 500)
+                result = unittest.TestResult()
+                Inner().run(result)
+                self.assertEqual(result.errors + result.failures, [])
+                self.assertEqual((os.environ.get("KINO_MAX_BODY"), common.MAX_BODY), before)
 
 
 if __name__ == "__main__":

@@ -303,12 +303,6 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         self.state = state
         return f"http://127.0.0.1:{srv.server_address[1]}/"
 
-    # The fixture page is 20 kB and `common.MAX_BODY` is read from the environment at
-    # import, which `tests/test_common_fetch.py` reloads down to 500 bytes and leaves
-    # there for whatever runs next. Every read here names its own cap, so these tests do
-    # not depend on which files ran before them.
-    CAP = 1 << 20
-
     def setUp(self):
         # The real schedule is 20 s and 40 s; the rule under test is that there is a
         # second round at all, not how long it waits, and the suite must not sleep a
@@ -322,7 +316,7 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         """The whole chain in one: a real socket close, through common.fetch, classified."""
         url = self.serve(drops=99)
         with self.assertRaises(Exception) as cm:
-            E.get_text(url, fetcher=E.fetch, tries=1, cache=False, max_bytes=self.CAP)
+            E.get_text(url, fetcher=E.fetch, tries=1, cache=False)
         self.assertTrue(E.dropped(cm.exception),
                         f"dropped() does not recognise {cm.exception!r}")
 
@@ -332,7 +326,7 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         url = self.serve(drops=4)
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            page = E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+            page = E.patient_get(url, tries=3, backoff=0, cache=False)
         self.assertIn("Osta liput", page)
         self.assertEqual(self.state["n"], 5, "four refusals and one page")
         self.assertIn("the connection was closed without a response", out.getvalue())
@@ -341,7 +335,7 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         """The patience is a longer wait, not a way to publish nothing."""
         url = self.serve(drops=99)
         with contextlib.redirect_stdout(io.StringIO()), self.assertRaises(Exception) as cm:
-            E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+            E.patient_get(url, tries=3, backoff=0, cache=False)
         self.assertTrue(E.dropped(cm.exception))
         self.assertEqual(self.state["n"], 6, "three attempts, then three more, then out")
 
@@ -349,6 +343,6 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         """A page on the first attempt is one request, and nothing is retried."""
         url = self.serve(drops=0)
         with contextlib.redirect_stdout(io.StringIO()):
-            page = E.patient_get(url, tries=3, backoff=0, cache=False, max_bytes=self.CAP)
+            page = E.patient_get(url, tries=3, backoff=0, cache=False)
         self.assertIn("Osta liput", page)
         self.assertEqual(self.state["n"], 1)

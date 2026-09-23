@@ -90,3 +90,16 @@ the investigations these decisions rest on under [docs/research/](../research/).
   it. Fixed by giving `regina.fetch_site` the `today` seam every other adapter already has
   and pinning it in the test, with a guard test that fails first if the pinned date is ever
   one the fixture names.
+- A test that reloads a module to re-read the environment has to put the environment back
+  before its cleanup reloads, or the cleanup re-reads the override. `reload_common` in
+  `tests/test_common_fetch.py` did exactly that with `KINO_MAX_BODY=500`, and its sibling
+  `reload` restored nothing at all; `common` is reloaded in place, so the 500-byte cap
+  reached every later file. On 2026-09-23 it broke `DroppedConnectionSocketTest` in
+  `tests/test_engel.py`, whose fixture page is 20 kB, when the two files ran in that order.
+  Both helpers now go through `fresh_common`, which snapshots the limit variables and
+  restores them before reloading; `OverrideScopeTest` runs each helper inside a throwaway
+  test and checks the environment and `common.MAX_BODY` afterwards, so it does not depend
+  on file order. Engel's per-read `max_bytes` workaround came out with it.
+  `tests/test_fetch_data_http.py` was already scoped: its cleanup pops the three limits
+  before reloading. `KINO_HTTP_CACHE` stays set in all three helpers on purpose, because
+  tests passing `cache=True` without a reload rely on it to stay out of `.http-cache`.
