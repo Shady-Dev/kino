@@ -649,6 +649,15 @@
     display:grid; gap:8px;
     grid-template-columns:repeat(auto-fill, minmax(min(240px, 100%), 1fr));
   }
+  /* Once a list has measured its widest ticket (sizeTickets), every track is that wide
+     and no wider: a column is added only when another whole ticket fits, and a ticket
+     never stretches into empty row. Stretching 240 px tracks let three columns squeeze
+     to 245 px at 900 and wrap 44 Helsinki tickets to three lines, while the same tracks
+     ran to 470 px of white at 1300 with two (2026-09-23). The rule above stays the
+     fallback until the list has been measured. */
+  .tkw .stubs.grid{grid-template-columns:repeat(auto-fill, min(var(--tkw), 100%))}
+  .tkw-measure .stubs.grid > *{width:max-content; max-width:none; justify-self:start}
+  .tkw-measure .stubs.grid[hidden]{display:grid}
   /* The combined view's ticket. Same component as the row stub, adapted: a fixed time
      compartment on the left spanning the full height, the details compartment beside it
      wrapping as it needs, the price compartment at the trailing edge. The perforation is
@@ -3963,6 +3972,32 @@
   const pastLabel = (open, n, T) =>
     open ? T.hidePast : (n === 1 ? T.showPastOne : T.showPast.replace('{n}', n));
   // --- end pastLabel ---
+  // The track width a list of grid tickets needs: its widest ticket laid out on one
+  // line per part, plus TKW_PAD so the text does not touch the perforation. 0 when there
+  // is nothing measurable (no ticket, or a list not laid out), which keeps the fallback.
+  // --- ticketWidth: pure, extracted verbatim by tests/test_ticket_width.py ---
+  const TKW_PAD = 4;
+  const ticketWidth = widths => {
+    const w = widths.filter(x => x > 0);
+    return w.length ? Math.ceil(Math.max(...w)) + TKW_PAD : 0;
+  };
+  // --- end ticketWidth ---
+  // Measure a rendered list's grid cells at their max-content width, hidden past days
+  // included so revealing one does not widen the rest, and size the tracks to fit. The
+  // cell, not the ticket: in the film view a cell is the ticket plus its menu button.
+  // Webfont metrics differ from the fallback's, so an early measure is repeated once
+  // the fonts are in.
+  function sizeTickets(root){
+    if(!root) return;
+    root.classList.add('tkw-measure');
+    const w = ticketWidth([...root.querySelectorAll('.stubs.grid > *')]
+      .map(el => el.getBoundingClientRect().width));
+    root.classList.remove('tkw-measure');
+    root.classList.toggle('tkw', w > 0);
+    if(w) root.style.setProperty('--tkw', w + 'px'); else root.style.removeProperty('--tkw');
+    if(document.fonts && document.fonts.status !== 'loaded')
+      document.fonts.ready.then(() => sizeTickets(root));
+  }
   // --- stubTags: pure, extracted verbatim by tests/stub_tags_harness.js ---
   const stubTags = (tags, aud) => tags.filter(t =>
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
@@ -4209,6 +4244,7 @@
     setListStatus('');
     main.innerHTML = listLegend + noneLeft + live.map(card).join('')
       + overHead + over.map(card).join('');
+    sizeTickets(main);
   }
 
   // render() rebuilds the whole list through innerHTML, ~90 cards in a combined city
@@ -4434,6 +4470,7 @@
         ${days ? hint : ''}
         <div class="sheet-days">${body}</div>
       </div>`;
+    sizeTickets(sheetEl);
     sheetEl.querySelector('.sheet-close').onclick = closeSheet;
     // A link that named a day or a screening opens on it: the ticket is marked and its
     // day's heading scrolled to the top of the body. A named screening that has gone,
