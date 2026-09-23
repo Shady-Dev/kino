@@ -34,8 +34,10 @@ Tag labels are the site's own text ("Lapsille", "Ensi-ilta"), taken verbatim rat
 mapped to wording this repo made up. `showtable-tickets` is the buy button on every row
 and is not a strand, so it is excluded by name.
 
-An empty table is a confirmed empty programme only when `<div id="showtable">` is on the
-page: present with no rows means nothing is on, absent means the template changed.
+No screening parsed is a failure, never `EmptyProgramme`. This site's empty programme has
+not been read, so nothing on the page is known to mean "nothing on": an empty
+`<div id="showtable">` is also what a change to the row markup inside it produces. The
+day, hall and row-anchor counts go into the error so the log says which.
 """
 import datetime
 import html as html_mod
@@ -44,7 +46,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch, get_text
+from common import capped, fetch, get_text
 
 BASE = "https://www.isohannu.fi"
 FI = ZoneInfo("Europe/Helsinki")
@@ -52,10 +54,6 @@ FI = ZoneInfo("Europe/Helsinki")
 VENUE = {"id": "ih-rauma", "name": "Iso-Hannu", "short": "Iso-Hannu", "city": "Rauma"}
 
 SITES = [{"provider": "isohannu", "label": "Iso-Hannu", "base": BASE, "venues": [VENUE]}]
-
-# See the docstring: the table container is the positive evidence that separates "nothing
-# on" from "the template changed".
-EMPTY_VENUES_CONFIRMED = True
 
 TABLE_RE = re.compile(r'<div id="showtable">', re.I)
 DAY_RE = re.compile(r'<h3 class="showtable-title">[^<]*?(\d{1,2})\.(\d{1,2})\.(\d{4})\s*</h3>', re.I)
@@ -122,8 +120,9 @@ def _rating(raw):
 
 
 def parse(page):
-    """The front page -> [show]. Raises when the table container is missing, and
-    `EmptyProgramme` when it is present and holds no screening."""
+    """The front page -> [show]. Raises when the table container is missing or holds
+    no screening this parser can read; see the docstring for why the latter is not
+    `EmptyProgramme`."""
     if not TABLE_RE.search(page):
         raise RuntimeError("no <div id=\"showtable\"> in the response: this is not the "
                            "page this parser reads, so it is a fetch or template failure "
@@ -181,7 +180,13 @@ def parse(page):
                     "venue": VENUE["id"],
                 })
     if not shows:
-        raise EmptyProgramme(f"{BASE} renders its show table with no screening in it")
+        halls = page.count('<div class="showtable-container">')
+        anchors = len(re.findall(r"/leffasivu\.php\?id=", page))
+        raise RuntimeError(
+            f"{BASE}: the show table holds {len(days)} day heading(s), {halls} hall(s) "
+            f"and {anchors} film anchor(s), and not one screening parsed. No empty state "
+            f"of this page is known, so this is a parse or template failure rather than a "
+            f"cinema with nothing on")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
 

@@ -158,9 +158,26 @@ class TableTest(unittest.TestCase):
 
 
 class EmptyAndBrokenTest(unittest.TestCase):
-    def test_a_table_with_no_screening_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_an_empty_table_is_a_failure_while_the_empty_state_is_unknown(self):
+        """No empty programme of this site has been read, so an empty `showtable` is not
+        evidence of one: it is also what a row-markup change inside it produces."""
+        with self.assertRaises(RuntimeError) as cm:
             isohannu.parse(page())
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_days_and_halls_whose_rows_the_parser_misses_are_a_failure(self):
+        """The table lists two days and three halls, and every row anchor has moved off
+        `/leffasivu.php`: the page is full of films and the parse is empty."""
+        moved = PAGE.replace('href="/leffasivu.php?id=', 'href="/elokuva.php?id=')
+        with self.assertRaises(RuntimeError) as cm:
+            isohannu.parse(moved)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("2 day heading(s)", str(cm.exception))
+
+    def test_no_venue_is_ever_vouched_empty(self):
+        """parse() never returns [], so nothing here may tell run.py that an empty venue
+        is known empty and have it publish over the previous screenings."""
+        self.assertFalse(getattr(isohannu, "EMPTY_VENUES_CONFIRMED", False))
 
     def test_a_page_without_the_table_is_a_failure_not_an_empty_programme(self):
         """The distinction the run depends on: no container means the template changed,
