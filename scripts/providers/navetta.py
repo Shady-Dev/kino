@@ -42,7 +42,10 @@ What shapes the parser:
 "Meillä on näytöksiä pääsääntöisesti vain viikonloppuisin, mutta toiminta on hieman
 epäsäännöllistä. Esitysajat ilmestyvät tälle sivulle aina alkuviikosta, mikäli
 viikonlopulle on näytöksiä tulossa." So the evidence for an empty programme is that
-sentence plus the screening heading rendered with nothing listed under it, and
+sentence, the screening heading rendered with nothing listed under it, and no date or
+clock printed anywhere in the content. The last is read without the listing parser: the
+sentence says times appear only when there are screenings, so a time the listing did not
+reach (a blank line under the heading, the weekend typed as a list block) fails the site.
 `EMPTY_VENUES_CONFIRMED` then publishes a fresh empty file rather than ageing the last
 weekend for a month. The Wayback captures of this domain stop in 2024 on an older
 template and the two 2026 ones are the host's challenge page, so what the page looks like
@@ -80,6 +83,10 @@ HEADING_RE = re.compile(r"tulevan\s+viiko\w*\s+näytökset", re.I)
 # The intro sentence that says the times appear only when there are screenings. It is what
 # proves an empty page is this page rather than an error page.
 INTRO_RE = re.compile(r"esitysajat\s+ilmestyvät\s+tälle\s+sivulle", re.I)
+# A weekday and a date, or a clock, anywhere in the content. Loose on purpose: it is
+# checked only when the listing yielded nothing, and a hit there fails the site.
+TIMES_RE = re.compile(r"\b(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\b"
+                      r"|\bklo\s*\d{1,2}[:.]\d{2}", re.I)
 SHOW_RE = re.compile(r"^(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*"
                      r"(\d{1,2})[:.](\d{2})$", re.I)
 IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
@@ -93,9 +100,10 @@ TAGS_RE = re.compile(r"<[^>]+>")
 POSTER_MIN_RATIO = 1.2
 POSTER_MIN_WIDTH = 300
 
-# Set on the evidence in the docstring: the intro sentence and the screening heading with
-# nothing listed under it. A heading the page does not render never reaches this: it
-# raises, because that is a template change and not a quiet weekend.
+# Set on the evidence in the docstring: the intro sentence, the screening heading with
+# nothing listed under it, and no date or clock anywhere in the content. A heading the page
+# does not render never reaches this: it raises, because that is a template change and not
+# a quiet weekend.
 EMPTY_VENUES_CONFIRMED = True
 
 
@@ -295,6 +303,11 @@ def fetch_site(site, today=None):
     page = get(url)
     shows, report = rows(site, page, today)
     if not shows:
+        if TIMES_RE.search(TAGS_RE.sub(" ", content(page))):
+            raise RuntimeError(
+                f"{url}: the weekend block is empty and the page prints a date or time "
+                f"elsewhere ({served(page)}). Treating it as screenings the listing missed "
+                f"rather than a quiet weekend, so the previous files stand")
         if INTRO_RE.search(content(page)):
             print(f"[{pid}] {venue['name']}: the weekend block is empty and the page says "
                   f"the times appear only when there are screenings, so the venue is "

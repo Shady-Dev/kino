@@ -8,7 +8,8 @@ The fixtures are the markup as read on 2026-09-19. What they exist to prove:
 - **A film title is the paragraph a figure follows**, because the editor's `<strong>` is
   not reliable: the live page closes one early, "Presidentin kyydity</strong>s".
 - **An empty weekend is confirmed, a missing heading is not.** The first is what this
-  cinema does most weeks; the second is a template change and raises.
+  cinema does most weeks; the second is a template change and raises. So does an empty
+  listing on a page that prints a date or time elsewhere: the listing missed it.
 """
 import contextlib
 import datetime
@@ -264,6 +265,34 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("does not carry its own", log)
         self.assertEqual(json.loads(
             (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
+
+    def test_times_the_listing_misses_fail_and_keep_the_previous_file(self):
+        """The heading, then screenings the listing never reaches: a blank line left under
+        the heading, or the weekend typed as a list block. The page prints times, so zero
+        rows is the parser missing them, not a quiet weekend. The list blocks print a date
+        without a clock and a clock without a short weekday, one each."""
+        shelf = [block("Hetki ennen valoa"), block("Presidentin kyyditys")]
+        for name, listed in (
+                ("blank under the heading",
+                 [p("<br>"), screening("Hetki ennen valoa", "su 20.9 klo 15:00"),
+                  screening("Presidentin kyyditys", "su 20.9 klo 17:00")]),
+                ("a list block, date only",
+                 ['<ul class="wp-block-list"><li>Hetki ennen valoa<br>su 20.9 15.00</li>'
+                  '<li>Presidentin kyyditys<br>su 20.9 17.00</li></ul>']),
+                ("a list block, clock only",
+                 ['<ul class="wp-block-list"><li>Hetki ennen valoa<br>sunnuntaina klo 15:00</li>'
+                  '<li>Presidentin kyyditys<br>sunnuntaina klo 17:00</li></ul>'])):
+            with self.subTest(name):
+                html = page(listed=listed, shelf=shelf)
+                self.assertEqual(N.rows(SITE, html, TODAY)[0], [])
+                (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
+                self.serve(html)
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertIn("prints a date or time elsewhere", log)
+                self.assertNotIn("no programme at the moment", log)
+                self.assertEqual(json.loads(
+                    (run.OUT / "area-navettakino-konnevesi.json").read_text()), self.PREV)
 
     def test_a_page_with_no_heading_fails_and_keeps_the_previous_file(self):
         (run.OUT / "area-navettakino-konnevesi.json").write_text(json.dumps(self.PREV))
