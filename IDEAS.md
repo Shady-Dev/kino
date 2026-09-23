@@ -74,7 +74,9 @@ rebuilt the hash stops matching, the script never loads and analytics stops with
 The vocabulary was settled and applied on 2026-09-23 ("visning", "visningstider",
 "Textning:", "på plats", "Din startvy"); record in
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-The maintainer settled the four remaining terms the same day.
+The maintainer settled the four remaining terms the same day. The review covers the strings
+added since: the checking state "Kontrollerar visningstiderna…", the rating label and the
+footer credit. The contact line matters most. Unrelated work does not wait on it.
 **Next action:** a native Finland-Swedish reader over the result.
 
 ### Two providers are read over plain HTTP
@@ -90,7 +92,8 @@ Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a 
 Its calendar service has no language field, and the ticket shop it links to refuses a
 plain client; Riviera and Cinema Orion read theirs since 2026-09-23. Probe:
 [docs/research/screening-language-sources.md](docs/research/screening-language-sources.md).
-**Unblocks when:** the calendar service carries a language.
+**Unblocks when:** Helios exposes the language through a source a plain visitor can read.
+Not revisited before then.
 
 ### Kino Konepaja has no programme to read
 
@@ -311,8 +314,6 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A Tuesday ~15:00 Helsinki local slot for Finnkino's weekly drop. Not built on a sample
   of one. Evidence:
   [docs/research/publication-rhythm.md](docs/research/publication-rhythm.md).
-- A native Finland-Swedish reader for the Swedish interface strings, which are drafted
-  rather than translated. The contact line matters most.
 - Making showtime pages indexable. It would turn a personal app into a directory
   competing with the cinemas' own listings.
 - Hidden text, `<noscript>` content that differs from what a visitor sees, or any other
