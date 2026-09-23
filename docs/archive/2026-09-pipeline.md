@@ -1927,3 +1927,38 @@ URL is the row's own link, carried as the `movieUrl` helper that publication str
 A capped live run read 12 pages and each value matched its page; six waited for the next
 run. Break-verified with six mutations, two of them added after the first pass let them
 survive: the title guard and a row's own value.
+
+### A changed TMDB id takes the old film's fields with it (2026-09-24)
+Found in review. `merge_extra` filled `s.fi`, `s.en`, `tr`, `img` and `r` only into empty
+slots and recorded no id, so an alias override, a `reconsider()` re-judge or a weak entry
+turning into an alias kept the previous film's fields. "Ryhmä Hau: Dinoelokuva" and its
+`suomeksi` key carried the synopsis, trailer and poster of TMDB 893723, the Mighty Movie,
+under 1185806 (cache history: 893723 held that text at e57cbe432). On shows, `tmdb`,
+`votes`, `tr`, `gids` and `oyear` were written only when truthy and run.py carried the old
+values: Kapina showed 7.2 from 4929 votes at eight cloud venues while its entry held 14
+votes, under the floor. Measured at 219818453: 22 trusted films-extra keys with `tr` off
+the cached trailer, 47 with `img` off the cached poster; shows out of step on Kapina,
+Stromboli, Fantom, Naisen kasvot and two Royal Ballet relays.
+
+Decision. A films-extra entry records `id`, the entry its TMDB fields came from, and `ts`,
+the synopsis slots the pass filled. TMDB-owned: `r`, `tr`, `img` (written by nothing else;
+the mirrored copy of the entry's own poster counts as it) and the slots in `ts`. They
+follow the current trusted entry every run and empty with it, which covers a changed id
+and an emptied value with one rule. Cinema-owned: every slot not in `ts`, in fi, sv and en,
+since adapters declare English too, and `kr`/`krs`, which stay merge_shared's. An untrusted
+key loses `ts` slots and text equal to its candidate's own; `en` is no longer blanked
+whatever wrote it, which had been wiping declared English for every unmatched film. An
+entry with no `id` predates this: a slot equal to the entry's own text is adopted as TMDB's,
+other text is taken as the cinema's. On a show every PUBLISHED field is the entry's value or
+absent; no adapter writes any of them. The key stays the raw title.
+
+Not changed. run.py's carry already holds its source id: the bundle carries `tmdbId` with
+the fields, all from one pass, and the next pass now replaces them wholesale. fetch_data.py
+rebuilds shows and films.json from the response each run and writes nothing TMDB-derived
+into films-extra, so it carries nothing forward and already agrees.
+
+Tests: `test_tmdb_identity.py`, 11 tests, 17 mutations, all red; one first-pass mutation
+was equivalent (clearing `ts` slots on an id change, which following the entry already
+does) and the block it hit was removed. A key merge_shared created holds no TMDB field
+and is left alone, or a second pass would add `id` to it (`test_shared_rating`). Three `test_tmdb_trust.py` fixtures now seed
+residue with `id`/`ts`, the shape the pass writes.

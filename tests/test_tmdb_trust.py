@@ -165,7 +165,11 @@ class WeakCandidateTest(TrustHarness):
 
 
 class ContaminatedDataTest(TrustHarness):
-    """What the runs before this rule left behind, and a normal pass taking it back."""
+    """What the runs before this rule left behind, and a normal pass taking it back.
+
+    The films-extra entries record what the pass wrote, `id` and `ts`, since 2026-09-24:
+    an English slot with no record is the cinema's, because adapters declare English
+    too, so residue is seeded in the shape the pass leaves it."""
 
     def seed(self, fi="Väärä elokuva, väärä teksti.", img=None):
         # run.py carried these from the previous venue file; the adapter published no
@@ -175,7 +179,8 @@ class ContaminatedDataTest(TrustHarness):
                           tr="https://www.youtube.com/watch?v=wrongkey"))
         self.extra_write({"naisen kasvot": {
             "s": {"fi": fi, "en": "Wrong film, wrong text."}, "r": 7.3,
-            "tr": "https://www.youtube.com/watch?v=wrongkey", "img": mirrored("/4780.jpg")}})
+            "tr": "https://www.youtube.com/watch?v=wrongkey", "img": mirrored("/4780.jpg"),
+            "id": 4780, "ts": ["en"] + (["fi"] if fi == WRONG["fi"] else [])}})
         self.cache_write({"naisen kasvot": {
             "r": 7.3, "n": 1200, "v": "wrongkey", "x": False, "g": [53], "i": 4780,
             "c": "2026-09-12", "a": "2026-09-12", "fi": "Väärä elokuva, väärä teksti.",
@@ -211,7 +216,8 @@ class ContaminatedDataTest(TrustHarness):
         self.shows(regina())
         self.extra_write({"paholaiset": {"s": {"fi": "", "en": "Some other film."}, "r": 6.1,
                                          "tr": "https://www.youtube.com/watch?v=x",
-                                         "img": "data/posters/fedcba9876543210.jpg"}})
+                                         "img": "data/posters/fedcba9876543210.jpg",
+                                         "id": 4781, "ts": ["en"]}})
         self.weak_naisen_kasvot()
         self.assert_no_tmdb_extra("paholaiset")
 
@@ -221,7 +227,8 @@ class ContaminatedDataTest(TrustHarness):
         self.shows(regina(tmdb=7.3, votes=1200, gids=[53], tr="https://www.youtube.com/watch?v=x",
                           img=W342 + "/4780.jpg"))
         self.extra_write({"naisen kasvot": {"s": {"fi": "Reginan oma teksti.", "en": "Wrong."},
-                                            "r": 7.3, "tr": "https://www.youtube.com/watch?v=x"}})
+                                            "r": 7.3, "tr": "https://www.youtube.com/watch?v=x",
+                                            "id": 4780, "ts": ["en"]}})
         self.run_main({})
         self.assertEqual(self.cache()["naisen kasvot"]["i"], "")
         show = self.area()["shows"][0]

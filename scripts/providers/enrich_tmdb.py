@@ -212,6 +212,7 @@ def due(titles, cache, today, max_age=None, budget=None):
 # touched by any of this: only what this pass itself writes is gated, and only what this
 # pass itself could have written is taken back.
 TMDB_IMG = "https://image.tmdb.org/t/p/w342"
+YT = "https://www.youtube.com/watch?v="
 # The show fields this pass writes. `img` is handled apart, because a cinema publishes
 # posters too.
 PUBLISHED = ("tmdb", "votes", "tr", "gids", "tmdbId", "oyear")
@@ -301,19 +302,108 @@ def publish_poster(show, c):
     return False
 
 
+def publish_fields(show, c):
+    """Make a show's PUBLISHED fields the trusted entry's. -> whether anything changed.
+
+    Each field is the entry's value or absent. Writing only a truthy value left the old
+    one in place whenever the new one was empty, and run.py carries the old one into the
+    next file: "Kapina" kept 7.2 from 4929 votes at eight cloud venues on 2026-09-24 while
+    its entry held 14 votes, under MIN_VOTES, and the Finnkino files showed none. The same
+    rule covers an id that changed, since every value then comes from the new entry. No
+    adapter writes any of these fields, so none of them is the cinema's to keep."""
+    want = {
+        "tmdb": c.get("r") or None,
+        # The sample size travels with the score: 7.1 from 41 votes and 7.1 from 15 000
+        # are not the same claim, and the client says which it is.
+        "votes": c.get("n") if c.get("r") and c.get("n") else None,
+        "tr": YT + c["v"] if c.get("v") else None,
+        # The film's identity across chains: the combined city view merges on it.
+        "tmdbId": c["i"],
+        # Genres the client can localize, and the only reliable signal for the kids
+        # filter: provider genre strings use four spellings for the family genre alone.
+        "gids": c.get("g") or None,
+        # The film's own release year; see the note above PUBLISHED for the three other
+        # years this must not be.
+        "oyear": c.get("ry") or None,
+    }
+    changed = False
+    for field in PUBLISHED:
+        if want[field] is None:
+            if field in show:
+                del show[field]
+                changed = True
+        elif show.get(field) != want[field]:
+            show[field] = want[field]
+            changed = True
+    return changed
+
+
+# A films-extra entry records which film its TMDB fields came from. `r`, `tr` and `img`
+# are written by this pass alone. A synopsis slot is written by an adapter through
+# synmerge or by this pass, in any of fi/sv/en, and the text cannot say which, so the
+# slots this pass filled are listed in `ts` and `id` names the entry they came from.
+# Without them an alias, a re-judge or a weak entry turning trusted left the previous
+# film's text beside the new id: on 2026-09-24 "Ryhmä Hau: Dinoelokuva" carried the
+# synopsis of TMDB 893723, the Mighty Movie, under 1185806. A slot not in `ts` is the
+# cinema's and nothing here touches it. Invariant: a slot in `ts` holds text.
+SYN_SLOTS = ("fi", "en")          # what this pass writes; sv is only ever the cinema's
+
+
+def sync_extra(e, c):
+    """Make a films-extra entry's TMDB fields the trusted entry `c`'s, in place.
+
+    A slot this pass filled follows the entry and empties with it, so a changed id
+    replaces the old film's text with the new one's, or with nothing. An empty slot is
+    filled and recorded. An entry with no `id` predates this rule: a slot equal to this
+    entry's own text is recorded as TMDB's, and any other text is taken as the cinema's,
+    which is the limit of what the file can say about it."""
+    s = e.setdefault("s", {"fi": "", "en": ""})
+    if "id" in e:
+        ts = set(e.get("ts") or ())
+    else:
+        ts = {sl for sl in SYN_SLOTS if s.get(sl) and s[sl] == (c.get(sl) or "")}
+    for sl in SYN_SLOTS:
+        text = c.get(sl) or ""
+        if sl in ts:
+            s[sl] = text
+            if not text:
+                ts.discard(sl)
+        elif text and not s.get(sl):
+            s[sl] = text
+            ts.add(sl)
+    e["id"] = c["i"]
+    if ts:
+        e["ts"] = sorted(ts)
+    else:
+        e.pop("ts", None)
+    e["r"] = c.get("r") or 0
+    e["tr"] = YT + c["v"] if c.get("v") else ""
+    # w342 is plenty for a 72-110 px tile and keeps the payload small. The mirrored copy
+    # of the same poster counts as it, so mirror_posters' rewrite is not undone.
+    if e.get("img") not in poster_refs(c):
+        if c.get("p"):
+            e["img"] = TMDB_IMG + c["p"]
+        else:
+            e.pop("img", None)
+
+
 def unpublish_extra(e, c):
     """Take back what merge_extra may have written into a films-extra entry from an
-    untrusted candidate. `r`, `tr`, `img` and the English synopsis are written by nothing
-    else, so they go. The Finnish slot is the cinema's or TMDB's, and only text equal to
-    this candidate's own overview is known to be TMDB's; other text stands. `kr`/`krs`
-    belong to merge_shared, which decides them from scratch every run."""
+    untrusted candidate. `r`, `tr` and `img` are written by nothing else, so they go, and
+    so do the slots in `ts`. Other text is the cinema's in any language; text equal to
+    this candidate's own overview is TMDB's even in an entry written before `ts`.
+    `kr`/`krs` belong to merge_shared, which decides them from scratch every run."""
     e["r"] = 0
     e["tr"] = ""
     e.pop("img", None)
     s = e.setdefault("s", {"fi": "", "en": ""})
-    s["en"] = ""
-    if s.get("fi") and isinstance(c, dict) and s["fi"] == (c.get("fi") or ""):
-        s["fi"] = ""
+    for sl in e.pop("ts", None) or ():
+        s[sl] = ""
+    e.pop("id", None)
+    if isinstance(c, dict):
+        for sl in SYN_SLOTS:
+            if s.get(sl) and s[sl] == (c.get(sl) or ""):
+                s[sl] = ""
 # --- end what may be published -------------------------------------------------------------
 
 
@@ -702,10 +792,11 @@ def merge_extra(cache, today):
     text is never clobbered. Re-reading the file per flush keeps that rule true even
     if a provider wrote to it in between.
 
-    Trusted entries fill. Every other key in the file, an untrusted entry's or one the
-    cache no longer holds, gives back what a run before this rule wrote from a weak
-    candidate: a weak entry is dropped as the cache loads, so a film that then left the
-    programme is exactly the key with residue and no entry. See unpublish_extra.
+    Trusted entries set the fields this pass owns, see sync_extra. Every other key in
+    the file, an untrusted entry's or one the cache no longer holds, gives back what a
+    run wrote from a weak candidate: a weak entry is dropped as the cache loads, so a
+    film that then left the programme is exactly the key with residue and no entry. See
+    unpublish_extra.
     """
     try:
         doc = json.loads(EXTRA.read_text())
@@ -718,20 +809,17 @@ def merge_extra(cache, today):
     for k, c in cache.items():
         if not trusted(c):
             continue
-        if not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
+        # Something to show, or something of this pass's to take back: an existing key
+        # holding TMDB fields is brought into line whatever the entry holds, or a value
+        # that emptied would stay. A key merge_shared or synmerge made, holding none, is
+        # left as it is, so a second pass over the same tree writes the same file.
+        e = films.get(k)
+        held = isinstance(e, dict) and any(e.get(f) for f in ("ts", "r", "tr", "img"))
+        if not held and not (c.get("fi") or c.get("en") or c.get("v") or c.get("r")):
             continue
         e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
-        e.setdefault("s", {"fi": "", "en": ""})
-        if not e["s"].get("fi"):
-            e["s"]["fi"] = c.get("fi", "")
-        if not e["s"].get("en"):
-            e["s"]["en"] = c.get("en", "")
-        e["r"] = e.get("r") or c.get("r", 0)
-        # w342 is plenty for a 72-110 px tile and keeps the payload small.
-        if not e.get("img") and c.get("p"):
-            e["img"] = "https://image.tmdb.org/t/p/w342" + c["p"]
-        if not e.get("tr") and c.get("v"):
-            e["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
+        if isinstance(e, dict):
+            sync_extra(e, c)
     common.write_films_extra(EXTRA, {"generated": today, "films": films})
 
 
@@ -1156,34 +1244,12 @@ def main() -> int:
                 if ((s.get("rating") or ""), s.get("rsrc")) != was:
                     changed = True
                 continue
-            if c.get("r") and s.get("tmdb") != c["r"]:
-                s["tmdb"] = c["r"]; changed = True
-            # The sample size travels with the score: 7.1 from 41 votes and 7.1 from
-            # 15 000 are not the same claim, and the client says which it is.
-            if c.get("r") and c.get("n") and s.get("votes") != c["n"]:
-                s["votes"] = c["n"]; changed = True
-            if c.get("v"):
-                url = "https://www.youtube.com/watch?v=" + c["v"]
-                if s.get("tr") != url:
-                    s["tr"] = url; changed = True
+            # Every field is this entry's or absent, so a changed id or an emptied value
+            # replaces what run.py carried from the previous file. See publish_fields.
+            if publish_fields(s, c):
+                changed = True
             if publish_poster(s, c):
                 changed = True
-            # The film's identity across chains. Only an exact match is written: the
-            # combined city view merges on it, and a weak id would fold two different
-            # films into one row. Chains publish the same film under different titles
-            # ("Mutiny" vs "Mutiny - Lavastettu syylliseksi"), which no title key fixes.
-            if c.get("x") and c.get("i") and s.get("tmdbId") != c["i"]:
-                s["tmdbId"] = c["i"]; changed = True
-            # Genres the client can localize, and the only reliable signal for the kids
-            # filter: provider genre strings disagree across chains and use four spellings
-            # for the family genre alone.
-            if c.get("g") and s.get("gids") != c["g"]:
-                s["gids"] = c["g"]; changed = True
-            # The film's own release year. Same gate as `tmdbId` above, because a weak
-            # candidate's year belongs to a different film; see PUBLISHED for the three
-            # other years this must not be.
-            if c.get("x") and c.get("ry") and s.get("oyear") != c["ry"]:
-                s["oyear"] = c["ry"]; changed = True
             # A classification another chain published for the same film, filling a blank
             # only. `rsrc` is provenance: the UI shows a borrowed rating exactly like a
             # published one, and nothing else can tell them apart afterwards.
