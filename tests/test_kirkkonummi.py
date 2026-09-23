@@ -122,15 +122,14 @@ class ProgrammeTest(unittest.TestCase):
 
 class YearTest(unittest.TestCase):
     def _weekday_case(self, wd, want):
-        """Parse a one-row page for `15.9. wd`; `want` is the date, or None for a row the
-        bound refuses, which leaves the page with no screening at all."""
-        body = page(head("A") + item(f"15.9. {wd} klo19.00"), twice=False)
-        if want is None:
-            with self.assertRaises(common.EmptyProgramme, msg=wd):
-                kirkkonummi.parse(body, today=TODAY)
-            return
+        """Parse `15.9. wd klo19.00` beside a placed `16.9.` row; `want` is the date, or
+        None for a row the bound refuses, which leaves only the `16.9.` row."""
+        body = page(head("A") + item(f"15.9. {wd} klo19.00") +
+                    item("16.9. Keskiviikko klo20.00"), twice=False)
         out = kirkkonummi.parse(body, today=TODAY)
-        self.assertEqual(out[0]["start"][:10], want, wd)
+        got = [s["start"][:10] for s in out if s["start"][11:16] == "19:00"]
+        self.assertEqual(got, [want] if want else [], wd)
+        self.assertEqual(out[-1]["start"][:16], "2026-09-16T20:00", wd)
 
     def test_a_weekday_that_would_place_a_row_a_year_out_is_refused(self):
         """15.9. is a Monday in 2025, a Tuesday in 2026 and a Wednesday in 2027. Read on
@@ -159,10 +158,24 @@ class YearTest(unittest.TestCase):
 
 
 class EmptyAndBrokenTest(unittest.TestCase):
-    def test_films_with_no_screening_row_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_rows_in_a_format_the_parser_misses_are_a_failure(self):
+        """A year printed after the month, `20.9.2026 Sunnuntai`, does not match `SHOW_RE`.
+        Every film heading is still there, so this is a format change and must fail."""
+        body = block().replace(".9. ", ".9.2026 ")
+        self.assertNotEqual(body, block())
+        with self.assertRaises(RuntimeError) as cm:
+            kirkkonummi.parse(page(body), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_films_with_no_screening_row_is_a_failure(self):
+        """No empty state is recorded for this site, and a page listing films is not one,
+        so zero rows fails rather than being read as nothing on."""
+        with self.assertRaises(RuntimeError) as cm:
             kirkkonummi.parse(page(head("Rakkautta ja virtahepoja") +
-                                   item("Tulossa 25.9. alkaen"), twice=False), today=TODAY)
+                                   item("Tulossa 25.9. alkaen") + head("Myrskyn Ikkuna") +
+                                   item("Andrew Scott, Brendan Fraser, Kerry Condon"),
+                                   twice=False), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
 
     def test_a_page_without_an_icon_list_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
@@ -179,9 +192,10 @@ class EmptyAndBrokenTest(unittest.TestCase):
         self.assertIn('titled "Just a moment..."', str(cm.exception))
 
     def test_a_screening_before_any_heading_is_ignored(self):
-        with self.assertRaises(common.EmptyProgramme):
-            kirkkonummi.parse(page(item("20.9. Sunnuntai klo18.00"), twice=False),
-                              today=TODAY)
+        out = kirkkonummi.parse(page(item("20.9. Sunnuntai klo18.00") + head("A") +
+                                     item("21.9. Maanantai klo19.00"), twice=False),
+                                today=TODAY)
+        self.assertEqual([(s["title"], s["start"][:10]) for s in out], [("A", "2026-09-21")])
 
 
 class SiteTest(unittest.TestCase):

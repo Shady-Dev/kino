@@ -46,7 +46,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, fetch, get_text, resolve_year, served, weekday_index
+from common import fetch, get_text, resolve_year, served, weekday_index
 
 BASE = "https://kinokirkkonummi.fi"
 LISTING = BASE + "/"
@@ -122,8 +122,9 @@ def prices_by_title(page):
 
 
 def parse(page, today=None):
-    """The one page -> [show]. Raises when no icon list is present, and `EmptyProgramme`
-    when the lists are there with no screening row in them."""
+    """The one page -> [show]. Raises when no icon list is present, and when the lists
+    are there with no screening row in them. No empty state is recorded for this site, so
+    zero rows is never read as nothing on."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{LISTING}: no icon list on the page ({served(page)}), so this is not the "
@@ -183,7 +184,10 @@ def parse(page, today=None):
         print(f"[kirkkonummi] {len(unplaced)} row(s) whose weekday matches no candidate "
               f"year, skipped: {', '.join(unplaced[:5])}")
     if not shows:
-        raise EmptyProgramme(f"{LISTING} lists films but no screening row")
+        raise RuntimeError(
+            f"{LISTING}: icon lists with no screening row this parser places "
+            f"({len(unplaced)} unplaced). No empty state is recorded for this site, so "
+            f"this is a template or format change rather than a cinema with nothing on")
     shows.sort(key=lambda s: s["start"])
     return shows
 
