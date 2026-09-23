@@ -141,23 +141,30 @@ def _rows(payload, url):
     if code not in (0, "0", None):
         raise RuntimeError(f"{url}: resultCode {code!r}")
     rows = payload.get("data")
-    return rows if isinstance(rows, list) else []
+    if not isinstance(rows, list):
+        # `[]` is how this envelope says "none"; `null` or an object is a shape change.
+        raise RuntimeError(f"{url}: `data` is {type(rows).__name__}, not a list")
+    return rows
 
 
 def show_dates(site, tries=3):
-    """-> [datetime.date] in Europe/Helsinki, from the cinema's own date list."""
+    """-> [datetime.date] in Europe/Helsinki, from the cinema's own date list.
+
+    A listed date this cannot read raises rather than being dropped: dropping it loses
+    that date's window, and dropping every one would turn a changed date format into
+    the empty list `fetch_site` reads as the cinema having nothing on.
+    """
     url = f"{site['base']}{site['api']}/getShowDates?cinema_id={site['cinema_id']}"
     out = []
     for row in _rows(get(url, tries=tries), url):
-        raw = (row.get("show_date") or "").strip()
-        if not raw:
-            continue
+        raw = (row.get("show_date") or "").strip() if isinstance(row, dict) else ""
         try:
             t = datetime.datetime.fromisoformat(raw.replace("Z", "+00:00"))
         except ValueError:
-            continue
+            raise RuntimeError(f"{url}: unreadable show_date {raw!r}") from None
         if t.tzinfo is None:
-            continue          # a naive show_date would be the JSON-LD's mistake again
+            # A naive show_date would be the JSON-LD's mistake again.
+            raise RuntimeError(f"{url}: show_date {raw!r} has no UTC offset")
         out.append(t.astimezone(FI).date())
     return sorted(set(out))
 
@@ -288,9 +295,10 @@ def parse(rows, site=None):
 def fetch_site(site=SITES[0], sleep=1.5):
     """Runner contract: the date list, then one request per seven-day window.
 
-    An empty date list is the cinema's own statement that it has nothing on, which is
-    `EmptyProgramme`. A window that fails raises, so run.py keeps the previous file
-    rather than publishing whichever windows happened to answer.
+    An empty date list, `data: []` in the expected envelope with no row dropped on the
+    way, is the cinema's own statement that it has nothing on, which is `EmptyProgramme`.
+    A window that fails raises, so run.py keeps the previous file rather than publishing
+    whichever windows happened to answer.
 
     Dates listed with no screening in any window is **not** `EmptyProgramme`: the dates
     are derived from the screenings, so a list of them beside an empty parse is the

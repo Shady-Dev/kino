@@ -141,19 +141,36 @@ class DateListTest(unittest.TestCase):
         self.assertEqual(self.read(dates_doc(SEPT, DEC, SEPT2)),
                          [D(2026, 9, 15), D(2026, 9, 22), D(2026, 12, 1)])
 
-    def test_a_naive_show_date_is_skipped_rather_than_assumed(self):
+    def test_a_naive_show_date_fails_the_list_rather_than_being_assumed(self):
         """A naive timestamp is what the JSON-LD feed publishes, three hours early. No
-        zone is assumed for one here.
+        zone is assumed for one here, and it is not dropped either: a listed date the
+        parser cannot read is a shape change, and dropping it loses that date's window.
 
-        The naive row names a date no other row produces. Written first with a naive
-        2026-09-15 it read the same on a Helsinki machine whether the guard ran or not,
-        because `astimezone` on a naive datetime assumes local time: the mutation that
-        deletes the guard turned nothing red."""
-        self.assertEqual(self.read(dates_doc("2026-10-05T00:00:00", SEPT)),
-                         [D(2026, 9, 15)])
+        Asserted as raise against no raise, so the guard is tested on a Helsinki machine
+        too, where `astimezone` on a naive datetime silently assumes local time."""
+        with self.assertRaises(RuntimeError) as cm_:
+            self.read(dates_doc("2026-10-05T00:00:00", SEPT))
+        self.assertNotIsInstance(cm_.exception, common.EmptyProgramme)
+        self.assertIn("no UTC offset", str(cm_.exception))
 
-    def test_an_unparseable_show_date_does_not_lose_the_others(self):
-        self.assertEqual(self.read(dates_doc("not-a-date", "", SEPT)), [D(2026, 9, 15)])
+    def test_an_unparseable_or_blank_show_date_fails_the_list(self):
+        for bad in ("not-a-date", ""):
+            with self.subTest(show_date=bad):
+                with self.assertRaises(RuntimeError) as cm_:
+                    self.read(dates_doc(bad, SEPT))
+                self.assertNotIsInstance(cm_.exception, common.EmptyProgramme)
+
+    def test_a_data_field_that_is_not_a_list_is_a_failure(self):
+        """`[]` is the empty collection this envelope carries; `null` or an object is not
+        that statement."""
+        for data in (None, {}):
+            with self.subTest(data=data):
+                with self.assertRaises(RuntimeError) as cm_:
+                    self.read({"resultCode": 0, "data": data})
+                self.assertNotIsInstance(cm_.exception, common.EmptyProgramme)
+
+    def test_an_empty_list_is_no_dates(self):
+        self.assertEqual(self.read(dates_doc()), [])
 
     def test_an_envelope_without_data_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm_:
@@ -420,18 +437,17 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(by["Hetki ennen valoa"], "2026-09-15T16:45:00+03:00")
         self.assertEqual(by["Hamnet"], "2026-12-01T18:30:00+02:00")
 
-    def test_an_empty_date_list_keeps_the_previous_file_and_stays_green(self):
-        """The cinema's own statement that it has nothing on."""
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01",
-                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-cm-mantsala.json").write_text(json.dumps(prev))
+    def test_an_empty_date_list_is_an_empty_programme_and_stays_green(self):
+        """The cinema's own statement that it has nothing on. What run.py then writes for
+        the venue is run.py's decision and is pinned in its own tests."""
         self.serve({dates_url(): dates_doc()})
+        with self.assertRaises(common.EmptyProgramme):
+            cm.fetch_site(cm.SITES[0], sleep=0)
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertEqual(json.loads((run.OUT / "area-cm-mantsala.json").read_text()), prev)
         self.assertIn("no programme published", log)
-        self.assertFalse((run.OUT / "venues-cinemantsala.json").exists())
+        self.assertNotIn("FAILED", log)
+        self.assertEqual([c for c in self.calls if "getShowTimesDays" in c], [])
 
     def test_dates_listed_with_no_screening_fails_instead_of_publishing_nothing(self):
         """The date list is derived from the screenings, so dates beside an empty parse
@@ -445,6 +461,20 @@ class RunnerTest(unittest.TestCase):
         code, log = self.main()
         self.assertEqual(code, 1)
         self.assertIn("FAILED", log)
+        self.assertEqual(json.loads((run.OUT / "area-cm-mantsala.json").read_text()), prev)
+        self.assertFalse((run.OUT / "venues-cinemantsala.json").exists())
+
+    def test_dates_listed_in_a_shape_the_parser_misses_fail_the_site(self):
+        """Every date listed and none readable: the list is not empty, the parse is, and
+        reading that as `EmptyProgramme` would publish the venue empty."""
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": [], "horizon": "",
+                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        (run.OUT / "area-cm-mantsala.json").write_text(json.dumps(prev))
+        self.serve({dates_url(): dates_doc("2026-09-15T00:00:00", "2026-09-22T00:00:00")})
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertNotIn("no programme published", log)
         self.assertEqual(json.loads((run.OUT / "area-cm-mantsala.json").read_text()), prev)
         self.assertFalse((run.OUT / "venues-cinemantsala.json").exists())
 
