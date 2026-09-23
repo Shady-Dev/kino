@@ -1869,3 +1869,14 @@ Break-verified with eight mutations: old entries never re-read, a raising parser
 a row's own value overwritten, the read order ignoring missing fields, half a line
 published, an English name missing, the adapter not wired, and a failed re-read dropping
 the cached price.
+
+### The cloud run commits the Swedish pages (2026-09-23)
+The Swedish pages shipped on 2026-09-22 under `sv/`, and the cloud job's `git add` still
+listed `teatteri kaupunki en`. Every run rebuilt them and committed none: the bot commit
+of 15:11 UTC that day changed 47 English pages and no Swedish one, and the only commits
+touching `sv/kaupunki/helsinki/` were code pushes. Live Swedish pages therefore held
+whatever the last code push had built, and the first code push after a data run failed
+the drift check on them. The list now names `sv`, the 54 pages that had fallen behind
+are regenerated in the same commit, and `tests/test_pages_committed.py` derives the
+directories from the sitemap so a new page directory cannot be left out again. The local
+half's wrapper, outside this repository, carries the same list.
