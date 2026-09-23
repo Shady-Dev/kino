@@ -41,10 +41,10 @@ def hours_ago(h):
 
 
 def stamp(iso):
-    """The credit line's time for `iso` as fi-FI draws it: "p\u00e4ivitetty 23.9. klo 14.10"."""
+    """The credit line's time for `iso` as fi-FI draws it: "P\u00e4ivitetty 23.9. klo 14.10"."""
     t = datetime.datetime.strptime(iso, "%Y-%m-%dT%H:%M:%SZ").replace(
         tzinfo=datetime.timezone.utc).astimezone(zoneinfo.ZoneInfo("Europe/Helsinki"))
-    return f"p\u00e4ivitetty {t.day}.{t.month}. klo {t:%H.%M}"
+    return f"P\u00e4ivitetty {t.day}.{t.month}. klo {t:%H.%M}"
 
 
 class Handler(base.Handler):

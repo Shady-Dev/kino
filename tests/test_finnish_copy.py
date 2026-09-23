@@ -44,7 +44,8 @@ class ClientCopyTest(unittest.TestCase):
         self.assertEqual(self.fi["actList"], "Näytösajasta teatterin ohjelmistoon – {host}")
         self.assertEqual(self.fi["actCombined"], "Näytösajasta teatterin omalle sivulle")
         self.assertEqual(self.fi["actAdmission"],
-                         "Sisältyy pääsylippuun · Näytösajasta lippukauppaan – {host}")
+                         "Sisältyy pääsylippuun. Näytösajasta lippukauppaan – {host}")
+        self.assertEqual(self.fi["actDoor"], "Liput myydään ovelta – {host}")
         self.assertEqual(self.fi["tipAdmission"], "Osta pääsylippu")
 
     def test_freshness_lines_describe_the_data(self):

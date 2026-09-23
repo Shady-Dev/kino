@@ -1002,6 +1002,7 @@
     display:flex; flex-direction:column; gap:6px;
   }
   footer a{color:inherit}
+  #credit{display:flex; flex-wrap:wrap; gap:2px 16px}
   /* One link out, styled as the footer's only affordance. The provider health list it
      replaced lived behind a <details> here; that whole question is /status/ now. */
   #statusLink{padding-top:6px}
@@ -1345,7 +1346,7 @@
          addCalendar:'Lisää kalenteriin', menuHint:'Jaa näytös tai lisää se kalenteriin {dots}-valikosta.',
          alreadyShown:'Menneet näytökset', allChains:'Kaikki',
          keyAnniskelu:'anniskelu', keyAge:'ikäraja tässä näytöksessä',
-         premiere:'Ensi-ilta', votes:'ääntä',
+         premiere:'Ensi-ilta', votes:'ääntä', rtg:'TMDB-arvio {v}/10', rtgN:'TMDB-arvio {v}/10, {n} ääntä', rtg1:'TMDB-arvio {v}/10, 1 ääni',
          loadingTheatres:'Ladataan teattereita…', loadingSchedule:'Ladataan näytöksiä…',
          homeIntro:'Suomen elokuvateatterien näytösajat yhdessä paikassa.',
          homePick:'Valitse kaupunki tai teatteri', homeByCity:'Näytösajat kaupungeittain',
@@ -1354,11 +1355,11 @@
          loadFail:'Näytöstietoja ei juuri nyt saatu ladattua.',
          dataLabel:'Näytöstiedot', updated:'päivitetty',
          actCombined:'Näytösajasta teatterin omalle sivulle',
-         actDoor:'Liput myydään ovelta · {host}',
+         actDoor:'Liput myydään ovelta – {host}',
          actReserve:'Näytösajasta paikkavaraukseen – {host}',
          actList:'Näytösajasta teatterin ohjelmistoon – {host}',
          actBuy:'Näytösajasta lipunmyyntiin – {host}',
-         actAdmission:'Sisältyy pääsylippuun · Näytösajasta lippukauppaan – {host}',
+         actAdmission:'Sisältyy pääsylippuun. Näytösajasta lippukauppaan – {host}',
          tipDoor:'Liput ovelta', tipReserve:'Varaa paikat',
          tipList:'Avaa ohjelmisto', tipBuy:'Osta liput', tipAdmission:'Osta pääsylippu',
          contact:'Elokuvateattereille: yhteydenotot ja poistopyynnöt', source:'Lähdekoodi',
@@ -1414,7 +1415,7 @@
          addCalendar:'Lägg till i kalendern', menuHint:'Dela visningen eller lägg till den i kalendern via {dots}-menyn.',
          alreadyShown:'Tidigare visningar', allChains:'Alla',
          keyAnniskelu:'utskänkning', keyAge:'åldersgräns för denna visning',
-         premiere:'Premiär', votes:'röster',
+         premiere:'Premiär', votes:'röster', rtg:'TMDB-betyg {v}/10', rtgN:'TMDB-betyg {v}/10, {n} röster', rtg1:'TMDB-betyg {v}/10, 1 röst',
          loadingTheatres:'Laddar biografer…', loadingSchedule:'Laddar visningstider…',
          homeIntro:'Visningstider för biografer i Finland på ett ställe.',
          homePick:'Välj stad eller biograf', homeByCity:'Visningstider per stad',
@@ -1423,11 +1424,11 @@
          loadFail:'Visningstiderna kunde inte laddas just nu.',
          dataLabel:'Uppgifter', updated:'uppdaterad',
          actCombined:'Tryck på en visning för att öppna biografens egen sida',
-         actDoor:'Biljetter säljs på plats · {host}',
+         actDoor:'Biljetter säljs på plats – {host}',
          actReserve:'Tryck på en visning för att boka platser – {host}',
          actList:'Tryck på en visning för att öppna programmet – {host}',
          actBuy:'Tryck på en visning för att köpa biljetter – {host}',
-         actAdmission:'Ingår i inträdesbiljetten · Tryck på en visning för att öppna biljettbutiken – {host}',
+         actAdmission:'Ingår i inträdesbiljetten. Tryck på en visning för att öppna biljettbutiken – {host}',
          tipDoor:'Biljetter på plats', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
@@ -1480,7 +1481,7 @@
          addCalendar:'Add to calendar', menuHint:'Share a screening or add it to your calendar from its {dots} menu.',
          alreadyShown:'Past screenings', allChains:'All',
          keyAnniskelu:'licensed bar', keyAge:'age limit for this screening',
-         premiere:'Premiere', votes:'votes',
+         premiere:'Premiere', votes:'votes', rtg:'TMDB rating {v}/10', rtgN:'TMDB rating {v}/10 from {n} votes', rtg1:'TMDB rating {v}/10 from 1 vote',
          loadingTheatres:'Loading theatres…', loadingSchedule:'Loading schedule…',
          homeIntro:'Cinema showtimes across Finland in one place.',
          homePick:'Choose a city or cinema', homeByCity:'Showtimes by city',
@@ -1489,11 +1490,11 @@
          loadFail:"Couldn't load the schedule right now.",
          dataLabel:'Schedule data', updated:'updated',
          actCombined:'Tap a showtime to open the cinema\u2019s own page',
-         actDoor:'Tickets are sold at the door · {host}',
+         actDoor:'Tickets are sold at the door; details on {host}',
          actReserve:'Tap a showtime to reserve seats on {host}',
          actList:'Tap a showtime to open the programme on {host}',
          actBuy:'Tap a showtime to buy tickets on {host}',
-         actAdmission:'Included in admission · A showtime opens the ticket shop on {host}',
+         actAdmission:'Included in admission. A showtime opens the ticket shop on {host}',
          tipDoor:'Tickets at the door', tipReserve:'Reserve seats',
          tipList:'Open the programme', tipBuy:'Buy tickets', tipAdmission:'Buy admission ticket',
          contact:'For cinemas: enquiries and removal requests', source:'Source',
@@ -3426,7 +3427,12 @@
     // `footer` wraps three lines, so this writes to the credit line only. The host is not
     // repeated in the label: `act` already ends in it for every book mode that names one.
     const creditEl = document.querySelector('#credit');
-    if(creditEl) creditEl.textContent = `${T.dataLabel}: ${src} · ${T.updated} ${stamp} · ${act}`;
+    // Three facts, each its own span; the footer lays them out and wraps them. A hidden
+    // full stop keeps a screen reader from running one into the next.
+    const stop = '<span class="sr-only">. </span>';
+    const updated = T.updated[0].toUpperCase() + T.updated.slice(1);
+    if(creditEl) creditEl.innerHTML = `<span>${esc(T.dataLabel)}: ${esc(src)}${stop}</span>`
+      + `<span>${esc(updated)} ${esc(stamp)}${stop}</span><span>${esc(act)}</span>`;
     // The status link carries the selection, and the selection is only known here: at
     // boot renderContact() runs before any venue is restored, so the href it wrote then
     // was the bare page.
@@ -3721,7 +3727,7 @@
     // screening's age limit go on the meta line, which has the full row width. Until
     // 2026-09-03 the stub carried the room and grew to 158 to 220 px, leaving a phone
     // title 64 px at 320. Every ticket is now 62 + 56 + 2 = 120 px. The venue tag comes
-    // first, then the room ("Finnkino Plevna \u00b7 Sali 5"); the stub keeps the chain tint.
+    // first, then the room, each a fact of its own; the stub keeps the chain tint.
     const multi = labelVenues(state.shows);
     const tinted = multi;
     setListStatus('');
@@ -4124,7 +4130,11 @@
     if(!v) return '';
     const n = m.votes || 0;
     const thin = n && n < VOTE_SOLID ? ' thin' : '';
-    const lbl = n ? `${v} · ${n} ${L[state.lang].votes}` : `${v}`;
+    // Said in words: the score out of ten and the vote count, with the language's own
+    // decimal sign, so the title and the accessible name read as a sentence.
+    const T = L[state.lang];
+    const vt = state.lang === 'en' ? `${v}` : `${v}`.replace('.', ',');
+    const lbl = (n === 1 ? T.rtg1 : n ? T.rtgN : T.rtg).replace('{v}', vt).replace('{n}', n);
     return `<span class="ring${thin}" style="--v:${Math.round(v * 10)}" title="${esc(lbl)}"`
       + ` aria-label="${esc(lbl)}"><b>${esc(v)}</b></span>`
       + (n ? `<span class="votes">${esc(shortVotes(n))}</span>` : '');
@@ -4718,7 +4728,7 @@
     closeStubMenu(false);
     const T = L[state.lang];
     const iso = fiDate(s.start);
-    const sub = [`${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`, s.aud].filter(Boolean).join(' \u00b7 ');
+    const sub = [`${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`, s.aud].filter(Boolean).join(', ');
     const menu = document.createElement('div');
     menu.className = 'tkmenu ' + menuSide(tk.getBoundingClientRect().right, window.innerWidth);
     menu.setAttribute('role', 'menu');
@@ -4743,7 +4753,7 @@
     const iso = fiDate(s.start);
     const url = screeningUrl(location.href, state.area, sheetCtx.fid, iso, s.startIso, s._vid);
     const detail = [sheetCtx.title,
-                    [venueName(s), s.aud].filter(Boolean).join(' \u00b7 '),
+                    [venueName(s), s.aud].filter(Boolean).join(', '),
                     `${fiDay[dowOf(iso)]} ${dmOf(iso)} ${fiTime(s.start)}`,
                     url
                    ].join('\n');

@@ -9,6 +9,8 @@ replaced a middle dot. What only a browser can check:
 - hover and keyboard focus turn the squares and the top, right and bottom edges
   --accent, and the left edge keeps the chain's colour;
 - a screen reader hears the facts apart: each fact but the last carries a hidden comma;
+- the footer's source, update time and booking line are three spans, and the rating
+  ring's label is a phrase in each language;
 - none of these views draws a middle dot of the app's own.
 
 The fixture's Orion and Promenadi files carry no rooms or languages, so this file serves
@@ -28,7 +30,8 @@ import test_client_browser as base
 
 DAY = "2026-09-14"
 FILM = {"eventId": "sama-elokuva", "title": "Sama elokuva", "original": "", "len": "118",
-        "rating": "K-12", "age": "", "genres": "Draama", "img": "", "price": ""}
+        "rating": "K-12", "age": "", "genres": "Draama", "img": "", "price": "",
+        "tmdb": 7.1, "votes": 41}
 
 
 def show(venue, provider, theatre, clock, aud, lang, method, sold=False):
@@ -199,10 +202,30 @@ class TicketSeparators(unittest.TestCase):
         for view in ("movies", "times"):
             with self.subTest(view=view):
                 page = self.open(393, view)
-                self.assertNotIn("\u00b7", page.locator("#main").inner_text())
+                self.assertNotIn("\u00b7", page.locator("body").inner_text())
                 if view == "movies":
                     self.open_sheet(page)
                     self.assertNotIn("\u00b7", page.locator("#sheet").inner_text())
+
+
+    def test_the_footer_credit_is_three_facts(self):
+        page = self.open(393)
+        credit = page.locator("#credit > span")
+        self.assertEqual(credit.count(), 3)
+        self.assertTrue(credit.nth(1).inner_text().startswith("P\u00e4ivitetty 14.9. klo"),
+                        credit.nth(1).inner_text())
+        # A hidden full stop after the first two, for a screen reader.
+        self.assertEqual(page.locator("#credit > span > .sr-only").count(), 2)
+
+    def test_the_rating_says_its_score_and_votes_in_words(self):
+        page = self.open(393)
+        ring = page.locator("#main .ring").first
+        expect(ring).to_have_attribute("aria-label", "TMDB-arvio 7,1/10, 41 \u00e4\u00e4nt\u00e4")
+        for code, want in (("sv", "TMDB-betyg 7,1/10, 41 r\u00f6ster"),
+                           ("en", "TMDB rating 7.1/10 from 41 votes")):
+            page.click(f"button[data-lang={code}]")
+            expect(page.locator("#main .ring").first).to_have_attribute("aria-label", want)
+            expect(page.locator("#main .ring").first).to_have_attribute("title", want)
 
 
 if __name__ == "__main__":
