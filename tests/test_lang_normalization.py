@@ -14,7 +14,10 @@ Provider modules are imported inside the tests rather than at module level: they
 `common.EmptyProgramme` at import time and `test_common_fetch` reloads `common`, so a
 module-level import here would make the suite's result depend on file order.
 """
+import json
 import re
+import shutil
+import subprocess
 import unittest
 from itertools import product
 from string import ascii_uppercase
@@ -158,6 +161,55 @@ class NameTableTest(unittest.TestCase):
         self.assertEqual(bp.lang_parts("LT-A, FI-S", "en"), ["Lithuanian", "Finnish subtitles"])
         self.assertEqual(bp.lang_parts("ML-A, EN-S", "fi"), ["malajalam", "tekstitys: englanti"])
         self.assertEqual(bp.lang_parts("ML-A, EN-S", "en"), ["Malayalam", "English subtitles"])
+
+
+def client_lang_txt(lang, calls):
+    """Run the app's `langTxt` block verbatim in node. -> one string per (code, lead)."""
+    block = re.search(r"// --- langTxt: [^\n]*\n(.*?)\n\s*// --- end langTxt ---", HTML, re.S).group(1)
+    js = (f"const state = {{lang: {json.dumps(lang)}}};\n{block}\n"
+          f"process.stdout.write(JSON.stringify({json.dumps(calls)}.map(([c, l]) => langTxt(c, l))));")
+    out = subprocess.run(["node", "-e", js], capture_output=True, text=True, timeout=30)
+    if out.returncode:
+        raise AssertionError(out.stderr)
+    return json.loads(out.stdout)
+
+
+class SwedishSubtitleLabelTest(unittest.TestCase):
+    """"Textning:" opens a label of its own; after the audio or another part of the line it
+    is "textning:". The app and the generated pages say the same thing."""
+
+    CASES = [("EN-A, FI-S", True, "engelska · textning: finska"),
+             ("FI-S, SV-S", True, "Textning: finska/svenska"),
+             ("FI-S, SV-S", False, "textning: finska/svenska"),
+             ("FI-A", True, "finska"),
+             ("", True, "")]
+
+    def test_the_generator(self):
+        import build_pages as bp
+        for code, lead, want in self.CASES:
+            with self.subTest(code=code, lead=lead):
+                self.assertEqual(" · ".join(bp.lang_parts(code, "sv", lead=lead)), want)
+        # Finnish and English have one form wherever the phrase stands.
+        self.assertEqual(bp.lang_parts("FI-S", "fi"), ["tekstitys: suomi"])
+        self.assertEqual(bp.lang_parts("FI-S", "en"), ["Finnish subtitles"])
+
+    def test_a_ticket_line_says_it_after_the_room(self):
+        import build_pages as bp
+        show = {"aud": "Sali 2", "lang": "FI-S, SV-S"}
+        self.assertEqual(bp.stub_parts(show, False, "sv", own_lang=True)[-1],
+                         ("l", "textning: finska/svenska"))
+        self.assertEqual(bp.stub_parts({"lang": "FI-S"}, False, "sv", own_lang=True),
+                         [("l", "Textning: finska")])
+
+    @unittest.skipIf(shutil.which("node") is None, "node not installed")
+    def test_the_app_matches_the_generator(self):
+        import build_pages as bp
+        got = client_lang_txt("sv", [[c, l] for c, l, _ in self.CASES])
+        for (code, lead, want), g in zip(self.CASES, got):
+            with self.subTest(code=code, lead=lead):
+                self.assertEqual(g, want)
+                self.assertEqual(g, " · ".join(bp.lang_parts(code, "sv", lead=lead)))
+        self.assertEqual(client_lang_txt("fi", [["FI-S", True]]), ["tekstitys: suomi"])
 
 
 if __name__ == "__main__":

@@ -200,8 +200,10 @@ class TimeModeTicketTest(unittest.TestCase):
         src = render_times_source()
         self.assertIn('const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : \'\';', src)
         self.assertIn("const sold = s.soldOut && !past ? L[state.lang].soldout : '';", src)
-        small = re.search(r"<small>\$\{\[(.*?)\]\.filter\(Boolean\)\.join\(' \u00b7 '\)\}</small>", src).group(1)
-        parts = [x.strip() for x in re.split(r",(?![^(]*\))", small)]
+        self.assertIn("<small>${[...pre, esc(langTxt(s.lang, !pre.length))].filter(Boolean)"
+                      ".join(' \u00b7 ')}</small>", src)
+        head = re.search(r"const pre = \[(.*?)\]\.filter\(Boolean\);", src, re.S).group(1)
+        parts = [x.strip() for x in re.split(r",(?![^(]*\))", head)]
         self.assertEqual(parts[:4], ["venue", "room", "ageGlyph(s)", "sold"], parts)
         self.assertIn("esc(s.rating)", parts[4])
 

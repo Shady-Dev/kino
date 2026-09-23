@@ -211,7 +211,7 @@ L = {
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Biografer \u2013 {city}",
         "city_link": "Alla biografer \u2013 {city}",
-        "subs": "Textning: {}", "lang_nav": "Spr\u00e5k",
+        "subs": "textning: {}", "subs_lead": "Textning: {}", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
         "from": "fr\u00e5n", "votes": "r\u00f6ster",
         "sources": "Visningstider: varje biografs eget program. Betyg och "
@@ -347,11 +347,13 @@ LN = {
 LANG_RE = re.compile(r"^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$")
 
 
-def lang_parts(codes, lang):
+def lang_parts(codes, lang, lead=True):
     """`"EN-A, FI-S, SV-S"` -> `["englanti", "tekstitys suomi/ruotsi"]`, the app's
     `langTxt` rule: -A is the spoken language, -S a subtitle language, a compound
     `FI-SV-A` is two languages, duplicates collapse in source order, an absent role is
-    omitted, and a name the tables lack stays visible as its code."""
+    omitted, and a name the tables lack stays visible as its code. `lead` is false where
+    the phrase follows other parts of a line; Swedish capitalises its label (`subs_lead`)
+    only where it opens the label."""
     by = {"A": [], "S": []}
     for raw in (codes or "").split(","):
         c = raw.strip()
@@ -369,7 +371,8 @@ def lang_parts(codes, lang):
     if by["A"]:
         out.append("/".join(by["A"]))
     if by["S"]:
-        out.append(L[lang]["subs"].format("/".join(by["S"])))
+        key = "subs_lead" if lead and not out and "subs_lead" in L[lang] else "subs"
+        out.append(L[lang][key].format("/".join(by["S"])))
     return out
 
 
@@ -926,7 +929,8 @@ def stub_parts(s, with_venue, lang, own_lang=False, own_tags=()):
     parts.append(("a", s.get("aud") or ""))
     parts += [("f", x) for x in (own_tags or [])]
     if own_lang:
-        parts += [("l", x) for x in lang_parts(s.get("lang"), lang)]
+        parts += [("l", x) for x in lang_parts(s.get("lang"), lang,
+                                                 lead=not any(t for _, t in parts))]
     return [(c, t) for c, t in parts if t]
 
 

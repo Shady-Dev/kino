@@ -1360,7 +1360,7 @@
          actReserve:'Tryck på en visning för att boka platser – {host}',
          actList:'Tryck på en visning för att öppna programmet – {host}',
          actBuy:'Tryck på en visning för att köpa biljetter – {host}',
-         actAdmission:'Ingår i inträdet · Tryck på en visning för att öppna biljettbutiken – {host}',
+         actAdmission:'Ingår i inträdesbiljetten · Tryck på en visning för att öppna biljettbutiken – {host}',
          tipDoor:'Biljetter på plats', tipReserve:'Boka platser',
          tipList:'Öppna programmet', tipBuy:'Köp biljetter', tipAdmission:'Köp inträdesbiljett',
          contact:'För biografer: kontakt och begäran om borttagning', source:'Källkod',
@@ -1447,6 +1447,7 @@
          aPrevMonth:'Previous month', aNextMonth:'Next month',
          aChains:'Filter by chain' }
   };
+  // --- langTxt: extracted verbatim by tests/test_lang_normalization.py, with `state` ---
   const LN = {
     fi:{FI:'suomi', EN:'englanti', SV:'ruotsi', ES:'espanja', DE:'saksa', FR:'ranska',
         IT:'italia', RU:'venäjä', ET:'viro', DA:'tanska', NO:'norja', IS:'islanti',
@@ -1472,11 +1473,14 @@
   // the data plus the ones the adapters' name maps can emit.
   // Full nominatives, not "engl."/"ruots.": the audio language stands alone with no role
   // word, so it has to read as a noun.
-  const LW = { fi:{S:'tekstitys:'}, sv:{S:'Textning:'}, en:{S:'subs'} };
+  // Swedish capitalises the label only where it opens a label of its own, `S0`:
+  // "Textning: finska" alone, "engelska · textning: finska" after the audio.
+  const LW = { fi:{S:'tekstitys:'}, sv:{S:'textning:', S0:'Textning:'}, en:{S:'subs'} };
   // "EN-A, FI-S, SE-S" reads "englanti · tekstitys: suomi/ruotsi": audio bare, subtitles
   // labelled, one entry per role rather than per language. The "/" matches how a single
   // multi-language code (FI-SE-S) has always rendered.
-  function langTxt(code){
+  // `lead` is false where the text follows other parts of a line.
+  function langTxt(code, lead = true){
     if(!code) return '';
     const by = { A: [], S: [] };
     for(const c of code.split(/,\s*/)){
@@ -1489,9 +1493,11 @@
     }
     const out = [];
     if(by.A.length) out.push(by.A.join('/'));
-    if(by.S.length) out.push(LW[state.lang].S + ' ' + by.S.join('/'));
+    const w = LW[state.lang];
+    if(by.S.length) out.push(((lead && !out.length && w.S0) || w.S) + ' ' + by.S.join('/'));
     return out.join(' · ');
   }
+  // --- end langTxt ---
   // --- langSplit: pure, extracted verbatim by tests/lang_split_harness.js ---
   // Which screenings agree on a language. Shared goes once above the schedule, anything
   // else goes on each ticket: the rule the card already applies to format tags.
@@ -3614,11 +3620,13 @@
       // line, and plain 2D goes as it does on every stub.
       const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');
       const own_price = priceLabel([s]);
+      const pre = [venue, room, ageGlyph(s), sold, esc(s.rating),
+                   s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(tags)].filter(Boolean);
       return `<div class="trow">
         <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}">
           <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
-          <small>${[venue, room, ageGlyph(s), sold, esc(s.rating), s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(tags), esc(langTxt(s.lang))].filter(Boolean).join(' · ')}</small></a>
+          <small>${[...pre, esc(langTxt(s.lang, !pre.length))].filter(Boolean).join(' · ')}</small></a>
       </div>`;
     }).join('');
   }

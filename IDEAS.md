@@ -74,8 +74,8 @@ rebuilt the hash stops matching, the script never loads and analytics stops with
 The vocabulary was settled and applied on 2026-09-23 ("visning", "visningstider",
 "Textning:", "på plats", "Din startvy"); record in
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** a native Finland-Swedish reader over the result, starting with
-"Kommande visningar", "Ingår i inträdet" and "Textning:" capitalised mid-line.
+The maintainer settled the four remaining terms the same day.
+**Next action:** a native Finland-Swedish reader over the result.
 
 ### Two providers are read over plain HTTP
 

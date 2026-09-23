@@ -68,7 +68,8 @@ class TagPlacementSourceTest(unittest.TestCase):
         src = render_times_source()
         self.assertIn("const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');", src)
         self.assertNotIn("esc(s.method)", src)
-        self.assertIn("esc(tags), esc(langTxt(s.lang))", src)
+        self.assertIn("esc(tags)].filter(Boolean);", src)
+        self.assertIn("[...pre, esc(langTxt(s.lang, !pre.length))]", src)
 
     def test_a_glyph_tag_never_folds_onto_the_card(self):
         common = re.search(r"const common = (.*?);\n", HTML).group(1)
