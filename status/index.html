@@ -133,7 +133,8 @@
     border-top:1px solid var(--line);padding:20px 0 30px;display:flex;
     justify-content:space-between;flex-wrap:wrap;gap:15px;color:var(--muted);font-size:12px;
   }
-  .site-footer nav{display:flex;gap:19px;flex-wrap:wrap}
+  .site-footer nav, .links{display:flex;gap:6px 19px;flex-wrap:wrap}
+  #footCredit b{color:var(--ink);font-weight:700;margin-right:6px}
 
   @media (max-width:580px){
     .site-header{padding:18px 20px;gap:12px}
@@ -212,15 +213,15 @@
       <details id="srcDetails">
         <summary id="srcSum"></summary>
         <p id="srcData"></p>
-        <p><a href="https://github.com/Shady-Dev/kino" rel="noopener" id="srcRepo">Lähdekoodi GitHubissa</a>
-           · <a href="https://github.com/Shady-Dev/kino/blob/main/LICENSE" rel="noopener">AGPL-3.0-or-later</a></p>
+        <p class="links"><a href="https://github.com/Shady-Dev/kino" rel="noopener" id="srcRepo">Lähdekoodi GitHubissa</a>
+           <a href="https://github.com/Shady-Dev/kino/blob/main/LICENSE" rel="noopener">AGPL-3.0-or-later</a></p>
         <p id="srcThird"></p>
       </details>
     </section>
   </div>
 
   <footer class="site-footer">
-    <span id="footCredit"></span>
+    <span id="footCredit"><b>Leffavuoro</b><span class="sr-only">: </span> <span id="footTag"></span></span>
     <nav id="footNav" aria-label="Lisätietoja"></nav>
   </footer>
 </main>
@@ -263,7 +264,7 @@
       sumOk:'Näytösajat ovat ajan tasalla',
       sumOkDetail:'Kaikki tietolähteet päivitettiin onnistuneesti.',
       sumOneLate:'Yhden teatterin tietojen päivitys viivästyy',
-      sumOneLateDetail:'{name} · viimeksi päivitetty {ago}.',
+      sumOneLateDetail:'{name} päivitettiin viimeksi {ago}.',
       sumMixed:'Kaikkien tietojen ajantasaisuutta ei voitu varmistaa',
       sumMixedDetail:'Viivästyneet, osittaiset ja tarkistamatta jääneet päivitykset näkyvät listan alussa.',
       sumUnknown:'Tilaa ei voitu tarkistaa',
@@ -301,7 +302,7 @@
       srcData:'Näytösajat ovat elokuvateattereiden julkaisemasta ohjelmistosta. Elokuvien lisätietoja saadaan myös TMDB:stä.',
       srcRepo:'Lähdekoodi GitHubissa',
       srcThird:'Julisteet ja muu kolmansien osapuolten aineisto kuuluvat oikeudenhaltijoilleen. Archivo-kirjasimen lisenssi on SIL Open Font License.',
-      footCredit:'Leffavuoro · elokuvat ja näytösajat',
+      footTag:'elokuvat ja näytösajat',
       navShowtimes:'Näytösajat', navContact:'Yhteystiedot', navSource:'Lähdekoodi',
       at:'klo {t}', agoMin:'{n} min sitten', agoHour1:'1 tunti sitten',
       agoHours:'{n} tuntia sitten', agoUnknown:'aikaa ei tiedetä', compactH:'{n} t',
@@ -316,7 +317,7 @@
       sumOk:'Visningstiderna är aktuella',
       sumOkDetail:'Alla datakällor uppdaterades utan fel.',
       sumOneLate:'Uppdateringen för en biograf är försenad',
-      sumOneLateDetail:'{name} · senast uppdaterad {ago}.',
+      sumOneLateDetail:'{name} uppdaterades senast {ago}.',
       sumMixed:'Alla uppgifters aktualitet kunde inte bekräftas',
       sumMixedDetail:'Försenade, delvisa och okontrollerade uppdateringar visas först i listan.',
       sumUnknown:'Statusen kunde inte kontrolleras',
@@ -354,7 +355,7 @@
       srcData:'Visningstiderna kommer från biografernas publicerade program. Filmuppgifter hämtas även från TMDB.',
       srcRepo:'Källkod på GitHub',
       srcThird:'Affischer och annat material från tredje part tillhör sina rättighetsinnehavare. Typsnittet Archivo används under SIL Open Font License.',
-      footCredit:'Leffavuoro · filmer och visningstider',
+      footTag:'filmer och visningstider',
       navShowtimes:'Visningstider', navContact:'Kontakt', navSource:'Källkod',
       at:'kl. {t}', agoMin:'{n} min sedan', agoHour1:'1 timme sedan',
       agoHours:'{n} timmar sedan', agoUnknown:'tiden är okänd', compactH:'{n} h',
@@ -369,7 +370,7 @@
       sumOk:'Showtimes are up to date',
       sumOkDetail:'Every data source updated successfully.',
       sumOneLate:'One cinema’s update is delayed',
-      sumOneLateDetail:'{name} · last updated {ago}.',
+      sumOneLateDetail:'{name} was last updated {ago}.',
       sumMixed:'Could not confirm that all data is current',
       sumMixedDetail:'Delayed, partial and unchecked updates are listed first.',
       sumUnknown:'Status could not be checked',
@@ -407,7 +408,7 @@
       srcData:'Showtimes come from the cinemas’ own published programmes. Film details also come from TMDB.',
       srcRepo:'Source code on GitHub',
       srcThird:'Posters and other third-party material belong to their rights holders. The Archivo typeface is used under the SIL Open Font License.',
-      footCredit:'Leffavuoro · films and showtimes',
+      footTag:'films and showtimes',
       navShowtimes:'Showtimes', navContact:'Contact', navSource:'Source',
       at:'at {t}', agoMin:'{n} min ago', agoHour1:'1 hour ago',
       agoHours:'{n} hours ago', agoUnknown:'time unknown', compactH:'{n} h',
@@ -596,7 +597,7 @@
                                : (m && m.city ? T.venues1.replace('{city}', m.city) : '');
       return { id:p.id, name:p.label || p.id, host:p.host || '', state,
                label:T['st' + state[0].toUpperCase() + state.slice(1)] || T.stUnknown,
-               meta: scope ? `${scope} · ${sub}` : sub, detail, venues,
+               meta: scope ? `${scope}, ${sub}` : sub, detail, venues,
                ago, when, iso: iso || '' };
     });
     rows.sort((a, b) => (rank[a.state] - rank[b.state]) || collate(a.name, b.name));
@@ -915,7 +916,7 @@
     $('srcData').textContent = T.srcData;
     $('srcRepo').textContent = T.srcRepo;
     $('srcThird').textContent = T.srcThird;
-    $('footCredit').textContent = T.footCredit;
+    $('footTag').textContent = T.footTag;
     $('footNav').setAttribute('aria-label', T.footNav);
     $('footNav').innerHTML =
       `<a href="${esc(homeHref())}">${esc(T.navShowtimes)}</a>`

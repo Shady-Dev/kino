@@ -46,8 +46,8 @@ class StatusModelTest(unittest.TestCase):
         self.assertTrue(all(r["state"] == "ok" for r in m["rows"]))
 
     def test_a_single_venue_provider_names_its_city_and_a_chain_counts_its_venues(self):
-        self.assertTrue(self.row("healthy", "orion")["meta"].startswith("Helsinki · "))
-        self.assertTrue(self.row("healthy", "biorex")["meta"].startswith("12 teatteria · "))
+        self.assertTrue(self.row("healthy", "orion")["meta"].startswith("Helsinki, "))
+        self.assertTrue(self.row("healthy", "biorex")["meta"].startswith("12 teatteria, "))
 
     # -- delay ---------------------------------------------------------------------------
 
@@ -58,6 +58,8 @@ class StatusModelTest(unittest.TestCase):
         self.assertEqual(m["title"], "Yhden teatterin tietojen päivitys viivästyy")
         self.assertIn("Cinema Orion", m["detail"])
         self.assertIn("11 tuntia sitten", m["detail"])
+        # A sentence, not a dotted list (2026-09-23).
+        self.assertEqual(m["detail"], "Cinema Orion päivitettiin viimeksi 11 tuntia sitten.")
 
     def test_a_delayed_chain_is_not_described_as_a_whole_chain_that_failed(self):
         """`oldest` is a minimum. It says one venue is behind and nothing about the rest,
@@ -76,7 +78,7 @@ class StatusModelTest(unittest.TestCase):
     def test_a_kept_venue_is_named_and_counted_against_the_chain(self):
         r = self.row("partial", "biorex")
         self.assertEqual(r["state"], "partial")
-        self.assertEqual(r["meta"], "12 teatteria · 1/12 teatterin tiedot päivittämättä")
+        self.assertEqual(r["meta"], "12 teatteria, 1/12 teatterin tiedot päivittämättä")
         self.assertIn("Vaasa", r["detail"])
 
     def test_an_unverified_venue_is_partial_rather_than_confirmed_empty(self):
