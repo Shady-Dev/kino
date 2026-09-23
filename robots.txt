@@ -2,8 +2,8 @@
 # and Google renders the page before indexing it, so the files the client needs to
 # draw a schedule must be fetchable: Search Console's live test on 2026-09-13 showed an
 # empty picker and the load-failure line, with 14 of 15 resources "blocked by
-# robots.txt". The run logs are build output and the TMDB and price caches are pipeline
-# state; nothing public reads them, so they stay closed. The logs moved from the root into
+# robots.txt". The run logs are build output and the TMDB, price and film-language caches
+# are pipeline state; nothing public reads them, so they stay closed. The logs moved from the root into
 # /logs/ on 2026-09-15 and the two root-anchored rules that used to close them
 # (`/run.log` and the `/run-` prefix) went with them: one directory rule covers exactly the
 # same files, and nothing else lives under /logs/.

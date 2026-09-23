@@ -66,8 +66,9 @@ def allowed(path, text=ROBOTS):
 CONSUMED = ("providers.json", "regions.json", "areas.json", "films.json",
             "films-extra.json", "tmdb-genres.json")
 FAMILIES = ("venues-", "area-", "posters/")
-# Pipeline state nothing public reads.
-INTERNAL = ("tmdb.json", "tmdb-titles.json", "prices-")
+# Pipeline state nothing public reads. film-lang-: Cinema Orion's per-film language
+# cache, written by orion.film_language through prices.enrich (2026-09-23).
+INTERNAL = ("tmdb.json", "tmdb-titles.json", "prices-", "film-lang-")
 
 
 def literal_paths(html):
