@@ -38,9 +38,12 @@ No runtime, genre, language or per-row URL; the page publishes none.
 have got wrong.
 
 **Empty programme has positive evidence.** 2025-08 lists all five towns under `ELOKUVAT
-JATKUU SYYSKUUSSA`; 2025-04 lists all five with nothing under them. Town headings and no
-`Klo` line anywhere raises `common.EmptyProgramme`. No town heading at all fails: that is
-the template moving, with no listing to read as empty.
+JATKUU SYYSKUUSSA`; 2025-04 lists all five with nothing under them. In both, no line from
+the first town heading on carries a digit: no date and no time, which is checked apart
+from the `Klo` pattern the rows are found with. Town headings, no `Klo` line and no digit
+under them raises `common.EmptyProgramme`. No town heading at all fails: that is the
+template moving, with no listing to read as empty. So does a page whose screening lines
+all sit under headings `_town_of` does not read.
 """
 import datetime
 import html as html_mod
@@ -79,8 +82,10 @@ SITES = [
 
 # A town the page lists but does not give a row is known empty rather than unread: this
 # one page is the operator's whole published programme, so `run.py` publishes a fresh
-# empty file for that venue instead of ageing its last visit. A page that lists no town at
-# all never reaches that loop, because `fetch_site` raises first.
+# empty file for that venue instead of ageing its last visit. A page that places no row
+# under any declared town never reaches that loop, because `fetch_site` raises first. A
+# town with screening lines under it and none placed is left out of the answer instead,
+# so its previous file stands: those lines are not the town having nothing on.
 EMPTY_VENUES_CONFIRMED = True
 
 # `resolve_year`'s (behind, ahead). The live page reached 40 days out and the 2023-12
@@ -215,7 +220,8 @@ def rows(site, src, today=None):
     # the operator's own email address and mobile number, and a report field holding a
     # line is one print away from publishing them.
     report = {"unread": 0, "unplaceable": 0, "undeclared": {}, "towns": 0, "klo": 0,
-              "no_price": 0}
+              "no_price": 0, "numbered": 0, "unconfirmed": []}
+    tried = set()           # declared towns with a screening line under them
     venue, pending, fresh, candidate = None, [], True, ""
     i = 0
     while i < len(src):
@@ -223,6 +229,10 @@ def rows(site, src, today=None):
         i += 1
         if PRICE_RE.search(line):
             continue
+        # A date or a time under a town heading, however it is written. The two empty
+        # captures carry none, so this is what an empty programme is told apart by.
+        if report["towns"] and any(c.isdigit() for c in line):
+            report["numbered"] += 1
         hit = _town_of(line, venues)
         if hit is not None:
             venue, pending, fresh, candidate = hit, [], True, ""
@@ -251,6 +261,7 @@ def rows(site, src, today=None):
                 f"{site['provider']}: a screening line stands before any town heading, "
                 f"so the page's shape is not the one this parser reads")
         fresh = False
+        tried.add(venue["id"])
         rest = (line[m0.end():] if m0 else line).strip()
         times = []
         while True:
@@ -326,6 +337,10 @@ def rows(site, src, today=None):
             f"{site['provider']}: {report['unplaceable']} screening line(s) could not be "
             f"placed against {placed} that could, so the template has moved rather than "
             f"the operator having typed a few odd rows")
+    for vid in sorted(tried):
+        if not per_venue[vid]:
+            del per_venue[vid]
+            report["unconfirmed"].append(next(v["town"] for v in venues if v["id"] == vid))
     for shows in per_venue.values():
         shows.sort(key=lambda s: s["start"])
     return per_venue, report
@@ -341,11 +356,17 @@ def fetch_site(site, today=None):
     url = site["base"].rstrip("/") + site["listing"]
     per_venue, report = rows(site, lines(get(url)), today)
     published = sum(len(v) for v in per_venue.values())
-    if not published and not report["undeclared"]:
-        if report["towns"] and not report["klo"]:
+    if not published and report["undeclared"]:
+        named = ", ".join(f"{t} ({n})" for t, n in sorted(report["undeclared"].items()))
+        raise RuntimeError(
+            f"{url}: every screening line sits under a heading this parser does not read "
+            f"as a declared town ({named}), so no declared town is shown to be empty")
+    if not published:
+        if report["towns"] and not report["klo"] and not report["numbered"]:
             raise EmptyProgramme(
                 f"{url}: the page lists {report['towns']} of this operator's towns and no "
-                f"screening under any of them, which is what it publishes between tours")
+                f"date, time or screening under any of them, which is what it publishes "
+                f"between tours")
         raise RuntimeError(
             f"{url}: no screening line under a town heading, and {report['towns']} town "
             f"heading(s) found, so this is the template having moved rather than a "
@@ -363,11 +384,14 @@ def fetch_site(site, today=None):
     if report["unplaceable"]:
         print(f"[{pid}] {report['unplaceable']} screening line(s) whose time, title or "
               f"date this parser could not place, left out")
+    if report["unconfirmed"]:
+        print(f"[{pid}] {', '.join(report['unconfirmed'])}: screening lines and none "
+              f"placed, so not published as empty and the previous file stands")
     if report["unread"]:
         print(f"[{pid}] {report['unread']} line(s) that are neither a town heading, a "
               f"date heading nor a screening, left out")
     for v in site["venues"]:
-        shows = per_venue[v["id"]]
+        shows = per_venue.get(v["id"], [])
         days = sorted({s["start"][:10] for s in shows})
         print(f"[{pid}] {v['name']}, {v['city']}: {len(shows)} showtimes, "
               f"{len(days)} dates"
