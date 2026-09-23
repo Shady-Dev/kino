@@ -96,7 +96,7 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(len(re.findall(r"nextMatch:'", HTML)), 3)
         self.assertEqual(len(re.findall(r"atTime:'", HTML)), 3)
         self.assertIn("nextMatch:'Seuraava näytös', atTime:'klo'", HTML)
-        self.assertIn("nextMatch:'Nästa föreställning', atTime:'kl.'", HTML)
+        self.assertIn("nextMatch:'Nästa visning', atTime:'kl.'", HTML)
         self.assertIn("nextMatch:'Next screening', atTime:'at'", HTML)
 
 

@@ -69,13 +69,13 @@ rebuilt the hash stops matching, the script never loads and analytics stops with
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 **Next action:** re-measure the hash in the same commit as any `PH_VERSION` bump.
 
-### Swedish copy: judgement calls for a native reader
+### Swedish copy: a native reader over the settled vocabulary
 
-Both surfaces were read once as Finland-Swedish on 2026-09-23 and the plain errors fixed.
-What is left is choice of term, listed with alternatives in the record:
+The vocabulary was settled and applied on 2026-09-23 ("visning", "visningstider",
+"Textning:", "på plats", "Din startvy"); record in
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** a native Finland-Swedish reader decides "egen biograf", "tidtabell",
-"visning" against "föreställning", and one subtitle label for the app and the pages.
+**Next action:** a native Finland-Swedish reader over the result, starting with
+"Kommande visningar", "Ingår i inträdet" and "Textning:" capitalised mid-line.
 
 ### Two providers are read over plain HTTP
 

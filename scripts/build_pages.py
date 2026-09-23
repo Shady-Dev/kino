@@ -167,55 +167,54 @@ L = {
     },
     "sv": {
         "lang": "sv", "locale": "sv_FI",
-        "venue_title": "{venue}, {city} \u2013 filmer och f\u00f6rest\u00e4llningstider",
-        "city_title": "Filmer och f\u00f6rest\u00e4llningstider \u2013 {city}",
-        "venue_h1": "{venue} \u2013 f\u00f6rest\u00e4llningstider",
-        "city_h1": "Filmer och f\u00f6rest\u00e4llningstider \u2013 {city}",
-        "venue_desc": "{venue} \u2013 {city}: kommande filmer och f\u00f6rest\u00e4llningstider.",
-        "desc_buy": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att k\u00f6pa "
-                    "biljetter p\u00e5 biografens webbplats.",
-        "desc_reserve": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att boka "
-                        "platser p\u00e5 biografens webbplats.",
-        "desc_list": "Kontrollera filmernas uppgifter och v\u00e4lj en tid f\u00f6r att \u00f6ppna "
-                     "biografens eget program.",
-        "desc_door": "Biljetterna s\u00e4ljs vid d\u00f6rren. P\u00e5 samma sida hittar du ocks\u00e5 "
+        "venue_title": "{venue}, {city} \u2013 filmer och visningstider",
+        "city_title": "Filmer och visningstider \u2013 {city}",
+        "venue_h1": "{venue} \u2013 visningstider",
+        "city_h1": "Filmer och visningstider \u2013 {city}",
+        "venue_desc": "{venue} \u2013 {city}: kommande filmer och visningstider.",
+        "desc_buy": "L\u00e4s om filmerna och v\u00e4lj en visningstid f\u00f6r att k\u00f6pa biljetter "
+                    "p\u00e5 biografens webbplats.",
+        "desc_reserve": "L\u00e4s om filmerna och v\u00e4lj en visningstid f\u00f6r att boka platser "
+                        "p\u00e5 biografens webbplats.",
+        "desc_list": "L\u00e4s om filmerna och v\u00e4lj en visningstid f\u00f6r att \u00f6ppna biografens "
+                     "eget program.",
+        "desc_door": "Biljetter s\u00e4ljs p\u00e5 plats. P\u00e5 samma sida hittar du ocks\u00e5 "
                      "\u00e5ldersgr\u00e4nser, spr\u00e5k och speltider.",
-        "desc_admission": "F\u00f6rest\u00e4llningarna ing\u00e5r i intr\u00e4desbiljetten. P\u00e5 samma "
-                          "sida hittar du ocks\u00e5 filmernas uppgifter.",
+        "desc_admission": "Visningarna ing\u00e5r i intr\u00e4desbiljetten. P\u00e5 samma sida kan du "
+                          "ocks\u00e5 l\u00e4sa om filmerna.",
         "desc_other": "P\u00e5 samma sida hittar du ocks\u00e5 \u00e5ldersgr\u00e4nser, spr\u00e5k och "
                       "speltider.",
         "city_desc": "{city}: vilka filmer visas de n\u00e4rmaste dagarna? J\u00e4mf\u00f6r "
-                     "biografernas f\u00f6rest\u00e4llningstider, \u00e5ldersgr\u00e4nser, spr\u00e5k och "
+                     "biografernas visningstider, \u00e5ldersgr\u00e4nser, spr\u00e5k och "
                      "tillg\u00e4ngliga biljettl\u00e4nkar.",
         "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} biografer",
-        "intro_buy": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid "
-                     "f\u00f6r att komma till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
-        "intro_reserve": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en "
-                         "tid f\u00f6r att komma till platsbokningen p\u00e5 {host}.",
-        "intro_list": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid "
-                      "f\u00f6r att komma till biografens program p\u00e5 {host}.",
-        "intro_door": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Biljetterna "
-                      "s\u00e4ljs vid d\u00f6rren.",
-        "intro_admission": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. "
-                           "F\u00f6rest\u00e4llningarna ing\u00e5r i intr\u00e4desbiljetten, som s\u00e4ljs "
-                           "p\u00e5 {host}.",
-        "age_note": "\u00c5ldersgr\u00e4nsen f\u00f6r f\u00f6rest\u00e4llningarna \u00e4r {n} \u00e5r.",
-        "city_intro": "Se f\u00f6rest\u00e4llningstiderna fr\u00e5n {n} biografer f\u00f6r de n\u00e4rmaste "
-                      "dagarna. V\u00e4lj en tid f\u00f6r att komma till biografens biljett- eller "
+        "intro_buy": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid f\u00f6r att "
+                     "komma till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
+        "intro_reserve": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid f\u00f6r att "
+                         "komma till platsbokningen p\u00e5 {host}.",
+        "intro_list": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid f\u00f6r att "
+                      "komma till biografens program p\u00e5 {host}.",
+        "intro_door": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. Biljetter s\u00e4ljs p\u00e5 "
+                      "plats.",
+        "intro_admission": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. Visningarna ing\u00e5r "
+                           "i intr\u00e4desbiljetten, som s\u00e4ljs p\u00e5 {host}.",
+        "age_note": "\u00c5ldersgr\u00e4nsen f\u00f6r visningarna \u00e4r {n} \u00e5r.",
+        "city_intro": "Se visningstiderna fr\u00e5n {n} biografer f\u00f6r de n\u00e4rmaste dagarna. "
+                      "V\u00e4lj en tid f\u00f6r att komma till biografens biljett- eller "
                       "programsida n\u00e4r en l\u00e4nk finns.",
         "cta": "\u00d6ppna hela programmet",
         "today": "I dag", "tomorrow": "I morgon",
         "days": ["M\u00e5n", "Tis", "Ons", "Tors", "Fre", "L\u00f6r", "S\u00f6n"],
-        "no_shows": "Inga f\u00f6rest\u00e4llningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
-        "next_show": "N\u00e4sta f\u00f6rest\u00e4llning: {when}",
+        "no_shows": "Inga visningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
+        "next_show": "N\u00e4sta visning: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Biografer \u2013 {city}",
         "city_link": "Alla biografer \u2013 {city}",
-        "subs": "textning: {}", "lang_nav": "Spr\u00e5k",
+        "subs": "Textning: {}", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
         "from": "fr\u00e5n", "votes": "r\u00f6ster",
-        "sources": "F\u00f6rest\u00e4llningsuppgifter: varje biografs eget program. Betyg och "
+        "sources": "Visningstider: varje biografs eget program. Betyg och "
                    "beskrivningar: TMDB. Ett personligt hobbyprojekt, utan koppling "
                    "till biograferna.",
         "contact": "F\u00f6r biografer: kontakt och beg\u00e4ran om borttagning",

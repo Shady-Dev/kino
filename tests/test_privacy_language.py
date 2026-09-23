@@ -93,10 +93,10 @@ class TheScriptRunsTest(unittest.TestCase):
     CASES = (
         ("?lang=en&area=engel-helsinki", "", "/?area=engel-helsinki&lang=en", "To showtimes"),
         ("?lang=sv&area=city%3AHelsinki", "", "/?area=city%3AHelsinki&lang=sv",
-         "Till föreställningstiderna"),
+         "Till visningstiderna"),
         ("", "en", "/?lang=en", "To showtimes"),
         ("", "", "/?lang=fi", "Näytösaikoihin"),
-        ("?lang=de", "sv", "/?lang=sv", "Till föreställningstiderna"),
+        ("?lang=de", "sv", "/?lang=sv", "Till visningstiderna"),
     )
 
     @classmethod
