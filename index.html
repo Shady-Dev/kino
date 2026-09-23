@@ -956,6 +956,8 @@
     border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink);
     border-radius:10px; font-size:.85rem;
   }
+  /* While the worker is still checking for a newer copy: neutral, #partial's colours. */
+  #stale.checking{border-color:var(--line); background:var(--surface); color:var(--muted)}
   #partial{
     display:none; max-width:1060px; margin:12px auto 0; padding:10px 14px;
     border:1px solid var(--line); background:var(--surface); color:var(--ink);
@@ -1301,7 +1303,7 @@
          vTheatres:'teatteria', aVenueView:'Selaa kaupunkeja tai alueita',
          favCta:'Tallenna', favCtaLong:'Tallenna oma teatteri',
          allIn:'{city} – kaikki teatterit', manySources:'useita lähteitä',
-         soldout:'loppuunmyyty', tFrom:'Alkaen', tAll:'Kaikki ajat', tFromA:'Näytä näytökset, jotka alkavat tähän aikaan tai sen jälkeen', tNone:'Valittuna aikana tai sen jälkeen ei ole näytöksiä.', staleOne:'näytöstiedot eivät ole päivittyneet', staleSite:'Tarkista ohjelmisto: {host}', staleStatus:'Katso palvelun tila',
+         soldout:'loppuunmyyty', tFrom:'Alkaen', tAll:'Kaikki ajat', tFromA:'Näytä näytökset, jotka alkavat tähän aikaan tai sen jälkeen', tNone:'Valittuna aikana tai sen jälkeen ei ole näytöksiä.', staleOne:'näytöstiedot eivät ole päivittyneet', staleSite:'Tarkista ohjelmisto: {host}', staleStatus:'Katso palvelun tila', checking:'Tarkistetaan päivityksiä…',
          nomatch:'Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla.',
          searchCtx:'Hakusi: \u201d{query}\u201d', filtersCtx:'Suodattimet: {list}',
          widenTo:'Laajenna hakua: {area}', widenHelsinki:'Etsi Helsingistä',
@@ -1372,7 +1374,7 @@
          vTheatres:'biografer', aVenueView:'Bläddra bland städer eller områden',
          favCta:'Spara', favCtaLong:'Spara som startvy',
          allIn:'{city} – alla biografer', manySources:'flera källor',
-         soldout:'slutsåld', tFrom:'Från', tAll:'Alla tider', tFromA:'Visa visningar som börjar vid denna tid eller senare', tNone:'Inga visningar vid eller efter den valda tiden.', staleOne:'visningstiderna har inte uppdaterats', staleSite:'Kontrollera programmet: {host}', staleStatus:'Se tjänstens status',
+         soldout:'slutsåld', tFrom:'Från', tAll:'Alla tider', tFromA:'Visa visningar som börjar vid denna tid eller senare', tNone:'Inga visningar vid eller efter den valda tiden.', staleOne:'visningstiderna har inte uppdaterats', staleSite:'Kontrollera programmet: {host}', staleStatus:'Se tjänstens status', checking:'Söker efter uppdateringar…',
          nomatch:'Inga visningar matchar dina filter på det valda datumet.',
          searchCtx:'Din sökning: \u201d{query}\u201d', filtersCtx:'Filter: {list}',
          widenTo:'Utöka sökningen: {area}', widenHelsinki:'Sök i Helsingfors',
@@ -1438,7 +1440,7 @@
          vTheatres:'cinemas', aVenueView:'Browse cities or areas',
          favCta:'Save', favCtaLong:'Save as home theatre',
          allIn:'{city} – all cinemas', manySources:'multiple sources',
-         soldout:'sold out', tFrom:'From', tAll:'All times', tFromA:'Show screenings starting at or after this time', tNone:'No screenings at or after the selected time.', staleOne:'schedule has not refreshed', staleSite:'Check the programme: {host}', staleStatus:'See service status',
+         soldout:'sold out', tFrom:'From', tAll:'All times', tFromA:'Show screenings starting at or after this time', tNone:'No screenings at or after the selected time.', staleOne:'schedule has not refreshed', staleSite:'Check the programme: {host}', staleStatus:'See service status', checking:'Checking for updates…',
          nomatch:'No screenings match your filters on the selected date.',
          searchCtx:'Your search: \u201c{query}\u201d', filtersCtx:'Filters: {list}',
          widenTo:'Broaden search: {area}', widenHelsinki:'Search in Helsinki',
@@ -2017,6 +2019,22 @@
              only: late.length === 1 ? late[0].provider : '' };
   };
   // --- end staleNotice ---
+  // --- updateState: pure, extracted verbatim by tests/stale_notice_harness.js ---
+  // Whether the stale warning may be shown yet. The schedule is drawn from the worker's
+  // cache at once and the worker fetches a newer copy behind it, so a late timestamp at
+  // first paint is often a copy about to be replaced. While a file behind the selection is
+  // still being checked, late data reads as "checking", for at most `capMs` from the
+  // oldest request; once every answer is in, or past the cap, it is the warning. Data
+  // inside the window shows nothing either way. `checking` maps a venue id to when its
+  // file was requested through the worker and not yet answered.
+  const updateState = (late, ids, checking, nowMs, capMs) => {
+    if(!late) return { kind: 'none', waitMs: 0 };
+    const since = (ids || []).filter(id => checking.has(id)).map(id => checking.get(id));
+    if(!since.length) return { kind: 'stale', waitMs: 0 };
+    const left = Math.min(...since) + capMs - nowMs;
+    return left > 0 ? { kind: 'checking', waitMs: left } : { kind: 'stale', waitMs: 0 };
+  };
+  // --- end updateState ---
   // The route a cinema uses to ask a question or to be taken out. The pipeline's
   // User-Agent points every provider here, so the site has to answer. Plain text:
   // obfuscating it against scrapers also hides it from the reader it exists for.
@@ -2143,6 +2161,11 @@
   const jsonCache = {};
   // Set by the service-worker block: replays a refresh that landed before the slot existed.
   let swFilled = () => {};
+  // Area files requested through the worker and not yet answered by its `checked`
+  // message, venue id -> when. renderStatus reads it through updateState.
+  const checking = new Map();
+  let checkTimer = 0;
+  const areaIdOf = p => ((p || '').match(/(?:^|\/)data\/area-(.+)\.json$/) || [])[1] || '';
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
   // Boot-time speculation: every URL the boot needs is derivable before any response
@@ -2170,6 +2193,10 @@
     // fetch() has no timeout, so a connection that opens and stalls never settles and
     // the spinner spins until the app is closed. Abort at FETCH_MS so the caller's catch
     // can draw netErrorHtml.
+    // Only a worker answers `checked`; without one the response is the network's.
+    const id = areaIdOf(path);
+    if(id && !checking.has(id) && navigator.serviceWorker && navigator.serviceWorker.controller)
+      checking.set(id, Date.now());
     const ac = new AbortController();
     const t = setTimeout(() => ac.abort(), FETCH_MS);
     try {
@@ -3267,6 +3294,9 @@
   // Stale banner and footer credit. Pulled out of loadSchedule so applyLang can
   // redraw them: they carry translated strings and used to stay stale until reload.
   function renderStatus(){
+    clearTimeout(checkTimer);
+    const staleBox = document.querySelector('#stale');
+    if(staleBox) staleBox.classList.remove('checking');
     if(!state.area){
       // The chooser: no schedule, so no banner and no credit line.
       for(const id of ['partial', 'stale']){
@@ -3307,7 +3337,16 @@
       return;
     }
     const notice = staleNotice(state.sources, Date.now(), STALE_H);
-    if(notice){
+    const up = updateState(!!notice, groupIdsOf(state.area) || [state.area], checking,
+                           Date.now(), FETCH_MS);
+    if(up.kind === 'checking'){
+      // Late data on screen and the worker's answer not in yet: neither confirmed current
+      // nor confirmed late. Decided again when the answer lands, or at the cap.
+      staleEl.classList.add('checking');
+      staleEl.textContent = L[state.lang].checking;
+      staleEl.style.display = 'block';
+      checkTimer = setTimeout(renderStatus, up.waitMs + 20);
+    } else if(notice){
       const T = L[state.lang];
       // Every late provider by name, each on its own schedule. In a combined city the
       // ones not named here are inside the window.
@@ -5079,8 +5118,27 @@
         loadSchedule();          // warm cache: runs synchronously to render, no spinner
       },
     });
-    swFilled = area => onFresh.filled(area).catch(() => {});
-    navigator.serviceWorker.addEventListener('message', ev => onFresh((ev.data || {}).fresh || ''));
+    // A file's check is settled once any newer copy it brought is in its slot: after the
+    // re-read, or, for a slot that did not exist yet, after filled() has replayed it.
+    // Redrawn only for the selection on screen, and only once its payload is held: while
+    // it loads, `state` still describes the cinema the reader just left.
+    const onScreen = id => !!state.area && !!jsonCache[state.area]
+      && (groupIdsOf(state.area) || [state.area]).includes(id);
+    function settle(path){
+      const id = areaIdOf(path);
+      if(!id || onFresh.early(id)) return;
+      checking.delete(id);
+      if(onScreen(id)) renderStatus();
+    }
+    swFilled = area => onFresh.filled(area).then(ids => {
+      ids.forEach(id => checking.delete(id));
+      if(ids.some(onScreen)) renderStatus();
+    }).catch(() => {});
+    navigator.serviceWorker.addEventListener('message', ev => {
+      const d = ev.data || {};
+      const done = onFresh(d.fresh || '');
+      if(d.checked) Promise.resolve(done).then(() => settle(d.checked), () => settle(d.checked));
+    });
   }
 
   /* ---------- init ---------- */

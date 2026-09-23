@@ -3,7 +3,9 @@
 test_client_browser.py blocks the worker; these tests need it, because what they check is
 the order in which the worker answers from its cache, refreshes behind, and messages the
 page. Each test seeds the worker with a 24-hour-old copy of Orion's schedule, changes what
-the server answers, reloads, and watches #stale.
+the server answers, reloads, and watches #stale: whether the warning or the neutral
+"checking" state was ever set, and when. A MutationObserver records it, so a state the page
+sets and clears within one frame is still seen; a sampling timer missed those.
 
 `city:Helsinki` is the selection: a combined city's members are known only once the venue
 lists arrive, but the boot prefetches them from the ids stored in prefs, so the worker's
@@ -56,6 +58,11 @@ class Handler(base.Handler):
         if path.endswith("/data/area-or-helsinki.json"):
             self.server.requested.append(path)
             time.sleep(cfg["area_delay"])
+            cfg["answered"] = time.monotonic()
+            if cfg["area_drop"]:
+                # No response at all: the worker's fetch rejects, as it does offline.
+                self.close_connection = True
+                return
             if cfg["area_status"] != 200:
                 self.send_error(cfg["area_status"])
                 return
@@ -94,7 +101,7 @@ class UpdateCheck(unittest.TestCase):
 
     def setUp(self):
         self.srv.cfg.update(generated=hours_ago(24), area_status=200, area_delay=0,
-                            venues_delay=0)
+                            area_drop=False, venues_delay=0)
         self.ctx = self.browser.new_context(timezone_id="Europe/Helsinki", locale="fi-FI",
                                             service_workers="allow")
         self.ctx.tracing.start(screenshots=True, snapshots=True)
@@ -110,6 +117,48 @@ class UpdateCheck(unittest.TestCase):
         self.page.reload()
         expect(self.stale).to_contain_text("\u26a0")
         expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]))
+
+    def watch(self):
+        """From the next navigation on, record whether #stale ever showed the warning or
+        the checking state, and when the warning first appeared (ms since navigation)."""
+        self.page.add_init_script("""
+            window.__seen = { warn: false, checking: false, warnAt: null };
+            document.addEventListener('DOMContentLoaded', () => {
+              const e = document.getElementById('stale');
+              const look = () => {
+                if (e.style.display !== 'block') return;
+                if (e.classList.contains('checking')) __seen.checking = true;
+                else if (e.textContent.includes('\\u26a0')) {
+                  if (!__seen.warn) __seen.warnAt = performance.now();
+                  __seen.warn = true;
+                }
+              };
+              new MutationObserver(look).observe(e, { attributes: true, childList: true,
+                                                      subtree: true, characterData: true });
+            });""")
+
+    def seen(self):
+        return self.page.evaluate("() => window.__seen")
+
+    def warned_at(self, timeout=10_000):
+        """ms since navigation when the sampler first saw the warning."""
+        self.page.wait_for_function("() => window.__seen && window.__seen.warn", timeout=timeout)
+        return self.seen()["warnAt"]
+
+    def pick(self, query):
+        deadline = time.monotonic() + 10
+        while True:
+            self.page.locator("#areaSelect").click()
+            try:
+                expect(self.page.locator("#vwrap")).to_have_class("vwrap open", timeout=250)
+                break
+            except AssertionError:
+                if time.monotonic() > deadline:
+                    raise
+        vq = self.page.locator("#vq")
+        vq.fill(query)
+        expect(self.page.locator("#vlist .vrow").first).to_be_visible()
+        vq.press("Enter")
 
     def uncache(self, fragment):
         """Drop every Cache Storage entry whose URL contains `fragment`."""
@@ -138,10 +187,79 @@ class UpdateCheck(unittest.TestCase):
         a reload. Until 2026-09-23 the message was dropped and the warning stayed."""
         self.srv.cfg.update(generated=hours_ago(1), venues_delay=2.0)
         self.uncache("/data/venues-orion.json")
+        self.watch()
         self.page.reload()
         # The credit line is the schedule on screen: until it names the new copy, a hidden
         # banner only means nothing has been drawn yet.
         expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]), timeout=8_000)
+        expect(self.stale).to_be_hidden()
+        self.assertFalse(self.seen()["warn"], "the warning flashed before the replay landed")
+
+    def test_a_slow_check_shows_checking_and_never_the_warning(self):
+        """The server has an hour-old copy but takes 3 s to answer the worker. The 24-hour
+        copy is drawn at once, under the neutral state; the warning never appears."""
+        self.srv.cfg.update(generated=hours_ago(1), area_delay=3.0)
+        self.watch()
+        self.page.reload()
+        expect(self.stale).to_have_class("checking")
+        expect(self.stale).to_have_text("Tarkistetaan p\u00e4ivityksi\u00e4\u2026")
+        expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]), timeout=8_000)
+        expect(self.stale).to_be_hidden()
+        self.assertEqual(self.seen()["warn"], False)
+
+    def test_a_failed_check_shows_the_warning_without_the_wait(self):
+        """A 500 behind the cached copy: the worker has nothing newer and says so, so the
+        late copy gets its warning at once rather than at the 8 s cap."""
+        self.srv.cfg.update(area_status=500)
+        self.watch()
+        self.page.reload()
+        self.assertLess(self.warned_at(), 3000)
+        expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]))
+
+    def test_a_check_that_cannot_connect_shows_the_warning_without_the_wait(self):
+        """Offline, as the worker sees it: its fetch rejects. Modelled by a connection
+        closed with no response, because WebKit's reload under `set_offline` fails
+        inside the engine ("WebKit encountered an internal error")."""
+        self.srv.cfg.update(area_drop=True)
+        self.watch()
+        self.page.reload()
+        self.assertLess(self.warned_at(), 3000)
+        expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]))
+
+    def test_a_check_that_never_answers_gives_the_warning_at_the_cap(self):
+        """The worker's fetch takes 12 s. The page stops waiting at FETCH_MS, 8 s, and says
+        what it holds; the late answer then still replaces it."""
+        self.srv.cfg.update(generated=hours_ago(1), area_delay=12.0)
+        self.watch()
+        self.page.reload()
+        expect(self.stale).to_have_class("checking")
+        at = self.warned_at(timeout=11_000)
+        self.assertGreater(at, 7500)
+        self.assertLess(at, 11000)
+        expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]), timeout=8_000)
+        expect(self.stale).to_be_hidden()
+
+    def test_switching_cinemas_during_a_check(self):
+        """Orion's check is slow; the reader moves to Promenadi Pori, whose file is late on
+        the server too and answers at once. Pori gets its own warning, not Orion's pending
+        state, and Orion's late answer repaints nothing on Pori. Back on the city, its slot
+        already holds the newer copy."""
+        self.srv.cfg.update(generated=hours_ago(1), area_delay=6.0, answered=None)
+        self.page.reload()
+        expect(self.stale).to_have_class("checking")
+        self.pick("promenadi")
+        # Pori's schedule is drawn; read its banner once, without retrying, while Orion's
+        # check is still out. A retrying expect would pass once Orion answered.
+        expect(self.credit).to_contain_text(stamp("2026-09-14T17:20:00Z"))
+        cls, text = self.stale.get_attribute("class") or "", self.stale.inner_text()
+        self.assertIsNone(self.srv.cfg["answered"], "Orion answered before Pori was drawn")
+        self.assertNotIn("checking", cls)
+        self.assertIn("Finnkino", text)
+        self.page.wait_for_timeout(6500)                  # Orion's answer lands here
+        expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
+        expect(self.stale).to_contain_text("Finnkino")
+        self.pick("helsinki")
+        expect(self.credit).to_contain_text(stamp(self.srv.cfg["generated"]))
         expect(self.stale).to_be_hidden()
 
 

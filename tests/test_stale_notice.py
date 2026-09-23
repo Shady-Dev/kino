@@ -86,6 +86,35 @@ class StaleNoticeTest(unittest.TestCase):
     def test_a_blank_provider_id_still_reports(self):
         self.assertEqual(self.r["blank_provider"]["providers"], [""])
 
+    # -- updateState: the warning waits for the worker's check ----------------------
+
+    def test_data_inside_the_window_shows_nothing_while_checking(self):
+        for key in ("u_not_late", "u_not_late_while_checking"):
+            with self.subTest(key):
+                self.assertEqual(self.r[key]["kind"], "none")
+
+    def test_late_data_with_every_check_answered_is_the_warning(self):
+        """A failed or offline check is an answer: the worker has nothing newer."""
+        self.assertEqual(self.r["u_late_answered"], {"kind": "stale", "waitMs": 0})
+
+    def test_late_data_behind_a_slow_check_reads_as_checking_until_the_cap(self):
+        self.assertEqual(self.r["u_late_checking"], {"kind": "checking", "waitMs": 7000})
+        self.assertEqual(self.r["u_late_just_under_cap"], {"kind": "checking", "waitMs": 1})
+
+    def test_the_cap_turns_a_check_that_never_answers_into_the_warning(self):
+        """An older worker posts no `checked`, and a stalled fetch never answers: past
+        8 s the page stops waiting and says what it holds."""
+        for key in ("u_late_at_cap", "u_late_past_cap"):
+            with self.subTest(key):
+                self.assertEqual(self.r[key], {"kind": "stale", "waitMs": 0})
+
+    def test_a_city_waits_on_its_oldest_outstanding_member(self):
+        self.assertEqual(self.r["u_city_oldest_sets_cap"], {"kind": "checking", "waitMs": 2000})
+        self.assertEqual(self.r["u_city_one_answered"], {"kind": "checking", "waitMs": 7000})
+
+    def test_a_check_for_the_cinema_left_behind_holds_nothing_here(self):
+        self.assertEqual(self.r["u_other_cinema_pending"], {"kind": "stale", "waitMs": 0})
+
 
 class StaleBannerWiringTest(unittest.TestCase):
     """What the banner does with that decision, read off the source."""
@@ -121,6 +150,13 @@ class StaleBannerWiringTest(unittest.TestCase):
     def test_all_three_interface_languages_have_both_labels(self):
         self.assertEqual(len(re.findall(r"staleSite:'", HTML)), 3)
         self.assertEqual(len(re.findall(r"staleStatus:'", HTML)), 3)
+        self.assertEqual(len(re.findall(r"checking:'", HTML)), 3)
+
+    def test_the_checking_state_is_capped_at_the_fetch_timeout(self):
+        """The harness's 8 s is the page's FETCH_MS: a check is given as long as the page
+        gives its own fetch before it gives up."""
+        self.assertIn("const FETCH_MS = 8000;", HTML)
+        self.assertRegex(HTML, r"updateState\(!!notice, [^;]*checking,\s*Date\.now\(\), FETCH_MS\)")
 
     def test_the_action_is_a_real_link_and_focusable(self):
         """A keyboard reaches an <a href>; a click handler on a span it does not."""

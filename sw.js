@@ -3,7 +3,7 @@
 // Data JSON is served from cache at once and refreshed behind, because waiting on the
 // network is the largest launch cost on a slow connection and the page reports its
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
-const CACHE = 'leffavuoro-v233';
+const CACHE = 'leffavuoro-v234';
 
 // This app's own caches and nothing else. The sweep below used to delete every key it
 // did not recognise, which on a shared origin is somebody else's storage.
@@ -54,21 +54,21 @@ self.addEventListener('fetch', e => {
         if (r.ok) {
           const c = await caches.open(CACHE);
           await c.put(e.request, r.clone());
-          // Tell the page fresher bytes landed, but only when it was handed the stale
-          // copy; a first fetch already returned this response. The page re-renders
-          // only on a real change.
-          if (cached) {
-            for (const cl of await self.clients.matchAll({ type: 'window' }))
-              cl.postMessage({ fresh: url.pathname });
-          }
         }
         return r;
       });
-      if (cached) {
-        e.waitUntil(refresh.catch(() => {}));
-        return cached;
-      }
-      return refresh;
+      // Every answer is reported as `checked`, a failure included: the page holds its
+      // stale warning while a check it asked for is outstanding. `fresh` says newer bytes
+      // landed, only when the page was handed the cached copy; a first fetch already
+      // returned this response. The page re-renders only on a real change.
+      const tell = async msg => {
+        for (const cl of await self.clients.matchAll({ type: 'window' })) cl.postMessage(msg);
+      };
+      e.waitUntil(refresh.then(
+        r => tell(r.ok && cached ? { fresh: url.pathname, checked: url.pathname, ok: true }
+                                 : { checked: url.pathname, ok: r.ok }),
+        () => tell({ checked: url.pathname, ok: false })).catch(() => {}));
+      return cached || refresh;
     })());
     return;
   }

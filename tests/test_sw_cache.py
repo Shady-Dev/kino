@@ -71,6 +71,40 @@ class ServiceWorkerCacheTest(unittest.TestCase):
     def test_a_non_get_is_left_alone(self):
         self.assertFalse(self.results["not_get"]["intercepted"])
 
+    # -- the background check is reported, whatever it answered ---------------------
+
+    def posted(self, name):
+        return self.results[name]["posted"]
+
+    def test_a_cached_file_is_answered_at_once_and_its_check_reported(self):
+        """The page gets the cached copy, and one message: newer bytes landed and the
+        check is done. `fresh` is what re-reads the slot; `checked` releases the banner."""
+        r = self.results["check_cached_200"]
+        self.assertEqual(r["body"], "old")
+        self.assertEqual(self.posted("check_cached_200"),
+                         [{"fresh": "/data/area-x.json", "checked": "/data/area-x.json", "ok": True}])
+
+    def test_a_failed_check_is_reported_and_says_nothing_is_fresh(self):
+        """A 500 or a dropped connection behind a cached copy: the page keeps what it has
+        and learns the check is over, so a late copy gets its warning without the wait."""
+        for name in ("check_cached_500", "check_cached_offline"):
+            with self.subTest(name):
+                self.assertEqual(self.results[name]["body"], "old")
+                self.assertEqual(self.posted(name), [{"checked": "/data/area-x.json", "ok": False}])
+
+    def test_a_first_fetch_reports_its_check_without_fresh(self):
+        """No cached copy: the response is the network's, so nothing is to re-read."""
+        self.assertEqual(self.posted("check_first_200"),
+                         [{"checked": "/data/area-x.json", "ok": True}])
+        r = self.results["check_first_offline"]
+        self.assertTrue(r["rejected"], "the page still sees the failure")
+        self.assertEqual(r["posted"], [{"checked": "/data/area-x.json", "ok": False}])
+
+    def test_only_data_files_are_reported(self):
+        for name in ("poster_200", "page_200"):
+            with self.subTest(name):
+                self.assertEqual(self.posted(name), [])
+
 
 ACTIVATE = pathlib.Path(__file__).resolve().parent / "sw_activate_harness.js"
 
