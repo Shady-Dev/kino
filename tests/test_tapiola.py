@@ -15,6 +15,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import build_pages as bp
+import common
 import registry
 import run
 import tapiola
@@ -70,6 +71,11 @@ def listing(rows):
 
 LISTING = listing(ROWS)
 EMPTY = listing("")
+# The same rows with the date line written another way: every film is still listed and
+# the parser reads no screening out of any of them.
+UNDATED = listing(ROWS.replace(" – Klo ", " klo "))
+# The same rows under a renamed row class: the container is there and ROW_RE finds nothing.
+RENAMED = listing(ROWS.replace('class="movie-list-movie ', 'class="movie-card '))
 NO_CONTAINER = "<!doctype html><html><body><main class=\"main\"><p>Huolto</p></main></body></html>"
 
 
@@ -181,10 +187,17 @@ class ListingTest(unittest.TestCase):
                           s["soldOut"], s["provider"], s["venue"], s["theatre"]),
                          ("", "", "", "", "", "", False, "tapiola", "tapiola-espoo", "Kino Tapiola"))
 
-    def test_an_empty_list_is_empty_and_a_missing_list_is_a_break(self):
-        self.assertEqual(tapiola.parse(EMPTY), [])
-        with self.assertRaises(RuntimeError):
-            tapiola.parse(NO_CONTAINER)
+    def test_no_screening_on_the_page_is_a_break(self):
+        """No empty state of this site has been seen, so zero rows is never read as an
+        empty programme. The `filter-no-results` phrase is no evidence either: the
+        populated listing carries it too, for the client-side filter."""
+        self.assertIn("filter-no-results", LISTING)
+        for name, page in (("empty list", EMPTY), ("no container", NO_CONTAINER),
+                           ("undated", UNDATED), ("renamed", RENAMED)):
+            with self.subTest(name):
+                with self.assertRaises(RuntimeError) as ctx:
+                    tapiola.parse(page)
+                self.assertNotIsInstance(ctx.exception, common.EmptyProgramme)
 
 
 class DetailsTest(unittest.TestCase):
@@ -293,19 +306,23 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("Kino Tapiola: 6 showtimes, 4 dates", log)
         self.assertIn("0 failures", log)
 
-    def test_a_confirmed_empty_programme_clears_old_screenings_and_stays_green(self):
+    def test_a_listing_with_no_readable_screening_fails_and_keeps_the_previous_file(self):
+        """An empty list and listed films the parser cannot read end the same way: the
+        site fails and the old screenings stay, never an empty file published fresh."""
+        self.assertFalse(hasattr(tapiola, "EMPTY_VENUES_CONFIRMED"))
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-tapiola-espoo.json").write_text(json.dumps(prev))
-        self.serve({tapiola.LISTING: EMPTY})
-        code, log = self.main()
-        self.assertEqual(code, 0, log)
-        area = json.loads((run.OUT / "area-tapiola-espoo.json").read_text())
-        self.assertEqual(area["shows"], [])
-        venues = json.loads((run.OUT / "venues-tapiola.json").read_text())
-        self.assertEqual((venues["status"], venues["pending"]), ("ok", ["tapiola-espoo"]))
-        self.assertIn("pending", log)
-        self.assertEqual(self.calls, [tapiola.LISTING])
+        for name, page in (("empty list", EMPTY), ("undated", UNDATED)):
+            with self.subTest(name):
+                (run.OUT / "area-tapiola-espoo.json").write_text(json.dumps(prev))
+                self.calls = []
+                self.serve({tapiola.LISTING: page})
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertIn("FAILED", log)
+                self.assertEqual(json.loads((run.OUT / "area-tapiola-espoo.json").read_text()), prev)
+                self.assertFalse((run.OUT / "venues-tapiola.json").exists())
+                self.assertEqual(self.calls, [tapiola.LISTING])
 
     def test_a_changed_template_fails_the_site_and_keeps_the_previous_file(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],

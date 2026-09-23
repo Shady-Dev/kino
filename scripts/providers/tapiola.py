@@ -23,8 +23,11 @@ Three things about this site that shape the parser:
   title and the film page shows a distributor image without any `og:image`. Neither is
   taken: posters come from TMDB, which is the poster rule since Heureka.
 
-An empty list is a confirmed empty programme only when the list container itself is on
-the page; a page without the container is a changed template and fails the venue.
+No empty state of this site has been seen, so a listing that yields no screening fails
+the site whether the list container is there or not. The container proves the page
+rendered, not that the cinema has nothing on: rows under a renamed class, or dates written
+another way, leave it standing and parse to nothing. The `filter-no-results` phrase is no
+evidence either, because the populated listing carries it too, for the client-side filter.
 """
 import datetime
 import html as html_mod
@@ -45,10 +48,8 @@ VENUE = {"id": "tapiola-espoo", "provider": "tapiola", "providerId": "1",
 
 SITES = [{"provider": "tapiola", "label": "Kino Tapiola", "base": BASE, "venues": [VENUE]}]
 
-# The list container is positive evidence: present with no rows means the programme is
-# empty for now (the page says "Ei näytöksiä valituilla suodatinkriteereillä" for the
-# filter case), absent means the template changed.
-EMPTY_VENUES_CONFIRMED = True
+# No EMPTY_VENUES_CONFIRMED here, on purpose: see the module docstring. The one venue
+# is never returned empty.
 
 CONTAINER_RE = re.compile(r'<div class="movie-list">', re.I)
 ROW_RE = re.compile(r'<div class="movie-list-movie([^"]*)">\s*<a href="([^"]+)">(.*?)</a>\s*</div>',
@@ -89,7 +90,8 @@ def _para(s):
 
 
 def parse(page):
-    """The listing -> [show]. Raises when the list container is missing."""
+    """The listing -> [show]. Raises when the list container is missing or no row on it
+    reads as a screening."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError("programme list container missing: the template has changed")
     shows, seen = [], set()
@@ -132,6 +134,10 @@ def parse(page):
             "provider": "tapiola",
             "venue": VENUE["id"],
         })
+    if not shows:
+        raise RuntimeError(f"no screening read from the programme list "
+                           f"({len(ROW_RE.findall(page))} row(s) matched): a changed template "
+                           f"or an empty programme, and no empty state of this site is known")
     shows.sort(key=lambda s: s["start"])
     return shows
 
@@ -215,11 +221,9 @@ def get_listing():
 
 
 def fetch_site(site=SITES[0]):
-    """Runner contract: one listing, one venue. An empty list with the container present
-    is a confirmed empty programme and is returned as such."""
+    """Runner contract: one listing, one venue. parse() raises rather than return none."""
     shows = parse(get_listing())
-    if shows:
-        enrich(shows)
+    enrich(shows)
     return {VENUE["id"]: shows}
 
 
