@@ -16,11 +16,11 @@
 [cloud] vaakuna: exit=0
 [cloud] kuvakukko: exit=0
 [cloud] kirkkonummi: exit=0
-[cloud] biosavoy: exit=1
+[cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
 [cloud] kinola: exit=0
 [cloud] johku: exit=0
-[cloud] tribe: exit=1
+[cloud] tribe: exit=0
 [cloud] hamina: exit=0
 [cloud] kinotour: exit=0
 [cloud] marita: exit=0
@@ -35,6 +35,6 @@
 [cloud] kinohuovi: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 229.1s wall, 1364.1s of fetching added up across workers that overlap, 71 site(s) fetched
-[cloud] held at most 32 fetched site(s) and 4571 byte(s) of captured log waiting for publication
-exit=1
+[cloud] 196.4s wall, 1142.4s of fetching added up across workers that overlap, 71 site(s) fetched
+[cloud] held at most 33 fetched site(s) and 4724 byte(s) of captured log waiting for publication
+exit=0
