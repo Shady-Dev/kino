@@ -143,9 +143,36 @@ class GuardTest(unittest.TestCase):
                         TOIJALA, TOIJALA["venues"][0])
         self.assertEqual([s["title"] for s in out], ["Y"])
 
-    def test_a_list_with_no_screening_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_a_list_with_no_screening_row_fails_rather_than_empties_the_venue(self):
+        """No empty state is recorded for this template: 'Valkokankaalla' heads the list
+        view whether or not it lists anything, so it is no evidence of an empty programme.
+        Zero rows fails until the real empty state is read off the site."""
+        with self.assertRaises(RuntimeError) as cm:
             tmb.parse(page(), TOIJALA, TOIJALA["venues"][0])
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_film_rows_the_parser_cannot_read_fail_the_site(self):
+        """The rows are there, with their film links, in a time format ROW_RE misses. That
+        is a template change, and an empty programme would delete the venue's screenings."""
+        with self.assertRaises(RuntimeError) as cm:
+            tmb.parse(page(row("TI", "15.09.2026", "14.00", "842", "Hetki ennen valoa"),
+                           row("KE", "16.09.2026", "17.30", "833", "Presidentin kyyditys")),
+                      TOIJALA, TOIJALA["venues"][0])
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("2 film link", str(cm.exception))
+
+    def test_rows_that_all_fail_the_weekday_guard_fail_the_site(self):
+        with self.assertRaises(RuntimeError) as cm, \
+                contextlib.redirect_stdout(io.StringIO()):
+            tmb.parse(page(row("LA", "15.09.2026", "18:00", "1", "A"),
+                           row("SU", "16.09.2026", "18:00", "2", "B")),
+                      TOIJALA, TOIJALA["venues"][0])
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_the_venue_is_never_vouched_empty(self):
+        """`EMPTY_VENUES_CONFIRMED` would publish a returned [] as a fresh empty file. This
+        adapter has no empty state to vouch with, so it raises instead and sets no flag."""
+        self.assertFalse(hasattr(tmb, "EMPTY_VENUES_CONFIRMED"))
 
     def test_a_page_without_the_container_is_a_failure_not_an_empty_programme(self):
         with self.assertRaises(RuntimeError) as cm:

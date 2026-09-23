@@ -100,8 +100,10 @@ the next date, so a row this parser cannot read would otherwise leave its price 
 the screening above it.
 
 
-A list view whose container is present with no screening row is a confirmed empty
-programme; a page without the container is a template change and fails the venue.
+A list view with no screening row fails the venue, as does a page without the
+'Valkokankaalla' heading. The heading shows the list view was served; it is not evidence
+that the cinema has nothing on. No empty state has been read off these sites, so none is
+recognised: `common.EmptyProgramme` is never raised here and no venue is vouched empty.
 """
 import datetime
 import html as html_mod
@@ -110,7 +112,7 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, capped, fetch, get_text, served
+from common import capped, fetch, get_text, served
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -129,10 +131,6 @@ SITES = [
                  "city": "Heinola"}]},
 ]
 
-# See the docstring: the list container is what separates "nothing on" from a changed
-# template, so an empty result is only ever published on its evidence.
-EMPTY_VENUES_CONFIRMED = True
-
 CONTAINER_RE = re.compile(r'Valkokankaalla', re.I)
 ROW_RE = re.compile(
     r'<small>\s*([A-ZÄÖ]{2})(?:&nbsp;|\s)(\d{1,2})\.(\d{1,2})\.(\d{4})\s*klo(?:&nbsp;|\s)'
@@ -140,6 +138,7 @@ ROW_RE = re.compile(
     r'<h2[^>]*>\s*<a\s+href="\?ohjelmisto=(\d+)"\s*>([^<]+)</a>\s*</h2>',
     re.S | re.I)
 AGE_RE = re.compile(r'ikaraja_(\w+)\.png', re.I)
+FILM_LINK_RE = re.compile(r'href="\?ohjelmisto=\d+"', re.I)
 SALI_RE = re.compile(r'sali(?:&nbsp;|\s)*([\w-]+)', re.I)
 
 # Measured against this repo's own committed ratings for films other providers also carry.
@@ -228,7 +227,10 @@ def parse(page, site, venue):
         print(f"[tmb] {site['provider']}: {wrong_day} row(s) whose weekday contradicts "
               f"their date, skipped")
     if not shows:
-        raise EmptyProgramme(f"{site['base']}/?lista=1 lists no screening")
+        raise RuntimeError(
+            f"{site['base']}/?lista=1: no screening row parsed from "
+            f"{len(FILM_LINK_RE.findall(page))} film link(s) ({served(page)}). No empty "
+            f"state is known for this template, so this is a parse or template failure")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
 
