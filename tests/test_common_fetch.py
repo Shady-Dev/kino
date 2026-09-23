@@ -12,6 +12,8 @@ import http.server
 import importlib
 import io
 import os
+import pathlib
+import tempfile
 import threading
 import time
 import unittest
@@ -20,6 +22,7 @@ import warnings
 
 import _ctx                                                # noqa: F401
 import common
+from _http_cache import temp_cache
 
 # An adapter binds the exception class at import time (`from common import
 # EmptyProgramme`), and a reload below rebinds it to a new class object. An adapter
@@ -38,10 +41,10 @@ def fresh_common(test, **env):
 
     The reload is in place, so every module holding `fetch` sees the override. The cleanup
     puts the environment back before it reloads: a reload with the override still set
-    re-reads it, which left KINO_MAX_BODY=500 in place for tests/test_engel.py.
-    KINO_HTTP_CACHE stays set: tests that pass `cache=True` without reloading rely on it
-    to keep out of the real validator cache.
+    re-reads it, which left KINO_MAX_BODY=500 in place for tests/test_engel.py. The
+    reloaded module reads its cache directory from a private one, put back the same way.
     """
+    temp_cache(test)
     saved = {k: os.environ.get(k) for k in LIMITS + tuple(env)}
 
     def restore():
@@ -56,8 +59,6 @@ def fresh_common(test, **env):
     for k in LIMITS:
         os.environ.pop(k, None)
     os.environ.update({k: str(v) for k, v in env.items()})
-    os.environ["KINO_HTTP_CACHE"] = os.path.join(
-        os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
     mod = importlib.reload(common)
     # The counters are what this reload is for. The exception type is not: keep the
     # class the adapters already hold, or an `except EmptyProgramme` elsewhere in the
@@ -123,6 +124,7 @@ class FetchTest(unittest.TestCase):
         sink = contextlib.redirect_stdout(io.StringIO())
         sink.__enter__()
         self.addCleanup(sink.__exit__, None, None, None)
+        temp_cache(self)
 
     def test_an_error_body_is_thrown_away_unless_the_caller_asks_for_it(self):
         """The default, and the one opt-in. `keep_body_on` exists for Kino Engel, whose
@@ -597,6 +599,7 @@ class GetTextTest(unittest.TestCase):
         sink = contextlib.redirect_stdout(io.StringIO())
         sink.__enter__()
         self.addCleanup(sink.__exit__, None, None, None)
+        temp_cache(self)          # get_text caches by default
 
     def test_it_returns_the_page_as_text(self):
         self.srv.script["/p"] = [(200, {}, "<h1>Näytökset</h1>".encode("utf-8"))]
@@ -671,6 +674,41 @@ class OverrideScopeTest(unittest.TestCase):
                 Inner().run(result)
                 self.assertEqual(result.errors + result.failures, [])
                 self.assertEqual((os.environ.get("KINO_MAX_BODY"), common.MAX_BODY), before)
+
+
+class CacheIsolationTest(unittest.TestCase):
+    """A test that caches brings its own directory, whichever test ran before it.
+
+    The caching tests run here inside throwaway suites, each alone and then all of them
+    forwards and backwards, with KINO_HTTP_CACHE unset and `common` pointed at a sentinel
+    that stands in for the real `.http-cache`: the state a test is in when nothing ran
+    before it.
+    """
+
+    def cases(self):
+        return ([FetchTest("test_a_kept_error_body_is_never_written_to_the_cache_slot")]
+                + list(unittest.defaultTestLoader.loadTestsFromTestCase(GetTextTest)))
+
+    def test_caching_tests_pass_in_any_order_and_leave_the_real_cache_alone(self):
+        saved_env, saved_dir = os.environ.pop("KINO_HTTP_CACHE", None), common.CACHE_DIR
+        self.addCleanup(setattr, common, "CACHE_DIR", saved_dir)
+        if saved_env is not None:
+            self.addCleanup(os.environ.__setitem__, "KINO_HTTP_CACHE", saved_env)
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        sentinel = common.CACHE_DIR = pathlib.Path(tmp.name) / "real-http-cache"
+        n = len(self.cases())
+        orders = [[i] for i in range(n)] + [list(range(n)), list(range(n))[::-1]]
+        for order in orders:
+            with self.subTest(order=order):
+                cases = self.cases()
+                result = unittest.TestResult()
+                unittest.TestSuite([cases[i] for i in order]).run(result)
+                self.assertEqual(result.errors + result.failures, [])
+                self.assertEqual(result.testsRun, len(order))
+                self.assertFalse(sentinel.exists(), "a caching test wrote the real cache")
+                self.assertNotIn("KINO_HTTP_CACHE", os.environ)
+                self.assertEqual(common.CACHE_DIR, sentinel)
 
 
 if __name__ == "__main__":

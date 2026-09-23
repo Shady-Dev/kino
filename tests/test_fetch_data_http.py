@@ -22,6 +22,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import common
+from _http_cache import temp_cache
 
 # An adapter binds `EmptyProgramme` at import time and `importlib.reload(common)` builds a
 # new class object, so a module imported earlier stops recognising what the reloaded one
@@ -79,8 +80,7 @@ class HttpGetTest(unittest.TestCase):
         for k in ("KINO_RETRY_AFTER_MAX", "KINO_RETRY_AFTER_BUDGET", "KINO_MAX_BODY"):
             os.environ.pop(k, None)
         os.environ.update({k: str(v) for k, v in env.items()})
-        os.environ["KINO_HTTP_CACHE"] = os.path.join(
-            os.environ.get("TMPDIR", "/tmp"), "kino-test-http-cache")
+        temp_cache(self)
         mod = importlib.reload(common)
         mod.EmptyProgramme = EMPTY_PROGRAMME
         old = fetch_data.common

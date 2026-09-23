@@ -101,5 +101,13 @@ the investigations these decisions rest on under [docs/research/](../research/).
   test and checks the environment and `common.MAX_BODY` afterwards, so it does not depend
   on file order. Engel's per-read `max_bytes` workaround came out with it.
   `tests/test_fetch_data_http.py` was already scoped: its cleanup pops the three limits
-  before reloading. `KINO_HTTP_CACHE` stays set in all three helpers on purpose, because
-  tests passing `cache=True` without a reload rely on it to stay out of `.http-cache`.
+  before reloading.
+- The same helpers set `KINO_HTTP_CACHE` to one shared `$TMPDIR` directory and never put
+  it back, and the tests that cache without reloading -- the kept-error test, and every
+  `get_text` call, whose default is `cache=True` -- stayed out of the real `.http-cache`
+  only because an earlier test had set it. Run first, the kept-error test wrote there.
+  Since 2026-09-23 `tests/_http_cache.temp_cache` gives each caching test its own
+  directory, points both the variable and `common.CACHE_DIR` at it, and restores both;
+  `FetchTest`, `GetTextTest`, `fresh_common` and `test_fetch_data_http` use it, and the
+  pool tests already had their own. `CacheIsolationTest` runs the caching tests alone,
+  forwards and backwards against a sentinel standing in for the real cache.
