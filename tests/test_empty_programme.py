@@ -22,6 +22,17 @@ SITE = {
 }
 
 
+TWO_VENUES = {
+    "provider": "fakechain", "label": "Fake Chain",
+    "venues": [{"id": "fc-a", "name": "Alpha", "short": "Alpha", "city": "Espoo"},
+               {"id": "fc-b", "name": "Beta", "short": "Beta", "city": "Espoo"}],
+}
+
+PREV = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
+        "horizon": "2026-08-02",
+        "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+
+
 class Mod:
     __name__ = "fakemod"
     SITES = [SITE]
@@ -43,7 +54,9 @@ class EmptyProgrammeTest(unittest.TestCase):
         run.OUT = pathlib.Path(self.tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", self._saved))
 
-    def run_mod(self, mod):
+    def run_mod(self, mod, site=None):
+        if site is not None:
+            mod.SITES = [site]
         import importlib
         real = importlib.import_module
         importlib.import_module = lambda name: mod if name == "fakemod" else real(name)
@@ -64,11 +77,16 @@ class EmptyProgrammeTest(unittest.TestCase):
         code = self.run_mod(Mod(RuntimeError("connection reset")))
         self.assertEqual(code, 1)
 
-    def test_an_empty_site_writes_no_venue_file(self):
-        """Nothing is stamped fresh for a site that produced nothing, so the health line
-        ages honestly instead of going green on an empty answer."""
-        self.run_mod(Mod(common.EmptyProgramme("nothing on")))
-        self.assertFalse((run.OUT / "venues-fakechain.json").exists())
+    def test_an_empty_programme_publishes_every_venue_empty_and_pending(self):
+        """The site answered that it has nothing on, so the record says so at once: fresh
+        empty files and every venue pending, the state Heureka's paused programme takes."""
+        self.run_mod(Mod(common.EmptyProgramme("nothing on")), TWO_VENUES)
+        for vid in ("fc-a", "fc-b"):
+            area = json.loads((run.OUT / f"area-{vid}.json").read_text(encoding="utf-8"))
+            self.assertEqual((area["shows"], area["dates"]), ([], []))
+        doc = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
+        self.assertEqual((doc["status"], doc["pending"], doc["stale"], doc["unverified"]),
+                         ("ok", ["fc-a", "fc-b"], [], []))
 
     def test_a_confirmed_empty_single_venue_module_exits_0_and_publishes_the_empty_venue(self):
         """A module that vouches for emptiness and reports its one venue empty: the run is
@@ -122,18 +140,22 @@ class EmptyProgrammeTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(importlib, "import_module", realimp))
         self.assertEqual(run.main(["fakemod", "--half", "local"]), 0)
 
-    def test_an_empty_site_does_not_wipe_data_it_published_before(self):
-        """The discriminator can be wrong -- a site that changed its markup so film
-        links stop matching looks identical to one with nothing on. Keeping the previous
-        file is what makes being wrong survivable."""
+    def test_an_empty_programme_clears_screenings_the_cinema_withdrew(self):
+        """Kept, the previous file went on offering screenings the cinema had taken down,
+        ticket links included, for as long as the listing stayed empty. EmptyProgramme is
+        raised only on the upstream's own empty state, so it is trusted like a confirmed
+        empty venue. Both venues had data; neither may keep it."""
         (run.OUT).mkdir(exist_ok=True)
-        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
-                "horizon": "2026-08-02",
-                "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
-        (run.OUT / "area-fc-a.json").write_text(json.dumps(prev), encoding="utf-8")
-        self.run_mod(Mod(common.EmptyProgramme("nothing on")))
-        after = json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8"))
-        self.assertEqual(after, prev)
+        for vid in ("fc-a", "fc-b"):
+            (run.OUT / f"area-{vid}.json").write_text(json.dumps(PREV), encoding="utf-8")
+        self.assertEqual(self.run_mod(Mod(common.EmptyProgramme("nothing on")), TWO_VENUES), 0)
+        for vid in ("fc-a", "fc-b"):
+            area = json.loads((run.OUT / f"area-{vid}.json").read_text(encoding="utf-8"))
+            self.assertEqual(area["shows"], [])
+            self.assertNotEqual(area["generated"], PREV["generated"])
+        doc = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
+        self.assertEqual((doc["pending"], doc["stale"]), (["fc-a", "fc-b"], []))
+        self.assertNotEqual(doc["oldest"], PREV["generated"])
 
 
 class NexxoEmptyTest(unittest.TestCase):
@@ -349,13 +371,15 @@ class EtikettiThroughRunTest(unittest.TestCase):
     def test_a_genuine_empty_programme_exits_zero(self):
         self.assertEqual(self.run_with(GENUINELY_EMPTY), 0)
 
-    def test_a_genuine_empty_programme_leaves_the_previous_data_untouched(self):
-        """Not deleted and not re-stamped: `generated` must stay old so the health line
-        ages honestly instead of going green on an empty answer."""
+    def test_a_genuine_empty_programme_clears_the_previous_data(self):
+        """The template's own empty state withdraws the old screenings: the file is
+        rewritten empty and fresh, and the provider file names the venue pending."""
         self.run_with(GENUINELY_EMPTY)
         after = json.loads((run.OUT / "area-fc-a.json").read_text(encoding="utf-8"))
-        self.assertEqual(after, self.PREV)
-        self.assertFalse((run.OUT / "venues-fakechain.json").exists())
+        self.assertEqual(after["shows"], [])
+        self.assertNotEqual(after["generated"], self.PREV["generated"])
+        doc = json.loads((run.OUT / "venues-fakechain.json").read_text(encoding="utf-8"))
+        self.assertEqual((doc["status"], doc["pending"]), ("ok", ["fc-a"]))
 
     def test_a_parser_break_fails_the_run(self):
         self.assertEqual(self.run_with(PARSER_BREAK), 1)

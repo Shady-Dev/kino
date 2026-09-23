@@ -58,7 +58,7 @@ between programmes. `empty_programme_evidence` requires all three conditions, th
 `kinola.py` uses, so a markup change underneath the row parser fails the site instead.
 
 On that evidence the venue is returned empty and `EMPTY_VENUES_CONFIRMED` publishes a
-fresh empty file rather than `common.EmptyProgramme`, which writes nothing. The gaps here
+fresh empty file. `common.EmptyProgramme` wrote nothing until 2026-09-24. The gaps here
 run for weeks, and keeping the last programme through one would age the health line into
 a warning about a cinema that is working exactly as it says. That is the case
 "Confirmed empty beats kept data" settled for Kino Metso's Muurame on 2026-09-05.

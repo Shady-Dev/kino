@@ -593,7 +593,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(dyyni["title"], "Dyyni: Osa kolme")
         self.assertIn("ENNAKKONÄYTÖS", dyyni["method"])
 
-    def test_an_empty_programme_keeps_the_previous_file_and_stays_green(self):
+    def test_an_empty_programme_clears_the_previous_file_and_stays_green(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01",
                 "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
@@ -601,11 +601,13 @@ class RunnerTest(unittest.TestCase):
         self.serve(self.all_pages(**{LA + "/": EMPTY_PAGE}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertEqual(json.loads((run.OUT / "area-laitilankino-laitila.json").read_text()),
-                         prev)
+        area = json.loads((run.OUT / "area-laitilankino-laitila.json").read_text())
+        self.assertEqual(area["shows"], [])
+        self.assertNotEqual(area["generated"], prev["generated"])
         self.assertIn("no programme published", log)
         self.assertIn("1 with no programme", log)
-        self.assertFalse((run.OUT / "venues-laitilankino.json").exists())
+        doc = json.loads((run.OUT / "venues-laitilankino.json").read_text())
+        self.assertEqual((doc["status"], doc["pending"]), ("ok", ["laitilankino-laitila"]))
 
     def test_a_page_that_still_lists_films_fails_its_site_and_keeps_the_previous_file(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],

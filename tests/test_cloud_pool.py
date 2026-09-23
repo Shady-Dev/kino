@@ -446,6 +446,41 @@ class FailureTest(CloudTestCase):
         self.assertIn("1 with no programme, 0 failures", logs["mod_a"])
         self.assertNotIn("no programme published", logs["mod_b"])
 
+    def test_an_empty_programme_clears_the_sites_previous_screenings(self):
+        """The coordinator publishes an empty programme as run.run_site does: every venue
+        rewritten empty and fresh, all of them pending, and the next site untouched."""
+        for i in range(2):
+            (self.out / f"area-a0-{i}.json").write_text(json.dumps(self.PREV),
+                                                        encoding="utf-8")
+        h = self.hosts(2, delay=0)
+        mods = [module("mod_a", P.site("a0", h.base(0), venues=2), empty=("a0",)),
+                module("mod_b", P.site("b0", h.base(1)))]
+        code, logs = self.cloud(mods)
+        self.assertEqual(code, 0)
+        for i in range(2):
+            area = json.loads((self.out / f"area-a0-{i}.json").read_text())
+            self.assertEqual(area["shows"], [])
+            self.assertNotEqual(area["generated"], self.PREV["generated"])
+        doc = json.loads((self.out / "venues-a0.json").read_text())
+        self.assertEqual((doc["status"], doc["pending"]), ("ok", ["a0-0", "a0-1"]))
+        self.assertIn("[a0] no programme published", logs["mod_a"])
+        self.assertEqual(len(json.loads((self.out / "area-b0-0.json").read_text())["shows"]), 1)
+
+    def test_an_empty_programme_that_cannot_be_written_fails_its_site(self):
+        real = run.publish_empty
+        def boom(*a, **kw):
+            raise OSError("disk full")
+        run.publish_empty = boom
+        self.addCleanup(lambda: setattr(run, "publish_empty", real))
+        h = self.hosts(2, delay=0)
+        mods = [module("mod_a", P.site("a0", h.base(0)), P.site("a1", h.base(1)),
+                       empty=("a0",))]
+        code, logs = self.cloud(mods)
+        self.assertEqual(code, 1)
+        self.assertIn("[a0] FAILED: disk full", logs["mod_a"])
+        self.assertNotIn("[a0] no programme published", logs["mod_a"])
+        self.assertTrue((self.out / "venues-a1.json").exists())
+
     def test_a_module_that_cannot_be_imported_fails_in_its_own_log(self):
         """An import or configuration failure is explicit, and the rest of the run still
         publishes -- which is what `set +e` in the shell loop gave."""

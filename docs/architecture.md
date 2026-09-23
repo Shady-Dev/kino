@@ -143,7 +143,8 @@ CI's drift check regenerates and requires a clean tree.
   authoritative record; the Actions logs are not, and are not read.
 - A provider that parses zero showtimes fails the run, which catches an empty parse that
   would otherwise leave old data ageing with no signal. The one exception is an adapter
-  raising `common.EmptyProgramme` after positive evidence of an empty listing.
+  raising `common.EmptyProgramme` after positive evidence of an empty listing. That site's
+  venues are published empty and `pending`, so screenings the cinema withdrew leave the page.
 - A failed venue writes no file, keeping the previous data, and is named `stale` in its
   provider file. `oldest` is the provider's weakest venue, which is what the app's health
   line ages on, so a provider is only as fresh as its worst cinema.

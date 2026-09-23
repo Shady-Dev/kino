@@ -53,7 +53,7 @@ Anything else -- a missing, renamed, unreadable or malformed category, or an end
 will not answer -- fails the site, which keeps the previous files and names it in the log.
 
 **Confirmed empty publishes a fresh empty file, it does not raise.** Until 2026-09-20 the
-quiet-week branch raised `common.EmptyProgramme`, which keeps the venue's previous area
+quiet-week branch raised `common.EmptyProgramme`, which at the time kept the venue's previous area
 file. That file then aged without its timestamp moving, so Tähti Kino read "Päivitys
 viivästynyt" on the status page for a cinema that simply had nothing on, and at 17 hours
 looked exactly like a venue nobody could reach. The evidence is positive, so it is

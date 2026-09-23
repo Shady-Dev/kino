@@ -243,6 +243,14 @@ def publish(it, now):
     A contract violation raises here rather than in the worker, which is the same site
     failure it always was: the files are left as they were and the log names the key.
     """
+    if isinstance(it.error, common.EmptyProgramme):
+        # Published like run.run_site does it, then still recorded as the empty programme
+        # it was. A write that fails here replaces the error and fails the site.
+        try:
+            run.publish_empty(it.mod, it.site, now, it.order)
+        except Exception as e:
+            it.error = e
+        return
     if it.error is not None:
         return
     try:

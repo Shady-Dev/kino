@@ -30,7 +30,8 @@ A venue with no shows is one of three things, checked in this order:
     parse that has never worked look the same here, so it stays visibly degraded.
 
 A fetch, schema or parse failure never reaches that loop: the site fails as a whole and
-every file it owns is left as it was. The provider file carries `status`, `stale`,
+every file it owns is left as it was. `common.EmptyProgramme` is not a failure: every venue
+is published empty and pending, and the site is logged as `no programme published`. The provider file carries `status`, `stale`,
 `unverified`, `pending` and `oldest`; the health line ages on `oldest`, so a provider is
 as fresh as its weakest venue with data. A site where every venue came back empty fails
 the run, unless every one was confirmed empty, in which case the file is written with
@@ -149,10 +150,28 @@ def run_site(mod, site, now, order=0):
     order, not whichever host answered first. Nothing else changed: this is still the whole
     of one site for every caller that fetches it itself.
     """
-    return publish_site(mod, site, mod.fetch_site(site), now, order)
+    try:
+        per_venue = mod.fetch_site(site)
+    except common.EmptyProgramme:
+        publish_empty(mod, site, now, order)
+        raise
+    return publish_site(mod, site, per_venue, now, order)
 
 
-def publish_site(mod, site, per_venue, now, order=0):
+def publish_empty(mod, site, now, order=0):
+    """Publish a site whose adapter raised `EmptyProgramme`: every venue empty and pending.
+
+    The exception is raised only on the upstream's own empty state, so it is the same
+    evidence `EMPTY_VENUES_CONFIRMED` gives for one venue, given for all of them. Keeping
+    the previous files, as this did until 2026-09-24, left the screenings a cinema had
+    withdrawn on the page with their ticket links. The caller still records the site as
+    `no programme published`.
+    """
+    return publish_site(mod, site, {v["id"]: [] for v in site["venues"]}, now, order,
+                        confirmed=True)
+
+
+def publish_site(mod, site, per_venue, now, order=0, confirmed=False):
     """Check, merge and write what one site's fetch returned.
 
     -> (venues_written, showtimes, stale, unverified, pending). Raises if the adapter's
@@ -162,6 +181,9 @@ def publish_site(mod, site, per_venue, now, order=0):
     sites publishing different synopses for one film are decided by SITES order rather
     than by which host answered first. A caller that fetches one site alone can leave it
     at 0.
+
+    `confirmed` vouches for every venue `per_venue` reports, as `EMPTY_VENUES_CONFIRMED`
+    does for a module; `publish_empty` is its one caller.
     """
     label = site.get("provider") or mod.__name__
     # Every show is checked against common.Show before a byte is written. An adapter
@@ -201,8 +223,9 @@ def publish_site(mod, site, per_venue, now, order=0):
             shows = per_venue.get(v["id"]) or []
             path = OUT / f"area-{v['id']}.json"
             prev_gen, prev_shows = previous(path)
-            confirmed = getattr(mod, "EMPTY_VENUES_CONFIRMED", False) and v["id"] in per_venue
-            if not shows and confirmed:
+            vouched = ((confirmed or getattr(mod, "EMPTY_VENUES_CONFIRMED", False))
+                       and v["id"] in per_venue)
+            if not shows and vouched:
                 # Positive evidence: the module promises that a venue it reported with an
                 # empty list is *known* empty -- the upstream answered in schema and listed
                 # nothing. Whether the venue had data before does not change that. A touring

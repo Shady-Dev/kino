@@ -846,6 +846,40 @@ writes nothing, because `run_sites` catches it above this.
 Tests: the four that pinned the withheld file now pin the record, `oldest` included. Four
 mutations, against `test_run_partial.py` and `test_etiketti_empty_venue.py`.
 
+### An empty programme clears withdrawn screenings (2026-09-24)
+Found by a review at c416446fd. Two defects that compound. Sixteen adapters raised
+`common.EmptyProgramme`, or returned a venue `[]` under `EMPTY_VENUES_CONFIRMED`, on zero
+parser matches while the page still listed films: Julia, Vaakuna, Kirkkonummi, TMB (four
+cinemas), Bio-Kaari, Bio Savoy, Iso-Hannu, Cine Mäntsälä (a date without an offset
+dropped until the list was empty), Nexxo (renumbered roomIds), eTiketti (a film page with
+no block found), Tapiola, Kinotour, Alatalo, Kuvakukko, Heureka and Navettakino. And on
+`EmptyProgramme` run.py left the files as they were, so a cinema that withdrew its
+screenings kept them on the page with ticket links.
+
+Fixed in that order. Each adapter now fails the site when film blocks, rows or listed
+dates were seen and none parsed, and keeps `EmptyProgramme` or a confirmed `[]` only for an
+empty state that is recorded, or for a venue beside rows parsed on the same page. Where no
+empty state was ever seen, zero rows fails; the list is in
+[docs/research/empty-states.md](../research/empty-states.md). Marita was audited and
+already met the rule. TMB, Iso-Hannu and Tapiola lost `EMPTY_VENUES_CONFIRMED`: each
+publishes one venue per site, so nothing on the page can vouch for it.
+
+This reverses "A quiet week is not a broken parser" (2026-08-30), which kept previous data
+"since the discriminator can be wrong". With the discriminator tightened to the upstream's
+own empty state, it is the same evidence `EMPTY_VENUES_CONFIRMED` already acts on for one
+venue, and "Confirmed empty beats kept data" (2026-09-05) settled that the evidence wins.
+`run.publish_empty` publishes every venue empty and `pending`; the log still says `no
+programme published`. `run_cloud.publish` does the same, and a failed write fails the site.
+
+Gaps left inside the rule: a Nexxo town whose room alone is renumbered while another town
+matches, and one Alatalo or Kuvakukko venue whose format changes while the other parses,
+are still published empty. Kinotour and Alatalo now fail a table whose rows all sit in
+undeclared towns.
+
+Tests: every adapter's own file, on edited copies of its fixture, each reproduced red
+before its fix; `test_empty_programme.py` and `test_cloud_pool.py` for the runner, four
+mutations red there. Every mutation across the bundle went red; none VOID.
+
 ### A screening note is not a synopsis (2026-09-03)
 Found by an external review: Cinema Niagara's sheet for "Keltaiset kirjeet" opened with
 Gilda's senior-screening paragraph, its price and its coffee.

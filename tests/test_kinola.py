@@ -1136,13 +1136,21 @@ class RunnerTest(unittest.TestCase):
     def laika(self, page):
         return self.both(**{"https://www.kinolaika.fi/ohjelmisto/": page})
 
-    def test_a_listing_with_no_screening_keeps_the_previous_file_and_stays_green(self):
+    def cleared(self, venue, provider):
+        """The previous screenings are gone and the provider file names the venue pending."""
+        area = json.loads((run.OUT / f"area-{venue}.json").read_text())
+        self.assertEqual(area["shows"], [])
+        self.assertNotEqual(area["generated"], self.PREV["generated"])
+        doc = json.loads((run.OUT / f"venues-{provider}.json").read_text())
+        self.assertEqual((doc["status"], doc["pending"]), ("ok", [venue]))
+
+    def test_a_listing_with_no_screening_clears_the_previous_file_and_stays_green(self):
         """The platform's own empty state, as read on kinokonepaja.fi."""
         self.with_previous()
         self.serve(self.laika(empty_listing()))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.unchanged()
+        self.cleared("laika-karkkila", "kinolaika")
         self.assertIn("no programme published", log)
         self.assertIn("empty state", log)
         self.assertTrue((run.OUT / "area-kilta-turku.json").exists())
@@ -1329,12 +1337,12 @@ class RunnerTest(unittest.TestCase):
         shows = json.loads((run.OUT / "area-myyri-vantaa.json").read_text())["shows"]
         self.assertEqual(len(shows), 2)
 
-    def test_myyri_empty_listing_keeps_the_previous_file_and_stays_green(self):
+    def test_myyri_empty_listing_clears_the_previous_file_and_stays_green(self):
         self.with_previous("myyri-vantaa")
         self.serve(self.myyri(empty_listing()))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.unchanged("myyri-vantaa")
+        self.cleared("myyri-vantaa", "kinomyyri")
         self.assertIn("no programme published", log)
 
     def test_a_myyri_row_that_cannot_be_placed_fails_that_site_only(self):
