@@ -723,14 +723,20 @@
   .stub .slang{flex:1 0 100%; white-space:normal; line-height:1.25; overflow-wrap:anywhere}
   /* The language line makes the compartment two rows, and a flex item centres inside its
      own row rather than the box: the Anniskelu glyph sat 8 px above the ticket's middle,
-     in both engines at 390 and 1200 (measured 2026-09-20). Out of the flow and centred on
-     the compartment instead; the padding keeps the text from running under it. */
-  /* Both selectors: `.stubs.grid .stub .aud` sets its own padding at a higher
-     specificity, so the reservation has to match it or the room runs under the glyph. */
+     in both engines at 390 and 1200 (measured 2026-09-20). The glyphs get a column of
+     their own spanning both rows, so they centre on the compartment and the text wraps
+     beside them. An absolute glyph with a fixed 24 px reservation fitted one glyph; A and
+     18+ together ran over the room and the language (reported 2026-09-23). Explicit rows
+     and `span 2`: a negative line number counts from the explicit grid in WebKit. */
+  /* Both selectors: `.stubs.grid .stub .aud` sets display and gap at a higher
+     specificity, so the grid has to be stated at that level too. */
   .stub .aud.twoline,
-  .stubs.grid .stub .aud.twoline{position:relative; padding-right:24px}
-  .stub .aud.twoline .glyphs{position:absolute; right:4px; top:50%;
-    transform:translateY(-50%); margin:0; padding-top:0}
+  .stubs.grid .stub .aud.twoline{display:grid; grid-template-columns:minmax(0,1fr) auto;
+    grid-template-rows:auto auto; gap:2px 6px; align-items:start; align-content:center}
+  .stub .aud.twoline .loc{grid-column:1; grid-row:1}
+  .stub .aud.twoline .slang{grid-column:1; grid-row:2}
+  .stub .aud.twoline .glyphs{grid-column:2; grid-row:1 / span 2; align-self:center;
+    margin:0; padding-top:0}
   /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
      The dashed seam is its left border and the notches are its own pseudo-elements,
      centred on that border, so the perforation is anchored to the price wherever the

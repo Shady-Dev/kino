@@ -92,21 +92,28 @@ class LangSplitTest(unittest.TestCase):
 
     def test_the_glyph_centres_on_the_whole_compartment_not_its_first_row(self):
         """Reported 2026-09-20: the Anniskelu A looked high on a ticket whose language
-        line made the compartment two rows. A flex item centres inside its own wrapped
-        row, so it sat 8 px above the ticket's middle in Chromium and WebKit alike at 390
-        and 1200. Taken out of the flow and centred on the compartment; measured 0 after."""
+        line made the compartment two rows, because a flex item centres inside its own
+        wrapped row. The glyphs now have a grid column spanning both rows, centred on it.
+        Explicit rows and `span 2`: a negative line counts from the explicit grid in
+        WebKit, which broke the landing pages on 2026-09-18."""
         rule = re.search(r"\.stub \.aud\.twoline \.glyphs\{(.*?)\}", HTML, re.S).group(1)
         flat = rule.replace(" ", "").replace("\n", "")
-        self.assertIn("position:absolute", flat)
-        self.assertIn("top:50%", flat)
-        self.assertIn("translateY(-50%)", flat)
+        self.assertIn("grid-column:2", flat)
+        self.assertIn("grid-row:1/span2", flat)
+        self.assertIn("align-self:center", flat)
+        self.assertNotIn("position:absolute", flat)
 
-    def test_the_room_cannot_run_under_that_glyph(self):
-        """`.stubs.grid .stub .aud` sets padding at a higher specificity, so the
-        reservation has to be stated at that level too or it is simply ignored."""
-        self.assertIn(".stubs.grid .stub .aud.twoline{position:relative; padding-right:24px}",
-                      HTML)
-        self.assertIn(".stub .aud.twoline,\n", HTML)
+    def test_the_room_and_language_cannot_run_under_the_glyphs(self):
+        """Reported 2026-09-23: an absolute glyph behind a fixed 24 px reservation fitted
+        one glyph, and A with 18+ covered the room and the language in the film view at
+        1200 in both engines. The text takes the first column, the glyphs the second, so
+        the reservation is whatever the glyphs measure. Both selectors, because
+        `.stubs.grid .stub .aud` sets display at a higher specificity."""
+        self.assertIn(".stub .aud.twoline,\n  .stubs.grid .stub .aud.twoline{display:grid; "
+                      "grid-template-columns:minmax(0,1fr) auto;", HTML)
+        self.assertIn(".stub .aud.twoline .loc{grid-column:1; grid-row:1}", HTML)
+        self.assertIn(".stub .aud.twoline .slang{grid-column:1; grid-row:2}", HTML)
+        self.assertNotIn("padding-right:24px", HTML)
 
     def test_it_reuses_the_existing_translation_helper(self):
         """No second language table: langTxt already localises fi, sv and en."""
