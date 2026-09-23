@@ -136,6 +136,40 @@ class BackgroundRefreshTest(unittest.TestCase):
         self.assertEqual(r["reads"], [])
         self.assertEqual(r["keys"], ["B"])
 
+    # -- a refresh that lands before its slot exists ----------------------------------------
+
+    def test_an_early_refresh_is_replayed_when_the_slot_is_filled(self):
+        """At boot the worker's refresh lands before loadSchedule fills the slot, which it
+        then fills with the older copy the prefetch was handed. The message reads nothing;
+        filling the slot reads the cached copy once and draws it."""
+        r = self.r["early_then_filled"]
+        self.assertEqual(r["readsAtMessage"], 0)
+        self.assertEqual(r["ids"], ["A"])
+        self.assertEqual(r["A"], A_NEW)
+        self.assertEqual(r["applied"], 1)
+        self.assertEqual((r["again"], r["reads"]), ([], 1), "replayed once, not per fill")
+
+    def test_an_early_refresh_of_a_city_member_rereads_the_city(self):
+        r = self.r["early_city_member"]
+        self.assertEqual(r["ids"], ["b"])
+        self.assertEqual(r["applied"], 1)
+        self.assertIn("Film at b, later", r["city"]["titles"])
+
+    def test_a_fill_with_no_early_refresh_reads_nothing(self):
+        r = self.r["filled_nothing_early"]
+        self.assertEqual((r["ids"], r["reads"], r["applied"]), ([], 0, 0))
+
+    def test_an_early_refresh_waits_for_its_own_slot_across_a_switch(self):
+        """The reader left A for B before A's slot existed. B's fill replays nothing of A;
+        A's fill later still takes the newer copy, and draws nothing over B."""
+        r = self.r["early_across_switch"]
+        self.assertEqual(r["onB"], [])
+        self.assertTrue(r["earlyA"])
+        self.assertEqual(r["onA"], ["A"])
+        self.assertEqual(r["A"], A_NEW)
+        self.assertEqual(r["B"], "2026-09-05T07:00:00+00:00")
+        self.assertEqual(r["applied"], 0, "A is not on screen")
+
     def test_a_slot_emptied_during_the_read_stays_empty(self):
         """refreshAll clears the whole cache and reloads the selection. A late write here
         would race that reload; the answer is to leave the slot to it."""

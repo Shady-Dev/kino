@@ -46,6 +46,7 @@ const PRELUDE = `
   let state = {};
   const jsonCache = {};
   let lastLoad = 0;
+  const swFilled = () => {};   // the worker's replay of an early refresh; tested in swr_refresh_harness.js
   const location = { search: '', hash: '' };
   const areaParamAfterSelect = () => null;
   const replaceQuery = () => {};

@@ -327,6 +327,59 @@ async function run() {
     out.nothing_held = { reads: s.reads.calls, applied: s.st.applied, keys: Object.keys(s.cache) };
   }
 
+  // ===== a refresh that lands before its slot exists ========================================
+  // The boot order that left a 24-hour-old schedule on screen: the worker answered the
+  // prefetch from its cache, its refresh landed while the page still waited on the venue
+  // lists, and loadSchedule then filled the slot with the older copy. filled() replays it.
+
+  // -- a venue: the message reads nothing, the fill replays it once --------------------------
+  {
+    store.clear(); store.set('data/area-A.json', A2);
+    const s = setup({ area: 'A', cached: true, cache: {} });
+    await s.handler('/data/area-A.json');
+    const readsAtMessage = s.reads.calls.length;
+    s.cache.A = clone(A1);                             // loadSchedule fills it, older copy
+    const ids = await s.handler.filled('A');
+    const again = await s.handler.filled('A');
+    out.early_then_filled = { readsAtMessage, ids, again, reads: s.reads.calls.length,
+                              applied: s.st.applied, A: s.cache.A.generated };
+  }
+
+  // -- a city member: the whole city is re-read ---------------------------------------------
+  {
+    store.clear(); store.set('data/area-a.json', a1); store.set('data/area-b.json', b2);
+    const s = setup({ area: 'city:X', cached: true, cache: {} });
+    await s.handler('/data/area-b.json');
+    s.cache['city:X'] = fold([a1, b1]);
+    const ids = await s.handler.filled('city:X');
+    out.early_city_member = { ids, applied: s.st.applied, city: summary(s.cache['city:X']) };
+  }
+
+  // -- a fill with no early message reads nothing --------------------------------------------
+  {
+    store.clear(); store.set('data/area-A.json', A2);
+    const s = setup({ area: 'A', cached: true, cache: { A: A1 } });
+    const ids = await s.handler.filled('A');
+    out.filled_nothing_early = { ids, reads: s.reads.calls.length, applied: s.st.applied };
+  }
+
+  // -- switching cinemas: A's early refresh waits for A's slot -------------------------------
+  // The reader moved to B before A's slot was filled. Filling B replays nothing of A's;
+  // A's slot, filled later, still gets the newer copy and draws nothing over B.
+  {
+    store.clear(); store.set('data/area-A.json', A2); store.set('data/area-B.json', B1);
+    const s = setup({ area: 'A', cached: true, cache: {} });
+    await s.handler('/data/area-A.json');
+    s.st.area = 'B';
+    s.cache.B = clone(B1);
+    const onB = await s.handler.filled('B');
+    const earlyA = s.handler.early('A');
+    s.cache.A = clone(A1);
+    const onA = await s.handler.filled('A');
+    out.early_across_switch = { onB, earlyA, onA, applied: s.st.applied,
+                                A: s.cache.A.generated, B: s.cache.B.generated };
+  }
+
   // ===== a combined city: every member counts ============================================
 
   // -- the fold itself: freshness is the oldest member's ----------------------------------

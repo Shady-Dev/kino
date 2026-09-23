@@ -2141,6 +2141,8 @@
   };
   // --- end url sinks ---
   const jsonCache = {};
+  // Set by the service-worker block: replays a refresh that landed before the slot existed.
+  let swFilled = () => {};
   let lastLoad = 0;      // when the schedule last came off the network; see refreshAll
   const FETCH_MS = 8000;
   // Boot-time speculation: every URL the boot needs is derivable before any response
@@ -3216,6 +3218,7 @@
           ? await loadGroup(area)
           : await fetchJSON(`data/area-${area}.json`);
         lastLoad = Date.now();   // only a real fetch counts; a cache hit proves nothing
+        swFilled(area);
       }
       // The reader may have moved on while this was in flight: Back to the chooser, or
       // another pick. The payload stays cached for the next visit; nothing is drawn.
@@ -5025,7 +5028,18 @@
         const g = io.groups();
         return Object.keys(io.cache).filter(a => a === venue || (g[a] || []).includes(venue));
       }
-      return function onFresh(path){
+      function start(area){
+        if(inflight.has(area)){ again.add(area); return inflight.get(area); }
+        const p = drain(area);
+        inflight.set(area, p);
+        return p;
+      }
+      // Venues whose refresh landed while no slot held them. At boot the schedule file is
+      // prefetched and answered from the worker's cache while the page still waits on the
+      // venue lists, so its refresh usually lands first, and loadSchedule then fills the
+      // slot with the older copy it was handed. It calls filled() once the slot exists.
+      const early = new Set();
+      function onFresh(path){
         // The film metadata file has its own store and its own change test.
         if(/\/data\/films-extra\.json$/.test(path || '')) return io.extra.fresh();
         const m = (path || '').match(/\/data\/area-(.+)\.json$/);
@@ -5036,13 +5050,21 @@
         // flight, come back, and the stale copy is what gets served. The re-read is a
         // Cache Storage read, so refreshing a slot nobody is looking at costs no request.
         // reread() decides on its own whether each answer is worth drawing.
-        return Promise.all(slotsFor(m[1]).map(area => {
-          if(inflight.has(area)){ again.add(area); return inflight.get(area); }
-          const p = drain(area);
-          inflight.set(area, p);
-          return p;
-        }));
+        const slots = slotsFor(m[1]);
+        if(!slots.length){ early.add(m[1]); return Promise.resolve(); }
+        return Promise.all(slots.map(start));
+      }
+      // A slot was just filled: re-read it from Cache Storage if a refresh for any of its
+      // files landed before it existed. -> the venue ids that were replayed.
+      onFresh.filled = async area => {
+        const ids = (io.groups()[area] || [area]).filter(id => early.has(id));
+        if(!ids.length) return [];
+        ids.forEach(id => early.delete(id));
+        await start(area);
+        return ids;
       };
+      onFresh.early = id => early.has(id);
+      return onFresh;
     }
     // --- end background refresh ---
     const onFresh = makeFreshHandler({
@@ -5057,6 +5079,7 @@
         loadSchedule();          // warm cache: runs synchronously to render, no spinner
       },
     });
+    swFilled = area => onFresh.filled(area).catch(() => {});
     navigator.serviceWorker.addEventListener('message', ev => onFresh((ev.data || {}).fresh || ''));
   }
 

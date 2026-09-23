@@ -49,6 +49,7 @@ const PRELUDE = `
   let state = {};
   const jsonCache = {};
   let lastLoad = 0;
+  const swFilled = () => {};   // the worker's replay of an early refresh; tested in swr_refresh_harness.js
   const location = { href: 'https://leffavuoro.fi/', search: '', hash: '' };
   const apply = (url) => { const u = new URL(url, 'https://leffavuoro.fi/'); location.href = u.href; location.search = u.search; location.hash = u.hash; };
   const history = { pushState(_s, _t, url){ calls.push('push ' + url); apply(url); },
