@@ -57,9 +57,14 @@ PHONE, TABLET, DESKTOP, WIDEST = 393, 768, 1200, 1600
 WIDTHS = (320, 375, PHONE, 560, TABLET, DESKTOP, WIDEST)
 
 
+# The second venue's room is long, so a city page's ticket wraps its facts at 320 and the
+# separator test has a line that starts with a fact.
+ROOMS = {"tv-1": "Sali 1", "tv-2": "Iso sali Dolby Atmos 2"}
+
+
 def show(vid, eid, title, clock, price="", img="", rating="", genres="", length="", lang=""):
     return {"eventId": eid, "title": title, "start": f"2026-09-14T{clock}:00+03:00",
-            "theatre": "Testikino", "aud": "Sali 1", "url": "https://example.invalid/t",
+            "theatre": "Testikino", "aud": ROOMS[vid], "url": "https://example.invalid/t",
             "img": img, "len": length, "rating": rating, "age": None, "genres": genres,
             "gids": [], "lang": lang, "price": price, "provider": "testi", "venue": vid}
 
@@ -123,7 +128,7 @@ class PagesLayoutTest(unittest.TestCase):
             {"generated": "2026-09-14T09:00:00+00:00", "areas": []}), encoding="utf-8")
         (data / "providers.json").write_text(json.dumps({"providers": [
             {"id": "testi", "label": "Testikino", "host": "example.invalid",
-             "accent": "#B8860B", "book": "buy"}]}), encoding="utf-8")
+             "accent": "#1F7A5C", "book": "buy"}]}), encoding="utf-8")
         (data / "tmdb-genres.json").write_text(json.dumps(
             {"fi": {}, "sv": {}, "en": {}}), encoding="utf-8")
         (data / "films-extra.json").write_text(json.dumps({"films": extra}), encoding="utf-8")
@@ -321,6 +326,44 @@ class PagesLayoutTest(unittest.TestCase):
                         self.assertGreater(r["times"]["x"], r["poster"]["r"] - TOL)
                     else:
                         self.assertLess(abs(r["times"]["w"] - r["film"]["w"]), TOL)
+
+    def test_the_city_page_separates_a_ticket_s_facts_with_squares(self):
+        """The cinema and the room are separate facts with a CSS square between them
+        (2026-09-23). A fact that starts a line hides its square, and hover turns the
+        squares and the top edge --accent while the chain's left edge stays."""
+        for w in (320, PHONE):
+            ctx = self.browser.new_context(viewport={"width": w, "height": 900})
+            self.addCleanup(ctx.close)
+            page = ctx.new_page()
+            page.goto(self.origin + "/kaupunki/testila/")
+            got = page.evaluate("""() => {
+              const R = e => e.getBoundingClientRect();
+              let shown = 0, opening = 0, wrapped = false;
+              for (const row of document.querySelectorAll('.fx')) {
+                const kids = [...row.children], clip = R(row.parentElement);
+                kids.forEach((k, i) => {
+                  if (i && R(kids[i - 1]).bottom <= R(k).top + 2) wrapped = true;
+                  if (!i || R(k).left + 3 < clip.left - 0.5) return;
+                  shown++;
+                  if (R(kids[i - 1]).bottom <= R(k).top + 2) opening++;
+                });
+              }
+              return { shown, opening, wrapped, dots: document.body.innerText.includes('\\u00b7') };
+            }""")
+            with self.subTest(width=w):
+                self.assertGreater(got["shown"], 0, got)
+                if w == 320:
+                    self.assertTrue(got["wrapped"], "the fixture no longer wraps a ticket")
+                self.assertEqual((got["opening"], got["dots"]), (0, False), got)
+        stub = page.locator("a.stub").first
+        rest_left = stub.evaluate("e => getComputedStyle(e).borderLeftColor")
+        accent = page.evaluate("""() => { const i = document.createElement('i');
+            i.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+            document.body.appendChild(i); const c = getComputedStyle(i).color; i.remove(); return c; }""")
+        stub.hover()
+        got = stub.evaluate("""e => [getComputedStyle(e).borderTopColor, getComputedStyle(e).borderLeftColor,
+            getComputedStyle(e.querySelector('.fx > span + span'), '::before').backgroundColor]""")
+        self.assertEqual(got, [accent, rest_left, accent])
 
 
 if __name__ == "__main__":

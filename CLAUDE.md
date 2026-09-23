@@ -352,7 +352,7 @@ that single run. Thirteen full runs in one two-hour block on 2026-09-20 cost 21 
 
 `tests/browser/` is a second suite, not discovered by the line above: 26 Playwright tests
 in `test_client_browser.py` that drive the venue picker and the ticket links in a real
-engine against fixture data and a pinned clock, plus the 11 in `test_pages_layout.py`
+engine against fixture data and a pinned clock, plus the 12 in `test_pages_layout.py`
 below, which the same discovery picks up. `test_update_check.py` is the one file that runs
 the service worker, against the stale banner, on the real clock, and
 `test_ticket_separators.py` serves its own data to drive the square separators between a

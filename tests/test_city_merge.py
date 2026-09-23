@@ -199,7 +199,8 @@ class WhatTheScreeningKeeps(unittest.TestCase):
                               start="2026-09-22T20:00:00+03:00")])
         # Each screening keeps its own line on its ticket (2026-09-23).
         self.assertIn('<span class="slang"><span class="lp"><span>suomi</span></span></span>', h)
-        self.assertIn('<span class="slang"><span class="lp"><span>englanti</span>'
+        self.assertIn('<span class="slang"><span class="lp"><span>englanti'
+                      '<span class="sr-only">, </span></span>'
                       '<span>tekstitys: suomi</span></span></span>', h)
 
 

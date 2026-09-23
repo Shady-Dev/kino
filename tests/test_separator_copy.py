@@ -6,8 +6,9 @@ accessible names. This pins the places where the site's own words live, and noth
 else: the providers' method strings use " \u00b7 " as an internal delimiter, which the
 client and the generator split on, and film titles, cinema names and synopses are
 third-party text that keeps whatever it carries. So this is not a scan of the sources:
-it reads the app's translation table and static markup, and the status and privacy
-pages, which hold neither delimiter code nor third-party text. The rendered tickets are covered in tests/browser/test_ticket_separators.py.
+it reads the app's translation table and static markup, the status and privacy pages
+(which hold neither delimiter code nor third-party text), and the generator's own
+templates. The rendered tickets are covered in tests/browser/test_ticket_separators.py.
 """
 import re
 import unittest
@@ -46,6 +47,31 @@ class StaticPagesTest(unittest.TestCase):
 
     def test_the_privacy_page_has_none(self):
         self.assertNotIn(DOT, (_ctx.ROOT / "tietosuoja/index.html").read_text(encoding="utf-8"))
+
+
+class GeneratorCopyTest(unittest.TestCase):
+    """The generated pages' own words: their language tables, stylesheet and subtitle."""
+
+    @classmethod
+    def setUpClass(cls):
+        import build_pages as bp
+        cls.bp = bp
+
+    def test_the_language_tables_have_none(self):
+        for lang, table in self.bp.L.items():
+            for key, value in table.items():
+                if isinstance(value, str):
+                    with self.subTest(lang=lang, key=key):
+                        self.assertNotIn(DOT, value)
+
+    def test_the_stylesheet_draws_no_dot(self):
+        self.assertNotRegex(self.bp.CSS, r"content:\s*['\"](\\+0*b7|" + DOT + ")")
+
+    def test_a_cinema_page_s_subtitle_is_two_spans(self):
+        self.assertEqual(self.bp.sub_html(("Pori", "finnkino.fi")),
+                         '<span class="city">Pori</span><span class="sr-only">, </span>'
+                         '<span class="host">finnkino.fi</span>')
+        self.assertEqual(self.bp.sub_html("12 teatteria"), "12 teatteria")
 
 
 if __name__ == "__main__":

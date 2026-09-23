@@ -69,14 +69,21 @@ AUD_RE = re.compile(r'<span class="aud">(.*?)</span><span class="price">', re.S)
 LP_RE = re.compile(r'<span class="slang"><span class="lp">(.*?)</span></span>$', re.S)
 
 
+SR_COMMA = '<span class="sr-only">, </span>'
+
+
 def split_aud(inner):
     """A stub's label -> (the inline label, its language line or ""). The language is the
-    stub's own line, two parts in one `.lp` row (see build_pages.lang_line)."""
+    stub's own line, two parts in one `.lp` row (see build_pages.lang_line). Both come back
+    in facts notation, see facts_of."""
     i = inner.find('<span class="slang">')
     if i < 0:
         return inner, ""
     lp = LP_RE.search(inner[i:])
-    return inner[:i], " \u00b7 ".join(text_of(x) for x in re.findall(r"<span>(.*?)</span>", lp.group(1)))
+    head = inner[:i]
+    if head.endswith(SR_COMMA):
+        head = head[:-len(SR_COMMA)]
+    return head, facts_of(lp.group(1))
 CANON_RE = re.compile(r'<link rel="canonical" href="([^"]+)">')
 LANGSEG_RE = re.compile(r'<nav class="langseg"[^>]*>(.*?)</nav>', re.S)
 RAW_CODE_RE = re.compile(r"\b[A-Z]{2}(?:-[A-Z]{2})?-[AS]\b")
@@ -87,7 +94,15 @@ STUB_RE = re.compile(r'<li><(?:a|span) class="stub[^"]*"[^>]*>(.*?)</li>', re.S)
 
 
 def text_of(html):
-    return re.sub(r"<[^>]+>", "", html)
+    """What a reader sees: tags and the screen-reader-only text removed."""
+    return re.sub(r"<[^>]+>", "", re.sub(r'<span class="sr-only">.*?</span>', "", html))
+
+
+def facts_of(html):
+    """A stub's facts written " \u00b7 "-separated, the notation these tests use. The page
+    draws a CSS square between two facts and gives each but the last a hidden comma
+    (2026-09-23), so the comma is where a fact ends."""
+    return text_of(html.replace(SR_COMMA, " \u00b7 "))
 
 
 class GeneratedPagesTest(unittest.TestCase):
@@ -571,7 +586,7 @@ class GeneratedPagesTest(unittest.TestCase):
                 self.assertTrue(stubs, k)
                 checked += 1
                 for st in stubs:
-                    m = re.search(r"<span class=v>(.*?)</span>", st)
+                    m = re.search(r"<span class=v>(.*?)(?:<span class=\"sr-only\">, </span>)?</span>", st)
                     self.assertIsNotNone(m, (k, text_of(st)))
                     self.assertIn(html.unescape(m.group(1)), labels, (k, text_of(st)))
         # So a window that emptied every city page cannot pass this vacuously.
@@ -581,7 +596,8 @@ class GeneratedPagesTest(unittest.TestCase):
         for k, text in self.canonical.items():
             with self.subTest(path=k):
                 for aud in AUD_RE.findall(text):
-                    plain = text_of(aud)
+                    self.assertNotIn("·", text_of(aud), "the separator is a CSS square")
+                    plain = facts_of(aud)
                     self.assertFalse(plain.startswith("·") or plain.startswith(" ·"), plain)
                     self.assertFalse(plain.endswith("·") or plain.endswith("· "), plain)
                     self.assertNotIn("· ·", plain)
@@ -919,7 +935,7 @@ class StubShapeTest(unittest.TestCase):
         html = bp.film_block(s["title"], [s], {}, {}, lang, bp.L[lang], with_venue, set(),
                              current_year=YEAR_NOW)
         m = AUD_RE.search(html)
-        return text_of(split_aud(m.group(1))[0]) if m else None
+        return facts_of(split_aud(m.group(1))[0]) if m else None
 
     def block(self, shows, with_venue, lang="fi"):
         return bp.film_block(shows[0]["title"], shows, {}, {}, lang, bp.L[lang], with_venue, set(),
@@ -930,7 +946,7 @@ class StubShapeTest(unittest.TestCase):
         return [text_of(x) for x in re.findall(r"<span>(.*?)</span>", m.group(1))] if m else []
 
     def stub_texts(self, html):
-        return [text_of(split_aud(a)[0]) for a in AUD_RE.findall(html)]
+        return [facts_of(split_aud(a)[0]) for a in AUD_RE.findall(html)]
 
     def lang_texts(self, html):
         return [split_aud(a)[1] for a in AUD_RE.findall(html)]
@@ -1089,18 +1105,18 @@ class StubShapeTest(unittest.TestCase):
                  self.show(start="2026-09-02T19:00:00+03:00", rating="K-12", tmdb=7.1, votes=41)]
         html = self.block(shows, False)
         self.assertIn('<span class="rating">K-12</span>', html)
-        self.assertIn('aria-label="TMDB 7.1/10 · 41 ääntä"', html)
+        self.assertIn('aria-label="TMDB-arvio 7,1/10, 41 ääntä"', html)
 
     def test_the_score_is_the_apps_ring_with_an_accessible_label(self):
         html = self.block([self.show(tmdb=7.1, votes=41)], False)
-        self.assertIn('<span class="ring" role="img" style="--v:71" title="TMDB 7.1/10 · 41 ääntä" '
-                      'aria-label="TMDB 7.1/10 · 41 ääntä"><b>7.1</b></span><span class="votes">41</span>', html)
+        self.assertIn('<span class="ring" role="img" style="--v:71" title="TMDB-arvio 7,1/10, 41 ääntä" '
+                      'aria-label="TMDB-arvio 7,1/10, 41 ääntä"><b>7.1</b></span><span class="votes">41</span>', html)
         thin = self.block([self.show(tmdb=6.4, votes=12)], False, "en")
         self.assertIn('class="ring thin"', thin)
-        self.assertIn("TMDB 6.4/10 · 12 votes", thin)
+        self.assertIn("TMDB rating 6.4/10 from 12 votes", thin)
         self.assertIn(">1.2k<", self.block([self.show(tmdb=8.0, votes=1234)], False))
         self.assertNotIn("ring", self.block([self.show(tmdb=None)], False))
-        self.assertIn('aria-label="TMDB 7.1/10"><b>7.1</b></span>', self.block([self.show(tmdb=7.1, votes=None)], False))
+        self.assertIn('aria-label="TMDB-arvio 7,1/10"><b>7.1</b></span>', self.block([self.show(tmdb=7.1, votes=None)], False))
 
     def test_an_empty_room_leaves_no_separator(self):
         shows = [self.show(aud="", lang="FI-A"), self.show(aud="", lang="EN-A", start="2026-09-02T19:00:00+03:00")]

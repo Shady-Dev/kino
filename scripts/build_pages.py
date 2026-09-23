@@ -124,7 +124,6 @@ L = {
         "city_desc": "{city}: Mit\u00e4 elokuvia l\u00e4hip\u00e4ivin\u00e4 esitet\u00e4\u00e4n? Vertaa "
                      "elokuvateatterien n\u00e4yt\u00f6saikoja, ik\u00e4rajoja, kieli\u00e4 ja "
                      "saatavilla olevia lippulinkkej\u00e4.",
-        "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} teatteria",
         # One sentence per booking mode, from the registry's `book` field. The old copy
         # promised a ticket page for every cinema, which was wrong for Kino Akseli (no
@@ -157,7 +156,9 @@ L = {
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys: {}", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
-        "from": "alkaen", "votes": "\u00e4\u00e4nt\u00e4",
+        "from": "alkaen", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
+        "rtgN": "TMDB-arvio {v}/10, {n} \u00e4\u00e4nt\u00e4", "rtg1": "TMDB-arvio {v}/10, 1 \u00e4\u00e4ni",
+        "dec": ",",
         "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
                    "kuvaukset: TMDB. Henkil\u00f6kohtainen harrastusprojekti, ei "
                    "sidoksissa teattereihin.",
@@ -187,7 +188,6 @@ L = {
         "city_desc": "{city}: vilka filmer visas de n\u00e4rmaste dagarna? J\u00e4mf\u00f6r "
                      "biografernas visningstider, \u00e5ldersgr\u00e4nser, spr\u00e5k och "
                      "tillg\u00e4ngliga biljettl\u00e4nkar.",
-        "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} biografer",
         "intro_buy": "Se visningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid f\u00f6r att "
                      "komma till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
@@ -213,7 +213,9 @@ L = {
         "city_link": "Alla biografer \u2013 {city}",
         "subs": "textning: {}", "subs_lead": "Textning: {}", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
-        "from": "fr\u00e5n", "votes": "r\u00f6ster",
+        "from": "fr\u00e5n", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
+        "rtgN": "TMDB-betyg {v}/10, {n} r\u00f6ster", "rtg1": "TMDB-betyg {v}/10, 1 r\u00f6st",
+        "dec": ",",
         "sources": "Visningstider: varje biografs eget program. Betyg och "
                    "beskrivningar: TMDB. Ett personligt hobbyprojekt, utan koppling "
                    "till biograferna.",
@@ -242,7 +244,6 @@ L = {
         "city_desc": "What\u2019s showing in {city} over the next few days? Compare cinema "
                      "showtimes, age ratings, languages and available ticket links in "
                      "one view.",
-        "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} cinemas",
         "intro_buy": "See showtimes for the next few days. Choose a time to buy tickets "
                      "on {host}.",
@@ -266,7 +267,9 @@ L = {
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "lang_nav": "Language",
         "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
-        "from": "from", "votes": "votes",
+        "from": "from", "votes": "votes", "rtg": "TMDB rating {v}/10",
+        "rtgN": "TMDB rating {v}/10 from {n} votes", "rtg1": "TMDB rating {v}/10 from 1 vote",
+        "dec": ".",
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
                    "TMDB. A personal hobby project, unaffiliated with the cinemas.",
         "contact": "For cinemas: enquiries and removal requests",
@@ -421,13 +424,15 @@ def short_votes(n):
 
 def score_ring(tmdb, votes, t):
     """The app's ring, as static markup: arc for the glance, number for the value, vote
-    count beside it. `role="img"` so the label is read as one thing: "TMDB 7.1/10 · 41
-    ääntä". No `aggregateRating` in the JSON-LD, see the module docstring."""
+    count beside it. `role="img"` so the label is read as one thing, a phrase in the page's
+    language with its own decimal sign: "TMDB-arvio 7,1/10, 41 ääntä", the app's `scoreRing`.
+    No `aggregateRating` in the JSON-LD, see the module docstring."""
     if not tmdb:
         return ""
     n = int(votes or 0)
     thin = " thin" if n and n < VOTE_SOLID else ""
-    lbl = f"TMDB {tmdb}/10" + (f" \u00b7 {n} {t['votes']}" if n else "")
+    lbl = t["rtg1" if n == 1 else "rtgN" if n else "rtg"].format(
+        v=str(tmdb).replace(".", t["dec"]), n=n)
     return (f'<span class="ring{thin}" role="img" style="--v:{round(float(tmdb) * 10)}" '
             f'title="{esc(lbl)}" aria-label="{esc(lbl)}"><b>{esc(tmdb)}</b></span>'
             + (f'<span class="votes">{esc(short_votes(n))}</span>' if n else ""))
@@ -499,6 +504,9 @@ html:not([data-theme]) #themeToggle{display:none}
 .langseg a:hover{color:var(--ink)}
 h1{font-size:1.5rem;font-weight:800;line-height:1.2;letter-spacing:-.01em;margin:22px 0 4px}
 .sub{color:var(--muted);font-size:.9rem}
+.sub .city{color:var(--ink);font-weight:600}
+.sub .host{margin-left:14px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .intro{color:var(--muted);margin:12px 0 14px}
 .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:48px;padding:0 16px;border-radius:10px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:1rem;font-weight:800;line-height:1.3;white-space:nowrap;box-shadow:var(--shadow)}
 .cta .arr{flex:0 0 auto}
@@ -536,17 +544,16 @@ h3{font-size:1.15rem;font-weight:800;line-height:1.25;letter-spacing:-.01em}
 .stub .aud{flex-wrap:wrap;gap:0 4px}
 .stub .aud .a{white-space:nowrap}
 .stub .aud .slang{flex:1 0 100%;overflow:hidden;min-width:0;line-height:1.25}
-.stub .aud .slang .lp{display:flex;flex-wrap:wrap;margin-left:-.9em}
-.stub .aud .slang .lp>span{position:relative;padding-left:.9em;min-width:0;overflow-wrap:anywhere}
-.stub .aud .slang .lp>span+span::before{content:"\\b7";position:absolute;left:.25em}
+.stub .aud .loc{flex:1 0 100%;overflow:hidden;min-width:0}
+.fx,.stub .aud .slang .lp{display:flex;flex-wrap:wrap;margin-left:-9px;min-width:0}
+.fx>span,.stub .aud .slang .lp>span{position:relative;padding-left:9px;min-width:0;overflow-wrap:anywhere}
+.fx>span+span::before,.stub .aud .slang .lp>span+span::before{content:"";display:inline-block;vertical-align:middle;width:3px;height:3px;margin:0 3px 0 -6px;border-radius:.5px;background:var(--sq,var(--muted));opacity:.72}
 .stub .price{flex:0 0 56px;width:56px;box-sizing:border-box;align-self:stretch;display:flex;align-items:center;justify-content:center;padding:0 4px;border-left:1px dashed var(--line);text-align:center;white-space:normal;font-size:.78rem;font-weight:700;line-height:1.1;color:var(--ink);position:relative}
 .stub .price::before,.stub .price::after{content:"";position:absolute;left:-4px;width:8px;height:8px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
 .stub .price:empty{flex:0 0 16px;width:16px;padding:0}
 .grid .stub .price:empty{width:16px;min-width:16px;padding:0}
-.stub:hover .price{color:var(--bg)}
-.stub:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.stub:hover .aud{color:var(--bg);opacity:.75}
+.stub:hover,.stub:active,.stub:focus-visible{--sq:var(--accent);border-top-color:var(--accent);border-right-color:var(--accent);border-bottom-color:var(--accent)}
 .also{margin-top:24px}
 .also h2{font-size:.95rem;font-weight:800;margin-bottom:10px}
 .also ul{list-style:none;display:flex;flex-wrap:wrap;gap:0 20px}
@@ -933,25 +940,34 @@ def stub_parts(s, with_venue, lang, own_tags=()):
     return [(c, t) for c, t in parts if t]
 
 
-def lang_line(s, lang):
+def lang_line(s, lang, after=False):
     """A screening's audio and subtitles as the stub's own line, the app's `slangHtml`:
     two parts that share a line while they fit and take one each when they do not. ""
     when the screening states no language, so the line is left out rather than guessed.
-    Every stub that has one carries it and the card never does (2026-09-23)."""
+    Every stub that has one carries it and the card never does (2026-09-23). `after`: the
+    stub's other facts precede it, so a hidden comma separates the two blocks."""
     parts = lang_parts(s.get("lang"), lang)
     if not parts:
         return ""
-    return ('<span class="slang"><span class="lp">'
-            + "".join(f"<span>{esc(p).replace('/', '/<wbr>')}</span>" for p in parts)
+    last = len(parts) - 1
+    return ((SR_COMMA if after else "") + '<span class="slang"><span class="lp">'
+            + "".join(f"<span>{esc(p).replace('/', '/<wbr>')}{SR_COMMA if i < last else ''}</span>"
+                      for i, p in enumerate(parts))
             + "</span></span>")
 
 
-def _part(cls, text):
+# A stub's facts are separate elements with a CSS square between two (`.fx`), the app's
+# factSpans: each but the last ends in a visually hidden comma, so a screen reader does not
+# run two facts together, and no separator is text that could open or end a line.
+SR_COMMA = '<span class="sr-only">, </span>'
+
+
+def _part(cls, text, more=False):
     """One label part. A language phrase joins names with "/", which Chrome will not break
     after on its own, so a six-language screening would clip in a 206 px column; a <wbr>
-    after each slash is a break opportunity and no text."""
+    after each slash is a break opportunity and no text. `more`: another fact follows."""
     body = esc(text).replace("/", "/<wbr>") if cls == "l" else esc(text)
-    return f"<span class={cls}>{body}</span>"
+    return f"<span class={cls}>{body}{SR_COMMA if more else ''}</span>"
 
 
 # A film's own first release year, published as `oyear` by enrich_tmdb from an exact
@@ -1037,7 +1053,10 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
         own_tags = (stub_tags([f for f in tags_of(s) if f not in shared_tags], s.get("aud"))
                     if with_venue else [])
         parts = stub_parts(s, with_venue, lang, own_tags=own_tags)
-        inline, line = " \u00b7 ".join(_part(c, x) for c, x in parts), lang_line(s, lang)
+        inline = ('<span class="loc"><span class="fx">'
+                  + "".join(_part(c, x, i < len(parts) - 1) for i, (c, x) in enumerate(parts))
+                  + "</span></span>") if parts else ""
+        line = lang_line(s, lang, after=bool(parts))
         aud = f'<span class="aud">{inline}{line}</span>' if inline or line else ""
         # Always emitted, so the markup is one shape; an empty compartment (`:empty`) narrows
         # to a 16 px tail and keeps its seam and notches in both layouts (2026-09-13, v153).
@@ -1169,6 +1188,17 @@ def lang_switch(lang, paths, t):
             + "".join(seg(c) for c in LANGS) + "</nav>")
 
 
+def sub_html(sub):
+    """The line under the heading. A cinema page's is its city and the cinema's own host,
+    set apart by spacing and type rather than a separator character; a city page's is a
+    plain count."""
+    if isinstance(sub, tuple):
+        city, host = sub
+        return (f'<span class="city">{esc(city)}</span>'
+                + (f'{SR_COMMA}<span class="host">{esc(host)}</span>' if host else ""))
+    return esc(sub)
+
+
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
          next_day=""):
@@ -1237,7 +1267,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <header><div class="bar" data-nosnippet><a class="logo" href="/?lang={lang}">Leffavuoro<span>.</span></a>{lang_switch(lang, paths, t)}<button id="themeToggle" type="button" title="{esc(t['theme'])}" aria-label="{esc(t['a_theme'])}">\u25d0</button></div></header>
 <main>
 <h1>{esc(h1)}</h1>
-<p class="sub">{esc(sub)}</p>
+<p class="sub">{sub_html(sub)}</p>
 <p class="intro"><span data-nosnippet>{esc(intro)}</span></p>
 {cta}
 {legend}
@@ -1467,7 +1497,7 @@ def main(today=None) -> int:
                 title=t["venue_title"].format(venue=v["label"], city=v["city"]),
                 desc=venue_desc(t, v["label"], v["city"], prov.get("book")),
                 h1=t["venue_h1"].format(venue=v["label"]),
-                sub=t["venue_sub"].format(city=v["city"], host=prov.get("host", "")),
+                sub=(v["city"], prov.get("host", "")),
                 intro=" ".join(x for x in (
                     venue_intro(t, prov.get("book"), prov.get("host", "")),
                     age_note(t, [s for d in days.values() for sh in d.values() for s in sh]))

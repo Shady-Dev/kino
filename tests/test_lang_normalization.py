@@ -198,7 +198,7 @@ class SwedishSubtitleLabelTest(unittest.TestCase):
         import build_pages as bp
         self.assertIn("<span>Textning: finska/<wbr>svenska</span>",
                       bp.lang_line({"aud": "Sali 2", "lang": "FI-S, SV-S"}, "sv"))
-        self.assertIn("<span>engelska</span><span>textning: finska</span>",
+        self.assertIn('<span>engelska<span class="sr-only">, </span></span><span>textning: finska</span>',
                       bp.lang_line({"lang": "EN-A, FI-S"}, "sv"))
         self.assertEqual(bp.lang_line({"lang": ""}, "sv"), "")
         self.assertEqual(bp.stub_parts({"aud": "Sali 2", "lang": "FI-S"}, False, "sv"),
