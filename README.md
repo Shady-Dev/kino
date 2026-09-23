@@ -268,10 +268,11 @@ in, and the app's saved favourite is left alone. The wordmark carries the
 language too.
 
 The pages share the app's design: wordmark, the same self-hosted Archivo,
-light and dark tokens following the OS, the FI · SV · EN selector and
+light and dark tokens following the OS, the FI, SV and EN selector and
 ticket-shaped showtimes. The card is the app's card, and a price sits on the
 screening's ticket, never on the film. A theatre page's ticket ends in a 56 px
-price compartment, blank when the cinema publishes none; a city page's ticket
+price compartment, narrowed to a 16 px tail with the same seam and notches when the
+cinema publishes none; a city page's ticket
 puts a 64 px time compartment first, then cinema and room, with a colour rule
 per chain. All three languages carry the same page for the same cinema or
 city, so the selector changes the language and nothing else. The theme toggle

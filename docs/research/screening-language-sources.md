@@ -41,8 +41,8 @@ item is in [IDEAS.md](../../IDEAS.md).
 - Orion's is film-level, so one page per film (18 requests a run, paced) and the same
   value on every screening of that film. Orion is a single screen, so a per-screening
   difference would be unusual; unverified.
-- Both publish Finnish names, not codes: mapping them back through the client's
-  `LN.fi` table gives the codes `langTxt` already renders.
+- Both publish the languages as Finnish names. The adapters map the names to codes, and
+  the client displays the codes through `langParts`.
 - Reaching the Helios ticket shop would need a browser fingerprint, which the project
   does not do. Helios stays without language unless its calendar service adds a field.
 

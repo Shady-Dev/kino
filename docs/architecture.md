@@ -111,6 +111,15 @@ One file, no framework, no router. It reads static JSON from this origin and has
 that calls a cinema. `sw.js` serves data JSON stale and revalidates behind, and its `CACHE`
 version must be bumped in every commit that touches `index.html`.
 
+After every data-file answer the worker posts `{checked, ok}` to the page, failures
+included, and adds `fresh` when it had handed the page a cached copy and newer bytes are
+now in Cache Storage. The page answers a message from Cache Storage only, never with a
+fetch. A refresh that lands before the page has filled the slot it feeds is replayed once
+the slot exists (`onFresh.filled`). The stale banner waits on those checks: late data on
+screen shows a neutral "checking" state until every file behind the selection has been
+answered or `FETCH_MS` has passed (`updateState`), so a copy about to be replaced is not
+announced as late.
+
 Two rules the client's correctness rests on: provider text is escaped at every `innerHTML`
 interpolation and every provider URL goes through `safeUrl()`; and anything the language
 toggle can reach must be redrawn by `applyLang()`. Behaviour that can be decided away from
