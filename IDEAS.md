@@ -209,6 +209,9 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   the page's design, so they stay proposals. The cinema list is already on the page, at the
   bottom; the report route is already there and stays separate from any feedback link.
 
+- The screening's language on the Ajat ticket. **Declined 2026-09-23 by the maintainer:**
+  it would widen the 120 px ticket to about 250 and leave a 320 px phone about 20 px of
+  title. Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 - Sparse-date dimming in the date picker: `<input type="date">` cannot disable individual
   days without a custom picker.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The
