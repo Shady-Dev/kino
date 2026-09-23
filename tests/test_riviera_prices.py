@@ -133,7 +133,7 @@ class EnrichmentTest(unittest.TestCase):
                          [(TICKETS + "1", "20€"), (TICKETS + "2", "22€")])
         self.assertEqual(fake.gets, [TICKETS + "1", TICKETS + "2"])
         slept.assert_called_once_with(0.7)                 # sequential, paced between pages
-        self.assertEqual(self.cache()["1"], {"price": "20€", "at": mock.ANY})
+        self.assertEqual(self.cache()["1"], {"price": "20€", "at": mock.ANY, "fields": {}})
 
     def test_one_id_shared_by_two_rows_is_read_once(self):
         page = rows(item("A", "Ma 14.9.2026", "18:00", "Kallio, Sali 1", button(7)),

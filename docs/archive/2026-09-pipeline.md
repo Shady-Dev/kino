@@ -1845,3 +1845,27 @@ can prove, suggests no id, and its allowed list is empty. 557 joined the wrong-i
 Break-verified with six mutations: each rule removed, the format rule's word guard
 dropped, the event rule widened to eat everything after a "+", a missing `q` reading as
 unknown again, and a published row decorated and unmatched in the committed data.
+
+### Riviera's screening language from the ticket page the price pass reads (2026-09-23)
+Riviera published `lang: ""` for every screening, so its tickets drew no audio or
+subtitle language beside Finnkino's and Gilda's. Its ticket page states both, and
+`prices.enrich` already fetches that page for the price, so the language comes off the
+same response: a `fields` parser whose answer is cached beside the price and put on rows
+with no value of their own. The endpoint and the pages are the ones the price pass
+already reads; what changes is timing. An entry cached before this is due once more,
+after the never-read keys and ahead of its 48 h expiry: 82 on the day, read at most 40 a
+run, so the first runs make up to that many extra reads. Until an entry is re-read, and
+if the re-read fails, it keeps its price. A parser that raises records nothing and leaves the price.
+
+A line is published only when every word in it names a language, through
+`etiketti.lang_codes` for Finnish names and a table of the client's English names for the
+page that printed "Spanish"; "Alkuperäinen", "-" or an unknown word publishes nothing for
+that line, and a missing subtitle line is not "no subtitles". Sample and capped run in
+[docs/research/screening-language-sources.md](../research/screening-language-sources.md):
+of 12 pages read through the adapter, 11 gave a language and all 79 cached prices were
+unchanged. The other 70 fill at 40 pages a run.
+
+Break-verified with eight mutations: old entries never re-read, a raising parser uncaught,
+a row's own value overwritten, the read order ignoring missing fields, half a line
+published, an English name missing, the adapter not wired, and a failed re-read dropping
+the cached price.

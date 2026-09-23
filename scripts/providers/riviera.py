@@ -16,12 +16,18 @@ Prices (2026-09-13): the listing carries none. Each screening's public ticket pa
 the ordinary seat is "Sohvapaikka tai Nojatuolipaikka". That row's amount is the price
 shown; a page without exactly one such row publishes no price. The fetch, cache and
 pacing are prices.py's.
+
+Language (2026-09-23): the same page states the screening's audio and subtitles, so the
+price pass takes them too (`page_fields`) from the pages it already reads. Entries cached
+before this are re-read once, ahead of their expiry, and keep their price until then. A
+line that is missing or names anything but languages publishes nothing for that line.
 """
 import datetime, html as html_mod, json, re, urllib.parse
 from zoneinfo import ZoneInfo
 
 import prices
 from common import fetch
+from etiketti import lang_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -169,6 +175,63 @@ def ordinary_price(page_html):
     return prices.one_amount(amounts) if amounts else ""
 
 
+# ---------------------------------------------------------------- language
+
+# The same ticket page states the screening's audio and subtitles, 2026-09-23:
+#   <p class="spokenLanguage"> Kieli: <b>Englanti</b> </p>
+#   <p class="showSubtitles"> Tekstitys : <b>Suomi, Ruotsi</b> </p>
+# In capitalised Finnish names, except that one film's audio read "Spanish". 22 pages
+# across 11 films read that day all had the audio line; three had no subtitle line.
+# Probe: docs/research/screening-language-sources.md.
+SPOKEN_RE = re.compile(r'<p[^>]*\bspokenLanguage\b[^>]*>(.*?)</p>', re.S)
+SUBTITLES_RE = re.compile(r'<p[^>]*\bshowSubtitles\b[^>]*>(.*?)</p>', re.S)
+BOLD_RE = re.compile(r"<b\b[^>]*>(.*?)</b>", re.S)
+SPLIT_RE = re.compile(r"\s*(?:,|/|\bja\b|\band\b)\s*", re.I)
+# The client's own English names (`LN.en` in index.html), for the pages that print one;
+# tests/test_riviera_language.py holds the two tables together.
+EN_NAMES = {
+    "finnish": "FI", "english": "EN", "swedish": "SV", "spanish": "ES", "german": "DE",
+    "french": "FR", "italian": "IT", "russian": "RU", "estonian": "ET", "danish": "DA",
+    "norwegian": "NO", "icelandic": "IS", "dutch": "NL", "polish": "PL",
+    "portuguese": "PT", "ukrainian": "UK", "arabic": "AR", "japanese": "JA",
+    "chinese": "ZH", "korean": "KO", "hindi": "HI", "turkish": "TR", "georgian": "KA",
+    "tamil": "TA", "lithuanian": "LT", "malayalam": "ML",
+}
+
+
+def _codes(cell):
+    """The value of one line -> its language codes in page order, or [] when the line is
+    absent, empty, or names anything that is not a language: "Alkuperäinen" or a word no
+    table knows says nothing reliable, so the line says nothing rather than half of it."""
+    if not cell:
+        return []
+    b = BOLD_RE.search(cell)
+    value = _txt(b.group(1) if b else cell.split(":", 1)[-1])
+    out = []
+    for word in (w for w in SPLIT_RE.split(value) if w and w != "-"):
+        codes = lang_codes(word) if len(word.split()) == 1 else []
+        code = codes[0] if len(codes) == 1 else EN_NAMES.get(word.lower())
+        if not code:
+            return []
+        if code not in out:
+            out.append(code)
+    return out
+
+
+def screening_language(page_html):
+    """A ticket page's audio and subtitles -> "EN-A, FI-S, SV-S", Finnkino's tags, or ""
+    for what the page does not state. A missing subtitle line is not "no subtitles"."""
+    spoken, subs = SPOKEN_RE.search(page_html or ""), SUBTITLES_RE.search(page_html or "")
+    parts = [f"{c}-A" for c in _codes(spoken.group(1) if spoken else "")]
+    parts += [f"{c}-S" for c in _codes(subs.group(1) if subs else "")]
+    return ", ".join(parts)
+
+
+def page_fields(page_html):
+    """What the price pass takes off a ticket page besides the price."""
+    return {"lang": screening_language(page_html)}
+
+
 def fetch_site(site=SITE, tries=3, price_sleep=1.0, prices_path=None, now=None):
     base = site["base"].rstrip("/")
     ajax = base + site.get("ajax", "/wp/wp-admin/admin-ajax.php")
@@ -209,7 +272,8 @@ def fetch_site(site=SITE, tries=3, price_sleep=1.0, prices_path=None, now=None):
     # After the schedule is complete, and never able to take it down: a failure here
     # publishes the showtimes without prices, which is what the site did before.
     prices.run([s for v in per_venue.values() for s in v], provider=site["provider"],
-               prefix=site.get("tickets", ""), parse=ordinary_price, referer=base + "/",
+               prefix=site.get("tickets", ""), parse=ordinary_price, fields=page_fields,
+               referer=base + "/",
                path=prices_path, now=now, sleep=price_sleep,
                fetch_fn=lambda url, headers: fetch(url, headers=headers, tries=2, timeout=20))
     return {k: v for k, v in per_venue.items() if v}

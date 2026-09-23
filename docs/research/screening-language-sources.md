@@ -11,7 +11,12 @@ item is in [IDEAS.md](../../IDEAS.md).
   language. Each screening's ticket page on the ticket host, the page the price pass
   already fetches, carries both: `<p class="spokenLanguage">Kieli: <b>Suomi</b></p>` and
   `<p class="showSubtitles">Tekstitys : <b>Englanti</b></p>`. Values are capitalised
-  Finnish language names. One page read (screening 982798, 200, 39.5 kB).
+  Finnish language names. One page read (screening 982798, 200, 39.5 kB), then a sample
+  of 22 pages over 11 of the 28 films on the listing: every page had the audio line,
+  three had no subtitle line (Rakkautta ja virtahepoja twice, Trainspotting), both
+  screenings of each sampled film agreed, and one value was English ("Kieli: Spanish",
+  Autofiktio). A capped run through the adapter read 12 more; one, Dyyni: Osa kolme,
+  had neither line.
 - **Cinema Orion, per film.** The front-page table the adapter reads names no language.
   Each film page linked from it, `/elokuvat/{slug}/` (18 on the day), has a definition
   table with `Kieli:` and `Tekstitys:` rows, lower-case Finnish names separated by
@@ -26,7 +31,8 @@ item is in [IDEAS.md](../../IDEAS.md).
 
 ## Inferences
 
-- Riviera's language can ride on the price pass: same page, same cache, no new request.
+- Riviera's language can ride on the price pass: same page, same cache. Pages already
+  cached are re-read once, earlier than their expiry, to pick it up.
   At `FETCH_MAX` 40 pages a run and 84 screenings on the day, coverage would fill over
   about three runs, as prices do.
 - Orion's is film-level, so one page per film (18 requests a run, paced) and the same
@@ -39,10 +45,11 @@ item is in [IDEAS.md](../../IDEAS.md).
 
 ## Open questions
 
-- Whether Riviera's two fields are ever absent or "-" on a page; one page read.
 - Whether an Orion film page can list a language the client's `LN` table lacks.
 
 ## Implementation status
 
-Nothing built. Next step: Riviera, extend the price pass's parse and cache to carry the
-two fields and map them to codes; then Orion, one paced film-page read per film.
+Riviera built 2026-09-23: `prices.enrich` takes a `fields` parser and caches its answer
+beside the price, and `riviera.page_fields` reads the two lines. Record in
+[docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md). Next step: Orion, one
+paced film-page read per film.
