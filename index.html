@@ -519,7 +519,6 @@
   }
   .gl.age{width:auto; min-width:15px; padding:0 3px; border-radius:8px}
   .stub .gl{color:var(--muted)}
-  .stub:hover .gl{color:inherit}
   .tagkey{display:inline-flex; flex-wrap:wrap; gap:10px; align-items:center;
     font-size:.7rem; color:var(--muted); margin-left:10px;
     padding-left:10px; border-left:1px solid var(--line)}
@@ -533,7 +532,6 @@
     letter-spacing:.03em; color:var(--ink); background:var(--surface);
     white-space:nowrap; vertical-align:1px;
   }
-  .stub:hover .agelim{color:inherit; border-color:currentColor; background:transparent; opacity:.85}
 
   /* Three languages do not fit a toggle that shows the one you would switch *to*: with
      two you can infer where you are, with three you cannot, and reaching the third is
@@ -681,7 +679,7 @@
   /* min-width:0 and overflow-wrap: a grid item's default minimum is its content, so one
      unbreakable "Tennispalatsi" in a narrow column would push past its compartment and
      run under the price. Long words break instead of crossing the seam or the price. */
-  .stubs.grid .stub .aud .loc{white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; min-width:0}
+  .stubs.grid .stub .aud .loc{white-space:normal; overflow:hidden; text-overflow:clip; overflow-wrap:anywhere; min-width:0}
   .stubs.grid .stub .glyphs{align-self:center; padding-top:0}
   .stubs.grid .stub .price{
     grid-area:price; flex:none; width:auto; align-self:stretch;
@@ -738,15 +736,33 @@
      moves. */
   .stub .aud.twoline{flex-wrap:wrap; align-items:flex-start; max-width:200px}
   .stub .slang{flex:1 0 100%; white-space:normal; line-height:1.25; overflow-wrap:anywhere}
-  /* Its two parts, spoken language and subtitles, share a line with a dot between them
-     while they fit and take a line each when they do not, so a narrow ticket never
-     breaks "tekstitys:" from its languages (asked for 2026-09-23). The dot is the later
-     part's own ::before, drawn in the padding in front of it; a part that starts a line
-     sits .9em left of the line, where .slang clips its dot. */
+  /* Its two parts, spoken language and subtitles, share a line while they fit and take
+     a line each when they do not, so a narrow ticket never breaks "tekstitys:" from its
+     languages (asked for 2026-09-23). */
   .stub .slang{overflow:hidden; min-width:0}
-  .stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-.9em}
-  .stub .slang .lp > span{position:relative; padding-left:.9em; min-width:0}
-  .stub .slang .lp > span + span::before{content:'\b7'; position:absolute; left:.25em}
+  /* A ticket's facts -- cinema, room, format, the language's two parts -- and the Ajat
+     meta line's are separate elements, and the separator between two of them is a 3 px
+     square like the wordmark's, muted at rest and --accent on hover and focus
+     (2026-09-23; a middle dot until then). It is each later fact's own ::before, centred
+     in the 9 px in front of it, the width " · " took at this size (8.66 px), so no
+     ticket wraps where it did not before; a fact that starts a line sits 9 px left of it,
+     where the clipping parent hides its square, so no square is ever first or last on a
+     line. Each fact but the last carries a visually hidden comma, so a screen reader
+     does not run two facts together. `.fx.inl` is the row ticket's one-line label,
+     which truncates rather than wraps and draws the square inline. */
+  .fx, .stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-9px; min-width:0}
+  .fx > span, .stub .slang .lp > span{position:relative; padding-left:9px; min-width:0}
+  /* Inline-block and vertical-align:middle rather than absolute: WebKit resolves `lh` on
+     the pseudo-element from its own line-height, which put the square 1.2 px high on the
+     language line. The -6 px margin lays it in the fact's padding at no net width. */
+  .fx > span + span::before, .stub .slang .lp > span + span::before{
+    content:''; display:inline-block; vertical-align:middle;
+    width:3px; height:3px; margin:0 3px 0 -6px; border-radius:.5px;
+    background:var(--sq, var(--muted)); opacity:.72;
+  }
+  .fx.inl{display:inline; margin-left:0}
+  .fx.inl > span{padding-left:0}
+  .fx.inl > span + span::before{margin:0 3px}
   /* The language line makes the compartment two rows, and a flex item centres inside its
      own row rather than the box: the Anniskelu glyph sat 8 px above the ticket's middle,
      in both engines at 390 and 1200 (measured 2026-09-20). The glyphs get a column of
@@ -783,19 +799,23 @@
   /* The combined ticket's own price rule (0,4,0) outranks the line above (0,3,0), so
      the tail has to be restated at that level or the grid keeps its auto width. */
   .stubs.grid .stub .price:empty{width:var(--pe); min-width:var(--pe); padding:0}
-  .stub:hover .price,.stub:active .price{color:var(--chip-hover-ink)}
   /* perforation notches, centred on the seam */
   .stub .price::before,.stub .price::after{
     content:""; position:absolute; width:8px; height:8px; border-radius:50%;
     background:var(--bg); border:1px solid var(--line); left:-4px;
   }
   .stub .price::before{top:-5px}.stub .price::after{bottom:-5px}
-  .stub:hover{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:translateY(-1px)}
-  .stub:hover .aud{color:var(--chip-hover-ink); opacity:.75}
-  /* :active mirrors :hover so a touch tap flashes the same inversion -- hover alone
-     never fires on touch -- and the lift settles back for a pressed feel. */
-  .stub:active{background:var(--chip-hover); color:var(--chip-hover-ink); border-color:var(--chip-hover); transform:none}
-  .stub:active .aud{color:var(--chip-hover-ink); opacity:.75}
+  /* Hover and keyboard focus turn the separators and the top, right and bottom edges
+     --accent, the wordmark's square; the left edge keeps the chain's colour and the
+     seam keeps --line. No fill and no glow (2026-09-23; the ticket inverted to ink or
+     gold until then, which a gold square would vanish into). :active mirrors :hover,
+     because hover never fires on touch, and the lift settles back for a pressed feel. */
+  .stub:hover, .stub:active, .stub:focus-visible{
+    --sq:var(--accent);
+    border-top-color:var(--accent); border-right-color:var(--accent); border-bottom-color:var(--accent);
+  }
+  .stub:hover{transform:translateY(-1px)}
+  .stub:active{transform:none}
   .stub.past{opacity:.45; pointer-events:none}
   .stub.sold{opacity:.55; pointer-events:none; filter:grayscale(1)}
   .stub.sold .time{text-decoration:line-through}
@@ -948,7 +968,7 @@
   .tinfo{min-width:0; cursor:pointer; text-decoration:none; color:inherit; display:block;
          border-radius:3px}
   .tinfo b{display:block; font-size:.98rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .tinfo small{color:var(--muted); font-size:.75rem}
+  .tinfo small{display:block; overflow:hidden; color:var(--muted); font-size:.75rem}
   .tinfo small .room{white-space:nowrap}
 
   #stale{
@@ -1521,14 +1541,13 @@
   // Full nominatives, not "engl."/"ruots.": the audio language stands alone with no role
   // word, so it has to read as a noun.
   // Swedish capitalises the label only where it opens a label of its own, `S0`:
-  // "Textning: finska" alone, "engelska · textning: finska" after the audio.
+  // "Textning: finska" alone, ["engelska", "textning: finska"] after the audio.
   const LW = { fi:{S:'tekstitys:'}, sv:{S:'textning:', S0:'Textning:'}, en:{S:'subs'} };
-  // "EN-A, FI-S, SE-S" reads "englanti · tekstitys: suomi/ruotsi": audio bare, subtitles
-  // labelled, one entry per role rather than per language. The "/" matches how a single
-  // multi-language code (FI-SE-S) has always rendered.
-  // `lead` is false where the text follows other parts of a line. langParts keeps the
-  // spoken language and the subtitles apart for the ticket, which lays them out itself.
-  function langTxt(code, lead = true){ return langParts(code, lead).join(' · '); }
+  // "EN-A, FI-S, SE-S" is ["englanti", "tekstitys: suomi/ruotsi"]: audio bare, subtitles
+  // labelled, one part per role rather than per language. The "/" matches how a single
+  // multi-language code (FI-SE-S) has always rendered. The parts stay apart because every
+  // place that shows them lays them out as separate facts (factSpans). `lead` is false
+  // where the parts follow other facts on a line.
   function langParts(code, lead = true){
     if(!code) return [];
     const by = { A: [], S: [] };
@@ -1549,8 +1568,23 @@
   // --- end langTxt ---
   // A ticket's own language line: the spoken language and the subtitles as two parts, so
   // a ticket too narrow for both gives each a line instead of breaking inside one.
-  const slangHtml = code => '<span class="slang"><span class="lp">'
-    + langParts(code).map(p => `<span>${esc(p)}</span>`).join('') + '</span></span>';
+  // `after` is true when the room or cinema precedes the line: the two are separate
+  // blocks, so a hidden comma keeps a screen reader from reading "Sali 4 espanja".
+  const slangHtml = (code, after) => (after ? '<span class="sr-only">, </span>' : '')
+    + '<span class="slang"><span class="lp">'
+    + factSpans(langParts(code).map(p => ['', esc(p)])) + '</span></span>';
+  // A ticket's or a meta line's facts as separate elements, [class, html] pairs with
+  // the text already escaped; empty ones are left out. The square between two is CSS
+  // (.fx), and each fact but the last ends in a visually hidden comma for screen readers.
+  function factSpans(parts){
+    const p = parts.filter(x => x && x[1]);
+    return p.map(([cls, h], i) => `<span${cls ? ` class="${cls}"` : ''}>${h}`
+      + `${i < p.length - 1 ? '<span class="sr-only">, </span>' : ''}</span>`).join('');
+  }
+  const factsHtml = (parts, inline) => {
+    const inner = factSpans(parts);
+    return inner ? `<span class="fx${inline ? ' inl' : ''}">${inner}</span>` : '';
+  };
   // films.json is keyed by Finnkino's filmId. In a combined city view eventId is the
   // cross-chain merge key, so the id comes from the show's own _eid, as in showSheet().
   // Without it English mode fell back to the Finnish title in every combined view.
@@ -3697,21 +3731,24 @@
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
       const where = venueName(s);
       const tint = tinted && s.provider ? ` chain-${esc(s.provider)}` : '';
-      const venue = multi && where ? `<span class="theatre-tag">${esc(where)}</span>` : '';
-      const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : '';
       const sold = s.soldOut && !past ? L[state.lang].soldout : '';
       // The screening's tags pass the stub rule: a format the room name already says
       // ("LUXE 6" and LUXE, "1 Plus" and Plus, IMAX and IMAX) is not said twice on one
       // line, and plain 2D goes as it does on every stub.
-      const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');
+      const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud);
       const own_price = priceLabel([s]);
-      const pre = [venue, room, ageGlyph(s), sold, esc(s.rating),
-                   s.len ? esc(s.len)+' '+L[state.lang].min : '', esc(tags)].filter(Boolean);
+      // One fact each, the room kept on one line; the language's two parts last, as on
+      // every ticket, with "Textning:" capitalised only when nothing precedes it.
+      const pre = [['theatre-tag', multi ? esc(where) : ''], ['room', esc(s.aud || '')],
+                   ['', ageGlyph(s)], ['', esc(sold)], ['', esc(s.rating || '')],
+                   ['', s.len ? esc(s.len)+' '+L[state.lang].min : ''],
+                   ...tags.map(x => ['', esc(x)])].filter(x => x[1]);
+      const facts = [...pre, ...langParts(s.lang, !pre.length).map(x => ['', esc(x)])];
       return `<div class="trow">
         <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}">
           <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
-          <small>${[...pre, esc(langTxt(s.lang, !pre.length))].filter(Boolean).join(' · ')}</small></a>
+          <small>${factsHtml(facts)}</small></a>
       </div>`;
     }).join('');
   }
@@ -4241,11 +4278,10 @@
         const cls = past ? ' past' : (t.soldOut ? ' sold' : '');
         const where = venueName(t);
         const ownTags = stubTags(tagsOf(t).filter(f => !common.includes(f)), t.aud);
-        const own = ownTags.filter(f => !glyphOf(f)).join(' · ');
+        const own = ownTags.filter(f => !glyphOf(f));
         const glyphs = ownTags.map(glyphOf).join('') + ageGlyph(t);
-        const loc = [(multiTheatre ? (t.aud ? `${where} · ${t.aud}` : where) : t.aud), own]
-          .filter(Boolean).join(' · ')
-          + (t.soldOut && !past ? ' · ' + L[state.lang].soldout : '');
+        const facts = [multiTheatre ? where : '', t.aud, ...own,
+                       t.soldOut && !past ? L[state.lang].soldout : ''].filter(Boolean);
         const tint = tintedList && t.provider ? ` chain-${esc(t.provider)}` : '';
         // The tooltip verb was hard-coded "Buy tickets" in every language and for every
         // provider, including the reserve- and door-mode ones the footer wording
@@ -4255,8 +4291,8 @@
         // The screening's own price, or an empty compartment. Never the film's: see the
         // meta2 note.
         const own_price = priceLabel([t]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([loc, ageOf(t)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud${t.lang ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow(glyphs)}${t.lang ? slangHtml(t.lang) : ''}</span><span class="price">${esc(own_price)}</span>
+        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([...facts, ageOf(t)].filter(Boolean).join(', '))}">
+                  <span class="time">${clock}</span><span class="aud${t.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multiTheatre)}</span>${glyphRow(glyphs)}${t.lang ? slangHtml(t.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -4442,14 +4478,14 @@
         const clock = fiTime(s.start);
         const cls = past ? ' past' : (s.soldOut ? ' sold' : '');
         const where = venueName(s);
-        const loc = multi ? (s.aud ? `${where} · ${s.aud}` : where) : s.aud;
+        const facts = [multi ? where : '', s.aud].filter(Boolean);
         const tint = multi && s.provider ? ` chain-${esc(s.provider)}` : '';
         const own_price = priceLabel([s]);
         // The menu button sits beside the ticket, outside the anchor; a past screening
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
-        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([loc, ageOf(s)].filter(Boolean).join(' · '))}">
-                  <span class="time">${clock}</span><span class="aud${s.lang ? ' twoline' : ''}"><span class="loc">${esc(loc)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${s.lang ? slangHtml(s.lang) : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
+        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([...facts, ageOf(s)].filter(Boolean).join(', '))}">
+                  <span class="time">${clock}</span><span class="aud${s.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multi)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${s.lang ? slangHtml(s.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
     closeStubMenu(false);

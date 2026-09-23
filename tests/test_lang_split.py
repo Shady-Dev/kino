@@ -23,8 +23,8 @@ class LanguageLineTest(unittest.TestCase):
         """The card's stub and the sheet's stub each draw it whenever the screening has one."""
         self.assertIn("<span class=\"aud${t.lang ? ' twoline' : ''}\">", HTML)
         self.assertIn("<span class=\"aud${s.lang ? ' twoline' : ''}\">", HTML)
-        self.assertIn("${t.lang ? slangHtml(t.lang) : ''}", HTML)          # the card's stub
-        self.assertIn("${s.lang ? slangHtml(s.lang) : ''}", HTML)          # the sheet's stub
+        self.assertIn("${t.lang ? slangHtml(t.lang, facts.length > 0) : ''}", HTML)  # the card's stub
+        self.assertIn("${s.lang ? slangHtml(s.lang, facts.length > 0) : ''}", HTML)  # the sheet's stub
         self.assertEqual(len(re.findall(r'class="slang"', HTML)), 1, "one builder for both")
 
     def test_the_details_rows_never_carry_it(self):
@@ -79,24 +79,27 @@ class LanguageLineTest(unittest.TestCase):
         self.assertNotIn("padding-right:24px", HTML)
 
     def test_it_reuses_the_existing_translation_helper(self):
-        """No second language table: langTxt already localises fi, sv and en."""
+        """No second language table: langParts already localises fi, sv and en, for the
+        tickets and for the Ajat line alike."""
         self.assertEqual(len(re.findall(r"const LW = \{", HTML)), 1)
-        self.assertIn("function langTxt(code, lead = true){ return langParts(code, lead).join(' · '); }",
-                      HTML)
-        self.assertIn("langParts(code).map(p => `<span>${esc(p)}</span>`)", HTML)
+        self.assertIn("factSpans(langParts(code).map(p => ['', esc(p)]))", HTML)
+        self.assertIn("...langParts(s.lang, !pre.length).map(x => ['', esc(x)])", HTML)
 
     def test_a_narrow_ticket_breaks_between_the_spoken_and_the_subtitle_part(self):
         """Asked for 2026-09-23: when the line does not fit, the spoken language keeps its
         line and the subtitles take the next, with no dot left at either end. Measured
         that day on Helsinki in Chromium and WebKit: at 393 px 6 of 10 card lines stack
         and 4 fit on one, at 1200 all fit; the dot shows exactly when the parts share a
-        line. The dot is the later part's ::before, clipped when that part starts a line."""
+        line. The separator, a square since 2026-09-23, is the later part's ::before, laid in
+        the padding it hangs into the clipped margin with when that part starts a line."""
         self.assertIn(".stub .slang{overflow:hidden; min-width:0}", HTML)
-        self.assertIn(".stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-.9em}", HTML)
-        self.assertIn(".stub .slang .lp > span{position:relative; padding-left:.9em; min-width:0}",
+        self.assertIn(".fx, .stub .slang .lp{display:flex; flex-wrap:wrap; margin-left:-9px; min-width:0}",
                       HTML)
-        self.assertIn(".stub .slang .lp > span + span::before{content:'\\b7'; position:absolute; "
-                      "left:.25em}", HTML)
+        self.assertIn(".fx > span, .stub .slang .lp > span{position:relative; padding-left:9px; "
+                      "min-width:0}", HTML)
+        self.assertIn(".fx > span + span::before, .stub .slang .lp > span + span::before{\n"
+                      "    content:''; display:inline-block; vertical-align:middle;\n"
+                      "    width:3px; height:3px; margin:0 3px 0 -6px;", HTML)
 
 
 if __name__ == "__main__":

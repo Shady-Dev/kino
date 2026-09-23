@@ -198,14 +198,16 @@ class TimeModeTicketTest(unittest.TestCase):
 
     def test_the_room_venue_and_age_open_the_meta_line(self):
         src = render_times_source()
-        self.assertIn('const room = s.aud ? `<span class="room">${esc(s.aud)}</span>` : \'\';', src)
+        self.assertIn("['theatre-tag', multi ? esc(where) : ''], ['room', esc(s.aud || '')]", src)
         self.assertIn("const sold = s.soldOut && !past ? L[state.lang].soldout : '';", src)
-        self.assertIn("<small>${[...pre, esc(langTxt(s.lang, !pre.length))].filter(Boolean)"
-                      ".join(' \u00b7 ')}</small>", src)
-        head = re.search(r"const pre = \[(.*?)\]\.filter\(Boolean\);", src, re.S).group(1)
-        parts = [x.strip() for x in re.split(r",(?![^(]*\))", head)]
-        self.assertEqual(parts[:4], ["venue", "room", "ageGlyph(s)", "sold"], parts)
-        self.assertIn("esc(s.rating)", parts[4])
+        # Each a fact of its own, drawn by the one builder; the language's parts last.
+        self.assertIn("const facts = [...pre, ...langParts(s.lang, !pre.length).map(x => ['', esc(x)])];",
+                      src)
+        self.assertIn("<small>${factsHtml(facts)}</small>", src)
+        head = re.search(r"const pre = \[(.*?)\]\.filter\(x => x\[1\]\);", src, re.S).group(1)
+        order = [head.index(x) for x in ("'theatre-tag'", "'room'", "ageGlyph(s)", "esc(sold)",
+                                          "esc(s.rating")]
+        self.assertEqual(order, sorted(order), head)
 
     def test_the_ticket_has_no_width_floor_or_cap(self):
         stub = rule(HTML, ".trow .stub")

@@ -164,10 +164,10 @@ class NameTableTest(unittest.TestCase):
 
 
 def client_lang_txt(lang, calls):
-    """Run the app's `langTxt` block verbatim in node. -> one string per (code, lead)."""
+    """Run the app's `langTxt` block verbatim in node. -> langParts' list per (code, lead)."""
     block = re.search(r"// --- langTxt: [^\n]*\n(.*?)\n\s*// --- end langTxt ---", HTML, re.S).group(1)
     js = (f"const state = {{lang: {json.dumps(lang)}}};\n{block}\n"
-          f"process.stdout.write(JSON.stringify({json.dumps(calls)}.map(([c, l]) => langTxt(c, l))));")
+          f"process.stdout.write(JSON.stringify({json.dumps(calls)}.map(([c, l]) => langParts(c, l))));")
     out = subprocess.run(["node", "-e", js], capture_output=True, text=True, timeout=30)
     if out.returncode:
         raise AssertionError(out.stderr)
@@ -210,9 +210,9 @@ class SwedishSubtitleLabelTest(unittest.TestCase):
         got = client_lang_txt("sv", [[c, l] for c, l, _ in self.CASES])
         for (code, lead, want), g in zip(self.CASES, got):
             with self.subTest(code=code, lead=lead):
-                self.assertEqual(g, want)
-                self.assertEqual(g, " · ".join(bp.lang_parts(code, "sv", lead=lead)))
-        self.assertEqual(client_lang_txt("fi", [["FI-S", True]]), ["tekstitys: suomi"])
+                self.assertEqual(" · ".join(g), want)      # the parts, joined as CASES writes them
+                self.assertEqual(g, bp.lang_parts(code, "sv", lead=lead))
+        self.assertEqual(client_lang_txt("fi", [["FI-S", True]]), [["tekstitys: suomi"]])
 
 
 if __name__ == "__main__":

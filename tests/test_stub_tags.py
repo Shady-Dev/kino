@@ -66,10 +66,10 @@ class TagPlacementSourceTest(unittest.TestCase):
 
     def test_the_ajat_line_runs_the_stub_rule(self):
         src = render_times_source()
-        self.assertIn("const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud).join(' · ');", src)
+        self.assertIn("const tags = stubTags((s.method || '').split(' · ').filter(Boolean), s.aud);", src)
         self.assertNotIn("esc(s.method)", src)
-        self.assertIn("esc(tags)].filter(Boolean);", src)
-        self.assertIn("[...pre, esc(langTxt(s.lang, !pre.length))]", src)
+        self.assertIn("...tags.map(x => ['', esc(x)])].filter(x => x[1]);", src)
+        self.assertIn("...langParts(s.lang, !pre.length)", src)
 
     def test_a_glyph_tag_never_folds_onto_the_card(self):
         common = re.search(r"const common = (.*?);\n", HTML).group(1)
