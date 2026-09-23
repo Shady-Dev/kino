@@ -322,6 +322,36 @@ def lang_codes(v):
     return out
 
 
+# The client's own English names (`LN.en` in index.html), for the pages that print one:
+# Riviera's ticket page read "Kieli: Spanish" for Autofiktio on 2026-09-23.
+# tests/test_riviera_language.py holds the two tables together.
+EN_NAMES = {
+    "finnish": "FI", "english": "EN", "swedish": "SV", "spanish": "ES", "german": "DE",
+    "french": "FR", "italian": "IT", "russian": "RU", "estonian": "ET", "danish": "DA",
+    "norwegian": "NO", "icelandic": "IS", "dutch": "NL", "polish": "PL",
+    "portuguese": "PT", "ukrainian": "UK", "arabic": "AR", "japanese": "JA",
+    "chinese": "ZH", "korean": "KO", "hindi": "HI", "turkish": "TR", "georgian": "KA",
+    "tamil": "TA", "lithuanian": "LT", "malayalam": "ML",
+}
+STRICT_SPLIT_RE = re.compile(r"\s*(?:,|/|\bja\b|\band\b)\s*", re.I)
+
+
+def strict_codes(value):
+    """A labelled language field -> its codes in order, or [] unless every word in it names
+    a language. lang_codes finds any name in free text; this is for a field that is only
+    names, where "Alkuperäinen", "dari" or anything no table knows makes the field say
+    nothing reliable, so it says nothing rather than half of it. "-" and "" are []."""
+    out = []
+    for word in (w for w in STRICT_SPLIT_RE.split((value or "").strip()) if w and w != "-"):
+        codes = lang_codes(word) if len(word.split()) == 1 else []
+        code = codes[0] if len(codes) == 1 else EN_NAMES.get(word.lower())
+        if not code:
+            return []
+        if code not in out:
+            out.append(code)
+    return out
+
+
 def _lang(page):
     """'Alkuperäinen' / 'Suomi ja ruotsi' -> Finnkino-style tags."""
     codes = lang_codes

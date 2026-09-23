@@ -1880,3 +1880,16 @@ the drift check on them. The list now names `sv`, the 54 pages that had fallen b
 are regenerated in the same commit, and `tests/test_pages_committed.py` derives the
 directories from the sitemap so a new page directory cannot be left out again. The local
 half's wrapper, outside this repository, carries the same list.
+
+### Cinema Orion's language from each film's own page (2026-09-23)
+The front-page table names no language; each film page it links to has `Kieli:` and
+`Tekstitys:` rows, and all 18 read that day had both. `film_language` reads one page per
+film through `prices.enrich`'s cache (data/film-lang-orion.json), cap (FILM_MAX 12 a run)
+and pacing, with the same strict rule as Riviera, now shared as `etiketti.strict_codes`.
+The value is the film's and goes on each of its screenings only when nothing suggests two
+versions: rows of one film page that differ in title, or a title or note naming a version,
+settle nothing and are counted in the log. No film on the day had either. The film-page
+URL is the row's own link, carried as the `movieUrl` helper that publication strips.
+A capped live run read 12 pages and each value matched its page; six waited for the next
+run. Break-verified with six mutations, two of them added after the first pass let them
+survive: the title guard and a row's own value.

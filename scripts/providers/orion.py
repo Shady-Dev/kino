@@ -34,12 +34,21 @@ client.
 
 Single screen, so `aud` stays blank. No age limits, runtimes or seat counts in the table;
 the TMDB pass fills what it can.
+
+Language (2026-09-23): each film page the table links to states `Kieli:` and
+`Tekstitys:` for the film, so `film_language` reads those pages after the table, one per
+film, at most FILM_MAX a run and paced, through `prices.enrich`'s cache and cap into
+data/film-lang-orion.json. The value is the film's, put on each of its screenings, so a
+film whose screenings differ in title or whose note names a version settles nothing.
+Probe: docs/research/screening-language-sources.md.
 """
-import datetime, html as html_mod, re, sys, unicodedata
+import datetime, html as html_mod, os, re, sys, unicodedata
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
+import prices
 from common import fetch, get_text, resolve_year, weekday_index
+from etiketti import strict_codes
 from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
@@ -121,10 +130,11 @@ def _price(cell_text, breakdown):
 
 
 def _film(cell_html):
-    """Title cell -> (title, blurb, slug). Two shapes, see the module docstring."""
+    """Title cell -> (title, blurb, slug, film page URL). Two shapes, see the module
+    docstring."""
     a = ANCHOR_RE.search(cell_html)
     if not a:
-        return _txt(cell_html), "", ""
+        return _txt(cell_html), "", "", ""
     attrs, inner = a.group(1), a.group(2)
     d = DESCR_RE.search(inner)
     blurb = _txt(d.group(1)) if d else ""
@@ -134,7 +144,8 @@ def _film(cell_html):
     title = html_mod.unescape(ta.group(1)).strip() if ta else _txt(inner.split("<span")[0])
     href = HREF_RE.search(attrs)
     sm = SLUG_URL_RE.search(href.group(1)) if href else None
-    return title, blurb, (sm.group(1) if sm else "")
+    page = urljoin(URL, html_mod.unescape(href.group(1))) if sm else ""
+    return title, blurb, (sm.group(1) if sm else ""), page
 
 
 def _iso(day, month, hh, mm, today=None, weekday=None):
@@ -170,7 +181,7 @@ def parse(page, today=None):
             continue
         for row in ROW_RE.findall(m.group("table")):
             cells = _cells(row)
-            title, blurb, slug = _film(cells.get("title", ("", ""))[1])
+            title, blurb, slug, film_page = _film(cells.get("title", ("", ""))[1])
             title, strand = split_strand(title)
             tm = TIME_RE.search(_txt(cells.get("time", ("", ""))[1]))
             # The row's own date cell first; the day heading above the table is the
@@ -208,6 +219,8 @@ def parse(page, today=None):
                 "provider": "orion",
                 "venue": VENUE["id"],
                 "_syn": blurb,
+                # A helper, dropped with `_syn` before the venue is written.
+                "movieUrl": film_page,
             })
     if unplaced:
         print(f"[orion] {len(unplaced)} row(s) whose date no candidate year places inside "
@@ -223,9 +236,69 @@ def fetch_page():
     return parse(page)
 
 
+# ---------------------------------------------------------------- language
+
+# The film page's definition table, 2026-09-23 (18 of 18 pages carried both rows):
+#   <td id='field_…' class='dt'>Kieli:</td> <td class='dd'>englanti, portugali</td>
+FIELD_RE = re.compile(r"class=['\"]dt['\"]>\s*(Kieli|Tekstitys)\s*:\s*</td>\s*"
+                      r"<td class=['\"]dd['\"]>(.*?)</td>", re.S | re.I)
+# A note or title naming a version means the film's one value may not be this screening's.
+VERSION_RE = re.compile(r"dub|puhu(?:ttu|mme)|tekstit|versio|orig|alkuper", re.I)
+FILM_MAX = int(os.environ.get("KINO_FILM_PAGE_MAX") or 12)
+FILM_CACHE = "film-lang-orion.json"
+
+
+def page_language(page_html):
+    """A film page's `Kieli:` and `Tekstitys:` rows -> "ES-A, FI-S, SV-S", or "" for what
+    the page does not state clearly (see etiketti.strict_codes)."""
+    got = {k.lower(): _txt(v) for k, v in FIELD_RE.findall(page_html or "")}
+    parts = [f"{c}-A" for c in strict_codes(got.get("kieli"))]
+    parts += [f"{c}-S" for c in strict_codes(got.get("tekstitys"))]
+    return ", ".join(parts)
+
+
+def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn=None):
+    """Put each film's language on its screenings. -> counts dict. Never raises: a page
+    that cannot be read leaves its screenings as they were."""
+    films, unclear = {}, 0
+    for s in shows:
+        if s.get("movieUrl"):
+            films.setdefault(s["movieUrl"], []).append(s)
+    asks = []
+    for url, rows in films.items():
+        if (len({r["title"] for r in rows}) > 1
+                or any(VERSION_RE.search(f"{r['title']} {r.get('_syn') or ''}") for r in rows)):
+            unclear += 1
+            continue
+        asks.append({"url": url, "price": ""})
+    path = path or (prices._out() / FILM_CACHE)
+    try:
+        st = prices.enrich(asks, provider="orion", prefix=URL, parse=lambda page: "",
+                           fields=lambda page: {"lang": page_language(page)}, path=path,
+                           now=now, sleep=sleep, limit=FILM_MAX if limit is None else limit,
+                           fetch_fn=fetch_fn or (lambda u, h: fetch(u, headers=h, tries=2,
+                                                                    timeout=20)),
+                           label="film pages")
+    except Exception as e:                         # noqa: BLE001 -- the language is optional
+        print(f"[orion] film languages skipped: {type(e).__name__}: {str(e)[:80]}")
+        return {}
+    by_url = {a["url"]: a.get("lang", "") for a in asks}
+    for url, rows in films.items():
+        for r in rows:
+            if by_url.get(url) and not r.get("lang"):
+                r["lang"] = by_url[url]
+    print(f"[orion] film languages: {len(films)} films, "
+          f"{sum(1 for v in by_url.values() if v)} with a language, {st['fetched']} pages "
+          f"read, {st['failed']} failed, {st['deferred']} deferred, {unclear} left out as "
+          f"possibly more than one version")
+    return dict(st, films=len(films), unclear=unclear)
+
+
 def fetch_site(site=SITES[0]):
     """Runner contract: one page, one screen, keyed by the venue id."""
-    return {VENUE["id"]: fetch_page()}
+    shows = fetch_page()
+    film_language(shows)
+    return {VENUE["id"]: shows}
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ from zoneinfo import ZoneInfo
 
 import prices
 from common import fetch
-from etiketti import lang_codes
+from etiketti import EN_NAMES, strict_codes  # noqa: F401 -- EN_NAMES for the test
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -186,36 +186,14 @@ def ordinary_price(page_html):
 SPOKEN_RE = re.compile(r'<p[^>]*\bspokenLanguage\b[^>]*>(.*?)</p>', re.S)
 SUBTITLES_RE = re.compile(r'<p[^>]*\bshowSubtitles\b[^>]*>(.*?)</p>', re.S)
 BOLD_RE = re.compile(r"<b\b[^>]*>(.*?)</b>", re.S)
-SPLIT_RE = re.compile(r"\s*(?:,|/|\bja\b|\band\b)\s*", re.I)
-# The client's own English names (`LN.en` in index.html), for the pages that print one;
-# tests/test_riviera_language.py holds the two tables together.
-EN_NAMES = {
-    "finnish": "FI", "english": "EN", "swedish": "SV", "spanish": "ES", "german": "DE",
-    "french": "FR", "italian": "IT", "russian": "RU", "estonian": "ET", "danish": "DA",
-    "norwegian": "NO", "icelandic": "IS", "dutch": "NL", "polish": "PL",
-    "portuguese": "PT", "ukrainian": "UK", "arabic": "AR", "japanese": "JA",
-    "chinese": "ZH", "korean": "KO", "hindi": "HI", "turkish": "TR", "georgian": "KA",
-    "tamil": "TA", "lithuanian": "LT", "malayalam": "ML",
-}
 
 
 def _codes(cell):
-    """The value of one line -> its language codes in page order, or [] when the line is
-    absent, empty, or names anything that is not a language: "Alkuperäinen" or a word no
-    table knows says nothing reliable, so the line says nothing rather than half of it."""
+    """The value of one line -> its language codes in page order; see strict_codes."""
     if not cell:
         return []
     b = BOLD_RE.search(cell)
-    value = _txt(b.group(1) if b else cell.split(":", 1)[-1])
-    out = []
-    for word in (w for w in SPLIT_RE.split(value) if w and w != "-"):
-        codes = lang_codes(word) if len(word.split()) == 1 else []
-        code = codes[0] if len(codes) == 1 else EN_NAMES.get(word.lower())
-        if not code:
-            return []
-        if code not in out:
-            out.append(code)
-    return out
+    return strict_codes(_txt(b.group(1) if b else cell.split(":", 1)[-1]))
 
 
 def screening_language(page_html):

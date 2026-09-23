@@ -81,7 +81,7 @@ def key_of(url, prefix):
 
 
 def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
-           sleep=1.0, limit=None, headers=None, fetch_fn=None, fields=None):
+           sleep=1.0, limit=None, headers=None, fetch_fn=None, fields=None, label=None):
     """Put each screening's price on its rows. -> counts dict.
 
     `prefix` is the ticket-page URL prefix a row's `url` must carry to be asked;
@@ -91,7 +91,8 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
     beside the price and put on
     rows that carry no value of their own. An entry cached before `fields` existed is due
     once more, never-read keys still first; until it is re-read it keeps its price. A
-    `fields` that raises records nothing and leaves the price alone.
+    `fields` that raises records nothing and leaves the price alone. `label` names the
+    pages in the log for a caller reading something other than ticket pages ("film pages").
     `fetch_fn(url, headers)` -> bytes or str does the GET; an adapter passes one built on
     its own module-level getter, so a test that fakes that getter keeps the price pages
     offline too. The default is common.fetch with two tries and a 20 s timeout.
@@ -121,9 +122,10 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
     due.sort(key=lambda k: (k in cache, k in cache and not lacks(k),
                             cache.get(k, {}).get("at", ""), k))
     todo, deferred = due[:limit], max(0, len(due) - limit)
+    page_word = f"{label[:-1]}" if label else "price page"      # "film pages" -> "film page"
     if deferred:
-        print(f"[{provider}] prices: {len(due)} ticket pages due, reading {limit}, "
-              f"{deferred} wait for the next run")
+        head = f"{label}: {len(due)}" if label else f"prices: {len(due)} ticket pages"
+        print(f"[{provider}] {head} due, reading {limit}, {deferred} wait for the next run")
 
     hdrs = headers or {"user-agent": UA, "accept": "text/html"}
     if referer and "referer" not in hdrs:
@@ -144,7 +146,7 @@ def enrich(shows, *, provider, prefix, parse, referer="", path=None, now=None,
         except Exception as e:                     # noqa: BLE001 -- the price is optional
             failed += 1
             streak += 1
-            print(f"[{provider}] price page {k}: {type(e).__name__}: {str(e)[:80]}")
+            print(f"[{provider}] {page_word} {k}: {type(e).__name__}: {str(e)[:80]}")
             continue
         streak = 0
         fetched += 1

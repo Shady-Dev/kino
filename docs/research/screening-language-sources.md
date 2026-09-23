@@ -22,7 +22,10 @@ item is in [IDEAS.md](../../IDEAS.md).
   table with `Kieli:` and `Tekstitys:` rows, lower-case Finnish names separated by
   commas. Three pages read: "englanti, portugali, ranska, japani" / "suomi";
   "espanja" / "suomi, ruotsi" (Autofiktio, matching Finnkino's `ES-A, FI-S, SV-S`);
-  "suomi" / "ruotsi".
+  "suomi" / "ruotsi". Then all 18 linked film pages, 2 s apart: every one had both
+  rows, 17 films had one screening on the front page and Hetki ennen valoa two from the
+  same page, and no screening note named a version. Two words no table knows, "dari"
+  and "paštu" (The Secret Reading Club of Kabul).
 - **Kino Helios, nowhere this adapter can read.** The calendar service returned 22 Kino
   Helios events with 16 non-empty fields each, none of them a language, and no language
   wording in any description (one-sentence blurbs). All 22 ticket links go to one ticket
@@ -45,11 +48,12 @@ item is in [IDEAS.md](../../IDEAS.md).
 
 ## Open questions
 
-- Whether an Orion film page can list a language the client's `LN` table lacks.
+- Whether Orion ever lists two versions of one film under one film page; none on the day.
 
 ## Implementation status
 
 Riviera built 2026-09-23: `prices.enrich` takes a `fields` parser and caches its answer
 beside the price, and `riviera.page_fields` reads the two lines. Record in
-[docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md). Next step: Orion, one
-paced film-page read per film.
+[docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md). Orion built the same
+day on the same cache, one film page per film, capped at 12 a run. Kino Helios waits for
+its calendar service to carry a language.
