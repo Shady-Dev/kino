@@ -31,13 +31,6 @@ contract change is explained here, never in `docs/research/`.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
-- **Eight read 2026-09-21, four built:** Kino Akustiikka (Ylivieska), Kino-Huovi
-  (Harjavalta), and Kino K13 and Kino Helios, which took Helsinki to ten chains and needed
-  its palette re-solved. Four existing accents moved and the 14.4 floor held; the rule and
-  the measurements are in [CLAUDE.md](CLAUDE.md) and
-  [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-- **Earlier batches:** thirty-two triaged 2026-09-18, five from the nytleffaan diff, six on
-  2026-09-20; eight were built, eight need a browser and eight have nothing.
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
 - **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (seven),
@@ -94,6 +87,18 @@ plain client; Riviera and Cinema Orion read theirs since 2026-09-23. Probe:
 [docs/research/screening-language-sources.md](docs/research/screening-language-sources.md).
 **Unblocks when:** Helios exposes the language through a source a plain visitor can read.
 Not revisited before then.
+
+### Julia 1&2 Hyvinkää prints two prices on one screening
+
+All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages label it
+"alkaen 14 €" and JSON-LD says 14. The maintainer holds taking the minimum: 12 € may be a
+conditional discount. **Unblocks when:** Julia's own page says what each amount is for.
+
+### Cinema Sheryl's "Happy Together" may be matched to the wrong film
+
+Two Sheryl showtimes resolve to TMDB 55059, the 1989 comedy (2026-09-24). Beside Chungking
+Express the 1997 Wong Kar-wai film is likelier, an inference, so no alias yet.
+**Unblocks when:** Sheryl's own page names the film's director or year.
 
 ### Kino Konepaja has no programme to read
 
@@ -287,14 +292,9 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   cosmetic attribution rather than a name or a secret, and a rewrite would falsify every
   commit SHA the decision records cite. The figures are in
   [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
-- A README workflow badge. Measured and declined 2026-09-20. `ci.yml` runs only on a push
-  touching `index.html`, `sw.js`, `scripts/**` or `tests/**`, and this repository's
-  ordinary push is data or pages, which none of those cover. A badge would therefore show
-  the verdict from whenever code last changed, not the state of the repository, and it
-  would be doing that right now: the newest `ci.yml` run on `main` is the failure on
-  `fb3c6beb7`, whose cause was fixed in `165629c60` the same evening, and that fix touched
-  only `pages/**` so it could not turn the run green. Reversible in one commit if it is
-  wanted anyway.
+- A README workflow badge. Measured and declined 2026-09-20: `ci.yml` runs only on code
+  pushes, so a badge would show the verdict from the last code change rather than the
+  repository's state. Record: [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 - Moving the local fetch off the laptop. **Decided 2026-09-20 by the maintainer:** local
   fetching stays on the laptop, and replacing the infrastructure is outside this
   repository. The constraint is unchanged and is why the item existed: eight providers
