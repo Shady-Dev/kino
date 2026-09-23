@@ -2,10 +2,10 @@
 
 The adapter expands `window.eventCalendarData`, `window.eventExceptionsData` and
 `window.disabledHolidays` the way the calendar page's own script does, keeps only the
-`Planetaarioelokuvat` category, reports a calendar with no planetarium film as a confirmed
-empty venue, and reads runtime, recommendation, languages and the synopsis off each film's
-article. The registry's fifth `book` mode, `admission`, carries
-the admission semantics in the client's footer and tooltip and in the generated page's
+`Planetaarioelokuvat` category, reports a calendar whose planetarium films all fall outside
+the window as a confirmed empty venue, fails one where no item carries the category, and
+reads runtime, recommendation, languages and the synopsis off each film's article. The
+registry's fifth `book` mode, `admission`, carries the admission semantics in the client's footer and tooltip and in the generated page's
 intro, and the per-show `age` field carries the planetarium's five-year floor.
 
 Fixtures are hand-written in the page's own shape: bare keys, blank lines inside the
@@ -26,6 +26,9 @@ import registry
 import run
 
 TODAY = datetime.date(2026, 9, 7)          # a Monday; the fixture week runs to Sunday 13.9.
+# Past every planetarium item's range, exception and one-day screening in CALENDAR: the
+# calendar still lists the films, and none of them runs. That is a paused programme.
+PAUSED = datetime.date(2027, 2, 1)
 ROOT = _ctx.ROOT
 
 
@@ -339,11 +342,40 @@ class ExpansionTest(unittest.TestCase):
         starts = [s["start"] for s in self.shows]
         self.assertEqual(starts, sorted(starts))
 
-    def test_no_planetarium_film_in_the_window_is_a_confirmed_empty_list(self):
+    def test_planetarium_films_whose_runs_have_all_ended_are_a_confirmed_empty_list(self):
+        """The category matched and every schedule was read in the page's shape: the
+        calendar says these films do not run in the window."""
+        h = heureka()
+        self.assertEqual(h.parse_calendar(CALENDAR, PAUSED, days=7), ([], {}))
+        self.assertTrue(h.EMPTY_VENUES_CONFIRMED)
+
+    def test_no_item_in_the_planetarium_category_fails_rather_than_emptying(self):
+        """A renamed category leaves the calendar full and the filter matching nothing."""
         h = heureka()
         page = CALENDAR.replace('kategoria: "Planetaarioelokuvat"', 'kategoria: "Tiedeteatteri"')
-        self.assertEqual(h.parse_calendar(page, TODAY, days=7), ([], {}))
-        self.assertTrue(h.EMPTY_VENUES_CONFIRMED)
+        with self.assertRaises(RuntimeError):
+            h.parse_calendar(page, TODAY, days=7)
+
+    def test_renamed_weekday_keys_fail_rather_than_emptying(self):
+        """The films are listed and every schedule lookup misses: a schema change."""
+        h = heureka()
+        page = CALENDAR
+        for n, day in enumerate(h.WEEKDAYS):
+            page = page.replace(f"{day}: [", f"paiva{n}: [")
+        self.assertNotIn("maanantai: [", page)
+        with self.assertRaises(RuntimeError):
+            h.parse_calendar(page, TODAY, days=7)
+
+    def test_an_exception_in_another_shape_blocks_a_confirmed_empty_list(self):
+        """Paused, but an exception naming a film no longer carries the weekday lists."""
+        h = heureka()
+        renamed = EXCEPTIONS
+        for n, day in enumerate(h.WEEKDAYS):
+            renamed = renamed.replace(f"{day}: [", f"paiva{n}: [")
+        page = CALENDAR.replace(EXCEPTIONS, renamed)
+        self.assertNotEqual(page, CALENDAR)
+        with self.assertRaises(RuntimeError):
+            h.parse_calendar(page, PAUSED, days=7)
 
     def test_unreadable_clocks_fail_the_venue_rather_than_emptying_it(self):
         h = heureka()
@@ -453,14 +485,14 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("0 failures", log)
 
     def test_a_confirmed_empty_programme_clears_old_screenings_and_stays_green(self):
-        """Heureka pauses its programme: the calendar still parses, no planetarium film is
-        in it. The old screenings must go, the venue reads pending, the run is green."""
+        """Heureka pauses its programme: the calendar still lists its planetarium films and
+        none runs in the window. The old screenings must go, the venue reads pending, the
+        run is green."""
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
                 "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
         (run.OUT / "area-hk-vantaa.json").write_text(json.dumps(prev))
-        page = CALENDAR.replace('kategoria: "Planetaarioelokuvat"', 'kategoria: "Tiedeteatteri"')
-        self.serve({self.h.CALENDAR: page})
-        self.h.fetch_site.__defaults__ = (self.h.SITES[0], 0, TODAY)
+        self.serve({self.h.CALENDAR: CALENDAR})
+        self.h.fetch_site.__defaults__ = (self.h.SITES[0], 0, PAUSED)
         self.addCleanup(lambda: setattr(self.h.fetch_site, "__defaults__", (self.h.SITES[0], 1.2, None)))
         code, log = self.main()
         self.assertEqual(code, 0, log)
@@ -473,6 +505,19 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("pending", log)
         self.assertIn("0 failures", log)
         self.assertEqual(self.calls, [self.h.CALENDAR])
+
+    def test_a_calendar_whose_filter_matches_nothing_fails_and_keeps_the_previous_file(self):
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+                "horizon": "2026-09-01", "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        (run.OUT / "area-hk-vantaa.json").write_text(json.dumps(prev))
+        page = CALENDAR.replace('kategoria: "Planetaarioelokuvat"', 'kategoria: "Tiedeteatteri"')
+        self.serve({self.h.CALENDAR: page})
+        self.h.fetch_site.__defaults__ = (self.h.SITES[0], 0, TODAY)
+        self.addCleanup(lambda: setattr(self.h.fetch_site, "__defaults__", (self.h.SITES[0], 1.2, None)))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("FAILED", log)
+        self.assertEqual(json.loads((run.OUT / "area-hk-vantaa.json").read_text()), prev)
 
     def test_a_refused_calendar_fails_the_site_and_keeps_the_previous_file(self):
         prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],

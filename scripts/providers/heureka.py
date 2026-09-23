@@ -50,10 +50,14 @@ TMDB's, so an unmarked local path is treated as the cinema's own and never repla
 files sit in data/posters/ because that is the only directory the client loads an image
 from and the only one build_pages.py will emit a reference to.
 
-Emptiness. A calendar that parsed with no planetarium film in the window reports the
-venue as an empty list, and EMPTY_VENUES_CONFIRMED lets run.py publish it as pending. A
-page without the arrays, an empty array, or planetarium clocks that all fail to parse
-raise instead, so the previous file is kept.
+Emptiness. The venue is reported as an empty list only when the calendar lists timed
+planetarium items and every one's schedule was read in the page's shape (all seven weekday
+keys, each a list) and puts no screening in the window: the runs have ended, or not begun,
+or the house is closed. EMPTY_VENUES_CONFIRMED lets run.py publish that as pending. A page
+without the arrays, an empty array, no item in the planetarium category, a schedule in
+another shape, or planetarium clocks that all fail to parse raise instead, so the previous
+file is kept. A filter that matches nothing is what a renamed category produces while the
+calendar is full of films.
 
 Conditional requests are off: the calendar page answers If-None-Match with a full 200
 and a new ETag every time (checked 2026-09-05).
@@ -95,7 +99,7 @@ VENUE = {"id": "hk-vantaa", "provider": "heureka", "name": "Heurekan planetaario
 
 SITES = [{"provider": "heureka", "label": "Heureka", "base": BASE, "venues": [VENUE]}]
 
-# A venue reported with an empty list was answered in schema and listed nothing.
+# An empty venue: planetarium items read in schema, none in the window. See the docstring.
 EMPTY_VENUES_CONFIRMED = True
 
 WEEKDAYS = ["maanantai", "tiistai", "keskiviikko", "torstai", "perjantai",
@@ -245,9 +249,11 @@ def _event_id(ev):
 def parse_calendar(page, today=None, days=DAYS):
     """-> (shows, {blog path: eventId}) for the planetarium films in the window.
 
-    An empty list is a confirmed empty programme. RuntimeError when planetarium clocks
-    were listed and none could be read: the clock format changed, and [] would publish
-    a quiet week over it.
+    An empty list is a confirmed empty programme: planetarium items are listed and their
+    schedules, read in the page's shape, run nothing in the window. RuntimeError when
+    planetarium clocks were listed and none could be read (the clock format changed), when
+    no timed item carries the category, or when a schedule lacks the weekday lists: each
+    is a parse that missed, and [] would publish a quiet week over it.
     """
     events, exceptions, holidays = calendar_arrays(page)
     today = today or datetime.datetime.now(FI).date()
@@ -294,6 +300,18 @@ def parse_calendar(page, today=None, days=DAYS):
     if tokens and not shows:
         raise RuntimeError(f"{BASE}{CALENDAR}: {tokens} planetarium time(s) listed in the "
                            f"next {days} days and none could be read (clock format changed?)")
+    if not shows:
+        if not films:
+            raise RuntimeError(f"{BASE}{CALENDAR}: {len(events)} calendar item(s) and none "
+                               f"a timed {CATEGORY!r} item (category renamed?)")
+        names = {ev.get("nimi") for ev in films}
+        scheds = [ev.get("ajat") for ev in films] + [
+            ex.get("ajat") for ex in exceptions
+            if names.intersection(ex.get("appliesToEvents") or [])]
+        if not all(isinstance(a, dict) and all(isinstance(a.get(d), list) for d in WEEKDAYS)
+                   for a in scheds):
+            raise RuntimeError(f"{BASE}{CALENDAR}: a planetarium schedule lacks the weekday "
+                               f"lists, so an empty window proves nothing (schema changed?)")
     shows.sort(key=lambda s: (s["start"], s["title"]))
     return shows, blogs
 
