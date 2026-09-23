@@ -94,7 +94,7 @@ import re
 import sys
 import time
 
-from common import EmptyProgramme, capped, fetch
+from common import capped, fetch, served
 
 BASE = "http://www.biosavoy.ax"
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -105,6 +105,7 @@ VENUE = {"id": "savoy-mariehamn", "name": "Bio Savoy", "short": "Bio Savoy",
 SITES = [{"provider": "biosavoy", "label": "Bio Savoy", "base": BASE, "venues": [VENUE]}]
 
 CONTAINER_RE = re.compile(r'block-filmer-schema-block', re.I)
+FILM_LINK_RE = re.compile(r'<a href="/film/[^"]+"', re.I)
 BLOCK_RE = re.compile(r'<h2 class="block-title">([^<]*)</h2>(.*?)(?=<h2 class="block-title">|\Z)',
                       re.S | re.I)
 HALL_RE = re.compile(r'Filmvisningar\s*-\s*(.+?)\s*$', re.I)
@@ -138,8 +139,9 @@ def _txt(s):
 
 
 def parse(page):
-    """The front page -> [show]. Raises when no schedule block is present, and
-    `EmptyProgramme` when the blocks are there with no screening row."""
+    """The front page -> [show]. Raises when no schedule block is present, and when the
+    blocks yield no screening row: no empty state has been read off this site, so zero
+    rows is a parse or template failure and never `common.EmptyProgramme`."""
     if not CONTAINER_RE.search(page):
         raise RuntimeError(
             f"{BASE}: no schedule block on the page, so this is not the programme this "
@@ -186,7 +188,10 @@ def parse(page):
                 "venue": VENUE["id"],
             })
     if not shows:
-        raise EmptyProgramme(f"{BASE} has its schedule blocks but no screening row")
+        raise RuntimeError(
+            f"{BASE}: schedule blocks present but no screening row parsed from "
+            f"{len(FILM_LINK_RE.findall(page))} film link(s) ({served(page)}). No empty "
+            f"state is known for this site, so this is a parse or template failure")
     shows.sort(key=lambda s: (s["start"], s["aud"]))
     return shows
 

@@ -174,9 +174,25 @@ class ScheduleTest(unittest.TestCase):
 
 
 class EmptyAndBrokenTest(unittest.TestCase):
-    def test_blocks_with_no_row_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_blocks_with_no_row_fail_rather_than_empty_the_venue(self):
+        """No empty state is recorded for this site. Empty hall blocks are what a changed
+        row markup would also produce, so zero rows fails."""
+        with self.assertRaises(RuntimeError) as cm:
             biosavoy.parse(page(block("Sal 1"), block("Sal 2")))
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_film_rows_the_parser_cannot_read_fail_the_site(self):
+        """Both halls list films, every instant unreadable or its attribute renamed: a
+        template change, not a cinema with nothing on."""
+        renamed = row("marsupilami", "MARSUPILAMI", "2026-09-15T18:15:00+03:00").replace(
+            " content=", " datetime=")
+        with self.assertRaises(RuntimeError) as cm:
+            biosavoy.parse(page(
+                block("Sal 1", row("dog-stars", "THE DOG STARS", "2026-09-15 18:00"),
+                      row("uprising", "THE UPRISING", "tis 15/09 20:15")),
+                block("Sal 2", renamed)))
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("3 film link", str(cm.exception))
 
     def test_a_page_without_a_schedule_block_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
