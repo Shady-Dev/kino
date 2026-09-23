@@ -30,17 +30,19 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # run.py may treat a venue this module reports with an empty list as positive evidence
 # of an empty programme ("pending" rather than "unverified"), because parse() only
 # returns [] on evidence: the payload passed the shows-key schema check and the venue's
-# rows are genuinely absent (an empty payload, a room filter that owns none of them, or
-# rows the upstream itself marks upcoming-only). Rows that exist but cannot be parsed
-# raise instead of vanishing, so a renamed row field can never read as a quiet empty
-# programme -- and a mis-mapped room-split venue cannot be silently empty either,
-# because its town's rows land in the unclaimed-room log line. An adapter whose venue
-# match is a substring test over markup (etiketti) sets this only on evidence the read
-# itself produced, because a rotted match and a drifted screening pattern both yield the
-# same empty list while the page still lists films: there, the site's own theatre
-# navigation has to name the venue, every film page has to have been fetched and parsed,
-# every page with screening blocks has to have produced at least one row, and every row
-# has to have been taken by a registered venue. Any miss clears the confirmation.
+# rows are genuinely absent (an empty payload, a room filter that owns none of them while
+# another venue's rooms own some, or rows the upstream itself marks upcoming-only). Rows
+# that exist but cannot be parsed raise instead of vanishing, so a renamed row field can
+# never read as a quiet empty programme. A payload with rows that no configured room owns
+# at all is the roomIds having moved, and fetch_site raises on it rather than report
+# every venue []; a single mis-mapped town's rows land in the unclaimed-room log line.
+# An adapter whose venue match is a substring test over markup (etiketti) sets this only
+# on evidence the read itself produced, because a rotted match and a drifted screening
+# pattern both yield the same empty list while the page still lists films: there, the
+# site's own theatre navigation has to name the venue, every film page has to have been
+# fetched and parsed, every page with screening blocks has to have produced at least one
+# row, and every row has to have been taken by a registered venue. Any miss clears the
+# confirmation.
 EMPTY_VENUES_CONFIRMED = True
 
 SITES = [
@@ -273,6 +275,23 @@ def unclaimed(payload, venues):
     return out
 
 
+def orphaned(payload, venues):
+    """Rows on a room-split locationid when no venue's `rooms` owns one of them. -> count
+
+    0 wherever a venue takes every row or the payload has none. One town owning nothing
+    is a town between visits; every town owning nothing while rows exist is not.
+    """
+    roomed = bool(venues) and all(v.get("rooms") for v in venues)
+    if not roomed or not isinstance(payload, dict):
+        return 0
+    owned = {str(x) for v in venues for x in v["rooms"]}
+    groups = payload.get("shows") or {}
+    rows = [r for v in groups.values() for r in v] if isinstance(groups, dict) else list(groups)
+    if any(str(r.get("roomId") or "") in owned for r in rows):
+        return 0
+    return len(rows)
+
+
 def fetch_payload(site, locationid, days=21, tries=3):
     """One locationid's decoded payload. Retry with backoff: the host answers 403
     when hit too often in a short window.
@@ -309,6 +328,15 @@ def fetch_site(site, sleep=2.5):
             print(f"[{site['provider']}] locationid {loc} FAILED: {e}")
             time.sleep(sleep)
             continue
+        lost = orphaned(payload, venues)
+        if lost:
+            # Not caught per venue: every venue here would come back [] and be vouched
+            # empty, or the site would read as having nothing on.
+            seen = ", ".join(f"{r} {t!r}" for r, t in sorted(unclaimed(payload, venues)))
+            raise RuntimeError(
+                f"{site['base']} locationid {loc}: {lost} row(s) and not one in a room a "
+                f"venue owns (rooms seen: {seen}). The roomIds moved; this is a mapping "
+                f"break, not an empty programme")
         for v in venues:
             try:
                 out[v["id"]] = parse(payload, site, v)

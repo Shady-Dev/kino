@@ -7,9 +7,12 @@ town first appears -- Tikkakoski arrived between two probes of the same endpoint
 Matching is on roomId, not roomTitle: the id is what KSEK's own per-town pages filter
 on, and a title is one wording change from silently dropping a town.
 """
+import contextlib
+import io
 import unittest
 
 import _ctx                                                # noqa: F401
+import common
 import nexxo
 
 
@@ -124,6 +127,44 @@ class ConfirmedEmptyEvidenceTest(unittest.TestCase):
         del bad["startTime"]
         shows = nexxo.parse({"shows": {"d": [good, bad]}}, SITE, SITE["venues"][0])
         self.assertEqual([s["title"] for s in shows], ["Good"])
+
+
+class RenumberedRoomTest(unittest.TestCase):
+    """The site-wide verdict, where parse() cannot see the other venues. One town with no
+    owned rows while another has some is a town between visits. Rows in the payload that
+    no configured room owns at all is the roomIds having moved, and every venue coming
+    back [] from that must not read as the site having nothing on."""
+
+    def fetch(self, payload):
+        real = nexxo.fetch_payload
+        nexxo.fetch_payload = lambda site, loc, **kw: payload
+        self.addCleanup(lambda: setattr(nexxo, "fetch_payload", real))
+        with contextlib.redirect_stdout(io.StringIO()):
+            return nexxo.fetch_site(SITE, sleep=0)
+
+    def test_rows_that_no_configured_room_owns_fail_the_site(self):
+        moved = {"shows": {"2026-09-02": [row(102, "Muurame", "Film A"),
+                                          row(104, "Petäjävesi", "Film C")]}}
+        with self.assertRaises(RuntimeError) as cm:
+            self.fetch(moved)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+        self.assertIn("102", str(cm.exception))
+
+    def test_one_town_between_visits_is_a_confirmed_empty_beside_the_other(self):
+        out = self.fetch({"shows": {"d": [row(2, "Muurame", "Film A"),
+                                          row(21, "Riihivuori", "Film B")]}})
+        self.assertEqual(sorted(s["title"] for s in out["km-muurame"]), ["Film A", "Film B"])
+        self.assertEqual(out["km-petajavesi"], [])
+
+    def test_a_venue_without_rooms_on_the_locationid_leaves_nothing_orphaned(self):
+        """A plain venue takes every row, so no roomId can be orphaned beside it."""
+        moved = {"shows": {"d": [row(102, "Muurame"), row(104, "Petäjävesi")]}}
+        self.assertEqual(nexxo.orphaned(moved, [PLAIN_VENUE, SITE["venues"][0]]), 0)
+        self.assertEqual(nexxo.orphaned(moved, SITE["venues"]), 2)
+
+    def test_an_empty_payload_on_a_room_split_site_is_an_empty_programme(self):
+        with self.assertRaises(common.EmptyProgramme):
+            self.fetch({"shows": {}})
 
 
 class UnclaimedRoomTest(unittest.TestCase):
