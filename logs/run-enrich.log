@@ -1,5 +1,4 @@
-[enrich] dropped 11 entries matched by the old picker
-[enrich] re-judging 1 title(s) on new title or year evidence (1 exact match(es), 0 unmatched), 0 wait for the next run: casino royale
+[enrich] dropped 10 entries matched by the old picker
 [enrich] rating disagreement, nothing shared: Hetki ennen valoa (tmdb 1015881) K-12=kinokilta K-7=bioforum/biogrand/biograni/biokaari/biomarilyn/biopallas/biorex/biorexkokkola/biosade/biovuoksi/cine/cinemantsala/elavienkuvien/engel/gilda/haapamaki/helios/ihmekompleksi/isohannu/jarvelankino/julia/kino123/kinoakseli/kinoaurora/kinoelo/kinohamina/kinohirvi/kinoiiris/kinojuha/kinokulma/kinolaika/kinolumo/kinomania/kinomarilyn/kinometso/kinomyyri/kinoolympia/kinopiispanristi/kinopirtti/kinosampo/kinoset/kinotar/kinotoijala/kinotour/kkino/kotkanleffat/kuusamotalo/laitilankino/leffabuumi/lieksankino/marita/matintupa/navettakino/niagara/regina/savonkinot/star/studio123jarvenpaa/studio123kouvola/tapiola/vaakuna/vihdinkino
 [enrich] rating disagreement, nothing shared: Oasis: Don't Look Back in Anger (tmdb 1447853) K-12=kinokilta K-7=biorex/gilda/isohannu/kinoaurora/kinolaika/kinoolympia/kinopiispanristi/niagara/star/tapiola
 [enrich] rating disagreement, nothing shared: Hissillä mestauslavalle (tmdb 1093) K-12=gilda K-16=kinometso
@@ -9,5 +8,5 @@
 [enrich] weak match, no exact title (10): Forest of the Hanged -> Pădurea spânzuraţilor | Kirjastokino: Remains of the Day -> Pitkän päivän ilta | Klassikkoelokuva: A Better Tomorrow -> Titanic: 25 vuotta klassikkoelokuvasta | Konsertti - Mia Hafrén -> Mikki ja konsertti | Konsertti: Con Fusion Vocal Ensemble - Just The Way We Are -> Mikki ja konsertti | Ooppera: Don Giovanni (Vicenza festivaali / Mozart ) -> Ooppera: Idomeneo | Ooppera: Madama Butterfly (Bregenz festival / Puccini) -> Ooppera: Idomeneo | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) -> Classic Albums: Stevie Wonder - Songs In The Key of Life | The Love That Remains (Ástin sem eftir er) -> Ástin sem eftir er | Verity (Verityn varjo) -> Verityn varjo
 [enrich] en-US second search: 10 title(s) asked, 0 settled, 0 disagreed with the fi-FI candidate and were left for the alias file
 [enrich] rating held back, under 25 votes (4): Klassikkoelokuva: A Better Tomorrow (7.4 / 14 votes) | Ooppera: Don Giovanni (Vicenza festivaali / Mozart ) (4.5 / 2 votes) | Ooppera: Madama Butterfly (Bregenz festival / Puccini) (4.5 / 2 votes) | Stevie Wonder 'Songs In The Key Of Life ' (50th Anniversary) (8.5 / 2 votes)
-[enrich] 409 titles, 13 new, 0 re-checks, 294 with rating, 448 with synopsis, 451 with poster, 444 mergeable by id, 91 files updated
+[enrich] 409 titles, 10 new, 0 re-checks, 294 with rating, 448 with synopsis, 451 with poster, 444 mergeable by id, 91 files updated
 exit=0

@@ -3,13 +3,13 @@
 [kinokilta] Kino Kilta: 45 showtimes, 25 dates
 [kinokilta] Kino Kilta: 45 showtimes, 25 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 92 screening(s) listed, 52 film page(s) read
+[kinolaika] 91 screening(s) listed, 52 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja
 [kinolaika] override a-fox-under-a-pink-moon: active
-[kinolaika] Kino Laika: 70 showtimes, 22 dates
+[kinolaika] Kino Laika: 69 showtimes, 21 dates
 [kinolaika] strand prefix split off 1 showtimes
-[kinolaika] Kino Laika: 70 showtimes, 22 dates
+[kinolaika] Kino Laika: 69 showtimes, 21 dates
 [kinolaika] synopses merged: 0
 [kinolaika] synopses skipped as screening notes (price): 1
 [kinomyyri] 29 screening(s) listed, 17 film page(s) read
@@ -22,6 +22,6 @@
 [kinomyyri] synopses merged: 0
 [run] http: 0 revalidated (304), 101 full, 18 not stored (origin said no-store), 30 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 180.5s of fetching added up across workers that overlap, longest site 100.6s, longest queue wait 91.9s, 104.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 140 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 203.0s of fetching added up across workers that overlap, longest site 107.3s, longest queue wait 108.1s, 109.7s wall from this module's first fetch starting to its last ending
 exit=0

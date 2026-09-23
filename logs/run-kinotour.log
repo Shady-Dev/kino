@@ -2,5 +2,5 @@
 [kinotour] FAILED: HTTP Error 500: Internal Server Error
 [run] hosts: 1 attempted -- www.kinotour.fi
 [run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 17.1s of fetching added up across workers that overlap, longest site 17.1s, longest queue wait 117.1s, 17.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 18.0s of fetching added up across workers that overlap, longest site 18.0s, longest queue wait 136.3s, 18.0s wall from this module's first fetch starting to its last ending
 exit=1
