@@ -254,19 +254,43 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in shows], [""])
         self.assertIn("1 page(s) that did not answer", log)
 
-    def test_a_table_of_nothing_but_undeclared_towns_empties_the_declared_ones(self):
-        """The table is the whole programme, so a town it does not mention has nothing on.
-        `EMPTY_VENUES_CONFIRMED` is what turns that into a fresh empty file rather than a
-        last visit ageing for weeks."""
-        (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
-        self.serve(table(UNDECLARED))
+    def test_a_declared_town_the_table_does_not_mention_is_published_empty(self):
+        """The table is the whole programme, so a town it does not mention has nothing on,
+        once a row filed under another declared town shows the town key reads.
+        `EMPTY_VENUES_CONFIRMED` turns that into a fresh empty file rather than a last
+        visit ageing for weeks."""
+        (run.OUT / "area-kinotour-naantali.json").write_text(json.dumps(self.PREV))
+        self.serve(table(DECLARED, UNDECLARED))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertIn("Karkkila (1)", log)
         self.assertIn("no programme at the moment", log)
-        body = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())
+        body = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
+
+    def test_a_table_of_nothing_but_undeclared_towns_fails_and_keeps_the_previous_file(self):
+        """No row filed under a declared town is also what a town key that stopped
+        reading produces, so it says nothing about the declared towns being empty."""
+        (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
+        self.serve(table(UNDECLARED, row("su 20.09.2026", "17:00", "Pirjo, K12",
+                                         "Ikaalisten tori, Ikaalinen")))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("Ikaalinen (1), Karkkila (1)", log)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-kinotour-kyro.json").read_text()), self.PREV)
+
+    def test_a_place_cell_that_no_longer_ends_in_the_town_fails_the_site(self):
+        """Every row lists a film in a declared town, and the town key reads none of them:
+        `Kyrö, Kurkisali` puts the hall where the town was."""
+        (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
+        self.serve(table(
+            row("la 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö, Kurkisali"),
+            row("su 20.09.2026", "15:00", "Pirjo, K12", "Naantali, Kristoffersali")))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-kinotour-kyro.json").read_text()), self.PREV)
 
     def test_an_empty_table_fails_and_keeps_the_previous_file(self):
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))

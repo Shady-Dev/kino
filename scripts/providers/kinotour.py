@@ -50,9 +50,11 @@ What shapes the parser:
 - **No poster, runtime, genre or language.** The table is the whole of what this site
   publishes in one request, and the shared enrichment fills what it can.
 
-**Zero rows fails the site.** No empty programme has been seen here, so there is no
-evidence of what one looks like: `common.EmptyProgramme` is for the case where that
-evidence is in hand.
+**Zero rows fails the site**, and so does a table whose rows all land in undeclared
+towns: a town key that stopped reading produces the same table, so it is no evidence the
+declared towns are empty. No empty programme has been seen here, so there is no evidence
+of what one looks like: `common.EmptyProgramme` is for the case where that evidence is in
+hand.
 """
 import datetime
 import html as html_mod
@@ -102,12 +104,14 @@ RATING_TAIL_RE = re.compile(r",\s*(K-?\d{1,2}|S)\s*$", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 FI_WEEKDAYS = ("ma", "ti", "ke", "to", "pe", "la", "su")
 
-# A town with no row in a table that parsed is known empty, not unread: this page is
-# the operator's whole published programme in one request, so a town it does not
-# mention has nothing on. `run.py` then publishes a fresh empty file for that venue
-# instead of ageing its last visit, which is the case its own comment names: "a
-# touring cinema's town is empty between visits". A page that parses no row at all
-# never reaches that loop, because `fetch_site` raises first.
+# A town with no row is known empty, not unread, once the table filed a row under some
+# other declared town: this page is the operator's whole published programme in one
+# request, so a town it does not mention has nothing on. `run.py` then publishes a fresh
+# empty file for that venue instead of ageing its last visit, which is the case its own
+# comment names: "a touring cinema's town is empty between visits". A table with no row
+# under any declared town never reaches that loop, because `fetch_site` raises first:
+# rows that all land in undeclared towns are also what a town key that stopped reading
+# produces.
 EMPTY_VENUES_CONFIRMED = True
 
 
@@ -245,7 +249,13 @@ def fetch_site(site):
     url = site["base"].rstrip("/") + site["listing"]
     per_venue, report = rows(site, get(url))
     published = sum(len(v) for v in per_venue.values())
-    if not published and not report["undeclared"]:
+    if not published and report["undeclared"]:
+        named = ", ".join(f"{t} ({n})" for t, n in sorted(report["undeclared"].items()))
+        raise RuntimeError(
+            f"{url}: no row under a declared town, every one in a town this repo does not "
+            f"list: {named}. A town key that stopped reading looks the same, so no declared "
+            f"town is published empty and the previous files stand")
+    if not published:
         raise RuntimeError(
             f"{url}: no screening row in the table. No empty programme has been seen here, "
             f"so there is no evidence of one to read this as, and the previous files stand")
