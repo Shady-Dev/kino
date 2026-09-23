@@ -77,6 +77,13 @@ The vocabulary was settled and applied on 2026-09-23 ("visning", "visningstider"
 The maintainer settled the four remaining terms the same day.
 **Next action:** a native Finland-Swedish reader over the result.
 
+### Riviera and Cinema Orion publish a screening language the adapters drop
+
+Both publish `lang: ""`; read 2026-09-23, Riviera's ticket pages carry audio and subtitles
+per screening and Orion's film pages per film. Kino Helios publishes none it can reach.
+Probe: [docs/research/screening-language-sources.md](docs/research/screening-language-sources.md).
+**Next action:** Riviera first, through the price pass's page and cache; then Orion.
+
 ### Two providers are read over plain HTTP
 
 Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a cleartext
