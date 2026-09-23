@@ -69,14 +69,13 @@ rebuilt the hash stops matching, the script never loads and analytics stops with
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
 **Next action:** re-measure the hash in the same commit as any `PH_VERSION` bump.
 
-### Swedish landing pages: a native reader for the page copy
+### Swedish copy: judgement calls for a native reader
 
-Built 2026-09-22, so the selector no longer changes the kind of page. `L["sv"]` is drafted
-the way the app's Swedish strings are, not translated, and the same open question stands
-for both. Record:
+Both surfaces were read once as Finland-Swedish on 2026-09-23 and the plain errors fixed.
+What is left is choice of term, listed with alternatives in the record:
 [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** a Finland-Swedish reader over `L["sv"]` in `scripts/build_pages.py` and
-the interface strings in `index.html`, together rather than separately.
+**Next action:** a native Finland-Swedish reader decides "egen biograf", "tidtabell",
+"visning" against "föreställning", and one subtitle label for the app and the pages.
 
 ### Two providers are read over plain HTTP
 

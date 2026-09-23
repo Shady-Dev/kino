@@ -189,12 +189,12 @@ L = {
                      "tillg\u00e4ngliga biljettl\u00e4nkar.",
         "venue_sub": "{city} \u00b7 {host}",
         "city_sub": "{n} biografer",
-        "intro_buy": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en tid "
-                     "kommer du till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
-        "intro_reserve": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en "
-                         "tid kommer du till platsbokningen p\u00e5 {host}.",
-        "intro_list": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Fr\u00e5n en tid "
-                      "kommer du till biografens program p\u00e5 {host}.",
+        "intro_buy": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid "
+                     "f\u00f6r att komma till biljettf\u00f6rs\u00e4ljningen p\u00e5 {host}.",
+        "intro_reserve": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en "
+                         "tid f\u00f6r att komma till platsbokningen p\u00e5 {host}.",
+        "intro_list": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. V\u00e4lj en tid "
+                      "f\u00f6r att komma till biografens program p\u00e5 {host}.",
         "intro_door": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. Biljetterna "
                       "s\u00e4ljs vid d\u00f6rren.",
         "intro_admission": "Se f\u00f6rest\u00e4llningstiderna f\u00f6r de n\u00e4rmaste dagarna. "
@@ -202,7 +202,7 @@ L = {
                            "p\u00e5 {host}.",
         "age_note": "\u00c5ldersgr\u00e4nsen f\u00f6r f\u00f6rest\u00e4llningarna \u00e4r {n} \u00e5r.",
         "city_intro": "Se f\u00f6rest\u00e4llningstiderna fr\u00e5n {n} biografer f\u00f6r de n\u00e4rmaste "
-                      "dagarna. Fr\u00e5n en tid kommer du till biografens biljett- eller "
+                      "dagarna. V\u00e4lj en tid f\u00f6r att komma till biografens biljett- eller "
                       "programsida n\u00e4r en l\u00e4nk finns.",
         "cta": "\u00d6ppna hela programmet",
         "today": "I dag", "tomorrow": "I morgon",
