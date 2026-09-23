@@ -60,7 +60,7 @@ import sys
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import EmptyProgramme, fetch, get_text, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, weekday_index
 
 BASE = "https://www.kuvakukko.fi"
 LISTING = BASE + "/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/"
@@ -77,11 +77,12 @@ SITES = [{"provider": "kuvakukko", "label": "Kuvakukko", "base": BASE, "venues":
 
 # One cinema's heading present with no day paragraph under it, while the other has rows,
 # is positive evidence that it is between programmes: both schedules are on the same page,
-# so the read cannot have half-failed. Both empty raises EmptyProgramme instead.
+# so the read cannot have half-failed. `parse` checks both halves of that and raises
+# otherwise: a cinema whose heading was not read, or whose days carry no row this parser
+# reads, is not shown to be empty. Both empty fails the site, because no empty programme
+# has been seen on this page and there is no evidence of what one looks like.
 EMPTY_VENUES_CONFIRMED = True
 
-# A heading is present with no day paragraph under it only when that cinema has nothing
-# on; a page with no heading at all is a changed template.
 # The horizon these two were measured at on 2026-09-15: Kuvakukko 9 dates at +0 to +9,
 # Manttu 3 dates at -4 to -2, its fortnightly weekend already past. 30 behind and 60 ahead
 # covers both with room and stays far short of the 365 a mistyped weekday would need.
@@ -207,7 +208,8 @@ def price_of(title, href, tail, house):
 
 def parse(page, site=None, today=None, prices=None):
     """The shared page -> {venue_id: [show]}. Raises when no schedule heading is present,
-    and `EmptyProgramme` when the headings are there with no screening under them.
+    when the headings are there with no screening under either, and when one cinema has
+    no row while its heading is missing or its section lists days.
 
     `prices` is `tariff()`'s answer, or nothing: a venue it does not name publishes no
     amount, which is what an unreadable or ambiguous `/liput/` leaves behind.
@@ -222,14 +224,17 @@ def parse(page, site=None, today=None, prices=None):
     today = today or datetime.datetime.now(FI).date()
     per_venue = {v["id"]: [] for v in VENUES}
     seen, unplaced = set(), []
+    headed, dated = set(), set()
     for heading, body in _sections(page):
         venue = _venue_for(heading)
         if venue is None or "esitysaikataulu" not in heading.lower():
             continue
+        headed.add(venue["id"])
         for para in PARA_RE.findall(body):
             d = DAY_RE.match(_txt(para))
             if not d:
                 continue                    # an address, a price list, opening hours
+            dated.add(venue["id"])
             wd, day, month = d.group(1), int(d.group(2)), int(d.group(3))
             year = resolve_year(day, month, today, weekday_index(wd), WINDOW)
             if year is None:
@@ -284,7 +289,18 @@ def parse(page, site=None, today=None, prices=None):
         print(f"[kuvakukko] {len(unplaced)} day(s) whose weekday matches no candidate "
               f"year, skipped: {', '.join(unplaced[:5])}")
     if not any(per_venue.values()):
-        raise EmptyProgramme(f"{LISTING} has its headings but no screening under them")
+        raise RuntimeError(
+            f"{LISTING} has its headings but no screening under them. No empty programme "
+            f"has been seen here, so there is no evidence of one to read this as")
+    for v in VENUES:
+        if per_venue[v["id"]]:
+            continue
+        if v["id"] not in headed:
+            raise RuntimeError(f"{LISTING}: no schedule heading read for {v['name']}, so "
+                               f"its section was not read and it is not shown to be empty")
+        if v["id"] in dated:
+            raise RuntimeError(f"{LISTING}: {v['name']} lists days and no row under them "
+                               f"was read, so it is not shown to be empty")
     for shows in per_venue.values():
         shows.sort(key=lambda s: s["start"])
     return per_venue
@@ -316,9 +332,10 @@ def get_prices():
 def fetch_site(site=SITES[0]):
     """Runner contract: one page, two venues.
 
-    A venue with no row is returned as an empty list only when the other one has rows:
-    both schedules are on the same page, so one cinema being between programmes is
-    positive evidence, while both being empty already raised `EmptyProgramme` above.
+    A venue with no row is returned as an empty list only when the other one has rows
+    and its own heading was read with no day under it: both schedules are on the same
+    page, so that is positive evidence of one cinema between programmes. Every other
+    empty case has already raised in `parse`.
     """
     page = get_listing()
     prices = get_prices()

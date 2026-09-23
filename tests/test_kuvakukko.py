@@ -142,8 +142,9 @@ class YearTest(unittest.TestCase):
         bound refuses, which leaves the page with no screening at all."""
         body = page(kuopio_days=[day(f"{wd} 15.9.", row("19", "A"))])
         if want is None:
-            with self.assertRaises(common.EmptyProgramme, msg=wd):
+            with self.assertRaises(RuntimeError, msg=wd) as cm:
                 kuvakukko.parse(body, today=TODAY)
+            self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
             return
         per = kuvakukko.parse(body, today=TODAY)
         self.assertEqual(per["kk-kuopio"][0]["start"][:10], want, wd)
@@ -184,9 +185,40 @@ class EmptyAndBrokenTest(unittest.TestCase):
         self.assertEqual(len(per["kk-kuopio"]), 1)
         self.assertEqual(per["kk-nilsia"], [])
 
-    def test_both_empty_is_an_empty_programme(self):
-        with self.assertRaises(common.EmptyProgramme):
+    def test_both_empty_fails_the_site(self):
+        """No empty programme has been seen on this page, so both headings with nothing
+        under them is not evidence of one."""
+        with self.assertRaises(RuntimeError) as cm:
             kuvakukko.parse(page(), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_days_listed_under_both_headings_and_no_row_read_fails_the_site(self):
+        """Every day and film still on the page, the colon after each time gone: the
+        parse yields nothing while the listing lists films."""
+        with self.assertRaises(RuntimeError) as cm:
+            kuvakukko.parse(LISTING_PAGE.replace(": <a", " <a"), today=TODAY)
+        self.assertNotIsInstance(cm.exception, common.EmptyProgramme)
+
+    def test_a_cinema_whose_heading_is_not_read_is_not_published_empty(self):
+        """Kuopio parses and Manttu's heading no longer says `esitysaikataulu`, so its
+        section is never read. That is not Manttu between programmes."""
+        with self.assertRaises(RuntimeError) as cm:
+            kuvakukko.parse(LISTING_PAGE.replace("Mantun esitysaikataulu", "Mantun ohjelma"),
+                            today=TODAY)
+        self.assertIn("Kino Manttu", str(cm.exception))
+
+    def test_a_cinema_whose_days_carry_no_readable_row_is_not_published_empty(self):
+        """Kuopio parses and Manttu lists two days whose rows this parser misses."""
+        def bad(time_, title, href):
+            return row(time_, title, href).replace(":", "", 1)
+        body = page(kuopio_days=[day("Tiistai 15.9.", row("19", "A", f"{BASE}/a/"))],
+                    nilsia_days=[day("Perjantai 11.9.",
+                                     bad("17.15", "Presidentin kyyditys", f"{BASE}/pk/")),
+                                 day("Lauantai 12.9.",
+                                     bad("13", "Marsupilami (dub)", f"{BASE}/mars/"))])
+        with self.assertRaises(RuntimeError) as cm:
+            kuvakukko.parse(body, today=TODAY)
+        self.assertIn("Kino Manttu", str(cm.exception))
 
     def test_a_page_without_a_schedule_heading_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
