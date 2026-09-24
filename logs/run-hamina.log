@@ -1,6 +1,9 @@
-[kinohamina] FAILED: kinohamina: 'Kojootti vs. ACME' prints Ti 1.10. and no candidate year carries that weekday inside the window, so the screening cannot be placed
+[kinohamina] 22 screening(s) over 6 film(s)
+[kinohamina] Kino Hamina: 22 showtimes, 7 dates
+[kinohamina] Kino Hamina: 22 showtimes, 7 dates
+[kinohamina] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.hamina.fi
-[run] hamina: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 2.3s of fetching added up across workers that overlap, longest site 2.3s, longest queue wait 111.6s, 2.3s wall from this module's first fetch starting to its last ending
-exit=1
+[run] hamina: 1 venues, 22 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 3.0s of fetching added up across workers that overlap, longest site 3.0s, longest queue wait 111.7s, 3.0s wall from this module's first fetch starting to its last ending
+exit=0
