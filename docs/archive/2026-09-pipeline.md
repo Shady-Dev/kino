@@ -1962,3 +1962,14 @@ was equivalent (clearing `ts` slots on an id change, which following the entry a
 does) and the block it hit was removed. A key merge_shared created holds no TMDB field
 and is left alone, or a second pass would add `id` to it (`test_shared_rating`). Three `test_tmdb_trust.py` fixtures now seed
 residue with `id`/`ts`, the shape the pass writes.
+
+Data repair, same day. The code cannot tell a stale TMDB synopsis written before `id` from
+a cinema's, so the committed data was cleaned once by provenance: every `fi`/`en` text any
+entry of `tmdb-titles.json` held across its 226 revisions is TMDB's. Such text on a key
+whose current trusted id held it was recorded in `ts` (102 fi, 237 en); on any other key it
+was cleared, 25 slots: the Mighty Movie on three Ryhmä Hau keys, 1998's Practical Magic,
+Obsession's English on Naisen kasvot, four other films' blurbs on Regina keys (Dumbo,
+Juhlat, Niskavuoren naiset, The Time That Remains), and 15 English texts of earlier weak
+candidates. Then a local TMDB pass, poster mirror and pages. After: 0 keys with `tr` or
+`img` off the cache (22 and 47 before), no show field out of step, Kapina unrated in all 26
+files, 444 of 543 entries carrying `id`.
