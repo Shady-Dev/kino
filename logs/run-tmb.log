@@ -1,17 +1,17 @@
-[tmb] kinotoijala: 19 showtimes, 10 films, 10 dates, 19 priced, 19 timed, 19 with a genre, 19 with a synopsis
-[kinotoijala] Kino-Toijala: 19 showtimes, 10 dates
+[tmb] kinotoijala: 18 showtimes, 9 films, 10 dates, 18 priced, 18 timed, 18 with a genre, 18 with a synopsis
+[kinotoijala] Kino-Toijala: 18 showtimes, 10 dates
 [kinotoijala] synopses merged: 0
-[tmb] kinosampo: 19 showtimes, 10 films, 10 dates, 19 priced, 19 timed, 19 with a genre, 19 with a synopsis
-[kinosampo] Kino-Sampo: 19 showtimes, 10 dates
+[tmb] kinosampo: 18 showtimes, 9 films, 10 dates, 18 priced, 18 timed, 18 with a genre, 18 with a synopsis
+[kinosampo] Kino-Sampo: 18 showtimes, 10 dates
 [kinosampo] synopses merged: 0
-[tmb] kinomania: 27 showtimes, 11 films, 10 dates, 27 priced, 27 timed, 27 with a genre, 27 with a synopsis
-[kinomania] KinoMania: 27 showtimes, 10 dates
+[tmb] kinomania: 25 showtimes, 9 films, 9 dates, 25 priced, 25 timed, 25 with a genre, 25 with a synopsis
+[kinomania] KinoMania: 25 showtimes, 9 dates
 [kinomania] synopses merged: 0
-[tmb] kinoelo: 27 showtimes, 11 films, 10 dates, 27 priced, 27 timed, 27 with a genre, 27 with a synopsis
-[kinoelo] Elokuvateatteri Elo: 27 showtimes, 10 dates
+[tmb] kinoelo: 25 showtimes, 9 films, 9 dates, 25 priced, 25 timed, 25 with a genre, 25 with a synopsis
+[kinoelo] Elokuvateatteri Elo: 25 showtimes, 9 dates
 [kinoelo] synopses merged: 0
-[run] http: 0 revalidated (304), 46 full, 46 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 40 full, 40 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- elokuvat-elo.info, kino-mania.info, kinosampo.info, toijalan-kino.info
-[run] tmb: 4 venues, 92 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 85.0s of fetching added up across workers that overlap, longest site 22.2s, longest queue wait 80.1s, 44.4s wall from this module's first fetch starting to its last ending
+[run] tmb: 4 venues, 86 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 72.7s of fetching added up across workers that overlap, longest site 18.2s, longest queue wait 82.9s, 42.4s wall from this module's first fetch starting to its last ending
 exit=0

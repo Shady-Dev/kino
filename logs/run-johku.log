@@ -12,22 +12,22 @@
 [bioforum] Bio Forum: 20 showtimes, 8 dates
 [bioforum] Bio Forum: 20 showtimes, 8 dates
 [bioforum] synopses merged: 0
-[kinokulma] 66 screening(s) in day groups, 20 film page(s) read
+[kinokulma] 65 screening(s) in day groups, 19 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
-[kinokulma] Kinokulma: 64 showtimes, 39 dates
-[kinokulma] Kinokulma: 64 showtimes, 39 dates
+[kinokulma] Kinokulma: 63 showtimes, 39 dates
+[kinokulma] Kinokulma: 63 showtimes, 39 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 8 screening(s) in day groups, 2 film page(s) read
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 16 screening(s) in day groups, 8 film page(s) read
-[kinovirta] Kino Virta: 16 showtimes, 6 dates
-[kinovirta] Kino Virta: 16 showtimes, 6 dates
+[kinovirta] 15 screening(s) in day groups, 7 film page(s) read
+[kinovirta] Kino Virta: 15 showtimes, 6 dates
+[kinovirta] Kino Virta: 15 showtimes, 6 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 59 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 57 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 136 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 147.9s of fetching added up across workers that overlap, longest site 54.9s, longest queue wait 115.1s, 65.0s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 134 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 143.6s of fetching added up across workers that overlap, longest site 52.6s, longest queue wait 114.1s, 62.7s wall from this module's first fetch starting to its last ending
 exit=0
