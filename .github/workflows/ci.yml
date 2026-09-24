@@ -36,7 +36,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # On a push to main only: has this exact commit already passed the suite, the drift
+  # check and both browser engines on a push to another branch? The delivery routine
+  # fast-forwards main to a commit its branch run has just verified, and 38 of 122 runs
+  # in the week to 2026-09-24 repeated that work on the identical tree. Those three test
+  # the tip's tree alone; the JavaScript check and the design and CACHE gates read the
+  # push's own before..after range commit by commit, so they run on main regardless.
+  # The answer is `skip=true` only on positive evidence (scripts/ci_verified.py); a
+  # missing, ambiguous or failed lookup is the full run. Branch pushes never reach it.
+  verified:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Two API reads and a few-kB checkout; five minutes is generous.
+    timeout-minutes: 5
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      skip: ${{ steps.lookup.outputs.skip }}
+    steps:
+      # The one script, not the tree: blobless and sparse, so this job reads a few kB.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: scripts/ci_verified.py
+          sparse-checkout-cone-mode: false
+      - id: lookup
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/ci_verified.py "${{ github.sha }}" "${{ github.run_id }}"
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            {
+              echo "### Verified on a branch?"
+              grep '^reason=' "$GITHUB_OUTPUT" | cut -d= -f2- || true
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   check:
+    # Runs whatever `verified` answered, and when it did not run (a branch push, a
+    # dispatch) or failed: `!cancelled()` keeps a skipped or failed dependency from
+    # skipping this job, and only an explicit `skip == 'true'` skips its heavy steps.
+    needs: verified
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     # Longest run 2026-09-17 to 09-24: 2.5 min. A hung job stops here rather than at
     # the 360-minute default.
@@ -86,6 +129,7 @@ jobs:
       # committed; had they stayed in the file, this step would fail on the first push
       # after any data run, since a data push does not match this workflow's path filter.
       - name: Generated output is reproducible
+        if: needs.verified.outputs.skip != 'true'
         run: |
           python3 scripts/build_providers.py
           python3 scripts/build_regions.py
@@ -102,6 +146,7 @@ jobs:
       # Pinned exactly: the runner installs it fresh every run. Five poster tests skip
       # without it, and the next step fails on a skip.
       - name: Install Pillow
+        if: needs.verified.outputs.skip != 'true'
         run: python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
 
       # Fail on skipped tests: every dependency is installed on the runner on purpose, so
@@ -117,6 +162,7 @@ jobs:
       # lines become check-run annotations, readable over the public API without a token;
       # the Actions log is not, and this repo does not read Actions logs.
       - name: Unit suite, with nothing skipped and nothing leaked
+        if: needs.verified.outputs.skip != 'true'
         run: |
           set +e
           python3 -m unittest discover -s tests > "$RUNNER_TEMP/suite.log" 2>&1
@@ -173,6 +219,8 @@ jobs:
   # second time on its own runner; its summary section, its skip rule and its separate
   # verdict per engine are kept here instead, from the one run.
   browser:
+    needs: verified
+    if: ${{ !cancelled() && needs.verified.outputs.skip != 'true' }}
     runs-on: ubuntu-latest
     # Longest run 2026-09-17 to 09-24: 3.8 min, WebKit. A hung job stops here rather than
     # at the 360-minute default.

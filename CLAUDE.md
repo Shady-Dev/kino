@@ -379,6 +379,10 @@ either engine failing turns the Checks run red.
 Red is a verdict, not a gate: `main` carries no branch protection and no ruleset, and
 required status checks gate a pull request merge, which this repository does not use. The
 push routine is what enforces it, so read the branch's Checks before the fast-forward.
+On a push to `main` the suite, the drift check and the browser jobs are skipped when that
+exact SHA already passed them on a branch push (`scripts/ci_verified.py`); the JavaScript
+check and the design and CACHE gates always run over the push's own range. A direct push
+to `main` gets the full run.
 
 **Name the engines whenever you claim browser verification.** One engine is not a check. On
 2026-09-18 the phone layout of the landing pages shipped correct in Chromium and broken in
