@@ -34,10 +34,11 @@ Cities with more than one venue get a combined view that merges the same film
 across chains into one card, and so do 14 regions: the picker switches between
 its 96 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
-in another, every pair inside it within about 60 km. The theatre picker is
-searchable, and "jarvela" finds Järvelä, "capital region" finds
-Pääkaupunkiseutu. Installs as a PWA and serves the last loaded schedule offline.
-Venue, home theatre, day, language and theme live in `localStorage`.
+in another. The theatre picker is searchable, and "jarvela" finds Järvelä,
+"capital region" finds Pääkaupunkiseutu. Installs as a PWA and serves the last
+loaded schedule offline. Home theatre, day, language, view, filters and theme
+live in `localStorage`. The venue on screen is not stored: a load opens the one
+named in `?area=`, else the home theatre, else the chooser.
 
 ## How it works
 
@@ -95,8 +96,8 @@ small cinemas run one of a few ticketing platforms:
 | Kino K13 | 1 | 1 | none | GitHub Actions |
 | Kino Helios (Malmitalo) | 1 | 1 | none | GitHub Actions |
 
-A local machine runs the local half four times a day, pushes, then triggers the
-cloud workflow. It takes a fresh Finnkino token from a real browser session each
+A local machine runs the local half, normally four times a day, pushes, then
+triggers the cloud workflow. It takes a fresh Finnkino token from a real browser session each
 run, so there is no stored credential and nothing to rotate. There is no cloud
 fallback: a runner cannot obtain a token at all, since the site answers
 Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
@@ -105,8 +106,9 @@ how four eTiketti cinemas can be local while the other sixteen run on Actions.
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `logs/run.log` and
 `logs/run-{module}.log` are the authoritative record; the Actions logs are not.**
-`enrich_tmdb.py` runs last and fills in ratings, trailers, synopses and
-posters a provider does not supply, without overwriting the cinema's own text.
+After the fetch, `enrich_tmdb.py` fills in ratings, trailers, synopses and
+posters a provider does not supply, without overwriting the cinema's own text;
+`mirror_posters.py` and `build_pages.py` run after it.
 
 How the pieces fit together is in [docs/architecture.md](docs/architecture.md), and open
 work in [IDEAS.md](IDEAS.md). Why any of it is shaped this way, with the approaches tried
@@ -125,7 +127,7 @@ ticketing platform publishes and how it was read, are under
     docs/research/                   per-topic investigation notes behind the decisions
     docs/archive/                    dated decision records, closed
     logs/                            committed run logs, one per fetcher (the record)
-    teatteri/, kaupunki/, en/        generated pages (committed by every run, cloud and local)
+    teatteri/, kaupunki/, sv/, en/   generated pages (committed by every run, cloud and local)
     data/                            generated JSON and posters (committed by every run)
 
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
@@ -146,19 +148,22 @@ ticketing platform publishes and how it was read, are under
     scripts/indexnow.py              tells IndexNow which generated pages a push changed
 
     tests/                           python3 -m unittest discover -s tests
+    tests/browser/                   Playwright suite, run on its own (below)
     .github/workflows/biorex.yml     all cloud providers + enrichment
     .github/workflows/logs.yml       runs check_runs.py on any push that touches a log
     .github/workflows/indexnow.yml   runs indexnow.py on page changes
-    .github/workflows/ci.yml         suite, JS check and regeneration, on code pushes
+    .github/workflows/ci.yml         on code pushes: suite, JS check, design-push and
+                                     CACHE-bump checks, regeneration drift; browser and
+                                     pages-layout jobs in Chromium and WebKit
 
 ## Data shape
 
 Every provider writes the same thing, so the client has no per-provider code.
 
-    data/providers.json          [{id, label, host, accent, book}]
+    data/providers.json          {providers: [{id, label, host, accent, book}]}
     data/area-{venueId}.json     {generated, dates[], horizon, shows[]}
     data/venues-{provider}.json  {generated, oldest, status, stale[], unverified[],
-                                  provider, venues[{id,name,short,city}]}
+                                  pending[], provider, venues[{id,name,short,city}]}
     data/films-extra.json        title-keyed synopses, posters, trailers
                                  a synopsis is keyed by language: fi, en, and sv
                                  where a cinema publishes one (Bio Savoy, Åland)
@@ -166,10 +171,11 @@ Every provider writes the same thing, so the client has no per-provider code.
     data/areas.json              Finnkino venue list (legacy shape, numeric ids)
 
 A showtime carries `eventId, title, original, start (ISO, Europe/Helsinki),
-theatre, aud, url, img, len, rating, age, genres, gids, lang, method, soldOut,
-price, provider, venue, tmdbId, tmdb, votes, tr`. The last three are TMDB's
-score, its vote count and a trailer, written by the enrichment step. `year` is
-optional: the film's release year as the cinema publishes it, a four-digit
+theatre, aud, url, img, len, rating, genres, lang, method, soldOut`, and on every
+provider except Finnkino also `price, provider, venue`. The enrichment step adds
+`tmdbId, gids, tmdb, votes, tr, oyear`: TMDB's id, genre ids, score, vote count,
+trailer, and the film's first release year. `age` and `year` are optional.
+`year` is the film's release year as the cinema publishes it, a four-digit
 string, absent when it publishes none. The TMDB search uses `original` and
 `year` when present and runs on the title alone when they are absent, so older
 files without either field stay valid.
@@ -177,15 +183,24 @@ files without either field stay valid.
 Two fields are easy to confuse. `rating` is the **film's** age classification;
 `age` is a limit the **screening** adds on top: a licensed auditorium can be 18+
 whatever the film is rated, and Heureka's planetarium admits from five. Every
-TMDB field (`tmdbId`, `tmdb`, `votes`, `gids`, `tr`, a TMDB poster in `img`) is
-written only for a trusted match, an exact title or a hand-written alias id: a
-weak id folds two different films into one card, and its poster, rating and
-synopsis are the wrong film's. A TMDB poster carries `isrc: "tmdb"`, so the pass
-can replace or drop it later; a cinema's own poster carries no mark.
+TMDB field (`tmdbId`, `tmdb`, `votes`, `gids`, `tr`, `oyear`, a TMDB poster in
+`img`) is written only for a trusted match, an exact title or a hand-written
+alias id: a weak id folds two different films into one card, and its poster,
+rating and synopsis are the wrong film's. A TMDB poster carries `isrc: "tmdb"`,
+so the pass can replace or drop it later; a cinema's own poster carries no mark.
+A `rating` the cinema left blank can be borrowed from another chain showing the
+same trusted match, and then carries `rsrc: "shared"`. In `films-extra.json` an
+entry TMDB filled records the TMDB `id`, and `ts` lists the synopsis languages
+TMDB's text fills, so a changed match replaces only those.
 
 On a provider file, `generated` is when it was written and `oldest` is its
-weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
-`partial`, and `stale`/`unverified` name the venues behind it.
+weakest venue's timestamp; the health line ages on `oldest`. A venue with no
+screenings is in one of three lists. `pending`: the adapter read the cinema's
+listing and it holds nothing, so the venue is published empty. `stale`: the
+venue came back empty or missing and its previous file, with a day still ahead,
+is kept. `unverified`: nothing worth keeping, either no data ever or a kept
+file whose every day has passed, which is published empty. `status` is
+`partial` when `stale` or `unverified` names a venue, else `ok`.
 
 ## Adding a provider
 
@@ -201,8 +216,9 @@ weakest venue's timestamp. The health line ages on `oldest`; `status` is `ok` or
 
 Then `python3 scripts/build_providers.py --sync-index`, which writes
 `data/providers.json` and the client's offline fallback list from the same registry;
-bump `CACHE` in `sw.js` with it, since that touches `index.html`. Nothing else needs
-editing. The workflow runs `run_cloud.py --where cloud`, whose module list comes from
+bump `CACHE` in `sw.js` with it, since that touches `index.html`. The rest of the
+checklist, `build_counts.py` and `run_cloud.SHARED_UPSTREAMS` among it, is in
+[CLAUDE.md](CLAUDE.md) under "Adding a provider". The workflow runs `run_cloud.py --where cloud`, whose module list comes from
 the registry, and the client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.
@@ -229,9 +245,11 @@ two sites that collided; the remedy is to add the host to `reads`. Every
 module's log ends with the hosts its requests were aimed at, which is not the
 same as the hosts that answered.
 
-**Check for an existing platform first.** A cinema running MyCloudCinema, Nexxo,
-eTiketti or Vista with its public XML services open needs a `SITES` entry
-against the existing adapter; `vista.py` reads Korjaamo Kino that way. Adding a
+**Check for an existing platform first.** A cinema running Vista with its public
+XML services open, MyCloudCinema, Nexxo, eTiketti or Johku needs a `SITES` entry
+against the existing adapter, as does one on a platform another adapter here
+already reads for several cinemas: Kinola, TMB, Cinemahouse, The Events Calendar.
+`vista.py` reads Korjaamo Kino that way. Adding a
 venue to an existing provider is one line. Pick the accent with
 `accent_check.py`, not by eye. Fetch the page a showtime will link to and check
 it answers before writing it down: six Nexxo sites once shipped dead ticket
@@ -241,6 +259,14 @@ links because one site's path was copied onto all of them.
     python3 scripts/providers/run.py --where cloud
     python3 scripts/providers/run_cloud.py --where cloud   # what the workflow runs
     python3 -m unittest discover -s tests
+
+The browser suite in `tests/browser/` drives the app and the generated pages in
+Playwright, and CI runs it in Chromium and WebKit. Locally:
+
+    python3 -m venv .venv && .venv/bin/pip install playwright==1.62.0
+    .venv/bin/python -m playwright install chromium webkit
+    .venv/bin/python -m unittest discover -s tests/browser
+    KINO_BROWSER_ENGINE=webkit .venv/bin/python -m unittest discover -s tests/browser
 
 ## Indexable pages
 
@@ -262,7 +288,7 @@ Each page carries real HTML showtimes, an `hreflang` for each of the three
 languages, and `ScreeningEvent`/`MovieTheater` structured data. No `aggregateRating`: the
 ratings are TMDB's, and presenting another party's ratings as the page's own is
 against Google's guidelines, so it appears as credited text. Every page links
-into the app as `/?area={venueId}&lang={fi|sv|en}`, so a reader lands on the
+into the app as `/?area={venueId or city:Name}&lang={fi|sv|en}`, so a reader lands on the
 cinema or city they were reading about, in the language they were reading it
 in, and the app's saved favourite is left alone. The wordmark carries the
 language too.
@@ -277,48 +303,54 @@ puts a 64 px time compartment first, then cinema and room, with a colour rule
 per chain. All three languages carry the same page for the same cinema or
 city, so the selector changes the language and nothing else. The theme toggle
 reads and writes the same
-`kino-theme` key as the app; it is the only script on the page and renders
-nothing. Nothing volatile, so a page is rewritten only when its showtimes
+`kino-theme` key as the app. A page carries two inline scripts, both for the
+theme, and its JSON-LD; no script renders content. Nothing volatile, so a page is rewritten only when its showtimes
 change.
 
 ## Privacy
 
-No accounts, cookies, analytics, tracking or ads. Preferences stay in
-`localStorage`. Schedule data is static JSON from this origin, so browsing tells
-no cinema anything.
+No accounts, cookies, advertising or cross-site tracking. The app sends
+cookieless analytics, described below; the generated pages, the status page and
+the privacy page load none. Preferences stay in `localStorage`. Schedule data is
+static JSON from this origin, so browsing tells no cinema anything.
 
-**Posters and the typeface are served from this origin.** `data/posters/` and
-`fonts/`, and every `<img>` carries `referrerpolicy="no-referrer"`.
+**Posters and the typeface are served from this origin**, from `data/posters/`
+and `fonts/`. The app's card poster carries `referrerpolicy="no-referrer"`; the
+film sheet's poster and the generated pages' images do not, and being
+same-origin they send no referrer to another host.
 
-**One third-party service is used, for analytics.** Until 2026-09-20 this page
-contacted none, and that sentence was the claim this paragraph existed to
-carry. It is no longer true, on the maintainer's instruction. Two separate
-requests are involved: the app loads the PostHog bundle from
-`eu-assets.i.posthog.com`, pinned to version 1.434.2 so a PostHog default
-change cannot alter what is measured here, and sends events to **PostHog EU
-Cloud** (`eu.i.posthog.com`).
+**Analytics: PostHog EU Cloud.** Two requests: the bundle from
+`eu-assets.i.posthog.com`, pinned to version 1.434.2 and to its sha-384 through
+`integrity`, and the events to `eu.i.posthog.com`. This is **cookieless, which is
+not anonymous**: PostHog receives the network IP address and the headers the
+browser sends, and derives an identifier from them server-side to count visitors
+without storing anything in the browser. An IP address is personal data under
+the GDPR, so it is not claimed that none is processed. There are no cookies,
+browser-storage identifiers, person profiles or session recordings.
 
-The setup is **cookieless, which is not the same as fully anonymous**. PostHog
-receives the **network IP address** and the headers the browser sends, and uses
-its cookieless mechanism to derive a privacy-preserving identifier server-side
-so it can count visitors without storing anything in the browser. **It is not
-claimed that no personal data is processed**: an IP address is personal data
-under the GDPR. What there is none of: cookies, browser-storage identifiers,
-person profiles, advertising, cross-site tracking and session recordings.
+`analyticsScrub()` in `index.html` is posthog-js's `before_send`. It drops any
+event not listed here and any property not listed for it, including the 43 the
+library adds:
 
-Seven events are sent and nothing else, each with a fixed set of properties
-carrying internal identifiers: a page view with a category, a city or region
-opened, a cinema opened, a date change as a day offset, a language change,
-search used as a yes/no fact **without the query**, and a ticket link opened
-with the chain's id. `analyticsScrub()` in `index.html` enforces both lists as
-posthog-js's `before_send`, so the library's own 43 properties are stripped
-rather than trusted not to appear. `$pageview` carries a synthetic
-`https://leffavuoro.fi/app/{category}` so Web Analytics can count it without the
-real URL, which holds the search query. Analytics initialises only on
-`https://leffavuoro.fi`: a dev server, a preview deploy, a loopback address or
-`file:` loads no bundle and sends nothing. Do Not Track stops it before the request: under DNT the bundle is
-not even fetched. The reader-facing version is [/tietosuoja/](tietosuoja/), in
-Finnish, Swedish and English, and it states the one-year retention.
+| Event | Properties |
+|---|---|
+| `$pageview` | `category`: home, venue, city or region |
+| `area_opened` | `kind`, `area` |
+| `cinema_opened` | `venue` |
+| `date_changed` | `offset_days` |
+| `language_changed` | `lang` |
+| `search_used` | none; the query is not sent |
+| `ticket_opened` | `provider` |
+
+`$pageview` also carries `$current_url`, built as
+`https://leffavuoro.fi/app/{category}` and never the real URL, which holds the
+search query. Every event carries the project `token` and `distinct_id`, which in
+cookieless mode is the constant `$posthog_cookieless`; posthog-js builds no
+request without them. Autocapture, heatmaps, surveys, feature flags and remote
+configuration are off. Analytics initialises only on `https://leffavuoro.fi`,
+and under Do Not Track or Global Privacy Control the bundle is not fetched and
+nothing is sent. The reader-facing version is [/tietosuoja/](tietosuoja/), in
+Finnish, Swedish and English, with the one-year retention and the legal basis.
 
 `mirror_posters.py` runs over the whole of `data/` and rewrites every reference
 that still points at a cinema's own host, so **either half of the pipeline
@@ -347,9 +379,10 @@ this site may publish -- Heureka's planetarium films, whose promotional artwork 
 licensed to nobody -- where the alternative is a two-letter initials tile.
 `scripts/make_cards.py` draws them and `--check` verifies the committed files
 against what it draws. Everything else in that directory is a cinema's or TMDB's,
-mirrored, and named by the sha1 of its source URL.
+mirrored: Finnkino's named by Finnkino's release id, the rest by the first 16 hex
+digits of the sha1 of the source URL.
 
-Two things reach other hosts. Tapping a showtime or a trailer hands you to the
+Besides the analytics above, tapping a showtime or a trailer hands you to the
 cinema's booking page or to YouTube. GitHub Pages serves the site and logs
 requests, as any host would.
 
@@ -368,8 +401,8 @@ browsing it, reloading it or leaving it open reaches no cinema: the client has n
 code that calls a cinema.
 
 Data is refreshed by a scheduled job and by a refresh triggered after each local
-collection run. Under the normal configured cadence the nine local providers are
-read four times a day, and the cloud providers usually up to eight, since runs
+collection run. Under the normal configured cadence the local providers, counted
+in [docs/counts.md](docs/counts.md), are read four times a day, and the cloud providers usually up to eight, since runs
 are queued rather than merged. **Those figures describe the typical cadence and
 the configuration does not enforce them.** Scheduled execution is best-effort
 and may be delayed or missed, and a manual refresh adds runs.
