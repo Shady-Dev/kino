@@ -98,8 +98,9 @@ def generated_of(path):
 
 # What the TMDB pass stamps onto a show and an adapter cannot know. `gids` is the one
 # that matters most: it drives the genre names the client renders and the kids filter's
-# id rule, so losing it is not just a missing score ring.
-ENRICHED = ("tmdbId", "tmdb", "votes", "tr", "gids")
+# id rule, so losing it is not just a missing score ring. The set equals enrich_tmdb's
+# PUBLISHED; a test holds the two together.
+ENRICHED = ("tmdbId", "tmdb", "votes", "tr", "gids", "oyear")
 # A poster is carried too, but only a mirrored one: `data/posters/...` is what the TMDB
 # pass and mirror_posters left behind for a film whose adapter publishes no image, and
 # it is as much the film's as its id. A provider's own remote URL is the adapter's to

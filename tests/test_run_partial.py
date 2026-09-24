@@ -589,7 +589,7 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
             "generated": OLD, "dates": ["2026-08-01"], "horizon": "2026-08-01",
             "shows": [dict(show(title, "2026-08-01T18:00:00+03:00"),
                            tmdbId=1234, tmdb=7.4, votes=310,
-                           tr="https://youtu.be/x", gids=[18, 35])],
+                           tr="https://youtu.be/x", gids=[18, 35], oyear=1976)],
         }), encoding="utf-8")
 
     def area(self, vid):
@@ -608,7 +608,14 @@ class EnrichmentCarriedForwardTest(unittest.TestCase):
         self.assertEqual(s["tr"], "https://youtu.be/x")
         self.assertEqual(s["gids"], [18, 35],
                          "gids drives genre names and the kids filter, not just a badge")
+        self.assertEqual(s["oyear"], 1976, "the release year renders as \"Carrie (1976)\"")
         self.assertEqual(s["start"][:10], "2026-08-30", "the showtime itself is fresh")
+
+    def test_the_carry_covers_every_field_the_tmdb_pass_publishes(self):
+        """A field enrich_tmdb stamps and run.py does not carry is dropped by every local
+        run until the next cloud pass: `oyear` was, until 2026-09-24."""
+        import enrich_tmdb
+        self.assertEqual(set(run.ENRICHED), set(enrich_tmdb.PUBLISHED))
 
     def test_a_film_that_was_not_there_before_gets_nothing(self):
         self.seed_enriched("fc-a", title="Some Other Film")
