@@ -321,6 +321,45 @@ class RunnerTest(unittest.TestCase):
         self.assertIn("Events unavailable", log)
 
 
+class SynopsisLanguageTest(unittest.TestCase):
+    """Vista's Events feed carries one synopsis per film and no language field, yet ten
+    Korjaamo texts in films-extra's Finnish slot were English. Each text is placed by
+    `common.syn_language`, as Gilda's are, and one no language settles is withheld."""
+
+    EN = ("A young woman returns to the town where she grew up and finds that the house of "
+          "her childhood has been sold, and that the people she left behind have moved on "
+          "without her.")
+    FI = ("Nuori nainen palaa kotikaupunkiinsa ja huomaa, että hänen lapsuudenkotinsa on "
+          "myyty ja että ihmiset, jotka hän jätti taakseen, ovat jatkaneet elämäänsä ilman "
+          "häntä.")
+
+    def run_site(self, events):
+        self._get, self._sleep = vista.get, vista.time.sleep
+        self.addCleanup(lambda: setattr(vista, "get", self._get))
+        self.addCleanup(lambda: setattr(vista.time, "sleep", self._sleep))
+        vista.time.sleep = lambda s: None
+        pages = {f"{BASE}/xml/Events/": events,
+                 f"{BASE}/xml/Schedule/?area=1007&nrOfDays=31": SCHEDULE}
+        vista.get = lambda url, tries=3, timeout=40: pages[url]
+        site = dict(SITE); site.pop("tickets", None)
+        shows = [s for v in vista.fetch_site(site).values() for s in v]
+        return {s["eventId"]: s.get("_syn") for s in shows}
+
+    def events(self, first, second):
+        return EVENTS.replace("&lt;p&gt;Dokumentti kolmesta kesästä, jotka muuttivat kaiken.&lt;/p&gt;",
+                              first).replace("Fez, kesä 1955.", second)
+
+    def test_each_synopsis_is_filed_in_its_own_language(self):
+        syn = self.run_site(self.events(self.EN, self.FI))
+        self.assertEqual(syn["5202"], {"en": self.EN})
+        self.assertEqual(syn["5193"], {"fi": self.FI})
+
+    def test_a_synopsis_no_language_settles_is_withheld(self):
+        syn = self.run_site(self.events("Lyhyt.", self.FI))
+        self.assertIsNone(syn["5202"])
+        self.assertEqual(syn["5193"], {"fi": self.FI})
+
+
 class RegistryAndPagesTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("korjaamo")

@@ -51,7 +51,7 @@ from zoneinfo import ZoneInfo
 import html as html_mod
 
 import prices
-from common import fetch
+from common import fetch, syn_language
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -287,11 +287,15 @@ def fetch_site(site, sleep=1.5, price_sleep=1.0, prices_path=None, now=None):
             per_venue.setdefault(vid, []).extend(shows)
         time.sleep(sleep)
 
+    # The feed carries no language per text, and ten Korjaamo synopses in the Finnish
+    # slot were English (traced 2026-09-24). Placed per text, as Gilda's are; a text no
+    # language settles is withheld and TMDB fills the slot.
+    langs = {eid: syn_language(text) for eid, text in syn.items()}
     for shows in per_venue.values():
         for s in shows:
             text = syn.get(s["eventId"])
-            if text:
-                s["_syn"] = text
+            if text and langs[s["eventId"]]:
+                s["_syn"] = {langs[s["eventId"]]: text}
     if site.get("tickets"):
         prices.run([s for v in per_venue.values() for s in v], provider=site["provider"],
                    prefix=site["tickets"], parse=ordinary_price, referer=base + "/",
