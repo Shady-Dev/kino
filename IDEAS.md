@@ -295,10 +295,11 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   repository's state. Record: [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
 - Moving the local fetch off the laptop. **Decided 2026-09-20 by the maintainer:** local
   fetching stays on the laptop, and replacing the infrastructure is outside this
-  repository. The constraint is unchanged and is why the item existed: eight providers
+  repository. The constraint is unchanged and is why the item existed: nine providers
   block or challenge datacenter addresses (Finnkino, Kino Akseli, Kino Engel, Joutsan
-  Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star), so 30 of 116 venues ride on
-  one machine, and no cloud VM keeps that coverage.
+  Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star, Elokuvateatteri Huvimylly)
+  and three more run there until a runner is shown to read them, so 34 of 134 venues ride
+  on one machine (docs/counts.md, 2026-09-24), and no cloud VM keeps that coverage.
 - A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
   gzipped delta per day (~390 kB worst case). It would move the traffic path behind
   Actions scheduling.

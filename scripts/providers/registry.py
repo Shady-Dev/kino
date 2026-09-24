@@ -39,8 +39,10 @@ Fields:
           (nexxo -> kinoset, etiketti -> kotkanleffat). None = Finnkino, which has
           its own fetcher at scripts/fetch_data.py and the legacy areas.json shape
   where   local | cloud. Finnkino, Kino Engel, Kino Akseli, Joutsan Kino, Savon
-          Kinot, Kino Regina, Cine and Elokuvateatteri Star block or challenge datacenter
-          IPs, so they can only be fetched from an ordinary connection; everything else
+          Kinot, Kino Regina, Cine, Elokuvateatteri Star and Elokuvateatteri Huvimylly
+          block or challenge datacenter IPs, so they can only be fetched from an ordinary
+          connection. Cinema Sheryl, Haapamäen Elokuvat and Elävienkuvien teatteri run
+          local until a committed run log shows a runner can read them. Everything else
           runs on Actions
 """
 
