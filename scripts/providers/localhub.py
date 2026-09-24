@@ -28,8 +28,8 @@ dates:
   to be Europe/Helsinki rather than assumed, and a page declaring another one is counted
   and left out.
 - **`end - start` is a booking slot, not a runtime.** Nine of the ten rows measured exactly
-  120 minutes and one 101, so the field settles no film's length and `len` stays empty. The
-  TMDB pass supplies the runtime.
+  120 minutes and one 101, so the field settles no film's length and `len` stays empty.
+  Nothing else fills it: the TMDB pass publishes no runtime (checked 2026-09-24).
 - **A price publishes only when the band settles one amount.** `price` is
   `{min, max, currency}` and every row read was `12/12/EUR`. A band with two ends publishes
   "alkaen {min}", and a currency other than EUR settles nothing.

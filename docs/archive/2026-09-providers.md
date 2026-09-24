@@ -2708,6 +2708,10 @@ What the design rests on:
 - **`start` is a UTC instant with a `Z`** and `event.timezone` is read rather than assumed.
 - **`end - start` is a booking slot, not a runtime.** Nine of the ten rows measured exactly
   120 minutes and one 101, so `len` stays empty and the TMDB pass supplies the runtime.
+  *Corrected 2026-09-24:* the TMDB pass has never published a runtime (its `PUBLISHED` fields
+  are rating, votes, trailer, genre ids, id and release year), so these screenings show
+  none. Filling one from TMDB or another chain was declined the same day: neither
+  establishes the length of the cut this cinema shows.
 - **A cancelled screening is not published at all.** The show contract carries `soldOut`
   and no cancelled state, so an ordinary row would misdescribe it. The count is logged.
 - **The ticket link is per date first, then per event.** All ten rows fell back to the

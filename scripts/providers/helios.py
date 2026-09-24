@@ -22,7 +22,7 @@ What shapes the parser, measured on the live service 2026-09-21:
   out. All 22 rows agreed when this was written.
 - **`end - start` is a booking slot, not a runtime.** Twenty-one of the 22 rows measured
   exactly 120 minutes and one 300, so the field settles no film's length and `len` stays
-  empty. The TMDB pass supplies the runtime.
+  empty. Nothing else fills it: the TMDB pass publishes no runtime (checked 2026-09-24).
 - **The age limit is a suffix on the title**, `Practical Magic: Lumotut sisaret (12)`.
   It is read into `rating` and taken off the published title, because the title is the key
   for `normTitle()`, `films-extra.json` and the combined city view: the same film screens
