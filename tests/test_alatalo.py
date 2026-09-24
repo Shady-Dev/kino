@@ -122,6 +122,91 @@ class TownTest(unittest.TestCase):
         self.assertEqual(out["alatalo-haapajarvi"], [])
         self.assertTrue(A.EMPTY_VENUES_CONFIRMED)
 
+    def test_rows_in_a_shape_this_parser_misses_leave_that_town_out(self):
+        """Pudasjärvi parses; Kiuruvesi's rows open `Kello`, which no pattern reads. Its
+        heading has a date and a time under it, so it is not shown to be empty."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                         "Kiuruvesi Kiurusali", head(b), "Kello 15.00 Vinski 2 -k7/4-",
+                         "Kello 17.00 Kerro se kaikille -k12/9-")
+        self.assertEqual(titles(out, "alatalo-pudasjarvi"), ["Pirjo"])
+        self.assertNotIn("alatalo-kiuruvesi", out)
+        self.assertEqual(rep["unconfirmed"], ["Kiuruvesi"])
+
+    def test_another_town_s_dates_do_not_vouch_for_this_one(self):
+        """The digit check is per town: Kiuruvesi's lone date heading is its own evidence
+        of a programme, whatever Pudasjärvi placed."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                         "Kiuruvesi Kiurusali", head(b))
+        self.assertNotIn("alatalo-kiuruvesi", out)
+        self.assertEqual(rep["numbered"]["Kiuruvesi"], 1)
+        self.assertEqual(rep["unconfirmed"], ["Kiuruvesi"])
+
+    def test_a_heading_with_only_a_note_under_it_is_still_empty(self):
+        """`ELOKUVAT JATKUU SYYSKUUSSA` carries no digit: that town has nothing on."""
+        a = soon(5)
+        out, rep = parse("Toholampi Toholampisali", "ELOKUVAT JATKUU SYYSKUUSSA",
+                         "Kiuruvesi Kiurusali", head(a), "Klo 13.00 Pirjo -s-")
+        self.assertEqual(out["alatalo-toholampi"], [])
+        self.assertEqual(rep["unconfirmed"], [])
+
+    def test_an_inflected_heading_leaves_every_empty_town_out(self):
+        """`Kiuruveden Kiurusali` is not read as Kiuruvesi, so its rows are undeclared.
+        Kiuruvesi then looks absent, and any empty town could be the one they belong to."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                         "Kiuruveden Kiurusali", head(b), "Klo 15.00 Vinski 2 -k7/4-")
+        self.assertEqual(titles(out, "alatalo-pudasjarvi"), ["Pirjo"])
+        self.assertEqual(sorted(out), ["alatalo-pudasjarvi"])
+        self.assertEqual(rep["undeclared"], {"Kiuruveden": 1})
+
+    def test_a_screening_typed_onto_the_heading_line_leaves_that_town_out(self):
+        """The first word makes the line a heading and the rest is never read, so the
+        date and time on it are that town's own evidence."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                         f"Kiuruvesi {head(b)} klo 15.00 Vinski 2 -k7/4-")
+        self.assertNotIn("alatalo-kiuruvesi", out)
+        self.assertEqual(rep["unconfirmed"], ["Kiuruvesi"])
+
+    def test_unread_dated_lines_under_an_unrecognised_heading_leave_empty_towns_out(self):
+        """No `Klo` line under `Kiuruveden`, so nothing is counted as undeclared; its date
+        and its `Kello` row are still lines no declared town owns."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                         "Kiuruveden Kiurusali", head(b), "Kello 15.00 Vinski 2 -k7/4-")
+        self.assertEqual(rep["undeclared"], {})
+        self.assertEqual(sorted(out), ["alatalo-pudasjarvi"])
+        self.assertIn("Kiuruvesi", rep["unvouched"])
+
+    def test_an_undeclared_town_listed_first_leaves_empty_towns_out(self):
+        """`Haapavesi` above every declared town: its row is undeclared and no line after
+        the first declared heading carries a stray digit."""
+        a, b = soon(5), soon(6)
+        out, rep = parse("Haapavesi RW Sali", head(a), "Klo 15.00 Vinski 2 -k7/4-",
+                         "Pudasjärvi Pohjantähti", head(b), "Klo 13.00 Pirjo -s-")
+        self.assertEqual(rep["undeclared"], {"Haapavesi": 1})
+        self.assertEqual(rep["stray"], 0)
+        self.assertEqual(sorted(out), ["alatalo-pudasjarvi"])
+
+    def test_the_page_as_read_on_2026_09_24_keeps_toholampi_empty(self):
+        """Four towns with rows, Toholampi not on the page at all, the footer last. The
+        page is the operator's whole programme and nothing on it is unaccounted for."""
+        a, b, c, d = soon(23), soon(28), soon(29), soon(35)
+        out, rep = parse("Pudasjärvi Pohjantähti", head(a), "Klo 16.30 Saapasjalkakissa",
+                         "unohdettu saari -k7/4-", "Klo 18.30 Pirjo -k?",
+                         "Haapajärvi Teatterisali", head(b),
+                         "Klo 16.00 Kerro se kaikille -k12/9-", "KLo 19.30-?",
+                         "Kiuruvesi Kiurusali", f"{head(c)} -", "Klo 15.00 Pirjo -s-",
+                         "Kemijärvi Kulttuurikeskus", head(d), "Klo 13.00 ?",
+                         "Klo 15.00 Lapin Sota k?", "k", "lo")
+        self.assertEqual(out["alatalo-toholampi"], [])
+        self.assertEqual([len(out[v]) for v in ("alatalo-pudasjarvi", "alatalo-haapajarvi",
+                                                "alatalo-kiuruvesi", "alatalo-kemijarvi")],
+                         [2, 1, 1, 1])
+        self.assertEqual(rep["unconfirmed"] + rep["unvouched"], [])
+
 
 class UndeclaredTownTest(unittest.TestCase):
     def test_its_rows_are_withheld_and_counted_under_its_own_name(self):
@@ -380,6 +465,19 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(code, 0, log)
         self.assertIn("no programme published", log)
 
+    def test_dated_lines_under_an_unrecognised_heading_are_not_an_empty_programme(self):
+        """Every declared town listed with nothing under it, and `Kiuruveden` carrying a
+        date and a `Kello` row: no declared town has a digit, the page still does."""
+        (run.OUT / "area-alatalo-kiuruvesi.json").write_text(json.dumps(self.PREV))
+        d = soon(5, datetime.datetime.now(A.FI).date())
+        self.serve(page("Pudasjärvi Pohjantähti", "Toholampi Toholampisali",
+                        "Kiuruveden Kiurusali", head(d), "Kello 13.00 Vinski 2 -k7/4-"))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertNotIn("no programme published", log)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-alatalo-kiuruvesi.json").read_text()), self.PREV)
+
     def test_dated_rows_in_a_shape_this_parser_misses_are_not_an_empty_programme(self):
         """Town headings, date headings and a film per town, with no `Klo` line for the
         parser to match. A row it cannot read is not the page saying nothing is on."""
@@ -426,6 +524,22 @@ class RunnerTest(unittest.TestCase):
             (run.OUT / "area-alatalo-pudasjarvi.json").read_text()), self.PREV)
         b_ = json.loads((run.OUT / "area-alatalo-kiuruvesi.json").read_text())["shows"]
         self.assertEqual(len(b_), 2)
+
+    def test_a_town_whose_rows_changed_shape_keeps_its_previous_file(self):
+        """Kiuruvesi's rows open `Kello` while Pudasjärvi parses. Its file stands and
+        Toholampi, absent with nothing unaccounted for, is published empty."""
+        (run.OUT / "area-alatalo-kiuruvesi.json").write_text(json.dumps(self.PREV))
+        today = datetime.datetime.now(A.FI).date()
+        a, b = soon(5, today), soon(6, today)
+        self.serve(page("Pudasjärvi Pohjantähti", head(a), "Klo 13.00 Pirjo -s-",
+                        "Kiuruvesi Kiurusali", head(b), "Kello 15.00 Vinski 2 -k7/4-"))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-alatalo-kiuruvesi.json").read_text()), self.PREV)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-alatalo-toholampi.json").read_text())["shows"], [])
+        self.assertIn("Kiuruvesi: a date or a time under its heading", log)
 
     def test_no_town_heading_at_all_fails_and_keeps_the_previous_file(self):
         (run.OUT / "area-alatalo-kiuruvesi.json").write_text(json.dumps(self.PREV))

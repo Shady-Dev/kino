@@ -44,6 +44,11 @@ from the `Klo` pattern the rows are found with. Town headings, no `Klo` line and
 under them raises `common.EmptyProgramme`. No town heading at all fails: that is the
 template moving, with no listing to read as empty. So does a page whose screening lines
 all sit under headings `_town_of` does not read.
+
+**One town is shown empty by its own lines.** The digit check runs per town since
+2026-09-24: a town with a date or a time under its heading and no row placed is left out,
+and so is every empty town while any line sits under a heading no declared town owns.
+Either way its previous file stands and the other towns publish.
 """
 import datetime
 import html as html_mod
@@ -80,12 +85,14 @@ SITES = [
      ]},
 ]
 
-# A town the page lists but does not give a row is known empty rather than unread: this
-# one page is the operator's whole published programme, so `run.py` publishes a fresh
-# empty file for that venue instead of ageing its last visit. A page that places no row
-# under any declared town never reaches that loop, because `fetch_site` raises first. A
-# town with screening lines under it and none placed is left out of the answer instead,
-# so its previous file stands: those lines are not the town having nothing on.
+# A town with no row is known empty rather than unread when nothing under its heading
+# carries a date or a time and nothing on the page stands under a heading no declared town
+# owns. A declared town the page does not list at all counts too, on that second condition:
+# this one page is the operator's whole published programme, and Toholampi is absent from
+# it on 2026-09-24. `run.py` then publishes a fresh empty file for that venue instead of
+# ageing its last visit. A page that places no row under any declared town never reaches
+# that loop, because `fetch_site` raises first. Any other town with no row is left out of
+# the answer, so its previous file stands: those lines are not the town having nothing on.
 EMPTY_VENUES_CONFIRMED = True
 
 # `resolve_year`'s (behind, ahead). The live page reached 40 days out and the 2023-12
@@ -219,8 +226,11 @@ def rows(site, src, today=None):
     # Counts and one place name, never a line's text: the page's standing header carries
     # the operator's own email address and mobile number, and a report field holding a
     # line is one print away from publishing them.
+    # `numbered` is per declared town, `stray` the lines under a heading no declared town
+    # owns: a town is shown empty by what stands under its own heading, not by the page.
     report = {"unread": 0, "unplaceable": 0, "undeclared": {}, "towns": 0, "klo": 0,
-              "no_price": 0, "numbered": 0, "unconfirmed": []}
+              "no_price": 0, "numbered": {}, "stray": 0, "unconfirmed": [],
+              "unvouched": []}
     tried = set()           # declared towns with a screening line under them
     venue, pending, fresh, candidate = None, [], True, ""
     i = 0
@@ -229,14 +239,19 @@ def rows(site, src, today=None):
         i += 1
         if PRICE_RE.search(line):
             continue
-        # A date or a time under a town heading, however it is written. The two empty
-        # captures carry none, so this is what an empty programme is told apart by.
-        if report["towns"] and any(c.isdigit() for c in line):
-            report["numbered"] += 1
         hit = _town_of(line, venues)
         if hit is not None:
             venue, pending, fresh, candidate = hit, [], True, ""
             report["towns"] += 1
+        # A date or a time under a town heading, however it is written, the heading line
+        # included. The two empty captures carry none, so this is what an empty town is
+        # told apart by, and each town is told apart on its own lines.
+        if any(c.isdigit() for c in line):
+            if venue is not None:
+                report["numbered"][venue["town"]] = report["numbered"].get(venue["town"], 0) + 1
+            elif report["towns"]:
+                report["stray"] += 1
+        if hit is not None:
             continue
         if HEAD_LINE_RE.match(line) and _dates(line):
             if not fresh:
@@ -337,10 +352,21 @@ def rows(site, src, today=None):
             f"{site['provider']}: {report['unplaceable']} screening line(s) could not be "
             f"placed against {placed} that could, so the template has moved rather than "
             f"the operator having typed a few odd rows")
-    for vid in sorted(tried):
-        if not per_venue[vid]:
-            del per_venue[vid]
-            report["unconfirmed"].append(next(v["town"] for v in venues if v["id"] == vid))
+    # A town with no row is confirmed empty only when nothing under its heading carries a
+    # date or a time, and nothing on the page sits under a heading no declared town owns:
+    # those lines could be this town's under a heading typed another way. Anything else
+    # leaves it out, so its previous file stands and the other towns still publish.
+    unowned = bool(report["undeclared"] or report["stray"])
+    for v in venues:
+        if per_venue[v["id"]]:
+            continue
+        if v["id"] in tried or report["numbered"].get(v["town"]):
+            report["unconfirmed"].append(v["town"])
+        elif unowned:
+            report["unvouched"].append(v["town"])
+        else:
+            continue
+        del per_venue[v["id"]]
     for shows in per_venue.values():
         shows.sort(key=lambda s: s["start"])
     return per_venue, report
@@ -362,7 +388,8 @@ def fetch_site(site, today=None):
             f"{url}: every screening line sits under a heading this parser does not read "
             f"as a declared town ({named}), so no declared town is shown to be empty")
     if not published:
-        if report["towns"] and not report["klo"] and not report["numbered"]:
+        if (report["towns"] and not report["klo"] and not report["numbered"]
+                and not report["stray"]):
             raise EmptyProgramme(
                 f"{url}: the page lists {report['towns']} of this operator's towns and no "
                 f"date, time or screening under any of them, which is what it publishes "
@@ -385,8 +412,13 @@ def fetch_site(site, today=None):
         print(f"[{pid}] {report['unplaceable']} screening line(s) whose time, title or "
               f"date this parser could not place, left out")
     if report["unconfirmed"]:
-        print(f"[{pid}] {', '.join(report['unconfirmed'])}: screening lines and none "
-              f"placed, so not published as empty and the previous file stands")
+        print(f"[{pid}] {', '.join(report['unconfirmed'])}: a date or a time under its "
+              f"heading and no screening placed, so not published as empty and the "
+              f"previous file stands")
+    if report["unvouched"]:
+        print(f"[{pid}] {', '.join(report['unvouched'])}: no screening while lines sit "
+              f"under a heading no declared town owns, so not published as empty and the "
+              f"previous file stands")
     if report["unread"]:
         print(f"[{pid}] {report['unread']} line(s) that are neither a town heading, a "
               f"date heading nor a screening, left out")
