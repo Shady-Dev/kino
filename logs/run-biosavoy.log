@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 8 full, 0 not stored (origin said no-store), 8 cache entries written
 [run] hosts: 1 attempted -- www.biosavoy.ax
 [run] biosavoy: 1 venues, 35 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 14.1s of fetching added up across workers that overlap, longest site 14.1s, longest queue wait 94.9s, 14.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 12.8s of fetching added up across workers that overlap, longest site 12.8s, longest queue wait 94.1s, 12.8s wall from this module's first fetch starting to its last ending
 exit=0

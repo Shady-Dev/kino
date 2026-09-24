@@ -20,8 +20,8 @@
 [kinoolympia] Kino Olympia (Hanko): 13 showtimes
 [kinoolympia] Kino Olympia: 13 showtimes, 6 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 11 showtimes
-[jarvelankino] Järvelän Kino: 11 showtimes, 8 dates
+[jarvelankino] locationid 1 FAILED: <urlopen error timed out>
+[jarvelankino] Järvelän Kino: no showtimes, keeping previous data from 2026-09-24T15:19:58+00:00
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 6 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
@@ -32,9 +32,10 @@
 [kinometso] Tikkakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] synopses merged: 0
-[run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 9 full, 9 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-petajavesi, km-tikkakoski, km-vaajakoski
-[run] nexxo: 10 venues, 170 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 39.2s of fetching added up across workers that overlap, longest site 11.7s, longest queue wait 0.0s, 11.7s wall from this module's first fetch starting to its last ending
-exit=0
+[run] partial: jarvelankino kept previous data for 1 venue(s): ja-jarvela
+[run] nexxo: 9 venues, 159 showtimes, 1 stale, 0 unverified, 3 pending, 0 with no programme, 1 failures
+[run] timing: 8 site(s), 143.7s of fetching added up across workers that overlap, longest site 111.2s, longest queue wait 0.0s, 111.2s wall from this module's first fetch starting to its last ending
+exit=1

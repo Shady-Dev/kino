@@ -622,13 +622,18 @@
    "tr": ""
   },
   "bortglömda ön": {
+   "id": 1465063,
+   "img": "data/posters/db8d634869fa04ac.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "",
     "sv": "Jo och Raissa har varit bästa vänner sedan grundskolan men har nu gått ut High School och ska påbörja sina separata livsresor. När de firar sin sista kväll tillsammans, råkar Jo och Raissa hitta en mystisk portal som transporterar dem till den fantastiska ön Nakali, full av de magiska och mytologiska väsen som de hört berättelser om under uppväxten i sina filippinska familjer. En del av de här varelserna blir vänner, andra blir fiender. I sällskap med den välmenande men olyckliga varhunden Raww och ett litet men mäktigt gäng kompisar, måste Jo and Raissa möta Den Fruktade Manananggal, den mest skräckinjagande varelsen på ön. När de upptäcker att priset för att återvända hem är att förlora alla minnen av deras vänskap, måste Jo och Raissa skynda sig att hitta ett sätt att lämna ön innan de helt glömmer bort varandra, för evigt."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "bram stoker s dracula": {
    "id": 6114,
@@ -3446,14 +3451,12 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "biogrand",
     "biopallas",
     "biorex",
     "biosade",
     "biosavoy",
     "cine",
     "cinemantsala",
-    "elavienkuvien",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -3468,7 +3471,6 @@
     "kinoolympia",
     "kinopirtti",
     "kinotar",
-    "kinovirta",
     "leffabuumi",
     "niagara",
     "savonkinot",
@@ -4391,9 +4393,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
@@ -4910,7 +4910,6 @@
    "img": "data/posters/647807f97cc3fb5a.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
     "biogrand",
     "biokaari",
     "biorex",
@@ -4927,7 +4926,6 @@
     "kinohamina",
     "kinohirvi",
     "kinojuha",
-    "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -4965,7 +4963,6 @@
    "img": "data/posters/647807f97cc3fb5a.jpg",
    "kr": "K-16",
    "krs": [
-    "bioforum",
     "biogrand",
     "biokaari",
     "biorex",
@@ -4982,7 +4979,6 @@
     "kinohamina",
     "kinohirvi",
     "kinojuha",
-    "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -5496,7 +5492,6 @@
     "biorex",
     "biorexkokkola",
     "isohannu",
-    "kino123",
     "kinolaika",
     "kinolumo",
     "kinopiispanristi",
@@ -6043,12 +6038,17 @@
    ]
   },
   "the music lovers": {
-   "r": 0,
+   "id": 72899,
+   "img": "data/posters/8b09d8df9d26d1c2.jpg",
+   "r": 6.5,
    "s": {
-    "en": "",
+    "en": "Composer, conductor and teacher Peter Ilych Tchaikovsky struggles against his homosexual tendencies by marrying, but unfortunately, he chooses wacky nymphomaniac Nina, whom he is unable to satisfy.",
     "fi": "Ylistettyjä säveltäjämuotokuvia televisioon BBC:lle ohjannut Ken Russell pääsi uransa huipulla jatkamaan lempiaiheidensa parissa valkokankaalla. Pjotr Tšaikovskin (Richard Chamberlain) keskeisiin vuosiin 1874–76 sijoittuva pakahduttava melodraama etenee takaumien, painajaisten ja fantasiajaksojen kautta. Russell varmisti United Artistsin rahoituksen kuvailemalla elokuvan tarinaksi homoseksuaalista, joka rakastuu nymfomaaniin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=ubvb4Oxy418",
+   "ts": [
+    "en"
+   ]
   },
   "the odyssey": {
    "id": 1368337,
@@ -6056,7 +6056,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "gilda",
     "isohannu",
     "kinolumo",
@@ -6638,6 +6637,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "engel",
     "helios",
     "huvimylly",
     "kinoaurora",
