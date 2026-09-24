@@ -3262,7 +3262,13 @@
   // merges chains that agree on the title; the TMDB id merges chains that do not ("Mutiny"
   // vs "Mutiny - Lavastettu syylliseksi"). Choosing the id when present unmerged pairs
   // that used to work ("Maailman rikkain nainen" had an id at Gilda and none at
-  // Finnkino). Union them and take the group root.
+  // Finnkino). Union them and name the group.
+  // --- merge ids: pure, extracted verbatim by tests/merge_ids_harness.js ---
+  // The name is the group's sorted-first title key. The union-find root was the key of
+  // whichever show joined last, so it moved with the order of the files: on Kotka's data
+  // of 2026-09-24, dropping the first day turned "kojootti vs acme englanniksi" into
+  // "kojootti vs acme", and a `#m=` link from the day before opened on nothing. Each show
+  // keeps its own key in `_mk`, which is what `sheetId` resolves an older link through.
   function mergeIds(shows){
     const parent = new Map();
     const find = k => { while(parent.get(k) !== k) { parent.set(k, parent.get(parent.get(k))); k = parent.get(k); } return k; };
@@ -3272,8 +3278,22 @@
       add(s.eventId);
       if(s.tmdbId) union(s.eventId, `tmdb:${s.tmdbId}`);
     }
-    for(const s of shows) s.eventId = find(s.eventId);
+    const name = new Map();
+    for(const s of shows){
+      const r = find(s.eventId), n = name.get(r);
+      if(n === undefined || s.eventId < n) name.set(r, s.eventId);
+    }
+    for(const s of shows){ s._mk = s.eventId; s.eventId = name.get(find(s.eventId)); }
   }
+  // -> the id `showSheet` filters on. A link names a group's id, or, made before the
+  // group's name moved, another member's own key; either opens the film. Anything else
+  // is returned as it came, and the sheet says there is nothing for it.
+  function sheetId(shows, fid){
+    if(!fid || shows.some(s => s.eventId === fid)) return fid;
+    const hit = shows.find(s => s._mk === fid);
+    return hit ? hit.eventId : fid;
+  }
+  // --- end merge ids ---
   // --- end city fold ---
 
   // `opts.keepDay`: the caller chose the day on purpose and the late-evening advance
@@ -4470,7 +4490,9 @@
     };
     await ensureFilms();
     if(superseded()) return;
-    const all = (jsonCache[state.area] && jsonCache[state.area].shows || [])
+    const cached = jsonCache[state.area] && jsonCache[state.area].shows || [];
+    fid = sheetId(cached, fid);
+    const all = cached
       .filter(s => s.eventId === fid).map(s => ({...s, start:new Date(s.start), startIso:s.start}))
       .sort((a,b) => a.start - b.start);
     // Index and venue on every screening: the menu button and the link's mark name a
