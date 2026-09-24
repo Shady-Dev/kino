@@ -88,6 +88,15 @@ class EtikettiTest(Stubbed):
         self.assertEqual(etiketti.syn_value(site, FI), {"fi": FI})
         self.assertEqual(etiketti.syn_value(site, UNPLACED), "")
 
+    def test_star_declares_each_synopsis(self):
+        """Star's local run of 2026-09-24 put an English blurb ("Hanuman Ansh") into the
+        Finnish slot that the TMDB repair had just cleared. Its pages read that day: 22 of
+        24 Finnish, 1 English, 1 unplaceable, and none mixing Finnish with Swedish."""
+        site = self.site("star")
+        self.assertEqual(etiketti.syn_value(site, EN), {"en": EN})
+        self.assertEqual(etiketti.syn_value(site, FI), {"fi": FI})
+        self.assertEqual(etiketti.syn_value(site, UNPLACED), "")
+
     def test_a_site_without_the_flag_keeps_the_bare_string(self):
         self.assertEqual(etiketti.syn_value(self.site("niagara"), EN), EN)
         self.assertEqual(etiketti.syn_value(self.site("niagara"), UNPLACED), UNPLACED)
@@ -105,10 +114,10 @@ class EtikettiTest(Stubbed):
             out = e.fetch_site(self.site("savonkinot"), sleep=0)
         self.assertEqual([r["_syn"] for r in out["sk-tapio"]], [{"en": EN}])
 
-    def test_only_savon_kinot_declares(self):
-        # A site joins after a read of its own pages, as Savon Kinot's on 2026-09-24.
+    def test_only_the_sites_whose_pages_were_read_declare(self):
+        # A site joins after a read of its own pages: Savon Kinot's and Star's, 2026-09-24.
         self.assertEqual([s["provider"] for s in etiketti.SITES if s.get("declare_syn")],
-                         ["savonkinot"])
+                         ["savonkinot", "star"])
 
 
 if __name__ == "__main__":

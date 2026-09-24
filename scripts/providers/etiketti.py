@@ -220,8 +220,11 @@ SITES = [
     # elokuvateatteristar.fi, which the footer credits; the programme and every
     # /salikartta link are on lippu., which is what `base` reads and run.py paces on.
     # Five rooms, SALI 1 to SALI 5, so no `aud_repeats_venue`.
+    # `declare_syn`: read 2026-09-24, 22 of its 24 film pages carried a Finnish synopsis,
+    # one English (Hanuman Ansh, which its local run had filed as Finnish) and one that no
+    # language settles; none mixes Finnish with Swedish, which is what keeps Niagara out.
     {"provider": "star", "base": "https://lippu.elokuvateatteristar.fi",
-     "label": "Elokuvateatteri Star",
+     "label": "Elokuvateatteri Star", "declare_syn": True,
      "venues": [
          {"id": "star-oulu", "match": "star", "name": "Elokuvateatteri Star",
           "short": "Elokuvateatteri Star", "city": "Oulu"},
