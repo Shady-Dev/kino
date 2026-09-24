@@ -757,6 +757,61 @@ class FilmFactsTest(unittest.TestCase):
         self.assertGreater(len(f["syn"]), 120)
 
 
+class SynopsisParagraphTest(unittest.TestCase):
+    """The synopsis is the film's own long paragraph, read from `<p>` elements only.
+
+    Read live 2026-09-24. Kilta's film pages open with an SVG logo whose `<path d=...>`
+    elements matched `<p[^>]*>`, so the "paragraph" ran from the logo through the site menu
+    and both titles to the first `</p>`: 39 films-extra entries carried Kilta's menu as
+    their Finnish synopsis, and Sheryl's menu was read the same way. Strand films put the
+    strand's notice paragraphs first (KAVI's aluesarja, "Kultti Kilta"), and Laika puts a
+    ticket notice first, so the first paragraph over 120 characters is not the synopsis
+    either."""
+
+    SYN = ("Elokuvan alkuperaista nimea myotaillen agentti paasee irti ja valloilleen, kun "
+           "kansainvalinen juoni vie hanet Brasiliaan etsimaan kadonnutta mikrofilmia, ja "
+           "matkan varrella han kohtaa niin natseja, hippeja kuin paikallisen poliisinkin.")
+    NOTICE = ("<strong>Syyssarja 2026</strong> starttaa minä muunakaan päivänä kuin "
+              "<strong>Kino Killan 2-vuotissyntymäpäivänä</strong> 28.9. ja jatkuu "
+              "marraskuun viimeiselle viikolle.")
+
+    def kilta_live(self, syn):
+        logo = ("<svg viewBox='0 0 120 120'><path d='M71.5 46.9C64.1 46.9 58.1 52.9 58.1 "
+                "60.3'></path><path d='M49.6 73.7H53.2'></path></svg>")
+        menu = ("<nav class='main-menu' role='navigation'><ul id='menu-primary-navigation-fi'>"
+                + "".join(f"<li><a href='/x/'>{w}</a></li>" for w in
+                          ("Etusivu", "Näytökset", "Yhteystiedot ja aukioloajat",
+                           "Saapuminen ja saavutettavuus", "Info", "Tilavuokraus",
+                           "Lahjakortit", "Sarjaliput", "Erikoistapahtumat",
+                           "Tukijat ja kumppanit", "Tietosuojaseloste", "English"))
+                + "</ul></nav>")
+        return (f"<html><body><header>{logo}{menu}</header><main><article>"
+                f"<div class='page-title'><h1>Agentti O.S.S. 117 iskee</h1>"
+                f"<em>OSS 117 se déchaîne</em></div>"
+                f"<p><strong>KUVIn aluesarja tekee paluun kevään mittaisen tauon jälkeen!</strong></p>"
+                f"<p>{self.NOTICE}</p><p>{syn}</p></article></main></body></html>")
+
+    def test_an_svg_path_is_not_a_paragraph(self):
+        f = K.film_facts(self.kilta_live(self.SYN))
+        self.assertNotIn("Etusivu", f["syn"])
+        self.assertNotIn("Tietosuojaseloste", f["syn"])
+
+    def test_a_strand_notice_before_the_synopsis_is_passed_over(self):
+        self.assertEqual(K.film_facts(self.kilta_live(self.SYN))["syn"], self.SYN)
+
+    def test_a_ticket_notice_before_the_synopsis_is_passed_over(self):
+        notice = ("Kino Iglu! Liput 10€ / 7€ (lapset ja nuoret, opiskelijat, työttömät, "
+                  "varusmiehet ja eläkeläiset). Näytös alkaa tasan, ovet aukeavat puoli "
+                  "tuntia ennen.")
+        page = f"<html><body><main><p>{notice}</p><p>{self.SYN}</p></main></body></html>"
+        self.assertGreater(len(notice), 120)
+        self.assertEqual(K.film_facts(page)["syn"], self.SYN)
+
+    def test_a_page_with_no_long_paragraph_has_no_synopsis(self):
+        page = "<html><body><main><p>Lyhyt teksti.</p><p>Toinen.</p></main></body></html>"
+        self.assertEqual(K.film_facts(page)["syn"], "")
+
+
 # ---------------------------------------------------------------- overrides
 
 class OverrideTest(unittest.TestCase):

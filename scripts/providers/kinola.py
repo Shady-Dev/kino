@@ -296,7 +296,9 @@ KILTA_RATING_RE = re.compile(r'alt=["\']Ikäraja:\s*([^"\']+)["\']', re.I)
 LAIKA_RATING_RE = re.compile(r'\bK-?(\d{1,2})\b|(?<![A-Za-zÄÖÅäöå])(S)(?![A-Za-zÄÖÅäöå])')
 OG_IMAGE_RE = re.compile(r'<meta[^>]*property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']'
                          r'|<meta[^>]*content=["\']([^"\']+)["\'][^>]*property=["\']og:image["\']', re.I)
-SYN_RE = re.compile(r'<p[^>]*>(.*?)</p>', re.S | re.I)
+# `<p` then whitespace or `>`: an SVG `<path d=...>` is not a paragraph. Kilta's logo is
+# drawn with paths, and `<p[^>]*>` read from it through the site menu to the first `</p>`.
+SYN_RE = re.compile(r'<p(?:\s[^>]*)?>(.*?)</p>', re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
@@ -582,12 +584,10 @@ def film_facts(page):
     head = _head(page)
     dur = _minutes(facts.get("kesto", "")) or _minutes(head)
     og = OG_IMAGE_RE.search(page)
-    syn = ""
-    for p in SYN_RE.findall(page):
-        t = _txt(p)
-        if len(t) > 120:
-            syn = t
-            break
+    # The longest paragraph over 120 characters, not the first: Kilta's strand films open
+    # with the strand's notice and Laika's with a ticket notice, both long enough to pass.
+    syn = max((t for t in map(_txt, SYN_RE.findall(page)) if len(t) > 120),
+              key=len, default="")
     return {"labels": facts, "rating": _rating(page, head),
             "len": dur,
             "genres": facts.get("lajityyppi", ""),

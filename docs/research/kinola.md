@@ -165,6 +165,26 @@ what the adapter has to keep satisfying.
 
 ---
 
+## Where the synopsis sits on a film page (read 2026-09-24)
+
+Findings, one film page per tenant read as a visitor on 2026-09-24:
+
+- **Kilta** (`/film/agentti-o-s-s-117-iskee/`): the header logo is an inline SVG drawn with
+  `<path d='...'>`. `<p[^>]*>` matched `<path`, so the first "paragraph" ran from the
+  logo through the whole site menu and both titles to the first `</p>`. Inside `article`
+  the page has five real paragraphs: four of KAVI aluesarja notice (60, 135, 98 and 98
+  characters) and the synopsis, 1465 characters.
+- **Laika** (`/film/8-1-2/`): the first paragraph over 120 characters is a ticket notice
+  ("Kino Iglu! Liput 10 EUR / 7 EUR ..."); the synopsis is the longer one after it.
+- **Myyri**: a festival page and a film page; the longest paragraph is event or film text
+  either way.
+- **Sheryl** (`/film/chungking-express-2/`): the same `<path>` match read its menu
+  ("ABOUT CONTACT BOOK A MOVIE ..."); `declare_syn` withheld it as no settled language.
+
+Implementation status: `SYN_RE` requires `<p` followed by whitespace or `>`, and the
+synopsis is the longest paragraph over 120 characters. Tests: `SynopsisParagraphTest` in
+`tests/test_kinola.py`.
+
 ## Build requirements
 
 Recorded 2026-09-15 with the policy, and **not implemented**. These are what the adapter
