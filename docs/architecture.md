@@ -23,8 +23,9 @@ one place, `IDEAS.md` under "Documentation state". This file describes shape, no
 ## Two halves, one branch
 
 No cinema is called at page load. A pipeline reads every provider ahead of time and commits
-static JSON, which Pages serves from the same origin: no CORS, no key in the client, no
-third-party request from a visitor's browser.
+static JSON, which Pages serves from the same origin: no CORS, no key in the client, and
+no request to a cinema from a visitor's browser. The one third party the app calls is
+PostHog's EU analytics; README's Privacy section lists what it sends.
 
 It runs in two places because it has to:
 
