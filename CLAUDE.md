@@ -372,9 +372,9 @@ sleep, and do not change `index.html` to add a marker without the maintainer's w
 
 `tests/browser/test_pages_layout.py` covers the generated pages instead of the app: where
 a film's poster, header and ticket list are drawn, at eight widths, over four fixture films
-including one with no poster and one that is a title and nothing else. CI runs it as the
-`pages-layout` job in **Chromium and WebKit**, and either engine failing turns the Checks
-run red.
+including one with no poster and one that is a title and nothing else. CI runs it inside
+the `browser` job in **Chromium and WebKit**, reported in its own summary section, and
+either engine failing turns the Checks run red.
 
 Red is a verdict, not a gate: `main` carries no branch protection and no ruleset, and
 required status checks gate a pull request merge, which this repository does not use. The

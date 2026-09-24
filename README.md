@@ -163,8 +163,8 @@ ticketing platform publishes and how it was read, are under
     .github/workflows/logs.yml       runs check_runs.py on any push that touches a log
     .github/workflows/indexnow.yml   runs indexnow.py on page changes
     .github/workflows/ci.yml         on code pushes: suite, JS check, design-push and
-                                     CACHE-bump checks, regeneration drift; browser and
-                                     pages-layout jobs in Chromium and WebKit
+                                     CACHE-bump checks, regeneration drift; the browser
+                                     job in Chromium and WebKit
 
 ## Data shape
 

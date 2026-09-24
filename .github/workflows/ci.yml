@@ -164,10 +164,11 @@ jobs:
   # with its own failures to read; this is that change, and both engines were run against
   # it first: 20 tests, green in each.
   #
-  # `discover` still takes no `-p`, so each leg runs test_pages_layout.py as well and the
-  # layout checks now run four times rather than twice. That duplication is the price of
-  # the property the same record names: a new file in tests/browser is never missed by
-  # the discovery. It costs about three seconds a leg.
+  # `discover` takes no `-p`, so each leg runs every file in tests/browser, the landing
+  # page layout (test_pages_layout.py) included: a new file there is never missed. The
+  # layout had its own `pages-layout` job until 2026-09-24, which ran the same file a
+  # second time on its own runner; its summary section, its skip rule and its separate
+  # verdict per engine are kept here instead, from the one run.
   browser:
     runs-on: ubuntu-latest
     strategy:
@@ -201,9 +202,28 @@ jobs:
           rc=$?
           set -e
           tail -40 "$RUNNER_TEMP/browser.log"
+          # Two verdicts from one run: the landing page layout apart from the app.
+          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
+            {
+              echo "### App (${{ matrix.engine }})"
+              echo '```'
+              grep -E '^(FAIL|ERROR): ' "$RUNNER_TEMP/browser.log" | grep -v 'test_pages_layout\.' || echo "no failure"
+              echo '```'
+              echo "### Landing page layout (${{ matrix.engine }})"
+              echo '```'
+              grep -E '^(FAIL|ERROR): .*test_pages_layout\.' "$RUNNER_TEMP/browser.log" || echo "no failure"
+              echo '```'
+              grep -E '^(OK|FAILED)|^Ran ' "$RUNNER_TEMP/browser.log" || true
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
           awk '/^(FAIL|ERROR): / { print "::error::${{ matrix.engine }}: " $0 }' "$RUNNER_TEMP/browser.log"
           if [ "$rc" != 0 ]; then
             echo "::error::the browser suite failed in ${{ matrix.engine }} (exit $rc)"
+            exit 1
+          fi
+          # A skip means a dependency went missing on a runner that has them all.
+          if grep -qE 'skipped=' "$RUNNER_TEMP/browser.log"; then
+            echo "::error::a browser test skipped in ${{ matrix.engine }}"
             exit 1
           fi
 
@@ -213,76 +233,5 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: browser-failures-${{ matrix.engine }}
-          path: tests/browser/out/
-          if-no-files-found: ignore
-
-  # The generated pages' layout, in both engines. Its own job and its own matrix rather
-  # than a second engine on the job above, so a fault in a generated page and a fault in
-  # the client read as two verdicts. Both jobs run both engines since 2026-09-19.
-  #
-  # Why two engines at all: on 2026-09-18 the phone layout shipped correct in Chromium and
-  # broken in WebKit. `grid-row:1/-2` counts back from the explicit grid, the rule declared
-  # no explicit rows, and WebKit dropped each film's metadata and synopsis below the poster
-  # on every landing page. The unit suite reads markup, the design contract reads CSS
-  # numbers, and the browser check of the day drove Chromium alone, so all three were
-  # green while iPhones had it. One engine is not a check.
-  #
-  # fail-fast is off so a fault in one engine still reports the other: "wrong in WebKit,
-  # right in Chromium" is the diagnosis, and cancelling the sibling hides half of it.
-  pages-layout:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        engine: [chromium, webkit]
-    name: pages-layout (${{ matrix.engine }})
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Install Playwright
-        run: python3 -m pip install --quiet --disable-pip-version-check playwright==1.62.0
-
-      # Keyed on the Playwright version and the engine: the pin decides which build is
-      # downloaded, and the two engines are different downloads.
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ matrix.engine }}-1.62.0
-
-      - name: Install Playwright's ${{ matrix.engine }}
-        run: python3 -m playwright install --with-deps ${{ matrix.engine }}
-
-      - name: Landing page layout
-        env:
-          KINO_BROWSER_ENGINE: ${{ matrix.engine }}
-        run: |
-          set +e
-          python3 -m unittest discover -s tests/browser -p 'test_pages_layout.py' -v \
-            > "$RUNNER_TEMP/pages.log" 2>&1
-          rc=$?
-          set -e
-          tail -40 "$RUNNER_TEMP/pages.log"
-          if [ -n "$GITHUB_STEP_SUMMARY" ]; then
-            {
-              echo "### Landing page layout (${{ matrix.engine }})"
-              echo '```'
-              grep -E '^(FAIL|ERROR): |^(OK|FAILED)|^Ran ' "$RUNNER_TEMP/pages.log" || true
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
-          awk '/^(FAIL|ERROR): / { print "::error::${{ matrix.engine }}: " $0 }' "$RUNNER_TEMP/pages.log"
-          if [ "$rc" != 0 ]; then
-            echo "::error::the landing page layout failed in ${{ matrix.engine }} (exit $rc)"
-            exit 1
-          fi
-          if grep -qE 'skipped=' "$RUNNER_TEMP/pages.log"; then
-            echo "::error::a layout check skipped in ${{ matrix.engine }}"
-            exit 1
-          fi
-
-      - if: failure()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
-        with:
-          name: pages-layout-failures-${{ matrix.engine }}
           path: tests/browser/out/
           if-no-files-found: ignore
