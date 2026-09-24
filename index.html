@@ -3468,7 +3468,7 @@
       ? [L[state.lang].manySources, '']
       : (SOURCE[v.provider] || SOURCE.finnkino);
     const stamp = t.toLocaleString(DATE_LOCALE[state.lang],
-      {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+      {day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit',timeZone:FI_TZ});
     // book mode per provider: door = sold at the door, reserve = free seat
     // reservation rather than payment, admission = the screening is included in a
     // general admission ticket and the link opens the ticket shop (Heureka). From the

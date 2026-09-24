@@ -114,6 +114,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 class Browser(unittest.TestCase):
     viewport = {"width": 1200, "height": 900}; touch = False
+    tz = "Europe/Helsinki"
 
     @classmethod
     def setUpClass(cls):
@@ -142,7 +143,7 @@ class Browser(unittest.TestCase):
 
     def setUp(self):
         self.ctx = self.browser.new_context(viewport=self.viewport, has_touch=self.touch,
-                                            timezone_id="Europe/Helsinki", locale="fi-FI",
+                                            timezone_id=self.tz, locale="fi-FI",
                                             service_workers="block")
         self.ctx.tracing.start(screenshots=True, snapshots=True)
         OUT.mkdir(exist_ok=True)
@@ -822,3 +823,19 @@ class LanguageSwitchKeepsTheDay(Browser):
         expect(self.page.locator("a.stub").first).to_be_visible()
         hrefs = self.page.locator("a.stub").evaluate_all("as => as.map(a => a.href)")
         self.assertEqual(set(hrefs) & TODAY_URLS, set(), "14.9.'s list under another day")
+
+
+class FooterStampInHelsinki(Browser):
+    """The footer's update time is Helsinki time wherever the reader is, like every
+    showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16
+    in Helsinki and 18.16 in London; a reader in London saw 18.16 beside showtimes drawn in
+    Helsinki time."""
+    tz = "Europe/London"
+
+    def test_the_update_time_is_helsinki_time_in_another_zone(self):
+        self.pick_orion()
+        credit = self.page.locator("#credit")
+        expect(credit).to_contain_text("Orion")
+        text = credit.text_content()
+        self.assertIn("20.16", text, text)
+        self.assertNotIn("18.16", text, text)
