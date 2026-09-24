@@ -21,6 +21,7 @@ import threading
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import common
 from _http_cache import temp_cache
 
@@ -87,6 +88,7 @@ class HttpGetTest(unittest.TestCase):
         fetch_data.common = mod
         self.addCleanup(lambda: setattr(fetch_data, "common", old))
         self.addCleanup(self._restore)
+        self.clock = no_sleep.patch(self, mod)  # Retry-After is counted, not sat out
         return mod
 
     @staticmethod

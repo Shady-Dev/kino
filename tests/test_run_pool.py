@@ -20,6 +20,7 @@ import time
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import common
 import run
 import synmerge
@@ -422,6 +423,7 @@ class CounterTest(PoolTestCase):
         h = self.hosts(4, delay=0)
         for srv in h.servers:
             srv.RequestHandlerClass = Throttling
+        no_sleep.patch(self, common)            # counted, not sat out
         mod = PoolMod([site(f"p{i}", h.base(i)) for i in range(4)], requests=1)
         got, _ = self.drain(mod)
         self.assertEqual([e is not None for _, _, e in got], [True] * 4)

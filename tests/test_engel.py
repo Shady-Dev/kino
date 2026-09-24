@@ -18,6 +18,7 @@ import unittest
 import urllib.error
 
 import _ctx
+import _no_sleep as no_sleep
 import engel as E
 
 
@@ -97,6 +98,7 @@ class FiveHundredTest(unittest.TestCase):
             + row("b", "Ti 22.09.", "20:15", "Beta") + "</body></html>")
 
     def setUp(self):
+        no_sleep.patch(self, E)                 # the 0.5 s pause before the error body
         self._get = E.get_text
         self.addCleanup(lambda: setattr(E, "get_text", self._get))
         self.calls = []
@@ -304,6 +306,7 @@ class DroppedConnectionSocketTest(unittest.TestCase):
         return f"http://127.0.0.1:{srv.server_address[1]}/"
 
     def setUp(self):
+        no_sleep.patch(self, E)                 # the 0.5 s pause before the error body
         # The real schedule is 20 s and 40 s; the rule under test is that there is a
         # second round at all, not how long it waits, and the suite must not sleep a
         # minute to see it.

@@ -21,6 +21,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import common
 
 
@@ -412,6 +413,7 @@ class ZeroShowsTest(Stubbed):
         e = self.stub({"/elokuvat/ohjelmistossa": LISTING,
                        "/elokuvat/70/the-invite": FOREIGN_FILM,
                        "/elokuvat/63/the-dog-stars": FOREIGN_FILM})
+        no_sleep.patch(self, e)                 # run.main paces the film pages at 1.2 s
         realimp = importlib.import_module
         mod = type("M", (), {"__name__": "fakemod", "SITES": [site("niagara")],
                              "fetch_site": staticmethod(e.fetch_site)})

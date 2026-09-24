@@ -25,6 +25,7 @@ import time
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import common
 import registry
 import run
@@ -927,6 +928,11 @@ class EquivalenceTest(CloudTestCase):
 # --- the budgets were per module because each module was a process ---------------------
 
 class BudgetTest(CloudTestCase):
+    def setUp(self):
+        super().setUp()
+        # The waits are counted, which is what these read; sitting them out is not.
+        no_sleep.patch(self, common)
+
     def throttling(self, h, seconds="1"):
         class Throttling(P.Handler):
             def do_GET(self):

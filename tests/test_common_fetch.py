@@ -13,6 +13,7 @@ import importlib
 import io
 import os
 import pathlib
+import socket
 import tempfile
 import threading
 import time
@@ -23,6 +24,7 @@ import warnings
 import _ctx                                                # noqa: F401
 import common
 from _http_cache import temp_cache
+import _no_sleep as no_sleep
 
 # An adapter binds the exception class at import time (`from common import
 # EmptyProgramme`), and a reload below rebinds it to a new class object. An adapter
@@ -157,23 +159,48 @@ class FetchTest(unittest.TestCase):
         return got, [l for l in self.captured.splitlines() if l.startswith("[http]")]
 
     def reload(self, **env):
-        """Fresh module so the throttle counters start at zero, with env overrides."""
-        return fresh_common(self, **env)
+        """Fresh module so the throttle counters start at zero, with env overrides. Its
+        sleeps are recorded in `self.clock.slept` rather than waited."""
+        c = fresh_common(self, **env)
+        self.clock = no_sleep.patch(self, c)
+        return c
 
     # -- Retry-After is honoured -------------------------------------------------
 
     def test_429_waits_the_stated_interval_not_the_backoff(self):
         c = self.reload()
         self.srv.script["/a"] = [(429, {"Retry-After": "1"}, b"slow"), (200, {}, b"ok")]
-        t0 = time.monotonic()
         body = c.fetch(self.url + "/a", backoff=30)
-        dt = time.monotonic() - t0
         self.assertEqual(body, b"ok")
-        self.assertLess(dt, 2.5, "waited the fixed backoff instead of the stated 1s")
-        self.assertGreater(dt, 0.9, "did not wait at all")
+        self.assertEqual(self.clock.slept, [1], "the stated 1s, not the 30s backoff")
         self.assertEqual(self.srv.hits["/a"], 2)
         self.assertEqual(c.throttle_stats()["asked"], 1)
         self.assertEqual(c.throttle_stats()["refused"], 0)
+
+    def test_no_sleep_follows_the_final_attempt(self):
+        """Three tries sleep twice, whichever way they fail: the last attempt has no retry
+        after it, so a sleep there only delays the error. Each branch of the retry loop is
+        its own case, the Retry-After wait, the backoff after an HTTP error and the backoff
+        after a connection that never opened."""
+        c = self.reload()
+        self.srv.script["/ra"] = [(429, {"Retry-After": "1"}, b"slow")]
+        with self.assertRaises(Exception):
+            c.fetch(self.url + "/ra", tries=3, backoff=30)
+        self.assertEqual((self.srv.hits["/ra"], self.clock.slept), (3, [1, 1]))
+
+        self.clock.slept.clear()
+        self.srv.script["/500"] = [(500, {}, b"down")]
+        with self.assertRaises(Exception):
+            c.fetch(self.url + "/500", tries=3, backoff=5)
+        self.assertEqual((self.srv.hits["/500"], self.clock.slept), (3, [5, 10]))
+
+        self.clock.slept.clear()
+        with socket.socket() as s:
+            s.bind(("127.0.0.1", 0))
+            closed = s.getsockname()[1]
+        with self.assertRaises(Exception):
+            c.fetch(f"http://127.0.0.1:{closed}/", tries=3, backoff=5)
+        self.assertEqual(self.clock.slept, [5, 10])
 
     def test_503_is_honoured_the_same_way(self):
         c = self.reload()
@@ -186,30 +213,28 @@ class FetchTest(unittest.TestCase):
         when = email.utils.format_datetime(
             datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=3))
         self.srv.script["/c"] = [(429, {"Retry-After": when}, b"slow"), (200, {}, b"ok")]
-        t0 = time.monotonic()
         self.assertEqual(c.fetch(self.url + "/c", backoff=30), b"ok")
         # HTTP-date has whole-second granularity, so "+3s" is 2.0-3.0s away once parsed.
-        self.assertGreater(time.monotonic() - t0, 1.8)
+        self.assertEqual(len(self.clock.slept), 1)
+        self.assertTrue(1.8 < self.clock.slept[0] <= 3.0, self.clock.slept)
 
     def test_a_date_already_past_waits_zero_not_a_negative(self):
         c = self.reload()
         past = email.utils.format_datetime(
             datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=1))
         self.srv.script["/d"] = [(429, {"Retry-After": past}, b"slow"), (200, {}, b"ok")]
-        t0 = time.monotonic()
         self.assertEqual(c.fetch(self.url + "/d", backoff=30), b"ok")
-        self.assertLess(time.monotonic() - t0, 1.0)
+        self.assertEqual(self.clock.slept, [0])
 
     # -- the ceilings fire ----------------------------------------------
 
     def test_an_ask_past_the_ceiling_costs_one_request_and_no_sleep(self):
         c = self.reload()
         self.srv.script["/e"] = [(429, {"Retry-After": "9999"}, b"go away")]
-        t0 = time.monotonic()
         with self.assertRaises(Exception) as cm:
             c.fetch(self.url + "/e", backoff=30)
         self.assertEqual(getattr(cm.exception, "code", None), 429)
-        self.assertLess(time.monotonic() - t0, 1.0)
+        self.assertEqual(self.clock.slept, [])
         self.assertEqual(self.srv.hits["/e"], 1, "kept asking a host that said no")
         self.assertEqual(c.throttle_stats()["refused"], 1)
         self.assertEqual(c.throttle_stats()["waited"], 0)

@@ -20,6 +20,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import elavienkuvien as E
 import registry
 import run
@@ -175,6 +176,7 @@ class FilmPageTest(unittest.TestCase):
 
 class RunnerTest(unittest.TestCase):
     def setUp(self):
+        no_sleep.patch(self, E)                 # the 1.2 s pause between film pages
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self._out = run.OUT

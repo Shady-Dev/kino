@@ -14,6 +14,7 @@ import tempfile
 import unittest
 
 import _ctx                                                # noqa: F401
+import _no_sleep as no_sleep
 import build_pages as bp
 import common
 import registry
@@ -219,6 +220,9 @@ class DetailsTest(unittest.TestCase):
 
 
 class EnrichTest(unittest.TestCase):
+    def setUp(self):
+        no_sleep.patch(self, tapiola)           # the 0.5 s pause between film pages
+
     def test_one_page_per_film_folded_onto_every_run(self):
         shows = tapiola.parse(LISTING)
         calls = []
@@ -259,10 +263,11 @@ class RunnerTest(unittest.TestCase):
         self._out = run.OUT
         run.OUT = pathlib.Path(self.tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
-        self._fetch, self._sleep = tapiola.fetch, tapiola.time.sleep
+        self._fetch = tapiola.fetch
         self.addCleanup(lambda: setattr(tapiola, "fetch", self._fetch))
-        self.addCleanup(lambda: setattr(tapiola.time, "sleep", self._sleep))
-        tapiola.time.sleep = lambda s: None
+        # Scoped to tapiola's own `time`: replacing `time.sleep` itself reached every
+        # thread in the process for the length of the test.
+        no_sleep.patch(self, tapiola)
         self.calls = []
 
     def serve(self, pages):
