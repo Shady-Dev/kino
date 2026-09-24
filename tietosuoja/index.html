@@ -76,7 +76,8 @@ kuinka kauan niitä säilytetään.</p>
       (localStorage, sessionStorage), ei henkilöprofiileja, ei mainontaa, ei
       sivustojen välistä seurantaa eikä istuntotallenteita.</li>
   <li>Mittaustiedot käsitellään <strong>PostHog EU Cloudissa</strong> (EU-alue).</li>
-  <li><strong>Do Not Track</strong> -asetus estää mittauksen kokonaan: silloin selain ei
+  <li><strong>Do Not Track</strong>- tai <strong>Global Privacy Control</strong> -asetus estää
+      mittauksen kokonaan: silloin selain ei
       lähetä PostHogille mitään eikä lataa sen ohjelmakoodia.</li>
   <li>Tapahtumia lähetetään vain alla olevasta luettelosta. Hakusanoja, elokuvien
       nimiä, osoitteita tai muuta kirjoittamaasi ei lähetetä.</li>
@@ -146,8 +147,8 @@ säilytysaika, jonka jälkeen tapahtumat poistuvat.</p>
 <p>Käsittely perustuu <strong>oikeutettuun etuun</strong> (yleinen tietosuoja-asetus
 6(1)(f)): sen selvittämiseen, mitkä palvelun osat ovat käytössä, jotta ylläpito voi
 kohdistaa työn oikein. Mittaus on rajattu edellä kuvattuun vähimmäismäärään, siihen ei
-liity profilointia eikä mainontaa, eikä selaimeesi tallenneta tunnisteita. Do Not Track
--asetus estää mittauksen kokonaan.</p>
+liity profilointia eikä mainontaa, eikä selaimeesi tallenneta tunnisteita. Do Not Track- tai
+Global Privacy Control -asetus estää mittauksen kokonaan.</p>
 
 <h2>Oikeutesi</h2>
 <p>Sinulla on oikeus saada pääsy tietoihin, oikaista ja poistaa ne, rajoittaa
@@ -156,8 +157,8 @@ Oikeus siirtää tiedot järjestelmästä toiseen (artikla 20) ei koske tätä k
 se ei perustu suostumukseen eikä sopimukseen vaan oikeutettuun etuun. Koska
 selaimeesi ei tallenneta tunnistetta, yksittäisiä tapahtumia ei yleensä voida yhdistää
 sinuun jälkikäteen, mikä voi rajoittaa pääsy- ja poisto-oikeuden toteuttamista
-käytännössä. Mittauksen voi estää itse Do Not Track -asetuksella tai
-mainos- ja seurantaestolla. Voit myös tehdä valituksen tietosuojavaltuutetun
+käytännössä. Mittauksen voi estää itse Do Not Track- tai Global Privacy Control
+-asetuksella tai mainos- ja seurantaestolla. Voit myös tehdä valituksen tietosuojavaltuutetun
 toimistolle.</p>
 
 <h2>Mitä mittaus kattaa</h2>
@@ -184,7 +185,8 @@ här sidan beskriver vad som mäts, varför, vart uppgifterna går och hur läng
       personprofiler, ingen reklam, ingen spårning mellan webbplatser och inga
       sessionsinspelningar.</li>
   <li>Uppgifterna behandlas i <strong>PostHog EU Cloud</strong>.</li>
-  <li><strong>Do Not Track</strong> stoppar mätningen helt: då skickas ingenting.</li>
+  <li><strong>Do Not Track</strong>- eller <strong>Global Privacy Control</strong>-signalen stoppar
+      mätningen helt: då skickas ingenting.</li>
 </ul>
 <p><strong>Vad PostHog tar emot.</strong> Eftersom förfrågan går över nätet tar PostHog
 emot <strong>IP-adressen</strong> och webbläsarens rubriker, och bildar av dem en
@@ -214,7 +216,8 @@ describes what is measured, why, where it goes and how long it is kept.</p>
   <li><strong>No cookies</strong>, no browser-storage identifiers, no person profiles, no
       advertising, no cross-site tracking and no session recordings.</li>
   <li>Processed in <strong>PostHog EU Cloud</strong>.</li>
-  <li><strong>Do Not Track</strong> stops it entirely: nothing is sent and the analytics
+  <li><strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> stops it entirely:
+      nothing is sent and the analytics
       script is not even loaded.</li>
 </ul>
 <p><strong>What PostHog receives.</strong> The request travels over the network, so
@@ -245,7 +248,8 @@ legitimate interest, and to lodge a complaint with the Finnish Data Protection O
 The right to data portability (Article 20) does not apply here, because it covers
 processing based on consent or contract and this is based on legitimate interest. Because no identifier is stored in your browser, individual events generally
 cannot be linked back to you, which may limit access and erasure in practice. You can
-block the measurement yourself with Do Not Track or a tracker blocker.</p>
+block the measurement yourself with Do Not Track, Global Privacy Control or a tracker
+blocker.</p>
 
 </main>
 <footer><b>Leffavuoro</b> <a href="/" id="footShowtimes">Näytösajat</a> <a href="/status/" id="footStatus">Palvelun tila</a></footer>
