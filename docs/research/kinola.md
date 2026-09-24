@@ -204,6 +204,19 @@ Findings, from each film page read once as a visitor:
 
 Implementation status: `kilta_synopsis` in `kinola.py`; tests in `KiltaSynopsisTest`.
 
+## Sheryl's runtime (read 2026-09-24, all 5 listed films)
+
+Findings: every film page carries one `<hr>` followed by a title block, the title in bold,
+the original title, the country, then an optional release date and the runtime
+("2026-09-18, 94 min"), ending at the first blank line before "Director". The labelled
+meta block above the synopsis has no runtime. `_head` reached the title block only where
+the synopsis was not in `<p>` elements, so Chungking Express (102 min) and Happy Together
+(96 min) published none while Resident Evil, Spider-Man and Verity had theirs by that
+accident.
+
+Implementation status: `sheryl_runtime` reads the title block and nothing else;
+`SherylRuntimeTest` covers both shapes.
+
 ## Build requirements
 
 Recorded 2026-09-15 with the policy, and **not implemented**. These are what the adapter

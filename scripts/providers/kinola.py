@@ -307,6 +307,14 @@ TAGS_RE = re.compile(r"<[^>]+>")
 # one, or the notices from the synopsis. Dropped as not the film's own text: a paragraph
 # bold throughout (headings, strand lines), one quoting a price, naming the cinema or
 # carrying a URL, and a source credit.
+# Sheryl's film page, read 2026-09-24: after the page's one <hr>, the title in bold, the
+# original title, the country, then an optional release date and the runtime,
+# "2026-09-18, 94 min", up to the first blank line before "Director". That block is the
+# runtime the page publishes; the text before the first <p> held it only on pages whose
+# synopsis is not in <p> elements.
+SHERYL_FACTS_RE = re.compile(
+    r"<hr\s*/?>\s*(?:<br\s*/?>\s*)*<strong>.*?</strong>(.*?)<br\s*/?>\s*<br\s*/?>",
+    re.S | re.I)
 KILTA_SEP_RE = re.compile(r"^(?:-{2,}|\*{3,})$")
 KILTA_STRONG_RE = re.compile(r"<strong[^>]*>(.*?)</strong>", re.S | re.I)
 KILTA_NAME_RE = re.compile(r"\b(?:Kilta|Killa)")
@@ -626,12 +634,21 @@ def kilta_synopsis(page):
     return out, withheld
 
 
+def sheryl_runtime(page):
+    """-> minutes as a string from Sheryl's title block, "" when the block or a runtime in
+    it is missing. Nothing else on the page is read for it."""
+    m = SHERYL_FACTS_RE.search(page)
+    return _minutes(_txt(m.group(1))) if m else ""
+
+
 def film_facts(page, template=None):
     """-> {labels, rating, len, genres, img, syn} for one film page. On Kilta `syn` is the
     {lang: text} of `kilta_synopsis`, and `syn_withheld` counts what it could not place."""
     facts = labels(page)
     head = _head(page)
     dur = _minutes(facts.get("kesto", "")) or _minutes(head)
+    if template == "sheryl":
+        dur = sheryl_runtime(page)
     og = OG_IMAGE_RE.search(page)
     # The longest paragraph over 120 characters, not the first: Kilta's strand films open
     # with the strand's notice and Laika's with a ticket notice, both long enough to pass.

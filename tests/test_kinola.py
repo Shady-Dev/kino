@@ -915,6 +915,57 @@ class KiltaSynopsisTest(unittest.TestCase):
         self.assertIs(K.syn_value(KILTA, placed), placed)
 
 
+def sheryl_page(synopsis_html, facts):
+    """Sheryl's film-page shape as read 2026-09-24: the meta block with its bold labels,
+    the synopsis, then one <hr> and the title block that carries the runtime."""
+    return ("<html><body><section class='kinola-film-meta'><img alt='Film poster' src='x'>"
+            " Hong Kong <br> <strong>Rating</strong> <br> K-12 <br><br>"
+            " <strong>Classifications</strong> <br> <br><br>"
+            f"{synopsis_html} <br><hr><br> {facts}"
+            " <strong>Director</strong> <br> Wong Kar-Wai <br><br>"
+            " <strong>Language</strong> <br> Cantonese <br><br></section></body></html>")
+
+
+class SherylRuntimeTest(unittest.TestCase):
+    """Sheryl publishes the runtime in its title block after the page's <hr>. The text
+    before the first <p> reached it only where the synopsis was not in <p> elements, so
+    Chungking Express and Happy Together had none and three films had it by accident."""
+
+    def test_a_synopsis_in_paragraphs_still_yields_the_runtime(self):
+        page = sheryl_page("<p>Two melancholic policemen stumble into romance.</p>",
+                           "<strong>Chungking Express</strong> <br> <em>Chungking Express</em>"
+                           " <br> Hong Kong <br> 102 min <br><br>")
+        self.assertEqual(K.film_facts(page, "sheryl")["len"], "102")
+
+    def test_a_dated_runtime_is_read_and_a_minute_count_in_the_synopsis_is_not(self):
+        """The Resident Evil shape: the synopsis as bare text, and the block's runtime
+        after a release date. A "15 min" in the synopsis is the film's story, not its
+        length, and it comes first on the page."""
+        page = sheryl_page("A courier has 15 min to cross the city before the night"
+                           " collapses around him.",
+                           "<strong>Resident Evil</strong> <br> <em>Resident Evil</em> <br>"
+                           " United States <br> 2026-09-18, 94 min <br><br>")
+        self.assertEqual(K.film_facts(page, "sheryl")["len"], "94")
+
+    def test_a_page_without_the_title_block_has_no_runtime(self):
+        """No block, no runtime: the "15 min" before the first <p> is what the old scan
+        would have published."""
+        page = sheryl_page("A courier has 15 min to cross the city. <p>More to come.</p>", "")
+        page = page.replace("<hr>", "")
+        self.assertEqual(K.film_facts(page, "sheryl")["len"], "")
+
+    def test_minutes_after_the_title_block_are_not_its_runtime(self):
+        """A title block with no runtime reads as none, whatever a later block says."""
+        page = sheryl_page("<p>A restored print.</p>",
+                           "<strong>Short Films</strong> <br> <em>Short Films</em> <br>"
+                           " Finland <br><br> <strong>Notes</strong> <br> Intermission 20 min <br><br>")
+        self.assertEqual(K.film_facts(page, "sheryl")["len"], "")
+
+    def test_the_other_templates_keep_their_own_rule(self):
+        """Laika's bare runtime above the first paragraph is still read as before."""
+        self.assertEqual(K.film_facts(laika_film(head="87 min <br><br> K-7"))["len"], "87")
+
+
 # ---------------------------------------------------------------- overrides
 
 class OverrideTest(unittest.TestCase):
