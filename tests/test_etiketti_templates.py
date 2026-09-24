@@ -168,6 +168,13 @@ class KotkaTemplateTest(Stubbed):
         self.assertEqual((b["theatre_raw"], b["aud"]), ("KINOPALATSI", ""))
         self.assertEqual((b["price"], b["free"]), ("12.5€", 0))
 
+    def test_a_bare_whole_amount_keeps_its_zero_on_kotkas_template_too(self):
+        e = load()
+        page = KOTKA_FILM.replace("Lippu 15,00", "Lippu 20").replace("Lippu 12,50", "Lippu 10")
+        self.assertNotEqual(page, KOTKA_FILM)
+        rows, _ = e.parse_movie(page, site("kotkanleffat"), "/elokuvat/3268/insidious")
+        self.assertEqual([r["price"] for r in rows], ["20€", "10€"])
+
     def test_metadata_with_colon_labels_and_genre_spans(self):
         _, meta = self.rows()
         self.assertEqual(meta["title"], "Insidious: Out of the Further")
@@ -229,6 +236,15 @@ class NiagaraTemplateTest(Stubbed):
     def test_prices_stay_with_their_screening(self):
         shows = self.fetch()["cn-tampere"]
         self.assertEqual([s["price"] for s in shows], ["13€", "11€", "8€"])
+
+    def test_a_bare_whole_amount_keeps_its_zero(self):
+        """Stripping zeros from "10" published a 10-euro ticket as 1 euro. Only a decimal
+        amount loses its trailing zeros."""
+        prices = ("10", "20", "10,00", "12,50", "10.00")
+        items = "".join(niagara_item("3.9.2026", f"1{i}.00", 50 + i, price=p)
+                        for i, p in enumerate(prices))
+        rows, _ = self.rows(niagara_page(items, twice=False))
+        self.assertEqual([r["price"] for r in rows], ["10€", "20€", "10€", "12.5€", "10€"])
 
     def test_seats_derive_sold_out_and_nothing_else(self):
         shows = self.fetch()["cn-tampere"]

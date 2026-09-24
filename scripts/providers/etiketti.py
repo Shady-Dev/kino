@@ -264,6 +264,21 @@ PLACE_RE = re.compile(r"<p>\s*([^<|]+?)\s*(?:\|\s*([^<]+?)\s*)?<br", re.S)
 # Kotka: "Lippu 15,00€". Niagara: <div class="show-price"> 13,00€. Per screening on both;
 # eleven of Niagara's films carried two or three different prices on 2026-09-02.
 PRICE_RE = re.compile(r'(?:Lippu\s*|class="show-price"[^>]*>\s*)([\d,\.]+)')
+
+
+def _price(raw):
+    """"15,00" -> "15€", "12,50" -> "12.5€", "10" -> "10€".
+
+    A trailing zero is only stripped from a decimal amount: "10" must not become "1".
+    All 20 tenants printed two decimals on 2026-09-24 (22 amounts, 0,00 to 24,00), so the
+    bare case had not fired.
+    """
+    v = raw.replace(",", ".")
+    if "." in v:
+        v = v.rstrip("0").rstrip(".")
+    return v + "\u20ac"
+
+
 # Kotka: "Vapaat paikat 27/35". Niagara: "Paikkoja vapaana: 126/127". Read only to derive
 # soldOut; the counts themselves are not published (docs/archive/2026-09-pipeline.md,
 # "Cinema Niagara, Tampere").
@@ -509,8 +524,7 @@ def parse_movie(page, site, movie_url):
             "theatre_raw": theatre, "aud": room,
             "start": datetime.datetime(y, mo, d, int(tm.group(1)), int(tm.group(2)),
                                        tzinfo=FI).isoformat(),
-            "price": (price.group(1).replace(",", ".").rstrip("0").rstrip(".") + "\u20ac"
-                      if price else ""),
+            "price": _price(price.group(1)) if price else "",
             "free": int(seats.group(1)) if seats else None,
             "method": " \u00b7 ".join(dict.fromkeys(t for t in tags if t)),
             # The public screening id, as the ticket href carries it. The key a show is
