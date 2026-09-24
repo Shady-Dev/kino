@@ -166,6 +166,25 @@ class RenumberedRoomTest(unittest.TestCase):
         with self.assertRaises(common.EmptyProgramme):
             self.fetch({"shows": {}})
 
+    def test_a_town_whose_room_alone_moved_is_not_confirmed_empty(self):
+        """Muurame still matches and Petäjävesi's rows arrive under room 104. Its []
+        would be vouched empty while its screenings sit in the unclaimed line, so it is
+        left out and run.py keeps its previous file."""
+        out = self.fetch({"shows": {"2026-09-02": [
+            row(2, "Muurame", "Film A"), row(21, "Riihivuori", "Film B"),
+            row(104, "Petäjävesi", "Film C"), row(104, "Petäjävesi", "Film D")]}})
+        self.assertEqual(sorted(s["title"] for s in out["km-muurame"]), ["Film A", "Film B"])
+        self.assertNotIn("km-petajavesi", out)
+
+    def test_an_empty_town_beside_rows_nobody_owns_is_not_confirmed_either(self):
+        """A new town publishing while a configured one is between visits reads the same
+        as a moved room: rows are there that could be this town's."""
+        out = self.fetch({"shows": {"d": [row(2, "Muurame", "Film A"),
+                                          row(19, "Hankasalmi", "Film E"),
+                                          row(19, "Hankasalmi", "Film F")]}})
+        self.assertEqual([s["title"] for s in out["km-muurame"]], ["Film A"])
+        self.assertNotIn("km-petajavesi", out)
+
 
 class UnclaimedRoomTest(unittest.TestCase):
     def test_rows_nobody_owns_are_counted_by_room(self):

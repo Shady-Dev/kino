@@ -35,7 +35,9 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 # that exist but cannot be parsed raise instead of vanishing, so a renamed row field can
 # never read as a quiet empty programme. A payload with rows that no configured room owns
 # at all is the roomIds having moved, and fetch_site raises on it rather than report
-# every venue []; a single mis-mapped town's rows land in the unclaimed-room log line.
+# every venue []. A roomed venue with no row while other rows sit in rooms nobody owns is
+# left out instead of reported []: one town's moved roomId and a new town beside a town
+# between visits cannot be told apart, and either way its screenings may be among them.
 # An adapter whose venue match is a substring test over markup (etiketti) sets this only
 # on evidence the read itself produced, because a rotted match and a drifted screening
 # pattern both yield the same empty list while the page still lists films: there, the
@@ -105,7 +107,7 @@ SITES = [
     # visible in `aud`. Vaajakoski and Tikkakoski are districts of Jyväskylä, so that
     # is their city. Hankasalmi and Laukaa have pages but no programme today, and are
     # deliberately not added -- the unclaimed-room line in the log announces them the
-    # day they publish.
+    # day they publish, and until one is added no empty town here is confirmed empty.
     {"provider": "kinometso", "base": "https://kinoaurora.fi",
      "site": "https://ksek.fi", "label": "Kino Metso", "programme": "/kino-metso/",
      "venues": [
@@ -337,9 +339,19 @@ def fetch_site(site, sleep=2.5):
                 f"{site['base']} locationid {loc}: {lost} row(s) and not one in a room a "
                 f"venue owns (rooms seen: {seen}). The roomIds moved; this is a mapping "
                 f"break, not an empty programme")
+        stray = unclaimed(payload, venues)
         for v in venues:
             try:
-                out[v["id"]] = parse(payload, site, v)
+                got = parse(payload, site, v)
+                if not got and v.get("rooms") and stray:
+                    # A moved roomId and a new town beside one between visits look the
+                    # same here: rows exist that could be this town's. Left out, so its
+                    # previous file stands rather than being vouched empty.
+                    raise RuntimeError(
+                        f"no row in rooms {', '.join(v['rooms'])} while room(s) "
+                        f"{', '.join(r for r, _ in sorted(stray))} carry rows no venue "
+                        f"owns, so this town is not shown to be empty")
+                out[v["id"]] = got
                 answered += 1
                 shows += len(out[v["id"]])
                 print(f"[{site['provider']}] {v['name']} ({v['city']}): {len(out[v['id']])} showtimes")
