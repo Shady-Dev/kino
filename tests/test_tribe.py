@@ -337,6 +337,48 @@ class RunnerTest(unittest.TestCase):
                     json.loads((run.OUT / "area-ritz-vaasa.json").read_text()), prev,
                     "a failed site keeps every file it owns")
 
+    def test_an_answer_without_an_events_list_fails_the_site(self):
+        """A 200 object with no `events` list is not the route saying nothing is on: read
+        as zero events, the category check would then vouch Ritz empty. Page 2 without
+        one would publish a schedule a page short."""
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+                "horizon": "2026-09-01",
+                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        p1 = "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1"
+        p2 = "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=2"
+        cat = {"ritz.fi/?rest_route=/tribe/events/v1/categories/19":
+               {"id": 19, "slug": "kino", "name": "Kino"}}
+        for name, over in (
+                ("no key", {p1: {"rest_url": "https://ritz.fi/x", "total": 0}}),
+                ("null", {p1: {"events": None, "total": 0, "total_pages": 0}}),
+                ("page 2 no key", {p1: page(TWO, total=4, pages=2),
+                                   p2: {"total": 4, "total_pages": 2}})):
+            with self.subTest(name):
+                (run.OUT / "area-ritz-vaasa.json").write_text(json.dumps(prev))
+                self.serve(self.both(**over, **cat))
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertIn("no 'events' list", log)
+                self.assertEqual(
+                    json.loads((run.OUT / "area-ritz-vaasa.json").read_text()), prev)
+                self.assertTrue(json.loads(
+                    (run.OUT / "area-tahtikino-muhos.json").read_text())["shows"])
+
+    def test_the_empty_answer_read_on_2026_09_24_is_a_quiet_week(self):
+        """Tähti Kino's route that day: `events` an empty list, `total_pages` 0."""
+        self.serve(self.both(**{
+            "muhos.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":
+                {"events": [], "rest_url": "https://muhos.fi/x", "total": 0,
+                 "total_pages": 0},
+            "muhos.fi/?rest_route=/tribe/events/v1/categories/106":
+                {"id": 106, "slug": "elokuvat", "name": "Elokuvat"}}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        prov = json.loads((run.OUT / "venues-tahtikino.json").read_text())
+        self.assertEqual(prov.get("pending"), ["tahtikino-muhos"])
+        self.assertEqual(json.loads(
+            (run.OUT / "area-tahtikino-muhos.json").read_text())["shows"], [])
+
     def test_a_route_that_answers_html_fails_that_site_only(self):
         self.serve(self.both(**{
             "ritz.fi/?rest_route=/tribe/events/v1/events&per_page=50&page=1":

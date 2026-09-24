@@ -51,6 +51,8 @@ renamed or deleted category looks like. So when the answer is empty the category
 is read once, and only its answering with the configured slug is evidence of a quiet week.
 Anything else -- a missing, renamed, unreadable or malformed category, or an endpoint that
 will not answer -- fails the site, which keeps the previous files and names it in the log.
+Empty means `"events": []`: a page answering without an `events` list fails the site too,
+because the category check says nothing about the events route's own schema.
 
 **Confirmed empty publishes a fresh empty file, it does not raise.** Until 2026-09-20 the
 quiet-week branch raised `common.EmptyProgramme`, which at the time kept the venue's previous area
@@ -235,10 +237,19 @@ def _page(site, start, page):
            f"&per_page={PER_PAGE}&page={page}&start_date={start}"
            f"&categories={site['category']['id']}")
     try:
-        return json.loads(get(url))
+        doc = json.loads(get(url))
     except json.JSONDecodeError as e:
         raise RuntimeError(f"{url}: the REST route answered something that is not JSON "
                            f"({e})") from e
+    # The route says nothing is on with `"events": []`, read live at Muhos 2026-09-24. An
+    # answer without that list is a changed schema: read as zero events, the category check
+    # would vouch the venue empty, and on a later page the schedule would publish short.
+    # nexxo.py requires its `shows` key for the same reason.
+    if not isinstance(doc, dict) or not isinstance(doc.get("events"), list):
+        keys = sorted(doc)[:6] if isinstance(doc, dict) else type(doc).__name__
+        raise RuntimeError(f"{url}: the answer carries no 'events' list (keys: {keys}), "
+                           f"so this is a schema change rather than an empty programme")
+    return doc
 
 
 def category_exists(site):

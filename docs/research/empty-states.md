@@ -24,6 +24,9 @@ clears withdrawn screenings".
   näytökset", no longer the "viikolopun" the adapter's comment records. Two films with
   screenings on la 26.9 and su 27.9; every date and clock on the page is inside the
   listing paragraphs, so the new date-or-clock check does not fire on a populated page.
+- **Tähti Kino** (tribe.py), the events route with its film category, live, 2026-09-24:
+  HTTP 200, a JSON object with `events` `[]`, `total` 0 and `total_pages` 0. That list is
+  what the adapter now requires before the category check may confirm the venue empty.
 - **Kuvakukko**, the programme page, live, 2026-09-24: HTTP 200, 33 Kuopio and 9 Manttu
   screenings. Besides its days, Kuopio's section holds one line, when the next week is
   published; Manttu's holds three, when the next weekend is published, the address and the

@@ -916,6 +916,14 @@ Tests: `test_nexxo_rooms.py`, `test_alatalo.py`, `test_kuvakukko.py`, on edited 
 each fixture, two venues or more in each. Twenty mutations red, none VOID; eight were VOID
 on the first pass and got the tests that now turn them red.
 
+### The Events Calendar answer must carry its events list (2026-09-24)
+Found reviewing tribe.py beside the gaps above. A 200 answer without an `events` list was
+read as zero events, and the category endpoint, which a change to the events route does not
+touch, then confirmed the venue empty; on page 2 the schedule published a page short at exit
+0. `_page` now fails the site on it, as `nexxo.py` does without `shows`. Tähti Kino's live
+empty answer, read 2026-09-24, carries `"events": []` and still publishes pending. Tests:
+`test_tribe.py`, three shapes red before the fix, three mutations red, none VOID.
+
 ### A screening note is not a synopsis (2026-09-03)
 Found by an external review: Cinema Niagara's sheet for "Keltaiset kirjeet" opened with
 Gilda's senior-screening paragraph, its price and its coffee.
