@@ -23,9 +23,9 @@
 [biorex] BioRex Seinäjoki: 115 showtimes, 17 dates
 [biorex] BioRex Tornio: 69 showtimes, 15 dates
 [biorex] BioRex Vaasa: 116 showtimes, 17 dates
-[biorex] synopses merged: 2
+[biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 34 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
 [run] biorex: 12 venues, 1141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 79.6s of fetching added up across workers that overlap, longest site 79.6s, longest queue wait 0.0s, 79.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 112.5s of fetching added up across workers that overlap, longest site 112.5s, longest queue wait 0.0s, 112.5s wall from this module's first fetch starting to its last ending
 exit=0

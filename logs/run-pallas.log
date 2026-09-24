@@ -5,5 +5,5 @@
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- www.biopallas.com
 [run] pallas: 1 venues, 20 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 0.2s of fetching added up across workers that overlap, longest site 0.2s, longest queue wait 124.8s, 0.2s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.3s of fetching added up across workers that overlap, longest site 0.3s, longest queue wait 145.1s, 0.3s wall from this module's first fetch starting to its last ending
 exit=0
