@@ -77,10 +77,11 @@ SITES = [{"provider": "kuvakukko", "label": "Kuvakukko", "base": BASE, "venues":
 
 # One cinema's heading present with no day paragraph under it, while the other has rows,
 # is positive evidence that it is between programmes: both schedules are on the same page,
-# so the read cannot have half-failed. `parse` checks both halves of that and raises
-# otherwise: a cinema whose heading was not read, or whose days carry no row this parser
-# reads, is not shown to be empty. Both empty fails the site, because no empty programme
-# has been seen on this page and there is no evidence of what one looks like.
+# so the read cannot have half-failed. `parse` checks both halves of that: a cinema whose
+# heading was not read fails the site, and one whose section holds a line opening like a
+# day or a screening while no row was read is left out, so its previous file stands. Both
+# empty fails the site, because no empty programme has been seen on this page and there is
+# no evidence of what one looks like.
 EMPTY_VENUES_CONFIRMED = True
 
 # The horizon these two were measured at on 2026-09-15: Kuvakukko 9 dates at +0 to +9,
@@ -113,6 +114,14 @@ ROW_RE = re.compile(r'Klo\s*(\d{1,2})(?:[.:](\d{2}))?\s*:\s*'
                     r'(?:<a\s+href="([^"]*)"[^>]*>(.*?)</a>|([^<]{2,80}))',
                     re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
+# A cinema's section as lines, whatever element holds them: `DAY_RE` and `ROW_RE` read the
+# classed paragraphs, and this reads what they may have stopped matching.
+LINE_SPLIT_RE = re.compile(r"<br\s*/?>|</?(?:p|li|h[1-6]|div|tr|td|ul|ol|table|figure)\b[^>]*>",
+                           re.I)
+# A line that opens the way a day or a screening does: `Klo 13:`, `n. klo 15:`, `Pe 25.9`,
+# `25.9.`. The notes under both headings, read 2026-09-24, open with none of these.
+TIME_LINE_RE = re.compile(r"^(?:n\.\s*)?klo\s*\d|^\d{1,2}\.\d{1,2}\.", re.I)
+WEEKDAY_DATE_RE = re.compile(r"^([A-Za-z\u00c4\u00d6\u00e4\u00f6]{2,12})\s+\d{1,2}\.\d{1,2}")
 
 
 def _txt(s):
@@ -128,6 +137,18 @@ def _sections(page):
         end = heads[i + 1].start() if i + 1 < len(heads) else len(page)
         out.append((_txt(h.group(1)), page[h.end():end]))
     return out
+
+
+def _screening_like(body):
+    """Whether a section holds a line opening like a day or a screening. -> bool."""
+    for chunk in LINE_SPLIT_RE.split(body):
+        line = _txt(chunk)
+        if TIME_LINE_RE.match(line):
+            return True
+        m = WEEKDAY_DATE_RE.match(line)
+        if m and weekday_index(m.group(1)) is not None:
+            return True
+    return False
 
 
 def _venue_for(heading):
@@ -209,7 +230,8 @@ def price_of(title, href, tail, house):
 def parse(page, site=None, today=None, prices=None):
     """The shared page -> {venue_id: [show]}. Raises when no schedule heading is present,
     when the headings are there with no screening under either, and when one cinema has
-    no row while its heading is missing or its section lists days.
+    no row while its heading is missing. One with no row whose section holds a line
+    opening like a day or a screening is left out of the answer.
 
     `prices` is `tariff()`'s answer, or nothing: a venue it does not name publishes no
     amount, which is what an unreadable or ambiguous `/liput/` leaves behind.
@@ -224,12 +246,14 @@ def parse(page, site=None, today=None, prices=None):
     today = today or datetime.datetime.now(FI).date()
     per_venue = {v["id"]: [] for v in VENUES}
     seen, unplaced = set(), []
-    headed, dated = set(), set()
+    headed, dated = set(), set()     # `dated` also holds a section with an unread day line
     for heading, body in _sections(page):
         venue = _venue_for(heading)
         if venue is None or "esitysaikataulu" not in heading.lower():
             continue
         headed.add(venue["id"])
+        if _screening_like(body):
+            dated.add(venue["id"])
         for para in PARA_RE.findall(body):
             d = DAY_RE.match(_txt(para))
             if not d:
@@ -299,8 +323,12 @@ def parse(page, site=None, today=None, prices=None):
             raise RuntimeError(f"{LISTING}: no schedule heading read for {v['name']}, so "
                                f"its section was not read and it is not shown to be empty")
         if v["id"] in dated:
-            raise RuntimeError(f"{LISTING}: {v['name']} lists days and no row under them "
-                               f"was read, so it is not shown to be empty")
+            # Days or screening lines under its heading and no row read is this parser
+            # missing a changed shape. Left out, so run.py keeps its previous file and the
+            # other cinema still publishes; alatalo.py treats a town the same way.
+            del per_venue[v["id"]]
+            print(f"[kuvakukko] {v['name']}: lines opening like a day or a screening and "
+                  f"no row read, so not published as empty and the previous file stands")
     for shows in per_venue.values():
         shows.sort(key=lambda s: s["start"])
     return per_venue
@@ -333,9 +361,10 @@ def fetch_site(site=SITES[0]):
     """Runner contract: one page, two venues.
 
     A venue with no row is returned as an empty list only when the other one has rows
-    and its own heading was read with no day under it: both schedules are on the same
-    page, so that is positive evidence of one cinema between programmes. Every other
-    empty case has already raised in `parse`.
+    and its own heading was read with no day or screening line under it: both schedules
+    are on the same page, so that is positive evidence of one cinema between programmes.
+    A venue with such lines and no row is left out; every other empty case has already
+    raised in `parse`.
     """
     page = get_listing()
     prices = get_prices()

@@ -207,8 +207,9 @@ class EmptyAndBrokenTest(unittest.TestCase):
                             today=TODAY)
         self.assertIn("Kino Manttu", str(cm.exception))
 
-    def test_a_cinema_whose_days_carry_no_readable_row_is_not_published_empty(self):
-        """Kuopio parses and Manttu lists two days whose rows this parser misses."""
+    def test_a_cinema_whose_days_carry_no_readable_row_is_left_out(self):
+        """Kuopio parses and Manttu lists two days whose rows this parser misses. Not
+        shown to be empty, so left out, and run.py keeps Manttu's previous file."""
         def bad(time_, title, href):
             return row(time_, title, href).replace(":", "", 1)
         body = page(kuopio_days=[day("Tiistai 15.9.", row("19", "A", f"{BASE}/a/"))],
@@ -216,9 +217,45 @@ class EmptyAndBrokenTest(unittest.TestCase):
                                      bad("17.15", "Presidentin kyyditys", f"{BASE}/pk/")),
                                  day("Lauantai 12.9.",
                                      bad("13", "Marsupilami (dub)", f"{BASE}/mars/"))])
-        with self.assertRaises(RuntimeError) as cm:
-            kuvakukko.parse(body, today=TODAY)
-        self.assertIn("Kino Manttu", str(cm.exception))
+        per = kuvakukko.parse(body, today=TODAY)
+        self.assertEqual(len(per["kk-kuopio"]), 1)
+        self.assertNotIn("kk-nilsia", per)
+
+    def test_a_cinema_whose_days_changed_shape_is_left_out_not_published_empty(self):
+        """Kuopio parses and Manttu's days no longer match the day pattern. Each shape
+        reaches one way a line opens like a day or a screening, so Manttu is left out and
+        run.py keeps its previous file."""
+        pk = f'<a href="{BASE}/ohjelmisto/manttu-pk/">Presidentin kyyditys</a>'
+        shapes = {
+            # A note first, then the day in a paragraph that lost its class.
+            "no class": [info("Syyskauden ohjelmisto:"),
+                         f"<p>Perjantai 11.9.<br>Klo 17.15: {pk}</p>"],
+            # No `D.M` anywhere: only the `Klo` rows open like a screening.
+            "klo only": [day("Perjantaina 11. syyskuuta", f"Klo 17.15: {pk}")],
+            # No `Klo`: the weekday and date without its closing dot.
+            "no klo": [day("Perjantai 11.9", f"17.15: {pk}")],
+            # The date first, no weekday before it and no `Klo`.
+            "date first": [day("11.9. perjantai", f"17.15: {pk}")],
+        }
+        for name, nilsia in shapes.items():
+            with self.subTest(name):
+                per = kuvakukko.parse(page(kuopio_days=[day("Tiistai 15.9.", row("19", "A"))],
+                                           nilsia_days=nilsia), today=TODAY)
+                self.assertEqual(len(per["kk-kuopio"]), 1)
+                self.assertNotIn("kk-nilsia", per)
+
+    def test_a_cinema_with_only_notes_under_its_heading_is_still_empty(self):
+        """Manttu's section as read 2026-09-24 below its days: when the next weekend is
+        published, the address, the ticket line (in `page`), and a price note. None opens
+        with a time, a date or a weekday and a date."""
+        notes = (info("Mantun ohjelmisto (joka toinen viikonloppu) julkaistaan viimeist&auml;&auml;n "
+                      "keskiviikkona.")
+                 + info("Kino Manttu, Vesitornintie 1, Nilsi&auml;.")
+                 # A price opening a note has the `word D.M` shape; its word is no weekday.
+                 + info("Sarjalippu 57.50 &euro; (kuusi n&auml;yt&ouml;st&auml;)."))
+        per = kuvakukko.parse(page(kuopio_days=[day("Tiistai 15.9.", row("19", "A"))],
+                                   extra=notes), today=TODAY)
+        self.assertEqual(per["kk-nilsia"], [])
 
     def test_a_page_without_a_schedule_heading_is_a_failure(self):
         with self.assertRaises(RuntimeError) as cm:
