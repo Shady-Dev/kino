@@ -2063,3 +2063,22 @@ Finnish texts withheld today; each already holds its slot, so nothing changed. D
 TMDB's text), `id` and `ts` unchanged. No page carried any. Korjaamo, a Vista site, wrote
 ten more English `fi` slots, traced the same way, and is not in this change. `GildaTest`
 and `EtikettiTest` in `tests/test_syn_declared.py`; eight mutations, all red.
+
+### Kino Kilta's site menu cleared from 46 Finnish synopses (2026-09-24)
+
+`kinola.py` read an SVG `<path>` as a paragraph (finding in
+[docs/research/kinola.md](../research/kinola.md)), so `films-extra.json` entries held
+Kilta's menu, both titles and one strand line as their Finnish synopsis: 39 when first
+counted, 46 by the time the repair was applied on 2026-09-24, the cloud runs in between
+having added seven with the unfixed parser. The slot is keyed by title, so the text reached
+every chain showing the film: 22 generated pages carried it in 26 paragraphs, city pages
+and Finnkino theatres included.
+
+Repair: every `fi` slot beginning with the exact menu string was emptied, 46 entries,
+nothing else touched; `id`, `ts` and the other languages are unchanged. None of these slots
+was TMDB's (`fi` in no entry's `ts`). A slot filled before a run stands in `synmerge`, so
+the fixed parser could not have replaced them; the next cloud run fills each one Kilta
+still lists. Pages rebuilt with `--date recorded`: 22 written, and each equals its old copy
+with the menu paragraphs removed.
+
+Keys: `agentti o s s 117 iskee`, `akira kurosawan unet`, `anni tahtoo äidin ja kala`, `aurinko ei mahdu sur rurin ensimmäiset 30 vuotta`, `begyndelser`, `daughters of darkness`, `departures`, `dialogpolisen`, `free at heart`, `hiljaiset sillat`, `i am going to miss you`, `i rarely wake up dreaming`, `idän soturit`, `ihmistenmetsästäjät`, `iván hadoum`, `kaupungin synty`, `kinokopla alpha`, `kinokopla dig xx`, `kinokopla orava`, `kinokopla se oli pelkkä sattuma`, `kinokopla the drama`, `kinokopla tie pimeään`, `kinokopla vasenkätinen tyttö`, `kolme väriä sininen`, `liekki ja nuoli`, `lyhytelokuvakooste havun kaiho`, `montreal my beautiful`, `pieni kauhukauppa`, `saapasrasvaa`, `she killed in ecstasy`, `suburbia`, `suden hetki`, `the babadook`, `the last paradise on earth`, `the secret reading club of kabul`, `tiger on the beat`, `tuhkimo`, `turku aiheisia lyhytelokuvia`, `vinokino departures`, `vinokino free at heart`, `vinokino i am going to miss you`, `vinokino i rarely wake up dreaming`, `vinokino iván hadoum`, `vinokino lyhytelokuvakooste havun kaiho`, `vinokino montreal my beautiful`, `vorosen perhe ja kyttäjahti`.
