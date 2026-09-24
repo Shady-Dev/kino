@@ -2046,3 +2046,20 @@ in that commit's area files. Three `fi` slots held Engel's Swedish (Gråben vs A
 Minioner & Monster, PAW Patrol: Dinosaurie-filmen); all three moved to an empty `sv`, `id`
 and `ts` unchanged. No page changed: the one screening still listed is outside the four-day
 window. `EngelTest` in `tests/test_syn_declared.py`; three mutations, all red.
+
+### Gilda and Savon Kinot declare each synopsis's language (2026-09-24)
+Review finding #6 at c416446fd, where the review had inferred the source. Traced on the day
+by running each adapter's own parse over a live read of the endpoint it uses and comparing
+its `_syn` with the committed slot. Gilda's booking feed, keyed `"fi"` with no language per
+text (`descriptions` and `content` empty on all 47 records): of 36 synopses, 26 place as
+Finnish, 6 as English, 4 as nothing, one of those the placeholder "Not Supplied". Savon
+Kinot's film pages: 20 Finnish, 1 English (Linkin Park: Unshatter), 3 unplaced. Every
+flagged slot equalled the adapter's text byte for byte. Both now place each text with
+`common.syn_language` and withhold what it cannot place. eTiketti declares per site, as
+Kinola does: Niagara's blurbs are Finnish then Swedish in one text and would be outvoted
+into Swedish, so the other nineteen keep the bare string. Cost: 3 Gilda and 3 Savon Kinot
+Finnish texts withheld today; each already holds its slot, so nothing changed. Data repair:
+11 slots, 7 moved to an empty `en`, 4 cleared (the placeholder, and three whose `en` held
+TMDB's text), `id` and `ts` unchanged. No page carried any. Korjaamo, a Vista site, wrote
+ten more English `fi` slots, traced the same way, and is not in this change. `GildaTest`
+and `EtikettiTest` in `tests/test_syn_declared.py`; eight mutations, all red.

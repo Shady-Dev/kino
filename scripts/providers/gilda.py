@@ -31,7 +31,7 @@ import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from common import fetch
+from common import fetch, syn_language
 import synmerge
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -223,6 +223,9 @@ def parse(payload, site, pages=None):
         # paragraphs that quote a price or name Gilda; keep the rest, unescaped, or the
         # synopsis renders as "Almod&oacute;var" in the movie sheet.
         syn = synmerge.drop_notes_html(film.get("description") or "", names=("Gilda",))
+        # The feed is keyed "fi" and carries no language per text, yet 6 of 36
+        # descriptions were English on 2026-09-24. Placed per text; unplaceable is withheld.
+        lang = syn_language(syn)
         for s in film.get("show_times") or []:
             if s.get("deleted") or not s.get("show_is_visible", 1):
                 continue
@@ -256,8 +259,8 @@ def parse(payload, site, pages=None):
                 "provider": site["provider"],
                 "venue": venue["id"],
             }
-            if syn:
-                row["_syn"] = syn
+            if lang:
+                row["_syn"] = {lang: syn}
             key = (venue["id"], start, row["eventId"], row["aud"])
             if key in seen:
                 dropped += 1

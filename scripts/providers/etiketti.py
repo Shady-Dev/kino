@@ -33,7 +33,7 @@ import re
 import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
 
-from common import EmptyProgramme, budget_or_raise, fetch
+from common import EmptyProgramme, budget_or_raise, fetch, syn_language
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -76,8 +76,10 @@ SITES = [
     # Rooms arrive as `VENUE | VENUE n`, the venue repeated inside its own room name.
     # The flag turns on normalise_aud here and on Cine below; the other eighteen
     # keep the room verbatim, and Leffabuumi's pipe means something else entirely.
+    # `declare_syn`: read 2026-09-24, 20 of its 24 film pages carried a Finnish synopsis
+    # and one an English one (a concert film), so each text is placed; see syn_value.
     {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
-     "aud_repeats_venue": True,
+     "aud_repeats_venue": True, "declare_syn": True,
      "venues": [
          {"id": "sk-tapio", "match": "tapio", "name": "Tapio Joensuu",
           "short": "Tapio", "city": "Joensuu"},
@@ -599,6 +601,20 @@ def identified_venues(listing, site):
             if any(v["match"].lower() in n for n in names)}
 
 
+def syn_value(site, text):
+    """What `_syn` carries for one site. -> str, {lang: str}, or "" to publish none.
+
+    A site without `declare_syn` keeps the bare string, which synmerge files as Finnish.
+    One with it has each text placed by `syn_language`, and an unplaceable one withheld.
+    Per site, not platform-wide: Niagara's blurbs are Finnish then Swedish in one text,
+    and the Swedish half outvotes the Finnish.
+    """
+    if not site.get("declare_syn"):
+        return text
+    lang = syn_language(text)
+    return {lang: text} if lang else ""
+
+
 def fetch_site(site, sleep=1.2):
     listing = get(site["base"] + "/elokuvat/ohjelmistossa")
     seen, movies = set(), []
@@ -684,7 +700,7 @@ def fetch_site(site, sleep=1.2):
                 "price": r["price"],
                 "provider": site["provider"],
                 "venue": venue["id"],
-                "_syn": meta["syn"],
+                "_syn": syn_value(site, meta["syn"]),
             })
         time.sleep(sleep)
 

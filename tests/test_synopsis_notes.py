@@ -88,6 +88,10 @@ class MergeRefusesNotesTest(unittest.TestCase):
 
 
 class GildaParseTest(unittest.TestCase):
+    # Gilda's synopsis is placed by `common.syn_language` since 2026-09-24, and the two
+    # blurbs above are too short to place, so both films carry one Finnish paragraph more.
+    TAIL_TEXT = "Kun hän ja mies menettävät työnsä, heidän on muutettava Istanbuliin."
+    TAIL = f"<p>{TAIL_TEXT}</p>"
 
     def test_parse_drops_gildas_own_paragraph_from_the_synopsis(self):
         import gilda
@@ -98,19 +102,21 @@ class GildaParseTest(unittest.TestCase):
                 "screen_name": "Gilda 3", "rating_name": "12"}
         payload = {"fi": {"data": [
             {"movie_id": 1574, "movie_name": "Seniorikino: Keltaiset kirjeet",
-             "description": PROMO + BLURB1 + BLURB2, "show_times": [show]},
-            {"movie_id": 1575, "movie_name": "Toinen", "description": BLURB1, "show_times": [dict(show, movie_name="Toinen")]},
+             "description": PROMO + BLURB1 + BLURB2 + self.TAIL, "show_times": [show]},
+            {"movie_id": 1575, "movie_name": "Toinen", "description": BLURB1 + self.TAIL, "show_times": [dict(show, movie_name="Toinen")]},
         ]}}
         per_venue = gilda.parse(payload, site)
         rows = per_venue.get("gd-gilda") or []
         self.assertEqual(len(rows), 2, per_venue)
         by_title = {r["title"]: r for r in rows}
         self.assertEqual(by_title["Keltaiset Kirjeet"]["_syn"],
-                         "Derya on Ankaran suurimman teatterin tähti. "
-                         "KELTAISET KIRJEET on kuvaus elämästä autoritäärisen yhteiskunnan puristuksissa.")
-        self.assertEqual(by_title["Toinen"]["_syn"], "Derya on Ankaran suurimman teatterin tähti.")
+                         {"fi": "Derya on Ankaran suurimman teatterin tähti. "
+                          "KELTAISET KIRJEET on kuvaus elämästä autoritäärisen yhteiskunnan puristuksissa. "
+                          + self.TAIL_TEXT})
+        self.assertEqual(by_title["Toinen"]["_syn"],
+                         {"fi": "Derya on Ankaran suurimman teatterin tähti. " + self.TAIL_TEXT})
         for r in rows:
-            self.assertNotIn("€", r["_syn"]); self.assertNotIn("Gilda", r["_syn"])
+            self.assertNotIn("€", r["_syn"]["fi"]); self.assertNotIn("Gilda", r["_syn"]["fi"])
 
 
 if __name__ == "__main__":
