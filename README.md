@@ -128,6 +128,7 @@ ticketing platform publishes and how it was read, are under
     docs/archive/                    dated decision records, closed
     logs/                            committed run logs, one per fetcher (the record)
     teatteri/, kaupunki/, sv/, en/   generated pages (committed by every run, cloud and local)
+    status/, tietosuoja/             the status page and the privacy page, hand-written
     data/                            generated JSON and posters (committed by every run)
 
     scripts/fetch_data.py            Finnkino fetcher (Vista OCAPI)
@@ -136,16 +137,25 @@ ticketing platform publishes and how it was read, are under
     scripts/providers/run_cloud.py   one pool over every cloud module; what the workflow runs
     scripts/providers/{name}.py      one adapter per provider or platform
     scripts/providers/common.py      shared fetch with retry, atomic writes
+    scripts/providers/prices.py      per-screening prices read off the ticket page, cached
+    scripts/providers/strands.py     event strand prefixes split off a published title
+    scripts/providers/synmerge.py    merges provider synopses into films-extra.json
     scripts/providers/enrich_tmdb.py TMDB ratings, trailers, synopses, posters
+    scripts/providers/refresh.py     when a cached TMDB entry is due to be read again
     scripts/providers/mirror_posters.py  mirrors hot-linked posters same-origin
     scripts/make_cards.py            draws this project's own title cards (by hand)
     scripts/build_providers.py       registry -> data/providers.json + the client's fallback
+    scripts/build_regions.py         registry -> data/regions.json
     scripts/build_pages.py           renders the indexable pages
+    scripts/build_counts.py          measures the counts into docs/counts.md and README
     scripts/accent_check.py          chain accent separation, incl. deuteranope
-    scripts/check_inline_js.py       node --check on the inline script and sw.js
+    scripts/check_inline_js.py       node --check on the pages' inline scripts and sw.js
+    scripts/check_cache_bump.py      fails when an index.html commit leaves CACHE unbumped
+    scripts/check_design_push.py     fails when a design contract push has no IDEAS.md change
     scripts/check_runs.py            fails when any committed run log did not end exit=0
     scripts/check_staleness.py       fails when data/areas.json is older than 8 h
     scripts/indexnow.py              tells IndexNow which generated pages a push changed
+    scripts/poll_windows.py          when the cinemas publish, from committed data, no network
 
     tests/                           python3 -m unittest discover -s tests
     tests/browser/                   Playwright suite, run on its own (below)
@@ -168,7 +178,13 @@ Every provider writes the same thing, so the client has no per-provider code.
                                  a synopsis is keyed by language: fi, en, and sv
                                  where a cinema publishes one (Bio Savoy, Åland)
     data/tmdb-genres.json        {fi,sv,en} genre id -> name, for rendering `gids`
+    data/regions.json            {regions: [{name, sv, en, cities[]}]}, from the registry
     data/areas.json              Finnkino venue list (legacy shape, numeric ids)
+    data/films.json              Finnkino film details, keyed by its film id
+    data/tmdb.json               TMDB cache for Finnkino films, keyed by its film id
+    data/tmdb-titles.json        TMDB cache for every other provider, keyed by title
+    data/prices-{provider}.json  prices read off ticket pages, keyed by screening
+    data/film-lang-orion.json    Cinema Orion's film languages, read off its film pages
 
 A showtime carries `eventId, title, original, start (ISO, Europe/Helsinki),
 theatre, aud, url, img, len, rating, genres, lang, method, soldOut`, and on every
@@ -218,32 +234,16 @@ Then `python3 scripts/build_providers.py --sync-index`, which writes
 `data/providers.json` and the client's offline fallback list from the same registry;
 bump `CACHE` in `sw.js` with it, since that touches `index.html`. The rest of the
 checklist, `build_counts.py` and `run_cloud.SHARED_UPSTREAMS` among it, is in
-[CLAUDE.md](CLAUDE.md) under "Adding a provider". The workflow runs `run_cloud.py --where cloud`, whose module list comes from
-the registry, and the client reads `data/providers.json`. One module can serve several providers,
+[CLAUDE.md](CLAUDE.md) under "Adding a provider". The workflow runs
+`run_cloud.py --where cloud`, whose module list comes from the registry, and the
+client reads `data/providers.json`. One module can serve several providers,
 which is why the provider id sits on the site: `etiketti` serves twenty
 providers today and `nexxo` eight.
 
-`base` is the host the adapter reads, and it is the pacing key; `reads` names
-any further host it requests, such as a ticket API on its own subdomain. Sites
-are grouped so that no two groups read a host in common: sites on different
-hosts are read at the same time, sites sharing one -- through `base` or through
-`reads` -- one after the other, and every site without a `base` is grouped
-together and read one at a time. On the cloud half that grouping is global: `run_cloud.py` reads every
-module through one pool, so two modules reaching one host are still read one
-after the other, and a site with no `base` shares its conservative group with
-every other one in the half. So name the host, or the site gains nothing from
-the pool and drags others into its group. Two entries against the same server
-must both name it, or they are read at twice the rate their adapter paces for.
-The host a visitor is sent to can differ and belongs in `site`.
-
-A URL read out of a page cannot be declared in advance, and four adapters fetch
-one. `common.reading` claims whatever host a request actually goes to for as
-long as that site keeps reading it, so an undeclared shared host is read by one
-site at a time. Past `KINO_HOST_CLAIM_WAIT` the site **fails before sending the
-request**, keeping its previous data like any other fetch failure, and names the
-two sites that collided; the remedy is to add the host to `reads`. Every
-module's log ends with the hosts its requests were aimed at, which is not the
-same as the hosts that answered.
+`base` names the host a site is read from and is the pacing key; `reads` names
+any other host the adapter requests. Sites that share a host are read one after
+the other. The rules for both fields, and what `common.reading` does with a host
+read out of a page, are in [CLAUDE.md](CLAUDE.md) under "Adding a provider".
 
 **Check for an existing platform first.** A cinema running Vista with its public
 XML services open, MyCloudCinema, Nexxo, eTiketti or Johku needs a `SITES` entry
@@ -293,19 +293,13 @@ cinema or city they were reading about, in the language they were reading it
 in, and the app's saved favourite is left alone. The wordmark carries the
 language too.
 
-The pages share the app's design: wordmark, the same self-hosted Archivo,
-light and dark tokens following the OS, the FI, SV and EN selector and
-ticket-shaped showtimes. The card is the app's card, and a price sits on the
-screening's ticket, never on the film. A theatre page's ticket ends in a 56 px
-price compartment, narrowed to a 16 px tail with the same seam and notches when the
-cinema publishes none; a city page's ticket
-puts a 64 px time compartment first, then cinema and room, with a colour rule
-per chain. All three languages carry the same page for the same cinema or
-city, so the selector changes the language and nothing else. The theme toggle
-reads and writes the same
-`kino-theme` key as the app. A page carries two inline scripts, both for the
-theme, and its JSON-LD; no script renders content. Nothing volatile, so a page is rewritten only when its showtimes
-change.
+The pages share the app's design, fonts, light and dark tokens and ticket-shaped
+showtimes; the ticket's values are in [DESIGN.md](DESIGN.md). All three
+languages carry the same page for the same cinema or city, so the selector
+changes the language and nothing else. The theme toggle reads and writes the
+same `kino-theme` key as the app. A page carries two inline scripts, both for
+the theme, and its JSON-LD; no script renders content. Nothing volatile, so a
+page is rewritten only when its showtimes change.
 
 ## Privacy
 
@@ -352,23 +346,13 @@ and under Do Not Track or Global Privacy Control the bundle is not fetched and
 nothing is sent. The reader-facing version is [/tietosuoja/](tietosuoja/), in
 Finnish, Swedish and English, with the one-year retention and the legal basis.
 
-`mirror_posters.py` runs over the whole of `data/` and rewrites every reference
-that still points at a cinema's own host, so **either half of the pipeline
-mirrors any provider's posters**, whichever runs first. A newly added provider
-therefore publishes remote poster URLs until a subsequent poster-mirroring pass
-successfully mirrors them; a download that fails is logged and left hot-linked
-for a later pass rather than stopping the run. Two independent guards cover that
-window rather than one: the client refuses a poster outside `data/posters/` and
-draws its placeholder tile, and `build_pages.py` leaves such a reference out of
-the generated markup. So an unmirrored poster is a missing picture, never a
-request to another host. How many references exist and how many files back them
-are generated into [docs/counts.md](docs/counts.md) and not stated here, because
-they move with every run.
-
-Until 2026-08-29 the typeface came from Google Fonts and about a third of the
-posters were hot-linked from the cinemas' hosts and `image.tmdb.org`. Both are
-mirrored now, and between that date and 2026-09-20 the page made no third-party
-request at all.
+A poster not yet mirrored is a missing picture, never a request to another
+host: the client and `build_pages.py` both refuse one outside `data/posters/`.
+How mirroring and the two guards work is in
+[docs/architecture.md](docs/architecture.md) under "The order of a run".
+`python3 scripts/build_counts.py --posters` prints how many references exist and
+how many files back them; neither figure is committed, since both move with
+every run.
 
 **Not every picture in `data/posters/` came from a cinema or from TMDB.** The
 files named `card-*.jpg` are Leffavuoro's own **title cards**: an abstract
