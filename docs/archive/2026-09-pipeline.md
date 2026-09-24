@@ -2097,3 +2097,15 @@ to a request without that `accept`), held 17 synopses, all Finnish. The seven ot
 slots the classifier places as English or Swedish open in Finnish and stay, as recorded
 for bundle 5.
 
+### Elokuvateatteri Star declares its synopses' language (2026-09-24)
+
+The controller check of the 08:13 local run found `hanuman ansh`'s `fi` slot holding
+English again, the text the TMDB repair had cleared; `[star] synopses merged: 1` in
+`logs/run-etiketti-local.log` wrote it back. Star published bare strings, which
+`synmerge` files as Finnish, because bundle 5 turned `declare_syn` on for Savon Kinot
+only. Star's 24 film pages read on 2026-09-24: 22 Finnish, 1 English, 1 no language
+settles (Avengers: Endgame Encore, whose `fi` slot another chain already fills); none
+mixes Finnish with Swedish. Star now declares, and the one `fi` slot was emptied; its
+`en` slot, TMDB's (`ts`), is unchanged. One page changed: Kino Myyri's, which drew the
+English paragraph as the Finnish synopsis.
+
