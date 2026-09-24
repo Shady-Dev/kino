@@ -1149,9 +1149,13 @@ def ld_json(days, today, city, extra):
                     ev["workPresented"] = work
                 if s.get("url", "").startswith("http"):
                     ev["url"] = s["url"]
+                    # A zero price gets no Offer: Google reads `price: 0` as admission with
+                    # no payment at all, and a cinema printing 0,00 does not say whether the
+                    # screening is free or by invitation (Leffabuumi, 2026-09-24). The
+                    # ticket draws no price for it either. The event and its url stay.
                     if s.get("price"):
                         m = re.search(r"\d+([.,]\d+)?", str(s["price"]))
-                        if m:
+                        if m and float(m.group(0).replace(",", ".")) > 0:
                             ev["offers"] = {"@type": "Offer", "url": s["url"],
                                             "price": m.group(0).replace(",", "."),
                                             "priceCurrency": "EUR"}

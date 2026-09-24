@@ -300,6 +300,8 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A data branch: decided against 2026-09-01. Branching does not shrink history and every
   way off `main` is worse.
 - `og:image` as a 1200x630 card rather than `icon-512.png`. It would preview better.
+- "Maksuton" on a zero-price ticket, with `price: 0` in the JSON-LD. Waits on a cinema
+  confirming public free admission; until then zero shows no price and emits no Offer.
 - A venue or city count in the meta description. It would be a third copy of a number that
   goes stale.
 - The SEO experiment: "ohjelmisto" in Finnish theatre-page titles and descriptions on a

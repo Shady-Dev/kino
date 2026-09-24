@@ -69,3 +69,32 @@ class LdJsonEscapingTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def days_priced(*prices):
+    return {TODAY.isoformat(): {"Film": [
+        {"theatre": "Kino Testi", "start": f"{TODAY.isoformat()}T{18 + i}:00:00",
+         "url": f"https://example.fi/tickets?id={i}", "price": p}
+        for i, p in enumerate(prices)]}}
+
+
+class LdJsonOfferTest(unittest.TestCase):
+    """Google reads `price: 0` as admission with no payment. Leffabuumi printed "Lippu
+    0,00€" on a sold-out premiere without saying whether it was free or by invitation."""
+
+    def events(self, *prices):
+        out = bp.ld_json(days_priced(*prices), TODAY, "Helsinki", {})
+        return [n for n in json.loads(out)["@graph"] if n["@type"] == "ScreeningEvent"]
+
+    def test_a_zero_price_keeps_the_event_and_its_url_but_no_offer(self):
+        for price in ("0€", "0,00€", "0.00€"):
+            with self.subTest(price=price):
+                (ev,) = self.events(price)
+                self.assertEqual(ev["url"], "https://example.fi/tickets?id=0")
+                self.assertNotIn("offers", ev)
+
+    def test_a_positive_price_keeps_its_offer(self):
+        a, b = self.events("12.5€", "alkaen 10€")
+        self.assertEqual(a["offers"], {"@type": "Offer", "url": "https://example.fi/tickets?id=0",
+                                       "price": "12.5", "priceCurrency": "EUR"})
+        self.assertEqual(b["offers"]["price"], "10")
