@@ -17,6 +17,7 @@ on:
     paths:
       - 'teatteri/**'
       - 'kaupunki/**'
+      - 'sv/**'
       - 'en/**'
   # The data runs arrive through this trigger instead. Not a PAT (a long-lived credential
   # for a job that needs none) and not an edit to the fetch workflow.
