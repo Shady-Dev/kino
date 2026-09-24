@@ -402,9 +402,12 @@ class ZeroShowsTest(Stubbed):
         saved = run.OUT
         run.OUT = pathlib.Path(tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", saved))
-        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
-                "horizon": "2026-08-02",
-                "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+        # A day ahead of the real clock: a kept file whose every day has passed is
+        # published empty, and this is about one still worth keeping.
+        ahead = (datetime.date.today() + datetime.timedelta(days=30)).isoformat()
+        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": [ahead],
+                "horizon": ahead,
+                "shows": [{"title": "Dyyni", "start": f"{ahead}T18:00:00+03:00"}]}
         (run.OUT / "area-cn-tampere.json").write_text(json.dumps(prev), encoding="utf-8")
         e = self.stub({"/elokuvat/ohjelmistossa": LISTING,
                        "/elokuvat/70/the-invite": FOREIGN_FILM,

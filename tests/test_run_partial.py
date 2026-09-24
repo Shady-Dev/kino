@@ -79,10 +79,13 @@ class RunSiteHarness(unittest.TestCase):
                 contextlib.redirect_stderr(io.StringIO()):
             return run.run_site(mod, site, now)
 
-    def seed_previous(self, vid, generated=OLD):
+    def seed_previous(self, vid, generated=OLD, day="2026-08-31"):
+        """A previous file written at `generated` holding one screening on `day`. The
+        default day is after NOW, so the file still has something ahead and is worth
+        keeping; a day before NOW is a file whose every screening has passed."""
         (self.out / f"area-{vid}.json").write_text(json.dumps({
-            "generated": generated, "dates": ["2026-08-01"], "horizon": "2026-08-01",
-            "shows": [show("Yesterday's Film", "2026-08-01T18:00:00+03:00")],
+            "generated": generated, "dates": [day], "horizon": day,
+            "shows": [show("Kept Film", f"{day}T18:00:00+03:00")],
         }), encoding="utf-8")
 
 
@@ -119,7 +122,7 @@ class RunSitePartialTest(RunSiteHarness):
         self.run_site(mod)
         kept = self.area("fc-b")
         self.assertEqual(kept["generated"], OLD)
-        self.assertEqual(kept["shows"][0]["title"], "Yesterday's Film")
+        self.assertEqual(kept["shows"][0]["title"], "Kept Film")
 
     def test_every_venue_stays_in_the_picker_including_the_stale_one(self):
         self.seed_previous("fc-b")
@@ -311,6 +314,55 @@ class RunSitePartialTest(RunSiteHarness):
         self.assertEqual([v["id"] for v in doc["venues"]], ["fc-a", "fc-b", "fc-c"])
 
 
+class SpentPreviousTest(RunSiteHarness):
+    """A kept file whose every day has passed is not kept (the Maxim Helsinki rule,
+    fetch_data.py, 2026-09-18). Keeping it froze the venue's `generated`: the provider
+    read stale for as long as the venue stayed empty, and every combined city view
+    holding it aged on the frozen stamp. Beside it, a venue whose kept file still has a
+    day ahead stays stale, so a rule that dropped every kept file fails here too."""
+
+    def test_a_spent_file_is_replaced_and_a_live_one_kept(self):
+        self.seed_previous("fc-b", day="2026-08-01")
+        self.seed_previous("fc-c", day="2026-08-31")
+        mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [], "fc-c": []})
+        live, _, stale, unverified, _ = self.run_site(mod)
+        self.assertEqual(live, 1)
+        self.assertEqual(stale, ["fc-c"], "only the file with a day ahead is kept")
+        self.assertEqual(unverified, ["fc-b"])
+        spent = self.area("fc-b")
+        self.assertEqual(spent["shows"], [], "screenings that have all passed were kept")
+        self.assertEqual(spent["generated"], NOW, "the spent venue's stamp stayed frozen")
+        self.assertEqual(self.area("fc-c")["generated"], OLD)
+        self.assertEqual(self.area("fc-c")["shows"][0]["title"], "Kept Film")
+        doc = self.venues_file()
+        self.assertEqual((doc["stale"], doc["unverified"]), (["fc-c"], ["fc-b"]))
+
+    def test_once_every_kept_file_is_spent_oldest_stops_ageing(self):
+        """The provider-level consequence: `oldest` is what the client ages a combined
+        city on, and it moved to the minimum over the frozen stamps."""
+        self.seed_previous("fc-b", day="2026-08-01")
+        self.seed_previous("fc-c", generated="2026-08-10T00:00:00+00:00", day="2026-08-02")
+        mod = FakeModule({"fc-a": [show("A", "2026-08-30T18:00:00+03:00")],
+                          "fc-b": [], "fc-c": []})
+        _, _, stale, unverified, _ = self.run_site(mod)
+        self.assertEqual(stale, [])
+        self.assertEqual(sorted(unverified), ["fc-b", "fc-c"])
+        self.assertEqual(self.venues_file()["oldest"], NOW)
+
+    def test_today_in_helsinki_counts_as_ahead_and_yesterday_does_not(self):
+        """22:30 UTC on the 30th is already the 31st in Helsinki. A file whose last day
+        is the 31st is kept; one ending on the 30th has passed, though UTC says it is
+        still the 30th."""
+        late = "2026-08-30T22:30:00+00:00"
+        self.seed_previous("fc-b", day="2026-08-30")
+        self.seed_previous("fc-c", day="2026-08-31")
+        mod = FakeModule({"fc-a": [show("A", "2026-08-31T18:00:00+03:00")],
+                          "fc-b": [], "fc-c": []})
+        _, _, stale, unverified, _ = self.run_site(mod, now=late)
+        self.assertEqual((stale, unverified), (["fc-c"], ["fc-b"]))
+
+
 class SummaryLineTest(unittest.TestCase):
     """The run's one-line verdict must count pending venues: run-nexxo.log read
     "0 stale, 0 unverified, 0 with no programme" while Tikkakoski sat pending, which
@@ -439,7 +491,7 @@ class ConfirmedEmptyTest(RunSiteHarness):
             self.run_site(FailingModule({}))
         for vid in ("fc-a", "fc-b", "fc-c"):
             self.assertEqual(self.area(vid)["generated"], OLD, vid)
-            self.assertEqual(self.area(vid)["shows"][0]["title"], "Yesterday's Film")
+            self.assertEqual(self.area(vid)["shows"][0]["title"], "Kept Film")
         self.assertFalse((self.out / "venues-fakechain.json").exists(),
                          "a failed site must not publish a provider file")
 
@@ -485,7 +537,7 @@ class ConfirmedEmptyTest(RunSiteHarness):
         self.assertEqual((live, stale, unverified, pending), (0, ["fc-a"], [], []))
         doc = self.venues_file()
         self.assertEqual((doc["status"], doc["stale"], doc["oldest"]), ("partial", ["fc-a"], OLD))
-        self.assertEqual(self.area("fc-a")["shows"][0]["title"], "Yesterday's Film")
+        self.assertEqual(self.area("fc-a")["shows"][0]["title"], "Kept Film")
 
     def test_a_touring_cinema_with_two_empty_towns_reads_ok_and_ages_on_its_live_venues(self):
         """Kino Metso's shape: one town whose programme ended (old file), one that has

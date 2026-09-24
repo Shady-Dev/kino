@@ -6,6 +6,7 @@ week must not turn the run red. The adapter has the information run.py lacks: an
 listing is a cinema with no programme (`EmptyProgramme`); a listing full of films that
 yields no showtimes is a broken parser and keeps failing.
 """
+import datetime
 import json
 import pathlib
 import tempfile
@@ -110,9 +111,12 @@ class EmptyProgrammeTest(unittest.TestCase):
         """The flag is not enough on its own: an empty answer that names no venue is
         unexplained, and stays a failure with the previous file untouched."""
         (run.OUT).mkdir(exist_ok=True)
-        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": ["2026-08-02"],
-                "horizon": "2026-08-02",
-                "shows": [{"title": "Dyyni", "start": "2026-08-02T18:00:00+03:00"}]}
+        # A day ahead of the real clock: a kept file whose every day has passed is
+        # published empty, and this is about one still worth keeping.
+        ahead = (datetime.date.today() + datetime.timedelta(days=30)).isoformat()
+        prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": [ahead],
+                "horizon": ahead,
+                "shows": [{"title": "Dyyni", "start": f"{ahead}T18:00:00+03:00"}]}
         (run.OUT / "area-fc-a.json").write_text(json.dumps(prev), encoding="utf-8")
         mod = Mod({})
         mod.EMPTY_VENUES_CONFIRMED = True

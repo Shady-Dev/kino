@@ -400,6 +400,35 @@ class Show(typing.TypedDict):
 SHOW_KEYS = tuple(Show.__annotations__)
 
 
+def has_future_shows(path, today_iso):
+    """Does the committed area file still describe a day that has not passed?
+
+    Shared by fetch_data.py (Finnkino) and run.py (every other provider): a kept file
+    whose last day is behind us protects nothing and freezes its venue's `generated`.
+
+    The question is whether keeping it protects anything. `dates` lists the days the file
+    holds screenings for, so the last of them is the file's own horizon; `horizon` carries
+    the same value and is read as a fallback for a file written before `dates` existed.
+    Today counts as ahead, because a day is not over while it is running.
+
+    An unreadable file answers True. It cannot be shown to be spent, and replacing what
+    could not be read would turn a disk fault into deleted schedule data.
+    """
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return True
+    if not isinstance(doc, dict):
+        return True
+    dates = doc.get("dates")
+    if isinstance(dates, list) and dates:
+        return max(str(d) for d in dates) >= today_iso
+    horizon = doc.get("horizon")
+    if isinstance(horizon, str) and horizon:
+        return horizon >= today_iso
+    return False
+
+
 def check_shows(per_venue, label, venue_ids=()):
     """Refuse an adapter's result that does not meet `Show`. -> None, or raises RuntimeError.
 

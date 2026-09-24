@@ -146,7 +146,8 @@ CI's drift check regenerates and requires a clean tree.
   raising `common.EmptyProgramme` after positive evidence of an empty listing. That site's
   venues are published empty and `pending`, so screenings the cinema withdrew leave the page.
 - A failed venue writes no file, keeping the previous data, and is named `stale` in its
-  provider file. `oldest` is the provider's weakest venue, which is what the app's health
+  provider file, while that file still has a day ahead. One whose every day has passed is
+  published empty and named `unverified`, so a spent file cannot freeze a stamp. `oldest` is the provider's weakest venue, which is what the app's health
   line ages on, so a provider is only as fresh as its worst cinema.
 - `scripts/check_runs.py` answers "did anything fail" by reading every committed log.
   `scripts/check_staleness.py` answers the different question "did a run happen at all",

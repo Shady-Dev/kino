@@ -317,9 +317,12 @@ class PriceTest(unittest.TestCase):
 
 
 class RunnerTest(unittest.TestCase):
-    PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-            "horizon": "2026-09-01",
-            "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+    # A day ahead of the real clock: run.main publishes empty a kept file whose every day
+    # has passed, and these tests are about a file that is still worth keeping.
+    AHEAD = (datetime.datetime.now(A.FI).date() + datetime.timedelta(days=30)).isoformat()
+    PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": [AHEAD],
+            "horizon": AHEAD,
+            "shows": [{"title": "Old", "start": f"{AHEAD}T12:00:00+03:00"}]}
 
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

@@ -1973,3 +1973,18 @@ Juhlat, Niskavuoren naiset, The Time That Remains), and 15 English texts of earl
 candidates. Then a local TMDB pass, poster mirror and pages. After: 0 keys with `tr` or
 `img` off the cache (22 and 47 before), no show field out of step, Kapina unrated in all 26
 files, 444 of 543 entries carrying `id`.
+
+### run.py drops a kept file whose every day has passed (2026-09-24)
+Review finding #10 at c416446fd. `publish_site` kept any previous file for a venue that
+came back with no shows and marked it stale, even when every screening in the file had
+passed. The file's `generated` froze, so the provider read stale for as long as the venue
+stayed empty, and every combined city view holding it aged on that stamp. `fetch_data.py`
+had fixed this for Finnkino after Maxim Helsinki (2026-09-18); `has_future_shows` moved to
+`common.py` and `publish_site` now applies it, with today taken in Helsinki from the run's
+`now`. A spent venue is published empty, stamped fresh, and recorded `unverified`, which is
+what the next run calls an empty file anyway, so the state does not flip between runs.
+The provider therefore stays `partial` while the venue is empty: nobody vouches for the
+emptiness. On the day, no committed provider file listed a stale venue, so the first run
+changed no data. `SpentPreviousTest` in `tests/test_run_partial.py`, three venues; the
+shared fixture's kept file moved to a day after the tests' NOW, because its only day had
+been in the past, which is the case this changes. Five mutations, all red.

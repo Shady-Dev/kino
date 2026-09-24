@@ -24,10 +24,12 @@ A venue with no shows is one of three things, checked in this order:
   * pending: the module sets `EMPTY_VENUES_CONFIRMED` and reported the venue explicitly,
     so the upstream answered in schema and listed nothing. The venue gets an empty file
     stamped fresh and stays quiet on the health line, whether or not it had data before.
-  * stale: it has a previous file, which it keeps. An empty parse and a cinema with
-    nothing on today both arrive as `[]`, so this is not treated as a failure.
-  * unverified: never any data. A venue added before its programme is published and a
-    parse that has never worked look the same here, so it stays visibly degraded.
+  * stale: it has a previous file with a day still ahead, which it keeps. An empty parse
+    and a cinema with nothing on today both arrive as `[]`, so this is not treated as a
+    failure.
+  * unverified: no data worth keeping, either never any or a previous file whose every
+    day has passed. A venue added before its programme is published and a parse that has
+    never worked look the same here, so it stays visibly degraded.
 
 A fetch, schema or parse failure never reaches that loop: the site fails as a whole and
 every file it owns is left as it was. `common.EmptyProgramme` is not a failure: every venue
@@ -51,6 +53,7 @@ import pathlib
 import sys
 import threading
 import urllib.parse
+from zoneinfo import ZoneInfo
 
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -213,6 +216,8 @@ def publish_site(mod, site, per_venue, now, order=0, confirmed=False):
     # emptied films-extra.json for every site and three synopsis tests caught it.
     syn_input = {vid: [{"title": sh.get("title"), "_syn": sh.get("_syn")} for sh in shows]
                  for vid, shows in per_venue.items()}
+    # The day a screening belongs to is Helsinki's, the zone every `start` carries.
+    today = datetime.datetime.fromisoformat(now).astimezone(ZoneInfo("Europe/Helsinki")).date().isoformat()
     live = total = 0
     staged = []           # (tmp, path) per venue; nothing is live until commit_staged
     stale = []            # kept its previous file: the data is real, just older
@@ -235,11 +240,21 @@ def publish_site(mod, site, per_venue, now, order=0, confirmed=False):
                 pending.append(v["id"])
                 print(f"[{label}] {v['name']}: no programme at the moment (adapter confirmed "
                       f"the venue empty); publishing an empty file", file=sys.stderr)
-            elif not shows and prev_shows:
+            elif not shows and prev_shows and common.has_future_shows(path, today):
                 stale.append(v["id"])
                 print(f"[{label}] {v['name']}: no showtimes, keeping previous data "
                       f"from {prev_gen or 'an unknown time'}", file=sys.stderr)
                 continue
+            elif not shows and prev_shows:
+                # fetch_data.py's rule for Finnkino since the Maxim Helsinki incident: a kept
+                # file whose every day has passed protects nothing, and keeping it froze the
+                # venue's `generated`, so the provider stayed stale and every combined city
+                # view holding the venue aged on it without bound. Published empty and
+                # stamped fresh; unverified, which is what the next run calls it anyway.
+                unverified.append(v["id"])
+                print(f"[{label}] {v['name']}: no showtimes and nothing left ahead in the "
+                      f"previous file from {prev_gen or 'an unknown time'}; publishing an "
+                      f"empty file", file=sys.stderr)
             elif not shows:
                 # Never produced a showtime and nobody vouches for the emptiness: "added
                 # before its programme is published" and "a parse that has never worked" are

@@ -4,6 +4,7 @@ import urllib.parse
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent / "providers"))
 import common    # noqa: E402  shared atomic writers, see providers/common.py
+from common import has_future_shows  # noqa: E402  shared with run.py
 import strands   # noqa: E402  shared strand list, see providers/strands.py
 import synmerge  # noqa: E402  shared synopsis helpers, see providers/synmerge.py
 import refresh   # noqa: E402  shared rating-refresh schedule, see providers/refresh.py
@@ -469,32 +470,6 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
     return {"looked": looked, "rechecked": rechecked, "weak": tmdb_weak,
             "thin": tmdb_thin, "scheduled": len(refreshes),
             "settled": len(settled), "deferred": deferred}
-
-
-def has_future_shows(path, today_iso):
-    """Does the committed area file still describe a day that has not passed?
-
-    The question is whether keeping it protects anything. `dates` lists the days the file
-    holds screenings for, so the last of them is the file's own horizon; `horizon` carries
-    the same value and is read as a fallback for a file written before `dates` existed.
-    Today counts as ahead, because a day is not over while it is running.
-
-    An unreadable file answers True. It cannot be shown to be spent, and replacing what
-    could not be read would turn a disk fault into deleted schedule data.
-    """
-    try:
-        doc = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return True
-    if not isinstance(doc, dict):
-        return True
-    dates = doc.get("dates")
-    if isinstance(dates, list) and dates:
-        return max(str(d) for d in dates) >= today_iso
-    horizon = doc.get("horizon")
-    if isinstance(horizon, str) and horizon:
-        return horizon >= today_iso
-    return False
 
 
 def main() -> int:
