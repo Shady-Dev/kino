@@ -122,6 +122,15 @@ class AudioMarkerTest(unittest.TestCase):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
 
+    def test_a_language_code_before_dub_comes_off(self):
+        """Kino Aurora published "Unohdettu saari (EN dub)" on 2026-09-24; it drew no poster
+        while "Unohdettu saari" matched. The code names the dub's language, not the film."""
+        for published in ("Unohdettu saari (EN dub)", "Unohdettu saari (en dub)",
+                          "Unohdettu saari (SV dub)", "Unohdettu saari (FI dub.)",
+                          "Unohdettu saari (ENG dub)"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Unohdettu saari")
+
     def test_the_two_runs_of_one_film_still_key_apart(self):
         """The dub and the subtitled run are two cards at the cinema and must stay two
         cache entries, even though they now search for the same string."""

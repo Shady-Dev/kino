@@ -76,9 +76,11 @@ from strands import EVENT_PREFIXES  # noqa: E402
 # cinemas at once -- 16 showtimes of Kojootti vs ACME across Toijala, Sampo, Mania and Elo,
 # every one unmatched, while the chains spelling it `(suomeksi)` matched 1204680 from the
 # first run. The exclamation mark is the operator's and is matched with the rest.
+# 2026-09-24: Kino Aurora's "Unohdettu saari (EN dub)" drew no poster while the plain
+# title matched; a language code before `dub` names the dub, not the film.
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu)?|englanniksi|p[åa]\s+svenska"
-    r"|puhumme\s+suomea!?|dubattu|dub\.?|orig\.?|re-?release"
+    r"|puhumme\s+suomea!?|dubattu|(?:(?:en|eng|fi|sv)\s+)?dub\.?|orig\.?|re-?release"
     r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
