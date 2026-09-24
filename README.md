@@ -323,8 +323,8 @@ the GDPR, so it is not claimed that none is processed. There are no cookies,
 browser-storage identifiers, person profiles or session recordings.
 
 `analyticsScrub()` in `index.html` is posthog-js's `before_send`. It drops any
-event not listed here and any property not listed for it, including the 43 the
-library adds:
+event not listed here and any property not listed for it, including the
+properties the library adds:
 
 | Event | Properties |
 |---|---|
