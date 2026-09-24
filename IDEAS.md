@@ -100,12 +100,6 @@ All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages lab
 "alkaen 14 €" and JSON-LD says 14. The maintainer holds taking the minimum: 12 € may be a
 conditional discount. **Unblocks when:** Julia's own page says what each amount is for.
 
-### Cinema Sheryl's "Happy Together" may be matched to the wrong film
-
-Two Sheryl showtimes resolve to TMDB 55059, the 1989 comedy (2026-09-24). Beside Chungking
-Express the 1997 Wong Kar-wai film is likelier, an inference, so no alias yet.
-**Unblocks when:** Sheryl's own page names the film's director or year.
-
 ### Kino Konepaja has no programme to read
 
 A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists

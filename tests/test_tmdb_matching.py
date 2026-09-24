@@ -668,6 +668,12 @@ class AliasFileTest(unittest.TestCase):
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
         self.assertEqual(doc[enrich_tmdb.norm("Divine intervention")], "27744")
 
+    def test_the_sheryl_happy_together_alias_is_wong_kar_wai(self):
+        """Sheryl publishes 96 minutes and names Wong Kar-Wai; 18329 is his 96-minute 1997
+        film. The search had published 55059, a 102-minute 1989 comedy of the same title."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("Happy Together")], "18329")
+
     def test_the_largest_2026_09_19_alias_is_pinned(self):
         """39 showtimes over 17 venues, the largest single row in that batch, and the one
         the maintainer reported. Two independent sources say 1299382: TMDB's own record
@@ -699,6 +705,7 @@ class AliasFileTest(unittest.TestCase):
             "265042": "Czinner's 1960 Covent Garden documentary, not a 2026/27 relay",
             "1387552": "Koudmani's 7-minute short, not Suleiman's Divine Intervention",
             "557": "Raimi's 2002 Spider-Man, not Spider-Man: Brand New Day (969681)",
+            "55059": "Damski's 1989 Happy Together, not Wong Kar-Wai's (18329)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):

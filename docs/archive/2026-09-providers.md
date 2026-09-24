@@ -2973,3 +2973,36 @@ left open is the cinema or Johku publishing a feed.
 
 Moved from the Blocked section of `IDEAS.md` on 2026-09-24, verbatim above: it records a
 decision already taken, not work waiting on anything.
+
+## Cinema Sheryl's "Happy Together" may be matched to the wrong film
+
+The Blocked entry as it stood in `IDEAS.md`:
+
+> Two Sheryl showtimes resolve to TMDB 55059, the 1989 comedy (2026-09-24). Beside Chungking
+> Express the 1997 Wong Kar-wai film is likelier, an inference, so no alias yet.
+> **Unblocks when:** Sheryl's own page names the film's director or year.
+
+**Closed 2026-09-24 with an alias, `"happy together": "18329"`.** Sheryl's film page, read
+that day, gives "Hong Kong, South Korea, Japan", 96 min and director Wong Kar-Wai.
+`/movie/18329` is 春光乍洩, 1997-05-30, 96 min, directed by Wong Kar-Wai. 55059 is Mel
+Damski's 1989 comedy at 102 min. Sheryl publishes no year, so `pick()` took the first exact
+title in TMDB's popularity order. The fi-FI search does not return 18329 as an exact title
+at all: it is fourth in the results, titled "Happy Together – viimeinen tango Buenos
+Airesissa" with the original 春光乍洩, and neither equals the published title.
+
+**Scope.** An alias is keyed on `norm()` of the title alone. It applies to every chain that
+publishes "Happy Together", in `enrich_tmdb` and in the Finnkino pass, which reads the same
+file. Measured 2026-09-24 over every `data/area-*.json` (`area-1*` included) and
+`data/films.json`: four showtimes carry the title, all Cinema Sheryl's, on 26.9, 27.9, 3.10
+and 4.10. No other screening of any film with that title is affected. If another chain
+later shows the 1989 film, or another "Happy Together", this alias labels it wrongly and
+has to become a search string or be removed.
+
+**What changed in the data.** The four rows now carry `tmdbId` 18329, a 7.6 score on 828
+votes (was 5.9 on 76), genres Draama and Romanssi (was Komedia and Romanssi), `oyear` 1997,
+and a trailer (there was none). `films-extra.json` has TMDB's Finnish synopsis for the 1997
+film in place of the 1989 English one, and the 1997 TMDB poster in place of the 1989
+poster. The rows' own `img` is Sheryl's poster for the 1997 film and did not change. The
+three Sheryl landing pages now head the film "Happy Together (1997)".
+`tests/test_tmdb_matching.py` pins the alias and lists 55059 as an id that must never be
+aliased.
