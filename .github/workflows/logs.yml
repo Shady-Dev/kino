@@ -28,6 +28,9 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # Longest run 2026-09-17 to 09-24: 0.2 min. A hung job stops here rather than at
+    # the 360-minute default.
+    timeout-minutes: 5
     steps:
       # Pinned to a SHA like the other workflows: actions/checkout v7.0.1, resolved
       # 2026-08-31, on node24.

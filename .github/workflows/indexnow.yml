@@ -38,6 +38,9 @@ concurrency:
 jobs:
   submit:
     runs-on: ubuntu-latest
+    # Longest run 2026-09-17 to 09-24: 0.2 min. A hung job stops here rather than at
+    # the 360-minute default.
+    timeout-minutes: 10
     # A fetch run on a branch publishes nothing live. The push trigger is branch-filtered
     # above, so this only guards workflow_run; a bare branch comparison would be null on a
     # push and skip the job.
