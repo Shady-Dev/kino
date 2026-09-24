@@ -1675,7 +1675,8 @@
 
   // --- analyticsScrub: pure, extracted verbatim by tests/analytics_harness.js ---
   // posthog-js before_send. An event not keyed here is dropped; a property not listed
-  // for it is removed, including the 43 the library adds. $current_url is the one that
+  // for it is removed, including the 43 posthog-js 1.434.2 attached on the wire on
+  // 2026-09-20 (docs/archive/2026-09-app.md). $current_url is the one that
   // matters: the search query is in it. Values are internal ids only.
   const PH_ALLOW = {
     // $pageview so PostHog Web Analytics counts it. Only `category` is taken from the
@@ -2718,9 +2719,8 @@
     q.set('area', id);
     return q.toString();
   }
-  // -> where a chooser city link points in each language: the Finnish and English city
-  // pages exist, Swedish has none and follows the pages' own language-link rule, the app
-  // with `?area=` and `lang=sv`.
+  // -> where a chooser city link points in each language: the Finnish, Swedish and
+  // English city pages, one per language.
   function homeCityHref(city, slug, lang){
     if(lang === 'en') return `/en/city/${slug}/`;
     if(lang === 'sv') return `/sv/kaupunki/${slug}/`;
