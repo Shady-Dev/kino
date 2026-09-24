@@ -1,9 +1,9 @@
 [regina] schedule: 4 window(s), the last from 2026-12-14
 [regina] film pages: 107 parsed, 0 with nothing usable, 141/158 showtimes rated
-[regina] prices: 158 screenings, 150 priced, 40 pages read, 118 reused, 8 without an ordinary ticket, 0 failed, 0 deferred
+[regina] prices: 158 screenings, 150 priced, 0 pages read, 158 reused, 8 without an ordinary ticket, 0 failed, 0 deferred
 [regina] Kino Regina: 158 showtimes, 57 dates
-[regina] synopses merged: 0
+[regina] synopses merged: 2
 [run] http: 0 revalidated (304), 107 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 2 attempted -- kauppa.kavi.fi, kinoregina.fi
+[run] hosts: 1 attempted -- kinoregina.fi
 [run] regina: 1 venues, 158 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
