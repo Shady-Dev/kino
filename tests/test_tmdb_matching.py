@@ -34,6 +34,14 @@ def hit(mid, title, year, original=None):
 ALL_NIGHT_1981 = hit(22, "All Night Long", 1981)
 ALL_NIGHT_1962 = hit(37038, "All Night Long", 1962)
 
+# Cinema Sheryl, 2026-09-24: 96 minutes, no year. Under fi-FI TMDB titles Wong Kar-Wai's
+# film "Happy Together - viimeinen tango Buenos Airesissa", so only en-US offers it.
+HAPPY_1989 = hit(55059, "Happy Together", 1989)
+HAPPY_1997 = hit(18329, "Happy Together", 1997, original="\u6625\u5149\u4e4d\u6d29")
+HAPPY_1997_FI = hit(18329, "Happy Together \u2013 viimeinen tango Buenos Airesissa", 1997,
+                    original="\u6625\u5149\u4e4d\u6d29")
+HAPPY_RUNTIMES = {55059: 102, 18329: 96}
+
 
 class QueriesTest(unittest.TestCase):
 
@@ -107,6 +115,11 @@ class GatherTest(unittest.TestCase):
         f = enrich_tmdb.gather(shows)["old film"]
         self.assertEqual((f["t"], f["o"], f["y"]), ("Old Film", "", ""))
 
+    def test_every_published_runtime_is_collected(self):
+        shows = [{"title": "Digger", "len": "128"}, {"title": "Digger", "len": "129"},
+                 {"title": "Digger", "len": ""}, {"title": "Digger"}]
+        self.assertEqual(enrich_tmdb.gather(shows)["digger"]["m"], [128, 129])
+
     def test_blank_fields_do_not_veto_a_chain_that_publishes_them(self):
         shows = [{"title": "X", "original": "", "year": ""},
                  {"title": "X", "original": "Y", "year": "1990"}]
@@ -163,6 +176,49 @@ class PickTest(unittest.TestCase):
             h, exact = enrich_tmdb.pick(order, "Rakasta tai tuhoudu", "1962",
                                         original="All Night Long")
             self.assertEqual((h["id"], exact), (37038, True))
+
+    def test_without_a_year_the_published_runtime_decides_among_exact_hits(self):
+        hits = [HAPPY_1989, HAPPY_1997]
+        for order in (hits, list(reversed(hits))):
+            h, exact = enrich_tmdb.pick(order, "Happy Together", minutes=[96],
+                                        runtimes=HAPPY_RUNTIMES)
+            self.assertEqual((h["id"], exact), (18329, True))
+
+    def test_the_runtime_nearest_any_published_one_wins(self):
+        """Two chains publish 139 and 144; TMDB's 2006 Casino Royale is 144."""
+        hits = [hit(12208, "Casino Royale", 1967), hit(36557, "Casino Royale", 2006)]
+        h, exact = enrich_tmdb.pick(hits, "Casino Royale", minutes=[139, 144],
+                                    runtimes={12208: 131, 36557: 144})
+        self.assertEqual((h["id"], exact), (36557, True))
+
+    def test_an_equal_distance_keeps_tmdbs_order(self):
+        """Niagara's Night of the Demon is 90 minutes; both films on TMDB are 96."""
+        hits = [hit(25103, "Night of the Demon", 1957), hit(40146, "Night of the Demon", 1980)]
+        h, exact = enrich_tmdb.pick(hits, "Night of the Demon", minutes=[90],
+                                    runtimes={25103: 96, 40146: 96})
+        self.assertEqual((h["id"], exact), (25103, True))
+
+    def test_no_film_within_the_tolerance_keeps_tmdbs_order(self):
+        """A tie-break, never a refusal: a cinema publishes The Shining at the European
+        cut's 119 minutes and TMDB holds 144. Just inside the tolerance still moves it."""
+        hits = [hit(694, "The Shining", 1980), hit(1174044, "The Shining", 2023)]
+        tol = enrich_tmdb.TIE_RUNTIME_TOL_MIN
+        for minutes, want in (([119], 694), ([79 + tol], 1174044), ([79 + tol + 1], 694)):
+            with self.subTest(minutes=minutes):
+                h, exact = enrich_tmdb.pick(hits, "The Shining", minutes=minutes,
+                                            runtimes={694: 144, 1174044: 79})
+                self.assertEqual((h["id"], exact), (want, True))
+
+    def test_an_unknown_runtime_cannot_win(self):
+        """TMDB answers 0 for a runtime it does not hold: a 3-minute short is not near it."""
+        h, exact = enrich_tmdb.pick([hit(1, "Short", 2020), hit(2, "Short", 2021)], "Short",
+                                    minutes=[3], runtimes={1: 0, 2: 6})
+        self.assertEqual((h["id"], exact), (2, True))
+
+    def test_a_year_still_decides_before_any_runtime(self):
+        h, exact = enrich_tmdb.pick([HAPPY_1997, HAPPY_1989], "Happy Together", "1989",
+                                    minutes=[96], runtimes=HAPPY_RUNTIMES)
+        self.assertEqual((h["id"], exact), (55059, True))
 
     def test_no_exact_title_is_the_popularity_fallback_as_before(self):
         h, exact = enrich_tmdb.pick([hit(1, "Mother Mary", 2025)], "Mother", "2009")
@@ -361,7 +417,7 @@ class MainHarness(unittest.TestCase):
     def cache(self):
         return json.loads((self.dir / "tmdb-titles.json").read_text(encoding="utf-8"))
 
-    def run_main(self, table, en=None):
+    def run_main(self, table, en=None, runtimes=None):
         """`table` answers the fi-FI searches, `en` the en-US second pass.
 
         The language is part of the dispatch because that is the only thing the second
@@ -384,8 +440,9 @@ class MainHarness(unittest.TestCase):
                 return {"results": table.get(key, [])}
             if url.endswith("/videos"):
                 return {"results": []}
+            mid = int(urllib.parse.urlsplit(url).path.rsplit("/", 1)[1])
             return {"overview": "Teksti", "vote_count": 900, "vote_average": 7.5,
-                    "genres": [{"id": 18}]}
+                    "genres": [{"id": 18}], "runtime": (runtimes or {}).get(mid, 0)}
         real = enrich_tmdb.get
         enrich_tmdb.get = fake_get
         self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
@@ -443,6 +500,36 @@ class MainPathTest(MainHarness):
         with mock.patch.object(enrich_tmdb, "clean", lambda s: "Something Else"):
             self.assertEqual(enrich_tmdb.reconsider(facts, cache, {}),
                              (["vauvakino all night long"], 0))
+
+    # 1b. no year, several films of the title: the published runtime decides
+    def test_a_rival_only_english_offers_is_found_and_the_runtime_picks_it(self):
+        self.shows({"title": "Happy Together", "len": "96"})
+        out = self.run_main({("Happy Together", ""): [HAPPY_1989, HAPPY_1997_FI]},
+                            en={("Happy Together", ""): [HAPPY_1989, HAPPY_1997]},
+                            runtimes=HAPPY_RUNTIMES)
+        e = self.cache()["happy together"]
+        self.assertEqual((e["i"], e["x"]), (18329, True))
+        self.assertIn(("Happy Together", "", "en-US"), self.searches)
+        self.assertIn("runtime decides (1): Happy Together (96 min) -> Happy Together "
+                      "(1997, 96 min)", out)
+        self.assertEqual(json.loads((self.dir / "area-zz.json").read_text())
+                         ["shows"][0]["tmdbId"], 18329)
+
+    def test_the_english_pass_is_held_to_the_same_runtime_rule(self):
+        """The fi-FI pass matches nothing exactly, so the en-US pass decides, and it must
+        not fall back to TMDB's order when the runtime says otherwise."""
+        self.shows({"title": "Happy Together", "len": "96"})
+        self.run_main({}, en={("Happy Together", ""): [HAPPY_1989, HAPPY_1997]},
+                      runtimes=HAPPY_RUNTIMES)
+        self.assertEqual(self.cache()["happy together"]["i"], 18329)
+
+    def test_one_film_of_the_title_needs_no_runtime(self):
+        """The English search runs, finds no rival, and no detail request is spent."""
+        self.shows({"title": "Happy Together", "len": "96"})
+        self.run_main({("Happy Together", ""): [HAPPY_1997]},
+                      en={("Happy Together", ""): [HAPPY_1997]}, runtimes={18329: 50})
+        e = self.cache()["happy together"]
+        self.assertEqual((e["i"], e["x"]), (18329, True))
 
     # 2. duplicate candidates are searched once
     def test_an_original_equal_to_the_title_costs_no_second_search(self):

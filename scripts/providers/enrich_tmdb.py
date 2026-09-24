@@ -409,7 +409,7 @@ def unpublish_extra(e, c):
 # --- end what may be published -------------------------------------------------------------
 
 
-def pick(hits, query, year=None, original=None):
+def pick(hits, query, year=None, original=None, minutes=(), runtimes=None):
     """Choose a search hit. -> (hit, exact).
 
     TMDB sorts by popularity, so hits[0] on a one-word title is whatever is trending:
@@ -431,16 +431,20 @@ def pick(hits, query, year=None, original=None):
     whose original title is the published `original` beats the rest. What is left has
     to be one film: two different ids still standing is a tie, returned as *not* exact,
     whatever order TMDB listed them in. An exact title whose year is further off than
-    YEAR_TOL is not exact either: a 1981 "All Night Long" is not the 1962 one. Without a
-    year the first exact hit wins, as before. A hit with no release date cannot
-    contradict a year and is accepted.
+    YEAR_TOL is not exact either: a 1981 "All Night Long" is not the 1962 one. A hit with
+    no release date cannot contradict a year and is accepted.
+
+    Without a year, one film of that title is the match. Among several, the published
+    runtime can move the choice when the caller has one and supplies `runtimes`, {id:
+    minutes} from /movie/{id}: see `by_runtime`. Otherwise the first exact hit wins, as
+    before.
     """
-    q = norm(query)
-    exact = [h for h in hits
-             if norm(h.get("title")) == q or norm(h.get("original_title")) == q]
+    exact = exact_hits(hits, query)
     if not exact:
         return hits[0], False
     if not year:
+        if minutes and runtimes is not None and len({h.get("id") for h in exact}) > 1:
+            return by_runtime(exact, minutes, runtimes)
         return exact[0], True
     near = [h for h in exact if plausible(release_year(h), year)]
     if not near:
@@ -454,6 +458,68 @@ def pick(hits, query, year=None, original=None):
         if named:
             tier = named
     return tier[0], len({h.get("id") for h in tier}) == 1
+
+
+# How far TMDB's runtime may sit from the published one and still move the choice between
+# films sharing a title. Wider than RUNTIME_TOL_MIN, which vetoes a borrowed rating on a
+# different cut: here the nearest film wins and the tolerance only bounds how far off it
+# may be. Measured 2026-09-24 over the 38 titles with several exact films and no year:
+# the largest gap to the right film was 10 (Kino Kilta's 84-minute Tuhkimo, TMDB 74).
+TIE_RUNTIME_TOL_MIN = 10
+
+
+def by_runtime(exact, minutes, runtimes, tol=TIE_RUNTIME_TOL_MIN):
+    """Several films share the exact title and no year was published. -> (hit, True).
+
+    The film whose TMDB runtime is nearest any published one wins, and TMDB's order breaks
+    an equal distance. Cinema Sheryl's 96-minute "Happy Together" took the 102-minute 1989
+    comedy first in popularity order; Wong Kar-Wai's is 96.
+
+    With no film within `tol`, or no runtime known, TMDB's order stands as before. It is a
+    tie-break, never a refusal: a refusal would have blanked Kubrick's The Shining, which a
+    cinema publishes at the European cut's 119 minutes against TMDB's 144.
+    """
+    def gap(h):
+        rt = runtimes.get(h.get("id"))
+        return min(abs(rt - m) for m in minutes) if rt else None
+    near = [(gap(h), h) for h in exact]
+    near = [(g, h) for g, h in near if g is not None and g <= tol]
+    if not near:
+        return exact[0], True
+    best = min(g for g, _ in near)
+    return next(h for g, h in near if g == best), True
+
+
+def exact_hits(hits, query):
+    q = norm(query)
+    return [h for h in hits
+            if norm(h.get("title")) == q or norm(h.get("original_title")) == q]
+
+
+def with_rivals(hits, cand, headers, other="en-US"):
+    """The hits `pick()` needs to judge a title with no published year. -> (hits, runtimes).
+
+    One search in the other language joins its exact hits to these: TMDB localises
+    `title`, so a film registered under a longer Finnish title is exact only in English.
+    Wong Kar-Wai's is "Happy Together – viimeinen tango Buenos Airesissa" under fi-FI and
+    was never a candidate there. With two or more films left, each one's runtime is read
+    from /movie/{id}; runtimes is None when there is nothing to decide. A failed request
+    raises, and the title keeps its cache entry until the next run.
+    """
+    if not exact_hits(hits, cand):
+        return hits, None
+    seen = {h.get("id") for h in exact_hits(hits, cand)}
+    joined = list(hits) + [h for h in exact_hits(search(cand, "", headers, lang=other), cand)
+                           if h.get("id") not in seen]
+    ids = list(dict.fromkeys(h.get("id") for h in exact_hits(joined, cand)))
+    if len(ids) < 2:
+        return joined, None
+    runtimes = {}
+    for i in ids:
+        runtimes[i] = int(get(f"https://api.themoviedb.org/3/movie/{i}", headers)
+                          .get("runtime") or 0)
+        time.sleep(0.2)
+    return joined, runtimes
 
 
 def alias_supersedes(alias, entry):
@@ -541,28 +607,36 @@ def published_year(show):
 
 def gather(shows):
     """Every published title with the evidence its shows carry.
-    -> {key: {"t": display title, "o": original title, "y": year}}.
+    -> {key: {"t": display title, "o": original title, "y": year, "m": runtimes}}.
 
     One title can be published by several chains. The original title and the year are
     used only when every show that carries one agrees: two different originals or two
     different years under one title is not evidence either way, and the search runs on
     the title alone as it did before either field existed. A show from older data, with
     neither field, contributes nothing and changes nothing.
+
+    `m` is every runtime the shows publish, in minutes, sorted. All of them rather than an
+    agreed one: chains differ by a minute or two (Digger is 128 and 129), and `pick()`
+    only asks whether a film is near any of them.
     """
     out = {}
     for s in shows:
         k = norm(s.get("title"))
         if not k:
             continue
-        e = out.setdefault(k, {"t": s.get("title"), "_o": {}, "_y": set()})
+        e = out.setdefault(k, {"t": s.get("title"), "_o": {}, "_y": set(), "_m": set()})
         o = (s.get("original") or "").strip()
         if o and norm(o):
             e["_o"].setdefault(norm(o), o)
         y = published_year(s)
         if y:
             e["_y"].add(y)
+        mins = _minutes(s.get("len"))
+        if mins:
+            e["_m"].add(mins)
     for e in out.values():
         originals, years = e.pop("_o"), e.pop("_y")
+        e["m"] = sorted(e.pop("_m"))
         e["o"] = next(iter(originals.values())) if len(originals) == 1 else ""
         e["y"] = next(iter(years)) if len(years) == 1 else ""
     return out
@@ -954,6 +1028,7 @@ def main() -> int:
     en_settled, en_differs = [], []
     offyear = []             # exact titles refused on the published year
     ties = []                # several films of that title and year; none trusted
+    by_len = []              # several films of that title, no year: the runtime decided
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
@@ -978,15 +1053,30 @@ def main() -> int:
                 # of any kind as the fallback. Extra requests are spent only on titles
                 # that match nothing exactly.
                 fallback = None
-                fact = facts.get(k) or {"o": "", "y": ""}
+                fact = facts.get(k) or {"o": "", "y": "", "m": []}
+
+                def judge(hits, cand, year, other):
+                    # No year to decide by: the published runtime decides between films
+                    # sharing the title, rivals from `other` language included.
+                    rts = None
+                    if hits and not fact["y"] and fact["m"]:
+                        hits, rts = with_rivals(hits, cand, th, other)
+                    got = (pick(hits, cand, year, fact["o"], fact["m"], rts) if hits
+                           else (None, False))
+                    if rts is not None:
+                        h = got[0]
+                        by_len.append(
+                            f"{display or k} ({'/'.join(map(str, fact['m']))} min) -> "
+                            f"{h.get('title')} ({release_year(h) or '?'}, "
+                            f"{rts.get(h.get('id')) or '?'} min)")
+                    return got
+
                 for cand in queries(display or k, alias, fact["o"]):
                     # The year filters the search, except on an alias string: an alias
                     # exists because the search needs a hand, and "Cars" with a reissue
                     # year returned "The Boy Who Counted Cars" in the Finnkino pass.
                     year = fact["y"] if cand != str(alias or "") else ""
-                    hits = search(cand, year, th)
-                    hit, exact = (pick(hits, cand, year, fact["o"]) if hits
-                                  else (None, False))
+                    hit, exact = judge(search(cand, year, th), cand, year, "en-US")
                     if year and not exact:
                         # Nothing of that year matched exactly. Ask without the filter:
                         # TMDB's primary release year can sit a year off the published
@@ -1022,8 +1112,7 @@ def main() -> int:
                     except Exception:
                         en_hits = []
                     en_tried += 1
-                    en_hit, en_exact = (pick(en_hits, en_cand, fact["y"], fact["o"])
-                                        if en_hits else (None, False))
+                    en_hit, en_exact = judge(en_hits, en_cand, fact["y"], "fi-FI")
                     if en_exact and en_hit:
                         if fallback is None or fallback.get("id") == en_hit.get("id"):
                             mid = en_hit.get("id")
@@ -1305,6 +1394,9 @@ def main() -> int:
     if ties:
         print(f"[enrich] several films match the title and year, none trusted ({len(ties)}): "
               + " | ".join(sorted(ties)))
+    if by_len:
+        print(f"[enrich] several films match the title, no year, runtime decides "
+              f"({len(by_len)}): " + " | ".join(sorted(by_len)))
     if thin:
         print(f"[enrich] rating held back, under {MIN_VOTES} votes ({len(thin)}): "
               + " | ".join(sorted(thin)))

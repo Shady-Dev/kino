@@ -2134,3 +2134,38 @@ strand label and source credits dropped. A merge of Niagara's current mixed stri
 the result writes nothing, since both slots are filled; the other two are listed nowhere.
 Niagara still publishes the mixed string for new films: a follow-up for its adapter.
 
+
+### Without a year, the published runtime breaks a same-title tie (2026-09-24)
+Replaces "Without a year the first exact hit wins as before" from 2026-09-13 in
+`enrich_tmdb`. Found through Cinema Sheryl's "Happy Together", aliased the same day
+(record in [2026-09-providers.md](2026-09-providers.md)). Sheryl publishes 96 min and no
+year. TMDB's first exact hit was Damski's 1989 comedy (102 min), and Wong Kar-Wai's 1997
+film (96 min) was no candidate at all: under fi-FI TMDB titles it "Happy Together –
+viimeinen tango Buenos Airesissa".
+
+**Rule.** When a title has no published year but has a published runtime (`gather()` now
+collects every one as `m`) and its search returns an exact title, `with_rivals()` runs the
+same query in the other language and adds that language's exact hits. If two or more
+films are left, each one's runtime is read from `/movie/{id}`. `pick()` then takes the
+film nearest any published runtime within `TIE_RUNTIME_TOL_MIN` = 10, and TMDB's order
+decides an equal distance. When no film is within 10, or no runtime is known, TMDB's order
+stands as before. The en-US second pass follows the same rule. A published year still
+decides first. Each decision is logged as "runtime decides".
+
+**Measured 2026-09-24**, 157 committed titles matched exact with no year but with a runtime:
+38 had two or more exact films. The largest gap to the right film was 10 (Kino Kilta's
+84-minute Tuhkimo against TMDB's 74). Two live matches were wrong and are re-judged in
+this change, both at Cinema Niagara, whose film pages give the 1980 releases: Prom Night
+(Paul Lynch, 1 h 32 min) had 8617, the 2008 remake at 89, and now has 36599 at 93.
+Without Warning (Greydon Clark, 1 h 29 min) had 25494, a 1952 film at 75, and now has
+44932 at 89. Their cache entries were deleted by hand so the new rule could judge them,
+because a settled exact entry is never searched again.
+
+**Rejected: refusing when no film is near.** Measured on the same set, it would have
+blanked The Shining, published at the European cut's 119 minutes against TMDB's 144, and
+Riviera's 413-minute Twin Peaks season. Neither case gives it anything to decide, so the
+old behaviour is kept for both.
+
+**What it does not catch.** A right film offered in neither language, next to a wrong one
+within 10 min. Before the English rival was added, "Happy Together" was that case: 102
+against 96. The Finnkino pass (`fetch_data._pick`) is separate and unchanged.
