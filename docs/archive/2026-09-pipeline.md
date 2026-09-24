@@ -2082,3 +2082,18 @@ still lists. Pages rebuilt with `--date recorded`: 22 written, and each equals i
 with the menu paragraphs removed.
 
 Keys: `agentti o s s 117 iskee`, `akira kurosawan unet`, `anni tahtoo äidin ja kala`, `aurinko ei mahdu sur rurin ensimmäiset 30 vuotta`, `begyndelser`, `daughters of darkness`, `departures`, `dialogpolisen`, `free at heart`, `hiljaiset sillat`, `i am going to miss you`, `i rarely wake up dreaming`, `idän soturit`, `ihmistenmetsästäjät`, `iván hadoum`, `kaupungin synty`, `kinokopla alpha`, `kinokopla dig xx`, `kinokopla orava`, `kinokopla se oli pelkkä sattuma`, `kinokopla the drama`, `kinokopla tie pimeään`, `kinokopla vasenkätinen tyttö`, `kolme väriä sininen`, `liekki ja nuoli`, `lyhytelokuvakooste havun kaiho`, `montreal my beautiful`, `pieni kauhukauppa`, `saapasrasvaa`, `she killed in ecstasy`, `suburbia`, `suden hetki`, `the babadook`, `the last paradise on earth`, `the secret reading club of kabul`, `tiger on the beat`, `tuhkimo`, `turku aiheisia lyhytelokuvia`, `vinokino departures`, `vinokino free at heart`, `vinokino i am going to miss you`, `vinokino i rarely wake up dreaming`, `vinokino iván hadoum`, `vinokino lyhytelokuvakooste havun kaiho`, `vinokino montreal my beautiful`, `vorosen perhe ja kyttäjahti`.
+
+### Korjaamo's English synopses moved out of the Finnish slot (2026-09-24)
+
+`vista.py` published every synopsis as a bare string, which `synmerge` files as Finnish.
+It now places each with `common.syn_language` and withholds one none settles. Ten
+`films-extra.json` entries held English in `fi`, every one first written by `1eb2bb0d5`,
+the commit that added Korjaamo (traced with `git log -S` on each text): `fez summer 55`,
+`hijacked twice`, `my father s scent`, `one more show`, `rose water` and `helaff short
+films` 1 to 5. Each text moved to its empty `en` slot and `fi` was emptied; no other
+field changed and no film is listed today, so no page changed. Korjaamo's feed on
+2026-09-24, read through the adapter's getter (it asks for XML; the same URL answers JSON
+to a request without that `accept`), held 17 synopses, all Finnish. The seven other `fi`
+slots the classifier places as English or Swedish open in Finnish and stay, as recorded
+for bundle 5.
+
