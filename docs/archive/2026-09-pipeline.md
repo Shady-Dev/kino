@@ -2109,3 +2109,15 @@ mixes Finnish with Swedish. Star now declares, and the one `fi` slot was emptied
 `en` slot, TMDB's (`ts`), is unchanged. One page changed: Kino Myyri's, which drew the
 English paragraph as the Finnish synopsis.
 
+### Kilta's synopsis read by section, and two Nordic films repaired (2026-09-24)
+
+The longest-paragraph rule of the same morning filed the Swedish text of `begyndelser` and
+`vorosen perhe ja kyttäjahti` as Finnish in the 14:17 cloud run: Kilta writes the Finnish
+synopsis in two paragraphs and the Swedish in one longer one after `---`. The maintainer
+rejected "longest Finnish paragraph, else longest" in favour of reading Kilta's sections
+and withholding one whose language is not settled; the page structure and the 40-page
+read are in [docs/research/kinola.md](../research/kinola.md). Repair, those two entries
+only: the Swedish text moved to the empty `sv` slot as it was, and `fi` holds the whole
+Finnish section from the live page read that day (823 and 841 characters). No page
+changed: both films screen outside the pages' four-day window.
+
