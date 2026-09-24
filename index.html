@@ -3272,8 +3272,15 @@
     const keepDay = !!(opts && opts.keepDay);
     const seq = ++loadSeq;
     const area = state.area;
+    // Emptied before the await, not after it: until this load lands, the previous venue's
+    // shows, stamp and sources describe nothing on screen, and the footer and the tag key
+    // drawn from them would credit that venue.
+    clearSchedule();
+    listHold = { err: null };
     setListStatus('');
-    main.innerHTML = `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
+    main.innerHTML = holdHtml(listHold);
+    renderTagKey();
+    renderStatus();
     try {
       if(!jsonCache[area]){
         jsonCache[area] = groupIdsOf(area)
@@ -3304,6 +3311,7 @@
       state.shows = cache.shows
         .map(s => ({ ...s, start: new Date(s.start) }))
         .filter(s => fiDate(s.start) === state.dateStr);
+      listHold = null;
       // Late evening with nothing left today: move to the next day that has shows.
       if(!keepDay && !state.advanced && state.dateStr === fiToday() && !state.shows.length){
         const next = (state.dates || []).find(x => x > state.dateStr);
@@ -3321,9 +3329,25 @@
       if(searchEl && !searchEl.value) searchEl.placeholder = searchHint();
     } catch(e){
       if(seq !== loadSeq) return;          // a stale failure must not cover the chooser
+      // Again here: a payload that parsed and then threw has filled part of `state`, and
+      // the next renderStatus, from a language switch, would credit it.
+      clearSchedule();
+      listHold = { err: e };
       setListStatus('');
-      main.innerHTML = netErrorHtml(e);
+      main.innerHTML = holdHtml(listHold);
     }
+  }
+
+  // What the list shows while `state` holds no schedule for the selection: null once it
+  // does, `{err:null}` while the load is in flight, `{err}` after it failed. render()
+  // draws this instead of `state.shows`, so a filter, a search, a view or a language
+  // switch cannot redraw the venue the reader left under the new one's name.
+  let listHold = null;
+  const holdHtml = h => h.err ? netErrorHtml(h.err)
+    : `<div class="status" data-nosnippet><div class="reel"></div>${L[state.lang].loadingSchedule}</div>`;
+  function clearSchedule(){
+    state.shows = []; state.generated = ''; state.genProvider = ''; state.sources = [];
+    state.dates = null; state.horizon = ''; state.missing = []; state.expected = 0;
   }
 
   // Stale banner and footer credit. Pulled out of loadSchedule so applyLang can
@@ -4184,6 +4208,7 @@
 
   function render(){
     if(!state.area) return;                 // the chooser is not a list to redraw
+    if(listHold){ setListStatus(''); main.innerHTML = holdHtml(listHold); return; }
     if(state.view === 'times'){ renderTimes(); return; }
     const now = new Date();
     const byEvent = new Map();

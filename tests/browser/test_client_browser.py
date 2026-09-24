@@ -49,8 +49,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     """index.html, sw.js and fonts from the checkout; data/ from the fixture.
 
     `delay` holds seconds by path suffix: a venue file answered late is how the readiness
-    condition below is shown to wait rather than to race the boot."""
+    condition below is shown to wait rather than to race the boot.
+
+    `fail` holds path suffixes answered 500, and `body` suffixes answered with the bytes
+    given instead of the fixture file. `hold` maps a suffix to two
+    `threading.Event`s, `(arrived, release)`: the handler sets the first when the request
+    reaches it and answers once the test sets the second. A load that fails, and one left
+    in flight for exactly as long as the test needs, with no sleep on either side."""
     delay = {}
+    fail = set()
+    body = {}
+    hold = {}
 
     def do_GET(self):
         # Logged before the delay below, unlike `served`, which is logged after it. A race
@@ -68,6 +77,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 # what makes a cold load reproducible here at all.
                 self.nostore = True
                 time.sleep(secs)
+        for suffix, (arrived, release) in list(self.hold.items()):
+            if self.path.split("?")[0].endswith(suffix):
+                self.nostore = True
+                arrived.set()
+                release.wait(10)
+        if any(self.path.split("?")[0].endswith(x) for x in list(self.fail)):
+            self.nostore = True
+            self.send_error(500)
+            return
+        for suffix, data in list(self.body.items()):
+            if self.path.split("?")[0].endswith(suffix):
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(data)))
+                self.send_header("Cache-Control", "no-store")
+                super().end_headers()
+                self.wfile.write(data)
+                return
         self.server.served.append((self.path, time.monotonic()))
         super().do_GET()
 
@@ -638,3 +665,89 @@ class AsyncRaces(Browser):
         expect(self.page.locator("a.stub").first).to_be_visible()
         self.page.wait_for_timeout(2500)
         expect(self.page.locator("a.stub").first).to_be_visible()
+
+
+class LoadLeavesNoOldVenue(Browser):
+    """Until a load lands, nothing on the page may come from the venue the reader left.
+
+    `loadSchedule` drew the error or the spinner and left `state` holding the previous
+    venue's shows, stamp and sources. A filter tap, a search, a view switch or a language
+    switch calls `render()`, which drew Orion's films and ticket links under Promenadi's
+    name, and the footer kept Orion's stamp. Promenadi's file fails outright, arrives
+    malformed, or is held in flight. The footer is checked empty rather than for Orion's
+    name: redrawn from Orion's stamp it names Promenadi's provider, with Orion's time.
+    """
+
+    def pick_promenadi(self):
+        vq = self.open_picker(); vq.fill("promenadi")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq.press("Enter")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
+
+    def orion_on_screen(self):
+        return self.page.evaluate("""() => ({
+            links: [...document.querySelectorAll('main a[href*="cinemaorion.fi"]')].length,
+            credit: document.querySelector('#credit').textContent,
+            main: document.querySelector('main').textContent,
+        })""")
+
+    def assert_no_orion(self, when):
+        got = self.orion_on_screen()
+        self.assertEqual(got["links"], 0, f"{when}: Orion's ticket links drawn under Promenadi")
+        self.assertEqual(got["credit"], "",
+                         f"{when}: the footer claims a freshness for data not on screen")
+
+    def test_a_failed_load_leaves_nothing_of_the_last_venue_to_redraw(self):
+        self.pick_orion()
+        self.assertIn("Orion", self.orion_on_screen()["credit"],
+                      "the footer must carry a credit first or this proves nothing")
+        Handler.fail = {"area-1004.json"}
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        self.pick_promenadi()
+        err = self.page.locator("main .status", has_text="Näytöstietoja ei juuri nyt saatu")
+        expect(err).to_be_visible()
+        self.assert_no_orion("after the failure")
+        self.page.locator("#chipKids").click()
+        self.assert_no_orion("after Lapsille")
+        expect(err).to_be_visible()
+        self.page.locator("#chipKids").click()
+        self.page.locator("#search").fill("a")
+        self.assert_no_orion("after a search")
+        self.page.locator("#search").fill("")
+        self.page.locator("#segTimes").click()
+        self.assert_no_orion("after Ajat")
+        self.assertEqual(self.page.locator(".trow").count(), 0, "Orion's times drawn in Ajat")
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.page.locator("main .status", has_text="Visningstiderna kunde inte")).to_be_visible()
+        self.assert_no_orion("after a language switch")
+
+    def test_a_payload_that_throws_after_parsing_leaves_no_stamp(self):
+        """Parsed, stamped, and missing `shows`: `state` is part filled when the load
+        throws, and a language switch redraws the footer from whatever is left."""
+        self.pick_orion()
+        Handler.body = {"area-1004.json": b'{"generated": "2026-09-14T08:00:00+00:00"}'}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        self.pick_promenadi()
+        expect(self.page.locator("main .status", has_text="Näytöstietoja ei juuri nyt saatu")).to_be_visible()
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.page.locator("main .status", has_text="Visningstiderna kunde inte")).to_be_visible()
+        self.assert_no_orion("after a malformed payload and a language switch")
+
+    def test_a_language_switch_while_the_next_venue_loads_draws_none_of_the_last(self):
+        self.pick_orion()
+        arrived, gate = threading.Event(), threading.Event()
+        Handler.hold = {"area-1004.json": (arrived, gate)}
+        self.addCleanup(lambda: (gate.set(), setattr(Handler, "hold", {})))
+        self.pick_promenadi()
+        self.assertTrue(arrived.wait(10), "Promenadi's file was never requested")
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.page.locator('#langSeg button[data-lang="sv"]')).to_have_attribute("aria-pressed", "true")
+        self.assert_no_orion("mid-load, after a language switch")
+        expect(self.page.locator("main .status", has_text="Laddar visningstider")).to_be_visible()
+        self.page.locator("#chipKids").click()
+        self.assert_no_orion("mid-load, after Lapsille")
+        self.page.locator("#chipKids").click()
+        gate.set()
+        expect(self.page.locator("article.movie", has_text="Porin oma elokuva")).to_be_visible()
+        self.assertEqual(self.orion_on_screen()["links"], 0, "Orion's links beside Promenadi's")
+        expect(self.page.locator("#credit")).to_contain_text("Finnkino")
