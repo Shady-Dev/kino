@@ -2873,6 +2873,16 @@
    },
    "tr": ""
   },
+  "laputa linna taivaalla": {
+   "id": 10515,
+   "img": "data/posters/d9590bac7adca4cc.jpg",
+   "r": 8.0,
+   "s": {
+    "en": "",
+    "fi": "Hayao Miyazakin Laputa - Linna taivaalla valmistui 1986, Tuulen laakson Nausicaän jälkeen, juuri ennen Naapurini Totoroa. Rämäpäinen Pazu pelastaa taivaalta alas leijuvan Sheeta tytön. Kaivoskaupungissa apupoikana huseeraava Pazu unelmoi lentämisestä. Sheeta kantaa kaulassaan kiviriipusta, joka näyttäisi kumoavan painovoiman, joten nuorten unelmilla näyttäisi olevan sama suunta ja päämäärä. Sheeta vain on tietämättään salaperäisen taivaalla leijuvan Laputa –linnan kruununperillinen. Niinpä nuorten kantapäillä on tuota pikaa sankka kaarti junarosvoja, ilmarosvoja, agentteja ynnä muita Miyazakin ällistyttävän mielikuvituksen loihtimia ryökäleitä ja viiksekkäitä karpaaseja. Räjähteitä antaumuksella paiskova sydämellinen rosvopäällikkö – isoäiti on vain yksi tarinan siekailemattomista ja mieleenpainuvan erikoisista hahmoista. Miyazaki ilottelee piirtämällä toinen toistaan jylhempiä masiinoita. Panssarijunat puhkuvat. Antiikkia ja tulevaisuutta avokätisesti yhdistelevät lentovempeleet jahtaavat toisiaan. Laputan mennyttä loistoa murheellisesti kuvastavat soturirobotit poraavat laserkatseellaan läpi valtapelin juonien. Tuho kohtaa monet, mutta elämä on kevyttä niille, joilla on puhdas sydän."
+   },
+   "tr": "https://www.youtube.com/watch?v=6s_wR3uuWec"
+  },
   "lassie palaa kotiin": {
    "id": 657811,
    "img": "data/posters/253c5cbf791e5776.jpg",
@@ -3080,6 +3090,19 @@
     "fi": "Kun Tommin appiukko Johan määrätään sairaskohtauksen jälkeen pakkolepoon, perhe päättää lähteä lepolomalle Espanjan auringon alle. Johanilla on yksi ehto: hän haluaa autonsa mukaan. Tommi lupautuu ajamaan Johanin auton Espanjaan – yhdessä Juhiksen kanssa. Asiat eivät kuitenkaan mene aivan suunnitellusti, ja kun Johanin auto varastetaan, Tommi ja Juhis päättävät selvittää tilanteen omin avuin ja pian sankarimme syöksyvät taas kiihtyvällä vauhdilla katastrofista toiseen."
    },
    "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
+  "lupin iii cagliostron linna": {
+   "id": 15371,
+   "img": "data/posters/eaf7f0e4af7bec52.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "",
+    "fi": "Uransa ehtoopuolella olevan mestarivaras Lupin III:n uusin nerokas huijaus menee mönkään. Kasinolta vohkitut rahasäkit osoittautuivat taidokkaiksi väärennöksiksi! Lupin suuntaa toverinsa Jigenin kanssa Eurooppaan, kaukaiseen Cagliostron valtioon, koston kiilto silmissään. Suunnitelmat suistuvat raiteiltaan, kun parivaljakko kohtaa Clarissen, pulassa olevan kuninkaallisen neidon, joka on vastoin tahtoaan joutumassa naimisiin pahaenteisen kreivi Cagliostron kanssa. Prinsessan pelastaminen ei käy helposti, sillä Lupin ja Jigen – apunaan Lupinin arvaamaton ex-tyttöystävä Fujiko ja miekkamies Goemon – joutuvat raivaamaan tiensä halki ansojen täyttämän linnan, hengenvaarallisen vankityrmän ja ammattisalamurhaajien armeijan! Onnistuuko Lupinin pelastaa tyttö, pysyä poissa arkkivihollisensa tarkastaja Zenigatan kynsistä ja paljastaa Cagliostron linnan salaiset aarteet?"
+   },
+   "tr": "https://www.youtube.com/watch?v=xmKP3zp3Mug",
    "ts": [
     "fi"
    ]
@@ -3508,6 +3531,16 @@
    "ts": [
     "en"
    ]
+  },
+  "naapurini totoro": {
+   "id": 8392,
+   "img": "data/posters/2290ebd3d6a0a635.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Hayao Miyazakin kolmas pitkä elokuva Naapurini Totoro on Studio Ghiblin tuotannon hurmaava peruskivi ja ehkä kaikkein kallisarvoisin elokuva-aarre. Totoro-hahmo on myös koko Ghiblin logo. Totoron nostalginen, 30-luvun Showaan sijoittuva luonnonläheinen maailma ja tarina uuteen taloon muuttavista siskoksista sekä viereisessä metsässä elävistä maagisista karvaturreista sisältää useita Miyazakin tuotannon kantavia teemoja. Totoro on kunnianosoitus luonnonvoimille. Miyazaki kertoo tarinan uuteen kotiin – jossa ainakin melkein kummittelee – ja läheiseen metsään tutustuvien 10- ja 4-vuotiaiden tyttöjen näkökulmasta. Totoro ei ole kiinnostunut aikuisesta pyrkimyksestä järjestykseen tai logiikkaan. Totoro jakaa hyvää mieltä edesvastuuttoman omapäisesti ja mielivaltaisesti. Totoro on kuin säätila, mahdoton ennustaa. Sen mukaan on vain elettävä. Sen viehätysvoimaa ei voi mitenkään kiertää eikä väistää. Totoro on maailmanlaajuinen ilmiö. Kerrankin elokuva joka sopii taatusti kaiken ikäisille."
+   },
+   "tr": "https://www.youtube.com/watch?v=_nv94fL_IA8"
   },
   "naisen kasvot": {
    "id": 76848,
@@ -3955,6 +3988,14 @@
    },
    "tr": ""
   },
+  "opimmeko rakastamaan": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Opimmeko rakastamaan"
+   },
+   "tr": ""
+  },
   "original english coyote vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
@@ -4383,7 +4424,6 @@
     "cine",
     "cinemantsala",
     "helios",
-    "isohannu",
     "jarvelankino",
     "kino123",
     "kinoakseli",
@@ -4573,6 +4613,16 @@
    "ts": [
     "en"
    ]
+  },
+  "prinsessa mononoke": {
+   "id": 128,
+   "img": "data/posters/c69528d99660fdee.jpg",
+   "r": 8.3,
+   "s": {
+    "en": "",
+    "fi": "Vakavasti sairas Prinssi Ashitaka on matkalla kauas itään etsimään parannusta villisikajumalan langettamaan kiroukseen, mutta joutuu yllättäen keskelle metsän eläinten ja raudan takomiseen erikoistuneen Tataraban klaanin välistä sodankäyntiä. Esi-teollinen kaivosyhteisö on vallannut metsää, jota uhkaa kuolema hyväksikäyttäjien kynsissä. Ashitaka kohtaa sotatantereella Sanin eli Prinsessa Mononoken, susien kasvattaman ihmislapsen, joka johtaa metsäneläinten laumoja. Taistelun ohessa Ashitaka törmää salaperäiseen joukkioon, joka haluaa tappaa peurajumala, Shishi-Gamin, koska uskoo siten saavuttavansa kuolemattomuuden. Hayao Miyazakin kiinnostus Japanin esihistoriaan näkyy Prinsessa Mononoken taustalla. Tarina sijoittuu suunnilleen sinne Kurosawan Seitsemän samurain ajankohtaan, mutta Ashitakan edustama pohjoista ja itäistä Japania asuttanut Emishi-heimo eli todellisuudessa Japanissa tuhansia vuosia aiemmin, kunnes katosi läntisen valtakansa Yamato-heimon vallatessa koko saaren. Miyazaki teki elokuvaansa varten paljon tutkimustyötä. Hän vieraili pohjoisessa Aomorin läänissä ja sen kuuluisalla arkeologisella tutkimuspaikalla nimeltä Sannai-maruyama-iseki."
+   },
+   "tr": "https://www.youtube.com/watch?v=I1dHzoRl0sQ"
   },
   "prinssi ja revyytyttö": {
    "id": 24012,
@@ -4919,7 +4969,6 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
-    "isohannu",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -4972,7 +5021,6 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
-    "isohannu",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -5675,6 +5723,16 @@
     "en"
    ]
   },
+  "sydämen kuiskaus": {
+   "id": 37797,
+   "img": "data/posters/421c464214449cb9.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Shizuku on lukuintoinen nuori tyttö viettämässä kesälomaa ennen viimeistä kouluvuotta. Kun hän huomaa yhden nimen, Seiji Amasawa, toistuvan kaikkien lainaamiensa kirjastokirjojen takakannessa hän tajuaa, että joku on lukenut kaiken saman kuin hän. Ensiksi. Viedessään isänsä lounasta Shizuku huomaa kissan matkustavan junassa. Hän päättää seurata kissaa. Kissa johdattaa hänet Seiji Amaswan luo. Shizukun haaveena on tulla kirjailijaksi, Seiji haluaa matkustaa Italiaan ja ryhtyä kuuluisaksi viulunveistäjäksi. Sydämen kuiskaus on heidän rakkaustarinansa. Rakkauden, joka voittaa kaikki esteet. Sydämen kuiskaus perustuu Kissojen valtakunnasta tutun Aoi Hiragin sarjakuvaan. Hayao Miyazaki teki itse kuvakäsikirjoituksen, mutta ohjauksesta vastasi Yoshifumi Kondo . Sydämen kuiskaus jäi pitkän linjan animaattorin ainoaksi ohjaustyöksi. Yoshifumi Kondo teki Studio Ghiblin keulahahmojen Hayao Miyazakin ja Isao Takahatan kanssa läheistä yhteistyötä jo ennen Ghiblin perustamista. Kondo toimi vastaavana animaattorina useissa Ghiblin avainteoksissa – kuten studion ensimmäinen suurhitti Kikin lähettipalvelu, sekä Pom Poko, Porco Rosso ja Prinsessa Mononoke – ja monet arvelivat Kondon nousevan aikaa myöten Ghiblin ykkösohjaajan rooliin. Mutta Kondo kuoli 1998 alle viisikymppisenä sairaskohtaukseen. Sydämen kuiskaus on itsenäinen tarina, mutta siinä on yhtymäkohtia Kissojen valtakuntaan. Se voisi kertoa samasta tytöstä, muutamaa vuotta myöhemmin. Tarinan rakennuspalikoina ovat koulun loppumisen mukanaan tuomat sydämen valinnat, kiihkeä kirjoittamisen himo, viulupajan soitinrakentajien hilpeä pelimannimeininki, ja salaperäinen paksunpuoleinen (mutta ei missään tapauksessa lihava) Muta -kissa, jolla tuntuu olevan jotain tekemistä elävän tuntuisen Kissaparoni -veistoksen kanssa…"
+   },
+   "tr": "https://www.youtube.com/watch?v=J4lXUZTPAXg"
+  },
   "sylvi anna liisa": {
    "r": 0,
    "s": {
@@ -5901,7 +5959,6 @@
    "img": "data/posters/72e28fa6bfda49e3.jpg",
    "kr": "K-16",
    "krs": [
-    "biorex",
     "kinopiispanristi"
    ],
    "r": 6.6,
@@ -5982,7 +6039,6 @@
     "kinoaurora",
     "kinolaika",
     "kinomyyri",
-    "kinoolympia",
     "tapiola"
    ],
    "r": 7.3,
