@@ -2121,3 +2121,16 @@ only: the Swedish text moved to the empty `sv` slot as it was, and `fi` holds th
 Finnish section from the live page read that day (823 and 841 characters). No page
 changed: both films screen outside the pages' four-day window.
 
+### Three Nordic films' mixed Finnish and Swedish text split (2026-09-24)
+
+`beginnings begyndelser` (Cinema Niagara, 2026-09-02), `kuukauden pohjoismainen the last
+paradise on earth` (Kino Iiris, 2026-09-14) and `the love that remains ástin sem eftir er`
+(Niagara, listed today) held the cinema's whole blurb in `fi`: a Finnish section, a `***`
+or `--` line, a Swedish section, as one bare string. Identity: each key is the title the
+cinema published and the text matches the film; the Niagara entry equals film 107's live
+page section for section, read 2026-09-24. Each text was split at its one separator:
+`fi` keeps the Finnish section and the empty `sv` takes the Swedish, prize headlines,
+strand label and source credits dropped. A merge of Niagara's current mixed string over
+the result writes nothing, since both slots are filled; the other two are listed nowhere.
+Niagara still publishes the mixed string for new films: a follow-up for its adapter.
+
