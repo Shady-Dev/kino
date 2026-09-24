@@ -7,8 +7,8 @@ the sitemap -- rather than against the generator's own output, which would only 
 that it agrees with itself.
 
 Off-origin references are pinned at 0. That one is an invariant rather than a measurement:
-`safeAssetUrl` refuses a poster outside `data/posters/`, and README's "no third-party
-requests on a page load" rests on it. The two figures that do move on a data run --
+`safeAssetUrl` refuses a poster outside `data/posters/`, and README's "posters are
+served from this origin" rests on it. The two figures that do move on a data run --
 how many references exist, how many files back them -- are not committed at all;
 `--posters` prints them, and this file checks that it prints them and writes nothing.
 """
@@ -83,8 +83,8 @@ class FiguresTest(unittest.TestCase):
 
     def test_no_poster_reference_leaves_this_origin(self):
         """An invariant, not a measurement, which is why it sits in the committed block
-        and the moving figures do not. A page load reaching no third party is the claim
-        README makes, and `safeAssetUrl` is what holds it up in the client."""
+        and the moving figures do not. Posters served from this origin is the claim README
+        makes, and `safeAssetUrl` is what holds it up in the client."""
         self.assertEqual(self.c["poster_refs_off_origin"], 0)
 
     def test_the_moving_figures_are_not_among_the_committed_ones(self):

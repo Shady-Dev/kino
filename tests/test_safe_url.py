@@ -134,7 +134,7 @@ class SafeUrlTest(unittest.TestCase):
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
 class SafeAssetUrlTest(unittest.TestCase):
     """The poster sink is a different question -- an <img> is a request the browser
-    makes on its own, so the README's claim that a page load reaches no third party
+    makes on its own, so the README's claim that posters are served from this origin
     rests on this one. It answers with a path allowlist, which a control character
     cannot walk out of, but it shares the guard so that the two sinks cannot drift into
     disagreeing about what a URL is."""

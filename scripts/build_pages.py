@@ -18,9 +18,10 @@ Constraints:
 - No third-party requests: inline CSS, the self-hosted Archivo (`/fonts/`) and only
   same-origin posters (`data/posters/...`). A hot-linked poster is skipped. See the
   Privacy section of the README.
-- No JavaScript that renders content. The one script applies the theme: it reads
-  `localStorage["kino-theme"]` before first paint and sets `data-theme`, as the app does;
-  the toggle writes the same key and is hidden when the script did not run.
+- No JavaScript that renders content. Two inline scripts handle the theme: the one in the
+  head reads `localStorage["kino-theme"]` before first paint and sets `data-theme`, as the
+  app does; the one at the end of the body wires the toggle, which writes the same key and
+  is hidden when the scripts did not run. The only other script element is the JSON-LD.
 - The card is the app's card. Film facts (rating, runtime, genres, score) fold from the
   day's screenings by first non-empty value. Language sits on the card when every
   screening shares it and on the screening when they differ (`lang_parts` is the app's

@@ -30,8 +30,9 @@ Where they live. `data/posters/`, with a `card-` prefix, and not a directory of 
 own: the client loads an image only from `data/posters/` (`ASSET_DIR` in index.html) and
 build_pages.py drops any reference outside it, both of them guards against a third-party
 request. A card in `data/cards/` would have been silently refused by one and dropped by
-the other. The prefix is what separates our work from the mirrored files, whose names are
-sha1 of the source URL, and it is what the README's licence note points at.
+the other. The prefix is what separates our work from the mirrored files, named by the
+sha1 of the source URL (Finnkino's by its image UUID), and it is what the README's licence
+note points at.
 
 Readability is the constraint that sets the layout. The smallest the client draws a
 poster is about 72x104 px, so the card is designed at 342x513 (the 2:3 the rest of the

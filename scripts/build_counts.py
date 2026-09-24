@@ -28,7 +28,7 @@ reads them. `--posters` prints them and writes nothing.
 
 Off-origin references stay in the committed block. That figure is an invariant rather than
 a measurement: `safeAssetUrl` in the client refuses a poster outside `data/posters/`, and
-README's claim that a page load reaches no third party rests on it being 0.
+README's claim that posters are served from this origin rests on it being 0.
 
 Run from the repo root.
 """
