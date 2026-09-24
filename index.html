@@ -1889,10 +1889,13 @@
     if(state.horizon && d > state.horizon) return null;
     return d;
   }
-  function buildDays(){
+  // `keep` is the day the list on screen was loaded for. A language switch passes it: the
+  // saved day can differ from it, dropped past this venue's horizon or written by another
+  // tab, and the chips would then move off the list without reloading it.
+  function buildDays(keep){
     daysEl.innerHTML = '';
     const base = fiToday();
-    const saved = savedDay() || base;
+    const saved = (keep && keep >= base ? keep : null) || savedDay() || base;
     // aria-current, not aria-selected: these are buttons that pick a day, not tabs with
     // panels. `date` is the token for "the one in this set that is current".
     const activate = el => {
@@ -4957,13 +4960,16 @@
     document.documentElement.lang = state.lang;
     fiDay = L[state.lang].days;
     searchEl.placeholder = searchHint();
-    buildDays();
+    const shown = state.dateStr;
+    buildDays(shown);
     syncTools();
     // The venue picker, the health line and the footer are built once per load and
     // all carry translated text, so they need an explicit redraw here.
     if(allVenues.length) buildAreaOptions();     // re-sorts cities and redraws the trigger
     if(vwrap.classList.contains('open')) vDraw();
-    if(state.area){ render(); renderTagKey(); }
+    // A day that moved anyway (it had passed) has no list loaded for it yet.
+    if(state.area && state.dateStr !== shown) loadSchedule();
+    else if(state.area){ render(); renderTagKey(); }
     else { renderHome(); syncVenueBtn(); }         // the chooser has no list to redraw
     renderStatus();
     renderContact();

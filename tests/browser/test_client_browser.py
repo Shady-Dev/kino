@@ -751,3 +751,74 @@ class LoadLeavesNoOldVenue(Browser):
         expect(self.page.locator("article.movie", has_text="Porin oma elokuva")).to_be_visible()
         self.assertEqual(self.orion_on_screen()["links"], 0, "Orion's links beside Promenadi's")
         expect(self.page.locator("#credit")).to_contain_text("Finnkino")
+
+
+class LanguageSwitchKeepsTheDay(Browser):
+    """A language switch redraws the day chips and must not move the day under the list.
+
+    `applyLang` rebuilt the chips from the saved day, which `savedDay` drops once it is past
+    the venue's horizon, and then called `render()` on the list loaded for the old day. So
+    6.10. at Orion, then Promenadi (horizon 17.9.), then a switch to Swedish, highlighted
+    today over an empty list saying nothing more was on today, while Promenadi has an 18:00
+    today. A second tab writing the saved day did the same with the list of the day before.
+    """
+
+    def pick_promenadi(self):
+        vq = self.open_picker(); vq.fill("promenadi")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq.press("Enter")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
+
+    def chips(self):
+        return self.page.evaluate("""() => [...document.querySelectorAll('#days .day')].map(b => ({
+            text: b.textContent, active: b.classList.contains('active'),
+            current: b.getAttribute('aria-current')}))""")
+
+    def test_a_day_past_the_new_venue_s_horizon_survives_a_language_switch(self):
+        self.pick_orion()
+        self.page.locator('#days .day[aria-haspopup="dialog"]').click()
+        self.page.locator('.cal-nav[data-mon="1"]').click()
+        self.page.locator('.cal-day[data-day="2026-10-06"]').click()
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.pick_promenadi()
+        expect(self.page.locator("main .status",
+                                 has_text="ohjelmistoa ei ole vielä julkaistu")).to_be_visible()
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.page.locator('#langSeg button[data-lang="sv"]')).to_have_attribute("aria-pressed", "true")
+        expect(self.page.locator("main .status",
+                                 has_text="har inte publicerats ännu")).to_be_visible()
+        active = [c for c in self.chips() if c["active"]]
+        self.assertEqual(len(active), 1, active)
+        self.assertIn("6.10.", active[0]["text"], "the picked day moved under a language switch")
+        self.assertNotIn("Inga fler visningar i dag", self.page.locator("main").text_content())
+
+    def test_a_day_another_tab_saved_does_not_replace_the_one_on_screen(self):
+        self.pick_orion()
+        today = [c for c in self.chips() if c["active"]]
+        self.assertEqual(today[0]["current"], "date")
+        self.assertIn("14.9.", today[0]["text"])
+        # What another tab's pick leaves behind: the same key, a later day.
+        self.page.evaluate("""() => { const p = JSON.parse(localStorage.getItem('kino-prefs') || '{}');
+            p.day = '2026-09-23'; localStorage.setItem('kino-prefs', JSON.stringify(p)); }""")
+        self.page.locator('#langSeg button[data-lang="en"]').click()
+        expect(self.page.locator('#langSeg button[data-lang="en"]')).to_have_attribute("aria-pressed", "true")
+        active = [c for c in self.chips() if c["active"]]
+        self.assertEqual(len(active), 1, active)
+        self.assertIn("14.9.", active[0]["text"], "the chip left the day the list shows")
+        hrefs = self.page.locator("a.stub").evaluate_all("as => as.map(a => a.href)")
+        self.assertTrue(hrefs)
+        self.assertEqual(set(hrefs) - TODAY_URLS, set(), "the list is not today's")
+
+    def test_a_day_that_has_passed_is_reloaded_rather_than_kept(self):
+        """Past midnight with no rollover yet: 14.9. is gone, so the switch moves the chips
+        to the new today, and the list has to be loaded for it rather than kept."""
+        self.pick_orion()
+        self.page.clock.set_system_time(FIXED + datetime.timedelta(days=1))
+        self.page.locator('#langSeg button[data-lang="en"]').click()
+        expect(self.page.locator('#langSeg button[data-lang="en"]')).to_have_attribute("aria-pressed", "true")
+        active = [c for c in self.chips() if c["active"]]
+        self.assertEqual(len(active), 1, active)
+        self.assertNotIn("14.9.", active[0]["text"])
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        hrefs = self.page.locator("a.stub").evaluate_all("as => as.map(a => a.href)")
+        self.assertEqual(set(hrefs) & TODAY_URLS, set(), "14.9.'s list under another day")
