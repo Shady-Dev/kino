@@ -2032,3 +2032,17 @@ emptiness. On the day, no committed provider file listed a stale venue, so the f
 changed no data. `SpentPreviousTest` in `tests/test_run_partial.py`, three venues; the
 shared fixture's kept file moved to a day after the tests' NOW, because its only day had
 been in the past, which is the case this changes. Five mutations, all red.
+
+### Kino Engel declares each synopsis's language (2026-09-24)
+Review finding #6 at c416446fd. `engel.details()` published every film page's synopsis as a
+bare string, which synmerge files as Finnish. Read from an ordinary connection on the day:
+the `BARNSÖNDAGAR` pages carry a Swedish synopsis and the rest a Finnish one, and neither
+kind declares it (`<html lang="en-US">` and `og:locale en_US` on both). `KIELI: Ruotsi` is
+the screening's audio, not the text's. Each text is now placed by `common.syn_language`,
+the classifier kinola, johku, helios, tribe and kuusamotalo already use, and withheld when
+it places nothing. Of the 12 films listed that day, 11 place as Finnish and Gråben vs Acme
+as Swedish. Data repair by provenance: the commit introducing each text, then the carrier
+in that commit's area files. Three `fi` slots held Engel's Swedish (Gråben vs Acme,
+Minioner & Monster, PAW Patrol: Dinosaurie-filmen); all three moved to an empty `sv`, `id`
+and `ts` unchanged. No page changed: the one screening still listed is outside the four-day
+window. `EngelTest` in `tests/test_syn_declared.py`; three mutations, all red.

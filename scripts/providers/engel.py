@@ -30,7 +30,7 @@ import time
 import urllib.error
 from zoneinfo import ZoneInfo
 
-from common import capped, fetch, get_text, resolve_year, weekday_index
+from common import capped, fetch, get_text, resolve_year, syn_language, weekday_index
 
 BASE = "https://kinoengel.fi"
 URL = BASE + "/"
@@ -235,7 +235,7 @@ def parse(page, today=None):
 #
 # The listing carries title, date, time and poster and nothing else. The film page at
 # /elokuva/{slug}/ carries the rating, runtime, genres, languages, original title and
-# the cinema's own Finnish synopsis, so one request per showing film fills in almost
+# the cinema's own synopsis, so one request per showing film fills in almost
 # everything the listing drops. 17 films on the first run, paced.
 #
 # What the film page does **not** have is the showtime table. The rows visible in a
@@ -314,11 +314,14 @@ def details(page):
     syn = SYN_RE.search(page)
     if syn:
         text = _txt(syn.group(1))
-        if len(text) > 40:
+        # Placed per text: the `BARNSÖNDAGAR` pages carry a Swedish synopsis, the rest
+        # Finnish, and no page declares which (read 2026-09-24). Unplaceable is withheld.
+        lang = syn_language(text) if len(text) > 40 else ""
+        if lang:
             # `_syn` is stripped by run.py after synmerge folds it into
             # films-extra.json; a synopsis repeated across every showtime would add
             # tens of kB to the venue file.
-            d["_syn"] = text
+            d["_syn"] = {lang: text}
     return d
 
 
