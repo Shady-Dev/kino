@@ -621,6 +621,15 @@
    },
    "tr": ""
   },
+  "bortglömda ön": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "",
+    "sv": "Jo och Raissa har varit bästa vänner sedan grundskolan men har nu gått ut High School och ska påbörja sina separata livsresor. När de firar sin sista kväll tillsammans, råkar Jo och Raissa hitta en mystisk portal som transporterar dem till den fantastiska ön Nakali, full av de magiska och mytologiska väsen som de hört berättelser om under uppväxten i sina filippinska familjer. En del av de här varelserna blir vänner, andra blir fiender. I sällskap med den välmenande men olyckliga varhunden Raww och ett litet men mäktigt gäng kompisar, måste Jo and Raissa möta Den Fruktade Manananggal, den mest skräckinjagande varelsen på ön. När de upptäcker att priset för att återvända hem är att förlora alla minnen av deras vänskap, måste Jo och Raissa skynda sig att hitta ett sätt att lämna ön innan de helt glömmer bort varandra, för evigt."
+   },
+   "tr": ""
+  },
   "bram stoker s dracula": {
    "id": 6114,
    "img": "data/posters/4c0ca53fae44a60e.jpg",
@@ -6032,6 +6041,14 @@
    "ts": [
     "en"
    ]
+  },
+  "the music lovers": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ylistettyjä säveltäjämuotokuvia televisioon BBC:lle ohjannut Ken Russell pääsi uransa huipulla jatkamaan lempiaiheidensa parissa valkokankaalla. Pjotr Tšaikovskin (Richard Chamberlain) keskeisiin vuosiin 1874–76 sijoittuva pakahduttava melodraama etenee takaumien, painajaisten ja fantasiajaksojen kautta. Russell varmisti United Artistsin rahoituksen kuvailemalla elokuvan tarinaksi homoseksuaalista, joka rakastuu nymfomaaniin."
+   },
+   "tr": ""
   },
   "the odyssey": {
    "id": 1368337,

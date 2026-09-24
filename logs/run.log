@@ -1,16 +1,16 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-24: 284 showtimes
+[schedule] 2026-09-24: 72 showtimes
 [schedule] 2026-09-25: 401 showtimes
 [schedule] 2026-09-26: 439 showtimes
 [schedule] 2026-09-27: 423 showtimes
-[schedule] 2026-09-28: 344 showtimes
-[schedule] 2026-09-29: 341 showtimes
-[schedule] 2026-09-30: 345 showtimes
-[tmdb] no TMDB match (3): Mysteerinäytös | NT LIVE: All My Sons | Salatut elämät 5000 -erikoisnäytös
+[schedule] 2026-09-28: 340 showtimes
+[schedule] 2026-09-29: 338 showtimes
+[schedule] 2026-09-30: 341 showtimes
+[tmdb] no TMDB match (2): Mysteerinäytös | NT LIVE: All My Sons
 [tmdb] 0 new lookups, 0 re-checks, cache 80, 74 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 54 film entries
+[films] 53 film entries
 [attrs] dropped, neither format nor language (12): Ennakko | Erikois | IV | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
