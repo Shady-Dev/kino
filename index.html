@@ -1632,10 +1632,20 @@
   };
 
   /* ---------- persisted prefs ---------- */
+  // --- prefs: pure, extracted verbatim by tests/prefs_harness.js ---
+  // Anything stored that is not a plain object reads as {}. `null` made boot's
+  // `prefs.get().lang` throw on every load, and `set` could not overwrite it, because
+  // Object.assign(null, ...) throws inside its own try. An array or a number was kept too.
   const prefs = {
-    get(){ try{ return JSON.parse(localStorage.getItem('kino-prefs')||'{}'); }catch(e){ return {}; } },
+    get(){
+      try{
+        const v = JSON.parse(localStorage.getItem('kino-prefs')||'{}');
+        return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+      }catch(e){ return {}; }
+    },
     set(p){ try{ localStorage.setItem('kino-prefs', JSON.stringify(Object.assign(prefs.get(), p))); }catch(e){} }
   };
+  // --- end prefs ---
 
   /* ---------- date chips ---------- */
   let fiDay = L[state.lang].days;
