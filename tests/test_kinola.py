@@ -812,6 +812,109 @@ class SynopsisParagraphTest(unittest.TestCase):
         self.assertEqual(K.film_facts(page)["syn"], "")
 
 
+def kilta_page(title, original, body):
+    """Kilta's film-page shape as read 2026-09-24: the SVG logo (whose `<path>` once read
+    as a paragraph), the menu, the title block, the description, then the info block."""
+    logo = "<svg viewBox='0 0 9 9'><path d='M71.5 46.9C64.1 46.9 58.1 52.9'></path></svg>"
+    menu = ("<nav><ul>" + "".join(f"<li><a href='/x/'>{w}</a></li>"
+                                   for w in ("Etusivu", "Näytökset", "Tietosuojaseloste"))
+            + "</ul></nav>")
+    return (f"<html><body><header>{logo}{menu}</header><main><article>"
+            f"<div class='page-title'><h1>{title}</h1><em>{original}</em></div>{body}"
+            f"<div class='hide-for-l-up'><div class='movie-info'><dl class='info'>"
+            f"<div class='info-wrapper'><dt>Kieli</dt><dd>ruotsi</dd></div></dl></div></div>"
+            f"</article></main></body></html>")
+
+
+class KiltaSynopsisTest(unittest.TestCase):
+    """Kilta's description is split into sections, each kept whole and placed by
+    `common.syn_language`. Longest-paragraph selection filed the Swedish paragraph of two
+    Nordic films as Finnish on 2026-09-24: Kilta writes the Finnish synopsis in two
+    paragraphs and the Swedish in one longer one, after a `---` line."""
+
+    FI_A = ("Ane ja Thomas ovat keski-ikäiset kahden kouluikäisen lapsen vanhemmat, jotka "
+            "ovat päättäneet erota, mutta eivät ole vielä kertoneet siitä lapsilleen.")
+    FI_B = ("Suunnitelmat menevät uusiksi, kun Ane saa yllättäen aivoinfarktin. Thomas jää "
+            "hoitamaan häntä, ja vanha arki palaa hetkeksi, vaikka kumpikaan ei tiedä, mitä "
+            "he oikeastaan haluavat.")
+    FI_C = "Elokuva sai ensi-iltansa Berliinin elokuvajuhlien Panorama-sarjassa."
+    SV = ("Ane och Thomas är båda inställda på skilsmässa, och Thomas har redan köpt en "
+          "lägenhet tillsammans med sin nya partner. Ändå kommer de sig inte för att berätta "
+          "för barnen, och huset ska säljas. Så länge lunkar vardagen på, tills Ane får en "
+          "stroke och tillvaron för alla vänds upp och ner.")
+
+    def test_begyndelser_keeps_the_whole_finnish_synopsis_and_files_the_swedish_as_sv(self):
+        page = kilta_page("Begyndelser", "Begyndelser",
+                          f"<p><strong>Lokakuun Kuukauden pohjoismainen elokuva</strong></p>"
+                          f"<p>{self.FI_A}</p><p>{self.FI_B}</p><p>{self.FI_C}</p>"
+                          f"<p>---</p><p>{self.SV}</p>")
+        self.assertGreater(len(self.SV), len(self.FI_B))
+        f = K.film_facts(page, "kilta")
+        self.assertEqual(f["syn"], {"fi": f"{self.FI_A} {self.FI_B} {self.FI_C}",
+                                    "sv": self.SV})
+        self.assertEqual(f["syn_withheld"], 0)
+
+    def test_knyckertz_drops_the_credits_and_files_both_sections(self):
+        fi = ("Vorosen perheen hyppysiä syyhyttää, kun kaupungin museoon on tulossa "
+              "arvokas näyttely. Samaan aikaan poliisilla on selvittelyn alla kadonnut koira, "
+              "ja jäljet johtavat Vorosen perheeseen, joka joutuu valitsemaan.")
+        sv = ("Familjen Knyckertz brinner av iver när stadens museum ska få en värdefull "
+              "utställning. Samtidigt utreder polisen en försvunnen hund, och spåren leder "
+              "till familjen, som måste välja om de ska lämna tillbaka den eller inte.")
+        page = kilta_page("Vorosen perhe ja kyttäjahti", "Knyckertz &amp; snutjakten",
+                          f"<p><strong>Marraskuun Kuukauden pohjoismainen elokuva</strong></p>"
+                          f"<p>{fi}</p><p>Lähde: Espoo Ciné</p><p>---</p><p>{sv}</p>"
+                          f"<p>Källa: Walhalla</p>")
+        self.assertEqual(K.film_facts(page, "kilta")["syn"], {"fi": fi, "sv": sv})
+
+    def test_a_strand_film_loses_its_notices_and_keeps_its_synopsis(self):
+        syn = ("Elokuvan alkuperäistä nimeä myötäillen <strong>O.S.S. 117</strong> pääsee "
+               "irti, kun kansainvälinen juoni vie agentin Brasiliaan etsimään kadonnutta "
+               "mikrofilmiä, ja matkan varrella hän kohtaa niin natseja kuin hippejäkin.")
+        page = kilta_page(
+            "Agentti O.S.S. 117 iskee", "OSS 117 se déchaîne",
+            "<p><strong>KUVIn aluesarja tekee paluun kevään tauon jälkeen!</strong></p>"
+            "<p><strong>Syyssarja 2026</strong> alkaa Kino Killan syntymäpäivänä 28.9. ja "
+            "jatkuu marraskuun viimeiselle viikolle.</p>"
+            "<p><strong>Maanantaisin klo 19.30 arkiston aarteita, liput 9/5€.</strong></p>"
+            "<p><strong>Tutustu aluesarjoihin täältä</strong>: "
+            "<a href='https://kavi.fi/aluesarjat/'>https://kavi.fi/aluesarjat/</a></p>"
+            f"<p>{syn}</p>")
+        self.assertEqual(K.film_facts(page, "kilta")["syn"], {"fi": K._txt(syn)})
+
+    def test_notices_before_asterisks_go_and_a_bold_opening_sentence_stays(self):
+        """Kinokopla's pages put the ticket notices before `***`; Kolme väriä opens its
+        synopsis with the title in bold, which is the film's own sentence."""
+        first = ("<strong><em>Kolme väriä: Sininen</em></strong> on Krzysztof Kieślowskin "
+                 "väritrilogian ensimmäinen osa.")
+        rest = ("Auto suistuu tieltä, ja kaksi sen kolmesta matkustajasta kuolee. Julie "
+                "menettää onnettomuudessa miehensä ja tyttärensä, ja hän yrittää aloittaa "
+                "elämänsä alusta ilman muistoja, joita hän ei halua kantaa mukanaan.")
+        page = kilta_page("Kolme väriä: Sininen", "Trois couleurs: Bleu",
+                          "<h3><strong>Kuukauden klassikko!</strong></h3>"
+                          "<p>Yksittäisliput opiskelijoille 7€ ja muille 8 €.</p><p>***</p>"
+                          f"<p>{first}</p><p>{rest}</p>"
+                          "<p>Liput maksavat 9 € ja opiskelijoille 7 €, ja näytökseen mahtuu "
+                          "vain rajallinen määrä katsojia, joten paikat kannattaa varata.</p>")
+        f = K.film_facts(page, "kilta")
+        self.assertEqual(f["syn"], {"fi": f"{K._txt(first)} {rest}"})
+        self.assertEqual(f["syn_withheld"], 0)
+
+    def test_a_section_no_language_settles_is_withheld_and_counted(self):
+        page = kilta_page("Nimetön", "Untitled",
+                          f"<p>{self.FI_A} {self.FI_B}</p><p>---</p>"
+                          f"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
+                          f"eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>")
+        f = K.film_facts(page, "kilta")
+        self.assertEqual(f["syn"], {"fi": f"{self.FI_A} {self.FI_B}"})
+        self.assertEqual(f["syn_withheld"], 1)
+
+    def test_kilta_publishes_the_placed_value_unchanged(self):
+        """Kilta sets no `declare_syn`, so `syn_value` hands the placed dict on as is."""
+        placed = {"fi": self.FI_A, "sv": self.SV}
+        self.assertIs(K.syn_value(KILTA, placed), placed)
+
+
 # ---------------------------------------------------------------- overrides
 
 class OverrideTest(unittest.TestCase):

@@ -185,6 +185,25 @@ Implementation status: `SYN_RE` requires `<p` followed by whitespace or `>`, and
 synopsis is the longest paragraph over 120 characters. Tests: `SynopsisParagraphTest` in
 `tests/test_kinola.py`.
 
+## Kilta's description sections (read 2026-09-24, all 40 listed films)
+
+Findings, from each film page read once as a visitor:
+
+- The description is the `<p>` run inside `article` between `div.page-title` and the info
+  block `div.hide-for-l-up`; one page opens it with an `<h3>` heading.
+- A paragraph of only `---` or `--` separates the Finnish section from a Swedish one (and
+  on Dialogpolisen an English one); `***` separates Kinokopla's ticket notices from the
+  synopsis.
+- Notices: 55 paragraphs bold throughout, nearly all headings and strand lines (three are
+  one-line taglines or a content sentence, which the rule also drops). Of 63 paragraphs
+  that open bold without being bold throughout, most are synopsis text starting with the
+  film's title; the notices among them quote a price, name Kino Kilta or carry a URL.
+- Credits: "Lähde: ..." and "Källa: ...".
+- Result with the section rule: 31 pages Finnish only, 3 Finnish and Swedish, 1 Finnish,
+  Swedish and English, 5 withheld as no language settled (one is the RetkiKino programme).
+
+Implementation status: `kilta_synopsis` in `kinola.py`; tests in `KiltaSynopsisTest`.
+
 ## Build requirements
 
 Recorded 2026-09-15 with the policy, and **not implemented**. These are what the adapter

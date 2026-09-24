@@ -177,6 +177,7 @@ from zoneinfo import ZoneInfo
 from common import (EmptyProgramme, budget_or_raise, fetch, get_text, resolve_year,
                     syn_language, weekday_index)
 from gilda import LANG
+from synmerge import is_note
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -300,6 +301,17 @@ OG_IMAGE_RE = re.compile(r'<meta[^>]*property=["\']og:image["\'][^>]*content=["\
 # drawn with paths, and `<p[^>]*>` read from it through the site menu to the first `</p>`.
 SYN_RE = re.compile(r'<p(?:\s[^>]*)?>(.*?)</p>', re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
+# Kilta's film page, read on all 40 listed films 2026-09-24 (docs/research/kinola.md).
+# The description is the <p> run between the page title and the info block; a paragraph
+# of only dashes or asterisks separates the Finnish section from a Swedish or English
+# one, or the notices from the synopsis. Dropped as not the film's own text: a paragraph
+# bold throughout (headings, strand lines), one quoting a price, naming the cinema or
+# carrying a URL, and a source credit.
+KILTA_SEP_RE = re.compile(r"^(?:-{2,}|\*{3,})$")
+KILTA_STRONG_RE = re.compile(r"<strong[^>]*>(.*?)</strong>", re.S | re.I)
+KILTA_NAME_RE = re.compile(r"\b(?:Kilta|Killa)")
+KILTA_URL_RE = re.compile(r"https?://|www\.", re.I)
+KILTA_CREDIT_RE = re.compile(r"^(?:Lähde|Källa|Source)\s*:", re.I)
 
 
 def _txt(s):
@@ -578,8 +590,45 @@ def _lang(facts):
     return ", ".join(out)
 
 
-def film_facts(page):
-    """-> {labels, rating, len, genres, img, syn} for one film page."""
+def kilta_synopsis(page):
+    """-> ({lang: text}, withheld) for a Kilta film page.
+
+    Each section is kept whole, its paragraphs joined, and placed by
+    `common.syn_language`; a section no language settles is withheld and counted, never
+    filed as Finnish. Longest-paragraph selection put a Nordic film's Swedish paragraph in
+    the Finnish slot on 2026-09-24, because Kilta writes its Finnish synopsis in two."""
+    i = page.find("page-title")
+    if i < 0:
+        return {}, 0
+    start = page.find("</div>", i)
+    end = page.find("hide-for-l-up", start)
+    region = page[start:end if end > 0 else len(page)]
+    sections = [[]]
+    for raw in SYN_RE.findall(region):
+        text = _txt(raw)
+        if not text:
+            continue
+        if KILTA_SEP_RE.match(text):
+            sections.append([])
+            continue
+        bold = _txt(" ".join(KILTA_STRONG_RE.findall(raw)))
+        if (text == bold or is_note(text) or KILTA_NAME_RE.search(text)
+                or KILTA_URL_RE.search(text) or KILTA_CREDIT_RE.match(text)):
+            continue
+        sections[-1].append(text)
+    out, withheld = {}, 0
+    for body in (" ".join(sec) for sec in sections if sec):
+        lang = syn_language(body)
+        if not lang:
+            withheld += 1
+            continue
+        out[lang] = f"{out[lang]} {body}" if lang in out else body
+    return out, withheld
+
+
+def film_facts(page, template=None):
+    """-> {labels, rating, len, genres, img, syn} for one film page. On Kilta `syn` is the
+    {lang: text} of `kilta_synopsis`, and `syn_withheld` counts what it could not place."""
     facts = labels(page)
     head = _head(page)
     dur = _minutes(facts.get("kesto", "")) or _minutes(head)
@@ -588,11 +637,14 @@ def film_facts(page):
     # with the strand's notice and Laika's with a ticket notice, both long enough to pass.
     syn = max((t for t in map(_txt, SYN_RE.findall(page)) if len(t) > 120),
               key=len, default="")
+    withheld = 0
+    if template == "kilta":
+        syn, withheld = kilta_synopsis(page)
     return {"labels": facts, "rating": _rating(page, head),
             "len": dur,
             "genres": facts.get("lajityyppi", ""),
             "img": (og.group(1) or og.group(2)) if og else "",
-            "syn": syn, "lang": _lang(facts)}
+            "syn": syn, "syn_withheld": withheld, "lang": _lang(facts)}
 
 
 def load_overrides(path=None):
@@ -674,7 +726,8 @@ def parse(site, listing, pages, overrides=None):
     overrides = {} if overrides is None else overrides
     venue = site["venues"][0]
     rows = TEMPLATES[site["template"]](listing, site)
-    facts_by_slug = {slug: film_facts(html) for slug, html in pages.items()}
+    facts_by_slug = {slug: film_facts(html, site.get("template"))
+                     for slug, html in pages.items()}
     listed = {e["slug"] for e in rows if e["slug"]}
     shows, seen = [], set()
     om = {"non_film_films": set(), "non_film_shows": 0,
@@ -734,6 +787,8 @@ def parse(site, listing, pages, overrides=None):
                 row["_syn"] = syn
             else:
                 om["syn_unplaced"].add(e["title"])
+        if facts.get("syn_withheld"):
+            om["syn_unplaced"].add(e["title"])
         shows.append(row)
     shows.sort(key=lambda s: s["start"])
     return {venue["id"]: shows}, om
