@@ -880,6 +880,42 @@ Tests: every adapter's own file, on edited copies of its fixture, each reproduce
 before its fix; `test_empty_programme.py` and `test_cloud_pool.py` for the runner, four
 mutations red there. Every mutation across the bundle went red; none VOID.
 
+### Empty-state gaps closed (2026-09-24)
+The three follow-ups "An empty programme clears withdrawn screenings" left open. In each,
+one venue was published confirmed empty because its own rows stopped parsing, while another
+venue on the same site parsed and kept the site green.
+
+- **Nexxo** (eddb4f62a): a roomed venue with no row, while the payload carries rows in
+  rooms no venue owns, is left out. A moved roomId and a new town beside a town between
+  visits cannot be told apart.
+- **Alatalo** (2015955b0): the digit check runs per town. A town with a date or a time under
+  its own heading, the heading line included, and no row placed is left out. So is every
+  empty town while a line sits under a heading no declared town owns, which closes an
+  inflected heading vouching its own town empty. `EmptyProgramme` still needs no digit
+  anywhere below the first town heading.
+- **Kuvakukko** (45f4f5600): a cinema with no row is confirmed empty only when no line in
+  its section opens with `Klo` and a digit, a weekday and `D.M`, or `D.M.`.
+
+Left out, never a site failure, in all three. run.py keeps the venue's file while it has a
+day ahead and publishes it empty as unverified after that; the provider reads `partial`.
+Failing the site would withhold the other venues' screenings over one venue's rows, and
+Alatalo's hand-typed page already took this line for unplaced `Klo` rows (329fed478).
+Kuvakukko's "days listed and no row read" moved from a site failure to the same rule. The
+cost: the run stays green, and the signal is the health line and the log line.
+
+Genuine empty states kept: Kino Metso's three empty towns, with no unclaimed room in the
+committed log; Toholampi, absent from the Alatalo page read 2026-09-24 with nothing on it
+unaccounted for; a Manttu section holding only its notes, as read the same day. Toholampi
+is confirmed by its absence from the operator's whole programme, not by a heading with
+nothing under it. Reads: [docs/research/empty-states.md](../research/empty-states.md).
+
+tribe.py and vpk.py publish one venue per site, so the gap cannot occur there; neither was
+changed.
+
+Tests: `test_nexxo_rooms.py`, `test_alatalo.py`, `test_kuvakukko.py`, on edited copies of
+each fixture, two venues or more in each. Twenty mutations red, none VOID; eight were VOID
+on the first pass and got the tests that now turn them red.
+
 ### A screening note is not a synopsis (2026-09-03)
 Found by an external review: Cinema Niagara's sheet for "Keltaiset kirjeet" opened with
 Gilda's senior-screening paragraph, its price and its coffee.

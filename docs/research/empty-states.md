@@ -13,6 +13,9 @@ clears withdrawn screenings".
   JATKUU SYYSKUUSSA` under each. In both, every digit on the page (price line, "75
   vuotta", a phone number) sits above the first town heading, and below the headings only
   non-programme lines follow. The adapter's no-digit check is built on this.
+- **Alatalo**, the listing, live, 2026-09-24: HTTP 200. Four town headings, Pudasjärvi,
+  Haapajärvi, Kiuruvesi and Kemijärvi, each with dated rows; Toholampi is not on the page.
+  Below Kemijärvi only the footer, with no digit. Parsed to 13 screenings, Toholampi empty.
 - **Heureka**, the calendar page the adapter reads, live, 2026-09-24: HTTP 200, 24 calendar
   items, 6 in the planetarium category, 28 exceptions. Every item and exception carries all
   seven weekday keys as lists, which is the shape the empty-window check requires. It
@@ -21,6 +24,10 @@ clears withdrawn screenings".
   näytökset", no longer the "viikolopun" the adapter's comment records. Two films with
   screenings on la 26.9 and su 27.9; every date and clock on the page is inside the
   listing paragraphs, so the new date-or-clock check does not fire on a populated page.
+- **Kuvakukko**, the programme page, live, 2026-09-24: HTTP 200, 33 Kuopio and 9 Manttu
+  screenings. Besides its days, Kuopio's section holds one line, when the next week is
+  published; Manttu's holds three, when the next weekend is published, the address and the
+  ticket line. None opens with `Klo`, a weekday and a date, or a date.
 - **Kino Tapiola**, the committed 2026-09-05 fixture: the `filter-no-results` phrase is on
   the populated listing, for the client-side filter. It is not an empty state.
 
@@ -29,16 +36,15 @@ clears withdrawn screenings".
 - A site whose empty state has never been seen fails the run on a genuinely empty week.
   That is the intended direction: red with old data kept, rather than green with real
   screenings deleted.
+- Toholampi's absence reads as the town having nothing on because the page is the
+  operator's whole programme. A heading typed another way would read the same, which is
+  why no empty town is confirmed while a line sits under a heading no town owns.
 
 ## Open questions
 
 - What these sites render with nothing on: Julia, Kino Vaakuna, Kino Kirkkonummi, the four
   TMB cinemas, Bio-Kaari, Bio Savoy, Iso-Hannu, Kino Tapiola, Kinotour, Kuvakukko. Heureka's
   paused calendar: ended runs left in place, or the planetarium items removed.
-- Three gaps left inside the rule, as follow-ups (decided 2026-09-24): a Nexxo town whose
-  room alone is renumbered while another town still matches is published empty; one
-  Alatalo or Kuvakukko venue whose format changes while the other venues parse is
-  published empty; Alatalo has no per-town digit check that would close its half.
 
 ## Implementation status
 
