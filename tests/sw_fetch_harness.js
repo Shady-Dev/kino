@@ -34,8 +34,12 @@ function run(cases) {
   // put() settles on a macrotask, not inline: a real Cache write is asynchronous work
   // that outlives the response, and an inline stub would let a fire-and-forget write
   // "finish" before the harness could model the worker being terminated.
+  // `putRejects` models a full storage quota: the write is refused, as a real
+  // Cache.put rejects with QuotaExceededError.
+  const failPut = cases.some(c => c.putRejects);
   const cacheObj = {
-    put: (req, res) => new Promise(resolve => setImmediate(() => {
+    put: (req, res) => new Promise((resolve, reject) => setImmediate(() => {
+      if (failPut) return reject(new Error('QuotaExceededError'));
       stored.push(String(req.url || req));
       resolve();
     })),
@@ -132,6 +136,10 @@ function run(cases) {
       cached: [[`${ORIGIN}/data/area-x.json`, response(200, 'old')]] },
     { name: 'check_first_200', url: `${ORIGIN}/data/area-x.json`, status: 200 },
     { name: 'check_first_offline', url: `${ORIGIN}/data/area-x.json`, status: 'offline' },
+    // A write the storage refuses: the answer still stands.
+    { name: 'put_fails_first', url: `${ORIGIN}/data/area-x.json`, status: 200, putRejects: true },
+    { name: 'put_fails_cached', url: `${ORIGIN}/data/area-x.json`, status: 200, putRejects: true,
+      cached: [[`${ORIGIN}/data/area-x.json`, response(200, 'old')]] },
   ];
 
   for (const c of cases) {

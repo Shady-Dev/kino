@@ -100,6 +100,18 @@ class ServiceWorkerCacheTest(unittest.TestCase):
         self.assertTrue(r["rejected"], "the page still sees the failure")
         self.assertEqual(r["posted"], [{"checked": "/data/area-x.json", "ok": False}])
 
+    def test_a_refused_cache_write_still_answers_the_page(self):
+        """Storage full: put() rejects. The first fetch's 200 used to reach the page as a
+        network error, and a cached file lost its check. The answer stands, nothing is
+        stored, and `fresh` is withheld because nothing newer is in the cache."""
+        r = self.results["put_fails_first"]
+        self.assertFalse(r["rejected"], "a 200 turned into a network error")
+        self.assertEqual(r["stored"], [])
+        self.assertEqual(r["posted"], [{"checked": "/data/area-x.json", "ok": True}])
+        r = self.results["put_fails_cached"]
+        self.assertEqual(r["body"], "old")
+        self.assertEqual(r["posted"], [{"checked": "/data/area-x.json", "ok": True}])
+
     def test_only_data_files_are_reported(self):
         for name in ("poster_200", "page_200"):
             with self.subTest(name):

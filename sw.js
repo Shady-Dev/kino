@@ -3,7 +3,7 @@
 // Data JSON is served from cache at once and refreshed behind, because waiting on the
 // network is the largest launch cost on a slow connection and the page reports its
 // data's age (IDEAS, 2026-08-29). v73-v76 are reserved by an unmerged branch.
-const CACHE = 'leffavuoro-v252';
+const CACHE = 'leffavuoro-v253';
 
 // This app's own caches and nothing else. The sweep below used to delete every key it
 // did not recognise, which on a shared origin is somebody else's storage.
@@ -50,10 +50,17 @@ self.addEventListener('fetch', e => {
       // cache:'no-cache' revalidates with the origin instead of the browser's HTTP cache.
       // Pages serves max-age=600, so a plain fetch() was handed the stale body the HTTP
       // cache held and wrote it back here; the copy renewed itself indefinitely.
+      // A write that fails (storage full) must not fail the answer: the page asked for the
+      // file and the network has it. It only means nothing newer is in the cache, so
+      // `fresh`, which tells the page to re-read the cache, is withheld (audit K11).
+      let stored = false;
       const refresh = fetch(new Request(e.request, { cache: 'no-cache' })).then(async r => {
         if (r.ok) {
-          const c = await caches.open(CACHE);
-          await c.put(e.request, r.clone());
+          try {
+            const c = await caches.open(CACHE);
+            await c.put(e.request, r.clone());
+            stored = true;
+          } catch (_) {}
         }
         return r;
       });
@@ -65,8 +72,8 @@ self.addEventListener('fetch', e => {
         for (const cl of await self.clients.matchAll({ type: 'window' })) cl.postMessage(msg);
       };
       e.waitUntil(refresh.then(
-        r => tell(r.ok && cached ? { fresh: url.pathname, checked: url.pathname, ok: true }
-                                 : { checked: url.pathname, ok: r.ok }),
+        r => tell(r.ok && cached && stored ? { fresh: url.pathname, checked: url.pathname, ok: true }
+                                           : { checked: url.pathname, ok: r.ok }),
         () => tell({ checked: url.pathname, ok: false })).catch(() => {}));
       return cached || refresh;
     })());
