@@ -1163,6 +1163,72 @@ class MalformedStoredPrefsOnAPhone(MalformedStoredPrefs):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class MetadataAfterAFailedRead(Browser):
+    """A genre or title map that failed to load is read again on the next resume.
+
+    `ensureGenres` stored `{}` on a failed read and `ensureFilms` stored `{}` too, so for the
+    life of the tab every card kept the provider's own genre strings and an English reader
+    saw every Finnkino film under its Finnish title; films.json was never read again even
+    when it had loaded (audit K12, 2026-09-25). The fixture serves neither file at boot. A
+    resume past the ten-minute refresh serves both: Orion's "Oasis: Don" publishes no
+    genre string and gains TMDB's "Seikkailu", and Promenadi's film its English title.
+    """
+
+    GENRES = (ROOT / "data/tmdb-genres.json").read_bytes()
+    FILMS = json.dumps({"films": {"promenadi-only-film": {"t": {"en": "Pori's Own Film"}}}}
+                       ).encode("utf-8")
+
+    def setUp(self):
+        Handler.fail = {"tmdb-genres.json", "films.json"}
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def resume(self):
+        Handler.fail = set()
+        Handler.body = {"tmdb-genres.json": self.GENRES, "films.json": self.FILMS}
+        self.page.clock.set_system_time(FIXED + datetime.timedelta(minutes=11))
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+
+    def test_the_genre_names_arrive_on_the_next_resume(self):
+        self.pick_orion()
+        oasis = self.page.locator("#main article.movie", has_text="Oasis")
+        expect(oasis).to_have_count(1)
+        self.assertNotIn("Seikkailu", oasis.text_content())
+        self.resume()
+        expect(oasis).to_contain_text("Seikkailu")
+
+    def test_the_english_titles_arrive_on_the_next_resume(self):
+        self.page.goto(self.origin + "/index.html?area=1004&lang=en")
+        film = self.page.locator("#main article.movie h2.title")
+        expect(film.first).to_have_text("Porin oma elokuva")
+        self.resume()
+        expect(film.first).to_have_text("Pori's Own Film")
+
+    def test_a_sheet_opened_later_reads_the_titles_again(self):
+        """No resume: the sheet asks for films.json itself, and a failed boot read is no
+        longer an answer it accepts."""
+        self.page.goto(self.origin + "/index.html?area=1004&lang=en")
+        film = self.page.locator("#main article.movie h2.title a")
+        expect(film.first).to_have_text("Porin oma elokuva")
+        Handler.fail = set()
+        Handler.body = {"films.json": self.FILMS}
+        film.first.click()
+        expect(self.page.locator("#sheetTitle")).to_have_text("Pori's Own Film")
+
+    def test_a_sheet_opened_while_the_titles_still_fail_opens_in_finnish(self):
+        """films.json stays unread, so the map is null: the sheet reads it as empty."""
+        self.page.goto(self.origin + "/index.html?area=1004&lang=en")
+        film = self.page.locator("#main article.movie h2.title a")
+        film.first.click()
+        expect(self.page.locator("#sheetTitle")).to_have_text("Porin oma elokuva")
+        expect(self.page.locator(".sheet-body a.stub").first).to_be_visible()
+
+
+class MetadataAfterAFailedReadOnAPhone(MetadataAfterAFailedRead):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class ChooserNote(Browser):
     """The chooser's note is drawn in the language on screen.
 

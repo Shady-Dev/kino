@@ -1293,8 +1293,10 @@
   let genreNames = null;
   async function ensureGenres(){
     if(genreNames) return genreNames;
+    // A failed read is not remembered: `{}` here kept every card on the provider's own
+    // genre strings for the life of the tab. The next resume asks again (audit K12).
     try { genreNames = await fetchJSON('data/tmdb-genres.json'); }
-    catch(_) { genreNames = {}; }
+    catch(_) { return {}; }
     // The search haystack is memoised per show and includes genre names, so it has to be
     // thrown away once the maps arrive -- otherwise a search typed before the fetch
     // finished would keep matching titles only.
@@ -1310,10 +1312,14 @@
     return (m.genres || '').replace(/\s+,\s*/g, ', ').trim();
   };
 
-  async function ensureFilms(){
-    if(films !== null) return;
+  // `again` re-reads a map already held, which a resume does in English: films.json was
+  // read once per tab. A failed read keeps what is held, and with nothing held the next
+  // call tries again; `{}` here left every Finnkino film under its Finnish title in
+  // English for the life of the tab (audit K12).
+  async function ensureFilms(again){
+    if(films !== null && !again) return;
     try{ films = (await fetchJSON('data/films.json')).films || {}; }
-    catch(e){ films = {}; }
+    catch(e){ /* kept as it was */ }
   }
   const L = {
     fi:{ today:'Tänään', other:'Muu', days:['Su','Ma','Ti','Ke','To','Pe','La'],
@@ -4528,8 +4534,9 @@
     const sample = all[0] || state.shows.find(s => s.eventId === fid) || {};
     // In a combined view eventId is the cross-chain merge key, so films.json (keyed by
     // Finnkino's filmId) has to be looked up through the show's own id.
-    const native = all.map(s => s._eid).find(id => id && films[id]) || sample._eid;
-    let f = films[fid] || films[native] || {};
+    const fm = films || {};                  // null when films.json has not been read
+    const native = all.map(s => s._eid).find(id => id && fm[id]) || sample._eid;
+    let f = fm[fid] || fm[native] || {};
     if(!f.s && sample.title){
       const ex = await extra.ensure();
       if(superseded()) return;
@@ -5131,6 +5138,10 @@
       await fetchVenueLists();       // ages and horizons, without touching the picker
       renderTagKey();
     } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
+    // Both maps a boot could have failed to read, and films.json's English titles move
+    // with Finnkino's programme; neither was read again in a resumed tab.
+    await ensureGenres();
+    if(state.lang === 'en') await ensureFilms(true);
     await loadSchedule({ refetch: true });
     held.forEach(k => { if(k !== state.area) delete jsonCache[k]; });
     refreshOpenSheet();
