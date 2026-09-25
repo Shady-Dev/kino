@@ -2437,3 +2437,17 @@ Measured: the Finnkino cache held no weak entry on 2026-09-25, so no request cou
 today. Tests: `test_finnkino_weak_retry.py`, 12 tests; 12 mutations, all red, the sweep
 removed alone among them (7 red). Needs a local run from an ordinary connection to be
 exercised live.
+
+### "(Neulekino)" comes off the TMDB search string (2026-09-25)
+
+Elokuvateatteri Star published its knitting screening as "Presidentin kyyditys
+(Neulekino)" beside the plain title, and the row drew no TMDB match while the plain one
+matched 1412214 (Samuli Valkama, 87 min, the runtime Star publishes for both). That made
+`test_tmdb_matching.PublishedCoverageTest` fail on the committed data. `PAREN_NOISE` now
+takes a bracketed "(Neulekino)" off the search string only; the published title, the cache
+key and films-extra's key keep it. It is not in `strands.EVENT_PREFIXES`, because run.py
+would then also split a published "Neulekino: X" and change what a visitor reads; Savon
+Kinot already files the word in `method`. Re-enriched: the row carries 1412214, the same id
+and the same held-back score as the plain title. No page changed (the screening is on
+8.10.). Tests: 3 in `test_tmdb_queries.py`, one of them over real titles carrying the word;
+2 mutations, both red.

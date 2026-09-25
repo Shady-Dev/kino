@@ -104,6 +104,31 @@ class QueriesTest(unittest.TestCase):
         self.assertNotEqual(enrich_tmdb.norm("Dyyni: Osa kolme"), enrich_tmdb.norm("Dyyni"))
 
 
+class NeulekinoMarkerTest(unittest.TestCase):
+    """A bracketed screening name comes off the search string and nothing else does.
+
+    Elokuvateatteri Star published "Presidentin kyyditys (Neulekino)" beside the plain
+    title on 2026-09-25, and the row drew no TMDB match while the plain one matched
+    1412214 (Samuli Valkama, 87 min, the runtime Star publishes for both)."""
+
+    def test_the_bracketed_marker_comes_off_the_search_string(self):
+        for published in ("Presidentin kyyditys (Neulekino)", "Presidentin kyyditys (neulekino)",
+                          "Presidentin kyyditys ( Neulekino )"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Presidentin kyyditys")
+
+    def test_the_published_title_keeps_it(self):
+        """The key is the title as published; only the search string is cleaned."""
+        self.assertEqual(enrich_tmdb.norm("Presidentin kyyditys (Neulekino)"),
+                         "presidentin kyyditys neulekino")
+
+    def test_a_real_title_carrying_the_word_is_left_alone(self):
+        for title in ("Neulekino", "Neulekinon kevät", "Neulekino ja muita tarinoita",
+                      "Neulekinot (dokumentti)"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+
 class AudioMarkerTest(unittest.TestCase):
     """A marker names the audio, never the film, so it comes off the search string.
 

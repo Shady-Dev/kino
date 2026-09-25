@@ -82,7 +82,12 @@ from strands import EVENT_PREFIXES  # noqa: E402
 PAREN_NOISE = re.compile(
     r"\(\s*(?:(?:19|20)\d{2}|suomeksi(?:\s+puhuttu)?|englanniksi|p[åa]\s+svenska"
     r"|puhumme\s+suomea!?|dubattu|(?:(?:en|eng|fi|sv)\s+)?dub\.?|orig\.?|re-?release"
-    r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k)\s*\)", re.I)
+    r"|uudelleenjulkaisu|uusi\s+kopio|live\s?action|liveaction|2d|3d|imax|4k"
+    # A screening, not the film: Elokuvateatteri Star publishes its knitting screening as
+    # "Presidentin kyyditys (Neulekino)" beside the plain title (2026-09-25). Here and not
+    # in strands.EVENT_PREFIXES, which run.py also splits off a published "Neulekino: X":
+    # the title a visitor sees stays as published. Savon Kinot files it in `method`.
+    r"|neulekino)\s*\)", re.I)
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
     re.I)
