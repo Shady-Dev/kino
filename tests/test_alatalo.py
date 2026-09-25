@@ -208,6 +208,30 @@ class TownTest(unittest.TestCase):
         self.assertEqual(rep["unconfirmed"] + rep["unvouched"], [])
 
 
+class HeadingShapeTest(unittest.TestCase):
+    """Two towns, and a heading typed in a way the town and date rules both missed (audit
+    A4, 2026-09-25): `Toholampi/Lestijärvi` reset nothing, so Toholampi's row was filed
+    under the town above it and Toholampi was vouched empty; `Lestijärvi 3.10.` passed as
+    a date heading, since any six-letter word stood for the weekday, and added a phantom
+    screening under that town."""
+
+    def test_a_town_joined_to_another_by_a_slash_is_still_that_town(self):
+        d, e = soon(5), soon(6)
+        out, _ = parse("Kiuruvesi Kiurusali", head(d), "Klo 13.00 Pirjo -s-",
+                       "Toholampi/Lestijärvi", head(e), "Klo 19.00 Vinski 2 -k7/4-")
+        self.assertEqual(titles(out, "alatalo-kiuruvesi"), ["Pirjo"])
+        self.assertEqual(titles(out, "alatalo-toholampi"), ["Vinski 2"])
+
+    def test_a_place_with_a_date_is_not_a_date_heading(self):
+        d = soon(5)
+        out, rep = parse("Kiuruvesi Kiurusali", head(d), "Klo 13.00 Pirjo -s-",
+                         "Lestijärvi 3.10.", "Klo 15.00 Vinski 2 -k7/4-")
+        self.assertEqual([(s["title"], s["start"][:10]) for s in out["alatalo-kiuruvesi"]],
+                         [("Pirjo", d.isoformat())])
+        self.assertEqual(rep["undeclared"], {"Lestijärvi": 1})
+        self.assertNotIn("alatalo-toholampi", out, "an unowned row vouches no town empty")
+
+
 class UndeclaredTownTest(unittest.TestCase):
     def test_its_rows_are_withheld_and_counted_under_its_own_name(self):
         """`Haapavesi RW Sali` ran in both 2024 captures and in none of the five since."""

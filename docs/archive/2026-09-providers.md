@@ -3059,3 +3059,21 @@ without, and a new test covers the two-town case with an undeclared row. The fix
 went red on the unfixed code. The live check is outstanding: the listing answered HTTP 500
 from here on 2026-09-25, as it has in the cloud runs since 09-19.
 Tests: 1 new and 1 re-pointed in `test_kinotour.py`; 2 mutations, both red.
+
+### Alatalo: a slashed town heading and a dated place line (2026-09-25)
+
+Audit finding A4, two fixture cases. A heading `Toholampi/Lestijärvi` matched no declared
+town, since the first word is compared whole, and failed `_heading_candidate` on the
+slash, so it reset nothing: Toholampi's 19.00 was filed under Kiuruvesi above it and
+Toholampi was vouched empty. The first word is now read up to a slash for both rules.
+Separately, `WEEKDAY_WORD` is any six letters, so `Lestijärvi 3.10.` passed as a date
+heading, was placed by the nearest year with no weekday to check, and added a phantom 3.10.
+screening under the town above. `_dates` now requires every word before a date to read as
+a weekday through `common.weekday_index` (first two letters, which keeps `Luantaina` and
+`Sununtaina` from the captures), and a line with the heading's shape and a place in the
+weekday's position is an undeclared town: what follows is counted under its name and
+withheld, and the empty towns stay unvouched. Residual: a place that begins with a
+weekday's two letters (`Lapua`) still reads as one, and then the weekday check in
+`resolve_year` usually refuses it loudly. `huvimylly.py` shares the six-letter pattern and
+is not changed here.
+Tests: 2 in `test_alatalo.py`, red on the unfixed code; 4 mutations, all red.

@@ -168,10 +168,24 @@ def price_of(rows_):
 
 
 def _dates(line):
-    """Every `Weekday D.M [YYYY]` a heading line names. -> [(weekday, day, month, year)]."""
-    return [(m.group(1), int(m.group(2)), int(m.group(3)),
-             int(m.group(4)) if m.group(4) else None)
-            for m in HEAD_ONE_RE.finditer(line)]
+    """Every `Weekday D.M [YYYY]` a heading line names. -> [(weekday, day, month, year)].
+
+    Empty unless every word in front of a date reads as a weekday. `WEEKDAY_WORD` is any
+    six letters, so a place typed with a date, `Lestijärvi 3.10.`, passed as a heading
+    and was placed by the nearest year with no weekday to check (audit A4, 2026-09-25).
+    `weekday_index` reads the first two letters, which keeps the misspellings the
+    captures hold (`Luantaina`, `Sununtaina`) and refuses a word no weekday begins with.
+    """
+    found = [(m.group(1), int(m.group(2)), int(m.group(3)),
+              int(m.group(4)) if m.group(4) else None)
+             for m in HEAD_ONE_RE.finditer(line)]
+    return found if all(weekday_index(wd) is not None for wd, *_ in found) else []
+
+
+def _first(line):
+    """A line's first word as a town is matched on: up to a slash, since a heading may
+    join two towns, `Toholampi/Lestijärvi`."""
+    return (line.split() or [""])[0].split("/")[0].strip(STRIP + ".")
 
 
 def _split_rating(text):
@@ -196,7 +210,7 @@ def _split_rating(text):
 
 def _town_of(line, venues):
     """The venue whose town this line names, or None. Matched on the first word."""
-    first = (line.split() or [""])[0].strip(STRIP + ".").casefold()
+    first = _first(line).casefold()
     return next((v for v in venues if v["town"].casefold() == first), None)
 
 
@@ -213,7 +227,7 @@ def _heading_candidate(line):
         return ""
     if any(c.isdigit() or c == "@" for c in line):
         return ""
-    return words[0] if TOWN_WORD_RE.match(words[0].strip(STRIP + ".")) else ""
+    return _first(line) if TOWN_WORD_RE.match(_first(line)) else ""
 
 
 def rows(site, src, today=None):
@@ -257,6 +271,15 @@ def rows(site, src, today=None):
             if not fresh:
                 pending, fresh = [], True
             pending += _dates(line)
+            continue
+        if HEAD_LINE_RE.match(line):
+            # The heading's shape with a place where the weekday goes: a town this repo
+            # does not declare, typed with its date. What follows is that town's, never
+            # the town above it, so it is counted under the word and withheld.
+            report["unread"] += 1
+            word = _first(line)
+            venue, pending, fresh = None, [], True
+            candidate = word if TOWN_WORD_RE.match(word) else ""
             continue
         m0 = KLO_RE.match(line)
         # `16.30 Kero se kaikille -k12/9-` on the live page: a row whose `Klo` was left
