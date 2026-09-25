@@ -317,7 +317,8 @@ class FieldTest(unittest.TestCase):
     def test_a_real_format_flag_still_becomes_a_pill(self):
         self.assertEqual(self.one(version_3d=1)["method"], "3D")
         self.assertEqual(self.one(version_3d=1, ext="Ennakkonäytös!")["method"],
-                         "3D, Ennakkonäytös!")
+                         "3D · Ennakkonäytös!",
+                         "two tags, on the separator the client splits on")
 
     def test_the_dub_label_is_not_published_because_the_audio_code_says_it(self):
         """All five dubbed rows measured were Finnish children's films whose audio_lang

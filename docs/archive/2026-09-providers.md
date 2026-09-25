@@ -3154,3 +3154,14 @@ candidate, the ticket and film links, a skipped item, and `film_meta` with its r
 genres and synopsis carried onto every screening at two venues from one page per film.
 11 tests; 8 parse mutations, all red. No coverage figure is quoted: `coverage` is not
 installed here, and the mutations are the measure used.
+
+### Gilda and Cine Mäntsälä join method tags with " · " (2026-09-25)
+
+Audit finding A12, the Gilda part of prior review #31. Both adapters joined `method` with
+", ", while the client splits it on " · " (the delimiter kept on purpose in the
+2026-09-24 separator pass, and the one the Vista entry above names). 3D plus a dub label,
+or a format plus Cine Mäntsälä's strand, would have reached the stub as one tag no glyph
+or filter could read. Both now join with " · ". No committed row carries two tags from
+either adapter, so the data does not change; the next run republishes the same values.
+`test_cinemantsala.py` had pinned "3D, Ennakkonäytös!" and now pins "3D · Ennakkonäytös!";
+`MethodTagsTest` in `test_gilda_duplicates.py` is new. 2 mutations, both red.

@@ -148,7 +148,7 @@ def _method(show):
     style = (show.get("movie_audio_style_name") or "").strip()
     if style and style.lower() not in ("tekstitetty", "ei tekstitystä"):
         out.append(style)          # e.g. a dub tag; the plain cases are already in lang
-    return ", ".join(out)
+    return " · ".join(out)         # the client's tag separator; ", " made one tag of two
 
 
 def get(url, tries=3, timeout=45):

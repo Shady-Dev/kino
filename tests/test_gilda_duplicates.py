@@ -141,5 +141,18 @@ class GildaDuplicateTest(unittest.TestCase):
         self.assertEqual(log, "")
 
 
+class MethodTagsTest(unittest.TestCase):
+    """`method` is split on " · " by the client (index.html, stubTags and the ticket
+    glyphs). Joined with ", ", 3D plus a dub label was one tag nothing could read."""
+
+    def test_a_format_and_a_dub_label_are_two_tags(self):
+        self.assertEqual(gilda._method({"version_3d": 1, "movie_audio_style_name": "Dubattu"}),
+                         "3D · Dubattu")
+
+    def test_the_plain_audio_styles_add_no_tag(self):
+        self.assertEqual(gilda._method({"version_imax": 1,
+                                        "movie_audio_style_name": "Tekstitetty"}), "IMAX")
+
+
 if __name__ == "__main__":
     unittest.main()

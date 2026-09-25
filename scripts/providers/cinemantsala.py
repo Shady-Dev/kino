@@ -228,7 +228,7 @@ def _method(show):
     ext = (show.get("title_extension") or "").strip()
     if ext:
         out.append(ext)
-    return ", ".join(out)
+    return " · ".join(out)         # the client's tag separator; ", " made one tag of two
 
 
 def _aud(show):
