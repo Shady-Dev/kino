@@ -2474,3 +2474,13 @@ Both now fail the site before anything is written; `url` may still be `""`, the 
 empty value, and `http` stays accepted for the two hosts with no TLS. The committed data
 has no case of either: all 5,778 starts carry an offset, and 5,733 urls are https and 45
 http. Tests: three in `CheckShowsAtTheBoundaryTest`; 5 mutations, all red.
+
+### A title of two letters or fewer no longer aborts its TMDB pass (2026-09-25)
+
+Audit finding E6, prior review #32. `queries()` drops every candidate of two characters
+or fewer, so "Up", "It" or "M" with no longer original title has none; the fi-FI loop never
+runs and its `else` took `queries(...)[0]` for the en-US search, which raised IndexError.
+The title logged "list index out of range", got no cache entry, and was retried and left
+unpublished on every run. The en-US step now asks only when there is a candidate, and the
+title is cached as no match like any other. No live title is that short today. Tests:
+`ShortTitleTest` in `test_tmdb_trust.py`, reproduced red first; 2 mutations, both red.

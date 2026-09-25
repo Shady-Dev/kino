@@ -1221,12 +1221,16 @@ def main() -> int:
                     # whole branch is inside `if not mid`, so there is none to replace --
                     # and an id that disagrees with the weak candidate is named for the
                     # alias file rather than published. One request per title, counted.
-                    en_cand = queries(display or k, alias, fact["o"])[0]
-                    try:
-                        en_hits = search(en_cand, fact["y"], th, lang="en-US")
-                    except Exception:
-                        en_hits = []
-                    en_tried += 1
+                    # A title of two letters or fewer ("Up", "It") has no candidate at
+                    # all, so the loop above never ran and there is nothing to ask.
+                    en_cand = next(iter(queries(display or k, alias, fact["o"])), "")
+                    en_hits = []
+                    if en_cand:
+                        try:
+                            en_hits = search(en_cand, fact["y"], th, lang="en-US")
+                        except Exception:
+                            en_hits = []
+                        en_tried += 1
                     en_hit, en_exact = judge(en_hits, en_cand, fact["y"], "fi-FI")
                     if en_exact and en_hit:
                         if fallback is None or fallback.get("id") == en_hit.get("id"):

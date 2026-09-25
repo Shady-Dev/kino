@@ -454,5 +454,24 @@ class PlaceholderTest(TrustHarness):
         self.assertNotIn("Väärä", html)
 
 
+class ShortTitleTest(TrustHarness):
+    """A title of two letters or fewer has no search candidate, since queries() drops
+    them. The en-US step took the first candidate of an empty list, so the title raised
+    IndexError, got no cache entry, and was retried and unpublished on every run."""
+
+    def test_it_is_cached_as_no_match_and_the_next_title_still_matches(self):
+        self.shows(regina(title="Up", original="", year=""),
+                   regina(title="Autofiktio", original="", year=""))
+        out = self.run_main({("Autofiktio", ""): [hit(5, "Autofiktio", "2025-01-01")]},
+                            detail={5: {"fi": "Teksti."}})
+        self.assertNotIn("index out of range", out)
+        self.assertIn("up", self.cache(), "no cache entry, so it is searched every run")
+        self.assertFalse(self.cache()["up"].get("i"))
+        self.assertEqual(self.cache()["autofiktio"]["i"], 5)
+        self.assertEqual({q for q, *_ in self.searches}, {"Autofiktio"},
+                         "Up has nothing to search for, not even an empty string")
+        self.assertNotIn("en-US second search", out, "no en-US request was sent for Up")
+
+
 if __name__ == "__main__":
     unittest.main()
