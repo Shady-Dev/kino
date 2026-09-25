@@ -15,10 +15,21 @@ on:
   #
   # `push` rather than `pull_request`: history is linear and direct-pushed, so push covers
   # every change except a fork, which has not happened.
+  #
+  # The documents are code paths for this purpose: the suite reads them (test_ideas_index's
+  # caps on IDEAS.md, the counts README.md and docs/counts.md state, the contact address in
+  # README.md, the archive files, the privacy page under tietosuoja/), so a push touching
+  # only one of them could break the suite unseen and the next code push would take the
+  # blame (audit G3, 2026-09-25). `data/**` stays out on purpose: the local half's data
+  # commits land several times a day and must not run Checks.
   push:
     paths:
       - 'index.html'
       - 'DESIGN.md'
+      - 'IDEAS.md'
+      - 'README.md'
+      - 'docs/**'
+      - 'tietosuoja/**'
       - 'status/**'
       - 'sw.js'
       - 'scripts/**'
