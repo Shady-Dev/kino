@@ -38,6 +38,11 @@
 <meta name="twitter:description" content="Suomen elokuvateatterien näytösajat yhdessä paikassa. Valitse teatteri ja päivä.">
 <meta name="twitter:image" content="https://leffavuoro.fi/icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
+<!-- The theme, before first paint, as the generated pages set it (THEME_HEAD_JS in
+     scripts/build_pages.py, and a test holds the two equal): a stored "dark" or "light"
+     wins, anything else is ignored, otherwise the OS decides. The body script applied it
+     only after the whole document had parsed, so a dark reader saw the light page first. -->
+<script>(function(){var k=null;try{k=localStorage.getItem('kino-theme')}catch(e){}var t=(k==='dark'||k==='light')?k:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})();</script>
 <!-- Decides before first paint whether the page opens on a location (a ?area= link or a
      stored favourite) or on the chooser, so a returning visitor never sees the chooser
      flash. Only a class is set: the app validates both later and takes the class off
@@ -1623,7 +1628,12 @@
     if(m) m.content = getComputedStyle(document.documentElement)
       .getPropertyValue('--bg').trim() || '#0D0E12';
   };
-  applyTheme(store.k || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  // The head script has already set the attribute; this repeats its rule so theme-color
+  // follows. A stored value other than the two themes is ignored, not written into
+  // data-theme, where it matched no rule and left the page on the light tokens.
+  const storedTheme = store.k;
+  applyTheme(storedTheme === 'dark' || storedTheme === 'light' ? storedTheme
+             : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   // No launch-time recomposite hack. Two were tried (v87, v88) on the one device that
   // shows a stale composite behind the status bar at launch (iPhone 15 Pro Max, iOS 27)
   // and neither cleared it. Parked as an OS compositor bug; see IDEAS before a third.

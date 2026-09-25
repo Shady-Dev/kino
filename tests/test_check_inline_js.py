@@ -57,8 +57,8 @@ class CheckInlineJsTest(unittest.TestCase):
         # tietosuoja/index.html, sw.js. index.html carries two inline scripts since
         # 2026-09-13: the app and the <head> script that decides the first paint;
         # tietosuoja/index.html gained one on 2026-09-22, for the way back in the reader's
-        # language. Six.
-        self.assertIn("6 script(s) checked, 0 problem(s)", out.stdout)
+        # language; index.html gained the <head> theme script on 2026-09-25. Seven.
+        self.assertIn("7 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 

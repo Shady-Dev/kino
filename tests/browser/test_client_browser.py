@@ -24,6 +24,7 @@ import http.server
 import json
 import os
 import pathlib
+import re
 import threading
 import time
 import unittest
@@ -1080,6 +1081,51 @@ class GenreSearchInSwedish(Browser):
 
 class GenreSearchInSwedishOnAPhone(GenreSearchInSwedish):
     viewport = {"width": 375, "height": 812}; touch = True
+
+
+class ThemeBeforeTheBody(Browser):
+    """The stored theme is applied in <head>, before the body's script exists.
+
+    The app set `data-theme` from the script at the end of the body, which runs only once
+    the whole document has parsed, so a dark reader saw the light chooser first (audit K9,
+    2026-09-25). Here the page is served with every <script> after <body> removed: whatever
+    theme is on screen came from <head>. The full page is checked too, for a stored value
+    that is neither theme.
+    """
+
+    def headless_page(self, stored, scheme):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        head, body = html.split("<body", 1)
+        body = re.sub(r"<script\b[^>]*>.*?</script>", "", body, flags=re.S)
+        self.page.route("**/index.html*", lambda r: r.fulfill(
+            status=200, content_type="text/html; charset=utf-8", body=head + "<body" + body))
+        self.page.emulate_media(color_scheme=scheme)
+        self.page.evaluate(f"localStorage.setItem('kino-theme', {json.dumps(stored)})")
+        self.page.goto(self.origin + "/index.html")
+
+    def theme(self):
+        return self.page.evaluate("document.documentElement.getAttribute('data-theme')")
+
+    def background(self):
+        return self.page.evaluate("getComputedStyle(document.body).backgroundColor")
+
+    def test_a_stored_dark_theme_is_on_screen_with_no_body_script(self):
+        self.headless_page("dark", "light")
+        self.assertEqual(self.theme(), "dark")
+        self.assertEqual(self.background(), "rgb(13, 14, 18)", "the dark --bg")
+
+    def test_the_os_decides_when_nothing_valid_is_stored(self):
+        self.headless_page("bogus", "dark")
+        self.assertEqual(self.theme(), "dark")
+        self.headless_page("bogus", "light")
+        self.assertEqual(self.theme(), "light")
+
+    def test_the_full_page_never_writes_an_unknown_stored_value(self):
+        self.page.emulate_media(color_scheme="dark")
+        self.page.evaluate("localStorage.setItem('kino-theme', 'sepia')")
+        self.page.goto(self.origin + "/index.html")
+        expect(self.page.locator("#themeToggle")).to_be_visible()
+        self.assertEqual(self.theme(), "dark")
 
 
 class ChooserNote(Browser):
