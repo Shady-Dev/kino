@@ -126,6 +126,39 @@ def _poster(chunk):
     return best
 
 
+class VenueMismatch(RuntimeError):
+    """The response is not the venue's own programme, or cannot be shown to be. The
+    cookie failed, or failed and took the evidence with it; either way it fails the site."""
+
+
+def cinemas(posts_html):
+    """The cinema each item names, from BioRex itself and never from the venue asked for.
+    -> [name, or "" for an item that names none].
+
+    The data layer's `showCinemaName`, else the place line up to its last comma ("BioRex
+    Tripla, Sali 6"). `parse()` falls back to the venue's own name for display, which is
+    why the guard cannot read `theatre`.
+    """
+    out = []
+    for chunk in ITEM_RE.findall(posts_html):
+        m = DL_RE.search(chunk)
+        if not m:
+            continue
+        try:
+            dl = json.loads(html_mod.unescape(m.group(1)))
+        except Exception:
+            continue
+        if not dl.get("showDateTime"):
+            continue
+        name = (dl.get("showCinemaName") or "").strip()
+        if not name:
+            pm = PLACE_RE.search(chunk)
+            place = _text(pm.group(1)) if pm else ""
+            name = place.rsplit(",", 1)[0].strip() if "," in place else ""
+        out.append(name)
+    return out
+
+
 def parse(posts_html, venue):
     """HTML fragment -> normalized showtime dicts."""
     shows = []
@@ -211,23 +244,39 @@ def fetch_venue(venue):
     raw = _post(op, AJAX, {"action": "br_movies_handler", "genre": "-1", "date": "-1",
                            "format": "-1", "language": "-1", "activeType": "showtimes"})
     payload = json.loads(raw.decode("utf-8", "replace"))
-    shows = parse(payload.get("posts") or "", venue)
-    # Cookie failure shows up as another venue's data, so verify before trusting it.
-    names = {s["theatre"] for s in shows}
+    posts = payload.get("posts") or ""
+    shows = parse(posts, venue)
+    # Cookie failure shows up as another venue's data, so verify before trusting it, on
+    # what the response itself says: see `cinemas`.
+    names = set(cinemas(posts))
+    if shows and "" in names:
+        raise VenueMismatch(f"asked {venue['name']}: {len(shows)} showtime(s), and the "
+                            f"response names no cinema on some, so it cannot be verified")
     if names and venue["name"] not in names:
-        raise RuntimeError(f"venue mismatch: asked {venue['name']}, got {sorted(names)}")
+        raise VenueMismatch(f"venue mismatch: asked {venue['name']}, got {sorted(names)}")
     return shows
 
 
 def fetch_all(sleep=0.6, with_meta=True):
-    out = {}
+    out, mismatched = {}, []
     for v in VENUES:
         try:
             out[v["id"]] = fetch_venue(v)
             print(f"[biorex] {v['name']}: {len(out[v['id']])} showtimes")
+        except VenueMismatch as e:
+            mismatched.append((v["name"], str(e)))
+            print(f"[biorex] {v['name']} FAILED: {e}")
         except Exception as e:
             print(f"[biorex] {v['name']} FAILED: {e}")
         time.sleep(sleep)
+    # One venue answered with a programme that is not its own, or that names no cinema:
+    # the cookie that selects the venue is not taking, and the venues that passed may be
+    # passing on a name that happened to match. Nothing publishes and the previous files
+    # stand, which is how a whole-site failure is handled everywhere else.
+    if mismatched:
+        raise RuntimeError(f"the venue cookie did not hold for {len(mismatched)} of "
+                           f"{len(VENUES)} venue(s) ({', '.join(n for n, _ in mismatched)}), "
+                           f"first: {mismatched[0][1]}; publishing no venue of this site")
 
     if with_meta:
         # One page per distinct film, then fill runtime/genres on every showtime.

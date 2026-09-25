@@ -3077,3 +3077,19 @@ weekday's two letters (`Lapua`) still reads as one, and then the weekday check i
 `resolve_year` usually refuses it loudly. `huvimylly.py` shares the six-letter pattern and
 is not changed here.
 Tests: 2 in `test_alatalo.py`, red on the unfixed code; 4 mutations, all red.
+
+### BioRex: the venue guard reads what the response says, and fails the site (2026-09-25)
+
+Audit finding A8. Venue selection is a cookie, and admin-ajax answers Verkatehdas's
+programme whenever it does not take. The guard compared each show's `theatre` with the
+venue, but `theatre` is `showCinemaName` or, when that is missing, the venue's own name,
+so with the field gone and the cookie failing the guard passed and one programme would
+publish under all twelve venues; a mismatch also only failed its own venue. `cinemas()`
+now reads the cinema from the response alone, the data layer field or the place line up
+to its last comma ("BioRex Tripla, Sali 6"; every committed BioRex row has the comma), and
+a venue whose response names no cinema on some item, or names another, raises
+`VenueMismatch`. Any such venue fails the site after the loop, so no venue publishes and
+every previous file stands: a venue that passed may have passed on a name that happened
+to match.
+Tests: `test_biorex.py` (new), 5 tests over two venues with a stubbed cookie, three red on
+the unfixed code; 4 mutations, all red.
