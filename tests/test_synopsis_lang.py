@@ -126,6 +126,30 @@ class MergeTest(unittest.TestCase):
         self.merge(show("Hetki ennen valoa", {"sv": "today"}), order=0)
         self.assertEqual(self.slot()["sv"], "yesterday")
 
+    def test_a_cinemas_synopsis_replaces_the_text_tmdb_filled(self):
+        """The provider's own synopsis beats TMDB's. A slot the TMDB pass filled, recorded
+        in `ts`, blocked every later cinema text for good: merge read any text as spoken
+        for, and "synopses merged: 0" was the only trace (audit E4, 2026-09-25)."""
+        (self.out / "films-extra.json").write_text(json.dumps({"films": {
+            "hetki ennen valoa": {"s": {"fi": "TMDB fi", "en": "TMDB en"}, "ts": ["en", "fi"],
+                                  "id": 1015881, "r": 7.1, "tr": ""}}}))
+        self.merge(show("Hetki ennen valoa", FI))
+        e = self.films()["hetki ennen valoa"]
+        self.assertEqual(e["s"], {"fi": FI, "en": "TMDB en"})
+        self.assertEqual(e["ts"], ["en"], "the Finnish slot is the cinema's now")
+        # And the TMDB pass that follows leaves it there.
+        enrich_tmdb.sync_extra(e, {"i": 1015881, "fi": "TMDB fi", "en": "TMDB en", "r": 7.1})
+        self.assertEqual(e["s"]["fi"], FI)
+
+    def test_the_last_tmdb_slot_taken_drops_the_record(self):
+        (self.out / "films-extra.json").write_text(json.dumps({"films": {
+            "hetki ennen valoa": {"s": {"fi": "TMDB fi", "en": ""}, "ts": ["fi"],
+                                  "id": 1015881, "r": 0, "tr": ""}}}))
+        self.merge(show("Hetki ennen valoa", FI))
+        e = self.films()["hetki ennen valoa"]
+        self.assertEqual(e["s"]["fi"], FI)
+        self.assertNotIn("ts", e)
+
     def test_a_second_run_loses_nothing_the_first_wrote(self):
         self.merge(show("Hetki ennen valoa", {"fi": FI, "sv": SV}))
         synmerge.reset()

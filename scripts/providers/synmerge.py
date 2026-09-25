@@ -170,12 +170,22 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
                     e.setdefault("s", {"fi": "", "en": ""})
                     # Per language: a Finnish text in the file says nothing about whether
                     # the Swedish slot is spoken for, and the other way round.
-                    if e["s"].get(lang):
+                    # A slot the TMDB pass filled, recorded in `ts`, is not spoken for:
+                    # the provider's own synopsis beats TMDB's, and it takes the slot
+                    # out of `ts` so the next TMDB pass leaves it alone.
+                    tmdb = lang in (e.get("ts") or ())
+                    if e["s"].get(lang) and not tmdb:
                         claimed = _claimed.get((lang, key))
                         # Text from before this run, or from a site at least as early as
                         # this one. Either way it stands.
                         if claimed is None or order >= claimed:
                             continue
+                    if tmdb:
+                        ts = [x for x in e["ts"] if x != lang]
+                        if ts:
+                            e["ts"] = ts
+                        else:
+                            e.pop("ts")
                     # A language slot is created only when there is text for it. An entry
                     # with no `sv` key is the normal case and every reader handles it.
                     e["s"][lang] = syn

@@ -2274,3 +2274,19 @@ since OCAPI's year is the release date.
 Cloud half re-enriched here: the Kotka rows carry 299534 and six pages changed. The
 Finnkino half needs a run from an ordinary connection and lands at the next local run.
 Tests: 3 in `test_tmdb_matching.py`, 4 in `test_finnkino_trust.py`; 6 mutations, all red.
+
+### A cinema's synopsis replaces a slot TMDB filled (2026-09-25)
+
+Audit finding E4. `synmerge.merge` read any text in a slot as spoken for, so once the
+TMDB pass had filled one (recorded in `ts`), no cinema's own synopsis could replace it,
+against the rule the same file states: the provider's own synopsis beats TMDB's. A film
+first shown by a chain with no `_syn` kept TMDB's text after Gilda or anyone else
+published its own, with "synopses merged: 0" as the only trace. At 65f24acfb, 84 live
+titles held TMDB's Finnish text, 64 of them at chains whose adapter publishes `_syn`, an
+upper bound since `_syn` is not persisted.
+
+A slot listed in `ts` is now open to a cinema's text, which takes the slot out of `ts`
+(and drops `ts` when it was the last) so `sync_extra` leaves it alone on the next pass.
+The SITES-order tie-break inside a run is unchanged. The failing test was written first
+and went red on the unfixed code. No data is changed here; the swap lands as each chain's
+next run merges. Tests: 2 in `test_synopsis_lang.py`; 3 mutations, all red.
