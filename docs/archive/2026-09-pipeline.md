@@ -2336,3 +2336,16 @@ answered, nothing parsed, and the seventeen venues were published under a fresh
 venue keeps its file and `areas.json` its age. Finnkino gets no `EmptyProgramme` case: no
 empty OCAPI listing has been seen. The Finnkino half needs a run from an ordinary
 connection to be exercised live. Tests: 5; 3 mutations, all red.
+
+### A refused host claim stays a failure whatever the adapter raises after it (2026-09-25)
+
+Audit finding C3. `common.reading` re-raised a swallowed `HostBusy` only when the body
+returned normally, so any other exception took its place, including `EmptyProgramme`,
+which since 43fb0b0c8 publishes every venue empty and pending: an adapter that caught the
+refused listing fetch and found no film marker in the empty result would clear its data
+and exit 0 on either runner. The body's exception is now caught: with a refusal recorded
+it becomes `HostBusy` chained from it, so the site fails and its previous files stand; an
+interrupt or an exit still passes through untouched. None of the six adapters that raise
+`EmptyProgramme` wraps its listing fetch today. Test: the contended two-module pool in
+`test_cloud_pool.py`, adapter swallowing the refusal and then raising `EmptyProgramme`, red
+on the unfixed code; 2 mutations, both red.

@@ -666,6 +666,7 @@ class PageDerivedHostTest(CloudTestCase):
         elsewhere = ""
         extra = 1
         swallow = False        # catch around the page-derived fetch, as adapters do
+        empty = False          # and then find nothing on what it read: EmptyProgramme
 
         def fetch_site(self, site):
             prov = site["provider"]
@@ -676,6 +677,8 @@ class PageDerivedHostTest(CloudTestCase):
                 except Exception:
                     if not self.swallow:
                         raise
+                    if self.empty:
+                        raise common.EmptyProgramme("the page read had no film on it")
             out = {v["id"]: [P.show(f"{prov} film")] for v in site["venues"]}
             for vid, shows in out.items():
                 for s in shows:
@@ -765,6 +768,18 @@ class PageDerivedHostTest(CloudTestCase):
         self.assertEqual(code, 1)
         self.assertIn("[b0] FAILED:", logs["mod_b"])
         self.assertEqual(self.spans_on(h, 2, "b0"), [])
+        self.assertEqual(json.loads((self.out / "area-b0-0.json").read_text()), self.PREV)
+
+    def test_an_empty_programme_raised_after_a_swallowed_refusal_still_fails_the_site(self):
+        """`reading` re-raised a swallowed refusal only when the body returned. Any other
+        exception took its place, and EmptyProgramme publishes every venue empty and
+        pending: an adapter that caught the refused listing and then found no film marker
+        in "" would clear its data and exit 0 (audit C3, 2026-09-25). A refusal stays a
+        failure whatever the body raised after it."""
+        h, code, logs = self.contended(swallow=True, empty=True)
+        self.assertEqual(code, 1)
+        self.assertIn("[b0] FAILED:", logs["mod_b"])
+        self.assertNotIn("no programme published", logs["mod_b"])
         self.assertEqual(json.loads((self.out / "area-b0-0.json").read_text()), self.PREV)
 
     def test_nothing_waits_for_a_host_no_other_site_holds(self):

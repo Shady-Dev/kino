@@ -265,23 +265,33 @@ def reading(label):
     _scopes.owner = label
     with _lock:
         _host_refused.pop(label, None)
-    ok = False
-    try:
-        yield
-        ok = True
-    finally:
+
+    def release():
         _scopes.owner = prev
         with _host_cv:
             for h in [h for h, o in _host_owner.items() if o == label]:
                 del _host_owner[h]
             _host_cv.notify_all()
         with _lock:
-            refused = _host_refused.pop(label, None)
+            return _host_refused.pop(label, None)
     # An adapter that catches broadly around its own fetches would otherwise turn a refused
     # claim into a partial publish: some pages read, one skipped, no error. The refusal is
     # recorded when it is raised and re-raised here if the body swallowed it, so the site
-    # fails whatever the adapter did with the exception.
-    if ok and refused:
+    # fails whatever the adapter did with the exception. That includes raising another one
+    # afterwards: an EmptyProgramme from a listing the refusal left unread would otherwise
+    # publish every venue empty (2026-09-25). An interrupt or an exit still goes through.
+    try:
+        yield
+    except Exception as e:
+        refused = release()
+        if refused and not isinstance(e, HostBusy):
+            raise HostBusy(refused) from e
+        raise
+    except BaseException:
+        release()
+        raise
+    refused = release()
+    if refused:
         raise HostBusy(refused)
 
 
