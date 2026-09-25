@@ -3105,3 +3105,13 @@ adapter's. An offset or `Z` is honoured as before. The committed data carries th
 correct offset on every row today, so nothing changes in it.
 Tests: `test_naive_timestamps.py` pins the process to UTC and to Helsinki; red under UTC on
 the unfixed code; 2 mutations, both red.
+
+### Lieksan Kino counts a film's lines before setting it aside (2026-09-25)
+
+Audit finding A9. `rows()` compared the listed screening lines with the read ones only
+after `if not found: continue`, so a film whose every line changed shape ("Su 20.09. klo
+18.00") was dropped as a finished run with the site green, against the module docstring's
+"a line the parser cannot read fails the site". The count now comes first: a film with no
+line at all is still a finished run, and one with lines and none readable raises. The test
+failed on the unfixed code; `old_order` turns it red. A second mutation, `if not listed`,
+is equivalent by construction: every line `SHOW_RE` reads is one `ROW_RE` counts.

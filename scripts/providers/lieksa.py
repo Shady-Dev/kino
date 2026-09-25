@@ -171,10 +171,13 @@ def rows(site, page, today=None):
         sm = SHOWTIMES_RE.search(article)
         block = sm.group(1) if sm else ""
         found = SHOW_RE.findall(block)
-        if not found:
+        # Counted before a film with no readable line is set aside as a finished run: a
+        # film whose every line changed shape reads nothing either, and is the case the
+        # count exists for.
+        listed = len(ROW_RE.findall(block))
+        if not found and not listed:
             report["no_dates"].append(title)
             continue
-        listed = len(ROW_RE.findall(block))
         if listed != len(found):
             raise ShowRowError(f"{site['provider']}: {title!r} lists {listed} screening "
                                f"line(s) and {len(found)} could be read")

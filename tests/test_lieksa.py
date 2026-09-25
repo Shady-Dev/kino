@@ -108,6 +108,15 @@ class RowsTest(unittest.TestCase):
             self.rows(page(article("A", [line("Su 20.09. 15.00"),
                                          line("sunnuntaina kello kolme")])))
 
+    def test_a_film_whose_every_line_moved_shape_fails_the_site(self):
+        """The count ran only after `if not found: continue`, so a film whose lines all
+        changed shape was dropped as a finished run and the site stayed green (audit A9,
+        2026-09-25). One unreadable line beside a readable one already raised."""
+        with self.assertRaises(L.ShowRowError):
+            self.rows(page(article("A", [line("Su 20.09. klo 18.00"),
+                                         line("Ti 22.09. klo 13.00")]),
+                           article("B", [line("Su 27.09. 17.00")])))
+
     def test_the_coming_soon_section_publishes_nothing(self):
         shows, report = self.rows(TWO)
         self.assertEqual({s["title"] for s in shows},
