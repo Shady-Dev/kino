@@ -1128,6 +1128,41 @@ class ThemeBeforeTheBody(Browser):
         self.assertEqual(self.theme(), "dark")
 
 
+class MalformedStoredPrefs(Browser):
+    """A stored preference of the wrong shape costs a prefetch, not the boot.
+
+    `{"fav":"city:Helsinki","cityIds":{"city:Helsinki":{}}}` made boot's prefetch loop
+    iterate an object and throw before anything was drawn: the chooser with "Näytöstietoja
+    ei juuri nyt saatu ladattua." and no language buttons, on every load (audit K10,
+    2026-09-25). A `fav` that is not a string threw the same way. Both now boot to the
+    favourite, or to the chooser when there is none to open.
+    """
+
+    def boot_with(self, stored):
+        self.page.evaluate(f"localStorage.setItem('kino-prefs', {json.dumps(json.dumps(stored))})")
+        self.page.goto(self.origin + "/index.html")
+
+    def test_a_city_entry_that_is_not_a_list_still_opens_the_favourite(self):
+        self.boot_with({"fav": "city:Helsinki", "cityIds": {"city:Helsinki": {}}})
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        expect(self.page.locator("#langSeg button")).to_have_count(3)
+        self.assertNotIn("ei juuri nyt saatu ladattua", self.page.locator("#main").text_content())
+
+    def test_a_list_of_the_wrong_things_still_opens_the_favourite(self):
+        self.boot_with({"fav": "city:Helsinki", "cityIds": {"city:Helsinki": [7, None, "1004"]}})
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+
+    def test_a_favourite_that_is_not_a_string_opens_the_chooser(self):
+        self.boot_with({"fav": 42})
+        expect(self.page.locator("#home")).to_be_visible()
+        expect(self.page.locator("#langSeg button")).to_have_count(3)
+        self.assertNotIn("ei juuri nyt saatu ladattua", self.page.locator("#main").text_content())
+
+
+class MalformedStoredPrefsOnAPhone(MalformedStoredPrefs):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class ChooserNote(Browser):
     """The chooser's note is drawn in the language on screen.
 

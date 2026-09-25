@@ -2942,7 +2942,8 @@
   const HOME_TEMPLATE = $('#main').innerHTML;
   let homeNote = '', unknownDeep = false, loadSeq = 0;
   function knownArea(id){
-    return !!id && (allVenues.some(a => a.id === id) ||
+    // A string first: a stored `fav` of 42 reached `startsWith` and stopped boot.
+    return typeof id === 'string' && !!id && (allVenues.some(a => a.id === id) ||
       ((id.startsWith('city:') || id.startsWith('region:'))
         && (groupIdsOf(id) || []).length > 1));
   }
@@ -5325,9 +5326,14 @@
         try { target = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
         // Only a location the load will show: the link's, or the favourite's. With
         // neither, the chooser opens and no schedule is fetched.
-        target = target || pr.fav || '';
+        // Stored values are read as untrusted: a `fav` that is not a string, or a
+        // `cityIds` entry that cannot be iterated, threw here before boot drew anything,
+        // and on every load after (audit K10). A wrong shape only costs the prefetch.
+        target = target || (typeof pr.fav === 'string' ? pr.fav : '');
         if(target.startsWith('city:') || target.startsWith('region:')){
-          for(const id of (pr.cityIds || {})[target] || []) prefetch(`data/area-${id}.json`);
+          const stored = (pr.cityIds || {})[target];
+          for(const id of Array.isArray(stored) ? stored : [])
+            if(typeof id === 'string') prefetch(`data/area-${id}.json`);
         } else if(target){
           prefetch(`data/area-${target}.json`);
         }
