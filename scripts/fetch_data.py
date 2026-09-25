@@ -95,7 +95,9 @@ def alias_overrides(tmdb_cache, films_meta, aliases):
     for 299534 in the file.
     """
     return [fid for fid, v in tmdb_cache.items() if fid in films_meta
-            and enrich_tmdb.alias_supersedes(_alias(aliases, films_meta[fid]), v)]
+            and enrich_tmdb.alias_supersedes(_alias(aliases, films_meta[fid]), v)
+            and not (enrich_tmdb.is_weak(v)
+                     and v.get("al") == str(_alias(aliases, films_meta[fid])))]
 
 
 def _queries(q):
@@ -370,13 +372,34 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
     """
     looked = rechecked = 0
     tmdb_weak, tmdb_thin = [], []
+    # Entries taken out for a fresh judgment. An alias replacing an exact entry removes a
+    # judgement known wrong, so that one is not put back if the search fails. A weak
+    # entry publishes nothing and goes back with today's attempt date, as in enrich_tmdb.
+    retried = {}
+    overridden = alias_overrides(tmdb_cache, films_meta, aliases)
+    for fid in overridden:
+        if enrich_tmdb.is_weak(tmdb_cache[fid]):
+            retried[fid] = tmdb_cache[fid]
+        del tmdb_cache[fid]
+    # A weak entry is complete to refresh.due(), which would park it a day or a week and
+    # then re-read the wrong id without searching. So it leaves the cache for a search
+    # when its daily retry is due or the query or year it was judged on has changed (no
+    # record reads as changed), and is skipped outright until then.
+    for fid, m in films_meta.items():
+        c = tmdb_cache.get(fid)
+        if m["q"] and enrich_tmdb.is_weak(c) and (
+                enrich_tmdb.weak_due(c, today)
+                or (c.get("q"), c.get("y")) != (_tnorm(m["q"]), m["y"] or "")):
+            retried[fid] = tmdb_cache.pop(fid)
+    kept = {fid for fid, m in films_meta.items()
+            if m["q"] and enrich_tmdb.is_weak(tmdb_cache.get(fid))}
     # Which entries are due, and which of those only because their rating is old.
     # Finding a trailer used to end an entry's life here as well: the skip was
     # `v or c == today`, so 46 of the 59 cached films were frozen, 45 of them last
     # read on 2026-08-28. The schedule is providers/refresh.py, shared with the cloud
     # pass so the two cannot drift apart again.
     todo, refreshes, deferred = refresh.due(
-        [fid for fid, m in films_meta.items() if m["q"]],
+        [fid for fid, m in films_meta.items() if m["q"] and fid not in kept],
         tmdb_cache, today, _tmdb_complete)
     settled = set()          # scheduled refreshes that came back with vote data
     for fid, meta in films_meta.items():
@@ -395,6 +418,7 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
             # replacement search string. Keyed on the Finnish title first, since
             # that is what the cinema publishes and what the file is keyed by.
             alias = _alias(aliases, meta)
+            named = ""              # a weak candidate's title, for the kept-list log
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)
                 exact_id = True     # a hand-written id is as good as exact
@@ -442,6 +466,7 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
                         va = fallback.get("vote_average") or 0
                         votes = fallback.get("vote_count") or 0
                         exact_id = False
+                        named = fallback.get("title") or ""
                         tmdb_weak.append(f"{meta['q']} -> {fallback.get('title')}")
             # An id that did not come from a search carries no vote data with it
             # (an alias id, or one restored from cache before "n" existed), and this
@@ -509,6 +534,13 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
             tmdb_cache[fid] = {"r": shown, "n": votes, "v": yt,
                                "x": bool(mid) and exact_id, "g": gids,
                                "i": mid or "", "c": stamp, "a": attempt}
+            # A weak entry records what it was judged on, so new evidence re-judges it,
+            # and the candidate's title for the log; with a string alias, which one.
+            if mid and not exact_id:
+                tmdb_cache[fid].update({"q": _tnorm(meta["q"]), "y": meta["y"] or "",
+                                        "t": named})
+                if alias:
+                    tmdb_cache[fid]["al"] = str(alias)
             replaced = True
             if detail_ok and fid in refreshes:
                 settled.add(fid)
@@ -527,10 +559,20 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
             # write cannot put the old entry back over a refresh that worked.
             if fid in refreshes and cached and not replaced:
                 tmdb_cache[fid] = {**cached, "a": today}
+            if fid in retried and not replaced:
+                tmdb_cache[fid] = {**retried[fid], "a": today}
 
+    kept_log = sorted(f"{films_meta[fid]['q']} -> "
+                      f"{tmdb_cache[fid].get('t') or 'TMDB ' + str(tmdb_cache[fid]['i'])}"
+                      for fid in kept)
+    # Every kept entry has an attempt date: one without is due, so it was searched.
+    kept_until = (datetime.date.fromordinal(
+        min(datetime.date.fromisoformat(tmdb_cache[fid]["a"]).toordinal() for fid in kept)
+        + enrich_tmdb.WEAK_RETRY_DAYS).isoformat() if kept else "")
     return {"looked": looked, "rechecked": rechecked, "weak": tmdb_weak,
             "thin": tmdb_thin, "scheduled": len(refreshes),
-            "settled": len(settled), "deferred": deferred}
+            "settled": len(settled), "deferred": deferred,
+            "overridden": len(overridden), "kept": kept_log, "kept_until": kept_until}
 
 
 def main() -> int:
@@ -717,26 +759,20 @@ def main() -> int:
               "user-agent": UA}
         # An entry with no "x" was matched before the exact-title rule existed and its
         # id cannot be re-judged after the fact, so drop it and search again. One-off.
-        # Same one-off re-judgement as the cloud pass: a weak match decided before the
-        # fi-FI search change was comparing a Finnish title against an English one.
-        stale = [k for k, v in tmdb_cache.items()
-                 if not (isinstance(v, dict) and "x" in v)
-                 or (isinstance(v, dict) and v.get("i") and not v.get("x"))]
+        # Weak entries were swept here too, on every load, until 2026-09-25; they are
+        # now kept and retried daily inside enrich_cached_ratings.
+        stale = [k for k, v in tmdb_cache.items() if not (isinstance(v, dict) and "x" in v)]
         for k in stale:
             del tmdb_cache[k]
         if stale:
             print(f"[tmdb] dropped {len(stale)} entries matched by the old picker")
         aliases = load_aliases()
-        # Same rule as enrich_tmdb: an alias exists to replace a bad match, so a
-        # non-exact entry whose title now has one is dropped and searched again.
-        # Keyed on the published Finnish title, which is how the alias file is keyed.
-        overridden = alias_overrides(tmdb_cache, films_meta, aliases)
-        for fid in overridden:
-            del tmdb_cache[fid]
-        if overridden:
-            print(f"[tmdb] dropped {len(overridden)} weak entries that now have an alias")
         today = datetime.date.today().isoformat()
+        # Same rule as enrich_tmdb: an alias exists to replace a bad match, so an entry
+        # it supersedes is searched again. Done inside the pass (`alias_overrides`).
         stats = enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today)
+        if stats["overridden"]:
+            print(f"[tmdb] dropped {stats['overridden']} entries an alias replaces")
         looked, rechecked = stats["looked"], stats["rechecked"]
         tmdb_weak, tmdb_thin = stats["weak"], stats["thin"]
         common.write_json(cache_p, tmdb_cache)
@@ -751,6 +787,9 @@ def main() -> int:
         if tmdb_weak:
             print(f"[tmdb] weak match, no exact title ({len(tmdb_weak)}): "
                   + " | ".join(sorted(tmdb_weak)))
+        if stats["kept"]:
+            print(f"[tmdb] weak candidate kept, not searched until {stats['kept_until']} "
+                  f"({len(stats['kept'])}): " + " | ".join(stats["kept"]))
         if tmdb_thin:
             print(f"[tmdb] rating held back, under {TMDB_MIN_VOTES} votes "
                   f"({len(tmdb_thin)}): " + " | ".join(sorted(tmdb_thin)))

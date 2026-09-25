@@ -2417,3 +2417,23 @@ with SOI and close with EOI, which a truncated body loses; all 84 committed file
 The Finnkino half needs a run from an ordinary connection. Tests: `test_finnkino_poster.py`,
 5 tests, red on the unfixed code; 5 mutations, each decode branch red on the interpreter
 that runs it and VOID on the other.
+
+### The Finnkino pass keeps a weak candidate too (2026-09-25)
+Follow-up to the record above, for `data/tmdb.json`. `fetch_data.main()` swept weak
+entries on every load the same way. Removing the sweep alone would not have been enough:
+a weak entry carries `n`, `x` and `g`, so `_tmdb_complete` calls it complete and
+`refresh.due()` would park it for a week with a trailer, daily without, and the loop,
+seeing a cached id, would re-read the wrong film instead of searching.
+
+**Rule.** Inside `enrich_cached_ratings`, a weak entry leaves the cache for a search when
+its daily retry is due or when OCAPI's query or release year differs from the `q`/`y` it
+recorded; until then it is outside `refresh.due()` and gets no request. The alias
+override moved into the pass from `main()`, with the cloud pass's `al` exemption and the
+same restore: a weak entry whose search raises goes back with today's `a`. Weak entries
+also record `t` for the kept-list log line. Publishing is unchanged: only `x` and an id
+publish.
+
+Measured: the Finnkino cache held no weak entry on 2026-09-25, so no request count moves
+today. Tests: `test_finnkino_weak_retry.py`, 12 tests; 12 mutations, all red, the sweep
+removed alone among them (7 red). Needs a local run from an ordinary connection to be
+exercised live.
