@@ -80,8 +80,10 @@ Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a 
 
 ### Every cold load reads all 82 venue lists
 
-Chooser, venue and city fetch every provider's list: 88, 89 and 115 requests (audit,
-2026-09-25). **Next action:** measure what the chooser needs, then propose a lazy load.
+88, 89 and 115 requests for chooser, venue and city (audit, 2026-09-25); the 82 files are
+25 KiB together, so the cost is requests. Proposal, one cloud-written `data/venues.json`:
+[docs/research/cold-load.md](docs/research/cold-load.md).
+**Next action:** the maintainer's decision on the combined file.
 
 ### Thirteen sites go red when genuinely empty
 
