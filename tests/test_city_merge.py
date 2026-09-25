@@ -21,6 +21,8 @@ These pin:
 import html
 import json
 import re
+import shutil
+import subprocess
 import unittest
 from datetime import date
 
@@ -62,6 +64,32 @@ class MergeKeyMatchesTheClient(unittest.TestCase):
             # JS needs no escape for `/` inside a literal; Python's re does not either,
             # and neither pattern uses one. Everything else is the same syntax.
             self.assertEqual(mine, js)
+
+    @unittest.skipIf(shutil.which("node") is None, "node not installed")
+    def test_the_client_s_own_function_gives_the_same_key(self):
+        """The same patterns are not the same function: JavaScript's `\\b` is ASCII and
+        Python's was Unicode, so "äsuomeksi" keyed as "ä" in the app and "äsuomeksi" on
+        the pages (audit E9). The client's normTitle and mergeKey run in node over the
+        hard cases and every title in the committed data."""
+        norm_js = re.search(r"^  const normTitle = .*?;\n(?=  //)", INDEX, re.S | re.M).group(0)
+        merge_js = re.search(r"^  const mergeKey = .*?\)\);\n", INDEX, re.S | re.M).group(0)
+        titles = ["äsuomeksi", "Elokuva äsuomeksi", "Elokuva,\u00a0suomeksi",
+                  "Tämä\u2003suomeksi", "Möö3D", "Ö2D elokuva", "Film 3D", "éimax",
+                  "IMAXé", "4Kids", "Kissa_suomeksi", "Film (uusi\u00a0kopio)",
+                  "Ryhmä Hau: Dinoelokuva (suomeksi)", "Marsupilami, suomeksi",
+                  "Spider-Man: Brand New Day 2D", "Ä (Dub)", "x\ufeffsuomeksi"]
+        for p in sorted((ROOT / "data").glob("area-*.json")):
+            titles += [sh.get("title") or "" for sh in
+                       json.loads(p.read_text(encoding="utf-8")).get("shows", [])]
+        titles = sorted(set(titles))
+        script = (norm_js + merge_js + f"const ts = {json.dumps(titles)};"
+                  "console.log(JSON.stringify(ts.map(mergeKey)));")
+        out = subprocess.run(["node", "-e", script], capture_output=True, text=True,
+                             timeout=60)
+        self.assertEqual(out.returncode, 0, out.stderr)
+        diff = [(t, bp.merge_key(t), js) for t, js in zip(titles, json.loads(out.stdout))
+                if bp.merge_key(t) != js]
+        self.assertEqual(diff, [])
 
     def test_the_client_unions_the_tmdb_id_with_the_title_key(self):
         self.assertIn("union(s.eventId, `tmdb:${s.tmdbId}`)", INDEX)

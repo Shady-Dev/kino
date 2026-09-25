@@ -744,8 +744,11 @@ def genre_names(gids, genres, gmap, lang):
 _MERGE_STRIP = (
     re.compile(r"\((?:suomeksi|dubattu|dub|orig\.?)\)", re.I),
     re.compile(r"\((?:re-?release|uudelleenjulkaisu|uusi\s+kopio)\)", re.I),
-    re.compile(r",?\s*\bsuomeksi\b", re.I),
-    re.compile(r"\b(?:2d|3d|imax|4k)\b", re.I),
+    # re.A on the two `\b` patterns: JavaScript's `\b` is ASCII, so the client strips
+    # "suomeksi" from "äsuomeksi" and a Unicode `\b` here did not (audit E9). Only
+    # these two: `\s` stays Unicode, as JavaScript's is, and norm() absorbs the rest.
+    re.compile(r",?\s*\bsuomeksi\b", re.I | re.A),
+    re.compile(r"\b(?:2d|3d|imax|4k)\b", re.I | re.A),
 )
 
 
