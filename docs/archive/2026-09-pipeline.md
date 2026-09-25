@@ -2349,3 +2349,15 @@ interrupt or an exit still passes through untouched. None of the six adapters th
 `EmptyProgramme` wraps its listing fetch today. Test: the contended two-module pool in
 `test_cloud_pool.py`, adapter swallowing the refusal and then raising `EmptyProgramme`, red
 on the unfixed code; 2 mutations, both red.
+
+### run.py releases a site's host claims before it publishes (2026-09-25)
+
+Audit finding C2. `run_sites` wrapped the whole of `run_site`, fetch and publish, in
+`common.reading`, so a `HostBusy` an adapter swallowed (etiketti catches around a film page)
+was re-raised only after the site's area files and `venues-{p}.json` with `status: ok` were
+live, while the log said FAILED. `run_cloud` already fetched inside the claim and published
+outside it. `run_site` now takes the claim as an argument and wraps only the fetch with it,
+so the refusal comes back before anything is written. Latent on the local half: no two
+local sites contend for a host today, but any module run by hand could. Test:
+`test_run_host_claim.py`, a host held by another site beforehand so nothing is sent, red on
+the unfixed code (three files written); moving the publish back inside the claim turns it red.

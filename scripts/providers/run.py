@@ -145,7 +145,7 @@ def enrichment_of(path):
     return out
 
 
-def run_site(mod, site, now, order=0):
+def run_site(mod, site, now, order=0, claim=None):
     """Fetch and write one site. -> publish_site's tuple. Raises on a fetch failure.
 
     Two steps rather than one since 2026-09-15, because `run_cloud.py` fetches on a pool
@@ -153,9 +153,15 @@ def run_site(mod, site, now, order=0):
     for the whole run and the site that wins a synopsis has to be the earlier one in SITES
     order, not whichever host answered first. Nothing else changed: this is still the whole
     of one site for every caller that fetches it itself.
+
+    `claim` wraps the fetch alone, and `run_sites` passes `common.reading`: the claims are
+    released and a swallowed refusal re-raised before anything is written. Wrapping the
+    publish as well let a site whose adapter caught `HostBusy` write its files, `status: ok`
+    included, before the refusal came back out of the context (2026-09-25).
     """
     try:
-        per_venue = mod.fetch_site(site)
+        with (claim if claim is not None else contextlib.nullcontext()):
+            per_venue = mod.fetch_site(site)
     except common.EmptyProgramme:
         publish_empty(mod, site, now, order)
         raise
@@ -630,9 +636,10 @@ def run_sites(mod, sites, now, workers=None):
                 try:
                     chunks = rec.capture()
                     # Claims every host this site turns out to read, page-derived ones
-                    # included, and releases them when it is done. See common.reading.
-                    with common.reading(label):
-                        slots[i] = (label, run_site(mod, site, now, i), None, chunks)
+                    # included, for the fetch, and releases them before the publish. See
+                    # common.reading and run_site.
+                    slots[i] = (label, run_site(mod, site, now, i,
+                                                claim=common.reading(label)), None, chunks)
                 except Exception as e:
                     slots[i] = (label, None, e, chunks)
                 finally:
