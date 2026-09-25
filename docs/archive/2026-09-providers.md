@@ -3165,3 +3165,13 @@ or filter could read. Both now join with " · ". No committed row carries two ta
 either adapter, so the data does not change; the next run republishes the same values.
 `test_cinemantsala.py` had pinned "3D, Ennakkonäytös!" and now pins "3D · Ennakkonäytös!";
 `MethodTagsTest` in `test_gilda_duplicates.py` is new. 2 mutations, both red.
+
+### Kino Helios: the docstring says what a clock clash does (2026-09-25)
+
+Audit finding A13, the Helios part of prior review #35. The module docstring said a row
+whose UTC instant and printed Helsinki clock disagree fails the site; the code leaves that
+row out and logs a count, and `test_helios.py` pins that. The code is the intended
+behaviour: a dropped offset, the fault the check exists for, makes every row disagree,
+nothing is left, and the empty-result raise fails the site with the previous file kept.
+The docstring now says so, and `test_a_clock_clash_on_every_row_fails_the_site` holds
+that path. 2 mutations, both red.

@@ -246,6 +246,17 @@ class RunnerTest(unittest.TestCase):
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")
 
+    def test_a_clock_clash_on_every_row_fails_the_site(self):
+        """What a dropped offset looks like: every instant three hours off its printed
+        clock. Each row is left out, nothing is left, and the site fails with the
+        previous file kept, instead of publishing every screening at the wrong time."""
+        self.serve([event(span_="ke  23.9.2026 klo 12.00"),
+                    event(start="2026-09-24T15:00", end="2026-09-24T17:00",
+                          span_="to  24.9.2026 klo 12.00")])
+        code, log = self.main()
+        self.assertNotEqual(code, 0)
+        self.assertFalse((run.OUT / f"area-{VENUE}.json").exists())
+
     def test_a_refused_request_keeps_the_previous_file(self):
         kept = {"generated": "2026-09-20T00:00:00+00:00", "dates": [], "horizon": "",
                 "shows": [{"title": "Yesterday", "start": "2026-09-20T17:00:00+03:00"}]}

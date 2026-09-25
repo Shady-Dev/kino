@@ -17,9 +17,10 @@ What shapes the parser, measured on the live service 2026-09-21:
   (HopeaCine and the Syysloma strand), 2 `Yleisön suosikit` and 1 **`Doc Helios`**, which
   is a different strand of the same house and is not this cinema.
 - **`start` is `/Date(milliseconds)/`, a UTC instant**, and `timeSpanToShow` states the
-  same moment in Helsinki. Both are read and a row where they disagree fails the site,
-  because a dropped offset is the fault that would publish every screening three hours
-  out. All 22 rows agreed when this was written.
+  same moment in Helsinki. Both are read. A row where they disagree is left out and
+  counted in the log; a dropped offset makes every row disagree, so nothing is left and
+  the site fails, where it would otherwise publish every screening three hours out. All
+  22 rows agreed when this was written.
 - **`end - start` is a booking slot, not a runtime.** Twenty-one of the 22 rows measured
   exactly 120 minutes and one 300, so the field settles no film's length and `len` stays
   empty. Nothing else fills it: the TMDB pass publishes no runtime (checked 2026-09-24).
