@@ -3093,3 +3093,15 @@ every previous file stands: a venue that passed may have passed on a name that h
 to match.
 Tests: `test_biorex.py` (new), 5 tests over two venues with a stubbed cookie, three red on
 the unfixed code; 4 mutations, all red.
+
+### Gilda and Local Hub read a naive timestamp in Helsinki (2026-09-25)
+
+Audit finding A7, prior review #31 for Gilda. `gilda._start` and `localhub.instant` parsed
+with `fromisoformat` and called `astimezone(FI)`, which reads a value with no offset in the
+host's zone: "2026-09-26T15:00:00" became 18:00 on a UTC runner and 15:00 on the laptop, so
+the two halves or a hand run would publish one screening three hours apart. Both now read
+a naive value as Helsinki wall time, the zone the Local Hub site declares and every other
+adapter's. An offset or `Z` is honoured as before. The committed data carries the
+correct offset on every row today, so nothing changes in it.
+Tests: `test_naive_timestamps.py` pins the process to UTC and to Helsinki; red under UTC on
+the unfixed code; 2 mutations, both red.

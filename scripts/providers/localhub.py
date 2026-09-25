@@ -105,12 +105,14 @@ def price_of(price):
 
 
 def instant(value):
-    """A UTC ISO string -> an aware Helsinki datetime, or None."""
+    """An ISO string -> an aware Helsinki datetime, or None. The API sends UTC with a
+    `Z`; a value with no offset is read as Helsinki wall time, the zone the site
+    declares, never the host's, which `astimezone` would use."""
     try:
-        return datetime.datetime.fromisoformat(
-            (value or "").replace("Z", "+00:00")).astimezone(FI)
+        t = datetime.datetime.fromisoformat((value or "").replace("Z", "+00:00"))
     except ValueError:
         return None
+    return (t if t.tzinfo else t.replace(tzinfo=FI)).astimezone(FI)
 
 
 def is_film(site, page):

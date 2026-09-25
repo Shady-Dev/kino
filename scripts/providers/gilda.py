@@ -124,6 +124,10 @@ def _start(show):
     if not raw:
         return ""
     t = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    # A value with no offset is Helsinki wall time. `astimezone` would read it in the
+    # host's zone, three hours off on a UTC runner.
+    if t.tzinfo is None:
+        t = t.replace(tzinfo=FI)
     return t.astimezone(FI).isoformat()
 
 
