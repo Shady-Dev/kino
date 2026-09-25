@@ -150,8 +150,20 @@ class PickTest(unittest.TestCase):
         _, exact = enrich_tmdb.pick([hit(5, "Käpy selän alla", 1968)], "Käpy selän alla", "1966")
         self.assertFalse(exact)
 
-    def test_a_hit_without_a_release_date_cannot_contradict_the_year(self):
+    def test_a_hit_without_a_release_date_cannot_confirm_the_year(self):
+        """Changed 2026-09-25: this pinned the dateless hit as accepted, which is how
+        Kino Regina's 1950 "Stromboli" took a five-minute volcano short with no date."""
         h, exact = enrich_tmdb.pick([hit(9, "Obscure", None)], "Obscure", "1950")
+        self.assertEqual((h["id"], exact), (9, False))
+
+    def test_a_dated_hit_of_the_year_beats_a_dateless_one_in_either_order(self):
+        hits = [hit(1443988, "Stromboli", None), hit(43335, "Stromboli", 1950)]
+        for order in (hits, list(reversed(hits))):
+            h, exact = enrich_tmdb.pick(order, "Stromboli", "1950")
+            self.assertEqual((h["id"], exact), (43335, True))
+
+    def test_without_a_year_a_dateless_hit_is_judged_as_before(self):
+        h, exact = enrich_tmdb.pick([hit(9, "Obscure", None)], "Obscure")
         self.assertEqual((h["id"], exact), (9, True))
 
     def test_the_year_itself_beats_a_neighbouring_year_in_either_order(self):
@@ -616,6 +628,15 @@ class MainPathTest(MainHarness):
         self.assertIn("year mismatch, exact title refused (1): All Night Long (1962) -> "
                       "All Night Long (1981)", out)
         self.assertNotIn("weak match, no exact title", out)
+
+    def test_a_dateless_hit_against_a_published_year_is_weak_and_logged(self):
+        self.shows({"title": "Stromboli", "year": "1950"})
+        out = self.run_main({("Stromboli", ""): [hit(1443988, "Stromboli", None)]})
+        e = self.cache()["stromboli"]
+        self.assertEqual((e["i"], e["x"]), (1443988, False))
+        self.assertIn("no release date to check the published year against, refused (1): "
+                      "Stromboli (1950) -> Stromboli (1443988)", out)
+        self.assertNotIn("none trusted", out)
 
     def test_a_same_year_tie_is_cached_weak_and_logged_as_a_tie(self):
         self.shows({"title": "Remake", "year": "1990"})

@@ -452,7 +452,9 @@ def pick(hits, query, year=None, original=None, minutes=(), runtimes=None):
     to be one film: two different ids still standing is a tie, returned as *not* exact,
     whatever order TMDB listed them in. An exact title whose year is further off than
     YEAR_TOL is not exact either: a 1981 "All Night Long" is not the 1962 one. A hit with
-    no release date cannot contradict a year and is accepted.
+    no release date cannot confirm the year and never wins against one: Kino Regina's
+    1950 "Stromboli" took a dateless five-minute short about the volcano, 1443988, its
+    poster and its plot (2026-09-25). Without a published year it is judged as before.
 
     Without a year, one film of that title is the match. Among several, the published
     runtime can move the choice when the caller has one and supplies `runtimes`, {id:
@@ -466,13 +468,11 @@ def pick(hits, query, year=None, original=None, minutes=(), runtimes=None):
         if minutes and runtimes is not None and len({h.get("id") for h in exact}) > 1:
             return by_runtime(exact, minutes, runtimes)
         return exact[0], True
-    near = [h for h in exact if plausible(release_year(h), year)]
+    near = [h for h in exact if release_year(h) and plausible(release_year(h), year)]
     if not near:
         return exact[0], False
-    best = min(abs(int(release_year(h)) - int(year)) if release_year(h) else YEAR_TOL
-               for h in near)
-    tier = [h for h in near
-            if (abs(int(release_year(h)) - int(year)) if release_year(h) else YEAR_TOL) == best]
+    best = min(abs(int(release_year(h)) - int(year)) for h in near)
+    tier = [h for h in near if abs(int(release_year(h)) - int(year)) == best]
     if len({h.get("id") for h in tier}) > 1 and norm(original):
         named = [h for h in tier if norm(h.get("original_title")) == norm(original)]
         if named:
@@ -1105,6 +1105,7 @@ def main() -> int:
     ties = []                # several films of that title and year; none trusted
     by_len = []              # several films of that title, no year: the runtime decided
     headless = []            # exact hits on a colon head the evidence did not back
+    dateless = []            # exact titles with no release date against a published year
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
@@ -1229,6 +1230,9 @@ def main() -> int:
                         if fact["y"] and titled and hy and not plausible(hy, fact["y"]):
                             offyear.append(f"{display or k} ({fact['y']}) -> "
                                            f"{fallback.get('title')} ({hy})")
+                        elif fact["y"] and titled and not hy:
+                            dateless.append(f"{display or k} ({fact['y']}) -> "
+                                            f"{fallback.get('title')} ({fallback.get('id')})")
                         elif fact["y"] and titled:
                             ties.append(f"{display or k} ({fact['y']}) -> "
                                         f"{fallback.get('title')} ({hy or '?'})")
@@ -1502,6 +1506,9 @@ def main() -> int:
     if ties:
         print(f"[enrich] several films match the title and year, none trusted ({len(ties)}): "
               + " | ".join(sorted(ties)))
+    if dateless:
+        print(f"[enrich] no release date to check the published year against, refused "
+              f"({len(dateless)}): " + " | ".join(sorted(dateless)))
     if headless:
         print(f"[enrich] colon head matched, not backed by year or runtime, refused "
               f"({len(headless)}): " + " | ".join(sorted(headless)))

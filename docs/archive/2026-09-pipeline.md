@@ -2233,3 +2233,22 @@ runtime and got an alias to the id it already had, 1302904, so the sequel match 
 `test_tmdb_queries.py` pinned the head as a fallback and still does; its docstring now
 says the fallback is corroborated. Tests: 3 in `test_tmdb_queries.py`, 3 in
 `test_tmdb_matching.py`, 8 mutations, all red.
+
+### A dateless TMDB hit never wins against a published year (2026-09-25)
+
+Audit finding E2, prior review #7. `pick()` counted a hit with no release date as
+plausible for any published year, since "unknown cannot contradict". Kino Regina's
+"Stromboli", published as 1950 and 107 minutes, took 1443988: a dateless five-minute short
+about the volcano with 0 votes, its poster and its plot in the `en` slot. With a year
+published, a dateless hit now cannot confirm it and never enters the tier, so it is only
+ever the weak fallback, logged as "no release date to check the published year against,
+refused". Without a year it is judged as before.
+
+Scan: every exact cache entry with a published year and no recorded release year (56) was
+read off `/movie/{id}`; Stromboli was the only dateless one and none was more than a year
+off. Purged and re-enriched: 4173, Rossellini's *Stromboli* (1950-02-15, 107 min, Ingrid
+Bergman), rating 7.1 from 235 votes; the poster is mirrored. No page changed: both rows
+are in November, outside the pages' window.
+
+`test_tmdb_matching.py` pinned the old acceptance (`..._cannot_contradict_the_year`); it now
+pins the refusal. Tests: 4 in that file; restoring the old `pick()` body turns two red.
