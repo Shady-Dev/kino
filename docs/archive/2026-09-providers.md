@@ -3025,3 +3025,20 @@ file, because `merge_extra` writes TMDB fields only onto an entry that already h
 and these records have no TMDB text. An enrich pass over the result changes nothing. No
 page changed: the six run from December.
 Tests: 1 in `test_tapiola.py`; 4 mutations, all red.
+
+### Nexxo publishes only S and K-n as a rating (2026-09-25)
+
+Audit finding A1. `parse()` wrote `K-{age}` for a numeric `ageLimit` and anything else
+verbatim, so Kino Aurora's lowercase "s" on "Filminäytös: Aku Ankka -lyhytelokuvia" and
+"Animaatioaarteet - Heikki Prepula" (14 and 15 October, the LAIKKU children's festival)
+went out as "s": the chip read "s" and `kidsRated()` in `index.html`, which compares with
+"S" and "K-7", dropped both from Lapsille. `nexxo.rating()` now returns "S", "K-n" (a bare
+number, or K with or without a dash, any case) or nothing, the rule `fetch_data.py` already
+applies to OCAPI's "Tulossa" and "-".
+
+Refreshed once with `run.py nexxo`: 10 venues, 165 showtimes, 0 failures, 3 Kino Metso
+towns pending as before; both rows now carry "S", and no row was added or lost. Other
+adapters, swept over the committed data: no other rating outside S and K-n except "K-6"
+(17 rows at Kinokulma, Pyhäsalmen VPK, Alatalo and Laitilan Kino), which is a number the
+cinemas print, not the verbatim pass-through, so it is left as a follow-up.
+Tests: `test_nexxo_rating.py`, 5 tests; 4 mutations, all red.

@@ -168,6 +168,22 @@ def _iso(start):
     return naive.replace(tzinfo=FI).isoformat()
 
 
+def rating(age):
+    """A Nexxo `ageLimit` -> "S", "K-n" or "".
+
+    Only S and K-n are ratings: the client's `kidsRated()` and every `rating ===` test
+    compare against exactly those strings. The field is a bare number on most rows, but
+    Kino Aurora sent a lowercase "s" on two Animaatioaarteet screenings, published as "s"
+    and dropped from Lapsille (2026-09-25). Anything else is no rating, the rule
+    `fetch_data.py` applies to OCAPI's "Tulossa" and "-".
+    """
+    a = re.sub(r"\s+", "", str(age or "")).upper()
+    if a == "S":
+        return "S"
+    m = re.fullmatch(r"(?:K-?)?(\d{1,2})", a)
+    return f"K-{int(m.group(1))}" if m else ""
+
+
 def parse(payload, site, venue):
     # Positive evidence that the endpoint answered in the schema this parser reads,
     # before any of its emptiness is believed. A renamed or restructured key yields zero
@@ -215,7 +231,7 @@ def parse(payload, site, venue):
             "title": (r.get("movieTitle") or r.get("title") or "?").strip(),
             "original": "",   # code_external_title holds a distributor code, not a title
             "len": str(r.get("duration") or "").strip().lstrip("0") or "",
-            "rating": f"K-{age}" if age.isdigit() else age,
+            "rating": rating(age),
             "genres": ", ".join(g.strip().capitalize()
                                 for g in (r.get("genre") or "").split(",") if g.strip()),
             "method": (r.get("showTypeTitle") or "").replace("Tavallinen näytös", "").strip(),
