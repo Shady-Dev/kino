@@ -1,8 +1,8 @@
-[orion] film languages: 18 films, 18 with a language, 0 pages read, 0 failed, 0 deferred, 0 left out as possibly more than one version
-[orion] Cinema Orion: 29 showtimes, 12 dates
-[orion] synopses merged: 0
+[orion] film languages: 20 films, 20 with a language, 2 pages read, 0 failed, 0 deferred, 0 left out as possibly more than one version
+[orion] Cinema Orion: 33 showtimes, 14 dates
+[orion] synopses merged: 2
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- cinemaorion.fi
-[run] orion: 1 venues, 29 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 46.7s, 1.0s wall from this module's first fetch starting to its last ending
+[run] orion: 1 venues, 33 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 3.2s of fetching added up across workers that overlap, longest site 3.2s, longest queue wait 47.6s, 3.2s wall from this module's first fetch starting to its last ending
 exit=0

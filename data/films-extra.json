@@ -879,7 +879,9 @@
    "img": "data/posters/4f2ccb69b574d669.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biorex",
+    "biorexkokkola",
     "ihmekompleksi",
     "joutsankino",
     "kinoaurora",
@@ -1157,6 +1159,14 @@
    "s": {
     "en": "Summer 1955. Kamal, an 11-year-old boy in Fez's Medina, lives through Morocco's final months before independence. Alongside Aïcha and Qaraouiyine students, he joins the struggle for freedom. These 3 months transform his life.",
     "fi": ""
+   },
+   "tr": ""
+  },
+  "filminor": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ainoa näytös, vapaa pääsy! Maanalaisia muistoja Filminorin kellarista. Näytöksessä nähdään kaksi lyhytelokuvaa ja näytöksen alustaa Eero Tammi."
    },
    "tr": ""
   },
@@ -1746,6 +1756,14 @@
    "ts": [
     "en"
    ]
+  },
+  "jazz suomi 100 vuotta lyhytelokuvanäytös": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Klubialennus, ainoa näytös! Näytöksen alussa Janne Mäkelä kertoo, mitä oikein tapahtui, kun jazz ja elokuva todella löysivät toisensa."
+   },
+   "tr": ""
   },
   "jonain päivänä": {
    "id": 1277884,
@@ -6878,6 +6896,29 @@
   "verityn varjo": {
    "id": 1283515,
    "img": "data/posters/4a690568fa372cff.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorex",
+    "cine",
+    "cinemantsala",
+    "ihmekompleksi",
+    "kinokulma",
+    "star",
+    "tapiola"
+   ],
+   "r": 0,
+   "s": {
+    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
+    "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
+   "ts": [
+    "en"
+   ]
+  },
+  "verityn varjo verity": {
+   "id": 1283515,
+   "img": "data/posters/052a413644e02ce6.jpg",
    "kr": "K-12",
    "krs": [
     "biorex",

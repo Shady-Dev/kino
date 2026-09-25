@@ -32,9 +32,9 @@
 [cloud] matintupa: exit=0
 [cloud] kuusamotalo: exit=0
 [cloud] localhub: exit=0
-[cloud] kinohuovi: exit=0
+[cloud] kinohuovi: exit=1
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 202.2s wall, 1243.3s of fetching added up across workers that overlap, 71 site(s) fetched
-[cloud] held at most 45 fetched site(s) and 4304 byte(s) of captured log waiting for publication
+[cloud] 207.9s wall, 1361.2s of fetching added up across workers that overlap, 71 site(s) fetched
+[cloud] held at most 43 fetched site(s) and 4236 byte(s) of captured log waiting for publication
 exit=1
