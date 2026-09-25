@@ -78,6 +78,11 @@ Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a 
 `base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
 **Next action:** re-probe when either host is next touched.
 
+### Every cold load reads all 82 venue lists
+
+Chooser, venue and city fetch every provider's list: 88, 89 and 115 requests (audit,
+2026-09-25). **Next action:** measure what the chooser needs, then propose a lazy load.
+
 ### Thirteen sites go red when genuinely empty
 
 None has a recorded empty state, so zero rows fails the run instead of clearing data.
@@ -85,6 +90,11 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 **Next action:** when one fails with its own page showing nothing on, record that state.
 
 ## Blocked
+
+### The cloud cron fires about half its slots
+
+23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min
+late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub runs them.
 
 ### Kino Helios publishes no screening language this adapter can read
 
@@ -254,6 +264,7 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   refactor. Measured per adapter in
   [docs/research/adapter-http.md](docs/research/adapter-http.md).
 - `api()` in `fetch_data.py` has no retry, unlike `common.fetch`.
+- Refactoring `enrich_tmdb.main()` (complexity 205, 481 lines): after the 09-25 rules settle.
 - A dataclass for the fetch result. `run.py` already models it.
 - A single shared TMDB pass. The two stay separate and agree on the rules, so the same
   film can briefly carry two ratings.
@@ -294,9 +305,9 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   Kino, Savon Kinot, Kino Regina, Cine, Elokuvateatteri Star, Elokuvateatteri Huvimylly)
   and three more run there until a runner is shown to read them, so 34 of 134 venues ride
   on one machine (docs/counts.md, 2026-09-24), and no cloud VM keeps that coverage.
-- A Pages artifact deploy, to stop the committed pages growing the repo by roughly the
-  gzipped delta per day (~390 kB worst case). It would move the traffic path behind
-  Actions scheduling.
+- A Pages artifact deploy, to stop the committed pages growing the repo: 1.2 to 2.3 MiB a
+  day packed, about 33 MiB a week for the whole repo (audit, 2026-09-25). It would move the
+  traffic path behind Actions scheduling.
 - A data branch: decided against 2026-09-01. Branching does not shrink history and every
   way off `main` is worse.
 - `og:image` as a 1200x630 card rather than `icon-512.png`. It would preview better.
@@ -316,14 +327,10 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 
 ## Documentation state
 
-The counts are generated: [docs/counts.md](docs/counts.md), written by
-`python3 scripts/build_counts.py`, which also syncs the four figures README states in
-prose. They lived here and were re-measured by hand twenty-two times, and five of those
-passes shipped a wrong number, which is why they are derived now and not transcribed.
-Earlier passes are in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
-
-Where each document's content belongs is a rule, and it is in
-[CLAUDE.md](CLAUDE.md) under "Where it goes".
+The counts are generated: [docs/counts.md](docs/counts.md), by `scripts/build_counts.py`,
+which syncs README's four figures too. Hand-kept here, five of twenty-two passes shipped a
+wrong number; earlier passes are in [docs/archive/2026-09-ops.md](docs/archive/2026-09-ops.md).
+Where each document's content belongs is in [CLAUDE.md](CLAUDE.md), "Where it goes".
 
 ## Contact
 
@@ -344,8 +351,7 @@ them. If a cinema would rather not be included, the adapter comes out: one entry
 
 ## Where the rest went
 
-Moved 2026-09-15. Nothing was deleted; 4,790 lines of closed records and evidence moved
-out of this file and each entry kept its heading.
+Moved 2026-09-15: 4,790 lines of closed records and evidence, nothing deleted, headings kept.
 
 **Closed decision records**, one archive file per area:
 
@@ -372,13 +378,10 @@ out of this file and each entry kept its heading.
 | [docs/research/publication-rhythm.md](docs/research/publication-rhythm.md) | when cinemas publish, measured and as Finnkino states it |
 | [docs/research/runner-challenges.md](docs/research/runner-challenges.md) | why a cloud run can fail on many unrelated cinemas at once, and what it costs |
 
-**Accepted rules** were not moved into either. They were already in
-[CLAUDE.md](CLAUDE.md) and [DESIGN.md](DESIGN.md), which are authoritative, and the
-duplicate prose here is gone rather than copied. The one that used to live here and is
-worth naming: "Access and ethics", now in `CLAUDE.md`, with the historical record of how
+**Accepted rules** were not moved into either: they were already in [CLAUDE.md](CLAUDE.md)
+and [DESIGN.md](DESIGN.md). "Access and ethics" lived here; it is in `CLAUDE.md`, with how
 each rule was arrived at in `docs/archive/2026-09-ops.md`.
 
-Two anchors that used to point inside this file and now point into the archive: "Seven
-backlog items closed without building them" and "The landing pages belong to the product".
-Both are in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md), with what that file
-records about the `index.html` freeze and what no file in this repo records.
+"Seven backlog items closed without building them" and "The landing pages belong to the
+product" now resolve in [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md), with
+what it records about the `index.html` freeze.
