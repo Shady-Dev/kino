@@ -3125,3 +3125,20 @@ at the next row's start, still capped at 400. No disagreement with other chains 
 nine films at the time, so the committed data is unchanged. The test failed on the unfixed
 code; removing the bound turns it red. Removing the 400 cap instead is not caught: it only
 matters for the page's last row, and it was not what the finding was about.
+
+### eTiketti: a film page that does not answer fails the site (2026-09-25)
+
+Audit finding A11. `fetch_site` printed a failed film page, cleared `complete` and went on,
+so the venues published without that film's screenings, exit 0. The screenings are on the
+film pages, so that is a venue publishing part of its day, the case `budget_or_raise`'s
+docstring calls worse than none; kinola and cinemantsala already raise here. It now raises
+after `get`'s retries, and run.py keeps every previous file. Which venue the film plays at
+is on the page that failed, so the whole site fails rather than one venue. Not seen in the
+114 logged runs since 09-01.
+
+This reverses what `test_etiketti_empty_venue.py` pinned on 2026-09-13 ("Keuda keeps its
+rows, Nikkilä is not vouched for"). That test was written for the empty-venue
+confirmation, and the 2026-09-14 decision that a page which fetched and parsed to nothing
+disqualifies the read without raising is untouched. The uncertain-read test now uses a row
+for an unregistered place; two tests cover the failed page, both red on the unfixed code;
+restoring the skip turns both red.

@@ -89,12 +89,16 @@ class ConfirmedEmptyTest(Stubbed):
                          ["2026-09-17T18:00:00+03:00", "2026-09-18T18:00:00+03:00"])
         self.assertEqual(out["cine-keuda"][0]["theatre"], "Cine Keuda-Talo")
 
-    def test_a_film_page_that_failed_to_fetch_leaves_the_venue_unconfirmed(self):
-        out = self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
-                          "/elokuvat/13/hetki": KEUDA_FILM,
-                          "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
-        self.assertEqual(sorted(out), ["cine-keuda"], "Keuda keeps its rows, Nikkilä is not vouched for")
-        self.assertEqual(len(out["cine-keuda"]), 2)
+    def test_a_film_page_that_failed_to_fetch_fails_the_site(self):
+        """Changed 2026-09-25 (audit A11): this pinned Keuda publishing its other film's
+        rows. The screenings are on the film pages, so a page that did not answer is a
+        venue publishing part of its day, and which venues that film plays at is on the
+        page that failed. `budget_or_raise` states the rule: a partial schedule is worse
+        than none, and run.py keeps every previous file when the site fails."""
+        with self.assertRaisesRegex(RuntimeError, "movie 21"):
+            self.fetch({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
+                        "/elokuvat/13/hetki": KEUDA_FILM,
+                        "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
 
     def test_a_row_for_a_place_nobody_registered_leaves_the_venue_unconfirmed(self):
         """A renamed venue looks exactly like an unregistered place, and the navigation
@@ -247,14 +251,27 @@ class RunSiteTest(Stubbed):
 
     def test_an_uncertain_read_keeps_the_previous_file_and_the_old_stamp(self):
         """The keep-previous branch never advances the stamp, so without confirmation
-        the provider stays "not updated" for as long as the venue has no row."""
+        the provider stays "not updated" for as long as the venue has no row. The read is
+        uncertain through a row for an unregistered place; a film page that fails to
+        fetch fails the site since 2026-09-25, below."""
         live, total, stale, unverified, pending = self.run_site(
-            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
-             "/elokuvat/13/hetki": KEUDA_FILM, "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
+            {"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/2/prima"),
+             "/elokuvat/13/hetki": KEUDA_FILM, "/elokuvat/2/prima": MANTSALA_FILM})
         self.assertEqual((stale, pending), (["cine-nikkila"], []))
         self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
         prov = self.read("venues-cine.json")
         self.assertEqual((prov["status"], prov["oldest"]), ("partial", self.PREV["generated"]))
+
+    def test_a_film_page_that_fails_keeps_every_previous_file(self):
+        """Keuda's other film did not answer: publishing Keuda's rows from the page that
+        did would be part of its day, so nothing is written."""
+        (self.run.OUT / "area-cine-keuda.json").write_text(json.dumps(self.PREV), encoding="utf-8")
+        with self.assertRaises(RuntimeError):
+            self.run_site({"/elokuvat/ohjelmistossa": cine_listing("/elokuvat/13/hetki", "/elokuvat/21/myrsky"),
+                           "/elokuvat/13/hetki": KEUDA_FILM,
+                           "/elokuvat/21/myrsky": RuntimeError("HTTP 503")})
+        self.assertEqual(self.read("area-cine-keuda.json"), self.PREV)
+        self.assertEqual(self.read("area-cine-nikkila.json"), self.PREV)
 
 
 class DriftedParseTest(RunSiteTest):

@@ -653,9 +653,13 @@ def fetch_site(site, sleep=1.2):
         try:
             page = get(site["base"] + path)
         except Exception as e:
-            print(f"[{site['provider']}] movie {mid}: {e}")
-            complete = False
-            continue
+            # The screenings are on the film pages, so publishing the rest would put out
+            # part of some venue's day, and which venues this film plays at is on the page
+            # that failed. Fail the site and keep every previous file, `budget_or_raise`'s
+            # rule and kinola's (2026-09-25).
+            raise RuntimeError(f"{site['provider']}: movie {mid} did not answer ({e}); "
+                               f"its screenings are on that page, so no venue of this "
+                               f"site publishes a partial schedule") from e
         rows, meta = parse_movie(page, site, path)
         # A film page that produced no row. Screening blocks with no readable time are
         # TIME_RE off the template; no block at all is ITEM_RE off it, and the page names
