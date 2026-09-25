@@ -229,3 +229,56 @@ class EnrichmentPreservesEveryLanguageTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UnreadableFileTest(unittest.TestCase):
+    """An unparsable films-extra.json was read as {} and rewritten from one site's
+    synopses: one stray comma from a hand edit, and the first site to publish cut 568
+    entries to 1, with every cinema `sv` slot, `id`, `ts` and `kr` gone (audit C5,
+    2026-09-25). A missing file is still an empty one; a file that is there and cannot be
+    read fails the step and is left as it was."""
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.out = pathlib.Path(tmp.name)
+        self.path = self.out / "films-extra.json"
+        whole = json.dumps({"generated": "2026-09-25", "films": {
+            "a": {"s": {"fi": FI, "en": "", "sv": SV}, "r": 0, "tr": ""},
+            "b": {"s": {"fi": FI, "en": EN}, "id": 7, "ts": ["en"], "r": 6.5, "tr": ""}}})
+        self.body = whole[: len(whole) // 2]          # a truncated write
+        self.path.write_text(self.body)
+        synmerge.reset()
+        self.addCleanup(synmerge.reset)
+
+    def assertUntouched(self):
+        self.assertEqual(self.path.read_text(), self.body)
+
+    def test_the_synopsis_merge_fails_and_leaves_the_file(self):
+        with self.assertRaises(ValueError):
+            synmerge.merge(self.out, {"v": [show("Toinen elokuva", FI)]}, "p", 0)
+        self.assertUntouched()
+
+    def test_the_tmdb_passes_fail_and_leave_the_file(self):
+        saved = enrich_tmdb.EXTRA
+        enrich_tmdb.EXTRA = self.path
+        self.addCleanup(lambda: setattr(enrich_tmdb, "EXTRA", saved))
+        with self.assertRaises(ValueError):
+            enrich_tmdb.merge_extra({}, "2026-09-25")
+        self.assertUntouched()
+        with self.assertRaises(ValueError):
+            enrich_tmdb.merge_shared({}, "2026-09-25")
+        self.assertUntouched()
+
+    def test_a_document_that_is_not_an_object_fails_too(self):
+        self.path.write_text("[]")
+        self.body = "[]"
+        with self.assertRaises(ValueError):
+            synmerge.merge(self.out, {"v": [show("Toinen elokuva", FI)]}, "p", 0)
+        self.assertUntouched()
+
+    def test_a_missing_file_is_still_an_empty_one(self):
+        self.path.unlink()
+        synmerge.merge(self.out, {"v": [show("Toinen elokuva", FI)]}, "p", 0)
+        self.assertEqual(json.loads(self.path.read_text())["films"]["toinen elokuva"]["s"]["fi"], FI)
+

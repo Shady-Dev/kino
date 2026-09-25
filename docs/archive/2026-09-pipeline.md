@@ -2290,3 +2290,18 @@ A slot listed in `ts` is now open to a cinema's text, which takes the slot out o
 The SITES-order tie-break inside a run is unchanged. The failing test was written first
 and went red on the unfixed code. No data is changed here; the swap lands as each chain's
 next run merges. Tests: 2 in `test_synopsis_lang.py`; 3 mutations, all red.
+
+### An unreadable films-extra.json fails the step and stays as it was (2026-09-25)
+
+Audit finding C5. `synmerge.merge`, `enrich_tmdb.merge_extra` and `merge_shared` each read
+films-extra.json with `except Exception: doc = {}` and then wrote the file back, so one
+stray comma from a hand edit had the first site to publish cut 568 entries to 1: every
+cinema `sv` slot, hand-cleaned text, `id`, `ts` and `kr` lost until something re-supplied
+them. `synmerge.read_extra` is now the one reader for all three: a missing file is an empty
+one, anything else raises (a parse error, or a document that is not an object). On the
+run.py path the raise lands before `commit_staged`, so the site fails with its venue files
+discarded and the previous ones live; the enrich pass exits non-zero, which the workflow
+records and turns red after the commit step. `fetch_data.py` only reads the file for the
+"?" repair and never writes it, so it keeps its fallback.
+The tests were written first and failed on the unfixed code (two failures, one error).
+Tests: 4 in `test_synopsis_lang.py`; 5 mutations, all red.

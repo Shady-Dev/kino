@@ -138,6 +138,25 @@ def norm(t):
     return re.sub(r"\s+", " ", t).strip()
 
 
+def read_extra(path: pathlib.Path) -> dict:
+    """films-extra.json as a document. A missing file is an empty one.
+
+    Anything else that stops it being read raises, JSONDecodeError being a ValueError.
+    Every writer of this file is a read-modify-write, and reading a broken file as {}
+    rewrote it from one site's synopses: one stray comma cut 568 entries to 1, with every
+    cinema `sv` slot, `id`, `ts` and `kr` gone until something re-supplied them (audit C5,
+    2026-09-25). Failing leaves the file for a person to repair, and the step red.
+    """
+    try:
+        raw = path.read_text()
+    except FileNotFoundError:
+        return {}
+    doc = json.loads(raw)
+    if not isinstance(doc, dict):
+        raise ValueError(f"{path.name}: not a JSON object")
+    return doc
+
+
 def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> None:
     """Fold this site's synopses into films-extra.json. `order` is its index in SITES.
 
@@ -150,10 +169,7 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
     """
     path = out / "films-extra.json"
     with _lock:
-        try:
-            doc = json.loads(path.read_text())
-        except Exception:
-            doc = {}
+        doc = read_extra(path)
         films = doc.get("films") or {}
         added = skipped = 0
         per_lang = {}

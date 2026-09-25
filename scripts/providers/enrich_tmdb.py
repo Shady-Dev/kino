@@ -19,6 +19,7 @@ import datetime, json, os, pathlib, re, sys, time, urllib.parse, urllib.request
 import common
 import mirror_posters
 import refresh
+import synmerge
 
 DATA = pathlib.Path("data")
 CACHE = DATA / "tmdb-titles.json"
@@ -952,10 +953,7 @@ def merge_extra(cache, today):
     left the programme, so text equal to the candidate's own overview is still
     recognised in an entry written before `ts`. See unpublish_extra.
     """
-    try:
-        doc = json.loads(EXTRA.read_text())
-    except Exception:
-        doc = {}
+    doc = synmerge.read_extra(EXTRA)            # a broken file fails the pass, untouched
     films = doc.get("films") or {}
     for k, e in films.items():
         if isinstance(e, dict) and not trusted(cache.get(k)):
@@ -987,10 +985,7 @@ def merge_shared(shared, today):
     starts refusing it, and none of those write anything to notice: only clearing first
     removes them. For the same reason it runs on an empty set, which is exactly the case
     where every previous value has to go."""
-    try:
-        doc = json.loads(EXTRA.read_text())
-    except Exception:
-        doc = {}
+    doc = synmerge.read_extra(EXTRA)            # a broken file fails the pass, untouched
     films = doc.get("films") or {}
     for e in films.values():
         if isinstance(e, dict):
