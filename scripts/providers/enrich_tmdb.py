@@ -600,11 +600,56 @@ def queries(title, alias=None, original=None):
     c = clean(title)
     add(c)
     add(clean(original))
-    head = re.split(r"\s+[-–]\s+|:\s+", c, maxsplit=1)[0].strip()
+    head, _ = _head(c)
     if len(head) > 3:
         add(head)
     add(title)
     return out
+
+
+def _head(c):
+    """The part of a cleaned title before its first dash or colon. -> (head, at_colon)."""
+    m = re.search(r"\s+[-–]\s+|:\s+", c or "")
+    if not m:
+        return (c or "").strip(), False
+    return c[:m.start()].strip(), m.group().lstrip().startswith(":")
+
+
+def colon_head(title, alias=None, original=None):
+    """The candidate `queries()` cut off at a colon, or "" when there is none.
+
+    A colon usually carries a franchise or a series, not a subtitle, so the part before
+    it is often another film's whole title: "Teatteri: The Audience", a National Theatre
+    Live relay, found Keaton's 1921 short "Teatteri" as an exact match, and "Oasis: Don"
+    a 1955 "Oasis". `fetch_data._queries` never searches a colon head for this reason.
+    This pass still searches one, as a fallback, but an exact hit on it is only trusted
+    when `head_agrees`. A head that coincides with another candidate is that candidate
+    and is judged like it.
+    """
+    c = clean(title)
+    head, at_colon = _head(c)
+    if not at_colon or len(head) <= 3:
+        return ""
+    others = {x.lower() for x in (c, clean(original),
+                                   str(alias) if alias and not str(alias).isdigit() else "")}
+    return "" if head.lower() in others else head
+
+
+def head_agrees(hit, year, minutes, runtime):
+    """Whether an exact hit on a colon head is the published film. -> bool.
+
+    Each piece of evidence both sides carry has to agree: the year within YEAR_TOL, the
+    runtime within TIE_RUNTIME_TOL_MIN of a published one. At least one has to be there,
+    since with neither nothing tells the head's film from the title's. A dateless hit
+    offers no year and cannot agree on one.
+    """
+    hy = release_year(hit)
+    checks = []
+    if year and hy:
+        checks.append(plausible(hy, year))
+    if minutes and runtime:
+        checks.append(min(abs(runtime - m) for m in minutes) <= TIE_RUNTIME_TOL_MIN)
+    return bool(checks) and all(checks)
 
 
 # --- what a show says about the film -----------------------------------------------------
@@ -1059,6 +1104,7 @@ def main() -> int:
     offyear = []             # exact titles refused on the published year
     ties = []                # several films of that title and year; none trusted
     by_len = []              # several films of that title, no year: the runtime decided
+    headless = []            # exact hits on a colon head the evidence did not back
     for k, display in sorted(titles.items()):
         if k not in todo:
             continue
@@ -1102,6 +1148,7 @@ def main() -> int:
                             f"{rts.get(h.get('id')) or '?'} min)")
                     return got
 
+                head = colon_head(display or k, alias, fact["o"])
                 for cand in queries(display or k, alias, fact["o"]):
                     # The year filters the search, except on an alias string: an alias
                     # exists because the search needs a hand, and "Cars" with a reissue
@@ -1119,6 +1166,18 @@ def main() -> int:
                             a_hit, a_exact = pick(alt, cand, year, fact["o"])
                             if a_exact or hit is None:
                                 hit, exact = a_hit, a_exact
+                    if hit and exact and head and cand == head:
+                        rt = 0
+                        if fact["m"]:
+                            try:
+                                rt = int(get(f"https://api.themoviedb.org/3/movie/{hit.get('id')}",
+                                             th).get("runtime") or 0)
+                            except Exception:
+                                rt = 0
+                        if not head_agrees(hit, fact["y"], fact["m"], rt):
+                            exact = False
+                            headless.append(f"{display or k} -> {hit.get('title')} "
+                                            f"({release_year(hit) or '?'}, {rt or '?'} min)")
                     if hit and exact:
                         mid = hit.get("id")
                         poster = hit.get("poster_path") or poster
@@ -1165,7 +1224,8 @@ def main() -> int:
                         named = fallback.get("title") or ""
                         hy = release_year(fallback)
                         titled = any(norm(fallback.get(f)) == norm(c) for f in ("title", "original_title")
-                                     for c in queries(display or k, alias, fact["o"]))
+                                     for c in queries(display or k, alias, fact["o"])
+                                     if c != head)
                         if fact["y"] and titled and hy and not plausible(hy, fact["y"]):
                             offyear.append(f"{display or k} ({fact['y']}) -> "
                                            f"{fallback.get('title')} ({hy})")
@@ -1442,6 +1502,9 @@ def main() -> int:
     if ties:
         print(f"[enrich] several films match the title and year, none trusted ({len(ties)}): "
               + " | ".join(sorted(ties)))
+    if headless:
+        print(f"[enrich] colon head matched, not backed by year or runtime, refused "
+              f"({len(headless)}): " + " | ".join(sorted(headless)))
     if by_len:
         print(f"[enrich] several films match the title, no year, runtime decides "
               f"({len(by_len)}): " + " | ".join(sorted(by_len)))

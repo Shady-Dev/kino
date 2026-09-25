@@ -56,10 +56,27 @@ class QueriesTest(unittest.TestCase):
 
     def test_the_franchise_head_is_only_a_fallback(self):
         """It is still tried, after the whole title, which is what rescues a title the
-        distributor punctuated differently from TMDB."""
+        distributor punctuated differently from TMDB. Since 2026-09-25 it is searched
+        but not trusted on its own: an exact hit on it counts only when the published
+        year or runtime backs it (`head_agrees`), because the head is often another
+        film's whole title. `colon_head` names it so the pass can hold it to that."""
         q = enrich_tmdb.queries("Dyyni: Osa kolme")
         self.assertIn("Dyyni", q)
         self.assertGreater(q.index("Dyyni"), q.index("Dyyni: Osa kolme"))
+        self.assertEqual(enrich_tmdb.colon_head("Dyyni: Osa kolme"), "Dyyni")
+
+    def test_a_dash_head_is_not_a_colon_head(self):
+        """A distributor subtitle comes after a dash and the head is the film, which is
+        why `fetch_data._queries` keeps dash heads and refuses colon ones."""
+        self.assertEqual(enrich_tmdb.colon_head("Mutiny - Lavastettu syylliseksi"), "")
+        self.assertEqual(enrich_tmdb.colon_head("Mission: Impossible - Dead Reckoning"),
+                         "Mission")
+
+    def test_a_head_equal_to_the_original_title_is_judged_as_the_original(self):
+        """The candidate list holds it once, as the original title, which is evidence
+        in its own right."""
+        self.assertEqual(enrich_tmdb.colon_head("Teatteri: The Audience",
+                                                original="Teatteri"), "")
 
     # -- the cache key is the published title --------------------------------------
 

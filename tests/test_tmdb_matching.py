@@ -220,6 +220,21 @@ class PickTest(unittest.TestCase):
                                     minutes=[96], runtimes=HAPPY_RUNTIMES)
         self.assertEqual((h["id"], exact), (55059, True))
 
+    def test_a_colon_head_needs_the_year_or_the_runtime_to_agree(self):
+        """`head_agrees`: each piece of evidence both sides carry must agree, and at
+        least one must be there."""
+        keaton = hit(51362, "Teatteri", 1921)
+        wicked = hit(402431, "Wicked", 2024)
+        self.assertFalse(enrich_tmdb.head_agrees(keaton, "", [], 0), "no evidence")
+        self.assertFalse(enrich_tmdb.head_agrees(keaton, "", [149], 22), "runtime disagrees")
+        self.assertFalse(enrich_tmdb.head_agrees(keaton, "2025", [], 0), "year disagrees")
+        self.assertTrue(enrich_tmdb.head_agrees(wicked, "2024", [], 0))
+        self.assertTrue(enrich_tmdb.head_agrees(wicked, "", [161], 160))
+        self.assertFalse(enrich_tmdb.head_agrees(wicked, "2024", [95], 160),
+                         "a year that agrees does not outvote a runtime that does not")
+        self.assertFalse(enrich_tmdb.head_agrees(hit(9, "Oasis", None), "1955", [], 0),
+                         "a dateless hit offers no year to agree with")
+
     def test_no_exact_title_is_the_popularity_fallback_as_before(self):
         h, exact = enrich_tmdb.pick([hit(1, "Mother Mary", 2025)], "Mother", "2009")
         self.assertEqual((h["id"], exact), (1, False))
@@ -549,6 +564,32 @@ class MainPathTest(MainHarness):
         e = self.cache()["all night long"]
         self.assertEqual((e["i"], e["x"], e["y"]), (37038, True, "1962"))
         self.assertEqual(self.searches, [("All Night Long", "1962")], "one filtered search settled it")
+
+    # 3b. the head before a colon: searched, trusted only on agreeing evidence
+    def test_a_colon_head_is_trusted_only_where_year_or_runtime_backs_it(self):
+        """Two colon titles, one run. "Teatteri: The Audience" is a 149-minute National
+        Theatre Live relay; its head found Keaton's 1921 short, which TMDB titles
+        "Teatteri", and published its rating, year and plot on three rows (2026-09-25).
+        "Wicked: Osa 1" is the 2024 film under a distributor subtitle TMDB does not hold,
+        the case the fallback exists for, and its runtime backs the head."""
+        self.shows({"title": "Teatteri: The Audience", "len": "149"},
+                   {"title": "Wicked: Osa 1", "len": "161"})
+        out = self.run_main({("Teatteri", ""): [hit(51362, "Teatteri", 1921)],
+                             ("Wicked", ""): [hit(402431, "Wicked", 2024)]},
+                            runtimes={51362: 22, 402431: 160})
+        cache = self.cache()
+        self.assertFalse(cache["teatteri the audience"]["x"], "the head's film is not trusted")
+        self.assertEqual((cache["wicked osa 1"]["i"], cache["wicked osa 1"]["x"]),
+                         (402431, True))
+        self.assertIn("colon head matched, not backed by year or runtime, refused (1): "
+                      "Teatteri: The Audience -> Teatteri (1921, 22 min)", out)
+
+    def test_a_colon_head_with_no_evidence_at_all_is_refused(self):
+        """Orion's truncated "Oasis: Don" carries no year and no runtime, so nothing
+        tells a 1955 "Oasis" from the concert film."""
+        self.shows({"title": "Oasis: Don"})
+        self.run_main({("Oasis", ""): [hit(490950, "Oasis", 1955)]})
+        self.assertFalse(self.cache()["oasis don"]["x"])
 
     # 4. no original, no year: as before
     def test_without_evidence_the_search_is_unfiltered_and_the_first_exact_hit_wins(self):

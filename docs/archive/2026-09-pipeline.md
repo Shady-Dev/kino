@@ -2200,3 +2200,36 @@ identical, the cache differs by ten `t` fields only.
 Tests: `test_tmdb_weak_retry.py`, 12 tests on a pinned clock; 13 mutations, all red. Three
 older tests pinned the sweep and were re-pointed. `fetch_data.py` keeps its own sweep; the
 Finnkino cache holds no weak entry today.
+
+### A colon head is trusted only on an agreeing year or runtime (2026-09-25)
+
+Audit finding E1, P0. `queries()` searches the part of a title before a colon as a
+fallback, and `pick()` judged an exact match against that candidate, so a head that is
+another film's whole title was trusted. Live at 65f24acfb: "Teatteri: The Audience", a
+149-minute National Theatre Live relay, carried Keaton's 1921 short *The Play House*
+(TMDB fi title "Teatteri", 24 min) on three Savon Kinot rows; Orion's truncated "Oasis:
+Don" carried a 1955 "Oasis"; Riviera's "Twin Peaks: Kausi 1 (1990)" and "Kausi 2" carried
+the 116-minute 1989 pilot against 465 and 413 published minutes. `fetch_data._queries`
+never searches a colon head, for the same reason (2026-08-27 entry above).
+
+The head stays a candidate, because it rescues a title the distributor punctuated
+differently, but `colon_head()` names it and `head_agrees()` holds an exact hit on it to
+the published evidence: every piece both sides carry has to agree (year within
+`YEAR_TOL`, runtime within `TIE_RUNTIME_TOL_MIN`), and at least one has to be there. The
+runtime costs one `/movie/{id}` request, only for a colon-head exact hit. A refused hit
+becomes the weak fallback and is logged as "colon head matched, not backed by year or
+runtime, refused". Requiring every present piece to agree, rather than either one, is
+what refuses Kausi 1: its year agrees with the pilot's and its runtime does not.
+
+Scan before purging: every exact cache entry for a published colon title (55) was read off
+`/movie/{id}` in fi-FI and en-US; six carried the head's film and not the whole title's.
+Four are the rows above, purged with the stale `oasis dont look back in anger` (same 1955
+id, not published today) and re-enriched: all four now weak, no id, rating, year or TMDB
+poster. Two stay: "Late Lammas- elokuva: Hämäräpuuhissa" (81 min against 85, agrees), and
+Kino Akseli's "Practical Magic 2: Lumotut sisaret", which publishes neither year nor
+runtime and got an alias to the id it already had, 1302904, so the sequel match the
+2026-09-16 alias comment relies on stays.
+
+`test_tmdb_queries.py` pinned the head as a fallback and still does; its docstring now
+says the fallback is corroborated. Tests: 3 in `test_tmdb_queries.py`, 3 in
+`test_tmdb_matching.py`, 8 mutations, all red.
