@@ -3605,8 +3605,10 @@
     const parts = [s.title || '', s.original || '', s.genres || '',
                    s.method || '', s.rating || '', s.age || ''];
     const ids = Array.isArray(s.gids) ? s.gids : [];
+    // Every language the cards are drawn in: a Swedish card shows "Äventyr", and 14 of
+    // the 19 Swedish names are neither the Finnish nor the English one (audit K8).
     if(ids.length && genreNames){
-      for(const lang of ['fi', 'en']){
+      for(const lang of ['fi', 'sv', 'en']){
         const map = genreNames[lang];
         if(map) for(const id of ids) if(map[id]) parts.push(map[id]);
       }

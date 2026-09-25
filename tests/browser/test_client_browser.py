@@ -1049,6 +1049,39 @@ class EmptyDayNamesItsDayOnAPhone(EmptyDayNamesItsDay):
         self.page.screenshot(path=str(OUT / "k5-phone-375.png"))
 
 
+class GenreSearchInSwedish(Browser):
+    """A genre is found by the name its card shows in every language.
+
+    The search haystack held the Finnish and English TMDB genre names only, so in Swedish a
+    card labelled "Äventyr" was not found by "äventyr" (audit K8, 2026-09-25). The genre
+    names come from the committed `data/tmdb-genres.json`; Orion's fixture carries the ids.
+    """
+
+    def setUp(self):
+        Handler.body = {"tmdb-genres.json": (ROOT / "data/tmdb-genres.json").read_bytes()}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def titles(self):
+        return self.page.locator("#main article.movie h2.title").all_text_contents()
+
+    def test_a_swedish_genre_name_finds_the_film(self):
+        self.pick_orion()
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.page.locator("#main article.movie", has_text="Äventyr")).to_have_count(1)
+        self.page.locator("#search").fill("äventyr")
+        expect(self.page.locator("#main article.movie")).to_have_count(1)
+        self.assertIn("Oasis", " ".join(self.titles()))
+        self.page.locator("#search").fill("komedi")
+        expect(self.page.locator("#main article.movie").first).to_be_visible()
+        self.page.locator("#search").fill("adventure")
+        expect(self.page.locator("#main article.movie")).to_have_count(1)
+
+
+class GenreSearchInSwedishOnAPhone(GenreSearchInSwedish):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class ChooserNote(Browser):
     """The chooser's note is drawn in the language on screen.
 
