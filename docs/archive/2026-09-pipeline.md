@@ -2361,3 +2361,18 @@ so the refusal comes back before anything is written. Latent on the local half: 
 local sites contend for a host today, but any module run by hand could. Test:
 `test_run_host_claim.py`, a host held by another site beforehand so nothing is sent, red on
 the unfixed code (three files written); moving the publish back inside the claim turns it red.
+
+### The shared fetch refuses a redirect from https to http (2026-09-25)
+
+Audit finding C7. `common.fetch` opened with `urllib.request.urlopen`, whose redirect
+handler follows `https:` to `http:`, so a WordPress site whose `siteurl` is http:// would
+have its programme read over cleartext with nothing logged, against CLAUDE.md's rule never
+to follow such a redirect. `NoDowngradeRedirect` refuses it with `DowngradeRefused`, which
+`fetch` raises at once rather than retrying, since the same request gets the same answer.
+`fetch` now opens with `make_opener()`, and the two adapters that build their own opener
+use it too: BioRex's cookie jar and Johku's interim-response HTTPS handler. Upgrades and a
+plain-HTTP host's own redirects (Bio Savoy, Alatalo) are followed as before; a real local
+server confirms the http-to-http path end to end. `enrich_tmdb`, `indexnow` and
+`ci_verified` call fixed https endpoints with their own `urlopen` and are unchanged. Tests:
+`test_redirect_downgrade.py`, 6 tests, red on the unfixed code (no handler); 5 mutations,
+all red.

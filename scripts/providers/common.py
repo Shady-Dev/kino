@@ -623,6 +623,36 @@ class BodyTooLarge(Exception):
     asking again downloads the same oversize answer at both ends' expense."""
 
 
+class DowngradeRefused(RuntimeError):
+    """A redirect from https to http, refused before it is followed. Never retried: the
+    same request gets the same redirect. CLAUDE.md: never follow an `https:` -> `http:`
+    redirect; a cleartext `base` is only for a host that serves no TLS at all."""
+
+
+class NoDowngradeRedirect(urllib.request.HTTPRedirectHandler):
+    """urllib's redirect handling, less the downgrade. Everything else is followed as
+    before, an upgrade and a plain-HTTP host's own redirects included."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if (req.full_url.lower().startswith("https:")
+                and newurl.lower().startswith("http:")):
+            fp.close()
+            raise DowngradeRefused(f"{req.full_url}: refused a {code} redirect from https "
+                                   f"to http ({newurl}); the programme is not read over "
+                                   f"cleartext")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def make_opener(*handlers):
+    """An opener that refuses the downgrade, with `handlers` added: what an adapter with
+    its own session (BioRex's cookie jar) builds instead of `urllib.request.build_opener`."""
+    return urllib.request.build_opener(NoDowngradeRedirect, *handlers)
+
+
+# What `fetch` opens with when the caller passes no opener of its own.
+_OPENER = make_opener()
+
+
 def _read_capped(r, url, limit):
     """Read a response body, refusing past `limit` bytes. -> bytes."""
     cl = (r.headers.get("Content-Length") or "").strip()
@@ -723,7 +753,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
     for n in range(tries):
         try:
             req = urllib.request.Request(url, data=data, headers=hdrs)
-            op = opener.open if opener is not None else urllib.request.urlopen
+            op = opener.open if opener is not None else _OPENER.open
             with op(req, timeout=timeout) as r:
                 _note_headers(r.headers)
                 body = _read_capped(r, url, limit)
@@ -805,7 +835,7 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                     raise
             if n + 1 < tries:
                 time.sleep(backoff * (n + 1) if wait is None else wait)
-        except BodyTooLarge:
+        except (BodyTooLarge, DowngradeRefused):
             raise
         except Exception as e:
             last = e

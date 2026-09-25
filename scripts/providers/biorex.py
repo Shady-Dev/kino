@@ -7,7 +7,7 @@ missing session yields wrong data rather than an error.
 import html as html_mod
 import http.cookiejar, json, re, time, urllib.parse, urllib.request
 
-from common import capped, fetch
+from common import capped, fetch, make_opener
 
 BASE = "https://biorex.fi"
 AJAX = BASE + "/wp-admin/admin-ajax.php?lang=fi"
@@ -233,7 +233,7 @@ def film_meta(url):
 
 def _opener():
     jar = http.cookiejar.CookieJar()
-    return urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
+    return make_opener(urllib.request.HTTPCookieProcessor(jar))
 
 
 def _post(op, url, data):

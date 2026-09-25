@@ -67,7 +67,7 @@ import urllib.request
 from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
-from common import capped, check_shows, fetch, syn_language
+from common import capped, check_shows, fetch, make_opener, syn_language
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -176,7 +176,8 @@ class _Handler(urllib.request.HTTPSHandler):
         return self.do_open(_Connection, req, context=self._context)
 
 
-OPENER = urllib.request.build_opener(_Handler())
+# Through common.make_opener, so a redirect from https to http is refused here too.
+OPENER = make_opener(_Handler())
 
 
 class ListingRowError(RuntimeError):
