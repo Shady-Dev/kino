@@ -416,6 +416,62 @@ async function run() {
     };
   }
 
+  // -- the two combined venue files, one per half ------------------------------------------
+  // Orion in the local file and Kino Metso in the cloud one, as fixtures, not as the real
+  // split. A load reads the list, the two combined files and areas.json, and nothing else.
+  const ORION = venues('2026-09-07T06:00:00+00:00', { stale: ['v1'] });
+  const METSO = venues('2026-09-07T07:00:00+00:00', { pending: ['v1'] });
+  const combined = extra => Object.assign({
+    '/data/providers.json': PROVIDERS, '/data/areas.json': AREAS,
+    '/data/venuelists-local.json': { half: 'local', providers: { orion: ORION } },
+    '/data/venuelists-cloud.json': { half: 'cloud', providers: { kinometso: METSO } },
+    '/data/venues-orion.json': ORION, '/data/venues-kinometso.json': METSO,
+  }, extra || {});
+  // Sorted by provider id: which request answers first decides the insertion order.
+  const metaOf = w => { const m = w.store.state().meta; const o = {};
+                        for (const k of Object.keys(m).sort()) o[k] = m[k];
+                        return JSON.parse(JSON.stringify(o)); };
+  {
+    const w = world({ files: combined() });
+    await w.store.load({ force: true });
+    const single = world({ files: combined({ '/data/venuelists-local.json': null,
+                                             '/data/venuelists-cloud.json': null }) });
+    await single.store.load({ force: true });
+    out.combined_load = { paths: w.st.netPaths.slice(), meta: metaOf(w),
+                          sameAsSingleFiles: JSON.stringify(metaOf(w)) === JSON.stringify(metaOf(single)),
+                          singlePaths: single.st.netPaths.slice() };
+  }
+  {
+    const w = world({ files: combined({ '/data/venuelists-local.json': null }) });
+    await w.store.load({ force: true });
+    out.local_half_missing = { paths: w.st.netPaths.slice(), metaKeys: Object.keys(metaOf(w)).sort() };
+  }
+  {
+    const w = world({ files: combined({ '/data/venuelists-cloud.json':
+      { half: 'cloud', providers: { kinometso: { generated: '2026-09-07T07:00:00+00:00' } } } }) });
+    await w.store.load({ force: true });
+    out.malformed_entry = { paths: w.st.netPaths.slice(),
+                            metsoPending: w.store.state().meta.kinometso.pending };
+  }
+  {
+    const w = world({ files: combined() });
+    await w.store.load({ force: true });
+    const netAfterLoad = w.st.net;
+    w.files['/data/venuelists-cloud.json'] = { half: 'cloud', providers: {
+      kinometso: venues('2026-09-07T09:00:00+00:00', { status: 'partial', stale: ['v1'] }) } };
+    w.store.fresh('/data/venuelists-cloud.json');
+    await w.st.flush();
+    const m = w.store.state().meta.kinometso;
+    const afterNewer = { oldest: m.oldest, status: m.status, stale: m.stale };
+    w.files['/data/venuelists-cloud.json'] = { half: 'cloud', providers: {
+      kinometso: venues('2026-09-07T08:00:00+00:00') } };
+    w.store.fresh('/data/venuelists-cloud.json');
+    await w.st.flush();
+    out.fresh_combined = { afterNewer, afterOlder: w.store.state().meta.kinometso.oldest,
+                           orion: w.store.state().meta.orion.oldest,
+                           netAdded: w.st.net - netAfterLoad };
+  }
+
 }
 
 // A scenario that throws, or one whose await never settles, used to print nothing, and a

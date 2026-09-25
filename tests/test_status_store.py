@@ -42,11 +42,58 @@ class StatusStoreTest(unittest.TestCase):
 
     def test_the_first_load_reads_the_list_and_every_file_it_names(self):
         r = self.r["first_load"]
-        self.assertEqual(r["paths"], ["/data/providers.json", "/data/areas.json",
+        self.assertEqual(r["paths"], ["/data/providers.json", "/data/venuelists-local.json",
+                                      "/data/venuelists-cloud.json", "/data/areas.json",
                                       "/data/venues-orion.json", "/data/venues-kinometso.json"])
         self.assertEqual(r["providers"], 3)
         self.assertEqual(r["metaKeys"], ["finnkino", "kinometso", "orion"])
         self.assertEqual(r["renders"], 1)
+
+    # -- the two combined venue files --------------------------------------------------------
+
+    def test_a_load_reads_the_combined_files_and_no_single_provider_file(self):
+        r = self.r["combined_load"]
+        self.assertEqual(r["paths"], ["/data/providers.json", "/data/venuelists-local.json",
+                                      "/data/venuelists-cloud.json", "/data/areas.json"])
+
+    def test_each_providers_health_is_what_its_own_file_gives(self):
+        """Freshness, stale, pending and the rest, identical to reading the files one by
+        one: the combined file carries them verbatim."""
+        r = self.r["combined_load"]
+        self.assertTrue(r["sameAsSingleFiles"])
+        self.assertEqual((r["meta"]["orion"]["stale"], r["meta"]["kinometso"]["pending"]), (1, 1))
+        self.assertEqual(r["meta"]["kinometso"]["oldest"], "2026-09-07T07:00:00+00:00")
+        self.assertEqual(r["meta"]["finnkino"]["venues"], 1, "areas.json, Finnkino's own shape")
+
+    def test_a_missing_combined_file_costs_only_its_own_half(self):
+        r = self.r["local_half_missing"]
+        self.assertIn("/data/venues-orion.json", r["paths"])
+        self.assertNotIn("/data/venues-kinometso.json", r["paths"])
+        self.assertEqual(r["metaKeys"], ["finnkino", "kinometso", "orion"])
+
+    def test_an_entry_that_is_not_a_provider_file_is_read_on_its_own(self):
+        r = self.r["malformed_entry"]
+        self.assertIn("/data/venues-kinometso.json", r["paths"])
+        self.assertNotIn("/data/venues-orion.json", r["paths"])
+        self.assertEqual(r["metsoPending"], 1, "taken from the provider's own file")
+
+    def test_a_refreshed_combined_file_updates_its_providers_from_the_cache(self):
+        """The live path: a worker message for a combined file updates every provider in
+        it, never asks the network, and an older entry does not replace a newer one."""
+        r = self.r["fresh_combined"]
+        self.assertEqual(r["afterNewer"], {"oldest": "2026-09-07T09:00:00+00:00",
+                                           "status": "partial", "stale": 1})
+        self.assertEqual(r["afterOlder"], "2026-09-07T09:00:00+00:00")
+        self.assertEqual(r["orion"], "2026-09-07T06:00:00+00:00", "the other half is untouched")
+        self.assertEqual(r["netAdded"], 0)
+
+    def test_the_choice_of_files_is_the_apps_own_function(self):
+        """One rule in two pages: the store's copy of venueFilesFrom is the app's, token
+        for token."""
+        app = (_ctx.ROOT / "index.html").read_text(encoding="utf-8")
+        page = (_ctx.ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        grab = lambda t: " ".join(t[t.index("function venueFilesFrom("):].split("return { files, missing")[0].split())
+        self.assertEqual(grab(page), grab(app))
 
     def test_the_first_load_reads_no_cache(self):
         """It goes through the worker, which serves the cache itself. Reading Cache Storage
@@ -73,7 +120,9 @@ class StatusStoreTest(unittest.TestCase):
         twenty timers, and must not leave one scheduling the next."""
         r = self.r["burst"]
         self.assertEqual(r["timersScheduled"], 1)
-        self.assertEqual(r["netAfter"], 4)
+        # One load in a world with no combined files: the list, the two combined files it
+        # asks for first, areas.json and the two provider files. Six, and no more after.
+        self.assertEqual(r["netAfter"], 6)
         self.assertEqual(r["rendersTotal"], 1)
 
     # -- what a message may and may not change -------------------------------------------------
@@ -150,7 +199,7 @@ class StatusStoreTest(unittest.TestCase):
         self.assertEqual(r["secondPassStarted"], 1)
         self.assertEqual(r["orion"], "2026-09-07T11:00:00+00:00")
         self.assertEqual(r["kinometso"], "2026-09-07T11:30:00+00:00")
-        self.assertEqual(r["net"], 4)
+        self.assertEqual(r["net"], 6, "one load's six requests and none from the messages")
 
     def test_a_pass_overtaken_by_a_load_keeps_the_loads_data_and_still_serves_its_queue(self):
         """A load lands while a pass holds a read. The stale bytes that read captured are
@@ -160,7 +209,7 @@ class StatusStoreTest(unittest.TestCase):
         r = self.r["abandoned_pass_requeues"]
         self.assertEqual(r["orion"], "2026-09-07T11:00:00+00:00")
         self.assertEqual(r["kinometso"], "2026-09-07T12:00:00+00:00")
-        self.assertEqual(r["net"], 8, "messages added network requests")
+        self.assertEqual(r["net"], 12, "messages added network requests: two loads are 12")
 
     def test_a_refresh_that_began_under_a_running_load_cannot_regress_the_state(self):
         """The ordering `gen` missed. It moves when a load starts, so a refresh beginning

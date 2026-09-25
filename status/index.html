@@ -683,6 +683,28 @@
     const entryFrom = (id, j) => id === 'finnkino' ? fromAreas(j)
                                : ((j.venues || []).length ? normalise(j) : null);
 
+    // Each half of the pipeline writes one file holding every one of its providers' files
+    // verbatim, so a load reads two files where it read one per provider. The choice of
+    // which providers still need their own file is the app's `venueFilesFrom`, copied
+    // here character for character (tests/test_status_store.py holds the two equal): a
+    // missing or malformed combined file costs only its own half a request per provider.
+    const HALVES = ['local', 'cloud'];
+    const bundlePath = h => `/data/venuelists-${h}.json`;
+    function venueFilesFrom(provIds, bundles){
+      const files = {};
+      for(const b of bundles){
+        const lists = b && typeof b === 'object' ? b.providers : null;
+        if(!lists || typeof lists !== 'object') continue;
+        for(const id of provIds){
+          const j = lists[id];
+          if(!j || typeof j !== 'object' || !Array.isArray(j.venues)) continue;
+          const held = files[id];
+          if(!held || String(j.generated || '') > String(held.generated || '')) files[id] = j;
+        }
+      }
+      return { files, missing: provIds.filter(id => !files[id]) };
+    }
+
     // What counts as a change. Comparing the whole entry would fire on a re-read that
     // produced identical bytes, and a render that changes nothing is what the burst
     // folding is trying to avoid in the first place.
@@ -705,15 +727,18 @@
       lastNet = io.now();
       loading++;
       try {
-        const j = await io.net('/data/providers.json');
+        const [j, ...bundles] = await Promise.all(
+          ['/data/providers.json', ...HALVES.map(bundlePath)].map(p => io.net(p)));
         // A load that could not read the list clears the rows. Keeping them would show a
         // list nothing just verified, and statusModel reads no rows as "could not check",
         // which is the honest answer when the file naming the providers did not arrive.
         const list = j ? (j.providers || []).filter(p => p && p.id) : [];
         if(mine !== gen) return false;
+        const { files } = venueFilesFrom(list.map(p => p.id).filter(id => id !== 'finnkino'),
+                                         bundles);
         const next = {};
         await Promise.all(list.map(async p => {
-          const one = await io.net(pathFor(p.id));
+          const one = files[p.id] || await io.net(pathFor(p.id));
           if(!one) return;
           const e = entryFrom(p.id, one);
           if(e) next[p.id] = e;
@@ -782,12 +807,20 @@
               }
               continue;
             }
+            // A combined file carries a whole half: every provider in it gets the same
+            // test a single file gets, so an entry older than the one held stays out.
+            const entries = /\/data\/venuelists-[^/]+\.json$/.test(path)
+              ? Object.entries(venueFilesFrom(
+                  providers.map(x => x.id).filter(x => x !== 'finnkino'), [j]).files)
+              : [];
             const v = path.match(/\/data\/venues-([^/]+)\.json$/);
             const id = v ? v[1] : (/\/data\/areas\.json$/.test(path) ? 'finnkino' : '');
-            if(!id) continue;
-            const e = entryFrom(id, j);
-            if(e && notBehind(e, meta[id]) && key(e) !== key(meta[id])){
-              meta[id] = e; moved = true;
+            if(id) entries.push([id, j]);
+            for(const [pid, one] of entries){
+              const e = entryFrom(pid, one);
+              if(e && notBehind(e, meta[pid]) && key(e) !== key(meta[pid])){
+                meta[pid] = e; moved = true;
+              }
             }
           }
           // `checkedAt` is not restamped: it says when this page last asked the network,
@@ -949,7 +982,7 @@
   if('serviceWorker' in navigator){
     navigator.serviceWorker.addEventListener('message', ev => {
       const p = (ev.data || {}).fresh || '';
-      if(/\/data\/(providers|areas|venues-[^/]+)\.json$/.test(p)) statusStore.fresh(p);
+      if(/\/data\/(providers|areas|venues-[^/]+|venuelists-[^/]+)\.json$/.test(p)) statusStore.fresh(p);
     });
   }
   // A resumed tab is the other way this page goes stale: opened, backgrounded, brought

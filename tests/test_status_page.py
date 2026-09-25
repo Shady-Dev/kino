@@ -129,7 +129,10 @@ class StatusPageFileTest(unittest.TestCase):
             self.assertTrue(path.startswith("/data/"), path)
 
     def test_the_refresh_listener_only_answers_the_files_this_page_reads(self):
-        self.assertIn(r"/\/data\/(providers|areas|venues-[^/]+)\.json$/", self.status)
+        """The list, Finnkino's areas.json, a provider's own file, and since 2026-09-26 the
+        two combined venue files."""
+        self.assertIn(r"/\/data\/(providers|areas|venues-[^/]+|venuelists-[^/]+)\.json$/",
+                      self.status)
 
     def test_the_worker_message_path_and_the_network_path_stay_separate(self):
         """Structural only. What the message path actually does is counted in

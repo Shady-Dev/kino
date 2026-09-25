@@ -1281,6 +1281,52 @@ class CombinedVenueListsOnAPhone(CombinedVenueLists):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class StatusPageCombinedVenueLists(Browser):
+    """The status page reads the two combined venue files, like the app.
+
+    It fetched one `venues-{id}.json` per provider for its health table. It now reads the
+    combined file of each half and falls back to a provider's own file only when neither
+    carries it. Each provider's row has to read exactly as it did from its own file.
+    """
+    ORION = json.loads((FIXTURE / "data/venues-orion.json").read_text(encoding="utf-8"))
+
+    def setUp(self):
+        Handler.delay = {"venues-orion.json": 0}        # never answered from the HTTP cache
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def orion_row(self, body):
+        Handler.body = body
+        self.srv.requested.clear()
+        self.page.goto(self.origin + "/status/")
+        row = self.page.locator('details.provider[data-id="orion"] summary')
+        expect(row).to_be_visible()
+        singles = [p.split("?")[0] for p in self.srv.requested if "/data/venues-" in p]
+        return row.inner_text(), singles
+
+    def test_the_row_reads_the_same_from_the_combined_file_and_asks_for_no_single_file(self):
+        own, own_singles = self.orion_row({})
+        self.assertIn("/data/venues-orion.json", own_singles, "the fallback path, for reference")
+        combined, singles = self.orion_row({
+            "venuelists-cloud.json": json.dumps(
+                {"half": "cloud", "providers": {"orion": self.ORION}}).encode()})
+        self.assertEqual(combined, own)
+        self.assertNotIn("/data/venues-orion.json", singles)
+
+    def test_a_broken_combined_file_falls_back_for_its_half(self):
+        own, _ = self.orion_row({})
+        broken, singles = self.orion_row({"venuelists-cloud.json": b'{"half": "cloud", "prov',
+                                          "venuelists-local.json": json.dumps(
+                                              {"half": "local", "providers": {}}).encode()})
+        self.assertEqual(broken, own)
+        self.assertIn("/data/venues-orion.json", singles)
+
+
+class StatusPageCombinedVenueListsOnAPhone(StatusPageCombinedVenueLists):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class ChooserNote(Browser):
     """The chooser's note is drawn in the language on screen.
 

@@ -54,8 +54,10 @@ would have left the local half's venues and `pending` a cloud run behind. Built 
   `tests/test_venuelists.py` comparing the committed combined files with the committed
   provider files.
 - The app's health and freshness are unchanged: it reads only `venues` and `pending` from
-  these files, and both arrive verbatim. The status page still reads the per-provider
-  files for its table; it was not changed.
+  these files, and both arrive verbatim. The status page followed in a separate change the
+  same day, on the maintainer's instruction: its load reads the two combined files with
+  the same per-half fallback, and a worker message for a combined file updates each of its
+  providers through the page's existing ordering rules.
 
 ## Measured after (2026-09-26)
 
@@ -70,11 +72,13 @@ reads one request above the audit's figures for the chooser and the venue.
 | venue `?area=or-helsinki` | 90 -> 10 | 88 -> 8 | 91 -> 11 | 91 -> 11 |
 | city `?area=city:Helsinki` | 115 -> 35 | 103 -> 23 | 109 -> 29 | 109 -> 29 |
 
-Every view drops the 82 per-provider requests for the 2 combined files. The combined files
+Every view drops the 82 per-provider requests for the 2 combined files. The status page,
+measured the same way with warm meaning a worker the app installed: Chromium 86 -> 6 cold
+and 86 -> 6 warm, WebKit 86 -> 6 cold and 87 -> 7 warm. The combined files
 are 3.8 KiB and 23.3 KiB, 0.8 KiB and 3.1 KiB gzipped, against 15 KiB for the 82 files
 gzipped one by one.
 
 ## Status
 
-Built; the record is in `docs/archive/2026-09-app.md`. The status page is the
-remaining reader of all 82 per-provider files.
+Built for the app and the status page; the records are in `docs/archive/2026-09-app.md`.
+The per-provider files remain the fallback both pages read when a combined file fails.
