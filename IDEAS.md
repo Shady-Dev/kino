@@ -78,13 +78,6 @@ Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a 
 `base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
 **Next action:** re-probe when either host is next touched.
 
-### Every cold load reads all 82 venue lists
-
-88, 89 and 115 requests for chooser, venue and city (audit, 2026-09-25); the 82 files are
-25 KiB together, so the cost is requests. Proposal, one cloud-written `data/venues.json`:
-[docs/research/cold-load.md](docs/research/cold-load.md).
-**Next action:** the maintainer's decision on the combined file.
-
 ### Thirteen sites go red when genuinely empty
 
 None has a recorded empty state, so zero rows fails the run instead of clearing data.

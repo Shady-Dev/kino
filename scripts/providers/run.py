@@ -61,6 +61,7 @@ import common              # noqa: E402
 import registry            # noqa: E402
 import strands             # noqa: E402
 import synmerge            # noqa: E402
+import venuelists          # noqa: E402
 
 OUT = pathlib.Path("data")
 
@@ -921,6 +922,7 @@ def main(argv) -> int:
     OUT.mkdir(exist_ok=True)
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     tally = Tally(names)
+    halves = set()
 
     for name in names:
         try:
@@ -933,11 +935,28 @@ def main(argv) -> int:
         if not sites:
             tally.no_sites(name, half)
             continue
+        halves |= venuelists.halves_of(sites)
         for label, result, error in run_sites(mod, sites, now):
             tally.site(mod, sites, label, result, error)
 
+    write_venuelists(OUT, halves)
     tally.report(common.cache_stats(), common.throttle_stats(), common.hosts_attempted())
     return tally.code()
+
+
+def write_venuelists(out, halves, stream=None):
+    """Rewrite the combined venue file of each half this run fetched for, from the
+    provider files as they now stand. The local wrapper runs one module per process, so
+    every process rebuilds the whole local file and the last one leaves it matching every
+    local provider file. A failure is printed and the run goes on: the per-provider files
+    are already written and the client falls back to them."""
+    for h in sorted(halves):
+        try:
+            if venuelists.write(out, h):
+                print(f"[run] {venuelists.path_for(out, h).name} rewritten", file=stream)
+        except Exception as e:          # noqa: BLE001 -- printed; the fallback holds
+            print(f"[run] {venuelists.path_for(out, h).name} not written: {e!r}",
+                  file=stream or sys.stderr)
 
 
 if __name__ == "__main__":

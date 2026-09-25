@@ -65,6 +65,7 @@ import common              # noqa: E402
 import registry            # noqa: E402
 import run                 # noqa: E402
 import synmerge            # noqa: E402
+import venuelists          # noqa: E402
 
 LOGS = pathlib.Path("logs")
 
@@ -434,6 +435,10 @@ def main(argv) -> int:
                     with open(m.path, "a" if m.opened else "w", encoding="utf-8") as fh:
                         fh.write(f"[run] {m.name}: the run stopped before this module was "
                                  f"published: {aborted!r}\nexit=1\n")
+            # The cloud half's combined venue file, from the provider files as they now
+            # stand, whatever this run managed to publish, an aborted run included.
+            run.write_venuelists(run.OUT, venuelists.halves_of([it.site for it in items]),
+                                 stream=top)
             report(top, mods, items, groups, workers, started, held, aborted)
     return 0 if all(m.tally.code() == 0 for m in mods) else 1
 

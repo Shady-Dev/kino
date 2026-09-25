@@ -38,6 +38,7 @@ Allow: /data/providers.json
 Allow: /data/regions.json
 Allow: /data/areas.json
 Allow: /data/venues-
+Allow: /data/venuelists-
 Allow: /data/area-
 Allow: /data/films.json
 Allow: /data/films-extra.json

@@ -146,6 +146,10 @@ jobs:
       # tree. The two figures that move on a data run are printed by `--posters` and not
       # committed; had they stayed in the file, this step would fail on the first push
       # after any data run, since a data push does not match this workflow's path filter.
+      #
+      # build_venuelists.py rebuilds data/venuelists-{local,cloud}.json from the committed
+      # data/venues-*.json. Each half writes its own after its run; one that disagrees with
+      # the provider files it was built from is the drift this catches.
       - name: Generated output is reproducible
         if: needs.verified.outputs.skip != 'true'
         run: |
@@ -153,6 +157,7 @@ jobs:
           python3 scripts/build_regions.py
           python3 scripts/build_pages.py --date recorded
           python3 scripts/build_counts.py
+          python3 scripts/build_venuelists.py
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::regenerating changed committed output"
             git status --porcelain

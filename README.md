@@ -174,6 +174,7 @@ Every provider writes the same thing, so the client has no per-provider code.
     data/area-{venueId}.json     {generated, dates[], horizon, shows[]}
     data/venues-{provider}.json  {generated, oldest, status, stale[], unverified[],
                                   pending[], provider, venues[{id,name,short,city}]}
+    data/venuelists-{half}.json  {half, providers: {id: <venues file>}}, one per half
     data/films-extra.json        title-keyed synopses, posters, trailers
                                  a synopsis is keyed by language: fi, en, and sv
                                  where a cinema publishes one (Bio Savoy, Åland)

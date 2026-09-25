@@ -114,11 +114,11 @@ class WiringTest(unittest.TestCase):
         block = block[:block.index("async function loadAreas")]
         self.assertIn("Array.isArray(j.pending)", block)
         self.assertIn("pending: pend.has(v.id)", block)
-        # areas.json for the Finnkino list and one venues-{prov}.json per provider are
-        # what this function fetched before; pending must add neither a third URL nor a
-        # second read of the provider file.
+        # areas.json for the Finnkino list, the two combined files, and one
+        # venues-{prov}.json per provider neither carries, are what this function fetches;
+        # pending must add no URL and no second read of the provider file.
         self.assertEqual(block.count("data/venues-"), 1)
-        self.assertEqual(block.count("fetchJSON("), 2)
+        self.assertEqual(block.count("fetchJSON("), 3)
         self.assertNotIn("pending.json", block)
 
     def test_noProgYet_is_defined_in_all_three_languages_and_now_used(self):

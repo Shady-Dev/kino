@@ -78,7 +78,10 @@ Every provider writes the same thing, so the client carries no per-provider code
 list is in [README.md](../README.md) under "Data shape"; the structural points are:
 
 - `data/area-{venueId}.json` is one venue's schedule, `data/venues-{provider}.json` its
-  venue list plus freshness. Synopses and fallback artwork sit once in
+  venue list plus freshness. `data/venuelists-local.json` and `data/venuelists-cloud.json`
+  carry every provider file of one half verbatim; each half rewrites its own after its run
+  (`scripts/providers/venuelists.py`), so neither can conflict on or lag the other. The
+  client reads those two and fetches a provider's own file only when neither carries it. Synopses and fallback artwork sit once in
   `data/films-extra.json`, keyed by normalised title, rather than repeated on every show. A
   synopsis is keyed by language inside that: `fi` and `en`, plus `sv` where a cinema
   publishes a native Swedish one. An adapter declares the language on its `_syn`; a bare

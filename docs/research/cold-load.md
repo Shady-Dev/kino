@@ -35,29 +35,46 @@ what the chooser needs before a lazy load is proposed. This is that measurement.
 - One file holding all 82 as committed would turn 82 requests into one on every load, cold
   or warm, without changing what the client knows.
 
-## Proposal
+## What was built (2026-09-26)
 
-`data/venues.json`: every provider file as committed, keyed by provider id, written by the
-cloud job's build step from the committed `venues-*.json` and read first by
-`fetchVenueLists()`, with the per-provider files as the fallback when it is missing or
-unreadable.
+The single cloud-written file proposed here was changed by the maintainer on 2026-09-26: it
+would have left the local half's venues and `pending` a cloud run behind. Built instead:
 
-- **One writer.** The local half does not write it, so a local commit landing during a
-  cloud run cannot conflict on it; `biorex.yml`'s rebase fails on a content conflict by
-  design.
-- **Lag.** It trails a local run by the cloud run the laptop dispatches after it, normally
-  minutes. During that window the picker and the health line read the previous local
-  state, which the per-provider files would have shown already.
+- `data/venuelists-local.json` and `data/venuelists-cloud.json`, each
+  `{"half", "providers": {id: <that provider's file, verbatim>}}`, built by
+  `scripts/providers/venuelists.py` from the per-provider files on disk. `run.py` rewrites
+  the file of the half it fetched for after each run (the local wrapper runs it once per
+  module, so the last process leaves the local file matching every local provider file);
+  `run_cloud.py` rewrites the cloud file at the end of its run, an aborted run included.
+  One writer per file, so neither half can conflict on or lag the other's.
+- The client asks for both and fetches a provider's own `venues-{id}.json` only when
+  neither carries it: a combined file that is missing, is not JSON or has the wrong shape
+  costs its own providers a request each. The per-provider files stay written.
+- The drift check: `scripts/build_venuelists.py` in the Checks regeneration step, and
+  `tests/test_venuelists.py` comparing the committed combined files with the committed
+  provider files.
+- The app's health and freshness are unchanged: it reads only `venues` and `pending` from
+  these files, and both arrive verbatim. The status page still reads the per-provider
+  files for its table; it was not changed.
 
-## Open questions
+## Measured after (2026-09-26)
 
-- Whether the health line may lag a local run by that window, or should keep reading the
-  per-provider files for the ages while the combined file serves the picker.
-- Whether the service worker should revalidate the combined file only, and leave the
-  per-provider files to the fallback path.
+Same method as the audit's (the tree served locally, one fresh context per view, every
+request that reached the server counted, the worker's revalidations included; warm is a
+reload once the worker controls the page). Before is 3f4456623, measured the same day; it
+reads one request above the audit's figures for the chooser and the venue.
+
+| View | Chromium cold | Chromium warm | WebKit cold | WebKit warm |
+|---|---|---|---|---|
+| chooser `/` | 89 -> 9 | 87 -> 7 | 90 -> 10 | 90 -> 10 |
+| venue `?area=or-helsinki` | 90 -> 10 | 88 -> 8 | 91 -> 11 | 91 -> 11 |
+| city `?area=city:Helsinki` | 115 -> 35 | 103 -> 23 | 109 -> 29 | 109 -> 29 |
+
+Every view drops the 82 per-provider requests for the 2 combined files. The combined files
+are 3.8 KiB and 23.3 KiB, 0.8 KiB and 3.1 KiB gzipped, against 15 KiB for the 82 files
+gzipped one by one.
 
 ## Status
 
-Not built. Next step: the maintainer's decision; if accepted, the build step, the client's
-read with its fallback, and a drift check that the combined file matches the committed
-per-provider files.
+Built; the record is in `docs/archive/2026-09-app.md`. The status page is the
+remaining reader of all 82 per-provider files.

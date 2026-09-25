@@ -2314,9 +2314,9 @@
   // data/providers.json, generated from scripts/providers/registry.py, so adding a
   // provider needs no edit to the code here. The fallback keeps the app usable when that
   // file is missing (a partial deploy, or an old service worker), and it has to name
-  // every provider: fetchVenueLists() asks for data/venues-{id}.json for whatever list
-  // is in force, so a provider absent from the fallback loses its venues entirely, not
-  // just its label. The block between the markers is generated from the registry by
+  // every provider: fetchVenueLists() looks up the venues of each provider in whatever
+  // list is in force, in the combined files or data/venues-{id}.json, so a provider
+  // absent from the fallback loses its venues entirely, not just its label. The block between the markers is generated from the registry by
   // scripts/build_providers.py --sync-index; do not edit it by hand.
   const PROV_FALLBACK = [
     /* providers:start */
@@ -3125,6 +3125,32 @@
   // Fetch the venue lists. Split out of loadAreas so a resume can refresh them without
   // going near fillAreaSelect, which re-runs the prefs-based venue restore and would
   // bounce the reader off the venue they were looking at.
+  // --- venue lists: pure, extracted verbatim by tests/venuelists_harness.js ---
+  // Each half of the pipeline writes one file holding every one of its providers' venue
+  // lists, verbatim (scripts/providers/venuelists.py). -> { files: {id: file}, missing:
+  // [id] }: the provider files the combined files carry, and the ids to fetch one by one.
+  // `bundles` holds each parsed combined file, or null for one that failed or did not
+  // parse; an entry that is not a provider file with a venue array counts as absent, so
+  // a missing or broken combined file costs only its own providers a request each. A
+  // provider in both (its half moved, and one file is a run behind) is taken from the
+  // file that wrote it last.
+  function venueFilesFrom(provIds, bundles){
+    const files = {};
+    for(const b of bundles){
+      const lists = b && typeof b === 'object' ? b.providers : null;
+      if(!lists || typeof lists !== 'object') continue;
+      for(const id of provIds){
+        const j = lists[id];
+        if(!j || typeof j !== 'object' || !Array.isArray(j.venues)) continue;
+        const held = files[id];
+        if(!held || String(j.generated || '') > String(held.generated || '')) files[id] = j;
+      }
+    }
+    return { files, missing: provIds.filter(id => !files[id]) };
+  }
+  // --- end venue lists ---
+  const VENUELIST_HALVES = ['local', 'cloud'];
+
   async function fetchVenueLists(areasPromise){
     const data = await (areasPromise || fetchJSON('data/areas.json'));
     const areas = (data.areas || []).filter(a => a.id && a.id !== '1029')
@@ -3134,13 +3160,20 @@
     // what loaded, a chain that was down looked the same as one that did not exist.
     if(!areas.length) throw new Error('Theatre list came back empty');
     // Extra providers, each optional: a missing or broken file must not take the app down.
-    // Fetched in parallel -- awaiting eight files one at a time was most of the startup
-    // waterfall on mobile. Promise.all keeps array order, so the picker order is stable.
+    // Two combined files, one per half, instead of one request per provider: 82 requests
+    // and 82 worker revalidations on every load became two (docs/research/cold-load.md).
+    // A provider neither file carries is fetched on its own, in parallel. The result is
+    // in PROVIDERS order, so the picker order is stable.
     const extra = [];
     // Finnkino is skipped: it is the areas.json above, in the legacy numeric shape.
     const provIds = PROVIDERS.map(p => p.id).filter(id => id !== 'finnkino');
-    const provFiles = await Promise.all(provIds.map(
+    const bundles = await Promise.all(VENUELIST_HALVES.map(
+      h => fetchJSON(`data/venuelists-${h}.json`).catch(() => null)));
+    const { files, missing } = venueFilesFrom(provIds, bundles);
+    const single = await Promise.all(missing.map(
       prov => fetchJSON(`data/venues-${prov}.json`).catch(() => null)));
+    missing.forEach((prov, i) => { files[prov] = single[i]; });
+    const provFiles = provIds.map(prov => files[prov] || null);
     provIds.forEach((prov, i) => {
       const j = provFiles[i];
       if(!j) return;
@@ -5332,7 +5365,7 @@
       // prefs the restore below will read (?area= beats them, same as in the restore).
       {
         const pr = prefs.get();
-        for(const p of PROV_FALLBACK) if(p.id !== 'finnkino') prefetch(`data/venues-${p.id}.json`);
+        for(const h of VENUELIST_HALVES) prefetch(`data/venuelists-${h}.json`);
         let target = '';
         try { target = new URLSearchParams(location.search).get('area') || ''; } catch(_){}
         // Only a location the load will show: the link's, or the favourite's. With

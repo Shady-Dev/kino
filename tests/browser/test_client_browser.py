@@ -1229,6 +1229,58 @@ class MetadataAfterAFailedReadOnAPhone(MetadataAfterAFailedRead):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class CombinedVenueLists(Browser):
+    """The venue lists come from the two combined files, one per half.
+
+    The client asked for one `data/venues-{id}.json` per provider on every load (audit K6);
+    it now asks for `data/venuelists-local.json` and `data/venuelists-cloud.json` and
+    fetches a provider's own file only when neither carries it. The fixture has no combined
+    file, so every other test here runs the fallback; these serve them.
+    """
+    ORION = json.loads((FIXTURE / "data/venues-orion.json").read_text(encoding="utf-8"))
+
+    def serve(self, local, cloud):
+        Handler.body = {k: v for k, v in (("venuelists-local.json", local),
+                                          ("venuelists-cloud.json", cloud)) if v is not None}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+
+    def singles(self):
+        return [p for p in self.srv.requested if "/data/venues-" in p]
+
+    def setUp(self):
+        # Uncacheable, or the browser answers a second request for it from its own cache
+        # and "never requested" would pass without the combined file doing anything.
+        Handler.delay = {"venues-orion.json": 0}
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+        super().setUp()
+        self.srv.requested.clear()
+
+    def test_the_picker_is_built_from_the_combined_files(self):
+        self.serve(json.dumps({"half": "local", "providers": {}}).encode(),
+                   json.dumps({"half": "cloud", "providers": {"orion": self.ORION}}).encode())
+        self.page.goto(self.origin + "/index.html")
+        self.srv.requested.clear()
+        self.page.goto(self.origin + "/index.html?area=or-helsinki")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.pick_orion()
+        self.assertTrue(any("/data/venuelists-cloud.json" in p for p in self.srv.requested))
+        self.assertNotIn("/data/venues-orion.json",
+                         [p.split("?")[0] for p in self.singles()])
+
+    def test_a_broken_combined_file_falls_back_to_the_provider_file(self):
+        self.serve(b'{"half": "local", "providers": {', None)
+        self.page.goto(self.origin + "/index.html")
+        self.srv.requested.clear()
+        self.page.goto(self.origin + "/index.html?area=or-helsinki")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.pick_orion()
+        self.assertIn("/data/venues-orion.json", [p.split("?")[0] for p in self.singles()])
+
+
+class CombinedVenueListsOnAPhone(CombinedVenueLists):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class ChooserNote(Browser):
     """The chooser's note is drawn in the language on screen.
 

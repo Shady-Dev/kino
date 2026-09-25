@@ -32,6 +32,7 @@ import registry
 import run
 import run_cloud
 import test_run_pool as P
+import venuelists
 
 
 def module(name, *sites, **kw):
@@ -1111,6 +1112,40 @@ class RoutingTest(CloudTestCase):
 
     def test_the_default_ceiling_is_the_one_run_py_uses(self):
         self.assertEqual(run_cloud.MAX_HOSTS, run.MAX_HOSTS)
+
+
+class VenueListsTest(CloudTestCase):
+    """The cloud half rewrites its combined venue file after the run, aborted or not.
+
+    A real cloud provider's id on a fake module, so the registry puts it in the cloud half.
+    `biorex` here is a name, not the adapter: the fetch is the pool's own stub."""
+
+    def combined(self, half):
+        p = venuelists.path_for(self.out, half)
+        return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+
+    def test_the_run_writes_the_cloud_file_from_what_it_published(self):
+        h = self.hosts(1, delay=0)
+        code, logs = self.cloud([module("mod_v", P.site("biorex", h.base(0)))])
+        self.assertEqual(code, 0, logs)
+        written = json.loads((self.out / "venues-biorex.json").read_text(encoding="utf-8"))
+        self.assertEqual(self.combined("cloud")["providers"], {"biorex": written})
+        self.assertIsNone(self.combined("local"), "the cloud half wrote the local file")
+        self.assertIn("venuelists-cloud.json rewritten", logs["cloud"])
+
+    def test_an_aborted_run_still_rebuilds_it_from_the_files_as_they_stand(self):
+        prev = {"generated": "2026-09-25T06:00:00+00:00", "venues": [{"id": "x", "name": "x"}],
+                "provider": "biorex"}
+        (self.out / "venues-biorex.json").write_text(json.dumps(prev), encoding="utf-8")
+        h = self.hosts(1, delay=0)
+        exiting = FatalTest.Exiting([P.site("biorex", h.base(0))], requests=1,
+                                    exiting=("biorex",))
+        exiting.__name__ = "mod_v"
+        self.install([exiting])
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                run_cloud.main(["--where", "all"])
+        self.assertEqual(self.combined("cloud")["providers"], {"biorex": prev})
 
 
 if __name__ == "__main__":

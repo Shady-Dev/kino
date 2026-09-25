@@ -200,7 +200,7 @@ A registry entry plus an adapter. No hand-written `index.html` edit, but one gen
 one: `python3 scripts/build_providers.py --sync-index` rewrites the `PROV_FALLBACK`
 block from the registry, so bump `CACHE` in `sw.js` in the same commit. That block is
 the list the client falls back to when `data/providers.json` cannot be read, and
-`fetchVenueLists` asks for `data/venues-{id}.json` for whichever list is in force, so a
+`fetchVenueLists` looks up the venues of each provider in whichever list is in force, so a
 provider missing from it loses its venues, not just its label.
 
 - `scripts/providers/registry.py` is the single source of truth. `data/providers.json`
