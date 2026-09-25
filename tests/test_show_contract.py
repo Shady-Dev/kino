@@ -615,6 +615,28 @@ class CheckShowsAtTheBoundaryTest(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, r"which the site does not list"):
             common.check_shows({"ghost": [self.show(venue="ghost")]}, "fake", {"v1"})
 
+    def test_a_start_with_no_offset_fails_the_site_and_writes_nothing(self):
+        """The client would read it in the viewer's zone: three hours out on a laptop in
+        UTC, which is the fault the offset exists to prevent."""
+        for start in ("2026-09-26T18:00:00", "2026-09-26 18:00", "pe 26.9. klo 18"):
+            with self.subTest(start=start):
+                with self.assertRaisesRegex(RuntimeError, r"not ISO 8601 with an offset"):
+                    self.run_with([self.show(), self.show(start=start)])
+                self.assertEqual(list(run.OUT.iterdir()), [])
+
+    def test_a_url_that_is_not_absolute_http_fails_the_site(self):
+        for url in ("/checkout/1f2e", "//example.org/x", "javascript:alert(1)",
+                    "ftp://example.org/x", "https:/example.org"):
+            with self.subTest(url=url):
+                with self.assertRaisesRegex(RuntimeError, r"not an absolute http\(s\) URL"):
+                    self.run_with([self.show(), self.show(url=url)])
+
+    def test_an_empty_url_and_a_cleartext_one_are_accepted(self):
+        """"" is the contract's empty value, and two hosts serve no TLS at all."""
+        live, total, *_ = self.run_with([self.show(url=""),
+                                         self.show(eventId="e2", url="http://example.org/x")])
+        self.assertEqual(total, 2)
+
 
 if __name__ == "__main__":
     unittest.main()

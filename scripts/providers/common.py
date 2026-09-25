@@ -467,6 +467,22 @@ def check_shows(per_venue, label, venue_ids=()):
             if not s["start"] or not s["venue"] or s["venue"] != vid:
                 raise RuntimeError(f"{label}: venue {vid}: a show with start {s['start']!r} "
                                    f"filed under venue {s['venue']!r} (title {s['title']!r})")
+            # The two values the contract states a form for. A start with no offset is read
+            # in the viewer's zone by the client, and a url that is not http(s) is one
+            # safeUrl() has to catch downstream (audit C6). "" stays allowed for url: it
+            # is the contract's empty value.
+            try:
+                offset = datetime.datetime.fromisoformat(s["start"]).utcoffset()
+            except ValueError:
+                offset = None
+            if offset is None:
+                raise RuntimeError(f"{label}: venue {vid}: start {s['start']!r} is not ISO "
+                                   f"8601 with an offset (title {s['title']!r})")
+            if s["url"]:
+                u = urllib.parse.urlsplit(s["url"])
+                if u.scheme not in ("http", "https") or not u.netloc:
+                    raise RuntimeError(f"{label}: venue {vid}: url {s['url']!r} is not an "
+                                       f"absolute http(s) URL (title {s['title']!r})")
 
 
 class EmptyProgramme(Exception):

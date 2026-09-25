@@ -2462,3 +2462,15 @@ this run opens its log; an unreached one gets the abort line in a fresh file, an
 stopped part-way keeps what this run wrote and gets the line appended. Tests: two in
 `FatalTest` (`test_cloud_pool.py`), a seeded stale log and a module whose first site
 published before its second was fatal; 3 mutations, all red.
+
+### check_shows refuses a start with no offset and a url that is not http(s) (2026-09-25)
+
+Audit finding C6. `common.check_shows` checked that each `Show` key is present with the
+right type, and nothing about the two values the contract states a form for: `start` is
+ISO 8601 with an offset, and `url` absolute http(s). A start such as `2026-09-26 18:00`
+would have been published and read by the client in the viewer's zone, and a bare
+`/checkout/{uuid}` left to `safeUrl()`, which accepts a scheme-less URL (IDEAS Deferred).
+Both now fail the site before anything is written; `url` may still be `""`, the contract's
+empty value, and `http` stays accepted for the two hosts with no TLS. The committed data
+has no case of either: all 5,778 starts carry an offset, and 5,733 urls are https and 45
+http. Tests: three in `CheckShowsAtTheBoundaryTest`; 5 mutations, all red.
