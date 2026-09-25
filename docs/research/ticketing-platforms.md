@@ -1653,3 +1653,17 @@ through one storefront. What is settled is the consequence. `kinola.py` reads ea
 own WordPress `kinola-event` listing, and Rekolan Kino's site is Squarespace, so it would
 need its own parser even if the account were shared. Registration waits on the cinema
 publishing a programme either way, which is the blocker already recorded.
+
+### Riviera: a disabled screening button and the seat count (2026-09-25)
+
+**Findings.** Read once on 2026-09-25 through the listing request `riviera.py` makes (the
+`filter_movies` POST to `admin-ajax.php`, area 1040): 88 screenings, 2 with a `disabled`
+button, "Twin Peaks: Kausi 1 (1990)" on 26.9. at 34/34 seats taken and "Dyyni: Osa kolme"
+on 15.12. at 50/50. No row carried a disabled button over free seats. Every row printed a
+"Varatut paikat" count.
+
+**Inference.** A disabled button has meant "no seats left" in every row seen. What the
+theme draws for a sale not yet open was not observed, and nothing on the page states it.
+
+**Implementation.** `riviera.parse` takes the seat count where one is printed and the
+button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-providers.md`.

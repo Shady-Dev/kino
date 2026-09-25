@@ -135,8 +135,12 @@ def parse(page_html, listing="", base="", tickets=""):
             "start": datetime.datetime(year, mon, day, int(t.group(1)), int(t.group(2)),
                                       tzinfo=FI).isoformat(),
             "len": minutes,
-            # A disabled button plus every seat taken is the sold-out signal.
-            "soldOut": bool(seats and total and taken >= total) or bool(DISABLED_RE.search(block)),
+            # Every seat taken is sold out. A disabled button decides only where no seat
+            # count is printed: one disabled over free seats can be a sale not yet open,
+            # and marking it sold out would turn readers away. Read 2026-09-25, both
+            # disabled rows showed every seat taken (docs/research/ticketing-platforms.md).
+            "soldOut": (bool(total and taken >= total) if seats
+                        else bool(DISABLED_RE.search(block))),
             "url": show_url(block, listing, base, tickets),
         })
     return out

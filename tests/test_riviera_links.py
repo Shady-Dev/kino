@@ -108,6 +108,22 @@ class ScreeningLinkTest(unittest.TestCase):
         self.assertEqual([r["url"] for r in rows], [LISTING, TICKETS + "982926"])
         self.assertEqual([r["soldOut"] for r in rows], [True, False])
 
+    def test_the_seat_count_decides_sold_out_where_it_is_printed(self):
+        """A disabled button over free seats is not sold out: a sale not yet open looks
+        the same. Every seat taken is sold out whatever the button says, and a disabled
+        button with no count printed still is."""
+        page = listing(
+            item("A", "Ti 15.12.2026", "21:00", "Kallio, Sali 1", SOLD_OUT,
+                 seats="Varatut paikat: 0/50"),
+            item("B", "Ti 15.12.2026", "18:00", "Kallio, Sali 1", button("1"),
+                 seats="Varatut paikat: 50/50"),
+            item("C", "Ti 15.12.2026", "19:00", "Kallio, Sali 1", SOLD_OUT, seats=""),
+            item("D", "Ti 15.12.2026", "20:00", "Kallio, Sali 1", button("2"),
+                 seats="Varatut paikat: 49/50"),
+        )
+        rows = {r["title"]: r["soldOut"] for r in riviera.parse(page, LISTING, BASE, TICKETS)}
+        self.assertEqual(rows, {"A": False, "B": True, "C": True, "D": False})
+
     def test_a_link_outside_the_action_cell_cannot_answer_for_the_screening(self):
         """A film title linked to `/Event/31766/` addresses the film and lands on its
         first screening. Reading the row's first href is what published the listing."""

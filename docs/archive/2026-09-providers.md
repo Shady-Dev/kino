@@ -3175,3 +3175,15 @@ behaviour: a dropped offset, the fault the check exists for, makes every row dis
 nothing is left, and the empty-result raise fails the site with the previous file kept.
 The docstring now says so, and `test_a_clock_clash_on_every_row_fails_the_site` holds
 that path. 2 mutations, both red.
+
+### Riviera: the seat count decides sold out where it is printed (2026-09-25)
+
+Audit finding A15. `riviera.parse` marked a screening sold out on every seat taken or on a
+`disabled` button alone, while its comment said "a disabled button plus every seat
+taken". The audit flagged "Dyyni: Osa kolme" on 15.12., 81 days out, as possibly a sale not
+yet open. Read live the same day it shows 50/50 seats taken, and both disabled rows are
+full ([research](../research/ticketing-platforms.md)), so no published row was wrong. The
+rule now follows the more specific signal: the printed count decides, and the button only
+where no count is printed, so a disabled button over free seats no longer turns readers
+away. The live payload parses to the same 2 sold-out rows under both rules. Tests: one in
+`test_riviera_links.py`; 3 mutations, all red.
