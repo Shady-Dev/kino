@@ -42,10 +42,14 @@ on:
 permissions:
   contents: read
 
-# Cancelling is safe here, unlike the fetch workflow: this reads committed state and
-# retries nothing, so a newer commit's verdict supersedes an older one.
+# Cancelling is safe on a branch, unlike the fetch workflow: this reads committed state and
+# retries nothing, so a newer commit's verdict supersedes an older one. On main it is not:
+# the design and CACHE gates check each push's own before..after range, so a cancelled
+# main run left its commits unchecked, and a newer push's range starts after them (audit
+# G8, 2026-09-25). Each main push gets its own group and runs to the end. A cancelled
+# branch run's range is still checked, by the main push that fast-forwards over it.
 concurrency:
-  group: checks-${{ github.ref }}
+  group: checks-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
   cancel-in-progress: true
 
 jobs:
