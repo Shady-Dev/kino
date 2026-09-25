@@ -140,6 +140,7 @@ class Module:
         self.items = []
         self.tally = run.Tally([name])
         self.done = False
+        self.opened = False         # this run has truncated the log and is writing it
 
     @property
     def path(self):
@@ -409,6 +410,7 @@ def main(argv) -> int:
                 pool.submit(read_host, group, rec, done, fatal)
             for m in mods:
                 with open(m.path, "w", encoding="utf-8") as fh:
+                    m.opened = True
                     run_module(m, rec, fh, done, fatal, now, half, held)
         except BaseException as e:          # noqa: BLE001 -- recorded, then re-raised
             aborted = e
@@ -425,8 +427,11 @@ def main(argv) -> int:
                 if not m.done:
                     # A module the run never reached still gets its contract line, and it
                     # is a failure: the alternative is its previous committed log standing
-                    # at exit=0 and the run reading as a success.
-                    with open(m.path, "a", encoding="utf-8") as fh:
+                    # at exit=0 and the run reading as a success. The line replaces that
+                    # log rather than joining it, or check_runs.py would read the last
+                    # run's failures as this run's cause (audit C4). A module stopped
+                    # part-way keeps what this run wrote into it.
+                    with open(m.path, "a" if m.opened else "w", encoding="utf-8") as fh:
                         fh.write(f"[run] {m.name}: the run stopped before this module was "
                                  f"published: {aborted!r}\nexit=1\n")
             report(top, mods, items, groups, workers, started, held, aborted)

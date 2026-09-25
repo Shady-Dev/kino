@@ -19,6 +19,7 @@ import importlib
 import io
 import json
 import pathlib
+import re
 import tempfile
 import threading
 import time
@@ -581,6 +582,41 @@ class FatalTest(CloudTestCase):
         h = self.hosts(2, delay=0)
         _, logs = self.go(self.build(h))
         self.assertNotIn("FAILED", "".join(logs.values()))
+
+    def test_a_module_never_reached_drops_the_previous_runs_log(self):
+        """The abort line replaces an unreached module's committed log. Appended, the last
+        run's `FAILED` line and `exit=0` stood above it, and check_runs.py named that old
+        failure as this run's cause."""
+        h = self.hosts(2, delay=0)
+        a = self.Exiting([P.site("a0", h.base(0))], requests=1, exiting=("a0",))
+        a.__name__ = "mod_a"
+        b = self.Exiting([P.site("b0", h.base(1))], requests=1)
+        b.__name__ = "mod_b"
+        (self.logs / "run-mod_b.log").write_text(
+            "[b0] FAILED: HTTP Error 403 from the last run\nexit=0\n", encoding="utf-8")
+        _, logs = self.go([a, b])
+        self.assertNotIn("from the last run", logs["mod_b"])
+        self.assertIn("stopped before this module was published", logs["mod_b"])
+        self.assertEqual(re.findall(r"(?m)^exit=\d+$", logs["mod_b"]), ["exit=1"])
+
+    def test_a_module_stopped_part_way_keeps_what_this_run_wrote(self):
+        """The other side of the same line: a module whose first site this run published
+        and whose second site was fatal keeps the first site's lines above it."""
+        class SlowExit(self.Exiting):
+            def fetch_site(self, site):
+                if site["provider"] in self.exiting:
+                    time.sleep(0.3)             # b0 is published before the fatal lands
+                return super().fetch_site(site)
+
+        h = self.hosts(2, delay=0)
+        a = self.Exiting([P.site("a0", h.base(0))], requests=1)
+        a.__name__ = "mod_a"
+        b = SlowExit([P.site("b0", h.base(1)), P.site("b1", h.base(1))], requests=1,
+                     exiting=("b1",), chatty=True)
+        b.__name__ = "mod_b"
+        _, logs = self.go([a, b])
+        self.assertIn("[b0] out 0", logs["mod_b"])
+        self.assertIn("stopped before this module was published", logs["mod_b"])
 
     def test_a_dying_site_is_released_only_after_its_exception_is_recorded(self):
         """The ordering the whole `settled` flag exists for, asserted directly because the

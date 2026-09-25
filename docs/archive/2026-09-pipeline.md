@@ -2451,3 +2451,14 @@ Kinot already files the word in `method`. Re-enriched: the row carries 1412214, 
 and the same held-back score as the plain title. No page changed (the screening is on
 8.10.). Tests: 3 in `test_tmdb_queries.py`, one of them over real titles carrying the word;
 2 mutations, both red.
+
+### An aborted cloud run replaces an unreached module's log (2026-09-25)
+
+Audit finding C4, the `run_cloud` part of prior review #35. When a run stopped early, each
+module it never reached had the abort line and `exit=1` appended to the log the previous
+run committed, so a stale `[pb] FAILED: 403` and `exit=0` stood above it and
+`check_runs.py` named that old failure as this run's cause. A module now records when
+this run opens its log; an unreached one gets the abort line in a fresh file, and one
+stopped part-way keeps what this run wrote and gets the line appended. Tests: two in
+`FatalTest` (`test_cloud_pool.py`), a seeded stale log and a module whose first site
+published before its second was fatal; 3 mutations, all red.
