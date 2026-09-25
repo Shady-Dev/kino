@@ -1,27 +1,27 @@
 [kinoset] Kino 1-2 (Huittinen): 14 showtimes
-[kinoset] Kinema (Loimaa): 11 showtimes
-[kinoset] Bio (Sastamala): 11 showtimes
+[kinoset] Kinema (Loimaa): 9 showtimes
+[kinoset] Bio (Sastamala): 9 showtimes
 [kinoset] Kino 1-2: 14 showtimes, 4 dates
-[kinoset] Kinema: 11 showtimes, 5 dates
-[kinoset] Bio: 11 showtimes, 6 dates
+[kinoset] Kinema: 9 showtimes, 4 dates
+[kinoset] Bio: 9 showtimes, 5 dates
 [kinoset] synopses merged: 0
-[kinoaurora] Kino Aurora (Jyväskylä): 27 showtimes
-[kinoaurora] Kino Aurora: 27 showtimes, 8 dates
+[kinoaurora] Kino Aurora (Jyväskylä): 30 showtimes
+[kinoaurora] Kino Aurora: 30 showtimes, 9 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 27 showtimes
-[kinohirvi] Kino Hirvi: 27 showtimes, 5 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 24 showtimes
+[kinohirvi] Kino Hirvi: 24 showtimes, 4 dates
 [kinohirvi] synopses merged: 0
-[biosade] Bio Säde (Mänttä): 16 showtimes
-[biosade] Bio Säde: 16 showtimes, 5 dates
+[biosade] Bio Säde (Mänttä): 14 showtimes
+[biosade] Bio Säde: 14 showtimes, 4 dates
 [biosade] synopses merged: 0
-[kinomarilyn] Kino Marilyn (Loviisa): 32 showtimes
-[kinomarilyn] Kino Marilyn: 32 showtimes, 10 dates
+[kinomarilyn] Kino Marilyn (Loviisa): 27 showtimes
+[kinomarilyn] Kino Marilyn: 27 showtimes, 9 dates
 [kinomarilyn] synopses merged: 0
-[kinoolympia] Kino Olympia (Hanko): 11 showtimes
-[kinoolympia] Kino Olympia: 11 showtimes, 5 dates
+[kinoolympia] Kino Olympia (Hanko): 8 showtimes
+[kinoolympia] Kino Olympia: 8 showtimes, 4 dates
 [kinoolympia] synopses merged: 0
-[jarvelankino] Järvelän Kino (Järvelä): 10 showtimes
-[jarvelankino] Järvelän Kino: 10 showtimes, 7 dates
+[jarvelankino] Järvelän Kino (Järvelä): 8 showtimes
+[jarvelankino] Järvelän Kino: 8 showtimes, 6 dates
 [jarvelankino] synopses merged: 0
 [kinometso] Muurame (Muurame): 6 showtimes
 [kinometso] Petäjävesi (Petäjävesi): 0 showtimes
@@ -35,6 +35,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-petajavesi, km-tikkakoski, km-vaajakoski
-[run] nexxo: 10 venues, 165 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 37.6s of fetching added up across workers that overlap, longest site 11.0s, longest queue wait 0.0s, 11.0s wall from this module's first fetch starting to its last ending
+[run] nexxo: 10 venues, 149 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 37.1s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
 exit=0

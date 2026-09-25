@@ -871,6 +871,7 @@
     "biorex",
     "biorexkokkola",
     "ihmekompleksi",
+    "isohannu",
     "joutsankino",
     "kinoaurora",
     "kinokilta",
@@ -4410,7 +4411,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -4512,7 +4512,6 @@
     "helios",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -6645,6 +6644,19 @@
     "en"
    ]
   },
+  "unohdettu saari fi dub": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 0,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
   "unohdettu saari suomeksi puhuttu": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
@@ -6780,6 +6792,7 @@
     "cine",
     "cinemantsala",
     "ihmekompleksi",
+    "isohannu",
     "kinokulma",
     "star",
     "tapiola"
@@ -6803,6 +6816,7 @@
     "cine",
     "cinemantsala",
     "ihmekompleksi",
+    "isohannu",
     "kinokulma",
     "star",
     "tapiola"
@@ -7071,5 +7085,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-26"
+ "generated": "2026-09-25"
 }

@@ -1,3 +1,4 @@
+[run] venuelists-cloud.json rewritten
 [cloud] 36 module(s), 71 site(s), 69 host group(s), pool of 8
 [cloud] biorex: exit=0
 [cloud] nexxo: exit=0
@@ -35,6 +36,6 @@
 [cloud] kinohuovi: exit=1
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 217.7s wall, 1332.0s of fetching added up across workers that overlap, 71 site(s) fetched
-[cloud] held at most 32 fetched site(s) and 4233 byte(s) of captured log waiting for publication
+[cloud] 187.2s wall, 1210.5s of fetching added up across workers that overlap, 71 site(s) fetched
+[cloud] held at most 32 fetched site(s) and 4232 byte(s) of captured log waiting for publication
 exit=1
