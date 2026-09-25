@@ -105,6 +105,67 @@ def facts_of(html):
     return text_of(html.replace(SR_COMMA, " \u00b7 "))
 
 
+class HostilePosterPathTest(unittest.TestCase):
+    """`og:image` carries the first poster path, which is provider text: cinemahouse.py
+    unescapes a raw relative `src`, and mirror_posters and run.py pass a non-http value
+    through. It went into the attribute unescaped, so a path holding a quote and a
+    `</script>` put a script element into the head of the fi, sv and en venue and city
+    pages (audit G1, 2026-09-25). Built from the committed data with one city's posters
+    replaced."""
+
+    HOSTILE = 'data/posters/x"><script>alert(9)</script><meta x="'
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        root = pathlib.Path(cls.tmp.name)
+        (root / "data").mkdir()
+        for p in REAL_DATA.glob("*.json"):
+            shutil.copy2(p, root / "data" / p.name)
+        today = bp.recorded_date()
+        saved = (bp.ROOT, bp.DATA)
+        bp.ROOT, bp.DATA = root, root / "data"
+        try:
+            by_city = {}
+            for v in bp.load_venues():
+                by_city.setdefault(bp.city_of(v), []).append(v["id"])
+            window = {(today + timedelta(days=i)).isoformat() for i in range(bp.DAYS)}
+            cls.city = next(c for c, ids in sorted(by_city.items()) if len(ids) > 1 and all(
+                any(s.get("start", "")[:10] in window for s in bp.load_shows(i)) for i in ids))
+            for vid in by_city[cls.city]:
+                p = root / "data" / f"area-{vid}.json"
+                doc = json.loads(p.read_text())
+                for sh in doc["shows"]:
+                    sh["img"] = cls.HOSTILE
+                p.write_text(json.dumps(doc, ensure_ascii=False))
+            bp._SHOWS.clear()
+            with contextlib.redirect_stdout(io.StringIO()):
+                bp.main(today=today)
+            cls.pages = {str(p.relative_to(root)): p.read_text(encoding="utf-8")
+                         for prefix in bp.PAGE_ROOTS for p in (root / prefix).glob("*/index.html")}
+        finally:
+            bp.ROOT, bp.DATA = saved
+            bp._SHOWS.clear()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    def test_the_path_is_escaped_in_the_head_of_every_language(self):
+        city = bp.slug(self.city)
+        hit = {k: v for k, v in self.pages.items() if self.HOSTILE.split('"')[0] in v}
+        langs = {("sv" if k.startswith("sv/") else "en" if k.startswith("en/") else "fi")
+                 for k in hit}
+        self.assertEqual(langs, {"fi", "sv", "en"}, sorted(hit))
+        self.assertTrue(any(f"/{city}/" in k for k in hit), "the city page carries it too")
+        for k, page in hit.items():
+            with self.subTest(page=k):
+                head = page[:page.index("</head>")]
+                self.assertFalse("<script>alert(9)</script>" in page, "the path ran as markup")
+                self.assertIn(f'<meta property="og:image" content="{bp.SITE}/'
+                              f'{html.escape(self.HOSTILE, quote=True)}">', head)
+
+
 class GeneratedPagesTest(unittest.TestCase):
     """Build once from the committed data, then read what came out."""
 

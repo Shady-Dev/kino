@@ -1259,7 +1259,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{SITE}{self_path}">
-<meta property="og:image" content="{SITE}{og_image}">
+<meta property="og:image" content="{SITE}{esc(og_image)}">
 <meta property="og:locale" content="{t['locale']}">
 <link rel="icon" href="/icon-192.png">
 <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
