@@ -3006,3 +3006,22 @@ poster. The rows' own `img` is Sheryl's poster for the 1997 film and did not cha
 three Sheryl landing pages now head the film "Happy Together (1997)".
 `tests/test_tmdb_matching.py` pins the alias and lists 55059 as an id that must never be
 aliased.
+
+### Kino Tapiola's opera-evening notice is no longer a synopsis (2026-09-25)
+
+Audit finding A5. Every opera and ballet page opens with two venue paragraphs, "Kino
+Tapiolassa ooppera- ja baletti-iltoihin kuuluu ..." and "Viinibaarimme palvelee ...
+kaikissa näytöksissämme.", and `details()` kept both, so films-extra.json served them as
+the Finnish synopsis of six Royal Opera and Ballet titles to any chain showing them.
+`NOTE_NAME_RE` drops a paragraph naming the cinema or speaking of its bar, hall, café or
+screenings in the first person (`-mme`), plus any quoting a price (`synmerge.is_note`), as
+Gilda and Cinemahouse drop theirs by name.
+
+The first fix matched the name only and a refresh showed the second paragraph survive;
+the first-person words were added after reading one film page into scratch, and Tapiola
+was read a second time. The six entries were removed and re-merged from that run, 23
+showtimes, 0 failures; their `id`, `img`, `r` and `tr` were put back from the previous
+file, because `merge_extra` writes TMDB fields only onto an entry that already holds one
+and these records have no TMDB text. An enrich pass over the result changes nothing. No
+page changed: the six run from December.
+Tests: 1 in `test_tapiola.py`; 4 mutations, all red.

@@ -215,6 +215,25 @@ class DetailsTest(unittest.TestCase):
         self.assertEqual((d["len"], d["lang"]), ("173", "EN-A, FI-S, SV-S"))
         self.assertIn("elokuva, The Odyssey, on myyttinen", d["_syn"])
 
+    def test_the_venue_notice_is_not_the_synopsis(self):
+        """Every opera and ballet page opens with the cinema's own evening notice, which
+        films-extra.json then served as the Finnish synopsis of six Royal Opera and
+        Ballet titles to every chain showing them (2026-09-25)."""
+        page = film_page(
+            "",
+            "<p>Kino Tapiolassa ooppera- ja baletti-iltoihin kuuluu laadukkaan ohjelmiston "
+            "lisäksi myös oikea oopperatunnelma: Takit jätetään narikkaan!</p>\n"
+            "<p>Viinibaarimme palvelee ennen näytöstä sekä väliajalla, ja myös alkoholijuomat "
+            "saa ottaa mukaan saliin kaikissa näytöksissämme.</p>\n"
+            "<p>Liput 29 € sisältävät väliaikatarjoilun.</p>\n"
+            "<p>Floria Tosca ja Mario Cavaradossi elävät toisilleen ja taiteelleen, kunnes "
+            "Cavaradossi auttaa karannutta vankia.</p>",
+            "3h 15min", "Italia", "Englanti")
+        d = tapiola.details(page)
+        self.assertTrue(d["_syn"].startswith("Floria Tosca ja Mario Cavaradossi"), d["_syn"])
+        self.assertNotIn("Viinibaarimme", d["_syn"])
+        self.assertNotIn("29 €", d["_syn"])
+
     def test_nothing_on_the_page_is_nothing(self):
         self.assertEqual(tapiola.details("<html><body>Huolto</body></html>"), {})
 

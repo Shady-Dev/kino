@@ -71,6 +71,15 @@ ICON_RE = re.compile(r'<div class="info-icon ([a-z-]+)">\s*(?:<a[^>]*>\s*)?<div 
 DESC_RE = re.compile(r'<div class="description">(.*?)</div>\s*<div class="info-icons">', re.S | re.I)
 PARA_RE = re.compile(r'<p\b[^>]*>(.*?)</p>', re.S | re.I)
 KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
+# A paragraph naming the cinema, or speaking of its bar, hall or screenings in the first
+# person, is the venue's notice and not the film's synopsis. Every opera and ballet page
+# opens with two: "Kino Tapiolassa ooppera- ja baletti-iltoihin kuuluu ..." and
+# "Viinibaarimme palvelee ... kaikissa näytöksissämme.", and films-extra.json served both
+# as the Finnish synopsis of six Royal Opera and Ballet titles to every chain showing them
+# (2026-09-25). Gilda and Cinemahouse drop theirs by name through
+# `synmerge.drop_notes_html(names=)`; a production's own text never says "our bar".
+NOTE_NAME_RE = re.compile(r"\bTapiola|\b(?:viini)?baari\w*mme\b|\bnäytöks\w*mme\b"
+                          r"|\bsali\w*mme\b|\bkahvila\w*mme\b", re.I)
 
 LANGS = {"suomi": "FI", "ruotsi": "SV", "englanti": "EN", "saksa": "DE", "ranska": "FR",
          "espanja": "ES", "italia": "IT", "venäjä": "RU", "viro": "ET", "tanska": "DA",
@@ -176,7 +185,8 @@ def details(page):
         # The first paragraph is usually a press quote with a star rating. The synopsis
         # is the cinema's own text, so the quote and its stars are left out.
         paras = [_para(p) for p in PARA_RE.findall(desc.group(1))]
-        paras = [p for p in paras if p and "★" not in p and not p.startswith(("”", "“", '"'))]
+        paras = [p for p in paras if p and "★" not in p and not p.startswith(("”", "“", '"'))
+                 and not NOTE_NAME_RE.search(p) and not synmerge.is_note(p)]
         text = " ".join(paras)
         if len(text) > 40:
             d["_syn"] = text
