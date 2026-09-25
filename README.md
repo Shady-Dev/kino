@@ -157,7 +157,7 @@ ticketing platform publishes and how it was read, are under
     scripts/indexnow.py              tells IndexNow which generated pages a push changed
     scripts/poll_windows.py          when the cinemas publish, from committed data, no network
 
-    tests/                           python3 -m unittest discover -s tests
+    tests/                           python3 scripts/run_tests.py (one process per file)
     tests/browser/                   Playwright suite, run on its own (below)
     .github/workflows/biorex.yml     all cloud providers + enrichment
     .github/workflows/logs.yml       runs check_runs.py on any push that touches a log
@@ -258,7 +258,7 @@ links because one site's path was copied onto all of them.
     python3 scripts/providers/run.py biorex
     python3 scripts/providers/run.py --where cloud
     python3 scripts/providers/run_cloud.py --where cloud   # what the workflow runs
-    python3 -m unittest discover -s tests
+    python3 scripts/run_tests.py
 
 The browser suite in `tests/browser/` drives the app and the generated pages in
 Playwright, and CI runs it in Chromium and WebKit. Locally:
