@@ -3142,3 +3142,15 @@ confirmation, and the 2026-09-14 decision that a page which fetched and parsed t
 disqualifies the read without raising is untouched. The uncertain-read test now uses a row
 for an unregistered place; two tests cover the failed page, both red on the unfixed code;
 restoring the skip turns both red.
+
+### BioRex has a test file for its parse paths (2026-09-25)
+
+Audit, test effectiveness: `biorex.py` was at 43% line coverage (8 of 42 branches) with no
+test file, the fetch path never run. `tests/test_biorex.py`, started for the venue guard the
+same day, now covers what the committed rows exercise: tags ahead of the language codes
+("Anniskelu · Plus" with "EN-A, FI-S, SV-S", the shape of 634 rows), a door limit in the
+room ("2 REX (K-18)", 31 rows), the bracketed rating and its absence, the widest srcset
+candidate, the ticket and film links, a skipped item, and `film_meta` with its runtime,
+genres and synopsis carried onto every screening at two venues from one page per film.
+11 tests; 8 parse mutations, all red. No coverage figure is quoted: `coverage` is not
+installed here, and the mutations are the measure used.
