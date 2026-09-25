@@ -302,6 +302,27 @@ def city_desc(t, city):
     return t["city_desc"].format(city=city)
 
 
+def city_sv():
+    """{Finnish city name: Swedish name}, read from the app's own `CITY_SV` in index.html.
+
+    The Swedish pages printed the Finnish name ("Filmer och visningstider – Turku") while
+    the app's Swedish mode shows "Åbo" and links to that page (audit G9). One table, read
+    rather than copied, so the pages cannot drift from the app. Display only: slugs, keys,
+    `?area=` and the JSON-LD locality keep the Finnish name, as `CITY_SV` does in the app.
+
+    No table found is {}: the Swedish pages print the Finnish name, as before, rather than
+    a display name stopping the whole build. test_swedish_city_names.py fails on the
+    committed index.html losing it.
+    """
+    m = re.search(r"const CITY_SV = \{(.*?)\};", INDEX.read_text(encoding="utf-8"), re.S)
+    return dict(re.findall(r"([^\s,:'{}]+):'([^']*)'", m.group(1))) if m else {}
+
+
+def city_name(city, lang, names):
+    """The name a page in `lang` prints for `city`: the Swedish one where it exists."""
+    return names.get(city, city) if lang == "sv" else city
+
+
 def age_note(t, shows):
     """One sentence when every screening on the page shares a screening-level age limit.
 
@@ -1459,6 +1480,7 @@ def main(today=None) -> int:
         today = datetime.now(FI).date()
 
     venues = load_venues()
+    names_sv = city_sv()
     for v in venues:
         v["city"] = city_of(v)
         v["label"] = label_of(v, chains)
@@ -1509,17 +1531,18 @@ def main(today=None) -> int:
         prov = providers.get(v["provider"], {})
         for lang in LANGS:
             t = L[lang]
+            shown = city_name(v["city"], lang, names_sv)
             also = ""
             if v["city"] in multi:
                 cp = paths_city(v["city"])[lang]
                 also = (f'<nav class="also"><ul><li><a class="vchip" href="{esc(cp)}">'
-                        f'{esc(t["city_link"].format(city=v["city"]))}</a></li></ul></nav>')
+                        f'{esc(t["city_link"].format(city=shown))}</a></li></ul></nav>')
             text = page(
                 lang=lang, paths=paths,
-                title=t["venue_title"].format(venue=v["label"], city=v["city"]),
-                desc=venue_desc(t, v["label"], v["city"], prov.get("book")),
+                title=t["venue_title"].format(venue=v["label"], city=shown),
+                desc=venue_desc(t, v["label"], shown, prov.get("book")),
                 h1=t["venue_h1"].format(venue=v["label"]),
-                sub=(v["city"], prov.get("host", "")),
+                sub=(shown, prov.get("host", "")),
                 intro=" ".join(x for x in (
                     venue_intro(t, prov.get("book"), prov.get("host", "")),
                     age_note(t, [s for d in days.values() for sh in d.values() for s in sh]))
@@ -1578,13 +1601,14 @@ def main(today=None) -> int:
                 f'<li><a class="vchip chain-{esc(v["provider"])}" '
                 f'href="{esc(paths_venue(v)[lang])}">{esc(v["label"])}</a></li>'
                 for v in sorted(vs, key=lambda x: x["label"]))
-            also = (f'<nav class="also"><h2>{esc(t["venues_h"].format(city=c))}</h2>'
+            shown = city_name(c, lang, names_sv)
+            also = (f'<nav class="also"><h2>{esc(t["venues_h"].format(city=shown))}</h2>'
                     f"<ul>{chips}</ul></nav>")
             text = page(
                 lang=lang, paths=paths,
-                title=t["city_title"].format(city=c),
-                desc=city_desc(t, c),
-                h1=t["city_h1"].format(city=c),
+                title=t["city_title"].format(city=shown),
+                desc=city_desc(t, shown),
+                h1=t["city_h1"].format(city=shown),
                 sub=t["city_sub"].format(n=len(vs)),
                 intro=t["city_intro"].format(n=len(vs)),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=c,
