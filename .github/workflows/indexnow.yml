@@ -29,11 +29,13 @@ on:
 permissions:
   contents: read
 
-# Only the newest push matters: an older commit's URL list is a subset of the newer one's,
-# and the protocol asks callers not to submit the same pages twice.
-concurrency:
-  group: indexnow
-  cancel-in-progress: true
+# No concurrency group. Each run announces only its own range: a push's before..after, or
+# the one data commit its fetch run published (bot_commit_for_run). A newer run's list is
+# therefore not a superset of an older one's, and the `cancel-in-progress` group this had
+# until 2026-09-25 dropped the cancelled run's pages unannounced (audit G7). Queuing
+# instead would not help: GitHub cancels a pending run that a newer one replaces. Two
+# triggered runs never cover the same commit, so side by side they submit nothing twice;
+# a hand dispatch announces HEAD^..HEAD and can repeat the last one.
 
 jobs:
   submit:
