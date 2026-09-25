@@ -35,6 +35,6 @@
 [cloud] kinohuovi: exit=1
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 207.9s wall, 1361.2s of fetching added up across workers that overlap, 71 site(s) fetched
-[cloud] held at most 43 fetched site(s) and 4236 byte(s) of captured log waiting for publication
+[cloud] 217.7s wall, 1332.0s of fetching added up across workers that overlap, 71 site(s) fetched
+[cloud] held at most 32 fetched site(s) and 4233 byte(s) of captured log waiting for publication
 exit=1

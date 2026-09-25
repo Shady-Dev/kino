@@ -1,8 +1,8 @@
-[marita] Elokuvateatteri Marita, Outokumpu: 6 showtimes, 3 dates, 4 film(s), 4 film page(s) read
-[marita] Elokuvateatteri Marita: 6 showtimes, 3 dates
+[marita] Elokuvateatteri Marita, Outokumpu: 5 showtimes, 2 dates, 4 film(s), 4 film page(s) read
+[marita] Elokuvateatteri Marita: 5 showtimes, 2 dates
 [marita] synopses merged: 0
 [run] http: 0 revalidated (304), 5 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- elokuvateatterimarita.fi
-[run] marita: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 8.7s of fetching added up across workers that overlap, longest site 8.7s, longest queue wait 132.9s, 8.7s wall from this module's first fetch starting to its last ending
+[run] marita: 1 venues, 5 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 8.2s of fetching added up across workers that overlap, longest site 8.2s, longest queue wait 134.2s, 8.2s wall from this module's first fetch starting to its last ending
 exit=0

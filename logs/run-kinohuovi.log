@@ -1,5 +1,5 @@
 [kinohuovi] FAILED: <urlopen error [Errno -3] Temporary failure in name resolution>
 [run] hosts: 1 attempted -- www.kinohuovi.fi
 [run] kinohuovi: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 45.0s of fetching added up across workers that overlap, longest site 45.0s, longest queue wait 142.7s, 45.0s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 45.0s of fetching added up across workers that overlap, longest site 45.0s, longest queue wait 140.6s, 45.0s wall from this module's first fetch starting to its last ending
 exit=1
