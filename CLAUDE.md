@@ -337,10 +337,13 @@ If a cinema would rather not be included, removing it is one registry entry.
 
 ## Testing
 
-    python3 -m unittest discover -s tests
+    python3 scripts/run_tests.py
 
-Stdlib `unittest`, no dependencies, no runner config. Run it before pushing anything
-under `scripts/`.
+Stdlib `unittest`, no dependencies, no runner config. `run_tests.py` runs each
+`tests/test_*.py` in its own process, one per CPU, and prints unittest's own verdict lines;
+`python3 -m unittest discover -s tests` is the same suite in one process, about three times
+slower. CI runs `run_tests.py --fail-on-skip`. Run it before pushing anything under
+`scripts/`.
 
 **Iterate with targeted files** (`-p "test_x.py"`), which cost seconds. Run the whole
 suite **exactly once**, immediately before the final push, after every commit in the batch

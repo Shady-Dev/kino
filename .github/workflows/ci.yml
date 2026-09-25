@@ -176,7 +176,10 @@ jobs:
         if: needs.verified.outputs.skip != 'true'
         run: |
           set +e
-          python3 -m unittest discover -s tests > "$RUNNER_TEMP/suite.log" 2>&1
+          # One process per test file, one per runner CPU: the same files and the same
+          # verdict lines as `unittest discover`, in about a third of the time. The skip rule
+          # is the runner's `--fail-on-skip` as well as the grep below.
+          python3 scripts/run_tests.py --fail-on-skip > "$RUNNER_TEMP/suite.log" 2>&1
           rc=$?
           set -e
           tail -60 "$RUNNER_TEMP/suite.log"
