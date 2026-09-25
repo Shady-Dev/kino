@@ -103,7 +103,8 @@ jobs:
       #
       # fetch-depth: 0 because test_indexnow.py reads this repo's real history: two named
       # commits are diffed against their parents, and two cases need HEAD^ to resolve.
-      # A full clone is 22 MB against 15 MB shallow; the mirrored posters dominate both.
+      # A full clone packs to 100.6 MiB against 43.8 MiB at depth 1 (dd5abbdbc, 2026-09-25);
+      # the mirrored posters are 56.8 MiB of the 82.6 MiB tree.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
