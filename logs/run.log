@@ -7,12 +7,10 @@
 [schedule] 2026-09-29: 338 showtimes
 [schedule] 2026-09-30: 341 showtimes
 [schedule] 2026-10-01: 338 showtimes
-[http] 404 from api.themoviedb.org, gave up after 3 attempt(s) -- Server: openresty
-[tmdb-videos] Avengers: Endgame Encore: HTTP Error 404: Not Found
 [tmdb] no TMDB match (2): Mysteerinäytös | NT LIVE: All My Sons
-[tmdb] rating held back, under 25 votes (1): Bamse ja meren salaisuus (6.3 / 9 votes)
-[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 18 deferred (budget 12)
-[tmdb] 0 new lookups, 21 re-checks, cache 80, 74 mergeable by id
+[tmdb] rating held back, under 25 votes (1): Kaunarikuume (5.0 / 1 votes)
+[tmdb] rating refresh: 12 scheduled, 12 re-read, 0 failed and still due, 6 deferred (budget 12)
+[tmdb] 0 new lookups, 12 re-checks, cache 80, 74 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 53 film entries
 [attrs] dropped, neither format nor language (12): Ennakko | Erikois | IV | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
