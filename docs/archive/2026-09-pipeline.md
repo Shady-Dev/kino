@@ -2305,3 +2305,17 @@ records and turns red after the commit step. `fetch_data.py` only reads the file
 "?" repair and never writes it, so it keeps its fallback.
 The tests were written first and failed on the unfixed code (two failures, one error).
 Tests: 4 in `test_synopsis_lang.py`; 5 mutations, all red.
+
+### A screening with no title is dropped and counted, never published as "?" (2026-09-25)
+
+Audit finding A6, inferred and reproduced first. eTiketti (`meta["title"] or "?"`), Nexxo
+(`movieTitle or title or "?"`), BioRex (`movieName or "?"`) and the Finnkino pass
+(`title or "?"`) would put every row out titled "?" with real times and exit 0 if the H1
+moved or the key was renamed; these four serve 70 of 134 venues. A test per adapter
+published "?" on the unfixed code. Each now drops the row and logs "N row(s) with no
+title, dropped", and none of them can turn that into an empty programme: Nexxo counts the
+row as broken, so a venue whose every row went raises its "none parseable" error rather
+than reaching `EmptyProgramme`; eTiketti clears `complete`, so no venue is confirmed empty
+and a site with no live venue fails in run.py; BioRex has no confirmation to give. The
+Finnkino whole-run check for the same case is its own item (A2). No "?" row is in the
+committed data. Tests: `test_missing_title.py`, 5 tests; 5 mutations, all red.

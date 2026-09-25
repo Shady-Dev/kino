@@ -661,6 +661,14 @@ def fetch_site(site, sleep=1.2):
                                f"its screenings are on that page, so no venue of this "
                                f"site publishes a partial schedule") from e
         rows, meta = parse_movie(page, site, path)
+        if rows and not meta["title"]:
+            # The H1 moved: every row of this film would go out titled "?". Dropped and
+            # counted, and the read confirms no venue empty, so a site whose every film
+            # went this way has no live venue and fails.
+            print(f"[{site['provider']}] movie {mid}: {len(rows)} row(s) with no title, "
+                  f"dropped; no venue of this site can be called empty")
+            complete = False
+            continue
         # A film page that produced no row. Screening blocks with no readable time are
         # TIME_RE off the template; no block at all is ITEM_RE off it, and the page names
         # no empty state of its own (the hidden `no-results` phrase ships on populated
@@ -702,7 +710,7 @@ def fetch_site(site, sleep=1.2):
             seen_shows.add(key)
             per_venue[venue["id"]].append({
                 "eventId": mid,
-                "title": meta["title"] or "?",
+                "title": meta["title"],
                 "original": "",
                 "len": meta["len"],
                 "rating": meta["rating"],

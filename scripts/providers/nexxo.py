@@ -207,7 +207,7 @@ def parse(payload, site, venue):
         rooms = {str(x) for x in venue["rooms"]}
         rows = [r for r in rows if str(r.get("roomId") or "") in rooms]
     shows = []
-    skipped_upcoming = skipped_broken = 0
+    skipped_upcoming = skipped_broken = untitled = 0
     for r in rows:
         iso = _iso(r.get("startTime") or "")
         if not iso or not r.get("startDate"):
@@ -219,6 +219,14 @@ def parse(payload, site, venue):
             else:
                 skipped_broken += 1
             continue
+        title = (r.get("movieTitle") or r.get("title") or "").strip()
+        if not title:
+            # A renamed title key would otherwise publish every row as "?". Counted as
+            # broken, so a venue whose every row went this way raises below rather than
+            # reading as an empty programme.
+            untitled += 1
+            skipped_broken += 1
+            continue
         age = str(r.get("ageLimit") or r.get("agelimit") or "").strip()
         poster = (r.get("posterurl") or "").strip()
         price = r.get("priceIncludingTax") or ""
@@ -228,7 +236,7 @@ def parse(payload, site, venue):
             price = ""
         shows.append({
             "eventId": str(r.get("movieId") or r.get("id") or ""),
-            "title": (r.get("movieTitle") or r.get("title") or "?").strip(),
+            "title": title,
             "original": "",   # code_external_title holds a distributor code, not a title
             "len": str(r.get("duration") or "").strip().lstrip("0") or "",
             "rating": rating(age),
@@ -266,6 +274,9 @@ def parse(payload, site, venue):
             f"{venue['name']}, none parseable ({skipped_broken} with no readable "
             f"startTime/startDate, {skipped_upcoming} upcoming-only). The row schema "
             f"changed; this is a parser break, not an empty programme")
+    if untitled:
+        print(f"[{site['provider']}] {venue['name']}: {untitled} row(s) with no title, "
+              f"dropped")
     shows.sort(key=lambda s: s["start"])
     return shows
 

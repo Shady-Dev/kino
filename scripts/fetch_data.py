@@ -536,11 +536,16 @@ def main() -> int:
         scr = {str(s["id"]): s for s in rd.get("screens", [])}
         rat = {str(r["id"]): r for r in rd.get("censorRatings", [])}
         att = {str(a["id"]): a for a in rd.get("attributes", [])}
-        n = 0
+        n = untitled = 0
         for s in data.get("showtimes", []):
             film = films.get(str(s.get("filmId", "")), {})
             site_id = str(s.get("siteId", ""))
             if site_id not in per_site:
+                continue
+            if not t(film, "title", "text"):
+                # A renamed title field would publish every row as "?". Dropped and
+                # counted per date below.
+                untitled += 1
                 continue
             fmt_list, lang_list = [], []
             show_age = ""      # a limit this screening adds on top of the film's rating
@@ -604,7 +609,7 @@ def main() -> int:
                                for gid in (film.get("genreIds") or []))))
             per_site[site_id].append({
                 "eventId": str(s.get("filmId", "")),
-                "title": t(film, "title", "text") or "?",
+                "title": t(film, "title", "text"),
                 "original": t(film, "originalTitle", "text"),
                 "len": str(runtime) if runtime else "",
                 "rating": rating,
@@ -627,6 +632,8 @@ def main() -> int:
             strands.apply(per_site[site_id][-1])
             n += 1
         print(f"[schedule] {date}: {n} showtimes")
+        if untitled:
+            print(f"[schedule] {date}: {untitled} row(s) with no title, dropped")
         time.sleep(0.4)
 
     # The seven requests are independent, and a day that fails is a day missing from

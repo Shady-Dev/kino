@@ -161,7 +161,7 @@ def cinemas(posts_html):
 
 def parse(posts_html, venue):
     """HTML fragment -> normalized showtime dicts."""
-    shows = []
+    shows, untitled = [], 0
     for chunk in ITEM_RE.findall(posts_html):
         m = DL_RE.search(chunk)
         if not m:
@@ -173,6 +173,9 @@ def parse(posts_html, venue):
         start = dl.get("showDateTime") or ""
         if not start:
             continue
+        if not (dl.get("movieName") or "").strip():
+            untitled += 1               # never "?": see the count below
+            continue
         place = _text(PLACE_RE.search(chunk).group(1)) if PLACE_RE.search(chunk) else ""
         aud = place.split(",")[-1].strip() if "," in place else place
         rating_raw = _text(RATING_RE.search(chunk).group(1)) if RATING_RE.search(chunk) else ""
@@ -183,7 +186,7 @@ def parse(posts_html, venue):
         movie = MOVIEURL_RE.search(chunk)
         shows.append({
             "eventId": str(dl.get("movieId") or ""),
-            "title": dl.get("movieName") or "?",
+            "title": dl["movieName"].strip(),
             "original": "",
             "len": "",
             "rating": rating_raw,
@@ -203,6 +206,9 @@ def parse(posts_html, venue):
             "venue": venue["id"],
             "movieUrl": movie.group(1) if movie else "",
         })
+    if untitled:
+        # A renamed `movieName` drops every row, and a site with no row fails the run.
+        print(f"[biorex] {venue['name']}: {untitled} row(s) with no title, dropped")
     return shows
 
 
