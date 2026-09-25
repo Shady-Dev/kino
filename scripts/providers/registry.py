@@ -671,8 +671,11 @@ PROVIDERS = [
     # Harjavalta holds no other chain and no REGIONS area holds it, so the accent enters
     # no shared view. 4.4 dE00 from its nearest accent anywhere, Bio Rex Kokkola, which
     # shares no view with it. L* 42.9, saturation 0.57.
+    # Local since 2026-09-26: three runner fetches in a row, 2026-09-25 15:27Z to
+    # 23:19Z, failed resolving the host, while an ordinary connection fetched and parsed
+    # the same six showtimes. Evidence in docs/research/runner-challenges.md.
     dict(id="kinohuovi", label="Kino-Huovi", host="kinohuovi.fi",
-         accent="#307060", book="door", module="kinohuovi", where="cloud"),
+         accent="#307060", book="door", module="kinohuovi", where="local"),
     # Added 2026-09-21, the ninth and tenth chains in Helsinki. Adding them is what
     # forced the joint solve above: with the eight existing accents held, the best colour
     # in the L* band reached 12.12 against them, and moving four of the eight lifts the

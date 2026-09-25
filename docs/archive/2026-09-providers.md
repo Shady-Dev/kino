@@ -3222,3 +3222,12 @@ record of what was decided then. Refreshed with `run.py kinola` (4 venues, 157 s
 13 showtimes link their checkout, each an href on that listing. Tests in
 `test_kinola.py` for both sites, the runner tests asserting no request carries
 `/checkout/`; 4 mutations, all red.
+
+### Kino-Huovi moves to the local half (2026-09-26)
+Three routine cloud runs in a row, 2026-09-25 15:27Z to 23:19Z, failed resolving
+`www.kinohuovi.fi` on the runner, while the host resolved through three public resolvers
+and all four authoritative servers, and an ordinary connection fetched and parsed the same
+six showtimes. The maintainer authorised the move on those two conditions. The registry
+entry went from `where="cloud"` to `where="local"`; adapter, pacing and DNS unchanged. The
+wrapper outside the repo got its block and its log. Evidence:
+[runner-challenges.md](../research/runner-challenges.md).

@@ -255,7 +255,7 @@ class RegistryTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("kinohuovi")
         self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
-                         ("Kino-Huovi", "kinohuovi.fi", "door", "kinohuovi", "cloud"))
+                         ("Kino-Huovi", "kinohuovi.fi", "door", "kinohuovi", "local"))
         self.assertEqual(sum(1 for q in registry.PROVIDERS
                              if q["accent"] == p["accent"]), 1)
 

@@ -183,3 +183,28 @@ the 9-in-50 of 2026-09-19T17:21Z above, taken the same way, one read of the run 
 the filter. A challenge page is a third party's content and CLAUDE.md forbids committing a
 raw dump. The title and the byte count are what the logs keep and are enough to recognise
 the state.
+
+## Kino-Huovi: the runner cannot resolve the host (2026-09-25)
+
+A different failure from the challenges above: no request reaches the site at all.
+
+**Findings.**
+- Committed `logs/run-kinohuovi.log`, read 2026-09-26: green on every cloud run from
+  2026-09-22 to `437cfb4c6` (2026-09-25 11:17Z), 1 venue and 6 showtimes each time. Red on
+  the next three: `5d0cb4fbb` (15:27Z), `253476568` (17:18Z), `10c17b0ee` (23:19Z), each
+  `<urlopen error [Errno -3] Temporary failure in name resolution>`. The only commit between
+  the last green run and the first red one changed `enrich_tmdb.py` alone.
+- Resolved from an ordinary connection on 2026-09-25: Google, Cloudflare and Quad9 all
+  return the CNAME to the site builder's host and two addresses; all four authoritative
+  nameservers answer the same record. The front page answers 200.
+- `run.py kinohuovi --half all` from an ordinary connection on 2026-09-26, into a scratch
+  copy: `exit=0`, 1 venue, 6 showtimes, the same rows as `437cfb4c6`; both ticket links
+  answer 200.
+
+**Inference, not verified.** The four authoritative nameservers sit in one /24, so a
+runner resolver that cannot reach that network fails every lookup at once. Nothing from
+here can test the runner's resolver path.
+
+**Status.** Routed local on 2026-09-26, the maintainer having authorised the move if a
+third routine cloud run failed resolution and an ordinary connection parsed the site. No
+adapter or DNS change. Verified on the first routine local run after the push.

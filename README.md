@@ -92,7 +92,7 @@ small cinemas run one of a few ticketing platforms:
 | Elokuvateatteri Matin-Tupa | 1 | 1 | none | GitHub Actions |
 | Kino Kuusamotalo | 1 | 1 | none | GitHub Actions |
 | Localhub (Ylivieska) | 1 | 1 | none | GitHub Actions |
-| Kino-Huovi | 1 | 1 | none | GitHub Actions |
+| Kino-Huovi | 1 | 1 | none | Local |
 | Kino K13 | 1 | 1 | none | GitHub Actions |
 | Kino Helios (Malmitalo) | 1 | 1 | none | GitHub Actions |
 
