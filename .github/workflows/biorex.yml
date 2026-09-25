@@ -31,9 +31,14 @@ jobs:
       # created. A run queued behind another would otherwise generate data on top of a
       # base that has since moved, which caused the rebase conflicts this job used to
       # die on.
+      #
+      # persist-credentials: false keeps the write token out of .git/config, where every
+      # later step could read it, including the ones that parse third-party pages. Only
+      # "Commit data and logs" needs it, and passes it to its own git commands (audit G10).
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: main
+          persist-credentials: false
       # Conditional GETs need the validators to survive between runs on an ephemeral
       # runner. A stale cache costs nothing: a mismatched validator gets the 200 it would
       # have got anyway.
@@ -116,8 +121,15 @@ jobs:
           tail -3 logs/run-pages.log
       - name: Commit data and logs
         if: ${{ !cancelled() }}
+        env:
+          PUSH_TOKEN: ${{ github.token }}
         run: |
           git config user.name kino-bot && git config user.email a@b.c
+          # The header actions/checkout would have stored, set on these commands only. The
+          # repo is public, so the pull needs none; the push does.
+          b64=$(printf 'x-access-token:%s' "$PUSH_TOKEN" | base64 -w0)
+          echo "::add-mask::$b64"
+          g() { git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $b64" "$@"; }
           git add data logs teatteri kaupunki en sv sitemap.xml
           git diff --cached --quiet || git commit -m "Update cloud provider data"
           pushed=0
@@ -128,7 +140,7 @@ jobs:
             # A plain rebase. -X theirs resolves every conflict in favour of this run's
             # snapshot, which silently overwrites newer generator or provider changes on
             # main with output from stale code. A conflict should fail the job instead.
-            if git pull --rebase --autostash -q origin main && git push -q; then
+            if g pull --rebase --autostash -q origin main && g push -q; then
               pushed=1; break
             fi
             sleep 5
