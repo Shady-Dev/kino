@@ -395,6 +395,57 @@ class SheetRefresh(Browser):
         self.assertIn("sheet-close", self.focused())
 
 
+class SheetDuringARefresh(Browser):
+    """A sheet opened while a resume refresh is in flight shows the schedule on screen.
+
+    `refreshAll` emptied the payload cache, then waited on the venue lists (84 requests in
+    production) before the schedule; a film tapped in that window drew "Ei näytöksiä
+    valitussa teatterissa." with no ticket, and stayed that way after the refresh landed
+    (audit K3, 2026-09-25). `areas.json` is held in flight, which is the first thing the
+    refresh waits on; it and Orion's file are uncacheable here so the refresh really asks.
+    """
+
+    def setUp(self):
+        Handler.delay = {"areas.json": 0, "area-or-helsinki.json": 0}   # uncacheable, no wait
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+        self.addCleanup(lambda: setattr(Handler, "hold", {}))
+        super().setUp()
+
+    def test_the_sheet_keeps_its_tickets_through_the_refresh(self):
+        self.pick_orion()
+        asked = lambda: sum(p.split("?")[0].endswith("/data/area-or-helsinki.json")
+                            for p in self.srv.requested)
+        loads = asked()
+        arrived, release = threading.Event(), threading.Event()
+        self.addCleanup(release.set)
+        Handler.hold = {"areas.json": (arrived, release)}
+        self.page.clock.set_system_time(FIXED + datetime.timedelta(minutes=11))
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+        self.assertTrue(arrived.wait(10), "the refresh never asked for the venue lists")
+        self.page.locator("article.movie").first.click()
+        stubs = self.page.locator(".sheet-body a.stub")
+        # Well inside the handler's own 10 s hold: the refresh is still waiting here.
+        expect(stubs.first).to_be_visible(timeout=3000)
+        self.assertEqual(self.page.locator("main .reel").count(), 0,
+                         "the schedule load had already started")
+        before = stubs.count()
+        release.set()
+        Handler.hold = {}
+        # The refresh asks for the schedule again once the lists land; the server's log
+        # says when, bounded like every wait.
+        deadline = time.monotonic() + 10
+        while asked() <= loads:
+            self.assertLess(time.monotonic(), deadline, "the refresh served the old copy")
+            self.page.wait_for_timeout(50)
+        expect(self.page.locator("main a.stub").first).to_be_visible()
+        expect(stubs).to_have_count(before)
+        self.assertNotIn("Ei näytöksiä", self.page.locator(".sheet-body").text_content())
+
+
+class SheetDuringARefreshOnAPhone(SheetDuringARefresh):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class HistoryAcrossVenues(Browser):
     """Back and Forward across venues and home, with the movie sheet open.
 

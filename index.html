@@ -3303,6 +3303,7 @@
     // update must leave it alone rather than fetch `area-.json` and draw a 404 over it.
     if(!state.area) return;
     const keepDay = !!(opts && opts.keepDay);
+    const refetch = !!(opts && opts.refetch);   // refreshAll: the cached copy is old
     const seq = ++loadSeq;
     const area = state.area;
     // Emptied before the await, not after it: until this load lands, the previous venue's
@@ -3315,7 +3316,8 @@
     renderTagKey();
     renderStatus();
     try {
-      if(!jsonCache[area]){
+      if(!jsonCache[area] || refetch){
+        // Assigned once it has arrived, so the copy it replaces is readable meanwhile.
         jsonCache[area] = groupIdsOf(area)
           ? await loadGroup(area)
           : await fetchJSON(`data/area-${area}.json`);
@@ -5096,12 +5098,18 @@
       state.advanced = false;
       buildDays();
     }
-    Object.keys(jsonCache).forEach(k => delete jsonCache[k]);
+    // The payloads stay until the new one lands: an open or a newly opened sheet reads
+    // them, and emptying the cache up front left a film tapped while the venue lists
+    // loaded with no screening at all. Every entry held now is refetched on its next
+    // visit; the one on screen is refetched here.
+    const held = Object.keys(jsonCache);
     try {
       await fetchVenueLists();       // ages and horizons, without touching the picker
       renderTagKey();
     } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
-    await loadSchedule();
+    await loadSchedule({ refetch: true });
+    held.forEach(k => { if(k !== state.area) delete jsonCache[k]; });
+    refreshOpenSheet();
   }
   // The venue lists again, after a boot that could not read them. Without them the picker
   // trigger does nothing, and an installed PWA has no reload control, so a list that
@@ -5167,9 +5175,9 @@
       const inflight = new Map();   // area -> the read running for it
       const again = new Set();      // areas messaged while their read was running
       async function reread(area){
-        // The entry this read compares against, taken before the await. refreshAll deletes
-        // every entry and loadSchedule refills the selected one, possibly during the
-        // read; an existence check after the await let an older snapshot overwrite the
+        // The entry this read compares against, taken before the await. refreshAll has
+        // loadSchedule replace the selected entry and then deletes the rest, possibly
+        // during the read; an existence check after the await let an older snapshot overwrite the
         // refill. The object is the identity: if it was replaced, this answer is dropped.
         const before = io.cache[area];
         if(!before) return;
