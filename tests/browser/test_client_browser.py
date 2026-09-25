@@ -1049,6 +1049,61 @@ class EmptyDayNamesItsDayOnAPhone(EmptyDayNamesItsDay):
         self.page.screenshot(path=str(OUT / "k5-phone-375.png"))
 
 
+class ChooserNote(Browser):
+    """The chooser's note is drawn in the language on screen.
+
+    `showHome` stored the note already translated, so a link naming no known location,
+    then EN, drew an English intro over "Linkin teatteria tai kaupunkia ei löytynyt." (audit
+    K7, 2026-09-25). The note is now kept as its string's key and `renderHome` translates it.
+    """
+
+    def note(self):
+        return self.page.locator("#homeNote")
+
+    def switch(self, lang):
+        self.page.locator(f'#langSeg button[data-lang="{lang}"]').click()
+
+
+class ChooserNoteFollowsTheLanguage(ChooserNote):
+
+    def test_the_unknown_location_note_is_redrawn_on_a_language_switch(self):
+        self.page.goto(self.origin + "/index.html?area=nope")
+        expect(self.note()).to_have_text(
+            "Linkin teatteria tai kaupunkia ei löytynyt. Valitse toinen.")
+        self.switch("en")
+        expect(self.note()).to_have_text(
+            "The cinema or city in the link was not found. Choose another.")
+        self.switch("sv")
+        expect(self.note()).to_have_text(
+            "Biografen eller staden i länken hittades inte. Välj en annan.")
+        self.switch("fi")
+        expect(self.note()).to_contain_text("ei löytynyt")
+
+
+
+class ChooserNoteFollowsTheLanguageOnAPhone(ChooserNoteFollowsTheLanguage):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
+class LoadFailureNoteFollowsTheLanguage(ChooserNote):
+    """A link that asked for a cinema while the venue lists failed: the chooser with the
+    load-failure line, which bootFallback now answers as a key. The failure is set before
+    the first load, or the browser answers areas.json from its own cache."""
+
+    def setUp(self):
+        Handler.fail = {"areas.json"}
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        super().setUp()
+
+    def test_the_load_failure_note_is_redrawn_too(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki")
+        expect(self.note()).to_have_text("Näytöstietoja ei juuri nyt saatu ladattua.")
+        self.switch("en")
+        expect(self.note()).to_have_text("Couldn't load the schedule right now.")
+        self.switch("sv")
+        expect(self.note()).to_have_text("Visningstiderna kunde inte laddas just nu.")
+
+
 class FooterStampInHelsinki(Browser):
     """The footer's update time is Helsinki time wherever the reader is, like every
     showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16

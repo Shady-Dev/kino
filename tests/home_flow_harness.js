@@ -215,11 +215,11 @@ const out = { today };
 
   // a boot that fails before anything is on screen: the chooser, with the load-failure
   // line when a link or a favourite had asked for a location
-  const T = { loadFail: 'EI LADATTU' };
+  // The answer is the string's key: renderHome() draws it in the current language.
   out.boot_fallback = {
-    fav_or_link_lists_failed: api.bootFallback('', true, T),
-    nothing_asked_lists_failed: api.bootFallback('', false, T),
-    location_already_shown: api.bootFallback('v1', true, T),
+    fav_or_link_lists_failed: api.bootFallback('', true),
+    nothing_asked_lists_failed: api.bootFallback('', false),
+    location_already_shown: api.bootFallback('v1', true),
   };
 
   // the <head> script: what it decides, and that it never throws

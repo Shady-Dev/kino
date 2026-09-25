@@ -2926,7 +2926,8 @@
   // The static markup inside <main> is the chooser; it is kept here because loadSchedule
   // replaces <main>'s content, and Back to / has to put it back. `homeNote` is the one
   // line the chooser may add: the explanation for a link naming a location the list does
-  // not have. `loadSeq` numbers every load, so a schedule that resolves after the reader
+  // not have. It holds the string's key, not its text, so renderHome() draws it in the
+  // current language and a language switch redraws it (audit K7). `loadSeq` numbers every load, so a schedule that resolves after the reader
   // has moved on (to the chooser, or to another location) is dropped instead of drawn.
   const HOME_TEMPLATE = $('#main').innerHTML;
   let homeNote = '', unknownDeep = false, loadSeq = 0;
@@ -2945,7 +2946,7 @@
     home.querySelector('.intro').textContent = T.homeIntro;
     home.querySelector('h2').textContent = T.homeByCity;
     const note = home.querySelector('#homeNote');
-    if(note){ note.textContent = homeNote; note.hidden = !homeNote; }
+    if(note){ note.textContent = homeNote ? T[homeNote] : ''; note.hidden = !homeNote; }
     const ul = home.querySelector('.cities');
     const more = ul.querySelector('#homeMore');
     if(more) more.textContent = T.homeMore;
@@ -3004,16 +3005,16 @@
     }
     if(!id && !document.documentElement.classList.contains('scoped') && !state.area) return;
     hideSheet();
-    showHome(id ? L[state.lang].homeUnknown : '');
+    showHome(id ? 'homeUnknown' : '');
   }
   // What a boot that fails before any location is on screen shows: the chooser, so
   // the intro and the city links stay usable, with the load-failure line when a link
   // or a favourite had asked for a location and the lists never came (`scoped`). A
   // location already on screen keeps the schedule's own error and its controls: null.
   // The URL and the favourite are left as they are; nothing else is chosen.
-  function bootFallback(area, scoped, T){
+  function bootFallback(area, scoped){
     if(area) return null;
-    return scoped ? T.loadFail : '';
+    return scoped ? 'loadFail' : '';
   }
   window.addEventListener('popstate', onPopState);
   // --- end chooser ---------------------------------------------------------------------
@@ -5136,7 +5137,7 @@
         if(state.lang === 'en') await ensureFilms();
         builtFor = fiToday();
         buildDays();
-        if(!state.area){ showHome(unknownDeep ? L[state.lang].homeUnknown : ''); return; }
+        if(!state.area){ showHome(unknownDeep ? 'homeUnknown' : ''); return; }
         document.documentElement.classList.add('scoped');
         await loadSchedule();
         if(location.hash) syncSheet();
@@ -5363,7 +5364,7 @@
       if(!state.area){
         // No link, no favourite: the chooser. A link that named nothing the list has
         // says so in one line. Nothing is fetched beyond the venue lists.
-        showHome(unknownDeep ? L[state.lang].homeUnknown : '');
+        showHome(unknownDeep ? 'homeUnknown' : '');
         return;
       }
       await loadSchedule();
@@ -5372,8 +5373,7 @@
       // that names the film is here, since showSheet reads it from jsonCache.
       if(location.hash) syncSheet();
     } catch(e){
-      const note = bootFallback(state.area, document.documentElement.classList.contains('scoped'),
-                                L[state.lang]);
+      const note = bootFallback(state.area, document.documentElement.classList.contains('scoped'));
       if(note !== null){
         // Nothing is on screen yet: the chooser, its city links being plain pages that
         // need none of what failed. See bootFallback.

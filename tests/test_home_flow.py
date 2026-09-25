@@ -92,8 +92,10 @@ class HomeFlowTest(unittest.TestCase):
     def test_a_history_entry_naming_an_unknown_location_shows_the_chooser_with_a_note(self):
         s = self.o["popstate_unknown"]
         self.assertEqual(s["area"], "")
-        self.assertEqual(s["homeNote"], "EI LÖYTYNYT")
-        self.assertIn("renderHome EI LÖYTYNYT", s["calls"])
+        # The key, not the text: renderHome() translates it, so a language switch redraws
+        # the note in the new language (audit K7).
+        self.assertEqual(s["homeNote"], "homeUnknown")
+        self.assertIn("renderHome homeUnknown", s["calls"])
 
     def test_a_hash_only_step_changes_nothing(self):
         """`hashchange` fires for this one and owns the fragment. Reconciling the sheet
@@ -148,7 +150,7 @@ class HomeFlowTest(unittest.TestCase):
     # 7. a boot that fails before anything is on screen recovers to the chooser
     def test_a_failed_boot_shows_the_chooser_with_the_load_failure_line(self):
         b = self.o["boot_fallback"]
-        self.assertEqual(b["fav_or_link_lists_failed"], "EI LADATTU")
+        self.assertEqual(b["fav_or_link_lists_failed"], "loadFail")
         self.assertEqual(b["nothing_asked_lists_failed"], "")
         self.assertIsNone(b["location_already_shown"], "the schedule's own error stands")
 
