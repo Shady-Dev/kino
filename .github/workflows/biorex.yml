@@ -99,9 +99,24 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           set +e
-          # Pinned exactly: the runner installs this fresh every run, in a job that
-          # commits to this repo.
-          python3 -m pip install --quiet --disable-pip-version-check pillow==12.3.0
+          # Pinned exactly and by hash: the runner installs this fresh every run, in a job
+          # that commits to this repo (audit G10). The hashes are PyPI's for the CPython
+          # x86_64 manylinux wheels of 12.3.0, 3.10 to 3.15 and the free-threaded builds,
+          # so a runner Python upgrade still matches; --only-binary refuses the sdist. A
+          # bump re-reads them from https://pypi.org/pypi/pillow/<version>/json.
+          cat > "$RUNNER_TEMP/pillow.txt" <<'REQ'
+          pillow==12.3.0 \
+              --hash=sha256:f0606c8bf2cdefea14a43530f7657cbbb7ecf1c4222512492ef4a4434a9501ec \
+              --hash=sha256:23d27a3e0307ec2244cc51e7287b919aa68d097504ebe19df4e76a98a3eea5bd \
+              --hash=sha256:78cb2c6865a35ab8ff8b75fd122f6033b92a62c82801110e48ddd6c936a45d91 \
+              --hash=sha256:0847a763afefb695bc912d7c131e7e0632d4edc1d8698f58ddabec8e46b8b6d3 \
+              --hash=sha256:251bf95b67017e27b13d82f5b326234ca62d70f9cf4c2b9032de2358a3b12c7b \
+              --hash=sha256:bf16ba1b4d0b6b7c8e534936632270cf70eb00dbe09005bc345b2677b726855c \
+              --hash=sha256:6b02afb9b97f65fbca5f31db6a2a3ba21aa93030225f150fa3f249717e938fb4 \
+              --hash=sha256:cf1845d02ad822a369a49f2bb9345b1614744267682e7a03527dc3bf6eea1777
+          REQ
+          python3 -m pip install --quiet --disable-pip-version-check --require-hashes \
+            --only-binary :all: -r "$RUNNER_TEMP/pillow.txt"
           python3 scripts/providers/mirror_posters.py > logs/run-posters.log 2>&1
           code=$?
           echo "exit=$code" >> logs/run-posters.log

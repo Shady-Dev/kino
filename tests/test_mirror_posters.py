@@ -341,8 +341,10 @@ class MirrorTest(unittest.TestCase):
         """Why the cloud treats CANNOT_RUN as a failure rather than tolerating it: Pillow
         is installed in the job itself, so it is missing only when that install broke."""
         wf = (_ctx.ROOT / ".github" / "workflows" / "biorex.yml").read_text(encoding="utf-8")
-        self.assertRegex(wf, r"pip install[^\n]*pillow==\d+\.\d+\.\d+",
-                         "Pillow is no longer pinned and installed in the workflow")
+        self.assertRegex(wf, r"\n\s*pillow==\d+\.\d+\.\d+ \\\n\s*--hash=sha256:[0-9a-f]{64}",
+                         "Pillow is no longer pinned by version and hash in the workflow")
+        self.assertRegex(wf, r"pip install[^\n]*--require-hashes",
+                         "Pillow is no longer installed with --require-hashes")
 
 
 if __name__ == "__main__":
