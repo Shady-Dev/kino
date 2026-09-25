@@ -3042,3 +3042,20 @@ adapters, swept over the committed data: no other rating outside S and K-n excep
 (17 rows at Kinokulma, Pyhäsalmen VPK, Alatalo and Laitilan Kino), which is a number the
 cinemas print, not the verbatim pass-through, so it is left as a follow-up.
 Tests: `test_nexxo_rating.py`, 5 tests; 4 mutations, all red.
+
+### Kinotour: an undeclared-town row vouches for no empty town (2026-09-25)
+
+Audit finding A3, the part of prior review #2 left open. `EMPTY_VENUES_CONFIRMED` let a
+declared town with no row be published empty and pending whenever another declared town
+had one, even with rows filed under towns this repo does not declare. Such a row may be a
+declared town's screening under a place cell that reads differently: "Kyrö kurkisali,
+Pöytyä" is counted as Pöytyä, and Kyrö was vouched empty while its screening was on the
+page. eTiketti, Nexxo and Alatalo hold back in that case. `fetch_site` now reports only the
+towns with rows while any row is undeclared, and names the empty ones in the log; run.py
+keeps their previous files. With no undeclared row the rule is as before.
+
+The existing test of the empty case used a table with an undeclared row; it now uses one
+without, and a new test covers the two-town case with an undeclared row. The fixture test
+went red on the unfixed code. The live check is outstanding: the listing answered HTTP 500
+from here on 2026-09-25, as it has in the cloud runs since 09-19.
+Tests: 1 new and 1 re-pointed in `test_kinotour.py`; 2 mutations, both red.

@@ -258,15 +258,35 @@ class RunnerTest(unittest.TestCase):
         """The table is the whole programme, so a town it does not mention has nothing on,
         once a row filed under another declared town shows the town key reads.
         `EMPTY_VENUES_CONFIRMED` turns that into a fresh empty file rather than a last
-        visit ageing for weeks."""
+        visit ageing for weeks. The table here has no undeclared row: see the next test."""
         (run.OUT / "area-kinotour-naantali.json").write_text(json.dumps(self.PREV))
-        self.serve(table(DECLARED, UNDECLARED))
+        self.serve(table(DECLARED))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertIn("no programme at the moment", log)
         body = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
+
+    def test_an_undeclared_town_row_vouches_no_declared_town_empty(self):
+        """A row this parser files under an undeclared town may be a declared town's
+        screening under a place cell that reads differently: "Kyrö kurkisali, Pöytyä"
+        counts as Pöytyä, and Kyrö was published empty and pending while its screening
+        was on the page (audit A3, 2026-09-25). eTiketti, Nexxo and Alatalo hold back in
+        that case, and so does this: the empty town keeps its previous file."""
+        future = {**self.PREV, "dates": ["2027-01-09"], "horizon": "2027-01-09",
+                  "shows": [{"title": "Old", "start": "2027-01-09T12:00:00+02:00"}]}
+        (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(future))
+        self.serve(table(
+            row("la 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö kurkisali, Pöytyä"),
+            row("su 20.09.2026", "15:00", "Pirjo, K12", "Kristoffersali, Naantali")))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(json.loads((run.OUT / "area-kinotour-kyro.json").read_text()), future)
+        self.assertNotIn("Kyrö: no programme at the moment", log)
+        self.assertIn("no declared town is confirmed empty", log)
+        shows = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())["shows"]
+        self.assertEqual([s["title"] for s in shows], ["Pirjo"])
 
     def test_a_table_of_nothing_but_undeclared_towns_fails_and_keeps_the_previous_file(self):
         """No row filed under a declared town is also what a town key that stopped

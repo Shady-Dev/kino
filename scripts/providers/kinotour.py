@@ -105,8 +105,12 @@ TAGS_RE = re.compile(r"<[^>]+>")
 FI_WEEKDAYS = ("ma", "ti", "ke", "to", "pe", "la", "su")
 
 # A town with no row is known empty, not unread, once the table filed a row under some
-# other declared town: this page is the operator's whole published programme in one
-# request, so a town it does not mention has nothing on. `run.py` then publishes a fresh
+# other declared town and none under a town this repo does not declare: this page is the
+# operator's whole published programme in one request, so a town it does not mention has
+# nothing on. An undeclared row may be a declared town's screening under a place cell that
+# reads differently ("Kyrö kurkisali, Pöytyä" counts as Pöytyä), so while one is on the
+# table `fetch_site` reports only the towns with rows, as eTiketti, Nexxo and Alatalo do,
+# and an empty town keeps its previous file. `run.py` then publishes a fresh
 # empty file for that venue instead of ageing its last visit, which is the case its own
 # comment names: "a touring cinema's town is empty between visits". A table with no row
 # under any declared town never reaches that loop, because `fetch_site` raises first:
@@ -276,6 +280,13 @@ def fetch_site(site):
         shows = per_venue[v["id"]]
         days = sorted({s["start"][:10] for s in shows})
         print(f"[{pid}] {v['name']}, {v['city']}: {len(shows)} showtimes, {len(days)} dates")
+    if report["undeclared"]:
+        # See EMPTY_VENUES_CONFIRMED: an undeclared row vouches for no empty town.
+        empty = [v["name"] for v in site["venues"] if not per_venue[v["id"]]]
+        if empty:
+            print(f"[{pid}] a row sits in an undeclared town, so no declared town is "
+                  f"confirmed empty on this read: {', '.join(empty)} keep their files")
+        return {k: v for k, v in per_venue.items() if v}
     return per_venue
 
 
