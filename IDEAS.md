@@ -227,11 +227,10 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - A timer for a tab left visible all day, which never fires `visibilitychange`. The
   resume and rollover refreshes cover everything else.
 - `aria-busy` on the picker trigger until the venue lists arrive. It is the honest ready
-  signal and a two-line client change; `index.html` is frozen by the maintainer's
-  instruction of 2026-09-14, so it stays a proposal. The browser tests click until the
-  picker opens instead. What the file has done since that instruction, with dates, is in
-  [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md); this entry does not read an
-  authorisation for this change out of it.
+  signal and a two-line client change. The `index.html` freeze that first held it was
+  lifted on 2026-09-25 ([docs/archive/2026-09-app.md](docs/archive/2026-09-app.md)), but
+  CLAUDE.md still asks for the maintainer's word before a ready marker is added, so it
+  stays a proposal. The browser tests click until the picker opens instead.
 - `safeUrl` still accepts a scheme-less URL, so the next provider publishing a bare path
   repeats Cinema Orion's 2026-09-06 fault. Whether the client should reject one or resolve
   it against the provider host is a separate change.
