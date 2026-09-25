@@ -2319,3 +2319,20 @@ than reaching `EmptyProgramme`; eTiketti clears `complete`, so no venue is confi
 and a site with no live venue fails in run.py; BioRex has no confirmation to give. The
 Finnkino whole-run check for the same case is its own item (A2). No "?" row is in the
 committed data. Tests: `test_missing_title.py`, 5 tests; 5 mutations, all red.
+
+### The zero-showtime rule is tested, and holds for the Finnkino pass (2026-09-25)
+
+Audit finding Q and A2. The run-level backstop in `run.Tally.site` (a site with no live
+venue its adapter did not confirm empty counts as a failure) survived a mutation against
+the whole suite: every test reaching it had a second reason to fail, usually the run's own
+"no venue at all" check. `test_zero_showtime_rule.py` runs two sites through `run.main`,
+one live, so only the backstop can fail the run; a confirmed-empty site and an
+`EmptyProgramme` still exit 0, as CLAUDE.md describes. The mutation is now red, and so is
+one that confirms every site.
+
+`fetch_data.main()` had no whole-run check: with OCAPI's `showtimes` renamed, seven dates
+answered, nothing parsed, and the seventeen venues were published under a fresh
+`areas.json`. It now fails before writing anything when no date lists a screening, so every
+venue keeps its file and `areas.json` its age. Finnkino gets no `EmptyProgramme` case: no
+empty OCAPI listing has been seen. The Finnkino half needs a run from an ordinary
+connection to be exercised live. Tests: 5; 3 mutations, all red.

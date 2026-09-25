@@ -656,6 +656,17 @@ def main() -> int:
               f"({', '.join(failed_dates)}); publishing nothing, "
               f"all {len(sites)} venues keep the schedule they have", file=sys.stderr)
         return 1
+    # Seven dates answered and not one listed a screening. Seventeen venues over a week is
+    # never empty, so this is the response changing under the parser (a renamed
+    # `showtimes` reads as a quiet week), and CLAUDE.md's rule applies: a provider that
+    # parses zero showtimes fails the run. Checked before anything is written, so the
+    # venues keep their files and `areas.json` keeps its age. Finnkino has no
+    # `EmptyProgramme` case: no empty listing has ever been seen from OCAPI.
+    if not any(per_site.values()):
+        print(f"ERROR: 7 dates answered and no showtime parsed for any of {len(sites)} "
+              f"venues; publishing nothing, every venue keeps the schedule it has",
+              file=sys.stderr)
+        return 1
 
     tmdb_token = os.environ.get("TMDB_TOKEN", "").strip()
     if tmdb_token:
