@@ -398,9 +398,9 @@ reviewer can check; write which engines, and at which widths.
 
 `.github/workflows/ci.yml` runs the suite, `check_inline_js.py` and a regeneration-drift
 check on every push that touches `index.html`, `sw.js`, `scripts/**`, `tests/**` or a
-document the suite reads (`IDEAS.md`, `README.md`, `docs/**`, `tietosuoja/**`). It
-fails on a **skipped** test as well as a failing one: every dependency is installed on the
-runner, so a skip means one went missing. Locally five poster tests skip because Pillow is
+document the suite reads (`CLAUDE.md`, `IDEAS.md`, `README.md`, `docs/**`,
+`tietosuoja/**`). It fails on a **skipped** test as well as a failing one: every dependency
+is installed on the runner, so a skip means one went missing. Locally five poster tests skip because Pillow is
 not on the system interpreter.
 
 A fixture has to exercise the loop as well as the body. A one-item fixture once passed

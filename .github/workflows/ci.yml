@@ -18,13 +18,15 @@ on:
   #
   # The documents are code paths for this purpose: the suite reads them (test_ideas_index's
   # caps on IDEAS.md, the counts README.md and docs/counts.md state, the contact address in
-  # README.md, the archive files, the privacy page under tietosuoja/), so a push touching
+  # README.md, the archive files, the privacy page under tietosuoja/, and CLAUDE.md, which
+  # test_design_contract and test_ideas_index quote), so a push touching
   # only one of them could break the suite unseen and the next code push would take the
   # blame (audit G3, 2026-09-25). `data/**` stays out on purpose: the local half's data
   # commits land several times a day and must not run Checks.
   push:
     paths:
       - 'index.html'
+      - 'CLAUDE.md'
       - 'DESIGN.md'
       - 'IDEAS.md'
       - 'README.md'
