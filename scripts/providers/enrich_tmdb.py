@@ -28,7 +28,10 @@ CACHE = DATA / "tmdb-titles.json"
 # either language from ids alone -- which also fixes English mode showing Finnish genres.
 GENRES = DATA / "tmdb-genres.json"
 EXTRA = DATA / "films-extra.json"     # title-keyed synopses for the movie sheet
-SKIP_PREFIXES = ("area-1",)          # Finnkino ids are numeric and already enriched
+# Finnkino's area files, which fetch_data.py enriches itself. Its theatre ids are numeric
+# and no other provider's are (test_registry_sites.py holds that). A prefix of "area-1"
+# stood here until 2026-09-25, and would have skipped a venue id such as "1kino".
+FINNKINO_AREA = re.compile(r"area-\d+\.json")
 
 # TMDB's genre lists are community-translated and two entries are not translated at all:
 # id 10402 comes back as "Music" under sv-SE and id 10770 as "TV Movie" under fi-FI.
@@ -1086,7 +1089,7 @@ def main() -> int:
                   f"{'+'.join(sorted(names))})")
 
     files = [p for p in sorted(DATA.glob("area-*.json"))
-             if not p.name.startswith(SKIP_PREFIXES)]
+             if not FINNKINO_AREA.fullmatch(p.name)]
     shows = []
     for p in files:
         try:

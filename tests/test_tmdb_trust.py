@@ -473,5 +473,24 @@ class ShortTitleTest(TrustHarness):
         self.assertNotIn("en-US second search", out, "no en-US request was sent for Up")
 
 
+class FinnkinoFilesTest(TrustHarness):
+    """The pass leaves Finnkino's numeric area files to fetch_data.py, and only those. A
+    prefix of "area-1" also skipped any other venue whose id began with a 1."""
+
+    def write(self, vid, title):
+        (self.dir / f"area-{vid}.json").write_text(json.dumps({
+            "generated": self.today, "dates": [], "horizon": "",
+            "shows": [regina(title=title, original="", year="", venue=vid)]}),
+            encoding="utf-8")
+
+    def test_a_numeric_id_is_skipped_and_a_slug_starting_with_1_is_not(self):
+        self.write("1004", "Finnkinon elokuva")
+        self.write("1kino-x", "Autofiktio")
+        self.run_main({("Autofiktio", ""): [hit(5, "Autofiktio", "2025-01-01")]})
+        asked = {q for q, *_ in self.searches}
+        self.assertIn("Autofiktio", asked)
+        self.assertNotIn("Finnkinon elokuva", asked)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2484,3 +2484,14 @@ The title logged "list index out of range", got no cache entry, and was retried 
 unpublished on every run. The en-US step now asks only when there is a candidate, and the
 title is cached as no match like any other. No live title is that short today. Tests:
 `ShortTitleTest` in `test_tmdb_trust.py`, reproduced red first; 2 mutations, both red.
+
+### The TMDB pass skips Finnkino's files by their numeric id (2026-09-25)
+
+Audit finding E8. `enrich_tmdb.py` left Finnkino's area files to `fetch_data.py` by the
+filename prefix `area-1`, which matched Finnkino's ids (1004 to 1166 today) and would also
+have matched any future venue id starting with a 1, such as "1kino": that venue would get
+no TMDB pass and no unpublish, with nothing in a log. The pass now skips `area-<digits>.json`
+only, and `test_registry_sites.py` fails on a SITES venue id that is all digits. The set of
+files read is unchanged today: 17 numeric Finnkino files, no other id starting with a
+digit. Tests: `FinnkinoFilesTest` in `test_tmdb_trust.py` and the registry check; 3
+mutations, all red.

@@ -75,6 +75,17 @@ class RegistrySitesTest(unittest.TestCase):
                             f"{name}.py and already by {seen.get(v['id'])}")
                     seen[v["id"]] = f"{site['provider']} in {name}.py"
 
+    def test_no_venue_id_is_all_digits(self):
+        """Finnkino's theatre ids are numeric, and enrich_tmdb.py leaves every
+        `area-<digits>.json` to fetch_data.py's own pass. A SITES venue with such an id
+        would get no TMDB pass and no unpublish, silently."""
+        for name in registry.modules():
+            for site in importlib.import_module(name).SITES:
+                for v in site["venues"]:
+                    with self.subTest(venue=v["id"]):
+                        self.assertFalse(v["id"].isdigit(),
+                                         f"{v['id']!r} in {name}.py reads as a Finnkino id")
+
     def test_every_site_names_the_host_it_is_read_from(self):
         """`base` is the runner's pacing key: `run.py` serialises the sites sharing one
         and `run_cloud.py` groups them across modules, so a site declaring none joins one
