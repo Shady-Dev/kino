@@ -984,6 +984,71 @@ class TimesViewChainLegendOnAPhone(TimesViewChainLegend):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class EmptyDayNamesItsDay(Browser):
+    """The Finnish empty-day line names the selected day by its chip's label.
+
+    `noshows` said "tänään", and `emptyMsg` returns it only for a day that is not today:
+    Orion on "Huomenna 15.9." read "Valitussa teatterissa ei ole näytöksiä tänään."
+    (audit K5, 2026-09-25). Today keeps its own line, an unpublished day its own, and the
+    Swedish and English lines already said "this day" and are unchanged. A language switch
+    redraws the line through `applyLang`.
+    """
+
+    def status(self):
+        return self.page.locator("main .status").first
+
+    def line(self):
+        """The message alone, without the next-day link drawn after it."""
+        return self.status().evaluate("e => e.firstChild.textContent.trim()")
+
+    def day(self, dm):
+        self.page.locator("#days .day", has_text=dm).first.click()
+
+    def test_the_selected_day_is_named_and_the_other_messages_stay_apart(self):
+        self.pick_orion()
+        self.day("15.9.")
+        expect(self.status()).to_contain_text("Valitussa teatterissa ei ole näytöksiä huomenna.")
+        self.assertNotIn("tänään", self.status().text_content())
+        self.day("18.9.")
+        expect(self.status()).to_contain_text("Valitussa teatterissa ei ole näytöksiä pe 18.9.")
+        self.assertEqual(self.line(), "Valitussa teatterissa ei ole näytöksiä pe 18.9.",
+                         "one full stop, the date's own")
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.status()).to_contain_text("Inga visningar denna dag på vald biograf.")
+        self.page.locator('#langSeg button[data-lang="en"]').click()
+        expect(self.status()).to_contain_text("No shows for this day at the selected theatre.")
+        self.page.locator('#langSeg button[data-lang="fi"]').click()
+        expect(self.status()).to_contain_text("ei ole näytöksiä pe 18.9.")
+
+    def test_a_day_past_the_horizon_keeps_the_unpublished_line(self):
+        """6.10. at Orion, then Promenadi, whose schedule ends 17.9.: the day is not empty,
+        it is unpublished, and says so. The path LanguageSwitchKeepsTheDay takes."""
+        self.pick_orion()
+        self.page.locator('#days .day[aria-haspopup="dialog"]').click()
+        self.page.locator('.cal-nav[data-mon="1"]').click()
+        self.page.locator('.cal-day[data-day="2026-10-06"]').click()
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        vq = self.open_picker(); vq.fill("promenadi")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq.press("Enter")
+        expect(self.status()).to_contain_text("ohjelmistoa ei ole vielä julkaistu")
+        self.assertNotIn("ei ole näytöksiä", self.status().text_content())
+
+
+class EmptyDayNamesItsDayOnAPhone(EmptyDayNamesItsDay):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+    def test_the_line_fits_the_phone(self):
+        self.pick_orion()
+        self.day("18.9.")
+        expect(self.status()).to_contain_text("ei ole näytöksiä pe 18.9.")
+        box = self.status().bounding_box()
+        self.assertLessEqual(box["x"] + box["width"], 375)
+        self.assertEqual(self.page.evaluate("document.documentElement.scrollWidth"), 375,
+                         "the page scrolls sideways")
+        self.page.screenshot(path=str(OUT / "k5-phone-375.png"))
+
+
 class FooterStampInHelsinki(Browser):
     """The footer's update time is Helsinki time wherever the reader is, like every
     showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16

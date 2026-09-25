@@ -62,7 +62,11 @@ class ClientCopyTest(unittest.TestCase):
         self.assertEqual(self.fi["hidePast"], "Piilota aiemmat")
         self.assertEqual(self.fi["allIn"], "{city} – kaikki teatterit")
         self.assertEqual(self.fi["favOn"], "Oma teatteri valittu – avautuu jatkossa automaattisesti")
-        self.assertEqual(self.fi["noshows"], "Valitussa teatterissa ei ole näytöksiä tänään.")
+        # Changed 2026-09-25: "tänään" was shown only for a selected day that is not today.
+        # The day is named by its chip's label, "huomenna" or "pe 18.9.".
+        self.assertEqual(self.fi["noshows"], "Valitussa teatterissa ei ole näytöksiä {day}.")
+        self.assertEqual((self.fi["noshowsTomorrow"], self.fi["noshowsDay"]),
+                         ("huomenna", "{wd} {date}"))
         self.assertEqual(self.fi["partialOf"], "Näytöstiedot eivät päivittyneet {n}/{m} teatterilta")
         self.assertEqual(self.fi["notpublished"], "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
         self.assertEqual(self.fi["sheetNone"], "Ei näytöksiä valitussa teatterissa.")

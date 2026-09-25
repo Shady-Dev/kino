@@ -1331,7 +1331,8 @@
          widenCapital:'Etsi koko pääkaupunkiseudulta',
          clearFilters:'Tyhjennä suodattimet',
          nomore:'Ei enää näytöksiä tänään.', sheetNone:'Ei näytöksiä valitussa teatterissa.',
-         noshows:'Valitussa teatterissa ei ole näytöksiä tänään.',
+         noshows:'Valitussa teatterissa ei ole näytöksiä {day}.', noshowsDay:'{wd} {date}',
+         noshowsTomorrow:'huomenna',
          notpublished:'Tämän päivän ohjelmistoa ei ole vielä julkaistu.',
          onlyDays:'Valittavissa ovat vain päivät, joille on näytöksiä.',
          showPast:'Näytä {n} aiempaa', showPastOne:'Näytä aiempi', hidePast:'Piilota aiemmat',
@@ -3934,7 +3935,14 @@
     if(state.filter || state.fLang || state.fKids || state.fAnnis) return t.nomatch;
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
-    return t.noshows;
+    // The selected day by its chip's own label: "tänään" here named a day that is not
+    // today. Finnish only; the Swedish and English lines already say "this day".
+    if(!t.noshows.includes('{day}')) return t.noshows;
+    const iso = state.dateStr;
+    const day = iso === addDays(fiToday(), 1) ? t.noshowsTomorrow
+      : t.noshowsDay.replace('{wd}', t.days[dowOf(iso)].toLowerCase()).replace('{date}', dmOf(iso));
+    // A date label ends in its own full stop ("18.9."), which closes the sentence too.
+    return t.noshows.replace('{day}', day).replace(/\.\.$/, '.');
   }
   // Which filters are on. `chains` counts: a chain filter empties the list exactly the
   // same way, and the message blames "your filters" for it too.
