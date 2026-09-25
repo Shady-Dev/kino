@@ -825,6 +825,47 @@ class LanguageSwitchKeepsTheDay(Browser):
         self.assertEqual(set(hrefs) & TODAY_URLS, set(), "14.9.'s list under another day")
 
 
+class ChooserResumeRollsOver(Browser):
+    """A tab resumed on the chooser past midnight builds the new day's chips.
+
+    The resume handler returned on `!state.area` before its rollover check, so a chooser
+    left open overnight kept yesterday's chips and `state.dateStr`: picking Orion then drew
+    "Tänään" over yesterday's date and a list for a day that had passed (audit K1,
+    2026-09-25). The same resume on a venue view already rolled over.
+    """
+
+    def chips(self):
+        return self.page.evaluate("""() => [...document.querySelectorAll('#days .day')].map(b => ({
+            text: b.textContent, active: b.classList.contains('active')}))""")
+
+    def test_resuming_on_the_chooser_after_midnight_moves_the_chips_to_the_new_day(self):
+        # Boot builds the chips again once the venue lists land, so the resume has to come
+        # after that or boot's own rebuild hides the bug. The picker opening is the only
+        # sign the lists are in (see open_picker).
+        self.open_picker()
+        self.page.keyboard.press("Escape")
+        expect(self.page.locator("#vwrap")).not_to_have_class("vwrap open")
+        expect(self.page.locator("#days .day").first).to_contain_text("14.9.")
+        self.page.clock.set_system_time(FIXED + datetime.timedelta(days=1))
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+        expect(self.page.locator("#days .day").first).to_contain_text("15.9.")
+        self.pick_orion()
+        chips = self.chips()
+        self.assertIn("15.9.", chips[0]["text"], "the first chip is the new today")
+        active = [c for c in chips if c["active"]]
+        self.assertEqual(len(active), 1, active)
+        # Orion may have nothing left on 15.9. at noon, and then the pick moves on to
+        # its next day; never back to 14.9.
+        self.assertNotIn("14.9.", active[0]["text"])
+        hrefs = self.page.locator("a.stub").evaluate_all("as => as.map(a => a.href)")
+        self.assertEqual(set(hrefs) & TODAY_URLS, set(), "14.9.'s list after the rollover")
+
+
+class ChooserResumeRollsOverOnAPhone(ChooserResumeRollsOver):
+    """The installed PWA is the case that resumes rather than reloads."""
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class FooterStampInHelsinki(Browser):
     """The footer's update time is Helsinki time wherever the reader is, like every
     showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16

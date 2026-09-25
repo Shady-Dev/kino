@@ -5105,8 +5105,14 @@
   }
   document.addEventListener('visibilitychange', () => {
     if(document.visibilityState !== 'visible') return;
-    if(!state.area) return;        // the chooser holds no schedule and refetches nothing
     const rollover = fiToday() !== builtFor;
+    // The chooser holds no schedule and refetches nothing, but its day chips were built
+    // for the day the tab opened: past midnight they are rebuilt here, or the first pick
+    // draws "Tänään" over yesterday's date.
+    if(!state.area){
+      if(rollover){ builtFor = fiToday(); state.advanced = false; buildDays(); }
+      return;
+    }
     if(rollover || Date.now() - lastLoad > REFRESH_MS){
       refreshAll({ rollover });
     } else {
