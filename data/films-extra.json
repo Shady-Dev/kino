@@ -4427,7 +4427,6 @@
     "jarvelankino",
     "kino123",
     "kinoakseli",
-    "kinohamina",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -4499,7 +4498,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohamina",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -5469,11 +5467,38 @@
    },
    "tr": ""
   },
+  "skönärit": {
+   "id": 1421693,
+   "img": "data/posters/212554662022cb5c.jpg",
+   "r": 0,
+   "s": {
+    "en": "The protagonist of this documentary, that takes the audience from underneath the blazing sun to the middle of icebergs and through the seven seas, is Jalmar “Jallu” Yrjänen. He is a young seaman from Rauma, Finland, whose fate was to be swallowed by the waves of the Atlantic Ocean as the only fatality of the shipwreck of his vessel, the M/S Mercur, on 8 December, 1925.  Milja Viita’s collage film combines primary source material such as letters and logbooks with archival film footage shot between the 1960s and the 1990s. The authentic footage lets us have a glimpse into the day-to-day life of seafarers far from their home ports.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
+  "sodan ja rauhan lapset": {
+   "id": 1203670,
+   "img": "data/posters/0e45048840fa33ab.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Sodan ja rauhan lapset kertoo siitä, miten Suomessa maailmansotien välisenä aikana lapsista ja nuorista pyrittiin kasvattamaan isänmaan puolesta uhrautuvia vastuunkantajia."
+   },
+   "tr": "https://www.youtube.com/watch?v=oDKOGhJAqnM",
+   "ts": [
+    "fi"
+   ]
+  },
   "sopeutumaton": {
    "id": 1444061,
    "img": "data/posters/26b3955801497bbc.jpg",
    "kr": "K-12",
    "krs": [
+    "elavienkuvien",
     "kinoaurora"
    ],
    "r": 0,
@@ -5766,6 +5791,19 @@
     "en"
    ]
   },
+  "taistelu lapinlahdesta": {
+   "id": 1612069,
+   "img": "data/posters/de11ececd88cb452.jpg",
+   "r": 0,
+   "s": {
+    "en": "The documentary follows how a former psychiatric hospital that had been abandoned is transformed into a thriving center for art, culture, and mental well-being with the arrival of new tenants. With limited resources, activists in Lapinlahti decide to continue the area's mental health work in a citizen-driven way, allowing the disadvantaged members of society to shine. The place fills up with entrepreneurs, therapists, artists, and associations, and the park area in the city center, closed to Helsinki residents for 170 years, comes to life with cafes, saunas, museums, and bakeries. The road is not easy. The city administration does not seem to recognize the value of the project, and the Lapinlahti community has to fight constantly for its existence. At the heart of the film is the threat of the area being sold to a large real estate investor, as plans are made to build a giant hotel in the park.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "tartuffe": {
    "id": 55544,
    "img": "data/posters/e9f08a4d6d8370db.jpg",
@@ -6035,7 +6073,6 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinolaika",
     "kinomyyri",
     "tapiola"
    ],
@@ -6268,6 +6305,7 @@
    "img": "data/posters/8e47d51a8993f244.jpg",
    "kr": "K-16",
    "krs": [
+    "elavienkuvien",
     "gilda",
     "kinoaurora",
     "kinoiiris",
@@ -6665,6 +6703,18 @@
    "tr": "https://www.youtube.com/watch?v=RRUz45GVOAM",
    "ts": [
     "en"
+   ]
+  },
+  "unesta tehty mies": {
+   "id": 1743488,
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Unesta tehty mies käsittelee Aulis Sallisen tunnettua Ratsumies-oopperaa. Elokuva on Clutch Productionsin tuottama pitkä dokumenttielokuva, joka saa ensi-iltansa elokuvateattereissa 2026. Elokuvan tekijöinä ja ohjaajina toimivat säveltäjän pojanpojat, ja se tallentaa isoisänsä, säveltäjä Aulis Sallisen elämää ja uraa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
    ]
   },
   "unohdettu saari": {

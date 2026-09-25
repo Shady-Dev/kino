@@ -1,31 +1,31 @@
 [biorex] BioRex Tripla: 148 showtimes
-[biorex] BioRex Redi: 125 showtimes
+[biorex] BioRex Redi: 126 showtimes
 [biorex] BioRex Verkatehdas: 117 showtimes
 [biorex] BioRex Sveitsi: 88 showtimes
 [biorex] BioRex Kajaani: 48 showtimes
 [biorex] BioRex Pietarsaari: 36 showtimes
 [biorex] BioRex Porvoo: 72 showtimes
 [biorex] BioRex Riihimäki: 36 showtimes
-[biorex] BioRex Rovaniemi: 83 showtimes
+[biorex] BioRex Rovaniemi: 84 showtimes
 [biorex] BioRex Seinäjoki: 104 showtimes
 [biorex] BioRex Tornio: 61 showtimes
 [biorex] BioRex Vaasa: 104 showtimes
 [biorex] film pages: 31/31
 [biorex] BioRex Tripla: 148 showtimes, 16 dates
-[biorex] BioRex Redi: 125 showtimes, 16 dates
+[biorex] BioRex Redi: 126 showtimes, 16 dates
 [biorex] BioRex Verkatehdas: 117 showtimes, 16 dates
 [biorex] BioRex Sveitsi: 88 showtimes, 16 dates
 [biorex] BioRex Kajaani: 48 showtimes, 14 dates
 [biorex] BioRex Pietarsaari: 36 showtimes, 13 dates
 [biorex] BioRex Porvoo: 72 showtimes, 14 dates
 [biorex] BioRex Riihimäki: 36 showtimes, 13 dates
-[biorex] BioRex Rovaniemi: 83 showtimes, 16 dates
+[biorex] BioRex Rovaniemi: 84 showtimes, 16 dates
 [biorex] BioRex Seinäjoki: 104 showtimes, 16 dates
 [biorex] BioRex Tornio: 61 showtimes, 14 dates
 [biorex] BioRex Vaasa: 104 showtimes, 16 dates
 [biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 31 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 1022 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 75.4s of fetching added up across workers that overlap, longest site 75.4s, longest queue wait 0.0s, 75.4s wall from this module's first fetch starting to its last ending
+[run] biorex: 12 venues, 1024 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 104.9s of fetching added up across workers that overlap, longest site 104.9s, longest queue wait 0.0s, 104.9s wall from this module's first fetch starting to its last ending
 exit=0
