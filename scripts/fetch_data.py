@@ -295,23 +295,61 @@ def t(obj, *keys):
 
 POSTER_DIR = pathlib.Path("data/posters")
 _poster_cache = {}
+# The moviexchange release id, which names the file and goes into the CDN path. Upstream
+# text like the site id above, and checked for the same reason: `../../escape` wrote two
+# levels above data/posters. All 84 committed Finnkino posters are named by one on
+# 2026-09-25, so the shape is measured rather than assumed.
+RELEASE_ID = re.compile(r"[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}")
+
+
+def poster_decodes(raw: bytes) -> bool:
+    """Whether a poster body is a whole image. -> bool.
+
+    `common.fetch` returns a body cut short of its Content-Length without raising, so the
+    length alone proves nothing. Pillow decodes it where it is installed (the runner, the
+    worktree venv). Without it, a JPEG has to open with SOI and close with EOI, which is
+    what a truncated body loses; every committed Finnkino poster does both.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        return raw[:2] == b"\xff\xd8" and raw.rstrip(b"\x00")[-2:] == b"\xff\xd9"
+    import io
+    try:
+        with Image.open(io.BytesIO(raw)) as im:
+            im.load()
+        return True
+    except Exception:
+        return False
+
 
 def download_poster(rid: str) -> str:
-    """Download poster once per release id; return relative path or ''. """
+    """Download poster once per release id; return relative path or ''.
+
+    A file already on disk is used only if it decodes; a broken one is fetched again. The
+    new body is decoded before it is kept and lands through a temp file and a rename, so a
+    run stopped mid-write leaves no half poster under the final name."""
     if rid in _poster_cache:
         return _poster_cache[rid]
+    if not RELEASE_ID.fullmatch(rid or ""):
+        print(f"[poster] {rid!r}: not a release id, not fetched")
+        _poster_cache[rid] = ""
+        return ""
     POSTER_DIR.mkdir(parents=True, exist_ok=True)
     rel = f"data/posters/{rid}.jpg"
     p = pathlib.Path(rel)
-    if not p.exists():
+    if not (p.exists() and poster_decodes(p.read_bytes())):
         url = f"https://film-cdn.moviexchange.com/api/cdn/release/{rid}/media/Poster?width=200"
         try:
             raw = http_get(url, {"user-agent": UA, "referer": "https://www.finnkino.fi/",
                                  "accept": "image/*"})
-            if len(raw) > 500:
-                p.write_bytes(raw)
-            else:
+            if len(raw) <= 500:
                 raise RuntimeError("too small")
+            if not poster_decodes(raw):
+                raise RuntimeError(f"{len(raw)} bytes that do not decode as an image")
+            tmp = p.with_name(p.name + ".tmp")
+            tmp.write_bytes(raw)
+            tmp.replace(p)
         except Exception as e:
             print(f"[poster] {rid}: {e}")
             _poster_cache[rid] = ""

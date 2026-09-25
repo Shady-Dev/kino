@@ -2400,3 +2400,20 @@ failed or timed-out fetch step still publishes what it finished while a cancelle
 commits nothing. That a step timeout is a failure and not a cancellation is from GitHub's
 documentation; no run was dispatched to see it. Tests: `test_site_deadline.py`, a stalling
 and a dripping local server, 4 tests; 6 mutations, all red.
+
+### The Finnkino poster download checks its id and its body (2026-09-25)
+
+Audit finding E5. `download_poster` put OCAPI's release id into the file path and the CDN
+URL unchecked (a rid of `../../escape` wrote two levels above data/posters), saved any body
+over 500 bytes without decoding it (`common.fetch` returns a body cut short of its
+Content-Length without raising), wrote in place, and returned an existing file on every
+later run with no request, broken or not. Now the id must be a moviexchange release UUID,
+the shape all 84 committed Finnkino posters are named by; the request brief said numeric,
+and a numeric check would have refused every one of them, so the measured shape is what is
+checked. A body is decoded before it is kept, through a temp file and a rename, and a file
+on disk that does not decode is fetched again. Decoding is Pillow's where it is installed
+and, on an interpreter without it, which is how the system python3 runs, a JPEG must open
+with SOI and close with EOI, which a truncated body loses; all 84 committed files pass both.
+The Finnkino half needs a run from an ordinary connection. Tests: `test_finnkino_poster.py`,
+5 tests, red on the unfixed code; 5 mutations, each decode branch red on the interpreter
+that runs it and VOID on the other.
