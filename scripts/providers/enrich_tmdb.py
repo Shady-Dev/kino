@@ -244,6 +244,26 @@ def trusted(c):
     return isinstance(c, dict) and bool(c.get("x")) and bool(c.get("i"))
 
 
+# A weak entry is a candidate id with `x` false: a popularity fallback, an exact title
+# refused on its year, or a same-year tie. Until 2026-09-25 main() deleted every one as
+# the cache loaded, a sweep written as a one-off, so the same ten titles cost 53 of a
+# run's 56 TMDB requests on every run. It now stays in the cache, still untrusted, and is
+# searched again once its last attempt `a` is WEAK_RETRY_DAYS old: daily, the retry an
+# unmatched title already gets. New evidence (reconsider) and an alias do not wait.
+WEAK_RETRY_DAYS = int(os.environ.get("KINO_TMDB_WEAK_RETRY") or 1)
+
+
+def is_weak(c):
+    """Whether a cache entry holds an untrusted candidate id."""
+    return isinstance(c, dict) and bool(c.get("i")) and not c.get("x")
+
+
+def weak_due(c, today):
+    """Whether a weak entry's scheduled search is due. No attempt date reads as due."""
+    age = age_days(c, today, "a")
+    return age is None or age >= WEAK_RETRY_DAYS
+
+
 def poster_refs(c):
     """Every form the entry's poster takes in published data: the w342 URL this pass
     writes, and the path mirror_posters rewrites it to on the same run."""
@@ -694,9 +714,9 @@ def reconsider(facts, cache, aliases, budget=None):
     judged on (`o`, `y`; absent in older entries, read as none). When the shows now carry
     different evidence, and some, the entry is dropped and searched again, exact and
     unmatched alike, out of one budget in key order so a pass that defers the rest picks
-    up where it left off. Weak entries are dropped on every load anyway, and a key with
-    an alias is a hand decision and is left alone. An unmatched title whose evidence has
-    not changed keeps its daily retry and nothing else.
+    up where it left off. A weak entry is re-judged the same way, ahead of its scheduled
+    retry, and a key with an alias is a hand decision and is left alone. An unmatched or
+    weak title whose evidence has not changed keeps its daily retry and nothing else.
 
     **`q` is the evidence this side owns, and it is checked first.** A strand added to
     strands.py changes `clean()` for a title the cinema has not touched, so `o` and `y`
@@ -741,8 +761,6 @@ def reconsider(facts, cache, aliases, budget=None):
         c, f = cache.get(k), facts[k]
         if not isinstance(c, dict) or aliases.get(k):
             continue
-        if c.get("i") and not c.get("x"):
-            continue                          # weak: dropped on load, not this list
         if c.get("q") != norm(clean(f.get("t") or k)):
             due.append(k)                     # the search string changed, or is unknown
             continue
@@ -782,11 +800,8 @@ FLUSH_EVERY = 25
 #     "Matilda ja lasten kapina", and a children's classification landing on the wrong
 #     film fails in the unsafe direction for the Lapsille filter. Same rule the cross-
 #     chain merge already applies to `tmdbId`.
-#     The `x` checks below cannot be made to fail today, and that is worth knowing rather
-#     than trusting: main() deletes every weak entry that carries an id as it loads the
-#     cache, so one never reaches this pass in the first place. That deletion is described
-#     there as a one-off for a shape change, so it is the wrong thing to depend on, and
-#     these checks are what is left if it goes.
+#     Since 2026-09-25 a weak entry stays in the cache between its retries, so the `x`
+#     checks below are what keeps it out; until then main() deleted it on load first.
 #   * Every non-empty rating for the film has to agree. Disagreement publishes nothing
 #     and is logged with the film, the sources and the values; taking the strictest was
 #     rejected, because two cinemas disagreeing about a national classification means one
@@ -870,9 +885,9 @@ def merge_extra(cache, today):
 
     Trusted entries set the fields this pass owns, see sync_extra. Every other key in
     the file, an untrusted entry's or one the cache no longer holds, gives back what a
-    run wrote from a weak candidate: a weak entry is dropped as the cache loads, so a
-    film that then left the programme is exactly the key with residue and no entry. See
-    unpublish_extra.
+    run wrote from a weak candidate. A weak entry stays in the cache after its film has
+    left the programme, so text equal to the candidate's own overview is still
+    recognised in an entry written before `ts`. See unpublish_extra.
     """
     try:
         doc = json.loads(EXTRA.read_text())
@@ -944,23 +959,30 @@ def main() -> int:
     # An entry with no "x" was matched by the old loop, which stopped at the first
     # candidate that returned anything. Its id cannot be re-judged after the fact, so
     # drop it and let the fixed loop search again. One-off per shape change.
-    # A weak entry judged before the fi-FI search change compared a Finnish title
-    # against an English one, so every one of them has to be re-judged once.
-    stale = [k for k, v in cache.items()
-             if not (isinstance(v, dict) and "x" in v)
-             or (isinstance(v, dict) and v.get("i") and not v.get("x"))]
+    # Weak entries were swept here too, once for the fi-FI search change; the sweep ran
+    # on every load and is gone. See WEAK_RETRY_DAYS.
+    stale = [k for k, v in cache.items() if not (isinstance(v, dict) and "x" in v)]
     for k in stale:
         del cache[k]
     if stale:
         print(f"[enrich] dropped {len(stale)} entries matched by the old picker")
+    # Weak entries taken out for a fresh search, by an alias or by their schedule. One
+    # whose search raises goes back with today's attempt date: it published nothing, so
+    # keeping it costs nothing, and the date holds it to its schedule through an outage.
+    retried = {}
     # Adding an alias has to be able to correct a film that already resolved wrongly.
     # A complete entry is skipped outright, so an alias written for a weak match would
     # never be consulted: "autot re release" kept pointing at Cars 3 with an alias for
     # Cars sitting in the file. An alias plus a non-exact entry means the entry is the
     # thing the alias exists to replace, and so does an alias id that disagrees with an
     # exact one: see `alias_supersedes`.
-    overridden = [k for k, v in cache.items() if alias_supersedes(aliases.get(k), v)]
+    # A weak entry searched with the alias it has now already answered it; without `al`
+    # a string alias that still finds nothing exact would re-search the title every run.
+    overridden = [k for k, v in cache.items() if alias_supersedes(aliases.get(k), v)
+                  and not (is_weak(v) and v.get("al") == str(aliases.get(k)))]
     for k in overridden:
+        if is_weak(cache[k]):
+            retried[k] = cache[k]
         del cache[k]
     if overridden:
         print(f"[enrich] dropped {len(overridden)} entries an alias replaces: "
@@ -1020,7 +1042,15 @@ def main() -> int:
               f"({matched} exact match(es), {len(rejudge) - matched} unmatched), "
               f"{held} wait for the next run: " + " | ".join(rejudge))
 
-    todo, refreshes, deferred = due(titles, cache, today)
+    # A weak entry is searched again when its retry is due and skipped entirely until
+    # then: it publishes nothing, so a rating refresh on it would buy nothing either. It
+    # comes out of the cache for the search, as a re-judged entry does, because a cached
+    # id is read as settled and would never reach the search.
+    for k in titles:
+        if is_weak(cache.get(k)) and weak_due(cache[k], today):
+            retried[k] = cache.pop(k)
+    kept = {k for k in titles if is_weak(cache.get(k))}
+    todo, refreshes, deferred = due([k for k in titles if k not in kept], cache, today)
     settled = set()          # scheduled refreshes that came back with rating/vote data
     looked = rechecked = pending = 0
     weak, thin = [], []      # popularity fallbacks, and ratings held back by MIN_VOTES
@@ -1042,6 +1072,7 @@ def main() -> int:
             gids = (c.get("g") or []) if isinstance(c, dict) else []
             poster = (c.get("p") or "") if isinstance(c, dict) else ""
             alias = aliases.get(k)
+            named = ""                    # a weak candidate's title, for the kept-list log
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)          # id given outright, no search needed
                 exact_id = True           # a hand-written id is as good as exact
@@ -1131,6 +1162,7 @@ def main() -> int:
                         mid = fallback.get("id")
                         poster = fallback.get("poster_path") or poster
                         exact_id = False
+                        named = fallback.get("title") or ""
                         hy = release_year(fallback)
                         titled = any(norm(fallback.get(f)) == norm(c) for f in ("title", "original_title")
                                      for c in queries(display or k, alias, fact["o"]))
@@ -1237,6 +1269,10 @@ def main() -> int:
                         "fi": syn_fi, "en": syn_en, "p": poster,
                         "o": norm(fact["o"]), "y": fact["y"], "ry": ry,
                         "q": norm(clean(display or k))}
+            if named and not exact_id:
+                cache[k]["t"] = named
+                if alias:
+                    cache[k]["al"] = str(alias)
             replaced = True
             if detail_ok and k in refreshes:
                 settled.add(k)
@@ -1273,12 +1309,15 @@ def main() -> int:
             # judgement back keeps it published; `reconsider()` sees the same differing
             # evidence next run and tries again, so nothing is lost but a day.
             #
-            # **Only this drop site is restored.** The old-picker sweep and the alias
-            # override above remove a judgement that is *known wrong*, and putting one of
-            # those back after a failed search would republish the wrong film for a run.
-            # Unpublishing is the safer failure there and is left alone.
+            # **The old-picker sweep and an alias overriding an exact entry are not
+            # restored.** Both remove a judgement that is *known wrong*, and putting one
+            # back after a failed search would republish the wrong film for a run.
+            # Unpublishing is the safer failure there and is left alone. A weak entry
+            # publishes nothing, so it goes back whichever way it came out.
             if k in rejudged and not replaced:
                 cache[k] = rejudged[k]
+            if k in retried and not replaced:
+                cache[k] = {**retried[k], "a": today}
 
     flush(cache, today)
 
@@ -1378,6 +1417,15 @@ def main() -> int:
     # reading, not for acting on automatically.
     if weak:
         print(f"[enrich] weak match, no exact title ({len(weak)}): " + " | ".join(sorted(weak)))
+    if kept:
+        # Every kept entry has an attempt date: one without is due, so it was searched.
+        nxt = datetime.date.fromordinal(
+            min(datetime.date.fromisoformat(cache[k]["a"]).toordinal() for k in kept)
+            + WEAK_RETRY_DAYS)
+        print(f"[enrich] weak candidate kept, not searched until {nxt.isoformat()} "
+              f"({len(kept)}): " + " | ".join(sorted(
+                  f"{titles[k] or k} -> {cache[k].get('t') or 'TMDB ' + str(cache[k]['i'])}"
+                  for k in kept)))
     if en_tried:
         print(f"[enrich] en-US second search: {en_tried} title(s) asked, "
               f"{len(en_settled)} settled, {len(en_differs)} disagreed with the fi-FI "

@@ -2169,3 +2169,34 @@ old behaviour is kept for both.
 **What it does not catch.** A right film offered in neither language, next to a wrong one
 within 10 min. Before the English rival was added, "Happy Together" was that case: 102
 against 96. The Finnkino pass (`fetch_data._pick`) is separate and unchanged.
+
+### A weak TMDB candidate stays cached and is retried daily (2026-09-25)
+Found in review (#8, #25). `enrich_tmdb.main()` deleted every entry with an id and `x`
+false as the cache loaded, a sweep written as a one-off for the fi-FI search change. The
+same ten titles were searched from scratch on every cloud run. Measured 2026-09-25 on the
+committed tree, real TMDB, nothing else due: 56 requests a run, 53 of them for those ten
+(28 searches, 25 detail and video calls), 3 genre lists.
+
+**Rule.** A weak entry stays in the cache, still untrusted, and is searched again once its
+attempt date `a` is `WEAK_RETRY_DAYS` = 1 old, the daily retry an unmatched title already
+gets. Until then it gets no request, rating refresh included. `reconsider()` now re-judges
+it on changed `q`, `o` or `y` the same day, and an alias still supersedes it at once. A
+weak entry records its candidate's title in `t`, for the log line "weak candidate kept",
+and a string alias it was searched with in `al`, so an alias that still finds nothing
+exact waits for the schedule instead of re-searching every run. A weak entry taken out for
+a search that raises goes back with today's `a`. An exact entry an alias id overrides is
+still not restored: it is known wrong.
+
+**unpublish_extra.** Same removal path. Its comparison against the candidate's own text
+covers entries written before `ts`; with the entry deleted on load, a weak film that had
+left the programme had nothing to compare with. The entry now persists, so it does. No
+such residue in the committed data today.
+
+**Measured after**, same inputs: 3 requests on a day the retry is not due; 53 once on the
+day it is. Same-day output identical to the committed data, key order included (the sweep
+reordered ten keys every run). Retry day against the old code: area files and films-extra
+identical, the cache differs by ten `t` fields only.
+
+Tests: `test_tmdb_weak_retry.py`, 12 tests on a pinned clock; 13 mutations, all red. Three
+older tests pinned the sweep and were re-pointed. `fetch_data.py` keeps its own sweep; the
+Finnkino cache holds no weak entry today.

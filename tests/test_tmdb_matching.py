@@ -264,9 +264,12 @@ class ReconsiderTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.reconsider(self.facts(a="1974"), cache, {"a": "Cars"}),
                          ([], 0))
 
-    def test_a_weak_entry_is_not_this_list(self):
-        """Weak ids are dropped on every load, so they already see the new candidates."""
-        cache = {"w": self.entry(22, x=False)}
+    def test_a_weak_entry_is_re_judged_when_evidence_arrives(self):
+        """A weak entry stays cached between its daily retries since 2026-09-25, so new
+        evidence has to reach it here rather than wait for the schedule."""
+        cache = {"w": self.entry(22, "w", x=False)}
+        self.assertEqual(enrich_tmdb.reconsider(self.facts(w="1962"), cache, {}), (["w"], 0))
+        cache = {"w": self.entry(22, "w", x=False, o="", y="1962")}
         self.assertEqual(enrich_tmdb.reconsider(self.facts(w="1962"), cache, {}), ([], 0))
 
     def test_an_unmatched_entry_is_re_judged_when_evidence_arrives(self):

@@ -127,7 +127,7 @@ class FilmsExtraIdChangeTest(IdChangeHarness):
         self.cache_write({"kapina": entry(111, OLD, "Kapina", x=False),
                           "toinen": entry(333, CONTROL, "Toinen")})
         self.run_main({})
-        self.assertEqual(self.cache()["kapina"]["i"], "", "nothing trusted now")
+        self.assertFalse(enrich_tmdb.trusted(self.cache()["kapina"]), "nothing trusted now")
         fx = self.extra()["kapina"]
         self.assertEqual(fx["s"], {"fi": "", "en": "The cinema's own text."})
         self.assertEqual((fx["r"], fx["tr"]), (0, ""))

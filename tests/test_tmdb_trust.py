@@ -350,20 +350,33 @@ class FailedRejudgeTest(TrustHarness):
         self.assertEqual((e["i"], e["x"]), (76848, True))
         self.assertEqual(e["y"], "1938", "the new judgement stands, not the restored one")
 
-    def test_an_alias_override_whose_search_fails_is_not_put_back(self):
-        """The distinction the restore is scoped on. An entry an alias supersedes is
-        *known wrong*; republishing it after a failed search would put the wrong film on
-        the row for a run, so that drop site is deliberately not restored.
+    def test_an_alias_override_whose_lookup_fails_is_not_put_back(self):
+        """The distinction the restore is scoped on. An exact entry an alias id
+        supersedes is *known wrong*; republishing it after a failed lookup would put the
+        wrong film on the row for a run, so that drop site is deliberately not restored.
 
-        The alias is a replacement *search string* rather than a bare id, because an id
-        alias skips the search outright and so can never fail this way."""
+        An id alias skips the search, so the failure is the video request. A weak entry
+        an alias supersedes publishes nothing and is put back: test_tmdb_weak_retry."""
         self.shows(regina(year="", original=""))
-        self.run_main({("Naisen kasvot", ""): [OBSESSION]},
+        self.run_main({("Naisen kasvot", ""): [hit(4780, "Naisen kasvot", 1976)]},
                       detail={4780: WRONG}, videos={4780: WRONG["v"]})
-        self.assertEqual(self.cache()["naisen kasvot"]["i"], 4780)
+        self.assertEqual((self.cache()["naisen kasvot"]["i"],
+                          self.cache()["naisen kasvot"]["x"]), (4780, True))
         (self.dir / "tmdb-aliases.json").write_text(
-            json.dumps({"naisen kasvot": "En kvinnas ansikte"}), encoding="utf-8")
-        self.run_failing()
+            json.dumps({"naisen kasvot": "76848"}), encoding="utf-8")
+
+        def fake_get(url, headers, timeout=25):
+            if "/genre/movie/list" in url:
+                return {"genres": [{"id": 18, "name": "Draama"}]}
+            if url.endswith("/videos"):
+                raise RuntimeError("HTTP Error 429: Too Many Requests")
+            return {"overview": "x", "vote_count": 300, "vote_average": 6.8,
+                    "genres": [{"id": 18}], "poster_path": "/76848.jpg"}
+        real = enrich_tmdb.get
+        enrich_tmdb.get = fake_get
+        self.addCleanup(lambda: setattr(enrich_tmdb, "get", real))
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(enrich_tmdb.main(), 0)
         self.assertNotIn("naisen kasvot", self.cache(), "the wrong id does not come back")
         self.assertNotIn("tmdbId", self.area()["shows"][0],
                          "unpublished rather than republished wrong")
