@@ -34,6 +34,7 @@ Constraints:
   rating is shown as credited text.
 """
 import argparse
+import decimal
 import html
 import json
 import re
@@ -419,8 +420,23 @@ def price_label(rows, lang):
 VOTE_SOLID = 25     # the app's: a rating on fewer votes is dimmed, not hidden
 
 
+def js_fixed(x, digits):
+    """JavaScript's `x.toFixed(digits)`: the double's exact value, a tie rounded up.
+    Python's format rounds a tie to even, so 1250 votes read "1.2k" here and "1.3k" in
+    the app (audit G6)."""
+    q = decimal.Decimal(1).scaleb(-digits)
+    return str(decimal.Decimal(x).quantize(q, rounding=decimal.ROUND_HALF_UP))
+
+
+def js_number(v):
+    """JavaScript's `String(v)` for a score: 8.0 is "8" and 7.5 is "7.5", as the app's
+    ring prints it. `str()` wrote "8.0" on 786 rings in 171 committed pages (audit G6)."""
+    s = repr(float(v))
+    return s[:-2] if s.endswith(".0") else s
+
+
 def short_votes(n):
-    return (f"{n / 1000:.1f}k" if n < 10000 else f"{n / 1000:.0f}k") if n >= 1000 else str(n)
+    return (f"{js_fixed(n / 1000, 1 if n < 10000 else 0)}k") if n >= 1000 else str(n)
 
 
 def score_ring(tmdb, votes, t):
@@ -432,10 +448,11 @@ def score_ring(tmdb, votes, t):
         return ""
     n = int(votes or 0)
     thin = " thin" if n and n < VOTE_SOLID else ""
+    shown = js_number(tmdb)
     lbl = t["rtg1" if n == 1 else "rtgN" if n else "rtg"].format(
-        v=str(tmdb).replace(".", t["dec"]), n=n)
+        v=shown.replace(".", t["dec"]), n=n)
     return (f'<span class="ring{thin}" role="img" style="--v:{round(float(tmdb) * 10)}" '
-            f'title="{esc(lbl)}" aria-label="{esc(lbl)}"><b>{esc(tmdb)}</b></span>'
+            f'title="{esc(lbl)}" aria-label="{esc(lbl)}"><b>{esc(shown)}</b></span>'
             + (f'<span class="votes">{esc(short_votes(n))}</span>' if n else ""))
 
 
