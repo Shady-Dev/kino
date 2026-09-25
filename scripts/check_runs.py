@@ -23,10 +23,18 @@ a caller cannot point it at an empty root by accident. And `strays()` fails on a
 write their own logs, so a writer that was not migrated would otherwise keep publishing to
 the old place while this check read the moved copies and called them green. That is the one
 failure this script may not have, and it is why a stray is an error rather than a warning.
+
+Every failing site is named and marked "new" or "carried since DATE (N runs)" (2026-09-25).
+Kinotour's HTTP 500 held the cloud run red for nineteen runs of twenty, and a second site
+failing read exactly like it. The run stays red either way; no allow-fail list exists and
+none is kept here. The standing is derived from the committed logs' own git history, so
+there is no state file to drift: a shallow clone or the HISTORY_LIMIT edge turns "since"
+into "since at least".
 """
 import argparse
 import pathlib
 import re
+import subprocess
 import sys
 
 # Derived from this file, so the default is the repo's logs/ whatever the caller's cwd is.
@@ -51,6 +59,79 @@ def check(path):
     if not codes:
         return False, None, causes
     return int(codes[-1]) == 0, int(codes[-1]), causes
+
+
+# A site's own failure line, and the coordinator's line for a module that exited non-zero.
+FAILED_RE = re.compile(r"^\[([^\]]+)\] FAILED:", re.M)
+MODULE_EXIT_RE = re.compile(r"^\[cloud\] ([\w-]+): exit=(-?\d+)\s*$", re.M)
+# How far back one log's history is read. The streak is counted in runs of that log, and a
+# failure older than this is reported as "at least", never as new.
+HISTORY_LIMIT = 300
+
+
+def failing(text):
+    """The sites a log names as failed. -> [name], in the order they appear.
+
+    `[label] FAILED:` for a provider log, `[cloud] module: exit=N` with N non-zero for the
+    coordinator's. A failed log that names neither (no `exit=` line, a module that would
+    not import) is named by the caller after the file.
+    """
+    names = list(dict.fromkeys(FAILED_RE.findall(text)))
+    names += [m for m, code in MODULE_EXIT_RE.findall(text) if code != "0" and m not in names]
+    return names
+
+
+def _git(repo, *args):
+    r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+
+def history(path, limit=None):
+    """The committed versions of one log, newest first. -> ([(iso date, text)], complete).
+
+    Read from git, so no state file is kept: the committed logs are the record. `complete`
+    is False when the walk stopped at the limit or at a shallow clone's edge, which is when
+    a streak that reaches the end can only be called "at least" that old.
+    """
+    limit = HISTORY_LIMIT if limit is None else limit
+    path = pathlib.Path(path).resolve()
+    top = _git(path.parent, "rev-parse", "--show-toplevel")
+    if top is None:
+        return [], False
+    top = pathlib.Path(top.strip())
+    rel = path.relative_to(top).as_posix()
+    out = _git(top, "log", f"--max-count={limit + 1}", "--format=%H %cI", "--", rel) or ""
+    rows = [line.split(" ", 1) for line in out.splitlines() if " " in line]
+    shallow = (_git(top, "rev-parse", "--is-shallow-repository") or "").strip() == "true"
+    versions = []
+    for sha, when in rows[:limit]:
+        text = _git(top, "show", f"{sha}:{rel}")
+        if text is not None:
+            versions.append((when, text))
+    return versions, len(rows) <= limit and not shallow
+
+
+def standing(name, text, versions, complete):
+    """"new", or "carried since DATE (N runs)" for one failing site, from the log's
+    committed history. The version on disk is the run being judged; a committed version
+    identical to it is that same run, not an earlier one."""
+    runs = [text] + [t for _, t in versions]
+    dates = [None] + [w for w, _ in versions]
+    if len(runs) > 1 and runs[1] == text:
+        runs, dates = [text] + runs[2:], [dates[1]] + dates[2:]
+    streak = 0
+    for t in runs:
+        ok = bool(EXIT_RE.findall(t)) and int(EXIT_RE.findall(t)[-1]) == 0
+        if ok or name not in (failing(t) or ["(log)"]):
+            break
+        streak += 1
+    if streak <= 1:
+        return "new" if len(runs) > 1 or complete else "new, as far as the history read shows"
+    since = dates[streak - 1][:10]
+    reached_end = streak == len(runs)
+    if reached_end and not complete:
+        return f"carried since at least {since} ({streak} runs read)"
+    return f"carried since {since} ({streak} runs)"
 
 
 def strays(repo=REPO):
@@ -93,6 +174,13 @@ def main(argv):
         print(f"[check] {name}: {where}", file=sys.stderr)
         for c in causes[:3]:
             print(f"    {c.strip()}", file=sys.stderr)
+        # Every failing site, each marked new or carried: with one site red for days, a
+        # second one failing reads exactly like the first unless the report says which.
+        path = root / name
+        text = path.read_text(encoding="utf-8", errors="replace")
+        versions, complete = history(path)
+        for site in failing(text) or ["(log)"]:
+            print(f"    {site}: {standing(site, text, versions, complete)}", file=sys.stderr)
 
     print(f"[check] {len(logs)} run log(s), {len(bad)} failed")
     return 1 if bad else 0

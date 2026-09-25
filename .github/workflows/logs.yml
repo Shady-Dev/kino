@@ -35,5 +35,9 @@ jobs:
       # Pinned to a SHA like the other workflows: actions/checkout v7.0.1, resolved
       # 2026-08-31, on node24.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        # History, bounded: check_runs.py marks each failing site new or carried since a
+        # date by reading the logs' own git history. Past this depth it says "at least".
+        with:
+          fetch-depth: 300
       - name: Every committed run log ended exit=0
         run: python3 scripts/check_runs.py
