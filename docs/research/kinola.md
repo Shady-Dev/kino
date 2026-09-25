@@ -303,3 +303,47 @@ has to satisfy, not a description of anything that exists.
 - `scripts/providers/orion.py` reads the third template and stays as it is. A change
   there would need its own justification, demonstrated by the implementation rather than
   assumed now.
+
+## Ticket links: two answers on one platform (read 2026-09-26)
+
+**Findings.** The committed `data/area-*.json`, read 2026-09-26:
+
+| Site | Adapter | Link on a bookable row | Showtimes |
+|---|---|---|---|
+| Kino Kilta | `kinola.py` | the listing's `/checkout/{uuid}` | 49 checkout, 14 film page |
+| Kino Laika | `kinola.py` | the listing's `/checkout/{uuid}` | 61 checkout |
+| Cinema Orion | `orion.py` | the listing's `/checkout/{uuid}` | 33 checkout |
+| Kino Myyri | `kinola.py` | the film page | 20 film page |
+| Cinema Sheryl | `kinola.py` | the film page | 13 film page |
+
+- Myyri and Sheryl withhold the link on purpose: `kinola.py`'s module docstring ("Myyri's
+  ticket link is not published") and the docstring of the function the two share call
+  `/checkout/{uuid}` "a booking endpoint, which 'Access and ethics' in CLAUDE.md keeps this
+  repo out of". The Myyri and Sheryl entries in `docs/archive/2026-09-providers.md` say the
+  same.
+- Kilta, Laika and Orion publish the same shape, copied from the listing and never built
+  (`kinola._destination`, `orion.py`); a sold-out row falls back to the film page there too.
+- The rule cited is CLAUDE.md's "Booking, payment and administrative endpoints are never
+  called and are not inventoried."
+- Other platforms' ticket links are purchase pages already: Riviera and Biokaari link each
+  screening's `websales/show/{id}`.
+- The one recorded case of a booking link kept out, Kino Engel (`engel.py`, the comment
+  above `DETAIL_RE`), is a link that exists only behind the Johku widget's key-protected
+  read endpoints, so obtaining it would mean using a credential a visitor is not issued.
+
+**Inference.** The two answers read the same sentence differently. Linking a reader to a
+page they click through to is not this repository calling it, and none of the five adapters
+requests a checkout URL; the difference between the two groups is only what the showtime
+opens.
+
+**Proposal.** A showtime links to a screening's purchase page when the cinema's public
+listing itself carries that link for a visitor to click, whatever its path is called: the
+adapter copies the href, never builds it, never requests it, and falls back to the film
+page when the row carries none. What stays out is a link that could only be obtained by
+calling a booking, payment or administrative endpoint or with a credential not issued to a
+visitor (Engel's). The one-time check that a new link lands on the screening is made by
+opening it in a browser, as a visitor would, and is never part of a run. Under this rule
+Myyri and Sheryl would publish their listing's `/checkout/{uuid}` like the other three.
+
+**Status.** Held: on 2026-09-26 the maintainer asked for the links to stay as they are for
+now. No ticket link was changed. Next step: the maintainer's decision on the proposal.
