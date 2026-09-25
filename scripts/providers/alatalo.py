@@ -58,7 +58,7 @@ from zoneinfo import ZoneInfo
 
 from common import (EmptyProgramme, check_shows, fetch, get_text, resolve_year,
                     weekday_index)
-from huvimylly import RATING_RE, STRIP, TIME_RE, WEEKDAY_WORD
+from huvimylly import KAVI_CODES, RATING_RE, STRIP, TIME_RE, WEEKDAY_WORD
 from synmerge import norm
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -203,8 +203,10 @@ def _split_rating(text):
     m = RATING_RE.search(text)
     if not m:
         return text.strip(STRIP), "", False
-    code = (m.group(1) or m.group(2)).upper()
-    rating = "S" if code == "S" else f"K-{int(code)}"
+    code = (m.group(1) or m.group(2)).upper().lstrip("0") or "0"
+    if code not in KAVI_CODES:
+        return text[:m.start()].strip(STRIP), "", True
+    rating = "S" if code == "S" else f"K-{code}"
     return text[:m.start()].strip(STRIP), rating, True
 
 

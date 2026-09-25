@@ -3187,3 +3187,19 @@ rule now follows the more specific signal: the printed count decides, and the bu
 where no count is printed, so a disabled button over free seats no longer turns readers
 away. The live payload parses to the same 2 sold-out rows under both rules. Tests: one in
 `test_riviera_links.py`; 3 mutations, all red.
+
+### A rating outside the law's classes is published as none (2026-09-25)
+
+The audit's follow-up on 17 rows rated "K-6" at Kinokulma, Pyhäsalmen VPK, Alatalo and
+Laitilan Kino, all "Lapin sota". Finnish law has S, 7, 12, 16 and 18 (kavi.fi/en/age-ratings,
+read 2026-09-25), so K-6 is no class. One row was a source: Alatalo's page prints
+"Klo 18.00 Lapin Sota -k6/13" at Kiuruvesi, a typo for 16/13 since the second figure is the
+three-year allowance, and Elokuvateatteri Star's own page for the film says "Ei alle
+16-vuotiaille". The shared rating pass then lent K-6 to the other 16. Now the grammar
+Alatalo shares with Huvimylly reads a code outside those classes as no rating, the line
+still closing its title, and `shared_ratings` lends only a legal class, so one chain's typo
+cannot reach another. K-16 is not inferred from "/13": a blank beats an unmarked wrong
+number. Refreshed: `run.py alatalo` (13 showtimes, 0 failures), `enrich_tmdb.py`,
+`mirror_posters.py`, pages for the recorded date; all 17 rows are blank and no committed
+rating outside the classes remains. Tests in `test_alatalo.py`, `test_huvimylly.py` and
+`test_shared_rating.py`; 3 mutations, all red.

@@ -892,6 +892,11 @@ def _minutes(v):
     return int(m.group(1)) if m else None
 
 
+# A value lent to another chain has to be a class Finnish law has. One chain's typo
+# ("K-6", 2026-09-25) otherwise reached every chain showing the film.
+SHAREABLE = ("S", "K-7", "K-12", "K-16", "K-18")
+
+
 def shared_ratings(rated):
     """Exact-matched shows that carry a rating -> ({tmdbId: entry}, [disagreements]).
 
@@ -908,7 +913,7 @@ def shared_ratings(rated):
         if s.get("rsrc") == "shared":
             continue
         fid, r = s.get("tmdbId"), (s.get("rating") or "").strip()
-        if not fid or not r:
+        if not fid or r not in SHAREABLE:
             continue
         e = seen.setdefault(fid, {"ratings": {}, "runtimes": set(), "title": s.get("title")})
         e["ratings"].setdefault(r, set()).add(s.get("provider") or "finnkino")

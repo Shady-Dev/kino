@@ -272,6 +272,16 @@ class RowTest(unittest.TestCase):
         self.assertEqual(titles(out, "alatalo-kemijarvi"), ["Lapin Sota", "Lapin Sota"])
         self.assertEqual({s["rating"] for s in out["alatalo-kemijarvi"]}, {""})
 
+    def test_a_code_outside_the_legal_classes_is_no_rating(self):
+        """`Klo 18.00 Lapin Sota -k6/13` on the live page, 2026-09-25: a typo for 16/13,
+        since the law's classes are S, 7, 12, 16 and 18. It closes the title and states
+        no rating; K-6 went out and was lent to four chains."""
+        d = soon(5)
+        out, _ = parse("Kiuruvesi Kiurusali", head(d), "Klo 18.00 Lapin Sota -k6/13",
+                       "Klo 20.00 Kolme kovaa -k16/13")
+        self.assertEqual(titles(out, "alatalo-kiuruvesi"), ["Lapin Sota", "Kolme kovaa"])
+        self.assertEqual([s["rating"] for s in out["alatalo-kiuruvesi"]], ["", "K-16"])
+
     def test_a_leading_time_with_a_marker_is_a_row(self):
         """`16.30 Kero se kaikille -k12/9-` on the live page, with the `Klo` left off."""
         d = soon(5)

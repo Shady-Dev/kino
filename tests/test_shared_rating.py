@@ -73,6 +73,19 @@ class SharedRatingTableTest(unittest.TestCase):
         ])
         self.assertEqual(table[1]["sources"], ["finnkino"])
 
+    def test_a_value_outside_the_legal_classes_is_never_lent(self):
+        """One chain's "K-6" was a typo and reached four chains through this table."""
+        for bad in ("K-6", "s", "K-11", "Kaikille"):
+            with self.subTest(rating=bad):
+                table, clashes = et.shared_ratings([show(provider="alatalo", rating=bad)])
+                self.assertEqual((table, clashes), ({}, []))
+
+    def test_a_typo_beside_a_real_class_does_not_block_it(self):
+        table, clashes = et.shared_ratings([show(provider="alatalo", rating="K-6"),
+                                            show(provider="star", rating="K-16")])
+        self.assertEqual(clashes, [])
+        self.assertEqual(table[1]["rating"], "K-16")
+
     def test_a_film_with_no_id_is_not_grouped(self):
         table, clashes = et.shared_ratings([show(tmdbId=None, rating="S")])
         self.assertEqual((table, clashes), ({}, []))

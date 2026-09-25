@@ -189,6 +189,14 @@ class RowsTest(unittest.TestCase):
                                      "Klo 17.00 Pirjo -s-"))
         self.assertEqual(shows[0]["start"][:10], d.isoformat())
 
+    def test_a_code_outside_the_legal_classes_is_no_rating(self):
+        """The grammar Alatalo shares: "-k6/13" is a typo for 16/13, not a K-6."""
+        d = TODAY + datetime.timedelta(days=5)
+        shows, _ = self.rows(payload(head(d), "Klo 18.00 Lapin sota -k6/13",
+                                     "Klo 20.00 Kolme kovaa -k 16/13"))
+        self.assertEqual([(s["title"], s["rating"]) for s in shows],
+                         [("Lapin sota", ""), ("Kolme kovaa", "K-16")])
+
     def test_consecutive_headings_share_the_times_that_follow(self):
         a = TODAY + datetime.timedelta(days=5)
         b = TODAY + datetime.timedelta(days=6)

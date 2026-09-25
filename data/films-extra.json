@@ -127,7 +127,7 @@
   "akira kurosawan unet": {
    "id": 12516,
    "img": "data/posters/502808dd18acf38b.jpg",
-   "r": 7.8,
+   "r": 7.7,
    "s": {
     "en": "Eight visually rich vignettes drawn from Kurosawa’s own dreams—fox weddings and vanished orchards, a soldier’s ghosts, a walk through Van Gogh’s canvases, nuclear nightmares, and a water-mill utopia—meditate on childhood, art, mortality, and humanity’s uneasy bond with nature.",
     "fi": "Ensimmäinen, lapsen silmin nähty uni on eräänlainen Karkotus paratiisista: elokuvan \"minä\" – unien kokija ja konkreettinen yhdysside eri episodien välillä – rikkoo luonnon herkän tasapainon näkemällä jotakin mitä ei pitäisi nähdä, siis maistamalla Tiedon puun kiellettyä hedelmää. Kaikissa myöhemmissä unissa hän etsii sovitusta rikokselleen, anteeksiantoa ymmärtämättömyyttään luontoa tuhoavalle ihmiskunnalle. Viimeisessä ja kauneimmassa unessa hän löytää vihdoin toivon: Vesimyllyjen kylässä vallitsee luonnonmukaisen elämän ja aidon elämänilon idylli, utopia elämänmuodosta jossa ihminen asettuu osaksi luontoa, ei sen herraksi."
@@ -2830,10 +2830,6 @@
   "lapin sota": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
-   "kr": "K-6",
-   "krs": [
-    "alatalo"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -2847,10 +2843,6 @@
   "lapin sota kahvi ja kino": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
-   "kr": "K-6",
-   "krs": [
-    "alatalo"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7079,5 +7071,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-25"
+ "generated": "2026-09-26"
 }
