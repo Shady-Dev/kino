@@ -75,6 +75,29 @@ _Q_NOISE = re.compile(r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?"
                       r"|liveaction|2d|3d|imax|4k)\s*\)", re.I)
 
 
+def _alias(aliases, meta):
+    """A Finnkino film's alias: the Finnish title's key, the query's, then the Finnish
+    title's cleaned search string, as `enrich_tmdb.alias_of` reads it. OCAPI's `y` is the
+    release date, a reissue's included, so only a year printed in the title stops the
+    cleaned lookup."""
+    fi = meta.get("fi") or ""
+    year = enrich_tmdb.published_year({"title": fi})
+    return (enrich_tmdb.alias_of(aliases, _tnorm(fi), _tnorm(enrich_tmdb.clean(fi)), year)
+            or aliases.get(_tnorm(meta["q"])))
+
+
+def alias_overrides(tmdb_cache, films_meta, aliases):
+    """The cached films an alias replaces. -> [fid].
+
+    A non-exact entry with an alias, and since 2026-09-25 an exact entry whose id an alias
+    id disagrees with, the rule `enrich_tmdb.alias_supersedes` states for the cloud pass:
+    Finnkino's "Avengers: Endgame Encore" kept a one-vote record on 96 rows with an alias
+    for 299534 in the file.
+    """
+    return [fid for fid, v in tmdb_cache.items() if fid in films_meta
+            and enrich_tmdb.alias_supersedes(_alias(aliases, films_meta[fid]), v)]
+
+
 def _queries(q):
     """Search candidates, best first. Mirrors enrich_tmdb.queries().
 
@@ -333,7 +356,7 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
             # An alias is either a bare TMDB id, which skips the search, or a
             # replacement search string. Keyed on the Finnish title first, since
             # that is what the cinema publishes and what the file is keyed by.
-            alias = aliases.get(_tnorm(meta.get("fi"))) or aliases.get(_tnorm(meta["q"]))
+            alias = _alias(aliases, meta)
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)
                 exact_id = True     # a hand-written id is as good as exact
@@ -651,10 +674,7 @@ def main() -> int:
         # Same rule as enrich_tmdb: an alias exists to replace a bad match, so a
         # non-exact entry whose title now has one is dropped and searched again.
         # Keyed on the published Finnish title, which is how the alias file is keyed.
-        by_fid = {fid: (_tnorm(m.get("fi")), _tnorm(m["q"])) for fid, m in films_meta.items()}
-        overridden = [fid for fid, v in tmdb_cache.items()
-                      if not (isinstance(v, dict) and v.get("x"))
-                      and any(aliases.get(k) for k in by_fid.get(fid, ()))]
+        overridden = alias_overrides(tmdb_cache, films_meta, aliases)
         for fid in overridden:
             del tmdb_cache[fid]
         if overridden:

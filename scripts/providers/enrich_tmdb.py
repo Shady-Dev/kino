@@ -569,6 +569,23 @@ def alias_supersedes(alias, entry):
     return str(alias).isdigit() and entry.get("i") != int(alias)
 
 
+def alias_of(aliases, k, q="", year=""):
+    """A title's alias: its own key first, then its cleaned search string's key.
+
+    The file is keyed on the title as published, so a spelling that differs only by what
+    `clean()` strips reached no alias: Kotkan Leffat's "Avengers: Endgame Encore 2D"
+    searches "Avengers: Endgame Encore", which is itself a key (299534), and matched a
+    two-vote record instead, 7 rows beside 135 carrying the real one (2026-09-25).
+
+    `q` is `norm(clean(title))`. The fallback is skipped when the title publishes a year:
+    `clean()` strips "(2011)" off "Faust (2011)", and the bare key "faust" pins Murnau's.
+    """
+    a = aliases.get(k)
+    if a or year or not q or q == k:
+        return a
+    return aliases.get(q)
+
+
 def load_aliases():
     try:
         return {k: v for k, v in json.loads(ALIAS_FILE.read_text()).items()
@@ -804,7 +821,8 @@ def reconsider(facts, cache, aliases, budget=None):
     due = []
     for k in sorted(facts):
         c, f = cache.get(k), facts[k]
-        if not isinstance(c, dict) or aliases.get(k):
+        if not isinstance(c, dict) or alias_of(aliases, k, norm(clean(f.get("t") or k)),
+                                                f.get("y") or ""):
             continue
         if c.get("q") != norm(clean(f.get("t") or k)):
             due.append(k)                     # the search string changed, or is unknown
@@ -1023,8 +1041,13 @@ def main() -> int:
     # exact one: see `alias_supersedes`.
     # A weak entry searched with the alias it has now already answered it; without `al`
     # a string alias that still finds nothing exact would re-search the title every run.
-    overridden = [k for k, v in cache.items() if alias_supersedes(aliases.get(k), v)
-                  and not (is_weak(v) and v.get("al") == str(aliases.get(k)))]
+    # Keyed on the entry's own `q` and `y`, the search string and year it was judged on,
+    # so the cleaned-key fallback reaches it before the titles are gathered.
+    def entry_alias(k, v):
+        v = v if isinstance(v, dict) else {}
+        return alias_of(aliases, k, v.get("q") or "", v.get("y") or "")
+    overridden = [k for k, v in cache.items() if alias_supersedes(entry_alias(k, v), v)
+                  and not (is_weak(v) and v.get("al") == str(entry_alias(k, v)))]
     for k in overridden:
         if is_weak(cache[k]):
             retried[k] = cache[k]
@@ -1118,7 +1141,8 @@ def main() -> int:
             exact_id = bool(c.get("x")) if isinstance(c, dict) else False
             gids = (c.get("g") or []) if isinstance(c, dict) else []
             poster = (c.get("p") or "") if isinstance(c, dict) else ""
-            alias = aliases.get(k)
+            alias = alias_of(aliases, k, norm(clean(display or k)),
+                             (facts.get(k) or {}).get("y") or "")
             named = ""                    # a weak candidate's title, for the kept-list log
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)          # id given outright, no search needed

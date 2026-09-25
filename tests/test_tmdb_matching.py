@@ -696,6 +696,36 @@ class MainPathTest(MainHarness):
         self.assertEqual(self.cache()["practical magic lumotut sisaret"]["i"], 1302904)
         self.assertIn("an alias replaces", out)
 
+    def test_an_alias_on_the_cleaned_title_replaces_the_exact_entry_it_disagrees_with(self):
+        """Kotkan Leffat's "Avengers: Endgame Encore 2D" (7 rows, 2026-09-25) searches
+        "Avengers: Endgame Encore", which is itself an alias key, and held a two-vote
+        record exact instead of the 299534 the other 135 rows carry."""
+        self.shows({"title": "Avengers: Endgame Encore 2D"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"avengers endgame encore": "299534"}))
+        self.cache_write({"avengers endgame encore 2d": {
+            "r": 0, "n": 2, "v": "", "x": True, "g": [], "i": 1777404, "q": "avengers endgame encore",
+            "c": self.today, "a": self.today, "fi": "", "en": "", "p": ""}})
+        out = self.run_main({})
+        self.assertEqual(self.cache()["avengers endgame encore 2d"]["i"], 299534)
+        self.assertIn("an alias replaces", out)
+        self.assertEqual(self.searches, [], "a bare id needs no search")
+
+    def test_an_alias_on_the_cleaned_title_is_found_for_a_title_never_cached(self):
+        self.shows({"title": "Avengers: Endgame Encore 2D"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"avengers endgame encore": "299534"}))
+        self.run_main({})
+        e = self.cache()["avengers endgame encore 2d"]
+        self.assertEqual((e["i"], e["x"]), (299534, True))
+
+    def test_a_published_year_keeps_the_cleaned_title_off_the_alias(self):
+        """"Faust (2011)" cleans to "Faust", and the bare key pins Murnau's 1926 film."""
+        self.shows({"title": "Faust (2011)"})
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"faust": "10728"}))
+        self.run_main({("Faust", "2011"): [hit(58857, "Faust", 2011)]})
+        self.assertEqual(self.cache()["faust 2011"]["i"], 58857)
+
     def test_an_alias_id_that_agrees_leaves_the_entry_and_the_budget_alone(self):
         """The counterweight: an alias naming the id already held is not a reason to throw
         the entry away and spend a request re-fetching it every run."""

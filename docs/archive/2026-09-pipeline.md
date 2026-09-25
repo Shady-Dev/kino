@@ -2252,3 +2252,25 @@ are in November, outside the pages' window.
 
 `test_tmdb_matching.py` pinned the old acceptance (`..._cannot_contradict_the_year`); it now
 pins the refusal. Tests: 4 in that file; restoring the old `pick()` body turns two red.
+
+### An alias is found on the cleaned title too, and replaces a disagreeing Finnkino entry (2026-09-25)
+
+Audit finding E3, prior review #8. Both passes looked an alias up on the published
+title's key only. Kotkan Leffat's "Avengers: Endgame Encore 2D" searches "Avengers: Endgame
+Encore", itself an alias key for 299534, and held a two-vote record (1777404, since deleted
+by TMDB) exact on 7 rows. Finnkino's "Avengers: Endgame Encore" had the alias on its raw
+key, but the Finnkino sweep only dropped non-exact entries, so a one-vote record (1774125)
+stood on 96 rows. The other 135 rows carried 299534, 8.2 from 28,693 votes.
+
+`enrich_tmdb.alias_of` reads the title's own key, then `norm(clean(title))`; the reconsider
+guard, the supersede sweep (on the entry's recorded `q` and `y`) and the search loop all
+use it. The fallback is skipped when the title publishes a year: "Faust (2011)" cleans to
+"Faust", and the bare "faust" alias pins Murnau's 1926 film (the accepted cost recorded on
+2026-09-19 stays confined to the bare title). `fetch_data.alias_overrides` applies
+`alias_supersedes`, the cloud pass's rule, so an alias id that disagrees replaces an exact
+Finnkino entry; only a year printed in the Finnish title stops the cleaned lookup there,
+since OCAPI's year is the release date.
+
+Cloud half re-enriched here: the Kotka rows carry 299534 and six pages changed. The
+Finnkino half needs a run from an ordinary connection and lands at the next local run.
+Tests: 3 in `test_tmdb_matching.py`, 4 in `test_finnkino_trust.py`; 6 mutations, all red.

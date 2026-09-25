@@ -135,3 +135,36 @@ class TrustedOnlyTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AliasOverrideTest(unittest.TestCase):
+    """`alias_overrides`: which cached Finnkino films an alias replaces."""
+
+    META = {"HO1": {"q": "Avengers: Endgame Encore", "fi": "Avengers: Endgame Encore", "y": "2026"},
+            "HO2": {"q": "Film B", "fi": "Film B", "y": "2026"},
+            "HO3": {"q": "Avengers: Endgame Encore (2D)", "fi": "Avengers: Endgame Encore (2D)",
+                    "y": "2026"}}
+
+    def test_an_alias_id_that_disagrees_replaces_an_exact_entry(self):
+        """The Finnkino half of 2026-09-25: HO00000564 held a one-vote record on 96 rows
+        with an alias for 299534 in the file."""
+        cache = {"HO1": {"i": 1774125, "x": True}, "HO2": {"i": 11, "x": True}}
+        got = fetch_data.alias_overrides(cache, self.META,
+                                         {"avengers endgame encore": "299534"})
+        self.assertEqual(got, ["HO1"])
+
+    def test_an_alias_that_agrees_or_a_string_alias_leaves_an_exact_entry(self):
+        cache = {"HO1": {"i": 299534, "x": True}, "HO2": {"i": 11, "x": True}}
+        self.assertEqual(fetch_data.alias_overrides(
+            cache, self.META, {"avengers endgame encore": "299534", "film b": "Film B"}), [])
+
+    def test_a_weak_entry_with_any_alias_is_replaced_as_before(self):
+        cache = {"HO2": {"i": 12, "x": False}}
+        self.assertEqual(fetch_data.alias_overrides(cache, self.META, {"film b": "Film B"}),
+                         ["HO2"])
+
+    def test_the_cleaned_finnish_title_reaches_the_alias(self):
+        cache = {"HO3": {"i": 1777404, "x": True}}
+        self.assertEqual(fetch_data.alias_overrides(
+            cache, self.META, {"avengers endgame encore": "299534"}), ["HO3"])
+
