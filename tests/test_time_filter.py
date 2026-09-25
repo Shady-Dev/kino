@@ -200,7 +200,7 @@ class TimeFilterWiringTest(unittest.TestCase):
     def test_the_control_is_one_native_select_above_the_list(self):
         """Half-hour marks, not a free clock and not preset chips or a slider."""
         src = render_times_source()
-        self.assertIn("main.innerHTML = bar + rows.map(s => {", src)
+        self.assertIn("main.innerHTML = timesLegend + bar + rows.map(s => {", src)
         bar = re.search(r"function timeBar\(goneCount\)\{.*?\n  \}", HTML, re.S).group(0)
         self.assertIn('<select class="tinput" id="minTime"', bar)
         self.assertNotIn('type="time"', bar)

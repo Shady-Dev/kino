@@ -3790,7 +3790,9 @@
     const multi = labelVenues(state.shows);
     const tinted = multi;
     setListStatus('');
-    main.innerHTML = bar + rows.map(s => {
+    // The legend on a full list as on an empty one: it is the only way to see, and to
+    // undo, a chain filter set in Leffat, which hides rows here too.
+    main.innerHTML = timesLegend + bar + rows.map(s => {
       const past = s.start < now;
       const t = fiTime(s.start);
       const cls = past ? ' past' : (s.soldOut ? ' sold' : '');

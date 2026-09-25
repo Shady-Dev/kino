@@ -948,6 +948,42 @@ class VenueListsAfterAFailedBootOnAPhone(VenueListsAfterAFailedBoot):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class TimesViewChainLegend(Browser):
+    """Ajat draws the chain legend whenever it lists more than one chain.
+
+    The chain filter set in Leffat still hid rows in Ajat, but Ajat drew the legend only
+    on an empty list, so a city view with Orion isolated showed Orion's rows, no legend
+    and no "Kaikki" to undo it (audit K4, 2026-09-25). CLAUDE.md says both combined views
+    print one. A second chain comes from Promenadi's fixture file served as Itis Helsinki.
+    """
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        for sh in doc["shows"]:
+            sh["venue"] = "1162"
+        Handler.body = {"area-1162.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def test_the_legend_is_drawn_and_undoes_the_chain_filter(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        legend = self.page.locator("#main .legend.top .lg-btn:not(.lg-all)")
+        expect(legend).to_have_count(2)                      # Leffat, as before
+        legend.filter(has_text="Orion").click()
+        self.page.locator("#segTimes").click()
+        expect(self.page.locator("#main .trow").first).to_be_visible()
+        expect(legend).to_have_count(2)
+        expect(self.page.locator("#main .legend.top .lg-all")).to_be_visible()
+        self.assertEqual(self.page.locator("#main .trow.chain-finnkino, #main .trow .chain-finnkino").count(), 0)
+        self.page.locator("#main .legend.top .lg-all").click()
+        expect(self.page.locator("#main .legend.top .lg-all")).to_have_count(0)
+
+
+class TimesViewChainLegendOnAPhone(TimesViewChainLegend):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class FooterStampInHelsinki(Browser):
     """The footer's update time is Helsinki time wherever the reader is, like every
     showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16
