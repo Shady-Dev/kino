@@ -3115,3 +3115,13 @@ after `if not found: continue`, so a film whose every line changed shape ("Su 20
 line at all is still a finished run, and one with lines and none readable raises. The test
 failed on the unfixed code; `old_order` turns it red. A second mutation, `if not listed`,
 is equivalent by construction: every line `SHOW_RE` reads is one `ROW_RE` counts.
+
+### TMB: a row's age image is looked for no further than the next row (2026-09-25)
+
+Audit finding A10. The rating was the first `ikaraja_N` image within 400 characters after
+the title, which reaches into the next row about 330 characters on: a row with no image,
+"Yllätysnäytös" in the reviewer's fixture, took the next film's K-16. The window now stops
+at the next row's start, still capped at 400. No disagreement with other chains across the
+nine films at the time, so the committed data is unchanged. The test failed on the unfixed
+code; removing the bound turns it red. Removing the 400 cap instead is not caught: it only
+matters for the page's last row, and it was not what the finding was about.

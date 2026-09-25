@@ -95,6 +95,17 @@ class ListViewTest(unittest.TestCase):
         self.assertEqual({s["title"]: s["rating"] for s in self.two}
                          ["Insidious: Out of the Further"], "K-16")
 
+    def test_a_row_with_no_age_image_does_not_borrow_the_next_rows(self):
+        """The image was looked for in the 400 characters after the title, which reach
+        into the next row: a "Yllätysnäytös" with no image took the next film's K-16
+        (audit A10, 2026-09-25)."""
+        bare = row("TI", "15.09.2026", "14:00", "900", "Yllätysnäytös")
+        bare = bare[:bare.index('<td style="padding: 10px;">')] + '<td style="padding: 10px;"></td>'
+        shows = tmb.parse(page(bare, row("TI", "15.09.2026", "18:00", "853", "Insidious", ika="4")),
+                          TOIJALA, TOIJALA["venues"][0])
+        self.assertEqual({s["title"]: s["rating"] for s in shows},
+                         {"Yllätysnäytös": "", "Insidious": "K-16"})
+
     def test_an_unknown_age_image_yields_no_rating_rather_than_a_guess(self):
         out = tmb.parse(page(row("TI", "15.09.2026", "18:00", "1", "X", ika="9")),
                         TOIJALA, TOIJALA["venues"][0])

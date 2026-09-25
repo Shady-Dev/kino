@@ -183,7 +183,8 @@ def parse(page, site, venue):
             f"({served(page)}), so this is not the list view this parser reads. Treating "
             f"it as a fetch or template failure rather than a cinema with nothing on")
     shows, seen, wrong_day = [], set(), 0
-    for m in ROW_RE.finditer(page):
+    rows = list(ROW_RE.finditer(page))
+    for i, m in enumerate(rows):
         wd, day, month, year, hh, mm, tail, fid, title = m.groups()
         title = _txt(title)
         if not title:
@@ -198,8 +199,10 @@ def parse(page, site, venue):
             continue
         sali = SALI_RE.search(tail or "")
         aud = f"Sali {_txt(sali.group(1))}" if sali else ""
-        # The age image sits in the row's second cell, just past the title.
-        age = AGE_RE.search(page[m.end():m.end() + 400])
+        # The age image sits in the row's second cell, just past the title, and is looked
+        # for no further than the next row: a row with none took the next row's image.
+        stop = min(rows[i + 1].start() if i + 1 < len(rows) else len(page), m.end() + 400)
+        age = AGE_RE.search(page[m.end():stop])
         key = (fid, start.isoformat(), aud)
         if key in seen:
             continue
