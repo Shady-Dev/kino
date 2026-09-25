@@ -5103,8 +5103,33 @@
     } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
     await loadSchedule();
   }
+  // The venue lists again, after a boot that could not read them. Without them the picker
+  // trigger does nothing, and an installed PWA has no reload control, so a list that
+  // failed at launch stayed failed for the life of the tab. Tried on the next resume;
+  // on success the tab carries on as the boot would have: the favourite or the link the
+  // lists now confirm, or the chooser without the failure note.
+  let venueRetry = null, bootSettled = false;   // no retry while the boot's own load runs
+  function retryVenueLists(){
+    if(venueRetry || !bootSettled) return venueRetry;
+    venueRetry = (async () => {
+      try {
+        if(!REGIONS.length) await loadRegions();
+        await loadAreas();
+        if(state.lang === 'en') await ensureFilms();
+        builtFor = fiToday();
+        buildDays();
+        if(!state.area){ showHome(unknownDeep ? L[state.lang].homeUnknown : ''); return; }
+        document.documentElement.classList.add('scoped');
+        await loadSchedule();
+        if(location.hash) syncSheet();
+      } catch(_){ /* still unreachable; the next resume tries again */ }
+      finally { venueRetry = null; }
+    })();
+    return venueRetry;
+  }
   document.addEventListener('visibilitychange', () => {
     if(document.visibilityState !== 'visible') return;
+    if(!allVenues.length){ retryVenueLists(); return; }
     const rollover = fiToday() !== builtFor;
     // The chooser holds no schedule and refetches nothing, but its day chips were built
     // for the day the tab opened: past midnight they are rebuilt here, or the first pick
@@ -5339,6 +5364,8 @@
       }
       setListStatus('');
       main.innerHTML = netErrorHtml(e);
+    } finally {
+      bootSettled = true;
     }
   })();
 })();

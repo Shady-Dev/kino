@@ -866,6 +866,37 @@ class ChooserResumeRollsOverOnAPhone(ChooserResumeRollsOver):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class VenueListsAfterAFailedBoot(Browser):
+    """Venue lists that failed at boot are fetched again on the next resume.
+
+    `areas.json` answering 500 at launch left `allVenues` empty for the life of the tab:
+    the picker trigger returned at once and nothing fetched the lists again, and an
+    installed PWA has no reload control (audit K2, 2026-09-25).
+    """
+
+    def setUp(self):
+        Handler.fail = {"areas.json"}
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        super().setUp()
+
+    def test_the_next_resume_fetches_the_lists_and_the_picker_opens(self):
+        # The boot's one request for the list, answered 500. No DOM signal says the boot
+        # has given up, so the wait is on the server's own log, bounded like every wait.
+        deadline = time.monotonic() + 10
+        while not any(p.split("?")[0].endswith("/data/areas.json") for p in self.srv.requested):
+            self.assertLess(time.monotonic(), deadline, "areas.json was never requested")
+            self.page.wait_for_timeout(50)
+        self.page.locator("#areaSelect").click()
+        expect(self.page.locator("#vwrap")).not_to_have_class("vwrap open")
+        Handler.fail = set()
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+        self.pick_orion()
+
+
+class VenueListsAfterAFailedBootOnAPhone(VenueListsAfterAFailedBoot):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class FooterStampInHelsinki(Browser):
     """The footer's update time is Helsinki time wherever the reader is, like every
     showtime on the page. Orion's fixture was generated 17:16 UTC on 14.9., which is 20.16
