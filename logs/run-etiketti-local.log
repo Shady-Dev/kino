@@ -1,19 +1,21 @@
-[savonkinot] Tapio Joensuu: 73 showtimes, 11 dates
-[savonkinot] Killa Savonlinna: 14 showtimes, 8 dates
-[savonkinot] Kuvalinna Savonlinna: 13 showtimes, 8 dates
-[savonkinot] Kuvalipas Iisalmi: 18 showtimes, 8 dates
-[savonkinot] Maxim Varkaus: 30 showtimes, 9 dates
-[savonkinot] Kino-Hovi Kitee: 13 showtimes, 8 dates
-[savonkinot] synopses merged: 0
+[savonkinot] Tapio Joensuu: 65 showtimes, 11 dates
+[savonkinot] Killa Savonlinna: 13 showtimes, 7 dates
+[savonkinot] Kuvalinna Savonlinna: 11 showtimes, 7 dates
+[savonkinot] Kuvalipas Iisalmi: 16 showtimes, 7 dates
+[savonkinot] Maxim Varkaus: 27 showtimes, 8 dates
+[savonkinot] Kino-Hovi Kitee: 12 showtimes, 7 dates
+[savonkinot] synopses merged: 3
+[savonkinot] synopses by language: en 1, fi 2
 [joutsankino] Joutsan Kino: 7 showtimes, 5 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: 12 showtimes, 3 dates
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
-[cine] synopses merged: 0
-[star] strand prefix split off 12 showtimes
-[star] Elokuvateatteri Star: 109 showtimes, 8 dates
-[star] synopses merged: 0
-[run] http: 0 revalidated (304), 67 full, 67 not stored (origin said no-store), 0 cache entries written
+[cine] synopses merged: 2
+[star] strand prefix split off 11 showtimes
+[star] Elokuvateatteri Star: 99 showtimes, 9 dates
+[star] synopses merged: 3
+[star] synopses by language: en 1, fi 2
+[run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 10 venues, 295 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 10 venues, 268 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
