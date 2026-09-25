@@ -53,6 +53,7 @@ import argparse
 import concurrent.futures
 import datetime
 import importlib
+import os
 import pathlib
 import sys
 import threading
@@ -72,6 +73,14 @@ LOGS = pathlib.Path("logs")
 # than read again so the two cannot drift; 1 is the sequential path, which is what the
 # equivalence tests run against.
 MAX_HOSTS = run.MAX_HOSTS
+
+# One site's fetch, wall clock, before it fails and the rest of the run publishes as it does
+# around any failed site. The longest site of 76 pooled runs to 2026-09-25 took 108 s
+# (Kinola) and the median slowest module 88 s (BioRex), so 300 s is nearly three times the
+# worst seen; the job is capped at 30 minutes and a stalled host used to hold the whole
+# run to it, so the commit step never ran (audit C1). `KINO_SITE_DEADLINE` overrides it;
+# 0 turns it off.
+SITE_DEADLINE = float(os.environ.get("KINO_SITE_DEADLINE") or 300)
 
 # Two hosts verified to be one upstream, mapped onto a shared group key so the sites that
 # read them are read one after the other.
@@ -217,8 +226,10 @@ def read_host(group, rec, done, fatal):
                 it.started = time.monotonic()
                 # `accounting` charges the requests to this module; `reading` claims every
                 # host they turn out to go to, page-derived ones included, and releases
-                # them when this site is done.
-                with common.accounting(it.module.name), common.reading(it.label):
+                # them when this site is done; `site_deadline` ends a site that runs past
+                # SITE_DEADLINE, and the others publish around it.
+                with common.accounting(it.module.name), common.reading(it.label), \
+                        common.site_deadline(SITE_DEADLINE):
                     it.per_venue = it.mod.fetch_site(it.site)
                 it.settled = True
             except Exception as e:

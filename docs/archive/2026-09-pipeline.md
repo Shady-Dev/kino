@@ -2376,3 +2376,27 @@ server confirms the http-to-http path end to end. `enrich_tmdb`, `indexnow` and
 `ci_verified` call fixed https endpoints with their own `urlopen` and are unchanged. Tests:
 `test_redirect_downgrade.py`, 6 tests, red on the unfixed code (no handler); 5 mutations,
 all red.
+
+### A cloud site's fetch has a wall-clock deadline, and a failed fetch step still commits (2026-09-25)
+
+Audit finding C1. Nothing bounded a request, a site or a run in wall-clock time: `timeout`
+is per socket operation, page loops catch and go on, and a host that answered its listing
+and then stalled cost 105 s per film page (3 x 30 s plus backoffs). The only bound was the
+job's 30 minutes, and Actions cancels before "Commit data and logs", so no cloud site's
+data or logs were committed while the host stayed stalled.
+
+`common.site_deadline(seconds)` bounds one site's fetch on its thread: every request's
+socket timeout is capped at what is left, a request or a retry sleep that would start past
+it raises `SiteDeadline` without being sent, and the body is read with `read1` and checked
+between chunks, so a host dripping one byte at a time ends too. An adapter that swallows it
+has it re-raised when the fetch ends, the rule `reading` follows for `HostBusy`.
+`run_cloud` wraps every site in `SITE_DEADLINE`, 300 s (`KINO_SITE_DEADLINE`, 0 turns it
+off): the longest site in 76 pooled runs to 2026-09-25 took 108 s. The site past it fails
+and keeps its files, and the rest publish, as around any failed site.
+
+`biorex.yml`: the fetch step gets `timeout-minutes: 20`, which fails the step instead of
+running into the job cap, and enrich, mirror, pages and commit run on `!cancelled()`, so a
+failed or timed-out fetch step still publishes what it finished while a cancelled run
+commits nothing. That a step timeout is a failure and not a cancellation is from GitHub's
+documentation; no run was dispatched to see it. Tests: `test_site_deadline.py`, a stalling
+and a dripping local server, 4 tests; 6 mutations, all red.

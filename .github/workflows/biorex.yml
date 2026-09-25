@@ -59,7 +59,11 @@ jobs:
       #
       # `mkdir -p logs` because a fresh checkout has the directory but this step is the
       # first writer in the run, and the tail loop below reads it either way.
+      # A step timeout fails this step and leaves the job running, where the job's own cap
+      # cancels it and nothing after runs. run_cloud.py bounds each site (SITE_DEADLINE),
+      # so this is the backstop for everything else in the process.
       - name: Fetch cloud providers
+        timeout-minutes: 20
         run: |
           set +e
           mkdir -p logs
@@ -69,7 +73,11 @@ jobs:
             echo "--- $f"
             tail -6 "$f"
           done
+      # `!cancelled()` on the four steps below: a fetch step that failed or timed out has
+      # still published every site it finished, and those files are committed rather than
+      # dropped (audit C1, 2026-09-25). A cancelled run commits nothing.
       - name: Enrich with TMDB
+        if: ${{ !cancelled() }}
         env:
           TMDB_TOKEN: ${{ secrets.TMDB_SECRET_TOKEN }}
         run: |
@@ -83,6 +91,7 @@ jobs:
       # same-origin in the markup this run generates. Pillow is installed for the
       # downscale only; the module docstring explains the downscale.
       - name: Mirror posters
+        if: ${{ !cancelled() }}
         run: |
           set +e
           # Pinned exactly: the runner installs this fresh every run, in a job that
@@ -97,6 +106,7 @@ jobs:
       # would otherwise be a run behind. Not gated on provider failure; a stale venue
       # still gets a page.
       - name: Build indexable pages
+        if: ${{ !cancelled() }}
         run: |
           set +e
           python3 scripts/build_pages.py > logs/run-pages.log 2>&1
@@ -105,6 +115,7 @@ jobs:
           echo "$code" > "$RUNNER_TEMP/pagesfail"
           tail -3 logs/run-pages.log
       - name: Commit data and logs
+        if: ${{ !cancelled() }}
         run: |
           git config user.name kino-bot && git config user.email a@b.c
           git add data logs teatteri kaupunki en sv sitemap.xml

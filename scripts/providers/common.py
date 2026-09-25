@@ -623,6 +623,67 @@ class BodyTooLarge(Exception):
     asking again downloads the same oversize answer at both ends' expense."""
 
 
+class SiteDeadline(RuntimeError):
+    """One site's fetch ran past its wall-clock deadline. Raised by `fetch` before a request
+    or a retry sleep that would start past it, and between the chunks of a body that is
+    still arriving, so a host that stops answering or drips its response ends one site
+    rather than the run. Re-raised when the site's fetch ends if the adapter caught it."""
+
+
+@contextlib.contextmanager
+def site_deadline(seconds):
+    """Bound one site's fetch to `seconds` of wall clock. -> context. None or 0: no bound.
+
+    `timeout` bounds each socket operation only, and an adapter's page loop catches and
+    goes on, so a host that stalls after its listing cost one site 105 s per film page and
+    could hold a cloud run past the job's 30-minute cap, where the commit step never ran
+    (audit C1, 2026-09-25). Inside this, every request's socket timeout is also capped at
+    what is left. Per thread, like `reading`.
+    """
+    prev = (getattr(_scopes, "deadline", None), getattr(_scopes, "deadline_hit", None))
+    _scopes.deadline = time.monotonic() + seconds if seconds else None
+    _scopes.deadline_hit = None
+    try:
+        yield
+    except Exception as e:
+        hit = _scopes.deadline_hit
+        _scopes.deadline, _scopes.deadline_hit = prev
+        if hit and not isinstance(e, SiteDeadline):
+            raise SiteDeadline(hit) from e
+        raise
+    except BaseException:
+        _scopes.deadline, _scopes.deadline_hit = prev
+        raise
+    hit = _scopes.deadline_hit
+    _scopes.deadline, _scopes.deadline_hit = prev
+    if hit:
+        raise SiteDeadline(hit)
+
+
+def _deadline_left():
+    """Seconds left on this thread's site deadline, or None when there is none."""
+    d = getattr(_scopes, "deadline", None)
+    return None if d is None else d - time.monotonic()
+
+
+def _pause(secs, url):
+    """A retry's backoff, unless it would end past the site's deadline: then the site
+    stops here rather than sleeping into a request it may not send."""
+    left = _deadline_left()
+    if left is not None and secs >= left:
+        _deadline_passed(url, "retry")
+    time.sleep(secs)
+
+
+def _deadline_passed(url, doing):
+    """Record and raise that the deadline is past. -> never returns."""
+    msg = (f"{url}: the site's {doing} would run past its fetch deadline; nothing more is "
+           f"read and the site keeps its previous files")
+    if getattr(_scopes, "deadline_hit", None) is None:
+        _scopes.deadline_hit = msg
+    raise SiteDeadline(msg)
+
+
 class DowngradeRefused(RuntimeError):
     """A redirect from https to http, refused before it is followed. Never retried: the
     same request gets the same redirect. CLAUDE.md: never follow an `https:` -> `http:`
@@ -659,10 +720,16 @@ def _read_capped(r, url, limit):
     if cl.isdigit() and int(cl) > limit:
         raise BodyTooLarge(f"{url}: Content-Length {cl} is past the {limit}-byte cap")
     chunks, total = [], 0
+    # read1 returns what has arrived, so a body that drips is still checked against the
+    # site deadline between chunks; read(n) would block until n bytes or the end.
+    read = getattr(r, "read1", None) or r.read
     while True:
-        chunk = r.read(65536)
+        chunk = read(65536)
         if not chunk:
             return b"".join(chunks)
+        left = _deadline_left()
+        if left is not None and left <= 0:
+            _deadline_passed(url, "response body")
         total += len(chunk)
         if total > limit:
             raise BodyTooLarge(f"{url}: body passed the {limit}-byte cap "
@@ -751,10 +818,15 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
 
     last = None
     for n in range(tries):
+        left = _deadline_left()
+        if left is not None and left <= 0:
+            _deadline_passed(url, "next request")
+        # Each socket operation is bounded by what is left of the site's deadline too.
+        t = timeout if left is None else max(0.05, min(timeout, left))
         try:
             req = urllib.request.Request(url, data=data, headers=hdrs)
             op = opener.open if opener is not None else _OPENER.open
-            with op(req, timeout=timeout) as r:
+            with op(req, timeout=t) as r:
                 _note_headers(r.headers)
                 body = _read_capped(r, url, limit)
                 if cache:
@@ -834,13 +906,13 @@ def fetch(url, headers=None, data=None, tries=3, backoff=5, timeout=30, opener=N
                     _log_refusal(e, url, n + 1)
                     raise
             if n + 1 < tries:
-                time.sleep(backoff * (n + 1) if wait is None else wait)
-        except (BodyTooLarge, DowngradeRefused):
+                _pause(backoff * (n + 1) if wait is None else wait, url)
+        except (BodyTooLarge, DowngradeRefused, SiteDeadline):
             raise
         except Exception as e:
             last = e
             if n + 1 < tries:
-                time.sleep(backoff * (n + 1))
+                _pause(backoff * (n + 1), url)
     if isinstance(last, urllib.error.HTTPError):
         _log_refusal(last, url, tries)
     raise last
