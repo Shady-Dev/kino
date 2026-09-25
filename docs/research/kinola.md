@@ -345,5 +345,10 @@ visitor (Engel's). The one-time check that a new link lands on the screening is 
 opening it in a browser, as a visitor would, and is never part of a run. Under this rule
 Myyri and Sheryl would publish their listing's `/checkout/{uuid}` like the other three.
 
-**Status.** Held: on 2026-09-26 the maintainer asked for the links to stay as they are for
-now. No ticket link was changed. Next step: the maintainer's decision on the proposal.
+**Status.** Decided 2026-09-26 by the maintainer, later the same day: Myyri and Sheryl
+publish the listing's exact checkout href, copied and resolved, never constructed and never
+requested, including for a one-time check in a browser; the film page stays the fallback
+for a sold-out row or one with no ticket anchor. The access rule in CLAUDE.md now says so.
+Refreshed the same day: Myyri 20 and Sheryl 13 showtimes carry checkout links, every one
+of them an href on that site's listing (Myyri's listing has 3 more, on rows the publication
+policy omits). The record is in `docs/archive/2026-09-providers.md`.

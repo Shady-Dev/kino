@@ -3203,3 +3203,22 @@ number. Refreshed: `run.py alatalo` (13 showtimes, 0 failures), `enrich_tmdb.py`
 `mirror_posters.py`, pages for the recorded date; all 17 rows are blank and no committed
 rating outside the classes remains. Tests in `test_alatalo.py`, `test_huvimylly.py` and
 `test_shared_rating.py`; 3 mutations, all red.
+
+### Myyri and Sheryl publish the listing's checkout link (2026-09-26)
+
+Audit finding A14. One platform gave two answers: Kilta, Laika and Orion linked each row's
+`/checkout/{uuid}` href, while Myyri and Sheryl opened the film page, their entries above
+reading "Booking, payment and administrative endpoints are never called" as keeping that
+link out ([research](../research/kinola.md)). The maintainer decided on 2026-09-26 that
+publishing a link the cinema's own public listing carries is not calling it. Myyri and
+Sheryl now copy and resolve the row's exact href through `_destination`, as Kilta and
+Laika do; nothing is constructed and the checkout page is never requested, in a run or
+once in a browser. A row marked sold out anywhere in its block, or with no ticket anchor,
+opens the film page. CLAUDE.md's "Access and ethics" and its link-check bullet now draw
+the line: a link obtainable only by calling such an endpoint, or with a credential a
+visitor is not issued (Engel), stays out. The Myyri and Sheryl entries above stand as the
+record of what was decided then. Refreshed with `run.py kinola` (4 venues, 157 showtimes,
+0 failures), then enrich, mirror and pages for the recorded date: Myyri's 20 and Sheryl's
+13 showtimes link their checkout, each an href on that listing. Tests in
+`test_kinola.py` for both sites, the runner tests asserting no request carries
+`/checkout/`; 4 mutations, all red.

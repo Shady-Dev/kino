@@ -102,10 +102,13 @@ on. Parsing failures and policy omissions are different claims and are kept apar
 Myyri prints the weekday, day and month, which `common.resolve_year` resolves; a row it
 cannot place raises.
 
-**Myyri's ticket link is not published.** `/checkout/{uuid}` is a booking endpoint, so the
-showtime opens the film page, where each screening carries its own buy button. Read
-2026-09-18: 26 screenings over 15 films, none sold out, so the sold-out branch is covered
-by fixture.
+**Myyri's and Sheryl's ticket link is the listing's own href.** Both rows carry a
+`/checkout/{uuid}` anchor, and since 2026-09-26, on the maintainer's decision, it is
+published like Kilta's and Laika's: copied from the listing and resolved against the site,
+never constructed and never requested. A sold-out row, or one with no ticket anchor, opens
+the film page. Until then both opened the film page; the record is in
+`docs/archive/2026-09-providers.md`. Read 2026-09-18: Myyri had 26 screenings over 15
+films, none sold out, so the sold-out branch is covered by fixture.
 
 **Myyri's synopsis declares its language.** Its film pages carry Finnish for some films and
 English for others, and the slot is keyed by normalised title and read by every chain
@@ -192,9 +195,9 @@ SITES = [
      "listing": "/ohjelmisto/", "template": "laika",
      "venues": [{"id": "laika-karkkila", "name": "Kino Laika", "short": "Kino Laika",
                  "city": "Karkkila"}]},
-    # Added 2026-09-18. Differences from Laika are in `events_myyri`: no year on the row,
-    # and a checkout ticket link this repo does not publish. `declare_syn` makes the
-    # synopsis carry a language, because this site's film pages are not all Finnish.
+    # Added 2026-09-18. Differences from Laika are in `events_myyri`: no year on the row.
+    # `declare_syn` makes the synopsis carry a language, because this site's film pages
+    # are not all Finnish.
     {"provider": "kinomyyri", "label": "Kino Myyri", "base": "https://kinomyyri.fi",
      "listing": "/ohjelmisto/", "template": "myyri", "declare_syn": True,
      "venues": [{"id": "myyri-vantaa", "name": "Kino Myyri", "short": "Kino Myyri",
@@ -203,7 +206,7 @@ SITES = [
     # fourth tenant of this platform. `listing: "/"`: its `/ohjelmisto/` answers 404 and
     # the front page is where the `kinola-event` blocks are, 71 of them when read. The
     # plugin runs in English here, which is what `sheryl` template reads; everything else
-    # is Myyri's, including the `/checkout/{uuid}` link this repo does not publish.
+    # is Myyri's, including the `/checkout/{uuid}` link copied from the listing.
     {"provider": "sheryl", "label": "Cinema Sheryl", "base": "https://sheryl.fi",
      "listing": "/", "template": "sheryl", "declare_syn": True,
      "venues": [{"id": "sheryl-espoo", "name": "Cinema Sheryl", "short": "Cinema Sheryl",
@@ -481,10 +484,10 @@ def _events_no_year(page, site, today, date_re, weekday):
     no candidate year carries, or a date outside `MYYRI_WINDOW`, raises: a block this
     parser cannot place is a screening it would otherwise drop.
 
-    Both ticket links are `/checkout/{uuid}`, a booking endpoint, which "Access and
-    ethics" in CLAUDE.md keeps this repo out of. The showtime opens the film page, which
-    is public and carries each screening's own buy button. The sold-out marker is still
-    read. `weekday` maps the row's own weekday name to an index, because the two templates
+    The ticket link is the row's own `/checkout/{uuid}` href, copied and resolved by
+    `_destination` and never requested ("Access and ethics" in CLAUDE.md). A row marked
+    sold out anywhere in its block, or carrying no ticket anchor, opens the film page.
+    `weekday` maps the row's own weekday name to an index, because the two templates
     print it in different languages.
     """
     today = today or datetime.datetime.now(FI).date()
@@ -510,9 +513,11 @@ def _events_no_year(page, site, today, date_re, weekday):
             raise _row_fault(site, n, "calendar date", dtxt, title) from e
         pm = POSTER_RE.search(b)
         src = SRC_RE.search(pm.group(0)) if pm else None
+        sold = bool(SOLD_OUT_RE.search(b))
         out.append({"slug": slug, "title": title, "film_url": film_url,
-                    "start": start.isoformat(), "url": film_url,
-                    "soldOut": bool(SOLD_OUT_RE.search(b)),
+                    "start": start.isoformat(),
+                    "url": film_url if sold else _destination(b, site["base"], film_url)[0],
+                    "soldOut": sold,
                     "method": "", "len": "",
                     "img": urljoin(site["base"], html_mod.unescape(src.group(1)))
                            if src else ""})

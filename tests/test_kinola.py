@@ -75,16 +75,18 @@ def laika_row(slug, title, date="16/09/2026 14:00", sold=False,
 
 
 def myyri_row(slug, title, when, time="19:30", sold=False, poster=True,
-              checkout="2e4097de-cb51-4d0a-9fc6-28b1fd66ca38", date=None):
-    """`when` is a date; the row prints its weekday, day and month and no year."""
+              checkout="2e4097de-cb51-4d0a-9fc6-28b1fd66ca38", date=None, href=None,
+              no_ticket=False):
+    """`when` is a date; the row prints its weekday, day and month and no year. `href`
+    replaces the ticket anchor's href as printed; `no_ticket` drops the anchor."""
     date = date if date is not None else f"{FI_WD[when.weekday()]} {when.day}.{when.month}. klo {time}"
     img = (f'<img decoding="async" src="https://media.kinola.ee/storage/myyri.kinola.ee/'
            f'3786/{slug}_poster.jpg?width=1000&quality=85" width="100px" height="150px" '
            f'style="float: left;" class="kinola-event-poster"/>' if poster else "")
     ticket = ('<p><span class="kinola-event-tickets-link-sold-out">Loppuunmyyty</span></p>'
-              if sold else
+              if sold else "" if no_ticket else
               f'<p><a class="kinola-event-tickets-link" '
-              f'href="https://kinomyyri.fi/checkout/{checkout}">Osta lippu</a></p>')
+              f'href="{href or f"https://kinomyyri.fi/checkout/{checkout}"}">Osta lippu</a></p>')
     return (f'<div class="kinola-event" style="padding: 10px 20px;">{img}'
             f'<div class="kinola-event-details"><p>'
             f'<a class="kinola-event-title" href="https://kinomyyri.fi/film/{slug}/">'
@@ -117,7 +119,8 @@ SHERYL = next(s for s in K.SITES if s["provider"] == "sheryl")
 EN_WD = ("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
 
 
-def sheryl_row(slug, title, when, time="15:00", poster=True, date=None, lang="fi"):
+def sheryl_row(slug, title, when, time="15:00", poster=True, date=None, lang="fi",
+               sold=False, no_ticket=False):
     """Sheryl's block is Myyri's with a different date string and a `-buy` ticket class.
 
     `lang` picks which of the two the site serves: it localises the weekday to whatever
@@ -135,9 +138,12 @@ def sheryl_row(slug, title, when, time="15:00", poster=True, date=None, lang="fi
             f'<span class="kinola-event-date">{date}</span>'
             f'<a class="kinola-event-title" href="https://sheryl.fi/film/{slug}/">'
             f'{title}</a>'
-            f'<span class="kinola-event-tickets"><a class="kinola-event-tickets-link-buy" '
-            f'href="https://sheryl.fi/checkout/0112a866-2646-4310-b698-a6e5b1b84666">'
-            f'Buy</a></span></div></div>')
+            + ('<span class="kinola-event-tickets-link-sold-out">Sold out</span>' if sold
+               else "" if no_ticket else
+               f'<span class="kinola-event-tickets"><a class="kinola-event-tickets-link-buy" '
+               f'href="https://sheryl.fi/checkout/0112a866-2646-4310-b698-a6e5b1b84666">'
+               f'Buy</a></span>')
+            + '</div></div>')
 
 
 def sheryl_film(director="Wong Kar-wai", rating="K-12", syn=None):
@@ -408,7 +414,8 @@ class LaikaListingTest(unittest.TestCase):
 # ---------------------------------------------------------------- listing integrity
 
 class MyyriListingTest(unittest.TestCase):
-    """The row prints no year, so the weekday selects it and the film page is the link."""
+    """The row prints no year, so the weekday selects it; the listing's checkout href is
+    the link, the film page when there is none."""
 
     TODAY = datetime.date(2026, 9, 18)          # a Friday
 
@@ -438,14 +445,36 @@ class MyyriListingTest(unittest.TestCase):
         with self.assertRaises(K.ListingRowError):
             self.rows(myyri_row("a", "A", None, date="ti 1.6. klo 19:30"))
 
-    def test_the_screening_links_to_the_film_page_and_never_to_checkout(self):
-        rows = self.rows(myyri_row("hanuman", "Hanuman Ansh", self.TODAY),
-                         myyri_row("father", "F", self.TODAY, time="12:00", sold=True))
+    def test_a_row_on_sale_links_to_the_checkout_href_the_listing_prints(self):
+        """Decided 2026-09-26: the listing's own href, copied; nothing is built."""
+        rows = self.rows(myyri_row("hanuman", "Hanuman Ansh", self.TODAY, checkout="u-1"),
+                         myyri_row("father", "F", self.TODAY, time="12:00", checkout="u-2"))
         self.assertEqual([r["url"] for r in rows],
-                         ["https://kinomyyri.fi/film/hanuman/",
-                          "https://kinomyyri.fi/film/father/"])
-        self.assertNotIn("checkout", " ".join(r["url"] for r in rows))
-        self.assertEqual([r["soldOut"] for r in rows], [False, True])
+                         ["https://kinomyyri.fi/checkout/u-1",
+                          "https://kinomyyri.fi/checkout/u-2"])
+        self.assertEqual([r["soldOut"] for r in rows], [False, False])
+
+    def test_a_relative_href_is_resolved_against_the_site_as_printed(self):
+        [row] = self.rows(myyri_row("a", "A", self.TODAY,
+                                    href="/checkout/u-3?lang=fi&amp;x=1#tickets"))
+        self.assertEqual(row["url"], "https://kinomyyri.fi/checkout/u-3?lang=fi&x=1#tickets")
+
+    def test_a_sold_out_marker_beside_a_live_anchor_still_opens_the_film_page(self):
+        """Not seen on the site; the marker anywhere in the block decides, so a checkout
+        left beside it is not published."""
+        row = myyri_row("father", "F", self.TODAY).replace(
+            "</div></div>", '<span class="kinola-event-tickets-link-sold-out">'
+                            'Loppuunmyyty</span></div></div>')
+        [r] = self.rows(row)
+        self.assertEqual((r["url"], r["soldOut"]), ("https://kinomyyri.fi/film/father/", True))
+
+    def test_a_sold_out_row_or_one_with_no_anchor_opens_the_film_page(self):
+        rows = self.rows(myyri_row("father", "F", self.TODAY, time="12:00", sold=True),
+                         myyri_row("hanuman", "H", self.TODAY, no_ticket=True))
+        self.assertEqual([r["url"] for r in rows],
+                         ["https://kinomyyri.fi/film/father/",
+                          "https://kinomyyri.fi/film/hanuman/"])
+        self.assertEqual([r["soldOut"] for r in rows], [True, False])
 
     def test_the_poster_comes_off_the_row(self):
         [a, b] = self.rows(myyri_row("hanuman", "A", self.TODAY),
@@ -1492,15 +1521,14 @@ class RunnerTest(unittest.TestCase):
     def myyri(self, page):
         return self.both(**{"https://kinomyyri.fi/ohjelmisto/": page})
 
-    def test_myyri_publishes_and_links_to_the_film_page(self):
+    def test_myyri_publishes_the_listings_checkout_link_and_never_requests_it(self):
         self.serve(self.both())
         code, log = self.main()
         self.assertEqual(code, 0, log)
         shows = json.loads((run.OUT / "area-myyri-vantaa.json").read_text())["shows"]
         self.assertEqual([s["title"] for s in shows], ["Hanuman Ansh", "Autofiktio"])
-        self.assertEqual([s["url"] for s in shows],
-                         ["https://kinomyyri.fi/film/hanuman/",
-                          "https://kinomyyri.fi/film/autofiktio/"])
+        self.assertTrue(all(s["url"].startswith("https://kinomyyri.fi/checkout/")
+                            for s in shows), [s["url"] for s in shows])
         self.assertEqual({s["price"] for s in shows}, {""})
         self.assertEqual({s["len"] for s in shows}, {"150"})
         self.assertTrue(all(s["img"].startswith("https://media.kinola.ee/")
@@ -1524,8 +1552,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual([s["title"] for s in shows],
                          ["Chungking Express", "Resident Evil"])
         self.assertEqual([s["url"] for s in shows],
-                         ["https://sheryl.fi/film/chungking/",
-                          "https://sheryl.fi/film/resident-evil/"])
+                         ["https://sheryl.fi/checkout/0112a866-2646-4310-b698-a6e5b1b84666"] * 2)
         self.assertEqual([c for c in self.calls if "checkout" in c], [])
         self.assertNotIn("kinokilta.fi", " ".join(self.calls))
 
@@ -1674,10 +1701,19 @@ class SherylTemplateTest(unittest.TestCase):
         with self.assertRaises(K.ListingRowError):
             self.rows(sheryl_row("a", "A", None, date="joskus ensi viikolla"))
 
-    def test_the_showtime_opens_the_film_page_and_never_the_checkout(self):
+    def test_the_showtime_links_to_the_listings_checkout_href(self):
+        """Sheryl's anchor class is `kinola-event-tickets-link-buy`; its href is copied."""
         [row] = self.rows(sheryl_row("chungking", "C", datetime.date(2026, 9, 20)))
-        self.assertEqual(row["url"], "https://sheryl.fi/film/chungking/")
-        self.assertNotIn("checkout", row["url"])
+        self.assertEqual(row["url"],
+                         "https://sheryl.fi/checkout/0112a866-2646-4310-b698-a6e5b1b84666")
+
+    def test_a_sold_out_row_or_one_with_no_anchor_opens_the_film_page(self):
+        rows = self.rows(sheryl_row("chungking", "C", datetime.date(2026, 9, 20), sold=True),
+                         sheryl_row("evil", "E", datetime.date(2026, 9, 20), time="19:00",
+                                    no_ticket=True))
+        self.assertEqual([(r["url"], r["soldOut"]) for r in rows],
+                         [("https://sheryl.fi/film/chungking/", True),
+                          ("https://sheryl.fi/film/evil/", False)])
 
     def test_the_listing_poster_is_read(self):
         [a, b] = self.rows(sheryl_row("a", "A", datetime.date(2026, 9, 20)),

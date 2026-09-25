@@ -91,14 +91,6 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min
 late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub runs them.
 
-### Kinola ticket links: one platform, two answers
-
-Kilta, Laika and Orion link the listing's `/checkout/{uuid}` (143 showtimes); Myyri and
-Sheryl open the film page (33). Proposal: link a purchase page the public listing carries,
-copied, never requested; keep out one needing a booking endpoint or unissued credential
-(Engel). Held 2026-09-26; [docs/research/kinola.md](docs/research/kinola.md).
-**Unblocks when:** the maintainer decides; either answer is one change in `kinola.py`.
-
 ### Kino Helios publishes no screening language this adapter can read
 
 Its calendar service has no language field, and the ticket shop it links to refuses a
