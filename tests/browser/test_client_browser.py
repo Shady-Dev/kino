@@ -1033,6 +1033,81 @@ class ChainFilterEmptiesTheListOnAPhone(ChainFilterEmptiesTheList):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class ChainPickOnAnotherDay(Browser):
+    """A chain picked on a day without the isolated one adds to the pick.
+
+    `toggleChain` cleared the filter when the pick's size equalled the day's chain count,
+    so with Finnkino isolated, one click on Orion on 16.9. (Orion and Riviera, no Finnkino)
+    counted two of two, showed both chains and dropped the Finnkino pick (prior review #27).
+    Three Helsinki chains: Promenadi's fixture as Itis, Orion, and Orion's rows as Riviera
+    Kallio, whose venue list is served here too.
+    """
+
+    def setUp(self):
+        itis = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        for sh in itis["shows"]:
+            sh["venue"] = "1162"
+        riviera = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        for sh in riviera["shows"]:
+            sh.update(provider="riviera", venue="rv-kallio", url=sh["url"] + "&rv=1")
+        venues = {"generated": riviera["generated"], "oldest": riviera["generated"],
+                  "status": "ok", "stale": [], "unverified": [], "pending": [],
+                  "provider": "riviera", "venues": [{"id": "rv-kallio", "name": "Riviera Kallio",
+                                                     "short": "Kallio", "city": "Helsinki"}]}
+        Handler.body = {"area-1162.json": json.dumps(itis).encode("utf-8"),
+                        "area-rv-kallio.json": json.dumps(riviera).encode("utf-8"),
+                        "venues-riviera.json": json.dumps(venues).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def chains_shown(self):
+        return sorted(set(self.page.locator("#main a.stub").evaluate_all(
+            "els => els.map(a => a.dataset.prov)")))
+
+    def legend(self, name):
+        return self.page.locator("#main .legend.top .lg-btn", has_text=name)
+
+    def day(self, dm):
+        self.page.locator("#days .day", has_text=dm).first.click()
+
+    def pick_on_another_day(self, view):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        if view == "times":
+            self.page.locator("#segTimes").click()
+        self.legend("Finnkino").click()
+        self.day("16.9.")
+        expect(self.legend("Riviera")).to_have_count(1)
+        self.assertEqual(self.chains_shown(), [])
+        self.legend("Orion").click()
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        self.assertEqual(self.chains_shown(), ["orion"], "one click showed every chain")
+        expect(self.page.locator("#main .legend.top .lg-all")).to_be_visible()
+        expect(self.legend("Orion")).to_have_attribute("aria-pressed", "true")
+        expect(self.legend("Riviera")).to_have_attribute("aria-pressed", "false")
+        self.day("17.9.")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        self.assertEqual(self.chains_shown(), ["finnkino", "orion"], "the Finnkino pick was dropped")
+
+    def test_leffat(self):
+        self.pick_on_another_day("list")
+
+    def test_ajat(self):
+        self.pick_on_another_day("times")
+
+    def test_turning_the_days_last_pick_off_clears_the_filter(self):
+        """The rule's other half, unchanged: no chain of the day picked means no filter."""
+        self.pick_on_another_day("list")
+        self.day("16.9.")
+        self.legend("Orion").click()
+        expect(self.page.locator("#main .legend.top .lg-all")).to_have_count(0)
+        self.assertEqual(self.chains_shown(), ["orion", "riviera"])
+
+
+class ChainPickOnAnotherDayOnAPhone(ChainPickOnAnotherDay):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class EmptyDayNamesItsDay(Browser):
     """The Finnish empty-day line names the selected day by its chip's label.
 

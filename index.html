@@ -3905,12 +3905,16 @@
 
   // Additive filter: from the default (no selection, everything shown) the first click
   // isolates that chain rather than hiding it, then each further click adds one. Clicking
-  // the last remaining chain off, or selecting them all, means "no filter" again.
+  // the last remaining chain off, or selecting them all, means "no filter" again. `all` is
+  // the day's chains, and a chain picked on another day stays picked: counting it made one
+  // click on a day without it read as "all of them" and showed every chain (prior
+  // review #27).
   function toggleChain(c, all){
     if(c === '*'){ state.chains = null; render(); return; }
     const set = state.chains ? new Set(state.chains) : new Set();
     set.has(c) ? set.delete(c) : set.add(c);
-    state.chains = (set.size === 0 || set.size === all.length) ? null : set;
+    const onDay = all.filter(x => set.has(x)).length;
+    state.chains = (onDay === 0 || (onDay === all.length && set.size === all.length)) ? null : set;
     render();
   }
   main.addEventListener('click', e => {
