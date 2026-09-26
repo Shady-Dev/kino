@@ -7,7 +7,9 @@ value stayed stored for good. Anything that is not a plain object now reads as `
 the next `set` overwrites it. The key is unchanged: renaming `kino-prefs` would wipe
 every reader's saved venue, star and view.
 
-Sliced verbatim out of index.html by tests/prefs_harness.js.
+Sliced verbatim out of index.html by tests/prefs_harness.js. The status page reads the
+same key with the same guard: without it a stored `null` left that page on its checking
+state with no language buttons (prior review #20).
 """
 import json
 import pathlib
@@ -23,9 +25,11 @@ HARNESS = pathlib.Path(__file__).resolve().parent / "prefs_harness.js"
 
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
 class PrefsStoreTest(unittest.TestCase):
+    PAGE = "index.html"
+
     @classmethod
     def setUpClass(cls):
-        out = subprocess.run(["node", str(HARNESS)], capture_output=True, text=True,
+        out = subprocess.run(["node", str(HARNESS), cls.PAGE], capture_output=True, text=True,
                              cwd=str(_ctx.ROOT), timeout=60)
         if out.returncode:
             raise AssertionError(f"harness failed: {out.stderr}")
@@ -64,6 +68,10 @@ class PrefsStoreTest(unittest.TestCase):
         for k, v in self.r.items():
             with self.subTest(stored=k):
                 self.assertEqual(v["keys"], ["kino-prefs"])
+
+
+class StatusPagePrefsStoreTest(PrefsStoreTest):
+    PAGE = "status/index.html"
 
 
 if __name__ == "__main__":

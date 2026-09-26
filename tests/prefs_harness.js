@@ -1,7 +1,8 @@
-// Runs index.html's own `prefs` against stored values the page did not write.
+// Runs a page's own `prefs` against stored values the page did not write: index.html by
+// default, or the page named as the first argument (status/index.html).
 // Driven by tests/test_prefs_store.py; prints one JSON line.
 //
-// Sliced verbatim out of index.html between its marker comments and evaluated against a
+// Sliced verbatim out of the page between its marker comments and evaluated against a
 // Map standing in for localStorage, so each case starts from exactly the stored string it
 // names and the test reads back exactly what `set` left behind.
 'use strict';
@@ -9,14 +10,15 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const PAGE = process.argv[2] || 'index.html';
+const HTML = fs.readFileSync(path.join(__dirname, '..', PAGE), 'utf8');
 const START = '// --- prefs: pure, extracted verbatim by tests/prefs_harness.js ---';
 const END = '// --- end prefs ---';
 
 const a = HTML.indexOf(START);
 const b = HTML.indexOf(END);
 if (a === -1 || b === -1 || b < a) {
-  console.error('prefs markers not found in index.html');
+  console.error(`prefs markers not found in ${PAGE}`);
   process.exit(2);
 }
 const source = HTML.slice(a, b);

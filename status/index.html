@@ -433,10 +433,19 @@
   /* ---------- language and the way back ----------
      `area` is read and passed on, never written: arriving here from a cinema and going
      back must land on that cinema, and must not promote it to the saved favourite. */
+  // --- prefs: pure, extracted verbatim by tests/prefs_harness.js ---
+  // The app's guard: anything stored that is not a plain object reads as {}. A stored
+  // `null` made `prefs.get().lang` throw at boot and the page never left its checking state.
   const prefs = {
-    get(){ try{ return JSON.parse(localStorage.getItem('kino-prefs') || '{}'); }catch(e){ return {}; } },
+    get(){
+      try{
+        const v = JSON.parse(localStorage.getItem('kino-prefs')||'{}');
+        return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+      }catch(e){ return {}; }
+    },
     set(p){ try{ localStorage.setItem('kino-prefs', JSON.stringify(Object.assign(prefs.get(), p))); }catch(e){} }
   };
+  // --- end prefs ---
   let param = new URLSearchParams('');
   try { param = new URLSearchParams(location.search); } catch(e){}
   const areaParam = param.get('area') || '';

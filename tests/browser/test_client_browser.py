@@ -1163,6 +1163,24 @@ class MalformedStoredPrefsOnAPhone(MalformedStoredPrefs):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class StatusPageStoredNull(Browser):
+    """A stored `kino-prefs` of `null` no longer stops the status page.
+
+    Its `prefs.get` returned what `JSON.parse` gave, so `prefs.get().lang` threw at boot and
+    the page stayed on "Tarkistetaan…" with no language buttons (prior review #20).
+    """
+
+    def test_the_page_draws_its_summary_and_language_buttons(self):
+        self.page.evaluate("localStorage.setItem('kino-prefs', 'null')")
+        self.page.goto(self.origin + "/status/")
+        expect(self.page.locator("#langSeg button")).to_have_count(3)
+        expect(self.page.locator("#summaryTitle")).not_to_have_text("Tarkistetaan…")
+
+
+class StatusPageStoredNullOnAPhone(StatusPageStoredNull):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class MetadataAfterAFailedRead(Browser):
     """A genre or title map that failed to load is read again on the next resume.
 
