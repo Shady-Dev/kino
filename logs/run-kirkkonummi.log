@@ -1,8 +1,8 @@
-[kirkkonummi] 7 showtimes, 4 films, 6 dates
-[kirkkonummi] Kino Kirkkonummi: 7 showtimes, 6 dates
+[kirkkonummi] 6 showtimes, 4 films, 5 dates
+[kirkkonummi] Kino Kirkkonummi: 6 showtimes, 5 dates
 [kirkkonummi] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- kinokirkkonummi.fi
-[run] kirkkonummi: 1 venues, 7 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.7s of fetching added up across workers that overlap, longest site 1.7s, longest queue wait 77.8s, 1.7s wall from this module's first fetch starting to its last ending
+[run] kirkkonummi: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.5s of fetching added up across workers that overlap, longest site 1.5s, longest queue wait 86.6s, 1.5s wall from this module's first fetch starting to its last ending
 exit=0

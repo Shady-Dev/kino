@@ -22,12 +22,12 @@
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 12 screening(s) in day groups, 6 film page(s) read
-[kinovirta] Kino Virta: 12 showtimes, 4 dates
-[kinovirta] Kino Virta: 12 showtimes, 4 dates
+[kinovirta] 11 screening(s) in day groups, 6 film page(s) read
+[kinovirta] Kino Virta: 11 showtimes, 4 dates
+[kinovirta] Kino Virta: 11 showtimes, 4 dates
 [kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 55 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 129 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 119.8s of fetching added up across workers that overlap, longest site 44.3s, longest queue wait 96.7s, 50.9s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 128 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 137.4s of fetching added up across workers that overlap, longest site 49.1s, longest queue wait 107.5s, 54.6s wall from this module's first fetch starting to its last ending
 exit=0

@@ -36,5 +36,5 @@
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 3 venue(s) with no programme yet: km-petajavesi, km-tikkakoski, km-vaajakoski
 [run] nexxo: 10 venues, 149 showtimes, 0 stale, 0 unverified, 3 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 36.3s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
+[run] timing: 8 site(s), 39.4s of fetching added up across workers that overlap, longest site 11.0s, longest queue wait 0.0s, 11.0s wall from this module's first fetch starting to its last ending
 exit=0
