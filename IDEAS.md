@@ -91,6 +91,14 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min
 late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub runs them.
 
+### films-extra.json keeps every film it ever held
+
+Nothing prunes it or `tmdb-titles.json`. 192 of 573 entries are dormant, 26% of the 172 KB
+gzipped a film sheet downloads, and hand and cinema text sit beside TMDB's in them. Four
+options measured in [docs/research/films-extra-retention.md](docs/research/films-extra-retention.md);
+recommended: project TMDB fields into films-extra for live titles only and keep all text.
+**Unblocks when:** the maintainer picks an option. Nothing is built before then.
+
 ### Kino Helios publishes no screening language this adapter can read
 
 Its calendar service has no language field, and the ticket shop it links to refuses a
