@@ -5,5 +5,5 @@
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.hamina.fi
 [run] hamina: 1 venues, 18 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 4.3s of fetching added up across workers that overlap, longest site 4.3s, longest queue wait 112.7s, 4.3s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 2.8s of fetching added up across workers that overlap, longest site 2.8s, longest queue wait 114.1s, 2.8s wall from this module's first fetch starting to its last ending
 exit=0

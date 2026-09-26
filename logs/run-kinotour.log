@@ -1,6 +1,6 @@
-[http] 500 from www.kinotour.fi, gave up after 3 attempt(s) -- Server: LiteSpeed
-[kinotour] FAILED: HTTP Error 500: Internal Server Error
+[kinotour] FAILED: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: no screening row in the table. No empty programme has been seen here, so there is no evidence of one to read this as, and the previous files stand
+[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
 [run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 17.6s of fetching added up across workers that overlap, longest site 17.6s, longest queue wait 117.0s, 17.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 1.8s of fetching added up across workers that overlap, longest site 1.8s, longest queue wait 117.0s, 1.8s wall from this module's first fetch starting to its last ending
 exit=1
