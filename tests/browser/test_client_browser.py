@@ -985,6 +985,54 @@ class TimesViewChainLegendOnAPhone(TimesViewChainLegend):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class ChainFilterEmptiesTheList(Browser):
+    """A list the chain filter emptied says so, and keeps its legend in Leffat.
+
+    `emptyMsg` ignored `state.chains`: with Finnkino isolated, 16.9., which only Orion
+    plays, read "Valitussa teatterissa ei ole näytöksiä ke 16.9." (prior review #27).
+    Leffat's empty list also dropped the legend Ajat's keeps. Promenadi's fixture file is
+    served as Itis Helsinki for a second chain, as in TimesViewChainLegend.
+    """
+    NOMATCH = "Valitulle päivälle ei löytynyt näytöksiä näillä hakuehdoilla."
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        for sh in doc["shows"]:
+            sh["venue"] = "1162"
+        Handler.body = {"area-1162.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def status(self):
+        return self.page.locator("#main .status").first
+
+    def test_a_day_the_isolated_chain_skips_blames_the_filter(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        self.page.locator("#main .legend.top .lg-btn", has_text="Finnkino").click()
+        self.page.locator("#days .day", has_text="16.9.").first.click()
+        expect(self.status()).to_contain_text(self.NOMATCH)
+        expect(self.status()).to_contain_text("Suodattimet: Finnkino")
+        self.assertNotIn("ei ole näytöksiä", self.status().text_content())
+        self.page.locator("#segTimes").click()
+        expect(self.status()).to_contain_text(self.NOMATCH)
+
+    def test_the_legend_stays_above_an_emptied_list(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        self.page.locator("#main .legend.top .lg-btn", has_text="Orion").click()
+        self.page.locator("#search").fill("qqqq")
+        expect(self.status()).to_contain_text(self.NOMATCH)
+        expect(self.page.locator("#main .legend.top .lg-btn:not(.lg-all)")).to_have_count(2)
+        self.page.locator("#main .legend.top .lg-all").click()
+        expect(self.page.locator("#main .legend.top .lg-all")).to_have_count(0)
+        expect(self.status()).not_to_contain_text("Finnkino")
+
+
+class ChainFilterEmptiesTheListOnAPhone(ChainFilterEmptiesTheList):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class EmptyDayNamesItsDay(Browser):
     """The Finnish empty-day line names the selected day by its chip's label.
 

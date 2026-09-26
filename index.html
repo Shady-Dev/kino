@@ -3985,7 +3985,9 @@
     // Ahead of the generic filter message: the time restriction is the one the reader
     // just set, and it is the one the action below clears.
     if(state.view === 'times' && state.minTime && state.timeEmptied) return t.tNone;
-    if(state.filter || state.fLang || state.fKids || state.fAnnis) return t.nomatch;
+    // A chain filter counts, as in anyFilter(): with Finnkino isolated, a day only Orion
+    // plays read "no shows at the selected theatre".
+    if(state.filter || state.fLang || state.fKids || state.fAnnis || state.chains) return t.nomatch;
     if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
     // The selected day by its chip's own label: "tänään" here named a day that is not
@@ -4336,18 +4338,20 @@
     }
     const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
 
+    const multiTheatre = labelVenues(state.shows);
+    const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
+    // The legend stays above an emptied list, as in Ajat, so a chain filter that emptied
+    // it can be undone where it was set.
     if(!movies.length){
       setListStatus(emptyStatus());
-      main.innerHTML = `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
+      main.innerHTML = listLegend + `<div class="status" data-nosnippet>${emptyMsg()}${emptyContext()}${emptyActions()}</div>`;
       return;
     }
 
-    const multiTheatre = labelVenues(state.shows);
     const tintedList = multiTheatre;
     // Same title at two chains is one film: sort by the earliest showtime overall.
     if(multiTheatre) movies.forEach(m => m.times.sort((a,b)=>a.start-b.start));
 
-    const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
     // A film whose every screening has passed is not the same as one still to come. Rather
     // than dimming it in place, where it reads as a broken card, group them at the end
     // under one heading. Said once, not annotated on every card.
