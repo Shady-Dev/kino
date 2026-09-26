@@ -77,6 +77,14 @@ class StatusStoreTest(unittest.TestCase):
         self.assertNotIn("/data/venues-orion.json", r["paths"])
         self.assertEqual(r["metsoPending"], 1, "taken from the provider's own file")
 
+    def test_finnkino_ages_on_the_weakest_venue_areas_json_names(self):
+        """fetch_data.py stamped areas.json on every run, a venue kept from an earlier
+        run included, so Finnkino read as fresh as its newest venue (prior review #17)."""
+        r = self.r["finnkino_oldest"]
+        self.assertEqual(r["kept"], "2026-09-06T20:00:00+00:00")
+        self.assertEqual(r["generated"], "2026-09-07T06:00:00+00:00")
+        self.assertEqual(r["legacy"], "2026-09-07T06:00:00+00:00", "no `oldest`: `generated`")
+
     def test_a_refreshed_combined_file_updates_its_providers_from_the_cache(self):
         """The live path: a worker message for a combined file updates every provider in
         it, never asks the network, and an older entry does not replace a newer one."""

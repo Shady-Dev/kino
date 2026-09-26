@@ -589,7 +589,7 @@ def main() -> int:
         print("ERROR: no sites", file=sys.stderr); return 1
     sites.sort(key=lambda s: s["name"])
     print(f"[sites] {len(sites)} cinemas")
-    # areas.json is written down with the schedule files, not here. It is the file whose
+    # areas.json is written after the schedule files, not here. It is the file whose
     # age answers "when did Finnkino last refresh", so stamping it on a run that then
     # publishes no schedule would say the data is current while it is not.
 
@@ -846,8 +846,6 @@ def main() -> int:
         print(f"[attrs] dropped, neither format nor language ({len(unknown_attrs)}): "
               + " | ".join(sorted(unknown_attrs)))
 
-    common.write_json(out / "areas.json", {"generated": now, "areas": sites})
-
     written = kept = 0
     today_iso = datetime.date.today().isoformat()
     for sid, shows in per_site.items():
@@ -881,6 +879,22 @@ def main() -> int:
                            "shows": shows})
         written += 1
     print(f"[schedule] {written} venue files written, {kept} kept as-is")
+
+    # `generated` is this publish, which check_staleness.py reads as "a run happened".
+    # `oldest` is the weakest venue file on disk, run.py's rule for every other provider:
+    # a venue kept from an earlier run stamped areas.json fresh, and the status page
+    # called Finnkino as current as its newest venue (prior review #17).
+    stamps = []
+    for s in sites:
+        path = out / f"area-{s['id']}.json"
+        if path.exists():
+            try:
+                stamps.append(json.loads(path.read_text()).get("generated") or now)
+            except (OSError, ValueError, AttributeError):
+                stamps.append(now)
+    common.write_json(out / "areas.json",
+                      {"generated": now, "oldest": min(stamps) if stamps else now,
+                       "areas": sites})
     print("done")
     return 0
 

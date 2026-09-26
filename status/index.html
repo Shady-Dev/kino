@@ -681,11 +681,13 @@
       };
     }
 
-    // areas.json is Finnkino in the legacy numeric shape, with no per-venue arrays.
+    // areas.json is Finnkino in the legacy numeric shape, with no per-venue arrays. Its
+    // `oldest` is the weakest venue file, as in every provider file; normalise() falls
+    // back to `generated` for a file written before the field.
     function fromAreas(j){
       const areas = (j.areas || []).filter(x => x.id && x.id !== '1029');
       if(!areas.length) return null;
-      return normalise({ generated: j.generated, oldest: j.generated, status: 'ok',
+      return normalise({ generated: j.generated, oldest: j.oldest, status: 'ok',
                          venues: areas.map(x => ({ id: x.id, name: x.name })) });
     }
     const pathFor = id => id === 'finnkino' ? '/data/areas.json' : `/data/venues-${id}.json`;

@@ -191,6 +191,26 @@ class SpentFileTest(unittest.TestCase):
         self.assertEqual(fetch_data.main(), 0)
         self.assertEqual(self.published()["dates"], [])
 
+    # -- areas.json ages on the venue it kept (prior review #17) ----------------------------
+
+    def test_areas_json_ages_on_the_venue_it_kept(self):
+        """Site 1 refreshes, site 2 keeps its 2020 file. `generated` is this run, which
+        check_staleness.py reads as a run having happened; `oldest` is site 2's stamp."""
+        self.seed(self.seeded_file(self.day(3)))
+        self.assertEqual(fetch_data.main(), 0)
+        areas = self.published("areas.json")
+        self.assertEqual(areas["oldest"], "2020-01-01T00:00:00+00:00")
+        self.assertEqual(areas["generated"], self.published("area-1.json")["generated"])
+        self.assertNotEqual(areas["generated"], areas["oldest"])
+        self.assertEqual([a["id"] for a in areas["areas"]], ["2", "1"])
+
+    def test_areas_json_is_as_old_as_the_run_when_nothing_is_kept(self):
+        """A spent file is published empty and stamped now, so nothing older remains."""
+        self.seed(self.seeded_file(self.day(-1)))
+        self.assertEqual(fetch_data.main(), 0)
+        areas = self.published("areas.json")
+        self.assertEqual(areas["oldest"], areas["generated"])
+
 
 class HasFutureShowsTest(unittest.TestCase):
     """The decision on its own, including the shapes `main()` does not produce today."""

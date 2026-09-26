@@ -471,6 +471,17 @@ async function run() {
                            orion: w.store.state().meta.orion.oldest,
                            netAdded: w.st.net - netAfterLoad };
   }
+  // Finnkino ages on areas.json's `oldest`, the weakest venue file, when it carries one.
+  {
+    const kept = world({ files: combined({ '/data/areas.json':
+      Object.assign(clone(AREAS), { oldest: '2026-09-06T20:00:00+00:00' }) }) });
+    await kept.store.load({ force: true });
+    const legacy = world({ files: combined() });
+    await legacy.store.load({ force: true });
+    out.finnkino_oldest = { kept: kept.store.state().meta.finnkino.oldest,
+                            generated: kept.store.state().meta.finnkino.generated,
+                            legacy: legacy.store.state().meta.finnkino.oldest };
+  }
 
 }
 

@@ -2509,3 +2509,18 @@ marker word is searched without it first, as the cloud pass already did, and the
 title stays a candidate. `FinnkinoQueryTest` in `test_tmdb_queries.py` also holds eleven
 real titles whole; 6 mutations, all red. Compile-checked and tested offline; a local run
 proves it.
+
+### areas.json carries Finnkino's oldest venue stamp (2026-09-26)
+
+Prior review #17. `fetch_data.py` wrote areas.json with `generated` = now on every
+publishing run, a venue kept from an earlier run included, and the status page read that
+as Finnkino's age, so a kept venue's older data was never reported. areas.json is now
+written after the venue files and adds `oldest`, the minimum `generated` over the venue
+files on disk, which is `run.py`'s rule for every other provider. `generated` stays the
+time of the publish, because `check_staleness.py` reads it as "a run happened". The status
+page reads `oldest`; a file written before the field falls back to `generated` in
+`normalise()`, and the redundant fallback first added in `fromAreas` was removed as an
+equivalent mutant. Not in today's data: all 17 venue files carry the areas.json stamp.
+Tests: two in `SpentFileTest` (site 2 kept with a 2020 stamp while site 1 refreshes, and
+nothing kept), one scenario in `status_store_harness.js`; 6 mutations, all red.
+Compile-checked and tested offline; a local run proves it.
