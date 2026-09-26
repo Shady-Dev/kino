@@ -1,10 +1,11 @@
-[sheryl] 13 screening(s) listed, 5 film page(s) read
+[sheryl] 12 screening(s) listed, 7 film page(s) read
 [sheryl] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
-[sheryl] Cinema Sheryl: 13 showtimes, 5 dates
-[sheryl] Cinema Sheryl: 13 showtimes, 5 dates
-[sheryl] synopses merged: 0
+[sheryl] Cinema Sheryl: 12 showtimes, 6 dates
+[sheryl] Cinema Sheryl: 12 showtimes, 6 dates
+[sheryl] synopses merged: 2
+[sheryl] synopses by language: en 2
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 8 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- sheryl.fi
-[run] kinola: 1 venues, 13 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] kinola: 1 venues, 12 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
