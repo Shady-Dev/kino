@@ -2524,3 +2524,17 @@ equivalent mutant. Not in today's data: all 17 venue files carry the areas.json 
 Tests: two in `SpentFileTest` (site 2 kept with a 2020 stamp while site 1 refreshes, and
 nothing kept), one scenario in `status_store_harness.js`; 6 mutations, all red.
 Compile-checked and tested offline; a local run proves it.
+
+### films-extra.json carries TMDB's fields only for a showing film (2026-09-26)
+
+Audit item E10, option 2 of `docs/research/films-extra-retention.md`, on the maintainer's
+decision. Nothing pruned films-extra: a dormant entry, one for a film no area file lists,
+held TMDB's slots, rating, trailer and poster, and the client never reads it. `merge_extra`
+now projects tmdb-titles.json only for keys some area file shows, Finnkino's included, and
+`strip_extra` takes the `ts` slots, `r`, `tr` and `img` off every other entry. Every slot
+outside `ts` stays byte for byte, and so does `id`, the record that those slots are not
+TMDB's; an entry left with no text goes. An unreadable area file makes liveness unknown and
+strips nothing. tmdb-titles.json is unchanged, so a returning film gets its fields back
+from the cache with no request. Applied to the committed data: 72 entries removed, 123
+slimmed, 171,416 to 152,955 B gzipped. Tests: `test_films_extra_retention.py`, 11; two
+existing tests now state whether their film is showing. 8 mutations, all red.

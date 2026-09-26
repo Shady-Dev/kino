@@ -221,7 +221,7 @@ class EnrichmentPreservesEveryLanguageTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(enrich_tmdb, "EXTRA", saved))
         enrich_tmdb.merge_extra({key: {"fi": FI, "en": EN, "p": "/p.jpg", "n": "n",
                                        "x": True, "i": 1, "g": [], "r": 7}},
-                                "2026-09-16")
+                                "2026-09-16", live={key})
         s = json.loads(extra.read_text())["films"][key]["s"]
         self.assertEqual((s["fi"], s["en"]), (FI, EN))
         self.assertEqual(s["sv"], SV, "the pass dropped a language it does not know")

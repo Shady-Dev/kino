@@ -224,7 +224,9 @@ class LeftTheProgrammeTest(WeakRetryHarness):
                                             "r": 0, "tr": ""}})
         self.shows({"title": "Jokin muu", "provider": "regina", "venue": "regina"})
         self.run_pass({})
-        self.assertEqual(self.extra()["naisen kasvot"]["s"]["fi"], "")
+        fx = self.extra().get("naisen kasvot") or {}
+        self.assertEqual((fx.get("s") or {}).get("fi", ""), "")
+        self.assertEqual(fx, {}, "left with no text and no film showing, the entry goes (E10)")
 
 
 if __name__ == "__main__":

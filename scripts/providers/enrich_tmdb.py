@@ -951,7 +951,39 @@ def borrowed_rating(show, table, tol=RUNTIME_TOL_MIN):
 
 
 
-def merge_extra(cache, today):
+def live_keys():
+    """The films-extra keys some committed area file shows now, Finnkino's included.
+    -> set, or None when a file cannot be read and liveness is therefore unknown."""
+    keys = set()
+    for p in sorted(DATA.glob("area-*.json")):
+        try:
+            shows = json.loads(p.read_text()).get("shows") or []
+        except Exception as e:
+            print(f"[enrich] {p.name}: unreadable ({e}); films-extra keeps every projection")
+            return None
+        keys.update(norm(sh.get("title")) for sh in shows if isinstance(sh, dict))
+    return keys
+
+
+def strip_extra(e):
+    """Take the TMDB projection off an entry no area file shows. -> whether text is left.
+
+    Slots in `ts` are TMDB's by record and go, with `r`, `tr` and `img`; tmdb-titles.json
+    keeps all of it, and the pass that finds the film showing again projects it back with
+    no request. Every other slot is the cinema's, a hand correction or of unrecorded
+    origin, and stays byte for byte. `id` stays too, as the record that those slots are
+    not TMDB's: without it, `sync_extra`'s rule for entries written before `ts` would take
+    a kept slot equal to TMDB's overview for TMDB's when the film returns."""
+    s = e.setdefault("s", {"fi": "", "en": ""})
+    for sl in e.pop("ts", None) or ():
+        s[sl] = ""
+    e["r"] = 0
+    e["tr"] = ""
+    e.pop("img", None)
+    return any(isinstance(t, str) and t for t in s.values())
+
+
+def merge_extra(cache, today, live=None):
     """Fold cached text/ratings/posters into films-extra.json.
 
     Synopses live in their own file so area files stay small: one synopsis repeated
@@ -965,7 +997,14 @@ def merge_extra(cache, today):
     run wrote from a weak candidate. A weak entry stays in the cache after its film has
     left the programme, so text equal to the candidate's own overview is still
     recognised in an entry written before `ts`. See unpublish_extra.
+
+    TMDB's fields are projected only for a film some area file shows (`live`, read from
+    the files when not given). The client reads this file for the film on screen only,
+    so a dormant entry keeps just its text; see strip_extra and
+    docs/research/films-extra-retention.md (E10, 2026-09-26).
     """
+    if live is None:
+        live = live_keys()
     doc = synmerge.read_extra(EXTRA)            # a broken file fails the pass, untouched
     films = doc.get("films") or {}
     for k, e in films.items():
@@ -973,6 +1012,8 @@ def merge_extra(cache, today):
             unpublish_extra(e, cache.get(k))
     for k, c in cache.items():
         if not trusted(c):
+            continue
+        if live is not None and k not in live:
             continue
         # Something to show, or something of this pass's to take back: an existing key
         # holding TMDB fields is brought into line whatever the entry holds, or a value
@@ -985,6 +1026,10 @@ def merge_extra(cache, today):
         e = films.setdefault(k, {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
         if isinstance(e, dict):
             sync_extra(e, c)
+    if live is not None:
+        for k in [k for k, e in films.items() if isinstance(e, dict) and k not in live]:
+            if not strip_extra(films[k]):
+                del films[k]
     common.write_films_extra(EXTRA, {"generated": today, "films": films})
 
 

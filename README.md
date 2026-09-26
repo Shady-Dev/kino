@@ -208,7 +208,8 @@ so the pass can replace or drop it later; a cinema's own poster carries no mark.
 A `rating` the cinema left blank can be borrowed from another chain showing the
 same trusted match, and then carries `rsrc: "shared"`. In `films-extra.json` an
 entry TMDB filled records the TMDB `id`, and `ts` lists the synopsis languages
-TMDB's text fills, so a changed match replaces only those.
+TMDB's text fills, so a changed match replaces only those. TMDB's fields are there only
+while some area file shows the film; `tmdb-titles.json` keeps them all.
 
 On a provider file, `generated` is when it was written and `oldest` is its
 weakest venue's timestamp; the health line ages on `oldest`. A venue with no

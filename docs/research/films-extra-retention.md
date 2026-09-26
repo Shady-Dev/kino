@@ -146,8 +146,10 @@ Keep tmdb-titles.json whole under any option.
 
 ## Status
 
-Proposal only, waiting on the maintainer's decision (`IDEAS.md`, Blocked). Next step if
-option 2 is taken: `merge_extra(cache, today, live)` with live keys from every area file,
-tests that a dormant entry keeps its cinema and hand text and loses its TMDB fields, that
-a returning key gets them back with zero requests, and that a second pass writes the same
-file.
+Option 2 built on 2026-09-26, on the maintainer's decision, with one change: a dormant
+entry that keeps text keeps its `id` too, so a kept slot equal to TMDB's overview is not
+taken for TMDB's when the film returns. Record: `docs/archive/2026-09-pipeline.md`.
+Applied to the committed data the same day: 72 entries removed, 123 dormant entries kept
+with text only, no slot outside `ts` changed, no live entry changed. The file went from
+488,949 B to 433,503 B, and gzip -6 from 171,416 B to 152,955 B, 18,461 B (10.8%) less
+per download.

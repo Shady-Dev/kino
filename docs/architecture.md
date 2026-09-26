@@ -85,7 +85,9 @@ list is in [README.md](../README.md) under "Data shape"; the structural points a
   `data/films-extra.json`, keyed by normalised title, rather than repeated on every show. A
   synopsis is keyed by language inside that: `fi` and `en`, plus `sv` where a cinema
   publishes a native Swedish one. An adapter declares the language on its `_syn`; a bare
-  string means Finnish, which is what every adapter published before 2026-09-16.
+  string means Finnish, which is what every adapter published before 2026-09-16. TMDB's
+  fields there are a projection of `data/tmdb-titles.json` for films some area file shows;
+  an entry for a film none shows keeps only its text (E10, 2026-09-26).
 - `data/providers.json` and the client's offline fallback list are **generated** from the
   registry by `scripts/build_providers.py --sync-index`. The client derives every label,
   host, accent and footer verb from it, so there is no second copy to go stale.
