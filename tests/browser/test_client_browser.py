@@ -1098,6 +1098,53 @@ class EmptyDayNamesItsDayOnAPhone(EmptyDayNamesItsDay):
         self.page.screenshot(path=str(OUT / "k5-phone-375.png"))
 
 
+class AutomaticDayJump(Browser):
+    """The jump past an empty today moves the list and the chips and saves no day.
+
+    It called `selectDay`, which saves the day in `kino-prefs` and tracks `date_changed`,
+    although the reader chose nothing (prior review #28). Orion's fixture is served with
+    14.9. removed, so the load moves to 16.9. A reader's chip and calendar picks still
+    save the day. `date_changed` is not visible here, since analytics runs on the
+    production origin only; `test_widen_load.py` records it.
+    """
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        doc["shows"] = [s for s in doc["shows"] if not s["start"].startswith("2026-09-14")]
+        doc["dates"] = [d for d in doc["dates"] if d != "2026-09-14"]
+        Handler.body = {"area-or-helsinki.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def saved_day(self):
+        return json.loads(self.page.evaluate("localStorage.getItem('kino-prefs') || '{}'")).get("day")
+
+    def test_the_jump_moves_the_list_and_saves_nothing(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki")
+        expect(self.page.locator("#main a.stub").first).to_be_visible()
+        expect(self.page.locator("#days .day.active")).to_contain_text("16.9.")
+        hrefs = self.page.locator("#main a.stub").evaluate_all("els => els.map(a => a.href)")
+        day = {s["url"] for s in SHOWS if s["start"].startswith("2026-09-16")}
+        self.assertTrue(hrefs)
+        self.assertEqual(set(hrefs) - day, set(), "the list is not 16.9.'s")
+        self.assertIsNone(self.saved_day())
+
+    def test_a_readers_own_chip_and_calendar_pick_are_saved(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki")
+        expect(self.page.locator("#days .day.active")).to_contain_text("16.9.")
+        self.page.locator("#days .day", has_text="17.9.").first.click()
+        expect(self.page.locator("#days .day.active")).to_contain_text("17.9.")
+        self.assertEqual(self.saved_day(), "2026-09-17")
+        self.page.locator('#days .day[aria-haspopup="dialog"]').click()
+        self.page.locator('.cal-day[data-day="2026-09-23"]').click()
+        expect(self.page.locator("#days .day.active")).to_contain_text("23.9.")
+        self.assertEqual(self.saved_day(), "2026-09-23")
+
+
+class AutomaticDayJumpOnAPhone(AutomaticDayJump):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class GenreSearchInSwedish(Browser):
     """A genre is found by the name its card shows in every language.
 

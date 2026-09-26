@@ -3208,14 +3208,20 @@
 
   const pad = n => String(n).padStart(2,'0');
 
-  // Jump to a date and keep the chip row in sync, whether it is a chip or the picker.
+  // A reader choosing a date, from the picker or a next-day link: tracked and saved.
   function selectDay(iso){
-    state.dateStr = iso;
     // Offset in days, never the date.
     track('date_changed', { offset_days: Math.round(
       (new Date(iso + 'T12:00:00Z') - new Date(fiToday() + 'T12:00:00Z')) / 864e5) });
-    state.revealed.clear();
     prefs.set({ day: iso });
+    return showDay(iso);
+  }
+  // Move the list to a date and keep the chip row in sync, whether it is a chip or the
+  // picker. The automatic jump past an empty today calls this alone: the reader chose
+  // nothing, so nothing is tracked and no day is saved (prior review #28).
+  function showDay(iso){
+    state.dateStr = iso;
+    state.revealed.clear();
     [...daysEl.children].forEach(c => c.classList.remove('active'));
     if(dayBtns[iso]){
       resetCalChip();
@@ -3404,7 +3410,7 @@
         const next = (state.dates || []).find(x => x > state.dateStr);
         if(next){
           state.advanced = true;
-          selectDay(next);
+          showDay(next);
           return;
         }
       }

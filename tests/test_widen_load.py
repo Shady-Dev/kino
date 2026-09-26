@@ -7,7 +7,8 @@ place, so the day has to survive the load, decided before anything is drawn. A p
 keeps the old behaviour.
 
 tests/widen_load_harness.js runs the real selectVenue(), loadSchedule(), selectDay() and
-widenTo() with stubbed DOM and payloads, on a fetch and on a cache hit.
+widenTo() with stubbed DOM and payloads, on a fetch and on a cache hit. The advance itself
+is not the reader's choice: it tracks nothing and saves no day (2026-09-26).
 """
 import json
 import pathlib
@@ -53,8 +54,22 @@ class WidenLoadTest(unittest.TestCase):
         self.assertEqual(s["dateStr"], self.r["tomorrow"])
         self.assertTrue(s["advanced"])
         self.assertIsNone(s["chains"])
-        self.assertEqual(s["prefDay"], self.r["tomorrow"])
         self.assertEqual(s["filter"], "Zzzz", "a pick never touched the search")
+
+    def test_the_advance_is_not_the_readers_choice(self):
+        """It went through selectDay(), which tracks `date_changed` and saves the day,
+        although the reader chose nothing (prior review #28)."""
+        s = self.r["pick_nothing_today"]
+        self.assertEqual(s["dateStr"], self.r["tomorrow"])
+        self.assertIsNone(s.get("prefDay"))
+        self.assertNotIn("date_changed", s["tracked"])
+        self.assertIn("area_opened", s["tracked"], "the recorder sees the pick's own event")
+
+    def test_a_readers_own_day_is_tracked_and_saved(self):
+        s = self.r["reader_picks_day"]
+        self.assertEqual(s["dateStr"], self.r["tomorrow"])
+        self.assertEqual(s["prefDay"], self.r["tomorrow"])
+        self.assertEqual(s["tracked"].count("date_changed"), 1)
 
     def test_a_wider_scope_with_shows_today_keeps_the_day_and_shows_them(self):
         s = self.r["widen_shows_today"]
