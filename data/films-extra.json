@@ -1227,16 +1227,12 @@
   },
   "hundreds of beavers": {
    "id": 1019939,
-   "img": "data/posters/6c95194910fbe070.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
-    "en": "In the 19th century, a drunken applejack salesman must go from zero to hero and become North America's greatest fur trapper by defeating hundreds of beavers.",
+    "en": "",
     "fi": "Aidosti onnistuneita luovan hulluuden ääri-ilmentymiä sattuu valkokankaalla kohdalle tuskin edes kerran vuodessa. Sellaisia kuin Bennett Jonesin I Am a Knife with Legs (NV 2015), Steve Oramin Aaaaaaaah! (NV 2016) tai Peter Stricklandin useimmat ohjaukset. HUNDREDS OF BEAVERS solahtaa orgaanisesti samaan kapeaan lokeroon. Esikoisohjaaja Mike Cheslik ja tuottaja Ryland Brickson Cole Tews ovat hioneet mykistävää erikoisuuttaan neljän vuoden ajan. Toinen toistaan villimmillä oivalluksilla herkuttelevan käsikirjoituksen kaksikko on synnyttänyt yhdessä. Vaativan pääroolin näyttelee Tews. Ja kaikkensa antavalla antaumuksella näytteleekin. Tyylilaji on ennen muuta komedia, jossa Maantiekiitäjät-animaatioiden äärienerginen henki risteää South Park -kaksikko Trey Parkerin ja Matt Stonen hulvattoman Cannibal: The Musicalin kuvia kumartamattoman pidäkkeettömyyden kanssa. Tarinassa on kyse yksilön taistelusta luonnonvoimia vastaan. Näyttämönä toimii 1800-luvun Yhdysvaltojen pohjoisosien pakkaskurimus. Omenaviinakauppias Kayak (Tews) julistaa sodan majaville, kun ne tuhoavat hänen tislaamonsa. Mainettaan älykkäämpien ja läpeensä kierojen jyrsijöiden katkeroittamasta miehestä kuoriutuu sankarimetsästäjä, jonka on löydettävä tähtäimeensä tykkylumen kuorruttamien ikimetsien sadat ja taas sadat majavat. HUNDREDS OF BEAVERSin usein absurdit taiteelliset ratkaisut pakottavat katsojan haukkomaan henkeään. Samalla elokuva kohottaa kasvoille äimistyneen kestovirneen. Toteutus on yhtä aikaa sekä perinnetietoinen että äärimmäisen raikas."
    },
-   "tr": "https://www.youtube.com/watch?v=Dm5XHpQZvek",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "hunger games maraton": {
    "r": 0,
@@ -1921,7 +1917,6 @@
     "biograni",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosavoy",
     "cine",
     "cinemantsala",
@@ -2098,7 +2093,6 @@
     "biograni",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosavoy",
     "cine",
     "cinemantsala",
@@ -4164,7 +4158,6 @@
     "biovuoksi",
     "cinemantsala",
     "gilda",
-    "ihmekompleksi",
     "kino123",
     "kinoakseli",
     "kinohamina",
@@ -4215,7 +4208,6 @@
     "biovuoksi",
     "cinemantsala",
     "gilda",
-    "ihmekompleksi",
     "kino123",
     "kinoakseli",
     "kinohamina",
@@ -4689,7 +4681,6 @@
     "biorex",
     "biorexkokkola",
     "isohannu",
-    "kinolaika",
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
@@ -5102,8 +5093,7 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinomyyri",
-    "tapiola"
+    "kinomyyri"
    ],
    "r": 7.3,
    "s": {
@@ -5904,6 +5894,19 @@
    "tr": "https://www.youtube.com/watch?v=d7rPS1TQ67I",
    "ts": [
     "en"
+   ]
+  },
+  "vinski 2": {
+   "id": 964311,
+   "img": "data/posters/d452b6c5bc61e717.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hömpstadin kaupunkia suojelevan näkymättömän sankarin Vinskin supervoimat katoavat, kun näkymättömyyspulveri varastetaan. Se on kuitenkin vasta ensimmäinen askel Hömpstadia uhkaavien häikäilemättömien rikollisten suunnitelmassa, jossa vaarassa on Vinskin lisäksi hänen äitinsä ja koko kaupunki. Pelastaakseen Hömpstadin Vinskin on lähdettävä seuraamaan kadonneen Apteekkarin jättämiä arvoituksellisia ohjeita, jotka johdattavat hänet Hömpstadin \"nurjalle puolelle”. Vinski kohtaa myös kaupunkia otteessaan pitävän kaksinaamaisen rikollispomon, jonka suuruudenhulluudella ei ole rajoja."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
    ]
   },
   "vonkka": {
