@@ -1,27 +1,27 @@
-[kinokilta] 65 screening(s) listed, 43 film page(s) read
+[kinokilta] 63 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Siri Hustvedt – Dance Around the Self, Teenage Sex and Death at Camp Miasma
-[kinokilta] Kino Kilta: 62 showtimes, 33 dates
-[kinokilta] Kino Kilta: 62 showtimes, 33 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 80 screening(s) listed, 48 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 21 unresolved over 21
-[kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja
+[kinolaika] 80 screening(s) listed, 49 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
+[kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Finnish Graffiti, Garden Folly, Kana, Kino Iglu: 8 1/2
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
-[kinolaika] Kino Laika: 59 showtimes, 19 dates
+[kinolaika] Kino Laika: 58 showtimes, 19 dates
 [kinolaika] strand prefix split off 1 showtimes
-[kinolaika] Kino Laika: 59 showtimes, 19 dates
+[kinolaika] Kino Laika: 58 showtimes, 19 dates
 [kinolaika] synopses merged: 0
 [kinomyyri] 21 screening(s) listed, 14 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 3 unresolved over 3
 [kinomyyri] unresolved: Espanjalaisen elokuvan viikko: Campeones – Mestarit, The Paradise, Yksityisnäytös
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
-[kinomyyri] Kino Myyri: 18 showtimes, 8 dates
-[kinomyyri] Kino Myyri: 18 showtimes, 8 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 108 full, 15 not stored (origin said no-store), 44 cache entries written
+[run] http: 0 revalidated (304), 109 full, 15 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 139 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 239.3s of fetching added up across workers that overlap, longest site 108.1s, longest queue wait 92.8s, 110.1s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 136 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 241.2s of fetching added up across workers that overlap, longest site 109.3s, longest queue wait 91.0s, 110.3s wall from this module's first fetch starting to its last ending
 exit=0
