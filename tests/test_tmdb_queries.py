@@ -10,6 +10,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import enrich_tmdb
+import fetch_data
 
 
 class QueriesTest(unittest.TestCase):
@@ -489,6 +490,59 @@ class AliasTest(unittest.TestCase):
         """A bare id skips the search outright; a replacement string goes first."""
         q = enrich_tmdb.queries("Matka Piemonteen (Kahvi ja Kino)", alias="Resan till Piemonte")
         self.assertEqual(q[0], "Resan till Piemonte")
+
+
+class FinnkinoQueryTest(unittest.TestCase):
+    """The Finnkino pass searches the string `enrich_tmdb.clean()` makes.
+
+    `fetch_data._queries` kept its own bracket list, which lacked `englanniksi`,
+    `på svenska`, `puhumme suomea`, `suomeksi puhuttu` and the `EN dub` form, so the two
+    TMDB passes could search one film differently (prior review #33). Its dash-only head
+    and its raw-title fallback are its own and stay.
+    """
+    MARKED = ("Kojootti vs. ACME (englanniksi)", "Kojootti vs. ACME (på svenska)",
+              "Kojootti vs. ACME (Puhumme suomea!)", "Kojootti vs. ACME (suomeksi puhuttu)",
+              "Kojootti vs. ACME ENGLANNIKSI", "Unohdettu saari (EN dub)",
+              "Presidentin kyyditys (Neulekino)", "Spider-Man: Brand New Day 2D")
+
+    def test_both_passes_search_the_same_string_first(self):
+        for published in self.MARKED:
+            with self.subTest(published=published):
+                self.assertEqual(fetch_data._queries(published)[0],
+                                 enrich_tmdb.queries(published)[0])
+                self.assertEqual(fetch_data._queries(published)[0],
+                                 enrich_tmdb.clean(published))
+
+    def test_the_published_title_stays_a_candidate(self):
+        for published in self.MARKED:
+            with self.subTest(published=published):
+                self.assertIn(published, fetch_data._queries(published))
+
+    def test_the_head_is_cut_at_a_dash_and_never_at_a_colon(self):
+        q = fetch_data._queries("Mission: Impossible - Dead Reckoning (englanniksi)")
+        self.assertEqual(q[0], "Mission: Impossible - Dead Reckoning")
+        self.assertIn("Mission: Impossible", q)
+        self.assertNotIn("Mission", q)
+
+    def test_real_titles_are_searched_whole(self):
+        """Brackets, a plus sign, a year or a marker word that is part of the name. Each
+        is a film title as published, and each has to reach TMDB unchanged."""
+        for title in ("(500) Days of Summer",                      # a number, not a year
+                      "Birdman (or The Unexpected Virtue of Ignorance)",
+                      "Beginnings (Begyndelser)",                  # the original title
+                      "Nirvana 'Nevermind' (35th Anniversary)",
+                      "Romeo + Juliet",
+                      "Svenska hjältar", "The Dub Room Special", "Origin",
+                      "Blade Runner 2049", "1917", "2001: Avaruusseikkailu"):
+            with self.subTest(title=title):
+                self.assertEqual(fetch_data._queries(title)[0], title)
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+    def test_a_title_that_is_only_a_marker_word_is_searched_as_published(self):
+        """Cleaning leaves nothing, and an empty string is never sent."""
+        for title in ("Suomeksi", "Englanniksi"):
+            with self.subTest(title=title):
+                self.assertEqual(fetch_data._queries(title), [title])
 
 
 if __name__ == "__main__":

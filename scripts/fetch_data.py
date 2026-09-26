@@ -68,13 +68,6 @@ def load_aliases():
 _tnorm = enrich_tmdb.norm
 
 
-# Search noise in brackets, and a bare year. Same vocabulary as
-# enrich_tmdb.PAREN_NOISE: the two passes must not disagree about the same film.
-_Q_NOISE = re.compile(r"\(\s*(?:(?:19|20)\d{2}|suomeksi|dubattu|dub\.?|orig\.?"
-                      r"|re-?release|uudelleenjulkaisu|uusi\s+kopio|live\s?action"
-                      r"|liveaction|2d|3d|imax|4k)\s*\)", re.I)
-
-
 def _alias(aliases, meta):
     """A Finnkino film's alias: the Finnish title's key, the query's, then the Finnish
     title's cleaned search string, as `enrich_tmdb.alias_of` reads it. OCAPI's `y` is the
@@ -107,6 +100,10 @@ def _queries(q):
     instead, so the query can arrive as "Autot (uudelleenjulkaisu)", which matches
     nothing, or "Mutiny - Lavastettu syylliseksi", whose distributor subtitle stops the
     exact-title rule from firing on a hit that is in fact the right film.
+
+    The search string is `enrich_tmdb.clean()`'s. This file kept its own bracket list,
+    which lacked `englanniksi`, `på svenska`, `puhumme suomea` and the rest, so the two
+    passes could search one film differently (prior review #33).
     """
     out = []
 
@@ -115,13 +112,14 @@ def _queries(q):
         if len(x) > 2 and x.lower() not in [o.lower() for o in out]:
             out.append(x)
 
-    add(re.sub(r"\s{2,}", " ", _Q_NOISE.sub(" ", q or "")))
+    c = enrich_tmdb.clean(q)
+    add(c)
     add(q)
     # Dash only, never a colon. A Finnish distributor subtitle is appended with a dash
     # ("Mutiny - Lavastettu syylliseksi"), while a colon usually carries the franchise:
     # splitting "Mission: Impossible - Dead Reckoning" would search "Mission", and an
     # exact hit on that now earns a tmdbId and would merge two different films.
-    head = re.split(r"\s+[-–]\s+", _Q_NOISE.sub(" ", q or ""), maxsplit=1)[0]
+    head = re.split(r"\s+[-–]\s+", c, maxsplit=1)[0]
     add(head)
     return out
 

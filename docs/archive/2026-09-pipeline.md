@@ -2495,3 +2495,17 @@ only, and `test_registry_sites.py` fails on a SITES venue id that is all digits.
 files read is unchanged today: 17 numeric Finnkino files, no other id starting with a
 digit. Tests: `FinnkinoFilesTest` in `test_tmdb_trust.py` and the registry check; 3
 mutations, all red.
+
+### The Finnkino pass searches the cloud pass's cleaned title (2026-09-26)
+
+Prior review #33. `fetch_data._queries` cleaned the search string with its own bracket
+list, `_Q_NOISE`, which lacked `englanniksi`, `på svenska`, `puhumme suomea`, `suomeksi
+puhuttu`, the `EN dub` form and every non-bracket rule, so the two TMDB passes could search
+one film differently. It now searches `enrich_tmdb.clean()` first and `_Q_NOISE` is gone;
+its dash-only head and the raw title as a fallback stay. Measured on the committed data:
+none of Finnkino's 54 title strings searches differently today; run over all 481 committed
+titles, 30 would, each now matching the cloud pass. A title that really ends in a bare
+marker word is searched without it first, as the cloud pass already did, and the published
+title stays a candidate. `FinnkinoQueryTest` in `test_tmdb_queries.py` also holds eleven
+real titles whole; 6 mutations, all red. Compile-checked and tested offline; a local run
+proves it.
