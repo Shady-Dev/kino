@@ -1145,6 +1145,40 @@ class AutomaticDayJumpOnAPhone(AutomaticDayJump):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class FilmOrderFollowsTheShownTitle(Browser):
+    """Leffat sorts by the title each card shows.
+
+    It sorted by `title`, the Finnish one, while English mode shows the English title
+    (prior review #29). films.json gives Orion's "Autofiktio" an English title after
+    "Oasis: Don", which has none and keeps its own.
+    """
+    FILMS = json.dumps({"films": {"autofiktio": {"t": {"en": "Zebra Road"}}}}).encode("utf-8")
+
+    def setUp(self):
+        Handler.body = {"films.json": self.FILMS}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def titles(self):
+        return self.page.locator("#main article.movie h2.title").all_text_contents()
+
+    def test_english_titles_are_in_order(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki&lang=en")
+        expect(self.page.locator("#main article.movie h2.title").first).to_have_text("Oasis: Don")
+        self.assertEqual(self.titles(), ["Oasis: Don", "Zebra Road"])
+
+    def test_finnish_keeps_the_finnish_order(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki&lang=en")
+        expect(self.page.locator("#main article.movie h2.title", has_text="Zebra Road")).to_have_count(1)
+        self.page.locator('#langSeg button[data-lang="fi"]').click()
+        expect(self.page.locator("#main article.movie h2.title").first).to_have_text("Autofiktio")
+        self.assertEqual(self.titles(), ["Autofiktio", "Oasis: Don"])
+
+
+class FilmOrderFollowsTheShownTitleOnAPhone(FilmOrderFollowsTheShownTitle):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class GenreSearchInSwedish(Browser):
     """A genre is found by the name its card shows in every language.
 

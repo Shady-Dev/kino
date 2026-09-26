@@ -4342,7 +4342,9 @@
       Object.assign(m, filmFacts.get(s.eventId) || {});
       m.times.push(s);
     }
-    const movies = [...byEvent.values()].sort((a,b)=>coll.compare(a.title, b.title));
+    // By the title the card shows. In English that is disp()'s English or original
+    // title, and sorting on the Finnish one left the list out of order (prior review #29).
+    const movies = [...byEvent.values()].sort((a,b)=>coll.compare(disp(a), disp(b)));
 
     const multiTheatre = labelVenues(state.shows);
     const listLegend = multiTheatre ? chainLegend(state.shows, 'top') : '';
