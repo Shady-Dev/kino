@@ -1341,6 +1341,7 @@
     "cine",
     "cinemantsala",
     "elavienkuvien",
+    "gilda",
     "haapamaki",
     "helios",
     "ihmekompleksi",
@@ -1959,6 +1960,7 @@
     "huvimylly",
     "kinokulma",
     "kinolaika",
+    "kkino",
     "korjaamo",
     "laitilankino",
     "savonkinot"
@@ -6419,6 +6421,7 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
+    "biorexkokkola",
     "kinokulma"
    ],
    "r": 7.6,
@@ -6668,7 +6671,8 @@
     "huvimylly",
     "kinoaurora",
     "kinokulma",
-    "kinolaika"
+    "kinolaika",
+    "kkino"
    ],
    "r": 0,
    "s": {
@@ -7085,5 +7089,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-25"
+ "generated": "2026-09-26"
 }

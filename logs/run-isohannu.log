@@ -4,5 +4,5 @@
 [run] http: 0 revalidated (304), 16 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.isohannu.fi
 [run] isohannu: 1 venues, 62 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 22.3s of fetching added up across workers that overlap, longest site 22.3s, longest queue wait 53.4s, 22.3s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 21.9s of fetching added up across workers that overlap, longest site 21.9s, longest queue wait 49.1s, 21.9s wall from this module's first fetch starting to its last ending
 exit=0
