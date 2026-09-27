@@ -781,7 +781,7 @@
    "img": "data/posters/0dd47f32e7b1a9db.jpg",
    "r": 0,
    "s": {
-    "en": "Emperor Paul Atreides faces the fallout from his ascent to power as political plots and a galaxy-wide holy war endanger the future only he can see.",
+    "en": "Nearly two decades after he seized control of the Imperium, Paul Atreides is now a ruthless Emperor, and must face the consequences of his reign as old allies return, terrifying new threats emerge, and betrayal lurks in every shadow. Haunted by visions of Imperial collapse and the reappearance of his long-lost love, Paul is drawn into a sweeping conspiracy, with Chani at the heart of its unfolding mystery. As enemies close in, Paul must confront the true cost of power and the fate of those he loves the most.",
     "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
    },
    "tr": "https://www.youtube.com/watch?v=NdvqHc56lE0",
@@ -1086,7 +1086,7 @@
     "studio123kouvola",
     "vaakuna"
    ],
-   "r": 0,
+   "r": 7.6,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -1372,6 +1372,16 @@
     "en"
    ]
   },
+  "isänpäivä": {
+   "id": 1262748,
+   "img": "data/posters/65c60ab63113da26.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Elokuvassa terveytensä juonut Tinke (Tomi Lindfors) asuu palveluyksikössä, jossa elämää pitää kasassa sen nurjasta puolesta kumpuava huumori ja arjessa auttava ystävä Veikko (Tommi Korpela). Kun takavuosilta hämärästi tutun Saimin (Laura Birn) teini-ikäiset kaksoset (Vilja ja Varpu Rintanen) päättävät ottaa selvää isästään, etsintä johtaa heidät Tinken jäljille. Saimi aikoo kaikin keinoin estää kaksosia tapaamasta Tinkeä, mutta sotkun keskelle tempautunut Veikko on eri mieltä."
+   },
+   "tr": ""
+  },
   "it must be heaven": {
    "id": 539531,
    "img": "data/posters/2078ab71ae729742.jpg",
@@ -1581,6 +1591,7 @@
     "cine",
     "cinemantsala",
     "huvimylly",
+    "joutsankino",
     "kinokulma",
     "kinolaika",
     "kkino",
@@ -5569,19 +5580,6 @@
     "en"
    ]
   },
-  "trainspotting 1996": {
-   "id": 627,
-   "img": "data/posters/6f6ddd5cd6a5f2b7.jpg",
-   "r": 8.0,
-   "s": {
-    "en": "",
-    "fi": "Miksi hankkia työpaikka, kun voi olla työtön? Miksi hankkia perhe, kun voi vain hengata ystävien kanssa? Mark Rentonin ja hänen edinburghilaisten työläisystäviensä elämä koostuu kahdenlaisesta olotilasta. Joko ollaan ihan kamoissa. Tai sitten yritetään olla ihan kamoissa. Mutta entä jos yksi porukasta päättääkin päästä kuiville?"
-   },
-   "tr": "https://www.youtube.com/watch?v=bKrbNruyFVE",
-   "ts": [
-    "fi"
-   ]
-  },
   "tremors väristyksiä": {
    "id": 9362,
    "img": "data/posters/8cb769a36b286d97.jpg",
@@ -6050,5 +6048,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-26"
+ "generated": "2026-09-27"
 }
