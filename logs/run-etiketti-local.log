@@ -5,7 +5,7 @@
 [savonkinot] Maxim Varkaus: 21 showtimes, 7 dates
 [savonkinot] Kino-Hovi Kitee: 9 showtimes, 6 dates
 [savonkinot] synopses merged: 0
-[joutsankino] Joutsan Kino: 7 showtimes, 5 dates
+[joutsankino] Joutsan Kino: 9 showtimes, 7 dates
 [joutsankino] synopses merged: 0
 [cine] Cine Keuda-Talo: 12 showtimes, 3 dates
 [cine] Cine Nikkilä: 3 showtimes, 1 dates
@@ -14,7 +14,7 @@
 [star] Elokuvateatteri Star: 76 showtimes, 7 dates
 [star] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 67 full, 67 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 4 attempted -- kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 10 venues, 207 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 10 venues, 209 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
