@@ -3254,3 +3254,12 @@ shape is logged. The facts are keyed on the heading above them, with the price's
 two values under one heading, and an age limit only as a legal class. The page states no
 screening language, so none is published. `run.py kirkkonummi`: 10 showtimes instead of
 6, every one checked against the page. `test_kirkkonummi.py`; 8 mutations, all red.
+
+### Bio Pallas: a members' amount leaves the public price (2026-09-27)
+
+Page audit: Blade Runner: The Final Cut, 30.9. 19:30, drew no price. Its block reads `10€`
+then `7€ F-Keks jäsenille`, two paragraphs, and `_price` counted two amounts. A paragraph
+naming a membership (`jäsen`, `medlem`) is not the public price: the one remaining amount
+settles the row, and a members' amount alone settles nothing. `22/25€` and two bare
+amounts still publish nothing. Re-read 2026-09-27; `run.py pallas`, 14 showtimes, Blade
+Runner 10€. `test_pallas.py`; 2 mutations, all red.

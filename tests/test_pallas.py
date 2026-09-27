@@ -155,6 +155,16 @@ class RowsTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in shows], ["12€", "", "13€"])
         self.assertEqual(report["no_price"], ["Orchestra Nazionale della Luna"])
 
+    def test_a_members_amount_leaves_the_public_one(self):
+        """Blade Runner at the film club, 30.9.2026: `10€` then `7€ F-Keks jäsenille`."""
+        shows, report = self.rows(page(
+            heading(SAT),
+            row(SAT, "17.00", "Blade Runner", price=["10€", "7€ F-Keks jäsenille"]),
+            row(SAT, "19.00", "Kerho", price=["7€ F-Keks jäsenille"]),
+            row(SAT, "21.00", "Kaksi", price=["10€", "8€"])))
+        self.assertEqual([s["price"] for s in shows], ["10€", "", ""])
+        self.assertEqual(report["no_price"], ["Kerho", "Kaksi"])
+
     def test_only_a_portrait_image_inside_a_row_becomes_a_poster(self):
         """The dimensions travel with the reference here, so the shape is checked per run
         rather than trusted: the page's own hero image is landscape."""

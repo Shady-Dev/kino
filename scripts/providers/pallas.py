@@ -214,15 +214,21 @@ def _lang(paragraphs):
     return ""
 
 
+# A paragraph naming a membership: `7€ F-Keks jäsenille` beside `10€` (2026-09-27).
+MEMBER_RE = re.compile(r"j[äa]sen|medlem", re.I)
+
+
 def _price(paragraphs):
     """One amount settles the row; anything else settles nothing.
 
     `12€ med kaffeserv./kahvitarjoilulla` is one amount with a description of what it
     includes and publishes 12€. `22/25€` offers two with nothing on the row to choose
-    between them and publishes nothing.
+    between them and publishes nothing. A members' amount in its own paragraph is not the
+    public price and does not compete with it: `10€` / `7€ F-Keks jäsenille` publishes 10€,
+    and a members' amount alone publishes nothing.
     """
-    found = PRICE_PART.findall(" ".join(paragraphs))
-    return f"{found[0]}€" if len(found) == 1 else ""
+    public = [a for p in paragraphs if not MEMBER_RE.search(p) for a in PRICE_PART.findall(p)]
+    return f"{public[0]}€" if len(public) == 1 else ""
 
 
 def rows(site, page, today=None):
