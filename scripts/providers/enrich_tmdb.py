@@ -794,6 +794,14 @@ def reconsider(facts, cache, aliases, budget=None):
     retry, and a key with an alias is a hand decision and is left alone. An unmatched or
     weak title whose evidence has not changed keeps its daily retry and nothing else.
 
+    **Except an alias the entry was judged before it could reach.** The override in
+    main() reads an alias through the entry's stored `q`, since it runs before the titles
+    are gathered, so a new `clean()` marker that brings a cleaned title to an alias is
+    seen only here: "Avengers Endgame Encore (Poistuu ohjelmistosta)" stayed unmatched
+    beside the alias for "avengers endgame encore" (2026-09-27). An aliased key is due when
+    the alias would replace its entry, which by now only such an entry can be, and one the
+    alias already settled is left alone.
+
     **`q` is the evidence this side owns, and it is checked first.** A strand added to
     strands.py changes `clean()` for a title the cinema has not touched, so `o` and `y`
     are identical and the entry would keep its daily retry: the strand would not apply
@@ -835,10 +843,15 @@ def reconsider(facts, cache, aliases, budget=None):
     due = []
     for k in sorted(facts):
         c, f = cache.get(k), facts[k]
-        if not isinstance(c, dict) or alias_of(aliases, k, norm(clean(f.get("t") or k)),
-                                                f.get("y") or ""):
+        if not isinstance(c, dict):
             continue
-        if c.get("q") != norm(clean(f.get("t") or k)):
+        q = norm(clean(f.get("t") or k))
+        alias = alias_of(aliases, k, q, f.get("y") or "")
+        if alias:
+            if alias_supersedes(alias, c) and not (is_weak(c) and c.get("al") == str(alias)):
+                due.append(k)
+            continue
+        if c.get("q") != q:
             due.append(k)                     # the search string changed, or is unknown
             continue
         now = (norm(f.get("o")), f.get("y") or "")

@@ -2589,3 +2589,13 @@ adapter copied what the source says. `synmerge.merge` now skips a text whose nor
 form is the title's, leaving the slot to TMDB, and five such slots were cleared by hand
 (Black Magic Rites, Bussipysäkki, Opimmeko rakastamaan, Romanovin kivet, Romeo + Juliet).
 `test_synopsis_notes.py`; 2 mutations, all red.
+
+### An alias a new cleaning rule reaches is taken the same day (2026-09-27)
+The gap recorded in the entry above. The override reads an alias through the entry's
+stored `q`, before the titles are gathered, and `reconsider()` skipped every aliased key.
+`reconsider()` now marks an aliased key due when the alias would replace its entry (not
+exact, or a different id), unless the entry is weak and was already searched with that
+string alias. The override drops every entry its stored `q` reaches first, so only the
+entries it could not see remain. An id alias re-judges with no search. On the committed
+data it marks nothing due. `AliasReachedByCleanTest`; 3 mutations red, a stale-`q`
+guard removed as equivalent.

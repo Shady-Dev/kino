@@ -1063,6 +1063,53 @@ class SameDayReconsiderTest(MainHarness):
         self.assertNotIn("re-judging", out)
 
 
+class AliasReachedByCleanTest(MainHarness):
+    """A new `clean()` marker brings an entry's title to an alias through the cleaned key.
+    The override reads the entry's old `q` and missed it, and reconsider() skipped every
+    aliased key, so "Avengers Endgame Encore (Poistuu ohjelmistosta)" stayed unmatched
+    beside the alias for "avengers endgame encore" until its daily retry (2026-09-27)."""
+
+    TITLE = "Avengers Endgame Encore (Poistuu ohjelmistosta)"
+    KEY = "avengers endgame encore poistuu ohjelmistosta"
+    # Borrowed rather than inherited: a subclass would run SameDayReconsiderTest again.
+    TODAY = SameDayReconsiderTest.TODAY
+    unmatched = SameDayReconsiderTest.unmatched
+
+    def setUp(self):
+        super().setUp()
+        real = enrich_tmdb.datetime
+        enrich_tmdb.datetime = types.SimpleNamespace(date=FixedDate)
+        self.addCleanup(lambda: setattr(enrich_tmdb, "datetime", real))
+        self.shows({"title": self.TITLE})
+
+    def aliases(self, value):
+        (self.dir / "tmdb-aliases.json").write_text(json.dumps({"avengers endgame encore": value}))
+
+    def test_an_unmatched_entry_takes_the_alias_the_same_day(self):
+        self.aliases("299534")
+        self.cache_write({self.KEY: self.unmatched(self.TODAY, q=self.KEY)})
+        out = self.run_main({})
+        self.assertIn("re-judging 1 title(s)", out)
+        self.assertEqual((self.cache()[self.KEY]["i"], self.cache()[self.KEY]["x"]), (299534, True))
+        self.assertEqual(self.searches, [], "an id alias needs no search")
+
+    def test_an_entry_the_alias_already_settled_is_left_alone(self):
+        self.aliases("299534")
+        self.cache_write({self.KEY: self.unmatched(self.TODAY, q=self.KEY, i=299534, x=True,
+                                                   r=8.2, n=900, g=[18], v="k")})
+        out = self.run_main({})
+        self.assertNotIn("re-judging", out)
+        self.assertEqual(self.searches, [])
+
+    def test_a_weak_entry_searched_with_that_string_alias_keeps_its_schedule(self):
+        self.aliases("Endgame")
+        self.cache_write({self.KEY: self.unmatched(self.TODAY, q=self.KEY, i=7, a=self.TODAY,
+                                                   al="Endgame")})
+        out = self.run_main({})
+        self.assertNotIn("re-judging", out)
+        self.assertEqual(self.searches, [])
+
+
 class EnglishSecondSearchTest(MainHarness):
     """One en-US search, only for a title the fi-FI pass could not match exactly.
 
