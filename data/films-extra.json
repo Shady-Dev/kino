@@ -1304,6 +1304,29 @@
    },
    "tr": ""
   },
+  "hopeatähti sarja rose ennakkonäytös": {
+   "id": 1176962,
+   "img": "data/posters/abbaf8c90c0c135c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biograni",
+    "biorex",
+    "gilda",
+    "ihmekompleksi",
+    "kinoaurora",
+    "kinokilta",
+    "korjaamo"
+   ],
+   "r": 7.7,
+   "s": {
+    "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=80xR3G5eowo",
+   "ts": [
+    "en"
+   ]
+  },
   "hundreds of beavers": {
    "id": 1019939,
    "r": 0,

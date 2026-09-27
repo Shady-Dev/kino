@@ -2615,3 +2615,7 @@ Disney directors, year and 75 min. DIG! XX stays open: Kino Kilta links IMDb tt3
 the 2024 140-min cut, and TMDB has no record for it; 1843 is the 2004 film. Viikinkien
 kosto (1961) screened 2026-09-26 and has left the data. Unmatched showtimes 226 -> 225,
 titles 68 -> 67; no weak match accepted.
+Hopeatähti-sarja: Rose at Kuvakukko is aliased to 1176962 the same day: Kuvakukko's
+Hopeatähti page gives the director, three cast, the countries, 2026 and 94 min. TMDB has
+no Finnish overview, and the page's Finnish blurb shares its paragraphs with the credits,
+quotes and an award line, so it is not published. Unmatched 225 -> 224 showtimes.
