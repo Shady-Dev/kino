@@ -2,8 +2,7 @@
 [sheryl] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 0 unresolved over 0
 [sheryl] Cinema Sheryl: 9 showtimes, 5 dates
 [sheryl] Cinema Sheryl: 9 showtimes, 5 dates
-[sheryl] synopses merged: 1
-[sheryl] synopses by language: en 1
+[sheryl] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 7 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- sheryl.fi
