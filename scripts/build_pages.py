@@ -1050,7 +1050,30 @@ def film_title(title, shows, current_year):
     return f"{title} ({y})"
 
 
-def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year):
+def native_synopses():
+    """Finnkino's own synopses by its film id. -> films. A missing file reads as none."""
+    try:
+        return json.loads((DATA / "films.json").read_text()).get("films", {})
+    except (OSError, ValueError):
+        return {}
+
+
+def native_syn(shows, lang, native):
+    """The card's synopsis from films.json when films-extra has none in `lang`, by a
+    Finnkino show's own film id, as the app sheet reads it. Finnkino's slots are not
+    always what they claim: "fi" holding English, "en" holding the title alone
+    (2026-09-27), so a text in another language or of three words or fewer is skipped."""
+    films = native or {}
+    fids = [s.get("eventId") for s in shows if (s.get("provider") or "finnkino") == "finnkino"]
+    for fid in fids:
+        text = (((films.get(fid) or {}).get("s") or {}).get(lang) or "").strip()
+        if len(text.split()) > 3 and common.syn_language(text) in (lang, ""):
+            return text
+    return ""
+
+
+def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current_year,
+               native=None):
     rating, length = first(shows, "rating"), first(shows, "len")
     genres = genre_names(first(shows, "gids"), first(shows, "genres"), gmap, lang)
     tmdb = first(shows, "tmdb")
@@ -1079,7 +1102,7 @@ def film_block(title, shows, extra, gmap, lang, t, with_venue, syn_seen, current
     fx = extra.get(norm(title)) or {}
     syn = ""
     if title not in syn_seen:
-        syn = clip(((fx.get("s") or {}).get(lang) or ""))
+        syn = clip(((fx.get("s") or {}).get(lang) or "") or native_syn(shows, lang, native))
         syn_seen.add(title)
     # Only same-origin posters: a hot-linked CDN poster would leak the visitor's IP. A
     # film with none keeps its column with a blank tile, so the text does not jump left.
@@ -1247,7 +1270,7 @@ def sub_html(sub):
 
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
-         next_day=""):
+         next_day="", native=None):
     # One per published language plus x-default on the Finnish page, which is the one a
     # reader with no matching language gets.
     hreflangs = "\n".join(
@@ -1269,7 +1292,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
                                     key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,
                                    with_venue=with_venue, syn_seen=syn_seen,
-                                   current_year=today.year))
+                                   current_year=today.year, native=native))
     self_path = paths[lang]
     # The wordmark is the other way into the app, and it carries this page's language for
     # the same reason the CTA does. It was a bare "/", so an English page sent its reader
@@ -1479,6 +1502,7 @@ def main(today=None) -> int:
     chains = {k: v.get("label", k) for k, v in providers.items()}
     gmap = json.loads((DATA / "tmdb-genres.json").read_text())
     extra = json.loads((DATA / "films-extra.json").read_text()).get("films", {})
+    native = native_synopses()
     if today is None:
         today = datetime.now(FI).date()
 
@@ -1550,7 +1574,7 @@ def main(today=None) -> int:
                     venue_intro(t, prov.get("book"), prov.get("host", "")),
                     age_note(t, [s for d in days.values() for sh in d.values() for s in sh]))
                     if x),
-                days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"],
+                days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"], native=native,
                 with_venue=False, legend="", also=also, og_image=og,
                 next_day=next_day,
                 # Deep link, so a reader arriving from search opens on this venue in this
@@ -1614,7 +1638,7 @@ def main(today=None) -> int:
                 h1=t["city_h1"].format(city=shown),
                 sub=t["city_sub"].format(n=len(vs)),
                 intro=t["city_intro"].format(n=len(vs)),
-                days=days, today=today, t=t, extra=extra, gmap=gmap, city=c,
+                days=days, today=today, t=t, extra=extra, gmap=gmap, city=c, native=native,
                 with_venue=True, legend=legend, also=also, og_image=og,
                 next_day=next_day,
                 app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
