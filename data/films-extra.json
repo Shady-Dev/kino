@@ -354,19 +354,6 @@
     "en"
    ]
   },
-  "bamse ja meren salaisuus": {
-   "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
-   "ts": [
-    "fi"
-   ]
-  },
   "beginnings begyndelser": {
    "r": 0,
    "s": {
@@ -1933,11 +1920,9 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cine",
     "cinemantsala",
     "engel",
     "ihmekompleksi",
@@ -1956,7 +1941,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
-    "kinovirta",
     "kkino",
     "kotkanleffat",
     "laitilankino",
@@ -1993,16 +1977,12 @@
   },
   "kojootti vs acme dubattu": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme eng": {
    "r": 0,
@@ -2109,11 +2089,9 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cine",
     "cinemantsala",
     "engel",
     "ihmekompleksi",
@@ -2132,7 +2110,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
-    "kinovirta",
     "kkino",
     "kotkanleffat",
     "laitilankino",
@@ -2530,7 +2507,7 @@
   "lisztomania": {
    "id": 67298,
    "img": "data/posters/0d28cd53a069c50f.jpg",
-   "r": 5.8,
+   "r": 6.0,
    "s": {
     "en": "In the 19th century, Romantic composer/pianist Franz Liszt tries to end his hedonistic ways but keeps getting sucked back in by his seductive fellow composer Richard Wagner.",
     "fi": "Ken Russellin viimeinen säveltäjäelokuva on ohjaajansa hillittömin saavutus. Riehakasta parodiaa ja freudilaista symboliikkaa pursuava rockmusikaali näyttää Roger Daltreyn tulkitseman Franz Lisztin aikansa poptähtenä vastapoolinaan draculamainen Richard Wagner. Syntetisaattorisovituksista vastaava Rick Wakeman esittää ukkosenjumala Thoria ja Ringo Starr paavia."
@@ -2681,29 +2658,21 @@
   },
   "marsupilami dub": {
    "id": 1145899,
-   "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
+    "en": "",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari - vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. <p> <p> Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla."
    },
-   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "marsupilami suomeksi": {
    "id": 1145899,
-   "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
+    "en": "",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari - vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla. Hulvaton koko perheen seikkailu Marsupilami saapuu suomeksi puhuttuna elokuvateattereihin 21. elokuuta 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "matka piemonteen": {
    "id": 1545391,
@@ -2762,19 +2731,6 @@
    },
    "tr": ""
   },
-  "michael": {
-   "id": 936075,
-   "img": "data/posters/64cae55437ce098a.jpg",
-   "r": 8.6,
-   "s": {
-    "en": "",
-    "fi": "Michael tarjoaa yleisölle koskettavan, rehellisen ja syväluotaavan muotokuvan popmusiikin historian loistavimmasta mutta myös monimutkaisimmasta ikonista. Elokuva kuljettaa katsojan läpi Michael Jacksonin elämän aina Jackson 5 -yhtyeen ajoista ja lapsitähden raskaasta menestyksestä maailmanlaajuiseksi supertähdeksi, joka mullisti musiikkiteollisuuden ja popkulttuurin pysyvästi.\r Tarina valottaa Michaelin vertaansa vailla olevaa luovaa lahjakkuutta, hänen nerokkaita visioitaan ja vaativaa työmoraaliaan, jotka synnyttivät historian ikonisimmat musiikkivideot ja lavaesiintymiset. Menestyksen rinnalla elokuva ei kuitenkaan kaihda artistin elämän varjopuolia: se kuvaa raakaa julkisuuden painetta, eristäytyneisyyttä, monimutkaisia perhesuhteita sekä historian kovaäänisimpiä mediasirkuksia ja syytöksiä. Kyseessä on syvän inhimillinen tarina miehestä, joka antoi kaikkensa taiteelle, mutta jonka yksityiselämä pysyi loppuun asti yhtenä maailman suurimmista mysteereistä."
-   },
-   "tr": "https://www.youtube.com/watch?v=k-YAcjaLuSI",
-   "ts": [
-    "fi"
-   ]
-  },
   "mikkelin aikamatka": {
    "r": 0,
    "s": {
@@ -2799,7 +2755,7 @@
   "miljardin dollarin aivot": {
    "id": 4889,
    "img": "data/posters/31e93ac7e17548dc.jpg",
-   "r": 5.7,
+   "r": 5.6,
    "s": {
     "en": "",
     "fi": "Ken Russellin ensimmäinen iso ohjaus oli tilaustyö Bond-tuottaja Harry Saltzmanille. Harry Palmer -agenttiromaaniin pohjaava satiirinen kylmän sodan jännäri kuvattiin pääosin Suomessa. Michael Caine seikkailee pitkin talvista Helsinkiä ja nojailee tauluihin Tarvaspäässä. Porvoo esittää Riikaa, ja Turun linnassa on salainen datakeskus. Elokuva jäi auto-onnettomuudessa kuolleen Françoise Dorléacin viimeiseksi. Kino Reginassa tarjoutuu mahdollisuus nähdä Töölönlahdella ja päärautatieasemalla filmattu mainio teos keskellä kuvausympäristöään."
@@ -3759,7 +3715,6 @@
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
-    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -3842,7 +3797,6 @@
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
-    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -4593,8 +4547,7 @@
    "krs": [
     "engel",
     "gilda",
-    "kinokilta",
-    "niagara"
+    "kinokilta"
    ],
    "r": 0,
    "s": {
@@ -5112,10 +5065,6 @@
   "the ice tower": {
    "id": 1143440,
    "img": "data/posters/38e4e65ce55be5a0.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum"
-   ],
    "r": 5.6,
    "s": {
     "en": "Jeanne, a 15-year-old orphan, witnesses the shoot for a film adaptation of the fairy tale The Snow Queen, and she becomes fascinated by its star, Cristina, an actress who is just as mysterious and alluring as the Queen she is playing.",
