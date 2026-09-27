@@ -9,6 +9,7 @@
 <meta name="description" content="Mitä Leffavuoro kerää, miksi ja kuinka kauan.">
 <link rel="canonical" href="https://leffavuoro.fi/tietosuoja/">
 <link rel="icon" href="/icon-192.png">
+<script>(function(){var k=null;try{k=localStorage.getItem('kino-theme')}catch(e){}var t=(k==='dark'||k==='light')?k:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})();</script>
 <style>
   @font-face{font-family:'Archivo';font-style:normal;
     font-weight:100 900;font-stretch:62% 125%;font-display:swap;
@@ -19,13 +20,14 @@
     src:url(/fonts/archivo-latin.woff2) format('woff2');
     unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
   :root{
-    color-scheme:light dark;
+    color-scheme:light;
     --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
     --line:#E3E6EB; --accent:#B8860B;
   }
   @media (prefers-color-scheme:dark){
-    :root{--bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
+    :root:not([data-theme="light"]){color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
   }
+  :root[data-theme="dark"]{color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
        font-family:'Archivo',system-ui,sans-serif; line-height:1.55;
@@ -35,6 +37,9 @@
   .logo{font-weight:800; letter-spacing:-.02em; text-decoration:none; color:var(--ink)}
   .logo span{color:var(--accent)}
   .bar a.back{margin-left:auto; color:var(--muted); font-size:.95rem}
+  .theme{font:inherit; font-size:15px; color:var(--muted); background:none; border:0;
+         cursor:pointer; min-height:34px; min-width:34px; margin:-5px 0 -5px -10px;
+         touch-action:manipulation}
   main{max-width:46rem; margin:0 auto; padding:24px 16px 64px}
   h1{font-size:1.8rem; letter-spacing:-.02em; margin:.6em 0 .2em}
   h2{font-size:1.25rem; letter-spacing:-.01em; margin:2.2em 0 .4em; padding-top:1.2em;
@@ -59,6 +64,8 @@
 <div class="bar">
   <a class="logo" href="/" id="homeLink">Leffavuoro<span>.</span></a>
   <a class="back" href="/" id="backLink">← Näytösaikoihin</a>
+  <button class="theme" id="themeToggle" type="button" title="Vaihda teemaa"
+          aria-label="Vaihda teemaa" hidden>◐</button>
 </div>
 <main>
 
@@ -309,6 +316,7 @@ blocker.</p>
                en: '\u2190 To showtimes' };
   var SHOWTIMES = { fi: 'N\u00e4yt\u00f6sajat', sv: 'Visningstider', en: 'Showtimes' };
   var STATUS = { fi: 'Palvelun tila', sv: 'Tj\u00e4nstens status', en: 'Service status' };
+  var THEME = { fi: 'Vaihda teemaa', sv: 'Byt tema', en: 'Switch theme' };
   var param = new URLSearchParams('');
   try { param = new URLSearchParams(location.search); } catch(e){}
   var stored = '';
@@ -332,6 +340,26 @@ blocker.</p>
   set('backLink', home, BACK[lang]);
   set('footShowtimes', home, SHOWTIMES[lang]);
   set('footStatus', '/status/?' + q.toString(), STATUS[lang]);
+  var tb = document.getElementById('themeToggle');
+  if(tb){ tb.title = THEME[lang]; tb.setAttribute('aria-label', THEME[lang]); }
+})();
+</script>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeToggle');
+  function paint(t){
+    root.setAttribute('data-theme', t);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.content = getComputedStyle(root).getPropertyValue('--bg').trim() || m.content;
+  }
+  paint(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  if(!btn) return;
+  btn.hidden = false;
+  btn.onclick = function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    paint(next);
+    try{ localStorage.setItem('kino-theme', next); }catch(e){}
+  };
 })();
 </script>
 </body>
