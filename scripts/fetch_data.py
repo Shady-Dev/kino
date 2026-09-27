@@ -253,6 +253,20 @@ def loc(obj):
             break
     return {"fi": fi, "en": en}
 
+
+def place_syn(syn):
+    """loc()'s synopses, each in the slot common.syn_language gives it. Finnkino's slots
+    are not always what they claim (2026-09-27: "fi" held English for NT LIVE: All My
+    Sons, "en" the bare title for Pressure). Three words or fewer is dropped, a text no
+    language settles stays put, and one already in its own slot wins."""
+    out = {"fi": "", "en": ""}
+    placed = [(common.syn_language(syn[k]) or k, k, syn[k])
+              for k in ("fi", "en") if len((syn.get(k) or "").split()) > 3]
+    for lang, k, text in sorted(placed, key=lambda p: p[0] != p[1]):
+        if not out.get(lang):
+            out[lang] = text
+    return out
+
 # A site id is upstream text, and it is the one filename component in this pipeline that
 # a third party writes: `area-{sid}.json` below. It also goes into a query string. Every
 # other provider's venue ids come from registry.py, and common.check_shows refuses a show
@@ -670,7 +684,7 @@ def main() -> int:
                 films_full[fid] = {
                     "t": loc(film.get("title")),
                     "o": t(film, "originalTitle", "text"),
-                    "s": loc(syn),
+                    "s": place_syn(loc(syn)),
                     "tr": tr_uri,
                     "y": films_meta[fid]["y"],
                     # Full premiere date, not just the year. Tickets for a premiere go on

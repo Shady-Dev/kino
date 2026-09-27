@@ -2599,3 +2599,12 @@ string alias. The override drops every entry its stored `q` reaches first, so on
 entries it could not see remain. An id alias re-judges with no search. On the committed
 data it marks nothing due. `AliasReachedByCleanTest`; 3 mutations red, a stale-`q`
 guard removed as equivalent.
+
+### Finnkino's synopses are placed by language in films.json (2026-09-27)
+On 2026-09-27 "fi" held English for NT LIVE: All My Sons, LINKIN PARK: UNSHATTER and
+Ooppera: Così Fan Tutte, and five "en" slots held only the title (Pressure, The Dog Stars,
+The Furious, Insidious 6, A Brief Affair). The pages skipped them; the app sheet showed
+them as the slot's language. `fetch_data.place_syn` applies the pages' rule at the source:
+three words or fewer is dropped, `common.syn_language` moves a text to its language's slot,
+and a text it cannot settle stays put. On the committed data it changes those 8 entries.
+`test_finnkino_syn_slots.py`; 6 mutations, all red. Proven by the next local run.
