@@ -696,12 +696,14 @@
    "tr": ""
   },
   "dances with wolves": {
-   "r": 0,
+   "id": 581,
+   "img": "data/posters/2c69bbfea81f9c66.jpg",
+   "r": 7.8,
    "s": {
     "en": "",
     "fi": "Ensimmäistä kertaa arkistofilmikopiona Helsingissä: Kevin Costnerin maksilänkkäri entistä tuhdimmassa ja eeppisemmässä muodossa nelituntisena erikoisversiona! Western-genren näyttäviin testamenttiteoksiin lukeutuva ysärihumanismin virstanpylväs oli taiteellinen ja taloudellinen uhkapeli, josta tuli Oscar-jyrä ja lippuluukkujen suosikki."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=N4gr-uXUg1M"
   },
   "daughters of darkness": {
    "id": 446473,
@@ -765,6 +767,7 @@
     "kinokilta",
     "kinokulma",
     "korjaamo",
+    "leffabuumi",
     "tapiola"
    ],
    "r": 0,
@@ -1026,12 +1029,17 @@
    "tr": ""
   },
   "gothic": {
-   "r": 0,
+   "id": 33516,
+   "img": "data/posters/a73b24ab4cfcb9ed.jpg",
+   "r": 5.7,
    "s": {
-    "en": "",
+    "en": "Living on an estate on the shores of Lake Geneva, Lord Byron is visited by Percy and Mary Shelley. Together with Byron's lover Claire Clairmont, and aided by hallucinogenic substances, they devise an evening of ghoulish tales. However, when confronted by horrors, ostensibly of their own creation, it becomes difficult to tell apparition from reality.",
     "fi": "Vuosia kestäneen Hollywood-vaiheen jälkeen Ken Russell teki umpibrittiläisen kauhudraaman. Lordi Byron, Mary Shelley, Percy Bysshe Shelley ja John Polidori viettävät kesää sveitsiläisessä huvilassa. Itse kunkin syvimmät pelot paljastava yhden yön tarina on Frankenstein-romaanin syntyvaiheiden mehukas kiteytys. ”Jos James Ivoryn elokuvat ovat karuselleja, Ken Russell tekee vuoristoratoja”, näyttelijä Julian Sands luonnehti."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=93SrqYZT4yM",
+   "ts": [
+    "en"
+   ]
   },
   "gremlins 2 the new batch": {
    "id": 928,
@@ -1551,12 +1559,14 @@
    ]
   },
   "joulutarina": {
-   "r": 0,
+   "id": 21501,
+   "img": "data/posters/e1d133e1143a30e5.jpg",
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Taianomaisen joulutunnelman onnistuneesti tavoittava Joulutarina on lämminhenkinen ja koskettava satu siitä, kuinka orvosta Nikolas-pojasta tuli joulupukki. Kaksinkertaisella keskivertosuomalaiselokuvan budjetilla tuotettu elokuva oli suuri yleisömenestys, ja siitä on sittemmin tullut rakastettu jouluklassikko. Elokuvassa nähdään myös Antti Tuiskun valkokangasdebyytti."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=CIyEFKzqz0s"
   },
   "jubilee": {
    "id": 41426,
@@ -2063,7 +2073,6 @@
     "kino123",
     "kinoakseli",
     "kinohamina",
-    "kinohirvi",
     "kinokulma",
     "kinolaika",
     "kinolumo",
@@ -2092,16 +2101,12 @@
   },
   "kojootti vs acme dub": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme dubattu": {
    "id": 1204680,
@@ -2849,12 +2854,14 @@
    "tr": ""
   },
   "miekkailija": {
-   "r": 0,
+   "id": 322488,
+   "img": "data/posters/fb74c9427056a7d3.jpg",
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Golden Globe -ehdokkaaksikin yltäneessä, tositarinaan pohjaavassa epookissa Neuvostoliiton salaista poliisia pakoileva nuori mies ryhtyy liikunnanopettajaksi 1950-luvun alun Haapsalussa. Hänen lapsille pitämästään miekkailukerhosta muodostuu merkityksellinen itseilmaisun ja vapauden saareke tukahduttavan järjestelmän keskelle."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=c0jG3QWW4yE"
   },
   "mikkelin aikamatka": {
    "r": 0,
@@ -2953,7 +2960,6 @@
     "bioforum",
     "biopallas",
     "biorex",
-    "biosade",
     "biosavoy",
     "cine",
     "cinemantsala",
@@ -2962,7 +2968,6 @@
     "ihmekompleksi",
     "jarvelankino",
     "kinohannikainen",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -3836,7 +3841,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -3864,6 +3868,7 @@
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
+    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -3915,7 +3920,6 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -3943,6 +3947,7 @@
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
+    "matintupa",
     "navettakino",
     "niagara",
     "savonkinot",
@@ -4125,19 +4130,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=CnWgjtNWKXI"
   },
-  "r a mouse": {
-   "id": 1241052,
-   "img": "data/posters/c2d2649939f08ee0.jpg",
-   "r": 0,
-   "s": {
-    "en": "Callie and Minnie’s relationship is suddenly upended at the start of the summer before their senior year of high school. Left rudderless without her charismatic best friend, Minnie starts to form a complicated friendship with Callie’s mother.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=sfvh4VZsFuY",
-   "ts": [
-    "en"
-   ]
-  },
   "rakasta tai tuhoudu": {
    "id": 37038,
    "r": 0,
@@ -4204,7 +4196,6 @@
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4314,7 +4305,6 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "sheryl",
@@ -4363,7 +4353,6 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "sheryl",
@@ -4875,12 +4864,14 @@
    "tr": ""
   },
   "stand by me viimeinen kesä": {
-   "r": 0,
+   "id": 235,
+   "img": "data/posters/b9cbf151ef822b2c.jpg",
+   "r": 7.8,
    "s": {
     "en": "",
     "fi": "Lämminhenkinen kesäpäivä saa jännittävän käänteen, kun neljä 12-vuotiasta ystävystä saa tietää kadoksissa olleen pojan ruumiin olinpaikan. Pojat lähtevät seikkailulle etsimään ruumista ja vaellus kohti kuolemaa muuttuu matkaksi itseensä. Stephen Kingin novelliin perustuvassa kasvutarinassa lahjakkaiden lapsinäyttelijöiden joukko johdattaa katsojan ystävyyden, menetyksen ja lapsuuden viimeiseen kesään."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=2rBenGsz23E"
   },
   "star house movie ortotopologian loputtomat alkeet": {
    "id": 1753057,
@@ -5030,12 +5021,17 @@
    "tr": ""
   },
   "tabu": {
-   "r": 0,
+   "id": 977,
+   "img": "data/posters/05d1718af2345046.jpg",
+   "r": 7.1,
    "s": {
-    "en": "",
+    "en": "On the South Pacific island of Bora Bora, a young couple's love is threatened when the tribal chief declares the girl a sacred virgin.",
     "fi": "Tabun oli tarkoitus olla ensimmäinen Murnaun ja Robert Flahertyn suunnittelemista itsenäisistä elokuvista vapaana Hollywoodin studiojärjestelmän kahleista. Murnau ohjasi kuitenkin lopulta yksin Bora Boran saarille sijoittuvan silmiähivelevän kuvauksen luonnontilaisesta paratiisista, josta rakastavaiset joutuvat lähtemään ”sivistyksen” pariin. Murnau menehtyi traagisesti auto-onnettomuudessa juuri ennen elokuvan ensi-iltaa. A film from the holdings of the Friedrich-Wilhelm-Murnau-Stiftung (www.murnau-stiftung.de) in Wiesbaden"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=BmHQjE_YCGw",
+   "ts": [
+    "en"
+   ]
   },
   "taistelu lapinlahdesta": {
    "id": 1612069,
@@ -5713,16 +5709,12 @@
   },
   "toy story 5 dub": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
@@ -6012,6 +6004,7 @@
     "ihmekompleksi",
     "isohannu",
     "kinokulma",
+    "leffabuumi",
     "star",
     "tapiola"
    ],
@@ -6036,6 +6029,7 @@
     "ihmekompleksi",
     "isohannu",
     "kinokulma",
+    "leffabuumi",
     "star",
     "tapiola"
    ],
