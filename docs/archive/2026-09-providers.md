@@ -3300,3 +3300,14 @@ listening sessions (Stevie Wonder, John Coltrane, Nirvana). Each film page's
 keeps only its paragraphs placed Finnish, which drops the arrival note, the album length
 and the English press quotes. Live run: 4 pages read, 4 placed (en 1, fi 3).
 `test_gilda_page_syn.py`; 9 mutations, all red.
+
+### Nexxo reads its synopsis from `intro` (2026-09-28)
+`description`, the field `nexxo.py` read, was empty for all 74 films on the eight Nexxo
+sites; `intro` holds the text, so no Nexxo site had ever merged a synopsis. The blurb
+shares `intro` with screening notes, so `nexxo.intro_syn` judges each paragraph: a wholly
+bold one (festival, dub, free entry), one naming the cinema or quoting a price, and one
+`common.syn_language` places nowhere ("Puhuttu suomeksi.", "Elokuva esitetään 16mm
+filmikopiona.") are left out, and the most common language of the rest is published. On
+the corpus 61 of 66 films place; a few unplaced taglines and second paragraphs are lost.
+Live run: 12 slots merged (fi 11, sv 1), the rest already held by other chains; films-extra
++8.2 KB raw, +2.9 KB gzipped. `test_nexxo_intro.py`; 8 mutations, all red.

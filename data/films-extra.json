@@ -385,6 +385,14 @@
    },
    "tr": ""
   },
+  "baaripähkinä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tästä visailuista löydät kaiken, mitä loistavassa pubivisassa pitääkin olla: Monipuolisesti kysymyksiä sekä ihmiskunnan alkuhämäristä, että viikon uutisotsikoista; mikroskooppisen pienestä atomista aina maailmankaikkeuden laidalle saakka. Kysymyksiä mm. viihteestä, urheilusta, luonnosta, tieteestä, taiteesta, ruuasta, juomasta ja maantiedosta. Näyttävän visakokonaisuuden kruunaavat uniikit erikoiskysymykset, joita löytyy yksinoikeudella vain Baaripähkinästä. Tästä esimerkkeinä mysteerit, kuvamuokkaukset, käännökset, emojit sekä ristikot. Sanomattakin on selvää, että tämä ainutlaatuinen visailuelämys esitetään näyttävästi screenien kautta."
+   },
+   "tr": ""
+  },
   "back to the beginning ozzy s final bow": {
    "id": 1515139,
    "img": "data/posters/10a5b5a96bd42dfd.jpg",
@@ -803,12 +811,9 @@
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Lluc, kulttuuriin kiinnittynyt entinen akateemikko, ja Olli, Suomesta Barcelonan kaduille ajautunut mies, kohtaavat etsiessään suojaa samasta rappukäytävästä. Alkukohdat ovat vaatimattomat, mutta vähitellen heidän välilleen syntyy yhteys, joka ei rakennu säälistä vaan jaetusta ihmisyydestä."
+    "fi": "Näytöksen jälkeen elokuvakokemusta voi jäädä purkamaan Leffalukupiiriin, jonka vetäjänä toimii FT, dosentti Kaisa Hiltunen. Hiltunen työskentelee elokuvatutkijana Jyväskylän yliopiston Musiikin, taiteen ja kulttuurin tutkimuksen laitoksella. Hän on toiminut aiemmin myös sanomalehti Keskisuomalaisen elokuvakriitikkona. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "donnie darko 2001 25th anniversary director s cut": {
    "id": 141,
@@ -973,12 +978,9 @@
    "r": 7.2,
    "s": {
     "en": "",
-    "fi": "Liity Liisan matkaan, kun hän jahtaa Valkoista Kania nurinkuriseen maailmaan, joka muuttuu yhä oudommaksi ja oudommaksi, kun hänen mielikuvitukselliset seikkailunsa etenevät. Tapaa Hullu Hatuntekijä, Hassu Jänis, Tittelityy ja Tittelitom, Irvikissa, Herttakuningatar ja monta muuta unohtumatonta hahmoa kunnioitusta herättävässä loistossa. Sisältää tupakkatuotteita."
+    "fi": "Lähde Liisan matkaan, kun hän putoaa hassuun Ihmemaailmaan ja tapaa erikoisia hahmoja, joihin kuuluvat Tittelityy ja Tittelitom, Hullu Hatuntekijä, Herttakuningatar ja epätoivoisen myöhässä oleva Valkoinen Kani."
    },
-   "tr": "https://www.youtube.com/watch?v=JY2rHymtNvc",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=JY2rHymtNvc"
   },
   "follow the plants": {
    "r": 0,
@@ -1281,12 +1283,9 @@
    "r": 7.6,
    "s": {
     "en": "A self-assured businessman murders his employer, husband of his mistress, which unintentionally provokes an ill-fated chain of events.",
-    "fi": "Jeanne Moreaun tunnelmallinen läpimurtoelokuva, jossa rakastavaisten juoni aviomiehen murhaamiseksi mutkistuu odottamattoman sattuman seurauksena."
+    "fi": "Florence ja hänen rakastajansa Julien suunnittelevat murhaavansa Florencen aviomiehen ja lavastavansa teon itsemurhaksi. Kaikki näyttää sujuvan suunnitelmien mukaan, kunnes Julien jää jumiin hissiin ja koko suunnitelma menee uusiksi. Hissi mestauslavalle on Oscar-ehdokas Louis Mallen tyylikäs trilleri, jonka pääosassa nähdään Jeanne Moreau ja jonka alkuperäismusiikista vastaa Miles Davis . Elokuvaa pidetään yhtenä eurooppalaisen elokuvataiteen ranskalaisen uuden aallon perustan luoneista teoksista."
    },
-   "tr": "https://www.youtube.com/watch?v=LciQ1A5PvLI",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=LciQ1A5PvLI"
   },
   "home sweet home free screening polish film weeks puolan elokuvaviikot": {
    "r": 0,
@@ -2242,6 +2241,15 @@
    },
    "tr": ""
   },
+  "konsertti mia hafrén": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "",
+    "sv": "Som förband spelar den fantastiska Linn Thomas, som i mars debuterade med albumet Sura miner. Artisten rör sig mellan vis, jazz, pop och folkmusik och är ett namn att lägga på minnet! Hafréns skriver sin egen musik, på nya albumet finns också samarbeten med producent Oskar Nyman. Albumet har stråk av folk och country över sig där artisten sökt inspiration ur teman som mod, förändring och kärlek. “Jag hoppas att publiken ska få en stund av gemenskap, avslappning och god musik. Bandet på scen är alldeles fantastiskt! Lite rolig ska jag också försöka vara. Det är alltid en speciell känsla att uppträda i min gamla hemstad”, fortsätter Hafrén. Albumets singlar Up all night, Whirling mind och Love to be Found har väckt intresse runtom i världen och spelas flitigt i radion. Under konserten får man också höra musik från Mia Hafréns två första album Också för dig och For the Brave. Mia Hafrén är utbildad skådespelare och lösningsfokuserad terapeut. Hon har fungerat som sångare, musiker och låtskrivare under hela sin professionella karriär, först i a capellagruppen Fork och sedan 2022 som soloartist. Hafrén gav ut sitt debutalbum Också för dig 2022 och uppföljaren For the Brave 2024. Hafrén har spelat på bla Saltfest 2025 och Raseborg festivalen 2024 och turnerat runt i Finland. Hon är också känd från teaterscener och tv-serier, bla Konflikti, Tahdon asia och Hovimäki. Mia Hafrén spelade huvudrollen i Svenska teaterns uppsättning av Mamma Mia!- musikalen. I höst är Hafrén akutell i stormusikalen Snowball i Uleåborg."
+   },
+   "tr": ""
+  },
   "kpe kevlarsjäl iskunkestävä sielu": {
    "r": 0,
    "s": {
@@ -2497,7 +2505,7 @@
    "r": 0,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
-    "fi": ""
+    "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -3537,6 +3545,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "pieni amélie": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Animaatioelokuva Pieni Amélie on lämmin ja sydämeenkäyvä kertomus pienestä belgialaisesta tytöstä, jonka silmin koetaan elämä Japanissa. Elokuva vie katsojan mukaan Amélien maailmaan, jossa elämän pienet ihmeet, arjen hetket ja uudet kokemukset avautuvat lapsen uteliain silmin. Amélien kolmivuotissyntymäpäivästä tulee käännekohta, joka muovaa hänen käsitystään maailmasta."
+   },
+   "tr": ""
   },
   "pieni elokuvakerho gremlins 2 the new batch": {
    "id": 928,
@@ -4874,6 +4890,14 @@
     "en"
    ]
   },
+  "suomi radalla keskustelutilaisuus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Suomi radalla -dokkari tarkastelee suomalaista graffitikulttuuria laillisuuden ja laittomuuden näkökulmista, kertoen suomalaisen graffitin tarinaa kaduilta gallerioihin. Taiteilijat, yhteiskunnalliset vaikuttajat ja vihkiytyneet toimijat pohtivat graffitin merkitystä aikana, jolloin kulttuuri näkyy niin laittomasti koristelluissa junankyljissä, taidegallerioiden seinillä kuin kulutustuotteiden markkinointiestetiikassakin. Dokkari tarkastelee myös yhteiskunnallisia reaktioita graffitiin, jättisakkoja ja vartiointiliikkeiden väkivaltaa jaelleesta nollatoleranssista aina asteittaiseen hyväksyntään."
+   },
+   "tr": ""
+  },
   "suurkaupungin tyttö": {
    "id": 34796,
    "img": "data/posters/37f6307086e71edc.jpg",
@@ -5785,7 +5809,7 @@
    "r": 0,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
+    "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
    "ts": [
@@ -5798,7 +5822,7 @@
    "r": 0,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
+    "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
    "ts": [
@@ -5990,10 +6014,7 @@
     "en": "",
     "fi": "Hömpstadin kaupunkia suojelevan näkymättömän sankarin Vinskin supervoimat katoavat, kun näkymättömyyspulveri varastetaan. Se on kuitenkin vasta ensimmäinen askel Hömpstadia uhkaavien häikäilemättömien rikollisten suunnitelmassa, jossa vaarassa on Vinskin lisäksi hänen äitinsä ja koko kaupunki. Pelastaakseen Hömpstadin Vinskin on lähdettävä seuraamaan kadonneen Apteekkarin jättämiä arvoituksellisia ohjeita, jotka johdattavat hänet Hömpstadin \"nurjalle puolelle”. Vinski kohtaa myös kaupunkia otteessaan pitävän kaksinaamaisen rikollispomon, jonka suuruudenhulluudella ei ole rajoja."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "vonkka": {
    "id": 787699,
@@ -6047,7 +6068,7 @@
    "r": 6.1,
    "s": {
     "en": "Legendary New York graffiti artist Lee Quinones plays the part of Zoro, the city's hottest and most elusive graffiti writer. The actual story of the movie concerns the tension between Zoro's passion for his art and his personal life, particularly his strained relationship with fellow artist Rose.",
-    "fi": ""
+    "fi": "Ensimmäisenä hip hop -leffana pidetty puolidokumentaarinen Wild Style on riippumattoman elokuvan muotokieltä raa'alla DIY-estetiikallaan ja tekotavallaan muokannut värikäs musaleffojen kultakimpale! Alkukasarin ruohonjuuritason New York on taltioitu elokuvaan aikana, jolloin hip hop ei ollut vielä räjähtänyt koko maailman tietoisuuteen, vaan sykki vielä pitkälti piilossa Bronxin korttelibileissä. Hip hopin alkuvuosien originaattorit, kuten Busy Bee Starski , Fab Five Freddy , The Cold Crush Brothers ja Grandmaster Flash olivat mukana toteuttamassa tätä räpin keskeisissä levyissä sämplättyä dokkarin ja fiktion yhdistelmäklassikkoa, joka on pakollista valkokangasnähtävää kaikille hip hopin neljän elementin (graffiti, breakdance, DJ ja MC) alkuräjähdyksen ajoista kiinnostuneille leffa- ja musafaneille."
    },
    "tr": "https://www.youtube.com/watch?v=iq96MJpFrsA",
    "ts": [

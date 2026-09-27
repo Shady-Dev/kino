@@ -11,10 +11,11 @@ Adding another Nexxo cinema means adding an entry to SITES, not writing code.
 Kinoset's path onto every site unverified and shipped six dead ticket links; fetch the
 built URL and check for the plugin's showlist markup before trusting a new entry.
 """
-import datetime, json, re, time, urllib.parse
+import collections, datetime, json, re, time, urllib.parse
 from zoneinfo import ZoneInfo
 
 import common
+import synmerge
 from common import fetch
 
 # EmptyProgramme is referenced through the module, not from-imported: the test suite
@@ -184,6 +185,29 @@ def rating(age):
     return f"K-{int(m.group(1))}" if m else ""
 
 
+BOLD_P = re.compile(r"^\s*<p[^>]*>\s*<(strong|b)>(?:(?!</?(?:strong|b)>).)*</\1>\s*$", re.S)
+
+
+def intro_syn(text, names=()):
+    """{lang: text} from a row's HTML. Nexxo fills `intro`; `description` was empty for all
+    74 films on eight sites (2026-09-28). The notes sit between the blurb's paragraphs, so
+    each is judged alone: a wholly bold one (festival, dub, free entry), one naming the
+    cinema or quoting a price, and one no language places ("Puhuttu suomeksi.") are left
+    out, and of the rest those in the most common language are kept."""
+    placed = []
+    for p in re.split(r"</p\s*>", text or ""):
+        if not p.strip() or BOLD_P.match(p):
+            continue
+        t = synmerge.drop_notes_html(p, names=names)
+        lang = common.syn_language(t) if t else ""
+        if lang:
+            placed.append((lang, t))
+    if not placed:
+        return {}
+    best = collections.Counter(lang for lang, _ in placed).most_common(1)[0][0]
+    return {best: " ".join(t for lang, t in placed if lang == best)}
+
+
 def parse(payload, site, venue):
     # Positive evidence that the endpoint answered in the schema this parser reads,
     # before any of its emptiness is believed. A renamed or restructured key yields zero
@@ -261,7 +285,8 @@ def parse(payload, site, venue):
             "price": price,
             "provider": site["provider"],
             "venue": venue["id"],
-            "_syn": (r.get("description") or "").strip(),
+            "_syn": intro_syn(r.get("description") or r.get("intro"),
+                              names=(site.get("label") or "",)),
         })
     # Rows existed for this venue and not one produced a showtime, for reasons the
     # payload does not explain: that is the row schema changing under the parser, and
