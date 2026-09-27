@@ -5029,6 +5029,16 @@
   window.addEventListener('hashchange', syncSheet);
   matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });
   overlayEl.onclick = closeSheet;
+  // iOS hands a drag the sheet cannot scroll to the page behind it.
+  let touchY = 0;
+  sheetEl.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
+  sheetEl.addEventListener('touchmove', e => {
+    const y = e.touches[0].clientY, up = y < touchY, b = e.target.closest('.sheet-body');
+    touchY = y;
+    if(b && (up ? b.scrollTop + b.clientHeight < b.scrollHeight - 1 : b.scrollTop > 0)) return;
+    if(e.cancelable) e.preventDefault();
+  }, { passive: false });
+  overlayEl.addEventListener('touchmove', e => { if(e.cancelable) e.preventDefault(); }, { passive: false });
   main.addEventListener('click', e => {
     // The chooser's "and many more" opens the picker. Delegated: showHome() replaces
     // the markup, so a listener on the button itself would not survive Back.

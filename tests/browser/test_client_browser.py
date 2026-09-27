@@ -396,6 +396,55 @@ class SheetRefresh(Browser):
         self.assertIn("sheet-close", self.focused())
 
 
+class SheetTouchDrag(Browser):
+    """iOS hands a drag the sheet cannot scroll to the page behind it (2026-09-27). The
+    sheet cancels that drag; one the body can scroll goes through."""
+
+    viewport = {"width": 375, "height": 812}
+    touch = True
+    # WebKit has no Touch constructor, so the events are plain ones carrying `touches`.
+    DRAG = """([sel, dy]) => {
+        const el = document.querySelector(sel), y = el.getBoundingClientRect().top + 10;
+        const touch = (type, at) => {
+            const e = new Event(type, {bubbles: true, cancelable: true});
+            Object.defineProperty(e, 'touches', {value: [{clientY: at}]});
+            el.dispatchEvent(e);
+            return e.defaultPrevented;
+        };
+        touch('touchstart', y);
+        return touch('touchmove', y + dy);
+    }"""
+
+    def open(self, fid):
+        self.pick_orion()
+        self.page.evaluate(f"location.hash = 'm={fid}'")
+        expect(self.page.locator(".sheet-body")).to_be_visible()
+
+    def cancelled(self, sel, dy):
+        return self.page.evaluate(self.DRAG, [sel, dy])
+
+    def test_a_drag_on_a_sheet_that_cannot_scroll_is_cancelled(self):
+        self.open("presidentin-kyyditys")
+        self.assertFalse(self.page.evaluate(
+            "() => { const b = document.querySelector('.sheet-body');"
+            " return b.scrollHeight > b.clientHeight; }"), "the body has to fit")
+        for sel in (".sheet-body .stub", ".sheet-head", "#overlay"):
+            for dy in (-80, 80):
+                with self.subTest(sel=sel, dy=dy):
+                    self.assertTrue(self.cancelled(sel, dy))
+
+    def test_a_drag_the_body_can_scroll_goes_through(self):
+        self.page.set_viewport_size({"width": 375, "height": 320})
+        self.open("hetki-ennen-valoa")
+        self.page.evaluate("() => { const b = document.querySelector('.sheet-body');"
+                           " b.scrollTop = (b.scrollHeight - b.clientHeight) / 2; }")
+        for dy in (-40, 40):
+            with self.subTest(dy=dy):
+                self.assertFalse(self.cancelled(".sheet-body .stub", dy))
+        self.page.evaluate("document.querySelector('.sheet-body').scrollTop = 0")
+        self.assertTrue(self.cancelled(".sheet-body .stub", 40), "past the top edge")
+
+
 class SheetDuringARefresh(Browser):
     """A sheet opened while a resume refresh is in flight shows the schedule on screen.
 
