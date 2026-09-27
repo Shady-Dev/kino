@@ -3,14 +3,14 @@
 [biomarilyn] 2 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa, PäiväKaffileffa : Presidentin Kyyditys
 [biomarilyn] Bio Marilyn: 9 showtimes, 8 dates
 [biomarilyn] Bio Marilyn: 9 showtimes, 8 dates
-[biomarilyn] synopses merged: 1
+[biomarilyn] synopses merged: 0
 [vihdinkino] 4 screening(s) in day groups, 3 film page(s) read
 [vihdinkino] Vihdin Kino: 4 showtimes, 2 dates
 [vihdinkino] Vihdin Kino: 4 showtimes, 2 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 21 screening(s) in day groups, 8 film page(s) read
-[bioforum] Bio Forum: 21 showtimes, 11 dates
-[bioforum] Bio Forum: 21 showtimes, 11 dates
+[bioforum] 20 screening(s) in day groups, 8 film page(s) read
+[bioforum] Bio Forum: 20 showtimes, 10 dates
+[bioforum] Bio Forum: 20 showtimes, 10 dates
 [bioforum] synopses merged: 0
 [kinokulma] 59 screening(s) in day groups, 18 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
@@ -22,12 +22,12 @@
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 5 screening(s) in day groups, 3 film page(s) read
-[kinovirta] Kino Virta: 5 showtimes, 3 dates
-[kinovirta] Kino Virta: 5 showtimes, 3 dates
+[kinovirta] 4 screening(s) in day groups, 3 film page(s) read
+[kinovirta] Kino Virta: 4 showtimes, 2 dates
+[kinovirta] Kino Virta: 4 showtimes, 2 dates
 [kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 49 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 104 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 120.2s of fetching added up across workers that overlap, longest site 48.9s, longest queue wait 94.3s, 55.4s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 102 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 132.6s of fetching added up across workers that overlap, longest site 51.7s, longest queue wait 98.0s, 58.3s wall from this module's first fetch starting to its last ending
 exit=0

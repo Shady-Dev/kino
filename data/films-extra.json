@@ -270,8 +270,7 @@
     "kinolaika",
     "kinometso",
     "niagara",
-    "star",
-    "tapiola"
+    "star"
    ],
    "r": 6.2,
    "s": {
@@ -371,13 +370,12 @@
   },
   "avengers endgame encore re release 2026": {
    "id": 299534,
-   "img": "data/posters/b7147419b96540ff.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Normaali 2D-versio. Avengers: Endgame on suoraa jatkoa vuonna 2018 ilmestyneelle Avengers: Infinity War:ille, jossa galaktinen titaanilordi Thanos voitti Avengers-ryhmän, tuhosi puolet universumin asukkaista ja pakeni kaukaiselle planeetalle. Nyt jäljelle jääneet supersankarit joutuvat uransa vaikeimman haasteen äärelle pohtiessaan, miten jatkaa tästä eteenpäin. Muutama viikko on kulunut Thanoksen aiheuttamasta massahävityksestä. Tästä selvinneet ihmiset ovat hiljalleen alkaneet keräilemään voimiaan. Tony Stark eli Iron Man on alkanut miettimään omaa tulevaisuuttaan ja yrittää Nebula-kyborgin kanssa keksiä keinon päästä takaisin Maahan. Muut hyökkäyksestä selvinneet, Thor, Natasha Romanoff, Bruce Banner, ja Steve Rogers saavat rinnalleen takaisin Hawkeyen, Scott Langin ja Carol Denversin. Yhdessä he päättävät vielä kerran käydä taisteluun Thanosta vastaan hieman erikoisella tavalla, joka tulee vaatimaan isoja uhrauksia ja lujaa tahtoa. Mutta Thanoksella on myös omat suunnitelmat hävityksen jälkeen."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
+   "tr": ""
   },
   "avengers endgame re release encore": {
    "r": 0,
@@ -1000,8 +998,7 @@
   },
   "good home free screening polish film weeks puolan elokuvaviikot": {
    "id": 1035047,
-   "img": "data/posters/bdbab05dd04763e3.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
     "en": "When Gośka meets Grzesiek on the Internet, she is sure that she’s finally found her Mr. Right.Grzesiek is crazy about her, showers her with flowers and proposes in Venice. This must be love, right? The perfect picture starts showing some cracks, though. For Gośka their home soon becomes the most dangerous of places. A film about the limits of love that you will not be able to forget.",
     "fi": ""
@@ -1142,7 +1139,6 @@
     "kkino",
     "kotkanleffat",
     "leffabuumi",
-    "lieksankino",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -1992,6 +1988,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "biograni",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -2122,12 +2119,16 @@
   },
   "kojootti vs acme på svenska": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kojootti vs acme sub": {
    "r": 0,
@@ -4062,6 +4063,7 @@
     "alatalo",
     "bioforum",
     "biogrand",
+    "biograni",
     "biokaari",
     "biomarilyn",
     "biopallas",
@@ -4184,7 +4186,6 @@
    "kr": "K-16",
    "krs": [
     "biogrand",
-    "biokaari",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -4234,7 +4235,6 @@
    "kr": "K-16",
    "krs": [
     "biogrand",
-    "biokaari",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -5575,16 +5575,12 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -5724,7 +5720,7 @@
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 0,
+   "r": 7.9,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
