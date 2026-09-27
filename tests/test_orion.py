@@ -100,6 +100,23 @@ class OrionTicketUrlTest(unittest.TestCase):
                 self.assertTrue(parts.netloc, f"no host in {s['url']!r}")
 
 
+class TitleAttributeTest(unittest.TestCase):
+    """The anchor's `title` runs to the quote that opened it. Until 2026-09-27 it stopped at
+    either quote, so `title ="Oasis: Don't Look Back in Anger"` published "Oasis: Don"."""
+
+    def test_the_title_runs_to_its_own_closing_quote(self):
+        cells = [
+            ("<a href='/elokuvat/oasis/' title =\"Oasis: Don't Look Back in Anger\"> x </a>",
+             "Oasis: Don't Look Back in Anger"),
+            ("<a href='/elokuvat/girl/' title='A Girl&#39;s Story'> x </a>", "A Girl's Story"),
+            ("<a href='/elokuvat/best/' title='The \"Best\" Film'> x </a>", 'The "Best" Film'),
+        ]
+        shows = orion.parse(page(("04.09.", [
+            row(cell, f"1{i}:00", "04.09.", link(f"/checkout/{i}"))
+            for i, (cell, _) in enumerate(cells)])), today=TODAY)
+        self.assertEqual([s["title"] for s in shows], [want for _, want in cells])
+
+
 class YearTest(unittest.TestCase):
     """The table prints no year. Before 2026-09-19 a private loop took the first candidate
     year inside a -45..+320 window rather than the nearest one, so `1.8.` read on

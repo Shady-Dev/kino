@@ -122,7 +122,7 @@ ITEM_RE = re.compile(r'<a[^>]*href=["\']([^"\']+)["\'][^>]*class=["\'][^"\']*'
 SHOWTIME_RE = re.compile(r'data-showtime=["\']([^"\']+)["\'][^>]*>\s*(?:klo\s*)?'
                          r'(\d{1,2})[.:](\d{2})', re.I)
 BARE_TIME_RE = re.compile(r'data-showtime=["\']([^"\']+)["\']')
-NAME_RE = re.compile(r'data-name=["\']([^"\']*)["\']')
+NAME_RE = re.compile(r'data-name=(["\'])(.*?)\1', re.S)   # to the opening quote
 LOC_RE = re.compile(r'data-location=["\']([^"\']*)["\']')
 RATING_RE = re.compile(r'(?<![-\w])rating-([0-9]{1,2}|s)(?![-\w])', re.I)
 DURATION_RE = re.compile(r'class=["\'][^"\']*(?<![-\w])showduration(?![-\w])[^"\']*["\'][^>]*>'
@@ -251,7 +251,7 @@ def rows(site, page):
     for group in groups(page):
         for href, product, block in ITEM_RE.findall(group):
             n += 1
-            title = _txt(NAME_RE.search(block).group(1)) if NAME_RE.search(block) else ""
+            title = _txt(NAME_RE.search(block).group(2)) if NAME_RE.search(block) else ""
             if not title:
                 raise ListingRowError(
                     f"{site['provider']}: grid item {n} of the listing has no title")

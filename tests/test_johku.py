@@ -43,15 +43,17 @@ SYN_NO_LANGUAGE = ("Odysseus. Troija, Ithaka, Kirke, Kalypso, Skylla, Kharybdis,
 
 
 def row(slug, title, when, clock, loc="Bio Marilyn", rating="12", dur="1 h 27 min",
-        product="1038", category="nyt-ohjelmistossa", timed=True, path=None):
-    """One grid item. `when` is the UTC instant, `clock` what the page prints beside it."""
+        product="1038", category="nyt-ohjelmistossa", timed=True, path=None, name=None):
+    """One grid item. `when` is the UTC instant, `clock` what the page prints beside it.
+    `name` replaces the whole `data-name` attribute."""
+    name = name or f'data-name="{title}"'
     time_span = (f'<span class="showtime" data-showtime="{when}">klo {clock}</span>'
                  if timed else "")
     path = path if path is not None else f"/fi_FI/{category}/{slug}"
     return (f'<a href="{path}" class="js-grid-item js-grid-show" '
             f'data-product="{product}"><span class="grid-content-image"></span>'
             f'<span class="showrating rating-icon rating-{rating}">K-{rating}</span>'
-            f'<h3 class="grid-content-title" data-name="{title}">{title}</h3>'
+            f'<h3 class="grid-content-title" {name}>{title}</h3>'
             f'<span class="grid-content-text">'
             f'<span class="location showlocation venue showresource" '
             f'data-location="{loc}">{loc}</span>'
@@ -167,6 +169,17 @@ class ListingTest(unittest.TestCase):
         self.assertEqual((a["rating"], a["len"]), ("K-12", "87"))
         self.assertEqual(a["url"], "https://www.biomarilyn.com/fi_FI/nyt-ohjelmistossa/hetki")
         self.assertEqual(b["venue"], "biomarilyn-lapua")
+
+    def test_the_name_runs_to_its_own_closing_quote(self):
+        """Until 2026-09-27 the name stopped at either quote, so a raw apostrophe cut it."""
+        cases = [("data-name=\"Don't Look Back\"", "Don't Look Back"),
+                 ("data-name='A Girl&#39;s Story'", "A Girl's Story"),
+                 ("data-name='The \"Best\" Film'", 'The "Best" Film')]
+        page = listing(group("Perjantai 19.9.2026", *(
+            row(f"f{i}", "x", f"2026-09-19T1{i}:30:00.000Z", f"{i + 13}.30",
+                product=str(i), name=attr) for i, (attr, _) in enumerate(cases))))
+        self.assertEqual([r["title"] for r in J.rows(MARILYN, page)[0]],
+                         [want for _, want in cases])
 
     def test_an_unknown_rating_class_is_left_empty(self):
         page = listing(group("Perjantai 19.9.2026",

@@ -79,7 +79,8 @@ ROW_RE = re.compile(r'<tr\b[^>]*>(.*?)</tr>', re.S | re.I)
 CELL_RE = re.compile(r'<td\b([^>]*)>(.*?)</td>', re.S | re.I)
 CLASS_RE = re.compile(r'class=["\']([^"\']*)["\']', re.I)
 ANCHOR_RE = re.compile(r'<a\b([^>]*)>(.*?)</a>', re.S | re.I)
-TITLE_ATTR_RE = re.compile(r'title\s*=\s*["\']([^"\']*)["\']', re.I)
+# To the quote that opened it: titles carry apostrophes (`title ="Don't Look Back"`).
+TITLE_ATTR_RE = re.compile(r'title\s*=\s*(["\'])(.*?)\1', re.I | re.S)
 HREF_RE = re.compile(r'href\s*=\s*["\']([^"\']+)["\']', re.I)
 SLUG_URL_RE = re.compile(r'/elokuv[au]t?/([^/?#"\']+)', re.I)
 # The site spells it "descrption", and the span inside it is never closed, so stop at
@@ -141,7 +142,7 @@ def _film(cell_html):
     ta = TITLE_ATTR_RE.search(attrs)
     # The attribute is the film title on its own. Without it, cut the anchor text at
     # the blurb span rather than flattening the whole cell.
-    title = html_mod.unescape(ta.group(1)).strip() if ta else _txt(inner.split("<span")[0])
+    title = html_mod.unescape(ta.group(2)).strip() if ta else _txt(inner.split("<span")[0])
     href = HREF_RE.search(attrs)
     sm = SLUG_URL_RE.search(href.group(1)) if href else None
     page = urljoin(URL, html_mod.unescape(href.group(1))) if sm else ""
@@ -215,7 +216,7 @@ def parse(page, today=None):
                 "img": "",
                 "lang": "",
                 "soldOut": False,
-                "price": _price(_txt(price_html), html_mod.unescape(bd.group(1)) if bd else ""),
+                "price": _price(_txt(price_html), html_mod.unescape(bd.group(2)) if bd else ""),
                 "provider": "orion",
                 "venue": VENUE["id"],
                 "_syn": blurb,

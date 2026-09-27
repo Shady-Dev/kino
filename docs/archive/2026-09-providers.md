@@ -3231,3 +3231,14 @@ six showtimes. The maintainer authorised the move on those two conditions. The r
 entry went from `where="cloud"` to `where="local"`; adapter, pacing and DNS unchanged. The
 wrapper outside the repo got its block and its log. Evidence:
 [runner-challenges.md](../research/runner-challenges.md).
+
+### Orion and Johku read an attribute to its own closing quote (2026-09-27)
+
+Orion's `title` regex stopped at either quote, and the live page writes
+`title ="Oasis: Don't Look Back in Anger"`, so Orion published "Oasis: Don" while seven
+chains published the full title. `TITLE_ATTR_RE` and Johku's `NAME_RE` (`data-name`, free
+text in double quotes on all seven listings, read 2026-09-27) now run to the opening quote,
+then unescape. Tests in `test_orion.py` and `test_johku.py`; 4 mutations, all red. After
+`run.py orion` the row keys on `oasis don t look back in anger`, which carries a poster.
+`oasis don` has no alias; next enrichment leaves it dormant in films-extra, and
+tmdb-titles keeps it.
