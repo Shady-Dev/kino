@@ -468,6 +468,39 @@ class SheetHeightOnAPhone(SheetHeight):
     viewport = {"width": 375, "height": 812}; touch = True; phone = True
 
 
+class FreeAdmissionTicket(Browser):
+    """A source's "Vapaa pääsy" is drawn in the price compartment, which keeps its 56 px,
+    its seam and its notches (audit, 2026-09-27: Kino K13's four screenings drew none)."""
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        doc["shows"][0]["price"] = "Vapaa pääsy"
+        self.eid = doc["shows"][0]["eventId"]
+        Handler.body = {"area-or-helsinki.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def test_the_label_fits_the_compartment(self):
+        self.pick_orion()
+        for view in ("#segMovies", "#segTimes"):
+            with self.subTest(view=view):
+                self.page.locator(view).click()
+                price = self.page.locator("#main a.stub .price", has_text="Vapaa pääsy").first
+                expect(price).to_be_visible()
+                box = price.evaluate("""e => { const r = e.getBoundingClientRect(),
+                    b = getComputedStyle(e, '::before'), cs = getComputedStyle(e);
+                    return {w: r.width, h: r.height, over: e.scrollWidth > e.clientWidth,
+                            seam: cs.borderLeftStyle, notch: b.content}; }""")
+                self.assertAlmostEqual(box["w"], 56, delta=0.5)
+                self.assertGreaterEqual(box["h"], 38)
+                self.assertFalse(box["over"])
+                self.assertEqual((box["seam"], box["notch"]), ("dashed", '""'))
+
+
+class FreeAdmissionTicketOnAPhone(FreeAdmissionTicket):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class PremiereBadge(Browser):
     """The badge reads the date off the show. It read films.json, which is fetched only
     in English or for a sheet, so Finnish and Swedish lists had none (prior review #26).

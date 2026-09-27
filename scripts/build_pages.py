@@ -158,7 +158,7 @@ L = {
         "city_link": "Kaikki teatterit \u2013 {city}",
         "subs": "tekstitys: {}", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
-        "from": "alkaen", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
+        "from": "alkaen", "free": "Vapaa p\u00e4\u00e4sy", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
         "rtgN": "TMDB-arvio {v}/10, {n} \u00e4\u00e4nt\u00e4", "rtg1": "TMDB-arvio {v}/10, 1 \u00e4\u00e4ni",
         "dec": ",",
         "sources": "N\u00e4yt\u00f6stiedot: kyseisen teatterin oma ohjelmisto. Arvosanat ja "
@@ -215,7 +215,7 @@ L = {
         "city_link": "Alla biografer \u2013 {city}",
         "subs": "textning: {}", "subs_lead": "Textning: {}", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
-        "from": "fr\u00e5n", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
+        "from": "fr\u00e5n", "free": "Fritt intr\u00e4de", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
         "rtgN": "TMDB-betyg {v}/10, {n} r\u00f6ster", "rtg1": "TMDB-betyg {v}/10, 1 r\u00f6st",
         "dec": ",",
         "sources": "Visningstider: varje biografs eget program. Betyg och "
@@ -269,7 +269,7 @@ L = {
         "city_link": "All cinemas \u2013 {city}",
         "subs": "{} subtitles", "lang_nav": "Language",
         "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
-        "from": "from", "votes": "votes", "rtg": "TMDB rating {v}/10",
+        "from": "from", "free": "Free", "votes": "votes", "rtg": "TMDB rating {v}/10",
         "rtgN": "TMDB rating {v}/10 from {n} votes", "rtg1": "TMDB rating {v}/10 from 1 vote",
         "dec": ".",
         "sources": "Showtimes: each cinema's own schedule. Ratings and descriptions: "
@@ -403,6 +403,9 @@ def lang_parts(codes, lang, lead=True):
 
 
 PRICE_NUM = re.compile(r"[-+]?\d+(?:\.\d+)?")
+# The client's FREE_RE: a source's own free-admission label, the whole string.
+FREE_RE = re.compile(r"^\s*(?:vapaa\s+p\u00e4\u00e4sy|maksuton|ilmainen|free(?:\s+(?:admission|entry))?|gratis"
+                     r"|fritt\s+intr\u00e4de|fri\s+entr\u00e9)\s*[.!]?\s*$", re.I)
 
 
 def price_label(rows, lang):
@@ -411,11 +414,12 @@ def price_label(rows, lang):
     amounts or a source that says so itself ("alkaen 10\u20ac"), tested on shape rather than
     on the word because the word is in the provider's language. `tests/test_landing_pages.py`
     runs the client's own harness cases through this and asserts the same answers."""
-    floor, vals = False, []
+    floor, free, vals = False, False, []
     for r in rows:
         raw = str(r.get("price") or "").replace(",", ".")
         m = PRICE_NUM.search(raw)
         if not m:
+            free = free or bool(FREE_RE.match(raw))
             continue
         try:
             v = float(m.group(0))
@@ -427,7 +431,7 @@ def price_label(rows, lang):
             floor = True
         vals.append(v)
     if not vals:
-        return ""
+        return L[lang]["free"] if free else ""
     lo, hi = min(vals), max(vals)
 
     def fmt(v):
@@ -1228,12 +1232,16 @@ def ld_json(days, today, city, extra):
                     # no payment at all, and a cinema printing 0,00 does not say whether the
                     # screening is free or by invitation (Leffabuumi, 2026-09-24). The
                     # ticket draws no price for it either. The event and its url stay.
+                    # A source's own free-admission label is the confirmation the zero
+                    # lacked, so it gets `price: 0` with the ticket's label (2026-09-27).
                     if s.get("price"):
                         m = re.search(r"\d+([.,]\d+)?", str(s["price"]))
-                        if m and float(m.group(0).replace(",", ".")) > 0:
+                        amount = (m.group(0).replace(",", ".") if m and float(
+                            m.group(0).replace(",", ".")) > 0 else
+                            "0" if not m and FREE_RE.match(str(s["price"])) else None)
+                        if amount:
                             ev["offers"] = {"@type": "Offer", "url": s["url"],
-                                            "price": m.group(0).replace(",", "."),
-                                            "priceCurrency": "EUR"}
+                                            "price": amount, "priceCurrency": "EUR"}
                 events.append(ev)
     out = json.dumps({"@context": "https://schema.org",
                       "@graph": list(theatres.values()) + events},

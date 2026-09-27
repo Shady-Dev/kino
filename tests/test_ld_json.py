@@ -98,3 +98,9 @@ class LdJsonOfferTest(unittest.TestCase):
         self.assertEqual(a["offers"], {"@type": "Offer", "url": "https://example.fi/tickets?id=0",
                                        "price": "12.5", "priceCurrency": "EUR"})
         self.assertEqual(b["offers"]["price"], "10")
+
+    def test_a_free_admission_label_is_the_confirmation_a_zero_lacks(self):
+        """With the ticket's label, `price: 0` together, as the 2026-09-25 record says."""
+        free, member, bare = self.events("Vapaa pääsy", "Vapaa pääsy jäsenille", "Free")
+        self.assertEqual((free["offers"]["price"], bare["offers"]["price"]), ("0", "0"))
+        self.assertNotIn("offers", member)

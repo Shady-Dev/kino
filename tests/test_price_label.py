@@ -86,10 +86,16 @@ class PriceLabelTest(unittest.TestCase):
         self.assertEqual(self.r["empty_list"], "")
         self.assertEqual(self.r["no_prices"], "")
 
-    def test_a_price_with_no_number_renders_nothing(self):
-        """"Vapaa pääsy" is free admission, and Orion has published it. It is not 0€
-        and it is not a floor; the price cell stays empty and the row says nothing."""
-        self.assertEqual(self.r["words_only"], "")
+    def test_a_free_admission_label_renders_in_the_page_language(self):
+        """Reversed 2026-09-27 on the maintainer's audit: "Vapaa pääsy" is the cinema
+        saying so, which the zero never did (ops archive, 2026-09-25). It is still not a
+        price or a floor, and "Vapaa pääsy jäsenille" is a condition, not a label."""
+        self.assertEqual(self.r["words_only"], "Vapaa pääsy")
+        self.assertEqual((self.r["free_fi"], self.r["free_from_english"]),
+                         ("Vapaa pääsy", "Vapaa pääsy"))
+        self.assertEqual((self.r["free_sv"], self.r["free_en"]), ("Fritt inträde", "Free"))
+        self.assertEqual((self.r["free_conditional"], self.r["free_word_in_title"],
+                          self.r["free_negated"]), ("", "", ""))
 
     def test_zero_and_negative_are_refused(self):
         """The guard the old `v > 0` provided, kept. Pulling the number out of the

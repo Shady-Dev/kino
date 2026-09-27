@@ -1328,7 +1328,7 @@
          trailer:'▶ Katso traileri', min:'min',
          movies:'Leffat', times:'Ajat', flang:'Suom. puhe', fkids:'Lapsille',
          fannis:'Anniskelu',
-         tomorrow:'Huomenna', from:'alkaen', sources:'Lähteet', hours:'h',
+         tomorrow:'Huomenna', from:'alkaen', free:'Vapaa p\u00e4\u00e4sy', sources:'Lähteet', hours:'h',
          favOn:'Oma teatteri valittu – avautuu jatkossa automaattisesti', favOff:'Aseta omaksi teatteriksi',
          vSearch:'Hae aluetta, kaupunkia tai teatteria',
          vSearchPh:'Alue, kaupunki tai teatteri', vNone:'Ei osumia.',
@@ -1400,7 +1400,7 @@
          trailer:'▶ Se trailern', min:'min',
          movies:'Filmer', times:'Tider', flang:'Finskt tal', fkids:'För barn',
          fannis:'Bar',
-         tomorrow:'I morgon', from:'från', sources:'Källor', hours:'h',
+         tomorrow:'I morgon', from:'från', free:'Fritt intr\u00e4de', sources:'Källor', hours:'h',
          favOn:'Din startvy – öppnas vid nästa besök', favOff:'Spara som startvy',
          vSearch:'Sök område, stad eller biograf',
          vSearchPh:'Område, stad eller biograf', vNone:'Inga träffar.',
@@ -1466,7 +1466,7 @@
          trailer:'▶ Watch trailer', min:'min',
          movies:'Movies', times:'By time', flang:'Finnish audio', fkids:'Kids',
          fannis:'Bar',
-         tomorrow:'Tomorrow', from:'from', sources:'Sources', hours:'h',
+         tomorrow:'Tomorrow', from:'from', free:'Free', sources:'Sources', hours:'h',
          favOn:'Home theatre, opens here next time', favOff:'Set as home theatre',
          vSearch:'Search area, city or cinema',
          vSearchPh:'Area, city or cinema', vNone:'No matches.',
@@ -2127,19 +2127,21 @@
   // word is in the provider's language and there are three of those.
   // The sign is inside the match: without it "-5\u20ac" matched as 5 and passed the
   // `v > 0` guard.
+  // A source's own free-admission label, the whole string: never a zero, never "jäsenille".
+  const FREE_RE = /^\s*(?:vapaa\s+p\u00e4\u00e4sy|maksuton|ilmainen|free(?:\s+(?:admission|entry))?|gratis|fritt\s+intr\u00e4de|fri\s+entr\u00e9)\s*[.!]?\s*$/i;
   function priceLabel(rows){
-    let floor = false;
+    let floor = false, free = false;
     const vals = [];
     for(const r of rows){
       const raw = String(r.price || '').replace(',', '.');
       const m = raw.match(/[-+]?\d+(?:\.\d+)?/);
-      if(!m) continue;
+      if(!m){ free = free || FREE_RE.test(raw); continue; }
       const v = parseFloat(m[0]);
       if(isNaN(v) || v <= 0) continue;
       if(/[^\d\s.,\u20ac$\u00a3]/.test(raw.replace(m[0], ''))) floor = true;
       vals.push(v);
     }
-    if(!vals.length) return '';
+    if(!vals.length) return free ? L[state.lang].free : '';
     const lo = Math.min(...vals), hi = Math.max(...vals);
     // Finnish typography: a comma decimal and a non-breaking space before the sign,
     // "10,50 €". Swedish and English keep the source's "10.50€".

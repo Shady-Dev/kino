@@ -28,16 +28,16 @@ if (!/function priceLabel\s*\(/.test(source)) {
 
 // The real strings, read out of index.html rather than retyped, so a change to a
 // translation shows up here instead of passing against a stale copy.
-function translation(lang) {
+function translation(lang, key = 'from') {
   const at = HTML.indexOf(`\n    ${lang}:{`);
   if (at === -1) { console.error('no L block for ' + lang); process.exit(2); }
-  const m = HTML.slice(at).match(/from:'([^']*)'/);
-  if (!m) { console.error('no `from` in the ' + lang + ' block'); process.exit(2); }
-  return m[1];
+  const m = HTML.slice(at).match(new RegExp(key + ":'([^']*)'"));
+  if (!m) { console.error('no `' + key + '` in the ' + lang + ' block'); process.exit(2); }
+  return JSON.parse('"' + m[1] + '"');
 }
-const L = { fi: { from: translation('fi') },
-            sv: { from: translation('sv') },
-            en: { from: translation('en') } };
+const L = {};
+for (const lang of ['fi', 'sv', 'en'])
+  L[lang] = { from: translation(lang), free: translation(lang, 'free') };
 
 const sandbox = { L, state: { lang: 'fi' } };
 vm.createContext(sandbox);
@@ -69,6 +69,14 @@ const CASES = [
   ['zero',                  'fi', ['0€']],
   ['negative',              'fi', ['-5€']],
   ['mixed_free_and_priced', 'fi', ['Vapaa pääsy', '10€']],
+  // -- a source's own free-admission label, localised; nothing else reads as free -------
+  ['free_fi',               'fi', ['Vapaa pääsy']],
+  ['free_from_english',     'fi', ['Free']],
+  ['free_en',               'en', ['Vapaa pääsy']],
+  ['free_sv',               'sv', ['Vapaa pääsy']],
+  ['free_conditional',      'fi', ['Vapaa pääsy jäsenille']],
+  ['free_word_in_title',    'fi', ['Free Solo']],
+  ['free_negated',          'fi', ['Ei vapaa pääsy']],
   // -- the prefix is localised --------------------------------------------------------
   ['floor_fi',              'fi', ['alkaen 10€']],
   ['floor_sv',              'sv', ['från 10€']],
@@ -87,4 +95,5 @@ for (const [name, lang, prices] of CASES) {
   out[name] = priceLabel(rows(prices));
 }
 out.__from = { fi: L.fi.from, sv: L.sv.from, en: L.en.from };
+out.__free = { fi: L.fi.free, sv: L.sv.free, en: L.en.free };
 process.stdout.write(JSON.stringify(out));
