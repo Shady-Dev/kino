@@ -445,6 +445,29 @@ class SheetTouchDrag(Browser):
         self.assertTrue(self.cancelled(".sheet-body .stub", 40), "past the top edge")
 
 
+class SheetHeight(Browser):
+    """On a phone a short sheet still rises to 70% of the screen (the maintainer's choice
+    C, 2026-09-27); the centred modal keeps its content height."""
+    phone = False
+
+    def test_a_short_sheet(self):
+        self.pick_orion()
+        self.page.evaluate("location.hash = 'm=presidentin-kyyditys'")
+        expect(self.page.locator(".sheet-body")).to_be_visible()
+        self.page.wait_for_function("() => getComputedStyle(document.querySelector('#sheet'))"
+                                    ".transform === 'none' || innerWidth >= 700")
+        share = self.page.evaluate("() => document.querySelector('#sheet')"
+                                   ".getBoundingClientRect().height / innerHeight")
+        if self.phone:
+            self.assertAlmostEqual(share, 0.70, delta=0.005)
+        else:
+            self.assertLess(share, 0.5)
+
+
+class SheetHeightOnAPhone(SheetHeight):
+    viewport = {"width": 375, "height": 812}; touch = True; phone = True
+
+
 class PremiereBadge(Browser):
     """The badge reads the date off the show. It read films.json, which is fetched only
     in English or for a sheet, so Finnish and Swedish lists had none (prior review #26).
