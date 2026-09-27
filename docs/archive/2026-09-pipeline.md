@@ -2566,3 +2566,18 @@ while the plain titles match. `PAREN_NOISE` takes the bracketed note, as it take
 stay. `PublishedCoverageTest` had flagged it on the committed data, so the suite was red
 on origin/main before this. `LastWeekMarkerTest`; 3 mutations, all red. The rows match on
 the next enrichment pass.
+
+### The 2026-09-27 no-match list, worked (2026-09-27)
+From `run-enrich.log`'s 77 no-match titles: three strands (`kinokopla`, `hyvät
+kuvat-kerho`, `ennakkoensi-ilta`), thirteen aliases with their evidence in
+tmdb-aliases.json, and the Bio Marilyn note above. Kinola, Nexxo and Kuvakukko were re-read
+so the strands split the titles, then one enrichment pass, posters and pages. Every
+resulting id was checked against the record read beforehand. Before and after, non-Finnkino
+area files: showtimes with no `tmdbId` 241 and 212, titles 94 and 72; the pass's no-match
+count 77 and 56, weak kept 16 and 15 (DIG! XX, unpublished), no weak candidate accepted.
+Left open: Liisa ihmemaassa at Aurora (1951 and 1949 both fit), DIG! XX (TMDB has only the
+2004 cut) and Viikinkien kosto (1961) (no record by that title). Lectures, workshops,
+talks and concerts have no film and stay. One cache entry was deleted by hand: an
+unmatched entry whose cleaned title now reaches an alias is neither overridden, which
+reads the entry's old `q`, nor reconsidered, which skips a key with an alias, so it would
+have waited for its daily retry.
