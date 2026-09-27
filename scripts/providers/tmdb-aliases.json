@@ -142,5 +142,8 @@
  "_comment_2026_09_27_left_open": "2026-09-27, the three the entry above left open. Liisa ihmemaassa: Kino Aurora's own row names directors Wilfred Jackson, Clyde Geronimi, Hamilton Luske, Disney, 1951, 75 min; /movie/12092 is that film, FI title as published. DIG! XX: Kino Kilta gives 2024, 140 min, the 20th-anniversary version with new footage, and links IMDb tt30843675; 1843 is tt0388888, the 2004 cut, and TMDB has no record for tt30843675, so no alias. Viikinkien kosto (1961): screened 2026-09-26 and gone from the data, not aliased.",
  "filminäytös liisa ihmemaassa": "12092",
  "_comment_2026_09_27_rose": "2026-09-27. Kuvakukko's Hopeatähti page gives Rose as Austria/Germany 2026, dir. Markus Schleinzer, with Sandra Hüller, Caro Braun and Marisa Growaldt, 94 min. /movie/1176962 matches on every one; TMDB has no Finnish title or overview for it.",
- "hopeatähti sarja rose ennakkonäytös": "1176962"
+ "hopeatähti sarja rose ennakkonäytös": "1176962",
+ "_comment_2026_09_28_pins": "2026-09-28. Two exact cache entries a fresh fi-FI search would lose, pinned. TMDB's fi-FI title for 1280738 is '火遮眼', so 'The Furious' now finds only 1510055, The Furious: Pertaruhan Maruah, as a weak hit; Finnkino's own text names director Kenji Tanigaki with Xie Miao and Joe Taslim, as /movie/1280738 does, 113 min on both. 1143440 answers fi-FI as 'La Tour de glace'; Finnkino's text and Ritz's page name Lucile Hadzihalilovic and Marion Cotillard, Ritz 117 min against TMDB's 118. Not a runtime tie-break: One Night Only, Obsession and The Odyssey stay as they are.",
+ "the furious": "1280738",
+ "the ice tower": "1143440"
 }

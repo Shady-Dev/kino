@@ -2619,3 +2619,13 @@ Hopeatähti-sarja: Rose at Kuvakukko is aliased to 1176962 the same day: Kuvakuk
 Hopeatähti page gives the director, three cast, the countries, 2026 and 94 min. TMDB has
 no Finnish overview, and the page's Finnish blurb shares its paragraphs with the credits,
 quotes and an award line, so it is not published. Unmatched 225 -> 224 showtimes.
+
+### Two exact matches a fresh search would lose, pinned (2026-09-28)
+A read-only replay of the Finnkino search over the 50 cached films found two exact entries
+a fresh fi-FI search no longer reaches: The Furious (TMDB's fi-FI title for 1280738 is now
+"火遮眼", so 1510055, a different film, came back weak) and The Ice Tower (1143440 answers
+as "La Tour de glace", weak). Both are aliased on director and cast from Finnkino's own
+text, and for The Ice Tower Ritz's page. With each cache entry removed, the Finnkino pass
+and the cloud pass both rebuilt the intended id as exact; without the aliases the Finnkino
+pass took 1510055 and a weak 1143440. 1510055 joins the wrong-id pins. The three same-year
+ties (One Night Only, Obsession, The Odyssey) are left to the runtime decision.

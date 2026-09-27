@@ -888,6 +888,7 @@ class AliasFileTest(unittest.TestCase):
             "1387552": "Koudmani's 7-minute short, not Suleiman's Divine Intervention",
             "557": "Raimi's 2002 Spider-Man, not Spider-Man: Brand New Day (969681)",
             "55059": "Damski's 1989 Happy Together, not Wong Kar-Wai's (18329)",
+            "1510055": "The Furious: Pertaruhan Maruah, not Tanigaki's The Furious (1280738)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):
