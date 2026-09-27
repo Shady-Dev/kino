@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-27: 298 showtimes
+[schedule] 2026-09-27: 41 showtimes
 [schedule] 2026-09-28: 341 showtimes
 [schedule] 2026-09-29: 338 showtimes
 [schedule] 2026-09-30: 341 showtimes
@@ -10,7 +10,7 @@
 [tmdb] no TMDB match (3): Mysteerinäytös | NT LIVE: All My Sons | Ooppera: Così Fan Tutte
 [tmdb] 0 new lookups, 0 re-checks, cache 82, 75 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 51 film entries
+[films] 50 film entries
 [attrs] dropped, neither format nor language (12): Ennakko | Erikois | IV | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
