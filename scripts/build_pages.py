@@ -1051,20 +1051,31 @@ def film_title(title, shows, current_year):
 
 
 def native_synopses():
-    """Finnkino's own synopses by its film id. -> films. A missing file reads as none."""
+    """Finnkino's own synopses, by its film id and by the TMDB id its pass trusted.
+    -> (films, {tmdb id: [film id]}). Either file missing reads as none."""
     try:
-        return json.loads((DATA / "films.json").read_text()).get("films", {})
+        films = json.loads((DATA / "films.json").read_text()).get("films", {})
+        cache = json.loads((DATA / "tmdb.json").read_text())
     except (OSError, ValueError):
-        return {}
+        return {}, {}
+    by_tmdb = {}
+    for fid in sorted(cache):
+        c = cache[fid]
+        if isinstance(c, dict) and c.get("x") and c.get("i") and fid in films:
+            by_tmdb.setdefault(c["i"], []).append(fid)
+    return films, by_tmdb
 
 
 def native_syn(shows, lang, native):
-    """The card's synopsis from films.json when films-extra has none in `lang`, by a
-    Finnkino show's own film id, as the app sheet reads it. Finnkino's slots are not
+    """The card's synopsis from films.json when films-extra has none in `lang`: a Finnkino
+    show's own film first, then a Finnkino film with the card's TMDB id. The app sheet
+    reads films.json the same way; only Finnkino's text is borrowed, never another
+    cinema's, which may be a note about its own screening. Finnkino's slots are not
     always what they claim: "fi" holding English, "en" holding the title alone
     (2026-09-27), so a text in another language or of three words or fewer is skipped."""
-    films = native or {}
+    films, by_tmdb = native or ({}, {})
     fids = [s.get("eventId") for s in shows if (s.get("provider") or "finnkino") == "finnkino"]
+    fids += [f for s in shows for f in by_tmdb.get(s.get("tmdbId"), [])]
     for fid in fids:
         text = (((films.get(fid) or {}).get("s") or {}).get(lang) or "").strip()
         if len(text.split()) > 3 and common.syn_language(text) in (lang, ""):
