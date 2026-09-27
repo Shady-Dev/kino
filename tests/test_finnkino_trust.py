@@ -120,6 +120,11 @@ class TrustedOnlyTest(unittest.TestCase):
         self.assertEqual(out["films.json"]["films"]["11"]["tr"],
                          "https://www.youtube.com/watch?v=key11")
 
+    def test_films_json_carries_only_a_trusted_id(self):
+        out, weak, exact = self.run_pass()
+        films = out["films.json"]["films"]
+        self.assertEqual((films["11"].get("i"), films["10"].get("i")), (11, None))
+
     def test_a_weak_entry_left_by_an_earlier_run_publishes_nothing_either(self):
         """The cache the previous run wrote holds the weak candidate with its figures;
         this run's search finds the same fallback. Nothing of it reaches the files."""

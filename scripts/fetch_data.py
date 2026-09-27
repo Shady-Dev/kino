@@ -840,9 +840,13 @@ def main() -> int:
                 sh["tmdbId"] = c["i"]
                 if c.get("g"):
                     sh["gids"] = c["g"]
+        # `i` lets the app sheet reach this text from another chain's title variant.
         for fid, entry in films_full.items():
             c = tmdb_cache.get(fid)
-            if _trusted(c) and c.get("v"):
+            if not _trusted(c):
+                continue
+            entry["i"] = c["i"]
+            if c.get("v"):
                 entry["tr"] = "https://www.youtube.com/watch?v=" + c["v"]
 
     # Finnkino drops the odd character to "?" ("Catherine Laga?aia"). Other chains run

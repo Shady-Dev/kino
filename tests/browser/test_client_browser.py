@@ -538,6 +538,41 @@ class PremiereBadgeOnAPhone(PremiereBadge):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class SheetSynopsisByTmdbId(Browser):
+    """Another chain's title reaches Finnkino's text through the TMDB id films.json
+    carries, for a slot films-extra leaves empty."""
+    FILMS = json.dumps({"films": {
+        "HO1": {"t": {"fi": "Presidentin kyyditys"}, "i": 1412214,
+                "s": {"fi": "Finnkinon oma teksti.", "en": "Finnkino's own text."}},
+        "HO2": {"t": {"fi": "Teenage Sex"}, "i": 1240889,
+                "s": {"fi": "Finnkinon toinen teksti.", "en": ""}}}}).encode("utf-8")
+    EXTRA = json.dumps({"films": {
+        "presidentin kyyditys": {"s": {"en": "The text films-extra holds."}},
+        "teenage sex and death at camp miasma": {"s": {"fi": "Films-extran teksti."}}}}
+    ).encode("utf-8")
+
+    def setUp(self):
+        Handler.body = {"films.json": self.FILMS, "films-extra.json": self.EXTRA}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def syn(self, lang, fid):
+        self.page.goto(self.origin + f"/index.html?area=or-helsinki&lang={lang}")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.evaluate(f"location.hash = 'm={fid}'")
+        p = self.page.locator(".sheet-body p.syn")
+        expect(p).to_have_count(1)
+        return p.text_content()
+
+    def test_finnkino_fills_a_slot_films_extra_leaves_empty(self):
+        self.assertEqual(self.syn("fi", "presidentin-kyyditys"), "Finnkinon oma teksti.")
+
+    def test_films_extra_keeps_its_own_slot(self):
+        self.assertEqual(self.syn("en", "presidentin-kyyditys"), "The text films-extra holds.")
+        self.assertEqual(self.syn("fi", "teenage-sex-and-death-at-camp-miasma"),
+                         "Films-extran teksti.")
+
+
 class SheetDuringARefresh(Browser):
     """A sheet opened while a resume refresh is in flight shows the schedule on screen.
 

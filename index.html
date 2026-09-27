@@ -4596,6 +4596,12 @@
       if(superseded()) return;
       const hit = ex[normTitle(sample.title)];
       if(hit) f = { ...f, s: hit.s, tr: f.tr || hit.tr };
+      const twin = sample.tmdbId && Object.values(fm).find(e => e.i === sample.tmdbId);
+      if(twin && twin.s){
+        const s = { ...twin.s };
+        for(const [k, v] of Object.entries(f.s || {})) if(v) s[k] = v;
+        f = { ...f, s };
+      }
     }
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o||sample.original)
