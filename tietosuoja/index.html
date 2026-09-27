@@ -48,6 +48,7 @@
   th{color:var(--muted); font-weight:600}
   code{font-size:.9em; background:var(--surface); padding:.1em .35em; border-radius:4px;
        border:1px solid var(--line)}
+  .tablewrap{overflow-x:auto}
   .nav{display:flex; gap:12px; flex-wrap:wrap; margin:1.2em 0 0; font-size:.95rem}
   footer{max-width:46rem; margin:0 auto; padding:0 16px 48px; color:var(--muted); font-size:.9rem;
          display:flex; flex-wrap:wrap; gap:6px 16px}
@@ -93,7 +94,7 @@ kuinka kauan niitä säilytetään.</p>
 <h2>Mitä mitataan</h2>
 <p>Tapahtumia on seitsemän, ja jokaisen mukana kulkevat kentät on rajattu erikseen.
 Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
-<table>
+<div class="tablewrap"><table>
   <tr><th>Tapahtuma</th><th>Mitä se kertoo</th><th>Mukana kulkevat tiedot</th></tr>
   <tr><td><code>$pageview</code></td><td>Sivulataus</td><td>Näkymän luokka
       (<code>home</code>, <code>venue</code>, <code>city</code>, <code>region</code>) ja
@@ -113,7 +114,7 @@ Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
       <td><strong>Ei mitään.</strong> Hakusanaa ei lähetetä.</td></tr>
   <tr><td><code>ticket_opened</code></td><td>Lippulinkkiä klikattiin</td>
       <td>Ketjun tunniste, esimerkiksi <code>finnkino</code>. Ei osoitetta.</td></tr>
-</table>
+</table></div>
 
 <h3>Mitä ei lähetetä</h3>
 <p>Hakusanat, elokuvien nimet, sivun osoite tai sen hakuparametrit, viittaava sivu,
