@@ -2581,3 +2581,11 @@ talks and concerts have no film and stay. One cache entry was deleted by hand: a
 unmatched entry whose cleaned title now reaches an alias is neither overridden, which
 reads the entry's old `q`, nor reconsidered, which skips a key with an alias, so it would
 have waited for its daily retry.
+
+### A synopsis that is only the title is no synopsis (2026-09-27)
+Page audit: Cinema Niagara's Romanovin kivet carried "Romanovin kivet" as its synopsis.
+Niagara's film page, read 2026-09-27, prints the title where its description goes, so the
+adapter copied what the source says. `synmerge.merge` now skips a text whose normalised
+form is the title's, leaving the slot to TMDB, and five such slots were cleared by hand
+(Black Magic Rites, Bussipysäkki, Opimmeko rakastamaan, Romanovin kivet, Romeo + Juliet).
+`test_synopsis_notes.py`; 2 mutations, all red.

@@ -81,6 +81,14 @@ class MergeRefusesNotesTest(unittest.TestCase):
         self.assertIn("[test] synopses merged: 1", log)
         self.assertIn("[test] synopses skipped as screening notes (price): 1", log)
 
+    def test_a_text_that_is_only_the_title_is_no_synopsis(self):
+        """Niagara's page gives "Romanovin kivet" where its description goes (2026-09-27)."""
+        films, _ = self.run_merge([
+            {"title": "Romanovin kivet", "_syn": "Romanovin kivet"},
+            {"title": "Romeo + Juliet", "_syn": "Romeo & Juliet"},
+            {"title": "Autofiktio", "_syn": "Autofiktio on Almodóvarin melodraama."}])
+        self.assertEqual(sorted(films), ["autofiktio"])
+
     def test_the_skipped_line_is_silent_when_nothing_was_skipped(self):
         _, log = self.run_merge([{"title": "Autofiktio", "_syn": "Almodóvarin melodraama."}])
         self.assertIn("synopses merged: 1", log)

@@ -176,11 +176,15 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
         for shows in per_venue.values():
             for s in shows:
                 for lang, syn in texts(s.get("_syn")).items():
+                    key = norm(s["title"])
                     if is_note(syn):
                         # Never into the shared slot: see PRICE_RE. Left empty for TMDB.
                         skipped += 1
                         continue
-                    key = norm(s["title"])
+                    if norm(syn) == key:
+                        # The title where the description goes (Niagara's Romanovin kivet,
+                        # 2026-09-27) says nothing; the slot stays open for TMDB.
+                        continue
                     e = films.setdefault(key,
                                          {"s": {"fi": "", "en": ""}, "r": 0, "tr": ""})
                     e.setdefault("s", {"fi": "", "en": ""})
