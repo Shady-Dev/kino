@@ -2557,3 +2557,12 @@ Night Only (a 10-minute rival) and Obsession (2- and 3-minute rivals). All three
 cached exact and the pass never re-searches an exact entry, so today's data is unchanged;
 a new film with such a namesake would be weak. Whether a runtime should break a
 same-year tie in both passes is in IDEAS.
+
+### "(Poistuu ohjelmistosta)" comes off the search string (2026-09-27)
+Bio Marilyn marks a film's last week in the title: "Avengers Endgame Encore (Poistuu
+ohjelmistosta)" and "Presidentin kyyditys (Poistuu ohjelmistosta !)", both unmatched
+while the plain titles match. `PAREN_NOISE` takes the bracketed note, as it takes
+"(Neulekino)"; the published title and its key keep it, and the words outside a bracket
+stay. `PublishedCoverageTest` had flagged it on the committed data, so the suite was red
+on origin/main before this. `LastWeekMarkerTest`; 3 mutations, all red. The rows match on
+the next enrichment pass.

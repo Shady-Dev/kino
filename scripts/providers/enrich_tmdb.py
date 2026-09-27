@@ -90,7 +90,9 @@ PAREN_NOISE = re.compile(
     # "Presidentin kyyditys (Neulekino)" beside the plain title (2026-09-25). Here and not
     # in strands.EVENT_PREFIXES, which run.py also splits off a published "Neulekino: X":
     # the title a visitor sees stays as published. Savon Kinot files it in `method`.
-    r"|neulekino)\s*\)", re.I)
+    # Bio Marilyn's programme note, "Avengers Endgame Encore (Poistuu ohjelmistosta)" and
+    # "(Poistuu ohjelmistosta !)", names the film's last week (2026-09-27).
+    r"|neulekino|poistuu\s+ohjelmistosta\s*!?)\s*\)", re.I)
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
     re.I)

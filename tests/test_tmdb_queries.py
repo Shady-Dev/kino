@@ -130,6 +130,29 @@ class NeulekinoMarkerTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class LastWeekMarkerTest(unittest.TestCase):
+    """Bio Marilyn's "(Poistuu ohjelmistosta)" is a programme note, as "(Neulekino)" is a
+    screening name: off the search string, kept in the title (2026-09-27)."""
+
+    def test_the_note_comes_off_the_search_string(self):
+        for published, film in (("Avengers Endgame Encore (Poistuu ohjelmistosta)",
+                                 "Avengers Endgame Encore"),
+                                ("Presidentin kyyditys (Poistuu ohjelmistosta !)",
+                                 "Presidentin kyyditys")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), film)
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("Presidentin kyyditys (Poistuu ohjelmistosta !)"),
+                         "presidentin kyyditys poistuu ohjelmistosta")
+
+    def test_the_words_outside_a_bracket_are_left_alone(self):
+        for title in ("Poistuu ohjelmistosta", "Kaikki poistuu ohjelmistosta",
+                      "Poistuu (ohjelmistosta)"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+
 class AudioMarkerTest(unittest.TestCase):
     """A marker names the audio, never the film, so it comes off the search string.
 
@@ -503,7 +526,8 @@ class FinnkinoQueryTest(unittest.TestCase):
     MARKED = ("Kojootti vs. ACME (englanniksi)", "Kojootti vs. ACME (på svenska)",
               "Kojootti vs. ACME (Puhumme suomea!)", "Kojootti vs. ACME (suomeksi puhuttu)",
               "Kojootti vs. ACME ENGLANNIKSI", "Unohdettu saari (EN dub)",
-              "Presidentin kyyditys (Neulekino)", "Spider-Man: Brand New Day 2D")
+              "Presidentin kyyditys (Neulekino)", "Spider-Man: Brand New Day 2D",
+              "Avengers Endgame Encore (Poistuu ohjelmistosta)")
 
     def test_both_passes_search_the_same_string_first(self):
         for published in self.MARKED:
