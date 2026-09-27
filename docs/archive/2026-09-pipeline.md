@@ -2608,3 +2608,10 @@ them as the slot's language. `fetch_data.place_syn` applies the pages' rule at t
 three words or fewer is dropped, `common.syn_language` moves a text to its language's slot,
 and a text it cannot settle stays put. On the committed data it changes those 8 entries.
 `test_finnkino_syn_slots.py`; 6 mutations, all red. Proven by the next local run.
+
+### The three rows the no-match pass left open (2026-09-27)
+Liisa ihmemaassa at Kino Aurora is aliased to 12092: Aurora's own row names the 1951
+Disney directors, year and 75 min. DIG! XX stays open: Kino Kilta links IMDb tt30843675,
+the 2024 140-min cut, and TMDB has no record for it; 1843 is the 2004 film. Viikinkien
+kosto (1961) screened 2026-09-26 and has left the data. Unmatched showtimes 226 -> 225,
+titles 68 -> 67; no weak match accepted.
