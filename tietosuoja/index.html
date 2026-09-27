@@ -81,6 +81,9 @@ kuinka kauan niitä säilytetään.</p>
       lähetä PostHogille mitään eikä lataa sen ohjelmakoodia.</li>
   <li>Tapahtumia lähetetään vain alla olevasta luettelosta. Hakusanoja, elokuvien
       nimiä, osoitteita tai muuta kirjoittamaasi ei lähetetä.</li>
+  <li>Sivusto toimii <strong>GitHub Pagesissa</strong>. GitHub kirjaa kävijöiden
+      IP-osoitteet tietoturvasyistä myös silloin, kun mittaus on estetty. Se on eri asia
+      kuin PostHog-mittaus: katso kohta ”Sivuston palvelin”.</li>
 </ul>
 
 <h2>Rekisterinpitäjä</h2>
@@ -141,7 +144,7 @@ että sivu päivitetään.</p>
 
 <h2>Säilytysaika</h2>
 <p><strong>Yksi vuosi.</strong> Tämä on käytössä olevan PostHog-tilauksen (Free)
-säilytysaika, jonka jälkeen tapahtumat poistuvat.</p>
+säilytysaika, jonka jälkeen tapahtumat poistuvat. Se ei koske GitHubin palvelinlokeja.</p>
 
 <h2>Käsittelyn peruste</h2>
 <p>Käsittely perustuu <strong>oikeutettuun etuun</strong> (yleinen tietosuoja-asetus
@@ -169,6 +172,18 @@ mitata lainkaan, eivätkä ne lataa PostHogia.</p>
 <code>https://leffavuoro.fi</code>. Kehitys- ja esikatseluympäristöissä PostHogia ei
 ladata eikä tapahtumia lähetetä lainkaan.</p>
 
+<h2>Sivuston palvelin</h2>
+<p>Leffavuoro toimii GitHub Pagesissa, jonka tarjoaa GitHub. Jokainen leffavuoro.fi-sivu
+haetaan GitHubin palvelimelta. GitHub kertoo kirjaavansa ja tallentavansa jokaisen GitHub
+Pages -sivuston kävijän IP-osoitteen tietoturvasyistä, olipa kävijä kirjautunut
+GitHubiin tai ei.</p>
+<p>Tämä koskee kaikkia sivuja, myös teatteri- ja kaupunkisivuja, ja tapahtuu silloinkin,
+kun PostHog-mittaus on estetty tai sitä ei ladata lainkaan. Do Not Track, Global Privacy
+Control ja seurannanesto eivät estä sitä, koska sivua ei voi ladata ilman palvelinta.</p>
+<p>GitHub käsittelee näitä tietoja oman
+<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">tietosuojaselosteensa</a> mukaisesti ja päättää itse, kuinka kauan lokeja
+säilytetään.</p>
+
 <h2>Muut ulkopuoliset pyynnöt</h2>
 <p>Elokuvajulisteet ja kirjasin tarjoillaan tästä samasta osoitteesta. Lippulinkit
 vievät teatterin omalle sivustolle, jolloin siirryt kyseisen sivuston tietosuojakäytännön
@@ -187,6 +202,9 @@ här sidan beskriver vad som mäts, varför, vart uppgifterna går och hur läng
   <li>Uppgifterna behandlas i <strong>PostHog EU Cloud</strong>.</li>
   <li><strong>Do Not Track</strong>- eller <strong>Global Privacy Control</strong>-signalen stoppar
       mätningen helt: då skickas ingenting.</li>
+  <li>Webbplatsen ligger på <strong>GitHub Pages</strong>. GitHub loggar besökarnas
+      IP-adresser av säkerhetsskäl, också när mätningen är blockerad. Det hör inte till
+      PostHog-mätningen.</li>
 </ul>
 <p><strong>Vad PostHog tar emot.</strong> Eftersom förfrågan går över nätet tar PostHog
 emot <strong>IP-adressen</strong> och webbläsarens rubriker, och bildar av dem en
@@ -201,7 +219,14 @@ elementtext skickas aldrig.</p>
 <p><strong>Mätningen gäller endast den interaktiva appen</strong>; de färdigt
 genererade biograf- och stadssidorna och statussidan mäts inte alls. Mätningen startar
 bara på <code>https://leffavuoro.fi</code>.</p>
-<p><strong>Lagringstid:</strong> ett år. <strong>Rättslig grund:</strong> berättigat
+<p><strong>Webbhotell.</strong> Leffavuoro ligger på GitHub Pages, som tillhandahålls av
+GitHub. Varje sida på leffavuoro.fi hämtas från GitHubs servrar. Enligt GitHub loggas och
+sparas IP-adressen för alla som besöker en webbplats på GitHub Pages, av säkerhetsskäl och
+oavsett om besökaren är inloggad på GitHub. Det gäller alla sidor, också biograf- och
+stadssidorna, och sker även när PostHog är blockerat eller inte laddas alls. GitHub
+behandlar uppgifterna enligt sin egen <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">integritetspolicy</a> och bestämmer
+själv hur länge loggarna sparas.</p>
+<p><strong>Lagringstid:</strong> ett år för mätdata i PostHog. <strong>Rättslig grund:</strong> berättigat
 intresse, artikel 6.1 f. Du har rätt till tillgång, rättelse, radering, begränsning och
 att <strong>invända</strong> mot behandlingen, samt att klaga hos dataombudsmannen.
 Rätten till dataportabilitet (artikel 20) gäller inte, eftersom behandlingen inte
@@ -219,6 +244,9 @@ describes what is measured, why, where it goes and how long it is kept.</p>
   <li><strong>Do Not Track</strong> or <strong>Global Privacy Control</strong> stops it entirely:
       nothing is sent and the analytics
       script is not even loaded.</li>
+  <li>The site is hosted on <strong>GitHub Pages</strong>. GitHub logs visitors' IP
+      addresses for security, even when the analytics is blocked. That is separate from
+      PostHog.</li>
 </ul>
 <p><strong>What PostHog receives.</strong> The request travels over the network, so
 PostHog receives your <strong>network IP address</strong> and the headers your browser
@@ -240,7 +268,15 @@ when the page is served from <code>https://leffavuoro.fi</code>; development and
 environments load nothing and send nothing. The library is pinned to version
 <code>1.434.2</code>, so what this page describes cannot change without the page changing
 with it.</p>
-<p><strong>Retention:</strong> one year, the retention period of the PostHog plan in use.
+<p><strong>Hosting.</strong> Leffavuoro is hosted on GitHub Pages, provided by GitHub.
+Every page on leffavuoro.fi is fetched from GitHub's servers. GitHub states that it logs
+and stores the IP address of everyone who visits a GitHub Pages site, for security, whether
+or not they are signed in to GitHub. This covers every page, the cinema and city pages
+included, and happens even when PostHog is blocked or not loaded at all. GitHub handles
+this data under its own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> and decides how long the logs
+are kept.</p>
+<p><strong>Retention:</strong> one year, the retention period of the PostHog plan in use. It
+does not cover GitHub's server logs.
 <strong>Legal basis:</strong> legitimate interest, GDPR Article 6(1)(f), in understanding
 which parts of the service are used. <strong>Your rights:</strong> access, rectification,
 erasure, restriction and the right to <strong>object</strong> to processing based on
