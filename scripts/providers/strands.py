@@ -101,6 +101,14 @@ EVENT_PREFIXES = (
     # sequel 1314481 whose Finnish title differs only by a trailing 2. The year never
     # leaves norm(), so two years of one title keep separate cache keys and cannot fold.
     "leffabrunssi", "kino iglu",
+    # 2026-09-27, from the no-match list. Kino Kilta's "Kinokopla:" is a film society's
+    # season (`method` already says "Kinokoplan syyssarja"), Kuvakukko's "Hyvät Kuvat-
+    # kerho:" has its own programme page, and "Ennakkoensi-ilta:" is the same claim as
+    # "ennakkonäytös" above. 7, 1 and 2 committed titles; no TMDB film begins with any.
+    # Left out on the same pass: "3 kaveria jäätelönäytös", "filminäytös", "kpe",
+    # "roosa-kahvilan näytös", "vanhustenviikon näytös" and "jukka nykänen-muistonäytös",
+    # one-off events or too generic to split every title, aliased title by title instead.
+    "kinokopla", "hyvät kuvat-kerho", "ennakkoensi-ilta",
 )
 
 

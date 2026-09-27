@@ -10,6 +10,7 @@ import unittest
 
 import _ctx                                                # noqa: F401
 import enrich_tmdb
+import strands
 import fetch_data
 
 
@@ -383,6 +384,31 @@ class TrailingFormatTest(unittest.TestCase):
         for token in ("2d", "3d", "imax", "4k"):
             with self.subTest(token=token):
                 self.assertIn(token, enrich_tmdb.TRAIL_FORMAT.pattern.lower())
+
+
+class StandingSeriesStrandTest(unittest.TestCase):
+    """Three prefixes from the 2026-09-27 no-match list, each a series or a preview claim
+    rather than part of a film's name."""
+    CASES = (("Kinokopla: Se oli pelkkä sattuma", "Se oli pelkkä sattuma", "Kinokopla"),
+             ("Hyvät Kuvat-kerho: No Other Choice", "No Other Choice", "Hyvät Kuvat-kerho"),
+             ("Ennakkoensi-ilta: Late Lammas -elokuva: Hämäräpuuhissa",
+              "Late Lammas -elokuva: Hämäräpuuhissa", "Ennakkoensi-ilta"))
+
+    def test_the_prefix_comes_off_the_search_string_and_the_title(self):
+        for published, film, strand in self.CASES:
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), film)
+                self.assertEqual(strands.split(published), (film, strand))
+
+    def test_the_one_week_festival_stays_in_the_title(self):
+        """Kuvakukko's Vilimit-festivaali is aliased, never split (2026-09-19)."""
+        t = "Vilimit-festivaali: The Wicker Man (1973)"
+        self.assertEqual(strands.split(t), (t, ""))
+
+    def test_the_words_without_the_colon_are_left_alone(self):
+        for title in ("Kinokopla", "Hyvät Kuvat", "Ennakkoensi-ilta Tampereella"):
+            with self.subTest(title=title):
+                self.assertEqual(strands.split(title), (title, ""))
 
 
 class ParenthesisedStrandTest(unittest.TestCase):
