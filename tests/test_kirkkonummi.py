@@ -9,7 +9,9 @@ programme is emitted twice for desktop and mobile, a `tulossa` label sits above 
 film titles, one film has only a release line and no screening, and the same list element
 carries cast names, a director, a note, a street address and a phone number.
 """
+import contextlib
 import datetime
+import io
 import unittest
 
 import _ctx                                                # noqa: F401
@@ -290,6 +292,62 @@ class PriceTest(unittest.TestCase):
         common.check_shows({kirkkonummi.VENUE["id"]: self.shows}, "kirkkonummi",
                            {kirkkonummi.VENUE["id"]})
 
+
+
+class RangeRowTest(unittest.TestCase):
+    """`26-27.9. La,Su klo17.00` is two screenings. Read 2026-09-27: three of Rakkautta ja
+    virtahepoja's five rows were ranges, and all three were dropped without a word."""
+
+    def parse(self, *rows):
+        body = head("Rakkautta ja virtahepoja") + "".join(item(r) for r in rows)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            shows = kirkkonummi.parse(page(body), TODAY)
+        return [s["start"][:16] for s in shows], out.getvalue()
+
+    def test_a_range_is_one_screening_per_day(self):
+        starts, _ = self.parse("26-27.9. La,Su klo17.00", "28-29.9. Ma,Ti klo18.30",
+                               "30.9. Ke klo18.30")
+        self.assertEqual(starts, ["2026-09-26T17:00", "2026-09-27T17:00", "2026-09-28T18:30",
+                                  "2026-09-29T18:30", "2026-09-30T18:30"])
+
+    def test_a_range_without_a_weekday_for_each_day_settles_nothing(self):
+        starts, log = self.parse("26-28.9. La,Su klo17.00", "30.9. Ke klo18.30")
+        self.assertEqual(starts, ["2026-09-30T18:30"])
+        self.assertIn("1 row(s) with a time in a shape this parser does not read", log)
+
+    def test_a_wrong_weekday_in_a_range_skips_that_day(self):
+        starts, log = self.parse("26-27.9. Su,Ma klo17.00", "30.9. Ke klo18.30")
+        self.assertEqual(starts, ["2026-09-30T18:30"])
+        self.assertIn("whose weekday matches no candidate year, skipped: Su 26.9., Ma 27.9.", log)
+
+
+class FilmFactsTest(unittest.TestCase):
+    """Runtime, age limit and genres from the film's own block, as the price is. The live
+    page carried all three on 2026-09-27 and none was published."""
+
+    def facts_of(self, *lines, title="Presidentin kyyditys"):
+        body = head(title) + facts(*lines) + item("28.9. Maanantai klo19.00")
+        s = kirkkonummi.parse(page(body), TODAY)[0]
+        return s["len"], s["rating"], s["genres"], s["price"]
+
+    def test_the_shapes_the_page_prints(self):
+        self.assertEqual(self.facts_of('Kesto: <span class="x">87 min</span>', "Liput 15e",
+                                       'Genre: <span class="x">komedia, draama</span>',
+                                       "<p>Ikäraja 12</p>"),
+                         ("87", "K-12", "komedia, draama", "15\u20ac"))
+        self.assertEqual(self.facts_of("Kesto 1h 27min&nbsp; Ikäraja 7"), ("87", "K-7", "", ""))
+        self.assertEqual(self.facts_of("Kesto 2h 9min", "ikäraja 12")[:2], ("129", "K-12"))
+        self.assertEqual(self.facts_of("Kesto 2h")[0], "120")
+
+    def test_a_class_that_is_not_a_legal_one_is_no_rating(self):
+        self.assertEqual(self.facts_of("Ikäraja 13")[1], "")
+
+    def test_a_bare_number_after_liput_is_no_price(self):
+        self.assertEqual(self.facts_of("Liput 2 kpl")[3], "")
+
+    def test_a_film_with_no_facts_publishes_none(self):
+        self.assertEqual(self.facts_of(), ("", "", "", ""))
 
 if __name__ == "__main__":
     unittest.main()

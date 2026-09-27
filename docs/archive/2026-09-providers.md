@@ -3242,3 +3242,15 @@ then unescape. Tests in `test_orion.py` and `test_johku.py`; 4 mutations, all re
 `run.py orion` the row keys on `oasis don t look back in anger`, which carries a poster.
 `oasis don` has no alias; next enrichment leaves it dormant in films-extra, and
 tmdb-titles keeps it.
+
+### Kino Kirkkonummi reads ranges and each film's facts (2026-09-27)
+
+Reported by the maintainer: the list looked empty. Against the page read 2026-09-27,
+three of Rakkautta ja virtahepoja's five rows were ranges (`26-27.9. La,Su klo17.00`) and
+were dropped without a word, and each film's block states `Kesto`, `Ikäraja` and often
+`Genre` beside the price, none of which was read; `Liput 15e` was no price either. A range
+now gives one screening per day and needs one weekday per day; a timed row in any other
+shape is logged. The facts are keyed on the heading above them, with the price's rule for
+two values under one heading, and an age limit only as a legal class. The page states no
+screening language, so none is published. `run.py kirkkonummi`: 10 showtimes instead of
+6, every one checked against the page. `test_kirkkonummi.py`; 8 mutations, all red.
