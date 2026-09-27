@@ -3290,3 +3290,13 @@ writes no note again. films-extra +16.6 KB raw, +7.2 KB gzipped; for eight title
 English replaces TMDB's in the shared slot. Kolme väriä: Valkoinen and Memoria open with
 the Äänen alkemistit series intro; no other chain shows them. `test_orion_language.py`;
 8 mutations, all red.
+
+### Gilda reads a film page when the feed has no description (2026-09-27)
+Four films had an empty feed `description`: Ozzy's Final Bow and three Pitchblack Playback
+listening sessions (Stevie Wonder, John Coltrane, Nirvana). Each film page's
+`.single-movie__description` carries text, and the WordPress post's `content` is empty.
+`gilda.fetch_site` now reads those pages, one request each, paced 1.5 s and under
+`common.capped`. The block is placed whole like the feed's text; one no language settles
+keeps only its paragraphs placed Finnish, which drops the arrival note, the album length
+and the English press quotes. Live run: 4 pages read, 4 placed (en 1, fi 3).
+`test_gilda_page_syn.py`; 9 mutations, all red.

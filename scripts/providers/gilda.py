@@ -28,10 +28,11 @@ Notes from the fixture (2026-08-27):
 import html as html_mod
 import json
 import re
+import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from common import fetch, syn_language
+from common import capped, fetch, get_text, syn_language
 import synmerge
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -190,8 +191,53 @@ def film_pages(site, tries=3):
     return out
 
 
-def parse(payload, site, pages=None):
-    """-> {venue_id: [show, ...]}"""
+DESC_RE = re.compile(r'<div class="single-movie__description">(.*?)</div>', re.S)
+H2_RE = re.compile(r"<h2\b.*?</h2>", re.S)
+
+
+def _page_for(s, film, pages):
+    return (pages.get(_key(s.get("movie_name") or film.get("movie_name")))
+            or pages.get(_key(s.get("original_title"))) or "")
+
+
+def _feed_syn(film):
+    return synmerge.drop_notes_html(film.get("description") or "", names=("Gilda",))
+
+
+def undescribed(payload, pages):
+    """-> [film page] for each film whose feed description is empty."""
+    out = []
+    for film in (payload.get("fi") or {}).get("data") or []:
+        if _feed_syn(film):
+            continue
+        for s in film.get("show_times") or []:
+            page = _page_for(s, film, pages)
+            if page and page not in out:
+                out.append(page)
+    return out
+
+
+def page_syn(page):
+    """{lang: text} from a film page's description block. Placed whole like the feed's
+    text; a block no language settles keeps only its paragraphs placed Finnish, the page's
+    language, which leaves out Pitchblack Playback's English press quotes and arrival note
+    (2026-09-27)."""
+    m = DESC_RE.search(page or "")
+    if not m:
+        return {}
+    body = H2_RE.sub("", m.group(1))
+    whole = synmerge.drop_notes_html(body, names=("Gilda",))
+    lang = syn_language(whole)
+    if lang:
+        return {lang: whole}
+    fi = [t for t in (synmerge.drop_notes_html(p, names=("Gilda",))
+                      for p in re.split(r"</p\s*>", body)) if syn_language(t) == "fi"]
+    return {"fi": " ".join(fi)} if fi else {}
+
+
+def parse(payload, site, pages=None, texts=None):
+    """-> {venue_id: [show, ...]}. `texts` is page_syn() by film page, for a film the feed
+    describes with nothing."""
     by_screen = {}
     for v in site["venues"]:
         for sid in v["screens"]:
@@ -226,7 +272,7 @@ def parse(payload, site, pages=None):
         # reads (Cinema Niagara displayed Gilda's price for "Keltaiset kirjeet"). Drop the
         # paragraphs that quote a price or name Gilda; keep the rest, unescaped, or the
         # synopsis renders as "Almod&oacute;var" in the movie sheet.
-        syn = synmerge.drop_notes_html(film.get("description") or "", names=("Gilda",))
+        syn = _feed_syn(film)
         # The feed is keyed "fi" and carries no language per text, yet 6 of 36
         # descriptions were English on 2026-09-24. Placed per text; unplaceable is withheld.
         lang = syn_language(syn)
@@ -242,8 +288,7 @@ def parse(payload, site, pages=None):
             # English-slugged post ("Maailman rikkain nainen" ->
             # /elokuva/the-richest-woman-in-the-world-2/). No fuzzy matching: a
             # near-miss sends people to the wrong film, the fallback only costs a click.
-            page = (pages.get(_key(s.get("movie_name") or film.get("movie_name")))
-                    or pages.get(_key(s.get("original_title"))) or "")
+            page = _page_for(s, film, pages)
             row = {
                 "eventId": str(film.get("movie_id") or s.get("movie_id") or ""),
                 "title": (s.get("movie_name") or film.get("movie_name") or "").strip(),
@@ -265,6 +310,8 @@ def parse(payload, site, pages=None):
             }
             if lang:
                 row["_syn"] = {lang: syn}
+            elif not syn and (texts or {}).get(page):
+                row["_syn"] = texts[page]
             key = (venue["id"], start, row["eventId"], row["aud"])
             if key in seen:
                 dropped += 1
@@ -276,12 +323,22 @@ def parse(payload, site, pages=None):
     return per_venue
 
 
-def fetch_site(site):
+def fetch_site(site, sleep=1.5):
     url = site["base"].rstrip("/") + site.get("api", "") + "/movies"
     payload = get(url)
     pages = film_pages(site)
     print(f"[{site['provider']}] film pages indexed: {len(pages)}")
-    return parse(payload, site, pages)
+    texts = {}
+    for page in capped(undescribed(payload, pages), site["provider"]):
+        time.sleep(sleep)
+        try:
+            texts[page] = page_syn(get_text(page, fetcher=fetch))
+        except Exception as e:
+            print(f"[{site['provider']}] film page unavailable: {page}: {e}")
+    if texts:
+        print(f"[{site['provider']}] film pages read for a synopsis: {len(texts)}, "
+              f"placed: {sum(1 for v in texts.values() if v)}")
+    return parse(payload, site, pages, texts)
 
 
 if __name__ == "__main__":
