@@ -32,3 +32,7 @@ venv/
 
 # Playwright failure artefacts from tests/browser (a PNG and a trace zip per failure)
 tests/browser/out/
+
+# Run logs live in logs/. A log at the root is a stray, and one carrying a traceback
+# published a home directory path on 2026-08-31.
+/*.log
