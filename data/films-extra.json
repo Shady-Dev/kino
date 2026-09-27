@@ -284,6 +284,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
   },
+  "avengers endgame encore poistuu ohjelmistosta": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Avengers: Endgame on suoraa jatkoa vuonna 2018 ilmestyneelle Avengers: Infinity War:ille, jossa galaktinen titaanilordi Thanos voitti Avengers-ryhmän, tuhosi puolet universumin asukkaista ja pakeni kaukaiselle planeetalle. Nyt jäljelle jääneet supersankarit joutuvat uransa vaikeimman haasteen äärelle pohtiessaan, miten jatkaa tästä eteenpäin. Muutama viikko on kulunut Thanoksen aiheuttamasta massahävityksestä. Tästä selvinneet ihmiset ovat hiljalleen alkaneet keräilemään voimiaan. Tony Stark eli Iron Man on alkanut miettimään omaa tulevaisuuttaan ja yrittää Nebula-kyborgin kanssa keksiä keinon päästä takaisin Maahan. Muut hyökkäyksestä selvinneet, Thor, Natasha Romanoff, Bruce Banner, ja Steve Rogers saavat rinnalleen takaisin Hawkeyen, Scott Langin ja Carol Denversin. Yhdessä he päättävät vielä kerran käydä taisteluun Thanosta vastaan hieman erikoisella tavalla, joka tulee vaatimaan isoja uhrauksia ja lujaa tahtoa. Mutta Thanoksella on myös omat suunnitelmat hävityksen jälkeen."
+   },
+   "tr": ""
+  },
   "avengers endgame encore re release": {
    "id": 299534,
    "img": "data/posters/b7147419b96540ff.jpg",
@@ -3851,6 +3859,16 @@
    },
    "tr": ""
   },
+  "presidentin kyyditys poistuu ohjelmistosta": {
+   "id": 1412214,
+   "img": "data/posters/b6832fef0c1dad14.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tositapahtumien inspiroima Presidentin kyyditys vie katsojan keskelle vuoden 1930 absurdeja tapahtumia. Raskaan ryyppyillan aikana joukko kunnianhimoisia upseereita päättää kaapata Suomen ensimmäisen presidentin – jo eläkkeellä olevan K. J. Ståhlbergin. Uppiniskainen presidentin vaimo Ester Ståhlberg ei tiukassakaan tilanteessa suostu jättämään miestään, vaan änkeää muiluttajien pään menoksi samaan kyytiin auton takapenkille. Alkaa uskomaton matka halki levottoman Suomen, jossa huhupuheet ja historia kietoutuvat yhteen – eikä vieläkään tiedetä, mikä presidentin kyydityksessä oli totta ja mikä tarua."
+   },
+   "tr": ""
+  },
   "pressure": {
    "id": 1318413,
    "img": "data/posters/fd7538dd607d13aa.jpg",
@@ -3952,6 +3970,19 @@
     "fi": "Paikalla keskustelemassa elokuvan jälkeen ohjaaja Karin Pennanen ja tuottaja Sonja Lindén! Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin:"
    },
    "tr": ""
+  },
+  "päiväkaffileffa hetki ennen valoa": {
+   "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
+   },
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
+   "ts": [
+    "fi"
+   ]
   },
   "päiväkaffileffa presidentin kyyditys": {
    "id": 1412214,

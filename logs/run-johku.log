@@ -1,9 +1,9 @@
-[biomarilyn] 11 screening(s) in day groups, 9 film page(s) read
+[biomarilyn] 11 screening(s) in day groups, 10 film page(s) read
 [biomarilyn] 12 coming-soon entry/entries with no time, left out: Clayface, Digger, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa, Pikku Kummitus Lapanen Keppostelee, Pikkuli ja Tähtipeura
-[biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffileffa : Presidentin Kyyditys
-[biomarilyn] Bio Marilyn: 11 showtimes, 8 dates
-[biomarilyn] Bio Marilyn: 11 showtimes, 8 dates
-[biomarilyn] synopses merged: 0
+[biomarilyn] 2 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa, PäiväKaffileffa : Presidentin Kyyditys
+[biomarilyn] Bio Marilyn: 11 showtimes, 9 dates
+[biomarilyn] Bio Marilyn: 11 showtimes, 9 dates
+[biomarilyn] synopses merged: 2
 [vihdinkino] 7 screening(s) in day groups, 4 film page(s) read
 [vihdinkino] Vihdin Kino: 7 showtimes, 3 dates
 [vihdinkino] Vihdin Kino: 7 showtimes, 3 dates
@@ -29,5 +29,5 @@
 [run] http: 0 revalidated (304), 54 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 6 venues, 116 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 124.0s of fetching added up across workers that overlap, longest site 45.9s, longest queue wait 97.0s, 52.6s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 139.2s of fetching added up across workers that overlap, longest site 52.3s, longest queue wait 101.1s, 55.9s wall from this module's first fetch starting to its last ending
 exit=0
