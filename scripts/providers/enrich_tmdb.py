@@ -525,7 +525,7 @@ def exact_hits(hits, query):
             if norm(h.get("title")) == q or norm(h.get("original_title")) == q]
 
 
-def with_rivals(hits, cand, headers, other="en-US"):
+def with_rivals(hits, cand, headers, other="en-US", fetch=None):
     """The hits `pick()` needs to judge a title with no published year. -> (hits, runtimes).
 
     One search in the other language joins its exact hits to these: TMDB localises
@@ -533,19 +533,22 @@ def with_rivals(hits, cand, headers, other="en-US"):
     Wong Kar-Wai's is "Happy Together – viimeinen tango Buenos Airesissa" under fi-FI and
     was never a candidate there. With two or more films left, each one's runtime is read
     from /movie/{id}; runtimes is None when there is nothing to decide. A failed request
-    raises, and the title keeps its cache entry until the next run.
+    raises, and the title keeps its cache entry until the next run. `fetch` replaces `get`
+    for a caller with its own fetcher (the Finnkino pass).
     """
+    fetch = fetch or get
     if not exact_hits(hits, cand):
         return hits, None
     seen = {h.get("id") for h in exact_hits(hits, cand)}
-    joined = list(hits) + [h for h in exact_hits(search(cand, "", headers, lang=other), cand)
+    joined = list(hits) + [h for h in exact_hits(search(cand, "", headers, lang=other,
+                                                        fetch=fetch), cand)
                            if h.get("id") not in seen]
     ids = list(dict.fromkeys(h.get("id") for h in exact_hits(joined, cand)))
     if len(ids) < 2:
         return joined, None
     runtimes = {}
     for i in ids:
-        runtimes[i] = int(get(f"https://api.themoviedb.org/3/movie/{i}", headers)
+        runtimes[i] = int(fetch(f"https://api.themoviedb.org/3/movie/{i}", headers)
                           .get("runtime") or 0)
         time.sleep(0.2)
     return joined, runtimes
@@ -752,7 +755,7 @@ def plausible(hit_year, year):
     return abs(int(hit_year) - int(year)) <= YEAR_TOL
 
 
-def search(cand, year, headers, lang="fi-FI"):
+def search(cand, year, headers, lang="fi-FI", fetch=None):
     """One search request. -> hits. `year` filters on TMDB's primary release year
     (documented as a string parameter on /3/search/movie); "" sends no filter.
 
@@ -764,7 +767,7 @@ def search(cand, year, headers, lang="fi-FI"):
            + urllib.parse.quote(cand))
     if year:
         url += f"&primary_release_year={year}"
-    return get(url, headers).get("results") or []
+    return (fetch or get)(url, headers).get("results") or []
 
 
 # How many exact matches one pass may re-judge on new evidence. The first pass after a

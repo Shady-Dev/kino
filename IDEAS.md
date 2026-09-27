@@ -86,6 +86,13 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 
 ## Blocked
 
+### A runtime to break a same-year TMDB tie
+
+Both passes keep a tie of title and year weak. Measured 2026-09-27, 3 of 55 Finnkino
+films would tie that way against shorts, each settled by its runtime
+([docs/archive/2026-09-pipeline.md](docs/archive/2026-09-pipeline.md)).
+**Unblocks when:** the maintainer decides whether `by_runtime` decides such a tie.
+
 ### The cloud cron fires about half its slots
 
 23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min

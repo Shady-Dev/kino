@@ -124,28 +124,23 @@ def _queries(q):
     return out
 
 
-def _pick(results, query):
-    """Choose a search hit. -> (hit, exact).
+def _get_json(url, headers):
+    return json.loads(http_get(url, headers))
 
-    TMDB search sorts by popularity, so results[0] on a short title is whatever is
-    trending. Prefer a hit whose title or original title matches the query exactly and
-    fall back to the popularity order only when nothing does.
 
-    Searched with `language=fi-FI` so `title` comes back as the **Finnish** title TMDB
-    has registered. Without it TMDB answers in English and the comparison fails on every
-    Finnish distributor title: "Autofiktio" vs "Bitter Christmas", "Kuopus" vs "The
-    Little Sister", "Kummisetä osa II" vs "The Godfather Part II". All three ids were
-    right all along and were being written off as weak matches, which cost them their
-    `tmdbId` and their genre ids. `language` localizes the response; it does not widen
-    which titles are searched, so this is presentation, not matching.
+def _judge(hits, cand, meta, th, year=""):
+    """`enrich_tmdb.pick()` for this pass. -> (hit, exact).
+
+    With a year, an exact title is held to it and a second film of that title and year is
+    a tie, as in the cloud pass. Without one, the published runtime decides between films
+    sharing the title, rivals only English offers included (`with_rivals`).
     """
-    if not results:
+    if not hits:
         return None, False
-    q = _tnorm(query)
-    for h in results:
-        if _tnorm(h.get("title")) == q or _tnorm(h.get("original_title")) == q:
-            return h, True
-    return results[0], False
+    minutes, rts = meta.get("m") or [], None
+    if not year and minutes:
+        hits, rts = enrich_tmdb.with_rivals(hits, cand, th, fetch=_get_json)
+    return enrich_tmdb.pick(hits, cand, year or None, meta["q"], minutes, rts)
 THEATER_SLUGS = {
     "Cine Atlas Tampere": "finnkino-cine-atlas",
     "Fantasia Jyväskylä": "finnkino-fantasia",
@@ -437,16 +432,18 @@ def enrich_cached_ratings(films_meta, tmdb_cache, aliases, th, today):
                     res = json.loads(http_get(
                         u + (f"&primary_release_year={meta['y']}" if year else ""), th))
                     results = res.get("results") or []
-                    hit, exact = _pick(results, cand)
+                    hit, exact = _judge(results, cand, meta, th, meta["y"] if year else "")
                     # A reissue carries the *reissue* year, so the filter hides the
                     # film: "Autot (uudelleenjulkaisu)" is a 2026 release of a 2006
                     # title, and searching the alias "Cars" with year=2026 returned
-                    # "The Boy Who Counted Cars". Retry unfiltered whenever the year
-                    # produced no exact match, not only when it produced nothing.
-                    if meta["y"] and year and not exact:
+                    # "The Boy Who Counted Cars". Retry unfiltered when the year found no
+                    # film of that exact title, and judge the answer as a title with no
+                    # year: OCAPI's is the Finnish release, so it narrows the search and
+                    # never refuses a hit. A tie of that year stays a tie.
+                    if year and not enrich_tmdb.exact_hits(results, cand):
                         alt = json.loads(http_get(u, th)).get("results") or []
                         if alt:
-                            a_hit, a_exact = _pick(alt, cand)
+                            a_hit, a_exact = _judge(alt, cand, meta, th)
                             if a_exact or not hit:
                                 hit, exact, results = a_hit, a_exact, alt
                     if hit and exact:
@@ -660,9 +657,11 @@ def main() -> int:
             slug = THEATER_SLUGS.get(site_name, "")
             fid = str(s.get("filmId", ""))
             if fid and fid not in films_meta:
+                rt = str(film.get("runtimeInMinutes") or film.get("runTime") or "")
                 films_meta[fid] = {"q": t(film, "originalTitle", "text") or t(film, "title", "text"),
                                    "fi": t(film, "title", "text"),
-                                   "y": (film.get("releaseDate") or "")[:4]}
+                                   "y": (film.get("releaseDate") or "")[:4],
+                                   "m": [int(rt)] if rt.isdigit() and int(rt) else []}
                 trs = film.get("trailers") or []
                 tr_uri = ""
                 if trs and isinstance(trs[0], dict):

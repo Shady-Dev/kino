@@ -2538,3 +2538,22 @@ strips nothing. tmdb-titles.json is unchanged, so a returning film gets its fiel
 from the cache with no request. Applied to the committed data: 72 entries removed, 123
 slimmed, 171,416 to 152,955 B gzipped. Tests: `test_films_extra_retention.py`, 11; two
 existing tests now state whether their film is showing. 8 mutations, all red.
+
+### The Finnkino pass judges hits with `enrich_tmdb.pick()` (2026-09-27)
+Prior review #33, the rest of it. `fetch_data._pick` took the first exact title or else
+the first hit. It is gone: `_judge` calls `pick()` with OCAPI's year and the original
+title on the year-filtered search, so a second film of that title and year is a tie and
+stays weak, and the original title breaks one. OCAPI's year is the Finnish release date,
+a reissue's included, so it never refuses a hit: the unfiltered retry runs only when the
+filtered answer holds no exact title, and is judged as a title with no year, where the
+published runtime decides between films sharing it (`with_rivals` takes the pass's own
+fetcher). Tests: `test_finnkino_pick.py`, 5 tests; 6 mutations, all red. A local run is
+the operational check.
+
+**Measured**, live TMDB, 2026-09-27: the 55 films in data/films.json replayed under both
+rules, 84 requests with each URL asked once. 3 differ, all from exact to a same-year tie:
+The Odyssey (rivals at 86 and 92 min against the published 172; the match is 173), One
+Night Only (a 10-minute rival) and Obsession (2- and 3-minute rivals). All three are
+cached exact and the pass never re-searches an exact entry, so today's data is unchanged;
+a new film with such a namesake would be weak. Whether a runtime should break a
+same-year tie in both passes is in IDEAS.
