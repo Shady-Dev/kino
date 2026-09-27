@@ -3273,3 +3273,20 @@ any more; removed by hand from films-extra.json and tmdb-titles.json on the main
 audit instruction. The film page does carry a description (fi and en, split by `***`, and
 in its JSON-LD `description`); 12 other Orion films still show the listing's note, and a
 fix needs the adapter to read that description and synmerge to replace a note it wrote.
+
+### Orion's synopsis is the film page's description (2026-09-27)
+
+The listing's `descrption` span is an event note, and it went out as `_syn`: 12 films
+showed "Klubialennus...", "Kissaelokuvapäivä!..." as their synopsis. The film page
+`film_language` already reads carries the description in `<div class='entry'
+id="longdesc">`, Finnish then often English after `***`; `page_synopsis` reads its
+paragraphs and places each part with `syn_language`. The page's JSON-LD holds the same text
+with paragraph breaks lost, so it is not read. The note stays a helper (`_note`) for the
+version check and is never published. The text rides the same page read and cache, so a
+run adds no request; this change re-read the 20 pages twice ahead of the 48 h TTL. Notes
+already in films-extra were recognised as a Finnish slot equal to the note the listing
+shows now for that title, 12 of 20, and cleared once in this commit, since the adapter
+writes no note again. films-extra +16.6 KB raw, +7.2 KB gzipped; for eight titles Orion's
+English replaces TMDB's in the shared slot. Kolme väriä: Valkoinen and Memoria open with
+the Äänen alkemistit series intro; no other chain shows them. `test_orion_language.py`;
+8 mutations, all red.

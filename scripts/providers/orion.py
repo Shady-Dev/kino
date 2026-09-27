@@ -23,7 +23,8 @@ The title cell has two shapes:
 In the linked shape the title is read from the anchor's `title` attribute, not the cell
 text, which would glue the blurb onto the title and split one film into one "film" per
 blurb. `descrption` is the site's spelling and its inner `<span>` is never closed. The
-blurb goes to `_syn`; synmerge only fills an empty slot.
+blurb is an event note ("Klubialennus, viimeinen näytös."), not a description, so it is
+never `_syn`: the film page's own description is (see `page_synopsis`).
 
 `eventId` is the film page slug where there is one; festival rows fall back to a slug of
 the title. A known event prefix ("Espoo Ciné:", "Pieni elokuvakerho:") is split off into
@@ -47,7 +48,7 @@ from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 import prices
-from common import fetch, get_text, resolve_year, weekday_index
+from common import fetch, get_text, resolve_year, syn_language, weekday_index
 from etiketti import strict_codes
 from strands import split as split_strand
 
@@ -219,8 +220,9 @@ def parse(page, today=None):
                 "price": _price(_txt(price_html), html_mod.unescape(bd.group(2)) if bd else ""),
                 "provider": "orion",
                 "venue": VENUE["id"],
-                "_syn": blurb,
-                # A helper, dropped with `_syn` before the venue is written.
+                # Helpers: the note for the version check, dropped in fetch_site; the
+                # page, dropped with `_syn` before the venue is written.
+                "_note": blurb,
                 "movieUrl": film_page,
             })
     if unplaced:
@@ -258,9 +260,33 @@ def page_language(page_html):
     return ", ".join(parts)
 
 
+# The page's own text, 2026-09-27: <div class='entry' id="longdesc"> ... <aside
+# class='naytokset ohjelmisto'>. Its JSON-LD carries the same text with the paragraph
+# breaks lost ("Valkoinen.Kolme väriä"), so that is not read.
+ENTRY_RE = re.compile(r"""id=["']longdesc["'][^>]*>(.*?)<aside[^>]*naytokset""", re.S | re.I)
+PARA_RE = re.compile(r"<p\b[^>]*>(.*?)</p>", re.S | re.I)
+
+
+def page_synopsis(page_html):
+    """The film page's description -> {lang: text}: the paragraphs of its `longdesc`
+    block, Finnish and often English after `***`. Each part goes where `syn_language`
+    places it, or nowhere. The listing's note is not on the page."""
+    m = ENTRY_RE.search(page_html or "")
+    if not m:
+        return {}
+    out = {}
+    for part in " ".join(_txt(p) for p in PARA_RE.findall(m.group(1))).split("***"):
+        # An inline tag became a space: "<em>Valkoinen</em>." read "Valkoinen .".
+        part = re.sub(r"\(\s+", "(", re.sub(r"\s+([.,;:!?)])", r"\1", part)).strip()
+        if part:
+            out.setdefault(syn_language(part), part)
+    return {k: v for k, v in out.items() if k}
+
+
 def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn=None):
-    """Put each film's language on its screenings. -> counts dict. Never raises: a page
-    that cannot be read leaves its screenings as they were."""
+    """Put each film's language, and its page's synopsis as `_syn`, on its screenings.
+    -> counts dict. Never raises: a page that cannot be read leaves its screenings as
+    they were."""
     films, unclear = {}, 0
     for s in shows:
         if s.get("movieUrl"):
@@ -268,14 +294,16 @@ def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn
     asks = []
     for url, rows in films.items():
         if (len({r["title"] for r in rows}) > 1
-                or any(VERSION_RE.search(f"{r['title']} {r.get('_syn') or ''}") for r in rows)):
+                or any(VERSION_RE.search(f"{r['title']} {r.get('_note') or ''}") for r in rows)):
             unclear += 1
             continue
         asks.append({"url": url, "price": ""})
     path = path or (prices._out() / FILM_CACHE)
     try:
         st = prices.enrich(asks, provider="orion", prefix=URL, parse=lambda page: "",
-                           fields=lambda page: {"lang": page_language(page)}, path=path,
+                           fields=lambda page: {"lang": page_language(page), **{
+                               f"syn_{k}": v for k, v in page_synopsis(page).items()}},
+                           path=path,
                            now=now, sleep=sleep, limit=FILM_MAX if limit is None else limit,
                            fetch_fn=fetch_fn or (lambda u, h: fetch(u, headers=h, tries=2,
                                                                     timeout=20)),
@@ -284,10 +312,13 @@ def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn
         print(f"[orion] film languages skipped: {type(e).__name__}: {str(e)[:80]}")
         return {}
     by_url = {a["url"]: a.get("lang", "") for a in asks}
+    syn = {a["url"]: {k[4:]: v for k, v in a.items() if k.startswith("syn_")} for a in asks}
     for url, rows in films.items():
         for r in rows:
             if by_url.get(url) and not r.get("lang"):
                 r["lang"] = by_url[url]
+            if syn.get(url):
+                r["_syn"] = syn[url]
     print(f"[orion] film languages: {len(films)} films, "
           f"{sum(1 for v in by_url.values() if v)} with a language, {st['fetched']} pages "
           f"read, {st['failed']} failed, {st['deferred']} deferred, {unclear} left out as "
@@ -299,6 +330,8 @@ def fetch_site(site=SITES[0]):
     """Runner contract: one page, one screen, keyed by the venue id."""
     shows = fetch_page()
     film_language(shows)
+    for s in shows:
+        s.pop("_note", None)
     return {VENUE["id"]: shows}
 
 

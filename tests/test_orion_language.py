@@ -29,12 +29,28 @@ def film(slug, title, blurb=""):
             f"<span class=\"descrption\">{blurb}<span> </a>")
 
 
-def film_page(kieli=None, tekstitys=None):
+def film_page(kieli=None, tekstitys=None, description=None, about="Klubialennus."):
     out = "<table>"
     for label, v in (("Kieli:", kieli), ("Tekstitys:", tekstitys)):
         if v is not None:
             out += f"<tr> <td id='field_x' class='dt'>{label}</td> <td class='dd'>{v}</td> </tr>"
-    return out + "</table>"
+    out += "</table>"
+    if description is not None:
+        # As on the page: the JSON-LD `about` is the listing's note, the entry block the text.
+        ld = {"@type": "Event", "about": about, "description": description.replace("\n", "")}
+        paras = "".join(f'<p class="wp-block-paragraph">{p}<br><br></p>\n'
+                        for p in description.split("\n"))
+        out += (f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
+                f'<div class=\'entry\' id="longdesc"><div class=\'video\'></div>{paras}</div>'
+                f"</div><aside class='naytokset ohjelmisto'><h3>Tulossa</h3><p>{about}</p></aside>")
+    return out
+
+
+FI = ("Truman Capoten romaaniin perustuva ja Blake Edwardsin ohjaama romanttinen komedia "
+      "kertoo nuoresta naisesta, joka on päättänyt naida rikkaan miehen New Yorkissa.")
+EN_2 = "Holly Golightly (Audrey Hepburn) asuu New Yorkissa ja etsii rikasta miestä itselleen."
+EN = ("Liam and Noel Gallagher's triumphant reunion tour is one of the most anticipated "
+      "comebacks of our time, and the film follows the band and their fans across the world.")
 
 
 class PageLanguageTest(unittest.TestCase):
@@ -139,6 +155,41 @@ class FilmLanguageTest(unittest.TestCase):
         shows, gets, _, _ = self.run_it(
             [row("Espoo Ciné: Four Minus Three", "21:00", "04.09.", link("/checkout/x"))], {})
         self.assertEqual((gets, shows[0]["movieUrl"], shows[0]["lang"]), ([], "", ""))
+
+    def test_the_page_s_description_is_the_synopsis_and_the_note_is_not(self):
+        """The listing's span is an event note; it stays out of `_syn` (2026-09-27)."""
+        shows, gets, _, _ = self.run_it(
+            [row(film("tiffany", "Aamiainen Tiffanylla", "Kissaelokuvapäivä!"), "17:00",
+                 "04.09.", link("/checkout/a")),
+             row(film("oasis", "Oasis", "Klubialennus, viimeinen näytös."), "19:00", "04.09.",
+                 link("/checkout/b")),
+             row(film("memoria", "Memoria", "Äänen alkemistit -sarja."), "21:00", "04.09.",
+                 link("/checkout/c"))],
+            {"tiffany": film_page("englanti", "suomi", FI),
+             "oasis": film_page("englanti", "suomi", f"{FI}\n{EN_2}\n***\n{EN}"),
+             "memoria": film_page("englanti", "suomi")})
+        self.assertEqual([s.get("_syn") for s in shows],
+                         [{"fi": FI}, {"fi": f"{FI} {EN_2}", "en": EN}, None])
+        self.assertEqual(len(gets), 3, "one read per film, the same read as the language")
+        cached = json.loads(self.path.read_text(encoding="utf-8"))["oasis"]["fields"]
+        self.assertEqual((cached["syn_fi"], cached["syn_en"]), (f"{FI} {EN_2}", EN))
+
+    def test_only_the_description_block_is_read(self):
+        self.assertEqual(orion.page_synopsis(film_page(description=None)), {})
+        self.assertEqual(orion.page_synopsis(film_page(description="Lyhyt.")), {},
+                         "a text no language settles is not published")
+        self.assertEqual(orion.page_synopsis(film_page(description=f"{FI}\n{FI}")),
+                         {"fi": f"{FI} {FI}"}, "paragraphs keep a space between them")
+        self.assertEqual(orion.page_synopsis(film_page(
+            description=f"{FI[:-1]} (<em>Kolme väriä: Valkoinen</em>).")),
+            {"fi": f"{FI[:-1]} (Kolme väriä: Valkoinen)."}, "an inline tag leaves no gap")
+
+    def test_fetch_site_drops_the_note(self):
+        shows = [{"title": "A", "movieUrl": "", "_note": "Klubialennus."}]
+        with mock.patch.object(orion, "fetch_page", return_value=shows), \
+             mock.patch.object(orion, "film_language"):
+            out = orion.fetch_site()
+        self.assertNotIn("_note", out[orion.VENUE["id"]][0])
 
     def test_fetch_site_runs_the_pass_on_the_table_it_read(self):
         shows = [{"title": "A", "movieUrl": ""}]
