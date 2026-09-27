@@ -3263,3 +3263,13 @@ naming a membership (`jäsen`, `medlem`) is not the public price: the one remain
 settles the row, and a members' amount alone settles nothing. `22/25€` and two bare
 amounts still publish nothing. Re-read 2026-09-27; `run.py pallas`, 14 showtimes, Blade
 Runner 10€. `test_pallas.py`; 2 mutations, all red.
+
+### The truncated "oasis don" entries removed (2026-09-27)
+
+After the quote fix above the Orion row keys on `oasis don t look back in anger`, whose
+films-extra entry carries the distributor's synopsis, so the card now shows it. The old
+key held Orion's listing note as `fi` and a weak TMDB candidate, and no title publishes it
+any more; removed by hand from films-extra.json and tmdb-titles.json on the maintainer's
+audit instruction. The film page does carry a description (fi and en, split by `***`, and
+in its JSON-LD `description`); 12 other Orion films still show the listing's note, and a
+fix needs the adapter to read that description and synmerge to replace a note it wrote.
