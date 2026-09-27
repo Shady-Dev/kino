@@ -1035,6 +1035,97 @@ class VenueListsAfterAFailedBootOnAPhone(VenueListsAfterAFailedBoot):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class ResumeRefresh(Browser):
+    """A resume runs one refresh at a time, and a venue list that failed at boot joins a
+    closed picker. Two flips inside one refresh each started one, and the lists a resume
+    fetched were dropped, so a provider missing at boot stayed missing (prior review #14).
+    """
+
+    def setUp(self):
+        Handler.fail = {"venues-orion.json"}
+        Handler.delay = {"areas.json": 0, "area-1004.json": 0}      # no-store: asked again
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+        self.addCleanup(lambda: setattr(Handler, "hold", {}))
+        super().setUp()
+        self.page.goto(self.origin + "/index.html?area=1004")
+        expect(self.page.locator("#main article.movie").first).to_be_visible()
+
+    def resume(self, minutes=11):
+        self.page.clock.set_system_time(FIXED + datetime.timedelta(minutes=minutes))
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+
+    def asked(self, name, since):
+        return [p for p in self.srv.requested[since:] if p.split("?")[0].endswith("/data/" + name)]
+
+    def refreshed(self, since):
+        """The schedule's refetch is a refresh's last request."""
+        deadline = time.monotonic() + 10
+        while not self.asked("area-1004.json", since):
+            self.assertLess(time.monotonic(), deadline, "the resume refetched nothing")
+            self.page.wait_for_timeout(50)
+
+    def orion_rows(self):
+        self.open_picker().fill("orion")
+        n = self.page.locator("#vlist .vrow").count()
+        self.page.locator("#vclose").click()
+        return n
+
+    def test_two_resumes_inside_one_refresh_run_it_once(self):
+        arrived, gate = threading.Event(), threading.Event()
+        Handler.hold = {"areas.json": (arrived, gate)}
+        mark = len(self.srv.requested)
+        self.resume()
+        self.assertTrue(arrived.wait(10), "the resume never asked for the lists")
+        self.page.evaluate("() => document.dispatchEvent(new Event('visibilitychange'))")
+        gate.set()
+        self.refreshed(mark)
+        self.assertEqual(len(self.asked("areas.json", mark)), 1)
+
+    def test_a_list_that_failed_at_boot_reaches_the_picker(self):
+        self.assertEqual(self.orion_rows(), 0)
+        Handler.fail = set()
+        mark = len(self.srv.requested)
+        self.resume()
+        self.refreshed(mark)
+        self.assertEqual(self.orion_rows(), 1)
+
+    def test_an_open_picker_is_left_alone_and_the_next_resume_repairs(self):
+        vq = self.open_picker()
+        Handler.fail = set()
+        mark = len(self.srv.requested)
+        self.resume()
+        self.refreshed(mark)
+        vq.fill("orion")
+        self.assertEqual(self.page.locator("#vlist .vrow").count(), 0)
+        self.page.locator("#vclose").click()
+        mark = len(self.srv.requested)
+        self.resume(minutes=22)
+        self.refreshed(mark)
+        self.assertEqual(self.orion_rows(), 1)
+
+    def test_a_list_that_fails_on_resume_keeps_its_venues(self):
+        """The counterweight: lists that lost a provider the picker holds are not taken,
+        or the venue on screen could leave the picker."""
+        Handler.body = {"venues-kinoset.json": json.dumps({"venues": [
+            {"id": "ks-testi", "name": "Kino Testi", "short": "Kino Testi", "city": "Lahti"}]}
+        ).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        self.page.goto(self.origin + "/index.html?area=1004")
+        expect(self.page.locator("#main article.movie").first).to_be_visible()
+        Handler.fail = {"venues-kinoset.json"}
+        mark = len(self.srv.requested)
+        self.resume()
+        self.refreshed(mark)
+        self.assertEqual(self.orion_rows(), 0)
+        self.open_picker().fill("testi")
+        self.assertEqual(self.page.locator("#vlist .vrow").count(), 1)
+
+
+class ResumeRefreshOnAPhone(ResumeRefresh):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class TimesViewChainLegend(Browser):
     """Ajat draws the chain legend whenever it lists more than one chain.
 

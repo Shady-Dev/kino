@@ -3092,11 +3092,14 @@
     const row = e.target.closest('.vrow');
     if(row){ closeVenueSheet(); selectVenue(row.dataset.id); }
   });
-  function fillAreaSelect(areas){
+  function setVenues(areas){
     allVenues = areas.slice();
     venueIndex = {};
     for(const a of areas) venueIndex[a.id] = Object.assign({}, a, { short: shortOf(a), label: labelOf(a) });
     buildAreaOptions();
+  }
+  function fillAreaSelect(areas){
+    setVenues(areas);
     // A starred venue opens every time; otherwise the chooser.
     const pr = prefs.get();
     // ?area= beats the favourite: the pre-rendered pages link here, and a reader arriving
@@ -5178,7 +5181,9 @@
   //
   // REFRESH_MS is 10 minutes because Pages serves data with max-age=600; refetching
   // sooner would be answered from the HTTP cache. The venue lists are refreshed through
-  // fetchVenueLists rather than loadAreas so the venue picker is left alone.
+  // fetchVenueLists rather than loadAreas, whose venue restore would move the reader. A
+  // list that failed at boot joins the picker here, while it is closed, and only when the
+  // new lists still hold every venue on screen.
   const REFRESH_MS = 10 * 60 * 1000;
   let builtFor = fiToday();
   async function refreshAll({ rollover }){
@@ -5193,7 +5198,10 @@
     // visit; the one on screen is refetched here.
     const held = Object.keys(jsonCache);
     try {
-      await fetchVenueLists();       // ages and horizons, without touching the picker
+      const all = await fetchVenueLists();
+      const ids = new Set(all.map(v => v.id));
+      if(!vwrap.classList.contains('open') && all.some(v => !venueIndex[v.id])
+         && allVenues.every(v => ids.has(v.id))) setVenues(all);
       renderTagKey();
     } catch(_){ /* schedule still worth refreshing; the ages just stay put */ }
     // Both maps a boot could have failed to read, and films.json's English titles move
@@ -5209,10 +5217,16 @@
   // failed at launch stayed failed for the life of the tab. Tried on the next resume;
   // on success the tab carries on as the boot would have: the favourite or the link the
   // lists now confirm, or the chooser without the failure note.
-  let venueRetry = null, bootSettled = false;   // no retry while the boot's own load runs
+  // One resume refresh at a time, and none while the boot's own load runs: lastLoad moves
+  // only after the fetch, so two quick visibility flips each started one.
+  let resumeRun = null, bootSettled = false;
+  function resumeOnce(run){
+    if(resumeRun || !bootSettled) return resumeRun;
+    resumeRun = run().finally(() => { resumeRun = null; });
+    return resumeRun;
+  }
   function retryVenueLists(){
-    if(venueRetry || !bootSettled) return venueRetry;
-    venueRetry = (async () => {
+    return resumeOnce(async () => {
       try {
         if(!REGIONS.length) await loadRegions();
         await loadAreas();
@@ -5224,9 +5238,7 @@
         await loadSchedule();
         if(location.hash) syncSheet();
       } catch(_){ /* still unreachable; the next resume tries again */ }
-      finally { venueRetry = null; }
-    })();
-    return venueRetry;
+    });
   }
   document.addEventListener('visibilitychange', () => {
     if(document.visibilityState !== 'visible') return;
@@ -5240,7 +5252,7 @@
       return;
     }
     if(rollover || Date.now() - lastLoad > REFRESH_MS){
-      refreshAll({ rollover });
+      resumeOnce(() => refreshAll({ rollover }));
     } else {
       render(); // refresh past-time dimming after shorter naps
     }
