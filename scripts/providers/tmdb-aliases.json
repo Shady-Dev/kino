@@ -124,5 +124,19 @@
  "r a teenage sex and death at camp miasma": "1240889",
  "_comment_2026_09_20_vilimit": "2026-09-20. 'Vilimit-festivaali' is deliberately NOT added to strands.EVENT_PREFIXES. Kuopion Vilimit runs one week a year, and an annual festival is aliased rather than made a standing strand. Stripping it would also fix nothing: of the two titles carrying it, 'Yksinainen susi McQuade (1983)' already matched 14854 with the prefix intact, TMDB registering that exact Finnish title, and 'Aavesoturi (1987)' finds no record with or without the prefix -- fi-FI search on 'Aavesoturi' returns only Pathfinder (2007), the year filter returns nothing, and the 'Ghost Warrior' records are 1984 and later. Left with no id and no alias.",
  "_comment_2026_09_24_happy_together": "2026-09-24. Cinema Sheryl's 'Happy Together' page gives Hong Kong, South Korea, Japan, 96 min, director Wong Kar-Wai. /movie/18329 is Chun gwong cha sit, 1997-05-30, 96 min, dir. Wong Kar-Wai. The search had taken 55059, Mel Damski's 1989 comedy, 102 min: Sheryl publishes no year, and the fi-FI search does not return 18329 as an exact title at all. The key is the title alone, so it holds for every chain; on this date the only four showtimes carrying it were Sheryl's.",
- "happy together": "18329"
+ "happy together": "18329",
+ "_comment_2026_09_27_events": "Event and one-off screening prefixes from the 2026-09-27 no-match list, one title each. Every id read off /movie/{id}: 4951 Gil Junger 1999 97 min; 398818 Guadagnino 2017 132; 313369 Chazelle 2016 128 (Riviera 127); 120467 Wes Anderson 2014 101 (99); 1258509 Hlynur Pálmason 2025 109, at Tapio and Cine Atlas; 1448231 Pamela Tola 2025 108; 1399462 Maryam Touzani 2025 116, FI alt title as published; 173872 Heikki Kujanpää 2008 102 (100); 1477104 The Beast of Mossy Bottom 2026 81, no Finnish title on TMDB, keyed bare because Ennakkoensi-ilta is a strand; 1035047 Smarzowski's Dom dobry, US alt title Good Home, 108 (107); 511 Wajda's Ziemia obiecana, English title The Promised Land, 179 against the published 170. 1456349 Jafar Panahi's Un simple accident 2025 104 (103), FI alt title as published, which the fi-FI search does not return as the title. Left open: Liisa ihmemaassa at Aurora (Disney 1951 at 75 min and the 1949 film at 76 both fit), DIG! XX (only the 2004 Dig! at 107, this cut is 140), Viikinkien kosto (1961) (no record by that title).",
+ "3 kaveria jäätelönäytös 10 things i hate about you": "4951",
+ "3 kaveria jäätelönäytös call me by your name": "398818",
+ "3 kaveria jäätelönäytös la la land": "313369",
+ "3 kaveria jäätelönäytös the grand budapest hotel": "120467",
+ "kpe the love that remains ástin sem eftir er": "1258509",
+ "the love that remains ástin sem eftir er": "1258509",
+ "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": "1448231",
+ "vanhustenviikon näytös calle málaga muistojeni katu": "1399462",
+ "jukka nykänen muistonäytös putoavia enkeleitä": "173872",
+ "late lammas elokuva hämäräpuuhissa": "1477104",
+ "good home free screening polish film weeks puolan elokuvaviikot": "1035047",
+ "the promised land free screening polish film weeks puolan elokuvaviikot": "511",
+ "se oli pelkkä sattuma": "1456349"
 }
