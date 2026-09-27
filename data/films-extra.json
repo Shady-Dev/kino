@@ -357,10 +357,7 @@
     "en": "",
     "fi": "Avengers: Endgame on suoraa jatkoa vuonna 2018 ilmestyneelle Avengers: Infinity War:ille, jossa galaktinen titaanilordi Thanos voitti Avengers-ryhmän, tuhosi puolet universumin asukkaista ja pakeni kaukaiselle planeetalle. Nyt jäljelle jääneet supersankarit joutuvat uransa vaikeimman haasteen äärelle pohtiessaan, miten jatkaa tästä eteenpäin. Muutama viikko on kulunut Thanoksen aiheuttamasta massahävityksestä. Tästä selvinneet ihmiset ovat hiljalleen alkaneet keräilemään voimiaan. Tony Stark eli Iron Man on alkanut miettimään omaa tulevaisuuttaan ja yrittää Nebula-kyborgin kanssa keksiä keinon päästä takaisin Maahan. Muut hyökkäyksestä selvinneet, Thor, Natasha Romanoff, Bruce Banner, ja Steve Rogers saavat rinnalleen takaisin Hawkeyen, Scott Langin ja Carol Denversin. Yhdessä he päättävät vielä kerran käydä taisteluun Thanosta vastaan hieman erikoisella tavalla, joka tulee vaatimaan isoja uhrauksia ja lujaa tahtoa. Mutta Thanoksella on myös omat suunnitelmat hävityksen jälkeen."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
   },
   "avengers endgame encore re release": {
    "id": 299534,
@@ -1996,13 +1993,11 @@
     "isohannu",
     "kino123",
     "kinoakseli",
-    "kinoelo",
     "kinohamina",
     "kinohirvi",
     "kinokulma",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -2010,14 +2005,11 @@
     "kinotoijala",
     "kkino",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "lieksankino",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "tapiola",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 7.5,
    "s": {
@@ -2153,41 +2145,6 @@
   "kojootti vs acme suomeksi puhuttu": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "biorex",
-    "biorexkokkola",
-    "biosavoy",
-    "cinemantsala",
-    "engel",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinohamina",
-    "kinohirvi",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotoijala",
-    "kkino",
-    "kotkanleffat",
-    "laitilankino",
-    "leffabuumi",
-    "lieksankino",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola",
-    "vaakuna"
-   ],
    "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
@@ -3793,12 +3750,9 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
-    "kinotoijala",
     "kinotour",
-    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
@@ -3808,7 +3762,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -3876,12 +3829,9 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
-    "kinotoijala",
     "kinotour",
-    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
@@ -3891,7 +3841,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -3903,7 +3852,6 @@
   },
   "presidentin kyyditys poistuu ohjelmistosta": {
    "id": 1412214,
-   "img": "data/posters/b6832fef0c1dad14.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4112,7 +4060,6 @@
     "alatalo",
     "bioforum",
     "biogrand",
-    "biograni",
     "biokaari",
     "biomarilyn",
     "biopallas",
@@ -4164,7 +4111,6 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "marita",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -4383,9 +4329,12 @@
    "r": 0,
    "s": {
     "en": "",
-    "fi": ""
+    "fi": "Nuoret rikolliset Tony ja Patrick lähtevät pomonsa Edvard Roivaksen käskystä Lappiin ostamaan venäläisiltä toimijoilta tsaariperheelle kuuluneita jalokiviä. Kun kaupparahat paljastuvat väärennökseksi, joutuvat miekkoset hengenvaarallisiin kuvioihin."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "romeo juliet": {
    "id": 454,
@@ -4393,9 +4342,12 @@
    "r": 6.8,
    "s": {
     "en": "",
-    "fi": ""
+    "fi": "Shakespearen kuuluisa näytelmä on päivitetty nykyaikaan ja postmoderniin Verona Beachiin."
    },
-   "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k"
+   "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k",
+   "ts": [
+    "fi"
+   ]
   },
   "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
@@ -5190,7 +5142,7 @@
     "kinoaurora",
     "kinomyyri"
    ],
-   "r": 7.3,
+   "r": 7.2,
    "s": {
     "en": "",
     "fi": "Joen (Seth Rogen) ja Angelan (Olivia Wilde) avioliitto on veitsenterällä. Kun he kutsuvat arvoitukselliset yläkerran naapurinsa (Edward Norton & Penélope Cruz) illalliselle, ilta ajautuu yllättäviin suuntiin. Sytyttivätkö he kipinän uudelleen — vai liekin, joka polttaa kaiken maan tasalle?",
@@ -5275,8 +5227,7 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 8.0,
    "s": {
@@ -5327,7 +5278,7 @@
   "the rivals of amziah king": {
    "id": 1124142,
    "img": "data/posters/d11d999096d6db8d.jpg",
-   "r": 6.7,
+   "r": 6.8,
    "s": {
     "en": "Deep within the backwoods of rural Oklahoma, charismatic and musically gifted Amziah King herds a bluegrass-playing band of misfits while overseeing the premier honey-making operation in town. When Amziah’s estranged foster daughter unexpectedly returns, Amziah leaps at the possibility to renew connection and create a family business. But the honey game is ruthless, and Amziah’s rivals threaten to destroy everything he has built.",
     "fi": "Oklahoman syrjäseudulla asuva Amziah King (Oscar®-voittaja Matthew McConaughey) tunnetaan niin karismaattisena bluegrass-muusikkona kuin seudun menestyneimmän hunajatilan omistajana. Kun Amziahin kasvattitytär (Angelina LookingGlass) palaa vuosien jälkeen yllättäen takaisin hänen elämäänsä, Amziah näkee mahdollisuuden rakentaa heidän suhteensa uudelleen ja tehdä hunajatilasta yhteisen perheyrityksen. Mutta hunajabisneksessä kilpailu on armotonta, ja Amziahin kilpailijat ovat valmiita tuhoamaan hänen elämäntyönsä."
@@ -5594,13 +5545,12 @@
   },
   "tokyo story": {
    "id": 18148,
-   "img": "data/posters/7e6002db6c6ee747.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Shukichi (Chishû Ryû) ja Tomi (Chieko Higashiyama) lähteävät kotikylästään Tokioon katsomaan lapsiaan. Koichi (Sô Yamamura) työskentelee lääkärinä omalla klinikallaan ja Shige (Haruko Sugimura) pyörittää kauneussalonkia. Harvoista käynneistä huolimatta Koichi ja Shige pitävät vanhempiensa käynneistä. Kiireisen kaupunkielämän takia heillä ei kuitenkaan ole aikaa näyttää vanhemmilleen kaupunkia. Noriko (Setsuko Hara), kuolleen pojan vaimo, on ainut, joka käyttää aikansa vanhempien viihdyttämiseen. Ozun suurin mestariteos Tokyo Story valittiin maailman kaikkien aikojen neljänneksi parhaaksi elokuvaksi Jeanne Dielmanin, Vertigon ja Citizen Kanen jälkeen Sight and Sound -lehden arvovaltaisessa asiantuntijaäänestyksessä 2022."
    },
-   "tr": "https://www.youtube.com/watch?v=xqO0d3328Do"
+   "tr": ""
   },
   "tommy": {
    "id": 11326,
@@ -5742,19 +5692,6 @@
     "fi": ""
    },
    "tr": ""
-  },
-  "twins of evil 1971": {
-   "id": 28801,
-   "img": "data/posters/fe24525776fc79c4.jpg",
-   "r": 6.7,
-   "s": {
-    "en": "",
-    "fi": "Ihmisuhreja, murhia ja silmitöntä kauhutunnelmaa Karnsteinin suvun vampyyrien linnassa, josta kukaan sisään uskaltautunut ei ollut päässyt elävänä ulos..."
-   },
-   "tr": "https://www.youtube.com/watch?v=3_Ri5W6GmHU",
-   "ts": [
-    "fi"
-   ]
   },
   "työmiehen päiväkirja": {
    "id": 358999,
