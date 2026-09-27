@@ -705,6 +705,11 @@ def main() -> int:
                 "lang": lang_attr,
                 "soldOut": bool(s.get("isSoldOut")),
             })
+            # On the show too, while it is ahead: the badge must not wait on films.json,
+            # which the client reads only in English or for a sheet.
+            release = (film.get("releaseDate") or "")[:10]
+            if release >= today.isoformat():
+                per_site[site_id][-1]["rd"] = release
             # Same rule every other provider gets in run.py: a strand prefix goes to
             # `method` so the film does not fragment away from its plain-titled twin.
             strands.apply(per_site[site_id][-1])

@@ -192,6 +192,7 @@ theatre, aud, url, img, len, rating, genres, lang, method, soldOut`, and on ever
 provider except Finnkino also `price, provider, venue`. The enrichment step adds
 `tmdbId, gids, tmdb, votes, tr, oyear`: TMDB's id, genre ids, score, vote count,
 trailer, and the film's first release year. `age` and `year` are optional.
+Finnkino adds `rd`, the premiere date, while it is still ahead.
 `year` is the film's release year as the cinema publishes it, a four-digit
 string, absent when it publishes none. The TMDB search uses `original` and
 `year` when present and runs on the title alone when they are absent, so older

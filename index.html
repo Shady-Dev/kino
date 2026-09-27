@@ -4244,12 +4244,11 @@
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   // --- end stubTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
-  // Premiere date, from films.json (Finnkino only; nobody else publishes one). Shown
-  // while it is still ahead: tickets go on sale days before a film opens, so a bookable
-  // showtime can sit in front of an opening night. After opening the badge disappears.
+  // Premiere date, on Finnkino's shows (nobody else publishes one), films.json for a file
+  // written before it was. Shown while it is still ahead: tickets go on sale days before
+  // a film opens, so a bookable showtime can sit in front of an opening night.
   const premiereOf = m => {
-    const f = filmEntry(m);
-    const rd = f && f.rd;
+    const rd = m.rd || (m.times || []).map(t => t.rd).find(Boolean) || (filmEntry(m) || {}).rd;
     if(!rd || rd < fiToday()) return '';
     const [y, mo, d] = rd.split('-');
     return `${+d}.${+mo}.`;

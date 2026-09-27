@@ -445,6 +445,43 @@ class SheetTouchDrag(Browser):
         self.assertTrue(self.cancelled(".sheet-body .stub", 40), "past the top edge")
 
 
+class PremiereBadge(Browser):
+    """The badge reads the date off the show. It read films.json, which is fetched only
+    in English or for a sheet, so Finnish and Swedish lists had none (prior review #26).
+    The fixture serves no films.json at all."""
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        for sh in doc["shows"]:
+            sh["rd"] = "2026-09-18"
+        # Itis shows Autofiktio after Orion does, so the city card starts on Orion's show.
+        itis = {**doc, "shows": [{**doc["shows"][0], "eventId": "HO9", "title": "Autofiktio",
+                                  "theatre": "Itis", "venue": "1162",
+                                  "start": "2026-09-14T20:00:00+03:00"}]}
+        Handler.body = {"area-1004.json": json.dumps(doc).encode("utf-8"),
+                        "area-1162.json": json.dumps(itis).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def test_the_badge_shows_in_finnish_and_swedish(self):
+        for lang, word in (("fi", "Ensi-ilta"), ("sv", "Premiär")):
+            with self.subTest(lang=lang):
+                self.page.goto(self.origin + f"/index.html?area=1004&lang={lang}")
+                badge = self.page.locator("#main .fmt.prem")
+                expect(badge).to_have_count(1)
+                self.assertEqual(badge.text_content(), f"{word} 18.9.")
+        self.assertFalse([p for p in self.srv.requested if "films.json" in p])
+
+    def test_a_city_card_finds_the_date_on_a_later_show(self):
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        card = self.page.locator("#main article.movie").filter(has_text="Autofiktio")
+        expect(card.locator(".fmt.prem")).to_have_count(1)
+
+
+class PremiereBadgeOnAPhone(PremiereBadge):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class SheetDuringARefresh(Browser):
     """A sheet opened while a resume refresh is in flight shows the schedule on screen.
 
