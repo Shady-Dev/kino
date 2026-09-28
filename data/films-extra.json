@@ -779,6 +779,8 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
+    "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "ihmekompleksi",
@@ -788,6 +790,8 @@
     "kinoaurora",
     "kinokilta",
     "kinokulma",
+    "kinolumo",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -796,7 +800,8 @@
     "kotkanleffat",
     "leffabuumi",
     "studio123kouvola",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -1754,10 +1759,12 @@
     "joutsankino",
     "kinokulma",
     "kinolaika",
+    "kinomyyri",
     "kkino",
     "korjaamo",
     "laitilankino",
-    "savonkinot"
+    "savonkinot",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -2110,7 +2117,8 @@
     "lieksankino",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "tapiola"
    ],
    "r": 7.5,
    "s": {
@@ -2124,12 +2132,16 @@
   },
   "kojootti vs acme dub": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kojootti vs acme dubattu": {
    "id": 1204680,
@@ -2990,7 +3002,6 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "biopallas",
     "biorex",
     "biosavoy",
     "cine",
@@ -3881,7 +3892,6 @@
    "krs": [
     "biogrand",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biovuoksi",
@@ -3918,6 +3928,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vihdinkino"
    ],
    "r": 0,
@@ -3951,7 +3962,6 @@
    "krs": [
     "biogrand",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biovuoksi",
@@ -3988,6 +3998,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vihdinkino"
    ],
    "r": 0,
@@ -4004,7 +4015,6 @@
    "krs": [
     "biogrand",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biovuoksi",
@@ -4041,6 +4051,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
+    "tapiola",
     "vihdinkino"
    ],
    "r": 0,
@@ -4127,10 +4138,7 @@
     "en": "",
     "fi": "Eetu Salin, tulisieluinen työväen agitaattori ja yksi Suomen Sosialidemokraattisen Puolueen perustajista, kamppailee lapsuustraumojensa ja alkoholiongelman lisäksi puolueen sisällä valtaan pyrkiviä nuoria radikaalisosialisteja vastaan. Rauhanomaisin keinoin käytävää luokkataistelua kannattava Eetu, yhdessä ystäviensä Väinö Tannerin ja Yrjö Mäkelinin kanssa, yrittää estää Suomen työväen ajautumisen kohti väkivaltaista vallankumousta."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "punainen viiva": {
    "id": 429551,
@@ -5360,7 +5368,8 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinomyyri"
+    "kinomyyri",
+    "tapiola"
    ],
    "r": 7.2,
    "s": {
@@ -5596,6 +5605,7 @@
    "img": "data/posters/8e47d51a8993f244.jpg",
    "kr": "K-16",
    "krs": [
+    "biopallas",
     "elavienkuvien",
     "gilda",
     "kinoaurora",
@@ -5785,7 +5795,8 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
-    "kinokulma"
+    "kinokulma",
+    "tapiola"
    ],
    "r": 7.6,
    "s": {
@@ -5883,6 +5894,16 @@
     "fi": "Löydettyään vanhan haudatun kiväärin, nuori poika liittyy Neuvostoliiton vastarintaliikkeeseen taistellakseen Saksan armottomia joukkoja vastaan, joutuen kohtaamaan toisen maailmansodan hirveydet."
    },
    "tr": "https://www.youtube.com/watch?v=UHaSQU-4wss"
+  },
+  "tuulen laakson nausicaä": {
+   "id": 81,
+   "img": "data/posters/b38d290351a5b852.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Tuulen laaksossa elää prinsessa Nausicaän kansa, joka tekee parhaansa selviytyäkseen Seitsemän Päivän Tulen jälkeisessä maailmassa. Merituulet suojelevat laaksoa ja pitävät Saastemeren myrkyt toistaiseksi poissa. Saastemeri syö yhä uusia maita. Tolmekielaiset ja pejieteläiset ajautuvat pelon ja ahneuden ajamana sotaan surkeasti pärjäävän planeetan herruudesta. Tuho uhkaa Tuulen laaksoa. Nausicaän apuna ovat soturi Yupa ja sodan turhuuden oivaltava Pejiten prinssi Asbel. Miyazakin ällistyttävät merenalaiset visiot, monenmuotoiset lentolaitteet ja toinen toistaan vaikuttavammat hyönteispedot luovat kokonaisen ja ehjän maailman."
+   },
+   "tr": "https://www.youtube.com/watch?v=zaskbIZtfxQ"
   },
   "twilight zone the movie": {
    "id": 15301,
@@ -6105,6 +6126,8 @@
    "img": "data/posters/4a690568fa372cff.jpg",
    "kr": "K-12",
    "krs": [
+    "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "cine",
@@ -6113,13 +6136,16 @@
     "isohannu",
     "kino123",
     "kinokulma",
+    "kinolumo",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kotkanleffat",
     "leffabuumi",
     "star",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -6136,6 +6162,8 @@
    "img": "data/posters/052a413644e02ce6.jpg",
    "kr": "K-12",
    "krs": [
+    "biomarilyn",
+    "biopallas",
     "biorex",
     "biorexkokkola",
     "cine",
@@ -6144,13 +6172,16 @@
     "isohannu",
     "kino123",
     "kinokulma",
+    "kinolumo",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kotkanleffat",
     "leffabuumi",
     "star",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -6183,10 +6214,7 @@
     "en": "",
     "fi": "Hömpstadin kaupunkia suojelevan näkymättömän sankarin Vinskin supervoimat katoavat, kun näkymättömyyspulveri varastetaan. Se on kuitenkin vasta ensimmäinen askel Hömpstadia uhkaavien häikäilemättömien rikollisten suunnitelmassa, jossa vaarassa on Vinskin lisäksi hänen äitinsä ja koko kaupunki. Pelastaakseen Hömpstadin Vinskin on lähdettävä seuraamaan kadonneen Apteekkarin jättämiä arvoituksellisia ohjeita, jotka johdattavat hänet Hömpstadin \"nurjalle puolelle”. Vinski kohtaa myös kaupunkia otteessaan pitävän kaksinaamaisen rikollispomon, jonka suuruudenhulluudella ei ole rajoja."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "virta the kingdom of fairies": {
    "r": 0,
