@@ -204,6 +204,19 @@ def _feed_syn(film):
     return synmerge.drop_notes_html(film.get("description") or "", names=("Gilda",))
 
 
+def _untitled(text, film):
+    """`text` without the film's own titles. An English title inside a Finnish blurb reads
+    as English to syn_language: "70mm: The Odyssey" and "The Lighthouse" placed nowhere
+    (2026-09-28). Used only to judge the language; the text is published as it was."""
+    shows = film.get("show_times") or []
+    titles = {film.get("movie_name")} | {s.get(k) for s in shows
+                                         for k in ("movie_name", "original_title")}
+    titles |= {t.split(": ", 1)[1] for t in titles if t and ": " in t}
+    for t in sorted((t for t in titles if t and len(t) > 2), key=len, reverse=True):
+        text = re.sub(re.escape(t), " ", text, flags=re.I)
+    return text
+
+
 def undescribed(payload, pages):
     """-> [film page] for each film whose feed description is empty."""
     out = []
@@ -275,7 +288,7 @@ def parse(payload, site, pages=None, texts=None):
         syn = _feed_syn(film)
         # The feed is keyed "fi" and carries no language per text, yet 6 of 36
         # descriptions were English on 2026-09-24. Placed per text; unplaceable is withheld.
-        lang = syn_language(syn)
+        lang = syn_language(syn) or syn_language(_untitled(syn, film))
         for s in film.get("show_times") or []:
             if s.get("deleted") or not s.get("show_is_visible", 1):
                 continue

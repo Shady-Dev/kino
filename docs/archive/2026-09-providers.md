@@ -3320,3 +3320,13 @@ On 2026-09-28 "Liisa ihmemaassa" searched with no year took Burton's 2010 film (
 an exact match, and with Kino Aurora's 1951 takes Disney's 12092. Measured on a copy of
 the data with every affected title re-judged: 44 Nexxo titles, 31 gain a year, no id or
 exactness changes. `test_nexxo_year.py`; 4 mutations, all red. Live on the next cloud run.
+
+### Gilda judges a blurb's language without the film's own title (2026-09-28)
+Two Finnish feed descriptions, 70mm: The Odyssey and The Lighthouse, were withheld because
+the English title inside each counts as English to `common.syn_language`. A text that
+places nowhere is now judged again with its titles (name, original title, the part after a
+"70mm:"-style prefix) taken out; the published text is unchanged, and a text that places
+whole is judged whole, since a title's own words can be the evidence. On the live feed of
+37 films it places those two and changes no other; The Odyssey's 19 words and the "Not
+Supplied" placeholder stay withheld. Live merge: one slot, The Lighthouse, same text now
+Gilda's rather than TMDB's. `test_gilda_syn_title.py`; 5 mutations, all red.
