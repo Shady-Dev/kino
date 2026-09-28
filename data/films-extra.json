@@ -328,6 +328,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=XszNWHhpaTc"
   },
+  "avengers doomsday": {
+   "id": 1003596,
+   "img": "data/posters/b1eae52d6a765de3.jpg",
+   "r": 0,
+   "s": {
+    "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
+    "fi": "Synopsis lisätään pian."
+   },
+   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk",
+   "ts": [
+    "en"
+   ]
+  },
   "avengers endgame encore": {
    "id": 299534,
    "img": "data/posters/b7147419b96540ff.jpg",
@@ -763,11 +776,18 @@
     "ihmekompleksi",
     "isohannu",
     "joutsankino",
+    "kino123",
     "kinoaurora",
     "kinokilta",
     "kinokulma",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinoset",
+    "kirkkonummi",
     "korjaamo",
+    "kotkanleffat",
     "leffabuumi",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 0,
@@ -1337,7 +1357,8 @@
     "ihmekompleksi",
     "kinoaurora",
     "kinokilta",
-    "korjaamo"
+    "korjaamo",
+    "studio123kouvola"
    ],
    "r": 7.7,
    "s": {
@@ -1543,19 +1564,6 @@
     "fi": "Ranskalaisen Amélie Bonninin hurmaava ja moderni, musiikin siivittämä elokuva Partir un jour avasi tämän vuoden Cannesin elokuvajuhlat. Poptähti Juliette Armanet hurmaa valkokankaalla ensimmäisessä elokuvaroolissaan huippukokkina, joka palaa lapsuuden maisemiin ja kohtaa siellä jälleen ensirakkautensa. Elokuvaa tähdittää upea musiikki, jossa ikivihreät sävelmät ja tämän vuosikymmenen modernit klassikot yhdistyvät kauniisti. Elokuva oli myös Espoo Ciné elokuvafestivaalin avajaiselokuvana tänä vuonna. Cécile on Top Chef -voittaja ja juuri perustamassa omaa arvostettua ravintolaansa, kun elämä vie hänet yllättäen toiseen suuntaan. Hän palaa lapsuutensa maisemiin ja ottaa hoitoonsa vanhempiensa vaatimattoman ravintolan. Kaukana Pariisin sykkeestä hän tapaa nuoruudenrakkautensa ja unohtuneet tunteet kuplivat pintaan. Kokkauksen ja keittiön tuoksujen keskellä Cécilen elämään hiipii uusia sävyjä, kun vanha liekki alkaa syttyä uudelleen. Partir un jour on lämmin ja ajaton tarina rakkauden voimasta, kätketyistä tunteista ja ihmisistä, jotka jättävät sydämemme pysyvän jäljen."
    },
    "tr": ""
-  },
-  "jossain on valo joka ei sammu": {
-   "id": 1304527,
-   "img": "data/posters/1aa81857df25f015.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "27-vuotias entinen huilisti Pauli muuttaa takaisin vanhempiensa luo pikkukaupunkiin itsemurhayrityksensä jälkeen. Hän tapaa vanhan lapsuudenystävänsä Iiriksen, joka yrittää taivutella Paulia soittamaan äärimmäisen kokeellista musiikkia hänen kanssaan. Aiemmin virheettömyyteen ja täydellisyyteen tottunut Pauli alkaa löytää toivoa ja lohtua kummallisista äänikokeiluista ja uudenlaisesta ystävyydestä."
-   },
-   "tr": "https://www.youtube.com/watch?v=gSpHShwJxhY",
-   "ts": [
-    "fi"
-   ]
   },
   "joulutarina": {
    "id": 21501,
@@ -1989,6 +1997,14 @@
    },
    "tr": ""
   },
+  "kinopalatsi suljettu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kinopalatsi on suljettu keskiviikkona 7.10."
+   },
+   "tr": ""
+  },
   "kirjastokino linnaisten vihreä kamari": {
    "id": 438815,
    "img": "data/posters/1d95e719b7fde90c.jpg",
@@ -2371,12 +2387,16 @@
   },
   "kätyrit ja monsterit suomeksi": {
    "id": 1315772,
-   "r": 0,
+   "img": "data/posters/67059865db3405c0.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "This is the rambunctious, ridiculous and totally true story of how the Minions conquered Hollywood, became movie stars, lost everything, unleashed monsters onto the world and then banded together to try and save the planet from the mayhem they had just created.",
     "fi": "Suosithan paikkavarausta! Illumination johdattaa meidät jälleen hulvattomaan animaatiomaailmaansa uudella elokuvallaan Kätyrit & Monsterit, joka tuo maailman suosituimpaan animaatio-franchiseen kokonaan uusia hahmoja. Hillitön, riehakas ja täysin tositapahtumiin perustuva elokuva kertoo, miten Kätyrit valloittavat Hollywoodin ja nousevat elokuvatähdiksi, menettävät kaiken, tulevat päästäneeksi hirviöitä maailmaan ja lopulta yhdistävät … voimansa pelastaakseen planeetan itse aiheuttamaltaan kaaokselta. Alkuperäisissä äänirooleissa kuullaan muun muassa Oscar®-voittaja Allison Janney, kaksinkertainen Oscar®-voittaja Christoph Waltz, Oscar®-voittaja Jeff Bridges, kaksinkertainen Oscar®-ehdokas Jesse Eisenberg, Zoey Deutch (Nouvelle Vague) sekä Oscar®-ehdokas Trey Parker, joka tunnetaan myös yhtenä South Parkin luojista. Näyttelijäkaartia täydentävät myös entinen Saturday Night Live -tähti Bobby Moynihan ja Phil LaMarr (Futurama, Kukkulan kuningas). Kätyrit & Monsterit -elokuvan on ohjannut Oscar-ehdokkuuden saanut Pierre Coffin, jonka ohjaustöihin lukeutuvat myös kolme ensimmäistä Itse ilkimys -elokuvaa ja ensimmäinen Kätyrit-elokuva. Coffin on myös ääninäytellyt itse Kätyreitä niiden elokuvadebyytistä 2010 alkaen. Elokuvan käsikirjoittajat ovat Brian Lynch (Kätyrit, Lemmikkien salainen elämä -elokuvat) ja Pierre Coffin. Elokuvan ovat tuottaneet myös Oscar-ehdokkuuden saanut Illuminationin perustaja ja pääjohtaja Chris Meledandri sekä Bill Ryan (The Super Mario Bros. Movie -elokuvan vastaava tuottaja ). Kätyrit & Monsterit -elokuvan vastaava tuottaja on Brian Lynch. Yli 15 vuotta on kulunut Kätyreiden luomisesta, ja niistä on tullut sukupolvensa ikonisimpia animaatiohahmoja. Kaikenikäisten fanien rakastamat Kätyrit ovat siivittäneet Illuminationin Itse ilkimys- ja Kätyrit-elokuvatuotannot yli 5,6 miljardia dollaria tuottaneiksi maailmanlaajuisiksi jymymenestyksiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=V-O-uBaHk3c",
+   "ts": [
+    "en"
+   ]
   },
   "kätyrit monsterit": {
    "id": 1315772,
@@ -2451,6 +2471,11 @@
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
+   "kr": "K-7",
+   "krs": [
+    "kinoolympia",
+    "studio123kouvola"
+   ],
    "r": 7.3,
    "s": {
     "en": "As his tenure as President of Italy nears its end, Mariano De Santis faces wrenching decisions-both political and deeply personal. Amid these moral quandaries, he must confront his own conscience and seek guidance from those closest to him, including his confidante and daughter, Dorotea.",
@@ -3254,7 +3279,7 @@
   },
   "oasis don t look back in anger": {
    "id": 1447853,
-   "img": "data/posters/13ad244eeba6f73e.jpg",
+   "img": "data/posters/c33f50b596fd87c2.jpg",
    "r": 0,
    "s": {
     "en": "Don’t Look Back In Anger charts Liam and Noel Gallagher’s triumphant reunion tour, Oasis Live ‘25, one of the most anticipated rock ‘n’ roll comebacks of our time. The film is an unapologetically uplifting account of the biggest musical event of 2025, capturing the experience and emotions of the band and their fans across the world. The unique perspective includes rehearsal, backstage, and onstage access as well as the first joint interviews with Noel and Liam in over 20 years. Alongside the band’s sold-out world tour, the film also explores the profound emotional impact of this phenomenal global cultural moment and what their music means to audiences and generations worldwide.",
@@ -3469,6 +3494,16 @@
    "ts": [
     "en"
    ]
+  },
+  "outsider freud": {
+   "id": 1398383,
+   "img": "data/posters/a67c2b73bafff9ea.jpg",
+   "r": 0,
+   "s": {
+    "en": "A journey into the life and work of Sigmund Freud in four acts, combining animation, dreams, and insights from leading psychoanalysts. It explores Freud's experiences of marginalization as a Jew in Vienna during Hitler's rise and how these shaped his theories and personal life. Through an intimate lens, the film reveals new dimensions of Freud's legacy, focusing on his impact on psychoanalysis, Judaism, and the power dynamics of being an outsider.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "paholainen pukeutuu pradaan 2006": {
    "id": 350,
@@ -3751,7 +3786,7 @@
   "practical magic 2": {
    "id": 1302904,
    "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 6.1,
+   "r": 6.2,
    "s": {
     "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa.",
@@ -3780,6 +3815,7 @@
    "img": "data/posters/1b75e3e44aca4810.jpg",
    "kr": "K-12",
    "krs": [
+    "bioforum",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -3902,6 +3938,50 @@
   },
   "presidentin kyyditys kidnappningen av presidenten": {
    "id": 1412214,
+   "img": "data/posters/b6832fef0c1dad14.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biogrand",
+    "biomarilyn",
+    "biopallas",
+    "biorex",
+    "biorexkokkola",
+    "biovuoksi",
+    "cine",
+    "cinemantsala",
+    "gilda",
+    "helios",
+    "ihmekompleksi",
+    "isohannu",
+    "kino123",
+    "kinoakseli",
+    "kinoelo",
+    "kinohirvi",
+    "kinoiiris",
+    "kinojuha",
+    "kinokilta",
+    "kinolaika",
+    "kinolumo",
+    "kinomania",
+    "kinomarilyn",
+    "kinomyyri",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinoset",
+    "kinotar",
+    "kinotour",
+    "kirkkonummi",
+    "kotkanleffat",
+    "leffabuumi",
+    "matintupa",
+    "navettakino",
+    "niagara",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "vihdinkino"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4039,7 +4119,10 @@
     "en": "",
     "fi": "Eetu Salin, tulisieluinen työväen agitaattori ja yksi Suomen Sosialidemokraattisen Puolueen perustajista, kamppailee lapsuustraumojensa ja alkoholiongelman lisäksi puolueen sisällä valtaan pyrkiviä nuoria radikaalisosialisteja vastaan. Rauhanomaisin keinoin käytävää luokkataistelua kannattava Eetu, yhdessä ystäviensä Väinö Tannerin ja Yrjö Mäkelinin kanssa, yrittää estää Suomen työväen ajautumisen kohti väkivaltaista vallankumousta."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "punainen viiva": {
    "id": 429551,
@@ -4119,6 +4202,16 @@
    },
    "tr": ""
   },
+  "på svenska bamse och havets hemlighet": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen seikkailevat jälleen! Ystävykset lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM"
+  },
   "queen budapest": {
    "id": 142773,
    "img": "data/posters/fc3dc1b53e616386.jpg",
@@ -4195,6 +4288,7 @@
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4758,7 +4852,8 @@
    "kr": "K-12",
    "krs": [
     "elavienkuvien",
-    "kinoaurora"
+    "kinoaurora",
+    "studio123kouvola"
    ],
    "r": 0,
    "s": {
@@ -5074,7 +5169,7 @@
     "kinoaurora",
     "kinokilta"
    ],
-   "r": 6.5,
+   "r": 6.3,
    "s": {
     "en": "A young director (Hannah Einbinder) tries to revive the cult slasher film series Camp Miasma. But an encounter with its legendary star (Gillian Anderson) draws her into a vortex of blood and desire. The hypnotic summer thriller Teenage Sex and Death at Camp Miasma blends influences from David Lynch and Friday the 13th. Directed by Jane Schoenbrun, the film had its world premiere as the opening film of the Un Certain Regard section at the Cannes Film Festival. Schoenbrun’s previous film, I Saw the TV Glow (2024), was one of the most-watched hits at the Rakkautta & Anarkiaa film festival.",
     "fi": "Nuori ohjaaja (Hannah Einbinder) yrittää herättää henkiin kulttimaineisen slasher-elokuvasarjan Camp Miasman. Kohtaaminen sen legendaarisen tähden (Gillian Anderson) kanssa tempaa hänet kuitenkin veren ja halun pyörteisiin. Hypnoottinen kesätrilleri TEENAGE SEX AND DEATH AT CAMP MIASMA yhdistelee David Lynch ja Friday the 13th -vaikutteita. Jane Schoenbrunin ohjaus sai maailmanensi-iltansa Cannesin festivaalin Un Certain Regard -sarjan avajaiselokuvana. Schoenbrunin edellinen I Saw the TV Glow (2024) oli Rakkautta & Anarkiaa -festivaalin vuoden katsotuimpia hittejä."
@@ -5289,10 +5384,7 @@
     "en": "",
     "fi": "Hypnoottinen The Lighthouse kertoo kahdesta majakanvartijasta syrjäisellä ja mystisellä Uuden-Englannin saarella 1890-luvulla."
    },
-   "tr": "https://www.youtube.com/watch?v=42_UHhpq530",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=42_UHhpq530"
   },
   "the love that remains ástin sem eftir er": {
    "id": 1258509,
@@ -5747,6 +5839,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=msngBcC75LI"
   },
+  "trio suljettu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Keskiviikkona 7.10. esitämme päivänäytökset, ja teatteri on suljettu illan."
+   },
+   "tr": ""
+  },
   "troija": {
    "id": 652,
    "r": 0,
@@ -5852,8 +5952,8 @@
   },
   "unohdettu saari en dub": {
    "id": 1465063,
-   "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 0,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -5866,7 +5966,7 @@
   "unohdettu saari fi dub": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 0,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -5998,11 +6098,17 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biorexkokkola",
     "cine",
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
+    "kino123",
     "kinokulma",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinoset",
+    "kotkanleffat",
     "leffabuumi",
     "star",
     "tapiola"
@@ -6023,11 +6129,17 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biorexkokkola",
     "cine",
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
+    "kino123",
     "kinokulma",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinoset",
+    "kotkanleffat",
     "leffabuumi",
     "star",
     "tapiola"
@@ -6063,7 +6175,10 @@
     "en": "",
     "fi": "Hömpstadin kaupunkia suojelevan näkymättömän sankarin Vinskin supervoimat katoavat, kun näkymättömyyspulveri varastetaan. Se on kuitenkin vasta ensimmäinen askel Hömpstadia uhkaavien häikäilemättömien rikollisten suunnitelmassa, jossa vaarassa on Vinskin lisäksi hänen äitinsä ja koko kaupunki. Pelastaakseen Hömpstadin Vinskin on lähdettävä seuraamaan kadonneen Apteekkarin jättämiä arvoituksellisia ohjeita, jotka johdattavat hänet Hömpstadin \"nurjalle puolelle”. Vinski kohtaa myös kaupunkia otteessaan pitävän kaksinaamaisen rikollispomon, jonka suuruudenhulluudella ei ole rajoja."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "virta the kingdom of fairies": {
    "r": 0,
