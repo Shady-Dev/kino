@@ -3,7 +3,7 @@
 [regina] prices: 50 ticket pages due, reading 40, 10 wait for the next run
 [regina] prices: 172 screenings, 164 priced, 40 pages read, 122 reused, 8 without an ordinary ticket, 0 failed, 10 deferred
 [regina] Kino Regina: 172 showtimes, 62 dates
-[regina] synopses merged: 8
+[regina] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 115 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- kauppa.kavi.fi, kinoregina.fi
