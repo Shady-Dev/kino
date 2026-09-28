@@ -339,6 +339,10 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -371,13 +375,12 @@
   },
   "avengers endgame encore poistuu ohjelmistosta": {
    "id": 299534,
-   "img": "data/posters/b7147419b96540ff.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Avengers: Endgame on suoraa jatkoa vuonna 2018 ilmestyneelle Avengers: Infinity War:ille, jossa galaktinen titaanilordi Thanos voitti Avengers-ryhmän, tuhosi puolet universumin asukkaista ja pakeni kaukaiselle planeetalle. Nyt jäljelle jääneet supersankarit joutuvat uransa vaikeimman haasteen äärelle pohtiessaan, miten jatkaa tästä eteenpäin. Muutama viikko on kulunut Thanoksen aiheuttamasta massahävityksestä. Tästä selvinneet ihmiset ovat hiljalleen alkaneet keräilemään voimiaan. Tony Stark eli Iron Man on alkanut miettimään omaa tulevaisuuttaan ja yrittää Nebula-kyborgin kanssa keksiä keinon päästä takaisin Maahan. Muut hyökkäyksestä selvinneet, Thor, Natasha Romanoff, Bruce Banner, ja Steve Rogers saavat rinnalleen takaisin Hawkeyen, Scott Langin ja Carol Denversin. Yhdessä he päättävät vielä kerran käydä taisteluun Thanosta vastaan hieman erikoisella tavalla, joka tulee vaatimaan isoja uhrauksia ja lujaa tahtoa. Mutta Thanoksella on myös omat suunnitelmat hävityksen jälkeen."
    },
-   "tr": "https://www.youtube.com/watch?v=L2NAh3CIdig"
+   "tr": ""
   },
   "avengers endgame encore re release": {
    "id": 299534,
@@ -696,16 +699,12 @@
   },
   "coyote vs acme dub": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "coyote vs acme orig": {
    "id": 1204680,
@@ -779,26 +778,38 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
+    "biogrand",
     "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "cinemantsala",
+    "gilda",
     "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "kino123",
     "kinoaurora",
+    "kinoelo",
+    "kinojuha",
     "kinokilta",
     "kinokulma",
     "kinolumo",
+    "kinomania",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
     "kinoset",
+    "kinotoijala",
+    "kinovirta",
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
+    "star",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
     "vihdinkino"
@@ -903,6 +914,16 @@
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
    "tr": ""
+  },
+  "el espíritu de la colmena mehiläispesän henki": {
+   "id": 4495,
+   "img": "data/posters/90d7a3925722c1bc.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "Sociedad Finlandia España and the Embassy of Spain are organizing a free screening at Orion to celebrate the traditional Spanish Film Week. The Spirit of the Beehive is a compelling journey into a young child’s inner world, where fantasy, stories heard by the child, and reality intertwine. Bringing such a challenging cinematic subject to life required master director Víctor Erice and the exceptionally talented child actress Ana Torrent, with her large, expressive eyes. She is also familiar from her childhood role in Cría cuervos, Cría cuervos (Raise Ravens). The film is set in a small village in Castile in the mid-1940s, in the aftermath of the Spanish Civil War. A beekeeper lives there with his daughters, Isabel (8) and Ana (6). One Sunday, the children watch the film Frankenstein. It has a profound effect on Ana, who believes her older sister when she tells her that the monster is still alive and hiding somewhere near the village. The film is subtitled in English. Admission to the screening is free, no advance reservation is required. The screening will take place on Wednesday, October 7 at 19:00.",
+    "fi": "Suomi-Espanja Seura ja Espanjan suurlähetystö järjestävät perinteisen espanjalaisen elokuvan viikon kunniaksi ilmaisnäytöksen Orionissa. El Espiritu de la Colmena – Mehiläispesän henki on vaikuttava sukellus pienen lapsen mielenmaailmaan, jossa fantasia, lapsen kuulemat tarinat ja todellisuus sekoittuvat. Tällaisen vaikean elokuva-aiheen onnistumiseen tarvittiin mestariohjaaja Víctor Erice ja huippuhyvä lapsinäyttelijä Ana Torrent suurine nappisilmineen – tuttu myös lapsiroolistaan elokuvassa Cria cuervos, Korppi sylissä. Elokuva tapahtuu pienessä kylässä Kastiliassa, sodanjälkeisenä aikana 1940-luvun puolivälissä. Mehiläistenhoitajalla on tyttäret Isabel (8v) ja Ana (6v). Lapset näkevät eräänä sunnuntaina elokuvan Frankenstein. Elokuva tekee Anaan suuren vaikutuksen, ja hän uskoo isosiskoaan, joka vakuuttaa hänelle, että hirviö on elossa ja piileskelee kylän lähellä. Elokuva on tekstitetty englanniksi. Näytökseen on vapaa pääsy, vapaalippua ei tarvitse varata etukäteen. Näytös järjestetään KE 7.10. klo 19:00."
+   },
+   "tr": "https://www.youtube.com/watch?v=aqvpMJNlqxE"
   },
   "elena ja miehet": {
    "id": 53156,
@@ -1371,6 +1392,7 @@
     "kinoaurora",
     "kinokilta",
     "korjaamo",
+    "star",
     "studio123kouvola"
    ],
    "r": 7.7,
@@ -1436,18 +1458,27 @@
     "en"
    ]
   },
+  "i swear": {
+   "id": 1317149,
+   "img": "data/posters/9481c7c73a87c143.jpg",
+   "r": 8.3,
+   "s": {
+    "en": "",
+    "fi": "15-vuotiaalla Johnilla todetaan Touretten syndrooma aikana, jolloin sairaudesta tiedetään vielä hyvin vähän. John kohtaa ennakkoluuloja ja epäilyjä. Yllättävien ja avuliaiden ihmisten avulla hän alkaa löytää keinoja selviytyä yhteiskunnassa, ja avaa samalla tietä erilaisuuden hyväksymiselle."
+   },
+   "tr": "https://www.youtube.com/watch?v=10ynpduiRpM",
+   "ts": [
+    "fi"
+   ]
+  },
   "idän soturit": {
    "id": 43636,
-   "img": "data/posters/c38da6e4b42e62fd.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
-    "en": "While one tough woman with an invisible robe has stolen 18 babies for her powerful master, two other tough women and the cops try to stop her.",
+    "en": "",
     "fi": "Ching Siu-Tungin tuottama ja koreografioima Heroic Trio on mainio postmoderni keitos, jossa on lähes campisti yhdistetty moderni sarjakuvakerronta kiinalaiseen mytologiaan. Elokuvan kaupunkimaisema tuo mukavasti mieleen modernin sarjakuvan, joissa naamioituneet supersankarit pukeutuvat rohkeasti sukkahousuihin ja käyvät taistoon rikollisuutta vastaan. Heroic Trio on kuitenkin ihan aito aasialainen vastike aiheelle: sen pahikset eivät ole saaneet voimiaan ultramodernissa säteilyonnettomuudessa vaan kiinalaisen mytologian yliluonnollisuutta huokuvasta menneisyydestä. Tarinan sankareina seikkailevat Näkymätön nainen, Ihmenainen ja Varkaanpyytäjä. Rooleissa nähdään kauniita kiinattaria – Michelle Yeoh (ent. Khan), Anita Mui ja Maggie Cheung – jotka ovat ansioituneet näyttelijöinä ja tähtinä tietenkin jo ennen Heroic Trioa, missä naisten tähtikuvaa onkin hyödynnetty reippaasti. Sankarillisen trion seikkailujen jälkeen mm. Michelle Yeoh on nähty myös Hiipivän tiikerin, kätketyn lohikäärmeen (2000) ja Bond-leffan Tomorrow Never Dies (1997) pääosissa, Maggie Cheung puolestaan mm. Irma Vepinä (1996), Peter Chanin sympaattisessa elokuvassa Comrades: Almost a Love Story (1996) sekä Wong Kar-Wain voitokkaassa elokuvassa In the Mood for Love (2000). Ohjaaja Olivier Assayasin Irma Vep -valintaan vaikutti aikoinaan mm. juuri Heroic Trio, jossa Maggie Cheung taivuttelee norjasti jäseniään Siu-Tungin tarkassa koreografiassa – sääli, että myöhemmin paljastui, että näissä kohtauksissa esiintyikin taistelulajit taitava stuntti, eikä Cheung itse. Voimakkaat naishahmot eivät ole harvinaisia Hongkong-elokuvassa, vaan näitä toiminnallisia taistelijoita esiintyy varsinkin uudemmassa elokuvassa. Heroic Trion tekee kuitenkin erityisen kiin-nostavaksi elokuvan kulttuuritausta ja naisen yhteiskunnallinen asema , mikä on Kiinassa ollut vuosisatoja tavalla tai toisella sorrettu. 1990-luvun alussa sankaritrion ylivoimaiset toimijat ovat kuitenkin naisia, kun miehet puolestaan ovat heikkoja statisteja. Kiinalaisessa kerrontaperinteessä kyky muodonmuutokseen ilmentää äärimmäisen pahuuden yliluonnollista voimaa. Mielenkiintoista on, että tämä muodonmuutoksen kyky kohdistuu muutamassakin Hongkong elokuvassa kykyyn vaihtaa sukupuolta, häilyä sukupuolisen identiteetin epämääräisessä välitilassa. Tämä käy varsin hyvin ilmi niin Ching Siu Tungin Aavesoturissa (1987) ja Heroic Triossa kuin Ronny Yun Ritari Jiang-hu:n valkohiuksisessa morsiamessakin (1993): näissä äärimmäinen paha konkreettisesti häilyy sukupuolten välisessä rajamaastossa. Sekä Aavesoturin puudemoni että Heroic Trion maailmanvalloituksesta haaveileva demoni ovat kumpainenkin androgyynejä hahmoja, joissa on sekä naisen ja miehen piirteitä. Ritari Jiang-hun äärimmäinen paha puolestaan esiintyy siamilaisten kaksosten hahmossa: Francis Ng 'n ja Elaine Luin esittämä, pelkoa herättävä sekasikiö on yhtä aikaa mies ja nainen."
    },
-   "tr": "https://www.youtube.com/watch?v=6u2lyRQIByY",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ihmistenmetsästäjät": {
    "id": 833462,
@@ -2068,13 +2099,12 @@
   },
   "klassikkoelokuva solaris": {
    "id": 593,
-   "img": "data/posters/ddff2c8871712c61.jpg",
-   "r": 7.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "KLASSIKKOELOKUVA: SOLARIS Soljaris, Neuvostoliitto 1972 • O: Andrei Tarkovski • N: Donatas Banionis, Natalja Bondartshuk, Jüri Järvet • DCP • suom. tekstit • K12 • 167 min"
    },
-   "tr": "https://www.youtube.com/watch?v=BBYJH6UAAfw"
+   "tr": ""
   },
   "kohtalon avain": {
    "id": 303,
@@ -2096,14 +2126,13 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "biovuoksi",
     "cinemantsala",
     "engel",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
     "kinohamina",
-    "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomyyri",
@@ -2493,7 +2522,10 @@
    "img": "data/posters/6c8d0779f3581c89.jpg",
    "kr": "K-7",
    "krs": [
+    "biogrand",
     "kinoolympia",
+    "kinopirtti",
+    "star",
     "studio123kouvola"
    ],
    "r": 7.3,
@@ -2824,12 +2856,16 @@
   },
   "marsupilami dub": {
    "id": 1145899,
-   "r": 0,
+   "img": "data/posters/d24763d2c244cd16.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari - vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. <p> <p> Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
+   "ts": [
+    "en"
+   ]
   },
   "marsupilami suomeksi": {
    "id": 1145899,
@@ -2852,6 +2888,14 @@
    "ts": [
     "en"
    ]
+  },
+  "matka piemonteen ennakkonäytös": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Espoo Ciné suosittelee ottamaan hetken verran rennosti ja karkaamaan Italian lämpöön juuri ennen Pohjolan lumisohjon ja mauttomien tomaattien hyistä sesonkia! Matka Piemonteen on vuonna 2002 Ruotsin nuorimpana naispuolisena ohjaajana debytoineen Alexandra-Therese Keiningin uusi draamakomedia elämän mielekkyyden etsinnästä kypsällä iällä. Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
+   },
+   "tr": ""
   },
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
@@ -3918,11 +3962,11 @@
     "kinoset",
     "kinotar",
     "kinotour",
+    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
     "matintupa",
-    "navettakino",
     "niagara",
     "savonkinot",
     "star",
@@ -3988,11 +4032,11 @@
     "kinoset",
     "kinotar",
     "kinotour",
+    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
     "matintupa",
-    "navettakino",
     "niagara",
     "savonkinot",
     "star",
@@ -4041,11 +4085,11 @@
     "kinoset",
     "kinotar",
     "kinotour",
+    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "leffabuumi",
     "matintupa",
-    "navettakino",
     "niagara",
     "savonkinot",
     "star",
@@ -4351,13 +4395,10 @@
    "img": "data/posters/91779224a3129903.jpg",
    "r": 0,
    "s": {
-    "en": "A three-night compilation that captures their spectacular October 2022 shows at the Foro Sol Stadium in Mexico City during the Stadium Tour era. This live has become the band's most massive and longest one of their entire career.",
+    "en": "Filmed across three sold-out nights at the 65,000-capacity Foro Sol, Rammstein – Live in Mexico City captures one of the defining performances of the band’s monumental five-year world stadium tour in a spectacular concert film directed by four-time GRAMMY® nominee and two-time Primetime Emmy® Award winner Paul Dugdale. Spanning 135 concerts and witnessed by six million fans around the world, the tour marked a major chapter in Rammstein’s international career. For more than three decades, the Berlin six-piece has built one of the most distinctive global profiles in modern music. Two-time GRAMMY® nominees with audiences across the globe, Rammstein have brought German-language rock to major venues around the world – combining colossal sound, theatrical precision and live production on a scale entirely their own. Featuring 20 career-spanning songs, including “Du Hast”, “Sonne”, “Ich Will” and the Mexico City finale “Te Quiero Puta!”, the film places audiences at the heart of a show where 20-metre-high flames, stadium-wide pyrotechnics and towering industrial architecture are matched by moments of genuine connection between the band and the crowd. Following landmark screen releases including Jonas Åkerlund’s Rammstein: Paris, this new film captures Rammstein at full stadium scale – and the lasting bond they have built with fans around the world. From November 4, 2026, audiences worldwide can experience Rammstein – Live in Mexico City in cinematic 4K, with Dolby Atmos sound where available. The fans in the front row survived. Now it is your turn. Viva México. Viva Rammstein.",
     "fi": ""
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "recombination": {
    "id": 1157677,
@@ -4399,11 +4440,13 @@
     "gilda",
     "kino123",
     "kinoakseli",
+    "kinoelo",
     "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomania",
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
@@ -4447,11 +4490,13 @@
     "gilda",
     "kino123",
     "kinoakseli",
+    "kinoelo",
     "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomania",
     "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
@@ -4528,19 +4573,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=54IuJ8ivZl0"
   },
-  "romanovin kivet": {
-   "id": 88126,
-   "img": "data/posters/1e859992782d12b2.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Nuoret rikolliset Tony ja Patrick lähtevät pomonsa Edvard Roivaksen käskystä Lappiin ostamaan venäläisiltä toimijoilta tsaariperheelle kuuluneita jalokiviä. Kun kaupparahat paljastuvat väärennökseksi, joutuvat miekkoset hengenvaarallisiin kuvioihin."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "romeo juliet": {
    "id": 454,
    "img": "data/posters/f010f83e13c3e660.jpg",
@@ -4567,6 +4599,18 @@
   "rose": {
    "id": 1176962,
    "img": "data/posters/abbaf8c90c0c135c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biograni",
+    "biorex",
+    "gilda",
+    "ihmekompleksi",
+    "kinoaurora",
+    "kinokilta",
+    "korjaamo",
+    "star",
+    "studio123kouvola"
+   ],
    "r": 7.7,
    "s": {
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
@@ -4798,6 +4842,14 @@
    "s": {
     "en": "",
     "fi": "Risto Orkon romanttinen komedia heittää väärinkäsitysten saattelemana yhteen kartanon leskirouvan (Hanna Taini) ja uudistusmielisen pehtoorin (Jalmari Rinne). Siltalan pehtoori oli tekninen merkkipaalu: käyttörepliikit äänitettiin ensimmäisen kerran myös ulkokohtauksissa ja elokuvasta valmistui ensimmäinen traileri."
+   },
+   "tr": ""
+  },
+  "sir elwood duo": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Sir Elwood Duo on hiljaisten värien Juha Lehden ja Junnu Saaresahon pienimuotoisempi kokoonpano , biisien pysyessä suurina. Duossa painopiste siirtyy sähköisestä bändisoundista intiimimpään ilmaisuun: akustiset kitarat, piano, harmonikka ja Lehden laulut ovat keskiössä. Juha Lehden karhea, kertova laulusoundi nousee vahvasti esille tämän kokoonpanon konserteissa."
    },
    "tr": ""
   },
@@ -5076,10 +5128,6 @@
   "svečias the visitor": {
    "id": 1427167,
    "img": "data/posters/ab58860aa0b139c9.jpg",
-   "kr": "S",
-   "krs": [
-    "engel"
-   ],
    "r": 0,
    "s": {
     "en": "End of summer. Danielius (in mid 30s) makes a return to his hometown to sell his parents' flat. Having nowhere to rush, he reconnects with people and the town that's no longer his. He is confronted with a quiet sense of loneliness.",
@@ -5448,10 +5496,10 @@
     "biorex",
     "gilda",
     "isohannu",
+    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kotkanleffat",
-    "leffabuumi",
     "savonkinot",
     "star"
    ],
@@ -5819,12 +5867,16 @@
   },
   "toy story 5 dub": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.4,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
@@ -5969,6 +6021,17 @@
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "alatalo",
+    "engel",
+    "helios",
+    "huvimylly",
+    "kinoaurora",
+    "kinokulma",
+    "kinolaika",
+    "kkino"
+   ],
    "r": 7.9,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
@@ -6126,24 +6189,35 @@
    "img": "data/posters/4a690568fa372cff.jpg",
    "kr": "K-12",
    "krs": [
+    "biogrand",
     "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biovuoksi",
     "cine",
     "cinemantsala",
+    "gilda",
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoelo",
+    "kinojuha",
     "kinokulma",
     "kinolumo",
+    "kinomania",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
     "kinoset",
+    "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "star",
+    "studio123jarvenpaa",
     "tapiola",
     "vihdinkino"
    ],
@@ -6162,24 +6236,35 @@
    "img": "data/posters/052a413644e02ce6.jpg",
    "kr": "K-12",
    "krs": [
+    "biogrand",
     "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biovuoksi",
     "cine",
     "cinemantsala",
+    "gilda",
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoelo",
+    "kinojuha",
     "kinokulma",
     "kinolumo",
+    "kinomania",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
     "kinoset",
+    "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "star",
+    "studio123jarvenpaa",
     "tapiola",
     "vihdinkino"
    ],

@@ -1,12 +1,13 @@
 [gilda] film pages indexed: 498
 [gilda] film pages read for a synopsis: 4, placed: 4
-[gilda] dropped 16 duplicate showtime(s)
+[gilda] dropped 44 duplicate showtime(s)
 [gilda] strand prefix split off 14 showtimes
-[gilda] Gilda Kamppi: 71 showtimes, 30 dates
-[gilda] Bio Rex Lasipalatsi: 6 showtimes, 6 dates
-[gilda] synopses merged: 0
+[gilda] Gilda Kamppi: 138 showtimes, 34 dates
+[gilda] Bio Rex Lasipalatsi: 7 showtimes, 6 dates
+[gilda] synopses merged: 1
+[gilda] synopses by language: en 1
 [run] http: 0 revalidated (304), 10 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.gilda.fi
-[run] gilda: 2 venues, 77 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 16.6s of fetching added up across workers that overlap, longest site 16.6s, longest queue wait 40.1s, 16.6s wall from this module's first fetch starting to its last ending
+[run] gilda: 2 venues, 145 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 20.2s of fetching added up across workers that overlap, longest site 20.2s, longest queue wait 48.5s, 20.2s wall from this module's first fetch starting to its last ending
 exit=0

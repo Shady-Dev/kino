@@ -1,10 +1,10 @@
-[kinokilta] 65 screening(s) listed, 44 film page(s) read
+[kinokilta] 64 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Siri Hustvedt – Dance Around the Self, Teenage Sex and Death at Camp Miasma
-[kinokilta] Kino Kilta: 62 showtimes, 34 dates
+[kinokilta] Kino Kilta: 61 showtimes, 33 dates
 [kinokilta] strand prefix split off 14 showtimes
-[kinokilta] Kino Kilta: 62 showtimes, 34 dates
+[kinokilta] Kino Kilta: 61 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 74 screening(s) listed, 46 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
@@ -20,8 +20,8 @@
 [kinomyyri] Kino Myyri: 20 showtimes, 9 dates
 [kinomyyri] Kino Myyri: 20 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 110 full, 18 not stored (origin said no-store), 45 cache entries written
+[run] http: 0 revalidated (304), 109 full, 18 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 134 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 196.1s of fetching added up across workers that overlap, longest site 88.9s, longest queue wait 80.2s, 90.0s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 228.7s of fetching added up across workers that overlap, longest site 97.1s, longest queue wait 94.3s, 97.2s wall from this module's first fetch starting to its last ending
 exit=0
