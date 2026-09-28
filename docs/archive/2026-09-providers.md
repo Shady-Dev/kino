@@ -3311,3 +3311,12 @@ filmikopiona.") are left out, and the most common language of the rest is publis
 the corpus 61 of 66 films place; a few unplaced taglines and second paragraphs are lost.
 Live run: 12 slots merged (fi 11, sv 1), the rest already held by other chains; films-extra
 +8.2 KB raw, +2.9 KB gzipped. `test_nexxo_intro.py`; 8 mutations, all red.
+
+### Nexxo publishes the cinema's production year (2026-09-28)
+Nexxo rows carry `release_year` (and `director`), which `nexxo.py` ignored. It is now the
+show's `year`, the search hint the cloud TMDB pass already reads when every chain
+publishing a title agrees; a range such as "1937-1949" on a shorts programme is left out.
+On 2026-09-28 "Liisa ihmemaassa" searched with no year took Burton's 2010 film (12155) as
+an exact match, and with Kino Aurora's 1951 takes Disney's 12092. Measured on a copy of
+the data with every affected title re-judged: 44 Nexxo titles, 31 gain a year, no id or
+exactness changes. `test_nexxo_year.py`; 4 mutations, all red. Live on the next cloud run.

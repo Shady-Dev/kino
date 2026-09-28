@@ -185,6 +185,9 @@ def rating(age):
     return f"K-{int(m.group(1))}" if m else ""
 
 
+# The cinema's production year, a search hint for the TMDB pass. A range such as
+# "1937-1949" on a shorts programme is no one film's year and is left out.
+YEAR_RE = re.compile(r"(?:19|20)\d{2}")
 BOLD_P = re.compile(r"^\s*<p[^>]*>\s*<(strong|b)>(?:(?!</?(?:strong|b)>).)*</\1>\s*$", re.S)
 
 
@@ -252,6 +255,7 @@ def parse(payload, site, venue):
             skipped_broken += 1
             continue
         age = str(r.get("ageLimit") or r.get("agelimit") or "").strip()
+        year = str(r.get("release_year") or "").strip()
         poster = (r.get("posterurl") or "").strip()
         price = r.get("priceIncludingTax") or ""
         try:
@@ -263,6 +267,7 @@ def parse(payload, site, venue):
             "title": title,
             "original": "",   # code_external_title holds a distributor code, not a title
             "len": str(r.get("duration") or "").strip().lstrip("0") or "",
+            "year": year if YEAR_RE.fullmatch(year) else "",
             "rating": rating(age),
             "genres": ", ".join(g.strip().capitalize()
                                 for g in (r.get("genre") or "").split(",") if g.strip()),
