@@ -29,8 +29,13 @@ def film(slug, title, blurb=""):
             f"<span class=\"descrption\">{blurb}<span> </a>")
 
 
-def film_page(kieli=None, tekstitys=None, description=None, about="Klubialennus."):
-    out = "<table>"
+def film_page(kieli=None, tekstitys=None, description=None, about="Klubialennus.", series=None):
+    out = ""
+    if series is not None:
+        # As on the page: the series the film is filed under, a heading under its title.
+        out += ("<hgroup><h1>ELOKUVA</h1> <span> Puola, 1993 </span> <h2><a href=\""
+                f"https://cinemaorion.fi/erikoisnaytokset/x/\">{series}</a></h2> </hgroup>")
+    out += "<table>"
     for label, v in (("Kieli:", kieli), ("Tekstitys:", tekstitys)):
         if v is not None:
             out += f"<tr> <td id='field_x' class='dt'>{label}</td> <td class='dd'>{v}</td> </tr>"
@@ -51,6 +56,56 @@ FI = ("Truman Capoten romaaniin perustuva ja Blake Edwardsin ohjaama romanttinen
 EN_2 = "Holly Golightly (Audrey Hepburn) asuu New Yorkissa ja etsii rikasta miestä itselleen."
 EN = ("Liam and Noel Gallagher's triumphant reunion tour is one of the most anticipated "
       "comebacks of our time, and the film follows the band and their fans across the world.")
+
+
+# Kolme väriä: Valkoinen's page, read 2026-09-29: the series paragraph, then the film's.
+SERIES_P = ("<em>Äänen alkemistit</em> on elokuvan ääneen ja elokuvamusiikkiin keskittyvä "
+            "erikoissarja. Sarjan elokuvavalinnoista ovat vastanneet musiikin ja elokuvaäänen "
+            "huippuammattilaiset. Sarjan käynnistää Genelecin toimitusjohtaja Siamäk Naghianin "
+            "valinta <em>Kolme väriä: Valkoinen</em>.")
+FILM_P = ("<em>Kolme väriä: Valkoinen </em>on <strong>Krzysztof Kieślowskin </strong>"
+          "väritrilogian toinen osa – mustan huumorin ja hienovaraisen melankolian sävyttämä "
+          "kertomus tasa-arvosta, nöyryytyksestä ja kostosta. Kotimaassaan Karol alkaa koota "
+          "elämäänsä uudelleen, ja hänen kasvava itseluottamuksensa kietoutuu yhteen halun "
+          "kanssa kostaa.")
+SERIES_T = ("Äänen alkemistit on elokuvan ääneen ja elokuvamusiikkiin keskittyvä erikoissarja. "
+            "Sarjan elokuvavalinnoista ovat vastanneet musiikin ja elokuvaäänen "
+            "huippuammattilaiset. Sarjan käynnistää Genelecin toimitusjohtaja Siamäk Naghianin "
+            "valinta Kolme väriä: Valkoinen.")
+FILM_T = ("Kolme väriä: Valkoinen on Krzysztof Kieślowskin väritrilogian toinen osa – mustan "
+          "huumorin ja hienovaraisen melankolian sävyttämä kertomus tasa-arvosta, nöyryytyksestä "
+          "ja kostosta. Kotimaassaan Karol alkaa koota elämäänsä uudelleen, ja hänen kasvava "
+          "itseluottamuksensa kietoutuu yhteen halun kanssa kostaa.")
+
+
+class SeriesParagraphTest(unittest.TestCase):
+    """A description that opens with a paragraph about the series the page is filed under
+    leaves that paragraph out (2026-09-29): Kolme väriä: Valkoinen and Memoria, 2 of 21."""
+
+    def test_the_series_paragraph_is_left_out(self):
+        page = film_page(description=f"{SERIES_P}\n{FILM_P}", series="ÄÄNEN ALKEMISTIT")
+        self.assertEqual(orion.page_synopsis(page), {"fi": FILM_T})
+
+    def test_without_the_series_heading_the_paragraph_stays(self):
+        self.assertEqual(orion.page_synopsis(film_page(description=f"{SERIES_P}\n{FILM_P}")),
+                         {"fi": f"{SERIES_T} {FILM_T}"})
+
+    def test_a_first_paragraph_that_names_the_film_stays(self):
+        """The film's own paragraph opens with its title in <em> too."""
+        page = film_page(description=FILM_P, series="ÄÄNEN ALKEMISTIT")
+        self.assertEqual(orion.page_synopsis(page), {"fi": FILM_T})
+
+    def test_the_series_name_has_to_open_the_paragraph(self):
+        """Named later in the film's own text, the series leaves it whole."""
+        page = film_page(description=f"Näytös kuuluu <em>Äänen alkemistit</em> -sarjaan. {FI}",
+                         series="ÄÄNEN ALKEMISTIT")
+        self.assertEqual(orion.page_synopsis(page),
+                         {"fi": f"Näytös kuuluu Äänen alkemistit -sarjaan. {FI}"})
+
+    def test_another_series_leaves_the_description_whole(self):
+        # Aamiainen Tiffanylla is filed under Kissaelokuvapäivä and opens with the film.
+        self.assertEqual(orion.page_synopsis(film_page(description=FI, series="KISSAELOKUVAPÄIVÄ")),
+                         {"fi": FI})
 
 
 class PageLanguageTest(unittest.TestCase):

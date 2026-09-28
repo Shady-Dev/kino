@@ -3330,3 +3330,19 @@ whole is judged whole, since a title's own words can be the evidence. On the liv
 37 films it places those two and changes no other; The Odyssey's 19 words and the "Not
 Supplied" placeholder stay withheld. Live merge: one slot, The Lighthouse, same text now
 Gilda's rather than TMDB's. `test_gilda_syn_title.py`; 5 mutations, all red.
+
+### Orion leaves out a series paragraph at the head of a description (2026-09-29)
+On the maintainer's instruction, after the 2026-09-27 entry above named the case. A film in
+one of Orion's series is filed under it by a heading on its page, `<h2><a
+href=".../erikoisnaytokset/aanen-alkemistit/">ÄÄNEN ALKEMISTIT</a></h2>`. `page_synopsis`
+now drops the description's first `<p>` when it opens with that name in `<em>`. Read
+2026-09-29, 21 pages: it drops the paragraph on Kolme väriä: Valkoinen and Memoria and
+changes nothing else; five other pages carry a series heading (Kissaelokuvapäivä three
+times, Finnish Classics, Luontoelokuvaklubi) and open with the film. El Espíritu de la
+Colmena and Filminor open with an organiser's welcome and no series heading, and are
+unchanged. The dropped paragraph is two sentences about the series and the credit for who
+chose the film (Genelec's CEO Siamäk Naghian; singer-songwriter Laura Naukkarinen), which
+the listing note also carries and the adapter never publishes. Repair: both `fi` slots in
+films-extra.json and both cached `syn_fi` set to the new text, each equal to the old one
+minus that paragraph; no page changed. `playtime`'s `fi` slot is Orion's listing note from
+2026-08-27, left alone and reported. `SeriesParagraphTest`; 5 mutations, all red.

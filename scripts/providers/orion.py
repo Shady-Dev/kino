@@ -265,17 +265,30 @@ def page_language(page_html):
 # breaks lost ("Valkoinen.Kolme väriä"), so that is not read.
 ENTRY_RE = re.compile(r"""id=["']longdesc["'][^>]*>(.*?)<aside[^>]*naytokset""", re.S | re.I)
 PARA_RE = re.compile(r"<p\b[^>]*>(.*?)</p>", re.S | re.I)
+# A film in one of the cinema's series names it under its heading, <h2><a
+# href=".../erikoisnaytokset/aanen-alkemistit/">ÄÄNEN ALKEMISTIT</a></h2>. Read 2026-09-29,
+# 2 of 21 pages open their description with a paragraph about that series, its name in
+# <em> first; the film's own text starts in the next paragraph.
+SERIES_RE = re.compile(r"""<h2>\s*<a[^>]*href=["'][^"']*/erikoisnaytokset/[^"']+["'][^>]*>"""
+                       r"(.*?)</a>\s*</h2>", re.S | re.I)
+EM_LEAD_RE = re.compile(r"\s*<em>(.*?)</em>", re.S | re.I)
 
 
 def page_synopsis(page_html):
     """The film page's description -> {lang: text}: the paragraphs of its `longdesc`
     block, Finnish and often English after `***`. Each part goes where `syn_language`
-    places it, or nowhere. The listing's note is not on the page."""
+    places it, or nowhere. The listing's note is not on the page, and a first paragraph
+    that opens with the name of the series the page is filed under is left out."""
     m = ENTRY_RE.search(page_html or "")
     if not m:
         return {}
+    paras = PARA_RE.findall(m.group(1))
+    series = SERIES_RE.search(page_html)
+    lead = EM_LEAD_RE.match(paras[0]) if paras else None
+    if series and lead and _txt(lead.group(1)).casefold() == _txt(series.group(1)).casefold():
+        paras = paras[1:]
     out = {}
-    for part in " ".join(_txt(p) for p in PARA_RE.findall(m.group(1))).split("***"):
+    for part in " ".join(_txt(p) for p in paras).split("***"):
         # An inline tag became a space: "<em>Valkoinen</em>." read "Valkoinen .".
         part = re.sub(r"\(\s+", "(", re.sub(r"\s+([.,;:!?)])", r"\1", part)).strip()
         if part:
