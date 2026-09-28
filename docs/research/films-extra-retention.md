@@ -72,6 +72,8 @@ all 2026-09-24, edited slots:
 - At least one hand fix would not survive a refill: Cinema Niagara has no `declare_syn`
   in `etiketti.py`, so it still publishes the mixed fi/sv string, and `4c0f15fc1` records
   that a merge of it over the split text merges nothing only because the slot is filled.
+  Status 2026-09-28: `etiketti.syn_value` now splits that text by paragraph into the same
+  `fi` and `sv` the hand fix wrote, so a refill reproduces it.
 
 **Returning films**, from every commit that changed an area file, 567 from 2026-08-26 to
 2026-09-26, with the set of live keys at each:

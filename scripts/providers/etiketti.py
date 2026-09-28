@@ -76,10 +76,8 @@ SITES = [
     # Rooms arrive as `VENUE | VENUE n`, the venue repeated inside its own room name.
     # The flag turns on normalise_aud here and on Cine below; the other eighteen
     # keep the room verbatim, and Leffabuumi's pipe means something else entirely.
-    # `declare_syn`: read 2026-09-24, 20 of its 24 film pages carried a Finnish synopsis
-    # and one an English one (a concert film), so each text is placed; see syn_value.
     {"provider": "savonkinot", "base": "https://www.savonkinot.fi", "label": "Savon Kinot",
-     "aud_repeats_venue": True, "declare_syn": True,
+     "aud_repeats_venue": True,
      "venues": [
          {"id": "sk-tapio", "match": "tapio", "name": "Tapio Joensuu",
           "short": "Tapio", "city": "Joensuu"},
@@ -220,11 +218,8 @@ SITES = [
     # elokuvateatteristar.fi, which the footer credits; the programme and every
     # /salikartta link are on lippu., which is what `base` reads and run.py paces on.
     # Five rooms, SALI 1 to SALI 5, so no `aud_repeats_venue`.
-    # `declare_syn`: read 2026-09-24, 22 of its 24 film pages carried a Finnish synopsis,
-    # one English (Hanuman Ansh, which its local run had filed as Finnish) and one that no
-    # language settles; none mixes Finnish with Swedish, which is what keeps Niagara out.
     {"provider": "star", "base": "https://lippu.elokuvateatteristar.fi",
-     "label": "Elokuvateatteri Star", "declare_syn": True,
+     "label": "Elokuvateatteri Star",
      "venues": [
          {"id": "star-oulu", "match": "star", "name": "Elokuvateatteri Star",
           "short": "Elokuvateatteri Star", "city": "Oulu"},
@@ -298,6 +293,8 @@ GENRES2_RE = re.compile(r'<span class="label">\s*genre\s*</span>\s*([^<]+)', re.
 DESC_RE = re.compile(r'class="description-container[^"]*"[^>]*>\s*<span>(.*?)</span>', re.S)
 # The description opens with an age-limit boilerplate line; drop it.
 AGE_BOILER_RE = re.compile(r"^Elokuva on [^.]*\.[^.]*\.\s*", re.S)
+# A description's paragraphs are separated by `<br />` runs on every host read 2026-09-28.
+PARA_RE = re.compile(r"(?:\s*<br\s*/?>\s*)+", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
@@ -501,6 +498,7 @@ def parse_movie(page, site, movie_url):
     genres = ", ".join(dict.fromkeys(_txt(g) for g in genre_hits if _txt(g)))
     d = DESC_RE.search(page)
     syn = AGE_BOILER_RE.sub("", _txt(d.group(1))) if d else ""
+    paras = [t for t in map(_txt, PARA_RE.split(d.group(1))) if t] if d else []
 
     out, skipped = [], 0
     for m in ITEM_RE.finditer(page):
@@ -536,7 +534,8 @@ def parse_movie(page, site, movie_url):
         })
     return out, {"title": strip_version_suffix(title, lang), "rating": rating,
                  "len": minutes, "img": img,
-                 "lang": lang, "genres": genres, "syn": syn, "skipped": skipped}
+                 "lang": lang, "genres": genres, "syn": syn, "paras": paras,
+                 "skipped": skipped}
 
 
 def _film_container(listing):
@@ -618,16 +617,19 @@ def identified_venues(listing, site):
             if any(v["match"].lower() in n for n in names)}
 
 
-def syn_value(site, text):
-    """What `_syn` carries for one site. -> str, {lang: str}, or "" to publish none.
+def syn_value(text, paras=()):
+    """What `_syn` carries. -> {lang: str}, or "" to publish none.
 
-    A site without `declare_syn` keeps the bare string, which synmerge files as Finnish.
-    One with it has each text placed by `syn_language`, and an unplaceable one withheld.
-    Per site, not platform-wide: Niagara's blurbs are Finnish then Swedish in one text,
-    and the Swedish half outvotes the Finnish.
+    The whole text is placed by `syn_language` and an unplaceable one withheld. When the
+    paragraphs place in more than one language the text is split instead: each language
+    takes its own paragraphs, and those none places (headlines, source lines, the `***`
+    between) are dropped. Niagara prints Finnish then Swedish in one description, and read
+    whole the Swedish half outvoted the Finnish.
     """
-    if not site.get("declare_syn"):
-        return text
+    placed = [(syn_language(p), p) for p in paras]
+    langs = sorted({lang for lang, _ in placed if lang})
+    if len(langs) > 1:
+        return {lang: " ".join(p for x, p in placed if x == lang) for lang in langs}
     lang = syn_language(text)
     return {lang: text} if lang else ""
 
@@ -729,7 +731,7 @@ def fetch_site(site, sleep=1.2):
                 "price": r["price"],
                 "provider": site["provider"],
                 "venue": venue["id"],
-                "_syn": syn_value(site, meta["syn"]),
+                "_syn": syn_value(meta["syn"], meta["paras"]),
             })
         time.sleep(sleep)
 

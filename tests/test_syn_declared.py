@@ -6,8 +6,9 @@ title that every chain showing the film reads. Read 2026-09-24: Kino Engel's
 else, and the page declares neither (`<html lang="en-US">` on both kinds). Gilda's booking
 feed carries English `description`s for 6 of 36 films and no language field, and Savon
 Kinot's film pages carry English for one of 24. So each text is placed by
-`common.syn_language`, and one it cannot place is withheld. Other eTiketti sites keep the
-bare string: Niagara's bilingual `fi *** sv` blurbs would be outvoted into Swedish.
+`common.syn_language`, and one it cannot place is withheld. eTiketti does so for all 20
+sites since 2026-09-28, splitting a description whose paragraphs place in two languages:
+Niagara prints Finnish, `***`, then Swedish, and read whole it was outvoted into Swedish.
 """
 import io
 import unittest
@@ -78,46 +79,86 @@ class GildaTest(unittest.TestCase):
         self.assertEqual(rows["Elokuva 2"]["_syn"], {"fi": FI}, "the next film is unaffected")
 
 
+# Cinema Niagara's The Love That Remains, read 2026-09-28: a headline, the Finnish text,
+# its source, `***`, then the same in Swedish. Its films-extra entry was split by hand
+# on 2026-09-24 into exactly these three paragraphs.
+NIAGARA_FI = ("The Love That Remains on herkkävireinen kuvaus vuoden pituisesta "
+              "ajanjaksosta perheessä, jossa vanhemmat yrittävät selviytyä "
+              "erostaan. The Love That Remains kuvaa vastikään eronneiden Annan "
+              "ja Magnúsin elämää vuoden ajan parin yrittäessä selviytyä työstä, "
+              "seksistä ja monimutkaisista perhesuhteista, joihin kuuluvat "
+              "teini-ikäinen tytär ja kaksospojat. Perhe-elämää kuvaavat "
+              "kohtaukset vetävät puoleensa vanhoja totuuksia ja tunnesiteitä, "
+              "jotka ovat muuttuneet mutta eivät täysin hävinneet.")
+NIAGARA_SV = ("Det vardagliga ställs mot det fantastiska i en film fylld av "
+              "värme, humor och en rejäl dos berättarglädje.")
+NIAGARA_SV2 = ("The Love That Remains fångar ömsint ett år i en familjs liv. Ett "
+               "år där föräldrarna försöker navigera genom sin separation "
+               "långsamt, men oundvikligen glider de isär. Med en blandning av "
+               "lekfullhet och djup porträtterar filmen det bitterljuva i en "
+               "kärlek som har bleknat, men där minnena fortfarande binder samman "
+               "– allt mot en fond av årstidernas tysta förändring. Filmskaparen "
+               "Hlynur Pálmason (Godland) för in både oväntad humor och "
+               "känslomässig tyngd i denna visuellt slående, intima och samtidigt "
+               "imponerande vidsträckta skildring av ett äktenskap i upplösning – "
+               "mot en storslagen fond av årstidernas skiftningar.")
+NIAGARA = ("POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026!<br />\r\n <br />\r\n"
+           f"{NIAGARA_FI} <br />\r\n<br />\r\n Lähde: Norden.org<br />\r\n<br />\r\n"
+           "***<br />\r\n<br />\r\nNORDISKA RÅDETS FILMPRISKANDIDAT 2026!<br />\r\n <br />\r\n"
+           f"{NIAGARA_SV}<br />\r\n<br />\r\n{NIAGARA_SV2}<br />\r\n<br />\r\nKälla: TriArt")
+
+
 class EtikettiTest(Stubbed):
     def site(self, provider):
         return next(s for s in etiketti.SITES if s["provider"] == provider)
 
-    def test_savon_kinot_declares_each_synopsis(self):
-        site = self.site("savonkinot")
-        self.assertEqual(etiketti.syn_value(site, EN), {"en": EN})
-        self.assertEqual(etiketti.syn_value(site, FI), {"fi": FI})
-        self.assertEqual(etiketti.syn_value(site, UNPLACED), "")
+    def placed(self, description):
+        page = (f'<main><h1>Elokuva</h1><div class="description-container"><span>{description}'
+                "</span></div></main>")
+        _, meta = etiketti.parse_movie(page, self.site("niagara"), "/elokuvat/1/elokuva")
+        return etiketti.syn_value(meta["syn"], meta["paras"])
 
-    def test_star_declares_each_synopsis(self):
-        """Star's local run of 2026-09-24 put an English blurb ("Hanuman Ansh") into the
-        Finnish slot that the TMDB repair had just cleared. Its pages read that day: 22 of
-        24 Finnish, 1 English, 1 unplaceable, and none mixing Finnish with Swedish."""
-        site = self.site("star")
-        self.assertEqual(etiketti.syn_value(site, EN), {"en": EN})
-        self.assertEqual(etiketti.syn_value(site, FI), {"fi": FI})
-        self.assertEqual(etiketti.syn_value(site, UNPLACED), "")
+    def test_each_synopsis_is_placed(self):
+        self.assertEqual(self.placed(EN), {"en": EN})
+        self.assertEqual(self.placed(FI), {"fi": FI})
+        self.assertEqual(self.placed(SV), {"sv": SV})
 
-    def test_a_site_without_the_flag_keeps_the_bare_string(self):
-        self.assertEqual(etiketti.syn_value(self.site("niagara"), EN), EN)
-        self.assertEqual(etiketti.syn_value(self.site("niagara"), UNPLACED), UNPLACED)
+    def test_finnish_then_swedish_is_split_by_paragraph(self):
+        self.assertEqual(self.placed(NIAGARA),
+                         {"fi": NIAGARA_FI, "sv": f"{NIAGARA_SV} {NIAGARA_SV2}"})
 
-    def test_fetch_site_publishes_the_declared_value(self):
+    def test_one_line_break_is_a_paragraph_break(self):
+        self.assertEqual(self.placed(f"{FI}<br />{SV}"), {"fi": FI, "sv": SV})
+
+    def test_a_text_in_one_language_is_kept_whole(self):
+        # Niagara's Autofiktio: the release line places nowhere and stays with the blurb.
+        text = ("Espanjalaisen ohjaajalegendan Pedro Almodóvarin melodraama kertoo "
+                "luomiskriisissä kamppailevasta elokuvantekijästä, joka ammentaa läheistensä "
+                "tragedioista materiaalia teokseensa.")
+        self.assertEqual(self.placed(f"{text} <br />\r\nElokuvateattereissa 28.8."),
+                         {"fi": f"{text} Elokuvateattereissa 28.8."})
+
+    def test_a_text_no_language_places_is_withheld(self):
+        # Read 2026-09-28: Niagara's Twilight Zone tagline, Kinopirtti's placeholder and a
+        # Kotkan Leffat closure notice listed as a film.
+        for text in ("Hämärän pelottavat varjot", "Lisätietoja tulossa myöhemmin",
+                     "Kinopalatsi on suljettu keskiviikkona 7.10.", UNPLACED):
+            with self.subTest(text=text):
+                self.assertEqual(self.placed(text), "")
+
+    def test_fetch_site_publishes_the_placed_value(self):
         item = ('<div class="item joensuu date-26.9.2026"> <div> <p> <strong><span>LA 26.9. '
                 'klo 18.00</span></strong> </p> <p> JOENSUU | TAPIO | TAPIO 3<br /> </p> </div> '
                 '<div> <a class="button-screening" href="/salikartta?id=901"> Osta </a> </div> '
                 "</div>")
-        page = (f'<main><h1>Konsertti</h1><div class="description-container"><span>{EN}'
+        page = (f'<main><h1>Konsertti</h1><div class="description-container"><span>{NIAGARA}'
                 f'</span></div><div class="screenings">{HIDDEN}{item}</div></main>')
         e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/7/konsertti"),
                        "/elokuvat/7/konsertti": page})
         with redirect_stdout(io.StringIO()):
             out = e.fetch_site(self.site("savonkinot"), sleep=0)
-        self.assertEqual([r["_syn"] for r in out["sk-tapio"]], [{"en": EN}])
-
-    def test_only_the_sites_whose_pages_were_read_declare(self):
-        # A site joins after a read of its own pages: Savon Kinot's and Star's, 2026-09-24.
-        self.assertEqual([s["provider"] for s in etiketti.SITES if s.get("declare_syn")],
-                         ["savonkinot", "star"])
+        self.assertEqual([r["_syn"] for r in out["sk-tapio"]],
+                         [{"fi": NIAGARA_FI, "sv": f"{NIAGARA_SV} {NIAGARA_SV2}"}])
 
 
 if __name__ == "__main__":

@@ -2629,3 +2629,17 @@ text, and for The Ice Tower Ritz's page. With each cache entry removed, the Finn
 and the cloud pass both rebuilt the intended id as exact; without the aliases the Finnkino
 pass took 1510055 and a weak 1143440. 1510055 joins the wrong-id pins. The three same-year
 ties (One Night Only, Obsession, The Odyssey) are left to the runtime decision.
+
+### eTiketti places every site's synopsis, paragraph by paragraph when mixed (2026-09-28)
+18 of the 20 sites published a bare `_syn`, filed as Finnish; Savon Kinot and Star
+declared. Read on 2026-09-28 from an ordinary connection, all 243 film pages: before, 193
+bare, 46 fi, 2 en, 2 withheld; after, 230 fi, 2 en, 1 fi+sv, 10 withheld. The `declare_syn`
+flag is gone: every site places its text with `common.syn_language`. A description whose
+`<br>`-separated paragraphs place in two languages is split, each language keeping its own
+paragraphs, and unplaced ones (headlines, source lines, `***`) dropped. That is Niagara's
+The Love That Remains, and the split equals the 2026-09-24 hand repair byte for byte.
+Withheld: 4 Niagara titles-as-description (synmerge already skipped them), the tagline
+"Hämärän pelottavat varjot", Kinopirtti's "Lisätietoja tulossa myöhemmin", two Kotkan
+Leffat closure notices listed as films, and Savon Kinot's two as before. synmerge over a
+copy of films-extra.json writes nothing with either version: every slot is filled.
+`EtikettiTest` in `tests/test_syn_declared.py`; 6 mutations, all red.
