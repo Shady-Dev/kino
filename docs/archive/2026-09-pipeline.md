@@ -2643,3 +2643,13 @@ Withheld: 4 Niagara titles-as-description (synmerge already skipped them), the t
 Leffat closure notices listed as films, and Savon Kinot's two as before. synmerge over a
 copy of films-extra.json writes nothing with either version: every slot is filled.
 `EtikettiTest` in `tests/test_syn_declared.py`; 6 mutations, all red.
+
+### A strand in brackets keeps the operator's exclamation mark off the search (2026-09-28)
+Kino Tapiola published "Matka Piemonteen (ennakkonäytös!)" in bot commit 9bdf19cea; it drew
+an initials tile while "Matka Piemonteen" matched 1545391, and `test_tmdb_matching` went red
+on main's own data. "ennakkonäytös" is already a strand, but `PAREN_STRAND` required the
+bracket to hold exactly a listed strand, so the "!" kept it on the search string. The "!"
+before the closing bracket is now matched with it, as `puhumme suomea!?` already is. Over
+the 1,151 committed and cached titles it changes that one search string. An enrichment pass
+on a copy of data/ re-judged it on the changed `q` and took 1545391 exact, with its poster;
+the next cloud run does the same, so no data is committed. 3 mutations red.

@@ -163,8 +163,9 @@ TRAIL_EVENT = re.compile(
 # is matched against the one shared list in strands.py rather than against a pattern, so
 # a parenthesis holding anything else -- an original title ("Beginnings (Begyndelser)"),
 # an edition ("Nirvana 'Nevermind' (35th Anniversary)"), a screening note -- is left
-# alone, and a strand added for either position covers both.
-PAREN_STRAND = re.compile(r"\(\s*([^()]{1,40}?)\s*\)\s*$")
+# alone, and a strand added for either position covers both. The operator's exclamation
+# mark is matched with it: Kino Tapiola's "Matka Piemonteen (ennakkonäytös!)" (2026-09-28).
+PAREN_STRAND = re.compile(r"\(\s*([^()]{1,40}?)\s*!?\s*\)\s*$")
 
 
 def clean(title):

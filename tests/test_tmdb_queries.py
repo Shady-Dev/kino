@@ -425,6 +425,13 @@ class ParenthesisedStrandTest(unittest.TestCase):
         self.assertEqual(enrich_tmdb.clean("Presidentin kyyditys (Kahvi ja Kino)"),
                          "Presidentin kyyditys")
 
+    def test_an_exclamation_mark_inside_the_parenthesis_is_the_operator_s(self):
+        """Kino Tapiola, 2026-09-28: an initials tile while "Matka Piemonteen" matched."""
+        self.assertEqual(enrich_tmdb.clean("Matka Piemonteen (ennakkonäytös!)"),
+                         "Matka Piemonteen")
+        self.assertEqual(enrich_tmdb.clean("Matka Piemonteen (ennakkonäytös !)"),
+                         "Matka Piemonteen")
+
     def test_the_same_strand_still_comes_off_in_front_of_a_colon(self):
         """One list, both positions: the entry added for the parenthesis has to keep
         working where strands.split() reads it."""
