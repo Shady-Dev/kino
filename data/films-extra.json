@@ -448,6 +448,19 @@
     "en"
    ]
   },
+  "bamse ja meren salaisuus": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
+   "ts": [
+    "fi"
+   ]
+  },
   "beginnings begyndelser": {
    "r": 0,
    "s": {
@@ -791,6 +804,7 @@
     "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinokulma",
@@ -3172,13 +3186,12 @@
   },
   "nirvanna the band the show the movie": {
    "id": 1154538,
-   "img": "data/posters/5c8808ae5cbc5105.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "Lifelong friends Matt and Jay are still desperately trying to book a show at Toronto’s legendary Rivoli—nearly two decades after first forming their band. When one of Matt’s increasingly ridiculous schemes accidentally turns their RV into a time machine, the pair are transported back to 2008, forcing them to confront their younger selves and the choices that shaped their lives. What follows is a chaotic, improvised time-travel adventure about friendship, ambition, regret, and the absurd lengths people will go to in pursuit of their dreams.",
     "fi": "Nirvanna the Band the Show the Movie kertoo elinikäisistä ystävyksistä Mattista ja Jaysta, jotka yrittävät yhä epätoivoisesti saada keikkansa Toronton legendaariseen Rivoli-klubiin – lähes kaksikymmentä vuotta bändinsä perustamisen jälkeen. Kun yksi Mattin yhä järjettömämmistä suunnitelmista muuttaa heidän matkailuautonsa vahingossa aikakoneeksi, kaksikko päätyy takaisin vuoteen 2008 ja joutuu kohtaamaan nuoremmat versionsa sekä valintansa, jotka muovasivat heidän elämäänsä. Seuraa kaoottinen ja improvisoitu aikamatkaseikkailu ystävyydestä, kunnianhimosta, katumuksesta ja siitä, kuinka pitkälle ihminen on valmis menemään unelmiensa tavoittelussa."
    },
-   "tr": "https://www.youtube.com/watch?v=y2K9ccMREOI"
+   "tr": ""
   },
   "niskavuoren aarne": {
    "id": 94715,
