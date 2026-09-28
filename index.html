@@ -1039,6 +1039,13 @@
     .movie > .poster{grid-column:1; grid-row:1 / span 3}
     .movie .title, .movie .meta1, .movie .meta2{grid-column:2; align-self:start}
     .movie .stubs{grid-column:1 / span 2; margin-top:12px}
+    /* Tickets that would start beside the poster and all fit one line in the column there
+       stay in it, under the details (`side`, set by sizeTickets). A lone short ticket under
+       the poster left 191 of 335 px empty at 375 (Kino Kirkkonummi, 2026-09-28); a longer
+       list or a longer ticket keeps the full width above. */
+    .movie.side{grid-template-rows:auto auto auto 1fr}
+    .movie.side > .poster{grid-row:1 / span 4}
+    .movie.side .stubs{grid-column:2; align-self:start}
     /* Venue picker and its star share one row; search gets the next. Setting the select to
        width:100% pushed the star onto a row of its own and wasted ~60px of height. */
     .controls{padding:10px 14px 8px; gap:8px}
@@ -4237,20 +4244,47 @@
     const w = widths.filter(x => x > 0);
     return w.length ? Math.ceil(Math.max(...w)) + TKW_PAD : 0;
   };
+  // On a phone, whether a card's tickets go beside the poster: the list would start above
+  // the poster's bottom edge (`rise` px above it) and hold all of them on one line in the
+  // column there (`room`), none narrower than it needs. `widths` are the tickets at their
+  // natural width. A combined list gives every ticket one track, `track`, capped at the
+  // column; a row ticket is its own width (`track` 0).
+  const ticketsBeside = (widths, room, gap, track, rise) => {
+    if(!widths.length || !(rise > 0)) return false;
+    const cell = Math.min(track, room);
+    const need = track ? widths.map(x => x + TKW_PAD <= cell ? cell : Infinity) : widths;
+    return need.reduce((a, b) => a + b, 0) + gap * (need.length - 1) <= room;
+  };
   // --- end ticketWidth ---
   // Measure a rendered list's grid cells at their max-content width, hidden past days
   // included so revealing one does not widen the rest, and size the tracks to fit. The
   // cell, not the ticket: in the film view a cell is the ticket plus its menu button.
   // Webfont metrics differ from the fallback's, so an early measure is repeated once
-  // the fonts are in.
+  // the fonts are in. The same reading places each phone card's tickets.
+  const PHONE = matchMedia('(max-width:560px)');
   function sizeTickets(root){
     if(!root) return;
+    const cards = [...root.querySelectorAll('article.movie')];
+    for(const c of cards) c.classList.remove('side');
     root.classList.add('tkw-measure');
     const w = ticketWidth([...root.querySelectorAll('.stubs.grid > *')]
       .map(el => el.getBoundingClientRect().width));
+    const phone = PHONE.matches && cards.length;
+    const room = phone ? cards[0].querySelector('.title').getBoundingClientRect().width : 0;
+    const natural = phone ? cards.map(c => [...c.querySelectorAll('.stubs > *')]
+      .map(el => el.getBoundingClientRect().width)) : [];
+    const list = phone ? getComputedStyle(cards[0].querySelector('.stubs')) : null;
+    const gap = phone ? parseFloat(list.columnGap) || 0 : 0;
+    const rise = phone ? cards.map(c => c.querySelector('.poster').getBoundingClientRect().bottom
+      - c.querySelector('.stubs').previousElementSibling.getBoundingClientRect().bottom
+      - (parseFloat(list.marginTop) || 0)) : [];
     root.classList.remove('tkw-measure');
     root.classList.toggle('tkw', w > 0);
     if(w) root.style.setProperty('--tkw', w + 'px'); else root.style.removeProperty('--tkw');
+    cards.forEach((c, i) => {
+      const grid = c.querySelector('.stubs.grid');
+      if(phone && ticketsBeside(natural[i], room, gap, grid ? w : 0, rise[i])) c.classList.add('side');
+    });
     if(document.fonts && document.fonts.status !== 'loaded')
       document.fonts.ready.then(() => sizeTickets(root));
   }
@@ -5047,7 +5081,14 @@
     }
   }
   window.addEventListener('hashchange', syncSheet);
-  matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area) syncFav(); });
+  matchMedia('(max-width:560px)').addEventListener('change', () => { if(state.area){ syncFav(); sizeTickets(main); } });
+  // The column beside the poster follows the window, so a phone-width change re-places.
+  let placedW = innerWidth;
+  addEventListener('resize', () => {
+    if(innerWidth === placedW || !PHONE.matches || !state.area) return;
+    placedW = innerWidth;
+    sizeTickets(main);
+  });
   overlayEl.onclick = closeSheet;
   // iOS hands a drag the sheet cannot scroll to the page behind it.
   let touchY = 0;

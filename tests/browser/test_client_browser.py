@@ -1935,6 +1935,109 @@ class HomeCityLinksOnAPhone(HomeCityLinks):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+def placement_area(venue, provider, theatre, films):
+    """An area file for the placement tests: `films` maps a title to its (clock, aud,
+    lang) screenings on the fixture's day."""
+    shows = [{"eventId": title, "title": title, "original": "", "len": "100", "rating": "",
+              "genres": "Draama", "img": "", "method": "", "theatre": theatre, "aud": aud,
+              "lang": lang, "start": f"2026-09-14T{clock}:00+03:00", "soldOut": False,
+              "price": "10€", "provider": provider, "venue": venue,
+              "url": f"https://example.invalid/{venue}/{title}/{clock}"}
+             for title, times in films.items() for clock, aud, lang in times]
+    return json.dumps({"generated": "2026-09-14T08:00:00+00:00", "dates": ["2026-09-14"],
+                       "horizon": "2026-09-14", "shows": shows}).encode()
+
+
+class TicketPlacement(Browser):
+    """On a phone a card's tickets sit beside the poster when all of them fit one line in
+    the column there, and span the card under it otherwise (2026-09-28). A lone short
+    ticket under the poster left 191 of 335 px empty at 375 (Kino Kirkkonummi); the long
+    room and language lines keep the full width they got on 2026-09-23."""
+    viewport = {"width": 375, "height": 812}; touch = True
+    LONG = [("18:00", "Sali 1 Dolby Atmos", "EN-A, FI-S, SV-S")]
+
+    def setUp(self):
+        Handler.body = {
+            "area-or-helsinki.json": placement_area("or-helsinki", "orion", "Cinema Orion", {
+                "Yksi lyhyt": [("18:00", "", "")],
+                "Kolme lyhyttä": [("18:00", "", ""), ("19:00", "", ""), ("20:00", "", "")],
+                "Yksi pitkä": self.LONG,
+                "Keskipitkä": [("18:00", "Suuri sali Dolby", "")],
+                "Kaksi lyhyttä": [("18:00", "", ""), ("19:00", "", "")],
+                ("Elokuva jonka nimi on niin pitkä että se jatkuu julisteen alapuolelle asti "
+                 "ja vielä kahden rivin verran sen ohi"):
+                    [("18:00", "", "")]}),
+            "area-1100.json": placement_area("1100", "finnkino", "Kinopalatsi",
+                                             {"Pitkä muualla": self.LONG}),
+            **{f"area-{v}.json": placement_area(v, "finnkino", "", {})
+               for v in ("1103", "1111", "1162")},
+        }
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def cards(self, area):
+        self.page.goto(self.origin + f"/index.html?area={area}")
+        expect(self.page.locator("article.movie").first).to_be_visible()
+        self.page.evaluate("document.fonts.ready")
+        return self.page.evaluate("""() => Object.fromEntries(
+            [...document.querySelectorAll('article.movie')].map(c => {
+              const x = s => c.querySelector(s).getBoundingClientRect().left;
+              return [c.querySelector('.title').textContent.trim(),
+                      {side: c.classList.contains('side'), stubs: x('.stubs'), title: x('.title'),
+                       card: c.getBoundingClientRect().left}];
+            }))""")
+
+    def test_a_short_ticket_sits_beside_the_poster(self):
+        for width in (320, 375, 393):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width": width, "height": 812})
+                c = self.cards("or-helsinki")
+                self.assertTrue(c["Yksi lyhyt"]["side"], c)
+                self.assertEqual(c["Yksi lyhyt"]["stubs"], c["Yksi lyhyt"]["title"])
+
+    def test_a_list_that_needs_two_lines_or_a_long_ticket_spans_the_card(self):
+        c = self.cards("or-helsinki")
+        for title in ("Kolme lyhyttä", "Yksi pitkä"):
+            with self.subTest(title=title):
+                self.assertFalse(c[title]["side"], c)
+                self.assertEqual(c[title]["stubs"], c[title]["card"])
+
+    def test_the_combined_view_places_each_card_by_its_own_tickets(self):
+        c = self.cards("city:Helsinki")
+        self.assertTrue(c["Yksi lyhyt"]["side"], c)
+        self.assertFalse(c["Pitkä muualla"]["side"], c)
+        self.assertFalse(c["Kolme lyhyttä"]["side"], c)
+
+    def test_details_that_run_past_the_poster_keep_the_list_under_it(self):
+        c = self.cards("or-helsinki")
+        long = next(t for t in c if t.startswith("Elokuva jonka nimi"))
+        self.assertFalse(c[long]["side"], c[long])
+
+    def test_a_combined_list_is_placed_by_its_tracks(self):
+        """At 560 two combined tickets fit the 430 px column by their own widths, but every
+        combined ticket is one track wide, the view's widest, and two of those do not."""
+        self.page.set_viewport_size({"width": 560, "height": 812})
+        c = self.cards("city:Helsinki")
+        self.assertFalse(c["Kaksi lyhyttä"]["side"], c)
+
+    def test_a_narrower_phone_width_re_places(self):
+        self.page.set_viewport_size({"width": 393, "height": 812})
+        self.cards("or-helsinki")
+        card = self.page.locator("article.movie", has_text="Keskipitkä")
+        expect(card).to_have_class(re.compile(r"\bside\b"))
+        self.page.set_viewport_size({"width": 320, "height": 812})
+        expect(card).not_to_have_class(re.compile(r"\bside\b"))
+
+    def test_a_wider_window_drops_the_placement_and_a_phone_width_restores_it(self):
+        self.cards("or-helsinki")
+        card = self.page.locator("article.movie", has_text="Yksi lyhyt")
+        expect(card).to_have_class(re.compile(r"\bside\b"))
+        self.page.set_viewport_size({"width": 700, "height": 812})
+        expect(card).not_to_have_class(re.compile(r"\bside\b"))
+        self.page.set_viewport_size({"width": 375, "height": 812})
+        expect(card).to_have_class(re.compile(r"\bside\b"))
+
+
 class LoadFailureNoteFollowsTheLanguage(ChooserNote):
     """A link that asked for a cinema while the venue lists failed: the chooser with the
     load-failure line, which bootFallback now answers as a key. The failure is set before
