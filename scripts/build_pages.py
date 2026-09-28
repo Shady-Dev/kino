@@ -1745,9 +1745,9 @@ def home_cities(venues=None):
 
 
 def home_links_html(cities):
-    """One <li> per city. The Finnish page is the static href, what a reader without
-    script follows; `data-city` and `data-slug` let the client relabel the list and point
-    it at the programme."""
+    """One <li> per city. The Finnish page is the static href; `data-city` and
+    `data-slug` let the client relabel and relink the list for sv and en and open the
+    programme on a plain click."""
     return "".join(f'\n<li><a href="/kaupunki/{c["slug"]}/" data-city="{esc(c["city"])}" '
                    f'data-slug="{c["slug"]}">{esc(c["city"])}</a></li>' for c in cities) + "\n"
 

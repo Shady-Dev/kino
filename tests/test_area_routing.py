@@ -38,6 +38,7 @@ class AreaRoutingTest(unittest.TestCase):
         cls.l = payload["lang"]
         cls.lu = payload["langUrls"]
         cls.h = payload["homeHrefs"]
+        cls.ha = payload["homeAreas"]
 
     # -- the seven behaviours the fix has to hold ----------------------------------------
 
@@ -130,23 +131,25 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertIsNone(self.r["nothing_at_all"]["area"])
         self.assertIsNone(self.r["stale_stored"]["area"])
 
-    def test_city_links_point_at_the_pages_until_the_lists_arrive(self):
-        """Without the venue lists, which a reader without script never gets, each language
-        links its own city page."""
+    def test_city_links_point_at_the_pages_that_exist(self):
+        """All three. The href is also the rendered link a crawler follows into the
+        generated pages, so it stays the page after a plain click started opening the
+        programme (2026-09-28): with the programme as the href, a rendered crawl from `/`
+        reached none of the 454 sitemap pages."""
         self.assertEqual(self.h["fi"], "/kaupunki/jyvaskyla/")
         self.assertEqual(self.h["sv"], "/sv/kaupunki/jyvaskyla/")
         self.assertEqual(self.h["en"], "/en/city/jyvaskyla/")
+        for lang, href in self.h.items():
+            with self.subTest(lang=lang):
+                self.assertNotIn("?area=", href)
 
-    def test_city_links_open_the_programme_once_the_lists_are_in(self):
-        """2026-09-28, the maintainer's instruction: a city pick from the homepage opens the
-        programme, the combined view for two or more cinemas and the cinema for one, in
-        every language."""
-        self.assertEqual(self.h["multi"], "/?area=city%3AJyv%C3%A4skyl%C3%A4")
-        self.assertEqual(self.h["single"], "/?area=kl-fantasia")
-
-    def test_a_city_link_carries_the_query_a_pick_would_leave(self):
-        self.assertEqual(self.h["keepsQuery"], "/?lang=sv&area=city%3AJyv%C3%A4skyl%C3%A4")
-        self.assertEqual(self.h["replacesArea"], "/?area=city%3AJyv%C3%A4skyl%C3%A4&lang=en")
+    def test_a_plain_click_opens_the_programme(self):
+        """The maintainer's instruction, 2026-09-28: the combined view for a city with two or
+        more cinemas, the cinema for one, and nothing while the lists are not in."""
+        self.assertEqual(self.ha["multi"], "city:Jyväskylä")
+        self.assertEqual(self.ha["single"], "kl-fantasia")
+        self.assertEqual(self.ha["none"], "")
+        self.assertEqual(self.ha["unknown"], "")
 
     def test_a_city_with_one_venue_is_not_a_valid_area(self):
         """`known()` only accepts a `city:` id where the city has more than one venue,

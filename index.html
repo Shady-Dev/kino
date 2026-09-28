@@ -1154,7 +1154,7 @@
        location. Static so it is here without JavaScript and before any data loads; the
        city list between the markers is written by scripts/build_pages.py --home from
        the same multi-venue rule as the city pages. The Finnish page is the static href;
-       renderHome() relabels it and, once the venue lists are in, points it at the
+       renderHome() relabels and relinks it for sv and en, and a plain click opens the
        programme. -->
   <section id="home" class="home">
     <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
@@ -2747,19 +2747,21 @@
     q.set('area', id);
     return q.toString();
   }
-  // -> where a chooser city link points. Once the venue lists name the city's cinemas
-  // (`ids`), the programme: the combined view for two or more, the cinema for one, with
-  // the tab's query as a pick would leave it. Before the lists arrive, or when they fail,
-  // the city page in the reader's language, which needs no script (2026-09-28).
-  function homeCityHref(city, slug, lang, ids, search){
-    if(ids && ids.length){
-      const q = new URLSearchParams(search || '');
-      q.set('area', ids.length > 1 ? 'city:' + city : ids[0]);
-      return '/?' + q;
-    }
+  // -> where a chooser city link points in each language: the Finnish, Swedish and
+  // English city pages, one per language. The href stays the page after a plain click
+  // started opening the programme: it is the rendered link a crawler follows into the
+  // generated pages (2026-09-28).
+  function homeCityHref(city, slug, lang){
     if(lang === 'en') return `/en/city/${slug}/`;
     if(lang === 'sv') return `/sv/kaupunki/${slug}/`;
     return `/kaupunki/${slug}/`;
+  }
+  // -> the location a plain click on a chooser city link opens: the combined view for a
+  // city with two or more cinemas, the cinema for one, '' while the venue lists have not
+  // named the city's cinemas (`ids`).
+  function homeCityArea(city, ids){
+    if(!ids || !ids.length) return '';
+    return ids.length > 1 ? 'city:' + city : ids[0];
   }
   // -> which UI language a load starts in. `?lang=` is the second half of the deep link
   // the generated pages carry; without it a reader with nothing stored opened a Finnish
@@ -2989,8 +2991,7 @@
     for(const li of items){
       const a = li.querySelector('a');
       a.textContent = cityLabel(a.dataset.city);
-      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang,
-                            cityGroups[a.dataset.city], location.search);
+      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang);
     }
     const cmp = new Intl.Collator(COLLATE[state.lang]).compare;   // `coll` is built later in boot
     items.sort((x, y) => cmp(x.textContent, y.textContent));
@@ -5104,12 +5105,13 @@
     // The chooser's "and many more" opens the picker. Delegated: showHome() replaces
     // the markup, so a listener on the button itself would not survive Back.
     if(e.target.closest('#homeMore')){ openVenueSheet(); return; }
-    // A city link that renderHome() pointed at the programme opens it in place, as a pick
-    // from the picker does. A modified click keeps the browser's own handling.
+    // A plain click on a city link opens the programme in place, as a pick from the
+    // picker does. A modified click, a copied link and a reader without script get the
+    // city page, the href.
     const city = e.target.closest('#home a[data-city]');
     if(city){
-      const id = new URL(city.href).searchParams.get('area');
-      if(id && knownArea(id) && !(e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)){
+      const id = homeCityArea(city.dataset.city, cityGroups[city.dataset.city]);
+      if(id && !(e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)){
         e.preventDefault();
         selectVenue(id);
         areaSel.focus();
