@@ -1853,6 +1853,88 @@ class ChooserNoteFollowsTheLanguageOnAPhone(ChooserNoteFollowsTheLanguage):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class HomeCityLinks(Browser):
+    """The homepage's city links open the programme (2026-09-28, the maintainer's
+    instruction): the combined view for a city with two or more cinemas, the cinema for a
+    city with one. The static href stays the city page, which is what a reader without
+    script and a failed boot follow. In the fixture Helsinki has four venues, Jyväskylä one
+    and Forssa none."""
+
+    def link(self, city):
+        return self.page.locator(f'#home a[data-city="{city}"]')
+
+    def lists_in(self):
+        expect(self.link("Helsinki")).to_have_attribute("href", "/?area=city%3AHelsinki")
+
+    def test_each_link_names_what_it_opens(self):
+        self.lists_in()
+        expect(self.link("Espoo")).to_have_attribute("href", "/?area=city%3AEspoo")
+        expect(self.link("Jyväskylä")).to_have_attribute("href", "/?area=1095")
+        expect(self.link("Forssa")).to_have_attribute("href", "/kaupunki/forssa/")
+
+    def test_a_city_link_opens_the_combined_view_and_back_returns_to_the_chooser(self):
+        """In place, as a pick from the picker: the page is not loaded again."""
+        self.lists_in()
+        self.page.evaluate("window.kinoSamePage = true")
+        self.link("Helsinki").click()
+        expect(self.page.locator("#areaSelect")).to_contain_text("Helsinki – kaikki teatterit")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.assertEqual(self.page.evaluate("location.search"), "?area=city%3AHelsinki")
+        self.assertTrue(self.page.evaluate("window.kinoSamePage === true"))
+        self.page.go_back()
+        expect(self.page.locator("#homeMore")).to_be_visible()
+        self.assertEqual(self.page.evaluate("location.search"), "")
+
+    def test_a_city_with_one_cinema_opens_that_cinema(self):
+        self.lists_in()
+        self.link("Jyväskylä").click()
+        expect(self.page.locator("#areaSelect")).to_contain_text("Fantasia")
+        self.assertEqual(self.page.evaluate("location.search"), "?area=1095")
+
+    def test_the_href_opens_the_same_view_in_a_new_tab(self):
+        self.lists_in()
+        tab = self.ctx.new_page()
+        tab.clock.install(time=FIXED)
+        tab.goto(self.origin + self.link("Helsinki").get_attribute("href"))
+        expect(tab.locator("#areaSelect")).to_contain_text("Helsinki – kaikki teatterit")
+
+    def test_a_modified_click_is_left_to_the_browser(self):
+        self.lists_in()
+        prevented = self.page.evaluate("""() => {
+            const a = document.querySelector('#home a[data-city="Helsinki"]');
+            let seen = null;
+            const spy = e => { seen = e.defaultPrevented; e.preventDefault(); };
+            document.addEventListener('click', spy);
+            a.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, ctrlKey: true}));
+            document.removeEventListener('click', spy);
+            return seen;
+        }""")
+        self.assertIs(prevented, False)
+        expect(self.page.locator("#homeMore")).to_be_visible()
+
+    def test_a_language_switch_keeps_the_programme_links(self):
+        self.lists_in()
+        self.page.locator('#langSeg button[data-lang="sv"]').click()
+        expect(self.link("Helsinki")).to_have_text("Helsingfors")
+        expect(self.link("Helsinki")).to_have_attribute("href", "/?area=city%3AHelsinki")
+        self.link("Helsinki").click()
+        expect(self.page.locator("#areaSelect")).to_contain_text("Helsingfors – alla biografer")
+
+    def test_without_script_the_links_are_the_city_pages(self):
+        ctx = self.browser.new_context(java_script_enabled=False, service_workers="block")
+        self.addCleanup(ctx.close)
+        page = ctx.new_page()
+        page.goto(self.origin + "/index.html")
+        expect(page.locator('#home a[data-city="Helsinki"]')).to_have_attribute(
+            "href", "/kaupunki/helsinki/")
+        page.locator('#home a[data-city="Helsinki"]').click()
+        page.wait_for_url(self.origin + "/kaupunki/helsinki/")
+
+
+class HomeCityLinksOnAPhone(HomeCityLinks):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class LoadFailureNoteFollowsTheLanguage(ChooserNote):
     """A link that asked for a cinema while the venue lists failed: the chooser with the
     load-failure line, which bootFallback now answers as a key. The failure is set before

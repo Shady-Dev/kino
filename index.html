@@ -1147,7 +1147,8 @@
        location. Static so it is here without JavaScript and before any data loads; the
        city list between the markers is written by scripts/build_pages.py --home from
        the same multi-venue rule as the city pages. The Finnish page is the static href;
-       renderHome() relabels and relinks it for sv and en. -->
+       renderHome() relabels it and, once the venue lists are in, points it at the
+       programme. -->
   <section id="home" class="home">
     <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
     <div class="note" id="homeNote" data-nosnippet hidden></div>
@@ -2739,9 +2740,16 @@
     q.set('area', id);
     return q.toString();
   }
-  // -> where a chooser city link points in each language: the Finnish, Swedish and
-  // English city pages, one per language.
-  function homeCityHref(city, slug, lang){
+  // -> where a chooser city link points. Once the venue lists name the city's cinemas
+  // (`ids`), the programme: the combined view for two or more, the cinema for one, with
+  // the tab's query as a pick would leave it. Before the lists arrive, or when they fail,
+  // the city page in the reader's language, which needs no script (2026-09-28).
+  function homeCityHref(city, slug, lang, ids, search){
+    if(ids && ids.length){
+      const q = new URLSearchParams(search || '');
+      q.set('area', ids.length > 1 ? 'city:' + city : ids[0]);
+      return '/?' + q;
+    }
     if(lang === 'en') return `/en/city/${slug}/`;
     if(lang === 'sv') return `/sv/kaupunki/${slug}/`;
     return `/kaupunki/${slug}/`;
@@ -2974,7 +2982,8 @@
     for(const li of items){
       const a = li.querySelector('a');
       a.textContent = cityLabel(a.dataset.city);
-      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang);
+      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang,
+                            cityGroups[a.dataset.city], location.search);
     }
     const cmp = new Intl.Collator(COLLATE[state.lang]).compare;   // `coll` is built later in boot
     items.sort((x, y) => cmp(x.textContent, y.textContent));
@@ -5054,6 +5063,18 @@
     // The chooser's "and many more" opens the picker. Delegated: showHome() replaces
     // the markup, so a listener on the button itself would not survive Back.
     if(e.target.closest('#homeMore')){ openVenueSheet(); return; }
+    // A city link that renderHome() pointed at the programme opens it in place, as a pick
+    // from the picker does. A modified click keeps the browser's own handling.
+    const city = e.target.closest('#home a[data-city]');
+    if(city){
+      const id = new URL(city.href).searchParams.get('area');
+      if(id && knownArea(id) && !(e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)){
+        e.preventDefault();
+        selectVenue(id);
+        areaSel.focus();
+      }
+      return;
+    }
     // Controls inside a card must not also open the movie sheet. This used to test only
     // `a.stub`, so the past-times toggle (a button) opened the sheet on every click.
     if(e.target.closest('a.stub, [data-reveal], [data-goto], [data-clearfilters], .lg-btn')) return;

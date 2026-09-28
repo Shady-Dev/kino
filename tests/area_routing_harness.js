@@ -123,9 +123,16 @@ const LANG_URL_CASES = [
 const langUrls = {};
 for (const [name, search, l] of LANG_URL_CASES) langUrls[name] = langParamAfterSelect(search, l);
 
-// Where the chooser's city links point per language: the Finnish and English pages, and
-// the app with ?area= for Swedish, which has no pages.
-const homeHrefs = { fi: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi'), en: homeCityHref('Jyväskylä', 'jyvaskyla', 'en'),
-                    sv: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv') };
+// Where the chooser's city links point: each language's city page until the venue lists
+// name the city's cinemas, then the programme.
+const homeHrefs = {
+  fi: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi'),
+  en: homeCityHref('Jyväskylä', 'jyvaskyla', 'en'),
+  sv: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', [], ''),
+  multi: homeCityHref('Jyväskylä', 'jyvaskyla', 'en', ['kl-fantasia', 'kl-kinolinna'], ''),
+  single: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', ['kl-fantasia'], ''),
+  keepsQuery: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', ['a', 'b'], '?lang=sv'),
+  replacesArea: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi', ['a', 'b'], '?area=nope&lang=en'),
+};
 
 process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls, homeHrefs }));

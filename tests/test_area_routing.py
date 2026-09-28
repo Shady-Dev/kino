@@ -130,16 +130,23 @@ class AreaRoutingTest(unittest.TestCase):
         self.assertIsNone(self.r["nothing_at_all"]["area"])
         self.assertIsNone(self.r["stale_stored"]["area"])
 
-    def test_city_links_point_at_the_pages_that_exist(self):
-        """All three now. Swedish used to open the app on the same area, because it had no
-        landing page; it has one from 2026-09-22 and the chooser links to it like the
-        others, so picking a city is the same step in every language."""
+    def test_city_links_point_at_the_pages_until_the_lists_arrive(self):
+        """Without the venue lists, which a reader without script never gets, each language
+        links its own city page."""
         self.assertEqual(self.h["fi"], "/kaupunki/jyvaskyla/")
         self.assertEqual(self.h["sv"], "/sv/kaupunki/jyvaskyla/")
         self.assertEqual(self.h["en"], "/en/city/jyvaskyla/")
-        for lang, href in self.h.items():
-            with self.subTest(lang=lang):
-                self.assertNotIn("?area=", href)
+
+    def test_city_links_open_the_programme_once_the_lists_are_in(self):
+        """2026-09-28, the maintainer's instruction: a city pick from the homepage opens the
+        programme, the combined view for two or more cinemas and the cinema for one, in
+        every language."""
+        self.assertEqual(self.h["multi"], "/?area=city%3AJyv%C3%A4skyl%C3%A4")
+        self.assertEqual(self.h["single"], "/?area=kl-fantasia")
+
+    def test_a_city_link_carries_the_query_a_pick_would_leave(self):
+        self.assertEqual(self.h["keepsQuery"], "/?lang=sv&area=city%3AJyv%C3%A4skyl%C3%A4")
+        self.assertEqual(self.h["replacesArea"], "/?area=city%3AJyv%C3%A4skyl%C3%A4&lang=en")
 
     def test_a_city_with_one_venue_is_not_a_valid_area(self):
         """`known()` only accepts a `city:` id where the city has more than one venue,
