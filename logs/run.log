@@ -1,17 +1,20 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-28: 65 showtimes
 [schedule] 2026-09-29: 332 showtimes
 [schedule] 2026-09-30: 330 showtimes
 [schedule] 2026-10-01: 338 showtimes
-[schedule] 2026-10-02: 25 showtimes
-[schedule] 2026-10-03: 10 showtimes
-[schedule] 2026-10-04: 19 showtimes
+[schedule] 2026-10-02: 77 showtimes
+[schedule] 2026-10-03: 82 showtimes
+[schedule] 2026-10-04: 76 showtimes
+[schedule] 2026-10-05: 52 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
-[tmdb] 0 new lookups, 0 re-checks, cache 83, 76 mergeable by id
+[tmdb] weak match, no exact title (1): Rose -> Rose
+[tmdb] rating held back, under 25 votes (1): Svečias – The Visitor (5.0 / 1 votes)
+[tmdb] rating refresh: 5 scheduled, 5 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 5 new lookups, 13 re-checks, cache 88, 80 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 49 film entries
-[attrs] dropped, neither format nor language (11): Ennakko | IV | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
+[films] 56 film entries
+[attrs] dropped, neither format nor language (13): EiText | Ennakko | IV | Klassikko | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
