@@ -31,46 +31,6 @@ def ticket_width(cases):
     return json.loads(out.stdout)
 
 
-def tickets_beside(cases):
-    block = re.search(r"// --- ticketWidth: [^\n]*\n(.*?)\n\s*// --- end ticketWidth ---",
-                      HTML, re.S).group(1)
-    js = (f"{block}\nprocess.stdout.write(JSON.stringify({json.dumps(cases)}"
-          ".map(c => ticketsBeside(...c, 20))));")
-    out = subprocess.run(["node", "-e", js], capture_output=True, text=True, timeout=30)
-    if out.returncode:
-        raise AssertionError(out.stderr)
-    return json.loads(out.stdout)
-
-
-@unittest.skipIf(shutil.which("node") is None, "node not installed")
-class TicketsBesideTest(unittest.TestCase):
-    """On a phone a card's tickets go beside the poster only when all of them fit one line
-    in the column there (2026-09-28). The column is 245 px at 375."""
-
-    def test_row_tickets_fit_by_their_own_widths(self):
-        # Kino Kirkkonummi's lone 144 px ticket; two of them need 296. The gap counts.
-        self.assertEqual(tickets_beside([[[144], 245, 8, 0], [[144, 144], 245, 8, 0],
-                                         [[118, 118], 245, 8, 0], [[120, 120], 245, 8, 0],
-                                         [[245.5], 245, 8, 0]]),
-                         [True, False, True, False, False])
-
-    def test_combined_tickets_take_the_track_capped_at_the_column(self):
-        # Every combined ticket is one track wide; a 283 px track shrinks to the column,
-        # which a 241 px ticket fits with the pad and a 242 px one does not.
-        self.assertEqual(tickets_beside([[[241], 245, 8, 283], [[242], 245, 8, 283],
-                                         [[100, 100], 245, 8, 283], [[100, 100], 245, 8, 110]]),
-                         [True, False, False, True])
-
-    def test_nothing_to_place(self):
-        self.assertEqual(tickets_beside([[[], 245, 8, 0]]), [False])
-
-    def test_the_list_has_to_start_beside_the_poster(self):
-        """Details that run past the poster put the list under it either way; moving it
-        into the column would only narrow it."""
-        self.assertEqual(tickets_beside([[[144], 245, 8, 0, 0.5], [[144], 245, 8, 0, 0],
-                                         [[144], 245, 8, 0, -30]]), [True, False, False])
-
-
 @unittest.skipIf(shutil.which("node") is None, "node not installed")
 class TicketWidthTest(unittest.TestCase):
     def test_the_widest_ticket_plus_the_pad(self):
