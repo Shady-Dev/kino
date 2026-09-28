@@ -1121,7 +1121,7 @@
   "heart of beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 0,
+   "r": 7.7,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
@@ -1149,7 +1149,6 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
-    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -6212,5 +6211,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-27"
+ "generated": "2026-09-28"
 }
