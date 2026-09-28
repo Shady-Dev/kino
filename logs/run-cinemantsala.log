@@ -5,5 +5,5 @@
 [run] http: 5 revalidated (304), 4 full, 0 not stored (origin said no-store), 4 cache entries written
 [run] hosts: 1 attempted -- mantsala.cine.fi
 [run] cinemantsala: 1 venues, 42 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 15.6s of fetching added up across workers that overlap, longest site 15.6s, longest queue wait 93.5s, 15.6s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 15.7s of fetching added up across workers that overlap, longest site 15.7s, longest queue wait 86.5s, 15.7s wall from this module's first fetch starting to its last ending
 exit=0

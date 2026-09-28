@@ -796,6 +796,7 @@
     "kinokulma",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -1391,6 +1392,7 @@
     "ihmekompleksi",
     "kinoaurora",
     "kinokilta",
+    "kinomarilyn",
     "korjaamo",
     "star",
     "studio123kouvola"
@@ -4607,6 +4609,7 @@
     "ihmekompleksi",
     "kinoaurora",
     "kinokilta",
+    "kinomarilyn",
     "korjaamo",
     "star",
     "studio123kouvola"
@@ -4860,7 +4863,8 @@
    "krs": [
     "engel",
     "gilda",
-    "kinokilta"
+    "kinokilta",
+    "kinomarilyn"
    ],
    "r": 0,
    "s": {
@@ -6206,6 +6210,7 @@
     "kinokulma",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -6253,6 +6258,7 @@
     "kinokulma",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
