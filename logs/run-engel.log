@@ -1,11 +1,10 @@
 [engel] 1 date(s) listed with no time anywhere, skipped: 10-09 -- Kerro kaikille | Two Seasons, Two Strangers
-[engel] film pages: 15 parsed, 0 with nothing usable, 57/58 showtimes rated
+[engel] film pages: 15 parsed, 0 with nothing usable, 56/57 showtimes rated
 [engel] strand prefix split off 3 showtimes
-[engel] Kino Engel: 58 showtimes, 12 dates
-[engel] synopses merged: 1
-[engel] synopses by language: sv 1
+[engel] Kino Engel: 57 showtimes, 12 dates
+[engel] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 16 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 58 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 57 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
