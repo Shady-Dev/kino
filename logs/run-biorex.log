@@ -1,24 +1,24 @@
-[biorex] BioRex Tripla: 82 showtimes
+[biorex] BioRex Tripla: 81 showtimes
 [biorex] BioRex Redi: 60 showtimes
-[biorex] BioRex Verkatehdas: 67 showtimes
-[biorex] BioRex Sveitsi: 43 showtimes
+[biorex] BioRex Verkatehdas: 165 showtimes
+[biorex] BioRex Sveitsi: 113 showtimes
 [biorex] BioRex Kajaani: 24 showtimes
 [biorex] BioRex Pietarsaari: 19 showtimes
-[biorex] BioRex Porvoo: 40 showtimes
-[biorex] BioRex Riihimäki: 18 showtimes
+[biorex] BioRex Porvoo: 104 showtimes
+[biorex] BioRex Riihimäki: 44 showtimes
 [biorex] BioRex Rovaniemi: 39 showtimes
 [biorex] BioRex Seinäjoki: 60 showtimes
 [biorex] BioRex Tornio: 29 showtimes
 [biorex] BioRex Vaasa: 44 showtimes
 [biorex] film pages: 31/31
-[biorex] BioRex Tripla: 82 showtimes, 17 dates
+[biorex] BioRex Tripla: 81 showtimes, 17 dates
 [biorex] BioRex Redi: 60 showtimes, 12 dates
-[biorex] BioRex Verkatehdas: 67 showtimes, 17 dates
-[biorex] BioRex Sveitsi: 43 showtimes, 12 dates
+[biorex] BioRex Verkatehdas: 165 showtimes, 20 dates
+[biorex] BioRex Sveitsi: 113 showtimes, 15 dates
 [biorex] BioRex Kajaani: 24 showtimes, 10 dates
 [biorex] BioRex Pietarsaari: 19 showtimes, 9 dates
-[biorex] BioRex Porvoo: 40 showtimes, 15 dates
-[biorex] BioRex Riihimäki: 18 showtimes, 9 dates
+[biorex] BioRex Porvoo: 104 showtimes, 18 dates
+[biorex] BioRex Riihimäki: 44 showtimes, 13 dates
 [biorex] BioRex Rovaniemi: 39 showtimes, 12 dates
 [biorex] BioRex Seinäjoki: 60 showtimes, 17 dates
 [biorex] BioRex Tornio: 29 showtimes, 10 dates
@@ -26,6 +26,6 @@
 [biorex] synopses merged: 0
 [run] http: 0 revalidated (304), 31 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
-[run] biorex: 12 venues, 525 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 91.3s of fetching added up across workers that overlap, longest site 91.3s, longest queue wait 0.0s, 91.3s wall from this module's first fetch starting to its last ending
+[run] biorex: 12 venues, 782 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 73.7s of fetching added up across workers that overlap, longest site 73.7s, longest queue wait 0.0s, 73.7s wall from this module's first fetch starting to its last ending
 exit=0

@@ -682,6 +682,16 @@
    },
    "tr": "https://www.youtube.com/watch?v=U4NT78c-pYs"
   },
+  "casper": {
+   "id": 8839,
+   "img": "data/posters/be1292a7b63cd541.jpg",
+   "r": 6.3,
+   "s": {
+    "en": "Dr. James Harvey (Bill Pullman) moves into an old mansion with his daughter Kat (Christina Ricci) to help rid the house of its resident ghosts. Kat soon befriends Casper, a kind-hearted young ghost. When Carrigan (Cathy Moriarty), a greedy woman searching for a hidden fortune, arrives at the mansion, she sets her sights on the treasure hidden inside. Meanwhile, James and Kat try to help Casper and his three mischievous uncles find peace and move on to the afterlife. After the screening, we will be joined by Helsinki-based medium and tarot reader Pia Långbacka. Pia will talk about her work, how messages from the spirit world are conveyed and how the real work of a medium differs from the images created by films. A warm, uplifting and down-to-earth encounter awaits. Admission to Piia Långbacka’s talk is free.",
+    "fi": "Tohtori James Harvey (Bill Pullman) muuttaa tyttärensä Katin (Christina Ricci) kanssa vanhaan kartanoon karkottamaan siellä kummittelevat aaveet. Pian Kat ystävystyy Casperin, hyväntahtoisen nuoren kummituksen kanssa. Kartanossa piilevä salaisuus ja sinne kätketty aarre vetävät paikalle myös ahneen Carriganin (Cathy Moriarty), joka haluaa saada rikkauudet itselleen. Samalla James ja Kat yrittävät auttaa Casperia ja tämän kolmea ilkikurista setää löytämään rauhan ja siirtymään tuonpuoleiseen. Näytöksen jälkeen vieraaksemme saapuu helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pia Långbackan puheenvuoroa voi tulla kuuntelemaan ilman pääsylippua."
+   },
+   "tr": "https://www.youtube.com/watch?v=kRX7PPqbKaQ"
+  },
   "chronicle of a disappearance": {
    "id": 49104,
    "img": "data/posters/58a17d9f6304e6bd.jpg",
@@ -816,6 +826,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
+    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokulma",
@@ -828,12 +839,14 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
+    "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -843,13 +856,10 @@
    ],
    "r": 0,
    "s": {
-    "en": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
+    "en": "Oscar-winning visionary Alejandro González Iñárritu’s Digger is one of the most anticipated films of the year. The world’s most powerful man launches a frantic mission to prove that he is humanity’s savior before the catastrophe he himself has unleashed destroys everything. The film stars the dazzlingly transformative Tom Cruise.",
     "fi": "Maailman vaikutusvaltaisin mies ryhtyy kuumeiseen operaatioon todistaakseen olevansa ihmiskunnan pelastaja - ennen kuin hänen valloilleen päästämänsä katastrofi tuhoaa kaiken."
    },
-   "tr": "https://www.youtube.com/watch?v=job8V254NAE",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=job8V254NAE"
   },
   "divine intervention": {
    "id": 27744,
@@ -1099,6 +1109,16 @@
     "fi": "Mestariohjaaja Agnieszka Hollandin elämäkertaelokuva Franz Kafkasta on kaleidoskooppinen mosaiikki, joka kertoo tšekkiläisen merkkikirjailijan koko elämäntarinan. Kafkan tyylille uskollinen kerronta avaa uusia näkökulmia kirjailijan teoksiin ja elämään, joka päättyi traagisen varhain vain 40-vuotiaana, ja juhlistaa Kafkan mittaamatonta vaikutusta moderniin kaunokirjallisuuteen. Luova Eurooppa -ohjelman - MEDIA -tuella. Suomen elokuvasäätiön maahantuontituki 2026."
    },
    "tr": "https://www.youtube.com/watch?v=WFPrlEa294Q"
+  },
+  "ghost näkymätön rakkaus": {
+   "id": 251,
+   "img": "data/posters/1dd1faff13cd16d1.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "Ghost is a romantic drama about Sam Wheat (Patrick Swayze), who is suddenly killed during a robbery. His spirit remains on earth because he has unfinished business with his beloved Molly Jensen (Demi Moore). Sam tries to uncover the truth behind his death while also protecting Molly from danger. He is helped by a reluctant psychic, Oda Mae Brown (Whoopi Goldberg), through whom Sam is finally able to communicate with the living. The film combines romance, mystery, comedy, and supernatural elements. Ghost is one of the most iconic films in cinematic history to explore the spirit world and the work of a medium. Before the screening, we will be joined by Helsinki-based medium and tarot reader Pia Långbacka. Pia will talk about her work, how messages from the spirit world are conveyed and how the real work of a medium differs from the images created by films. A warm, uplifting and down-to-earth encounter awaits. Admission to Piia Långbacka’s talk is free. Following Pia’s talk, Whoopi Goldberg’s Oscar-winning performance as medium Oda Mae Brown will take on a new dimension while the touching drama featuring Demi Moore and Patrick Swayze is unlikely to leave anyone unmoved.",
+    "fi": "Ghost on romanttinen draamaelokuva, jossa Sam Wheat (Patrick Swayze) kuolee yllättäen rikoksen uhrina. Hänen henkensä jää kuitenkin maan päälle, koska hänellä on keskeneräisiä asioita rakastettunsa Molly Jensenin (Demi Moore) kanssa. Sam yrittää selvittää oman kuolemansa taustalla olevan petoksen ja samalla suojella Mollya vaaralta. Apunaan hänellä on vastahakoinen meedio Oda Mae Brown (Whoopi Goldberg), jonka kautta Sam pystyy vihdoin kommunikoimaan elävien kanssa. Elokuva yhdistää romantiikkaa, rikosmysteeriä, huumoria ja yliluonnollisia elementtejä. Ghost on yksi elokuvahistorian ikonisimmista henkimaailmaa ja meedion työtä käsittelevistä klassikoista. Näytöstä ennen vieraaksemme saapuu helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pia Långbackan puheenvuoroa voi tulla kuuntelemaan ilman pääsylippua. Whoopi Goldbergin Oscar-palkittu roolisuoritus meedio Oda Mae Brownina herää uuteen eloon Pian puheenvuoron jälkeen, ja Demi Mooren sekä Patrick Swayzen koskettava draama jättää tuskin ketään kylmäksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=jWvUTmvaOyU"
   },
   "good home free screening polish film weeks puolan elokuvaviikot": {
    "id": 1035047,
@@ -1417,9 +1437,11 @@
     "gilda",
     "ihmekompleksi",
     "kinoaurora",
+    "kinoiiris",
     "kinokilta",
     "kinomarilyn",
     "korjaamo",
+    "niagara",
     "star",
     "studio123kouvola"
    ],
@@ -2172,10 +2194,12 @@
     "kotkanleffat",
     "leffabuumi",
     "lieksankino",
+    "niagara",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 7.6,
    "s": {
@@ -2302,7 +2326,7 @@
   "kojootti vs acme suomeksi": {
    "id": 1204680,
    "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 7.5,
+   "r": 7.6,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -2315,7 +2339,7 @@
   "kojootti vs acme suomeksi puhuttu": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 7.6,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": ""
@@ -2551,8 +2575,12 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
+    "biorex",
+    "gilda",
+    "kinomyyri",
     "kinoolympia",
     "kinopirtti",
+    "niagara",
     "star",
     "studio123kouvola"
    ],
@@ -3198,12 +3226,13 @@
   },
   "nirvanna the band the show the movie": {
    "id": 1154538,
-   "r": 0,
+   "img": "data/posters/5c8808ae5cbc5105.jpg",
+   "r": 7.6,
    "s": {
     "en": "Lifelong friends Matt and Jay are still desperately trying to book a show at Toronto’s legendary Rivoli—nearly two decades after first forming their band. When one of Matt’s increasingly ridiculous schemes accidentally turns their RV into a time machine, the pair are transported back to 2008, forcing them to confront their younger selves and the choices that shaped their lives. What follows is a chaotic, improvised time-travel adventure about friendship, ambition, regret, and the absurd lengths people will go to in pursuit of their dreams.",
     "fi": "Nirvanna the Band the Show the Movie kertoo elinikäisistä ystävyksistä Mattista ja Jaysta, jotka yrittävät yhä epätoivoisesti saada keikkansa Toronton legendaariseen Rivoli-klubiin – lähes kaksikymmentä vuotta bändinsä perustamisen jälkeen. Kun yksi Mattin yhä järjettömämmistä suunnitelmista muuttaa heidän matkailuautonsa vahingossa aikakoneeksi, kaksikko päätyy takaisin vuoteen 2008 ja joutuu kohtaamaan nuoremmat versionsa sekä valintansa, jotka muovasivat heidän elämäänsä. Seuraa kaoottinen ja improvisoitu aikamatkaseikkailu ystävyydestä, kunnianhimosta, katumuksesta ja siitä, kuinka pitkälle ihminen on valmis menemään unelmiensa tavoittelussa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=y2K9ccMREOI"
   },
   "niskavuoren aarne": {
    "id": 94715,
@@ -3841,6 +3870,14 @@
    },
    "tr": ""
   },
+  "pirjo i sverige tekijävierailulla": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "PIRJO HEIKKILÄ JA OHJAAJA LAURI NURKSE PAIKALLA KERTOMASSA ELOKUVASTA 19:00 ALKAEN! Elokuva alkaa esittelyn jälkeen. Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen … oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin."
+   },
+   "tr": ""
+  },
   "pirjo i sverige vauvakino": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
@@ -4029,6 +4066,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -4099,6 +4137,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -4152,6 +4191,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -4662,9 +4702,11 @@
     "gilda",
     "ihmekompleksi",
     "kinoaurora",
+    "kinoiiris",
     "kinokilta",
     "kinomarilyn",
     "korjaamo",
+    "niagara",
     "star",
     "studio123kouvola"
    ],
@@ -4689,12 +4731,12 @@
   "rose yksittäisnäytös": {
    "id": 1176962,
    "img": "data/posters/abbaf8c90c0c135c.jpg",
-   "r": 7.6,
+   "r": 7.7,
    "s": {
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla. Luova Eurooppa -ohjelman - MEDIA -tuella."
    },
-   "tr": "https://www.youtube.com/watch?v=80xR3G5eowo",
+   "tr": "https://www.youtube.com/watch?v=KrmkNoxS6t4",
    "ts": [
     "en"
    ]
@@ -4918,7 +4960,8 @@
     "engel",
     "gilda",
     "kinokilta",
-    "kinomarilyn"
+    "kinomarilyn",
+    "niagara"
    ],
    "r": 0,
    "s": {
@@ -4979,6 +5022,10 @@
    "krs": [
     "elavienkuvien",
     "kinoaurora",
+    "kinoiiris",
+    "kinomyyri",
+    "kinotar",
+    "niagara",
     "studio123kouvola"
    ],
    "r": 0,
@@ -5222,6 +5269,14 @@
    "ts": [
     "en"
    ]
+  },
+  "syystarina": {
+   "r": 0,
+   "s": {
+    "en": "Eric Rohmer’s Autumn Tale follows Magali, a middle-aged widow and winegrower who enjoys her solitary life but whose friends are determined to find her a new partner. Her friend Isabelle secretly sets out to find a suitable man for Magali and begins seeing a man named Gérald. At the same time, Magali’s son’s girlfriend, Rosine, tries to arrange a meeting between Magali and her teacher, Gérald. Through a series of coincidences, white lies, and misunderstandings, a romantic web develops around Magali, exploring love, loneliness, and the possibility of new relationships later in life.",
+    "fi": "Eric Rohmerin Syystarina kertoo viininviljelijä Magalista, leskeksi jääneestä keski-ikäisestä naisesta, joka viihtyy yksin, mutta jonka ystävät haluavat löytää hänelle uuden kumppanin. Hänen ystävänsä Isabelle päättää salaa etsiä Magalille sopivaa miestä ja tutustuu tätä varten Pierre-nimiseen mieheen. Samaan aikaan Magalin pojan tyttöystävä Rosine yrittää järjestää hänelle treffit opettajansa Géraldin kanssa. Erilaisten sattumien, valkoisten valheiden ja väärinkäsitysten kautta Magalin ympärille rakentuu romanttinen kuvio, jossa pohditaan rakkauden, yksinäisyyden ja ihmissuhteiden mahdollisuuksia keski-iässä."
+   },
+   "tr": ""
   },
   "sátántangó": {
    "id": 31414,
@@ -6256,6 +6311,7 @@
     "isohannu",
     "kino123",
     "kinoelo",
+    "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
@@ -6267,6 +6323,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
@@ -6275,6 +6332,7 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -6305,6 +6363,7 @@
     "isohannu",
     "kino123",
     "kinoelo",
+    "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
@@ -6316,6 +6375,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kinovirta",
     "kotkanleffat",
@@ -6324,6 +6384,7 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
