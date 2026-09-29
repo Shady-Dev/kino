@@ -1,12 +1,13 @@
 [biomarilyn] 19 screening(s) in day groups, 10 film page(s) read
-[biomarilyn] 10 coming-soon entry/entries with no time, left out: Clayface, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa, Pikku Kummitus Lapanen Keppostelee, Pikkuli ja Tähtipeura, Pirjo i Sverige
+[biomarilyn] 13 coming-soon entry/entries with no time, left out: Clayface, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa
 [biomarilyn] 2 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa, PäiväKaffileffa : Presidentin Kyyditys
 [biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
 [biomarilyn] Bio Marilyn: 19 showtimes, 12 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 14 screening(s) in day groups, 6 film page(s) read
-[vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
-[vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
+[vihdinkino] 15 screening(s) in day groups, 7 film page(s) read
+[vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
+[vihdinkino] Vihdin Kino: 15 showtimes, 8 dates
+[vihdinkino] Vihdin Kino: 15 showtimes, 8 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 25 screening(s) in day groups, 11 film page(s) read
 [bioforum] Bio Forum: 25 showtimes, 10 dates
@@ -26,8 +27,8 @@
 [kinovirta] Kino Virta: 10 showtimes, 4 dates
 [kinovirta] Kino Virta: 10 showtimes, 4 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 58 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 59 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 131 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 125.5s of fetching added up across workers that overlap, longest site 41.1s, longest queue wait 112.6s, 46.8s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 132 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 143.6s of fetching added up across workers that overlap, longest site 45.1s, longest queue wait 117.3s, 50.8s wall from this module's first fetch starting to its last ending
 exit=0

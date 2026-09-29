@@ -813,6 +813,7 @@
    "krs": [
     "bioforum",
     "biogrand",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -1434,6 +1435,7 @@
    "krs": [
     "biograni",
     "biorex",
+    "engel",
     "gilda",
     "ihmekompleksi",
     "kinoaurora",
@@ -1792,7 +1794,6 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
-    "niagara",
     "tapiola"
    ],
    "r": 7.2,
@@ -1838,6 +1839,7 @@
     "cinemantsala",
     "huvimylly",
     "joutsankino",
+    "kinoaurora",
     "kinokulma",
     "kinolaika",
     "kinomyyri",
@@ -2576,7 +2578,9 @@
    "krs": [
     "biogrand",
     "biorex",
+    "engel",
     "gilda",
+    "kinoaurora",
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
@@ -3057,6 +3061,19 @@
    },
    "tr": ""
   },
+  "mll näytös toy story 5 dubattu lipun hinta 2": {
+   "id": 1084244,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.3,
+   "s": {
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
+  },
   "musiikin rakastajia": {
    "id": 72899,
    "r": 0,
@@ -3198,6 +3215,19 @@
     "fi": "Puolen hehtaarin metsän asukit päätyvät 2010-luvun Nalle Puh -versiossa mitä hullunkurisimpiin pinteisiin, kun koko konkkaronkka ottaa ja lähtee pelastamaan Risto Reipasta tämän kadottua äkillisesti. Perinteiselle animaatiotyylille uskollinen elokuva kunnioittaa vesivärimäisellä piirrosjäljellään Nalle Puhin pitkää historiaa."
    },
    "tr": "https://www.youtube.com/watch?v=bmO-_i8AyCw"
+  },
+  "natalia": {
+   "id": 339324,
+   "img": "data/posters/dd7ac4e501207e7e.jpg",
+   "r": 0,
+   "s": {
+    "en": "WW2: in an occupied France, a young Jewish girl wants to become a movie star.",
+    "fi": "Lapinmiehet lähtevät karhujahtiin, mutta törmäävätkin itänaapurista karanneeseen lehmään. Arto Paasilinnan aiheesta syntyi veikeä pieni kansankomedia, joka samalla märehtii 1970-luvun jyrkähköä poliittista ilmapiiriä. Esko Nevalaisen lumoavasti kuvaama elokuva on eräänlainen Kekkosen Suomen kevyt kesäkurssi ja monessa lajityypissä viihtyneen Matti Kassilan pitkän uran viimeiseksi jäänyt komedia. Nykyisessäkin raja- ja eläintautitilanteessa Natalia on näennäisen huolettomassa ammuilussaan oudon ajankohtainen. Näyttelijälegendat Saara Ranin, Uljas Kandolin ja Pentti Irjala nähdään vielä kerran valkokankaalla, mutta parhaiten Natalia muistetaan itse lehmästä ja mainiosta Ola Johanssonista. Se, mistä kaupungista elokuva alkaa, saattaa yllättää – Nataliassa on jopa suomifilmin maailmankirjat mullillaan. -Jukka Sammalisto Näytöksessä on vieraana ohjaaja ja kirjailija Taavi Kassila. Näytös järjestetään MA 12.10. KLO 17:15."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "night of the demon": {
    "id": 25103,
@@ -3749,6 +3779,14 @@
    },
    "tr": ""
   },
+  "pia långbacka meedion työ": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Sukella salaperäisten istuntojen ja tuonpuoleisten viestien maailmaan näkyvän ja näkymättömän maailman rajamaille! Helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka saapuu vieraaksemme. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pian puheenvuoro on osa Näkymätön yhteys – Meedioelokuvapäivää ja sitä voi tulla kuuntelemaan ilmaiseksi."
+   },
+   "tr": ""
+  },
   "piemonten tryffelinmetsästäjät": {
    "id": 653762,
    "img": "data/posters/f244ca6e5d8bcf17.jpg",
@@ -4049,6 +4087,7 @@
     "isohannu",
     "kino123",
     "kinoakseli",
+    "kinoaurora",
     "kinoelo",
     "kinohirvi",
     "kinoiiris",
@@ -4120,6 +4159,7 @@
     "isohannu",
     "kino123",
     "kinoakseli",
+    "kinoaurora",
     "kinoelo",
     "kinohirvi",
     "kinoiiris",
@@ -4174,6 +4214,7 @@
     "isohannu",
     "kino123",
     "kinoakseli",
+    "kinoaurora",
     "kinoelo",
     "kinohirvi",
     "kinoiiris",
@@ -4288,6 +4329,19 @@
     "fi": "Eetu Salin, tulisieluinen työväen agitaattori ja yksi Suomen Sosialidemokraattisen Puolueen perustajista, kamppailee lapsuustraumojensa ja alkoholiongelman lisäksi puolueen sisällä valtaan pyrkiviä nuoria radikaalisosialisteja vastaan. Rauhanomaisin keinoin käytävää luokkataistelua kannattava Eetu, yhdessä ystäviensä Väinö Tannerin ja Yrjö Mäkelinin kanssa, yrittää estää Suomen työväen ajautumisen kohti väkivaltaista vallankumousta."
    },
    "tr": ""
+  },
+  "punainen peto tekijävierailu": {
+   "id": 1453659,
+   "img": "data/posters/5b0d09708fa61a5d.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Eetu Salin, tulisieluinen työväen agitaattori ja yksi Suomen Sosialidemokraattisen Puolueen perustajista, kamppailee lapsuustraumojensa ja alkoholiongelman lisäksi puolueen sisällä valtaan pyrkiviä nuoria radikaalisosialisteja vastaan. Rauhanomaisin keinoin käytävää luokkataistelua kannattava Eetu, yhdessä ystäviensä Väinö Tannerin ja Yrjö Mäkelinin kanssa, yrittää estää Suomen työväen ajautumisen kohti väkivaltaista vallankumousta."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "punainen viiva": {
    "id": 429551,
@@ -4708,6 +4762,7 @@
    "krs": [
     "biograni",
     "biorex",
+    "engel",
     "gilda",
     "ihmekompleksi",
     "kinoaurora",
@@ -4968,6 +5023,7 @@
    "krs": [
     "engel",
     "gilda",
+    "kinoaurora",
     "kinokilta",
     "kinomarilyn",
     "niagara"
@@ -5029,6 +5085,7 @@
    "img": "data/posters/26b3955801497bbc.jpg",
    "kr": "K-12",
    "krs": [
+    "biorex",
     "elavienkuvien",
     "kinoaurora",
     "kinoiiris",
@@ -5472,6 +5529,19 @@
     "en"
    ]
   },
+  "the devils": {
+   "id": 31767,
+   "img": "data/posters/1f8ec30de3187d84.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of a sexually obsessed nun’s witchcraft accusations, which corrupt church and state officials are all too happy to exploit.​​​​​​​​​​​​​​​​",
+    "fi": "Ainutlaatuinen elokuvataiteen mestariteos, jonka pääosissa nähdään Oscar®-voittaja Vanessa Redgrave ja Oliver Reed. THE DEVILS on eeppinen teos pakkomielteestä ja korruptiosta - sekä yhden elokuvahistorian merkittävimmän ohjaajan, Ken Russellin, taidonnäyte. Vuosikymmeniä kielletty teos nähdään nyt ensimmäistä kertaa juuri sellaisena kuin Russell sen alun perin tarkoitti: leikkaamattomana ja sensuroimattomana - ja nyt restauroituna sekä 4K-laatuisena."
+   },
+   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
+   "ts": [
+    "en"
+   ]
+  },
   "the dog stars": {
    "id": 1384216,
    "img": "data/posters/72e28fa6bfda49e3.jpg",
@@ -5804,11 +5874,11 @@
   },
   "the social reckoning": {
    "id": 1281331,
-   "img": "data/posters/251d00636adfb202.jpg",
+   "img": "data/posters/b8495bc94d603a4d.jpg",
    "r": 0,
    "s": {
     "en": "Frances Haugen, a young Facebook engineer, enlists the help of Jeff Horwitz, a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network's most guarded secrets.",
-    "fi": ""
+    "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina."
    },
    "tr": "https://www.youtube.com/watch?v=R8ANzYpaZaY",
    "ts": [
@@ -5961,6 +6031,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "kinoaurora",
     "kinokulma",
     "tapiola"
    ],
@@ -5976,12 +6047,16 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.4,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -6008,7 +6083,7 @@
   "toy story 5 suomeksi puhuttu": {
    "id": 1084244,
    "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 8.3,
    "s": {
     "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": ""
@@ -6100,6 +6175,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "two seasons two strangers": {
+   "id": 1462735,
+   "img": "data/posters/819e3e0324072544.jpg",
+   "r": 0,
+   "s": {
+    "en": "In summer, Nagisa and Natsuo meet by the sea. Their vacant gazes reflect each other as they exchange awkward words and wade into the rain-drenched ocean. In winter, Li, a screenwriter, travels to a snow-covered village. There, she finds a guesthouse run by Benzo.",
+    "fi": "Eräänä kesänä nuori mies ja nuori nainen tapaavat rannalla pikkukaupungissa, joka on molemmille vieras. Ulkopuolisuus yhdistää heitä, mutta molempien kömpelösti tavoittelema romanssi ei tunnu ottavan alkaakseen. Eräänä talvena Japanissa asuva korealainen elokuvakäsikirjoittaja yrittää löytää inspiraationsa uudelleen lähtemällä matkalle lumiseen vuoristokylään, jossa hän päätyy jäyhän erakon yksin pitämään vanhaan majataloon. Sanat ovat vaikeita kaikille, ja kaikki ovat yksinäisiä – mutta kovin eri syistä. Two Seasons, Two Strangers on vähäeleisistä ja koskettavista draamoistaan tunnetun Sho Miyaken viides ohjaustyö. Se voitti vuoden 2025 Locarnon elokuvajuhlien Kultaisen leopardin pääpalkinnon."
+   },
+   "tr": "https://www.youtube.com/watch?v=lC0xyNHI5fc",
+   "ts": [
+    "en"
+   ]
   },
   "työmiehen päiväkirja": {
    "id": 358999,
@@ -6308,6 +6396,7 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -6319,6 +6408,7 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinoiiris",
     "kinojuha",
@@ -6360,6 +6450,7 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
+    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -6371,6 +6462,7 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinoiiris",
     "kinojuha",
