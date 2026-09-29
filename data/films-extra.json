@@ -288,8 +288,7 @@
     "kinokilta",
     "kinolaika",
     "kinometso",
-    "niagara",
-    "star"
+    "niagara"
    ],
    "r": 6.2,
    "s": {
@@ -819,6 +818,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "elavienkuvien",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -1251,6 +1251,7 @@
     "cine",
     "elavienkuvien",
     "gilda",
+    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -1834,7 +1835,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "cine",
     "cinemantsala",
     "huvimylly",
     "ihmekompleksi",
@@ -3131,15 +3131,12 @@
     "bioforum",
     "biorex",
     "biosavoy",
-    "cine",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "kinohannikainen",
     "kinojuha",
     "kinolaika",
-    "kinolumo",
     "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
@@ -3148,7 +3145,6 @@
     "leffabuumi",
     "niagara",
     "savonkinot",
-    "star",
     "tapiola",
     "vaakuna"
    ],
