@@ -1,10 +1,5 @@
-[haapamaki] 2 screening(s) in day groups, 2 film page(s) read
-[haapamaki] 3 coming-soon entry/entries with no time, left out: Hetki ennen valoa, Pe 2.10 klo 19:00 Heart of the beast, Rakkautta ja virtahepoja
-[haapamaki] Haapamäen Elokuvat: 2 showtimes, 1 dates
-[haapamaki] Haapamäen Elokuvat: 2 showtimes, 1 dates
-[haapamaki] synopses merged: 0
-[run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 3 full, 0 not stored (origin said no-store), 0 cache entries written
+[haapamaki] FAILED: https://haapamaenelokuvat.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- haapamaenelokuvat.fi
-[run] johku: 1 venues, 2 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-exit=0
+[run] johku: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+exit=1

@@ -1,27 +1,27 @@
-[kinokilta] 64 screening(s) listed, 43 film page(s) read
+[kinokilta] 67 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 4 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Siri Hustvedt – Dance Around the Self, Teenage Sex and Death at Camp Miasma
-[kinokilta] Kino Kilta: 61 showtimes, 33 dates
+[kinokilta] Kino Kilta: 64 showtimes, 33 dates
 [kinokilta] strand prefix split off 14 showtimes
-[kinokilta] Kino Kilta: 61 showtimes, 33 dates
+[kinokilta] Kino Kilta: 64 showtimes, 33 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 74 screening(s) listed, 46 film page(s) read
+[kinolaika] 72 screening(s) listed, 46 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
 [kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Finnish Graffiti, Garden Folly, Kana, Kino Iglu: 8 1/2
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
-[kinolaika] Kino Laika: 52 showtimes, 17 dates
-[kinolaika] Kino Laika: 52 showtimes, 17 dates
+[kinolaika] Kino Laika: 50 showtimes, 16 dates
+[kinolaika] Kino Laika: 50 showtimes, 16 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 22 screening(s) listed, 17 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 2 unresolved over 2
-[kinomyyri] unresolved: Espanjalaisen elokuvan viikko: Campeones – Mestarit, Yksityisnäytös
+[kinomyyri] 35 screening(s) listed, 23 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 5
+[kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Espanjalaisen elokuvan viikko: Campeones – Mestarit, Espanjalaisen elokuvan viikko: La Isla mínima, Yksityisnäytös
 [kinomyyri] override kojootti-vs-acme-dub: active
-[kinomyyri] Kino Myyri: 20 showtimes, 9 dates
-[kinomyyri] Kino Myyri: 20 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 30 showtimes, 11 dates
+[kinomyyri] Kino Myyri: 30 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 109 full, 18 not stored (origin said no-store), 44 cache entries written
+[run] http: 0 revalidated (304), 115 full, 24 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 210.2s of fetching added up across workers that overlap, longest site 89.1s, longest queue wait 88.3s, 89.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 144 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 219.3s of fetching added up across workers that overlap, longest site 95.9s, longest queue wait 100.4s, 99.8s wall from this module's first fetch starting to its last ending
 exit=0
