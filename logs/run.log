@@ -1,17 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-09-29: 332 showtimes
-[schedule] 2026-09-30: 330 showtimes
+[schedule] 2026-09-29: 290 showtimes
+[schedule] 2026-09-30: 333 showtimes
 [schedule] 2026-10-01: 338 showtimes
-[schedule] 2026-10-02: 77 showtimes
-[schedule] 2026-10-03: 82 showtimes
-[schedule] 2026-10-04: 76 showtimes
-[schedule] 2026-10-05: 52 showtimes
+[schedule] 2026-10-02: 331 showtimes
+[schedule] 2026-10-03: 385 showtimes
+[schedule] 2026-10-04: 358 showtimes
+[schedule] 2026-10-05: 278 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
 [tmdb] weak candidate kept, not searched until 2026-09-30 (1): Rose -> Rose
 [tmdb] 0 new lookups, 0 re-checks, cache 88, 80 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 56 film entries
+[films] 58 film entries
 [attrs] dropped, neither format nor language (13): EiText | Ennakko | IV | Klassikko | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
 [schedule] 17 venue files written, 0 kept as-is
 done
