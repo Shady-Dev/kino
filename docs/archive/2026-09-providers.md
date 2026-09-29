@@ -3373,3 +3373,16 @@ other four are two dubbed films, and both records read say "Kieli: puhuttu suome
 failed record or a failed pass leaves the screening without a language.
 This closes the IDEAS Blocked entry. `EventLanguageTest`, `ScreeningLanguageTest`; 7
 mutations red.
+
+### Kinotour reads its new card layout (2026-09-29)
+The listing page replaced its Events Manager table with one `article.kt-event` card per
+screening on 2026-09-29, and the table parser read no row, so the site failed while the
+page listed three Naantali screenings on 4.10. The parser now reads the cards: the town
+from `data-city` (the place line's first part without it), the start from the `<time>`
+element's instant, checked against the clock printed beside it, the rating off
+"87 min · K7" and the card's one amount as the price. The venue ids are unchanged. The
+booking is a button on the listing with no link of its own, so every screening links to
+the listing; the per-screening event pages are no longer read. The runtime is not
+published: all three cards printed 87 min, Rakkautta & Virtahepoja's included, which runs
+102 elsewhere. A live read gave the three screenings under `kinotour-naantali`, 11€ each.
+`test_kinotour.py` rewritten on the card shape; 8 mutations red.

@@ -1,60 +1,44 @@
 """Kinotour, a touring operator in Varsinais-Suomi. Stdlib only.
 
 One request. `kinotour.fi/varaa-liput-elokuvatapahtumiin/` renders the whole programme as
-one Events Manager table, one row per screening:
+one card per screening, read 2026-09-29 (the Events Manager table it replaced was read
+until that day):
 
-    <tr>
-      <td> la 19.09.2026<br />14:00 </td>
-      <td><a href="https://www.kinotour.fi/events/hetki-ennen-valoa-k7-6/">
-            Hetki ennen valoa, K7</a><br />
-          <i>Kyrö kurkisali, Kyrö </i></td>
-    </tr>
+    <article class="kt-event" data-city="Naantali" data-type="indoor">
+      <h3>Hetki ennen valoa</h3>
+      <p class="kt-event-date"><time datetime="2026-10-04T13:30:00+03:00">4.10.2026 · klo 13.30</time></p>
+      <p class="kt-location">Naantali · Kristoffer-sali</p>
+      <p class="kt-meta">87 min · K7</p>
+      <div class="kt-event-action"><strong>11,00 € <small>/ hlö</small></strong>
+        <button class="kt-book" data-event="{...}">Varaa liput</button></div>
+    </article>
 
 What shapes the parser:
 
 - **A town this repository does not declare is counted and named, never dropped in
   silence and never a failure.** A touring operator visits a new town as a matter of
-  course: its own `/locations/` list ran to Karkkila, Ikaalinen and Piispanristi as well as
-  the three towns on the programme when this was written. Failing the site on one, the way
-  `johku.py` fails on an undeclared hall, would turn the routine case into breakage. So the
-  run log carries a line per run until someone adds the town to `SITES`, which is the same
-  shape CLAUDE.md gives `reads`: "a `refused to ...` line in a log is a `reads` entry
-  waiting to be written".
-- **The venue is keyed on the town, not the hall.** `Kyrö kurkisali, Kyrö` is hall then
-  town, and the hall is what changes while the tour keeps coming back to the town.
-- **The date carries its year**, so nothing is inferred and `common.resolve_year` is not
-  used. The row also prints a weekday, which is redundant; a weekday that contradicts its
-  own date is counted and the date is what the screening is published on.
-- **Only a rating-shaped tail comes off the title.** `Ryhmä Hau, Dinoelokuva, K7` is a
-  title with a comma in it, so cutting at the last comma would publish
-  `Ryhmä Hau` and lose the rest. The tail has to look like `K7`, `K12` or `S`.
-- **The price is on the event page, one request per screening.** The table carries none.
-  Each row already links to its own `/events/{slug}/`, and that page renders Events
-  Manager's single-ticket block server-side:
+  course, so failing the site on one would turn the routine case into breakage. The run
+  log carries a line per run until someone adds the town to `SITES`, which is the same
+  shape CLAUDE.md gives `reads`.
+- **The venue is keyed on the town, `data-city`**, not the hall: the hall changes while
+  the tour keeps coming back to the town.
+- **The start is the `<time>` element's own instant**, and the printed "4.10.2026 · klo
+  13.30" beside it has to agree; a card where they differ fails the site rather than
+  publishing a screening at a guessed time.
+- **The rating and the price come off the card.** `K7` from "87 min · K7", and one
+  amount per card, the screening's own. A card with no amount, or more than one,
+  publishes none; the pensioners' and students' euro off at the till is a condition, not
+  the ticket's price. The runtime is not read: on 2026-09-29 all three cards printed
+  87 min, Rakkautta & Virtahepoja included, which runs 102 everywhere else.
+- **The booking is a button on this page**, with no link of its own, so every screening
+  links to the listing it was read from. Nothing behind the button is requested.
+- **No poster, runtime, genre or language is read.** The shared enrichment fills what
+  it can.
 
-      <div class="em-tickets em-tickets-single">
-        <label>Hinta</label><strong>&euro;11,00</strong>
-
-  It is the amount for *that* screening, which is what the rule asks for, so it is
-  published. This adapter said the opposite until 2026-09-19 -- "the event page carries a
-  booking form with no amount rendered anywhere on it" -- and that was simply wrong;
-  whoever wrote it read the listing table or stopped at the word "booking". One request
-  per distinct event page is the same cost `marita.py` and `tmb.py` already pay for a
-  runtime.
-
-  A page that renders no amount, or more than one, publishes none: a screening with two
-  figures and nothing on the row to choose between them settles nothing. A page that
-  cannot be fetched at all costs that row its price and nothing else, because the
-  programme is already in hand and failing the whole site over a price would throw away
-  the schedule.
-- **No poster, runtime, genre or language.** The table is the whole of what this site
-  publishes in one request, and the shared enrichment fills what it can.
-
-**Zero rows fails the site**, and so does a table whose rows all land in undeclared
-towns: a town key that stopped reading produces the same table, so it is no evidence the
-declared towns are empty. No empty programme has been seen here, so there is no evidence
-of what one looks like: `common.EmptyProgramme` is for the case where that evidence is in
-hand.
+**Zero cards fails the site**, and so do cards that all land in undeclared towns: a town
+key that stopped reading produces the same page, so it is no evidence the declared towns
+are empty. No empty programme has been seen here, so there is no evidence of what one
+looks like: `common.EmptyProgramme` is for the case where that evidence is in hand.
 """
 import datetime
 import html as html_mod
@@ -84,43 +68,36 @@ SITES = [
      ]},
 ]
 
-ROW_RE = re.compile(r"<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>\s*</tr>", re.S | re.I)
-LINK_RE = re.compile(r'<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S | re.I)
-# Events Manager's single-ticket block on the event page. Anchored on the `Hinta` label
-# rather than on any euro sign in the document: the page also carries a newsletter box and
-# a map, and a bare amount pattern would read whatever those happen to print.
-PRICE_RE = re.compile(r"<label[^>]*>\s*Hinta\s*</label>\s*<strong[^>]*>(.*?)</strong>",
-                      re.S | re.I)
+CARD_RE = re.compile(r'<article\b([^>]*\bclass="[^"]*\bkt-event\b[^"]*"[^>]*)>(.*?)</article>',
+                     re.S | re.I)
+CITY_RE = re.compile(r'\bdata-city="([^"]*)"', re.I)
+TITLE_RE = re.compile(r"<h3[^>]*>(.*?)</h3>", re.S | re.I)
+WHEN_RE = re.compile(r'<time[^>]*\bdatetime="([^"]+)"[^>]*>(.*?)</time>', re.S | re.I)
+SHOWN_RE = re.compile(r"(\d{1,2})\.(\d{1,2})\.(\d{4})\D+(\d{1,2})[.:](\d{2})")
+PLACE_RE = re.compile(r'class="[^"]*\bkt-location\b[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
+META_RE = re.compile(r'class="[^"]*\bkt-meta\b[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
+ACTION_RE = re.compile(r'class="[^"]*\bkt-event-action\b[^"]*"[^>]*>\s*<strong[^>]*>(.*?)</strong>',
+                       re.S | re.I)
 AMOUNT_RE = re.compile(r"\u20ac\s*(\d{1,3})(?:[.,](\d{1,2}))?|(\d{1,3})(?:[.,](\d{1,2}))?\s*\u20ac")
-PLACE_RE = re.compile(r"<i>(.*?)</i>", re.S | re.I)
-DATE_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.(\d{4})", re.I)
-# A colon, and never a dot. The cell flattens to "su 27.09.2026 14:00", so the date is
-# in the same string as the time, and a dot-tolerant pattern read its 27.09 as 27:09
-# and raised on the hour. The first match is taken, which is only safe because of
-# that: with dots allowed the date would win.
-TIME_RE = re.compile(r"\b(\d{1,2}):(\d{2})\b")
-# `, K7`, `, K12` or `, S` at the end of a title, and nothing else.
-RATING_TAIL_RE = re.compile(r",\s*(K-?\d{1,2}|S)\s*$", re.I)
+RATING_RE = re.compile(r"^(K-?\d{1,2}|S)$", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
-FI_WEEKDAYS = ("ma", "ti", "ke", "to", "pe", "la", "su")
 
-# A town with no row is known empty, not unread, once the table filed a row under some
+# A town with no card is known empty, not unread, once the page filed a card under some
 # other declared town and none under a town this repo does not declare: this page is the
 # operator's whole published programme in one request, so a town it does not mention has
-# nothing on. An undeclared row may be a declared town's screening under a place cell that
-# reads differently ("Kyrö kurkisali, Pöytyä" counts as Pöytyä), so while one is on the
-# table `fetch_site` reports only the towns with rows, as eTiketti, Nexxo and Alatalo do,
-# and an empty town keeps its previous file. `run.py` then publishes a fresh
-# empty file for that venue instead of ageing its last visit, which is the case its own
-# comment names: "a touring cinema's town is empty between visits". A table with no row
-# under any declared town never reaches that loop, because `fetch_site` raises first:
-# rows that all land in undeclared towns are also what a town key that stopped reading
-# produces.
+# nothing on. An undeclared card may be a declared town's screening under a place that
+# reads differently, so while one is on the page `fetch_site` reports only the towns with
+# cards, as eTiketti, Nexxo and Alatalo do, and an empty town keeps its previous file.
+# `run.py` then publishes a fresh empty file for that venue instead of ageing its last
+# visit, which is the case its own comment names: "a touring cinema's town is empty
+# between visits". A page with no card under any declared town never reaches that loop,
+# because `fetch_site` raises first: cards that all land in undeclared towns are also what
+# a town key that stopped reading produces.
 EMPTY_VENUES_CONFIRMED = True
 
 
 class RowError(RuntimeError):
-    """A table row this parser could not read. Not an undeclared town, which is ordinary.
+    """A card this parser could not read. Not an undeclared town, which is ordinary.
 
     Skipping it would publish a schedule one screening short with nothing in the log to
     say so, so it fails the site and the previous files stand.
@@ -133,69 +110,70 @@ def _txt(s):
     return re.sub(r"\s+", " ", html_mod.unescape(s).replace("\xa0", " ")).strip()
 
 
-def split_title(text):
-    """`Ryhmä Hau, Dinoelokuva, K7` -> ("Ryhmä Hau, Dinoelokuva", "K-7")."""
-    m = RATING_TAIL_RE.search(text or "")
+def rating_of(token):
+    """`K7`, `K-12` or `S` -> "K-7", "K-12", "S"; anything else -> ""."""
+    m = RATING_RE.match((token or "").strip())
     if not m:
-        return (text or "").strip(), ""
+        return ""
     tail = m.group(1).upper().replace("-", "")
-    rating = "S" if tail == "S" else f"K-{int(tail[1:])}"
-    return text[:m.start()].strip(), rating
+    return "S" if tail == "S" else f"K-{int(tail[1:])}"
 
 
-def price_of(page):
-    """The amount Events Manager renders for one screening. -> "11\u20ac", or "".
+def price_of(blob):
+    """The card's amount. -> "11\u20ac", or "" unless exactly one amount is stated.
 
-    One amount settles the row and anything else settles nothing, which is the shared
-    rule. Trailing zeros come off so 11,00 publishes as 11\u20ac, the shape `biosavoy.py`
+    Trailing zeros come off so 11,00 publishes as 11\u20ac, the shape `biosavoy.py`
     already writes.
     """
-    found = PRICE_RE.findall(page or "")
     amounts = set()
-    for blob in found:
-        for m in AMOUNT_RE.finditer(_txt(blob)):
-            whole, cents = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
-            amounts.add(f"{int(whole)}.{(cents or '0').ljust(2, '0')}")
+    for m in AMOUNT_RE.finditer(_txt(blob)):
+        whole, cents = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+        amounts.add(f"{int(whole)}.{(cents or '0').ljust(2, '0')}")
     if len(amounts) != 1:
         return ""
     return f"{float(amounts.pop()):.2f}".rstrip("0").rstrip(".") + "\u20ac"
 
 
 def rows(site, page):
-    """-> ({venue_id: [show]}, report).
-
-    `report["undeclared"]` counts the towns this repository does not list, by town, and
-    `report["weekday"]` the rows whose printed weekday contradicts their own date.
-    """
+    """-> ({venue_id: [show]}, report). `report["undeclared"]` counts the towns this
+    repository does not list, by town."""
     by_town = {v["town"]: v for v in site["venues"]}
     per_venue = {v["id"]: [] for v in site["venues"]}
-    report = {"undeclared": {}, "weekday": 0}
-    for n, (left, right) in enumerate(ROW_RE.findall(page)):
-        when, link = _txt(left), LINK_RE.search(right)
-        times = TIME_RE.findall(when)
-        d, t = DATE_RE.search(when), (times[0] if times else None)
-        if not link:
-            raise RowError(f"{site['provider']}: row {n + 1} carries no film link")
-        title, rating = split_title(_txt(link.group(2)))
-        if not d or not t:
-            raise RowError(f"{site['provider']}: row {n + 1} for {title!r} has no readable "
-                           f"date or time (read {when!r})")
-        place = PLACE_RE.search(right)
-        town = _txt(place.group(1)).rsplit(",", 1)[-1].strip() if place else ""
-        if not town:
-            raise RowError(f"{site['provider']}: row {n + 1} for {title!r} names no place")
-        day, month, year = int(d.group(2)), int(d.group(3)), int(d.group(4))
+    report = {"undeclared": {}}
+    listing = site["base"].rstrip("/") + site["listing"]
+    for n, (attrs, card) in enumerate(CARD_RE.findall(page)):
+        heading = TITLE_RE.search(card)
+        title = _txt(heading.group(1)) if heading else ""
+        if not title:
+            raise RowError(f"{site['provider']}: card {n + 1} carries no title")
+        when = WHEN_RE.search(card)
         try:
-            start = datetime.datetime(year, month, day, int(t[0]), int(t[1]), tzinfo=FI)
-        except ValueError as e:
-            raise RowError(f"{site['provider']}: row {n + 1} for {title!r} prints the "
-                           f"impossible date {day}.{month}.{year}") from e
-        if FI_WEEKDAYS[start.weekday()] != d.group(1).lower():
-            report["weekday"] += 1
+            start = datetime.datetime.fromisoformat(when.group(1)) if when else None
+        except ValueError:
+            start = None
+        if start is None or start.tzinfo is None:
+            raise RowError(f"{site['provider']}: card {n + 1} for {title!r} has no readable "
+                           f"start")
+        start = start.astimezone(FI)
+        shown = SHOWN_RE.search(_txt(when.group(2)))
+        if not shown or tuple(int(g) for g in shown.groups()) != (
+                start.day, start.month, start.year, start.hour, start.minute):
+            raise RowError(f"{site['provider']}: card {n + 1} for {title!r} prints "
+                           f"{_txt(when.group(2))!r} beside {when.group(1)}")
+        city = CITY_RE.search(attrs)
+        place = PLACE_RE.search(card)
+        town = (_txt(city.group(1)) if city else "") or (
+            _txt(place.group(1)).split("\u00b7")[0].strip() if place else "")
+        if not town:
+            raise RowError(f"{site['provider']}: card {n + 1} for {title!r} names no place")
         venue = by_town.get(town)
         if venue is None:
             report["undeclared"][town] = report["undeclared"].get(town, 0) + 1
             continue
+        meta = META_RE.search(card)
+        facts = [f.strip() for f in _txt(meta.group(1) if meta else "").split("\u00b7")]
+        rating = next((rating_of(f) for f in facts if rating_of(f)), "")
+        action = ACTION_RE.search(card)
         per_venue[venue["id"]].append({
             "eventId": norm(title),
             "title": title,
@@ -207,11 +185,11 @@ def rows(site, page):
             "theatre": venue["name"],
             "aud": "",
             "start": start.isoformat(),
-            "url": html_mod.unescape(link.group(1)),
+            "url": listing,
             "img": "",
             "lang": "",
             "soldOut": False,
-            "price": "",
+            "price": price_of(action.group(1)) if action else "",
             "provider": site["provider"],
             "venue": venue["id"],
         })
@@ -225,29 +203,6 @@ def get(url, tries=3, timeout=30):
     return get_text(url, fetcher=fetch, tries=tries, timeout=timeout)
 
 
-def add_prices(per_venue, get=None):
-    """Read each distinct event page once and write its amount onto that row.
-
-    -> (pages read, rows priced, pages that failed). Never raises: the programme is
-    already parsed by this point, and failing the site over a price would throw away a
-    schedule that is in hand.
-    """
-    get = get or (lambda u: get_text(u, fetcher=fetch, tries=2, backoff=3, timeout=20))
-    seen, failed, priced = {}, 0, 0
-    for shows in per_venue.values():
-        for s in shows:
-            u = s["url"]
-            if u not in seen:
-                try:
-                    seen[u] = price_of(get(u))
-                except Exception:
-                    seen[u] = ""
-                    failed += 1
-            s["price"] = seen[u]
-            priced += bool(seen[u])
-    return len(seen), priced, failed
-
-
 def fetch_site(site):
     pid = site["provider"]
     url = site["base"].rstrip("/") + site["listing"]
@@ -256,26 +211,22 @@ def fetch_site(site):
     if not published and report["undeclared"]:
         named = ", ".join(f"{t} ({n})" for t, n in sorted(report["undeclared"].items()))
         raise RuntimeError(
-            f"{url}: no row under a declared town, every one in a town this repo does not "
+            f"{url}: no card under a declared town, every one in a town this repo does not "
             f"list: {named}. A town key that stopped reading looks the same, so no declared "
             f"town is published empty and the previous files stand")
     if not published:
         raise RuntimeError(
-            f"{url}: no screening row in the table. No empty programme has been seen here, "
+            f"{url}: no screening card on the page. No empty programme has been seen here, "
             f"so there is no evidence of one to read this as, and the previous files stand")
-    pages, priced, failed = add_prices(per_venue)
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
-    print(f"[{pid}] {published} screening(s) in {len(site['venues'])} declared town(s)")
-    print(f"[{pid}] prices: {pages} event page(s) read, {priced} of {published} row(s) "
-          f"priced, {failed} page(s) that did not answer")
+    priced = sum(1 for v in per_venue.values() for s in v if s["price"])
+    print(f"[{pid}] {published} screening(s) in {len(site['venues'])} declared town(s), "
+          f"{priced} priced")
     if report["undeclared"]:
         named = ", ".join(f"{t} ({n})" for t, n in sorted(report["undeclared"].items()))
         print(f"[{pid}] {sum(report['undeclared'].values())} screening(s) in "
               f"{len(report['undeclared'])} town(s) this repo does not list, left out: "
               f"{named}. Add the town to SITES to publish them")
-    if report["weekday"]:
-        print(f"[{pid}] {report['weekday']} row(s) whose weekday contradicts their own "
-              f"date, published on the date")
     for v in site["venues"]:
         shows = per_venue[v["id"]]
         days = sorted({s["start"][:10] for s in shows})

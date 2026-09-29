@@ -1,15 +1,16 @@
-"""Kinotour: one table, one row per screening, and a venue set that moves.
+"""Kinotour: one card per screening on one page, and a venue set that moves.
 
-The fixtures are the markup as read on 2026-09-18. What they exist to prove:
+The fixtures follow the card markup read on 2026-09-29, which replaced the Events Manager
+table that day. What they exist to prove:
 
 - **An undeclared town is ordinary, not a failure.** Every fixture that touches the town
   rule carries at least two towns, one this repo lists and one it does not, so the loop is
   exercised rather than the body alone. The count reaches the run log and the declared
   town still publishes.
-- **Only a rating-shaped tail comes off the title.** "Ryhmä Hau, Dinoelokuva, K7" is a
-  title with a comma in it.
-- **The time is the one with a colon.** The cell flattens to "su 27.09.2026 14:00", and a
-  dot-tolerant pattern read the 27.09 of the date as 27:09 and raised on the hour.
+- **The start is the `<time>` element's instant**, and the clock printed beside it has to
+  agree with it.
+- **The price is the card's one amount**, and the link is the listing, since the booking
+  is a button on it.
 """
 import contextlib
 import io
@@ -28,171 +29,106 @@ SITE = K.SITES[0]
 LISTING = "https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/"
 
 
-def row(date, time, title, place, slug="hetki-ennen-valoa-k7-6"):
-    return (f"<tr><td> {date}<br />{time} </td>"
-            f'<td><a href="https://www.kinotour.fi/events/{slug}/">{title}</a><br />'
-            f"<i>{place} </i></td></tr>")
+def card(title="Hetki ennen valoa", iso="2026-10-04T13:30:00+03:00", shown="4.10.2026 · klo 13.30",
+         city="Naantali", place="Naantali · Kristoffer-sali", meta="87 min · K7",
+         price="11,00 € <small>/ hlö</small>"):
+    data_city = f' data-city="{city}"' if city is not None else ""
+    return (f'<article class="kt-event"{data_city} data-type="indoor">'
+            '<div class="kt-card-poster"><img src="https://www.kinotour.fi/p.jpg" alt=""></div>'
+            '<div class="kt-event-main"><div class="kt-event-tags"><span class="kt-tag">'
+            f'Kiertuenäytös</span></div><h3>{title}</h3>'
+            f'<p class="kt-event-date"><time datetime="{iso}">{shown}</time></p>'
+            f'<p class="kt-location">{place}</p><p class="kt-meta">{meta}</p>'
+            '<details class="kt-details"><summary>Elokuvasta ja saapumisesta</summary>'
+            '<p>Liput maksetaan kassalle. Eläkeläis ja opiskelija alennus -1€.</p></details>'
+            f'</div><div class="kt-event-action"><strong>{price}</strong><button type="button" '
+            'class="kt-primary kt-book" data-event="{&quot;id&quot;:3626}">Varaa liput</button>'
+            '</div></article>')
 
 
-def table(*rows_):
-    return ('<html><body><div class="em em-view-container"><table class="events-table">'
-            "<thead><tr><th>Esityspäivä</th><th>Elokuvat ja lippuvaraukset</th></tr>"
-            "</thead><tbody>" + "".join(rows_) + "</tbody></table></div></body></html>")
+def page(*cards):
+    return ('<html><body><p class="kt-results">Kaikki paikkakunnat</p>'
+            '<div class="kt-event-list">' + "".join(cards) + "</div></body></html>")
 
 
-DECLARED = row("la 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö kurkisali, Kyrö")
-UNDECLARED = row("la 19.09.2026", "16:00", "Presidentin kyyditys, K12",
-                 "Karkkilasali, Karkkila", slug="presidentin-kyyditys-k12-6")
+DECLARED = card()
+UNDECLARED = card(title="Presidentin kyyditys", iso="2026-10-04T15:15:00+03:00",
+                  shown="4.10.2026 · klo 15.15", city="Karkkila", place="Karkkila · Karkkilasali",
+                  meta="87 min · K12")
 
 
 class RowsTest(unittest.TestCase):
     def test_a_declared_town_publishes_and_an_undeclared_one_is_counted(self):
-        per_venue, report = K.rows(SITE, table(DECLARED, UNDECLARED))
-        self.assertEqual([s["title"] for s in per_venue["kinotour-kyro"]],
+        per_venue, report = K.rows(SITE, page(DECLARED, UNDECLARED))
+        self.assertEqual([s["title"] for s in per_venue["kinotour-naantali"]],
                          ["Hetki ennen valoa"])
         self.assertEqual(report["undeclared"], {"Karkkila": 1})
-        self.assertEqual(sum(len(v) for v in per_venue.values()), 1)
 
     def test_several_screenings_in_one_undeclared_town_are_counted_together(self):
-        per_venue, report = K.rows(SITE, table(
-            DECLARED, UNDECLARED,
-            row("su 20.09.2026", "15:00", "Hetki ennen valoa, K7",
-                "Karkkilasali, Karkkila"),
-            row("su 20.09.2026", "17:00", "Pirjo, K12", "Ikaalisten tori, Ikaalinen")))
-        self.assertEqual(report["undeclared"], {"Karkkila": 2, "Ikaalinen": 1})
-        self.assertEqual(len(per_venue["kinotour-kyro"]), 1)
+        _, report = K.rows(SITE, page(UNDECLARED, UNDECLARED.replace("15.15", "17.15")
+                                      .replace("T15:15", "T17:15"), DECLARED))
+        self.assertEqual(report["undeclared"], {"Karkkila": 2})
 
     def test_each_declared_town_files_under_its_own_venue(self):
-        per_venue, _ = K.rows(SITE, table(
-            DECLARED,
-            row("su 20.09.2026", "13:00", "Ryhmä Hau: Dinoelokuva, K7",
-                "Lieto valtuustosali, Lieto"),
-            row("su 20.09.2026", "15:00", "Hetki ennen valoa, K7",
-                "Naantali Kristoffersali, Naantali")))
+        per_venue, _ = K.rows(SITE, page(
+            DECLARED, card(city="Kyrö", place="Kyrö · Kurkisali"),
+            card(city="Lieto", place="Lieto · Valtuustosali")))
         self.assertEqual({k: len(v) for k, v in per_venue.items()},
-                         {"kinotour-kyro": 1, "kinotour-lieto": 1, "kinotour-naantali": 1})
+                         {"kinotour-kyro": 1, "kinotour-naantali": 1, "kinotour-lieto": 1})
 
-    def test_a_title_keeps_its_own_comma(self):
-        per_venue, _ = K.rows(SITE, table(
-            row("la 19.09.2026", "14:00", "Ryhmä Hau, Dinoelokuva, K7",
-                "Kyrö kurkisali, Kyrö"),
-            row("la 19.09.2026", "16:00", "Sarjis, S", "Kyrö kurkisali, Kyrö")))
-        shows = per_venue["kinotour-kyro"]
-        self.assertEqual([(s["title"], s["rating"]) for s in shows],
-                         [("Ryhmä Hau, Dinoelokuva", "K-7"), ("Sarjis", "S")])
+    def test_the_town_is_the_place_line_when_the_card_names_no_city(self):
+        per_venue, _ = K.rows(SITE, page(card(city=None)))
+        self.assertEqual(len(per_venue["kinotour-naantali"]), 1)
 
-    def test_a_title_with_no_rating_tail_keeps_all_of_itself(self):
-        """Including one whose own comma would be read as the tail."""
-        per_venue, _ = K.rows(SITE, table(
-            row("la 19.09.2026", "14:00", "Elokuva ilman ikärajaa", "Kyrö kurkisali, Kyrö"),
-            row("la 19.09.2026", "16:00", "Ryhmä Hau, Dinoelokuva", "Kyrö kurkisali, Kyrö")))
-        shows = per_venue["kinotour-kyro"]
-        self.assertEqual([(s["title"], s["rating"]) for s in shows],
-                         [("Elokuva ilman ikärajaa", ""), ("Ryhmä Hau, Dinoelokuva", "")])
-
-    def test_the_time_is_the_colon_one_and_not_the_date(self):
-        """The cell flattens to one line, so the date's dots are in the same string."""
-        per_venue, _ = K.rows(SITE, table(
-            row("su 27.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö kurkisali, Kyrö"),
-            row("su 27.09.2026", "16:30", "Pirjo, K12", "Kyrö kurkisali, Kyrö")))
-        self.assertEqual([s["start"] for s in per_venue["kinotour-kyro"]],
-                         ["2026-09-27T14:00:00+03:00", "2026-09-27T16:30:00+03:00"])
-
-    def test_a_weekday_that_contradicts_the_date_is_counted_and_the_date_wins(self):
-        per_venue, report = K.rows(SITE, table(
-            row("ma 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö kurkisali, Kyrö"),
-            row("la 19.09.2026", "16:00", "Pirjo, K12", "Kyrö kurkisali, Kyrö")))
-        self.assertEqual(report["weekday"], 1)
-        self.assertEqual([s["start"][:10] for s in per_venue["kinotour-kyro"]],
-                         ["2026-09-19", "2026-09-19"])
-
-    def test_a_row_with_no_readable_date_fails_the_site(self):
-        with self.assertRaises(K.RowError):
-            K.rows(SITE, table(DECLARED,
-                               row("pian", "", "Pirjo, K12", "Kyrö kurkisali, Kyrö")))
-
-    def test_a_row_that_names_no_place_fails_the_site(self):
-        bad = ('<tr><td> la 19.09.2026<br />14:00 </td>'
-               '<td><a href="https://www.kinotour.fi/events/x/">Pirjo, K12</a></td></tr>')
-        with self.assertRaises(K.RowError):
-            K.rows(SITE, table(DECLARED, bad))
-
-    def test_an_impossible_date_fails_the_site(self):
-        with self.assertRaises(K.RowError):
-            K.rows(SITE, table(DECLARED,
-                               row("ti 31.02.2026", "14:00", "Pirjo, K12",
-                                   "Kyrö kurkisali, Kyrö")))
+    def test_the_cards_city_wins_over_its_place_line(self):
+        per_venue, _ = K.rows(SITE, page(card(place="Kristoffer-sali")))
+        self.assertEqual(len(per_venue["kinotour-naantali"]), 1)
 
     def test_the_show_shape(self):
-        per_venue, _ = K.rows(SITE, table(DECLARED))
-        s = per_venue["kinotour-kyro"][0]
-        self.assertEqual((s["price"], s["img"], s["len"], s["lang"], s["genres"]),
-                         ("", "", "", "", ""))
-        self.assertEqual((s["provider"], s["venue"], s["theatre"]),
-                         ("kinotour", "kinotour-kyro", "Kurkisali"))
-        self.assertEqual(s["url"],
-                         "https://www.kinotour.fi/events/hetki-ennen-valoa-k7-6/")
-        self.assertEqual(s["eventId"], "hetki ennen valoa")
+        per_venue, _ = K.rows(SITE, page(DECLARED))
+        (s,) = per_venue["kinotour-naantali"]
+        self.assertEqual((s["start"], s["title"], s["rating"], s["price"], s["len"], s["url"]),
+                         ("2026-10-04T13:30:00+03:00", "Hetki ennen valoa", "K-7", "11\u20ac", "",
+                          LISTING))
+        self.assertEqual((s["theatre"], s["venue"], s["provider"]),
+                         ("Kristoffersali", "kinotour-naantali", "kinotour"))
 
+    def test_an_instant_given_in_another_zone_is_published_in_helsinki(self):
+        per_venue, _ = K.rows(SITE, page(card(iso="2026-10-04T10:30:00+00:00")))
+        self.assertEqual(per_venue["kinotour-naantali"][0]["start"], "2026-10-04T13:30:00+03:00")
 
-def event_page(amount="&euro;11,00", block=True):
-    """The event page as Events Manager renders it, with the noise the real one carries."""
-    tickets = (f'<div class="em-tickets em-tickets-single"><p>'
-               f'<label>Hinta</label><strong>{amount}</strong></p></div>') if block else ""
-    return ('<html><body><p>Tilaa uutiskirje! 15 &euro; lahjakortti</p>'
-            '<section class="em-booking-form-section-tickets">' + tickets + "</section>"
-            '<div id="map">Map data &copy;2026</div></body></html>')
+    def test_a_printed_clock_that_disagrees_with_the_instant_fails_the_site(self):
+        with self.assertRaises(K.RowError):
+            K.rows(SITE, page(card(shown="4.10.2026 · klo 16.30")))
+
+    def test_a_card_with_no_readable_start_fails_the_site(self):
+        for bad in (card(iso="lauantaina"), card(iso="2026-10-04T13:30:00"),
+                    DECLARED.replace("<time", "<span").replace("</time>", "</span>")):
+            with self.subTest(card=bad[:0]), self.assertRaises(K.RowError):
+                K.rows(SITE, page(bad))
+
+    def test_a_card_that_names_no_place_fails_the_site(self):
+        with self.assertRaises(K.RowError):
+            K.rows(SITE, page(card(city=None, place="")))
+
+    def test_a_card_with_no_title_fails_the_site(self):
+        with self.assertRaises(K.RowError):
+            K.rows(SITE, page(card(title="")))
 
 
 class PriceTest(unittest.TestCase):
-    """The amount is the event page's own, and only one of them settles a row."""
+    def test_the_cards_one_amount(self):
+        self.assertEqual(K.price_of("11,00 € <small>/ hlö</small>"), "11\u20ac")
+        self.assertEqual(K.price_of("8,50 €"), "8.5\u20ac")
+        self.assertEqual(K.price_of("€12"), "12\u20ac")
 
-    def test_the_events_manager_block_is_read(self):
-        self.assertEqual(K.price_of(event_page()), "11\u20ac")
+    def test_two_different_amounts_or_none_settle_nothing(self):
+        self.assertEqual(K.price_of("11,00 € / 9,00 €"), "")
+        self.assertEqual(K.price_of("Vapaa pääsy"), "")
 
-    def test_a_trailing_zero_comes_off_and_a_real_decimal_stays(self):
-        self.assertEqual(K.price_of(event_page("&euro;7,50")), "7.5\u20ac")
-        self.assertEqual(K.price_of(event_page("&euro;9")), "9\u20ac")
-
-    def test_the_amount_is_read_either_side_of_the_euro_sign(self):
-        self.assertEqual(K.price_of(event_page("11,00 &euro;")), "11\u20ac")
-
-    def test_two_different_amounts_settle_nothing(self):
-        page = event_page().replace("</section>",
-                                    "<p><label>Hinta</label><strong>&euro;9,00</strong></p></section>")
-        self.assertEqual(K.price_of(page), "")
-
-    def test_the_same_amount_twice_is_still_one_amount(self):
-        page = event_page().replace("</section>",
-                                    "<p><label>Hinta</label><strong>11,00 &euro;</strong></p></section>")
-        self.assertEqual(K.price_of(page), "11\u20ac")
-
-    def test_a_page_with_no_block_publishes_nothing_and_ignores_other_euros(self):
-        """The page carries a newsletter box quoting a gift-card amount. Anchoring on the
-        Hinta label rather than on any euro sign is what keeps that out."""
-        self.assertEqual(K.price_of(event_page(block=False)), "")
-
-    def test_a_block_naming_no_amount_publishes_nothing(self):
-        self.assertEqual(K.price_of(event_page("Ilmainen")), "")
-
-    def test_each_event_page_is_read_once_however_many_rows_link_to_it(self):
-        per_venue = {"v": [{"url": "https://e/a", "price": ""},
-                           {"url": "https://e/a", "price": ""},
-                           {"url": "https://e/b", "price": ""}]}
-        seen = []
-        pages, priced, failed = K.add_prices(
-            per_venue, get=lambda u: seen.append(u) or event_page())
-        self.assertEqual((pages, priced, failed), (2, 3, 0))
-        self.assertEqual(seen, ["https://e/a", "https://e/b"], "one request per page")
-
-    def test_a_page_that_will_not_answer_costs_that_row_its_price_and_nothing_else(self):
-        """The programme is already parsed by then, so failing the site over a price would
-        throw away a schedule that is in hand."""
-        def boom(u):
-            raise RuntimeError("HTTP Error 503")
-        per_venue = {"v": [{"url": "https://e/a", "price": ""}]}
-        self.assertEqual(K.add_prices(per_venue, get=boom), (1, 0, 1))
-        self.assertEqual(per_venue["v"][0]["price"], "")
+    def test_a_card_without_an_amount_publishes_no_price(self):
+        per_venue, _ = K.rows(SITE, page(card(price="Liput ovelta")))
+        self.assertEqual(per_venue["kinotour-naantali"][0]["price"], "")
 
 
 class RunnerTest(unittest.TestCase):
@@ -208,15 +144,11 @@ class RunnerTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
         self._fetch = K.fetch
         self.addCleanup(lambda: setattr(K, "fetch", self._fetch))
+        self.calls = []
 
-    def serve(self, body, event=None):
-        """`body` answers the listing; `event` answers every /events/ page, and an
-        Exception there is raised for those only."""
+    def serve(self, body):
         def fetch(url, **kw):
-            if "/events/" in url and event is not None:
-                if isinstance(event, Exception):
-                    raise event
-                return event.encode("utf-8")
+            self.calls.append(url)
             if isinstance(body, Exception):
                 raise body
             return body.encode("utf-8")
@@ -228,93 +160,74 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["kinotour"])
         return code, out.getvalue() + err.getvalue()
 
-    def test_the_run_publishes_and_names_the_undeclared_town(self):
-        self.serve(table(DECLARED, UNDECLARED))
+    def test_the_run_publishes_from_one_request_and_names_the_undeclared_town(self):
+        self.serve(page(DECLARED, UNDECLARED))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        shows = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())["shows"]
-        self.assertEqual(len(shows), 1)
+        self.assertEqual(self.calls, [LISTING])
+        shows = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())["shows"]
+        self.assertEqual([(s["title"], s["price"]) for s in shows], [("Hetki ennen valoa", "11\u20ac")])
         self.assertIn("Karkkila (1)", log)
         self.assertIn("does not list", log)
         self.assertIn("0 failures", log)
 
-    def test_a_run_publishes_the_price_the_event_page_carries(self):
-        self.serve(table(DECLARED), event=event_page())
-        code, log = self.main()
-        self.assertEqual(code, 0, log)
-        shows = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())["shows"]
-        self.assertEqual([s["price"] for s in shows], ["11\u20ac"])
-        self.assertIn("1 of 1 row(s) priced", log)
-
-    def test_an_event_page_that_fails_costs_the_price_and_not_the_schedule(self):
-        self.serve(table(DECLARED), event=RuntimeError("HTTP Error 503"))
-        code, log = self.main()
-        self.assertEqual(code, 0, f"the schedule still publishes: {log}")
-        shows = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())["shows"]
-        self.assertEqual([s["price"] for s in shows], [""])
-        self.assertIn("1 page(s) that did not answer", log)
-
-    def test_a_declared_town_the_table_does_not_mention_is_published_empty(self):
-        """The table is the whole programme, so a town it does not mention has nothing on,
-        once a row filed under another declared town shows the town key reads.
+    def test_a_declared_town_the_page_does_not_mention_is_published_empty(self):
+        """The page is the whole programme, so a town it does not mention has nothing on,
+        once a card filed under another declared town shows the town key reads.
         `EMPTY_VENUES_CONFIRMED` turns that into a fresh empty file rather than a last
-        visit ageing for weeks. The table here has no undeclared row: see the next test."""
-        (run.OUT / "area-kinotour-naantali.json").write_text(json.dumps(self.PREV))
-        self.serve(table(DECLARED))
+        visit ageing for weeks. The page here has no undeclared card: see the next test."""
+        (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
+        self.serve(page(DECLARED))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertIn("no programme at the moment", log)
-        body = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())
+        body = json.loads((run.OUT / "area-kinotour-kyro.json").read_text())
         self.assertEqual(body["shows"], [])
         self.assertNotEqual(body["generated"], self.PREV["generated"])
 
-    def test_an_undeclared_town_row_vouches_no_declared_town_empty(self):
-        """A row this parser files under an undeclared town may be a declared town's
-        screening under a place cell that reads differently: "Kyrö kurkisali, Pöytyä"
-        counts as Pöytyä, and Kyrö was published empty and pending while its screening
-        was on the page (audit A3, 2026-09-25). eTiketti, Nexxo and Alatalo hold back in
-        that case, and so does this: the empty town keeps its previous file."""
+    def test_an_undeclared_town_card_vouches_no_declared_town_empty(self):
+        """A card filed under an undeclared town may be a declared town's screening under a
+        place that reads differently, so the empty town keeps its previous file, as
+        eTiketti, Nexxo and Alatalo do (audit A3, 2026-09-25)."""
         future = {**self.PREV, "dates": ["2027-01-09"], "horizon": "2027-01-09",
                   "shows": [{"title": "Old", "start": "2027-01-09T12:00:00+02:00"}]}
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(future))
-        self.serve(table(
-            row("la 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö kurkisali, Pöytyä"),
-            row("su 20.09.2026", "15:00", "Pirjo, K12", "Kristoffersali, Naantali")))
+        self.serve(page(card(city="Pöytyä", place="Pöytyä · Kurkisali"), DECLARED))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(json.loads((run.OUT / "area-kinotour-kyro.json").read_text()), future)
         self.assertNotIn("Kyrö: no programme at the moment", log)
         self.assertIn("no declared town is confirmed empty", log)
         shows = json.loads((run.OUT / "area-kinotour-naantali.json").read_text())["shows"]
-        self.assertEqual([s["title"] for s in shows], ["Pirjo"])
+        self.assertEqual([s["title"] for s in shows], ["Hetki ennen valoa"])
 
-    def test_a_table_of_nothing_but_undeclared_towns_fails_and_keeps_the_previous_file(self):
-        """No row filed under a declared town is also what a town key that stopped
+    def test_a_page_of_nothing_but_undeclared_towns_fails_and_keeps_the_previous_file(self):
+        """No card filed under a declared town is also what a town key that stopped
         reading produces, so it says nothing about the declared towns being empty."""
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
-        self.serve(table(UNDECLARED, row("su 20.09.2026", "17:00", "Pirjo, K12",
-                                         "Ikaalisten tori, Ikaalinen")))
+        self.serve(page(UNDECLARED, card(city="Ikaalinen", place="Ikaalinen · tori")))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("Ikaalinen (1), Karkkila (1)", log)
         self.assertEqual(json.loads(
             (run.OUT / "area-kinotour-kyro.json").read_text()), self.PREV)
 
-    def test_a_place_cell_that_no_longer_ends_in_the_town_fails_the_site(self):
-        """Every row lists a film in a declared town, and the town key reads none of them:
-        `Kyrö, Kurkisali` puts the hall where the town was."""
+    def test_a_town_key_that_stopped_reading_fails_the_site(self):
+        """Every card is a declared town's screening and the key reads none of them: the
+        city attribute gone and the hall first on the place line."""
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
-        self.serve(table(
-            row("la 19.09.2026", "14:00", "Hetki ennen valoa, K7", "Kyrö, Kurkisali"),
-            row("su 20.09.2026", "15:00", "Pirjo, K12", "Naantali, Kristoffersali")))
+        self.serve(page(card(city=None, place="Kristoffer-sali · Naantali"),
+                        card(city=None, place="Kurkisali · Kyrö")))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertEqual(json.loads(
             (run.OUT / "area-kinotour-kyro.json").read_text()), self.PREV)
 
-    def test_an_empty_table_fails_and_keeps_the_previous_file(self):
+    def test_a_page_with_no_card_fails_and_keeps_the_previous_file(self):
+        """The Events Manager table this adapter read until 2026-09-29 is such a page."""
         (run.OUT / "area-kinotour-kyro.json").write_text(json.dumps(self.PREV))
-        self.serve(table())
+        self.serve('<table class="events-table"><tr><td>la 19.09.2026<br />14:00</td>'
+                   '<td><a href="https://www.kinotour.fi/events/x/">Pirjo, K12</a></td></tr></table>')
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("no evidence of one", log)
