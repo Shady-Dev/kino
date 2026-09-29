@@ -1,7 +1,7 @@
 [run] venuelists-cloud.json rewritten
 [cloud] 35 module(s), 70 site(s), 68 host group(s), pool of 8
 [cloud] biorex: exit=0
-[cloud] nexxo: exit=0
+[cloud] nexxo: exit=1
 [cloud] etiketti: exit=0
 [cloud] riviera: exit=0
 [cloud] gilda: exit=0
@@ -9,32 +9,32 @@
 [cloud] heureka: exit=0
 [cloud] vista: exit=0
 [cloud] tapiola: exit=0
-[cloud] cinemahouse: exit=0
+[cloud] cinemahouse: exit=1
 [cloud] isohannu: exit=0
-[cloud] tmb: exit=0
+[cloud] tmb: exit=1
 [cloud] julia: exit=0
 [cloud] biokaari: exit=0
 [cloud] vaakuna: exit=0
 [cloud] kuvakukko: exit=0
-[cloud] kirkkonummi: exit=0
+[cloud] kirkkonummi: exit=1
 [cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
 [cloud] kinola: exit=0
 [cloud] johku: exit=0
 [cloud] tribe: exit=0
 [cloud] hamina: exit=0
-[cloud] kinotour: exit=0
+[cloud] kinotour: exit=1
 [cloud] marita: exit=0
-[cloud] lieksa: exit=0
-[cloud] navetta: exit=0
-[cloud] vpk: exit=0
+[cloud] lieksa: exit=1
+[cloud] navetta: exit=1
+[cloud] vpk: exit=1
 [cloud] pallas: exit=0
 [cloud] alatalo: exit=0
-[cloud] matintupa: exit=0
+[cloud] matintupa: exit=1
 [cloud] kuusamotalo: exit=0
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 211.4s wall, 1289.9s of fetching added up across workers that overlap, 70 site(s) fetched
-[cloud] held at most 36 fetched site(s) and 4661 byte(s) of captured log waiting for publication
-exit=0
+[cloud] 183.2s wall, 1161.9s of fetching added up across workers that overlap, 70 site(s) fetched
+[cloud] held at most 27 fetched site(s) and 4051 byte(s) of captured log waiting for publication
+exit=1

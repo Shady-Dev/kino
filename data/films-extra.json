@@ -818,6 +818,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "ihmekompleksi",
@@ -853,6 +854,7 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -1249,6 +1251,7 @@
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "haapamaki",
@@ -2179,6 +2182,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kino123",
@@ -3131,6 +3135,7 @@
     "bioforum",
     "biorex",
     "biosavoy",
+    "cinemantsala",
     "gilda",
     "helios",
     "jarvelankino",
@@ -4038,7 +4043,6 @@
     "helios",
     "jarvelankino",
     "kino123",
-    "kinoakseli",
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
@@ -4050,8 +4054,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna"
+    "studio123kouvola"
    ],
    "r": 6.2,
    "s": {
@@ -4092,6 +4095,7 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4164,6 +4168,7 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4219,6 +4224,7 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4528,7 +4534,6 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
-    "kuusamotalo",
     "laitilankino",
     "leffabuumi",
     "lieksankino",
@@ -4605,6 +4610,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "kino123",
@@ -4656,6 +4662,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "kino123",
@@ -5417,7 +5424,6 @@
    "img": "data/posters/27670b215b5bd500.jpg",
    "kr": "K-16",
    "krs": [
-    "kinoaurora",
     "kinokilta"
    ],
    "r": 6.3,
@@ -5869,6 +5875,14 @@
    "ts": [
     "en"
    ]
+  },
+  "the secret reading club of kabul ohjaajavierailu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa. Anne Frankin innoittamana elokuvan päähenkilöt haluavat kertoa tarinansa, jotta maailma ei unohda heitä. Yhden naisista elämä muuttuu nopeasti Talibanien alkaessa etsiä häntä. Hän pelkää henkensä ja perheensä kunnian puolesta, ja päättää paeta maasta. Helsingissä asuva afganistanilainen elokuvantekijä Shakiba Adil auttaa ja tukee häntä pakenemisessa. Shakiba on itse paennut kahdesti Afganistanista henkensä uhalla. Elokuva kertoo näiden naisten silmin elämästä ääriliikkeen hallitsemassa maassa, heidän toiveistaan ja pyrkimyksistään kohti vapautta."
+   },
+   "tr": ""
   },
   "the secret reading club of kabul yksittäisnäytös": {
    "id": 1635591,
@@ -6438,6 +6452,7 @@
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -6492,6 +6507,7 @@
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",

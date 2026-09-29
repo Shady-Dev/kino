@@ -1,14 +1,6 @@
-[kinotour] 3 screening(s) in 3 declared town(s), 3 priced
-[kinotour] Kurkisali, Kyrö: 0 showtimes, 0 dates
-[kinotour] Kristoffersali, Naantali: 3 showtimes, 1 dates
-[kinotour] Valtuustosali, Lieto: 0 showtimes, 0 dates
-[kinotour] Kurkisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinotour] Kristoffersali: 3 showtimes, 1 dates
-[kinotour] Valtuustosali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[kinotour] synopses merged: 0
-[run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinotour] FAILED: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: no screening card on the page. No empty programme has been seen here, so there is no evidence of one to read this as, and the previous files stand
+[run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] pending: kinotour has 2 venue(s) with no programme yet: kinotour-kyro, kinotour-lieto
-[run] kinotour: 1 venues, 3 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 2.0s of fetching added up across workers that overlap, longest site 2.0s, longest queue wait 134.1s, 2.0s wall from this module's first fetch starting to its last ending
-exit=0
+[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 125.6s, 0.7s wall from this module's first fetch starting to its last ending
+exit=1
