@@ -2675,3 +2675,6 @@ statement, and an empty or unknown field stays blank. The app's `langParts` and 
 "no subs" on a ticket and "no subtitles" on a page. The committed-codes test accepts `XX`
 in that role. Regina, Gilda and Nexxo state it too and are left for later. Engel's data
 takes it on the next local run. 10 mutations red.
+The app's English changed to "no subtitles" the same day on the maintainer's instruction
+(sw.js v272), so the app and the pages say the same in all three languages. A named
+subtitle language keeps the app's "subs Finnish".

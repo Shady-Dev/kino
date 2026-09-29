@@ -239,7 +239,7 @@ class NoSubtitlesTest(unittest.TestCase):
         for lang, want in self.WANT.items():
             with self.subTest(lang=lang):
                 self.assertEqual(client_lang_txt(lang, self.CASES), want)
-        self.assertEqual(client_lang_txt("en", [["SV-A, XX-S", True]]), [["Swedish", "no subs"]])
+        self.assertEqual(client_lang_txt("en", [["SV-A, XX-S", True]]), [["Swedish", "no subtitles"]])
 
     def test_the_page_line_carries_it(self):
         import build_pages as bp
