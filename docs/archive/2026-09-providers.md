@@ -3360,3 +3360,16 @@ with price, language, runtime, rating and poster, matching the page. Johku keeps
 storefronts, none local, so the wrapper's Johku block reports no sites for its half and
 exits 0; the eTiketti block's `--half local` takes the site with nothing changed outside
 the repo. `HaapamakiTest`; 3 mutations, all red.
+
+### Kino Helios reads each screening's language from its own record (2026-09-29)
+Reported by the maintainer: the film's page, one step before the ticket shop, states the
+language. That page is the calendar's event route, drawn from the service's
+`GetSingleEvent` by the row's `key`, and its `breadtext` ends "Kieli: … / Tekstitys: …".
+`helios.screening_language` reads it per screening through `prices.enrich`, cached under
+the ticket link (never requested) in `data/film-lang-helios.json`, 48 h, capped at 12 a
+run, and names are taken only when every word is a language; "puhuttu" before one is the
+dubbed films' wording. Read live that day: 13 of 17 screenings parsed before that rule; the
+other four are two dubbed films, and both records read say "Kieli: puhuttu suomeksi". A
+failed record or a failed pass leaves the screening without a language.
+This closes the IDEAS Blocked entry. `EventLanguageTest`, `ScreeningLanguageTest`; 7
+mutations red.

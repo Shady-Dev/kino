@@ -47,11 +47,14 @@ positive evidence and there is none here.
 """
 import datetime
 import json
+import os
 import re
 import sys
 from zoneinfo import ZoneInfo
 
+import prices
 from common import check_shows, fetch, get_text, syn_language
+from etiketti import strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -151,6 +154,7 @@ def rows(site, payload, today=None):
             "price": "",
             "provider": site["provider"],
             "venue": venue["id"],
+            "_event": text_of(event.get("key")),
         }
         syn = text_of(event.get("description"))
         if syn:
@@ -176,8 +180,57 @@ def get_json(site, today=None):
     return json.loads(answer["EventData"])
 
 
+# Each screening's own record, the page a visitor opens from the calendar before the ticket
+# shop, ends its `breadtext` with the film's facts: "Kieli: suomi<br />Tekstitys: suomi".
+# Read 2026-09-29, one POST per screening. The answer is cached per screening under its
+# ticket link, which is the key prices.enrich reads and is never requested.
+SINGLE_PATH = "/services/Resurssivaraus/EventCalendarService.svc/GetSingleEvent"
+TICKETS = "https://www.lippu.fi/event/"
+LANG_CACHE = "film-lang-helios.json"
+LANG_MAX = int(os.environ.get("KINO_FILM_PAGE_MAX") or 12)
+FIELD_RE = re.compile(r"(Kieli|Tekstitys)\s*:\s*([^<\r\n]+)", re.I)
+# The dubbed films' records say "Kieli: puhuttu suomeksi" (4 of 17 screenings that day).
+SPOKEN_RE = re.compile(r"^puhuttu\s+", re.I)
+
+
+def event_language(answer):
+    """GetSingleEvent's answer -> {"lang": "FI-A, FI-S"}, or {} for what it does not state
+    in names every word of which is a language."""
+    event = json.loads(json.loads(answer)["EventData"])
+    if not isinstance(event, dict):
+        return {}
+    got = {k.lower(): SPOKEN_RE.sub("", v.strip()) for k, v in
+           FIELD_RE.findall(event.get("breadtext") or "")}
+    parts = [f"{c}-A" for c in strict_codes(got.get("kieli"))]
+    parts += [f"{c}-S" for c in strict_codes(got.get("tekstitys"))]
+    return {"lang": ", ".join(parts)} if parts else {}
+
+
+def screening_language(site, shows, *, path=None, now=None, sleep=1.5, limit=None):
+    """Put each screening's language on it from its own record. -> counts dict. Never
+    raises: a record that cannot be read leaves its screening without a language."""
+    keys = {s["url"]: s.pop("_event", "") for s in shows}
+
+    def read(url, headers):
+        body = json.dumps({"Key": keys[url], "Language": "fi"}).encode("utf-8")
+        return get_text(site["base"] + SINGLE_PATH, fetcher=fetch, data=body, cache=False,
+                        headers={"content-type": "application/json",
+                                 "user-agent": "Leffavuoro/1.0 (+https://leffavuoro.fi)"})
+    asks = [s for s in shows if keys.get(s["url"])]
+    try:
+        return prices.enrich(asks, provider=site["provider"], prefix=TICKETS,
+                             parse=lambda answer: "", fields=event_language,
+                             path=path or (prices._out() / LANG_CACHE), now=now, sleep=sleep,
+                             limit=LANG_MAX if limit is None else limit, fetch_fn=read,
+                             label="event records")
+    except Exception as e:                         # noqa: BLE001 -- the language is optional
+        print(f"[{site['provider']}] languages skipped: {type(e).__name__}: {str(e)[:80]}")
+        return {}
+
+
 def fetch_site(site, today=None):
-    """Runner contract: one POST to the calendar service."""
+    """Runner contract: one POST to the calendar service, then one per screening's record
+    for its language."""
     pid, venue = site["provider"], site["venues"][0]
     shows, report = rows(site, get_json(site, today), today)
     if not shows:
@@ -186,6 +239,11 @@ def fetch_site(site, today=None):
             f"event(s). The service answers the whole house, so an empty result is as "
             f"consistent with a renamed strand as with a dark fortnight and the previous "
             f"files stand")
+    st = screening_language(site, shows)
+    if st:
+        print(f"[{pid}] languages: {sum(1 for s in shows if s['lang'])} of {len(shows)} "
+              f"screenings, {st['fetched']} records read, {st['failed']} failed, "
+              f"{st['deferred']} deferred")
     per_venue = {venue["id"]: shows}
     check_shows(per_venue, pid, {venue["id"]})
     days = sorted({s["start"][:10] for s in shows})

@@ -34,6 +34,7 @@ import run
 SITE = H.SITES[0]
 VENUE = SITE["venues"][0]["id"]
 URL = SITE["base"] + SITE["path"]
+SINGLE = SITE["base"] + H.SINGLE_PATH
 HALL = SITE["hall"]
 TODAY = datetime.date(2026, 9, 21)
 TICKET = "https://www.lippu.fi/event/kino-helios-esittaa-22106493/"
@@ -195,13 +196,19 @@ class RunnerTest(unittest.TestCase):
         self.addCleanup(lambda: setattr(H, "get_text", self._get))
         self.calls = []
 
-    def serve(self, events):
+    def serve(self, events, record=None):
+        """`events` answers the calendar; `record` answers each screening's own record."""
         def get_text(url, **kw):
             self.calls.append((url, json.loads(kw["data"].decode())))
+            if url == SINGLE:
+                return json.dumps({"EventData": json.dumps(record or {"breadtext": "None"})})
             if isinstance(events, Exception):
                 raise events
             return json.dumps({"EventData": json.dumps(events)})
         H.get_text = get_text
+
+    def calendar_calls(self):
+        return [c for c in self.calls if c[0] == URL]
 
     def main(self):
         out, err = io.StringIO(), io.StringIO()
@@ -215,7 +222,7 @@ class RunnerTest(unittest.TestCase):
                           end="2026-09-24T17:00", master="792036")])
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        self.assertEqual(len(self.calls), 1)
+        self.assertEqual(len(self.calendar_calls()), 1)
         url, body = self.calls[0]
         self.assertEqual(url, URL)
         self.assertEqual(body["Language"], "fi")
@@ -266,6 +273,80 @@ class RunnerTest(unittest.TestCase):
         self.assertNotEqual(code, 0)
         after = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))
         self.assertEqual(after["shows"][0]["title"], "Yesterday")
+
+
+# Rakkautta ja virtahepoja's own record, read 2026-09-29: the film's facts end `breadtext`.
+RECORD = {"title": "Rakkautta ja virtahepoja (12)", "breadtext":
+          "Dome Karukosken romanttinen draamaelokuva.<br />\r\n<br />\r\nIk\u00e4raja:12<br />\r\n"
+          "Kesto: 102 min<br />\r\nEnsi-ilta: 25.09.2026<br />\r\nKieli: suomi<br />\r\n"
+          "Tekstitys: suomi<br />\r\n"}
+
+
+def answer(record):
+    return json.dumps({"EventData": json.dumps(record)})
+
+
+class EventLanguageTest(unittest.TestCase):
+    def test_the_record_names_the_audio_and_the_subtitles(self):
+        self.assertEqual(H.event_language(answer(RECORD)), {"lang": "FI-A, FI-S"})
+        other = dict(RECORD, breadtext="Kieli: englanti<br />Tekstitys: suomi, ruotsi<br />")
+        self.assertEqual(H.event_language(answer(other)), {"lang": "EN-A, FI-S, SV-S"})
+
+    def test_a_dubbed_film_says_spoken_in_finnish(self):
+        # Ryhmä Hau: Dinoelokuva and Unohdettu saari, 2026-09-29.
+        dub = dict(RECORD, breadtext="Kesto: 89 min<br />\r\nKieli: puhuttu suomeksi<br />\r\n")
+        self.assertEqual(H.event_language(answer(dub)), {"lang": "FI-A"})
+
+    def test_what_the_record_does_not_state_plainly_is_left_out(self):
+        for text in ("Kesto: 102 min<br />", "Kieli: dari<br />", "None"):
+            with self.subTest(text=text):
+                self.assertEqual(H.event_language(answer(dict(RECORD, breadtext=text))), {})
+
+
+class ScreeningLanguageTest(RunnerTest):
+    def test_each_screening_takes_the_language_its_own_record_states(self):
+        self.serve([event()], record=RECORD)
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        (url, body), = [c for c in self.calls if c[0] == SINGLE]
+        self.assertEqual(body, {"Key": "57F8089A89C592CFDB298345F5BABEFF", "Language": "fi"})
+        (show,) = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual(show["lang"], "FI-A, FI-S")
+        self.assertNotIn("_event", show)
+
+    def test_a_cached_record_is_not_read_again(self):
+        self.serve([event()], record=RECORD)
+        self.main()
+        self.calls.clear()
+        self.main()
+        self.assertEqual([c for c in self.calls if c[0] == SINGLE], [])
+
+    def test_a_record_that_fails_leaves_the_screening_published_without_a_language(self):
+        self.serve([event()], record=RECORD)
+        real = H.get_text
+        def failing(url, **kw):
+            if url == SINGLE:
+                raise RuntimeError("502")
+            return real(url, **kw)
+        H.get_text = failing
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        (show,) = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual(show["lang"], "")
+
+
+    def test_a_language_pass_that_breaks_leaves_the_programme_published(self):
+        self.serve([event()], record=RECORD)
+        real = H.prices.enrich
+        def broken(*a, **kw):
+            raise OSError("disk full")
+        H.prices.enrich = broken
+        self.addCleanup(lambda: setattr(H.prices, "enrich", real))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertIn("languages skipped", log)
+        (show,) = json.loads((run.OUT / f"area-{VENUE}.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual(show["lang"], "")
 
 
 class RegistryTest(unittest.TestCase):

@@ -98,14 +98,6 @@ films would tie that way against shorts, each settled by its runtime
 23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min
 late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub runs them.
 
-### Kino Helios publishes no screening language this adapter can read
-
-Its calendar service has no language field, and the ticket shop it links to refuses a
-plain client; Riviera and Cinema Orion read theirs since 2026-09-23. Probe:
-[docs/research/screening-language-sources.md](docs/research/screening-language-sources.md).
-**Unblocks when:** Helios exposes the language through a source a plain visitor can read.
-Not revisited before then.
-
 ### Julia 1&2 Hyvinkää prints two prices on one screening
 
 All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages label it

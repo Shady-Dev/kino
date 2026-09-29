@@ -1,4 +1,4 @@
-# Screening language: Riviera, Cinema Orion, Kino Helios
+# Screening language: Riviera, Cinema Orion, Kino Helios and three without a source
 
 The three adapters publish `"lang": ""` for every screening (`riviera.py`, `orion.py`,
 `helios.py`), so the app shows no audio or subtitle language for them. Read 2026-09-23
@@ -32,6 +32,18 @@ item is in [IDEAS.md](../../IDEAS.md).
   shop, whose event page reset the connection for a plain client (HTTP/2 stream error
   after 0.1 s) on one attempt.
 
+- **Kino Helios, per screening, read 2026-09-29.** Each calendar row's `key` opens the
+  event page a visitor reaches from the calendar before the ticket shop, which the page
+  draws from `GetSingleEvent` `{"Key", "Language"}` on the same service. Its `breadtext`
+  ends with the film's facts, `Kieli: suomi<br />Tekstitys: suomi`, also `Kesto` and
+  `Ikäraja`. 13 of the 17 rows that day parsed as names; the other four are two dubbed
+  films, and both records read say `Kieli: puhuttu suomeksi`.
+- **Bio-Kaari, Forssan Elävienkuvien teatteri and Kino-Huovi, nowhere, read 2026-09-29.**
+  No language wording on Bio-Kaari's four event pages, on four of Elävien kuvien's film
+  pages, or on Kino-Huovi's front page, the pages the three adapters read. Bio-Kaari's
+  WordPress route index lists no programme route. What remains is each cinema's ticket
+  page, which is not read.
+
 ## Inferences
 
 - Riviera's language can ride on the price pass: same page, same cache. Pages already
@@ -55,5 +67,7 @@ item is in [IDEAS.md](../../IDEAS.md).
 Riviera built 2026-09-23: `prices.enrich` takes a `fields` parser and caches its answer
 beside the price, and `riviera.page_fields` reads the two lines. Record in
 [docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md). Orion built the same
-day on the same cache, one film page per film, capped at 12 a run. Kino Helios waits for
-its calendar service to carry a language.
+day on the same cache, one film page per film, capped at 12 a run. Kino Helios built
+2026-09-29 on the same cache, one record per screening under its ticket link, capped at 12 a
+run. Bio-Kaari, Elävien kuvien and Kino-Huovi have no source; revisit if one of them adds
+the language to a page it already publishes.
