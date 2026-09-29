@@ -329,10 +329,10 @@ def sample_kinotour():
     """One declared town and one this repo does not list, so the sample carries the row
     that must not reach a venue file as well as the one that must."""
     site = KT.SITE
-    out, _ = mod("kinotour").rows(site, KT.table(
+    out, _ = mod("kinotour").rows(site, KT.page(
         KT.DECLARED, KT.UNDECLARED,
-        KT.row("su 20.09.2026", "13:00", "Ryhmä Hau, Dinoelokuva, K7",
-               "Lieto valtuustosali, Lieto")))
+        KT.card(title="Ryhmä Hau, Dinoelokuva", iso="2026-10-04T17:00:00+03:00",
+                shown="4.10.2026 · klo 17.00", city="Lieto", place="Lieto · Valtuustosali")))
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 

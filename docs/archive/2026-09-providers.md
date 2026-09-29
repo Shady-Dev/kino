@@ -3386,3 +3386,6 @@ the listing; the per-screening event pages are no longer read. The runtime is no
 published: all three cards printed 87 min, Rakkautta & Virtahepoja's included, which runs
 102 elsewhere. A live read gave the three screenings under `kinotour-naantali`, 11€ each.
 `test_kinotour.py` rewritten on the card shape; 8 mutations red.
+`test_show_contract.py` also built its Kinotour sample from the removed table fixture, so
+Checks went red on e2c9d9049 with an `AttributeError`; the sample now uses the card
+fixture, with the same declared, undeclared and second declared town (2026-09-29).
