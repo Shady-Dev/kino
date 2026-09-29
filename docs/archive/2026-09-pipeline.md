@@ -2653,3 +2653,13 @@ before the closing bracket is now matched with it, as `puhumme suomea!?` already
 the 1,151 committed and cached titles it changes that one search string. An enrichment pass
 on a copy of data/ re-judged it on the changed `q` and took 1545391 exact, with its poster;
 the next cloud run does the same, so no data is committed. 3 mutations red.
+
+### A bare trailing "tekijävierailulla" comes off the search (2026-09-29)
+Kino Lumo and Kino Piispanristi published "Pirjo i Sverige TEKIJÄVIERAILULLA", an initials
+tile while every other cinema's "Pirjo i Sverige" matched 1729175, and
+`test_tmdb_matching` went red on the bot's data. `TRAIL_EVENT` took the visit only after a
+"+". `TRAIL_VISIT` takes the bare word at the end of the title, after whitespace, and
+nowhere else. Over 1,184 committed and cached titles it changes that one search string. An
+enrichment pass on a copy of data/ re-judged it on the changed `q` and gave both rows
+1729175 with a poster; the next routine run does the same, and the suite reads the result
+from the data. 4 mutations red.

@@ -350,6 +350,19 @@ class TrailingEventTest(unittest.TestCase):
     def test_the_published_title_is_not_touched(self):
         self.assertIn("tekijävierailu", enrich_tmdb.norm("Päivien lumo + tekijävierailu"))
 
+    def test_a_bare_trailing_visit_comes_off(self):
+        """Kino Lumo and Kino Piispanristi, 2026-09-29: an initials tile while every other
+        cinema's "Pirjo i Sverige" matched 1729175."""
+        for published in ("Pirjo i Sverige TEKIJÄVIERAILULLA", "Pirjo i Sverige tekijävierailulla "):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Pirjo i Sverige")
+
+    def test_the_visit_word_comes_off_only_at_the_end(self):
+        for t in ("Tekijävierailulla Pirjo i Sverige", "Pirjo tekijävierailulla Ruotsissa",
+                  "Tekijävierailulla"):
+            with self.subTest(title=t):
+                self.assertEqual(enrich_tmdb.clean(t), t)
+
 
 class TrailingFormatTest(unittest.TestCase):
     """A bare format token at the end, with no brackets for PAREN_NOISE (2026-09-23).

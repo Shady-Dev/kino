@@ -158,6 +158,10 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 TRAIL_EVENT = re.compile(
     r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|leffalukupiiri|keskustelutilaisuus)\s*\)?\s*$",
     re.I)
+# The same visit as a bare last word, no "+": Kino Lumo's and Kino Piispanristi's "Pirjo i
+# Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
+# cinema's "Pirjo i Sverige" matched 1729175. The end of the title only.
+TRAIL_VISIT = re.compile(r"\s+tekij[\u00e4a]vierailulla\s*$", re.I)
 
 # A strand can sit in a trailing parenthesis instead of in front of a colon. The content
 # is matched against the one shared list in strands.py rather than against a pattern, so
@@ -186,6 +190,7 @@ def clean(title):
         t = t[:m.start()].strip()
     t = EVENT_NOUN.sub(" ", t)
     t = TRAIL_EVENT.sub(" ", t)
+    t = TRAIL_VISIT.sub(" ", t)
     t = TRAIL_FORMAT.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
