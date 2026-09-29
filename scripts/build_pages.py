@@ -1731,6 +1731,12 @@ def main(today=None) -> int:
 # and is a human commit, and the cloud workflow stages the pages alone.
 HOME_START = "<!-- cities:start -->"
 HOME_END = "<!-- cities:end -->"
+# The same links again under the chooser's "Kaupunkisivut" disclosure. The app points the
+# first list at the programme, so this copy is the homepage's rendered link into the city
+# pages (2026-09-29): without it a rendered crawl from `/` reached none of them.
+PAGES_START = "<!-- citypages:start -->"
+PAGES_END = "<!-- citypages:end -->"
+HOME_BLOCKS = ((HOME_START, HOME_END), (PAGES_START, PAGES_END))
 INDEX = ROOT / "index.html"
 
 
@@ -1746,16 +1752,16 @@ def home_cities(venues=None):
 
 def home_links_html(cities):
     """One <li> per city. The Finnish page is the static href; `data-city` and
-    `data-slug` let the client relabel and relink the list for sv and en and open the
-    programme on a plain click."""
+    `data-slug` let the client relabel and relink the list for sv and en, and point the
+    first list at the programme."""
     return "".join(f'\n<li><a href="/kaupunki/{c["slug"]}/" data-city="{esc(c["city"])}" '
                    f'data-slug="{c["slug"]}">{esc(c["city"])}</a></li>' for c in cities) + "\n"
 
 
-def home_block(html, links=None):
+def home_block(html, links=None, start=HOME_START, end=HOME_END):
     """index.html with the marked block replaced by `links`; the current block when
     `links` is None. -> (text, current block) or raises when the markers are missing."""
-    a, b = html.index(HOME_START) + len(HOME_START), html.index(HOME_END)
+    a, b = html.index(start) + len(start), html.index(end)
     current = html[a:b]
     if links is None:
         return html, current
@@ -1772,14 +1778,15 @@ def sync_home(write, venues=None):
     because `city_of` returns `v["city"]` once that key is set and main sets it to
     `city_of(v)`. `--home` runs on its own with nothing loaded, so it passes none and the
     files are read."""
-    html = INDEX.read_text(encoding="utf-8")
+    new = INDEX.read_text(encoding="utf-8")
     links = home_links_html(home_cities(venues))
-    new, current = home_block(html, links)
-    if current == links:
-        return False
-    if write:
+    stale = False
+    for start, end in HOME_BLOCKS:
+        new, current = home_block(new, links, start, end)
+        stale = stale or current != links
+    if stale and write:
         common.write_text_atomic(INDEX, new)
-    return True
+    return stale
 
 
 def cli(argv):

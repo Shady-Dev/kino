@@ -27,7 +27,8 @@ D = date(2026, 9, 5)
 VENUES = [("2001", "Kino Testi Espoo"), ("2002", "Studio Testi Espoo"),
           ("2003", "Kino Testi Oulu"), ("2004", "Studio Testi Oulu")]
 SHELL = ("<!doctype html><html><body><ul class=\"cities\">"
-         + bp.HOME_START + "{block}" + bp.HOME_END + "</ul></body></html>")
+         + bp.HOME_START + "{block}" + bp.HOME_END + "</ul><ul>"
+         + bp.PAGES_START + "{block}" + bp.PAGES_END + "</ul></body></html>")
 
 
 def write_fixture(root):
@@ -111,6 +112,19 @@ class HomeSyncExitTest(unittest.TestCase):
         code, out = self.build()
         self.assertEqual(code, 3)
         self.assertIn("city links stale", out)
+
+    def test_a_stale_page_list_alone_fails_it_and_home_repairs_both(self):
+        """The disclosure's copy of the list is the homepage's rendered way into the pages
+        (2026-09-29), so it is held to the same rule as the list above it."""
+        links = bp.home_links_html(bp.home_cities())
+        bp.INDEX.write_text(SHELL.replace("{block}", links, 1).replace("{block}", ""),
+                            encoding="utf-8")
+        code, out = self.build()
+        self.assertEqual(code, 3)
+        self.assertIn("city links stale", out)
+        self.build(argv=["--home"])
+        html = bp.INDEX.read_text(encoding="utf-8")
+        self.assertEqual(bp.home_block(html, None, bp.PAGES_START, bp.PAGES_END)[1], links)
 
     # -- --home is the fix, and it stays green ------------------------------------------------
 

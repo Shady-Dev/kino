@@ -60,7 +60,18 @@ class StaticChooserTest(unittest.TestCase):
             for path in (f"kaupunki/{c['slug']}/index.html", f"en/city/{c['slug']}/index.html"):
                 self.assertTrue((ROOT / path).exists(), path)
         hrefs = re.findall(r'<li><a href="([^"]+)" data-city="[^"]+" data-slug="[^"]+">', MAIN)
-        self.assertEqual(hrefs, [f"/kaupunki/{c['slug']}/" for c in build_pages.home_cities()])
+        want = [f"/kaupunki/{c['slug']}/" for c in build_pages.home_cities()]
+        self.assertEqual(hrefs, want + want, "the city list, then the same pages under the disclosure")
+
+    def test_the_city_pages_have_a_list_of_their_own(self):
+        """A disclosure under the chooser, native so it opens without script, holding the
+        same generated links: the first list's hrefs become the programme in the app."""
+        self.assertIn('<details class="cpages"><summary>Kaupunkisivut</summary><ul>'
+                      + build_pages.PAGES_START, MAIN)
+        _, pages = build_pages.home_block(HTML, None, build_pages.PAGES_START, build_pages.PAGES_END)
+        self.assertEqual(pages, build_pages.home_links_html(build_pages.home_cities()))
+        for lang, text in (("fi", "Kaupunkisivut"), ("sv", "Stadssidor"), ("en", "City pages")):
+            self.assertEqual(strings(lang).get("homePages"), text, lang)
 
     def test_the_list_is_in_finnish_alphabetical_order(self):
         names = [c["city"] for c in build_pages.home_cities()]

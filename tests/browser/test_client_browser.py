@@ -1854,28 +1854,28 @@ class ChooserNoteFollowsTheLanguageOnAPhone(ChooserNoteFollowsTheLanguage):
 
 
 class HomeCityLinks(Browser):
-    """A plain click on a homepage city link opens the programme (2026-09-28, the
-    maintainer's instruction): the combined view for a city with two or more cinemas, the
-    cinema for a city with one. The href stays the city page: it is the rendered link a
-    crawler follows into the generated pages, and what a modified click, a copied link and
-    a reader without script get. In the fixture Helsinki has five venues, Jyväskylä one and
-    Forssa none."""
+    """A homepage city link is the programme (2026-09-29, the maintainer's instruction): its
+    href, once the venue lists are in, names the combined view for a city with two or more
+    cinemas and the cinema for one, so a tap, a copied link and a new tab reach the same
+    place. The static href is the city page, for a reader without script and a failed boot,
+    and the same cities under "Kaupunkisivut" stay links to their pages, the homepage's
+    rendered way into them. In the fixture Helsinki has five venues, Jyväskylä one and Forssa
+    none."""
 
     def link(self, city):
-        return self.page.locator(f'#home a[data-city="{city}"]')
+        return self.page.locator(f'#home .cities a[data-city="{city}"]')
+
+    def page_link(self, city):
+        return self.page.locator(f'#home .cpages a[data-city="{city}"]')
 
     def lists_in(self):
-        """Nothing on the chooser changes when the venue lists arrive, so the wait is the
-        picker opening, as everywhere else in this file."""
-        self.open_picker()
-        self.page.keyboard.press("Escape")
-        expect(self.page.locator("#vwrap")).not_to_have_class("vwrap open")
+        expect(self.link("Helsinki")).to_have_attribute("href", "/?area=city%3AHelsinki")
 
-    def test_each_link_is_the_city_page(self):
+    def test_each_link_names_what_it_opens(self):
         self.lists_in()
-        for city, slug in (("Helsinki", "helsinki"), ("Jyväskylä", "jyvaskyla"), ("Forssa", "forssa")):
-            with self.subTest(city=city):
-                expect(self.link(city)).to_have_attribute("href", f"/kaupunki/{slug}/")
+        expect(self.link("Espoo")).to_have_attribute("href", "/?area=city%3AEspoo")
+        expect(self.link("Jyväskylä")).to_have_attribute("href", "/?area=1095")
+        expect(self.link("Forssa")).to_have_attribute("href", "/kaupunki/forssa/")
 
     def test_a_city_link_opens_the_combined_view_and_back_returns_to_the_chooser(self):
         """In place, as a pick from the picker: the page is not loaded again."""
@@ -1896,21 +1896,17 @@ class HomeCityLinks(Browser):
         expect(self.page.locator("#areaSelect")).to_contain_text("Fantasia")
         self.assertEqual(self.page.evaluate("location.search"), "?area=1095")
 
-    def test_a_city_the_lists_do_not_name_follows_its_href(self):
-        self.lists_in()
-        self.link("Forssa").click()
-        self.page.wait_for_url(self.origin + "/kaupunki/forssa/")
-
-    def test_a_new_tab_gets_the_city_page_and_its_way_into_the_programme(self):
+    def test_the_href_opens_the_same_view_in_a_new_tab(self):
         self.lists_in()
         tab = self.ctx.new_page()
+        tab.clock.install(time=FIXED)
         tab.goto(self.origin + self.link("Helsinki").get_attribute("href"))
-        expect(tab.locator("a.cta")).to_have_attribute("href", "/?area=city%3AHelsinki&lang=fi")
+        expect(tab.locator("#areaSelect")).to_contain_text("Helsinki – kaikki teatterit")
 
     def test_a_modified_click_is_left_to_the_browser(self):
         self.lists_in()
         prevented = self.page.evaluate("""() => {
-            const a = document.querySelector('#home a[data-city="Helsinki"]');
+            const a = document.querySelector('#home .cities a[data-city="Helsinki"]');
             let seen = null;
             const spy = e => { seen = e.defaultPrevented; e.preventDefault(); };
             document.addEventListener('click', spy);
@@ -1921,22 +1917,47 @@ class HomeCityLinks(Browser):
         self.assertIs(prevented, False)
         expect(self.page.locator("#homeMore")).to_be_visible()
 
-    def test_a_language_switch_relinks_the_page_and_keeps_the_click(self):
+    def test_a_link_naming_what_the_lists_do_not_know_is_left_to_the_page_load(self):
+        """An href from before a refresh of the lists: the load that follows says the
+        location was not found, the same as any stale link."""
+        self.lists_in()
+        self.page.evaluate("document.querySelector('#home .cities a[data-city=\"Helsinki\"]')"
+                           ".href = '/index.html?area=city%3ANowhere'")
+        self.link("Helsinki").click()
+        expect(self.page.locator("#homeNote")).to_have_text(
+            "Linkin teatteria tai kaupunkia ei löytynyt. Valitse toinen.")
+
+    def test_the_city_pages_are_one_tap_away(self):
+        self.lists_in()
+        expect(self.page_link("Helsinki")).to_be_hidden()
+        self.page.locator("#home .cpages summary").click()
+        expect(self.page_link("Helsinki")).to_be_visible()
+        expect(self.page_link("Helsinki")).to_have_attribute("href", "/kaupunki/helsinki/")
+        self.assertEqual(self.page.locator("#home .cpages a").count(),
+                         self.page.locator("#home .cities a[data-city]").count())
+        self.page_link("Helsinki").click()
+        self.page.wait_for_url(self.origin + "/kaupunki/helsinki/")
+
+    def test_a_language_switch_relabels_both_lists(self):
         self.lists_in()
         self.page.locator('#langSeg button[data-lang="sv"]').click()
         expect(self.link("Helsinki")).to_have_text("Helsingfors")
-        expect(self.link("Helsinki")).to_have_attribute("href", "/sv/kaupunki/helsinki/")
+        expect(self.link("Helsinki")).to_have_attribute("href", "/?area=city%3AHelsinki")
+        expect(self.page.locator("#home .cpages summary")).to_have_text("Stadssidor")
+        expect(self.page_link("Helsinki")).to_have_attribute("href", "/sv/kaupunki/helsinki/")
         self.link("Helsinki").click()
         expect(self.page.locator("#areaSelect")).to_contain_text("Helsingfors – alla biografer")
 
-    def test_without_script_the_links_are_the_city_pages(self):
+    def test_without_script_both_lists_are_the_city_pages(self):
         ctx = self.browser.new_context(java_script_enabled=False, service_workers="block")
         self.addCleanup(ctx.close)
         page = ctx.new_page()
         page.goto(self.origin + "/index.html")
-        expect(page.locator('#home a[data-city="Helsinki"]')).to_have_attribute(
+        expect(page.locator('#home .cities a[data-city="Helsinki"]')).to_have_attribute(
             "href", "/kaupunki/helsinki/")
-        page.locator('#home a[data-city="Helsinki"]').click()
+        page.locator("#home .cpages summary").click()
+        expect(page.locator('#home .cpages a[data-city="Helsinki"]')).to_be_visible()
+        page.locator('#home .cities a[data-city="Helsinki"]').click()
         page.wait_for_url(self.origin + "/kaupunki/helsinki/")
 
 

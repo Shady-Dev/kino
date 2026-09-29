@@ -25,7 +25,7 @@ if (a === -1 || b === -1 || b < a) {
 }
 const source = HTML.slice(a, b);
 for (const fn of ['startupArea', 'areaParamAfterSelect', 'startupLang', 'langParamAfterSelect', 'homeCityHref',
-                  'homeCityArea']) {
+                  'homeCityPage']) {
   if (!new RegExp('function ' + fn + '\\s*\\(').test(source)) {
     console.error('marker block does not contain ' + fn);
     process.exit(2);
@@ -36,14 +36,14 @@ const sandbox = { URLSearchParams };
 vm.createContext(sandbox);
 vm.runInContext(source + '\n;globalThis.__s = startupArea; globalThis.__p = areaParamAfterSelect;'
                 + 'globalThis.__l = startupLang; globalThis.__q = langParamAfterSelect;'
-                + 'globalThis.__h = homeCityHref; globalThis.__a = homeCityArea;',
+                + 'globalThis.__h = homeCityHref; globalThis.__g = homeCityPage;',
                 sandbox, { filename: 'areaRouting' });
 const startupArea = sandbox.__s;
 const areaParamAfterSelect = sandbox.__p;
 const startupLang = sandbox.__l;
 const langParamAfterSelect = sandbox.__q;
 const homeCityHref = sandbox.__h;
-const homeCityArea = sandbox.__a;
+const homeCityPage = sandbox.__g;
 
 // The venues this fixture knows about. `known` is the same shape the app builds: a venue
 // id, or a `city:` id for a city with more than one venue.
@@ -125,11 +125,19 @@ const LANG_URL_CASES = [
 const langUrls = {};
 for (const [name, search, l] of LANG_URL_CASES) langUrls[name] = langParamAfterSelect(search, l);
 
-// Where the chooser's city links point per language, and what a plain click on one opens.
-const homeHrefs = { fi: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi'), en: homeCityHref('Jyväskylä', 'jyvaskyla', 'en'),
-                    sv: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv') };
-const homeAreas = { multi: homeCityArea('Jyväskylä', ['kl-fantasia', 'kl-kinolinna']),
-                    single: homeCityArea('Jyväskylä', ['kl-fantasia']),
-                    none: homeCityArea('Jyväskylä', []), unknown: homeCityArea('Jyväskylä', undefined) };
+// Where the chooser's city links point: each language's city page until the venue lists
+// name the city's cinemas, then the programme. The page list under the chooser keeps the
+// pages.
+const homeHrefs = {
+  fi: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi'),
+  en: homeCityHref('Jyväskylä', 'jyvaskyla', 'en'),
+  sv: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', [], ''),
+  multi: homeCityHref('Jyväskylä', 'jyvaskyla', 'en', ['kl-fantasia', 'kl-kinolinna'], ''),
+  single: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', ['kl-fantasia'], ''),
+  keepsQuery: homeCityHref('Jyväskylä', 'jyvaskyla', 'sv', ['a', 'b'], '?lang=sv'),
+  replacesArea: homeCityHref('Jyväskylä', 'jyvaskyla', 'fi', ['a', 'b'], '?area=nope&lang=en'),
+};
+const homePages = { fi: homeCityPage('jyvaskyla', 'fi'), sv: homeCityPage('jyvaskyla', 'sv'),
+                    en: homeCityPage('jyvaskyla', 'en') };
 
-process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls, homeHrefs, homeAreas }));
+process.stdout.write(JSON.stringify({ routing, urls, lang, langUrls, homeHrefs, homePages }));

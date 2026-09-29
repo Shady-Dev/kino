@@ -182,6 +182,7 @@
   }
   #themeToggle:hover{border-color:var(--accent); transform:rotate(15deg)}
   #themeToggle:focus-visible, .day:focus-visible, .stub:focus-visible, .home .cities a:focus-visible,
+  .home .cpages summary:focus-visible, .home .cpages a:focus-visible,
   input:focus-visible, .tlink:focus-visible, .tinfo:focus-visible, .sheet-close:focus-visible,
   button:focus-visible{
     outline:2px solid var(--accent); outline-offset:2px;
@@ -435,6 +436,17 @@
     border:1px dashed var(--line); border-radius:10px; background:transparent; color:var(--muted);
     font:inherit; font-weight:600; font-size:.9rem; cursor:pointer}
   .home .cities .more button:hover{color:var(--ink); border-color:var(--muted)}
+  /* The city pages, one tap away and without script: the list above opens the programme. */
+  .home .cpages{margin:10px 0 0; font-size:.85rem; color:var(--muted)}
+  .home .cpages summary{display:inline-flex; align-items:center; min-height:44px; cursor:pointer; font-weight:600}
+  .home .cpages summary:hover{color:var(--ink)}
+  .home .cpages summary::-webkit-details-marker{display:none}
+  .home .cpages summary::after{content:''; width:6px; height:6px; margin:-3px 0 0 9px;
+    border-right:1.6px solid currentColor; border-bottom:1.6px solid currentColor; transform:rotate(45deg)}
+  .home .cpages[open] summary::after{margin-top:3px; transform:rotate(-135deg)}
+  .home .cpages ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; column-gap:16px}
+  .home .cpages a{display:inline-flex; align-items:center; min-height:44px; color:var(--muted)}
+  .home .cpages a:hover{color:var(--ink)}
   /* What emptied the list: the search as typed, then the filters that are on, one line
      each. Plain text under the message, not chips. A long query wraps inside the column
      rather than widening the page. */
@@ -1152,8 +1164,8 @@
        location. Static so it is here without JavaScript and before any data loads; the
        city list between the markers is written by scripts/build_pages.py --home from
        the same multi-venue rule as the city pages. The Finnish page is the static href;
-       renderHome() relabels and relinks it for sv and en, and a plain click opens the
-       programme. -->
+       renderHome() relabels it and, once the venue lists are in, points it at the
+       programme; the same cities under "Kaupunkisivut" stay links to their pages. -->
   <section id="home" class="home">
     <p class="intro">Suomen elokuvateatterien näytösajat yhdessä paikassa.</p>
     <div class="note" id="homeNote" data-nosnippet hidden></div>
@@ -1177,6 +1189,25 @@
 <li><a href="/kaupunki/vaasa/" data-city="Vaasa" data-slug="vaasa">Vaasa</a></li>
 <li><a href="/kaupunki/vantaa/" data-city="Vantaa" data-slug="vantaa">Vantaa</a></li>
 <!-- cities:end --><li class="more"><button type="button" id="homeMore">Ja paljon muita…</button></li></ul>
+    <details class="cpages"><summary>Kaupunkisivut</summary><ul><!-- citypages:start -->
+<li><a href="/kaupunki/espoo/" data-city="Espoo" data-slug="espoo">Espoo</a></li>
+<li><a href="/kaupunki/forssa/" data-city="Forssa" data-slug="forssa">Forssa</a></li>
+<li><a href="/kaupunki/helsinki/" data-city="Helsinki" data-slug="helsinki">Helsinki</a></li>
+<li><a href="/kaupunki/hyvinkaa/" data-city="Hyvinkää" data-slug="hyvinkaa">Hyvinkää</a></li>
+<li><a href="/kaupunki/jyvaskyla/" data-city="Jyväskylä" data-slug="jyvaskyla">Jyväskylä</a></li>
+<li><a href="/kaupunki/kotka/" data-city="Kotka" data-slug="kotka">Kotka</a></li>
+<li><a href="/kaupunki/kouvola/" data-city="Kouvola" data-slug="kouvola">Kouvola</a></li>
+<li><a href="/kaupunki/kuopio/" data-city="Kuopio" data-slug="kuopio">Kuopio</a></li>
+<li><a href="/kaupunki/lahti/" data-city="Lahti" data-slug="lahti">Lahti</a></li>
+<li><a href="/kaupunki/mikkeli/" data-city="Mikkeli" data-slug="mikkeli">Mikkeli</a></li>
+<li><a href="/kaupunki/nurmijarvi/" data-city="Nurmijärvi" data-slug="nurmijarvi">Nurmijärvi</a></li>
+<li><a href="/kaupunki/oulu/" data-city="Oulu" data-slug="oulu">Oulu</a></li>
+<li><a href="/kaupunki/savonlinna/" data-city="Savonlinna" data-slug="savonlinna">Savonlinna</a></li>
+<li><a href="/kaupunki/tampere/" data-city="Tampere" data-slug="tampere">Tampere</a></li>
+<li><a href="/kaupunki/turku/" data-city="Turku" data-slug="turku">Turku</a></li>
+<li><a href="/kaupunki/vaasa/" data-city="Vaasa" data-slug="vaasa">Vaasa</a></li>
+<li><a href="/kaupunki/vantaa/" data-city="Vantaa" data-slug="vantaa">Vantaa</a></li>
+<!-- citypages:end --></ul></details>
   </section>
   <div class="boot"><div class="status" data-nosnippet><div class="reel"></div>Ladataan teattereita…</div></div>
 </main>
@@ -1370,7 +1401,7 @@
          homeIntro:'Suomen elokuvateatterien näytösajat yhdessä paikassa.',
          homePick:'Valitse kaupunki tai teatteri', homeByCity:'Näytösajat kaupungeittain',
          homeUnknown:'Linkin teatteria tai kaupunkia ei löytynyt. Valitse toinen.',
-         homeMore:'Ja paljon muita…',
+         homeMore:'Ja paljon muita…', homePages:'Kaupunkisivut',
          loadFail:'Näytöstietoja ei juuri nyt saatu ladattua.',
          dataLabel:'Näytöstiedot', updated:'päivitetty',
          actCombined:'Näytösajasta teatterin omalle sivulle',
@@ -1439,7 +1470,7 @@
          homeIntro:'Visningstider för biografer i Finland på ett ställe.',
          homePick:'Välj stad eller biograf', homeByCity:'Visningstider per stad',
          homeUnknown:'Biografen eller staden i länken hittades inte. Välj en annan.',
-         homeMore:'Och många fler…',
+         homeMore:'Och många fler…', homePages:'Stadssidor',
          loadFail:'Visningstiderna kunde inte laddas just nu.',
          dataLabel:'Uppgifter', updated:'uppdaterad',
          actCombined:'Tryck på en visning för att öppna biografens egen sida',
@@ -1505,7 +1536,7 @@
          homeIntro:'Cinema showtimes across Finland in one place.',
          homePick:'Choose a city or cinema', homeByCity:'Showtimes by city',
          homeUnknown:'The cinema or city in the link was not found. Choose another.',
-         homeMore:'And many more…',
+         homeMore:'And many more…', homePages:'City pages',
          loadFail:"Couldn't load the schedule right now.",
          dataLabel:'Schedule data', updated:'updated',
          actCombined:'Tap a showtime to open the cinema\u2019s own page',
@@ -2745,21 +2776,24 @@
     q.set('area', id);
     return q.toString();
   }
-  // -> where a chooser city link points in each language: the Finnish, Swedish and
-  // English city pages, one per language. The href stays the page after a plain click
-  // started opening the programme: it is the rendered link a crawler follows into the
-  // generated pages (2026-09-28).
-  function homeCityHref(city, slug, lang){
+  // -> a city's own page in each language: the Finnish, Swedish and English city pages.
+  function homeCityPage(slug, lang){
     if(lang === 'en') return `/en/city/${slug}/`;
     if(lang === 'sv') return `/sv/kaupunki/${slug}/`;
     return `/kaupunki/${slug}/`;
   }
-  // -> the location a plain click on a chooser city link opens: the combined view for a
-  // city with two or more cinemas, the cinema for one, '' while the venue lists have not
-  // named the city's cinemas (`ids`).
-  function homeCityArea(city, ids){
-    if(!ids || !ids.length) return '';
-    return ids.length > 1 ? 'city:' + city : ids[0];
+  // -> where a chooser city link points. Once the venue lists name the city's cinemas
+  // (`ids`), the programme: the combined view for two or more, the cinema for one, with
+  // the tab's query as a pick would leave it. Before the lists arrive, or when they fail,
+  // the city page, which needs no script. The pages keep a rendered link of their own in
+  // the list under the chooser's disclosure (2026-09-29).
+  function homeCityHref(city, slug, lang, ids, search){
+    if(ids && ids.length){
+      const q = new URLSearchParams(search || '');
+      q.set('area', ids.length > 1 ? 'city:' + city : ids[0]);
+      return '/?' + q;
+    }
+    return homeCityPage(slug, lang);
   }
   // -> which UI language a load starts in. `?lang=` is the second half of the deep link
   // the generated pages carry; without it a reader with nothing stored opened a Finnish
@@ -2989,12 +3023,24 @@
     for(const li of items){
       const a = li.querySelector('a');
       a.textContent = cityLabel(a.dataset.city);
-      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang);
+      a.href = homeCityHref(a.dataset.city, a.dataset.slug, state.lang,
+                            cityGroups[a.dataset.city], location.search);
     }
     const cmp = new Intl.Collator(COLLATE[state.lang]).compare;   // `coll` is built later in boot
     items.sort((x, y) => cmp(x.textContent, y.textContent));
     for(const li of items) ul.appendChild(li);
     if(more) ul.appendChild(more.parentElement);                  // the "more" item stays last
+    const pages = home.querySelector('.cpages');
+    if(!pages) return;
+    pages.querySelector('summary').textContent = T.homePages;
+    const pl = pages.querySelector('ul');
+    const links = [...pl.querySelectorAll('a[data-city]')];
+    for(const a of links){
+      a.textContent = cityLabel(a.dataset.city);
+      a.href = homeCityPage(a.dataset.slug, state.lang);
+    }
+    links.sort((x, y) => cmp(x.textContent, y.textContent));
+    for(const a of links) pl.appendChild(a.parentElement);
   }
   function showHome(note){
     loadSeq++;                              // a schedule still in flight lands nowhere
@@ -5069,13 +5115,13 @@
     // The chooser's "and many more" opens the picker. Delegated: showHome() replaces
     // the markup, so a listener on the button itself would not survive Back.
     if(e.target.closest('#homeMore')){ openVenueSheet(); return; }
-    // A plain click on a city link opens the programme in place, as a pick from the
-    // picker does. A modified click, a copied link and a reader without script get the
-    // city page, the href.
+    // A city link that renderHome() pointed at the programme opens it in place, as a pick
+    // from the picker does; a modified click, a copied link and a new tab take the same
+    // URL. A location the lists do not know is left to the page load, which says so.
     const city = e.target.closest('#home a[data-city]');
     if(city){
-      const id = homeCityArea(city.dataset.city, cityGroups[city.dataset.city]);
-      if(id && !(e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)){
+      const id = new URL(city.href).searchParams.get('area');
+      if(id && knownArea(id) && !(e.button || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)){
         e.preventDefault();
         selectVenue(id);
         areaSel.focus();
