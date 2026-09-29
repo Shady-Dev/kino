@@ -54,7 +54,7 @@ small cinemas run one of a few ticketing platforms:
 | Adapter | Providers | Venues | Auth | Runs |
 |---|---|---|---|---|
 | Finnkino (Vista OCAPI) | 1 | 17 | short-lived token | Local |
-| eTiketti | 20 | 30 | none | GitHub Actions; 4 of 20 local, see registry |
+| eTiketti | 21 | 31 | none | GitHub Actions; 5 of 21 local, see registry |
 | BioRex | 1 | 12 | none | GitHub Actions |
 | Nexxo | 8 | 13 | none | GitHub Actions |
 | Riviera | 1 | 2 | none | GitHub Actions |
@@ -80,7 +80,7 @@ small cinemas run one of a few ticketing platforms:
 | Bio Savoy | 1 | 1 | none | GitHub Actions |
 | Cine Mäntsälä (MyCloudCinema) | 1 | 1 | none | GitHub Actions |
 | Kinola (Kilta, Laika, Myyri, Sheryl) | 4 | 4 | none | GitHub Actions; Sheryl local |
-| Johku (7 storefronts) | 7 | 7 | none | GitHub Actions; Haapamäen Elokuvat local |
+| Johku (6 storefronts) | 6 | 6 | none | GitHub Actions |
 | The Events Calendar | 2 | 2 | none | GitHub Actions |
 | Kino Hamina | 1 | 1 | none | GitHub Actions |
 | Kinotour | 1 | 3 | none | GitHub Actions |
@@ -101,7 +101,7 @@ triggers the cloud workflow. It takes a fresh Finnkino token from a real browser
 run, so there is no stored credential and nothing to rotate. There is no cloud
 fallback: a runner cannot obtain a token at all, since the site answers
 Cloudflare 403 to datacenter IPs. Routing is per site, not per adapter, which is
-how four eTiketti cinemas can be local while the other sixteen run on Actions.
+how five eTiketti cinemas can be local while the other sixteen run on Actions.
 
 Each fetcher writes its exit code to its own committed log rather than aborting,
 so one failing provider never blocks the rest. **The committed `logs/run.log` and
@@ -240,7 +240,7 @@ checklist, `build_counts.py` and `run_cloud.SHARED_UPSTREAMS` among it, is in
 [CLAUDE.md](CLAUDE.md) under "Adding a provider". The workflow runs
 `run_cloud.py --where cloud`, whose module list comes from the registry, and the
 client reads `data/providers.json`. One module can serve several providers,
-which is why the provider id sits on the site: `etiketti` serves twenty
+which is why the provider id sits on the site: `etiketti` serves twenty-one
 providers today and `nexxo` eight.
 
 `base` names the host a site is read from and is the pacing key; `reads` names

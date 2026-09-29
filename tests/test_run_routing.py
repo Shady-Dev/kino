@@ -154,15 +154,16 @@ class LiveRegistryTest(unittest.TestCase):
         self.assertIn("joutsankino", ids(run.sites_for(etiketti, "local")))
         self.assertGreater(len(run.sites_for(etiketti, "cloud")), 1)
 
-    def test_the_local_etiketti_sites_are_the_four_that_403_a_runner(self):
+    def test_the_local_etiketti_sites_are_the_four_that_403_a_runner_and_haapamaki(self):
         """Savon Kinot joined the local half on 2026-09-04, Cine and Star on 2026-09-08:
         each sits behind Cloudflare, which answers a datacenter address 403 at the edge
-        while an ordinary connection gets 200. The list is explicit so a site drifting
-        between halves is a failing test and a decision, never a side effect of a
-        registry edit."""
+        while an ordinary connection gets 200. Haapamäen Elokuvat came with its move from
+        Johku on 2026-09-29, local as it was there until a committed run log shows a
+        runner reads it. The list is explicit so a site drifting between halves is a
+        failing test and a decision, never a side effect of a registry edit."""
         etiketti = importlib.import_module("etiketti")
         self.assertEqual(ids(run.sites_for(etiketti, "local")),
-                         ["savonkinot", "joutsankino", "cine", "star"])
+                         ["savonkinot", "joutsankino", "cine", "star", "haapamaki"])
         for pid in ("savonkinot", "cine", "star"):
             with self.subTest(provider=pid):
                 self.assertEqual(registry.by_id(pid)["where"], "local")
