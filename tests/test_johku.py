@@ -298,9 +298,8 @@ class RunnerTest(unittest.TestCase):
         J.fetch = fetch
 
     def main(self, half="all"):
-        """`--half all` explicitly: Haapamäen Elokuvat is local and the other four are
-        cloud, so without it this would run five sites on a laptop and four on Actions,
-        where `half_of` reads GITHUB_ACTIONS. The fixture serves every site either way."""
+        """`--half all` explicitly, so the run does not depend on where it runs: `half_of`
+        reads GITHUB_ACTIONS. The fixture serves every site either way."""
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
             code = run.main(["johku", "--half", half])
@@ -393,7 +392,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.main()[0], 0)
         films = [c for c in self.calls if "/fi_FI/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 14)      # seven storefronts, two films each
+        self.assertEqual(len(films), 12)      # six storefronts, two films each
 
 
 class KinoHannikainenTest(unittest.TestCase):
@@ -508,10 +507,9 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual([s["base"] for s in J.SITES],
                          ["https://www.biomarilyn.com", "https://vihdinkino.fi",
                           "https://bioforum.fi", "https://kinokulma.fi",
-                          "https://haapamaenelokuvat.fi",
                           "https://www.kinohannikainen.net",
                           "https://kinovirta.johku.com"])
-        self.assertEqual(len(run.host_groups(J.SITES)), 7)
+        self.assertEqual(len(run.host_groups(J.SITES)), 6)
 
     def test_kino_engel_and_kino_tapiola_stay_on_their_own_modules(self):
         """The widget is not the storefront; those two keep their own parsers."""

@@ -596,8 +596,10 @@ PROVIDERS = [
     # Kaarina, which shares no view with it. L* 60.0, saturation 0.73; the colours that
     # scored better in the row all sit above 0.95, which is the saturation Elokuvateatteri
     # Huvimylly's entry records passing over.
+    # Moved to eTiketti 2026-09-29: the site now serves that platform's listing and the
+    # Johku parser read no screening from it. Same venue id, same accent.
     dict(id="haapamaki", label="Haapamäen Elokuvat", host="haapamaenelokuvat.fi",
-         accent="#E644FE", book="buy", module="johku", where="local"),
+         accent="#E644FE", book="buy", module="etiketti", where="local"),
     # Forssan Elävienkuvien teatteri, 2026-09-19. Finland's oldest operating countryside
     # cinema, 1906, 77 seats, on its own Foxy CMS and on none of the platforms. `book="buy"`:
     # each row links to the cinema's own `lipunvaraus/` seat picker for that screening.

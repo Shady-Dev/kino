@@ -12,8 +12,10 @@ screening id the ticket href carries. The href is the outbound link and is never
 Provider modules are imported inside the tests: they bind `common.EmptyProgramme` at
 import time and `test_common_fetch` reloads `common`.
 """
+import contextlib
 import datetime
 import importlib
+import io
 import json
 import pathlib
 import re
@@ -198,6 +200,42 @@ class KotkaTemplateTest(Stubbed):
 
 
 # --- template 2 ---------------------------------------------------------------------------
+
+# Haapamäen Elokuvat's film page, read 2026-09-29 when the site moved here from Johku:
+# Kotka's template, the place line alone with no room, and the venue class in mixed case.
+HAAPAMAKI_FILM = """<main>
+<h1>Heart of the Beast</h1>
+<div class="movie-icons"><img src="https://cdn.example/haapamaki/img/ikarajat/fi-12.svg"
+alt="Sallittu yli 12-vuotiaille"></div>
+<img class="poster-img" src="https://cdn.example/haapamaki/poster/heart-of-the-beast.webp?w=200" alt="">
+<span class="label">Kesto:</span> 1 h 41 min<br /> <span class="label">Kieli:</span> englanti<br />
+<span class="label">Tekstitys:</span> Suomi ja ruotsi<br />
+<div class="description-container fade" id="movieDesc"><span>Jouduttuaan vakavaan
+lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri ja hänen taistelukoiransa jäävät
+selviytymään kahdestaan erämaahan, jossa kumpikin joutuu luottamaan toiseen.</span></div>
+<div class="screenings">
+<div class="item haapam\u00c4ki date-2.10.2026"> <div> <p> <strong><span>PE 2.10. klo 19.00</span></strong>
+</p> <p> HAAPAM\u00c4EN ELOKUVAT<br /> Lippu 11,00&euro;<br /> Vapaat paikat 120/120 </p> </div>
+<div> <a class="button-screening" href="/salikartta?id=53382"> Osta tai varaa </a> </div> </div>
+</div></main>"""
+
+
+class HaapamakiTest(Stubbed):
+    """Haapamäen Elokuvat on this platform from 2026-09-29, under the venue id it had on
+    Johku, which keys a saved home cinema and its /teatteri/ URL."""
+
+    def test_the_moved_site_reads_its_screening_under_the_old_venue_id(self):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3/heart-of-the-beast"),
+                       "/elokuvat/3/heart-of-the-beast": HAAPAMAKI_FILM})
+        with contextlib.redirect_stdout(io.StringIO()):
+            out = e.fetch_site(site("haapamaki"), sleep=0)
+        self.assertEqual(list(out), ["haapamaki-haapamaki"])
+        (row,) = out["haapamaki-haapamaki"]
+        self.assertEqual((row["start"], row["price"], row["lang"], row["len"], row["rating"]),
+                         ("2026-10-02T19:00:00+03:00", "11€", "EN-A, FI-S, SV-S", "101", "K-12"))
+        self.assertEqual(row["url"], "https://haapamaenelokuvat.fi/salikartta?id=53382")
+        self.assertEqual(row["aud"], "")
+
 
 class NiagaraTemplateTest(Stubbed):
 

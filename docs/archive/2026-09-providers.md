@@ -3346,3 +3346,17 @@ the listing note also carries and the adapter never publishes. Repair: both `fi`
 films-extra.json and both cached `syn_fi` set to the new text, each equal to the old one
 minus that paragraph; no page changed. `playtime`'s `fi` slot is Orion's listing note from
 2026-08-27, left alone and reported. `SeriesParagraphTest`; 5 mutations, all red.
+
+### Haapamäen Elokuvat moved from Johku to eTiketti (2026-09-29)
+The site stopped updating on 2026-09-28 at 23:13 UTC. The 08:15 local run on 2026-09-29
+failed on a certificate that did not name haapamaenelokuvat.fi, and the 14:15 run found no
+Johku day group. Read that afternoon, the front page is eTiketti's listing in Kotka's
+template: `item haapamÄki date-29.9.2026` rows, `/elokuvat/{n}/{slug}` film pages,
+`/salikartta?id=` ticket links and the place line "HAAPAMÄEN ELOKUVAT" with no room. The
+site is now an `etiketti.py` `SITES` entry under Johku's venue id, `haapamaki-haapamaki`,
+which keys a saved home cinema and the /teatteri/ URL; the registry names `etiketti` as
+its module, and it stays local. A read through the adapter that day gave five screenings
+with price, language, runtime, rating and poster, matching the page. Johku keeps six
+storefronts, none local, so the wrapper's Johku block reports no sites for its half and
+exits 0; the eTiketti block's `--half local` takes the site with nothing changed outside
+the repo. `HaapamakiTest`; 3 mutations, all red.

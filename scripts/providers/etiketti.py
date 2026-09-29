@@ -224,6 +224,15 @@ SITES = [
          {"id": "star-oulu", "match": "star", "name": "Elokuvateatteri Star",
           "short": "Elokuvateatteri Star", "city": "Oulu"},
      ]},
+    # Moved from Johku 2026-09-29: the site now serves this listing, Kotka's template with
+    # the place line "HAAPAMÄEN ELOKUVAT". Read that day, five screenings, each with a
+    # price, a language, a runtime and a /salikartta ticket link. The venue id is Johku's.
+    {"provider": "haapamaki", "base": "https://haapamaenelokuvat.fi",
+     "label": "Haapamäen Elokuvat",
+     "venues": [
+         {"id": "haapamaki-haapamaki", "match": "haapamäen elokuvat",
+          "name": "Haapamäen Elokuvat", "short": "Haapamäen Elokuvat", "city": "Haapamäki"},
+     ]},
 ]
 
 MOVIE_LINK_RE = re.compile(r'href="(/elokuvat/(\d+)/[a-z0-9-]+)"')

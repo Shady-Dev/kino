@@ -89,14 +89,6 @@ SITES = [
      "base": "https://kinokulma.fi", "listing": "/",
      "venues": [{"id": "kinokulma-oulainen", "name": "Kinokulma", "short": "Kinokulma",
                  "city": "Oulainen", "loc": "Kulmasali"}]},
-    # Added 2026-09-19, the fifth storefront. `hpmenelokuvat` on cdn.johku.com, the same
-    # `showgroup`/`daytitle`/`js-grid-show` listing as the other four, eight day groups
-    # when read. `loc` is the hall the rows carry, `Sali 1`, and the town is the one the
-    # cinema names itself after rather than the Keuruu municipality it belongs to.
-    {"provider": "haapamaki", "label": "Haapamäen Elokuvat",
-     "base": "https://haapamaenelokuvat.fi", "listing": "/",
-     "venues": [{"id": "haapamaki-haapamaki", "name": "Haapamäen Elokuvat",
-                 "short": "Haapamäen Elokuvat", "city": "Haapamäki", "loc": "Sali 1"}]},
     # Added 2026-09-20, the sixth storefront. `kinohannikainen` on cdn.johku.com behind
     # the cinema's own domain, and the root renders the same `showgroup`/`daytitle`/
     # `js-grid-show` listing as the other five: read that day, eight rows over five day

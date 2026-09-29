@@ -1059,7 +1059,7 @@ a row count, which is what a sweep produces.
 | cinema | town | platform | outcome |
 |---|---|---|---|
 | Cinema Sheryl | Espoo | Kinola | built, fourth tenant |
-| Haapamäen Elokuvat | Haapamäki | Johku | built, fifth storefront |
+| Haapamäen Elokuvat | Haapamäki | eTiketti | built as the fifth Johku storefront; on eTiketti from 2026-09-29 |
 | Elävienkuvien teatteri | Forssa | none, own Foxy CMS | built, own parser |
 | Bio-Salo | Salo | Nexxo | **publishes nothing** |
 | Bio Sydväst | Parainen | none | **publishes nothing dated** |

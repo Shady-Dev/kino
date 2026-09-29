@@ -33,7 +33,7 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
-- **Complete:** eTiketti (twenty), Nexxo (eight), Kinola (four), Johku (seven),
+- **Complete:** eTiketti (twenty-one), Nexxo (eight), Kinola (four), Johku (six),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 - **Next action:** none from these.
 
