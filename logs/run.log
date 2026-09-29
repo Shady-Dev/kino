@@ -8,10 +8,8 @@
 [schedule] 2026-10-04: 76 showtimes
 [schedule] 2026-10-05: 52 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
-[tmdb] weak match, no exact title (1): Rose -> Rose
-[tmdb] rating held back, under 25 votes (1): Svečias – The Visitor (5.0 / 1 votes)
-[tmdb] rating refresh: 5 scheduled, 5 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 5 new lookups, 13 re-checks, cache 88, 80 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-09-30 (1): Rose -> Rose
+[tmdb] 0 new lookups, 0 re-checks, cache 88, 80 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 56 film entries
 [attrs] dropped, neither format nor language (13): EiText | Ennakko | IV | Klassikko | Maxim | Neulonta | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20 | myFinnkino
