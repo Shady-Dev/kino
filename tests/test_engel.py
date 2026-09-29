@@ -37,6 +37,29 @@ def parse(page, today=None):
     return shows, out.getvalue()
 
 
+def detail(label, value):
+    return f"<li><label>{label}</label><span>{value}</span></li>"
+
+
+class SubtitlesTest(unittest.TestCase):
+    """Gråben vs Acme's page, read 2026-09-29: KIELI Ruotsi, TEKSTITYS "Ei tekstitystä".
+    Only that explicit statement becomes `XX-S`; an empty or unknown field stays blank."""
+
+    def test_an_explicit_no_subtitles_is_published(self):
+        page = detail("KIELI", "Ruotsi") + detail("TEKSTITYS", "Ei tekstitystä")
+        self.assertEqual(E.details(page)["lang"], "SV-A, XX-S")
+
+    def test_an_absent_empty_or_unknown_subtitle_field_says_nothing(self):
+        for subs in (None, "", "Tulossa", "ei"):
+            with self.subTest(subs=subs):
+                page = detail("KIELI", "Ruotsi") + ("" if subs is None else detail("TEKSTITYS", subs))
+                self.assertEqual(E.details(page)["lang"], "SV-A")
+
+    def test_a_named_subtitle_language_is_published_as_before(self):
+        page = detail("KIELI", "Englanti") + detail("TEKSTITYS", "Suomi-Ruotsi")
+        self.assertEqual(E.details(page)["lang"], "EN-A, FI-S, SV-S")
+
+
 class YearTest(unittest.TestCase):
     def test_the_weekday_places_a_row_that_prints_no_year(self):
         shows, _ = parse(row("autofiktio", "Su 20.09.", "17:30", "Autofiktio")

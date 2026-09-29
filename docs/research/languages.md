@@ -24,6 +24,11 @@ the data entirely. `CODE_ALIAS`, `NO_SUBTITLES` and `LN_EXTRA` are gone from
 data clean stay. Record:
 [docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md).
 
+**`XX-S` came back 2026-09-29 with a meaning**: a source saying outright that a screening
+has no subtitles. Only Kino Engel publishes it, from its "TEKSTITYS: Ei tekstitystä"; an
+absent or unknown field stays blank. Regina, Gilda and Nexxo state the same and still drop
+it.
+
 ---
 
 ### Swedish: who actually publishes it (probed 2026-08-29)

@@ -260,8 +260,15 @@ LANGS = {"suomi": "FI", "ruotsi": "SV", "englanti": "EN", "saksa": "DE", "ranska
          "norja": "NO", "islanti": "IS", "japani": "JA", "kiina": "ZH", "korea": "KO"}
 
 
+# "Ei tekstitystä" is the page saying outright that there are no subtitles (Gråben vs
+# Acme, read 2026-09-29): `XX-S`, which the app and the pages show in words. An empty or
+# unknown field says nothing and stays blank.
+NO_SUBS_RE = re.compile(r"^\s*ei\s+tekstityst\u00e4\s*\.?\s*$", re.I)
+
+
 def _langs(spoken, subs):
-    """"puhuttu kieli: englanti" + "Suomi-Ruotsi" -> "EN-A, FI-S, SE-S"."""
+    """"puhuttu kieli: englanti" + "Suomi-Ruotsi" -> "EN-A, FI-S, SE-S";
+    "Ruotsi" + "Ei tekstitystä" -> "SV-A, XX-S"."""
     out = []
     for name in re.split(r"[,/;-]| ja ", (spoken or "").split(":")[-1]):
         code = LANGS.get(name.strip().lower())
@@ -271,6 +278,8 @@ def _langs(spoken, subs):
         code = LANGS.get(name.strip().lower())
         if code and f"{code}-S" not in out:
             out.append(f"{code}-S")
+    if NO_SUBS_RE.match(subs or ""):
+        out.append("XX-S")
     return ", ".join(out)
 
 

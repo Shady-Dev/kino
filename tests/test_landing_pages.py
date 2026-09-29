@@ -530,7 +530,8 @@ class GeneratedPagesTest(unittest.TestCase):
         """The guarantee behind the test above, stated on the data rather than the output:
         each language code the adapters currently publish has a name in `LN`. A new code
         fails here first, by name. There is no alias layer any more: the TU/MA/XX
-        aliases were deleted 2026-09-15 once the data carried none of them."""
+        aliases were deleted 2026-09-15 once the data carried none of them. `XX` came back
+        on 2026-09-29 with a meaning, "no subtitles", in the subtitle role only."""
         seen = set()
         for p in (REAL_DATA).glob("area-*.json"):
             for s in json.loads(p.read_text(encoding="utf-8")).get("shows", []):
@@ -540,7 +541,8 @@ class GeneratedPagesTest(unittest.TestCase):
                         continue
                     m = bp.LANG_RE.match(c)
                     self.assertIsNotNone(m, (p.name, c))
-                    seen.update(m.group(1).split("-"))
+                    if c != bp.NO_SUBS + "-S":
+                        seen.update(m.group(1).split("-"))
         self.assertTrue(seen)
         self.assertEqual(seen - set(bp.LN["fi"]), set())
 

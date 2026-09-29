@@ -215,5 +215,36 @@ class SwedishSubtitleLabelTest(unittest.TestCase):
         self.assertEqual(client_lang_txt("fi", [["FI-S", True]]), [["tekstitys: suomi"]])
 
 
+class NoSubtitlesTest(unittest.TestCase):
+    """`XX-S` is a source saying outright that there are no subtitles (Kino Engel's "Ei
+    tekstitystä", 2026-09-29). The app and the pages say it in words, the same words in
+    Finnish and Swedish; English follows each one's own subtitle label, "subs" on a ticket
+    and "subtitles" on a page. A named subtitle language wins over it."""
+
+    CASES = [["SV-A, XX-S", True], ["XX-S", True], ["XX-S", False], ["FI-S, XX-S", True]]
+    WANT = {"fi": [["ruotsi", "ei tekstitystä"], ["ei tekstitystä"], ["ei tekstitystä"],
+                   ["tekstitys: suomi"]],
+            "sv": [["svenska", "ingen textning"], ["Ingen textning"], ["ingen textning"],
+                   ["Textning: finska"]]}
+
+    def test_the_generator(self):
+        import build_pages as bp
+        for lang, want in self.WANT.items():
+            with self.subTest(lang=lang):
+                self.assertEqual([bp.lang_parts(c, lang, lead=l) for c, l in self.CASES], want)
+        self.assertEqual(bp.lang_parts("SV-A, XX-S", "en"), ["Swedish", "no subtitles"])
+
+    @unittest.skipIf(shutil.which("node") is None, "node not installed")
+    def test_the_app_says_the_same(self):
+        for lang, want in self.WANT.items():
+            with self.subTest(lang=lang):
+                self.assertEqual(client_lang_txt(lang, self.CASES), want)
+        self.assertEqual(client_lang_txt("en", [["SV-A, XX-S", True]]), [["Swedish", "no subs"]])
+
+    def test_the_page_line_carries_it(self):
+        import build_pages as bp
+        self.assertIn("<span>ingen textning</span>", bp.lang_line({"lang": "SV-A, XX-S"}, "sv"))
+
+
 if __name__ == "__main__":
     unittest.main()

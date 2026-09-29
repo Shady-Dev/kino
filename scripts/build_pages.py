@@ -156,7 +156,7 @@ L = {
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Teatterit \u2013 {city}",
         "city_link": "Kaikki teatterit \u2013 {city}",
-        "subs": "tekstitys: {}", "lang_nav": "Kieli",
+        "subs": "tekstitys: {}", "no_subs": "ei tekstityst\u00e4", "lang_nav": "Kieli",
         "theme": "Vaihda teemaa", "a_theme": "Vaihda vaalean ja tumman teeman v\u00e4lill\u00e4",
         "from": "alkaen", "free": "Vapaa p\u00e4\u00e4sy", "votes": "\u00e4\u00e4nt\u00e4", "rtg": "TMDB-arvio {v}/10",
         "rtgN": "TMDB-arvio {v}/10, {n} \u00e4\u00e4nt\u00e4", "rtg1": "TMDB-arvio {v}/10, 1 \u00e4\u00e4ni",
@@ -213,7 +213,8 @@ L = {
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Biografer \u2013 {city}",
         "city_link": "Alla biografer \u2013 {city}",
-        "subs": "textning: {}", "subs_lead": "Textning: {}", "lang_nav": "Spr\u00e5k",
+        "subs": "textning: {}", "subs_lead": "Textning: {}", "no_subs": "ingen textning",
+        "no_subs_lead": "Ingen textning", "lang_nav": "Spr\u00e5k",
         "theme": "Byt tema", "a_theme": "Byt mellan ljust och m\u00f6rkt tema",
         "from": "fr\u00e5n", "free": "Fritt intr\u00e4de", "votes": "r\u00f6ster", "rtg": "TMDB-betyg {v}/10",
         "rtgN": "TMDB-betyg {v}/10, {n} r\u00f6ster", "rtg1": "TMDB-betyg {v}/10, 1 r\u00f6st",
@@ -267,7 +268,7 @@ L = {
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Cinemas \u2013 {city}",
         "city_link": "All cinemas \u2013 {city}",
-        "subs": "{} subtitles", "lang_nav": "Language",
+        "subs": "{} subtitles", "no_subs": "no subtitles", "lang_nav": "Language",
         "theme": "Switch theme", "a_theme": "Switch between light and dark theme",
         "from": "from", "free": "Free", "votes": "votes", "rtg": "TMDB rating {v}/10",
         "rtgN": "TMDB rating {v}/10 from {n} votes", "rtg1": "TMDB rating {v}/10 from 1 vote",
@@ -371,6 +372,8 @@ LN = {
 # `data/area-*.json` carried TU, MA or XX; LT and ML are in `LN` above. Record in
 # docs/archive/2026-09-pipeline.md.
 LANG_RE = re.compile(r"^([A-Z]{2}(?:-[A-Z]{2})?)-(A|S)$")
+# A source saying outright that there are no subtitles, `XX-S` (the app's LNONE).
+NO_SUBS = "XX"
 
 
 def lang_parts(codes, lang, lead=True):
@@ -381,6 +384,7 @@ def lang_parts(codes, lang, lead=True):
     the phrase follows other parts of a line; Swedish capitalises its label (`subs_lead`)
     only where it opens the label."""
     by = {"A": [], "S": []}
+    none = False
     for raw in (codes or "").split(","):
         c = raw.strip()
         if not c:
@@ -390,6 +394,9 @@ def lang_parts(codes, lang, lead=True):
             by["A"].append(c)          # not a tag this app knows: shown rather than lost
             continue
         for x in m.group(1).split("-"):
+            if m.group(2) == "S" and x == NO_SUBS:
+                none = True
+                continue
             name = LN[lang].get(x) or x
             if name not in by[m.group(2)]:
                 by[m.group(2)].append(name)
@@ -399,6 +406,9 @@ def lang_parts(codes, lang, lead=True):
     if by["S"]:
         key = "subs_lead" if lead and not out and "subs_lead" in L[lang] else "subs"
         out.append(L[lang][key].format("/".join(by["S"])))
+    elif none:
+        key = "no_subs_lead" if lead and not out and "no_subs_lead" in L[lang] else "no_subs"
+        out.append(L[lang][key])
     return out
 
 

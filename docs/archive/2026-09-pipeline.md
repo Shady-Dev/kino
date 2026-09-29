@@ -2663,3 +2663,15 @@ nowhere else. Over 1,184 committed and cached titles it changes that one search 
 enrichment pass on a copy of data/ re-judged it on the changed `q` and gave both rows
 1729175 with a poster; the next routine run does the same, and the suite reads the result
 from the data. 4 mutations red.
+
+### "No subtitles" is a stated fact, `XX-S` (2026-09-29, sw.js v271)
+Reported by the maintainer: Kino Engel's Gråben vs Acme page says "TEKSTITYS: Ei
+tekstitystä", and the ticket showed only "ruotsi". `XX` was Nexxo's code for the same
+thing and was dropped on 2026-09-15 because it rendered raw. It returns with a meaning, in
+the subtitle role only: `engel._langs` adds `XX-S` when the field is exactly that
+statement, and an empty or unknown field stays blank. The app's `langParts` and the pages'
+`lang_parts` show it in words where no subtitle language is named: "ei tekstitystä",
+"ingen textning" ("Ingen textning" opening the line) and, in each one's own English,
+"no subs" on a ticket and "no subtitles" on a page. The committed-codes test accepts `XX`
+in that role. Regina, Gilda and Nexxo state it too and are left for later. Engel's data
+takes it on the next local run. 10 mutations red.
