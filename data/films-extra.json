@@ -679,7 +679,7 @@
     "en": "Le Chiffre, a banker to the world's terrorists, is scheduled to participate in a high-stakes poker game in Montenegro, where he intends to use his winnings to establish his financial grip on the terrorist market. M sends Bond—on his maiden mission as a 00 Agent—to attend this game and prevent Le Chiffre from winning. With the help of Vesper Lynd and Felix Leiter, Bond enters the most important poker game in his already dangerous career.",
     "fi": "Huom! Elokuvassa ei ole tekstitystä. Salaiseksi agentiksi ylennetty James Bond päätyy rikollispankkiiri Le Chiffren jäljille ja ottaa miehestä mittaa korkeiden panosten pokeripelissä. Avuksi tarvitaan myös Britannian valtiovarainministeriön kirjanpitäjä Vesper Lynd."
    },
-   "tr": "https://www.youtube.com/watch?v=U4NT78c-pYs"
+   "tr": "https://www.youtube.com/watch?v=p7D4U5YsZlM"
   },
   "casper": {
    "id": 8839,
@@ -919,7 +919,7 @@
     "en": "",
     "fi": "Kalifornialainen lukiolaispoika Donnie Darko saa mielikuvitusystävän, jättimäisen jäniksen nimeltä Frank. Frank pelastaa Donnien, kun lentokoneen moottori putoaa keskelle tämän huonetta. Frank innoittaa Donnieta järjettömään ilkivaltaan. Psykoterapeutti koettaa ymmärtää Donnien aivoituksia. Donnien on selvitettävä aikamatkailun salaisuus, ennen kuin maailma tuhoutuu. Aikaa on 28 päivää, 6 tuntia, 42 minuuttia ja 12 sekuntia..."
    },
-   "tr": "https://www.youtube.com/watch?v=71RaE7JYTUU",
+   "tr": "https://www.youtube.com/watch?v=iVdehGAy4zA",
    "ts": [
     "fi"
    ]
@@ -1838,7 +1838,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "huvimylly",
     "ihmekompleksi",
     "joutsankino",
@@ -2197,6 +2196,7 @@
     "kinotoijala",
     "kkino",
     "kotkanleffat",
+    "laitilankino",
     "leffabuumi",
     "lieksankino",
     "niagara",
@@ -4632,6 +4632,7 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
+    "laitilankino",
     "leffabuumi",
     "marita",
     "savonkinot",
@@ -4684,6 +4685,7 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
+    "laitilankino",
     "leffabuumi",
     "marita",
     "savonkinot",
@@ -5045,6 +5047,7 @@
     "kinoaurora",
     "kinokilta",
     "kinomarilyn",
+    "kinoolympia",
     "niagara"
    ],
    "r": 0,
@@ -6717,5 +6720,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-29"
+ "generated": "2026-09-30"
 }
