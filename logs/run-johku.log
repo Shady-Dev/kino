@@ -9,10 +9,10 @@
 [vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
 [vihdinkino] Vihdin Kino: 14 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 26 screening(s) in day groups, 12 film page(s) read
-[bioforum] Bio Forum: 26 showtimes, 12 dates
-[bioforum] Bio Forum: 26 showtimes, 12 dates
-[bioforum] synopses merged: 1
+[bioforum] 25 screening(s) in day groups, 12 film page(s) read
+[bioforum] Bio Forum: 25 showtimes, 11 dates
+[bioforum] Bio Forum: 25 showtimes, 11 dates
+[bioforum] synopses merged: 0
 [kinokulma] 55 screening(s) in day groups, 17 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 2 synopsis/synopses withheld, no language settled: Iikka Kivi – Protestinauru Stand Up Show, Lapin sota
@@ -29,6 +29,6 @@
 [kinovirta] synopses merged: 0
 [run] http: 0 revalidated (304), 59 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 124 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 148.8s of fetching added up across workers that overlap, longest site 47.1s, longest queue wait 132.8s, 57.4s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 123 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 127.4s of fetching added up across workers that overlap, longest site 40.9s, longest queue wait 115.4s, 51.4s wall from this module's first fetch starting to its last ending
 exit=0

@@ -283,6 +283,7 @@
    "img": "data/posters/64d23f46b5356d6f.jpg",
    "kr": "K-12",
    "krs": [
+    "cinemantsala",
     "engel",
     "gilda",
     "kinolaika",
@@ -1112,13 +1113,12 @@
   },
   "franz": {
    "id": 1157322,
-   "img": "data/posters/b5646439a4d0fbf4.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Mestariohjaaja Agnieszka Hollandin elämäkertaelokuva Franz Kafkasta on kaleidoskooppinen mosaiikki, joka kertoo tšekkiläisen merkkikirjailijan koko elämäntarinan. Kafkan tyylille uskollinen kerronta avaa uusia näkökulmia kirjailijan teoksiin ja elämään, joka päättyi traagisen varhain vain 40-vuotiaana, ja juhlistaa Kafkan mittaamatonta vaikutusta moderniin kaunokirjallisuuteen. Luova Eurooppa -ohjelman - MEDIA -tuella. Suomen elokuvasäätiön maahantuontituki 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=WFPrlEa294Q"
+   "tr": ""
   },
   "free at heart": {
    "id": 1427540,
@@ -2625,6 +2625,7 @@
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
+    "kirkkonummi",
     "niagara",
     "star",
     "studio123kouvola"
@@ -3209,7 +3210,6 @@
     "kinohannikainen",
     "kinojuha",
     "kinolaika",
-    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
@@ -3726,6 +3726,10 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
+   "kr": "K-16",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
@@ -3951,6 +3955,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -3977,6 +3982,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4020,6 +4026,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4657,6 +4664,14 @@
    },
    "tr": ""
   },
+  "rauhanviikko ikuiseen rauhaan ohjaajavierailu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ville Suhosen dokumentti elokuva avaa yhden Suomen historian kuuluisimman ja merkittävimmän rauhanaktivistin, pasifistin ja aseistakieltäytyjän Arndt Pekurisen (1905 – 1941) elämää ja kohtaloa arkistomateriaalien ja Pekurisen läheisten autenttisten haastatteluiden, kirjeiden ja muistojen kautta. Pekurinen puhui väkivallattomuudesta, aseistakieltäytymisestä ja rauhasta aikana, jolloin Suomen ilmapiiri oli vahvasti militarisoitunut ja nationalistinen. Hänen sanomansa nähtiin maskuliinisuuden irvikuvana ja maanpetoksena, jonka seurauksena Pekurinen ajautui vankilakierteeseen, vaikka mm. ensimmäisen maailmansodan jälkeen aseidenriisunnan ja rauhan puolesta propagoinut eurooppalainen sivistyneistö ja älymystö, mukaanlukien mm. Bertrand Russell ja Albert Einstein, antoivat julkisesti tukensa Pekurisen tavoitteille ja lähettivät kirjelmiä Suomen hallitukselle Pekurisen vankeustuomioiden katkaisemiseksi. Pekurinen teloitettiin viimein rintamalla joulukuussa 1941, kun hän kieltäytyi pukemasta päälleen sotilasasua. Ikuiseen rauhaan on informatiivinen, ihmisläheinen ja edelleen ajankohtainen kertomus mielipiteidensä vuoksi vainotuista ihmisistä, jotka eivät suostu luopumaan periaatteistaan voiman edessä. Suomiräppäri Asan sanoin: “Aina löytyy uusi A. Pekurinen”."
+   },
+   "tr": ""
+  },
   "recombination": {
    "id": 1157677,
    "img": "data/posters/7f670d972e6770fe.jpg",
@@ -4705,7 +4720,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4757,7 +4771,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -5662,10 +5675,6 @@
   "the dog stars": {
    "id": 1384216,
    "img": "data/posters/72e28fa6bfda49e3.jpg",
-   "kr": "K-16",
-   "krs": [
-    "kinopiispanristi"
-   ],
    "r": 6.6,
    "s": {
     "en": "After the world's population has been ravaged by a pandemic, a man lives a lonesome existence in a Colorado airplane hangar with his dog and a dour gunman he has befriended. When a mysterious transmission comes through on the radio while he’s flying his old Cessna, it sparks a hunt for the provenance of the sound.",
@@ -6180,6 +6189,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "cinemantsala",
     "helios",
     "kinoaurora",
     "kinokulma",
@@ -6379,7 +6389,9 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "engel",
+    "haapamaki",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -6395,6 +6407,34 @@
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
+  },
+  "unohdettu saari dub": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "alatalo",
+    "cinemantsala",
+    "engel",
+    "haapamaki",
+    "helios",
+    "huvimylly",
+    "ihmekompleksi",
+    "kinoaurora",
+    "kinokulma",
+    "kinolaika",
+    "kkino",
+    "lieksankino"
+   ],
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari en dub": {
    "id": 1465063,
@@ -6428,7 +6468,9 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "engel",
+    "haapamaki",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -6567,7 +6609,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -6622,7 +6663,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",

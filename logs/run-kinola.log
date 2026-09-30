@@ -1,10 +1,10 @@
-[kinokilta] 64 screening(s) listed, 40 film page(s) read
+[kinokilta] 63 screening(s) listed, 40 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
-[kinokilta] Kino Kilta: 61 showtimes, 34 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
 [kinokilta] strand prefix split off 14 showtimes
-[kinokilta] Kino Kilta: 61 showtimes, 34 dates
+[kinokilta] Kino Kilta: 60 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 70 screening(s) listed, 47 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 23 unresolved over 23
@@ -13,15 +13,15 @@
 [kinolaika] Kino Laika: 47 showtimes, 15 dates
 [kinolaika] Kino Laika: 47 showtimes, 15 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 29 screening(s) listed, 19 film page(s) read
+[kinomyyri] 28 screening(s) listed, 19 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 4
 [kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Espanjalaisen elokuvan viikko: Campeones – Mestarit, Espanjalaisen elokuvan viikko: La Isla mínima
 [kinomyyri] override kojootti-vs-acme-dub: active
-[kinomyyri] Kino Myyri: 25 showtimes, 10 dates
-[kinomyyri] Kino Myyri: 25 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 24 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 24 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 39 revalidated (304), 70 full, 20 not stored (origin said no-store), 2 cache entries written
+[run] http: 40 revalidated (304), 69 full, 20 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 133 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 217.3s of fetching added up across workers that overlap, longest site 104.4s, longest queue wait 109.8s, 105.5s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 131 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 197.1s of fetching added up across workers that overlap, longest site 91.2s, longest queue wait 95.6s, 93.0s wall from this module's first fetch starting to its last ending
 exit=0
