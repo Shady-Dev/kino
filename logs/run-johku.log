@@ -1,9 +1,9 @@
 [biomarilyn] 18 screening(s) in day groups, 10 film page(s) read
-[biomarilyn] 13 coming-soon entry/entries with no time, left out: Clayface, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa
+[biomarilyn] 14 coming-soon entry/entries with no time, left out: Clayface, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, Järki ja Tunteet, Kerro Kaikille, Lapin Sota, Late Lammas :Hämäräpuuhissa
 [biomarilyn] 2 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa, PäiväKaffileffa : Presidentin Kyyditys
 [biomarilyn] Bio Marilyn: 18 showtimes, 11 dates
 [biomarilyn] Bio Marilyn: 18 showtimes, 11 dates
-[biomarilyn] synopses merged: 0
+[biomarilyn] synopses merged: 1
 [vihdinkino] 15 screening(s) in day groups, 7 film page(s) read
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
 [vihdinkino] Vihdin Kino: 15 showtimes, 8 dates
@@ -19,16 +19,16 @@
 [kinokulma] Kinokulma: 54 showtimes, 33 dates
 [kinokulma] Kinokulma: 54 showtimes, 33 dates
 [kinokulma] synopses merged: 0
-[kinohannikainen] 8 screening(s) in day groups, 2 film page(s) read
-[kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
-[kinohannikainen] Kino Hannikainen: 8 showtimes, 5 dates
+[kinohannikainen] 9 screening(s) in day groups, 3 film page(s) read
+[kinohannikainen] Kino Hannikainen: 9 showtimes, 6 dates
+[kinohannikainen] Kino Hannikainen: 9 showtimes, 6 dates
 [kinohannikainen] synopses merged: 0
 [kinovirta] 8 screening(s) in day groups, 6 film page(s) read
 [kinovirta] Kino Virta: 8 showtimes, 3 dates
 [kinovirta] Kino Virta: 8 showtimes, 3 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 59 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 60 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 126 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 148.5s of fetching added up across workers that overlap, longest site 46.8s, longest queue wait 132.6s, 55.6s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 127 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 145.3s of fetching added up across workers that overlap, longest site 45.7s, longest queue wait 123.3s, 56.6s wall from this module's first fetch starting to its last ending
 exit=0

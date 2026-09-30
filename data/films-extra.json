@@ -526,7 +526,7 @@
    "r": 4.3,
    "s": {
     "en": "Isabel is a dead vampire and witch whose body is hanging in a basement while the owner tries to kidnap virgins for a sacrifice that could mean Isabel’s resurrection. But doing this won’t be easy as the women aren’t gonna give in very easily.",
-    "fi": ""
+    "fi": "Italialaisen ”genre-elokuvan” aluskasvillisuuden rihmastojen mystisimpiin tekijöihin kuuluu ohjaaja Renato Polselli, jonka elokuvat ovat kummallisia sukelluksia uniin, outoihin rakenteisiin, esoteriaan ja alastomuuteen. Kadonneeksikin luultu Black Magic Rites on houreuni, jota ei kannata yrittää kokea juoni edellä. Katsoja pääsee seuraamaan rinnakkain kahta tarinaa: 1300-luvun Italiassa nähdään noidaksi epäillyn Isabelin kuolema ja 1970-luvulla Isabelin kotikulmilla liikkuvia turisteja ja nousukkaita. Pian tarinat limittyvät, aika ei kulje kronologisesti ja useampi 1900-luvun hahmo on vain jälleensyntynyt avainhenkilö Isabelin tragediassa. Pikkuhiljaa juoni hajoaa kuvien virraksi. Kaiken sitoo yhteen kuvaukset riiteistä - mustaa magiaa on ilma sakeanaan."
    },
    "tr": "https://www.youtube.com/watch?v=zFzpkEo8Obo",
    "ts": [
@@ -1276,7 +1276,6 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kirkkonummi",
     "kkino",
     "kotkanleffat",
     "leffabuumi",
@@ -1763,6 +1762,16 @@
    },
    "tr": ""
   },
+  "kauna": {
+   "id": 1970,
+   "img": "data/posters/62f15af87b45c44a.jpg",
+   "r": 5.9,
+   "s": {
+    "en": "",
+    "fi": "23-vuotias Rika päätyy vanhan naisen hoitajaksi. Naisen talossa häntä odottaa seisahtunut, vääristynyt tunnelma. Miksi perhepotretista on leikattu pois vaimon kasvot? Miksi vanhus vaikuttaa koko ajan kauhistuneelta? Kuka on talossa vaeltava pikkupoika? Entä mistä kantautuu demoninen koriseva ääni? Kun Takashi Shimizun elokuva Kauna (Ju-On, 2003) ilmestyi, levisi ympäri maailmaa pelon aalto. Kalpeakasvoisen pojan hahmo ilmestyi monien painajaisiin ja useat kriitikot pitivät teosta pelottavimpana koskaan tehtynä kauhuelokuvana. Onko se sitä? Saavu Monroen lokakuun näytökseen muodostamaan oma mielipiteesi, jos uskallat!"
+   },
+   "tr": "https://www.youtube.com/watch?v=tqn2t3PefdY"
+  },
   "kaunarikuume": {
    "id": 1648660,
    "img": "data/posters/dd4838ffb804cc50.jpg",
@@ -1838,6 +1847,8 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
+    "cinemantsala",
+    "helios",
     "huvimylly",
     "ihmekompleksi",
     "joutsankino",
@@ -2179,6 +2190,7 @@
     "biograni",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
@@ -2365,13 +2377,12 @@
   },
   "kolme väriä sininen": {
    "id": 108,
-   "img": "data/posters/aaa10863366702b5.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Auto suistuu tieltä, ja kaksi sen kolmesta matkustajasta menehtyy. Kolarista selviytyy Julie ( Juliette Binoche ), joka menettää onnettomuudessa tyttärensä ja aviopuolisonsa. Traagisesta onnettomuudesta huolimatta Julie saavuttaa silti jotain, jota kutsua myös vapaudeksi."
    },
-   "tr": "https://www.youtube.com/watch?v=kQjJoRl3bLc"
+   "tr": ""
   },
   "kolme väriä valkoinen": {
    "id": 109,
@@ -2909,6 +2920,19 @@
     "en"
    ]
   },
+  "mandy": {
+   "id": 460885,
+   "img": "data/posters/784311e7558902da.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "The Shadow Mountains, 1983. Red and Mandy lead a loving and peaceful existence; but when their pine-scented haven is savagely destroyed, Red is catapulted into a phantasmagoric journey filled with bloody vengeance and laced with fire.",
+    "fi": "Yhdysvaltojen luoteisosa vuonna 1983. Omiin oloihinsa vetäytyneet Red Miller ja Mandy Bloom viettävät rakkaudentäyteistä ja rauhallista elämää. Kun sadistisen Jeremiah Sandin johtama kultti tuhoaa raa'asti heidän männyntuoksuisen valkamansa, Redin on pakko lähteä epätoden tuntuiselle, veriselle ja tulen terästämälle kostoretkelle."
+   },
+   "tr": "https://www.youtube.com/watch?v=rI054ow6KJk",
+   "ts": [
+    "fi"
+   ]
+  },
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
@@ -3091,7 +3115,7 @@
   "mutiny": {
    "id": 1288445,
    "img": "data/posters/d7d31f49a15249f9.jpg",
-   "r": 6.4,
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "MUTINY – LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta. Jäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti. Yksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa.",
@@ -3102,7 +3126,7 @@
   "mutiny lavastettu syylliseksi": {
    "id": 1288445,
    "img": "data/posters/d7d31f49a15249f9.jpg",
-   "r": 6.4,
+   "r": 7.3,
    "s": {
     "en": "",
     "fi": "MUTINY - LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta. Jäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti. Yksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa. Jason Stathamin tähdittämä MUTINY- LAVASTETTU SYYLLISEKSI elokuvateattereissa 21.8."
@@ -3885,6 +3909,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "helios",
     "huvimylly",
     "kinokulma",
     "kinolumo",
@@ -3907,6 +3932,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "helios",
     "huvimylly",
     "kinokulma",
     "kinolumo",
@@ -3946,6 +3972,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "helios",
     "huvimylly",
     "kinokulma",
     "kinolumo",
@@ -4093,6 +4120,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -4104,6 +4132,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -4166,6 +4195,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -4177,6 +4207,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -4222,6 +4253,7 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -4233,6 +4265,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohannikainen",
     "kinohirvi",
     "kinoiiris",
     "kinojuha",
@@ -4561,6 +4594,16 @@
    "s": {
     "en": "",
     "fi": "Kaksi toisilleen tuntematonta, hieman eksyksissä olevaa ihmistä kohtaavat ystäviensä häissä. Touko tuntee välitöntä vetoa Eevikseen. Paikalla on myös Toukon puoliso, menestynyt laulajatähti Leena, joka aistii kasvavan vetovoiman näiden kahden välillä. Yhden kesäillan aikana Kreikan rantakallioilla jutellaan rehellisesti rakkaudesta, eroista, nähdyksi tulemisen kaipuusta ja haluista –…"
+   },
+   "tr": ""
+  },
+  "rakkautta ja virtahepoja poistuu ohjelmistosta": {
+   "id": 1450473,
+   "img": "data/posters/3630a8c5eeb607ff.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kaksi toisilleen tuntematonta, hieman eksyksissä olevaa ihmistä kohtaavat ystäviensä häissä. Touko tuntee välitöntä vetoa Eevikseen. Paikalla on myös Toukon puoliso, menestynyt laulajatähti Leena, joka aistii kasvavan vetovoiman näiden kahden välillä. Yhden kesäillan aikana Kreikan rantakallioilla jutellaan rehellisesti rakkaudesta, eroista, nähdyksi tulemisen kaipuusta ja haluista – samalla kun juhlitaan ikimuistoisia häitä. Dome Karukosken romanttinen draamaelokuva RAKKAUTTA JA VIRTAHEPOJA perustuu kirjailija Emmi Liia Sjöholmin menestysromaaniin Virtahevot. Karukoski ja Sjöholm ovat käsikirjoittaneet elokuvan yhdessä. Pääosissa Pihla Viitala (Eevi), Aku Sipola (Touko) ja Jenni Vartiainen (Leena)."
    },
    "tr": ""
   },
