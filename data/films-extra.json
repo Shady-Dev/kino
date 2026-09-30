@@ -1431,35 +1431,6 @@
    },
    "tr": ""
   },
-  "hopeatähti sarja rose ennakkonäytös": {
-   "id": 1176962,
-   "img": "data/posters/abbaf8c90c0c135c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biograni",
-    "biorex",
-    "engel",
-    "gilda",
-    "ihmekompleksi",
-    "kinoaurora",
-    "kinoiiris",
-    "kinokilta",
-    "kinomarilyn",
-    "korjaamo",
-    "niagara",
-    "star",
-    "studio123kouvola"
-   ],
-   "r": 7.7,
-   "s": {
-    "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=80xR3G5eowo",
-   "ts": [
-    "en"
-   ]
-  },
   "hundreds of beavers": {
    "id": 1019939,
    "r": 0,
@@ -3170,7 +3141,6 @@
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
-    "kinotar",
     "leffabuumi",
     "niagara",
     "savonkinot",
@@ -3911,6 +3881,7 @@
     "alatalo",
     "helios",
     "huvimylly",
+    "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -3934,6 +3905,7 @@
     "alatalo",
     "helios",
     "huvimylly",
+    "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -3974,6 +3946,7 @@
     "alatalo",
     "helios",
     "huvimylly",
+    "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -4117,7 +4090,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -4192,7 +4164,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -4250,7 +4221,6 @@
    "kr": "K-12",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -4436,19 +4406,6 @@
     "fi"
    ]
   },
-  "päiväkaffileffa presidentin kyyditys": {
-   "id": 1412214,
-   "img": "data/posters/b6832fef0c1dad14.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Lokakuussa 1930 Suomen armeijan ylimpään johtoon kuulunut joukko upseereita päätti ryyppyillan päätteeksi kaapata Suomen ensimmäisen, jo eläkkeellä olevan, presidentti Ståhlbergin. Suomen kansa oli sisällisodan jäljiltä jakautunut ja poliittinen ilmapiiri oli levoton ja kärjistynyt. Mutta, kyyditys nyrjähti pieleen jo kaappauksen alkumetreillä, kun hommaan värvätyt epäpätevät muiluttajat joutuivat ottamaan kyytiin myös uppiniskaisen presidentin vaimon Ester Ståhlbergin."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "päämies": {
    "id": 10731,
    "img": "data/posters/8daf0f93d91e99e6.jpg",
@@ -4537,7 +4494,6 @@
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
-    "joutsankino",
     "julia",
     "kino123",
     "kinoakseli",
@@ -6112,6 +6068,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "helios",
     "kinoaurora",
     "kinokulma",
     "tapiola"
@@ -6142,7 +6099,7 @@
   "toy story 5 dub": {
    "id": 1084244,
    "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 8.3,
    "s": {
     "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
@@ -6177,7 +6134,7 @@
   "tremors väristyksiä": {
    "id": 9362,
    "img": "data/posters/8cb769a36b286d97.jpg",
-   "r": 7.0,
+   "r": 6.9,
    "s": {
     "en": "",
     "fi": "Pikkukaupunki aavikon keskellä kohtaa maan alta tunkevia jättiläismatoja. Komeissa maisemissa tapahtuva ja vetävästi kulkeva kauhukomedia on taitavasti ohjattu b-leffapastissi. Päärooleissa Kevin Bacon ja Fred Ward. Erityismaininnan ansaitsee Michael Gross asehullun roolissa. Herra on sittemmin ollut mukana kaikissa jatko-osissa ja TV-sarjassa."
