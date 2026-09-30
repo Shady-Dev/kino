@@ -13,11 +13,11 @@
 [star] strand prefix split off 14 showtimes
 [star] Elokuvateatteri Star: 129 showtimes, 8 dates
 [star] synopses merged: 0
-[haapamaki] Haapamäen Elokuvat: 8 showtimes, 8 dates
+[haapamaki] Haapamäen Elokuvat: 11 showtimes, 8 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 71 full, 71 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 10 venues, 325 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 10 venues, 328 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
