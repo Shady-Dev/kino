@@ -285,7 +285,6 @@
    "krs": [
     "engel",
     "gilda",
-    "kinokilta",
     "kinolaika",
     "kinometso",
     "niagara"
@@ -349,10 +348,6 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -784,6 +779,16 @@
     "en"
    ]
   },
+  "departures": {
+   "id": 1427653,
+   "img": "data/posters/798be2da6b5d37cd.jpg",
+   "r": 0,
+   "s": {
+    "en": "Benji encounters Jake at an airport gate and there is attraction. Their relationship unfolds through Amsterdam trips and intimacy. Departures is a messy and funny queer romance about desire, longing for love and power dynamics in relationships. It reminds you that falling in love can be wonderful, intense and senseless; and sometimes exactly the flight you never should have boarded.",
+    "fi": "Yksi katse lentokentän lähtöportilla, vastustamaton kemia – ja pian Benji on matkalla kohti romanssia, josta ei todellakaan selvitä ilman turbulenssia. Kun Benji kohtaa Jaken, kipinä syttyy nopeasti. Seuraa Amsterdamin-matkoja, seksiä, läheisyyttä ja ihastumisen huumaa, mutta vähitellen kuuman romanssin alta alkaa paljastua jotain huomattavasti mutkikkaampaa. Kumpi suhteessa oikeastaan määrää tahdin – ja kuinka pitkälle olemme valmiita menemään saadaksemme tulla rakastetuiksi? Departures on herkullisen sotkuinen, terävä ja paikoin häpeilemättömän hauska queer-romanssi halusta, rakkauden nälästä ja ihmissuhteiden valta-asetelmista. Se muistuttaa, että rakastuminen voi olla ihanaa, kiihkeää ja täydellisen järjetöntä – ja joskus juuri se lento, jolle ei olisi ehkä koskaan pitänyt nousta."
+   },
+   "tr": "https://www.youtube.com/watch?v=s2LLsEmk7fc"
+  },
   "dialogpolisen": {
    "id": 1360694,
    "img": "data/posters/e73ea1b9238f313b.jpg",
@@ -848,6 +853,7 @@
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
+    "lieksankino",
     "niagara",
     "savonkinot",
     "star",
@@ -1114,6 +1120,26 @@
    },
    "tr": "https://www.youtube.com/watch?v=WFPrlEa294Q"
   },
+  "free at heart": {
+   "id": 1427540,
+   "img": "data/posters/31f4f84b0d77ad6e.jpg",
+   "r": 0,
+   "s": {
+    "en": "16 year old Sebastian lives a sheltered life in a small town. His world changes when his family takes in 15 year old Kolja. They will become connected and a whole new world opens for Sebastian: full of curiosity, closeness and a sense of first great emotions. Free at Heart is a sensitive but intense queer coming of age story about first love, finding your true self and the moment when the borders of the safe world begin to break. Its a depict of the conflict of adolescence – wanting to be free and fear of what happens when you finally are brave enough to follow your heart.",
+    "fi": "Pikkukaupungissa elämä kulkee tuttua ja turvallista rataansa – kunnes yksi ihminen saa kaiken tuntumaan yhtäkkiä aivan toiselta. 16-vuotias Sebastian on elänyt suojattua elämää, jossa yllätyksille ei juuri ole ollut tilaa. Kaikki muuttuu, kun hänen perheensä ottaa luokseen 15-vuotiaan Koljan. Kahden nuoren välille syntyy yhteys, joka avaa Sebastianille kokonaan uuden maailman: täynnä uteliaisuutta, läheisyyttä ja ensimmäisten suurten tunteiden hämmentävää voimaa. Free at Heart on herkkä mutta intensiivinen queer-kasvutarina ensirakkaudesta, itsensä löytämisestä ja hetkestä, jolloin turvallisen maailman rajat alkavat murtua. Se tavoittaa hienosti nuoruuden ristiriidan – halun olla vapaa ja pelon siitä, mitä tapahtuu, kun uskaltaa viimein seurata sydäntään."
+   },
+   "tr": "https://www.youtube.com/watch?v=0tVpYYFlbJw"
+  },
+  "ghost in the machine": {
+   "id": 1596315,
+   "img": "data/posters/ac5edf460a89b8ae.jpg",
+   "r": 0,
+   "s": {
+    "en": "Ghost in the Machine (dir. Valerie Veatch) is a gripping and urgently relevant investigative documentary that exposes the buried history of artificial intelligence, not as a neutral system of algorithms, but as a technology shaped by racism, misogyny, eugenics, and entrenched structures of power long before it entered everyday life. Rejecting the notion of AI as inevitable or objective, the film traces how myths of progress and efficiency have obscured deeper political and cultural agendas, revealing the ideological foundations beneath the systems now reshaping modern society. The film is directed by Valerie Veatch, whose past Sundance-premiering films Me @ the Zoo (HBO) and Love Child (HBO) explore how emerging technologies reshape identity, culture, and global power. This new film is her most ambitious work yet – over eight chapters, Veatch helms an urgent excavation of the philosophical, cultural, and political forces driving the global AI boom. After the screening there will be a discussion led by Dr. Nitin Sawhney, Filmmaker and Transdisciplinary Researcher, Docent from University of Helsinki and Uniarts Helsinki. Invited discussants to be announced soon. The screening will be held on Thursday, 22 October at 17:15.",
+    "fi": "Valerie Veatchin uusi essee-elokuva hylkää tekoälyn väistämättömyyden tai objektiivisuuden ja jäljittää, kuinka edistyksen ja tehokkuuden myytit ovat hämärtäneet syvempiä poliittisia ja kulttuurisia tavoitteita, paljastaen ideologiset perustat systeemeissä, jotka nyt muokkaavat modernia yhteiskuntaa. Elokuvan ohjaaja Valerie Veatchin aiemmat Sundancessa ensi-iltansa saaneet elokuvat Me @ the Zoo (HBO) ja Love Child (HBO) tutkivat, kuinka nousevat teknologiat muokkaavat identiteettiä, kulttuuria ja globaalia valtaa. Tämä uusi elokuva on hänen tähän mennessä kunnianhimoisin teoksensa. Kahdeksan luvun kautta Veatch sukeltaa tutkimaan globaalin tekoälybuumin filosofisia, kulttuurisia ja poliittisia voimia. Näytöksen jälkeen on keskustelu, jota johtaa elokuvantekijä ja monitieteinen tutkija, Helsingin yliopiston ja Taideyliopiston dosentti, tohtori Nitin Sawhney. Kutsutut keskustelijat julkistetaan pian. Näytös järjestetään TO 22.10. KLO 17:15."
+   },
+   "tr": "https://www.youtube.com/watch?v=i9DAv0D7tnY"
+  },
   "ghost näkymätön rakkaus": {
    "id": 251,
    "img": "data/posters/1dd1faff13cd16d1.jpg",
@@ -1360,13 +1386,12 @@
   },
   "hetki ennen valoa blue baby": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "hetki ennen valoa kahvi ja kino": {
    "id": 1015881,
@@ -1483,6 +1508,26 @@
    "ts": [
     "en"
    ]
+  },
+  "i am going to miss you": {
+   "id": 1255582,
+   "img": "data/posters/83a418a5eec17cfb.jpg",
+   "r": 0,
+   "s": {
+    "en": "Amanda and Caio are an transgender couple who have been dating since high school. When both begin to face new challenges their relationship starts to change. One aspect that makes the film particularly significant is its entirely transgender cast. Importantly, the performers portray both transgender and cisgender characters, reflecting the film’s broader commitment to authentic representation while telling a universal story about relationships, ambition, change. The story is also about the challenges of growing together while evolving as individuals.",
+    "fi": "Amanda ja Caio ovat transsukupuolinen pariskunta, joka on seurustellut lukioajoista lähtien. Kun molemmat kohtaavat elämässään uusia haasteita, myös heidän suhteensa alkaa muuttua. Elokuva on erityisen merkittävä siksi, että sen näyttelijäkaarti koostuu kokonaisuudessaan transsukupuolisista näyttelijöistä. Huomionarvoista on, että näyttelijät esittävät sekä trans- että cis-sukupuolisia hahmoja. Tämä kuvastaa elokuvan laajempaa sitoutumista aitoon ja monipuoliseen representaatioon samalla, kun se kertoo universaalin tarinan ihmissuhteista, kunnianhimosta ja muutoksesta. Tarina käsittelee myös yhdessä kasvamisen haasteita tilanteessa, jossa kumpikin kehittyy lisäksi omana yksilönään."
+   },
+   "tr": ""
+  },
+  "i rarely wake up dreaming": {
+   "id": 1522183,
+   "img": "data/posters/1aee14c45b3fdcc3.jpg",
+   "r": 0,
+   "s": {
+    "en": "Can love survive when your own identity and a whole country must fight for their existence? Olya and Oleh are a young queer couple in Ukraine. When one of them is transitioning while Russia has started a fullblown war their relationship is put to a new kind of test. The war is trying to push people in narrow roles just when they are trying to break free from them. I Rarely Wake Up Dreaming is an intimate and shaking love story about gender, desire, body and survival in the middle of war. The question is what is the meaning of manhood in a country that is fighting for its own identity – and what happens to love when the world around you demands you to define who you should be. Among all uncertainties all that is left is probably the most radical act: the right to love, change and be yourself.",
+    "fi": "Voiko rakkaus säilyä, kun sekä oma identiteetti että kokonainen maa joutuvat taistelemaan olemassaolostaan? Olya ja Oleh ovat nuori queer-pari Ukrainassa. Kun toisen sukupuolenkorjausprosessi osuu samaan aikaan Venäjän täysimittaisen hyökkäyssodan kanssa, heidän suhteensa joutuu aivan uudenlaiseen puristukseen. Sota yrittää pakottaa ihmiset tiukkoihin rooleihin juuri silloin, kun he itse pyrkivät vapautumaan niistä. I Rarely Wake Up Dreaming on intiimi ja ravisteleva rakkaustarina sukupuolesta, halusta, ruumiista ja selviytymisestä keskellä sotaa. Se kysyy, mitä mieheys merkitsee maassa, joka taistelee omasta identiteetistään – ja mitä tapahtuu rakkaudelle, kun ympäröivä maailma vaatii määrittelemään, kuka sinun pitäisi olla. Kaiken epävarmuuden keskellä jäljelle jää ehkä kaikkein radikaalein teko: oikeus rakastaa, muuttua ja olla oma itsensä."
+   },
+   "tr": "https://www.youtube.com/watch?v=S0OB2kv7oRI"
   },
   "i swear": {
    "id": 1317149,
@@ -1609,6 +1654,14 @@
    "ts": [
     "en"
    ]
+  },
+  "ivan and hadoum": {
+   "r": 0,
+   "s": {
+    "en": "In a greenhouse in Northern Spain, Ivan falls in love with newly hired coworker Hadoum. Both are different from others which brings them together but also causes difficulties. The closer their relationship becomes the harder is to keep outside world away. Ivan and Hadoum is sweaty, sensitive and intense queer romance about desire, being an outsider and about two people needing to be seen as they are.",
+    "fi": "Pohjois-Espanjan paahtavissa kasvihuoneissa lämpö ei tule vain auringosta. Kun Hadoum aloittaa työt samalla kasvihuoneella Ivanin kanssa, heidän välilleen syntyy nopeasti sähköinen vetovoima. Molemmat ovat tottuneet kulkemaan omia polkujaan ja erottumaan ympäristöstään – ehkä juuri siksi he tunnistavat toisissaan jotain vastustamatonta. Mutta mitä lähemmäs he pääsevät toisiaan, sitä vaikeammaksi käy pitää ulkopuolinen maailma poissa heidän välistään. Ivan and Hadoum on hikinen, herkkä ja intensiivinen queer-rakkaustarina halusta, ulkopuolisuudesta ja kahden ihmisen tarpeesta tulla nähdyksi juuri sellaisena kuin on. Kasvihuoneessa kaikki voi versoa – myös rakkaus, joka ei suostu pysymään siististi ruodussa."
+   },
+   "tr": ""
   },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
@@ -2181,7 +2234,6 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "niagara",
     "savonkinot",
     "star",
@@ -2358,6 +2410,10 @@
   "kolme väriä valkoinen": {
    "id": 109,
    "img": "data/posters/a3181831c9efb271.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinokilta"
+   ],
    "r": 7.4,
    "s": {
     "en": "",
@@ -2456,8 +2512,7 @@
   },
   "kuutamosonaatti": {
    "id": 112427,
-   "img": "data/posters/f233e91a31050242.jpg",
-   "r": 5.8,
+   "r": 0,
    "s": {
     "en": "Finland’s almost non-existent tradition of horror cinema drifted like mist into the backwoods amid the autumn darkness of 1988, when Olli Soinio’s The Moonlight Sonata had its premiere. The dark tale of an internationally renowned beauty and fashion model who encounters the peculiar Kyyrölä family during a country retreat arranged by her manager openly draws inspiration from the most celebrated American horror films of the 1960s and 1970s. Soinio’s approach, however, is above all darkly humorous, exploiting the quintessentially Finnish fear of the dark. The tongue-lolling, tractor-driving male lead is played by Kari Sorvali (1951–2026), one of the most accomplished actors of his generation. We lost him last Midsummer.",
     "fi": "Kauhuelokuvan suomalaisittain liki olematon perinne leijui usvana takametsiin vuoden 1988 syyspimeillä, kun Olli Soinion Kuutamosonaatti sai ensi-iltansa. Tummanpuhuva tarina kansainvälisestä mallikaunottaresta, joka tutustuu managerinsa järjestämällä maaseuturetkellä omalaatuiseen Kyyrölän perheeseen, on avoimen vaikuttunut modernin amerikkalaisen kauhuelokuvan 60- ja 70-lukujen kuuluisimmista edustajista. Soinion lähestymistapa on kuitenkin ennen kaikkea kyräilevän humoristinen ja perisuomalaista pimeän pelkoa hyödyntävä. Traktoria kieli pitkällä ajavassa miespääosassa nähdään juhannuksena edesmennyt Kari Sorvali (1951-2026), yksi sukupolvensa taitavimmista näyttelijöistä. – Jukka Sammalisto"
@@ -2566,6 +2621,7 @@
     "engel",
     "gilda",
     "kinoaurora",
+    "kinoiiris",
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
@@ -2874,6 +2930,14 @@
    },
    "tr": ""
   },
+  "lyhytelokuvakooste havun kaiho short movie compilation havu s longing": {
+   "r": 0,
+   "s": {
+    "en": "FAREWELL ÉMILE (Alexis Diop, Ranska, 2024, 25 min) Tim menetti isänsä muutama kuukausi sitten. Tänään hän aikoo erota poikaystävästään Émilestä. Timin muistot isästään sekä Émilestä sekoittuvat toisiinsa. Hän ei pysty hyväksymään suhteen päättymistä joten hän aloittaa epätoivoisen digitaalisen jahdin Émilen löytämiseksi. Tim lost his father a few months ago. Today, he is about to break up with his boyfriend Émile. Confined to his home, Tim delves into the memories of their relationship, mingled with those of his father. Refusing to accept the separation, he embarks on a desperate digital hunt to find Émile. TALONVALTAAJAT (Saara Rantanen, Suomi, 2026, 29 min) Elokuva seuraa nuorta dokumentaristia, joka liittyy talonvaltauskollektiivin valtaukselle, jonka myötä ryhmä joutuu vastakkain median, poliisin ja talon rikkaan omistajan kanssa, ja paineiden kasvaessa ryhmän sisäiset suhteet joutuvat koetukselle. The film follows a young documentarist who joins a squatters collective and is put against media, police and the rich owner of the house and when pressures grow the dynamics of the group suffer. HER DANCE (Julián Córdoba, Ranska / Argentiina, 2025, 10 min) Päivä transsukupuolisen tanssijan elämästä. Transition jälkeen hänet siirretään pois tanssiryhmästään Buenos Airesissa. Kun hänen maailmansa hiljalleen sortuu hän tuntee katoavansa. A day in the life of a trans dancer excluded from her prestigious company in Buenos Aires, following her transition. As her world and landmarks crumble, she feels herself gradually disappearing. SYDÄMEN KAIHO (Leevi Kontula, Oona Toivonen, Paavo Sihvonen, Camilla Kallunki, Kiia Helenius, Regina Kinnunen, Elviira Tammelin, Befrin Nazeri, Lotta Leistola, Suomi, 2026, 5 min) 1800-luvun loppupuolelle sijoittuva rakkaustarina. A queer love story from the end of 18th century. OUT OF CHECKLIST (Roman Nemec, Tšekki, 2026, 26 min) Kaksitoistavuotias David tekee yllätysvierailun isänsä asuntoon Prahassa. Tultuaan kaapista ja sitä seuranneen avioeron jälkeen isä asuu yksin, ja hänellä on jo viikonloppusuunnitelmia. Päästäkseen treffeille hän suostuttelee ainoan tavoitettavissa olevan ihmisen – Grindr-deittinsä – huolehtimaan Davidista viikonlopun ajan. Mikä voisikaan mennä pieleen? 12 year old, hyper-rational David pays an unannounced visit to his father’s Prague apartment. Following a coming out and a subsequent divorce, his father lives alone and already has weekend plans. In a pinch, he convinces the only person available – a hook-up from Grindr – to look after David for the weekend. What could possibly go wrong? TARINOITA SATEENKAARELTA: KAI (Erika Weiste & Aki Viikilä, Suomi, 2026, 5 min) LGBTQIA+ senioreiden tarinoihin pohjautuvan dokumentaarisen animaatiosarjan pilottijakso. The pilot episode of an animated documentary series based on the stories of LGBTQIA+ seniors. PLEASURE DOME (Valter Pereiram, Brasilia, 2026, 18 min) Eroottinen jännityselokuva kertoo Juanista, nuoresta miehestä, joka seuraa outoa miestä São Paulon keskustan kaduilla julkiseen vessaan, mistä alkaa hänen unenomainen matkansa nautintoon ja itsensä löytämiseen. An erotic thriller about Juan, a young man who follows a strange man through the streets of downtown São Paulo into a public bathroom, where he begins an oneiric journey of pleasure and discovery.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "maailman rikkain nainen": {
    "id": 1309725,
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
@@ -3074,6 +3138,14 @@
     "en"
    ]
   },
+  "montreal ma belle": {
+   "r": 0,
+   "s": {
+    "en": "A Chinese woman has built her life in Montréal around family, responsabilities and traditions. When she encounters a young québecian woman – an unexpected attraction shakes everything that is familiar. Looks become longing and from longing an affair that makes her question whose life she is actually living. Montreal, ma belle is a mature, sensual and liberating queer romance about desire, identity and courage to break expectations. The drama starring Joan Chen reminds that there isn’t an expire date for living your truth or falling in love. Sometimes the boldest love story only begins when you are finally brave enough to choose yourself.",
+    "fi": "Entä jos elämäsi suurin rakkaus saapuu juuri silloin, kun kuvittelet jo tietäväsi, kuka olet? Kiinalaistaustainen nainen on rakentanut elämänsä Montréalissa perheen, velvollisuuksien ja perinteiden ympärille. Sitten hän kohtaa nuoren québeciläisen naisen – odottamaton vetovoima ravistelee kaikkea tuttua. Katseista kasvaa kaipuu ja kaipuusta suhde, joka pakottaa hänet kysymään, kenen elämää hän oikeastaan elää. Montreal, ma belle on kypsä, aistillinen ja vapauttava queer-rakkaustarina halusta, identiteetistä ja uskalluksesta rikkoa odotuksia. Joan Chenin tähdittämä draama muistuttaa, ettei oman totuutensa elämiselle – tai rakastumiselle – ole viimeistä käyttöpäivää. Joskus rohkein rakkaustarina alkaa vasta silloin, kun uskaltaa viimein valita itsensä."
+   },
+   "tr": ""
+  },
   "musiikin rakastajia": {
    "id": 72899,
    "r": 0,
@@ -3144,8 +3216,7 @@
     "leffabuumi",
     "niagara",
     "savonkinot",
-    "tapiola",
-    "vaakuna"
+    "tapiola"
    ],
    "r": 7.7,
    "s": {
@@ -3879,13 +3950,15 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "bioforum",
     "helios",
     "huvimylly",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "laitilankino"
+    "laitilankino",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -3903,13 +3976,15 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "bioforum",
     "helios",
     "huvimylly",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "laitilankino"
+    "laitilankino",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -3944,13 +4019,15 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "bioforum",
     "helios",
     "huvimylly",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "laitilankino"
+    "laitilankino",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
@@ -4047,8 +4124,6 @@
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
-    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -4436,6 +4511,16 @@
    },
    "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM"
   },
+  "på svenska vaiana liveaction": {
+   "id": 1108427,
+   "img": "data/posters/3b204eaa97f4fa96.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Disneyn Oscar-ehdokkuuden saavuttaneen rakastetun animaatioseikkailun live-action versiossa Vaiana (Catherine Lagaʻaia) vastaa valtameren kutsuun ja purjehtii ensi kertaa kotisaartaan Motunuita ympäröivää riuttaa edemmäs mukanaan pahamaineinen puolijumala Maui (Dwayne Johnson), ja niin he suuntaavat unohtumattomalle matkalle, jonka päämääränä on palauttaa hänen heimonsa vauraus."
+   },
+   "tr": "https://www.youtube.com/watch?v=EEz5xbzYPKI"
+  },
   "queen budapest": {
    "id": 142773,
    "img": "data/posters/fc3dc1b53e616386.jpg",
@@ -4525,7 +4610,6 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "marita",
     "matintupa",
     "niagara",
@@ -4617,7 +4701,6 @@
     "kinoelo",
     "kinohamina",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -4670,7 +4753,6 @@
     "kinoelo",
     "kinohamina",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
     "kinomania",
@@ -5044,7 +5126,6 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinokilta",
     "kinomarilyn",
     "kinoolympia",
     "niagara"
@@ -5100,6 +5181,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "solange a seat at the table 10th anniversary": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Uppoudu yhteen 2000-luvun hienoimmista albumeista Pitchblack Playbackin pimeässä kuuntelusessiossa, kun juhlimme A Seat At The Tablen 10. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
+   },
+   "tr": ""
   },
   "sopeutumaton": {
    "id": 1444061,
@@ -5399,6 +5488,14 @@
    "ts": [
     "en"
    ]
+  },
+  "talvitarina": {
+   "r": 0,
+   "s": {
+    "en": "Eric Rohmer’s A Tale of Winter follows Félicie, who spends Christmas in Paris with her daughter and two men, Loïc and Maxence. Five years earlier, Félicie lost contact with Charles, the man she loved, with whom she spent an unforgettable summer before they went their separate ways. Although Félicie has moved on with her life, she has never given up hope that Charles might one day return to her life. The film explores the meaning of love, chance, and faith, as well as how strongly a person can hold on to the possibility of finding a lost love again.",
+    "fi": "Eric Rohmerin Talvitarina kertoo Féliciestä, joka viettää joulun Pariisissa tyttärensä ja kahden miehen, Loïcin ja Maxencen, seurassa. Viisi vuotta aiemmin Félicie menetti yhteyden rakastamaansa Charlesiin, jonka kanssa hän vietti unohtumattoman kesän ennen kuin he erkanivat. Vaikka Félicie on rakentanut elämäänsä eteenpäin, hän ei ole luopunut toivosta, että Charles palaisi vielä hänen elämäänsä. Elokuva käsittelee rakkauden, sattuman ja uskon merkitystä sekä sitä, kuinka vahvasti ihminen voi pitää kiinni mahdollisuudesta löytää kadotettu rakkaus uudelleen."
+   },
+   "tr": ""
   },
   "tartuffe": {
    "id": 55544,
@@ -5702,7 +5799,6 @@
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
-    "kotkanleffat",
     "savonkinot",
     "star"
    ],
@@ -5778,6 +5874,23 @@
     "en"
    ]
   },
+  "the rocky horror picture show 1975": {
+   "id": 36685,
+   "img": "data/posters/881ea0a1c032f51c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "regina"
+   ],
+   "r": 7.4,
+   "s": {
+    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
+   "ts": [
+    "en"
+   ]
+  },
   "the royal ballet joutsenlampi": {
    "id": 1702782,
    "img": "data/posters/2ddf58982298b613.jpg",
@@ -5843,13 +5956,12 @@
   },
   "the salt path yhteinen matka": {
    "id": 1127625,
-   "img": "data/posters/013a09811e7500b9.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Raynor Winnin menestysromaaniin perustuva The Salt Path – Yhteinen matka on koskettava ja voimaannuttava tositarina pariskunnasta, joka lähtee vuoden mittaiselle vaellukselle Englannin rannikolle. Elokuvan pääosissa nähdään Gillian Anderson ja Jason Isaacs ."
    },
-   "tr": "https://www.youtube.com/watch?v=TK5j6lQk7CE"
+   "tr": ""
   },
   "the secret reading club of kabul": {
    "id": 1635591,
@@ -6170,13 +6282,12 @@
   },
   "tule ja katso": {
    "id": 25237,
-   "img": "data/posters/b5deb1b885717f75.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Löydettyään vanhan haudatun kiväärin, nuori poika liittyy Neuvostoliiton vastarintaliikkeeseen taistellakseen Saksan armottomia joukkoja vastaan, joutuen kohtaamaan toisen maailmansodan hirveydet."
    },
-   "tr": "https://www.youtube.com/watch?v=UHaSQU-4wss"
+   "tr": ""
   },
   "tuulen laakson nausicaä": {
    "id": 81,
@@ -6275,7 +6386,8 @@
     "kinoaurora",
     "kinokulma",
     "kinolaika",
-    "kkino"
+    "kkino",
+    "lieksankino"
    ],
    "r": 7.9,
    "s": {
@@ -6323,7 +6435,8 @@
     "kinoaurora",
     "kinokulma",
     "kinolaika",
-    "kkino"
+    "kkino",
+    "lieksankino"
    ],
    "r": 0,
    "s": {
