@@ -602,7 +602,7 @@
    "r": 6.1,
    "s": {
     "en": "Cowboys Beauregard Decker and Virgil Blessing attend a rodeo in Phoenix, where Decker falls in love with beautiful cafe singer Cherie. He wants to take Cherie back to his native Montana and marry her, but she dreams of traveling to Hollywood and becoming famous. When she resists his advances, Decker forces Cherie onto the bus back to Montana with him, but, when the bus makes an unscheduled stop due to bad weather, the tables are turned.",
-    "fi": ""
+    "fi": "Saatuaan Kesälesken kuvaukset valmiiksi vuonna 1954 Marilyn Monroe julkisti shokkiuutisen: hän ilmoitti jättävänsä Hollywoodin ja ryhtyvänsä vakavaksi näyttelijättäreksi. Hän muutti New Yorkiin ja perusti oman yhtiön. Lisäksi hän neuvotteli 20th Century Foxin kanssa sopimuksen, joka velvoitti häntä tekemään neljä elokuvaa Foxille; näistä ensimmäisenä valmistui Bussipysäkki. Muutettuaan Hollywoodista Marilyn ei pelännyt särkeä imagensa glamour-hohdetta. Tosin, kun hän palasi yli vuoden tauon jälkeen elokuvakameroiden eteen Bussipysäkin kuvauksiin, hän käyttäytyi diivan elkein. Hänellä oli selvä käsitys siitä, millaisen osan hän halusi tehdä. Hän pyrki naturalismiin. Hän halusi esiintyä suttuisessa meikissä ja nuhjuisissa vaatteissa ja laulaa tahallisen huonosti. Bussipysäkki on fyysinen ja lihallinen elokuva, ja Chérie on animaalinen Etelän nainen. Kameratyö korostaa tätä puolta, ja elokuvaa varten kehiteltiin tekniikoita erikoislähikuvien saamiseksi CinemaScope-leveydellä. Bussipysäkki on elokuva soluhengityksen näkökulmasta; ihon huokoset, nukka ja silmien verisuonet näkyvät sen suurissa lähikuvissa."
    },
    "tr": "https://www.youtube.com/watch?v=4Qi9C7w7LuM",
    "ts": [
@@ -1866,11 +1866,13 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "ihmekompleksi",
     "joutsankino",
     "kinoaurora",
+    "kinokilta",
     "kinokulma",
     "kinolaika",
     "kinomyyri",
@@ -2655,19 +2657,30 @@
   "lapin sota": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex",
+    "cinemantsala",
+    "kinolumo",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+    "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "lapin sota kahvi ja kino": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex",
+    "cinemantsala",
+    "kinolumo",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -2716,11 +2729,6 @@
   "laula minulle arja": {
    "id": 1713056,
    "img": "data/posters/614615622fcfd9d8.jpg",
-   "kr": "S",
-   "krs": [
-    "bioforum",
-    "kinoaurora"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3668,7 +3676,7 @@
    "r": 0,
    "s": {
     "en": "",
-    "fi": ""
+    "fi": "Wojciech J. Has (1925-2000) sai koulutuksensa Łódźin kuuluisaa elokuvakoulua edeltäneessä Krakovan filmi-instituutissa. Hän aloitti lyhytfilmien ja dokumenttien parissa ja teki ensimmäisen lyhytmuotoisen fiktioelokuvansa Harmonika (Huuliharppu) vuonna 1947. Oman tyylinsä hän löysi 1950-60 -lukujen taiteessa. Bolesław Michałek on kirjoittanut hänestä: \"Hasin elokuvat muistuttavat valokuvia albumissa, joka on heitetty pois kauan sitten ja joka yllättäen löytyy ullakolta. Ne heijastavat melankoliaa menneisyyteen, niissä on ajan aaveiden charmia, epätavallista, epätodellista ja epämääräistä kauneutta. Niissä elää hiljaisen mietiskelyn rikas sisäinen elämä, oma persoonallisuus ja syvä paneutuminen tietoisuuden kaikkein etäisimpiin sopukoihin. Hasin henkilöt näyttäytyvät heitä ympäröivässä maailmassa katkeruuteen ja ironiaan kietoutuneina, mutta niin, että heidän eleensä ja olemuksensa ovelasti peittävät heidän sisällään kiehuvan ahdistuksen.\" Elokuvan Opimmeko rakastamaan päähenkilö Felicja on näyttelijä. Tarina rakentuu hänen muisteloistaan lentomatkalla kohti Pariisia. Keskeisimmäksi muodostuvat hänen sota-ajan kokemuksensa, kun hän piilotteli luonaan nuorta näyttelijää Wiktoria, jota Gestapon etsii epäiltynä yhteistoimintamiehen murhaamisesta."
    },
    "tr": ""
   },
@@ -3720,6 +3728,10 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
+   "kr": "K-16",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
@@ -3945,6 +3957,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -3971,6 +3984,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4014,6 +4028,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4410,6 +4425,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=Fuzsgc0Xpe8"
   },
+  "psycho": {
+   "id": 539,
+   "img": "data/posters/2f79b3bac115a827.jpg",
+   "r": 8.4,
+   "s": {
+    "en": "",
+    "fi": "Hiljattain edesmenneen Janet Leigh`n esittämä Marion kavaltaa työnantajansa rahoja ja pakenee kaupungista. Eksyttyään myrskyssä hän kirjoittautuu Norman Bates -nimisen miehen pitämään syrjäiseen ja hiljaiseen motelliin. Leigh ei leffan kuvausten jälkeen enää mielellään käynyt suihkussa. Jatko-osat ovat huttua, mutta ensimmäinen on yksi kaikkein aikojen leffaklassikoista."
+   },
+   "tr": "https://www.youtube.com/watch?v=D90QhegiVvo",
+   "ts": [
+    "fi"
+   ]
+  },
   "punainen peto": {
    "id": 1453659,
    "img": "data/posters/5b0d09708fa61a5d.jpg",
@@ -4631,10 +4659,14 @@
   "rammstein live in mexico city": {
    "id": 1753205,
    "img": "data/posters/91779224a3129903.jpg",
+   "kr": "K-18",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "Filmed across three sold-out nights at the 65,000-capacity Foro Sol, Rammstein – Live in Mexico City captures one of the defining performances of the band’s monumental five-year world stadium tour in a spectacular concert film directed by four-time GRAMMY® nominee and two-time Primetime Emmy® Award winner Paul Dugdale. Spanning 135 concerts and witnessed by six million fans around the world, the tour marked a major chapter in Rammstein’s international career. For more than three decades, the Berlin six-piece has built one of the most distinctive global profiles in modern music. Two-time GRAMMY® nominees with audiences across the globe, Rammstein have brought German-language rock to major venues around the world – combining colossal sound, theatrical precision and live production on a scale entirely their own. Featuring 20 career-spanning songs, including “Du Hast”, “Sonne”, “Ich Will” and the Mexico City finale “Te Quiero Puta!”, the film places audiences at the heart of a show where 20-metre-high flames, stadium-wide pyrotechnics and towering industrial architecture are matched by moments of genuine connection between the band and the crowd. Following landmark screen releases including Jonas Åkerlund’s Rammstein: Paris, this new film captures Rammstein at full stadium scale – and the lasting bond they have built with fans around the world. From November 4, 2026, audiences worldwide can experience Rammstein – Live in Mexico City in cinematic 4K, with Dolby Atmos sound where available. The fans in the front row survived. Now it is your turn. Viva México. Viva Rammstein.",
-    "fi": ""
+    "fi": "Rammstein – Live in Mexico City on kuvattu kolmena loppuunmyyytynä iltana 65 000 katsojaa vetävällä Foro Sol -stadionilla. Se esittää yhtyeen monumentaalisen viisivuotisen stadionkiertueen yhden merkittävimmistä esityksistä upeana konserttielokuvana, jonka on ohjannut kaksinkertainen Primetime Emmy® -palkinnon voittaja Paul Dugdale. Kiertue, joka käsitti 135 konserttia ja jota seurasi kuusi miljoonaa fania ympäri maailmaa, on merkittävä luku Rammsteinin uralla. Kaksi kertaa GRAMMY®-ehdokkaana ollut ja maailmanlaajuisen yleisön omaava Rammstein on tuonut saksankielistä rockia maailman suurimpiin konserttisaleihin – yhdistämällä massiivisen äänen ja live-tuotannon täysin omalla tavallaan. Elokuva sisältää 20 kappaletta yhtyeen koko uran ajalta ja vie katsojat keskelle esitystä, jossa 20 metriä korkeat liekit ja jylhä teollisuusarkkitehtuuri yhdistyvät hetkiin, joissa bändin ja yleisön välille syntyy aito yhteys. 4. marraskuuta 2026 alkaen katsojat ympäri maailmaa voivat kokea Rammstein – Live in Mexico City -elokuvan elokuvateatterilaatuisena 4K-versiona."
    },
    "tr": ""
   },
@@ -4827,12 +4859,9 @@
    "r": 6.8,
    "s": {
     "en": "",
-    "fi": "Shakespearen kuuluisa näytelmä on päivitetty nykyaikaan ja postmoderniin Verona Beachiin."
+    "fi": "Eräs Shakespearen filmatisoimisen keskeisiä ongelmia on löytää visuaalinen vastine runoilijan säkeiden ehtymättömälle rikkaudelle. Muun muassa tässä suhteessa Baz Luhrmannin Romeo ja Julia on riemukkaalla tavalla aivan omaa luokkaansa. Hän on sijoittanut tapahtumat postmoderniin urbaaniin mikä-mikä maahan (elokuva on kuvattu suurelta osin Mexico Cityssä) ja tallentanut tapahtumat kuin kyseessä olisi kokoillan rockvideo. Ja vaikka säkeitä lausuvatkin mitä erilaisimmilla tavalla englantia ääntävät näyttelijät, runous, sen kauneus ja voima ei jää audiovisuaalisen vyörytyksen varjoon. Tämän ansiosta Luhrmannia ei voi syyttää halpahintaisesta opportunismista, yrityksestä pelkästään kääriä klassikko kivaan pakettiin. Kieli ja muu ilmaisun eivät noin vain sulaudu yhteen, vaan niiden väliset jatkuvasti muuttuvat kontrastit luovat huimia tyylillisiä jännitteitä ja loputtomasti riemastuttavia rinnastuksia. Tekstin väistämättömiksi luullut anakronismit on joko ylitetty tai niille on etsitty koominen vastine. Prologi kuullaan uutisraporttina televisiosta, Capuletien ja Montagueiden nuoret kulkevat hengissä uhkaillen toisiaan Sword- (miekka-) merkkisillä aseilla jne. Mukana on muutenkin roppakaupalla huumoria ja – tietynlaisen hienostuneisuuden puitteissa – jopa groteskeja elementtejä. Mutta ennen kaikkea Shakespearen kieli ei lakkaa toimimasta näytelmän huikean tunneskaalan tärkeimpänä välittäjänä."
    },
-   "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k"
   },
   "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
@@ -6149,6 +6178,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "cinemantsala",
     "helios",
     "kinoaurora",
     "kinokulma",
@@ -6348,6 +6378,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6372,6 +6403,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6425,6 +6457,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6572,6 +6605,7 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
+    "kinohamina",
     "kinoiiris",
     "kinojuha",
     "kinokulma",
@@ -6626,6 +6660,7 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
+    "kinohamina",
     "kinoiiris",
     "kinojuha",
     "kinokulma",

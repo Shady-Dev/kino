@@ -1,17 +1,10 @@
-[ritzvaasa] 4 event(s) in category kino, 1 page(s) read
-[ritzvaasa] 2 screening(s) priced as a band, published without a price
-[ritzvaasa] 4 of 4 screening(s) carry a portrait poster
-[ritzvaasa] Ritz Vaasa: 4 showtimes, 2 dates
-[ritzvaasa] strand prefix split off 1 showtimes
-[ritzvaasa] Ritz Vaasa: 4 showtimes, 2 dates
-[ritzvaasa] synopses merged: 0
-[ritzvaasa] synopses skipped as screening notes (price): 3
+[ritzvaasa] FAILED: The read operation timed out
 [tahtikino] Tähti Kino: no upcoming event in category 'elokuvat', which still exists; publishing the venue empty
 [tahtikino] Tähti Kino: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [tahtikino] synopses merged: 0
-[run] http: 0 revalidated (304), 3 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
 [run] pending: tahtikino has 1 venue(s) with no programme yet: tahtikino-muhos
-[run] tribe: 1 venues, 4 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 6.2s of fetching added up across workers that overlap, longest site 4.2s, longest queue wait 123.6s, 4.2s wall from this module's first fetch starting to its last ending
-exit=0
+[run] tribe: 0 venues, 0 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 1 failures
+[run] timing: 2 site(s), 106.8s of fetching added up across workers that overlap, longest site 105.3s, longest queue wait 111.2s, 105.3s wall from this module's first fetch starting to its last ending
+exit=1

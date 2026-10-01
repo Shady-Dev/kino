@@ -1,10 +1,10 @@
-[kinokilta] 63 screening(s) listed, 40 film page(s) read
+[kinokilta] 69 screening(s) listed, 42 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
-[kinokilta] Kino Kilta: 60 showtimes, 33 dates
+[kinokilta] Kino Kilta: 66 showtimes, 35 dates
 [kinokilta] strand prefix split off 14 showtimes
-[kinokilta] Kino Kilta: 60 showtimes, 33 dates
+[kinokilta] Kino Kilta: 66 showtimes, 35 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 70 screening(s) listed, 47 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 23 unresolved over 23
@@ -20,8 +20,8 @@
 [kinomyyri] Kino Myyri: 24 showtimes, 9 dates
 [kinomyyri] Kino Myyri: 24 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 40 revalidated (304), 69 full, 20 not stored (origin said no-store), 1 cache entries written
+[run] http: 40 revalidated (304), 71 full, 20 not stored (origin said no-store), 3 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 131 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 223.4s of fetching added up across workers that overlap, longest site 107.4s, longest queue wait 109.3s, 108.4s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 137 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 188.8s of fetching added up across workers that overlap, longest site 89.5s, longest queue wait 101.6s, 89.8s wall from this module's first fetch starting to its last ending
 exit=0
