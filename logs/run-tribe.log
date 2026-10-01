@@ -1,17 +1,20 @@
-[ritzvaasa] 10 event(s) in category kino, 1 page(s) read
-[ritzvaasa] 8 screening(s) priced as a band, published without a price
-[ritzvaasa] 10 of 10 screening(s) carry a portrait poster
-[ritzvaasa] Ritz Vaasa: 10 showtimes, 7 dates
+[ritzvaasa] 16 event(s) in category kino, 1 page(s) read
+[ritzvaasa] 14 screening(s) priced as a band, published without a price
+[ritzvaasa] 16 of 16 screening(s) carry a portrait poster
+[ritzvaasa] Ritz Vaasa: 16 showtimes, 10 dates
 [ritzvaasa] strand prefix split off 1 showtimes
-[ritzvaasa] Ritz Vaasa: 10 showtimes, 7 dates
-[ritzvaasa] synopses merged: 0
-[ritzvaasa] synopses skipped as screening notes (price): 9
-[tahtikino] Tähti Kino: no upcoming event in category 'elokuvat', which still exists; publishing the venue empty
-[tahtikino] Tähti Kino: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[ritzvaasa] Ritz Vaasa: 16 showtimes, 10 dates
+[ritzvaasa] synopses merged: 1
+[ritzvaasa] synopses by language: en 1
+[ritzvaasa] synopses skipped as screening notes (price): 12
+[tahtikino] 12 event(s) in category elokuvat, 1 page(s) read
+[tahtikino] 0 of 12 screening(s) carry a portrait poster
+[tahtikino] Tähti Kino: 12 showtimes, 8 dates
+[tahtikino] Tähti Kino: 12 showtimes, 8 dates
 [tahtikino] synopses merged: 0
-[run] http: 0 revalidated (304), 3 full, 0 not stored (origin said no-store), 0 cache entries written
+[tahtikino] synopses skipped as screening notes (price): 12
+[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- muhos.fi, ritz.fi
-[run] pending: tahtikino has 1 venue(s) with no programme yet: tahtikino-muhos
-[run] tribe: 1 venues, 10 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 2 site(s), 6.4s of fetching added up across workers that overlap, longest site 4.5s, longest queue wait 122.7s, 4.5s wall from this module's first fetch starting to its last ending
+[run] tribe: 2 venues, 28 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 2 site(s), 4.2s of fetching added up across workers that overlap, longest site 2.7s, longest queue wait 119.2s, 2.7s wall from this module's first fetch starting to its last ending
 exit=0

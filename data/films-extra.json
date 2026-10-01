@@ -359,6 +359,19 @@
     "en"
    ]
   },
+  "avengers doomsday 2d": {
+   "id": 1003596,
+   "img": "data/posters/b1eae52d6a765de3.jpg",
+   "r": 0,
+   "s": {
+    "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk",
+   "ts": [
+    "en"
+   ]
+  },
   "avengers endgame encore": {
    "id": 299534,
    "img": "data/posters/b7147419b96540ff.jpg",
@@ -1286,7 +1299,6 @@
     "kinoakseli",
     "kinoelo",
     "kinohirvi",
-    "kinoiiris",
     "kinokulma",
     "kinolumo",
     "kinomania",
@@ -1301,7 +1313,6 @@
     "kkino",
     "kotkanleffat",
     "leffabuumi",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -1388,6 +1399,19 @@
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
    "tr": ""
+  },
+  "hetki ennen valoa elokuvanäytös": {
+   "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
+   },
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
+   "ts": [
+    "fi"
+   ]
   },
   "hetki ennen valoa kahvi ja kino": {
    "id": 1015881,
@@ -2190,6 +2214,14 @@
    },
    "tr": ""
   },
+  "knitting cinema k18": {
+   "r": 0,
+   "s": {
+    "en": "Films vary and are announced at least a week before each date. Knitting Cinema: During this screening the lights are kept on, to allow for knitting during the movie. Note! The auditorium is an alcohol serving area during this screening, 18 year age limit! Drinks bought in the cafe can be brought into the auditorium.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "kohtalon avain": {
    "id": 303,
    "img": "data/posters/3d9069341a0d98cd.jpg",
@@ -2223,8 +2255,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
-    "kinotoijala",
     "kkino",
     "kotkanleffat",
     "laitilankino",
@@ -2232,7 +2262,6 @@
     "niagara",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
     "tapiola",
     "vaakuna"
    ],
@@ -2291,16 +2320,12 @@
   },
   "kojootti vs acme orginaali äänillä": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme orig": {
    "id": 1204680,
@@ -3039,10 +3064,6 @@
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-12",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3163,14 +3184,13 @@
   },
   "mutiny": {
    "id": 1288445,
-   "img": "data/posters/d7d31f49a15249f9.jpg",
-   "r": 7.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "MUTINY – LAVASTETTU SYYLLISEKSI on räjähtävä toimintatrilleri, jossa entinen erikoisjoukkojen sotilas Cole Reed todistaa miljardööripomonsa kylmäverisen murhan ja hänet lavastetaan syylliseksi. Colen Reedin ainoa vaihtoehto on paeta. Jäljittäessään totuutta Cole nousee rahtialukselle keskellä avomerta, mukanaan vain ammattitaitonsa ja kostonhalu. Aluksen pimeillä käytävillä hän aloittaa yksinäisen taistelun palkkasotureita ja korruptoituneita agentteja vastaan. Mitä syvemmälle hän kaivautuu, sitä selvemmäksi käy, ettei kyse ole pelkästä yksittäisestä murhasta – vaan maailmanlaajuisesta salaliitosta, jonka lonkerot ulottuvat maiden hallituksiin ja suuryrityksiin asti. Yksin, saarrettuna ja takaa-ajettuna Cole Reed taistelee todistaakseen syyttömyytensä ja estääkseen suunnitelman, joka horjuttaisi kansainvälistä valtasuhteiden tasapainoa ja rauhaa.",
     "sv": "När hans chef mördas rakt framför ögonen på honom pekas säkerhetsvakten Cole Reed (Jason Statham) ut som skyldig. För att rentvå sitt namn tvingas han ta saken i egna händer. Jakten för honom ombord på ett fraktfartyg och in i en brutal härva av människohandel och internationella konspirationer. En stenhård actionfilm laddad med adrenalin, intriger och en skoningslös kamp för överlevnad. PREMIÄR: 21.8 2026 Action"
    },
-   "tr": "https://www.youtube.com/watch?v=2Iqvbe98Gb4"
+   "tr": ""
   },
   "mutiny lavastettu syylliseksi": {
    "id": 1288445,
@@ -3205,7 +3225,6 @@
    "img": "data/posters/fd7538dd607d13aa.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biorex",
     "biosavoy",
     "cinemantsala",
@@ -3214,9 +3233,7 @@
     "jarvelankino",
     "kinohannikainen",
     "kinolaika",
-    "kinomyyri",
     "kinoolympia",
-    "kinopirtti",
     "leffabuumi",
     "niagara",
     "savonkinot",
@@ -3242,16 +3259,12 @@
   },
   "myrskyn ikkuna pressure": {
    "id": 1318413,
-   "img": "data/posters/fd7538dd607d13aa.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "In the tense 72 hours before D-Day, and the fate of the free world hanging in the balance, General Dwight D. Eisenhower and Captain James Stagg face an impossible choice—launch the largest and most dangerous seaborne invasion in history or risk losing the war altogether.",
+    "en": "",
     "fi": "Tositapahtumiin perustuva Myrskyn ikkuna (Pressure) kuvaa jännittäviä 72 tuntia ennen h-hetkeä, jolloin vapaan maailman kohtalo on vaakalaudalla. Kenraali Dwight D. Eisenhower (Brendan Fraser) ja kapteeni James Stagg (Andrew Scott) joutuvat mahdottoman valinnan eteen: käynnistääkö historian suurin ja vaarallisin mereltä tehtävä maihinnousu Normandiaan – vai riskeerata koko sodan häviäminen."
    },
-   "tr": "https://www.youtube.com/watch?v=jjdOSchcobk",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "naapurini totoro": {
    "id": 8392,
@@ -3714,6 +3727,19 @@
    },
    "tr": ""
   },
+  "original english forgotten island": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
   "ortotopologian loputtomat alkeet": {
    "id": 1753057,
    "img": "data/posters/24b34ae212265b6a.jpg",
@@ -3998,6 +4024,32 @@
    },
    "tr": ""
   },
+  "pirjo i sverige elokuvanäytös": {
+   "id": 1729175,
+   "img": "data/posters/a8cdd21dca604433.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "bioforum",
+    "helios",
+    "huvimylly",
+    "jarvelankino",
+    "kinokulma",
+    "kinolumo",
+    "kinopiispanristi",
+    "laitilankino",
+    "lieksankino"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "pirjo i sverige kahvi ja kino": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
@@ -4119,12 +4171,10 @@
    "krs": [
     "bioforum",
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "cinemantsala",
     "helios",
     "jarvelankino",
-    "kino123",
     "kinojuha",
     "kinolumo",
     "kinopiispanristi",
@@ -4133,8 +4183,7 @@
     "leffabuumi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
+    "studio123jarvenpaa"
    ],
    "r": 6.2,
    "s": {
@@ -4510,6 +4559,27 @@
    },
    "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM"
   },
+  "på svenska bortglömda ön": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "på svenska lilla spöket laban busar vidare": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
+   },
+   "tr": ""
+  },
   "på svenska vaiana liveaction": {
    "id": 1108427,
    "img": "data/posters/3b204eaa97f4fa96.jpg",
@@ -4558,7 +4628,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "bioforum",
     "biogrand",
     "biograni",
     "biokaari",
@@ -4694,6 +4763,19 @@
     "fi"
    ]
   },
+  "resan till piemonte matka piemonteen": {
+   "id": 1545391,
+   "img": "data/posters/e753668f77270e2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
+   },
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
+   "ts": [
+    "en"
+   ]
+  },
   "resident evil": {
    "id": 1423191,
    "img": "data/posters/647807f97cc3fb5a.jpg",
@@ -4707,6 +4789,7 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
+    "isohannu",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -4758,6 +4841,7 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
+    "isohannu",
     "kino123",
     "kinoakseli",
     "kinoelo",
@@ -4943,6 +5027,40 @@
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
+   },
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
+  },
+  "ryhmä hau dinoelokuva elokuvanäytös": {
+   "id": 1185806,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "kr": "K-7",
+   "krs": [
+    "biogrand",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "cinemantsala",
+    "helios",
+    "isohannu",
+    "kinohirvi",
+    "kinojuha",
+    "kinolaika",
+    "kinolumo",
+    "kinometso",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kotkanleffat",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa"
+   ],
+   "r": 8.1,
+   "s": {
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
    "ts": [
@@ -5164,7 +5282,6 @@
   },
   "sjung för mig arja laula minulle arja": {
    "id": 1713056,
-   "img": "data/posters/614615622fcfd9d8.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6381,6 +6498,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "bioforum",
     "engel",
     "haapamaki",
     "helios",
@@ -6405,6 +6523,35 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "bioforum",
+    "engel",
+    "haapamaki",
+    "helios",
+    "huvimylly",
+    "ihmekompleksi",
+    "kinoaurora",
+    "kinokulma",
+    "kinolaika",
+    "kkino",
+    "lieksankino"
+   ],
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "unohdettu saari elokuvanäytös": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "alatalo",
+    "bioforum",
     "engel",
     "haapamaki",
     "helios",
@@ -6458,6 +6605,7 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
+    "bioforum",
     "engel",
     "haapamaki",
     "helios",
@@ -6475,6 +6623,19 @@
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi..."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "urpo ja turpo johtolangan jäljillä": {
+   "id": 558445,
+   "img": "data/posters/215d5059ed6f02fd.jpg",
+   "r": 0,
+   "s": {
+    "en": "Two toy bears and their adventures.",
+    "fi": "Uteliaat leikkikarhut Urpo ja Turpo asuvat lastenhuoneen kirjahyllyssä. Karhujen lempipuuhaa on lukeminen, sillä kirjoista saa oivallisia ajatuksia. Karhut keksivät mitä hauskimpia seikkailuja satujen sekoittuessa arkeen. Urpo ja Turpo pelastuvat leipäpuun ansiosta autiolla saarella, kohentelevat ennakkoluulottomasti muiden ulkonäköä, etsivät johtolankaa, uhmaavat sääntöjä, kaipaavat hiljaisuutta ja kilpailevat ollakseen maailman parhaita ja voimakkaimpia. Toy Storysta tuttujen lelujen lailla Urpo ja Turpo heräävät henkiin, kun kotiväki ei näe. Urpo & Turpo -elokuva viihdyttää niin aikuisia kuin perheen pienimpiä. Heidänkin on helppo seurata elokuvaa, sillä siinä puhutaan hyvää suomea. Hannele Huovin suosittuihin satukirjoihin perustuva kuudesta klassikkoelokuvasta koostuva Urpo ja Turpo johtolangan jäljillä on restauroitu ja elää valkokankaalla nyt entistäkin värikkäämmin. Elokuvasta järjestetään 21.11. klo 10:30 ilmaisnäytös lapsen oikeuksien viikon kunniaksi."
+   },
+   "tr": "",
    "ts": [
     "en"
    ]
