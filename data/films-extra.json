@@ -1285,7 +1285,6 @@
     "biosade",
     "biosavoy",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -2686,6 +2685,7 @@
     "biokaari",
     "biorex",
     "cinemantsala",
+    "elavienkuvien",
     "gilda",
     "kinolumo",
     "tapiola"
@@ -2705,6 +2705,7 @@
     "biokaari",
     "biorex",
     "cinemantsala",
+    "elavienkuvien",
     "gilda",
     "kinolumo",
     "tapiola"
@@ -4637,9 +4638,7 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
-    "elavienkuvien",
     "gilda",
     "haapamaki",
     "helios",
@@ -6499,6 +6498,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cine",
     "engel",
     "haapamaki",
     "helios",
@@ -6524,6 +6524,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cine",
     "engel",
     "haapamaki",
     "helios",
@@ -6549,6 +6550,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cine",
     "engel",
     "haapamaki",
     "helios",
@@ -6603,6 +6605,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cine",
     "engel",
     "haapamaki",
     "helios",
