@@ -1866,7 +1866,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -2659,8 +2658,10 @@
    "img": "data/posters/c15d678a31ae397e.jpg",
    "kr": "K-16",
    "krs": [
+    "biokaari",
     "biorex",
     "cinemantsala",
+    "gilda",
     "kinolumo",
     "tapiola"
    ],
@@ -2676,8 +2677,10 @@
    "img": "data/posters/c15d678a31ae397e.jpg",
    "kr": "K-16",
    "krs": [
+    "biokaari",
     "biorex",
     "cinemantsala",
+    "gilda",
     "kinolumo",
     "tapiola"
    ],
@@ -3210,7 +3213,6 @@
     "helios",
     "jarvelankino",
     "kinohannikainen",
-    "kinojuha",
     "kinolaika",
     "kinomyyri",
     "kinoolympia",
@@ -3728,10 +3730,6 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "kr": "K-16",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
@@ -3941,6 +3939,7 @@
    "kr": "S",
    "krs": [
     "alatalo",
+    "biokaari",
     "kinoaurora"
    ],
    "r": 0,
@@ -3957,7 +3956,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -3984,7 +3982,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4028,7 +4025,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4178,7 +4174,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "helios",
@@ -4252,7 +4247,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "helios",
@@ -4309,7 +4303,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cine",
     "cinemantsala",
     "gilda",
     "helios",
@@ -4431,12 +4424,9 @@
    "r": 8.4,
    "s": {
     "en": "",
-    "fi": "Hiljattain edesmenneen Janet Leigh`n esittämä Marion kavaltaa työnantajansa rahoja ja pakenee kaupungista. Eksyttyään myrskyssä hän kirjoittautuu Norman Bates -nimisen miehen pitämään syrjäiseen ja hiljaiseen motelliin. Leigh ei leffan kuvausten jälkeen enää mielellään käynyt suihkussa. Jatko-osat ovat huttua, mutta ensimmäinen on yksi kaikkein aikojen leffaklassikoista."
+    "fi": "Alfred Hitchcockin elokuvista löytyy kyllä useampiakin kuuluisia tapauksia, liekö yksikään silti niin kuuluisa kuin vuonna 1960 valmistunut Psyko. Yhtä hyvä ei ainakaan! Tamperelaisilla valkokankailla tätä kiistatonta mestariteosta on näkynyt turhan harvoin, mutta tilanne korjaantuu Cinema Niagarassa lauantaina 31.10. Ja tämähän kuuluu siihen pitää nähdä ainakin kerran elämässä -kategoriaan Kauhuelokuvien harrastajaksi on turha itseään väittää jos Psyko on katsomatta. Janet Leighin esittämä Marion Crane varastaa työnantajaltaan rahaa uuden elämän aloittamiseen ja livahtaa muihin maisemiin. Matkalla hän pysähtyy syrjäiseen motelliin, jota isännöi Norman Bates (roolinsa vangiksi jäänyt Anthony Perkins) ja tämän vahvatahtoinen äiti. Marionin jäljille lähtevät tämän sisko sekä miesystävä. Työnantaja puolestaan palkkaa yksityisetsivän jäljittämään kadonneita rahoja. Psykosta on kirjoitettu kirjoja ja sanottu todennäköisesti kaikki mahdollinen, jo pelkästään sen kuuluisasta - ja sittemmin loputtomiin varioidusta ja parodioidusta - suihkukohtauksesta yksinäänkin. Upea mustavalkokuvaus soljuvasti kulkevine kamera-ajoineen toivat yhden Oscar-ehdokkuuden. Kolme muuta tulivat ohjauksesta, Janet Leighin sivuosaroolista sekä musiikista, jota ilman elokuva tuskin olisi menestynyt yhtä hyvin. Taloudellisesti Psyko kohosi Hitchcockin menestyneimmäksi työksi."
    },
-   "tr": "https://www.youtube.com/watch?v=D90QhegiVvo",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=D90QhegiVvo"
   },
   "punainen peto": {
    "id": 1453659,
@@ -4862,6 +4852,16 @@
     "fi": "Eräs Shakespearen filmatisoimisen keskeisiä ongelmia on löytää visuaalinen vastine runoilijan säkeiden ehtymättömälle rikkaudelle. Muun muassa tässä suhteessa Baz Luhrmannin Romeo ja Julia on riemukkaalla tavalla aivan omaa luokkaansa. Hän on sijoittanut tapahtumat postmoderniin urbaaniin mikä-mikä maahan (elokuva on kuvattu suurelta osin Mexico Cityssä) ja tallentanut tapahtumat kuin kyseessä olisi kokoillan rockvideo. Ja vaikka säkeitä lausuvatkin mitä erilaisimmilla tavalla englantia ääntävät näyttelijät, runous, sen kauneus ja voima ei jää audiovisuaalisen vyörytyksen varjoon. Tämän ansiosta Luhrmannia ei voi syyttää halpahintaisesta opportunismista, yrityksestä pelkästään kääriä klassikko kivaan pakettiin. Kieli ja muu ilmaisun eivät noin vain sulaudu yhteen, vaan niiden väliset jatkuvasti muuttuvat kontrastit luovat huimia tyylillisiä jännitteitä ja loputtomasti riemastuttavia rinnastuksia. Tekstin väistämättömiksi luullut anakronismit on joko ylitetty tai niille on etsitty koominen vastine. Prologi kuullaan uutisraporttina televisiosta, Capuletien ja Montagueiden nuoret kulkevat hengissä uhkaillen toisiaan Sword- (miekka-) merkkisillä aseilla jne. Mukana on muutenkin roppakaupalla huumoria ja – tietynlaisen hienostuneisuuden puitteissa – jopa groteskeja elementtejä. Mutta ennen kaikkea Shakespearen kieli ei lakkaa toimimasta näytelmän huikean tunneskaalan tärkeimpänä välittäjänä."
    },
    "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k"
+  },
+  "roofman kattokeikkailija": {
+   "id": 1242419,
+   "img": "data/posters/375e6b1aef5dafbe.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Channing Tatumin tähdittämä draamakomedia Roofman - Kattokeikkailija perustuu uskomattomaan tositarinaan vankikarkuri Jeffrey Manchesterista ja hänen villistä pakomatkastaan. Vankilasta paennut entinen sotilas ja ammattivaras Jeffrey löytää piilopaikan lelukaupan sisältä ja onnistuu elämään siellä kuukausien ajan kenenkään huomaamatta – samalla tehden murtokeikkoja kattojen kautta. Huolellisesti rakennettu kaksoiselämä alkaa kuitenkin rakoilla, kun hän rakastuu Leighin (Kirsten Dunst). Alkaa jännittävä takaa-ajo ja menneisyyden tapahtumat saavat Jeffreyn kiinni. Elokuvan on ohjannut Derek Cianfrance (Blue Valentine, The Place Beyond The Pines, Sound of Metal)."
+   },
+   "tr": "https://www.youtube.com/watch?v=IHikM7vFXsA"
   },
   "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
@@ -5407,6 +5407,10 @@
   "svečias the visitor": {
    "id": 1427167,
    "img": "data/posters/ab58860aa0b139c9.jpg",
+   "kr": "S",
+   "krs": [
+    "kinomyyri"
+   ],
    "r": 0,
    "s": {
     "en": "End of summer. Danielius (in mid 30s) makes a return to his hometown to sell his parents' flat. Having nowhere to rush, he reconnects with people and the town that's no longer his. He is confronted with a quiet sense of loneliness.",
@@ -6178,7 +6182,6 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
-    "cinemantsala",
     "helios",
     "kinoaurora",
     "kinokulma",
@@ -6378,7 +6381,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6403,7 +6405,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6457,7 +6458,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6768,6 +6768,19 @@
     "fi": "The Clashin Joe Strummer kaipasi valkoiselta valtaväestöltä samanlaista yhteiskunnallista kapinaa ja oman tilan ottoa kuin hän oli nähnyt tummaihoisen väestönosan harjoittavan 70-luvun Englannissa. Bändin kappale White Riot antoi nimen myös dokumentille, joka kertaa Rock Against Racism -liikkeen synnyn, kasvun ja huipentuman jättikonserttiin Lontoon Victoria Parkissa. Samalla se kasvaa aihettaan laajemmaksi kuvaukseksi 70-luvun Englannin konservatiivis-oikeistolaisesta ilmapiiristä. National Front -liikkeen suosion nousu sai vastavoiman RAR-liikkeestä DIY-hengestä. La 12.12. näytöksen saapuu alustamaan Punkmuseon Timo Kiippa."
    },
    "tr": "https://www.youtube.com/watch?v=794vlC_wKJQ",
+   "ts": [
+    "en"
+   ]
+  },
+  "wholetrain 2006": {
+   "id": 14231,
+   "img": "data/posters/2dab9b0442a25b52.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "This feature takes a look at the graffiti movement and young people who populate the niche culture. Following four such artists as they shape the graffiti community through both their art and their interactions, the film tells the story of how the foursome's decision to paint an entire train would affect their lives forever.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=oNKTp3Ta_Oc",
    "ts": [
     "en"
    ]
