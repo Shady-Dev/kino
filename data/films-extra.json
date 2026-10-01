@@ -443,16 +443,12 @@
   },
   "baletti pähkinänsärkijä hamburg ballett tshaikovski": {
    "id": 1670821,
-   "img": "data/posters/22e038deabae14e8.jpg",
    "r": 0,
    "s": {
-    "en": "Created in 1971, John Neumeier's ballet set to Tchaikovsky's music is now a classic performed all over the world. In his reinterpretation of The Nutcracker, the American choreographer transposes young Marie's initiation into the world of dance under the tutelage of ballet master Drosselmeier.",
+    "en": "",
     "fi": "John Neumeierin Pähkinänsärkijä kutsuu katsojan unelmien ja tanssin maailmaan. Baletti kertoo 12-vuotiaasta Mariesta, joka saa syntymäpäivälahjakseen pähkinänsärkijän ja vaaleanpunaiset kärkitossut. Unessaan hän kohtaa omalaatuisen balettimestari Drosselmeierin, joka johdattaa hänet teatterin ja klassisen baletin taianomaiseen maailmaan. Marie seuraa harjoituksia ja esityksiä, oppii itse tanssimaan sekä löytää vähitellen oman paikkansa näyttämöllä. Samalla Marie kasvaa lapsesta nuoreksi naiseksi, kokee ensirakkautensa ja oivaltaa taiteen voiman. Neumeierin tulkinta on sekä lämmin kasvutarina että kunnianosoitus 1800-luvun suurelle balettimestarille Marius Petipalle, jonka klassiset koreografiat elävät teoksessa uusina viittauksina. Peter Tšaikovskin rakastettu musiikki – kuten Kukkien valssi ja Sokerikeijun tanssi – yhdistyy Jürgen Rosen näyttäviin lavasteisiin ja värikkäisiin pukuihin luoden koko perheelle elämyksen, joka juhlistaa klassisen baletin kauneutta."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "bamse ja meren salaisuus": {
    "id": 1275785,
@@ -576,7 +572,7 @@
   "bortglömda ön": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
-   "r": 0,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "",
@@ -1726,13 +1722,12 @@
   },
   "jukka nykänen muistonäytös putoavia enkeleitä": {
    "id": 173872,
-   "img": "data/posters/33f444f7616fe6ee.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Tervetuloa kunnioittamaan heinäkuussa 2025 menehtyneen Jussi-palkitun elokuvaleikkaaja Jukka Nykäsen muistoa ja elämäntyötä. Jukka oli suomalaisen elokuvakerronnan mestari, jonka kädenjälki näkyy monissa rakastetuissa teoksissa."
    },
-   "tr": "https://www.youtube.com/watch?v=_hO2reqNcj0"
+   "tr": ""
   },
   "järven ääni": {
    "r": 0,
@@ -1871,7 +1866,6 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -3726,10 +3720,6 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "kr": "K-16",
-   "krs": [
-    "cinemantsala"
-   ],
    "r": 0,
    "s": {
     "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
@@ -3955,7 +3945,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -3982,7 +3971,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4026,7 +4014,6 @@
    "krs": [
     "alatalo",
     "bioforum",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4475,19 +4462,6 @@
    },
    "tr": ""
   },
-  "päiväkaffileffa hetki ennen valoa": {
-   "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
-   },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
-   "ts": [
-    "fi"
-   ]
-  },
   "päämies": {
    "id": 10731,
    "img": "data/posters/8daf0f93d91e99e6.jpg",
@@ -4923,7 +4897,7 @@
   "ryhmä hau dinoelokuva": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.0,
+   "r": 8.1,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -4949,7 +4923,7 @@
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.0,
+   "r": 8.1,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -5222,7 +5196,7 @@
     "en": "Winner of the Audience Award at the Tampere Film Festival, Sopeutumaton is a documentary about Nadja (24), a highly sensitive young woman from Helsinki’s Kallio district who has become caught in an endless cycle of underground parties and substance use. As everyday life begins to overwhelm her and her mental well-being deteriorates, she retreats to an old hermit’s cabin on a remote island in Lake Päijänne to find some peace. Cut off from the world and from the hypersocial life she is accustomed to, Nadja is forced to confront her deepest fears. At the same time, she forms a mysterious connection with the long-deceased owner of the cabin, the legendary hermit Toivo. This marks the beginning of a journey toward breaking intergenerational patterns, understanding the unusual abilities that run in her family, and finding her way into adulthood. Through Nadja’s story, the film explores the mental well-being of young adults in contemporary society and the role of nature and self-help in healing and restoring the mind. The documentary was filmed over a period of six years.",
     "fi": "Tampereen elokuvafestivaalien yleisöpalkinnon voittanut Sopeutumaton -dokumenttielokuva kertoo UG-bileiden ja päihteiden loputtomaan virtaan vajonneesta erityisherkästä Kalliolaisnuoresta Nadjasta (24), joka etsii ulospääsyä tukalasta tilanteestaan. Arjen kaatuessa päälle ja mielen hyvinvoinnin rakoillessa ajautuu hän Päijänteen kaukaisimpaan saareen vanhaan erakon mökkiin rauhoittumaan. Luonnon hiljaisuudessa ja saarella eristyksissä hypersosiaalinen Nadja joutuu kohtaamaan pahimmat pelkonsa ja saa samalla yhteyden aikaa sitten menehtyneeseen mökin isäntään myyttiseen erakko Toivoon. Tästä käynnistyy matka ylisukupolvisten käyttäytymismallien nujertamiseksi, suvussa kulkevien outojen kykyjen ymmärtämiseksi ja kohti aikuisuutta. Nadjan tarinan kautta elokuva käsittelee nuorten aikuisten mielen hyvinvointia nyky-yhteiskunnassa sekä luonnon ja self-helpin vaikutusta oman mielen eheytymiseen. Elokuvan seurantaosuus on kuvattu 6 vuoden aikana."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=4u6mZQulux0"
   },
   "sorry baby": {
    "id": 1205515,
@@ -5273,20 +5247,6 @@
   "spider man brand new day": {
    "id": 969681,
    "img": "data/posters/45f3e2165fbd29bb.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex",
-    "biorexkokkola",
-    "isohannu",
-    "kinolumo",
-    "kinopiispanristi",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
-   ],
    "r": 7.9,
    "s": {
     "en": "Fighting crime full-time as Spider-Man in a world that doesn't remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.",
@@ -6189,7 +6149,6 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
-    "cinemantsala",
     "helios",
     "kinoaurora",
     "kinokulma",
@@ -6389,7 +6348,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6414,7 +6372,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6468,7 +6425,6 @@
    "kr": "K-7",
    "krs": [
     "alatalo",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6480,7 +6436,7 @@
     "kkino",
     "lieksankino"
    ],
-   "r": 0,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi..."
@@ -6872,5 +6828,5 @@
    "tr": ""
   }
  },
- "generated": "2026-09-30"
+ "generated": "2026-10-01"
 }

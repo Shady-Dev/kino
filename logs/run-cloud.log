@@ -20,7 +20,7 @@
 [cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
 [cloud] kinola: exit=0
-[cloud] johku: exit=0
+[cloud] johku: exit=1
 [cloud] tribe: exit=0
 [cloud] hamina: exit=0
 [cloud] kinotour: exit=0
@@ -35,6 +35,6 @@
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 189.1s wall, 1163.0s of fetching added up across workers that overlap, 70 site(s) fetched
-[cloud] held at most 32 fetched site(s) and 4626 byte(s) of captured log waiting for publication
-exit=0
+[cloud] 214.4s wall, 1207.7s of fetching added up across workers that overlap, 70 site(s) fetched
+[cloud] held at most 39 fetched site(s) and 3439 byte(s) of captured log waiting for publication
+exit=1
