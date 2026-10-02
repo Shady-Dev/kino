@@ -3396,3 +3396,9 @@ the run's first request, while an ordinary connection read the same 199 showtime
 last good cloud run. The maintainer authorised the move. The registry entry went from
 `where="cloud"` to `where="local"`; adapter and pacing unchanged. The wrapper outside the
 repo got its block. Evidence: [runner-challenges.md](../research/runner-challenges.md).
+
+### Kinola reads every language name its film pages use (2026-10-03, sw.js v274)
+Sheryl's English `Language`/`Subtitles` lines were not read, and 21 films at the other three
+tenants lost a name each. `NAMES` covers all 2026-10-03 values; an unknown name blanks that
+part instead of shortening it. FA, HE, PS, EL, NE, RO and YI added to both name tables.
+Evidence: [kinola.md](../research/kinola.md). `LanguageNamesTest`; 5 mutations red.

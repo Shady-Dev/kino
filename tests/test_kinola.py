@@ -786,6 +786,72 @@ class FilmFactsTest(unittest.TestCase):
         self.assertGreater(len(f["syn"]), 120)
 
 
+class LanguageNamesTest(unittest.TestCase):
+    """Every language name the four tenants' film pages used, read 2026-10-03 over all
+    their listed films. Until then `_lang` knew Gilda's Finnish names alone and dropped the
+    rest one by one, so "suomi, persia" published as Finnish only and Sheryl's English
+    labels published nothing."""
+
+    MEASURED = {
+        "suomi, persia": "FI-A, FA-A", "tanska": "DA-A",
+        "englanti, ranska, hollanti, saksa": "EN-A, FR-A, NL-A, DE-A",
+        "ruotsi, turkki, persia": "SV-A, TR-A, FA-A", "Farsi": "FA-A",
+        "mandariinikiina, Taiwan": "ZH-A", "heprea, englanti, ranska, saksa":
+        "HE-A, EN-A, FR-A, DE-A", "hindi": "HI-A", "English": "EN-A",
+        "Dari, Pa\u0161tu, englanti": "FA-A, PS-A, EN-A", "Dubattu englanniksi": "EN-A",
+        "japani, korea": "JA-A, KO-A", "islanti": "IS-A", "kreikka": "EL-A",
+        "kiillottaa": "PL-A", "englanti, heprea": "EN-A, HE-A",
+        "englanti, norja, romanialainen": "EN-A, NO-A, RO-A",
+        "englanti, hindi, nepalilainen": "EN-A, HI-A, NE-A", "tamili": "TA-A",
+        "italialainen": "IT-A", "englanti, liettualainen": "EN-A, LT-A",
+        "Cantonese, Spanish, English, Mandarin": "ZH-A, ES-A, EN-A",
+        "Polish, German, Yiddish, Russian": "PL-A, DE-A, YI-A, RU-A", "Spanish": "ES-A"}
+
+    @staticmethod
+    def sheryl_langs(language, subtitles):
+        """Sheryl's labels as served on sheryl.fi/film/verityn-varjo/, 2026-10-03."""
+        return ("<html><body><section class='kinola-film-meta'>"
+                " <strong>Director</strong> <br> Michael Showalter <br><br>"
+                f" <strong>Language</strong> <br> {language} <br><br>"
+                f" <strong>Subtitles</strong> <br> {subtitles} <br><br>"
+                "</section></body></html>")
+
+    def test_every_measured_value_reads_whole(self):
+        for value, want in self.MEASURED.items():
+            with self.subTest(value=value):
+                self.assertEqual(K._lang({"kieli": value}), (want, []))
+
+    def test_sheryl_s_english_labels(self):
+        for language, subtitles, want in (
+                ("English", "Finnish, Swedish", "EN-A, FI-S, SV-S"),
+                ("Cantonese, Mandarin", "English", "ZH-A, EN-S")):
+            with self.subTest(language=language):
+                f = K.film_facts(self.sheryl_langs(language, subtitles), "sheryl")
+                self.assertEqual((f["lang"], f["lang_unread"]), (want, []))
+
+    def test_a_role_with_an_unknown_name_publishes_nothing_for_that_role(self):
+        f = K.film_facts(kilta_film(lang="suomi, klingon", subs="englanti"))
+        self.assertEqual((f["lang"], f["lang_unread"]), ("EN-S", ["klingon"]))
+        f = K.film_facts(kilta_film(lang="suomi", subs="Ei teksityst\u00e4"))
+        self.assertEqual((f["lang"], f["lang_unread"]), ("FI-A", ["Ei teksityst\u00e4"]))
+
+    def test_the_run_names_the_films_whose_language_was_not_read(self):
+        page = listing(laika_row("hetki", "Hetki ennen valoa"),
+                       laika_row("fox", "A Fox Under a Pink Moon", date="24/09/2026 18:00"))
+        pages = {"hetki": laika_film(lang="suomi, klingon"), "fox": laika_film(lang="ruotsi")}
+        per, om = K.parse(LAIKA, page, pages, {})
+        self.assertEqual(om["lang_unread"], {"Hetki ennen valoa (klingon)"})
+        self.assertEqual({s["title"]: s["lang"] for s in per["laika-karkkila"]},
+                         {"Hetki ennen valoa": "", "A Fox Under a Pink Moon": "SV-A"})
+
+    def test_every_code_the_names_give_has_a_name_on_the_pages_and_in_the_app(self):
+        """The app's table is held identical to this one in test_lang_normalization."""
+        import build_pages as bp
+        for lang in ("fi", "sv", "en"):
+            with self.subTest(lang=lang):
+                self.assertEqual(set(K.NAMES.values()) - set(bp.LN[lang]), set())
+
+
 class SynopsisParagraphTest(unittest.TestCase):
     """The synopsis is the film's own long paragraph, read from `<p>` elements only.
 

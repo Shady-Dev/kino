@@ -140,8 +140,10 @@ is a `<dt>`/`<dd>` pair or a `<strong>` followed by text, and both land in one d
   Kilta and K-7 on Laika. Each publishes what its own page says, and `enrich_tmdb` reports
   the disagreement rather than either overwriting the other.
 - Kilta's poster is the page's `og:image`; Laika's comes from the listing row.
-- `LANG` is imported from `gilda.py`, which already maps the Finnish language names these
-  pages use, so a code cannot drift between two readers of the same vocabulary.
+- `LANG` is imported from `gilda.py`, so a code cannot drift between two readers of the
+  same vocabulary; `NAMES` adds the names only these pages use, Sheryl's English ones
+  among them. A language or subtitle line with a name it does not know publishes nothing
+  for that part, and the run log names the film.
 
 ## What counts as an empty programme
 
@@ -181,6 +183,28 @@ from common import (EmptyProgramme, budget_or_raise, fetch, get_text, resolve_ye
                     syn_language, weekday_index)
 from gilda import LANG
 from synmerge import is_note
+
+# Every language name the four tenants' film pages used on 2026-10-03, over all their listed
+# films: Finnish names Gilda's table lacks, Sheryl's English ones, and the adjectives and
+# mistranslations Laika and Myyri publish ("italialainen", "kiillottaa" for Polish). Kilta's
+# "Taiwan" beside "mandariinikiina" is Taiwanese Hokkien, and Dari is Persian: both under
+# their macrolanguage. Record in docs/research/kinola.md.
+NAMES = {**LANG, **{
+    "persia": "FA", "farsi": "FA", "dari": "FA", "pa\u0161tu": "PS", "heprea": "HE",
+    "kreikka": "EL", "tanska": "DA", "hollanti": "NL", "turkki": "TR", "korea": "KO",
+    "hindi": "HI", "islanti": "IS", "norja": "NO", "kiina": "ZH", "mandariinikiina": "ZH",
+    "taiwan": "ZH", "tamili": "TA", "liettua": "LT", "romania": "RO", "nepali": "NE",
+    "jiddi\u0161": "YI", "italialainen": "IT", "liettualainen": "LT",
+    "nepalilainen": "NE", "romanialainen": "RO", "kiillottaa": "PL",
+    "dubattu englanniksi": "EN",
+    "english": "EN", "finnish": "FI", "swedish": "SV", "spanish": "ES", "german": "DE",
+    "french": "FR", "italian": "IT", "russian": "RU", "polish": "PL", "japanese": "JA",
+    "korean": "KO", "chinese": "ZH", "cantonese": "ZH", "mandarin": "ZH", "danish": "DA",
+    "norwegian": "NO", "icelandic": "IS", "dutch": "NL", "portuguese": "PT",
+    "ukrainian": "UK", "arabic": "AR", "turkish": "TR", "persian": "FA",
+    "hebrew": "HE", "greek": "EL", "romanian": "RO", "estonian": "ET",
+    "lithuanian": "LT", "tamil": "TA", "georgian": "KA", "pashto": "PS",
+    "yiddish": "YI"}}
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -593,14 +617,21 @@ def _rating(page, head):
 
 
 def _lang(facts):
-    """-> "FI-A, SV-S" using Finnkino's tags, from the Finnish language names."""
-    out = []
-    for label, suffix in (("kieli", "-A"), ("tekstitys", "-S")):
-        for part in re.split(r"[,/]|\bja\b", facts.get(label, "")):
-            code = LANG.get(part.strip().lower(), "")
-            if code and code + suffix not in out:
+    """-> ("FI-A, SV-S", [unread names]) from the language and subtitle labels, Finnish or
+    English (Sheryl). A role holding a name `NAMES` does not know publishes nothing, and the
+    name is returned: a partial list reads as the whole one."""
+    out, unread = [], []
+    for labels, suffix in ((("kieli", "language"), "-A"), (("tekstitys", "subtitles"), "-S")):
+        value = next((facts[k] for k in labels if facts.get(k)), "")
+        parts = [p.strip() for p in re.split(r"[,/]|\bja\b|\band\b", value) if p.strip()]
+        missing = [p for p in parts if p.lower() not in NAMES]
+        if missing:
+            unread += missing
+            continue
+        for code in (NAMES[p.lower()] for p in parts):
+            if code + suffix not in out:
                 out.append(code + suffix)
-    return ", ".join(out)
+    return ", ".join(out), unread
 
 
 def kilta_synopsis(page):
@@ -662,11 +693,12 @@ def film_facts(page, template=None):
     withheld = 0
     if template == "kilta":
         syn, withheld = kilta_synopsis(page)
+    lang, unread = _lang(facts)
     return {"labels": facts, "rating": _rating(page, head),
             "len": dur,
             "genres": facts.get("lajityyppi", ""),
             "img": (og.group(1) or og.group(2)) if og else "",
-            "syn": syn, "syn_withheld": withheld, "lang": _lang(facts)}
+            "syn": syn, "syn_withheld": withheld, "lang": lang, "lang_unread": unread}
 
 
 def load_overrides(path=None):
@@ -756,7 +788,9 @@ def parse(site, listing, pages, overrides=None):
           "unresolved_films": set(), "unresolved_shows": 0, "overrides": {},
           # Films whose blurb this run would not place in a language. The screening
           # publishes; only the synopsis is withheld, and the count is printed.
-          "syn_unplaced": set()}
+          "syn_unplaced": set(),
+          # Films with a language name `NAMES` does not know: that role publishes blank.
+          "lang_unread": set()}
     # Every entry for this provider, not only the ones the listing happens to hold, so an
     # override whose film has left the programme is reported rather than silently ignored.
     for (pid, slug), entry in sorted(overrides.items()):
@@ -803,6 +837,8 @@ def parse(site, listing, pages, overrides=None):
             "provider": site["provider"],
             "venue": venue["id"],
         }
+        if facts.get("lang_unread"):
+            om["lang_unread"].add(f"{e['title']} ({', '.join(facts['lang_unread'])})")
         if facts["syn"]:
             syn = syn_value(site, facts["syn"])
             if syn:
@@ -903,6 +939,9 @@ def fetch_site(site, sleep=1.2):
     if om["syn_unplaced"]:
         print(f"[{pid}] {len(om['syn_unplaced'])} synopsis/synopses withheld, no language "
               f"settled: {', '.join(sorted(om['syn_unplaced'])[:8])}")
+    if om["lang_unread"]:
+        print(f"[{pid}] {len(om['lang_unread'])} film(s) with a language name not read, "
+              f"that part left blank: {'; '.join(sorted(om['lang_unread'])[:8])}")
     if not shows:
         raise RuntimeError(
             f"{listing_url} lists {len(rows)} screening(s) and none "

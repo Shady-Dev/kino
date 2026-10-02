@@ -352,3 +352,20 @@ for a sold-out row or one with no ticket anchor. The access rule in CLAUDE.md no
 Refreshed the same day: Myyri 20 and Sheryl 13 showtimes carry checkout links, every one
 of them an href on that site's listing (Myyri's listing has 3 more, on rows the publication
 policy omits). The record is in `docs/archive/2026-09-providers.md`.
+
+## Language names (read 2026-10-03, every listed film of all four tenants)
+
+Findings, from the film pages read once as a visitor through `fetch_site`:
+
+- Sheryl labels the lines `Language` and `Subtitles` in English with English names
+  ("English", "Finnish, Swedish", "Cantonese, Mandarin"); 7 films, one without a
+  Subtitles line. The reader knew only `kieli` and `tekstitys`, so all 9 screenings
+  published no language.
+- Kilta, Laika and Myyri used 23 names Gilda's table lacks over 21 films, among them
+  persia, tanska, heprea, hindi, "English", "Dubattu englanniksi", and Laika's and
+  Myyri's machine-translated forms: "italialainen", "romanialainen", "kiillottaa" (Polish).
+  Each was dropped alone, so "suomi, persia" published as Finnish only.
+- Kilta writes "Ei teksitystä" once; read as no subtitle line, since `XX-S` stays Engel's.
+
+Implementation status: `NAMES` in `kinola.py`; a line with an unknown name publishes
+nothing for that part and the run log names the film. `LanguageNamesTest`.
