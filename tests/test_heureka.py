@@ -552,7 +552,7 @@ class AdmissionModeTest(unittest.TestCase):
     def test_the_registry_entry(self):
         p = registry.by_id("heureka")
         self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
-                         ("Heureka", "heureka.fi", "admission", "heureka", "cloud"))
+                         ("Heureka", "heureka.fi", "admission", "heureka", "local"))
         self.assertEqual(p["accent"], "#0B8468")
         self.assertEqual(sum(1 for q in registry.PROVIDERS if q["accent"] == p["accent"]), 1)
         h = heureka()

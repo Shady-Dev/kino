@@ -208,3 +208,26 @@ here can test the runner's resolver path.
 **Status.** Routed local on 2026-09-26, the maintainer having authorised the move if a
 third routine cloud run failed resolution and an ordinary connection parsed the site. No
 adapter or DNS change. Verified on the first routine local run after the push.
+
+## Heureka: Cloudflare answers the runner 429 (2026-10-02)
+
+The runner reaches the site, and the site's CDN refuses it before any page is served.
+
+**Findings.**
+- Committed `logs/run-heureka.log`, read 2026-10-03: green on every cloud run up to
+  `e805c8555` (2026-10-02 05:22Z), 1 venue and 199 showtimes. Red on the next four:
+  `b5c106ec2` (08:48Z), `5f7fcfaec` (11:18Z), `d92012fde` (16:22Z), `d27fedb4c`
+  (17:17Z), each `429 from www.heureka.fi, gave up after 3 attempt(s) -- Server:
+  cloudflare` with `Retry-After: 60`, on the calendar page, the run's first request.
+  CF-Ray suffixes IAD three times and ORD once.
+- A run makes five requests, 1.2 s apart (the calendar and four film pages), so the
+  refusal is not an answer to this adapter's own rate.
+- From an ordinary connection on 2026-10-03 the same calendar page answered 200 and parsed
+  to 199 showtimes over four films and 21 dates, the last good cloud run's count.
+
+**Inference, not verified.** Cloudflare rate-limits or scores the runners' address ranges
+for this zone; nothing from here can see its rules.
+
+**Status.** Routed local on 2026-10-03 on the maintainer's word, after four routine cloud
+runs in a row. No adapter or pacing change. The first routine local run after the push
+verifies it.

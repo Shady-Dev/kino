@@ -62,7 +62,7 @@ small cinemas run one of a few ticketing platforms:
 | Cinema Orion | 1 | 1 | none | GitHub Actions |
 | Kino Engel | 1 | 1 | none | Local |
 | Kino Akseli | 1 | 1 | none | Local |
-| Heureka | 1 | 1 | none | GitHub Actions |
+| Heureka | 1 | 1 | none | Local |
 | Vista (public XML) | 1 | 1 | none | GitHub Actions |
 | Kino Tapiola | 1 | 1 | none | GitHub Actions |
 | Kino Regina | 1 | 1 | none | Local |

@@ -203,8 +203,11 @@ PROVIDERS = [
     # lime green scores 6.9 against the orange. `where` is provisional as Niagara's was:
     # 200 from an ordinary connection and from a non-residential fetcher, Cloudflare in
     # front, no challenge. The first cloud run decides.
+    # Local since 2026-10-03: four routine cloud runs in a row, 2026-10-02 08:48Z to
+    # 17:17Z, got Cloudflare's 429 on the first request, while an ordinary connection read
+    # the same 199 showtimes. Evidence in docs/research/runner-challenges.md.
     dict(id="heureka", label="Heureka", host="heureka.fi", accent="#0B8468",
-         book="admission", module="heureka", where="cloud"),
+         book="admission", module="heureka", where="local"),
     # Korjaamo Kino, Helsinki (2026-09-05): the Vista module's first site since Savon
     # Kinot left it. korjaamokino.fi answers the public /xml/ services to anyone, a
     # non-residential fetcher included, so `cloud`. Per-show ticket links to

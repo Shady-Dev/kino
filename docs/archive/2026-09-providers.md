@@ -3389,3 +3389,10 @@ published: all three cards printed 87 min, Rakkautta & Virtahepoja's included, w
 `test_show_contract.py` also built its Kinotour sample from the removed table fixture, so
 Checks went red on e2c9d9049 with an `AttributeError`; the sample now uses the card
 fixture, with the same declared, undeclared and second declared town (2026-09-29).
+
+### Heureka moves to the local half (2026-10-03)
+Four routine cloud runs in a row, 2026-10-02 08:48Z to 17:17Z, got Cloudflare's 429 on
+the run's first request, while an ordinary connection read the same 199 showtimes as the
+last good cloud run. The maintainer authorised the move. The registry entry went from
+`where="cloud"` to `where="local"`; adapter and pacing unchanged. The wrapper outside the
+repo got its block. Evidence: [runner-challenges.md](../research/runner-challenges.md).
