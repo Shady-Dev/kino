@@ -7,18 +7,17 @@
 [savonkinot] synopses merged: 0
 [joutsankino] Joutsan Kino: 9 showtimes, 7 dates
 [joutsankino] synopses merged: 0
-[cine] Cine Keuda-Talo: 2 showtimes, 1 dates
+[cine] Cine Keuda-Talo: 4 showtimes, 1 dates
 [cine] Cine Nikkilä: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
-[cine] synopses merged: 2
-[cine] synopses by language: en 1, fi 1
+[cine] synopses merged: 0
 [star] strand prefix split off 12 showtimes
 [star] Elokuvateatteri Star: 116 showtimes, 7 dates
 [star] synopses merged: 0
 [haapamaki] Haapamäen Elokuvat: 11 showtimes, 8 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 70 full, 70 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
 [run] pending: cine has 1 venue(s) with no programme yet: cine-nikkila
-[run] etiketti: 10 venues, 295 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] etiketti: 10 venues, 297 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
 exit=0
