@@ -797,6 +797,14 @@
   .stub .aud.twoline .slang{grid-column:1; grid-row:2}
   .stub .aud.twoline .glyphs{grid-column:2; grid-row:1 / span 2; align-self:center;
     margin:0; padding-top:0}
+  /* From 700 px a single cinema's glyphs widen the ticket instead of narrowing its text,
+     so the room and language break where they do on a ticket without one (2026-10-02).
+     172 px is the text column the 200 px cap leaves when there is no glyph. */
+  @media (min-width:700px){
+    .stubs:not(.grid) .stub .aud.twoline{max-width:none}
+    .stubs:not(.grid) .stub .aud.twoline .loc,
+    .stubs:not(.grid) .stub .aud.twoline .slang{max-width:172px}
+  }
   /* The price compartment: the tear-off end of the ticket, --pw wide on the row stub.
      The dashed seam is its left border and the notches are its own pseudo-elements,
      centred on that border, so the perforation is anchored to the price wherever the
