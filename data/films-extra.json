@@ -560,6 +560,19 @@
    },
    "tr": ""
   },
+  "bokshi": {
+   "id": 718833,
+   "img": "data/posters/99640ccccdb01af1.jpg",
+   "r": 0,
+   "s": {
+    "en": "Anahita, traumatised by the brutal disappearance of her mother, finds comfort in Shalini, her history teacher. On an unconventional school excursion to a mysterious prehistoric site, she confronts her terrifying destiny.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=AU4hlB0ZdOE",
+   "ts": [
+    "en"
+   ]
+  },
   "boléro": {
    "id": 1004348,
    "r": 0,
@@ -3353,6 +3366,20 @@
     "en"
    ]
   },
+  "naza": {
+   "id": 1755291,
+   "img": "data/posters/60552918c00e4422.jpg",
+   "kr": "K-12",
+   "krs": [
+    "niagara"
+   ],
+   "r": 0,
+   "s": {
+    "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
+    "fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun The Zone of Interest -elokuvan (R&A 2023) ohjaaja Jonathan Glazer ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina."
+   },
+   "tr": "https://www.youtube.com/watch?v=40KW6knYMo4"
+  },
   "night of the demon": {
    "id": 25103,
    "img": "data/posters/ccc60fa44180b062.jpg",
@@ -3772,6 +3799,14 @@
    "ts": [
     "en"
    ]
+  },
+  "ortotopologian loputtomat alkeet ohjaajavierailu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Elokuva on saanut innoituksensa Oulun yliopistossa ortotopologian dosentiksi kutsutun Aapo Heikkilän värikkäästä elämästä ja hänen olevaisuuden salaisuudet selvittävästä teoriastaan. Vaillinaisen kansakoulun käynyt omaperäinen ajattelija kehitti oman oppisuuntansa, jonka hän nimesi ortotopologiaksi. Oulun yliopiston opiskelijat alkoivat kutsua häntä dosentiksi. Yliopisto antoi Heikkilälle työhuoneen ja luvan pitää luentoja. Dosentti Heikkilä kohtaa elokuvassa Helsingin yliopiston varadekaani Osmo Pulkkisen. Dekaani on tullut selvittämään, voiko ortotopologian dosentin päästää luennoimaan myös hänen omille opiskelijoilleen. Elokuva huipentuu osin koomisia piiretitä saavaan mittelöön akateemisen tieteentekijän ja olevaisuuden salaisuudet omalla teorillaan selvittävän Heikkilän kesken. Sydämen sivistys kohtaa akateemisen oppineisuuden. Ohjaaja Markku Pölönen käsittelee fiktiossaan Heikkilää myötätunnolla ja lämpimällä huumorilla, Elokuva koskettaa katsojaa monella tavalla: se liikuttaa, naurattaa ja inspiroi ajattelemaan mukavia."
+   },
+   "tr": ""
   },
   "other mommy": {
    "id": 1400837,
@@ -4695,7 +4730,6 @@
     "laitilankino",
     "leffabuumi",
     "marita",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -4817,7 +4851,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohamina",
     "kinohirvi",
     "kinolaika",
     "kinolumo",
@@ -4869,7 +4902,6 @@
     "kino123",
     "kinoakseli",
     "kinoelo",
-    "kinohamina",
     "kinohirvi",
     "kinolaika",
     "kinolumo",
@@ -6162,6 +6194,10 @@
   "the social reckoning": {
    "id": 1281331,
    "img": "data/posters/b8495bc94d603a4d.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinoaurora"
+   ],
    "r": 0,
    "s": {
     "en": "Frances Haugen, a young Facebook engineer, enlists the help of Jeff Horwitz, a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network's most guarded secrets.",

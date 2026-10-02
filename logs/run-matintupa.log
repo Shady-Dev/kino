@@ -1,8 +1,8 @@
-[matintupa] Elokuvateatteri Matin-Tupa, Ylistaro: 13 showtimes, 9 dates, 4 film(s)
-[matintupa] Elokuvateatteri Matin-Tupa: 13 showtimes, 9 dates
+[matintupa] Elokuvateatteri Matin-Tupa, Ylistaro: 8 showtimes, 5 dates, 3 film(s)
+[matintupa] Elokuvateatteri Matin-Tupa: 8 showtimes, 5 dates
 [matintupa] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.matin-tupa.fi
-[run] matintupa: 1 venues, 13 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 2.6s of fetching added up across workers that overlap, longest site 2.6s, longest queue wait 109.2s, 2.6s wall from this module's first fetch starting to its last ending
+[run] matintupa: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 2.1s of fetching added up across workers that overlap, longest site 2.1s, longest queue wait 120.5s, 2.1s wall from this module's first fetch starting to its last ending
 exit=0
