@@ -1,9 +1,9 @@
-[kinohuovi] Kino-Huovi, Harjavalta: 8 showtimes, 7 dates, 5 card(s)
+[kinohuovi] Kino-Huovi, Harjavalta: 7 showtimes, 6 dates, 5 card(s)
 [kinohuovi] 1 card(s) whose dates, weekdays and times disagree
-[kinohuovi] Kino-Huovi: 8 showtimes, 7 dates
+[kinohuovi] Kino-Huovi: 7 showtimes, 6 dates
 [kinohuovi] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 1 full, 1 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinohuovi.fi
-[run] kinohuovi: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] kinohuovi: 1 venues, 7 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
