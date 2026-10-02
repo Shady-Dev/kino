@@ -538,19 +538,6 @@
     "en"
    ]
   },
-  "blade runner the final cut": {
-   "id": 78,
-   "img": "data/posters/1834feaeb0affe77.jpg",
-   "r": 7.9,
-   "s": {
-    "en": "",
-    "fi": "On vuosi 2019. Eläkkeellä oleva poliisi Rick Deckard kutsutaan jahtaamaan geenimanipulaation tuloksena syntyneitä ihmisen näköisiä ja kaltaisia robotteja, replikantteja. Futuristiseen maailmaan ja Los Angelesiin sijoitettu monitasoinen trilleri ja tieteiselokuva pohtii monia kysymyksiä - kuten sitä, mitä on olla ihminen."
-   },
-   "tr": "https://www.youtube.com/watch?v=qoEyZoOTtss",
-   "ts": [
-    "fi"
-   ]
-  },
   "blue baby hetki ennen valoa": {
    "id": 1015881,
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
@@ -2681,6 +2668,7 @@
     "elavienkuvien",
     "gilda",
     "kinolumo",
+    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -2701,6 +2689,7 @@
     "elavienkuvien",
     "gilda",
     "kinolumo",
+    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -2757,6 +2746,23 @@
     "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu. Elokuvateattereissa 14.8."
    },
    "tr": ""
+  },
+  "laula minulle arja elokuvanäytös": {
+   "id": 1713056,
+   "img": "data/posters/614615622fcfd9d8.jpg",
+   "kr": "S",
+   "krs": [
+    "kinoaurora"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "lex julia": {
    "id": 1450457,
@@ -4608,7 +4614,6 @@
     "biograni",
     "biokaari",
     "biomarilyn",
-    "biopallas",
     "biorex",
     "biorexkokkola",
     "biosade",

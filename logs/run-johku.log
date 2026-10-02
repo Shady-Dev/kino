@@ -1,17 +1,14 @@
 [biomarilyn] FAILED: https://www.biomarilyn.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [vihdinkino] FAILED: https://vihdinkino.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[bioforum] 37 screening(s) in day groups, 13 film page(s) read
-[bioforum] Bio Forum: 37 showtimes, 18 dates
-[bioforum] Bio Forum: 37 showtimes, 18 dates
-[bioforum] synopses merged: 0
+[bioforum] FAILED: https://bioforum.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [kinokulma] FAILED: https://kinokulma.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [kinovirta] 6 screening(s) in day groups, 5 film page(s) read
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 11 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 2 venues, 43 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
-[run] timing: 6 site(s), 55.1s of fetching added up across workers that overlap, longest site 32.7s, longest queue wait 114.0s, 35.0s wall from this module's first fetch starting to its last ending
+[run] johku: 1 venues, 6 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 5 failures
+[run] timing: 6 site(s), 21.0s of fetching added up across workers that overlap, longest site 11.7s, longest queue wait 104.3s, 16.8s wall from this module's first fetch starting to its last ending
 exit=1
