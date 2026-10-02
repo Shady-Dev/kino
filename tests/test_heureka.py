@@ -459,7 +459,7 @@ class RunnerTest(unittest.TestCase):
     def main(self):
         out, err = io.StringIO(), io.StringIO()
         with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
-            code = run.main(["heureka"])
+            code = run.main(["heureka", "--half", "all"])
         return code, out.getvalue() + err.getvalue()
 
     def test_a_full_run_publishes_the_venue_with_film_metadata(self):
