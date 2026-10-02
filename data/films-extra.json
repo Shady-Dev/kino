@@ -1663,6 +1663,19 @@
    },
    "tr": ""
   },
+  "jailer 2": {
+   "id": 1234139,
+   "img": "data/posters/fc034c34f1eaf82a.jpg",
+   "r": 0,
+   "s": {
+    "en": "Following the events of \"Jailer\",  former ruthless police officer Muthuvel Pandian must come face-to-face with an even larger threat.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
    "s": {
@@ -2677,6 +2690,30 @@
     "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta."
    },
    "tr": ""
+  },
+  "lapin sota elokuvanäytös": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biokaari",
+    "biorex",
+    "cinemantsala",
+    "elavienkuvien",
+    "gilda",
+    "kinolumo",
+    "kinopiispanristi",
+    "tapiola"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "lapin sota kahvi ja kino": {
    "id": 1450460,
@@ -4716,6 +4753,14 @@
    },
    "tr": ""
   },
+  "rauhanviikko naza": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Oscar-palkittujen Rachel Szorin ja Yuval Abrahamin ( No Other Land , R&A 2024) ohjaama, Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista."
+   },
+   "tr": ""
+  },
   "recombination": {
    "id": 1157677,
    "img": "data/posters/7f670d972e6770fe.jpg",
@@ -4928,7 +4973,6 @@
   },
   "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
-   "img": "data/posters/ee15e99f98c4e826.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5697,10 +5741,6 @@
   "teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
    "img": "data/posters/ee15e99f98c4e826.jpg",
-   "kr": "K-7",
-   "krs": [
-    "joutsankino"
-   ],
    "r": 0,
    "s": {
     "en": "",
