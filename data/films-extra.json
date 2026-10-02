@@ -1275,7 +1275,6 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
-    "haapamaki",
     "helios",
     "ihmekompleksi",
     "jarvelankino",
@@ -4478,10 +4477,6 @@
   "primavera": {
    "id": 1365683,
    "img": "data/posters/8fe80e3891276876.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.1,
    "s": {
     "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
