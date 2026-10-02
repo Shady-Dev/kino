@@ -10,5 +10,5 @@
 [run] hosts: 1 attempted -- www.kinotour.fi
 [run] pending: kinotour has 2 venue(s) with no programme yet: kinotour-kyro, kinotour-lieto
 [run] kinotour: 1 venues, 3 showtimes, 0 stale, 0 unverified, 2 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.0s of fetching added up across workers that overlap, longest site 1.0s, longest queue wait 105.6s, 1.0s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 119.2s, 0.9s wall from this module's first fetch starting to its last ending
 exit=0

@@ -1,9 +1,9 @@
-[korjaamo] prices: 16 screenings, 8 priced, 0 pages read, 16 reused, 8 without an ordinary ticket, 0 failed, 0 deferred
-[korjaamo] Korjaamo Kino: 16 showtimes, 9 dates
+[korjaamo] prices: 14 screenings, 7 priced, 7 pages read, 7 reused, 7 without an ordinary ticket, 0 failed, 0 deferred
+[korjaamo] Korjaamo Kino: 14 showtimes, 8 dates
 [korjaamo] synopses merged: 0
 [korjaamo] synopses skipped as screening notes (price): 4
-[run] http: 0 revalidated (304), 2 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 9 full, 7 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- korjaamokino.fi
-[run] vista: 1 venues, 16 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 2.4s of fetching added up across workers that overlap, longest site 2.4s, longest queue wait 45.7s, 2.4s wall from this module's first fetch starting to its last ending
+[run] vista: 1 venues, 14 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 15.8s of fetching added up across workers that overlap, longest site 15.8s, longest queue wait 52.1s, 15.8s wall from this module's first fetch starting to its last ending
 exit=0

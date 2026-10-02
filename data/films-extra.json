@@ -776,19 +776,6 @@
     "en"
    ]
   },
-  "deathstalker": {
-   "id": 1253000,
-   "img": "data/posters/234cf14ed8a83489.jpg",
-   "r": 6.0,
-   "s": {
-    "en": "A powerful swordsman known as Deathstalker recovers a cursed amulet from a corpse-strewn battlefield. Marked by dark magic and hunted by monstrous assassins, he must face the rising evil and break the curse.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=fAdo8drjc_M",
-   "ts": [
-    "en"
-   ]
-  },
   "departures": {
    "id": 1427653,
    "img": "data/posters/798be2da6b5d37cd.jpg",
@@ -833,6 +820,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -1277,7 +1265,6 @@
    "kr": "K-12",
    "krs": [
     "bioforum",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -1291,7 +1278,6 @@
     "haapamaki",
     "helios",
     "ihmekompleksi",
-    "isohannu",
     "jarvelankino",
     "julia",
     "kino123",
@@ -1377,6 +1363,14 @@
    "s": {
     "en": "Cotard – EGYPT (17 min.)\nThe story delves into themes of existential dread and hopelessness, mirroring the actual psychological condition known as Cotard's delusion (or \"Walking Corpse Syndrome\"), where individuals hold the delusional belief that they are dead or do not exist.\n\nAlone – EGYPT (22 min.)\nThe story follows a young caregiver who struggles with unspoken grief while looking after Mady, an older woman aggressively denying her descent into dementia\n\nThe Lego Queen – OMAN (61 min.)\nDhai lost her mother when she was a child. She has to endure the pain of not connection emotionally with any person till the time she meets Shihab who could be the savior or the killer of her hopes.\n\nThe Victim Zero - ALGERIA (18 min.)\nThe disappearance of a child sets off a chain of events uncovering a complex web of\naddiction, child abduction, and family disintegration. The Victim Zero is not just the\nbeginning — it's a warning bell for an endless cycle of victims.",
     "fi": ""
+   },
+   "tr": ""
+  },
+  "helvetin portti": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Helvetin portti on tyypillinen Jidai-geki, historiallinen laatukuva, joka kertoo tosipohjaisen episodin vuoden 1160 tienoilta, Taira-klaanin ja Fujiwara-klaanin valtataistelun ajoilta. Elokuvan tapahtumat liittyvät vuoden 1159 lopulla alkaneeseen Heiji-kapinaan, jonka Taira-klaanin päällikkö Kiyomori kukistaa. Rinnan Taira-klaanin nousun kanssa alkaa 300 vuotta hallinneen Fujiwara-klaanin lopullinen häviö. Elokuvan polttopisteessä on kuitenkin intiimi draama, soturi Moriton mieletön rakkaus naimisissa olevaan hovinaiseen Kesaan, murhenäytelmä joka johdonmukaisuudessaan ja ankaruudessaan muistuttaa klassista kohtalondraamaa. Toiminta on vahvasti tyyliteltyä, ikään kuin korostaakseen tarinan yleispätevyyttä. Rytmi on rauhallinen, kohtaukset on sommiteltu huolellisesti eri väritasoille, toistensa vastapainoksi tai vastakohtien jännityksen varaan. Myös äänielementit antavat tehokkaita kontrasteja, hiljaisuus vaikuttaa aktiivisesti. Rikkaita yksityiskohtia sisältävät kohtaukset Moriton ja Kesan välillä ovat kuin soimaan jääviä akordeja; tunnelmat miltei hitsautuvat yhteen ja elokuvaa leimaa usein Dreyerin mieleen tuova klassinen yksinkertaisuus, sävyn yhtenäisyys."
    },
    "tr": ""
   },
@@ -1846,9 +1840,7 @@
    "kr": "K-12",
    "krs": [
     "engel",
-    "gilda",
-    "kinoaurora",
-    "tapiola"
+    "kinoaurora"
    ],
    "r": 7.2,
    "s": {
@@ -1889,6 +1881,8 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
+    "cine",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -2188,7 +2182,6 @@
   },
   "kirjastokino varaventtiili": {
    "id": 655285,
-   "img": "data/posters/ec5d4a1c3f2bd776.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -2859,7 +2852,6 @@
   },
   "loviisa niskavuoren nuori emäntä": {
    "id": 94759,
-   "img": "data/posters/060164adfffb3b68.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -3227,11 +3219,8 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "biosavoy",
-    "cinemantsala",
     "gilda",
     "helios",
-    "jarvelankino",
     "kinohannikainen",
     "kinolaika",
     "kinoolympia",
@@ -3404,19 +3393,6 @@
     "fi": "Sarjan vaikuttava päätösosa sijoittuu jatkosodan aikaan, jolloin Niskavuoren miehet ovat rintamalla ja tilaa pyörittää miniä Ilona. Eräänä iltana taloon saapuu salaperäinen Juhani, jonka todellisen henkilöllisyyden tietää vain vanha emäntä Loviisa. Elokuva näyttää, miten sota vaikutti myös niihin, jotka jäivät kotiin. Tunnelmaa vahvistavat aidot sota-ajan dokumenttikuvat, kuten Helsingin pommituksia esittävät jaksot."
    },
    "tr": ""
-  },
-  "no other choice": {
-   "id": 639988,
-   "img": "data/posters/c1095a122b5fe883.jpg",
-   "r": 7.5,
-   "s": {
-    "en": "",
-    "fi": "Man-soon elämässä on vihdoin kaikki hyvin: upea talo, rakastava vaimo, kaksi lasta ja kaksi hyvin käyttäytyvää koiraa. Kunnes eräänä kauniina päivänä tapahtuu odottamaton – Man-soon saa potkut asiantuntijatehtävästään paperitehtaalla. Uuden työpaikan haku etenee nihkeästi, kunnes Man-soon tajuaa, että on vain yksi vaihtoehto: kilpakumppanit on eliminoitava."
-   },
-   "tr": "https://www.youtube.com/watch?v=qlAusp5epFA",
-   "ts": [
-    "fi"
-   ]
   },
   "noidat": {
    "id": 6069,
@@ -3757,6 +3733,11 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
+   "kr": "K-16",
+   "krs": [
+    "cinemantsala",
+    "ihmekompleksi"
+   ],
    "r": 0,
    "s": {
     "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
@@ -3983,6 +3964,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4009,6 +3991,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4032,6 +4015,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4078,6 +4062,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "jarvelankino",
@@ -4140,17 +4125,13 @@
   },
   "practical magic 2": {
    "id": 1302904,
-   "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
-    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
+    "en": "",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa.",
     "sv": "Med Sandra Bullock och Nicole Kidman i huvudrollerna återvänder Practical Magic 2 till en värld badande i månljus, lekfullt kaos och uråldrig magi, där systrarna Owens tvingas möta en mörk förbannelse som hotar att förgöra deras familj en gång för alla – i ett magiskt, fartfyllt och underhållande bioäventyr du inte vill missa. PREMIÄR: 11.9 2026 Drama Fantasy Komedi Romantisk"
    },
-   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "practical magic 2 lumotut sisaret": {
    "id": 1302904,
@@ -4172,8 +4153,6 @@
    "krs": [
     "bioforum",
     "biorex",
-    "biosavoy",
-    "cinemantsala",
     "helios",
     "jarvelankino",
     "kinojuha",
@@ -4410,17 +4389,13 @@
   },
   "pressure": {
    "id": 1318413,
-   "img": "data/posters/fd7538dd607d13aa.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "In the tense 72 hours before D-Day, and the fate of the free world hanging in the balance, General Dwight D. Eisenhower and Captain James Stagg face an impossible choice—launch the largest and most dangerous seaborne invasion in history or risk losing the war altogether.",
+    "en": "",
     "fi": "",
     "sv": "Under de sista timmarna före D-dagen 1944 hänger den fria världens öde på en skör tråd. General Dwight D. Eisenhower (Brendan Fraser) och kapten James Stagg (Andrew Scott) står inför ett svårt, ödesdigert val - att inleda den massiva Operation Overlord, eller riskera att förlora kriget helt och hållet. Stagg är RAF:s chefsmeteorolog, som när han levererar en kritisk prognos om oroligt väder över engelska kanalen orsakar en spänd konflikt med de allierade ledarna - borde invasionen skjutas upp? Pressure är en gripande thriller om de 72 timmar som leder fram till D-dagen, när Stagg och Eisenhower tillsammans måste fatta det beslut som ska komma att förändra historiens gång. PREMIÄR: 18.9 2026 Drama Historisk Krig"
    },
-   "tr": "https://www.youtube.com/watch?v=jjdOSchcobk",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "primavera": {
    "id": 1365683,
@@ -6298,6 +6273,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "cinemantsala",
     "helios",
     "kinoaurora",
     "kinokulma",
@@ -6499,6 +6475,7 @@
     "alatalo",
     "bioforum",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6525,6 +6502,7 @@
     "alatalo",
     "bioforum",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6551,6 +6529,7 @@
     "alatalo",
     "bioforum",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6606,6 +6585,7 @@
     "alatalo",
     "bioforum",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6846,7 +6826,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 0,
+   "r": 6.9,
    "s": {
     "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
@@ -7037,5 +7017,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-01"
+ "generated": "2026-10-02"
 }

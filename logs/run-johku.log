@@ -5,13 +5,13 @@
 [bioforum] Bio Forum: 37 showtimes, 18 dates
 [bioforum] synopses merged: 0
 [kinokulma] FAILED: https://kinokulma.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[kinohannikainen] 9 screening(s) in day groups, 3 film page(s) read
-[kinohannikainen] Kino Hannikainen: 9 showtimes, 6 dates
-[kinohannikainen] Kino Hannikainen: 9 showtimes, 6 dates
-[kinohannikainen] synopses merged: 0
-[kinovirta] FAILED: https://kinovirta.johku.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[run] http: 0 revalidated (304), 22 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinohannikainen] FAILED: https://www.kinohannikainen.net/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
+[kinovirta] 6 screening(s) in day groups, 5 film page(s) read
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
+[kinovirta] synopses merged: 0
+[run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 2 venues, 46 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
-[run] timing: 6 site(s), 47.1s of fetching added up across workers that overlap, longest site 31.4s, longest queue wait 101.7s, 34.2s wall from this module's first fetch starting to its last ending
+[run] johku: 2 venues, 43 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
+[run] timing: 6 site(s), 55.1s of fetching added up across workers that overlap, longest site 32.7s, longest queue wait 114.0s, 35.0s wall from this module's first fetch starting to its last ending
 exit=1
