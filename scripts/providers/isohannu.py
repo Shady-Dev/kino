@@ -244,9 +244,12 @@ def details(page):
             d["genres"] = g
     m = FIELD_RE["spoken"].search(text)
     if m:
-        code = LANGS.get(m.group(1).strip().lower())
-        if code:
-            d["lang"] = f"{code}-A"
+        # "suomi, ruotsi, venäjä" (Punainen peto, read 2026-10-04) is three names. Each must
+        # be known or none is published: a partial list would read as the whole one.
+        codes = [LANGS.get(n.strip().lower()) for n in re.split(r",|\bja\b", m.group(1))
+                 if n.strip()]
+        if codes and all(codes):
+            d["lang"] = ", ".join(f"{c}-A" for c in dict.fromkeys(codes))
     m = POSTER_RE.search(page)
     if m:
         d["img"] = m.group(1)
