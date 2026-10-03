@@ -1276,7 +1276,6 @@
     "elavienkuvien",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "jarvelankino",
     "julia",
     "kino123",
@@ -2245,7 +2244,6 @@
    "img": "data/posters/9bcb7891e3c4c53a.jpg",
    "kr": "K-7",
    "krs": [
-    "bioforum",
     "biograni",
     "biorex",
     "biorexkokkola",
@@ -2265,10 +2263,8 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "niagara",
     "savonkinot",
     "star",
-    "tapiola",
     "vaakuna"
    ],
    "r": 7.6,
@@ -3754,16 +3750,12 @@
   },
   "original english coyote vs acme": {
    "id": 1204680,
-   "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "original english coyoto vs acme": {
    "id": 1204680,
@@ -4053,6 +4045,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -4081,6 +4074,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -4106,6 +4100,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -4154,6 +4149,7 @@
     "huvimylly",
     "isohannu",
     "jarvelankino",
+    "julia",
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
@@ -4243,7 +4239,6 @@
     "biorex",
     "helios",
     "jarvelankino",
-    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -4320,7 +4315,6 @@
     "kotkanleffat",
     "leffabuumi",
     "marita",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -4393,7 +4387,6 @@
     "kotkanleffat",
     "leffabuumi",
     "marita",
-    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -4664,7 +4657,6 @@
    "krs": [
     "alatalo",
     "biogrand",
-    "biograni",
     "biokaari",
     "biomarilyn",
     "biorex",
@@ -5082,7 +5074,6 @@
     "helios",
     "isohannu",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -5182,6 +5173,19 @@
     "fi": "Vuonna 1981 valmistunut elokuva kertoo suomirockin legendojen Juice Leskinen Slam -yhtyeen, Hassisen koneen ja Eppu Normaalin kesäisestä kiertueesta Heinävesi-laivalla. Lukuisia konserttitaltiointeja täydentävät hetket öisellä järvellä, musisointi ja henkilöhaastattelut, joissa Juice Leskinen, Ismo Alanko sekä Martti ja Pantse Syrjä kertovat elämää pienempiä viisauksia. Kaiken kaikkiaan meininki on hulvatonta ja eletään aikaa, jolloin hauskanpito oli rockissa bisnestä tärkeämpää. Elokuvassa kuullaan tuon aikakauden hittejä kuten Syksyn Sävel, Viidestoista Yö, Rappiolla, Puhtoinen lähiöni sekä monia muita kotimaisiksi rockklassikoiksi muodostuneita kappaleita. Saimaa-ilmiö kiertue päättyy komeasti Maamme-laulun yhteisesitykseen kesäisellä festivaalilavalla, jossa mukana on aimo annos tunnetta ja isänmaallisuutta. Nuoria ollaan vain kerran."
    },
    "tr": ""
+  },
+  "scream 1996": {
+   "id": 4232,
+   "img": "data/posters/5d8b9804926992c6.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Psykoottinen sarjamurhaaja herättää kauhun hiljaisessa pikkukaupungissa. Tappaja tuntuu olevan hullaantunut kauhuelokuviin ja käyttääkin niitä inspiraation lähteinä brutaaleihin murhiinsa, joiden kohteina ovat koulun nuoret. Sidneyn koulukaveri löytyy pahasti silvottuna, ja niin joutuvat muutkin nuoret pelkäämään henkensä edestä. Kukaan ei ole turvassa, ja samalla kaikki seudun asukkaat ovat epäiltyjen listalla. Murhaaja tuntuu jollain omituisella tavalla liittyvän Sidneyn menneisyyden kauhuihin, ja niin jääkin Sidney ainoaksi, joka voi pysäyttää raa'an murhaajan."
+   },
+   "tr": "https://www.youtube.com/watch?v=U0LETmDvuXc",
+   "ts": [
+    "fi"
+   ]
   },
   "se oli pelkkä sattuma": {
    "id": 1456349,
