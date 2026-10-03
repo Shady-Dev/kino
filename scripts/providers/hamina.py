@@ -72,11 +72,13 @@ BLOCK_RE = re.compile(r'<div class="large-content-showcase columns.*?(?=<div cla
 TITLE_RE = re.compile(r'class="large-content-showcase__title[^"]*"[^>]*>(.*?)</h3>', re.S | re.I)
 PARA_RE = re.compile(r"<p>(.*?)</p>", re.S | re.I)
 IMG_RE = re.compile(r'<img[^>]*?width="(\d+)"[^>]*?height="(\d+)"[^>]*?src="([^"]+)"', re.I)
-# `To 24.9. Klo 13:00`, with an optional `| Liput 8€` for that showing alone.
+# `To 24.9. Klo 13:00`, with an optional `| Liput 8€` for that showing alone, or
+# `(Liput 8€)` as the page wrote it on 2026-10-04.
 SHOW_RE = re.compile(r"(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s*klo\s*(\d{1,2})[:.](\d{2})"
-                     r"(?:[^\n|]*\|\s*liput\s*([\d.,]+)\s*€)?", re.I)
+                     r"(?:[^\n]*?[|(]\s*liput\s*([\d.,]+)\s*€)?", re.I)
 LABEL_RE = re.compile(r"^([A-Za-zÄÖÅäöå -]{3,20}):\s*(.+)$")
-MIN_RE = re.compile(r"(?:(\d{1,2})\s*t\s*)?(\d{1,3})\s*min", re.I)
+# "1 t 27 min", and "1 h 42 min" on two films read 2026-10-04.
+MIN_RE = re.compile(r"(?:(\d{1,2})\s*[th]\s*)?(\d{1,3})\s*min", re.I)
 AMOUNT_RE = re.compile(r"^(\d{1,3}(?:[.,]\d{1,2})?)\s*€$")
 TAGS_RE = re.compile(r"<[^>]+>")
 
@@ -100,7 +102,8 @@ def _txt(s):
 
 
 def _minutes(text):
-    """`1 t 27 min` or `95 min` -> "87" / "95". -> str, "" when neither shape is there."""
+    """`1 t 27 min`, `1 h 42 min` or `95 min` -> "87" / "102" / "95". -> str, "" when no
+    shape is there."""
     m = MIN_RE.search(text or "")
     if not m:
         return ""

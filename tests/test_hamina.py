@@ -87,6 +87,22 @@ class RowsTest(unittest.TestCase):
         self.assertEqual([s["price"] for s in shows], ["11€", "8€"])
         self.assertEqual(report["no_price"], set())
 
+    def test_a_bracketed_line_price_overrides_it_too(self):
+        """The page as read 2026-10-04: `Klo 15:00&nbsp;<strong>(Liput 8€)</strong>`. The
+        line above it, with no price of its own, keeps the film's."""
+        shows, _ = self.rows(page(block(
+            "Rakkautta ja Virtahepoja",
+            ["Ke 23.9. Klo 13:00", "To 24.9. Klo 15:00\xa0<strong>(Liput 8€)</strong>"])))
+        self.assertEqual([s["price"] for s in shows], ["11€", "8€"])
+
+    def test_a_runtime_reads_hours_as_t_or_h(self):
+        """"1 h 42 min" on two films read 2026-10-04 published 42."""
+        shows, _ = self.rows(page(block("A", ["Su 20.9. Klo 17:00"], kesto="1 h 42 min"),
+                                  block("B", ["Ke 23.9. Klo 13:00"], kesto="1 t 44 min"),
+                                  block("C", ["Ke 23.9. Klo 15:00"], kesto="95 min")))
+        self.assertEqual({s["title"]: s["len"] for s in shows},
+                         {"A": "102", "B": "104", "C": "95"})
+
     def test_a_film_price_that_is_a_range_settles_nothing(self):
         shows, report = self.rows(page(block(
             "A", ["Su 20.9. Klo 17:00", "Ke 23.9. Klo 13:00 | Liput 8€"],
