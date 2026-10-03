@@ -138,6 +138,17 @@ class EtikettiTest(Stubbed):
         self.assertEqual(self.placed(f"{text} <br />\r\nElokuvateattereissa 28.8."),
                          {"fi": f"{text} Elokuvateattereissa 28.8."})
 
+    def test_only_the_age_statement_comes_off_the_opening(self):
+        """Kotka's boilerplate, read 2026-10-04, goes; a synopsis that itself opens
+        "Elokuva on" keeps its first two sentences."""
+        k16 = ("Elokuva on K16. Ikärajoista voi joustaa kolme vuotta silloin, kun lapsi on "
+               "täysi-ikäisen huoltajan seurassa.<br />\n<br />\n")
+        self.assertEqual(self.placed(k16 + FI), {"fi": FI})
+        own = ("Elokuva on saanut innoituksensa 30 vuotta Oulun yliopistossa vaikuttaneen "
+               "Aapo Heikkilän värikkäästä elämästä. Opiskelijat alkoivat seurata hänen "
+               "luentojaan ja kutsuivat häntä dosentiksi.")
+        self.assertEqual(self.placed(own), {"fi": own})
+
     def test_a_text_no_language_places_is_withheld(self):
         # Read 2026-09-28: Niagara's Twilight Zone tagline, Kinopirtti's placeholder and a
         # Kotkan Leffat closure notice listed as a film.
