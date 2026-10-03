@@ -986,7 +986,9 @@
      left for the title at 375. The room, the venue and the screening's age limit are on
      the meta line, where the room never breaks across lines. */
   .trow .stub{flex:0 0 auto; width:auto}
-  .trow .stub .time{flex:0 0 62px; text-align:center; padding:7px 4px 7px 8px}
+  /* The width as well as the basis: WebKit sized the ticket from the time's text, drew it
+     111.84 px and clipped "14,95 €" to "14,95" (2026-10-04). */
+  .trow .stub .time{flex:0 0 62px; width:62px; text-align:center; padding:7px 4px 7px 8px}
   /* The Ajat ticket keeps the full 56 px compartment when empty, seam and notches
      included: it is what makes every row's ticket 120 px and every title start at one
      x, and since v153 every ticket is perforated on the right anyway. */
