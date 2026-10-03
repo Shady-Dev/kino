@@ -3457,3 +3457,11 @@ Punainen peto's page says "Puhekieli: suomi, ruotsi, venäjä" (read 2026-10-04)
 `details` looked the whole value up as one name, so its rows published no language. The
 value is split on commas and "ja"; every name must be known or none is published. That
 page now gives `FI-A, SV-A, RU-A`. Cloud half. 3 mutations red.
+
+### Kino Akustiikka's language from the calendar page (2026-10-04)
+`localhub.py` published no language. The calendar search read 2026-10-04 states it three
+ways: "(suomeksi puhuttu)" in the title, a "Tekstitys: suomenkielinen ja ruotsinkielinen"
+item in the long description, and for Kojootti vs ACME a dated list under "Esitykset:"
+("20.10. englanniksi puhuttu") giving each screening's audio. `language` reads those and
+nothing looser; "Kuvaileva tekstitys" names no language. That answer gives 7 of 19 rows a
+language. Cloud half. 5 mutations red.

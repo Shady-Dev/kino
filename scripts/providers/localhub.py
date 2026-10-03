@@ -56,10 +56,12 @@ programme here and `common.EmptyProgramme` is not raised.
 """
 import datetime
 import json
+import re
 import sys
 from zoneinfo import ZoneInfo
 
 from common import check_shows, fetch, get_text, syn_language
+from etiketti import lang_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 
@@ -119,6 +121,42 @@ def is_film(site, page):
     """The two checks a page passes before any of it is read. -> bool."""
     return (site["category"] in (page.get("globalContentCategories") or [])
             and site["q"] in (page.get("hashtags") or []))
+
+
+# The language as a calendar page states it, read 2026-10-04: "(suomeksi puhuttu)" in the
+# title; "<strong>Tekstitys: </strong>suomenkielinen ja ruotsinkielinen" in the long
+# description; and for a film shown both ways a dated list under "Esitykset:",
+# "<li>20.10. englanniksi puhuttu</li>", which names the screening's own audio. Nothing
+# looser: "Tekstitys: Kuvaileva tekstitys" names no language and publishes none.
+TITLE_SPOKEN_RE = re.compile(r"\(([a-zåäö]+ksi) puhuttu\)", re.I)
+DATED_SPOKEN_RE = re.compile(r"<li>\s*(\d{1,2})\.(\d{1,2})\.\s+([a-zåäö]+ksi) puhuttu\s*</li>", re.I)
+SUBS_ITEM_RE = re.compile(r"<li>\s*<strong>\s*Tekstitys\s*:?\s*</strong>\s*:?\s*([^<]+?)\s*</li>",
+                          re.I)
+
+
+def _one(word, ending):
+    """"englanniksi" with "ksi" -> "EN"; "" unless the word names exactly one language."""
+    word = word.strip().lower()
+    codes = lang_codes(word) if word.endswith(ending) else []
+    return codes[0] if len(codes) == 1 else ""
+
+
+def language(page, start):
+    """-> "EN-A, FI-S" for one screening of a page, "" for what it does not state."""
+    audio = ""
+    for day, month, word in DATED_SPOKEN_RE.findall(page.get("descriptionLong") or ""):
+        if (int(day), int(month)) == (start.day, start.month):
+            audio = _one(word, "ksi")
+    if not audio:
+        m = TITLE_SPOKEN_RE.search(page.get("name") or "")
+        audio = _one(m.group(1), "ksi") if m else ""
+    subs = []
+    m = SUBS_ITEM_RE.search(page.get("descriptionLong") or "")
+    if m:
+        subs = [_one(w, "kielinen") for w in re.split(r",|\bja\b", m.group(1)) if w.strip()]
+        subs = subs if all(subs) else []
+    parts = ([f"{audio}-A"] if audio else []) + [f"{c}-S" for c in dict.fromkeys(subs)]
+    return ", ".join(parts)
 
 
 def synopsis(page):
@@ -184,7 +222,7 @@ def rows(site, payload, today=None):
                 "start": start.isoformat(),
                 "url": url,
                 "img": "",
-                "lang": "",
+                "lang": language(page, start),
                 "soldOut": bool(sold),
                 "price": price,
                 "provider": site["provider"],

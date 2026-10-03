@@ -311,3 +311,37 @@ class RegistryTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LanguageTest(unittest.TestCase):
+    """The three ways the calendar stated a screening's language, read 2026-10-04. Two
+    dates per page wherever the date matters."""
+
+    def langs(self, **kw):
+        shows, _ = L.rows(SITE, payload(page(**kw)), TODAY)
+        return [s["lang"] for s in shows]
+
+    def test_the_title_states_the_audio(self):
+        self.assertEqual(self.langs(name="Unohdettu saari (suomeksi puhuttu)", dates=[
+            date(), date("2026-10-04T10:00:00.000Z", "2026-10-04T12:00:00.000Z")]),
+            ["FI-A", "FI-A"])
+
+    def test_the_subtitle_item_states_the_subtitles(self):
+        self.assertEqual(self.langs(long_="<ul><li><strong>Tekstitys: </strong>suomenkielinen "
+                                          "ja ruotsinkielinen</li><li><br></li></ul>"),
+                         ["FI-S, SV-S"])
+
+    def test_a_dated_list_states_each_screenings_audio(self):
+        """Kojootti vs ACME: shown dubbed and in English, the dates listed under
+        "Esitykset:". The colon sits outside the bold label on this page."""
+        long_ = ("<ul><li><strong>Tekstitys</strong>: suomenkielinen</li></ul><p>Esitykset:</p>"
+                 "<ul><li>22.9. suomeksi puhuttu</li><li>4.10. englanniksi puhuttu</li></ul>")
+        self.assertEqual(self.langs(name="Kojootti vs ACME", long_=long_, dates=[
+            date(), date("2026-10-04T14:00:00.000Z", "2026-10-04T16:00:00.000Z")]),
+            ["FI-A, FI-S", "EN-A, FI-S"])
+
+    def test_a_subtitle_item_naming_no_language_states_nothing(self):
+        for value in ("Kuvaileva tekstitys", "Päivitetään myöhemmin", "suomenkielinen ja klingon"):
+            with self.subTest(value=value):
+                self.assertEqual(self.langs(long_=f"<ul><li><strong>Tekstitys:</strong> {value}"
+                                                  "</li></ul>"), [""])
