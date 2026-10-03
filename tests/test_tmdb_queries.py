@@ -329,7 +329,12 @@ class TrailingEventTest(unittest.TestCase):
         for published, want in (
                 ("Päivien lumo + tekijävierailu", "Päivien lumo"),
                 ("Don Quijote Barcelonassa (+leffalukupiiri)", "Don Quijote Barcelonassa"),
-                ("Suomi radalla (+keskustelutilaisuus)", "Suomi radalla")):
+                ("Suomi radalla (+keskustelutilaisuus)", "Suomi radalla"),
+                # Kino Aurora, 2026-10-03: the director's visit.
+                ("Ortotopologian loputtomat alkeet (+ohjaajavierailu)",
+                 "Ortotopologian loputtomat alkeet"),
+                ("The Secret Reading Club of Kabul (+ohjaajavierailu)",
+                 "The Secret Reading Club of Kabul")):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.clean(published), want)
 

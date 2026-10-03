@@ -2683,3 +2683,10 @@ subtitle language keeps the app's "subs Finnish".
 Kino Aurora published "Naza" as `IW-A, EN-S`; IW is the ISO 639-1 code for Hebrew withdrawn
 in 1989, and no name table carried it. `nexxo.CODE_FIX` maps it to HE beside SE to SV, and
 the committed row was corrected by hand (21.10., outside every generated page's window).
+
+### "+ohjaajavierailu" and two bracketed second titles (2026-10-03)
+Four rows drew initials tiles while their bare titles matched elsewhere. `TRAIL_EVENT`
+gains "ohjaajavierailu" (Kino Aurora, 1753057 and 1635591). Ritz Vaasa's "Two Seasons, Two
+Strangers (Tabi to hibi)" and Cinema Sheryl's "Verity (Verityn varjo)" are aliased to
+1462735 and 1283515, each verified on its record; a bracket rule was refused because some
+real titles hold one. Enriched locally with posters and pages in the same commit.

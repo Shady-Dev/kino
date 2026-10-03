@@ -145,5 +145,8 @@
  "hopeatähti sarja rose ennakkonäytös": "1176962",
  "_comment_2026_09_28_pins": "2026-09-28. Two exact cache entries a fresh fi-FI search would lose, pinned. TMDB's fi-FI title for 1280738 is '火遮眼', so 'The Furious' now finds only 1510055, The Furious: Pertaruhan Maruah, as a weak hit; Finnkino's own text names director Kenji Tanigaki with Xie Miao and Joe Taslim, as /movie/1280738 does, 113 min on both. 1143440 answers fi-FI as 'La Tour de glace'; Finnkino's text and Ritz's page name Lucile Hadzihalilovic and Marion Cotillard, Ritz 117 min against TMDB's 118. Not a runtime tie-break: One Night Only, Obsession and The Odyssey stay as they are.",
  "the furious": "1280738",
- "the ice tower": "1143440"
+ "the ice tower": "1143440",
+ "_comment44": "A second title in brackets, 2026-10-03. Ritz Vaasa's \"Two Seasons, Two Strangers (Tabi to hibi)\": 1462735 lists the alternative title \"Tabi to Hibi\" (JP), director Sho Miyake, and the bare title carries it at Kino Aurora and Kino Kilta. Cinema Sheryl's \"Verity (Verityn varjo)\": 1283515, director Michael Showalter on both the record and Sheryl's film page, 114 min, the id every other chain's Verityn varjo carries. Aliases rather than a rule: a bracket is part of some real titles.",
+ "two seasons two strangers tabi to hibi": "1462735",
+ "verity verityn varjo": "1283515"
 }

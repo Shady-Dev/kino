@@ -3801,12 +3801,17 @@
    ]
   },
   "ortotopologian loputtomat alkeet ohjaajavierailu": {
+   "id": 1753057,
+   "img": "data/posters/24b34ae212265b6a.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "The story of Aapo Heikkilä, who served as a docent of orthotopology at the University of Oulu for nearly 30 years and was the world’s sole representative of this unique \"scientific field\" . In the 1980s, Heikkilä became a superstar in the scientific community and, at the same time, the University of Oulu’s most famous scholar.",
     "fi": "Elokuva on saanut innoituksensa Oulun yliopistossa ortotopologian dosentiksi kutsutun Aapo Heikkilän värikkäästä elämästä ja hänen olevaisuuden salaisuudet selvittävästä teoriastaan. Vaillinaisen kansakoulun käynyt omaperäinen ajattelija kehitti oman oppisuuntansa, jonka hän nimesi ortotopologiaksi. Oulun yliopiston opiskelijat alkoivat kutsua häntä dosentiksi. Yliopisto antoi Heikkilälle työhuoneen ja luvan pitää luentoja. Dosentti Heikkilä kohtaa elokuvassa Helsingin yliopiston varadekaani Osmo Pulkkisen. Dekaani on tullut selvittämään, voiko ortotopologian dosentin päästää luennoimaan myös hänen omille opiskelijoilleen. Elokuva huipentuu osin koomisia piiretitä saavaan mittelöön akateemisen tieteentekijän ja olevaisuuden salaisuudet omalla teorillaan selvittävän Heikkilän kesken. Sydämen sivistys kohtaa akateemisen oppineisuuden. Ohjaaja Markku Pölönen käsittelee fiktiossaan Heikkilää myötätunnolla ja lämpimällä huumorilla, Elokuva koskettaa katsojaa monella tavalla: se liikuttaa, naurattaa ja inspiroi ajattelemaan mukavia."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "other mommy": {
    "id": 1400837,
@@ -6142,12 +6147,17 @@
    ]
   },
   "the secret reading club of kabul ohjaajavierailu": {
+   "id": 1635591,
+   "img": "data/posters/8e47d51a8993f244.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
     "fi": "Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa. Anne Frankin innoittamana elokuvan päähenkilöt haluavat kertoa tarinansa, jotta maailma ei unohda heitä. Yhden naisista elämä muuttuu nopeasti Talibanien alkaessa etsiä häntä. Hän pelkää henkensä ja perheensä kunnian puolesta, ja päättää paeta maasta. Helsingissä asuva afganistanilainen elokuvantekijä Shakiba Adil auttaa ja tukee häntä pakenemisessa. Shakiba on itse paennut kahdesti Afganistanista henkensä uhalla. Elokuva kertoo näiden naisten silmin elämästä ääriliikkeen hallitsemassa maassa, heidän toiveistaan ja pyrkimyksistään kohti vapautta."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "the secret reading club of kabul yksittäisnäytös": {
    "id": 1635591,
@@ -6496,6 +6506,24 @@
     "en"
    ]
   },
+  "two seasons two strangers tabi to hibi": {
+   "id": 1462735,
+   "img": "data/posters/4bbd4d83a9633477.jpg",
+   "kr": "S",
+   "krs": [
+    "kinoaurora",
+    "kinokilta"
+   ],
+   "r": 0,
+   "s": {
+    "en": "In summer, Nagisa and Natsuo meet by the sea. Their vacant gazes reflect each other as they exchange awkward words and wade into the rain-drenched ocean. In winter, Li, a screenwriter, travels to a snow-covered village. There, she finds a guesthouse run by Benzo.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=lC0xyNHI5fc",
+   "ts": [
+    "en"
+   ]
+  },
   "työmiehen päiväkirja": {
    "id": 358999,
    "img": "data/posters/7b575030fbfff065.jpg",
@@ -6787,12 +6815,14 @@
    ]
   },
   "verity verityn varjo": {
-   "r": 0,
+   "id": 1283515,
+   "img": "data/posters/074e95a045702902.jpg",
+   "r": 6.7,
    "s": {
     "en": "ABOUT CONTACT BOOK A MOVIE SERIAL TICKETS Telegram Instagram EN FI SV Verity (Verityn varjo) United States Rating K-12 Classifications vakivaltaa, ahdistusta Adapted from Colleen Hoover’s best-selling novel, this seductive, psychological thriller follows renowned author Verity Crawford (Anne Hathaway) and Lowen Ashleigh (Dakota Johnson), a struggling writer who relocates to the remote Crawford estate to ghostwrite for Verity. After Lowen uncovers what appears to be Verity’s chilling autobiographical notes, she wrestles with the disturbing and twisted confessions about Verity’s husband Jeremy (Josh Hartnett), and finds it hard to separate fiction from reality, manipulation from attraction, and opportunity from obsession. Verity (Verityn varjo) Verity United States 2026-10-02, 117 min Director Michael Showalter Cast Anne Hathaway, Dakota Johnson, Josh Hartnett, Asel Swango, Michael Abbott Jr., Daniel Echevarria Language English Subtitles Finnish, Swedish import PhotoSwipeLightbox from 'https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe-lightbox.esm.min.js'; const lightbox = new PhotoSwipeLightbox({ gallery: '#kinola-film-gallery', children: 'a', pswpModule: () => import('https://sheryl.fi/wp-content/plugins/kinola-wp-main/assets/scripts/photoswipe/photoswipe.esm.min.js') }); lightbox.init(); Screenings All dates Fri, 2.10 Fri, 2.10 18:35",
     "fi": ""
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs"
   },
   "verityn varjo": {
    "id": 1283515,
@@ -6834,6 +6864,7 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
+    "sheryl",
     "star",
     "studio123jarvenpaa",
     "vaakuna",
@@ -6889,6 +6920,7 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
+    "sheryl",
     "star",
     "studio123jarvenpaa",
     "vaakuna",

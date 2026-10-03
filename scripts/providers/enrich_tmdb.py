@@ -142,6 +142,9 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # Barcelonassa (+leffalukupiiri)" and "Suomi radalla (+keskustelutilaisuus)" at Kino
 # Aurora, and all three were initials tiles. The bare "P\u00e4ivien lumo" already matched
 # 1563565 at Kino Laika, Kino Kilta and Kino Regina, so only the suffix was in the way.
+# "ohjaajavierailu", the director's visit, added 2026-10-03: Kino Aurora's "Ortotopologian
+# loputtomat alkeet (+ohjaajavierailu)" and "The Secret Reading Club of Kabul
+# (+ohjaajavierailu)", whose bare titles match 1753057 and 1635591 elsewhere.
 #
 # Each noun is named and the whole thing is anchored to the end, because "+" belongs to
 # real titles and a rule that ate everything after one would destroy them: "Romeo +
@@ -156,7 +159,8 @@ TRAIL_FORMAT = re.compile(r"(?<=\w)(?:\s+(?:2d|3d|imax|4k)\b)+\s*$", re.I)
 # TMDB record either way, and leaving the noise on its search string would be wrong even
 # where the answer does not change.
 TRAIL_EVENT = re.compile(
-    r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|leffalukupiiri|keskustelutilaisuus)\s*\)?\s*$",
+    r"\s*\(?\s*\+\s*(?:tekij[\u00e4a]vierailu|ohjaajavierailu|leffalukupiiri"
+    r"|keskustelutilaisuus)\s*\)?\s*$",
     re.I)
 # The same visit as a bare last word, no "+": Kino Lumo's and Kino Piispanristi's "Pirjo i
 # Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
