@@ -2690,3 +2690,11 @@ gains "ohjaajavierailu" (Kino Aurora, 1753057 and 1635591). Ritz Vaasa's "Two Se
 Strangers (Tabi to hibi)" and Cinema Sheryl's "Verity (Verityn varjo)" are aliased to
 1462735 and 1283515, each verified on its record; a bracket rule was refused because some
 real titles hold one. Enriched locally with posters and pages in the same commit.
+
+### Two unpriced note shapes are screening notes (2026-10-04)
+Savon Kinot's and Cinema Niagara's screening notes sat in shared `fi` slots on
+2026-10-04. Savon Kinot ends each note with "||"; Niagara's announced a "tekijävierailunäytös".
+Neither quotes a price, so `is_note` let both through. `NOTE_RE` adds the two shapes, and
+every adapter filter built on `is_note` drops them too. Of 803 committed slot texts it
+matches 6, all notes. The merge log reads "synopses skipped as screening notes: N".
+4 mutations red.
