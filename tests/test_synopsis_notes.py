@@ -24,6 +24,13 @@ PROMO = ("<p>Gildan seniorikinon&auml;yt&ouml;kset joka kuun ensimm&auml;isen&au
          "Lipun hintaan sisältyy leffakahvit!</p>")
 BLURB1 = "<p>Derya on Ankaran suurimman teatterin t&auml;hti.&nbsp;</p>"
 BLURB2 = "<p>KELTAISET KIRJEET on kuvaus el&auml;m&auml;st&auml; autorit&auml;&auml;risen yhteiskunnan puristuksissa.</p>"
+# The two unpriced notes found in shared slots on 2026-10-04, as published.
+SAVON_NOTE = ("Ensi-iltapaikkakunnat: Joensuu, Savonlinna, Iisalmi, Varkaus ja Kitee || "
+              "Ennakkoesitykset Hopeatähdessä 7.10. ||")
+SAVON_SYN = ("Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta "
+             "hänelle varattuun köyhän naisen kohtaloon.")
+NIAGARA_NOTE = ("Niagarassa tekijävierailunäytös tiistaina 4.8. klo 18.30. Vieraana ohjaaja "
+                "Jarmo Lampela sekä näyttelijä Juha Kukkonen!")
 
 
 class DropNotesHtmlTest(unittest.TestCase):
@@ -57,6 +64,16 @@ class DropNotesHtmlTest(unittest.TestCase):
         for s in ("Vuonna 1930 Ankarassa", "72 tuntia ennen h-hetkeä", "Ainoa näytös, klubialennus.", ""):
             self.assertFalse(synmerge.is_note(s), s)
 
+    def test_is_note_reads_savon_kinots_separator_and_a_filmmaker_visit(self):
+        """Both reached the shared slot unpriced: Savon Kinot's note on Kerro kaikille and
+        Ortotopologia, Cinema Niagara's on Don Quijote Barcelonassa (read 2026-10-04)."""
+        import synmerge
+        for s in (SAVON_NOTE, "Joensuu 30.9. + 3.10. ||", NIAGARA_NOTE,
+                  'Vierailunäytöksissä on oranssi "Tekijävierailu"-merkki.'):
+            self.assertTrue(synmerge.is_note(s), s)
+        for s in (SAVON_SYN, "KINOLINNA | SALI 1", "Tekijät kertovat elokuvasta."):
+            self.assertFalse(synmerge.is_note(s), s)
+
 
 class MergeRefusesNotesTest(unittest.TestCase):
 
@@ -79,7 +96,17 @@ class MergeRefusesNotesTest(unittest.TestCase):
         self.assertNotIn("nouvelle vague", films)
         self.assertEqual(films["autofiktio"]["s"]["fi"], "Almodóvarin melodraama.")
         self.assertIn("[test] synopses merged: 1", log)
-        self.assertIn("[test] synopses skipped as screening notes (price): 1", log)
+        self.assertIn("[test] synopses skipped as screening notes: 1", log)
+
+    def test_an_unpriced_note_never_enters_the_shared_slot_either(self):
+        films, log = self.run_merge([
+            {"title": "Kerro kaikille", "_syn": SAVON_NOTE + " " + SAVON_SYN},
+            {"title": "Don Quijote Barcelonassa",
+             "_syn": NIAGARA_NOTE + " Don Quijote Barcelonassa on lämmin fiktiodraama."},
+            {"title": "Autofiktio", "_syn": "Almodóvarin melodraama."},
+        ])
+        self.assertEqual(sorted(films), ["autofiktio"])
+        self.assertIn("[test] synopses skipped as screening notes: 2", log)
 
     def test_a_text_that_is_only_the_title_is_no_synopsis(self):
         """Niagara's page gives "Romanovin kivet" where its description goes (2026-09-27)."""

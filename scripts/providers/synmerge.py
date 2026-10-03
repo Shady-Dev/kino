@@ -24,12 +24,16 @@ import common
 # Pennittömien edustajalle" -- and it describes one cinema's screening, so it must not
 # reach the slot every cinema showing the film reads from.
 PRICE_RE = re.compile(r"\d\s*(?:€|eur\b|euroa\b)|€\s*\d", re.I)
+# Two unpriced shapes that reached the shared slot (read 2026-10-04): Savon Kinot ends
+# each note with "||" ("Ensi-iltapaikkakunnat: Joensuu, ... ja Kitee ||"), and a filmmaker's
+# visit is one screening ("Niagarassa tekijävierailunäytös tiistaina 4.8. klo 18.30").
+NOTE_RE = re.compile(r"\|\||tekijävierailu", re.I)
 _TAGS = re.compile(r"<[^>]+>")
 
 
 def is_note(text):
     """True when a synopsis candidate is a screening note rather than a synopsis."""
-    return bool(PRICE_RE.search(text or ""))
+    return bool(PRICE_RE.search(text or "") or NOTE_RE.search(text or ""))
 
 
 def drop_notes_html(desc, names=()):
@@ -178,7 +182,8 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
                 for lang, syn in texts(s.get("_syn")).items():
                     key = norm(s["title"])
                     if is_note(syn):
-                        # Never into the shared slot: see PRICE_RE. Left empty for TMDB.
+                        # Never into the shared slot: see PRICE_RE and NOTE_RE. Left empty
+                        # for TMDB.
                         skipped += 1
                         continue
                     if norm(syn) == key:
@@ -219,7 +224,7 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
         print(f"[{label}] synopses by language: "
               + ", ".join(f"{k} {per_lang[k]}" for k in sorted(per_lang)))
     if skipped:
-        print(f"[{label}] synopses skipped as screening notes (price): {skipped}")
+        print(f"[{label}] synopses skipped as screening notes: {skipped}")
     if _unknown:
         print(f"[{label}] synopses in a language nothing reads, dropped: "
               f"{', '.join(sorted(_unknown))}", file=sys.stderr)
