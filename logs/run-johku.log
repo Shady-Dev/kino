@@ -1,14 +1,28 @@
-[biomarilyn] FAILED: https://www.biomarilyn.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[vihdinkino] FAILED: https://vihdinkino.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[bioforum] 37 screening(s) in day groups, 14 film page(s) read
-[bioforum] Bio Forum: 37 showtimes, 18 dates
-[bioforum] Bio Forum: 37 showtimes, 18 dates
+[biomarilyn] the listing rendered whole on read 4 of 5
+[biomarilyn] 14 screening(s) in day groups, 9 film page(s) read
+[biomarilyn] 24 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Clayface, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank
+[biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
+[biomarilyn] Bio Marilyn: 14 showtimes, 9 dates
+[biomarilyn] Bio Marilyn: 14 showtimes, 9 dates
+[biomarilyn] synopses merged: 0
+[vihdinkino] 10 screening(s) in day groups, 6 film page(s) read
+[vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
+[vihdinkino] Vihdin Kino: 10 showtimes, 5 dates
+[vihdinkino] Vihdin Kino: 10 showtimes, 5 dates
+[vihdinkino] synopses merged: 0
+[bioforum] the listing rendered whole on read 2 of 5
+[bioforum] 40 screening(s) in day groups, 15 film page(s) read
+[bioforum] Bio Forum: 40 showtimes, 19 dates
+[bioforum] Bio Forum: 40 showtimes, 19 dates
 [bioforum] synopses merged: 0
-[kinokulma] FAILED: https://kinokulma.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[kinohannikainen] FAILED: https://www.kinohannikainen.net/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[kinovirta] FAILED: https://kinovirta.johku.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[run] http: 0 revalidated (304), 20 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinokulma] FAILED: https://kinokulma.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
+[kinohannikainen] FAILED: https://www.kinohannikainen.net/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
+[kinovirta] 6 screening(s) in day groups, 5 film page(s) read
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
+[kinovirta] synopses merged: 0
+[run] http: 0 revalidated (304), 53 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 1 venues, 37 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 5 failures
-[run] timing: 6 site(s), 44.3s of fetching added up across workers that overlap, longest site 33.8s, longest queue wait 102.2s, 35.9s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 70 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
+[run] timing: 6 site(s), 185.3s of fetching added up across workers that overlap, longest site 45.3s, longest queue wait 125.1s, 52.2s wall from this module's first fetch starting to its last ending
 exit=1

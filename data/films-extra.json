@@ -456,12 +456,16 @@
   },
   "baletti pähkinänsärkijä hamburg ballett tshaikovski": {
    "id": 1670821,
+   "img": "data/posters/22e038deabae14e8.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Created in 1971, John Neumeier's ballet set to Tchaikovsky's music is now a classic performed all over the world. In his reinterpretation of The Nutcracker, the American choreographer transposes young Marie's initiation into the world of dance under the tutelage of ballet master Drosselmeier.",
     "fi": "John Neumeierin Pähkinänsärkijä kutsuu katsojan unelmien ja tanssin maailmaan. Baletti kertoo 12-vuotiaasta Mariesta, joka saa syntymäpäivälahjakseen pähkinänsärkijän ja vaaleanpunaiset kärkitossut. Unessaan hän kohtaa omalaatuisen balettimestari Drosselmeierin, joka johdattaa hänet teatterin ja klassisen baletin taianomaiseen maailmaan. Marie seuraa harjoituksia ja esityksiä, oppii itse tanssimaan sekä löytää vähitellen oman paikkansa näyttämöllä. Samalla Marie kasvaa lapsesta nuoreksi naiseksi, kokee ensirakkautensa ja oivaltaa taiteen voiman. Neumeierin tulkinta on sekä lämmin kasvutarina että kunnianosoitus 1800-luvun suurelle balettimestarille Marius Petipalle, jonka klassiset koreografiat elävät teoksessa uusina viittauksina. Peter Tšaikovskin rakastettu musiikki – kuten Kukkien valssi ja Sokerikeijun tanssi – yhdistyy Jürgen Rosen näyttäviin lavasteisiin ja värikkäisiin pukuihin luoden koko perheelle elämyksen, joka juhlistaa klassisen baletin kauneutta."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "bamse ja meren salaisuus": {
    "id": 1275785,
@@ -1748,12 +1752,13 @@
   },
   "jukka nykänen muistonäytös putoavia enkeleitä": {
    "id": 173872,
+   "img": "data/posters/33f444f7616fe6ee.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Tervetuloa kunnioittamaan heinäkuussa 2025 menehtyneen Jussi-palkitun elokuvaleikkaaja Jukka Nykäsen muistoa ja elämäntyötä. Jukka oli suomalaisen elokuvakerronnan mestari, jonka kädenjälki näkyy monissa rakastetuissa teoksissa."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=_hO2reqNcj0"
   },
   "järven ääni": {
    "r": 0,
@@ -1890,6 +1895,7 @@
    "kr": "K-12",
    "krs": [
     "alatalo",
+    "bioforum",
     "cine",
     "cinemantsala",
     "helios",
@@ -2245,7 +2251,6 @@
     "biorexkokkola",
     "biosade",
     "biosavoy",
-    "biovuoksi",
     "cinemantsala",
     "engel",
     "isohannu",
@@ -2254,7 +2259,6 @@
     "kinohamina",
     "kinolaika",
     "kinolumo",
-    "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kkino",
@@ -4404,52 +4408,6 @@
   "presidentin kyyditys neulekino": {
    "id": 1412214,
    "img": "data/posters/b6832fef0c1dad14.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cinemantsala",
-    "gilda",
-    "helios",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinoaurora",
-    "kinoelo",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinokilta",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotar",
-    "kinotour",
-    "kinovirta",
-    "kirkkonummi",
-    "kotkanleffat",
-    "leffabuumi",
-    "marita",
-    "matintupa",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4587,6 +4545,19 @@
     "fi": "Paikalla keskustelemassa elokuvan jälkeen ohjaaja Karin Pennanen ja tuottaja Sonja Lindén! Ohjaaja löytää erakoituneen taiteilijasetänsä kätketyn maailman ja ryhtyy tekemään siitä elokuvaa – omaksi yllätyksekseen setänsä kanssa. Syntyy erityislaatuinen vuoropuhelu, joka avaa näkymän intohimoiseen taiteen tekemiseen ja originelliin elämään. Päivien lumo kertoo luomisesta elämäntapana, monimutkaisista perhesuhteista, rakkaudesta ja kuoleman kosketuksesta. Samalla se on elokuva matkasta kohti itseä ja omien valintojensa hyväksymisestä. Nämä voi ehkä saavuttaa vasta kun onnistuu hyväksymään maailman ja itsen keskeneräisyyden. Ohjaaja Karin kertoo elokuvastaan näin:"
    },
    "tr": ""
+  },
+  "päiväkaffileffa hetki ennen valoa": {
+   "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
+   },
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
+   "ts": [
+    "fi"
+   ]
   },
   "päämies": {
    "id": 10731,
@@ -5113,7 +5084,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
-    "savonkinot",
     "star",
     "studio123jarvenpaa"
    ],
