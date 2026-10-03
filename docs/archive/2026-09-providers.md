@@ -3419,3 +3419,11 @@ which for the body is the genre section after it. 15 `sv` slots ended in the gen
 ("PREMIÄR: 2.10 2026 Drama Komedi"), Digger, Heart of the Beast and Resident Evil among
 them. A field now ends where the next field starts. /film/digger, read
 2026-10-04, yields its body alone. 2 mutations red; the cloud half takes it on its next run.
+
+### Kino Hamina's "1 h" runtimes and bracketed prices (2026-10-04)
+The page, read 2026-10-04, writes "Kesto: 1 h 42 min" beside "1 t 44 min", and a
+screening's own price as "Klo 15:00 (Liput 8€)" where it wrote "| Liput 8€". `MIN_RE` read
+only `t`, so Rakkautta ja Virtahepoja and Verityn varjo published 42 and 57 min, and
+`SHOW_RE` only the pipe, so two 15:00 screenings carried the film's 11€. Both shapes are
+read now; a parse of that page gives 102 and 117 min and 8€ on 7.10. and 8.10. The
+committed rows change on the next cloud run. 3 mutations red.
