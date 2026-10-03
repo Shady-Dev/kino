@@ -145,7 +145,8 @@ Kinokulma and Kino Hannikainen came back loading on all 17 reads each, and Bio M
 whole on 1 of 19; their previous files stand. Their programmes load only through
 the `X-ApiKey` flow, declined as for Kuva-Tähti above. Evidence:
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** none from here; re-read when the storefront renders whole again.
+Maintainer, 2026-10-03: both stay listed and red, last good data under the stale notice;
+removal only if a cinema confirms it publishes no screenings. **Next action:** none.
 
 ### Rekolan Kino and Juvan Kino wait for a programme
 
