@@ -2712,3 +2712,13 @@ note included, was published. `parse_movie` now drops any paragraph `is_note` fl
 Gilda's feed does, and builds the text from the rest. Savon Kinot's Ortotopologia page,
 read 2026-10-04, still carries such a note above its synopsis; it now yields the synopsis
 alone. 2 mutations red.
+
+### eTiketti does not score parenthesised titles when placing a paragraph (2026-10-04)
+Unohdettu saari's Finnish cast paragraph on kiertue.cine.fi lists English titles in
+parentheses, and their function words placed it as English: the `en` slot of both
+Unohdettu saari keys held Finnish, for 37 upcoming screenings at 13 providers
+(measured at adc1b6e9b).
+`syn_value` scores each paragraph and the whole text with `(...)` asides removed. Over the
+803 committed slot texts this changes 3 verdicts, these two and Heart of the Beast's
+Swedish text, which now places. Kept to eTiketti: `syn_language` also decides pages and
+Finnkino slots. 3 mutations red.
