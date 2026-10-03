@@ -2722,3 +2722,16 @@ Unohdettu saari keys held Finnish, for 37 upcoming screenings at 13 providers
 803 committed slot texts this changes 3 verdicts, these two and Heart of the Beast's
 Swedish text, which now places. Kept to eTiketti: `syn_language` also decides pages and
 Finnkino slots. 3 mutations red.
+
+### Shared synopsis slots repaired by hand (2026-10-04)
+After the four rules above, the 24 slots found bad on 2026-10-04.
+Measured at adc1b6e9b.
+- Savon Kinot's "||" note cut off, synopsis kept: `fi` of Kerro kaikille (48 upcoming
+  screenings, 18 providers), Ortotopologian loputtomat alkeet (17, 2), Ooppera Don
+  Giovanni and Teatteri: The Audience, `en` of Linkin Park: Unshatter. Kerro kaikille now
+  equals Savon Kinot's page as read that day.
+- Bio Savoy's genre items cut off 15 `sv` slots; Digger equals its fixed parse.
+- Emptied for the next run to refill: `fi` of Don Quijote Barcelonassa (Niagara's note
+  opening the text), `en` of Verity (Verityn varjo) (Sheryl's 2026-09-21 page dump; the
+  cause closed in `881ec574e`), `en` of both Unohdettu saari keys. The TMDB cache holds an
+  overview for each. The fill-only rule is unchanged. 10 pages regenerated.
