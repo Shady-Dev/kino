@@ -1,20 +1,11 @@
-[biomarilyn] 9 screening(s) in day groups, 4 film page(s) read
-[biomarilyn] Bio Marilyn: 9 showtimes, 4 dates
-[biomarilyn] Bio Marilyn: 9 showtimes, 4 dates
-[biomarilyn] synopses merged: 0
+[biomarilyn] FAILED: https://www.biomarilyn.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [vihdinkino] FAILED: https://vihdinkino.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[bioforum] 37 screening(s) in day groups, 14 film page(s) read
-[bioforum] Bio Forum: 37 showtimes, 18 dates
-[bioforum] Bio Forum: 37 showtimes, 18 dates
-[bioforum] synopses merged: 0
+[bioforum] FAILED: https://bioforum.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [kinokulma] FAILED: https://kinokulma.fi/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
-[kinovirta] 6 screening(s) in day groups, 5 film page(s) read
-[kinovirta] Kino Virta: 6 showtimes, 2 dates
-[kinovirta] Kino Virta: 6 showtimes, 2 dates
-[kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 29 full, 0 not stored (origin said no-store), 0 cache entries written
+[kinovirta] FAILED: https://kinovirta.johku.com/: no screening in any day group. No tenant of this platform has been seen with an empty programme, so there is no evidence of one to read this as, and the previous files stand
+[run] http: 0 revalidated (304), 6 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 3 venues, 52 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 3 failures
-[run] timing: 6 site(s), 67.9s of fetching added up across workers that overlap, longest site 36.2s, longest queue wait 112.6s, 37.1s wall from this module's first fetch starting to its last ending
+[run] johku: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 6 failures
+[run] timing: 6 site(s), 10.9s of fetching added up across workers that overlap, longest site 2.3s, longest queue wait 96.0s, 6.4s wall from this module's first fetch starting to its last ending
 exit=1

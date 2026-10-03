@@ -1194,7 +1194,7 @@
   "gråben vs acme coyote vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "",
@@ -4558,6 +4558,14 @@
    },
    "tr": ""
   },
+  "puolalaisen elokuvan viikonloppu hyvä talo dom dobry": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "VAPAA PÄÄSY! Näytökseen ei voi varata lippuja etukäteen. Vain englanninkieliset tekstitykset. Puolalaisen nykyelokuvan kärkitekijän uusi elokuva on raju kuvaus parisuhdeväkivallasta. Gośka tutustuu internetissä Grzesiekiin ja uskoo löytäneensä viimein elämänsä rakkauden. Mies hurmaa hänet huomiolla, kukilla ja romanttisella kosinnalla Venetsiassa. Aluksi suhde näyttää täydelliseltä, mutta vähitellen idylliin alkaa kuitenkin ilmestyä säröjä. Yhteisestä kodista tulee Gośkalle yhä ahdistavampi ja vaarallisempi paikka. Hän joutuu kohtaamaan rakkauden synkän ja hallitsevan puolen."
+   },
+   "tr": ""
+  },
   "päivien lumo": {
    "id": 1563565,
    "img": "data/posters/6bbde592472eb4e8.jpg",
@@ -7107,5 +7115,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-02"
+ "generated": "2026-10-03"
 }
