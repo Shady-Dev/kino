@@ -34,6 +34,7 @@ import datetime, html as html_mod, json, re, time
 from zoneinfo import ZoneInfo
 
 from common import EmptyProgramme, budget_or_raise, fetch, syn_language
+from synmerge import is_note
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -512,8 +513,11 @@ def parse_movie(page, site, movie_url):
         genre_hits = g2.group(1).split(",") if g2 else []
     genres = ", ".join(dict.fromkeys(_txt(g) for g in genre_hits if _txt(g)))
     d = DESC_RE.search(page)
-    syn = AGE_BOILER_RE.sub("", _txt(d.group(1))) if d else ""
-    paras = [t for t in map(_txt, PARA_RE.split(d.group(1))) if t] if d else []
+    # A screening-note paragraph goes whole, as at Gilda. Savon Kinot opens films with one
+    # ("... Kitee ||"), and kept, it reached the slot every chain reads (2026-10-04).
+    paras = [t for t in map(_txt, PARA_RE.split(d.group(1)))
+             if t and not is_note(t)] if d else []
+    syn = AGE_BOILER_RE.sub("", " ".join(paras))
 
     out, skipped = [], 0
     for m in ITEM_RE.finditer(page):

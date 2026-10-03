@@ -149,6 +149,18 @@ class EtikettiTest(Stubbed):
                "luentojaan ja kutsuivat häntä dosentiksi.")
         self.assertEqual(self.placed(own), {"fi": own})
 
+    def test_a_screening_note_paragraph_goes_and_the_synopsis_stays(self):
+        """Savon Kinot's notes on Kerro kaikille and Linkin Park, and Niagara's on Don
+        Quijote Barcelonassa, as they reached the shared slot (read 2026-10-04)."""
+        br = "<br />\n<br />\n"
+        savon = ("Ensi-iltapaikkakunnat: Joensuu, Savonlinna, Iisalmi, Varkaus ja Kitee || "
+                 "Ennakkoesitykset Hopeatähdessä 7.10. ||")
+        niagara = ("Niagarassa tekijävierailunäytös tiistaina 4.8. klo 18.30. Vieraana ohjaaja "
+                   "Jarmo Lampela sekä näyttelijä Juha Kukkonen!")
+        self.assertEqual(self.placed(savon + br + FI), {"fi": FI})
+        self.assertEqual(self.placed("Joensuu 30.9. + 3.10. ||" + br + EN), {"en": EN})
+        self.assertEqual(self.placed(niagara + br + FI), {"fi": FI})
+
     def test_a_text_no_language_places_is_withheld(self):
         # Read 2026-09-28: Niagara's Twilight Zone tagline, Kinopirtti's placeholder and a
         # Kotkan Leffat closure notice listed as a film.
