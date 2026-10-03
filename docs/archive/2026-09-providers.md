@@ -3451,3 +3451,9 @@ että ruotsiksi."), Bio Marilyn's operas in labelled paragraphs ("Kieli : Alkupe
 and nothing looser; a phrase must end with its sentence. "ilman tekstitystä" stays unread,
 since `XX-S` is Kino Engel's alone. On seven pages read that day it gives what each page
 says. Cloud half. 5 mutations red.
+
+### Iso-Hannu reads a list of spoken languages (2026-10-04)
+Punainen peto's page says "Puhekieli: suomi, ruotsi, venäjä" (read 2026-10-04), and
+`details` looked the whole value up as one name, so its rows published no language. The
+value is split on commas and "ja"; every name must be known or none is published. That
+page now gives `FI-A, SV-A, RU-A`. Cloud half. 3 mutations red.

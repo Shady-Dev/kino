@@ -220,6 +220,14 @@ class FilmPageTest(unittest.TestCase):
         self.assertNotIn("genres", d)
         self.assertEqual(d["rating"], "K-12")
 
+    def test_a_list_of_spoken_languages_is_each_of_them(self):
+        """Punainen peto, read 2026-10-04: "Puhekieli: suomi, ruotsi, venäjä"."""
+        self.assertEqual(isohannu.details(film_page(kieli="suomi, ruotsi, venäjä"))["lang"],
+                         "FI-A, SV-A, RU-A")
+        self.assertEqual(isohannu.details(film_page(kieli="englanti ja ranska"))["lang"],
+                         "EN-A, FR-A")
+        self.assertNotIn("lang", isohannu.details(film_page(kieli="suomi, klingon")))
+
     def test_an_unknown_spoken_language_yields_no_tag(self):
         self.assertNotIn("lang", isohannu.details(film_page(kieli="klingon")))
 
