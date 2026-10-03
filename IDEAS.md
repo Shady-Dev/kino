@@ -137,6 +137,16 @@ there is no last visible programme date to report. The rows arrive through
 **Next action:** re-read for the server-rendered template or a feed. Both become ordinary
 `johku.py` `SITES` entries if one appears.
 
+### Kinokulma and Kino Hannikainen render their listing only as a skeleton
+
+Since 2026-10-01 the Johku front page arrives whole, short or as a loading skeleton, and
+`johku.py` now publishes only a whole one, re-reading up to five times. Read 2026-10-03,
+Kinokulma and Kino Hannikainen came back loading on all 17 reads each, and Bio Marilyn
+whole on 1 of 19; their previous files stand. Their programmes load only through
+the `X-ApiKey` flow, declined as for Kuva-Tähti above. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+**Next action:** none from here; re-read when the storefront renders whole again.
+
 ### Rekolan Kino and Juvan Kino wait for a programme
 
 Both read 2026-09-21. **Rekolan Kino** (Vantaa) renders its Squarespace programme

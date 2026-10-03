@@ -894,6 +894,41 @@ established.
 
 ---
 
+## Johku storefront: the listing renders whole only some of the time (2026-10-03)
+
+**Findings** (front pages read as a visitor, 2026-10-03, with the adapter's user agent)
+
+- From the 2026-10-01 05:22Z cloud run on, 1 to 3 of the six storefronts failed per run
+  with no screening in any day group, and all but Bio Forum from 2026-10-02 11:18Z. The
+  same happens from an ordinary connection, so it is not the runner's address.
+- The front page holds one `js-shows` block per programme category, and each comes back
+  either rendered or as a placeholder: `<div class="product-list-skeleton" role="status"
+  aria-busy="true">` with `sk-product-card` items. Response headers are identical apart
+  from the length; nothing but the body tells the shapes apart.
+- Bio Marilyn came in three shapes over 8 reads in a row: a skeleton (3), "nyt-ohjelmistossa"
+  rendered beside a skeleton "tulossa" (4, 9 screenings to 7.10.), and both rendered (1, 14
+  screenings to 14.12.). The committed file held the 9.
+- Whole listings, counted on the placeholder over all blocks: Bio Forum 8 of 9 reads,
+  Vihdin Kino and Kino Virta about half, Bio Marilyn 1 of 19, Kinokulma and Kino
+  Hannikainen 0 of 17.
+- The page's script fills the placeholder from `johku.com` with an `X-ApiKey` header added
+  to every request for the store's API, the flow declined above. Film pages carry no
+  screening time at all, and the category pages (`/fi_FI/ohjelmisto`, `/fi_FI/tulossa`)
+  either show the same placeholder or render nothing.
+
+**Inferences, not verified**
+
+- The server renders each category's shows within some time budget and sends the
+  placeholder when the backend answers late; the larger programmes miss it more often.
+
+**Status and next step**
+
+`johku.py` reads a listing only when every block is rendered, re-reads up to five times,
+5 s apart, and otherwise fails the site with its previous files standing. Kinokulma and
+Kino Hannikainen stay stale until the storefront renders whole again (IDEAS, Blocked).
+
+---
+
 ## Helsinki culture centres: one events service (2026-09-18)
 
 **Findings** (malmitalo.fi and caisa.fi, read as a visitor 2026-09-18)

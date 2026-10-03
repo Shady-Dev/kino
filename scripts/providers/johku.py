@@ -56,6 +56,16 @@ difference is that this listing carries no live-act problem of the kind Karkkila
 **Zero rows fails the site.** No tenant was seen with an empty programme, so there is no
 positive evidence of what one renders and nothing here may claim it is empty:
 `common.EmptyProgramme` exists for the case where that evidence is in hand.
+
+**The listing is read only once the server has rendered it whole.** From 2026-10-01 the
+front page comes back, from any connection, either whole, or as the first days followed by
+skeleton cards, or as a skeleton alone, and the page's script fills the rest through an
+`X-ApiKey` call this adapter does not make. The page holds one `js-shows` block per
+programme category, and the placeholder is `aria-busy="true"` inside one: Bio Marilyn's
+"nyt-ohjelmistossa" block came back whole beside a skeleton "tulossa" one, 9 screenings of
+14. A page with a placeholder in any block is read again, up to `LISTING_TRIES` times, and a
+site that never renders whole fails with its previous files standing: a short listing would
+publish part of the programme as all of it, and a skeleton is not an empty one.
 """
 import datetime
 import html as html_mod
@@ -223,6 +233,45 @@ def groups(page):
     return [_element(page, i) for i in starts if i >= 0]
 
 
+# The listing blocks, one per programme category, and the loading placeholder inside one
+# (read 2026-10-03).
+SHOWS_RE = re.compile(r'<div\b[^>]*class=["\'][^"\']*(?<![-\w])js-shows(?![-\w])')
+LOADING_RE = re.compile(r'aria-busy=["\']true["\']'
+                        r'|(?<![-\w])(?:product-list-skeleton|sk-product-card)(?![-\w])')
+# Reads of one listing before the site fails, and the pause between them. Measured
+# 2026-10-03: Bio Forum whole on 8 of 9 reads, Vihdin Kino and Kino Virta about half the
+# time, Bio Marilyn on 1 of 19, Kinokulma and Kino Hannikainen on none of 17.
+LISTING_TRIES = 5
+LISTING_WAIT = 5.0
+
+
+def listing_state(page):
+    """-> "rendered", "loading" or "missing": whether the page has `js-shows` blocks and
+    every one of them is free of the loading placeholder."""
+    blocks = [_element(page, m.start()) for m in SHOWS_RE.finditer(page)]
+    if not blocks:
+        return "missing"
+    return "loading" if any(LOADING_RE.search(b) for b in blocks) else "rendered"
+
+
+def read_listing(url):
+    """-> (page, reads) once the listing is rendered whole. Raises after `LISTING_TRIES`
+    reads that were not: neither a loading nor a missing listing is an empty programme."""
+    states = []
+    for n in range(LISTING_TRIES):
+        if n:
+            time.sleep(LISTING_WAIT)
+        page = get(url)
+        state = listing_state(page)
+        if state == "rendered":
+            return page, n + 1
+        states.append(state)
+    raise RuntimeError(
+        f"{url}: the listing was not rendered whole on any of {LISTING_TRIES} reads "
+        f"({', '.join(states)}). A loading or missing listing is not an empty programme, "
+        f"so the previous files stand")
+
+
 def _rating(block):
     m = RATING_RE.search(block)
     if not m:
@@ -373,7 +422,10 @@ def get(url, tries=3, timeout=30):
 def fetch_site(site, sleep=1.2):
     """Runner contract: the listing, then one film page per distinct product."""
     listing_url = site["base"].rstrip("/") + site["listing"]
-    listing = get(listing_url)
+    listing, reads = read_listing(listing_url)
+    if reads > 1:
+        print(f"[{site['provider']}] the listing rendered whole on read {reads} of "
+              f"{LISTING_TRIES}")
     listed, _ = rows(site, listing)
     if not listed:
         raise RuntimeError(

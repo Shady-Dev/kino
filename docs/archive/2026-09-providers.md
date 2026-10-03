@@ -3402,3 +3402,13 @@ Sheryl's English `Language`/`Subtitles` lines were not read, and 21 films at the
 tenants lost a name each. `NAMES` covers all 2026-10-03 values; an unknown name blanks that
 part instead of shortening it. FA, HE, PS, EL, NE, RO and YI added to both name tables.
 Evidence: [kinola.md](../research/kinola.md). `LanguageNamesTest`; 5 mutations red.
+
+### Johku publishes a storefront listing only when it is rendered whole (2026-10-03)
+The front page began arriving short or as a loading skeleton from any connection, and the
+adapter published whatever day groups it found: Bio Marilyn's committed 9 screenings were
+one of two categories. The rows behind the placeholder load only with an `X-ApiKey`, which
+stays declined. `listing_state` reads `aria-busy="true"` or skeleton cards in any `js-shows`
+block as loading; `read_listing` re-reads five times, 5 s apart, then fails the site. Live
+that day: Bio Forum 40, Vihdin Kino 10, Kino Virta 6; Bio Marilyn, Kinokulma and Kino
+Hannikainen failed with their files standing. Evidence:
+[ticketing-platforms.md](../research/ticketing-platforms.md). `ListingStateTest`; 9 mutations red.

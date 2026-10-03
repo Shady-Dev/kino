@@ -61,8 +61,26 @@ def row(slug, title, when, clock, loc="Bio Marilyn", rating="12", dur="1 h 27 mi
             f'<span class="showduration">{dur}</span></span></span></a>')
 
 
-def listing(*groups_):
-    return "<html><body><div class='container'>" + "".join(groups_) + "</div></body></html>"
+def listing(*groups_, shows=True):
+    """The front page. The day groups sit in the `js-shows` block, as on every storefront
+    read 2026-10-03; `shows=False` leaves the block out."""
+    body = "".join(groups_)
+    if shows:
+        body = (f'<div class="js-shows" basedomain="https://johku.com/" shopid="x"><div>'
+                f'{body}</div></div>')
+    return "<html><body><div class='container'>" + body + "</div></body></html>"
+
+
+# The loading placeholder the storefront renders in place of day groups it has not filled,
+# read 2026-10-03 on biomarilyn.com: alone it is the whole listing, after rendered groups it
+# stands for the days still to come.
+SKELETON = ('<div class="product-list-skeleton" role="status" aria-busy="true" '
+            'aria-label="Haetaan..."><span class="sr-only">Haetaan...</span>'
+            '<div class="showgroup"><h3 class="daytitle" aria-hidden="true">'
+            '<span class="sk-line"></span></h3><div class="js-grid">'
+            '<div class="js-grid-item js-grid-product in-grid sk-product-card" '
+            'aria-hidden="true"></div><div class="js-grid-item js-grid-product in-grid '
+            'sk-product-card" aria-hidden="true"></div></div></div></div>')
 
 
 def group(day, *rows_):
@@ -273,6 +291,50 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(s["original"], "Hetki ennen valoa")
 
 
+class ListingStateTest(unittest.TestCase):
+    """The three shapes the front page came back in on 2026-10-03, and a page without the
+    listing block. Only the first is the programme."""
+    ROWS = (row("a", "A", "2026-10-03T12:30:00.000Z", "15.30"),
+            row("b", "B", "2026-10-04T12:30:00.000Z", "15.30", product="1039"))
+
+    def test_a_listing_rendered_whole(self):
+        self.assertEqual(J.listing_state(listing(group("Lauantai 3.10.2026", *self.ROWS))),
+                         "rendered")
+
+    def test_a_skeleton_alone_and_a_short_listing_are_both_loading(self):
+        for page in (listing(SKELETON),
+                     listing(group("Lauantai 3.10.2026", *self.ROWS), SKELETON)):
+            with self.subTest(page=page[-60:]):
+                self.assertEqual(J.listing_state(page), "loading")
+
+    def test_a_second_category_still_loading_makes_the_page_loading(self):
+        """Bio Marilyn, 2026-10-03: "nyt-ohjelmistossa" whole, "tulossa" a skeleton, so the
+        page held 9 screenings of 14."""
+        first = listing(group("Lauantai 3.10.2026", *self.ROWS))
+        second = '<div class="js-shows" basedomain="https://johku.com/" shopid="x">' + SKELETON + "</div>"
+        self.assertEqual(J.listing_state(first.replace("</body>", second + "</body>")), "loading")
+        whole = second.replace(SKELETON, group("Maanantai 14.12.2026", self.ROWS[0]))
+        self.assertEqual(J.listing_state(first.replace("</body>", whole + "</body>")), "rendered")
+
+    def test_either_marker_alone_is_loading(self):
+        """The two arrive together today; each is read on its own in case one is renamed."""
+        for marker in ('<div role="status" aria-busy="true"></div>',
+                       '<div class="js-grid-item sk-product-card"></div>'):
+            with self.subTest(marker=marker):
+                self.assertEqual(J.listing_state(listing(
+                    group("Lauantai 3.10.2026", *self.ROWS), marker)), "loading")
+
+    def test_a_page_without_the_listing_block_is_missing(self):
+        self.assertEqual(J.listing_state(listing(group("Lauantai 3.10.2026", *self.ROWS),
+                                                 shows=False)), "missing")
+        self.assertEqual(J.listing_state("<html><body></body></html>"), "missing")
+
+    def test_a_placeholder_outside_the_listing_does_not_count(self):
+        page = listing(group("Lauantai 3.10.2026", *self.ROWS)).replace(
+            "</body>", '<div class="carousel" aria-busy="true"></div></body>')
+        self.assertEqual(J.listing_state(page), "rendered")
+
+
 class RunnerTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -290,6 +352,8 @@ class RunnerTest(unittest.TestCase):
         def fetch(url, **kw):
             self.calls.append(url)
             body = pages.get(url)
+            if isinstance(body, list):
+                body = body.pop(0) if len(body) > 1 else body[0]
             if isinstance(body, Exception):
                 raise body
             if body is None:
@@ -338,7 +402,7 @@ class RunnerTest(unittest.TestCase):
                 "horizon": "2026-09-01",
                 "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
         (run.OUT / "area-kinokulma-oulainen.json").write_text(json.dumps(prev))
-        self.serve(self.all_sites(**{"https://kinokulma.fi/": "<html><body></body></html>"}))
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": listing()}))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("no evidence of one", log)
@@ -346,6 +410,53 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(json.loads(
             (run.OUT / "area-kinokulma-oulainen.json").read_text()), prev)
         self.assertTrue((run.OUT / "area-bioforum-tammisaari.json").exists())
+
+    def keep(self, vid):
+        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
+                "horizon": "2026-09-01",
+                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
+        (run.OUT / f"area-{vid}.json").write_text(json.dumps(prev))
+        return prev
+
+    def test_a_loading_listing_is_read_again_until_it_renders(self):
+        whole = self.all_sites()["https://www.biomarilyn.com/"]
+        short = whole.replace("</div></div></div></body>", SKELETON + "</div></div></div></body>")
+        self.assertEqual(J.listing_state(short), "loading")
+        self.serve(self.all_sites(**{"https://www.biomarilyn.com/":
+                                     [listing(SKELETON), short, whole]}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual(self.calls.count("https://www.biomarilyn.com/"), 3)
+        self.assertIn("[biomarilyn] the listing rendered whole on read 3 of 5", log)
+        shows = json.loads((run.OUT / "area-biomarilyn-lapua.json").read_text())["shows"]
+        self.assertEqual(len(shows), 2)
+
+    def test_a_listing_that_never_renders_fails_and_keeps_its_file(self):
+        """A short listing is never published as the programme, and a skeleton never as an
+        empty one. The other sites publish."""
+        whole = self.all_sites()["https://kinokulma.fi/"]
+        short = whole.replace("</div></div></div></body>", SKELETON + "</div></div></div></body>")
+        for body, state in ((short, "loading"), (listing(SKELETON), "loading"),
+                            ("<html><body>Bad gateway</body></html>", "missing")):
+            with self.subTest(state=state, body=body[-40:]):
+                self.calls = []
+                prev = self.keep("kinokulma-oulainen")
+                self.serve(self.all_sites(**{"https://kinokulma.fi/": [body]}))
+                code, log = self.main()
+                self.assertEqual(code, 1, log)
+                self.assertEqual(self.calls.count("https://kinokulma.fi/"), J.LISTING_TRIES)
+                self.assertIn(f"not rendered whole on any of {J.LISTING_TRIES} reads ({state}",
+                              log)
+                self.assertEqual(json.loads(
+                    (run.OUT / "area-kinokulma-oulainen.json").read_text()), prev)
+                self.assertTrue((run.OUT / "area-bioforum-tammisaari.json").exists())
+
+    def test_the_reads_are_paced(self):
+        waits = []
+        J.time.sleep = waits.append
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": [listing(SKELETON)]}))
+        self.main()
+        self.assertEqual(waits.count(J.LISTING_WAIT), J.LISTING_TRIES - 1)
 
     def test_a_listing_of_nothing_but_hall_hire_fails_that_site(self):
         self.serve(self.all_sites(**{
