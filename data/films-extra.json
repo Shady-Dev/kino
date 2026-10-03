@@ -2410,19 +2410,6 @@
     "en"
    ]
   },
-  "kojootti vs acme suomeksi puhuttu": {
-   "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
-   "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
-  },
   "kokuho kabukin mestari": {
    "id": 1379266,
    "r": 0,
@@ -2703,6 +2690,7 @@
     "elavienkuvien",
     "gilda",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -2724,6 +2712,7 @@
     "elavienkuvien",
     "gilda",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -2748,6 +2737,7 @@
     "elavienkuvien",
     "gilda",
     "kinolumo",
+    "kinometso",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -3198,6 +3188,14 @@
     "fi": "Ken Russellin ensimmäinen iso ohjaus oli tilaustyö Bond-tuottaja Harry Saltzmanille. Harry Palmer -agenttiromaaniin pohjaava satiirinen kylmän sodan jännäri kuvattiin pääosin Suomessa. Michael Caine seikkailee pitkin talvista Helsinkiä ja nojailee tauluihin Tarvaspäässä. Porvoo esittää Riikaa, ja Turun linnassa on salainen datakeskus. Elokuva jäi auto-onnettomuudessa kuolleen Françoise Dorléacin viimeiseksi. Kino Reginassa tarjoutuu mahdollisuus nähdä Töölönlahdella ja päärautatieasemalla filmattu mainio teos keskellä kuvausympäristöään."
    },
    "tr": "https://www.youtube.com/watch?v=DQ8dBx-ywlI"
+  },
+  "minikino pat mat": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vapaa pääsy! Näytöksen tarjoaa Jyväskylän Lasten Lysti Pikku Kakkosesta tutut legendaariset Hupsis-ukot Pat & Mat nähdään Tikkakoskella! Eri arjen askareisiin mitä mielikuvituksellisempia (ja petollisempia) niksiratkaisuja keksivän kaksikon klassiset seikkailut sopivat kaikenikäisille aivan perheen pienimmästä alkaen. Pat & Mat on sanattomuuden, ikärajattomuuden ja tiiviin kestonsa (40min.) vuoksi loistava tapa pikkuisille tutustua elokuvissa käymiseen."
+   },
+   "tr": ""
   },
   "minioner monster": {
    "id": 1315772,
@@ -4250,7 +4248,6 @@
    "krs": [
     "bioforum",
     "biorex",
-    "helios",
     "jarvelankino",
     "kinolumo",
     "kinopiispanristi",
@@ -4701,7 +4698,6 @@
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4955,13 +4951,12 @@
   },
   "rocco ja hänen veljensä": {
    "id": 8422,
-   "img": "data/posters/e1a34a8acb56785f.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Viscontin suurklassikossa viisi veljestä äiteineen muuttaa köyhästä eteläisestä Italiasta Milanoon töiden ja paremman elämän perässä. Sodanjälkeistä nousukauttaan elävä, nopeasti modernisoituva kaupunki osoittautuu raa’an kilpailun sävyttämäksi ja kylmäksi luokkayhteiskunnaksi, jossa perhe särkyy ja arvot murenevat."
    },
-   "tr": "https://www.youtube.com/watch?v=54IuJ8ivZl0"
+   "tr": ""
   },
   "romeo juliet": {
    "id": 454,
@@ -5076,11 +5071,8 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "cinemantsala",
-    "helios",
     "isohannu",
-    "kinohirvi",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -5380,16 +5372,6 @@
   "sopeutumaton": {
    "id": 1444061,
    "img": "data/posters/26b3955801497bbc.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biorex",
-    "elavienkuvien",
-    "kinoiiris",
-    "kinomyyri",
-    "kinotar",
-    "niagara",
-    "studio123kouvola"
-   ],
    "r": 0,
    "s": {
     "en": "Winner of the Audience Award at the Tampere Film Festival, Sopeutumaton is a documentary about Nadja (24), a highly sensitive young woman from Helsinki’s Kallio district who has become caught in an endless cycle of underground parties and substance use. As everyday life begins to overwhelm her and her mental well-being deteriorates, she retreats to an old hermit’s cabin on a remote island in Lake Päijänne to find some peace. Cut off from the world and from the hypersocial life she is accustomed to, Nadja is forced to confront her deepest fears. At the same time, she forms a mysterious connection with the long-deceased owner of the cabin, the legendary hermit Toivo. This marks the beginning of a journey toward breaking intergenerational patterns, understanding the unusual abilities that run in her family, and finding her way into adulthood. Through Nadja’s story, the film explores the mental well-being of young adults in contemporary society and the role of nature and self-help in healing and restoring the mind. The documentary was filmed over a period of six years.",
@@ -5884,8 +5866,7 @@
    "krs": [
     "biorex",
     "engel",
-    "gilda",
-    "tapiola"
+    "gilda"
    ],
    "r": 7.2,
    "s": {
@@ -6027,24 +6008,16 @@
   },
   "the rocky horror picture show": {
    "id": 36685,
-   "img": "data/posters/881ea0a1c032f51c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
+    "en": "",
     "fi": "Kaikkien kulttielokuvien äiti on synnyttänyt ympärilleen yhteisöllisen ilmiön, joka elää ja voi hyvin vielä yli viisikymmentä vuotta ensi-iltansa jälkeen. B-scifiä ja kauhuelokuvia rakastavasti parodioiva ja pastissoiva teos juhlistaa vapauttavaa estottomuutta ja antoi kokonaiselle sukupolvelle luvan olla oma outo itsensä."
    },
-   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the rocky horror picture show 1975": {
    "id": 36685,
    "img": "data/posters/881ea0a1c032f51c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "regina"
-   ],
    "r": 7.4,
    "s": {
     "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",

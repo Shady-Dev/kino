@@ -1,11 +1,8 @@
-[http] 400 from www.malmitalo.fi, gave up after 3 attempt(s) -- Server: nginx/1.24.0
-[helios] event record kino-helios-esittaa-kino-helios-practical-magic-lumotut-sisaret-malmitalo-22106495: HTTPError: HTTP Error 400: Bad Request
-[helios] event record kino-helios-esittaa-kino-helios-ryhma-hau-dinoelokuva-malmitalo-22104941: HTTPError: HTTP Error 400: Bad Request
-[helios] languages: 23 of 24 screenings, 0 records read, 2 failed, 0 deferred
-[helios] Kino Helios, Helsinki: 24 showtimes, 15 dates, 24 of 608 event(s) are this cinema
-[helios] Kino Helios: 24 showtimes, 15 dates
+[helios] languages: 21 of 22 screenings, 0 records read, 0 failed, 0 deferred
+[helios] Kino Helios, Helsinki: 22 showtimes, 14 dates, 22 of 590 event(s) are this cinema
+[helios] Kino Helios: 22 showtimes, 14 dates
 [helios] synopses merged: 0
 [run] hosts: 1 attempted -- www.malmitalo.fi
-[run] helios: 1 venues, 24 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 36.4s of fetching added up across workers that overlap, longest site 36.4s, longest queue wait 122.4s, 36.4s wall from this module's first fetch starting to its last ending
+[run] helios: 1 venues, 22 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 2.2s of fetching added up across workers that overlap, longest site 2.2s, longest queue wait 122.4s, 2.2s wall from this module's first fetch starting to its last ending
 exit=0
