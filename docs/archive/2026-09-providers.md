@@ -3412,3 +3412,10 @@ block as loading; `read_listing` re-reads five times, 5 s apart, then fails the 
 that day: Bio Forum 40, Vihdin Kino 10, Kino Virta 6; Bio Marilyn, Kinokulma and Kino
 Hannikainen failed with their files standing. Evidence:
 [ticketing-platforms.md](../research/ticketing-platforms.md). `ListingStateTest`; 9 mutations red.
+
+### Bio Savoy's synopsis ends where the genre field begins (2026-10-04)
+The film page's body is a `<div>`, and `FIELD_RE` read each field to the next `</section>`,
+which for the body is the genre section after it. 15 `sv` slots ended in the genre list
+("PREMIÄR: 2.10 2026 Drama Komedi"), Digger, Heart of the Beast and Resident Evil among
+them. A field now ends where the next field starts. /film/digger, read
+2026-10-04, yields its body alone. 2 mutations red; the cloud half takes it on its next run.

@@ -403,6 +403,24 @@ class FilmFactsTest(unittest.TestCase):
     def test_a_page_with_no_body_publishes_no_synopsis(self):
         self.assertEqual(self.facts(body=None)["syn"], "")
 
+    def test_the_body_ends_where_the_genre_field_begins(self):
+        """The page's own order, read on /film/digger 2026-10-04: the body is a `<div>`
+        and the genre section follows it. Its items ended 15 Swedish synopses."""
+        body = ('<div class="field field-name-body field-type-text-with-summary '
+                'field-label-hidden view-mode-full"><div class="field-items">'
+                '<div class="field-item even" property="content:encoded">'
+                '<p>Digger är en svart katastrofkomedi.</p>\n'
+                '<p>PREMIÄR:<br />\n2.10 2026</p>\n</div></div></div>')
+        genre = ('<section class="field field-name-field-movie-genre field-label-inline '
+                 'clearfix view-mode-full"><h2 class="field-label">Genre:&nbsp;</h2>'
+                 '<ul class="field-items"><li class="field-item even">Drama</li>'
+                 '<li class="field-item odd">Komedi</li></ul></section>')
+        f = biosavoy.film_facts("<html><body>" + body + genre
+                                + film_page(body=None)[len("<html><body>"):])
+        self.assertEqual(f["syn"], "Digger är en svart katastrofkomedi. "
+                                   "PREMIÄR: 2.10 2026")
+        self.assertEqual((f["len"], f["rating"], f["price"]), ("127", "K-12", "15€"))
+
     def test_each_field_is_read_from_its_own_section(self):
         """Every Drupal field wraps its value in `field-item`, so a page-wide read of any
         one of them finds whichever field happens to come first."""
