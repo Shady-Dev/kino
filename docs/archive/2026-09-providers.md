@@ -3435,3 +3435,10 @@ Kino Manttu's Fri 9.10. 17:00 "Rakkautta ja virtahepoja" opens with an empty anc
 log. A parse of the listing read 2026-10-04 gives Nilsiä 10 rows against the 9 committed.
 The cinema reuses old film pages for new films, so the row links where its anchor does.
 Cloud half. 2 mutations red.
+
+### Ritz Vaasa's language comes from its labelled lines (2026-10-04)
+The events API description carries "Language: Finnish<br />Subtitles: Swedish" on 12 of 16
+events read 2026-10-04, and `tribe.py` published no language. `_lang` reads
+the two labelled lines, English names through `etiketti.strict_codes`, so an unknown name
+leaves its role empty. A parse of that answer gives 12 of 16 a language; Tähti Kino writes
+no such line. Cloud half. 3 mutations red.

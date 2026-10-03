@@ -140,6 +140,26 @@ class ParseTest(unittest.TestCase):
         self.assertNotIn("_syn", shows["ritz-vaasa"][1])
         self.assertEqual(report["unplaced_syn"], {"B"})
 
+    def test_the_labelled_language_lines_become_the_language(self):
+        """Ritz's description as read 2026-10-04: the lines follow the ticket line in one
+        paragraph. An event without them, or naming a language no table knows, keeps
+        that role empty."""
+        lines = ("<p>Tickets: 12/10€, sold at the door. Doors open 20 minutes before the "
+                 "first screening.<br />\n{}87 min</p>")
+        def ev(eid, title, day, text):
+            e = event(eid, title, f"2026-10-{day} 17:00:00", f"2026-10-{day} 14:00:00")
+            e["description"] += lines.format(text) if text is not None else ""
+            return e
+        shows, _ = T.parse(RITZ, [
+            ev(1, "Blue Baby", "06", "Language: Finnish<br />\nSubtitles: Swedish<br />\n"),
+            ev(2, "Donnie Darko", "07", "Language: English<br />\n"),
+            ev(3, "Two Seasons, Two Strangers", "13",
+               "Language: Japanese, Korean<br />\nSubtitles: Finnish, English<br />\n"),
+            ev(4, "Kabul", "14", "Language: Dari<br />\nSubtitles: Finnish<br />\n"),
+            ev(5, "Knitting Cinema!", "21", None)])
+        self.assertEqual([s["lang"] for s in shows["ritz-vaasa"]],
+                         ["FI-A, SV-S", "EN-A", "JA-A, KO-A, FI-S, EN-S", "FI-S", ""])
+
     def test_the_show_shape(self):
         shows, _ = T.parse(MUHOS, [event(7, "Hetki ennen valoa", "2026-09-19 17:00:00",
                                          "2026-09-19 14:00:00", cost="13 €",
