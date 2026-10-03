@@ -2705,3 +2705,10 @@ matches 6, all notes. The merge log reads "synopses skipped as screening notes: 
 It now takes the age statement, "Elokuva on K16." or "Elokuva on sallittu yli
 16-vuotiaille.", and only an "Ikärajoista ..." or "Sisältää ..." sentence after it. Kotka's
 current wording read 2026-10-04. 5 mutations red.
+
+### eTiketti drops a screening-note paragraph from the synopsis (2026-10-04)
+Savon Kinot heads films with a note paragraph ending "||", and the whole description,
+note included, was published. `parse_movie` now drops any paragraph `is_note` flags, as
+Gilda's feed does, and builds the text from the rest. Savon Kinot's Ortotopologia page,
+read 2026-10-04, still carries such a note above its synopsis; it now yields the synopsis
+alone. 2 mutations red.
