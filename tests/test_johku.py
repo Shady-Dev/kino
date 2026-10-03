@@ -227,6 +227,52 @@ class FilmFactsTest(unittest.TestCase):
         self.assertEqual(J.film_facts(film(syn="Tervetuloa!"))["syn"], "")
 
 
+class FilmLanguageTest(unittest.TestCase):
+    """The three ways a tenant's film page stated its language, each read 2026-10-04:
+    Bio Forum's sentence, Bio Marilyn's labelled paragraphs, Vihdin Kino's "puhumme
+    suomea". Nothing looser is read."""
+
+    def lang(self, *paras):
+        page = ('<html><body><div class="product-description__html">'
+                + "".join(f"<p>{p}</p>" for p in paras) + "</div></body></html>")
+        return J.film_facts(page)["lang"]
+
+    def test_bio_forums_sentence(self):
+        self.assertEqual(self.lang(SYN_FI, "Elokuva on puhuttu englanniksi ja tekstitys on "
+                                           "sekä suomeksi että ruotsiksi."), "EN-A, FI-S, SV-S")
+        self.assertEqual(self.lang("Elokuva on puhuttu suomeksi ja tekstitys on ruotsiksi."),
+                         "FI-A, SV-S")
+        self.assertEqual(self.lang("Tämä elokuva ja näytös on puhuttu englanniksi ja "
+                                   "tekstitys on sekä suomeksi että ruotsiksi."),
+                         "EN-A, FI-S, SV-S")
+
+    def test_a_stated_absence_of_subtitles_is_not_read(self):
+        self.assertEqual(self.lang("Tämä elokuvanäytös on puhuttu ruotsiksi ja se on ilman "
+                                   "tekstitystä."), "SV-A")
+
+    def test_bio_marilyns_labelled_paragraphs(self):
+        self.assertEqual(self.lang("Kieli : Alkuperäinen", "Tekstitys: Suomi"), "FI-S")
+        self.assertEqual(self.lang("Kieli: englanti", "Tekstitys: suomi ja ruotsi"),
+                         "EN-A, FI-S, SV-S")
+
+    def test_vihdin_kinos_we_speak_finnish(self):
+        self.assertEqual(self.lang("MLL Vihdin paikallisyhdistys järjestää Toy Story "
+                                   "5-elokuvan näytöksen, lipun hinta vain 2€! Esitetään "
+                                   "dubattuna versiona eli puhumme suomea."), "FI-A")
+
+    def test_anything_looser_states_nothing(self):
+        for p in (SYN_FI, "Elokuva on puhuttu ruotsiksi ja suomeksi tekstitettynä.",
+                  "Dubattu versio.", "Kieli: Alkuperäinen"):
+            with self.subTest(p=p[:30]):
+                self.assertEqual(self.lang(p), "")
+
+    def test_the_row_carries_its_film_pages_language(self):
+        page = film().replace("<p>Elokuvateattereissa 4.9.</p>",
+                              "<p>Elokuva on puhuttu suomeksi ja tekstitys on ruotsiksi.</p>")
+        shows, _ = J.parse(MARILYN, ParseTest.listing_(None), {"1038": page, "1039": film()})
+        self.assertEqual([s["lang"] for s in shows["biomarilyn-lapua"]], ["FI-A, SV-S", ""])
+
+
 class ParseTest(unittest.TestCase):
     def pages(self, **over):
         pages = {"1038": film(), "1039": film(syn=SYN_SV)}

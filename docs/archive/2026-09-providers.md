@@ -3442,3 +3442,12 @@ events read 2026-10-04, and `tribe.py` published no language. `_lang` reads
 the two labelled lines, English names through `etiketti.strict_codes`, so an unknown name
 leaves its role empty. A parse of that answer gives 12 of 16 a language; Tähti Kino writes
 no such line. Cloud half. 3 mutations red.
+
+### Johku film pages: the language each states (2026-10-04)
+`johku.py` published no language. Read 2026-10-04, three tenants state it on the film page:
+Bio Forum in one sentence ("Elokuva on puhuttu englanniksi ja tekstitys on sekä suomeksi
+että ruotsiksi."), Bio Marilyn's operas in labelled paragraphs ("Kieli : Alkuperäinen",
+"Tekstitys: Suomi"), Vihdin Kino as "puhumme suomea". `film_lang` reads those three shapes
+and nothing looser; a phrase must end with its sentence. "ilman tekstitystä" stays unread,
+since `XX-S` is Kino Engel's alone. On seven pages read that day it gives what each page
+says. Cloud half. 5 mutations red.

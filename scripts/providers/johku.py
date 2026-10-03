@@ -78,6 +78,7 @@ from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 from common import capped, check_shows, fetch, make_opener, syn_language
+from etiketti import lang_codes, strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -146,6 +147,20 @@ PRODUCT_PATH = "/fi_FI/products/"
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
 # a synopsis. The same length kinola.py uses, for the same reason.
 SYN_MIN = 120
+
+# The language as a film page states it, in the three shapes read 2026-10-04 and nothing
+# looser. Bio Marilyn's opera: labelled paragraphs, "Kieli : Alkuperäinen", "Tekstitys:
+# Suomi". Bio Forum: "Elokuva on puhuttu englanniksi ja tekstitys on sekä suomeksi että
+# ruotsiksi." Vihdin Kino: "Esitetään dubattuna versiona eli puhumme suomea." A phrase must
+# end where the sentence does, so "ruotsiksi ja suomeksi tekstitettynä" reads as nothing.
+# "ilman tekstitystä" is not read: no-subtitles (`XX-S`) is Kino Engel's alone so far.
+LABEL_LINE_RE = re.compile(r"^(kieli|tekstitys)\s*:\s*(.+)$", re.I)
+TRANSLATIVE = r"[a-zåäö]+ksi(?:\s*(?:,|ja|sekä|että)\s*[a-zåäö]+ksi)*"
+SPOKEN_RE = re.compile(r"\bpuhuttu\s+(" + TRANSLATIVE + r")(?=\s*(?:[.,]|ja\s+(?:tekstitys|se)\b|$))",
+                       re.I)
+SUBTITLED_RE = re.compile(r"\btekstitys\s+on\s+(?:sekä\s+)?(" + TRANSLATIVE + r")(?=\s*(?:[.,]|$))",
+                          re.I)
+FINNISH_SPOKEN_RE = re.compile(r"\bpuhumme\s+suomea\b", re.I)
 
 
 class _Response(http.client.HTTPResponse):
@@ -346,21 +361,49 @@ def _start(site, n, title, block):
     return local.isoformat()
 
 
+def _translative(phrase):
+    """"englanniksi ja ruotsiksi" -> ["EN", "SV"]; [] unless every word names one language."""
+    out = []
+    for word in re.findall(r"[a-zåäö]+ksi", (phrase or "").lower()):
+        codes = lang_codes(word)
+        if len(codes) != 1:
+            return []
+        if codes[0] not in out:
+            out.append(codes[0])
+    return out
+
+
+def film_lang(paras):
+    """A film page's description paragraphs -> "EN-A, FI-S, SV-S", "" when none states it."""
+    audio, subs = [], []
+    for t in paras:
+        m = LABEL_LINE_RE.match(t)
+        if m:
+            (audio if m.group(1).lower() == "kieli" else subs).extend(strict_codes(m.group(2)))
+            continue
+        spoken, subtitled = SPOKEN_RE.search(t), SUBTITLED_RE.search(t)
+        audio += _translative(spoken.group(1)) if spoken else []
+        subs += _translative(subtitled.group(1)) if subtitled else []
+        if FINNISH_SPOKEN_RE.search(t):
+            audio.append("FI")
+    parts = [f"{c}-A" for c in dict.fromkeys(audio)] + [f"{c}-S" for c in dict.fromkeys(subs)]
+    return ", ".join(parts)
+
+
 def film_facts(page):
-    """One film page -> {len, genres, original, syn}."""
+    """One film page -> {len, genres, original, syn, lang}."""
     info = {_txt(k).lower(): _txt(v) for k, v in INFO_RE.findall(page)}
     syn = ""
     body = DESC_RE.search(page)
-    if body:
-        for p in PARA_RE.findall(body.group(1)):
-            t = _txt(p)
-            if len(t) >= SYN_MIN:
-                syn = t
-                break
+    paras = [_txt(p) for p in PARA_RE.findall(body.group(1))] if body else []
+    for t in paras:
+        if len(t) >= SYN_MIN:
+            syn = t
+            break
     return {"len": _minutes(info.get("kesto", "")),
             "genres": info.get("luokittelu", ""),
             "original": info.get("alkuperäinen nimi", ""),
-            "syn": syn}
+            "syn": syn, "lang": film_lang(paras)}
 
 
 def parse(site, listing, pages):
@@ -379,7 +422,8 @@ def parse(site, listing, pages):
             hire.add(r["title"])
             hire_shows += 1
             continue
-        f = facts.get(r["product"]) or {"len": "", "genres": "", "original": "", "syn": ""}
+        f = facts.get(r["product"]) or {"len": "", "genres": "", "original": "", "syn": "",
+                                        "lang": ""}
         venue = next(v for v in site["venues"] if v["id"] == r["venue"])
         show = {
             "eventId": r["product"],
@@ -394,7 +438,7 @@ def parse(site, listing, pages):
             "start": r["start"],
             "url": r["url"],
             "img": "",
-            "lang": "",
+            "lang": f["lang"],
             "soldOut": False,
             "price": "",
             "provider": site["provider"],
