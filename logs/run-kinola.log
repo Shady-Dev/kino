@@ -1,28 +1,28 @@
-[kinokilta] 60 screening(s) listed, 41 film page(s) read
+[kinokilta] 59 screening(s) listed, 41 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
 [kinokilta] 1 film(s) with a language name not read, that part left blank: Pieni kauhukauppa (Ei teksitystä)
-[kinokilta] Kino Kilta: 57 showtimes, 33 dates
+[kinokilta] Kino Kilta: 56 showtimes, 32 dates
 [kinokilta] strand prefix split off 14 showtimes
-[kinokilta] Kino Kilta: 57 showtimes, 33 dates
+[kinokilta] Kino Kilta: 56 showtimes, 32 dates
 [kinokilta] synopses merged: 0
-[kinolaika] 62 screening(s) listed, 47 film page(s) read
-[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 23 unresolved over 23
-[kinolaika] unresolved: 50 vuotta rokkia Karkkilasta, AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja
+[kinolaika] 61 screening(s) listed, 46 film page(s) read
+[kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
+[kinolaika] unresolved: AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1)
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
 [kinolaika] Kino Laika: 39 showtimes, 13 dates
 [kinolaika] Kino Laika: 39 showtimes, 13 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 22 screening(s) listed, 18 film page(s) read
+[kinomyyri] 20 screening(s) listed, 18 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 4
 [kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Espanjalaisen elokuvan viikko: Campeones – Mestarit, Espanjalaisen elokuvan viikko: La Isla mínima
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
-[kinomyyri] Kino Myyri: 18 showtimes, 8 dates
-[kinomyyri] Kino Myyri: 18 showtimes, 8 dates
+[kinomyyri] Kino Myyri: 16 showtimes, 7 dates
+[kinomyyri] Kino Myyri: 16 showtimes, 7 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 109 full, 19 not stored (origin said no-store), 42 cache entries written
+[run] http: 0 revalidated (304), 108 full, 19 not stored (origin said no-store), 42 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 114 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 227.0s of fetching added up across workers that overlap, longest site 105.8s, longest queue wait 96.8s, 106.0s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 111 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 237.3s of fetching added up across workers that overlap, longest site 105.7s, longest queue wait 101.9s, 106.1s wall from this module's first fetch starting to its last ending
 exit=0

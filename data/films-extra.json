@@ -1018,12 +1018,17 @@
    ]
   },
   "fallen angels": {
-   "r": 0,
+   "id": 11220,
+   "img": "data/posters/c157e52f06aa7910.jpg",
+   "r": 7.7,
    "s": {
     "en": "A disillusioned killer embarks on his last hit but first he has to overcome his affections for his cool, detached partner. Thinking it’s dangerous and improper to become involved with a colleague he sets out to find a surrogate for his affections. Against the sordid and surreal urban nightscape of contemporary Hong Kong, he crosses path with a strange drifter looking for her mysterious ex-boyfriend and an amusing mute trying to get the world’s attention in his own unconventional ways.",
-    "fi": ""
+    "fi": "Urbaanisti sykkivä kuvaus alamaailman yksinäisistä antisankareista, joiden tarinat kuljettavat katsojaa Hongkongin öisillä kaduilla ja kuppiloissa. Chris Doylen kieppuva kamera seuraa agentistaan eroon haluavaa ammattitappajaa tai kauppaleikkejä harrastavaa mykkää murtomiestä, ja tanakka soundtrack myötäilee rakkauden etsintää."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=uxaT19BlH0M",
+   "ts": [
+    "fi"
+   ]
   },
   "fantom": {
    "id": 28480,
@@ -1232,13 +1237,12 @@
   },
   "hanuman ansh": {
    "id": 1709391,
-   "img": "data/posters/61c85fa8b15f9425.jpg",
    "r": 0,
    "s": {
     "en": "A grieving boy seeks God to meet his departed mother, and in finding the divine, learns to serve humanity with miracles of love, food and silent blessings, becoming Hanuman Ansh, Neem Karoli Baba.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=YpGhCA2X3gU"
+   "tr": ""
   },
   "happy together": {
    "id": 18329,
@@ -2877,13 +2881,12 @@
   },
   "linkin park unshatter": {
    "id": 1388805,
-   "img": "data/posters/28f06306e38e4156.jpg",
    "r": 0,
    "s": {
     "en": "Joensuu 30.9. + 3.10. || The hardest part of ending is starting again. After a seven-year hiatus following the devastating loss of their beloved bandmate Chester Bennington, LINKIN PARK’S remaining members struggle to find their way forward. Their shared history and enduring friendship, combined with the fresh perspective of two new band members spark a renewed creative energy that leads them on a transformative journey of artistic reinvention. Following the band from intimate 2022 studio sessions through their explosive FROM ZERO album release and concert in São Paulo, the film UNSHATTER weaves together rare vault footage, electrifying performances from sold-out shows, and candid interviews with band members and fans—capturing the raw, honest story of what it means to start over.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=K9Lpxc7bVTM"
+   "tr": ""
   },
   "linna": {
    "id": 204119,
@@ -3282,6 +3285,7 @@
     "biorex",
     "gilda",
     "helios",
+    "julia",
     "kinohannikainen",
     "kinolaika",
     "kinoolympia",
@@ -3820,7 +3824,8 @@
    "krs": [
     "cinemantsala",
     "ihmekompleksi",
-    "isohannu"
+    "isohannu",
+    "sheryl"
    ],
    "r": 0,
    "s": {
@@ -4716,7 +4721,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4849,11 +4853,9 @@
     "leffabuumi",
     "marita",
     "savonkinot",
-    "sheryl",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 7.3,
    "s": {
@@ -4900,11 +4902,9 @@
     "leffabuumi",
     "marita",
     "savonkinot",
-    "sheryl",
     "star",
     "studio123jarvenpaa",
-    "vaakuna",
-    "vihdinkino"
+    "vaakuna"
    ],
    "r": 7.3,
    "s": {
@@ -6583,6 +6583,7 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "julia",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6611,6 +6612,7 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "julia",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6639,6 +6641,7 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "julia",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6696,6 +6699,7 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "julia",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
