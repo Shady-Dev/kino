@@ -636,6 +636,16 @@ def identified_venues(listing, site):
             if any(v["match"].lower() in n for n in names)}
 
 
+# A parenthesised aside lists titles or names, and its English function words placed a
+# Finnish cast paragraph as English: "Jenny Slate (Marcell the Shell with Shoes On, ...)"
+# on Unohdettu saari (2026-10-04).
+ASIDE_RE = re.compile(r"\([^()]*\)")
+
+
+def _language(text):
+    return syn_language(ASIDE_RE.sub(" ", text))
+
+
 def syn_value(text, paras=()):
     """What `_syn` carries. -> {lang: str}, or "" to publish none.
 
@@ -643,13 +653,13 @@ def syn_value(text, paras=()):
     paragraphs place in more than one language the text is split instead: each language
     takes its own paragraphs, and those none places (headlines, source lines, the `***`
     between) are dropped. Niagara prints Finnish then Swedish in one description, and read
-    whole the Swedish half outvoted the Finnish.
+    whole the Swedish half outvoted the Finnish. Parenthesised asides are not scored.
     """
-    placed = [(syn_language(p), p) for p in paras]
+    placed = [(_language(p), p) for p in paras]
     langs = sorted({lang for lang, _ in placed if lang})
     if len(langs) > 1:
         return {lang: " ".join(p for x, p in placed if x == lang) for lang in langs}
-    lang = syn_language(text)
+    lang = _language(text)
     return {lang: text} if lang else ""
 
 

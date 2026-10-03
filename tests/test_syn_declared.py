@@ -161,6 +161,18 @@ class EtikettiTest(Stubbed):
         self.assertEqual(self.placed("Joensuu 30.9. + 3.10. ||" + br + EN), {"en": EN})
         self.assertEqual(self.placed(niagara + br + FI), {"fi": FI})
 
+    def test_titles_in_parentheses_do_not_place_a_paragraph(self):
+        """Unohdettu saari's cast paragraph on kiertue.cine.fi, read 2026-10-04 and cut off
+        mid-word by the cinema, was filed as English."""
+        cast = ("Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny "
+                "Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The "
+                "Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of "
+                "Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: "
+                "Live from B")
+        self.assertEqual(self.placed(f"{FI}<br />\n<br />\n{cast}"), {"fi": f"{FI} {cast}"})
+        sv = f"{SV} En film av David Ayer (Fury, End of Watch, The Beekeeper)."
+        self.assertEqual(self.placed(f"{FI}<br />{sv}"), {"fi": FI, "sv": sv})
+
     def test_a_text_no_language_places_is_withheld(self):
         # Read 2026-09-28: Niagara's Twilight Zone tagline, Kinopirtti's placeholder and a
         # Kotkan Leffat closure notice listed as a film.
