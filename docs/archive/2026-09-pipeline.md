@@ -2678,3 +2678,8 @@ takes it on the next local run. 10 mutations red.
 The app's English changed to "no subtitles" the same day on the maintainer's instruction
 (sw.js v272), so the app and the pages say the same in all three languages. A named
 subtitle language keeps the app's "subs Finnish".
+
+### Nexxo's IW is Hebrew (2026-10-03)
+Kino Aurora published "Naza" as `IW-A, EN-S`; IW is the ISO 639-1 code for Hebrew withdrawn
+in 1989, and no name table carried it. `nexxo.CODE_FIX` maps it to HE beside SE to SV, and
+the committed row was corrected by hand (21.10., outside every generated page's window).

@@ -134,13 +134,18 @@ def api_url(site, locationid, days):
     return f"{site['base']}/wp-content/plugins/nexxo-scope/public_api.php?{q}"
 
 
+# Codes Nexxo writes that are not this app's: Swedish as SE, the country, and Hebrew as
+# IW, the ISO 639-1 code withdrawn in 1989 (Kino Aurora, "Naza", 2026-10-02).
+CODE_FIX = {"SE": "SV", "IW": "HE"}
+
+
 def _codes(v):
     """'FI-SE' / 'FI/SE' -> ['FI','SV']; OV (original version) means unspecified.
 
-    Nexxo writes Swedish as SE, the country code. This app uses the ISO 639-1 language
-    code SV, so it is corrected here rather than carried into the data."""
+    The ISO 639-1 code is what this app uses, so `CODE_FIX` corrects a code here rather
+    than carrying it into the data."""
     out = [c for c in re.split(r"[^A-Za-z]+", (v or "").upper()) if c and c != "OV"]
-    return ["SV" if c == "SE" else c for c in out]
+    return [CODE_FIX.get(c, c) for c in out]
 
 
 # Nexxo's code_subtitles for a film shown without subtitles. Measured 2026-09-02: 46 rows

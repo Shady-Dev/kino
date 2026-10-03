@@ -119,6 +119,11 @@ class NexxoLangTest(unittest.TestCase):
         self.assertEqual(self.lang("", ""), "")
         self.assertEqual(self.lang(None, None), "")
 
+    def test_the_withdrawn_hebrew_code_becomes_he(self):
+        """Kino Aurora's "Naza", 2026-10-02: IW-A beside EN-S."""
+        self.assertEqual(self.lang("IW", "EN"), "HE-A, EN-S")
+        self.assertEqual(self.lang("EN-IW", "FI/IW"), "EN-A, HE-A, FI-S, HE-S")
+
     def test_every_output_is_a_well_formed_tag_list_or_empty(self):
         cases = [("FI", "XX"), ("", "XX"), ("OV", "XX"), ("FI", "XX/SE"), ("FI-SE", "XX"),
                  ("EN", "FI/XX"), ("SV", "XX"), ("FI", "SE"), ("", "")]
