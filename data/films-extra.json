@@ -698,16 +698,12 @@
   },
   "chronicle of a disappearance": {
    "id": 49104,
-   "img": "data/posters/58a17d9f6304e6bd.jpg",
-   "r": 6.6,
+   "r": 0,
    "s": {
-    "en": "Chronicle of a Disappearance unfolds in a series of seemingly unconnected cinematic tableaux, each of them focused on incidents or characters which seldom reappear later in the film. Among the many unrelated scenes, there is a Palestinian actress struggling to find an apartment in West Jerusalem, the owner of the Holy Land souvenir shop preparing merchandise for incoming Japanese tourists, a group of old women gossiping about their relatives, and an Israeli police van which screeches to a halt so several heavily armed soldiers can get off the car and urinate.",
+    "en": "",
     "fi": "Elia Suleimanin läpimurtoelokuva on omaperäinen, absurdi ja hiljaisen hauska tutkielma palestiinalaisesta identiteetistä. Perinteisen juonen sijaan elokuva rakentuu pienistä, näennäisesti irrallisista hetkistä ja kohtaamisista, jotka muodostavat vähitellen mosaiikin arjesta, muistista ja kuulumisen tunteesta. *** Matkan varrella tavataan muun muassa asunnonetsinnän kanssa kamppaileva näyttelijä, matkamuistokauppias, juoruilevia sukulaisia sekä sotilaita, joiden toiminta saa välillä lähes surrealistisia piirteitä. Suleiman kuvaa ympäristöään tarkkaavaisesti, kuivalla huumorilla ja vähäeleisellä ironialla, mikä tekee tavallisistakin tilanteista yllättäviä ja paljastavia. Venetsian elokuvajuhlilla ensi-iltansa saanut kahteen osaan jakautuva elokuva liikkuu Nasaretin henkilökohtaisten muistojen ja Jerusalemin poliittisen todellisuuden välillä. Tuloksena on lämmin, tarkkanäköinen ja usein erittäin hauska elokuva, joka pohtii, mitä palestiinalaisuus tarkoittaa ihmisille, joiden elämä rakentuu jatkuvien rajojen, muistojen ja ristiriitojen keskelle. Hiljainen mutta vaikuttava teos yhdistää arjen komediaa, poliittista pohdintaa ja elokuvallista runoutta."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "chungking express": {
    "id": 11104,
@@ -907,7 +903,6 @@
   },
   "don quijote barcelonassa leffalukupiiri": {
    "id": 1506689,
-   "img": "data/posters/a45e6bfaf6469991.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -1199,7 +1194,7 @@
   "gråben vs acme coyote vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "",
@@ -1272,6 +1267,7 @@
     "biosade",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -1385,12 +1381,13 @@
   },
   "hetki ennen valoa blue baby": {
    "id": 1015881,
+   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
   },
   "hetki ennen valoa elokuvanäytös": {
    "id": 1015881,
@@ -1898,6 +1895,7 @@
     "helios",
     "huvimylly",
     "ihmekompleksi",
+    "isohannu",
     "joutsankino",
     "kinoaurora",
     "kinokilta",
@@ -2347,7 +2345,7 @@
   "kojootti vs acme original": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": ""
@@ -3435,7 +3433,6 @@
   },
   "niskavuoren heta": {
    "id": 94723,
-   "img": "data/posters/fb81fc15bec8c249.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -3813,7 +3810,8 @@
    "kr": "K-16",
    "krs": [
     "cinemantsala",
-    "ihmekompleksi"
+    "ihmekompleksi",
+    "isohannu"
    ],
    "r": 0,
    "s": {
@@ -4044,6 +4042,7 @@
     "cinemantsala",
     "helios",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
@@ -4071,6 +4070,7 @@
     "cinemantsala",
     "helios",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
@@ -4095,6 +4095,7 @@
     "cinemantsala",
     "helios",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
@@ -4142,6 +4143,7 @@
     "cinemantsala",
     "helios",
     "huvimylly",
+    "isohannu",
     "jarvelankino",
     "kinokulma",
     "kinolumo",
@@ -4553,6 +4555,14 @@
    "s": {
     "en": "",
     "fi": "Huhut eduskuntavaaleista ja uudesta työväenliikkeestä luovat toivoa 1900-luvun Kainuun köyhälistölle, mutta lopulta punainen viiva kirjoitetaan myös verellä. Matti Kassilan historiallinen draama kuvattiin pääosin Viikin luonnonsuojelualueella, joka muuntautui valkokankaalla legendaariseksi Korpiloukoksi."
+   },
+   "tr": ""
+  },
+  "puolalaisen elokuvan viikonloppu hyvä talo dom dobry": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "VAPAA PÄÄSY! Näytökseen ei voi varata lippuja etukäteen. Vain englanninkieliset tekstitykset. Puolalaisen nykyelokuvan kärkitekijän uusi elokuva on raju kuvaus parisuhdeväkivallasta. Gośka tutustuu internetissä Grzesiekiin ja uskoo löytäneensä viimein elämänsä rakkauden. Mies hurmaa hänet huomiolla, kukilla ja romanttisella kosinnalla Venetsiassa. Aluksi suhde näyttää täydelliseltä, mutta vähitellen idylliin alkaa kuitenkin ilmestyä säröjä. Yhteisestä kodista tulee Gośkalle yhä ahdistavampi ja vaarallisempi paikka. Hän joutuu kohtaamaan rakkauden synkän ja hallitsevan puolen."
    },
    "tr": ""
   },
@@ -5073,7 +5083,7 @@
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.0,
+   "r": 8.1,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -5143,7 +5153,7 @@
   "saapasajalkakissa unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 0,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": ""
@@ -5166,7 +5176,7 @@
   "saapasjalkakissa unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 0,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": ""
@@ -5321,6 +5331,14 @@
    },
    "tr": ""
   },
+  "sirât": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kino Töölön erikoisnäytös Siratista kutsuu konemusiikin ystävät kokemaan yhdessä tämän väkevän \"aavikkoraidan\". Saliin tuodaan ääniraida tueksi tavallista tuhdimpi subwoofer. \n\n---\n\nRankasti kuluneen oloisia kaiuttimia kootaan jättitorneiksi Marokon erämaassa. Tornit näyttävät mitättömiltä valtavassa kanjonissa. Kangding Rayn musiikki räjähtää ilmoille. Nämä kanjonit ymmärtävät subwoofereiden kieltä. \n\nÄkkiä kanjoni on täynnä. Näissä reiveissä ei ole kysymys muotinäytöksestä, vaan elämäntavasta. Paikalle saapuu kadonnutta tytärtään etsivä isä (Sergi López) pienen poikansa kanssa. He näyttävät kadonneen Marin kuvaa kaikille vastaantulijoille ja kuulevat uusista reiveistä yhä kauempana aavikolla. Alkaa tajunnanräjäyttävä matka yli kaikkien odotusten.\n\nSirât palkittiin toukokuussa Cannesin elokuvajuhlilla tuomariston palkinnolla sekä soundtrackistaan. Ohjaaja Óliver Laxe on tuottanut elokuvan yhdessä Pedro Almodóvarin ja Agustín Almodóvarin kanssa."
+   },
+   "tr": ""
+  },
   "sisko tahtoisin jäädä": {
    "id": 51190,
    "r": 0,
@@ -5380,7 +5398,6 @@
    "krs": [
     "biorex",
     "elavienkuvien",
-    "kinoaurora",
     "kinoiiris",
     "kinomyyri",
     "kinotar",
@@ -5885,7 +5902,6 @@
     "biorex",
     "engel",
     "gilda",
-    "kinoaurora",
     "tapiola"
    ],
    "r": 7.2,
@@ -6191,6 +6207,7 @@
    "img": "data/posters/b8495bc94d603a4d.jpg",
    "kr": "K-12",
    "krs": [
+    "isohannu",
     "kinoaurora"
    ],
    "r": 0,
@@ -6351,6 +6368,7 @@
     "biorexkokkola",
     "cinemantsala",
     "helios",
+    "isohannu",
     "kinoaurora",
     "kinokulma",
     "tapiola"
@@ -6557,6 +6575,7 @@
     "helios",
     "huvimylly",
     "ihmekompleksi",
+    "isohannu",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6584,6 +6603,7 @@
     "helios",
     "huvimylly",
     "ihmekompleksi",
+    "isohannu",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6611,6 +6631,7 @@
     "helios",
     "huvimylly",
     "ihmekompleksi",
+    "isohannu",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6667,6 +6688,7 @@
     "helios",
     "huvimylly",
     "ihmekompleksi",
+    "isohannu",
     "kinoaurora",
     "kinokulma",
     "kinolaika",
@@ -6815,6 +6837,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -6843,11 +6866,10 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 0,
+   "r": 6.7,
    "s": {
     "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
@@ -6870,6 +6892,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -6898,7 +6921,6 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -7093,5 +7115,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-02"
+ "generated": "2026-10-03"
 }
