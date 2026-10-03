@@ -119,8 +119,11 @@ PRICE_BLOCK_RE = re.compile(r'field-name-field-price(.*?)</section>', re.S | re.
 PRICE_ITEM_RE = re.compile(r'<li[^>]*class="field-item[^"]*"[^>]*>(.*?)</li>', re.S | re.I)
 AMOUNT_RE = re.compile(r'(\d{1,3}(?:[.,]\d{1,2})?)\s*\u20ac')
 # The other labelled fields on the same page. `field-item` is the Drupal wrapper every field
-# uses, so each is read from inside its own section and never page-wide.
-FIELD_RE = {name: re.compile(r'field-name-' + name + r'\b(.*?)</section>', re.S | re.I)
+# uses, so each is read from inside its own section and never page-wide. A field ends where
+# the next one starts: the body is a `<div>`, and read to the next `</section>` it took the
+# genre items after it ("... PREMIÄR: 2.10 2026 Drama Komedi", read 2026-10-04).
+FIELD_RE = {name: re.compile(r'field-name-' + name
+                             + r'\b(.*?)(?=class="field field-name-|</section>)', re.S | re.I)
             for name in ("body", "field-movie-length", "field-movie-age")}
 ITEM_RE = re.compile(r'<(?:li|div)[^>]*class="field-item[^"]*"[^>]*>(.*?)</(?:li|div)>',
                      re.S | re.I)
