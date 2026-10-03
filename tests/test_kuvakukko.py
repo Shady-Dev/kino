@@ -447,3 +447,39 @@ class SiteTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EmptyAnchorTest(unittest.TestCase):
+    """Nilsiä's 9.10. row read 2026-10-04 opens with an empty anchor before the titled one,
+    and the row was dropped with nothing in the log."""
+    EMPTY = (f'<a href="{BASE}/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/'
+             'kino-manttu-presidentin-kyyditys/" data-type="page" data-id="2708"></a>')
+
+    def parse(self, *rows):
+        html = page(kuopio_days=[day("Tiistai 15.9.", row("13", "Hetki ennen valoa",
+                                                          f"{BASE}/ohjelmisto/hev/"))],
+                    nilsia_days=[day("Perjantai 18.9.", *rows)])
+        from contextlib import redirect_stdout
+        import io
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            per = kuvakukko.parse(html, today=TODAY)
+        return per["kk-nilsia"], buf.getvalue()
+
+    def test_the_titled_anchor_after_an_empty_one_is_the_row(self):
+        href = f"{BASE}/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/kino-manttu-the-odysseu/"
+        shows, log = self.parse(
+            "Klo 17: " + self.EMPTY + f'<a href="{href}" data-type="page" data-id="2593">'
+            "Rakkautta ja virtahepoja</a>",
+            row("19", "Kerro kaikille", f"{BASE}/ohjelmisto/manttu-kk/"))
+        self.assertEqual([(s["start"][11:16], s["title"], s["url"]) for s in shows],
+                         [("17:00", "Rakkautta ja virtahepoja", href),
+                          ("19:00", "Kerro kaikille", f"{BASE}/ohjelmisto/manttu-kk/")])
+        self.assertNotIn("no title", log)
+
+    def test_a_row_left_without_a_title_is_named_in_the_log(self):
+        shows, log = self.parse("Klo 17: " + self.EMPTY,
+                                row("19", "Kerro kaikille", f"{BASE}/ohjelmisto/manttu-kk/"))
+        self.assertEqual([s["title"] for s in shows], ["Kerro kaikille"])
+        self.assertIn("[kuvakukko] 1 screening line(s) with no title, skipped: Manttu 18.9. klo 17",
+                      log)

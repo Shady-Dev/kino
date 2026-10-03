@@ -110,7 +110,9 @@ CONTAINER_RE = re.compile(r'<h2[^>]*>[^<]*esitysaikataulu', re.I)
 HEADING_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.S | re.I)
 PARA_RE = re.compile(r'<p[^>]*class="[^"]*wp-block-paragraph[^"]*"[^>]*>(.*?)</p>', re.S | re.I)
 DAY_RE = re.compile(r'^\s*([A-Za-zÄÖäö]{2,12})\s+(\d{1,2})\.(\d{1,2})\.', re.I)
-ROW_RE = re.compile(r'Klo\s*(\d{1,2})(?:[.:](\d{2}))?\s*:\s*'
+# The first anchor with text: Nilsiä's 9.10. row read 2026-10-04 opens with an empty one,
+# `Klo 17: <a href=".../kino-manttu-presidentin-kyyditys/"></a><a ...>Rakkautta ja ...`.
+ROW_RE = re.compile(r'Klo\s*(\d{1,2})(?:[.:](\d{2}))?\s*:\s*(?:<a\b[^>]*>\s*</a>\s*)*'
                     r'(?:<a\s+href="([^"]*)"[^>]*>(.*?)</a>|([^<]{2,80}))',
                     re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
@@ -245,7 +247,7 @@ def parse(page, site=None, today=None, prices=None):
             f"rather than a cinema with nothing on")
     today = today or datetime.datetime.now(FI).date()
     per_venue = {v["id"]: [] for v in VENUES}
-    seen, unplaced = set(), []
+    seen, unplaced, untitled = set(), [], []
     headed, dated = set(), set()     # `dated` also holds a section with an unread day line
     for heading, body in _sections(page):
         venue = _venue_for(heading)
@@ -269,6 +271,7 @@ def parse(page, site=None, today=None, prices=None):
                 hh, mm, href, linked, plain = row.groups()
                 title = _txt(linked or plain)
                 if not title:
+                    untitled.append(f"{venue['short']} {day}.{month}. klo {hh}")
                     continue
                 # What the page prints after this row and before the next one. A row that
                 # states its own amount is the only place a screening-specific price can
@@ -312,6 +315,9 @@ def parse(page, site=None, today=None, prices=None):
     if unplaced:
         print(f"[kuvakukko] {len(unplaced)} day(s) whose weekday matches no candidate "
               f"year, skipped: {', '.join(unplaced[:5])}")
+    if untitled:
+        print(f"[kuvakukko] {len(untitled)} screening line(s) with no title, skipped: "
+              f"{', '.join(untitled[:5])}")
     if not any(per_venue.values()):
         raise RuntimeError(
             f"{LISTING} has its headings but no screening under them. No empty programme "
