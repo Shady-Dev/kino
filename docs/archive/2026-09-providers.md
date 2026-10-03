@@ -3427,3 +3427,11 @@ only `t`, so Rakkautta ja Virtahepoja and Verityn varjo published 42 and 57 min,
 `SHOW_RE` only the pipe, so two 15:00 screenings carried the film's 11€. Both shapes are
 read now; a parse of that page gives 102 and 117 min and 8€ on 7.10. and 8.10. The
 committed rows change on the next cloud run. 3 mutations red.
+
+### Kuvakukko: the first anchor with text is the row (2026-10-04)
+Kino Manttu's Fri 9.10. 17:00 "Rakkautta ja virtahepoja" opens with an empty anchor, and
+`ROW_RE` took that one, so the row had no title and was dropped with no log line.
+`ROW_RE` passes empty anchors, and a line still without a title is named in the
+log. A parse of the listing read 2026-10-04 gives Nilsiä 10 rows against the 9 committed.
+The cinema reuses old film pages for new films, so the row links where its anchor does.
+Cloud half. 2 mutations red.
