@@ -1,23 +1,28 @@
-[biomarilyn] FAILED: https://www.biomarilyn.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[vihdinkino] the listing rendered whole on read 4 of 5
+[biomarilyn] 11 screening(s) in day groups, 9 film page(s) read
+[biomarilyn] 23 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
+[biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
+[biomarilyn] Bio Marilyn: 11 showtimes, 8 dates
+[biomarilyn] Bio Marilyn: 11 showtimes, 8 dates
+[biomarilyn] synopses merged: 0
+[vihdinkino] the listing rendered whole on read 2 of 5
 [vihdinkino] 7 screening(s) in day groups, 5 film page(s) read
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
 [vihdinkino] Vihdin Kino: 7 showtimes, 4 dates
 [vihdinkino] Vihdin Kino: 7 showtimes, 4 dates
 [vihdinkino] synopses merged: 0
-[bioforum] the listing rendered whole on read 2 of 5
 [bioforum] 37 screening(s) in day groups, 14 film page(s) read
 [bioforum] Bio Forum: 37 showtimes, 18 dates
 [bioforum] Bio Forum: 37 showtimes, 18 dates
 [bioforum] synopses merged: 0
 [kinokulma] FAILED: https://kinokulma.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
+[kinovirta] the listing rendered whole on read 2 of 5
 [kinovirta] 6 screening(s) in day groups, 5 film page(s) read
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 46 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 49 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 3 venues, 50 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 3 failures
-[run] timing: 6 site(s), 190.7s of fetching added up across workers that overlap, longest site 44.5s, longest queue wait 138.3s, 47.6s wall from this module's first fetch starting to its last ending
+[run] johku: 4 venues, 61 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 2 failures
+[run] timing: 6 site(s), 155.4s of fetching added up across workers that overlap, longest site 34.3s, longest queue wait 107.5s, 48.0s wall from this module's first fetch starting to its last ending
 exit=1
