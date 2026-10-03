@@ -300,8 +300,12 @@ GENRES_RE = re.compile(r'<span class="movie-genre">([^<]+)</span>')
 # Niagara lists its genres under a detail label that literally reads "genre".
 GENRES2_RE = re.compile(r'<span class="label">\s*genre\s*</span>\s*([^<]+)', re.I)
 DESC_RE = re.compile(r'class="description-container[^"]*"[^>]*>\s*<span>(.*?)</span>', re.S)
-# The description opens with an age-limit boilerplate line; drop it.
-AGE_BOILER_RE = re.compile(r"^Elokuva on [^.]*\.[^.]*\.\s*", re.S)
+# The description opens with an age-limit boilerplate line; drop it. Only an age statement
+# and its known follow-up: "Elokuva on K16. Ikärajoista voi joustaa ..." (Kotka, 2026-10-04),
+# "Elokuva on sallittu yli 16-vuotiaille. Sisältää kauhua." Any two sentences after
+# "Elokuva on" also took the opening of a synopsis that starts "Elokuva on saanut ...".
+AGE_BOILER_RE = re.compile(r"^Elokuva on (?:K-?\d{1,2}|S|sallittu [^.]*)\.\s*"
+                           r"(?:(?:Ikärajoista|Sisältää) [^.]*\.\s*)?", re.S)
 # A description's paragraphs are separated by `<br />` runs on every host read 2026-09-28.
 PARA_RE = re.compile(r"(?:\s*<br\s*/?>\s*)+", re.I)
 TAGS_RE = re.compile(r"<[^>]+>")

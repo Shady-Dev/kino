@@ -2698,3 +2698,10 @@ Neither quotes a price, so `is_note` let both through. `NOTE_RE` adds the two sh
 every adapter filter built on `is_note` drops them too. Of 803 committed slot texts it
 matches 6, all notes. The merge log reads "synopses skipped as screening notes: N".
 4 mutations red.
+
+### eTiketti strips only the age statement off a synopsis (2026-10-04)
+`AGE_BOILER_RE` removed any two sentences after "Elokuva on", so a synopsis opening
+"Elokuva on saanut innoituksensa ..." (Savon Kinot's Ortotopologia) lost its first two.
+It now takes the age statement, "Elokuva on K16." or "Elokuva on sallittu yli
+16-vuotiaille.", and only an "Ikärajoista ..." or "Sisältää ..." sentence after it. Kotka's
+current wording read 2026-10-04. 5 mutations red.
