@@ -32,7 +32,8 @@ What shapes the parser:
   which is what a film poster is, and the TMDB pass fills the rest.
 - **An all-day event carries no clock**, so it is left out and counted.
 - The API publishes no runtime, age rating or genre, so those stay empty and the shared
-  enrichment fills what it can.
+  enrichment fills what it can. The language is read from the description's labelled
+  `Language:` and `Subtitles:` lines where a site writes them.
 
 Two limits, stated rather than guarded:
 
@@ -73,6 +74,7 @@ import time
 from zoneinfo import ZoneInfo
 
 from common import check_shows, fetch, syn_language
+from etiketti import strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
@@ -100,6 +102,10 @@ POSTER_MIN_RATIO = 1.2
 POSTER_MIN_WIDTH = 300
 
 TAGS_RE = re.compile(r"<[^>]+>")
+# The description's own labelled lines, as Ritz writes them (read 2026-10-04):
+# "Language: French<br />Subtitles: Finnish, Swedish", English names. A line, not a word in
+# the prose: the label opens a paragraph or follows a break.
+LANG_LINE_RE = re.compile(r"(?:<br\s*/?>|<p[^>]*>)\s*(Language|Subtitles)\s*:\s*([^<]+)", re.I)
 
 
 class EventError(RuntimeError):
@@ -159,6 +165,17 @@ def _price(e):
     return _txt(e.get("cost")) or ""
 
 
+def _lang(e):
+    """-> "FR-A, FI-S, SV-S" from the description's Language and Subtitles lines, "" without
+    them. A line naming a language no table knows publishes nothing for its role."""
+    got = {}
+    for label, value in LANG_LINE_RE.findall(e.get("description") or ""):
+        got.setdefault(label.lower(), _txt(value))
+    parts = [f"{c}-A" for c in strict_codes(got.get("language"))]
+    parts += [f"{c}-S" for c in strict_codes(got.get("subtitles"))]
+    return ", ".join(parts)
+
+
 def _poster(e):
     """-> the event image when it is a portrait poster, else "".
 
@@ -205,7 +222,7 @@ def parse(site, events):
             "start": _start(site, e),
             "url": e.get("url") or "",
             "img": _poster(e),
-            "lang": "",
+            "lang": _lang(e),
             "soldOut": False,
             "price": price,
             "provider": site["provider"],
