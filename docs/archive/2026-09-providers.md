@@ -3611,3 +3611,12 @@ Repaired the same day after the rule: 15 shared `sv` slots lose their trailing p
 line, two of them "SVENSKT TAL!" as well. Six equal the fixed parse of Bio Savoy's live
 page; the other nine are films it no longer lists. The pages clip a synopsis at 200
 characters, so none changed.
+
+### Cinema Orion's synopsis loses a sentence announcing one screening (2026-10-04)
+The maintainer's decision on Urpo ja Turpo johtolangan jäljillä. Its film page, read
+2026-10-04, ends the description with "Elokuvasta järjestetään 21.11. klo 10:30
+ilmaisnäytös lapsen oikeuksien viikon kunniaksi.", and the sentence reached the shared `fi`
+slot. `page_synopsis` drops a sentence that holds a date, a clock time and "näytös"
+together; a sentence missing any of the three stays. Of 48 cached Orion texts it matches
+two, this one and El espíritu de la colmena's "Näytös järjestetään KE 7.10. klo 19:00.",
+whose slot is not repaired here. Cloud half. 5 mutations red.

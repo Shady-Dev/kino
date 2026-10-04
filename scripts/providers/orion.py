@@ -301,6 +301,22 @@ SERIES_RE = re.compile(r"""<h2>\s*<a[^>]*href=["'][^"']*/erikoisnaytokset/[^"']+
 EM_LEAD_RE = re.compile(r"\s*<em>(.*?)</em>", re.S | re.I)
 
 
+# A sentence announcing one screening: a date, a clock time and "näytös" together, as in
+# Urpo ja Turpo's "Elokuvasta järjestetään 21.11. klo 10:30 ilmaisnäytös lapsen oikeuksien
+# viikon kunniaksi." (read 2026-10-04). Sentences part where a stop meets a capital, so
+# "21.11. klo" stays one sentence.
+SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z\u00c5\u00c4\u00d6\"\u201c\u201d])")
+NOTE_DATE_RE = re.compile(r"\b\d{1,2}\.\d{1,2}\.")
+CLOCK_RE = re.compile(r"\bklo\s*\d{1,2}[.:]\d{2}\b", re.I)
+SHOWING_RE = re.compile(r"n\u00e4yt\u00f6", re.I)
+
+
+def _drop_screening_sentences(text):
+    return " ".join(x for x in SENTENCE_RE.split(text)
+                    if not (NOTE_DATE_RE.search(x) and CLOCK_RE.search(x)
+                            and SHOWING_RE.search(x)))
+
+
 def page_synopsis(page_html):
     """The film page's description -> {lang: text}: the paragraphs of its `longdesc`
     block, Finnish and often English after `***`. Each part goes where `syn_language`
@@ -318,6 +334,7 @@ def page_synopsis(page_html):
     for part in " ".join(_txt(p) for p in paras).split("***"):
         # An inline tag became a space: "<em>Valkoinen</em>." read "Valkoinen .".
         part = re.sub(r"\(\s+", "(", re.sub(r"\s+([.,;:!?)])", r"\1", part)).strip()
+        part = _drop_screening_sentences(part)
         if part:
             out.setdefault(syn_language(part), part)
     return {k: v for k, v in out.items() if k}

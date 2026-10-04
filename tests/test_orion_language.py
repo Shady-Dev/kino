@@ -108,6 +108,29 @@ class SeriesParagraphTest(unittest.TestCase):
                          {"fi": FI})
 
 
+class ScreeningSentenceTest(unittest.TestCase):
+    """Urpo ja Turpo johtolangan jäljillä, read 2026-10-04: the description's last
+    sentence announces one free screening. A sentence with a date, a clock time and a
+    screening goes; every other sentence stays."""
+
+    URPO = ("Hannele Huovin satukirjoihin perustuva elokuva on restauroitu ja elää "
+            "valkokankaalla nyt entistäkin värikkäämmin")
+    NOTE = ("Elokuvasta järjestetään 21.11. klo 10:30 ilmaisnäytös lapsen oikeuksien viikon "
+            "kunniaksi.")
+
+    def test_the_announcement_leaves_the_synopsis(self):
+        page = film_page(description=f"<p>{FI}</p>\n<p>{self.URPO} . {self.NOTE}</p>")
+        self.assertEqual(orion.page_synopsis(page), {"fi": f"{FI} {self.URPO}."})
+
+    def test_a_sentence_missing_any_of_the_three_stays(self):
+        for kept in ("Juna lähti asemalta 21.11. klo 10:30 kohti pohjoista.",
+                     "Kotikatsomon näytös alkaa klo 10:30 ja kestää tunnin.",
+                     "Restauroitu näytöskopio valmistui 21.11. ennen joulua."):
+            with self.subTest(kept=kept):
+                self.assertEqual(orion.page_synopsis(film_page(description=f"{FI} {kept}")),
+                                 {"fi": f"{FI} {kept}"})
+
+
 class PageLanguageTest(unittest.TestCase):
     def test_the_shapes_read_on_the_day(self):
         cases = {("espanja", "suomi, ruotsi"): "ES-A, FI-S, SV-S",
