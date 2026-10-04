@@ -3646,3 +3646,11 @@ the label in both adapters and in the committed venue files, the pages move to
 carry only the new paths; the picker shows the single names in fi, sv and en in Chromium
 and WebKit. `test_legacy_slugs` now fails on any label that repeats its chain name.
 2 mutations red.
+
+### Star's escaped markup leaves the synopsis (2026-10-04)
+Star's descriptions carry their markup escaped ("&lt;b&gt;", "&lt;p&gt;" lines), read
+2026-10-04 on 9 of its film pages, and `_txt` unescaped after stripping tags, so the
+synopsis kept literal `<b>` and `<p>`. Four shared slots hold them, among them Tiedettä
+elokuvissa, where they glued a screening note to the next sentence. `_txt` now strips tags
+again after unescaping; an escaped ampersand or a lone `<` stays text. Over the 231 eTiketti
+film pages read that day, synopses with tags from 9 to 0. 1 mutation red.

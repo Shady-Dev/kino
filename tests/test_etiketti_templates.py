@@ -553,6 +553,26 @@ class NiagaraRegistryTest(unittest.TestCase):
                 self.assertIn("11", html)
 
 
+class EscapedMarkupTest(unittest.TestCase):
+    """Star's descriptions, read 2026-10-04, carry markup escaped: "&lt;b&gt;...&lt;/b&gt;"
+    and "&lt;p&gt;" lines. Unescaped, it was published as literal tags in the synopsis."""
+
+    def syn(self, desc):
+        page = ('<main><h1>DIGGER</h1><div class="description-container"><span>' + desc
+                + "</span></div></main>")
+        return load().parse_movie(page, site("star"), "/elokuvat/1/x")[1]["syn"]
+
+    def test_escaped_tags_leave_the_text(self):
+        desc = ("&lt;b&gt;Neulekinossa salin valot pysyv\u00e4t himme\u00e4ll\u00e4.&lt;/b&gt;<br />\r\n"
+                "&lt;p&gt;<br />\r\n&lt;p&gt;<br />\r\nMies. Suunnitelma. T\u00e4ydellinen romahdus.")
+        self.assertEqual(self.syn(desc), "Neulekinossa salin valot pysyv\u00e4t himme\u00e4ll\u00e4. "
+                                         "Mies. Suunnitelma. T\u00e4ydellinen romahdus.")
+
+    def test_an_escaped_ampersand_and_a_lone_angle_stay_text(self):
+        self.assertEqual(self.syn("Kätyrit &amp; Monsterit, 3 &lt; 4."),
+                         "Kätyrit & Monsterit, 3 < 4.")
+
+
 class NoSubtitlesTest(unittest.TestCase):
     """"Tekstitys: Ei tekstitystä" publishes `XX-S`, the shapes read 2026-10-04: Kinopirtti's
     Rakkautta ja virtahepoja beside "Kieli: Suomi", Leffabuumi's beside "Kieli:

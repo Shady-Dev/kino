@@ -313,7 +313,10 @@ TAGS_RE = re.compile(r"<[^>]+>")
 
 
 def _txt(x):
-    return re.sub(r"\s+", " ", html_mod.unescape(TAGS_RE.sub(" ", x or ""))).strip()
+    """Plain text. Tags go twice: Star's descriptions carry them escaped ("&lt;p&gt;",
+    read 2026-10-04 on 9 film pages), which unescaping turns into markup in the text."""
+    text = html_mod.unescape(TAGS_RE.sub(" ", x or ""))
+    return re.sub(r"\s+", " ", TAGS_RE.sub(" ", text)).strip()
 
 
 def get(url, tries=3):
