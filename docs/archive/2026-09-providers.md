@@ -3485,3 +3485,10 @@ Marsupilami and Gråben vs ACME carry a body paragraph of their own, `<p>SVENSKT
 (read 2026-10-04), and the adapter published no language. `SWEDISH_RE` reads that
 paragraph, not the words inside a sentence, and the film's screenings publish `SV-A`; the
 other four films state nothing. Cloud half. 3 mutations red.
+
+### Kino Regina's Lisätieto can state the audio (2026-10-04)
+Read 2026-10-04, two film pages state their version in the Lisätieto cell, whose segments
+are split by " * ": "… * suomenkielinen versio" (Tiikerin oma elokuva) and "… * puhumme
+suomea" (Nalle Puhin elokuva). Only the Tekstitys cell was read. `_audio` takes a whole
+segment of either form, so a credit or another version's date states nothing; both pages
+now give `FI-A`. Local half: the next local run publishes it. 3 mutations red.

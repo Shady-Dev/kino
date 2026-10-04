@@ -65,6 +65,7 @@ from zoneinfo import ZoneInfo
 
 import prices
 from common import capped, fetch, get_text
+from etiketti import lang_codes
 
 BASE = "https://kinoregina.fi"
 SCHEDULE = BASE + "/wp-content/themes/kinoregina2/assets/functions/getShowtimesMoviesV2.php"
@@ -228,6 +229,23 @@ def _subs(text):
     return out
 
 
+# A Lisätieto segment that states the audio, the cell's segments split on " * " (read
+# 2026-10-04): "puhumme suomea" (Nalle Puhin elokuva), "suomenkielinen versio" (Tiikerin
+# oma elokuva). A whole segment only: "suomenkielisen version ohjaus ..." is a credit.
+AUDIO_SEGMENT_RE = re.compile(r"^(?:puhumme (suomea)|([a-zåäö]+kielinen) versio)$", re.I)
+
+
+def _audio(text):
+    """"animaatio ... * suomenkielinen versio" -> ["FI-A"]; [] when no segment states it."""
+    out = []
+    for seg in (x.strip() for x in (text or "").split(" * ")):
+        m = AUDIO_SEGMENT_RE.match(seg)
+        codes = lang_codes(m.group(1) or m.group(2)) if m else []
+        if len(codes) == 1 and f"{codes[0]}-A" not in out:
+            out.append(f"{codes[0]}-A")
+    return out
+
+
 def published_year(page):
     """The bracketed year in the main heading, "LUCKY LUKE SOTAPOLULLA (1978)" -> "1978";
     "" when the heading carries none."""
@@ -292,9 +310,9 @@ def details(page, title=None):
     kesto = KESTO_RE.search(_txt(grid.get("kesto", "")))
     if kesto:
         d["len"] = kesto.group(1)
-    subs = _subs(_txt(grid.get("tekstitys", "")))
-    if subs:
-        d["lang"] = ", ".join(subs)
+    langs = _audio(_txt(grid.get("lisätieto", ""))) + _subs(_txt(grid.get("tekstitys", "")))
+    if langs:
+        d["lang"] = ", ".join(langs)
     tags = []
     for a in re.findall(r"<a\b[^>]*>(.*?)</a>", grid.get("teemat", ""), re.S | re.I):
         tag = series_tag(a)

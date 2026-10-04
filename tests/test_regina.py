@@ -291,6 +291,24 @@ class DetailsTest(unittest.TestCase):
         self.assertEqual(d["lang"], "EN-S")
         self.assertNotIn("method", d)
 
+    def test_a_lisatieto_segment_can_state_the_audio(self):
+        """Read 2026-10-04: Tiikerin oma elokuva and Nalle Puhin elokuva. A whole segment
+        only: "suomenkielisen version ohjaus ..." is a credit, and a segment naming another
+        version's date is about another screening."""
+        tiger = film_page("", "77 min", "", [], "35 mm",
+                          "animaatio A. A. Milnen Nalle Puh -hahmoista * suomenkielinen versio",
+                          "<p>Tiikeri etsii sukuaan.</p>")
+        pooh = film_page("", "69 min", "", [], "35 mm",
+                         "suomenkielisen version ohjaus Markus Bäckman * puhumme suomea",
+                         "<p>Nalle Puh ja ystävät.</p>")
+        credit = film_page("", "69 min", "suom. tekstit", [], "35 mm",
+                           "suomenkielisen version ohjaus Markus Bäckman", "<p>Nalle Puh.</p>")
+        other = film_page("", "69 min", "", [], "35 mm",
+                          "suomenkielinen versio * ruotsinkielinen versio näytetään 12.10.",
+                          "<p>Nalle Puh.</p>")
+        self.assertEqual([regina.details(p).get("lang") for p in (tiger, pooh, credit, other)],
+                         ["FI-A", "FI-A", "FI-S", "FI-A"])
+
     def test_the_series_rule(self):
         self.assertEqual(regina.series_tag("PAUL THOMAS ANDERSON"), "PAUL THOMAS ANDERSON")
         self.assertEqual(regina.series_tag("TARR &amp; KRASZNAHORKAI"), "TARR & KRASZNAHORKAI")
