@@ -41,8 +41,8 @@ INTERNAL = {
     "cls", "stubClass", "stubsCls",
     # generated dates and list indices: 'YYYY-MM-DD' from fiDate, integers from the render
     "iso", "i", "s._i", "hit._i", "el.dataset.i", "el.dataset.pastday", "b.dataset.pastday",
-    # lookups into the page's own tables: L[state.lang][...] and GLYPH
-    "verb", "g[1]",
+    # a lookup into the page's own table, L[state.lang][...]
+    "verb",
     # safeAssetUrl() results, which is the poster check rather than the link one
     "posterUrl", "sheetPoster",
     # safeUrl() result: the stale banner's link to the late provider's own site,
