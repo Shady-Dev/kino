@@ -3522,3 +3522,11 @@ Heart of the Beast's block on the listing read 2026-10-04 says "Kesto: 1h 41m"; 
 film writes "1t 28min", and `KESTO_RE` read only that, so its 5 committed rows had no
 runtime. `t` or `h`, and `m` or `min` before a word boundary, so "35 mm" is not a runtime.
 A parse of that listing gives it 101. Cloud half. 3 mutations red.
+
+### Kino Akseli reads "Kesto : 117min" (2026-10-04)
+The adapter read no runtime at all. On the page read 2026-10-04 the only one is on the
+month's-offer card for Verityn varjo, a heading with "Ikäraja : 12 … Kesto : 117min" after
+it and no screening list. `_minutes` reads a Kesto line in a screening block's own facts,
+as the rating is read, and a card's runtime goes to rows with the same title; two cards
+that disagree settle nothing. That page gives Verityn varjo's two rows 117. Local half:
+the next local run publishes it. 3 mutations red.

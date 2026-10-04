@@ -36,6 +36,9 @@ HEAD_RE = re.compile(r'<h2[^>]*class="elementor-heading-title[^"]*"[^>]*>\s*'
 SHOWS_RE = re.compile(r'Näytösajat(.*?)</p>', re.S)
 SHOW_RE = re.compile(r'([A-Za-zÄÖäö]{2})\s*(\d{1,2})\.(\d{1,2})\.\s*klo\s*(\d{1,2})[:.](\d{2})\s*(\(dub\.?\))?')
 RATING_RE = re.compile(r'Ikäraja\s*:\s*([^<]+)')
+# "Kesto : 117min", an icon-list item beside the rating. Read 2026-10-04 it is only on the
+# month's-offer card, a heading with the facts after it and no screening list.
+KESTO_RE = re.compile(r'Kesto\s*:\s*(?:(\d+)\s*[th]\s*)?(\d+)\s*min', re.I)
 PRICE_RE = re.compile(r'Liput\s*:\s*([^<]+)')
 GENRE_RE = re.compile(r'<p>([^<]{2,80})</p>')
 SRCSET_RE = re.compile(r'srcset="([^"]+)"')
@@ -60,6 +63,11 @@ def _biggest(srcset):
     return best
 
 
+def _minutes(text):
+    m = KESTO_RE.search(text)
+    return int(m.group(1) or 0) * 60 + int(m.group(2)) if m else 0
+
+
 def _iso(day, month, hh, mm, today=None, weekday=None):
     """`Pe 28.08. klo 19:00` -> an ISO start, or "" when the row cannot be placed.
 
@@ -78,6 +86,7 @@ def _iso(day, month, hh, mm, today=None, weekday=None):
 def parse(page, today=None):
     shows = []
     unplaced = []
+    cards = {}
     heads = list(HEAD_RE.finditer(page))
     for n, m in enumerate(heads):
         url, title = m.group(1), _txt(m.group(2))
@@ -87,7 +96,11 @@ def parse(page, today=None):
         after = page[m.end():heads[n + 1].start()] if n + 1 < len(heads) else page[m.end():]
         block = SHOWS_RE.search(after)
         if not block:
+            # A card, not a screening block: its runtime is the film's, by title.
+            if _minutes(after):
+                cards.setdefault(title, set()).add(_minutes(after))
             continue
+        minutes = _minutes(before)
         rating_raw = RATING_RE.search(before)
         rating = _txt(rating_raw.group(1)) if rating_raw else ""
         if rating and rating[0].isdigit():
@@ -113,7 +126,7 @@ def parse(page, today=None):
                 "eventId": url.rstrip("/").rsplit("/", 1)[-1],
                 "title": title,
                 "original": "",
-                "len": "",
+                "len": str(minutes) if minutes else "",
                 "rating": rating,
                 "genres": genres,
                 "method": "",
@@ -128,6 +141,10 @@ def parse(page, today=None):
                 "provider": "kinoakseli",
                 "venue": VENUE["id"],
             })
+    for s in shows:
+        got = cards.get(s["title"]) or set()
+        if not s["len"] and len(got) == 1:
+            s["len"] = str(next(iter(got)))
     if unplaced:
         print(f"[kinoakseli] {len(unplaced)} row(s) whose weekday matches no candidate "
               f"year inside the window, skipped: {', '.join(unplaced[:5])}")

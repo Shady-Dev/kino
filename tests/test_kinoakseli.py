@@ -67,3 +67,32 @@ class YearTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def card(slug, title, kesto):
+    """The month's-offer card read 2026-10-04: a heading, then the facts, no screening list."""
+    return (f'<h2 class="elementor-heading-title x"><a href="https://kinoakseli.fi/elokuva-{slug}/">'
+            f'{title}</a></h2><span>Ikäraja : 12</span><span>Draama, Jännitys</span>'
+            f'<span>Kesto : {kesto}</span><span>Kuukauden tarjous</span>')
+
+
+class RuntimeTest(unittest.TestCase):
+    """"Kesto : 117min" was on the page and every row published no runtime."""
+
+    def test_a_card_with_the_same_title_gives_the_runtime(self):
+        shows, _ = parse(film("verity", "Verityn varjo", "Su 20.9. klo 18:00", "Ma 21.9. klo 20:00")
+                         + film("rose", "Rose", "Su 20.9. klo 16:00")
+                         + card("verity-2", "Verityn varjo", "117min"))
+        self.assertEqual([(s["title"], s["len"]) for s in shows],
+                         [("Rose", ""), ("Verityn varjo", "117"), ("Verityn varjo", "117")])
+
+    def test_the_blocks_own_kesto_line_is_read_like_its_rating(self):
+        page = film("rose", "Rose", "Su 20.9. klo 16:00").replace(
+            "<p>Liput : 9€</p>", "<p>Liput : 9€</p><p>Kesto : 1h 39min</p>")
+        shows, _ = parse(page + film("x", "X", "Su 20.9. klo 18:00"))
+        self.assertEqual([s["len"] for s in shows], ["99", ""])
+
+    def test_two_cards_disagreeing_settle_nothing(self):
+        shows, _ = parse(film("verity", "Verityn varjo", "Su 20.9. klo 18:00", "Ma 21.9. klo 20:00")
+                         + card("a", "Verityn varjo", "117min") + card("b", "Verityn varjo", "120min"))
+        self.assertEqual({s["len"] for s in shows}, {""})
