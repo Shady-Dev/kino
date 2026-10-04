@@ -109,6 +109,87 @@ class IirisAdmissionLinesTest(unittest.TestCase):
             self.assertEqual(etiketti.parse_movie(page, site, "/elokuvat/1/x")[1]["syn"], want)
 
 
+class NoteSentenceTest(unittest.TestCase):
+    """Screening-note sentences inside an otherwise good synopsis, as they stood in shared
+    slots on 2026-10-04. Each goes whole; a similar sentence about the film stays."""
+
+    NOTES = (
+        "N\u00e4yt\u00f6kseen on vapaa p\u00e4\u00e4sy.",                                    # Järven ääni
+        "Elokuvaan on vapaa p\u00e4\u00e4sy.",                                               # Anttilanmäen kyläjuhla
+        "N\u00e4yt\u00f6kseen on vapaa p\u00e4\u00e4sy ja mukaan mahtuu 250 ensimm\u00e4ist\u00e4 "
+        "paikalle saapunutta.",                                                    # Käpy selän alla
+        "VAPAA P\u00c4\u00c4SY!",                                                           # Lahden videokuvaajat
+        "Huom! N\u00e4yt\u00f6kseen ei voi varata lippuja etuk\u00e4teen.",                     # Järven ääni
+        "N\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n yhteisty\u00f6ss\u00e4 Lahti-Seura ry:n ja "
+        "elokuvateatteri Kino Iiriksen kanssa.",                                   # Järven ääni
+        "N\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n KE 7.10. klo 19:00.",                     # El espíritu
+        "N\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n TO 15.10. KLO 17:00.",                    # Filminor
+        "Suomi-Espanja Seura ja Espanjan suurl\u00e4hetyst\u00f6 j\u00e4rjest\u00e4v\u00e4t "
+        "ilmaisn\u00e4yt\u00f6ksen Orionissa.",                                       # El espíritu
+        "Vanhusten viikon maksuton n\u00e4yt\u00f6s.",                                       # Joutsan Kino
+        "Pia L\u00e5ngbackan puheenvuoroa voi tulla kuuntelemaan ilman p\u00e4\u00e4sylippua.",  # Casper
+        "Pian puheenvuoro on osa Meedioelokuvap\u00e4iv\u00e4\u00e4 ja sit\u00e4 voi tulla "
+        "kuuntelemaan ilmaiseksi.",                                                # Pia Långbacka
+        "Elokuvat n\u00e4ytet\u00e4\u00e4n elokuvateatteri Starissa, ja ne ovat osallistujille "
+        "maksuttomia.",                                                            # Star
+        "Katsojilla on mahdollisuus tukea tallennusty\u00f6t\u00e4 vapaaehtoisella "
+        "kannatusmaksulla.",                                                       # Anttilanmäen
+        "Admission to the screening is free, no advance reservation is required.",  # El espíritu
+        "Admission to Piia L\u00e5ngbacka\u2019s talk is free.",                           # Casper
+        "The screening will take place on Wednesday, October 7 at 19:00.",         # El espíritu
+        "Sociedad Finlandia Espa\u00f1a and the Embassy of Spain are organizing a free "
+        "screening at Orion.",                                                     # El espíritu
+    )
+    KEPT = (
+        "Elokuva on toteutettu yhteisty\u00f6ss\u00e4 Vesij\u00e4rvis\u00e4\u00e4ti\u00f6n kanssa.",   # Järven ääni
+        "Vapaa p\u00e4\u00e4sy taivaaseen on vain unelma.",
+        "Puistoon on vapaa p\u00e4\u00e4sy kaikille kyl\u00e4l\u00e4isille.",
+        "N\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n vankilan pihalla, ja vartijat katsovat sivusta.",
+        "Kosiomatkalla M\u00e4nttari saa ikaan kuin ilmaisen tilaisuuden hahmotella naiskuvaa.",
+        "Maksuton koulutus muutti h\u00e4nen el\u00e4m\u00e4ns\u00e4.",
+        "Kuka tahansa voi tulla kuuntelemaan h\u00e4nen tarinaansa.",
+        "Palvelut ovat kaikille maksuttomia.",
+        "Yhdistyksen kannatusj\u00e4senet kokoontuvat torstaisin.",
+        "Admission to the academy is free for gifted children.",
+        "The screening of his first film took place in Cannes.",
+        "Elokuva on tekstitetty englanniksi.",
+    )
+
+    def test_each_note_sentence_goes(self):
+        import synmerge
+        lead, tail = "Elokuva kertoo j\u00e4rvest\u00e4.", "Lopussa j\u00e4rvi toipuu."
+        for note in self.NOTES:
+            with self.subTest(note=note[:40]):
+                self.assertEqual(synmerge.drop_note_sentences(f"{lead} {note} {tail}"),
+                                 (f"{lead} {tail}", 1))
+
+    def test_a_similar_sentence_about_the_film_stays(self):
+        import synmerge
+        for kept in self.KEPT:
+            with self.subTest(kept=kept[:40]):
+                text = f"Elokuva kertoo j\u00e4rvest\u00e4. {kept} Lopussa j\u00e4rvi toipuu."
+                self.assertEqual(synmerge.drop_note_sentences(text), (text, 0))
+
+    def test_the_merge_keeps_the_film_and_leaves_the_note_out(self):
+        """Järven ääni as Kino Iiris published it, through the merge every provider uses."""
+        import synmerge
+        text = ("Huom! N\u00e4yt\u00f6kseen ei voi varata lippuja etuk\u00e4teen. J\u00e4rven \u00e4\u00e4ni "
+                "kertoo Vesij\u00e4rvest\u00e4. N\u00e4yt\u00f6kseen on vapaa p\u00e4\u00e4sy.")
+        synmerge.reset()
+        with tempfile.TemporaryDirectory() as d:
+            out = pathlib.Path(d)
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                synmerge.merge(out, {"v": [{"title": "J\u00e4rven \u00e4\u00e4ni", "_syn": text},
+                                           {"title": "Toinen", "_syn": "Vapaa p\u00e4\u00e4sy!"}]},
+                               "t")
+            films = json.loads((out / "films-extra.json").read_text())["films"]
+        self.assertEqual(films["j\u00e4rven \u00e4\u00e4ni"]["s"]["fi"],
+                         "J\u00e4rven \u00e4\u00e4ni kertoo Vesij\u00e4rvest\u00e4.")
+        self.assertNotIn("toinen", films)
+        self.assertIn("screening-note sentences left out of synopses: 3", buf.getvalue())
+
+
 class MergeRefusesNotesTest(unittest.TestCase):
 
     def run_merge(self, shows):

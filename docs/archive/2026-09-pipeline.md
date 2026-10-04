@@ -2766,3 +2766,15 @@ TMDB, which is the case a provider's text may replace. Re-read with the current 
 sources yield no note: Cine's Unohdettu saari gives Finnish only, Sheryl's Verity page no
 synopsis, Savon Kinot's Kerro kaikille and Ortotopologia clean text, and Niagara no longer
 lists Don Quijote, whose note shape `test_synopsis_notes` holds. No gap, so no new test.
+
+### Screening-note sentences leave a synopsis at the merge (2026-10-04)
+The maintainer's decision. Fourteen shared slots, read 2026-10-04, held a film's description
+with one cinema's screening notes inside it: free entry ("Näytökseen on vapaa pääsy."),
+booking ("Huom! Näytökseen ei voi varata lippuja etukäteen."), when and with whom ("Näytös
+järjestetään KE 7.10. klo 19:00.", "... yhteistyössä Lahti-Seura ry:n ... kanssa."), a free
+screening announced, admission to a guest's talk, a voluntary fee, and the English
+equivalents. `drop_note_sentences` removes those sentences, twelve shapes, before every
+provider's text is merged, so none can return; the rest of the text stays, and "Huom!" goes
+with its sentence. Over the 800 stored slot texts it removes 29 sentences in 20 slots, all
+notes. Similar sentences about the film stay ("Elokuva on toteutettu yhteistyössä ...",
+"Admission to the academy is free ..."). The merge log counts them. 15 mutations red.

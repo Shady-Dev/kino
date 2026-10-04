@@ -35,6 +35,53 @@ NOTE_RE = re.compile(r"\|\||tekijävierailu|\bvarata lippuja\b|^vapaa pääsy[!.
 _TAGS = re.compile(r"<[^>]+>")
 
 
+# Sentences about one cinema's screening rather than the film, each read 2026-10-04 in a
+# shared slot: free entry (Järven ääni, Filminor, Käpy selän alla), booking (Järven ääni),
+# when and with whom it is held (El espíritu de la colmena, Filminor), a free screening
+# announced (El espíritu, Käpy, Vanhustenviikon näytös), admission to a guest's talk
+# (Casper, Ghost), a voluntary fee (Anttilanmäen kyläjuhla), and the same in English.
+# A whole sentence goes and the rest of the text stays. Sentences part where a stop meets
+# a capital, except before "KLO 17:00", which is the end of a date.
+SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z\u00c5\u00c4\u00d6\"\u201c\u201d])"
+                         r"(?![Kk][Ll][Oo]\s*\d)")
+NOTE_SENTENCES = tuple(re.compile(p, re.I) for p in (
+    r"^(?:huom!?\s+)?(?:n\u00e4yt\u00f6kseen|elokuvaan|tapahtumaan|tilaisuuteen)"
+    r"\s+on\s+vapaa\s+p\u00e4\u00e4sy\b",
+    r"^vapaa\s+p\u00e4\u00e4sy\s*[!.]*$",
+    r"^(?:huom!?\s+)?n\u00e4yt\u00f6kseen\s+ei\s+voi\s+varata\b",
+    r"^n\u00e4yt\u00f6s\s+j\u00e4rjestet\u00e4\u00e4n\s+(?:yhteisty\u00f6ss\u00e4\b"
+    r"|(?:ma|ti|ke|to|pe|la|su)\s+\d{1,2}\.\d{1,2}\.)",
+    r"\bilmaisn\u00e4yt\u00f6",
+    r"\bmaksuton\s+n\u00e4yt\u00f6s\b",
+    r"\bvoi\s+tulla\s+kuuntelemaan\b[^.!?]*\b(?:ilman\s+p\u00e4\u00e4sylippua|ilmaiseksi)\b",
+    r"\bovat\s+osallistujille\s+maksuttomia\b",
+    r"\bkannatusmaksu",
+    r"^admission\s+to\s+(?:the\s+screening|[^.!?]*\btalk)\b[^.!?]*\bis\s+free\b",
+    r"^the\s+screening\s+will\s+take\s+place\s+on\b",
+    r"\bare\s+organi[sz]ing\s+a\s+free\s+screening\b",
+))
+
+
+def sentences(text):
+    """A text's sentences. "Huom!" stays with the sentence it introduces."""
+    out = []
+    for part in SENTENCE_RE.split(text or ""):
+        if out and re.fullmatch(r"huom!", out[-1], re.I):
+            out[-1] += " " + part
+        else:
+            out.append(part)
+    return out
+
+
+def drop_note_sentences(text):
+    """`text` without its screening-note sentences. -> (text, sentences dropped)"""
+    parts = sentences(text)
+    kept = [x for x in parts if not any(p.search(x) for p in NOTE_SENTENCES)]
+    if len(kept) == len(parts):
+        return text, 0
+    return " ".join(kept).strip(), len(parts) - len(kept)
+
+
 def is_note(text):
     """True when a synopsis candidate is a screening note rather than a synopsis."""
     return bool(PRICE_RE.search(text or "") or NOTE_RE.search(text or ""))
@@ -179,12 +226,16 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
     with _lock:
         doc = read_extra(path)
         films = doc.get("films") or {}
-        added = skipped = 0
+        added = skipped = note_sentences = 0
         per_lang = {}
         for shows in per_venue.values():
             for s in shows:
                 for lang, syn in texts(s.get("_syn")).items():
                     key = norm(s["title"])
+                    syn, dropped = drop_note_sentences(syn)
+                    note_sentences += dropped
+                    if not syn:
+                        continue
                     if is_note(syn):
                         # Never into the shared slot: see PRICE_RE and NOTE_RE. Left empty
                         # for TMDB.
@@ -229,6 +280,8 @@ def merge(out: pathlib.Path, per_venue: dict, label: str, order: int = 0) -> Non
               + ", ".join(f"{k} {per_lang[k]}" for k in sorted(per_lang)))
     if skipped:
         print(f"[{label}] synopses skipped as screening notes: {skipped}")
+    if note_sentences:
+        print(f"[{label}] screening-note sentences left out of synopses: {note_sentences}")
     if _unknown:
         print(f"[{label}] synopses in a language nothing reads, dropped: "
               f"{', '.join(sorted(_unknown))}", file=sys.stderr)
