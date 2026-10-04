@@ -3465,3 +3465,10 @@ item in the long description, and for Kojootti vs ACME a dated list under "Esity
 ("20.10. englanniksi puhuttu") giving each screening's audio. `language` reads those and
 nothing looser; "Kuvaileva tekstitys" names no language. That answer gives 7 of 19 rows a
 language. Cloud half. 5 mutations red.
+
+### Kino Tapiola's operas state their language in the description (2026-10-04)
+The opera pages carry no language box; their description has a line "Kieli: ranska,
+tekstitetty englanniksi" (Carmen, Tosca, Cosi fan Tutte, Götterdämmerung, read
+2026-10-04). `details` reads that line only when the boxes state nothing. The four pages
+give `FR-A, EN-S`, `IT-A, EN-S`, `IT-A, EN-S` and `DE-A, EN-S`; the two ballets state no
+language and keep none. Cloud half. 3 mutations red.

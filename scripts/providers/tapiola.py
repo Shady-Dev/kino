@@ -38,6 +38,7 @@ from zoneinfo import ZoneInfo
 
 import synmerge
 from common import capped, fetch, get_text
+from etiketti import lang_codes
 
 BASE = "https://www.kinotapiola.fi"
 LISTING = BASE + "/elokuvat/"
@@ -80,6 +81,12 @@ KESTO_RE = re.compile(r'(?:(\d+)\s*h)?\s*(\d+)\s*min', re.I)
 # `synmerge.drop_notes_html(names=)`; a production's own text never says "our bar".
 NOTE_NAME_RE = re.compile(r"\bTapiola|\b(?:viini)?baari\w*mme\b|\bnäytöks\w*mme\b"
                           r"|\bsali\w*mme\b|\bkahvila\w*mme\b", re.I)
+
+# The opera and ballet pages carry no language box. Their description states it as a
+# line, read 2026-10-04: "Kieli: ranska, tekstitetty englanniksi" (Carmen, Tosca and two
+# more). Read only where the boxes say nothing.
+KIELI_LINE_RE = re.compile(r"(?:<br\s*/?>|<p\b[^>]*>)\s*Kieli:\s*([a-zåäö]+)"
+                           r"(?:\s*,\s*tekstitetty\s+([a-zåäö]+ksi))?\s*(?=<)", re.I)
 
 LANGS = {"suomi": "FI", "ruotsi": "SV", "englanti": "EN", "saksa": "DE", "ranska": "FR",
          "espanja": "ES", "italia": "IT", "venäjä": "RU", "viro": "ET", "tanska": "DA",
@@ -178,6 +185,11 @@ def details(page):
         d["len"] = str(int(kesto.group(1) or 0) * 60 + int(kesto.group(2)))
     spoken = _codes(boxes.get("language", ("", ""))[1], "A")
     subs = _codes(boxes.get("subtitles", ("", ""))[1], "S")
+    line = KIELI_LINE_RE.search(page) if not (spoken or subs) else None
+    if line and LANGS.get(line.group(1).lower()):
+        spoken = [f"{LANGS[line.group(1).lower()]}-A"]
+        sub = lang_codes(line.group(2) or "")
+        subs = [f"{sub[0]}-S"] if len(sub) == 1 else []
     if spoken or subs:
         d["lang"] = ", ".join(spoken + subs)
     desc = DESC_RE.search(page)
