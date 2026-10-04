@@ -349,5 +349,15 @@ class FilmFactsTest(unittest.TestCase):
     def test_a_film_with_no_facts_publishes_none(self):
         self.assertEqual(self.facts_of(), ("", "", "", ""))
 
+    def test_the_kieli_line_is_the_spoken_language(self):
+        """La Grazia, read 2026-10-04: `Kieli: <span>Italia</span>` beside Genre."""
+        def lang_of(*lines):
+            body = head("La Grazia") + facts(*lines) + item("28.9. Maanantai klo19.00")
+            return kirkkonummi.parse(page(body), TODAY)[0]["lang"]
+        self.assertEqual(lang_of('Kieli: <span class="x">Italia</span>'), "IT-A")
+        self.assertEqual(lang_of('Kieli: <span class="x">englanti, ranska</span>'), "EN-A, FR-A")
+        self.assertEqual(lang_of('Kieli: <span class="x">Alkuperäinen</span>'), "")
+        self.assertEqual(lang_of(), "")
+
 if __name__ == "__main__":
     unittest.main()
