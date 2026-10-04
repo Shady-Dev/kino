@@ -47,6 +47,7 @@ from zoneinfo import ZoneInfo
 
 import synmerge
 from common import fetch, get_text, resolve_year, served, weekday_index
+from etiketti import strict_codes
 from huvimylly import KAVI_CODES
 
 BASE = "https://kinokirkkonummi.fi"
@@ -89,6 +90,9 @@ KESTO_RE = re.compile(r'Kesto:?' + SEP + r'(?:(\d)\s*h(?:\s*(\d{1,2})\s*min)?|(\
                       re.I)
 AGE_RE = re.compile(r'Ik(?:ä|&auml;)raja:?' + SEP + r'(S|\d{1,2})\b', re.I)
 GENRE_RE = re.compile(r'Genres?:' + SEP + r'([^<]+)', re.I)
+# `Kieli: <span>Italia</span>` in the same block (La Grazia, read 2026-10-04): the spoken
+# language. A name no table knows publishes nothing.
+KIELI_RE = re.compile(r'Kieli:' + SEP + r'([^<]+)', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
@@ -171,6 +175,8 @@ def parse(page, today=None):
     lengths = by_title(page, KESTO_RE, _minutes)
     ratings = by_title(page, AGE_RE, _age)
     genres = by_title(page, GENRE_RE, lambda m: _txt(m.group(1)).strip(" .,"))
+    langs = by_title(page, KIELI_RE,
+                     lambda m: ", ".join(f"{c}-A" for c in strict_codes(_txt(m.group(1)))))
     # Headings and list items interleaved in document order: the heading above an item is
     # the film it belongs to.
     stream = sorted([(m.start(), "head", m.group(1)) for m in HEAD_RE.finditer(page)] +
@@ -203,7 +209,7 @@ def parse(page, today=None):
             if key in seen:
                 continue            # the desktop and mobile copies of the same screening
             seen.add(key)
-            shows.append(_show(title, eid, start, prices, lengths, ratings, genres))
+            shows.append(_show(title, eid, start, prices, lengths, ratings, genres, langs))
     if unread:
         odd = sorted(set(unread))
         print(f"[kirkkonummi] {len(odd)} row(s) with a time in a shape this parser does not "
@@ -237,7 +243,7 @@ def _rows(text):
     return [(first + i, month, wd, int(m.group(5)), int(m.group(6))) for i, wd in enumerate(wds)]
 
 
-def _show(title, eid, start, prices, lengths, ratings, genres):
+def _show(title, eid, start, prices, lengths, ratings, genres, langs):
     return {
         "eventId": eid,
         "title": title,
@@ -251,7 +257,7 @@ def _show(title, eid, start, prices, lengths, ratings, genres):
         "start": start.isoformat(),
         "url": LISTING,
         "img": "",
-        "lang": "",
+        "lang": langs.get(title, ""),
         "soldOut": False,
         "price": prices.get(title, ""),
         "provider": "kirkkonummi",

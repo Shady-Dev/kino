@@ -3472,3 +3472,10 @@ tekstitetty englanniksi" (Carmen, Tosca, Cosi fan Tutte, Götterdämmerung, read
 2026-10-04). `details` reads that line only when the boxes state nothing. The four pages
 give `FR-A, EN-S`, `IT-A, EN-S`, `IT-A, EN-S` and `DE-A, EN-S`; the two ballets state no
 language and keep none. Cloud half. 3 mutations red.
+
+### Kino Kirkkonummi's Kieli line (2026-10-04)
+La Grazia's block on the page read 2026-10-04 says `Kieli: <span>Italia</span>` beside its
+Genre, and the adapter published no language. `KIELI_RE` reads it through `by_title`,
+the way runtime, age and genre are read, so a heading with two different values publishes
+none; names go through `etiketti.strict_codes`. The page now gives La Grazia `IT-A` on its
+three screenings and the other films nothing. Cloud half. 2 mutations red.
