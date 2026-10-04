@@ -139,7 +139,8 @@ is a `<dt>`/`<dd>` pair or a `<strong>` followed by text, and both land in one d
 - The same film can be rated differently by the two cinemas: *Hetki ennen valoa* is K-12 on
   Kilta and K-7 on Laika. Each publishes what its own page says, and `enrich_tmdb` reports
   the disagreement rather than either overwriting the other.
-- Kilta's poster is the page's `og:image`; Laika's comes from the listing row.
+- Kilta publishes no poster: its `og:image` is a landscape still (2026-10-04). Laika's
+  comes from the listing row, Myyri's and Sheryl's from `og:image`.
 - `LANG` is imported from `gilda.py`, so a code cannot drift between two readers of the
   same vocabulary; `NAMES` adds the names only these pages use, Sheryl's English ones
   among them. A language or subtitle line with a name it does not know publishes nothing
@@ -694,10 +695,14 @@ def film_facts(page, template=None):
     if template == "kilta":
         syn, withheld = kilta_synopsis(page)
     lang, unread = _lang(facts)
+    # Kilta's `og:image` is a film still, not a poster: all 40 films read 2026-10-04 were
+    # landscape (342x143 to 342x250 mirrored), one named "still2_photo_by_...". The page
+    # carries no other image, so nothing is published and the TMDB pass gives the poster.
+    img = (og.group(1) or og.group(2)) if og and template != "kilta" else ""
     return {"labels": facts, "rating": _rating(page, head),
             "len": dur,
             "genres": facts.get("lajityyppi", ""),
-            "img": (og.group(1) or og.group(2)) if og else "",
+            "img": img,
             "syn": syn, "syn_withheld": withheld, "lang": lang, "lang_unread": unread}
 
 

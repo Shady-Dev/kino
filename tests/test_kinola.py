@@ -736,6 +736,15 @@ class ClassifyTest(unittest.TestCase):
 
 
 class FilmFactsTest(unittest.TestCase):
+    def test_kiltas_og_image_is_a_still_and_is_not_published(self):
+        """All 40 Kilta films read 2026-10-04 carried a landscape still there. Myyri's and
+        Sheryl's are portrait posters and stay."""
+        self.assertIn("og:image", kilta_film())
+        self.assertEqual(K.film_facts(kilta_film(), "kilta")["img"], "")
+        og = "<head><meta property='og:image' content='https://media.kinola.ee/p.jpg'></head>"
+        page = myyri_film().replace("<html>", "<html>" + og)
+        self.assertEqual(K.film_facts(page, "myyri")["img"], "https://media.kinola.ee/p.jpg")
+
     def test_kiltas_rating_comes_from_the_alt_and_not_the_file_name(self):
         """The site serves age-7.svg beside a K-12 alt."""
         page = kilta_film(rating="K-12")
