@@ -340,9 +340,11 @@ class ReportRankingTest(unittest.TestCase):
         # keeps it that way. Adding those two is also what moved four existing accents:
         # with the eight Helsinki chains held, no colour in the L* band cleared 14.4
         # against them, and the joint solve of all ten did. The record is in IDEAS.md.
-        self.assertEqual(len(rows), 232)
+        # 237 from 2026-10-04: Kaarina, Lieto and Naantali joined Turun seutu (+5), all five
+        # clear of the floor, the weakest Kino Kilta against Kinotour at 16.8.
+        self.assertEqual(len(rows), 237)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 20)
-        self.assertIn(f"20 of 232 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"20 of 237 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

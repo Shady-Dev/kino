@@ -774,8 +774,10 @@ REGIONS = [
          cities=["Tampere", "Kangasala"]),
     dict(name="Porin seutu", sv="Björneborgsregionen", en="Pori region",
          cities=["Pori", "Kankaanpää", "Huittinen"]),
+    # Kaarina, Lieto and Naantali added 2026-10-04 on the maintainer's decision: 6 cinemas
+    # across 4 chains against 3 across 2.
     dict(name="Turun seutu", sv="Åboregionen", en="Turku region",
-         cities=["Turku", "Raisio"]),
+         cities=["Turku", "Raisio", "Kaarina", "Lieto", "Naantali"]),
     dict(name="Jyväskylän seutu", sv="Jyväskyläregionen", en="Jyväskylä region",
          cities=["Jyväskylä", "Muurame", "Petäjävesi", "Äänekoski"]),
     dict(name="Kokkolan seutu", sv="Karlebyregionen", en="Kokkola region",

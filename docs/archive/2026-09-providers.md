@@ -3536,3 +3536,11 @@ the next local run publishes it. 3 mutations red.
 while the client's `langParts` and `build_pages.LANG_RE` read only the `FI-A` form, so such
 a row would show no language. No committed row carried one (latent). The values are now
 `FI-A` and `SV-A`, and the test checks them against `LANG_RE`. Cloud half. 1 mutation red.
+
+### Kaarina, Lieto and Naantali join Turun seutu (2026-10-04)
+The maintainer's decision: the row held Turku and Raisio, 3 cinemas across 2 chains
+(Finnkino, Kino Kilta), and now holds 6 across 4 with Kino Piispanristi and both Kinotour
+halls. The five new region pairs clear 14.4 on the weakest model, the lowest Kino Kilta
+against Kinotour at 16.8. Checked in Chromium and WebKit at 320, 375, 393 and 1280: the
+picker finds the row under all three names, the combined view lists all four chains, and
+no width scrolls sideways.
