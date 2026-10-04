@@ -3575,3 +3575,10 @@ The maintainer's decision on an explicit "no subtitles". The Tekstitys cell read
 classics and five English-language prints (Sound of Metal, Dances with Wolves among them).
 28 pages leave the cell blank, so the words are chosen per print. A cell that only mentions
 them states nothing. Local half: the next local run publishes it. 2 mutations red.
+
+### Gilda's "Ei tekstitystä" with no subtitle language (2026-10-04)
+The maintainer's decision on an explicit "no subtitles". A screening whose audio style is
+"Ei tekstitystä" and whose `subtitle_lang` is "-" publishes `XX-S`. Read 2026-10-04: 18 of
+the 21 screenings with that style, film-club prints and concerts (Mandy, Rammstein - Live
+in Mexico City). The other three, The Lighthouse, name "suomi, ruotsi", so the style alone
+is not trusted and those keep their subtitles. Cloud half. 2 mutations red.

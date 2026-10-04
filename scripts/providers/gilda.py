@@ -94,6 +94,12 @@ def _code(token):
     return LANG.get(t, t.upper() if re.fullmatch(r"[a-zäöå]{2}", t) else "")
 
 
+# A screening without subtitles, `XX-S` as at Kino Engel: the audio style "Ei tekstitystä"
+# with `subtitle_lang` "-". Read 2026-10-04 that pair held on 18 of 21 screenings carrying
+# the style; the other three, The Lighthouse, name "suomi, ruotsi", and keep them.
+NO_SUBS_STYLE = "ei tekstityst\u00e4"
+
+
 def _lang(show):
     """-> "EN-A, FI-S, SE-S" using Finnkino's tags, so one filter serves every provider."""
     out = []
@@ -101,6 +107,9 @@ def _lang(show):
     if a:
         out.append(a + "-A")
     raw = (show.get("subtitle_lang") or "").strip()
+    style = (show.get("movie_audio_style_name") or "").strip().lower()
+    if raw in ("", "-") and style == NO_SUBS_STYLE:
+        out.append("XX-S")
     if raw and raw != "-":
         for part in re.split(r"[,/]", raw):
             s = _code(part)
