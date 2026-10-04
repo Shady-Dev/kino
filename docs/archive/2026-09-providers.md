@@ -3530,3 +3530,9 @@ it and no screening list. `_minutes` reads a Kesto line in a screening block's o
 as the rating is read, and a card's runtime goes to rows with the same title; two cards
 that disagree settle nothing. That page gives Verityn varjo's two rows 117. Local half:
 the next local run publishes it. 3 mutations red.
+
+### Bio Pallas publishes its audio marker as FI-A and SV-A (2026-10-04)
+`LANGS` mapped SUOMEKSI and PÅ SVENSKA to `fi` and `sv`, and `test_pallas` pinned them,
+while the client's `langParts` and `build_pages.LANG_RE` read only the `FI-A` form, so such
+a row would show no language. No committed row carried one (latent). The values are now
+`FI-A` and `SV-A`, and the test checks them against `LANG_RE`. Cloud half. 1 mutation red.

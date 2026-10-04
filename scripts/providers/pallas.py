@@ -58,8 +58,9 @@ What shapes the parser:
   check the shape of every poster it publishes. Measured across six readings, every poster
   is portrait and the page's one landscape image is its hero, outside every row.
   `mirror_posters.py` downscales the original, so the CDN's own resize is not used.
-- **A language marker is published only when it names an audio language outright.** The
-  optional middle paragraph of the title block has carried `SUOMEKSI`, `PÅ SVENSKA`,
+- **A language marker is published only when it names an audio language outright**, as
+  `FI-A` or `SV-A`. The optional middle paragraph of the title block has carried
+  `SUOMEKSI`, `PÅ SVENSKA`,
   `ORIGINAL version with subtitles FI/SV` and `Huom! Ilman suomenkielistä tekstitystä`
   across captures. The first two name the audio; the others describe subtitles or name two
   languages at once and settle nothing, so they publish nothing.
@@ -122,8 +123,9 @@ META_RE = re.compile(r"(?:(\d+)\s*h)?\s*(?:(\d+)\s*min)?\s*-\s*[Kk]?\s*([0-9]{1,
 # kaffeserv./kahvitarjoilulla` names one with a description of what it includes.
 PRICE_PART = re.compile(r"(\d{1,3}(?:[.,]\d{1,2})?)(?=\s*(?:[/\u2013-]\s*\d|€))")
 # Only a marker that names the audio language outright. A subtitle note names no audio and
-# `original ... FI/SV` names two, so neither is here.
-LANGS = {"suomeksi": "fi", "på svenska": "sv", "pa svenska": "sv"}
+# `original ... FI/SV` names two, so neither is here. The value is the show contract's
+# `FI-A` form: a bare `fi` matched nothing the client or the pages read (2026-10-04).
+LANGS = {"suomeksi": "FI-A", "på svenska": "SV-A", "pa svenska": "SV-A"}
 
 MEDIA = "https://static.wixstatic.com/media/"
 POSTER_MIN_W = 300
