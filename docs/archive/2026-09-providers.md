@@ -3516,3 +3516,9 @@ while the film page `film_language` already reads carries "Kesto: 112 min", "Ik√
 and a year range publish nothing. They go on screenings that lack them, through the same
 cache, so they arrive as entries in `film-lang-orion.json` expire, within its 48 h. The
 original and the year are the TMDB pass's search hints. Cloud half. 4 mutations red.
+
+### Julia 1&2 reads "1h 41m" as well as "1t 28min" (2026-10-04)
+Heart of the Beast's block on the listing read 2026-10-04 says "Kesto: 1h 41m"; every other
+film writes "1t 28min", and `KESTO_RE` read only that, so its 5 committed rows had no
+runtime. `t` or `h`, and `m` or `min` before a word boundary, so "35 mm" is not a runtime.
+A parse of that listing gives it 101. Cloud half. 3 mutations red.

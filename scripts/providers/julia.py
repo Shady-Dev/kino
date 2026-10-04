@@ -68,7 +68,8 @@ FIELD_RE = {
     "len": re.compile(r'<strong>\s*Kesto:\s*</strong>\s*([^<]{1,30})', re.I),
     "genres": re.compile(r'<strong>\s*Genre:\s*</strong>\s*([^<]{1,80})', re.I),
 }
-KESTO_RE = re.compile(r'(?:(\d+)\s*t)?\s*(\d+)\s*min', re.I)
+# "1t 28min", and "1h 41m" on one film read 2026-10-04.
+KESTO_RE = re.compile(r'(?:(\d+)\s*[th])?\s*(\d+)\s*m(?:in)?\b', re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
 
