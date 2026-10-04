@@ -3498,3 +3498,12 @@ Lilla spöket Laban busar vidare (18.10.) reads "KESTO 0h 0 min" on its page, a 
 cinema has not filled in, and `details` published `len` "0", which the client prints as
 "0 min". A zero runtime now publishes none. It is the only zero `len` in the committed
 data at adc1b6e9b. Local half: the next local run clears it. 1 mutation red.
+
+### Kino Kilta's og:image is a still, not a poster (2026-10-04)
+Every Kilta film drew a landscape image cropped into the portrait poster box: all 40 films
+in the committed data at adc1b6e9b, 342x143 to 342x250 mirrored, one source file named
+"still2_photo_by_...". The page carries no other image and no dimensions, so the Kilta
+template publishes no `og:image` and the TMDB pass supplies the poster for the 38 films
+with a TMDB id; the other two draw a tile, as for any film without one. Laika, Myyri and
+Sheryl measured portrait (24, 14 and 9 films) and keep theirs. Cloud half: posters change
+on the next run. 2 mutations red.
