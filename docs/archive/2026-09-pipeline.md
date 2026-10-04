@@ -2753,3 +2753,7 @@ etukäteen." and "Vain englanninkieliset tekstitykset.", and all three reached t
 paragraphs only, so eTiketti drops each line and keeps the description. Of 800 committed
 slot texts it matches 3, all notes: Junat, Hyvä talo from the same series, and Järven
 ääni. 4 mutations red.
+Repaired the same day after the rule: Junat's and Hyvä talo's `fi` slots lose the three
+lines and keep the rest, which equals what the fixed parser reads from both pages. Hyvä
+talo is included because the identical lines from the same series sat in it. Both
+screenings are outside the generated pages' window, so no page changed.
