@@ -2778,3 +2778,13 @@ provider's text is merged, so none can return; the rest of the text stays, and "
 with its sentence. Over the 800 stored slot texts it removes 29 sentences in 20 slots, all
 notes. Similar sentences about the film stay ("Elokuva on toteutettu yhteistyössä ...",
 "Admission to the academy is free ..."). The merge log counts them. 15 mutations red.
+Repaired the same day after the rules, 17 texts in 14 slots, each the stored text with the
+note sentences, Star's literal tags and K-Kino's facts block taken out: `fi` of Järven
+ääni, Anttilanmäen kyläjuhla, Filminor, Follow the Plants, Käpy selän alla, Lahden
+videokuvaajat 70v, Minikino: Pat & Mat, Pirjo i Sverige – Vauvakino, Vanhustenviikon
+näytös, Tiedettä elokuvissa and Pia Långbacka; `fi` and `en` of El espíritu de la colmena,
+Casper and Ghost. Twelve equal the fixed parse of the cinema's page that day; the other five
+are films no longer listed. Left as they are, the boundary not clear from the text: the
+guest talk inside Casper's and Ghost's synopses, "Näytöksessä 16.9.2026 klo 16:00 nähdään
+neljä historiallista lyhytelokuvaa ...", "Näytöksen tarjoaa ... Lasten Lysti" run into Pat
+& Mat's first sentence, and "Elokuva on tekstitetty englanniksi." Two Orion pages changed.
