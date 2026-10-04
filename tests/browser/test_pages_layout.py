@@ -113,10 +113,13 @@ class PagesLayoutTest(unittest.TestCase):
                     # theatre page carries a ticket that is a time and a tail and nothing
                     # else.
                     bare = title == "Pelkka Nimi" and j == 1
+                    # The full film's second venue states no language, so a desktop city
+                    # row puts a one-line ticket beside a two-line one.
+                    quiet = title == "Taysi Elokuva" and vid == "tv-2"
                     shows.append(show(vid, f"{vid}-{i}-{j}", title, clock,
                                       price="12€" if j == 0 else "",   # one priced, one not
                                       img=f["img"], rating=f["rating"], genres=f["genres"],
-                                      length=f["length"], lang=f["lang"],
+                                      length=f["length"], lang="" if quiet else f["lang"],
                                       aud="" if bare else None))
             (data / f"area-{vid}.json").write_text(json.dumps(
                 {"generated": "2026-09-14T09:00:00+00:00", "dates": ["2026-09-14"],
@@ -352,6 +355,38 @@ class PagesLayoutTest(unittest.TestCase):
                         self.assertLess(abs(t["w"] - t["film"]), TOL)
                         self.assertLess(abs(t["priceR"] - t["r"]), TOL)
         self.assertTrue(any(t["bare"] for t in self.tickets(375)), "no time-only ticket")
+
+    def test_city_tickets_in_one_row_end_together(self):
+        """A grid row is as tall as its tallest ticket and every ticket in it fills that
+        height: the 2026-10-04 city pages had 24 rows at 1280 where a one-line ticket ended
+        above a two-line one. Each ticket's text stays centred in its own compartment."""
+        ctx = self.browser.new_context(viewport={"width": DESKTOP, "height": 900},
+                                       service_workers="block")
+        self.addCleanup(ctx.close)
+        page = ctx.new_page()
+        page.goto(self.origin + "/kaupunki/testila/")
+        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        rows = page.evaluate("""() => { const out = [];
+            for (const g of document.querySelectorAll('.times.grid')) { const by = {};
+              for (const s of g.querySelectorAll('.stub')) { const b = s.getBoundingClientRect();
+                // The text, not the compartment: a stretched compartment is the row's height.
+                const rg = document.createRange(); rg.selectNodeContents(s.querySelector('.aud'));
+                const cs = [...rg.getClientRects()].filter(c => c.height);
+                const top = Math.min(...cs.map(c => c.top)), bot = Math.max(...cs.map(c => c.bottom));
+                (by[Math.round(b.top)] = by[Math.round(b.top)] || []).push(
+                  {b: b.bottom, h: b.height, mid: (b.top + b.bottom) / 2,
+                   audMid: (top + bot) / 2, audH: bot - top}); }
+              for (const k in by) if (by[k].length > 1) out.push(by[k]); }
+            return out; }""")
+        self.assertTrue(rows, "no grid row holds two tickets")
+        self.assertTrue(any(max(t["audH"] for t in r) - min(t["audH"] for t in r) > 8
+                            for r in rows),
+                        "no row mixes a one-line and a two-line ticket; nothing is proved")
+        for r in rows:
+            with self.subTest(row=r):
+                self.assertLess(max(t["b"] for t in r) - min(t["b"] for t in r), 0.5)
+                for t in r:
+                    self.assertLess(abs(t["audMid"] - t["mid"]), TOL)
 
     def test_desktop_tickets_keep_their_own_width(self):
         """Above the breakpoint a theatre page's tickets stay as wide as their content: a
