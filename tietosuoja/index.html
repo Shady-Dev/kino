@@ -22,12 +22,12 @@
   :root{
     color-scheme:light;
     --bg:#F6F7F9; --surface:#FFFFFF; --ink:#16181D; --muted:#5C6470;
-    --line:#E3E6EB; --accent:#B8860B;
+    --line:#E3E6EB; --accent:#B8860B; --accent-text:#8A6508;
   }
   @media (prefers-color-scheme:dark){
-    :root:not([data-theme="light"]){color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
+    :root:not([data-theme="light"]){color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B; --accent-text:#E8B84B}
   }
-  :root[data-theme="dark"]{color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B}
+  :root[data-theme="dark"]{color-scheme:dark; --bg:#101216; --surface:#171A20; --ink:#EDEFF3; --muted:#AEB5C2; --line:#242833; --accent:#D6A52B; --accent-text:#E8B84B}
   *{box-sizing:border-box}
   body{margin:0; background:var(--bg); color:var(--ink);
        font-family:'Archivo',system-ui,sans-serif; line-height:1.55;
@@ -47,7 +47,9 @@
   h3{font-size:1rem; margin:1.6em 0 .3em}
   p,li{color:var(--ink)}
   .lede{color:var(--muted)}
-  a{color:var(--accent)}
+  /* Link text takes --accent-text, as the app and the status page do: --accent on --bg is
+     3.03:1 (2026-10-04). The wordmark's dot keeps --accent. */
+  a{color:var(--accent-text)}
   table{border-collapse:collapse; width:100%; margin:.8em 0; font-size:.94rem}
   th,td{text-align:left; vertical-align:top; padding:.45em .6em; border-bottom:1px solid var(--line)}
   th{color:var(--muted); font-weight:600}
@@ -101,7 +103,7 @@ kuinka kauan niitä säilytetään.</p>
 <h2>Mitä mitataan</h2>
 <p>Tapahtumia on seitsemän, ja jokaisen mukana kulkevat kentät on rajattu erikseen.
 Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
-<div class="tablewrap"><table>
+<div class="tablewrap" tabindex="0" role="region" aria-label="Tapahtumat ja niiden tiedot"><table>
   <tr><th>Tapahtuma</th><th>Mitä se kertoo</th><th>Mukana kulkevat tiedot</th></tr>
   <tr><td><code>$pageview</code></td><td>Sivulataus</td><td>Näkymän luokka
       (<code>home</code>, <code>venue</code>, <code>city</code>, <code>region</code>) ja
