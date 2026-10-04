@@ -3607,3 +3607,7 @@ premiere, "PREMIÄR 21.8 2026" or "PREMIÄR:<br />2.10 2026" (Digger). Both reac
 `sv` slot. `body_syn` drops either when it is a whole paragraph, and the spoken language
 stays in `lang` as before. Every other body comes out byte for byte as it did. Cloud half.
 4 mutations red, one of them equivalent (`match` anchors the start).
+Repaired the same day after the rule: 15 shared `sv` slots lose their trailing premiere
+line, two of them "SVENSKT TAL!" as well. Six equal the fixed parse of Bio Savoy's live
+page; the other nine are films it no longer lists. The pages clip a synopsis at 200
+characters, so none changed.
