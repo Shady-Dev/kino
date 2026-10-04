@@ -25,9 +25,24 @@ data clean stay. Record:
 [docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md).
 
 **`XX-S` came back 2026-09-29 with a meaning**: a source saying outright that a screening
-has no subtitles. Only Kino Engel publishes it, from its "TEKSTITYS: Ei tekstitystä"; an
-absent or unknown field stays blank. Regina, Gilda and Nexxo state the same and still drop
-it.
+has no subtitles; an absent or unknown field stays blank. Kino Engel published it first,
+from its "TEKSTITYS: Ei tekstitystä". On 2026-10-04, on the maintainer's decision, five
+more sources publish it, each from its own subtitle field and nothing looser, read that
+day:
+
+- eTiketti: the Tekstitys row "Ei tekstitystä", 139 screenings at sixteen sites, all
+  Finnish films or dubs. Niagara and Star are not read: Niagara prints the row on pages
+  with no Kieli row, Star beside Italian audio and beside Swedish and Russian dialogue.
+- Nexxo: a bare `XX` in `code_subtitles`, 29 rows at five sites. Unknown is `OV`.
+- Kino Regina: the whole Tekstitys cell "ei tekstitystä", 10 of 110 film pages.
+- Gilda: audio style "Ei tekstitystä" with `subtitle_lang` "-", 18 of 21 screenings. The
+  Lighthouse names subtitles beside the style and keeps them.
+- Bio Marilyn: the labelled line "Tekstitys: Ei tekstitystä" (its ballet).
+
+Still unread: the same words inside a sentence ("ilman tekstitystä"), Niagara's Black
+Magic Rites with the rest of Niagara and Star until a screening is confirmed, and every
+source that names no subtitle field. "(dub)" alone, a no-dialogue code and a cinema's
+house-wide rule stay unread by the same decision.
 
 ---
 

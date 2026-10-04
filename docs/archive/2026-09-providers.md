@@ -3582,3 +3582,10 @@ The maintainer's decision on an explicit "no subtitles". A screening whose audio
 the 21 screenings with that style, film-club prints and concerts (Mandy, Rammstein - Live
 in Mexico City). The other three, The Lighthouse, name "suomi, ruotsi", so the style alone
 is not trusted and those keep their subtitles. Cloud half. 2 mutations red.
+
+### Bio Marilyn's labelled "Tekstitys: Ei tekstitystä" (2026-10-04)
+The maintainer's decision on an explicit "no subtitles". The ballet Pähkinänsärkijä's page,
+read 2026-10-04, carries "Kieli:Alkuperäinen" and "Tekstitys: Ei tekstitystä" as labelled
+lines, and `film_lang` now reads the second as `XX-S`. The same words inside a sentence
+stay unread. The five sources are summarised in docs/research/languages.md. Cloud half.
+2 mutations red.

@@ -255,6 +255,16 @@ class FilmLanguageTest(unittest.TestCase):
         self.assertEqual(self.lang("Kieli: englanti", "Tekstitys: suomi ja ruotsi"),
                          "EN-A, FI-S, SV-S")
 
+    def test_bio_marilyns_labelled_no_subtitles(self):
+        """Baletti: Pähkinänsärkijä, read 2026-10-04. The label is what makes it the
+        statement; the same words inside a sentence stay unread, as above."""
+        self.assertEqual(self.lang("Kieli:Alkuper\u00e4inen", "Tekstitys: Ei tekstityst\u00e4"),
+                         "XX-S")
+        self.assertEqual(self.lang("Kieli: englanti", "Tekstitys: Ei tekstityst\u00e4."),
+                         "EN-A, XX-S")
+        self.assertEqual(self.lang("Kieli: suomi", "Tekstitys: ei tekstityst\u00e4 alussa"),
+                         "FI-A")
+
     def test_vihdin_kinos_we_speak_finnish(self):
         self.assertEqual(self.lang("MLL Vihdin paikallisyhdistys järjestää Toy Story "
                                    "5-elokuvan näytöksen, lipun hinta vain 2€! Esitetään "

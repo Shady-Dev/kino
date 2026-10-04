@@ -153,8 +153,10 @@ SYN_MIN = 120
 # Suomi". Bio Forum: "Elokuva on puhuttu englanniksi ja tekstitys on sekä suomeksi että
 # ruotsiksi." Vihdin Kino: "Esitetään dubattuna versiona eli puhumme suomea." A phrase must
 # end where the sentence does, so "ruotsiksi ja suomeksi tekstitettynä" reads as nothing.
-# "ilman tekstitystä" is not read: no-subtitles (`XX-S`) is Kino Engel's alone so far.
+# A labelled "Tekstitys: Ei tekstitystä" is `XX-S` (Bio Marilyn's ballet, read 2026-10-04);
+# "ilman tekstitystä" inside a sentence is not read.
 LABEL_LINE_RE = re.compile(r"^(kieli|tekstitys)\s*:\s*(.+)$", re.I)
+NO_SUBS_RE = re.compile(r"^ei\s+tekstityst\u00e4\.?$", re.I)
 TRANSLATIVE = r"[a-zåäö]+ksi(?:\s*(?:,|ja|sekä|että)\s*[a-zåäö]+ksi)*"
 SPOKEN_RE = re.compile(r"\bpuhuttu\s+(" + TRANSLATIVE + r")(?=\s*(?:[.,]|ja\s+(?:tekstitys|se)\b|$))",
                        re.I)
@@ -379,6 +381,9 @@ def film_lang(paras):
     for t in paras:
         m = LABEL_LINE_RE.match(t)
         if m:
+            if m.group(1).lower() == "tekstitys" and NO_SUBS_RE.match(m.group(2).strip()):
+                subs.append("XX")
+                continue
             (audio if m.group(1).lower() == "kieli" else subs).extend(strict_codes(m.group(2)))
             continue
         spoken, subtitled = SPOKEN_RE.search(t), SUBTITLED_RE.search(t)
