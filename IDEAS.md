@@ -86,6 +86,14 @@ List, reads and gaps: [docs/research/empty-states.md](docs/research/empty-states
 
 ## Blocked
 
+### A way to read a generated page's full synopsis
+
+The pages print 200 characters, three lines on a phone, and nothing opens the rest; the
+app's film sheet has it. Proposal: a "Koko kuvaus" link under the text to the app's deep
+link `/?area=<venue>&lang=<l>#m=<film id>`, which opened that sheet for 8 films in Chromium
+and WebKit on 2026-10-04; on a phone a tap leaves the page and Back returns. A `<details>`
+with the full text would repeat it on every page. **Unblocks when:** the maintainer picks.
+
 ### A runtime to break a same-year TMDB tie
 
 Both passes keep a tie of title and year weak. Measured 2026-09-27, 3 of 55 Finnkino
@@ -109,8 +117,8 @@ conditional discount. **Unblocks when:** Julia's own page says what each amount 
 A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
 one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
 still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
-cinema is shut and reopening soon. The silence has a stated cause for the first time.
-Evidence in [docs/research/kinola.md](docs/research/kinola.md); the classifier and the
+cinema is shut and reopening soon. Evidence in
+[docs/research/kinola.md](docs/research/kinola.md); the classifier and the
 three tenants that do publish are in
 [docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
 **Next action:** re-read the listing, at the front page now.
@@ -127,15 +135,11 @@ cannot close here.
 ### Kuva-Tähti's two cinemas need the Johku widget flow
 
 Kauttuan Kuva (Eura) and Kuvala (Uusikaupunki), one merchant on Johku's **client-rendered**
-storefront rather than the server-rendered one `johku.py` reads. Read 2026-09-21: five
-surfaces, including both cinema categories and `/fi_FI/tulevia-elokuvia`, render no film,
-no date and no time, and the `__NUXT_DATA__` payload holds no date-like string at all, so
-there is no last visible programme date to report. The rows arrive through
-`/api/auth/widget-session` and an `X-ApiKey`, the flow declined for Kino Engel on
-2026-09-20; no key was copied or recorded. Evidence:
+storefront, which `johku.py` cannot read: read 2026-09-21, five surfaces render no film, date
+or time. The rows arrive through `/api/auth/widget-session` and an `X-ApiKey`, the flow
+declined for Kino Engel on 2026-09-20; no key was copied or recorded. Evidence:
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
-**Next action:** re-read for the server-rendered template or a feed. Both become ordinary
-`johku.py` `SITES` entries if one appears.
+**Next action:** re-read for a server-rendered template or a feed, each a `SITES` entry.
 
 ### Kinokulma and Kino Hannikainen render their listing only as a skeleton
 
@@ -150,15 +154,11 @@ removal only if a cinema confirms it publishes no screenings. **Next action:** n
 
 ### Rekolan Kino and Juvan Kino wait for a programme
 
-Both read 2026-09-21. **Rekolan Kino** (Vantaa) renders its Squarespace programme
-server-side and held five rows, all in the past, the latest 20.9. A parser would return
-zero rows, which must fail the site while the page still lists films. Read-only follow-up
-2026-09-21: it sells through Kino Myyri's Kinola storefront, but Myyri's listing never
-names it and the storefront has no public programme, so a shared account is unsettled and
-it would need its own parser regardless. **Juvan Kino** publishes through
-`juvantapahtumat.fi`, whose cinema category states 0 events and whose RSS carries no item;
-eleven other categories on that calendar do carry events. Evidence:
-[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+Both read 2026-09-21. **Rekolan Kino** (Vantaa) held only past rows on its Squarespace
+page, the latest 20.9., and a parser with zero rows while the page lists films must fail; it
+sells through Kino Myyri's Kinola storefront, which never names it, so it needs its own
+parser. **Juvan Kino** publishes through `juvantapahtumat.fi`, whose cinema category states 0
+events. Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 **Next action:** re-read both listings later.
 
 ### Kino Kaustinen has no screening to verify against
