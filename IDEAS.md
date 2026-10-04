@@ -74,7 +74,7 @@ footer credit. The contact line matters most. Unrelated work does not wait on it
 
 ### Two providers are read over plain HTTP
 
-Neither host serves TLS, probed 2026-09-22. [CLAUDE.md](CLAUDE.md) now bounds a cleartext
+Neither host serves TLS, probed 2026-09-22 and 2026-10-04. [CLAUDE.md](CLAUDE.md) bounds a cleartext
 `base` to that case; probe in [docs/research/adapter-http.md](docs/research/adapter-http.md).
 **Next action:** re-probe when either host is next touched.
 

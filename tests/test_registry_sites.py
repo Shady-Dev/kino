@@ -104,6 +104,24 @@ class RegistrySitesTest(unittest.TestCase):
                         f"{name}.py's site {site.get('provider')!r} declares no usable "
                         f"`base`, so the runner cannot pace the host it reads")
 
+    def test_a_site_link_is_only_a_cleartext_base_the_adapter_reads(self):
+        """`site` replaces the `https://{host}/` link only for a host with no TLS (read
+        2026-10-04: biosavoy.ax refuses 443, moviecompanyalatalo.fi has no address
+        record). It must be the `http://` origin the provider's own adapter reads, which
+        CLAUDE.md allows only with a recorded probe; anything else would be a second,
+        unchecked way to send a reader to plain http."""
+        found = {p["id"]: p["site"] for p in registry.PROVIDERS if p.get("site")}
+        self.assertEqual(sorted(found), ["alatalo", "biosavoy"])
+        for pid, site in found.items():
+            with self.subTest(provider=pid):
+                mod = importlib.import_module(registry.by_id(pid)["module"])
+                bases = {urlsplit(s["base"]) for s in mod.SITES if s["provider"] == pid}
+                url = urlsplit(site)
+                self.assertEqual((url.scheme, url.path), ("http", "/"), site)
+                self.assertIn((url.scheme, url.netloc), {(b.scheme, b.netloc) for b in bases})
+        frontend = {p["id"]: p for p in registry.frontend()}
+        self.assertEqual({k: v.get("site") for k, v in frontend.items() if "site" in v}, found)
+
 
 if __name__ == "__main__":
     unittest.main()

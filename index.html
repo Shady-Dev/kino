@@ -2434,7 +2434,7 @@
     { id:'vaakuna',            label:'Kino Vaakuna',               host:'kinovaakuna.fi',           accent:'#CC4477', book:'reserve' },
     { id:'kuvakukko',          label:'Kuvakukko',                  host:'kuvakukko.fi',             accent:'#7A3FB8', book:'door' },
     { id:'kirkkonummi',        label:'Kino Kirkkonummi',           host:'kinokirkkonummi.fi',       accent:'#BB6688', book:'list' },
-    { id:'biosavoy',           label:'Bio Savoy',                  host:'biosavoy.ax',              accent:'#7766FF', book:'door' },
+    { id:'biosavoy',           label:'Bio Savoy',                  host:'biosavoy.ax',              accent:'#7766FF', book:'door', site:'http://www.biosavoy.ax/' },
     { id:'cinemantsala',       label:'Cine Mäntsälä',              host:'mantsala.cine.fi',         accent:'#5B21B6', book:'buy' },
     { id:'kinokilta',          label:'Kino Kilta',                 host:'kinokilta.fi',             accent:'#1D6F8B', book:'buy' },
     { id:'kinolaika',          label:'Kino Laika',                 host:'kinolaika.fi',             accent:'#9A3412', book:'buy' },
@@ -2453,7 +2453,7 @@
     { id:'pyhasalmenvpk',      label:'Pyhäsalmen VPK',             host:'pyhasalmenvpk.fi',         accent:'#725466', book:'door' },
     { id:'biopallas',          label:'Bio Pallas',                 host:'biopallas.com',            accent:'#546C78', book:'door' },
     { id:'huvimylly',          label:'Elokuvateatteri Huvimylly',  host:'huvimylly.com',            accent:'#CC60A0', book:'door' },
-    { id:'alatalo',            label:'Movie Company Alatalo',      host:'moviecompanyalatalo.fi',   accent:'#6C9678', book:'door' },
+    { id:'alatalo',            label:'Movie Company Alatalo',      host:'moviecompanyalatalo.fi',   accent:'#6C9678', book:'door', site:'http://www.moviecompanyalatalo.fi/' },
     { id:'sheryl',             label:'Cinema Sheryl',              host:'sheryl.fi',                accent:'#9E60C2', book:'buy' },
     { id:'haapamaki',          label:'Haapamäen Elokuvat',         host:'haapamaenelokuvat.fi',     accent:'#E644FE', book:'buy' },
     { id:'elavienkuvien',      label:'Elävienkuvien teatteri',     host:'elavienkuvienteatteri.fi', accent:'#2E8C92', book:'buy' },
@@ -2475,7 +2475,7 @@
     for(const p of PROVIDERS){
       if(!p || !p.id) continue;
       CHAIN[p.id] = p.label || p.id;
-      SOURCE[p.id] = [p.label || p.id, p.host || ''];
+      SOURCE[p.id] = [p.label || p.id, p.host || '', p.site || ''];
       BOOK[p.id] = p.book || 'buy';
     }
     let el = document.getElementById('chainpal');
@@ -3596,7 +3596,9 @@
       // path is built from it: a guessed path is what left six Nexxo ticket links dead.
       // The site root is the cinema's own, and it is where its programme is.
       const host = notice.only ? ((SOURCE[notice.only] || [])[1] || '') : '';
-      const siteHref = host ? safeUrl('https://' + host + '/') : '';
+      // `site` where the site does not answer at https://{host}/ (registry.py).
+      const site = notice.only ? ((SOURCE[notice.only] || [])[2] || '') : '';
+      const siteHref = host ? safeUrl(site || 'https://' + host + '/') : '';
       // No "reload": a refresh re-reads this origin's committed files and starts no
       // collection at any cinema. The link leaves for the cinema, or for the page that
       // says what ran and when.

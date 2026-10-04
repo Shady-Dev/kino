@@ -128,7 +128,7 @@ class StaleBannerWiringTest(unittest.TestCase):
         self.assertIn("state.sources = Array.isArray(cache.sources) ? cache.sources", HTML)
 
     def test_the_link_is_the_registry_host_and_never_a_built_path(self):
-        self.assertIn("safeUrl('https://' + host + '/')", HTML)
+        self.assertIn("safeUrl(site || 'https://' + host + '/')", HTML)
         self.assertNotRegex(HTML, r"'https://' \+ host \+ '/\w")
 
     def test_the_fallback_is_the_status_page_with_the_selection(self):

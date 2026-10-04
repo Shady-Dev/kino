@@ -166,7 +166,7 @@ class StatusPageFileTest(unittest.TestCase):
 
     def test_ticket_and_site_links_go_through_a_scheme_guard(self):
         self.assertIn("const safeUrl", self.status)
-        self.assertIn("safeUrl('https://' + r.host", self.status)
+        self.assertIn("safeUrl(r.site || 'https://' + r.host", self.status)
 
     def test_the_control_character_class_is_written_as_escapes(self):
         """A literal control byte in the class silently changes the range, and a NUL in
