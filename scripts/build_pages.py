@@ -1388,12 +1388,15 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 # and anything Google had already crawled would 404. The pages are regenerated as
 # redirects instead of being deleted.
 #
-# Deliberately a fixed table rather than a general aliasing framework: it is four entries
-# for one mistake, and a mechanism that rewrites URLs on every label edit would make it
-# easy to keep moving them. Add here only when a live URL has changed.
+# Deliberately a fixed table rather than a general aliasing framework: one entry per moved
+# venue, and a mechanism that rewrites URLs on every label edit would make it easy to keep
+# moving them. Add here only when a live URL has changed. Elokuvateatteri Elo and Julia 1&2
+# printed their names twice the same way until 2026-10-04 ("Julia 1&2 Julia").
 LEGACY_VENUE_SLUGS = {
     "studio-123-jarvenpaa-studio-123-jarvenpaa": "s3-jarvenpaa",
     "studio-123-kouvola-studio-123-kouvola": "s3-kouvola",
+    "elokuvateatteri-elo-elo-heinola": "tmb-elo",
+    "julia-1-2-julia-hyvinkaa": "julia-hyvinkaa",
 }
 
 

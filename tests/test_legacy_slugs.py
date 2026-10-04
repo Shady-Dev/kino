@@ -39,11 +39,28 @@ class LegacyTableTest(unittest.TestCase):
         cases = [("Studio 123 Kouvola Studio 123", "Kouvola",
                   "studio-123-kouvola-studio-123-kouvola"),
                  ("Studio 123 Järvenpää Studio 123", "Järvenpää",
-                  "studio-123-jarvenpaa-studio-123-jarvenpaa")]
+                  "studio-123-jarvenpaa-studio-123-jarvenpaa"),
+                 ("Elokuvateatteri Elo Elo", "Heinola", "elokuvateatteri-elo-elo-heinola"),
+                 ("Julia 1&2 Julia", "Hyvinkää", "julia-1-2-julia-hyvinkaa")]
         for label, city, expected in cases:
             with self.subTest(label=label):
                 self.assertEqual(bp.slug(f"{label} {city}"), expected)
                 self.assertIn(expected, bp.LEGACY_VENUE_SLUGS)
+
+    def test_no_label_prints_its_chain_name_twice(self):
+        """A `short` already inside the chain label rendered twice: Studio 123 until
+        2026-08-30, Elokuvateatteri Elo and Julia 1&2 until 2026-10-04."""
+        chains = {p["id"]: p.get("label", p["id"]) for p in
+                  json.loads((ROOT / "data" / "providers.json").read_text())["providers"]}
+        for f in sorted((ROOT / "data").glob("venues-*.json")):
+            d = json.loads(f.read_text(encoding="utf-8"))
+            for v in d["venues"]:
+                vv = {**v, "provider": d["provider"]}
+                label, short = bp.label_of(vv, chains), bp.short_of(vv)
+                with self.subTest(venue=v["id"], label=label):
+                    if label != short:
+                        self.assertNotRegex(chains[d["provider"]],
+                                            r"(?:^|\s)" + re.escape(short) + r"(?:\s|$)")
 
     def test_no_alias_shadows_a_current_slug(self):
         """If a live venue ever slugs to a legacy key, the redirect would take
@@ -103,12 +120,18 @@ class SitemapTest(unittest.TestCase):
             with self.subTest(old=old):
                 self.assertNotIn(old, sm)
 
-    def test_the_canonical_studio_123_urls_are_in_the_sitemap(self):
+    def test_the_corrected_urls_are_in_the_sitemap(self):
         sm = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
         for path in ("/teatteri/studio-123-kouvola-kouvola/",
                      "/en/theatre/studio-123-kouvola-kouvola/",
                      "/teatteri/studio-123-jarvenpaa-jarvenpaa/",
-                     "/en/theatre/studio-123-jarvenpaa-jarvenpaa/"):
+                     "/en/theatre/studio-123-jarvenpaa-jarvenpaa/",
+                     "/teatteri/elokuvateatteri-elo-heinola/",
+                     "/sv/teatteri/elokuvateatteri-elo-heinola/",
+                     "/en/theatre/elokuvateatteri-elo-heinola/",
+                     "/teatteri/julia-1-2-hyvinkaa/",
+                     "/sv/teatteri/julia-1-2-hyvinkaa/",
+                     "/en/theatre/julia-1-2-hyvinkaa/"):
             with self.subTest(path=path):
                 self.assertIn(f"<loc>{bp.SITE}{path}</loc>", sm)
 

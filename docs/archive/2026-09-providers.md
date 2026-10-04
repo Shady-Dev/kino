@@ -3635,3 +3635,14 @@ leave that field empty. Bio Savoy's pattern: `capped`, 1.5 s apart, a failed pag
 and skipped. Controlled run that day: 14 film pages for 32 rows, 13 stating facts, which
 filled runtime and rating on 30 rows and language on 28; the site took 21.4 s against about
 1 s before, nearly all of it the 13 pauses. Cloud half. 13 mutations red.
+
+### Elokuvateatteri Elo and Julia 1&2 stop printing their names twice (2026-10-04)
+The maintainer's decision, the Studio 123 precedent. Both venues' `short` was a word of the
+chain label ("Elo", "Julia"), so the label prefix doubled it in the picker, the page title,
+h1, description and slug: "Elokuvateatteri Elo Elo", "Julia 1&2 Julia". `short` now repeats
+the label in both adapters and in the committed venue files, the pages move to
+`elokuvateatteri-elo-heinola` and `julia-1-2-hyvinkaa`, and the six old URLs stay as
+`noindex` redirects through `LEGACY_VENUE_SLUGS`. The sitemap and the Hyvinkää city page
+carry only the new paths; the picker shows the single names in fi, sv and en in Chromium
+and WebKit. `test_legacy_slugs` now fails on any label that repeats its chain name.
+2 mutations red.

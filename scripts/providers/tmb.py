@@ -127,7 +127,7 @@ SITES = [
      "venues": [{"id": "tmb-mania", "name": "KinoMania", "short": "KinoMania",
                  "city": "Pieksämäki"}]},
     {"provider": "kinoelo", "label": "Elokuvateatteri Elo", "base": "https://elokuvat-elo.info",
-     "venues": [{"id": "tmb-elo", "name": "Elokuvateatteri Elo", "short": "Elo",
+     "venues": [{"id": "tmb-elo", "name": "Elokuvateatteri Elo", "short": "Elokuvateatteri Elo",
                  "city": "Heinola"}]},
 ]
 

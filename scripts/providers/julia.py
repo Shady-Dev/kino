@@ -46,7 +46,7 @@ BASE = "https://juliaelokuvat.fi"
 LISTING = BASE + "/ohjelmisto/"
 FI = ZoneInfo("Europe/Helsinki")
 
-VENUE = {"id": "julia-hyvinkaa", "name": "Julia 1&2", "short": "Julia", "city": "Hyvinkää"}
+VENUE = {"id": "julia-hyvinkaa", "name": "Julia 1&2", "short": "Julia 1&2", "city": "Hyvinkää"}
 
 SITES = [{"provider": "julia", "label": "Julia 1&2", "base": BASE, "venues": [VENUE]}]
 
