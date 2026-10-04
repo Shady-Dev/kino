@@ -84,8 +84,8 @@ class FinnkinoLangTagTest(unittest.TestCase):
 
 
 class NexxoLangTest(unittest.TestCase):
-    """`nexxo._lang`: code_language / code_subtitles -> `FI-A, SV-S`. `XX` in the subtitle
-    column means no subtitles and produces nothing."""
+    """`nexxo._lang`: code_language / code_subtitles -> `FI-A, SV-S`. `XX` alone in the
+    subtitle column is a screening without subtitles, `XX-S`."""
 
     TAG_LIST = re.compile(r"^[A-Z]{2}-[AS](?:, [A-Z]{2}-[AS])*$")
 
@@ -93,20 +93,23 @@ class NexxoLangTest(unittest.TestCase):
         import nexxo
         return nexxo._lang({"code_language": language, "code_subtitles": subtitles})
 
-    def test_xx_subtitles_vanish_and_leave_no_separator(self):
-        self.assertEqual(self.lang("FI", "XX"), "FI-A")
-        self.assertEqual(self.lang("EN", "XX"), "EN-A")
-        self.assertEqual(self.lang("SV", "XX"), "SV-A")
-
-    def test_xx_alone_publishes_the_value_a_row_without_languages_already_has(self):
-        self.assertEqual(self.lang("", "XX"), "")
-        self.assertEqual(self.lang(None, "XX"), "")
-        self.assertEqual(self.lang("OV", "XX"), "")
+    def test_xx_alone_is_no_subtitles(self):
+        """Kino Aurora's Rakkautta ja virtahepoja and Kino Marilyn's, read 2026-10-04."""
+        self.assertEqual(self.lang("FI", "XX"), "FI-A, XX-S")
+        self.assertEqual(self.lang("EN", "XX"), "EN-A, XX-S")
+        self.assertEqual(self.lang("OV", "XX"), "XX-S")
+        self.assertEqual(self.lang("", "XX"), "XX-S")
+        self.assertEqual(self.lang(None, "XX"), "XX-S")
 
     def test_xx_beside_a_real_subtitle_code_drops_only_itself(self):
         self.assertEqual(self.lang("FI", "XX/SE"), "FI-A, SV-S")
         self.assertEqual(self.lang("FI", "SE/XX"), "FI-A, SV-S")
-        self.assertEqual(self.lang("FI-SE", "XX"), "FI-A, SV-A")
+        self.assertEqual(self.lang("FI-SE", "XX"), "FI-A, SV-A, XX-S")
+
+    def test_ov_subtitles_say_nothing(self):
+        """Kino Hirvi's unknown subtitle is OV, not XX."""
+        self.assertEqual(self.lang("OV", "OV"), "")
+        self.assertEqual(self.lang("FI", "OV"), "FI-A")
 
     def test_existing_semantics_are_untouched(self):
         """Compounds split, SE becomes SV, OV is unspecified and dropped, LT passes as

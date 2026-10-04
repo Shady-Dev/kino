@@ -3551,3 +3551,10 @@ Oulu and Tähti Kino in Muhos. The three region pairs clear 14.4, the lowest Fin
 Tähti Kino at 18.4. Swedish Uleåborgsregionen, after Uleåborg. Checked in Chromium and
 WebKit at 320, 375, 393 and 1280; Tähti Kino's first screening is 5.10., and on that day
 the combined view lists all three chains and no width scrolls sideways.
+
+### Nexxo's XX is a screening without subtitles (2026-10-04)
+The maintainer's decision on an explicit "no subtitles": a bare `XX` in `code_subtitles`
+publishes `XX-S`, as Kino Engel's "Ei tekstitystä" does. Read 2026-10-04 over all eight
+sites: 29 rows on five, 25 of them Finnish films or dubs, and Kino Hirvi marks an unknown
+subtitle `OV`, so `XX` is chosen rather than left as a default. `XX` beside a real code
+contradicts itself and keeps only the code. Cloud half. 2 mutations red.

@@ -148,20 +148,23 @@ def _codes(v):
     return [CODE_FIX.get(c, c) for c in out]
 
 
-# Nexxo's code_subtitles for a film shown without subtitles. Measured 2026-09-02: 46 rows
-# across the Nexxo sites, every one in the subtitle role, beside FI-A, EN-A, SV-A or
-# alone. Not a language, so no tag: the subtitle role is simply absent.
+# Nexxo's code_subtitles for a screening shown without subtitles. Read 2026-10-04: 29 rows
+# on five sites, 25 of them Finnish films or dubs; an unknown subtitle is OV, as at Kino
+# Hirvi, so XX is chosen. Alone it publishes `XX-S`, Kino Engel's "no subtitles". Beside a
+# real subtitle code ("XX/SE") the value contradicts itself and only the code is kept.
 NO_SUBTITLES = "XX"
 
 
 def _lang(row):
     """code_language / code_subtitles -> Finnkino-style FI-A / FI-S tags.
 
-    "FI-A, XX-S" publishes "FI-A"; a bare "XX-S" publishes "", which is the value a row
-    with no language information already carries. The join happens after the drop, so
-    nothing leaves a separator behind."""
+    "FI" / "XX" -> "FI-A, XX-S"; "OV" / "XX" -> "XX-S"; "FI" / "XX/SE" -> "FI-A, SV-S"."""
     parts = [f"{c}-A" for c in _codes(row.get("code_language"))]
-    parts += [f"{c}-S" for c in _codes(row.get("code_subtitles")) if c != NO_SUBTITLES]
+    subs = _codes(row.get("code_subtitles"))
+    if subs == [NO_SUBTITLES]:
+        parts.append(f"{NO_SUBTITLES}-S")
+    else:
+        parts += [f"{c}-S" for c in subs if c != NO_SUBTITLES]
     return ", ".join(parts)
 
 
