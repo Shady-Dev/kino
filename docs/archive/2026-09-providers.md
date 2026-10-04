@@ -3492,3 +3492,9 @@ are split by " * ": "… * suomenkielinen versio" (Tiikerin oma elokuva) and "�
 suomea" (Nalle Puhin elokuva). Only the Tekstitys cell was read. `_audio` takes a whole
 segment of either form, so a credit or another version's date states nothing; both pages
 now give `FI-A`. Local half: the next local run publishes it. 3 mutations red.
+
+### Kino Engel's "0h 0 min" is no runtime (2026-10-04)
+Lilla spöket Laban busar vidare (18.10.) reads "KESTO 0h 0 min" on its page, a field the
+cinema has not filled in, and `details` published `len` "0", which the client prints as
+"0 min". A zero runtime now publishes none. It is the only zero `len` in the committed
+data at adc1b6e9b. Local half: the next local run clears it. 1 mutation red.

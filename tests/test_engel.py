@@ -60,6 +60,20 @@ class SubtitlesTest(unittest.TestCase):
         self.assertEqual(E.details(page)["lang"], "EN-A, FI-S, SV-S")
 
 
+class RuntimeTest(unittest.TestCase):
+    """Lilla spöket Laban busar vidare, read 2026-10-04: "KESTO 0h 0 min", a field the
+    cinema had not filled in, published as "0"."""
+
+    def test_hours_and_minutes_become_minutes(self):
+        self.assertEqual(E.details(detail("KESTO", "1h 41 min"))["len"], "101")
+        self.assertEqual(E.details(detail("KESTO", "95 min"))["len"], "95")
+
+    def test_a_zero_runtime_publishes_none(self):
+        for value in ("0h 0 min", "0 min"):
+            with self.subTest(value=value):
+                self.assertNotIn("len", E.details(detail("KESTO", value)))
+
+
 class YearTest(unittest.TestCase):
     def test_the_weekday_places_a_row_that_prints_no_year(self):
         shows, _ = parse(row("autofiktio", "Su 20.09.", "17:30", "Autofiktio")

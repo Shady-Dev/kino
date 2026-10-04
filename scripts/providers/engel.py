@@ -306,8 +306,11 @@ def details(page):
     if fields.get("ALKUPERÄINEN NIMI"):
         d["original"] = fields["ALKUPERÄINEN NIMI"]
     kesto = KESTO_RE.search(fields.get("KESTO", ""))
-    if kesto:
-        d["len"] = str(int(kesto.group(1) or 0) * 60 + int(kesto.group(2)))
+    minutes = int(kesto.group(1) or 0) * 60 + int(kesto.group(2)) if kesto else 0
+    # "KESTO 0h 0 min" (Lilla spöket Laban busar vidare, read 2026-10-04) is a field the
+    # cinema has not filled in. A card reading "0 min" states a fact that is not one.
+    if minutes:
+        d["len"] = str(minutes)
     lang = _langs(fields.get("LISÄTIEDOT", "") or fields.get("KIELI", ""),
                   fields.get("TEKSTITYS", ""))
     if lang:
