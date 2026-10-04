@@ -3479,3 +3479,9 @@ Genre, and the adapter published no language. `KIELI_RE` reads it through `by_ti
 the way runtime, age and genre are read, so a heading with two different values publishes
 none; names go through `etiketti.strict_codes`. The page now gives La Grazia `IT-A` on its
 three screenings and the other films nothing. Cloud half. 2 mutations red.
+
+### Bio Savoy's "SVENSKT TAL!" is the spoken language (2026-10-04)
+Marsupilami and Gråben vs ACME carry a body paragraph of their own, `<p>SVENSKT TAL!</p>`
+(read 2026-10-04), and the adapter published no language. `SWEDISH_RE` reads that
+paragraph, not the words inside a sentence, and the film's screenings publish `SV-A`; the
+other four films state nothing. Cloud half. 3 mutations red.

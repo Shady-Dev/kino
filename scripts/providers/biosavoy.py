@@ -134,6 +134,9 @@ LENGTH_RE = re.compile(r'(\d{1,2})\s*h\s*(\d{1,3})\s*min', re.I)
 # "Tillåten från 12 år". Only this wording; anything else publishes no rating rather than a
 # guess, the way tmb.py refuses to read an age out of an image's ordinal.
 AGE_RE = re.compile(r'Till\u00e5ten\s+fr\u00e5n\s+(\d{1,2})\s*\u00e5r', re.I)
+# A body paragraph of its own, read 2026-10-04 on Marsupilami and Gr\u00e5ben vs ACME:
+# "<p>SVENSKT TAL!</p>". The screening's spoken language as the cinema states it.
+SWEDISH_RE = re.compile(r'<p>\s*svenskt\s+tal\s*!?\s*</p>', re.I)
 
 
 def _txt(s):
@@ -209,17 +212,19 @@ def _field(page, name):
 
 
 def film_facts(page):
-    """-> {"price", "len", "rating", "syn"} for one film page, each "" where the page does
-    not say it plainly.
+    """-> {"price", "len", "rating", "syn", "lang"} for one film page, each "" where the
+    page does not say it plainly.
 
     `syn` is Swedish and is published as such; see the module docstring.
     """
+    body = FIELD_RE["body"].search(page)
     length = LENGTH_RE.search(_field(page, "field-movie-length"))
     age = AGE_RE.search(_field(page, "field-movie-age"))
     return {"price": film_price(page),
             "len": str(int(length.group(1)) * 60 + int(length.group(2))) if length else "",
             "rating": f"K-{int(age.group(1))}" if age else "",
-            "syn": _field(page, "body")}
+            "syn": _field(page, "body"),
+            "lang": "SV-A" if body and SWEDISH_RE.search(body.group(1)) else ""}
 
 
 def film_price(page):
@@ -278,7 +283,7 @@ def film_facts_by_slug(slugs, sleep=1.5, get=None):
     return out
 
 
-BLANK = {"price": "", "len": "", "rating": "", "syn": ""}
+BLANK = {"price": "", "len": "", "rating": "", "syn": "", "lang": ""}
 
 
 def fetch_site(site=SITES[0], sleep=1.5):
@@ -287,7 +292,8 @@ def fetch_site(site=SITES[0], sleep=1.5):
     facts = film_facts_by_slug(sorted({s["eventId"] for s in shows}), sleep=sleep)
     for s in shows:
         f = facts.get(s["eventId"]) or BLANK
-        s["price"], s["len"], s["rating"] = f["price"], f["len"], f["rating"]
+        s["price"], s["len"], s["rating"], s["lang"] = (f["price"], f["len"], f["rating"],
+                                                        f["lang"])
         if f["syn"]:
             # Declared, not assumed: synmerge would otherwise file it as Finnish and every
             # chain showing this film would serve Swedish prose to Finnish readers.
