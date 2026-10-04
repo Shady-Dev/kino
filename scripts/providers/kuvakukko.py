@@ -2,8 +2,9 @@
 
 Probed 2026-09-15. Both cinemas are the city of Kuopio's, and both schedules live on a
 single WordPress page, `/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/`. One provider,
-two venues, one request, the shape `vista.py` and `nexxo.py` already use for an operator
-whose venues share a source.
+two venues, one listing request, the shape `vista.py` and `nexxo.py` already use for an
+operator whose venues share a source. Each film's own page is then read once per run for
+its runtime, age limit and language, see `film_facts`.
 
     <h2 class="wp-block-heading">Kino Kuvakukon esitysaikataulu</h2>
     <p class="wp-block-paragraph">Tiistai 15.9.<br>
@@ -57,10 +58,12 @@ import datetime
 import html as html_mod
 import re
 import sys
+import time
 from zoneinfo import ZoneInfo
 
 import synmerge
-from common import fetch, get_text, resolve_year, weekday_index
+from common import capped, fetch, get_text, resolve_year, weekday_index
+from etiketti import strict_codes
 
 BASE = "https://www.kuvakukko.fi"
 LISTING = BASE + "/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/"
@@ -124,6 +127,23 @@ LINE_SPLIT_RE = re.compile(r"<br\s*/?>|</?(?:p|li|h[1-6]|div|tr|td|ul|ol|table|f
 # `25.9.`. The notes under both headings, read 2026-09-24, open with none of these.
 TIME_LINE_RE = re.compile(r"^(?:n\.\s*)?klo\s*\d|^\d{1,2}\.\d{1,2}\.", re.I)
 WEEKDAY_DATE_RE = re.compile(r"^([A-Za-z\u00c4\u00d6\u00e4\u00f6]{2,12})\s+\d{1,2}\.\d{1,2}")
+
+
+# The film page's facts line, read 2026-10-04 on 15 pages: segments joined by " • ",
+# "Italia 2025 • draama • 133 min • K7 • kieli: italia • tekstitys: suomi/ruotsi".
+# Only the runtime, the age limit and the two labelled language fields are read. The
+# cinema reuses a page for a later film (`/the-invite/` holds La Grazia), so a page whose
+# heading is not the row's title states nothing for it; a series page lists several films
+# and its heading never is one. A facts segment is short: on Päivien lumo's page a quoted
+# paragraph ran into the line and made a second candidate whose first segment is prose.
+H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S | re.I)
+FACTS_SPLIT_RE = re.compile(r"<br\s*/?>|</?(?:p|li|div|h[1-6])\b[^>]*>", re.I)
+MIN_SEG_RE = re.compile(r"^(\d{2,3})\s*min$")
+AGE_SEG_RE = re.compile(r"^(?:K\s?(\d{1,2})|-?S-?)$")
+LABEL_SEG_RE = re.compile(r"^(kieli|tekstitys)\s*:\s*(.+)$", re.I)
+MANTTU_PREFIX_RE = re.compile(r"^kino\s+manttu\s*:\s*", re.I)
+FACTS = ("len", "rating", "lang")
+SEGMENT_MAX = 80
 
 
 def _txt(s):
@@ -340,6 +360,68 @@ def parse(page, site=None, today=None, prices=None):
     return per_venue
 
 
+def film_facts(page, title):
+    """One film page -> {len, rating, lang}, each "" unless the page states it for
+    `title`."""
+    out = dict.fromkeys(FACTS, "")
+    h1 = H1_RE.search(page or "")
+    heading = MANTTU_PREFIX_RE.sub("", _txt(h1.group(1))) if h1 else ""
+    if not heading or synmerge.norm(heading) != synmerge.norm(title):
+        return out
+    lines = [[x.strip() for x in line.split("\u2022")]
+             for line in (_txt(c) for c in FACTS_SPLIT_RE.split(page))]
+    lines = [segs for segs in lines if any(MIN_SEG_RE.match(x) for x in segs)
+             and all(len(x) <= SEGMENT_MAX for x in segs)]
+    if len(lines) != 1:
+        return out
+    segs = lines[0]
+    minutes = [m.group(1) for m in map(MIN_SEG_RE.match, segs) if m]
+    ages = [m for m in map(AGE_SEG_RE.match, segs) if m]
+    labels = {}
+    for m in filter(None, map(LABEL_SEG_RE.match, segs)):
+        labels.setdefault(m.group(1).lower(), []).append(m.group(2))
+    if len(minutes) == 1:
+        out["len"] = minutes[0]
+    if len(ages) == 1:
+        out["rating"] = f"K-{int(ages[0].group(1))}" if ages[0].group(1) else "S"
+    one = {k: v[0] for k, v in labels.items() if len(v) == 1}
+    out["lang"] = ", ".join([f"{c}-A" for c in strict_codes(one.get("kieli"))]
+                            + [f"{c}-S" for c in strict_codes(one.get("tekstitys"))])
+    return out
+
+
+def enrich(per_venue, sleep=1.5, get=None):
+    """Each film's own page, read once per film and never per screening, onto the fields
+    its screenings left empty. -> pages read. Never raises: a page that fails or states
+    nothing for its title leaves those screenings as the listing gave them."""
+    get = get or _get
+    films = {}
+    for shows in per_venue.values():
+        for s in shows:
+            if s["url"] != LISTING:
+                films.setdefault(s["eventId"], s)
+    read = stated = 0
+    for n, (eid, first) in enumerate(capped(sorted(films.items()), "kuvakukko")):
+        if n:
+            time.sleep(sleep)
+        try:
+            facts = film_facts(get(first["url"]), first["title"])
+        except Exception as e:
+            print(f"[kuvakukko] film page {first['url']}: {type(e).__name__}: {e}")
+            continue
+        read += 1
+        stated += any(facts.values())
+        for shows in per_venue.values():
+            for s in shows:
+                if s["eventId"] == eid:
+                    for k in FACTS:
+                        if facts[k] and not s[k]:
+                            s[k] = facts[k]
+    print(f"[kuvakukko] film pages: {read} read for {len(films)} films, "
+          f"{stated} stating facts for their title")
+    return read
+
+
 def _get(url):
     """`common.get_text` with this module's own `fetch`, which its tests stub."""
     return get_text(url, fetcher=fetch)
@@ -375,6 +457,7 @@ def fetch_site(site=SITES[0]):
     page = get_listing()
     prices = get_prices()
     per_venue = parse(page, site, prices=prices)
+    enrich(per_venue)
     for vid, shows in per_venue.items():
         print(f"[kuvakukko] {vid}: {len(shows)} showtimes, "
               f"{len({s['start'][:10] for s in shows})} dates, "

@@ -3623,3 +3623,15 @@ whose slot is not repaired here. Cloud half. 5 mutations red.
 Repaired the same day after the rule: the shared `fi` slot and the cached page entry in
 `film-lang-orion.json` both lose the sentence, so no stored copy carries it back. The slot
 equals the fixed parse of the live page. The screening is outside the pages' window.
+
+### Kuvakukko reads each film's own page for its facts (2026-10-04)
+The maintainer's decision: at most one more read per distinct film, never per screening.
+Each page carries one facts line, "Italia 2025 • draama • 133 min • K7 • kieli: italia •
+tekstitys: suomi/ruotsi" (read 2026-10-04 on 15 pages), and `film_facts` takes the runtime,
+the age limit and the labelled language fields from it, filling only empty fields. The
+cinema reuses pages for later films, so a page whose heading is not the row's title states
+nothing; a series page, a second candidate line, two runtimes or an unknown language name
+leave that field empty. Bio Savoy's pattern: `capped`, 1.5 s apart, a failed page logged
+and skipped. Controlled run that day: 14 film pages for 32 rows, 13 stating facts, which
+filled runtime and rating on 30 rows and language on 28; the site took 21.4 s against about
+1 s before, nearly all of it the 13 pauses. Cloud half. 13 mutations red.

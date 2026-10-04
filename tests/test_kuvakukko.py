@@ -11,7 +11,9 @@ weekend and its schedule is routinely already past, which is correct output and 
 staleness to repair.
 """
 import datetime
+import io
 import unittest
+from contextlib import redirect_stdout
 
 import _ctx                                                # noqa: F401
 import common
@@ -483,3 +485,137 @@ class EmptyAnchorTest(unittest.TestCase):
         self.assertEqual([s["title"] for s in shows], ["Kerro kaikille"])
         self.assertIn("[kuvakukko] 1 screening line(s) with no title, skipped: Manttu 18.9. klo 17",
                       log)
+
+
+def film_page(h1, *lines):
+    """A film page as read 2026-10-04: the heading, then the facts line in a paragraph."""
+    return ('<html><body><h1 class="entry__title">' + h1 + "</h1>"
+            + "".join(f'<p class="wp-block-paragraph">{x}</p>' for x in lines)
+            + "<p>Elokuvan kuvaus.</p></body></html>")
+
+
+GRAZIA = film_page("LA GRAZIA", "Italia 2025 • draama • 133 min • K7 • "
+                   "kieli: italia • tekstitys: suomi/ruotsi")
+PIRJO = film_page("Kino Manttu: PIRJO I SVERIGE", "Suomi 2026 • komedia/koko perheen "
+                  "• 88 min • -S- • kieli: suomi • tekstitys: –")
+
+
+class FilmFactsTest(unittest.TestCase):
+    """The labelled facts of a film's own page, and only for the film its heading names."""
+
+    def test_the_facts_line_of_the_rows_film(self):
+        self.assertEqual(kuvakukko.film_facts(GRAZIA, "La Grazia"),
+                         {"len": "133", "rating": "K-7", "lang": "IT-A, FI-S, SV-S"})
+        self.assertEqual(kuvakukko.film_facts(PIRJO, "Pirjo i Sverige"),
+                         {"len": "88", "rating": "S", "lang": "FI-A"})
+
+    def test_a_page_about_another_film_states_nothing(self):
+        """`/the-invite/` held La Grazia on 2026-10-04: the slug is no evidence, the
+        heading is."""
+        self.assertEqual(kuvakukko.film_facts(GRAZIA, "The Invite"),
+                         {"len": "", "rating": "", "lang": ""})
+
+    def test_prose_run_into_the_line_is_not_a_second_candidate(self):
+        """Päivien lumo, read 2026-10-04: a quoted paragraph and the facts line came out as
+        one chunk beside the facts line itself."""
+        line = ("Suomi 2026 \u2022 dokumentti \u2022 88 min \u2022 -S- \u2022 kieli: suomi "
+                "\u2022 tekstitys: \u2013")
+        quote = ("Ohjaaja kertoo elokuvastaan n\u00e4in: \u201dMinua on aina kiinnostanut "
+                 "marginaalissa tapahtuva, ja Markun asenne saa minut pys\u00e4htym\u00e4\u00e4n.\u201d ")
+        page = film_page("P\u00c4IVIEN LUMO", line).replace(
+            "<p class", f"<blockquote>{quote}<span>{line}</span></blockquote><p class", 1)
+        self.assertEqual(kuvakukko.film_facts(page, "P\u00e4ivien lumo"),
+                         {"len": "88", "rating": "S", "lang": "FI-A"})
+
+    def test_a_series_page_states_nothing(self):
+        """Kuvin aluesarja lists several films, each with its own line."""
+        page = film_page("Kuvin aluesarja", "Jungfrukällan, Ruotsi 1960 • 35 mm • "
+                         "suom. tekstit • K16 • 90 min",
+                         "Shallow Grave, Iso-Britannia 1994 • 4K DCP • K16 • 89 min")
+        self.assertEqual(kuvakukko.film_facts(page, "Kuvin aluesarja: Neidonlähde"),
+                         {"len": "", "rating": "", "lang": ""})
+        self.assertEqual(kuvakukko.film_facts(page, "Kuvin aluesarja"),
+                         {"len": "", "rating": "", "lang": ""})
+
+    def test_an_ambiguous_or_unknown_segment_states_nothing_for_its_field(self):
+        page = film_page("KABUL", "Suomi – Norja 2026 • 94 min • K16 • S • "
+                         "kieli: dari/pashtu/englanti • tekstitys: suomi")
+        self.assertEqual(kuvakukko.film_facts(page, "Kabul"),
+                         {"len": "94", "rating": "", "lang": "FI-S"})
+        page = film_page("KABUL", "94 min • 95 min • K16")
+        self.assertEqual(kuvakukko.film_facts(page, "Kabul")["len"], "")
+
+
+class EnrichTest(unittest.TestCase):
+    """One read per film, never per screening, and nothing the listing gave is lost."""
+
+    def per_venue(self):
+        own = f"{BASE}/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/"
+        def show(vid, title, url, start, **kw):
+            return dict({"eventId": common_norm(title), "title": title, "url": url,
+                         "start": start, "len": "", "rating": "", "lang": "", "price": ""},
+                        **kw)
+        return {"kk-kuopio": [show("kk-kuopio", "La Grazia", own + "the-invite/", "1"),
+                              show("kk-kuopio", "La Grazia", own + "the-invite/", "2"),
+                              show("kk-kuopio", "Rose", own + "tulossa-autofiktio/", "3",
+                                   rating="K-16"),
+                              show("kk-kuopio", "Hopeatähti-sarja: Arja", LIST, "4")],
+                "kk-nilsia": [show("kk-nilsia", "Pirjo i Sverige",
+                                   own + "kino-manttu-hetki-ennen-valoa/", "5"),
+                              show("kk-nilsia", "La Grazia", own + "kino-manttu-grazia/", "6")]}
+
+    def test_each_film_is_read_once_and_fills_only_its_blanks(self):
+        calls = []
+        pages = {"the-invite/": GRAZIA, "kino-manttu-hetki-ennen-valoa/": PIRJO,
+                 "tulossa-autofiktio/": film_page("ROSE", "Saksa 2026 • 94 min • K12")}
+        def get(url):
+            calls.append(url)
+            return pages[url.rsplit("/", 2)[-2] + "/"]
+        per = self.per_venue()
+        with redirect_stdout(io.StringIO()) as log:
+            read = kuvakukko.enrich(per, sleep=0, get=get)
+        self.assertEqual(read, 3)
+        self.assertEqual(len(calls), 3, calls)
+        rows = [s for v in per.values() for s in v]
+        grazia = [(s["len"], s["rating"], s["lang"]) for s in rows if s["title"] == "La Grazia"]
+        self.assertEqual(grazia, [("133", "K-7", "IT-A, FI-S, SV-S")] * 3)
+        rose = next(s for s in rows if s["title"] == "Rose")
+        self.assertEqual((rose["len"], rose["rating"]), ("94", "K-16"))
+        self.assertEqual(next(s for s in rows if s["url"] == LIST)["len"], "")
+        self.assertIn("3 read for 3 films", log.getvalue())
+
+    def test_a_failed_page_leaves_its_screenings_as_they_were(self):
+        def get(url):
+            if "the-invite" in url:
+                raise OSError("timed out")
+            return PIRJO
+        per = self.per_venue()
+        with redirect_stdout(io.StringIO()) as log:
+            kuvakukko.enrich(per, sleep=0, get=get)
+        grazia = [s for v in per.values() for s in v if s["title"] == "La Grazia"]
+        self.assertTrue(all((s["len"], s["rating"], s["lang"]) == ("", "", "") for s in grazia))
+        self.assertIn("the-invite", log.getvalue())
+        pirjo = next(s for s in per["kk-nilsia"] if s["title"] == "Pirjo i Sverige")
+        self.assertEqual(pirjo["len"], "88")
+
+    def test_the_runner_reads_the_film_pages_paced(self):
+        """`fetch_site` is the runner's call; the facts reach its answer, 1.5 s apart."""
+        import _no_sleep as no_sleep
+        clock = no_sleep.patch(self, kuvakukko)
+        per = self.per_venue()
+        real = (kuvakukko.parse, kuvakukko._get)
+        self.addCleanup(lambda: (setattr(kuvakukko, "parse", real[0]),
+                                 setattr(kuvakukko, "_get", real[1])))
+        kuvakukko.parse = lambda page, site, prices=None: per
+        kuvakukko._get = lambda url: {"the-invite/": GRAZIA}.get(
+            url.rsplit("/", 2)[-2] + "/", PIRJO if "manttu" in url else "<html></html>")
+        with redirect_stdout(io.StringIO()):
+            got = kuvakukko.fetch_site()
+        grazia = next(s for s in got["kk-kuopio"] if s["title"] == "La Grazia")
+        self.assertEqual(grazia["len"], "133")
+        self.assertEqual(clock.slept, [1.5, 1.5])
+
+
+def common_norm(title):
+    import synmerge
+    return synmerge.norm(title)
