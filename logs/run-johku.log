@@ -1,24 +1,21 @@
 [biomarilyn] FAILED: https://www.biomarilyn.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[vihdinkino] the listing rendered whole on read 5 of 5
 [vihdinkino] 6 screening(s) in day groups, 6 film page(s) read
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
 [vihdinkino] Vihdin Kino: 6 showtimes, 4 dates
 [vihdinkino] Vihdin Kino: 6 showtimes, 4 dates
-[vihdinkino] synopses merged: 1
-[bioforum] the listing rendered whole on read 3 of 5
+[vihdinkino] synopses merged: 0
 [bioforum] 36 screening(s) in day groups, 15 film page(s) read
 [bioforum] Bio Forum: 36 showtimes, 17 dates
 [bioforum] Bio Forum: 36 showtimes, 17 dates
 [bioforum] synopses merged: 0
 [kinokulma] FAILED: https://kinokulma.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[kinovirta] the listing rendered whole on read 2 of 5
 [kinovirta] 6 screening(s) in day groups, 5 film page(s) read
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 51 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 44 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 3 venues, 48 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 3 failures
-[run] timing: 6 site(s), 211.9s of fetching added up across workers that overlap, longest site 52.8s, longest queue wait 138.3s, 59.7s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 163.9s of fetching added up across workers that overlap, longest site 39.9s, longest queue wait 134.6s, 52.4s wall from this module's first fetch starting to its last ending
 exit=1

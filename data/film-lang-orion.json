@@ -47,10 +47,14 @@
  },
  "el-espiritu-de-la-colmena-mehilaispesan-henki": {
   "price": "",
-  "at": "2026-10-02T23:15:19+00:00",
+  "at": "2026-10-04T23:15:43+00:00",
   "fields": {
    "lang": "ES-A, EN-S",
-   "syn_fi": "Suomi-Espanja Seura ja Espanjan suurlähetystö järjestävät perinteisen espanjalaisen elokuvan viikon kunniaksi ilmaisnäytöksen Orionissa. El Espiritu de la Colmena – Mehiläispesän henki on vaikuttava sukellus pienen lapsen mielenmaailmaan, jossa fantasia, lapsen kuulemat tarinat ja todellisuus sekoittuvat. Tällaisen vaikean elokuva-aiheen onnistumiseen tarvittiin mestariohjaaja Víctor Erice ja huippuhyvä lapsinäyttelijä Ana Torrent suurine nappisilmineen – tuttu myös lapsiroolistaan elokuvassa Cria cuervos, Korppi sylissä. Elokuva tapahtuu pienessä kylässä Kastiliassa, sodanjälkeisenä aikana 1940-luvun puolivälissä. Mehiläistenhoitajalla on tyttäret Isabel (8v) ja Ana (6v). Lapset näkevät eräänä sunnuntaina elokuvan Frankenstein. Elokuva tekee Anaan suuren vaikutuksen, ja hän uskoo isosiskoaan, joka vakuuttaa hänelle, että hirviö on elossa ja piileskelee kylän lähellä. Elokuva on tekstitetty englanniksi. Näytökseen on vapaa pääsy, vapaalippua ei tarvitse varata etukäteen. Näytös järjestetään KE 7.10. klo 19:00.",
+   "len": "98",
+   "rating": "K-12",
+   "original": "El Espíritu de la Colmena",
+   "year": "1973",
+   "syn_fi": "Suomi-Espanja Seura ja Espanjan suurlähetystö järjestävät perinteisen espanjalaisen elokuvan viikon kunniaksi ilmaisnäytöksen Orionissa. El Espiritu de la Colmena – Mehiläispesän henki on vaikuttava sukellus pienen lapsen mielenmaailmaan, jossa fantasia, lapsen kuulemat tarinat ja todellisuus sekoittuvat. Tällaisen vaikean elokuva-aiheen onnistumiseen tarvittiin mestariohjaaja Víctor Erice ja huippuhyvä lapsinäyttelijä Ana Torrent suurine nappisilmineen – tuttu myös lapsiroolistaan elokuvassa Cria cuervos, Korppi sylissä. Elokuva tapahtuu pienessä kylässä Kastiliassa, sodanjälkeisenä aikana 1940-luvun puolivälissä. Mehiläistenhoitajalla on tyttäret Isabel (8v) ja Ana (6v). Lapset näkevät eräänä sunnuntaina elokuvan Frankenstein. Elokuva tekee Anaan suuren vaikutuksen, ja hän uskoo isosiskoaan, joka vakuuttaa hänelle, että hirviö on elossa ja piileskelee kylän lähellä. Elokuva on tekstitetty englanniksi. Näytökseen on vapaa pääsy, vapaalippua ei tarvitse varata etukäteen.",
    "syn_en": "Sociedad Finlandia España and the Embassy of Spain are organizing a free screening at Orion to celebrate the traditional Spanish Film Week. The Spirit of the Beehive is a compelling journey into a young child’s inner world, where fantasy, stories heard by the child, and reality intertwine. Bringing such a challenging cinematic subject to life required master director Víctor Erice and the exceptionally talented child actress Ana Torrent, with her large, expressive eyes. She is also familiar from her childhood role in Cría cuervos, Cría cuervos (Raise Ravens). The film is set in a small village in Castile in the mid-1940s, in the aftermath of the Spanish Civil War. A beekeeper lives there with his daughters, Isabel (8) and Ana (6). One Sunday, the children watch the film Frankenstein. It has a profound effect on Ana, who believes her older sister when she tells her that the monster is still alive and hiding somewhere near the village. The film is subtitled in English. Admission to the screening is free, no advance reservation is required. The screening will take place on Wednesday, October 7 at 19:00."
   }
  },
@@ -253,14 +257,6 @@
   "fields": {
    "lang": "SV-A, FI-S",
    "syn_fi": "Saapasjalkakissa Pero osoittaa armollisuutta hiiriä kohtaan, minkä seurauksena hänestä tulee kissayhteisön lainsuojaton. Paetessaan salamurhaajakolmikkoa hän ystävystyy hyväsydämisen myllärinpoika Pierren kanssa ja lupaa auttaa tätä voittamaan kauniin prinsessan sydämen, mutta paha velho ehtiikin kaappaamaan neidon ensin itselleen. Pero-kissasta tuli aikoinaan niin suosittu, että tuotantoyhtiö Toei Animation otti sen viralliseksi maskotikseen ja logohahmokseen. Elokuva on puhuttu ruotsiksi ja tekstitetty suomeksi."
-  }
- },
- "siri-hustvedt-dance-around-the-self": {
-  "price": "",
-  "at": "2026-10-04T08:38:06+00:00",
-  "fields": {
-   "lang": "EN-A, NO-A, FI-S",
-   "syn_en": "Siri Hustvedt leaves behind her youth in Minnesota to begin a new life in New York, where the search for the protagonist of her debut novel marks the beginning of a literary journey. Dance Around the Self traces her path to becoming one of the most significant writers of our time. Her journey is shaped by writing, feminist ideas, and an unquenchable curiosity about the human inner world. In this intimate portrait, Hustvedt also reflects on her life with her husband, Paul Auster. The German Film Academy named Dance Around the Self the Best Documentary Film of the Year. With the support of the Creative Europe Programme – MEDIA"
   }
  },
  "syystarina": {

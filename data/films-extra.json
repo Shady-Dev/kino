@@ -285,6 +285,7 @@
    "img": "data/posters/64d23f46b5356d6f.jpg",
    "kr": "K-12",
    "krs": [
+    "cinemantsala",
     "engel",
     "gilda",
     "kinolaika",
@@ -693,12 +694,17 @@
    "tr": ""
   },
   "coming to terms with the dead": {
+   "id": 64573,
+   "img": "data/posters/06c2d508a000d8ca.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "It’s summer, on the beach of this little town in Brittany, a man is building a sand castle. A few people watch him. We will be told the story of three of them: a boy, Jumbo, aged 9; François and his sister Zaza. All of them had to deal with the death of somebody they cherished.",
     "fi": "Ranskalaisen Pascale Ferranin Kultaisella kameralla Cannesissa palkittu debyytti on fragmentaarisesti takaumien kautta rakentuva psykologinen draama nuoruudessaan menetyksen kokeneista sisaruksista. Hiekkalinnan rakentamisesta bretagnelaiselle rannalle kasvaa triptyykki muistoista, vastuusta ja sovun tekemisestä kuoleman kanssa."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "coyote vs acme": {
    "id": 1204680,
@@ -815,7 +821,6 @@
     "kinomania",
     "kinomarilyn",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -829,6 +834,7 @@
     "kuvakukko",
     "leffabuumi",
     "lieksankino",
+    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -1526,13 +1532,12 @@
   },
   "india song": {
    "id": 85927,
-   "img": "data/posters/f99a13ce26ea637b.jpg",
-   "r": 6.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Marguerite Durasin 1930-luvun Intiaan sijoittuva elokuvarunoelma rikkoo perinteisen kerronnan kaavoja kiehtovan moniselitteisesti ja muun muassa usean kertojan ääntä käyttäen. Ranskan Intian-lähettilään vaimon Anne-Marien (Delphine Seyrig) tarina jättää tilaa tulkinnoille. Vauraan valkoisen luokan raukean dekadentti toimettomuus ja ympäröivän maailman köyhyys sivuavat toisiaan vaan eivät kohtaa."
    },
-   "tr": "https://www.youtube.com/watch?v=KKyfTot69lc"
+   "tr": ""
   },
   "indiana jones kadonneen aarteen metsästäjät": {
    "r": 0,
@@ -1839,6 +1844,7 @@
     "alatalo",
     "bioforum",
     "biograni",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "helios",
@@ -1860,6 +1866,7 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
+    "matintupa",
     "savonkinot",
     "tapiola"
    ],
@@ -2197,7 +2204,6 @@
     "bioforum",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biosavoy",
     "cinemantsala",
     "isohannu",
@@ -2225,16 +2231,12 @@
   },
   "kojootti vs acme dub": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme dubattu": {
    "id": 1204680,
@@ -2582,7 +2584,6 @@
     "gilda",
     "kinoaurora",
     "kinomyyri",
-    "kinoolympia",
     "kinopirtti",
     "kirkkonummi",
     "kuvakukko",
@@ -2890,19 +2891,6 @@
     "fi": "Neljäkymmenvuotisjuhlaansa tänä vuonna viettävä Lumikuningatar on visuaalisesti häikäisevä fantasiaseikkailu ja suomalaisen lastenelokuvan kiistaton suurteos. H.C. Andersenin satuun pohjautuvassa elokuvassa paha Lumikuningatar tavoittelee Pimeyden kruunua hallitakseen maailmaa. Saadakseen kruunun haltuunsa hän kidnappaa pienen Kai-pojan, jota tämän ystävä Kerttu lähtee etsimään."
    },
    "tr": ""
-  },
-  "luottomies elokuva lepoloma": {
-   "id": 1391144,
-   "img": "data/posters/3d915d16d70d722e.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kun Tommin appiukko Johan määrätään sairaskohtauksen jälkeen pakkolepoon, perhe päättää lähteä lepolomalle Espanjan auringon alle. Johanilla on yksi ehto: hän haluaa autonsa mukaan. Tommi lupautuu ajamaan Johanin auton Espanjaan – yhdessä Juhiksen kanssa. Asiat eivät kuitenkaan mene aivan suunnitellusti, ja kun Johanin auto varastetaan, Tommi ja Juhis päättävät selvittää tilanteen omin avuin ja pian sankarimme syöksyvät taas kiihtyvällä vauhdilla katastrofista toiseen."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "lupin iii cagliostron linna": {
    "id": 15371,
@@ -3277,16 +3265,12 @@
   },
   "naisen kasvot": {
    "id": 76848,
-   "img": "data/posters/3e63839d6df296c1.jpg",
-   "r": 6.0,
+   "r": 0,
    "s": {
-    "en": "A cynical woman with a disfigured face—a hardened criminal—gets an opportunity to change her ways when she meets a sympathetic plastic surgeon. She leaves her old life behind, but soon her old friends catch up with her.",
+    "en": "",
     "fi": "Ruotsalaiskauden klassikossa Ingrid Bergman esittää rikollisjengin naista, jonka elämä muuttuu kasvojen rekonstruktion myötä. Identiteettiin, moraaliin ja ulkonäön voimaan pureutuva psykologinen draama tuntuu terävämmältä kuin koskaan. Bergmanin muodonmuutos on sekä fyysinen että sisäinen, ja Gustaf Molanderin ohjaus korostaa Bergmanin kykyä näyttää sisäinen kamppailu pienillä eleillä ja katseilla."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "nalle naavatassu kalassa": {
    "r": 0,
@@ -3778,6 +3762,8 @@
    "img": "data/posters/952438d819839253.jpg",
    "kr": "K-16",
    "krs": [
+    "biovuoksi",
+    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kinoelo",
@@ -4226,7 +4212,6 @@
    "krs": [
     "bioforum",
     "biorex",
-    "jarvelankino",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -4274,6 +4259,7 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4290,7 +4276,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -4302,6 +4287,7 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
+    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -4345,6 +4331,7 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4361,7 +4348,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -4373,6 +4359,7 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
+    "matintupa",
     "niagara",
     "savonkinot",
     "star",
@@ -4442,12 +4429,14 @@
    "tr": "https://www.youtube.com/watch?v=I1dHzoRl0sQ"
   },
   "prinsessan ryöstö": {
-   "r": 0,
+   "id": 2493,
+   "img": "data/posters/fdb629a819f5590f.jpg",
+   "r": 7.7,
    "s": {
     "en": "",
     "fi": "Hurmaava yhdistelmä seikkailua, romantiikkaa, fantasiaa ja huumoria on kasvanut rakastetuksi kulttiklassikoksi. Prinsessa Buttercupin ja urhean Westleyn rakkaustarina kulkee jättiläisten, hirviöiden, juonittelevien prinssien ja vauhdikkaiden kaksintaisteluiden halki. Lämminhenkisen sadun ja leikkisän parodian yhdistelmä oli raikas valopilkku 80-luvun fantasiaelokuvabuumin keskellä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=KmXptjknRa8"
   },
   "prinssi ja revyytyttö": {
    "id": 24012,
@@ -4676,7 +4665,6 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
-    "jarvelankino",
     "julia",
     "kino123",
     "kinoakseli",
@@ -4820,6 +4808,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -4838,7 +4827,6 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -4866,6 +4854,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -4884,7 +4873,6 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -5270,15 +5258,6 @@
   "siri hustvedt dance around the self": {
    "id": 1616153,
    "img": "data/posters/2db1c745cc30b20f.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "kinomarilyn",
-    "kinoolympia",
-    "niagara"
-   ],
    "r": 0,
    "s": {
     "en": "Siri Hustvedt leaves behind her youth in Minnesota to begin a new life in New York, where the search for the protagonist of her debut novel marks the beginning of a literary journey. Dance Around the Self traces her path to becoming one of the most significant writers of our time. Her journey is shaped by writing, feminist ideas, and an unquenchable curiosity about the human inner world. In this intimate portrait, Hustvedt also reflects on her life with her husband, Paul Auster. The German Film Academy named Dance Around the Self the Best Documentary Film of the Year. With the support of the Creative Europe Programme – MEDIA",
@@ -5504,12 +5483,17 @@
    ]
   },
   "sunday at six": {
+   "id": 226136,
+   "img": "data/posters/50351bb5725609c1.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Romania, 1940. A boy meets a girl. They fall in love without suspecting anything about their real identities. They chose an eventful, tense and dangerous life as underground anti-fascists fighters. The significance of their activity is manifest in the consequences it has on the tormented progress of their love. Reality is against it. Two parallel lines which meet for a second, only to drift apart for ever.",
     "fi": "Lucian Pintilien vaikuttava esikoiselokuva on yhtä aikaa rakkaustarina, poliittinen trilleri ja syvällinen tutkielma traumasta. Vuoteen 1940 sijoittuvassa tarinassa nuori mies ja nainen rakastuvat tietämättä, että kumpikin elää vaarallista kaksoiselämää fasismia vastustavassa maanalaisessa liikkeessä. Heidän kohtalonsa kulkevat rinnakkain kuin kaksi viivaa, jotka kohtaavat vain hetkeksi ennen lopullista erkanemistaan. Pintilie vie tarinaa eteenpäin nopeilla leikkauksilla, äkillisillä tunnelmanmuutoksilla ja omaperäisellä kameratyöllä. Visuaalisesti kunnianhimoinen teos käyttää hissejä, käytäviä, rautaovia ja suljettuja tiloja kuvaamaan syyllisyyttä, pelkoa ja muistojen painoa. Pintiliellä on poikkeuksellinen kyky yhdistää henkilökohtainen ja poliittinen: nuori pari etsii kiihkeästi yhteisiä hetkiä ja yksityisyyttä, mutta sodan ja valvonnan maailmassa jokainen tila on täynnä ihmisiä, jokainen kohtaaminen uhattuna. Sunnuntaina kello kuusi sovittu tapaaminen muuttuu elokuvan toistuvaksi lupaukseksi paremmasta elämästä. – Otto Kylmälä 2026"
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "suomi radalla keskustelutilaisuus": {
    "r": 0,
@@ -5860,12 +5844,17 @@
    "tr": "https://www.youtube.com/watch?v=nelkiuezJxg"
   },
   "the lair of the white worm": {
-   "r": 0,
+   "id": 11347,
+   "img": "data/posters/a969ea23aea3fc9b.jpg",
+   "r": 5.9,
    "s": {
-    "en": "",
+    "en": "When an archaeologist uncovers a strange skull in a foreign land, the residents of a nearby town begin to disappear, leading to further inexplicable occurrences.",
     "fi": "Lohikäärmeen kaltaisen jättimadon legenda riivaa pikkukylää Bram Stoker -filmatisoinnissa. Levottomia näkyjä vyöryttävän kauhufantasian miespääosassa nähdään nuori Hugh Grant. Todellinen tähti on käärmekultin räväkkä papitar Amanda Donohue. Persoonallinen elokuva teki vaikutuksen Tähtivaeltaja-lehden Toni Jerrmaniin: ”Tosi hieno, pimeä, ihastuttava, ihana.”"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=H9QSDuew2eo",
+   "ts": [
+    "en"
+   ]
   },
   "the last paradise on earth": {
    "id": 1338672,
@@ -5897,6 +5886,19 @@
     "sv": "Det vardagliga ställs mot det fantastiska i en film fylld av värme, humor och en rejäl dos berättarglädje. The Love That Remains fångar ömsint ett år i en familjs liv. Ett år där föräldrarna försöker navigera genom sin separation långsamt, men oundvikligen glider de isär. Med en blandning av lekfullhet och djup porträtterar filmen det bitterljuva i en kärlek som har bleknat, men där minnena fortfarande binder samman – allt mot en fond av årstidernas tysta förändring. Filmskaparen Hlynur Pálmason (Godland) för in både oväntad humor och känslomässig tyngd i denna visuellt slående, intima och samtidigt imponerande vidsträckta skildring av ett äktenskap i upplösning – mot en storslagen fond av årstidernas skiftningar."
    },
    "tr": "https://www.youtube.com/watch?v=jZ0fdmesr-w"
+  },
+  "the monk and the gun": {
+   "id": 1109237,
+   "img": "data/posters/a6159fc3eadab7c0.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "An American travels to Bhutan searching for a valuable antique rifle and crosses paths with a young monk who wanders through the serene mountains, instructed by his teacher to make things right again.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=OesAEwWIJlQ",
+   "ts": [
+    "en"
+   ]
   },
   "the music lovers": {
    "id": 72899,
@@ -6265,13 +6267,12 @@
   },
   "tiikerin oma elokuva": {
    "id": 15655,
-   "img": "data/posters/edc51c04b2aa0822.jpg",
-   "r": 6.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Tiikeri etsii sukulaisiaan ihastuttavassa, myös perheen pienimmille sopivassa animaatiossa. Lämminhenkinen tarina muistuttaa, että perhe voi merkitä paljon muutakin kuin biologisia sukulaissuhteita. Viehättävän perinteinen piirrosjälki vahvistaa elokuvan lempeää tunnelmaa."
    },
-   "tr": "https://www.youtube.com/watch?v=9IHmPu3P9Fw"
+   "tr": ""
   },
   "timantit": {
    "id": 1299046,
@@ -6307,6 +6308,7 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
+    "cinemantsala",
     "helios",
     "isohannu",
     "kinoaurora",
@@ -6359,19 +6361,6 @@
    },
    "tr": ""
   },
-  "toy story 5 suomeksi puhuttu": {
-   "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.3,
-   "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
-  },
   "tremors väristyksiä": {
    "id": 9362,
    "img": "data/posters/8cb769a36b286d97.jpg",
@@ -6419,12 +6408,14 @@
    "tr": ""
   },
   "tuntematon mestari": {
-   "r": 0,
+   "id": 478502,
+   "img": "data/posters/d4c8684c014c9d87.jpg",
+   "r": 6.7,
    "s": {
     "en": "",
     "fi": "Elämänsä taidekaupalle omistanut, eläköitymistä suunnitteleva Olavi hankkii huutokaupasta nimettömän teoksen, jonka uskoo olevan merkittävä löytö. Sellainen paitsi paketoisi työuran tyylikkäästi ja tuottoisasti, voisi myös hyvittää intohimotyöhön kuluneet vuodet, jotka etäännyttivät Olavin perheestään."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=SMrJzEtjV8Y"
   },
   "tuulen laakson nausicaä": {
    "id": 81,
@@ -6534,6 +6525,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "engel",
@@ -6553,7 +6545,8 @@
     "kkino",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "matintupa"
    ],
    "r": 8.2,
    "s": {
@@ -6587,6 +6580,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "engel",
@@ -6606,7 +6600,8 @@
     "kkino",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "matintupa"
    ],
    "r": 8.2,
    "s": {
@@ -6679,6 +6674,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biovuoksi",
     "cine",
     "cinemantsala",
     "engel",
@@ -6698,7 +6694,8 @@
     "kkino",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino"
+    "lieksankino",
+    "matintupa"
    ],
    "r": 8.2,
    "s": {
@@ -6862,7 +6859,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -6918,7 +6914,6 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
