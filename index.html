@@ -4292,8 +4292,9 @@
   const ageOf = s => (s.age && s.age !== s.rating) ? s.age : '';
   // Glyphs for the two tags that repeat on every stub. Everything else stays a word:
   // LUXE, iSense and IMAX are brand names people already read, and an invented icon for
-  // each would need its own legend entry to say less than the word does.
-  const GLYPH = { anniskelu: ['A', 'Anniskelu'] };
+  // each would need its own legend entry to say less than the word does. The second field
+  // names the label in `L`, so the tooltip and the accessible name follow the language.
+  const GLYPH = { anniskelu: ['A', 'keyAnniskelu'] };
   // Drop a tag the auditorium name already contains ("LUXE 8" plus "LUXE") and drop 2D
   // outright; IMAX, 3D and iSense are what a visitor looks for.
   // The past-times control's label. Finnish inflects the count: one hidden screening is
@@ -4368,7 +4369,10 @@
   };
   const glyphOf = tag => {
     const g = GLYPH[(tag || '').toLowerCase()];
-    return g ? `<span class="gl" title="${g[1]}" aria-label="${g[1]}">${g[0]}</span>` : '';
+    if(!g) return '';
+    const t = L[state.lang][g[1]];
+    const label = t.charAt(0).toUpperCase() + t.slice(1);
+    return `<span class="gl" title="${esc(label)}" aria-label="${esc(label)}">${g[0]}</span>`;
   };
   const ageGlyph = s => {
     const a = ageOf(s);

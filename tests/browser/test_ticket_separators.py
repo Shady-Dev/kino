@@ -227,6 +227,19 @@ class TicketSeparators(unittest.TestCase):
             expect(page.locator("#main .ring").first).to_have_attribute("aria-label", want)
             expect(page.locator("#main .ring").first).to_have_attribute("title", want)
 
+    def test_the_anniskelu_glyph_names_itself_in_the_readers_language(self):
+        """Its title and accessible name read "Anniskelu" in every language until
+        2026-10-04, while the tag key beside the list was translated."""
+        page = self.open(393)
+        glyph = page.locator("#main a.stub .gl", has_text="A").first
+        for code, want in (("fi", "Anniskelu"), ("sv", "Utsk\u00e4nkning"),
+                           ("en", "Licensed bar")):
+            with self.subTest(lang=code):
+                if code != "fi":
+                    page.click(f"button[data-lang={code}]")
+                expect(glyph).to_have_attribute("aria-label", want)
+                expect(glyph).to_have_attribute("title", want)
+
 
 if __name__ == "__main__":
     unittest.main()
