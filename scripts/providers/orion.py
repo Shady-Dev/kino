@@ -50,6 +50,7 @@ from zoneinfo import ZoneInfo
 import prices
 from common import fetch, get_text, resolve_year, syn_language, weekday_index
 from etiketti import strict_codes
+from huvimylly import KAVI_CODES
 from strands import split as split_strand
 
 URL = "https://cinemaorion.fi/"
@@ -260,6 +261,32 @@ def page_language(page_html):
     return ", ".join(parts)
 
 
+# The table's other rows, 2026-10-04 (Syystarina: "Kesto: 112 min", "Ikäraja: S",
+# "Alkuperäinen nimi: Conte d'automne", "Valmistumisvuosi: 1998"). Each only in the shape
+# seen: "Ikäraja: Ei vielä tiedossa" and "Valmistumisvuosi: 1931-1973" publish nothing.
+FACT_RE = re.compile(r"class=['\"]dt['\"]>\s*(Kesto|Ikäraja|Alkuperäinen nimi|Valmistumisvuosi)"
+                     r"\s*:\s*</td>\s*<td class=['\"]dd['\"]>(.*?)</td>", re.S | re.I)
+FACTS = ("len", "rating", "original", "year")
+
+
+def page_facts(page_html):
+    """A film page's runtime, rating, original title and year -> {field: str}, each left
+    out where the page does not state it plainly."""
+    got = {k.lower(): _txt(v) for k, v in FACT_RE.findall(page_html or "")}
+    out = {}
+    m = re.fullmatch(r"(\d{2,3})\s*min", got.get("kesto", ""), re.I)
+    if m:
+        out["len"] = m.group(1)
+    rating = got.get("ikäraja", "").upper()
+    if rating in KAVI_CODES:
+        out["rating"] = "S" if rating == "S" else f"K-{rating}"
+    if got.get("alkuperäinen nimi"):
+        out["original"] = got["alkuperäinen nimi"]
+    if re.fullmatch(r"(?:19|20)\d{2}", got.get("valmistumisvuosi", "")):
+        out["year"] = got["valmistumisvuosi"]
+    return out
+
+
 # The page's own text, 2026-09-27: <div class='entry' id="longdesc"> ... <aside
 # class='naytokset ohjelmisto'>. Its JSON-LD carries the same text with the paragraph
 # breaks lost ("Valkoinen.Kolme väriä"), so that is not read.
@@ -314,7 +341,8 @@ def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn
     path = path or (prices._out() / FILM_CACHE)
     try:
         st = prices.enrich(asks, provider="orion", prefix=URL, parse=lambda page: "",
-                           fields=lambda page: {"lang": page_language(page), **{
+                           fields=lambda page: {"lang": page_language(page),
+                                                **page_facts(page), **{
                                f"syn_{k}": v for k, v in page_synopsis(page).items()}},
                            path=path,
                            now=now, sleep=sleep, limit=FILM_MAX if limit is None else limit,
@@ -325,11 +353,15 @@ def film_language(shows, *, path=None, now=None, sleep=1.5, limit=None, fetch_fn
         print(f"[orion] film languages skipped: {type(e).__name__}: {str(e)[:80]}")
         return {}
     by_url = {a["url"]: a.get("lang", "") for a in asks}
+    facts = {a["url"]: {f: a[f] for f in FACTS if a.get(f)} for a in asks}
     syn = {a["url"]: {k[4:]: v for k, v in a.items() if k.startswith("syn_")} for a in asks}
     for url, rows in films.items():
         for r in rows:
             if by_url.get(url) and not r.get("lang"):
                 r["lang"] = by_url[url]
+            for f, v in facts.get(url, {}).items():
+                if not r.get(f):
+                    r[f] = v
             if syn.get(url):
                 r["_syn"] = syn[url]
     print(f"[orion] film languages: {len(films)} films, "
