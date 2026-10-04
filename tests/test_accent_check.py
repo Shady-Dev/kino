@@ -342,9 +342,11 @@ class ReportRankingTest(unittest.TestCase):
         # against them, and the joint solve of all ten did. The record is in IDEAS.md.
         # 237 from 2026-10-04: Kaarina, Lieto and Naantali joined Turun seutu (+5), all five
         # clear of the floor, the weakest Kino Kilta against Kinotour at 16.8.
-        self.assertEqual(len(rows), 237)
+        # 240 the same day: Oulun seutu put Tähti Kino beside Finnkino and Star (+3), the
+        # weakest Finnkino against Tähti Kino at 18.4.
+        self.assertEqual(len(rows), 240)
         self.assertEqual(sum(1 for r in rows if r < A.FLOOR), 20)
-        self.assertIn(f"20 of 237 pairs are below {A.FLOOR}", self.report())
+        self.assertIn(f"20 of 240 pairs are below {A.FLOOR}", self.report())
 
     def test_the_floor_is_the_fixed_policy_value(self):
         """14.4 is the threshold CLAUDE.md and the registry state, not a reading of the

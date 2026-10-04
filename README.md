@@ -31,7 +31,7 @@ shop where the screening is included in a general admission ticket (Heureka's
 planetarium).
 
 Cities with more than one venue get a combined view that merges the same film
-across chains into one card, and so do 14 regions: the picker switches between
+across chains into one card, and so do 15 regions: the picker switches between
 its 96 cities and those regions, so Pääkaupunkiseutu is one row rather than four
 cities. A region groups towns close enough that a cinema in one can replace one
 in another. The theatre picker is searchable, and "jarvela" finds Järvelä,
@@ -281,7 +281,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /kaupunki/{slug}/     a whole city     /sv/kaupunki/{slug}/   /en/city/{slug}/
 
 151 per language, 454 sitemap URLs: 134 venues plus the seventeen cities with more
-than one venue, and the front page. The 14 regions get no page of their own: a region
+than one venue, and the front page. The 15 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would
 duplicate its venue page and compete with it, so those get the city into the

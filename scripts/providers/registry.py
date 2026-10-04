@@ -740,7 +740,7 @@ FRONTEND_OPTIONAL = ("site",)
 # the display names, and the picker's search matches all three in every language, the way
 # a Turku venue is already found under Åbo. The Swedish forms follow the established city
 # name where one exists (Tavastehus, Lahtis, Villmanstrand, Björneborg, Åbo, Karleby,
-# Tammerfors, S:t Michel) with -regionen; Jyväskylä has no Swedish name, so its region
+# Tammerfors, S:t Michel, Uleåborg) with -regionen; Jyväskylä has no Swedish name, so its region
 # keeps the Finnish stem. A native reader should check the coined -regionen forms.
 REGIONS = [
     dict(name="Pääkaupunkiseutu", sv="Huvudstadsregionen", en="Capital region",
@@ -782,6 +782,9 @@ REGIONS = [
          cities=["Jyväskylä", "Muurame", "Petäjävesi", "Äänekoski"]),
     dict(name="Kokkolan seutu", sv="Karlebyregionen", en="Kokkola region",
          cities=["Kokkola", "Pietarsaari"]),
+    # Added 2026-10-04 on the maintainer's decision: 3 cinemas across 3 chains.
+    dict(name="Oulun seutu", sv="Uleåborgsregionen", en="Oulu region",
+         cities=["Oulu", "Muhos"]),
     dict(name="Meri-Lappi", sv="Havslappland", en="Sea Lapland",
          cities=["Kemi", "Tornio"]),
 ]

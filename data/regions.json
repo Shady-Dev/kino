@@ -131,6 +131,15 @@
    ]
   },
   {
+   "name": "Oulun seutu",
+   "sv": "Uleåborgsregionen",
+   "en": "Oulu region",
+   "cities": [
+    "Oulu",
+    "Muhos"
+   ]
+  },
+  {
    "name": "Meri-Lappi",
    "sv": "Havslappland",
    "en": "Sea Lapland",

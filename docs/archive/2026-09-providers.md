@@ -3544,3 +3544,10 @@ halls. The five new region pairs clear 14.4 on the weakest model, the lowest Kin
 against Kinotour at 16.8. Checked in Chromium and WebKit at 320, 375, 393 and 1280: the
 picker finds the row under all three names, the combined view lists all four chains, and
 no width scrolls sideways.
+
+### Oulun seutu: Oulu and Muhos (2026-10-04)
+The maintainer's decision: 3 cinemas across 3 chains, Finnkino and Elokuvateatteri Star in
+Oulu and Tähti Kino in Muhos. The three region pairs clear 14.4, the lowest Finnkino against
+Tähti Kino at 18.4. Swedish Uleåborgsregionen, after Uleåborg. Checked in Chromium and
+WebKit at 320, 375, 393 and 1280; Tähti Kino's first screening is 5.10., and on that day
+the combined view lists all three chains and no width scrolls sideways.
