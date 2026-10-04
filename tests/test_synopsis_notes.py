@@ -75,6 +75,40 @@ class DropNotesHtmlTest(unittest.TestCase):
             self.assertFalse(synmerge.is_note(s), s)
 
 
+class IirisAdmissionLinesTest(unittest.TestCase):
+    """Kino Iiris's Polish film weekend, read 2026-10-04: three note lines above Junat's
+    and Hyvä talo's synopses, each its own paragraph on the eTiketti page."""
+
+    LINES = ("VAPAA P\u00c4\u00c4SY!", "N\u00e4yt\u00f6kseen ei voi varata lippuja etuk\u00e4teen.",
+             "Vain englanninkieliset tekstitykset.")
+
+    def test_each_line_is_a_note(self):
+        import synmerge
+        for s in self.LINES:
+            self.assertTrue(synmerge.is_note(s), s)
+
+    def test_the_words_inside_a_synopsis_are_not(self):
+        import synmerge
+        for s in ("Puolalaisen nykyelokuvan k\u00e4rkitekij\u00e4n uusi elokuva on raju kuvaus "
+                  "parisuhdev\u00e4kivallasta.",
+                  "Vapaa p\u00e4\u00e4sy taivaaseen on vain unelma.",
+                  "Elokuvassa on vain englanninkieliset tekstitykset ja paljon musiikkia."):
+            self.assertFalse(synmerge.is_note(s), s)
+
+    def test_the_etiketti_page_keeps_the_synopsis_alone(self):
+        import etiketti
+        desc = ("VAPAA P\u00c4\u00c4SY!<br />\nN\u00e4yt\u00f6kseen ei voi varata lippuja etuk\u00e4teen."
+                "<br />\nVain englanninkieliset tekstitykset.<br />\n<br />\n")
+        site = next(x for x in etiketti.SITES if x["provider"] == "kinoiiris")
+        for body, want in (("&quot;Junat&quot; alkaa Franz Kafkan lainauksella.",
+                            '"Junat" alkaa Franz Kafkan lainauksella.'),
+                           ("Raju kuvaus.<br />\n<br />\nGo\u015bka tutustuu Grzesiekiin.",
+                            "Raju kuvaus. Go\u015bka tutustuu Grzesiekiin.")):
+            page = ('<main><h1>JUNAT</h1><div class="description-container"><span>'
+                    + desc + body + "</span></div></main>")
+            self.assertEqual(etiketti.parse_movie(page, site, "/elokuvat/1/x")[1]["syn"], want)
+
+
 class MergeRefusesNotesTest(unittest.TestCase):
 
     def run_merge(self, shows):

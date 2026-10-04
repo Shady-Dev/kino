@@ -2744,3 +2744,12 @@ min, Mänttäri), so the row carries the first film's poster. "DIG! XX" was a we
 1843, Dig! (2004), which lists "DIG! XX" as an alternative title; left unaliased on the
 maintainer's decision, so its 2 screenings on 1.11. draw an initials tile. Both rows are
 cloud-half and outside every generated page's window; the next cloud run applies it.
+
+### Kino Iiris's admission lines are screening notes (2026-10-04)
+The maintainer's decision. Junat's eTiketti page, read 2026-10-04, opens with three lines
+of its own before the synopsis: "VAPAA PÄÄSY!", "Näytökseen ei voi varata lippuja
+etukäteen." and "Vain englanninkieliset tekstitykset.", and all three reached the shared
+`fi` slot. `NOTE_RE` takes the booking phrase anywhere and the other two as whole
+paragraphs only, so eTiketti drops each line and keeps the description. Of 800 committed
+slot texts it matches 3, all notes: Junat, Hyvä talo from the same series, and Järven
+ääni. 4 mutations red.

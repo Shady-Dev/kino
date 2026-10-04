@@ -27,7 +27,11 @@ PRICE_RE = re.compile(r"\d\s*(?:€|eur\b|euroa\b)|€\s*\d", re.I)
 # Two unpriced shapes that reached the shared slot (read 2026-10-04): Savon Kinot ends
 # each note with "||" ("Ensi-iltapaikkakunnat: Joensuu, ... ja Kitee ||"), and a filmmaker's
 # visit is one screening ("Niagarassa tekijävierailunäytös tiistaina 4.8. klo 18.30").
-NOTE_RE = re.compile(r"\|\||tekijävierailu", re.I)
+# Kino Iiris heads its Polish film weekend with three lines (Junat, read 2026-10-04):
+# "VAPAA PÄÄSY!", "Näytökseen ei voi varata lippuja etukäteen.", "Vain englanninkieliset
+# tekstitykset." The first and last are whole paragraphs; booking tickets is no synopsis.
+NOTE_RE = re.compile(r"\|\||tekijävierailu|\bvarata lippuja\b|^vapaa pääsy[!.]?$"
+                     r"|^vain [a-zåäö]+kieliset tekstitykset\.?$", re.I)
 _TAGS = re.compile(r"<[^>]+>")
 
 
