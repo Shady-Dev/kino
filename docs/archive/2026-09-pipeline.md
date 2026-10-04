@@ -2735,3 +2735,12 @@ Measured at adc1b6e9b.
   opening the text), `en` of Verity (Verityn varjo) (Sheryl's 2026-09-21 page dump; the
   cause closed in `881ec574e`), `en` of both Unohdettu saari keys. The TMDB cache holds an
   overview for each. The fill-only rule is unchanged. 10 pages regenerated.
+
+### Kino Kilta's double bill aliased; DIG! XX left (2026-10-04)
+With Kilta's stills gone, two films had no TMDB id. "Anni tahtoo äidin ja Kala" found no
+match: Kilta's page names Anssi Mänttäri's Anni tahtoo äidin (1989, 68 min) and Kambuzia
+Partovi's Kala (1989, 70 min). The maintainer named 599152, verified as Anni (1989, 68
+min, Mänttäri), so the row carries the first film's poster. "DIG! XX" was a weak match to
+1843, Dig! (2004), which lists "DIG! XX" as an alternative title; left unaliased on the
+maintainer's decision, so its 2 screenings on 1.11. draw an initials tile. Both rows are
+cloud-half and outside every generated page's window; the next cloud run applies it.
