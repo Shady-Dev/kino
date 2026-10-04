@@ -127,6 +127,32 @@ class PageLanguageTest(unittest.TestCase):
         self.assertEqual(orion.page_language(film_page("suomi")), "FI-A")
 
 
+def facts_page(**rows):
+    """The film page's definition table with the given label -> value rows."""
+    return "<table>" + "".join(
+        f"<tr> <td id='field_x' class='dt'>{label}:</td> <td class='dd'>{value}</td> </tr>"
+        for label, value in rows.items()) + "</table>"
+
+
+class PageFactsTest(unittest.TestCase):
+    """Syystarina, Jazz Suomi 100 vuotta and NAZA, read 2026-10-04."""
+
+    def test_the_shapes_read_on_the_day(self):
+        page = facts_page(**{"Alkuperäinen nimi": "Conte d'automne", "Ikäraja": "S",
+                             "Valmistumisvuosi": "1998", "Kesto": "112 min"})
+        self.assertEqual(orion.page_facts(page), {"len": "112", "rating": "S",
+                                                  "original": "Conte d'automne",
+                                                  "year": "1998"})
+        self.assertEqual(orion.page_facts(facts_page(Ikäraja="7", Kesto="90 min")),
+                         {"len": "90", "rating": "K-7"})
+
+    def test_what_is_not_a_plain_value_publishes_nothing(self):
+        page = facts_page(**{"Ikäraja": "Ei vielä tiedossa", "Valmistumisvuosi": "1931-1973",
+                             "Kesto": "0 min"})
+        self.assertEqual(orion.page_facts(page), {})
+        self.assertEqual(orion.page_facts(facts_page(Ikäraja="13")), {})
+
+
 class FilmLanguageTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -162,6 +188,17 @@ class FilmLanguageTest(unittest.TestCase):
         self.assertEqual(gets, [orion.URL + "elokuvat/autofiktio/", orion.URL + "elokuvat/memoria/"])
         self.assertEqual(json.loads(self.path.read_text(encoding="utf-8"))["autofiktio"]["fields"],
                          {"lang": "ES-A, FI-S, SV-S"})
+
+    def test_the_pages_facts_reach_every_screening_and_a_rows_own_value_stays(self):
+        shows, gets, st, _ = self.run_it(
+            [row(film("syystarina", "Syystarina"), "17:00", "04.09.", link("/checkout/a")),
+             row(film("syystarina", "Syystarina"), "19:00", "04.09.", link("/checkout/b"))],
+            {"syystarina": facts_page(**{"Alkuperäinen nimi": "Conte d'automne",
+                                         "Ikäraja": "S", "Valmistumisvuosi": "1998",
+                                         "Kesto": "112 min"})})
+        got = [(s["len"], s["rating"], s["original"], s.get("year")) for s in shows]
+        self.assertEqual(got, [("112", "S", "Conte d'automne", "1998")] * 2)
+        self.assertEqual(len(gets), 1)
 
     def test_a_film_that_may_have_two_versions_is_not_asked(self):
         shows, gets, st, out = self.run_it(

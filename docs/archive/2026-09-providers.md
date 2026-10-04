@@ -3507,3 +3507,12 @@ template publishes no `og:image` and the TMDB pass supplies the poster for the 3
 with a TMDB id; the other two draw a tile, as for any film without one. Laika, Myyri and
 Sheryl measured portrait (24, 14 and 9 films) and keep theirs. Cloud half: posters change
 on the next run. 2 mutations red.
+
+### Cinema Orion publishes the film page's runtime, rating, original and year (2026-10-04)
+At adc1b6e9b all 38 Orion screenings had no runtime, 23 no rating and 9 no TMDB match,
+while the film page `film_language` already reads carries "Kesto: 112 min", "Ikäraja: S",
+"Alkuperäinen nimi: Conte d'automne" and "Valmistumisvuosi: 1998" (Syystarina, read
+2026-10-04). `page_facts` reads the four rows in those shapes only: "Ei vielä tiedossa"
+and a year range publish nothing. They go on screenings that lack them, through the same
+cache, so they arrive as entries in `film-lang-orion.json` expire, within its 48 h. The
+original and the year are the TMDB pass's search hints. Cloud half. 4 mutations red.
