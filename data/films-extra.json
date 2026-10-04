@@ -199,6 +199,8 @@
    ]
   },
   "anni tahtoo äidin ja kala": {
+   "id": 599152,
+   "img": "data/posters/697f7b31ba391e01.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -467,19 +469,6 @@
     "en"
    ]
   },
-  "bamse ja meren salaisuus": {
-   "id": 1275785,
-   "img": "data/posters/aed5ff66e478c590.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
-   },
-   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
-   "ts": [
-    "fi"
-   ]
-  },
   "beginnings begyndelser": {
    "r": 0,
    "s": {
@@ -563,19 +552,6 @@
     "fi": "1990-luvulla kahdeksanvuotias Sasha ja hänen perheensä muuttavat uuteen kotiin Vancouveriin. Uuteen alkuun pääsemistä vaikeuttaa perheen vanhimman pojan oireilu, joka saa vaarallisia piirteitä. Palkitun ohjaaja Sophy Romvarin esikoiselokuva on mestarillinen kuvaus uneliaasta kesästä, ja lyyrisen syvällinen kertomus asioista, joita kannamme mukanamme. “\"Blue Heron\" may be the most emotionally devastating film of the year - and also perhaps the most comforting.” Josh Slater-Williams, IndieWire “Heartbreaking barely begins to describe it, although the terms masterful and transcendent also apply.” Nick Schager, The Daily Beast “A reminder of the power of filmmaking to turn the deeply personal into relatable art, and an announcement of a major talent, one who has made the best film of the year to date.” Brian Tallerico, RogerEbert.com SES Maahantuontituki 2026."
    },
    "tr": ""
-  },
-  "bokshi": {
-   "id": 718833,
-   "img": "data/posters/99640ccccdb01af1.jpg",
-   "r": 0,
-   "s": {
-    "en": "Anahita, traumatised by the brutal disappearance of her mother, finds comfort in Shalini, her history teacher. On an unconventional school excursion to a mysterious prehistoric site, she confronts her terrifying destiny.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=AU4hlB0ZdOE",
-   "ts": [
-    "en"
-   ]
   },
   "boléro": {
    "id": 1004348,
@@ -901,9 +877,12 @@
    "r": 0,
    "s": {
     "en": "",
-    "fi": ""
+    "fi": "Lluc, kulttuuriin kiinnittynyt entinen akateemikko, ja Olli, Suomesta Barcelonan kaduille ajautunut mies, kohtaavat etsiessään suojaa samasta rappukäytävästä. Alkukohdat ovat vaatimattomat, mutta vähitellen heidän välilleen syntyy yhteys, joka ei rakennu säälistä vaan jaetusta ihmisyydestä."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "don quijote barcelonassa leffalukupiiri": {
    "id": 1506689,
@@ -1923,6 +1902,7 @@
     "kkino",
     "korjaamo",
     "laitilankino",
+    "leffabuumi",
     "savonkinot",
     "tapiola"
    ],
@@ -2258,7 +2238,6 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -2380,16 +2359,12 @@
   },
   "kojootti vs acme på svenska": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme sub": {
    "r": 0,
@@ -2485,7 +2460,7 @@
   "kpe the love that remains ástin sem eftir er": {
    "id": 1258509,
    "img": "data/posters/a638c73cf3f1fb0b.jpg",
-   "r": 6.2,
+   "r": 6.3,
    "s": {
     "en": "",
     "fi": "POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026! The Love That Remains kuvaa vastikään eronneiden Annan ja Magnúsin elämää vuoden ajan parin yrittäessä selviytyä työstä, seksistä ja monimutkaisista perhesuhteista, joihin kuuluvat teini-ikäinen tytär ja kaksospojat. Perhe-elämää kuvaavat kohtaukset vetävät puoleensa vanhoja totuuksia ja tunnesiteitä, jotka ovat muuttuneet mutta eivät täysin hävinneet. Lähde: Norden.org Esityspaikkakunta: Joensuu Elokuvan kieli: islanti"
@@ -2706,6 +2681,7 @@
     "gilda",
     "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -2728,6 +2704,7 @@
     "gilda",
     "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -2753,6 +2730,7 @@
     "gilda",
     "kinolumo",
     "kinometso",
+    "kinomyyri",
     "kinopiispanristi",
     "tapiola"
    ],
@@ -2876,6 +2854,10 @@
    "tr": ""
   },
   "lilla spöket laban busar vidare": {
+   "kr": "S",
+   "krs": [
+    "bioforum"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4050,12 +4032,6 @@
   "pikkuli ja tähtipeura": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "biokaari",
-    "kinoaurora"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4197,12 +4173,9 @@
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan."
+    "fi": "Elokuvasta nähdään vauvakinoesitys, jossa salin valot ovat himmeästi päällä, portaat valaistuna ja äänet normaalia hiljaisemmalla. Salissa saa liikkua. Tervetuloa nauttimaan elokuvasta muiden kenties vauvan kanssa liikkeellä olevien kanssa! Elokuva itsessään on suunnattu aikuisille. Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin. Tiedot Kesto: 1 t 28 min Ikäraja: S Liput Vältä jonotus! Ennakkoliput verkkokaupasta www.k-kino.fi tai Kangasala-talon lipunmyynnistä. Liput ovelta: 30 min ennen näytöstä. Kangasala-talon ovet aukeavat aina 30 min ennen näytöksen alkua. Leffaherkut K-Kinoon saa tuoda mukana maltilliset omat eväät, esimerkiksi karkkipussin ja limsapullon. Lipunmyynnin yhteydessä on myynnissä pieni valikoima leffaherkkuja, ja Kulttuuriravintola Jalmarista voi sen aukioloaikoina ostaa mukaan virvoitusjuomia. Pidäthän osaltasi huolta, että sali pysyy siistinä ja viet mahdolliset roskat mennessäsi. Kiitos!"
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "piukat paikat": {
    "id": 239,
@@ -5087,33 +5060,25 @@
   },
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.1,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ryhmä hau dinoelokuva elokuvanäytös": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
    "kr": "K-7",
    "krs": [
-    "biogrand",
     "biorex",
     "biorexkokkola",
     "isohannu",
     "kinolaika",
     "kinolumo",
     "kinometso",
-    "kinopiispanristi",
     "kinopirtti",
-    "kotkanleffat",
-    "star",
     "studio123jarvenpaa"
    ],
    "r": 8.1,
@@ -6380,29 +6345,21 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.4,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 dub": {
    "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.3,
+   "r": 0,
    "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
+    "en": "",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
@@ -6599,10 +6556,13 @@
    ],
    "r": 8.2,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari dub": {
    "id": 1465063,
@@ -6629,10 +6589,13 @@
    ],
    "r": 8.2,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA"
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari elokuvanäytös": {
    "id": 1465063,
@@ -6842,10 +6805,13 @@
    "img": "data/posters/074e95a045702902.jpg",
    "r": 6.7,
    "s": {
-    "en": "",
+    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs"
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
+   "ts": [
+    "en"
+   ]
   },
   "verityn varjo": {
    "id": 1283515,
