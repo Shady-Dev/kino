@@ -191,17 +191,24 @@ class PagesLayoutTest(unittest.TestCase):
                              const bb = Math.max(...cs.map(c => c.bottom));
                              return {x, y, w: rr - x, h: bb - y, r: rr, b: bb} };
             const info = f.querySelector('.info');
-            const head = [...info.children].filter(k => !k.classList.contains('times'));
+            // Everything above the list, and the part of it that sits beside the poster on
+            // a phone: the synopsis drops below the poster there (2026-10-04).
+            const above = [...info.children].filter(k => !k.classList.contains('times'));
+            const head = above.filter(k => !k.classList.contains('syn'));
+            const s = f.querySelector('.syn');
+            const syn = s ? {...r(s), lh: parseFloat(getComputedStyle(s).lineHeight),
+                             clamp: getComputedStyle(s).webkitLineClamp} : null;
             const times = f.querySelector('.times');
             return {title: f.querySelector('h3').textContent,
-                    parts: head.length,
+                    parts: above.length,
                     poster: r(f.querySelector('.poster')),
                     blank: !!f.querySelector('.poster.blank'),
                     h3: t(f.querySelector('h3')),
                     head: head.map(t),
-                    headBottom: head.length ? t(head[head.length-1]).b : r(info).y,
-                    headBoxBottom: head.length ? r(head[head.length-1]).b : r(info).y,
-                    times: r(times), film: r(f), stubs: times.children.length} })""")
+                    headBottom: above.length ? t(above[above.length-1]).b : r(info).y,
+                    titleBlockBottom: head.length ? t(head[head.length-1]).b : r(info).y,
+                    headBoxBottom: above.length ? r(above[above.length-1]).b : r(info).y,
+                    times: r(times), film: r(f), stubs: times.children.length, syn} })""")
         overflow = page.evaluate(
             "() => document.documentElement.scrollWidth > window.innerWidth")
         return rows, overflow
@@ -289,6 +296,33 @@ class PagesLayoutTest(unittest.TestCase):
                 self.assertGreater(r["times"]["y"], r["poster"]["b"] - TOL)
                 self.assertGreater(r["times"]["y"], r["headBottom"] - TOL)
                 self.assertLess(abs(r["times"]["w"] - r["film"]["w"]), TOL)
+                if r["syn"]:
+                    self.assertGreater(r["times"]["y"], r["syn"]["b"] - TOL)
+
+    def test_phone_synopsis_is_full_width_below_the_poster_and_clamped(self):
+        """The maintainer's decision of 2026-10-04: the clamped synopsis sat beside the
+        poster in a narrow column on some cards and under it on others. It now always
+        starts below the poster and the title block, at the card's width, three lines."""
+        for path in (f"/teatteri/{SLUG}/", "/kaupunki/testila/"):
+            for w in (320, 375, PHONE, 430, 560):
+                rows, _ = self.geometry(w, path)
+                syns = [r for r in rows if r["syn"]]
+                self.assertEqual(len(syns), 2, "the fixture lost a synopsis")
+                for r in syns:
+                    y = r["syn"]
+                    with self.subTest(path=path, width=w, film=r["title"]):
+                        self.assertGreater(y["y"], r["poster"]["b"] - TOL)
+                        self.assertGreater(y["y"], r["titleBlockBottom"] - TOL)
+                        self.assertLess(abs(y["w"] - r["film"]["w"]), TOL)
+                        self.assertEqual(str(y["clamp"]), "3")
+                        self.assertLessEqual(y["h"], 3 * y["lh"] + TOL)
+
+    def test_desktop_synopsis_stays_in_the_information_column(self):
+        rows, _ = self.geometry(DESKTOP)
+        for r in rows:
+            if r["syn"]:
+                with self.subTest(film=r["title"]):
+                    self.assertGreater(r["syn"]["x"], r["poster"]["r"] - TOL)
 
     def tickets(self, width, path=f"/teatteri/{SLUG}/"):
         """-> one row per ticket: its box, its film's, its price compartment's, its time's."""
