@@ -56,6 +56,8 @@
   code{font-size:.9em; background:var(--surface); padding:.1em .35em; border-radius:4px;
        border:1px solid var(--line)}
   .tablewrap{overflow-x:auto}
+  /* An event name breaks only after its underscore, and only on a phone. */
+  @media(min-width:561px){.tablewrap wbr{display:none}}
   .nav{display:flex; gap:12px; flex-wrap:wrap; margin:1.2em 0 0; font-size:.95rem}
   footer{max-width:46rem; margin:0 auto; padding:0 16px 48px; color:var(--muted); font-size:.9rem;
          display:flex; flex-wrap:wrap; gap:6px 16px}
@@ -111,17 +113,17 @@ Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
       <code>https://leffavuoro.fi/app/city</code>. Osoite muodostetaan luokasta, eikä se
       sisällä muuta; selaimen todellista osoitetta, polkua tai hakuparametreja ei
       lähetetä.</td></tr>
-  <tr><td><code>area_opened</code></td><td>Kaupunki tai alue avattiin</td>
+  <tr><td><code>area_<wbr>opened</code></td><td>Kaupunki tai alue avattiin</td>
       <td>Tyyppi (<code>city</code>/<code>region</code>) ja alueen nimi</td></tr>
-  <tr><td><code>cinema_opened</code></td><td>Teatteri avattiin</td>
+  <tr><td><code>cinema_<wbr>opened</code></td><td>Teatteri avattiin</td>
       <td>Teatterin sisäinen tunniste, esimerkiksi <code>tahtikino-muhos</code></td></tr>
-  <tr><td><code>date_changed</code></td><td>Päivää vaihdettiin</td>
+  <tr><td><code>date_<wbr>changed</code></td><td>Päivää vaihdettiin</td>
       <td>Ero tähän päivään päivinä, ei päivämäärää</td></tr>
-  <tr><td><code>language_changed</code></td><td>Kieli vaihdettiin</td>
+  <tr><td><code>language_<wbr>changed</code></td><td>Kieli vaihdettiin</td>
       <td>Kielikoodi <code>fi</code>, <code>sv</code> tai <code>en</code></td></tr>
-  <tr><td><code>search_used</code></td><td>Hakukenttää käytettiin</td>
+  <tr><td><code>search_<wbr>used</code></td><td>Hakukenttää käytettiin</td>
       <td><strong>Ei mitään.</strong> Hakusanaa ei lähetetä.</td></tr>
-  <tr><td><code>ticket_opened</code></td><td>Lippulinkkiä klikattiin</td>
+  <tr><td><code>ticket_<wbr>opened</code></td><td>Lippulinkkiä klikattiin</td>
       <td>Ketjun tunniste, esimerkiksi <code>finnkino</code>. Ei osoitetta.</td></tr>
 </table></div>
 
