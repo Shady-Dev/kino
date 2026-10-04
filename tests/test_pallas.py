@@ -26,6 +26,7 @@ import unittest
 import _ctx                                                # noqa: F401
 import pallas as P
 import registry
+from build_pages import LANG_RE as LANG_CONTRACT
 import run
 
 
@@ -213,7 +214,9 @@ class RowsTest(unittest.TestCase):
             row(SAT, "18.00", "Toy Story 5", marker="ORIGINAL version with subtitles FI/SV"),
             row(SAT, "20.00", "Toy Story 5",
                 marker="Huom! Ilman suomenkielistä tekstitystä")))
-        self.assertEqual([s["lang"] for s in shows], ["fi", "sv", "", ""])
+        self.assertEqual([s["lang"] for s in shows], ["FI-A", "SV-A", "", ""])
+        for code in ("FI-A", "SV-A"):
+            self.assertRegex(code, LANG_CONTRACT, "the form the client and the pages read")
 
     def test_a_zero_width_space_never_reaches_the_title(self):
         """The site's editor leaves one on many titles. No reader sees it and it would key
