@@ -62,9 +62,11 @@ WIDTHS = (320, 375, PHONE, 560, TABLET, DESKTOP, WIDEST)
 ROOMS = {"tv-1": "Sali 1", "tv-2": "Iso sali Dolby Atmos 2"}
 
 
-def show(vid, eid, title, clock, price="", img="", rating="", genres="", length="", lang=""):
+def show(vid, eid, title, clock, price="", img="", rating="", genres="", length="", lang="",
+         aud=None):
     return {"eventId": eid, "title": title, "start": f"2026-09-14T{clock}:00+03:00",
-            "theatre": "Testikino", "aud": ROOMS[vid], "url": "https://example.invalid/t",
+            "theatre": "Testikino", "aud": ROOMS[vid] if aud is None else aud,
+            "url": "https://example.invalid/t",
             "img": img, "len": length, "rating": rating, "age": None, "genres": genres,
             "gids": [], "lang": lang, "price": price, "provider": "testi", "venue": vid}
 
@@ -107,10 +109,15 @@ class PagesLayoutTest(unittest.TestCase):
             shows = []
             for i, (title, f) in enumerate(FILMS.items()):
                 for j, clock in enumerate(("18:00", "20:30")):
+                    # The title-only film's unpriced screening has no room either, so a
+                    # theatre page carries a ticket that is a time and a tail and nothing
+                    # else.
+                    bare = title == "Pelkka Nimi" and j == 1
                     shows.append(show(vid, f"{vid}-{i}-{j}", title, clock,
                                       price="12€" if j == 0 else "",   # one priced, one not
                                       img=f["img"], rating=f["rating"], genres=f["genres"],
-                                      length=f["length"], lang=f["lang"]))
+                                      length=f["length"], lang=f["lang"],
+                                      aud="" if bare else None))
             (data / f"area-{vid}.json").write_text(json.dumps(
                 {"generated": "2026-09-14T09:00:00+00:00", "dates": ["2026-09-14"],
                  "horizon": "2026-09-14", "shows": shows}), encoding="utf-8")
@@ -282,6 +289,47 @@ class PagesLayoutTest(unittest.TestCase):
                 self.assertGreater(r["times"]["y"], r["poster"]["b"] - TOL)
                 self.assertGreater(r["times"]["y"], r["headBottom"] - TOL)
                 self.assertLess(abs(r["times"]["w"] - r["film"]["w"]), TOL)
+
+    def tickets(self, width, path=f"/teatteri/{SLUG}/"):
+        """-> one row per ticket: its box, its film's, its price compartment's, its time's."""
+        ctx = self.browser.new_context(viewport={"width": width, "height": 900},
+                                       service_workers="block")
+        self.addCleanup(ctx.close)
+        page = ctx.new_page()
+        page.goto(self.origin + path)
+        page.wait_for_function("document.fonts.ready.then(()=>true)")
+        return page.evaluate("""() => [...document.querySelectorAll('.times .stub')].map(s => {
+            const r = e => e.getBoundingClientRect();
+            return {w: r(s).width, r: r(s).right, film: r(s.closest('article')).width,
+                    info: r(s.closest('.info')).width, priceL: r(s.querySelector('.price')).left,
+                    priceR: r(s.querySelector('.price')).right,
+                    timeR: r(s.querySelector('.time')).right,
+                    bare: !s.querySelector('.aud')} })""")
+
+    def test_phone_tickets_take_the_card_width_one_per_line(self):
+        """The app's phone layout since v269: every ticket the card's full width, its price
+        or tail at the right edge, on the theatre and the city page alike (2026-10-04)."""
+        for path in (f"/teatteri/{SLUG}/", "/kaupunki/testila/"):
+            for w in (320, 375, PHONE, 560):
+                rows = self.tickets(w, path)
+                self.assertTrue(rows)
+                for t in rows:
+                    with self.subTest(path=path, width=w, ticket=t):
+                        self.assertLess(abs(t["w"] - t["film"]), TOL)
+                        self.assertLess(abs(t["priceR"] - t["r"]), TOL)
+        self.assertTrue(any(t["bare"] for t in self.tickets(375)), "no time-only ticket")
+
+    def test_desktop_tickets_keep_their_own_width(self):
+        """Above the breakpoint a theatre page's tickets stay as wide as their content: a
+        time-only ticket's tail follows its time."""
+        rows = self.tickets(DESKTOP)
+        for t in rows:
+            with self.subTest(ticket=t):
+                self.assertLess(t["w"], t["info"] - TOL)
+        bare = [t for t in rows if t["bare"]]
+        self.assertTrue(bare, "no time-only ticket")
+        for t in bare:
+            self.assertLess(t["priceL"] - t["timeR"], TOL)
 
     # -- both ------------------------------------------------------------------------------
 
