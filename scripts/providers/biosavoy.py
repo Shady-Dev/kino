@@ -137,6 +137,12 @@ AGE_RE = re.compile(r'Till\u00e5ten\s+fr\u00e5n\s+(\d{1,2})\s*\u00e5r', re.I)
 # A body paragraph of its own, read 2026-10-04 on Marsupilami and Gr\u00e5ben vs ACME:
 # "<p>SVENSKT TAL!</p>". The screening's spoken language as the cinema states it.
 SWEDISH_RE = re.compile(r'<p>\s*svenskt\s+tal\s*!?\s*</p>', re.I)
+# Two body paragraphs about this cinema's screening rather than the film, each dropped from
+# the synopsis whole (read 2026-10-04): "SVENSKT TAL!", which `lang` carries, and the local
+# premiere, "PREMIÄR 21.8 2026" or "PREMIÄR:<br />2.10 2026".
+P_RE = re.compile(r'<p[^>]*>(.*?)</p>', re.S | re.I)
+SCREENING_PARA_RE = re.compile(r'^(?:svenskt\s+tal\s*!?'
+                               r'|premi\u00e4r\s*:?\s*\d{1,2}\.\d{1,2}\.?\s*\d{4})$', re.I)
 
 
 def _txt(s):
@@ -211,6 +217,20 @@ def _field(page, name):
     return " ".join(x for x in parts if x)
 
 
+def body_syn(page):
+    """The body field's text without its screening paragraphs. -> str"""
+    m = FIELD_RE["body"].search(page)
+    if not m:
+        return ""
+    out = []
+    for item in ITEM_RE.findall(m.group(1)):
+        for para in P_RE.findall(item) or [item]:
+            text = _txt(para)
+            if text and not SCREENING_PARA_RE.match(text):
+                out.append(text)
+    return " ".join(out)
+
+
 def film_facts(page):
     """-> {"price", "len", "rating", "syn", "lang"} for one film page, each "" where the
     page does not say it plainly.
@@ -223,7 +243,7 @@ def film_facts(page):
     return {"price": film_price(page),
             "len": str(int(length.group(1)) * 60 + int(length.group(2))) if length else "",
             "rating": f"K-{int(age.group(1))}" if age else "",
-            "syn": _field(page, "body"),
+            "syn": body_syn(page),
             "lang": "SV-A" if body and SWEDISH_RE.search(body.group(1)) else ""}
 
 

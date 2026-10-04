@@ -3599,3 +3599,11 @@ and drops a bold-labelled note, a promotion naming Ritz, anything quoting a pric
 with its dashed attribution and a "(text from TMDB)" line. A description with no runtime in
 its facts paragraph is an event and publishes neither. On the 9 events of that day: 7
 runtimes and 5 English synopses. Tähti Kino keeps its path. Cloud half. 8 mutations red.
+
+### Bio Savoy's "SVENSKT TAL!" and premiere lines leave the synopsis (2026-10-04)
+The maintainer's decision. The film page's body carries two paragraphs about Bio Savoy's
+own screening, read 2026-10-04: "SVENSKT TAL!" (Marsupilami, Gråben vs ACME) and the local
+premiere, "PREMIÄR 21.8 2026" or "PREMIÄR:<br />2.10 2026" (Digger). Both reached the shared
+`sv` slot. `body_syn` drops either when it is a whole paragraph, and the spoken language
+stays in `lang` as before. Every other body comes out byte for byte as it did. Cloud half.
+4 mutations red, one of them equivalent (`match` anchors the start).

@@ -425,9 +425,22 @@ class FilmFactsTest(unittest.TestCase):
                  '<li class="field-item odd">Komedi</li></ul></section>')
         f = biosavoy.film_facts("<html><body>" + body + genre
                                 + film_page(body=None)[len("<html><body>"):])
-        self.assertEqual(f["syn"], "Digger är en svart katastrofkomedi. "
-                                   "PREMIÄR: 2.10 2026")
+        self.assertEqual(f["syn"], "Digger är en svart katastrofkomedi.")
         self.assertEqual((f["len"], f["rating"], f["price"]), ("127", "K-12", "15€"))
+
+    def test_the_screening_paragraphs_leave_the_synopsis(self):
+        """Marsupilami and Digger, read 2026-10-04. Only a whole paragraph goes: the words
+        inside a sentence are the film's."""
+        f = self.facts(body="Om Marsupilami.</p>\n<p>SVENSKT TAL!</p>\n<p>PREMI\u00c4R 21.8 2026<br />\n ")
+        self.assertEqual((f["syn"], f["lang"]), ("Om Marsupilami.", "SV-A"))
+        f = self.facts(body="Om Digger.</p>\n<p>PREMI\u00c4R:<br />\n2.10 2026")
+        self.assertEqual(f["syn"], "Om Digger.")
+        for kept in ("Filmen hade premi\u00e4r 2.10 2026 i Cannes.",
+                     "Svenskt tal och finsk text p\u00e5 alla visningar.",
+                     "Svenskt tal! Filmen dubbades i Stockholm.",
+                     "Premi\u00e4r 2.10 2026 i hela Norden."):
+            with self.subTest(kept=kept):
+                self.assertEqual(self.facts(body=kept)["syn"], kept)
 
     def test_each_field_is_read_from_its_own_section(self):
         """Every Drupal field wraps its value in `field-item`, so a page-wide read of any
