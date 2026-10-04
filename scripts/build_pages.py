@@ -149,7 +149,6 @@ L = {
                       "p\u00e4\u00e4set teatterin lippu- tai ohjelmistosivulle, kun linkki on "
                       "saatavilla.",
         "cta": "Avaa koko ohjelmisto",
-        "today": "T\u00e4n\u00e4\u00e4n", "tomorrow": "Huomenna",
         "days": ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
         "no_shows": "L\u00e4hip\u00e4iville ei ole julkaistu n\u00e4yt\u00f6ksi\u00e4.",
         "next_show": "Seuraava n\u00e4yt\u00f6s: {when}",
@@ -206,7 +205,6 @@ L = {
                       "V\u00e4lj en tid f\u00f6r att komma till biografens biljett- eller "
                       "programsida n\u00e4r en l\u00e4nk finns.",
         "cta": "\u00d6ppna hela programmet",
-        "today": "I dag", "tomorrow": "I morgon",
         "days": ["M\u00e5n", "Tis", "Ons", "Tors", "Fre", "L\u00f6r", "S\u00f6n"],
         "no_shows": "Inga visningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
         "next_show": "N\u00e4sta visning: {when}",
@@ -261,7 +259,6 @@ L = {
         "city_intro": "See showtimes from {n} cinemas for the next few days. Choose a time "
                       "to open the cinema\u2019s ticket or programme page, where available.",
         "cta": "See the full programme",
-        "today": "Today", "tomorrow": "Tomorrow",
         "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         "no_shows": "No showtimes published for the next few days.",
         "next_show": "Next screening: {when}",
@@ -921,15 +918,11 @@ def next_show_day(shows, today, days):
     return min(later) if later else ""
 
 
-def day_label(iso, today, t):
+def day_label(iso, t):
+    """"La 4.10.": the weekday and the date. A page is read until the next build, hours
+    after midnight, and "Tänään" named yesterday until then (2026-10-04)."""
     d = date.fromisoformat(iso)
-    if d == today:
-        head = t["today"]
-    elif d == today + timedelta(days=1):
-        head = t["tomorrow"]
-    else:
-        head = t["days"][d.weekday()]
-    return f"{head} {d.day}.{d.month}."
+    return f"{t['days'][d.weekday()]} {d.day}.{d.month}."
 
 
 def clip(text, n=200):
@@ -1318,10 +1311,10 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
         # `day_label` already ends in the date's own full stop, so the sentence adds none.
         line = t["no_shows"]
         if next_day:
-            line += " " + t["next_show"].format(when=day_label(next_day, today, t))
+            line += " " + t["next_show"].format(when=day_label(next_day, t))
         body.append(f'<p class="intro"><span data-nosnippet>{esc(line)}</span></p>')
     for iso in sorted(days):
-        body.append(f'<h2 class="day">{esc(day_label(iso, today, t))}</h2>')
+        body.append(f'<h2 class="day">{esc(day_label(iso, t))}</h2>')
         for title_, shows in sorted(days[iso].items(),
                                     key=lambda kv: (kv[1][0].get("start") or "", kv[0])):
             body.append(film_block(title_, shows, extra, gmap, lang, t,

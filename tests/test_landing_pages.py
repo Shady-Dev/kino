@@ -359,6 +359,35 @@ class GeneratedPagesTest(unittest.TestCase):
             with self.subTest(page=key):
                 self.assertEqual(langs, set(bp.LANGS))
 
+    def test_every_day_heading_is_a_weekday_and_a_date(self):
+        """Never "Tänään" or "Huomenna": a page is read until the next build, and after
+        midnight those named yesterday and today (2026-10-04). Past screenings may still
+        show until that build; they are not called today."""
+        heads = 0
+        for k, text in self.canonical.items():
+            t = bp.L[self.lang_of(k)]
+            for label in re.findall(r'<h2 class="day">([^<]*)</h2>', text):
+                heads += 1
+                with self.subTest(page=k, label=label):
+                    m = re.fullmatch(r"(\w+) (\d{1,2})\.(\d{1,2})\.", html.unescape(label))
+                    self.assertIsNotNone(m)
+                    d = self.today.replace(month=int(m.group(3)), day=int(m.group(2)))
+                    if d < self.today:
+                        d = d.replace(year=d.year + 1)
+                    self.assertEqual(m.group(1), t["days"][d.weekday()])
+                    for word in ("T\u00e4n\u00e4\u00e4n", "Huomenna", "I dag", "I morgon",
+                                 "Today", "Tomorrow"):
+                        self.assertNotIn(word, label)
+        self.assertGreater(heads, 100, "too few day headings to mean anything")
+
+    def test_today_and_tomorrow_are_labelled_like_any_other_day(self):
+        for lang, want in (("fi", ["La 3.10.", "Su 4.10.", "Ma 5.10."]),
+                           ("sv", ["L\u00f6r 3.10.", "S\u00f6n 4.10.", "M\u00e5n 5.10."]),
+                           ("en", ["Sat 3.10.", "Sun 4.10.", "Mon 5.10."])):
+            with self.subTest(lang=lang):
+                self.assertEqual([bp.day_label(f"2026-10-0{d}", bp.L[lang]) for d in (3, 4, 5)],
+                                 want)
+
     def test_an_empty_page_offers_the_cinemas_next_known_date(self):
         """The app already answered "nothing today, what about later" and the landing page
         for the same cinema did not. `next_show_day` reads the same committed file the page
