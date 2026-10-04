@@ -1197,7 +1197,7 @@
   "gråben vs acme": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "",
@@ -1316,7 +1316,7 @@
     "studio123kouvola",
     "vaakuna"
    ],
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -2257,6 +2257,7 @@
    "img": "data/posters/9bcb7891e3c4c53a.jpg",
    "kr": "K-7",
    "krs": [
+    "bioforum",
     "biograni",
     "biorex",
     "biorexkokkola",
@@ -2405,6 +2406,19 @@
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
+   },
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
+  },
+  "kojootti vs acme suomeksi puhuttu": {
+   "id": 1204680,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
    "ts": [
@@ -3761,12 +3775,16 @@
   },
   "original english coyote vs acme": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "original english coyoto vs acme": {
    "id": 1204680,
@@ -4052,6 +4070,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4061,6 +4080,7 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
+    "kuusamotalo",
     "laitilankino",
     "lieksankino"
    ],
@@ -4081,6 +4101,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4090,6 +4111,7 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
+    "kuusamotalo",
     "laitilankino",
     "lieksankino"
    ],
@@ -4107,6 +4129,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4116,6 +4139,7 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
+    "kuusamotalo",
     "laitilankino",
     "lieksankino"
    ],
@@ -4156,6 +4180,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4165,6 +4190,7 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
+    "kuusamotalo",
     "laitilankino",
     "lieksankino"
    ],
@@ -6555,6 +6581,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cine",
     "cinemantsala",
     "engel",
@@ -6570,7 +6597,7 @@
     "kkino",
     "lieksankino"
    ],
-   "r": 7.9,
+   "r": 8.2,
    "s": {
     "en": "Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
@@ -6584,6 +6611,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cine",
     "cinemantsala",
     "engel",
@@ -6613,6 +6641,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cine",
     "cinemantsala",
     "engel",
@@ -6671,6 +6700,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biokaari",
     "cine",
     "cinemantsala",
     "engel",
