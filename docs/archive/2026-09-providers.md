@@ -3620,3 +3620,6 @@ slot. `page_synopsis` drops a sentence that holds a date, a clock time and "näy
 together; a sentence missing any of the three stays. Of 48 cached Orion texts it matches
 two, this one and El espíritu de la colmena's "Näytös järjestetään KE 7.10. klo 19:00.",
 whose slot is not repaired here. Cloud half. 5 mutations red.
+Repaired the same day after the rule: the shared `fi` slot and the cached page entry in
+`film-lang-orion.json` both lose the sentence, so no stored copy carries it back. The slot
+equals the fixed parse of the live page. The screening is outside the pages' window.
