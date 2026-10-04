@@ -215,6 +215,24 @@ class DetailsTest(unittest.TestCase):
         self.assertEqual((d["len"], d["lang"]), ("173", "EN-A, FI-S, SV-S"))
         self.assertIn("elokuva, The Odyssey, on myyttinen", d["_syn"])
 
+    def test_an_opera_states_its_language_in_the_description(self):
+        """Carmen and Tosca, read 2026-10-04: no language box, a line in the description.
+        A ballet's page states none."""
+        carmen = film_page("", "<p>The Royal Opera: Carmen<br />\nKesto: \xa03h 35min / 215min, "
+                               "yksi väliaika<br />\nKieli: ranska, tekstitetty englanniksi</p>",
+                           "", "", "")
+        tosca = film_page("", "<p>The Royal Opera: Tosca<br />Kesto: &nbsp;3h 15min / 195min, "
+                              "kaksi väliaikaa<br />Kieli: italia, tekstitetty englanniksi</p>",
+                          "", "", "")
+        ballet = film_page("", "<p>The Royal Ballet: Joutsenlampi<br />Kesto: 3h</p>", "", "", "")
+        self.assertEqual([tapiola.details(p).get("lang") for p in (carmen, tosca, ballet)],
+                         ["FR-A, EN-S", "IT-A, EN-S", None])
+
+    def test_the_boxes_win_over_a_description_line(self):
+        page = film_page("", "<p>Kieli: ranska, tekstitetty englanniksi</p>", "", "Englanti",
+                         "Suomi")
+        self.assertEqual(tapiola.details(page)["lang"], "EN-A, FI-S")
+
     def test_the_venue_notice_is_not_the_synopsis(self):
         """Every opera and ballet page opens with the cinema's own evening notice, which
         films-extra.json then served as the Finnish synopsis of six Royal Opera and
