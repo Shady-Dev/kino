@@ -2757,3 +2757,12 @@ Repaired the same day after the rule: Junat's and Hyvä talo's `fi` slots lose t
 lines and keep the rest, which equals what the fixed parser reads from both pages. Hyvä
 talo is included because the identical lines from the same series sat in it. Both
 screenings are outside the generated pages' window, so no page changed.
+
+### Fill-only kept, and the repaired slots checked against their sources (2026-10-04)
+The maintainer's decision: no automatic replacement of a filled shared slot. Checked the
+same day after the cloud run: every slot repaired that morning is clean, and four of them
+(Don Quijote Barcelonassa `fi`, Verity `en`, both Unohdettu saari `en`) were refilled by
+TMDB, which is the case a provider's text may replace. Re-read with the current code, the
+sources yield no note: Cine's Unohdettu saari gives Finnish only, Sheryl's Verity page no
+synopsis, Savon Kinot's Kerro kaikille and Ortotopologia clean text, and Niagara no longer
+lists Don Quijote, whose note shape `test_synopsis_notes` holds. No gap, so no new test.
