@@ -553,6 +553,47 @@ class NiagaraRegistryTest(unittest.TestCase):
                 self.assertIn("11", html)
 
 
+class NoSubtitlesTest(unittest.TestCase):
+    """"Tekstitys: Ei tekstitystä" publishes `XX-S`, the shapes read 2026-10-04: Kinopirtti's
+    Rakkautta ja virtahepoja beside "Kieli: Suomi", Leffabuumi's beside "Kieli:
+    Alkuperäinen". Niagara and Star print it where it cannot hold and are not read."""
+
+    def film(self, h1="Rakkautta ja virtahepoja", kieli="Suomi",
+             tekstitys="Ei tekstityst\u00e4"):
+        rows = ""
+        if kieli:
+            rows += f'<span class="label">Kieli:</span> {kieli}<br />\n'
+        if tekstitys:
+            rows += f'<span class="label">Tekstitys:</span> {tekstitys}<br />\n'
+        return (f"<main>\n<h1>{h1}</h1>\n" + rows +
+                '<h2>N\u00e4yt\u00f6kset</h2>\n<div class="screenings">\n</div>\n</main>')
+
+    def meta(self, pid, **kw):
+        return load().parse_movie(self.film(**kw), site(pid), "/elokuvat/1/x")[1]
+
+    def test_the_two_shapes_publish_no_subtitles(self):
+        self.assertEqual(self.meta("kinopirtti")["lang"], "FI-A, XX-S")
+        self.assertEqual(self.meta("leffabuumi", kieli="Alkuper\u00e4inen")["lang"], "XX-S")
+
+    def test_niagara_and_star_state_nothing_with_it(self):
+        for pid in ("niagara", "star"):
+            with self.subTest(site=pid):
+                self.assertEqual(self.meta(pid)["lang"], "FI-A")
+                self.assertEqual(self.meta(pid, kieli="")["lang"], "")
+
+    def test_named_subtitles_and_a_missing_row_are_unchanged(self):
+        self.assertEqual(self.meta("kinopirtti", kieli="englanti",
+                                   tekstitys="Suomi ja ruotsi")["lang"], "EN-A, FI-S, SV-S")
+        self.assertEqual(self.meta("kinopirtti", tekstitys="")["lang"], "FI-A")
+
+    def test_no_subtitles_alone_keeps_a_version_label(self):
+        """The audio is unstated, so DUB is still the only record of the version."""
+        m = self.meta("leffabuumi", h1="Kojootti vs. ACME DUB", kieli="Alkuper\u00e4inen")
+        self.assertEqual(m["title"], "Kojootti vs. ACME DUB")
+        m = self.meta("leffabuumi", h1="Kojootti vs. ACME DUB")
+        self.assertEqual(m["title"], "Kojootti vs. ACME")
+
+
 class VersionSuffixTest(unittest.TestCase):
     """Two sites label the audio version in the film-page H1 as well as in the language
     rows, which cost those rows their TMDB match: no search with a trailing ENG or SUB

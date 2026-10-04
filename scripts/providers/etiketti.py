@@ -385,16 +385,30 @@ def strict_codes(value):
     return out
 
 
-def _lang(page):
-    """'Alkuperäinen' / 'Suomi ja ruotsi' -> Finnkino-style tags."""
+# "Tekstitys: Ei tekstitystä" is the film page saying the screening has no subtitles:
+# `XX-S`, as at Kino Engel. Read 2026-10-04 over 231 film pages it stood on Finnish films
+# and dubs at sixteen sites, 139 screenings. Not read at two whose template shows it where
+# it cannot hold: Niagara prints it on pages with no Kieli row (Black Magic Rites,
+# Rakkautta ja virtahepoja), Star beside Italian audio (La Grazia) and beside Swedish and
+# Russian dialogue (Punainen peto).
+NO_SUBS_RE = re.compile(r"^ei\s+tekstityst\u00e4\.?$", re.I)
+NO_SUBS_UNREAD = frozenset({"niagara", "star"})
+
+
+def _lang(page, no_subs=True):
+    """'Alkuperäinen' / 'Suomi ja ruotsi' -> Finnkino-style tags; "Ei tekstitystä" -> `XX-S`
+    unless `no_subs` is False."""
     codes = lang_codes
     a = LANGV_RE.search(page)
     s = SUBS_RE.search(page)
     av = _txt(a.group(1)) if a else ""
+    sv = _txt(s.group(1)) if s else ""
     parts = [f"{c}-A" for c in codes(av)]
     if not parts and "alkuper" in av.lower():
         parts = []                       # original version: audio language unstated
-    parts += [f"{c}-S" for c in (codes(_txt(s.group(1))) if s else [])]
+    if no_subs and NO_SUBS_RE.match(sv):
+        return ", ".join(parts + ["XX-S"])
+    parts += [f"{c}-S" for c in codes(sv)]
     return ", ".join(parts)
 
 
@@ -506,7 +520,7 @@ def parse_movie(page, site, movie_url):
         minutes = str(int(dur.group(1) or 0) * 60 + int(dur.group(2) or 0))
     poster = POSTER_RE.search(page)
     img = poster.group(1).split("?")[0] if poster else ""
-    lang = _lang(page)
+    lang = _lang(page, no_subs=site["provider"] not in NO_SUBS_UNREAD)
     genre_hits = GENRES_RE.findall(page)
     if not genre_hits:
         g2 = GENRES2_RE.search(page)
@@ -551,7 +565,9 @@ def parse_movie(page, site, movie_url):
             "sid": book.group(1) if book else "",
             "url": site["base"] + (book.group(1) if book else movie_url),
         })
-    return out, {"title": strip_version_suffix(title, lang), "rating": rating,
+    # "no subtitles" alone does not corroborate a DUB or ENG label: the audio is unstated.
+    stated = ", ".join(t for t in lang.split(", ") if t and t != "XX-S")
+    return out, {"title": strip_version_suffix(title, stated), "rating": rating,
                  "len": minutes, "img": img,
                  "lang": lang, "genres": genres, "syn": syn, "paras": paras,
                  "skipped": skipped}

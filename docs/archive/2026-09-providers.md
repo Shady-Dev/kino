@@ -3558,3 +3558,13 @@ publishes `XX-S`, as Kino Engel's "Ei tekstitystä" does. Read 2026-10-04 over a
 sites: 29 rows on five, 25 of them Finnish films or dubs, and Kino Hirvi marks an unknown
 subtitle `OV`, so `XX` is chosen rather than left as a default. `XX` beside a real code
 contradicts itself and keeps only the code. Cloud half. 2 mutations red.
+
+### eTiketti's "Ei tekstitystä" is a screening without subtitles (2026-10-04)
+The maintainer's decision on an explicit "no subtitles". The film page's Tekstitys row
+reading "Ei tekstitystä" publishes `XX-S`; the Kieli row is read as before, so "Alkuperäinen"
+gives `XX-S` alone. Read 2026-10-04 over all 231 film pages: 139 screenings at sixteen
+sites, every one a Finnish film or a dub, 28 of them with no language before. Niagara and
+Star are not read: Niagara prints the row on pages with no Kieli row (Black Magic Rites,
+Rakkautta ja virtahepoja), Star beside Italian audio (La Grazia) and Swedish and Russian
+dialogue (Punainen peto), 50 screenings between them. A DUB or ENG title label is kept when
+the page states only "no subtitles". Savon Kinot is local, the rest cloud. 4 mutations red.
