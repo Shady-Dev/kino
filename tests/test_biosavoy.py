@@ -403,6 +403,14 @@ class FilmFactsTest(unittest.TestCase):
     def test_a_page_with_no_body_publishes_no_synopsis(self):
         self.assertEqual(self.facts(body=None)["syn"], "")
 
+    def test_svenskt_tal_is_the_spoken_language(self):
+        """Marsupilami and Gr\u00e5ben vs ACME, read 2026-10-04: a body paragraph of its
+        own. The words inside a sentence state nothing."""
+        self.assertEqual(self.facts(body="Om Marsupilami.</p>\n<p>SVENSKT TAL!</p>\n"
+                                         "<p>PREMI\u00c4R 21.8 2026")["lang"], "SV-A")
+        self.assertEqual(self.facts(body="Filmen visas med svenskt tal och text.")["lang"], "")
+        self.assertEqual(self.facts()["lang"], "")
+
     def test_the_body_ends_where_the_genre_field_begins(self):
         """The page's own order, read on /film/digger 2026-10-04: the body is a `<div>`
         and the genre section follows it. Its items ended 15 Swedish synopses."""
@@ -464,6 +472,13 @@ class SwedishSynopsisTest(unittest.TestCase):
         syn = {s["title"]: s.get("_syn") for s in shows}
         self.assertEqual(syn["THE DOG STARS"], {"sv": "Om h\u00f6sten och hundarna."})
         self.assertIn("Swedish synopsis", log)
+
+    def test_the_spoken_language_reaches_that_films_screenings_only(self):
+        shows, _ = self.run_site(**{f"{BASE}/film/marsupilami": film_page(
+            body="Om Marsupilami.</p><p>SVENSKT TAL!")})
+        got = {s["title"]: s["lang"] for s in shows}
+        self.assertEqual(got["MARSUPILAMI"], "SV-A")
+        self.assertEqual({v for k, v in got.items() if k != "MARSUPILAMI"}, {""})
 
     def test_the_runtime_and_the_age_limit_reach_every_screening(self):
         """Not only the price: the same page carries both, and both are per film, so every
