@@ -13,10 +13,10 @@
 [star] strand prefix split off 9 showtimes
 [star] Elokuvateatteri Star: 78 showtimes, 5 dates
 [star] synopses merged: 0
-[haapamaki] Haapamäen Elokuvat: 9 showtimes, 7 dates
+[haapamaki] Haapamäen Elokuvat: 10 showtimes, 7 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 67 full, 67 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 68 full, 68 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 11 venues, 214 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 11 venues, 215 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
