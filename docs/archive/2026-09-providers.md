@@ -3654,3 +3654,11 @@ synopsis kept literal `<b>` and `<p>`. Four shared slots hold them, among them T
 elokuvissa, where they glued a screening note to the next sentence. `_txt` now strips tags
 again after unescaping; an escaped ampersand or a lone `<` stays text. Over the 231 eTiketti
 film pages read that day, synopses with tags from 9 to 0. 1 mutation red.
+
+### K-Kino's facts block ends the synopsis (2026-10-04)
+K-Kino's film pages, read 2026-10-04, end the description with a "Tiedot" heading, then
+"Kesto: ...", "Ikäraja: ...", ticket sales ("Vältä jonotus! Ennakkoliput ...", "Liput
+ovelta: 30 min ennen näytöstä."), snacks and house rules, and Pirjo i Sverige – Vauvakino's
+shared slot held all of it. `house_facts_cut` ends the synopsis at that heading when the
+next paragraph is a "Kesto:" line, the shape on all six K-Kino pages and on no other eTiketti
+site. Over K-Kino's 7 pages that day, synopses carrying the block from 1 to 0. 3 mutations red.

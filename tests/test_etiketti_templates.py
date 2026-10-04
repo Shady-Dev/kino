@@ -573,6 +573,35 @@ class EscapedMarkupTest(unittest.TestCase):
                          "Kätyrit & Monsterit, 3 < 4.")
 
 
+class HouseFactsTest(unittest.TestCase):
+    """K-Kino's Pirjo i Sverige \u2013 Vauvakino, read 2026-10-04: synopsis, then a "Tiedot"
+    block of runtime, age limit, ticket sales, snacks and house rules."""
+
+    TAIL = ("<br />\r\n<br />\r\nTiedot<br />\r\n<br />\r\nKesto: 1 t 28 min<br />\r\n"
+            "Ik\u00e4raja: S<br />\r\n<br />\r\nLiput<br />\r\n<br />\r\nV\u00e4lt\u00e4 jonotus! "
+            "Ennakkoliput verkkokaupasta www.k-kino.fi.<br />\r\n<br />\r\nLiput ovelta: 30 min "
+            "ennen n\u00e4yt\u00f6st\u00e4.<br />\r\n<br />\r\nLeffaherkut<br />\r\n<br />\r\n"
+            "K-Kinoon saa tuoda mukana maltilliset omat ev\u00e4\u00e4t.")
+
+    def syn(self, desc):
+        page = ('<main><h1>PIRJO</h1><div class="description-container"><span>' + desc
+                + "</span></div></main>")
+        return load().parse_movie(page, site("kkino"), "/elokuvat/26/x")[1]["syn"]
+
+    def test_the_facts_block_is_not_the_synopsis(self):
+        body = ("Kun Pirjo Heikkil\u00e4 nolaa itsens\u00e4 julkisesti, h\u00e4n l\u00e4htee "
+                "Ruotsiin.<br />\r\n<br />\r\nPirjo i Sverige on l\u00e4mminhenkinen komedia.")
+        self.assertEqual(self.syn(body + self.TAIL),
+                         "Kun Pirjo Heikkil\u00e4 nolaa itsens\u00e4 julkisesti, h\u00e4n l\u00e4htee "
+                         "Ruotsiin. Pirjo i Sverige on l\u00e4mminhenkinen komedia.")
+
+    def test_the_word_alone_or_without_a_runtime_after_it_stays(self):
+        for desc in ("Tiedot<br />\r\nKuka tiet\u00e4\u00e4 totuuden?",
+                     "Tiedot ja taidot ratkaisevat kilpailun.<br />\r\nKesto: 1 t 28 min"):
+            with self.subTest(desc=desc[:20]):
+                self.assertEqual(self.syn(desc), load()._txt(desc.replace("<br />", " ")))
+
+
 class NoSubtitlesTest(unittest.TestCase):
     """"Tekstitys: Ei tekstitystä" publishes `XX-S`, the shapes read 2026-10-04: Kinopirtti's
     Rakkautta ja virtahepoja beside "Kieli: Suomi", Leffabuumi's beside "Kieli:

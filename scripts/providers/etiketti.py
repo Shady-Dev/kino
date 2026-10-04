@@ -503,6 +503,17 @@ def _place_class(cls):
                     if t != "item" and not t.startswith(("date-", "name-")))
 
 
+def house_facts_cut(paras):
+    """The paragraphs before K-Kino's facts block. Its six film pages, read 2026-10-04, end
+    the description with a "Tiedot" heading, "Kesto: ...", "Ikäraja: ...", then ticket
+    sales, snacks and house rules, which reached a shared slot. Only the heading followed by
+    a runtime line counts."""
+    for i, t in enumerate(paras[:-1]):
+        if t == "Tiedot" and paras[i + 1].startswith("Kesto:"):
+            return paras[:i]
+    return paras
+
+
 def parse_movie(page, site, movie_url):
     """-> (list of raw screenings, film meta).
 
@@ -532,8 +543,8 @@ def parse_movie(page, site, movie_url):
     d = DESC_RE.search(page)
     # A screening-note paragraph goes whole, as at Gilda. Savon Kinot opens films with one
     # ("... Kitee ||"), and kept, it reached the slot every chain reads (2026-10-04).
-    paras = [t for t in map(_txt, PARA_RE.split(d.group(1)))
-             if t and not is_note(t)] if d else []
+    paras = [t for t in map(_txt, PARA_RE.split(d.group(1))) if t] if d else []
+    paras = [t for t in house_facts_cut(paras) if not is_note(t)]
     syn = AGE_BOILER_RE.sub("", " ".join(paras))
 
     out, skipped = [], 0
