@@ -78,6 +78,12 @@ Alatalo 5), and they account for every `http://` ticket destination in the commi
 28 showtimes, 15 Savoy and 13 Alatalo, measured 2026-09-22. Both are `book='door'`, so no
 reader is sent to a payment form over cleartext.
 
+Re-probed 2026-10-04: TCP/443 refused on `biosavoy.ax`, `www.biosavoy.ax` and
+`www.moviecompanyalatalo.fi` (`curl` exit 7), and `moviecompanyalatalo.fi` has no A record
+(exit 6), while `http://www.` answered 200 on both. So the status page's and the stale
+notice's link, `https://{host}/`, could not connect for either; the registry's `site`
+field sends those two links to the `http://www.` origin the adapter reads.
+
 What that exposes: an on-path attacker controls what gets committed for those venues. What
 it does not: `esc()` and `safeUrl()` stop injected text becoming script, and `safeAssetUrl`
 stops it becoming an off-origin request. The rule this fed is in

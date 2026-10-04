@@ -369,7 +369,8 @@
    "label": "Bio Savoy",
    "host": "biosavoy.ax",
    "accent": "#7766FF",
-   "book": "door"
+   "book": "door",
+   "site": "http://www.biosavoy.ax/"
   },
   {
    "id": "cinemantsala",
@@ -502,7 +503,8 @@
    "label": "Movie Company Alatalo",
    "host": "moviecompanyalatalo.fi",
    "accent": "#6C9678",
-   "book": "door"
+   "book": "door",
+   "site": "http://www.moviecompanyalatalo.fi/"
   },
   {
    "id": "sheryl",

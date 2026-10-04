@@ -66,7 +66,8 @@ def fallback_body(providers=None):
             f"    {{ id:{_js(p['id']) + ',':<{cols['id'] + 1}} "
             f"label:{_js(p['label']) + ',':<{cols['label'] + 1}} "
             f"host:{_js(p['host']) + ',':<{cols['host'] + 1}} "
-            f"accent:{_js(p['accent'])}, book:{_js(p['book'])} }}{end}")
+            f"accent:{_js(p['accent'])}, book:{_js(p['book'])}"
+            + (f", site:{_js(p['site'])}" if p.get("site") else "") + f" }}{end}")
     return "\n".join(lines)
 
 

@@ -383,8 +383,10 @@ PROVIDERS = [
     # accepts http. `book="door"`: bookings are by telephone only.
     # Mariehamn is keyed under its own and only official name; see the module docstring for
     # why the Finnish exonym would be the wrong key here.
+    # `site`: the address its own site answers at, linked by the status page and the stale
+    # notice; see FRONTEND_OPTIONAL.
     dict(id="biosavoy", label="Bio Savoy", host="biosavoy.ax", accent="#7766FF",
-         book="door", module="biosavoy", where="cloud"),
+         book="door", module="biosavoy", where="cloud", site="http://www.biosavoy.ax/"),
 
     # Cine Mäntsälä, Mäntsälä (2026-09-15). Separate from the `cine` entry above, which
     # is kiertue.cine.fi in Kerava and Sipoo: this is its own MyCloudCinema deployment on
@@ -572,7 +574,8 @@ PROVIDERS = [
     # nearest-neighbour distance in the set is 2.8, with 45 of the 71 below 4.1. Nothing
     # in the band clears 14.4 in all four rows and reaches 5.0 anywhere.
     dict(id="alatalo", label="Movie Company Alatalo", host="moviecompanyalatalo.fi",
-         accent="#6C9678", book="door", module="alatalo", where="cloud"),
+         accent="#6C9678", book="door", module="alatalo", where="cloud",
+         site="http://www.moviecompanyalatalo.fi/"),
     # Cinema Sheryl, 2026-09-19. A student-run cinema on the Aalto campus in Otaniemi and
     # the fourth tenant on `kinola.py`; the plugin runs in English there, which is the only
     # thing its template reads differently. `book="buy"`: every screening links to its film
@@ -701,6 +704,12 @@ PROVIDERS = [
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "book")
+# `site` is set only where a provider's own site does not answer at `https://{host}/`:
+# a host with no TLS, whose adapter `base` is the documented cleartext exception in
+# CLAUDE.md (docs/research/adapter-http.md). Read 2026-10-04, biosavoy.ax refuses 443 and
+# moviecompanyalatalo.fi has no address record, so both links built from `host` failed.
+# `tests/test_registry_sites.py` holds every `site` to its adapter's `http://` base.
+FRONTEND_OPTIONAL = ("site",)
 
 # Areas the picker offers beside the cities, generated into data/regions.json by
 # scripts/build_regions.py. Kept here rather than in index.html because that is the one
@@ -780,7 +789,8 @@ REGION_KEYS = ("name", "sv", "en", "cities")
 
 def frontend():
     """The subset the client needs. Nothing about where a provider runs leaks out."""
-    return [{k: p[k] for k in FRONTEND_KEYS} for p in PROVIDERS]
+    return [{**{k: p[k] for k in FRONTEND_KEYS},
+             **{k: p[k] for k in FRONTEND_OPTIONAL if p.get(k)}} for p in PROVIDERS]
 
 
 def regions():

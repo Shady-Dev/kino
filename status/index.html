@@ -604,7 +604,7 @@
       }
       const scope = venues > 1 ? T.venuesN.replace('{n}', venues)
                                : (m && m.city ? T.venues1.replace('{city}', m.city) : '');
-      return { id:p.id, name:p.label || p.id, host:p.host || '', state,
+      return { id:p.id, name:p.label || p.id, host:p.host || '', site:p.site || '', state,
                label:T['st' + state[0].toUpperCase() + state.slice(1)] || T.stUnknown,
                meta: scope ? `${scope}, ${sub}` : sub, detail, venues,
                ago, when, iso: iso || '' };
@@ -904,7 +904,8 @@
                  : r.state === 'pending' ? 'neutral' : '';
       const mark = r.state === 'ok' ? '✓' : r.state === 'unknown' ? '?'
                  : r.state === 'pending' ? '–' : '!';
-      const url = r.host ? safeUrl('https://' + r.host + '/') : '';
+      // `site` where the site does not answer at https://{host}/ (registry.py).
+      const url = r.host ? safeUrl(r.site || 'https://' + r.host + '/') : '';
       const link = url ? `<br><a href="${url}" rel="noopener">${esc(T.siteLink)}</a>` : '';
       return `<details class="provider" id="row-${esc(r.id)}" data-id="${esc(r.id)}"`
         + `${open.has(r.id) ? ' open' : ''}><summary><div class="provider-name">${esc(r.name)}`
