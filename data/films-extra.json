@@ -285,7 +285,6 @@
    "img": "data/posters/64d23f46b5356d6f.jpg",
    "kr": "K-12",
    "krs": [
-    "cinemantsala",
     "engel",
     "gilda",
     "kinolaika",
@@ -340,13 +339,12 @@
   },
   "autot uudelleenjulkaisu": {
    "id": 920,
-   "img": "data/posters/6cfe6fb6720fa102.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Autot on seikkailu Ihmeperhe ja Nemoa etsimässä -elokuvien Oscar®-palkituilta tekijöiltä. Vauhtia, makeita menopelejä ja loistavaa animaatiota – riemua ja huumoria startista maaliin! Kilpa-auto Salama McQueen on matkalla Kaliforniaan osallistuakseen suureen Piston Cup -kisaan. Se eksyy valtatien 66:n varrella olevaan uinuvaan Syylari Cityyn. Siellä se tapaa Salli-nimisen Porschen, hinausauto Martin ja veteraaniauto Doc Hudsonin, jolla on arvoituksellinen menneisyys. Tämä sekalainen sakki auttaa Salamaa ymmärtämään, että elämässä on tärkeämpiäkin asioita kuin kilpaileminen, maine tai sponsorirahat. Kiinnitä siis turvavyösi ja valmistaudu vauhdikkaaseen menoon!"
    },
-   "tr": "https://www.youtube.com/watch?v=XszNWHhpaTc"
+   "tr": ""
   },
   "avengers doomsday": {
    "id": 1003596,
@@ -687,16 +685,12 @@
   },
   "chungking express": {
    "id": 11104,
-   "img": "data/posters/1dea09ce4e9f3f4b.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
     "en": "Wong Kar-Wai’s intoxicating portrait of love and loneliness follows two melancholic Hong Kong policemen as they stumble into unexpected romances. One becomes entangled with a mysterious underworld figure, while the other falls for an ethereal server at a late-night restaurant. Filmed in impressionistic bursts of motion and color, the film captures the exhilaration and heartbreak of love with Wong’s unmistakable visual style.",
-    "fi": "Chungking Express alkaa hysteerisen nopeilla, villisti kieppuvilla kuvilla. Blondiperuukkiin ja aurinkolaseihin naamioitunut kaunotar piilottaa heroiinia pakistanilaisten palkkakuriirien matkatavaroihin pahamaineisen Chungking Mansionin sokkeloissa, ja joutuu petoksen uhriksi. Samaan aikaan toisaalla: tyttöystävän hylkäämä Poliisi-223 polttaa murtunutta sydäntä molemmista päistä. Hän päättää rakastua ensimmäiseen naiseen joka astuu ovesta... Ja vielä: pikanuudelitiskin Faye iskee silmänsä toiseen poliisiin..."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=P9Mxf_6pVA0",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "coyote vs acme": {
    "id": 1204680,
@@ -753,14 +747,12 @@
    ]
   },
   "departures": {
-   "id": 1427653,
-   "img": "data/posters/798be2da6b5d37cd.jpg",
    "r": 0,
    "s": {
     "en": "Benji encounters Jake at an airport gate and there is attraction. Their relationship unfolds through Amsterdam trips and intimacy. Departures is a messy and funny queer romance about desire, longing for love and power dynamics in relationships. It reminds you that falling in love can be wonderful, intense and senseless; and sometimes exactly the flight you never should have boarded.",
     "fi": "Yksi katse lentokentän lähtöportilla, vastustamaton kemia – ja pian Benji on matkalla kohti romanssia, josta ei todellakaan selvitä ilman turbulenssia. Kun Benji kohtaa Jaken, kipinä syttyy nopeasti. Seuraa Amsterdamin-matkoja, seksiä, läheisyyttä ja ihastumisen huumaa, mutta vähitellen kuuman romanssin alta alkaa paljastua jotain huomattavasti mutkikkaampaa. Kumpi suhteessa oikeastaan määrää tahdin – ja kuinka pitkälle olemme valmiita menemään saadaksemme tulla rakastetuiksi? Departures on herkullisen sotkuinen, terävä ja paikoin häpeilemättömän hauska queer-romanssi halusta, rakkauden nälästä ja ihmissuhteiden valta-asetelmista. Se muistuttaa, että rakastuminen voi olla ihanaa, kiihkeää ja täydellisen järjetöntä – ja joskus juuri se lento, jolle ei olisi ehkä koskaan pitänyt nousta."
    },
-   "tr": "https://www.youtube.com/watch?v=s2LLsEmk7fc"
+   "tr": ""
   },
   "dialogpolisen": {
    "id": 1360694,
@@ -1176,17 +1168,13 @@
   },
   "gråben vs acme": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "",
     "sv": "Efter årtionden av att ha blivit sprängd i luften av Acmes explosiva produkter slår Gråben äntligen tillbaka – och tar hjälp av en osäker advokat för att få den upprättelse han alltid förtjänat. Dessutom finns där Hjulben… och dynamit."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "gråben vs acme coyote vs acme": {
    "id": 1204680,
@@ -1226,16 +1214,12 @@
   },
   "happy together": {
    "id": 18329,
-   "img": "data/posters/b1b61f46eae9787a.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "Yiu-Fai and Po-Wing arrive in Argentina from Hong Kong and take to the road for a holiday. Something is wrong and their relationship goes adrift. A disillusioned Yiu-Fai starts working at a tango bar to save up for his trip home. When a beaten and bruised Po-Wing reappears, Yiu-Fai is empathetic but is unable to enter a more intimate relationship. After all, Po-Wing is not ready to settle down. Yiu-Fai now works in a Chinese restaurant and meets the youthful Chang from Taiwan. Uhf zacnjb-Fai’s life takes on a new spin, while Po-Wing’s life shatters continually in contrast.",
-    "fi": "Kahden miehen, Ho Po-wingin ja Lai Yiu-Fain myrskyisä rakkaussuhde Buenos Airesissa ja rakkaudentunnustus kodille, Hongkongin ylistyslaulu."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=cU_u8xQspQg",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "heart of beast": {
    "id": 1263337,
@@ -1253,49 +1237,6 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosavoy",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "jarvelankino",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinohirvi",
-    "kinokulma",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotar",
-    "kinotoijala",
-    "kinovirta",
-    "kkino",
-    "kotkanleffat",
-    "leffabuumi",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna"
-   ],
    "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
@@ -1533,14 +1474,12 @@
    "tr": ""
   },
   "i rarely wake up dreaming": {
-   "id": 1522183,
-   "img": "data/posters/1aee14c45b3fdcc3.jpg",
    "r": 0,
    "s": {
     "en": "Can love survive when your own identity and a whole country must fight for their existence? Olya and Oleh are a young queer couple in Ukraine. When one of them is transitioning while Russia has started a fullblown war their relationship is put to a new kind of test. The war is trying to push people in narrow roles just when they are trying to break free from them. I Rarely Wake Up Dreaming is an intimate and shaking love story about gender, desire, body and survival in the middle of war. The question is what is the meaning of manhood in a country that is fighting for its own identity – and what happens to love when the world around you demands you to define who you should be. Among all uncertainties all that is left is probably the most radical act: the right to love, change and be yourself.",
     "fi": "Voiko rakkaus säilyä, kun sekä oma identiteetti että kokonainen maa joutuvat taistelemaan olemassaolostaan? Olya ja Oleh ovat nuori queer-pari Ukrainassa. Kun toisen sukupuolenkorjausprosessi osuu samaan aikaan Venäjän täysimittaisen hyökkäyssodan kanssa, heidän suhteensa joutuu aivan uudenlaiseen puristukseen. Sota yrittää pakottaa ihmiset tiukkoihin rooleihin juuri silloin, kun he itse pyrkivät vapautumaan niistä. I Rarely Wake Up Dreaming on intiimi ja ravisteleva rakkaustarina sukupuolesta, halusta, ruumiista ja selviytymisestä keskellä sotaa. Se kysyy, mitä mieheys merkitsee maassa, joka taistelee omasta identiteetistään – ja mitä tapahtuu rakkaudelle, kun ympäröivä maailma vaatii määrittelemään, kuka sinun pitäisi olla. Kaiken epävarmuuden keskellä jäljelle jää ehkä kaikkein radikaalein teko: oikeus rakastaa, muuttua ja olla oma itsensä."
    },
-   "tr": "https://www.youtube.com/watch?v=S0OB2kv7oRI"
+   "tr": ""
   },
   "i swear": {
    "id": 1317149,
@@ -1675,6 +1614,19 @@
     "fi": "Pohjois-Espanjan paahtavissa kasvihuoneissa lämpö ei tule vain auringosta. Kun Hadoum aloittaa työt samalla kasvihuoneella Ivanin kanssa, heidän välilleen syntyy nopeasti sähköinen vetovoima. Molemmat ovat tottuneet kulkemaan omia polkujaan ja erottumaan ympäristöstään – ehkä juuri siksi he tunnistavat toisissaan jotain vastustamatonta. Mutta mitä lähemmäs he pääsevät toisiaan, sitä vaikeammaksi käy pitää ulkopuolinen maailma poissa heidän välistään. Ivan and Hadoum on hikinen, herkkä ja intensiivinen queer-rakkaustarina halusta, ulkopuolisuudesta ja kahden ihmisen tarpeesta tulla nähdyksi juuri sellaisena kuin on. Kasvihuoneessa kaikki voi versoa – myös rakkaus, joka ei suostu pysymään siististi ruodussa."
    },
    "tr": ""
+  },
+  "jailer 2": {
+   "id": 1234139,
+   "img": "data/posters/fc034c34f1eaf82a.jpg",
+   "r": 0,
+   "s": {
+    "en": "Following the events of \"Jailer\",  former ruthless police officer Muthuvel Pandian must come face-to-face with an even larger threat.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
@@ -2240,10 +2192,8 @@
     "biosade",
     "biosavoy",
     "cinemantsala",
-    "engel",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinohamina",
     "kinolaika",
     "kinolumo",
@@ -2253,7 +2203,6 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "star",
     "vaakuna"
    ],
    "r": 7.6,
@@ -2320,16 +2269,12 @@
   },
   "kojootti vs acme orig": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme original": {
    "id": 1204680,
@@ -3283,8 +3228,7 @@
     "kuvakukko",
     "leffabuumi",
     "niagara",
-    "savonkinot",
-    "tapiola"
+    "savonkinot"
    ],
    "r": 7.7,
    "s": {
@@ -3374,7 +3318,7 @@
    "krs": [
     "niagara"
    ],
-   "r": 0,
+   "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
     "fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun The Zone of Interest -elokuvan (R&A 2023) ohjaaja Jonathan Glazer ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina."
@@ -3509,6 +3453,14 @@
     "fi": "Mestariohjaaja F. W. Murnaun ”kauhun sinfonia” on vampyyrikuvaston klassikko. Se edustaa saksalaista ekspressionismia ja kansankunnan pahaa oloa kauheimmillaan. Bram Stokerin Draculan pohjalta vapaasti sovitetun elokuvan seiniä pitkin hiipivät varjot ja Kreivi Orlokin iljettävä olomuoto saavat ihon edelleen kananlihalle."
    },
    "tr": "https://www.youtube.com/watch?v=npxhdRMYHy0"
+  },
+  "nousu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hyytävän kylmänä talvena toisen maailmansodan aikaan kaksi Neuvostoliiton vastarintaliikkeen partsiaania on metsästämässä ruokaa. He taistelevat paitsi nälkäänsä myös saksalaissotilaita ja purevaa pakkasta vastaan. Vietyään lampaan eräältä saksalaiselta päämieheltä he jäävät epäonnekseen kiinni. Heitä odottaa heidän siihenastisista koetuksistaan suurin. Larisa Šepitkon Nousu palkittiin Berliinin elokuvajuhlilla Kultaisella karhulla ja kriitikkopalkinnolla . Se on tunnevoimainen kertomus eloonjäämisestä ja idealismista toisen maailmansodan aikana."
+   },
+   "tr": ""
   },
   "nouvelle vague": {
    "id": 1254808,
@@ -3818,13 +3770,13 @@
    "img": "data/posters/952438d819839253.jpg",
    "kr": "K-16",
    "krs": [
-    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kinoelo",
     "kinomania",
     "kinosampo",
     "kinotoijala",
+    "leffabuumi",
     "sheryl"
    ],
    "r": 0,
@@ -3846,6 +3798,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "pahantorjuja kerhonäytös the secret reading club of kabul": {
+   "id": 1635591,
+   "img": "data/posters/8e47d51a8993f244.jpg",
+   "r": 0,
+   "s": {
+    "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
+    "fi": "Näemme silloin Elina Hirvosen ja Shakiba Adilin paljon huomiota saaneen dokumenttielokuvan The Secret Reading Club of Kabul. Elokuva seuraa kolmea afganistanilaista naista, jotka pitävät salaista lukupiiriä Talibanin hallitsemassa maassa, jossa naisten oikeudet ovat käytännössä kadonneet lähes olemattomiin. Dokumentin kesto 94 minuuttia, K-16."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "paholainen pukeutuu pradaan 2006": {
    "id": 350,
@@ -4301,7 +4266,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4373,7 +4337,6 @@
     "biorexkokkola",
     "biosade",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4841,12 +4804,10 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoelo",
     "kinohirvi",
     "kinolaika",
@@ -4863,7 +4824,6 @@
     "kuusamotalo",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -4890,12 +4850,10 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoelo",
     "kinohirvi",
     "kinolaika",
@@ -4912,7 +4870,6 @@
     "kuusamotalo",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -5649,12 +5606,14 @@
    ]
   },
   "talvitarina": {
-   "r": 0,
+   "id": 10241,
+   "img": "data/posters/98e1b54bc8d04bd5.jpg",
+   "r": 7.0,
    "s": {
     "en": "Eric Rohmer’s A Tale of Winter follows Félicie, who spends Christmas in Paris with her daughter and two men, Loïc and Maxence. Five years earlier, Félicie lost contact with Charles, the man she loved, with whom she spent an unforgettable summer before they went their separate ways. Although Félicie has moved on with her life, she has never given up hope that Charles might one day return to her life. The film explores the meaning of love, chance, and faith, as well as how strongly a person can hold on to the possibility of finding a lost love again.",
     "fi": "Eric Rohmerin Talvitarina kertoo Féliciestä, joka viettää joulun Pariisissa tyttärensä ja kahden miehen, Loïcin ja Maxencen, seurassa. Viisi vuotta aiemmin Félicie menetti yhteyden rakastamaansa Charlesiin, jonka kanssa hän vietti unohtumattoman kesän ennen kuin he erkanivat. Vaikka Félicie on rakentanut elämäänsä eteenpäin, hän ei ole luopunut toivosta, että Charles palaisi vielä hänen elämäänsä. Elokuva käsittelee rakkauden, sattuman ja uskon merkitystä sekä sitä, kuinka vahvasti ihminen voi pitää kiinni mahdollisuudesta löytää kadotettu rakkaus uudelleen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=lfhcwzO0VTk"
   },
   "tartuffe": {
    "id": 55544,
@@ -5826,13 +5785,12 @@
   },
   "the drama": {
    "id": 1325734,
-   "img": "data/posters/e11b6083be5f577d.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Emman ja Charlien hartaasti odottama hääpäivä on vihdoin lähellä, eikä pari voisi olla onnellisempi. Kun odottamaton salaisuus paljastuu, heidän täydellisesti suunniteltu hääviikkonsa alkaa hajota käsiin... Rakkaus joutuu koetukselle, kun jokainen sana, katse ja vitsi saa uuden merkityksen – eikä mikään ole entisellään."
    },
-   "tr": "https://www.youtube.com/watch?v=0ZDzsH3XGFA"
+   "tr": ""
   },
   "the end of oak street": {
    "id": 1101383,
@@ -5907,19 +5865,6 @@
     "sv": "Det vardagliga ställs mot det fantastiska i en film fylld av värme, humor och en rejäl dos berättarglädje. The Love That Remains fångar ömsint ett år i en familjs liv. Ett år där föräldrarna försöker navigera genom sin separation långsamt, men oundvikligen glider de isär. Med en blandning av lekfullhet och djup porträtterar filmen det bitterljuva i en kärlek som har bleknat, men där minnena fortfarande binder samman – allt mot en fond av årstidernas tysta förändring. Filmskaparen Hlynur Pálmason (Godland) för in både oväntad humor och känslomässig tyngd i denna visuellt slående, intima och samtidigt imponerande vidsträckta skildring av ett äktenskap i upplösning – mot en storslagen fond av årstidernas skiftningar."
    },
    "tr": "https://www.youtube.com/watch?v=jZ0fdmesr-w"
-  },
-  "the monk and the gun": {
-   "id": 1109237,
-   "img": "data/posters/a6159fc3eadab7c0.jpg",
-   "r": 7.2,
-   "s": {
-    "en": "An American travels to Bhutan searching for a valuable antique rifle and crosses paths with a young monk who wanders through the serene mountains, instructed by his teacher to make things right again.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=OesAEwWIJlQ",
-   "ts": [
-    "en"
-   ]
   },
   "the music lovers": {
    "id": 72899,
@@ -6116,7 +6061,8 @@
     "kinolaika",
     "korjaamo",
     "kuvakukko",
-    "niagara"
+    "niagara",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -6170,7 +6116,8 @@
    "kr": "K-12",
    "krs": [
     "isohannu",
-    "kinoaurora"
+    "kinoaurora",
+    "leffabuumi"
    ],
    "r": 0,
    "s": {
@@ -6328,11 +6275,11 @@
    "kr": "K-16",
    "krs": [
     "biorexkokkola",
-    "cinemantsala",
     "helios",
     "isohannu",
     "kinoaurora",
     "kinokulma",
+    "leffabuumi",
     "tapiola"
    ],
    "r": 7.6,
@@ -6557,6 +6504,7 @@
     "kinotoijala",
     "kkino",
     "kuvakukko",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 8.2,
@@ -6609,6 +6557,7 @@
     "kinotoijala",
     "kkino",
     "kuvakukko",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 8.2,
@@ -6700,6 +6649,7 @@
     "kinotoijala",
     "kkino",
     "kuvakukko",
+    "leffabuumi",
     "lieksankino"
    ],
    "r": 8.2,

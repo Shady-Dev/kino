@@ -1,11 +1,11 @@
-[kuusamotalo] Kino Kuusamotalo, Kuusamo: 9 showtimes, 9 dates, 2 film post(s) of 5
+[kuusamotalo] Kino Kuusamotalo, Kuusamo: 8 showtimes, 8 dates, 2 film post(s) of 5
 [kuusamotalo] 3 post(s) with no Esitysajat line, left out
 [kuusamotalo] 5 row(s) announced for a day with no clock time, left out
 [kuusamotalo] 1 screening line(s) whose date no candidate year holds inside the window, left out
-[kuusamotalo] Kino Kuusamotalo: 9 showtimes, 9 dates
+[kuusamotalo] Kino Kuusamotalo: 8 showtimes, 8 dates
 [kuusamotalo] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinokuusamotalo.fi
-[run] kuusamotalo: 1 venues, 9 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.7s of fetching added up across workers that overlap, longest site 1.7s, longest queue wait 143.4s, 1.7s wall from this module's first fetch starting to its last ending
+[run] kuusamotalo: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.4s of fetching added up across workers that overlap, longest site 1.4s, longest queue wait 155.5s, 1.4s wall from this module's first fetch starting to its last ending
 exit=0
