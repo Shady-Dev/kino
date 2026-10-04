@@ -536,7 +536,7 @@
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Klaus Härö’s new film depicts the encounter between two women in the midst of a crisis in the healthcare sector. Specialist nurse Inka (Laura Birn) carries out her work with great dedication, despite the pressure of demanding working conditions and her own family life. Leni’s (Oona Airola) and Kari’s (Jussi Vatanen) happiness is thrown into turmoil when their newborn baby is rushed to intensive care. The nurses are planning a strike for better working conditions, but amidst all the uncertainty, the distraught Leni finds support and hope from Inka. Inka, however, faces difficult decisions. Both women act out of love and a sense of duty – but how do you make the right decision when your own life and the lives of others hang in the balance?",
     "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
    },
    "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
@@ -826,6 +826,7 @@
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
     "lieksankino",
     "niagara",
@@ -1416,6 +1417,14 @@
    },
    "tr": ""
   },
+  "hetki ennen valoa viimeinen esitys": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
+   },
+   "tr": ""
+  },
   "hijacked twice": {
    "r": 0,
    "s": {
@@ -1667,19 +1676,6 @@
    },
    "tr": ""
   },
-  "jailer 2": {
-   "id": 1234139,
-   "img": "data/posters/fc034c34f1eaf82a.jpg",
-   "r": 0,
-   "s": {
-    "en": "Following the events of \"Jailer\",  former ruthless police officer Muthuvel Pandian must come face-to-face with an even larger threat.",
-    "fi": ""
-   },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
-  },
   "jazz suomi 100 vuotta lyhytelokuvanäytös": {
    "r": 0,
    "s": {
@@ -1842,11 +1838,6 @@
   "keltaiset kirjeet": {
    "id": 1315657,
    "img": "data/posters/39786b34eaf050e5.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel",
-    "kinoaurora"
-   ],
    "r": 7.2,
    "s": {
     "en": "",
@@ -1887,6 +1878,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biograni",
     "cine",
     "cinemantsala",
     "helios",
@@ -1895,12 +1887,17 @@
     "isohannu",
     "joutsankino",
     "kinoaurora",
+    "kinoelo",
     "kinokilta",
     "kinokulma",
     "kinolaika",
+    "kinomania",
     "kinomyyri",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
     "korjaamo",
+    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "savonkinot",
@@ -2254,7 +2251,6 @@
     "kinopirtti",
     "kkino",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -2632,11 +2628,11 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinoiiris",
     "kinomyyri",
     "kinoolympia",
     "kinopirtti",
     "kirkkonummi",
+    "kuvakukko",
     "niagara",
     "star",
     "studio123kouvola"
@@ -3284,6 +3280,7 @@
     "kinohannikainen",
     "kinolaika",
     "kinoolympia",
+    "kuvakukko",
     "leffabuumi",
     "niagara",
     "savonkinot",
@@ -3824,11 +3821,15 @@
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
+    "kinoelo",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "sheryl"
    ],
    "r": 0,
    "s": {
-    "en": "A young girl, Bela, forms a relationship with a sinister entity in her home who looks uncannily like her own mother.",
+    "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
     "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään."
    },
    "tr": "https://www.youtube.com/watch?v=-mnTITqqiT0",
@@ -4057,6 +4058,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kuusamotalo",
+    "kuvakukko",
     "laitilankino",
     "lieksankino"
    ],
@@ -4088,6 +4090,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kuusamotalo",
+    "kuvakukko",
     "laitilankino",
     "lieksankino"
    ],
@@ -4116,6 +4119,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kuusamotalo",
+    "kuvakukko",
     "laitilankino",
     "lieksankino"
    ],
@@ -4167,6 +4171,7 @@
     "kinolumo",
     "kinopiispanristi",
     "kuusamotalo",
+    "kuvakukko",
     "laitilankino",
     "lieksankino"
    ],
@@ -4323,8 +4328,8 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
-    "marita",
     "niagara",
     "savonkinot",
     "star",
@@ -4395,8 +4400,8 @@
     "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
-    "marita",
     "niagara",
     "savonkinot",
     "star",
@@ -4543,6 +4548,11 @@
   "päivien lumo": {
    "id": 1563565,
    "img": "data/posters/6bbde592472eb4e8.jpg",
+   "kr": "S",
+   "krs": [
+    "kuvakukko",
+    "regina"
+   ],
    "r": 0,
    "s": {
     "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
@@ -4675,7 +4685,6 @@
    "krs": [
     "alatalo",
     "biogrand",
-    "biokaari",
     "biomarilyn",
     "biorex",
     "biorexkokkola",
@@ -4714,9 +4723,9 @@
     "kinotoijala",
     "kinovirta",
     "kirkkonummi",
-    "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "niagara",
@@ -5004,12 +5013,12 @@
     "biorex",
     "engel",
     "gilda",
-    "ihmekompleksi",
     "kinoaurora",
     "kinoiiris",
     "kinokilta",
     "kinomarilyn",
     "korjaamo",
+    "kuvakukko",
     "niagara",
     "star",
     "studio123kouvola"
@@ -5034,16 +5043,12 @@
   },
   "rose yksittäisnäytös": {
    "id": 1176962,
-   "img": "data/posters/abbaf8c90c0c135c.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
-    "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
+    "en": "",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla. Luova Eurooppa -ohjelman - MEDIA -tuella."
    },
-   "tr": "https://www.youtube.com/watch?v=KrmkNoxS6t4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ryhmä hau dinoelokuva": {
    "id": 1185806,
@@ -5564,13 +5569,10 @@
    ],
    "r": 0,
    "s": {
-    "en": "End of summer. Danielius (in mid 30s) makes a return to his hometown to sell his parents' flat. Having nowhere to rush, he reconnects with people and the town that's no longer his. He is confronted with a quiet sense of loneliness.",
+    "en": "30-year-old Danielius returns to his hometown to sell his parents’ flat, but the visit lasts longer than expected. With nowhere to rush, he tries to reconnect with the people and the town that no longer feels like his. Winner of Best Director at the Karlovy Vary Film Festival and Best Baltic Film at the Tallinn Black Nights Film Festival, Svečias – The Visitor is a quiet, tactile film about the places and people we carry with us, and about how we let them go.",
     "fi": "Karlovy Varyn elokuvajuhlilla parhaan ohjauksen palkinnon ja Tallinnan PÖFF-festivaalilla parhaan baltialaisen elokuvan palkinnon voittanut Svečias – The Visitor on hiljainen ja aistivoimainen elokuva paikalisuudesta, muistoista ja irtipäästämisestä.\n\n30-vuotias Danielius palaa kotikaupunkiinsa myydäkseen vanhempiensa asunnon, mutta vierailu venyy odotettua pidemmäksi. Kun kiirettä ei ole minnekään, hän yrittää löytää uudelleen yhteyden paikkaan, joka ei enää tunnu omalta.\n\nSES Maahantuontituki 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=58RBaRBk9AQ",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=58RBaRBk9AQ"
   },
   "sydämen kuiskaus": {
    "id": 37797,
@@ -6112,8 +6114,8 @@
     "kinoiiris",
     "kinokilta",
     "kinolaika",
-    "kinomyyri",
     "korjaamo",
+    "kuvakukko",
     "niagara"
    ],
    "r": 0,
@@ -6488,13 +6490,10 @@
    ],
    "r": 0,
    "s": {
-    "en": "In summer, Nagisa and Natsuo meet by the sea. Their vacant gazes reflect each other as they exchange awkward words and wade into the rain-drenched ocean. In winter, Li, a screenwriter, travels to a snow-covered village. There, she finds a guesthouse run by Benzo.",
+    "en": "One summer, a young man and a young woman meet on the beach in a small town unfamiliar to them both. Their shared sense of being outsiders brings them together, but the romance they both awkwardly try to pursue never quite seems to get off the ground. One winter, a Korean screenwriter living in Japan sets out on a journey to a snow-covered mountain village in an attempt to rediscover her inspiration. There, she ends up staying at an old inn run by a solitary old man. Words are difficult for them all, and everyone is lonely — but for very different reasons. Two Seasons, Two Strangers is the fifth feature by Sho Miyake, known for his subtle and moving dramas. In 2025 it won the Golden Leopard, the top prize of the Locarno Film Festival.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=lC0xyNHI5fc",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=lC0xyNHI5fc"
   },
   "työmiehen päiväkirja": {
    "id": 358999,
@@ -6538,6 +6537,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biograni",
     "biokaari",
     "cine",
     "cinemantsala",
@@ -6549,9 +6549,14 @@
     "isohannu",
     "julia",
     "kinoaurora",
+    "kinoelo",
     "kinokulma",
     "kinolaika",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
+    "kuvakukko",
     "lieksankino"
    ],
    "r": 8.2,
@@ -6567,26 +6572,6 @@
   "unohdettu saari dub": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "alatalo",
-    "bioforum",
-    "biokaari",
-    "cine",
-    "cinemantsala",
-    "engel",
-    "haapamaki",
-    "helios",
-    "huvimylly",
-    "ihmekompleksi",
-    "isohannu",
-    "julia",
-    "kinoaurora",
-    "kinokulma",
-    "kinolaika",
-    "kkino",
-    "lieksankino"
-   ],
    "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
@@ -6604,6 +6589,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biograni",
     "biokaari",
     "cine",
     "cinemantsala",
@@ -6615,9 +6601,14 @@
     "isohannu",
     "julia",
     "kinoaurora",
+    "kinoelo",
     "kinokulma",
     "kinolaika",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
+    "kuvakukko",
     "lieksankino"
    ],
    "r": 8.2,
@@ -6656,6 +6647,32 @@
     "en"
    ]
   },
+  "unohdettu saari på svenska": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "unohdettu saari suomeksi": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
   "unohdettu saari suomeksi puhuttu": {
    "id": 1465063,
    "img": "data/posters/db8d634869fa04ac.jpg",
@@ -6663,6 +6680,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biograni",
     "biokaari",
     "cine",
     "cinemantsala",
@@ -6674,9 +6692,14 @@
     "isohannu",
     "julia",
     "kinoaurora",
+    "kinoelo",
     "kinokulma",
     "kinolaika",
+    "kinomania",
+    "kinosampo",
+    "kinotoijala",
     "kkino",
+    "kuvakukko",
     "lieksankino"
    ],
    "r": 8.2,
@@ -7007,13 +7030,10 @@
    "img": "data/posters/2dab9b0442a25b52.jpg",
    "r": 6.5,
    "s": {
-    "en": "This feature takes a look at the graffiti movement and young people who populate the niche culture. Following four such artists as they shape the graffiti community through both their art and their interactions, the film tells the story of how the foursome's decision to paint an entire train would affect their lives forever.",
+    "en": "Wholetrain is a highly suspenseful, emotionally gripping drama that delves deep into the secret cosmos of the graffiti scene. Florian Gaag tells the story of a crew of four graffiti writers who have dedicated themselves to the scene with its own hierarchies, values, rules and codes. Night after night, they set out to spray the city‘s subways with their opulent images. When another graffiti crew turns up and challenges the four, a creative competition breaks out that will change the lives of the protagonists forever. It‘s about a life on the edge. Always on the verge of illegality, always on the run from the police. It is about the conquest of urban spaces, about friendship, passion and creativity.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=oNKTp3Ta_Oc",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=oNKTp3Ta_Oc"
   },
   "wild style": {
    "id": 14243,
