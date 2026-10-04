@@ -137,6 +137,12 @@ class FieldTest(unittest.TestCase):
         self.assertEqual(julia._minutes("95min"), "95")
         self.assertEqual(julia._minutes("ei tiedossa"), "")
 
+    def test_runtime_reads_h_and_m_too(self):
+        """One film read 2026-10-04 wrote "1h 41m" beside the others' "1t 28min"."""
+        self.assertEqual(julia._minutes("1h 41m"), "101")
+        self.assertEqual(julia._minutes("2t 55min + väliaika"), "175")
+        self.assertEqual(julia._minutes("Kesto 41 mm"), "")
+
     def test_a_film_with_no_screening_publishes_nothing_for_itself(self):
         out = julia.parse(page(
             film("tulossa", "Tulossa pian", []),
