@@ -219,8 +219,16 @@ def parse_schedule(page):
 
 # ---------------------------------------------------------------- film pages
 
+# The Tekstitys cell saying outright there are none, `XX-S` as at Kino Engel. Read
+# 2026-10-04 on 10 of 110 film pages, Finnish classics and English-language prints; 28
+# leave the cell blank, so the words are chosen per print.
+NO_SUBS_RE = re.compile(r"^ei tekstityst\u00e4\.?$", re.I)
+
+
 def _subs(text):
-    """"suom. tekstit/svensk text" -> ["FI-S", "SV-S"]; "ei tekstitystä" -> []."""
+    """"suom. tekstit/svensk text" -> ["FI-S", "SV-S"]; "ei tekstitystä" -> ["XX-S"]."""
+    if NO_SUBS_RE.match((text or "").strip()):
+        return ["XX-S"]
     low = (text or "").lower()
     out = []
     for key, code in (("suom", "FI"), ("svensk", "SV"), ("ruots", "SV"), ("engl", "EN")):

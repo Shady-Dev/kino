@@ -3568,3 +3568,10 @@ Star are not read: Niagara prints the row on pages with no Kieli row (Black Magi
 Rakkautta ja virtahepoja), Star beside Italian audio (La Grazia) and Swedish and Russian
 dialogue (Punainen peto), 50 screenings between them. A DUB or ENG title label is kept when
 the page states only "no subtitles". Savon Kinot is local, the rest cloud. 4 mutations red.
+
+### Kino Regina's "ei tekstitystä" is a print without subtitles (2026-10-04)
+The maintainer's decision on an explicit "no subtitles". The Tekstitys cell reading only
+"ei tekstitystä" publishes `XX-S`. Read 2026-10-04 on 10 of 110 film pages: five Finnish
+classics and five English-language prints (Sound of Metal, Dances with Wolves among them).
+28 pages leave the cell blank, so the words are chosen per print. A cell that only mentions
+them states nothing. Local half: the next local run publishes it. 2 mutations red.

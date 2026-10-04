@@ -275,7 +275,7 @@ class DetailsTest(unittest.TestCase):
         self.assertEqual(d["title"], "One Battle After Another")          # the Kuvaus spelling
         self.assertNotIn("title", regina.details(ONE_BATTLE))              # only asked for with a title
         self.assertNotIn("title", regina.details(PLAIN, title="Piukat paikat"))   # not in that text
-        self.assertNotIn("lang", d)                                   # "ei tekstitystä"
+        self.assertEqual(d["lang"], "XX-S")                           # "ei tekstitystä"
         self.assertEqual(d["_syn"], "Loistokkaalta 70 mm:n kopiolta nähtävä One Battle After Another (2025) "
                                     "on harvinaista ison kankaan poliittista toimintaelokuvaa.")
         self.assertNotIn("auteur", d["_syn"])                         # the essay after *** is not the synopsis
@@ -290,6 +290,16 @@ class DetailsTest(unittest.TestCase):
         self.assertNotIn("rating", d)
         self.assertEqual(d["lang"], "EN-S")
         self.assertNotIn("method", d)
+
+    def test_no_subtitles_is_the_whole_cell(self):
+        """Read 2026-10-04: Niskavuoren naiset and Sound of Metal. A cell that only mentions
+        the words, or names subtitles as well, is not the statement."""
+        for cell, want in (("ei tekstityst\u00e4", "XX-S"), ("Ei tekstityst\u00e4.", "XX-S"),
+                           ("suom. tekstit", "FI-S"), ("", None),
+                           ("ei tekstityst\u00e4 ensimm\u00e4isess\u00e4 osassa", None)):
+            with self.subTest(cell=cell):
+                d = regina.details(film_page("", "90 min", cell, [], "35 mm", "", "<p>x</p>"))
+                self.assertEqual(d.get("lang"), want)
 
     def test_a_lisatieto_segment_can_state_the_audio(self):
         """Read 2026-10-04: Tiikerin oma elokuva and Nalle Puhin elokuva. A whole segment
