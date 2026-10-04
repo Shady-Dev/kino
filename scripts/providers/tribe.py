@@ -31,9 +31,9 @@ What shapes the parser:
   768x470 `Tapahtumakalenteri.png`. Only a portrait image of a reasonable size is published,
   which is what a film poster is, and the TMDB pass fills the rest.
 - **An all-day event carries no clock**, so it is left out and counted.
-- The API publishes no runtime, age rating or genre, so those stay empty and the shared
-  enrichment fills what it can. The language is read from the description's labelled
-  `Language:` and `Subtitles:` lines where a site writes them.
+- The API publishes no runtime, age rating or genre as fields. The language is read from
+  the description's labelled `Language:` and `Subtitles:` lines where a site writes them,
+  and at Ritz the runtime and the synopsis from its facts paragraph, see `facts`.
 
 Two limits, stated rather than guarded:
 
@@ -75,13 +75,14 @@ from zoneinfo import ZoneInfo
 
 from common import check_shows, fetch, syn_language
 from etiketti import strict_codes
+from synmerge import is_note
 
 FI = ZoneInfo("Europe/Helsinki")
 UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 
 SITES = [
     {"provider": "ritzvaasa", "label": "Ritz Vaasa", "base": "https://ritz.fi",
-     "category": {"id": 19, "slug": "kino"},
+     "category": {"id": 19, "slug": "kino"}, "facts": True,
      "venues": [{"id": "ritz-vaasa", "name": "Ritz Vaasa", "short": "Ritz Vaasa",
                  "city": "Vaasa"}]},
     {"provider": "tahtikino", "label": "Tähti Kino", "base": "https://muhos.fi",
@@ -106,6 +107,45 @@ TAGS_RE = re.compile(r"<[^>]+>")
 # "Language: French<br />Subtitles: Finnish, Swedish", English names. A line, not a word in
 # the prose: the label opens a paragraph or follows a break.
 LANG_LINE_RE = re.compile(r"(?:<br\s*/?>|<p[^>]*>)\s*(Language|Subtitles)\s*:\s*([^<]+)", re.I)
+
+
+# Ritz's description, read 2026-10-04: the synopsis paragraphs, a spacer, then one facts
+# paragraph of lines, "Tickets: 12/10€, sold at the door. ...", "Language:", "Subtitles:",
+# sometimes "Genre:", and the runtime "87 min". Before the synopsis an event note opens
+# with a bold label ("Knitting Cinema:", "Note!"), a promotion names Ritz, and a critic's
+# quote ends in a dashed attribution line. Only what is left before the facts is the film's.
+PARA_RE = re.compile(r"<p[^>]*>(.*?)</p>", re.S | re.I)
+BR_RE = re.compile(r"<br\s*/?>", re.I)
+FACTS_RE = re.compile(r"^Tickets\s*:", re.I)
+RUNTIME_LINE_RE = re.compile(r"^(\d{2,3})\s*min$")
+LABEL_OPEN_RE = re.compile(r"^\s*<(?:b|strong)\b", re.I)
+ATTRIBUTION_RE = re.compile(r"^[\u2013\u2014-]\s")
+SOURCE_LINE_RE = re.compile(r"^\(text from [^)]*\)$", re.I)
+VENUE_RE = re.compile(r"\britz\b", re.I)
+
+
+def facts(desc):
+    """A Ritz description -> (synopsis, minutes). ("", "") without a facts paragraph that
+    carries a runtime: that is an event, not a film."""
+    paras = PARA_RE.findall(desc or "")
+    at = next((i for i, p in enumerate(paras) if FACTS_RE.match(_txt(p))), None)
+    if at is None:
+        return "", ""
+    minutes = next((m.group(1) for m in (RUNTIME_LINE_RE.match(_txt(x))
+                                         for x in BR_RE.split(paras[at])) if m), "")
+    if not minutes:
+        return "", ""
+    before = paras[:at]
+    keep = []
+    for i, p in enumerate(before):
+        text = " ".join(t for t in (_txt(x) for x in BR_RE.split(p))
+                        if t and not SOURCE_LINE_RE.match(t))
+        quoted = i + 1 < len(before) and ATTRIBUTION_RE.match(_txt(before[i + 1]))
+        if (not text or LABEL_OPEN_RE.match(p) or ATTRIBUTION_RE.match(text) or quoted
+                or is_note(text) or VENUE_RE.search(text)):
+            continue
+        keep.append(text)
+    return " ".join(keep), minutes
 
 
 class EventError(RuntimeError):
@@ -231,7 +271,10 @@ def parse(site, events):
         if not row["title"] or not row["url"]:
             raise EventError(f"{site['provider']}: event {e.get('id')} has no title or no "
                              f"url ({row['title']!r}, {row['url']!r})")
-        syn = _txt(e.get("description"))
+        if site.get("facts"):
+            syn, row["len"] = facts(e.get("description"))
+        else:
+            syn = _txt(e.get("description"))
         if syn:
             lang = syn_language(syn)
             if lang:

@@ -3589,3 +3589,13 @@ read 2026-10-04, carries "Kieli:Alkuperäinen" and "Tekstitys: Ei tekstitystä" 
 lines, and `film_lang` now reads the second as `XX-S`. The same words inside a sentence
 stay unread. The five sources are summarised in docs/research/languages.md. Cloud half.
 2 mutations red.
+
+### Ritz Vaasa's synopsis and runtime from its facts paragraph (2026-10-04)
+The maintainer's decision. Every Ritz synopsis was refused at the merge, 12 on the run of
+2026-10-04, because the description carries "Tickets: 12/10€" in the same text. Read that
+day, the description is synopsis paragraphs, then one facts paragraph holding the ticket
+line, the language lines and the runtime ("87 min"). `facts` takes the paragraphs before it
+and drops a bold-labelled note, a promotion naming Ritz, anything quoting a price, a quote
+with its dashed attribution and a "(text from TMDB)" line. A description with no runtime in
+its facts paragraph is an event and publishes neither. On the 9 events of that day: 7
+runtimes and 5 English synopses. Tähti Kino keeps its path. Cloud half. 8 mutations red.

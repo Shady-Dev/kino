@@ -132,12 +132,13 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(report["all_day"], ["Festivaaliviikko"])
 
     def test_the_synopsis_carries_its_language_and_an_unplaceable_one_is_withheld(self):
-        shows, report = T.parse(RITZ, [
-            TWO[0],
-            event(3, "B", "2026-09-30 17:00:00", "2026-09-30 14:00:00",
+        """Muhos publishes its whole description; Ritz's is split below."""
+        shows, report = T.parse(MUHOS, [
+            event(1, "A", "2026-09-27 17:00:00", "2026-09-27 14:00:00", cat=106),
+            event(3, "B", "2026-09-30 17:00:00", "2026-09-30 14:00:00", cat=106,
                   syn="Troija. Ithaka. Kirke. Kalypso. Skylla. Poseidon. Penelope.")])
-        self.assertEqual(shows["ritz-vaasa"][0]["_syn"], {"fi": SYN_FI})
-        self.assertNotIn("_syn", shows["ritz-vaasa"][1])
+        self.assertEqual(shows["tahtikino-muhos"][0]["_syn"], {"fi": SYN_FI})
+        self.assertNotIn("_syn", shows["tahtikino-muhos"][1])
         self.assertEqual(report["unplaced_syn"], {"B"})
 
     def test_the_labelled_language_lines_become_the_language(self):
@@ -172,6 +173,67 @@ class ParseTest(unittest.TestCase):
                          ("https://muhos.fi/tapahtuma/hetki/", "13 €", ""))
         self.assertEqual((s["len"], s["rating"], s["genres"], s["aud"], s["soldOut"]),
                          ("", "", "", "", False))
+
+
+BLUE_BABY_EN = ("Klaus H\u00e4r\u00f6\u2019s new film depicts the encounter between two "
+                "women in the midst of a crisis in the healthcare sector.")
+WHOLETRAIN_EN = ("Wholetrain is a highly suspenseful, emotionally gripping drama that delves "
+                 "deep into the secret cosmos of the graffiti scene.")
+TICKETS = ("<p>Tickets: 12/10\u20ac, sold at the door. Doors open 20 minutes before the first "
+           "screening.<br />\nLanguage: Finnish<br />\nSubtitles: Swedish<br />\n{}</p>\n"
+           '<p><img src="https://ritz.fi/wp-content/uploads/2025/09/7.png" alt="" /></p>')
+
+
+class RitzFactsTest(unittest.TestCase):
+    """Ritz's descriptions as read 2026-10-04: synopsis paragraphs, then one facts paragraph
+    with the ticket line, the language lines and the runtime."""
+
+    def ev(self, eid, desc):
+        e = event(eid, f"F{eid}", f"2026-10-0{eid} 17:00:00", f"2026-10-0{eid} 14:00:00")
+        e["description"] = desc
+        return e
+
+    def test_synopsis_price_note_and_runtime_part(self):
+        """Blue Baby and Wholetrain: the ticket line stays out, the runtime is read, and
+        Wholetrain's promotion, which names Ritz and quotes a discount, is dropped."""
+        blue = f"<p>{BLUE_BABY_EN}</p>\n<p>&nbsp;</p>\n" + TICKETS.format("87 min")
+        whole = ("<p>In special collaboration with Graffitilandia, Ritz presents Wholetrain!</p>\n"
+                 "<p>Come see the film and get a 4\u20ac discount on a Graffitilandia ticket!</p>\n"
+                 f"<p>&nbsp;</p>\n<p>{WHOLETRAIN_EN}</p>\n" + TICKETS.format("82 min"))
+        shows, _ = T.parse(RITZ, [self.ev(1, blue), self.ev(2, whole)])
+        rows = shows["ritz-vaasa"]
+        self.assertEqual([r["_syn"] for r in rows], [{"en": BLUE_BABY_EN}, {"en": WHOLETRAIN_EN}])
+        self.assertEqual([r["len"] for r in rows], ["87", "82"])
+        self.assertEqual([r["lang"] for r in rows], ["FI-A, SV-S", "FI-A, SV-S"])
+
+    def test_notes_and_a_quote_are_not_the_synopsis(self):
+        """The Ice Tower: two bold-labelled notes, then a critic's quote and its attribution."""
+        ice = ("<p><b>Knitting Cinema:</b> During this screening the lights are kept on.</p>\n"
+               "<p><b>Note!</b> The auditorium is an alcohol serving area.</p>\n"
+               "<p>\u201cIn her ravishingly shot fourth feature, set in the mid 1970s, Lucile "
+               "Hadzihalilovic takes the boy out of the picture.\u201d</p>\n"
+               "<p>&#8211; Lee Marshall, Screen International</p>\n" + TICKETS.format("117 min"))
+        syn, minutes = T.facts(ice)
+        self.assertEqual((syn, minutes), ("", "117"))
+
+    def test_a_source_credit_line_is_dropped(self):
+        """Alt Skal Bort ends its synopsis paragraph with "(text from TMDB)"."""
+        desc = ("<p>When Ellen and her two brothers gather in their childhood home, old "
+                "memories resurface.<br />\n(text from TMDB)</p>\n" + TICKETS.format("103 min"))
+        self.assertEqual(T.facts(desc), ("When Ellen and her two brothers gather in their "
+                                         "childhood home, old memories resurface.", "103"))
+
+    def test_no_runtime_or_no_facts_paragraph_publishes_nothing(self):
+        """Ritz Horrorfest names no runtime; Knitting Cinema! has no facts paragraph."""
+        horror = ("<p>Horrorfest 2026 includes 2 short films and 2 feature films.</p>\n"
+                  "<p>Tickets: <strong>10/15\u20ac (1/2 tickets),</strong> sold at the door.</p>")
+        knit = "<p>Films vary and are announced at least a week before each date.</p>"
+        self.assertEqual(T.facts(horror), ("", ""))
+        self.assertEqual(T.facts(knit), ("", ""))
+        shows, _ = T.parse(RITZ, [self.ev(1, horror), self.ev(2, knit)])
+        for r in shows["ritz-vaasa"]:
+            self.assertEqual(r["len"], "")
+            self.assertNotIn("_syn", r)
 
 
 class RunnerTest(unittest.TestCase):
