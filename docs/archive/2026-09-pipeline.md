@@ -2797,3 +2797,7 @@ gives Klaus Härö, 1 h 27 min and a 11.09.2026 premiere; the record, opened the
 Klaus Härö, 2026-09-11, 87 min, Laura Birn. The parenthetical names the last screening, as
 "(Poistuu ohjelmistosta)" names the last week, so `PAREN_NOISE` takes it off the search
 string and the published title keeps it. The same words outside brackets stay. 2 mutations red.
+Re-enriched the same day: the row now carries 1015881 and the plain title's mirrored
+poster in its slot. The pass also re-read 12 ratings due that day; those were left for the
+next routine run so this commit holds the one row. Its screening, 11.10., is outside the
+pages' window.
