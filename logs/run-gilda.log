@@ -8,5 +8,5 @@
 [run] http: 0 revalidated (304), 11 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.gilda.fi
 [run] gilda: 2 venues, 159 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 22.3s of fetching added up across workers that overlap, longest site 22.3s, longest queue wait 58.5s, 22.3s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 21.1s of fetching added up across workers that overlap, longest site 21.1s, longest queue wait 62.3s, 21.1s wall from this module's first fetch starting to its last ending
 exit=0

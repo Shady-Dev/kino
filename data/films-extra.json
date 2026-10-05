@@ -833,7 +833,6 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "leffabuumi",
@@ -1866,6 +1865,7 @@
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinoset",
     "kinotoijala",
@@ -1878,9 +1878,11 @@
     "marita",
     "matintupa",
     "savonkinot",
+    "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -2223,10 +2225,13 @@
     "kinolaika",
     "kinolumo",
     "kinopiispanristi",
+    "kinopirtti",
+    "kirkkonummi",
     "kkino",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
+    "star",
     "tapiola"
    ],
    "r": 7.6,
@@ -2390,10 +2395,6 @@
   "kolme väriä valkoinen": {
    "id": 109,
    "img": "data/posters/a3181831c9efb271.jpg",
-   "kr": "K-12",
-   "krs": [
-    "kinokilta"
-   ],
    "r": 7.4,
    "s": {
     "en": "",
@@ -2606,21 +2607,6 @@
   "la grazia": {
    "id": 1397364,
    "img": "data/posters/6c8d0779f3581c89.jpg",
-   "kr": "K-7",
-   "krs": [
-    "biogrand",
-    "biorex",
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopirtti",
-    "kirkkonummi",
-    "kuvakukko",
-    "star",
-    "studio123kouvola"
-   ],
    "r": 7.3,
    "s": {
     "en": "As his tenure as President of Italy nears its end, Mariano De Santis faces wrenching decisions-both political and deeply personal. Amid these moral quandaries, he must confront his own conscience and seek guidance from those closest to him, including his confidante and daughter, Dorotea.",
@@ -2750,12 +2736,27 @@
     "kinolumo",
     "kinomyyri",
     "kinopiispanristi",
+    "kinosampo",
+    "kinotoijala",
     "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
+  "late lammas elokuva hämäräpuuhissa ennakkonäytös": {
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 0,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -3394,13 +3395,12 @@
   },
   "nirvanna the band the show the movie": {
    "id": 1154538,
-   "img": "data/posters/5c8808ae5cbc5105.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "Lifelong friends Matt and Jay are still desperately trying to book a show at Toronto’s legendary Rivoli—nearly two decades after first forming their band. When one of Matt’s increasingly ridiculous schemes accidentally turns their RV into a time machine, the pair are transported back to 2008, forcing them to confront their younger selves and the choices that shaped their lives. What follows is a chaotic, improvised time-travel adventure about friendship, ambition, regret, and the absurd lengths people will go to in pursuit of their dreams.",
     "fi": "Nirvanna the Band the Show the Movie kertoo elinikäisistä ystävyksistä Mattista ja Jaysta, jotka yrittävät yhä epätoivoisesti saada keikkansa Toronton legendaariseen Rivoli-klubiin – lähes kaksikymmentä vuotta bändinsä perustamisen jälkeen. Kun yksi Mattin yhä järjettömämmistä suunnitelmista muuttaa heidän matkailuautonsa vahingossa aikakoneeksi, kaksikko päätyy takaisin vuoteen 2008 ja joutuu kohtaamaan nuoremmat versionsa sekä valintansa, jotka muovasivat heidän elämäänsä. Seuraa kaoottinen ja improvisoitu aikamatkaseikkailu ystävyydestä, kunnianhimosta, katumuksesta ja siitä, kuinka pitkälle ihminen on valmis menemään unelmiensa tavoittelussa."
    },
-   "tr": "https://www.youtube.com/watch?v=y2K9ccMREOI"
+   "tr": ""
   },
   "niskavuoren aarne": {
    "id": 94715,
@@ -3815,12 +3815,14 @@
     "kinolumo",
     "kinomania",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinotoijala",
     "kotkanleffat",
     "leffabuumi",
     "sheryl",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -3869,12 +3871,17 @@
    ]
   },
   "pahuksen katti": {
-   "r": 0,
+   "id": 20723,
+   "img": "data/posters/2c069c284b0b501f.jpg",
+   "r": 6.6,
    "s": {
-    "en": "",
+    "en": "A young woman suspects foul play when her cat comes home wearing a wristwatch. Convincing the FBI, though, and catching the bad guys is tougher than she imagined.",
     "fi": "Hulvattoman agenttifilmin päähahmo, neuvokas siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Kaksi uskaliasta gangsteria eivät koskaan olisi voineet kuvitellakaan, että pahuksen katti voisi tulla vaikeuttamaan heidän muuten niin hyvin toimimia rikoskuvioitaan. Ja kaiken hälyn keskellä näyttää siltä, että pikku agenttia kiinnostaa vain tuoreen kalan pyydystäminen. Siamilaiskissan esittäjäksi mainittu Syn voitti sähäkästä roolisurituksestaan parhaan eläinnäyttelijän PATSY-palkinnon."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QfqVYCRdtdc",
+   "ts": [
+    "en"
+   ]
   },
   "palatsin hiljaisuus": {
    "id": 44284,
@@ -4056,6 +4063,24 @@
    },
    "tr": ""
   },
+  "pikkuli ja tähtipeura ennakkonäytös": {
+   "id": 1403476,
+   "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "engel",
+    "kinoaurora",
+    "kinolumo"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
+  },
   "pikkuli ja tähtipeura suomeksi": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
@@ -4097,12 +4122,14 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biosade",
     "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinoolympia",
@@ -4112,7 +4139,8 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita"
+    "marita",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4133,12 +4161,14 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biosade",
     "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinoolympia",
@@ -4148,7 +4178,8 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita"
+    "marita",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4166,12 +4197,14 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biosade",
     "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinoolympia",
@@ -4181,7 +4214,8 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita"
+    "marita",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4222,12 +4256,14 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biosade",
     "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinohirvi",
     "kinokulma",
     "kinolumo",
     "kinoolympia",
@@ -4237,7 +4273,8 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita"
+    "marita",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4395,6 +4432,7 @@
     "marita",
     "matintupa",
     "niagara",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -4467,6 +4505,7 @@
     "marita",
     "matintupa",
     "niagara",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -4795,7 +4834,6 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
     "kuvakukko",
@@ -5084,7 +5122,7 @@
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla."
    },
-   "tr": "https://www.youtube.com/watch?v=80xR3G5eowo",
+   "tr": "https://www.youtube.com/watch?v=KrmkNoxS6t4",
    "ts": [
     "en"
    ]
@@ -5121,12 +5159,16 @@
   },
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
-   "r": 0,
+   "img": "data/posters/b7775ab25a7de6bc.jpg",
+   "r": 8.1,
    "s": {
-    "en": "",
+    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
+   "ts": [
+    "en"
+   ]
   },
   "ryhmä hau dinoelokuva elokuvanäytös": {
    "id": 1185806,
@@ -5144,6 +5186,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
+    "star",
     "studio123jarvenpaa"
    ],
    "r": 8.1,
@@ -5943,7 +5986,8 @@
    "krs": [
     "biorex",
     "engel",
-    "gilda"
+    "gilda",
+    "vaakuna"
    ],
    "r": 7.2,
    "s": {
@@ -6268,6 +6312,7 @@
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
+    "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
     "tapiola"
@@ -6446,6 +6491,7 @@
     "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
+    "star",
     "studio123kouvola",
     "tapiola"
    ],
@@ -6478,12 +6524,16 @@
   },
   "toy story 5 dub": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.3,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
@@ -6685,6 +6735,7 @@
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinoset",
     "kinotoijala",
@@ -6697,7 +6748,8 @@
     "matintupa",
     "star",
     "studio123jarvenpaa",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 8.2,
    "s": {
@@ -6754,6 +6806,7 @@
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinoset",
     "kinotoijala",
@@ -6766,7 +6819,8 @@
     "matintupa",
     "star",
     "studio123jarvenpaa",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 8.2,
    "s": {
@@ -6781,7 +6835,7 @@
   "unohdettu saari en dub": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.1,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -6807,7 +6861,7 @@
   "unohdettu saari fi dub": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.1,
+   "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
@@ -6818,12 +6872,17 @@
    ]
   },
   "unohdettu saari orig": {
-   "r": 0,
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari på svenska": {
    "id": 1465063,
@@ -6883,6 +6942,7 @@
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
+    "kinopirtti",
     "kinosampo",
     "kinoset",
     "kinotoijala",
@@ -6895,7 +6955,8 @@
     "matintupa",
     "star",
     "studio123jarvenpaa",
-    "tapiola"
+    "tapiola",
+    "vaakuna"
    ],
    "r": 8.2,
    "s": {

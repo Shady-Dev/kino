@@ -3,7 +3,7 @@
 [kotkanleffat] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 51 showtimes, 11 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 29 showtimes, 4 dates
+[kinopirtti] Kinopirtti: 104 showtimes, 10 dates
 [kinopirtti] synopses merged: 0
 [leffabuumi] Kinolinna: 73 showtimes, 12 dates
 [leffabuumi] Kino Ritz: 13 showtimes, 10 dates
@@ -23,7 +23,7 @@
 [kinojuha] VIP-Sali: 12 showtimes, 9 dates
 [kinojuha] synopses merged: 0
 [biogrand] Bio Grand: 36 showtimes, 10 dates
-[biogrand] synopses merged: 2
+[biogrand] synopses merged: 0
 [biovuoksi] Bio Vuoksi: 32 showtimes, 9 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] Kino Iiris: 14 showtimes, 5 dates
@@ -34,8 +34,8 @@
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 39 showtimes, 18 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 236 full, 236 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 242 full, 242 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 703 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 449.4s of fetching added up across workers that overlap, longest site 62.1s, longest queue wait 57.5s, 119.6s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 778 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 463.7s of fetching added up across workers that overlap, longest site 63.0s, longest queue wait 59.1s, 122.1s wall from this module's first fetch starting to its last ending
 exit=0
