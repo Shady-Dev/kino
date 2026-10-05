@@ -228,8 +228,8 @@ class FilmFactsTest(unittest.TestCase):
 
 
 class FilmLanguageTest(unittest.TestCase):
-    """The three ways a tenant's film page stated its language, each read 2026-10-04:
-    Bio Forum's sentence, Bio Marilyn's labelled paragraphs, Vihdin Kino's "puhumme
+    """The ways a tenant's film page states its language, read 2026-10-04 and 2026-10-05:
+    Bio Forum's sentences, Bio Marilyn's labelled paragraphs, Vihdin Kino's "puhumme
     suomea". Nothing looser is read."""
 
     def lang(self, *paras):
@@ -246,7 +246,35 @@ class FilmLanguageTest(unittest.TestCase):
                                    "tekstitys on sekä suomeksi että ruotsiksi."),
                          "EN-A, FI-S, SV-S")
 
-    def test_a_stated_absence_of_subtitles_is_not_read(self):
+    def test_bio_forums_misspelt_subtitle_word(self):
+        """Digger, read 2026-10-05. The typo also stopped the spoken-language part from
+        matching, so the page got no language at all. The English sentence says the same
+        thing and is not read."""
+        self.assertEqual(self.lang(SYN_FI, "Elokuva on puhuttu englanniksi ja teksitys on "
+                                           "sekä suomeksi että ruotsiksi.", "*",
+                                   "The movie is spoken in English with Finnish and Swedish "
+                                   "subtitles."), "EN-A, FI-S, SV-S")
+
+    def test_bio_forums_subtitles_then_speech(self):
+        """Pirjo i Sverige, read 2026-10-05."""
+        self.assertEqual(self.lang(SYN_FI, "Elokuva on tekstitetty ruotsiksi, puhe suomi.", "*",
+                                   "This Finnish comedy is spoken in Finnish with Swedish "
+                                   "subtitles."), "FI-A, SV-S")
+        self.assertEqual(self.lang("Elokuva on tekstitetty englanniksi."), "EN-S")
+
+    def test_bio_forums_dub_and_its_only_subtitles(self):
+        """Vaiana, read 2026-10-05. Here the language sentence is the first paragraph."""
+        self.assertEqual(self.lang("Tämä elokuvaesitys on dubattu ruotsinkielelle ja "
+                                   "tekstitys on vain ruotsiksi.", SYN_FI, "*"),
+                         "SV-A, SV-S")
+
+    def test_bio_forums_film_without_subtitles(self):
+        """Lilla Spöket, read 2026-10-05. The first sentence is about the character, so it
+        is not used as the film's audio language. That was the maintainer's decision."""
+        self.assertEqual(self.lang("Pikku Kummitus Lapanen puhuu ruotsia. Elokuva on ilman "
+                                   "tekstitystä.", SYN_FI), "XX-S")
+
+    def test_no_subtitles_is_read_only_with_the_film_as_subject(self):
         self.assertEqual(self.lang("Tämä elokuvanäytös on puhuttu ruotsiksi ja se on ilman "
                                    "tekstitystä."), "SV-A")
 
@@ -272,7 +300,9 @@ class FilmLanguageTest(unittest.TestCase):
 
     def test_anything_looser_states_nothing(self):
         for p in (SYN_FI, "Elokuva on puhuttu ruotsiksi ja suomeksi tekstitettynä.",
-                  "Dubattu versio.", "Kieli: Alkuperäinen"):
+                  "Dubattu versio.", "Pikku Kummitus Lapanen puhuu ruotsia.", "Puhe suomi.",
+                  "Elokuva on ilman tekstitystä täysin ymmärrettävä.",
+                  "Kieli: Alkuperäinen"):
             with self.subTest(p=p[:30]):
                 self.assertEqual(self.lang(p), "")
 

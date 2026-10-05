@@ -39,10 +39,11 @@ day:
   Lighthouse names subtitles beside the style and keeps them.
 - Bio Marilyn: the labelled line "Tekstitys: Ei tekstitystä" (its ballet).
 
-Still unread: the same words inside a sentence ("ilman tekstitystä"), Niagara's Black
-Magic Rites with the rest of Niagara and Star until a screening is confirmed, and every
-source that names no subtitle field. "(dub)" alone, a no-dialogue code and a cinema's
-house-wide rule stay unread by the same decision.
+Since 2026-10-05 Bio Forum's "Elokuva on ilman tekstitystä." (Lilla Spöket) is read as
+`XX-S`. Still unread: the same words with another subject ("se on ilman tekstitystä"),
+Niagara's Black Magic Rites with the rest of Niagara and Star until a screening is
+confirmed, and every source that names no subtitle field. "(dub)" alone, a no-dialogue code
+and a cinema's house-wide rule stay unread by the same decision.
 
 ---
 

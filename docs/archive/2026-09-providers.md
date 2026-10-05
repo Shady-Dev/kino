@@ -3662,3 +3662,19 @@ ovelta: 30 min ennen näytöstä."), snacks and house rules, and Pirjo i Sverige
 shared slot held all of it. `house_facts_cut` ends the synopsis at that heading when the
 next paragraph is a "Kesto:" line, the shape on all six K-Kino pages and on no other eTiketti
 site. Over K-Kino's 7 pages that day, synopses carrying the block from 1 to 0. 3 mutations red.
+
+### Bio Forum: four more ways of stating the language (2026-10-05)
+Ten Bio Forum screenings had no language. Their film pages, read 2026-10-05, give it in
+sentences `film_lang` did not handle:
+
+- Digger: "Elokuva on puhuttu englanniksi ja teksitys on sekä suomeksi että ruotsiksi." The
+  typo broke both the audio and the subtitle match.
+- Pirjo i Sverige: "Elokuva on tekstitetty ruotsiksi, puhe suomi."
+- Vaiana: "Tämä elokuvaesitys on dubattu ruotsinkielelle ja tekstitys on vain ruotsiksi."
+- Lilla Spöket: "Pikku Kummitus Lapanen puhuu ruotsia. Elokuva on ilman tekstitystä."
+
+The maintainer decided to read each one as written. This changes the 2026-10-04 rule that
+"ilman tekstitystä" inside a sentence is not read: it is now read when the subject is
+"Elokuva on". Lilla Spöket's first sentence is about the character and is not used for the
+audio, also the maintainer's decision. The four pages now give EN-A, FI-S, SV-S; FI-A, SV-S;
+SV-A, SV-S; and XX-S. Cloud half. 8 mutations red.

@@ -148,20 +148,31 @@ PRODUCT_PATH = "/fi_FI/products/"
 # a synopsis. The same length kinola.py uses, for the same reason.
 SYN_MIN = 120
 
-# The language as a film page states it, in the three shapes read 2026-10-04 and nothing
-# looser. Bio Marilyn's opera: labelled paragraphs, "Kieli : Alkuperäinen", "Tekstitys:
-# Suomi". Bio Forum: "Elokuva on puhuttu englanniksi ja tekstitys on sekä suomeksi että
-# ruotsiksi." Vihdin Kino: "Esitetään dubattuna versiona eli puhumme suomea." A phrase must
-# end where the sentence does, so "ruotsiksi ja suomeksi tekstitettynä" reads as nothing.
-# A labelled "Tekstitys: Ei tekstitystä" is `XX-S` (Bio Marilyn's ballet, read 2026-10-04);
-# "ilman tekstitystä" inside a sentence is not read.
+# How a film page states its language. These are the sentences seen on 2026-10-04 and
+# 2026-10-05, and nothing looser is read. Bio Marilyn's opera uses labelled paragraphs:
+# "Kieli : Alkuperäinen", "Tekstitys: Suomi". Bio Forum writes "Elokuva on puhuttu
+# englanniksi ja tekstitys on sekä suomeksi että ruotsiksi." (Digger misspells it
+# "teksitys"), "Elokuva on tekstitetty ruotsiksi, puhe suomi.", "dubattu ruotsinkielelle ja
+# tekstitys on vain ruotsiksi." and "Elokuva on ilman tekstitystä." Vihdin Kino writes
+# "Esitetään dubattuna versiona eli puhumme suomea." A phrase has to end where the sentence
+# ends, so "ruotsiksi ja suomeksi tekstitettynä" gives nothing. A labelled "Tekstitys: Ei
+# tekstitystä" is `XX-S` (Bio Marilyn's ballet). "ilman tekstitystä" is only read when the
+# subject is "Elokuva on". Lilla Spöket's "Pikku Kummitus Lapanen puhuu ruotsia." is about
+# the character and is not read.
 LABEL_LINE_RE = re.compile(r"^(kieli|tekstitys)\s*:\s*(.+)$", re.I)
 NO_SUBS_RE = re.compile(r"^ei\s+tekstityst\u00e4\.?$", re.I)
 TRANSLATIVE = r"[a-zåäö]+ksi(?:\s*(?:,|ja|sekä|että)\s*[a-zåäö]+ksi)*"
-SPOKEN_RE = re.compile(r"\bpuhuttu\s+(" + TRANSLATIVE + r")(?=\s*(?:[.,]|ja\s+(?:tekstitys|se)\b|$))",
-                       re.I)
-SUBTITLED_RE = re.compile(r"\btekstitys\s+on\s+(?:sekä\s+)?(" + TRANSLATIVE + r")(?=\s*(?:[.,]|$))",
-                          re.I)
+SUBS_WORD = r"tekst?itys"
+SPOKEN_RE = re.compile(r"\bpuhuttu\s+(" + TRANSLATIVE + r")(?=\s*(?:[.,]|ja\s+(?:" + SUBS_WORD
+                       + r"|se)\b|$))", re.I)
+SUBTITLED_RE = re.compile(r"\b" + SUBS_WORD + r"\s+on\s+(?:sek\u00e4\s+|vain\s+)?(" + TRANSLATIVE
+                          + r")(?=\s*(?:[.,]|$))", re.I)
+TEXTED_RE = re.compile(r"\belokuva\s+on\s+tekstitetty\s+(" + TRANSLATIVE
+                       + r")(?:\s*,\s*puhe\s+([a-z\u00e5\u00e4\u00f6]+))?(?=\s*(?:[.,]|$))", re.I)
+DUBBED_RE = re.compile(r"\bdubattu\s+([a-z\u00e5\u00e4\u00f6]+kielelle)(?=\s*(?:[.,]|ja\s+"
+                       + SUBS_WORD + r"\b|$))", re.I)
+NO_SUBS_SENTENCE_RE = re.compile(r"\belokuva\s+on\s+ilman\s+tekstityst\u00e4(?=\s*(?:\.|$))",
+                                 re.I)
 FINNISH_SPOKEN_RE = re.compile(r"\bpuhumme\s+suomea\b", re.I)
 
 
@@ -389,6 +400,13 @@ def film_lang(paras):
         spoken, subtitled = SPOKEN_RE.search(t), SUBTITLED_RE.search(t)
         audio += _translative(spoken.group(1)) if spoken else []
         subs += _translative(subtitled.group(1)) if subtitled else []
+        texted, dubbed = TEXTED_RE.search(t), DUBBED_RE.search(t)
+        if texted:
+            subs += _translative(texted.group(1))
+            audio += lang_codes(texted.group(2)) if texted.group(2) else []
+        audio += lang_codes(dubbed.group(1)) if dubbed else []
+        if NO_SUBS_SENTENCE_RE.search(t):
+            subs.append("XX")
         if FINNISH_SPOKEN_RE.search(t):
             audio.append("FI")
     parts = [f"{c}-A" for c in dict.fromkeys(audio)] + [f"{c}-S" for c in dict.fromkeys(subs)]
