@@ -2801,3 +2801,7 @@ Re-enriched the same day: the row now carries 1015881 and the plain title's mirr
 poster in its slot. The pass also re-read 12 ratings due that day; those were left for the
 next routine run so this commit holds the one row. Its screening, 11.10., is outside the
 pages' window.
+A sentence also starts at "Näytös järjestetään" (2026-10-05): Metsäsota ja rauha's Finnish
+text ran the note on after a quote's attribution with no stop ("– Erkki Lähde 2026 Näytös
+järjestetään ke 30.9. klo 17:15 ..."), so the rule could not see it. Capital N only; the
+words mid-sentence stay. 2 mutations red.

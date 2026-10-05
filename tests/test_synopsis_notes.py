@@ -163,6 +163,21 @@ class NoteSentenceTest(unittest.TestCase):
                 self.assertEqual(synmerge.drop_note_sentences(f"{lead} {note} {tail}"),
                                  (f"{lead} {tail}", 1))
 
+    def test_a_note_run_on_after_an_attribution_still_goes(self):
+        """Metsäsota ja rauha's Finnish text, read 2026-10-05: the note follows the quote's
+        attribution with no stop between them."""
+        import synmerge
+        quote = ("\u201dJos kaikki hakkuut lopetettaisiin, saisivat linnut pesi\u00e4 rauhassa.\u201d "
+                 "\u2013 Erkki L\u00e4hde 2026")
+        note = ("N\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n ke 30.9. klo 17:15 Suomen Luonnon ja "
+                "Orionin yhteisell\u00e4 Luontoelokuvaklubilla.")
+        guests = "N\u00e4yt\u00f6ksess\u00e4 ovat vieraina elokuvan ohjaaja Jari Kokko."
+        self.assertEqual(synmerge.drop_note_sentences(f"{quote} {note} {guests}"),
+                         (f"{quote} {guests}", 1))
+        plot = ("Kirjeess\u00e4 kerrotaan, ett\u00e4 n\u00e4yt\u00f6s j\u00e4rjestet\u00e4\u00e4n ke 30.9. "
+                "kyl\u00e4n talolla.")
+        self.assertEqual(synmerge.drop_note_sentences(plot), (plot, 0))
+
     def test_a_similar_sentence_about_the_film_stays(self):
         import synmerge
         for kept in self.KEPT:

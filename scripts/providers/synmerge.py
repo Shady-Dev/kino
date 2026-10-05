@@ -41,9 +41,12 @@ _TAGS = re.compile(r"<[^>]+>")
 # announced (El espíritu, Käpy, Vanhustenviikon näytös), admission to a guest's talk
 # (Casper, Ghost), a voluntary fee (Anttilanmäen kyläjuhla), and the same in English.
 # A whole sentence goes and the rest of the text stays. Sentences part where a stop meets
-# a capital, except before "KLO 17:00", which is the end of a date.
+# a capital, except before "KLO 17:00", which is the end of a date, and also before
+# "Näytös järjestetään", which Orion ran on after a quote's attribution with no stop
+# ("... – Erkki Lähde 2026 Näytös järjestetään ke 30.9. klo 17:15 ...", read 2026-10-05).
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[A-Z\u00c5\u00c4\u00d6\"\u201c\u201d])"
-                         r"(?![Kk][Ll][Oo]\s*\d)")
+                         r"(?![Kk][Ll][Oo]\s*\d)"
+                         r"|\s+(?=N\u00e4yt\u00f6s\s+j\u00e4rjestet\u00e4\u00e4n\s)")
 NOTE_SENTENCES = tuple(re.compile(p, re.I) for p in (
     r"^(?:huom!?\s+)?(?:n\u00e4yt\u00f6kseen|elokuvaan|tapahtumaan|tilaisuuteen)"
     r"\s+on\s+vapaa\s+p\u00e4\u00e4sy\b",
