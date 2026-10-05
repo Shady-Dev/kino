@@ -821,6 +821,7 @@
     "kinomania",
     "kinomarilyn",
     "kinomyyri",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -844,7 +845,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 0,
+   "r": 7.5,
    "s": {
     "en": "Oscar-winning visionary Alejandro González Iñárritu’s Digger is one of the most anticipated films of the year. The world’s most powerful man launches a frantic mission to prove that he is humanity’s savior before the catastrophe he himself has unleashed destroys everything. The film stars the dazzlingly transformative Tom Cruise.",
     "fi": "Maailman vaikutusvaltaisin mies ryhtyy kuumeiseen operaatioon todistaakseen olevansa ihmiskunnan pelastaja - ennen kuin hänen valloilleen päästämänsä katastrofi tuhoaa kaiken.",
@@ -1840,6 +1841,7 @@
     "alatalo",
     "bioforum",
     "biograni",
+    "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -1847,23 +1849,30 @@
     "huvimylly",
     "ihmekompleksi",
     "isohannu",
+    "jarvelankino",
     "joutsankino",
+    "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinojuha",
     "kinokilta",
     "kinokulma",
     "kinolaika",
     "kinomania",
     "kinomyyri",
+    "kinoolympia",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
     "korjaamo",
+    "kotkanleffat",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "matintupa",
     "savonkinot",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 0,
@@ -2591,10 +2600,10 @@
     "gilda",
     "kinoaurora",
     "kinomyyri",
+    "kinoolympia",
     "kinopirtti",
     "kirkkonummi",
     "kuvakukko",
-    "niagara",
     "star",
     "studio123kouvola"
    ],
@@ -2639,7 +2648,6 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
-    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -2662,7 +2670,6 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
-    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -2688,7 +2695,6 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
-    "kinopiispanristi",
     "tapiola"
    ],
    "r": 0,
@@ -2724,6 +2730,7 @@
    "kr": "K-7",
    "krs": [
     "kinoaurora",
+    "kinojuha",
     "kinolaika"
    ],
    "r": 0,
@@ -3769,14 +3776,19 @@
    "img": "data/posters/952438d819839253.jpg",
    "kr": "K-16",
    "krs": [
+    "biorexkokkola",
     "biovuoksi",
     "cinemantsala",
     "ihmekompleksi",
     "isohannu",
+    "kino123",
     "kinoelo",
+    "kinojuha",
     "kinomania",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "kotkanleffat",
     "leffabuumi",
     "sheryl"
    ],
@@ -3999,6 +4011,12 @@
   "pikkuli ja tähtipeura": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "kinoaurora"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4022,6 +4040,7 @@
     "julia",
     "kinokulma",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kuusamotalo",
     "kuvakukko",
@@ -4054,6 +4073,7 @@
     "julia",
     "kinokulma",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kuusamotalo",
     "kuvakukko",
@@ -4083,6 +4103,7 @@
     "julia",
     "kinokulma",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kuusamotalo",
     "kuvakukko",
@@ -4135,6 +4156,7 @@
     "julia",
     "kinokulma",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kuusamotalo",
     "kuvakukko",
@@ -4219,6 +4241,7 @@
    "krs": [
     "bioforum",
     "biorex",
+    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -4719,6 +4742,7 @@
   },
   "rakkautta ja virtahepoja kahvi ja kino": {
    "id": 1450473,
+   "img": "data/posters/3630a8c5eeb607ff.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4834,6 +4858,7 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
+    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -4880,6 +4905,7 @@
     "kinotoijala",
     "kotkanleffat",
     "kuusamotalo",
+    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -4985,6 +5011,7 @@
     "kinoiiris",
     "kinokilta",
     "kinomarilyn",
+    "kinoolympia",
     "korjaamo",
     "kuvakukko",
     "niagara",
@@ -5051,7 +5078,9 @@
     "kinolaika",
     "kinolumo",
     "kinometso",
+    "kinopiispanristi",
     "kinopirtti",
+    "kotkanleffat",
     "studio123jarvenpaa"
    ],
    "r": 8.1,
@@ -6157,7 +6186,11 @@
    "kr": "K-12",
    "krs": [
     "isohannu",
+    "kino123",
     "kinoaurora",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kotkanleffat",
     "leffabuumi"
    ],
    "r": 0,
@@ -6320,7 +6353,10 @@
     "isohannu",
     "kinoaurora",
     "kinokulma",
+    "kinopiispanristi",
+    "kotkanleffat",
     "leffabuumi",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 7.6,
@@ -6361,12 +6397,16 @@
   },
   "toy story 5 suomeksi": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.3,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta. Elokuvan on ohjannut Andrew Stanton apulaisohjaajanaan Kenna Harris ja tuottanut Lindsey Collins, ja se saa ensi-iltansa elokuvateattereissa kesällä 2026."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "tremors väristyksiä": {
    "id": 9362,
@@ -6532,6 +6572,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -6542,15 +6583,20 @@
     "ihmekompleksi",
     "isohannu",
     "julia",
+    "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "kuvakukko",
+    "laitilankino",
     "leffabuumi",
     "lieksankino",
     "matintupa"
@@ -6587,6 +6633,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -6597,15 +6644,20 @@
     "ihmekompleksi",
     "isohannu",
     "julia",
+    "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "kuvakukko",
+    "laitilankino",
     "leffabuumi",
     "lieksankino",
     "matintupa"
@@ -6627,6 +6679,19 @@
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "unohdettu saari englanniksi": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.3,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "Englanninkielinen versio, tekstitetty suomeksi ja ruotsiksi. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
    "ts": [
@@ -6681,6 +6746,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -6691,15 +6757,20 @@
     "ihmekompleksi",
     "isohannu",
     "julia",
+    "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kkino",
+    "kotkanleffat",
     "kuvakukko",
+    "laitilankino",
     "leffabuumi",
     "lieksankino",
     "matintupa"
