@@ -44,7 +44,7 @@ byte-identical ones were never counted.
 | biorex `_post`, `fetch_venue` | POST, cookie opener, referer | its own docstring; the site's selection flow |
 | regina `get_schedule` | POST, `cache=False`, 40 s | the endpoint takes a form body |
 | riviera | POST written inline in `fetch_site` | its own docstring |
-| johku | `opener=OPENER` | [2026-09-providers.md](../archive/2026-09-providers.md), Cloudflare's 103 Early Hints |
+| johku | `opener=OPENER` | [2026-09-providers.md](../archive/2026-09-providers.md); the hosts answer 103 Early Hints before the 200 |
 | heureka | `cache=False`, 40 s, own headers | the page answers `If-None-Match` with a full 200 every time |
 | gilda | 45 s, `accept: application/json`, JSON parse | named in [2026-09-pipeline.md](../archive/2026-09-pipeline.md) |
 | vista | 40 s, `accept: application/xml, text/xml, */*` | the service is XML |

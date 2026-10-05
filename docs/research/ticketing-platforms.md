@@ -244,9 +244,12 @@ The sweep of the four known sites, read 2026-09-05:
   2026-09-20 as the seventh storefront. This entry read the page for a Johku *widget* and
   found none; the storefront was a link away and was not followed.
 
-Two probe details worth keeping: Cloudflare answers the storefront with an HTTP 103 Early
-Hints interim response, which `urllib` reports as the final status while curl reads
-through it; and `?k=elokuvat` needs quoting in zsh.
+Two probe details worth keeping: the storefront answers with an HTTP 103 Early Hints
+interim response followed by a 200, and `urllib` reports the 103 as the final status while
+curl reads through it. Also, `?k=elokuvat` needs quoting in zsh. On 2026-10-05 all six
+Johku hosts sent the 103 and then the 200, with no `cf-ray` header and no Cloudflare
+`Server` header. Earlier versions of this note said Cloudflare sends the 103. The missing
+headers leave that unsupported, but they do not show that Cloudflare was never involved.
 
 The same 2026-09-05 pass found **Korjaamo Kino is a Vista site** with the public services
 open, and **Kino Regina** runs a WordPress theme whose own `getShowtimesMoviesV2.php`
@@ -709,9 +712,9 @@ demonstrated or merely not tried.
 Four venues on one site, Kino Kyntäjä (Alavus), Y-Kino (Kauhava), Sun Kino (Ähtäri) and
 Alareksi (Alajärvi), which would be an attractive single integration.
 
-- `urllib` reports HTTP 103 for this host. That is the Cloudflare Early Hints interim
-  response this file already records under Johku, a limitation of the reader and **not** a
-  block: `curl` reads through it and returns 200 with 163 kB.
+- `urllib` reports HTTP 103 for this host. That is the same 103 Early Hints interim
+  response, followed by a 200, that this file records under Johku. It is a limitation of
+  the reader and does not block anything: `curl` reads through it and gets 200 with 163 kB.
 - **Corrected 2026-09-15.** The first reading of this rested on the *absence* of
   `showschedule` keys on the home page, which establishes nothing: a key can be named
   anything. Re-done properly by reading the site's own public code and its own endpoints.

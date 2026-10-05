@@ -179,11 +179,10 @@ FINNISH_SPOKEN_RE = re.compile(r"\bpuhumme\s+suomea\b", re.I)
 class _Response(http.client.HTTPResponse):
     """An HTTP response reader that skips interim 1xx responses.
 
-    Cloudflare answers these storefronts with `103 Early Hints` before the real response.
-    `http.client` skips `100 Continue` and nothing else, so urllib reports the 103 as the
-    status and `common.fetch` raises on it, while curl reads through to the 200. Recorded
-    as a probe detail in docs/research/ticketing-platforms.md on 2026-09-05 and hit again
-    here.
+    These storefronts answer with `103 Early Hints` followed by a 200; on 2026-10-05 all six
+    Johku hosts did. `http.client` skips `100 Continue` and nothing else, so urllib reports
+    the 103 as the status and `common.fetch` raises on it, while curl reads through to the
+    200. See docs/research/ticketing-platforms.md.
     """
 
     def _read_status(self):

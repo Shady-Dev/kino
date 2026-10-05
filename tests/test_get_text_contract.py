@@ -19,11 +19,11 @@ different Accept-Language went unnoticed by everything.
 
 The deliberate variants are deliberately absent from the table below, and the reason is
 recorded per adapter in `docs/research/adapter-http.md`: BioRex and Kino Regina POST,
-Johku needs its own opener for Cloudflare's Early Hints, Heureka sets `cache=False`
-because its pages answer `If-None-Match` with a full 200, Gilda and Vista raise the
-timeout, Nexxo sends a referer, and seven adapters ask for JSON or XML rather than HTML.
-Bio Savoy's `sv-AX,sv;q=0.9` and eTiketti's extra `accept` header are unsettled rather
-than deliberate; they are left alone and named in that file.
+Johku needs its own opener for the 103 Early Hints its hosts send before the 200, Heureka
+sets `cache=False` because its pages answer `If-None-Match` with a full 200, Gilda and
+Vista raise the timeout, Nexxo sends a referer, and seven adapters ask for JSON or XML
+rather than HTML. Bio Savoy's `sv-AX,sv;q=0.9` and eTiketti's extra `accept` header are
+unsettled rather than deliberate; they are left alone and named in that file.
 """
 import unittest
 
