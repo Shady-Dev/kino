@@ -2,8 +2,7 @@
 [engel] film pages: 13 parsed, 0 with nothing usable, 22/23 showtimes rated
 [engel] strand prefix split off 3 showtimes
 [engel] Kino Engel: 23 showtimes, 7 dates
-[engel] synopses merged: 1
-[engel] synopses by language: sv 1
+[engel] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 14 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
