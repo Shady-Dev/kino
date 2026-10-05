@@ -2805,3 +2805,6 @@ A sentence also starts at "Näytös järjestetään" (2026-10-05): Metsäsota ja
 text ran the note on after a quote's attribution with no stop ("– Erkki Lähde 2026 Näytös
 järjestetään ke 30.9. klo 17:15 ..."), so the rule could not see it. Capital N only; the
 words mid-sentence stay. 2 mutations red.
+"The screening will be held on ..." is the same note as "... will take place on ..."
+(Ghost in the Machine's English text, read 2026-10-05). "The screening will be held in
+secret" stays. 2 mutations red.

@@ -60,7 +60,7 @@ NOTE_SENTENCES = tuple(re.compile(p, re.I) for p in (
     r"\bovat\s+osallistujille\s+maksuttomia\b",
     r"\bkannatusmaksu",
     r"^admission\s+to\s+(?:the\s+screening|[^.!?]*\btalk)\b[^.!?]*\bis\s+free\b",
-    r"^the\s+screening\s+will\s+take\s+place\s+on\b",
+    r"^the\s+screening\s+will\s+(?:take\s+place|be\s+held)\s+on\b",
     r"\bare\s+organi[sz]ing\s+a\s+free\s+screening\b",
 ))
 

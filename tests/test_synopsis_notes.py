@@ -137,6 +137,7 @@ class NoteSentenceTest(unittest.TestCase):
         "Admission to the screening is free, no advance reservation is required.",  # El espíritu
         "Admission to Piia L\u00e5ngbacka\u2019s talk is free.",                           # Casper
         "The screening will take place on Wednesday, October 7 at 19:00.",         # El espíritu
+        "The screening will be held on Thursday, 22 October at 17:15.",            # Ghost in the Machine
         "Sociedad Finlandia Espa\u00f1a and the Embassy of Spain are organizing a free "
         "screening at Orion.",                                                     # El espíritu
     )
@@ -152,6 +153,7 @@ class NoteSentenceTest(unittest.TestCase):
         "Yhdistyksen kannatusj\u00e4senet kokoontuvat torstaisin.",
         "Admission to the academy is free for gifted children.",
         "The screening of his first film took place in Cannes.",
+        "The screening will be held in secret, the colonel decides.",
         "Elokuva on tekstitetty englanniksi.",
     )
 
