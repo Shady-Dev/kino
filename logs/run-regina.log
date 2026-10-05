@@ -3,6 +3,7 @@
 [regina] prices: 166 screenings, 158 priced, 0 pages read, 166 reused, 8 without an ordinary ticket, 0 failed, 0 deferred
 [regina] Kino Regina: 166 showtimes, 60 dates
 [regina] synopses merged: 0
+[regina] screening-note sentences left out of synopses: 2
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 113 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoregina.fi
