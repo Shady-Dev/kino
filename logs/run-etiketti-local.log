@@ -1,4 +1,4 @@
-[savonkinot] Tapio Joensuu: 34 showtimes, 6 dates
+[savonkinot] Tapio Joensuu: 35 showtimes, 7 dates
 [savonkinot] Killa Savonlinna: 8 showtimes, 4 dates
 [savonkinot] Kuvalinna Savonlinna: 6 showtimes, 5 dates
 [savonkinot] Kuvalipas Iisalmi: 9 showtimes, 4 dates
@@ -16,7 +16,7 @@
 [haapamaki] Haapamäen Elokuvat: 9 showtimes, 6 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 60 full, 60 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 61 full, 61 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 11 venues, 163 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 11 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
