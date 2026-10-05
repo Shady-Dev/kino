@@ -2808,3 +2808,13 @@ words mid-sentence stay. 2 mutations red.
 "The screening will be held on ..." is the same note as "... will take place on ..."
 (Ghost in the Machine's English text, read 2026-10-05). "The screening will be held in
 secret" stays. 2 mutations red.
+Repaired 2026-10-05, after the rules, 10 texts in 8 slots. The dated screening sentence out
+of Ghost in the Machine (`fi`, `en`), Jazz Suomi 100 vuotta, Natalia and Metsäsota ja rauha
+(`fi`, `en`); Star's literal `<b>` and `<p>` out of Marsupilami (dub), Presidentin kyyditys
+(Neulekino) and Star House Movie: Ortotopologian loputtomat alkeet; Alt Skal Bort's `en`,
+Ritz's whole description from before its facts rule, down to the synopsis Ritz's rule reads
+today. Six equal the fixed parse of the cinema's page that day; Jazz Suomi 100's page has
+since changed its list of shorts; Metsäsota is no longer listed. Left as they are: the
+post-screening discussion and guest lines (Ghost in the Machine, Metsäsota, Natalia's guest
+line fused into the critic's attribution) and the Neulekino format sentence. One Star page
+changed. After this no stored slot text holds a sentence the rule removes.
