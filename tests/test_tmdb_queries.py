@@ -255,15 +255,18 @@ class TerminalVersionMarkerTest(unittest.TestCase):
 
     def test_the_three_letter_version_markers_come_off(self):
         for published in ("Kojootti vs. ACME (eng)", "Kojootti vs. ACME (sub)",
-                          "Kojootti vs. ACME (ENG)", "Kojootti vs. ACME ( sub )"):
+                          "Kojootti vs. ACME (ENG)", "Kojootti vs. ACME ( sub )",
+                          "Kojootti vs. ACME (org)", "Kojootti vs. ACME (ORG)"):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.clean(published), "Kojootti vs. ACME")
+        self.assertEqual(enrich_tmdb.clean("Ryhmä Hau: Dinoelokuva (org)"),
+                         "Ryhmä Hau: Dinoelokuva")
 
     def test_a_marker_only_comes_off_at_the_end(self):
         """The restriction that keeps the rule safe: a title carrying the same letters
         anywhere else is left exactly as the cinema published it."""
-        for published in ("Subway", "Submarine", "English Patient", "Engel",
-                          "Kojootti vs. ACME (sub) osa 2",
+        for published in ("Subway", "Submarine", "English Patient", "Engel", "Organ",
+                          "Kojootti vs. ACME (sub) osa 2", "Kojootti vs. ACME (org) osa 2",
                           "Orginaali äänillä ja muita tarinoita"):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.clean(published), published)

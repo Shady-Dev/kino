@@ -2818,3 +2818,11 @@ since changed its list of shorts; Metsäsota is no longer listed. Left as they a
 post-screening discussion and guest lines (Ghost in the Machine, Metsäsota, Natalia's guest
 line fused into the critic's attribution) and the Neulekino format sentence. One Star page
 changed. After this no stored slot text holds a sentence the rule removes.
+
+### "(org)" comes off the TMDB search string (2026-10-05)
+In the cloud data of 2026-10-05 Kino Myyri lists its English-language screening (EN-A,
+FI-S, SV-S) as "Ryhmä Hau: Dinoelokuva (org)". It got no TMDB match although the plain
+title matches 1185806, and the nearest weak candidate was 893723, which is already listed
+as a wrong id. `PublishedCoverageTest` failed on main because of it. `TRAIL_VERSION` now
+removes "(org)" from the end of the search string, the same way as "(eng)" and "(sub)".
+The published title is unchanged. 2 mutations red.

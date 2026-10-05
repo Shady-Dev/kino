@@ -106,8 +106,9 @@ TRAIL_NOISE = re.compile(
 # "(sub)" name the audio run and the subtitled one in three letters, and had sat
 # unmatched in the cache since 2026-09-14. Both are anchored to the end: "eng" and
 # "sub" are ordinary syllables, and a rule that fired mid-title would cut real words
-# out of real names.
-TRAIL_VERSION = re.compile(r"\s*\(\s*(?:eng|sub)\s*\)\s*$", re.I)
+# out of real names. Kino Myyri lists its English version as "Ryhmä Hau: Dinoelokuva
+# (org)" (2026-10-05). It got no match while the plain title matched 1185806.
+TRAIL_VERSION = re.compile(r"\s*\(\s*(?:eng|sub|org)\s*\)\s*$", re.I)
 
 # A calendar names events, not films. Tähti Kino's three rows on 2026-09-19 read
 # "Hetki ennen valoa -elokuvanäytös", "Presidentin kyyditys -elokuvan näytös" and
