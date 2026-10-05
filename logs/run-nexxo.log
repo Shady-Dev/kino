@@ -1,9 +1,9 @@
-[kinoset] Kino 1-2 (Huittinen): 6 showtimes
-[kinoset] Kinema (Loimaa): 5 showtimes
-[kinoset] Bio (Sastamala): 5 showtimes
-[kinoset] Kino 1-2: 6 showtimes, 2 dates
-[kinoset] Kinema: 5 showtimes, 3 dates
-[kinoset] Bio: 5 showtimes, 2 dates
+[kinoset] Kino 1-2 (Huittinen): 24 showtimes
+[kinoset] Kinema (Loimaa): 20 showtimes
+[kinoset] Bio (Sastamala): 20 showtimes
+[kinoset] Kino 1-2: 24 showtimes, 8 dates
+[kinoset] Kinema: 20 showtimes, 9 dates
+[kinoset] Bio: 20 showtimes, 8 dates
 [kinoset] synopses merged: 0
 [kinoaurora] Kino Aurora (Jyväskylä): 39 showtimes
 [kinoaurora] strand prefix split off 3 showtimes
@@ -33,9 +33,10 @@
 [kinometso] Tikkakoski: 2 showtimes, 1 dates
 [kinometso] Vaajakoski: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
 [kinometso] synopses merged: 0
+[kinometso] screening-note sentences left out of synopses: 1
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] nexxo: 12 venues, 121 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 36.8s of fetching added up across workers that overlap, longest site 10.1s, longest queue wait 0.0s, 10.1s wall from this module's first fetch starting to its last ending
+[run] nexxo: 12 venues, 169 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 36.1s of fetching added up across workers that overlap, longest site 10.7s, longest queue wait 0.0s, 10.7s wall from this module's first fetch starting to its last ending
 exit=0

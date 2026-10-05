@@ -1,11 +1,11 @@
-[kinokilta] 57 screening(s) listed, 41 film page(s) read
+[kinokilta] 59 screening(s) listed, 43 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 3
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Hiljaiset sillat, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
 [kinokilta] 1 film(s) with a language name not read, that part left blank: Pieni kauhukauppa (Ei teksitystä)
-[kinokilta] Kino Kilta: 54 showtimes, 31 dates
+[kinokilta] Kino Kilta: 56 showtimes, 33 dates
 [kinokilta] strand prefix split off 12 showtimes
-[kinokilta] Kino Kilta: 54 showtimes, 31 dates
+[kinokilta] Kino Kilta: 56 showtimes, 33 dates
 [kinokilta] synopses merged: 0
 [kinolaika] 57 screening(s) listed, 45 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
@@ -14,16 +14,16 @@
 [kinolaika] Kino Laika: 35 showtimes, 12 dates
 [kinolaika] Kino Laika: 35 showtimes, 12 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 20 screening(s) listed, 17 film page(s) read
-[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 6
-[kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Espanjalaisen elokuvan viikko: Campeones – Mestarit, Espanjalaisen elokuvan viikko: La Isla mínima, Must pori näkku
+[kinomyyri] 39 screening(s) listed, 24 film page(s) read
+[kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 6 unresolved over 8
+[kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Espanjalaisen elokuvan viikko: Campeones – Mestarit, Espanjalaisen elokuvan viikko: La Isla mínima, Must pori näkku, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 film(s) with a language name not read, that part left blank: Lapin sota (saami)
-[kinomyyri] Kino Myyri: 14 showtimes, 8 dates
-[kinomyyri] Kino Myyri: 14 showtimes, 8 dates
-[kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 106 full, 18 not stored (origin said no-store), 42 cache entries written
+[kinomyyri] Kino Myyri: 31 showtimes, 12 dates
+[kinomyyri] Kino Myyri: 31 showtimes, 12 dates
+[kinomyyri] synopses merged: 1
+[run] http: 0 revalidated (304), 115 full, 25 not stored (origin said no-store), 44 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 103 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 199.0s of fetching added up across workers that overlap, longest site 88.1s, longest queue wait 106.0s, 88.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 122 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 202.8s of fetching added up across workers that overlap, longest site 87.9s, longest queue wait 102.3s, 91.8s wall from this module's first fetch starting to its last ending
 exit=0

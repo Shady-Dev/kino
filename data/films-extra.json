@@ -350,6 +350,10 @@
   "avengers doomsday": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -363,6 +367,10 @@
   "avengers doomsday 2d": {
    "id": 1003596,
    "img": "data/posters/b1eae52d6a765de3.jpg",
+   "kr": "K-12",
+   "krs": [
+    "cinemantsala"
+   ],
    "r": 0,
    "s": {
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
@@ -1235,7 +1243,7 @@
   "heart of beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.7,
+   "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
@@ -1248,6 +1256,49 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "bioforum",
+    "biomarilyn",
+    "biopallas",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biosavoy",
+    "biovuoksi",
+    "cine",
+    "cinemantsala",
+    "elavienkuvien",
+    "gilda",
+    "haapamaki",
+    "helios",
+    "jarvelankino",
+    "julia",
+    "kino123",
+    "kinoakseli",
+    "kinoelo",
+    "kinohirvi",
+    "kinokulma",
+    "kinolumo",
+    "kinomania",
+    "kinomarilyn",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinosampo",
+    "kinotar",
+    "kinotoijala",
+    "kinovirta",
+    "kkino",
+    "kotkanleffat",
+    "leffabuumi",
+    "niagara",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "vaakuna"
+   ],
    "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
@@ -1843,10 +1894,12 @@
     "alatalo",
     "bioforum",
     "biograni",
+    "biopallas",
     "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
+    "gilda",
     "helios",
     "huvimylly",
     "ihmekompleksi",
@@ -1865,6 +1918,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinosampo",
+    "kinoset",
     "kinotoijala",
     "kkino",
     "korjaamo",
@@ -2733,7 +2787,8 @@
    "krs": [
     "kinoaurora",
     "kinojuha",
-    "kinolaika"
+    "kinolaika",
+    "kinomyyri"
    ],
    "r": 0,
    "s": {
@@ -3324,6 +3379,7 @@
    "img": "data/posters/60552918c00e4422.jpg",
    "kr": "K-12",
    "krs": [
+    "kinokilta",
     "niagara"
    ],
    "r": 8.0,
@@ -3778,6 +3834,7 @@
    "img": "data/posters/952438d819839253.jpg",
    "kr": "K-16",
    "krs": [
+    "biopallas",
     "biorexkokkola",
     "biovuoksi",
     "cinemantsala",
@@ -4017,7 +4074,8 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "kinoaurora"
+    "kinoaurora",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -4034,6 +4092,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biopallas",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4044,6 +4103,7 @@
     "kinolumo",
     "kinoolympia",
     "kinopiispanristi",
+    "kinoset",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4067,6 +4127,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biopallas",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4077,6 +4138,7 @@
     "kinolumo",
     "kinoolympia",
     "kinopiispanristi",
+    "kinoset",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4097,6 +4159,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biopallas",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4107,6 +4170,7 @@
     "kinolumo",
     "kinoolympia",
     "kinopiispanristi",
+    "kinoset",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4150,6 +4214,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biopallas",
     "cinemantsala",
     "helios",
     "huvimylly",
@@ -4160,6 +4225,7 @@
     "kinolumo",
     "kinoolympia",
     "kinopiispanristi",
+    "kinoset",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -5094,6 +5160,14 @@
    "ts": [
     "en"
    ]
+  },
+  "ryhmä hau dinoelokuva org": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
+   },
+   "tr": ""
   },
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
@@ -6131,6 +6205,7 @@
     "kinoiiris",
     "kinokilta",
     "kinolaika",
+    "kinomyyri",
     "korjaamo",
     "kuvakukko",
     "niagara",
@@ -6184,12 +6259,14 @@
   },
   "the social reckoning": {
    "id": 1281331,
-   "img": "data/posters/b8495bc94d603a4d.jpg",
+   "img": "data/posters/baccbbbb98b979e0.jpg",
    "kr": "K-12",
    "krs": [
+    "gilda",
     "isohannu",
     "kino123",
     "kinoaurora",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kotkanleffat",
@@ -6351,10 +6428,12 @@
    "krs": [
     "biorexkokkola",
     "cinemantsala",
+    "gilda",
     "helios",
     "isohannu",
     "kinoaurora",
     "kinokulma",
+    "kinomyyri",
     "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
@@ -6574,6 +6653,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biopallas",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6592,8 +6672,10 @@
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinomyyri",
     "kinopiispanristi",
     "kinosampo",
+    "kinoset",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
@@ -6635,6 +6717,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biopallas",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6653,8 +6736,10 @@
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinomyyri",
     "kinopiispanristi",
     "kinosampo",
+    "kinoset",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
@@ -6748,6 +6833,7 @@
     "bioforum",
     "biograni",
     "biokaari",
+    "biopallas",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6766,8 +6852,10 @@
     "kinokulma",
     "kinolaika",
     "kinomania",
+    "kinomyyri",
     "kinopiispanristi",
     "kinosampo",
+    "kinoset",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
