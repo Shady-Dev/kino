@@ -290,7 +290,8 @@
     "gilda",
     "kinolaika",
     "kinometso",
-    "niagara"
+    "niagara",
+    "orion"
    ],
    "r": 6.2,
    "s": {
@@ -598,16 +599,12 @@
   },
   "bussipysäkki": {
    "id": 24010,
-   "img": "data/posters/c3b53867b10435c0.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
-    "en": "Cowboys Beauregard Decker and Virgil Blessing attend a rodeo in Phoenix, where Decker falls in love with beautiful cafe singer Cherie. He wants to take Cherie back to his native Montana and marry her, but she dreams of traveling to Hollywood and becoming famous. When she resists his advances, Decker forces Cherie onto the bus back to Montana with him, but, when the bus makes an unscheduled stop due to bad weather, the tables are turned.",
+    "en": "",
     "fi": "Saatuaan Kesälesken kuvaukset valmiiksi vuonna 1954 Marilyn Monroe julkisti shokkiuutisen: hän ilmoitti jättävänsä Hollywoodin ja ryhtyvänsä vakavaksi näyttelijättäreksi. Hän muutti New Yorkiin ja perusti oman yhtiön. Lisäksi hän neuvotteli 20th Century Foxin kanssa sopimuksen, joka velvoitti häntä tekemään neljä elokuvaa Foxille; näistä ensimmäisenä valmistui Bussipysäkki. Muutettuaan Hollywoodista Marilyn ei pelännyt särkeä imagensa glamour-hohdetta. Tosin, kun hän palasi yli vuoden tauon jälkeen elokuvakameroiden eteen Bussipysäkin kuvauksiin, hän käyttäytyi diivan elkein. Hänellä oli selvä käsitys siitä, millaisen osan hän halusi tehdä. Hän pyrki naturalismiin. Hän halusi esiintyä suttuisessa meikissä ja nuhjuisissa vaatteissa ja laulaa tahallisen huonosti. Bussipysäkki on fyysinen ja lihallinen elokuva, ja Chérie on animaalinen Etelän nainen. Kameratyö korostaa tätä puolta, ja elokuvaa varten kehiteltiin tekniikoita erikoislähikuvien saamiseksi CinemaScope-leveydellä. Bussipysäkki on elokuva soluhengityksen näkökulmasta; ihon huokoset, nukka ja silmien verisuonet näkyvät sen suurissa lähikuvissa."
    },
-   "tr": "https://www.youtube.com/watch?v=4Qi9C7w7LuM",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "by any means": {
    "id": 1380417,
@@ -814,7 +811,6 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
-    "ihmekompleksi",
     "isohannu",
     "joutsankino",
     "kino123",
@@ -840,11 +836,11 @@
     "kirkkonummi",
     "korjaamo",
     "kotkanleffat",
-    "kuvakukko",
     "leffabuumi",
     "lieksankino",
     "matintupa",
     "niagara",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -881,19 +877,6 @@
    "s": {
     "en": "",
     "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
-  "don quijote barcelonassa": {
-   "id": 1506689,
-   "img": "data/posters/a45e6bfaf6469991.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Lluc, kulttuuriin kiinnittynyt entinen akateemikko, ja Olli, Suomesta Barcelonan kaduille ajautunut mies, kohtaavat etsiessään suojaa samasta rappukäytävästä. Alkukohdat ovat vaatimattomat, mutta vähitellen heidän välilleen syntyy yhteys, joka ei rakennu säälistä vaan jaetusta ihmisyydestä."
    },
    "tr": "",
    "ts": [
@@ -989,6 +972,14 @@
    "ts": [
     "en"
    ]
+  },
+  "ennkko pikkuli ja tähtipeura suomeksi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki … tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
   },
   "epic elvis presley in concert": {
    "id": 1445363,
@@ -1256,49 +1247,6 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "bioforum",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosavoy",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "jarvelankino",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinohirvi",
-    "kinokulma",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotar",
-    "kinotoijala",
-    "kinovirta",
-    "kkino",
-    "kotkanleffat",
-    "leffabuumi",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna"
-   ],
    "r": 7.5,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
@@ -1440,13 +1388,12 @@
   },
   "hiljaiset sillat": {
    "id": 688,
-   "img": "data/posters/2901d07bad291dce.jpg",
-   "r": 7.7,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "\" ARMOTON on Eastwoodin monisärmäisin, leppymättömin elokuva, mutta HILJAISET SILLAT on hänen mestarillisin \" (Richard Combs 1996) Robert James Wallerin kyseenalaisesta bestselleristä valmistui lahjakkaan skenaristin Richard LaGravenesen muokkauksessa ja Clint Eastwoodin kypsässä ohjauksessa realistinen, tyyliltään konstailematon melodraama ja väkevästi vaikuttava rakkauskertomus, neljän auvoisen vuorokauden kertomus, joka on verrattavissa David Leanin klassikkoon Lyhyt onni . Aviorikos muuntaa päähenkilöiden elämän, mutta luopuminen on upotettu kertomuksen runkoon. La Gravenese ja Eastwood pystyttivät takaumarakenteen, jossa vuoteen 1965 sijoitettua pääkertomusta kehystävät nykysukupolven kommentit. Näin Francescan ja Robertin ihannoitu romanssi rinnastuu kriittisessä mielessä nykypäivään. Hiljaisia siltoja käsittelevässä loistokkaassa perinpohjaisessa esseessään Walter Metz rinnastaa Wallerin romaanin ja Eastwoodin elokuvan toisiinsa ja toteaa elokuvan konservatiivisen romaanin uustyöstöksi, nimenomaan sukupuolipoliittisessa (gender politics) katsannossa. Robert Kincaidin näkökulmasta kerrottua seksististä romaania hallitsee miehen katse, jonka filtterin läpi tapahtumat yhteyllistetään lukijalle. Elokuvassa keskeistä on aviovaimo-äiti Francesca Johnsonin sisäinen perspektiivi ja rajoitetut valinnan mahdollisuudet. Romaanin patologisen passiivinen melankolikko Francesca on elokuvassa melankolikko joka voittaa epätoivonsa kielellisen luovuuden avulla. Francescasta on elokuvassa tehty huumorintajuinen nainen, joka komiikan lävitse ilmentää tyytymättömyyttään patriarkaalisia rakenteita kohtaan - Richard Combs, \"Old Ghosts: The Bridges of Madison County\", Film Comment 32:3 May/June 1995, 25-32, Walter Metz \"Another being we have created called us\": Point of View, Melancholia, and the Joking Unconscious in The Bridges of Madison County, The Velvet Light Trap 39 / Spring 1997, s. 66-83 mukaan Matti Salo 1997"
    },
-   "tr": "https://www.youtube.com/watch?v=ZoJJkAQV0Bg"
+   "tr": ""
   },
   "hissillä mestauslavalle": {
    "id": 1093,
@@ -1893,6 +1840,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biogrand",
     "biograni",
     "biopallas",
     "biorexkokkola",
@@ -1913,6 +1861,7 @@
     "kinokilta",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinomyyri",
     "kinoolympia",
@@ -1926,8 +1875,10 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
+    "marita",
     "matintupa",
     "savonkinot",
+    "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola"
    ],
@@ -2272,12 +2223,11 @@
     "kinolaika",
     "kinolumo",
     "kinopiispanristi",
-    "kinopirtti",
     "kkino",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "vaakuna"
+    "tapiola"
    ],
    "r": 7.6,
    "s": {
@@ -2291,12 +2241,16 @@
   },
   "kojootti vs acme dub": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.6,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kojootti vs acme dubattu": {
    "id": 1204680,
@@ -2339,12 +2293,16 @@
   },
   "kojootti vs acme orig": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/2cb6f7dbe10cca53.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "kojootti vs acme original": {
    "id": 1204680,
@@ -2785,15 +2743,32 @@
    "img": "data/posters/93eda5fa30b7d70c.jpg",
    "kr": "K-7",
    "krs": [
+    "biogrand",
     "kinoaurora",
     "kinojuha",
     "kinolaika",
-    "kinomyyri"
+    "kinolumo",
+    "kinomyyri",
+    "kinopiispanristi",
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille."
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
+  "late lammas elokuva hämäräpuuhissa suomeksi": {
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 0,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -3024,10 +2999,6 @@
   "maailman rikkain nainen": {
    "id": 1309725,
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 6.1,
    "s": {
     "en": "An elderly billionaire woman gives hundreds of millions of euros to a younger gay artist she is close to. Her daughter files a complaint for abuse of a vulnerable person and a scandal erupts.",
@@ -3295,7 +3266,8 @@
     "kuvakukko",
     "leffabuumi",
     "niagara",
-    "savonkinot"
+    "savonkinot",
+    "tapiola"
    ],
    "r": 7.7,
    "s": {
@@ -3768,7 +3740,7 @@
   "original english coyote vs acme": {
    "id": 1204680,
    "img": "data/posters/e1a7880d02ca0644.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Tässä on syksyn hämmästyttävin elokuva! Warner ei halunnut julkaista suur­yrityksille irvailevaa elokuvaa ja elokuva joutui pannaan - se hyllytettiin. Tässä se kuitenkin on ja se on huikea sekä hupaisa! Helsingin sanomat: ****"
@@ -3840,13 +3812,15 @@
     "kino123",
     "kinoelo",
     "kinojuha",
+    "kinolumo",
     "kinomania",
     "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
     "kotkanleffat",
     "leffabuumi",
-    "sheryl"
+    "sheryl",
+    "studio123jarvenpaa"
    ],
    "r": 0,
    "s": {
@@ -4071,8 +4045,9 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "engel",
     "kinoaurora",
-    "kinopiispanristi"
+    "kinolumo"
    ],
    "r": 0,
    "s": {
@@ -4081,14 +4056,37 @@
    },
    "tr": ""
   },
-  "pikkuli och himmelshinden": {
+  "pikkuli ja tähtipeura suomeksi": {
+   "id": 1403476,
+   "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "engel",
+    "kinoaurora",
+    "kinolumo"
+   ],
    "r": 0,
    "s": {
     "en": "",
-    "fi": "",
-    "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
    },
    "tr": ""
+  },
+  "pikkuli och himmelshinden": {
+   "id": 1403476,
+   "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu.",
+    "sv": "Pikkuli och de andra invånarna i Solbackens skog förbereder sig som bäst för julfirandet. Men när de vuxna i skogen börjar gräla, bestämmer de sig plötsligt för att ställa in och avboka hela julen..."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "pirjo": {
    "id": 1729175,
@@ -4113,7 +4111,8 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino"
+    "lieksankino",
+    "marita"
    ],
    "r": 0,
    "s": {
@@ -4148,7 +4147,8 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino"
+    "lieksankino",
+    "marita"
    ],
    "r": 0,
    "s": {
@@ -4180,7 +4180,8 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino"
+    "lieksankino",
+    "marita"
    ],
    "r": 0,
    "s": {
@@ -4235,7 +4236,8 @@
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
-    "lieksankino"
+    "lieksankino",
+    "marita"
    ],
    "r": 0,
    "s": {
@@ -4366,7 +4368,6 @@
     "cinemantsala",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
@@ -4391,6 +4392,7 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
+    "marita",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -4438,7 +4440,6 @@
     "cinemantsala",
     "gilda",
     "helios",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
@@ -4463,6 +4464,7 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
+    "marita",
     "matintupa",
     "niagara",
     "savonkinot",
@@ -4726,7 +4728,7 @@
     "en": "On July 27, 1986, Queen performed the largest-ever stadium concert at the Népstadion in Budapest in front of 80,000 ecstatic fans. The concert was part of the famed Magic Tour, which was the last time the band toured with lead singer Freddie Mercury. Now, this original concert film has been beautifully rescanned and remastered in 4K alongside a dynamic new audio mix, featuring many of Queen's favorite tracks— 'Bohemian Rhapsody,” 'Crazy Little Thing Called Love,' 'I Want To Break Free” and 'We Are The Champions.' With three years to go before the fall of the Berlin Wall, this was the first Western rock concert performed in a stadium behind the then Iron Curtain. It was of such significance to the Hungarian authorities and film industry that a group of the country’s top film cameramen and technicians were brought together to film it for posterity.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=CnWgjtNWKXI"
+   "tr": "https://www.youtube.com/watch?v=DYdPhqkw0pU"
   },
   "rakasta tai tuhoudu": {
    "id": 37038,
@@ -4934,6 +4936,7 @@
     "kuusamotalo",
     "laitilankino",
     "leffabuumi",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -4981,6 +4984,7 @@
     "kuusamotalo",
     "laitilankino",
     "leffabuumi",
+    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -5075,23 +5079,6 @@
   "rose": {
    "id": 1176962,
    "img": "data/posters/abbaf8c90c0c135c.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biograni",
-    "biorex",
-    "engel",
-    "gilda",
-    "kinoaurora",
-    "kinoiiris",
-    "kinokilta",
-    "kinomarilyn",
-    "kinoolympia",
-    "korjaamo",
-    "kuvakukko",
-    "niagara",
-    "star",
-    "studio123kouvola"
-   ],
    "r": 7.7,
    "s": {
     "en": "In the early 17th century, a soldier arrives at an isolated Protestant village in Germany claiming to be the heir to an abandoned farmstead. Even though he proves to be a good man, the villagers' suspicions about his identity grow and they force a reckoning.",
@@ -5146,6 +5133,7 @@
    "img": "data/posters/b7775ab25a7de6bc.jpg",
    "kr": "K-7",
    "krs": [
+    "biogrand",
     "biorex",
     "biorexkokkola",
     "isohannu",
@@ -5652,10 +5640,6 @@
   "svečias the visitor": {
    "id": 1427167,
    "img": "data/posters/ab58860aa0b139c9.jpg",
-   "kr": "S",
-   "krs": [
-    "kinomyyri"
-   ],
    "r": 0,
    "s": {
     "en": "30-year-old Danielius returns to his hometown to sell his parents’ flat, but the visit lasts longer than expected. With nowhere to rush, he tries to reconnect with the people and the town that no longer feels like his. Winner of Best Director at the Karlovy Vary Film Festival and Best Baltic Film at the Tallinn Black Nights Film Festival, Svečias – The Visitor is a quiet, tactile film about the places and people we carry with us, and about how we let them go.",
@@ -5695,7 +5679,9 @@
    ]
   },
   "syystarina": {
-   "r": 0,
+   "id": 10239,
+   "img": "data/posters/704966e1539869ed.jpg",
+   "r": 7.1,
    "s": {
     "en": "Eric Rohmer’s Autumn Tale follows Magali, a middle-aged widow and winegrower who enjoys her solitary life but whose friends are determined to find her a new partner. Her friend Isabelle secretly sets out to find a suitable man for Magali and begins seeing a man named Gérald. At the same time, Magali’s son’s girlfriend, Rosine, tries to arrange a meeting between Magali and her teacher, Gérald. Through a series of coincidences, white lies, and misunderstandings, a romantic web develops around Magali, exploring love, loneliness, and the possibility of new relationships later in life.",
     "fi": "Eric Rohmerin Syystarina kertoo viininviljelijä Magalista, leskeksi jääneestä keski-ikäisestä naisesta, joka viihtyy yksin, mutta jonka ystävät haluavat löytää hänelle uuden kumppanin. Hänen ystävänsä Isabelle päättää salaa etsiä Magalille sopivaa miestä ja tutustuu tätä varten Pierre-nimiseen mieheen. Samaan aikaan Magalin pojan tyttöystävä Rosine yrittää järjestää hänelle treffit opettajansa Géraldin kanssa. Erilaisten sattumien, valkoisten valheiden ja väärinkäsitysten kautta Magalin ympärille rakentuu romanttinen kuvio, jossa pohditaan rakkauden, yksinäisyyden ja ihmissuhteiden mahdollisuuksia keski-iässä."
@@ -6049,7 +6035,8 @@
     "kinolumo",
     "kinopiispanristi",
     "savonkinot",
-    "star"
+    "star",
+    "studio123jarvenpaa"
    ],
    "r": 8.0,
    "s": {
@@ -6282,7 +6269,8 @@
     "kinoolympia",
     "kinopiispanristi",
     "kotkanleffat",
-    "leffabuumi"
+    "leffabuumi",
+    "tapiola"
    ],
    "r": 0,
    "s": {
@@ -6445,6 +6433,7 @@
     "isohannu",
     "kinoaurora",
     "kinokulma",
+    "kinolumo",
     "kinomyyri",
     "kinopiispanristi",
     "kotkanleffat",
@@ -6663,6 +6652,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
     "biopallas",
@@ -6683,6 +6673,7 @@
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
@@ -6695,7 +6686,10 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "matintupa"
+    "matintupa",
+    "star",
+    "studio123jarvenpaa",
+    "tapiola"
    ],
    "r": 8.2,
    "s": {
@@ -6727,6 +6721,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
     "biopallas",
@@ -6747,6 +6742,7 @@
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
@@ -6759,7 +6755,10 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "matintupa"
+    "matintupa",
+    "star",
+    "studio123jarvenpaa",
+    "tapiola"
    ],
    "r": 8.2,
    "s": {
@@ -6843,6 +6842,7 @@
    "krs": [
     "alatalo",
     "bioforum",
+    "biogrand",
     "biograni",
     "biokaari",
     "biopallas",
@@ -6863,6 +6863,7 @@
     "kinojuha",
     "kinokulma",
     "kinolaika",
+    "kinolumo",
     "kinomania",
     "kinomyyri",
     "kinopiispanristi",
@@ -6875,7 +6876,10 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
-    "matintupa"
+    "matintupa",
+    "star",
+    "studio123jarvenpaa",
+    "tapiola"
    ],
    "r": 8.2,
    "s": {
@@ -7039,6 +7043,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -7053,6 +7058,7 @@
     "sheryl",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
@@ -7094,6 +7100,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
@@ -7108,6 +7115,7 @@
     "sheryl",
     "star",
     "studio123jarvenpaa",
+    "tapiola",
     "vaakuna",
     "vihdinkino"
    ],
