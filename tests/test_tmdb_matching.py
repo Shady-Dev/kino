@@ -856,6 +856,13 @@ class AliasFileTest(unittest.TestCase):
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
         self.assertEqual(doc[enrich_tmdb.norm("Happy Together")], "18329")
 
+    def test_the_orion_natalia_alias_is_kassilas_film(self):
+        """Orion's page gives Matti Kassila, 1979 and a premiere on 14.12.1979, and 459808
+        is that film. The search had matched 339324, Bernard Cohn's French film of the
+        same name from 1989."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("Natalia")], "459808")
+
     def test_the_largest_2026_09_19_alias_is_pinned(self):
         """39 showtimes over 17 venues, the largest single row in that batch, and the one
         the maintainer reported. Two independent sources say 1299382: TMDB's own record
@@ -889,6 +896,7 @@ class AliasFileTest(unittest.TestCase):
             "557": "Raimi's 2002 Spider-Man, not Spider-Man: Brand New Day (969681)",
             "55059": "Damski's 1989 Happy Together, not Wong Kar-Wai's (18329)",
             "1510055": "The Furious: Pertaruhan Maruah, not Tanigaki's The Furious (1280738)",
+            "339324": "Cohn's 1989 French Natalia, not Kassila's 1979 film (459808)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):
