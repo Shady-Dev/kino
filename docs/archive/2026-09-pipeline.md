@@ -2788,3 +2788,12 @@ are films no longer listed. Left as they are, the boundary not clear from the te
 guest talk inside Casper's and Ghost's synopses, "Näytöksessä 16.9.2026 klo 16:00 nähdään
 neljä historiallista lyhytelokuvaa ...", "Näytöksen tarjoaa ... Lasten Lysti" run into Pat
 & Mat's first sentence, and "Elokuva on tekstitetty englanniksi." Two Orion pages changed.
+
+### "(viimeinen esitys)" comes off the TMDB search string (2026-10-05)
+The maintainer's decision. Bio Grani published "Hetki ennen valoa (viimeinen esitys)" in the
+cloud data of 2026-10-04, and the row drew no TMDB match while every other spelling matched
+1015881, which kept `PublishedCoverageTest` red. Bio Grani's film page, read 2026-10-05,
+gives Klaus Härö, 1 h 27 min and a 11.09.2026 premiere; the record, opened the same day, is
+Klaus Härö, 2026-09-11, 87 min, Laura Birn. The parenthetical names the last screening, as
+"(Poistuu ohjelmistosta)" names the last week, so `PAREN_NOISE` takes it off the search
+string and the published title keeps it. The same words outside brackets stay. 2 mutations red.

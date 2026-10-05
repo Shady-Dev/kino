@@ -154,6 +154,29 @@ class LastWeekMarkerTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class LastScreeningMarkerTest(unittest.TestCase):
+    """Bio Grani's "(viimeinen esitys)" names the film's last screening, as "(Poistuu
+    ohjelmistosta)" names its last week: off the search string, kept in the title. Read
+    2026-10-04; the row drew no TMDB match while the plain title matched 1015881."""
+
+    def test_the_note_comes_off_the_search_string(self):
+        for published in ("Hetki ennen valoa (viimeinen esitys)",
+                          "Hetki ennen valoa (Viimeinen esitys)",
+                          "Kerro kaikille ( viimeinen  esitys )"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), published.split(" (")[0])
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("Hetki ennen valoa (viimeinen esitys)"),
+                         "hetki ennen valoa viimeinen esitys")
+
+    def test_the_words_outside_a_bracket_are_left_alone(self):
+        for title in ("Viimeinen esitys", "Viimeinen esitys ennen sotaa",
+                      "Viimeinen (esitys)"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+
 class AudioMarkerTest(unittest.TestCase):
     """A marker names the audio, never the film, so it comes off the search string.
 

@@ -91,8 +91,10 @@ PAREN_NOISE = re.compile(
     # in strands.EVENT_PREFIXES, which run.py also splits off a published "Neulekino: X":
     # the title a visitor sees stays as published. Savon Kinot files it in `method`.
     # Bio Marilyn's programme note, "Avengers Endgame Encore (Poistuu ohjelmistosta)" and
-    # "(Poistuu ohjelmistosta !)", names the film's last week (2026-09-27).
-    r"|neulekino|poistuu\s+ohjelmistosta\s*!?)\s*\)", re.I)
+    # "(Poistuu ohjelmistosta !)", names the film's last week (2026-09-27). Bio Grani's
+    # "Hetki ennen valoa (viimeinen esitys)" names its last screening (2026-10-04); its page
+    # gives Klaus Härö and 87 min, the plain title's 1015881.
+    r"|neulekino|poistuu\s+ohjelmistosta\s*!?|viimeinen\s+esitys)\s*\)", re.I)
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
     re.I)
