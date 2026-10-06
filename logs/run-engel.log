@@ -1,10 +1,10 @@
-[engel] 2 date(s) listed with no time anywhere, skipped: 10-09, 10-16 -- Kerro kaikille | Two Seasons, Two Strangers | The Devils
-[engel] film pages: 13 parsed, 0 with nothing usable, 18/19 showtimes rated
+[engel] 1 date(s) listed with no time anywhere, skipped: 10-16 -- The Devils
+[engel] film pages: 17 parsed, 0 with nothing usable, 58/59 showtimes rated
 [engel] strand prefix split off 3 showtimes
-[engel] Kino Engel: 19 showtimes, 6 dates
+[engel] Kino Engel: 59 showtimes, 12 dates
 [engel] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 14 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 18 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- kinoengel.fi
-[run] engel: 1 venues, 19 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] engel: 1 venues, 59 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
