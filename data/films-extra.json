@@ -283,6 +283,7 @@
    "krs": [
     "engel",
     "gilda",
+    "kinoaurora",
     "kinolaika",
     "kinometso",
     "niagara",
@@ -356,10 +357,7 @@
     "en": "Beloved heroes from three distinct universes are set on a deadly collision course and face an existential threat unlike anything they've ever encountered.",
     "fi": "Synopsis lisätään pian."
    },
-   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=X1aFkAkFASk"
   },
   "avengers doomsday 2d": {
    "id": 1003596,
@@ -1200,13 +1198,17 @@
   },
   "gråben vs acme coyote vs acme": {
    "id": 1204680,
-   "r": 0,
+   "img": "data/posters/e1a7880d02ca0644.jpg",
+   "r": 7.5,
    "s": {
-    "en": "",
+    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "",
     "sv": "Efter årtionden av att ha blivit sprängd i luften av Acmes explosiva produkter slår Gråben äntligen tillbaka – och tar hjälp av en osäker advokat för att få den upprättelse han alltid förtjänat. Dessutom finns där Hjulben… och dynamit."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
+   "ts": [
+    "en"
+   ]
   },
   "hamnet": {
    "id": 858024,
@@ -1885,6 +1887,7 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -1896,7 +1899,6 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
-    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "marita",
@@ -2244,6 +2246,7 @@
     "bioforum",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "cinemantsala",
     "isohannu",
     "kino123",
@@ -2495,6 +2498,16 @@
     "en"
    ]
   },
+  "kuopus": {
+   "id": 961077,
+   "img": "data/posters/1af75b8939b2028d.jpg",
+   "r": 6.6,
+   "s": {
+    "en": "",
+    "fi": "Kuopus (eng. The Little Sister) kertoo nuoren naisen herkän kasvutarinan – tasapainoilusta omien tunteiden ja ympäristön asettamien paineiden kanssa sekä rohkeudesta löytää oma äänensä muiden odotusten keskellä. Elokuvan maailmanensi-ilta oli Cannesin 2025 elokuvajuhlien pääkilpasarjassa, jossa elokuva palkittiin Queer Palm -palkinnolla ja Nadia Melliti parhaasta naispääosasta. Fatima on kolmesta tyttärestä nuorin ja hapuilee omaa polkuaan aikuisuuden kynnyksellä. 17-vuotias tyttö tasapainoilee heräävien halujensa, viehtymyksensä naisiin ja rakastavan, uskonnollisen perheen toiveiden välillä. Yliopiston alkaessa Pariisissa Fatimalle avautuu täysin uusi maailma, jossa hän saa ystäviä, ihastuu ja kokee nuoren naisen rakkauden ensimmäistä kertaa omilla ehdoillaan. Kaiken keskellä hän joutuu kohtaamaan ajattoman ja riipaisevan kysymyksen: miten pysyä uskollisena itselleen, kun identiteetin eri puolien sovittaminen yhteen tuntuu mahdottomalta?"
+   },
+   "tr": "https://www.youtube.com/watch?v=aHntkAmfiNs"
+  },
   "kuoripojat": {
    "id": 1383172,
    "img": "data/posters/c2c545949f40f7cf.jpg",
@@ -2727,6 +2740,16 @@
    "s": {
     "en": "",
     "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen…"
+   },
+   "tr": ""
+  },
+  "lapin sota loviisan lions clubin erikoisnäytös": {
+   "id": 1450460,
+   "img": "data/posters/c15d678a31ae397e.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Elokuvan tapahtumat sijoittuvat Lappiin syksyllä 1944, Suomen ja Saksan väliseen konfliktiin toisen maailmansodan loppuvaiheessa. Nuori sotamies Heikki taistelee Karjalan kannaksella ystävänsä Paulin kanssa. Komppaniaan liittyy vankilasta vapautunut Arvo, jonka maailmankuva haastaa muiden käsitykset sodasta ja velvollisuudesta. Aselepo herättää toivon kotiinpaluusta, mutta pian selviää, että Suomen on käännyttävä entisiä saksalaisia liittolaisiaan vastaan Lapissa. Samaan aikaan Rovaniemellä saksalaisten tulkkina työskentelevä Saara joutuu valitsemaan tulevaisuutensa: jäädä Suomeen vai paeta Saksaan rakastettunsa, majuri Duisbergin, kanssa. Lapin sota on vahvasti hahmojensa inhimillisiin kokemuksiin nojaava kertomus ihmisistä, jotka ajautuvat historiallisten mullistusten keskelle. Sodan kauheuksien keskeltä he etsivät merkitystä, inhimillisyyttä ja anteeksiantoa – ja kysyvät, miten armottomassa ympäristössä voidaan löytää armollisuutta. Elokuvateattereissa 23.10."
    },
    "tr": ""
   },
@@ -3030,7 +3053,8 @@
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
    "kr": "K-12",
    "krs": [
-    "engel"
+    "engel",
+    "tapiola"
    ],
    "r": 6.1,
    "s": {
@@ -3847,6 +3871,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "biovuoksi",
     "cinemantsala",
     "ihmekompleksi",
@@ -3871,7 +3896,8 @@
    "r": 0,
    "s": {
     "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
-    "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään."
+    "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään.",
+    "sv": "Den unga flickan Bela bygger en relation med ett skrämmande väsen som finns i hennes rum. Ett väsen som är kusligt likt hennes egen mamma. Från producenten James Wan och studion bakom \"Backrooms\" och \"Obsession\"."
    },
    "tr": "https://www.youtube.com/watch?v=-mnTITqqiT0",
    "ts": [
@@ -4452,7 +4478,6 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "biovuoksi",
     "cinemantsala",
     "gilda",
     "helios",
@@ -4460,14 +4485,12 @@
     "kino123",
     "kinoakseli",
     "kinoaurora",
-    "kinoelo",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -4517,52 +4540,6 @@
   },
   "presidentin kyyditys kidnappningen av presidenten": {
    "id": 1412214,
-   "img": "data/posters/b6832fef0c1dad14.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cinemantsala",
-    "gilda",
-    "helios",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinoaurora",
-    "kinoelo",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinojuha",
-    "kinokilta",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotar",
-    "kinotour",
-    "kinovirta",
-    "kirkkonummi",
-    "kotkanleffat",
-    "kuvakukko",
-    "leffabuumi",
-    "marita",
-    "matintupa",
-    "niagara",
-    "orion",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5635,16 +5612,12 @@
   },
   "spider man brand new day 2d": {
    "id": 969681,
-   "img": "data/posters/45f3e2165fbd29bb.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
-    "en": "Fighting crime full-time as Spider-Man in a world that doesn't remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.",
+    "en": "",
     "fi": "Normaali 2D-versio. Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut."
    },
-   "tr": "https://www.youtube.com/watch?v=P3uI5sLosKU",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "spider man brand new day 3d": {
    "id": 969681,
@@ -6160,7 +6133,6 @@
     "biorex",
     "gilda",
     "isohannu",
-    "kinojuha",
     "kinolumo",
     "kinopiispanristi",
     "savonkinot",
@@ -6368,16 +6340,12 @@
   },
   "the secret reading club of kabul yksittäisnäytös": {
    "id": 1635591,
-   "img": "data/posters/8e47d51a8993f244.jpg",
    "r": 0,
    "s": {
-    "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
+    "en": "",
     "fi": "Afganistanissa, jossa väkivaltainen ääriliike kieltää naisten oikeudet ja mahdollisuudet, joukko nuoria naisia kokoontuu salaa lukemaan Anne Frankin päiväkirjaa. Anne Frankin innoittamana elokuvan päähenkilöt haluavat kertoa tarinansa, jotta maailma ei unohda heitä. Yhden naisista elämä muuttuu nopeasti Talibanien alkaessa etsiä häntä. Hän pelkää henkensä ja perheensä kunnian puolesta, ja päättää paeta maasta. Helsingissä asuva afganistanilainen elokuvantekijä Shakiba Adil auttaa ja tukee häntä pakenemisessa. Shakiba on itse paennut kahdesti Afganistanista henkensä uhalla. Elokuva kertoo näiden naisten silmin elämästä ääriliikkeen hallitsemassa maassa, heidän toiveistaan ja pyrkimyksistään kohti vapautta. Shakiba Adilin ja Elina Hirvosen ohjaama THE SECRET READING CLUB OF KABUL voitti arvostetun NORDIC:DOX -pääpalkinnon Tanskan CPH:DOX-dokumenttifestivaalilla. --- Suomen elokuvasäätiön markkinointi- ja levitystuki 2026"
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the shining": {
    "id": 694,
@@ -6395,6 +6363,7 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biosavoy",
     "gilda",
     "isohannu",
     "kino123",
@@ -6413,7 +6382,8 @@
    "r": 0,
    "s": {
     "en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets.",
-    "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina."
+    "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina.",
+    "sv": "Filmen är inspirerad av den sanna historien om hur Frances Haugen, en ung ingenjör på Facebook, tar hjälp av Jeff Horwitz, reporter på The Wall Street Journal, för att tillsammans avslöja några av det sociala mediets mest välbevarade hemligheter. En fristående fortsättning till succén \"The Social Network\", där Aaron Sorkins originalmanus bygger på händelserna bakom Wall Street Journals uppmärksammade avslöjande \"The Facebook Files\"."
    },
    "tr": "https://www.youtube.com/watch?v=R8ANzYpaZaY"
   },
@@ -6818,6 +6788,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -6892,6 +6863,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -7031,6 +7003,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosavoy",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -7219,7 +7192,6 @@
     "cine",
     "cinemantsala",
     "gilda",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
@@ -7276,7 +7248,6 @@
     "cine",
     "cinemantsala",
     "gilda",
-    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
