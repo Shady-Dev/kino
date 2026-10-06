@@ -8,9 +8,8 @@
 [schedule] 2026-10-11: 8 showtimes
 [schedule] 2026-10-12: 3 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
-[tmdb] weak match, no exact title (1): Rose -> Rose
-[tmdb] rating refresh: 6 scheduled, 6 re-read, 0 failed and still due, 0 deferred (budget 12)
-[tmdb] 2 new lookups, 14 re-checks, cache 90, 82 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-10-07 (1): Rose -> Rose
+[tmdb] 0 new lookups, 0 re-checks, cache 90, 82 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 45 film entries
 [attrs] dropped, neither format nor language (10): EiText | IV | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
