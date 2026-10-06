@@ -547,16 +547,12 @@
   },
   "blue baby hetki ennen valoa": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "Klaus Härö’s new film depicts the encounter between two women in the midst of a crisis in the healthcare sector. Specialist nurse Inka (Laura Birn) carries out her work with great dedication, despite the pressure of demanding working conditions and her own family life. Leni’s (Oona Airola) and Kari’s (Jussi Vatanen) happiness is thrown into turmoil when their newborn baby is rushed to intensive care. The nurses are planning a strike for better working conditions, but amidst all the uncertainty, the distraught Leni finds support and hope from Inka. Inka, however, faces difficult decisions. Both women act out of love and a sense of duty – but how do you make the right decision when your own life and the lives of others hang in the balance?",
-    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "blue heron": {
    "id": 1184941,
@@ -822,7 +818,6 @@
     "kino123",
     "kinoaurora",
     "kinoelo",
-    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -3010,6 +3005,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=c9U1E9cC5is"
   },
+  "luvattu maa ziemia obiecana the promised land": {
+   "r": 0,
+   "s": {
+    "en": "Celebrating the 100th anniversary of one of Poland's most prominent film directors, Andrzej Wajda. Three friends hope to build a factory but their plans are quickly jeopardized by local politics and one of the partner's dangerous love affair. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "lyhyt rakkaustarina": {
    "id": 1299382,
    "img": "data/posters/7eff920a1bfc91f7.jpg",
@@ -4111,6 +4114,14 @@
    },
    "tr": ""
   },
+  "pikku kummitus lapanen keppostelee suomeksi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
+   },
+   "tr": ""
+  },
   "pikkuli ja tähtipeura": {
    "id": 1403476,
    "img": "data/posters/e4e4be88f3bfae06.jpg",
@@ -4476,7 +4487,6 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "cinemantsala",
     "gilda",
     "helios",
@@ -4485,7 +4495,6 @@
     "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
-    "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinolaika",
@@ -4493,7 +4502,6 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinotour",
     "kinovirta",
@@ -4510,7 +4518,6 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 0,
@@ -4692,7 +4699,6 @@
    "img": "data/posters/6bbde592472eb4e8.jpg",
    "kr": "S",
    "krs": [
-    "kuvakukko",
     "regina"
    ],
    "r": 0,
@@ -4830,7 +4836,6 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "biovuoksi",
     "cinemantsala",
     "gilda",
@@ -4988,7 +4993,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -5036,7 +5040,6 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -5858,8 +5861,7 @@
    "img": "data/posters/27670b215b5bd500.jpg",
    "kr": "K-16",
    "krs": [
-    "kinokilta",
-    "orion"
+    "kinokilta"
    ],
    "r": 6.3,
    "s": {
@@ -6545,6 +6547,7 @@
     "cinemantsala",
     "gilda",
     "helios",
+    "ihmekompleksi",
     "isohannu",
     "kinoaurora",
     "kinoiiris",
@@ -7355,6 +7358,19 @@
     "fi": "Cannesin elokuvajuhlien Kultaisen palmun voittanut, taidokkaasti punottu draama kertoo hartaasti uskovaisesta Gheorghiun perheestä, joka muuttaa norjalaiseen vuonokylään ja ystävystyy pian naapureidensa, Halbergien, kanssa. Kahden perheen lapset lähentyvät toisiaan kasvatuseroista ja arvojen erilaisuudesta huolimatta. Pian Gheorghiun vanhempien (Renate Reinsve, Sebastian Stan) kasvatusmetodeih kohdistuu kuitenkin epäilyjä, jotka johtavat perheen tutkinnan kohteeksi ja paikallisen oikeusjärjestelmän eteen. Cristian Mungiun (4 kuukautta, 3 viikkoa, 2 päivää) ohjaaman uutuuselokuvan yhteistuottajana toimii suomalainen Elokuvayhtiö Aamu."
    },
    "tr": "https://www.youtube.com/watch?v=frg59VOungA"
+  },
+  "whalefall": {
+   "id": 1255833,
+   "img": "data/posters/b06de03c5de0cf45.jpg",
+   "r": 0,
+   "s": {
+    "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
+    "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen."
+   },
+   "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
+   "ts": [
+    "en"
+   ]
   },
   "white riot": {
    "id": 627051,
