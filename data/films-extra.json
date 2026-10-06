@@ -173,13 +173,12 @@
   },
   "amélie": {
    "id": 194,
-   "img": "data/posters/1ac21b43b150a022.jpg",
-   "r": 7.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Améliella on epätavallinen kotitausta, vilkas mielikuvitus ja unelmoiva sielu. Vaikka näyttää elävän omassa maailmassaan, hän tekee jatkuvasti pieniä hyviä tekoja tuodakseen iloa muille ihmisille. Mutta voiko huoleton elämänasenne johtaa omaan onneen ja rakkauteen? AMÉLIE valloitti maailman myrskyn lailla, kun elokuvan ainutlaatuinen estetiikka ja lämminhenkinen tarina avasivat jälleen yleisön silmät ranskalaiselle elokuvalle."
    },
-   "tr": "https://www.youtube.com/watch?v=555A7T_kmIc"
+   "tr": ""
   },
   "andre rieu s 2026 christmas concert let it snow": {
    "id": 1707785,
@@ -1869,6 +1868,7 @@
     "biovuoksi",
     "cine",
     "cinemantsala",
+    "elavienkuvien",
     "engel",
     "gilda",
     "helios",
@@ -1878,6 +1878,7 @@
     "jarvelankino",
     "joutsankino",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinoiiris",
@@ -2458,13 +2459,12 @@
   },
   "kpe the love that remains ástin sem eftir er": {
    "id": 1258509,
-   "img": "data/posters/a638c73cf3f1fb0b.jpg",
-   "r": 6.3,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "POHJOISMAISEN NEUVOSTON ELOKUVAPALKINTOEHDOKAS 2026! The Love That Remains kuvaa vastikään eronneiden Annan ja Magnúsin elämää vuoden ajan parin yrittäessä selviytyä työstä, seksistä ja monimutkaisista perhesuhteista, joihin kuuluvat teini-ikäinen tytär ja kaksospojat. Perhe-elämää kuvaavat kohtaukset vetävät puoleensa vanhoja totuuksia ja tunnesiteitä, jotka ovat muuttuneet mutta eivät täysin hävinneet. Lähde: Norden.org Esityspaikkakunta: Joensuu Elokuvan kieli: islanti"
    },
-   "tr": "https://www.youtube.com/watch?v=jZ0fdmesr-w"
+   "tr": ""
   },
   "kulkurin valssi": {
    "id": 209212,
@@ -3411,12 +3411,6 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/60552918c00e4422.jpg",
-   "kr": "K-12",
-   "krs": [
-    "kinoiiris",
-    "kinokilta",
-    "niagara"
-   ],
    "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -3877,6 +3871,7 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinojuha",
     "kinolumo",
@@ -3890,6 +3885,7 @@
     "leffabuumi",
     "savonkinot",
     "sheryl",
+    "star",
     "studio123jarvenpaa",
     "vaakuna"
    ],
@@ -4203,6 +4199,7 @@
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinoakseli",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4243,6 +4240,7 @@
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinoakseli",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4280,6 +4278,7 @@
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinoakseli",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4340,6 +4339,7 @@
     "isohannu",
     "jarvelankino",
     "julia",
+    "kinoakseli",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4433,7 +4433,6 @@
     "biorex",
     "kinojuha",
     "kinolumo",
-    "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
@@ -6364,6 +6363,7 @@
    "krs": [
     "biorex",
     "biosavoy",
+    "elavienkuvien",
     "gilda",
     "isohannu",
     "kino123",
@@ -6377,6 +6377,7 @@
     "niagara",
     "orion",
     "savonkinot",
+    "star",
     "tapiola"
    ],
    "r": 0,
@@ -6800,6 +6801,7 @@
     "isohannu",
     "julia",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
@@ -6875,6 +6877,7 @@
     "isohannu",
     "julia",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
@@ -7015,6 +7018,7 @@
     "isohannu",
     "julia",
     "kino123",
+    "kinoakseli",
     "kinoaurora",
     "kinoelo",
     "kinojuha",
