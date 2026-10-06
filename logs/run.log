@@ -1,20 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-06: 285 showtimes
+[schedule] 2026-10-06: 63 showtimes
 [schedule] 2026-10-07: 303 showtimes
 [schedule] 2026-10-08: 336 showtimes
-[schedule] 2026-10-09: 322 showtimes
-[schedule] 2026-10-10: 348 showtimes
-[schedule] 2026-10-11: 333 showtimes
-[schedule] 2026-10-12: 317 showtimes
+[schedule] 2026-10-09: 430 showtimes
+[schedule] 2026-10-10: 469 showtimes
+[schedule] 2026-10-11: 445 showtimes
+[schedule] 2026-10-12: 435 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
-[tmdb] weak match, no exact title (2): Matloob Aelian -> مطلوب آيليان | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] weak candidate kept, not searched until 2026-10-07 (1): Rose -> Rose
-[tmdb] rating held back, under 25 votes (3): Late Lammas -elokuva: Hämäräpuuhissa (7.1 / 16 votes) | The Social Reckoning (7.7 / 3 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
-[tmdb] 8 new lookups, 1 re-checks, cache 98, 88 mergeable by id
+[tmdb] weak candidate kept, not searched until 2026-10-07 (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] 0 new lookups, 0 re-checks, cache 98, 88 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 61 film entries
-[attrs] dropped, neither format nor language (11): EiText | Ennakko | IV | Klassikko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[films] 60 film entries
+[attrs] dropped, neither format nor language (9): Ennakko | IV | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
