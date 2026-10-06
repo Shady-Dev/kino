@@ -174,10 +174,6 @@
   "amélie": {
    "id": 194,
    "img": "data/posters/1ac21b43b150a022.jpg",
-   "kr": "K-12",
-   "krs": [
-    "savonkinot"
-   ],
    "r": 7.9,
    "s": {
     "en": "",
@@ -285,7 +281,6 @@
    "img": "data/posters/64d23f46b5356d6f.jpg",
    "kr": "K-12",
    "krs": [
-    "cinemantsala",
     "engel",
     "gilda",
     "kinolaika",
@@ -2234,7 +2229,7 @@
     "star",
     "tapiola"
    ],
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -2247,7 +2242,7 @@
   "kojootti vs acme dub": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syöstyään Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -2277,7 +2272,7 @@
   "kojootti vs acme englanniksi": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -2351,7 +2346,7 @@
   "kojootti vs acme suomeksi": {
    "id": 1204680,
    "img": "data/posters/9bcb7891e3c4c53a.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
@@ -2364,7 +2359,7 @@
   "kojootti vs acme suomeksi puhuttu": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
     "fi": ""
@@ -2738,6 +2733,7 @@
     "kinopiispanristi",
     "kinosampo",
     "kinotoijala",
+    "savonkinot",
     "studio123jarvenpaa"
    ],
    "r": 0,
@@ -3820,6 +3816,7 @@
     "kinotoijala",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "sheryl",
     "studio123jarvenpaa",
     "vaakuna"
@@ -5186,6 +5183,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
+    "savonkinot",
     "star",
     "studio123jarvenpaa"
    ],
@@ -6315,6 +6313,7 @@
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "tapiola"
    ],
    "r": 0,
@@ -6491,6 +6490,7 @@
     "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "star",
     "studio123kouvola",
     "tapiola"
@@ -6746,6 +6746,7 @@
     "leffabuumi",
     "lieksankino",
     "matintupa",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
@@ -6817,6 +6818,7 @@
     "leffabuumi",
     "lieksankino",
     "matintupa",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
@@ -6953,6 +6955,7 @@
     "leffabuumi",
     "lieksankino",
     "matintupa",
+    "savonkinot",
     "star",
     "studio123jarvenpaa",
     "tapiola",
@@ -7384,5 +7387,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-05"
+ "generated": "2026-10-06"
 }
