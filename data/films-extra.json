@@ -1703,6 +1703,16 @@
    },
    "tr": "https://www.youtube.com/watch?v=_hO2reqNcj0"
   },
+  "järki ja tunteet": {
+   "id": 4584,
+   "img": "data/posters/90645b198527b148.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Uusi, vastustamaton tulkinta Jane Austenin ikonisesta Järki ja tunteet -teoksesta: hurmaava, nokkela ja syvästi samaistuttava tarina rakkaudesta ja sisaruudesta. Pääosissa loistavat Daisy Edgar-Jones ja Esmé Creed-Miles"
+   },
+   "tr": "https://www.youtube.com/watch?v=5unqnd-CGz4"
+  },
   "järven ääni": {
    "r": 0,
    "s": {
@@ -1837,6 +1847,7 @@
     "biogrand",
     "biograni",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -1851,6 +1862,7 @@
     "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokulma",
@@ -1863,6 +1875,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kkino",
     "korjaamo",
@@ -1872,6 +1885,8 @@
     "leffabuumi",
     "marita",
     "matintupa",
+    "niagara",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -1881,7 +1896,7 @@
    ],
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Kerro kaikille is a powerful film about Amanda Aaltonen (Marketta Tikkanen) who refuses to submit to the bleak fate prescribed for a poor woman and boldly sets out into the world in search of her fortune. As punishment for breaking society’s rules she is stripped of the thing she values most, her freedom, and confined to the island of Seili.",
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
@@ -2725,6 +2740,7 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
+    "biorex",
     "kinoaurora",
     "kinojuha",
     "kinolaika",
@@ -3345,6 +3361,7 @@
    "img": "data/posters/60552918c00e4422.jpg",
    "kr": "K-12",
    "krs": [
+    "kinoiiris",
     "kinokilta",
     "niagara"
    ],
@@ -3800,6 +3817,7 @@
    "kr": "K-16",
    "krs": [
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cinemantsala",
@@ -3813,6 +3831,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
+    "kinotar",
     "kinotoijala",
     "kotkanleffat",
     "leffabuumi",
@@ -4049,6 +4068,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biorex",
     "engel",
     "kinoaurora",
     "kinolumo"
@@ -4067,6 +4087,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biorex",
     "engel",
     "kinoaurora",
     "kinolumo"
@@ -4085,6 +4106,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biorex",
     "engel",
     "kinoaurora",
     "kinolumo"
@@ -4119,6 +4141,7 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biorex",
     "biosade",
     "cinemantsala",
     "helios",
@@ -4158,6 +4181,7 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biorex",
     "biosade",
     "cinemantsala",
     "helios",
@@ -4194,6 +4218,7 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biorex",
     "biosade",
     "cinemantsala",
     "helios",
@@ -4253,6 +4278,7 @@
     "bioforum",
     "biokaari",
     "biopallas",
+    "biorex",
     "biosade",
     "cinemantsala",
     "helios",
@@ -4409,7 +4435,6 @@
     "kinoelo",
     "kinohannikainen",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinolaika",
@@ -4482,7 +4507,6 @@
     "kinoelo",
     "kinohannikainen",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinolaika",
@@ -5084,13 +5108,12 @@
   },
   "romeo juliet": {
    "id": 454,
-   "img": "data/posters/f010f83e13c3e660.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Eräs Shakespearen filmatisoimisen keskeisiä ongelmia on löytää visuaalinen vastine runoilijan säkeiden ehtymättömälle rikkaudelle. Muun muassa tässä suhteessa Baz Luhrmannin Romeo ja Julia on riemukkaalla tavalla aivan omaa luokkaansa. Hän on sijoittanut tapahtumat postmoderniin urbaaniin mikä-mikä maahan (elokuva on kuvattu suurelta osin Mexico Cityssä) ja tallentanut tapahtumat kuin kyseessä olisi kokoillan rockvideo. Ja vaikka säkeitä lausuvatkin mitä erilaisimmilla tavalla englantia ääntävät näyttelijät, runous, sen kauneus ja voima ei jää audiovisuaalisen vyörytyksen varjoon. Tämän ansiosta Luhrmannia ei voi syyttää halpahintaisesta opportunismista, yrityksestä pelkästään kääriä klassikko kivaan pakettiin. Kieli ja muu ilmaisun eivät noin vain sulaudu yhteen, vaan niiden väliset jatkuvasti muuttuvat kontrastit luovat huimia tyylillisiä jännitteitä ja loputtomasti riemastuttavia rinnastuksia. Tekstin väistämättömiksi luullut anakronismit on joko ylitetty tai niille on etsitty koominen vastine. Prologi kuullaan uutisraporttina televisiosta, Capuletien ja Montagueiden nuoret kulkevat hengissä uhkaillen toisiaan Sword- (miekka-) merkkisillä aseilla jne. Mukana on muutenkin roppakaupalla huumoria ja – tietynlaisen hienostuneisuuden puitteissa – jopa groteskeja elementtejä. Mutta ennen kaikkea Shakespearen kieli ei lakkaa toimimasta näytelmän huikean tunneskaalan tärkeimpänä välittäjänä."
    },
-   "tr": "https://www.youtube.com/watch?v=oO4jqwpt25k"
+   "tr": ""
   },
   "roofman kattokeikkailija": {
    "id": 1242419,
@@ -5138,6 +5161,38 @@
    "s": {
     "en": "",
     "fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla. Luova Eurooppa -ohjelman - MEDIA -tuella."
+   },
+   "tr": ""
+  },
+  "royal ballet opera 2026 27 così fan tutte": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vedon innoittamina kaksi nuorta miestä kehittävät suunnitelman testatakseen tyttöystäviensä uskollisuutta. Seuraa liukas viettely- ja valtapeli, jossa neljä rakastavaista sukeltaa huimaavaan maailmaan, jossa todellisuus muuttuu jatkuvasti ja totuus muuttuu yhä epävakaammaksi. Così fan tutte ei ole menettänyt mitään terävyydestään sen jälkeen, kun se ensimmäisen kerran järkytti yleisöä vuonna 1790. Royal Operan apulaisjohtaja Netia Jones uudistaa päälavadebyyttinsä yhteydessä Mozartin seurapiirikomediaa terävän nykyaikaisen näkökulman kautta, jossa 1700-luvun romanttiset juonittelut kohtaavat syvästi satiirisen huipputeknologisen petoksen. Rakastavaisten rooleissa nähdään jännittävä nuori näyttelijäkaarti, jota johtavat Louise Alder, Simone McIntosh, Mingjie Lei ja Huw Montague Rendall. Gerald Finley esittää manipuloivaa pelinjohtajaa Don Alfonsoa ja Emily Pogorelc Despinaa. Thomas Hengelbrock johtaa orkesteria ja tuo esiin hienot melodiat, jotka tukevat oopperan ytimessä olevia provosoivia ja päättäväisesti moderneja teemoja."
+   },
+   "tr": ""
+  },
+  "royal ballet opera 2026 27 romeo and juliet": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Shakespearen ajaton tarina kohtalokkaista rakastavaisista saa uuden ilmeen Kenneth MacMillanin lumoavassa baletissa. Nuoren rakkauden kukoistus on yhtä läsnä Romeon ja Julian kohtaamisessa parvekkeella kuin heidän viimeisissä hetkissäänkin, kun he epätoivoisesti tarttuvat elämään haudassa. Prokofjevin tunnelmallinen musiikki luo puitteet salaisille romanttisille hetkille ja kohtalokkaille vihanpitoille ja vie baletin kohti sen väistämätöntä ja traagista loppua."
+   },
+   "tr": ""
+  },
+  "royal ballet opera 2026 27 swan lake": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Prinsessa Odette on kirottu: paha velho Von Rothbart on muuttanut hänet joutseneksi. Loitsu voidaan murtaa vain ikuisen rakkauden lupauksella. Kun Odette tapaa prinssi Siegfriedin, tämä ihastuu välittömästi Odetten hauraaseen kauneuteen ja lupaa vapauttaa hänet. Odettelle ei kuitenkaan ole taattu vapautta, sillä Von Rothbart juonii estääkseen rakastavaisten suunnitelmat. Liam Scarlettin Royal Balletille luoma tuotanto yhdistää Tšaikovskin suurenmoisen musiikin ja John Macfarlanen kuvankauniit lavastukset luodakseen ikimuistoisen balettispektaakkelin, jossa kietoutuvat yhteen rakkaus, petos ja anteeksianto."
+   },
+   "tr": ""
+  },
+  "royal ballet opera 2026 27 the nutcracker": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Taikuri Herra Drosselmeyerin on pelastettava veljenpoikansa. Hans-Peter on muuttunut pähkinänsärkijäksi, ja ainoa tapa pelastaa hänet on, että pähkinänsärkijä voittaa Hiirikuninkaan ja löytää tytön, joka rakastaa ja huolehtii hänestä. Toivoa herättää nuori Clara, jonka Drosselmeyer tapaa joulujuhlissa. Taikuuden avulla kodikas joulujuhla muuttuu upeaksi seikkailuksi. Peter Wrightin Pähkinänsärkijä on lumonnut yleisön jo vuodesta 1984, jolloin se sai ensi-iltansa balettiseurueen esittämänä. Pähkinänsärkijä, jossa kuullaan Tšaikovskin tunnetuimpia melodioita ja joka herää eloon Julia Trevelyan Omanin upeiden lavastusten ansiosta, on taatusti juhlava ilotulitus kaikenikäisille."
    },
    "tr": ""
   },
@@ -5247,14 +5302,17 @@
    ]
   },
   "saapasjalkakissa": {
-   "id": 417859,
-   "img": "data/posters/15db02fea7f4a8e8.jpg",
-   "r": 6.6,
+   "id": 58704,
+   "img": "data/posters/fb9983ef9aa02fc2.jpg",
+   "r": 7.0,
    "s": {
-    "en": "",
+    "en": "His goal is to help the weak and defenseless, but his saving a mouse makes him the most wanted in all the land. On the run from incessant, dim-witted mice, Perro befriends a young miller's boy, Pierre; together, they decide to seek fame and fortune. When they cross paths with the lovely Princess Rosa, Perro determines to get Pierre hitched to Her Royal Highness.",
     "fi": "Saapasjalkakissa Pero osoittaa armollisuutta hiiriä kohtaan, minkä seurauksena hänestä tulee kissayhteisön lainsuojaton. Paetessaan salamurhaajakolmikkoa hän ystävystyy hyväsydämisen myllärinpoika Pierren kanssa ja lupaa auttaa tätä voittamaan kauniin prinsessan sydämen, mutta paha velho ehtiikin kaappaamaan neidon ensin itselleen. Pero-kissasta tuli aikoinaan niin suosittu, että tuotantoyhtiö Toei Animation otti sen viralliseksi maskotikseen ja logohahmokseen. Elokuva on puhuttu ruotsiksi ja tekstitetty suomeksi."
    },
-   "tr": "https://www.youtube.com/watch?v=Znuq-daWfLE"
+   "tr": "https://www.youtube.com/watch?v=b2A718NDTUw",
+   "ts": [
+    "en"
+   ]
   },
   "saapasjalkakissa unohdettu saari": {
    "id": 1465063,
@@ -5800,7 +5858,8 @@
    "img": "data/posters/27670b215b5bd500.jpg",
    "kr": "K-16",
    "krs": [
-    "kinokilta"
+    "kinokilta",
+    "orion"
    ],
    "r": 6.3,
    "s": {
@@ -6164,6 +6223,10 @@
   "the royal ballet joutsenlampi": {
    "id": 1702782,
    "img": "data/posters/2ddf58982298b613.jpg",
+   "kr": "S",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6174,6 +6237,10 @@
   "the royal ballet pähkinänsärkijä": {
    "id": 1702761,
    "img": "data/posters/89927b25f064425c.jpg",
+   "kr": "S",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6197,6 +6264,10 @@
   "the royal opera cosi fan tutte": {
    "id": 1702775,
    "img": "data/posters/80dae6dce4f49cc0.jpg",
+   "kr": "S",
+   "krs": [
+    "biorex"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -6236,22 +6307,6 @@
   "the secret reading club of kabul": {
    "id": 1635591,
    "img": "data/posters/8e47d51a8993f244.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biopallas",
-    "elavienkuvien",
-    "gilda",
-    "ihmekompleksi",
-    "kinoaurora",
-    "kinoiiris",
-    "kinokilta",
-    "kinolaika",
-    "kinomyyri",
-    "korjaamo",
-    "kuvakukko",
-    "niagara",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "In Taliban-controlled Afghanistan, where women are denied the right to study, work, and speak freely, a group of young women risk their lives to form a secret reading circle.",
@@ -6303,6 +6358,7 @@
    "img": "data/posters/baccbbbb98b979e0.jpg",
    "kr": "K-12",
    "krs": [
+    "biorex",
     "gilda",
     "isohannu",
     "kino123",
@@ -6313,18 +6369,17 @@
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
+    "niagara",
+    "orion",
     "savonkinot",
     "tapiola"
    ],
    "r": 0,
    "s": {
-    "en": "Frances Haugen, a young Facebook engineer, enlists the help of Jeff Horwitz, a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network's most guarded secrets.",
+    "en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets.",
     "fi": "Tositapahtumista ja nykyään seuraamamme sosiaalisen median vastuukeskustelun käynnistäneestä ilmiantajasta inspiraationsa saanut Aaron Sorkinin alkuperäiskäsikirjoitus on menestyselokuva The Social Networkin rinnakkaisteos sekä todellinen Daavid ja Goljat -tarina."
    },
-   "tr": "https://www.youtube.com/watch?v=R8ANzYpaZaY",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=R8ANzYpaZaY"
   },
   "the spanish earth": {
    "id": 126783,
@@ -6478,18 +6533,21 @@
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
+    "biorex",
     "biorexkokkola",
     "cinemantsala",
     "gilda",
     "helios",
     "isohannu",
     "kinoaurora",
+    "kinoiiris",
     "kinokulma",
     "kinolumo",
     "kinomyyri",
     "kinopiispanristi",
     "kotkanleffat",
     "leffabuumi",
+    "orion",
     "savonkinot",
     "star",
     "studio123kouvola",
@@ -6497,13 +6555,10 @@
    ],
    "r": 7.6,
    "s": {
-    "en": "A 19-year-old Anthony Bourdain travels to Provincetown and stumbles into the chaotic world of a restaurant kitchen, setting off a summer that will shape the course of his life.",
+    "en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef.",
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
    },
-   "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=k1MVnzd2aVc"
   },
   "touching the skin of eeriness heaven is still far away": {
    "r": 0,
@@ -6643,6 +6698,11 @@
   "two seasons two strangers": {
    "id": 1462735,
    "img": "data/posters/819e3e0324072544.jpg",
+   "kr": "S",
+   "krs": [
+    "kinoaurora",
+    "kinokilta"
+   ],
    "r": 0,
    "s": {
     "en": "In summer, Nagisa and Natsuo meet by the sea. Their vacant gazes reflect each other as they exchange awkward words and wade into the rain-drenched ocean. In winter, Li, a screenwriter, travels to a snow-covered village. There, she finds a guesthouse run by Benzo.",
@@ -6714,6 +6774,7 @@
     "biograni",
     "biokaari",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6738,6 +6799,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
@@ -6786,6 +6848,7 @@
     "biograni",
     "biokaari",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6810,6 +6873,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
@@ -6923,6 +6987,7 @@
     "biograni",
     "biokaari",
     "biopallas",
+    "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cine",
@@ -6947,6 +7012,7 @@
     "kinopirtti",
     "kinosampo",
     "kinoset",
+    "kinotar",
     "kinotoijala",
     "kkino",
     "kotkanleffat",
@@ -7308,6 +7374,14 @@
    "ts": [
     "en"
    ]
+  },
+  "william shakespearen romeo ja julia": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Eräs Shakespearen filmatisoimisen keskeisiä ongelmia on löytää visuaalinen vastine runoilijan säkeiden ehtymättömälle rikkaudelle. Muun muassa tässä suhteessa Baz Luhrmannin Romeo ja Julia on riemukkaalla tavalla aivan omaa luokkaansa. Hän on sijoittanut tapahtumat postmoderniin urbaaniin mikä-mikä maahan (elokuva on kuvattu suurelta osin Mexico Cityssä) ja tallentanut tapahtumat kuin kyseessä olisi kokoillan rockvideo. Ja vaikka säkeitä lausuvatkin mitä erilaisimmilla tavalla englantia ääntävät näyttelijät, runous, sen kauneus ja voima ei jää audiovisuaalisen vyörytyksen varjoon. Tämän ansiosta Luhrmannia ei voi syyttää halpahintaisesta opportunismista, yrityksestä pelkästään kääriä klassikko kivaan pakettiin. Kieli ja muu ilmaisun eivät noin vain sulaudu yhteen, vaan niiden väliset jatkuvasti muuttuvat kontrastit luovat huimia tyylillisiä jännitteitä ja loputtomasti riemastuttavia rinnastuksia. Tekstin väistämättömiksi luullut anakronismit on joko ylitetty tai niille on etsitty koominen vastine. Prologi kuullaan uutisraporttina televisiosta, Capuletien ja Montagueiden nuoret kulkevat hengissä uhkaillen toisiaan Sword- (miekka-) merkkisillä aseilla jne. Mukana on muutenkin roppakaupalla huumoria ja – tietynlaisen hienostuneisuuden puitteissa – jopa groteskeja elementtejä. Mutta ennen kaikkea Shakespearen kieli ei lakkaa toimimasta näytelmän huikean tunneskaalan tärkeimpänä välittäjänä."
+   },
+   "tr": ""
   },
   "without warning": {
    "id": 44932,

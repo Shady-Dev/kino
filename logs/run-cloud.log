@@ -25,7 +25,7 @@
 [cloud] kinotour: exit=1
 [cloud] marita: exit=0
 [cloud] lieksa: exit=0
-[cloud] navetta: exit=0
+[cloud] navetta: exit=1
 [cloud] vpk: exit=0
 [cloud] pallas: exit=0
 [cloud] alatalo: exit=0
@@ -34,6 +34,6 @@
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 209.2s wall, 1445.0s of fetching added up across workers that overlap, 69 site(s) fetched
-[cloud] held at most 29 fetched site(s) and 4270 byte(s) of captured log waiting for publication
+[cloud] 209.7s wall, 1502.5s of fetching added up across workers that overlap, 69 site(s) fetched
+[cloud] held at most 29 fetched site(s) and 3626 byte(s) of captured log waiting for publication
 exit=1
