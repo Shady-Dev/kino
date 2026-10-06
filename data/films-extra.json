@@ -336,12 +336,13 @@
   },
   "autot uudelleenjulkaisu": {
    "id": 920,
-   "r": 0,
+   "img": "data/posters/6cfe6fb6720fa102.jpg",
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Autot on seikkailu Ihmeperhe ja Nemoa etsimässä -elokuvien Oscar®-palkituilta tekijöiltä. Vauhtia, makeita menopelejä ja loistavaa animaatiota – riemua ja huumoria startista maaliin! Kilpa-auto Salama McQueen on matkalla Kaliforniaan osallistuakseen suureen Piston Cup -kisaan. Se eksyy valtatien 66:n varrella olevaan uinuvaan Syylari Cityyn. Siellä se tapaa Salli-nimisen Porschen, hinausauto Martin ja veteraaniauto Doc Hudsonin, jolla on arvoituksellinen menneisyys. Tämä sekalainen sakki auttaa Salamaa ymmärtämään, että elämässä on tärkeämpiäkin asioita kuin kilpaileminen, maine tai sponsorirahat. Kiinnitä siis turvavyösi ja valmistaudu vauhdikkaaseen menoon!"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=XszNWHhpaTc"
   },
   "avengers doomsday": {
    "id": 1003596,
@@ -470,6 +471,19 @@
    "tr": "",
    "ts": [
     "en"
+   ]
+  },
+  "bamse ja meren salaisuus": {
+   "id": 1275785,
+   "img": "data/posters/aed5ff66e478c590.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Bamse, Pomppi ja Kilpinen ovat jälleen uuden seikkailun keskellä! Bamse, Pomppi ja Kilpinen lähtevät kohti suurta meriseikkailua ja sukeltavat keskelle merimysteeriä – pian alkaa koko perheen seikkailu, täynnä ystävyyttä, yllätyksiä ja huikeita hetkiä."
+   },
+   "tr": "https://www.youtube.com/watch?v=Vh9Tp3JXbQM",
+   "ts": [
+    "fi"
    ]
   },
   "beginnings begyndelser": {
@@ -1846,12 +1860,14 @@
     "bioforum",
     "biogrand",
     "biograni",
+    "biokaari",
     "biopallas",
     "biorex",
     "biorexkokkola",
     "biovuoksi",
     "cine",
     "cinemantsala",
+    "engel",
     "gilda",
     "helios",
     "huvimylly",
@@ -3012,6 +3028,10 @@
   "maailman rikkain nainen": {
    "id": 1309725,
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 6.1,
    "s": {
     "en": "An elderly billionaire woman gives hundreds of millions of euros to a younger gay artist she is close to. Her daughter files a complaint for abuse of a vulnerable person and a scandal erupts.",
@@ -3255,6 +3275,14 @@
     "fi": "Tiedemies kokeilee aistieristyssäiliötä huumeiden vaikutuksen alaisena ja saa hallusinaatioita, joiden uskoo olevan geneettisiä muistoja. Ken Russellin Hollywood-debyytti siirtää kankaalle Paddy Chayefskyn romaanin, jonka pohjana ovat John C. Lillyn kiistanalaiset tutkimukset. Käänteentekeviä tehosteita ja trippijaksoja sisältävässä scifikauhuelokuvassa nähdään William Hurt ja Drew Barrymore ensirooleissaan."
    },
    "tr": "https://www.youtube.com/watch?v=0XNVQ4ILPBA"
+  },
+  "my bloody valentine loveless 35th anniversary": {
+   "r": 0,
+   "s": {
+    "en": "Immerse yourself in some of My Bloody Valentine's shoegaze-defining classic 'Loveless' Pitchblack Playback's listening session in the dark, celebrating the album's 35th anniversary. Hear this stunning record played loud in uncompressed audio on a powerful cinema sound system.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "my father s scent": {
    "r": 0,
@@ -4574,6 +4602,10 @@
   "primavera": {
    "id": 1365683,
    "img": "data/posters/8fe80e3891276876.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel"
+   ],
    "r": 7.1,
    "s": {
     "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
@@ -4835,7 +4867,6 @@
     "kino123",
     "kinoakseli",
     "kinoaurora",
-    "kinoelo",
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
@@ -4844,16 +4875,13 @@
     "kinokulma",
     "kinolaika",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "korjaamo",
     "kotkanleffat",
@@ -6200,16 +6228,24 @@
   },
   "the rocky horror picture show": {
    "id": 36685,
-   "r": 0,
+   "img": "data/posters/881ea0a1c032f51c.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
     "fi": "Kaikkien kulttielokuvien äiti on synnyttänyt ympärilleen yhteisöllisen ilmiön, joka elää ja voi hyvin vielä yli viisikymmentä vuotta ensi-iltansa jälkeen. B-scifiä ja kauhuelokuvia rakastavasti parodioiva ja pastissoiva teos juhlistaa vapauttavaa estottomuutta ja antoi kokonaiselle sukupolvelle luvan olla oma outo itsensä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=4plqh6obZW4",
+   "ts": [
+    "en"
+   ]
   },
   "the rocky horror picture show 1975": {
    "id": 36685,
    "img": "data/posters/881ea0a1c032f51c.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinokilta"
+   ],
    "r": 7.4,
    "s": {
     "en": "After getting a flat tire in the middle of nowhere, newly engaged couple Brad and Janet encounter the eerie mansion of the flamboyant, seductive Dr Frank-N-Furter and a variety of eccentric characters. Through elaborate dance and rock music, the mad scientist unveils his latest creation: a perfect, muscular man.",
@@ -6553,7 +6589,7 @@
     "studio123kouvola",
     "tapiola"
    ],
-   "r": 7.6,
+   "r": 7.5,
    "s": {
     "en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef.",
     "fi": "19-vuotias Anthony Bourdain matkustaa Provincetowniin ja ajautuu sattumalta ravintolakeittiön kaoottiseen maailmaan. Edessä on kesä, joka mullistaa hänen elämänsä suunnan."
@@ -6570,12 +6606,16 @@
   },
   "toy story 5": {
    "id": 1084244,
-   "r": 0,
+   "img": "data/posters/61da1236c24613ee.jpg",
+   "r": 8.4,
    "s": {
-    "en": "",
+    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
     "fi": "Lelut tekevät paluun Disneyn ja Pixarin elokuvassa Toy Story 5, ja tällä kertaa ne joutuvat törmäyskurssille tekniikan kanssa. Uuden uhan edessä Buzz, Woody, Jessie ja muu jengi joutuvat paiskimaan hommia monin verroin lelujen ja laitteiden käydessä kamppailua lasten leikkiajasta."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
+   "ts": [
+    "en"
+   ]
   },
   "toy story 5 dub": {
    "id": 1084244,
@@ -6700,6 +6740,7 @@
    "img": "data/posters/819e3e0324072544.jpg",
    "kr": "S",
    "krs": [
+    "engel",
     "kinoaurora",
     "kinokilta"
    ],
@@ -6718,6 +6759,7 @@
    "img": "data/posters/4bbd4d83a9633477.jpg",
    "kr": "S",
    "krs": [
+    "engel",
     "kinoaurora",
     "kinokilta"
    ],
@@ -7137,7 +7179,7 @@
   "verity": {
    "id": 1283515,
    "img": "data/posters/052a413644e02ce6.jpg",
-   "r": 0,
+   "r": 6.6,
    "s": {
     "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "",
