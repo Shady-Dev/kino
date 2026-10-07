@@ -544,7 +544,7 @@ class NiagaraRegistryTest(unittest.TestCase):
                     title="X", desc="d", h1="h", sub="s", intro="i", days=days, today=today,
                     t=bp.L[lang], extra={}, gmap={}, city="Tampere", with_venue=False,
                     legend="", also="", og_image="/icon-512.png", app_href="/", area="x",
-                    chain_css="")
+                    chain_css="", kind="theatre")
                 low = html.lower()
                 for word in ("soldout", "sold out", "loppuunmyyty", "availability",
                              "paikkoja", "vapaana", "seats"):

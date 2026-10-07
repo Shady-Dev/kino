@@ -47,8 +47,8 @@ class CheckInlineJsTest(unittest.TestCase):
     # -- the file it exists for ----------------------------------------------------------
 
     def test_the_repos_own_client_passes(self):
-        """Run against index.html, status/index.html, tietosuoja/index.html and sw.js
-        themselves, not a fixture. If this goes red the client is broken, which is the
+        """Run against index.html, status/index.html, tietosuoja/index.html, sw.js and
+        pageview.js themselves, not a fixture. If this goes red the client is broken, which is the
         whole point."""
         out = subprocess.run([sys.executable, str(SCRIPT)], capture_output=True,
                              text=True, cwd=str(_ctx.ROOT), timeout=120)
@@ -59,8 +59,9 @@ class CheckInlineJsTest(unittest.TestCase):
         # tietosuoja/index.html gained one on 2026-09-22, for the way back in the reader's
         # language; index.html gained the <head> theme script on 2026-09-25;
         # tietosuoja/index.html gained the same <head> theme script and its toggle on
-        # 2026-09-28. Nine.
-        self.assertIn("9 script(s) checked, 0 problem(s)", out.stdout)
+        # 2026-09-28. pageview.js, the generated pages' analytics, joined on 2026-10-07.
+        # Ten.
+        self.assertIn("10 script(s) checked, 0 problem(s)", out.stdout)
 
     # -- what it has to catch ------------------------------------------------------------
 

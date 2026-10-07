@@ -57,10 +57,10 @@ this item covers the rest.
 
 ### The PostHog bundle is pinned by its hash
 
-`sc.integrity` holds the sha-384 of the 1.434.2 bundle, measured 2026-09-22. If that path is
-rebuilt the hash stops matching, the script never loads and analytics stops with it. Record:
-[docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
-**Next action:** re-measure the hash in the same commit as any `PH_VERSION` bump.
+`sc.integrity` in `index.html` and `pageview.js` holds the sha-384 of the 1.434.2 bundle,
+measured 2026-09-22. If that path is rebuilt the hash stops matching and analytics stops.
+Record: [docs/archive/2026-09-app.md](docs/archive/2026-09-app.md).
+**Next action:** re-measure it in both files with any `PH_VERSION` bump; the tests compare them.
 
 ### Swedish copy: a native reader over the settled vocabulary
 

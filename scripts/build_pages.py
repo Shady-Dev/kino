@@ -1296,9 +1296,20 @@ def sub_html(sub):
     return esc(sub)
 
 
+# The page's one analytics hook: /pageview.js sends a cookieless $pageview with this
+# category and nothing about which page it was. Production origin only, nothing under DNT
+# or GPC; the contract is in pageview.js and README's Privacy section.
+PAGEVIEW_KINDS = {"city": "generated_city", "theatre": "generated_theatre"}
+
+
+def pageview_tag(kind):
+    return (f'<script src="/pageview.js" data-category="{PAGEVIEW_KINDS[kind]}" async>'
+            f'</script>')
+
+
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
-         next_day="", native=None):
+         kind, next_day="", native=None):
     # One per published language plus x-default on the Finnish page, which is the one a
     # reader with no matching language gets.
     hreflangs = "\n".join(
@@ -1374,6 +1385,7 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
 <footer><div data-nosnippet>{esc(t['sources'])}</div><div class="statuslink" data-nosnippet><a href="/status/?area={urllib.parse.quote(area)}&amp;lang={lang}">{esc(t['status_link'])}</a></div></footer>
 </div>
 <script>{THEME_BODY_JS}</script>
+{pageview_tag(kind)}
 </body>
 </html>
 """
@@ -1612,7 +1624,7 @@ def main(today=None) -> int:
                 # language instead of whatever the app last had selected. Both halves are
                 # decided by startupArea()/startupLang() in index.html.
                 app_href="/?area=" + urllib.parse.quote(v["id"]) + "&lang=" + lang,
-                area=v["id"], chain_css="")
+                area=v["id"], chain_css="", kind="theatre")
             stage(ROOT / paths[lang].strip("/") / "index.html", text)
         urls += [paths[c] for c in LANGS]
 
@@ -1673,7 +1685,7 @@ def main(today=None) -> int:
                 with_venue=True, legend=legend, also=also, og_image=og,
                 next_day=next_day,
                 app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
-                area="city:" + c, chain_css=chain_css)
+                area="city:" + c, chain_css=chain_css, kind="city")
             stage(ROOT / paths[lang].strip("/") / "index.html", text)
         urls += [paths[c] for c in LANGS]
 

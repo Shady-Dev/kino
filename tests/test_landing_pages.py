@@ -999,7 +999,7 @@ class DescriptionCopyTest(unittest.TestCase):
             desc=desc, h1="H", sub="S", intro="I", days={}, today=date(2026, 9, 21),
             t=bp.L["fi"], extra={}, gmap={}, city="Kitee", with_venue=False, legend="",
             also="", og_image="/icon-512.png", app_href="/?area=x&lang=fi", area="x",
-            chain_css="")
+            chain_css="", kind="theatre")
         both = [DESC_RE.search(text).group(1), OG_DESC_RE.search(text).group(1)]
         self.assertEqual(both[0], both[1])
         self.assertEqual(html.unescape(both[0]), desc)

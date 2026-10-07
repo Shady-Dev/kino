@@ -301,14 +301,15 @@ showtimes; the ticket's values are in [DESIGN.md](DESIGN.md). All three
 languages carry the same page for the same cinema or city, so the selector
 changes the language and nothing else. The theme toggle reads and writes the
 same `kino-theme` key as the app. A page carries two inline scripts, both for
-the theme, and its JSON-LD; no script renders content. Nothing volatile, so a
-page is rewritten only when its showtimes change.
+the theme, its JSON-LD, and one async `/pageview.js`, which sends a single
+cookieless page view (see Privacy); no script renders content. Nothing volatile,
+so a page is rewritten only when its showtimes change.
 
 ## Privacy
 
-No accounts, cookies, advertising or cross-site tracking. The app sends
-cookieless analytics, described below; the generated pages, the status page and
-the privacy page load none. Preferences stay in `localStorage`. Schedule data is
+No accounts, cookies, advertising or cross-site tracking. The app and the
+generated city and theatre pages send cookieless analytics, described below; the
+status page and the privacy page load none. Preferences stay in `localStorage`. Schedule data is
 static JSON from this origin, so browsing tells no cinema anything.
 
 **Posters and the typeface are served from this origin**, from `data/posters/`
@@ -332,7 +333,7 @@ library attached when measured on the wire on 2026-09-20 (posthog-js 1.434.2; re
 
 | Event | Properties |
 |---|---|
-| `$pageview` | `category`: home, venue, city or region |
+| `$pageview` | `category`: home, venue, city or region in the app; `generated_city` or `generated_theatre` on a generated page |
 | `area_opened` | `kind`, `area` |
 | `cinema_opened` | `venue` |
 | `date_changed` | `offset_days` |
@@ -341,14 +342,33 @@ library attached when measured on the wire on 2026-09-20 (posthog-js 1.434.2; re
 | `ticket_opened` | `provider` |
 
 `$pageview` also carries `$current_url`, built as
-`https://leffavuoro.fi/app/{category}` and never the real URL, which holds the
-search query. Every event carries the project `token` and `distinct_id`, which in
+`https://leffavuoro.fi/app/{category}` in the app and
+`https://leffavuoro.fi/pages/{category}` on a generated page, and never the real
+URL, which holds the search query or the cinema. Every event carries the project
+`token` and `distinct_id`, which in
 cookieless mode is the constant `$posthog_cookieless`; posthog-js builds no
 request without them. Autocapture, heatmaps, surveys, feature flags and remote
 configuration are off. Analytics initialises only on `https://leffavuoro.fi`,
 and under Do Not Track or Global Privacy Control the bundle is not fetched and
 nothing is sent. The reader-facing version is [/tietosuoja/](tietosuoja/), in
 Finnish, Swedish and English, with the one-year retention and the legal basis.
+
+**The generated pages** load `/pageview.js` (about 2.3 kB gzipped), which sends one
+`$pageview` per load with its category and nothing else: not the path, city,
+cinema, film, query, title or referrer. It carries the app's scrubber, origin
+guard, DNT and GPC check, pinned bundle, integrity hash and init options, and
+`tests/test_analytics_privacy.py` fails if the two files drift apart. It asks for
+the bundle only after the page's load event, so a slow or blocked PostHog cannot
+delay the page. The legacy redirect pages, `/status/` and `/tietosuoja/` load none
+of it.
+
+**The visitor figure is an estimate.** PostHog derives its cookieless identifier
+from the IP address, the user agent, the hostname and a salt that changes daily,
+so one person on two devices or networks counts twice, people sharing one IP
+address and the same browser count once, and a returning reader counts again each
+day. Readers with
+DNT or GPC set, or with PostHog blocked, are not counted, and posthog-js drops
+events from automated browsers and known bot user agents before sending them.
 
 A poster not yet mirrored is a missing picture, never a request to another
 host: the client and `build_pages.py` both refuse one outside `data/posters/`.

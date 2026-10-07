@@ -30,7 +30,8 @@ import sys
 import tempfile
 
 SCRIPT_RE = re.compile(r"<script([^>]*)>(.*?)</script>", re.S | re.I)
-DEFAULT = ["index.html", "status/index.html", "tietosuoja/index.html", "sw.js"]
+DEFAULT = ["index.html", "status/index.html", "tietosuoja/index.html", "sw.js",
+           "pageview.js"]
 
 
 def blocks(html):

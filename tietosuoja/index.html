@@ -108,11 +108,13 @@ Selaimessa ajettava esto poistaa kaikki muut kentät ennen lähetystä.</p>
 <div class="tablewrap" tabindex="0" role="region" aria-label="Tapahtumat ja niiden tiedot"><table>
   <tr><th>Tapahtuma</th><th>Mitä se kertoo</th><th>Mukana kulkevat tiedot</th></tr>
   <tr><td><code>$pageview</code></td><td>Sivulataus</td><td>Näkymän luokka
-      (<code>home</code>, <code>venue</code>, <code>city</code>, <code>region</code>) ja
-      sitä vastaava keinotekoinen osoite, esimerkiksi
-      <code>https://leffavuoro.fi/app/city</code>. Osoite muodostetaan luokasta, eikä se
-      sisällä muuta; selaimen todellista osoitetta, polkua tai hakuparametreja ei
-      lähetetä.</td></tr>
+      (sovelluksessa <code>home</code>, <code>venue</code>, <code>city</code> tai
+      <code>region</code>, valmiiksi luodulla sivulla <code>generated_<wbr>city</code> tai
+      <code>generated_<wbr>theatre</code>) ja sitä vastaava keinotekoinen osoite, esimerkiksi
+      <code>https://leffavuoro.fi/app/city</code> tai
+      <code>https://leffavuoro.fi/<wbr>pages/<wbr>generated_<wbr>theatre</code>. Osoite muodostetaan
+      luokasta, eikä se sisällä muuta; selaimen todellista osoitetta, polkua tai
+      hakuparametreja ei lähetetä.</td></tr>
   <tr><td><code>area_<wbr>opened</code></td><td>Kaupunki tai alue avattiin</td>
       <td>Tyyppi (<code>city</code>/<code>region</code>) ja alueen nimi</td></tr>
   <tr><td><code>cinema_<wbr>opened</code></td><td>Teatteri avattiin</td>
@@ -177,9 +179,11 @@ käytännössä. Mittauksen voi estää itse Do Not Track- tai Global Privacy Co
 toimistolle.</p>
 
 <h2>Mitä mittaus kattaa</h2>
-<p>Mittaus on käytössä <strong>vain sovelluksessa</strong> osoitteessa leffavuoro.fi.
-Teatteri- ja kaupunkikohtaisia valmiiksi luotuja sivuja sekä palvelun tila -sivua ei
-mitata lainkaan, eivätkä ne lataa PostHogia.</p>
+<p>Mittaus on käytössä <strong>sovelluksessa</strong> ja <strong>valmiiksi luoduilla
+teatteri- ja kaupunkisivuilla</strong> osoitteessa leffavuoro.fi. Teatteri- tai
+kaupunkisivu lähettää yhden sivulatauksen, jossa on vain sivun tyyppi. Sivun osoitetta,
+kaupunkia, teatteria tai elokuvia ei lähetetä. Palvelun tila -sivua ja tätä
+tietosuojasivua ei mitata, eivätkä ne lataa PostHogia.</p>
 <p>Mittaus käynnistyy vain, kun sivu on ladattu osoitteesta
 <code>https://leffavuoro.fi</code>. Kehitys- ja esikatseluympäristöissä PostHogia ei
 ladata eikä tapahtumia lähetetä lainkaan.</p>
@@ -228,9 +232,11 @@ sidvisning med en kategori, stad eller region öppnad, biograf öppnad, datum ä
 språk ändrat, sökning använd <em>som enbart ett ja</em> utan sökordet, och biljettlänk
 öppnad med kedjans identifierare. Sökord, filmtitlar, adresser med frågeparametrar och
 elementtext skickas aldrig.</p>
-<p><strong>Mätningen gäller endast den interaktiva appen</strong>; de färdigt
-genererade biograf- och stadssidorna och statussidan mäts inte alls. Mätningen startar
-bara på <code>https://leffavuoro.fi</code>.</p>
+<p><strong>Mätningen gäller appen och de färdigt genererade biograf- och
+stadssidorna.</strong> En biograf- eller stadssida skickar en enda sidvisning med
+enbart sidtypen, aldrig sidans adress, staden, biografen eller filmerna. Statussidan och
+den här sidan mäts inte och laddar inte PostHog. Mätningen startar bara på
+<code>https://leffavuoro.fi</code>.</p>
 <p><strong>Webbhotell.</strong> Leffavuoro ligger på GitHub Pages, som tillhandahålls av
 GitHub. Varje sida på leffavuoro.fi hämtas från GitHubs servrar. Enligt GitHub loggas och
 sparas IP-adressen för alla som besöker en webbplats på GitHub Pages, av säkerhetsskäl och
@@ -274,8 +280,10 @@ parameters and element text are never sent. Two technical fields travel with eac
 because the request cannot be built without them: the public project token and
 <code>distinct_id</code>, which in cookieless mode is the constant value
 <code>$posthog_cookieless</code>, identical for every reader.</p>
-<p><strong>Scope: the interactive app only.</strong> The generated cinema and city pages
-and the status page are not measured and do not load PostHog. Analytics initialises only
+<p><strong>Scope: the interactive app and the generated cinema and city pages.</strong> A
+cinema or city page sends one page view carrying only its type, never its address, the
+city, the cinema or the films. The status page and this page are not measured and do not
+load PostHog. Analytics initialises only
 when the page is served from <code>https://leffavuoro.fi</code>; development and preview
 environments load nothing and send nothing. The library is pinned to version
 <code>1.434.2</code>, so what this page describes cannot change without the page changing

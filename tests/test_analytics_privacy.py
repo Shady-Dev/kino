@@ -1,4 +1,10 @@
-"""The analytics privacy contract, checked against index.html rather than against intent.
+"""The analytics privacy contract, checked against index.html and pageview.js rather than
+against intent.
+
+pageview.js is the generated city and theatre pages' one hook (2026-10-07): the app's
+scrubber, origin guard, DNT/GPC check, pinned bundle and init options, over a table that
+allows only $pageview with `generated_city` or `generated_theatre`. The tests below hold the
+two files to the same contract.
 
 `analyticsScrub` is posthog-js `before_send`. An event not keyed in PH_ALLOW is dropped;
 a property not listed for it is removed, including the 43 the library attaches.
@@ -373,6 +379,251 @@ class DedupTest(unittest.TestCase):
         block = block[:block.index("\n  }")]
         self.assertIn("if(phBooted) return;", block)
         self.assertIn("phBooted = true;", block)
+
+
+# ---------------------------------------------------------------- generated pages
+
+PAGEVIEW = _ctx.ROOT / "pageview.js"
+PAGE_CATEGORIES = ["generated_city", "generated_theatre"]
+PAGE_URL_BASE = "https://leffavuoro.fi/pages/"
+# Every generated root and the category its pages send. Redirect pages under them send
+# nothing: they forward at once, and the page they forward to counts the view.
+PAGE_ROOTS = {"kaupunki": "generated_city", "sv/kaupunki": "generated_city",
+              "en/city": "generated_city", "teatteri": "generated_theatre",
+              "sv/teatteri": "generated_theatre", "en/theatre": "generated_theatre"}
+TAG_RE = re.compile(r'<script src="/pageview\.js" data-category="([a-z_]+)" async></script>')
+
+PAGE_CASES = [
+    ("pv_city", "$pageview", {"category": "generated_city"},
+     {"category": "generated_city", "$current_url": PAGE_URL_BASE + "generated_city"}),
+    ("pv_theatre", "$pageview", {"category": "generated_theatre"},
+     {"category": "generated_theatre", "$current_url": PAGE_URL_BASE + "generated_theatre"}),
+    # What the library would attach on a real page, planted: the real path and a query,
+    # the cinema's name in the title, a referrer. Only the category and the synthetic URL
+    # may come out.
+    ("pv_planted", "$pageview",
+     {"category": "generated_theatre",
+      "$current_url": "https://leffavuoro.fi/teatteri/kino-x/?q=Carrie&utm_source=x",
+      "$pathname": "/teatteri/kino-x/", "$host": "leffavuoro.fi",
+      "title": "Carrie | Kino X, Kitee", "$title": "Kino X",
+      "$referrer": "https://example.com/?q=Carrie", "$referring_domain": "example.com",
+      "city": "Kitee", "venue": "kino-x", "film": "Carrie"},
+     {"category": "generated_theatre", "$current_url": PAGE_URL_BASE + "generated_theatre"}),
+    # The app's own categories are not the pages' to send.
+    ("pv_app_home", "$pageview", {"category": "home"}, None),
+    ("pv_app_city", "$pageview", {"category": "city"}, None),
+    ("pv_unknown", "$pageview", {"category": "generated_status"}, None),
+    ("pv_missing", "$pageview", {}, None),
+    # Every other event, the app's included, is dropped.
+    ("cinema", "cinema_opened", {"venue": "v"}, None),
+    ("area", "area_opened", {"kind": "city", "area": "Espoo"}, None),
+    ("search", "search_used", {}, None),
+    ("ticket", "ticket_opened", {"provider": "finnkino"}, None),
+    ("date", "date_changed", {"offset_days": 1}, None),
+    ("lang", "language_changed", {"lang": "sv"}, None),
+    ("autocapture", "$autocapture", {"$el_text": "Osta"}, None),
+    ("pageleave", "$pageleave", {}, None),
+    ("identify", "$identify", {}, None),
+]
+
+
+def harness(src, cases):
+    out = subprocess.run(["node", str(HARNESS), src], input=json.dumps(cases),
+                         capture_output=True, text=True, cwd=str(_ctx.ROOT), timeout=60)
+    if out.returncode:
+        raise AssertionError(f"harness failed on {src}: {out.stdout}{out.stderr}")
+    r = json.loads(out.stdout)
+    if "error" in r:
+        raise AssertionError(f"harness error on {src}: {r['error']}")
+    return r
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class PageScrubTest(unittest.TestCase):
+    """pageview.js's analyticsScrub(), extracted verbatim and run on the same probes."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.r = harness("pageview.js", [{"name": n, "event": e, "properties": p}
+                                        for n, e, p, _ in PAGE_CASES])
+
+    def test_every_case(self):
+        for name, event, props, want in PAGE_CASES:
+            with self.subTest(case=name):
+                got = self.r[name]
+                if want is None:
+                    self.assertIsNone(got, "this event must never be sent from a page")
+                else:
+                    self.assertEqual({k: v for k, v in got.items() if k not in MANDATORY},
+                                     want)
+
+    def test_the_table_is_one_event_with_two_categories(self):
+        self.assertEqual(self.r["_allow"], ["$pageview"])
+        self.assertEqual(self.r["_categories"], PAGE_CATEGORIES)
+
+    def test_every_library_property_and_the_planted_ones_are_stripped(self):
+        out = self.r["_pvstripprobe"]
+        self.assertEqual(out, {"category": "generated_city",
+                               "$current_url": PAGE_URL_BASE + "generated_city"})
+        flat = json.dumps(out)
+        for planted in ("LEAK-", "Carrie", "?q=", "kino-x", "example.com", "teatteri"):
+            with self.subTest(planted=planted):
+                self.assertNotIn(planted, flat)
+
+    def test_the_two_mandatory_properties_survive(self):
+        for k in MANDATORY:
+            with self.subTest(prop=k):
+                self.assertIn(k, self.r["_pvmandatory"] or {})
+
+    def test_person_properties_are_removed(self):
+        self.assertEqual(self.r["_setprobe"], {"set": None, "set_once": None})
+
+    def test_only_the_production_https_origin_is_allowed(self):
+        for name, want in ORIGINS:
+            with self.subTest(origin=name):
+                self.assertEqual(self.r["_origins"][name], want)
+
+
+@unittest.skipIf(shutil.which("node") is None, "node not installed")
+class AppPlantedPageviewTest(unittest.TestCase):
+    """The app's scrubber on the same planted $pageview probe, so both files are shown to
+    replace a real URL with their synthetic one."""
+
+    def test_the_planted_url_title_and_query_do_not_survive(self):
+        out = harness("index.html", [])["_pvstripprobe"]
+        self.assertEqual(out, {"category": "home",
+                               "$current_url": "https://leffavuoro.fi/app/home"})
+
+
+def between(text, start, end):
+    i = text.index(start)
+    return text[i:text.index(end, i)]
+
+
+def init_options(text):
+    """The posthog.init option lines, comments dropped, as {name: value}."""
+    block = between(text, "posthog.init(PH_KEY", "});")
+    opts = {}
+    for line in block.splitlines():
+        m = re.match(r"\s*(\w+):\s*(.+?),\s*(?://.*)?$", line)
+        if m:
+            opts[m.group(1)] = m.group(2)
+    return opts
+
+
+class PageContractTest(unittest.TestCase):
+    """pageview.js against index.html: the same contract, read out of both files."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.app = INDEX.read_text(encoding="utf-8")
+        cls.js = PAGEVIEW.read_text(encoding="utf-8")
+
+    def test_the_same_project_host_and_pinned_bundle(self):
+        for line in ("const PH_KEY  = 'phc_zTiDPrATqb3MbLoYZ25XKhkNpdR7GsdeofZL6rnd5GzV';",
+                     "const PH_HOST = 'https://eu.i.posthog.com';",
+                     "const PH_VERSION = '1.434.2';",
+                     "sc.integrity = 'sha384-BmbtQMM1P8wo232drqi6RUQiNd0ZFk56bltD3yk2/94kez4"
+                     "jFURztoW+DlYzT2Ah';",
+                     "sc.crossOrigin = 'anonymous';",
+                     "+ '/static/' + PH_VERSION + '/array.js';",
+                     ".replace('.i.posthog.com', '-assets.i.posthog.com')"):
+            with self.subTest(line=line[:40]):
+                self.assertIn(line, self.app)
+                self.assertIn(line, self.js)
+
+    def test_the_same_init_options(self):
+        app, js = init_options(self.app), init_options(self.js)
+        self.assertGreaterEqual(len(app), 18)
+        self.assertEqual(js, app)
+
+    def test_the_same_scrubber_body(self):
+        """Only the table differs. The function is the app's, so a fix to one that misses
+        the other turns this red."""
+        fn = lambda t: between(t, "function analyticsScrub(event){", "// --- end analyticsScrub")
+        self.assertEqual(fn(self.js).replace("PH_URL_BASE", "PH_APP_BASE"), fn(self.app))
+
+    def test_the_same_origin_guard_and_dnt_check(self):
+        guard = lambda t: between(t, "function phAllowedOrigin", "// --- end phAllowedOrigin")
+        self.assertEqual(guard(self.js).strip(), guard(self.app).strip())
+        dnt = lambda t: " ".join(between(t, "const phDNT", ";\n").split())
+        self.assertEqual(dnt(self.js), dnt(self.app))
+
+    def test_every_check_runs_before_the_bundle_is_requested(self):
+        """A bad category, another origin, DNT or GPC returns before phInit can exist."""
+        js = self.js
+        create = js.index("document.createElement('script')")
+        for check in ("PH_CATEGORIES.indexOf(category) === -1) return;",
+                      "if(phDNT() || !phAllowedOrigin(location.protocol, location.hostname)) "
+                      "return;"):
+            with self.subTest(check=check[:30]):
+                self.assertIn(check, js)
+                self.assertLess(js.index(check), js.index("function phInit(){"))
+        self.assertLess(js.index("function phInit(){"), create)
+
+    def test_the_bundle_waits_for_the_load_event(self):
+        self.assertIn("if(document.readyState === 'complete') phInit();", self.js)
+        self.assertIn("else window.addEventListener('load', phInit, { once: true });", self.js)
+        self.assertEqual(self.js.count("phInit();"), 1, "called from one place only")
+
+    def test_one_capture_carrying_only_the_category(self):
+        self.assertEqual(self.js.count(".capture("), 1)
+        self.assertIn("window.posthog.capture('$pageview', { category: category });", self.js)
+
+    def test_nothing_about_the_page_is_read(self):
+        for bad in ("location.href", "location.search", "location.pathname", "location.hash",
+                    "document.referrer", "document.title", "document.URL", "innerText",
+                    "textContent", "querySelector"):
+            with self.subTest(source=bad):
+                self.assertNotIn(bad, self.js)
+
+    def test_no_storage_and_no_person_calls(self):
+        # Code only: the init options carry the app's comment naming the two storages.
+        code = "\n".join(l.split("//")[0] for l in self.js.splitlines())
+        for bad in ("localStorage", "sessionStorage", "document.cookie", "indexedDB",
+                    ".identify(", ".alias(", "setPersonProperties", "opt_in_capturing",
+                    "startSessionRecording", "loadToolbar"):
+            with self.subTest(call=bad):
+                self.assertNotIn(bad, code)
+
+
+class GeneratedPagesTagTest(unittest.TestCase):
+    """Every generated city and theatre page loads pageview.js once, with its own category;
+    the redirect pages, /status/ and /tietosuoja/ load nothing that reaches PostHog."""
+
+    def test_every_page_carries_one_tag_with_its_category(self):
+        counts = {}
+        for root, want in PAGE_ROOTS.items():
+            for f in sorted((_ctx.ROOT / root).glob("*/index.html")):
+                text = f.read_text(encoding="utf-8")
+                tags = TAG_RE.findall(text)
+                with self.subTest(page=str(f.relative_to(_ctx.ROOT))):
+                    if 'http-equiv="refresh"' in text:
+                        self.assertEqual(tags, [], "a redirect page must not count a view")
+                    else:
+                        self.assertEqual(tags, [want])
+                        counts[want] = counts.get(want, 0) + 1
+                    self.assertEqual(text.count("pageview.js"), len(tags))
+                    self.assertNotIn("posthog", text.lower())
+        # Without this the loop passes on an empty checkout.
+        self.assertGreater(counts.get("generated_city", 0), 30)
+        self.assertGreater(counts.get("generated_theatre", 0), 300)
+
+    def test_the_generator_knows_two_kinds_and_no_other(self):
+        import build_pages as bp
+        self.assertEqual(bp.PAGEVIEW_KINDS, {"city": "generated_city",
+                                             "theatre": "generated_theatre"})
+        self.assertEqual(sorted(bp.PAGEVIEW_KINDS.values()), PAGE_CATEGORIES)
+        with self.assertRaises(KeyError):
+            bp.pageview_tag("status")
+
+    def test_status_and_privacy_pages_load_no_analytics(self):
+        for page in ("status/index.html", "tietosuoja/index.html"):
+            text = (_ctx.ROOT / page).read_text(encoding="utf-8")
+            with self.subTest(page=page):
+                self.assertNotIn("pageview.js", text)
+                for attrs, body in re.findall(r"<script([^>]*)>(.*?)</script>", text, re.S):
+                    self.assertNotIn("posthog", (attrs + body).lower())
 
 
 if __name__ == "__main__":

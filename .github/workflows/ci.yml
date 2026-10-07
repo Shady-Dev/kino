@@ -34,6 +34,7 @@ on:
       - 'tietosuoja/**'
       - 'status/**'
       - 'sw.js'
+      - 'pageview.js'
       - 'scripts/**'
       - 'tests/**'
       - '.github/workflows/ci.yml'
