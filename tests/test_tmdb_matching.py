@@ -863,6 +863,16 @@ class AliasFileTest(unittest.TestCase):
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
         self.assertEqual(doc[enrich_tmdb.norm("Natalia")], "459808")
 
+    def test_luvattu_maa_is_wajdas_film_in_both_spellings(self):
+        """Every cinema lists 179 minutes, K13 the original Ziemia obiecana and Aurora the
+        year 1974: Wajda's film, 511. The plain title had matched 980026, Arcel's 2023
+        Bastarden, which TMDB titles Luvattu maa in Finnish."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        for published in ("Luvattu maa", "LUVATTU MAA",
+                          "Luvattu maa (Ziemia obiecana / The Promised Land)"):
+            with self.subTest(published=published):
+                self.assertEqual(doc[enrich_tmdb.norm(published)], "511")
+
     def test_the_largest_2026_09_19_alias_is_pinned(self):
         """39 showtimes over 17 venues, the largest single row in that batch, and the one
         the maintainer reported. Two independent sources say 1299382: TMDB's own record
@@ -897,6 +907,7 @@ class AliasFileTest(unittest.TestCase):
             "55059": "Damski's 1989 Happy Together, not Wong Kar-Wai's (18329)",
             "1510055": "The Furious: Pertaruhan Maruah, not Tanigaki's The Furious (1280738)",
             "339324": "Cohn's 1989 French Natalia, not Kassila's 1979 film (459808)",
+            "980026": "Arcel's 2023 Bastarden, not Wajda's Ziemia obiecana (511)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):

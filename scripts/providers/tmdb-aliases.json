@@ -152,5 +152,8 @@
  "_comment45": "Kino Kilta, 2026-10-04. \"Anni tahtoo äidin ja Kala\" is a double bill: Kilta's page names Anssi Mänttäri's Anni tahtoo äidin (1989, 68 min) and Kambuzia Partovi's Kala (1989, 70 min). 599152 is Anni (1989, 68 min, Mänttäri), the id the maintainer named, so the row carries the first film's poster and rating. \"DIG! XX\" is left unaliased by the maintainer's decision the same day: the pass's weak candidate, 1843 Dig! (2004), is not written.",
  "anni tahtoo äidin ja kala": "599152",
  "_comment46": "Cinema Orion, 2026-10-05. \"Natalia\" was matched to 339324, Bernard Cohn's French film from 1989, so the row showed that film's poster and English synopsis. Orion's own page gives director Matti Kassila, Finland 1979, premiere 14.12.1979, based on a story by Arto Paasilinna and shot by Esko Nevalainen. TMDB 459808 has the same director, writer and cinematographer, a release date of 1979-12-14, and Ola Johansson and Pentti Irjala in the cast. TMDB lists 102 minutes and Orion's 35 mm print runs 97. The downside is that any other film listed simply as \"Natalia\" will also get 459808.",
- "natalia": "459808"
+ "natalia": "459808",
+ "_comment47": "2026-10-07. Four cinemas list a 179-minute \"Luvattu maa\". Kino K13 gives the original title Ziemia obiecana, and Kino Aurora publishes \"Luvattu maa (Ziemia obiecana / The Promised Land)\" with the year 1974. That is Andrzej Wajda's film, TMDB 511: Ziemia obiecana, released 1975-02-21, 179 minutes, from Reymont's novel. TMDB has no Finnish title for it. The plain title had matched 980026, Nikolaj Arcel's Bastarden (2023, 127 minutes), whose Finnish title on TMDB is Luvattu maa, so three cinemas showed that film's poster, rating and trailer. The downside is that a screening of Bastarden listed as plain \"Luvattu maa\" will also get 511.",
+ "luvattu maa": "511",
+ "luvattu maa ziemia obiecana the promised land": "511"
 }
