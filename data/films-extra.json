@@ -144,7 +144,6 @@
   },
   "alt skal bort 2025": {
    "id": 1401113,
-   "img": "data/posters/2be8f728a96e3b44.jpg",
    "r": 0,
    "s": {
     "en": "When Ellen and her two brothers gather in their childhood home to sort through the inheritance left by their father, a renowned composer, old memories and unresolved conflicts resurface. The house, filled with musical traces and childhood artifacts, becomes a stage for emotional reckoning.",
@@ -842,7 +841,6 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 7.5,
@@ -887,19 +885,6 @@
     "fi": "Näytöksen jälkeen elokuvakokemusta voi jäädä purkamaan Leffalukupiiriin, jonka vetäjänä toimii FT, dosentti Kaisa Hiltunen. Hiltunen työskentelee elokuvatutkijana Jyväskylän yliopiston Musiikin, taiteen ja kulttuurin tutkimuksen laitoksella. Hän on toiminut aiemmin myös sanomalehti Keskisuomalaisen elokuvakriitikkona. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
    },
    "tr": ""
-  },
-  "donnie darko 2001 25th anniversary director s cut": {
-   "id": 141,
-   "img": "data/posters/36eb35457f35b1fc.jpg",
-   "r": 7.8,
-   "s": {
-    "en": "",
-    "fi": "Kalifornialainen lukiolaispoika Donnie Darko saa mielikuvitusystävän, jättimäisen jäniksen nimeltä Frank. Frank pelastaa Donnien, kun lentokoneen moottori putoaa keskelle tämän huonetta. Frank innoittaa Donnieta järjettömään ilkivaltaan. Psykoterapeutti koettaa ymmärtää Donnien aivoituksia. Donnien on selvitettävä aikamatkailun salaisuus, ennen kuin maailma tuhoutuu. Aikaa on 28 päivää, 6 tuntia, 42 minuuttia ja 12 sekuntia..."
-   },
-   "tr": "https://www.youtube.com/watch?v=iVdehGAy4zA",
-   "ts": [
-    "fi"
-   ]
   },
   "dumbo": {
    "id": 11360,
@@ -1337,7 +1322,6 @@
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
@@ -1369,57 +1353,6 @@
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
    "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
-  },
-  "hetki ennen valoa elokuvanäytös": {
-   "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "biograni",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "haapamaki",
-    "helios",
-    "isohannu",
-    "kinoaurora",
-    "kinohirvi",
-    "kinoiiris",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kotkanleffat",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "niagara",
-    "regina",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Vastasyntyneen vauvan vanhempien Lenin ja Karin onni kääntyy äkillisesti heidän lapsensa joutuessa teho-osastolle. Järkyttynyt Leni takertuu erikoissairaanhoitaja Inkaan, joka joutuu kerta toisensa jälkeen venymään vaativien työolosuhteiden ja yksinhuoltaja-arjen ristipaineessa. Sairaanhoitajat valmistelevat työlakkoa, mutta hoidon tarve ei lakkaa. Sairaalassa käynnistyy rinnakkain taistelu parempien työehtojen sekä pienten potilaiden hoidon puolesta, ja Inkan on tehtävä isoja päätöksiä. Mutta kenellä on lopulta voimia taistella pienten ihmisten puolesta?"
-   },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q",
-   "ts": [
-    "fi"
-   ]
   },
   "hetki ennen valoa kahvi ja kino": {
    "id": 1015881,
@@ -1780,6 +1713,14 @@
     "fi": "Tervetuloa kunnioittamaan heinäkuussa 2025 menehtyneen Jussi-palkitun elokuvaleikkaaja Jukka Nykäsen muistoa ja elämäntyötä. Jukka oli suomalaisen elokuvakerronnan mestari, jonka kädenjälki näkyy monissa rakastetuissa teoksissa."
    },
    "tr": "https://www.youtube.com/watch?v=_hO2reqNcj0"
+  },
+  "junat pociągi trains": {
+   "r": 0,
+   "s": {
+    "en": "TRAINS is a found-footage documentary composed entirely from archive footage and sound design that creates a collective portrait of people in 20th century Europe, capturing their hopes, desires, dramas and tragedies. A train compartment is a place where people are taken out of their everyday context for a while. Sometimes the journey is accompanied by the hope that something will change in our lives upon reaching the destination, or conversely, by a stark absence of hope. And yet the history of the 20th century unfolds in railway carriages in a repetitive refrain. Every few years, hauntingly similar scenes play out in railway stations around the world: carriages full of men leaving for war, only to return wounded or as casualties. This cycle is followed by an exodus of civilians, evacuees mingling with prisoners of war returning from camps, and soldiers of victorious armies leading the defeated, until ordinary passengers reappear at stations. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
+    "fi": ""
+   },
+   "tr": ""
   },
   "järki ja tunteet": {
    "id": 4584,
@@ -2316,6 +2257,7 @@
     "isohannu",
     "kino123",
     "kinohamina",
+    "kinohirvi",
     "kinolaika",
     "kinolumo",
     "kinopiispanristi",
@@ -2895,10 +2837,6 @@
   "laula minulle arja": {
    "id": 1713056,
    "img": "data/posters/614615622fcfd9d8.jpg",
-   "kr": "S",
-   "krs": [
-    "kinoaurora"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -2909,10 +2847,6 @@
   "laula minulle arja elokuvanäytös": {
    "id": 1713056,
    "img": "data/posters/614615622fcfd9d8.jpg",
-   "kr": "S",
-   "krs": [
-    "kinoaurora"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3418,11 +3352,10 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "helios",
     "julia",
     "kinohannikainen",
+    "kinohirvi",
     "kinolaika",
-    "kinoolympia",
     "kuvakukko",
     "leffabuumi",
     "niagara",
@@ -4914,7 +4847,6 @@
     "kinomarilyn",
     "kinometso",
     "kinomyyri",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
@@ -5153,7 +5085,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinoset",
     "kinotar",
     "kinotoijala",
     "kotkanleffat",
@@ -5163,8 +5094,7 @@
     "marita",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 7.3,
    "s": {
@@ -5198,7 +5128,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinoset",
     "kinotar",
     "kinotoijala",
     "kotkanleffat",
@@ -5208,8 +5137,7 @@
     "marita",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vaakuna"
+    "studio123jarvenpaa"
    ],
    "r": 7.3,
    "s": {
@@ -6299,6 +6227,7 @@
     "cinemantsala",
     "gilda",
     "isohannu",
+    "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
     "savonkinot",
