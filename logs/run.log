@@ -1,15 +1,17 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-07: 45 showtimes
 [schedule] 2026-10-08: 336 showtimes
 [schedule] 2026-10-09: 430 showtimes
 [schedule] 2026-10-10: 469 showtimes
 [schedule] 2026-10-11: 445 showtimes
 [schedule] 2026-10-12: 435 showtimes
 [schedule] 2026-10-13: 433 showtimes
+[schedule] 2026-10-14: 433 showtimes
 [tmdb] no TMDB match (1): Ooppera: Così Fan Tutte
-[tmdb] weak candidate kept, not searched until 2026-10-08 (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 98, 88 mergeable by id
+[tmdb] weak match, no exact title (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (1): Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 2 scheduled, 2 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 3 new lookups, 12 re-checks, cache 98, 88 mergeable by id
 [films] 2 character(s) restored from another chain's copy
 [films] 61 film entries
 [attrs] dropped, neither format nor language (9): Ennakko | IV | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
