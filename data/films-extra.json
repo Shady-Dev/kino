@@ -98,7 +98,7 @@
    "img": "data/posters/7e8d1dddf162eaba.jpg",
    "r": 7.6,
    "s": {
-    "en": "",
+    "en": "Based on Truman Capote’s novel and directed by Blake Edwards, the romantic comedy Breakfast at Tiffany’s follows the charming and eccentric Holly Golightly (Audrey Hepburn), who is searching in New York for the millionaire she dreams of marrying. Her life is turned upside down when Paul Varjak (George Peppard), a young writer kept by a wealthy woman, moves into her building. Breakfast at Tiffany’s is remembered especially for Audrey Hepburn’s style, the iconic song “Moon River” – and, of course, the most iconic cat character in film history. Orangey, credited as the actor playing the orange cat, won a PATSY Award for Best Animal Performer for his elegant performance. In reality, at least nine different cats were used during filming.",
     "fi": "Truman Capoten romaaniin perustuva ja Blake Edwardsin ohjaama romanttinen komedia Aamiainen Tiffanylla seuraa viehättävää ja omalaatuista Holly Golightlya (Audrey Hepburn), joka etsii New Yorkista unelmiensa miljonääriä aviomiehekseen. Hänen elämänsä mullistuu, kun taloon muuttaa nuori, varakkaan naisen elättämä kirjailija Paul Varjak (George Peppard). Aamiainen Tiffanylla muistetaan erityisesti Audrey Hepburnin tyylistä, nimikkokappaleesta ”Moon River” – ja tietysti elokuvahistorian ikonisimmasta kissahahmosta. Oranssin kisun esittäjäksi mainittu Orangey voitti elegantista roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon. Todellisuudessa kuvauksissa käytettiin ainakin yhdeksää eri kissaa."
    },
    "tr": "https://www.youtube.com/watch?v=KlZ4fYqjGJI"
@@ -283,7 +283,6 @@
     "engel",
     "gilda",
     "kinoaurora",
-    "kinolaika",
     "kinometso",
     "niagara",
     "orion"
@@ -819,7 +818,6 @@
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinokilta",
     "kinokulma",
@@ -830,16 +828,13 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
-    "kinotar",
-    "kinotoijala",
     "kinovirta",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
     "lieksankino",
-    "matintupa",
     "niagara",
     "orion",
     "savonkinot",
@@ -1320,6 +1315,44 @@
   "hetki ennen valoa": {
    "id": 1015881,
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biograni",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biovuoksi",
+    "cine",
+    "cinemantsala",
+    "haapamaki",
+    "helios",
+    "isohannu",
+    "kinoaurora",
+    "kinohirvi",
+    "kinoiiris",
+    "kinokulma",
+    "kinolaika",
+    "kinolumo",
+    "kinomarilyn",
+    "kinometso",
+    "kinomyyri",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "kuvakukko",
+    "laitilankino",
+    "leffabuumi",
+    "niagara",
+    "regina",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -1340,6 +1373,44 @@
   "hetki ennen valoa elokuvanäytös": {
    "id": 1015881,
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biograni",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biovuoksi",
+    "cine",
+    "cinemantsala",
+    "haapamaki",
+    "helios",
+    "isohannu",
+    "kinoaurora",
+    "kinohirvi",
+    "kinoiiris",
+    "kinokulma",
+    "kinolaika",
+    "kinolumo",
+    "kinomarilyn",
+    "kinometso",
+    "kinomyyri",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "kuvakukko",
+    "laitilankino",
+    "leffabuumi",
+    "niagara",
+    "regina",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -1892,6 +1963,7 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "marita",
@@ -2251,7 +2323,6 @@
     "kirkkonummi",
     "kkino",
     "kotkanleffat",
-    "leffabuumi",
     "savonkinot",
     "star",
     "tapiola"
@@ -3132,6 +3203,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "gilda",
     "kinoaurora",
     "laitilankino"
    ],
@@ -3151,6 +3223,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "gilda",
     "kinoaurora",
     "laitilankino"
    ],
@@ -3170,6 +3243,7 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
+    "gilda",
     "kinoaurora",
     "laitilankino"
    ],
@@ -3272,15 +3346,16 @@
   "minä ja riikka purra": {
    "id": 1789735,
    "img": "data/posters/00ba33a99fa0e923.jpg",
+   "kr": "K-7",
+   "krs": [
+    "elavienkuvien"
+   ],
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Liisa Akimofin pienelokuva Riikka Purrasta ja persuista. Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
+    "fi": "YLLÄTYSELOKUVA RIIKKA PURRASTA Perjantaina 30.10.2026 saapuu teattereihin Liisa Akimofin pienelokuva Riikka Purrasta ja persuista: Minä ja Riikka Purra. Tätä elokuvaa ei ole odotettu. ”Motiivini Minä ja Riikka Purra -dokkarin tekemiseen oli uteliaisuus”, muusikkona ja tuottajana tunnetuksi tullut käsikirjoittaja-ohjaaja kertoo. ”Tajusin, etten tunne yhtäkään persua enkä ymmärrä heidän järjenjuoksuaan. Halusin ottaa selvää!” Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "mll näytös toy story 5 dubattu lipun hinta 2": {
    "id": 1084244,
@@ -3452,6 +3527,15 @@
   "naza": {
    "id": 1755291,
    "img": "data/posters/60552918c00e4422.jpg",
+   "kr": "K-12",
+   "krs": [
+    "engel",
+    "kinoiiris",
+    "kinokilta",
+    "niagara",
+    "orion",
+    "star"
+   ],
    "r": 8.0,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
@@ -3930,6 +4014,7 @@
     "kinojuha",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
@@ -4194,6 +4279,7 @@
     "engel",
     "kinoaurora",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi"
    ],
    "r": 0,
@@ -4214,8 +4300,19 @@
     "engel",
     "kinoaurora",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi"
    ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
+  },
+  "pikkuli ja tähtipeura på svenska": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4234,6 +4331,7 @@
     "engel",
     "kinoaurora",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi"
    ],
    "r": 0,
@@ -4254,6 +4352,7 @@
     "engel",
     "kinoaurora",
     "kinolumo",
+    "kinomarilyn",
     "kinopiispanristi"
    ],
    "r": 0,
@@ -4298,9 +4397,11 @@
     "jarvelankino",
     "julia",
     "kinoakseli",
+    "kinohamina",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4339,9 +4440,11 @@
     "jarvelankino",
     "julia",
     "kinoakseli",
+    "kinohamina",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4377,9 +4480,11 @@
     "jarvelankino",
     "julia",
     "kinoakseli",
+    "kinohamina",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4438,9 +4543,11 @@
     "jarvelankino",
     "julia",
     "kinoakseli",
+    "kinohamina",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4530,7 +4637,7 @@
     "bioforum",
     "biorex",
     "kinojuha",
-    "kinolumo",
+    "kinomarilyn",
     "kinopirtti",
     "kotkanleffat",
     "leffabuumi",
@@ -4581,18 +4688,16 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
     "kinohirvi",
     "kinojuha",
-    "kinokilta",
     "kinolaika",
     "kinolumo",
+    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "kinotour",
     "kinovirta",
     "kirkkonummi",
@@ -4607,7 +4712,6 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
     "vihdinkino"
    ],
    "r": 0,
@@ -4809,6 +4913,44 @@
   "päiväkaffileffa hetki ennen valoa": {
    "id": 1015881,
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "biograni",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biovuoksi",
+    "cine",
+    "cinemantsala",
+    "haapamaki",
+    "helios",
+    "isohannu",
+    "kinoaurora",
+    "kinohirvi",
+    "kinoiiris",
+    "kinokulma",
+    "kinolaika",
+    "kinolumo",
+    "kinomarilyn",
+    "kinometso",
+    "kinomyyri",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "kuvakukko",
+    "laitilankino",
+    "leffabuumi",
+    "niagara",
+    "regina",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola",
+    "tapiola"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5016,7 +5158,6 @@
    "img": "data/posters/647807f97cc3fb5a.jpg",
    "kr": "K-16",
    "krs": [
-    "biogrand",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -5063,7 +5204,6 @@
    "img": "data/posters/647807f97cc3fb5a.jpg",
    "kr": "K-16",
    "krs": [
-    "biogrand",
     "biorex",
     "biorexkokkola",
     "biosavoy",
@@ -5424,16 +5564,12 @@
   },
   "seatapp": {
    "id": 1729182,
-   "img": "data/posters/b7ae70df50997e68.jpg",
    "r": 0,
    "s": {
-    "en": "The day before Christmas, the Veterinary Board receives a positive A test result from a wild boar shot by a hunter. The young veterinary officer has a disposal machine ready and starts touring the farms in his former home village. The very first farm in Kiuma village is home to the elderly and childless Ants and Minna. For the couple, their domestic animals are a substitute for their missing children and loved ones. At the same time, Ants' nephews arrive with their wives and children. The goal is to quickly deliver the gifts and drive back home to the city. But the farmer Ants announces the situation he is in with his animals, and now he needs the help of his relatives to slaughter the pigs.",
+    "en": "",
     "fi": "Päev enne jõule saab Veterinaaramet jahimehe poolt lastud metssealt positiivse A proovi tulemuse. Vanem ametnik saadab noorema, kogemusteta vetametniku vaatluse all olevasse külla asja uurima. Viimane, läbikukkumishirmus, hakkab aga kohe tegutsema. Noor vetametnik laseb valmis panna utiliseerimismasina ja hakkab kunagises kodukülas talupidamistes ringkäiku tegema. Kõige esimeses Kiuma külas ettejäävas talus elavad eakad ja lastetud Ants ja Minna. Paari jaoks on nende koduloomad kui puuduvate laste ja lähedaste aseaine. Pühade eel on vanakestele kohe ka sugulased kohustulikule küllakäigule tulemas. Tallu saabunud vetametnik pakub Antsule valiku – loomad utiliseerida lasta või kuni loomad pole veel haiged, need enda tarbeks lihaks teha. Suures hädas helistab Ants ukrainlasele Bratoslavile ja kutsub meest appi sigu tapma. Viimane on Ukrainast pärit loomaarst, kuid Euroopa Liidus tema paberid ei kehti ja mehel puudub tööluba. Bratoslav on külaelanike seas siiski tuntud loomaarstina ja väga osava ja kiire käega “tsuskajana” ehk seatapjana, kellele alati saab loota. Lisaks Antsu abipalvele, hakkab mehele järjest tulema kõnesid teisteltki külaelanikelt. Agar vetametnik, leides ühest talust enda jaoks kirjetele vastava tõendi katku olemasolust, märgistab ära nii selle talu kui ka kõik ümbruskaudsed talud kui katkukolded. Mees organiseerib linnast kohale põleti, milles loomi utiliseerida. Samal ajal saabuvad Antsule külla vennapojad naiste ja lastega. Sugulased saabusid iga-aastasele kohustuslikule pühadeaegsele külaskäigule. Eesmärk on ruttu kingid üle anda ja tagasi koju linna sõita. Kuid taluperemees Ants teeb teatavaks, mis olukorras ta oma loomadega on, ning nüüd on sugulaste abi tarvis sigade tapmisel."
    },
-   "tr": "https://www.youtube.com/watch?v=Z63geK-o87I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "seniorikino autofiktio": {
    "r": 0,
@@ -5997,7 +6133,6 @@
   },
   "teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
-   "img": "data/posters/ee15e99f98c4e826.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6423,6 +6558,7 @@
     "isohannu",
     "kino123",
     "kinoaurora",
+    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -6606,9 +6742,11 @@
     "kinoiiris",
     "kinokulma",
     "kinolumo",
+    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kotkanleffat",
+    "kuvakukko",
     "leffabuumi",
     "orion",
     "savonkinot",
@@ -6769,7 +6907,8 @@
    "krs": [
     "engel",
     "kinoaurora",
-    "kinokilta"
+    "kinokilta",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -6788,7 +6927,8 @@
    "krs": [
     "engel",
     "kinoaurora",
-    "kinokilta"
+    "kinokilta",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -6821,16 +6961,12 @@
    ]
   },
   "unesta tehty mies": {
-   "id": 1743488,
    "r": 0,
    "s": {
     "en": "",
-    "fi": "Unesta tehty mies käsittelee Aulis Sallisen tunnettua Ratsumies-oopperaa. Elokuva on Clutch Productionsin tuottama pitkä dokumenttielokuva, joka saa ensi-iltansa elokuvateattereissa 2026. Elokuvan tekijöinä ja ohjaajina toimivat säveltäjän pojanpojat, ja se tallentaa isoisänsä, säveltäjä Aulis Sallisen elämää ja uraa."
+    "fi": "Sinemaattisessa dokumenttielokuvassa Emil ja Artur Sallinen nivoavat yhteen isoisänsä, säveltäjä Aulis Sallisen (s. 1935) elämää ja hänen läpimurtoteoksensa, Ratsumies -oopperan tarinaa. Dokumentti kasvaa henkilökuvasta tutkielmaksi Suomen kansasta ja sen henkisestä ytimestä. Mikä on ikuinen suomalainen tarinamme – ja voiko se muuttua? Kuvitus koostuu otteista Kansallisoopperan kevään 2025 Ratsumies -produktiosta, Sallisen eri elämänvaiheiden filmatisoinneista sekä arkistokuvista ja haastatteluista. Ohjaajat, kaksosveljekset Emil ja Artur Sallinen kertovat elokuvasta: ”Säveltäjä Aulis Sallisen lapsenlapsina meille on tarjoutunut ainutlaatuinen mahdollisuus tutustua isoisäämme hänen musiikkinsa kautta. Lapsista saakka olemme aistineet Auliksessa suljetun alueen johon muilla ei ole pääsyä. Hän on kertonut useasti, kuinka ei kokenut pelkoa sodan aikana vaikka hän Karjalan evakkona pakeni pommituksia. Syventyessämme Auliksen elämään haastatteluiden kautta meille ilmeni, että Aulis ammentaa musiikkinsa unestaan ja alitajunnastaan. Yhtäkkiä oivalsimme, että Auliksen tummia sävyjä sisältävä musiikki on portti hänen suljetulle alueelleen. Ehkä Auliksen kokemukset sodasta ovat paljon synkempiä, kun hänen tietoisuutensa on antanut meidän ymmärtää? Traumasta, sodasta ja historiastamme kertova Ratsumies -ooppera (säv. Aulis Sallinen, libr. Paavo Haavikko) tarjosi mahdollisuuden tutkia Auliksen suljettua aluetta paremmin. Ensi-iltansa jälkeen vuonna 1975 Ratsumies sai valtavan kansallisen suosion. Se oli aidosti suomalainen tarina, joka ei vain koskettanut. Se auttoi tätä metsäkansaa ymmärtämään keitä me olemme, ja miksi. Sodasta palannut ratsumies Antti ei pääse kiinni elämäänsä, vaan toteaakin oopperan lopussa ennen kuolemaansa; “Se olen minä, unesta tehty mies.” Dokumenttielokuvan ansiosta olemme saaneet selville, kuka isoisämme on.”"
    },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "unohdettu saari": {
    "id": 1465063,
@@ -6861,12 +6997,14 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -6891,6 +7029,20 @@
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
+   },
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
+  },
+  "unohdettu saari bortglömda ön på svenska": {
+   "id": 1465063,
+   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
+   "r": 8.2,
+   "s": {
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "fi": "",
+    "sv": "Din bästa vän är värd att kämpa för. Från DreamWorks Animation, studion bakom de oförglömliga vänskapsbanden mellan en pojke och en drake I Draktränaren, ett träsktroll och en åsna i Shrek, och en robot och en gässling i Den vilda roboten, kommer nu en glittrande och känslosam berättelse om två livslånga bästa vänner som måste förenas innan de glider isär, i Bortgömda ön. Den nya originalfilmen är skriven och regisserad av Oscar®nominerade Joel Crawford och Januel Mercado, och producerad av Oscar®nominerade Mark Swift - filmskaparteamet bakom Mästerkatten 2. Grammy- och Oscar®belönade supernovan H.E.R. och Liza Soberano (Lisa Frankenstein, Alone/Together) har huvudrollerna som Jo och Raissa. De har varit bästa vänner sedan grundskolan men har nu gått ut High School och ska påbörja sina separata livsresor. När de firar sin sista kväll tillsammans, råkar Jo och Raissa hitta en mystisk portal som transporterar dem till den fantastiska ön Nakali, full av de magiska och mytologiska väsen som de hört berättelser om under uppväxten i sina filippinska familjer. En del av de här varelserna blir vänner, andra blir fiender. I sällskap med den välmenande men olyckliga varhunden Raww (Dave Franco) och ett litet men mäktigt gäng kompisar, måste Jo and Raissa möta Den Fruktade Manananggal (Tony-belönade ikonen Lea Salonga), den mest skräckinjagande varelsen på ön. När de upptäcker att priset för att återvända hem är att förlora alla minnen av deras vänskap, måste Jo och Raissa skynda sig att hitta ett sätt att lämna ön innan de helt glömmer bort varandra, för evigt. Bland filmens röster hör vi även Emmy-nominerade Jenny Slate (Marcel the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-nominerade Dolly de Leon (Triangle of Sadness, Ghostlight), den världskända komikern Jo Koy (Haunted Mansion, Jo Koy: Live from Brooklyn) och Emmy-belönade Ronny Chieng (The Daily Show, M3GAN). Denna film innehåller blinkande ljuseffekter som kan utlösa symtom hos personer med ljuskänslig epilepsi eller annan ljuskänslighet."
    },
    "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
    "ts": [
@@ -6939,12 +7091,14 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -7082,12 +7236,14 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohamina",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinolumo",
     "kinomania",
+    "kinomarilyn",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -7262,13 +7418,11 @@
     "isohannu",
     "kino123",
     "kinoakseli",
-    "kinoelo",
     "kinohamina",
     "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
@@ -7319,13 +7473,11 @@
     "isohannu",
     "kino123",
     "kinoakseli",
-    "kinoelo",
     "kinohamina",
     "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
-    "kinomania",
     "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
