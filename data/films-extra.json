@@ -818,6 +818,7 @@
     "kino123",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -1858,6 +1859,7 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "elavienkuvien",
     "engel",
     "gilda",
@@ -2238,6 +2240,7 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
+    "cinemantsala",
     "isohannu",
     "kino123",
     "kinohamina",
@@ -2769,6 +2772,8 @@
    "krs": [
     "biogrand",
     "biorex",
+    "cinemantsala",
+    "ihmekompleksi",
     "kinoaurora",
     "kinojuha",
     "kinolaika",
@@ -3124,6 +3129,12 @@
   "matka piemonteen": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3137,6 +3148,12 @@
   "matka piemonteen ennakkonäytös": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3150,6 +3167,12 @@
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3704,6 +3727,19 @@
    },
    "tr": ""
   },
+  "oktoberfest": {
+   "id": 263967,
+   "img": "data/posters/702a7adb073a673c.jpg",
+   "r": 0,
+   "s": {
+    "en": "Luka Banjanin is an unemployed young man living with his parents in Belgrade. He hangs out with few devoted friends who, like him, are yet to find place in a society that discarded young intellectuals. He plays saxophone and dreams about going to Oktoberfest, the annual beer festival in Munich, but he's being unable to get passport because of a smaller drug incident he had in the past. Totally careless about his long-term girlfriend, he suddenly falls for a mysterious woman who seems to appear in the same places as him, and then vanishes as quickly as possible. Believing that he's at the wrong place at the wrong time, Luka wanders from one misadventure to another, gradually losing the contact with reality and living out his own Oktoberfest in his mind.",
+    "fi": "Mukaan mahtuu vain 50 ensimmäistä, joten ostathan liput ajoissa. Ruoan riittävyyden varmistamiseksi tulisi liput ostaa 19.10. mennessä."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "once upon a time in china": {
    "id": 10617,
    "r": 0,
@@ -3885,6 +3921,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -4034,6 +4071,16 @@
    },
    "tr": ""
   },
+  "perfect blue": {
+   "id": 10494,
+   "img": "data/posters/e30bf84cac17f8b9.jpg",
+   "r": 8.3,
+   "s": {
+    "en": "",
+    "fi": "Teini-idoli ja J-pop-tähti Mima Kirigoen manageri suostuttelee hänet kokeilemaan siipiään näyttelijänä ja muuttamaan imagoaan. Miman fanit eivät kuitenkaan ole tyytyväisiä hänen urakäännökseensä. Yhtäkkiä Mimaa vainoavat sekä inhottavat stalkkerit että jokin vielä epämiellyttävämpi – oma kaksoisolentonsa. Perfect Blue on Satoshi Konin (Millennium Actress, Paprika) ohjausdebyytti, psykologinen trilleri, joka tuo mieleen Alfred Hitchcockin ja David Lynchin. Suomessakin elokuvateatteri Orionissa vieraillut animemestari menehtyi vain 46-vuotiaana vuonna 2010. Tekstitys: suomi"
+   },
+   "tr": "https://www.youtube.com/watch?v=RrWausp8zDQ"
+  },
   "persepolis": {
    "id": 2011,
    "r": 0,
@@ -4146,7 +4193,8 @@
     "biorex",
     "engel",
     "kinoaurora",
-    "kinolumo"
+    "kinolumo",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -4165,7 +4213,8 @@
     "biorex",
     "engel",
     "kinoaurora",
-    "kinolumo"
+    "kinolumo",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -4184,7 +4233,8 @@
     "biorex",
     "engel",
     "kinoaurora",
-    "kinolumo"
+    "kinolumo",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -4192,6 +4242,29 @@
     "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
    },
    "tr": ""
+  },
+  "pikkuli ja tähtipeura suomeksi puhuttu": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "kr": "S",
+   "krs": [
+    "alatalo",
+    "biokaari",
+    "biorex",
+    "engel",
+    "kinoaurora",
+    "kinolumo",
+    "kinopiispanristi"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli sekä muu Aurinkonummen metsän väki on valmistautumassa jouluun, mutta aikuiset alkavat riidellä ja peruvat koko joulun. Pikkuli ystävineen päättää pelastaa tilanteen ja lähtee lumiseen metsään löytääkseen avuksi tarujen Tähtipeuran. Revontulien loimutessa sinnikäs retkue kohtaa monia seikkailuja, tavoitteenaan pelastaa kaikkien joulu."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
   },
   "pikkuli och himmelshinden": {
    "id": 1403476,
@@ -4218,6 +4291,7 @@
     "biopallas",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4258,6 +4332,7 @@
     "biopallas",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4295,6 +4370,7 @@
     "biopallas",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4355,6 +4431,7 @@
     "biopallas",
     "biorex",
     "biosade",
+    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4497,6 +4574,8 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -4505,6 +4584,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinohannikainen",
+    "kinohirvi",
     "kinojuha",
     "kinokilta",
     "kinolaika",
@@ -4941,6 +5021,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -4987,6 +5068,7 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
+    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -5193,7 +5275,9 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "cinemantsala",
     "isohannu",
+    "kinohirvi",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -5637,6 +5721,10 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
+   "kr": "K-12",
+   "krs": [
+    "kinopiispanristi"
+   ],
    "r": 0,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
@@ -6096,6 +6184,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "cinemantsala",
     "gilda",
     "isohannu",
     "kinolumo",
@@ -6508,6 +6597,7 @@
    "krs": [
     "biorex",
     "biorexkokkola",
+    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -6583,7 +6673,7 @@
   "tremors väristyksiä": {
    "id": 9362,
    "img": "data/posters/8cb769a36b286d97.jpg",
-   "r": 6.9,
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Pikkukaupunki aavikon keskellä kohtaa maan alta tunkevia jättiläismatoja. Komeissa maisemissa tapahtuva ja vetävästi kulkeva kauhukomedia on taitavasti ohjattu b-leffapastissi. Päärooleissa Kevin Bacon ja Fred Ward. Erityismaininnan ansaitsee Michael Gross asehullun roolissa. Herra on sittemmin ollut mukana kaikissa jatko-osissa ja TV-sarjassa."
@@ -6755,9 +6845,11 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6769,6 +6861,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
@@ -6830,9 +6923,11 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6844,6 +6939,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
@@ -6970,9 +7066,11 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cine",
+    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6984,6 +7082,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinokulma",
     "kinolaika",
@@ -7159,6 +7258,7 @@
     "cine",
     "cinemantsala",
     "gilda",
+    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
@@ -7215,6 +7315,7 @@
     "cine",
     "cinemantsala",
     "gilda",
+    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",

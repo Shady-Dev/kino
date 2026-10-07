@@ -1,6 +1,5 @@
 [biomarilyn] FAILED: https://www.biomarilyn.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [vihdinkino] FAILED: https://vihdinkino.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[bioforum] the listing rendered whole on read 2 of 5
 [bioforum] 35 screening(s) in day groups, 14 film page(s) read
 [bioforum] Bio Forum: 35 showtimes, 15 dates
 [bioforum] Bio Forum: 35 showtimes, 15 dates
@@ -8,8 +7,8 @@
 [kinokulma] FAILED: https://kinokulma.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinovirta] FAILED: https://kinovirta.johku.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[run] http: 0 revalidated (304), 41 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 40 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 1 venues, 35 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 5 failures
-[run] timing: 6 site(s), 204.6s of fetching added up across workers that overlap, longest site 46.2s, longest queue wait 160.3s, 64.3s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 190.3s of fetching added up across workers that overlap, longest site 36.6s, longest queue wait 169.9s, 66.0s wall from this module's first fetch starting to its last ending
 exit=1
