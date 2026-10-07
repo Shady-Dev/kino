@@ -992,16 +992,12 @@
   },
   "erikoisnäytös typerät lapset": {
    "id": 1702082,
-   "img": "data/posters/ab723daa62a244d3.jpg",
    "r": 0,
    "s": {
-    "en": "A man ends up seeking a violent solution to his relationship issues after encountering an aggressive dog.",
+    "en": "",
     "fi": "ERIKOISNÄYTÖS & Q&A: TYPERÄT LAPSET on Turun Taideakatemian historian ensimmäinen kokopitkä opinnäyteelokuva.  Se on provokatiivinen, yhteiskuntakriittinen arthouse-draama, joka haastaa katsojan passiivisen roolin viihteen kuluttajana. Näytöksen jälkeen elokuvan ohjaaja vastaamassa yleisön kysymyksiin. \n\nLOGLINE: \n\nJohan, keski-ikäinen mies, joka kärsii huonosta itsetunnosta, mutta on konventionaalisen komea, päätyy tavoittelemaan väkivaltaista ratkaisua parisuhdeongelmiinsa kohdattuaan aggressiivisen koiran.\n\nSYNOPSIS:\n\nTyperät lapset on tarina keski-ikäisestä pariskunnasta, jonka kumpikin osapuoli kamppailee vanhoollisiin\nsukupuolirooleihin liittyvien odotusten kanssa: epäitsevarmasta, mutta konventionaalisen komeasta Johanista (Antti\nHonka) ja hänen kumppanistaan Evasta (Saara Elina), yläluokkaisesta ja kurinalaisesta pianonsoiton opettajasta. He matkustavat yhdessä Evan vanhempien kartanolle huolehtimaan vanhempien lemmikkikoirasta, Rexistä, joka ei pariskunnan pettymykseksi hyväksy Johania reviirilleen. Rex lukitaan syvälle kertanon syövereihin, mutta sen kohtaaminen on jo ehtinyt nostamaan parisuhteen pitkäaikaisen ongelman esille: kuka noudattaa minkäkinlaista sukupuoliroolia, ja kenellä on kontrolli seksissä? Pariskunnan keskusteluissa ongelmat liittyen koiraan ja seksiin sekoittuvat keskenään, ja pian kumpikaan ei enää tiedä, mistä he tarkalleen ottaen keskustelevat.\nEvan yrittäessä ottaa yhteistä ongelmaa kontrolliin, välttelee Johan tilannetta viettämällä aikansa sovinnaisista\nmoraalisäännöistä vapaalla ”Herrasmiesklubilla”. Ystävänsä Amin (Raimo Karppinen) ja tämän arvoituksellisen ”\nnaisystävän” Salomen (Tuulia Lindholm) kanssa Johan uppoutuu syvemmälle todellisuuteen, joka vääristää hänen omaansa. Yrittäessään avautua ongelmistaan Amille, Johan kiinnittää huomionsa klubin uuteen, valkoisiin pukeutuneeseen tanssijaan (Aleksandra Frey). Illan mittaa Johan päättää seurata tanssijaa syvemmälle klubin syövereihin, jossa hän todistaa klubin omistajan (Mika Melender) seksuaalisesti pahoinpitelevän tanssijan. Johanin yllätykseksi väkivallan kauhu muuttuukin kiinnostukseksi seksuaalisen väkivallan uhrin asemaa kohtaan. Väkivalta muuttuu fantasiaksi, joka kehittyy luulluiksi ratkaisuiksi ongelmiin ja lopulta kukaan ei enää tiedä, onko itse väkivallan uhrin vai toteuttajan asemassa"
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "fallen angels": {
    "id": 11220,
@@ -1551,7 +1547,7 @@
   "insidious out of the further": {
    "id": 1291595,
    "img": "data/posters/f1fadcf01e5f6329.jpg",
-   "r": 6.5,
+   "r": 7.2,
    "s": {
     "en": "Gemma, a young mother raising her daughter in the house she grew up in, discovers she can travel into The Further, where she possesses an ability to bring what lives there back to the real world.",
     "fi": "Nuori äiti Gemma kasvattaa tytärtään talossa, jossa hän itse kasvoi, ja hän huomaa voivansa matkustaa The Furtheriin, missä hänellä on kyky tuoda siellä elävät olennot takaisin todelliseen maailmaan.",
@@ -1862,7 +1858,6 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "elavienkuvien",
     "engel",
     "gilda",
@@ -2243,7 +2238,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "isohannu",
     "kino123",
     "kinohamina",
@@ -2825,6 +2819,10 @@
   "laula minulle arja": {
    "id": 1713056,
    "img": "data/posters/614615622fcfd9d8.jpg",
+   "kr": "S",
+   "krs": [
+    "kinoaurora"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3243,6 +3241,19 @@
    },
    "tr": ""
   },
+  "minä ja riikka purra": {
+   "id": 1789735,
+   "img": "data/posters/00ba33a99fa0e923.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liisa Akimofin pienelokuva Riikka Purrasta ja persuista. Akimof hommasi kameran ja pyöri Purran ja persujen maailmassa puoli vuotta elokuusta 2025 alkaen. Lopputuloksena syntyi vauhdikas, jopa hauska DIY-dokkari, jossa idealistinen vihervassari hämmästelee politiikan tekemisen arkea ampumaradalla, eduskunnassa, Brysselissä, turuilla ja toreilla. Elokuva syöksyy kriisistä toiseen ja kuulee myös antifasisteja, vassareita ja yksinäistä sivistysporvaria. Median graindaamiselle annetaan kasvot."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
   "mll näytös toy story 5 dubattu lipun hinta 2": {
    "id": 1084244,
    "img": "data/posters/61da1236c24613ee.jpg",
@@ -3325,7 +3336,6 @@
    "kr": "K-12",
    "krs": [
     "biorex",
-    "gilda",
     "helios",
     "julia",
     "kinohannikainen",
@@ -3870,7 +3880,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "ihmekompleksi",
     "isohannu",
     "kino123",
@@ -4204,7 +4213,6 @@
     "biopallas",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4245,7 +4253,6 @@
     "biopallas",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4283,7 +4290,6 @@
     "biopallas",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4344,7 +4350,6 @@
     "biopallas",
     "biorex",
     "biosade",
-    "cinemantsala",
     "helios",
     "huvimylly",
     "isohannu",
@@ -4487,9 +4492,9 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "cinemantsala",
     "gilda",
     "helios",
+    "ihmekompleksi",
     "isohannu",
     "kino123",
     "kinoakseli",
@@ -4585,10 +4590,6 @@
   "primavera": {
    "id": 1365683,
    "img": "data/posters/8fe80e3891276876.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel"
-   ],
    "r": 7.1,
    "s": {
     "en": "A talented violinist, Cecilia, confined in an orphanage, meets Vivaldi who becomes her teacher. Under his mentorship and through his music, she gains courage to break free from the life she was destined for and pursue her passion.",
@@ -4829,54 +4830,6 @@
   "rakkautta ja virtahepoja": {
    "id": 1450473,
    "img": "data/posters/3630a8c5eeb607ff.jpg",
-   "kr": "K-12",
-   "krs": [
-    "alatalo",
-    "biogrand",
-    "biomarilyn",
-    "biorex",
-    "biorexkokkola",
-    "biovuoksi",
-    "cinemantsala",
-    "gilda",
-    "haapamaki",
-    "helios",
-    "huvimylly",
-    "ihmekompleksi",
-    "isohannu",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoaurora",
-    "kinohamina",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinoiiris",
-    "kinojuha",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinoset",
-    "kinotar",
-    "kinovirta",
-    "korjaamo",
-    "kotkanleffat",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "niagara",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -4983,7 +4936,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -5030,7 +4982,6 @@
     "biorexkokkola",
     "biosavoy",
     "biovuoksi",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -6100,19 +6051,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=jZ0fdmesr-w"
   },
-  "the monk and the gun": {
-   "id": 1109237,
-   "img": "data/posters/a6159fc3eadab7c0.jpg",
-   "r": 7.2,
-   "s": {
-    "en": "An American travels to Bhutan searching for a valuable antique rifle and crosses paths with a young monk who wanders through the serene mountains, instructed by his teacher to make things right again.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=OesAEwWIJlQ",
-   "ts": [
-    "en"
-   ]
-  },
   "the music lovers": {
    "id": 72899,
    "img": "data/posters/8b09d8df9d26d1c2.jpg",
@@ -6544,7 +6482,6 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -6795,7 +6732,6 @@
     "biosavoy",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -6871,7 +6807,6 @@
     "biosavoy",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -7012,7 +6947,6 @@
     "biosavoy",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "engel",
     "haapamaki",
     "helios",
@@ -7494,5 +7428,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-06"
+ "generated": "2026-10-07"
 }
