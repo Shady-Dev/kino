@@ -2994,22 +2994,27 @@
    "tr": "https://www.youtube.com/watch?v=xmKP3zp3Mug"
   },
   "luvattu maa": {
-   "id": 980026,
-   "img": "data/posters/b17bc1b897088695.jpg",
-   "r": 7.7,
+   "id": 511,
+   "img": "data/posters/a822d70d6d42bfb2.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "At the turn of the century, Lodz, Poland, was a quick-paced manufacturing center for textiles, replete with cutthroat industrialists and unsafe working conditions. Three young friends, a Pole, a Jew, and a German, pool their money together to build a factory.",
     "fi": "Andrzej Wajdan syntymän 100-vuotisjuhlan kunniaksi esitämme yhden mestarin hienoimmista elokuvista. Nuori insinööri Karol Borowiecki työskentelee Łódźin tehtaassa ja haaveilee oman tehtaan perustamisesta yhdessä ystäviensä Moryc Weltin ja Maks Baumin kanssa. Karol joutuu myymään sukutilansa rahoittaakseen projektin. Tehdas valmistuu, mutta tuhoutuu pian tulipalossa. Vararikon jälkeen Karol hylkää entiset ihanteensa, menee naimisiin saksalaisen miljonäärin tyttären kanssa ja kohoaa lopulta rikkaaksi teollisuusmieheksi, mutta menettää samalla nuoruutensa unelmat ja moraalinsa."
    },
-   "tr": "https://www.youtube.com/watch?v=c9U1E9cC5is"
+   "tr": "https://www.youtube.com/watch?v=UGosYBfbRBc",
+   "ts": [
+    "en"
+   ]
   },
   "luvattu maa ziemia obiecana the promised land": {
-   "r": 0,
+   "id": 511,
+   "img": "data/posters/a822d70d6d42bfb2.jpg",
+   "r": 7.4,
    "s": {
     "en": "Celebrating the 100th anniversary of one of Poland's most prominent film directors, Andrzej Wajda. Three friends hope to build a factory but their plans are quickly jeopardized by local politics and one of the partner's dangerous love affair. The screening is part of The Polish Film Weeks and is subtitled in English. The Polish Film Week takes place in several locations around Finland and is arranged by Polish-Finnish Associations Union, The Polish embassy in Finland, Finnish Film Foundation and local Film Centers.",
     "fi": ""
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=UGosYBfbRBc"
   },
   "lyhyt rakkaustarina": {
    "id": 1299382,
