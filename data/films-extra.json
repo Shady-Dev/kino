@@ -3200,13 +3200,6 @@
   "matka piemonteen": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3220,13 +3213,6 @@
   "matka piemonteen ennakkonäytös": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3240,13 +3226,6 @@
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -5161,7 +5140,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "biovuoksi",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -5207,7 +5185,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "biovuoksi",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
