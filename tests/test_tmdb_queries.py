@@ -177,6 +177,31 @@ class LastScreeningMarkerTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class VisitNoteTest(unittest.TestCase):
+    """Kino Kuvakukko's bracketed visit note, read 2026-10-06: it opens with the noun
+    "tekij\u00e4vierailun\u00e4yt\u00f6s" and lists who is there. Off the search string at the
+    end of a title only; the published title keeps it."""
+
+    KUVAKUKKO = ("Sopeutumaton (tekij\u00e4vierailun\u00e4yt\u00f6s, paikalla ohjaaja Miikka "
+                 "Poutiainen ja tuottaja/kuvaaja Sami Sampo Salminen + keskustelua)")
+
+    def test_the_note_comes_off_the_search_string(self):
+        for published in (self.KUVAKUKKO, "Sopeutumaton (Tekij\u00e4vierailun\u00e4yt\u00f6s)",
+                          "Sopeutumaton ( tekijavierailunaytos )"):
+            with self.subTest(published=published[:40]):
+                self.assertEqual(enrich_tmdb.clean(published), "Sopeutumaton")
+
+    def test_the_published_title_keeps_it(self):
+        self.assertTrue(enrich_tmdb.norm(self.KUVAKUKKO).startswith(
+            "sopeutumaton tekij\u00e4vierailun\u00e4yt\u00f6s paikalla ohjaaja"))
+
+    def test_anywhere_but_a_closing_bracket_is_left_alone(self):
+        for title in ("X (tekij\u00e4vierailun\u00e4yt\u00f6s) osa 2",
+                      "Tekij\u00e4vierailun\u00e4yt\u00f6s", "X (keskustelua tekij\u00e4n kanssa)"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+
 class AudioMarkerTest(unittest.TestCase):
     """A marker names the audio, never the film, so it comes off the search string.
 

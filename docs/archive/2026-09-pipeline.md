@@ -2826,3 +2826,10 @@ title matches 1185806, and the nearest weak candidate was 893723, which is alrea
 as a wrong id. `PublishedCoverageTest` failed on main because of it. `TRAIL_VERSION` now
 removes "(org)" from the end of the search string, the same way as "(eng)" and "(sub)".
 The published title is unchanged. 2 mutations red.
+
+### A bracketed "tekijävierailunäytös" note comes off the TMDB search string (2026-10-07)
+Kino Kuvakukko published "Sopeutumaton (tekijävierailunäytös, paikalla ohjaaja ... +
+keskustelua)" in the cloud data of 2026-10-06. It drew no match while the plain title did,
+which turned `PublishedCoverageTest` red on main. `TRAIL_VISIT_NOTE` removes a closing
+bracket that starts with that word. The same word mid-title or in an open bracket stays,
+and the published title is unchanged. 2 mutations red.

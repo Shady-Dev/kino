@@ -169,6 +169,12 @@ TRAIL_EVENT = re.compile(
 # Sverige TEKIJ\u00c4VIERAILULLA" (2026-09-29) drew an initials tile while every other
 # cinema's "Pirjo i Sverige" matched 1729175. The end of the title only.
 TRAIL_VISIT = re.compile(r"\s+tekij[\u00e4a]vierailulla\s*$", re.I)
+# The visit as a bracketed note that opens with its own noun: Kino Kuvakukko's
+# "Sopeutumaton (tekij\u00e4vierailun\u00e4yt\u00f6s, paikalla ohjaaja ... + keskustelua)"
+# (2026-10-06) drew an initials tile while the bare "Sopeutumaton" matched. Only a
+# closing bracket that starts with that word.
+TRAIL_VISIT_NOTE = re.compile(r"\s*\(\s*tekij[\u00e4a]vierailun[\u00e4a]yt[\u00f6o]s\b[^()]*\)\s*$",
+                              re.I)
 
 # A strand can sit in a trailing parenthesis instead of in front of a colon. The content
 # is matched against the one shared list in strands.py rather than against a pattern, so
@@ -198,6 +204,7 @@ def clean(title):
     t = EVENT_NOUN.sub(" ", t)
     t = TRAIL_EVENT.sub(" ", t)
     t = TRAIL_VISIT.sub(" ", t)
+    t = TRAIL_VISIT_NOTE.sub(" ", t)
     t = TRAIL_FORMAT.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
