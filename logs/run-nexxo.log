@@ -15,9 +15,9 @@
 [biosade] Bio Säde (Mänttä): 30 showtimes
 [biosade] Bio Säde: 30 showtimes, 7 dates
 [biosade] synopses merged: 0
-[kinomarilyn] Kino Marilyn (Loviisa): 44 showtimes
-[kinomarilyn] Kino Marilyn: 44 showtimes, 11 dates
-[kinomarilyn] synopses merged: 0
+[kinomarilyn] Kino Marilyn (Loviisa): 45 showtimes
+[kinomarilyn] Kino Marilyn: 45 showtimes, 11 dates
+[kinomarilyn] synopses merged: 1
 [kinoolympia] Kino Olympia (Hanko): 17 showtimes
 [kinoolympia] Kino Olympia: 17 showtimes, 10 dates
 [kinoolympia] synopses merged: 0
@@ -37,6 +37,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] nexxo: 12 venues, 235 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 36.5s of fetching added up across workers that overlap, longest site 11.2s, longest queue wait 0.0s, 11.2s wall from this module's first fetch starting to its last ending
+[run] nexxo: 12 venues, 236 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 35.7s of fetching added up across workers that overlap, longest site 10.4s, longest queue wait 0.0s, 10.4s wall from this module's first fetch starting to its last ending
 exit=0

@@ -1,11 +1,20 @@
-[biomarilyn] FAILED: https://www.biomarilyn.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
+[biomarilyn] the listing rendered whole on read 5 of 5
+[biomarilyn] 27 screening(s) in day groups, 14 film page(s) read
+[biomarilyn] 20 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
+[biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
+[biomarilyn] Bio Marilyn: 27 showtimes, 10 dates
+[biomarilyn] Bio Marilyn: 27 showtimes, 10 dates
+[biomarilyn] synopses merged: 0
 [vihdinkino] FAILED: https://vihdinkino.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[bioforum] FAILED: https://bioforum.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
+[bioforum] 32 screening(s) in day groups, 14 film page(s) read
+[bioforum] Bio Forum: 32 showtimes, 13 dates
+[bioforum] Bio Forum: 32 showtimes, 13 dates
+[bioforum] synopses merged: 0
 [kinokulma] FAILED: https://kinokulma.fi/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinohannikainen] FAILED: https://www.kinohannikainen.net/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
 [kinovirta] FAILED: https://kinovirta.johku.com/: the listing was not rendered whole on any of 5 reads (loading, loading, loading, loading, loading). A loading or missing listing is not an empty programme, so the previous files stand
-[run] http: 0 revalidated (304), 30 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 55 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 6 failures
-[run] timing: 6 site(s), 176.8s of fetching added up across workers that overlap, longest site 31.3s, longest queue wait 145.5s, 60.1s wall from this module's first fetch starting to its last ending
+[run] johku: 2 venues, 59 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 4 failures
+[run] timing: 6 site(s), 207.5s of fetching added up across workers that overlap, longest site 60.8s, longest queue wait 147.1s, 66.5s wall from this module's first fetch starting to its last ending
 exit=1

@@ -283,8 +283,7 @@
     "gilda",
     "kinoaurora",
     "kinometso",
-    "niagara",
-    "orion"
+    "niagara"
    ],
    "r": 6.2,
    "s": {
@@ -814,7 +813,6 @@
    "krs": [
     "bioforum",
     "biogrand",
-    "biokaari",
     "biomarilyn",
     "biopallas",
     "biorex",
@@ -822,11 +820,9 @@
     "biosavoy",
     "cine",
     "cinemantsala",
-    "elavienkuvien",
     "gilda",
     "isohannu",
     "joutsankino",
-    "kino123",
     "kinoaurora",
     "kinoelo",
     "kinohirvi",
@@ -946,13 +942,12 @@
   },
   "el espíritu de la colmena mehiläispesän henki": {
    "id": 4495,
-   "img": "data/posters/90d7a3925722c1bc.jpg",
-   "r": 7.6,
+   "r": 0,
    "s": {
     "en": "The Spirit of the Beehive is a compelling journey into a young child’s inner world, where fantasy, stories heard by the child, and reality intertwine. Bringing such a challenging cinematic subject to life required master director Víctor Erice and the exceptionally talented child actress Ana Torrent, with her large, expressive eyes. She is also familiar from her childhood role in Cría cuervos, Cría cuervos (Raise Ravens). The film is set in a small village in Castile in the mid-1940s, in the aftermath of the Spanish Civil War. A beekeeper lives there with his daughters, Isabel (8) and Ana (6). One Sunday, the children watch the film Frankenstein. It has a profound effect on Ana, who believes her older sister when she tells her that the monster is still alive and hiding somewhere near the village. The film is subtitled in English.",
     "fi": "El Espiritu de la Colmena – Mehiläispesän henki on vaikuttava sukellus pienen lapsen mielenmaailmaan, jossa fantasia, lapsen kuulemat tarinat ja todellisuus sekoittuvat. Tällaisen vaikean elokuva-aiheen onnistumiseen tarvittiin mestariohjaaja Víctor Erice ja huippuhyvä lapsinäyttelijä Ana Torrent suurine nappisilmineen – tuttu myös lapsiroolistaan elokuvassa Cria cuervos, Korppi sylissä. Elokuva tapahtuu pienessä kylässä Kastiliassa, sodanjälkeisenä aikana 1940-luvun puolivälissä. Mehiläistenhoitajalla on tyttäret Isabel (8v) ja Ana (6v). Lapset näkevät eräänä sunnuntaina elokuvan Frankenstein. Elokuva tekee Anaan suuren vaikutuksen, ja hän uskoo isosiskoaan, joka vakuuttaa hänelle, että hirviö on elossa ja piileskelee kylän lähellä. Elokuva on tekstitetty englanniksi."
    },
-   "tr": "https://www.youtube.com/watch?v=aqvpMJNlqxE"
+   "tr": ""
   },
   "elena ja miehet": {
    "id": 53156,
@@ -1345,13 +1340,12 @@
   },
   "hetki ennen valoa kahvi ja kino": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden…"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "hetki ennen valoa tekijävieraita": {
    "id": 1015881,
@@ -1783,19 +1777,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=tqn2t3PefdY"
   },
-  "kaunarikuume": {
-   "id": 1648660,
-   "img": "data/posters/dd4838ffb804cc50.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Ysäri-Suomessa telkkarista seurattiin rinta rinnan Kauniita ja rohkeita sekä uutisia. Toinen tarjosi pakoa todellisuudesta, toinen masentavaa lamakuvastoa ympäröivästä yhteiskunnasta. Kun kello löi arki-iltapäivänä 17, jopa yli miljoona suomalaista kerääntyi amerikkalaisen muotitalon suhdesotkujen äärelle. Samaan aikaan kun jonotettiin leipää ja keräännyttiin osoittamaan mieltä, muodostui ennennäkemättömät yleisömassat katsomaan maahamme lennätettyjä Ameriikan ihmeitä, Ridgeä ja Ericiä. Ohjaaja Inka Achté sukeltaa Kaunarikuumeessa tarkastelemaan tätä valloittavaa fani-ilmiötä. Tutustuessaan sarjan faneihin hän joutuu kohtaamaan oman kipeän lama-ajan menneisyytensä, mutta oppii myös, mikä on suomalaisten supervoima."
-   },
-   "tr": "https://www.youtube.com/watch?v=zL4AAcxBX_0",
-   "ts": [
-    "fi"
-   ]
-  },
   "keinolla millä hyvänsä": {
    "id": 1380417,
    "img": "data/posters/45f8fc0404409cf0.jpg",
@@ -2107,6 +2088,14 @@
    },
    "tr": ""
   },
+  "kinokonsertti moana auringon poika": {
+   "r": 0,
+   "s": {
+    "en": "At this centenary screening of Moana, a Romance of the Golden Age, the film will be accompanied live by Henri Lindström, Nyla van Ingen & Sami van Ingen. They combine the film’s original score, composed in 1926, with analogue field recordings made in Samoa in 1971 by Monica Flaherty, the daughter of Robert and Frances Flaherty. In 1923, Robert Flaherty travelled with his wife Frances to the island of Savai‘i in Samoa. Their aim was to create a film that would capture and recreate Samoan traditions and everyday life – much as the Flahertys’ previous film, Nanook of the North, had done. The result was a groundbreaking work of documentary fiction. Like Nanook, Moana blurred the boundaries between reality and fiction. Contemporary audiences took the film’s portrayal as fact, but the debate over Moana ’s authenticity became an integral part of documentary film history. The English word “documentary” was originally coined in a review of Moana. Scottish filmmaker and critic John Grierson introduced the term in his review of the film, published under a pseudonym in February 1926, describing it as having “documentary value.” A restoration of Moana, completed in 2014, premiered at the New York Film Festival. The restoration was carried out by Bruce Posner and Sami van Ingen. At Orion, the film will be screened from a brand-new 35 mm print produced with the support of the Centre Pompidou. The live cinema-concert accompaniment combines a piano interpretation of the original score composed for the film in 1926 with analogue field recordings made by Monica Flaherty in Samoa in 1975. The field recordings will be played from the original recordings using reel-to-reel and compact cassette tape machines. The accompaniment is performed by Henri Lindström, a musician working as a solo artist in experimental electronic music; Canadian-born opera singer and sound artist Nyla van Ingen; and filmmaker and media artist Sami van Ingen. The cinema concert will take place on Sunday, 22 November at 16:00. As part of the Flaherty Weekend, Sami van Ingen’s Cast of Shadows will be screened on Saturday, November 21. The film puts the spotlight on the people who played a key role in shaping Robert Flaherty’s cinematic legacy.",
+    "fi": "Moana, auringon poika -elokuvan säestää tässä 100-vuotisjuhlaesityksessä Henri Lindström, Nyla van Ingen & Sami van Ingen. He yhdistävät elokuvaan vuonna 1926 sävellettyä alkuperäismusiikkia sekä Robert ja Frances Flahertyn tyttären Monica Flahertyn vuonna 1971 Samoalla tekemiä analogisia kenttänauhoituksia. Robert Flaherty matkusti vuonna 1923 vaimonsa Francesin kanssa Samoan Savai’in saarelle. Heidän päämääränsä oli luoda elokuva, joka tallentaisi ja toisintaisi samoalaisten perinteitä ja elämänmenoa – aivan kuten Flahertyjen edellinen elokuva Nanook, pakkasen poika teki. Syntyi elokuva, joka oli uraauurtava dokumenttifiktio. Nanookin tavoin Moana hämärsi todellisuuden ja fiktion välisiä rajoja. Aikalaiset ottivat sen kertoman totena, mutta keskustelusta Moanan autenttisuudesta tuli kiinteä osa dokumenttielokuvan historiaa. Englannin kielen sana ”documentary” eli dokumenttielokuva luotiin alun perin juuri Moana -elokuvan arvostelussa. Skotlantilainen elokuvantekijä ja kriitikko John Grierson loi termin salanimellä julkaistussa Moana -arvostelussaan helmikuussa 1926 ja totesi elokuvan sisältävän ”dokumentaarista arvoa”. Vuonna 2014 restauroitu Moana sai ensi-iltansa New Yorkin elokuvajuhlilla. Restauroinnista vastasivat Bruce Posner ja Sami van Ingen. Elokuva esitetään Orionissa tuliterältä 35 mm:n filmikopiolta, joka on valmistettu Centre Pompidoun tuella. Kinokonsertin säestys yhdistää pianolle tulkittua, elokuvaan vuonna 1926 sävellettyä alkuperäismusiikkia sekä Monica Flahertyn Samoalla vuonna 1975 tekemiä analogisia kenttänauhoituksia. Kenttänauhoitukset toistetaan alkuperäisiltä tallenteilta avokela- ja C-kasettinauhureilla. Säestyksestä vastaavat kokeellista elektronista musiikkia sooloartistina tekevä muusikko Henri Lindström, kanadalaissyntyinen oopperalaulaja ja äänitaiteilija Nyla van Ingen sekä elokuvantekijä ja mediataiteilija Sami van Ingen. Kinokonsertti järjestetään SU 22.11. KLO 16:00. Osana Flaherty-viikonloppua lauantaina 21.11. esitetään Sami van Ingenin Cast of Shadows, joka nostaa valokeilaan ne ihmiset, jotka vaikuttivat keskeisesti Robert Flahertyn elokuvaperintöön."
+   },
+   "tr": ""
+  },
   "kinokopla alpha": {
    "r": 0,
    "s": {
@@ -2246,7 +2235,6 @@
     "biosavoy",
     "cinemantsala",
     "isohannu",
-    "kino123",
     "kinohamina",
     "kinohirvi",
     "kinolaika",
@@ -3098,6 +3086,14 @@
     "fi"
    ]
   },
+  "marilynin karaoke": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tekisikö mielesi laulaa tai haluatko nähdä, miten hyvin muut laulavat. Tervetuloa Marilynin karaokeiltaan. Karaokea laulellaan Marilynin aulabaarissa. Vapaa pääsy. Klo 23 --> K18, alkuillasta myös alaikäiset voivat tulla näyttämään laulutaitonsa."
+   },
+   "tr": ""
+  },
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
@@ -3149,16 +3145,12 @@
   },
   "matka piemonteen ennakkonäytös": {
    "id": 1545391,
-   "img": "data/posters/e753668f77270e2f.jpg",
    "r": 0,
    "s": {
-    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "en": "",
     "fi": "Espoo Ciné suosittelee ottamaan hetken verran rennosti ja karkaamaan Italian lämpöön juuri ennen Pohjolan lumisohjon ja mauttomien tomaattien hyistä sesonkia! Matka Piemonteen on vuonna 2002 Ruotsin nuorimpana naispuolisena ohjaajana debytoineen Alexandra-Therese Keiningin uusi draamakomedia elämän mielekkyyden etsinnästä kypsällä iällä. Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja toteuttaa kaikki unelmansa?"
    },
-   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
@@ -3360,8 +3352,6 @@
     "kinohirvi",
     "kinolaika",
     "kuvakukko",
-    "leffabuumi",
-    "niagara",
     "savonkinot",
     "tapiola"
    ],
@@ -3958,7 +3948,6 @@
   },
   "outsider freud": {
    "id": 1398383,
-   "img": "data/posters/a67c2b73bafff9ea.jpg",
    "r": 0,
    "s": {
     "en": "A journey into the life and work of Sigmund Freud in four acts, combining animation, dreams, and insights from leading psychoanalysts. It explores Freud's experiences of marginalization as a Jew in Vienna during Hitler's rise and how these shaped his theories and personal life. Through an intimate lens, the film reveals new dimensions of Freud's legacy, focusing on his impact on psychoanalysis, Judaism, and the power dynamics of being an outsider.",
@@ -4582,32 +4571,25 @@
   },
   "practical magic 2 lumotut sisaret": {
    "id": 1302904,
-   "img": "data/posters/1b75e3e44aca4810.jpg",
-   "r": 6.2,
+   "r": 0,
    "s": {
-    "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
+    "en": "",
     "fi": "Practical Magic: Lumotut sisaret sijoittuu maailmaan, jota sävyttävät kuutamon valaisemat kepposet ja vahva esiäitien taikuus. Owensin siskosten (Sandra Bullock ja Nicole Kidman) on kohdattava synkkä kirous, joka uhkaa hajottaa heidän perheensä lopullisesti. Tämä maaginen elokuva on täynnä hauskuutta, taikaa ja kaoottista menoa – ja nähtävä valkokankaalta."
    },
-   "tr": "https://www.youtube.com/watch?v=Ho10_4IX1jE",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "practical magic lumotut sisaret": {
    "id": 1302904,
    "img": "data/posters/1b75e3e44aca4810.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biorex",
     "kinojuha",
     "kinomarilyn",
     "kinopirtti",
     "kotkanleffat",
-    "leffabuumi",
     "savonkinot",
-    "star",
-    "studio123jarvenpaa"
+    "star"
    ],
    "r": 6.2,
    "s": {
@@ -4655,7 +4637,6 @@
     "kinoaurora",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinolaika",
     "kinolumo",
     "kinomarilyn",
@@ -4663,17 +4644,14 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
-    "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
     "marita",
-    "matintupa",
     "niagara",
     "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
-    "studio123kouvola",
     "vihdinkino"
    ],
    "r": 0,
@@ -4711,7 +4689,6 @@
   },
   "presidentin kyyditys neulekino": {
    "id": 1412214,
-   "img": "data/posters/b6832fef0c1dad14.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4882,7 +4859,6 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "biovuoksi",
     "cine",
     "haapamaki",
     "helios",
@@ -4897,11 +4873,8 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kinotar",
     "kotkanleffat",
     "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
     "niagara",
     "regina",
     "savonkinot",
@@ -5132,11 +5105,10 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinotar",
     "kinotoijala",
     "kinovirta",
+    "korjaamo",
     "kotkanleffat",
-    "kuusamotalo",
     "laitilankino",
     "leffabuumi",
     "marita",
@@ -5176,11 +5148,10 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinosampo",
-    "kinotar",
     "kinotoijala",
     "kinovirta",
+    "korjaamo",
     "kotkanleffat",
-    "kuusamotalo",
     "laitilankino",
     "leffabuumi",
     "marita",
@@ -5256,13 +5227,12 @@
   },
   "roofman kattokeikkailija": {
    "id": 1242419,
-   "img": "data/posters/375e6b1aef5dafbe.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Channing Tatumin tähdittämä draamakomedia Roofman - Kattokeikkailija perustuu uskomattomaan tositarinaan vankikarkuri Jeffrey Manchesterista ja hänen villistä pakomatkastaan. Vankilasta paennut entinen sotilas ja ammattivaras Jeffrey löytää piilopaikan lelukaupan sisältä ja onnistuu elämään siellä kuukausien ajan kenenkään huomaamatta – samalla tehden murtokeikkoja kattojen kautta. Huolellisesti rakennettu kaksoiselämä alkaa kuitenkin rakoilla, kun hän rakastuu Leighin (Kirsten Dunst). Alkaa jännittävä takaa-ajo ja menneisyyden tapahtumat saavat Jeffreyn kiinni. Elokuvan on ohjannut Derek Cianfrance (Blue Valentine, The Place Beyond The Pines, Sound of Metal)."
    },
-   "tr": "https://www.youtube.com/watch?v=IHikM7vFXsA"
+   "tr": ""
   },
   "roosa kahvilan näytös teräsleidit kuin viimeistä päivää": {
    "id": 1448231,
@@ -5689,9 +5659,7 @@
    "img": "data/posters/26b3955801497bbc.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
     "elavienkuvien",
-    "kinoiiris",
     "kinotar",
     "niagara"
    ],
@@ -7021,6 +6989,14 @@
     "en"
    ]
   },
+  "unohdettu saari dup": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
+   },
+   "tr": ""
+  },
   "unohdettu saari elokuvanäytös": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
@@ -7384,7 +7360,6 @@
     "kinoakseli",
     "kinohamina",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
@@ -7393,10 +7368,8 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
@@ -7441,7 +7414,6 @@
     "kinoakseli",
     "kinohamina",
     "kinohirvi",
-    "kinoiiris",
     "kinojuha",
     "kinokulma",
     "kinolumo",
@@ -7450,10 +7422,8 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinosampo",
     "kinoset",
     "kinotar",
-    "kinotoijala",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",

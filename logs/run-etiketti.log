@@ -1,43 +1,45 @@
-[kotkanleffat] Kinopalatsi Kotka: 19 showtimes, 8 dates
-[kotkanleffat] Trio 123: 72 showtimes, 8 dates
+[kotkanleffat] Kinopalatsi Kotka: 17 showtimes, 7 dates
+[kotkanleffat] Trio 123: 66 showtimes, 7 dates
 [kotkanleffat] synopses merged: 0
-[biorexkokkola] Bio Rex Kokkola: 43 showtimes, 9 dates
+[biorexkokkola] Bio Rex Kokkola: 39 showtimes, 8 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 85 showtimes, 8 dates
-[kinopirtti] synopses merged: 0
-[leffabuumi] Kinolinna: 63 showtimes, 12 dates
-[leffabuumi] Kino Ritz: 11 showtimes, 8 dates
+[kinopirtti] Kinopirtti: 76 showtimes, 7 dates
+[kinopirtti] synopses merged: 1
+[leffabuumi] Kinolinna: 55 showtimes, 11 dates
+[leffabuumi] Kino Ritz: 9 showtimes, 7 dates
 [leffabuumi] Kino Saimaa: 5 showtimes, 4 dates
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] strand prefix split off 3 showtimes
-[studio123jarvenpaa] Studio 123 Järvenpää: 69 showtimes, 8 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 63 showtimes, 7 dates
 [studio123jarvenpaa] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 47 showtimes, 8 dates
+[studio123kouvola] Studio 123 Kouvola: 41 showtimes, 7 dates
 [studio123kouvola] synopses merged: 0
-[ihmekompleksi] Ihme Kompleksi: 41 showtimes, 16 dates
+[ihmekompleksi] Ihme Kompleksi: 39 showtimes, 15 dates
 [ihmekompleksi] synopses merged: 0
-[kino123] Kino 123: 72 showtimes, 8 dates
+[kino123] Kino 123: 63 showtimes, 7 dates
 [kino123] synopses merged: 0
-[kinotar] Kinotar 123: 33 showtimes, 8 dates
+[kinotar] Kinotar 123: 30 showtimes, 7 dates
 [kinotar] synopses merged: 0
-[kinojuha] Kino Juha: 10 showtimes, 7 dates
-[kinojuha] VIP-Sali: 10 showtimes, 7 dates
+[kinojuha] Kino Juha: 9 showtimes, 6 dates
+[kinojuha] VIP-Sali: 9 showtimes, 6 dates
 [kinojuha] synopses merged: 0
-[biogrand] Bio Grand: 31 showtimes, 8 dates
+[biogrand] Bio Grand: 28 showtimes, 7 dates
 [biogrand] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 26 showtimes, 7 dates
+[biovuoksi] Bio Vuoksi: 23 showtimes, 6 dates
 [biovuoksi] synopses merged: 0
+[kinoiiris] movie 3262: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [kinoiiris] strand prefix split off 1 showtimes
-[kinoiiris] Kino Iiris: 29 showtimes, 12 dates
+[kinoiiris] Kino Iiris: 26 showtimes, 11 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 17 showtimes, 7 dates
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 11 showtimes, 5 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 56 showtimes, 20 dates
+[niagara] movie 89: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[niagara] Cinema Niagara: 53 showtimes, 19 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 243 full, 243 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 220 full, 220 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 750 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 423.6s of fetching added up across workers that overlap, longest site 64.4s, longest queue wait 50.8s, 115.2s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 679 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 381.0s of fetching added up across workers that overlap, longest site 64.4s, longest queue wait 42.3s, 106.7s wall from this module's first fetch starting to its last ending
 exit=0
