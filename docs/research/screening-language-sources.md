@@ -43,6 +43,11 @@ item is in [IDEAS.md](../../IDEAS.md).
   pages, or on Kino-Huovi's front page, the pages the three adapters read. Bio-Kaari's
   WordPress route index lists no programme route. What remains is each cinema's ticket
   page, which is not read.
+- **Bio-Kaari's ticket page, read 2026-10-09.** `websales/show/{id}/` states
+  `Kieli: <b>Suomi</b>` on all five pages read, and `Tekstitys : <b>Suomi</b>` where a
+  film is subtitled, in Riviera's markup. Where it is not, the page prints
+  `<p class="no-subtitles"> Tekstitys : <b>No Subtitles</b>`. Riviera's page for Dyyni: Osa
+  kolme printed that same line with no `Kieli` line at all.
 
 ## Inferences
 
@@ -57,6 +62,8 @@ item is in [IDEAS.md](../../IDEAS.md).
   the client displays the codes through `langParts`.
 - Reaching the Helios ticket shop would need a browser fingerprint, which the project
   does not do. Helios stays without language unless its calendar service adds a field.
+- MyCloudCinema prints "No Subtitles" when no subtitle language is set, so it is a default
+  rather than a statement. It is not read for Riviera or for Bio-Kaari.
 
 ## Open questions
 
@@ -69,5 +76,7 @@ beside the price, and `riviera.page_fields` reads the two lines. Record in
 [docs/archive/2026-09-pipeline.md](../archive/2026-09-pipeline.md). Orion built the same
 day on the same cache, one film page per film, capped at 12 a run. Kino Helios built
 2026-09-29 on the same cache, one record per screening under its ticket link, capped at 12 a
-run. Bio-Kaari, Elävien kuvien and Kino-Huovi have no source; revisit if one of them adds
-the language to a page it already publishes.
+run. Bio-Kaari built 2026-10-09 on the maintainer's decision: its ticket page joins the
+price pass the way Riviera's does, for the price and the two language lines. Elävien kuvien
+and Kino-Huovi have no source; revisit if one of them adds the language to a page it
+already publishes.

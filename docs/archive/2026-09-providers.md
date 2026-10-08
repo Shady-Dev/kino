@@ -3678,3 +3678,16 @@ The maintainer decided to read each one as written. This changes the 2026-10-04 
 "Elokuva on". Lilla Spöket's first sentence is about the character and is not used for the
 audio, also the maintainer's decision. The four pages now give EN-A, FI-S, SV-S; FI-A, SV-S;
 SV-A, SV-S; and XX-S. Cloud half. 8 mutations red.
+
+### Bio-Kaari's ticket page gives the price and the language (2026-10-09)
+The maintainer's decision: read Bio-Kaari's ticket page the way Riviera's is read. Each
+showtime links to `bio-kaari.azurewebsites.net/websales/show/{id}/`, the MyCloudCinema page
+Riviera's price pass has read since 2026-09-13, with the same markup. `fetch_site` now
+passes the screenings to `prices.run`: one GET per screening, cached 48 h, paced and capped
+at 40 a run, with nothing past that page requested and the host declared in `reads`. It
+publishes the "Normaali" row's price through `riviera.ordinary_price`, which gained the
+category name as an argument, and the `Kieli` and `Tekstitys` lines through
+`riviera.screening_language`. On the five pages read that day: Verityn varjo `EN-A, FI-S`
+at 13 €, four Finnish films `FI-A` at 12 or 14 €. The page's "No Subtitles" line is not
+read, because Riviera's page for Dyyni: Osa kolme prints it with no language line at all.
+Cloud half. 5 mutations red.

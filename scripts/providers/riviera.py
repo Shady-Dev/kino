@@ -157,13 +157,15 @@ PRICE_CELL_RE = re.compile(r"<td[^>]*\bshowPrices-table-price\b[^>]*>(.*?)</td>"
 AMOUNT_RE = re.compile(r"(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:\u20ac|EUR)", re.I)
 
 
-def ordinary_price(page_html):
+def ordinary_price(page_html, ordinary=ORDINARY):
     """The ordinary seat's price on a ticket page -> "20\u20ac", "12.5\u20ac", or "".
 
-    Only the row whose category is ORDINARY counts: a wheelchair, concession or other
+    Only the row whose category is `ordinary` counts: a wheelchair, concession or other
     restricted ticket listed above it must not become the advertised price, and neither
     may the cheapest or the first amount on the page. No such row, or two of them
-    naming different amounts, is "" -- unknown, never zero.
+    naming different amounts, is "" -- unknown, never zero. `ordinary` is the cinema's
+    own name for that category on the same MyCloudCinema page: Bio-Kaari writes
+    "Normaali".
     """
     table = PRICE_TABLE_RE.search(page_html or "")
     if not table:
@@ -171,7 +173,7 @@ def ordinary_price(page_html):
     amounts = []
     for row in PRICE_ROW_RE.findall(table.group(1)):
         cat, cell = CATEGORY_RE.search(row), PRICE_CELL_RE.search(row)
-        if not (cat and cell) or _txt(cat.group(1)).lower() != ORDINARY:
+        if not (cat and cell) or _txt(cat.group(1)).lower() != ordinary:
             continue
         m = AMOUNT_RE.search(_txt(cell.group(1)))
         if m:

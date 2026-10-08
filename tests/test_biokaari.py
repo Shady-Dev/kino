@@ -196,6 +196,106 @@ class SiteTest(unittest.TestCase):
         self.assertEqual([v["city"] for v in biokaari.SITES[0]["venues"]], ["Forssa"])
         self.assertEqual(biokaari.SITES[0]["base"], BASE)
 
+    def test_the_ticket_host_the_price_pass_reads_is_declared(self):
+        import run
+        self.assertEqual(sorted(run.hosts_of(biokaari.SITES[0])),
+                         ["bio-kaari.azurewebsites.net", "www.bio-kaari.fi"])
+
+
+def ticket_page(spoken="Suomi", subs=None, no_subs=False, rows=(("Normaali", "14,00 \u20ac"),)):
+    """The MyCloudCinema ticket page's shape as Bio-Kaari served it on 2026-10-09, cut to
+    the lines read: the two language lines and the price table."""
+    info = ['<p class="showPresentationMethod"> Esitysmenetelm\u00e4: <b>2D</b> </p>']
+    if spoken:
+        info.append(f'<p class="spokenLanguage"> Kieli: <b>{spoken}</b> </p>')
+    if subs:
+        info.append(f'<p class="showSubtitles"> Tekstitys : <b>{subs}</b> </p>')
+    if no_subs:
+        info.append('<p class="no-subtitles"> Tekstitys : <b>No Subtitles</b> </p>')
+    table = "".join(
+        f'<tr><td class="col-xs-5 showPrices-table-ticketCategory"><h4 class="no-margin"> '
+        f'{cat} </h4></td><td class="col-xs-3 showPrices-table-price no-wrap"><span> {amount} '
+        f'</span></td></tr>' for cat, amount in rows)
+    return (f'<html><body><div class="block-show-info col-md-8">{"".join(info)}</div>'
+            f'<table class="table showPrices-table">{table}</table></body></html>')
+
+
+class TicketPageTest(unittest.TestCase):
+    """The ticket page, read since 2026-10-09 on the maintainer's decision."""
+
+    def test_the_audio_and_subtitle_lines(self):
+        self.assertEqual(biokaari.page_fields(ticket_page("Englanti", "Suomi")),
+                         {"lang": "EN-A, FI-S"})
+        self.assertEqual(biokaari.page_fields(ticket_page("Suomi")), {"lang": "FI-A"})
+
+    def test_the_platforms_no_subtitles_line_is_not_read(self):
+        """Riviera's page for an English film printed it with no language line at all,
+        so it is the platform's default and states nothing."""
+        self.assertEqual(biokaari.page_fields(ticket_page("Suomi", no_subs=True)),
+                         {"lang": "FI-A"})
+        self.assertEqual(biokaari.page_fields(ticket_page(None, no_subs=True)), {"lang": ""})
+
+    def test_the_ordinary_row_is_the_price(self):
+        self.assertEqual(biokaari.ordinary_price(ticket_page()), "14\u20ac")
+        self.assertEqual(biokaari.ordinary_price(ticket_page(rows=(
+            ("Lapsi", "10,00 \u20ac"), ("Normaali", "13,00 \u20ac")))), "13\u20ac")
+
+    def test_no_ordinary_row_or_two_that_disagree_is_no_price(self):
+        for rows in ((("Lapsi", "10,00 \u20ac"),),
+                     (("Normaali", "13,00 \u20ac"), ("Normaali", "14,00 \u20ac"))):
+            with self.subTest(rows=rows):
+                self.assertEqual(biokaari.ordinary_price(ticket_page(rows=rows)), "")
+
+
+class FetchSiteTest(unittest.TestCase):
+    """The whole run on fixtures: front page, film pages, then one ticket page per
+    screening, with nothing else requested."""
+
+    def setUp(self):
+        import tempfile, pathlib as pl
+        self.tmp = pl.Path(tempfile.mkdtemp())
+        self.addCleanup(lambda: __import__("shutil").rmtree(self.tmp, ignore_errors=True))
+        self.urls = []
+        # Every screening but 984057 has its page; prices.py ends a pass after three
+        # failures in a row, so one gap is the case a run meets.
+        tickets = {t: ticket_page("Suomi", rows=(("Normaali", "14,00 \u20ac"),))
+                   for t in ("984055", "984058", "984070", "984071")}
+        tickets["984056"] = ticket_page("Englanti", "Suomi",
+                                        rows=(("Normaali", "13,00 \u20ac"),))
+
+        def fake(url, headers=None, **kw):
+            self.urls.append(url)
+            if url == BASE + "/":
+                return LISTING.encode()
+            if "/tapahtuma/" in url:
+                return FILM_PAGE.encode()
+            tid = url.rstrip("/").rsplit("/", 1)[-1]
+            if tid in tickets:
+                return tickets[tid].encode()
+            raise OSError("no such page")
+
+        saved = biokaari.fetch
+        biokaari.fetch = fake
+        self.addCleanup(lambda: setattr(biokaari, "fetch", saved))
+
+    def test_each_screening_takes_its_own_ticket_pages_price_and_language(self):
+        shows = biokaari.fetch_site(prices_path=self.tmp / "prices.json",
+                                    price_sleep=0)["biokaari-forssa"]
+        got = {s["url"].rstrip("/").rsplit("/", 1)[-1]: (s["price"], s["lang"]) for s in shows}
+        self.assertEqual(got["984055"], ("14\u20ac", "FI-A"))
+        self.assertEqual(got["984056"], ("13\u20ac", "EN-A, FI-S"))
+        # A ticket page that could not be read leaves its screening as it was.
+        self.assertEqual(got["984057"], ("", ""))
+
+    def test_nothing_past_the_ticket_page_is_requested(self):
+        biokaari.fetch_site(prices_path=self.tmp / "prices.json", price_sleep=0)
+        for url in self.urls:
+            with self.subTest(url=url):
+                self.assertTrue(url == BASE + "/" or url.startswith(BASE + "/tapahtuma/?event=")
+                                or (url.startswith(biokaari.TICKETS)
+                                    and url[len(biokaari.TICKETS):].strip("/").isdigit()), url)
+        self.assertEqual(sum(u.startswith(biokaari.TICKETS) for u in self.urls), 6)
+
 
 if __name__ == "__main__":
     unittest.main()

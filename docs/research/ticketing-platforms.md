@@ -528,7 +528,8 @@ whole programme server-side.
   than left in `title`, which is the TMDB and merge key.
 - The ticket link is published as `http://` on a host that answers `https://` and
   redirects there. It is upgraded, and it is read from the page rather than constructed.
-  The sales page itself is never fetched.
+  The sales page was not fetched until 2026-10-09; since then the price pass reads it for
+  the price and the language, as Riviera's does.
 - The film page adds `Lajityyppi`, `Ikäraja: K7/4` (the 4 is the flexibility years, not
   part of the classification) and `Kesto: 1 h 27 min`. Three films when read, so the
   per-film pass is a few requests a run.
@@ -539,7 +540,8 @@ whole programme server-side.
   programme in prose with prices. The front page's day containers are the structured
   source and are what this adapter reads; whether the articles ever carry a screening the
   containers do not is not established, and nothing here depends on it.
-- No price is published in the day containers, so `price` stays empty.
+- No price is published in the day containers. Since 2026-10-09 it comes from the ticket
+  page instead.
 
 **Status and next step**
 

@@ -223,8 +223,9 @@ provider missing from it loses its venues, not just its label.
   lands on a registrable domain another module already reads,
   `tests/test_cloud_pool.py` fails: decide whether it is one upstream, and record the answer
   in `run_cloud.SHARED_UPSTREAMS` rather than widening the test.
-- **`reads` names every *other* host the adapter requests**, a ticket API on its own
-  subdomain being the case that exists (Riviera's `tickets.rivieracinemas.fi`). Grouping is
+- **`reads` names every *other* host the adapter requests**, ticket pages on their own
+  host being the case that exists (Riviera's `tickets.rivieracinemas.fi`, Bio-Kaari's
+  `bio-kaari.azurewebsites.net`). Grouping is
   over `base` plus `reads`, as connected components, so two sites touching one server are
   read one after the other whichever field named it. A differing `base` is not evidence of
   an independent upstream; check where the requests actually go. A URL read out of a page

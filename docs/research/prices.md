@@ -234,6 +234,16 @@ called.
 **Status.** Bio-Kaari is closed: there is no readable per-screening price and the tariff
 settles nothing.
 
+**Changed 2026-10-09, on the maintainer's decision.** The ticket page is now read the way
+Riviera's is. Its `showPrices-table` had one "Normaali" row on each of the five pages read
+that day, at 12, 13 or 14 €, and `biokaari.ordinary_price` publishes that row. A page with
+no such row, or two that disagree, publishes nothing.
+
+Riviera's event screenings sold as a single bundle ("Elokuva + Konsertti 39,00 €", read
+2026-10-09) have no ordinary row and stay unpriced. Taking a table's only row was
+considered and not done: a page listing only a wheelchair seat must not be priced, and
+`test_riviera_prices` holds that.
+
 **Kuvakukko and Manttu are implemented**, 2026-09-16, on the maintainer's instruction:
 publish the venue's tariff where its applicability is established, leave an externally sold
 or otherwise ambiguous screening unpriced, do not infer applicability from an on-site link
@@ -272,7 +282,7 @@ a visitor from an ordinary connection, once each.
 |---|---|---|
 | Kinotour | `<label>Hinta</label><strong>€11,00</strong>` on each `/events/{slug}/` page | **readable, now published** |
 | Kino Myyri | nowhere on `kinomyyri.fi/ohjelmisto/`; no euro amount in the whole response | correct absence |
-| Bio-Kaari | a `/liput/` page, amounts by film, day, length and 2D/3D | correct absence |
+| Bio-Kaari | a `/liput/` page, amounts by film, day, length and 2D/3D | correct absence; the ticket page is read since 2026-10-09 |
 
 **Kinotour was an omission, and the adapter said the opposite.** `kinotour.py` carried
 "the event page carries a booking form with no amount rendered anywhere on it, so nothing
@@ -305,6 +315,7 @@ repo does not call. `/ohjelmisto/` was read on 2026-09-19 and carries no euro am
 day, the running length and 2D against 3D. None of that is on the screening row, so no row
 settles an amount and `price` stays empty. It was in the 2026-09-16 table as "one request"
 but the adapter never carried a sentence saying why it was not taken; this is that sentence.
+Since 2026-10-09 the price comes from each screening's ticket page instead; see above.
 
 **Coverage after this**, measured at `0409aa452` over the committed data: 1516 of 4956
 showtimes priced. The zeros that remain are all recorded decisions -- Finnkino and BioRex

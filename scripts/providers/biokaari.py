@@ -37,8 +37,7 @@ Four things that shape the parser:
 - **The published ticket link is `http://`** on a host that answers `https://` and
   redirects there (checked 2026-09-15). It is upgraded, and it is read from the page
   rather than constructed: building a ticket URL from a copied path is what shipped six
-  dead Nexxo links. The sales page itself is never fetched, the same rule `etiketti.py`
-  follows.
+  dead Nexxo links. The page it opens is read for the price and the language; see below.
 
 The title carries a release year, `(2026)`, which becomes the optional `year` field rather
 than being left in the title: `title` is the TMDB and merge key and the year is not part
@@ -47,6 +46,15 @@ of the film's name.
 `enrich()` reads one film page per distinct film for the age limit, runtime and genre,
 which the programme itself does not carry. Bio-Kaari runs a handful of films at a time, so
 that is a few requests a run rather than the dozens a larger cinema would cost.
+
+**The ticket page is read since 2026-10-09, on the maintainer's decision.** The showtime's
+own page, `bio-kaari.azurewebsites.net/websales/show/{id}/`, is the MyCloudCinema page
+Riviera's price pass already reads, with the same markup: `Kieli: <b>Suomi</b>`,
+`Tekstitys : <b>Suomi</b>` and a `showPrices-table` whose ordinary row is "Normaali".
+`prices.run` reads it once per screening, cached for 48 h, paced and capped, and nothing
+past that page is requested. Its "No Subtitles" line is not read: the platform prints it
+on a Riviera page that states no language at all, so it is a default rather than a
+statement.
 """
 import datetime
 import html as html_mod
@@ -55,15 +63,21 @@ import sys
 import time
 from zoneinfo import ZoneInfo
 
+import prices
+import riviera
 from common import capped, fetch, get_text, served
 
 BASE = "https://www.bio-kaari.fi"
+# The ticket pages' host, declared in `reads` because the price pass requests it.
+TICKETS = "https://bio-kaari.azurewebsites.net/websales/show/"
+ORDINARY = "normaali"
 FI = ZoneInfo("Europe/Helsinki")
 
 VENUE = {"id": "biokaari-forssa", "name": "Bio-Kaari", "short": "Bio-Kaari",
          "city": "Forssa"}
 
-SITES = [{"provider": "biokaari", "label": "Bio-Kaari", "base": BASE, "venues": [VENUE]}]
+SITES = [{"provider": "biokaari", "label": "Bio-Kaari", "base": BASE,
+          "reads": ("bio-kaari.azurewebsites.net",), "venues": [VENUE]}]
 
 # The day containers are the programme. Absent means the plugin's markup changed. Present
 # with no screening is not evidence of nothing on either: no empty state has been read off
@@ -221,15 +235,32 @@ def enrich(shows, get=None, sleep=1.2):
     return shows
 
 
+def ordinary_price(page_html):
+    """The "Normaali" row's price on a ticket page -> "14\u20ac", or ""."""
+    return riviera.ordinary_price(page_html, ORDINARY)
+
+
+def page_fields(page_html):
+    """The audio and subtitle lines, through Riviera's reader of the same markup."""
+    return {"lang": riviera.screening_language(page_html)}
+
+
 def get_page():
     """`common.get_text` with this module's own `fetch`, which its tests stub."""
     return get_text(BASE + "/", fetcher=fetch)
 
 
-def fetch_site(site=SITES[0]):
-    """Runner contract: one front page, a film page per film, one venue."""
+def fetch_site(site=SITES[0], prices_path=None, price_sleep=1.0, now=None):
+    """Runner contract: one front page, a film page per film, a ticket page per
+    screening, one venue."""
     shows = parse(get_page())
     enrich(shows)
+    # After the schedule is complete, and never able to take it down: a failure here
+    # publishes the showtimes without price and language, as before.
+    prices.run(shows, provider="biokaari", prefix=TICKETS, parse=ordinary_price,
+               fields=page_fields, referer=BASE + "/", path=prices_path, now=now,
+               sleep=price_sleep,
+               fetch_fn=lambda url, headers: fetch(url, headers=headers, tries=2, timeout=20))
     print(f"[biokaari] {len(shows)} showtimes, {len({s['eventId'] for s in shows})} films, "
           f"{len({s['start'][:10] for s in shows})} dates")
     return {VENUE["id"]: shows}
