@@ -169,7 +169,7 @@
  },
  "la-grazia": {
   "price": "",
-  "at": "2026-10-05T23:17:04+00:00",
+  "at": "2026-10-08T05:16:55+00:00",
   "fields": {
    "lang": "IT-A, FI-S, SV-S",
    "len": "133",
@@ -191,7 +191,7 @@
  },
  "memoria": {
   "price": "",
-  "at": "2026-10-05T23:17:04+00:00",
+  "at": "2026-10-08T05:16:55+00:00",
   "fields": {
    "lang": "EN-A, ES-A, FI-S",
    "len": "136",
@@ -248,14 +248,15 @@
  },
  "pahuksen-katti": {
   "price": "",
-  "at": "2026-10-05T23:17:04+00:00",
+  "at": "2026-10-08T05:16:55+00:00",
   "fields": {
    "lang": "EN-A, FI-S",
    "len": "116",
    "rating": "S",
    "original": "That Darn Cat!",
    "year": "1965",
-   "syn_fi": "Hulvattoman agenttifilmin päähahmo, neuvokas siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Kaksi uskaliasta gangsteria eivät koskaan olisi voineet kuvitellakaan, että pahuksen katti voisi tulla vaikeuttamaan heidän muuten niin hyvin toimimia rikoskuvioitaan. Ja kaiken hälyn keskellä näyttää siltä, että pikku agenttia kiinnostaa vain tuoreen kalan pyydystäminen. Siamilaiskissan esittäjäksi mainittu Syn voitti sähäkästä roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon."
+   "syn_fi": "Hulvattoman agenttifilmin päähahmo, neuvokas siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Kaksi uskaliasta gangsteria eivät koskaan olisi voineet kuvitellakaan, että pahuksen katti voisi tulla vaikeuttamaan heidän muuten niin hyvin toimimia rikoskuvioitaan. Ja kaiken hälyn keskellä näyttää siltä, että pikku agenttia kiinnostaa vain tuoreen kalan pyydystäminen. Siamilaiskissan esittäjäksi mainittu Syn voitti sähäkästä roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon.",
+   "syn_en": "The ingenious Siamese cat at the heart of this hilarious spy caper is Walt Disney’s answer to James Bond! Two daring gangsters could never have imagined that a pesky cat would come along and disrupt their otherwise perfectly executed criminal schemes. And amid all the commotion, the little agent seems to be interested in only one thing: catching fresh fish. Syn, credited as the cat’s performer, won a PATSY Award for Best Animal Performer for his spirited performance."
   }
  },
  "pia-langbacka-meedion-tyo": {
@@ -267,7 +268,7 @@
  },
  "presidentin-kyyditys": {
   "price": "",
-  "at": "2026-10-05T23:17:04+00:00",
+  "at": "2026-10-08T05:16:55+00:00",
   "fields": {
    "lang": "FI-A, FI-S, SV-S",
    "len": "87",
@@ -374,7 +375,7 @@
  },
  "urpo-ja-turpo-johtolangan-jaljilla": {
   "price": "",
-  "at": "2026-10-05T23:17:04+00:00",
+  "at": "2026-10-08T05:16:55+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "60",

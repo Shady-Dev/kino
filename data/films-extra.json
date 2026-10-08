@@ -1300,43 +1300,6 @@
   "hetki ennen valoa": {
    "id": 1015881,
    "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "biograni",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "haapamaki",
-    "helios",
-    "isohannu",
-    "kinoaurora",
-    "kinohirvi",
-    "kinoiiris",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kotkanleffat",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "niagara",
-    "regina",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -1866,6 +1829,7 @@
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -1901,6 +1865,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "korjaamo",
     "kotkanleffat",
@@ -2784,6 +2749,7 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
+    "biomarilyn",
     "biorex",
     "cinemantsala",
     "ihmekompleksi",
@@ -2828,6 +2794,19 @@
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
     "fi": "Rakastettu Late Lammas palaa valkokankaille uudessa, riemastuttavassa ja kutkuttavan hauskassa seikkailussa. Farmin asukkaat odottavat innolla Halloweenia, kunnes heidän rakkaudella kasvattamansa kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late ei jää toimettomaksi, vaan päättää ryhtyä “hulluksi tiedemieheksi” korjatakseen tilanteen – ja pian tapahtumat karkaavatkin täysin käsistä. Kun tilan maajussi katoaa ja outo villi peto herättää kauhua kyläläisissä, ovat kaikki ainekset kasassa hirviömäisen hauskalle seikkailulle kaiken ikäisille. Kananlento ja Wallace & Gromit -elokuvien tekijöiden uusi seikkailu Late Lammas: Hämäräpuuhissa saapuu elokuvateattereihin 30. lokakuuta."
+   },
+   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
+   "ts": [
+    "en"
+   ]
+  },
+  "late lammas hämäräpuuhissa ennakkonäytös 10": {
+   "id": 1477104,
+   "img": "data/posters/93eda5fa30b7d70c.jpg",
+   "r": 0,
+   "s": {
+    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -2907,7 +2886,8 @@
   "lilla spöket laban busar vidare": {
    "kr": "S",
    "krs": [
-    "bioforum"
+    "bioforum",
+    "biomarilyn"
    ],
    "r": 0,
    "s": {
@@ -3072,7 +3052,7 @@
     "engel",
     "tapiola"
    ],
-   "r": 6.1,
+   "r": 6.2,
    "s": {
     "en": "An elderly billionaire woman gives hundreds of millions of euros to a younger gay artist she is close to. Her daughter files a complaint for abuse of a vulnerable person and a scandal erupts.",
     "fi": "Marianne Farrere on maailman rikkain nainen, kosmetiikka-imperiumin upporikas perijätär. Rahaan turtuu, eikä sillä rakkautta saa. Onneksi vaurauden pesään lehahtaa pöyhkeä pyrkyri, melkein-valokuvaaja, onnenonkija Pierre-Alain (roolissa alati juonikas Laurent Lafitte). Tutustuminen roihahtaa platoniseksi romanssiksi. Marianne syytää valokuvaajalle miljoonia, onhan hauskanpito sen arvoista. Tytär (Marina Fois) yrittää lakikotkien ja hovimestarin avustamana häätää liehittelijän perijättären pankkitilin tienoilta, turhaan. Ilottelua on jatkettava mahdollisimman pitkään. Hilpeitä hävyttömyyksiä hyökyaallon lailla syytävä tarina pohjaa lennokkaasti Liliane Bettencourtin skandaaliin. Laurent Lafitte palkittiin roolistaan parhaan miesnäyttelijän Cesar –pystillä. Magneettinen pääosa on kuin räätälöity jumalaiselle Isabelle Huppertille."
@@ -3134,6 +3114,13 @@
   "matka piemonteen": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "gilda",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3147,6 +3134,13 @@
   "matka piemonteen ennakkonäytös": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "gilda",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3160,6 +3154,13 @@
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
+   "kr": "K-7",
+   "krs": [
+    "bioforum",
+    "gilda",
+    "kinoaurora",
+    "laitilankino"
+   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3607,7 +3608,7 @@
   "näkymätön elina": {
    "id": 46814,
    "img": "data/posters/4306abef410c6f77.jpg",
-   "r": 0,
+   "r": 6.2,
    "s": {
     "en": "",
     "fi": "Klaus Härö nousi heti esikoisellaan suomalaisten elokuvantekijöiden kärkikaartiin. Koskettava kuvaus 10-vuotiaasta Tornionjokilaaksossa asuvasta Elinasta, joka palaa kouluun pitkän sairastelun jälkeen ja joutuu kahnauksiin taipumattoman ja suomen kieltä kitkevän opettajansa kanssa, palkittiin ansaitusti muun muassa Berliinin elokuvajuhlilla lasten- ja nuortenelokuvien sarjassa."
@@ -3932,6 +3933,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -3992,13 +3994,10 @@
    "img": "data/posters/2c069c284b0b501f.jpg",
    "r": 6.6,
    "s": {
-    "en": "A young woman suspects foul play when her cat comes home wearing a wristwatch. Convincing the FBI, though, and catching the bad guys is tougher than she imagined.",
+    "en": "The ingenious Siamese cat at the heart of this hilarious spy caper is Walt Disney’s answer to James Bond! Two daring gangsters could never have imagined that a pesky cat would come along and disrupt their otherwise perfectly executed criminal schemes. And amid all the commotion, the little agent seems to be interested in only one thing: catching fresh fish. Syn, credited as the cat’s performer, won a PATSY Award for Best Animal Performer for his spirited performance.",
     "fi": "Hulvattoman agenttifilmin päähahmo, neuvokas siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Kaksi uskaliasta gangsteria eivät koskaan olisi voineet kuvitellakaan, että pahuksen katti voisi tulla vaikeuttamaan heidän muuten niin hyvin toimimia rikoskuvioitaan. Ja kaiken hälyn keskellä näyttää siltä, että pikku agenttia kiinnostaa vain tuoreen kalan pyydystäminen. Siamilaiskissan esittäjäksi mainittu Syn voitti sähäkästä roolisurituksestaan parhaan eläinnäyttelijän PATSY-palkinnon."
    },
-   "tr": "https://www.youtube.com/watch?v=QfqVYCRdtdc",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=QfqVYCRdtdc"
   },
   "palatsin hiljaisuus": {
    "id": 44284,
@@ -4172,6 +4171,14 @@
    },
    "tr": ""
   },
+  "pikku kummitus lapanen keppostelee ennakkonäytös n 10": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
+   },
+   "tr": ""
+  },
   "pikku kummitus lapanen keppostelee suomeksi": {
    "r": 0,
    "s": {
@@ -4187,6 +4194,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4208,6 +4216,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4219,6 +4228,16 @@
    "s": {
     "en": "",
     "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun. Pikkuli-kirjojen uusi kustantamo WSOY julkaisee syksyllä 2026 kolme Pikkuli-kirjaa, joista yksi on elokuvaan pohjaava kirja Pikkuli ja Tähtipeura. Tarina julkaistaan sekä kuvakirjana että äänikirjana. Pikkuli-kirjat lukee äänikirjoiksi Pikkuli-elokuvan ääninäyttelijäkaartistakin tuttu Krista Kosonen."
+   },
+   "tr": ""
+  },
+  "pikkuli ja tähtipeura ennakkonäytös 10": {
+   "id": 1403476,
+   "img": "data/posters/79b249e47f0870db.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikkuli on suomalainen animaatiosarja, joka perustuu Metsämarja Aittokosken luomiin hahmoihin ja maailmaan. Vuonna 2011 julkaistun kirjan jälkeen Pikkuli tuli tutuksi Pikku Kakkosen ja Buu-klubbenin animaatiosarjasta sekä lastenkirjoista, musiikista, peleistä ja laululeikkiesityksistä. Pikkuli-hahmon seikkailut tarjoavat samaistuttavia tarinoita kaikenikäisille. Pikkulin leikkisä tunnetaitokasvatus rohkaisee lapsia näkemään, että kaikki tunteet ovat sallittuja, vahvistaen lapsen uskoa positiiviseen ajatteluun."
    },
    "tr": ""
   },
@@ -4239,6 +4258,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4260,6 +4280,7 @@
    "krs": [
     "alatalo",
     "biokaari",
+    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4299,6 +4320,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biosade",
@@ -4317,6 +4339,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinovirta",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4342,6 +4365,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biosade",
@@ -4360,6 +4384,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinovirta",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4382,6 +4407,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biosade",
@@ -4400,6 +4426,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinovirta",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4445,6 +4472,7 @@
     "alatalo",
     "bioforum",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biosade",
@@ -4463,6 +4491,7 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
+    "kinovirta",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -4474,6 +4503,16 @@
    "s": {
     "en": "",
     "fi": "Elokuvasta nähdään vauvakinoesitys, jossa salin valot ovat himmeästi päällä, portaat valaistuna ja äänet normaalia hiljaisemmalla. Salissa saa liikkua. Tervetuloa nauttimaan elokuvasta muiden kenties vauvan kanssa liikkeellä olevien kanssa! Elokuva itsessään on suunnattu aikuisille. Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin."
+   },
+   "tr": ""
+  },
+  "pirjo i swerige": {
+   "id": 1729175,
+   "img": "data/posters/a8cdd21dca604433.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun Pirjo Heikkilä nolaa itsensä julkisesti hyväntekeväisyystapahtumassa, hän alkaa uskoa, että elämässä tarvitaan maisemanvaihdos. Pirjo saa kuulla suvustaan hämmentävän salaisuuden, joka johdattaa hänet Ruotsiin. Pirjo suuntaa matkalle vakuuttuneena, että hänen oikea elämänsä odottaa Tukholmassa — kuninkaallisten, uusien ystävien ja paremman ihmisarvon keskellä. Mutta matkasta tulee kaikkea muuta kuin arvokas. Vastaan tulevat toinen toistaan kiusallisemmat tilanteet ja loputon tarve vaikuttaa ruotsalaisemmalta kuin oikeasti onkaan. Pirjo i Sverige on lämminhenkinen komedia suomalaisesta häpeästä, hyväksynnän kaipuusta ja siitä, voiko ihminen todella paeta itseään — edes Ruotsiin."
    },
    "tr": ""
   },
@@ -4611,7 +4650,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
-    "kinovirta",
     "kirkkonummi",
     "kotkanleffat",
     "kuvakukko",
@@ -4834,7 +4872,6 @@
     "biosade",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "haapamaki",
     "helios",
     "isohannu",
@@ -4987,7 +5024,6 @@
   },
   "rakkautta ja virtahepoja poistuu ohjelmistosta": {
    "id": 1450473,
-   "img": "data/posters/3630a8c5eeb607ff.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5087,6 +5123,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "kuusamotalo",
     "laitilankino",
@@ -5130,6 +5167,7 @@
     "kinosampo",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kotkanleffat",
     "kuusamotalo",
     "laitilankino",
@@ -5208,7 +5246,7 @@
   "roofman kattokeikkailija": {
    "id": 1242419,
    "img": "data/posters/375e6b1aef5dafbe.jpg",
-   "r": 7.1,
+   "r": 7.0,
    "s": {
     "en": "",
     "fi": "Channing Tatumin tähdittämä draamakomedia Roofman - Kattokeikkailija perustuu uskomattomaan tositarinaan vankikarkuri Jeffrey Manchesterista ja hänen villistä pakomatkastaan. Vankilasta paennut entinen sotilas ja ammattivaras Jeffrey löytää piilopaikan lelukaupan sisältä ja onnistuu elämään siellä kuukausien ajan kenenkään huomaamatta – samalla tehden murtokeikkoja kattojen kautta. Huolellisesti rakennettu kaksoiselämä alkaa kuitenkin rakoilla, kun hän rakastuu Leighin (Kirsten Dunst). Alkaa jännittävä takaa-ajo ja menneisyyden tapahtumat saavat Jeffreyn kiinni. Elokuvan on ohjannut Derek Cianfrance (Blue Valentine, The Place Beyond The Pines, Sound of Metal)."
@@ -6884,6 +6922,7 @@
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -6918,6 +6957,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -6978,6 +7018,7 @@
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -7012,6 +7053,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7123,6 +7165,7 @@
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -7157,6 +7200,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7613,5 +7657,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-07"
+ "generated": "2026-10-08"
 }
