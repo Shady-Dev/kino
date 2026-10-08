@@ -1,13 +1,12 @@
 [regina] schedule: 4 window(s), the last from 2026-12-28
-[regina] film pages: 113 parsed, 0 with nothing usable, 139/164 showtimes rated
-[http] 404 from kauppa.kavi.fi, gave up after 2 attempt(s) -- Server: nginx
-[regina] price page 6a9e9da38de265c5468b4567: HTTPError: HTTP Error 404: Not Found
-[regina] prices: 164 screenings, 155 priced, 28 pages read, 135 reused, 9 without an ordinary ticket, 1 failed, 0 deferred
-[regina] Kino Regina: 164 showtimes, 59 dates
+[regina] film pages: 112 parsed, 0 with nothing usable, 136/161 showtimes rated
+[regina] prices: 55 ticket pages due, reading 40, 15 wait for the next run
+[regina] prices: 161 screenings, 153 priced, 40 pages read, 106 reused, 8 without an ordinary ticket, 0 failed, 15 deferred
+[regina] Kino Regina: 161 showtimes, 58 dates
 [regina] synopses merged: 0
 [regina] screening-note sentences left out of synopses: 2
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 113 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 112 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 2 attempted -- kauppa.kavi.fi, kinoregina.fi
-[run] regina: 1 venues, 164 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] regina: 1 venues, 161 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
