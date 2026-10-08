@@ -1,9 +1,9 @@
 [kirkkonummi] 4 row(s) with a time in a shape this parser does not read, skipped: 10.10. La klo17.00 / 11.10. Su klo17.00, 12.10. Ma klo18.30 / 13.10. Ti klo18.30, 13.10. Ti klo19.00 / 15.10. To klo18.30, 14.10. Ke klo13.30 / 15.10. To klo18.00
-[kirkkonummi] 8 showtimes, 4 films, 5 dates
-[kirkkonummi] Kino Kirkkonummi: 8 showtimes, 5 dates
+[kirkkonummi] 7 showtimes, 3 films, 5 dates
+[kirkkonummi] Kino Kirkkonummi: 7 showtimes, 5 dates
 [kirkkonummi] synopses merged: 0
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 1 attempted -- kinokirkkonummi.fi
-[run] kirkkonummi: 1 venues, 8 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 2.3s of fetching added up across workers that overlap, longest site 2.3s, longest queue wait 126.4s, 2.3s wall from this module's first fetch starting to its last ending
+[run] kirkkonummi: 1 venues, 7 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 1.2s of fetching added up across workers that overlap, longest site 1.2s, longest queue wait 124.4s, 1.2s wall from this module's first fetch starting to its last ending
 exit=0

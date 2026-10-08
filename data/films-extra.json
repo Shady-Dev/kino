@@ -698,6 +698,19 @@
    },
    "tr": ""
   },
+  "clayface": {
+   "id": 1400940,
+   "img": "data/posters/ea1d6efb7cdae5e2.jpg",
+   "r": 0,
+   "s": {
+    "en": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=stmlbnq4Sdk",
+   "ts": [
+    "en"
+   ]
+  },
   "coming to terms with the dead": {
    "id": 64573,
    "img": "data/posters/06c2d508a000d8ca.jpg",
@@ -885,6 +898,19 @@
     "fi": "Näytöksen jälkeen elokuvakokemusta voi jäädä purkamaan Leffalukupiiriin, jonka vetäjänä toimii FT, dosentti Kaisa Hiltunen. Hiltunen työskentelee elokuvatutkijana Jyväskylän yliopiston Musiikin, taiteen ja kulttuurin tutkimuksen laitoksella. Hän on toiminut aiemmin myös sanomalehti Keskisuomalaisen elokuvakriitikkona. Don Quijote Barcelonassa on lämmin ja inhimillinen fiktiodraama kahdesta kodittomasta miehestä Barcelonan kaduilla. Entinen akateemikko Lluc ja Suomesta lähtöisin oleva Olli ajautuvat yhteiselle selviytymistaipaleelle, joka kasvaa vuosien mittaiseksi ystävyydeksi. Tarina kuvaa mielenterveyden haasteita, ihmisarvoa ja taiteen voimakasta merkitystä selviytymisen lähteenä – Dalín, suomalaisen iskelmän ja Cervantesin Don Quijoten heijastamana."
    },
    "tr": ""
+  },
+  "drishyam the conclusion": {
+   "id": 244049,
+   "img": "data/posters/00b2b16453a55bf2.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "Georgekutty lives a happy life with his wife and daughters. Things take a turn when his daughter gets indecently filmed using a hidden camera, by the son of a police inspector.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=eMASubc1y_k",
+   "ts": [
+    "en"
+   ]
   },
   "dumbo": {
    "id": 11360,
@@ -2618,13 +2644,10 @@
    "img": "data/posters/6c8d0779f3581c89.jpg",
    "r": 7.3,
    "s": {
-    "en": "As his tenure as President of Italy nears its end, Mariano De Santis faces wrenching decisions-both political and deeply personal. Amid these moral quandaries, he must confront his own conscience and seek guidance from those closest to him, including his confidante and daughter, Dorotea.",
+    "en": "Toni Servillo plays the widowed Italian President Mariano De Santis, who struggles with moral dilemmas and grieves whilst clinging to the memory of his wife. A judge specialising in criminal law, he would prefer not to convict anyone, even as his colleagues and political players at the pinnacle of power seek to pressure the President into doing their bidding. As the President’s term draws to its inevitable close, he seeks support from his daughter Dorotea (Anna Ferzetti). The President’s close friend Coco Valori (Milvia Marigliano) is a long-standing socialite who still finds the energy to criticise everyone and everything. LA GRAZIA, the opening film of the Venice Film Festival, marks the return to the top of Paolo Sorrentino, director of The Great Beauty. Sorrentino tackles big questions: what is the meaning of a life lived? Toni Servillo was awarded the prize for Best Actor in Venice.",
     "fi": "Leskeksi jäänyt Italian presidentti (Toni Servillo) kamppailee moraalisten päätösten kanssa ja murehtii vaimonsa muiston kainalossa. Rikoslakiin erikoistunut tuomari ei haluaisi tuomita ketään, vaikka kollegat ja poliittiset pelurit vallan huipulla pyrkivät painostamaan presidenttiä mielensä mukaan. Presidentin kauden lähestyessä vääjäämätöntä loppuaan hän hakee tukea tyttärestään Doroteasta (Anna Ferzetti). Presidentin sydänystävä Coco Valori (Milvia Marigliano) on ikiaikainen seurapiirikuningatar, joka edelleen jaksaa arvostella kaikkia ja kaikkea."
    },
-   "tr": "https://www.youtube.com/watch?v=zvQn44a_IHo",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=zvQn44a_IHo"
   },
   "lahden videokuvaajat 70v neljä lyhytelokuvaa": {
    "r": 0,
@@ -3114,13 +3137,6 @@
   "matka piemonteen": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3134,13 +3150,6 @@
   "matka piemonteen ennakkonäytös": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3154,13 +3163,6 @@
   "matka piemonteen kahvi ja kino": {
    "id": 1545391,
    "img": "data/posters/e753668f77270e2f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "bioforum",
-    "gilda",
-    "kinoaurora",
-    "laitilankino"
-   ],
    "r": 0,
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
@@ -3447,7 +3449,8 @@
     "kinokilta",
     "niagara",
     "orion",
-    "star"
+    "star",
+    "tapiola"
    ],
    "r": 8.0,
    "s": {
@@ -4067,6 +4070,16 @@
    },
    "tr": ""
   },
+  "pension patta": {
+   "id": 1711182,
+   "img": "data/posters/cd87724b30163f64.jpg",
+   "r": 0,
+   "s": {
+    "en": "Pension Patta is a heartfelt story of identity, family, redemption, and the transformative power of humanity, where a simple pension document becomes the beginning of an extraordinary journey of self-discovery. Writer and Director: Maotse Gurung",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=k_yjATHbTPY"
+  },
   "perfect blue": {
    "id": 10494,
    "img": "data/posters/e30bf84cac17f8b9.jpg",
@@ -4650,7 +4663,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
-    "kirkkonummi",
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
@@ -5327,7 +5339,7 @@
   "ryhmä hau dinoelokuva": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.1,
+   "r": 8.2,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -5358,6 +5370,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "cinemantsala",
     "isohannu",
     "kinohirvi",
@@ -5372,7 +5385,7 @@
     "star",
     "studio123jarvenpaa"
    ],
-   "r": 8.1,
+   "r": 8.2,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": ""
@@ -5398,7 +5411,7 @@
   "ryhmä hau dinoelokuva suomeksi": {
    "id": 1185806,
    "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.1,
+   "r": 8.2,
    "s": {
     "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
@@ -6262,6 +6275,7 @@
    "kr": "K-16",
    "krs": [
     "biorex",
+    "biosade",
     "cinemantsala",
     "gilda",
     "isohannu",
@@ -7359,6 +7373,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cine",
@@ -7369,6 +7384,7 @@
     "kino123",
     "kinoakseli",
     "kinohamina",
+    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokulma",
@@ -7414,6 +7430,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biosavoy",
     "biovuoksi",
     "cine",
@@ -7424,6 +7441,7 @@
     "kino123",
     "kinoakseli",
     "kinohamina",
+    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokulma",
