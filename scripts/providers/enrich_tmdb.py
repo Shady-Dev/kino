@@ -98,6 +98,9 @@ PAREN_NOISE = re.compile(
 TRAIL_NOISE = re.compile(
     r",?\s*\b(?:suomeksi|englanniksi|dubattu|or[i]?ginaali\s+äänillä)\b\s*$",
     re.I)
+# Kinopirtti's "Unohdettu saari DUP." (2026-10-09), its abbreviation of "dubattu", drew no
+# match while the plain title matched 1465063. The dot is required and the word is last.
+TRAIL_DUB = re.compile(r"\s+dup\.\s*$", re.I)
 
 # Two terminal version markers still reaching TMDB, measured 2026-09-20 in the committed
 # data. TMB publishes "Kojootti vs ACME Orginaali äänillä" with no brackets and with
@@ -206,6 +209,7 @@ def clean(title):
     t = TRAIL_VISIT.sub(" ", t)
     t = TRAIL_VISIT_NOTE.sub(" ", t)
     t = TRAIL_FORMAT.sub(" ", t)
+    t = TRAIL_DUB.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
     return re.sub(r"\s{2,}", " ", t).strip(" -–:,")
 

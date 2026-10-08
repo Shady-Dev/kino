@@ -246,6 +246,16 @@ class AudioMarkerTest(unittest.TestCase):
             with self.subTest(published=published):
                 self.assertEqual(enrich_tmdb.clean(published), "Unohdettu saari")
 
+    def test_kinopirttis_dub_abbreviation_comes_off(self):
+        """Kinopirtti published "Unohdettu saari DUP." on 2026-10-09; the plain title
+        matched. Only the last word, and only with its dot."""
+        for published in ("Unohdettu saari DUP.", "Unohdettu saari dup.", "Unohdettu saari DUP. "):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), "Unohdettu saari")
+        for title in ("Duplikaatti", "Unohdettu saari DUP", "DUP. osa 2", "X DUP. Y"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
     def test_the_two_runs_of_one_film_still_key_apart(self):
         """The dub and the subtitled run are two cards at the cinema and must stay two
         cache entries, even though they now search for the same string."""

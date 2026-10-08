@@ -2833,3 +2833,9 @@ keskustelua)" in the cloud data of 2026-10-06. It drew no match while the plain 
 which turned `PublishedCoverageTest` red on main. `TRAIL_VISIT_NOTE` removes a closing
 bracket that starts with that word. The same word mid-title or in an open bracket stays,
 and the published title is unchanged. 2 mutations red.
+
+### Kinopirtti's "DUP." comes off the TMDB search string (2026-10-09)
+Kinopirtti published "Unohdettu saari DUP.", its abbreviation of "dubattu". The row drew no
+match while the plain title matched 1465063, which turned `PublishedCoverageTest` red on
+main. `TRAIL_DUB` removes " DUP." from the end of the search string, dot required; the
+published title is unchanged. 3 mutations red.
