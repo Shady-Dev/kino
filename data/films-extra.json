@@ -820,7 +820,6 @@
     "cine",
     "cinemantsala",
     "gilda",
-    "isohannu",
     "joutsankino",
     "kinoaurora",
     "kinoelo",
@@ -830,7 +829,6 @@
     "kinokulma",
     "kinolumo",
     "kinomania",
-    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -1479,19 +1477,6 @@
    },
    "tr": ""
   },
-  "i swear": {
-   "id": 1317149,
-   "img": "data/posters/9481c7c73a87c143.jpg",
-   "r": 8.3,
-   "s": {
-    "en": "",
-    "fi": "15-vuotiaalla Johnilla todetaan Touretten syndrooma aikana, jolloin sairaudesta tiedetään vielä hyvin vähän. John kohtaa ennakkoluuloja ja epäilyjä. Yllättävien ja avuliaiden ihmisten avulla hän alkaa löytää keinoja selviytyä yhteiskunnassa, ja avaa samalla tietä erilaisuuden hyväksymiselle."
-   },
-   "tr": "https://www.youtube.com/watch?v=10ynpduiRpM",
-   "ts": [
-    "fi"
-   ]
-  },
   "idän soturit": {
    "id": 43636,
    "r": 0,
@@ -1778,16 +1763,12 @@
   },
   "keinolla millä hyvänsä": {
    "id": 1380417,
-   "img": "data/posters/45f8fc0404409cf0.jpg",
    "r": 0,
    "s": {
-    "en": "In 1960s Mississippi, a young Black FBI agent is forced to partner with a notorious mafia hitman to investigate a wave of brutal civil rights murders.",
+    "en": "",
     "fi": "Kostotrilleri Keinolla millä hyvänsä (By Any Means) on tositapahtumiin pohjautuva toimintajännäri, jossa Mark Wahlberg muuntautuu mafian palkkamurhaajaksi ja liittoutuu FBI-agentin (Yahya Abdul-Mateen II) kanssa tutkiakseen 1960-luvulla tapahtuneita kansalaisoikeusjohtajien murhia ja taistellakseen Ku Klux Klanin jäseniä vastaan. Epätavallinen kaksikko on toistensa vastakohtia, ja heidän tapansa hoitaa tutkimuksia on vähintäänkin kyseenalainen."
    },
-   "tr": "https://www.youtube.com/watch?v=fvnyrBnUx4E",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "keltaiset kirjeet": {
    "id": 1315657,
@@ -2212,6 +2193,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "kohtaaminen roomassa": {
+   "id": 42229,
+   "img": "data/posters/1eed5565365bce6b.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "Two neighbours — a persecuted journalist and a resigned housewife — forge a strong bond on the day of Adolf Hitler's historic 1938 visit to Rome.",
+    "fi": "Kohtaaminen RoomassaElokuvan Kohtaaminen Roomassa pääosissa ovat Italian suosituimmat näyttelijät, Sophia Loren ja Marcello Mastroianni. Loren on Antonietta, kuuden lapsen tunnollinen ja ikääntynyt äiti, joka yrittää toteuttaa äitiyttä ja lapsirunsautta ylistävän fasistihallituksen velvoitteita. Mastroianni on Gabriele, radioselostaja, jota ollaan lähettämässä eristysvangiksi Sardiniaan antifasististen taipumustensa ja homoseksuaalisuutensa vuoksi. Näissä rooleissa, jotka ovat tietoinen vastakohta Lorenin glamourtähden ja Mastroiannin latinalaisen rakastajan hahmoille, näyttelijät yltävät uransa parhaisiin suorituksiin. Scola keskittyy erääseen merkittävään iltapäivään, 6.5.1938, jolloin Adolf Hitler vierailee Mussolinin Roomassa. San Giovannin alueella sijaitsevan täyteenahdetun rivitalon asukkaiden lähdettyä seuraamaan tapausta monenlaisissa univormuissaan Antonietta ja Gabriele jäävät yksin rakennukseen. Sattumalta he joutuvat muutamaksi tunniksi toistensa seuraan. Scolan sulavat kameranliikkeet, jotka panoroivat taiturillisesti kerrostalossa, rinnastuvat fasistihallituksen riemuvoittoa pauhaavien kovaäänisten meluun. Ääniraita on niin merkittävä, että siitä tulee suorastaan elokuvan kolmas pääosanesittäjä."
+   },
+   "tr": "https://www.youtube.com/watch?v=i_9BAH_qO-4",
+   "ts": [
+    "en"
+   ]
   },
   "kohtalon avain": {
    "id": 303,
@@ -2832,19 +2826,6 @@
     "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu. Elokuvateattereissa 14.8."
    },
    "tr": ""
-  },
-  "laula minulle arja elokuvanäytös": {
-   "id": 1713056,
-   "img": "data/posters/614615622fcfd9d8.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
   },
   "lex julia": {
    "id": 1450457,
@@ -3512,7 +3493,6 @@
   },
   "niskavuoren naiset": {
    "id": 439270,
-   "img": "data/posters/b46e59d50b8066d3.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4643,7 +4623,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotour",
-    "kuvakukko",
     "leffabuumi",
     "marita",
     "niagara",
@@ -4827,6 +4806,7 @@
    "img": "data/posters/6bbde592472eb4e8.jpg",
    "kr": "S",
    "krs": [
+    "biosade",
     "regina"
    ],
    "r": 0,
@@ -7380,7 +7360,6 @@
     "kinojuha",
     "kinokulma",
     "kinolumo",
-    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -7434,7 +7413,6 @@
     "kinojuha",
     "kinokulma",
     "kinolumo",
-    "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -7564,16 +7542,12 @@
   },
   "wild style": {
    "id": 14243,
-   "img": "data/posters/5f7dce735195f15b.jpg",
-   "r": 6.1,
+   "r": 0,
    "s": {
-    "en": "Legendary New York graffiti artist Lee Quinones plays the part of Zoro, the city's hottest and most elusive graffiti writer. The actual story of the movie concerns the tension between Zoro's passion for his art and his personal life, particularly his strained relationship with fellow artist Rose.",
+    "en": "",
     "fi": "Ensimmäisenä hip hop -leffana pidetty puolidokumentaarinen Wild Style on riippumattoman elokuvan muotokieltä raa'alla DIY-estetiikallaan ja tekotavallaan muokannut värikäs musaleffojen kultakimpale! Alkukasarin ruohonjuuritason New York on taltioitu elokuvaan aikana, jolloin hip hop ei ollut vielä räjähtänyt koko maailman tietoisuuteen, vaan sykki vielä pitkälti piilossa Bronxin korttelibileissä. Hip hopin alkuvuosien originaattorit, kuten Busy Bee Starski , Fab Five Freddy , The Cold Crush Brothers ja Grandmaster Flash olivat mukana toteuttamassa tätä räpin keskeisissä levyissä sämplättyä dokkarin ja fiktion yhdistelmäklassikkoa, joka on pakollista valkokangasnähtävää kaikille hip hopin neljän elementin (graffiti, breakdance, DJ ja MC) alkuräjähdyksen ajoista kiinnostuneille leffa- ja musafaneille."
    },
-   "tr": "https://www.youtube.com/watch?v=iq96MJpFrsA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "william shakespearen romeo ja julia": {
    "r": 0,

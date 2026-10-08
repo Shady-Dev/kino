@@ -34,10 +34,10 @@
 [kkino] synopses merged: 0
 [biograni] Bio Grani: 11 showtimes, 5 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 53 showtimes, 19 dates
-[niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 218 full, 218 not stored (origin said no-store), 0 cache entries written
+[niagara] Cinema Niagara: 54 showtimes, 20 dates
+[niagara] synopses merged: 1
+[run] http: 0 revalidated (304), 219 full, 219 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 679 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 395.3s of fetching added up across workers that overlap, longest site 65.9s, longest queue wait 44.4s, 110.3s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 680 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 418.6s of fetching added up across workers that overlap, longest site 71.1s, longest queue wait 46.6s, 117.6s wall from this module's first fetch starting to its last ending
 exit=0
