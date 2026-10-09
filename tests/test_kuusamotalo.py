@@ -12,6 +12,7 @@ What they exist to prove:
   `common.resolve_year`, and a post left up past its run is refused rather than published
   ahead.
 - **The clock may have no minutes.** `klo 15` and `klo 13.30` both appear.
+- **A day may carry two clocks**, `klo 15 ja 19`, and each is a screening.
 - **A line with a date and no clock publishes nothing.** Inventing an hour is the fault.
 - **No poster is published.** The site's featured images are 160 px wide against the 342
   the client renders from, and nothing is upscaled.
@@ -89,6 +90,16 @@ class PostTest(unittest.TestCase):
         shows, _ = self.rows(post(times=("Su 20.9. klo 15", "Su 27.9. klo 13.30")))
         self.assertEqual([s["start"] for s in shows],
                          ["2026-09-20T15:00:00+03:00", "2026-09-27T13:30:00+03:00"])
+
+    def test_a_day_with_two_clocks_publishes_both(self):
+        """The shape read on 2026-10-10, `La 10.10. klo 15 ja 19`."""
+        shows, report = self.rows(post(times=(
+            "La 26.9. klo 15 ja 19", "Su 27.9. klo 16", "Ke 30.9. klo 15 ja 19.30")))
+        self.assertEqual([s["start"] for s in shows], [
+            "2026-09-26T15:00:00+03:00", "2026-09-26T19:00:00+03:00",
+            "2026-09-27T16:00:00+03:00",
+            "2026-09-30T15:00:00+03:00", "2026-09-30T19:30:00+03:00"])
+        self.assertEqual(report["no_clock"], 0)
 
     def test_the_year_comes_from_the_weekday(self):
         """20.9. is a Sunday in 2026 and a Saturday in 2025."""

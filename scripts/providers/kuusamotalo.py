@@ -20,6 +20,8 @@ What shapes the parser, measured 2026-09-20 over the whole post set, which is fi
   a post left up past its run cannot become a future screening.
 - **The clock may have no minutes.** `klo 15` and `klo 13.30` both appear, so the minutes
   are optional and default to the hour.
+- **A day may carry two clocks**, `La 10.10. klo 15 ja 19`, read 2026-10-10. Each one is
+  a screening, and the line publishes one row per distinct clock.
 - **A coming-soon post states a start date and no clock.** `Pirjo i Sverige` read that day
   carried `Pe 9.10. alkaen.` and no `Esitysajat:` line at all, so it counts with the posts
   that have none. A dateless line *inside* a marked post is counted separately and left
@@ -72,7 +74,8 @@ WINDOW = (30, 120)
 MARKER = "esitysajat"
 TAGS_RE = re.compile(r"<[^>]+>")
 SHOW_RE = re.compile(r'^([A-Za-zÅÄÖåäö]{2})\s+(\d{1,2})\.(\d{1,2})\.?\s*klo\s*'
-                     r'(\d{1,2})(?:[.:](\d{2}))?\s*$', re.I)
+                     r'(\d{1,2}(?:[.:]\d{2})?(?:\s+ja\s+\d{1,2}(?:[.:]\d{2})?)*)\s*$', re.I)
+CLOCK_RE = re.compile(r'(\d{1,2})(?:[.:](\d{2}))?')
 # A day and month with no clock: the coming-soon shape, counted and never published.
 DATELESS_RE = re.compile(r'^[A-Za-zÅÄÖåäö]{2}\s+\d{1,2}\.\d{1,2}\.', re.I)
 RATING_RE = re.compile(r'^-\s*(K\s*\d{1,2}|S)\s*-$', re.I)
@@ -165,30 +168,31 @@ def rows(site, payload, today=None):
             if year is None:
                 report["undated"] += 1
                 continue
-            start = datetime.datetime(year, month, day, int(m.group(4)),
-                                      int(m.group(5) or 0), tzinfo=FI)
-            show = {
-                "eventId": str(post.get("id", "")),
-                "title": title,
-                "original": "",
-                "len": length,
-                "rating": rating,
-                "genres": "",
-                "method": "",
-                "theatre": venue["name"],
-                "aud": venue["loc"],
-                "start": start.isoformat(),
-                "url": post.get("link") or site["base"],
-                "img": "",
-                "lang": "",
-                "soldOut": False,
-                "price": price,
-                "provider": site["provider"],
-                "venue": venue["id"],
-            }
-            if syn:
-                show["_syn"] = syn
-            out.append(show)
+            clocks = {(int(h), int(mm or 0)) for h, mm in CLOCK_RE.findall(m.group(4))}
+            for hour, minute in sorted(clocks):
+                start = datetime.datetime(year, month, day, hour, minute, tzinfo=FI)
+                show = {
+                    "eventId": str(post.get("id", "")),
+                    "title": title,
+                    "original": "",
+                    "len": length,
+                    "rating": rating,
+                    "genres": "",
+                    "method": "",
+                    "theatre": venue["name"],
+                    "aud": venue["loc"],
+                    "start": start.isoformat(),
+                    "url": post.get("link") or site["base"],
+                    "img": "",
+                    "lang": "",
+                    "soldOut": False,
+                    "price": price,
+                    "provider": site["provider"],
+                    "venue": venue["id"],
+                }
+                if syn:
+                    show["_syn"] = syn
+                out.append(show)
     out.sort(key=lambda s: (s["start"], s["title"]))
     return out, report
 

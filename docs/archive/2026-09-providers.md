@@ -2684,6 +2684,13 @@ left uncounted, the price pattern unanchored, a synopsis published with no langu
 settled, a non-list answer accepted, the window dropped, and a row published under an
 undeclared venue id against the show contract.
 
+**Two clocks on one day (2026-10-10).** The live audit of that day found 6 of the 14
+screenings of `Pirjo i Sverige` published. The other eight sat on four lines of the form
+`La 10.10. klo 15 ja 19`, which the single-clock pattern counted as days with no clock and
+left out, while the run stayed green. A line may now carry clocks joined by `ja`, and each
+distinct clock is a row. A live parse that day gave all 14, matching the cinema's film
+page. Three mutations red.
+
 
 ## Kino Akustiikka, Ylivieska (2026-09-21)
 
