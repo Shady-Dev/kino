@@ -337,9 +337,14 @@ Reading a site as an ordinary visitor is fine. Residential proxies, fingerprint 
 solving a captcha, and using credentials that were never issued to a visitor are not.
 Booking, payment and administrative endpoints are never called and are not inventoried.
 Publishing a ticket link the cinema's own public listing carries is not calling it: the
-adapter copies and resolves that exact href, never constructs one, and never requests it,
-not in a run and not once in a browser to check it. A link that could only be obtained by
-calling such an endpoint, or with a credential a visitor is not issued, is not published.
+adapter copies and resolves that exact href and never constructs one. As a rule it never
+requests it either, not in a run and not once in a browser to check it. One narrow
+exception, decided by the maintainer on 2026-10-09: Riviera and Bio-Kaari make cached,
+paced, read-only GETs of each screening's public detail page on their MyCloudCinema ticket
+host (`websales/show/{id}`), through `prices.py`, for the price and the language it states.
+Nothing past that page is requested: checkout, seat reservation, payment and administrative
+actions stay off limits for every provider. A link that could only be obtained by calling
+such an endpoint, or with a credential a visitor is not issued, is not published.
 If a cinema would rather not be included, removing it is one registry entry.
 
 ## Testing

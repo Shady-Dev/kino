@@ -3691,3 +3691,11 @@ category name as an argument, and the `Kieli` and `Tekstitys` lines through
 at 13 €, four Finnish films `FI-A` at 12 or 14 €. The page's "No Subtitles" line is not
 read, because Riviera's page for Dyyni: Osa kolme prints it with no language line at all.
 Cloud half. 5 mutations red.
+
+### CLAUDE.md names the ticket-page exception (2026-10-09)
+The maintainer's decision. CLAUDE.md said a published ticket link is never requested,
+which stopped being true for Riviera on 2026-09-13 and for Bio-Kaari on 2026-10-09. Its
+Access and ethics section now names the exception: cached, paced, read-only GETs of each
+screening's public detail page on the two MyCloudCinema ticket hosts, for price and
+language. Checkout, reservation, payment and administrative actions stay off limits for
+every provider.
