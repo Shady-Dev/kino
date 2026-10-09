@@ -73,6 +73,51 @@ class ThePagesHalfTest(unittest.TestCase):
         self.assertIn('<html lang="fi">', PRIVACY)
         self.assertNotIn("documentElement.lang", PRIVACY)
 
+    def test_each_translated_section_declares_its_language(self):
+        """Assistive technology picks pronunciation from the nearest `lang`, and with only
+        the root's `fi` the Swedish and English sections were marked Finnish (live audit,
+        2026-10-10). Every piece of text from a section's heading to the next one sits under
+        that section's language. In the Finnish section the two link labels naming the
+        other languages carry their own."""
+        from html.parser import HTMLParser
+
+        class Langs(HTMLParser):
+            VOID = {"br", "img", "meta", "link", "input", "hr", "wbr", "source"}
+
+            def __init__(self):
+                super().__init__()
+                self.stack, self.section, self.text = [], None, []
+
+            def handle_starttag(self, tag, attrs):
+                a = dict(attrs)
+                if tag in ("h1", "h2") and a.get("id") in LANGS:
+                    self.section = a["id"]
+                if tag == "footer":
+                    self.section = None
+                if tag not in self.VOID:
+                    self.stack.append((tag, a.get("lang")))
+
+            def handle_endtag(self, tag):
+                for i in range(len(self.stack) - 1, -1, -1):
+                    if self.stack[i][0] == tag:
+                        del self.stack[i:]
+                        break
+
+            def handle_data(self, data):
+                if self.section and data.strip():
+                    lang = next((l for _, l in reversed(self.stack) if l), None)
+                    self.text.append((self.section, data.strip(), lang))
+
+        p = Langs()
+        p.feed(PRIVACY)
+        named = {"P\u00e5 svenska": "sv", "In English": "en"}
+        for section in LANGS:
+            pieces = [x for x in p.text if x[0] == section]
+            self.assertGreater(len(pieces), 10, section)
+            for _, text, lang in pieces:
+                with self.subTest(section=section, text=text[:40]):
+                    self.assertEqual(lang, named.get(text, section))
+
     def test_the_back_label_exists_in_all_three_languages(self):
         m = re.search(r"var BACK = \{(.*?)\};", PRIVACY, re.S)
         self.assertIsNotNone(m)
