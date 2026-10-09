@@ -1,18 +1,18 @@
-[kinokilta] 61 screening(s) listed, 42 film page(s) read
+[kinokilta] 67 screening(s) listed, 48 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinokilta] unresolved: RetkiKino 2026
-[kinokilta] 2 synopsis/synopses withheld, no language settled: Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
-[kinokilta] 1 film(s) with a language name not read, that part left blank: Pieni kauhukauppa (Ei teksitystä)
-[kinokilta] Kino Kilta: 59 showtimes, 30 dates
+[kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
+[kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä)
+[kinokilta] Kino Kilta: 65 showtimes, 36 dates
 [kinokilta] strand prefix split off 12 showtimes
-[kinokilta] Kino Kilta: 59 showtimes, 30 dates
-[kinokilta] synopses merged: 0
-[kinolaika] 51 screening(s) listed, 41 film page(s) read
+[kinokilta] Kino Kilta: 65 showtimes, 36 dates
+[kinokilta] synopses merged: 3
+[kinolaika] 50 screening(s) listed, 41 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 22
 [kinolaika] unresolved: AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Kino Iglu: 8 1/2, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1)
 [kinolaika] override a-fox-under-a-pink-moon: evidence-unavailable
-[kinolaika] Kino Laika: 29 showtimes, 10 dates
-[kinolaika] Kino Laika: 29 showtimes, 10 dates
+[kinolaika] Kino Laika: 28 showtimes, 10 dates
+[kinolaika] Kino Laika: 28 showtimes, 10 dates
 [kinolaika] synopses merged: 0
 [kinomyyri] 33 screening(s) listed, 21 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 5 unresolved over 7
@@ -22,8 +22,8 @@
 [kinomyyri] Kino Myyri: 26 showtimes, 11 dates
 [kinomyyri] Kino Myyri: 26 showtimes, 11 dates
 [kinomyyri] synopses merged: 0
-[run] http: 0 revalidated (304), 107 full, 22 not stored (origin said no-store), 43 cache entries written
+[run] http: 0 revalidated (304), 113 full, 22 not stored (origin said no-store), 49 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 114 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 214.4s of fetching added up across workers that overlap, longest site 88.6s, longest queue wait 109.9s, 90.6s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 119 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 223.4s of fetching added up across workers that overlap, longest site 94.3s, longest queue wait 109.4s, 94.3s wall from this module's first fetch starting to its last ending
 exit=0
