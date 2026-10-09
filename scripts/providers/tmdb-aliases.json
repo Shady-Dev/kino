@@ -1,5 +1,5 @@
 {
- "_comment": "TMDB cannot be searched by Finnish distributor title: it matches original, English and registered alternative titles only, and language=fi-FI does not widen the match (probed 2026-08-27). Key is enrich_tmdb.norm() of the title as the cinema publishes it. Value is either a TMDB movie id as a string, which skips the search entirely, or a replacement search string. run-enrich.log lists every title that found no id, which is what belongs here.",
+ "_comment": "TMDB cannot be searched by Finnish distributor title: it matches original, English and registered alternative titles only, and language=fi-FI does not widen the match (probed 2026-08-27). Key is enrich_tmdb.norm() of the title as the cinema publishes it. Value is either a TMDB movie id as a string, which skips the search entirely, or a replacement search string. run-enrich.log lists every title that found no id, which is what belongs here. A value of \"-\" means TMDB holds no record of the film: the title is never searched and nothing is published for it.",
  "maailman rikkain nainen": "1309725",
  "autot re release": "Cars",
  "autot uudelleenjulkaisu": "Cars",
@@ -157,5 +157,8 @@
  "luvattu maa": "511",
  "luvattu maa ziemia obiecana the promised land": "511",
  "_comment48": "Bio Säde, Mänttä, 2026-10-09. \"Päivien lumo (Taidekaupungin elokuvajuhlat)\" names the town's film festival in brackets. The row lists 87 minutes, and 1563565 is Karin Pennanen's Päivien lumo (2025), 87 minutes, the id every other cinema's Päivien lumo carries. The festival only runs once a year, so an alias is enough.",
- "päivien lumo taidekaupungin elokuvajuhlat": "1563565"
+ "päivien lumo taidekaupungin elokuvajuhlat": "1563565",
+ "_comment49": "Bio Säde, Mänttä, 2026-10-09: the town's film festival. The cinema gives only a runtime and an age limit. Last Prometheus of Donbas runs 104 minutes there, and 1562438 is Anton Shtuka's The Last Prometheus of Donbas (2026), 104 minutes; the search kept it weak because the cinema leaves out \"The\". The Painter runs 95 minutes and is rated S there. TMDB's only feature of that name is Kimani Ray Smith's 2024 action thriller (1211957, 100 minutes), and the other five records are shorts, so it is marked as having no record.",
+ "last prometheus of donbas taidekaupungin elokuvajuhlat": "1562438",
+ "the painter taidekaupungin elokuvajuhlat": "-"
 }
