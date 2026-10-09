@@ -3744,3 +3744,16 @@ page in films, dates and times (Bio Marilyn 23, Vihdin Kino 27, Bio Forum 31, Ki
 40, Kino Hannikainen 24, Kino Virta 14), all 71 film links answered with their film's
 page, and Bio Forum's four language sentences read as before. Evidence:
 [ticketing-platforms.md](../research/ticketing-platforms.md). 31 mutations red.
+
+### Johku publishes the schedule's film link unchanged (2026-10-10)
+The record above put every film link on the site's own host. The schedule's `storefronturl`
+is already a complete URL, and a link the source supplies is copied exactly. A live read on
+2026-10-10 found five of the six tenants naming their own site's host, so their links stay
+the same. Bio Marilyn's 45 entries name biomarilyn.johku.com, and its film pages there gave
+the same film facts as on www.biomarilyn.com.
+
+`_film_url` now returns the link as given. It has to be an https URL with a film path under
+`/fi_FI/`, no query and no fragment, on the site's host or one the site declares in `reads`.
+Anything else fails the site and the previous files stand. Bio Marilyn declares
+biomarilyn.johku.com in `reads`, since its film pages are now read from there. A test checks
+Bio Marilyn's exact URL. Six mutations red.

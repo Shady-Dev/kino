@@ -45,9 +45,11 @@ What shapes the parser:
   ohjelmistossa" and "tulossa", and the show id publishes each screening once.
 - **`resource_name` is declared per venue.** An entry naming a hall the site does not list
   fails rather than landing under the wrong venue.
-- **A showtime links to the film page at the platform's own path** (`storefronturl`), on
-  the host the site is read from. Bio Marilyn's points at biomarilyn.johku.com and the
-  same path answers on www.biomarilyn.com.
+- **A showtime links to the film page the schedule names** (`storefronturl`), copied
+  exactly. Bio Marilyn's links are on biomarilyn.johku.com, which its site entry declares in
+  `reads` because the film pages are read from the same links. A link that is not a full
+  https URL with a film path, on a host the site reads, fails the site and the previous
+  files stand.
 - **No price is published.** The entry carries a pricing name and an amount beside
   `multipleprices`, so which ticket the amount is for is not settled, and the tariff
   pages state bands ("Normaali elokuva 13-15 €"). `price` stays empty.
@@ -82,7 +84,7 @@ import re
 import sys
 import time
 import urllib.request
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from common import EmptyProgramme, capped, check_shows, fetch, make_opener, syn_language
@@ -94,6 +96,8 @@ UA = "Leffavuoro/1.0 (+https://leffavuoro.fi)"
 SITES = [
     {"provider": "biomarilyn", "label": "Bio Marilyn",
      "base": "https://www.biomarilyn.com", "listing": "/",
+     # The schedule's film links, and so the film pages read, are on the platform's host.
+     "reads": ("biomarilyn.johku.com",),
      "venues": [{"id": "biomarilyn-lapua", "name": "Bio Marilyn", "short": "Bio Marilyn",
                  "city": "Lapua", "loc": "Bio Marilyn"}]},
     {"provider": "vihdinkino", "label": "Vihdin Kino",
@@ -391,13 +395,20 @@ def _local(value):
 
 
 def _film_url(site, n, title, link):
-    """The platform's path for the product, on the host the site is read from."""
-    path = urlsplit(link).path if isinstance(link, str) else ""
-    if not path.startswith(f"/{LOCALE}/"):
+    """The film page the schedule names, exactly as given. -> str.
+
+    It has to be a full https URL with a film path, on the site's own host or one it
+    declares in `reads`. Anything else fails the site, so the previous files stand.
+    """
+    parts = urlsplit(link) if isinstance(link, str) else None
+    hosts = {urlsplit(site["base"]).hostname, *site.get("reads", ())}
+    if not (parts and parts.scheme == "https" and parts.hostname in hosts
+            and parts.path.startswith(f"/{LOCALE}/") and parts.path != f"/{LOCALE}/"
+            and not parts.query and not parts.fragment):
         raise ListingRowError(
-            f"{site['provider']}: schedule entry {n} for {title!r} carries no film page "
-            f"path ({link!r})")
-    return urljoin(site["base"], path)
+            f"{site['provider']}: schedule entry {n} for {title!r} carries no usable film "
+            f"page link ({link!r})")
+    return link
 
 
 def rows(site, blocks, now):

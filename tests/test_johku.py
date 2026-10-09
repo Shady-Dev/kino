@@ -320,16 +320,25 @@ class RowsTest(unittest.TestCase):
         self.assertEqual([r["title"] for r in listed], ["Kerro Kaikille", "A", "B"])
         self.assertEqual(report["repeated"], 1)
 
-    def test_the_row_carries_rating_runtime_and_the_film_page_on_the_sites_host(self):
+    def test_the_row_carries_rating_runtime_and_the_film_link_as_given(self):
         listed, _ = self.rows(entry("1", "A", "2026-10-09 17:30", minutes=112),
                               entry("2", "B", "2026-10-10 17:30", rating="7", product="2",
                                     path="/fi_FI/b-elokuva"))
         self.assertEqual([(r["rating"], r["len"]) for r in listed],
                          [("K-12", "112"), ("K-7", "87")])
         self.assertEqual([r["url"] for r in listed],
-                         ["https://www.biomarilyn.com/fi_FI/a",
-                          "https://www.biomarilyn.com/fi_FI/b-elokuva"])
+                         ["https://biomarilyn.johku.com/fi_FI/a",
+                          "https://biomarilyn.johku.com/fi_FI/b-elokuva"])
         self.assertEqual({r["venue"] for r in listed}, {"biomarilyn-lapua"})
+
+    def test_bio_marilyns_link_is_the_platforms_url_unchanged(self):
+        """Bio Marilyn's schedule links every film to biomarilyn.johku.com (45 of 45
+        entries, read 2026-10-10). The showtime carries that URL exactly, and the host is
+        declared because the film page is read from it."""
+        listed, _ = self.rows(entry("1", "Digger", "2026-10-09 17:30",
+                                    host="https://biomarilyn.johku.com"))
+        self.assertEqual(listed[0]["url"], "https://biomarilyn.johku.com/fi_FI/digger")
+        self.assertIn("biomarilyn.johku.com", MARILYN["reads"])
 
     def test_a_rating_the_page_does_not_badge_is_left_empty(self):
         values = ["S", "K-S", "3", "K16", "18", "-", "unknown", None, 12]
@@ -343,8 +352,15 @@ class RowsTest(unittest.TestCase):
         a["end_date"], b["end_date"] = "2026-10-09 17:30", None
         self.assertEqual([r["len"] for r in self.rows(a, b)[0]], ["", ""])
 
-    def test_an_entry_with_no_film_page_path_fails_the_site(self):
-        for link in (None, "", "https://biomarilyn.johku.com/", "/sv_SE/a"):
+    def test_an_entry_with_no_usable_film_link_fails_the_site(self):
+        """The link is published as given, so one that is not a full https URL with a film
+        path on a host the site reads fails the site and the previous files stand."""
+        for link in (None, "", "https://biomarilyn.johku.com/", "/sv_SE/a", "/fi_FI/a",
+                     "https://biomarilyn.johku.com/fi_FI/",
+                     "http://biomarilyn.johku.com/fi_FI/a",
+                     "https://evil.example/fi_FI/a",
+                     "https://kinovirta.johku.com/fi_FI/a",
+                     "https://biomarilyn.johku.com/fi_FI/a?ref=x"):
             with self.subTest(link=link):
                 b = entry("2", "B", "2026-10-10 17:30")
                 b["storefronturl"] = link
@@ -688,9 +704,10 @@ class RunnerTest(unittest.TestCase):
     def test_a_schedule_of_nothing_but_hall_hire_fails_that_site(self):
         self.serve(self.all_sites(**{"https://bioforum.fi/": front((1, [
             entry("1", "Salivaraus", "2026-10-09 17:30", loc="Bio Forum", product="94",
-                  path="/fi_FI/products/94-sali"),
+                  path="/fi_FI/products/94-sali", host="https://bioforum.fi"),
             entry("2", "Salivaraus 2", "2026-10-10 19:15", loc="Bio Forum", product="95",
-                  path="/fi_FI/products/95-sali")]), shop="bioforum")}))
+                  path="/fi_FI/products/95-sali", host="https://bioforum.fi")]),
+            shop="bioforum")}))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("template failure", log)
@@ -741,7 +758,7 @@ class KinoHannikainenTest(unittest.TestCase):
     SITE = next(s for s in J.SITES if s["provider"] == "kinohannikainen")
 
     def test_the_hall_the_rows_carry_is_the_declared_venue(self):
-        host = "https://kinohannikainen.johku.com"
+        host = "https://www.kinohannikainen.net"
         blocks = blocks_of(front((6, [
             entry("1", "Rakkautta ja virtahepoja", "2026-10-09 17:00", minutes=101,
                   loc="Hannikaisen sali", product="1", host=host),

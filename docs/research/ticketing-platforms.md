@@ -970,6 +970,9 @@ agent, kinokulma.fi in the built-in browser, and the storefront's JavaScript bun
   Salivaraus). The page's own link puts the block's category in front,
   `/fi_FI/ohjelmisto/digger`. Both answer 200 with the same film page. Bio Marilyn's
   `storefronturl` host is biomarilyn.johku.com, and the path answers on www.biomarilyn.com.
+- Read again 2026-10-10: Bio Marilyn's 45 entries all name biomarilyn.johku.com, and the
+  other five tenants' entries name their own site's host. Bio Marilyn's film pages on
+  both hosts parse to the same film facts.
 - An entry also carries `price` and `pricing_name` ("Elokuva 13 €") with `multipleprices`,
   plus director, original title and MACCS language fields. None of these is read.
 - Bio Marilyn lists four Kerro Kaikille screenings in both of its blocks, and the
@@ -983,7 +986,8 @@ agent, kinokulma.fi in the built-in browser, and the storefront's JavaScript bun
 
 **Status and next step**
 
-`johku.py` reads the payload from 2026-10-09; the decision is in
+`johku.py` reads the payload from 2026-10-09 and publishes `storefronturl` unchanged from
+2026-10-10; the decisions are in
 [docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). A live parse that
 day matched each cinema's rendered page. No next step for the six. Kuva-Tähti's
 `/fi_FI/naytosajat` was not read for a `showtimes` block.
