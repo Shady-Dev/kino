@@ -856,6 +856,7 @@
     "cine",
     "cinemantsala",
     "gilda",
+    "jarvelankino",
     "joutsankino",
     "kinoaurora",
     "kinoelo",
@@ -1838,10 +1839,7 @@
     "en": "",
     "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan."
    },
-   "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk"
   },
   "ken russell s the devils": {
    "id": 31767,
@@ -1932,7 +1930,8 @@
     "studio123jarvenpaa",
     "studio123kouvola",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -2875,7 +2874,8 @@
     "kinosampo",
     "kinotoijala",
     "savonkinot",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4435,7 +4435,8 @@
     "laitilankino",
     "lieksankino",
     "marita",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4481,7 +4482,8 @@
     "laitilankino",
     "lieksankino",
     "marita",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4524,7 +4526,8 @@
     "laitilankino",
     "lieksankino",
     "marita",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4590,7 +4593,8 @@
     "laitilankino",
     "lieksankino",
     "marita",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -4970,7 +4974,6 @@
     "kinoaurora",
     "kinohirvi",
     "kinoiiris",
-    "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinometso",
@@ -4985,7 +4988,8 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 0,
    "s": {
@@ -5218,7 +5222,8 @@
     "marita",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vihdinkino"
    ],
    "r": 7.3,
    "s": {
@@ -5261,7 +5266,8 @@
     "marita",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vihdinkino"
    ],
    "r": 7.3,
    "s": {
@@ -5456,7 +5462,8 @@
     "kotkanleffat",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vihdinkino"
    ],
    "r": 8.2,
    "s": {
@@ -5865,15 +5872,12 @@
   "spider man brand new day": {
    "id": 969681,
    "img": "data/posters/45f3e2165fbd29bb.jpg",
-   "r": 7.9,
+   "r": 8.3,
    "s": {
-    "en": "Fighting crime full-time as Spider-Man in a world that doesn't remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.",
+    "en": "",
     "fi": "Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut."
    },
-   "tr": "https://www.youtube.com/watch?v=P3uI5sLosKU",
-   "ts": [
-    "en"
-   ]
+   "tr": "https://www.youtube.com/watch?v=P3uI5sLosKU"
   },
   "spider man brand new day 2d": {
    "id": 969681,
@@ -6381,7 +6385,8 @@
     "kinopiispanristi",
     "savonkinot",
     "star",
-    "studio123jarvenpaa"
+    "studio123jarvenpaa",
+    "vihdinkino"
    ],
    "r": 8.0,
    "s": {
@@ -6626,6 +6631,7 @@
     "isohannu",
     "kino123",
     "kinoaurora",
+    "kinokulma",
     "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
@@ -6808,7 +6814,6 @@
     "isohannu",
     "kinoaurora",
     "kinoiiris",
-    "kinokulma",
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
@@ -6820,7 +6825,8 @@
     "savonkinot",
     "star",
     "studio123kouvola",
-    "tapiola"
+    "tapiola",
+    "vihdinkino"
    ],
    "r": 7.5,
    "s": {
@@ -7094,7 +7100,8 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 8.2,
    "s": {
@@ -7204,7 +7211,8 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 8.2,
    "s": {
@@ -7352,7 +7360,8 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
-    "vaakuna"
+    "vaakuna",
+    "vihdinkino"
    ],
    "r": 8.2,
    "s": {
@@ -7422,16 +7431,12 @@
   },
   "vanhustenviikon näytös calle málaga muistojeni katu": {
    "id": 1399462,
-   "img": "data/posters/9019d907c9f510df.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
+    "en": "",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura. Luova Eurooppa -ohjelman - MEDIA -tuella."
    },
-   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "varjoja paratiisissa 40 vuotta juhlanäytös": {
    "id": 3,
@@ -7511,7 +7516,6 @@
     "kinohamina",
     "kinohirvi",
     "kinojuha",
-    "kinokulma",
     "kinolumo",
     "kinomyyri",
     "kinoolympia",
@@ -7563,7 +7567,6 @@
     "kinohamina",
     "kinohirvi",
     "kinojuha",
-    "kinokulma",
     "kinolumo",
     "kinomyyri",
     "kinoolympia",
