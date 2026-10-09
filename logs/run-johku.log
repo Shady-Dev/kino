@@ -1,41 +1,35 @@
 [biomarilyn] 21 screening(s) in 2 schedule block(s), 14 film page(s) read
 [biomarilyn] 20 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
 [biomarilyn] 4 screening(s) listed in a second block, published once
-[biomarilyn] left out as the page does: 2 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
 [biomarilyn] Bio Marilyn: 21 showtimes, 9 dates
 [biomarilyn] Bio Marilyn: 21 showtimes, 9 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 26 screening(s) in 1 schedule block(s), 16 film page(s) read
-[vihdinkino] left out as the page does: 1 already started, 0 not in the catalogue
 [vihdinkino] 2 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€, The Odyssey
 [vihdinkino] Vihdin Kino: 26 showtimes, 7 dates
 [vihdinkino] Vihdin Kino: 26 showtimes, 7 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 29 screening(s) in 1 schedule block(s), 14 film page(s) read
-[bioforum] left out as the page does: 3 already started, 0 not in the catalogue
 [bioforum] Bio Forum: 29 showtimes, 12 dates
 [bioforum] Bio Forum: 29 showtimes, 12 dates
 [bioforum] synopses merged: 0
 [kinokulma] 40 screening(s) in 1 schedule block(s), 12 film page(s) read
-[kinokulma] left out as the page does: 2 already started, 0 not in the catalogue
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kinokulma] Kinokulma: 38 showtimes, 24 dates
 [kinokulma] Kinokulma: 38 showtimes, 24 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 22 screening(s) in 1 schedule block(s), 8 film page(s) read
-[kinohannikainen] left out as the page does: 2 already started, 0 not in the catalogue
 [kinohannikainen] Kino Hannikainen: 22 showtimes, 10 dates
 [kinohannikainen] Kino Hannikainen: 22 showtimes, 10 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 12 screening(s) in 1 schedule block(s), 7 film page(s) read
-[kinovirta] left out as the page does: 2 already started, 0 not in the catalogue
-[kinovirta] Kino Virta: 12 showtimes, 4 dates
-[kinovirta] Kino Virta: 12 showtimes, 4 dates
+[kinovirta] 11 screening(s) in 1 schedule block(s), 6 film page(s) read
+[kinovirta] Kino Virta: 11 showtimes, 3 dates
+[kinovirta] Kino Virta: 11 showtimes, 3 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 77 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 6 attempted -- bioforum.fi, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 148 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 191.2s of fetching added up across workers that overlap, longest site 49.1s, longest queue wait 192.3s, 64.0s wall from this module's first fetch starting to its last ending
+[run] http: 0 revalidated (304), 76 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
+[run] johku: 6 venues, 147 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 198.1s of fetching added up across workers that overlap, longest site 46.3s, longest queue wait 163.9s, 62.1s wall from this module's first fetch starting to its last ending
 exit=0

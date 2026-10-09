@@ -919,16 +919,12 @@
   },
   "divine intervention": {
    "id": 27744,
-   "img": "data/posters/541b5a809eb04600.jpg",
-   "r": 6.6,
+   "r": 0,
    "s": {
-    "en": "Santa Claus tries to outrun a gang of knife-wielding youth. It's one of several vignettes of Palestinian life in Israel - in a neighborhood in Nazareth and at Al-Ram checkpoint in East Jerusalem. Most of the stories are droll, some absurd, one is mythic and fanciful; few words are spoken. A man who goes through his mail methodically each morning has a heart attack. His son visits him in the hospital. The son regularly meets a woman at Al-Ram; they sit in a car, hands caressing. Once, she defies Israeli guards at the checkpoint; later, ninja-like, she takes on soldiers at a target range. A red balloon floats free overhead. Neighbors toss garbage over walls. Life goes on until it doesn't.",
+    "en": "",
     "fi": "Suleimanin tunnetuin teos on absurdi komedia palestiinalaisten ongelmista miehitysalueella. Rakastavaiset voivat tavata vain hetkittäin israelilaisten tiesululla, koska nainen asuu Ramallahissa ja mies Jerusalemissa. Buster Keatonin oloinen Suleiman tulkitsee itse hykerryttävän pääosan tässä mestariteoksessa, joka näyttää runouden raunioiden keskellä."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "dome karukosken rakkautta ja virtahepoja": {
    "id": 1450473,
@@ -1592,16 +1588,12 @@
   },
   "intermezzo": {
    "id": 125891,
-   "img": "data/posters/6c11216877a2f03b.jpg",
-   "r": 5.9,
+   "r": 0,
    "s": {
-    "en": "An intense love affair develops between a married concert violinist (Gösta Ekman) and his daughter's music teacher (Ingrid Bergman).",
+    "en": "",
     "fi": "Ingrid Bergmanin hienovaraisille katseille ja tukahdutetuille tunteille rakennettu läpimurtoelokuva kertoo pianistista ja hänen kohtalokkaasta rakkaudestaan nuoreen viulistiin. Helsinkiläissyntyinen Gustaf Molander tunnisti varhain Bergmanin poikkeuksellisen kyvyn yhdistää voima ja haavoittuvuus, jotka tekivät hänestä kansainvälisen ikonin."
    },
-   "tr": "",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "intohimon vallassa": {
    "id": 55184,
@@ -3017,7 +3009,10 @@
    "kr": "S",
    "krs": [
     "bioforum",
-    "biomarilyn"
+    "biomarilyn",
+    "isohannu",
+    "kinokulma",
+    "kinopiispanristi"
    ],
    "r": 0,
    "s": {
@@ -3344,13 +3339,12 @@
   },
   "miljardin dollarin aivot": {
    "id": 4889,
-   "img": "data/posters/31e93ac7e17548dc.jpg",
-   "r": 5.6,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Ken Russellin ensimmäinen iso ohjaus oli tilaustyö Bond-tuottaja Harry Saltzmanille. Harry Palmer -agenttiromaaniin pohjaava satiirinen kylmän sodan jännäri kuvattiin pääosin Suomessa. Michael Caine seikkailee pitkin talvista Helsinkiä ja nojailee tauluihin Tarvaspäässä. Porvoo esittää Riikaa, ja Turun linnassa on salainen datakeskus. Elokuva jäi auto-onnettomuudessa kuolleen Françoise Dorléacin viimeiseksi. Kino Reginassa tarjoutuu mahdollisuus nähdä Töölönlahdella ja päärautatieasemalla filmattu mainio teos keskellä kuvausympäristöään."
    },
-   "tr": "https://www.youtube.com/watch?v=DQ8dBx-ywlI"
+   "tr": ""
   },
   "minikino pat mat": {
    "r": 0,
@@ -4256,6 +4250,7 @@
    "krs": [
     "bioforum",
     "biomarilyn",
+    "isohannu",
     "kinokulma",
     "kinopiispanristi"
    ],
@@ -4279,6 +4274,7 @@
    "krs": [
     "bioforum",
     "biomarilyn",
+    "isohannu",
     "kinokulma",
     "kinopiispanristi"
    ],
@@ -4448,6 +4444,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4495,6 +4492,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4539,6 +4537,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4606,6 +4605,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4994,6 +4994,7 @@
     "kinopirtti",
     "kotkanleffat",
     "kuvakukko",
+    "navettakino",
     "niagara",
     "regina",
     "savonkinot",
@@ -5226,7 +5227,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
-    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "laitilankino",
@@ -5270,7 +5270,6 @@
     "kinopirtti",
     "kinosampo",
     "kinotoijala",
-    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "laitilankino",
@@ -5941,6 +5940,7 @@
    "img": "data/posters/2c34dcbef60ffbda.jpg",
    "kr": "K-12",
    "krs": [
+    "isohannu",
     "kinopiispanristi"
    ],
    "r": 0,
@@ -6158,6 +6158,14 @@
    "s": {
     "en": "",
     "fi": "Vastuullisuusjohtamisen asiantuntija Tiina Taipale ja tutkiva toimittaja Paavo Teittinen keskustelevat työn kestävämmästä tulevaisuudesta. Ketä työ palvelee? Ketkä mahdollistavat elintasomme? Millaista on kestävä työ? Keskustelua moderoi kirjastonhoitaja Heini Strand. Keskustelun jälkeen nähdään visuaalisesti vaikuttava dokumentti Machines (2016), joka kuvaa tekstiilitehtaan työoloja Intiassa. Keskustelu klo 18–19, elokuvanäytös Machines klo 19–20.15 • O: Rahul Jain • K7 • suom.tekstit/svensk text"
+   },
+   "tr": ""
+  },
+  "teijo lindström milana misic syysillan syleilyssä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Syysillan syleilyssä -konsertti vie kuulijansa kahden upean artistin, Milana Misicin ja Teijo Lindströmin, kutsumana nostalgiselle matkalle. Illan aikana kuullaan kaikkien tuntemia kotimaisia klassikkohittejä. Artistien musiikillisesta arkusta on kaivettu myös yllättäviä helmiä. Luvassa on lämminhenkinen ja muistorikas ilta viihdemusiikin parhaiden sävelten seurassa. Teijo Lindström – Tangokuningas, jonka upea ja vahva ääni sekä koskettava tulkinta ovat sulattaneet kuulijoiden sydämet ympäri Suomen. Milana Misic – Rakastettu laulaja ja Laila Kinnusen tytär, joka kantaa äitinsä musiikillista perintöä omalla herkillä ja karismaattisella tyylillään."
    },
    "tr": ""
   },
@@ -7529,11 +7537,9 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinovirta",
     "kotkanleffat",
@@ -7580,11 +7586,9 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
-    "kinoset",
     "kinotar",
     "kinovirta",
     "kotkanleffat",
