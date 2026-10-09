@@ -83,6 +83,11 @@ def _unmirrored(img):
 LANGS = ("fi", "sv", "en")
 DAYS = 4          # today plus three: enough to answer "what is on", small enough to commit
 CITY_DAYS = 2     # a ten-venue city at seven days was a 1.2 MB page
+# An empty page says nothing is published only while the run behind it is recent. The app
+# judges that on the reader's clock against `STALE_H`; a page is built for a day, so this
+# counts days, which keeps `--date recorded` reproducible: a provider file written before
+# the day ahead of the build day is too old to vouch for an empty page.
+PAGE_STALE_DAYS = 1
 LD_DAYS = 2       # markup for today and tomorrow only, see ld_json()
 
 
@@ -151,6 +156,7 @@ L = {
         "cta": "Avaa koko ohjelmisto",
         "days": ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
         "no_shows": "L\u00e4hip\u00e4iville ei ole julkaistu n\u00e4yt\u00f6ksi\u00e4.",
+        "no_shows_unchecked": "L\u00e4hip\u00e4ivien n\u00e4yt\u00f6ksi\u00e4 ei voitu tarkistaa.",
         "next_show": "Seuraava n\u00e4yt\u00f6s: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Teatterit \u2013 {city}",
@@ -207,6 +213,7 @@ L = {
         "cta": "\u00d6ppna hela programmet",
         "days": ["M\u00e5n", "Tis", "Ons", "Tors", "Fre", "L\u00f6r", "S\u00f6n"],
         "no_shows": "Inga visningar har publicerats f\u00f6r de n\u00e4rmaste dagarna.",
+        "no_shows_unchecked": "Visningarna f\u00f6r de n\u00e4rmaste dagarna kunde inte kontrolleras.",
         "next_show": "N\u00e4sta visning: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Biografer \u2013 {city}",
@@ -261,6 +268,7 @@ L = {
         "cta": "See the full programme",
         "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         "no_shows": "No showtimes published for the next few days.",
+        "no_shows_unchecked": "Showtimes for the next few days could not be checked.",
         "next_show": "Next screening: {when}",
         "mins": "min", "tmdb": "TMDB",
         "venues_h": "Cinemas \u2013 {city}",
@@ -666,6 +674,16 @@ def label_of(v, chains):
     return f"{chain} {short}" if chain and not short.startswith(chain) else short
 
 
+def unchecked(fetched, today):
+    """Whether a provider file written at `fetched` is too old to vouch for an empty page
+    built for `today`. A missing or unreadable stamp is not called old. -> bool"""
+    try:
+        at = datetime.fromisoformat(fetched).astimezone(FI).date()
+    except (TypeError, ValueError):
+        return False
+    return at < today - timedelta(days=PAGE_STALE_DAYS)
+
+
 def load_venues():
     """Every venue this build has pages for. -> [venue].
 
@@ -680,7 +698,7 @@ def load_venues():
     out = []
     areas = json.loads((DATA / "areas.json").read_text())
     for a in areas.get("areas", []):
-        out.append({**a, "provider": "finnkino"})
+        out.append({**a, "provider": "finnkino", "fetched": areas.get("generated", "")})
     known = {p["id"] for p in
              json.loads((DATA / "providers.json").read_text())["providers"]}
     orphans = []
@@ -690,7 +708,7 @@ def load_venues():
             orphans.append(f.name)
             continue
         for v in d.get("venues", []):
-            out.append({**v, "provider": d["provider"]})
+            out.append({**v, "provider": d["provider"], "fetched": d.get("generated", "")})
     if orphans:
         print(f"[pages] {len(orphans)} venue file(s) for providers the registry does not "
               f"list, skipped: {', '.join(orphans)}")
@@ -1309,7 +1327,7 @@ def pageview_tag(kind):
 
 def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
          extra, gmap, city, with_venue, legend, also, og_image, app_href, area, chain_css,
-         kind, next_day="", native=None):
+         kind, next_day="", native=None, stale=False):
     # One per published language plus x-default on the Finnish page, which is the one a
     # reader with no matching language gets.
     hreflangs = "\n".join(
@@ -1321,7 +1339,8 @@ def page(*, lang, paths, title, desc, h1, sub, intro, days, today, t,
         # when it has one. Same element, same place: a reader is told where to go next
         # rather than only that there is nothing here.
         # `day_label` already ends in the date's own full stop, so the sentence adds none.
-        line = t["no_shows"]
+        # `stale`: the run that found nothing is too old to repeat as current.
+        line = t["no_shows_unchecked" if stale else "no_shows"]
         if next_day:
             line += " " + t["next_show"].format(when=day_label(next_day, t))
         body.append(f'<p class="intro"><span data-nosnippet>{esc(line)}</span></p>')
@@ -1619,7 +1638,7 @@ def main(today=None) -> int:
                     if x),
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=v["city"], native=native,
                 with_venue=False, legend="", also=also, og_image=og,
-                next_day=next_day,
+                next_day=next_day, stale=not days and unchecked(v.get("fetched"), today),
                 # Deep link, so a reader arriving from search opens on this venue in this
                 # language instead of whatever the app last had selected. Both halves are
                 # decided by startupArea()/startupLang() in index.html.
@@ -1684,6 +1703,7 @@ def main(today=None) -> int:
                 days=days, today=today, t=t, extra=extra, gmap=gmap, city=c, native=native,
                 with_venue=True, legend=legend, also=also, og_image=og,
                 next_day=next_day,
+                stale=not days and any(unchecked(v.get("fetched"), today) for v in vs),
                 app_href="/?area=" + urllib.parse.quote("city:" + c) + "&lang=" + lang,
                 area="city:" + c, chain_css=chain_css, kind="city")
             stage(ROOT / paths[lang].strip("/") / "index.html", text)

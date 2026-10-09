@@ -1416,6 +1416,128 @@ class ShowCacheTest(unittest.TestCase):
         self.assertEqual(self.B.load_shows("zz")[0]["title"], "Late")
 
 
+class StaleEmptyPageTest(unittest.TestCase):
+    """An empty page says nothing is published only while the run behind it is recent.
+
+    On 2026-10-10 Navettakino's pages said no showtimes were published while its run had
+    failed for four days and the cinema's own page listed three. Built here from the
+    committed data with two venues and two cities emptied: in each pair one provider file
+    is dated two days before the build day and the other on the build day."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = tempfile.TemporaryDirectory()
+        root = pathlib.Path(cls.tmp.name)
+        data = root / "data"
+        data.mkdir()
+        for p in REAL_DATA.glob("*.json"):
+            shutil.copy2(p, data / p.name)
+        cls.today = today = bp.recorded_date()
+        cls.saved = (bp.ROOT, bp.DATA)
+        bp.ROOT, bp.DATA = root, data
+        try:
+            chains = {p["id"]: p.get("label", p["id"]) for p in
+                      json.loads((data / "providers.json").read_text())["providers"]}
+            venues, seen = [], set()
+            for v in bp.load_venues():
+                v["city"], v["label"] = bp.city_of(v), bp.label_of(v, chains)
+                v["slug"] = bp.slug(f"{v['label']} {v['city']}")
+                if v["slug"] in seen:
+                    v["slug"] = f"{v['slug']}-{bp.slug(v['id'])}"
+                seen.add(v["slug"])
+                venues.append(v)
+            by_prov, by_city = {}, {}
+            for v in venues:
+                by_prov.setdefault(v["provider"], []).append(v)
+                by_city.setdefault(v["city"], []).append(v)
+            multi = {c: vs for c, vs in by_city.items() if len(vs) > 1}
+            single = sorted(p for p, vs in by_prov.items()
+                            if p != "finnkino" and len(vs) == 1 and vs[0]["city"] not in multi)
+            cls.v_old, cls.v_new = by_prov[single[0]][0], by_prov[single[1]][0]
+            used, cities = set(single[:2]), []
+            for c in sorted(multi):
+                provs = {v["provider"] for v in multi[c]}
+                if "finnkino" in provs or provs & used:
+                    continue
+                cities.append(c)
+                used |= provs
+                if len(cities) == 2:
+                    break
+            cls.c_old, cls.c_new = cities
+            old = datetime.combine(today - timedelta(days=2), time(12), tzinfo=bp.FI)
+            new = datetime.combine(today, time(6), tzinfo=bp.FI)
+
+            def stamp(prov, when):
+                f = data / f"venues-{prov}.json"
+                d = json.loads(f.read_text())
+                d["generated"] = when.isoformat()
+                f.write_text(json.dumps(d))
+
+            def empty(vid):
+                f = data / f"area-{vid}.json"
+                d = json.loads(f.read_text()) if f.exists() else {}
+                d["shows"] = []
+                f.write_text(json.dumps(d))
+
+            stamp(cls.v_old["provider"], old)
+            stamp(cls.v_new["provider"], new)
+            for c in cities:
+                for v in multi[c]:
+                    empty(v["id"])
+            for v in (cls.v_old, cls.v_new):
+                empty(v["id"])
+            provs_old = sorted({v["provider"] for v in multi[cls.c_old]})
+            stamp(provs_old[0], old)
+            for p in provs_old[1:] + sorted({v["provider"] for v in multi[cls.c_new]}):
+                stamp(p, new)
+            bp._unmirrored_hosts.clear()
+            with contextlib.redirect_stdout(io.StringIO()):
+                bp.main(today=today)
+            cls.root = root
+        except BaseException:
+            bp.ROOT, bp.DATA = cls.saved
+            cls.tmp.cleanup()
+            raise
+
+    @classmethod
+    def tearDownClass(cls):
+        bp.ROOT, bp.DATA = cls.saved
+        cls.tmp.cleanup()
+
+    def read(self, path):
+        return (self.root / path.strip("/") / "index.html").read_text(encoding="utf-8")
+
+    def says(self, path, key, lang):
+        """The page's empty line is `key` in `lang`, and the other one is absent."""
+        lines = [html.unescape(x) for x in re.findall(
+            r'<p class="intro"><span data-nosnippet>([^<]*)</span>', self.read(path))]
+        other = "no_shows" if key == "no_shows_unchecked" else "no_shows_unchecked"
+        self.assertIn(bp.L[lang][key], lines, path)
+        self.assertNotIn(bp.L[lang][other], lines, path)
+
+    def test_a_venue_whose_run_is_old_says_it_could_not_be_checked(self):
+        for lang, prefix in (("fi", "teatteri"), ("sv", "sv/teatteri"), ("en", "en/theatre")):
+            with self.subTest(lang=lang):
+                self.says(f"/{prefix}/{self.v_old['slug']}/", "no_shows_unchecked", lang)
+                self.says(f"/{prefix}/{self.v_new['slug']}/", "no_shows", lang)
+
+    def test_a_city_with_one_old_run_says_it_could_not_be_checked(self):
+        for lang, prefix in (("fi", "kaupunki"), ("sv", "sv/kaupunki"), ("en", "en/city")):
+            with self.subTest(lang=lang):
+                self.says(f"/{prefix}/{bp.slug(self.c_old)}/", "no_shows_unchecked", lang)
+                self.says(f"/{prefix}/{bp.slug(self.c_new)}/", "no_shows", lang)
+
+    def test_the_day_counts_in_helsinki_and_an_unknown_stamp_is_not_old(self):
+        today = date(2026, 10, 10)
+        for fetched, want in (("2026-10-09T05:00:00+03:00", False),
+                              ("2026-10-08T21:30:00+00:00", False),   # 10-09 00:30 here
+                              ("2026-10-08T20:30:00+00:00", True),    # 10-08 23:30 here
+                              ("2026-10-06T05:14:35+00:00", True),
+                              ("", False), (None, False), ("not a date", False)):
+            with self.subTest(fetched=fetched):
+                self.assertIs(bp.unchecked(fetched, today), want)
+
+
 class HomeLinkVenuesTest(unittest.TestCase):
     """main() checks the homepage's city links against the venue list it already holds.
 

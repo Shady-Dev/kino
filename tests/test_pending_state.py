@@ -105,7 +105,16 @@ class WiringTest(unittest.TestCase):
         body = body[:body.index("\n  }")]
         self.assertLess(body.index("pendingNotice("), body.index("t.nomatch"),
                         "the pending notice has to be decided first")
-        self.assertIn("return t.noProgYet;", body)
+        self.assertIn("t.noProgYet", body)
+
+    def test_an_empty_answer_past_the_stale_window_is_not_repeated_as_current(self):
+        """Navettakino, 2026-10-10: "no programme right now" under a banner saying the
+        schedule had not refreshed for 88 hours, while the cinema listed three screenings.
+        The age is judged by the same `staleNotice` and `STALE_H` as that banner."""
+        body = self.html[self.html.index("function emptyMsg()"):]
+        body = body[:body.index("\n  }")]
+        self.assertIn("return staleNotice(state.sources, Date.now(), STALE_H) "
+                      "? t.noProgUnchecked : t.noProgYet;", body)
 
     def test_the_venue_list_marks_pending_without_another_request(self):
         """Read off the provider file already being parsed for its venues. A second
@@ -135,6 +144,12 @@ class WiringTest(unittest.TestCase):
         self.assertIn("noProgYet:'Ei ohjelmistoa juuri nyt'", self.html)
         self.assertIn("noProgYet:'Inget program just nu'", self.html)
         self.assertIn("noProgYet:'No programme right now'", self.html)
+
+    def test_noProgUnchecked_is_defined_in_all_three_languages(self):
+        self.assertIn("noProgUnchecked:'Ohjelmistoa ei voitu tarkistaa'", self.html)
+        self.assertIn("noProgUnchecked:'Programmet kunde inte kontrolleras'", self.html)
+        self.assertIn("noProgUnchecked:'The programme could not be checked'", self.html)
+        self.assertEqual(len(re.findall(r"\bnoProgUnchecked:'", self.html)), 3)
 
     def test_every_language_block_still_carries_the_other_empty_messages(self):
         """Preserved behaviour: the notice is an addition, and nomatch, notpublished,

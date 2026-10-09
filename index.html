@@ -1432,6 +1432,7 @@
          allFresh:'Näytöstiedot ajan tasalla ({m} lähdettä)', behind:'Vanhentuneet näytöstiedot',
          partialSources:'Osa näytöstiedoista ei päivittynyt',
          noProgYet:'Ei ohjelmistoa juuri nyt',
+         noProgUnchecked:'Ohjelmistoa ei voitu tarkistaa',
          unverifiedOf:'{n}/{m} teatterilta ei ole vielä saatu näytöstietoja',
          pendingOf:'{n}/{m}: ei ohjelmistoa juuri nyt',
          aTheme:'Vaihda vaalean ja tumman teeman välillä', aVenue:'Valitse teatteri',
@@ -1501,6 +1502,7 @@
          allFresh:'Alla {m} källor är aktuella', behind:'Inaktuella uppgifter',
          partialSources:'Vissa biografer uppdaterades inte',
          noProgYet:'Inget program just nu',
+         noProgUnchecked:'Programmet kunde inte kontrolleras',
          unverifiedOf:'Inga uppgifter har ännu kommit från {n}/{m} biografer',
          pendingOf:'{n}/{m}: inget program just nu',
          aTheme:'Växla mellan ljust och mörkt tema', aVenue:'Välj biograf',
@@ -1567,6 +1569,7 @@
          allFresh:'All {m} sources up to date', behind:'Sources behind',
          partialSources:'Some cinemas did not refresh',
          noProgYet:'No programme right now',
+         noProgUnchecked:'The programme could not be checked',
          unverifiedOf:'{n}/{m} cinemas have not yet returned showtimes',
          pendingOf:'{n}/{m}: no programme right now',
          aTheme:'Switch between light and dark theme', aVenue:'Choose theatre',
@@ -4082,7 +4085,11 @@
     // Ahead of the filter and date messages.
     const ids = viewVenueIds();
     if(pendingNotice(ids, ids.filter(id => (venueIndex[id] || {}).pending),
-                     (state.shows || []).length > 0)) return t.noProgYet;
+                     (state.shows || []).length > 0)){
+      // The empty answer is as old as the run that gave it. Past the stale window the
+      // cinema may have published since, so it is not repeated as current.
+      return staleNotice(state.sources, Date.now(), STALE_H) ? t.noProgUnchecked : t.noProgYet;
+    }
     // Ahead of the generic filter message: the time restriction is the one the reader
     // just set, and it is the one the action below clears.
     if(state.view === 'times' && state.minTime && state.timeEmptied) return t.tNone;
