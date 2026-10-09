@@ -1,7 +1,7 @@
-[savonkinot] Tapio Joensuu: 79 showtimes, 13 dates
+[savonkinot] Tapio Joensuu: 77 showtimes, 12 dates
 [savonkinot] Killa Savonlinna: 12 showtimes, 8 dates
 [savonkinot] Kuvalinna Savonlinna: 18 showtimes, 10 dates
-[savonkinot] Kuvalipas Iisalmi: 27 showtimes, 12 dates
+[savonkinot] Kuvalipas Iisalmi: 26 showtimes, 11 dates
 [savonkinot] Maxim Varkaus: 42 showtimes, 11 dates
 [savonkinot] Kino-Hovi Kitee: 15 showtimes, 11 dates
 [savonkinot] synopses merged: 0
@@ -11,12 +11,12 @@
 [cine] Cine Nikkilä: 6 showtimes, 2 dates
 [cine] synopses merged: 0
 [star] strand prefix split off 6 showtimes
-[star] Elokuvateatteri Star: 117 showtimes, 12 dates
+[star] Elokuvateatteri Star: 114 showtimes, 11 dates
 [star] synopses merged: 0
 [haapamaki] Haapamäen Elokuvat: 7 showtimes, 4 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 77 full, 77 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 11 venues, 336 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] etiketti: 11 venues, 330 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
