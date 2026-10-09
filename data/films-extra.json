@@ -13,6 +13,19 @@
     "en"
    ]
   },
+  "2001 a space odyssey": {
+   "id": 62,
+   "img": "data/posters/d3f9760aa95f89f8.jpg",
+   "r": 8.0,
+   "s": {
+    "en": "",
+    "fi": "Arthur C. Clarken kirjoittama tieteiselokuvan suuri, salaperäinen klassikko, jossa ihmiskunta alkaa tavoitella paikkaansa maailmankaikkeudessa."
+   },
+   "tr": "https://www.youtube.com/watch?v=kR2r-A9H3Kg",
+   "ts": [
+    "fi"
+   ]
+  },
   "3 kaveria jäätelönäytös 10 things i hate about you": {
    "id": 4951,
    "img": "data/posters/7d1c06f6e70772f1.jpg",
@@ -272,12 +285,14 @@
    ]
   },
   "audition": {
-   "r": 0,
+   "id": 11075,
+   "img": "data/posters/46cb5ccc100d9739.jpg",
+   "r": 7.1,
    "s": {
     "en": "A lonely Japanese widower whose son is planning to move out of the house soon expresses his sadness to a friend and fellow film producer, who becomes inspired to hold an audition for a non-existent film so that the widower can select a new potential bride from the resulting audition pool. The widower ultimately becomes enamored with and fascinated by one particular young woman…but first impressions can often be horribly wrong….",
     "fi": ""
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=2wr_om5LsuI"
   },
   "auringonnousu": {
    "id": 631,
@@ -865,7 +880,6 @@
     "cinemantsala",
     "gilda",
     "jarvelankino",
-    "joutsankino",
     "kinoaurora",
     "kinoelo",
     "kinohannikainen",
@@ -2879,6 +2893,7 @@
     "biomarilyn",
     "biorex",
     "cinemantsala",
+    "elavienkuvien",
     "ihmekompleksi",
     "kinoaurora",
     "kinojuha",
@@ -4951,7 +4966,6 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "cine",
     "haapamaki",
     "helios",
     "isohannu",
