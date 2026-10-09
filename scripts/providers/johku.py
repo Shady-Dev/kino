@@ -1,37 +1,56 @@
-"""Four cinemas whose whole site is a Johku storefront. Stdlib only.
+"""Six cinemas whose whole site is a Johku storefront. Stdlib only.
 
-Bio Marilyn (Lapua), Vihdin Kino (Vihti), Bio Forum (Tammisaari) and Kinokulma (Oulainen).
+Bio Marilyn (Lapua), Vihdin Kino (Vihti), Bio Forum (Tammisaari), Kinokulma (Oulainen),
+Kino Hannikainen (Nurmes) and Kino Virta (Kalajoki).
 
 **Not Kino Engel or Kino Tapiola.** Those are the cinema's own site with a Johku widget
 embedded in it, and the widget's show list needs its API key, which is the line "Access and
-ethics" draws. A storefront renders the programme server-side. Probed 2026-09-18; the
-evidence is in docs/research/ticketing-platforms.md.
+ethics" draws. Probed 2026-09-18; the evidence is in docs/research/ticketing-platforms.md.
 
-One request per site for the listing, then one film page per distinct product.
+One request per site for the front page, then one film page per distinct product.
 
-The listing, inside `<div class="showgroup">` under a `<h3 class="daytitle">`:
+**The programme comes from the front page's own data.** The storefront is a Nuxt
+application. Its server requests the platform's `showschedule.json` once for each
+programme block on the front page and embeds the answers in the `__NUXT_DATA__` script of
+the same HTML. The visitor's browser draws the listing from that copy and requests nothing
+more. The markup is not read: since 2026-10-01 the server often sends a block as a loading
+skeleton while the embedded schedule is already whole, on 25 of 30 reads on 2026-10-09,
+all 30 of which carried the schedule.
 
-    <a href="/fi_FI/{category}/{slug}" class="js-grid-item js-grid-show" data-product="1038">
-      <span class="showrating rating-icon rating-12">K-12</span>
-      <h3 class="grid-content-title" data-name="...">...</h3>
-      <span class="showlocation" data-location="Bio Marilyn">Bio Marilyn</span>
-      <span class="showtime" data-showtime="2026-09-19T14:30:00.000Z">klo 17.30</span>
-      <span class="showduration">1 h 27 min</span>
+**What counts as complete.** The storefront's front-page layout names at least one
+programme block, the markup draws that many `js-shows` blocks, and each block's
+`showschedule-{locale}-f{date}-c{category}` entry is in the payload as a list with no
+error recorded for it. Anything less is read again, up to `LISTING_TRIES` times, and then
+the site fails with its previous files standing. Every block answering with an empty list
+is the platform's own statement that nothing is scheduled, which is
+`common.EmptyProgramme`.
+
+An entry, with the fields the page's ShowItem draws:
+
+    {"id": "6463", "text": "Kerro kaikille", "start_date": "2026-10-09 17:00",
+     "end_date": "2026-10-09 18:52", "resource_name": "Kulmasali", "agelimit": "K-12",
+     "upcoming": "0", "storefronturl": "https://kinokulma.fi/fi_FI/kerro-kaikille",
+     "product": {"id": "1122", "enable_catalog": "fi_FI", ...}}
 
 What shapes the parser:
 
-- **`data-showtime` is a UTC instant and the clock beside it is the same moment in
-  Helsinki.** Both are read, and a row where they disagree fails the site. All 71 rows
-  across the four sites agreed when this was written, and a dropped offset is the fault
-  that would otherwise publish every screening three hours out. `cinemantsala.py` records
-  the same trap in a feed that drops the `Z`.
-- **A grid item inside a day group with no `data-showtime` is a coming-soon entry**, which
-  the storefront files under a release date. Bio Marilyn had 14 of them and the other three
-  none. They are counted and left out, because there is no time to publish.
-- **`data-location` is declared per venue.** A row naming a hall the site does not list
+- **`start_date` is the clock the page prints**, the cinema's own local time, and it is
+  read as Helsinki time. An offset on it fails the site, because the field would then
+  mean something else.
+- **The page draws an entry only if its product is in the catalogue for the locale and it
+  has not started**, and the same two rules apply here.
+- **An entry with `upcoming` set is a coming-soon entry**, filed under a release date with
+  no time. They are counted and left out.
+- **One screening can sit in two blocks.** Bio Marilyn files some films under both "nyt
+  ohjelmistossa" and "tulossa", and the show id publishes each screening once.
+- **`resource_name` is declared per venue.** An entry naming a hall the site does not list
   fails rather than landing under the wrong venue.
-- **No price is published.** The grid carries none, the film page carries none, and the
-  tariff pages state bands ("Normaali elokuva 13-15 €"). `price` stays empty.
+- **A showtime links to the film page at the platform's own path** (`storefronturl`), on
+  the host the site is read from. Bio Marilyn's points at biomarilyn.johku.com and the
+  same path answers on www.biomarilyn.com.
+- **No price is published.** The entry carries a pricing name and an amount beside
+  `multipleprices`, so which ticket the amount is for is not settled, and the tariff
+  pages state bands ("Normaali elokuva 13-15 €"). `price` stays empty.
 - **The artwork is a landscape banner**, 2048x1365 and 2048x857 on the two measured, so
   `img` stays empty and the TMDB pass supplies a portrait poster.
 - **No sold-out state is rendered on a row.** "Loppuunmyyty" appears once per page, inside
@@ -41,11 +60,10 @@ What shapes the parser:
   film. `common.syn_language` places the text and withholds it when nothing is settled.
 
 **A storefront also sells hall hire.** Read 2026-09-18, the day groups held one
-("Salivaraus"), and it is the only kind of row left out. The storefront separates it
-structurally: every film and event sits under a programme category
-(`/fi_FI/nyt-ohjelmistossa/`, `/fi_FI/tulossa/`, `/fi_FI/{slug}`) while hall hire sits
-under the generic `/fi_FI/products/`. That path is the rule here, and no word in a title is
-read.
+("Salivaraus"), and it is the only kind of entry left out. The platform gives a product
+with no canonical name the path `/fi_FI/products/{id}-{shop}-{name}`, while every film and
+event has a canonical name and a path of its own (`/fi_FI/kerro-kaikille`). That path is
+the rule here, and no word in a title is read.
 
 **Thin metadata never withholds a screening.** A film page that answers nothing, or
 carries no director and no genre, costs the row its synopsis and its genres and nothing
@@ -53,31 +71,21 @@ else. The maintainer's instruction of 2026-09-18: a small film that publishes li
 itself still belongs on the site. The Kinola classifier is not applied here, and the
 difference is that this listing carries no live-act problem of the kind Karkkila has.
 
-**Zero rows fails the site.** No tenant was seen with an empty programme, so there is no
-positive evidence of what one renders and nothing here may claim it is empty:
-`common.EmptyProgramme` exists for the case where that evidence is in hand.
-
-**The listing is read only once the server has rendered it whole.** From 2026-10-01 the
-front page comes back, from any connection, either whole, or as the first days followed by
-skeleton cards, or as a skeleton alone, and the page's script fills the rest through an
-`X-ApiKey` call this adapter does not make. The page holds one `js-shows` block per
-programme category, and the placeholder is `aria-busy="true"` inside one: Bio Marilyn's
-"nyt-ohjelmistossa" block came back whole beside a skeleton "tulossa" one, 9 screenings of
-14. A page with a placeholder in any block is read again, up to `LISTING_TRIES` times, and a
-site that never renders whole fails with its previous files standing: a short listing would
-publish part of the programme as all of it, and a skeleton is not an empty one.
+**Entries but no screening fails the site.** A schedule that lists entries of which none is
+a timed screening still to come is not an empty programme, so the previous files stand.
 """
 import datetime
 import html as html_mod
 import http.client
+import json
 import re
 import sys
 import time
 import urllib.request
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 from zoneinfo import ZoneInfo
 
-from common import capped, check_shows, fetch, make_opener, syn_language
+from common import EmptyProgramme, capped, check_shows, fetch, make_opener, syn_language
 from etiketti import lang_codes, strict_codes
 
 FI = ZoneInfo("Europe/Helsinki")
@@ -118,18 +126,20 @@ SITES = [
                  "short": "Kino Virta", "city": "Kalajoki", "loc": "Virta-sali"}]},
 ]
 
-GROUP_RE = re.compile(r'(?<![-\w])class=["\'][^"\']*(?<![-\w])showgroup(?![-\w])')
-ITEM_RE = re.compile(r'<a[^>]*href=["\']([^"\']+)["\'][^>]*class=["\'][^"\']*'
-                     r'(?<![-\w])js-grid-show(?![-\w])[^"\']*["\'][^>]*'
-                     r'data-product=["\'](\d+)["\'][^>]*>(.*?)</a>', re.S | re.I)
-SHOWTIME_RE = re.compile(r'data-showtime=["\']([^"\']+)["\'][^>]*>\s*(?:klo\s*)?'
-                         r'(\d{1,2})[.:](\d{2})', re.I)
-BARE_TIME_RE = re.compile(r'data-showtime=["\']([^"\']+)["\']')
-NAME_RE = re.compile(r'data-name=(["\'])(.*?)\1', re.S)   # to the opening quote
-LOC_RE = re.compile(r'data-location=["\']([^"\']*)["\']')
-RATING_RE = re.compile(r'(?<![-\w])rating-([0-9]{1,2}|s)(?![-\w])', re.I)
-DURATION_RE = re.compile(r'class=["\'][^"\']*(?<![-\w])showduration(?![-\w])[^"\']*["\'][^>]*>'
-                         r'(.*?)</span>', re.S | re.I)
+LOCALE = "fi_FI"
+
+# The payload script, and the class of the root element of the page's MovieList component,
+# one per programme block. Read in the storefront's own bundle on 2026-10-09, where no other
+# component uses that class.
+NUXT_RE = re.compile(r'<script\b[^>]*\bid=["\']__NUXT_DATA__["\'][^>]*>(.*?)</script>',
+                     re.S | re.I)
+SHOWS_RE = re.compile(r'<div\b[^>]*class=["\'][^"\']*(?<![-\w])js-shows(?![-\w])')
+
+# The page's own mapping from `agelimit` to its rating badge (ShowItem, 2026-10-09). Any
+# other value draws "rating-unknown" and publishes no rating.
+RATINGS = {"S": "S", "K-S": "S", "KS": "S", "3": "S"}
+RATINGS.update({v: f"K-{n}" for n in (7, 12, 16, 18) for v in (str(n), f"K-{n}", f"K{n}")})
+
 HM_RE = re.compile(r'(\d{1,2})\s*h\s*(\d{1,3})\s*min\b', re.I)
 MIN_RE = re.compile(r'(\d{1,3})\s*min\b', re.I)
 INFO_RE = re.compile(r'class=["\'][^"\']*product-content-infolabel[^"\']*["\'][^>]*>'
@@ -140,8 +150,8 @@ DESC_RE = re.compile(r'class=["\'][^"\']*product-description__html[^"\']*["\'][^
 PARA_RE = re.compile(r'<p[^>]*>(.*?)</p>', re.S | re.I)
 TAGS_RE = re.compile(r"<[^>]+>")
 
-# The storefront's generic product path. A programme entry never uses it and the hall hire
-# always does, which is what separates the two without reading a title.
+# The platform's path for a product with no canonical name. A programme entry never has it
+# and the hall hire always does, which separates the two without reading a title.
 PRODUCT_PATH = "/fi_FI/products/"
 
 # A paragraph shorter than this is a release note ("Elokuvateattereissa 4.9.") rather than
@@ -210,7 +220,7 @@ OPENER = make_opener(_Handler())
 
 
 class ListingRowError(RuntimeError):
-    """A row the listing marks as a screening and this parser could not read.
+    """An entry the schedule marks as a screening and this parser could not read.
 
     Skipping it would publish a schedule one screening short with nothing in the log to
     say so, so it fails the site and the previous files stand.
@@ -231,146 +241,226 @@ def _minutes(text):
     return m.group(1) if m else ""
 
 
-DIV_RE = re.compile(r"<div\b|</div\s*>", re.I)
+# Nuxt's own payload types that wrap a plain value. Any other typed value is left unread,
+# and a field that needed it reads as absent.
+WRAPPERS = {"Reactive", "ShallowReactive", "Ref", "ShallowRef", "NuxtError"}
+UNREAD = object()
 
 
-def _element(page, start):
-    """The `<div>` beginning at `start` and everything it contains. -> html.
+def payload(page):
+    """The page's `__NUXT_DATA__` as plain values. -> dict, None when there is none.
 
-    Counted rather than sliced to the next sibling: the last day group on the page is
-    followed by the coming-soon shelf, which renders the same item markup, and a slice to
-    the end of the document swallowed it.
+    The script is devalue's flat form: a list whose first item is the root, where a number
+    inside an object or a list is the index of the value it stands for, a negative one is
+    undefined or a special number, and a list starting with a string is a typed value.
     """
-    depth = 0
-    for m in DIV_RE.finditer(page, start):
-        depth += 1 if m.group(0).lower().startswith("<div") else -1
-        if depth == 0:
-            return page[start:m.end()]
-    return page[start:]
+    m = NUXT_RE.search(page)
+    if not m:
+        return None
+    try:
+        values = json.loads(m.group(1))
+    except ValueError:
+        return None
+    if not isinstance(values, list) or not values:
+        return None
+    done = {}
+
+    def get(i):
+        if type(i) is not int or not 0 <= i < len(values):
+            return None
+        if i in done:
+            return done[i]
+        v = values[i]
+        if isinstance(v, dict):
+            out = done[i] = {}
+            out.update((k, get(j)) for k, j in v.items())
+            return out
+        if isinstance(v, list) and v and isinstance(v[0], str):
+            done[i] = UNREAD
+            if v[0] in WRAPPERS and len(v) == 2:
+                done[i] = get(v[1])
+            return done[i]
+        if isinstance(v, list):
+            out = done[i] = []
+            out.extend(get(j) for j in v)
+            return out
+        return v
+
+    root = get(0)
+    return root if isinstance(root, dict) else None
 
 
-def groups(page):
-    """-> [html] one per day group.
-
-    Only what a day group holds is a screening. A grid outside one is the coming-soon
-    shelf or a product listing, and reading those as screenings would publish a film with
-    no time under whatever date happened to be nearby.
-    """
-    starts = [page.rfind("<", 0, m.start()) for m in GROUP_RE.finditer(page)]
-    return [_element(page, i) for i in starts if i >= 0]
+def _list(value):
+    return value if isinstance(value, list) else []
 
 
-# The listing blocks, one per programme category, and the loading placeholder inside one
-# (read 2026-10-03).
-SHOWS_RE = re.compile(r'<div\b[^>]*class=["\'][^"\']*(?<![-\w])js-shows(?![-\w])')
-LOADING_RE = re.compile(r'aria-busy=["\']true["\']'
-                        r'|(?<![-\w])(?:product-list-skeleton|sk-product-card)(?![-\w])')
-# Reads of one listing before the site fails, and the pause between them. Measured
-# 2026-10-03: Bio Forum whole on 8 of 9 reads, Vihdin Kino and Kino Virta about half the
-# time, Bio Marilyn on 1 of 19, Kinokulma and Kino Hannikainen on none of 17.
+# Reads of one front page before the site fails, and the pause between them. Every one of
+# 30 reads on 2026-10-09 carried the whole schedule, so a second read is the exception.
 LISTING_TRIES = 5
 LISTING_WAIT = 5.0
 
 
-def listing_state(page):
-    """-> "rendered", "loading" or "missing": whether the page has `js-shows` blocks and
-    every one of them is free of the loading placeholder."""
-    blocks = [_element(page, m.start()) for m in SHOWS_RE.finditer(page)]
-    if not blocks:
-        return "missing"
-    return "loading" if any(LOADING_RE.search(b) for b in blocks) else "rendered"
+def schedule(page, locale=LOCALE):
+    """The front page's programme blocks. -> (state, [[entry]] one list per block).
+
+    `state` is "complete" when the storefront's layout names at least one programme block,
+    the markup draws as many, and each block's schedule is in the payload as a list with no
+    error recorded. Otherwise the blocks are empty and the state says what was short:
+    "missing" (no payload, layout or programme block), "unmatched" (the markup draws a
+    different number of blocks), "loading" (a block's schedule is absent) or "error" (the
+    server recorded its request for one as failed).
+    """
+    root = payload(page)
+    data = root.get("data") if root else None
+    if not isinstance(data, dict):
+        return "missing", []
+    errors = root.get("_errors") if isinstance(root.get("_errors"), dict) else {}
+    layouts = [v for k, v in data.items()
+               if k.startswith("storefront-") and k.endswith("-" + locale)]
+    if len(layouts) != 1 or not isinstance(layouts[0], dict):
+        return "missing", []
+    items = [item for g in _list(layouts[0].get("groups")) if isinstance(g, dict)
+             for item in _list(g.get("items"))
+             if isinstance(item, dict) and item.get("view") == "showtimes"]
+    if not items:
+        return "missing", []
+    if len(SHOWS_RE.findall(page)) != len(items):
+        return "unmatched", []
+    blocks = []
+    for item in items:
+        category = item.get("category")
+        cid = category.get("id") if isinstance(category, dict) else None
+        if cid in (None, ""):
+            return "missing", []
+        key = re.compile(rf"showschedule-{re.escape(locale)}-f\d{{4}}-\d\d-\d\d"
+                         rf"-c{re.escape(str(cid))}(?:-p[^-]+)?")
+        keys = [k for k in data if key.fullmatch(k)]
+        if len(keys) > 1:
+            return "unmatched", []
+        if not keys:
+            return "loading", []
+        if errors.get(keys[0]) is not None:
+            return "error", []
+        answer = data[keys[0]]
+        if not isinstance(answer, dict) or not isinstance(answer.get("data"), list):
+            return "loading", []
+        blocks.append(answer["data"])
+    return "complete", blocks
 
 
 def read_listing(url):
-    """-> (page, reads) once the listing is rendered whole. Raises after `LISTING_TRIES`
-    reads that were not: neither a loading nor a missing listing is an empty programme."""
+    """-> (blocks, reads) once the front page carries its whole schedule. Raises after
+    `LISTING_TRIES` reads that did not: an incomplete answer is not an empty programme."""
     states = []
     for n in range(LISTING_TRIES):
         if n:
             time.sleep(LISTING_WAIT)
-        page = get(url)
-        state = listing_state(page)
-        if state == "rendered":
-            return page, n + 1
+        state, blocks = schedule(get(url))
+        if state == "complete":
+            return blocks, n + 1
         states.append(state)
     raise RuntimeError(
-        f"{url}: the listing was not rendered whole on any of {LISTING_TRIES} reads "
-        f"({', '.join(states)}). A loading or missing listing is not an empty programme, "
-        f"so the previous files stand")
+        f"{url}: the schedule was not complete on any of {LISTING_TRIES} reads "
+        f"({', '.join(states)}). An incomplete answer is not an empty programme, so the "
+        f"previous files stand")
 
 
-def _rating(block):
-    m = RATING_RE.search(block)
-    if not m:
+def _clean(text):
+    if not isinstance(text, str):
         return ""
-    v = m.group(1).lower()
-    return "S" if v == "s" else f"K-{int(v)}"
+    return re.sub(r"\s+", " ", text.replace("\xa0", " ")).strip()
 
 
-def rows(site, page):
-    """-> ([row], skipped). `skipped` is the coming-soon entries, counted by title.
+def _listed(product, locale=LOCALE):
+    """The page's own test before it draws an entry: the product is in the catalogue or in
+    a collection for the locale. Each field holds 1 or a list of locales."""
+    for field in ("enable_catalog", "enable_collection"):
+        value = product.get(field)
+        if str(value).strip() == "1" or (isinstance(value, str) and locale in value):
+            return True
+    return False
 
-    A row is (product, title, loc, start, url, rating, len). Everything else comes from
-    the film page.
+
+def _local(value):
+    """"2026-10-09 17:00" -> that clock in Helsinki. None when unreadable or offset."""
+    try:
+        when = datetime.datetime.fromisoformat(value) if isinstance(value, str) else None
+    except ValueError:
+        return None
+    return when.replace(tzinfo=FI) if when and when.tzinfo is None else None
+
+
+def _film_url(site, n, title, link):
+    """The platform's path for the product, on the host the site is read from."""
+    path = urlsplit(link).path if isinstance(link, str) else ""
+    if not path.startswith(f"/{LOCALE}/"):
+        raise ListingRowError(
+            f"{site['provider']}: schedule entry {n} for {title!r} carries no film page "
+            f"path ({link!r})")
+    return urljoin(site["base"], path)
+
+
+def rows(site, blocks, now):
+    """The screenings the page draws from its blocks. -> ([row], report).
+
+    A row is (product, title, venue, start, url, rating, len); everything else comes from
+    the film page. `report` holds what is left out: `skipped`, the coming-soon titles, and
+    the counts `past` and `unlisted` of entries the page does not draw, and `repeated` of
+    screenings it draws in a second block.
     """
-    out, skipped = [], []
     venues = {v["loc"]: v for v in site["venues"]}
+    out, seen = [], set()
+    report = {"skipped": [], "past": 0, "unlisted": 0, "repeated": 0}
     n = 0
-    for group in groups(page):
-        for href, product, block in ITEM_RE.findall(group):
+    for block in blocks:
+        for entry in block:
             n += 1
-            title = _txt(NAME_RE.search(block).group(2)) if NAME_RE.search(block) else ""
-            if not title:
+            if not isinstance(entry, dict):
                 raise ListingRowError(
-                    f"{site['provider']}: grid item {n} of the listing has no title")
-            if not BARE_TIME_RE.search(block):
-                skipped.append(title)
+                    f"{site['provider']}: schedule entry {n} is not an object")
+            product = entry.get("product")
+            if not isinstance(product, dict) or not _listed(product):
+                report["unlisted"] += 1
                 continue
-            loc = _txt(LOC_RE.search(block).group(1)) if LOC_RE.search(block) else ""
+            title = _clean(entry.get("text"))
+            if not title or product.get("id") in (None, ""):
+                raise ListingRowError(
+                    f"{site['provider']}: schedule entry {n} has no title or no product id")
+            start = _local(entry.get("start_date"))
+            if start is None:
+                raise ListingRowError(
+                    f"{site['provider']}: schedule entry {n} for {title!r} has the "
+                    f"start_date {entry.get('start_date')!r}, which is not a local clock")
+            if start < now:
+                report["past"] += 1
+                continue
+            if str(entry.get("upcoming")).strip() == "1":
+                report["skipped"].append(title)
+                continue
+            key = str(entry.get("id") or (product["id"], entry["start_date"]))
+            if key in seen:
+                report["repeated"] += 1
+                continue
+            seen.add(key)
+            loc = _clean(entry.get("resource_name"))
             if loc not in venues:
                 raise ListingRowError(
-                    f"{site['provider']}: grid item {n} names the hall {loc!r}, which this "
-                    f"site does not list. Publishing it would file a screening under "
+                    f"{site['provider']}: schedule entry {n} names the hall {loc!r}, which "
+                    f"this site does not list. Publishing it would file a screening under "
                     f"another venue or drop it without a word")
+            end = _local(entry.get("end_date"))
+            minutes = int((end - start).total_seconds() // 60) if end else 0
             out.append({
-                "product": product,
+                "product": str(product["id"]),
                 "title": title,
                 "venue": venues[loc]["id"],
-                "start": _start(site, n, title, block),
-                "url": urljoin(site["base"], html_mod.unescape(href)),
-                "rating": _rating(block),
-                "len": _minutes(DURATION_RE.search(block).group(1)
-                                if DURATION_RE.search(block) else ""),
+                "start": start.isoformat(),
+                "url": _film_url(site, n, title, entry.get("storefronturl")),
+                "rating": RATINGS.get(entry.get("agelimit"), "")
+                if isinstance(entry.get("agelimit"), str) else "",
+                "len": str(minutes) if minutes > 0 else "",
             })
-    return out, skipped
-
-
-def _start(site, n, title, block):
-    """The row's UTC instant as Helsinki local time. -> ISO 8601 with offset.
-
-    The rendered clock is checked against it where the row prints one. They agreed on all
-    71 rows read on 2026-09-18, and a disagreement means the storefront changed what
-    `data-showtime` carries, which would otherwise ship every screening at the wrong hour.
-    """
-    m = BARE_TIME_RE.search(block)
-    try:
-        when = datetime.datetime.fromisoformat(m.group(1).replace("Z", "+00:00"))
-    except ValueError as e:
-        raise ListingRowError(
-            f"{site['provider']}: grid item {n} for {title!r} has an unreadable "
-            f"data-showtime {m.group(1)!r}") from e
-    if when.tzinfo is None:
-        raise ListingRowError(
-            f"{site['provider']}: grid item {n} for {title!r} has a data-showtime with no "
-            f"offset ({m.group(1)!r}), so the hour it means is not established")
-    local = when.astimezone(FI)
-    shown = SHOWTIME_RE.search(block)
-    if shown and (local.hour, local.minute) != (int(shown.group(2)), int(shown.group(3))):
-        raise ListingRowError(
-            f"{site['provider']}: grid item {n} for {title!r} prints "
-            f"{shown.group(2)}.{shown.group(3)} beside an instant that is "
-            f"{local:%H.%M} in Helsinki")
-    return local.isoformat()
+    return out, report
 
 
 def _translative(phrase):
@@ -428,14 +518,14 @@ def film_facts(page):
             "syn": syn, "lang": film_lang(paras)}
 
 
-def parse(site, listing, pages):
+def parse(site, blocks, pages, now):
     """-> ({venue_id: [show]}, report). `pages` is {product: film page html}.
 
-    `report` carries what was left out and why: `skipped` the coming-soon entries,
-    `hire` the hall-hire rows, and `unplaced` the synopses no language could be settled
-    for. A row with no film page read publishes without its genres and synopsis.
+    `report` is what `rows` left out, plus `hire`, the hall-hire titles over `hire_shows`
+    rows, and `unplaced`, the synopses no language could be settled for. A row with no film
+    page read publishes without its genres and synopsis.
     """
-    listed, skipped = rows(site, listing)
+    listed, report = rows(site, blocks, now)
     facts = {p: film_facts(h) for p, h in pages.items()}
     per_venue = {v["id"]: [] for v in site["venues"]}
     unplaced, hire, hire_shows = set(), set(), 0
@@ -475,8 +565,8 @@ def parse(site, listing, pages):
         per_venue[r["venue"]].append(show)
     for shows in per_venue.values():
         shows.sort(key=lambda s: s["start"])
-    return per_venue, {"skipped": skipped, "hire": hire, "hire_shows": hire_shows,
-                       "unplaced": unplaced}
+    report.update(hire=hire, hire_shows=hire_shows, unplaced=unplaced)
+    return per_venue, report
 
 
 def get(url, tries=3, timeout=30):
@@ -485,20 +575,29 @@ def get(url, tries=3, timeout=30):
                  tries=tries, timeout=timeout).decode("utf-8", "replace")
 
 
+def now():
+    return datetime.datetime.now(FI)
+
+
 def fetch_site(site, sleep=1.2):
-    """Runner contract: the listing, then one film page per distinct product."""
+    """Runner contract: the front page, then one film page per distinct product."""
+    pid = site["provider"]
     listing_url = site["base"].rstrip("/") + site["listing"]
-    listing, reads = read_listing(listing_url)
+    blocks, reads = read_listing(listing_url)
     if reads > 1:
-        print(f"[{site['provider']}] the listing rendered whole on read {reads} of "
-              f"{LISTING_TRIES}")
-    listed, _ = rows(site, listing)
+        print(f"[{pid}] the schedule was complete on read {reads} of {LISTING_TRIES}")
+    entries = sum(len(b) for b in blocks)
+    if not entries:
+        raise EmptyProgramme(
+            f"{listing_url}: the storefront's schedule answered with no entry for any of "
+            f"its {len(blocks)} programme block(s)")
+    when = now()
+    listed, _ = rows(site, blocks, when)
     if not listed:
         raise RuntimeError(
-            f"{listing_url}: no screening in any day group. No tenant of this platform has "
-            f"been seen with an empty programme, so there is no evidence of one to read "
-            f"this as, and the previous files stand")
-    pid = site["provider"]
+            f"{listing_url}: {entries} schedule entries and none a timed screening still to "
+            f"come. A schedule with entries is not an empty programme, so the previous "
+            f"files stand")
     pages = {}
     # The hall-hire rows are dropped before the film pages are chosen: their product page
     # is never read, so the request is not made at all.
@@ -513,12 +612,19 @@ def fetch_site(site, sleep=1.2):
         except Exception as e:
             print(f"[{pid}] film page {url.rsplit('/', 1)[-1]} failed ({e}); the screening "
                   f"publishes without its synopsis and genres")
-    per_venue, report = parse(site, listing, pages)
+    per_venue, report = parse(site, blocks, pages, when)
     check_shows(per_venue, pid, {v["id"] for v in site["venues"]})
-    print(f"[{pid}] {len(listed)} screening(s) in day groups, {len(pages)} film page(s) read")
+    print(f"[{pid}] {len(listed)} screening(s) in {len(blocks)} schedule block(s), "
+          f"{len(pages)} film page(s) read")
     if report["skipped"]:
         print(f"[{pid}] {len(report['skipped'])} coming-soon entry/entries with no time, "
               f"left out: {', '.join(sorted(set(report['skipped']))[:8])}")
+    if report["repeated"]:
+        print(f"[{pid}] {report['repeated']} screening(s) listed in a second block, "
+              f"published once")
+    if report["past"] or report["unlisted"]:
+        print(f"[{pid}] left out as the page does: {report['past']} already started, "
+              f"{report['unlisted']} not in the catalogue")
     if report["hire"]:
         print(f"[{pid}] {len(report['hire'])} hall-hire title(s) over "
               f"{report['hire_shows']} row(s) left out: "
@@ -528,7 +634,7 @@ def fetch_site(site, sleep=1.2):
               f"settled: {', '.join(sorted(report['unplaced'])[:8])}")
     if not any(per_venue.values()):
         raise RuntimeError(
-            f"{listing_url} holds {len(listed)} screening(s) in its day groups and none "
+            f"{listing_url} holds {len(listed)} screening(s) in its schedule and none "
             f"published. That is a template failure rather than a cinema with nothing on")
     for v in site["venues"]:
         shows = per_venue[v["id"]]

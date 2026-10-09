@@ -3706,3 +3706,41 @@ audio line at all. It is not mapped to `XX-S` for Riviera or Bio-Kaari, even whe
 names the audio. The stated audio is published, and subtitles stay unknown unless the
 cinema gives a distinct, reliable subtitle field. The adapter already worked this way, so
 only the documents changed.
+
+### Kinokulma and Kino Hannikainen render their listing only as a skeleton
+Moved from IDEAS.md on 2026-10-09, as written there:
+
+Since 2026-10-01 the Johku front page arrives whole, short or as a loading skeleton, and
+`johku.py` now publishes only a whole one, re-reading up to five times. Read 2026-10-03,
+Kinokulma and Kino Hannikainen came back loading on all 17 reads each, and Bio Marilyn
+whole on 1 of 19; their previous files stand. Their programmes load only through
+the `X-ApiKey` flow, declined as for Kuva-Tähti above. Evidence:
+[docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+Maintainer, 2026-10-03: both stay listed and red, last good data under the stale notice;
+removal only if a cinema confirms it publishes no screenings. **Next action:** none.
+
+Closed on 2026-10-09 by the next record.
+
+### Johku reads the programme from the front page's own payload (2026-10-09)
+In the 48 committed cloud runs from 2026-10-01 05:22 to 2026-10-09 09:26 UTC, Kinokulma
+failed in all 48, Kino Hannikainen in 46, Vihdin Kino in 35, Bio Marilyn in 34, Kino Virta
+in 28 and Bio Forum in 9. The front page carries the platform's schedule for each
+programme block in its `__NUXT_DATA__` script, and it did so on 30 of 30 reads that day
+while the markup was a skeleton on 25. The browser draws the listing from that copy without
+another request, so no key or session is involved, and the X-ApiKey reading of 2026-10-03
+does not apply to it.
+
+`johku.py` no longer reads the markup. `schedule` takes the programme blocks from the
+storefront's layout, requires the markup to draw as many, and requires each block's
+schedule as a list with no error recorded. `read_listing` re-reads up to five times and
+then fails the site with its files standing. Every block answering empty raises
+`common.EmptyProgramme`. Rows follow the page's own rules: in the catalogue for the
+locale, not started, not coming soon, and once per show id, which drops Bio Marilyn's four
+doubled screenings. A showtime links to the platform's product path on the site's host,
+`/fi_FI/digger` where the page links `/fi_FI/ohjelmisto/digger`.
+
+Verified 2026-10-09 from an ordinary connection: each tenant's parse matched its rendered
+page in films, dates and times (Bio Marilyn 23, Vihdin Kino 27, Bio Forum 31, Kinokulma
+40, Kino Hannikainen 24, Kino Virta 14), all 71 film links answered with their film's
+page, and Bio Forum's four language sentences read as before. Evidence:
+[ticketing-platforms.md](../research/ticketing-platforms.md). 31 mutations red.

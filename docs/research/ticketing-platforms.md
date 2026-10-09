@@ -931,6 +931,62 @@ established.
 `johku.py` reads a listing only when every block is rendered, re-reads up to five times,
 5 s apart, and otherwise fails the site with its previous files standing. Kinokulma and
 Kino Hannikainen stay stale until the storefront renders whole again (IDEAS, Blocked).
+Superseded on 2026-10-09 by the next section.
+
+---
+
+## Johku storefront: the programme is in the page's own payload (2026-10-09)
+
+**Findings** (read 2026-10-09 as a visitor: the six front pages with the adapter's user
+agent, kinokulma.fi in the built-in browser, and the storefront's JavaScript bundle)
+
+- The storefront is a Nuxt application. Each front page carries a `__NUXT_DATA__` script
+  in devalue's flat JSON. It holds the layout, `storefront-{shop}-fi_FI`, and one
+  `showschedule-fi_FI-f{today}-c{category}` entry for each layout item whose `view` is
+  `showtimes`, shaped `{"data": [...]}` with one object per screening or coming-soon film.
+- Loaded in the browser, kinokulma.fi made no request for schedule data after the HTML.
+  Its same-origin calls were `time.json`, three `get-session`, the web manifest and the
+  build manifest. The page drew 42 rows, the 42 entries in the payload, from HTML whose
+  listing was a skeleton.
+- The bundle (`/_nuxt/BfTgRy77.js` that day) builds that key and fetches
+  `{apiUrl}{shop}/{locale}/showschedule.json?details=true&storefront=true&version={locale}
+  &from={today}&category={id}` through Nuxt's `useAsyncData`. While hydrating,
+  `useAsyncData` takes the payload's value when it holds data or an error and requests
+  nothing.
+- The MovieList component draws an entry only when `product.enable_catalog` or
+  `product.enable_collection` is 1 or names the locale, and only when it has not started.
+  ShowItem prints no time when `upcoming` is 1. `js-shows` is MovieList's root class and
+  no other component uses it. MovieList is drawn only for a `showtimes` layout item.
+- The server's `apiUrl` is internal (`http://backend-nginx/`) and the browser's is `/api/`
+  on the storefront's own host. The fetch plugin adds `X-ApiKey` only when the store holds
+  an `apiKey`, which the sign-in code sets to `betterauth:{session token}`. An anonymous
+  page carries none. This is read in the code; the endpoint was not requested.
+- Five reads per tenant, 5 s apart: the markup was a skeleton on 25 of 30 (every read but
+  Bio Forum's), and the payload held every block's schedule with no error on all 30, with
+  the same counts each time: Bio Marilyn 22 and 25 over two blocks, Vihdin Kino 27, Bio
+  Forum 32, Kinokulma 42, Kino Hannikainen 24, Kino Virta 14.
+- An entry's `storefronturl` is the product path, `/fi_FI/{canonical}`, or
+  `/fi_FI/products/{id}-{shop}-{name}` for a product with no canonical name (Kinokulma's
+  Salivaraus). The page's own link puts the block's category in front,
+  `/fi_FI/ohjelmisto/digger`. Both answer 200 with the same film page. Bio Marilyn's
+  `storefronturl` host is biomarilyn.johku.com, and the path answers on www.biomarilyn.com.
+- An entry also carries `price` and `pricing_name` ("Elokuva 13 €") with `multipleprices`,
+  plus director, original title and MACCS language fields. None of these is read.
+- Bio Marilyn lists four Kerro Kaikille screenings in both of its blocks, and the
+  committed file held each of them twice.
+- kuvatahti.fi's front page carries the payload with no `showtimes` item, so no schedule.
+
+**Inferences, not verified**
+
+- The server sends a block's markup before its schedule request returns and serialises
+  the payload after it, which is how a skeleton and a whole schedule arrive together.
+
+**Status and next step**
+
+`johku.py` reads the payload from 2026-10-09; the decision is in
+[docs/archive/2026-09-providers.md](../archive/2026-09-providers.md). A live parse that
+day matched each cinema's rendered page. No next step for the six. Kuva-Tähti's
+`/fi_FI/naytosajat` was not read for a `showtimes` block.
 
 ---
 

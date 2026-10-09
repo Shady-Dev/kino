@@ -23,7 +23,7 @@ What shapes the parser:
 - **The time is stated twice and both are read.** `occur_begin` is a local clock and
   `ts_occur_begin` a Unix instant; 2026-09-04 18:00:00 against 1788534000 is
   2026-09-04T18:00+03:00 in Europe/Helsinki. A row where the two disagree fails the site,
-  the same cross-check `johku.py` and `tribe.py` make.
+  the same cross-check `tribe.py` makes.
 - **No runtime is published.** Every occurrence ends exactly one hour after it begins,
   which is the plugin's default rather than the film's length.
 - **No rating is published**, because the calendar carries none and the cinema's own page

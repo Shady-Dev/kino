@@ -272,20 +272,15 @@ def sample_hamina():
 
 
 def sample_johku():
-    """Bio Marilyn: a coming-soon row with no time and a hall hire in the same day group,
+    """Bio Marilyn: a coming-soon entry with no time and a hall hire in the same schedule,
     so the sample carries both of the shapes that must not reach a venue file."""
     site = JK.MARILYN
-    out = mod("johku").parse(
-        site,
-        JK.listing(JK.group(
-            "Perjantai 19.9.2026",
-            JK.row("hetki", "Hetki ennen valoa", "2026-09-19T14:30:00.000Z", "17.30"),
-            JK.row("filmen", "Filmen", "2026-09-19T16:15:00.000Z", "19.15",
-                   product="1039"),
-            JK.row("digger", "Digger", "", "", timed=False, category="tulossa"),
-            JK.row("sali", "Salivaraus", "2026-09-19T20:00:00.000Z", "23.00",
-                   product="94", path="/fi_FI/products/94-sali"))),
-        {"1038": JK.film(), "1039": JK.film(syn=JK.SYN_SV)})[0]
+    blocks = JK.blocks_of(JK.front((1, JK.two_days() + [
+        JK.entry("3", "Digger", "2026-10-16 00:00", product="1052", upcoming="1"),
+        JK.entry("4", "Salivaraus", "2026-10-09 20:00", product="94",
+                 path="/fi_FI/products/94-sali")])))
+    out = mod("johku").parse(site, blocks, {"1038": JK.film(), "1039": JK.film(syn=JK.SYN_SV)},
+                             JK.NOW)[0]
     return (out, site["provider"], [v["id"] for v in site["venues"]])
 
 

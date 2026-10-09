@@ -1,25 +1,29 @@
-"""The Johku storefront reader: four cinemas, one listing each.
+"""The Johku storefront reader: six cinemas, one front page each.
 
-The fixtures are the markup as read on 2026-09-18, cut to the smallest shape that still
-exercises a rule. Two rows minimum everywhere there is a loop.
+The fixtures are the front page as the storefronts sent it on 2026-10-09, cut to the
+smallest shape that still exercises a rule: the markup draws every programme block as a
+loading skeleton, and the `__NUXT_DATA__` payload carries the schedule the page is drawn
+from. Two entries minimum everywhere there is a loop, over two days or two blocks.
 
 What they exist to prove:
 
-- **The UTC instant and the printed clock are both read.** They agreed on all 71 rows that
-  day, so only a fixture can show what happens when they stop agreeing, which is the fault
-  that would publish every screening at the wrong hour.
-- **A day group holds one thing that is not a screening**, a hall hire, and the storefront
-  files it under `/fi_FI/products/` while every film and event sits under a programme
-  category. Nothing else is left out: a film page with no director, no genre or no answer
-  at all costs the row its metadata and never its place.
-- **A grid item with no `data-showtime` is a coming-soon entry**, and Bio Marilyn had
-  fourteen of them.
+- **Only a whole schedule is published.** A block whose schedule is absent, failed or
+  answered in another shape, and markup drawing a different number of blocks, are read
+  again and then fail the site with its previous files standing. Every block answering
+  with an empty list is the one empty programme.
+- **The page's own rules decide what is a screening**: in the catalogue for the locale,
+  not started, not a coming-soon entry, and once per show id across blocks.
+- **A hall hire has no canonical name**, so the platform files it under `/fi_FI/products/`.
+  Nothing else is left out: a film page with no director, no genre or no answer at all
+  costs the row its metadata and never its place.
 - **The synopsis carries its own language.** Tammisaari publishes Swedish.
 """
 import contextlib
+import datetime
 import io
 import json
 import pathlib
+import re
 import tempfile
 import unittest
 
@@ -31,6 +35,7 @@ import run
 
 MARILYN = next(s for s in J.SITES if s["provider"] == "biomarilyn")
 FORUM = next(s for s in J.SITES if s["provider"] == "bioforum")
+NOW = datetime.datetime(2026, 10, 9, 12, 0, tzinfo=J.FI)
 
 SYN_FI = ("Klaus Härön draama kertoo kahden naisen kohtaamisesta keskellä hoitoalan "
           "kriisiä, kun sairaanhoitajat uhkaavat lakolla ja hän joutuu venymään.")
@@ -42,50 +47,97 @@ SYN_NO_LANGUAGE = ("Odysseus. Troija, Ithaka, Kirke, Kalypso, Skylla, Kharybdis,
                    "Penelope, Telemakhos, Polyfemos, Aiolos, Laistrygonit.")
 
 
-def row(slug, title, when, clock, loc="Bio Marilyn", rating="12", dur="1 h 27 min",
-        product="1038", category="nyt-ohjelmistossa", timed=True, path=None, name=None):
-    """One grid item. `when` is the UTC instant, `clock` what the page prints beside it.
-    `name` replaces the whole `data-name` attribute."""
-    name = name or f'data-name="{title}"'
-    time_span = (f'<span class="showtime" data-showtime="{when}">klo {clock}</span>'
-                 if timed else "")
-    path = path if path is not None else f"/fi_FI/{category}/{slug}"
-    return (f'<a href="{path}" class="js-grid-item js-grid-show" '
-            f'data-product="{product}"><span class="grid-content-image"></span>'
-            f'<span class="showrating rating-icon rating-{rating}">K-{rating}</span>'
-            f'<h3 class="grid-content-title" {name}>{title}</h3>'
-            f'<span class="grid-content-text">'
-            f'<span class="location showlocation venue showresource" '
-            f'data-location="{loc}">{loc}</span>'
-            f'<span class="showtimecontainer">{time_span}'
-            f'<span class="showduration">{dur}</span></span></span></a>')
+def entry(sid, title, start, minutes=87, loc="Bio Marilyn", product="1038", slug=None,
+          rating="K-12", upcoming="0", host="https://biomarilyn.johku.com", path=None,
+          catalog="fi_FI", collection="fi_FI"):
+    """One schedule entry, with the fields the page's ShowItem draws. `start` is the
+    clock the page prints, "2026-10-09 17:30"."""
+    slug = slug or re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    begin = datetime.datetime.fromisoformat(start)
+    return {"id": sid, "shopId": "x", "text": title, "start_date": start,
+            "end_date": f"{begin + datetime.timedelta(minutes=minutes):%Y-%m-%d %H:%M}",
+            "resource_name": loc, "agelimit": rating, "upcoming": upcoming,
+            "storefronturl": host + (path or f"/fi_FI/{slug}"),
+            "product": {"id": product, "name": title, "canonical": slug,
+                        "enable_catalog": catalog, "enable_collection": collection}}
 
 
-def listing(*groups_, shows=True):
-    """The front page. The day groups sit in the `js-shows` block, as on every storefront
-    read 2026-10-03; `shows=False` leaves the block out."""
-    body = "".join(groups_)
-    if shows:
-        body = (f'<div class="js-shows" basedomain="https://johku.com/" shopid="x"><div>'
-                f'{body}</div></div>')
-    return "<html><body><div class='container'>" + body + "</div></body></html>"
+def devalue(value):
+    """`value` in devalue's flat form, as Nuxt writes `__NUXT_DATA__`. A (tag, inner)
+    tuple is a typed value."""
+    flat = []
+
+    def add(v):
+        i = len(flat)
+        flat.append(None)
+        if isinstance(v, tuple):
+            flat[i] = [v[0], add(v[1])]
+        elif isinstance(v, dict):
+            flat[i] = {k: add(x) for k, x in v.items()}
+        elif isinstance(v, list):
+            flat[i] = [add(x) for x in v]
+        else:
+            flat[i] = v
+        return i
+
+    add(value)
+    return json.dumps(flat, ensure_ascii=False)
 
 
-# The loading placeholder the storefront renders in place of day groups it has not filled,
-# read 2026-10-03 on biomarilyn.com: alone it is the whole listing, after rendered groups it
-# stands for the days still to come.
+# The loading placeholder the markup carries in place of a block's day groups, read
+# 2026-10-03 on biomarilyn.com.
 SKELETON = ('<div class="product-list-skeleton" role="status" aria-busy="true" '
             'aria-label="Haetaan..."><span class="sr-only">Haetaan...</span>'
             '<div class="showgroup"><h3 class="daytitle" aria-hidden="true">'
             '<span class="sk-line"></span></h3><div class="js-grid">'
             '<div class="js-grid-item js-grid-product in-grid sk-product-card" '
-            'aria-hidden="true"></div><div class="js-grid-item js-grid-product in-grid '
-            'sk-product-card" aria-hidden="true"></div></div></div></div>')
+            'aria-hidden="true"></div></div></div></div>')
 
 
-def group(day, *rows_):
-    return (f'<div class="showgroup"><h3 class="daytitle">{day}</h3>'
-            f'<div class="js-grid">' + "".join(rows_) + "</div></div>")
+def front(*blocks, shop="biomarilyn", drawn=None, absent=(), failed=(), answers=None):
+    """A front page: `blocks` is (category id, [entry]) per programme block.
+
+    A category in `absent` has no schedule in the payload, one in `failed` has its request
+    recorded as failed, and `answers` replaces a category's answer outright. `drawn` is how
+    many blocks the markup draws, by default as many as the layout names.
+    """
+    items = [{"category": {"id": cid, "canonical": f"c{cid}"}, "products": [],
+              "view": "showtimes"} for cid, _ in blocks]
+    items.append({"category": {"id": 99, "canonical": "lahjakortit"}, "products": [],
+                  "view": "default"})
+    data = {f"storefront-{shop}-fi_FI": {"carousel": {}, "groups": [
+        {"display": "default", "items": items}], "featured": []},
+            "listpreview-none-v-0-0-0": False}
+    errors = {f"storefront-{shop}-fi_FI": None}
+    for cid, entries in blocks:
+        key = f"showschedule-fi_FI-f2026-10-09-c{cid}"
+        if cid in absent:
+            continue
+        data[key] = (answers or {}).get(cid, {"data": entries})
+        errors[key] = None
+        if cid in failed:
+            data[key] = None
+            errors[key] = ("NuxtError", {"statusCode": 500, "message": "fetch failed"})
+    root = ("ShallowReactive", {
+        "data": ("ShallowReactive", data), "state": {}, "once": [],
+        "_errors": ("ShallowReactive", errors), "serverRendered": True, "path": "/",
+        "pinia": {"main": ("Reactive", {"timezone": "Europe/Helsinki", "apiKey": ""})}})
+    markup = "".join(f'<div class="js-shows">{SKELETON}</div>'
+                     for _ in range(len(blocks) if drawn is None else drawn))
+    return ("<html><body><div class='container'>" + markup + "</div>"
+            '<script type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" '
+            f'id="__NUXT_DATA__">{devalue(root)}</script></body></html>')
+
+
+def blocks_of(page):
+    state, blocks = J.schedule(page)
+    assert state == "complete", state
+    return blocks
+
+
+def two_days(loc="Bio Marilyn", host="https://biomarilyn.johku.com"):
+    return [entry("1", "Hetki ennen valoa", "2026-10-09 17:30", loc=loc, host=host),
+            entry("2", "Filmen", "2026-10-10 19:15", product="1039", loc=loc, host=host)]
 
 
 def film(kesto="87 min", genres="Draama", original="Hetki ennen valoa", syn=SYN_FI,
@@ -115,97 +167,201 @@ def film(kesto="87 min", genres="Draama", original="Hetki ennen valoa", syn=SYN_
             + rows_ + "</div></body></html>")
 
 
-class ListingTest(unittest.TestCase):
-    def two(self):
-        return listing(group("Perjantai 19.9.2026",
-                             row("hetki", "Hetki ennen valoa", "2026-09-19T14:30:00.000Z",
-                                 "17.30"),
-                             row("presidentin", "Presidentin kyyditys",
-                                 "2026-09-19T16:15:00.000Z", "19.15", product="1039")))
+class PayloadTest(unittest.TestCase):
+    def test_references_wrappers_and_undefined_are_revived(self):
+        flat = [["ShallowReactive", 1], {"a": 2, "b": 4, "c": -1, "d": 2, "e": 6},
+                ["Reactive", 3], {"x": 5}, ["Set", 5], "v", [5, -1]]
+        page = (f'<script type="application/json" id="__NUXT_DATA__">{json.dumps(flat)}'
+                f"</script>")
+        root = J.payload(page)
+        self.assertEqual(root["a"], {"x": "v"})
+        self.assertIs(root["d"], root["a"], "one index is one value")
+        self.assertIsNone(root["c"])
+        self.assertIs(root["b"], J.UNREAD, "a type the reader does not know is left unread")
+        self.assertEqual(root["e"], ["v", None])
 
-    def test_the_utc_instant_becomes_a_helsinki_offset(self):
-        rows_, skipped = J.rows(MARILYN, self.two())
-        self.assertEqual([r["start"] for r in rows_],
-                         ["2026-09-19T17:30:00+03:00", "2026-09-19T19:15:00+03:00"])
-        self.assertEqual(skipped, [])
+    def test_no_script_or_an_unreadable_one_is_none(self):
+        for page in ("<html><body></body></html>",
+                     '<script id="__NUXT_DATA__">[{"data": 1},</script>',
+                     '<script id="__NUXT_DATA__">"text"</script>',
+                     '<script id="__NUXT_DATA__">["text"]</script>'):
+            with self.subTest(page=page[-30:]):
+                self.assertIsNone(J.payload(page))
 
-    def test_winter_time_converts_at_two_hours(self):
-        page = listing(group("Perjantai 12.12.2026",
-                             row("a", "A", "2026-12-12T17:30:00.000Z", "19.30"),
-                             row("b", "B", "2026-12-12T18:00:00.000Z", "20.00")))
-        self.assertEqual([r["start"] for r in J.rows(MARILYN, page)[0]],
-                         ["2026-12-12T19:30:00+02:00", "2026-12-12T20:00:00+02:00"])
 
-    def test_a_clock_that_contradicts_the_instant_fails_the_site(self):
-        page = listing(group("Perjantai 19.9.2026",
-                             row("a", "A", "2026-09-19T14:30:00.000Z", "17.30"),
-                             row("b", "B", "2026-09-19T16:15:00.000Z", "16.15")))
-        with self.assertRaises(J.ListingRowError) as e:
-            J.rows(MARILYN, page)
-        self.assertIn("16.15", str(e.exception))
+class ScheduleTest(unittest.TestCase):
+    """The shapes a front page can come in. Only the first is the programme."""
+    NOW_ = two_days()
+    LATER = [entry("3", "Lapin sota", "2026-10-23 18:00", product="1059"),
+             entry("4", "Digger", "2026-10-24 15:00", product="1052")]
 
-    def test_an_instant_with_no_offset_fails_the_site(self):
-        page = listing(group("Perjantai 19.9.2026",
-                             row("a", "A", "2026-09-19T14:30:00.000", "17.30"),
-                             row("b", "B", "2026-09-19T16:15:00.000Z", "19.15")))
-        with self.assertRaises(J.ListingRowError) as e:
-            J.rows(MARILYN, page)
-        self.assertIn("no offset", str(e.exception))
+    def test_a_skeleton_with_its_whole_schedule_is_complete(self):
+        """Bio Marilyn's two blocks, 2026-10-09: both drawn as skeletons, both whole in
+        the payload."""
+        state, blocks = J.schedule(front((1, self.NOW_), (9, self.LATER)))
+        self.assertEqual(state, "complete")
+        self.assertEqual([[e["text"] for e in b] for b in blocks],
+                         [["Hetki ennen valoa", "Filmen"], ["Lapin sota", "Digger"]])
+
+    def test_no_block_answered_is_loading(self):
+        page = front((1, self.NOW_), (9, self.LATER), absent=(1, 9))
+        self.assertEqual(J.schedule(page), ("loading", []))
+
+    def test_one_block_answered_beside_one_still_loading_is_loading(self):
+        """"nyt ohjelmistossa" whole and "tulossa" not: publishing it would drop every
+        screening only the second block lists."""
+        for absent in ((9,), (1,)):
+            with self.subTest(absent=absent):
+                page = front((1, self.NOW_), (9, self.LATER), absent=absent)
+                self.assertEqual(J.schedule(page), ("loading", []))
+
+    def test_an_answer_that_is_not_a_list_is_loading(self):
+        for answer in (None, {}, {"data": None}, {"data": {"0": "x"}}, ("Set", [1])):
+            with self.subTest(answer=answer):
+                page = front((1, self.NOW_), (9, self.LATER), answers={9: answer})
+                self.assertEqual(J.schedule(page), ("loading", []))
+
+    def test_a_request_the_server_recorded_as_failed_is_an_error(self):
+        page = front((1, self.NOW_), (9, self.LATER), failed=(9,))
+        self.assertEqual(J.schedule(page), ("error", []))
+
+    def test_markup_drawing_another_number_of_blocks_is_unmatched(self):
+        for drawn in (1, 3):
+            with self.subTest(drawn=drawn):
+                page = front((1, self.NOW_), (9, self.LATER), drawn=drawn)
+                self.assertEqual(J.schedule(page), ("unmatched", []))
+
+    def test_two_schedules_for_one_block_are_unmatched(self):
+        page = front((1, self.NOW_), (9, self.LATER))
+        page = page.replace('"showschedule-fi_FI-f2026-10-09-c9"',
+                            '"showschedule-fi_FI-f2026-10-08-c9"').replace(
+            '"listpreview-none-v-0-0-0"', '"showschedule-fi_FI-f2026-10-09-c9"')
+        self.assertEqual(J.schedule(page), ("unmatched", []))
+
+    def test_no_payload_layout_or_programme_block_is_missing(self):
+        whole = front((1, self.NOW_), (9, self.LATER))
+        no_layout = whole.replace('"storefront-biomarilyn-fi_FI"', '"storefront-x-sv_SE"')
+        no_block = front().replace('<div class="js-shows">', "")
+        no_payload = re.sub(r"<script.*</script>", "", whole, flags=re.S)
+        for page in (no_payload, no_layout, no_block, "<html><body>Bad gateway</body></html>"):
+            with self.subTest(page=page[-50:]):
+                self.assertEqual(J.schedule(page), ("missing", []))
+
+    def test_every_block_answering_with_an_empty_list_is_complete_and_empty(self):
+        self.assertEqual(J.schedule(front((1, []), (9, []))), ("complete", [[], []]))
+
+
+class RowsTest(unittest.TestCase):
+    def rows(self, *entries, now=NOW):
+        return J.rows(MARILYN, blocks_of(front((1, list(entries)))), now)
+
+    def test_the_clock_is_read_as_helsinki_time(self):
+        """Summer time ends on 2026-10-25, so the two days take different offsets."""
+        listed, _ = self.rows(entry("1", "A", "2026-10-24 18:00"),
+                              entry("2", "B", "2026-10-26 18:00"))
+        self.assertEqual([r["start"] for r in listed],
+                         ["2026-10-24T18:00:00+03:00", "2026-10-26T18:00:00+02:00"])
+
+    def test_a_start_that_is_not_a_local_clock_fails_the_site(self):
+        for bad in ("2026-10-24T15:00:00Z", "2026-10-24 18:00+03:00", "24.10.2026 18.00",
+                    "", None):
+            with self.subTest(bad=bad):
+                b = entry("2", "B", "2026-10-24 18:00")
+                b["start_date"] = bad
+                with self.assertRaises(J.ListingRowError) as e:
+                    self.rows(entry("1", "A", "2026-10-24 17:00"), b)
+                self.assertIn("not a local clock", str(e.exception))
 
     def test_a_hall_the_site_does_not_list_fails_the_site(self):
-        page = listing(group("Perjantai 19.9.2026",
-                             row("a", "A", "2026-09-19T14:30:00.000Z", "17.30"),
-                             row("b", "B", "2026-09-19T16:15:00.000Z", "19.15",
-                                 loc="Kulmasali")))
         with self.assertRaises(J.ListingRowError) as e:
-            J.rows(MARILYN, page)
+            self.rows(entry("1", "A", "2026-10-09 17:30"),
+                      entry("2", "B", "2026-10-10 17:30", loc="Kulmasali"))
         self.assertIn("Kulmasali", str(e.exception))
 
-    def test_a_row_with_no_time_is_a_coming_soon_entry(self):
-        page = listing(group("Perjantai 25.9.2026",
-                             row("heart", "Heart of Beast", "", "", timed=False,
-                                 category="tulossa"),
-                             row("digger", "Digger", "", "", timed=False,
-                                 category="tulossa"),
-                             row("avengers", "Avengers Endgame Encore",
-                                 "2026-09-25T16:20:00.000Z", "19.20")))
-        rows_, skipped = J.rows(MARILYN, page)
-        self.assertEqual([r["title"] for r in rows_], ["Avengers Endgame Encore"])
-        self.assertEqual(sorted(skipped), ["Digger", "Heart of Beast"])
+    def test_a_coming_soon_entry_is_counted_and_left_out(self):
+        listed, report = self.rows(entry("1", "Heart of Beast", "2026-10-16 00:00",
+                                         upcoming="1"),
+                                   entry("2", "Digger", "2026-10-23 00:00", upcoming="1"),
+                                   entry("3", "Avengers", "2026-10-10 19:20", product="2"))
+        self.assertEqual([r["title"] for r in listed], ["Avengers"])
+        self.assertEqual(sorted(report["skipped"]), ["Digger", "Heart of Beast"])
 
-    def test_a_grid_outside_a_day_group_is_not_a_screening(self):
-        """The coming-soon shelf renders the same item markup."""
-        page = (listing(group("Perjantai 19.9.2026",
-                              row("a", "A", "2026-09-19T14:30:00.000Z", "17.30")))
-                + '<div class="js-grid">'
-                + row("b", "B", "2026-09-19T16:15:00.000Z", "19.15") + "</div>")
-        rows_, _ = J.rows(MARILYN, page)
-        self.assertEqual([r["title"] for r in rows_], ["A"])
+    def test_an_entry_out_of_the_catalogue_is_left_out_as_the_page_does(self):
+        """Either field may list the locale, or hold 1 for every locale."""
+        cases = [("in the catalogue", "fi_FI", None, True),
+                 ("in a collection", None, "fi_FI;sv_SE", True),
+                 ("in every locale", "1", None, True),
+                 ("in Swedish only", "sv_SE", "sv_SE", False),
+                 ("in none", None, None, False)]
+        listed, report = self.rows(*(entry(str(i), name, f"2026-10-1{i} 18:00", catalog=c,
+                                           collection=k)
+                                     for i, (name, c, k, _) in enumerate(cases)))
+        self.assertEqual([r["title"] for r in listed],
+                         [name for name, _, _, shown in cases if shown])
+        self.assertEqual(report["unlisted"], 2)
 
-    def test_the_row_carries_rating_runtime_and_the_film_page(self):
-        [a, b] = J.rows(MARILYN, self.two())[0]
-        self.assertEqual((a["rating"], a["len"]), ("K-12", "87"))
-        self.assertEqual(a["url"], "https://www.biomarilyn.com/fi_FI/nyt-ohjelmistossa/hetki")
-        self.assertEqual(b["venue"], "biomarilyn-lapua")
+    def test_an_entry_with_no_product_is_left_out(self):
+        bare = entry("2", "B", "2026-10-10 18:00")
+        del bare["product"]
+        listed, report = self.rows(entry("1", "A", "2026-10-09 18:00"), bare)
+        self.assertEqual(([r["title"] for r in listed], report["unlisted"]), (["A"], 1))
 
-    def test_the_name_runs_to_its_own_closing_quote(self):
-        """Until 2026-09-27 the name stopped at either quote, so a raw apostrophe cut it."""
-        cases = [("data-name=\"Don't Look Back\"", "Don't Look Back"),
-                 ("data-name='A Girl&#39;s Story'", "A Girl's Story"),
-                 ("data-name='The \"Best\" Film'", 'The "Best" Film')]
-        page = listing(group("Perjantai 19.9.2026", *(
-            row(f"f{i}", "x", f"2026-09-19T1{i}:30:00.000Z", f"{i + 13}.30",
-                product=str(i), name=attr) for i, (attr, _) in enumerate(cases))))
-        self.assertEqual([r["title"] for r in J.rows(MARILYN, page)[0]],
-                         [want for _, want in cases])
+    def test_a_screening_that_has_started_is_left_out(self):
+        listed, report = self.rows(entry("1", "A", "2026-10-09 11:59"),
+                                   entry("2", "B", "2026-10-09 12:00"))
+        self.assertEqual(([r["title"] for r in listed], report["past"]), (["B"], 1))
 
-    def test_an_unknown_rating_class_is_left_empty(self):
-        page = listing(group("Perjantai 19.9.2026",
-                             row("a", "A", "2026-09-19T14:30:00.000Z", "17.30",
-                                 rating="unknown"),
-                             row("b", "B", "2026-09-19T16:15:00.000Z", "19.15",
-                                 rating="s")))
-        self.assertEqual([r["rating"] for r in J.rows(MARILYN, page)[0]], ["", "S"])
+    def test_a_screening_in_two_blocks_publishes_once(self):
+        """Bio Marilyn, 2026-10-09: four "Kerro Kaikille" screenings in both blocks."""
+        kerro = entry("10309", "Kerro Kaikille", "2026-10-10 17:00", product="1056")
+        blocks = blocks_of(front((1, [kerro, entry("1", "A", "2026-10-11 18:00")]),
+                                 (9, [kerro, entry("2", "B", "2026-10-12 18:00")])))
+        listed, report = J.rows(MARILYN, blocks, NOW)
+        self.assertEqual([r["title"] for r in listed], ["Kerro Kaikille", "A", "B"])
+        self.assertEqual(report["repeated"], 1)
+
+    def test_the_row_carries_rating_runtime_and_the_film_page_on_the_sites_host(self):
+        listed, _ = self.rows(entry("1", "A", "2026-10-09 17:30", minutes=112),
+                              entry("2", "B", "2026-10-10 17:30", rating="7", product="2",
+                                    path="/fi_FI/b-elokuva"))
+        self.assertEqual([(r["rating"], r["len"]) for r in listed],
+                         [("K-12", "112"), ("K-7", "87")])
+        self.assertEqual([r["url"] for r in listed],
+                         ["https://www.biomarilyn.com/fi_FI/a",
+                          "https://www.biomarilyn.com/fi_FI/b-elokuva"])
+        self.assertEqual({r["venue"] for r in listed}, {"biomarilyn-lapua"})
+
+    def test_a_rating_the_page_does_not_badge_is_left_empty(self):
+        values = ["S", "K-S", "3", "K16", "18", "-", "unknown", None, 12]
+        listed, _ = self.rows(*(entry(str(i), f"F{i}", f"2026-10-1{i} 18:00", rating=v)
+                                for i, v in enumerate(values)))
+        self.assertEqual([r["rating"] for r in listed],
+                         ["S", "S", "S", "K-16", "K-18", "", "", "", ""])
+
+    def test_a_runtime_with_no_end_after_the_start_is_left_empty(self):
+        a, b = entry("1", "A", "2026-10-09 17:30"), entry("2", "B", "2026-10-10 17:30")
+        a["end_date"], b["end_date"] = "2026-10-09 17:30", None
+        self.assertEqual([r["len"] for r in self.rows(a, b)[0]], ["", ""])
+
+    def test_an_entry_with_no_film_page_path_fails_the_site(self):
+        for link in (None, "", "https://biomarilyn.johku.com/", "/sv_SE/a"):
+            with self.subTest(link=link):
+                b = entry("2", "B", "2026-10-10 17:30")
+                b["storefronturl"] = link
+                with self.assertRaises(J.ListingRowError):
+                    self.rows(entry("1", "A", "2026-10-09 17:30"), b)
+
+    def test_the_title_is_published_with_its_spacing_collapsed(self):
+        """Bio Marilyn's " PäiväKaffiLeffa:Hetki Ennen Valoa" and "Heart of  the Beast"."""
+        listed, _ = self.rows(entry("1", " PäiväKaffiLeffa:Hetki Ennen Valoa",
+                                    "2026-10-14 14:00"),
+                              entry("2", "Heart of  the Beast ", "2026-10-15 19:15"))
+        self.assertEqual([r["title"] for r in listed],
+                         ["PäiväKaffiLeffa:Hetki Ennen Valoa", "Heart of the Beast"])
+
+    def test_an_entry_with_no_title_fails_the_site(self):
+        with self.assertRaises(J.ListingRowError):
+            self.rows(entry("1", "A", "2026-10-09 17:30"), entry("2", " ", "2026-10-10 17:30"))
 
 
 class FilmFactsTest(unittest.TestCase):
@@ -309,7 +465,8 @@ class FilmLanguageTest(unittest.TestCase):
     def test_the_row_carries_its_film_pages_language(self):
         page = film().replace("<p>Elokuvateattereissa 4.9.</p>",
                               "<p>Elokuva on puhuttu suomeksi ja tekstitys on ruotsiksi.</p>")
-        shows, _ = J.parse(MARILYN, ParseTest.listing_(None), {"1038": page, "1039": film()})
+        shows, _ = J.parse(MARILYN, blocks_of(front((1, two_days()))),
+                           {"1038": page, "1039": film()}, NOW)
         self.assertEqual([s["lang"] for s in shows["biomarilyn-lapua"]], ["FI-A, SV-S", ""])
 
 
@@ -319,106 +476,56 @@ class ParseTest(unittest.TestCase):
         pages.update(over)
         return pages
 
-    def listing_(self):
-        return listing(group("Perjantai 19.9.2026",
-                             row("hetki", "Hetki ennen valoa", "2026-09-19T14:30:00.000Z",
-                                 "17.30"),
-                             row("filmen", "Filmen", "2026-09-19T16:15:00.000Z", "19.15",
-                                 product="1039")))
+    def blocks(self):
+        return blocks_of(front((1, two_days())))
 
     def test_the_synopsis_is_keyed_by_the_language_it_is_written_in(self):
-        shows, report = J.parse(MARILYN, self.listing_(), self.pages())
+        shows, report = J.parse(MARILYN, self.blocks(), self.pages(), NOW)
         [a, b] = shows["biomarilyn-lapua"]
         self.assertEqual(a["_syn"], {"fi": SYN_FI})
         self.assertEqual(b["_syn"], {"sv": SYN_SV})
         self.assertEqual(report["unplaced"], set())
 
     def test_a_text_in_no_settled_language_is_withheld_and_counted(self):
-        shows, report = J.parse(MARILYN, self.listing_(),
-                                self.pages(**{"1039": film(syn=SYN_NO_LANGUAGE)}))
+        shows, report = J.parse(MARILYN, self.blocks(),
+                                self.pages(**{"1039": film(syn=SYN_NO_LANGUAGE)}), NOW)
         self.assertNotIn("_syn", shows["biomarilyn-lapua"][1])
         self.assertEqual(report["unplaced"], {"Filmen"})
 
     def test_a_row_whose_page_carries_no_director_or_genre_still_publishes(self):
         """A small film that publishes little about itself keeps its place."""
-        shows, _ = J.parse(MARILYN, self.listing_(),
-                           self.pages(**{"1039": film(labels=False)}))
+        shows, _ = J.parse(MARILYN, self.blocks(),
+                           self.pages(**{"1039": film(labels=False)}), NOW)
         [a, b] = shows["biomarilyn-lapua"]
         self.assertEqual(b["title"], "Filmen")
         self.assertEqual((b["genres"], b["original"]), ("", ""))
         self.assertEqual(b["len"], "87", "the row's own runtime stands")
 
     def test_a_row_whose_page_was_not_read_publishes_without_its_metadata(self):
-        shows, _ = J.parse(MARILYN, self.listing_(), {"1038": film()})
+        shows, _ = J.parse(MARILYN, self.blocks(), {"1038": film()}, NOW)
         titles = [s["title"] for s in shows["biomarilyn-lapua"]]
         self.assertEqual(titles, ["Hetki ennen valoa", "Filmen"])
         self.assertEqual(shows["biomarilyn-lapua"][1]["genres"], "")
         self.assertNotIn("_syn", shows["biomarilyn-lapua"][1])
 
     def test_hall_hire_is_left_out_by_its_path(self):
-        page = listing(group("Perjantai 19.9.2026",
-                             row("hetki", "Hetki ennen valoa", "2026-09-19T14:30:00.000Z",
-                                 "17.30"),
-                             row("sali", "Salivaraus", "2026-09-19T16:15:00.000Z",
-                                 "19.15", product="94",
-                                 path="/fi_FI/products/94-kinokulma-salivaraus")))
-        shows, report = J.parse(MARILYN, page, self.pages())
+        blocks = blocks_of(front((1, [
+            entry("1", "Hetki ennen valoa", "2026-10-09 17:30"),
+            entry("2", "Salivaraus", "2026-10-09 19:15", product="94",
+                  path="/fi_FI/products/94-kinokulma-salivaraus")])))
+        shows, report = J.parse(MARILYN, blocks, self.pages(), NOW)
         self.assertEqual([s["title"] for s in shows["biomarilyn-lapua"]],
                          ["Hetki ennen valoa"])
         self.assertEqual((report["hire"], report["hire_shows"]), ({"Salivaraus"}, 1))
 
     def test_the_show_shape(self):
-        shows, _ = J.parse(MARILYN, self.listing_(), self.pages())
+        shows, _ = J.parse(MARILYN, self.blocks(), self.pages(), NOW)
         s = shows["biomarilyn-lapua"][0]
         self.assertEqual((s["price"], s["img"], s["soldOut"], s["aud"], s["lang"]),
                          ("", "", False, "", ""))
         self.assertEqual((s["eventId"], s["provider"], s["theatre"]),
                          ("1038", "biomarilyn", "Bio Marilyn"))
         self.assertEqual(s["original"], "Hetki ennen valoa")
-
-
-class ListingStateTest(unittest.TestCase):
-    """The three shapes the front page came back in on 2026-10-03, and a page without the
-    listing block. Only the first is the programme."""
-    ROWS = (row("a", "A", "2026-10-03T12:30:00.000Z", "15.30"),
-            row("b", "B", "2026-10-04T12:30:00.000Z", "15.30", product="1039"))
-
-    def test_a_listing_rendered_whole(self):
-        self.assertEqual(J.listing_state(listing(group("Lauantai 3.10.2026", *self.ROWS))),
-                         "rendered")
-
-    def test_a_skeleton_alone_and_a_short_listing_are_both_loading(self):
-        for page in (listing(SKELETON),
-                     listing(group("Lauantai 3.10.2026", *self.ROWS), SKELETON)):
-            with self.subTest(page=page[-60:]):
-                self.assertEqual(J.listing_state(page), "loading")
-
-    def test_a_second_category_still_loading_makes_the_page_loading(self):
-        """Bio Marilyn, 2026-10-03: "nyt-ohjelmistossa" whole, "tulossa" a skeleton, so the
-        page held 9 screenings of 14."""
-        first = listing(group("Lauantai 3.10.2026", *self.ROWS))
-        second = '<div class="js-shows" basedomain="https://johku.com/" shopid="x">' + SKELETON + "</div>"
-        self.assertEqual(J.listing_state(first.replace("</body>", second + "</body>")), "loading")
-        whole = second.replace(SKELETON, group("Maanantai 14.12.2026", self.ROWS[0]))
-        self.assertEqual(J.listing_state(first.replace("</body>", whole + "</body>")), "rendered")
-
-    def test_either_marker_alone_is_loading(self):
-        """The two arrive together today; each is read on its own in case one is renamed."""
-        for marker in ('<div role="status" aria-busy="true"></div>',
-                       '<div class="js-grid-item sk-product-card"></div>'):
-            with self.subTest(marker=marker):
-                self.assertEqual(J.listing_state(listing(
-                    group("Lauantai 3.10.2026", *self.ROWS), marker)), "loading")
-
-    def test_a_page_without_the_listing_block_is_missing(self):
-        self.assertEqual(J.listing_state(listing(group("Lauantai 3.10.2026", *self.ROWS),
-                                                 shows=False)), "missing")
-        self.assertEqual(J.listing_state("<html><body></body></html>"), "missing")
-
-    def test_a_placeholder_outside_the_listing_does_not_count(self):
-        page = listing(group("Lauantai 3.10.2026", *self.ROWS)).replace(
-            "</body>", '<div class="carousel" aria-busy="true"></div></body>')
-        self.assertEqual(J.listing_state(page), "rendered")
 
 
 class RunnerTest(unittest.TestCase):
@@ -428,10 +535,12 @@ class RunnerTest(unittest.TestCase):
         self._out = run.OUT
         run.OUT = pathlib.Path(self.tmp.name)
         self.addCleanup(lambda: setattr(run, "OUT", self._out))
-        self._fetch, self._sleep = J.fetch, J.time.sleep
+        self._fetch, self._sleep, self._now = J.fetch, J.time.sleep, J.now
         self.addCleanup(lambda: setattr(J, "fetch", self._fetch))
         self.addCleanup(lambda: setattr(J.time, "sleep", self._sleep))
+        self.addCleanup(lambda: setattr(J, "now", self._now))
         J.time.sleep = lambda s: None
+        J.now = lambda: NOW
         self.calls = []
 
     def serve(self, pages):
@@ -455,103 +564,133 @@ class RunnerTest(unittest.TestCase):
             code = run.main(["johku", "--half", half])
         return code, out.getvalue() + err.getvalue()
 
+    @staticmethod
+    def entries(site, *names, day="2026-10-09"):
+        loc = site["venues"][0]["loc"]
+        return [entry(f"{site['provider']}-{day}-{i}", n, f"{day} 1{7 + i}:00", loc=loc,
+                      product=str(i + 1), host=site["base"])
+                for i, n in enumerate(names)]
+
     def all_sites(self, **over):
         pages = {}
         for site in J.SITES:
-            loc = site["venues"][0]["loc"]
             base = site["base"]
-            pages[base + "/"] = listing(group(
-                "Perjantai 19.9.2026",
-                row("a", "A", "2026-09-19T14:30:00.000Z", "17.30", loc=loc,
-                    product="1", category="ohjelmisto"),
-                row("b", "B", "2026-09-19T16:15:00.000Z", "19.15", loc=loc,
-                    product="2", category="ohjelmisto")))
-            pages[base + "/fi_FI/ohjelmisto/a"] = film()
-            pages[base + "/fi_FI/ohjelmisto/b"] = film(syn=SYN_SV)
+            pages[base + "/"] = front((1, self.entries(site, "A", "B")),
+                                      shop=site["provider"])
+            pages[base + "/fi_FI/a"] = film()
+            pages[base + "/fi_FI/b"] = film(syn=SYN_SV)
         pages.update(over)
         return pages
 
-    def test_all_sites_publish(self):
+    def keep(self, vid):
+        prev = {"generated": "2026-10-01T00:00:00+00:00", "dates": ["2026-10-01"],
+                "horizon": "2026-10-01",
+                "shows": [{"title": "Old", "start": "2026-10-01T12:00:00+03:00"}]}
+        (run.OUT / f"area-{vid}.json").write_text(json.dumps(prev))
+        return prev
+
+    def shows(self, vid):
+        return json.loads((run.OUT / f"area-{vid}.json").read_text())["shows"]
+
+    def test_all_sites_publish_from_pages_whose_markup_is_a_skeleton(self):
         self.serve(self.all_sites())
         code, log = self.main()
         self.assertEqual(code, 0, log)
         for site in J.SITES:
-            vid = site["venues"][0]["id"]
-            shows = json.loads((run.OUT / f"area-{vid}.json").read_text())["shows"]
-            self.assertEqual(len(shows), 2, vid)
+            shows = self.shows(site["venues"][0]["id"])
+            self.assertEqual([s["title"] for s in shows], ["A", "B"], site["provider"])
             self.assertEqual({s["price"] for s in shows}, {""})
         self.assertIn("0 failures", log)
 
-    def test_a_listing_with_no_day_group_fails_that_site_and_keeps_its_file(self):
-        """No tenant has been seen empty, so this may not read as an empty programme."""
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01",
-                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / "area-kinokulma-oulainen.json").write_text(json.dumps(prev))
-        self.serve(self.all_sites(**{"https://kinokulma.fi/": listing()}))
-        code, log = self.main()
-        self.assertEqual(code, 1, log)
-        self.assertIn("no evidence of one", log)
-        self.assertNotIn("no programme published", log)
-        self.assertEqual(json.loads(
-            (run.OUT / "area-kinokulma-oulainen.json").read_text()), prev)
-        self.assertTrue((run.OUT / "area-bioforum-tammisaari.json").exists())
+    def marilyn(self, **kw):
+        """Bio Marilyn's two blocks, a screening on each of two days."""
+        site = MARILYN
+        return front((1, self.entries(site, "A", "B")),
+                     (9, self.entries(site, "C", day="2026-10-16")), **kw)
 
-    def keep(self, vid):
-        prev = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
-                "horizon": "2026-09-01",
-                "shows": [{"title": "Old", "start": "2026-09-01T12:00:00+03:00"}]}
-        (run.OUT / f"area-{vid}.json").write_text(json.dumps(prev))
-        return prev
-
-    def test_a_loading_listing_is_read_again_until_it_renders(self):
-        whole = self.all_sites()["https://www.biomarilyn.com/"]
-        short = whole.replace("</div></div></div></body>", SKELETON + "</div></div></div></body>")
-        self.assertEqual(J.listing_state(short), "loading")
-        self.serve(self.all_sites(**{"https://www.biomarilyn.com/":
-                                     [listing(SKELETON), short, whole]}))
+    def test_an_incomplete_schedule_is_read_again_until_it_is_whole(self):
+        self.serve(self.all_sites(**{"https://www.biomarilyn.com/": [
+            self.marilyn(absent=(1, 9)), self.marilyn(absent=(9,)), self.marilyn()]}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual(self.calls.count("https://www.biomarilyn.com/"), 3)
-        self.assertIn("[biomarilyn] the listing rendered whole on read 3 of 5", log)
-        shows = json.loads((run.OUT / "area-biomarilyn-lapua.json").read_text())["shows"]
-        self.assertEqual(len(shows), 2)
+        self.assertIn("[biomarilyn] the schedule was complete on read 3 of 5", log)
+        self.assertEqual([s["title"] for s in self.shows("biomarilyn-lapua")], ["A", "B", "C"])
 
-    def test_a_listing_that_never_renders_fails_and_keeps_its_file(self):
-        """A short listing is never published as the programme, and a skeleton never as an
-        empty one. The other sites publish."""
-        whole = self.all_sites()["https://kinokulma.fi/"]
-        short = whole.replace("</div></div></div></body>", SKELETON + "</div></div></div></body>")
-        for body, state in ((short, "loading"), (listing(SKELETON), "loading"),
-                            ("<html><body>Bad gateway</body></html>", "missing")):
-            with self.subTest(state=state, body=body[-40:]):
+    def test_an_incomplete_schedule_fails_and_keeps_the_last_good_data(self):
+        """Nothing short of the whole schedule replaces the files, and nothing short of
+        it is published as an empty programme. The other sites publish."""
+        cases = {"fully loading": (self.marilyn(absent=(1, 9)), "loading"),
+                 "one block of two": (self.marilyn(absent=(9,)), "loading"),
+                 "a failed request": (self.marilyn(failed=(1,)), "error"),
+                 "another block count": (self.marilyn(drawn=1), "unmatched"),
+                 "no payload": ("<html><body>Bad gateway</body></html>", "missing")}
+        for name, (body, state) in cases.items():
+            with self.subTest(case=name):
                 self.calls = []
-                prev = self.keep("kinokulma-oulainen")
-                self.serve(self.all_sites(**{"https://kinokulma.fi/": [body]}))
+                prev = self.keep("biomarilyn-lapua")
+                self.serve(self.all_sites(**{"https://www.biomarilyn.com/": [body]}))
                 code, log = self.main()
                 self.assertEqual(code, 1, log)
-                self.assertEqual(self.calls.count("https://kinokulma.fi/"), J.LISTING_TRIES)
-                self.assertIn(f"not rendered whole on any of {J.LISTING_TRIES} reads ({state}",
-                              log)
+                self.assertEqual(self.calls.count("https://www.biomarilyn.com/"),
+                                 J.LISTING_TRIES)
+                self.assertIn(f"not complete on any of {J.LISTING_TRIES} reads ({state}", log)
+                self.assertNotIn("no programme published", log)
                 self.assertEqual(json.loads(
-                    (run.OUT / "area-kinokulma-oulainen.json").read_text()), prev)
-                self.assertTrue((run.OUT / "area-bioforum-tammisaari.json").exists())
+                    (run.OUT / "area-biomarilyn-lapua.json").read_text()), prev)
+                self.assertEqual(len(self.shows("bioforum-tammisaari")), 2)
+
+    def test_a_plainly_empty_schedule_publishes_the_cinema_empty(self):
+        """Every block answered with an empty list: one block at Kinokulma, two at Bio
+        Marilyn. Their old screenings leave the page and the run stays green."""
+        for vid in ("kinokulma-oulainen", "biomarilyn-lapua"):
+            self.keep(vid)
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": front((1, []), shop="kinokulma"),
+                                     "https://www.biomarilyn.com/": front((1, []), (9, []))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertIn("[kinokulma] no programme published", log)
+        self.assertIn("[biomarilyn] no programme published", log)
+        self.assertEqual(self.shows("kinokulma-oulainen"), [])
+        self.assertEqual(self.shows("biomarilyn-lapua"), [])
+        self.assertEqual(len(self.shows("bioforum-tammisaari")), 2)
+
+    def test_one_empty_block_beside_a_full_one_is_not_an_empty_programme(self):
+        self.serve(self.all_sites(**{"https://www.biomarilyn.com/": front(
+            (1, []), (9, self.entries(MARILYN, "A", "B")))}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([s["title"] for s in self.shows("biomarilyn-lapua")], ["A", "B"])
+
+    def test_entries_with_no_screening_still_to_come_fail_and_keep_the_file(self):
+        """Coming-soon entries and a screening that has started are not an empty
+        programme: the page still lists films."""
+        prev = self.keep("vihdinkino-vihti")
+        site = next(s for s in J.SITES if s["provider"] == "vihdinkino")
+        soon, started = self.entries(site, "Soon", "Started")
+        soon["upcoming"], started["start_date"] = "1", "2026-10-09 11:00"
+        self.serve(self.all_sites(**{"https://vihdinkino.fi/": front(
+            (1, [soon, started]), shop="vihdinkino")}))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertIn("2 schedule entries and none a timed screening still to come", log)
+        self.assertEqual(json.loads((run.OUT / "area-vihdinkino-vihti.json").read_text()),
+                         prev)
 
     def test_the_reads_are_paced(self):
         waits = []
         J.time.sleep = waits.append
-        self.serve(self.all_sites(**{"https://kinokulma.fi/": [listing(SKELETON)]}))
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": [
+            front((1, []), shop="kinokulma", absent=(1,))]}))
         self.main()
         self.assertEqual(waits.count(J.LISTING_WAIT), J.LISTING_TRIES - 1)
 
-    def test_a_listing_of_nothing_but_hall_hire_fails_that_site(self):
-        self.serve(self.all_sites(**{
-            "https://bioforum.fi/": listing(group(
-                "Perjantai 19.9.2026",
-                row("a", "Salivaraus", "2026-09-19T14:30:00.000Z", "17.30",
-                    loc="Bio Forum", product="94", path="/fi_FI/products/94-sali"),
-                row("b", "Salivaraus 2", "2026-09-19T16:15:00.000Z", "19.15",
-                    loc="Bio Forum", product="95", path="/fi_FI/products/95-sali")))}))
+    def test_a_schedule_of_nothing_but_hall_hire_fails_that_site(self):
+        self.serve(self.all_sites(**{"https://bioforum.fi/": front((1, [
+            entry("1", "Salivaraus", "2026-10-09 17:30", loc="Bio Forum", product="94",
+                  path="/fi_FI/products/94-sali"),
+            entry("2", "Salivaraus 2", "2026-10-10 19:15", loc="Bio Forum", product="95",
+                  path="/fi_FI/products/95-sali")]), shop="bioforum")}))
         code, log = self.main()
         self.assertEqual(code, 1, log)
         self.assertIn("template failure", log)
@@ -561,24 +700,21 @@ class RunnerTest(unittest.TestCase):
     def test_a_film_page_that_fails_still_publishes_its_screenings(self):
         """The page carries metadata, not the decision to publish."""
         self.serve(self.all_sites(**{
-            "https://vihdinkino.fi/fi_FI/ohjelmisto/a": RuntimeError("HTTP Error 503")}))
+            "https://vihdinkino.fi/fi_FI/a": RuntimeError("HTTP Error 503")}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
-        shows = json.loads(
-            (run.OUT / "area-vihdinkino-vihti.json").read_text())["shows"]
+        shows = self.shows("vihdinkino-vihti")
         self.assertEqual([s["title"] for s in shows], ["A", "B"])
         self.assertEqual(shows[0]["genres"], "")
 
     def test_the_hall_hire_page_is_never_fetched(self):
         """It is dropped before the film pages are chosen, so the request is not made."""
-        self.serve(self.all_sites(**{
-            "https://kinokulma.fi/": listing(group(
-                "Perjantai 19.9.2026",
-                row("a", "A", "2026-09-19T14:30:00.000Z", "17.30", loc="Kulmasali",
-                    product="1", category="ohjelmisto"),
-                row("sali", "Salivaraus", "2026-09-19T20:00:00.000Z", "23.00",
-                    loc="Kulmasali", product="94",
-                    path="/fi_FI/products/94-kinokulma-salivaraus")))}))
+        site = next(s for s in J.SITES if s["provider"] == "kinokulma")
+        [a] = self.entries(site, "A")
+        self.serve(self.all_sites(**{"https://kinokulma.fi/": front((1, [
+            a, entry("9", "Salivaraus", "2026-10-09 20:00", loc="Kulmasali", product="94",
+                     host=site["base"], path="/fi_FI/products/94-kinokulma-salivaraus")]),
+            shop="kinokulma")}))
         code, log = self.main()
         self.assertEqual(code, 0, log)
         self.assertEqual([c for c in self.calls if "/products/" in c], [])
@@ -604,25 +740,24 @@ class KinoHannikainenTest(unittest.TestCase):
 
     SITE = next(s for s in J.SITES if s["provider"] == "kinohannikainen")
 
-    def listing_(self):
-        return listing(group(
-            "Perjantai 2.10.2026",
-            row("rakkautta-ja-virtahepoja", "Rakkautta ja virtahepoja",
-                "2026-10-02T14:00:00.000Z", "17.00", loc="Hannikaisen sali",
-                product="1", category="ohjelmisto", dur="1 h 41 min"),
-            row("myrskyn-nbsp-ikkuna", "MYRSKYN IKKUNA",
-                "2026-10-02T16:30:00.000Z", "19.30", loc="Hannikaisen sali",
-                product="2", category="ohjelmisto", dur="1 h 40 min")))
-
     def test_the_hall_the_rows_carry_is_the_declared_venue(self):
-        shows, _ = J.parse(self.SITE, self.listing_(), {})
+        host = "https://kinohannikainen.johku.com"
+        blocks = blocks_of(front((6, [
+            entry("1", "Rakkautta ja virtahepoja", "2026-10-09 17:00", minutes=101,
+                  loc="Hannikaisen sali", product="1", host=host),
+            entry("2", "MYRSKYN IKKUNA", "2026-10-10 19:30", minutes=100,
+                  loc="Hannikaisen sali", product="2", host=host)]),
+            shop="kinohannikainen"))
+        shows, _ = J.parse(self.SITE, blocks, {}, NOW)
         self.assertEqual(list(shows), ["kinohannikainen-nurmes"])
         rows_ = shows["kinohannikainen-nurmes"]
         self.assertEqual([s["title"] for s in rows_],
                          ["Rakkautta ja virtahepoja", "MYRSKYN IKKUNA"])
         self.assertEqual([s["start"] for s in rows_],
-                         ["2026-10-02T17:00:00+03:00", "2026-10-02T19:30:00+03:00"])
+                         ["2026-10-09T17:00:00+03:00", "2026-10-10T19:30:00+03:00"])
         self.assertEqual({s["theatre"] for s in rows_}, {"Kino Hannikainen"})
+        self.assertTrue(all(s["url"].startswith("https://www.kinohannikainen.net/fi_FI/")
+                            for s in rows_))
 
     def test_the_listing_is_read_from_the_cinemas_own_domain(self):
         """`johku.com` is the platform, not the host any site is read from. A base there
@@ -643,19 +778,17 @@ class KinoVirtaTest(unittest.TestCase):
     SITE = next(s for s in J.SITES if s["provider"] == "kinovirta")
 
     def test_the_hall_the_rows_carry_is_the_declared_venue(self):
-        page = listing(group(
-            "Keskiviikko 23.9.2026",
-            row("presidentin-kyyditys", "Presidentin Kyyditys",
-                "2026-09-23T15:00:00.000Z", "18.00", loc="Virta-sali",
-                product="1", category="ohjelmisto"),
-            row("resident-evil", "Resident Evil", "2026-09-23T16:40:00.000Z", "19.40",
-                loc="Virta-sali", product="2", category="ohjelmisto",
-                dur="1 h 35 min")))
-        shows, _ = J.parse(self.SITE, page, {})
+        host = self.SITE["base"]
+        blocks = blocks_of(front((2, [
+            entry("1", "Presidentin Kyyditys", "2026-10-09 18:00", loc="Virta-sali",
+                  product="1", host=host),
+            entry("2", "Resident Evil", "2026-10-09 19:40", loc="Virta-sali",
+                  product="2", host=host)]), shop="kinovirta"))
+        shows, _ = J.parse(self.SITE, blocks, {}, NOW)
         self.assertEqual(list(shows), ["kinovirta-kalajoki"])
         rows_ = shows["kinovirta-kalajoki"]
         self.assertEqual([s["start"] for s in rows_],
-                         ["2026-09-23T18:00:00+03:00", "2026-09-23T19:40:00+03:00"])
+                         ["2026-10-09T18:00:00+03:00", "2026-10-09T19:40:00+03:00"])
         self.assertEqual({s["theatre"] for s in rows_}, {"Kino Virta"})
 
     def test_it_is_the_only_site_read_from_the_platform_domain(self):
