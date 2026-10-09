@@ -823,6 +823,7 @@
     "joutsankino",
     "kinoaurora",
     "kinoelo",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokilta",
@@ -1602,7 +1603,7 @@
    "img": "data/posters/fc034c34f1eaf82a.jpg",
    "r": 0,
    "s": {
-    "en": "Following the events of \"Jailer\",  former ruthless police officer Muthuvel Pandian must come face-to-face with the consequences of his actions against the antique mafia.",
+    "en": "When a dangerous syndicate expands its reach to threaten his family's peace, retired jailer Tiger Muthuvel Pandian goes undercover as a driver. Operating from the shadows, he takes on ruthless new enemies to protect his home.",
     "fi": ""
    },
    "tr": "",
@@ -1780,6 +1781,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk"
   },
+  "keltaiset kirjeet matinea": {
+   "id": 1315657,
+   "img": "data/posters/39786b34eaf050e5.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "",
+    "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=N_pQLLsSOWk",
+   "ts": [
+    "fi"
+   ]
+  },
   "ken russell s the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
@@ -1836,6 +1850,7 @@
     "kinoakseli",
     "kinoaurora",
     "kinoelo",
+    "kinohannikainen",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -2134,7 +2149,6 @@
   },
   "kirjastokino linnaisten vihreä kamari": {
    "id": 438815,
-   "img": "data/posters/1d95e719b7fde90c.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -2655,12 +2669,23 @@
    "krs": [
     "biokaari",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "ihmekompleksi",
+    "joutsankino",
+    "kino123",
+    "kinojuha",
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -2677,12 +2702,23 @@
    "krs": [
     "biokaari",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "ihmekompleksi",
+    "joutsankino",
+    "kino123",
+    "kinojuha",
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -2702,12 +2738,23 @@
    "krs": [
     "biokaari",
     "biorex",
+    "biorexkokkola",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "ihmekompleksi",
+    "joutsankino",
+    "kino123",
+    "kinojuha",
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
     "tapiola"
    ],
    "r": 0,
@@ -3328,7 +3375,6 @@
    "krs": [
     "biorex",
     "julia",
-    "kinohannikainen",
     "kinohirvi",
     "kinolaika",
     "kuvakukko",
@@ -4313,6 +4359,7 @@
     "julia",
     "kinoakseli",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4358,6 +4405,7 @@
     "julia",
     "kinoakseli",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4400,6 +4448,7 @@
     "julia",
     "kinoakseli",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -4465,6 +4514,7 @@
     "julia",
     "kinoakseli",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -6020,19 +6070,6 @@
     "fi"
    ]
   },
-  "tekijätorstai tyttö sinä olet tähti": {
-   "id": 53296,
-   "img": "data/posters/4a313e46ae1be0f6.jpg",
-   "r": 6.2,
-   "s": {
-    "en": "",
-    "fi": "Täydellisen perheen täydellinen tytär Nelli unelmoi laulajan urasta vaikka vanhemmat toivoisivat lapselleen lääkärin uraa. Nelli saa avukseen Sunen, hip hop-DJ:n, joka pelkää naisia, mutta on musiikkinsa suhteen ehdoton. Intohimo musiikkiin lähentää kuitenkin lahjakkaista nuoria toisiinsa enemmän kuin kummallakaan olisi tarkoitus - siinä kiitetyn rakkauskomedia lähtöasetelma."
-   },
-   "tr": "https://www.youtube.com/watch?v=gAYNH5y5Xmo",
-   "ts": [
-    "fi"
-   ]
-  },
   "tekijätorstai tytöt tytöt tytöt": {
    "id": 683363,
    "img": "data/posters/26bcd92f91926027.jpg",
@@ -6916,6 +6953,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
@@ -7025,6 +7063,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
@@ -7172,6 +7211,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
+    "kinohannikainen",
     "kinohirvi",
     "kinojuha",
     "kinokulma",
@@ -7430,7 +7470,7 @@
     "vaakuna",
     "vihdinkino"
    ],
-   "r": 6.9,
+   "r": 6.5,
    "s": {
     "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
@@ -7635,5 +7675,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-08"
+ "generated": "2026-10-09"
 }
