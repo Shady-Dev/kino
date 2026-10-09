@@ -22,10 +22,12 @@ What shapes the parser:
 - **A film title is the paragraph a figure follows.** Nothing else marks one: the heading
   is a `<strong>` the editor sometimes closes early, "Presidentin kyydity</strong>s" on the
   day read, so the paragraph's whole text is the title and the `<strong>` is not read.
-- **The screening list ends at the first blank paragraph.** Every paragraph between the
-  heading and that blank is a screening: a title line and one date line per showing. A
-  line inside that block the parser cannot read raises, because the block is where the
-  cinema states its whole weekend.
+- **The screening list ends at the first blank paragraph or the first film block.** Every
+  paragraph between the heading and that point is a screening: a title line and one date
+  line per showing. A line inside that block the parser cannot read raises, because the
+  block is where the cinema states its whole weekend. Read 2026-10-10, the page put the
+  first screening in the heading's own paragraph and left no blank before the film blocks,
+  so lines after the heading count as the first screening.
 - **The date prints no year** and no dot after the month, `su 20.9 klo 15:00`, so the
   weekday selects the year through `common.resolve_year`.
 - **The metadata line is read by pattern, not by position.** The three films read gave
@@ -207,17 +209,24 @@ def films(page):
 
 
 def listing(page):
-    """The screening paragraphs between the heading and the first blank one. -> list or None.
+    """The screening paragraphs under the heading. -> list or None.
 
-    None means the page did not render the heading at all, which is a template change
-    rather than a quiet weekend.
+    The list ends at the first blank paragraph or the first film block, a paragraph a
+    figure follows. Lines after the heading inside its own paragraph are the first
+    screening. None means the page did not render the heading at all, which is a template
+    change rather than a quiet weekend.
     """
     bl = blocks(page)
     for i, (kind, text) in enumerate(bl):
-        if kind == "p" and HEADING_RE.search(text or ""):
-            out = []
-            for kind2, text2 in bl[i + 1:]:
+        m = HEADING_RE.search(text or "") if kind == "p" else None
+        if m:
+            rest = text[m.end():].lstrip(" :").strip()
+            out = [rest] if rest else []
+            for j in range(i + 1, len(bl)):
+                kind2, text2 = bl[j]
                 if kind2 != "p" or not text2:
+                    break
+                if j + 1 < len(bl) and bl[j + 1][0] == "figure":
                     break
                 out.append(text2)
             return out

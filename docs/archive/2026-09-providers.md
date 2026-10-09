@@ -3764,3 +3764,18 @@ the same film facts as on www.biomarilyn.com.
 Anything else fails the site and the previous files stand. Bio Marilyn declares
 biomarilyn.johku.com in `reads`, since its film pages are now read from there. A test checks
 Bio Marilyn's exact URL. Six mutations red.
+
+### Navettakino: the list ends at the first film block (2026-10-10)
+Navettakino failed in 21 committed cloud runs from 2026-10-06 09:14 UTC, each on "the
+screening paragraph 'Pirjo i Sverige' carries no date line", and the empty file from the
+run before stood. The page had changed layout. The first screening now shares the heading's
+paragraph, `Tulevan viikonlopun näytökset<br>Hetki ennen valoa<br>la 10.10 klo 16:00`, and
+no blank paragraph separates the list from the film blocks, so the parser read the block
+title `Pirjo i Sverige` as a screening. Even without that failure, the first screening
+would have been lost.
+
+`listing` now ends the list at the first film block as well as at a blank paragraph, and
+takes lines after the heading in its own paragraph as the first screening. An unreadable
+line inside the list still fails the site. Read 2026-10-10 the live page parsed to the
+cinema's three screenings, with rating, runtime, price and poster on each. Three mutations
+red.

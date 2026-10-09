@@ -67,11 +67,11 @@ def screening(title, *lines):
     return p(title + "<br>" + "<br>".join(lines))
 
 
-def page(listed=(), shelf=(), heading=True, intro=True):
+def page(listed=(), shelf=(), heading=True, intro=True, blank=True):
     body = (p(INTRO) if intro else "") + p("Navettakinossa onnistuu tilausnäytökset.") + p("<br>")
     if heading:
         body += p("<strong>Tulevan viikolopun näytökset</strong>")
-    body += "".join(listed) + p("<br><br>") + "".join(shelf)
+    body += "".join(listed) + (p("<br><br>") if blank else "") + "".join(shelf)
     return ('<html><body><article><header class="entry-header">'
             "<h1 class=\"entry-title\"><span>Elokuvat</span></h1></header>"
             '<div class="entry-content is-layout-constrained has-global-padding">'
@@ -124,6 +124,33 @@ class RowsTest(unittest.TestCase):
             shelf=[block("Hetki ennen valoa")]))
         self.assertEqual([s["start"][:16] for s in shows],
                          ["2026-09-19T15:00", "2026-09-20T17:00"])
+
+    OCT = datetime.date(2026, 10, 9)
+    SHELF_OCT = [block("Pirjo i Sverige", syn="", meta="S, 88 min, liput 10 €"),
+                 block("Hetki ennen valoa"), block("Presidentin kyyditys")]
+
+    def oct_page(self, *listed):
+        """The shape read on 2026-10-10: the first screening shares the heading's paragraph
+        and no blank paragraph comes before the film blocks."""
+        head = p("<strong>Tulevan viikonlopun näytökset</strong><br>Hetki ennen valoa"
+                 "<br>la 10.10 klo 16:00")
+        return page(listed=[head, *listed], shelf=self.SHELF_OCT, heading=False, blank=False)
+
+    def test_the_list_ends_at_the_first_film_block_and_starts_in_the_headings_paragraph(self):
+        shows, _ = self.rows(self.oct_page(
+            screening("Pirjo i Sverige", "la 10.10 klo 18:00", "su 11.10 klo 17:00")),
+            today=self.OCT)
+        self.assertEqual([(s["title"], s["start"][:16]) for s in shows], [
+            ("Hetki ennen valoa", "2026-10-10T16:00"),
+            ("Pirjo i Sverige", "2026-10-10T18:00"),
+            ("Pirjo i Sverige", "2026-10-11T17:00")])
+        self.assertEqual((shows[1]["rating"], shows[1]["len"], shows[1]["price"]),
+                         ("S", "88", "10€"))
+
+    def test_an_unreadable_line_still_fails_when_a_film_block_ends_the_list(self):
+        with self.assertRaises(N.ListingError):
+            self.rows(self.oct_page(screening("Pirjo i Sverige", "lauantaina illalla")),
+                      today=self.OCT)
 
     def test_the_metadata_line_is_read_by_pattern(self):
         for meta, want in (("K7, 87 min, liput 10 €", ("K-7", "87", "10€")),
