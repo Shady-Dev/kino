@@ -3699,3 +3699,10 @@ Access and ethics section now names the exception: cached, paced, read-only GETs
 screening's public detail page on the two MyCloudCinema ticket hosts, for price and
 language. Checkout, reservation, payment and administrative actions stay off limits for
 every provider.
+
+### MyCloudCinema's "No Subtitles" stays unread (2026-10-09)
+The maintainer's decision, after Riviera's Dyyni: Osa kolme page showed the line with no
+audio line at all. It is not mapped to `XX-S` for Riviera or Bio-Kaari, even when the page
+names the audio. The stated audio is published, and subtitles stay unknown unless the
+cinema gives a distinct, reliable subtitle field. The adapter already worked this way, so
+only the documents changed.

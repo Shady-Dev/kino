@@ -52,9 +52,10 @@ own page, `bio-kaari.azurewebsites.net/websales/show/{id}/`, is the MyCloudCinem
 Riviera's price pass already reads, with the same markup: `Kieli: <b>Suomi</b>`,
 `Tekstitys : <b>Suomi</b>` and a `showPrices-table` whose ordinary row is "Normaali".
 `prices.run` reads it once per screening, cached for 48 h, paced and capped, and nothing
-past that page is requested. Its "No Subtitles" line is not read: the platform prints it
-on a Riviera page that states no language at all, so it is a default rather than a
-statement.
+past that page is requested. Its "No Subtitles" line is not read, even next to a stated
+audio language. The maintainer decided this because the platform shows the line when
+nobody has set the subtitles: Riviera's page for an English film has it with no language
+line at all.
 """
 import datetime
 import html as html_mod

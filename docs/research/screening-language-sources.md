@@ -62,8 +62,9 @@ item is in [IDEAS.md](../../IDEAS.md).
   the client displays the codes through `langParts`.
 - Reaching the Helios ticket shop would need a browser fingerprint, which the project
   does not do. Helios stays without language unless its calendar service adds a field.
-- MyCloudCinema prints "No Subtitles" when no subtitle language is set, so it is a default
-  rather than a statement. It is not read for Riviera or for Bio-Kaari.
+- MyCloudCinema shows "No Subtitles" whenever no subtitle language has been set, so the
+  line tells us nothing. The maintainer decided on 2026-10-09 that it is not read for
+  Riviera or Bio-Kaari, even next to a stated audio language.
 
 ## Open questions
 

@@ -229,8 +229,8 @@ class TicketPageTest(unittest.TestCase):
         self.assertEqual(biokaari.page_fields(ticket_page("Suomi")), {"lang": "FI-A"})
 
     def test_the_platforms_no_subtitles_line_is_not_read(self):
-        """Riviera's page for an English film printed it with no language line at all,
-        so it is the platform's default and states nothing."""
+        """Riviera's page for an English film shows it with no language line at all, so
+        the line tells us nothing. Not read, on the maintainer's decision of 2026-10-09."""
         self.assertEqual(biokaari.page_fields(ticket_page("Suomi", no_subs=True)),
                          {"lang": "FI-A"})
         self.assertEqual(biokaari.page_fields(ticket_page(None, no_subs=True)), {"lang": ""})

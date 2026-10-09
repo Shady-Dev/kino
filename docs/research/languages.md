@@ -43,9 +43,13 @@ Since 2026-10-05 Bio Forum's "Elokuva on ilman tekstitystä." (Lilla Spöket) is
 `XX-S`. Still unread: the same words with another subject ("se on ilman tekstitystä"),
 Niagara's Black Magic Rites with the rest of Niagara and Star until a screening is
 confirmed, and every source that names no subtitle field. "(dub)" alone, a no-dialogue code
-and a cinema's house-wide rule stay unread by the same decision. So does MyCloudCinema's
-"Tekstitys : No Subtitles" on Riviera's and Bio-Kaari's ticket pages: on 2026-10-09 it
-appeared on a page that names no language at all, so the platform prints it by default.
+and a cinema's house-wide rule stay unread by the same decision.
+
+MyCloudCinema's "Tekstitys : No Subtitles" on Riviera's and Bio-Kaari's ticket pages is not
+read either. On 2026-10-09 it showed up on a page that names no language at all, which
+means the platform prints it when nothing has been set. The maintainer decided the same day
+to leave it unread even when the page names the audio. Subtitles stay unknown unless the
+cinema has a separate, reliable subtitle field.
 
 ---
 
