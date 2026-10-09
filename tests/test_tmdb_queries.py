@@ -202,6 +202,30 @@ class VisitNoteTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class FestivalBracketTest(unittest.TestCase):
+    """Bio S\u00e4de's "(Taidekaupungin elokuvajuhlat)", read 2026-10-09: the festival's name
+    after the film's. Only that exact bracket, only at the end, and only on the search
+    string."""
+
+    def test_the_bracket_comes_off_the_search_string(self):
+        for published, film in (("The Painter (Taidekaupungin elokuvajuhlat)", "The Painter"),
+                                ("Big Jim McLain (taidekaupungin elokuvajuhlat)", "Big Jim McLain"),
+                                ("Se tavallinen tarina ( Taidekaupungin  elokuvajuhlat )",
+                                 "Se tavallinen tarina")):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published), film)
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("The Painter (Taidekaupungin elokuvajuhlat)"),
+                         "the painter taidekaupungin elokuvajuhlat")
+
+    def test_anything_else_is_left_alone(self):
+        for title in ("The Painter (Taidekaupungin elokuvajuhlat) osa 2",
+                      "The Painter (Elokuvajuhlat)", "Taidekaupungin elokuvajuhlat"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
+
 class AudioMarkerTest(unittest.TestCase):
     """A marker names the audio, never the film, so it comes off the search string.
 

@@ -178,6 +178,10 @@ TRAIL_VISIT = re.compile(r"\s+tekij[\u00e4a]vierailulla\s*$", re.I)
 # closing bracket that starts with that word.
 TRAIL_VISIT_NOTE = re.compile(r"\s*\(\s*tekij[\u00e4a]vierailun[\u00e4a]yt[\u00f6o]s\b[^()]*\)\s*$",
                               re.I)
+# Bio S\u00e4de in M\u00e4ntt\u00e4 names the town's film festival after each title it screens there:
+# "The Painter (Taidekaupungin elokuvajuhlat)", five films in the data of 2026-10-09. The
+# exact bracket comes off the end of the search string and the published title keeps it.
+TRAIL_FESTIVAL = re.compile(r"\s*\(\s*taidekaupungin\s+elokuvajuhlat\s*\)\s*$", re.I)
 
 # A strand can sit in a trailing parenthesis instead of in front of a colon. The content
 # is matched against the one shared list in strands.py rather than against a pattern, so
@@ -208,6 +212,7 @@ def clean(title):
     t = TRAIL_EVENT.sub(" ", t)
     t = TRAIL_VISIT.sub(" ", t)
     t = TRAIL_VISIT_NOTE.sub(" ", t)
+    t = TRAIL_FESTIVAL.sub(" ", t)
     t = TRAIL_FORMAT.sub(" ", t)
     t = TRAIL_DUB.sub(" ", t)
     t = TRAIL_NOISE.sub(" ", PAREN_NOISE.sub(" ", TRAIL_VERSION.sub(" ", t)))
@@ -580,6 +585,12 @@ def with_rivals(hits, cand, headers, other="en-US", fetch=None):
     return joined, runtimes
 
 
+# An alias value meaning "TMDB holds no record of this film": the title is never searched
+# and nothing is published for it. Bio S\u00e4de's festival "The Painter" (S, 95 min,
+# 2026-10-09) would otherwise take the only feature of that name, a 2024 action thriller.
+NO_RECORD = "-"
+
+
 def alias_supersedes(alias, entry):
     """Does a hand-written alias replace what the cache already holds?
 
@@ -602,6 +613,8 @@ def alias_supersedes(alias, entry):
     """
     if not alias:
         return False
+    if alias == NO_RECORD:
+        return isinstance(entry, dict) and bool(entry.get("i"))
     if not isinstance(entry, dict) or not entry.get("x"):
         return True
     return str(alias).isdigit() and entry.get("i") != int(alias)
@@ -1242,7 +1255,7 @@ def main() -> int:
             if not mid and alias and str(alias).isdigit():
                 mid = int(alias)          # id given outright, no search needed
                 exact_id = True           # a hand-written id is as good as exact
-            if not mid:
+            if not mid and alias != NO_RECORD:
                 # Do not stop at the first candidate that returns anything: candidate 1
                 # ("Die Hard 2 - Die Harder") returns hits, so the loop used to break
                 # there and never try candidate 2 ("Die Hard 2"), which matches exactly.

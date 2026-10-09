@@ -726,6 +726,38 @@ class MainPathTest(MainHarness):
         self.run_main({("Faust", "2011"): [hit(58857, "Faust", 2011)]})
         self.assertEqual(self.cache()["faust 2011"]["i"], 58857)
 
+    def test_a_no_record_alias_is_never_searched_and_publishes_nothing(self):
+        """Bio S\u00e4de's festival "The Painter" (S, 95 min, 2026-10-09): the only feature of
+        that name on TMDB is a 2024 action thriller. "-" keeps the row unmatched while the
+        film beside it is still searched and matched."""
+        self.shows({"title": "The Painter (Taidekaupungin elokuvajuhlat)", "len": "95"},
+                   {"title": "Big Jim McLain (Taidekaupungin elokuvajuhlat)", "len": "77"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"the painter taidekaupungin elokuvajuhlat": "-"}))
+        self.run_main({("The Painter", ""): [hit(1211957, "The Painter", "2024")],
+                       ("Big Jim McLain", ""): [hit(40715, "Big Jim McLain", "1952")]})
+        cache = self.cache()
+        painter = cache["the painter taidekaupungin elokuvajuhlat"]
+        self.assertEqual((painter["i"], painter["x"]), ("", False))
+        self.assertEqual(cache["big jim mclain taidekaupungin elokuvajuhlat"]["i"], 40715)
+        self.assertFalse(any(q[0] == "The Painter" for q in self.searches))
+        rows = json.loads((self.dir / "area-zz.json").read_text(encoding="utf-8"))["shows"]
+        self.assertEqual([bool(r.get("tmdbId")) for r in rows], [False, True])
+
+    def test_a_no_record_alias_takes_back_a_match_already_published(self):
+        """A wrong exact match already in the cache is dropped and not searched again."""
+        self.shows({"title": "The Painter (Taidekaupungin elokuvajuhlat)", "len": "95"})
+        (self.dir / "tmdb-aliases.json").write_text(
+            json.dumps({"the painter taidekaupungin elokuvajuhlat": "-"}))
+        self.cache_write({"the painter taidekaupungin elokuvajuhlat": {
+            "r": 6.1, "n": 155, "v": "k", "x": True, "g": [28], "i": 1211957,
+            "c": self.today, "fi": "", "en": "", "p": "/thriller.jpg"}})
+        out = self.run_main({("The Painter", ""): [hit(1211957, "The Painter", "2024")]})
+        entry = self.cache()["the painter taidekaupungin elokuvajuhlat"]
+        self.assertEqual((entry["i"], entry["x"], entry["p"]), ("", False, ""))
+        self.assertIn("an alias replaces", out)
+        self.assertEqual(self.searches, [])
+
     def test_an_alias_id_that_agrees_leaves_the_entry_and_the_budget_alone(self):
         """The counterweight: an alias naming the id already held is not a reason to throw
         the entry away and spend a request re-fetching it every run."""

@@ -2839,3 +2839,13 @@ Kinopirtti published "Unohdettu saari DUP.", its abbreviation of "dubattu". The 
 match while the plain title matched 1465063, which turned `PublishedCoverageTest` red on
 main. `TRAIL_DUB` removes " DUP." from the end of the search string, dot required; the
 published title is unchanged. 3 mutations red.
+
+### Bio Säde's festival bracket comes off the search string, and an alias can say "no record" (2026-10-09)
+Bio Säde in Mänttä publishes five films with "(Taidekaupungin elokuvajuhlat)" after the
+title. On the maintainer's instruction `TRAIL_FESTIVAL` removes that exact bracket from the
+end of the TMDB search string, and the published titles keep it. Each film was then
+checked against TMDB and against the cinema's own runtime and age limit, which are the only
+facts its Nexxo source carries. Four matched. "The Painter" (S, 95 min) did not: TMDB's only
+feature of that name is a 2024 action thriller, and the rest are shorts. An alias value of
+"-" now means TMDB holds no record of a title. The title is never searched, and an id
+already cached for it is dropped. 3 + 2 mutations red.
