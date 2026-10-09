@@ -727,9 +727,8 @@ class MainPathTest(MainHarness):
         self.assertEqual(self.cache()["faust 2011"]["i"], 58857)
 
     def test_a_no_record_alias_is_never_searched_and_publishes_nothing(self):
-        """Bio S\u00e4de's festival "The Painter" (S, 95 min, 2026-10-09): the only feature of
-        that name on TMDB is a 2024 action thriller. "-" keeps the row unmatched while the
-        film beside it is still searched and matched."""
+        """An exact title search can find a different film of the same name. "-" keeps such
+        a row unmatched while the film beside it is still searched and matched."""
         self.shows({"title": "The Painter (Taidekaupungin elokuvajuhlat)", "len": "95"},
                    {"title": "Big Jim McLain (Taidekaupungin elokuvajuhlat)", "len": "77"})
         (self.dir / "tmdb-aliases.json").write_text(
@@ -895,6 +894,14 @@ class AliasFileTest(unittest.TestCase):
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
         self.assertEqual(doc[enrich_tmdb.norm("Natalia")], "459808")
 
+    def test_bio_sades_the_painter_is_hirschbiegels_der_maler(self):
+        """The festival names Der Maler with Albert Oehlen as its guest, IDFA lists it as
+        The Painter, 95 minutes, and 893149 is that film. A title search finds only a 2024
+        thriller of the same name."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("The Painter (Taidekaupungin elokuvajuhlat)")],
+                         "893149")
+
     def test_luvattu_maa_is_wajdas_film_in_both_spellings(self):
         """Every cinema lists 179 minutes, K13 the original Ziemia obiecana and Aurora the
         year 1974: Wajda's film, 511. The plain title had matched 980026, Arcel's 2023
@@ -940,6 +947,7 @@ class AliasFileTest(unittest.TestCase):
             "1510055": "The Furious: Pertaruhan Maruah, not Tanigaki's The Furious (1280738)",
             "339324": "Cohn's 1989 French Natalia, not Kassila's 1979 film (459808)",
             "980026": "Arcel's 2023 Bastarden, not Wajda's Ziemia obiecana (511)",
+            "1211957": "Kimani Ray Smith's 2024 thriller, not Hirschbiegel's Der Maler (893149)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):

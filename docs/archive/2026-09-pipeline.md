@@ -2849,3 +2849,12 @@ facts its Nexxo source carries. Four matched. "The Painter" (S, 95 min) did not:
 feature of that name is a 2024 action thriller, and the rest are shorts. An alias value of
 "-" now means TMDB holds no record of a title. The title is never searched, and an id
 already cached for it is dropped. 3 + 2 mutations red.
+
+### Bio Säde's "The Painter" is Hirschbiegel's Der Maler (2026-10-09)
+A correction to the record above. The festival's own announcement names *Der Maler* (2021),
+which Oliver Hirschbiegel made with Albert Oehlen, the guest of honour. IDFA lists it as
+"The Painter", 2021, 95 minutes, which is Bio Säde's runtime. TMDB 893149 is the same film:
+original title Der Maler, Hirschbiegel, Ben Becker, 94 minutes, dated 2023 for its German
+release. The "-" marker was replaced with that id. TMDB did have a record; a title search
+did not find it because the search returns a 2024 thriller of the same name first. The "-"
+value stays for titles whose absence has been checked. 2 mutations red.

@@ -586,8 +586,8 @@ def with_rivals(hits, cand, headers, other="en-US", fetch=None):
 
 
 # An alias value meaning "TMDB holds no record of this film": the title is never searched
-# and nothing is published for it. Bio S\u00e4de's festival "The Painter" (S, 95 min,
-# 2026-10-09) would otherwise take the only feature of that name, a 2024 action thriller.
+# and nothing is published for it. Use it only when that has been checked, because an exact
+# title search can otherwise publish a different film of the same name.
 NO_RECORD = "-"
 
 
