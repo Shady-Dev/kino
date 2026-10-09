@@ -894,6 +894,18 @@ class AliasFileTest(unittest.TestCase):
         doc = json.loads(self.FILE.read_text(encoding="utf-8"))
         self.assertEqual(doc[enrich_tmdb.norm("Natalia")], "459808")
 
+    def test_pikku_kummitus_lapanen_is_the_swedish_film_in_both_spellings(self):
+        """TMDB has no Finnish title for 1781923, so the Finnish search found nothing at
+        seven cinemas. The "(suomeksi)" spelling reaches the key through clean()."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        aliases = {k: v for k, v in doc.items() if not k.startswith("_")}
+        for published in ("Pikku Kummitus Lapanen keppostelee",
+                          "Pikku Kummitus Lapanen keppostelee (suomeksi)"):
+            with self.subTest(published=published):
+                got = enrich_tmdb.alias_of(aliases, enrich_tmdb.norm(published),
+                                           enrich_tmdb.norm(enrich_tmdb.clean(published)))
+                self.assertEqual(got, "1781923")
+
     def test_bio_sades_the_painter_is_hirschbiegels_der_maler(self):
         """The festival names Der Maler with Albert Oehlen as its guest, IDFA lists it as
         The Painter, 95 minutes, and 893149 is that film. A title search finds only a 2024

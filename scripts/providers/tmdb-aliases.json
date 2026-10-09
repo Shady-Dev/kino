@@ -160,5 +160,7 @@
  "päivien lumo taidekaupungin elokuvajuhlat": "1563565",
  "_comment49": "Bio Säde, Mänttä, 2026-10-09: the town's film festival. The cinema gives only a runtime and an age limit. Last Prometheus of Donbas runs 104 minutes there, and 1562438 is Anton Shtuka's The Last Prometheus of Donbas (2026), 104 minutes; the search kept it weak because the cinema leaves out \"The\". The Painter is Oliver Hirschbiegel's Der Maler, made with Albert Oehlen, the festival's guest of honour (Deutsches Kulturzentrum Tampere's announcement, read 2026-10-09). IDFA lists it as The Painter, 2021, 95 minutes, the cinema's runtime. TMDB 893149 is the same film: original title Der Maler, Hirschbiegel, Ben Becker, 94 minutes, dated 2023 for its German release. It was first marked as having no record, because a title search finds only a 2024 action thriller of that name.",
  "last prometheus of donbas taidekaupungin elokuvajuhlat": "1562438",
- "the painter taidekaupungin elokuvajuhlat": "893149"
+ "the painter taidekaupungin elokuvajuhlat": "893149",
+ "_comment50": "2026-10-09. Seven cinemas publish \"Pikku Kummitus Lapanen keppostelee\", and none matched, because TMDB has no Finnish title for the film. It is 1781923, Alex Gustavsson's Lilla spöket Laban busar vidare (2026). Bio Forum's page for that film calls its hero Pikku Kummitus Lapanen, every cinema lists 60 to 66 minutes, and Engel, Bio Forum and Bio Marilyn's preview screening already carry 1781923. The Finnish title with \"(suomeksi)\" reaches this key through the cleaned search string.",
+ "pikku kummitus lapanen keppostelee": "1781923"
 }
