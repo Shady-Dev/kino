@@ -1802,6 +1802,14 @@
    },
    "tr": ""
   },
+  "kauhujen kangasala elokuvanäytös the substance": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Esitys on osa Kauhujen Kangasalaa. Järjestäjä: Kangasalan kaupunki, kulttuuripalvelut Synopsis Demi Moore on ex-filmitähti Elisabeth Sparkle, joka saa yllättäen potkut suositusta fitness-tv-ohjelmastaan. Korkealta putoavaa tähteä kiehtoo mystinen Substance-huume, joka muuttaa hänet hetkellisesti nuoreksi ja kauniiksi Sueksi (Margaret Qualley). Aineeseen liittyy vain yksi sääntö: viikko per kroppa. Ei poikkeuksia. Täydellistä, eikö? Huumaavan viihdyttävä ja karmaisevan terävä Cannes-sensaatio kääntää toksisen kauneuden palvonnan päälaelleen."
+   },
+   "tr": ""
+  },
   "kauna": {
    "id": 1970,
    "img": "data/posters/62f15af87b45c44a.jpg",
@@ -2290,7 +2298,6 @@
     "biosavoy",
     "cinemantsala",
     "isohannu",
-    "kinohamina",
     "kinohirvi",
     "kinolaika",
     "kinolumo",
@@ -3438,7 +3445,6 @@
     "biorex",
     "julia",
     "kinohirvi",
-    "kinolaika",
     "kuvakukko",
     "savonkinot",
     "tapiola"
@@ -3525,6 +3531,7 @@
     "engel",
     "kinoiiris",
     "kinokilta",
+    "kinomyyri",
     "niagara",
     "orion",
     "star",
@@ -3991,37 +3998,6 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "kr": "K-16",
-   "krs": [
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosavoy",
-    "biovuoksi",
-    "cinemantsala",
-    "ihmekompleksi",
-    "isohannu",
-    "kino123",
-    "kinoakseli",
-    "kinoelo",
-    "kinojuha",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinotar",
-    "kinotoijala",
-    "kinovirta",
-    "kotkanleffat",
-    "leffabuumi",
-    "savonkinot",
-    "sheryl",
-    "star",
-    "studio123jarvenpaa",
-    "vaakuna"
-   ],
    "r": 0,
    "s": {
     "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
