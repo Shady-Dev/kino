@@ -1,6 +1,6 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-10: 348 showtimes
+[schedule] 2026-10-10: 92 showtimes
 [schedule] 2026-10-11: 445 showtimes
 [schedule] 2026-10-12: 435 showtimes
 [schedule] 2026-10-13: 433 showtimes
@@ -11,7 +11,7 @@
 [tmdb] weak candidate kept, not searched until 2026-10-11 (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
 [tmdb] 0 new lookups, 0 re-checks, cache 98, 88 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 58 film entries
+[films] 57 film entries
 [attrs] dropped, neither format nor language (8): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done

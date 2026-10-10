@@ -1,11 +1,11 @@
-[sheryl] 20 screening(s) listed, 11 film page(s) read
+[sheryl] 22 screening(s) listed, 12 film page(s) read
 [sheryl] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [sheryl] unresolved: Studio Munka Short Films (Free screening, Polish Film Weeks / Puolan elokuvaviikot)
-[sheryl] Cinema Sheryl: 19 showtimes, 15 dates
-[sheryl] Cinema Sheryl: 19 showtimes, 15 dates
+[sheryl] Cinema Sheryl: 21 showtimes, 14 dates
+[sheryl] Cinema Sheryl: 21 showtimes, 14 dates
 [sheryl] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 12 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 13 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- sheryl.fi
-[run] kinola: 1 venues, 19 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] kinola: 1 venues, 21 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
