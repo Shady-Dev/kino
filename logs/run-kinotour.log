@@ -1,6 +1,10 @@
-[kinotour] FAILED: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: no screening card on the page. No empty programme has been seen here, so there is no evidence of one to read this as, and the previous files stand
+[kinotour] Kurkisali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[kinotour] Kristoffersali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[kinotour] Valtuustosali: no programme at the moment (adapter confirmed the venue empty); publishing an empty file
+[kinotour] synopses merged: 0
+[kinotour] no programme published: https://www.kinotour.fi/varaa-liput-elokuvatapahtumiin/: the page counts 0 screenings for every town and shows its own notice that nothing is coming up
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.kinotour.fi
-[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 1 site(s), 0.9s of fetching added up across workers that overlap, longest site 0.9s, longest queue wait 144.6s, 0.9s wall from this module's first fetch starting to its last ending
-exit=1
+[run] kinotour: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 1 with no programme, 0 failures
+[run] timing: 1 site(s), 1.5s of fetching added up across workers that overlap, longest site 1.5s, longest queue wait 148.6s, 1.5s wall from this module's first fetch starting to its last ending
+exit=0

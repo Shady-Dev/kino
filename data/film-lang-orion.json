@@ -1,16 +1,4 @@
 {
- "aamiainen-tiffanylla": {
-  "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
-  "fields": {
-   "lang": "EN-A, PT-A, FR-A, JA-A, FI-S",
-   "len": "116",
-   "rating": "K-7",
-   "year": "1961",
-   "syn_fi": "Truman Capoten romaaniin perustuva ja Blake Edwardsin ohjaama romanttinen komedia Aamiainen Tiffanylla seuraa viehättävää ja omalaatuista Holly Golightlya (Audrey Hepburn), joka etsii New Yorkista unelmiensa miljonääriä aviomiehekseen. Hänen elämänsä mullistuu, kun taloon muuttaa nuori, varakkaan naisen elättämä kirjailija Paul Varjak (George Peppard). Aamiainen Tiffanylla muistetaan erityisesti Audrey Hepburnin tyylistä, nimikkokappaleesta ”Moon River” – ja tietysti elokuvahistorian ikonisimmasta kissahahmosta. Oranssin kisun esittäjäksi mainittu Orangey voitti elegantista roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon. Todellisuudessa kuvauksissa käytettiin ainakin yhdeksää eri kissaa.",
-   "syn_en": "Based on Truman Capote’s novel and directed by Blake Edwards, the romantic comedy Breakfast at Tiffany’s follows the charming and eccentric Holly Golightly (Audrey Hepburn), who is searching in New York for the millionaire she dreams of marrying. Her life is turned upside down when Paul Varjak (George Peppard), a young writer kept by a wealthy woman, moves into her building. Breakfast at Tiffany’s is remembered especially for Audrey Hepburn’s style, the iconic song “Moon River” – and, of course, the most iconic cat character in film history. Orangey, credited as the actor playing the orange cat, won a PATSY Award for Best Animal Performer for his elegant performance. In reality, at least nine different cats were used during filming."
-  }
- },
  "casper": {
   "price": "",
   "at": "2026-10-09T17:17:13+00:00",
@@ -25,7 +13,7 @@
  },
  "departures": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "82",
@@ -58,7 +46,7 @@
  },
  "free-at-heart": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "DE-A, EN-S",
    "len": "117",
@@ -70,7 +58,7 @@
  },
  "ghost-in-the-machine": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "EN-A",
    "len": "95",
@@ -95,7 +83,7 @@
  },
  "i-am-going-to-miss-you": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "PT-A, EN-S",
    "len": "87",
@@ -108,7 +96,7 @@
  },
  "i-rarely-wake-up-dreaming": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "UK-A, DE-A, EN-S",
    "len": "110",
@@ -120,7 +108,7 @@
  },
  "ivan-and-hadoum": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "ES-A, EN-S",
    "len": "100",
@@ -144,7 +132,7 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-10-08T17:16:14+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "78",
@@ -167,7 +155,7 @@
  },
  "lyhytelokuvakooste-havun-kaiho-short-movie-compilation-havus-longing": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "EN-S",
    "len": "118",
@@ -199,7 +187,7 @@
  },
  "montreal-ma-belle": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "FR-A, ZH-A, EN-S",
    "len": "118",
@@ -223,7 +211,7 @@
  },
  "naza": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "HE-A, EN-A, EN-S",
    "rating": "K-12",
@@ -231,19 +219,6 @@
    "year": "2026",
    "syn_fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuvan ovat ohjanneet Oscar-palkitusta dokumentistaan No Other Land tunnetut Rachel Szor ja Yuval Abraham. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi Naza viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Elokuvassa haastatellaan 24 Israelin puolustusvoimien ja tiedustelupalveluiden anonyymiä työntekijää, jotka muun muassa kuvailevat siviilien harkittuja surmaamisia. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun Zone of Interest -elokuvan ohjaaja Jonathan Glaze r ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina. NAZA sai ensi-iltayleisöltään Venetsian elokuvajuhlien historian pisimmät, 25 minuuttia kestäneet aplodit. Näytöksen alussa nähdään Jan Ijäksen 26 minuuttinen kotimainen lyhytelokuva PICNIC – In Light Invisible to the Human Eye. Elokuva tarkastelee Gazan sotaa Israelin puolelta rajaa. Elokuva liikkuu Israelin aiempiin sotilasoperaatioihin liittyvillä muistomerkeillä ja näköalapaikoilla, jotka ovat samalla suosittuja piknik-kohteita. Ihmiset saapuvat niihin perheidensä kanssa viettämään aikaa ja seuraamaan sotaa. Elokuvan kertojanääni rakentuu kuvauspaikkojen verkkosivuilta sekä Tripadvisor- ja Google-arvioista kerätyistä teksteistä. Niissä kävijät jakavat kokemuksiaan elokuvassa nähtävistä paikoista sodan ajalta. Teos on kuvattu kokonaisuudessaan mustavalkoiselle 16 mm:n ja 35 mm:n infrapunafilmille. Infrapunavalo on ihmissilmälle näkymätöntä. Filmillä maailma näyttäytyy dramaattisesti muuntuneena: sininen taivas on musta, ihmisten kasvot hohtavat valkoisina ja silmät ovat mustat. Vihreä kasvillisuus muuttuu valkoiseksi. Jan Ijäksen lyhytelokuva on englanninkielinen ja tekstitetty suomeksi. Näytöstä seuraa keskustelutilaisuus. Sunnuntain ensimmäisessä näytöksessä on vieraana etäyhteydellä Jan Ijäs ja muita tekoälyasiantuntijoita. Illan viimeisessä näytöksessä vieraaksi saapuvat Meron Rapoport ja Mahmoud Mushtaha. Meron Rapoport on palkittu israelilainen tutkiva journalisti, joka kirjoittaa +972 Magazineen ja toimii Local Callin toimittajana. Hän työskenteli myös NAZA -elokuvan tekijöiden kanssa heidän aihetta käsittelevässä journalistisessa selvitystyössään. Mahmoud Mushtaha on Gazasta kotoisin oleva palestiinalainen toimittaja ja tutkija, joka asuu tällä hetkellä Isossa-Britanniassa ja on teoksen Sobrevivir al genocidio en Gaza (Selviytyminen Gazan kansanmurhasta) kirjoittaja. Elokuvanäytösten jälkeisiä keskusteluja juontaa FT Nitin Sawhney, elokuvantekijä ja Helsingin yliopiston sekä Taideyliopiston dosentti. Näytökset järjestetään yhteistyössä B-plan Distributionin ja Refugee Film Festivalin kanssa.",
    "syn_en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. NAZA received the longest standing ovation in the history of the Venice Film Festival from its premiere audience, lasting 25 minutes. The film, which examines the use of artificial intelligence and automated surveillance in the Israeli military’s offensive against Palestinians, has sparked international controversy since its premiere. The title refers to a term used by the Israeli military for the number of civilian casualties. It features interviews with 24 anonymous employees of the Israel Defense Forces and intelligence services, who, among other things, describe calculated killings of civilians. The film was produced by JW Films and the British newspaper The Guardian as part of the news organisation’s commitment to independent journalism. The screening begins with a 26-minute short film PICNIC – In Light Invisible to the Human Eye directed by Jan Ijäs. The film observes the war in Gaza from the Israeli side of the border. The film moves through memorials to Israel’s earlier military operations and lookout points, which are also popular picnic spots. People come to them with their families to spend time together and to watch the war. The film’s voice-over is built from texts collected from the websites of the filming locations and from Tripadvisor and Google reviews, in which visitors share their experiences of the places seen in the film during the war. The film was shot entirely on black-and-white 16 mm and 35 mm infrared film. Infrared light is invisible to the human eye. On film, the world appears dramatically transformed: the blue sky is black, people’s faces glow white and their eyes are black. Green vegetation turns white. Jan Ijäs’s short film is in English with Finnish subtitles. After the screening there will be a discussion. At Sunday’s first screening, Jan Ijäs and other AI experts will join us remotely. At the final screening of the evening, our guests will be Meron Rapoport and Mahmoud Mushtaha. Meron Rapoport is an award-winning Israeli investigative journalist who writes for +972 magazine and is an editor at Local Call. He also worked with filmmakers of NAZA in their reporting on the subject. Mahmoud Mushtaha is a Palestinian journalist and researcher from Gaza, currently based in the U.K., and the author of Sobrevivir al genocidio en Gaza (Surviving the Genocide in Gaza). The post-screening discussions are hosted by Dr. Nitin Sawhney, Filmmaker and Docent, University of Helsinki and Uniarts Helsinki. The screenings are organized in collaboration with B-plan Distribution and the Refugee Film Festival."
-  }
- },
- "pahuksen-katti": {
-  "price": "",
-  "at": "2026-10-10T08:45:33+00:00",
-  "fields": {
-   "lang": "EN-A, FI-S",
-   "len": "116",
-   "rating": "S",
-   "original": "That Darn Cat!",
-   "year": "1965",
-   "syn_fi": "Hulvattoman agenttifilmin päähahmo, neuvokas siamilaiskissa on Walt Disneyn vastaveto James Bondiin! Kaksi uskaliasta gangsteria eivät koskaan olisi voineet kuvitellakaan, että pahuksen katti voisi tulla vaikeuttamaan heidän muuten niin hyvin toimimia rikoskuvioitaan. Ja kaiken hälyn keskellä näyttää siltä, että pikku agenttia kiinnostaa vain tuoreen kalan pyydystäminen. Siamilaiskissan esittäjäksi mainittu Syn voitti sähäkästä roolisuorituksestaan parhaan eläinnäyttelijän PATSY-palkinnon.",
-   "syn_en": "The ingenious Siamese cat at the heart of this hilarious spy caper is Walt Disney’s answer to James Bond! Two daring gangsters could never have imagined that a pesky cat would come along and disrupt their otherwise perfectly executed criminal schemes. And amid all the commotion, the little agent seems to be interested in only one thing: catching fresh fish. Syn, credited as the cat’s performer, won a PATSY Award for Best Animal Performer for his spirited performance."
   }
  },
  "pia-langbacka-meedion-tyo": {
@@ -277,18 +252,6 @@
    "syn_fi": "Salaperäinen sotilas (Sandra Hüller) ilmaantuu syrjäiseen protestanttiseen kylään Saksassa kolmikymmenvuotisen sodan riehuessa. Muukalainen, jonka kasvot ovat ampumahaavan ruhjomat, kertoo olevansa hylätyn tilan perijä ja todistaa tämän asiakirjalla. Markus Schleinzerin tositapahtumiin perustuva ankara elokuva kertoo naisesta, joka otti miehen roolin ja ansaitsi kyläläisten luottamuksen työteliäisyydellään ja teoillaan. Sandra Hüller voitti parhaan pääosanäyttelijän Hopeisen karhun tämänvuotisilla Berliinin elokuvajuhlilla."
   }
  },
- "saapasjalkakissa": {
-  "price": "",
-  "at": "2026-10-10T11:17:49+00:00",
-  "fields": {
-   "lang": "SV-A, FI-S",
-   "len": "80",
-   "rating": "S",
-   "original": "Nagagutsu o haita neko",
-   "year": "1969",
-   "syn_fi": "Saapasjalkakissa Pero osoittaa armollisuutta hiiriä kohtaan, minkä seurauksena hänestä tulee kissayhteisön lainsuojaton. Paetessaan salamurhaajakolmikkoa hän ystävystyy hyväsydämisen myllärinpoika Pierren kanssa ja lupaa auttaa tätä voittamaan kauniin prinsessan sydämen, mutta paha velho ehtiikin kaappaamaan neidon ensin itselleen. Pero-kissasta tuli aikoinaan niin suosittu, että tuotantoyhtiö Toei Animation otti sen viralliseksi maskotikseen ja logohahmokseen. Elokuva on puhuttu ruotsiksi ja tekstitetty suomeksi."
-  }
- },
  "syystarina": {
   "price": "",
   "at": "2026-10-09T17:17:13+00:00",
@@ -304,7 +267,7 @@
  },
  "talvitarina": {
   "price": "",
-  "at": "2026-10-08T17:29:07+00:00",
+  "at": "2026-10-10T23:16:14+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "115",
