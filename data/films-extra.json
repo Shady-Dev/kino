@@ -917,6 +917,19 @@
    },
    "tr": "https://www.youtube.com/watch?v=job8V254NAE"
   },
+  "digger poistuu ohjelmistosta": {
+   "id": 1248832,
+   "img": "data/posters/4f2ccb69b574d669.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.",
+    "fi": "Mies. Suunnitelma. Täydellinen romahdus. Oscar-palkittu elokuvantekijä Alejandro G. Iñárritu tuo valkokankaille uuden elokuvansa Digger, pääosassa Tom Cruise. Maailman vaikutusvaltaisin mies ryhtyy kuumeiseen operaatioon todistaakseen olevansa ihmiskunnan pelastaja - ennen kuin hänen valloilleen päästämänsä katastrofi tuhoaa kaiken. Cruise nähdään nimiroolissa, ja muissa keskeisissä rooleissa ovat Oscar-voittaja Riz Ahmed, John Goodman, Oscar-ehdokas Sandra Hüller, Michael Stuhlbarg sekä Oscar-ehdokas Jesse Plemons."
+   },
+   "tr": "https://www.youtube.com/watch?v=job8V254NAE",
+   "ts": [
+    "en"
+   ]
+  },
   "divine intervention": {
    "id": 27744,
    "r": 0,
@@ -1307,6 +1320,19 @@
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
     "sv": "Efter en omskakande flygolycka blir specialförbands-officeren James Belmont (Brad Pitt) och hans militära tjänstehund, Odin, strandsatta djupt inne i Alaskas vildmark. För att överleva tvingas de tillsammans in i en brutal kamp mot naturens krafter. En film av David Ayer (Fury, End of Watch, The Beekeeper)."
+   },
+   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
+   "ts": [
+    "en"
+   ]
+  },
+  "heart of the beast poistuu ohjelmistosta": {
+   "id": 1263337,
+   "img": "data/posters/980bb19ce751c44c.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
+    "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
    },
    "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
    "ts": [
@@ -3462,7 +3488,6 @@
     "julia",
     "kinohirvi",
     "kuvakukko",
-    "savonkinot",
     "tapiola"
    ],
    "r": 7.7,
@@ -3562,16 +3587,12 @@
   },
   "night of the demon": {
    "id": 25103,
-   "img": "data/posters/ccc60fa44180b062.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
-    "en": "American professor John Holden arrives in London for a conference on parapsychology only to discover that the colleague he was supposed to meet was killed in a freak accident the day before. It turns out that the deceased had been investigating a cult lead by Dr. Julian Karswell. Though a skeptic, Holden is suspicious of the devil-worshiping Karswell. Following a trail of mysterious manuscripts, Holden enters a world that makes him question his faith in science.",
+    "en": "",
     "fi": "Muun muassa elokuvistaan Kissaihmiset (1942) ja Yö voodoo-saarella (1943) tunnettu ohjaaja Jacques Tourneur julkaisi vuonna 1957 oman varoituselokuvansa mustan magian vaaroista. Elegantti okkultistinen trilleri seuraa psykologi John Holdenia, joka tahtoo paljastaa okkultistikikkailija Karswellin huijaukset. Vaan onko Karswell huijari ensinkään? Ja miten käy pimeiden voimien kanssa leikkijöiden?"
    },
-   "tr": "https://www.youtube.com/watch?v=-rwfiJpyFrI",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "nine to five dolly parton in memoriam juhlanäytös": {
    "id": 19494,
@@ -5229,7 +5250,6 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -5272,7 +5292,6 @@
     "kotkanleffat",
     "laitilankino",
     "leffabuumi",
-    "marita",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -5938,7 +5957,8 @@
    "img": "data/posters/2c34dcbef60ffbda.jpg",
    "kr": "K-12",
    "krs": [
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "sheryl"
    ],
    "r": 0,
    "s": {
@@ -6284,16 +6304,12 @@
   },
   "the end of oak street": {
    "id": 1101383,
-   "img": "data/posters/cd5f772211d2ef21.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
-    "en": "After a mysterious cosmic event rips Oak Street from suburbia and transports their neighborhood to someplace unknown, the Platt family soon discovers that their very survival depends on them sticking together as they navigate their now unrecognizable surroundings.",
+    "en": "",
     "fi": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä tuntemattomaksi muuttuneessa ympäristössä. THE END OF OAK STREETIN pääosissa ovat Anne Hathaway ja Ewan McGregor, mukana myös Maisy Stella ja Christian Convery. Elokuvan on ohjannut David Robert Mitchell ja tuottanut J.J. Abrams, Hannah Minghella, Jon Cohen, David Robert Mitchell, Matt Jackson ja Tommy Harper. Vastaavina tuottajina toimivat Chris Bender, Jake Weiner, Joanne Lee and Leeann Stonebreaker. Mitchellin kuvausryhmässä toimivat pääkuvaaja Michael Gioulakis, tuotantosuunnitttelija Maya Shimoguchi, leikkaaja John Axelrad, säveltäjä Michael Giacchino ja pukusuunnittelija Erin Benach. Warner Bros. Pictures esittää A Bad Robot -tuotannon, A Jackson Pictures -tuotannon, David Robert Mitchellin elokuvan: THE END OF OAK STREET. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
-   "tr": "https://www.youtube.com/watch?v=u4tgctWuHc0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "the ice tower": {
    "id": 1143440,
@@ -6397,7 +6413,6 @@
     "kinolumo",
     "kinopiispanristi",
     "savonkinot",
-    "star",
     "studio123jarvenpaa",
     "vihdinkino"
    ],
@@ -7544,6 +7559,19 @@
     "vaakuna",
     "vihdinkino"
    ],
+   "r": 6.4,
+   "s": {
+    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
+    "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
+   },
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
+   "ts": [
+    "en"
+   ]
+  },
+  "verityn varjo poistuu ohjelmistosta": {
+   "id": 1283515,
+   "img": "data/posters/5ecbbfdfae38ab40.jpg",
    "r": 6.4,
    "s": {
     "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",

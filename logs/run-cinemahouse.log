@@ -4,13 +4,13 @@
 [kinopiispanristi] synopses merged: 0
 [kinolumo] film pages: 22 with a synopsis, 1 without, 23 films
 [kinolumo] strand prefix split off 8 showtimes
-[kinolumo] Kino Lumo: 76 showtimes, 9 dates
+[kinolumo] Kino Lumo: 74 showtimes, 9 dates
 [kinolumo] synopses merged: 0
 [laitilankino] film pages: 13 with a synopsis, 0 without, 13 films
-[laitilankino] Laitilan Kino: 27 showtimes, 12 dates
+[laitilankino] Laitilan Kino: 26 showtimes, 12 dates
 [laitilankino] synopses merged: 0
 [run] http: 0 revalidated (304), 65 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 3 attempted -- www.kinolumo.fi, www.kinopiispanristi.fi, www.laitilankino.fi
-[run] cinemahouse: 3 venues, 302 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 122.9s of fetching added up across workers that overlap, longest site 52.3s, longest queue wait 58.1s, 52.3s wall from this module's first fetch starting to its last ending
+[run] cinemahouse: 3 venues, 299 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 109.5s of fetching added up across workers that overlap, longest site 47.1s, longest queue wait 54.9s, 47.1s wall from this module's first fetch starting to its last ending
 exit=0
