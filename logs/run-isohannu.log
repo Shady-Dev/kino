@@ -1,8 +1,8 @@
-[isohannu] film pages: 23 parsed, 0 with nothing usable, 67/68 showtimes rated
+[isohannu] film pages: 22 parsed, 0 with nothing usable, 67/68 showtimes rated
 [isohannu] Iso-Hannu: 68 showtimes, 7 dates
 [isohannu] synopses merged: 0
-[run] http: 0 revalidated (304), 24 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 23 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.isohannu.fi
 [run] isohannu: 1 venues, 68 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 37.8s of fetching added up across workers that overlap, longest site 37.8s, longest queue wait 69.7s, 37.8s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 32.1s of fetching added up across workers that overlap, longest site 32.1s, longest queue wait 61.4s, 32.1s wall from this module's first fetch starting to its last ending
 exit=0

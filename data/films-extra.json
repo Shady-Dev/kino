@@ -1098,7 +1098,7 @@
    "img": "data/posters/9d059796bcf946bd.jpg",
    "r": 7.9,
    "s": {
-    "en": "God and Satan wager on the soul of a learned and prayerful alchemist as part of their eternal war over Earth.",
+    "en": "Murnau’s epic adaptation of Goethe’s tragedy stands with Fritz Lang’s Metropolis among the supreme achievements of German silent cinema. Gösta Ekman plays the alchemist who, his faith shaken in a time of plague, is offered the gift of healing and eternal youth… in exchange for his soul.",
     "fi": "Murnaun loistelias, saksalaista ekspressionismia parhaimmillaan edustava Faust-tulkinta sielunsa myynnistä paholaiselle nojaa ennemmin kansantaruun kuin sen tunnetuksi tehneen Goethen versioon. Valon enkeli Gabriel ja pimeyden lähettiläs Mefisto käyvät taistelua Faustin sielusta. Aikalaiskritiikit olivat murskaavia kuten myös samoihin aikoihin valmistuneen Metropoliksen tapauksessa. Faustin äärimmäinen visuaalisuus oli aikaansa edellä."
    },
    "tr": "https://www.youtube.com/watch?v=Luuw4yTTtRU",
@@ -3069,7 +3069,7 @@
   "lucifer rising": {
    "id": 36096,
    "img": "data/posters/be3b989c8077397c.jpg",
-   "r": 6.8,
+   "r": 6.7,
    "s": {
     "en": "Egyptian gods summon the angel Lucifer, in order to usher in a new occult age.",
     "fi": "Kenneth Anger lukeutuu mytologisoiduimpiin ohjaajiin, jonka tuotanto on vaikuttanut väkevästi esimerkiksi musiikkivideoestetiikkaan. Okkultisti Aleister Crowleyn tuotannosta ammentava lyhytelokuva Lucifer Rising on jo tarinansa puolesta merkkiteos: tuotantohelvettiin jumiutunut suurteos, jonka tekoprosessin aikana ohjaaja Anger ehti jo julkaista oman kuolinilmoituksensa ja jonka alkuperäismusiikista vastaava Bobby Beausoleil ehdittiin tuomita kuolemaan osallisuudestaan Charles Mansonin perheen murhasarjaan. Valkokankaalla vilahtavat monet aikansa kulttihahmot aina Paholaisen kirkon perustaja Anton LaVeysta aina Jimmy Pageen ja Marianne Faithfulliin. Kuka oli Lucifer? Ja kuvaako Anger Vesimiehen ajan alkua? Vai loppua? Vai onko kaikessa kyse luomisesta?"
@@ -3172,11 +3172,6 @@
   "maailman rikkain nainen": {
    "id": 1309725,
    "img": "data/posters/f95f63ecb0aa44e2.jpg",
-   "kr": "K-12",
-   "krs": [
-    "engel",
-    "tapiola"
-   ],
    "r": 6.2,
    "s": {
     "en": "An elderly billionaire woman gives hundreds of millions of euros to a younger gay artist she is close to. Her daughter files a complaint for abuse of a vulnerable person and a scandal erupts.",
@@ -5940,7 +5935,6 @@
    "img": "data/posters/2c34dcbef60ffbda.jpg",
    "kr": "K-12",
    "krs": [
-    "isohannu",
     "kinopiispanristi"
    ],
    "r": 0,
@@ -6142,10 +6136,6 @@
   "teenage sex and death at camp miasma": {
    "id": 1240889,
    "img": "data/posters/27670b215b5bd500.jpg",
-   "kr": "K-16",
-   "krs": [
-    "kinokilta"
-   ],
    "r": 6.3,
    "s": {
     "en": "A young director (Hannah Einbinder) tries to revive the cult slasher film series Camp Miasma. But an encounter with its legendary star (Gillian Anderson) draws her into a vortex of blood and desire. The hypnotic summer thriller Teenage Sex and Death at Camp Miasma blends influences from David Lynch and Friday the 13th. Directed by Jane Schoenbrun, the film had its world premiere as the opening film of the Un Certain Regard section at the Cannes Film Festival. Schoenbrun’s previous film, I Saw the TV Glow (2024), was one of the most-watched hits at the Rakkautta & Anarkiaa film festival.",
@@ -7819,5 +7809,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-09"
+ "generated": "2026-10-10"
 }
