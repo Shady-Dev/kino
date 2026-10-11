@@ -656,16 +656,12 @@
   },
   "calle malaga muistojeni katu": {
    "id": 1399462,
-   "img": "data/posters/9019d907c9f510df.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
+    "en": "",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura."
    },
-   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "calle málaga muistojeni katu": {
    "id": 1399462,
@@ -888,12 +884,10 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
-    "kinovirta",
     "korjaamo",
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "lieksankino",
     "niagara",
     "orion",
     "savonkinot",
@@ -2346,7 +2340,6 @@
     "kirkkonummi",
     "kkino",
     "savonkinot",
-    "star",
     "tapiola"
    ],
    "r": 7.5,
@@ -2764,6 +2757,7 @@
     "biokaari",
     "biorex",
     "biorexkokkola",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -2797,6 +2791,7 @@
     "biokaari",
     "biorex",
     "biorexkokkola",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -2833,6 +2828,7 @@
     "biokaari",
     "biorex",
     "biorexkokkola",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "gilda",
@@ -2908,6 +2904,7 @@
     "biogrand",
     "biomarilyn",
     "biorex",
+    "cine",
     "cinemantsala",
     "elavienkuvien",
     "ihmekompleksi",
@@ -4652,7 +4649,7 @@
   "postia pappi jaakobille": {
    "id": 55522,
    "img": "data/posters/19daa9fdd6f15cce.jpg",
-   "r": 7.2,
+   "r": 7.1,
    "s": {
     "en": "",
     "fi": "Elinkautisvanki Leena (Kaarina Hazard) saa armahduksen ja päätyy vanhan sokean maalaispappi Jaakobin (Heikki Nousiainen) apulaiseksi lukemaan tälle seurakuntalaisten lähettämiä kirjeitä. Maailmankuvat törmäävät, mutta yhteistä säveltä löytyy kuitenkin hiljalleen. Moninkertaisesti palkittu pienieleinen mutta sydämeltään suuri draama on Härön onnistuneimpia teoksia, jossa pääosan näyttelijät loistavat. Elokuva valittiin vuonna 2022 Helsingin Sanomien lukijaäänestyksessä 2000-luvun koskettavimmaksi suomalaiseksi elokuvaksi."
@@ -4728,6 +4725,7 @@
     "biorex",
     "biorexkokkola",
     "biosade",
+    "cine",
     "cinemantsala",
     "gilda",
     "helios",
@@ -5584,16 +5582,12 @@
   },
   "se oli pelkkä sattuma": {
    "id": 1456349,
-   "img": "data/posters/63f9c6488985f762.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
-    "en": "An unassuming mechanic is reminded of his time in an Iranian prison when he encounters a man he suspects to be his sadistic jailhouse captor.",
+    "en": "",
     "fi": "Cannesissa Kultaisen palmun voittanut iranilaisohjaaja Jafar Panahin Se oli pelkkä satuma (englanninkielinen nimi It Was Just an Accident ) on intensiivinen ja ajatuksia herättävä kostotarina joukosta ihmisistä, jotka saavat sattumalta tilaisuuden kostaa kiduttajalleen. Sattuma käynnistää odottamattoman, paikoin jopa humoristisen tapahtumaketjun. Ryhmä ei kuitenkaan ole varma, onko heidän käsissään sittenkään oikea henkilö. Elokuvan ydin pureutuu eettiseen kysymykseen: voiko koston tavoittelu oikeuttaa turvautumisen samoihin menetelmiin – sieppaukseen ja kidutukseen – joita sortaja itse on käyttänyt?"
    },
-   "tr": "https://www.youtube.com/watch?v=9oHw2ubyWE4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "se tavallinen tarina taidekaupungin elokuvajuhlat": {
    "id": 1769550,
@@ -5827,17 +5821,13 @@
   },
   "spa weekend": {
    "id": 1341138,
-   "img": "data/posters/ec9b1a80640c3124.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "Four lifelong friends realize that somewhere between careers, relationships, families, and everyday responsibilities, they’ve forgotten how to take care of themselves and each other. Burned out and overdue for a break, the women escape to a luxury spa retreat for an unforgettable weekend dedicated to fun, laughter, and a lot of really bad decisions.",
+    "en": "",
     "fi": "Kauhea kankkunen ja Bad Moms ‑elokuvien käsikirjoittajien uudessa komediassa Spa Weekend kolme ystävystä lähtevät rentouttavalle kylpyläviikonlopulle, mutta kaikki karkaa käsistä, kun heidän katastrofikaverinsa liittyy seuraan – luvassa on hulvaton kaaos. Pääosissa Leslie Mann, Isla Fisher, Michelle Buteau ja Anna Faris.",
     "sv": "Tre barndomsvänner, Jane, Coco och Sophie, ser fram emot en lyxig helg fylld av spabehandlingar, lugn och egentid. Men när deras kaotiska vän Mel oväntat dyker upp, förvandlas avslappning snabbt till fullkomligt kaos. \"Spa Weekend\" är en sprudlande komedi om vänskap, missöden och de skratt som bara uppstår när allt går helt fel."
    },
-   "tr": "https://www.youtube.com/watch?v=AhsA9ZqRAXQ",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "spider man brand new day": {
    "id": 969681,
@@ -6349,7 +6339,6 @@
     "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
-    "savonkinot",
     "vihdinkino"
    ],
    "r": 8.0,
@@ -7009,63 +6998,6 @@
   "unohdettu saari": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "kr": "K-7",
-   "krs": [
-    "alatalo",
-    "bioforum",
-    "biogrand",
-    "biograni",
-    "biokaari",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biorexkokkola",
-    "biosade",
-    "biosavoy",
-    "biovuoksi",
-    "cine",
-    "cinemantsala",
-    "engel",
-    "haapamaki",
-    "helios",
-    "huvimylly",
-    "ihmekompleksi",
-    "isohannu",
-    "julia",
-    "kino123",
-    "kinoakseli",
-    "kinoaurora",
-    "kinoelo",
-    "kinohamina",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinojuha",
-    "kinokulma",
-    "kinolaika",
-    "kinolumo",
-    "kinomania",
-    "kinomarilyn",
-    "kinomyyri",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinosampo",
-    "kinoset",
-    "kinotar",
-    "kinotoijala",
-    "kkino",
-    "kotkanleffat",
-    "kuvakukko",
-    "laitilankino",
-    "leffabuumi",
-    "lieksankino",
-    "matintupa",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 8.2,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
@@ -7135,7 +7067,6 @@
     "biovuoksi",
     "cine",
     "cinemantsala",
-    "engel",
     "haapamaki",
     "helios",
     "huvimylly",
@@ -7239,12 +7170,17 @@
    ]
   },
   "unohdettu saari på svenska": {
-   "r": 0,
+   "id": 1465063,
+   "img": "data/posters/db8d634869fa04ac.jpg",
+   "r": 8.0,
    "s": {
-    "en": "",
+    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
+   "ts": [
+    "en"
+   ]
   },
   "unohdettu saari suomeksi": {
    "id": 1465063,
@@ -7278,7 +7214,6 @@
     "biovuoksi",
     "cine",
     "cinemantsala",
-    "engel",
     "haapamaki",
     "helios",
     "huvimylly",
@@ -7436,19 +7371,6 @@
     "en"
    ]
   },
-  "verity verityn varjo": {
-   "id": 1283515,
-   "img": "data/posters/074e95a045702902.jpg",
-   "r": 6.4,
-   "s": {
-    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
-   "ts": [
-    "en"
-   ]
-  },
   "verityn varjo": {
    "id": 1283515,
    "img": "data/posters/4a690568fa372cff.jpg",
@@ -7461,7 +7383,6 @@
     "biorexkokkola",
     "biosade",
     "biosavoy",
-    "cine",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -7479,7 +7400,6 @@
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
-    "sheryl",
     "star",
     "studio123jarvenpaa",
     "tapiola",
