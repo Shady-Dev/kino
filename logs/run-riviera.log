@@ -1,9 +1,9 @@
-[riviera] prices: 89 screenings, 85 priced, 22 pages read, 67 reused, 4 without an ordinary ticket, 0 failed, 0 deferred, 76 with page fields
+[riviera] prices: 89 screenings, 85 priced, 0 pages read, 89 reused, 4 without an ordinary ticket, 0 failed, 0 deferred, 76 with page fields
 [riviera] strand prefix split off 3 showtimes
 [riviera] Riviera Kallio: 31 showtimes, 20 dates
 [riviera] Riviera Punavuori: 64 showtimes, 23 dates
 [riviera] synopses merged: 0
-[run] hosts: 2 attempted -- tickets.rivieracinemas.fi, www.rivieracinemas.fi
+[run] hosts: 1 attempted -- www.rivieracinemas.fi
 [run] riviera: 2 venues, 95 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 41.9s of fetching added up across workers that overlap, longest site 41.9s, longest queue wait 53.3s, 41.9s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 2.4s of fetching added up across workers that overlap, longest site 2.4s, longest queue wait 53.8s, 2.4s wall from this module's first fetch starting to its last ending
 exit=0

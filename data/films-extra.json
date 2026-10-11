@@ -900,8 +900,7 @@
     "star",
     "studio123jarvenpaa",
     "studio123kouvola",
-    "tapiola",
-    "vihdinkino"
+    "tapiola"
    ],
    "r": 7.5,
    "s": {
@@ -1431,13 +1430,12 @@
   },
   "hetki ennen valoa viimeinen esitys": {
    "id": 1015881,
-   "img": "data/posters/ec99ecd6b2aa4dcc.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön uutuuselokuva kertoo kahden naisen kohtaamisesta keskellä hoitoalan kriisiä. Erikoissairaanhoitaja Inka (Laura Birn) tekee työtään suurella sydämellä vaativien työolosuhteiden ja oman perhe-elämänsä ristipaineessa. Lenin (Oona Airola) ja Karin (Jussi Vatanen) onni rakoilee, kun heidän vastasyntynyt vauvansa kiidätetään äkillisesti tehohoitoon. Sairaanhoitajat suunnittelevat lakkoa parempien työolosuhteiden puolesta, ja epävarmuuden hetkellä hämmentynyt Leni löytää tukea ja toivoa Inkasta. Inka on kuitenkin vaikeiden päätösten äärellä. Molemmat naiset toimivat rakkaudesta ja velvollisuudesta – mutta miten tehdä oikea valinta, kun vaakalaudalla ovat oma ja toisten elämä?"
    },
-   "tr": "https://www.youtube.com/watch?v=bOD_fRxNT4Q"
+   "tr": ""
   },
   "hijacked twice": {
    "r": 0,
@@ -1501,13 +1499,12 @@
   },
   "hytti nro 6": {
    "id": 588182,
-   "img": "data/posters/3ff094252d89afe9.jpg",
-   "r": 7.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Cannesin elokuvajuhlien Grand Prix'lla palkittu Juho Kuosmasen elokuva Hytti nro 6 vie unohtumattomalle junamatkalle arktisten neuvostomaisemien halki. Sydänsurujaan Moskovasta Murmanskiin pakeneva Laura (Seidi Haarla) saa hyttikaverikseen kovapintaisen kaivostyöntekijän Ljohan (Juri Borisov). Lauran odotukset rauhoittavasta etsikkomatkasta karisevat kerta heitolla, kun Ljoha juo itsensä äänekkääseen humalaan heti ensimmäisenä iltana. Alun yhteentörmäyksen jälkeen eriparinen kaksikko alkaa kuitenkin löytää toisistaan jotakin yhteistä ja odottamatonta. Hienovaraisen huumorin värittämä kohtaaminen täyteen ahdetun junan erikoislaatuisessa maailmassa saa kummatkin matkaajat näkemään myös itsensä uusin silmin. Hymyilevä mies -elokuvallaan kansainväliseen menestykseen nousseen Kuosmasen lämmin ja vilpitön road movie on syntynyt Rosa Liksomin Finlandia-palkitun romaanin innoittamana."
    },
-   "tr": "https://www.youtube.com/watch?v=itL_GpBalA4"
+   "tr": ""
   },
   "hyvä talo": {
    "id": 1035047,
@@ -1972,7 +1969,7 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
-    "marita",
+    "lieksankino",
     "matintupa",
     "niagara",
     "orion",
@@ -2915,9 +2912,11 @@
     "elavienkuvien",
     "ihmekompleksi",
     "kinoaurora",
+    "kinoelo",
     "kinojuha",
     "kinolaika",
     "kinolumo",
+    "kinomania",
     "kinomyyri",
     "kinopiispanristi",
     "kinosampo",
@@ -2968,7 +2967,7 @@
    "r": 0,
    "s": {
     "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
-    "fi": ""
+    "fi": "Sammalperän farmin asukkaat odottavat innolla Halloweenia, mutta heidän rakkaudella kasvatettu kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late päättää ryhtyä ”hulluksi tiedemieheksi” korjatakseen tilanteen – mikä voisikaan mennä pieleen? Kun samaan aikaan maajussi katoaa ja outo hirviö herättää kyläläisissä kauhua, on luvassa hirviömäisen hauska komedia, jossa ei kommelluksilta vältytä."
    },
    "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
    "ts": [
@@ -3476,8 +3475,7 @@
     "biorex",
     "julia",
     "kinohirvi",
-    "kuvakukko",
-    "tapiola"
+    "kuvakukko"
    ],
    "r": 7.7,
    "s": {
@@ -3567,7 +3565,7 @@
     "star",
     "tapiola"
    ],
-   "r": 8.0,
+   "r": 8.1,
    "s": {
     "en": "Filmed at night from Tel Aviv rooftops, the film reveals in detail the systems behind the systematic destruction of Palestinian civilians by the Israeli military in Gaza. It is directed by Rachel Szor and Yuval Abraham, known for the Oscar-winning documentary No Other Land. The screening begins with a 26-minute short film about Gaza and is followed by a discussion. Details regarding the speakers will be announced later. The screening is organized in collaboration with B-plan Distribution and the Refugee Film Festival.",
     "fi": "Tel Avivin katoilla öisin kuvattu elokuva paljastaa yksityiskohtaisesti järjestelmät, jotka ovat Israelin Gazassa toteuttaman palestiinalaissiviilien suunnitelmallisen tuhoamisen taustalla. Elokuva sai Venetsian elokuvajuhlien ensi-iltayleisöltä festivaalin historian kaikkien aikojen pisimmät, 25 minuuttia kestäneet suosionosoitukset. Tekoälyn ja automaattivalvonnan käyttöä Israelin armeijan Palestiinaan kohdistamassa hyökkäyksessä käsittelevä elokuva on herättänyt ensiesityksensä jälkeen kansainvälisen kohun. Elokuva nimi viittaa Israelin armeijan käyttämään termiin siviiliuhrien lukumäärästä. Siinä haastatellaan 24 anonyyminä esiintyvää Israelin puolustusvoimien ja tiedustelupalvelun työntekijää, jotka kertovat muun muassa laskelmoiduista siviilien murhaamisista. Elokuvan on tuottanut brittilehti The Guardian osana uutismedian sitoutumista riippumattoman journalismin levittämiseen. Tuotannon taustalla ovat myös Oscar-palkitun The Zone of Interest -elokuvan (R&A 2023) ohjaaja Jonathan Glazer ja tuottaja James Wilson, jotka toimivat elokuvan vastaavina tuottajina."
@@ -4441,7 +4439,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna",
     "vihdinkino"
@@ -4489,7 +4486,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna",
     "vihdinkino"
@@ -4534,7 +4530,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna",
     "vihdinkino"
@@ -4602,7 +4597,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "marita",
     "navettakino",
     "vaakuna",
     "vihdinkino"
@@ -4750,7 +4744,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "leffabuumi",
-    "marita",
     "niagara",
     "orion",
     "savonkinot",
@@ -4973,7 +4966,6 @@
    "kr": "K-7",
    "krs": [
     "bioforum",
-    "biograni",
     "biorex",
     "biorexkokkola",
     "haapamaki",
@@ -5789,7 +5781,6 @@
    "kr": "K-12",
    "krs": [
     "elavienkuvien",
-    "kinotar",
     "niagara"
    ],
    "r": 0,
@@ -5906,11 +5897,6 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
-   "kr": "K-12",
-   "krs": [
-    "kinopiispanristi",
-    "sheryl"
-   ],
    "r": 0,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
@@ -6110,7 +6096,7 @@
   "teenage sex and death at camp miasma": {
    "id": 1240889,
    "img": "data/posters/27670b215b5bd500.jpg",
-   "r": 6.3,
+   "r": 6.2,
    "s": {
     "en": "A young director (Hannah Einbinder) tries to revive the cult slasher film series Camp Miasma. But an encounter with its legendary star (Gillian Anderson) draws her into a vortex of blood and desire. The hypnotic summer thriller Teenage Sex and Death at Camp Miasma blends influences from David Lynch and Friday the 13th. Directed by Jane Schoenbrun, the film had its world premiere as the opening film of the Un Certain Regard section at the Cannes Film Festival. Schoenbrun’s previous film, I Saw the TV Glow (2024), was one of the most-watched hits at the Rakkautta & Anarkiaa film festival.",
     "fi": "Nuori ohjaaja (Hannah Einbinder) yrittää herättää henkiin kulttimaineisen slasher-elokuvasarjan Camp Miasman. Kohtaaminen sen legendaarisen tähden (Gillian Anderson) kanssa tempaa hänet kuitenkin veren ja halun pyörteisiin. Hypnoottinen kesätrilleri TEENAGE SEX AND DEATH AT CAMP MIASMA yhdistelee David Lynch ja Friday the 13th -vaikutteita. Jane Schoenbrunin ohjaus sai maailmanensi-iltansa Cannesin festivaalin Un Certain Regard -sarjan avajaiselokuvana. Schoenbrunin edellinen I Saw the TV Glow (2024) oli Rakkautta & Anarkiaa -festivaalin vuoden katsotuimpia hittejä."
@@ -6364,7 +6350,6 @@
     "kinolumo",
     "kinopiispanristi",
     "savonkinot",
-    "studio123jarvenpaa",
     "vihdinkino"
    ],
    "r": 8.0,
@@ -7491,7 +7476,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
-    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
