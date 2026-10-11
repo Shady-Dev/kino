@@ -272,16 +272,12 @@
   },
   "atlantic city": {
    "id": 23954,
-   "img": "data/posters/38eebd2563648f81.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "In a corrupt city, a small-time gangster and the estranged wife of a pot dealer find themselves thrown together in an escapade of love, money, drugs and danger.",
+    "en": "",
     "fi": "Susan Sarandonin näyttelemä tarjoilija Sally ja Burt Lancasterin näyttelemä entinen pikkurikollinen, menneiden suuruudenpäivien perään haikaileva Lou, jahtaavat amerikkalaista unelmaa pelikasinobuumin vallassa elävässä rannikkokaupungissa. Draamaa, romanssia ja rikoselokuvaa yhdistävän elokuvan yksi päähenkilöistä on dramaattista muutosta läpikäyvä Atlantic City itsessään."
    },
-   "tr": "https://www.youtube.com/watch?v=fwDjsStvBbA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "audition": {
    "id": 11075,
@@ -926,6 +922,19 @@
    },
    "tr": ""
   },
+  "dom dobry home sweet home hyvä koti": {
+   "id": 1035047,
+   "img": "data/posters/bdbab05dd04763e3.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "When Gośka meets Grzesiek online, she's sure he's her Mr. Right. Grzesiek is crazy about her, showers her with flowers, and proposes in Venice, but soon enough, the picture perfect romance starts to crumble, revealing a darker side.",
+    "fi": "Wojciech Smarzowski on elokuva- ja teatteriohjaaja, käsikirjoittaja sekä kuvaaja. Hän on valmistunut elokuvatutkimuksen alalta Jagellon yliopistosta sekä Łódźin elokuvakoulun elokuvauksen osastolta. Hän on arvostettu elokuvantekijä, joka on voittanut lukuisia elokuvapalkintoja sekä Puolassa että kansainvälisesti."
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "dome karukosken rakkautta ja virtahepoja": {
    "id": 1450473,
    "img": "data/posters/3630a8c5eeb607ff.jpg",
@@ -1016,12 +1025,14 @@
    ]
   },
   "elämää kuoleman jälkeen": {
+   "id": 571671,
+   "img": "data/posters/b8fb0982c8e4c41d.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Klaus Härön henkilökohtaisin elokuva tarkastelee nimensä mukaisesti isän ja pojan elämää äidin kuoleman ja tämän hautajaisten välillä. Poika haluaisi puhua, mutta isä ja muut lähisukulaiset hukuttavat surun käytännön järjestelyihin. Elokuvan vuoden 2020 teatterikierros jäi epäonnisesti pandemiarajoitusten alle kahteen otteeseen."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9jHI64w5xHg"
   },
   "end of the century the story of the ramones": {
    "id": 16301,
@@ -2572,20 +2583,27 @@
    "tr": ""
   },
   "kun harry tapasi sallyn": {
-   "r": 0,
+   "id": 639,
+   "img": "data/posters/9275877f9b88f057.jpg",
+   "r": 7.4,
    "s": {
     "en": "",
     "fi": "Romanttisen komedian klassikko, joka uudelleenmääritteli genren ja hurmaa yhä vuosikymmenienkin jälkeen, pohtii voivatko mies ja nainen koskaan olla vain ystäviä. Nora Ephronin terävä käsikirjoitus, Billy Crystalin ja Meg Ryanin loistava kemia, ikimuistoiset kohtaukset ja naseva dialogi ovat tehneet elokuvasta yhden kaikkien aikojen rakastetuimmista romanttisista komedioista."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=Lv8W7PPpkdo"
   },
   "kun silmäni mä auki saan": {
-   "r": 0,
+   "id": 36956,
+   "img": "data/posters/a678ff9a59424c36.jpg",
+   "r": 5.9,
    "s": {
-    "en": "",
+    "en": "Anna is an accountant for an important insurance firm and lives with her longterm lover Alessio - a man who longs for a stable longterm relationship with children, home, etc. Anna, feeling as though the fire has fizzled in that relationship takes up with co-worker Domenico and the two begin a passionate affair.",
     "fi": "Arkinen, glamourista riisuttu lähiö-Milano toimii näyttämönä tarinalle kolmekymppisestä naisesta (Alba Rohrwacher), jolla on ihan kiva elämä, ystäviä, työ ja avioliitto. Jotain kuitenkin puuttuu, ja kaivattua jännitystä tuo salasuhde tahollaan varattuun mieheen (Pierfrancesco Favino). Milanolaisohjaaja Silvio Soldinin elokuva ei moralisoi eikä romantisoi."
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "kuolemaantuomittu": {
    "id": 687,
@@ -2640,6 +2658,18 @@
     "fi": "Kauhuelokuvan suomalaisittain liki olematon perinne leijui usvana takametsiin vuoden 1988 syyspimeillä, kun Olli Soinion Kuutamosonaatti sai ensi-iltansa. Tummanpuhuva tarina kansainvälisestä mallikaunottaresta, joka tutustuu managerinsa järjestämällä maaseuturetkellä omalaatuiseen Kyyrölän perheeseen, on avoimen vaikuttunut modernin amerikkalaisen kauhuelokuvan 60- ja 70-lukujen kuuluisimmista edustajista. Soinion lähestymistapa on kuitenkin ennen kaikkea kyräilevän humoristinen ja perisuomalaista pimeän pelkoa hyödyntävä. Traktoria kieli pitkällä ajavassa miespääosassa nähdään juhannuksena edesmennyt Kari Sorvali (1951-2026), yksi sukupolvensa taitavimmista näyttelijöistä. – Jukka Sammalisto"
    },
    "tr": ""
+  },
+  "kuvi avaruusboltsit": {
+   "id": 1405469,
+   "r": 0,
+   "s": {
+    "en": "A boy searches for his lost dog in a forest. His suspicions of a tiger’s presence reveal an illegal hunter’s activities.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "kuvi kanal kirottujen tie": {
    "id": 1405469,
@@ -3314,12 +3344,17 @@
    ]
   },
   "meanders": {
+   "id": 179370,
+   "img": "data/posters/47f4274fbf074dec.jpg",
    "r": 0,
    "s": {
-    "en": "",
+    "en": "Petru and Constantin, former faculty mates, have different views concerning their lives and professions; while the former has a bright imagination, is very creative and daring, the latter is looking only for personal comfort and material satisfaction. They contend for the same woman – but even if she loves Petru, she marries Constantin for his material condition. Though he finds in Constantin an adversary who does not hesitate to remove him, Petru will surpass him professionally.",
     "fi": "Kahden entisen rakastavaisen kohdatessa pintaan nousevat muistot, toteutumattomat mahdollisuudet ja kysymys siitä, mitä ihanteista jää jäljelle kompromissien jälkeen. Ohjaaja Săucan yhdistää ranskalaisen uuden aallon vapauden, Fellinin runollisuuden ja Antonionin hienovaraiset ihmissuhdekuvaukset omaperäiseksi elokuvakieleksi tässä uuden aallon ”kadonneessa mestariteoksessa”. Elokuva seuraa lahjakasta arkkitehtia, jonka nuoruuden unelmat ovat kutistuneet kasarmien ja propagandajulisteiden suunnitteluun, sekä naista, joka on valinnut turvallisen mutta onnettoman elämän. Toistuvat laiturimaisemat, fragmentaariset muistot ja tarkka psykologinen havainnointi luovat melankolisen kuvan ihmisistä, jotka kamppailevat luovuuden, rakkauden ja sopeutumisen välillä. Samalla elokuva toimii hienovaraisena mutta terävänä kuvauksena autoritaarisesta yhteiskunnasta, jossa yksilön haaveet joutuvat jatkuvasti törmäyskurssille todellisuuden kanssa. Pian ensi-iltansa jälkeen sensuroitu ja levityksestä vedetty elokuva nähtiin uudelleen vasta 1990-luvulla. Nykyisin sitä pidetään yhtenä romanialaisen elokuvan rohkeimmista ja omaperäisimmistä saavutuksista. – Otto Kylmälä 2026"
    },
-   "tr": ""
+   "tr": "",
+   "ts": [
+    "en"
+   ]
   },
   "memoria": {
    "id": 511819,
@@ -3562,13 +3597,12 @@
   },
   "nalle puhin elokuva": {
    "id": 51162,
-   "img": "data/posters/6c60c99af8aa7c45.jpg",
-   "r": 6.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Puolen hehtaarin metsän asukit päätyvät 2010-luvun Nalle Puh -versiossa mitä hullunkurisimpiin pinteisiin, kun koko konkkaronkka ottaa ja lähtee pelastamaan Risto Reipasta tämän kadottua äkillisesti. Perinteiselle animaatiotyylille uskollinen elokuva kunnioittaa vesivärimäisellä piirrosjäljellään Nalle Puhin pitkää historiaa."
    },
-   "tr": "https://www.youtube.com/watch?v=bmO-_i8AyCw"
+   "tr": ""
   },
   "natalia": {
    "id": 459808,
@@ -4104,16 +4138,12 @@
   },
   "palatsin hiljaisuus": {
    "id": 44284,
-   "img": "data/posters/a5f8af9e337ce240.jpg",
-   "r": 6.8,
+   "r": 0,
    "s": {
-    "en": "The death of a prince brings a young woman back to the palace where she was born into servitude. The lingering legacy is brought into light from behind frosted windows and velvet curtains.",
+    "en": "",
     "fi": "Tunisialaisen Moufida Tlatlin feministinen esikoiselokuva liikkuu kahdella aikatasolla 1900-luvun puolivälissä. Nuori laulajatar Alia palaa lapsuudenkotiinsa, Ranskan vallan aikaiseen palatsiin. Muistojen kautta hahmottuu kuva prinssiä alistettuna palvelleen äidin elämästä, ja rinnalla kulkee itsemääräämisoikeutta tavoittelevan Alian oma kasvutarina."
    },
-   "tr": "https://www.youtube.com/watch?v=2Vmtb6B6nTs",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "paper tiger": {
    "id": 1381273,
@@ -4129,12 +4159,17 @@
    ]
   },
   "passion": {
-   "r": 0,
+   "id": 348869,
+   "img": "data/posters/ce3518d4f696b562.jpg",
+   "r": 6.3,
    "s": {
-    "en": "",
+    "en": "A young couple's announcement of their engagement to their friends is followed by a series of interactions and conflicts that forces everyone to reflect on their lives.",
     "fi": "Hamaguchin maisterityö Tokion taideyliopistosta avasi ohjaajalle tien kansainvälisten elokuvafestivaalien kilpasarjoihin. Kolmekymppisyyttä lähestyvä pariskunta ilmoittaa ystäväporukan illanistujaisissa kihlauksestaan, mikä nostaa pintaan yllättäviä jännitteitä ja reaktioita niin parin keskinäisissä väleissä kuin heidän ystävissäänkin."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=KvBzIUF_dUo",
+   "ts": [
+    "en"
+   ]
   },
   "paw patrol dinosaurie filmen": {
    "id": 1185806,
@@ -4468,7 +4503,6 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4476,7 +4510,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4515,7 +4548,6 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4523,7 +4555,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4559,7 +4590,6 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4567,7 +4597,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4626,7 +4655,6 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
-    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4634,7 +4662,6 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
-    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -4722,7 +4749,6 @@
    "krs": [
     "biorex",
     "kinojuha",
-    "kinomarilyn",
     "kinopirtti",
     "kotkanleffat",
     "savonkinot",
@@ -4874,6 +4900,8 @@
    "tr": "https://www.youtube.com/watch?v=I1dHzoRl0sQ"
   },
   "prinsessa ruusunen": {
+   "id": 55524,
+   "img": "data/posters/e15a7016056a2e89.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5021,14 +5049,12 @@
     "kinohirvi",
     "kinoiiris",
     "kinolumo",
-    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
     "kotkanleffat",
     "kuvakukko",
-    "navettakino",
     "niagara",
     "regina",
     "savonkinot",
@@ -5261,7 +5287,6 @@
     "kinotoijala",
     "korjaamo",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -5303,7 +5328,6 @@
     "kinotoijala",
     "korjaamo",
     "kotkanleffat",
-    "laitilankino",
     "leffabuumi",
     "savonkinot",
     "star",
@@ -6379,6 +6403,7 @@
    "img": "data/posters/6b7325a881b75227.jpg",
    "kr": "K-16",
    "krs": [
+    "bioforum",
     "biorex",
     "biosade",
     "cinemantsala",
@@ -6822,7 +6847,6 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
-    "orion",
     "savonkinot",
     "star",
     "studio123kouvola",
@@ -7233,7 +7257,7 @@
   "unohdettu saari suomeksi": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 8.0,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
@@ -7441,7 +7465,6 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
-    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
@@ -7479,12 +7502,47 @@
   },
   "verityn varjo verity": {
    "id": 1283515,
-   "r": 0,
+   "img": "data/posters/052a413644e02ce6.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biogrand",
+    "biokaari",
+    "biomarilyn",
+    "biorex",
+    "biorexkokkola",
+    "biosade",
+    "biosavoy",
+    "cinemantsala",
+    "gilda",
+    "ihmekompleksi",
+    "isohannu",
+    "kino123",
+    "kinoakseli",
+    "kinohamina",
+    "kinohirvi",
+    "kinojuha",
+    "kinolumo",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "leffabuumi",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "tapiola",
+    "vaakuna",
+    "vihdinkino"
+   ],
+   "r": 6.5,
    "s": {
-    "en": "",
+    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
+   "ts": [
+    "en"
+   ]
   },
   "viimeinen mies": {
    "id": 5991,

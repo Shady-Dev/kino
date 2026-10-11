@@ -1,7 +1,7 @@
 {
  "casper": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "EN-A, FI-S",
    "len": "100",
@@ -25,7 +25,7 @@
  },
  "digger": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "len": "128",
@@ -37,7 +37,7 @@
  },
  "filminor": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "FI-A",
    "rating": "S",
@@ -70,7 +70,7 @@
  },
  "ghost-nakymaton-rakkaus": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "EN-A, FI-S",
    "len": "126",
@@ -177,7 +177,7 @@
  },
  "mina-ja-riikka-purra": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "93",
@@ -199,7 +199,7 @@
  },
  "natalia": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "97",
@@ -223,7 +223,7 @@
  },
  "pia-langbacka-meedion-tyo": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "syn_fi": "Sukella salaperäisten istuntojen ja tuonpuoleisten viestien maailmaan näkyvän ja näkymättömän maailman rajamaille! Helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka saapuu vieraaksemme. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pian puheenvuoro on osa Näkymätön yhteys – Meedioelokuvapäivää ja sitä voi tulla kuuntelemaan ilmaiseksi LA 24.10. KLO 17:00-17:45."
   }
@@ -242,7 +242,7 @@
  },
  "rose": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "DE-A, FI-S, SV-S",
    "len": "94",
@@ -254,7 +254,7 @@
  },
  "syystarina": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "FR-A, EN-S",
    "len": "112",
@@ -301,21 +301,9 @@
    "syn_en": "Inspired by true events and the whistleblower who sparked the social media accountability debate we follow today, Aaron Sorkin’s original screenplay is a companion piece to the hit film The Social Network and a true David-and-Goliath story. Young Facebook engineer Frances Haugen (Mikey Madison) turns to The Wall Street Journal reporter Jeff Horwitz (Jeremy Allen White) for help. Together, they embark on a dangerous journey that ultimately leads to the exposure of the social network’s most closely guarded secrets."
   }
  },
- "tony": {
-  "price": "",
-  "at": "2026-10-10T11:17:49+00:00",
-  "fields": {
-   "lang": "EN-A, FI-S, SV-S",
-   "len": "109",
-   "rating": "K-16",
-   "year": "2026",
-   "syn_fi": "Tony kertoo 19-vuotiaasta Anthony Bourdainista elämänsä käännekohdassa 1970-luvun Provincetownissa Massachusettsissa. Levoton ja tulevaisuudestaan epävarma Tony päätyy töihin ravintolakeittiöön ja tempautuu mukaan ammattikeittiön intensiiviseen ja kaoottiseen maailmaan. Ystävyyksien, romanssin, päihteiden ja keittiöelämän keskellä hän alkaa löytää kurinalaisuutta sekä intohimon ruokaan. Elokuva kuvaa ratkaisevaa ajanjaksoa, jolloin päämäärätön nuori mies alkaa löytää oman äänensä ja intohimonsa, joka johdattaa hänet kohti uraa maailmankuuluna huippukokkina.",
-   "syn_en": "Tony follows 19-year-old Anthony Bourdain at a turning point in his life in 1970s Provincetown, Massachusetts. Restless and uncertain about his future, Tony takes a job in a restaurant kitchen and becomes immersed in the intense and chaotic world of professional cooking. Amid friendships, romance, drugs, and the pressures of kitchen life, he begins to discover discipline and a passion for food. The film captures a pivotal period in which a directionless young man begins to find his own voice and passion, setting him on the path to becoming a world-famous chef."
-  }
- },
  "unesta-tehty-mies": {
   "price": "",
-  "at": "2026-10-09T17:17:13+00:00",
+  "at": "2026-10-11T23:18:11+00:00",
   "fields": {
    "lang": "FI-A",
    "len": "94",

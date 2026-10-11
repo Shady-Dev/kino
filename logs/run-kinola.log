@@ -14,16 +14,16 @@
 [kinolaika] Kino Laika: 20 showtimes, 7 dates
 [kinolaika] Kino Laika: 20 showtimes, 7 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 25 screening(s) listed, 19 film page(s) read
+[kinomyyri] 24 screening(s) listed, 19 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 6
 [kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Must pori näkku, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 2 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen)
-[kinomyyri] Kino Myyri: 19 showtimes, 10 dates
-[kinomyyri] Kino Myyri: 19 showtimes, 10 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
+[kinomyyri] Kino Myyri: 18 showtimes, 9 dates
 [kinomyyri] synopses merged: 0
-[run] http: 47 revalidated (304), 55 full, 20 not stored (origin said no-store), 1 cache entries written
+[run] http: 3 revalidated (304), 99 full, 20 not stored (origin said no-store), 45 cache entries written
 [run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 102 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 216.6s of fetching added up across workers that overlap, longest site 80.6s, longest queue wait 134.5s, 80.7s wall from this module's first fetch starting to its last ending
+[run] kinola: 3 venues, 101 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 3 site(s), 182.6s of fetching added up across workers that overlap, longest site 84.2s, longest queue wait 115.0s, 84.2s wall from this module's first fetch starting to its last ending
 exit=0
