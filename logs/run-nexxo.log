@@ -39,5 +39,5 @@
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] partial: kinometso has 2 venue(s) that have never produced a showtime: km-muurame, km-vaajakoski
 [run] nexxo: 11 venues, 187 showtimes, 0 stale, 2 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 35.6s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
+[run] timing: 8 site(s), 34.7s of fetching added up across workers that overlap, longest site 10.3s, longest queue wait 0.0s, 10.3s wall from this module's first fetch starting to its last ending
 exit=0
