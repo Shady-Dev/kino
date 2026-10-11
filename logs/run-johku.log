@@ -1,15 +1,16 @@
-[biomarilyn] 17 screening(s) in 2 schedule block(s), 13 film page(s) read
+[biomarilyn] 15 screening(s) in 2 schedule block(s), 12 film page(s) read
 [biomarilyn] 20 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
-[biomarilyn] 3 screening(s) listed in a second block, published once
+[biomarilyn] 2 screening(s) listed in a second block, published once
+[biomarilyn] left out as the page does: 3 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
-[biomarilyn] Bio Marilyn: 17 showtimes, 8 dates
-[biomarilyn] Bio Marilyn: 17 showtimes, 8 dates
+[biomarilyn] Bio Marilyn: 15 showtimes, 8 dates
+[biomarilyn] Bio Marilyn: 15 showtimes, 8 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 21 screening(s) in 1 schedule block(s), 15 film page(s) read
-[vihdinkino] left out as the page does: 1 already started, 0 not in the catalogue
+[vihdinkino] 20 screening(s) in 1 schedule block(s), 15 film page(s) read
+[vihdinkino] left out as the page does: 2 already started, 0 not in the catalogue
 [vihdinkino] 2 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€, The Odyssey
-[vihdinkino] Vihdin Kino: 21 showtimes, 6 dates
-[vihdinkino] Vihdin Kino: 21 showtimes, 6 dates
+[vihdinkino] Vihdin Kino: 20 showtimes, 6 dates
+[vihdinkino] Vihdin Kino: 20 showtimes, 6 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 26 screening(s) in 1 schedule block(s), 12 film page(s) read
 [bioforum] Bio Forum: 26 showtimes, 11 dates
@@ -25,12 +26,13 @@
 [kinohannikainen] Kino Hannikainen: 19 showtimes, 9 dates
 [kinohannikainen] Kino Hannikainen: 19 showtimes, 9 dates
 [kinohannikainen] synopses merged: 0
-[kinovirta] 7 screening(s) in 1 schedule block(s), 6 film page(s) read
-[kinovirta] Kino Virta: 7 showtimes, 2 dates
-[kinovirta] Kino Virta: 7 showtimes, 2 dates
+[kinovirta] 6 screening(s) in 1 schedule block(s), 5 film page(s) read
+[kinovirta] left out as the page does: 1 already started, 0 not in the catalogue
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
+[kinovirta] Kino Virta: 6 showtimes, 2 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 72 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 70 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 124 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 166.6s of fetching added up across workers that overlap, longest site 38.2s, longest queue wait 138.1s, 55.4s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 120 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 184.6s of fetching added up across workers that overlap, longest site 43.1s, longest queue wait 166.2s, 66.8s wall from this module's first fetch starting to its last ending
 exit=0

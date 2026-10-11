@@ -2348,7 +2348,6 @@
     "kinopirtti",
     "kirkkonummi",
     "kkino",
-    "kotkanleffat",
     "savonkinot",
     "star",
     "tapiola"
@@ -3243,16 +3242,12 @@
   },
   "marsupilami dub": {
    "id": 1145899,
-   "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
+    "en": "",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari - vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla."
    },
-   "tr": "https://www.youtube.com/watch?v=pXGuY9qcSe0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "marsupilami suomeksi": {
    "id": 1145899,
@@ -4300,7 +4295,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4322,7 +4316,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4339,7 +4332,6 @@
   },
   "pikkuli ja tähtipeura ennakkonäytös 10": {
    "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4364,7 +4356,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4386,7 +4377,6 @@
    "krs": [
     "alatalo",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "engel",
     "kinoaurora",
@@ -4754,7 +4744,6 @@
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
-    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
@@ -5444,16 +5433,12 @@
   },
   "ryhmä hau dinoelokuva dub": {
    "id": 1185806,
-   "img": "data/posters/b7775ab25a7de6bc.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "The Paw Patrol lands on a mysterious dinosaur island after a storm, where they meet Rex, a stranded pup. When Humdinger's reckless mining triggers a volcano, the team faces their biggest rescue mission yet to save the island.",
+    "en": "",
     "fi": "Ryhmä Haun laiva joutuu mystisen myrskyn kouriin ja haaksirikkoutuu trooppiselle saarelle, joka kuhisee dinosauruksia. He tapaavat Rexin – pennun, joka on jo vuosia ollut saarella jumissa ja josta on kehkeytynyt melkoinen dinosaurusekspertti. Kun Ryhmä Haun arkkivihollinen, Pormestari Hanttinen, aloittaa valtavat kaivuutyöt voidakseen hyödyntää saaren luonnonvaroja, hän saa vahingossa valtavan nukuksissa olleen tulivuoren purkautumaan. Pennut tempautuvat mukaan riskialttiiseen, dinon kokoiseen, kaikkien aikojen suurimpaan pelastusoperaatioonsa tavoitteenaan pysäyttää Hanttinen ennen kuin kaikki saarella katoaa ikiajoiksi."
    },
-   "tr": "https://www.youtube.com/watch?v=xgI5iYmOf5Q",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ryhmä hau dinoelokuva elokuvanäytös": {
    "id": 1185806,
@@ -5473,9 +5458,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
-    "kotkanleffat",
     "savonkinot",
-    "star",
     "studio123jarvenpaa"
    ],
    "r": 8.2,
@@ -7084,7 +7067,6 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7195,7 +7177,6 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7273,17 +7254,12 @@
    ]
   },
   "unohdettu saari på svenska": {
-   "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan. Elokuvan ääninäyttelijöiden tähtisikermää täydentävät Emmy-ehdokas Jenny Slate (Marcell the Shell with Shoes On, Dying for Sex), Manny Jacinto (The Good Place, Top Gun: Maverick), BAFTA-ehdokas Dolly de Leon (Triangle of Sadness, Ghostlight), komedian supertähti Jo Koy (Haunted Mansion, Jo Koy: Live from B"
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari suomeksi": {
    "id": 1465063,
@@ -7344,7 +7320,6 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
-    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
