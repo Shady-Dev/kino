@@ -1,18 +1,20 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-11: 62 showtimes
 [schedule] 2026-10-12: 435 showtimes
 [schedule] 2026-10-13: 433 showtimes
 [schedule] 2026-10-14: 433 showtimes
 [schedule] 2026-10-15: 435 showtimes
 [schedule] 2026-10-16: 1 showtimes
 [schedule] 2026-10-17: 5 showtimes
-[tmdb] no TMDB match (1): Ooppera: Macbeth
-[tmdb] weak candidate kept, not searched until 2026-10-12 (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 99, 88 mergeable by id
+[schedule] 2026-10-18: 11 showtimes
+[tmdb] no TMDB match (3): Nälkäpeli- elokuvamaraton | Ooppera: Macbeth | Suomen Kansallisbaletti: Joutsenlampi
+[tmdb] weak match, no exact title (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
+[tmdb] rating held back, under 25 votes (2): Matloob Aelian (1.0 / 1 votes) | Two Seasons, Two Strangers (7.1 / 16 votes)
+[tmdb] rating refresh: 3 scheduled, 3 re-read, 0 failed and still due, 0 deferred (budget 12)
+[tmdb] 5 new lookups, 13 re-checks, cache 101, 88 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 55 film entries
-[attrs] dropped, neither format nor language (8): Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
+[films] 57 film entries
+[attrs] dropped, neither format nor language (9): EiText | Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
 exit=0
