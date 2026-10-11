@@ -1025,7 +1025,7 @@
   "end of the century the story of the ramones": {
    "id": 16301,
    "img": "data/posters/a6e91c41aa304f14.jpg",
-   "r": 7.7,
+   "r": 7.6,
    "s": {
     "en": "A years-in-the-making documentary on the legendary punk band the Ramones. Through a mixture of archival footage, archival and new interviews with all members of the band's various lineups, and new interviews with a number of their contemporaries, the film traces the peaks and valleys the band experienced over the course of its 20-plus year career before disbanding in 1995.",
     "fi": "Yhtenä punkin alkupisteistä voidaan pitää Ramonesin ensimmäistä levyä, joka äänitettiin helmikuussa ja julkaistiin huhtikuussa 1976. Dokumentissa käydään läpi yhtyeen historia perustamisesta vuoden 1996 hajoamiseen asti. Elokuva aloitettiin jo vuonna 1994, jolloin tarkoituksena oli dokumentoida yhtyeen viimeistä kiertuevuotta. Riitojen vuoksi projekti saatiin loppuun kuitenkin vasta, kun yhtye oli virallisesti lopettanut toimintansa."
@@ -1309,7 +1309,7 @@
   "heart of the beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun.",
@@ -5476,8 +5476,7 @@
     "kotkanleffat",
     "savonkinot",
     "star",
-    "studio123jarvenpaa",
-    "vihdinkino"
+    "studio123jarvenpaa"
    ],
    "r": 8.2,
    "s": {
