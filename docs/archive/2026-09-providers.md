@@ -3798,3 +3798,13 @@ half is now read as a screening when every half reads, and the mark is allowed a
 time. The live page parsed to 15 of 15 that day. Kerro kaikille stays unpriced, because its
 block states two amounts, `Liput 15e` and `14.10. Ke klo13.30 Liput 14e`. Four mutations
 red.
+
+### Kino Myyri's posters come from `data-src` (2026-10-12)
+From cloud commit `5e473c5f9` (2026-10-11 11:18 UTC), every Myyri row published the same
+100x150 base64 PNG as its poster, and the app and the generated page drew initials tiles
+for all of them. The theme had started lazy-loading: `src` holds the placeholder and
+`data-src` the real address. `SRC_RE` took the first `src` it met. `poster_src` now prefers
+`data-src` and never takes a `data:` value, which also lets the film page's `og:image`
+fill a row with no usable poster again. The Laika template reads posters the same way. The
+saved listing of 2026-10-12 parsed to 43 rows, all with a media.kinola.ee poster. Three
+mutations red.
