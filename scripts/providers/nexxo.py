@@ -106,11 +106,19 @@ SITES = [
     # venue owns; Riihivuori (roomId 21, a resort hill in Muurame) folds into the
     # Muurame venue because KSEK's own site gives it no page, and the room name stays
     # visible in `aud`. Vaajakoski and Tikkakoski are districts of Jyväskylä, so that
-    # is their city. Hankasalmi and Laukaa have pages but no programme today, and are
-    # deliberately not added -- the unclaimed-room line in the log announces them the
-    # day they publish, and until one is added no empty town here is confirmed empty.
+    # is their city. A town is added when it publishes and the maintainer says so: Laukaa,
+    # roomId 24, on 2026-10-13, after the log had named its five screenings on 31.10.
+    # Viitasaari (10), Toivakka (23) and Hankasalmi (19) publish further out and are not
+    # added; the unclaimed-room line names them, and until they are, no empty town here is
+    # confirmed empty.
+    #
+    # `days`: the whole published programme. A touring cinema publishes weeks ahead, and the
+    # default 21 days left Muurame's November screenings and Petäjävesi's of 25.11. unread
+    # while the cinema listed them. Read 2026-10-13, the cinema's own Laukaa page asks the
+    # same endpoint for days=999, and its dates then reached 3.12.
     {"provider": "kinometso", "base": "https://kinoaurora.fi",
      "site": "https://ksek.fi", "label": "Kino Metso", "programme": "/kino-metso/",
+     "days": 999,
      "venues": [
          {"id": "km-muurame", "locationid": "2", "rooms": ["2", "21"],
           "page": "/kino-metso/muurame/", "name": "Muurame",
@@ -124,6 +132,9 @@ SITES = [
          {"id": "km-vaajakoski", "locationid": "2", "rooms": ["12"],
           "page": "/kino-metso/vaajakoski/", "name": "Vaajakoski",
           "short": "Vaajakoski", "city": "Jyväskylä"},
+         {"id": "km-laukaa", "locationid": "2", "rooms": ["24"],
+          "page": "/kino-metso/laukaa/", "name": "Laukaa",
+          "short": "Laukaa", "city": "Laukaa"},
      ]},
 ]
 
@@ -390,7 +401,7 @@ def fetch_site(site, sleep=2.5):
         by_loc.setdefault(v["locationid"], []).append(v)
     for loc, venues in by_loc.items():
         try:
-            payload = fetch_payload(site, loc)
+            payload = fetch_payload(site, loc, days=site.get("days", 21))
         except Exception as e:
             print(f"[{site['provider']}] locationid {loc} FAILED: {e}")
             time.sleep(sleep)

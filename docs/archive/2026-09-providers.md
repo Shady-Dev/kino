@@ -3866,3 +3866,17 @@ carries the title and "Elokuvan kesto: 120 min" and nothing else. The maintainer
 2026-10-13 to exclude it with a narrow, recorded rule. `NOT_FILMS` lists exact row titles,
 compared without case, with the evidence for each. A matching row is left out and counted
 in the log, and a title merely containing the word still publishes. Three mutations red.
+
+### Kino Metso adds Laukaa and reads its whole programme (2026-10-13)
+The functional test of 2026-10-12 found Muurame showing nothing while ksek.fi listed six
+screenings from 3.11. to 3.12., Petäjävesi missing 25.11., and Laukaa's five screenings on
+31.10. in room 24, which no venue owned. Kino Metso was read with Nexxo's default 21 days.
+The maintainer decided on 2026-10-13 to add Laukaa and to give Kino Metso a horizon that
+covers the cinema's published dates. The cinema's own Laukaa page, read that day, asks the
+same endpoint for days=999, so Kino Metso's site entry now carries `days: 999` and every
+other Nexxo site keeps 21. Laukaa is room 24 with the page `/kino-metso/laukaa/`, which
+answers 200 with the plugin's showlist. Read live that day: Muurame 6, Petäjävesi 6, Laukaa
+5 and Tikkakoski 2, as the cinema lists them. The wider window also brings Viitasaari (room
+10), Toivakka (23) and Hankasalmi (19) into the payload. They are not added, the log names
+them, and Vaajakoski, with no screening, stays unconfirmed while they are unowned. Three
+mutations red.
