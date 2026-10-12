@@ -3845,3 +3845,15 @@ Järvenpää 4 and Kinopirtti 3. Bio Vuoksi links it with none. The listing is n
 where the programme page links it on the site's own host, and a failed read fails the site.
 Read live that day, Kotka published the opera at 17:30, 25 €, with the cinema's own ticket
 id 55623. Four mutations red.
+
+### Kinokulma's non-film products are left out by path (2026-10-13)
+The functional test of 2026-10-12 found Kinokulma publishing "Olemme vapaalla", its night
+off, and "Oulaisten Valovoima ry", a local association's evening, as screenings with ticket
+links and initials tiles. Both are products with canonical paths, so the hall-hire rule
+cannot see them, and the Johku record says no word in a title is read. The maintainer
+decided on 2026-10-13 to exclude them with narrow, recorded per-site rules. A Johku site
+entry can now list `not_films`, exact storefront paths with the evidence beside each, and
+those rows are left out before any page is read and counted in the log. Kinokulma lists
+`/fi_FI/olemme-lomalla` and `/fi_FI/oulaisten-valovoima-ry`, read 2026-10-12 and 2026-10-13.
+The first page carries the title and a length and nothing else, and the second describes the
+association. Three mutations red.
