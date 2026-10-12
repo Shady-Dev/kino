@@ -3857,3 +3857,12 @@ those rows are left out before any page is read and counted in the log. Kinokulm
 `/fi_FI/olemme-lomalla` and `/fi_FI/oulaisten-valovoima-ry`, read 2026-10-12 and 2026-10-13.
 The first page carries the title and a length and nothing else, and the second describes the
 association. Three mutations red.
+
+### Iso-Hannu's private hall booking is left out by its exact title (2026-10-13)
+The functional test of 2026-10-12 found Iso-Hannu publishing "Salissa yksityisvaraus", a
+private booking of Sali 2 at 17:00 on 15.10., as a screening with a ticket link. The
+cinema's own page lists it with a ticket button like a film, and its film page (id 2216)
+carries the title and "Elokuvan kesto: 120 min" and nothing else. The maintainer decided on
+2026-10-13 to exclude it with a narrow, recorded rule. `NOT_FILMS` lists exact row titles,
+compared without case, with the evidence for each. A matching row is left out and counted
+in the log, and a title merely containing the word still publishes. Three mutations red.
