@@ -622,6 +622,50 @@ class StaleDayPastTheHorizon(Browser):
             "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
 
 
+class FinnkinoUnpublishedGap(Browser):
+    """One advance screening sits past Finnkino's published week. The days between say
+    "not yet published", not "no shows": 16.-17.10.2026 at eight Finnkino venues, ahead of
+    an 18.10. marathon. Another chain's gap is a day with nothing on and keeps "no shows"."""
+
+    def serve(self, name, days=("2026-09-14", "2026-09-15", "2026-09-18")):
+        data = json.loads((FIXTURE / f"data/{name}").read_text(encoding="utf-8"))
+        first = data["shows"][0]
+        shows = [{**first, "start": day + first["start"][10:]} for day in days]
+        doc = {**data, "dates": list(days), "horizon": days[-1], "shows": shows}
+        Handler.body = {name: json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+
+    def wednesday(self, area):
+        self.page.goto(self.origin + f"/index.html?area={area}&lang=fi")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.locator("#days .day").nth(2).click()          # Ke 16.9.
+        status = self.page.locator("#main .status")
+        expect(status).to_be_visible()
+        return status
+
+    def test_a_finnkino_day_before_an_advance_screening_is_not_yet_published(self):
+        self.serve("area-1004.json")
+        expect(self.wednesday("1004")).to_contain_text(
+            "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
+
+    def test_a_finnkino_day_before_the_published_run_has_no_shows(self):
+        """A day before the listing's first date is an ordinary empty day, not an
+        unpublished one."""
+        self.serve("area-1004.json", days=("2026-09-16", "2026-09-17", "2026-09-18"))
+        self.page.goto(self.origin + "/index.html?area=1004&lang=fi")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.locator("#days .day").nth(1).click()          # Ti 15.9.
+        status = self.page.locator("#main .status")
+        expect(status).to_contain_text("ei ole näytöksiä")
+        self.assertNotIn("ei ole vielä julkaistu", status.inner_text())
+
+    def test_another_chains_gap_is_still_a_day_with_no_shows(self):
+        self.serve("area-or-helsinki.json")
+        status = self.wednesday("or-helsinki")
+        expect(status).to_contain_text("ei ole näytöksiä")
+        self.assertNotIn("ei ole vielä julkaistu", status.inner_text())
+
+
 class SheetFinnkinoSynopsisLanguages(Browser):
     """A Finnkino film whose films.json entry is Finnish only reads the store's Swedish and
     English, and keeps Finnkino's own Finnish. Measured 2026-10-12: 28 of 57 Finnkino films

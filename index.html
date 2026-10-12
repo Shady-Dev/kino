@@ -4083,6 +4083,21 @@
     return venueIndex[state.area] ? [state.area] : [];
   }
 
+  // Finnkino publishes Friday to Thursday on Tuesdays (docs/research/publication-rhythm.md),
+  // and one advance screening can sit beyond the published week. The days between have not
+  // been published, which "no shows" would misstate: 16.-17.10.2026 at eight Finnkino
+  // venues, ahead of an 18.10. marathon. Only for a view of Finnkino's venues alone; other
+  // chains publish further ahead, and a gap in their dates is a day with nothing on.
+  // providers: one per venue in view. dates: the view's dates with screenings, ascending.
+  // A day past the last date never reaches this: the horizon check above takes it.
+  function unpublishedGap(providers, dates, day){
+    if(!providers.length || providers.some(p => p !== 'finnkino')) return false;
+    if(!Array.isArray(dates) || !dates.length) return false;
+    let end = dates[0];
+    for(const d of dates.slice(1)){ if(d === addDays(end, 1)) end = d; else break; }
+    return day > end;
+  }
+
   function emptyMsg(){
     const t = L[state.lang];
     // Ahead of the filter and date messages.
@@ -4107,6 +4122,8 @@
       const known = (state.sources || []).filter(s => s && s.generated).length;
       return late && late.providers.length === known ? t.noProgUnchecked : t.notpublished;
     }
+    if(unpublishedGap(ids.map(id => (venueIndex[id] || {}).provider), state.dates,
+                      state.dateStr)) return t.notpublished;
     if(state.dateStr === fiToday()) return t.nomore;
     // The selected day by its chip's own label: "tänään" here named a day that is not
     // today. Finnish only; the Swedish and English lines already say "this day".
