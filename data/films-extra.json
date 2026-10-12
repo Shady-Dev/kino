@@ -729,6 +729,14 @@
    },
    "tr": ""
   },
+  "cinéstesia encore isaac julien": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Liput näytökseen täältä! Juhlistamme Espoon modernin taiteen museossa EMMAssa 23.10. avautuvaa uutta Alien in Me -kokoelmanäyttelyä ja sinne esille tulevaa, Isaac Julienin Paradise Omeros -installaatiota esittämällä elokuussa Cinéstesia-ohjelmiston arkistonäytöksenä Kino Reginassa nähdyn näytöksen Isaac Julienin varhaisia, uraauurtavia lyhytelokuvia. Territories-elokuvassa Notting Hillin karnevaali tarjoaa Julienille mahdollisuuden tutkia ”halun reviirejä, yhden tilan hallintaa, karnevaalia, vastarinnan reviiriä, äänijärjestelmiä, mielen valvonnan reviirejä”, kuten hän itse muotoilee elokuvan kertojanäänessä. Runollisen montaasin keinoin Julien luotaa mustaa brittiläistä identiteettiä, kokemuksia rasistisesta poliisivallasta ja kolonialismin jatkuvaa perintöä kiivaasti haastaen. Viisi vuotta myöhemmin valmistunut Looking for Langston palaa Langston Hughesin hahmoon HIV/AIDS-kriisin ollessa huipussaan ja asettaa Harlemin renessanssin kirjailijan vuoropuheluun Julienin oman sukupolven mustien homoseksuaalisten kirjailijoiden, kuten Hilton Alsin ja Essex Hemphillin, kanssa. Queer-muisti rakentaa siltoja ajan ja tilan yli, kun suru ja juhla yhdistyvät yhdessä vuosikymmenen juhlituimmista brittiläisistä elokuvista.” (Erika Balsom)"
+   },
+   "tr": ""
+  },
   "clayface": {
    "id": 1400940,
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
@@ -1971,7 +1979,6 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
-    "kirkkonummi",
     "kkino",
     "korjaamo",
     "kotkanleffat",
@@ -2310,6 +2317,14 @@
    "s": {
     "en": "Films vary and are announced at least a week before each date. Knitting Cinema: During this screening the lights are kept on, to allow for knitting during the movie. Note! The auditorium is an alcohol serving area during this screening, 18 year age limit! Drinks bought in the cafe can be brought into the auditorium.",
     "fi": ""
+   },
+   "tr": ""
+  },
+  "knyckertz snutjakten vorosen perhe ja kyttäjahti": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Vorosen perheen hyppysiä syyhyttää: kaupungin museoon ollaan tuomassa maailman kallisarvoisinta esinettä, Farah Diban kruunajaisdiadeemia. Viivi-äiti, Otto-isä ja Kriminelli-sisko suunnittelevat nerokkaan ryöstökeikan diadaamin anastamiseksi; rehellinen Niilo (joka ei koskaan ikinä ole varastanut mitään) yrittää taas estää suunnitelmaa toteutumasta. Samaan aikaan poliisilla on selvittelyn alla koiravarkaus, jonka jäljet vievät Vorosen perheeseen. Onko Kyttä-koiralla salattu menneisyys? Entä pystyykö perhe vastustamaan varkauksia? Vorosen perheen seikkailut riemastuttavat nuoria lukijoita opettavaisilla rosvotarinoillaan, ja tarinat taipuvat mitä mainioimmin myös elokuviksi. Vorosen perhe ja kyttäjahti tarjoaa riemastuttavan ja lämminhenkisen seikkailun perheen parissa, joka on kaikkea muuta kuin tavallinen, ja kaikkein vähiten rehellinen."
    },
    "tr": ""
   },
@@ -2679,6 +2694,14 @@
     "en"
    ]
   },
+  "kuzma fearlessly cheerful": {
+   "r": 0,
+   "s": {
+    "en": "SPECIAL UKRAINIAN FILM NIGHT AT KINO TÖÖLÖ! For the First Time on the Big Screen in Finland: Documentary About Kuzma Skryabin. \n\nThe biographical documentary \"Kuzma: Fearlessly Cheerful\", dedicated to the legendary Ukrainian musician Andriy Kuzmenko (Kuzma Skryabin), will screen in a special Ukrainian film night at Kino Töölö on Ocotober 29, 2026. \n\nCreated by the team behind the acclaimed documentary Yaremchuk: The Incomparable World of Beauty, the film is built entirely around unique archival footage, most of which has never been made public before.\n\nThis is the story of Andriy Kuzmenko, the frontman of the iconic Ukrainian band Skryabin—a man loved by millions, yet truly known by only a few. Through exclusive, previously unseen archival materials, the film reveals his personal evolution, sharp sense of humor, self-irony, and a life lived at full speed—one whose energy continues to inspire audiences today.\n\nDirected by Artem Hryhorian, the documentary follows Kuzma's journey from a young boy in Novoyavorivsk to one of the defining figures of Ukrainian popular culture. It is a story about freedom, pain, and compassion—values reflected in everything he said and created. At the same time, the film explores Kuzma as a lasting cultural icon whose influence remains strong years after his passing.\n\n“This is definitely not a conventional documentary where everyone simply talks about the main character. Of course, there are interviews, but our goal was to let the audience spend time with Kuzma himself—to see him as he truly was. We all knew him as a national hero, yet very few knew the story of how he became one. Kuzma can no longer speak to us directly, but through these archives, he still can. The audience doesn't just hear about the past—they experience the journey of his life as it unfolds on screen,” says the film's producer, Maksym Serdiuk.",
+    "fi": ""
+   },
+   "tr": ""
+  },
   "käpy selän alla": {
    "id": 195204,
    "r": 0,
@@ -2818,6 +2841,7 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinoolympia",
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
@@ -2852,6 +2876,7 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinoolympia",
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
@@ -2889,6 +2914,7 @@
     "kinolumo",
     "kinometso",
     "kinomyyri",
+    "kinoolympia",
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
@@ -3275,7 +3301,7 @@
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.4,
+   "r": 6.3,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
@@ -4307,6 +4333,7 @@
   },
   "pikku kummitus lapanen": {
    "id": 69381,
+   "img": "data/posters/1f412d27cae05b51.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4335,6 +4362,14 @@
    "s": {
     "en": "",
     "fi": "Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä."
+   },
+   "tr": ""
+  },
+  "pikku kummitus lapanen keppostelee puhumme suomea": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Pikku Kummitus Lapanen palaa uusien seikkailujen pariin Hyvänhuomenen linnassa. Yhdessä Lapaniinan, Pikkuprinssin ja ystäviensä kanssa hän joutuu hauskoihin, jännittäviin ja välillä hieman pelottaviinkin tilanteisiin, joissa ystävyys, rohkeus ja mielikuvitus ovat aina keskiössä. Lämmin ja humoristinen elokuvaelämys perheen pienimmille elokuvissakävijöille. Elokuva on saanut Euroopan unionin Luova Eurooppa -ohjelman tuen."
    },
    "tr": ""
   },
@@ -4499,6 +4534,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4544,6 +4580,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4586,6 +4623,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -4651,6 +4689,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
@@ -5516,6 +5555,7 @@
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
+    "kotkanleffat",
     "savonkinot",
     "studio123jarvenpaa"
    ],
@@ -6190,19 +6230,6 @@
     "fi"
    ]
   },
-  "tekijätorstai rakkautta ja virtahepoja": {
-   "id": 1450473,
-   "img": "data/posters/3630a8c5eeb607ff.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "tekijätorstai tytöt tytöt tytöt": {
    "id": 683363,
    "img": "data/posters/26bcd92f91926027.jpg",
@@ -6839,7 +6866,9 @@
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
+    "kinoolympia",
     "kinopiispanristi",
+    "kirkkonummi",
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
@@ -7161,6 +7190,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7308,6 +7338,7 @@
     "kinoset",
     "kinotar",
     "kinotoijala",
+    "kinovirta",
     "kkino",
     "kotkanleffat",
     "kuvakukko",
@@ -7461,9 +7492,11 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
@@ -7518,9 +7551,11 @@
     "kinohirvi",
     "kinojuha",
     "kinolumo",
+    "kinoolympia",
     "kinopiispanristi",
     "kinopirtti",
     "kinotar",
+    "kinovirta",
     "kotkanleffat",
     "leffabuumi",
     "savonkinot",
