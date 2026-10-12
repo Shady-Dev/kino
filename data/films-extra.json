@@ -197,7 +197,6 @@
    "tr": ""
   },
   "amélie": {
-   "id": 194,
    "r": 0,
    "s": {
     "en": "",
@@ -498,6 +497,14 @@
     "en"
    ]
   },
+  "baletti pähkinänsärkijä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "John Neumeierin Pähkinänsärkijä kutsuu katsojan unelmien ja tanssin maailmaan. Baletti kertoo 12-vuotiaasta Mariesta, joka saa syntymäpäivälahjakseen pähkinänsärkijän ja vaaleanpunaiset kärkitossut. Unessaan hän kohtaa omalaatuisen balettimestari Drosselmeierin, joka johdattaa hänet teatterin ja klassisen baletin taianomaiseen maailmaan. Marie seuraa harjoituksia ja esityksiä, oppii itse tanssimaan sekä löytää vähitellen oman paikkansa näyttämöllä. Samalla Marie kasvaa lapsesta nuoreksi naiseksi, kokee ensirakkautensa ja oivaltaa taiteen voiman. Neumeierin tulkinta on sekä lämmin kasvutarina että kunnianosoitus 1800-luvun suurelle balettimestarille Marius Petipalle, jonka klassiset koreografiat elävät teoksessa uusina viittauksina. Peter Tšaikovskin rakastettu musiikki – kuten Kukkien valssi ja Sokerikeijun tanssi – yhdistyy Jürgen Rosen näyttäviin lavasteisiin ja värikkäisiin pukuihin luoden koko perheelle elämyksen, joka juhlistaa klassisen baletin kauneutta."
+   },
+   "tr": ""
+  },
   "baletti pähkinänsärkijä hamburg ballett tshaikovski": {
    "id": 1670821,
    "img": "data/posters/22e038deabae14e8.jpg",
@@ -523,6 +530,16 @@
    "ts": [
     "fi"
    ]
+  },
+  "beau travail": {
+   "id": 14626,
+   "img": "data/posters/326524066da4f856.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Galoup muistelee elämäänsä. Hän johti muukalaislegioonajoukkojaan Djiboutin Tadjouranlahdella. Kun vastikään värvätty Sentain saapui, Galoupissa heräsi kummallinen mustasukkaisuus, joka muuttaisi kummankin elämän. Beau travail vakiinnutti elokuvantekijä Claire Denisin paikan huippujen joukossa. Elokuvaa pidetään yhtenä 90-luvun parhaista elokuvista."
+   },
+   "tr": "https://www.youtube.com/watch?v=Hh4HzACZOOQ"
   },
   "beginnings begyndelser": {
    "r": 0,
@@ -866,6 +883,14 @@
    },
    "tr": "https://www.youtube.com/watch?v=qISPEFBvm-4"
   },
+  "die fledermaus wien strauss": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Johann Strauss nuoremman kuolemattoman operetin Lepakko (Die Fledermaus) uusi tuotanto juhlistaa säveltäjän 200-vuotisjuhlavuotta siellä, missä teos sai kantaesityksensä vuonna 1874 – Wienin MusikTheater an der Wienissä. Talon intendentti Stefan Herheim ohjaa klassikon näyttäväksi ja mielikuvitukselliseksi näyttämötapahtumaksi, joka yhdistää perinteisen wieniläisoperetin loiston nykyteatterin oivaltavaan kerrontaan. Samppanjan kupliva voima pyyhkii alleen yhteiskuntaluokkien rajat, salaisuudet ja väärinkäsitykset, kun Eisensteinin, Rosalinden ja tohtori Falken juonikas kostosuunnitelma huipentuu prinssi Orlofskyn loisteliaisiin tanssiaisiin. Naamioiden, valheiden ja väärien henkilöllisyyksien pyörteissä Straussin säkenöivä musiikki muistuttaa, että elämä on parhaimmillaan silloin, kun sille osaa myös nauraa."
+   },
+   "tr": ""
+  },
   "die hard 2 die harder": {
    "id": 1573,
    "img": "data/posters/d67d87cc68bd6d2d.jpg",
@@ -972,6 +997,14 @@
     "fi"
    ]
   },
+  "don giovanni vicenza festivaali mozart": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Don Giovanni herää henkiin Vicenzan upeassa historiallisessa Teatro Olimpicossa, jonka ainutlaatuinen arkkitehtuuri toimii näyttämön luonnollisena osana. Ivan Fischerin ohjaamassa ja johtamassa tuotannossa näyttämökuva rakentuu teatterin tiloista sekä nuorten tanssijoiden elävistä muodostelmista. André Schuen tulkitsee viettelevän ja karismaattisen Don Giovannin, jonka rinnalla Luca Pisaroni loistaa Leporellona. Esitys yhdistää visuaalisen kekseliäisyyden, vahvat laulusuoritukset ja dramaattisesti vivahteikkaan orkesterisoiton."
+   },
+   "tr": ""
+  },
   "don quijote barcelonassa leffalukupiiri": {
    "id": 1506689,
    "r": 0,
@@ -982,14 +1015,14 @@
    "tr": ""
   },
   "drishyam the conclusion": {
-   "id": 244049,
-   "img": "data/posters/00b2b16453a55bf2.jpg",
-   "r": 7.6,
+   "id": 1269325,
+   "img": "data/posters/a44632da344f63f0.jpg",
+   "r": 0,
    "s": {
-    "en": "Georgekutty lives a happy life with his wife and daughters. Things take a turn when his daughter gets indecently filmed using a hidden camera, by the son of a police inspector.",
+    "en": "Years after outsmarting the police, Vijay Salgaonkar's past resurfaces when a new evidence threatens to expose his secret. As the investigation reopens, he must outwit the system once again to save his family.",
     "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=eMASubc1y_k",
+   "tr": "https://www.youtube.com/watch?v=MFQFxsDWbA8",
    "ts": [
     "en"
    ]
@@ -1109,6 +1142,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "falstaff salzburg verdi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Giuseppe Verdin viimeinen ooppera Falstaff saa tässä Damiano Michieletton kekseliäässä ohjauksessa uuden, koskettavan kehyksen. Tapahtumat sijoittuvat Milanon Casa Verdiin – Giuseppe Verdin perustamaan eläköityneiden laulajien ja muusikoiden hoitokotiin. Sen iäkkäät mutta elämäniloiset asukkaat löytävät musiikin voimasta takaisin nuoruutensa loistoon. Yksi talon entisistä oopperatähdistä nukahtaa sohvalle ja näkee unta uransa kuuluisimmasta roolista, Sir John Falstaffista. Menneisyyden hahmot heräävät eloon, ja todellisuus alkaa sulautua uneen, kun Verdin mestarillinen komedia avautuu muistojen, mielikuvituksen ja nykyhetken kiehtovana yhdistelmänä. Alun perin kuvitteelliseen Windsoriin sijoittuva tarina saa Casa Verdissä uuden ulottuvuuden: siitä tulee kertomus vanhuudesta, muistista, rakkaudesta ja teatterin ajattomasta lumosta. Nimiroolissa loistaa aikamme merkittävimpiin Falstaff-tulkitsijoihin kuuluva Ambrogio Maestri, jonka vaikuttava ääni ja vahva näyttämökarisma tekevät hänestä ihanteellisen Sir Johnin. Hänen rinnallaan esiintyvät Fiorenza Cedolins Alicena ja Elisabeth Kulman rouva Quicklyna. Wienin filharmonikkoja johtaa Zubin Mehta, jonka vivahteikas tulkinta tuo Verdin viimeiseen oopperaan sen koko elämänilon, huumorin ja inhimillisen lämmön."
+   },
+   "tr": ""
   },
   "fantom": {
    "id": 28480,
@@ -1615,6 +1656,14 @@
     "en"
    ]
   },
+  "il volo at the valley of the temples": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kolme nuorta italialaista lahjakkuutta konsertoi Concordian temppelissä Agrigentossa Sisiliassa. IL VOLO - Piero Barone, Gianluca Ginoble ja Ignazio Boschetto muodostavat pop-operaattisen trion joka on ihastuttanut yleisöä kautta maailman jo vuosia. Tässä konsertissa kolmikko tulkitsee sydänjuuria koskettavasti ajattomia kappaleita, muiden muassa O’ Sole Mio, Amor, Vida de Mi Vida, Leonard Cohenin Hallelujah, sekä osioita Oopperan kummituksesta ja Gladiaattori-elokuvasta, unohtamatta Nessun Dormaa, E Lucevan le stelle… IL VOLOn seuraan liittyy myös maailmakuulu sopraano Pretty Yende, joka on esiintynyt niin Metropolitan operassa kuin MIlanon La Scalassakin. Hän vierailee esittämässä osansa aariassa Verdin La Traviatasta."
+   },
+   "tr": ""
+  },
   "india song": {
    "id": 85927,
    "r": 0,
@@ -1887,6 +1936,14 @@
    },
    "tr": ""
   },
+  "kauhua komiikkaa magiikkaa mentalismia": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tänä Halloweenina Studio 123:n pimenevässä illassa koetaan jotain poikkeuksellista. Taikuri Risto Leppäsen ja mentalisti OP Komosen yhteisesiintymiset ovat harvinaista herkkua – tämä huippukaksikko on nähty yhdessä useammin eurooppalaisilla lavoilla kuin Suomessa. Nyt tarjoutuu kuitenkin ainutlaatuinen mahdollisuus kokea heidän täysin uudistettu, kauhuteemainen yhteisshownsa herrojen kotiseudulla Järvenpäässä! Nimensä mukaisesti ilta tarjoilee kauhua ja komiikkaa. Luvassa on magiikkaa ja mentalismia, jotka kietoutuvat toisiinsa tuoden teatterisaliin vilunväristyksiä, yliluonnolliselta tuntuvia ihmeitä ja karmivia hetkiä. Piinaava jännitys laukeaa kuitenkin lopulta vapauttavaan nauruun. Illan spesiaali: Osana iltaa Komonen tuo nähtäville tuoreen taikuuden Pohjoismaiden mestaruuskilpailujen erikoisnumeronsa. Esityksen vaatimien aivan erityisten puitteiden ja ainutlaatuisen esineistön vuoksi tätä kokonaisuutta ei tulla välttämättä näkemään livenä enää juuri koskaan tämän illan jälkeen. Uskallatko astua teatterin pimeyteen?"
+   },
+   "tr": ""
+  },
   "kauhujen kangasala elokuvanäytös the substance": {
    "r": 0,
    "s": {
@@ -2000,6 +2057,7 @@
     "kinolumo",
     "kinomania",
     "kinomarilyn",
+    "kinometso",
     "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
@@ -2588,6 +2646,14 @@
    },
    "tr": ""
   },
+  "konsertti pavarotti mies joka kosketti maailmaa arena di verona": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa. Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
+   },
+   "tr": ""
+  },
   "kpe kevlarsjäl iskunkestävä sielu": {
    "r": 0,
    "s": {
@@ -3040,6 +3106,7 @@
     "kinolaika",
     "kinolumo",
     "kinomania",
+    "kinometso",
     "kinomyyri",
     "kinosampo",
     "kinotoijala",
@@ -3335,6 +3402,14 @@
    "ts": [
     "en"
    ]
+  },
+  "madama butterfly bregenz festival puccini": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
+   },
+   "tr": ""
   },
   "mandy": {
    "id": 460885,
@@ -4073,6 +4148,22 @@
    },
    "tr": "https://www.youtube.com/watch?v=pkeWhokaPPs"
   },
+  "ooppera die fledermaus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Johann Strauss nuoremman kuolemattoman operetin Lepakko (Die Fledermaus) uusi tuotanto juhlistaa säveltäjän 200-vuotisjuhlavuotta siellä, missä teos sai kantaesityksensä vuonna 1874 – Wienin MusikTheater an der Wienissä. Talon intendentti Stefan Herheim ohjaa klassikon näyttäväksi ja mielikuvitukselliseksi näyttämötapahtumaksi, joka yhdistää perinteisen wieniläisoperetin loiston nykyteatterin oivaltavaan kerrontaan. Samppanjan kupliva voima pyyhkii alleen yhteiskuntaluokkien rajat, salaisuudet ja väärinkäsitykset, kun Eisensteinin, Rosalinden ja tohtori Falken juonikas kostosuunnitelma huipentuu prinssi Orlofskyn loisteliaisiin tanssiaisiin. Naamioiden, valheiden ja väärien henkilöllisyyksien pyörteissä Straussin säkenöivä musiikki muistuttaa, että elämä on parhaimmillaan silloin, kun sille osaa myös nauraa."
+   },
+   "tr": ""
+  },
+  "ooppera die fledermaus wien strauss": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa. Johann Strauss nuoremman kuolemattoman operetin Lepakko (Die Fledermaus) uusi tuotanto juhlistaa säveltäjän 200-vuotisjuhlavuotta siellä, missä teos sai kantaesityksensä vuonna 1874 – Wienin MusikTheater an der Wienissä. Talon intendentti Stefan Herheim ohjaa klassikon näyttäväksi ja mielikuvitukselliseksi näyttämötapahtumaksi, joka yhdistää perinteisen wieniläisoperetin loiston nykyteatterin oivaltavaan kerrontaan. Samppanjan kupliva voima pyyhkii alleen yhteiskuntaluokkien rajat, salaisuudet ja väärinkäsitykset, kun Eisensteinin, Rosalinden ja tohtori Falken juonikas kostosuunnitelma huipentuu prinssi Orlofskyn loisteliaisiin tanssiaisiin. Naamioiden, valheiden ja väärien henkilöllisyyksien pyörteissä Straussin säkenöivä musiikki muistuttaa, että elämä on parhaimmillaan silloin, kun sille osaa myös nauraa."
+   },
+   "tr": ""
+  },
   "ooppera don giovanni": {
    "r": 0,
    "s": {
@@ -4089,11 +4180,51 @@
    },
    "tr": ""
   },
+  "ooppera falstaff": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Giuseppe Verdin viimeinen ooppera Falstaff saa tässä Damiano Michieletton kekseliäässä ohjauksessa uuden, koskettavan kehyksen. Tapahtumat sijoittuvat Milanon Casa Verdiin – Giuseppe Verdin perustamaan eläköityneiden laulajien ja muusikoiden hoitokotiin. Sen iäkkäät mutta elämäniloiset asukkaat löytävät musiikin voimasta takaisin nuoruutensa loistoon. Yksi talon entisistä oopperatähdistä nukahtaa sohvalle ja näkee unta uransa kuuluisimmasta roolista, Sir John Falstaffista. Menneisyyden hahmot heräävät eloon, ja todellisuus alkaa sulautua uneen, kun Verdin mestarillinen komedia avautuu muistojen, mielikuvituksen ja nykyhetken kiehtovana yhdistelmänä. Alun perin kuvitteelliseen Windsoriin sijoittuva tarina saa Casa Verdissä uuden ulottuvuuden: siitä tulee kertomus vanhuudesta, muistista, rakkaudesta ja teatterin ajattomasta lumosta. Nimiroolissa loistaa aikamme merkittävimpiin Falstaff-tulkitsijoihin kuuluva Ambrogio Maestri, jonka vaikuttava ääni ja vahva näyttämökarisma tekevät hänestä ihanteellisen Sir Johnin. Hänen rinnallaan esiintyvät Fiorenza Cedolins Alicena ja Elisabeth Kulman rouva Quicklyna. Wienin filharmonikkoja johtaa Zubin Mehta, jonka vivahteikas tulkinta tuo Verdin viimeiseen oopperaan sen koko elämänilon, huumorin ja inhimillisen lämmön."
+   },
+   "tr": ""
+  },
+  "ooppera falstaff salzburg verdi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa."
+   },
+   "tr": ""
+  },
+  "ooppera madama butterfly": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
+   },
+   "tr": ""
+  },
   "ooppera madama butterfly bregenz festival puccini": {
    "r": 0,
    "s": {
     "en": "",
     "fi": "Madama Butterfly saa lumoavan näyttämötoteutuksen Bregenzin järvinäyttämöllä, jossa Michael Levinen vaikuttava lavastus ja hienovaraiset maisemamaalaukset tuovat japanilaisen estetiikan osaksi ainutlaatuista ympäristöä. Andreas Homokin ohjaama tuotanto yhdistää visuaalisen näyttävyyden ja Puccinin herkkävireisen musiikin, jonka Enrique Mazzola johtaa vivahteikkaasti. Barno Ismatullaevan ylistetty tulkinta Cio-Cio-Sanina kruunaa koskettavan esityksen, joka palkittiin seisaaltaan annetuilla suosionosoituksilla."
+   },
+   "tr": ""
+  },
+  "ooppera un ballo in maschera": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Giuseppe Verdin Un ballo in maschera kertoo siirtomaan kuvernööri Riccardosta, joka rakastuu salaa parhaan ystävänsä Renaton vaimoon Ameliaan. Kielletty rakkaus, poliittiset salaliitot ja ennustaja Ulrican kohtalonennustus punoutuvat yhteen, kun Riccardolle ennustetaan kuolema läheisen ihmisen kädestä. Yrittäessään toimia kunniallisesti kaikki päähenkilöt ajautuvat kuitenkin tapahtumien kulkuun, jota kukaan ei enää pysty pysäyttämään. Huipennus koetaan loisteliaissa naamiaisissa, joissa Renato surmaa Riccardon uskoen tämän vietelleen hänen vaimonsa. Kuollessaan Riccardo paljastaa rakastaneensa Ameliaa puhtaasti eikä heidän välillään ollut uskottomuutta. Totuus selviää liian myöhään, ja ooppera päättyy anteeksiantoon, katumukseen ja kohtalon väistämättömyyteen. Arena di Veronan tuotannossa kapellimestarina toimi Andrea Battistoni, ohjauksesta vastasi Pier Luigi Pizzi, ja päärooleissa loistivat Francesco Meli (Riccardo), Luca Salsi (Renato), Hui He (Amelia) ja Elisabetta Fiorillo (Ulrica)."
+   },
+   "tr": ""
+  },
+  "ooppera un ballo in maschera arena di verona verdi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa. Giuseppe Verdin Un ballo in maschera kertoo siirtomaan kuvernööri Riccardosta, joka rakastuu salaa parhaan ystävänsä Renaton vaimoon Ameliaan. Kielletty rakkaus, poliittiset salaliitot ja ennustaja Ulrican kohtalonennustus punoutuvat yhteen, kun Riccardolle ennustetaan kuolema läheisen ihmisen kädestä. Yrittäessään toimia kunniallisesti kaikki päähenkilöt ajautuvat kuitenkin tapahtumien kulkuun, jota kukaan ei enää pysty pysäyttämään. Huipennus koetaan loisteliaissa naamiaisissa, joissa Renato surmaa Riccardon uskoen tämän vietelleen hänen vaimonsa. Kuollessaan Riccardo paljastaa rakastaneensa Ameliaa puhtaasti eikä heidän välillään ollut uskottomuutta. Totuus selviää liian myöhään, ja ooppera päättyy anteeksiantoon, katumukseen ja kohtalon väistämättömyyteen. Arena di Veronan tuotannossa kapellimestarina toimi Andrea Battistoni, ohjauksesta vastasi Pier Luigi Pizzi, ja päärooleissa loistivat Francesco Meli (Riccardo), Luca Salsi (Renato), Hui He (Amelia) ja Elisabetta Fiorillo (Ulrica)."
    },
    "tr": ""
   },
@@ -4269,6 +4400,36 @@
     "en"
    ]
   },
+  "pavarotti mies joka kosketti maailmaa": {
+   "id": 561325,
+   "img": "data/posters/b473291756cf8318.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
+   },
+   "tr": "https://www.youtube.com/watch?v=CnPPrjwyLW8"
+  },
+  "pavarotti mies joka kosketti maailmaa arena di verona": {
+   "id": 561325,
+   "img": "data/posters/b473291756cf8318.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
+   },
+   "tr": "https://www.youtube.com/watch?v=CnPPrjwyLW8"
+  },
+  "pavarotti mies joka kosketti maailmaa konsertti arena di verona": {
+   "id": 561325,
+   "img": "data/posters/b473291756cf8318.jpg",
+   "r": 7.3,
+   "s": {
+    "en": "",
+    "fi": "Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
+   },
+   "tr": "https://www.youtube.com/watch?v=CnPPrjwyLW8"
+  },
   "paw patrol dinosaurie filmen": {
    "id": 1185806,
    "r": 0,
@@ -4408,8 +4569,6 @@
    ]
   },
   "pikku kummitus lapanen": {
-   "id": 69381,
-   "img": "data/posters/1f412d27cae05b51.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -4428,8 +4587,10 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
-    "kinoset"
+    "kinoset",
+    "kinovirta"
    ],
    "r": 0,
    "s": {
@@ -4465,8 +4626,10 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinoolympia",
     "kinopiispanristi",
-    "kinoset"
+    "kinoset",
+    "kinovirta"
    ],
    "r": 0,
    "s": {
@@ -4620,6 +4783,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinometso",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4666,6 +4830,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinometso",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4709,6 +4874,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinometso",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4774,6 +4940,7 @@
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
+    "kinometso",
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
@@ -4909,7 +5076,6 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
-    "biosade",
     "cine",
     "cinemantsala",
     "gilda",
@@ -4923,6 +5089,7 @@
     "kinokilta",
     "kinolumo",
     "kinomarilyn",
+    "kinometso",
     "kinomyyri",
     "kinopiispanristi",
     "kinopirtti",
@@ -5111,6 +5278,14 @@
    "s": {
     "en": "",
     "fi": "\"Junat\" alkaa Franz Kafkan lainauksella: \"On paljon toivoa. Loputon määrä toivoa. Mutta ei meille.\" Nämä sanat roikkuvat kuin tumma pilvi tämän found footage -dokumentin yllä, joka luo kollektiivisen muotokuvan 1900-luvun Euroopan ihmisistä vangiten heidän toiveensa, halunsa, draamansa ja tragediansa. Höyryvetureiden kokoonpanoa kuvaavat kohtaukset tuntuvat juhlivan ihmisen kekseliäisyyttä ja työtä. Juhla-asuihin pukeutuneet ihmiset lähtevät junamatkalle. Mutta nämä iloiset kohtaukset antavat pian tilaa sotilaskuljetuksille: sotilaat siirretään etulinjalle – ja heidän perässään seuraa nopeasti siviilien evakuointi, riutuneiden sotavankien ja amputoitujen sotilaiden kuljetukset. Aikakaudet vaihtuvat, kaava toistuu. Arkistomateriaali tässä sanattomassa elokuvassa tuo esiin väistämättömän kiertokulun, jossa toistuvat ihailu ja tuho, kauneus ja katkeruus. Kuva raiteiden ja vaihteiden sekamelskasta herättää väistämättömän kysymyksen: Minkä reitin ihmiskunta valitsee? Arkistomateriaaleja hienosti hyödyntävä dokumentti tuo esiin ihmiskunnan väistämättömän kiertokulun, jossa toistuvat ihailu ja tuho, kauneus ja katkeruus."
+   },
+   "tr": ""
+  },
+  "pähkinänsärkijä hamburg ballett tshaikovski": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "John Neumeierin Pähkinänsärkijä kutsuu katsojan unelmien ja tanssin maailmaan. Baletti kertoo 12-vuotiaasta Mariesta, joka saa syntymäpäivälahjakseen pähkinänsärkijän ja vaaleanpunaiset kärkitossut. Unessaan hän kohtaa omalaatuisen balettimestari Drosselmeierin, joka johdattaa hänet teatterin ja klassisen baletin taianomaiseen maailmaan. Marie seuraa harjoituksia ja esityksiä, oppii itse tanssimaan sekä löytää vähitellen oman paikkansa näyttämöllä. Samalla Marie kasvaa lapsesta nuoreksi naiseksi, kokee ensirakkautensa ja oivaltaa taiteen voiman. Neumeierin tulkinta on sekä lämmin kasvutarina että kunnianosoitus 1800-luvun suurelle balettimestarille Marius Petipalle, jonka klassiset koreografiat elävät teoksessa uusina viittauksina. Peter Tšaikovskin rakastettu musiikki – kuten Kukkien valssi ja Sokerikeijun tanssi – yhdistyy Jürgen Rosen näyttäviin lavasteisiin ja värikkäisiin pukuihin luoden koko perheelle elämyksen, joka juhlistaa klassisen baletin kauneutta."
    },
    "tr": ""
   },
@@ -5370,7 +5545,6 @@
     "isohannu",
     "kino123",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -5412,7 +5586,6 @@
     "isohannu",
     "kino123",
     "kinoelo",
-    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -7880,5 +8053,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-12"
+ "generated": "2026-10-13"
 }

@@ -15,11 +15,12 @@
 [bioforum] Bio Forum: 28 showtimes, 10 dates
 [bioforum] Bio Forum: 28 showtimes, 10 dates
 [bioforum] synopses merged: 0
-[kinokulma] 32 screening(s) in 1 schedule block(s), 12 film page(s) read
+[kinokulma] 32 screening(s) in 1 schedule block(s), 10 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
+[kinokulma] 2 product(s) the site lists as not a film over 4 row(s) left out: Olemme vapaalla, Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
-[kinokulma] Kinokulma: 30 showtimes, 21 dates
-[kinokulma] Kinokulma: 30 showtimes, 21 dates
+[kinokulma] Kinokulma: 26 showtimes, 17 dates
+[kinokulma] Kinokulma: 26 showtimes, 17 dates
 [kinokulma] synopses merged: 0
 [kinohannikainen] 17 screening(s) in 1 schedule block(s), 8 film page(s) read
 [kinohannikainen] Kino Hannikainen: 17 showtimes, 8 dates
@@ -29,8 +30,8 @@
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 75 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] venuelists-cloud.json rewritten
+[run] http: 0 revalidated (304), 73 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 145 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 171.3s of fetching added up across workers that overlap, longest site 35.7s, longest queue wait 150.0s, 50.0s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

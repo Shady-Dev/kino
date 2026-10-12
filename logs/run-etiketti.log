@@ -1,9 +1,9 @@
-[kotkanleffat] Kinopalatsi Kotka: 39 showtimes, 17 dates
+[kotkanleffat] Kinopalatsi Kotka: 48 showtimes, 25 dates
 [kotkanleffat] Trio 123: 109 showtimes, 10 dates
-[kotkanleffat] synopses merged: 0
+[kotkanleffat] synopses merged: 4
 [biorexkokkola] Bio Rex Kokkola: 56 showtimes, 13 dates
 [biorexkokkola] synopses merged: 0
-[kinopirtti] Kinopirtti: 105 showtimes, 14 dates
+[kinopirtti] Kinopirtti: 111 showtimes, 18 dates
 [kinopirtti] synopses merged: 0
 [leffabuumi] movie 3287: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [leffabuumi] movie 3317: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
@@ -24,21 +24,28 @@
 [leffabuumi] movie 3291: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [leffabuumi] movie 3325: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [leffabuumi] movie 3292: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3312: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3309: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3314: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3310: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3313: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3308: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[leffabuumi] movie 3311: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
 [leffabuumi] Kinolinna: no showtimes, keeping previous data from 2026-10-12T11:14:13+00:00
 [leffabuumi] Kino Ritz: no showtimes, keeping previous data from 2026-10-12T11:14:13+00:00
 [leffabuumi] Kino Saimaa: no showtimes, keeping previous data from 2026-10-12T11:14:13+00:00
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] strand prefix split off 3 showtimes
-[studio123jarvenpaa] Studio 123 Järvenpää: 86 showtimes, 13 dates
-[studio123jarvenpaa] synopses merged: 0
-[studio123kouvola] Studio 123 Kouvola: 60 showtimes, 10 dates
-[studio123kouvola] synopses merged: 0
+[studio123jarvenpaa] Studio 123 Järvenpää: 90 showtimes, 17 dates
+[studio123jarvenpaa] synopses merged: 4
+[studio123kouvola] Studio 123 Kouvola: 74 showtimes, 22 dates
+[studio123kouvola] synopses merged: 7
 [ihmekompleksi] Ihme Kompleksi: 36 showtimes, 12 dates
 [ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 104 showtimes, 17 dates
 [kino123] synopses merged: 0
-[kinotar] Kinotar 123: 13 showtimes, 6 dates
-[kinotar] synopses merged: 0
+[kinotar] Kinotar 123: 24 showtimes, 16 dates
+[kinotar] synopses merged: 3
 [kinojuha] Kino Juha: 15 showtimes, 10 dates
 [kinojuha] VIP-Sali: 10 showtimes, 9 dates
 [kinojuha] synopses merged: 0
@@ -47,8 +54,8 @@
 [biovuoksi] Bio Vuoksi: 10 showtimes, 4 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 2 showtimes
-[kinoiiris] Kino Iiris: 33 showtimes, 10 dates
-[kinoiiris] synopses merged: 0
+[kinoiiris] Kino Iiris: 45 showtimes, 22 dates
+[kinoiiris] synopses merged: 1
 [kkino] K-Kino: 11 showtimes, 5 dates
 [kkino] synopses merged: 0
 [kkino] screening-note sentences left out of synopses: 1
@@ -56,9 +63,9 @@
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 35 showtimes, 16 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 239 full, 239 not stored (origin said no-store), 0 cache entries written
+[run] venuelists-cloud.json rewritten
+[run] http: 0 revalidated (304), 288 full, 288 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
 [run] partial: leffabuumi kept previous data for 3 venue(s): lb-kinolinna, lb-ritz, lb-saimaa
-[run] etiketti: 17 venues, 770 showtimes, 3 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 16 site(s), 419.9s of fetching added up across workers that overlap, longest site 52.3s, longest queue wait 65.6s, 117.9s wall from this module's first fetch starting to its last ending
+[run] etiketti: 17 venues, 826 showtimes, 3 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
 exit=1
