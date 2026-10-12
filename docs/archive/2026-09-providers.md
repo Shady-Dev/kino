@@ -3819,3 +3819,17 @@ written. On the saved listing of 2026-10-12 the only sold-out rows were the two 
 sold-out span, and the last film was on sale. The same script also turns two checkout links
 into "Vapaa pääsy" and the two Cinemaissí films' buttons into links to their own site. The
 adapter does not model either. One mutation red.
+
+### Elokuvateatteri Huvimylly reads its table layout (2026-10-12)
+Every local run from `5533001c6` (2026-10-11 20:14 EEST) failed with "no screening line in
+the page's own content". The programme had moved into one `<li>` holding a table of `<h2>`
+lines, so the whole programme arrived as one line the parser could not read. An item that
+lays its programme out as headings is now read one line per heading or paragraph. The new
+layout also printed `Klo 15.00 Lapin Sota` and `Klo 18.00 Lapin Sota` above a bare
+`-k16/13-`. A marker with no title text now closes the row above it and every unmarked row
+directly above that one naming the same film. A row naming another film, or with any other
+line between it and the marker, is still left out and counted. Read 2026-10-12 from an
+ordinary connection, the page parsed to its three screenings on 1.11., 13:00 Pikkuli ja
+Tähtipeura (S), and 15:00 and 18:00 Lapin Sota (K-16), all 10 €, with nothing unplaced. The
+adapter runs on the local half, so the published rows wait on the next local run. Five
+mutations red.
