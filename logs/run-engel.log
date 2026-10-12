@@ -1,7 +1,7 @@
-[engel] 1 date(s) listed with no time anywhere, skipped: 10-16 -- The Devils
+[engel] 3 date(s) listed with no time anywhere, skipped: 10-16, 10-30, 11-06 -- The Devils | Järki ja tunteet | Me olemme Pariisin orkesteri
 [engel] film pages: 14 parsed, 0 with nothing usable, 26/26 showtimes rated
-[engel] strand prefix split off 2 showtimes
-[engel] Kino Engel: 26 showtimes, 7 dates
+[engel] strand prefix split off 3 showtimes
+[engel] Kino Engel: 26 showtimes, 9 dates
 [engel] synopses merged: 0
 [run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 15 full, 0 not stored (origin said no-store), 0 cache entries written

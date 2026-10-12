@@ -1,22 +1,52 @@
-[savonkinot] Tapio Joensuu: 52 showtimes, 11 dates
-[savonkinot] Killa Savonlinna: 6 showtimes, 6 dates
-[savonkinot] Kuvalinna Savonlinna: 11 showtimes, 8 dates
-[savonkinot] Kuvalipas Iisalmi: 24 showtimes, 9 dates
-[savonkinot] Maxim Varkaus: 27 showtimes, 9 dates
-[savonkinot] Kino-Hovi Kitee: 11 showtimes, 9 dates
+[savonkinot] movie 111: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 143: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 87: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 72: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 94: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 142: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 122: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 121: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 46: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 64: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 134: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 61: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 136: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 109: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 89: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 130: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 141: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 81: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 63: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 78: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 114: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 101: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 62: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 58: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 144: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 91: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 159: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 90: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] movie 118: no screening row (0 block(s) without a readable time); no venue of this site can be called empty
+[savonkinot] Tapio Joensuu: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
+[savonkinot] Killa Savonlinna: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
+[savonkinot] Kuvalinna Savonlinna: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
+[savonkinot] Kuvalipas Iisalmi: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
+[savonkinot] Maxim Varkaus: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
+[savonkinot] Kino-Hovi Kitee: no showtimes, keeping previous data from 2026-10-12T11:10:37+00:00
 [savonkinot] synopses merged: 0
 [joutsankino] Joutsan Kino: 8 showtimes, 7 dates
 [joutsankino] synopses merged: 0
-[cine] Cine Keuda-Talo: 6 showtimes, 2 dates
+[cine] Cine Keuda-Talo: 3 showtimes, 1 dates
 [cine] Cine Nikkilä: 9 showtimes, 3 dates
 [cine] synopses merged: 0
-[star] strand prefix split off 3 showtimes
-[star] Elokuvateatteri Star: 75 showtimes, 9 dates
+[star] strand prefix split off 10 showtimes
+[star] Elokuvateatteri Star: 197 showtimes, 14 dates
 [star] synopses merged: 0
 [haapamaki] Haapamäen Elokuvat: 5 showtimes, 3 dates
 [haapamaki] synopses merged: 0
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 72 full, 72 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 83 full, 83 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 5 attempted -- haapamaenelokuvat.fi, kiertue.cine.fi, kino.joutsa.fi, lippu.elokuvateatteristar.fi, www.savonkinot.fi
-[run] etiketti: 11 venues, 234 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-exit=0
+[run] partial: savonkinot kept previous data for 6 venue(s): sk-tapio, sk-killa, sk-kuvalinna, sk-kuvalipas, sk-maxim, sk-kinohovi
+[run] etiketti: 5 venues, 222 showtimes, 6 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+exit=1

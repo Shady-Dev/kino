@@ -1,17 +1,18 @@
 [token] using FINNKINO_TOKEN from the environment
 [sites] 17 cinemas
-[schedule] 2026-10-12: 329 showtimes
+[schedule] 2026-10-12: 82 showtimes
 [schedule] 2026-10-13: 433 showtimes
 [schedule] 2026-10-14: 433 showtimes
 [schedule] 2026-10-15: 435 showtimes
-[schedule] 2026-10-16: 1 showtimes
-[schedule] 2026-10-17: 5 showtimes
-[schedule] 2026-10-18: 11 showtimes
+[schedule] 2026-10-16: 31 showtimes
+[schedule] 2026-10-17: 35 showtimes
+[schedule] 2026-10-18: 37 showtimes
 [tmdb] no TMDB match (3): Nälkäpeli- elokuvamaraton | Ooppera: Macbeth | Suomen Kansallisbaletti: Joutsenlampi
+[tmdb] weak match, no exact title (1): Jailer 2 -> ஜெயிலர் 2
 [tmdb] weak candidate kept, not searched until 2026-10-13 (3): Matloob Aelian -> مطلوب آيليان | Rose -> Rose | Two Seasons, Two Strangers -> 旅と日々
-[tmdb] 0 new lookups, 0 re-checks, cache 101, 88 mergeable by id
+[tmdb] 5 new lookups, 0 re-checks, cache 106, 92 mergeable by id
 [films] 2 character(s) restored from another chain's copy
-[films] 57 film entries
+[films] 62 film entries
 [attrs] dropped, neither format nor language (9): EiText | Ennakko | Maxim | OCAP | Pkseutu | SEVERAL | TKU & R | Tampere | Varaus20
 [schedule] 17 venue files written, 0 kept as-is
 done
