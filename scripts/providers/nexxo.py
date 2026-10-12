@@ -106,11 +106,12 @@ SITES = [
     # venue owns; Riihivuori (roomId 21, a resort hill in Muurame) folds into the
     # Muurame venue because KSEK's own site gives it no page, and the room name stays
     # visible in `aud`. Vaajakoski and Tikkakoski are districts of Jyväskylä, so that
-    # is their city. A town is added when it publishes and the maintainer says so: Laukaa,
-    # roomId 24, on 2026-10-13, after the log had named its five screenings on 31.10.
-    # Viitasaari (10), Toivakka (23) and Hankasalmi (19) publish further out and are not
-    # added; the unclaimed-room line names them, and until they are, no empty town here is
-    # confirmed empty.
+    # is their city. A town is added when it publishes and the maintainer says so, after its
+    # roomId and its own page are checked against the programme: Laukaa (roomId 24) on
+    # 2026-10-13, then Viitasaari (10), Toivakka (23) and Hankasalmi (19) the same day. Each
+    # town page names its roomId in its own script and, rendered, shows that room's five
+    # screenings on its one date (31.10., 7.11., 14.11., 21.11.). A town not listed here is
+    # named by the unclaimed-room line, and while one is, no empty town is confirmed empty.
     #
     # `days`: the whole published programme. A touring cinema publishes weeks ahead, and the
     # default 21 days left Muurame's November screenings and Petäjävesi's of 25.11. unread
@@ -135,6 +136,15 @@ SITES = [
          {"id": "km-laukaa", "locationid": "2", "rooms": ["24"],
           "page": "/kino-metso/laukaa/", "name": "Laukaa",
           "short": "Laukaa", "city": "Laukaa"},
+         {"id": "km-viitasaari", "locationid": "2", "rooms": ["10"],
+          "page": "/kino-metso/viitasaari/", "name": "Viitasaari",
+          "short": "Viitasaari", "city": "Viitasaari"},
+         {"id": "km-toivakka", "locationid": "2", "rooms": ["23"],
+          "page": "/kino-metso/toivakka/", "name": "Toivakka",
+          "short": "Toivakka", "city": "Toivakka"},
+         {"id": "km-hankasalmi", "locationid": "2", "rooms": ["19"],
+          "page": "/kino-metso/hankasalmi/", "name": "Hankasalmi",
+          "short": "Hankasalmi", "city": "Hankasalmi"},
      ]},
 ]
 

@@ -217,6 +217,18 @@ class WindowTest(unittest.TestCase):
                          (["24"], "/kino-metso/laukaa/", "Laukaa"))
         self.assertEqual([s["provider"] for s in nexxo.SITES if "days" in s], ["kinometso"])
 
+    def test_every_town_with_a_programme_owns_its_room(self):
+        """Read 2026-10-13: each page names its roomId and shows that room's screenings."""
+        metso = next(s for s in nexxo.SITES if s["provider"] == "kinometso")
+        rooms = {v["id"]: (v["rooms"], v["page"]) for v in metso["venues"]}
+        for vid, room, town in (("km-laukaa", "24", "laukaa"), ("km-viitasaari", "10", "viitasaari"),
+                                ("km-toivakka", "23", "toivakka"),
+                                ("km-hankasalmi", "19", "hankasalmi")):
+            with self.subTest(venue=vid):
+                self.assertEqual(rooms[vid], ([room], f"/kino-metso/{town}/"))
+        owned = [r for rs, _ in rooms.values() for r in rs]
+        self.assertEqual(len(owned), len(set(owned)), "a room owned twice")
+
 
 class UnclaimedRoomTest(unittest.TestCase):
     def test_rows_nobody_owns_are_counted_by_room(self):

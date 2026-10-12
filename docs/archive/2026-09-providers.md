@@ -3880,3 +3880,14 @@ answers 200 with the plugin's showlist. Read live that day: Muurame 6, Petäjäv
 10), Toivakka (23) and Hankasalmi (19) into the payload. They are not added, the log names
 them, and Vaajakoski, with no screening, stays unconfirmed while they are unowned. Three
 mutations red.
+
+### Kino Metso adds Viitasaari, Toivakka and Hankasalmi (2026-10-13)
+The wider window from the record above brought three more towns into the payload with five
+screenings each, in rooms no venue owned: Viitasaari (room 10) on 7.11., Toivakka (23) on
+14.11. and Hankasalmi (19) on 21.11. The maintainer decided the same day to add them, as
+Laukaa was added, once each room and town page matched the cinema's programme. Read
+2026-10-13, each of `/kino-metso/viitasaari/`, `/toivakka/` and `/hankasalmi/` answers 200
+and names its room in its own script, and rendered in Chromium each shows that room's five
+films on its one date. With every room owned, the log names no unclaimed room, and
+Vaajakoski, with no screening, is now confirmed empty. A test pins the four rooms and
+pages, and giving Toivakka Hankasalmi's room turns it red.
