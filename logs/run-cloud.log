@@ -2,7 +2,7 @@
 [cloud] 34 module(s), 69 site(s), 67 host group(s), pool of 8
 [cloud] biorex: exit=0
 [cloud] nexxo: exit=0
-[cloud] etiketti: exit=0
+[cloud] etiketti: exit=1
 [cloud] riviera: exit=0
 [cloud] gilda: exit=0
 [cloud] orion: exit=0
@@ -19,7 +19,7 @@
 [cloud] biosavoy: exit=0
 [cloud] cinemantsala: exit=0
 [cloud] kinola: exit=0
-[cloud] johku: exit=1
+[cloud] johku: exit=0
 [cloud] tribe: exit=0
 [cloud] hamina: exit=0
 [cloud] kinotour: exit=0
@@ -34,6 +34,6 @@
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 413.2s wall, 2639.7s of fetching added up across workers that overlap, 69 site(s) fetched
-[cloud] held at most 32 fetched site(s) and 3001 byte(s) of captured log waiting for publication
+[cloud] 200.5s wall, 1473.4s of fetching added up across workers that overlap, 69 site(s) fetched
+[cloud] held at most 30 fetched site(s) and 6026 byte(s) of captured log waiting for publication
 exit=1
