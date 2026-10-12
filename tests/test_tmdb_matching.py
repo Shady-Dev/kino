@@ -981,11 +981,17 @@ class PublishedCoverageTest(unittest.TestCase):
     the cleaner is where it is fixed. It does not compare loosely, does not suggest an id,
     and never writes one.
 
-    `ALLOWED` is empty and should stay that way. An entry belongs there only when the two
-    are genuinely different films whose titles nest, and it carries the reason.
+    `ALLOWED` stays as short as it can. An entry belongs there only when the two titles
+    nest but name different things, two films or a film and an event built from several,
+    and it carries the reason.
     """
 
-    ALLOWED = {}
+    ALLOWED = {
+        # Finnkino, 18.10.2026 at six cinemas: 618 minutes and, in its own synopsis, "neljä
+        # Nälkäpeli -elokuvaa". A marathon of four films, not the 2012 film the plain title
+        # matched, and no single TMDB record covers it, so an initials tile is right.
+        "N\u00e4lk\u00e4peli- elokuvamaraton": "a four-film marathon, not the 2012 film",
+    }
 
     @classmethod
     def setUpClass(cls):
