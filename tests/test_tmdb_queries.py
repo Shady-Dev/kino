@@ -280,6 +280,20 @@ class AudioMarkerTest(unittest.TestCase):
             with self.subTest(title=title):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
+    def test_a_dashed_puhumme_suomea_comes_off(self):
+        """Kino Olympia published "Pikku Kummitus Lapanen keppostelee - puhumme suomea" on
+        2026-10-12; the plain title matched. Only after a dash, and only last."""
+        for published in ("Pikku Kummitus Lapanen keppostelee - puhumme suomea",
+                          "Pikku Kummitus Lapanen keppostelee \u2013 Puhumme suomea!",
+                          "Pikku Kummitus Lapanen keppostelee -puhumme suomea"):
+            with self.subTest(published=published):
+                self.assertEqual(enrich_tmdb.clean(published),
+                                 "Pikku Kummitus Lapanen keppostelee")
+        for title in ("Puhumme suomea - dokumentti", "X - puhumme suomea ja ruotsia",
+                      "Me puhumme suomea"):
+            with self.subTest(title=title):
+                self.assertEqual(enrich_tmdb.clean(title), title)
+
     def test_the_two_runs_of_one_film_still_key_apart(self):
         """The dub and the subtitled run are two cards at the cinema and must stay two
         cache entries, even though they now search for the same string."""
