@@ -1,25 +1,21 @@
 [biomarilyn] 12 screening(s) in 2 schedule block(s), 11 film page(s) read
 [biomarilyn] 20 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
 [biomarilyn] 2 screening(s) listed in a second block, published once
-[biomarilyn] left out as the page does: 2 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
 [biomarilyn] Bio Marilyn: 12 showtimes, 6 dates
 [biomarilyn] Bio Marilyn: 12 showtimes, 6 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 30 screening(s) in 1 schedule block(s), 14 film page(s) read
-[vihdinkino] left out as the page does: 4 already started, 0 not in the catalogue
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
 [vihdinkino] Vihdin Kino: 30 showtimes, 9 dates
 [vihdinkino] Vihdin Kino: 30 showtimes, 9 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 28 screening(s) in 1 schedule block(s), 15 film page(s) read
-[bioforum] left out as the page does: 3 already started, 0 not in the catalogue
 [bioforum] 1 synopsis/synopses withheld, no language settled: The Odyssey
 [bioforum] Bio Forum: 28 showtimes, 10 dates
 [bioforum] Bio Forum: 28 showtimes, 10 dates
 [bioforum] synopses merged: 0
 [kinokulma] 32 screening(s) in 1 schedule block(s), 12 film page(s) read
-[kinokulma] left out as the page does: 1 already started, 0 not in the catalogue
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kinokulma] Kinokulma: 30 showtimes, 21 dates
@@ -36,5 +32,5 @@
 [run] http: 0 revalidated (304), 75 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 6 venues, 145 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 189.6s of fetching added up across workers that overlap, longest site 40.3s, longest queue wait 148.2s, 57.8s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 171.3s of fetching added up across workers that overlap, longest site 35.7s, longest queue wait 150.0s, 50.0s wall from this module's first fetch starting to its last ending
 exit=0
