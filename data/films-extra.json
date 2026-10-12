@@ -315,10 +315,10 @@
    ],
    "r": 6.2,
    "s": {
-    "en": "Elsa is an advertising director whose mother dies during a long December holiday. She works non-stop and, without realizing, doesn’t give herself time to mourn her mother’s absence. After a crisis, Elsa decides to travel to the island of Lanzarote accompanied by her friend Patricia, who also needs to get away from the city. The story of these characters runs parallel to that of a screenwriter and film director, exploring how life and fiction are inseparably linked, sometimes painfully so.",
+    "en": "In 2004, advertising director Elsa Rosado faces a turbulent Christmas weekend. In 2026, filmmaker Raúl Durán turns her story into a screenplay, blurring the lines between reality, fiction, and those closest to him.",
     "fi": "Espanjalaisen ohjaajalegendan Pedro Almodóvarin melodraama Autofiktio (Amarga Navidad) kertoo luomiskriisissä kamppailevasta elokuvantekijästä, joka ammentaa läheistensä tragedioista materiaalia teokseensa. Elokuvan keskiössä on Elsa, mainoskuvaaja, joka tekee töitä tauotta eikä anna itselleen aikaa surra äitinsä kuolemaa. Hän lähtee ystävänsä kanssa Lanzarotelle, sillä molemmat kaipaavat irtiottoa arjesta. Naisten tarinan rinnalla kulkee kertomus elokuvantekijästä, joka tutkii, kuinka erottamattomasti tosielämä ja fiktio voivat kietoutua toisiinsa ja kuinka läheisten kokemukset voivat muuntua taiteeksi – joskus kuohuttavallakin tavalla"
    },
-   "tr": "https://www.youtube.com/watch?v=NUvdMKtFXBw",
+   "tr": "https://www.youtube.com/watch?v=R-9dlnkY448",
    "ts": [
     "en"
    ]
@@ -662,7 +662,7 @@
   "calle málaga muistojeni katu": {
    "id": 1399462,
    "img": "data/posters/9019d907c9f510df.jpg",
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura."
@@ -1239,16 +1239,12 @@
   },
   "gremlins 2 the new batch": {
    "id": 928,
-   "img": "data/posters/6e0cac00854738ad.jpg",
-   "r": 6.5,
+   "r": 0,
    "s": {
     "en": "Young sweethearts Billy and Kate move to the Big Apple, land jobs in a high-tech office park and soon reunite with the friendly and lovable Gizmo. But a series of accidents creates a whole new generation of Gremlins. The situation worsens when the devilish green creatures invade a top-secret laboratory and develop genetically altered powers, making them even harder to destroy!",
-    "fi": "Billy Peltzer on muuttanut mielitiettynsä Katen kanssa New Yorkiin. Billy saa selville, että hänen entinen lemmikkinsä, hyväntahtoinen mogwai-otus Gizmo on joutunut ilkeiden tiedemiesten koe-eläimeksi. Billy pelastaa Gizmon ja piilottaa tämän työpaikallaan pöytälaatikkoon, mutta onnettoman sattuman myötä rakennuksessa vilistää pian uusi pesue pahansuopia riiviöitä. Billyn on kumppaneineen ryhdyttävä toimeen, ennen kuin New Yorkiin tykästyneet otukset valtaavat koko kaupungin."
+    "fi": ""
    },
-   "tr": "https://www.youtube.com/watch?v=Aamzs_Wn91U",
-   "ts": [
-    "fi"
-   ]
+   "tr": ""
   },
   "gråben vs acme": {
    "id": 1204680,
@@ -1308,7 +1304,7 @@
   "heart of beast": {
    "id": 1263337,
    "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.5,
+   "r": 7.4,
    "s": {
     "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
@@ -7752,5 +7748,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-11"
+ "generated": "2026-10-12"
 }

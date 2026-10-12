@@ -14,7 +14,7 @@
 [bioforum] 1 synopsis/synopses withheld, no language settled: The Odyssey
 [bioforum] Bio Forum: 31 showtimes, 11 dates
 [bioforum] Bio Forum: 31 showtimes, 11 dates
-[bioforum] synopses merged: 1
+[bioforum] synopses merged: 0
 [kinokulma] 33 screening(s) in 1 schedule block(s), 12 film page(s) read
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
@@ -32,5 +32,5 @@
 [run] http: 0 revalidated (304), 70 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
 [run] johku: 6 venues, 114 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 154.4s of fetching added up across workers that overlap, longest site 35.0s, longest queue wait 146.7s, 48.3s wall from this module's first fetch starting to its last ending
+[run] timing: 6 site(s), 178.9s of fetching added up across workers that overlap, longest site 40.2s, longest queue wait 145.2s, 56.2s wall from this module's first fetch starting to its last ending
 exit=0
