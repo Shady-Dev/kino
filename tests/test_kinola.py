@@ -507,6 +507,17 @@ class MyyriListingTest(unittest.TestCase):
         self.assertEqual(c["img"], "https://media.kinola.ee/storage/myyri.kinola.ee/3786/"
                                    "mother_poster.jpg?width=1000&quality=85")
 
+    def test_a_script_naming_the_sold_out_class_marks_no_row_sold_out(self):
+        """The site's own script after the last row, read 2026-10-12. The last block runs
+        to the end of the page, so a bare match made the last film sold out."""
+        script = ("<script>var nappi1 = lohko1.querySelector("
+                  "'.kinola-event-tickets-link-sold-out');</script>")
+        page = listing(myyri_row("hanuman", "A", self.TODAY, checkout="u-1"),
+                       myyri_row("father", "B", self.TODAY, time="12:00", checkout="u-2"))
+        rows = K.events_myyri(page.replace("</body>", script + "</body>"), MYYRI, self.TODAY)
+        self.assertEqual([(r["soldOut"], r["url"]) for r in rows],
+                         [(False, "https://kinomyyri.fi/checkout/u-1"),
+                          (False, "https://kinomyyri.fi/checkout/u-2")])
 
 
 class MinutesTest(unittest.TestCase):

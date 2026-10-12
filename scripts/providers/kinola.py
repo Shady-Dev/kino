@@ -278,7 +278,11 @@ TITLE_RE = re.compile(r'<a[^>]*class=["\']kinola-event-title["\'][^>]*href=["\']
 SLUG_RE = re.compile(r'/film/([^/?#"\']+)', re.I)
 TICKET_RE = re.compile(r'<a[^>]*class=["\'][^"\']*kinola-event-tickets-link[^"\']*["\'][^>]*href=["\']([^"\']+)["\']',
                        re.S | re.I)
-SOLD_OUT_RE = re.compile(r'kinola-event-tickets-link-sold-out', re.I)
+# A class on an element, never the bare name: Myyri's own script names the class in a
+# `querySelector` after the last row (read 2026-10-12), and the last block runs to the end of
+# the page, so a bare match marked whichever film was listed last sold out.
+SOLD_OUT_RE = re.compile(r'class=["\'][^"\']*(?<![-\w])kinola-event-tickets-link-sold-out'
+                         r'(?![-\w])', re.I)
 DIV_CLASS_RE = r'<div[^>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^>]*>(.*?)</div>'
 SPAN_CLASS_RE = r'<span[^>]*class=["\'][^"\']*\b%s\b[^"\']*["\'][^>]*>(.*?)</span>'
 POSTER_RE = re.compile(r'<img[^>]*class=["\'][^"\']*kinola-event-poster[^"\']*["\'][^>]*>', re.I)

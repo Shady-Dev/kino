@@ -3808,3 +3808,14 @@ for all of them. The theme had started lazy-loading: `src` holds the placeholder
 fill a row with no usable poster again. The Laika template reads posters the same way. The
 saved listing of 2026-10-12 parsed to 43 rows, all with a media.kinola.ee poster. Three
 mutations red.
+
+### Kino Myyri's last film is no longer marked sold out (2026-10-12)
+The functional test of 2026-10-12 found Naza, then the last film on Myyri's listing, shown
+as sold out while the cinema sold tickets. `blocks()` runs the last block to the end of the
+page, and the site's own script there names the class in `querySelector(
+'.kinola-event-tickets-link-sold-out')`. `SOLD_OUT_RE` matched the bare name. It now
+matches only as a class token inside a `class` attribute, which is how every real marker is
+written. On the saved listing of 2026-10-12 the only sold-out rows were the two with a real
+sold-out span, and the last film was on sale. The same script also turns two checkout links
+into "Vapaa pääsy" and the two Cinemaissí films' buttons into links to their own site. The
+adapter does not model either. One mutation red.
