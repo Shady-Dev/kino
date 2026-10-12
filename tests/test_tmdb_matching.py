@@ -906,6 +906,12 @@ class AliasFileTest(unittest.TestCase):
                                            enrich_tmdb.norm(enrich_tmdb.clean(published)))
                 self.assertEqual(got, "1781923")
 
+    def test_myyris_drishyam_the_conclusion_is_the_2026_hindi_film(self):
+        """Myyri's page names Abhishek Pathak and Ajay Devgn, and 1269325 is their 2026
+        film. The pass had matched 244049, the 2013 Malayalam Drishyam."""
+        doc = json.loads(self.FILE.read_text(encoding="utf-8"))
+        self.assertEqual(doc[enrich_tmdb.norm("Drishyam: The Conclusion")], "1269325")
+
     def test_bio_sades_the_painter_is_hirschbiegels_der_maler(self):
         """The festival names Der Maler with Albert Oehlen as its guest, IDFA lists it as
         The Painter, 95 minutes, and 893149 is that film. A title search finds only a 2024
@@ -960,6 +966,7 @@ class AliasFileTest(unittest.TestCase):
             "339324": "Cohn's 1989 French Natalia, not Kassila's 1979 film (459808)",
             "980026": "Arcel's 2023 Bastarden, not Wajda's Ziemia obiecana (511)",
             "1211957": "Kimani Ray Smith's 2024 thriller, not Hirschbiegel's Der Maler (893149)",
+            "244049": "the 2013 Malayalam Drishyam, not Drishyam: The Conclusion (1269325)",
         }
         for tmdb_id, why in wrong.items():
             with self.subTest(tmdb_id=tmdb_id):

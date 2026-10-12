@@ -162,5 +162,7 @@
  "last prometheus of donbas taidekaupungin elokuvajuhlat": "1562438",
  "the painter taidekaupungin elokuvajuhlat": "893149",
  "_comment50": "2026-10-09. Seven cinemas publish \"Pikku Kummitus Lapanen keppostelee\", and none matched, because TMDB has no Finnish title for the film. It is 1781923, Alex Gustavsson's Lilla spöket Laban busar vidare (2026). Bio Forum's page for that film calls its hero Pikku Kummitus Lapanen, every cinema lists 60 to 66 minutes, and Engel, Bio Forum and Bio Marilyn's preview screening already carry 1781923. The Finnish title with \"(suomeksi)\" reaches this key through the cleaned search string.",
- "pikku kummitus lapanen keppostelee": "1781923"
+ "pikku kummitus lapanen keppostelee": "1781923",
+ "_comment52": "Kino Myyri, 2026-10-12. \"Drishyam: The Conclusion\" was matched to 244049, the 2013 Malayalam Drishyam, so the row showed that film's poster, plot and trailer. Myyri's own film page gives India 2026, director Abhishek Pathak, Ajay Devgn in the cast, Hindi audio and 170 minutes. TMDB 1269325 is Drishyam: The Conclusion, Hindi, released 2026-10-02, directed by Abhishek Pathak with Ajay Devgn, listed at 148 minutes. Director and cast settle it; the runtime differs, and Myyri's figure probably includes an interval.",
+ "drishyam the conclusion": "1269325"
 }
