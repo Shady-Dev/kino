@@ -468,6 +468,44 @@ class SheetHeightOnAPhone(SheetHeight):
     viewport = {"width": 375, "height": 812}; touch = True; phone = True
 
 
+class SheetLongTitle(Browser):
+    """A title with one long word wraps inside the sheet at 320 px. Measured 2026-10-12:
+    "PäiväKaffiLeffa:Hetki Ennen Valoa" ran past the sheet's edge and under the close
+    button, because the text column kept its longest word's width."""
+    viewport = {"width": 320, "height": 700}; touch = True
+    TITLE = "PäiväKaffiLeffa:Hetki Ennen Valoa"
+
+    def setUp(self):
+        shows = [{**s, "title": self.TITLE} if s["eventId"] == "presidentin-kyyditys" else s
+                 for s in SHOWS]
+        data = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        Handler.body = {"area-or-helsinki.json":
+                        json.dumps({**data, "shows": shows}).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def test_the_title_wraps_inside_the_sheet_and_clears_the_close_button(self):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki&lang=fi")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.evaluate("location.hash = 'm=presidentin-kyyditys'")
+        expect(self.page.locator("#sheetTitle")).to_have_text(self.TITLE)
+        self.page.wait_for_function("() => getComputedStyle(document.querySelector('#sheet'))"
+                                    ".transform === 'none'")
+        m = self.page.evaluate("""() => {
+            const t = document.querySelector('#sheetTitle');
+            const r = document.createRange(); r.selectNodeContents(t);
+            const text = [...r.getClientRects()].reduce((a, b) => Math.max(a, b.right), 0);
+            return {text, over: t.scrollWidth - t.clientWidth,
+                    close: document.querySelector('.sheet-close').getBoundingClientRect().left,
+                    sheet: document.querySelector('#sheet').getBoundingClientRect().right,
+                    page: document.documentElement.scrollWidth};
+        }""")
+        self.assertLessEqual(m["over"], 0, m)
+        self.assertLessEqual(m["text"], m["close"] + 0.5, m)
+        self.assertLessEqual(m["text"], m["sheet"] + 0.5, m)
+        self.assertEqual(m["page"], 320, m)
+
+
 class FreeAdmissionTicket(Browser):
     """A source's "Vapaa pääsy" is drawn in the price compartment, which keeps its 56 px,
     its seam and its notches (audit, 2026-09-27: Kino K13's four screenings drew none)."""

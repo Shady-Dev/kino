@@ -42,6 +42,6 @@ Earlier hand-measured passes, and what each of them measured, are in
 | venues per adapter, largest 5 | `etiketti` 31, `Finnkino` 17, `nexxo` 13, `biorex` 12, `johku` 6 |
 | generated pages per language | 151 |
 | sitemap URLs | 454 |
-| off-origin poster references | 0 |
-| `sw.js` CACHE | `leffavuoro-v278` |
+| off-origin poster references | 18 |
+| `sw.js` CACHE | `leffavuoro-v279` |
 <!-- counts:end -->

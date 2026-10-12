@@ -631,7 +631,10 @@
   .hintdots{display:inline-flex; vertical-align:-3px}
   .hintdots svg{width:14px; height:14px}
   .sheet-head .poster{flex:0 0 104px; width:104px; height:150px}
-  .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em}
+  /* overflow-wrap:anywhere lowers the title's minimum width too: without it the text
+     column kept its longest word's width and ran past the sheet's edge at 320 px. */
+  .sheet-title{font-size:1.25rem; font-weight:800; line-height:1.2; padding-right:36px; letter-spacing:-.01em;
+    overflow-wrap:anywhere}
   .syn{margin-top:14px; line-height:1.6; font-size:.92rem; color:var(--ink)}
   /* Four lines and the rest behind the toggle. -webkit-line-clamp is the only property
      that clamps by line box; it works in every engine that ships this app. */
