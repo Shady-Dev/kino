@@ -576,6 +576,52 @@ class PremiereBadgeOnAPhone(PremiereBadge):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class StaleDayPastTheHorizon(Browser):
+    """A venue whose last run is past the stale window and whose last date has gone says
+    the programme could not be checked, not that it is unpublished. Huvimylly, 2026-10-12:
+    "Tämän päivän ohjelmistoa ei ole vielä julkaistu." under a 24-hour stale banner while
+    the cinema listed three screenings."""
+
+    def serve(self, generated):
+        data = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        shows = [{**s, "start": "2026-09-13" + s["start"][10:]} for s in data["shows"]]
+        doc = {**data, "generated": generated, "dates": ["2026-09-13"],
+               "horizon": "2026-09-13", "shows": shows}
+        Handler.body = {"area-or-helsinki.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+
+    def message(self, want):
+        self.page.goto(self.origin + "/index.html?area=or-helsinki&lang=fi")
+        status = self.page.locator("#main .status")
+        expect(status).to_contain_text(want)
+        return status.inner_text()
+
+    def test_an_old_run_past_its_horizon_could_not_be_checked(self):
+        self.serve("2026-09-13T00:00:00+00:00")         # 33 hours before the pinned clock
+        self.assertNotIn("ei ole vielä julkaistu", self.message("Ohjelmistoa ei voitu tarkistaa"))
+
+    def test_a_fresh_run_past_its_horizon_is_not_yet_published(self):
+        self.serve("2026-09-14T08:00:00+00:00")         # one hour before
+        self.assertNotIn("ei voitu tarkistaa",
+                         self.message("Tämän päivän ohjelmistoa ei ole vielä julkaistu."))
+
+    def test_a_city_with_one_fresh_source_keeps_not_yet_published(self):
+        """The fresh cinema's "not yet published" is true, so one late cinema beside it
+        does not turn the city's day into one that could not be checked."""
+        self.serve("2026-09-13T00:00:00+00:00")
+        itis = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        itis = {**itis, "generated": "2026-09-14T08:00:00+00:00", "dates": ["2026-09-13"],
+                "horizon": "2026-09-13",
+                "shows": [{**s, "venue": "1162", "theatre": "Itis",
+                           "start": "2026-09-13" + s["start"][10:]} for s in itis["shows"]]}
+        Handler.body = {**Handler.body, "area-1162.json": json.dumps(itis).encode("utf-8")}
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki&lang=fi")
+        # Retried: the city draws as its parts arrive, and with only the late one in, every
+        # known source is late for a moment.
+        expect(self.page.locator("#main .status")).to_contain_text(
+            "Tämän päivän ohjelmistoa ei ole vielä julkaistu.")
+
+
 class SheetFinnkinoSynopsisLanguages(Browser):
     """A Finnkino film whose films.json entry is Finnish only reads the store's Swedish and
     English, and keeps Finnkino's own Finnish. Measured 2026-10-12: 28 of 57 Finnkino films

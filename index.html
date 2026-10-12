@@ -4099,7 +4099,14 @@
     // A chain filter counts, as in anyFilter(): with Finnkino isolated, a day only Orion
     // plays read "no shows at the selected theatre".
     if(state.filter || state.fLang || state.fKids || state.fAnnis || state.chains) return t.nomatch;
-    if(state.horizon && state.dateStr > state.horizon) return t.notpublished;
+    if(state.horizon && state.dateStr > state.horizon){
+      // Past the horizon of data no source in view has refreshed within the stale window,
+      // "not yet published" is more than the data can say: Huvimylly said it for a day
+      // after its run had failed for a day, while the cinema listed screenings (2026-10-12).
+      const late = staleNotice(state.sources, Date.now(), STALE_H);
+      const known = (state.sources || []).filter(s => s && s.generated).length;
+      return late && late.providers.length === known ? t.noProgUnchecked : t.notpublished;
+    }
     if(state.dateStr === fiToday()) return t.nomore;
     // The selected day by its chip's own label: "tänään" here named a day that is not
     // today. Finnish only; the Swedish and English lines already say "this day".
