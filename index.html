@@ -4701,6 +4701,18 @@
         for(const [k, v] of Object.entries(f.s || {})) if(v) s[k] = v;
         f = { ...f, s };
       }
+    } else if(f.s && sample.title && ['fi', 'sv', 'en'].some(k => !f.s[k])){
+      // Finnkino's own text keeps its slot; films-extra fills only a language it lacks.
+      // Finnkino publishes Finnish for most films, so without this a Swedish or English
+      // reader got Finnish while the store held their language (2026-10-12).
+      const ex = await extra.ensure();
+      if(superseded()) return;
+      const hit = ex[normTitle(sample.title)];
+      if(hit && hit.s){
+        const s = { ...hit.s };
+        for(const [k, v] of Object.entries(f.s)) if(v) s[k] = v;
+        f = { ...f, s };
+      }
     }
     const lang = state.lang;
     const title = (lang==='en' ? ((f.t&&f.t.en)||f.o||sample.original)

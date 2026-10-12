@@ -576,6 +576,39 @@ class PremiereBadgeOnAPhone(PremiereBadge):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class SheetFinnkinoSynopsisLanguages(Browser):
+    """A Finnkino film whose films.json entry is Finnish only reads the store's Swedish and
+    English, and keeps Finnkino's own Finnish. Measured 2026-10-12: 28 of 57 Finnkino films
+    had an English text in films-extra that the English sheet never showed."""
+    FILMS = json.dumps({"films": {
+        "promenadi-only-film": {"t": {"fi": "Porin oma elokuva"},
+                                "s": {"fi": "Finnkinon oma teksti.", "sv": "", "en": ""}}}}
+    ).encode("utf-8")
+    EXTRA = json.dumps({"films": {
+        "porin oma elokuva": {"s": {"fi": "Varaston teksti.", "sv": "Lagrets text.",
+                                    "en": "The store's text."}}}}).encode("utf-8")
+
+    def setUp(self):
+        Handler.body = {"films.json": self.FILMS, "films-extra.json": self.EXTRA}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def syn(self, lang):
+        self.page.goto(self.origin + f"/index.html?area=1004&lang={lang}")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+        self.page.evaluate("location.hash = 'm=promenadi-only-film'")
+        p = self.page.locator(".sheet-body p.syn")
+        expect(p).to_have_count(1)
+        return p.text_content()
+
+    def test_the_store_fills_the_languages_finnkino_leaves_empty(self):
+        self.assertEqual(self.syn("en"), "The store's text.")
+        self.assertEqual(self.syn("sv"), "Lagrets text.")
+
+    def test_finnkinos_own_text_keeps_its_slot(self):
+        self.assertEqual(self.syn("fi"), "Finnkinon oma teksti.")
+
+
 class SheetSynopsisByTmdbId(Browser):
     """Another chain's title reaches Finnkino's text through the TMDB id films.json
     carries, for a slot films-extra leaves empty."""
