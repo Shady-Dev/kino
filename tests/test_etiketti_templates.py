@@ -151,6 +151,49 @@ class Stubbed(unittest.TestCase):
         return e
 
 
+# --- the operas and events listing (2026-10-12) -------------------------------------------
+
+OPERA_FILM = (KOTKA_FILM.replace("Insidious: Out of the Further", "Ooppera: Don Giovanni")
+              .replace("salikartta?id=56106", "salikartta?id=55623")
+              .replace("salikartta?id=56107", "salikartta?id=55624"))
+EVENTS_LINK = '<a href="/elokuvat/oopperat-ja-tapahtumat">Oopperat ja tapahtumat</a>'
+
+
+class EventListingTest(Stubbed):
+    """Kinopalatsi Kotka's opera on 15.10. was linked only from "Oopperat ja tapahtumat",
+    which eight hosts link from their programme page."""
+
+    def test_a_linked_events_listing_adds_its_films(self):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious",
+                                                          nav=EVENTS_LINK),
+                       "/elokuvat/oopperat-ja-tapahtumat": listing("/elokuvat/3291/don-giovanni",
+                                                                   "/elokuvat/3268/insidious"),
+                       "/elokuvat/3268/insidious": KOTKA_FILM,
+                       "/elokuvat/3291/don-giovanni": OPERA_FILM})
+        out = e.fetch_site(site("kotkanleffat"), sleep=0)
+        titles = sorted({s["title"] for v in out.values() for s in v})
+        self.assertEqual(titles, ["Insidious: Out of the Further", "Ooppera: Don Giovanni"])
+        self.assertEqual(sum(len(v) for v in out.values()), 4)
+
+    def test_an_unlinked_or_foreign_events_listing_is_never_requested(self):
+        """The stub raises on any unmapped fetch, so a request would fail the test."""
+        for nav in ("", '<a href="https://example.org/elokuvat/oopperat-ja-tapahtumat">x</a>'):
+            with self.subTest(nav=nav):
+                e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious",
+                                                                  nav=nav),
+                               "/elokuvat/3268/insidious": KOTKA_FILM})
+                out = e.fetch_site(site("kotkanleffat"), sleep=0)
+                self.assertEqual(sum(len(v) for v in out.values()), 2)
+
+    def test_a_linked_events_listing_that_fails_fails_the_site(self):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious",
+                                                          nav=EVENTS_LINK),
+                       "/elokuvat/oopperat-ja-tapahtumat": RuntimeError("HTTP Error 503"),
+                       "/elokuvat/3268/insidious": KOTKA_FILM})
+        with self.assertRaises(RuntimeError):
+            e.fetch_site(site("kotkanleffat"), sleep=0)
+
+
 # --- template 1 still parses exactly as before -------------------------------------------
 
 class KotkaTemplateTest(Stubbed):

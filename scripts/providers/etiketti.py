@@ -17,6 +17,13 @@ the ticket page is never fetched: it is the outbound link and nothing more.
 
 Adding another eTiketti cinema = an entry in SITES.
 
+Operas and events (2026-10-12). Eight of the twenty-one hosts link a second listing,
+`/elokuvat/oopperat-ja-tapahtumat`, from their own programme page, and its films are not on
+`/elokuvat/ohjelmistossa`: Kinopalatsi Kotka's opera on 15.10. was linked from nowhere else.
+That listing is read when, and only when, the programme page links it on the site's own
+host. Its film pages are read like any other, and a failure on it fails the site, because
+the screenings on it are part of the programme.
+
 Empty venues (2026-09-13). A site's film pages carry every screening, so a registered
 venue with no row is either out of programme or renamed. `EMPTY_VENUES_CONFIRMED` lets
 run.py publish a fresh empty file for such a venue instead of keeping its last, past
@@ -31,6 +38,7 @@ programme ended on 2026-09-13 and the provider read "not updated" for its past s
 """
 import re
 import datetime, html as html_mod, json, re, time
+from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 from common import EmptyProgramme, budget_or_raise, fetch, syn_language
@@ -693,12 +701,32 @@ def syn_value(text, paras=()):
     return {lang: text} if lang else ""
 
 
+# The second listing a host may link (see the module docstring). Never requested unless the
+# programme page links it.
+EVENT_LISTING = "/elokuvat/oopperat-ja-tapahtumat"
+HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.I)
+
+
+def links_event_listing(listing, site):
+    """Whether the programme page links the events listing on the site's own host."""
+    host = urlsplit(site["base"]).netloc.lower()
+    for href in HREF_RE.findall(listing):
+        u = urlsplit(html_mod.unescape(href))
+        if u.path.rstrip("/") == EVENT_LISTING and (not u.netloc or u.netloc.lower() == host):
+            return True
+    return False
+
+
 def fetch_site(site, sleep=1.2):
     listing = get(site["base"] + "/elokuvat/ohjelmistossa")
     seen, movies = set(), []
-    for path, mid in MOVIE_LINK_RE.findall(listing):
-        if mid not in seen:
-            seen.add(mid); movies.append((path, mid))
+    pages = [listing]
+    if links_event_listing(listing, site):
+        pages.append(get(site["base"] + EVENT_LISTING))
+    for page in pages:
+        for path, mid in MOVIE_LINK_RE.findall(page):
+            if mid not in seen:
+                seen.add(mid); movies.append((path, mid))
 
     if not movies:
         _classify_no_films(listing, site["base"] + "/elokuvat/ohjelmistossa")

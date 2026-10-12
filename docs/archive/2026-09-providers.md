@@ -3833,3 +3833,15 @@ ordinary connection, the page parsed to its three screenings on 1.11., 13:00 Pik
 Tähtipeura (S), and 15:00 and 18:00 Lapin Sota (K-16), all 10 €, with nothing unplaced. The
 adapter runs on the local half, so the published rows wait on the next local run. Five
 mutations red.
+
+### eTiketti reads the operas and events listing where a host links it (2026-10-12)
+The functional test of 2026-10-12 found Kinopalatsi Kotka's opera on 15.10., Don Giovanni
+at 17:30 for 25 €, missing while the cinema listed it. The adapter read only
+`/elokuvat/ohjelmistossa`, and the opera's film page is linked from
+`/elokuvat/oopperat-ja-tapahtumat`. A survey of the 21 hosts that day found eight linking
+that page from their programme page and seven with films on it that the programme lacked:
+Kotkan Leffat 8, Leffabuumi 7, Studio 123 Kouvola 7, Kino Tar 6, Kino Iiris 6, Studio 123
+Järvenpää 4 and Kinopirtti 3. Bio Vuoksi links it with none. The listing is now read only
+where the programme page links it on the site's own host, and a failed read fails the site.
+Read live that day, Kotka published the opera at 17:30, 25 €, with the cinema's own ticket
+id 55623. Four mutations red.
