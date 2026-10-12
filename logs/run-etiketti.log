@@ -60,5 +60,5 @@
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
 [run] partial: leffabuumi kept previous data for 3 venue(s): lb-kinolinna, lb-ritz, lb-saimaa
 [run] etiketti: 17 venues, 770 showtimes, 3 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-[run] timing: 16 site(s), 438.5s of fetching added up across workers that overlap, longest site 55.9s, longest queue wait 50.5s, 106.4s wall from this module's first fetch starting to its last ending
+[run] timing: 16 site(s), 424.6s of fetching added up across workers that overlap, longest site 52.3s, longest queue wait 49.1s, 101.4s wall from this module's first fetch starting to its last ending
 exit=1

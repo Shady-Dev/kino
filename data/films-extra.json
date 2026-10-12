@@ -485,6 +485,19 @@
    },
    "tr": ""
   },
+  "bad painter taidekaupungin elokuvajuhlat": {
+   "id": 925496,
+   "img": "data/posters/30e9460cadad18f6.jpg",
+   "r": 0,
+   "s": {
+    "en": "Albert Oehlen steps behind the camera to present a portrait of himself, in life and at work, albeit substituted by actor and similarly brazen iconoclast Udo Kier, with musician Kim Gordon as his inner self, interviewer and judge.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "baletti pähkinänsärkijä hamburg ballett tshaikovski": {
    "id": 1670821,
    "img": "data/posters/22e038deabae14e8.jpg",
@@ -874,7 +887,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "gilda",
     "jarvelankino",
     "kinoaurora",
@@ -1717,6 +1729,19 @@
    },
    "tr": ""
   },
+  "jesaja taidekaupungin elokuvajuhlat": {
+   "id": 1750532,
+   "img": "data/posters/b73ec0b32c5eeec7.jpg",
+   "r": 0,
+   "s": {
+    "en": "The fifth year of the New Normal begins in 2024. Finland prepares for war. In Helsinki, Jesaja Jalonen, a remote digital worker, prepares for the run of his life.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "john coltrane highlights 1957 1964": {
    "r": 0,
    "s": {
@@ -1950,7 +1975,6 @@
     "biorexkokkola",
     "biovuoksi",
     "cine",
-    "cinemantsala",
     "elavienkuvien",
     "engel",
     "gilda",
@@ -1965,6 +1989,7 @@
     "kinoaurora",
     "kinoelo",
     "kinohannikainen",
+    "kinohirvi",
     "kinoiiris",
     "kinojuha",
     "kinokilta",
@@ -2363,7 +2388,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "isohannu",
     "kinohirvi",
     "kinolaika",
@@ -2629,6 +2653,19 @@
     "fi": "Susan Sarandon palkittiin ansaitusti Oscarilla monisyisestä roolistaan sisar Heleninä, joka tapaa Sean Pennin esittämän, kuolemantuomiota sellissään odottavan murhaajan. Tuloksena on moniulotteinen, syvästi inhimillinen filosofiseettinen tutkielma syyllisyydestä, sovituksesta, rikoksesta, anteeksiannosta sekä kuolemantuomion moraalisesta kyseenalaisuudesta."
    },
    "tr": "https://www.youtube.com/watch?v=CB89rktO_Ws",
+   "ts": [
+    "en"
+   ]
+  },
+  "kuopattu rauha taidekaupungin elokuvajuhlat": {
+   "id": 1788612,
+   "img": "data/posters/7533e7dc5c157174.jpg",
+   "r": 0,
+   "s": {
+    "en": "Documentary on Finnish peace organisations and pacifism.",
+    "fi": ""
+   },
+   "tr": "",
    "ts": [
     "en"
    ]
@@ -2991,7 +3028,6 @@
     "biomarilyn",
     "biorex",
     "cine",
-    "cinemantsala",
     "elavienkuvien",
     "ihmekompleksi",
     "kinoaurora",
@@ -3397,6 +3433,19 @@
     "fi": "Kahden entisen rakastavaisen kohdatessa pintaan nousevat muistot, toteutumattomat mahdollisuudet ja kysymys siitä, mitä ihanteista jää jäljelle kompromissien jälkeen. Ohjaaja Săucan yhdistää ranskalaisen uuden aallon vapauden, Fellinin runollisuuden ja Antonionin hienovaraiset ihmissuhdekuvaukset omaperäiseksi elokuvakieleksi tässä uuden aallon ”kadonneessa mestariteoksessa”. Elokuva seuraa lahjakasta arkkitehtia, jonka nuoruuden unelmat ovat kutistuneet kasarmien ja propagandajulisteiden suunnitteluun, sekä naista, joka on valinnut turvallisen mutta onnettoman elämän. Toistuvat laiturimaisemat, fragmentaariset muistot ja tarkka psykologinen havainnointi luovat melankolisen kuvan ihmisistä, jotka kamppailevat luovuuden, rakkauden ja sopeutumisen välillä. Samalla elokuva toimii hienovaraisena mutta terävänä kuvauksena autoritaarisesta yhteiskunnasta, jossa yksilön haaveet joutuvat jatkuvasti törmäyskurssille todellisuuden kanssa. Pian ensi-iltansa jälkeen sensuroitu ja levityksestä vedetty elokuva nähtiin uudelleen vasta 1990-luvulla. Nykyisin sitä pidetään yhtenä romanialaisen elokuvan rohkeimmista ja omaperäisimmistä saavutuksista. – Otto Kylmälä 2026"
    },
    "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
+  "measures for a funeral taidekaupungin elokuvajuhlat": {
+   "id": 1313637,
+   "img": "data/posters/c37f6191dc3ca34b.jpg",
+   "r": 0,
+   "s": {
+    "en": "Follows a young woman named Audrey Benac on a research odyssey of ghostly possession in which she endeavours to restore the legacy of the forgotten Canadian violinist Kathleen Parlow.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=4YN7Mo8olW0",
    "ts": [
     "en"
    ]
@@ -4369,6 +4418,7 @@
    "krs": [
     "bioforum",
     "biomarilyn",
+    "biopallas",
     "engel",
     "isohannu",
     "kinokulma",
@@ -4405,6 +4455,7 @@
    "krs": [
     "bioforum",
     "biomarilyn",
+    "biopallas",
     "engel",
     "isohannu",
     "kinokulma",
@@ -4856,7 +4907,6 @@
     "biorexkokkola",
     "biosade",
     "cine",
-    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -5309,7 +5359,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -5351,7 +5400,6 @@
     "biorex",
     "biorexkokkola",
     "biosavoy",
-    "cinemantsala",
     "gilda",
     "ihmekompleksi",
     "isohannu",
@@ -6084,6 +6132,19 @@
    },
    "tr": ""
   },
+  "sven klangs kvintett taidekaupungin elokuvajuhlat": {
+   "id": 125499,
+   "img": "data/posters/13b134c1a258fe43.jpg",
+   "r": 0,
+   "s": {
+    "en": "Sweden 1958. In a small provincial town there is a band who plays dance music twice every week. All decisions are made by Sven Klang, the undisputed leader of the band. A new member joins them, saxophone player Lasse. He starts to criticize Sven's decisions, questions the way they divide the money and he also wants them to be more of a jazz band.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "svečias the visitor": {
    "id": 1427167,
    "img": "data/posters/ab58860aa0b139c9.jpg",
@@ -6343,6 +6404,19 @@
    },
    "tr": ""
   },
+  "the end taidekaupungin elokuvajuhlat": {
+   "id": 1751439,
+   "img": "data/posters/e1930d78ebe19c4f.jpg",
+   "r": 0,
+   "s": {
+    "en": "Who is the world-famous artist Albert Oehlen, and why does he change bodies? A punk-rooted, Surrealism-infused brew of documentary and fiction, the magical with the banal, the outrageous with the subdued, and the sublime with the crass.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
   "the ice tower": {
    "id": 1143440,
    "img": "data/posters/38e4e65ce55be5a0.jpg",
@@ -6440,7 +6514,6 @@
     "bioforum",
     "biorex",
     "biosade",
-    "cinemantsala",
     "gilda",
     "isohannu",
     "kinohirvi",
@@ -6684,6 +6757,7 @@
    "img": "data/posters/baccbbbb98b979e0.jpg",
    "kr": "K-12",
    "krs": [
+    "biopallas",
     "biorex",
     "biosavoy",
     "elavienkuvien",
@@ -6866,7 +6940,6 @@
    "krs": [
     "biorex",
     "biorexkokkola",
-    "cinemantsala",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -7269,7 +7342,7 @@
   "unohdettu saari orig": {
    "id": 1465063,
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 8.1,
    "s": {
     "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
     "fi": "Tämä elokuva sisältää välkkyviä valoja, jotka voivat aiheuttaa oireita henkilöille, joilla on valoherkkä epilepsia tai muu valoherkkyys. Parhaan ystävyyden puolesta kannattaa taistella. DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Uuden alkuperäistarinan on käsikirjoittanut ja ohjannut Oscar-ehdokas Joel Crawford ja Januel Mercado. Tuottajana toimii Oscar-ehdokas Mark Swift. Sama tiimi on myös ollut tekemässä elokuvaa Saapasjalkakissa: Viimeinen toivomus. Grammy- ja Oscar-palkittu supertähti H.E.R. ja Liza Soberano (Lisa Frankenstein, Alone/Together) ovat Jo ja Raissa, high schoolista valmistunut parivaljakko. He ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww (Dave Franco) sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista (Tony-palkittu ikoni Lea Salonga), saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
