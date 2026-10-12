@@ -322,6 +322,23 @@ class RangeRowTest(unittest.TestCase):
         self.assertIn("whose weekday matches no candidate year, skipped: Su 26.9., Ma 27.9.", log)
 
 
+class PairRowTest(RangeRowTest):
+    """`12.10. Ma klo18.30 / 13.10. Ti klo18.30` is two screenings on one row. Read
+    2026-10-12: four such rows held 8 of the page's 15 screenings, all skipped."""
+
+    def test_each_half_of_a_slashed_row_is_a_screening(self):
+        starts, log = self.parse("28.9. Ma klo18.30 / 29.9. Ti klo18.30",
+                                 "30.9. Ke klo13.30! / 1.10. To klo18.00")
+        self.assertEqual(starts, ["2026-09-28T18:30", "2026-09-29T18:30", "2026-09-30T13:30",
+                                  "2026-10-01T18:00"])
+        self.assertNotIn("does not read", log)
+
+    def test_a_half_that_does_not_read_leaves_the_whole_row_unread(self):
+        starts, log = self.parse("28.9. Ma klo18.30 / iltapäivällä", "30.9. Ke klo18.30")
+        self.assertEqual(starts, ["2026-09-30T18:30"])
+        self.assertIn("1 row(s) with a time in a shape this parser does not read", log)
+
+
 class FilmFactsTest(unittest.TestCase):
     """Runtime, age limit and genres from the film's own block, as the price is. The live
     page carried all three on 2026-09-27 and none was published."""

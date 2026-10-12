@@ -32,7 +32,10 @@ heading as the current film. Four things about this page decide the rest:
   also bounds how far the answer may fall from today. A weekday matching no candidate, or
   one selecting a date roughly a year away, leaves the row unplaced and counted.
 
-The time is written `klo18.00`, with no space and a dot for minutes.
+The time is written `klo18.00`, with no space and a dot for minutes. Read 2026-10-12, one
+row can carry two screenings joined by a slash, `12.10. Ma klo18.30 / 13.10. Ti klo18.30`,
+and a time can end in an exclamation mark, `14.10. Ke klo13.30!`. Each half has to read as a
+screening on its own, or the whole row is counted as unread.
 
 There is no per-film page and no booking host: the site is one page and tickets are
 reserved by phone. So a showtime opens that page and the registry entry is `book="list"`,
@@ -68,7 +71,7 @@ CONTAINER_RE = re.compile(r'elementor-icon-list-text', re.I)
 HEAD_RE = re.compile(r'<p class="elementor-heading-title[^"]*">(.*?)</p>', re.S | re.I)
 ITEM_RE = re.compile(r'<span class="elementor-icon-list-text">(.*?)</span>', re.S | re.I)
 SHOW_RE = re.compile(r'^(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö]{2,12})\s*klo\s*'
-                     r'(\d{1,2})[.:](\d{2})\s*$', re.I)
+                     r'(\d{1,2})[.:](\d{2})\s*!?\s*$', re.I)
 # `26-27.9. La,Su klo17.00`: consecutive days at one time, a weekday for each (2026-09-27).
 RANGE_RE = re.compile(r'^(\d{1,2})\s*-\s*(\d{1,2})\.(\d{1,2})\.\s*([A-Za-zÄÖäö, ]{2,60}?)\s*'
                       r'klo\s*(\d{1,2})[.:](\d{2})\s*$', re.I)
@@ -228,7 +231,14 @@ def parse(page, today=None):
 
 def _rows(text):
     """One list item -> [(day, month, weekday, hh, mm)], or None when it is no screening.
-    A range needs one weekday per day, or it settles nothing."""
+    A range needs one weekday per day, or it settles nothing. A row of screenings joined
+    by a slash needs every one of them to read."""
+    if "/" in text:
+        parts = [SHOW_RE.match(p.strip()) for p in text.split("/")]
+        if not all(parts):
+            return None
+        return [(int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)),
+                 int(m.group(5))) for m in parts]
     m = SHOW_RE.match(text)
     if m:
         return [(int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)),

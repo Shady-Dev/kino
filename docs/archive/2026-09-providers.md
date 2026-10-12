@@ -3788,3 +3788,13 @@ only when the page shows all three parts of that state: the results line "Kaikki
 paikkakunnat · 0 näytöstä", an event list with nothing in it, and the shown `kt-empty`
 notice with its exact text. Zero cards without them still fails the site. Evidence:
 [empty-states.md](../research/empty-states.md). Six mutations red.
+
+### Kino Kirkkonummi: two screenings on one row (2026-10-12)
+The functional test of 2026-10-12 found 7 of the page's 15 screenings published, with the
+run green. Four rows held two screenings joined by a slash, `12.10. Ma klo18.30 / 13.10. Ti
+klo18.30`, and one time ended in an exclamation mark, `14.10. Ke klo13.30!`. The parser
+counted those rows as unread and skipped them, which left Kerro kaikille out entirely. Each
+half is now read as a screening when every half reads, and the mark is allowed after a
+time. The live page parsed to 15 of 15 that day. Kerro kaikille stays unpriced, because its
+block states two amounts, `Liput 15e` and `14.10. Ke klo13.30 Liput 14e`. Four mutations
+red.
