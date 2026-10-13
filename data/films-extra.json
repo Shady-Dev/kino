@@ -984,19 +984,6 @@
     "en"
    ]
   },
-  "dome karukosken rakkautta ja virtahepoja": {
-   "id": 1450473,
-   "img": "data/posters/3630a8c5eeb607ff.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Kaksi toisilleen tuntematonta ihmistä kohtaavat kreikkalaissuomalaisissa häissä keskellä omia eroprosessejaan. Vielä naimisissa oleva, vähäistä menestystä niittänyt muusikko Touko tuntee vetoa juuri eroamassa olevaan Eevikseen. Häissä on vieraana myös Toukon vaimo, tunnettu laulajatähti Leena, joka huomaa Toukon ja Eeviksen välisen vetovoiman. Kreikan upeissa merimaisemissa yhden illan aikana käytävissä keskusteluissa pohditaan vanhemmuutta, lapsettomuutta, seksiä, eroja, avioliittoa ja tietenkin rakkautta sekä juhlitaan ikimuistoisia häitä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
   "don giovanni vicenza festivaali mozart": {
    "r": 0,
    "s": {
@@ -1166,16 +1153,12 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "img": "data/posters/9748f77855a4de36.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
+    "en": "",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "faust": {
    "id": 10728,
@@ -1878,6 +1861,10 @@
   "järki ja tunteet": {
    "id": 4584,
    "img": "data/posters/90645b198527b148.jpg",
+   "kr": "K-7",
+   "krs": [
+    "korjaamo"
+   ],
    "r": 7.4,
    "s": {
     "en": "",
@@ -2038,7 +2025,6 @@
     "engel",
     "gilda",
     "helios",
-    "huvimylly",
     "ihmekompleksi",
     "isohannu",
     "jarvelankino",
@@ -2067,6 +2053,7 @@
     "kinotar",
     "kinotoijala",
     "kinovirta",
+    "kirkkonummi",
     "kkino",
     "korjaamo",
     "kotkanleffat",
@@ -2373,6 +2360,16 @@
     "fi": "KIRJASTOKINO ESITTÄÄ: REMAINS OF THE DAY / 1993\n\nJames Ivoryn ohjaama mestariteos on psykologisesti viiltävä ja hillitty tutkielma emotionaalisesta repressiosta, sokeasta velvollisuudentunnosta ja historian murroskohdista. Elokuva ei ole pelkkä nostalginen pukudraama, vaan syvästi traaginen kuvaus miehestä, joka uhraa oman inhimillisyytensä instituutiolle. Anthony Hopkinsin ja Emma Thompsonin välinen dynamiikka on elokuvahistorian hienovaraisimpia."
    },
    "tr": ""
+  },
+  "kirjastokino sense and sensibility": {
+   "id": 4584,
+   "img": "data/posters/90645b198527b148.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "KIRJASTOKINO ESITTÄÄ: Sense and Sensibility / 1995\n\nSense and Sensibility ei ole pelkkä pukudraama, vaan Ang Leen ohjaama, psykologisesti tarkka tutkielma yhteiskunnallisista rooleista ja tukahdutetuista tunteista. Emma Thompsonin Oscar-palkittu käsikirjoitus herättää Jane Austenin tekstin eloon purevalla älykkyydellä ja hienovaraisella ironialla, joka purkaa luokkayhteiskunnan tekopyhyyttä. Se on ajaton mestariteos järjen ja tunteen ikuisesta kamppailusta, jonka näyttelijätyö – erityisesti Thompsonin, Kate Winsletin ja Alan Rickmanin välillä – hipoo täydellisyyttä."
+   },
+   "tr": "https://www.youtube.com/watch?v=5unqnd-CGz4"
   },
   "kirjastokino varaventtiili": {
    "id": 655285,
@@ -2944,6 +2941,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "huvimylly",
     "ihmekompleksi",
     "joutsankino",
     "kino123",
@@ -2957,6 +2955,7 @@
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
+    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -2981,6 +2980,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "huvimylly",
     "ihmekompleksi",
     "joutsankino",
     "kino123",
@@ -2994,6 +2994,7 @@
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
+    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -3021,6 +3022,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "huvimylly",
     "ihmekompleksi",
     "joutsankino",
     "kino123",
@@ -3034,6 +3036,7 @@
     "kinopirtti",
     "kinotar",
     "kotkanleffat",
+    "matintupa",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -4647,6 +4650,7 @@
     "biokaari",
     "biorex",
     "engel",
+    "huvimylly",
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
@@ -4668,6 +4672,7 @@
     "biokaari",
     "biorex",
     "engel",
+    "huvimylly",
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
@@ -4708,6 +4713,7 @@
     "biokaari",
     "biorex",
     "engel",
+    "huvimylly",
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
@@ -4729,6 +4735,7 @@
     "biokaari",
     "biorex",
     "engel",
+    "huvimylly",
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
@@ -4772,7 +4779,6 @@
     "biosade",
     "cinemantsala",
     "helios",
-    "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
@@ -4819,7 +4825,6 @@
     "biosade",
     "cinemantsala",
     "helios",
-    "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
@@ -4863,7 +4868,6 @@
     "biosade",
     "cinemantsala",
     "helios",
-    "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
@@ -4929,7 +4933,6 @@
     "biosade",
     "cinemantsala",
     "helios",
-    "huvimylly",
     "isohannu",
     "jarvelankino",
     "julia",
@@ -5783,7 +5786,6 @@
     "biorex",
     "biorexkokkola",
     "biosade",
-    "cinemantsala",
     "isohannu",
     "kinohirvi",
     "kinolaika",
@@ -7432,7 +7434,6 @@
     "cinemantsala",
     "haapamaki",
     "helios",
-    "huvimylly",
     "ihmekompleksi",
     "isohannu",
     "julia",
@@ -7578,7 +7579,6 @@
     "cinemantsala",
     "haapamaki",
     "helios",
-    "huvimylly",
     "ihmekompleksi",
     "isohannu",
     "julia",
@@ -7727,9 +7727,9 @@
   "verity": {
    "id": 1283515,
    "img": "data/posters/052a413644e02ce6.jpg",
-   "r": 6.6,
+   "r": 6.4,
    "s": {
-    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
+    "en": "Lowen Ashleigh, hired to ghostwrite for best-selling author Verity Crawford, uncovers Verity's autobiographical notes, and becomes involved in what may prove to be a lethal conspiracy.",
     "fi": "",
     "sv": "Lowen Ashleigh får jobb att spökskriva åt den hyllade författaren Verity Crawford och flyttar till hennes avlägsna egendom. När Lowen upptäcker vad som verkar vara Veritys självbiografiska anteckningar, dras hon in i en mörk spiral av chockerande avslöjanden om Veritys make Jeremy. Snart blir det allt svårare att skilja mellan fiktion och verklighet, manipulation och begär – och mellan en möjlighet och besatthet."
    },

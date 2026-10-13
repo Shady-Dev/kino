@@ -1,6 +1,6 @@
 [kotkanleffat] Kinopalatsi Kotka: 48 showtimes, 25 dates
 [kotkanleffat] Trio 123: 109 showtimes, 10 dates
-[kotkanleffat] synopses merged: 4
+[kotkanleffat] synopses merged: 0
 [biorexkokkola] Bio Rex Kokkola: 56 showtimes, 13 dates
 [biorexkokkola] synopses merged: 0
 [kinopirtti] Kinopirtti: 111 showtimes, 18 dates
@@ -37,15 +37,15 @@
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] strand prefix split off 3 showtimes
 [studio123jarvenpaa] Studio 123 Järvenpää: 90 showtimes, 17 dates
-[studio123jarvenpaa] synopses merged: 4
+[studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 74 showtimes, 22 dates
-[studio123kouvola] synopses merged: 7
+[studio123kouvola] synopses merged: 0
 [ihmekompleksi] Ihme Kompleksi: 36 showtimes, 12 dates
 [ihmekompleksi] synopses merged: 0
 [kino123] Kino 123: 104 showtimes, 17 dates
 [kino123] synopses merged: 0
 [kinotar] Kinotar 123: 24 showtimes, 16 dates
-[kinotar] synopses merged: 3
+[kinotar] synopses merged: 0
 [kinojuha] Kino Juha: 15 showtimes, 10 dates
 [kinojuha] VIP-Sali: 10 showtimes, 9 dates
 [kinojuha] synopses merged: 0
@@ -55,7 +55,7 @@
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 2 showtimes
 [kinoiiris] Kino Iiris: 45 showtimes, 22 dates
-[kinoiiris] synopses merged: 1
+[kinoiiris] synopses merged: 0
 [kkino] K-Kino: 11 showtimes, 5 dates
 [kkino] synopses merged: 0
 [kkino] screening-note sentences left out of synopses: 1
@@ -63,9 +63,9 @@
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 35 showtimes, 16 dates
 [niagara] synopses merged: 0
-[run] venuelists-cloud.json rewritten
 [run] http: 0 revalidated (304), 288 full, 288 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
 [run] partial: leffabuumi kept previous data for 3 venue(s): lb-kinolinna, lb-ritz, lb-saimaa
 [run] etiketti: 17 venues, 826 showtimes, 3 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
+[run] timing: 16 site(s), 520.7s of fetching added up across workers that overlap, longest site 56.7s, longest queue wait 67.1s, 123.8s wall from this module's first fetch starting to its last ending
 exit=1
