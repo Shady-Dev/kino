@@ -1847,5 +1847,191 @@ class SherylClassifierTest(unittest.TestCase):
         self.assertEqual(K.default_state(K.film_facts(laika_film())), K.FILM)
 
 
+# ---------------------------------------------------------------- Kino Konepaja
+
+# Not in SITES yet; the candidate entry from the 2026-10-13 read.
+KONEPAJA = {"provider": "kinokonepaja", "label": "Kino Konepaja",
+            "base": "https://kinokonepaja.fi", "listing": "/", "template": "konepaja",
+            "declare_syn": True,
+            "venues": [{"id": "konepaja-helsinki", "name": "Kino Konepaja",
+                        "short": "Kino Konepaja", "city": "Helsinki"}]}
+KONEPAJA_LOGO = ("https://kinokonepaja.fi/wp-content/uploads/2024/04/"
+                 "Kino_konepaja_logo_black_light.png")
+
+
+def konepaja_poster_url(slug):
+    return (f"https://media.kinola.ee/storage/konepaja.kinola.ee/3638/{slug}_poster.jpg"
+            f"?width=1000&quality=85")
+
+
+def konepaja_row(slug, title, when, time="17:00", date=None, poster=True, time_span=True,
+                 uuid="b646e738-7043-4471-b607-df13cc640ace"):
+    """Konepaja's block as read 2026-10-13: an unclassed poster image, the date and the
+    time in two spans, and the listing's own checkout anchor inside a button."""
+    date = date if date is not None else f"{FI_WD[when.weekday()]} {when.day}.{when.month}."
+    img = (f'<a href="https://kinokonepaja.fi/film/{slug}/"><img decoding="async" '
+           f'src="{konepaja_poster_url(slug).replace("&", "&#038;")}" alt="{title}" /></a>'
+           if poster else "")
+    tm = f'<span class="kinola-event-time">{time}</span>' if time_span else ""
+    return (f'<div class="kinola-event">{img}<div class="kinola-event-details">'
+            f'<a class="kinola-event-title" href="https://kinokonepaja.fi/film/{slug}/">'
+            f'<h6 class="kinola-event-title-text"> {title} </h6></a>'
+            f'<div class="kinola-event-dates"><h6><span class="kinola-event-date">{date}<br>'
+            f'</span>{tm}</h6></div><button class="kinola-event-button wp-element-button">'
+            f'<a class="kinola-event-tickets-link" '
+            f'href="https://kinokonepaja.fi/checkout/{uuid}">Osta lippu</a></button>'
+            f'</div></div>')
+
+
+# The "TULOSSA" grid after the event list. Its anchors carry the event title class too.
+KONEPAJA_TULOSSA = (
+    '<div id="tulossa"><h2>TULOSSA</h2><div class="kinola-films"><div class="kinola-film">'
+    '<a href="https://kinokonepaja.fi/film/wild-horse-nine/"><img decoding="async" '
+    'src="https://media.kinola.ee/storage/konepaja.kinola.ee/3681/wild-horse-nine_poster.jpg"'
+    ' alt="Wild Horse Nine" /></a><div class="kinola-film-details">'
+    '<a class="kinola-event-title" href="https://kinokonepaja.fi/film/wild-horse-nine/">'
+    '<h6 class="kinola-event-title-text">Wild Horse Nine</h6></a></div></div></div></div>')
+
+
+def konepaja_listing(*rows):
+    return ("<html><body>" + FILTERS + '<div class="kinola-event-filtered kinola-events">'
+            + "".join(rows) + "</div>" + KONEPAJA_TULOSSA + "</body></html>")
+
+
+def konepaja_film(director="Paolo Sorrentino", rating="K-7", lang="italia",
+                  subs="suomi, ruotsi", kesto="2 t 13 min"):
+    """Konepaja's film page: the colon inside each `<strong>` label, the logo as og:image."""
+    def label(k, v):
+        return f"<strong>{k}: </strong>\n {v} <br>\n"
+    parts = ["<strong>La Grazia</strong> <br>",
+             label("Alkuperäinen nimi", "<em>La Grazia</em>"),
+             label("Julkaisuvuosi", "2025"), label("Kesto", f"<em>{kesto}</em>")]
+    if director:
+        parts.append(label("Ohjaus", director))
+    parts += [label("Kieli", lang), label("Tekstitys", subs), label("Ikäraja", rating),
+              '<strong>Sisältää: </strong><div class="meta-icons"><img decoding="async" '
+              'src="https://kinokonepaja.fi/wp-content/themes/kino-konepaja-theme/dist/'
+              f'rating-k17.png" alt="{rating}"></div><br>']
+    return (f'<html><head><meta property="og:image" content="{KONEPAJA_LOGO}" /></head>'
+            f'<body><section class="kinola-film-meta"><div class="kinola-synopsis">'
+            f'<p>{SYN_FI_TEXT}</p></div><div class="kinola-details">' + "".join(parts)
+            + "</div></section></body></html>")
+
+
+KONEPAJA_FILM_A = konepaja_film()
+# Archipielago's shape: no Ohjaus, no Lajityyppi, and "Not rated".
+KONEPAJA_FILM_B = konepaja_film(director="", rating="Not rated", lang="espanja",
+                                subs="englanti", kesto="1 t 30 min")
+
+
+class KonepajaListingTest(unittest.TestCase):
+    TODAY = datetime.date(2026, 10, 13)         # a Tuesday
+
+    def rows(self, *rows, today=None):
+        return K.events_konepaja(konepaja_listing(*rows), KONEPAJA, today or self.TODAY)
+
+    def test_the_date_and_time_spans_are_read_together(self):
+        rows = self.rows(
+            konepaja_row("la-grazia", "La Grazia", self.TODAY, uuid="u-1"),
+            konepaja_row("digger", "Digger", datetime.date(2026, 11, 4), time="21:00",
+                         uuid="u-2"))
+        self.assertEqual([(r["slug"], r["title"], r["start"], r["url"]) for r in rows],
+                         [("la-grazia", "La Grazia", "2026-10-13T17:00:00+03:00",
+                           "https://kinokonepaja.fi/checkout/u-1"),
+                          ("digger", "Digger", "2026-11-04T21:00:00+02:00",
+                           "https://kinokonepaja.fi/checkout/u-2")])
+        self.assertEqual([r["soldOut"] for r in rows], [False, False])
+
+    def test_a_january_row_read_in_december_lands_next_year(self):
+        rows = self.rows(konepaja_row("a", "A", None, date="ti 15.12."),
+                         konepaja_row("b", "B", None, date="pe 8.1.", time="18:00"),
+                         today=datetime.date(2026, 12, 14))
+        self.assertEqual([r["start"] for r in rows],
+                         ["2026-12-15T17:00:00+02:00", "2027-01-08T18:00:00+02:00"])
+
+    def test_the_tulossa_grid_adds_no_row_and_leaves_the_last_row_its_own(self):
+        rows = self.rows(konepaja_row("la-grazia", "La Grazia", self.TODAY),
+                         konepaja_row("digger", "Digger", self.TODAY, time="19:00"))
+        self.assertEqual(len(rows), 2)
+        last = rows[-1]
+        self.assertEqual((last["slug"], last["title"], last["img"]),
+                         ("digger", "Digger", konepaja_poster_url("digger")))
+
+    def test_the_poster_is_the_rows_unclassed_image(self):
+        [a, b] = self.rows(konepaja_row("la-grazia", "La Grazia", self.TODAY),
+                           konepaja_row("digger", "Digger", self.TODAY, time="19:00"))
+        self.assertEqual([a["img"], b["img"]],
+                         [konepaja_poster_url("la-grazia"), konepaja_poster_url("digger")])
+
+    def test_a_last_row_with_no_image_takes_none_from_the_tulossa_grid(self):
+        [a, b] = self.rows(konepaja_row("la-grazia", "La Grazia", self.TODAY),
+                           konepaja_row("digger", "Digger", self.TODAY, time="19:00",
+                                        poster=False))
+        self.assertEqual((a["img"], b["img"]), (konepaja_poster_url("la-grazia"), ""))
+
+    def test_a_block_without_its_time_span_fails_the_site(self):
+        with self.assertRaises(K.ListingRowError) as e:
+            self.rows(konepaja_row("la-grazia", "La Grazia", self.TODAY),
+                      konepaja_row("digger", "Digger", self.TODAY, time_span=False))
+        self.assertIn("block 2", str(e.exception))
+        self.assertIn("no readable date for 'Digger'", str(e.exception))
+
+
+class KonepajaFilmPageTest(unittest.TestCase):
+    def test_a_colon_inside_the_label_still_reads_the_label(self):
+        facts = K.film_facts(KONEPAJA_FILM_A, "konepaja")
+        self.assertEqual((facts["labels"].get("ohjaus"), facts["labels"].get("kieli")),
+                         ("Paolo Sorrentino", "italia"))
+        self.assertEqual(K.default_state(facts), K.FILM)
+
+    def test_hours_written_with_t_are_hours(self):
+        self.assertEqual(K._minutes("2 t 13 min"), "133")
+        self.assertEqual(K.film_facts(KONEPAJA_FILM_A, "konepaja")["len"], "133")
+        self.assertEqual(K.film_facts(KONEPAJA_FILM_B, "konepaja")["len"], "90")
+
+    def test_the_rating_is_the_labelled_value(self):
+        for rating, want in (("K-7", "K-7"), ("K-16", "K-16"), ("S", "S"),
+                             ("Not rated", "")):
+            with self.subTest(rating=rating):
+                facts = K.film_facts(konepaja_film(rating=rating), "konepaja")
+                self.assertEqual(facts["rating"], want)
+
+    def test_the_language_tags(self):
+        self.assertEqual(K.film_facts(KONEPAJA_FILM_A, "konepaja")["lang"],
+                         "IT-A, FI-S, SV-S")
+
+    def test_the_og_image_logo_and_the_synopsis_are_not_taken(self):
+        facts = K.film_facts(KONEPAJA_FILM_A, "konepaja")
+        self.assertEqual((facts["img"], facts["syn"]), ("", ""))
+
+    def test_a_page_with_no_director_or_genre_stays_unresolved_and_unrated(self):
+        facts = K.film_facts(KONEPAJA_FILM_B, "konepaja")
+        self.assertEqual(K.default_state(facts), K.UNRESOLVED)
+        self.assertEqual(facts["rating"], "")
+
+
+class KonepajaParseTest(unittest.TestCase):
+    def test_the_film_publishes_with_the_listing_poster_and_the_unresolved_one_does_not(self):
+        today = datetime.datetime.now(K.FI).date()
+        d1, d2 = today + datetime.timedelta(days=1), today + datetime.timedelta(days=20)
+        page = konepaja_listing(
+            konepaja_row("la-grazia", "La Grazia", d1, uuid="u-1"),
+            konepaja_row("archipielago", "Cinemaissi: Archipielago", d1, time="19:00",
+                         uuid="u-2"),
+            konepaja_row("la-grazia", "La Grazia", d2, poster=False, uuid="u-3"))
+        per, om = K.parse(KONEPAJA, page, {"la-grazia": KONEPAJA_FILM_A,
+                                           "archipielago": KONEPAJA_FILM_B}, {})
+        shows = per["konepaja-helsinki"]
+        self.assertEqual([(s["url"], s["len"], s["rating"], s["lang"]) for s in shows],
+                         [("https://kinokonepaja.fi/checkout/u-1", "133", "K-7",
+                           "IT-A, FI-S, SV-S"),
+                          ("https://kinokonepaja.fi/checkout/u-3", "133", "K-7",
+                           "IT-A, FI-S, SV-S")])
+        self.assertEqual([s["img"] for s in shows], [konepaja_poster_url("la-grazia"), ""])
+        self.assertFalse(any("_syn" in s for s in shows))
+        self.assertEqual((om["unresolved_films"], om["unresolved_shows"]),
+                         ({"Cinemaissi: Archipielago"}, 1))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -307,6 +307,10 @@ MYYRI_DATE_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.\s
 SHERYL_DATE_RE = re.compile(r'\b(mon|tue|wed|thu|fri|sat|sun|ma|ti|ke|to|pe|la|su),\s*'
                             r'(\d{1,2})\.(\d{1,2})\s+(\d{1,2})[:.](\d{2})', re.I)
 EN_WEEKDAYS = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
+# Kino Konepaja's `ti 13.10.` date span and `17:00` time span, joined by `_events_no_year`.
+KONEPAJA_DATE_RE = re.compile(r'\b(ma|ti|ke|to|pe|la|su)\s+(\d{1,2})\.(\d{1,2})\.?\s+'
+                              r'(\d{1,2})[:.](\d{2})', re.I)
+IMG_RE = re.compile(r'<img\b[^>]*>', re.I)
 
 
 def _sheryl_weekday(name):
@@ -322,11 +326,12 @@ MIN_RE = re.compile(r'(\d{1,3})\s*min\b', re.I)
 # `2 h 30 min` on Myyri's pages, `106 min` on the other two. `MIN_RE` alone takes the 30
 # out of the first and publishes a 150 minute film as 30. Checked against the committed
 # data 2026-09-18: Kilta and Laika runtimes are all 76 to 145, so neither moves.
-HM_RE = re.compile(r'(\d{1,2})\s*h\s*(\d{1,2})\s*min\b', re.I)
+HM_RE = re.compile(r'(\d{1,2})\s*[ht]\s*(\d{1,2})\s*min\b', re.I)
 DT_DD_RE = re.compile(r'<dt[^>]*>(.*?)</dt>\s*<dd[^>]*>(.*?)</dd>', re.S | re.I)
-STRONG_RE = re.compile(r'<strong[^>]*>\s*([A-Za-zÄÖÅäöå]{3,20})\s*</strong>\s*(?:<br\s*/?>)?'
-                       r'(.*?)(?=<strong|<br\s*/?>\s*<br|<p[\s>]|</div>|$)', re.S | re.I)
+STRONG_RE = re.compile(r'<strong[^>]*>\s*([A-Za-zÄÖÅäöå]{3,20})\s*:?\s*</strong>\s*'
+                       r'(?:<br\s*/?>)?(.*?)(?=<strong|<br\s*/?>\s*<br|<p[\s>]|</div>|$)', re.S | re.I)
 KILTA_RATING_RE = re.compile(r'alt=["\']Ikäraja:\s*([^"\']+)["\']', re.I)
+KONEPAJA_RATING_RE = re.compile(r"K-\d{1,2}|S")
 LAIKA_RATING_RE = re.compile(r'\bK-?(\d{1,2})\b|(?<![A-Za-zÄÖÅäöå])(S)(?![A-Za-zÄÖÅäöå])')
 OG_IMAGE_RE = re.compile(r'<meta[^>]*property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']'
                          r'|<meta[^>]*content=["\']([^"\']+)["\'][^>]*property=["\']og:image["\']', re.I)
@@ -422,7 +427,7 @@ def blocks(page):
     return out
 
 
-def poster_src(block, base):
+def poster_src(block, base, tag_re=POSTER_RE):
     """The row's poster as an absolute URL, or "" when it states none.
 
     A lazy-loading theme puts the real address in `data-src` and a placeholder in `src`:
@@ -430,13 +435,19 @@ def poster_src(block, base):
     and a `data:` value is never taken, which leaves the film page's `og:image` to supply
     the poster.
     """
-    pm = POSTER_RE.search(block)
+    pm = tag_re.search(block)
     for rx in (DATA_SRC_RE, PLAIN_SRC_RE):
         m = rx.search(pm.group(0)) if pm else None
         value = html_mod.unescape(m.group(1)).strip() if m else ""
         if value and not value.lower().startswith("data:"):
             return urljoin(base, value)
     return ""
+
+
+def konepaja_poster(block, base):
+    """Konepaja's row image has no class, and only one before the title link is the row's own."""
+    m = TITLE_RE.search(block)
+    return poster_src(block[:m.start()] if m else "", base, IMG_RE)
 
 
 def _title_and_slug(block, base):
@@ -520,8 +531,8 @@ def events_laika(page, site):
     return out
 
 
-def _events_no_year(page, site, today, date_re, weekday):
-    """The body Myyri and Sheryl share: a block yields a row or raises.
+def _events_no_year(page, site, today, date_re, weekday, poster=poster_src):
+    """The body Myyri, Sheryl and Konepaja share: a block yields a row or raises.
 
     Neither row prints a year, so the weekday selects it through `resolve_year`. A weekday
     no candidate year carries, or a date outside `MYYRI_WINDOW`, raises: a block this
@@ -537,7 +548,9 @@ def _events_no_year(page, site, today, date_re, weekday):
     out = []
     for n, b in enumerate(blocks(page)):
         title, slug, film_url = _title_and_slug(b, site["base"])
-        dtxt = _one(SPAN_CLASS_RE, "kinola-event-date", b)
+        # Konepaja prints the time in its own span; the other two templates have none.
+        dtxt = " ".join(t for t in (_one(SPAN_CLASS_RE, "kinola-event-date", b),
+                                    _one(SPAN_CLASS_RE, "kinola-event-time", b)) if t)
         d = date_re.search(dtxt)
         if not title:
             raise _row_fault(site, n, "title link")
@@ -559,7 +572,7 @@ def _events_no_year(page, site, today, date_re, weekday):
                     "start": start.isoformat(),
                     "url": film_url if sold else _destination(b, site["base"], film_url)[0],
                     "soldOut": sold,
-                    "method": "", "len": "", "img": poster_src(b, site["base"])})
+                    "method": "", "len": "", "img": poster(b, site["base"])})
     return out
 
 
@@ -571,8 +584,13 @@ def events_sheryl(page, site, today=None):
     return _events_no_year(page, site, today, SHERYL_DATE_RE, _sheryl_weekday)
 
 
+def events_konepaja(page, site, today=None):
+    return _events_no_year(page, site, today, KONEPAJA_DATE_RE, weekday_index,
+                           konepaja_poster)
+
+
 TEMPLATES = {"kilta": events_kilta, "laika": events_laika, "myyri": events_myyri,
-             "sheryl": events_sheryl}
+             "sheryl": events_sheryl, "konepaja": events_konepaja}
 
 
 def syn_value(site, text):
@@ -708,12 +726,20 @@ def film_facts(page, template=None):
     withheld = 0
     if template == "kilta":
         syn, withheld = kilta_synopsis(page)
+    rating = _rating(page, head)
+    if template == "konepaja":
+        # Some Konepaja film pages carry event copy in the synopsis block, so none is read yet.
+        syn = ""
+        v = facts.get("ikäraja", "")
+        rating = v if KONEPAJA_RATING_RE.fullmatch(v) else ""
     lang, unread = _lang(facts)
     # Kilta's `og:image` is a film still, not a poster: all 40 films read 2026-10-04 were
     # landscape (342x143 to 342x250 mirrored), one named "still2_photo_by_...". The page
     # carries no other image, so nothing is published and the TMDB pass gives the poster.
-    img = (og.group(1) or og.group(2)) if og and template != "kilta" else ""
-    return {"labels": facts, "rating": _rating(page, head),
+    # Konepaja's `og:image` is the site logo on every film page; its poster is the row's.
+    img = ((og.group(1) or og.group(2)) if og and template not in ("kilta", "konepaja")
+           else "")
+    return {"labels": facts, "rating": rating,
             "len": dur,
             "genres": facts.get("lajityyppi", ""),
             "img": img,
