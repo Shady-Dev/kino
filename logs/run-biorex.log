@@ -24,8 +24,8 @@
 [biorex] BioRex Tornio: 107 showtimes, 23 dates
 [biorex] BioRex Vaasa: 147 showtimes, 23 dates
 [biorex] synopses merged: 0
+[run] venuelists-cloud.json rewritten
 [run] http: 0 revalidated (304), 45 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- biorex.fi
 [run] biorex: 12 venues, 1516 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 129.3s of fetching added up across workers that overlap, longest site 129.3s, longest queue wait 0.0s, 129.3s wall from this module's first fetch starting to its last ending
 exit=0

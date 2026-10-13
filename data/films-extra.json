@@ -2194,12 +2194,14 @@
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
   "kerro kaikille suomeksi tekstitetty": {
+   "id": 1304530,
+   "img": "data/posters/133d5c0758982817.jpg",
    "r": 0,
    "s": {
     "en": "",
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
   },
   "kerro se kaikille": {
    "id": 1304530,
@@ -3668,6 +3670,19 @@
    "s": {
     "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
     "fi": "Neljä ystävää matkustaa yhdessä Italiaan, missä Eva on perinyt oliivitilan. Tarkoituksena on myydä tila, mutta perillä herää kysymys: mitä heillä oikeastaan on Ruotsissa, minkä vuoksi palata takaisin? Italiassa sen sijaan on aurinkoa, hyvää ruokaa ja hurmaavia kyläläisiä. Eikö juuri nyt olisi aika tarttua hetkeen ja…"
+   },
+   "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
+   "ts": [
+    "en"
+   ]
+  },
+  "matka piemonteen resan till piemonte": {
+   "id": 1545391,
+   "img": "data/posters/e753668f77270e2f.jpg",
+   "r": 0,
+   "s": {
+    "en": "The film follows four newly retired people who travel to Italy to help Eva sell an olive farm she inherited. But during their sunny stay, new thoughts arise about life, freedom and the dreams they have yet to realize. The trip becomes a chance to reevaluate what really matters when you reach the second half of life.",
+    "fi": ""
    },
    "tr": "https://www.youtube.com/watch?v=9U5Kwlm4KcQ",
    "ts": [
