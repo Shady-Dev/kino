@@ -37,6 +37,17 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 - **Next action:** none from these.
 
+### Chain accents: per-theme shades and 4 px markers
+
+Decided 2026-10-13 by the maintainer: 4 px solid chain markers that keep the ticket's
+rounded corners, a light and a dark shade per chain keyed by its id, a 3:1 contrast target
+against the surfaces a marker touches, and readable cinema names and chain filters as
+before. The palette is not approved. The first candidate failed a visual review at 4 px,
+where three dark shades read alike in the capital-region row. The dashed-marker growth
+fallback is not adopted and stays an alternative. Kino Konepaja, Kino Kulttuurimylly and
+Kannusali wait on the palette for their registry entries.
+**Next action:** one palette pass under a frozen constraint specification, two candidates.
+
 ### Heureka's own posters still wait for written permission
 
 The initials tiles are gone. Three planetarium films draw Leffavuoro's own title cards as
