@@ -694,12 +694,16 @@
   },
   "calle malaga muistojeni katu": {
    "id": 1399462,
-   "r": 0,
+   "img": "data/posters/9019d907c9f510df.jpg",
+   "r": 7.4,
    "s": {
-    "en": "",
+    "en": "An aging Spanish woman in Tangier resists her daughter's plan to sell her home. She fights to keep her home, reclaims belongings and rediscovers love and desire.",
     "fi": "María Ángeles on aina asunut Tangerin kaupungissa Pohjois-Marokossa. Eläkkeellä olevan naisen aviomies on kuollut jo vuosia sitten ja tytär asuu Madridissa lastensa kanssa. Hän nauttii päivittäisistä rutiineistaan rakkaan kotikaupunkinsa monikulttuurisessa ympäristössä. Kun hänen tyttärensä yllättäen ilmoittaa aikovansa myydä hänen Málaga-kadulla sijaitsevan asuntonsa, María Ángelesin koko elämä uhkaa muuttua. Edessä on muutto joko Madridiin tai vanhainkotiin. Yrittäessään pitää kiinni kodistaan ja muistoistaan hän joutuu kohtaamaan vaikeuksia, mutta tilanne tuo mukanaan myös iloa ja uuden rakkauden. Elokuva vie katsojan elämänmyönteiselle matkalle pitkin Marokon katuja. Calle Málaga - muistojeni katu on palkitun marokkolaisohjaaja Maryam Touzanin ensimmäinen espanjankielinen elokuva. Touzanin edellinen elokuva Kaftaanin sini oli Marokon Oscar-ehdokkaana 2022. Calle Málagan pääosassa nähdään espanjalaisen elokuvan legenda ja Pedro Almodóvarin luottonäyttelijänä tunnettu Carmen Maura."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=FwtLBQpAnk0",
+   "ts": [
+    "en"
+   ]
   },
   "calle málaga muistojeni katu": {
    "id": 1399462,
@@ -819,12 +823,17 @@
    ]
   },
   "couture muodin ehdoilla": {
-   "r": 0,
+   "id": 1390382,
+   "img": "data/posters/43db8f830e854ac2.jpg",
+   "r": 6.2,
    "s": {
-    "en": "",
+    "en": "An American filmmaker faces challenges and self-discovery as she arrives in Paris for Fashion Week on a life-and-death journey.",
     "fi": "Angelina Jolie tähdittää Pariisin muotiviikkojen kiihkeään sykkeeseen sijoittuvaa eleganttia draamaelokuvaa Couture – Muodin ehdoilla. Elokuva punoo yhteen kolmen naisen kohtalot. Maxine on amerikkalainen elokuvantekijä, joka saa vakavan sairausdiagnoosin ja ajautuu odottamattomaan suhteeseen tutun yhteistyökumppaninsa kanssa. Ada on nouseva malli, joka pakenee ennalta määrättyä tulevaisuuttaan Etelä-Sudanissa. Angèle työskentelee meikkaajana muotinäytösten kulissien takana. Naisten kohtaloiden risteytyessä elokuva paljastaa muotimaailman näyttävän pinnan alla piilevän hiljaisen sitkeyden. Se kunnioittaa sanatonta yhteenkuuluvuuden tunnetta, joka yhdistää näitä kolmea naista ammatin, kulttuurin ja maanosien yli."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=lSw01dbUFXg",
+   "ts": [
+    "en"
+   ]
   },
   "coyote vs acme": {
    "id": 1204680,
@@ -1179,12 +1188,16 @@
   },
   "father mother sister brother": {
    "id": 1159206,
-   "r": 0,
+   "img": "data/posters/9748f77855a4de36.jpg",
+   "r": 6.4,
    "s": {
-    "en": "",
+    "en": "Estranged siblings reunite after years apart, forced to confront unresolved tensions and reevaluate their strained relationships with their emotionally distant parents.",
     "fi": "Father Mother Sister Brother kuvaa aikuisten lasten ja heidän vanhempiensa välisiä monimutkaisia suhteita. Tarinat sijoittuvat nykyaikaan ja kolmeen eri paikkaan; Yhdysvaltain koillisosiin, Dubliniin ja Pariisiin. Father: Sisarukset Jeff (Adam Driver) ja Emily (Mayim Bialik) vierailevat eristäytyneen ja mahdollisesti varattoman isänsä (Tom Waits) luona. Vierailun aikana he alkavat epäillä isänsä teeskentelevän kurjuuttaan ja huomaavat tämän ranteessa arvokkaan Rolex-kellon. Mother: Sisarukset Timothea (Cate Blanchett) ja Lilith (Vicky Krieps) vierailevat kirjailijaäitinsä (Charlotte Rampling) luona iltapäiväteellä. Tarina keskittyy pinnan alla kyteviin jännitteisiin ja siihen, mitä jätetään sanomatta perinteisten rituaalien äärellä. Sister Brother: Kaksoset Skye (Indya Moore) ja Billy (Luka Sabbat) siivoavat edesmenneiden vanhempiensa asuntoa. He käyvät läpi muistoja ja tavaroita, löytäen uusia puolia vanhemmistaan ja perheensä historiasta. Elokuva piirtää inhimillisen kuvan perheestä, läheisyydestä ja etäisyydestä lempeällä huumorilla, johon sekoittuu melankolian sävyjä."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
+   "ts": [
+    "en"
+   ]
   },
   "faust": {
    "id": 10728,
@@ -1849,6 +1862,14 @@
    },
    "tr": ""
   },
+  "joni mitchell hejira 50th anniversary": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Uppoudu tähän Joni Mitchellin jazz-teokseen Pitchblack Playbackin pilkkopimeässä kuuntelusessiossa, kun juhlimme albumin 50. juhlavuotta. Kuule tämä pysäyttävä teos järisyttävällä äänentoistojärjestelmällämme, pakkaamattomana ja kovalla äänenvoimakkuudella. Ei häiriötekijöitä – vain sinä ja musiikki."
+   },
+   "tr": ""
+  },
   "joulutarina": {
    "id": 21501,
    "img": "data/posters/e1d133e1143a30e5.jpg",
@@ -2143,6 +2164,7 @@
     "laitilankino",
     "leffabuumi",
     "lieksankino",
+    "marita",
     "matintupa",
     "niagara",
     "orion",
@@ -2543,7 +2565,6 @@
     "kinopirtti",
     "kirkkonummi",
     "kkino",
-    "savonkinot",
     "star",
     "tapiola"
    ],
@@ -2589,16 +2610,12 @@
   },
   "kojootti vs acme englanniksi": {
    "id": 1204680,
-   "img": "data/posters/2cb6f7dbe10cca53.jpg",
-   "r": 7.5,
+   "r": 0,
    "s": {
-    "en": "After Acme products fail him one too many times in his dogged pursuit of the Roadrunner, Wile E. Coyote decides to hire a billboard lawyer to sue the Acme Corporation.",
+    "en": "",
     "fi": "Vuosikymmenten ajan pommien räjäyttämä, dynamiitin murskaama, magneettien runtelema, siirtolohkareiden litistämä, junien tallaama, tunneleiden huijaama, jousien sinkoama, höyryjyrien yliajama, viallisten laitteiden pettämä, benjiköysien kiusaama, rakettien riepottelema, lepakkoasujen selkäänpuukottama, rakettiluistinten paiskoma, yksipyöräisten kumoama, maanjäristyspillereiden tärisyttämä, villiintyneiden kuminauhojen venyttämä ja lounaisten Yhdysvaltojen jokaiselta jyrkänteeltä syösty Kelju K. Kojootti saa viimein tarpeekseen ja päättää iskeä takaisin. Mainostauluonnettomuuksiin erikoistuneen asianajajan Kevin Averyn (Will Forte) kanssa liittoutuessaan hän haastaa oikeuteen ACME Inc.:n – ahneuttaan tavoittelevan jättiyhtiön, jonka tuotteet ovat olleet jokaisen Kojoottia kohdanneen katastrofin taustalla – sekä yhtiötä edustavan lipevän yritysjuristin Buddy Cranen (John Cena)."
    },
-   "tr": "https://www.youtube.com/watch?v=kMsiD1Nky5I",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "kojootti vs acme orginaali äänillä": {
    "id": 1204680,
@@ -2905,6 +2922,30 @@
    ]
   },
   "kuvi kanal kirottujen tie": {
+   "id": 1405469,
+   "r": 0,
+   "s": {
+    "en": "A boy searches for his lost dog in a forest. His suspicions of a tiger’s presence reveal an illegal hunter’s activities.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
+  "kuvi ristiinnaulitut rakastavaiset": {
+   "id": 1405469,
+   "r": 0,
+   "s": {
+    "en": "A boy searches for his lost dog in a forest. His suspicions of a tiger’s presence reveal an illegal hunter’s activities.",
+    "fi": ""
+   },
+   "tr": "",
+   "ts": [
+    "en"
+   ]
+  },
+  "kuvi zombie ja kummitusjuna": {
    "id": 1405469,
    "r": 0,
    "s": {
@@ -3840,9 +3881,11 @@
    "kr": "K-12",
    "krs": [
     "biorex",
+    "biosade",
     "julia",
     "kinohirvi",
-    "kuvakukko"
+    "kuvakukko",
+    "savonkinot"
    ],
    "r": 7.7,
    "s": {
@@ -4730,6 +4773,7 @@
     "biorex",
     "engel",
     "isohannu",
+    "kinoakseli",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -4771,6 +4815,7 @@
     "biorex",
     "engel",
     "isohannu",
+    "kinoakseli",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -4957,6 +5002,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "marita",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5000,6 +5046,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "marita",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5065,6 +5112,7 @@
     "kuvakukko",
     "laitilankino",
     "lieksankino",
+    "marita",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5200,6 +5248,7 @@
     "biogrand",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "cine",
     "cinemantsala",
     "gilda",
@@ -5219,6 +5268,7 @@
     "kinopirtti",
     "kinovirta",
     "leffabuumi",
+    "marita",
     "niagara",
     "orion",
     "savonkinot",
@@ -6298,13 +6348,17 @@
   },
   "spa weekend": {
    "id": 1341138,
-   "r": 0,
+   "img": "data/posters/ec9b1a80640c3124.jpg",
+   "r": 6.8,
    "s": {
-    "en": "",
+    "en": "Four lifelong friends realize that somewhere between careers, relationships, families, and everyday responsibilities, they’ve forgotten how to take care of themselves and each other. Burned out and overdue for a break, the women escape to a luxury spa retreat for an unforgettable weekend dedicated to fun, laughter, and a lot of really bad decisions.",
     "fi": "Kauhea kankkunen ja Bad Moms ‑elokuvien käsikirjoittajien uudessa komediassa Spa Weekend kolme ystävystä lähtevät rentouttavalle kylpyläviikonlopulle, mutta kaikki karkaa käsistä, kun heidän katastrofikaverinsa liittyy seuraan – luvassa on hulvaton kaaos. Pääosissa Leslie Mann, Isla Fisher, Michelle Buteau ja Anna Faris.",
     "sv": "Tre barndomsvänner, Jane, Coco och Sophie, ser fram emot en lyxig helg fylld av spabehandlingar, lugn och egentid. Men när deras kaotiska vän Mel oväntat dyker upp, förvandlas avslappning snabbt till fullkomligt kaos. \"Spa Weekend\" är en sprudlande komedi om vänskap, missöden och de skratt som bara uppstår när allt går helt fel."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=AhsA9ZqRAXQ",
+   "ts": [
+    "en"
+   ]
   },
   "spider man brand new day": {
    "id": 969681,
@@ -6379,6 +6433,7 @@
     "kinotar",
     "kotkanleffat",
     "leffabuumi",
+    "savonkinot",
     "sheryl",
     "star",
     "studio123jarvenpaa",
@@ -6709,6 +6764,7 @@
    "krs": [
     "biorex",
     "biorexkokkola",
+    "engel",
     "gilda",
     "kinoaurora",
     "kinokilta",
@@ -6725,6 +6781,34 @@
     "fi": "Ainutlaatuinen elokuvataiteen mestariteos, jonka pääosissa nähdään Oscar®-voittaja Vanessa Redgrave ja Oliver Reed. THE DEVILS on eeppinen teos pakkomielteestä ja korruptiosta - sekä yhden elokuvahistorian merkittävimmän ohjaajan, Ken Russellin, taidonnäyte. Vuosikymmeniä kielletty teos nähdään nyt ensimmäistä kertaa juuri sellaisena kuin Russell sen alun perin tarkoitti: leikkaamattomana ja sensuroimattomana - ja nyt restauroituna sekä 4K-laatuisena."
    },
    "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY"
+  },
+  "the devils 1971": {
+   "id": 31767,
+   "img": "data/posters/1f8ec30de3187d84.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex",
+    "biorexkokkola",
+    "engel",
+    "gilda",
+    "kinoaurora",
+    "kinokilta",
+    "kinopirtti",
+    "niagara",
+    "regina",
+    "sheryl",
+    "star",
+    "vaakuna"
+   ],
+   "r": 7.5,
+   "s": {
+    "en": "In 1634 France, charismatic Father Urbain Grandier becomes the target of a sexually obsessed nun’s witchcraft accusations, which corrupt church and state officials are all too happy to exploit.​​​​​​​​​​​​​​​​",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=ImeXlanF3iY",
+   "ts": [
+    "en"
+   ]
   },
   "the dog stars": {
    "id": 1384216,
@@ -6750,12 +6834,16 @@
   },
   "the end of oak street": {
    "id": 1101383,
-   "r": 0,
+   "img": "data/posters/cd5f772211d2ef21.jpg",
+   "r": 7.0,
    "s": {
-    "en": "",
+    "en": "After a mysterious cosmic event rips Oak Street from suburbia and transports their neighborhood to someplace unknown, the Platt family soon discovers that their very survival depends on them sticking together as they navigate their now unrecognizable surroundings.",
     "fi": "Kun mystinen kosminen tapahtuma repäisee Oak Streetin irti lähiöstä ja siirtää koko naapuruston tuntemattomaan paikkaan, Plattin perhe huomaa pian, että heidän eloonjääntiinsä riippuu yhdessä pysymisestä tuntemattomaksi muuttuneessa ympäristössä. THE END OF OAK STREETIN pääosissa ovat Anne Hathaway ja Ewan McGregor, mukana myös Maisy Stella ja Christian Convery. Elokuvan on ohjannut David Robert Mitchell ja tuottanut J.J. Abrams, Hannah Minghella, Jon Cohen, David Robert Mitchell, Matt Jackson ja Tommy Harper. Vastaavina tuottajina toimivat Chris Bender, Jake Weiner, Joanne Lee and Leeann Stonebreaker. Mitchellin kuvausryhmässä toimivat pääkuvaaja Michael Gioulakis, tuotantosuunnitttelija Maya Shimoguchi, leikkaaja John Axelrad, säveltäjä Michael Giacchino ja pukusuunnittelija Erin Benach. Warner Bros. Pictures esittää A Bad Robot -tuotannon, A Jackson Pictures -tuotannon, David Robert Mitchellin elokuvan: THE END OF OAK STREET. Elokuvan levittää maailmanlaajuisesti Warner Bros. Pictures."
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=u4tgctWuHc0",
+   "ts": [
+    "en"
+   ]
   },
   "the end taidekaupungin elokuvajuhlat": {
    "id": 1751439,
@@ -6873,6 +6961,7 @@
     "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
+    "savonkinot",
     "star"
    ],
    "r": 8.0,
@@ -7638,7 +7727,6 @@
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
-    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -7783,7 +7871,6 @@
     "biosavoy",
     "biovuoksi",
     "cinemantsala",
-    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",

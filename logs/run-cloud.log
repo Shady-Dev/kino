@@ -34,6 +34,6 @@
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 207.9s wall, 1552.4s of fetching added up across workers that overlap, 69 site(s) fetched
-[cloud] held at most 28 fetched site(s) and 5739 byte(s) of captured log waiting for publication
+[cloud] 230.1s wall, 1760.2s of fetching added up across workers that overlap, 69 site(s) fetched
+[cloud] held at most 30 fetched site(s) and 5800 byte(s) of captured log waiting for publication
 exit=0

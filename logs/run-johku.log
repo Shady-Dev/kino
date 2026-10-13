@@ -4,10 +4,11 @@
 [biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
 [biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 30 screening(s) in 1 schedule block(s), 14 film page(s) read
+[vihdinkino] 29 screening(s) in 1 schedule block(s), 13 film page(s) read
+[vihdinkino] left out as the page does: 1 already started, 0 not in the catalogue
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
-[vihdinkino] Vihdin Kino: 30 showtimes, 9 dates
-[vihdinkino] Vihdin Kino: 30 showtimes, 9 dates
+[vihdinkino] Vihdin Kino: 29 showtimes, 9 dates
+[vihdinkino] Vihdin Kino: 29 showtimes, 9 dates
 [vihdinkino] synopses merged: 0
 [bioforum] 28 screening(s) in 1 schedule block(s), 15 film page(s) read
 [bioforum] 1 synopsis/synopses withheld, no language settled: The Odyssey
@@ -30,8 +31,8 @@
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 77 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 76 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 160 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 211.4s of fetching added up across workers that overlap, longest site 43.2s, longest queue wait 175.4s, 65.6s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 159 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 237.0s of fetching added up across workers that overlap, longest site 50.5s, longest queue wait 198.1s, 74.5s wall from this module's first fetch starting to its last ending
 exit=0
