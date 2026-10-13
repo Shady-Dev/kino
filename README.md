@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 138 venues in 100 cities across 83 providers: Finnkino, BioRex,
+Showtimes for 138 venues in 100 cities across 86 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -79,8 +79,8 @@ small cinemas run one of a few ticketing platforms:
 | Kino Kirkkonummi | 1 | 1 | none | GitHub Actions |
 | Bio Savoy | 1 | 1 | none | GitHub Actions |
 | Cine Mäntsälä (MyCloudCinema) | 1 | 1 | none | GitHub Actions |
-| Kinola (Kilta, Laika, Myyri, Sheryl) | 4 | 4 | none | GitHub Actions; Sheryl local |
-| Johku (6 storefronts) | 6 | 6 | none | GitHub Actions |
+| Kinola (Kilta, Laika, Myyri, Sheryl, Konepaja) | 5 | 4 | none | GitHub Actions; Sheryl local |
+| Johku (7 storefronts) | 7 | 6 | none | GitHub Actions |
 | The Events Calendar | 2 | 2 | none | GitHub Actions |
 | Kino Hamina | 1 | 1 | none | GitHub Actions |
 | Kinotour | 1 | 3 | none | GitHub Actions |
@@ -95,6 +95,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino-Huovi | 1 | 1 | none | Local |
 | Kino K13 | 1 | 1 | none | GitHub Actions |
 | Kino Helios (Malmitalo) | 1 | 1 | none | GitHub Actions |
+| Kannusali (Espoo's event calendar) | 1 | 0 | none | GitHub Actions |
 
 A local machine runs the local half, normally four times a day, pushes, then
 triggers the cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -396,7 +397,7 @@ requests, as any host would.
 
 ## Data sources
 
-Schedule data belongs to the respective cinemas, the 83 providers listed at the
+Schedule data belongs to the respective cinemas, the 86 providers listed at the
 top of this page. Ratings, trailers and fallback synopses and posters come from
 TMDB. Every showtime links to the cinema's own booking page, and the footer
 credits the source being displayed.

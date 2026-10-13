@@ -3921,3 +3921,17 @@ The cloud data of 2026-10-13 09:42 UTC published `JP-A` for Two Seasons, Two Str
 Tripla and Redi, which no language table names, and the language-name test went red on the
 committed data. Gilda had sent the same code the day before. BioRex now maps `JP` to `JA`
 for audio and subtitles. One mutation red.
+
+### Kino Konepaja has no programme to read
+
+A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
+one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
+still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
+cinema is shut and reopening soon. Evidence in
+[docs/research/kinola.md](../research/kinola.md); the classifier and the
+three tenants that do publish are in this file.
+**Next action:** re-read the listing, at the front page now.
+
+**Closed 2026-10-13.** The front page lists screenings again, 43 that day, and `kinola.py`
+reads it with the `konepaja` template. The read is in
+[docs/research/kinola.md](../research/kinola.md).

@@ -15,7 +15,8 @@ Fields:
           theme is measured on its own with `python3 scripts/accent_check.py`: every
           combined-city pair clears 14.4 ΔE00 on the weakest of normal vision and two
           deuteranope models, no region's minimum drops, and every shade reaches 3:1
-          against the surfaces the marker touches. CLAUDE.md states the rules.
+          against the surfaces the marker touches. The one scoped exception is
+          `accent_check.EXCEPTION`, and CLAUDE.md states the rules.
   book    buy | reserve | door | list | admission -> footer call to action. "list" is
           for a provider with no per-show booking URL, so a showtime opens the programme
           page (Gilda). "admission" is for a venue whose screenings are included in a
@@ -688,6 +689,15 @@ PROVIDERS = [
     # `Doc Helios` is a different strand of the same house and is filtered out by subtitle.
     dict(id="helios", label="Kino Helios", host="malmitalo.fi", accent="#FE17EA",
          accentDark="#FEA0C7", book="buy", module="helios", where="cloud"),
+    # Added 2026-10-13. kinokonepaja.fi answered a non-residential fetcher that day.
+    dict(id="kinokonepaja", label="Kino Konepaja", host="kinokonepaja.fi", accent="#4D3900",
+         accentDark="#EDC200", book="buy", module="kinola", where="cloud"),
+    # Added 2026-10-13. kulttuurimylly.johku.com answered a non-residential fetcher that day.
+    dict(id="kulttuurimylly", label="Kino Kulttuurimylly", host="kulttuurimylly.johku.com",
+         accent="#326592", accentDark="#2698FE", book="buy", module="johku", where="cloud"),
+    # Added 2026-10-13. www.espoo.fi answered a non-residential fetcher that day.
+    dict(id="kannusali", label="Kannusali", host="espoo.fi", accent="#00A192",
+         accentDark="#81D7B6", book="list", module="kannusali", where="cloud"),
 ]
 
 FRONTEND_KEYS = ("id", "label", "host", "accent", "accentDark", "book")

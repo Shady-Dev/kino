@@ -336,6 +336,16 @@ THEME_KEY = {"light": "accent", "dark": "accentDark"}
 # CIELAB L* range and C*ab floor for a shade `search` proposes: the window the 2026-10-13
 # palette was chosen in. Outside it a light shade reads as black or grey.
 WINDOW = {"light": (25.0, 100.0, 20.0), "dark": (0.0, 80.0, 20.0)}
+# The maintainer's scoped exception of 2026-10-13: in this region row, a pair with one of
+# these chains may fall below FLOOR on the weakest model if it clears FLOOR in normal vision.
+EXCEPTION = {"region": "Pääkaupunkiseutu",
+             "chains": ("kinokonepaja", "kulttuurimylly", "kannusali")}
+
+
+def excepted(kind, label, a, b):
+    """True when EXCEPTION waives the weakest-model floor for this pair in this view."""
+    return (kind == "region" and label == EXCEPTION["region"]
+            and bool({a, b} & set(EXCEPTION["chains"])))
 
 
 def accents(theme="light"):

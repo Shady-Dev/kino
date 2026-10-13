@@ -301,7 +301,8 @@ returns the day list as server-rendered HTML.
   and that `widget-module.js` rendered the table. Find the code that builds the URL before
   trying URLs.
 - Kulttuurimylly is worth re-reading when its programme resumes: if the `showschedule-*`
-  array fills, the storefront HTML is the read.
+  array fills, the storefront HTML is the read. It filled, and `johku.py` reads it from
+  2026-10-13, category 2 only, because category 5 is theatre in the same building.
 - A headless render of one Engel film page was measured on 2026-09-13: 6 s to a settled
   DOM, and the widget's own table carried date, time, hall and price per screening, the
   times matching the committed rows exactly. It would need Chrome on the local machine and
@@ -316,7 +317,7 @@ Johku looked like a platform win and is not one. Three integrations, three HTML 
 Kino Tapiola got its own parser on 2026-09-05 (`scripts/providers/tapiola.py`). Kino Engel
 is read from its front page and keeps `price` and `aud` empty; the headless-render option
 was deferred by the maintainer the same day, with no more polling on the local half for
-now. KuvaTähti and Kulttuurimylly stay unread. Next step: none open.
+now. KuvaTähti stays unread, and Kulttuurimylly is read from 2026-10-13. Next step: none open.
 
 ---
 

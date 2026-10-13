@@ -13,6 +13,7 @@ import unittest
 import _ctx                                                # noqa: F401
 import common
 import kannusali as K
+import registry
 import run
 
 
@@ -231,6 +232,23 @@ class ServiceTest(unittest.TestCase):
         code, log = self.main()
         self.assertNotEqual(code, 0, log)
         self.assertEqual(self.area()["shows"][0]["title"], "Earlier")
+
+
+class RegistryTest(unittest.TestCase):
+    def test_the_registry_entry(self):
+        p = registry.by_id("kannusali")
+        self.assertIsNotNone(p, "no registry entry for kannusali")
+        self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
+                         ("Kannusali", "espoo.fi", "list", "kannusali", "cloud"))
+        self.assertEqual((p["accent"], p["accentDark"]), ("#00A192", "#81D7B6"))
+        self.assertEqual(sum(1 for q in registry.PROVIDERS
+                             if q["accent"].upper() == p["accent"].upper()), 1)
+
+    def test_the_venue_is_in_espoo_inside_the_capital_region(self):
+        """Its accent is measured against the Espoo view and the Pääkaupunkiseutu row."""
+        self.assertEqual({v["city"] for v in SITE["venues"]}, {"Espoo"})
+        self.assertIn("Espoo", next(r["cities"] for r in registry.REGIONS
+                                    if r["name"] == "Pääkaupunkiseutu"))
 
 
 class SiteTest(unittest.TestCase):

@@ -1,4 +1,4 @@
-"""Kino Kilta, Kino Laika and Kino Myyri: the policy, the templates, the overrides.
+"""The Kinola tenants: the policy, the templates, the overrides.
 
 The fixtures are the markup as read on 2026-09-15, reduced to the smallest shape that
 still exercises each rule. Two screenings minimum everywhere there is a loop or an index.
@@ -1434,6 +1434,11 @@ class RunnerTest(unittest.TestCase):
                 myyri_row("autofiktio", "Autofiktio", self.soon(2), time="17:00")),
             "https://kinomyyri.fi/film/hanuman/": myyri_film(),
             "https://kinomyyri.fi/film/autofiktio/": myyri_film(syn=SYN_FI_TEXT),
+            "https://kinokonepaja.fi/": konepaja_listing(
+                konepaja_row("la-grazia", "La Grazia", self.soon(1), uuid="u-1"),
+                konepaja_row("digger", "Digger", self.soon(2), time="19:00", uuid="u-2")),
+            "https://kinokonepaja.fi/film/la-grazia/": KONEPAJA_FILM_A,
+            "https://kinokonepaja.fi/film/digger/": KONEPAJA_FILM_A,
         }
         pages.update(over)
         return pages
@@ -1464,7 +1469,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(self.main()[0], 0)
         films = [c for c in self.calls if "/film/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
-        self.assertEqual(len(films), 6)
+        self.assertEqual(len(films), 8)
 
     PREV = {"generated": "2026-09-01T00:00:00+00:00", "dates": ["2026-09-01"],
             "horizon": "2026-09-01",
@@ -1704,14 +1709,16 @@ class RunnerTest(unittest.TestCase):
 # ---------------------------------------------------------------- registry and sites
 
 class RegistryTest(unittest.TestCase):
-    def test_the_three_registry_entries(self):
+    def test_the_cloud_registry_entries(self):
         for pid, label, host, accent, venue, city in (
                 ("kinokilta", "Kino Kilta", "kinokilta.fi", "#1D6F8B", "kilta-turku",
                  "Turku"),
                 ("kinolaika", "Kino Laika", "kinolaika.fi", "#9A3412", "laika-karkkila",
                  "Karkkila"),
                 ("kinomyyri", "Kino Myyri", "kinomyyri.fi", "#807CFC", "myyri-vantaa",
-                 "Vantaa")):
+                 "Vantaa"),
+                ("kinokonepaja", "Kino Konepaja", "kinokonepaja.fi", "#4D3900",
+                 "konepaja-helsinki", "Helsinki")):
             with self.subTest(provider=pid):
                 p = registry.by_id(pid)
                 self.assertEqual((p["label"], p["host"], p["accent"], p["book"],
@@ -1724,19 +1731,13 @@ class RegistryTest(unittest.TestCase):
                 self.assertEqual((v["id"], v["name"], v["short"], v["city"]),
                                  (venue, label, label, city))
 
-    def test_konepaja_has_no_entry_until_it_lists_a_screening(self):
-        """Re-read 2026-09-15: its event list still says "Ei tulevia tapahtumia."."""
-        self.assertIsNone(registry.by_id("kinokonepaja"))
-        self.assertNotIn("konepaja", {s["provider"] for s in K.SITES})
-        self.assertNotIn("kinokonepaja.fi", {s["base"] for s in K.SITES})
-
     def test_each_site_names_the_host_it_reads_and_they_are_paced_apart(self):
         self.assertEqual([s["base"] for s in K.SITES],
                          ["https://www.kinokilta.fi", "https://www.kinolaika.fi",
-                          "https://kinomyyri.fi", "https://sheryl.fi"])
-        # Four hosts, four groups: every tenant is its own WordPress, so nothing here
-        # shares a server and the pacing is per site.
-        self.assertEqual(len(run.host_groups(K.SITES)), 4)
+                          "https://kinomyyri.fi", "https://sheryl.fi",
+                          "https://kinokonepaja.fi"])
+        # Every tenant is its own WordPress, so nothing here shares a server.
+        self.assertEqual(len(run.host_groups(K.SITES)), 5)
 
     def test_orion_still_reads_the_third_template_and_is_untouched(self):
         """One platform, two modules. Orion's own table is not this module's business."""
@@ -1744,9 +1745,9 @@ class RegistryTest(unittest.TestCase):
         self.assertEqual(registry.by_id("orion")["module"], "orion")
         self.assertEqual(orion.parse(listing(kilta_row("a", "A"))), [])
 
-    def test_all_three_providers_share_the_one_module(self):
+    def test_every_tenant_shares_the_one_module(self):
         mods = {registry.by_id(p)["module"]
-                for p in ("kinokilta", "kinolaika", "kinomyyri")}
+                for p in ("kinokilta", "kinolaika", "kinomyyri", "sheryl", "kinokonepaja")}
         self.assertEqual(mods, {"kinola"})
 
 
@@ -1849,12 +1850,7 @@ class SherylClassifierTest(unittest.TestCase):
 
 # ---------------------------------------------------------------- Kino Konepaja
 
-# Not in SITES yet; the candidate entry from the 2026-10-13 read.
-KONEPAJA = {"provider": "kinokonepaja", "label": "Kino Konepaja",
-            "base": "https://kinokonepaja.fi", "listing": "/", "template": "konepaja",
-            "declare_syn": True,
-            "venues": [{"id": "konepaja-helsinki", "name": "Kino Konepaja",
-                        "short": "Kino Konepaja", "city": "Helsinki"}]}
+KONEPAJA = next(s for s in K.SITES if s["provider"] == "kinokonepaja")
 KONEPAJA_LOGO = ("https://kinokonepaja.fi/wp-content/uploads/2024/04/"
                  "Kino_konepaja_logo_black_light.png")
 

@@ -33,7 +33,7 @@ Check for an existing platform first. Every candidate assessed, with its evidenc
 
 - **Sun Kino:** `allproducts.json` closed (403, session required); another source untested.
   **Eventio:** closed 2026-09-19. Its one known tenant is Kino Regina, already built.
-- **Complete:** eTiketti (twenty-one), Nexxo (eight), Kinola (four), Johku (six),
+- **Complete:** eTiketti (twenty-one), Nexxo (eight), Kinola (five), Johku (seven),
   Cinemahouse (three), TMB (four), MyCloudCinema's two, Vista's one, the parser-shaped.
 - **Next action:** none from these.
 
@@ -122,17 +122,6 @@ late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub run
 All 21 Julia showtimes carry `14€ / 12€` (2026-09-24); the app and pages label it
 "alkaen 14 €" and JSON-LD says 14. The maintainer holds taking the minimum: 12 € may be a
 conditional discount. **Unblocks when:** Julia's own page says what each amount is for.
-
-### Kino Konepaja has no programme to read
-
-A real Kinola tenant publishing no screening, so it gets a `SITES` entry the day it lists
-one. Re-read 2026-09-20: `/naytokset/` now redirects to the front page, whose event list
-still says "Ei tulevia tapahtumia." above a coming-soon grid, and the site states the
-cinema is shut and reopening soon. Evidence in
-[docs/research/kinola.md](docs/research/kinola.md); the classifier and the
-three tenants that do publish are in
-[docs/archive/2026-09-providers.md](docs/archive/2026-09-providers.md).
-**Next action:** re-read the listing, at the front page now.
 
 ### Staleness monitor: the ping
 

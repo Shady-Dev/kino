@@ -1,7 +1,7 @@
-"""Six cinemas whose whole site is a Johku storefront. Stdlib only.
+"""Seven cinemas whose whole site is a Johku storefront. Stdlib only.
 
 Bio Marilyn (Lapua), Vihdin Kino (Vihti), Bio Forum (Tammisaari), Kinokulma (Oulainen),
-Kino Hannikainen (Nurmes) and Kino Virta (Kalajoki).
+Kino Hannikainen (Nurmes), Kino Virta (Kalajoki) and Kino Kulttuurimylly (Helsinki).
 
 **Not Kino Engel or Kino Tapiola.** Those are the cinema's own site with a Johku widget
 embedded in it, and the widget's show list needs its API key, which is the line "Access and
@@ -143,6 +143,12 @@ SITES = [
      "base": "https://kinovirta.johku.com", "listing": "/",
      "venues": [{"id": "kinovirta-kalajoki", "name": "Kino Virta",
                  "short": "Kino Virta", "city": "Kalajoki", "loc": "Virta-sali"}]},
+    # Added 2026-10-13. Category 2 is "Elokuvat"; category 5 is theatre in the same hall.
+    {"provider": "kulttuurimylly", "label": "Kino Kulttuurimylly",
+     "base": "https://kulttuurimylly.johku.com", "listing": "/", "categories": ("2",),
+     "venues": [{"id": "kulttuurimylly-helsinki", "name": "Kino Kulttuurimylly",
+                 "short": "Kino Kulttuurimylly", "city": "Helsinki",
+                 "loc": "Feeniks-sali (Kino Kulttuurimylly)"}]},
 ]
 
 LOCALE = "fi_FI"

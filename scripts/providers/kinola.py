@@ -1,16 +1,12 @@
-"""Kino Kilta (Turku), Kino Laika (Karkkila) and Kino Myyri (Vantaa), on Kinola.
-Stdlib only.
+"""Kino Kilta (Turku), Kino Laika (Karkkila), Kino Myyri (Vantaa), Cinema Sheryl (Espoo)
+and Kino Konepaja (Helsinki), on Kinola. Stdlib only.
 
 Kinola is the platform behind Cinema Orion's ticketing too, and `orion.py` reads its third
 front-end template, a `table.kinola-day`. Neither site here renders that table, so
 `orion.parse` returns zero on both: this is a separate module with a handler per template
 rather than two `SITES` entries. `orion.py` is unchanged.
 
-**Konepaja has no `SITES` entry.** `kinokonepaja.fi` renders the Kinola filters and a
-"tulossa" grid of film pages, and its screening list reads "Ei tulevia tapahtumia."
-Re-read 2026-09-15, which is the check the build requirements asked for; the 2026-09-14
-finding stands. It is a real tenant publishing no screening, the same position as Kino
-Kaustinen, and it gets an entry when it lists one.
+Konepaja listed no screening from 2026-09-14 until its front page did on 2026-10-13.
 
 ## The publication policy
 
@@ -236,6 +232,11 @@ SITES = [
      "listing": "/", "template": "sheryl", "declare_syn": True,
      "venues": [{"id": "sheryl-espoo", "name": "Cinema Sheryl", "short": "Cinema Sheryl",
                  "city": "Espoo"}]},
+    # Added 2026-10-13. The listing is the front page, as on Sheryl.
+    {"provider": "kinokonepaja", "label": "Kino Konepaja", "base": "https://kinokonepaja.fi",
+     "listing": "/", "template": "konepaja", "declare_syn": True,
+     "venues": [{"id": "konepaja-helsinki", "name": "Kino Konepaja", "short": "Kino Konepaja",
+                 "city": "Helsinki"}]},
 ]
 
 # `resolve_year`'s (behind, ahead) for Myyri. Its listing reached 42 days ahead on

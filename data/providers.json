@@ -665,6 +665,30 @@
    "accent": "#FE17EA",
    "accentDark": "#FEA0C7",
    "book": "buy"
+  },
+  {
+   "id": "kinokonepaja",
+   "label": "Kino Konepaja",
+   "host": "kinokonepaja.fi",
+   "accent": "#4D3900",
+   "accentDark": "#EDC200",
+   "book": "buy"
+  },
+  {
+   "id": "kulttuurimylly",
+   "label": "Kino Kulttuurimylly",
+   "host": "kulttuurimylly.johku.com",
+   "accent": "#326592",
+   "accentDark": "#2698FE",
+   "book": "buy"
+  },
+  {
+   "id": "kannusali",
+   "label": "Kannusali",
+   "host": "espoo.fi",
+   "accent": "#00A192",
+   "accentDark": "#81D7B6",
+   "book": "list"
   }
  ]
 }

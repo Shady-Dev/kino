@@ -34,7 +34,7 @@ Earlier hand-measured passes, and what each of them measured, are in
 <!-- counts:start -->
 | | |
 |---|---:|
-| providers | 83 |
+| providers | 86 |
 | venues | 138 |
 | cities | 100 |
 | cities with more than one venue | 17 |
@@ -43,5 +43,5 @@ Earlier hand-measured passes, and what each of them measured, are in
 | generated pages per language | 155 |
 | sitemap URLs | 466 |
 | off-origin poster references | 0 |
-| `sw.js` CACHE | `leffavuoro-v285` |
+| `sw.js` CACHE | `leffavuoro-v286` |
 <!-- counts:end -->
