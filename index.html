@@ -843,6 +843,9 @@
     --sq:var(--accent);
     border-top-color:var(--accent); border-right-color:var(--accent); border-bottom-color:var(--accent);
   }
+  /* A ticket with no chain marker has no chain colour to keep, so its whole frame turns. */
+  .stub:not([class*="chain-"]):hover, .stub:not([class*="chain-"]):active,
+  .stub:not([class*="chain-"]):focus-visible{border-left-color:var(--accent)}
   .stub:hover{transform:translateY(-1px)}
   .stub:active{transform:none}
   .stub.past{opacity:.45; pointer-events:none}

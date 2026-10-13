@@ -7,7 +7,8 @@ replaced a middle dot. What only a browser can check:
 - no visible square opens a line: a fact that wraps takes its square into the clipped
   margin, in the list, the film view and the Ajat meta line, at 320 and 393 px;
 - hover and keyboard focus turn the squares and the top, right and bottom edges
-  --accent, and the left edge keeps the chain's colour;
+  --accent, and the left edge keeps the chain's colour, or turns too on a ticket with no
+  chain marker;
 - a screen reader hears the facts apart: each fact but the last carries a hidden comma;
 - the footer's source, update time and booking line are three spans, and the rating
   ring's label is a phrase in each language;
@@ -107,7 +108,7 @@ class TicketSeparators(unittest.TestCase):
     def tearDownClass(cls):
         cls.browser.close(); cls.pw.stop(); cls.srv.shutdown()
 
-    def open(self, width, view="movies", theme="light"):
+    def open(self, width, view="movies", theme="light", area="city:Helsinki"):
         ctx = self.browser.new_context(viewport={"width": width, "height": 900},
                                        timezone_id="Europe/Helsinki", locale="fi-FI",
                                        service_workers="block")
@@ -116,7 +117,7 @@ class TicketSeparators(unittest.TestCase):
         page.clock.install(time=base.FIXED)
         page.add_init_script(f"localStorage.setItem('kino-prefs', JSON.stringify({{view:'{view}'}}));"
                              f"localStorage.setItem('kino-theme', '{theme}')")
-        page.goto(self.origin + "/index.html?area=city:Helsinki")
+        page.goto(self.origin + "/index.html?area=" + area)
         expect(page.locator("#main a.stub").first).to_be_visible()
         return page
 
@@ -187,6 +188,22 @@ class TicketSeparators(unittest.TestCase):
                 foc = stubs.nth(1).evaluate(probe)
                 self.assertEqual((foc["top"], foc["square"], foc["outline"]),
                                  (accent, accent, "solid"))
+
+    def test_a_ticket_with_no_chain_marker_turns_its_whole_frame_gold(self):
+        """One cinema's list draws no marker, so the left edge has no chain colour to keep
+        (reported 2026-10-14: the gold frame stopped short of it)."""
+        for theme in ("light", "dark"):
+            with self.subTest(theme=theme):
+                page = self.open(393, theme=theme, area="or-helsinki")
+                stub = page.locator("#main a.stub:not(.sold)").first
+                self.assertNotIn("chain-", stub.get_attribute("class"))
+                accent = page.evaluate("""() => { const s = document.createElement('i');
+                  s.style.color = getComputedStyle(document.documentElement)
+                    .getPropertyValue('--accent'); document.body.appendChild(s);
+                  const c = getComputedStyle(s).color; s.remove(); return c; }""")
+                stub.hover()
+                for side in ("top", "right", "bottom", "left"):
+                    expect(stub).to_have_css(f"border-{side}-color", accent)
 
     def test_a_screen_reader_hears_the_facts_apart(self):
         page = self.open(393)

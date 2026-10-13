@@ -482,6 +482,22 @@ class PagesLayoutTest(unittest.TestCase):
             getComputedStyle(e.querySelector('.fx > span + span'), '::before').backgroundColor]""")
         self.assertEqual(got, [accent, rest_left, accent])
 
+    def test_a_cinema_page_ticket_turns_its_whole_frame_gold_on_hover(self):
+        """A cinema page draws no chain marker, so the left edge turns with the rest."""
+        ctx = self.browser.new_context(viewport={"width": PHONE, "height": 900},
+                                       service_workers="block")
+        self.addCleanup(ctx.close)
+        page = ctx.new_page()
+        page.goto(self.origin + f"/teatteri/{SLUG}/")
+        stub = page.locator("a.stub").first
+        self.assertNotIn("chain-", stub.get_attribute("class"))
+        accent = page.evaluate("""() => { const i = document.createElement('i');
+            i.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+            document.body.appendChild(i); const c = getComputedStyle(i).color; i.remove(); return c; }""")
+        stub.hover()
+        for side in ("top", "right", "bottom", "left"):
+            expect(stub).to_have_css(f"border-{side}-color", accent)
+
     def test_the_city_page_draws_the_chain_shade_for_the_theme_in_force(self):
         """A stored choice wins over the OS, and with no script the OS alone decides."""
         light, dark = "rgb(31, 122, 92)", "rgb(92, 201, 160)"
