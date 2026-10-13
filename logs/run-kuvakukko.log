@@ -1,11 +1,12 @@
-[kuvakukko] film pages: 16 read for 16 films, 12 stating facts for their title
-[kuvakukko] kk-kuopio: 16 showtimes, 4 dates, 14 priced (tariff 11.5€)
+[kuvakukko] film pages: 22 read for 22 films, 14 stating facts for their title
+[kuvakukko] kk-kuopio: 39 showtimes, 9 dates, 36 priced (tariff 11.5€)
 [kuvakukko] kk-nilsia: 10 showtimes, 3 dates, 10 priced (tariff 11€)
-[kuvakukko] Kino Kuvakukko: 16 showtimes, 4 dates
+[kuvakukko] strand prefix split off 1 showtimes
+[kuvakukko] Kino Kuvakukko: 39 showtimes, 9 dates
 [kuvakukko] Kino Manttu: 10 showtimes, 3 dates
 [kuvakukko] synopses merged: 0
-[run] http: 1 revalidated (304), 17 full, 0 not stored (origin said no-store), 17 cache entries written
+[run] http: 1 revalidated (304), 23 full, 0 not stored (origin said no-store), 23 cache entries written
 [run] hosts: 1 attempted -- www.kuvakukko.fi
-[run] kuvakukko: 2 venues, 26 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 48.6s of fetching added up across workers that overlap, longest site 48.6s, longest queue wait 139.3s, 48.6s wall from this module's first fetch starting to its last ending
+[run] kuvakukko: 2 venues, 49 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 67.4s of fetching added up across workers that overlap, longest site 67.4s, longest queue wait 137.8s, 67.4s wall from this module's first fetch starting to its last ending
 exit=0

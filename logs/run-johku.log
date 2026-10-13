@@ -1,38 +1,41 @@
-[biomarilyn] 25 screening(s) in 2 schedule block(s), 14 film page(s) read
+[biomarilyn] 22 screening(s) in 2 schedule block(s), 12 film page(s) read
 [biomarilyn] 17 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
+[biomarilyn] left out as the page does: 3 already started, 0 not in the catalogue
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
-[biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
-[biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
+[biomarilyn] Bio Marilyn: 22 showtimes, 11 dates
+[biomarilyn] Bio Marilyn: 22 showtimes, 11 dates
 [biomarilyn] synopses merged: 0
-[vihdinkino] 29 screening(s) in 1 schedule block(s), 13 film page(s) read
-[vihdinkino] left out as the page does: 1 already started, 0 not in the catalogue
-[vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
-[vihdinkino] Vihdin Kino: 29 showtimes, 9 dates
-[vihdinkino] Vihdin Kino: 29 showtimes, 9 dates
+[vihdinkino] 27 screening(s) in 1 schedule block(s), 12 film page(s) read
+[vihdinkino] left out as the page does: 3 already started, 0 not in the catalogue
+[vihdinkino] Vihdin Kino: 27 showtimes, 8 dates
+[vihdinkino] Vihdin Kino: 27 showtimes, 8 dates
 [vihdinkino] synopses merged: 0
-[bioforum] 28 screening(s) in 1 schedule block(s), 15 film page(s) read
+[bioforum] 26 screening(s) in 1 schedule block(s), 14 film page(s) read
+[bioforum] left out as the page does: 2 already started, 0 not in the catalogue
 [bioforum] 1 synopsis/synopses withheld, no language settled: The Odyssey
-[bioforum] Bio Forum: 28 showtimes, 10 dates
-[bioforum] Bio Forum: 28 showtimes, 10 dates
+[bioforum] Bio Forum: 26 showtimes, 9 dates
+[bioforum] Bio Forum: 26 showtimes, 9 dates
 [bioforum] synopses merged: 0
-[kinokulma] 32 screening(s) in 1 schedule block(s), 10 film page(s) read
+[kinokulma] 31 screening(s) in 1 schedule block(s), 10 film page(s) read
+[kinokulma] left out as the page does: 1 already started, 0 not in the catalogue
 [kinokulma] 1 hall-hire title(s) over 2 row(s) left out: Salivaraus
-[kinokulma] 2 product(s) the site lists as not a film over 4 row(s) left out: Olemme vapaalla, Oulaisten Valovoima ry
+[kinokulma] 2 product(s) the site lists as not a film over 3 row(s) left out: Olemme vapaalla, Oulaisten Valovoima ry
 [kinokulma] 1 synopsis/synopses withheld, no language settled: Lapin sota
 [kinokulma] Kinokulma: 26 showtimes, 17 dates
 [kinokulma] Kinokulma: 26 showtimes, 17 dates
 [kinokulma] synopses merged: 0
-[kinohannikainen] 23 screening(s) in 1 schedule block(s), 9 film page(s) read
+[kinohannikainen] 20 screening(s) in 1 schedule block(s), 8 film page(s) read
+[kinohannikainen] left out as the page does: 3 already started, 0 not in the catalogue
 [kinohannikainen] 1 synopsis/synopses withheld, no language settled: LAPIN SOTA
-[kinohannikainen] Kino Hannikainen: 23 showtimes, 12 dates
-[kinohannikainen] Kino Hannikainen: 23 showtimes, 12 dates
+[kinohannikainen] Kino Hannikainen: 20 showtimes, 11 dates
+[kinohannikainen] Kino Hannikainen: 20 showtimes, 11 dates
 [kinohannikainen] synopses merged: 0
 [kinovirta] 28 screening(s) in 1 schedule block(s), 9 film page(s) read
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 76 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 71 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 159 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 237.0s of fetching added up across workers that overlap, longest site 50.5s, longest queue wait 198.1s, 74.5s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 149 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 184.8s of fetching added up across workers that overlap, longest site 39.9s, longest queue wait 189.9s, 62.8s wall from this module's first fetch starting to its last ending
 exit=0

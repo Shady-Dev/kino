@@ -179,13 +179,12 @@
   },
   "amadeus ohjaajan versio": {
    "id": 279,
-   "img": "data/posters/118ee5119acc82fb.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "40-VUOTISJUHLAENSI-ILTA Miloš Formanin historiallinen epookkielokuva oli ensi-illassaan 1984 valtaisa menestys ja tapaus isolla T:llä. Amadeus voitti kahdeksan Oscaria 11 ehdokkuudestaan. 40-vuotisjuhlansa kunniaksi merkkiteos nähdään nyt restauroituna 20 minuuttia pidempänä ohjaajan versiona. Keisari Joosef II:n hovisäveltäjänä arvostettu Antonio Salieri (F. Murray Abraham, parhaan miespääosan Oscar) pitää Wieniin saapunutta Wolfgang Amadeus Mozartia (Tom Hulce, parhaan miespääosan Oscar-ehdokkuus) säveltäjänerona, jolle Jumala on antanut taivaallisen lahjan luoda musiikkia. Nöyrän ja hurskaan Salierin ihailu kääntyy kuitenkin katkeruudeksi omasta keskinkertaisuudestaan säveltäjän huomatessa Mozartin rietastelevat elämäntavat. Salierin sisäinen piinaus ajaa hänet suunnittelemaan kostoa hänet hylänneelle Jumalalle – historiaa värittävässä elokuvassa mielisairaalaan joutuva vanha säveltäjä pitää Mozartin kohtaloa omana syynään. Tekstitys: suomi"
    },
-   "tr": "https://www.youtube.com/watch?v=pNnugovJdzM"
+   "tr": ""
   },
   "amrum": {
    "id": 1269644,
@@ -931,7 +930,6 @@
    "img": "data/posters/4f2ccb69b574d669.jpg",
    "kr": "K-12",
    "krs": [
-    "bioforum",
     "biogrand",
     "biomarilyn",
     "biorex",
@@ -1417,16 +1415,12 @@
   },
   "heart of the beast poistuu ohjelmistosta": {
    "id": 1263337,
-   "img": "data/posters/980bb19ce751c44c.jpg",
-   "r": 7.4,
+   "r": 0,
    "s": {
-    "en": "After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.",
+    "en": "",
     "fi": "Jouduttuaan vakavaan lentokoneonnettomuuteen entinen erikoisjoukkojen upseeri James Belmont (Brad Pitt) ja hänen taistelukoiransa Odin jäävät eristyksiin syvälle Alaskan erämaahan. Yhdessä he joutuvat armottomaan selviytymiskamppailuun luonnonvoimia vastaan. Maineikkaan ohjaaja David Ayerin Heart of the Beast on intensiivinen seikkailutrilleri, joka tutkii miehen ja hänen parhaan ystävänsä murtumatonta sidettä heidän kohdatessaan tähänastisen elämänsä suurimman taistelun."
    },
-   "tr": "https://www.youtube.com/watch?v=UkMuGKqAux4",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "hei me rokataan": {
    "id": 11031,
@@ -1610,6 +1604,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "huviretki hirttopaikalle": {
+   "id": 11020,
+   "img": "data/posters/15dbecaa3e7e8fca.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "",
+    "fi": "Elokuvaklassikko kolmesta tyttökoulun oppilaasta ja heidän opettajastaan, jotka katoavat mystisesti huviretkellä kuuluisalle kalliomuodostelmalle Australian erämaassa ystävänpäivänä vuonna 1900."
+   },
+   "tr": "https://www.youtube.com/watch?v=CFtQMzXZZQs",
+   "ts": [
+    "fi"
+   ]
   },
   "hytti nro 6": {
    "id": 588182,
@@ -3108,6 +3115,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3151,6 +3159,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3197,6 +3206,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinolaika",
     "kinolumo",
     "kinometso",
     "kinomyyri",
@@ -3267,7 +3277,6 @@
    "kr": "K-7",
    "krs": [
     "biogrand",
-    "biomarilyn",
     "biorex",
     "cine",
     "cinemantsala",
@@ -3334,16 +3343,12 @@
   },
   "late lammas hämäräpuuhissa ennakkonäytös 10": {
    "id": 1477104,
-   "img": "data/posters/93eda5fa30b7d70c.jpg",
    "r": 0,
    "s": {
-    "en": "On Halloween Eve at Mossy Bottom Farm, excitement turns to dismay when the clumsy Farmer ruins the pumpkin patch. Shaun tries fixing it with science experiments, but things go wrong when a wild beast appears in the woods.",
+    "en": "",
     "fi": "Sammalperän farmin asukkaat odottavat innolla Halloweenia, mutta heidän rakkaudella kasvatettu kurpitsaviljelmä tuhoutuu juhlan kynnyksellä. Late päättää ryhtyä ”hulluksi tiedemieheksi” korjatakseen tilanteen – mikä voisikaan mennä pieleen? Kun samaan aikaan maajussi katoaa ja outo hirviö herättää kyläläisissä kauhua, on luvassa hirviömäisen hauska komedia, jossa ei kommelluksilta vältytä."
    },
-   "tr": "https://www.youtube.com/watch?v=daZMq0AyOMc",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "laula minulle arja": {
    "id": 1713056,
@@ -3403,6 +3408,24 @@
    "tr": ""
   },
   "lilla spöket laban busar vidare": {
+   "kr": "S",
+   "krs": [
+    "bioforum",
+    "biomarilyn",
+    "biopallas",
+    "biorex",
+    "engel",
+    "isohannu",
+    "kinoakseli",
+    "kinokulma",
+    "kinolumo",
+    "kinomarilyn",
+    "kinoolympia",
+    "kinopiispanristi",
+    "kinoset",
+    "kinovirta",
+    "vaakuna"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3814,19 +3837,6 @@
    },
    "tr": ""
   },
-  "mll näytös toy story 5 dubattu lipun hinta 2": {
-   "id": 1084244,
-   "img": "data/posters/61da1236c24613ee.jpg",
-   "r": 8.3,
-   "s": {
-    "en": "When Bonnie receives a Lilypad tablet as a gift and becomes obsessed, Buzz, Woody, Jessie and the rest of the gang's jobs become exponentially harder when they have to go head to head with the all-new threat to playtime.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=QftAW9TTmuQ",
-   "ts": [
-    "en"
-   ]
-  },
   "montreal ma belle": {
    "r": 0,
    "s": {
@@ -3991,9 +4001,11 @@
     "kinoiiris",
     "kinokilta",
     "kinomyyri",
+    "kuvakukko",
     "niagara",
     "orion",
     "star",
+    "studio123kouvola",
     "tapiola"
    ],
    "r": 8.1,
@@ -5223,7 +5235,6 @@
    "krs": [
     "biorex",
     "kinopirtti",
-    "kotkanleffat",
     "savonkinot",
     "star"
    ],
@@ -5262,7 +5273,6 @@
    "krs": [
     "biogrand",
     "biorex",
-    "biorexkokkola",
     "biosade",
     "cine",
     "cinemantsala",
@@ -5275,6 +5285,7 @@
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
+    "kinolaika",
     "kinolumo",
     "kinomarilyn",
     "kinometso",
@@ -5489,11 +5500,6 @@
   "päivien lumo": {
    "id": 1563565,
    "img": "data/posters/6bbde592472eb4e8.jpg",
-   "kr": "S",
-   "krs": [
-    "biosade",
-    "regina"
-   ],
    "r": 0,
    "s": {
     "en": "Once a beloved playmate of her childhood, Markku had withdrawn into solitude, devoting his life to inner freedom and creativity rather than the expectations of society. Now his voice returns – sometimes playful, sometimes wounded, always searching – guiding Karin through his life’s work and opening space for an unusual collaboration between the living and the dead.",
@@ -5757,6 +5763,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 7.3,
@@ -5799,6 +5806,7 @@
     "savonkinot",
     "star",
     "studio123jarvenpaa",
+    "vaakuna",
     "vihdinkino"
    ],
    "r": 7.3,
@@ -6304,6 +6312,11 @@
   "sopeutumaton": {
    "id": 1444061,
    "img": "data/posters/26b3955801497bbc.jpg",
+   "kr": "K-12",
+   "krs": [
+    "elavienkuvien",
+    "niagara"
+   ],
    "r": 0,
    "s": {
     "en": "Winner of the Audience Award at the Tampere Film Festival, Sopeutumaton is a documentary about Nadja (24), a highly sensitive young woman from Helsinki’s Kallio district who has become caught in an endless cycle of underground parties and substance use. As everyday life begins to overwhelm her and her mental well-being deteriorates, she retreats to an old hermit’s cabin on a remote island in Lake Päijänne to find some peace. Cut off from the world and from the hypersocial life she is accustomed to, Nadja is forced to confront her deepest fears. At the same time, she forms a mysterious connection with the long-deceased owner of the cabin, the legendary hermit Toivo. This marks the beginning of a journey toward breaking intergenerational patterns, understanding the unusual abilities that run in her family, and finding her way into adulthood. Through Nadja’s story, the film explores the mental well-being of young adults in contemporary society and the role of nature and self-help in healing and restoring the mind. The documentary was filmed over a period of six years.",
@@ -6436,6 +6449,8 @@
    "kr": "K-12",
    "krs": [
     "biorexkokkola",
+    "biosavoy",
+    "biovuoksi",
     "cinemantsala",
     "kino123",
     "kinoelo",
@@ -6457,7 +6472,8 @@
    "r": 0,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
-    "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi."
+    "fi": "Eletään vuotta 1993, ja toisistaan vieraantuneet tappelijat Ryu (Andrew Koji) ja Ken Masters (Noah Centineo) vedetään takaisin tappelukuvioihin, kun salaperäinen Chun-Li (Callina Liang) värvää heidät seuraavaan World Warrior -turnaukseen – armottomaan nyrkkien, kohtalon ja raivon yhteentörmäykseen. Turnauksen kulisseissa kytee vaarallinen salaliitto, joka pakottaa Ryun ja Kenin kohtaamaan sekä toisensa että menneisyytensä demonit. Muuten peli on ohi.",
+    "sv": "Street Fighter utspelas 1993, då två före detta Street Fighters, Ryu och Ken Masters, kastas in i striden igen när den mystiska Chun-Li rekryterar dem till nästa World Warrior Tournament: en brutal, ödesdiger, rasande kamp med knytnävarna. Bakom denna \"battle royale\" finns en dödlig konspiration som tvingar dem att kämpa både mot varandra och mot sitt förflutnas demoner. Gör de inte det, så är det GAME OVER!"
    },
    "tr": "https://www.youtube.com/watch?v=U6sbm1OaJb8",
    "ts": [
@@ -6974,7 +6990,6 @@
     "gilda",
     "isohannu",
     "kinohirvi",
-    "kinolumo",
     "kinopiispanristi",
     "savonkinot",
     "star"
@@ -7412,6 +7427,7 @@
     "biorex",
     "biorexkokkola",
     "cinemantsala",
+    "elavienkuvien",
     "gilda",
     "helios",
     "ihmekompleksi",
@@ -7753,7 +7769,6 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinolumo",
@@ -7897,7 +7912,6 @@
     "kinohamina",
     "kinohannikainen",
     "kinohirvi",
-    "kinojuha",
     "kinokulma",
     "kinolaika",
     "kinolumo",
@@ -8069,6 +8083,7 @@
     "biorexkokkola",
     "biosade",
     "biosavoy",
+    "biovuoksi",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -8129,6 +8144,7 @@
     "biorexkokkola",
     "biosade",
     "biosavoy",
+    "biovuoksi",
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
@@ -8242,7 +8258,8 @@
    "r": 0,
    "s": {
     "en": "Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.",
-    "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen."
+    "fi": "20th Century Studios ja Imagine Entertainment tuovat valkokankaalle elokuvan “Whalefall”. Kyseessä on suurten tunteiden selviytymistrilleri, joka kertoo nuoren miehen ja massiivisen kaskelotin kohtaamisesta. Brian Duffieldin ohjaaman elokuvan ovat käsikirjoittaneet Duffield & Daniel Kraus perustuen Krausin samannimiseen kirjaan ja sen pääosissa nähdään Austin Abrams, Josh Brolin, Elisabeth Shue, John Ortiz, Jane Levy ja Emily Rudd. Tuottajina toimivat Brian Grazer, Brian Duffield, Jeb Brody, Allan Mandelbaum sekä vastaavina tuottajina Doug Merrifield, Richard Abate ja Will Rowbotham. Menetettyään traagisesti isänsä (Josh Brolin) Jay Gardiner (Austin Abrams) lähtee keskisen Kalifornian rannikolle sukeltamaan ja etsimään tämän ruumista, mutta tulee valtavan kaskelotin nielaisemaksi. Valaan vatsassa Jay joutuu toteamaan, että hänellä riittää happea enää tunniksi, ja siinä taistelussa hänen isänsä ankarat opetukset saattavat sittenkin olla avain selviytymiseen.",
+    "sv": "På jakt efter sin avlidne fars kvarlevor blir den unge dykaren Jay uppslukad av en kaskelot och instängd i valens inre med bara en timmes syre kvar. Medan tiden rinner ut tvingas han konfrontera minnena av sin far och finna styrkan att kämpa vidare mot alla odds. Whalefall är en gripande och nervkittlande överlevnadsthriller om familj, förlust och hopp, baserad på Daniel Kraus hyllade roman."
    },
    "tr": "https://www.youtube.com/watch?v=Dw-5ZGapGTQ",
    "ts": [
