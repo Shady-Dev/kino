@@ -3915,3 +3915,9 @@ screening alone and no longer counts toward the film's amount. Two amounts for o
 screening, or a weekday that does not fit the date, leave that screening unpriced. On the
 live page that day, the 14.10. 13:30 screening read 14 € and the other four read 15 €.
 Five mutations red.
+
+### BioRex reads the audio code JP as Japanese (2026-10-13)
+The cloud data of 2026-10-13 09:42 UTC published `JP-A` for Two Seasons, Two Strangers at
+Tripla and Redi, which no language table names, and the language-name test went red on the
+committed data. Gilda had sent the same code the day before. BioRex now maps `JP` to `JA`
+for audio and subtitles. One mutation red.
