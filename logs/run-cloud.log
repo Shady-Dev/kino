@@ -1,5 +1,5 @@
 [run] venuelists-cloud.json rewritten
-[cloud] 34 module(s), 69 site(s), 67 host group(s), pool of 8
+[cloud] 35 module(s), 72 site(s), 70 host group(s), pool of 8
 [cloud] biorex: exit=0
 [cloud] nexxo: exit=0
 [cloud] etiketti: exit=0
@@ -25,7 +25,7 @@
 [cloud] kinotour: exit=0
 [cloud] marita: exit=0
 [cloud] lieksa: exit=0
-[cloud] navetta: exit=1
+[cloud] navetta: exit=0
 [cloud] vpk: exit=0
 [cloud] pallas: exit=0
 [cloud] alatalo: exit=0
@@ -34,6 +34,7 @@
 [cloud] localhub: exit=0
 [cloud] k13: exit=0
 [cloud] helios: exit=0
-[cloud] 228.9s wall, 1632.2s of fetching added up across workers that overlap, 69 site(s) fetched
-[cloud] held at most 29 fetched site(s) and 5360 byte(s) of captured log waiting for publication
-exit=1
+[cloud] kannusali: exit=0
+[cloud] 208.6s wall, 1606.3s of fetching added up across workers that overlap, 72 site(s) fetched
+[cloud] held at most 28 fetched site(s) and 5675 byte(s) of captured log waiting for publication
+exit=0

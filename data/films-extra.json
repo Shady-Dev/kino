@@ -938,7 +938,6 @@
     "cinemantsala",
     "gilda",
     "jarvelankino",
-    "kinoaurora",
     "kinoelo",
     "kinohannikainen",
     "kinohirvi",
@@ -1406,12 +1405,9 @@
    "r": 7.1,
    "s": {
     "en": "",
-    "fi": "Billy-poika saa joululahjaksi herttaisen mutta hieman erikoisen lemmikkiotuksen, jota koskevat aivan erityiset hoito-ohjeet: otus ei saa joutua tekemisiin veden kanssa, sitä ei saa altistaa valolle eikä sitä saa missään tapauksessa ruokkia keskiyön jälkeen. Kun hoito-ohjetta kuitenkin vahingossa rikotaan, seuraukset ovat hurjat – kaupunki vilisee pian Gizmoksi ristityn otuksen lajitovereita, jotka ovat valitettavasti vain toinen toistaan pahansuovempia."
+    "fi": "Gremlins edustaa eräänlaista synteesiä Joe Danten ja Steven Spielbergin erilaisista maailmankatsomuksista. Molempien elokuvissa kaaos väijyy keskellä nyky-Amerikkaa: Spielberg kuitenkin uskoo näennäiseen järjestykseen, joka ajoittain repeilee todellisen (Tappajahai, Duel) tai kuvitellun (1941, Kolmannen asteen yhteys) uhan edessä, kun taas Danten maailma on jatkuvan mullistuksen tilassa hirviöiden nakertaessa elämänmuodon perustuksia (Piranha, The Howling). Elokuvan spielbergiläistä puolta edustaa tietysti puhtaimmin Gizmo, miltei sietämättömän söpö lemmikki, silmämuniaan pyörittelevä karvaturri, joka erikoistehosteiden liikuttavana luomuksena voittaa jopa E.T.:n, eikä katsoja väitä eräänlaista pahanilkistä helpotusta kun pahuuden voimat pääsevät valloilleen. Elokuvan esiinmanaamat riiviöt ovat tarpeeksi hirvittäviä tullakseen otetuiksi vakavasti, samalla kun tyylilaji säilyttää tietyn kepeytensä, annokset sekä piruilua että huumoria. Tässä lienee elokuvan varsinainen ihme: kangertelematta se onnistuu viemään läpi oudon yhdistelmänsä Disneyn piirrosmaailmaa, E.T.:n taikaa, Poltergeistin tai Alienin hirvityksiä, Capran tunteikasta lapsenmieltä, Siegelin Varastettujen ihmisten samalla kertaa tuonpuoleista että yhteisön ytimestä nousevaa kauhua."
    },
-   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw",
-   "ts": [
-    "fi"
-   ]
+   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw"
   },
   "gråben vs acme": {
    "id": 1204680,
@@ -1626,6 +1622,16 @@
    },
    "tr": ""
   },
+  "hiljaisuus": {
+   "id": 11506,
+   "img": "data/posters/b8b7b5461530e74a.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "",
+    "fi": "Hiljaisuus on kypsän Bergmanin mestariteoksia. Lähes olemattomiin eliminoidusta dramaattisesta aineksesta Bergman löytää hienoimmat vivahteet. Vaikka paljon mitään ei tunnu tapahtuvan, elokuva onnistuu pitämään katsojan lumouksessa. Hiljaisuus ei niinkään rakennu vuorosanoille kuin visuaaliselle teholle. Tästäkin huolimatta Bergman on tavalliseen tapaansa kiinnittänyt suurta huomiota ääneen ja saavuttanut tuloksia, jotka ovat samalla sekä syvällisiä että dramaattisesti vaikuttavia. Trilogian aikaisempiin osiin Hiljaisuus liittyy luontevasti sikälikin, että yhteiskunnallisia ongelmia kosketellaan vain symbolein, epäsuorasti. Mutta tunne uhasta ja tuhosta, ärtymyksestä ja tunteiden kuolemasta kulkee läpi koko elokuvan. Hiljaisuuden päähenkilöinä on kaksi sisarusta Ester ja Anna sekä Annan poika Johan, jotka ovat matkalla jostakin jonnekin ja pysähtyvät vieraassa kaupungissa, koska sairaan Esterin on levättävä. Sisarusten välinen suhde on kireä, miltei vihamielinen. Ester on tyypiltään älyllinen, Anna taas vaistonvarainen tunneihminen. Sisarukset ovat saman sielun kaksi puolta ja tuovat mieleen erään Stagneliuksen tunnetun runon sielun ja ruumiin pooleista. Anna on ruumis, Ester henki. Heidän yksipuolisuutensa on heidän onnettomuutensa. Kukaan henkilöistä ei pysty murtamaan alun alkaen valmiiksi piirrettyjä kuvioita. Ester, intellektuelli, on selvimmin ennaltamäärätyn kohtalonsa vanki. Tietoinen, toimiva ihminen on Bergmanille jatkuvasti poikkeus. Häntä ei ole olemassa, sillä niin kauan kuin henkilöt eivät löydä omaa tapaansa elää, tieto on yhdentekevää."
+   },
+   "tr": "https://www.youtube.com/watch?v=xddkAomes8k"
+  },
   "hirtettyjen kettujen metsä": {
    "id": 261118,
    "img": "data/posters/c06504e405dd11b8.jpg",
@@ -1669,6 +1675,19 @@
     "fi": "Tositapahtumien inspiroima Presidentin kyyditys vie katsojan keskelle vuoden 1930 absurdeja tapahtumia. Raskaan ryyppyillan aikana joukko kunnianhimoisia upseereita päättää kaapata Suomen ensimmäisen presidentin – jo eläkkeellä olevan K. J. Ståhlbergin. Uppiniskainen presidentin vaimo Ester Ståhlberg ei tiukassakaan tilanteessa suostu jättämään miestään, vaan änkeää muiluttajien pään menoksi samaan kyytiin auton takapenkille. Alkaa uskomaton matka halki levottoman Suomen, jossa huhupuheet ja historia kietoutuvat yhteen – eikä vieläkään tiedetä, mikä presidentin kyydityksessä oli totta ja mikä tarua. Elokuvateattereissa 4.9."
    },
    "tr": ""
+  },
+  "hot shots kaikkien elokuvien äiti": {
+   "id": 9595,
+   "img": "data/posters/6c92d40f84b00292.jpg",
+   "r": 6.6,
+   "s": {
+    "en": "",
+    "fi": "Merivoimien lentäjä-ässää tarvitaan Saddam Husseinin kukistamiseen, mutta tällä on pahoja henkisiä ongelmia. Psykologista on toki apua, etenkin kun tämä on hemaiseva typsy. Hei me lennetään -elokuvilla rikastunut Jim Abrahams pilkkaa tällä kerralla Top Gunia, Tuulen viemää ja lukuisia muita elokuvia."
+   },
+   "tr": "https://www.youtube.com/watch?v=sWjXE3fljtk",
+   "ts": [
+    "fi"
+   ]
   },
   "hundreds of beavers": {
    "id": 1019939,
@@ -2665,7 +2684,6 @@
     "biosavoy",
     "cinemantsala",
     "isohannu",
-    "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -3515,6 +3533,7 @@
     "biomarilyn",
     "biopallas",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -3826,6 +3845,15 @@
    "ts": [
     "en"
    ]
+  },
+  "me ollaan parhaita vi är bäst": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tukholma vuonna 1982. 13-vuotiaat Bobo, Klara ja Hedvig eivät oikein sopeudu koulutovereidensa joukkoon. Perhesuhteiden ja alkavan teini-iän kiemurat aiheuttavat lisäksi omat kuprunsa kasvukipuihin. Eräänä iltana nuorisotalolla epäreilusta kohtelusta sisuunnuttuaan nuoret päättävät perustaa punkbändin, eikä soittotaidon tai instrumenttien puute ole este. Eikä punk todellakaan ole kuollut! Me ollaan parhaita! on sympaattisen anarkistinen tarina oman äänen löytämisestä ja rohkeudesta kulkea omaa polkuaan. Huippuohjaaja Moodyssonin käsissä syntynyt lämpimän humoristinen ja ajaton musiikkielokuva rokkaa tiensä niin nuoren kuin vanhemman katsojan sydämeen.",
+    "sv": "Stockholm 1982. 13-åringarna Bobo, Klara och Hedvig passar inte riktigt in med deras skolkamrater. Familjeförhållanden och utmaningarna med tonårskänslorna påverkar dem också. En kväll på ungdomsgården bestämmer sig tjejerna spontant att starta ett punkbänd, trots att de inte har några instrument eller musikkunskaper. Vi är bäst! är en sympatisk, anarkistisk film om att hitta sin egen röst och att våga gå sin egen väg. Moodyssons kärleksfulla och tidlösa film passar för alla åldrar, från unga till äldre åskådare. Punken är verkligen inte död!"
+   },
+   "tr": ""
   },
   "meanders": {
    "id": 179370,
@@ -4926,6 +4954,7 @@
     "biomarilyn",
     "biopallas",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -4969,6 +4998,7 @@
     "biomarilyn",
     "biopallas",
     "biorex",
+    "cinemantsala",
     "engel",
     "isohannu",
     "kinoakseli",
@@ -5001,7 +5031,6 @@
     "huvimylly",
     "kinoaurora",
     "kinolumo",
-    "kinomarilyn",
     "kinopiispanristi",
     "kulttuurimylly"
    ],
@@ -5024,7 +5053,6 @@
     "huvimylly",
     "kinoaurora",
     "kinolumo",
-    "kinomarilyn",
     "kinopiispanristi",
     "kulttuurimylly"
    ],
@@ -5046,7 +5074,6 @@
   },
   "pikkuli ja tähtipeura på svenska": {
    "id": 1403476,
-   "img": "data/posters/79b249e47f0870db.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -5066,7 +5093,6 @@
     "huvimylly",
     "kinoaurora",
     "kinolumo",
-    "kinomarilyn",
     "kinopiispanristi",
     "kulttuurimylly"
    ],
@@ -5089,7 +5115,6 @@
     "huvimylly",
     "kinoaurora",
     "kinolumo",
-    "kinomarilyn",
     "kinopiispanristi",
     "kulttuurimylly"
    ],
@@ -5165,6 +5190,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5210,6 +5236,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5277,6 +5304,7 @@
     "laitilankino",
     "lieksankino",
     "marita",
+    "navettakino",
     "vaakuna",
     "vihdinkino"
    ],
@@ -5418,7 +5446,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoaurora",
     "kinohannikainen",
     "kinohirvi",
     "kinokilta",
@@ -5585,7 +5612,6 @@
   },
   "punainen peto tekijävierailu": {
    "id": 1453659,
-   "img": "data/posters/5b0d09708fa61a5d.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -6003,6 +6029,16 @@
     "fi": "Viscontin suurklassikossa viisi veljestä äiteineen muuttaa köyhästä eteläisestä Italiasta Milanoon töiden ja paremman elämän perässä. Sodanjälkeistä nousukauttaan elävä, nopeasti modernisoituva kaupunki osoittautuu raa’an kilpailun sävyttämäksi ja kylmäksi luokkayhteiskunnaksi, jossa perhe särkyy ja arvot murenevat."
    },
    "tr": ""
+  },
+  "rocky": {
+   "id": 1366,
+   "img": "data/posters/aff23774bf0a6794.jpg",
+   "r": 7.8,
+   "s": {
+    "en": "",
+    "fi": "Raihnaisilla klubeilla nyrkkeilevä ja koronkiskurina sivuhommia paiskiva Rocky Balboa saa tilaisuuden otella vallitsevaa maailmanmestaria Apollo Creedia (Carl Weathers) vastaan. Ujosta lemmikkikaupan myyjästä (Talia Shire) löytyy Rockylle romanssin vastakappale ja merkittävin tuki uran vaikeissa paikoissa, niin tässä elokuvassa kuin myöhemmissäkin. Vuonna 1976 ensi-iltansa saanut Rocky oli silloisen elokuvavuoden yllättäjä, joka sai 10 Oscar-ehdokkuutta ja voitti kolme. Moneen kertaan on selväksi tehty, että Stallone ei käsikirjoitusta myydessään taipunut rahan edessä vaan vaati saada näytellä itse pääosan. Tällaisesta itsepäisyydestä ja itseluottamuksesta on sankaritarinat tehty. Sellainen on myös tämä ensimmäinen Rocky-elokuva samoin kuin sen jatko-osatkin. Stallonesta tuli elävä legenda ja yksi suurimmista (toiminta)elokuvatähdistä, joka uransa hetkellisistä notkahduksista huolimatta on kahdeksankymppisenä edelleen pelissä mukana."
+   },
+   "tr": "https://www.youtube.com/watch?v=dmd9tEt9F30"
   },
   "romeo juliet": {
    "id": 454,
@@ -6756,8 +6792,7 @@
   },
   "syystarina": {
    "id": 10239,
-   "img": "data/posters/704966e1539869ed.jpg",
-   "r": 7.1,
+   "r": 0,
    "s": {
     "en": "Eric Rohmer’s Autumn Tale follows Magali, a middle-aged widow and winegrower who enjoys her solitary life but whose friends are determined to find her a new partner. Her friend Isabelle secretly sets out to find a suitable man for Magali and begins seeing a man named Gérald. At the same time, Magali’s son’s girlfriend, Rosine, tries to arrange a meeting between Magali and her teacher, Gérald. Through a series of coincidences, white lies, and misunderstandings, a romantic web develops around Magali, exploring love, loneliness, and the possibility of new relationships later in life.",
     "fi": "Eric Rohmerin Syystarina kertoo viininviljelijä Magalista, leskeksi jääneestä keski-ikäisestä naisesta, joka viihtyy yksin, mutta jonka ystävät haluavat löytää hänelle uuden kumppanin. Hänen ystävänsä Isabelle päättää salaa etsiä Magalille sopivaa miestä ja tutustuu tätä varten Pierre-nimiseen mieheen. Samaan aikaan Magalin pojan tyttöystävä Rosine yrittää järjestää hänelle treffit opettajansa Géraldin kanssa. Erilaisten sattumien, valkoisten valheiden ja väärinkäsitysten kautta Magalin ympärille rakentuu romanttinen kuvio, jossa pohditaan rakkauden, yksinäisyyden ja ihmissuhteiden mahdollisuuksia keski-iässä."
@@ -6993,6 +7028,15 @@
    "ts": [
     "en"
    ]
+  },
+  "the dialogue police dialogpolisen": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun mielenosoitukset uhkaavat yltyä kärhämiksi, kutsutaan paikalle dialogipoliisi. Ryhmä on Ruotsin poliisin erikoisyksikkö, joka on koulutettu purkamaan konflikteja keskustelun ja sovittelun keinoin turvaten demokratialle välttämätöntä ilmaisunvapautta. Ruotsalaiselokuva kuvaa läheltä konfliktiratkaisun arkea. Kuvaukseltaan Ohuella langalla -televisiosarjaa (Tunna blå linjen) hieman muistuttava elokuva seuraa ryhmän työtä 2020-luvulla. Mielenosoitusten aiheet ovat vaihtuneet nykypäivän yhä jyrkentyviin mielipide-eroihin. Lehmänhermoiset dialogipoliisit hahmottavat oman roolinsa sananvapauden turvaajina. Osa työstä on silti vieläkin muiden poliisiyksiköiden ylilyöntien jälkien korjaamista.",
+    "sv": "Demonstrationståg. Koranbränningar. Klimataktioner. Mitt i stormens öga står en grupp svenska poliser vars uppgift är att säkra allas rätt till yttrandefrihet. Det polariserade samhället är deras vardag. En brokig grupp starka viljor med mycket humor och ett gemensamt kall att försvara demokratin: med dialog som vapen."
+   },
+   "tr": ""
   },
   "the dog stars": {
    "id": 1384216,
