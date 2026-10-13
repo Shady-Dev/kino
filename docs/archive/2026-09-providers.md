@@ -3935,3 +3935,28 @@ three tenants that do publish are in this file.
 **Closed 2026-10-13.** The front page lists screenings again, 43 that day, and `kinola.py`
 reads it with the `konepaja` template. The read is in
 [docs/research/kinola.md](../research/kinola.md).
+
+### Chain accents: per-theme shades and 4 px markers
+
+Decided 2026-10-13 by the maintainer: 4 px solid chain markers that keep the ticket's
+rounded corners, a light and a dark shade per chain keyed by its id, a 3:1 contrast target
+against the surfaces a marker touches, and readable cinema names and chain filters as
+before. The palette is not approved. The first candidate failed a visual review at 4 px,
+where three dark shades read alike in the capital-region row. The dashed-marker growth
+fallback is not adopted and stays an alternative. Kino Konepaja, Kino Kulttuurimylly and
+Kannusali wait on the palette for their registry entries.
+**Next action:** one palette pass under a frozen constraint specification, two candidates.
+
+**Closed 2026-10-13.** The palette came from a search under a frozen rule set: the rules
+in CLAUDE.md plus checks that BioRex stays violet in the dark theme, that dark Helsinki
+keeps red and pink to the four chains already there, and that Kino Konepaja and Riviera
+differ in lightness. In the light theme 65 of 83 shades are unchanged, 10 moved by 2 ΔE00
+or less, and eight moved further: Heureka 17.9, Kino K13 13.0, Bio Grand 9.7, Bio Grani
+7.8, Korjaamo Kino and Gilda 3.7, Kino Engel 2.7 and Riviera 2.3. In the dark theme 43
+shades equal the old accent, and most others moved to reach 3:1. The maintainer allowed
+one scoped exception for the three new chains in the Pääkaupunkiseutu row. Verified with
+`accent_check.py` in both themes, `ThemeTest` and `ExceptionTest`, browser tests of the
+app and the city pages in Chromium and WebKit, and screenshots in both themes. Costs: Kino
+Tapiola's dark shade is a muted lavender-blue, Bio Grani and Kino Regina are two salmon
+tones in the dark capital-region row, and nothing was tested with people. Figures in
+[docs/research/accent-colour.md](../research/accent-colour.md).
