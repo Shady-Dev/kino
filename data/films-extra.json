@@ -818,6 +818,14 @@
     "en"
    ]
   },
+  "couture muodin ehdoilla": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Angelina Jolie tähdittää Pariisin muotiviikkojen kiihkeään sykkeeseen sijoittuvaa eleganttia draamaelokuvaa Couture – Muodin ehdoilla. Elokuva punoo yhteen kolmen naisen kohtalot. Maxine on amerikkalainen elokuvantekijä, joka saa vakavan sairausdiagnoosin ja ajautuu odottamattomaan suhteeseen tutun yhteistyökumppaninsa kanssa. Ada on nouseva malli, joka pakenee ennalta määrättyä tulevaisuuttaan Etelä-Sudanissa. Angèle työskentelee meikkaajana muotinäytösten kulissien takana. Naisten kohtaloiden risteytyessä elokuva paljastaa muotimaailman näyttävän pinnan alla piilevän hiljaisen sitkeyden. Se kunnioittaa sanatonta yhteenkuuluvuuden tunnetta, joka yhdistää näitä kolmea naista ammatin, kulttuurin ja maanosien yli."
+   },
+   "tr": ""
+  },
   "coyote vs acme": {
    "id": 1204680,
    "img": "data/posters/2cb6f7dbe10cca53.jpg",
@@ -2742,11 +2750,27 @@
    },
    "tr": "https://www.youtube.com/watch?v=b9umCIsc-zc"
   },
+  "kpe everything must go": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Komediadraamassa Alt ska bort (Everything must go) kolme aikuista sisarusta, Ellen, Amund ja Carl-Olav sopivat tapaamisesta lapsuudenkodissaan. He aikovat yhdessä tyhjentää taloa ja läpikäydä tunnetun säveltäjäisänsä jättämää perintöä. Pinnalle nousevat sisarusten väliset kaunat ja kaikki muistot, joita lapsuudenkoti herättää. Kun talolle saapuvat vielä Gerd-täti ja Arvid-eno alkaa soppa totisesti olla valmis. Lämminhenkinen, melankolinen ja humoristinen perhedraama tutkii menneisyyden vaikutusta sisaruksiin - mikä on oikeasti merkityksellistä elämässä? Lähde: Walhalla & Rauma Blue Sea Film Festival Esityspaikkakunta: Joensuu Elokuvan kieli: norja, tekstitys englanti"
+   },
+   "tr": ""
+  },
   "kpe kevlarsjäl iskunkestävä sielu": {
    "r": 0,
    "s": {
     "en": "",
     "fi": "Alex ja Robin ovat veljeksiä, jotka ovat menettäneet uskonsa aikuisiin ja oppineet selviytymään vain toistensa varassa. Heidän välilleen on kasvanut poikkeuksellisen vahva side, jota mikään ei tunnu voivan rikkoa. Mutta kun Alex rakastuu, maailma alkaa horjua. Robin kokee tulleensa hylätyksi ja syöksyy hallitsemattomaan vapaapudotukseen, josta isoveli yrittää epätoivoisesti tavoittaa hänet takaisin. Alex kantaa syyllisyyttä, rakkautta ja velvollisuutta rinnassaan – mutta voiko ketään pelastaa, jos tämä ei halua tulla pelastetuksi? Maria Eriksson-Hecht voitti esikoisohjauksellaan Ruotsin arvostetuimman elokuvapalkinnon Guldbaggen. Esityspaikkakunta: Joensuu"
+   },
+   "tr": ""
+  },
+  "kpe the last viking": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tulevaisuus näyttää valoisalta. Anker vapautuu 15 vuoden vankilatuomion jälkeen ja suunnittelee matkaa paratiisiin viettääkseen loputonta lomaa. Ennen sitä hänen on kuitenkin saatava käsiinsä ryöstösaalis, jonka vuoksi hän joutui vankilaan – rahat, jotka hänen kaksoisveljensä Manfred on piilottanut. Valitettavasti Manfred on vetäytynyt traumaattisten kokemusten vuoksi uuteen alter egoonsa, Beatlesien keulahahmoon John Lennoniin. Ja tämä \"John\" ei tiedä mitään kadonneista rahoista. Ankerin vanha rikoskumppani Nice Flemming sen sijaan muistaa rahat hyvin ja vaatii nyt omaa osuuttaan. Veljekset palaavat kotiseudulleen etsimään rahoja, mutta löytävät kätköistä paljon enemmän kuin osasivat odottaa… Esityspaikkakunta: Joensuu Elokuvan kielet: ruotis ja tanska"
    },
    "tr": ""
   },
@@ -6560,6 +6584,14 @@
    "ts": [
     "en"
    ]
+  },
+  "teatteri frankenstein": {
+   "r": 0,
+   "s": {
+    "en": "Directed by Academy Award®-winner Danny Boyle, Frankenstein features Benedict Cumberbatch and Jonny Lee Miller alternating between the roles of Victor Frankenstein and his creation. Childlike in his innocence but grotesque in form, Frankenstein’s bewildered creature is cast out into a hostile universe by his horror-struck maker. Meeting with cruelty wherever he goes, the increasingly desperate and vengeful Creature determines to track down his creator and strike a terrifying deal. Scientific responsibility, parental neglect, cognitive development and the nature of good and evil, are embedded within this thrilling and deeply disturbing classic tale. Captured live on stage in 2011, this thrilling, sold-out production became an international sensation, experienced by almost half a million people in cinemas around the world.",
+    "fi": "Lontoon National Theatren loppuunmyyty tuotanto Frankenstein nousi vuonna 2011 kansainväliseksi ilmiöksi, ja nyt se on mahdollista nähdä tallenteena valkokankaalla. Oscar®-palkitun ohjaajan Danny Boylen ohjaaman Frankensteinin päärooleissa nähdään Benedict Cumberbatch ja Jonny Lee Miller."
+   },
+   "tr": ""
   },
   "teatteri the audience": {
    "r": 0,
