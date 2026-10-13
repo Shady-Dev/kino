@@ -131,6 +131,19 @@ class NeulekinoMarkerTest(unittest.TestCase):
                 self.assertEqual(enrich_tmdb.clean(title), title)
 
 
+class SubtitledMarkerTest(unittest.TestCase):
+    """Kino Ritz published "Kerro kaikille (suomeksi tekstitetty)" on 2026-10-13 beside the
+    plain title, which matched, and the row drew no poster."""
+
+    def test_the_subtitle_marker_comes_off_the_search_string(self):
+        self.assertEqual(enrich_tmdb.clean("Kerro kaikille (suomeksi tekstitetty)"),
+                         "Kerro kaikille")
+
+    def test_the_published_title_keeps_it(self):
+        self.assertEqual(enrich_tmdb.norm("Kerro kaikille (suomeksi tekstitetty)"),
+                         "kerro kaikille suomeksi tekstitetty")
+
+
 class LastWeekMarkerTest(unittest.TestCase):
     """Bio Marilyn's "(Poistuu ohjelmistosta)" is a programme note, as "(Neulekino)" is a
     screening name: off the search string, kept in the title (2026-09-27)."""
