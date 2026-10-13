@@ -63,6 +63,39 @@ not, and never was in the committed adapter. `biorex.py` parses with stdlib `re`
 (`ITEM_RE`, `DL_RE`, `HREF_RE`), and `bs4` appears nowhere in the repository. See
 `tooling-evaluation.md` for the measurement behind keeping it that way. No next step.
 
+### The webshop's GET API, compared (2026-10-13)
+
+**Findings** (read 2026-10-13 from 12:50 to 12:59 UTC: anonymous GETs to
+`webshop.biorex.fi/webservices/`, and the adapter's own read of biorex.fi alongside)
+
+- `cinemas/getCinemasList` has 16 entries. The adapter's 12 venue ids equal `cinema_id` and
+  the names match. Ids 6, 15 and 16 are closed (`offline: 1`, an `xxx ` prefix) and id 11
+  is the company. Tripla and Redi have no city or address. The answer also carries staff
+  addresses and a payment key, so it is never saved here.
+- `show_times/getShowTimesDays?cinema_id={id}&date={d}&number_of_days={n}` returns at most
+  seven days and has no pagination. The first request for a cinema and a date sets the
+  window: Pietarsaari asked for 2 days and then 7 got 2 both times, and the reverse order
+  got 7 both times. From today the windows ran 3 days at Verkatehdas and 7 or 8 elsewhere.
+- With windows covering every date, 1,471 of 1,471 adapter rows matched an API row on
+  `show_time_id`, title, start, room, rating and poster. The start is UTC `show_time` in
+  Europe/Helsinki, checked across 25 October and on 30 rows in April 2027. `business_date`
+  keeps the previous day for a start after midnight.
+- The API also returned 47 screenings that had started and two private bookings
+  ("Yritystapahtuma", "Tilavaraus - 2h") that the site does not list.
+- Three tags the site prints have no API field: Anniskelu on 244 rows (one room has it on
+  some screenings and not others), Retro on 12 and Kuukauden timantti on 11. 264 rows carry
+  at least one. `premiere` is 1 on 47% of rows and marks a film's release week.
+- `short_desc` repeats the title, so the synopsis is only on the film page.
+- The site's ticket href is `biorex.fi/secure-redirect/?url=https://webshop.biorex.fi/fi/%23/book/{id}`.
+  The API gives only the id.
+
+**Status and next step**
+
+`biorex.py` is unchanged. The API would lose the three tags on 264 rows, would need the
+ticket link built from the id, a filter for started and private rows, and a loop that
+re-requests from the first date a cached window left out, at about 105 requests a run
+against 36. No next step.
+
 ---
 
 ## Nexxo Scope

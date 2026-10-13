@@ -275,6 +275,9 @@ Each of these was looked at and set down, with the reason. None is scheduled.
   up there either way, which makes this no evidence rather than a proof. Two sites name
   no `base` at all, Kino Engel and Kino Akseli; both are local-half, where the cloud
   pool's base-less group does not apply.
+- Reading BioRex from its webshop's GET API. Measured 2026-10-13: it matched all 1,471 rows,
+  has no field for three tags on 264 of them, and caches its window by the first caller.
+  Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
 **Ops and pages**
 
