@@ -23,8 +23,17 @@
 [kinomyyri] Kino Myyri: 32 showtimes, 14 dates
 [kinomyyri] Kino Myyri: 32 showtimes, 14 dates
 [kinomyyri] synopses merged: 0
-[run] http: 46 revalidated (304), 66 full, 25 not stored (origin said no-store), 1 cache entries written
-[run] hosts: 3 attempted -- kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 3 venues, 136 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 3 site(s), 202.2s of fetching added up across workers that overlap, longest site 86.2s, longest queue wait 145.3s, 88.1s wall from this module's first fetch starting to its last ending
+[kinokonepaja] 41 screening(s) listed, 18 film page(s) read
+[kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
+[kinokonepaja] unresolved: Cinemaissi: Archipielago
+[kinokonepaja] override edward-scissorhands: active
+[kinokonepaja] override gremlins: active
+[kinokonepaja] override nightmare-on-elm-street: active
+[kinokonepaja] Kino Konepaja: 40 showtimes, 20 dates
+[kinokonepaja] Kino Konepaja: 40 showtimes, 20 dates
+[kinokonepaja] synopses merged: 0
+[run] venuelists-cloud.json rewritten
+[run] http: 0 revalidated (304), 131 full, 26 not stored (origin said no-store), 47 cache entries written
+[run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
+[run] kinola: 4 venues, 176 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0

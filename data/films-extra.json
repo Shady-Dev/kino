@@ -1101,6 +1101,75 @@
     "en"
    ]
   },
+  "elokuva flow k7": {
+   "id": 823219,
+   "img": "data/posters/244608d0c5837fe0.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Yksinäinen kissa, joka on joutunut suuren tulvan vuoksi pakenemaan, löytää turvapaikan veneestä muiden eläinlajien kanssa. Yhdessä heidän on selviydyttävä muuttuneen maailmaan haasteista."
+   },
+   "tr": "https://www.youtube.com/watch?v=shsVQvHUTxw",
+   "ts": [
+    "fi"
+   ]
+  },
+  "elokuva isänpäivä k7": {
+   "id": 1262748,
+   "img": "data/posters/65c60ab63113da26.jpg",
+   "kr": "K-7",
+   "krs": [
+    "korjaamo"
+   ],
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Terveytensä juonut Tinke asuu palveluyksikössä, jossa elämää pitää kasassa sen nurjasta puolesta kumpuava huumori ja arjessa auttava ystävä Veikko. Kun takavuosilta hämärästi tutun Saimin teini-ikäiset kaksoset päättävät ottaa selvää isästään, etsintä johtaa heidät Tinken jäljille. Saimi aikoo kaikin keinoin estää kaksosia tapaamasta Tinkeä, mutta sotkun keskelle tempautunut Veikko on eri mieltä."
+   },
+   "tr": "",
+   "ts": [
+    "fi"
+   ]
+  },
+  "elokuva kevlarsjäl k12": {
+   "id": 1414081,
+   "img": "data/posters/6ea29f409289d6d4.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Alex ja Robin ovat veljeksiä, jotka ovat menettäneet uskonsa aikuisiin ja oppineet selviytymään vain toistensa varassa. Heidän välilleen on kasvanut poikkeuksellisen vahva side, jota mikään ei tunnu voivan rikkoa. Mutta kun Alex rakastuu, maailma alkaa horjua. Robin kokee tulleensa hylätyksi ja syöksyy hallitsemattomaan vapaapudotukseen, josta isoveli yrittää epätoivoisesti tavoittaa hänet takaisin. Alex kantaa syyllisyyttä, rakkautta ja velvollisuutta rinnassaan – mutta voiko ketään pelastaa, jos tämä ei halua tulla pelastetuksi?"
+   },
+   "tr": "https://www.youtube.com/watch?v=Cf2WFI71MJM",
+   "ts": [
+    "fi"
+   ]
+  },
+  "elokuva michael k12": {
+   "id": 936075,
+   "img": "data/posters/27a95f8ceb0939ad.jpg",
+   "r": 8.6,
+   "s": {
+    "en": "",
+    "fi": "Michael tarjoaa yleisölle koskettavan, rehellisen ja syväluotaavan muotokuvan popmusiikin historian loistavimmasta mutta myös monimutkaisimmasta ikonista. Elokuva kuljettaa katsojan läpi Michael Jacksonin elämän aina Jackson 5 -yhtyeen ajoista ja lapsitähden raskaasta menestyksestä maailmanlaajuiseksi supertähdeksi, joka mullisti musiikkiteollisuuden ja popkulttuurin pysyvästi.\r Tarina valottaa Michaelin vertaansa vailla olevaa luovaa lahjakkuutta, hänen nerokkaita visioitaan ja vaativaa työmoraaliaan, jotka synnyttivät historian ikonisimmat musiikkivideot ja lavaesiintymiset. Menestyksen rinnalla elokuva ei kuitenkaan kaihda artistin elämän varjopuolia: se kuvaa raakaa julkisuuden painetta, eristäytyneisyyttä, monimutkaisia perhesuhteita sekä historian kovaäänisimpiä mediasirkuksia ja syytöksiä. Kyseessä on syvän inhimillinen tarina miehestä, joka antoi kaikkensa taiteelle, mutta jonka yksityiselämä pysyi loppuun asti yhtenä maailman suurimmista mysteereistä."
+   },
+   "tr": "https://www.youtube.com/watch?v=k-YAcjaLuSI",
+   "ts": [
+    "fi"
+   ]
+  },
+  "elokuva nämä pienet asiat k7": {
+   "id": 1102493,
+   "img": "data/posters/c6e537c8f3ece2e9.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "",
+    "fi": "Eletään vuotta 1985, joulua edeltävänä aikana pienessä kaupungissa Wexfordin kreivikunnassa Irlannissa. Bill Furlong raataa hiilikauppiaana elättääkseen itsensä, vaimonsa ja viisi tytärtään. Eräänä varhain aamuna, kun hän on toimittamassa hiiltä paikalliseen luostariin, hän tekee löydön, joka pakottaa hänet kohtaamaan menneisyytensä ja katolisen kirkon hallitseman kaupungin myötämielisen vaikenemisen."
+   },
+   "tr": "https://www.youtube.com/watch?v=PBJ3zgH4pGM",
+   "ts": [
+    "fi"
+   ]
+  },
   "elämää kuoleman jälkeen": {
    "id": 571671,
    "img": "data/posters/b8fb0982c8e4c41d.jpg",
@@ -1330,6 +1399,19 @@
     "fi": ""
    },
    "tr": ""
+  },
+  "gremlins riiviöt": {
+   "id": 927,
+   "img": "data/posters/24c8fa65c2d6fcdc.jpg",
+   "r": 7.1,
+   "s": {
+    "en": "",
+    "fi": "Billy-poika saa joululahjaksi herttaisen mutta hieman erikoisen lemmikkiotuksen, jota koskevat aivan erityiset hoito-ohjeet: otus ei saa joutua tekemisiin veden kanssa, sitä ei saa altistaa valolle eikä sitä saa missään tapauksessa ruokkia keskiyön jälkeen. Kun hoito-ohjetta kuitenkin vahingossa rikotaan, seuraukset ovat hurjat – kaupunki vilisee pian Gizmoksi ristityn otuksen lajitovereita, jotka ovat valitettavasti vain toinen toistaan pahansuovempia."
+   },
+   "tr": "https://www.youtube.com/watch?v=PXXZx6skXrw",
+   "ts": [
+    "fi"
+   ]
   },
   "gråben vs acme": {
    "id": 1204680,
@@ -1926,6 +2008,19 @@
     "en"
    ]
   },
+  "juice": {
+   "id": 16136,
+   "img": "data/posters/0b59abec656c5386.jpg",
+   "r": 7.2,
+   "s": {
+    "en": "Four Harlem friends -- Bishop, Q, Steel and Raheem -- dabble in petty crime, but they decide to go big by knocking off a convenience store. Bishop, the magnetic leader of the group, has the gun. But Q has different aspirations. He wants to be a DJ and happens to have a gig the night of the robbery. Unfortunately for him, Bishop isn't willing to take no for answer in a game where everything's for keeps.",
+    "fi": ""
+   },
+   "tr": "https://www.youtube.com/watch?v=ECi021J_j18",
+   "ts": [
+    "en"
+   ]
+  },
   "jukka nykänen muistonäytös putoavia enkeleitä": {
    "id": 173872,
    "r": 0,
@@ -2148,6 +2243,7 @@
     "kinoiiris",
     "kinojuha",
     "kinokilta",
+    "kinokonepaja",
     "kinokulma",
     "kinolaika",
     "kinolumo",
@@ -2167,6 +2263,7 @@
     "kkino",
     "korjaamo",
     "kotkanleffat",
+    "kulttuurimylly",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
@@ -2559,7 +2656,7 @@
   },
   "kojootti vs acme": {
    "id": 1204680,
-   "img": "data/posters/9bcb7891e3c4c53a.jpg",
+   "img": "data/posters/e1a7880d02ca0644.jpg",
    "kr": "K-7",
    "krs": [
     "bioforum",
@@ -2574,6 +2671,7 @@
     "kinopirtti",
     "kirkkonummi",
     "kkino",
+    "kulttuurimylly",
     "star",
     "tapiola"
    ],
@@ -3115,6 +3213,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokonepaja",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -3159,6 +3258,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokonepaja",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -3206,6 +3306,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokonepaja",
     "kinolaika",
     "kinolumo",
     "kinometso",
@@ -3424,6 +3525,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "vaakuna"
    ],
    "r": 0,
@@ -3514,6 +3616,19 @@
     "fi": "Neljäkymmenvuotisjuhlaansa tänä vuonna viettävä Lumikuningatar on visuaalisesti häikäisevä fantasiaseikkailu ja suomalaisen lastenelokuvan kiistaton suurteos. H.C. Andersenin satuun pohjautuvassa elokuvassa paha Lumikuningatar tavoittelee Pimeyden kruunua hallitakseen maailmaa. Saadakseen kruunun haltuunsa hän kidnappaa pienen Kai-pojan, jota tämän ystävä Kerttu lähtee etsimään."
    },
    "tr": ""
+  },
+  "lumiukko elokuvakonsertti": {
+   "id": 13396,
+   "img": "data/posters/65dae1a712773769.jpg",
+   "r": 7.6,
+   "s": {
+    "en": "",
+    "fi": "Elokuva kertoo tarinan James-nimisestä pojasta, joka kuluttaa koko joulukuisen päivän rakentaen lumiukkoa kotinsa pihamaalle. Käydessään illalla nukkumaan hän on edelleen niin innoissaan tekemästään lumiukosta, että hänellä on vaikeuksia saada unenpäästä kiinni. Niinpä hän yön aikana hiipii ulos ja löytää lumiukon elävänä – seikkailu on valmis alkamaan!"
+   },
+   "tr": "https://www.youtube.com/watch?v=HRLhxj0D59Y",
+   "ts": [
+    "fi"
+   ]
   },
   "lupin iii cagliostron linna": {
    "id": 15371,
@@ -3631,7 +3746,7 @@
   "marsupilami": {
    "id": 1145899,
    "img": "data/posters/d24763d2c244cd16.jpg",
-   "r": 6.3,
+   "r": 6.4,
    "s": {
     "en": "David is tasked to deliver a mysterious package from South America, only to find out he is carrying a baby Marsupilami!",
     "fi": "Perhelomaan tulee uusia käänteitä, kun perheenisä saa Etelä-Amerikasta yllättävän paketin. Seikkailu lähtee liikkeelle kun salaperäisestä laatikosta paljastuu keltainen, täplikäs ja hulvaton veijari – vauva Marsupilami, joka tuo vauhtia niin perheen kuin koko lomaristeilynkin menoon. Marsupilami sulattaa kovimmankin sydämen. Ihmeolento Marsupilami perustuu samannimiseen, André Franquinin luomaan suosittuun belgialaiseen sarjakuvasarjaan. Marsupilami selviää niin villissä viidakossa kuin kaupungissakin nopean älynsä, rajattoman mielikuvituksensa sekä voimakkaan häntänsä avulla.",
@@ -4580,6 +4695,19 @@
    },
    "tr": ""
   },
+  "painajainen elm streetillä": {
+   "id": 377,
+   "img": "data/posters/ab74378717d7c9c0.jpg",
+   "r": 7.4,
+   "s": {
+    "en": "",
+    "fi": "Nancy näkee hirvittäviä painajaisia. Samaan aikaan hänen koulutoverinsa, jotka myös näkevät samoja unia, teurastetaan heidän nukkuessaan. Raakojen murhien takana on nuorten opiskelijoiden yhteisten painajaisten paholaismainen hahmo. Mutta kun poliisi ei ota Nancyn tarinaa kuuleviin korviinsa, tytön on kohdattava tappaja itse tämän varjomaisessa valtakunnassa."
+   },
+   "tr": "https://www.youtube.com/watch?v=CBcVZcornjI",
+   "ts": [
+    "fi"
+   ]
+  },
   "palatsin hiljaisuus": {
    "id": 44284,
    "r": 0,
@@ -4808,6 +4936,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "vaakuna"
    ],
    "r": 0,
@@ -4850,6 +4979,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "vaakuna"
    ],
    "r": 0,
@@ -4861,7 +4991,7 @@
   },
   "pikkuli ja tähtipeura": {
    "id": 1403476,
-   "img": "data/posters/e4e4be88f3bfae06.jpg",
+   "img": "data/posters/79b249e47f0870db.jpg",
    "kr": "S",
    "krs": [
     "alatalo",
@@ -4872,7 +5002,8 @@
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "kulttuurimylly"
    ],
    "r": 0,
    "s": {
@@ -4894,7 +5025,8 @@
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "kulttuurimylly"
    ],
    "r": 0,
    "s": {
@@ -4935,7 +5067,8 @@
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "kulttuurimylly"
    ],
    "r": 0,
    "s": {
@@ -4957,7 +5090,8 @@
     "kinoaurora",
     "kinolumo",
     "kinomarilyn",
-    "kinopiispanristi"
+    "kinopiispanristi",
+    "kulttuurimylly"
    ],
    "r": 0,
    "s": {
@@ -5025,6 +5159,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -5069,6 +5204,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -5135,6 +5271,7 @@
     "kinopiispanristi",
     "kinoset",
     "kinovirta",
+    "kulttuurimylly",
     "kuusamotalo",
     "kuvakukko",
     "laitilankino",
@@ -5293,6 +5430,7 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinovirta",
+    "kulttuurimylly",
     "leffabuumi",
     "marita",
     "niagara",
@@ -6090,6 +6228,19 @@
    },
    "tr": ""
   },
+  "saksikäsi edward": {
+   "id": 162,
+   "img": "data/posters/346d181cf572f327.jpg",
+   "r": 7.7,
+   "s": {
+    "en": "",
+    "fi": "Elipä kerran linnassaan korkealla kukkulalla keksijä, jonka nerokkain luomus oli nimeltään Edward. Vaikka Edward oli hurmaava olento, hän ei ollut aivan täydellinen.  Keksijän äkillinen kuolema jätti hänet keskeneräiseksi, joten hänellä oli käsien tilalla metalliset saksenterät. Edward eli yksin pimeässä, kunnes eräänä päivänä hyväsydäminen kosmetiikkamyyjä otti hänet perheensä luo asumaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=S8bBjpUBbro",
+   "ts": [
+    "fi"
+   ]
+  },
   "savage dawn": {
    "id": 58398,
    "img": "data/posters/81570cbb397a3193.jpg",
@@ -6799,6 +6950,7 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
+    "kinokonepaja",
     "kinopirtti",
     "niagara",
     "regina",
@@ -6824,6 +6976,7 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
+    "kinokonepaja",
     "kinopirtti",
     "niagara",
     "regina",
@@ -7434,6 +7587,7 @@
     "isohannu",
     "kinoaurora",
     "kinoiiris",
+    "kinokonepaja",
     "kinolumo",
     "kinomarilyn",
     "kinomyyri",
@@ -7784,6 +7938,7 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
+    "kulttuurimylly",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
@@ -7927,6 +8082,7 @@
     "kinovirta",
     "kkino",
     "kotkanleffat",
+    "kulttuurimylly",
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
@@ -7994,6 +8150,19 @@
     "fi": "Uusi ihminen kertoo Klaus Härön aiempien elokuvien tapaan kipeästä tosielämän aiheesta: Ruotsissa steriloitiin 1900-luvun puolivälin vuosikymmeninä valtion toimesta kymmeniätuhansia naisia. Köyhä, orvoksi jäänyt 17-vuotias Gertrud nousee vastusta maan käytäntöä, jonka mukaan hänen täytyisi suostua sterilisaatioon vapautuakseen kunnan työkodista itsenäiseen elämään."
    },
    "tr": ""
+  },
+  "v for vendetta": {
+   "id": 752,
+   "img": "data/posters/1b6ecd3cd11b4030.jpg",
+   "r": 7.9,
+   "s": {
+    "en": "",
+    "fi": "Kuka on tämä mies, joka kätkee arpeutuneet kasvonsa naamion taakse? Sankari vai mielipuoli? Vapauttaja vai sortaja? Kuka V on - ja kuka liittyy V:n rohkeaan juoneen kansakuntaa dominoivan totalitaarisen hallituksen kukistamiseksi?"
+   },
+   "tr": "https://www.youtube.com/watch?v=krWn5ta9RG4",
+   "ts": [
+    "fi"
+   ]
   },
   "vaiana liveaction": {
    "id": 1108427,

@@ -6,7 +6,7 @@ Finnish cinema showtimes as a fast, installable web page.
 
 ## What it does
 
-Showtimes for 138 venues in 100 cities across 86 providers: Finnkino, BioRex,
+Showtimes for 141 venues in 100 cities across 86 providers: Finnkino, BioRex,
 Kinoset, Kotkan Leffat, Riviera, Savon Kinot, Gilda, Cinema Orion, Kino Engel,
 Bio Rex Kokkola, Kino Akseli, Kinopirtti, Leffabuumi, Studio 123 Järvenpää,
 Studio 123 Kouvola, Kino 123, Ihme Kompleksi, Kinotar 123, Kino Juha, Bio Grand,
@@ -79,8 +79,8 @@ small cinemas run one of a few ticketing platforms:
 | Kino Kirkkonummi | 1 | 1 | none | GitHub Actions |
 | Bio Savoy | 1 | 1 | none | GitHub Actions |
 | Cine Mäntsälä (MyCloudCinema) | 1 | 1 | none | GitHub Actions |
-| Kinola (Kilta, Laika, Myyri, Sheryl, Konepaja) | 5 | 4 | none | GitHub Actions; Sheryl local |
-| Johku (7 storefronts) | 7 | 6 | none | GitHub Actions |
+| Kinola (Kilta, Laika, Myyri, Sheryl, Konepaja) | 5 | 5 | none | GitHub Actions; Sheryl local |
+| Johku (7 storefronts) | 7 | 7 | none | GitHub Actions |
 | The Events Calendar | 2 | 2 | none | GitHub Actions |
 | Kino Hamina | 1 | 1 | none | GitHub Actions |
 | Kinotour | 1 | 3 | none | GitHub Actions |
@@ -95,7 +95,7 @@ small cinemas run one of a few ticketing platforms:
 | Kino-Huovi | 1 | 1 | none | Local |
 | Kino K13 | 1 | 1 | none | GitHub Actions |
 | Kino Helios (Malmitalo) | 1 | 1 | none | GitHub Actions |
-| Kannusali (Espoo's event calendar) | 1 | 0 | none | GitHub Actions |
+| Kannusali (Espoo's event calendar) | 1 | 1 | none | GitHub Actions |
 
 A local machine runs the local half, normally four times a day, pushes, then
 triggers the cloud workflow. It takes a fresh Finnkino token from a real browser session each
@@ -281,7 +281,7 @@ local machine alike, so a schedule and the pages built from it land in one commi
     /teatteri/{slug}/     one venue        /sv/teatteri/{slug}/   /en/theatre/{slug}/
     /kaupunki/{slug}/     a whole city     /sv/kaupunki/{slug}/   /en/city/{slug}/
 
-155 per language, 466 sitemap URLs: 138 venues plus the seventeen cities with more
+158 per language, 475 sitemap URLs: 141 venues plus the seventeen cities with more
 than one venue, and the front page. The 15 regions get no page of their own: a region
 page would compete with the city and venue pages it is made of, and a region
 exists only inside the picker. A one-venue city would

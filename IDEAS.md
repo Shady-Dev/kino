@@ -27,7 +27,7 @@ contract change is explained here, never in `docs/research/`.
 
 ### Provider coverage, and what is next
 
-83 providers, 134 venues, 96 cities, declared and committed alike, measured 2026-09-21.
+86 providers, 141 venues, 100 cities, declared and committed alike, measured 2026-10-13.
 Check for an existing platform first. Every candidate assessed, with its evidence, is in
 [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
 
