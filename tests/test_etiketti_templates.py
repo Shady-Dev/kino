@@ -207,6 +207,25 @@ class DataDatesTest(Stubbed):
                          ("Sali Tapio 3", "14€", "Viimeinen näytös"))
         self.assertEqual((maxim["aud"], maxim["price"]), ("", "12€"))
 
+    def test_savon_kinots_own_name_room_and_two_field_lines(self):
+        # The three shapes read live on 2026-10-13 that had no fixture through fetch_site.
+        page = dated_film(
+            dated_item("iisalmi", "13.10.2026", "18.00", "IISALMI | KUVALIPAS | LOISTE", "13,00",
+                       "27/31", 55790, tag="Ensi-ilta"),
+            dated_item("savonlinna", "14.10.2026", "19.30", "SAVONLINNA | KUVALINNA", "12,00",
+                       "50/70", 55791),
+            dated_item("kitee", "15.10.2026", "18.30", "KITEE | KINO-HOVI", "11,00",
+                       "40/90", 55792, tag="Viimeinen näytös"))
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/141/pirjo"),
+                       "/elokuvat/141/pirjo": page})
+        out = e.fetch_site(site("savonkinot"), sleep=0)
+        self.assertEqual({k: len(v) for k, v in out.items() if v},
+                         {"sk-kuvalipas": 1, "sk-kuvalinna": 1, "sk-kinohovi": 1})
+        got = {k: (v[0]["aud"], v[0]["method"]) for k, v in out.items() if v}
+        self.assertEqual(got, {"sk-kuvalipas": ("LOISTE", "Ensi-ilta"),
+                               "sk-kuvalinna": ("", ""),
+                               "sk-kinohovi": ("", "Viimeinen näytös")})
+
     def test_an_item_with_two_dates_or_none_is_not_placed(self):
         e = load()
         two = dated_item("mikkeli", "14.10.2026", "19.15", "MIKKELI | KINOLINNA | SALI 2",
@@ -347,14 +366,25 @@ class KotkaTemplateTest(Stubbed):
         self.assertEqual(meta["genres"], "Kauhu, Trilleri")
         self.assertEqual(meta["syn"], "Tarina jatkuu siitä, mihin edellinen jäi.")
 
-    def test_kotka_rows_carry_no_tags_and_match_by_the_place_line(self):
+    def test_kotka_rows_match_by_the_place_line_and_carry_a_tag_when_printed(self):
+        # The tag shape read on kotkanleffat.fi film 3300 on 2026-10-13.
+        tagged = ('<div class="item kotka date-5.9.2026"> <div> <p> <strong><span>LA 5.9. klo '
+                  '13.00</span></strong> <div class="movie-specs"> <span class="tag">Edullinen '
+                  'päivänäytös</span> </div> </p> <p> TRIO 123 | SALI 2<br /> Lippu 9,00&euro;'
+                  '<br /> Vapaat paikat 30/35 </p> </div> <div> <a class="button-screening" '
+                  'href="/salikartta?id=56108"> Osta tai varaa </a> </div> </div>\n')
+        page = KOTKA_FILM.replace('<div class="item kotka date-4.9.2026">',
+                                  tagged + '<div class="item kotka date-4.9.2026">')
+        self.assertNotEqual(page, KOTKA_FILM)
         e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious"),
-                       "/elokuvat/3268/insidious": KOTKA_FILM})
+                       "/elokuvat/3268/insidious": page})
         out = e.fetch_site(site("kotkanleffat"), sleep=0)
         self.assertEqual(sorted(out), ["kl-kinopalatsi", "kl-trio123"])
-        show = out["kl-trio123"][0]
+        show, day = out["kl-trio123"]
         self.assertEqual(show["method"], "")
         self.assertEqual(show["aud"], "SALI 2")
+        self.assertEqual((day["method"], day["aud"]), ("Edullinen päivänäytös", "SALI 2"))
+        self.assertEqual(out["kl-kinopalatsi"][0]["method"], "")
         self.assertFalse(show["soldOut"])
         self.assertTrue(out["kl-kinopalatsi"][0]["soldOut"])
 

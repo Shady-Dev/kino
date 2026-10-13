@@ -303,7 +303,7 @@ def _price(raw):
 # "Cinema Niagara, Tampere").
 SEATS_RE = re.compile(r"(?:Vapaat paikat|Paikkoja vapaana):?\s*(\d+)\s*/\s*(\d+)")
 BOOK_RE = re.compile(r'href="(/salikartta\?id=\d+)"')
-# Niagara's per-screening labels: "Seniorikino", "Ensi-ilta", "Q&amp;A" ... Kotka has none.
+# Per-screening labels: Niagara's "Seniorikino" and "Q&amp;A", Kotka's "Erikoisnäytös".
 TAG_RE = re.compile(r'<span class="tag"[^>]*>(.*?)</span>', re.S)
 AGE_RE = re.compile(r"ikarajat/fi-(\d+|s)\.svg", re.I)
 # Kotka: `Kesto:</span> 1 h 46 min`. Niagara: `Kesto </span> 1 h 48 min`, no colon.
