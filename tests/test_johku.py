@@ -251,6 +251,61 @@ class ScheduleTest(unittest.TestCase):
         self.assertEqual(J.schedule(front((1, []), (9, []))), ("complete", [[], []]))
 
 
+# A storefront that also sells theatre in another hall, shaped on Kulttuurimylly's front page
+# read 2026-10-13: category 2 "Elokuvat" and category 5 "Teatteri", both drawn.
+MYLLY = {"provider": "kulttuurimylly", "label": "Kino Kulttuurimylly",
+         "base": "https://kulttuurimylly.johku.com", "listing": "/", "categories": ("2",),
+         "venues": [{"id": "kulttuurimylly-helsinki", "name": "Kino Kulttuurimylly",
+                     "short": "Kino Kulttuurimylly", "city": "Helsinki",
+                     "loc": "Feeniks-sali (Kino Kulttuurimylly)"}]}
+MYLLY_FILMS = MYLLY["venues"][0]["loc"]
+MYLLY_THEATRE = "Feeniks-sali (Teatteri)"
+
+
+def mylly(**kw):
+    host = MYLLY["base"]
+    return front(
+        (2, [entry("1", "Kerro Kaikille", "2026-10-09 17:15", loc=MYLLY_FILMS, product="1",
+                   host=host, slug="a"),
+             entry("2", "Matka Piemonteen", "2026-10-10 15:00", loc=MYLLY_FILMS,
+                   product="2", host=host, slug="b")]),
+        (5, [entry("3", "Joulupallo", "2026-11-27 18:00", loc=MYLLY_THEATRE, product="9",
+                   host=host, slug="joulupallo-2"),
+             entry("4", "Joulupallo", "2026-11-28 15:00", loc=MYLLY_THEATRE, product="9",
+                   host=host, slug="joulupallo-2")]),
+        shop="kulttuurimylly", **kw)
+
+
+class CategoriesTest(unittest.TestCase):
+    """A site's `categories` keeps the blocks it lists and nothing else."""
+
+    def test_only_the_listed_category_is_published(self):
+        state, blocks = J.schedule(mylly(), categories=MYLLY["categories"])
+        self.assertEqual(state, "complete")
+        shows, _ = J.parse(MYLLY, blocks, {}, NOW)
+        self.assertEqual(list(shows), ["kulttuurimylly-helsinki"])
+        self.assertEqual([(s["title"], s["start"]) for s in shows["kulttuurimylly-helsinki"]],
+                         [("Kerro Kaikille", "2026-10-09T17:15:00+03:00"),
+                          ("Matka Piemonteen", "2026-10-10T15:00:00+03:00")])
+
+    def test_with_no_categories_the_theatre_hall_fails_the_site(self):
+        site = {k: v for k, v in MYLLY.items() if k != "categories"}
+        with self.assertRaises(J.ListingRowError) as e:
+            J.rows(site, blocks_of(mylly()), NOW)
+        self.assertIn(repr(MYLLY_THEATRE), str(e.exception))
+
+    def test_a_listed_category_the_layout_does_not_name_is_missing(self):
+        for categories in (("7",), ("2", "7"), ()):
+            with self.subTest(categories=categories):
+                self.assertEqual(J.schedule(mylly(), categories=categories), ("missing", []))
+
+    def test_the_markup_is_counted_against_every_block_the_layout_names(self):
+        for drawn in (1, 3):
+            with self.subTest(drawn=drawn):
+                self.assertEqual(J.schedule(mylly(drawn=drawn), categories=("2",)),
+                                 ("unmatched", []))
+
+
 class RowsTest(unittest.TestCase):
     def rows(self, *entries, now=NOW):
         return J.rows(MARILYN, blocks_of(front((1, list(entries)))), now)
@@ -779,6 +834,34 @@ class RunnerTest(unittest.TestCase):
         films = [c for c in self.calls if "/fi_FI/" in c]
         self.assertEqual(sorted(films), sorted(set(films)))
         self.assertEqual(len(films), 12)      # six storefronts, two films each
+
+    def with_mylly(self, categories):
+        sites = J.SITES
+        self.addCleanup(lambda: setattr(J, "SITES", sites))
+        J.SITES = sites + [dict(MYLLY, categories=categories)]
+
+    def test_a_site_publishes_only_the_categories_it_lists(self):
+        self.with_mylly(("2",))
+        self.serve(self.all_sites(**{"https://kulttuurimylly.johku.com/": mylly()}))
+        code, log = self.main()
+        self.assertEqual(code, 0, log)
+        self.assertEqual([s["title"] for s in self.shows("kulttuurimylly-helsinki")],
+                         ["Kerro Kaikille", "Matka Piemonteen"])
+        self.assertEqual([c for c in self.calls if "joulupallo" in c], [])
+
+    def test_a_listed_category_the_page_does_not_name_fails_and_keeps_the_file(self):
+        self.with_mylly(("7",))
+        prev = self.keep("kulttuurimylly-helsinki")
+        self.serve(self.all_sites(**{"https://kulttuurimylly.johku.com/": mylly()}))
+        code, log = self.main()
+        self.assertEqual(code, 1, log)
+        self.assertEqual(self.calls.count("https://kulttuurimylly.johku.com/"),
+                         J.LISTING_TRIES)
+        self.assertIn(f"not complete on any of {J.LISTING_TRIES} reads (missing", log)
+        self.assertNotIn("no programme published", log)
+        self.assertEqual(json.loads(
+            (run.OUT / "area-kulttuurimylly-helsinki.json").read_text()), prev)
+        self.assertEqual(len(self.shows("bioforum-tammisaari")), 2)
 
 
 class KinoHannikainenTest(unittest.TestCase):

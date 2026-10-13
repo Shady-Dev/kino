@@ -25,6 +25,8 @@ the site fails with its previous files standing. Every block answering with an e
 is the platform's own statement that nothing is scheduled, which is
 `common.EmptyProgramme`.
 
+A site whose storefront also sells theatre lists its film blocks in `categories`.
+
 An entry, with the fields the page's ShowItem draws:
 
     {"id": "6463", "text": "Kerro kaikille", "start_date": "2026-10-09 17:00",
@@ -317,7 +319,12 @@ LISTING_TRIES = 5
 LISTING_WAIT = 5.0
 
 
-def schedule(page, locale=LOCALE):
+def _category(item):
+    category = item.get("category")
+    return category.get("id") if isinstance(category, dict) else None
+
+
+def schedule(page, locale=LOCALE, categories=None):
     """The front page's programme blocks. -> (state, [[entry]] one list per block).
 
     `state` is "complete" when the storefront's layout names at least one programme block,
@@ -326,6 +333,10 @@ def schedule(page, locale=LOCALE):
     "missing" (no payload, layout or programme block), "unmatched" (the markup draws a
     different number of blocks), "loading" (a block's schedule is absent) or "error" (the
     server recorded its request for one as failed).
+
+    `categories`, a site's own list of category ids, keeps only those blocks. The markup is
+    still counted against every block the layout names, and a listed category the layout
+    does not name is "missing", so a renumbered category fails the site.
     """
     root = payload(page)
     data = root.get("data") if root else None
@@ -343,10 +354,15 @@ def schedule(page, locale=LOCALE):
         return "missing", []
     if len(SHOWS_RE.findall(page)) != len(items):
         return "unmatched", []
+    if categories is not None:
+        wanted = {str(c) for c in categories}
+        named = {str(_category(item)) for item in items}
+        items = [item for item in items if str(_category(item)) in wanted]
+        if not items or not wanted <= named:
+            return "missing", []
     blocks = []
     for item in items:
-        category = item.get("category")
-        cid = category.get("id") if isinstance(category, dict) else None
+        cid = _category(item)
         if cid in (None, ""):
             return "missing", []
         key = re.compile(rf"showschedule-{re.escape(locale)}-f\d{{4}}-\d\d-\d\d"
@@ -365,14 +381,14 @@ def schedule(page, locale=LOCALE):
     return "complete", blocks
 
 
-def read_listing(url):
+def read_listing(url, categories=None):
     """-> (blocks, reads) once the front page carries its whole schedule. Raises after
     `LISTING_TRIES` reads that did not: an incomplete answer is not an empty programme."""
     states = []
     for n in range(LISTING_TRIES):
         if n:
             time.sleep(LISTING_WAIT)
-        state, blocks = schedule(get(url))
+        state, blocks = schedule(get(url), categories=categories)
         if state == "complete":
             return blocks, n + 1
         states.append(state)
@@ -617,7 +633,7 @@ def fetch_site(site, sleep=1.2):
     """Runner contract: the front page, then one film page per distinct product."""
     pid = site["provider"]
     listing_url = site["base"].rstrip("/") + site["listing"]
-    blocks, reads = read_listing(listing_url)
+    blocks, reads = read_listing(listing_url, site.get("categories"))
     if reads > 1:
         print(f"[{pid}] the schedule was complete on read {reads} of {LISTING_TRIES}")
     entries = sum(len(b) for b in blocks)
