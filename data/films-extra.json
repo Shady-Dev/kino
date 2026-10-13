@@ -666,6 +666,14 @@
     "fi"
    ]
   },
+  "bushido elokuvakerho pennittömät": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Köyhästä samuraista ja rikkaasta liikemiehestä tulee epätodennäköiset ystävät go-lautapelin kautta. Isännätön samurai Yanagida on menettänyt asemansa väärien syytösten vuoksi, mutta ei ole luopunut suoraselkäisyydestään. Genbei on huonomaineinen panttilainaaja, joka oppii Yanagidalta rehellisyyden arvon. Myös Yanagidan tytär ja Genbein kasvattipoika alkavat lähentyä keskenään. Eräänä juhlayönä Yanagida kuitenkin saa järkyttävän viestin, joka kutsuu hänet etsimään kostoa. Samana yönä Genbeiltä katoaa suuri summa rahaa, ja syylliseksi epäillään Yanagidaa. Bushido on visuaalisesti vaikuttava moderni samuraielokuva, joka on samanaikaisesti kunnianosoitus historiallisen jidaigeki-genren perinteille, mutta myös uudistaa genreä rähjäisempään ja vähemmän romantisoituun suuntaan. Se on tarina kunniasta, kostosta, ylpeydestä – ja ystävyydestä."
+   },
+   "tr": ""
+  },
   "bussipysäkki": {
    "id": 24010,
    "r": 0,
@@ -1036,6 +1044,16 @@
    "ts": [
     "en"
    ]
+  },
+  "dyyni osa kolme ennakkonäytös": {
+   "id": 841,
+   "img": "data/posters/980c83adb0ad1d27.jpg",
+   "r": 6.2,
+   "s": {
+    "en": "",
+    "fi": "Denis Villeneuven ohjaama ja Villeneuven sekä Brian K. Vaughanin yhdessä käsikirjoittama Dyyni: Osa kolme perustuu Frank Herbertin romaaniin Dyynin messias ja tarjoaa eeppisen päätöksen Villeneuven trilogialle. Elokuvan pääosissa ovat Timothée Chalamet, Zendaya, Jason Momoa, Florence Pugh, Rebecca Ferguson, Isaach De Bankolé, Charlotte Rampling, Anya Taylor-Joy, Robert Pattinson ja Javier Bardem, ja uusina tulokkaina nähdään Nakoa-Wolf Momoa ja Ida Brooke."
+   },
+   "tr": "https://www.youtube.com/watch?v=hjRG8kvMFw0"
   },
   "ekakertaleffassa ryhmä hau dinoelokuva 5": {
    "id": 1185806,
@@ -1511,6 +1529,16 @@
    },
    "tr": ""
   },
+  "hirtettyjen kettujen metsä": {
+   "id": 261118,
+   "img": "data/posters/c06504e405dd11b8.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kuppia ottava majuri ja kulta-aarretta piilotteleva vilunkimies ottavat klassisesti yhteen Lapin mailla. Esikoisohjaaja Jouko Suikkari (1948-2021) tavoitti filmatisoijista verevimmin Paasilinnan verrattomuuden nimenomaan veijarikirjailijana. Markku Toikka ja Aarno Sulkanen panevat pääosissa parastaan ja ohessa loistaa eksoottinen iskelmätähti Honey Simone. Poropoliisina nähdään viime talvena edesmennyt Seppo Heinola, myös rajatietokutsumuksestaan ja Shakespeare-tutkimuksistaan tunnettu teatteritaiteen persoona. Hirtettyjen kettujen metsä on ensi-iltakierroksensa jälkeen ollut harvinainen saalis valkokankailla, todellinen täky. -Jukka Sammalisto Näytöksessä on vieraana tuottaja Tuomas Sallinen."
+   },
+   "tr": ""
+  },
   "hissillä mestauslavalle": {
    "id": 1093,
    "img": "data/posters/6df2d31bfec9e568.jpg",
@@ -1534,6 +1562,14 @@
    "s": {
     "en": "",
     "fi": "Laula minulle Arja on dokumenttielokuva legendaarisesta suomalaisesta laulajasta ja ihmisoikeusaktivisti Arja Saijonmaasta, vahvatahtoisesta naisesta, joka on elänyt taiteensa rajojen, sukupolvien ja ideologioiden yli. Elokuva seuraa hänen poikkeuksellista matkaansa ja elinikäistä ystävyyttään kreikkalaisen säveltäjän ja vapaustaistelijan Mikis Theodorakiksen kanssa. Musiikkielämysten, harvinaisen arkistomateriaalin ja nykyhetken pohdintojen kautta dokumenttielokuva paljastaa pelottoman esiintyjän ja rauhan sillanrakentajan, jonka aseena on laulu. Elokuvateattereissa 14.8."
+   },
+   "tr": ""
+  },
+  "hopeatähti presidentin kyyditys": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tositapahtumien inspiroima Presidentin kyyditys vie katsojan keskelle vuoden 1930 absurdeja tapahtumia. Raskaan ryyppyillan aikana joukko kunnianhimoisia upseereita päättää kaapata Suomen ensimmäisen presidentin – jo eläkkeellä olevan K. J. Ståhlbergin. Uppiniskainen presidentin vaimo Ester Ståhlberg ei tiukassakaan tilanteessa suostu jättämään miestään, vaan änkeää muiluttajien pään menoksi samaan kyytiin auton takapenkille. Alkaa uskomaton matka halki levottoman Suomen, jossa huhupuheet ja historia kietoutuvat yhteen – eikä vieläkään tiedetä, mikä presidentin kyydityksessä oli totta ja mikä tarua. Elokuvateattereissa 4.9."
    },
    "tr": ""
   },
@@ -1616,6 +1652,19 @@
     "fi": "Tositarinaan perustuva, sympaattinen ja koskettava I Swear - Minun ääneni kertoo nuoresta Johnista, joka yrittää elää “normaalia” elämää maailmassa, joka näkee hänet erilaisena. Elokuva vie katsojan 1980-luvun Skotlantiin. 15-vuotiaalla Johnilla todetaan Touretten syndrooma aikana, jolloin sairaudesta tiedetään vielä hyvin vähän. John kohtaa ennakkoluuloja ja epäilyjä. Yllättävien ja avuliaiden ihmisten avulla hän alkaa löytää keinoja selviytyä yhteiskunnassa, ja avaa samalla tietä erilaisuuden hyväksymiselle. I Swear - Minun ääneni on lämminhenkinen tarina rohkeudesta, oman äänen löytämisestä ja monimuotoisuuden arvostamisesta."
    },
    "tr": "https://www.youtube.com/watch?v=10ynpduiRpM"
+  },
+  "i was a stranger": {
+   "id": 1193128,
+   "img": "data/posters/a23637c1451f93b1.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "A Syrian doctor and her daughter flee Aleppo, setting off a chain of events that binds five strangers together. A smuggler, a soldier, a poet, and a coast guard captain collide in a crisis that tests their courage, their choices, and their humanity.",
+    "fi": "Kun syyrialainen lääkäri joutuu pakenemaan Alepposta nuoren tyttärensä kanssa, yksi epätoivoinen valinta käynnistää tapahtumaketjun, joka ulottuu yli rajojen ja vetää neljä toisilleen tuntematonta ihmistä samaan myrskyyn. Salakuljettajan, joka yrittää pelastaa poikansa. Sotilaan, joka kamppailee omantuntonsa kanssa. Runoilijan, joka etsii kotia. Kreikkalaisen rannikkovartioston kapteenin, joka joutuu valitsemaan velvollisuuden ja armeliaisuuden välillä. Heidän polkunsa risteävät eräänä yönä Välimerellä, jossa selviytyminen on epävarmaa ja inhimillisyys paljastuu sen raaimmassa muodossa."
+   },
+   "tr": "https://www.youtube.com/watch?v=VvGvWHHjK2o",
+   "ts": [
+    "en"
+   ]
   },
   "idän soturit": {
    "id": 43636,
@@ -1949,6 +1998,30 @@
    },
    "tr": "https://www.youtube.com/watch?v=tqn2t3PefdY"
   },
+  "ke kino lyhyt rakkaustarina": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Lea ja Rocco kohtaavat sattumalta baarissa. Heidän välillään kipinöi heti, ja kaksikko syöksyy salaiseen suhteeseen. Kumpikin viettää tahoillaan tavallisen onnellista, hyvää elämää, mutta hotellihuoneen lakanoissa he tuntuvat löytävän toisistaan jotain, mitä ovat kaivanneet. Kun salasuhde alkaa saada Lean osalta pakkomielteisiä sävyjä, tunnelma kiristyy. Miten pitkälle syrjähypyn voi antaa mennä – ja mitä tapahtuu, kun kaikki lopulta paljastuu? Suomen elokuvasäätiön maahantuontituki 2026."
+   },
+   "tr": ""
+  },
+  "ke kino oasis don t look back in anger": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "“Don't Look Back In Anger” luotaa Liam ja Noel Gallagherin menestyksekästä paluukiertuetta Oasis Live ‘25, joka lukeutuu aikamme odotetuimpien rock ‘n’ roll comebackien joukkoon. Elokuva tarjoaa avoimen inspiroivan näkökulman musiikkimaailman vuoden 2025 suurimpaan tapahtumaan taltioidessaan yhtyeen ja sen fanien tunnekuohut ja kokemukset. Ainutlaatuinen kuvaus sisältää materiaalia niin harjoituksista, lavan takaa kuin konserteista sekä Noelin ja Liamin ensimmäiset yhteishaastattelut yli 20 vuoteen. Yhtyeen loppuunmyydyn maailmankiertueen lisäksi elokuva tarkastelee myös tämän maailmanlaajuisen kulttuurillisen ilmiön vaikutuksia ja sitä, mitä yhtyeen musiikki merkitsee yleisölle ja useille sukupolville kaikkialla. Ennennäkemätöntä materiaalia ja ainutlaatuisia kohtauksia kulisseista sisältävä elokuva on Magna Studiosin tuotanto, jonka esittää Sony Music Vision yhteistyössä Sony Music Entertainment UK:n kanssa. Tuottajina toimivat Sam Bridger (“Lewis Capaldi: How I’m Feeling Now”, “Meet Me in the Bathroom”) ja Guy Heeley (“Peaky Blinders: The Immortal Man”). Vastaaviin tuottajiin lukeutuvat Kate Shepherd, Marisa Clifford, Davud Karbassioun, Tom Mackay, Krista Wegener, Isabel Davis ja Tim O’Shea, sekä työryhmään Oscar®-palkitut äänimiksaajat James Mather (“Top Gun: Maverick”, “Belfast”) ja Tarn Willers (“The Zone of Interest”), elokuvaaja Haris Zambarloukos (“Belfast”, “Beetlejuice Beetlejuice”) ja luovan tiimin johdossa toimineet leikkaajat George Cragg ja Martina Zamolo."
+   },
+   "tr": ""
+  },
+  "ke kino romería toivon jäljillä": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Cannesin elokuvajuhlilla ensi-iltansa saanut espanjalaisohjaaja Carla Simónin kolmas pitkä elokuva Romería on haikeankaunis ja vangitseva perhedraama nuoresta naisesta, joka lähtee etsimään totuutta isänsä varhaisesta kuolemasta. Romería kertoo 18-vuotiaasta Marinasta, joka saapuu Espanjan rannikolle tapaamaan biologisen isänsä sukua – ihmisiä, joita hän ei ole koskaan tavannut. Hän kohtaa joukon uusia tätejä, setiä ja serkkuja, tietämättä, ottavatko he hänet avosylin vastaan vai suhtautuvatko varauksella. Kohtaamiset nostavat pintaan syvälle haudattuja muistoja, herättävät tunteita ja paljastavat menneisyyteen vaiettuja perhesalaisuuksia. Hajanaisista kertomuksista Marinalle alkaa vähitellen muodostua kuva vanhemmistaan, ja etsintämatkasta tulee mieleenpainuva kokemus, joka tuo hänet lähemmäs itseään ja omia juuriaan. Ohjaaja Carla Simón on tunnettu elokuvastaan Tämä maa (Alcarràs), josta hän voitti Kultaisen karhun Berliinin kansainvälisillä elokuvajuhlilla. Autofiktiivinen elokuva pohjautuu ohjaajan omiin teinivuosien kokemuksiin."
+   },
+   "tr": ""
+  },
   "keinolla millä hyvänsä": {
    "id": 1380417,
    "r": 0,
@@ -2018,6 +2091,7 @@
     "biopallas",
     "biorex",
     "biorexkokkola",
+    "biosade",
     "biovuoksi",
     "cine",
     "cinemantsala",
@@ -2088,6 +2162,14 @@
     "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
    },
    "tr": "https://www.youtube.com/watch?v=iUpszeSB7k4"
+  },
+  "kerro kaikille suomeksi tekstitetty": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kerro kaikille on voimaelokuva Amanda Aaltosesta, joka kieltäytyy alistumasta hänelle varattuun köyhän naisen ankeaan kohtaloon ja etsii huimapäisesti onneaan maailmalta. Rangaistukseksi sääntöjen rikkomisesta yhteiskunta anastaa häneltä kaikkein tärkeimmän, vapauden, ja sulkee hänet Seilin saarelle."
+   },
+   "tr": ""
   },
   "kerro se kaikille": {
    "id": 1304530,
@@ -2448,7 +2530,6 @@
     "cinemantsala",
     "isohannu",
     "kinohirvi",
-    "kinolaika",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -2650,6 +2731,16 @@
     "fi": "Hintaan sisältyy lisäksi paperinen käsiohjelma (mikäli saatavilla) ja väliaikatarjoilu. Varaathan lipun edelliseen iltaan klo 18 mennessä verkossa tai puhelimitse. Tilaamme väliaikatarjoilun siihen mennessä lipun varanneille. Esitys kuuluu erikoisnäytäntöihin – alennuksia tai etuja. Kesä-, sarja-, joulu- ja vapaalippuja ei voi hyödyntää lipun hinnassa. Luciano Pavarotti – mies joka kosketti maailmaa Pavarottin 90-vuotissyntymäpäivän kunniaksi Arena di Veronalla järjestettiin vertaansa vailla olevan tähtikaartin voimin koskettava kunnianosoitus maailman ihailluimman tenorin uralle. Andrea Bocelli, Placido Domingo, José Carreras, Jonathan Tetelman, Yusif Eyvazpv, Angela Gheorghiou ja monet muut tuovat rakastetun Pavarottin hetkeksi takaisin elämään."
    },
    "tr": ""
+  },
+  "kontinental 25": {
+   "id": 1410189,
+   "img": "data/posters/81b6b83a8a47b9bd.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "Orsolya is a bailiff in Cluj, the main city in Transylvania. One day she must evict a homeless man who lives in the basement of a building. An unexpected event creates a moral crisis she tries to solve as best she can. The latest film from modern master filmmaker Radu Jude, winner of the Silver Bear for Best Screenplay at the Berlin Film Festival.",
+    "fi": "Transilvanian pääkaupungissa Cluj-Napocassa Orsolya työskentelee ulosottomiehenä. Eräänä päivänä hänen on häädettävä koditon mies kellarista, mikä johtaa katastrofaalisiin seurauksiin ja herättää moraalisen ongelman, jonka Orsolya joutuu ratkaisemaan."
+   },
+   "tr": "https://www.youtube.com/watch?v=b9umCIsc-zc"
   },
   "kpe kevlarsjäl iskunkestävä sielu": {
    "r": 0,
@@ -2934,6 +3025,7 @@
    "img": "data/posters/c15d678a31ae397e.jpg",
    "kr": "K-16",
    "krs": [
+    "alatalo",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -2943,9 +3035,11 @@
     "gilda",
     "huvimylly",
     "ihmekompleksi",
+    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
+    "kinohannikainen",
     "kinojuha",
     "kinolumo",
     "kinometso",
@@ -2956,6 +3050,7 @@
     "kinotar",
     "kotkanleffat",
     "matintupa",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -2973,6 +3068,7 @@
    "img": "data/posters/c15d678a31ae397e.jpg",
    "kr": "K-16",
    "krs": [
+    "alatalo",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -2982,9 +3078,11 @@
     "gilda",
     "huvimylly",
     "ihmekompleksi",
+    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
+    "kinohannikainen",
     "kinojuha",
     "kinolumo",
     "kinometso",
@@ -2995,6 +3093,7 @@
     "kinotar",
     "kotkanleffat",
     "matintupa",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -3015,6 +3114,7 @@
    "img": "data/posters/c15d678a31ae397e.jpg",
    "kr": "K-16",
    "krs": [
+    "alatalo",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -3024,9 +3124,11 @@
     "gilda",
     "huvimylly",
     "ihmekompleksi",
+    "jarvelankino",
     "joutsankino",
     "kino123",
     "kinoaurora",
+    "kinohannikainen",
     "kinojuha",
     "kinolumo",
     "kinometso",
@@ -3037,6 +3139,7 @@
     "kinotar",
     "kotkanleffat",
     "matintupa",
+    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -3763,6 +3866,14 @@
    },
    "tr": ""
   },
+  "naiskäsityöläinen elämä ehjäksi kutoen keskustelutilaisuus": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Lahtelainen Mervi Pasanen on yksi dokumentin päähenkilöistä. Mervi on mukana Kino Iiriksen näytöksessä ja vastaa yleisön kysymyksiin. Naiskäsityöläinen: Elämä ehjäksi kutoen on intiimi, ”kehollinen” dokumenttielokuva, joka tarjoaa vastapainon nopeatempoiselle maailmalle. Elokuva siirtää huomion lopputuotteesta itse tekemisen parantavaan prosessiin. Kuuden kuukauden ajan kuvattu projekti seuraa neljää suomalaista naiskäsityöläistä, jotka löytävät merkityksen perinteisistä kädentaidoista. Elokuva kutsuu katsojaa siirtymään analyyttisestä mielestä kehon aistimuksiin. Suomen vuodenaikojen vaihtuessa neljä naista löytää eheyden esivanhempien käsitöistä. Nykypäivän loppuunpalamisen ja irrallisuuden keskellä elokuva tarjoaa tarinoita keskinäisestä yhteydestä. Ohjaaja painottaa prosessin merkitystä: tavoitteena on taltioida aitoja tarinoita kiireettömästi ja luottamusta rakentaen, jotta yleisö voisi siirtää huomionsa älyllisestä pohdinnasta omaan kehoonsa ja sydämeensä. Ohjaajan sana (Madison McClintock) Työni tutkii ihmisten ja ympäristön välistä yhteyttä ja riippuvuutta. Yhdysvaltalaisena tekstiilitaiteilijana ja elokuvantekijänä, jolla on pohjoismaiset juuret, minua kiinnostaa se, mitä menetämme, kun siteemme kulttuuriperintöömme katkeaa. Koen itse syvintä yhteyttä menneisiin sukupolviin työskennellessäni käsilläni. Elokuvan idea syntyi vuonna 2021 New Mexicossa, kun tapasin suomalaisen mestarikutoja Hannele Köngäksen. Hänen intohimonsa kestäviin menetelmiin, historiallisiin tekniikoihin ja kainuunharmaan villaan teki minuun syvän vaikutuksen. Hannelen opastuksella tutustuin naiskäsityöläisiin ympäri Suomea. Fulbright Finlandin apurahan ja Suomen käsityön museon tuella pystyin lopulta viettämään kuusi kuukautta Suomessa tätä elokuvaa tehden. Naiskäsityöläinen: Elämä ehjäksi kutoen / Craftswoman: Weaving Life Whole Ohjaus: Madison McClintock Kesto: 83 min Valmistumisvuosi: 2026 Kieli: suomi ja englanti, englanninkieliset tekstitykset craftswomanfilm.com"
+   },
+   "tr": ""
+  },
   "nalle naavatassu kalassa": {
    "r": 0,
    "s": {
@@ -3782,7 +3893,6 @@
   },
   "natalia": {
    "id": 459808,
-   "img": "data/posters/fdb2e70ead500748.jpg",
    "r": 0,
    "s": {
     "en": "",
@@ -3950,6 +4060,14 @@
    "ts": [
     "fi"
    ]
+  },
+  "nuorena äidiksi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Belgialaiset mestariohjaajat Jean-Pierre ja Luc Dardenne nostavat elokuvassaan pääosaan nuoret naiset, joita yhdistää syvä kokemus raskausajasta ja äitiydestä. Jessica (Babette Verbeek) on viimeisillään raskaana ja kaipaa kipeästi äitiään, jonka nimeäkään hän ei tiedä. Hän ryhtyy ristiriitaisin tuntein etsimään vastausta kaikkein tärkeimpään kysymykseen: miksi äiti hylkäsi Jessican tämän ollessa vauva? Jessica asuu ensikodissa Belgian Liègessä. Ensikodin asukkaille on yhteistä paitsi äitiys myös luoviminen oman perheen ja nyky-yhteiskunnan ennakkoluulojen sekä valtasuhteiden paineessa. Päivittäinen selviäminen rasismin, huumeiden ja perheväkivallan uhkien alla ei ole helppoa, mutta he antavat toisilleen toivoa. Arjen ilot ja pienet onnistumiset nousevat arvoonsa. Dokumentaristeina aloittaneet Dardennen ohjaajaveljekset onnistuvat yhdistämään ajankohtaiset kysymykset väkevästi henkilökohtaisiin tarinoihin ja yleisinhimilliseen kontekstiin. Luova Eurooppa -ohjelman - MEDIA -tuella."
+   },
+   "tr": ""
   },
   "näkymätön elina": {
    "id": 46814,
@@ -4585,6 +4703,7 @@
     "bioforum",
     "biomarilyn",
     "biopallas",
+    "biorex",
     "engel",
     "isohannu",
     "kinokulma",
@@ -4593,7 +4712,8 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
-    "kinovirta"
+    "kinovirta",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4624,6 +4744,7 @@
     "bioforum",
     "biomarilyn",
     "biopallas",
+    "biorex",
     "engel",
     "isohannu",
     "kinokulma",
@@ -4632,7 +4753,8 @@
     "kinoolympia",
     "kinopiispanristi",
     "kinoset",
-    "kinovirta"
+    "kinovirta",
+    "vaakuna"
    ],
    "r": 0,
    "s": {
@@ -4768,39 +4890,6 @@
   "pirjo": {
    "id": 1729175,
    "img": "data/posters/a8cdd21dca604433.jpg",
-   "kr": "S",
-   "krs": [
-    "alatalo",
-    "bioforum",
-    "biokaari",
-    "biomarilyn",
-    "biopallas",
-    "biorex",
-    "biosade",
-    "cinemantsala",
-    "helios",
-    "isohannu",
-    "jarvelankino",
-    "julia",
-    "kinoakseli",
-    "kinohamina",
-    "kinohannikainen",
-    "kinohirvi",
-    "kinokulma",
-    "kinolumo",
-    "kinomarilyn",
-    "kinometso",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinoset",
-    "kinovirta",
-    "kuusamotalo",
-    "kuvakukko",
-    "laitilankino",
-    "lieksankino",
-    "vaakuna",
-    "vihdinkino"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5002,6 +5091,14 @@
    "ts": [
     "en"
    ]
+  },
+  "possession elokuvakerho pennittömät": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Kun Mark (Sam Neill) palaa vakoilutehtävältä kotiin Länsi-Berliiniin, haluaa hänen vaimonsa Anna (Isabelle Adjani) avioeron. Mark jättää vastahakoisesti sekä asunnon että poikansa vaimolleen. Vaikka Anna väittää, ettei ole tavannut ketään uutta, Mark aavistaa jotain – ja saa liian myöhään tietää, ettei mikään ole niin kuin pitäisi. Andrzej Zulawskin kulttiklassikko Possession (1981) on psykologinen kauhudraama, joka tarjoaa vertaansa vailla olevan painajaismaisen tripin.4K-restaurointina vihdoin Suomen ensi-iltansa saava elokuva on saavuttanut vuosien varrella jatkuvasti kasvavan fanikunnan. Sight & Sound -lehden kriitikkoäänestyksessä vuonna 2022 Possession valittiin maailman kaikkien aikojen 250 parhaan elokuvan joukkoon. Maaninen Adjani palkittiin Cannesin elokuvajuhlilla parhaana naisnäyttelijänä. Erikoistehosteista vastaa Oscar-voittaja Carlo Rambaldi (Alien, E..T.)."
+   },
+   "tr": ""
   },
   "postia pappi jaakobille": {
    "id": 55522,
@@ -5284,6 +5381,14 @@
    },
    "tr": ""
   },
+  "putoamisen ääni elokuvakerho pennittömät": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Cannesissa tuomariston palkinnon (Jury Prize) saanut Mascha Schilinskin ohjaama Putoamisen ääni (In die Sonne schauen) on hienovireinen ja kiehtova draama, joka kietoo yhteen neljän sukupolven tyttöjen kohtaloita. Neljä tyttöä varttuu eri aikoina samalla maatilalla Pohjois-Saksassa. Vuosien saatossa talo muuttuu, mutta sen seinät kantavat mukanaan menneiden sukupolvien muistoja, perhesalaisuuksia ja traumoja. Aikojen erottamina, mutta paikan yhdistäminä heidän elämänsä alkavat peilata toisiaan yllättävillä tavoilla. Putoamisen ääni on valittu Saksan Oscar-ehdokkaaksi. Suomen elokuvasäätiön Maahantuontituki 2026."
+   },
+   "tr": ""
+  },
   "pähkinänsärkijä hamburg ballett tshaikovski": {
    "r": 0,
    "s": {
@@ -5548,6 +5653,7 @@
     "isohannu",
     "kino123",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -5589,6 +5695,7 @@
     "isohannu",
     "kino123",
     "kinoelo",
+    "kinohirvi",
     "kinojuha",
     "kinolaika",
     "kinolumo",
@@ -5670,6 +5777,16 @@
     "fi": "Eräs Shakespearen filmatisoimisen keskeisiä ongelmia on löytää visuaalinen vastine runoilijan säkeiden ehtymättömälle rikkaudelle. Muun muassa tässä suhteessa Baz Luhrmannin Romeo ja Julia on riemukkaalla tavalla aivan omaa luokkaansa. Hän on sijoittanut tapahtumat postmoderniin urbaaniin mikä-mikä maahan (elokuva on kuvattu suurelta osin Mexico Cityssä) ja tallentanut tapahtumat kuin kyseessä olisi kokoillan rockvideo. Ja vaikka säkeitä lausuvatkin mitä erilaisimmilla tavalla englantia ääntävät näyttelijät, runous, sen kauneus ja voima ei jää audiovisuaalisen vyörytyksen varjoon. Tämän ansiosta Luhrmannia ei voi syyttää halpahintaisesta opportunismista, yrityksestä pelkästään kääriä klassikko kivaan pakettiin. Kieli ja muu ilmaisun eivät noin vain sulaudu yhteen, vaan niiden väliset jatkuvasti muuttuvat kontrastit luovat huimia tyylillisiä jännitteitä ja loputtomasti riemastuttavia rinnastuksia. Tekstin väistämättömiksi luullut anakronismit on joko ylitetty tai niille on etsitty koominen vastine. Prologi kuullaan uutisraporttina televisiosta, Capuletien ja Montagueiden nuoret kulkevat hengissä uhkaillen toisiaan Sword- (miekka-) merkkisillä aseilla jne. Mukana on muutenkin roppakaupalla huumoria ja – tietynlaisen hienostuneisuuden puitteissa – jopa groteskeja elementtejä. Mutta ennen kaikkea Shakespearen kieli ei lakkaa toimimasta näytelmän huikean tunneskaalan tärkeimpänä välittäjänä."
    },
    "tr": ""
+  },
+  "romería toivon jäljillä": {
+   "id": 1182861,
+   "img": "data/posters/b759279e7555b481.jpg",
+   "r": 6.5,
+   "s": {
+    "en": "",
+    "fi": "Cannesin elokuvajuhlilla ensi-iltansa saanut espanjalaisohjaaja Carla Simónin kolmas pitkä elokuva Romería on haikeankaunis ja vangitseva perhedraama nuoresta naisesta, joka lähtee etsimään totuutta isänsä varhaisesta kuolemasta. Romería kertoo 18-vuotiaasta Marinasta, joka saapuu Espanjan rannikolle tapaamaan biologisen isänsä sukua – ihmisiä, joita hän ei ole koskaan tavannut. Hän kohtaa joukon uusia tätejä, setiä ja serkkuja, tietämättä, ottavatko he hänet avosylin vastaan vai suhtautuvatko varauksella. Kohtaamiset nostavat pintaan syvälle haudattuja muistoja, herättävät tunteita ja paljastavat menneisyyteen vaiettuja perhesalaisuuksia. Hajanaisista kertomuksista Marinalle alkaa vähitellen muodostua kuva vanhemmistaan, ja etsintämatkasta tulee mieleenpainuva kokemus, joka tuo hänet lähemmäs itseään ja omia juuriaan. Ohjaaja Carla Simón on tunnettu elokuvastaan Tämä maa (Alcarràs), josta hän voitti Kultaisen karhun Berliinin kansainvälisillä elokuvajuhlilla. Autofiktiivinen elokuva pohjautuu ohjaajan omiin teinivuosien kokemuksiin."
+   },
+   "tr": "https://www.youtube.com/watch?v=da3CAnPA_EM"
   },
   "roofman kattokeikkailija": {
    "id": 1242419,
@@ -5845,19 +5962,6 @@
    },
    "tr": ""
   },
-  "saapasajalkakissa unohdettu saari": {
-   "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
-   "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
-  },
   "saapasjalkakissa": {
    "id": 58704,
    "r": 0,
@@ -5866,19 +5970,6 @@
     "fi": "Saapasjalkakissa Pero osoittaa armollisuutta hiiriä kohtaan, minkä seurauksena hänestä tulee kissayhteisön lainsuojaton. Paetessaan salamurhaajakolmikkoa hän ystävystyy hyväsydämisen myllärinpoika Pierren kanssa ja lupaa auttaa tätä voittamaan kauniin prinsessan sydämen, mutta paha velho ehtiikin kaappaamaan neidon ensin itselleen. Pero-kissasta tuli aikoinaan niin suosittu, että tuotantoyhtiö Toei Animation otti sen viralliseksi maskotikseen ja logohahmokseen. Elokuva on puhuttu ruotsiksi ja tekstitetty suomeksi."
    },
    "tr": ""
-  },
-  "saapasjalkakissa unohdettu saari": {
-   "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
-   "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
   },
   "saapasrasvaa": {
    "id": 33544,
@@ -5930,12 +6021,16 @@
   },
   "se oli pelkkä sattuma": {
    "id": 1456349,
-   "r": 0,
+   "img": "data/posters/63f9c6488985f762.jpg",
+   "r": 7.1,
    "s": {
-    "en": "",
+    "en": "An unassuming mechanic is reminded of his time in an Iranian prison when he encounters a man he suspects to be his sadistic jailhouse captor.",
     "fi": "Cannesissa Kultaisen palmun voittanut iranilaisohjaaja Jafar Panahin Se oli pelkkä satuma (englanninkielinen nimi It Was Just an Accident ) on intensiivinen ja ajatuksia herättävä kostotarina joukosta ihmisistä, jotka saavat sattumalta tilaisuuden kostaa kiduttajalleen. Sattuma käynnistää odottamattoman, paikoin jopa humoristisen tapahtumaketjun. Ryhmä ei kuitenkaan ole varma, onko heidän käsissään sittenkään oikea henkilö. Elokuvan ydin pureutuu eettiseen kysymykseen: voiko koston tavoittelu oikeuttaa turvautumisen samoihin menetelmiin – sieppaukseen ja kidutukseen – joita sortaja itse on käyttänyt?"
    },
-   "tr": ""
+   "tr": "https://www.youtube.com/watch?v=9oHw2ubyWE4",
+   "ts": [
+    "en"
+   ]
   },
   "se tavallinen tarina taidekaupungin elokuvajuhlat": {
    "id": 1769550,
@@ -5983,6 +6078,16 @@
     "fi": "Derya on Ankaran suurimman teatterin tähti: hän näyttelee pääosaa puolisonsa Azizin ohjaamassa näytelmässä. Uutuus on menestys. Vapauden tuulet puhaltavat, levottomuudet vyöryvät myös yliopistolle. Elämä alkaa hajota käsiin. Irtisanomisia merkitseviä keltaisia kirjeitä satelee kaikille. Aziz heitetään ulos yliopistosta epämääräisillä perusteilla. Näytelmän esitykset perutaan. KELTAISET KIRJEET on monitasoinen kuvaus elämästä ja perhesuhteista autoritäärisen yhteiskunnan puristuksissa. Mestarillisen Opettajainhuoneen ohjaaja Ilker Catak ei ole Turkin vallanpitäjien suosiossa, joten Berliini ja Hampuri saavat esittää tarinassa Ankaraa ja Istanbulia. Vaikutelma on vakuuttava. Keltaiset kirjeet voitti Berliinin elokuvajuhlien pääpalkinnon Kultaisen karhun."
    },
    "tr": ""
+  },
+  "sentimental value": {
+   "id": 1124566,
+   "img": "data/posters/960bdb12aafa0f22.jpg",
+   "r": 7.5,
+   "s": {
+    "en": "",
+    "fi": "Siskokset Nora ja Agnes tapaavat pitkän tauon jälkeen isänsä Gustavin, karismaattisen mutta etäisen entisen elokuvaohjaajan. Gustav tarjoaa Noralle, teatterinäyttelijälle, roolin elokuvasta, jonka hän toivoo palauttavan hänen uransa kukoistukseen. Kun Nora kieltäytyy, hän saa tietää, että rooli on annettu nuorelle ja innokkaalle Hollywood-tähdelle. Pian sisarusten täytyy selvittää vaikeaa suhdettaan isäänsä ja tulla toimeen amerikkalaisen tähden kanssa, joka sotkeutuu heidän monimutkaisiin perhekuvioihinsa. Cannes Grand Prix voittaja Sentimental value -elokuvan on ohjannut Joachim Trier. Pääsosissa Renate Reinsve, Inga Ibsdotter Lilleaas, Stellan Skarsgård ja Elle Fanning."
+   },
+   "tr": "https://www.youtube.com/watch?v=zBFstFXdk90"
   },
   "she killed in ecstasy": {
    "id": 28294,
@@ -6180,7 +6285,7 @@
   "spider man brand new day": {
    "id": 969681,
    "img": "data/posters/45f3e2165fbd29bb.jpg",
-   "r": 8.3,
+   "r": 8.5,
    "s": {
     "en": "",
     "fi": "Maailmanlaajuisen menestyksen saavuttaneen ja ennätyksiä rikkoneen Spider-Man: No Way Home -elokuvan jälkeen Spider-Man: Brand New Day aloittaa täysin uuden luvun Peter Parkerin ja Spider-Manin tarinassa. On kulunut neljä vuotta No Way Home -elokuvan tapahtumista, ja Peter on nyt aikuinen, joka elää täysin yksin poistettuaan itsensä vapaaehtoisesti rakastamiensa ihmisten elämästä ja muistoista. Taistellessaan rikollisuutta vastaan New Yorkissa, joka ei enää tunne hänen nimeään, hän on omistautunut täysin kaupungin suojelemiselle — täysipäiväisenä Spider-Manina. Mutta kun vaatimukset häntä kohtaan kasvavat, paine käynnistää yllättävän fyysisen muutoksen, joka uhkaa hänen olemassaoloaan. Samalla uusi outo rikosaalto synnyttää yhden voimakkaimmista uhista, jonka hän on koskaan kohdannut."
@@ -6235,6 +6340,26 @@
   "street fighter": {
    "id": 1153576,
    "img": "data/posters/2c34dcbef60ffbda.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biorexkokkola",
+    "cinemantsala",
+    "kino123",
+    "kinoelo",
+    "kinokulma",
+    "kinolumo",
+    "kinomania",
+    "kinomarilyn",
+    "kinopiispanristi",
+    "kinopirtti",
+    "kinotar",
+    "kotkanleffat",
+    "leffabuumi",
+    "sheryl",
+    "star",
+    "studio123jarvenpaa",
+    "vaakuna"
+   ],
    "r": 0,
    "s": {
     "en": "In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!",
@@ -6548,6 +6673,20 @@
   "the devils": {
    "id": 31767,
    "img": "data/posters/1f8ec30de3187d84.jpg",
+   "kr": "K-16",
+   "krs": [
+    "biorex",
+    "biorexkokkola",
+    "gilda",
+    "kinoaurora",
+    "kinokilta",
+    "kinopirtti",
+    "niagara",
+    "regina",
+    "sheryl",
+    "star",
+    "vaakuna"
+   ],
    "r": 7.5,
    "s": {
     "en": "Assembled from the original camera negative, this new 4K restoration presents Ken Russell’s definitive vision of THE DEVILS by referencing the edit he privately constructed in 2004. THE DEVILS is the uncut and unfiltered theatrical experience that Russell always envisioned – and the first time the film will be presented restored and in 4K",
@@ -7115,11 +7254,25 @@
    },
    "tr": "https://www.youtube.com/watch?v=QaFIq3dbu4U"
   },
+  "tonttu puhutaan suomea ilmaisnäytös": {
+   "id": 1286995,
+   "img": "data/posters/a7dd78d91328509a.jpg",
+   "r": 0,
+   "s": {
+    "en": "Siblings Lumi and Talvi are separated as children. In search of her sister, Lumi ends up in Elfland, where elves prepare Christmas presents for all the children of the world. The elves are initially suspicious of the human child who appears out of nowhere, but Pyry, an elf boy, welcomes Lumi with interest. Pyry is eager for new adventures and his friendship with Lumi looks like a chance for an exciting journey.",
+    "fi": "Näytökseen mahtuu 100 ensimmäistä! Lippuvaraukset Ihme Kompleksin verkkokaupasta (ihmekompleksi.fi) tai elokuvateatterilta aukioloaikoina. Taianomainen koko perheen jouluseikkailu Tonttu on lämmin tarina ystävyydestä, rohkeudesta ja mielikuvituksen voimasta. Lumi ja Talvi ovat olleet erottamattomat koko elämänsä ajan, kunnes kohtalo yllättäen ajaa heidät erilleen. Lumi päätyy taianomaiseen tonttumaahan, jossa tontut valmistavat joululahjat kaikille maailman lapsille. Alkaa seikkailu, joka vaatii rohkeutta, luottamusta ja kekseliäisyyttä. Tontut ovat aluksi epäluuloisia tyhjästä tupsahtavaa ihmislasta kohtaan, mutta tonttulapsi Pyry ottaa Lumin mielenkiinnolla vastaan. Pyry on kiinnostunut uusista seikkailuista ja ystävyys Lumin kanssa näyttää mahdollisuudelta jännittävään matkaan. Talvinen retki tonttujen taianomaisessa maailmassa on täynnä yllätyksiä ja joulun ihmeitä. Joonas Berghäll ja Hannes Vartiainen ovat ohjanneet Tonttu-elokuvan, jota on kuvattu Kemin Lumilinnassa, Levillä, Rovaniemellä ja Helsingissä. Elokuvan lapsirooleissa nähdään Soma Zimmatore, Thea Achillea ja Marco Stylianou. Muissa rooleissa nähdään huippuammattilaisia kuten Sara Melleri, Jarkko Niemi, Alma Pöysti, Eero Milonoff, Kati Outinen ja Vesa Vierikko. Mukana myös Tonttu-maailman vartijoina tubettaja, artisti Seksikäs-Suklaa ja artisti Musta Barbaari. Sivurooleissa nähdään myös vaikuttajat Viivi ja Venla."
+   },
+   "tr": "https://www.youtube.com/watch?v=WG9E7RIrPe0",
+   "ts": [
+    "en"
+   ]
+  },
   "tony": {
    "id": 1329016,
    "img": "data/posters/ef343d1fb55e5d1c.jpg",
    "kr": "K-16",
    "krs": [
+    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "cinemantsala",
@@ -7138,6 +7291,7 @@
     "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
+    "orion",
     "savonkinot",
     "star",
     "studio123kouvola",
@@ -7295,6 +7449,7 @@
    "img": "data/posters/819e3e0324072544.jpg",
    "kr": "S",
    "krs": [
+    "biorex",
     "engel",
     "gilda",
     "kinoaurora",
@@ -7317,6 +7472,7 @@
    "img": "data/posters/4bbd4d83a9633477.jpg",
    "kr": "S",
    "krs": [
+    "biorex",
     "engel",
     "gilda",
     "kinoaurora",
@@ -7353,6 +7509,24 @@
    "ts": [
     "en"
    ]
+  },
+  "ulvova mylläri": {
+   "id": 320293,
+   "img": "data/posters/53e7fcee3f5342a2.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Varsin raskaita painolasteja elokuvissaan tavallisesti käsitelleen Jaakko Pakkasvirran yksi elokuva erottuu joukosta suorastaan keveänä, elämänkylläisenä kukintona. Ulvova mylläri on Arto Paasilinna -filmatisointien ehdotonta kärkeä pohjimmaisessa lempeydessään ja levollisuudessaan. Niille on vastavoimansakin, kun pikkukunnan eksentrisen myllärin palava intohimo erääseen maatalouskerhoneuvojaan johtaa hänet rajusti nokkasille virkavallan kanssa. Kahleettoman Vesa-Matti Loirin ja ensimmäisessä elokuvaroolissaan nähtävän ihanan Eija Ahvon kemia on suloisesti kohdallaan – Ulvova mylläri on yksi kauneimpia suomalaisia rakkauselokuvia, ihailtavan vapautunut erikoisuus aikansa ilmapiirissä. -Jukka Sammalisto Näytöksessä on vieraana näyttelijä Eija Ahvo."
+   },
+   "tr": ""
+  },
+  "un ballo in maschera arena di verona verdi": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Giuseppe Verdin Un ballo in maschera kertoo siirtomaan kuvernööri Riccardosta, joka rakastuu salaa parhaan ystävänsä Renaton vaimoon Ameliaan. Kielletty rakkaus, poliittiset salaliitot ja ennustaja Ulrican kohtalonennustus punoutuvat yhteen, kun Riccardolle ennustetaan kuolema läheisen ihmisen kädestä. Yrittäessään toimia kunniallisesti kaikki päähenkilöt ajautuvat kuitenkin tapahtumien kulkuun, jota kukaan ei enää pysty pysäyttämään. Huipennus koetaan loisteliaissa naamiaisissa, joissa Renato surmaa Riccardon uskoen tämän vietelleen hänen vaimonsa. Kuollessaan Riccardo paljastaa rakastaneensa Ameliaa puhtaasti eikä heidän välillään ollut uskottomuutta. Totuus selviää liian myöhään, ja ooppera päättyy anteeksiantoon, katumukseen ja kohtalon väistämättömyyteen. Arena di Veronan tuotannossa kapellimestarina toimi Andrea Battistoni, ohjauksesta vastasi Pier Luigi Pizzi, ja päärooleissa loistivat Francesco Meli (Riccardo), Luca Salsi (Renato), Hui He (Amelia) ja Elisabetta Fiorillo (Ulrica)."
+   },
+   "tr": ""
   },
   "unesta tehty mies": {
    "r": 0,
@@ -7420,11 +7594,11 @@
    "img": "data/posters/9bcaf7ef167a0f8f.jpg",
    "kr": "K-7",
    "krs": [
-    "alatalo",
     "bioforum",
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -7565,11 +7739,11 @@
    "img": "data/posters/db8d634869fa04ac.jpg",
    "kr": "K-7",
    "krs": [
-    "alatalo",
     "bioforum",
     "biogrand",
     "biograni",
     "biokaari",
+    "biomarilyn",
     "biopallas",
     "biorex",
     "biorexkokkola",
@@ -7626,6 +7800,16 @@
    "ts": [
     "en"
    ]
+  },
+  "urchin vapaus on mielentila": {
+   "id": 1283320,
+   "img": "data/posters/4322c23f5548f8f2.jpg",
+   "r": 6.8,
+   "s": {
+    "en": "",
+    "fi": "Elokuvan maailmanensi-ilta oli Cannesin elokuvajuhlien Un Certain Regard -sarjassa 2025. Ohjaaja Harris Dickinson voitti FIPRESCI-palkinnon ja Frank Dillane sarjan parhaan miespääosan palkinnon. The Triangle of Sadness ja Babygirl -elokuvista tunnetun Harris Dickinsonin esikoisohjaus Urchin on vahva, koskettava ja myötätuntoinen tarina kodittomuudesta. Elokuva kertoo nuoresta Mikestä, Lontoon kaduilla elävästä nuoresta, joka kamppailee irtautuakseen itseään tuhoavasta kierteestä ja saadakseen elämänsä takaisin raiteilleen. Matka on täynnä säröjä, sattumaa ja toivon hauraita pilkahduksia. Suomen elokuvasäätiön Maahantuontituki 2026."
+   },
+   "tr": "https://www.youtube.com/watch?v=4cJL6vmYOeo"
   },
   "urpo ja turpo johtolangan jäljillä": {
    "id": 558445,
@@ -7707,7 +7891,8 @@
    "img": "data/posters/99a2c3bb145ea6bf.jpg",
    "kr": "K-12",
    "krs": [
-    "kinokilta"
+    "kinokilta",
+    "kinopirtti"
    ],
    "r": 7.3,
    "s": {
@@ -7845,6 +8030,14 @@
     "en"
    ]
   },
+  "vi är bäst me ollaan parhaita": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Tukholma vuonna 1982. 13-vuotiaat Bobo, Klara ja Hedvig eivät oikein sopeudu koulutovereidensa joukkoon. Perhesuhteiden ja alkavan teini-iän kiemurat aiheuttavat lisäksi omat kuprunsa kasvukipuihin. Eräänä iltana nuorisotalolla epäreilusta kohtelusta sisuunnuttuaan nuoret päättävät perustaa punkbändin, eikä soittotaidon tai instrumenttien puute ole este. Eikä punk todellakaan ole kuollut! Me ollaan parhaita! on sympaattisen anarkistinen tarina oman äänen löytämisestä ja rohkeudesta kulkea omaa polkuaan. Huippuohjaaja Moodyssonin käsissä syntynyt lämpimän humoristinen ja ajaton musiikkielokuva rokkaa tiensä niin nuoren kuin vanhemman katsojan sydämeen."
+   },
+   "tr": ""
+  },
   "viimeinen mies": {
    "id": 5991,
    "img": "data/posters/dbf34b736c2ee430.jpg",
@@ -7904,7 +8097,7 @@
    "img": "data/posters/45effcfecb836035.jpg",
    "r": 7.2,
    "s": {
-    "en": "",
+    "en": "Winner of the Palme d’Or at the Cannes Film Festival, The Fjord is an intense drama about two families whose friendship is increasingly overshadowed by suspicion. When the Gheorghiu family moves to a Norwegian fjord village they quickly find their place in the local community and befriend their new neighbours. But suspicions soon arise over the parenting methods of the couple (Renate Reinsve and Sebastian Stan), attracting the attention of the authorities and ultimately bringing them before the local justice system. Master filmmaker Cristian Mungiu’s The Fjord is a masterfully woven, tautly suspenseful drama that challenges viewers to continually reassess who is in the right and who is in the wrong.",
     "fi": "Cannesin elokuvajuhlien Kultaisen palmun voittanut, taidokkaasti punottu draama kertoo hartaasti uskovaisesta Gheorghiun perheestä, joka muuttaa norjalaiseen vuonokylään ja ystävystyy pian naapureidensa, Halbergien, kanssa. Kahden perheen lapset lähentyvät toisiaan kasvatuseroista ja arvojen erilaisuudesta huolimatta. Pian Gheorghiun vanhempien (Renate Reinsve, Sebastian Stan) kasvatusmetodeih kohdistuu kuitenkin epäilyjä, jotka johtavat perheen tutkinnan kohteeksi ja paikallisen oikeusjärjestelmän eteen. Cristian Mungiun (4 kuukautta, 3 viikkoa, 2 päivää) ohjaaman uutuuselokuvan yhteistuottajana toimii suomalainen Elokuvayhtiö Aamu."
    },
    "tr": "https://www.youtube.com/watch?v=frg59VOungA"

@@ -1,9 +1,8 @@
-[biomarilyn] 12 screening(s) in 2 schedule block(s), 11 film page(s) read
-[biomarilyn] 20 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
-[biomarilyn] 2 screening(s) listed in a second block, published once
+[biomarilyn] 25 screening(s) in 2 schedule block(s), 14 film page(s) read
+[biomarilyn] 17 coming-soon entry/entries with no time, left out: Angry Birds 3, Avengers : Doomsday, Billie maailmojen välissä, Dyyni: osa kolme, Ebenezer-Saiturin joulu, George Michael:The Faith Tour, How to Rob a Bank, I Play Rocky
 [biomarilyn] 1 synopsis/synopses withheld, no language settled: PäiväKaffiLeffa:Hetki Ennen Valoa
-[biomarilyn] Bio Marilyn: 12 showtimes, 6 dates
-[biomarilyn] Bio Marilyn: 12 showtimes, 6 dates
+[biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
+[biomarilyn] Bio Marilyn: 25 showtimes, 12 dates
 [biomarilyn] synopses merged: 0
 [vihdinkino] 30 screening(s) in 1 schedule block(s), 14 film page(s) read
 [vihdinkino] 1 synopsis/synopses withheld, no language settled: MLL-näytös: Toy Story 5 DUBATTU Lipun hinta 2€
@@ -22,16 +21,17 @@
 [kinokulma] Kinokulma: 26 showtimes, 17 dates
 [kinokulma] Kinokulma: 26 showtimes, 17 dates
 [kinokulma] synopses merged: 0
-[kinohannikainen] 17 screening(s) in 1 schedule block(s), 8 film page(s) read
-[kinohannikainen] Kino Hannikainen: 17 showtimes, 8 dates
-[kinohannikainen] Kino Hannikainen: 17 showtimes, 8 dates
+[kinohannikainen] 23 screening(s) in 1 schedule block(s), 9 film page(s) read
+[kinohannikainen] 1 synopsis/synopses withheld, no language settled: LAPIN SOTA
+[kinohannikainen] Kino Hannikainen: 23 showtimes, 12 dates
+[kinohannikainen] Kino Hannikainen: 23 showtimes, 12 dates
 [kinohannikainen] synopses merged: 0
 [kinovirta] 28 screening(s) in 1 schedule block(s), 9 film page(s) read
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] Kino Virta: 28 showtimes, 7 dates
 [kinovirta] synopses merged: 0
-[run] http: 0 revalidated (304), 73 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 77 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 7 attempted -- bioforum.fi, biomarilyn.johku.com, kinokulma.fi, kinovirta.johku.com, vihdinkino.fi, www.biomarilyn.com, www.kinohannikainen.net
-[run] johku: 6 venues, 141 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 6 site(s), 181.5s of fetching added up across workers that overlap, longest site 40.5s, longest queue wait 168.0s, 59.2s wall from this module's first fetch starting to its last ending
+[run] johku: 6 venues, 160 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 6 site(s), 211.4s of fetching added up across workers that overlap, longest site 43.2s, longest queue wait 175.4s, 65.6s wall from this module's first fetch starting to its last ending
 exit=0
