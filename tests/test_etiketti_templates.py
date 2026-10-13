@@ -151,6 +151,72 @@ class Stubbed(unittest.TestCase):
         return e
 
 
+# --- data-dates items: Leffabuumi and Savon Kinot (2026-10-12) ----------------------------
+
+def dated_item(town, date, clock, place, price, seats, sid, tag=""):
+    """The shape read live on 2026-10-13, attributes on lines of their own."""
+    specs = f'<div class="movie-specs"> <span class="tag">{tag}</span> </div>' if tag else ""
+    return (f'<div class="item"\n      data-locations="[&quot;{town}&quot;]"\n'
+            f'      data-dates="[&quot;{date}&quot;]"\n>\n'
+            f'<div> <p> <strong><span>KE {date[:-4]} klo {clock}</span></strong> {specs}</p> '
+            f'<p> {place}<br /> Lippu {price}&euro;<br /> Vapaat paikat {seats} </p> </div> '
+            f'<div> <a class="button-screening" href="/salikartta?id={sid}"> Osta tai varaa '
+            f'</a> </div> </div>\n')
+
+
+def dated_film(*items):
+    return (KOTKA_FILM.split('<div class="item kotka')[0]
+            + "".join(items) + "</div>\n</div>\n</div>\n</main>")
+
+
+BUUMI_FILM = dated_film(
+    dated_item("mikkeli", "14.10.2026", "19.15", "MIKKELI | KINOLINNA | SALI 2", "14,50", "52/52", 57163),
+    dated_item("mikkeli", "21.10.2026", "14.15", "MIKKELI | KINOLINNA | VIP", "18,50", "31/31", 57253),
+    dated_item("mikkeli", "22.10.2026", "18.00", "MIKKELI | KINO RITZ | RITZ 1", "13,00", "0/80", 57260))
+
+
+class DataDatesTest(Stubbed):
+    def test_each_item_is_a_screening_with_its_date_place_price_and_link(self):
+        e = load()
+        rows, meta = e.parse_movie(BUUMI_FILM, site("leffabuumi"), "/elokuvat/3287/digger")
+        self.assertEqual(meta["skipped"], 0)
+        self.assertEqual([(r["start"][:16], r["aud"], r["price"], r["free"], r["sid"]) for r in rows],
+                         [("2026-10-14T19:15", "KINOLINNA | SALI 2", "14.5€", 52, "/salikartta?id=57163"),
+                          ("2026-10-21T14:15", "KINOLINNA | VIP", "18.5€", 31, "/salikartta?id=57253"),
+                          ("2026-10-22T18:00", "KINO RITZ | RITZ 1", "13€", 0, "/salikartta?id=57260")])
+
+    def test_leffabuumis_venues_and_ticket_links(self):
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/3287/digger"),
+                       "/elokuvat/3287/digger": BUUMI_FILM})
+        out = e.fetch_site(site("leffabuumi"), sleep=0)
+        self.assertEqual({k: len(v) for k, v in out.items()}, {"lb-kinolinna": 2, "lb-ritz": 1})
+        self.assertEqual(out["lb-kinolinna"][0]["url"], "https://leffabuumi.fi/salikartta?id=57163")
+        self.assertTrue(out["lb-ritz"][0]["soldOut"])
+
+    def test_savon_kinots_town_first_place_line_keeps_its_room(self):
+        page = dated_film(
+            dated_item("joensuu", "13.10.2026", "18.30", "JOENSUU | TAPIO | TAPIO 3", "14,00",
+                       "91/103", 55785, tag="Viimeinen näytös"),
+            dated_item("varkaus", "14.10.2026", "19.00", "VARKAUS | MAXIM | MAXIM", "12,00",
+                       "40/60", 55786))
+        e = self.stub({"/elokuvat/ohjelmistossa": listing("/elokuvat/111/avengers"),
+                       "/elokuvat/111/avengers": page})
+        out = e.fetch_site(site("savonkinot"), sleep=0)
+        tapio, maxim = out["sk-tapio"][0], out["sk-maxim"][0]
+        self.assertEqual((tapio["aud"], tapio["price"], tapio["method"]),
+                         ("Sali Tapio 3", "14€", "Viimeinen näytös"))
+        self.assertEqual((maxim["aud"], maxim["price"]), ("", "12€"))
+
+    def test_an_item_with_two_dates_or_none_is_not_placed(self):
+        e = load()
+        two = dated_item("mikkeli", "14.10.2026", "19.15", "MIKKELI | KINOLINNA | SALI 2",
+                         "14,50", "52/52", 1).replace(
+            "[&quot;14.10.2026&quot;]", "[&quot;14.10.2026&quot;,&quot;15.10.2026&quot;]")
+        none = '<div class="item"><p>KE klo 19.15</p></div>\n'
+        rows, meta = e.parse_movie(dated_film(two, none), site("leffabuumi"), "/elokuvat/1/x")
+        self.assertEqual((rows, meta["skipped"]), ([], 1))
+
+
 # --- the operas and events listing (2026-10-12) -------------------------------------------
 
 OPERA_FILM = (KOTKA_FILM.replace("Insidious: Out of the Further", "Ooppera: Don Giovanni")

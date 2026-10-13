@@ -3891,3 +3891,9 @@ and names its room in its own script, and rendered in Chromium each shows that r
 films on its one date. With every room owned, the log names no unclaimed room, and
 Vaajakoski, with no screening, is now confirmed empty. A test pins the four rooms and
 pages, and giving Toivakka Hankasalmi's room turns it red.
+
+### eTiketti reads `data-dates` items (2026-10-13)
+Leffabuumi (from 2026-10-12 17:20 UTC) and Savon Kinot moved each screening's date from the
+item's class to `data-dates`, and every film page parsed to nothing. Read live 2026-10-13:
+Leffabuumi 124 of 124 ticket ids on its showtimes page; Savon Kinot 112 of 149, the other 37
+in 14 films its programme listing does not link. Four mutations red.

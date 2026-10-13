@@ -267,9 +267,12 @@ H1_RE = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S)
 # tag is matched on whitespace and the class attribute is captured whole. The date and the
 # place are read out of it afterwards. The block runs to the next item or to the template's
 # three closing divs, as before.
-ITEM_RE = re.compile(r'<div\s+class="(item [^"]*\bdate-\d{1,2}\.\d{1,2}\.\d{4}\b[^"]*)"(.*?)'
-                     r'(?=<div\s+class="item |</div>\s*</div>\s*</div>|\Z)', re.S)
+# Leffabuumi and Savon Kinot (2026-10-12): `<div class="item" data-dates="[&quot;14.10.2026&quot;]">`.
+ITEM_RE = re.compile(r'<div\s+class="(item(?:\s[^"]*)?)"([^>]*)>(.*?)'
+                     r'(?=<div\s+class="item[\s"]|</div>\s*</div>\s*</div>|\Z)', re.S)
 ITEM_DATE_RE = re.compile(r"\bdate-(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
+DATA_DATES_RE = re.compile(r'\bdata-dates="([^"]*)"')
+DATE_RE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b")
 # Kotka: "KE 2.9. klo 20.00". Niagara: <div class="time"><span>16.15</span>.
 TIME_RE = re.compile(r'(?:klo\s*|class="time"[^>]*>\s*(?:<span[^>]*>\s*)?)(\d{1,2})[.:](\d{2})')
 # Trio 123 screenings read "TRIO 123 | SALI 1"; Kinopalatsi has no room at all.
@@ -557,8 +560,17 @@ def parse_movie(page, site, movie_url):
 
     out, skipped = [], 0
     for m in ITEM_RE.finditer(page):
-        cls, block = m.group(1), m.group(2)
+        cls, attrs, block = m.group(1), m.group(2), m.group(3)
         dm = ITEM_DATE_RE.search(cls)
+        if not dm:
+            listed = DATA_DATES_RE.search(attrs)
+            dates = DATE_RE.findall(html_mod.unescape(listed.group(1))) if listed else []
+            if not listed:
+                continue                     # no date: not a screening
+            if len(dates) != 1:
+                skipped += 1
+                continue
+            dm = DATE_RE.search(html_mod.unescape(listed.group(1)))
         d, mo, y = int(dm.group(1)), int(dm.group(2)), int(dm.group(3))
         tm = TIME_RE.search(block)
         if not tm:
