@@ -330,6 +330,145 @@ class ShowtimesListingTest(Stubbed):
             self.stub(pages).fetch_site(site("kotkanleffat"), sleep=0)
 
 
+# --- Niagara's screening pages (2026-10-13) -----------------------------------------------
+
+def front_item(date, path, sid):
+    """A screening on Niagara's front page or /erikoisnaytokset, the shape read 2026-10-13."""
+    return (f'<div\n          class="item tampere date-{date} name-x">\n<div class="desktop">\n'
+            f'<div class="banner">\n<a href="{path}">\n<img class="banner" src="" alt="" />\n'
+            f'</a>\n</div>\n<div class="time">\n<span>18.30</span>\n</div>\n<div class="info">\n'
+            f'<a class="link" href="{path}">\nX</a>\n</div>\n<div class="action">\n'
+            f'<a class="button-screening" href="/salikartta?id={sid}">\nOsta liput</a>\n'
+            f"</div>\n</div>\n</div>\n")
+
+
+def screening_page(*items, slides=()):
+    """Dated items in `screenings niagara`, then the front page's poster carousel, whose
+    cards carry a date as text and link films with or without a screening."""
+    cards = "".join(f'<div class="swiper-slide">\n<div class="niagara-card">\n'
+                    f'<a href="{p}">\n<img alt="">\n</a>\n<div class="niagara-slide-date">'
+                    f"16.10.2026</div>\n</div>\n</div>\n" for p in slides)
+    return (f'<main>{HIDDEN}\n<div class="screenings niagara">\n{"".join(items)}</div>\n'
+            f'<div class="niagara-swiper future">\n<h3>Tulevia elokuvia</h3>\n'
+            f'<div class="swiper-wrapper">\n{cards}</div>\n</div>\n</main>')
+
+
+def niagara_film(title, *sids):
+    return niagara_page(items="".join(niagara_item("16.11.2026", "18.30", s) for s in sids)
+                        ).replace("The Invite", title)
+
+
+NIAGARA_NAV = '<a href="/">\n<img alt="Cinema Niagara"></a><a href="/erikoisnaytokset">Erikoisnäytökset</a>'
+
+
+class NiagaraScreeningPagesTest(Stubbed):
+    """On 2026-10-13 Niagara's front page linked 36 films with a screening and its programme
+    listing 30; five were linked only from the front page, and Rocky from it and
+    /erikoisnaytokset."""
+
+    def pages(self, nav=NIAGARA_NAV):
+        return {"/elokuvat/ohjelmistossa": listing("/elokuvat/70/the-invite", nav=nav),
+                "cinemaniagara.fi/": screening_page(
+                    front_item("3.9.2026", "/elokuvat/70/the-invite", 53882),
+                    front_item("16.11.2026", "/elokuvat/97/hot-shots", 53967),
+                    front_item("23.11.2026", "/elokuvat/98/hiljaisuus", 53981),
+                    slides=("/elokuvat/70/the-invite", "/elokuvat/165/vuono")),
+                "/erikoisnaytokset": screening_page(
+                    front_item("28.11.2026", "/elokuvat/156/rocky", 54239),
+                    front_item("16.11.2026", "/elokuvat/97/hot-shots", 53967)),
+                "/elokuvat/70/the-invite": NIAGARA_FILM,
+                "/elokuvat/97/hot-shots": niagara_film("Hot Shots!", 53967),
+                "/elokuvat/98/hiljaisuus": niagara_film("Hiljaisuus", 53981),
+                "/elokuvat/156/rocky": niagara_film("Rocky", 54239)}
+
+    def fetch(self, pages, pid="niagara"):
+        e = self.stub(pages)
+        fetched, real = [], e.get
+        e.get = lambda url, tries=3: fetched.append(url) or real(url, tries)
+        return e.fetch_site(site(pid), sleep=0), fetched
+
+    def test_films_linked_only_from_the_front_page_or_special_screenings_publish(self):
+        out, _ = self.fetch(self.pages())
+        titles = sorted({s["title"] for s in out["cn-tampere"]})
+        self.assertEqual(titles, ["Hiljaisuus", "Hot Shots!", "Rocky", "The Invite"])
+
+    def test_a_film_linked_from_several_pages_publishes_each_screening_once(self):
+        out, fetched = self.fetch(self.pages())
+        urls = [s["url"] for s in out["cn-tampere"]]
+        self.assertEqual(len(urls), 6)
+        self.assertEqual(len(urls), len(set(urls)))
+        self.assertEqual(len(fetched), len(set(fetched)), fetched)
+
+    def test_a_carousel_film_with_no_screening_is_not_fetched(self):
+        _, fetched = self.fetch(self.pages())
+        self.assertFalse([u for u in fetched if "vuono" in u], fetched)
+
+    def test_an_unlinked_screening_page_is_never_requested(self):
+        pages = self.pages(nav="")
+        del pages["cinemaniagara.fi/"], pages["/erikoisnaytokset"]
+        out, _ = self.fetch(pages)
+        self.assertEqual({s["title"] for s in out["cn-tampere"]}, {"The Invite"})
+
+    def test_screening_pages_whose_items_link_no_film_fail_the_site(self):
+        pages = self.pages()
+        pages["cinemaniagara.fi/"] = screening_page(slides=("/elokuvat/70/the-invite",))
+        pages["/erikoisnaytokset"] = screening_page()
+        with self.assertRaises(RuntimeError):
+            self.fetch(pages)
+
+    def test_screening_pages_that_link_no_film_at_all_add_nothing(self):
+        pages = self.pages()
+        pages["cinemaniagara.fi/"] = pages["/erikoisnaytokset"] = screening_page()
+        out, _ = self.fetch(pages)
+        self.assertEqual({s["title"] for s in out["cn-tampere"]}, {"The Invite"})
+
+    def run_main(self, pages):
+        """run.main over Niagara alone -> (exit code, area file before, area file after)."""
+        import run
+        tmp = tempfile.TemporaryDirectory()
+        saved, realimp = run.OUT, importlib.import_module
+        try:
+            run.OUT = pathlib.Path(tmp.name)
+            ahead = (datetime.date.today() + datetime.timedelta(days=30)).isoformat()
+            prev = {"generated": "2026-08-01T00:00:00+00:00", "dates": [ahead],
+                    "horizon": ahead,
+                    "shows": [{"title": "Dyyni", "start": f"{ahead}T18:00:00+03:00"}]}
+            (run.OUT / "area-cn-tampere.json").write_text(json.dumps(prev), encoding="utf-8")
+            e = self.stub(pages)
+            no_sleep.patch(self, e)
+            mod = type("M", (), {"__name__": "fakemod", "SITES": [site("niagara")],
+                                 "fetch_site": staticmethod(e.fetch_site)})
+            importlib.import_module = lambda n: mod if n == "fakemod" else realimp(n)
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = run.main(["fakemod", "--half", "all"])
+            after = json.loads((run.OUT / "area-cn-tampere.json").read_text(encoding="utf-8"))
+            return code, prev, after
+        finally:
+            importlib.import_module, run.OUT = realimp, saved
+            tmp.cleanup()
+
+    def test_a_failed_screening_page_keeps_the_previous_file(self):
+        for failing in ("cinemaniagara.fi/", "/erikoisnaytokset"):
+            with self.subTest(failing=failing):
+                pages = self.pages()
+                pages[failing] = RuntimeError("HTTP Error 503")
+                code, prev, after = self.run_main(pages)
+                self.assertEqual(code, 1)
+                self.assertEqual(after, prev)
+
+    def test_the_same_run_publishes_when_every_page_answers(self):
+        code, prev, after = self.run_main(self.pages())
+        self.assertEqual(code, 0)
+        self.assertEqual(len(after["shows"]), 6)
+
+    def test_another_site_linking_the_same_paths_never_requests_them(self):
+        out, fetched = self.fetch({"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious",
+                                                                      nav=NIAGARA_NAV),
+                                   "/elokuvat/3268/insidious": KOTKA_FILM}, pid="kotkanleffat")
+        self.assertEqual(sum(len(v) for v in out.values()), 2)
+        self.assertEqual(len(fetched), 2, fetched)
+
+
 # --- template 1 still parses exactly as before -------------------------------------------
 
 class KotkaTemplateTest(Stubbed):

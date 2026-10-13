@@ -176,6 +176,13 @@ Labels carry no colon and genres sit under a label reading `genre`. `/?shows=all
 every screening twice, in a desktop and a mobile wrapper, which is why a screening is
 keyed on its `/salikartta?id=` href.
 
+**Niagara lists its screenings on its front page** (cinemaniagara.fi, read 2026-10-13). It
+links no `/elokuvat/naytosajat`. The front page renders every screening as a dated item, 59
+ticket ids over 36 films, and `/erikoisnaytokset` the special screenings, 5 ids over 3 of
+those films. `/elokuvat/ohjelmistossa` linked 30 of the 36. The front page's two poster
+carousels link 25 more films with no screening, and their cards carry the date as text
+outside any item. `/erikoissarjat`, linked from the menu, answered 404 after a redirect.
+
 **Only six of the twenty hosts render a theatre navigation** (measured 2026-09-14, one
 listing per host), and the `match` text has to be looked for *inside* an anchor rather
 than compared to the whole of it: Leffabuumi prints "Mikkeli Kinolinna" against the match
