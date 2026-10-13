@@ -278,6 +278,9 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Reading BioRex from its webshop's GET API. Measured 2026-10-13: it matched all 1,471 rows,
   has no field for three tags on 264 of them, and caches its window by the first caller.
   Evidence: [docs/research/ticketing-platforms.md](docs/research/ticketing-platforms.md).
+- Reading Johku's schedule endpoint directly. Measured 2026-10-13: identical to the
+  embedded schedule on 24 of 24 comparisons, and the embedded read has not failed for
+  completeness since 2026-10-09. Evidence in the same file.
 
 **Ops and pages**
 

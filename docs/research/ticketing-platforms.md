@@ -1027,6 +1027,33 @@ day matched each cinema's rendered page. No next step for the six. Kuva-Tähti's
 
 ---
 
+## Johku storefront: the schedule endpoint read directly (2026-10-13)
+
+**Findings** (read 2026-10-13 from 12:51 to 12:58 UTC: three rounds about 35 s apart over
+the six tenants and Kino Kulttuurimylly)
+
+- `/api/{shop}/fi_FI/showschedule.json?details=true&storefront=true&version=fi_FI&from={date}&category={n}`
+  answers 200 anonymously on every tenant, with the shop and category taken from the
+  page's own payload keys.
+- On 24 of 24 category comparisons the direct answer and the embedded schedule held the
+  same objects field for field, and `johku.rows()` gave the same rows on 21 of 21 reads.
+- The embedded schedule was complete on 21 of 21 front-page reads. The markup was a
+  skeleton on 17 of them.
+- `from` is a lower bound only. The storefront's own request sends no end date, day count
+  or page, and no answer was paginated, up to 79 entries.
+- The 25 cloud runs since the payload reader landed needed no second read. The one failure
+  was a Vihdin Kino timeout on 2026-10-12, and its previous data stood.
+- Entries carry `resource_capacity` and `resource_reservations`. Neither is published.
+
+**Status and next step**
+
+`johku.py` keeps reading the payload. The direct answer was identical and the embedded
+read has not failed for completeness, so a switch would fix nothing. If the logs show
+`loading` or `error` states again, a fallback that requests only the incomplete block's own
+key is the design to try.
+
+---
+
 ## Helsinki culture centres: one events service (2026-09-18)
 
 **Findings** (malmitalo.fi and caisa.fi, read as a visitor 2026-09-18)
