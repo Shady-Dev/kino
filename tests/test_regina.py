@@ -533,7 +533,7 @@ class RegistryAndPagesTest(unittest.TestCase):
         p = registry.by_id("regina")
         self.assertEqual((p["label"], p["host"], p["book"], p["module"], p["where"]),
                          ("Kino Regina", "kinoregina.fi", "buy", "regina", "local"))
-        self.assertEqual(p["accent"], "#8A4854")
+        self.assertEqual(p["accent"], "#8C4853")
         self.assertEqual(sum(1 for q in registry.PROVIDERS if q["accent"] == p["accent"]), 1)
         self.assertEqual((VENUE["id"], VENUE["name"], VENUE["short"], VENUE["city"]),
                          ("regina-helsinki", "Kino Regina", "Kino Regina", "Helsinki"))

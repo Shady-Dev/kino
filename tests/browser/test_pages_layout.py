@@ -36,7 +36,7 @@ import threading
 import unittest
 from datetime import date
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import expect, sync_playwright
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -138,7 +138,7 @@ class PagesLayoutTest(unittest.TestCase):
             {"generated": "2026-09-14T09:00:00+00:00", "areas": []}), encoding="utf-8")
         (data / "providers.json").write_text(json.dumps({"providers": [
             {"id": "testi", "label": "Testikino", "host": "example.invalid",
-             "accent": "#1F7A5C", "book": "buy"}]}), encoding="utf-8")
+             "accent": "#1F7A5C", "accentDark": "#5CC9A0", "book": "buy"}]}), encoding="utf-8")
         (data / "tmdb-genres.json").write_text(json.dumps(
             {"fi": {}, "sv": {}, "en": {}}), encoding="utf-8")
         (data / "films-extra.json").write_text(json.dumps({"films": extra}), encoding="utf-8")
@@ -481,6 +481,28 @@ class PagesLayoutTest(unittest.TestCase):
         got = stub.evaluate("""e => [getComputedStyle(e).borderTopColor, getComputedStyle(e).borderLeftColor,
             getComputedStyle(e.querySelector('.fx > span + span'), '::before').backgroundColor]""")
         self.assertEqual(got, [accent, rest_left, accent])
+
+    def test_the_city_page_draws_the_chain_shade_for_the_theme_in_force(self):
+        """A stored choice wins over the OS, and with no script the OS alone decides."""
+        light, dark = "rgb(31, 122, 92)", "rgb(92, 201, 160)"
+        for scheme, stored, script, want in (("dark", None, True, dark),
+                                             ("dark", "light", True, light),
+                                             ("light", "dark", True, dark),
+                                             ("dark", None, False, dark),
+                                             ("light", None, False, light)):
+            ctx = self.browser.new_context(viewport={"width": PHONE, "height": 900},
+                                           color_scheme=scheme, java_script_enabled=script,
+                                           service_workers="block")
+            self.addCleanup(ctx.close)
+            if stored:
+                ctx.add_init_script(f"localStorage.setItem('kino-theme', '{stored}')")
+            page = ctx.new_page()
+            page.goto(self.origin + "/kaupunki/testila/")
+            with self.subTest(scheme=scheme, stored=stored, script=script):
+                expect(page.locator("a.stub.chain-testi").first).to_have_css(
+                    "border-left-color", want)
+                expect(page.locator(".legend .lg.chain-testi").first).to_have_css(
+                    "border-left-color", want)
 
 
 if __name__ == "__main__":

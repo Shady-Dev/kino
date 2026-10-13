@@ -4,14 +4,16 @@
    "id": "finnkino",
    "label": "Finnkino",
    "host": "finnkino.fi",
-   "accent": "#E4551F",
+   "accent": "#E85218",
+   "accentDark": "#EC4C07",
    "book": "buy"
   },
   {
    "id": "biorex",
    "label": "BioRex",
    "host": "biorex.fi",
-   "accent": "#1273D4",
+   "accent": "#AC14FC",
+   "accentDark": "#8A28FF",
    "book": "buy"
   },
   {
@@ -19,6 +21,7 @@
    "label": "Kinoset",
    "host": "kinoset.fi",
    "accent": "#0E9B63",
+   "accentDark": "#0E9B63",
    "book": "reserve"
   },
   {
@@ -26,20 +29,23 @@
    "label": "Kotkan Leffat",
    "host": "kotkanleffat.fi",
    "accent": "#C42749",
+   "accentDark": "#C42D4D",
    "book": "buy"
   },
   {
    "id": "riviera",
    "label": "Riviera",
    "host": "rivieracinemas.fi",
-   "accent": "#0C6464",
+   "accent": "#23635F",
+   "accentDark": "#057767",
    "book": "buy"
   },
   {
    "id": "gilda",
    "label": "Gilda",
    "host": "gilda.fi",
-   "accent": "#D62D8F",
+   "accent": "#A8886B",
+   "accentDark": "#9E8060",
    "book": "buy"
   },
   {
@@ -47,6 +53,7 @@
    "label": "Savon Kinot",
    "host": "savonkinot.fi",
    "accent": "#0C8FA8",
+   "accentDark": "#0C8FA8",
    "book": "buy"
   },
   {
@@ -54,13 +61,15 @@
    "label": "Cinema Orion",
    "host": "cinemaorion.fi",
    "accent": "#4E7A16",
+   "accentDark": "#4B7908",
    "book": "buy"
   },
   {
    "id": "engel",
    "label": "Kino Engel",
    "host": "kinoengel.fi",
-   "accent": "#B47ACC",
+   "accent": "#CD7397",
+   "accentDark": "#C46E8F",
    "book": "buy"
   },
   {
@@ -68,6 +77,7 @@
    "label": "Bio Rex Kokkola",
    "host": "biorex.org",
    "accent": "#006655",
+   "accentDark": "#007863",
    "book": "buy"
   },
   {
@@ -75,6 +85,7 @@
    "label": "Kino Akseli",
    "host": "kinoakseli.fi",
    "accent": "#B8801A",
+   "accentDark": "#B8801A",
    "book": "door"
   },
   {
@@ -82,6 +93,7 @@
    "label": "Kinopirtti",
    "host": "kinopirtti.fi",
    "accent": "#8E44AD",
+   "accentDark": "#9349B1",
    "book": "buy"
   },
   {
@@ -89,6 +101,7 @@
    "label": "Leffabuumi",
    "host": "leffabuumi.fi",
    "accent": "#1F7A8C",
+   "accentDark": "#1F7A8C",
    "book": "buy"
   },
   {
@@ -96,6 +109,7 @@
    "label": "Studio 123 Järvenpää",
    "host": "studiot123.com",
    "accent": "#B0308F",
+   "accentDark": "#B23691",
    "book": "buy"
   },
   {
@@ -103,6 +117,7 @@
    "label": "Studio 123 Kouvola",
    "host": "studio123.fi",
    "accent": "#2040F0",
+   "accentDark": "#474FFF",
    "book": "buy"
   },
   {
@@ -110,6 +125,7 @@
    "label": "Kino 123",
    "host": "kino123.fi",
    "accent": "#E07000",
+   "accentDark": "#E07000",
    "book": "buy"
   },
   {
@@ -117,6 +133,7 @@
    "label": "Ihme Kompleksi",
    "host": "ihmekompleksi.fi",
    "accent": "#7A5CD0",
+   "accentDark": "#7A5CD0",
    "book": "buy"
   },
   {
@@ -124,6 +141,7 @@
    "label": "Kinotar 123",
    "host": "jamsankinotar.fi",
    "accent": "#2E7D5B",
+   "accentDark": "#2E7D5B",
    "book": "buy"
   },
   {
@@ -131,13 +149,15 @@
    "label": "Kino Juha",
    "host": "kinojuha.fi",
    "accent": "#A6431F",
+   "accentDark": "#A2533A",
    "book": "buy"
   },
   {
    "id": "biogrand",
    "label": "Bio Grand",
    "host": "biogrand.fi",
-   "accent": "#7B4FB5",
+   "accent": "#67338D",
+   "accentDark": "#EF64FF",
    "book": "buy"
   },
   {
@@ -145,6 +165,7 @@
    "label": "Bio Vuoksi",
    "host": "biovuoksi.fi",
    "accent": "#3E6FA8",
+   "accentDark": "#3E6FA8",
    "book": "buy"
   },
   {
@@ -152,6 +173,7 @@
    "label": "Kino Iiris",
    "host": "kinoiiris.com",
    "accent": "#2F6FD0",
+   "accentDark": "#2F6FD0",
    "book": "buy"
   },
   {
@@ -159,6 +181,7 @@
    "label": "Joutsan Kino",
    "host": "kino.joutsa.fi",
    "accent": "#96702A",
+   "accentDark": "#96702A",
    "book": "buy"
   },
   {
@@ -166,13 +189,15 @@
    "label": "K-Kino",
    "host": "k-kino.fi",
    "accent": "#4C6B1F",
+   "accentDark": "#547236",
    "book": "buy"
   },
   {
    "id": "biograni",
    "label": "Bio Grani",
    "host": "biograni.fi",
-   "accent": "#B03A55",
+   "accent": "#A2023D",
+   "accentDark": "#FF897D",
    "book": "buy"
   },
   {
@@ -180,6 +205,7 @@
    "label": "Cine",
    "host": "kiertue.cine.fi",
    "accent": "#BA7E8A",
+   "accentDark": "#BA7E8A",
    "book": "buy"
   },
   {
@@ -187,6 +213,7 @@
    "label": "Elokuvateatteri Star",
    "host": "elokuvateatteristar.fi",
    "accent": "#2563EB",
+   "accentDark": "#2563EB",
    "book": "buy"
   },
   {
@@ -194,6 +221,7 @@
    "label": "Kino Aurora",
    "host": "kinoaurora.fi",
    "accent": "#5B4FD0",
+   "accentDark": "#6154DE",
    "book": "reserve"
   },
   {
@@ -201,6 +229,7 @@
    "label": "Kino Hirvi",
    "host": "kinohirvi.fi",
    "accent": "#0F7B9C",
+   "accentDark": "#0F7B9C",
    "book": "reserve"
   },
   {
@@ -208,6 +237,7 @@
    "label": "Bio Säde",
    "host": "kinohirvi.fi",
    "accent": "#8C3B7A",
+   "accentDark": "#9D4C89",
    "book": "reserve"
   },
   {
@@ -215,6 +245,7 @@
    "label": "Kino Marilyn",
    "host": "kinomarilyn.fi",
    "accent": "#1A6E4A",
+   "accentDark": "#297833",
    "book": "reserve"
   },
   {
@@ -222,6 +253,7 @@
    "label": "Kino Olympia",
    "host": "kino-olympia.fi",
    "accent": "#9C5518",
+   "accentDark": "#9E571A",
    "book": "reserve"
   },
   {
@@ -229,6 +261,7 @@
    "label": "Järvelän Kino",
    "host": "jarvelankino.fi",
    "accent": "#7A6A1E",
+   "accentDark": "#7A6A1E",
    "book": "reserve"
   },
   {
@@ -236,6 +269,7 @@
    "label": "Kino Metso",
    "host": "kinoaurora.fi",
    "accent": "#227D63",
+   "accentDark": "#227D63",
    "book": "reserve"
   },
   {
@@ -243,20 +277,23 @@
    "label": "Cinema Niagara",
    "host": "cinemaniagara.fi",
    "accent": "#6A4FBF",
+   "accentDark": "#7255C6",
    "book": "buy"
   },
   {
    "id": "heureka",
    "label": "Heureka",
    "host": "heureka.fi",
-   "accent": "#0B8468",
+   "accent": "#00512D",
+   "accentDark": "#4EE249",
    "book": "admission"
   },
   {
    "id": "korjaamo",
    "label": "Korjaamo Kino",
    "host": "korjaamokino.fi",
-   "accent": "#C07E7E",
+   "accent": "#8B769C",
+   "accentDark": "#80709C",
    "book": "buy"
   },
   {
@@ -264,13 +301,15 @@
    "label": "Kino Tapiola",
    "host": "kinotapiola.fi",
    "accent": "#003CFC",
+   "accentDark": "#A79BBF",
    "book": "buy"
   },
   {
    "id": "regina",
    "label": "Kino Regina",
    "host": "kinoregina.fi",
-   "accent": "#8A4854",
+   "accent": "#8C4853",
+   "accentDark": "#E9A89D",
    "book": "buy"
   }
  ]

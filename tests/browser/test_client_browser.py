@@ -1446,6 +1446,36 @@ class TimesViewChainLegendOnAPhone(TimesViewChainLegend):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class ChainShadeFollowsTheTheme(Browser):
+    """A chain's marker and legend chip take `accent` in the light theme and `accentDark`
+    in the dark one, switched by the theme button. Itis is served as in TimesViewChainLegend."""
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-1004.json").read_text(encoding="utf-8"))
+        for sh in doc["shows"]:
+            sh["venue"] = "1162"
+        Handler.body = {"area-1162.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def test_the_marker_and_the_legend_follow_the_theme(self):
+        orion = next(p for p in json.loads((FIXTURE / "data/providers.json").read_text(
+            encoding="utf-8"))["providers"] if p["id"] == "orion")
+        rgb = {k: "rgb({}, {}, {})".format(*(int(orion[k][i:i + 2], 16) for i in (1, 3, 5)))
+               for k in ("accent", "accentDark")}
+        self.assertNotEqual(rgb["accent"], rgb["accentDark"])
+        self.page.goto(self.origin + "/index.html?area=city:Helsinki")
+        stub = self.page.locator("#main a.stub.chain-orion").first
+        chip = self.page.locator("#main .legend.top .lg-btn.chain-orion")
+        expect(stub).to_be_visible()
+        for theme in ("light", "dark", "light"):
+            if self.page.evaluate("document.documentElement.getAttribute('data-theme')") != theme:
+                self.page.locator("#themeToggle").click()
+            key = "accentDark" if theme == "dark" else "accent"
+            expect(stub).to_have_css("border-left-color", rgb[key])
+            expect(chip).to_have_css("border-left-color", rgb[key])
+
+
 class ChainFilterEmptiesTheList(Browser):
     """A list the chain filter emptied says so, and keeps its legend in Leffat.
 

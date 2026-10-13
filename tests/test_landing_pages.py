@@ -446,6 +446,27 @@ class GeneratedPagesTest(unittest.TestCase):
                     self.assertIn(href, self.canonical, (k, href))
                     self.assertEqual(self.lang_of(href), self.lang_of(k), (k, href))
 
+    def test_a_city_page_gives_each_chain_its_shade_in_both_themes(self):
+        """The dark shade applies by a stored choice, and by the OS when nothing is stored."""
+        media = re.compile(r"@media\(prefers-color-scheme:dark\)\{((?::root:not\(\[data-theme="
+                           r"light\]\) \.chain-[a-z0-9-]+\{--chain:#[0-9A-Fa-f]{6}\})+)\}")
+        cities = 0
+        for k, text in self.canonical.items():
+            ids = set(re.findall(r'<a class="vchip chain-([a-z0-9-]+)"', text))
+            if not ids:
+                continue
+            cities += 1
+            block = media.search(text)
+            for pid in ids:
+                p = self.providers[pid]
+                with self.subTest(path=k, chain=pid):
+                    self.assertIn(f".chain-{pid}{{--chain:{p['accent']}}}", text)
+                    self.assertIn(f":root[data-theme=dark] .chain-{pid}"
+                                  f"{{--chain:{p['accentDark']}}}", text)
+                    self.assertIn(f":root:not([data-theme=light]) .chain-{pid}"
+                                  f"{{--chain:{p['accentDark']}}}", block.group(1))
+        self.assertGreater(cities, 5)
+
     def test_the_selector_never_sends_a_reader_into_the_app(self):
         """The fault this replaced: SV was `/?area=...&lang=sv`, a different kind of page
         with a different set of controls and a different span of days."""

@@ -1739,11 +1739,21 @@ def main(today=None) -> int:
                              for sh in days[iso].values() for s in sh
                              if (s.get("img") or "").startswith("data/posters/")), None)
         og = f"/{first_poster}" if first_poster else "/icon-512.png"
-        # One 3 px rule per chain on the stubs and on the venue links, and a legend that
-        # names each colour. Never colour alone: every stub also names its cinema.
+        # One marker colour per chain and theme on the stubs and on the venue links, and a
+        # legend that names each colour. Never colour alone: every stub also names its cinema.
         chain_ids = sorted({v["provider"] for v in vs}, key=lambda k: chains.get(k, k))
-        chain_css = "".join(f".chain-{esc(k)}{{--chain:{esc(providers[k]['accent'])}}}"
-                            for k in chain_ids if providers.get(k, {}).get("accent"))
+        light = [(k, providers[k]["accent"]) for k in chain_ids
+                 if providers.get(k, {}).get("accent")]
+        dark = [(k, providers[k]["accentDark"]) for k in chain_ids
+                if providers.get(k, {}).get("accentDark")]
+        chain_css = "".join(f".chain-{esc(k)}{{--chain:{esc(h)}}}" for k, h in light)
+        if dark:
+            # The stored choice first and the OS otherwise, as the page's tokens are set.
+            chain_css += "".join(f":root[data-theme=dark] .chain-{esc(k)}{{--chain:{esc(h)}}}"
+                                 for k, h in dark)
+            chain_css += ("@media(prefers-color-scheme:dark){" + "".join(
+                f":root:not([data-theme=light]) .chain-{esc(k)}{{--chain:{esc(h)}}}"
+                for k, h in dark) + "}")
         legend = ('<p class="legend">' + "".join(
             f'<span class="lg chain-{esc(k)}">{esc(chains.get(k, k))}</span>' for k in chain_ids)
             + "</p>")
