@@ -3906,3 +3906,12 @@ add 378 film pages with no screening on every run. The showtimes page is linked 
 the 21 programme pages and is now read on the operas rule. Run live the same day, the 19
 sites that link it published every ticket id it lists, 1,471 in all, with no duplicates.
 Cinema Niagara does not link it and is left for a separate change. Four mutations red.
+
+### Kino Kirkkonummi prices one screening by its own line (2026-10-13)
+Kerro kaikille's block read `Liput 15e` and then `14.10. Ke klo13.30 Liput 14e`. The two
+amounts under one heading made the film ambiguous, so none of its screenings had a price. A
+`Liput` line that starts with a screening's date, weekday and time now prices that
+screening alone and no longer counts toward the film's amount. Two amounts for one
+screening, or a weekday that does not fit the date, leave that screening unpriced. On the
+live page that day, the 14.10. 13:30 screening read 14 € and the other four read 15 €.
+Five mutations red.

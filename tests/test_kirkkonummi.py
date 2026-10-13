@@ -292,6 +292,26 @@ class PriceTest(unittest.TestCase):
         common.check_shows({kirkkonummi.VENUE["id"]: self.shows}, "kirkkonummi",
                            {kirkkonummi.VENUE["id"]})
 
+    def slotted(self, *lines):
+        """Kerro kaikille's block as read 2026-10-13: `Liput 15e`, then
+        `14.10. Ke klo13.30 Liput 14e`."""
+        body = (head("Kerro kaikille") + item("16.9. Ke klo13.30! / 17.9. To klo18.00") +
+                item("20.9. Sunnuntai klo18.00") + facts("Liput 15e", *lines))
+        return {s["start"][:16]: s["price"] for s in kirkkonummi.parse(page(body), TODAY)}
+
+    def test_a_line_led_by_a_screening_prices_that_screening_alone(self):
+        self.assertEqual(self.slotted("16.9. Ke klo13.30 Liput 14e"),
+                         {"2026-09-16T13:30": "14€", "2026-09-17T18:00": "15€",
+                          "2026-09-20T18:00": "15€"})
+
+    def test_two_amounts_for_one_screening_price_it_nothing(self):
+        got = self.slotted("16.9. Ke klo13.30 Liput 14e", "16.9. Ke klo13.30 Liput 13e")
+        self.assertEqual((got["2026-09-16T13:30"], got["2026-09-17T18:00"]), ("", "15€"))
+
+    def test_a_line_whose_weekday_does_not_fit_the_date_prices_nothing(self):
+        got = self.slotted("16.9. Ti klo13.30 Liput 14e")
+        self.assertEqual((got["2026-09-16T13:30"], got["2026-09-17T18:00"]), ("", "15€"))
+
 
 
 class RangeRowTest(unittest.TestCase):
