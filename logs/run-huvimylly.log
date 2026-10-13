@@ -1,5 +1,9 @@
-[huvimylly] FAILED: https://www.huvimylly.com/wp-json/wp/v2/pages?slug=etusivu&_fields=id,modified_gmt,content: no screening line in the page's own content. This site publishes no sentence saying there are none, so there is no evidence of an empty programme to read this as and the previous files stand
+[huvimylly] Elokuvateatteri Huvimylly, Raahe: 3 showtimes, 1 dates, 2 film(s), priced 10€
+[huvimylly] 1 line(s) in the programme that are neither a date heading nor a screening, left out
+[huvimylly] Elokuvateatteri Huvimylly: 3 showtimes, 1 dates
+[huvimylly] synopses merged: 0
+[run] venuelists-local.json rewritten
 [run] http: 0 revalidated (304), 1 full, 0 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 1 attempted -- www.huvimylly.com
-[run] huvimylly: 0 venues, 0 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 1 failures
-exit=1
+[run] huvimylly: 1 venues, 3 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+exit=0
