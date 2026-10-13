@@ -1834,3 +1834,48 @@ theme draws for a sale not yet open was not observed, and nothing on the page st
 
 **Implementation.** `riviera.parse` takes the seat count where one is printed and the
 button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-providers.md`.
+
+---
+
+## Kannusali, Espoo (2026-10-13)
+
+**Findings** (espoo.fi, read as a visitor on 2026-10-13 from an ordinary connection)
+
+- Kannusali is Espoo's culture house at Kannusillankatu 4, place `tprek:21430`. It runs a
+  free film strand titled "Elokuva: ..." on top of concerts and stage shows.
+  `kannusali.fi` redirects to `www.espoo.fi/kannusali` over http and fails TLS over https.
+- The venue's listing `www.espoo.fi/fi/kannusalin-tapahtumat` renders client-side and
+  sends `POST https://www.espoo.fi/api/events` with `fixedFilters.tprId "21430"`,
+  `topics ["Elokuvat"]` and `pagination {offset, perPage 12}`. The answer is shaped like
+  Elasticsearch: `total`, `hits[]._source`, `aggs`.
+- The same rows are in Espoo's LinkedEvents (`api.espoo.fi/events/v1/`) with the same ids.
+  The page does not request it.
+- At 13:38Z the place held 40 upcoming events. `topics` contained "Elokuvat" on 11 of them
+  and on none of the 29 concerts and stage shows. Titles do not classify: a concert named
+  "Ykspihlajan Kino-Orkesteri" has no film topic.
+- Each hit's `path` is `/fi/tapahtumat/espooevents:{id}`, a public event page. Four of them
+  answered 200. The free rows carry no ticket link and no price; `isFreeEvent` is set.
+- Two film-topic rows are not one screening each. The two Flow rows on 22.11. share start,
+  end and hall, and their descriptions say the Children's Weekend row is the same
+  screening. The "Espoo Ciné Film Festival Kannusalissa 2026" row spans 49 hours with no
+  screening time.
+
+**Decisions in the adapter** (`scripts/providers/kannusali.py`)
+
+- The source is the page's own POST, paged until `total` is covered.
+- One row per start minute, since the house has one hall; the smallest id is kept and the
+  other is logged as collapsed.
+- A row spanning over 24 hours is left out and logged.
+- The film concert "Lumiukko - Elokuvakonsertti" is published, with an empty price.
+- `price` is "Vapaa pääsy" only where `isFreeEvent` is true.
+- No image is published: the `eventImages` are not licensed to this site.
+- `where="cloud"` is provisional. Whether espoo.fi answers a runner is unknown until a
+  committed cloud log shows it.
+- `enrich_tmdb.clean` takes "Elokuva:" and a trailing rating such as "(K12)" off the search
+  string; the published title stays verbatim.
+
+**Status and next step**
+
+The adapter and its tests are committed. Kannusali has no registry entry yet, so nothing is
+published: the entry and its accent wait on the per-theme accent decision for the capital
+region.
