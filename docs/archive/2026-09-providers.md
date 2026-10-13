@@ -3960,3 +3960,14 @@ app and the city pages in Chromium and WebKit, and screenshots in both themes. C
 Tapiola's dark shade is a muted lavender-blue, Bio Grani and Kino Regina are two salmon
 tones in the dark capital-region row, and nothing was tested with people. Figures in
 [docs/research/accent-colour.md](../research/accent-colour.md).
+
+### Navettakino reads a title and its date on one line (2026-10-14)
+The cloud runs of 2026-10-13 at 17:19 and 17:45 UTC failed on "the screening paragraph
+'Pirjo i Sverige la 17.10 klo 15:00' carries no date line", and the empty file from the run
+before stood. The page now prints a title and its date on one line, and Pirjo's film block
+puts its date paragraph between its title and its poster. That block has no synopsis, so
+the next film's title would have been read as one. A listed line may now carry its title
+and date together, a block's title may be followed by date paragraphs before its figure,
+and a block's prose ends at the next block's title. Run against the live page on
+2026-10-14, the adapter read the weekend's one screening, Pirjo i Sverige on Saturday 17.10.
+at 15:00, with S, 88 min, 10 € and its poster. Four mutations red.
