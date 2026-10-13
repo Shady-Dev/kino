@@ -2279,6 +2279,8 @@
   // URLs are meant to leave this origin. A poster is not: an <img> is a request the
   // browser makes on its own, so posters have their own check below.
   const safeUrl = u => esc(safeUrlRaw(u));
+  // A show with no usable ticket link is drawn as an <a> without href, which is not a link.
+  const ticketHref = u => safeUrlRaw(u) ? `href="${safeUrl(u)}" target="_blank" rel="noopener"` : '';
   // Same-origin and inside the mirror directory. A path allowlist rather than an origin
   // check: mirror_posters.py leaves a hot-linked URL in the data when a download fails,
   // so the privacy invariant has to hold in the client. Every poster reference in the
@@ -3969,7 +3971,7 @@
                    ...tags.map(x => ['', esc(x)])].filter(x => x[1]);
       const facts = [...pre, ...langParts(s.lang, !pre.length).map(x => ['', esc(x)])];
       return `<div class="trow">
-        <a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}">
+        <a class="stub${cls}${tint}" ${ticketHref(s.url)} data-prov="${esc(s.provider || '')}">
           <span class="time">${t}</span><span class="price">${esc(own_price)}</span></a>
         <a class="tinfo" href="#m=${encodeURIComponent(s.eventId)}" data-id="${esc(s.eventId)}"><b>${esc(disp(s))}</b>
           <small>${factsHtml(facts)}</small></a>
@@ -4565,10 +4567,11 @@
         // already distinguishes through the registry's book field.
         const verb = L[state.lang][{ door:'tipDoor', reserve:'tipReserve', list:'tipList',
                                      admission:'tipAdmission' }[BOOK[t.provider]] || 'tipBuy'];
+        const tip = safeUrlRaw(t.url) ? `${verb} – ` : '';
         // The screening's own price, or an empty compartment. Never the film's: see the
         // meta2 note.
         const own_price = priceLabel([t]);
-        return `<a class="stub${cls}${tint}" href="${safeUrl(t.url)}" target="_blank" rel="noopener" data-prov="${esc(t.provider || '')}" title="${verb} – ${esc([...facts, ageOf(t)].filter(Boolean).join(', '))}">
+        return `<a class="stub${cls}${tint}" ${ticketHref(t.url)} data-prov="${esc(t.provider || '')}" title="${tip}${esc([...facts, ageOf(t)].filter(Boolean).join(', '))}">
                   <span class="time">${clock}</span><span class="aud${t.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multiTheatre)}</span>${glyphRow(glyphs)}${t.lang ? slangHtml(t.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
@@ -4782,7 +4785,7 @@
         // The menu button sits beside the ticket, outside the anchor; a past screening
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
-        return `<div class="tk"><a class="stub${cls}${tint}" href="${safeUrl(s.url)}" target="_blank" rel="noopener" data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([...facts, ageOf(s)].filter(Boolean).join(', '))}">
+        return `<div class="tk"><a class="stub${cls}${tint}" ${ticketHref(s.url)} data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([...facts, ageOf(s)].filter(Boolean).join(', '))}">
                   <span class="time">${clock}</span><span class="aud${s.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multi)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${s.lang ? slangHtml(s.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };

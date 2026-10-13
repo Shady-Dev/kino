@@ -539,6 +539,38 @@ class FreeAdmissionTicketOnAPhone(FreeAdmissionTicket):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class TicketWithoutALink(Browser):
+    """A show with no ticket link is still a ticket and is not a link: `href=""` opened the
+    app itself in a new tab (2026-10-13)."""
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        doc["shows"][0].update(url="", price="Vapaa pääsy")
+        self.eid, self.day = doc["shows"][0]["eventId"], doc["shows"][0]["start"][:10]
+        Handler.body = {"area-or-helsinki.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def check(self, root):
+        bare = self.page.locator(f"{root} a.stub:not([href])")
+        expect(bare).to_have_count(1)
+        expect(bare.locator(".price")).to_have_text("Vapaa pääsy")
+        got = bare.evaluate("e => ({target: e.getAttribute('target'), title: e.title,"
+                            " focused: (e.focus(), document.activeElement === e)})")
+        self.assertEqual((got["target"], got["focused"]), (None, False))
+        self.assertNotIn("Osta", got["title"])
+        self.assertGreater(self.page.locator(f"{root} a.stub[href^='https://']").count(), 0)
+
+    def test_it_is_drawn_unlinked_in_every_view(self):
+        self.pick_orion()
+        for view in ("#segMovies", "#segTimes"):
+            with self.subTest(view=view):
+                self.page.locator(view).click()
+                self.check("#main")
+        self.page.evaluate(f"location.hash = 'm={self.eid}&d={self.day}'")
+        self.check(".sheet-body")
+
+
 class PremiereBadge(Browser):
     """The badge reads the date off the show. It read films.json, which is fetched only
     in English or for a sheet, so Finnish and Swedish lists had none (prior review #26).
