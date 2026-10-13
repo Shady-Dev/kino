@@ -1,7 +1,7 @@
 """The Ajat ticket's width, in a real engine (2026-10-04).
 
 DESIGN.md: every ticket in the Ajat list is 120 px, the time's 62 and the price's 56 plus
-the borders, so the titles share one x; a chain tint adds 2. WebKit sized the ticket from
+the borders, so the titles share one x; a chain tint adds 3. WebKit sized the ticket from
 the time's text instead of its 62 px basis, drew it 111.84 px wide and clipped the price's
 sign: "14,95 €" lost its "€" on every iPhone (measured 2026-10-04). Chromium drew 120,
 so only a run in WebKit shows it, which is why CI runs this file in both engines.
@@ -101,7 +101,7 @@ class AjatTicketWidth(unittest.TestCase):
         self.assertTrue(any(r["price"] for r in rows) and any(not r["price"] for r in rows))
         for r in rows:
             self.assertEqual(r["tinted"], tinted, r)
-            self.assertAlmostEqual(r["w"], 122 if tinted else 120, delta=0.01, msg=r)
+            self.assertAlmostEqual(r["w"], 123 if tinted else 120, delta=0.01, msg=r)
             self.assertLessEqual(r["over"], 0, r)
             self.assertLessEqual(r["priceOver"], 0, r)
         self.assertLess(max(r["x"] for r in rows) - min(r["x"] for r in rows), 0.01, rows)

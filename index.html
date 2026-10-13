@@ -223,7 +223,7 @@
      scanning, so it is never the sole signal. */
   /* --chain is set per chain by a <style> generated from data/providers.json.
      Not --accent: that is already the theme colour. */
-  .stub[class*="chain-"]{border-left:3px solid var(--chain, var(--line))}
+  .stub[class*="chain-"]{border-left:4px solid var(--chain, var(--line))}
 
   /* Venue picker sheet. The trigger keeps the old select's face; the list is a dialog
      because a native select cannot carry a search field. Same modal lifecycle as the
@@ -708,11 +708,11 @@
     font-size:.72rem; color:var(--muted); white-space:nowrap;
   }
   .legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; font-size:.72rem; color:var(--muted)}
-  .legend .lg{padding-left:8px; border-left:3px solid var(--line)}
+  .legend .lg{padding-left:8px; border-left:4px solid var(--line)}
   .legend .lg-btn{
     font:inherit; font-size:.74rem; font-weight:600; cursor:pointer;
     color:var(--muted); background:var(--surface);
-    border:1px solid var(--line); border-left:3px solid var(--line);
+    border:1px solid var(--line); border-left:4px solid var(--line);
     border-radius:0 999px 999px 0; padding:5px 12px 5px 9px;
     transition:color .15s, background .15s, opacity .15s;
   }

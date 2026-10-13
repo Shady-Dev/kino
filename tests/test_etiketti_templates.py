@@ -838,7 +838,7 @@ class NiagaraRegistryTest(unittest.TestCase):
         binding constraint, so every model is at or above the worst pair of any city view.
         Region rows are measured on the same scale but twelve established pairs sit far
         below, so their minimum would make the first assertion trivial. The second is the
-        margin: comfortably above the 3 px rule's floor."""
+        margin: comfortably above the marker rule's floor."""
         import accent_check as A
         import registry
         niagara = registry.by_id("niagara")["accent"]

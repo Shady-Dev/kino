@@ -43,7 +43,7 @@ class Ciede2000Test(unittest.TestCase):
 
 
 class SharedViewTest(unittest.TestCase):
-    """Two views list chains side by side: a combined city, and a region row. The 3 px
+    """Two views list chains side by side: a combined city, and a region row. The
     accent rule has to hold in both, so both are generated here from registry.REGIONS and
     the provider cities rather than from a list kept in the tool."""
 

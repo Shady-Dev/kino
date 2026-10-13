@@ -230,7 +230,7 @@ def provider_cities():
 def view_pairs(extra=None):
     """-> [(kind, label, a, b)] for every pair of providers that can appear in one list.
 
-    Two views put chains side by side, and the 3 px rule has to survive both:
+    Two views put chains side by side, and the chain marker has to survive both:
 
     - a combined city, where every chain in that town is listed together;
     - a region row, where every chain in any of the region's cities is listed together.

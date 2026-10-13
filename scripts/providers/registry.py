@@ -80,7 +80,7 @@ PROVIDERS = [
 
     # The eTiketti sweep of 2026-08-30. Fourteen hosts, sixteen venues, all against the
     # parser that already served Kotka and Kokkola. Only three of them land in a city
-    # that already had a chain, and those three accents are the only ones the 3 px rule
+    # that already had a chain, and those three accents are the only ones the marker rule
     # constrains -- see the sweep entry in docs/archive/2026-09-providers.md. Every one
     # publishes a per-show booking link, so `buy`.
     dict(id="kinopirtti", label="Kinopirtti", host="kinopirtti.fi", accent="#8E44AD",
