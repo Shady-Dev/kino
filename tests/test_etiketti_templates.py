@@ -260,6 +260,57 @@ class EventListingTest(Stubbed):
             e.fetch_site(site("kotkanleffat"), sleep=0)
 
 
+# --- the showtimes listing (2026-10-13) ---------------------------------------------------
+
+DUNE_FILM = (KOTKA_FILM.replace("Insidious: Out of the Further", "Dyyni: osa kolme")
+             .replace("salikartta?id=56106", "salikartta?id=57301")
+             .replace("salikartta?id=56107", "salikartta?id=57302"))
+SHOWTIMES_LINK = '<a href="/elokuvat/naytosajat">Näytösajat</a>'
+
+
+class ShowtimesListingTest(Stubbed):
+    """On 2026-10-13, 58 films with screenings on 13 hosts were linked only from
+    "Näytösajat"."""
+
+    def pages(self, nav):
+        return {"/elokuvat/ohjelmistossa": listing("/elokuvat/3268/insidious", nav=nav),
+                "/elokuvat/oopperat-ja-tapahtumat": listing("/elokuvat/3291/don-giovanni",
+                                                            "/elokuvat/3268/insidious"),
+                "/elokuvat/naytosajat": listing("/elokuvat/3268/insidious",
+                                                "/elokuvat/3291/don-giovanni",
+                                                "/elokuvat/3277/dyyni-osa-kolme",
+                                                "/elokuvat/3277/dyyni-osa-kolme"),
+                "/elokuvat/3268/insidious": KOTKA_FILM,
+                "/elokuvat/3291/don-giovanni": OPERA_FILM,
+                "/elokuvat/3277/dyyni-osa-kolme": DUNE_FILM}
+
+    def test_the_three_listings_together_publish_each_screening_once(self):
+        e = self.stub(self.pages(EVENTS_LINK + SHOWTIMES_LINK))
+        fetched, real = [], e.get
+        e.get = lambda url, tries=3: fetched.append(url) or real(url, tries)
+        out = e.fetch_site(site("kotkanleffat"), sleep=0)
+        shows = sorted((s["title"], s["start"], s["url"]) for v in out.values() for s in v)
+        self.assertEqual(len(shows), 6)
+        self.assertEqual(len(set(shows)), 6)
+        self.assertEqual(sorted({t for t, _, _ in shows}),
+                         ["Dyyni: osa kolme", "Insidious: Out of the Further", "Ooppera: Don Giovanni"])
+        self.assertEqual(len(fetched), len(set(fetched)), fetched)
+
+    def test_an_unlinked_or_foreign_showtimes_listing_is_never_requested(self):
+        for nav in ("", '<a href="https://example.org/elokuvat/naytosajat">x</a>'):
+            with self.subTest(nav=nav):
+                pages = self.pages(nav)
+                del pages["/elokuvat/naytosajat"]
+                out = self.stub(pages).fetch_site(site("kotkanleffat"), sleep=0)
+                self.assertEqual(sum(len(v) for v in out.values()), 2)
+
+    def test_a_linked_showtimes_listing_that_fails_fails_the_site(self):
+        pages = self.pages(SHOWTIMES_LINK)
+        pages["/elokuvat/naytosajat"] = RuntimeError("HTTP Error 503")
+        with self.assertRaises(RuntimeError):
+            self.stub(pages).fetch_site(site("kotkanleffat"), sleep=0)
+
+
 # --- template 1 still parses exactly as before -------------------------------------------
 
 class KotkaTemplateTest(Stubbed):

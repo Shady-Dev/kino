@@ -3897,3 +3897,12 @@ Leffabuumi (from 2026-10-12 17:20 UTC) and Savon Kinot moved each screening's da
 item's class to `data-dates`, and every film page parsed to nothing. Read live 2026-10-13:
 Leffabuumi 124 of 124 ticket ids on its showtimes page; Savon Kinot 112 of 149, the other 37
 in 14 films its programme listing does not link. Four mutations red.
+
+### eTiketti reads the showtimes listing where a host links it (2026-10-13)
+A survey of the 21 hosts on 2026-10-13 found 58 films with 91 screenings on 13 sites that
+were linked from `/elokuvat/naytosajat` but from neither listing the adapter read. Savon
+Kinot's 14 were among them. `/elokuvat/tulossa` links 38 of the films, but reading it would
+add 378 film pages with no screening on every run. The showtimes page is linked from 20 of
+the 21 programme pages and is now read on the operas rule. Run live the same day, the 19
+sites that link it published every ticket id it lists, 1,471 in all, with no duplicates.
+Cinema Niagara does not link it and is left for a separate change. Four mutations red.

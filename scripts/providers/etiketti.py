@@ -24,6 +24,9 @@ That listing is read when, and only when, the programme page links it on the sit
 host. Its film pages are read like any other, and a failure on it fails the site, because
 the screenings on it are part of the programme.
 
+Showtimes (2026-10-13). `/elokuvat/naytosajat` links every film with a screening, and on 13
+hosts it linked 58 films that neither listing above links. It is read on the same rule.
+
 Empty venues (2026-09-13). A site's film pages carry every screening, so a registered
 venue with no row is either out of programme or renamed. `EMPTY_VENUES_CONFIRMED` lets
 run.py publish a fresh empty file for such a venue instead of keeping its last, past
@@ -713,18 +716,19 @@ def syn_value(text, paras=()):
     return {lang: text} if lang else ""
 
 
-# The second listing a host may link (see the module docstring). Never requested unless the
-# programme page links it.
+# The other listings a host may link (see the module docstring). Never requested unless the
+# programme page links them.
 EVENT_LISTING = "/elokuvat/oopperat-ja-tapahtumat"
+SHOWTIMES_LISTING = "/elokuvat/naytosajat"
 HREF_RE = re.compile(r'href=["\']([^"\']+)["\']', re.I)
 
 
-def links_event_listing(listing, site):
-    """Whether the programme page links the events listing on the site's own host."""
+def links_listing(listing, site, path):
+    """Whether the programme page links `path` on the site's own host."""
     host = urlsplit(site["base"]).netloc.lower()
     for href in HREF_RE.findall(listing):
         u = urlsplit(html_mod.unescape(href))
-        if u.path.rstrip("/") == EVENT_LISTING and (not u.netloc or u.netloc.lower() == host):
+        if u.path.rstrip("/") == path and (not u.netloc or u.netloc.lower() == host):
             return True
     return False
 
@@ -733,8 +737,9 @@ def fetch_site(site, sleep=1.2):
     listing = get(site["base"] + "/elokuvat/ohjelmistossa")
     seen, movies = set(), []
     pages = [listing]
-    if links_event_listing(listing, site):
-        pages.append(get(site["base"] + EVENT_LISTING))
+    for path in (EVENT_LISTING, SHOWTIMES_LISTING):
+        if links_listing(listing, site, path):
+            pages.append(get(site["base"] + path))
     for page in pages:
         for path, mid in MOVIE_LINK_RE.findall(page):
             if mid not in seen:
