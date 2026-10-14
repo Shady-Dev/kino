@@ -1,7 +1,7 @@
 # Counts
 
 Generated. Run `python3 scripts/build_counts.py` to rewrite the block below and sync the
-four figures README states in prose; `--check` reports without writing, and `--posters`
+figures README states in prose; `--check` reports without writing, and `--posters`
 prints the two figures this file does not carry.
 
 Do not edit the block by hand. These numbers were kept by hand in `IDEAS.md` and

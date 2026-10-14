@@ -61,8 +61,9 @@ def advertised():
     retyped, so the sentence a reader sees is measured against the committed venues
     below. A venue added without README following fails here."""
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    m = re.search(r"(\d+) per language, (\d+) sitemap URLs", readme)
-    return int(m.group(1)), int(m.group(2))
+    pages = re.search(r"Each language has (\d+) pages", readme)
+    urls = re.search(r"the sitemap has (\d+) URLs", readme)
+    return int(pages.group(1)), int(urls.group(1))
 
 CTA_RE = re.compile(r'<a class="cta" href="([^"]+)">(.*?)</a>', re.S)
 AUD_RE = re.compile(r'<span class="aud">(.*?)</span><span class="price">', re.S)
@@ -1833,7 +1834,7 @@ class ReadmeCountsTest(unittest.TestCase):
 
     def test_the_opening_line_counts_the_committed_venues(self):
         providers, venues, cities = self.measured()
-        m = re.search(r"Showtimes for (\d+) venues in (\d+) cities across (\d+) providers",
+        m = re.search(r"showtimes for (\d+) venues in (\d+) cities across (\d+) providers",
                       self.README)
         self.assertTrue(m, "README's opening sentence changed shape")
         self.assertEqual((int(m.group(1)), int(m.group(2)), int(m.group(3))),
@@ -1848,15 +1849,16 @@ class ReadmeCountsTest(unittest.TestCase):
         self.assertEqual(int(m.group(1)), cities)
 
     def adapter_table(self):
-        """The rows of README's adapter table, as (label, providers, venues)."""
-        body = self.README.split("| Adapter | Providers | Venues | Auth | Runs |")[1]
+        """The rows of README's Cinemas table, one per adapter module, as
+        ([cinema labels], venues, runs)."""
+        body = self.README.split("| Cinemas | Read from | Venues | Runs |")[1]
         body = body.split("\n\n")[0]
         rows = []
         for line in body.strip().split("\n")[1:]:
             if not line.startswith("|"):
                 continue
             cells = [c.strip() for c in line.split("|")[1:-1]]
-            rows.append((cells[0], int(cells[1]), int(cells[2]), cells[4]))
+            rows.append((cells[0].split(", "), int(cells[2]), cells[3]))
         return rows
 
     def test_the_adapter_table_adds_up_to_the_registry(self):
@@ -1868,10 +1870,11 @@ class ReadmeCountsTest(unittest.TestCase):
         sys.path.insert(0, str(ROOT / "scripts" / "providers"))
         import registry
         rows = self.adapter_table()
-        providers, venues, _ = self.measured()
-        self.assertEqual(sum(r[1] for r in rows), providers,
-                         "the Providers column must add up to the registry")
-        self.assertEqual(sum(r[2] for r in rows), venues,
+        _, venues, _ = self.measured()
+        self.assertEqual(sorted(n for r in rows for n in r[0]),
+                         sorted(p["label"] for p in registry.PROVIDERS),
+                         "the table names every provider in the registry, once")
+        self.assertEqual(sum(r[1] for r in rows), venues,
                          "the Venues column must add up to the committed venues")
         modules = {(p.get("module") or p.get("id")) for p in registry.PROVIDERS}
         self.assertEqual(len(rows), len(modules),
@@ -1885,7 +1888,7 @@ class ReadmeCountsTest(unittest.TestCase):
         import registry
         local = {(p.get("module") or p.get("id")) for p in registry.PROVIDERS
                  if p.get("where") == "local"}
-        said = sum(1 for r in self.adapter_table() if "local" in r[3].lower())
+        said = sum(1 for r in self.adapter_table() if "local" in r[2].lower())
         self.assertEqual(said, len(local),
                          f"{len(local)} adapter modules have a local site; "
                          f"{said} rows say so")
