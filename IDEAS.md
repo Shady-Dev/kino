@@ -115,8 +115,11 @@ films would tie that way against shorts, each settled by its runtime
 
 ### The cloud cron fires about half its slots
 
-23 of 42 slots ran 09-15 to 09-25; since 09-20 only 06:30 and 14:30 UTC, a median 80 min
-late (audit, 2026-09-25). External, cause unknown. **Unblocks when:** GitHub runs them.
+Since 09-20 a scheduled run arrives after the 06:30 and the 14:30 UTC slot each day and none
+after 02:30 or 10:30; the median lag rose from 61 to 134 min (Actions API, read 2026-10-14
+for 09-15 to 10-13). Which slot a run belongs to is not recorded, so a late event cannot be
+told from a dropped one. Jobs start seconds after a run is created. External, cause unknown.
+**Unblocks when:** GitHub runs them.
 
 ### Julia 1&2 Hyvinkää prints two prices on one screening
 
