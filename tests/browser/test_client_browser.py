@@ -933,9 +933,10 @@ class HistoryAcrossVenues(Browser):
         expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
         self.page.evaluate("history.go(2)")
         expect(self.page.locator("#areaSelect")).to_contain_text("Promenadi")
-        after = self.state()
-        self.assertFalse(after["hidden"], "the entry names a film; the sheet belongs open")
-        self.assertIn("Porin", after["title"])
+        # The label changes before the venue loads and the sheet opens after it.
+        expect(self.page.locator("#sheet"), "the entry names a film; the sheet belongs open"
+               ).to_have_js_property("inert", False)
+        expect(self.page.locator("#sheetTitle")).to_contain_text("Porin")
 
     def test_closing_the_sheet_puts_focus_back_on_the_card(self):
         """The counterweight to all of the above: an ordinary close still returns the
