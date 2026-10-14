@@ -1549,6 +1549,16 @@
    },
    "tr": ""
   },
+  "hella w": {
+   "id": 62614,
+   "img": "data/posters/275bbf609591428c.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Hella Wuolijoen uskomaton tarina. Vaatimattomista oloista kotoisin oleva Hella nousee nopeasti Euroopan seurapiireihin. Hankkeet, joihin hän tarttuu, tuntuvat muuttuvan kullaksi hänen käsissään. Niskavuori-näytelmät menestyvät Hollywoodia myöten ja liiketoimet kukoistavat. Maailmansotien ravistellessa Eurooppaa tiedustelupalvelut kiinnostuvat Hellasta. Hänen jäljilleen lähtee Valpon etsivä, jonka elämäntehtäväksi muodostuu Hellan kukistaminen."
+   },
+   "tr": ""
+  },
   "helvetin portti": {
    "r": 0,
    "s": {
@@ -3215,6 +3225,7 @@
    "kr": "K-16",
    "krs": [
     "alatalo",
+    "biograni",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -3230,6 +3241,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokilta",
     "kinokonepaja",
     "kinolaika",
     "kinolumo",
@@ -3260,6 +3272,7 @@
    "kr": "K-16",
    "krs": [
     "alatalo",
+    "biograni",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -3275,6 +3288,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokilta",
     "kinokonepaja",
     "kinolaika",
     "kinolumo",
@@ -3308,6 +3322,7 @@
    "kr": "K-16",
    "krs": [
     "alatalo",
+    "biograni",
     "biokaari",
     "biorex",
     "biorexkokkola",
@@ -3323,6 +3338,7 @@
     "kinoaurora",
     "kinohannikainen",
     "kinojuha",
+    "kinokilta",
     "kinokonepaja",
     "kinolaika",
     "kinolumo",
@@ -4667,7 +4683,7 @@
   "other mommy": {
    "id": 1400837,
    "img": "data/posters/952438d819839253.jpg",
-   "r": 0,
+   "r": 6.0,
    "s": {
     "en": "Young Bela forms a relationship with a sinister entity in her home that looks uncannily like her own mother, drawing her into a terrifying and increasingly dark world.",
     "fi": "Modernin kauhun vaikutusvaltaisimpiin tekijöihin lukeutuva tuottaja James Wan sekä Blumhouse Atomic Monster (Backrooms, Obsession) vievät katsojat pelottavalle matkalle nousevan genreohjaajan Rob Savagen johdolla. Tarina sukeltaa nuoren tytön, Belan, synkkenevään maailmaan hänen muodostaessaan suhteen kodissaan asuvaan pahansuopaan olentoon, joka näyttää hämmentävän paljon hänen omalta äidiltään.",
@@ -5029,6 +5045,7 @@
     "engel",
     "huvimylly",
     "kinoaurora",
+    "kinokilta",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5051,6 +5068,7 @@
     "engel",
     "huvimylly",
     "kinoaurora",
+    "kinokilta",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5091,6 +5109,7 @@
     "engel",
     "huvimylly",
     "kinoaurora",
+    "kinokilta",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5113,6 +5132,7 @@
     "engel",
     "huvimylly",
     "kinoaurora",
+    "kinokilta",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5402,7 +5422,7 @@
     "savonkinot",
     "star"
    ],
-   "r": 6.2,
+   "r": 6.3,
    "s": {
     "en": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
     "fi": "Sandra Bullockin ja Nicole Kidmanin tähdittämä PRACTICAL MAGIC: LUMOTUT SISARET vie kuutamon valaisemien kepposten ja esiäitien taikuuden sävyttämään maailmaan, jossa Owensin sisarten on kohdattava synkkä kirous, joka uhkaa repiä heidän perheensä lopullisesti hajalle. Luvassa on lumottu elokuva täynnä komediaa ja taikaa."
@@ -8316,7 +8336,6 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 6.4,
@@ -8377,7 +8396,6 @@
     "star",
     "studio123jarvenpaa",
     "tapiola",
-    "vaakuna",
     "vihdinkino"
    ],
    "r": 6.5,

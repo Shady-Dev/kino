@@ -1,12 +1,12 @@
-[kinokilta] 70 screening(s) listed, 46 film page(s) read
+[kinokilta] 75 screening(s) listed, 49 film page(s) read
 [kinokilta] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 2
 [kinokilta] unresolved: RetkiKino 2026
 [kinokilta] 3 synopsis/synopses withheld, no language settled: Combat Shock, Kinokopla: DIG! XX, Teenage Sex and Death at Camp Miasma
 [kinokilta] 7 film(s) with a language name not read, that part left blank: Alligator (Ei teksitystä); Combat Shock (Ei teksitystä); Joysticks (Ei teksitystä); Pieni kauhukauppa (Ei teksitystä); Prom Night (Ei teksitystä); Savage Dawn (Ei teksitystä); Sleepaway Camp (Ei teksitystä)
-[kinokilta] Kino Kilta: 68 showtimes, 35 dates
+[kinokilta] Kino Kilta: 73 showtimes, 35 dates
 [kinokilta] strand prefix split off 10 showtimes
-[kinokilta] Kino Kilta: 68 showtimes, 35 dates
-[kinokilta] synopses merged: 0
+[kinokilta] Kino Kilta: 73 showtimes, 35 dates
+[kinokilta] synopses merged: 1
 [kinolaika] 59 screening(s) listed, 39 film page(s) read
 [kinolaika] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 22 unresolved over 23
 [kinolaika] unresolved: AKI, Amongst the Birds, Antti Autio, Archipelago, Arppa, Bussikyyti – Sodankylän elokuvajuhlat kylässä, Dave Lindholm & Pepe Ahlqvist: WALKIN' BLUES -kiertue, Garden Folly, Kana, Knipi - Sivellinvetoja, Kotimaiset lyhytelokuvat (1), Kotimaiset lyhytelokuvat (2)
@@ -32,8 +32,8 @@
 [kinokonepaja] Kino Konepaja: 40 showtimes, 20 dates
 [kinokonepaja] Kino Konepaja: 40 showtimes, 20 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 46 revalidated (304), 85 full, 26 not stored (origin said no-store), 1 cache entries written
+[run] http: 0 revalidated (304), 134 full, 26 not stored (origin said no-store), 50 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 176 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 249.5s of fetching added up across workers that overlap, longest site 77.6s, longest queue wait 142.6s, 82.3s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 181 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 323.4s of fetching added up across workers that overlap, longest site 120.6s, longest queue wait 157.5s, 120.6s wall from this module's first fetch starting to its last ending
 exit=0
