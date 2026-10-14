@@ -11,8 +11,6 @@ import os
 import pathlib
 import unittest
 
-from playwright.sync_api import sync_playwright
-
 import _harness
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -41,14 +39,14 @@ class PrivacyTableTest(unittest.TestCase):
             ("127.0.0.1", 0), functools.partial(Handler, directory=str(ROOT)))
         _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
-        cls.pw = sync_playwright().start()
+        cls.pw = _harness.playwright()
         engine = os.environ.get("KINO_BROWSER_ENGINE", "chromium")
         channel = os.environ.get("KINO_BROWSER_CHANNEL") if engine == "chromium" else None
         cls.browser = getattr(cls.pw, engine).launch(channel=channel or None, headless=True)
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
+        cls.browser.close(); _harness.stop(cls.srv)
 
     def open(self, width):
         ctx = self.browser.new_context(viewport={"width": width, "height": 900},

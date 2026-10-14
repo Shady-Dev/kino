@@ -35,7 +35,7 @@ import tempfile
 import unittest
 from datetime import date
 
-from playwright.sync_api import expect, sync_playwright
+from playwright.sync_api import expect
 
 import _harness
 
@@ -158,7 +158,7 @@ class PagesLayoutTest(unittest.TestCase):
             ("127.0.0.1", 0), functools.partial(Handler, directory=str(cls.root)))
         _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
-        cls.pw = sync_playwright().start()
+        cls.pw = _harness.playwright()
         # KINO_BROWSER_ENGINE=webkit runs the same checks in WebKit. The layout that
         # shipped on 2026-09-18 was correct in Chromium and wrong in WebKit, because a
         # negative grid line resolves against the explicit grid and there were no explicit
@@ -170,7 +170,7 @@ class PagesLayoutTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv); cls.tmp.cleanup()
+        cls.browser.close(); _harness.stop(cls.srv); cls.tmp.cleanup()
 
     def geometry(self, width, path=f"/teatteri/{SLUG}/"):
         """-> (rows, overflow). One row per film, every number a rendered box."""

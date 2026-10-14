@@ -29,7 +29,7 @@ import threading
 import time
 import unittest
 
-from playwright.sync_api import expect, sync_playwright
+from playwright.sync_api import expect
 
 import _harness
 
@@ -126,7 +126,7 @@ class Browser(unittest.TestCase):
         cls.srv.requested = []
         _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
-        cls.pw = sync_playwright().start()
+        cls.pw = _harness.playwright()
         # KINO_BROWSER_ENGINE picks the engine, default chromium, the same way
         # test_pages_layout.py does. Playwright's own pinned build for that engine, the one
         # `playwright install <engine>` fetched for this Playwright version, so what is
@@ -142,7 +142,7 @@ class Browser(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
+        cls.browser.close(); _harness.stop(cls.srv)
 
     def setUp(self):
         self.ctx = self.browser.new_context(viewport=self.viewport, has_touch=self.touch,
