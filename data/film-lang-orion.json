@@ -13,7 +13,7 @@
  },
  "departures": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "82",
@@ -46,7 +46,7 @@
  },
  "free-at-heart": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "DE-A, EN-S",
    "len": "117",
@@ -58,14 +58,14 @@
  },
  "ghost-in-the-machine": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
-   "lang": "EN-A",
+   "lang": "EN-A, EN-S",
    "len": "95",
    "rating": "K-18",
    "year": "2026",
-   "syn_fi": "Valerie Veatchin uusi essee-elokuva hylkää tekoälyn väistämättömyyden tai objektiivisuuden ja jäljittää, kuinka edistyksen ja tehokkuuden myytit ovat hämärtäneet syvempiä poliittisia ja kulttuurisia tavoitteita, paljastaen ideologiset perustat systeemeissä, jotka nyt muokkaavat modernia yhteiskuntaa. Elokuvan ohjaaja Valerie Veatchin aiemmat Sundancessa ensi-iltansa saaneet elokuvat Me @ the Zoo (HBO) ja Love Child (HBO) tutkivat, kuinka nousevat teknologiat muokkaavat identiteettiä, kulttuuria ja globaalia valtaa. Tämä uusi elokuva on hänen tähän mennessä kunnianhimoisin teoksensa. Kahdeksan luvun kautta Veatch sukeltaa tutkimaan globaalin tekoälybuumin filosofisia, kulttuurisia ja poliittisia voimia. Näytöksen jälkeen on keskustelu ja Q&A, jota johtaa elokuvantekijä ja monitieteinen tutkija, Helsingin yliopiston ja Taideyliopiston dosentti, tohtori Nitin Sawhney. Vieraina ovat ohjaaja Valerie Veatch (etäyhteydellä) sekä kutsuttuja asiantuntijoita. Näytös järjestetään TO 22.10. KLO 17:15. Yhteistyössä DocPoint – Helsinki Documentary Film Festival.",
-   "syn_en": "Ghost in the Machine (dir. Valerie Veatch) is a gripping and urgently relevant investigative documentary that exposes the buried history of artificial intelligence, not as a neutral system of algorithms, but as a technology shaped by racism, misogyny, eugenics, and entrenched structures of power long before it entered everyday life. Rejecting the notion of AI as inevitable or objective, the film traces how myths of progress and efficiency have obscured deeper political and cultural agendas, revealing the ideological foundations beneath the systems now reshaping modern society. The film is directed by Valerie Veatch, whose past Sundance-premiering films Me @ the Zoo (HBO) and Love Child (HBO) explore how emerging technologies reshape identity, culture, and global power. This new film is her most ambitious work yet – over eight chapters, Veatch helms an urgent excavation of the philosophical, cultural, and political forces driving the global AI boom. After the screening there will be a discussion with Director Valerie Veatch (online), invited experts and audience QA, hosted by Dr. Nitin Sawhney, Docent at University of Helsinki & Uniarts Helsinki. The screening will be held on Thursday, 22 October at 17:15. This film premiere of Ghost in the Machine is co-hosted with DocPoint – Helsinki Documentary Film Festival."
+   "syn_fi": "Valerie Veatchin uusi essee-elokuva hylkää tekoälyn väistämättömyyden tai objektiivisuuden ja jäljittää, kuinka edistyksen ja tehokkuuden myytit ovat hämärtäneet syvempiä poliittisia ja kulttuurisia tavoitteita, paljastaen ideologiset perustat systeemeissä, jotka nyt muokkaavat modernia yhteiskuntaa. Elokuvan ohjaaja Valerie Veatchin aiemmat Sundancessa ensi-iltansa saaneet elokuvat Me @ the Zoo (HBO) ja Love Child (HBO) tutkivat, kuinka nousevat teknologiat muokkaavat identiteettiä, kulttuuria ja globaalia valtaa. Tämä uusi elokuva on hänen tähän mennessä kunnianhimoisin teoksensa. Kahdeksan luvun kautta Veatch sukeltaa tutkimaan globaalin tekoälybuumin filosofisia, kulttuurisia ja poliittisia voimia. Näytöksen jälkeen on keskustelu ja Q&A, jota johtaa elokuvantekijä ja monitieteinen tutkija, Helsingin yliopiston dosentti, tohtori Nitin Sawhney. Vieraina ovat ohjaaja Valerie Veatch (etäyhteydellä) sekä Pierre Noro, lehtori (SciencesPo Paris) ja Associate Expert (Tech & Global Affairs Innovation Hub, Paris School of International Affairs). Näytös järjestetään TO 22.10. KLO 17:15. Yhteistyössä DocPoint – Helsinki Documentary Film Festival.",
+   "syn_en": "Ghost in the Machine (dir. Valerie Veatch) is a gripping and urgently relevant investigative documentary that exposes the buried history of artificial intelligence, not as a neutral system of algorithms, but as a technology shaped by racism, misogyny, eugenics, and entrenched structures of power long before it entered everyday life. Rejecting the notion of AI as inevitable or objective, the film traces how myths of progress and efficiency have obscured deeper political and cultural agendas, revealing the ideological foundations beneath the systems now reshaping modern society. The film is directed by Valerie Veatch, whose past Sundance-premiering films Me @ the Zoo (HBO) and Love Child (HBO) explore how emerging technologies reshape identity, culture, and global power. This new film is her most ambitious work yet – over eight chapters, Veatch helms an urgent excavation of the philosophical, cultural, and political forces driving the global AI boom. After the screening there will be a discussion with Valerie Veatch, Independent Documentary Filmmaker (joining online) and Pierre Noro, Lecturer, SciencesPo Paris and Associate Expert, Tech & Global Affairs Innovation Hub, Paris School of International Affairs, hosted by moderator Nitin Sawhney, Docent in Computer Science, University of Helsinki The screening will be held on Thursday, 22 October at 17:15. This film premiere of Ghost in the Machine is co-hosted with DocPoint – Helsinki Documentary Film Festival."
   }
  },
  "ghost-nakymaton-rakkaus": {
@@ -94,7 +94,7 @@
  },
  "i-am-going-to-miss-you": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "PT-A, EN-S",
    "len": "87",
@@ -107,7 +107,7 @@
  },
  "i-rarely-wake-up-dreaming": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "UK-A, DE-A, EN-S",
    "len": "110",
@@ -119,7 +119,7 @@
  },
  "ivan-and-hadoum": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "ES-A, EN-S",
    "len": "100",
@@ -131,7 +131,7 @@
  },
  "kerro-kaikille": {
   "price": "",
-  "at": "2026-10-12T17:17:46+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "FI-A, EN-S",
    "len": "112",
@@ -143,7 +143,7 @@
  },
  "kinokonsertti-moana-auringon-poika": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "EN-A, EN-S",
    "len": "78",
@@ -177,7 +177,7 @@
  },
  "lyhytelokuvakooste-havun-kaiho-short-movie-compilation-havus-longing": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "EN-S",
    "len": "118",
@@ -209,7 +209,7 @@
  },
  "montreal-ma-belle": {
   "price": "",
-  "at": "2026-10-12T23:16:42+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "FR-A, ZH-A, EN-S",
    "len": "118",
@@ -236,18 +236,6 @@
   "at": "2026-10-14T05:16:30+00:00",
   "fields": {
    "syn_fi": "Sukella salaperäisten istuntojen ja tuonpuoleisten viestien maailmaan näkyvän ja näkymättömän maailman rajamaille! Helsinkiläinen meedio ja tarot-tulkitsija Pia Långbacka saapuu vieraaksemme. Pia kertoo työstään, siitä miten viestit henkimaailmasta välittyvät ja miten todellinen meedion työ eroaa elokuvien luomista mielikuvista. Luvassa on lämmin, valoisa ja maanläheinen kohtaaminen. Pian puheenvuoro on osa Näkymätön yhteys – Meedioelokuvapäivää ja sitä voi tulla kuuntelemaan ilmaiseksi LA 24.10. KLO 17:00-17:45."
-  }
- },
- "presidentin-kyyditys": {
-  "price": "",
-  "at": "2026-10-14T11:16:21+00:00",
-  "fields": {
-   "lang": "FI-A, FI-S, SV-S",
-   "len": "87",
-   "rating": "K-12",
-   "original": "Presidentin kyyditys",
-   "year": "2026",
-   "syn_fi": "Tositapahtumien inspiroima Presidentin kyyditys vie katsojan keskelle vuoden 1930 absurdeja tapahtumia. Raskaan ryyppyillan aikana joukko kunnianhimoisia upseereita päättää kaapata Suomen ensimmäisen presidentin – jo eläkkeellä olevan K. J. Ståhlbergin. Uppiniskainen presidentin vaimo Ester Ståhlberg ei tiukassakaan tilanteessa suostu jättämään miestään, vaan änkeää muiluttajien pään menoksi samaan kyytiin auton takapenkille. Alkaa uskomaton matka halki levottoman Suomen, jossa huhupuheet ja historia kietoutuvat yhteen – eikä vieläkään tiedetä, mikä presidentin kyydityksessä oli totta ja mikä tarua."
   }
  },
  "rose": {
@@ -288,7 +276,7 @@
  },
  "the-secret-reading-club-of-kabul": {
   "price": "",
-  "at": "2026-10-12T17:17:46+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "FI-S",
    "len": "94",
@@ -300,7 +288,7 @@
  },
  "the-social-reckoning": {
   "price": "",
-  "at": "2026-10-12T17:17:46+00:00",
+  "at": "2026-10-14T23:17:44+00:00",
   "fields": {
    "lang": "EN-A, FI-S, SV-S",
    "rating": "K-12",

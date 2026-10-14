@@ -313,7 +313,6 @@
     "gilda",
     "kinoaurora",
     "kinometso",
-    "niagara",
     "vihdinkino"
    ],
    "r": 6.2,
@@ -1101,75 +1100,6 @@
     "en"
    ]
   },
-  "elokuva flow k7": {
-   "id": 823219,
-   "img": "data/posters/244608d0c5837fe0.jpg",
-   "r": 8.1,
-   "s": {
-    "en": "",
-    "fi": "Yksinäinen kissa, joka on joutunut suuren tulvan vuoksi pakenemaan, löytää turvapaikan veneestä muiden eläinlajien kanssa. Yhdessä heidän on selviydyttävä muuttuneen maailmaan haasteista."
-   },
-   "tr": "https://www.youtube.com/watch?v=shsVQvHUTxw",
-   "ts": [
-    "fi"
-   ]
-  },
-  "elokuva isänpäivä k7": {
-   "id": 1262748,
-   "img": "data/posters/65c60ab63113da26.jpg",
-   "kr": "K-7",
-   "krs": [
-    "korjaamo"
-   ],
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Terveytensä juonut Tinke asuu palveluyksikössä, jossa elämää pitää kasassa sen nurjasta puolesta kumpuava huumori ja arjessa auttava ystävä Veikko. Kun takavuosilta hämärästi tutun Saimin teini-ikäiset kaksoset päättävät ottaa selvää isästään, etsintä johtaa heidät Tinken jäljille. Saimi aikoo kaikin keinoin estää kaksosia tapaamasta Tinkeä, mutta sotkun keskelle tempautunut Veikko on eri mieltä."
-   },
-   "tr": "",
-   "ts": [
-    "fi"
-   ]
-  },
-  "elokuva kevlarsjäl k12": {
-   "id": 1414081,
-   "img": "data/posters/6ea29f409289d6d4.jpg",
-   "r": 0,
-   "s": {
-    "en": "",
-    "fi": "Alex ja Robin ovat veljeksiä, jotka ovat menettäneet uskonsa aikuisiin ja oppineet selviytymään vain toistensa varassa. Heidän välilleen on kasvanut poikkeuksellisen vahva side, jota mikään ei tunnu voivan rikkoa. Mutta kun Alex rakastuu, maailma alkaa horjua. Robin kokee tulleensa hylätyksi ja syöksyy hallitsemattomaan vapaapudotukseen, josta isoveli yrittää epätoivoisesti tavoittaa hänet takaisin. Alex kantaa syyllisyyttä, rakkautta ja velvollisuutta rinnassaan – mutta voiko ketään pelastaa, jos tämä ei halua tulla pelastetuksi?"
-   },
-   "tr": "https://www.youtube.com/watch?v=Cf2WFI71MJM",
-   "ts": [
-    "fi"
-   ]
-  },
-  "elokuva michael k12": {
-   "id": 936075,
-   "img": "data/posters/27a95f8ceb0939ad.jpg",
-   "r": 8.6,
-   "s": {
-    "en": "",
-    "fi": "Michael tarjoaa yleisölle koskettavan, rehellisen ja syväluotaavan muotokuvan popmusiikin historian loistavimmasta mutta myös monimutkaisimmasta ikonista. Elokuva kuljettaa katsojan läpi Michael Jacksonin elämän aina Jackson 5 -yhtyeen ajoista ja lapsitähden raskaasta menestyksestä maailmanlaajuiseksi supertähdeksi, joka mullisti musiikkiteollisuuden ja popkulttuurin pysyvästi.\r Tarina valottaa Michaelin vertaansa vailla olevaa luovaa lahjakkuutta, hänen nerokkaita visioitaan ja vaativaa työmoraaliaan, jotka synnyttivät historian ikonisimmat musiikkivideot ja lavaesiintymiset. Menestyksen rinnalla elokuva ei kuitenkaan kaihda artistin elämän varjopuolia: se kuvaa raakaa julkisuuden painetta, eristäytyneisyyttä, monimutkaisia perhesuhteita sekä historian kovaäänisimpiä mediasirkuksia ja syytöksiä. Kyseessä on syvän inhimillinen tarina miehestä, joka antoi kaikkensa taiteelle, mutta jonka yksityiselämä pysyi loppuun asti yhtenä maailman suurimmista mysteereistä."
-   },
-   "tr": "https://www.youtube.com/watch?v=k-YAcjaLuSI",
-   "ts": [
-    "fi"
-   ]
-  },
-  "elokuva nämä pienet asiat k7": {
-   "id": 1102493,
-   "img": "data/posters/c6e537c8f3ece2e9.jpg",
-   "r": 6.7,
-   "s": {
-    "en": "",
-    "fi": "Eletään vuotta 1985, joulua edeltävänä aikana pienessä kaupungissa Wexfordin kreivikunnassa Irlannissa. Bill Furlong raataa hiilikauppiaana elättääkseen itsensä, vaimonsa ja viisi tytärtään. Eräänä varhain aamuna, kun hän on toimittamassa hiiltä paikalliseen luostariin, hän tekee löydön, joka pakottaa hänet kohtaamaan menneisyytensä ja katolisen kirkon hallitseman kaupungin myötämielisen vaikenemisen."
-   },
-   "tr": "https://www.youtube.com/watch?v=PBJ3zgH4pGM",
-   "ts": [
-    "fi"
-   ]
-  },
   "elämää kuoleman jälkeen": {
    "id": 571671,
    "img": "data/posters/b8fb0982c8e4c41d.jpg",
@@ -1306,13 +1236,25 @@
   },
   "filminäytös liisa ihmemaassa": {
    "id": 12092,
-   "img": "data/posters/c7e9a5daabb9757d.jpg",
-   "r": 7.2,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "Lähde Liisan matkaan, kun hän putoaa hassuun Ihmemaailmaan ja tapaa erikoisia hahmoja, joihin kuuluvat Tittelityy ja Tittelitom, Hullu Hatuntekijä, Herttakuningatar ja epätoivoisen myöhässä oleva Valkoinen Kani."
    },
-   "tr": "https://www.youtube.com/watch?v=JY2rHymtNvc"
+   "tr": ""
+  },
+  "flow": {
+   "id": 823219,
+   "img": "data/posters/244608d0c5837fe0.jpg",
+   "r": 8.1,
+   "s": {
+    "en": "",
+    "fi": "Yksinäinen kissa, joka on joutunut suuren tulvan vuoksi pakenemaan, löytää turvapaikan veneestä muiden eläinlajien kanssa. Yhdessä heidän on selviydyttävä muuttuneen maailmaan haasteista."
+   },
+   "tr": "https://www.youtube.com/watch?v=shsVQvHUTxw",
+   "ts": [
+    "fi"
+   ]
   },
   "follow the plants": {
    "r": 0,
@@ -2374,6 +2316,19 @@
     "fi"
    ]
   },
+  "kevlarsjäl": {
+   "id": 1414081,
+   "img": "data/posters/6ea29f409289d6d4.jpg",
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Alex ja Robin ovat veljeksiä, jotka ovat menettäneet uskonsa aikuisiin ja oppineet selviytymään vain toistensa varassa. Heidän välilleen on kasvanut poikkeuksellisen vahva side, jota mikään ei tunnu voivan rikkoa. Mutta kun Alex rakastuu, maailma alkaa horjua. Robin kokee tulleensa hylätyksi ja syöksyy hallitsemattomaan vapaapudotukseen, josta isoveli yrittää epätoivoisesti tavoittaa hänet takaisin. Alex kantaa syyllisyyttä, rakkautta ja velvollisuutta rinnassaan – mutta voiko ketään pelastaa, jos tämä ei halua tulla pelastetuksi?"
+   },
+   "tr": "https://www.youtube.com/watch?v=Cf2WFI71MJM",
+   "ts": [
+    "fi"
+   ]
+  },
   "kinojuhlat avioliiton ilveilyä": {
    "r": 0,
    "s": {
@@ -3249,46 +3204,6 @@
   "lapin sota": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
-   "kr": "K-16",
-   "krs": [
-    "alatalo",
-    "biograni",
-    "biokaari",
-    "biorex",
-    "biorexkokkola",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "huvimylly",
-    "ihmekompleksi",
-    "jarvelankino",
-    "joutsankino",
-    "kino123",
-    "kinoaurora",
-    "kinohannikainen",
-    "kinojuha",
-    "kinokilta",
-    "kinokonepaja",
-    "kinolaika",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kkino",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "matintupa",
-    "orion",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3299,46 +3214,6 @@
   "lapin sota elokuvanäytös": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
-   "kr": "K-16",
-   "krs": [
-    "alatalo",
-    "biograni",
-    "biokaari",
-    "biorex",
-    "biorexkokkola",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "huvimylly",
-    "ihmekompleksi",
-    "jarvelankino",
-    "joutsankino",
-    "kino123",
-    "kinoaurora",
-    "kinohannikainen",
-    "kinojuha",
-    "kinokilta",
-    "kinokonepaja",
-    "kinolaika",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kkino",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "matintupa",
-    "orion",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3352,46 +3227,6 @@
   "lapin sota kahvi ja kino": {
    "id": 1450460,
    "img": "data/posters/c15d678a31ae397e.jpg",
-   "kr": "K-16",
-   "krs": [
-    "alatalo",
-    "biograni",
-    "biokaari",
-    "biorex",
-    "biorexkokkola",
-    "cine",
-    "cinemantsala",
-    "elavienkuvien",
-    "gilda",
-    "haapamaki",
-    "huvimylly",
-    "ihmekompleksi",
-    "jarvelankino",
-    "joutsankino",
-    "kino123",
-    "kinoaurora",
-    "kinohannikainen",
-    "kinojuha",
-    "kinokilta",
-    "kinokonepaja",
-    "kinolaika",
-    "kinolumo",
-    "kinometso",
-    "kinomyyri",
-    "kinoolympia",
-    "kinopiispanristi",
-    "kinopirtti",
-    "kinotar",
-    "kkino",
-    "kotkanleffat",
-    "kulttuurimylly",
-    "matintupa",
-    "orion",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "tapiola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -3966,6 +3801,19 @@
    },
    "tr": ""
   },
+  "michael": {
+   "id": 936075,
+   "img": "data/posters/64cae55437ce098a.jpg",
+   "r": 8.6,
+   "s": {
+    "en": "",
+    "fi": "Michael tarjoaa yleisölle koskettavan, rehellisen ja syväluotaavan muotokuvan popmusiikin historian loistavimmasta mutta myös monimutkaisimmasta ikonista. Elokuva kuljettaa katsojan läpi Michael Jacksonin elämän aina Jackson 5 -yhtyeen ajoista ja lapsitähden raskaasta menestyksestä maailmanlaajuiseksi supertähdeksi, joka mullisti musiikkiteollisuuden ja popkulttuurin pysyvästi.\r Tarina valottaa Michaelin vertaansa vailla olevaa luovaa lahjakkuutta, hänen nerokkaita visioitaan ja vaativaa työmoraaliaan, jotka synnyttivät historian ikonisimmat musiikkivideot ja lavaesiintymiset. Menestyksen rinnalla elokuva ei kuitenkaan kaihda artistin elämän varjopuolia: se kuvaa raakaa julkisuuden painetta, eristäytyneisyyttä, monimutkaisia perhesuhteita sekä historian kovaäänisimpiä mediasirkuksia ja syytöksiä. Kyseessä on syvän inhimillinen tarina miehestä, joka antoi kaikkensa taiteelle, mutta jonka yksityiselämä pysyi loppuun asti yhtenä maailman suurimmista mysteereistä."
+   },
+   "tr": "https://www.youtube.com/watch?v=k-YAcjaLuSI",
+   "ts": [
+    "fi"
+   ]
+  },
   "miekkailija": {
    "id": 322488,
    "img": "data/posters/fb74c9427056a7d3.jpg",
@@ -4108,7 +3956,6 @@
    "krs": [
     "biosade",
     "julia",
-    "kinohirvi",
     "kuvakukko",
     "savonkinot"
    ],
@@ -4412,6 +4259,19 @@
     "fi": "Katniss Everdeen ja Peeta Mellark jotuvat Nälkäpelin voittajina vuotuiselle voittajakiertueelle. Ennen kiertuetta presidentti Snow vierailee Katnissin luona. Vyöhykkeillä on alkanut kyteä kapina Capitolin valtaa vastaan ja Snow syyttää Katnissia kapinan lietsomisesta. Snow tietää, että Katnissin ja Peetan suhde ei ole aivan niin aito, kuin he antavat ymmärtää. Pian kiertueen jälkeen Presidentti Snow antaa ilmoituksen, että vanhojen Nälkäpelin voittajien täytyy kilpailla toisiaan vastaan 75. Nälkäpelin kunniaksi. Katniss ja Peeta joutuvat areenalle uudestaan. Kisaa edeltävänä iltana pidettävässä haastattelussa Katnissin stailaaja Cinna pukee Katnissin hääpukuun presidentin käskystä. Kesken haastattelun Katnissin puku alkaa palaa, ja se muuttuu matkijanärhen puvuksi. Cinna saa kärsiä liian rohkeasta asuvalinnastaan, sillä matkijanärhi on symboli meneillään olevalle kapinalle."
    },
    "tr": "https://www.youtube.com/watch?v=zoKj7TdJk98"
+  },
+  "nämä pienet asiat": {
+   "id": 1102493,
+   "img": "data/posters/c6e537c8f3ece2e9.jpg",
+   "r": 6.7,
+   "s": {
+    "en": "",
+    "fi": "Eletään vuotta 1985, joulua edeltävänä aikana pienessä kaupungissa Wexfordin kreivikunnassa Irlannissa. Bill Furlong raataa hiilikauppiaana elättääkseen itsensä, vaimonsa ja viisi tytärtään. Eräänä varhain aamuna, kun hän on toimittamassa hiiltä paikalliseen luostariin, hän tekee löydön, joka pakottaa hänet kohtaamaan menneisyytensä ja katolisen kirkon hallitseman kaupungin myötämielisen vaikenemisen."
+   },
+   "tr": "https://www.youtube.com/watch?v=PBJ3zgH4pGM",
+   "ts": [
+    "fi"
+   ]
   },
   "oasis don t look back in anger": {
    "id": 1447853,
@@ -5089,7 +4949,8 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "kulttuurimylly"
+    "kulttuurimylly",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -5114,7 +4975,8 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "kulttuurimylly"
+    "kulttuurimylly",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -5157,7 +5019,8 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "kulttuurimylly"
+    "kulttuurimylly",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -5182,7 +5045,8 @@
     "kinokulma",
     "kinolumo",
     "kinopiispanristi",
-    "kulttuurimylly"
+    "kulttuurimylly",
+    "kuvakukko"
    ],
    "r": 0,
    "s": {
@@ -5513,7 +5377,6 @@
     "kinokilta",
     "kinolaika",
     "kinolumo",
-    "kinomarilyn",
     "kinometso",
     "kinomyyri",
     "kinopiispanristi",
@@ -5523,7 +5386,6 @@
     "leffabuumi",
     "marita",
     "niagara",
-    "orion",
     "savonkinot",
     "star",
     "studio123jarvenpaa",
@@ -5852,32 +5714,6 @@
   "rakkautta ja virtahepoja": {
    "id": 1450473,
    "img": "data/posters/3630a8c5eeb607ff.jpg",
-   "kr": "K-12",
-   "krs": [
-    "biogrand",
-    "biorex",
-    "biosade",
-    "cinemantsala",
-    "haapamaki",
-    "isohannu",
-    "kinoakseli",
-    "kinoaurora",
-    "kinohirvi",
-    "kinoiiris",
-    "kinokonepaja",
-    "kinolumo",
-    "kinometso",
-    "kinopirtti",
-    "korjaamo",
-    "kulttuurimylly",
-    "laitilankino",
-    "leffabuumi",
-    "marita",
-    "savonkinot",
-    "star",
-    "studio123jarvenpaa",
-    "studio123kouvola"
-   ],
    "r": 0,
    "s": {
     "en": "",
@@ -5983,7 +5819,6 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
-    "isohannu",
     "kino123",
     "kinoelo",
     "kinohirvi",
@@ -6025,7 +5860,6 @@
     "cinemantsala",
     "gilda",
     "ihmekompleksi",
-    "isohannu",
     "kino123",
     "kinoelo",
     "kinohirvi",
@@ -6584,24 +6418,6 @@
    },
    "tr": "https://www.youtube.com/watch?v=4u6mZQulux0"
   },
-  "sopeutumaton tekijävierailunäytös paikalla ohjaaja miikka poutiainen ja tuottaja kuvaaja sami sampo salminen keskustelua": {
-   "id": 1444061,
-   "img": "data/posters/26b3955801497bbc.jpg",
-   "kr": "K-12",
-   "krs": [
-    "elavienkuvien",
-    "niagara"
-   ],
-   "r": 0,
-   "s": {
-    "en": "A coming-of-age story of a highly sensitive hyperactive city dweller Nadja (24) living on the edge of social exclusion, deepest fears, the world of self-help and the encounter of a strange intergenerational burden. The observational documentary was filmed during a period of six years.",
-    "fi": ""
-   },
-   "tr": "https://www.youtube.com/watch?v=4u6mZQulux0",
-   "ts": [
-    "en"
-   ]
-  },
   "sorry baby": {
    "id": 1205515,
    "r": 0,
@@ -6713,6 +6529,7 @@
     "biovuoksi",
     "cinemantsala",
     "kino123",
+    "kinoakseli",
     "kinoelo",
     "kinokulma",
     "kinolumo",
@@ -7176,8 +6993,7 @@
    "kr": "K-12",
    "krs": [
     "engel",
-    "tapiola",
-    "vaakuna"
+    "tapiola"
    ],
    "r": 7.2,
    "s": {
@@ -8047,7 +7863,6 @@
     "kkino",
     "kotkanleffat",
     "kulttuurimylly",
-    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "matintupa",
@@ -8070,16 +7885,12 @@
   },
   "unohdettu saari en dub": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.0,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari. Jo ja Raissa ovat olleet parhaita ystäviä ala-asteelta asti, mutta nyt elämä uhkaa erottaa ystävykset. Juhliessaan viimeistä yhteistä iltaansa Jo ja Raissa törmäävät salaperäiseen portaaliin, joka kuljettaa heidät Nakalin mielikuvitukselliselle saarelle. Saari on täynnä maagisia ja myyttisiä olentoja, joista ystävysten filippiiniläisperheet ovat kertoneet tarinoita. Uusista tuttavuuksista paljastuu niin ystäviä kuin vihollisiakin. Apunaan hyvää tarkoittava mutta melko avuton ihmiskoira Raww sekä pieni mutta pippurinen joukko muita kamuja Jo ja Raissa ottavat mittaa karmeasta Manananggalista, saaren pelätyimmästä olennosta. Kun parille paljastuu, että hinta kotiinpaluusta on kaikkien yhteisten muistojen menettäminen, Jon ja Raissan täytyy keksiä keino päästä pois saarelta unohtamatta toisiaan."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "unohdettu saari englanniksi": {
    "id": 1465063,
@@ -8189,7 +8000,6 @@
     "kkino",
     "kotkanleffat",
     "kulttuurimylly",
-    "kuvakukko",
     "laitilankino",
     "leffabuumi",
     "matintupa",
@@ -8370,7 +8180,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinohamina",
     "kinohirvi",
     "kinojuha",
@@ -8424,7 +8233,6 @@
     "ihmekompleksi",
     "isohannu",
     "kino123",
-    "kinoakseli",
     "kinohamina",
     "kinohirvi",
     "kinojuha",

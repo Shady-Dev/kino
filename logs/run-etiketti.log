@@ -10,7 +10,7 @@
 [leffabuumi] Kino Saimaa: 6 showtimes, 3 dates
 [leffabuumi] synopses merged: 0
 [studio123jarvenpaa] strand prefix split off 1 showtimes
-[studio123jarvenpaa] Studio 123 Järvenpää: 79 showtimes, 21 dates
+[studio123jarvenpaa] Studio 123 Järvenpää: 78 showtimes, 20 dates
 [studio123jarvenpaa] synopses merged: 0
 [studio123kouvola] Studio 123 Kouvola: 66 showtimes, 22 dates
 [studio123kouvola] synopses merged: 0
@@ -26,7 +26,7 @@
 [kinojuha] synopses merged: 0
 [biogrand] Bio Grand: 30 showtimes, 8 dates
 [biogrand] synopses merged: 0
-[biovuoksi] Bio Vuoksi: 38 showtimes, 12 dates
+[biovuoksi] Bio Vuoksi: 37 showtimes, 11 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 3 showtimes
 [kinoiiris] Kino Iiris: 44 showtimes, 25 dates
@@ -36,10 +36,10 @@
 [kkino] screening-note sentences left out of synopses: 1
 [biograni] Bio Grani: 11 showtimes, 7 dates
 [biograni] synopses merged: 0
-[niagara] Cinema Niagara: 53 showtimes, 22 dates
+[niagara] Cinema Niagara: 52 showtimes, 21 dates
 [niagara] synopses merged: 0
-[run] http: 0 revalidated (304), 340 full, 340 not stored (origin said no-store), 0 cache entries written
+[run] http: 0 revalidated (304), 339 full, 339 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 925 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 686.1s of fetching added up across workers that overlap, longest site 82.8s, longest queue wait 85.8s, 168.6s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 922 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 598.5s of fetching added up across workers that overlap, longest site 70.6s, longest queue wait 71.6s, 142.2s wall from this module's first fetch starting to its last ending
 exit=0
