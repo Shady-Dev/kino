@@ -97,9 +97,21 @@ class RowsTest(unittest.TestCase):
                          [("Elokuva: Kevlarsjäl (K12)", "Vapaa pääsy"),
                           ("Lumiukko - Elokuvakonsertti", "")])
 
-    def test_the_title_is_published_verbatim_and_the_rating_left_empty(self):
-        s = self.rows(KEVLAR)[0][0]
-        self.assertEqual((s["title"], s["rating"]), ("Elokuva: Kevlarsjäl (K12)", ""))
+    def test_the_title_is_published_verbatim_and_its_closing_mark_is_the_rating(self):
+        allowed = hit("agqsallit", "Elokuva: Muumit (S)", "2026-11-29T12:00:00Z")
+        shows, _ = self.rows(KEVLAR, ISANPAIVA, allowed, SNOWMAN)
+        self.assertEqual([(s["title"], s["rating"]) for s in shows], [
+            ("Elokuva: Kevlarsjäl (K12)", "K-12"),
+            ("Elokuva: Isänpäivä (K7)", "K-7"),
+            ("Elokuva: Muumit (S)", "S"),
+            ("Lumiukko - Elokuvakonsertti", ""),
+        ])
+
+    def test_a_mark_that_is_not_a_closing_kavi_class_is_no_rating(self):
+        for title in ("Elokuva: Flow. (K7) ja keskustelu", "Elokuva: Yö (K13)",
+                      "Elokuva: Sininen (7)", "ELLIMEI S/K18"):
+            with self.subTest(title=title):
+                self.assertEqual(K.rating_of(title), "")
 
     def test_the_link_is_the_event_page_and_no_image_is_published(self):
         s = self.rows(KEVLAR)[0][0]
@@ -211,6 +223,7 @@ class ServiceTest(unittest.TestCase):
         shows = self.area()["shows"]
         self.assertEqual(len(shows), 5)
         self.assertEqual({s["venue"] for s in shows}, {VENUE})
+        self.assertEqual([s["rating"] for s in shows], ["K-12", "K-7", "K-7", "", ""])
         self.assertIn("1 hit(s) spanning over 24 h left out: event:espooevents:agqfestiva", log)
         self.assertIn("collapsed event:espooevents:agqaw7ipcm (Lasten viikonloppu, "
                       "Elokuva: Flow. (K7)), same start as event:espooevents:agqaw5sf2u", log)

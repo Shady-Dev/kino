@@ -5,6 +5,7 @@ sends, filtered to the place `tprId` 21430 and the topic "Elokuvat", paged until
 is covered. Two kinds of hit are dropped and counted: a span over 24 hours, which is a
 festival row with no screening time, and a second hit at a start minute already taken,
 since the one hall cannot hold two screenings at once (the smallest id is kept).
+The age rating is read from the mark that closes the title, the only place it is stated.
 """
 import datetime
 import json
@@ -32,6 +33,8 @@ PER_PAGE = 12
 MAX_PAGES = 20
 PAUSE = 1.0
 SPAN_MAX = datetime.timedelta(hours=24)
+# `Elokuva: Flow. (K7)`. Only the KAVI classes, and only as the last thing in the title.
+RATING_RE = re.compile(r"\((S|K-?(7|12|16|18))\)$")
 
 
 class EventRowError(RuntimeError):
@@ -107,6 +110,14 @@ def slug_of(title):
                                         flags=re.UNICODE)).strip("-")
 
 
+def rating_of(title):
+    """`Elokuva: Flow. (K7)` -> "K-7", `(S)` -> "S", and "" when no mark closes the title."""
+    m = RATING_RE.search(title)
+    if not m:
+        return ""
+    return f"K-{m.group(2)}" if m.group(2) else "S"
+
+
 def rows(site, hits):
     """-> (shows, report). One row per screening minute."""
     venue = site["venues"][0]
@@ -147,7 +158,7 @@ def rows(site, hits):
             "title": title,
             "original": "",
             "len": "",
-            "rating": "",
+            "rating": rating_of(title),
             "genres": "",
             "method": "",
             "theatre": venue["name"],

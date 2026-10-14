@@ -3971,3 +3971,12 @@ and date together, a block's title may be followed by date paragraphs before its
 and a block's prose ends at the next block's title. Run against the live page on
 2026-10-14, the adapter read the weekend's one screening, Pirjo i Sverige on Saturday 17.10.
 at 15:00, with S, 88 min, 10 € and its poster. Four mutations red.
+
+### Kannusali reads the age rating that closes a title (2026-10-15)
+Espoo's calendar states a film's classification only as a mark at the end of its title, as in
+"Elokuva: Flow. (K7)". Four of Kannusali's six films had an empty rating and their cards drew
+no badge. The adapter now reads a closing "(S)", "(K7)", "(K12)", "(K16)" or "(K18)" into
+`rating`, and the published title is unchanged. Each hit's `audience.ageMin` agreed with the
+mark on all nine film hits that carry one, but the same field gives 18 for concerts and
+stand-up shows. It describes the audience and is not read. Read live on 2026-10-15, the eight
+film rows carried K-12 or K-7 and the film concert carried none. Six mutations red.
