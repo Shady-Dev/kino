@@ -787,14 +787,15 @@
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
    "kr": "K-16",
    "krs": [
-    "ihmekompleksi"
+    "ihmekompleksi",
+    "kinokulma"
    ],
    "r": 0,
    "s": {
     "en": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge.",
     "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026."
    },
-   "tr": "https://www.youtube.com/watch?v=stmlbnq4Sdk",
+   "tr": "https://www.youtube.com/watch?v=KCR-rz0YfD4",
    "ts": [
     "en"
    ]
@@ -937,7 +938,6 @@
     "biogrand",
     "biomarilyn",
     "biorex",
-    "biorexkokkola",
     "cinemantsala",
     "gilda",
     "jarvelankino",
@@ -947,7 +947,6 @@
     "kinojuha",
     "kinokilta",
     "kinokulma",
-    "kinolumo",
     "kinomania",
     "kinomyyri",
     "kinoolympia",
@@ -2074,7 +2073,8 @@
    "img": "data/posters/90645b198527b148.jpg",
    "kr": "K-7",
    "krs": [
-    "korjaamo"
+    "korjaamo",
+    "savonkinot"
    ],
    "r": 7.4,
    "s": {
@@ -2160,13 +2160,12 @@
   },
   "kauna": {
    "id": 1970,
-   "img": "data/posters/62f15af87b45c44a.jpg",
-   "r": 5.9,
+   "r": 0,
    "s": {
     "en": "",
     "fi": "23-vuotias Rika päätyy vanhan naisen hoitajaksi. Naisen talossa häntä odottaa seisahtunut, vääristynyt tunnelma. Miksi perhepotretista on leikattu pois vaimon kasvot? Miksi vanhus vaikuttaa koko ajan kauhistuneelta? Kuka on talossa vaeltava pikkupoika? Entä mistä kantautuu demoninen koriseva ääni? Kun Takashi Shimizun elokuva Kauna (Ju-On, 2003) ilmestyi, levisi ympäri maailmaa pelon aalto. Kalpeakasvoisen pojan hahmo ilmestyi monien painajaisiin ja useat kriitikot pitivät teosta pelottavimpana koskaan tehtynä kauhuelokuvana. Onko se sitä? Saavu Monroen lokakuun näytökseen muodostamaan oma mielipiteesi, jos uskallat!"
    },
-   "tr": "https://www.youtube.com/watch?v=tqn2t3PefdY"
+   "tr": ""
   },
   "ke kino lyhyt rakkaustarina": {
    "r": 0,
@@ -3245,6 +3244,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "jarvelankino",
@@ -3294,6 +3294,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "jarvelankino",
@@ -3346,6 +3347,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "haapamaki",
     "huvimylly",
     "ihmekompleksi",
     "jarvelankino",
@@ -5068,6 +5070,7 @@
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
+    "kinokulma",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5092,6 +5095,7 @@
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
+    "kinokulma",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5134,6 +5138,7 @@
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
+    "kinokulma",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5158,6 +5163,7 @@
     "jarvelankino",
     "kinoaurora",
     "kinokilta",
+    "kinokulma",
     "kinolumo",
     "kinopiispanristi",
     "kulttuurimylly"
@@ -5218,7 +5224,6 @@
     "julia",
     "kinoakseli",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -5264,7 +5269,6 @@
     "julia",
     "kinoakseli",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -5332,7 +5336,6 @@
     "julia",
     "kinoakseli",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolumo",
@@ -5960,7 +5963,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "cinemantsala",
     "gilda",
@@ -6003,7 +6005,6 @@
    "kr": "K-16",
    "krs": [
     "biorex",
-    "biorexkokkola",
     "biosavoy",
     "cinemantsala",
     "gilda",
@@ -7481,21 +7482,19 @@
     "biopallas",
     "biorex",
     "biosavoy",
+    "cinemantsala",
     "elavienkuvien",
     "gilda",
     "kino123",
     "kinoaurora",
     "kinokulma",
     "kinomarilyn",
-    "kinomyyri",
     "kinoolympia",
     "kinopiispanristi",
-    "kotkanleffat",
     "leffabuumi",
     "niagara",
     "orion",
     "savonkinot",
-    "star",
     "tapiola"
    ],
    "r": 7.2,
@@ -7677,6 +7676,7 @@
     "cinemantsala",
     "elavienkuvien",
     "gilda",
+    "haapamaki",
     "helios",
     "ihmekompleksi",
     "isohannu",
@@ -7688,7 +7688,6 @@
     "kinoolympia",
     "kinopiispanristi",
     "kirkkonummi",
-    "kotkanleffat",
     "kuvakukko",
     "leffabuumi",
     "orion",
@@ -8337,7 +8336,6 @@
    "krs": [
     "biogrand",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",
@@ -8378,16 +8376,12 @@
   },
   "verityn varjo poistuu ohjelmistosta": {
    "id": 1283515,
-   "img": "data/posters/5ecbbfdfae38ab40.jpg",
-   "r": 6.4,
+   "r": 0,
    "s": {
-    "en": "Lowen Ashleigh is hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who is unable to finish following an accident. Lowen gradually uncovers Verity's disturbing truths while residing at the Crawfords' home to work.",
+    "en": "",
     "fi": "Colleen Hooverin menestysromaaniin perustuva viettelevä psykologinen trilleri seuraa menestyskirjailija Verity Crawfordia (Anne Hathaway) ja Lowen Ashleighia (Dakota Johnson), vaikeuksissa olevaa kirjailijaa, joka muuttaa syrjäiselle Crawfordin kartanolle kirjoittaakseen Verityn puolesta. Kun Lowen löytää jotakin, mikä vaikuttaa Verityn karmivilta omaelämäkerrallisilta muistiinpanoilta, hän joutuu kamppailemaan näiden häiritsevien ja kieroutuneiden tunnustusten kanssa, jotka koskevat Verityn aviomiestä Jeremyä (Josh Hartnett) – yrittäen erottaa fiktion todellisuudesta, manipuloinnin vetovoimasta ja tilaisuuden pakkomielteestä."
    },
-   "tr": "https://www.youtube.com/watch?v=xdPMKhjMSFs",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "verityn varjo verity": {
    "id": 1283515,
@@ -8396,7 +8390,6 @@
    "krs": [
     "biogrand",
     "biokaari",
-    "biomarilyn",
     "biorex",
     "biorexkokkola",
     "biosade",

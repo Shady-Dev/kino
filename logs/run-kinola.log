@@ -15,26 +15,26 @@
 [kinolaika] Kino Laika: 33 showtimes, 14 dates
 [kinolaika] Kino Laika: 33 showtimes, 14 dates
 [kinolaika] synopses merged: 0
-[kinomyyri] 36 screening(s) listed, 24 film page(s) read
+[kinomyyri] 35 screening(s) listed, 23 film page(s) read
 [kinomyyri] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 4 unresolved over 6
 [kinomyyri] unresolved: Cinemaissi: Frayland, Cinemaissi: The Pearl Button, Must pori näkku, Pikku Kummitus Lapanen keppostelee
 [kinomyyri] override kojootti-vs-acme-dub: evidence-unavailable
 [kinomyyri] 1 synopsis/synopses withheld, no language settled: Hamnet
 [kinomyyri] 4 film(s) with a language name not read, that part left blank: Lapin sota (saami); Naza (heprealainen); Two Seasons, Two Strangers (japanilainen, korealainen); Vasenkätinen tyttö (mandariini)
-[kinomyyri] Kino Myyri: 30 showtimes, 14 dates
-[kinomyyri] Kino Myyri: 30 showtimes, 14 dates
+[kinomyyri] Kino Myyri: 29 showtimes, 14 dates
+[kinomyyri] Kino Myyri: 29 showtimes, 14 dates
 [kinomyyri] synopses merged: 0
-[kinokonepaja] 39 screening(s) listed, 16 film page(s) read
+[kinokonepaja] 38 screening(s) listed, 16 film page(s) read
 [kinokonepaja] omitted 0 confirmed non-film(s) by evidence-backed exclusion over 0 screening(s), and 1 unresolved over 1
 [kinokonepaja] unresolved: Cinemaissi: Archipielago
 [kinokonepaja] override edward-scissorhands: active
 [kinokonepaja] override gremlins: active
 [kinokonepaja] override nightmare-on-elm-street: active
-[kinokonepaja] Kino Konepaja: 38 showtimes, 20 dates
-[kinokonepaja] Kino Konepaja: 38 showtimes, 20 dates
+[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
+[kinokonepaja] Kino Konepaja: 37 showtimes, 19 dates
 [kinokonepaja] synopses merged: 0
-[run] http: 49 revalidated (304), 82 full, 26 not stored (origin said no-store), 1 cache entries written
+[run] http: 49 revalidated (304), 81 full, 25 not stored (origin said no-store), 1 cache entries written
 [run] hosts: 4 attempted -- kinokonepaja.fi, kinomyyri.fi, www.kinokilta.fi, www.kinolaika.fi
-[run] kinola: 4 venues, 171 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 4 site(s), 241.0s of fetching added up across workers that overlap, longest site 76.8s, longest queue wait 133.9s, 78.2s wall from this module's first fetch starting to its last ending
+[run] kinola: 4 venues, 169 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 4 site(s), 286.0s of fetching added up across workers that overlap, longest site 91.6s, longest queue wait 162.2s, 93.0s wall from this module's first fetch starting to its last ending
 exit=0
