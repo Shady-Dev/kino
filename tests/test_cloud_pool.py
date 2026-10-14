@@ -474,6 +474,31 @@ class FailureTest(CloudTestCase):
         self.assertIn("1 with no programme, 0 failures", logs["mod_a"])
         self.assertNotIn("no programme published", logs["mod_b"])
 
+    def site_lines(self, logs):
+        """-> {"module/site": its line in the run's own log}."""
+        return {l.split(" ", 2)[2].split(":")[0]: l for l in logs["cloud"].splitlines()
+                if l.startswith("[cloud] site ")}
+
+    def test_the_site_line_calls_an_empty_programme_no_programme(self):
+        h = self.hosts(2, delay=0)
+        mods = [module("mod_a", P.site("a0", h.base(0)), P.site("a1", h.base(1)),
+                       empty=("a0",))]
+        code, logs = self.cloud(mods)
+        self.assertEqual(code, 0)
+        lines = self.site_lines(logs)
+        self.assertRegex(lines["mod_a/a0"], r"ended [\d.]+s, no programme$")
+        self.assertRegex(lines["mod_a/a1"], r"ended [\d.]+s$")
+
+    def test_the_site_line_keeps_failed_for_an_error(self):
+        h = self.hosts(2, delay=0)
+        mods = [module("mod_a", P.site("a0", h.base(0)), P.site("a1", h.base(1)),
+                       fail=("a0",))]
+        code, logs = self.cloud(mods)
+        self.assertEqual(code, 1)
+        lines = self.site_lines(logs)
+        self.assertRegex(lines["mod_a/a0"], r"ended [\d.]+s, failed$")
+        self.assertRegex(lines["mod_a/a1"], r"ended [\d.]+s$")
+
     def test_an_empty_programme_clears_the_sites_previous_screenings(self):
         """The coordinator publishes an empty programme as run.run_site does: every venue
         rewritten empty and fresh, all of them pending, and the next site untouched."""

@@ -453,9 +453,11 @@ def site_lines(items, groups, started):
         if it.started is None or it.finished is None:
             out.append(head + "not fetched")
             continue
+        tail = (", no programme" if isinstance(it.error, common.EmptyProgramme)
+                else ", failed" if it.error else "")
         out.append(head + f"queued {it.queued - started:.1f}s, "
                    f"started {it.started - started:.1f}s, ended {it.finished - started:.1f}s"
-                   + (", failed" if it.error else ""))
+                   + tail)
     return out
 
 
