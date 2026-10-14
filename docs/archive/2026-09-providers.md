@@ -3980,3 +3980,14 @@ no badge. The adapter now reads a closing "(S)", "(K7)", "(K12)", "(K16)" or "(K
 mark on all nine film hits that carry one, but the same field gives 18 for concerts and
 stand-up shows. It describes the audience and is not read. Read live on 2026-10-15, the eight
 film rows carried K-12 or K-7 and the film concert carried none. Six mutations red.
+
+### Kannusali publishes the film title without "Elokuva:" and the mark (2026-10-15)
+On the maintainer's decision the adapter drops a leading "Elokuva:" and the closing
+classification mark from the published title. The mark stays in `rating`, and a title that
+would be left empty is published as it stands. This departs from verbatim publishing in the
+same way as `helios.split_title`. `enrich_tmdb.clean` already took both parts off the search
+string, and TMDB is searched with the same strings as before. Run in a copy of the tree on
+2026-10-15, all ten rows kept their TMDB ids and the five "elokuva ..." keys left
+films-extra.json. Isänpäivä joined Korjaamo's entry and Michael took the poster the other
+cinemas show. The live app already grouped Isänpäivä with Korjaamo by its TMDB id. Eight
+mutations red.

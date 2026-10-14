@@ -1873,7 +1873,8 @@ button only where none is; see the 2026-09-25 entry in `docs/archive/2026-09-pro
 - `where="cloud"` is provisional. Whether espoo.fi answers a runner is unknown until a
   committed cloud log shows it.
 - `enrich_tmdb.clean` takes "Elokuva:" and a trailing rating such as "(K12)" off the search
-  string; the published title stays verbatim.
+  string. Since 2026-10-15 the adapter takes both off the published title as well and reads
+  the mark into `rating`.
 
 **Status and next step**
 
