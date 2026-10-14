@@ -22,13 +22,13 @@ import datetime
 import http.server
 import json
 import os
-import threading
 import time
 import unittest
 import zoneinfo
 
 from playwright.sync_api import expect, sync_playwright
 
+import _harness
 import test_client_browser as base
 
 AREA = json.loads((base.FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
@@ -88,7 +88,7 @@ class UpdateCheck(unittest.TestCase):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.served, cls.srv.requested = [], []
         cls.srv.cfg = {}
-        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+        _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
         engine = os.environ.get("KINO_BROWSER_ENGINE", "chromium")
@@ -97,7 +97,7 @@ class UpdateCheck(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); cls.srv.shutdown()
+        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
 
     def setUp(self):
         self.srv.cfg.update(generated=hours_ago(24), area_status=200, area_delay=0,

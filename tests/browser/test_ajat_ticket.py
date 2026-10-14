@@ -12,11 +12,11 @@ none, so the city view tints its tickets and Orion alone does not.
 import http.server
 import json
 import os
-import threading
 import unittest
 
 from playwright.sync_api import expect, sync_playwright
 
+import _harness
 import test_client_browser as base
 
 DAY = "2026-09-14"
@@ -73,7 +73,7 @@ class AjatTicketWidth(unittest.TestCase):
     def setUpClass(cls):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.served, cls.srv.requested = [], []
-        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+        _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
         engine = os.environ.get("KINO_BROWSER_ENGINE", "chromium")
@@ -82,7 +82,7 @@ class AjatTicketWidth(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); cls.srv.shutdown()
+        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
 
     def rows(self, width, area, lang):
         ctx = self.browser.new_context(viewport={"width": width, "height": 900},

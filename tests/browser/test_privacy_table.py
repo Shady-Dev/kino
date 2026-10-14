@@ -9,10 +9,11 @@ import functools
 import http.server
 import os
 import pathlib
-import threading
 import unittest
 
 from playwright.sync_api import sync_playwright
+
+import _harness
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -38,7 +39,7 @@ class PrivacyTableTest(unittest.TestCase):
     def setUpClass(cls):
         cls.srv = http.server.ThreadingHTTPServer(
             ("127.0.0.1", 0), functools.partial(Handler, directory=str(ROOT)))
-        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+        _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
         engine = os.environ.get("KINO_BROWSER_ENGINE", "chromium")
@@ -47,7 +48,7 @@ class PrivacyTableTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); cls.srv.shutdown()
+        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
 
     def open(self, width):
         ctx = self.browser.new_context(viewport={"width": width, "height": 900},

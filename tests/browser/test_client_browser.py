@@ -31,6 +31,8 @@ import unittest
 
 from playwright.sync_api import expect, sync_playwright
 
+import _harness
+
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 FIXTURE = HERE / "fixture"
@@ -122,7 +124,7 @@ class Browser(unittest.TestCase):
         cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         cls.srv.served = []
         cls.srv.requested = []
-        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+        _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
         # KINO_BROWSER_ENGINE picks the engine, default chromium, the same way
@@ -140,7 +142,7 @@ class Browser(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); cls.srv.shutdown()
+        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv)
 
     def setUp(self):
         self.ctx = self.browser.new_context(viewport=self.viewport, has_touch=self.touch,

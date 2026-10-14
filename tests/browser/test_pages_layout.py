@@ -32,11 +32,12 @@ import pathlib
 import shutil
 import sys
 import tempfile
-import threading
 import unittest
 from datetime import date
 
 from playwright.sync_api import expect, sync_playwright
+
+import _harness
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -155,7 +156,7 @@ class PagesLayoutTest(unittest.TestCase):
 
         cls.srv = http.server.ThreadingHTTPServer(
             ("127.0.0.1", 0), functools.partial(Handler, directory=str(cls.root)))
-        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+        _harness.start(cls.srv)
         cls.origin = f"http://127.0.0.1:{cls.srv.server_port}"
         cls.pw = sync_playwright().start()
         # KINO_BROWSER_ENGINE=webkit runs the same checks in WebKit. The layout that
@@ -169,7 +170,7 @@ class PagesLayoutTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        cls.browser.close(); cls.pw.stop(); cls.srv.shutdown(); cls.tmp.cleanup()
+        cls.browser.close(); cls.pw.stop(); _harness.stop(cls.srv); cls.tmp.cleanup()
 
     def geometry(self, width, path=f"/teatteri/{SLUG}/"):
         """-> (rows, overflow). One row per film, every number a rendered box."""
