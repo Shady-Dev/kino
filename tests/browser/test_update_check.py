@@ -171,8 +171,10 @@ class UpdateCheck(unittest.TestCase):
 
     def tearDown(self):
         res = getattr(self._outcome, "result", None)
-        failed = any(t is self for t, _ in (res.failures + res.errors)) if res else False
-        name = base.OUT / self.id().split(".")[-1]
+        # A failure inside subTest is recorded against a _SubTest whose test_case is this test.
+        failed = any(t is self or getattr(t, "test_case", None) is self
+                     for t, _ in (res.failures + res.errors)) if res else False
+        name = base.OUT / self.id()
         if failed:
             self.page.screenshot(path=f"{name}.png", full_page=True)
             self.ctx.tracing.stop(path=f"{name}.zip")
