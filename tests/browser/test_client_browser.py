@@ -118,6 +118,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 class Browser(unittest.TestCase):
     viewport = {"width": 1200, "height": 900}; touch = False
     tz = "Europe/Helsinki"
+    init_script = None              # run in the page before its own scripts
 
     @classmethod
     def setUpClass(cls):
@@ -149,6 +150,8 @@ class Browser(unittest.TestCase):
                                             timezone_id=self.tz, locale="fi-FI",
                                             service_workers="block")
         self.ctx.tracing.start(screenshots=True, snapshots=True)
+        if self.init_script:
+            self.ctx.add_init_script(self.init_script)
         OUT.mkdir(exist_ok=True)
         self.page = self.ctx.new_page()
         self.page.clock.install(time=FIXED)
@@ -1015,81 +1018,94 @@ class AsyncRaces(Browser):
     film A over film B. `loadSchedule` already numbered its loads; what it did not do was
     read the day it was loading for before the await.
 
-    The server's per-path `delay` is the deferred promise here: `films.json` is fetched
-    only by `showSheet`, so delaying it holds both calls open at a point the test controls,
-    without a sleep in the page or a stub over the app's own code.
+    The server's `hold` is the deferred promise here: the reply waits until the newer
+    action is on screen, and `land` then waits until the page has read it, with no fetch
+    left out. No sleep, and no stub over the app's own code.
     """
 
-    def slow(self, suffix, secs=1.5):
-        self.srv.requested.clear()
-        Handler.delay = {suffix: secs}
-        self.addCleanup(lambda: setattr(Handler, "delay", {}))
+    # Marks a fetch landed once the page has read its reply and run its own code up to the
+    # next await: the marker is a task, so it runs after the caller's microtasks.
+    init_script = """(() => {
+      const real = window.fetch;
+      window.__landed = []; window.__out = 0;
+      const land = url => setTimeout(() => { window.__landed.push(url); window.__out--; }, 0);
+      window.fetch = function(input, init){
+        const url = String((input && input.url) || input).split('?')[0];
+        window.__out++;
+        return real.call(this, input, init).then(r => {
+          if(!r.ok){ land(url); return r; }
+          const json = r.json.bind(r);
+          r.json = () => json().finally(() => land(url));
+          return r;
+        }, e => { land(url); throw e; });
+      };
+    })();"""
 
-    def wait_in_flight(self, suffix, timeout=10):
-        """Block until the delayed request has reached the server. `requested` is logged
-        before the sleep, so this is the moment the page is inside the await and the race
-        window is open -- a condition, not a guess at how long the page needs."""
-        deadline = time.monotonic() + timeout
-        while time.monotonic() < deadline:
-            if any(p.endswith(suffix) for p in self.srv.requested):
-                return
-            time.sleep(0.02)
-        raise AssertionError(f"{suffix} was never requested; the race never opened")
+    def hold(self, suffix):
+        """Answer `suffix` only once the test releases it. -> (arrived, release) events."""
+        arrived, release = threading.Event(), threading.Event()
+        Handler.hold = {suffix: (arrived, release)}
+        self.addCleanup(lambda: (release.set(), setattr(Handler, "hold", {})))
+        return arrived, release
+
+    def land(self, suffix, release):
+        """Release the held reply and wait until the page has handled it, nothing left out."""
+        self.page.evaluate("() => { window.__landed = []; }")
+        release.set()
+        self.page.wait_for_function(
+            "s => window.__landed.some(u => u.endsWith(s)) && window.__out === 0", arg=suffix)
 
     def sheet_open(self):
         return self.page.evaluate("() => document.body.classList.contains('sheet-open')")
 
+    def back_to_orion_while_pori_is_held(self, arrived):
+        """Pick Promenadi Pori, whose file is held, then Orion, which is in `jsonCache`."""
+        vq = self.open_picker()
+        vq.fill("promenadi")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq.press("Enter")
+        self.assertTrue(arrived.wait(10), "Pori's file was never requested")
+        vq2 = self.open_picker()
+        vq2.fill("orion")
+        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
+        vq2.press("Enter")
+        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        expect(self.page.locator("a.stub").first).to_be_visible()
+
     def test_closing_the_sheet_while_its_metadata_loads_leaves_it_closed(self):
         self.pick_orion()
-        self.slow("films.json")
+        arrived, release = self.hold("films.json")
         # Two separate evaluates on purpose. `syncSheet` reads `location.hash` when the
         # event fires, not the value that caused it, so two assignments in one task are
         # both answered with the final hash and the first sheet never opens at all -- the
         # first version of this test raced nothing and passed against the unguarded code.
         self.page.evaluate("() => { location.hash = 'm=autofiktio'; }")
-        self.wait_in_flight("films.json")
+        self.assertTrue(arrived.wait(10), "films.json was never requested; the race never opened")
         self.page.evaluate("() => { location.hash = ''; }")
-        self.page.wait_for_timeout(2500)          # past the delay, so the reply has landed
+        self.land("films.json", release)
         self.assertFalse(self.sheet_open(), "a dismissed sheet was reopened by a stale load")
 
     def test_a_slow_venue_load_does_not_render_over_a_newer_pick(self):
-        """Promenadi Pori is held open while the reader goes back to Orion, whose payload
-        is already in `jsonCache` and renders at once."""
         self.pick_orion()
         first = self.page.locator("a.stub").first.get_attribute("href")
-        self.slow("area-1004.json")
-        vq = self.open_picker()
-        vq.fill("promenadi")
-        rows = self.page.locator("#vlist .vrow")
-        expect(rows).to_have_count(1)
-        vq.press("Enter")
-        # Straight back to Orion while Pori is still in flight.
-        vq2 = self.open_picker()
-        vq2.fill("orion")
-        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
-        vq2.press("Enter")
-        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
-        self.page.wait_for_timeout(2500)          # Pori's reply lands here
-        expect(self.page.locator("#areaSelect")).to_contain_text("Cinema Orion")
+        arrived, release = self.hold("area-1004.json")
+        self.back_to_orion_while_pori_is_held(arrived)
+        self.land("area-1004.json", release)
+        self.assertIn("Cinema Orion", self.page.locator("#areaSelect").inner_text())
         self.assertEqual(self.page.locator("a.stub").first.get_attribute("href"), first,
                          "a stale venue load rendered over the newer pick")
 
     def test_a_slow_failing_load_does_not_cover_a_newer_selection(self):
         """The failure path needs the same guard: an error screen drawn for an abandoned
-        selection replaces a schedule the reader is looking at."""
+        selection replaces a schedule the reader is looking at. Pori's held reply is a 500."""
         self.pick_orion()
-        self.slow("area-1004.json")
-        vq = self.open_picker()
-        vq.fill("promenadi")
-        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
-        vq.press("Enter")
-        vq2 = self.open_picker()
-        vq2.fill("orion")
-        expect(self.page.locator("#vlist .vrow")).to_have_count(1)
-        vq2.press("Enter")
-        expect(self.page.locator("a.stub").first).to_be_visible()
-        self.page.wait_for_timeout(2500)
-        expect(self.page.locator("a.stub").first).to_be_visible()
+        arrived, release = self.hold("area-1004.json")
+        Handler.fail = {"area-1004.json"}
+        self.addCleanup(lambda: setattr(Handler, "fail", set()))
+        self.back_to_orion_while_pori_is_held(arrived)
+        self.land("area-1004.json", release)
+        self.assertTrue(self.page.locator("a.stub").first.is_visible(),
+                        "a stale failure covered the newer selection")
 
 
 class LoadLeavesNoOldVenue(Browser):
