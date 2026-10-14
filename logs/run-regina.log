@@ -1,11 +1,12 @@
 [regina] schedule: 4 window(s), the last from 2027-01-04
-[regina] film pages: 109 parsed, 0 with nothing usable, 134/162 showtimes rated
-[regina] prices: 162 screenings, 155 priced, 0 pages read, 162 reused, 7 without an ordinary ticket, 0 failed, 0 deferred
-[regina] Kino Regina: 162 showtimes, 58 dates
+[regina] film pages: 108 parsed, 0 with nothing usable, 132/160 showtimes rated
+[regina] prices: 59 ticket pages due, reading 40, 19 wait for the next run
+[regina] prices: 160 screenings, 153 priced, 40 pages read, 101 reused, 7 without an ordinary ticket, 0 failed, 19 deferred
+[regina] Kino Regina: 160 showtimes, 57 dates
 [regina] synopses merged: 0
 [regina] screening-note sentences left out of synopses: 1
 [run] venuelists-local.json rewritten
-[run] http: 0 revalidated (304), 109 full, 0 not stored (origin said no-store), 0 cache entries written
-[run] hosts: 1 attempted -- kinoregina.fi
-[run] regina: 1 venues, 162 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] http: 0 revalidated (304), 108 full, 0 not stored (origin said no-store), 0 cache entries written
+[run] hosts: 2 attempted -- kauppa.kavi.fi, kinoregina.fi
+[run] regina: 1 venues, 160 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
 exit=0
