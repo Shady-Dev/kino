@@ -546,6 +546,48 @@ class FreeAdmissionTicketOnAPhone(FreeAdmissionTicket):
     viewport = {"width": 375, "height": 812}; touch = True
 
 
+class TicketWithNoDetails(Browser):
+    """A ticket with no room, format or language has no details compartment, so the price
+    sits right after the time. An empty one drew a 22 px gap (Kannusali, 2026-10-14)."""
+
+    SHAPE = """a => { const t = a.querySelector('.time'), p = a.querySelector('.price');
+        return {aud: !!a.querySelector('.aud'),
+                gap: p.getBoundingClientRect().left - t.getBoundingClientRect().right}; }"""
+
+    def setUp(self):
+        doc = json.loads((FIXTURE / "data/area-or-helsinki.json").read_text(encoding="utf-8"))
+        doc["shows"][1]["aud"] = "Sali 1"
+        self.bare, self.room = doc["shows"][0]["url"], doc["shows"][1]["url"]
+        Handler.body = {"area-or-helsinki.json": json.dumps(doc).encode("utf-8")}
+        self.addCleanup(lambda: setattr(Handler, "body", {}))
+        super().setUp()
+
+    def shape(self, scope, url):
+        stub = self.page.locator(f'{scope} a.stub[href="{url}"]').first
+        expect(stub).to_be_visible()
+        return stub.evaluate(self.SHAPE)
+
+    def test_the_list_draws_details_only_when_there_are_some(self):
+        self.pick_orion()
+        bare, room = self.shape("#main", self.bare), self.shape("#main", self.room)
+        self.assertEqual((bare["aud"], room["aud"]), (False, True))
+        if not self.touch:      # a phone card's ticket spans the card, its price at the end
+            self.assertAlmostEqual(bare["gap"], 0, delta=0.5)
+            self.assertGreater(room["gap"], 10)
+
+    def test_the_sheet_draws_no_empty_details(self):
+        self.pick_orion()
+        self.page.evaluate("() => { location.hash = 'm=autofiktio'; }")
+        expect(self.page.locator("#sheet")).to_have_js_property("inert", False)
+        bare = self.shape("#sheet", self.bare)
+        self.assertFalse(bare["aud"])
+        self.assertAlmostEqual(bare["gap"], 0, delta=0.5)
+
+
+class TicketWithNoDetailsOnAPhone(TicketWithNoDetails):
+    viewport = {"width": 375, "height": 812}; touch = True
+
+
 class TicketWithoutALink(Browser):
     """A show with no ticket link is still a ticket and is not a link: `href=""` opened the
     app itself in a new tab (2026-10-13)."""

@@ -1072,6 +1072,8 @@
     .movie .stubs{flex-direction:column; flex-wrap:nowrap}
     .movie .stubs.grid{grid-template-columns:minmax(0,1fr)}
     .movie .stub .aud{flex:1 1 auto; max-width:none}
+    /* With no details compartment the price still ends the ticket. */
+    .movie .stubs:not(.grid) .stub .price{margin-left:auto}
     /* Venue picker and its star share one row; search gets the next. Setting the select to
        width:100% pushed the star onto a row of its own and wasted ~60px of height. */
     .controls{padding:10px 14px 8px; gap:8px}
@@ -4380,6 +4382,11 @@
     t && !/^2d$/i.test(t) && !(aud || '').toLowerCase().includes(t.toLowerCase()));
   // --- end stubTags ---
   const glyphRow = html => html ? `<span class="glyphs">${html}</span>` : '';
+  // A ticket with no room, format or language gets no details compartment: an empty one
+  // still drew its padding as a gap after the time. The generated pages already omit it.
+  const audHtml = (facts, glyphs, lang, inline) => (facts.length || glyphs || lang)
+    ? `<span class="aud${lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), inline)}</span>${glyphRow(glyphs)}${lang ? slangHtml(lang, facts.length > 0) : ''}</span>`
+    : '';
   // Premiere date, on Finnkino's shows (nobody else publishes one), films.json for a file
   // written before it was. Shown while it is still ahead: tickets go on sale days before
   // a film opens, so a bookable showtime can sit in front of an opening night.
@@ -4580,7 +4587,7 @@
         // meta2 note.
         const own_price = priceLabel([t]);
         return `<a class="stub${cls}${tint}" ${ticketHref(t.url)} data-prov="${esc(t.provider || '')}" title="${tip}${esc([...facts, ageOf(t)].filter(Boolean).join(', '))}">
-                  <span class="time">${clock}</span><span class="aud${t.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multiTheatre)}</span>${glyphRow(glyphs)}${t.lang ? slangHtml(t.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span>
+                  <span class="time">${clock}</span>${audHtml(facts, glyphs, t.lang, !multiTheatre)}<span class="price">${esc(own_price)}</span>
                 </a>`;
       }).join('');
       const fmts = common.map(f => `<span class="fmt">${esc(f)}</span>`).join('');
@@ -4794,7 +4801,7 @@
         // has nothing to share or add and gets none.
         const more = past ? '' : `<button class="more" type="button" data-i="${s._i}" aria-label="${esc(L[lang].aActions)}" aria-haspopup="menu" aria-expanded="false">${DOTS}</button>`;
         return `<div class="tk"><a class="stub${cls}${tint}" ${ticketHref(s.url)} data-prov="${esc(s.provider || '')}" data-i="${s._i}" title="${esc([...facts, ageOf(s)].filter(Boolean).join(', '))}">
-                  <span class="time">${clock}</span><span class="aud${s.lang ? ' twoline' : ''}"><span class="loc">${factsHtml(facts.map(x => ['', esc(x)]), !multi)}</span>${glyphRow((s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s))}${s.lang ? slangHtml(s.lang, facts.length > 0) : ''}</span><span class="price">${esc(own_price)}</span></a>${more}</div>`;
+                  <span class="time">${clock}</span>${audHtml(facts, (s.method||'').split(' · ').map(glyphOf).join('') + ageGlyph(s), s.lang, !multi)}<span class="price">${esc(own_price)}</span></a>${more}</div>`;
     };
     sheetCtx = { all, title, fid };
     closeStubMenu(false);
