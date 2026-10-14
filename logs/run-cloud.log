@@ -35,6 +35,6 @@
 [cloud] k13: exit=0
 [cloud] helios: exit=0
 [cloud] kannusali: exit=0
-[cloud] 208.6s wall, 1606.3s of fetching added up across workers that overlap, 72 site(s) fetched
-[cloud] held at most 28 fetched site(s) and 5675 byte(s) of captured log waiting for publication
+[cloud] 217.8s wall, 1664.7s of fetching added up across workers that overlap, 72 site(s) fetched
+[cloud] held at most 27 fetched site(s) and 5602 byte(s) of captured log waiting for publication
 exit=0

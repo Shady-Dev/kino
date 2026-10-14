@@ -29,7 +29,7 @@
 [biovuoksi] Bio Vuoksi: 41 showtimes, 12 dates
 [biovuoksi] synopses merged: 0
 [kinoiiris] strand prefix split off 3 showtimes
-[kinoiiris] Kino Iiris: 45 showtimes, 25 dates
+[kinoiiris] Kino Iiris: 44 showtimes, 25 dates
 [kinoiiris] synopses merged: 0
 [kkino] K-Kino: 9 showtimes, 5 dates
 [kkino] synopses merged: 0
@@ -37,10 +37,9 @@
 [biograni] Bio Grani: 9 showtimes, 4 dates
 [biograni] synopses merged: 0
 [niagara] Cinema Niagara: 58 showtimes, 22 dates
-[niagara] synopses merged: 7
-[niagara] synopses by language: fi 5, sv 2
-[run] http: 0 revalidated (304), 348 full, 348 not stored (origin said no-store), 0 cache entries written
+[niagara] synopses merged: 0
+[run] http: 0 revalidated (304), 347 full, 347 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 16 attempted -- biogrand.fi, biograni.fi, biovuoksi.fi, cinemaniagara.fi, ihmekompleksi.fi, jamsankinotar.fi, k-kino.fi, kino123.fi, kinoiiris.com, kinojuha.fi, kinopirtti.fi, kotkanleffat.fi, leffabuumi.fi, studio123.fi, studiot123.com, www.biorex.org
-[run] etiketti: 20 venues, 996 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 16 site(s), 582.8s of fetching added up across workers that overlap, longest site 71.4s, longest queue wait 70.0s, 141.4s wall from this module's first fetch starting to its last ending
+[run] etiketti: 20 venues, 995 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 16 site(s), 583.4s of fetching added up across workers that overlap, longest site 70.7s, longest queue wait 72.0s, 142.6s wall from this module's first fetch starting to its last ending
 exit=0

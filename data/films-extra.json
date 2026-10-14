@@ -934,7 +934,6 @@
     "biomarilyn",
     "biorex",
     "biorexkokkola",
-    "biosavoy",
     "cinemantsala",
     "gilda",
     "jarvelankino",
@@ -1845,7 +1844,7 @@
   "insidious out of the further": {
    "id": 1291595,
    "img": "data/posters/f1fadcf01e5f6329.jpg",
-   "r": 7.2,
+   "r": 7.7,
    "s": {
     "en": "Gemma, a young mother raising her daughter in the house she grew up in, discovers she can travel into The Further, where she possesses an ability to bring what lives there back to the real world.",
     "fi": "Nuori äiti Gemma kasvattaa tytärtään talossa, jossa hän itse kasvoi, ja hän huomaa voivansa matkustaa The Furtheriin, missä hänellä on kyky tuoda siellä elävät olennot takaisin todelliseen maailmaan.",
@@ -7106,7 +7105,6 @@
    "krs": [
     "biorex",
     "engel",
-    "gilda",
     "tapiola",
     "vaakuna"
    ],
@@ -7183,7 +7181,6 @@
     "bioforum",
     "biorex",
     "biosade",
-    "cinemantsala",
     "gilda",
     "isohannu",
     "kinohirvi",
@@ -8610,5 +8607,5 @@
    "tr": ""
   }
  },
- "generated": "2026-10-13"
+ "generated": "2026-10-14"
 }
