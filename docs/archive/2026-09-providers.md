@@ -3991,3 +3991,16 @@ string, and TMDB is searched with the same strings as before. Run in a copy of t
 films-extra.json. Isänpäivä joined Korjaamo's entry and Michael took the poster the other
 cinemas show. The live app already grouped Isänpäivä with Korjaamo by its TMDB id. Eight
 mutations red.
+
+### Kannusali's non-film events stay out (2026-10-15)
+The maintainer asked for Kannusali's other events if they were easy to read, and decided on
+2026-10-15 to keep them out. The listing's own POST returns them when the topic filter is
+left off, 29 of 40 events that day, in four pages of 12 and with no request per event.
+Publishing them is the hard part. The TMDB pass would search every concert title, and the
+only way to stop it is a "-" alias per title. The calendar's images are not licensed to this
+site, and a house title card per event would need Pillow and fontTools in the cloud
+pipeline. `build_pages.py` marks every row as a Movie `ScreeningEvent` at a `MovieTheater`,
+which would present a concert to search engines as a film screening. A paid event's price is
+free text on its own page, such as "25 € + tilausmaksu ... / 30 € ovelta mikäli jäljellä".
+The check that every hit carries the "Elokuvat" topic guards the server-side filter, and it
+would need a replacement.

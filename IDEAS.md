@@ -285,6 +285,7 @@ Each of these was looked at and set down, with the reason. None is scheduled.
 - Reading Johku's schedule endpoint directly. Measured 2026-10-13: identical to the
   embedded schedule on 24 of 24 comparisons, and the embedded read has not failed for
   completeness since 2026-10-09. Evidence in the same file.
+- Kannusali's non-film events, kept out on 2026-10-15. Reasons in the providers archive.
 
 **Ops and pages**
 
