@@ -9,8 +9,8 @@
 [kinoaurora] strand prefix split off 3 showtimes
 [kinoaurora] Kino Aurora: 37 showtimes, 11 dates
 [kinoaurora] synopses merged: 0
-[kinohirvi] Kino Hirvi (Äänekoski): 32 showtimes
-[kinohirvi] Kino Hirvi: 32 showtimes, 5 dates
+[kinohirvi] Kino Hirvi (Äänekoski): 34 showtimes
+[kinohirvi] Kino Hirvi: 34 showtimes, 5 dates
 [kinohirvi] synopses merged: 0
 [biosade] Bio Säde (Mänttä): 37 showtimes
 [biosade] Bio Säde: 37 showtimes, 5 dates
@@ -45,6 +45,6 @@
 [run] http: 0 revalidated (304), 10 full, 10 not stored (origin said no-store), 0 cache entries written
 [run] hosts: 6 attempted -- jarvelankino.fi, kino-olympia.fi, kinoaurora.fi, kinohirvi.fi, kinomarilyn.fi, kinoset.fi
 [run] pending: kinometso has 1 venue(s) with no programme yet: km-vaajakoski
-[run] nexxo: 16 venues, 301 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
-[run] timing: 8 site(s), 39.6s of fetching added up across workers that overlap, longest site 11.9s, longest queue wait 0.0s, 11.9s wall from this module's first fetch starting to its last ending
+[run] nexxo: 16 venues, 303 showtimes, 0 stale, 0 unverified, 1 pending, 0 with no programme, 0 failures
+[run] timing: 8 site(s), 36.3s of fetching added up across workers that overlap, longest site 10.8s, longest queue wait 0.0s, 10.8s wall from this module's first fetch starting to its last ending
 exit=0

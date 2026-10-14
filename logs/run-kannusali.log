@@ -4,5 +4,5 @@
 [kannusali] synopses merged: 0
 [run] hosts: 1 attempted -- www.espoo.fi
 [run] kannusali: 1 venues, 10 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 1.1s of fetching added up across workers that overlap, longest site 1.1s, longest queue wait 209.4s, 1.1s wall from this module's first fetch starting to its last ending
+[run] timing: 1 site(s), 0.7s of fetching added up across workers that overlap, longest site 0.7s, longest queue wait 191.5s, 0.7s wall from this module's first fetch starting to its last ending
 exit=0

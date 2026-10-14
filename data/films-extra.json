@@ -785,10 +785,14 @@
   "clayface": {
    "id": 1400940,
    "img": "data/posters/ea1d6efb7cdae5e2.jpg",
+   "kr": "K-16",
+   "krs": [
+    "ihmekompleksi"
+   ],
    "r": 0,
    "s": {
     "en": "Matt Hagen's meteoric rise from Gotham street kid to Hollywood leading man is tragically cut short when a local crime boss's actions leave him horribly disfigured. Abandoned by his team and with nothing left, Matt seeks out a cutting edge treatment that miraculously returns him to his former self… but also unexpectedly affects his grip on reality, spiraling him down a destructive path of all-consuming revenge.",
-    "fi": ""
+    "fi": "Katso kauhua päin naamaa. DC Studiosin Clayface on ohjaaja James Watkinsin kauhutrilleri, jonka nimiosassa Gotham Cityn vihollisgallerian suosikkiroistona nähdään Tom Rhys Harries. Matt Hagenin huima nousu Gothamin kaduilta Hollywoodin johtavaksi tähdeksi päättyy traagisesti, kun paikallisen rikollispomon kosto jättää hänet pahoin epämuodostuneeksi. Tiiminsä hylkäämänä ja kaiken menettäneenä Matt hakeutuu uraauurtavaan hoitoon, joka ihmeenomaisesti palauttaa hänet entiselleen. Hoidolla on kuitenkin odottamattomia vaikutuksia hänen todellisuudentajuunsa, ja hän ajautuu tuhoisalle polulle, jota hallitsee kaiken nielevä kostonhimo. Elokuvassa nähdään myös Naomi Ackie, David Dencik, Max Minghella ja Eddie Marsan sekä Nancy Carroll ja Joshua James. Elokuvan ohjaa James Watkins käsikirjoituksesta, jonka ovat kirjoittaneet Mike Flanagan ja Hossein Amini. Tarinan on luonut Flanagan, ja se perustuu DC:n hahmoihin. Tuottajina toimivat Matt Reeves, Lynn Harris, James Gunn ja Peter Safran. Vastaavina tuottajina ovat Michael E. Uslan, Chantal Nong Vo, Lars P. Winther, Paul Ritchie, Rafi Crohn ja Trevor Macy. Watkinsin luovaan työryhmään kuuluvat kuvaaja Rob Hardy, lavastussuunnittelija James Price, leikkaaja Jon Harris ja pukusuunnittelija Keith Madden. Musiikista vastaa Volker Bertelmann. DC Studios esittää: 6th & Idaho Productionin tuotanto, James Watkinsin elokuva \"Clayface\". Elokuvan levittää Warner Bros. Pictures, ja se saa ensi-iltansa elokuvateattereissa 23. lokakuuta 2026."
    },
    "tr": "https://www.youtube.com/watch?v=stmlbnq4Sdk",
    "ts": [
@@ -2700,6 +2704,7 @@
     "biosavoy",
     "cinemantsala",
     "isohannu",
+    "kinohirvi",
     "kinolumo",
     "kinopiispanristi",
     "kinopirtti",
@@ -3260,6 +3265,7 @@
     "kinotar",
     "kkino",
     "kotkanleffat",
+    "kulttuurimylly",
     "matintupa",
     "orion",
     "savonkinot",
@@ -3308,6 +3314,7 @@
     "kinotar",
     "kkino",
     "kotkanleffat",
+    "kulttuurimylly",
     "matintupa",
     "orion",
     "savonkinot",
@@ -3359,6 +3366,7 @@
     "kinotar",
     "kkino",
     "kotkanleffat",
+    "kulttuurimylly",
     "matintupa",
     "orion",
     "savonkinot",
@@ -3502,6 +3510,14 @@
    },
    "tr": ""
   },
+  "lemmenlatu": {
+   "r": 0,
+   "s": {
+    "en": "",
+    "fi": "Lemmenlatu on osittain dramatisoitu pitkä dokumenttielokuva, joka kertoo Lahden yli satavuotisen historian perustamisvuodesta 1905 tähän päivään. Rinnalla kuljetamme Suomen satavuotisen itse-näisyyden dramaattisimpia hetkiä. Mukana ovat Salpausselällä järjestetyt hiihdon MM-kisat alkaen vuodesta 1926 huipennuksena juhlavuoden 2017 MM-kisat."
+   },
+   "tr": ""
+  },
   "lex julia": {
    "id": 1450457,
    "img": "data/posters/c7eca1af3b9c6236.jpg",
@@ -3560,6 +3576,7 @@
     "engel",
     "isohannu",
     "kinoakseli",
+    "kinohamina",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -4071,7 +4088,6 @@
    "img": "data/posters/fd7538dd607d13aa.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
     "biosade",
     "julia",
     "kinohirvi",
@@ -4381,14 +4397,13 @@
   },
   "oasis don t look back in anger": {
    "id": 1447853,
-   "img": "data/posters/c33f50b596fd87c2.jpg",
    "r": 0,
    "s": {
     "en": "Don’t Look Back In Anger charts Liam and Noel Gallagher’s triumphant reunion tour, Oasis Live ‘25, one of the most anticipated rock ‘n’ roll comebacks of our time. The film is an unapologetically uplifting account of the biggest musical event of 2025, capturing the experience and emotions of the band and their fans across the world. The unique perspective includes rehearsal, backstage, and onstage access as well as the first joint interviews with Noel and Liam in over 20 years. Alongside the band’s sold-out world tour, the film also explores the profound emotional impact of this phenomenal global cultural moment and what their music means to audiences and generations worldwide.",
     "fi": "“Don’t Look Back In Anger” luotaa Liam ja Noel Gallagherin menestyksekästä paluukiertuetta Oasis Live ‘25, joka lukeutuu aikamme odotetuimpien rock ‘n’ roll comebackien joukkoon. Elokuva tarjoaa avoimen inspiroivan näkökulman musiikkimaailman vuoden 2025 suurimpaan tapahtumaan taltioidessaan yhtyeen ja sen fanien tunnekuohut ja kokemukset. Ainutlaatuinen kuvaus sisältää materiaalia niin harjoituksista, lavan takaa kuin konserteista sekä Noelin ja Liamin ensimmäiset yhteishaastattelut yli 20 vuoteen. Yhtyeen loppuunmyydyn maailmankiertueen lisäksi elokuva tarkastelee myös tämän maailmanlaajuisen kulttuurillisen ilmiön vaikutuksia ja sitä, mitä yhtyeen musiikki merkitsee yleisölle ja useille sukupolville kaikkialla.",
     "sv": "Oasis är tillbaka. Efter 16 år återförenas Liam och Noel Gallagher för den efterlängtade världsturnén Oasis Live '25. Med exklusiv tillgång till repetitioner, backstageområden och de utsålda konserterna följer dokumentären bandets hyllade återkomst och den globala eufori som omgärdade den. Med aldrig tidigare visat material och de första gemensamma intervjuerna med bröderna på över 25 år berättas historien om ett av världens mest inflytelserika rockband - och om fansen vars liv och minnen formats av deras musik. En storslagen dokumentär om återförening, gemenskap och musikens förmåga att föra människor samman."
    },
-   "tr": "https://www.youtube.com/watch?v=X9sIYLtgc_s"
+   "tr": ""
   },
   "oasis dont look back in anger": {
    "r": 0,
@@ -4651,16 +4666,12 @@
   },
   "original english forgotten island": {
    "id": 1465063,
-   "img": "data/posters/9bcaf7ef167a0f8f.jpg",
-   "r": 8.2,
+   "r": 0,
    "s": {
-    "en": "While celebrating their last night together, high school graduates and best friends Jo and Raissa stumble upon a mysterious portal that transports them to the fantastical island of Nakali. When they discover that the memories of their entire friendship are the price for returning home, Jo and Raissa must race to find a way to leave the island before they forget each other forever.",
+    "en": "",
     "fi": "DreamWorks Animation on aiemmin tuonut katsojille tarinoita unohtumattomista siteistä pojan ja lohikäärmeen välillä Näin koulutat lohikäärmeesi -elokuvissa, jätin ja aasin välillä Shrek-elokuvissa sekä robotin ja hanhenpoikasen välillä elokuvassa Villi robotti. Nyt luvassa on huikean tunteikas tarina kahdesta parhaasta ystävyksestä, joiden täytyy yhdistää voimansa eron uhatessa elokuvassa Unohdettu saari."
    },
-   "tr": "https://www.youtube.com/watch?v=PhgY8cOJiQA",
-   "ts": [
-    "en"
-   ]
+   "tr": ""
   },
   "ortotopologian loputtomat alkeet": {
    "id": 1753057,
@@ -4981,6 +4992,7 @@
     "engel",
     "isohannu",
     "kinoakseli",
+    "kinohamina",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -5025,6 +5037,7 @@
     "engel",
     "isohannu",
     "kinoakseli",
+    "kinohamina",
     "kinokulma",
     "kinolumo",
     "kinomarilyn",
@@ -5820,6 +5833,32 @@
   "rakkautta ja virtahepoja": {
    "id": 1450473,
    "img": "data/posters/3630a8c5eeb607ff.jpg",
+   "kr": "K-12",
+   "krs": [
+    "biogrand",
+    "biorex",
+    "biosade",
+    "cinemantsala",
+    "haapamaki",
+    "isohannu",
+    "kinoakseli",
+    "kinoaurora",
+    "kinohirvi",
+    "kinoiiris",
+    "kinokonepaja",
+    "kinolumo",
+    "kinometso",
+    "kinopirtti",
+    "korjaamo",
+    "kulttuurimylly",
+    "laitilankino",
+    "leffabuumi",
+    "marita",
+    "savonkinot",
+    "star",
+    "studio123jarvenpaa",
+    "studio123kouvola"
+   ],
    "r": 0,
    "s": {
     "en": "",
@@ -7002,7 +7041,6 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
-    "kinokonepaja",
     "kinopirtti",
     "niagara",
     "regina",
@@ -7028,7 +7066,6 @@
     "gilda",
     "kinoaurora",
     "kinokilta",
-    "kinokonepaja",
     "kinopirtti",
     "niagara",
     "regina",
@@ -7121,7 +7158,6 @@
    "img": "data/posters/2755bb2be0a0c120.jpg",
    "kr": "K-12",
    "krs": [
-    "biorex",
     "engel",
     "tapiola",
     "vaakuna"
@@ -7647,7 +7683,6 @@
     "kinoaurora",
     "kinoiiris",
     "kinokonepaja",
-    "kinolumo",
     "kinomarilyn",
     "kinomyyri",
     "kinoolympia",
@@ -7980,7 +8015,6 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolaika",
@@ -8001,7 +8035,6 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "matintupa",
     "savonkinot",
     "star",
@@ -8124,7 +8157,6 @@
     "kinoaurora",
     "kinoelo",
     "kinohamina",
-    "kinohannikainen",
     "kinohirvi",
     "kinokulma",
     "kinolaika",
@@ -8145,7 +8177,6 @@
     "kuvakukko",
     "laitilankino",
     "leffabuumi",
-    "lieksankino",
     "matintupa",
     "savonkinot",
     "star",
@@ -8326,7 +8357,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
-    "kinotar",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",
@@ -8386,7 +8416,6 @@
     "kinopiispanristi",
     "kinopirtti",
     "kinoset",
-    "kinotar",
     "kinovirta",
     "kotkanleffat",
     "leffabuumi",

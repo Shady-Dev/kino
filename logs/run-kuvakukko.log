@@ -1,12 +1,14 @@
-[kuvakukko] film pages: 22 read for 22 films, 14 stating facts for their title
-[kuvakukko] kk-kuopio: 39 showtimes, 9 dates, 36 priced (tariff 11.5€)
+[http] 404 from www.kuvakukko.fi, gave up after 3 attempt(s) -- Server: Google Frontend
+[kuvakukko] film page https://www.kuvakukko.fi/ohjelmisto/kuvakukon-ja-kino-mantun-ohjelmisto/kino-manttu-the-odysseu/: HTTPError: HTTP Error 404: Not Found
+[kuvakukko] film pages: 21 read for 22 films, 14 stating facts for their title
+[kuvakukko] kk-kuopio: 35 showtimes, 8 dates, 33 priced (tariff 11.5€)
 [kuvakukko] kk-nilsia: 10 showtimes, 3 dates, 10 priced (tariff 11€)
 [kuvakukko] strand prefix split off 1 showtimes
-[kuvakukko] Kino Kuvakukko: 39 showtimes, 9 dates
+[kuvakukko] Kino Kuvakukko: 35 showtimes, 8 dates
 [kuvakukko] Kino Manttu: 10 showtimes, 3 dates
 [kuvakukko] synopses merged: 0
-[run] http: 2 revalidated (304), 22 full, 0 not stored (origin said no-store), 22 cache entries written
+[run] http: 3 revalidated (304), 20 full, 0 not stored (origin said no-store), 20 cache entries written
 [run] hosts: 1 attempted -- www.kuvakukko.fi
-[run] kuvakukko: 2 venues, 49 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
-[run] timing: 1 site(s), 64.3s of fetching added up across workers that overlap, longest site 64.3s, longest queue wait 128.6s, 64.3s wall from this module's first fetch starting to its last ending
+[run] kuvakukko: 2 venues, 45 showtimes, 0 stale, 0 unverified, 0 pending, 0 with no programme, 0 failures
+[run] timing: 1 site(s), 72.2s of fetching added up across workers that overlap, longest site 72.2s, longest queue wait 116.1s, 72.2s wall from this module's first fetch starting to its last ending
 exit=0
